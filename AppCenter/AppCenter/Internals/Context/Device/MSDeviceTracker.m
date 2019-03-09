@@ -21,6 +21,7 @@ static NSUInteger const kMSMaxDevicesHistoryCount = 5;
 
 static BOOL needRefresh = YES;
 static MSWrapperSdk *wrapperSdkInformation = nil;
+static NSString *overriddenCountryCode = nil;
 
 /**
  * Singleton.
@@ -69,6 +70,13 @@ static MSDeviceTracker *sharedInstance = nil;
 - (void)setWrapperSdk:(MSWrapperSdk *)wrapperSdk {
   @synchronized(self) {
     wrapperSdkInformation = wrapperSdk;
+    needRefresh = YES;
+  }
+}
+
+- (void)setCountryCode:(NSString *)countryCode {
+  @synchronized(self) {
+    overriddenCountryCode = countryCode;
     needRefresh = YES;
   }
 }
@@ -171,12 +179,12 @@ static MSDeviceTracker *sharedInstance = nil;
     newDevice.screenSize = [self screenSize];
     newDevice.appVersion = [self appVersion:MS_APP_MAIN_BUNDLE];
 #if TARGET_OS_IOS
-    newDevice.carrierCountry = [self carrierCountry:carrier];
+    newDevice.carrierCountry = [self carrierCountry:carrier] ?: overriddenCountryCode;
     newDevice.carrierName = [self carrierName:carrier];
 #else
 
-    // Carrier information is not available on macOS/tvOS.
-    newDevice.carrierCountry = nil;
+    // Carrier information is not available on macOS/tvOS, but if we have an override country code, use it.
+    newDevice.carrierCountry = overriddenCountryCode;
     newDevice.carrierName = nil;
 #endif
     newDevice.appBuild = [self appBuild:MS_APP_MAIN_BUNDLE];

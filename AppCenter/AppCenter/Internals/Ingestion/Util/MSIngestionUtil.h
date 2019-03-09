@@ -60,6 +60,6 @@ static NSString *const kMSHidingStringForAppSecret = @"*";
  *
  * @return token by hiding some characters.
  */
- + (NSString *)hideAuthToken:(NSString *)token;
++ (NSString *)hideAuthToken:(NSString *)token;
 
 @end

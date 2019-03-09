@@ -515,37 +515,37 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 #pragma mark - Channel Delegate
 
 - (void)channel:(id<MSChannelProtocol>)__unused channel willSendLog:(id<MSLog>)log {
-  id<MSCrashesDelegate> strongDelegate = self.delegate;
-  if (strongDelegate && [strongDelegate respondsToSelector:@selector(crashes:willSendErrorReport:)]) {
+  id<MSCrashesDelegate> delegate = self.delegate;
+  if ([delegate respondsToSelector:@selector(crashes:willSendErrorReport:)]) {
     NSObject *logObject = static_cast<NSObject *>(log);
     if ([logObject isKindOfClass:[MSAppleErrorLog class]]) {
       MSAppleErrorLog *appleErrorLog = static_cast<MSAppleErrorLog *>(log);
       MSErrorReport *report = [MSErrorLogFormatter errorReportFromLog:appleErrorLog];
-      [strongDelegate crashes:self willSendErrorReport:report];
+      [delegate crashes:self willSendErrorReport:report];
     }
   }
 }
 
 - (void)channel:(id<MSChannelProtocol>)__unused channel didSucceedSendingLog:(id<MSLog>)log {
-  id<MSCrashesDelegate> strongDelegate = self.delegate;
-  if (strongDelegate && [strongDelegate respondsToSelector:@selector(crashes:didSucceedSendingErrorReport:)]) {
+  id<MSCrashesDelegate> delegate = self.delegate;
+  if ([delegate respondsToSelector:@selector(crashes:didSucceedSendingErrorReport:)]) {
     NSObject *logObject = static_cast<NSObject *>(log);
     if ([logObject isKindOfClass:[MSAppleErrorLog class]]) {
       MSAppleErrorLog *appleErrorLog = static_cast<MSAppleErrorLog *>(log);
       MSErrorReport *report = [MSErrorLogFormatter errorReportFromLog:appleErrorLog];
-      [strongDelegate crashes:self didSucceedSendingErrorReport:report];
+      [delegate crashes:self didSucceedSendingErrorReport:report];
     }
   }
 }
 
 - (void)channel:(id<MSChannelProtocol>)__unused channel didFailSendingLog:(id<MSLog>)log withError:(NSError *)error {
-  id<MSCrashesDelegate> strongDelegate = self.delegate;
-  if (strongDelegate && [strongDelegate respondsToSelector:@selector(crashes:didFailSendingErrorReport:withError:)]) {
+  id<MSCrashesDelegate> delegate = self.delegate;
+  if ([delegate respondsToSelector:@selector(crashes:didFailSendingErrorReport:withError:)]) {
     NSObject *logObject = static_cast<NSObject *>(log);
     if ([logObject isKindOfClass:[MSAppleErrorLog class]]) {
       MSAppleErrorLog *appleErrorLog = static_cast<MSAppleErrorLog *>(log);
       MSErrorReport *report = [MSErrorLogFormatter errorReportFromLog:appleErrorLog];
-      [strongDelegate crashes:self didFailSendingErrorReport:report withError:error];
+      [delegate crashes:self didFailSendingErrorReport:report withError:error];
     }
   }
 }
@@ -770,9 +770,13 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
                                                                                   withString:kMSTargetTokenFileExtension];
           NSURL *targetTokenFileURL = [NSURL fileURLWithPath:targetTokenFilePath];
           NSString *targetToken = [NSString stringWithContentsOfURL:targetTokenFileURL encoding:NSUTF8StringEncoding error:nil];
-          if (targetToken != nil) {
+          if (targetToken) {
             targetToken = [self.targetTokenEncrypter decryptString:targetToken];
-            [item addTransmissionTargetToken:targetToken];
+            if (targetToken) {
+              [item addTransmissionTargetToken:targetToken];
+            } else {
+              MSLogError([MSAppCenter logTag], @"Failed to decrypt the target token.");
+            }
 
             // Delete target token file.
             [MSUtility deleteFileAtURL:targetTokenFileURL];
@@ -1016,14 +1020,11 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 }
 
 - (BOOL)shouldProcessErrorReport:(MSErrorReport *)errorReport {
-  id<MSCrashesDelegate> strongDelegate = self.delegate;
-  return (!strongDelegate || ![strongDelegate respondsToSelector:@selector(crashes:shouldProcessErrorReport:)] ||
-          [strongDelegate crashes:self shouldProcessErrorReport:errorReport]);
-}
-
-- (BOOL)delegateImplementsAttachmentCallback {
-  id<MSCrashesDelegate> strongDelegate = self.delegate;
-  return strongDelegate && [strongDelegate respondsToSelector:@selector(attachmentsWithCrashes:forErrorReport:)];
+  id<MSCrashesDelegate> delegate = self.delegate;
+  if ([delegate respondsToSelector:@selector(crashes:shouldProcessErrorReport:)]) {
+    return [delegate crashes:self shouldProcessErrorReport:errorReport];
+  }
+  return YES;
 }
 
 // We need to override setter, because it's default behavior creates an NSArray, and some tests fail.
@@ -1128,8 +1129,9 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     NSURL *fileURL = self.unprocessedFilePaths[i];
 
     // Get error attachments.
-    if ([self delegateImplementsAttachmentCallback]) {
-      attachments = [self.delegate attachmentsWithCrashes:self forErrorReport:report];
+    id<MSCrashesDelegate> delegate = self.delegate;
+    if ([delegate respondsToSelector:@selector(attachmentsWithCrashes:forErrorReport:)]) {
+      attachments = [delegate attachmentsWithCrashes:self forErrorReport:report];
     } else {
       MSLogDebug([MSCrashes logTag], @"attachmentsWithCrashes is not implemented");
     }
