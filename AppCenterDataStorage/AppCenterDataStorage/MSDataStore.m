@@ -173,9 +173,10 @@ static dispatch_once_t onceToken;
   [MSTokenExchange tokenAsync:(MSStorageIngestion *)self.ingestion
                    partitions:@[ partition ]
             completionHandler:^(MSTokensResponse *_Nonnull tokenResponses, NSError *_Nonnull error) {
+
               // If error getting token.
               if (error && !tokenResponses) {
-                MSLogError([MSDataStore logTag], @"Can't get CosmosDb token:%@", [error description]);
+                MSLogError([MSDataStore logTag], @"Can't get CosmosDb token: %@", [error description]);
                 completionHandler([[MSDocumentWrapper alloc] initWithError:error documetnId:documentId]);
               }
 
@@ -185,7 +186,7 @@ static dispatch_once_t onceToken;
               NSError *serializationError;
               NSData *body = [NSJSONSerialization dataWithJSONObject:[document serializeToDictionary] options:0 error:&serializationError];
               if (!body && serializationError) {
-                MSLogError([MSDataStore logTag], @"Error serializing data:%@", [serializationError description]);
+                MSLogError([MSDataStore logTag], @"Error serializing data: %@", [serializationError description]);
                 completionHandler([[MSDocumentWrapper alloc] initWithError:serializationError documetnId:documentId]);
               }
 
@@ -197,6 +198,7 @@ static dispatch_once_t onceToken;
                                                                  body:body
                                                     completionHandler:^(NSData *_Nonnull data, NSError *_Nonnull cosmosDbError) {
                                                       if (cosmosDbError || data != nil) {
+
                                                         // Create a document.
                                                         MSDocumentWrapper *docWrapper =
                                                             [[MSDocumentWrapper alloc] initWithDeserializedValue:document
@@ -204,7 +206,7 @@ static dispatch_once_t onceToken;
                                                                                                       documetnId:documentId
                                                                                                             etag:@"myEtag"
                                                                                                  lastUpdatedDate:[NSDate date]];
-                                                        MSLogDebug([MSDataStore logTag], @"Document created:%@", data);
+                                                        MSLogDebug([MSDataStore logTag], @"Document created: %@", data);
                                                         completionHandler(docWrapper);
                                                       }
                                                     }];
