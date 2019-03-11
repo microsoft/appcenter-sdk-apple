@@ -4,15 +4,17 @@
 #import "MSAuthTokenContext.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitProtocol.h"
+#import "MSCosmosDb.h"
 #import "MSDataStoreInternal.h"
 #import "MSDataStorePrivate.h"
-#import "MSDataStoreError.h"
+#import "MSDataSourceError.h"
 #import "MSDocumentWrapper.h"
 #import "MSHttpIngestion.h"
 #import "MSPaginatedDocuments.h"
 #import "MSReadOptions.h"
 #import "MSStorageIngestion.h"
 #import "MSTokenExchange.h"
+#import "MSTokensResponse.h"
 #import "MSWriteOptions.h"
 
 /**
@@ -43,7 +45,12 @@ static dispatch_once_t onceToken;
   }
   return self;
 }
-#pragma mark - Service methods
+
+#pragma mark - Public
+
++ (void)setTokenExchangeUrl:(NSString *)tokenExchangeUrl {
+  [[MSDataStore sharedInstance] setTokenExchangeUrl:tokenExchangeUrl];
+}
 
 + (void)readWithPartition:(NSString *)partition
                documentId:(NSString *)documentId
@@ -93,12 +100,7 @@ static dispatch_once_t onceToken;
                  documentId:(NSString *)documentId
                    document:(id<MSSerializableDocument>)document
           completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
-  // @todo
-
-  (void)partition;
-  (void)documentId;
-  (void)document;
-  (void)completionHandler;
+  [[MSDataStore sharedInstance] createWithPartition:partition documentId:documentId document:document writeOptions:nil completionHandler:completionHandler];
 }
 
 + (void)createWithPartition:(NSString *)partition
@@ -106,12 +108,7 @@ static dispatch_once_t onceToken;
                    document:(id<MSSerializableDocument>)document
                writeOptions:(MSWriteOptions *)writeOptions
           completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
-  // @todo
-  (void)partition;
-  (void)documentId;
-  (void)writeOptions;
-  (void)document;
-  (void)completionHandler;
+  [[MSDataStore sharedInstance] createWithPartition:partition documentId:documentId document:document writeOptions:writeOptions completionHandler:completionHandler];
 }
 
 + (void)replaceWithPartition:(NSString *)partition
@@ -158,11 +155,52 @@ static dispatch_once_t onceToken;
   (void)completionHandler;
 }
 
-#if TARGET_OS_OSX
-- (void)dealloc {
+#pragma mark - MSDataStore Implementation
+- (void)createWithPartition:(NSString *)partition
+                 documentId:(NSString *)documentId
+                   document:(id<MSSerializableDocument>)document
+               writeOptions:(MSWriteOptions *)__unused writeOptions
+          completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
+  
+  [MSTokenExchange tokenAsync:(MSStorageIngestion *)self.ingestion
+                   partitions:@[partition]
+            completionHandler:^(MSTokensResponse *_Nonnull tokenResponses, NSError *_Nonnull error) {
+
+              // If error getting token.
+              if (error && !tokenResponses) {
+                MSLogError([MSDataStore logTag], @"Can't get CosmosDb token:%@", [error description]);
+                completionHandler([[MSDocumentWrapper alloc] initWithError:error documetnId:documentId]);
+              }
+              
+              // Create http client.
+              MSCosmosDbIngestion *cosmosDbIngestion = [[MSCosmosDbIngestion alloc] init];
+              
+              NSError *serializationError;
+              NSData *body = [NSJSONSerialization dataWithJSONObject:[document serializeToDictionary] options:0 error:&serializationError];
+              if(!body && serializationError){
+                MSLogError([MSDataStore logTag], @"Error serializing data:%@", [serializationError description]);
+                completionHandler([[MSDocumentWrapper alloc] initWithError:serializationError documetnId:documentId]);
+              }
+              
+              // Call CosmosDb.
+              [MSCosmosDb performCosmosDbAsyncOperationWithHttpClient:(MSCosmosDbIngestion *)cosmosDbIngestion
+                                                          tokenResult:tokenResponses.tokens[0]
+                                                           documentId:@""
+                                                             httpVerb:@"POST"
+                                                                 body:body
+                                                    completionHandler:^(NSData *_Nonnull data, NSError *_Nonnull cosmosDbError) {
+                                                      
+                                                      if (cosmosDbError || data != nil) {
+                                                        // Create a document.
+                                                        MSDocumentWrapper *docWrapper = [[MSDocumentWrapper alloc] initWithDeserializedValue:document partition:partition documetnId:documentId etag:@"myEtag" lastUpdatedDate:[NSDate date]];
+                                                        MSLogDebug([MSDataStore logTag], @"Document created:%@", data);
+                                                        completionHandler(docWrapper);
+                                                      }
+                                                    }];
+
+            }];
 }
 
-#endif
 
 #pragma mark - MSServiceInternal
 
@@ -220,10 +258,9 @@ static dispatch_once_t onceToken;
   }
 }
 
-#pragma mark - Public
-
-+ (void)setTokenExchangeUrl:(NSString *)tokenExchangeUrl {
-  [[MSDataStore sharedInstance] setTokenExchangeUrl:tokenExchangeUrl];
+#if TARGET_OS_OSX
+- (void)dealloc {
 }
+#endif
 
 @end

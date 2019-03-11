@@ -6,6 +6,7 @@ typedef void (^MSCosmosDbCompletionHandler)(NSData *data, NSError *error);
 
 @class MSCosmosDbIngestion;
 @class MSTokenResult;
+@class MSSerializableDocument;
 
 /**
  * This class performs CRUD operation in CosmosDb via an Http client.
@@ -26,7 +27,7 @@ typedef void (^MSCosmosDbCompletionHandler)(NSData *data, NSError *error);
           tokenResult:(MSTokenResult *)tokenResult
            documentId:(NSString *)documentId
              httpVerb:(NSString *)httpVerb
-                 body:(NSString *)body
+                 body:(NSData *)body
     completionHandler:(MSCosmosDbCompletionHandler)completionHandler;
 
 @end
