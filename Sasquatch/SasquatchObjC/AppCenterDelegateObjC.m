@@ -45,12 +45,8 @@
 #endif
 }
 
-- (NSString *)logUrl {
-#if GCC_PREPROCESSOR_MACRO_PUPPET
-  return [[MSAppCenter sharedInstance] logUrl];
-#else
-  return @"Internal";
-#endif
+- (void)setLogUrl:(NSString *)logUrl {
+  [MSAppCenter setLogUrl:logUrl];
 }
 
 - (NSString *)sdkVersion {

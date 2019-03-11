@@ -2,6 +2,8 @@ import UIKit
 
 // 10 MiB.
 let kMSDefaultDatabaseSize = 10 * 1024 * 1024
+let acProdLogUrl = "https://in.appcenter.ms"
+let ocProdLogUrl = "https://mobile.events.data.microsoft.com";
 
 class MSMainViewController: UITableViewController, AppCenterProtocol {
   
@@ -27,12 +29,15 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
   @IBOutlet weak var storageMaxSizeField: UITextField!
   @IBOutlet weak var storageFileSizeLabel: UILabel!
   @IBOutlet weak var userIdField: UITextField!
+  @IBOutlet weak var setLogUrlButton: UIButton!
 
   var appCenter: AppCenterDelegate!
   private var startupModePicker: MSEnumPicker<StartupMode>?
   private var eventFilterStarted = false
   private var dbFileDescriptor: CInt = 0
   private var dbFileSource: DispatchSourceProtocol?
+  
+  let startUpModeForCurrentSession: NSInteger = (UserDefaults.standard.object(forKey: kMSStartTargetKey) ?? 0) as! NSInteger
 
   deinit {
     self.dbFileSource?.cancel()
@@ -48,7 +53,7 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     self.startupModePicker = MSEnumPicker<StartupMode>(
       textField: self.startupModeField,
       allValues: StartupMode.allValues,
-      onChange: {(index) in UserDefaults.standard.set(index, forKey: kMSStartTargetKey)})
+      onChange: {(index) in UserDefaults.standard.set(index, forKey: kMSStartTargetKey); UserDefaults.standard.removeObject(forKey: kMSLogUrl)})
     self.startupModeField.delegate = self.startupModePicker
     self.startupModeField.text = StartupMode.allValues[startupMode].rawValue
     self.startupModeField.tintColor = UIColor.clear
@@ -81,7 +86,7 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     // Miscellaneous section.
     self.installId.text = appCenter.installId()
     self.appSecret.text = appCenter.appSecret()
-    self.logUrl.text = appCenter.logUrl()
+    self.logUrl.text = UserDefaults.standard.string(forKey: kMSLogUrl) ?? prodLogUrl()
     self.sdkVersion.text = appCenter.sdkVersion()
     self.deviceIdLabel.text = UIDevice.current.identifierForVendor?.uuidString
     self.userIdField.text = UserDefaults.standard.string(forKey: kMSUserIdKey)
@@ -140,6 +145,33 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     UserDefaults.standard.set(userId, forKey: kMSUserIdKey)
     appCenter.setUserId(userId)
   }
+  
+  @IBAction func logUrlSetting(_ sender: UIButton) {
+    let alertController = UIAlertController(title: "Log Url",
+                                            message: nil,
+                                            preferredStyle:.alert)
+    alertController.addTextField { (logUrlTextField) in
+      logUrlTextField.text = UserDefaults.standard.string(forKey: kMSLogUrl) ?? self.prodLogUrl()
+    }
+    let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+    let saveAction = UIAlertAction(title: "Save", style: .default, handler: {
+      (_ action : UIAlertAction) -> Void in
+      let text = alertController.textFields?[0].text ?? ""
+      UserDefaults.standard.set(text, forKey: kMSLogUrl)
+      self.appCenter.setLogUrl(text)
+      self.logUrl.text = text
+    })
+    let resetAction = UIAlertAction(title: "Reset", style: .destructive, handler: {
+      (_ action : UIAlertAction) -> Void in
+      UserDefaults.standard.removeObject(forKey: kMSLogUrl)
+      self.appCenter.setLogUrl(self.prodLogUrl())
+      self.logUrl.text = self.prodLogUrl()
+    })
+    alertController.addAction(cancelAction)
+    alertController.addAction(saveAction)
+    alertController.addAction(resetAction)
+    self.present(alertController, animated: true, completion: nil)
+  }
 
   @IBAction func dismissKeyboard(_ sender: UITextField!) {
     sender.resignFirstResponder()
@@ -162,6 +194,10 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
 
   func doneClicked() {
     dismissKeyboard(self.storageMaxSizeField)
+  }
+  
+  func prodLogUrl() -> String {
+    return startUpModeForCurrentSession == 1 ? ocProdLogUrl : acProdLogUrl
   }
 
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
