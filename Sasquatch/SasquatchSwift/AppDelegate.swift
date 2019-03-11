@@ -1,6 +1,7 @@
 import MobileCoreServices
 import Photos
 import UIKit
+import CoreLocation
 
 import AppCenter
 import AppCenterAnalytics
@@ -18,10 +19,11 @@ enum StartupMode: Int {
 }
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDistributeDelegate, MSPushDelegate, UNUserNotificationCenterDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDistributeDelegate, MSPushDelegate, UNUserNotificationCenterDelegate, CLLocationManagerDelegate {
 
   private var notificationPresentationCompletionHandler: Any?
   private var notificationResponseCompletionHandler: Any?
+  private var locationManager : CLLocationManager = CLLocationManager()
 
   var window: UIWindow?
 
@@ -79,6 +81,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
     case .SKIP:
       break
     }
+    
+    locationManager = CLLocationManager()
+    locationManager.delegate = self
+    locationManager.desiredAccuracy = kCLLocationAccuracyKilometer;
+    locationManager.requestWhenInUseAuthorization()
 
     // Set user id.
     let userId = UserDefaults.standard.string(forKey: kMSUserIdKey)
@@ -116,7 +123,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
     })
 
     setAppCenterDelegate()
-
     return true
   }
 
@@ -275,6 +281,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
     MSPush.didReceiveRemoteNotification(response.notification.request.content.userInfo)
   }
 
+  // CLLocationManager Delegate
+  func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+    if status == CLAuthorizationStatus.authorizedWhenInUse
+      { manager.requestLocation()}
+  }
+    
+  func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    let userLocation:CLLocation = locations[0] as CLLocation
+    CLGeocoder().reverseGeocodeLocation(userLocation) { (placemarks, error) in
+      if error == nil {
+        MSAppCenter.setCountryCode(placemarks?.first?.isoCountryCode)
+      }
+    }
+  }
+    
+  func locationManager(_ Manager: CLLocationManager, didFailWithError error: Error){
+    print("Failed to find user's location: \(error.localizedDescription)")
+  }
+    
   // AppCenter Push Delegate
   func push(_ push: MSPush!, didReceive pushNotification: MSPushNotification!) {
     

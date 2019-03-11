@@ -10,6 +10,7 @@
 @interface AppDelegate ()
 
 @property NSWindowController *rootController;
+@property(nonatomic) CLLocationManager *locationManager;
 
 @end
 #define APP_SECRET_VALUE "d80aae71-af34-4e0c-af61-2381391c4a7a"
@@ -20,6 +21,11 @@ enum StartupMode { appCenter, oneCollector, both, none, skip };
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification {
   [MSAppCenter setLogLevel:MSLogLevelVerbose];
+    
+  // Setup location manager.
+  self.locationManager = [[CLLocationManager alloc] init];
+  self.locationManager.delegate = self;
+  self.locationManager.desiredAccuracy = kCLLocationAccuracyKilometer;
 
   // Set user id.
   NSString *userId = [[NSUserDefaults standardUserDefaults] objectForKey:@"userId"];
@@ -224,6 +230,29 @@ enum StartupMode { appCenter, oneCollector, both, none, skip };
   [alert setInformativeText:message];
   [alert addButtonWithTitle:@"OK"];
   [alert runModal];
+}
+
+#pragma mark - CLLocationManagerDelegate
+
+
+- (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status{
+  [manager startUpdatingLocation];
+}
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations{
+    CLLocation *location = [locations lastObject];
+    CLGeocoder *geocoder = [[CLGeocoder alloc] init];
+    [geocoder reverseGeocodeLocation:location
+                   completionHandler:^(NSArray *placemarks, NSError *error) {
+                       if (placemarks.count == 0 || error)
+                           return;
+                       CLPlacemark *placemark = [placemarks firstObject];
+                       [MSAppCenter setCountryCode:placemark.ISOcountryCode];
+                   }];
+}
+
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
+    NSLog(@"Failed to find user's location: %@", error.localizedDescription);
 }
 
 @end

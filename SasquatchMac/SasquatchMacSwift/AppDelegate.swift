@@ -1,4 +1,5 @@
 import Cocoa
+import CoreLocation
 
 import AppCenter
 import AppCenterAnalytics
@@ -15,10 +16,11 @@ enum StartupMode: Int {
 
 @NSApplicationMain
 @objc(AppDelegate)
-class AppDelegate: NSObject, NSApplicationDelegate, MSCrashesDelegate, MSPushDelegate {
+class AppDelegate: NSObject, NSApplicationDelegate, MSCrashesDelegate, MSPushDelegate, CLLocationManagerDelegate {
 
   var rootController: NSWindowController!
-
+  var locationManager: CLLocationManager = CLLocationManager()
+    
   func applicationDidFinishLaunching(_ notification: Notification) {
     // Crashes Delegate.
     MSCrashes.setDelegate(self);
@@ -58,6 +60,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, MSCrashesDelegate, MSPushDel
     if userId != nil {
       MSAppCenter.setUserId(userId)
     }
+    
+    // Set location manager.
+    locationManager.delegate = self
+    locationManager.desiredAccuracy = kCLLocationAccuracyKilometer
 
     // Set max storage size.
     let storageMaxSize = UserDefaults.standard.object(forKey: kMSStorageMaxSizeKey) as? Int
@@ -186,5 +192,20 @@ class AppDelegate: NSObject, NSApplicationDelegate, MSCrashesDelegate, MSPushDel
     alert.informativeText = message
     alert.addButton(withTitle: "OK")
     alert.runModal()
+  }
+    
+  // CLLocationManager Delegate
+  func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    self.locationManager.stopUpdatingLocation()
+    let userLocation:CLLocation = locations[0] as CLLocation
+    CLGeocoder().reverseGeocodeLocation(userLocation) { (placemarks, error) in
+      if error == nil {
+        MSAppCenter.setCountryCode(placemarks?.first?.isoCountryCode)
+      }
+    }
+  }
+    
+  func locationManager(_ Manager: CLLocationManager, didFailWithError error: Error) {
+    print("Failed to find user's location: \(error.localizedDescription)")
   }
 }
