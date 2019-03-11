@@ -43,7 +43,7 @@ class AppCenterDelegateSwift: AppCenterDelegate {
   }
 
   func setLogUrl(_ logUrl: String?) {
-      MSAppCenter.setLogUrl(logUrl);
+    MSAppCenter.setLogUrl(logUrl);
   }
 
   func sdkVersion() -> String {
