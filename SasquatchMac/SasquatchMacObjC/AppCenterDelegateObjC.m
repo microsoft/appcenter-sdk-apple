@@ -40,19 +40,16 @@
   return @"Internal";
 }
 
-- (NSString *)logUrl {
-
-  // TODO: Uncomment when logUrl is moved from internal to public
-  // return [[MSAppCenter sharedInstance] logUrl];
-  return @"Internal";
-}
-
 - (BOOL)isDebuggerAttached {
   return [MSAppCenter isDebuggerAttached];
 }
 
 - (void)setUserId:(NSString *)userId {
   [MSAppCenter setUserId:userId];
+}
+
+- (void)setLogUrl:(NSString *)logUrl {
+  [MSAppCenter setLogUrl:logUrl];
 }
 
 #pragma mark - Modules section.

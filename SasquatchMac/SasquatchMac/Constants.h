@@ -2,6 +2,7 @@
 
 static NSString *const kMSMainStoryboardName = @"SasquatchMac";
 static NSString *const kMSUserIdKey = @"userId";
+static NSString *const kMSLogUrl = @"logUrl";
 static NSString *const kMSLogTag = @"[SasquatchMac]";
 
 static NSString *const kSASCustomizedUpdateAlertKey = @"kSASCustomizedUpdateAlertKey";
