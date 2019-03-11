@@ -1,6 +1,6 @@
 # App Center SDK for iOS and macOS Change Log
 
-## Version 1.14.0 (not yet released)
+## Version 1.14.0
 
 ### AppCenter
 
