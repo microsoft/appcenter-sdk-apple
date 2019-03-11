@@ -4,6 +4,7 @@
 #import "MSCustomApplicationDelegate.h"
 #import "MSIdentity.h"
 #import "MSIdentityConfig.h"
+#import "MSIdentityConfigIngestion.h"
 #import "MSServiceInternal.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -32,9 +33,9 @@ static NSString *const kMSIdentityMSALAccountHomeAccountKey = @"MSIdentityMSALAc
 @property(nonatomic, nullable) MSIdentityConfig *identityConfig;
 
 /**
- * The flag that indicates a user requested signIn before it is configured.
+ * Ingestion instance (should not be deallocated).
  */
-@property(nonatomic) BOOL signInDelayedAndRetryLater;
+@property(nonatomic, nullable) MSIdentityConfigIngestion *ingestion;
 
 /**
  * Custom application delegate dedicated to Identity.

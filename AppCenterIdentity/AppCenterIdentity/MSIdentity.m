@@ -25,6 +25,8 @@ static NSString *const kMSIdentityPathComponent = @"identity";
 // The Identity config file name.
 static NSString *const kMSIdentityConfigFilename = @"config.json";
 
+static NSString *const kMSIdentityBaseUrl = @"https://mobilecentersdkdev.blob.core.windows.net";
+
 // Singleton
 static MSIdentity *sharedInstance = nil;
 static dispatch_once_t onceToken;
@@ -108,9 +110,9 @@ static dispatch_once_t onceToken;
     [[MSAppDelegateForwarder sharedInstance] removeDelegate:self.appDelegate];
     [self clearAuthData];
     self.clientApplication = nil;
-    self.signInDelayedAndRetryLater = NO;
     [self clearConfigurationCache];
     [self.channelGroup removeDelegate:self];
+    self.ingestion = nil;
     NSError *error = [[NSError alloc] initWithDomain:MSIdentityErrorDomain
                                                 code:MSIdentityErrorServiceDisabled
                                             userInfo:@{MSIdentityErrorDescriptionKey : @"Identity is disabled."}];
@@ -183,12 +185,16 @@ static dispatch_once_t onceToken;
 }
 
 - (void)signIn {
-  if (self.clientApplication == nil || self.identityConfig == nil) {
-    MSLogDebug([MSIdentity logTag], @"signIn is called while it's not configured or not in the foreground, waiting.");
-    self.signInDelayedAndRetryLater = YES;
+  if ([[MS_Reachability reachabilityForInternetConnection] currentReachabilityStatus] == NotReachable) {
+    [self completeSignInWithErrorCode:MSIdentityErrorSignInWhenNoConnection
+                           andMessage:@"User sign-in failed. Internet connection is down."];
     return;
   }
-  self.signInDelayedAndRetryLater = NO;
+  if (self.clientApplication == nil || self.identityConfig == nil) {
+    [self completeSignInWithErrorCode:MSIdentityErrorSignInBackgroundOrNotConfigured
+                           andMessage:@"signIn is called while it's not configured or not in the foreground."];
+    return;
+  }
   MSALAccount *account = [self retrieveAccountWithAccountId:[self retrieveAccountId]];
   if (account) {
     [self acquireTokenSilentlyWithMSALAccount:account];
@@ -197,13 +203,22 @@ static dispatch_once_t onceToken;
   }
 }
 
+- (void)completeSignInWithErrorCode:(NSInteger)errorCode andMessage:(NSString *)errorMessage {
+  if (!self.signInCompletionHandler) {
+    return;
+  }
+  NSError *error = [[NSError alloc] initWithDomain:MSIdentityErrorDomain
+                                              code:errorCode
+                                          userInfo:@{MSIdentityErrorDescriptionKey : errorMessage}];
+  self.signInCompletionHandler(nil, error);
+}
+
 - (void)signOut {
   @synchronized(self) {
     if (![self canBeUsed]) {
       return;
     }
     if ([self clearAuthData]) {
-      self.signInDelayedAndRetryLater = NO;
       MSLogInfo([MSIdentity logTag], @"User sign-out succeeded.");
     }
   }
@@ -232,57 +247,53 @@ static dispatch_once_t onceToken;
   return NO;
 }
 
+- (MSIdentityConfigIngestion *)ingestion {
+  if (!_ingestion) {
+    _ingestion = [[MSIdentityConfigIngestion alloc] initWithBaseUrl:kMSIdentityBaseUrl appSecret:self.appSecret];
+  }
+  return _ingestion;
+}
+
 - (void)downloadConfigurationWithETag:(nullable NSString *)eTag {
 
   // Download configuration.
-  MSIdentityConfigIngestion *ingestion =
-      [[MSIdentityConfigIngestion alloc] initWithBaseUrl:@"https://mobilecentersdkdev.blob.core.windows.net" appSecret:self.appSecret];
-  [ingestion sendAsync:nil
-                   eTag:eTag
-      completionHandler:^(__unused NSString *callId, NSHTTPURLResponse *response, NSData *data, __unused NSError *error) {
-        MSIdentityConfig *config = nil;
-        if (response.statusCode == MSHTTPCodesNo304NotModified) {
-          MSLogInfo([MSIdentity logTag], @"Identity configuration hasn't changed.");
-        } else if (response.statusCode == MSHTTPCodesNo200OK) {
-          config = [self deserializeData:data];
-          if ([config isValid]) {
-            NSURL *configUrl = [MSUtility createFileAtPathComponent:[self identityConfigFilePath]
-                                                           withData:data
-                                                         atomically:YES
-                                                     forceOverwrite:YES];
+  [self.ingestion sendAsync:nil
+                       eTag:eTag
+          completionHandler:^(__unused NSString *callId, NSHTTPURLResponse *response, NSData *data, __unused NSError *error) {
+            MSIdentityConfig *config = nil;
+            if (response.statusCode == MSHTTPCodesNo304NotModified) {
+              MSLogInfo([MSIdentity logTag], @"Identity configuration hasn't changed.");
+            } else if (response.statusCode == MSHTTPCodesNo200OK) {
+              config = [self deserializeData:data];
+              if ([config isValid]) {
+                NSURL *configUrl = [MSUtility createFileAtPathComponent:[self identityConfigFilePath]
+                                                               withData:data
+                                                             atomically:YES
+                                                         forceOverwrite:YES];
 
-            // Store eTag only when the configuration file is created successfully.
-            if (configUrl) {
-              NSString *newETag = [MSHttpIngestion eTagFromResponse:response];
-              if (newETag) {
-                [MS_USER_DEFAULTS setObject:newETag forKey:kMSIdentityETagKey];
+                // Store eTag only when the configuration file is created successfully.
+                if (configUrl) {
+                  NSString *newETag = [MSHttpIngestion eTagFromResponse:response];
+                  if (newETag) {
+                    [MS_USER_DEFAULTS setObject:newETag forKey:kMSIdentityETagKey];
+                  }
+                } else {
+                  MSLogWarning([MSIdentity logTag], @"Couldn't create Identity config file.");
+                }
+                @synchronized(self) {
+                  self.identityConfig = config;
+
+                  // Reinitialize client application.
+                  [self configAuthenticationClient];
+                }
+              } else {
+                MSLogError([MSIdentity logTag], @"Downloaded identity configuration is not valid.");
               }
             } else {
-              MSLogWarning([MSIdentity logTag], @"Couldn't create Identity config file.");
+              MSLogError([MSIdentity logTag], @"Failed to download identity configuration. Status code received: %ld",
+                         (long)response.statusCode);
             }
-            @synchronized(self) {
-              self.identityConfig = config;
-
-              // Reinitialize client application.
-              [self configAuthenticationClient];
-
-              // SignIn if it is delayed.
-              /*
-               * TODO: SignIn can be called when the app is in background. Make sure the SDK doesn't display browser with signIn screen when
-               * the app is in background. Only display in foreground.
-               */
-              if (self.signInDelayedAndRetryLater) {
-                [self signIn];
-              }
-            }
-          } else {
-            MSLogError([MSIdentity logTag], @"Downloaded identity configuration is not valid.");
-          }
-        } else {
-          MSLogError([MSIdentity logTag], @"Failed to download identity configuration. Status code received: %ld",
-                     (long)response.statusCode);
-        }
-      }];
+          }];
 }
 
 - (void)configAuthenticationClient {
