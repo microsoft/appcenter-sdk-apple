@@ -193,9 +193,7 @@
 		2600123C22273E94007F4D3A /* MSTokensResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSTokensResponse.h; sourceTree = "<group>"; };
 		2600123D22273E94007F4D3A /* MSTokenResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSTokenResult.m; sourceTree = "<group>"; };
 		2600123E22273E94007F4D3A /* MSTokensResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSTokensResponse.m; sourceTree = "<group>"; };
-<<<<<<< HEAD
 		4A294CD322308D1B00FD206B /* MSConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSConstants.h; sourceTree = "<group>"; };
-=======
 		267464DD222F28A200EC1FF3 /* MSPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSPage.h; sourceTree = "<group>"; };
 		267464DE222F28A200EC1FF3 /* MSDataStoreError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDataStoreError.m; sourceTree = "<group>"; };
 		267464DF222F28A200EC1FF3 /* MSBaseOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSBaseOptions.h; sourceTree = "<group>"; };
@@ -212,7 +210,6 @@
 		267464EA222F28A300EC1FF3 /* MSBaseOptions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSBaseOptions.m; sourceTree = "<group>"; };
 		267464EB222F28A300EC1FF3 /* MSReadOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSReadOptions.h; sourceTree = "<group>"; };
 		267464EC222F28A300EC1FF3 /* MSWriteOptions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSWriteOptions.m; sourceTree = "<group>"; };
->>>>>>> 1df494090394f5c33262fe3ae99790898c2843a2
 		D33A94511E5B11BB003966DB /* libAppCenterDataStorage.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAppCenterDataStorage.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D33A94541E5B11BB003966DB /* AppCenterDataStorage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppCenterDataStorage.h; sourceTree = "<group>"; };
 		D3AD5EC01E5C4F6A001627AB /* AppCenterDataStorage.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppCenterDataStorage.xctest; sourceTree = BUILT_PRODUCTS_DIR; };

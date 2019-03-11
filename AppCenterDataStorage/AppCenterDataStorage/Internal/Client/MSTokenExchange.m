@@ -29,17 +29,17 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
         // Http call.
         [httpClient sendAsync:payloadData
             completionHandler:^(NSString *callId, NSHTTPURLResponse *response, NSData *data, NSError *error) {
-                MSLogVerbose([MSDataStorage logTag], @"Get token callback, request Id %@ with status code: %lu", callId,
+                MSLogVerbose([MSDataStore logTag], @"Get token callback, request Id %@ with status code: %lu", callId,
                              (unsigned long)response.statusCode);
                 
-                // If comletion is provided.
+                // If completion is provided.
                 if (completion) {
                     
                     // Read tokens.
                     NSError *tokenResponsejsonError;
                     NSDictionary *jsonDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&tokenResponsejsonError];
                     if (tokenResponsejsonError) {
-                        MSLogError([MSDataStorage logTag], @"Can't deserialize tokens with error: %@", [tokenResponsejsonError description]);
+                        MSLogError([MSDataStore logTag], @"Can't deserialize tokens with error: %@", [tokenResponsejsonError description]);
                         completion([[MSTokensResponse alloc] initWithTokens:nil], error);
                     }
                     
@@ -61,13 +61,12 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
     NSString *tokenString = [tokenResult serializeToString];
     BOOL success = [MSKeychainUtil storeString:tokenString forKey:[MSTokenExchange tokenKeyNameForPartition:tokenResult.partition]];
     if (success) {
-        MSLogDebug([MSDataStorage logTag], @"Saved token in keychain for the partitionKey : %@.", tokenResult.partition);
+        MSLogDebug([MSDataStore logTag], @"Saved token in keychain for the partitionKey : %@.", tokenResult.partition);
     } else {
-        MSLogWarning([MSDataStorage logTag], @"Failed to save the token in keychain for the partitionKey : %@.", tokenResult.partition);
+        MSLogWarning([MSDataStore logTag], @"Failed to save the token in keychain for the partitionKey : %@.", tokenResult.partition);
     }
 }
 
-<<<<<<< HEAD
 + (MSTokenResult *)retrieveCachedToken:(NSString *)partitionName {
     NSString *tokenString = [MSKeychainUtil stringForKey:[MSTokenExchange tokenKeyNameForPartition:partitionName]];
     if(tokenString != nil){
@@ -84,52 +83,27 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
             if([currentUTCDate laterDate:tokenExpireDate] == currentUTCDate){
                 [MSTokenExchange removeCachedToken:partitionName];
                 
-                 MSLogWarning([MSDataStorage logTag], @"The token in the cache has expired for the partitionKey : %@.", partitionName);
+                 MSLogWarning([MSDataStore logTag], @"The token in the cache has expired for the partitionKey : %@.", partitionName);
                 return nil;
             }
             
-            MSLogDebug([MSDataStorage logTag], @"Retrieved token from keychain for the partitionKey : %@.", partitionName);
-=======
-  // Payload.
-  NSError *jsonError;
-  NSData *payloadData = [NSJSONSerialization dataWithJSONObject:@{kMSPartitions : partitions} options:0 error:&jsonError];
-
-  // Http call.
-  [httpClient sendAsync:payloadData
-      completionHandler:^(NSString *callId, NSHTTPURLResponse *response, NSData *data, NSError *error) {
-        MSLogVerbose([MSDataStore logTag], @"Get token callback, request Id %@ with status code: %lu", callId,
-                     (unsigned long)response.statusCode);
-
-        // If comletion is provided.
-        if (completion) {
-
-          // Read tokens.
-          NSError *tokenResponsejsonError;
-          NSDictionary *jsonDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&tokenResponsejsonError];
-          if (tokenResponsejsonError) {
-            MSLogError([MSDataStore logTag], @"Can't deserialize tokens with error: %@", [tokenResponsejsonError description]);
-            completion([[MSTokensResponse alloc] initWithTokens:nil], error);
-          }
-
-          // Create token result object.
-          MSTokensResponse *tokens = [[MSTokensResponse alloc] initWithDictionary:jsonDictionary];
-          completion(tokens, error);
->>>>>>> 1df494090394f5c33262fe3ae99790898c2843a2
+            MSLogDebug([MSDataStore logTag], @"Retrieved token from keychain for the partitionKey : %@.", partitionName);
+            return tokenResult;
         }
     }
     
-     MSLogWarning([MSDataStorage logTag], @"Failed to retrieve token from keychain or none was found for the partitionKey : %@.", partitionName);
+     MSLogWarning([MSDataStore logTag], @"Failed to retrieve token from keychain or none was found for the partitionKey : %@.", partitionName);
     
-    return tokenResult;
+    return nil;
 }
 
 + (void)removeCachedToken:(NSString *)partitionName {
     NSString *tokenString = [MSKeychainUtil deleteStringForKey:[MSTokenExchange tokenKeyNameForPartition:partitionName]];
     
     if (tokenString) {
-        MSLogDebug([MSDataStorage logTag], @"Removed token from keychain for the partitionKey : %@.", partitionName);
+        MSLogDebug([MSDataStore logTag], @"Removed token from keychain for the partitionKey : %@.", partitionName);
     } else {
-        MSLogWarning([MSDataStorage logTag], @"Failed to remove token from keychain or none was found for the partitionKey : %@.", partitionName);
+        MSLogWarning([MSDataStore logTag], @"Failed to remove token from keychain or none was found for the partitionKey : %@.", partitionName);
     }
 }
 
@@ -137,16 +111,16 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
     NSString *readonlyTokenString = [MSKeychainUtil deleteStringForKey:kMSStorageReadOnlyDbTokenKey];
     NSString *userTokenString = [MSKeychainUtil deleteStringForKey:kMSStorageUserDbTokenKey];
     if (readonlyTokenString && userTokenString) {
-        MSLogDebug([MSDataStorage logTag], @"Removed all the tokens from keychain.");
+        MSLogDebug([MSDataStore logTag], @"Removed all the tokens from keychain.");
     } else {
-        MSLogWarning([MSDataStorage logTag], @"Failed to remove all of the tokens from keychain");
+        MSLogWarning([MSDataStore logTag], @"Failed to remove all of the tokens from keychain");
     }
 }
 
 + (NSString *)tokenKeyNameForPartition:(NSString *)partitionName{
     
     NSString *tokenKeyName = kMSStorageReadOnlyDbTokenKey;
-    if(![partitionName containsString:kMSDataStoreAppDocumentsPartition])
+    if(![partitionName containsString:MSDataStoreAppDocumentsPartition])
     {
         tokenKeyName = kMSStorageUserDbTokenKey;
     }
