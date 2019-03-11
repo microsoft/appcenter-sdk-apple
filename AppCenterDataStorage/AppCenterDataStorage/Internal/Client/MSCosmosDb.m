@@ -1,7 +1,7 @@
 #import "MSCosmosDb.h"
 #import "AppCenter+Internal.h"
 #import "MSCosmosDbIngestion.h"
-#import "MSDataStorageInternal.h"
+#import "MSDataStoreInternal.h"
 #import "MSTokenResult.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -133,7 +133,7 @@ static NSString *const kMSHeaderMsDate = @"x-ms-date";
   NSData *payloadData = [body dataUsingEncoding:NSUTF8StringEncoding];
   [httpClient sendAsync:payloadData
          completionHandler:^(NSString *callId, NSHTTPURLResponse *response, NSData *data, NSError *error) {
-           MSLogVerbose([MSDataStorage logTag], @"Cosmodb HttpClient callback, request Id %@ with status code: %lu and description: %@", callId,
+           MSLogVerbose([MSDataStore logTag], @"Cosmodb HttpClient callback, request Id %@ with status code: %lu and description: %@", callId,
                         (unsigned long)response.statusCode, [error description]);
 
            // Completion handler.

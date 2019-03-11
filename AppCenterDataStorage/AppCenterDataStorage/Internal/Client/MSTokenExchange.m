@@ -1,6 +1,6 @@
 #import "MSTokenExchange.h"
 #import "AppCenter+Internal.h"
-#import "MSDataStorageInternal.h"
+#import "MSDataStoreInternal.h"
 #import "MSStorageIngestion.h"
 #import "MSTokensResponse.h"
 #import "MSTokenResult.h"
@@ -67,6 +67,7 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
     }
 }
 
+<<<<<<< HEAD
 + (MSTokenResult *)retrieveCachedToken:(NSString *)partitionName {
     NSString *tokenString = [MSKeychainUtil stringForKey:[MSTokenExchange tokenKeyNameForPartition:partitionName]];
     if(tokenString != nil){
@@ -88,6 +89,32 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
             }
             
             MSLogDebug([MSDataStorage logTag], @"Retrieved token from keychain for the partitionKey : %@.", partitionName);
+=======
+  // Payload.
+  NSError *jsonError;
+  NSData *payloadData = [NSJSONSerialization dataWithJSONObject:@{kMSPartitions : partitions} options:0 error:&jsonError];
+
+  // Http call.
+  [httpClient sendAsync:payloadData
+      completionHandler:^(NSString *callId, NSHTTPURLResponse *response, NSData *data, NSError *error) {
+        MSLogVerbose([MSDataStore logTag], @"Get token callback, request Id %@ with status code: %lu", callId,
+                     (unsigned long)response.statusCode);
+
+        // If comletion is provided.
+        if (completion) {
+
+          // Read tokens.
+          NSError *tokenResponsejsonError;
+          NSDictionary *jsonDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&tokenResponsejsonError];
+          if (tokenResponsejsonError) {
+            MSLogError([MSDataStore logTag], @"Can't deserialize tokens with error: %@", [tokenResponsejsonError description]);
+            completion([[MSTokensResponse alloc] initWithTokens:nil], error);
+          }
+
+          // Create token result object.
+          MSTokensResponse *tokens = [[MSTokensResponse alloc] initWithDictionary:jsonDictionary];
+          completion(tokens, error);
+>>>>>>> 1df494090394f5c33262fe3ae99790898c2843a2
         }
     }
     
