@@ -30,41 +30,71 @@
   return self;
 }
 
+- (instancetype)initWithDictionary:(NSDictionary *)tokens {
+    self = [super init];
+    if (self) {
+        self = [[MSTokenResult alloc] initWithPartition:tokens[kMSPartition]
+                                              dbAccount:tokens[kMSDbAccount]
+                                                 dbName:tokens[kMSDbName]
+                                       dbCollectionName:tokens[kMSDbCollectionName]
+                                                  token:tokens[kMSToken]
+                                                 status:tokens[kMSStatus]
+                                              expiresOn:tokens[kMSExpiresOn]];
+    }
+    return self;
+}
+
 - (instancetype)initWithString:(NSString *)tokenString{
     self = [super init];
     
-    NSData* jsonData = [tokenString dataUsingEncoding:NSUTF8StringEncoding];
-    
-    NSError *error;
-    NSDictionary *jsonDictionary = [NSJSONSerialization JSONObjectWithData:jsonData options:kNilOptions error:&error];
-    
-    if(jsonData != nil && error == nil){
+    if (self) {
+        NSData* jsonData = [tokenString dataUsingEncoding:NSUTF8StringEncoding];
         
-        // Create token result object.
-        self = [[MSTokenResult alloc] initWithPartition:jsonDictionary[kMSPartition]
-                                                     dbAccount:jsonDictionary[kMSDbAccount]
-                                                        dbName:jsonDictionary[kMSDbName]
-                                              dbCollectionName:jsonDictionary[kMSDbCollectionName]
-                                                         token:jsonDictionary[kMSToken]
-                                                        status:jsonDictionary[kMSStatus]
-                                                     expiresOn:jsonDictionary[kMSExpiresOn]];
-        return self;
+        NSError *error;
+        NSDictionary *jsonDictionary = [NSJSONSerialization JSONObjectWithData:jsonData options:kNilOptions error:&error];
+        
+        if(jsonData != nil && error == nil){
+            
+            // Create token result object.
+            self = [[MSTokenResult alloc] initWithPartition:jsonDictionary[kMSPartition]
+                                                  dbAccount:jsonDictionary[kMSDbAccount]
+                                                     dbName:jsonDictionary[kMSDbName]
+                                           dbCollectionName:jsonDictionary[kMSDbCollectionName]
+                                                      token:jsonDictionary[kMSToken]
+                                                     status:jsonDictionary[kMSStatus]
+                                                  expiresOn:jsonDictionary[kMSExpiresOn]];
+        }
     }
-    
-    return nil;
+    return self;
 }
 
+-(NSDictionary *) serializeToDictionary{
+    return @{
+             kMSPartition : self.partition,
+             kMSDbAccount : self.dbAccount,
+             kMSDbName : self.dbName,
+             kMSDbCollectionName : self.dbCollectionName,
+             kMSToken : self.token,
+             kMSStatus : self.status,
+             kMSExpiresOn : self.expiresOn,
+             };
+}
 
 -(NSString *) serializeToString{
     NSError *error = nil;
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:self options:NSJSONWritingPrettyPrinted error:&error];
     
-    if(jsonData != nil && error == nil){
-        NSString *tokenString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    NSDictionary *tokenDict = [self serializeToDictionary];
+
+    if ([NSJSONSerialization isValidJSONObject:tokenDict])
+    {
+        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:tokenDict options:NSJSONWritingPrettyPrinted error:&error];
         
-        return tokenString;
+        if(jsonData != nil && error == nil){
+            NSString *tokenString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+            
+            return tokenString;
+        }
     }
-    
     return nil;
 }
 

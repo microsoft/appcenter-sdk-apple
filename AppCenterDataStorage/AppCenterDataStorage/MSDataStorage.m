@@ -158,6 +158,8 @@ static dispatch_once_t onceToken;
 - (void)authTokenContext:(MSAuthTokenContext *) __unused authTokenContext didReceiveAuthToken:(/* nullable (changed in #1328) */NSString *)authToken {
   if (authToken == nil) {
     // TODO: delete the Cosmos tokens associated with the user.
+      
+      [MSTokenExchange removeAllCachedTokens];
   }
 }
 

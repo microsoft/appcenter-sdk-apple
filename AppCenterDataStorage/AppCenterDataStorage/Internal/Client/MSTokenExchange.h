@@ -19,9 +19,11 @@ typedef void (^MSGetTokenAsyncCompletionHandler)(MSTokensResponse *tokenResponse
  * @param completion callback that gets the token.
  *
  */
-+ (void)tokenAsync:(MSStorageIngestion *)httpIngestion
-           partitions:(NSMutableArray *)partitions
++ (void)performDbTokenAsyncOperationWithHttpClient:(MSStorageIngestion *)httpIngestion
+           partition:(NSString *)partition
     completionHandler:(MSGetTokenAsyncCompletionHandler)completion;
+
++ (void)removeAllCachedTokens;
 
 @end
 

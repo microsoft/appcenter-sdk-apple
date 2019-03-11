@@ -98,10 +98,10 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
                    });
                  }];
   }
-
+    
   // Start App Center SDK.
   NSArray<Class> *services =
-      @ [ [MSDataStorage class]];
+       @ [[MSAnalytics class], [MSCrashes class], [MSDataStorage class], [MSDistribute class], [MSIdentity class], [MSPush class]];
   NSInteger startTarget = [[NSUserDefaults standardUserDefaults] integerForKey:kMSStartTargetKey];
   switch (startTarget) {
   case APPCENTER:

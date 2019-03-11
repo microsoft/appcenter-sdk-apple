@@ -21,13 +21,7 @@
     if (count > 0) {
       NSMutableArray *tokenArray = [[NSMutableArray alloc] initWithCapacity:count];
       for (NSDictionary *dic in tokens[kMSTokens]) {
-        MSTokenResult *result = [[MSTokenResult alloc] initWithPartition:dic[kMSPartition]
-                                                               dbAccount:dic[kMSDbAccount]
-                                                                  dbName:dic[kMSDbName]
-                                                        dbCollectionName:dic[kMSDbCollectionName]
-                                                                   token:dic[kMSToken]
-                                                                  status:dic[kMSStatus]
-                                                               expiresOn:dic[kMSExpiresOn]];
+        MSTokenResult *result = [[MSTokenResult alloc] initWithDictionary:dic];
         [tokenArray addObject:result];
       }
       _tokens = tokenArray;

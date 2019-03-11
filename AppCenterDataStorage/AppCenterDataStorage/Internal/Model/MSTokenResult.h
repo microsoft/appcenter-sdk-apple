@@ -60,6 +60,8 @@
 
 - (instancetype)initWithString:(NSString *)tokenString;
 
+- (instancetype)initWithDictionary:(NSDictionary *)tokens;
+
 -(NSString *) serializeToString;
 
 @end
