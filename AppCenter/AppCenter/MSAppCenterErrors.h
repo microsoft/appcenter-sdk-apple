@@ -23,7 +23,7 @@ NS_ENUM(NSInteger){kMSACConnectionPausedErrorCode = 100, kMSACConnectionHttpErro
 
 // Error descriptions
 static NSString const *kMSACConnectionHttpErrorDesc = @"An HTTP error occured.";
-static NSString const *kMSACConnectionPausedErrorDesc = @"Cancelled, connection paused with log deletion.";
+static NSString const *kMSACConnectionPausedErrorDesc = @"Canceled, connection paused with log deletion.";
 
 // Error user info keys
 static NSString const *kMSACConnectionHttpCodeErrorKey = MS_APP_CENTER_BASE_DOMAIN "HttpCodeKey";
