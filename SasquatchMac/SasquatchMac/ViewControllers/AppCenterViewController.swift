@@ -101,6 +101,7 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate, NSTextVie
   @IBAction func startupModeChanged(_ sender: NSComboBox) {
     let indexNumber = startupModeField.indexOfItem(withObjectValue: startupModeField.stringValue)
     UserDefaults.standard.set(indexNumber, forKey: kMSStartTargetKey)
+    UserDefaults.standard.removeObject(forKey: kMSLogUrl)
   }
 
   // Storage Max Size
