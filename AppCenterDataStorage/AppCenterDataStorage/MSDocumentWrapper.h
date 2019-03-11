@@ -64,8 +64,7 @@
  *
  * @return A new `MSDocumentWrapper` instance.
  */
-- (instancetype)initWithError:(NSError *)error
-                   documetnId:(NSString *)documentId;
+- (instancetype)initWithError:(NSError *)error documetnId:(NSString *)documentId;
 
 /**
  * Check if the document is from the device cache.

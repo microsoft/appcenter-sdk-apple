@@ -5,9 +5,9 @@
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitProtocol.h"
 #import "MSCosmosDb.h"
+#import "MSDataSourceError.h"
 #import "MSDataStoreInternal.h"
 #import "MSDataStorePrivate.h"
-#import "MSDataSourceError.h"
 #import "MSDocumentWrapper.h"
 #import "MSHttpIngestion.h"
 #import "MSPaginatedDocuments.h"
@@ -100,7 +100,11 @@ static dispatch_once_t onceToken;
                  documentId:(NSString *)documentId
                    document:(id<MSSerializableDocument>)document
           completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
-  [[MSDataStore sharedInstance] createWithPartition:partition documentId:documentId document:document writeOptions:nil completionHandler:completionHandler];
+  [[MSDataStore sharedInstance] createWithPartition:partition
+                                         documentId:documentId
+                                           document:document
+                                       writeOptions:nil
+                                  completionHandler:completionHandler];
 }
 
 + (void)createWithPartition:(NSString *)partition
@@ -108,7 +112,11 @@ static dispatch_once_t onceToken;
                    document:(id<MSSerializableDocument>)document
                writeOptions:(MSWriteOptions *)writeOptions
           completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
-  [[MSDataStore sharedInstance] createWithPartition:partition documentId:documentId document:document writeOptions:writeOptions completionHandler:completionHandler];
+  [[MSDataStore sharedInstance] createWithPartition:partition
+                                         documentId:documentId
+                                           document:document
+                                       writeOptions:writeOptions
+                                  completionHandler:completionHandler];
 }
 
 + (void)replaceWithPartition:(NSString *)partition
@@ -161,27 +169,26 @@ static dispatch_once_t onceToken;
                    document:(id<MSSerializableDocument>)document
                writeOptions:(MSWriteOptions *)__unused writeOptions
           completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
-  
-  [MSTokenExchange tokenAsync:(MSStorageIngestion *)self.ingestion
-                   partitions:@[partition]
-            completionHandler:^(MSTokensResponse *_Nonnull tokenResponses, NSError *_Nonnull error) {
 
+  [MSTokenExchange tokenAsync:(MSStorageIngestion *)self.ingestion
+                   partitions:@[ partition ]
+            completionHandler:^(MSTokensResponse *_Nonnull tokenResponses, NSError *_Nonnull error) {
               // If error getting token.
               if (error && !tokenResponses) {
                 MSLogError([MSDataStore logTag], @"Can't get CosmosDb token:%@", [error description]);
                 completionHandler([[MSDocumentWrapper alloc] initWithError:error documetnId:documentId]);
               }
-              
+
               // Create http client.
               MSCosmosDbIngestion *cosmosDbIngestion = [[MSCosmosDbIngestion alloc] init];
-              
+
               NSError *serializationError;
               NSData *body = [NSJSONSerialization dataWithJSONObject:[document serializeToDictionary] options:0 error:&serializationError];
-              if(!body && serializationError){
+              if (!body && serializationError) {
                 MSLogError([MSDataStore logTag], @"Error serializing data:%@", [serializationError description]);
                 completionHandler([[MSDocumentWrapper alloc] initWithError:serializationError documetnId:documentId]);
               }
-              
+
               // Call CosmosDb.
               [MSCosmosDb performCosmosDbAsyncOperationWithHttpClient:(MSCosmosDbIngestion *)cosmosDbIngestion
                                                           tokenResult:tokenResponses.tokens[0]
@@ -189,18 +196,20 @@ static dispatch_once_t onceToken;
                                                              httpVerb:@"POST"
                                                                  body:body
                                                     completionHandler:^(NSData *_Nonnull data, NSError *_Nonnull cosmosDbError) {
-                                                      
                                                       if (cosmosDbError || data != nil) {
                                                         // Create a document.
-                                                        MSDocumentWrapper *docWrapper = [[MSDocumentWrapper alloc] initWithDeserializedValue:document partition:partition documetnId:documentId etag:@"myEtag" lastUpdatedDate:[NSDate date]];
+                                                        MSDocumentWrapper *docWrapper =
+                                                            [[MSDocumentWrapper alloc] initWithDeserializedValue:document
+                                                                                                       partition:partition
+                                                                                                      documetnId:documentId
+                                                                                                            etag:@"myEtag"
+                                                                                                 lastUpdatedDate:[NSDate date]];
                                                         MSLogDebug([MSDataStore logTag], @"Document created:%@", data);
                                                         completionHandler(docWrapper);
                                                       }
                                                     }];
-
             }];
 }
-
 
 #pragma mark - MSServiceInternal
 

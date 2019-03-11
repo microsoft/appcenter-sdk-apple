@@ -24,11 +24,11 @@ typedef void (^MSCosmosDbCompletionHandler)(NSData *data, NSError *error);
  * @param completionHandler Completion handler callback.
  */
 + (void)performCosmosDbAsyncOperationWithHttpClient:(MSCosmosDbIngestion *)httpClient
-          tokenResult:(MSTokenResult *)tokenResult
-           documentId:(NSString *)documentId
-             httpVerb:(NSString *)httpVerb
-                 body:(NSData *)body
-    completionHandler:(MSCosmosDbCompletionHandler)completionHandler;
+                                        tokenResult:(MSTokenResult *)tokenResult
+                                         documentId:(NSString *)documentId
+                                           httpVerb:(NSString *)httpVerb
+                                               body:(NSData *)body
+                                  completionHandler:(MSCosmosDbCompletionHandler)completionHandler;
 
 @end
 

@@ -27,15 +27,14 @@
   return self;
 }
 
-- (instancetype)initWithError:(NSError *)error
-                   documetnId:(NSString *)documentId {
+- (instancetype)initWithError:(NSError *)error documetnId:(NSString *)documentId {
   if ((self = [super init])) {
     _documentId = documentId;
     _error = [[MSDataSourceError alloc] initWithError:error];
   }
   return self;
 }
-  
+
 - (BOOL)fromDeviceCache {
   // @todo
   return false;

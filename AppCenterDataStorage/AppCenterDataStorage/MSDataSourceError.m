@@ -2,7 +2,7 @@
 
 @implementation MSDataSourceError
 
-@synthesize error= _error;
+@synthesize error = _error;
 
 - (instancetype)initWithError:(NSError *)error {
   if ((self = [super init])) {
