@@ -49,6 +49,12 @@ class AppCenterDelegateSwift: AppCenterDelegate {
     return "Internal"
   }
 
+  func configURL() -> String {
+    // TODO: Uncomment when configURL is moved from internal to public
+    // return MSAppCenter.sharedInstance().logUrl()
+    return "Internal"
+  }
+
   func sdkVersion() -> String {
     return MSAppCenter.sdkVersion()
   }
@@ -63,6 +69,10 @@ class AppCenterDelegateSwift: AppCenterDelegate {
 
   func setUserId(_ userId: String?) {
     MSAppCenter.setUserId(userId);
+  }
+
+  func setConfigURL(_ configURL: String?) {
+    MSIdentity.setConfigURL(configURL!)
   }
   
   func setCountryCode(_ countryCode: String?) {

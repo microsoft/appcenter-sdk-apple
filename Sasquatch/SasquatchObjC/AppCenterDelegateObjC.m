@@ -11,6 +11,7 @@
 // Internal
 #import "MSAnalyticsInternal.h"
 #import "MSAppCenterInternal.h"
+#import "MSIdentityPrivate.h"
 
 #else
 @import AppCenter;
@@ -56,6 +57,14 @@
 #endif
 }
 
+- (NSString *)configURL {
+#if GCC_PREPROCESSOR_MACRO_PUPPET
+  return [MSIdentity sharedInstance].configURL;
+#else
+  return @"Internal";
+#endif
+}
+
 - (NSString *)sdkVersion {
   return [MSAppCenter sdkVersion];
 }
@@ -74,6 +83,10 @@
 
 - (void)setUserId:(NSString *)userId {
   [MSAppCenter setUserId:userId];
+}
+
+- (void)setConfigURL:(NSString *)configURL {
+  [MSIdentity setConfigURL:configURL];
 }
 
 - (void)setCountryCode:(NSString *)countryCode {

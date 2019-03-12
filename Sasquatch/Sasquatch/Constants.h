@@ -30,6 +30,7 @@ static NSString *const kMSStartTargetKey = @"startTarget";
 static NSString *const kMSStorageMaxSizeKey = @"storageMaxSize";
 static NSNotificationName const kUpdateAnalyticsResultNotification = @"updateAnalyticsResult";
 static NSString *const kMSUserIdKey = @"userId";
+static NSString *const kMSConfigURLKey = @"configURL";
 
 #ifdef SQLITE_DEFAULT_PAGE_SIZE
 static int const kMSStoragePageSize = SQLITE_DEFAULT_PAGE_SIZE;

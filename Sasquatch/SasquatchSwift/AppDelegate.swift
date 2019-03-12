@@ -59,6 +59,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
         }
       })
     }
+    let configURL = UserDefaults.standard.string(forKey: kMSConfigURLKey)
+    if configURL != nil {
+      MSIdentity.setConfigURL(configURL!)
+    }
 
     // Start App Center SDK.
     let appSecret = "0dbca56b-b9ae-4d53-856a-7c2856137d85"

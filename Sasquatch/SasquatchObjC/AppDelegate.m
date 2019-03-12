@@ -96,6 +96,10 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
                    });
                  }];
   }
+  NSString *configURL = [[NSUserDefaults standardUserDefaults] objectForKey:kMSConfigURLKey];
+  if (configURL) {
+    [MSIdentity setConfigURL:configURL];
+  }
 
   // Start App Center SDK.
   NSArray<Class> *services = @ [[MSAnalytics class], [MSCrashes class], [MSDistribute class], [MSIdentity class], [MSPush class]];
