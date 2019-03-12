@@ -216,7 +216,7 @@ static dispatch_once_t onceToken;
             performCosmosDbAsyncOperationWithHttpClient:(MSCosmosDbIngestion *)cosmosDbIngestion
                                             tokenResult:tokenResponses.tokens[0]
                                              documentId:@""
-                                               httpVerb:@"POST"
+                                             httpMethod:@"POST"
                                                    body:body
                                       completionHandler:^(NSData *_Nonnull data, NSError *_Nonnull cosmosDbError) {
                                         // If not created.

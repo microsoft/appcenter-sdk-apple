@@ -19,14 +19,14 @@ typedef void (^MSCosmosDbCompletionHandler)(NSData *data, NSError *error);
  * @param httpClient Http client to call perform http calls .
  * @param tokenResult Token result object containing token value used to call CosmosDb Api.
  * @param documentId Document Id.
- * @param httpVerb Http verb.
+ * @param httpMethod Http method.
  * @param body Http body.
  * @param completionHandler Completion handler callback.
  */
 + (void)performCosmosDbAsyncOperationWithHttpClient:(MSCosmosDbIngestion *)httpClient
                                         tokenResult:(MSTokenResult *)tokenResult
                                          documentId:(NSString *)documentId
-                                           httpVerb:(NSString *)httpVerb
+                                         httpMethod:(NSString *)httpMethod
                                                body:(NSData *)body
                                   completionHandler:(MSCosmosDbCompletionHandler)completionHandler;
 
