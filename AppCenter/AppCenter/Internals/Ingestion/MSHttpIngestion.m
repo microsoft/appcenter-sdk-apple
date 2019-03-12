@@ -64,7 +64,8 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
     _callsRetryIntervals = retryIntervals;
     _apiPath = apiPath;
     _maxNumberOfConnections = maxNumberOfConnections;
-
+    _baseURL = baseUrl;
+    
     // Construct the URL string with the query string.
     NSMutableString *urlString = [NSMutableString stringWithFormat:@"%@%@", baseUrl, apiPath];
     __block NSMutableString *queryStringForEncoding = [NSMutableString new];

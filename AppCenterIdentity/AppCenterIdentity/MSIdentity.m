@@ -34,6 +34,7 @@ static dispatch_once_t onceToken;
   if ((self = [super init])) {
     _channelUnitConfiguration = [[MSChannelUnitConfiguration alloc] initDefaultConfigurationWithGroupId:[self groupId]];
     _appDelegate = [MSIdentityAppDelegate new];
+    _configURL = kMSIdentityDefaultBaseURL;
     [MSUtility createDirectoryForPathComponent:kMSIdentityPathComponent];
   }
   return self;
@@ -106,6 +107,7 @@ static dispatch_once_t onceToken;
     [self clearConfigurationCache];
     [self.channelGroup removeDelegate:self];
     self.ingestion = nil;
+    self.configURL = kMSIdentityDefaultBaseURL;
     NSError *error = [[NSError alloc] initWithDomain:MSIdentityErrorDomain
                                                 code:MSIdentityErrorServiceDisabled
                                             userInfo:@{MSIdentityErrorDescriptionKey : @"Identity is disabled."}];
@@ -197,7 +199,7 @@ static dispatch_once_t onceToken;
 }
 
 + (void)setConfigURL:(NSString *)configURL {
-  (void)configURL;
+  [MSIdentity sharedInstance].configURL = configURL;
 }
 
 - (void)completeSignInWithErrorCode:(NSInteger)errorCode andMessage:(NSString *)errorMessage {
@@ -246,7 +248,7 @@ static dispatch_once_t onceToken;
 
 - (MSIdentityConfigIngestion *)ingestion {
   if (!_ingestion) {
-    _ingestion = [[MSIdentityConfigIngestion alloc] initWithBaseUrl:kMSIdentityDefaultBaseUrl appSecret:self.appSecret];
+    _ingestion = [[MSIdentityConfigIngestion alloc] initWithBaseURL:self.configURL appSecret:self.appSecret];
   }
   return _ingestion;
 }

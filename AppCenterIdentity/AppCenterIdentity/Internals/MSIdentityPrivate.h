@@ -24,9 +24,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, nullable) MSIdentityConfig *identityConfig;
 
 /**
- * URL of the remote configuration file.
+ * Base URL of the remote configuration file.
  */
-@property(atomic, copy) NSString *identityConfigUrl;
+@property(atomic, copy, nullable) NSString *configURL;
 
 /**
  * Ingestion instance (should not be deallocated).

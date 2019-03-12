@@ -987,13 +987,13 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [identityMock stopMocking];
 }
 
-- (void)testDefaultConfigUrl {
+- (void)testDefaultConfigURL {
 
   // Then
-  XCTAssertEqualObjects(self.sut.identityConfigUrl, kMSIdentityDefaultBaseUrl);
+  XCTAssertEqualObjects(self.sut.configURL, kMSIdentityDefaultBaseURL);
 }
 
-- (void)testConfigUrlFormat {
+- (void)testConfigURLIsPassedToIngestionWhenSetBeforeServiceStart {
 
   // If
   NSString *baseConfigURL = @"https://baseconfigurl.com";

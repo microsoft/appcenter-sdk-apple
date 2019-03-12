@@ -15,12 +15,12 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Initialize the Ingestion.
  *
- * @param baseUrl Base url.
+ * @param baseURL Base URL.
  * @param appSecret A unique and secret key used to identify the application.
  *
  * @return An ingestion instance.
  */
-- (id)initWithBaseUrl:(nullable NSString *)baseUrl appSecret:(NSString *)appSecret;
+- (id)initWithBaseURL:(nullable NSString *)baseURL appSecret:(NSString *)appSecret;
 
 @end
 
