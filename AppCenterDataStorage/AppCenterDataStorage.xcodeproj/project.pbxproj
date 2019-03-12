@@ -105,6 +105,8 @@
 		E824A5482225FDAC005B69B5 /* MSDataStoreInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = E824A5472225FDAC005B69B5 /* MSDataStoreInternal.h */; };
 		E824A549222600C3005B69B5 /* MSDataStorePrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5F081E5C8156001627AB /* MSDataStorePrivate.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		E824A54A222600C6005B69B5 /* MSDataStoreInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = E824A5472225FDAC005B69B5 /* MSDataStoreInternal.h */; };
+		E83D121E22378143002B6585 /* MSDocumentUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = E83D121C22378143002B6585 /* MSDocumentUtils.h */; };
+		E83D121F22378143002B6585 /* MSDocumentUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E83D121D22378143002B6585 /* MSDocumentUtils.m */; };
 		E8593A16222B91B20001F87E /* MSCosmosDb.h in Headers */ = {isa = PBXBuildFile; fileRef = E8593A14222B91B20001F87E /* MSCosmosDb.h */; };
 		E8593A17222B91B20001F87E /* MSCosmosDb.m in Sources */ = {isa = PBXBuildFile; fileRef = E8593A15222B91B20001F87E /* MSCosmosDb.m */; };
 		E8593A19222B91C90001F87E /* MSCosmosDb.h in Headers */ = {isa = PBXBuildFile; fileRef = E8593A14222B91B20001F87E /* MSCosmosDb.h */; };
@@ -224,6 +226,9 @@
 		E824A53D2225E80E005B69B5 /* MSStorageIngestion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSStorageIngestion.m; sourceTree = "<group>"; };
 		E824A53E2225E80E005B69B5 /* MSStorageIngestion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSStorageIngestion.h; sourceTree = "<group>"; };
 		E824A5472225FDAC005B69B5 /* MSDataStoreInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDataStoreInternal.h; sourceTree = "<group>"; };
+		E83D121C22378143002B6585 /* MSDocumentUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDocumentUtils.h; sourceTree = "<group>"; };
+		E83D121D22378143002B6585 /* MSDocumentUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDocumentUtils.m; sourceTree = "<group>"; };
+		E83D122022378296002B6585 /* MSDataStorageConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSDataStorageConstants.h; sourceTree = "<group>"; };
 		E8593A14222B91B20001F87E /* MSCosmosDb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSCosmosDb.h; sourceTree = "<group>"; };
 		E8593A15222B91B20001F87E /* MSCosmosDb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSCosmosDb.m; sourceTree = "<group>"; };
 		E8593A1A222BA37B0001F87E /* MSCosmosDbIngestion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSCosmosDbIngestion.m; sourceTree = "<group>"; };
@@ -411,6 +416,7 @@
 		D3AD5F071E5C8136001627AB /* Internal */ = {
 			isa = PBXGroup;
 			children = (
+				E83D121B223780E9002B6585 /* Util */,
 				E8DADEF0222864C800587E15 /* Model */,
 				E824A53C2225E7C6005B69B5 /* Ingestion */,
 				E86B95D62224B54E0062E552 /* Client */,
@@ -443,6 +449,16 @@
 				E824A53D2225E80E005B69B5 /* MSStorageIngestion.m */,
 			);
 			path = Ingestion;
+			sourceTree = "<group>";
+		};
+		E83D121B223780E9002B6585 /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				E83D121C22378143002B6585 /* MSDocumentUtils.h */,
+				E83D121D22378143002B6585 /* MSDocumentUtils.m */,
+				E83D122022378296002B6585 /* MSDataStorageConstants.h */,
+			);
+			path = Util;
 			sourceTree = "<group>";
 		};
 		E86B95D62224B54E0062E552 /* Client */ = {
@@ -517,6 +533,7 @@
 				267464F2222F28A300EC1FF3 /* MSDataStore.h in Headers */,
 				2600124022273E94007F4D3A /* MSTokensResponse.h in Headers */,
 				267464ED222F28A300EC1FF3 /* MSPage.h in Headers */,
+				E83D121E22378143002B6585 /* MSDocumentUtils.h in Headers */,
 				267464F0222F28A300EC1FF3 /* MSPaginatedDocuments.h in Headers */,
 				D3AD5F121E5C847B001627AB /* MSDataStorePrivate.h in Headers */,
 				E8593A16222B91B20001F87E /* MSCosmosDb.h in Headers */,
@@ -783,6 +800,7 @@
 				2600124122273E94007F4D3A /* MSTokenResult.m in Sources */,
 				E8593A17222B91B20001F87E /* MSCosmosDb.m in Sources */,
 				E824A5412225E80E005B69B5 /* MSStorageIngestion.m in Sources */,
+				E83D121F22378143002B6585 /* MSDocumentUtils.m in Sources */,
 				267464F4222F28A300EC1FF3 /* MSDocumentWrapper.m in Sources */,
 				267464F8222F28A300EC1FF3 /* MSPaginatedDocuments.m in Sources */,
 				267464EE222F28A300EC1FF3 /* MSDataSourceError.m in Sources */,

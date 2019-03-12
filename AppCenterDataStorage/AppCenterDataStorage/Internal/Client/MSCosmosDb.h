@@ -5,8 +5,8 @@ NS_ASSUME_NONNULL_BEGIN
 typedef void (^MSCosmosDbCompletionHandler)(NSData *data, NSError *error);
 
 @class MSCosmosDbIngestion;
-@class MSTokenResult;
 @class MSSerializableDocument;
+@class MSTokenResult;
 
 /**
  * This class performs CRUD operation in CosmosDb via an Http client.

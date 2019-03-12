@@ -15,7 +15,7 @@
 @property(nonatomic, strong, readonly) T deserializedValue;
 
 /**
- * Partition.
+ * Cosmos Db document partition.
  */
 @property(nonatomic, strong, readonly) NSString *partition;
 
@@ -25,9 +25,9 @@
 @property(nonatomic, strong, readonly) NSString *documentId;
 
 /**
- * Document Etag.
+ * Document eTag.
  */
-@property(nonatomic, strong, readonly) NSString *etag;
+@property(nonatomic, strong, readonly) NSString *eTag;
 
 /**
  * Last update timestamp.
@@ -45,15 +45,15 @@
  * @param deserializedValue The document value. Must conform to MSSerializableDocument protocol.
  * @param partition Partition key.
  * @param documentId Document id.
- * @param etag Document etag.
+ * @param eTag Document eTag.
  * @param lastUpdatedDate Last updated date of the document.
  *
  * @return A new `MSDocumentWrapper` instance.
  */
 - (instancetype)initWithDeserializedValue:(T)deserializedValue
                                 partition:(NSString *)partition
-                               documetnId:(NSString *)documentId
-                                     etag:(NSString *)etag
+                               documentId:(NSString *)documentId
+                                     eTag:(NSString *)eTag
                           lastUpdatedDate:(NSDate *)lastUpdatedDate;
 
 /**
@@ -64,7 +64,7 @@
  *
  * @return A new `MSDocumentWrapper` instance.
  */
-- (instancetype)initWithError:(NSError *)error documetnId:(NSString *)documentId;
+- (instancetype)initWithError:(NSError *)error documentId:(NSString *)documentId;
 
 /**
  * Check if the document is from the device cache.
