@@ -1,3 +1,12 @@
+#import <Foundation/Foundation.h>
+
+static NSString *const kMSDevice = @"device";
+static NSString *const kMSDistributionGroupId = @"distributionGroupId";
+static NSString *const kMSSId = @"sid";
+static NSString *const kMSType = @"type";
+static NSString *const kMSTimestamp = @"timestamp";
+static NSString *const kMSUserId = @"userId";
+
 @interface MSAbstractLog ()
 
 /**

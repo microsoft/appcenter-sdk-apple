@@ -1,5 +1,4 @@
 #import "MSStringTypedProperty.h"
-#import "MSACModelConstants.h"
 
 @implementation MSStringTypedProperty
 

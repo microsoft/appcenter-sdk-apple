@@ -2,6 +2,8 @@
 
 #import "MSTypedProperty.h"
 
+static NSString *const kMSDoubleTypedPropertyType = @"double";
+
 @interface MSDoubleTypedProperty : MSTypedProperty
 
 /**

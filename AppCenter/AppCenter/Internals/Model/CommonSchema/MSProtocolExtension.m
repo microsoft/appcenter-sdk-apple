@@ -1,5 +1,4 @@
 #import "MSProtocolExtension.h"
-#import "MSCSModelConstants.h"
 
 @implementation MSProtocolExtension
 
