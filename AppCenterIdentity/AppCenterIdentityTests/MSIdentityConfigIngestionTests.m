@@ -18,7 +18,7 @@
   NSString *apiPath = [NSString stringWithFormat:@"/identity/%@.json", appSecret];
   NSDictionary *header = @{@"If-None-Match" : @"eTag"};
   NSString *eTag = @"eTag";
-  MSIdentityConfigIngestion *ingestion = [[MSIdentityConfigIngestion alloc] initWithBaseUrl:baseUrl appSecret:appSecret];
+  MSIdentityConfigIngestion *ingestion = [[MSIdentityConfigIngestion alloc] initWithBaseURL:baseUrl appSecret:appSecret];
 
   // When
   NSURLRequest *request = [ingestion createRequest:[NSData new] eTag:eTag];
@@ -37,7 +37,7 @@
   NSString *baseUrl = @"https://contoso.com";
   NSString *appSecret = @"secret";
   NSString *apiPath = [NSString stringWithFormat:@"/identity/%@.json", appSecret];
-  MSIdentityConfigIngestion *ingestion = [[MSIdentityConfigIngestion alloc] initWithBaseUrl:baseUrl appSecret:appSecret];
+  MSIdentityConfigIngestion *ingestion = [[MSIdentityConfigIngestion alloc] initWithBaseURL:baseUrl appSecret:appSecret];
 
   // When
   NSURLRequest *request = [ingestion createRequest:[NSData new] eTag:nil];
@@ -51,7 +51,7 @@
 
   // If
   [MSLogger setCurrentLogLevel:MSLogLevelVerbose];
-  MSIdentityConfigIngestion *ingestion1 = [[MSIdentityConfigIngestion alloc] initWithBaseUrl:baseUrl appSecret:appSecret];
+  MSIdentityConfigIngestion *ingestion1 = [[MSIdentityConfigIngestion alloc] initWithBaseURL:baseUrl appSecret:appSecret];
 
   // When
   NSURLRequest *request1 = [ingestion1 createRequest:[NSData new] eTag:nil];

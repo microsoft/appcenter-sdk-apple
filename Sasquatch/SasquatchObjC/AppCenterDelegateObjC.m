@@ -11,6 +11,7 @@
 // Internal
 #import "MSAnalyticsInternal.h"
 #import "MSAppCenterInternal.h"
+#import "MSIdentityPrivate.h"
 
 #else
 @import AppCenter;

@@ -9,15 +9,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-// The eTag key to store the eTag of current configuration.
-static NSString *const kMSIdentityETagKey = @"MSIdentityETagKey";
-
-// The key for Identity auth token stored in keychain.
-static NSString *const kMSIdentityAuthTokenKey = @"MSIdentityAuthToken";
-
-// The key for the MSALAccount homeAccountId stored in user defaults.
-static NSString *const kMSIdentityMSALAccountHomeAccountKey = @"MSIdentityMSALAccountHomeAccount";
-
 @class MSALPublicClientApplication;
 
 @interface MSIdentity () <MSServiceInternal, MSChannelDelegate>
@@ -31,6 +22,11 @@ static NSString *const kMSIdentityMSALAccountHomeAccountKey = @"MSIdentityMSALAc
  * The configuration for the Identity service.
  */
 @property(nonatomic, nullable) MSIdentityConfig *identityConfig;
+
+/**
+ * Base URL of the remote configuration file.
+ */
+@property(atomic, copy, nullable) NSString *configURL;
 
 /**
  * Ingestion instance (should not be deallocated).

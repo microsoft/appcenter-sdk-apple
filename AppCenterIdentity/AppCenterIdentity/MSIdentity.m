@@ -8,6 +8,7 @@
 #import "MSIdentityAppDelegate.h"
 #import "MSIdentityConfig.h"
 #import "MSIdentityConfigIngestion.h"
+#import "MSIdentityConstants.h"
 #import "MSIdentityPrivate.h"
 #import "MSKeychainUtil.h"
 #import "MSServiceAbstractProtected.h"
@@ -18,14 +19,6 @@ static NSString *const kMSServiceName = @"Identity";
 
 // The group Id for storage.
 static NSString *const kMSGroupId = @"Identity";
-
-// The path component of Identity for configuration.
-static NSString *const kMSIdentityPathComponent = @"identity";
-
-// The Identity config file name.
-static NSString *const kMSIdentityConfigFilename = @"config.json";
-
-static NSString *const kMSIdentityBaseUrl = @"https://mobilecentersdkdev.blob.core.windows.net";
 
 // Singleton
 static MSIdentity *sharedInstance = nil;
@@ -41,6 +34,7 @@ static dispatch_once_t onceToken;
   if ((self = [super init])) {
     _channelUnitConfiguration = [[MSChannelUnitConfiguration alloc] initDefaultConfigurationWithGroupId:[self groupId]];
     _appDelegate = [MSIdentityAppDelegate new];
+    _configURL = kMSIdentityDefaultBaseURL;
     [MSUtility createDirectoryForPathComponent:kMSIdentityPathComponent];
   }
   return self;
@@ -148,8 +142,8 @@ static dispatch_once_t onceToken;
   sharedInstance = nil;
 }
 
-+ (BOOL)openURL:(NSURL *)url {
-  return [MSALPublicClientApplication handleMSALResponse:url];
++ (BOOL)openURL:(NSURL *)URL {
+  return [MSALPublicClientApplication handleMSALResponse:URL];
 }
 
 + (void)signInWithCompletionHandler:(MSSignInCompletionHandler _Nullable)completionHandler {
@@ -203,6 +197,10 @@ static dispatch_once_t onceToken;
   }
 }
 
++ (void)setConfigURL:(NSString *)configURL {
+  [MSIdentity sharedInstance].configURL = configURL;
+}
+
 - (void)completeSignInWithErrorCode:(NSInteger)errorCode andMessage:(NSString *)errorMessage {
   if (!self.signInCompletionHandler) {
     return;
@@ -249,7 +247,7 @@ static dispatch_once_t onceToken;
 
 - (MSIdentityConfigIngestion *)ingestion {
   if (!_ingestion) {
-    _ingestion = [[MSIdentityConfigIngestion alloc] initWithBaseUrl:kMSIdentityBaseUrl appSecret:self.appSecret];
+    _ingestion = [[MSIdentityConfigIngestion alloc] initWithBaseURL:self.configURL appSecret:self.appSecret];
   }
   return _ingestion;
 }
