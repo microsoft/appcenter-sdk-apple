@@ -1001,9 +1001,9 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   // When
   [MSIdentity setConfigURL:baseConfigURL];
   [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
-                                           appSecret:kMSTestAppSecret
-                             transmissionTargetToken:nil
-                                     fromApplication:YES];
+                        appSecret:kMSTestAppSecret
+          transmissionTargetToken:nil
+                  fromApplication:YES];
 
   // Then
   XCTAssertNotNil(self.sut.ingestion);

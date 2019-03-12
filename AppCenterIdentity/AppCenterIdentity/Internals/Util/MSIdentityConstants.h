@@ -32,4 +32,3 @@ static NSString *const kMSIdentityAuthTokenKey = @"MSIdentityAuthToken";
  *The key for the MSALAccount homeAccountId stored in user defaults.
  */
 static NSString *const kMSIdentityMSALAccountHomeAccountKey = @"MSIdentityMSALAccountHomeAccount";
-
