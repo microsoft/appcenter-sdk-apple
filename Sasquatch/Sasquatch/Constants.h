@@ -37,4 +37,4 @@ static int const kMSStoragePageSize = SQLITE_DEFAULT_PAGE_SIZE;
 static int const kMSStoragePageSize = 4096;
 #endif
 
-static const NSString *kMSIntConfigUrl = @"https://mobilecentersdkdev.blob.core.windows.net";
+static const NSString *kMSIntConfigUrl = @"https://config-integration.dev.avalanch.es";

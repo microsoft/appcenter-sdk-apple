@@ -17,12 +17,10 @@ import AppCenterAnalytics
   func installId() -> String
   func appSecret() -> String
   func logUrl() -> String
-  func configURL() -> String
   func sdkVersion() -> String
   func isDebuggerAttached() -> Bool
   func startAnalyticsFromLibrary()
   func setUserId(_ userId: String?)
-  func setConfigURL(_ configURL: String?)
   func setCountryCode(_ countryCode: String?)
   
   // Modules section.

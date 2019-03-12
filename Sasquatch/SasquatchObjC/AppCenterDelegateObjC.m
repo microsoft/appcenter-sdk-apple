@@ -57,14 +57,6 @@
 #endif
 }
 
-- (NSString *)configURL {
-#if GCC_PREPROCESSOR_MACRO_PUPPET
-  return [MSIdentity sharedInstance].configURL;
-#else
-  return @"Internal";
-#endif
-}
-
 - (NSString *)sdkVersion {
   return [MSAppCenter sdkVersion];
 }
@@ -83,10 +75,6 @@
 
 - (void)setUserId:(NSString *)userId {
   [MSAppCenter setUserId:userId];
-}
-
-- (void)setConfigURL:(NSString *)configURL {
-  [MSIdentity setConfigURL:configURL];
 }
 
 - (void)setCountryCode:(NSString *)countryCode {
