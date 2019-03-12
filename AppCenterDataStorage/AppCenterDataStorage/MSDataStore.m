@@ -195,10 +195,11 @@ static dispatch_once_t onceToken;
         if (error || !tokenResponses) {
           MSLogError([MSDataStore logTag], @"Can't get CosmosDb token:%@", [error description]);
           completionHandler([[MSDocumentWrapper alloc] initWithError:error documentId:documentId]);
+          return;
         }
 
         // Create http client.
-        MSCosmosDbIngestion *cosmosDbIngestion = [MSCosmosDbIngestion new];
+        MSCosmosDbIngestion *cosmosDbIngestion = [[MSCosmosDbIngestion alloc] init];
 
         // Create document payload.
         NSError *serializationError;
@@ -209,6 +210,7 @@ static dispatch_once_t onceToken;
         if (!body || serializationError) {
           MSLogError([MSDataStore logTag], @"Error serializing data:%@", [serializationError description]);
           completionHandler([[MSDocumentWrapper alloc] initWithError:serializationError documentId:documentId]);
+          return;
         }
 
         // Call CosmosDb.
@@ -224,6 +226,7 @@ static dispatch_once_t onceToken;
                                         if (!data || [errorCode integerValue] != 201) {
                                           MSLogError([MSDataStore logTag], @"Not able to create document:%@", [cosmosDbError description]);
                                           completionHandler([[MSDocumentWrapper alloc] initWithError:cosmosDbError documentId:documentId]);
+                                          return;
                                         }
 
                                         // Deserialize.
@@ -247,6 +250,7 @@ static dispatch_once_t onceToken;
                                                                                                              lastUpdatedDate:date];
                                         MSLogDebug([MSDataStore logTag], @"Document created:%@", data);
                                         completionHandler(docWrapper);
+                                        return;
                                       }];
       }];
 }
