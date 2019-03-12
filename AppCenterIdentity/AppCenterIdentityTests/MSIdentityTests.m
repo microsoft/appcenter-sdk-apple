@@ -1000,22 +1000,6 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   XCTAssertEqualObjects(self.sut.ingestion.baseURL, kMSIdentityDefaultBaseURL);
 }
 
-- (void)testConfigUrlResetsToDefaultWhenDisabledAndEnabled {
-
-  // When
-  [MSIdentity setConfigURL:@"something dot com"];
-  [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
-                        appSecret:kMSTestAppSecret
-          transmissionTargetToken:nil
-                  fromApplication:YES];
-  [self.sut setEnabled:NO];
-  [self.sut setEnabled:YES];
-
-  // Then
-  XCTAssertNotNil(self.sut.ingestion);
-  XCTAssertEqualObjects(self.sut.ingestion.baseURL, kMSIdentityDefaultBaseURL);
-}
-
 - (void)testConfigURLIsPassedToIngestionWhenSetBeforeServiceStart {
 
   // If

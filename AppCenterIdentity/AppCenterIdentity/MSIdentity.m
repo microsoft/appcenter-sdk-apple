@@ -107,7 +107,6 @@ static dispatch_once_t onceToken;
     [self clearConfigurationCache];
     [self.channelGroup removeDelegate:self];
     self.ingestion = nil;
-    self.configURL = kMSIdentityDefaultBaseURL;
     NSError *error = [[NSError alloc] initWithDomain:MSIdentityErrorDomain
                                                 code:MSIdentityErrorServiceDisabled
                                             userInfo:@{MSIdentityErrorDescriptionKey : @"Identity is disabled."}];
