@@ -13,10 +13,11 @@ import AppCenter
   func setCustomProperties(_ customProperties: MSCustomProperties)
   func installId() -> String
   func appSecret() -> String
-  func logUrl() -> String
   func isDebuggerAttached() -> Bool
   func startAnalyticsFromLibrary()
   func setUserId(_ userId: String?)
+  func setLogUrl(_ logUrl: String?)
+  func setCountryCode(_ countryCode: String?)
 
   // Modules section.
   func isAnalyticsEnabled() -> Bool

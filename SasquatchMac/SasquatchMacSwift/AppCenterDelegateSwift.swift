@@ -15,6 +15,9 @@ class AppCenterDelegateSwift : AppCenterDelegate {
   func setAppCenterEnabled(_ isEnabled: Bool) {
     MSAppCenter.setEnabled(isEnabled)
   }
+  func setCountryCode(_ countryCode: String?) {
+    MSAppCenter.setCountryCode(countryCode)
+  }
   func setCustomProperties(_ customProperties: MSCustomProperties){
     MSAppCenter.setCustomProperties(customProperties)
   }
@@ -26,11 +29,6 @@ class AppCenterDelegateSwift : AppCenterDelegate {
     // return MSAppCenter.sharedInstance().appSecret()
     return "Internal"
   }
-  func logUrl() -> String {
-    // TODO: Uncomment when logUrl is moved from internal to public
-    // return MSAppCenter.sharedInstance().logUrl()
-    return "Internal"
-  }
   func isDebuggerAttached() -> Bool {
     return MSAppCenter.isDebuggerAttached()
   }
@@ -39,6 +37,9 @@ class AppCenterDelegateSwift : AppCenterDelegate {
   }
   func setUserId(_ userId: String?) {
     MSAppCenter.setUserId(userId);
+  }
+  func setLogUrl(_ logUrl: String?) {
+    MSAppCenter.setLogUrl(logUrl);
   }
 
   //MARK: Modules section.
