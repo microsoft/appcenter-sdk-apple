@@ -59,9 +59,24 @@ class CommonSchemaPropertiesTableSection : SimplePropertiesTableSection {
       return cell
     }
   }
-  
+
+  // Note down current target for using in End edit events.
+  override func recordCurrentTarget(sender: UITextField!) {
+    let Cell = sender.superview!.superview as! MSAnalyticsPropertyTableViewCell
+    Cell.currentTarget = transmissionTargetSelectorCell?.selectedTransmissionTarget() ?? ""
+  }
+
+  // Add below method since tap out of the key textField will crash the app, that's a bad experience.
+  override func propertyKeyChanged(sender: UITextField!) {    
+  }
+
   override func propertyValueChanged(sender: UITextField!) {
-    let selectedTarget = transmissionTargetSelectorCell?.selectedTransmissionTarget()
+
+    // Check out whether the target have been changed, if so, change to use original target.
+    let Cell = sender.superview!.superview as! MSAnalyticsPropertyTableViewCell
+    let currentTarget = transmissionTargetSelectorCell?.selectedTransmissionTarget()
+    let selectedTarget = Cell.currentTarget != currentTarget ? Cell.currentTarget : currentTarget
+    
     let propertyIndex = getCellRow(forTextField: sender) - self.propertyCellOffset
     let target = MSTransmissionTargets.shared.transmissionTargets[selectedTarget!]!
     propertyValues[selectedTarget!]![propertyIndex] = sender.text!
@@ -79,6 +94,7 @@ class CommonSchemaPropertiesTableSection : SimplePropertiesTableSection {
       target.propertyConfigurator.setUserId(sender.text!)
       break
     }
+    sender.resignFirstResponder()
   }
 
   override func propertyAtRow(row: Int) -> (String, String) {

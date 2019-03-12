@@ -2,12 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>AppCenterUserNotificationCenterDelegateForwarderEnabled</key>
-	<false/>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Select photo for attachment</string>
-	<key>AppCenterAppDelegateForwarderEnabled</key>
-	<false/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>
@@ -28,10 +22,10 @@
 			<key>CFBundleTypeRole</key>
 			<string>None</string>
 			<key>CFBundleURLName</key>
-			<string>com.microsoft.appcenter.sasquatchswift</string>
+			<string>com.microsoft.appcenter.sasquatchpuppet</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>appcenter-0dbca56b-b9ae-4d53-856a-7c2856137d85</string>
+				<string>appcenter-7dfb022a-17b5-4d4a-9c75-12bc3ef5e6b7</string>
 			</array>
 		</dict>
 	</array>
@@ -39,8 +33,10 @@
 	<string>${BUILD_NUMBER}</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>The app needs to know your location to override the country code.</string>
+        <key>NSLocationWhenInUseUsageDescription</key>
+        <string>The app needs to know your location to override the country code.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Select photo for attachment</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>

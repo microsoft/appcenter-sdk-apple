@@ -43,6 +43,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
 
 - (void)tearDown {
   [super tearDown];
+  [self.reachabilityMock stopMocking];
   [MSHttpTestUtil removeAllStubs];
 
   /*

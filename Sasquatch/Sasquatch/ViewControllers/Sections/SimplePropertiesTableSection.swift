@@ -15,8 +15,9 @@ class SimplePropertiesTableSection : PropertiesTableSection {
 
     // Set cell to respond to being edited.
     cell.keyField.addTarget(self, action: #selector(propertyKeyChanged), for: .editingDidEnd)
+    cell.keyField.addTarget(self, action: #selector(recordCurrentTarget), for: .editingDidBegin)
     cell.valueField.addTarget(self, action: #selector(propertyValueChanged), for: .editingDidEnd)
-
+    cell.valueField.addTarget(self, action: #selector(recordCurrentTarget), for: .editingDidBegin)
     return cell
   }
 
@@ -38,6 +39,10 @@ class SimplePropertiesTableSection : PropertiesTableSection {
   }
 
   func propertyValueChanged(sender: UITextField!) {
+    preconditionFailure("This method is abstract")
+  }
+    
+ func recordCurrentTarget(sender: UITextField!) {
     preconditionFailure("This method is abstract")
   }
 

@@ -1,5 +1,21 @@
 # App Center SDK for iOS and macOS Change Log
 
+## Version 1.14.0
+
+### AppCenter
+
+* **[Fix]** Fix a crash in case decrypting a value failed.
+
+### AppCenterAnalytics
+
+* **[Feature]** Preparation work for a future change in transmission protocol and endpoint for Analytics data on macOS. There is no impact on your current workflow when using App Center.
+
+### AppCenterPush
+
+* **[Fix]** Fix crash on invoking an optional push callback when it isn't implemented in the push delegate.
+
+___
+
 ## Version 1.13.2
 
 ### AppCenter
@@ -17,6 +33,7 @@ ___
 ### AppCenter
 
 * **[Fix]** Fix a possible deadlock if the SDK is started from a background thread.
+* **[Feature]** Add class method  `+ [MSAppCenter setCountryCode:]` that allows manually setting the country code on platforms where there is no carrier information available. 
 
 ___
 
