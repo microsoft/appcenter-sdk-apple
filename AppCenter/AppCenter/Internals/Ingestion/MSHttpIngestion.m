@@ -340,7 +340,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
 
 - (void)enumerateDelegatesForSelector:(SEL)selector withBlock:(void (^)(id<MSIngestionDelegate> delegate))block {
   for (id<MSIngestionDelegate> delegate in self.delegates) {
-    if (delegate && [delegate respondsToSelector:selector]) {
+    if ([delegate respondsToSelector:selector]) {
       block(delegate);
     }
   }

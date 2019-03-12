@@ -204,7 +204,6 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
   // Then
   assertThatBool([[MSCrashes sharedInstance] shouldProcessErrorReport:nil], isTrue());
-  assertThatBool([[MSCrashes sharedInstance] delegateImplementsAttachmentCallback], isFalse());
 }
 
 - (void)testProcessCrashes {

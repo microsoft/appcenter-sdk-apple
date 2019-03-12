@@ -17,6 +17,7 @@ import AppCenter
   func startAnalyticsFromLibrary()
   func setUserId(_ userId: String?)
   func setLogUrl(_ logUrl: String?)
+  func setCountryCode(_ countryCode: String?)
 
   // Modules section.
   func isAnalyticsEnabled() -> Bool
