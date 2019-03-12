@@ -29,7 +29,6 @@ class MSMainViewController: UITableViewController, AppCenterProtocol, CLLocation
   @IBOutlet weak var storageMaxSizeField: UITextField!
   @IBOutlet weak var storageFileSizeLabel: UILabel!
   @IBOutlet weak var userIdField: UITextField!
-  @IBOutlet weak var configUrlField: UITextField!
   @IBOutlet weak var overrideCountryCodeButton: UIButton!
   
   var appCenter: AppCenterDelegate!
@@ -90,12 +89,6 @@ class MSMainViewController: UITableViewController, AppCenterProtocol, CLLocation
     self.sdkVersion.text = appCenter.sdkVersion()
     self.deviceIdLabel.text = UIDevice.current.identifierForVendor?.uuidString
     self.userIdField.text = UserDefaults.standard.string(forKey: kMSUserIdKey)
-    let configURL = UserDefaults.standard.string(forKey: kMSConfigURLKey)
-    if configURL == nil || configURL!.isEmpty {
-      self.configUrlField.text = appCenter.configURL()
-    } else {
-      self.configUrlField.text = configURL
-    }
 
     // Make sure the UITabBarController does not cut off the last cell.
     self.edgesForExtendedLayout = []
@@ -190,14 +183,6 @@ class MSMainViewController: UITableViewController, AppCenterProtocol, CLLocation
     let userId = !text.isEmpty ? text : nil
     UserDefaults.standard.set(userId, forKey: kMSUserIdKey)
     appCenter.setUserId(userId)
-  }
-
-  @IBAction func configURLChanged(_ sender: UITextField) {
-    let text = sender.text ?? ""
-    let configURL = !text.isEmpty ? text : nil
-    UserDefaults.standard.set(configURL, forKey: kMSConfigURLKey)
-
-    // No need to set the config URL in App Center. It will take effect at the next launch.
   }
 
   @IBAction func dismissKeyboard(_ sender: UITextField!) {
