@@ -1,3 +1,8 @@
+//
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+//
+
 #import "MSDistributeDataMigration.h"
 #import "MSDistributeInternal.h"
 #import "MSKeychainUtilPrivate.h"

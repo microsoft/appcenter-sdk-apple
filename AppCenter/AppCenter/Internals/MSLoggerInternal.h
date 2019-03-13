@@ -1,3 +1,8 @@
+//
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+//
+
 #import "MSLogger.h"
 
 FOUNDATION_EXPORT MSLogHandler const msDefaultLogHandler;

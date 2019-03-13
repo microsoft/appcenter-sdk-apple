@@ -1,3 +1,8 @@
+//
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+//
+
 #import "MSAnalytics.h"
 #import "MSAnalyticsDelegate.h"
 #import "MSAnalyticsTransmissionTarget.h"

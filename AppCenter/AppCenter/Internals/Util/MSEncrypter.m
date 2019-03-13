@@ -1,3 +1,8 @@
+//
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+//
+
 #import <CommonCrypto/CommonCryptor.h>
 
 #import "MSAppCenterInternal.h"

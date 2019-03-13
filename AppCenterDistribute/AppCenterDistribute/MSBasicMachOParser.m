@@ -1,3 +1,8 @@
+//
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+//
+
 #import <mach-o/arch.h>
 #import <mach-o/fat.h>
 #import <mach-o/loader.h>

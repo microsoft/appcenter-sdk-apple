@@ -1,3 +1,8 @@
+//
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+//
+
 #import "MSDistributionGroup.h"
 #import "MSReleaseDetailsPrivate.h"
 #import "MSUtility+Date.h"
