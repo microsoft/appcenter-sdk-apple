@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return Dictionary of document payload.
  */
-+ (NSDictionary *)documentPayloadWithId:(NSString *)documentId partition:(NSString *)partition document:(NSDictionary *)document;
++ (NSDictionary *)documentPayloadWithDocumentId:(NSString *)documentId partition:(NSString *)partition document:(NSDictionary *)document;
 
 @end
 

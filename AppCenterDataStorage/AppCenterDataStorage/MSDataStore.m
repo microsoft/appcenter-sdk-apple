@@ -203,9 +203,9 @@ static dispatch_once_t onceToken;
 
         // Create document payload.
         NSError *serializationError;
-        NSDictionary *dic = [MSDocumentUtils documentPayloadWithId:documentId
-                                                         partition:partition
-                                                          document:[document serializeToDictionary]];
+        NSDictionary *dic = [MSDocumentUtils documentPayloadWithDocumentId:documentId
+                                                                 partition:partition
+                                                                  document:[document serializeToDictionary]];
         NSData *body = [NSJSONSerialization dataWithJSONObject:dic options:0 error:&serializationError];
         if (!body || serializationError) {
           MSLogError([MSDataStore logTag], @"Error serializing data:%@", [serializationError description]);
@@ -215,7 +215,7 @@ static dispatch_once_t onceToken;
 
         // Call CosmosDb.
         [MSCosmosDb
-            performCosmosDbAsyncOperationWithHttpClient:(MSCosmosDbIngestion *)cosmosDbIngestion
+            performCosmosDbAsyncOperationWithHttpClient:cosmosDbIngestion
                                             tokenResult:tokenResponses.tokens[0]
                                              documentId:@""
                                              httpMethod:@"POST"
@@ -223,7 +223,7 @@ static dispatch_once_t onceToken;
                                       completionHandler:^(NSData *_Nonnull data, NSError *_Nonnull cosmosDbError) {
                                         // If not created.
                                         NSNumber *errorCode = [cosmosDbError userInfo][kMSCosmosDbHttpCodeKey];
-                                        if (!data || [errorCode integerValue] != 201) {
+                                        if (!data || [errorCode integerValue] != MSHTTPCodesNo201Created) {
                                           MSLogError([MSDataStore logTag], @"Not able to create document:%@", [cosmosDbError description]);
                                           completionHandler([[MSDocumentWrapper alloc] initWithError:cosmosDbError documentId:documentId]);
                                           return;
