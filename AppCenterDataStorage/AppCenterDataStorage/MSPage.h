@@ -1,4 +1,4 @@
-#import "MSDataStoreError.h"
+#import "MSDataSourceError.h"
 #import "MSDocumentWrapper.h"
 #import "MSSerializableDocument.h"
 
@@ -12,7 +12,7 @@
 /**
  * Error (or null).
  */
-@property(readonly) MSDataStoreError *error;
+@property(readonly) MSDataSourceError *error;
 
 /**
  * Array of documents in the current page (or null).
