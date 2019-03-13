@@ -3,8 +3,8 @@
 
 @import AppCenterCrashes;
 @import AppCenterPush;
-@import CoreLocation;
 
-@interface AppDelegate : NSObject <NSApplicationDelegate, MSCrashesDelegate, MSPushDelegate, NSUserNotificationCenterDelegate, CLLocationManagerDelegate>
+@interface AppDelegate
+    : NSObject <NSApplicationDelegate, MSCrashesDelegate, MSPushDelegate, NSUserNotificationCenterDelegate, CLLocationManagerDelegate>
 
 @end

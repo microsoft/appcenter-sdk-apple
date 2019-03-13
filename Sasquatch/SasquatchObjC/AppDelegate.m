@@ -1,7 +1,7 @@
+#import <CoreLocation/CoreLocation.h>
 #import <MobileCoreServices/MobileCoreServices.h>
 #import <Photos/Photos.h>
 #import <UserNotifications/UserNotifications.h>
-#import <CoreLocation/CoreLocation.h>
 
 #import "AppCenterDelegateObjC.h"
 #import "AppDelegate.h"
@@ -120,7 +120,7 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
   self.locationManager.delegate = self;
   self.locationManager.desiredAccuracy = kCLLocationAccuracyKilometer;
   [self.locationManager requestWhenInUseAuthorization];
-    
+
   // Set user id.
   NSString *userId = [[NSUserDefaults standardUserDefaults] objectForKey:kMSUserIdKey];
   if (userId) {
@@ -387,26 +387,26 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
 
 #pragma mark - CLLocationManagerDelegate
 
-- (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status{
-    if (status == kCLAuthorizationStatusAuthorizedWhenInUse) {
-        [manager requestLocation];
-    }
+- (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
+  if (status == kCLAuthorizationStatusAuthorizedWhenInUse) {
+    [manager requestLocation];
+  }
 }
 
-- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations{
-    CLLocation *location = [locations lastObject];
-    CLGeocoder *geocoder = [[CLGeocoder alloc] init];
-    [geocoder reverseGeocodeLocation:location
-                   completionHandler:^(NSArray *placemarks, NSError *error) {
-                       if (placemarks.count == 0 || error)
-                           return;
-                       CLPlacemark *placemark = [placemarks firstObject];
-                       [MSAppCenter setCountryCode:placemark.ISOcountryCode];
-                   }];
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations {
+  CLLocation *location = [locations lastObject];
+  CLGeocoder *geocoder = [[CLGeocoder alloc] init];
+  [geocoder reverseGeocodeLocation:location
+                 completionHandler:^(NSArray *placemarks, NSError *error) {
+                   if (placemarks.count == 0 || error)
+                     return;
+                   CLPlacemark *placemark = [placemarks firstObject];
+                   [MSAppCenter setCountryCode:placemark.ISOcountryCode];
+                 }];
 }
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
-    NSLog(@"Failed to find user's location: %@", error.localizedDescription);
+  NSLog(@"Failed to find user's location: %@", error.localizedDescription);
 }
 
 @end

@@ -1,5 +1,5 @@
-#import "AppCenterDelegateObjC.h"
 #import "AppDelegate.h"
+#import "AppCenterDelegateObjC.h"
 #import "Constants.h"
 
 @import AppCenter;
@@ -21,7 +21,7 @@ enum StartupMode { appCenter, oneCollector, both, none, skip };
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification {
   [MSAppCenter setLogLevel:MSLogLevelVerbose];
-    
+
   // Setup location manager.
   self.locationManager = [[CLLocationManager alloc] init];
   self.locationManager.delegate = self;
@@ -40,43 +40,44 @@ enum StartupMode { appCenter, oneCollector, both, none, skip };
   // Set max storage size.
   NSNumber *storageMaxSize = [[NSUserDefaults standardUserDefaults] objectForKey:kMSStorageMaxSizeKey];
   if (storageMaxSize) {
-      [MSAppCenter setMaxStorageSize:storageMaxSize.integerValue
-                   completionHandler:^(BOOL success) {
-                       dispatch_async(dispatch_get_main_queue(), ^{
-                           if (success) {
-                               long realStorageSize = (long)(ceil([storageMaxSize doubleValue] / kMSStoragePageSize) * kMSStoragePageSize);
-                               [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithLong:realStorageSize]
-                                                                  forKey:kMSStorageMaxSizeKey];
-                           } else {
+    [MSAppCenter setMaxStorageSize:storageMaxSize.integerValue
+                 completionHandler:^(BOOL success) {
+                   dispatch_async(dispatch_get_main_queue(), ^{
+                     if (success) {
+                       long realStorageSize = (long)(ceil([storageMaxSize doubleValue] / kMSStoragePageSize) * kMSStoragePageSize);
+                       [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithLong:realStorageSize]
+                                                                 forKey:kMSStorageMaxSizeKey];
+                     } else {
 
-                               // Remove invalid value.
-                               [[NSUserDefaults standardUserDefaults] removeObjectForKey:kMSStorageMaxSizeKey];
-                           }
-                       });
-                   }];
+                       // Remove invalid value.
+                       [[NSUserDefaults standardUserDefaults] removeObjectForKey:kMSStorageMaxSizeKey];
+                     }
+                   });
+                 }];
   }
 
   // Start AppCenter.
   NSArray<Class> *services = @ [[MSAnalytics class], [MSCrashes class], [MSPush class]];
   NSInteger startTarget = [[NSUserDefaults standardUserDefaults] integerForKey:kMSStartTargetKey];
   switch (startTarget) {
-      case appCenter:
-          [MSAppCenter start:[NSString stringWithUTF8String:APP_SECRET_VALUE] withServices:services];
-          break;
-      case oneCollector:
-          [MSAppCenter start:[NSString stringWithFormat:@"target=%@", kMSObjCTargetToken] withServices:services];
-          break;
-      case both:
-          [MSAppCenter start:[NSString stringWithFormat:@"appsecret=%s;target=%@", APP_SECRET_VALUE, kMSObjCTargetToken] withServices:services];
-          break;
-      case none:
-          [MSAppCenter startWithServices:services];
-          break;
+  case appCenter:
+    [MSAppCenter start:[NSString stringWithUTF8String:APP_SECRET_VALUE] withServices:services];
+    break;
+  case oneCollector:
+    [MSAppCenter start:[NSString stringWithFormat:@"target=%@", kMSObjCTargetToken] withServices:services];
+    break;
+  case both:
+    [MSAppCenter start:[NSString stringWithFormat:@"appsecret=%s;target=%@", APP_SECRET_VALUE, kMSObjCTargetToken] withServices:services];
+    break;
+  case none:
+    [MSAppCenter startWithServices:services];
+    break;
   }
 
   [AppCenterProvider shared].appCenter = [[AppCenterDelegateObjC alloc] init];
 
   [self initUI];
+  [self overrideCountryCode];
 }
 
 #pragma mark - Private
@@ -86,6 +87,18 @@ enum StartupMode { appCenter, oneCollector, both, none, skip };
   self.rootController = (NSWindowController *)[mainStoryboard instantiateControllerWithIdentifier:@"rootController"];
   [self.rootController showWindow:self];
   [self.rootController.window makeKeyAndOrderFront:self];
+}
+
+- (void)overrideCountryCode {
+  if ([CLLocationManager locationServicesEnabled]) {
+    [self.locationManager startUpdatingLocation];
+  } else {
+    NSAlert *alert = [[NSAlert alloc] init];
+    alert.messageText = @"Location service is disabled";
+    alert.informativeText = @"Please enable location service on your Mac.";
+    [alert addButtonWithTitle:@"OK"];
+    [alert runModal];
+  }
 }
 
 - (void)setupCrashes {
@@ -103,7 +116,6 @@ enum StartupMode { appCenter, oneCollector, both, none, skip };
 
   [MSCrashes setDelegate:self];
   [MSCrashes setUserConfirmationHandler:(^(NSArray<MSErrorReport *> *errorReports) {
-
                // Use MSAlertViewController to show a dialog to the user where they can choose if they want to provide a crash report.
                NSAlert *alert = [[NSAlert alloc] init];
                [alert setMessageText:@"Sorry about that!"];
@@ -176,8 +188,9 @@ enum StartupMode { appCenter, oneCollector, both, none, skip };
           UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, (__bridge CFStringRef)[referenceUrl pathExtension], nil);
       NSString *MIMEType = (__bridge_transfer NSString *)UTTypeCopyPreferredTagWithClass(UTI, kUTTagClassMIMEType);
       CFRelease(UTI);
-      MSErrorAttachmentLog *binaryAttachment =
-          [MSErrorAttachmentLog attachmentWithBinary:data filename:referenceUrl.lastPathComponent contentType:MIMEType];
+      MSErrorAttachmentLog *binaryAttachment = [MSErrorAttachmentLog attachmentWithBinary:data
+                                                                                 filename:referenceUrl.lastPathComponent
+                                                                              contentType:MIMEType];
       [attachments addObject:binaryAttachment];
       NSLog(@"Add binary attachment with %tu bytes", [data length]);
     } else {
@@ -234,25 +247,21 @@ enum StartupMode { appCenter, oneCollector, both, none, skip };
 
 #pragma mark - CLLocationManagerDelegate
 
-
-- (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status{
-  [manager startUpdatingLocation];
-}
-
-- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations{
-    CLLocation *location = [locations lastObject];
-    CLGeocoder *geocoder = [[CLGeocoder alloc] init];
-    [geocoder reverseGeocodeLocation:location
-                   completionHandler:^(NSArray *placemarks, NSError *error) {
-                       if (placemarks.count == 0 || error)
-                           return;
-                       CLPlacemark *placemark = [placemarks firstObject];
-                       [MSAppCenter setCountryCode:placemark.ISOcountryCode];
-                   }];
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations {
+  [self.locationManager stopUpdatingLocation];
+  CLLocation *location = [locations lastObject];
+  CLGeocoder *geocoder = [[CLGeocoder alloc] init];
+  [geocoder reverseGeocodeLocation:location
+                 completionHandler:^(NSArray *placemarks, NSError *error) {
+                   if (placemarks.count == 0 || error)
+                     return;
+                   CLPlacemark *placemark = [placemarks firstObject];
+                   [MSAppCenter setCountryCode:placemark.ISOcountryCode];
+                 }];
 }
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
-    NSLog(@"Failed to find user's location: %@", error.localizedDescription);
+  NSLog(@"Failed to find user's location: %@", error.localizedDescription);
 }
 
 @end

@@ -1,7 +1,7 @@
+import CoreLocation
 import MobileCoreServices
 import Photos
 import UIKit
-import CoreLocation
 
 import AppCenter
 import AppCenterAnalytics
@@ -82,7 +82,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
       break
     }
     
-    locationManager = CLLocationManager()
     locationManager.delegate = self
     locationManager.desiredAccuracy = kCLLocationAccuracyKilometer;
     locationManager.requestWhenInUseAuthorization()
@@ -283,8 +282,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
 
   // CLLocationManager Delegate
   func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-    if status == CLAuthorizationStatus.authorizedWhenInUse
-      { manager.requestLocation()}
+    if status == CLAuthorizationStatus.authorizedWhenInUse {
+      manager.requestLocation()
+    }
   }
     
   func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {

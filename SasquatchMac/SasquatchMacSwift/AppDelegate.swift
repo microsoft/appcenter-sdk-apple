@@ -105,6 +105,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, MSCrashesDelegate, MSPushDel
     AppCenterProvider.shared().appCenter = AppCenterDelegateSwift()
 
     initUI()
+
+    overrideCountryCode()
   }
 
   func initUI() {
@@ -114,6 +116,18 @@ class AppDelegate: NSObject, NSApplicationDelegate, MSCrashesDelegate, MSPushDel
     rootController.window?.makeKeyAndOrderFront(self)
   }
 
+  func overrideCountryCode() {
+    if CLLocationManager.locationServicesEnabled() {
+      self.locationManager.startUpdatingLocation()
+    }
+    else {
+      let alert : NSAlert = NSAlert()
+      alert.messageText = "Location service is disabled"
+      alert.informativeText = "Please enable location service on your Mac."
+      alert.addButton(withTitle: "OK")
+      alert.runModal()
+    }
+  }
   // Crashes Delegate
 
   func crashes(_ crashes: MSCrashes!, shouldProcessErrorReport errorReport: MSErrorReport!) -> Bool {
