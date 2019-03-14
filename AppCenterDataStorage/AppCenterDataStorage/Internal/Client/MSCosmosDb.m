@@ -128,7 +128,6 @@ static NSString *const kMSHeaderMsDate = @"x-ms-date";
   httpClient.httpMethod = httpMethod;
   httpClient.httpHeaders = [MSCosmosDb defaultHeaderWithPartition:tokenResult.partition dbToken:tokenResult.token];
   httpClient.sendURL = (NSURL *)[NSURL URLWithString:[MSCosmosDb documentUrlWithTokenResult:tokenResult documentId:documentId]];
-
   [httpClient sendAsync:body
       completionHandler:^(NSString *callId, NSHTTPURLResponse *response, NSData *data, NSError *error) {
         MSLogVerbose([MSDataStore logTag], @"CosmosDb HttpClient callback, request Id %@ with status code: %lu and description: %@", callId,

@@ -5,37 +5,37 @@
 /**
  * Partition.
  */
-@property(nonatomic, readonly) NSString *partition;
+@property(nonatomic, readonly, copy) NSString *partition;
 
 /**
  * Database account.
  */
-@property(nonatomic, readonly) NSString *dbAccount;
+@property(nonatomic, readonly, copy) NSString *dbAccount;
 
 /**
  * Database name.
  */
-@property(nonatomic, readonly) NSString *dbName;
+@property(nonatomic, readonly, copy) NSString *dbName;
 
 /**
  * Database collection Name.
  */
-@property(nonatomic, readonly) NSString *dbCollectionName;
+@property(nonatomic, readonly, copy) NSString *dbCollectionName;
 
 /**
  * Database access token.
  */
-@property(nonatomic, readonly) NSString *token;
+@property(nonatomic, readonly, copy) NSString *token;
 
 /**
  * Token status.
  */
-@property(nonatomic, readonly) NSString *status;
+@property(nonatomic, readonly, copy) NSString *status;
 
 /**
  * Token expiration date .
  */
-@property(nonatomic, readonly) NSString *expiresOn;
+@property(nonatomic, readonly, copy) NSString *expiresOn;
 
 /**
  * Initialize the Token result object
@@ -45,8 +45,8 @@
  * @param dbName Database name.
  * @param dbCollectionName Database collection name.
  * @param token Database token.
- * @param status Token sataus.
- *
+ * @param status Token status.
+ * @param expiresOn Token expiration date
  * @return A token result instance.
  */
 - (instancetype)initWithPartition:(NSString *)partition
