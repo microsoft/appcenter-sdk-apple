@@ -22,7 +22,7 @@
   NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:self.sendURL];
 
   // Set method.
-  request.HTTPMethod = self.httpVerb;
+  request.HTTPMethod = self.httpMethod;
 
   // Set header params.
   request.allHTTPHeaderFields = self.httpHeaders;

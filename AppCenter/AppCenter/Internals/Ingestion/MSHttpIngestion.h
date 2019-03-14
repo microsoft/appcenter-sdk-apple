@@ -26,9 +26,9 @@ static NSString *const kMSETagRequestHeader = @"If-None-Match";
 @property(nonatomic) NSURL *sendURL;
 
 /**
- * Http verb
+ * Http method.
  */
-@property(nonatomic, copy) NSString *httpVerb;
+@property(nonatomic, copy) NSString *httpMethod;
 
 /**
  * Request header parameters.
