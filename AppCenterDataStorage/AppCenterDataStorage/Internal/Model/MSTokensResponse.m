@@ -4,6 +4,8 @@
 
 @implementation MSTokensResponse
 
+NSString *const kMSTokens = @"tokens";
+
 @synthesize tokens = _tokens;
 
 - (instancetype)initWithTokens:(NSArray<MSTokenResult *> *)tokens {

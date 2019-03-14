@@ -10,6 +10,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 static NSString *const kMSPartitions = @"partitions";
+static NSString *const kMSTokenResultSucceed = @"Succeed";
 static NSString *const kMSStorageReadOnlyDbTokenKey = @"MSStorageReadOnlyDbToken";
 static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
 
@@ -57,6 +58,7 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
 
           // Create token response object.
           MSTokensResponse *tokens = [[MSTokensResponse alloc] initWithTokens:@[ tokenResult ]];
+
           // Token exchange did not get back an error but aquiring the token did not succeed either
           if (tokenResult && tokenResult.status != kMSTokenResultSucceed) {
             MSLogError([MSDataStore logTag], @"Token result had a status of %@", tokenResult.status);

@@ -188,71 +188,77 @@ static dispatch_once_t onceToken;
 
   // TODO consume writeOptions
   [MSTokenExchange
-             tokenAsync:(MSStorageIngestion *)self.ingestion
-             partitions:@[ partition ]
-      completionHandler:^(MSTokensResponse *_Nonnull tokenResponses, NSError *_Nonnull error) {
-        // If error getting token.
-        if (error || !tokenResponses) {
-          MSLogError([MSDataStore logTag], @"Can't get CosmosDb token:%@", [error description]);
-          completionHandler([[MSDocumentWrapper alloc] initWithError:error documentId:documentId]);
-          return;
-        }
+      performDbTokenAsyncOperationWithIngestion:(MSStorageIngestion *)self.ingestion
+                                      partition:partition
+                              completionHandler:^(MSTokensResponse *_Nonnull tokenResponses, NSError *_Nonnull error) {
+                                // If error getting token.
+                                if (error || !tokenResponses) {
+                                  MSLogError([MSDataStore logTag], @"Can't get CosmosDb token:%@", [error description]);
+                                  completionHandler([[MSDocumentWrapper alloc] initWithError:error documentId:documentId]);
+                                  return;
+                                }
 
-        // Create http client.
-        MSCosmosDbIngestion *cosmosDbIngestion = [[MSCosmosDbIngestion alloc] init];
+                                // Create http client.
+                                MSCosmosDbIngestion *cosmosDbIngestion = [[MSCosmosDbIngestion alloc] init];
 
-        // Create document payload.
-        NSError *serializationError;
-        NSDictionary *dic = [MSDocumentUtils documentPayloadWithDocumentId:documentId
-                                                                 partition:partition
-                                                                  document:[document serializeToDictionary]];
-        NSData *body = [NSJSONSerialization dataWithJSONObject:dic options:0 error:&serializationError];
-        if (!body || serializationError) {
-          MSLogError([MSDataStore logTag], @"Error serializing data:%@", [serializationError description]);
-          completionHandler([[MSDocumentWrapper alloc] initWithError:serializationError documentId:documentId]);
-          return;
-        }
+                                // Create document payload.
+                                NSError *serializationError;
+                                NSDictionary *dic = [MSDocumentUtils documentPayloadWithDocumentId:documentId
+                                                                                         partition:partition
+                                                                                          document:[document serializeToDictionary]];
+                                NSData *body = [NSJSONSerialization dataWithJSONObject:dic options:0 error:&serializationError];
+                                if (!body || serializationError) {
+                                  MSLogError([MSDataStore logTag], @"Error serializing data:%@", [serializationError description]);
+                                  completionHandler([[MSDocumentWrapper alloc] initWithError:serializationError documentId:documentId]);
+                                  return;
+                                }
 
-        // Call CosmosDb.
-        [MSCosmosDb
-            performCosmosDbAsyncOperationWithHttpClient:cosmosDbIngestion
-                                            tokenResult:tokenResponses.tokens[0]
-                                             documentId:@""
-                                             httpMethod:@"POST"
-                                                   body:body
-                                      completionHandler:^(NSData *_Nonnull data, NSError *_Nonnull cosmosDbError) {
-                                        // If not created.
-                                        NSNumber *errorCode = [cosmosDbError userInfo][kMSCosmosDbHttpCodeKey];
-                                        if (!data || [errorCode integerValue] != MSHTTPCodesNo201Created) {
-                                          MSLogError([MSDataStore logTag], @"Not able to create document:%@", [cosmosDbError description]);
-                                          completionHandler([[MSDocumentWrapper alloc] initWithError:cosmosDbError documentId:documentId]);
-                                          return;
-                                        }
+                                // Call CosmosDb.
+                                [MSCosmosDb
+                                    performCosmosDbAsyncOperationWithHttpClient:cosmosDbIngestion
+                                                                    tokenResult:tokenResponses.tokens[0]
+                                                                     documentId:@""
+                                                                     httpMethod:@"POST"
+                                                                           body:body
+                                                              completionHandler:^(NSData *_Nonnull data, NSError *_Nonnull cosmosDbError) {
+                                                                // If not created.
+                                                                NSNumber *errorCode = [cosmosDbError userInfo][kMSCosmosDbHttpCodeKey];
+                                                                if (!data || [errorCode integerValue] != MSHTTPCodesNo201Created) {
+                                                                  MSLogError([MSDataStore logTag], @"Not able to create document:%@",
+                                                                             [cosmosDbError description]);
+                                                                  completionHandler([[MSDocumentWrapper alloc] initWithError:cosmosDbError
+                                                                                                                  documentId:documentId]);
+                                                                  return;
+                                                                }
 
-                                        // Deserialize.
-                                        NSError *deserializeError;
-                                        NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data
-                                                                                             options:0
-                                                                                               error:&deserializeError];
-                                        if (deserializeError) {
-                                          MSLogError([MSDataStore logTag], @"Error deserializing data:%@", [deserializeError description]);
-                                        }
-                                        MSLogDebug([MSDataStore logTag], @"Document json:%@", json);
+                                                                // Deserialize.
+                                                                NSError *deserializeError;
+                                                                NSDictionary *json =
+                                                                    [NSJSONSerialization JSONObjectWithData:data
+                                                                                                    options:0
+                                                                                                      error:&deserializeError];
+                                                                if (deserializeError) {
+                                                                  MSLogError([MSDataStore logTag], @"Error deserializing data:%@",
+                                                                             [deserializeError description]);
+                                                                }
+                                                                MSLogDebug([MSDataStore logTag], @"Document json:%@", json);
 
-                                        // Create a document.
-                                        NSTimeInterval interval = [(NSString *)json[kMSDocumentTimestampKey] doubleValue];
-                                        NSDate *date = [NSDate dateWithTimeIntervalSince1970:interval];
-                                        NSString *eTag = json[kMSDocumentEtagKey];
-                                        MSDocumentWrapper *docWrapper = [[MSDocumentWrapper alloc] initWithDeserializedValue:document
-                                                                                                                   partition:partition
-                                                                                                                  documentId:documentId
-                                                                                                                        eTag:eTag
-                                                                                                             lastUpdatedDate:date];
-                                        MSLogDebug([MSDataStore logTag], @"Document created:%@", data);
-                                        completionHandler(docWrapper);
-                                        return;
-                                      }];
-      }];
+                                                                // Create a document.
+                                                                NSTimeInterval interval =
+                                                                    [(NSString *)json[kMSDocumentTimestampKey] doubleValue];
+                                                                NSDate *date = [NSDate dateWithTimeIntervalSince1970:interval];
+                                                                NSString *eTag = json[kMSDocumentEtagKey];
+                                                                MSDocumentWrapper *docWrapper =
+                                                                    [[MSDocumentWrapper alloc] initWithDeserializedValue:document
+                                                                                                               partition:partition
+                                                                                                              documentId:documentId
+                                                                                                                    eTag:eTag
+                                                                                                         lastUpdatedDate:date];
+                                                                MSLogDebug([MSDataStore logTag], @"Document created:%@", data);
+                                                                completionHandler(docWrapper);
+                                                                return;
+                                                              }];
+                              }];
 }
 
 #pragma mark - MSServiceInternal
