@@ -4,17 +4,11 @@
 #import "MSAuthTokenContext.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitProtocol.h"
-<<<<<<< HEAD
-#import "MSDataStoreError.h"
-#import "MSDataStoreInternal.h"
-#import "MSDataStorePrivate.h"
-=======
 #import "MSCosmosDb.h"
 #import "MSDataSourceError.h"
 #import "MSDataStoreInternal.h"
 #import "MSDataStorePrivate.h"
 #import "MSDocumentUtils.h"
->>>>>>> 69305bcfd700425020dce2c771fb824a57a7cb00
 #import "MSDocumentWrapper.h"
 #import "MSHttpIngestion.h"
 #import "MSPaginatedDocuments.h"

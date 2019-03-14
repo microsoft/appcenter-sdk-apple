@@ -120,31 +120,18 @@ static NSString *const kMSHeaderMsDate = @"x-ms-date";
 + (void)performCosmosDbAsyncOperationWithHttpClient:(MSCosmosDbIngestion *)httpClient
                                         tokenResult:(MSTokenResult *)tokenResult
                                          documentId:(NSString *)documentId
-<<<<<<< HEAD
-                                           httpVerb:(NSString *)httpVerb
-                                               body:(NSString *)body
-=======
                                          httpMethod:(NSString *)httpMethod
                                                body:(NSData *)body
->>>>>>> 69305bcfd700425020dce2c771fb824a57a7cb00
                                   completionHandler:(MSCosmosDbCompletionHandler)completion {
 
   // Configure http client.
   httpClient.httpMethod = httpMethod;
   httpClient.httpHeaders = [MSCosmosDb defaultHeaderWithPartition:tokenResult.partition dbToken:tokenResult.token];
   httpClient.sendURL = (NSURL *)[NSURL URLWithString:[MSCosmosDb documentUrlWithTokenResult:tokenResult documentId:documentId]];
-<<<<<<< HEAD
 
-  // Payload.
-  NSData *payloadData = [body dataUsingEncoding:NSUTF8StringEncoding];
-  [httpClient sendAsync:payloadData
-      completionHandler:^(NSString *callId, NSHTTPURLResponse *response, NSData *data, NSError *error) {
-        MSLogVerbose([MSDataStore logTag], @"Cosmodb HttpClient callback, request Id %@ with status code: %lu and description: %@", callId,
-=======
   [httpClient sendAsync:body
       completionHandler:^(NSString *callId, NSHTTPURLResponse *response, NSData *data, NSError *error) {
         MSLogVerbose([MSDataStore logTag], @"CosmosDb HttpClient callback, request Id %@ with status code: %lu and description: %@", callId,
->>>>>>> 69305bcfd700425020dce2c771fb824a57a7cb00
                      (unsigned long)response.statusCode, [error description]);
 
         // Completion handler.

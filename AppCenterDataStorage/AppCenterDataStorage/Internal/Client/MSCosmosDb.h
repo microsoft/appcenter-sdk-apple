@@ -26,13 +26,8 @@ typedef void (^MSCosmosDbCompletionHandler)(NSData *data, NSError *error);
 + (void)performCosmosDbAsyncOperationWithHttpClient:(MSCosmosDbIngestion *)httpClient
                                         tokenResult:(MSTokenResult *)tokenResult
                                          documentId:(NSString *)documentId
-<<<<<<< HEAD
-                                           httpVerb:(NSString *)httpVerb
-                                               body:(NSString *)body
-=======
                                          httpMethod:(NSString *)httpMethod
                                                body:(NSData *)body
->>>>>>> 69305bcfd700425020dce2c771fb824a57a7cb00
                                   completionHandler:(MSCosmosDbCompletionHandler)completionHandler;
 
 @end
