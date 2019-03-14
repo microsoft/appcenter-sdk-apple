@@ -4,9 +4,9 @@
 #import "MSAuthTokenContext.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitProtocol.h"
+#import "MSDataStoreError.h"
 #import "MSDataStoreInternal.h"
 #import "MSDataStorePrivate.h"
-#import "MSDataStoreError.h"
 #import "MSDocumentWrapper.h"
 #import "MSHttpIngestion.h"
 #import "MSPaginatedDocuments.h"
@@ -216,9 +216,7 @@ static dispatch_once_t onceToken;
 - (void)authTokenContext:(MSAuthTokenContext *)__unused authTokenContext
      didReceiveAuthToken:(/* nullable (changed in #1328) */ NSString *)authToken {
   if (authToken == nil) {
-    // TODO: delete the Cosmos tokens associated with the user.
-      
-      [MSTokenExchange removeAllCachedTokens];
+    [MSTokenExchange removeAllCachedTokens];
   }
 }
 

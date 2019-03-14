@@ -8,3 +8,4 @@ static NSString *const kMSDbAccount = @"dbAccount";
 static NSString *const kMSDbCollectionName = @"dbCollectionName";
 static NSString *const kMSExpiresOn = @"expiresOn";
 static NSString *const kMSToken = @"token";
+static NSString *const kMSTokenResultSucceed = @"Succeed";

@@ -1,5 +1,4 @@
 #import <Foundation/Foundation.h>
-#import "MSConstants.h"
 
 @interface MSTokenResult : NSObject
 
@@ -34,7 +33,7 @@
 @property(nonatomic, readonly) NSString *status;
 
 /**
- * Token status.
+ * Token expiration date .
  */
 @property(nonatomic, readonly) NSString *expiresOn;
 
@@ -48,7 +47,7 @@
  * @param token Database token.
  * @param status Token sataus.
  *
- * @return An token response instance.
+ * @return A token result instance.
  */
 - (instancetype)initWithPartition:(NSString *)partition
                         dbAccount:(NSString *)dbAccount
@@ -58,10 +57,24 @@
                            status:(NSString *)status
                         expiresOn:(NSString *)expiresOn;
 
+/**
+ * Initialize the Token result object
+ *
+ * @param tokenString Json String representing the token
+ *
+ * @return A token response instance.
+ */
 - (instancetype)initWithString:(NSString *)tokenString;
 
+/**
+ * Initialize the Token result object
+ *
+ * @param tokens A dictionary the token properties
+ *
+ * @return A token response instance.
+ */
 - (instancetype)initWithDictionary:(NSDictionary *)tokens;
 
--(NSString *) serializeToString;
+- (NSString *)serializeToString;
 
 @end

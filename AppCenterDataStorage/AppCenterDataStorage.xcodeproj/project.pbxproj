@@ -88,6 +88,8 @@
 		267464FA222F28A300EC1FF3 /* MSBaseOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464EA222F28A300EC1FF3 /* MSBaseOptions.m */; };
 		267464FB222F28A300EC1FF3 /* MSReadOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464EB222F28A300EC1FF3 /* MSReadOptions.h */; };
 		267464FC222F28A300EC1FF3 /* MSWriteOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464EC222F28A300EC1FF3 /* MSWriteOptions.m */; };
+		4AB822EE223857F10046F8D2 /* MSDataStorageConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A294CD322308D1B00FD206B /* MSDataStorageConstants.h */; };
+		4AB822EF223857F30046F8D2 /* MSDataStorageConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A294CD322308D1B00FD206B /* MSDataStorageConstants.h */; };
 		D3AD5EC51E5C4F6A001627AB /* libAppCenterDataStorage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D33A94511E5B11BB003966DB /* libAppCenterDataStorage.a */; };
 		D3AD5F0C1E5C819A001627AB /* AppCenter+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5F0B1E5C819A001627AB /* AppCenter+Internal.h */; };
 		D3AD5F0D1E5C844B001627AB /* MSServiceAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5EFE1E5C7DAE001627AB /* MSServiceAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -193,7 +195,6 @@
 		2600123C22273E94007F4D3A /* MSTokensResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSTokensResponse.h; sourceTree = "<group>"; };
 		2600123D22273E94007F4D3A /* MSTokenResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSTokenResult.m; sourceTree = "<group>"; };
 		2600123E22273E94007F4D3A /* MSTokensResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSTokensResponse.m; sourceTree = "<group>"; };
-		4A294CD322308D1B00FD206B /* MSConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSConstants.h; sourceTree = "<group>"; };
 		267464DD222F28A200EC1FF3 /* MSPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSPage.h; sourceTree = "<group>"; };
 		267464DE222F28A200EC1FF3 /* MSDataStoreError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDataStoreError.m; sourceTree = "<group>"; };
 		267464DF222F28A200EC1FF3 /* MSBaseOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSBaseOptions.h; sourceTree = "<group>"; };
@@ -210,6 +211,7 @@
 		267464EA222F28A300EC1FF3 /* MSBaseOptions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSBaseOptions.m; sourceTree = "<group>"; };
 		267464EB222F28A300EC1FF3 /* MSReadOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSReadOptions.h; sourceTree = "<group>"; };
 		267464EC222F28A300EC1FF3 /* MSWriteOptions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSWriteOptions.m; sourceTree = "<group>"; };
+		4A294CD322308D1B00FD206B /* MSDataStorageConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSDataStorageConstants.h; sourceTree = "<group>"; };
 		D33A94511E5B11BB003966DB /* libAppCenterDataStorage.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAppCenterDataStorage.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D33A94541E5B11BB003966DB /* AppCenterDataStorage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppCenterDataStorage.h; sourceTree = "<group>"; };
 		D3AD5EC01E5C4F6A001627AB /* AppCenterDataStorage.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppCenterDataStorage.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -464,7 +466,7 @@
 				2600123D22273E94007F4D3A /* MSTokenResult.m */,
 				2600123C22273E94007F4D3A /* MSTokensResponse.h */,
 				2600123E22273E94007F4D3A /* MSTokensResponse.m */,
-				4A294CD322308D1B00FD206B /* MSConstants.h */,
+				4A294CD322308D1B00FD206B /* MSDataStorageConstants.h */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -490,6 +492,7 @@
 				046964491F2A5B4D00F9D31F /* AppCenter+Internal.h in Headers */,
 				E820F1A2222767C0009EFA5D /* MSStorageIngestion.h in Headers */,
 				0469644E1F2A5D2800F9D31F /* AppCenterDataStorage.h in Headers */,
+				4AB822EF223857F30046F8D2 /* MSDataStorageConstants.h in Headers */,
 				E820F1A1222767B8009EFA5D /* MSSerializableDocument.h in Headers */,
 				E820F1A4222767C5009EFA5D /* MSTokenExchange.h in Headers */,
 				E877CEB3223057E400259BA0 /* MSCosmosDbIngestion.h in Headers */,
@@ -524,6 +527,7 @@
 				E8593A16222B91B20001F87E /* MSCosmosDb.h in Headers */,
 				E8593A1D222BA37B0001F87E /* MSCosmosDbIngestion.h in Headers */,
 				04A0820C1F74BBCA00DC776D /* MSService.h in Headers */,
+				4AB822EE223857F10046F8D2 /* MSDataStorageConstants.h in Headers */,
 				E86B95D82224B5F60062E552 /* MSTokenExchange.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

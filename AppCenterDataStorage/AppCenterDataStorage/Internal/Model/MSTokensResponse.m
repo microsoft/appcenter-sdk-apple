@@ -1,4 +1,5 @@
 #import "MSTokensResponse.h"
+#import "MSDataStorageConstants.h"
 #import "MSTokenResult.h"
 
 @implementation MSTokensResponse
@@ -14,7 +15,6 @@
 }
 
 - (instancetype)initWithDictionary:(NSDictionary *)tokens {
-
   self = [super init];
   if (self) {
     NSInteger count = [(NSArray *)tokens[kMSTokens] count];
