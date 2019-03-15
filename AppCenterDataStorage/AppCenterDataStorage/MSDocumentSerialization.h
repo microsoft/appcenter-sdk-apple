@@ -2,7 +2,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol MSSerialization
+@protocol MSDocumentSerialization
 
 /**
  * Create a dictionary from the object.
