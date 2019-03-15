@@ -173,7 +173,9 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 + (void)generateTestCrash {
   @synchronized([MSCrashes sharedInstance]) {
     if ([[MSCrashes sharedInstance] canBeUsed]) {
-      if ([MSUtility currentAppEnvironment] != MSEnvironmentAppStore) {
+      if ([MSUtility currentAppEnvironment] == MSEnvironmentAppStore) {
+        MSLogWarning([MSCrashes logTag], @"GenerateTestCrash was just called in an App Store environment. The call will be ignored");
+      } else {
         if ([MSAppCenter isDebuggerAttached]) {
           MSLogWarning([MSCrashes logTag], @"The debugger is attached. The following crash cannot be detected by the SDK!");
         }
@@ -181,8 +183,6 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
         // Crashing the app here!
         __builtin_trap();
       }
-    } else {
-      MSLogWarning([MSCrashes logTag], @"GenerateTestCrash was just called in an App Store environment. The call will be ignored");
     }
   }
 }
@@ -232,11 +232,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
  * This API is not public and is used by wrapper SDKs.
  */
 + (void)trackModelException:(MSException *)exception withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties {
-  @synchronized(self) {
-    if ([[MSCrashes sharedInstance] canBeUsed]) {
-      [[MSCrashes sharedInstance] trackModelException:exception withProperties:properties];
-    }
-  }
+  [[MSCrashes sharedInstance] trackModelException:exception withProperties:properties];
 }
 
 #pragma mark - Service initialization
@@ -519,37 +515,37 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 #pragma mark - Channel Delegate
 
 - (void)channel:(id<MSChannelProtocol>)__unused channel willSendLog:(id<MSLog>)log {
-  id<MSCrashesDelegate> strongDelegate = self.delegate;
-  if (strongDelegate && [strongDelegate respondsToSelector:@selector(crashes:willSendErrorReport:)]) {
+  id<MSCrashesDelegate> delegate = self.delegate;
+  if ([delegate respondsToSelector:@selector(crashes:willSendErrorReport:)]) {
     NSObject *logObject = static_cast<NSObject *>(log);
     if ([logObject isKindOfClass:[MSAppleErrorLog class]]) {
       MSAppleErrorLog *appleErrorLog = static_cast<MSAppleErrorLog *>(log);
       MSErrorReport *report = [MSErrorLogFormatter errorReportFromLog:appleErrorLog];
-      [strongDelegate crashes:self willSendErrorReport:report];
+      [delegate crashes:self willSendErrorReport:report];
     }
   }
 }
 
 - (void)channel:(id<MSChannelProtocol>)__unused channel didSucceedSendingLog:(id<MSLog>)log {
-  id<MSCrashesDelegate> strongDelegate = self.delegate;
-  if (strongDelegate && [strongDelegate respondsToSelector:@selector(crashes:didSucceedSendingErrorReport:)]) {
+  id<MSCrashesDelegate> delegate = self.delegate;
+  if ([delegate respondsToSelector:@selector(crashes:didSucceedSendingErrorReport:)]) {
     NSObject *logObject = static_cast<NSObject *>(log);
     if ([logObject isKindOfClass:[MSAppleErrorLog class]]) {
       MSAppleErrorLog *appleErrorLog = static_cast<MSAppleErrorLog *>(log);
       MSErrorReport *report = [MSErrorLogFormatter errorReportFromLog:appleErrorLog];
-      [strongDelegate crashes:self didSucceedSendingErrorReport:report];
+      [delegate crashes:self didSucceedSendingErrorReport:report];
     }
   }
 }
 
 - (void)channel:(id<MSChannelProtocol>)__unused channel didFailSendingLog:(id<MSLog>)log withError:(NSError *)error {
-  id<MSCrashesDelegate> strongDelegate = self.delegate;
-  if (strongDelegate && [strongDelegate respondsToSelector:@selector(crashes:didFailSendingErrorReport:withError:)]) {
+  id<MSCrashesDelegate> delegate = self.delegate;
+  if ([delegate respondsToSelector:@selector(crashes:didFailSendingErrorReport:withError:)]) {
     NSObject *logObject = static_cast<NSObject *>(log);
     if ([logObject isKindOfClass:[MSAppleErrorLog class]]) {
       MSAppleErrorLog *appleErrorLog = static_cast<MSAppleErrorLog *>(log);
       MSErrorReport *report = [MSErrorLogFormatter errorReportFromLog:appleErrorLog];
-      [strongDelegate crashes:self didFailSendingErrorReport:report withError:error];
+      [delegate crashes:self didFailSendingErrorReport:report withError:error];
     }
   }
 }
@@ -774,9 +770,13 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
                                                                                   withString:kMSTargetTokenFileExtension];
           NSURL *targetTokenFileURL = [NSURL fileURLWithPath:targetTokenFilePath];
           NSString *targetToken = [NSString stringWithContentsOfURL:targetTokenFileURL encoding:NSUTF8StringEncoding error:nil];
-          if (targetToken != nil) {
+          if (targetToken) {
             targetToken = [self.targetTokenEncrypter decryptString:targetToken];
-            [item addTransmissionTargetToken:targetToken];
+            if (targetToken) {
+              [item addTransmissionTargetToken:targetToken];
+            } else {
+              MSLogError([MSAppCenter logTag], @"Failed to decrypt the target token.");
+            }
 
             // Delete target token file.
             [MSUtility deleteFileAtURL:targetTokenFileURL];
@@ -1020,14 +1020,11 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 }
 
 - (BOOL)shouldProcessErrorReport:(MSErrorReport *)errorReport {
-  id<MSCrashesDelegate> strongDelegate = self.delegate;
-  return (!strongDelegate || ![strongDelegate respondsToSelector:@selector(crashes:shouldProcessErrorReport:)] ||
-          [strongDelegate crashes:self shouldProcessErrorReport:errorReport]);
-}
-
-- (BOOL)delegateImplementsAttachmentCallback {
-  id<MSCrashesDelegate> strongDelegate = self.delegate;
-  return strongDelegate && [strongDelegate respondsToSelector:@selector(attachmentsWithCrashes:forErrorReport:)];
+  id<MSCrashesDelegate> delegate = self.delegate;
+  if ([delegate respondsToSelector:@selector(crashes:shouldProcessErrorReport:)]) {
+    return [delegate crashes:self shouldProcessErrorReport:errorReport];
+  }
+  return YES;
 }
 
 // We need to override setter, because it's default behavior creates an NSArray, and some tests fail.
@@ -1132,8 +1129,9 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     NSURL *fileURL = self.unprocessedFilePaths[i];
 
     // Get error attachments.
-    if ([self delegateImplementsAttachmentCallback]) {
-      attachments = [self.delegate attachmentsWithCrashes:self forErrorReport:report];
+    id<MSCrashesDelegate> delegate = self.delegate;
+    if ([delegate respondsToSelector:@selector(attachmentsWithCrashes:forErrorReport:)]) {
+      attachments = [delegate attachmentsWithCrashes:self forErrorReport:report];
     } else {
       MSLogDebug([MSCrashes logTag], @"attachmentsWithCrashes is not implemented");
     }
@@ -1175,28 +1173,31 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 #pragma mark - Handled exceptions
 
 - (void)trackModelException:(MSException *)exception withProperties:(NSDictionary<NSString *, NSString *> *)properties {
-  if (![self isEnabled])
-    return;
+  @synchronized(self) {
+    if (![self canBeUsed] || ![self isEnabled]) {
+      return;
+    }
 
-  // Create an error log.
-  MSHandledErrorLog *log = [MSHandledErrorLog new];
+    // Create an error log.
+    MSHandledErrorLog *log = [MSHandledErrorLog new];
 
-  // Set userId to the error log.
-  log.userId = [[MSUserIdContext sharedInstance] userId];
+    // Set userId to the error log.
+    log.userId = [[MSUserIdContext sharedInstance] userId];
 
-  // Set properties of the error log.
-  log.errorId = MS_UUID_STRING;
-  log.exception = exception;
-  if (properties && properties.count > 0) {
+    // Set properties of the error log.
+    log.errorId = MS_UUID_STRING;
+    log.exception = exception;
+    if (properties && properties.count > 0) {
 
-    // Send only valid properties.
-    log.properties = [MSUtility validateProperties:properties
-                                        forLogName:[NSString stringWithFormat:@"ErrorLog: %@", log.errorId]
-                                              type:log.type];
+      // Send only valid properties.
+      log.properties = [MSUtility validateProperties:properties
+                                          forLogName:[NSString stringWithFormat:@"ErrorLog: %@", log.errorId]
+                                                type:log.type];
+    }
+
+    // Enqueue log.
+    [self.channelUnit enqueueItem:log flags:MSFlagsDefault];
   }
-
-  // Enqueue log.
-  [self.channelUnit enqueueItem:log flags:MSFlagsDefault];
 }
 
 @end

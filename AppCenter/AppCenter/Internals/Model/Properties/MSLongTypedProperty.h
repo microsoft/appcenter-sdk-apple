@@ -2,6 +2,8 @@
 
 #import "MSTypedProperty.h"
 
+static NSString *const kMSLongTypedPropertyType = @"long";
+
 @interface MSLongTypedProperty : MSTypedProperty
 
 /**

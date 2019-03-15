@@ -1,7 +1,8 @@
 #import <Foundation/Foundation.h>
-
 #import "MSModel.h"
 #import "MSSerializableObject.h"
+
+static NSString *const kMSFieldDelimiter = @"f";
 
 /**
  * The metadata section contains additional typing/schema-related information for each field in the Part B or Part C payload.

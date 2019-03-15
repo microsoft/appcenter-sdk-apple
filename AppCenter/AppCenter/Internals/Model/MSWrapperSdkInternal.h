@@ -2,6 +2,13 @@
 
 #import "MSAbstractLogInternal.h"
 
+static NSString *const kMSWrapperSDKVersion = @"wrapperSdkVersion";
+static NSString *const kMSWrapperSDKName = @"wrapperSdkName";
+static NSString *const kMSWrapperRuntimeVersion = @"wrapperRuntimeVersion";
+static NSString *const kMSLiveUpdateReleaseLabel = @"liveUpdateReleaseLabel";
+static NSString *const kMSLiveUpdateDeploymentKey = @"liveUpdateDeploymentKey";
+static NSString *const kMSLiveUpdatePackageHash = @"liveUpdatePackageHash";
+
 @interface MSWrapperSdk () <MSSerializableObject>
 
 /*

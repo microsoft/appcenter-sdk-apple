@@ -1,5 +1,4 @@
 #import "MSSDKExtension.h"
-#import "MSCSModelConstants.h"
 
 @implementation MSSDKExtension
 

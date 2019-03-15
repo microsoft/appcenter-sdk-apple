@@ -3,6 +3,8 @@
 #import "MSModel.h"
 #import "MSSerializableObject.h"
 
+static NSString *const kMSTimezone = @"tz";
+
 /**
  * Describes the location from which the event was logged.
  */

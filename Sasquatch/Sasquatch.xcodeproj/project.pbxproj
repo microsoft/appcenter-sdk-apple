@@ -781,6 +781,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		040856192231C87000977E8F /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		041A4BB01F8C28A3009E1B6C /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Sasquatch.strings; sourceTree = "<group>"; };
 		041A4BB21F8C29E7009E1B6C /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/Sasquatch.strings; sourceTree = "<group>"; };
 		041A4BB31F8C2A33009E1B6C /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Sasquatch.strings; sourceTree = "<group>"; };
@@ -1035,10 +1036,10 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0477460F2200FFED0045504A /* Supporting Files */ = {
+		040856182231C85600977E8F /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				047746422201000B0045504A /* Info.plist */,
+				040856192231C87000977E8F /* Info.plist */,
 				B2C97B8A2106535500042A03 /* Assets.xcassets */,
 			);
 			name = "Supporting Files";
@@ -1325,7 +1326,7 @@
 		B2C97B5A21064A5300042A03 /* SasquatchPuppet */ = {
 			isa = PBXGroup;
 			children = (
-				0477460F2200FFED0045504A /* Supporting Files */,
+				040856182231C85600977E8F /* Supporting Files */,
 			);
 			path = SasquatchPuppet;
 			sourceTree = "<group>";
@@ -2833,7 +2834,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
-				INFOPLIST_FILE = SasquatchPuppet/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/SasquatchPuppet/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchpuppet;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
@@ -2847,7 +2848,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
-				INFOPLIST_FILE = SasquatchPuppet/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/SasquatchPuppet/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchpuppet;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};

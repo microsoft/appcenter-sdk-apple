@@ -1,6 +1,6 @@
-#import <Foundation/Foundation.h>
-
 #import "MSTypedProperty.h"
+
+static NSString *const kMSDateTimeTypedPropertyType = @"dateTime";
 
 @interface MSDateTimeTypedProperty : MSTypedProperty
 
