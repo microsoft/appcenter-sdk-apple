@@ -62,9 +62,9 @@ static NSString *const MSIdentityErrorDescriptionKey = @"MSIdentityErrorDescript
 /**
  * Sets the base URL for the remote configuration file.
  *
- * @param configURL The base URL of the remote configuration file.
+ * @param configUrl The base URL of the remote configuration file.
  */
-+ (void)setConfigURL:(NSString *)configUrl;
++ (void)setConfigUrl:(NSString *)configUrl;
 
 @end
 

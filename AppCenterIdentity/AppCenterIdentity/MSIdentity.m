@@ -197,7 +197,7 @@ static dispatch_once_t onceToken;
   }
 }
 
-+ (void)setConfigURL:(NSString *)configUrl {
++ (void)setConfigUrl:(NSString *)configUrl {
   [MSIdentity sharedInstance].configUrl = configUrl;
 }
 
