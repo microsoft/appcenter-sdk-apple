@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Base URL of the remote configuration file.
  */
-@property(atomic, copy, nullable) NSString *configURL;
+@property(atomic, copy, nullable) NSString *configUrl;
 
 /**
  * Ingestion instance (should not be deallocated).
