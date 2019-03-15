@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 #import <Foundation/Foundation.h>
 
 #define MS_APP_CENTER_BASE_DOMAIN @"com.Microsoft.AppCenter."
