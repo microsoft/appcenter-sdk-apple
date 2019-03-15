@@ -96,7 +96,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   OCMStub([ingestionMock sendAsync:OCMOCK_ANY completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
     // Get ingestion block for later call.
     [invocation retainArguments];
-    [invocation getArgument:&ingestionBlock atIndex:3];
+    [invocation getArgument:&ingestionBlock atIndex:4];
     [invocation getArgument:&logContainer atIndex:2];
   });
   __block id responseMock = [MSHttpTestUtil createMockResponseForStatusCode:200 headers:nil];
@@ -189,7 +189,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   OCMStub([ingestionMock sendAsync:OCMOCK_ANY completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
     // Get ingestion block for later call.
     [invocation retainArguments];
-    [invocation getArgument:&ingestionBlock atIndex:3];
+    [invocation getArgument:&ingestionBlock atIndex:4];
     [invocation getArgument:&logContainer atIndex:2];
   });
   __block id responseMock = [MSHttpTestUtil createMockResponseForStatusCode:300 headers:nil];
@@ -499,10 +499,10 @@ static NSString *const kMSTestGroupId = @"GroupId";
   // Init mocks.
   id ingestionMock = OCMProtocolMock(@protocol(MSIngestionProtocol));
   OCMStub([ingestionMock isReadyToSend]).andReturn(YES);
-  OCMStub([ingestionMock sendAsync:OCMOCK_ANY completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+  OCMStub([ingestionMock sendAsync:OCMOCK_ANY authToken:OCMOCK_ANY completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
     // Get ingestion block for later call.
     [invocation retainArguments];
-    [invocation getArgument:&ingestionBlock atIndex:3];
+    [invocation getArgument:&ingestionBlock atIndex:4];
     [invocation getArgument:&lastBatchLogContainer atIndex:2];
   });
   __block id responseMock = [MSHttpTestUtil createMockResponseForStatusCode:200 headers:nil];
