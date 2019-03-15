@@ -95,6 +95,8 @@
 		D3AD5F121E5C847B001627AB /* MSDataStorePrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5F081E5C8156001627AB /* MSDataStorePrivate.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		D3AD5FDA1E5DDF72001627AB /* libAppCenter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D3AD5FD91E5DDF72001627AB /* libAppCenter.a */; };
 		D3D0CFE91E640ABD003015AF /* OCHamcrestIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3D0CFE81E640ABD003015AF /* OCHamcrestIOS.framework */; };
+		E81CED3A223C424D00EF92F9 /* MSSerializableDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = E81CED38223C424D00EF92F9 /* MSSerializableDocument.m */; };
+		E81CED3B223C424D00EF92F9 /* MSSerialization.h in Headers */ = {isa = PBXBuildFile; fileRef = E81CED39223C424D00EF92F9 /* MSSerialization.h */; };
 		E820F1A1222767B8009EFA5D /* MSSerializableDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = E8FE51E9221CBF87005FB52B /* MSSerializableDocument.h */; };
 		E820F1A2222767C0009EFA5D /* MSStorageIngestion.h in Headers */ = {isa = PBXBuildFile; fileRef = E824A53E2225E80E005B69B5 /* MSStorageIngestion.h */; };
 		E820F1A3222767C2009EFA5D /* MSStorageIngestion.m in Sources */ = {isa = PBXBuildFile; fileRef = E824A53D2225E80E005B69B5 /* MSStorageIngestion.m */; };
@@ -223,6 +225,8 @@
 		D3AD5F3E1E5D69B0001627AB /* iOS.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = iOS.modulemap; sourceTree = "<group>"; };
 		D3AD5FD91E5DDF72001627AB /* libAppCenter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAppCenter.a; path = "../AppCenter/build/Debug-iphoneos/libAppCenter.a"; sourceTree = "<group>"; };
 		D3D0CFE81E640ABD003015AF /* OCHamcrestIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrestIOS.framework; path = ../Vendor/iOS/OCHamcrest/OCHamcrestIOS.framework; sourceTree = "<group>"; };
+		E81CED38223C424D00EF92F9 /* MSSerializableDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSSerializableDocument.m; sourceTree = "<group>"; };
+		E81CED39223C424D00EF92F9 /* MSSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSSerialization.h; sourceTree = "<group>"; };
 		E824A53D2225E80E005B69B5 /* MSStorageIngestion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSStorageIngestion.m; sourceTree = "<group>"; };
 		E824A53E2225E80E005B69B5 /* MSStorageIngestion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSStorageIngestion.h; sourceTree = "<group>"; };
 		E824A5472225FDAC005B69B5 /* MSDataStoreInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDataStoreInternal.h; sourceTree = "<group>"; };
@@ -372,7 +376,9 @@
 				267464E1222F28A300EC1FF3 /* MSWriteOptions.h */,
 				267464EC222F28A300EC1FF3 /* MSWriteOptions.m */,
 				D33A94541E5B11BB003966DB /* AppCenterDataStorage.h */,
+				E81CED39223C424D00EF92F9 /* MSSerialization.h */,
 				E8FE51E9221CBF87005FB52B /* MSSerializableDocument.h */,
+				E81CED38223C424D00EF92F9 /* MSSerializableDocument.m */,
 				D3AD5F071E5C8136001627AB /* Internal */,
 				D3AD5F031E5C7FC9001627AB /* Support */,
 			);
@@ -538,6 +544,7 @@
 				D3AD5F121E5C847B001627AB /* MSDataStorePrivate.h in Headers */,
 				E8593A16222B91B20001F87E /* MSCosmosDb.h in Headers */,
 				E8593A1D222BA37B0001F87E /* MSCosmosDbIngestion.h in Headers */,
+				E81CED3B223C424D00EF92F9 /* MSSerialization.h in Headers */,
 				04A0820C1F74BBCA00DC776D /* MSService.h in Headers */,
 				E86B95D82224B5F60062E552 /* MSTokenExchange.h in Headers */,
 			);
@@ -789,6 +796,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E86B95DA2224B6310062E552 /* MSTokenExchange.m in Sources */,
+				E81CED3A223C424D00EF92F9 /* MSSerializableDocument.m in Sources */,
 				267464FC222F28A300EC1FF3 /* MSWriteOptions.m in Sources */,
 				267464FA222F28A300EC1FF3 /* MSBaseOptions.m in Sources */,
 				2600124222273E94007F4D3A /* MSTokensResponse.m in Sources */,

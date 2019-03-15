@@ -2,8 +2,8 @@
 #import "MSServiceAbstract.h"
 
 @class MSDataStoreError;
-@class MSDocumentWrapper<T : id<MSSerializableDocument>>;
-@class MSPaginatedDocuments<T : id<MSSerializableDocument>>;
+@class MSDocumentWrapper;
+@class MSPaginatedDocuments;
 @class MSReadOptions;
 @class MSWriteOptions;
 
@@ -33,10 +33,10 @@ static int const MSDataStoreTimeToLiveInfinite = -1;
 static int const MSDataStoreTimeToLiveNoCache = 0;
 static int const MSDataStoreTimeToLiveDefault = 60 * 60;
 
-@interface MSDataStore<T : id <MSSerializableDocument>> : MSServiceAbstract
+@interface MSDataStore : MSServiceAbstract
 
-typedef void (^MSDocumentWrapperCompletionHandler)(MSDocumentWrapper<T> *document);
-typedef void (^MSPaginatedDocumentsCompletionHandler)(MSPaginatedDocuments<T> *documents);
+typedef void (^MSDocumentWrapperCompletionHandler)(MSDocumentWrapper *document);
+typedef void (^MSPaginatedDocumentsCompletionHandler)(MSPaginatedDocuments *documents);
 typedef void (^MSDataStoreErrorCompletionHandler)(MSDataStoreError *error);
 
 /**
@@ -109,7 +109,7 @@ typedef void (^MSDataStoreErrorCompletionHandler)(MSDataStoreError *error);
  */
 + (void)createWithPartition:(NSString *)partition
                  documentId:(NSString *)documentId
-                   document:(T)document
+                   document:(MSSerializableDocument *)document
           completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler;
 
 /**
@@ -123,7 +123,7 @@ typedef void (^MSDataStoreErrorCompletionHandler)(MSDataStoreError *error);
  */
 + (void)createWithPartition:(NSString *)partition
                  documentId:(NSString *)documentId
-                   document:(T)document
+                   document:(MSSerializableDocument *)document
                writeOptions:(MSWriteOptions *)writeOptions
           completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler;
 
@@ -137,7 +137,7 @@ typedef void (^MSDataStoreErrorCompletionHandler)(MSDataStoreError *error);
  */
 + (void)replaceWithPartition:(NSString *)partition
                   documentId:(NSString *)documentId
-                    document:(T)document
+                    document:(MSSerializableDocument *)document
            completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler;
 
 /**
@@ -151,7 +151,7 @@ typedef void (^MSDataStoreErrorCompletionHandler)(MSDataStoreError *error);
  */
 + (void)replaceWithPartition:(NSString *)partition
                   documentId:(NSString *)documentId
-                    document:(T)document
+                    document:(MSSerializableDocument *)document
                 writeOptions:(MSWriteOptions *)writeOptions
            completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler;
 

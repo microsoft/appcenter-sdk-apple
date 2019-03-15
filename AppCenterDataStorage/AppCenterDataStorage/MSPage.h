@@ -2,7 +2,7 @@
 #import "MSDocumentWrapper.h"
 #import "MSSerializableDocument.h"
 
-@interface MSPage<T : id <MSSerializableDocument>> : NSObject
+@interface MSPage : NSObject
 
 /**
  * Continuation token for retrieving the next page from CosmosDB.
@@ -17,6 +17,6 @@
 /**
  * Array of documents in the current page (or null).
  */
-@property(readonly) NSArray<MSDocumentWrapper<T> *> *items;
+@property(readonly) NSArray<MSDocumentWrapper *> *items;
 
 @end

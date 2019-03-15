@@ -1,18 +1,14 @@
 #import "MSSerializableDocument.h"
 
+
 @class MSDataSourceError;
 
-@interface MSDocumentWrapper<T : id <MSSerializableDocument>> : NSObject
-
-/**
- * Serialized document.
- */
-@property(nonatomic, strong, readonly) NSString *jsonValue;
+@interface MSDocumentWrapper : NSObject
 
 /**
  * Deserialized document.
  */
-@property(nonatomic, strong, readonly) T deserializedValue;
+@property(nonatomic, strong, readonly) MSSerializableDocument *deserializedValue;
 
 /**
  * Cosmos Db document partition.
@@ -50,7 +46,7 @@
  *
  * @return A new `MSDocumentWrapper` instance.
  */
-- (instancetype)initWithDeserializedValue:(T)deserializedValue
+- (instancetype)initWithDeserializedValue:(MSSerializableDocument *)deserializedValue
                                 partition:(NSString *)partition
                                documentId:(NSString *)documentId
                                      eTag:(NSString *)eTag

@@ -4,7 +4,6 @@
 
 @implementation MSDocumentWrapper
 
-@synthesize jsonValue = _jsonValue;
 @synthesize deserializedValue = _deserializedValue;
 @synthesize documentId = _documentId;
 @synthesize partition = _partition;
@@ -12,7 +11,7 @@
 @synthesize lastUpdatedDate = _lastUpdatedDate;
 @synthesize error = _error;
 
-- (instancetype)initWithDeserializedValue:(id<MSSerializableDocument>)deserializedValue
+- (instancetype)initWithDeserializedValue:(MSSerializableDocument *)deserializedValue
                                 partition:(NSString *)partition
                                documentId:(NSString *)documentId
                                      eTag:(NSString *)eTag

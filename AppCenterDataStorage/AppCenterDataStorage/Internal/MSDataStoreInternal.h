@@ -7,7 +7,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MSDataStore <T : id <MSSerializableDocument>>() <MSServiceInternal>
+@interface MSDataStore() <MSServiceInternal>
 
 /**
  * An token exchange url that is used to get resouce tokens.

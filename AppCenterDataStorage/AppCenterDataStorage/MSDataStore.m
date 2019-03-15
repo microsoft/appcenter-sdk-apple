@@ -39,6 +39,11 @@ static NSString *const kMSDocumentTimestampKey = @"_ts";
 static NSString *const kMSDocumentEtagKey = @"_etag";
 
 /**
+ * CosmosDb document key.
+ */
+static NSString *const kMSDocumentKey = @"document";
+
+/**
  * CosmosDb Http code key.
  */
 static NSString *const kMSCosmosDbHttpCodeKey = @"com.Microsoft.AppCenter.HttpCodeKey";
@@ -114,7 +119,7 @@ static dispatch_once_t onceToken;
 
 + (void)createWithPartition:(NSString *)partition
                  documentId:(NSString *)documentId
-                   document:(id<MSSerializableDocument>)document
+                   document:(MSSerializableDocument *)document
           completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
   [[MSDataStore sharedInstance] createWithPartition:partition
                                          documentId:documentId
@@ -125,7 +130,7 @@ static dispatch_once_t onceToken;
 
 + (void)createWithPartition:(NSString *)partition
                  documentId:(NSString *)documentId
-                   document:(id<MSSerializableDocument>)document
+                   document:(MSSerializableDocument *)document
                writeOptions:(MSWriteOptions *)writeOptions
           completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
   [[MSDataStore sharedInstance] createWithPartition:partition
@@ -137,7 +142,7 @@ static dispatch_once_t onceToken;
 
 + (void)replaceWithPartition:(NSString *)partition
                   documentId:(NSString *)documentId
-                    document:(id<MSSerializableDocument>)document
+                    document:(MSSerializableDocument *)document
            completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
   // @todo
   (void)partition;
@@ -148,7 +153,7 @@ static dispatch_once_t onceToken;
 
 + (void)replaceWithPartition:(NSString *)partition
                   documentId:(NSString *)documentId
-                    document:(id<MSSerializableDocument>)document
+                    document:(MSSerializableDocument *)document
                 writeOptions:(MSWriteOptions *)writeOptions
            completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
   // @todo
@@ -182,11 +187,12 @@ static dispatch_once_t onceToken;
 #pragma mark - MSDataStore Implementation
 - (void)createWithPartition:(NSString *)partition
                  documentId:(NSString *)documentId
-                   document:(id<MSSerializableDocument>)document
+                   document:(MSSerializableDocument *)document
                writeOptions:(MSWriteOptions *)__unused writeOptions
           completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
 
   // TODO consume writeOptions
+  // Get token.
   [MSTokenExchange
              tokenAsync:(MSStorageIngestion *)self.ingestion
              partitions:@[ partition ]
@@ -243,7 +249,13 @@ static dispatch_once_t onceToken;
                                         NSTimeInterval interval = [(NSString *)json[kMSDocumentTimestampKey] doubleValue];
                                         NSDate *date = [NSDate dateWithTimeIntervalSince1970:interval];
                                         NSString *eTag = json[kMSDocumentEtagKey];
-                                        MSDocumentWrapper *docWrapper = [[MSDocumentWrapper alloc] initWithDeserializedValue:document
+                                        
+                                        // Create instance of user defined class.
+                                        Class aClass = [(NSObject *)document class];
+                                        MSSerializableDocument *deserializedDocument  = [[aClass alloc] initFromDictionary:(NSDictionary *)json[kMSDocumentKey]];
+
+                                        // Create document wrapper object.
+                                        MSDocumentWrapper *docWrapper = [[MSDocumentWrapper alloc] initWithDeserializedValue:deserializedDocument
                                                                                                                    partition:partition
                                                                                                                   documentId:documentId
                                                                                                                         eTag:eTag

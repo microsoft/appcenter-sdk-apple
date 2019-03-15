@@ -8,13 +8,13 @@
   return NO;
 }
 
-- (MSPage<id<MSSerializableDocument>> *)currentPage {
+- (MSPage *)currentPage {
   // @todo
   return nil;
 }
 
-- (MSPage<id<MSSerializableDocument>> *)nextPageWithCompletionHandler:
-    (void (^)(MSPage<id<MSSerializableDocument>> *page))completionHandler {
+- (MSPage *)nextPageWithCompletionHandler:
+    (void (^)(MSPage *page))completionHandler {
   // @todo
   (void)completionHandler;
   return nil;

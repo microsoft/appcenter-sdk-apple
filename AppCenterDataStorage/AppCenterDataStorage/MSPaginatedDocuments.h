@@ -2,7 +2,7 @@
 #import "MSSerializableDocument.h"
 
 // A (paginated) list of documents from CosmosDB
-@interface MSPaginatedDocuments<T : id <MSSerializableDocument>> : NSObject
+@interface MSPaginatedDocuments : NSObject
 
 /**
  * Boolean indicating if an extra page is available.
@@ -14,7 +14,7 @@
  *
  * @return The current page of documents.
  */
-- (MSPage<T> *)currentPage;
+- (MSPage *)currentPage;
 
 /**
  * Asynchronously fetch the next page.
@@ -23,6 +23,6 @@
  *
  * @return The next page of documents.
  */
-- (MSPage<T> *)nextPageWithCompletionHandler:(void (^)(MSPage<T> *page))completionHandler;
+- (MSPage *)nextPageWithCompletionHandler:(void (^)(MSPage *page))completionHandler;
 
 @end
