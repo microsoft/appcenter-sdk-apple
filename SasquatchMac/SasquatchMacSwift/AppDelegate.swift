@@ -85,15 +85,16 @@ class AppDelegate: NSObject, NSApplicationDelegate, MSCrashesDelegate, MSPushDel
     // Start AppCenter.
     let services = [MSAnalytics.self, MSCrashes.self, MSPush.self]
     let startTarget = StartupMode(rawValue: UserDefaults.standard.integer(forKey: kMSStartTargetKey))!
+    let appSecret = UserDefaults.standard.string(forKey: kMSAppSecret) ?? kMSAppSecret
     switch startTarget {
     case .appCenter:
-        MSAppCenter.start(kMSSwiftAppSecret, withServices: services)
+        MSAppCenter.start(appSecret, withServices: services)
         break
     case .oneCollector:
         MSAppCenter.start("target=\(kMSSwiftTargetToken)", withServices: services)
         break
     case .both:
-        MSAppCenter.start("appsecret=\(kMSSwiftAppSecret);target=\(kMSSwiftTargetToken)", withServices: services)
+        MSAppCenter.start("appsecret=\(appSecret);target=\(kMSSwiftTargetToken)", withServices: services)
         break
     case .none:
         MSAppCenter.start(withServices: services)
