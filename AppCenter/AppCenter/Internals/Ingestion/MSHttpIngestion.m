@@ -96,12 +96,23 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
   return YES;
 }
 
+- (void)sendAsync:(NSObject *)data authToken:(nullable NSString *)authToken completionHandler:(MSSendAsyncCompletionHandler)handler {
+  [self sendAsync:data eTag:nil authToken:authToken callId:MS_UUID_STRING completionHandler:handler];
+}
+
+- (void)sendAsync:(NSObject *)data
+                 eTag:(nullable NSString *)eTag
+            authToken:(nullable NSString *)authToken
+    completionHandler:(MSSendAsyncCompletionHandler)handler {
+  [self sendAsync:data eTag:eTag authToken:authToken callId:MS_UUID_STRING completionHandler:handler];
+}
+
 - (void)sendAsync:(NSObject *)data completionHandler:(MSSendAsyncCompletionHandler)handler {
-  [self sendAsync:data eTag:nil callId:MS_UUID_STRING completionHandler:handler];
+  [self sendAsync:data eTag:nil authToken:nil callId:MS_UUID_STRING completionHandler:handler];
 }
 
 - (void)sendAsync:(NSObject *)data eTag:(nullable NSString *)eTag completionHandler:(MSSendAsyncCompletionHandler)handler {
-  [self sendAsync:data eTag:eTag callId:MS_UUID_STRING completionHandler:handler];
+  [self sendAsync:data eTag:eTag authToken:nil callId:MS_UUID_STRING completionHandler:handler];
 }
 
 - (void)addDelegate:(id<MSIngestionDelegate>)delegate {
@@ -203,7 +214,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
     }
 
     // Create the request.
-    NSURLRequest *request = [self createRequest:call.data eTag:call.eTag];
+    NSURLRequest *request = [self createRequest:call.data eTag:call.eTag authToken:call.authToken];
     if (!request) {
       return;
     }
@@ -331,7 +342,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
 /**
  * This is an empty method expected to be overridden in sub classes.
  */
-- (NSURLRequest *)createRequest:(NSObject *)__unused data eTag:(NSString *)__unused eTag {
+- (NSURLRequest *)createRequest:(NSObject *)__unused data eTag:(NSString *)__unused eTag authToken:(nullable NSString *)__unused authToken {
   return nil;
 }
 
@@ -376,6 +387,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
 
 - (void)sendAsync:(NSObject *)data
                  eTag:(nullable NSString *)eTag
+            authToken:(nullable NSString *)__unused authToken
                callId:(NSString *)callId
     completionHandler:(MSSendAsyncCompletionHandler)handler {
   @synchronized(self) {
@@ -386,6 +398,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
       call = [[MSIngestionCall alloc] initWithRetryIntervals:self.callsRetryIntervals];
       call.delegate = self;
       call.data = data;
+      call.authToken = authToken;
       call.eTag = eTag;
       call.callId = callId;
       call.completionHandler = handler;

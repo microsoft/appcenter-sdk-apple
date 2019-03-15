@@ -3,6 +3,7 @@
 #import "MSAppCenterErrors.h"
 #import "MSAppCenterIngestion.h"
 #import "MSAppCenterInternal.h"
+#import "MSAuthTokenContext.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitDefaultPrivate.h"
 #import "MSDeviceTracker.h"
@@ -250,9 +251,11 @@
                                           [delegate channel:self willSendLog:aLog];
                                         }
                                       }];
+            NSString *authToken = [MSAuthTokenContext sharedInstance].authToken;
 
             // Forward logs to the ingestion.
             [self.ingestion sendAsync:container
+                            authToken:authToken
                     completionHandler:^(NSString *ingestionBatchId, NSHTTPURLResponse *response, __attribute__((unused)) NSData *data,
                                         NSError *error) {
                       dispatch_async(self.logsDispatchQueue, ^{

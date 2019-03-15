@@ -15,11 +15,6 @@ extern NSString *const kMSBearerTokenHeaderFormat;
 @property(nonatomic, copy) NSString *appSecret;
 
 /**
- * The authorization token. If unavailable, this is nil.
- */
-@property(atomic, copy, nullable) NSString *authToken;
-
-/**
  * Initialize the Ingestion.
  *
  * @param baseUrl Base url.
