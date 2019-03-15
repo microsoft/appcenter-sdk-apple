@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import UIKit;
 
 enum AppCenterSections: Int { case actions = 0; case miscellaneous = 1; case settings = 2; }

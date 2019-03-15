@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import UIKit
 
 class MSEnumPicker<E: RawRepresentable & Equatable> : NSObject, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate where E.RawValue == String {
