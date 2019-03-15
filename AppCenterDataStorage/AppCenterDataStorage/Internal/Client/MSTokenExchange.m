@@ -16,9 +16,9 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
 
 @implementation MSTokenExchange : NSObject
 
-+ (void)performDbTokenAsyncOperationWithIngestion:(MSStorageIngestion *)ingestion
-                                        partition:(NSString *)partition
-                                completionHandler:(MSGetTokenAsyncCompletionHandler _Nonnull)completion {
++ (void)performDbTokenAsyncOperationWithHttpClient:(MSStorageIngestion *)httpClient
+                                         partition:(NSString *)partition
+                                 completionHandler:(MSGetTokenAsyncCompletionHandler _Nonnull)completion {
 
   // Get the cached token if it is saved.
   MSTokenResult *cachedToken = [MSTokenExchange retrieveCachedToken:partition];
@@ -31,7 +31,7 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
     NSData *payloadData = [NSJSONSerialization dataWithJSONObject:@{kMSPartitions : @[ partition ]} options:0 error:&jsonError];
 
     // Http call.
-    [ingestion sendAsync:payloadData
+    [httpClient sendAsync:payloadData
         completionHandler:^(NSString *callId, NSHTTPURLResponse *response, NSData *data, NSError *error) {
           MSLogVerbose([MSDataStore logTag], @"Get token callback, request Id %@ with status code: %lu", callId,
                        (unsigned long)response.statusCode);

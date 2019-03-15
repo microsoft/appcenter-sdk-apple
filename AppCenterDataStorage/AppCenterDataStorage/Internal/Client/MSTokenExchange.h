@@ -15,13 +15,13 @@ typedef void (^MSGetTokenAsyncCompletionHandler)(MSTokensResponse *tokenResponse
 /**
  * Get token from token exchange.
  *
- * @param ingestion http client.
+ * @param httpClient http client.
  * @param completion callback that gets the token.
  *
  */
-+ (void)performDbTokenAsyncOperationWithIngestion:(MSStorageIngestion *)ingestion
-                                        partition:(NSString *)partition
-                                completionHandler:(MSGetTokenAsyncCompletionHandler _Nonnull)completion;
++ (void)performDbTokenAsyncOperationWithHttpClient:(MSStorageIngestion *)httpClient
+                                         partition:(NSString *)partition
+                                 completionHandler:(MSGetTokenAsyncCompletionHandler _Nonnull)completion;
 
 /*
  * When the user logs out, all the cached tokens are deleted

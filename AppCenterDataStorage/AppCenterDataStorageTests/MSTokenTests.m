@@ -1,5 +1,5 @@
-#import <Foundation/Foundation.h>
 #import "MSTestFrameworks.h"
+#import <Foundation/Foundation.h>
 
 static NSString *const partitionName = @"TestAppSecret";
 static NSString *const token = @"mockToken";
