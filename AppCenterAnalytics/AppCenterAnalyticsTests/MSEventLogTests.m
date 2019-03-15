@@ -3,7 +3,6 @@
 #import "MSAppExtension.h"
 #import "MSCSData.h"
 #import "MSCSExtensions.h"
-#import "MSCSModelConstants.h"
 #import "MSDeviceInternal.h"
 #import "MSEventLogPrivate.h"
 #import "MSEventPropertiesInternal.h"

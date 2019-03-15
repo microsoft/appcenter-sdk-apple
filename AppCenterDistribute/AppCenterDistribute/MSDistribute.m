@@ -712,10 +712,10 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   // Step 7. Open a dialog and ask a user to choose options for the update.
   if (!self.releaseDetails || ![self.releaseDetails isEqual:details]) {
     self.releaseDetails = details;
-    id<MSDistributeDelegate> strongDelegate = self.delegate;
-    if (strongDelegate && [strongDelegate respondsToSelector:@selector(distribute:releaseAvailableWithDetails:)]) {
+    id<MSDistributeDelegate> delegate = self.delegate;
+    if ([delegate respondsToSelector:@selector(distribute:releaseAvailableWithDetails:)]) {
       dispatch_async(dispatch_get_main_queue(), ^{
-        BOOL customized = [strongDelegate distribute:self releaseAvailableWithDetails:details];
+        BOOL customized = [delegate distribute:self releaseAvailableWithDetails:details];
         MSLogDebug([MSDistribute logTag], @"releaseAvailableWithDetails delegate returned %@.", customized ? @"YES" : @"NO");
         if (!customized) {
           [self showConfirmationAlert:details];

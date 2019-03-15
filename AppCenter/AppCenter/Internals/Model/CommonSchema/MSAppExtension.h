@@ -3,6 +3,12 @@
 #import "MSModel.h"
 #import "MSSerializableObject.h"
 
+static NSString *const kMSAppId = @"id";
+static NSString *const kMSAppLocale = @"locale";
+static NSString *const kMSAppName = @"name";
+static NSString *const kMSAppVer = @"ver";
+static NSString *const kMSAppUserId = @"userId";
+
 /**
  * The App extension contains data specified by the application.
  */

@@ -2,6 +2,8 @@
 
 #import "MSTypedProperty.h"
 
+static NSString *const kMSStringTypedPropertyType = @"string";
+
 @interface MSStringTypedProperty : MSTypedProperty
 
 /**
