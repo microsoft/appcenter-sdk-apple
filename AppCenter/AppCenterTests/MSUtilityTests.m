@@ -834,7 +834,10 @@
 - (void)testTargetIdFromTargetToken {
 
   // When
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wnonnull"
   NSString *targetId = [MSUtility targetKeyFromTargetToken:nil];
+#pragma clang diagnostic pop
 
   // Then
   XCTAssertNil(targetId);

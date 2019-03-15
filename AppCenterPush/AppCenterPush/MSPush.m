@@ -374,9 +374,7 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
                                                                             customData:(NSDictionary<NSString *, NSString *> *)customData];
 
       // Call push delegate and deliver notification back to the application.
-      dispatch_async(dispatch_get_main_queue(), ^{
-        [self.delegate push:self didReceivePushNotification:pushNotification];
-      });
+      [self didReceivePushNotification:pushNotification];
 #if TARGET_OS_OSX
     } else {
       NSUserNotification *notification = [[NSUserNotification alloc] init];
@@ -399,6 +397,15 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
   if (pushTokenCopy) {
     [self sendPushToken:pushTokenCopy];
   }
+}
+
+- (void)didReceivePushNotification:(MSPushNotification *)pushNotification {
+  dispatch_async(dispatch_get_main_queue(), ^{
+    id<MSPushDelegate> delegate = self.delegate;
+    if ([delegate respondsToSelector:@selector(push:didReceivePushNotification:)]) {
+      [delegate push:self didReceivePushNotification:pushNotification];
+    }
+  });
 }
 
 @end

@@ -153,14 +153,6 @@ typedef struct MSCrashesCallbacks {
 - (BOOL)shouldProcessErrorReport:(MSErrorReport *)errorReport;
 
 /**
- * Determine whether delegate has an attachment callback for error report or
- * not.
- *
- * @return YES if delegate has an attachment callback, otherwise NO.
- */
-- (BOOL)delegateImplementsAttachmentCallback;
-
-/**
  * Creates log buffer to buffer logs which will be saved in an async-safe manner
  * at crash time. The buffer makes sure we don't lose any logs at crash time.
  * This method creates 20 files that will be used to buffer 20 logs.

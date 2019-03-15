@@ -3,6 +3,8 @@
 #import "MSModel.h"
 #import "MSSerializableObject.h"
 
+static NSString *const kMSDeviceLocalId = @"localId";
+
 /**
  * Device extension contains device information.
  */

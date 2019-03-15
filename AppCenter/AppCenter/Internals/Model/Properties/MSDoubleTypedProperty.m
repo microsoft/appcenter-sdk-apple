@@ -1,5 +1,4 @@
 #import "MSDoubleTypedProperty.h"
-#import "MSACModelConstants.h"
 
 @implementation MSDoubleTypedProperty
 

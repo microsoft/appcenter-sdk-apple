@@ -21,7 +21,8 @@ import AppCenterAnalytics
   func isDebuggerAttached() -> Bool
   func startAnalyticsFromLibrary()
   func setUserId(_ userId: String?)
-
+  func setCountryCode(_ countryCode: String?)
+  
   // Modules section.
   func isAnalyticsEnabled() -> Bool
   func isCrashesEnabled() -> Bool

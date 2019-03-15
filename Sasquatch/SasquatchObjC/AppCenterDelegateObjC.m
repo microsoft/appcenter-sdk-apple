@@ -75,6 +75,10 @@
   [MSAppCenter setUserId:userId];
 }
 
+- (void)setCountryCode:(NSString *)countryCode {
+  [MSAppCenter setCountryCode:countryCode];
+}
+
 #pragma mark - Modules section.
 - (BOOL)isAnalyticsEnabled {
   return [MSAnalytics isEnabled];
