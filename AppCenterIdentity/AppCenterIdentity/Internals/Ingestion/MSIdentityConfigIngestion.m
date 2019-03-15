@@ -8,9 +8,9 @@
 
 @implementation MSIdentityConfigIngestion
 
-- (id)initWithBaseURL:(NSString *)baseURL appSecret:(NSString *)appSecret {
+- (id)initWithBaseUrl:(NSString *)baseUrl appSecret:(NSString *)appSecret {
   NSString *apiPath = [NSString stringWithFormat:kMSIdentityConfigApiFormat, appSecret];
-  if ((self = [super initWithBaseUrl:baseURL
+  if ((self = [super initWithBaseUrl:baseUrl
                              apiPath:apiPath
                              headers:nil
                         queryStrings:nil
