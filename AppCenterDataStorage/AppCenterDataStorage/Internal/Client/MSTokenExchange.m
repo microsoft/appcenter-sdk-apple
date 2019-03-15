@@ -40,7 +40,7 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
           NSDictionary *jsonDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&tokenResponsejsonError];
           if (tokenResponsejsonError) {
             MSLogError([MSDataStore logTag], @"Can't deserialize tokens with error: %@", [tokenResponsejsonError description]);
-            completion([[MSTokensResponse alloc] initWithTokens:nil], error);
+            completionHandler([[MSTokensResponse alloc] initWithTokens:nil], error);
             return;
           }
 
@@ -51,7 +51,7 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
           if (error) {
             MSLogError([MSDataStore logTag], @"Get on DB Token had an error with code: %td, description: %@", error.code,
                        error.localizedDescription);
-            completion([[MSTokensResponse alloc] initWithTokens:nil], error);
+            completionHandler([[MSTokensResponse alloc] initWithTokens:nil], error);
             return;
           }
 
@@ -61,16 +61,16 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
           // Token exchange did not get back an error but aquiring the token did not succeed either
           if (tokenResult && tokenResult.status != kMSTokenResultSucceed) {
             MSLogError([MSDataStore logTag], @"Token result had a status of %@", tokenResult.status);
-            completion(tokens, error);
+            completionHandler(tokens, error);
             return;
           }
 
           // Cache the newly acquired token.
           [MSTokenExchange saveToken:tokenResult];
-          completion(tokens, error);
+          completionHandler(tokens, error);
         }];
   } else {
-    completion([[MSTokensResponse alloc] initWithTokens:@[ cachedToken ]], nil);
+    completionHandler([[MSTokensResponse alloc] initWithTokens:@[ cachedToken ]], nil);
   }
 }
 
