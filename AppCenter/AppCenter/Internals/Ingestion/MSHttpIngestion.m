@@ -387,7 +387,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
 
 - (void)sendAsync:(NSObject *)data
                  eTag:(nullable NSString *)eTag
-            authToken:(nullable NSString *)__unused authToken
+            authToken:(nullable NSString *)authToken
                callId:(NSString *)callId
     completionHandler:(MSSendAsyncCompletionHandler)handler {
   @synchronized(self) {
