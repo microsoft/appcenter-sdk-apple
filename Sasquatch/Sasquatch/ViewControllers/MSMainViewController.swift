@@ -4,7 +4,7 @@ import UIKit
 // 10 MiB.
 let kMSDefaultDatabaseSize = 10 * 1024 * 1024
 let acProdLogUrl = "https://in.appcenter.ms"
-let ocProdLogUrl = "https://mobile.events.data.microsoft.com";
+let ocProdLogUrl = "https://mobile.events.data.microsoft.com"
 
 class MSMainViewController: UITableViewController, AppCenterProtocol, CLLocationManagerDelegate {
   
@@ -53,10 +53,14 @@ class MSMainViewController: UITableViewController, AppCenterProtocol, CLLocation
 
     // Startup mode.
     let startupMode = UserDefaults.standard.integer(forKey: kMSStartTargetKey)
-    self.startupModePicker = MSEnumPicker<StartupMode>(
+    self.startupModePicker = MSEnumPicker<StartupMode> (
       textField: self.startupModeField,
       allValues: StartupMode.allValues,
-      onChange: {(index) in UserDefaults.standard.set(index, forKey: kMSStartTargetKey); UserDefaults.standard.removeObject(forKey: kMSLogUrl)})
+      onChange: { index in
+        UserDefaults.standard.set(index, forKey: kMSStartTargetKey)
+        UserDefaults.standard.removeObject(forKey: kMSLogUrl)
+      }
+    )
     self.startupModeField.delegate = self.startupModePicker
     self.startupModeField.text = StartupMode.allValues[startupMode].rawValue
     self.startupModeField.tintColor = UIColor.clear
