@@ -33,8 +33,8 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
     // Http call.
     [httpClient sendAsync:payloadData
         completionHandler:^(NSString *callId, NSHTTPURLResponse *response, NSData *data, NSError *error) {
-          MSLogVerbose([MSDataStore logTag], @"Get token callback, request Id %@ with status code: %lu", callId,
-                       (unsigned long)response.statusCode);
+          MSLogVerbose([MSDataStore logTag], @"Get token callback, request Id %@ with status code: %td", callId,
+                       response.statusCode);
 
           // Read tokens.
           NSError *tokenResponsejsonError;

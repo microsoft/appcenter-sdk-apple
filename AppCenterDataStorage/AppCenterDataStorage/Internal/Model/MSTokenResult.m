@@ -74,7 +74,7 @@ static NSString *const kMSToken = @"token";
   return self;
 }
 
-- (NSDictionary *)serializeToDictionary {
+- (NSDictionary *)convertToDictionary {
   return @{
     kMSPartition : self.partition,
     kMSDbAccount : self.dbAccount,
@@ -88,12 +88,11 @@ static NSString *const kMSToken = @"token";
 
 - (NSString *)serializeToString {
   NSError *error = nil;
-  NSDictionary *tokenDict = [self serializeToDictionary];
+  NSDictionary *tokenDict = [self convertToDictionary];
   if ([NSJSONSerialization isValidJSONObject:tokenDict]) {
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:tokenDict options:NSJSONWritingPrettyPrinted error:&error];
     if (jsonData != nil && error == nil) {
-      NSString *tokenString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-      return tokenString;
+      return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     }
   }
   return nil;
