@@ -3,9 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>FILEHEADER</key>
-	<string>
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
-//</string>
+	<string> Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.</string>
 </dict>
 </plist>

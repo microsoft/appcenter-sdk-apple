@@ -1,7 +1,5 @@
-//
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-//
 
 // -reserved-id-macro
 // PLCrashReporter uses lots of _-prefixed macros and it's not an issue but

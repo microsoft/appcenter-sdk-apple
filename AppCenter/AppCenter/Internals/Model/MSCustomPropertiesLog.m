@@ -1,7 +1,5 @@
-//
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-//
 
 #import "MSCustomPropertiesLog.h"
 #import "MSUtility+Date.h"
