@@ -18,7 +18,7 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
 
 + (void)performDbTokenAsyncOperationWithHttpClient:(MSStorageIngestion *)httpClient
                                          partition:(NSString *)partition
-                                 completionHandler:(MSGetTokenAsyncCompletionHandler _Nonnull)completion {
+                                 completionHandler:(MSGetTokenAsyncCompletionHandler _Nonnull)completionHandler {
 
   // Get the cached token if it is saved.
   MSTokenResult *cachedToken = [MSTokenExchange retrieveCachedToken:partition];
@@ -79,8 +79,12 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
  * The token is stored in KeyChain
  */
 + (void)saveToken:(MSTokenResult *)tokenResult {
-  if (tokenResult) {
-    NSString *tokenString = [tokenResult serializeToString];
+  NSString *tokenString = [tokenResult serializeToString];
+  if (!tokenString) {
+    MSLogError([MSDataStore logTag], @"Can't save the token to keychain because token is nil.");
+  } else if (!tokenResult.partition) {
+    MSLogError([MSDataStore logTag], @"Can't save the token in keychain because partitionKey is nill");
+  } else {
     BOOL success = [MSKeychainUtil storeString:tokenString forKey:[MSTokenExchange tokenKeyNameForPartition:tokenResult.partition]];
     if (success) {
       MSLogDebug([MSDataStore logTag], @"Saved token in keychain for the partitionKey : %@.", tokenResult.partition);

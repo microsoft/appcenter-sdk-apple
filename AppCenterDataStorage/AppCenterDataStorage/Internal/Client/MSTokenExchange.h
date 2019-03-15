@@ -16,15 +16,16 @@ typedef void (^MSGetTokenAsyncCompletionHandler)(MSTokensResponse *tokenResponse
  * Get token from token exchange.
  *
  * @param httpClient http client.
- * @param completion callback that gets the token.
+ * @param partition cosmosdb partition.
+ * @param completionHandler callback that gets the token.
  *
  */
 + (void)performDbTokenAsyncOperationWithHttpClient:(MSStorageIngestion *)httpClient
                                          partition:(NSString *)partition
-                                 completionHandler:(MSGetTokenAsyncCompletionHandler _Nonnull)completion;
+                                 completionHandler:(MSGetTokenAsyncCompletionHandler _Nonnull)completionHandler;
 
 /*
- * When the user logs out, all the cached tokens are deleted
+ * When the user logs out, all the cached tokens are deleted.
  */
 + (void)removeAllCachedTokens;
 
