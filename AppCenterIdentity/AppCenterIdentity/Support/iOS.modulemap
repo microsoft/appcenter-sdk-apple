@@ -6,4 +6,5 @@ framework module AppCenterIdentity {
   
   link framework "Foundation"
   link framework "UIKit"
+  link framework "AuthenticationServices"
 }
