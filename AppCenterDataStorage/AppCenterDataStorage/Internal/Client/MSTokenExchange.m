@@ -33,8 +33,7 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
     // Http call.
     [httpClient sendAsync:payloadData
         completionHandler:^(NSString *callId, NSHTTPURLResponse *response, NSData *data, NSError *error) {
-          MSLogVerbose([MSDataStore logTag], @"Get token callback, request Id %@ with status code: %td", callId,
-                       response.statusCode);
+          MSLogVerbose([MSDataStore logTag], @"Get token callback, request Id %@ with status code: %td", callId, response.statusCode);
 
           // Read tokens.
           NSError *tokenResponsejsonError;
@@ -145,7 +144,7 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
 }
 
 /*
- * Based on the partition name we have 2 different kinds of tokens that gets issued
+ * Based on the partition name we have 2 different kinds of tokens that get issued
  * They get stored in KeyChain based on the partition
  * KeyNames :
  *     Readonly partion : MSStorageReadOnlyDbToken
