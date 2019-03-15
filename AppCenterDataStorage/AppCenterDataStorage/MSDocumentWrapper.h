@@ -1,6 +1,5 @@
 #import "MSSerializableDocument.h"
 
-
 @class MSDataSourceError;
 
 @interface MSDocumentWrapper : NSObject

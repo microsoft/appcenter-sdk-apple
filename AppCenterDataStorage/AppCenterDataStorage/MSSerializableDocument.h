@@ -1,6 +1,6 @@
-#import "MSSerialization.h"
 #import "MSSerializableDocument.h"
+#import "MSSerialization.h"
 
-@interface MSSerializableDocument : NSObject<MSSerialization>
+@interface MSSerializableDocument : NSObject <MSSerialization>
 
 @end

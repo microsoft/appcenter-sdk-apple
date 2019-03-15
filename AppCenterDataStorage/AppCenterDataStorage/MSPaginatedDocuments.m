@@ -13,8 +13,7 @@
   return nil;
 }
 
-- (MSPage *)nextPageWithCompletionHandler:
-    (void (^)(MSPage *page))completionHandler {
+- (MSPage *)nextPageWithCompletionHandler:(void (^)(MSPage *page))completionHandler {
   // @todo
   (void)completionHandler;
   return nil;
