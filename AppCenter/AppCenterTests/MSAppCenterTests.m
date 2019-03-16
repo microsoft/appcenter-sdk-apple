@@ -380,8 +380,21 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 }
 
 - (void)testDefaultLogUrl {
+  NSString *defaultUrl = @"https://in.appcenter.ms";
+
   [MSAppCenter start:MS_UUID_STRING withServices:nil];
-  XCTAssertTrue([[[MSAppCenter sharedInstance] logUrl] isEqualToString:@"https://in.appcenter.ms"]);
+  XCTAssertNil([[MSAppCenter sharedInstance] logUrl]);
+  MSChannelGroupDefault *channelGroup = [[MSAppCenter sharedInstance] channelGroup];
+  NSURL *endPointLogUrl = [[channelGroup ingestion] sendURL];
+  XCTAssertTrue([[endPointLogUrl absoluteString] containsString:defaultUrl]);
+}
+
+- (void)testDefaultLogUrlWithNoAppsecret {
+  NSString *defaultUrl = @"https://mobile.events.data.microsoft.com";
+
+  [MSAppCenter startWithServices:nil];
+  NSURL *endPointLogUrl = [[[[MSAppCenter sharedInstance] oneCollectorChannelDelegate] oneCollectorIngestion] sendURL];
+  XCTAssertTrue([[endPointLogUrl absoluteString] containsString:defaultUrl]);
 }
 
 - (void)testSetLogUrlWithNoAppsecret {

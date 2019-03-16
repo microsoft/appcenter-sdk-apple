@@ -42,10 +42,8 @@ class AppCenterDelegateSwift: AppCenterDelegate {
     return "Internal"
   }
 
-  func logUrl() -> String {
-    // TODO: Uncomment when logUrl is moved from internal to public
-    // return MSAppCenter.sharedInstance().logUrl()
-    return "Internal"
+  func setLogUrl(_ logUrl: String?) {
+    MSAppCenter.setLogUrl(logUrl);
   }
 
   func sdkVersion() -> String {
