@@ -53,4 +53,13 @@ static NSString *const kMSHidingStringForAppSecret = @"*";
  */
 + (NSString *)hideSecret:(NSString *)secret;
 
+/**
+ * Hide an authentication JWT token.
+ *
+ * @param token the token string.
+ *
+ * @return token by hiding some characters.
+ */
++ (NSString *)hideAuthToken:(NSString *)token;
+
 @end

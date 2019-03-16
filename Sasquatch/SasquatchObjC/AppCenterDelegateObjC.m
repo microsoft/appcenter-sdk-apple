@@ -11,6 +11,7 @@
 // Internal
 #import "MSAnalyticsInternal.h"
 #import "MSAppCenterInternal.h"
+#import "MSIdentityPrivate.h"
 
 #else
 @import AppCenter;
@@ -27,6 +28,7 @@
 @implementation AppCenterDelegateObjC
 
 #pragma mark - MSAppCenter section.
+
 - (BOOL)isAppCenterEnabled {
   return [MSAppCenter isEnabled];
 }
@@ -80,6 +82,7 @@
 }
 
 #pragma mark - Modules section.
+
 - (BOOL)isAnalyticsEnabled {
   return [MSAnalytics isEnabled];
 }
@@ -116,15 +119,12 @@
   return [MSIdentity setEnabled:isEnabled];
 }
 
-- (void)signIn {
-  [MSIdentity signIn];
-}
-
 - (void)setPushEnabled:(BOOL)isEnabled {
   return [MSPush setEnabled:isEnabled];
 }
 
 #pragma mark - MSAnalytics section.
+
 - (void)trackEvent:(NSString *)eventName {
   [MSAnalytics trackEvent:eventName];
 }
@@ -166,6 +166,7 @@
 }
 
 #pragma mark - MSCrashes section.
+
 - (BOOL)hasCrashedInLastSession {
   return [MSCrashes hasCrashedInLastSession];
 }
@@ -210,7 +211,24 @@
   }
 }
 
+#pragma mark - MSIdentity section.
+
+- (void)signIn {
+  [MSIdentity signInWithCompletionHandler:^(MSUserInformation *_Nullable userInformation, NSError *_Nullable error) {
+    if (!error) {
+      NSLog(@"Identity.signIn succeeded, accountId=%@", userInformation.accountId);
+    } else {
+      NSLog(@"Identity.signIn failed, error=%@", error);
+    }
+  }];
+}
+
+- (void)signOut {
+  [MSIdentity signOut];
+}
+
 #pragma mark - Last crash report section.
+
 - (NSString *)lastCrashReportIncidentIdentifier {
   return [[MSCrashes lastSessionCrashReport] incidentIdentifier];
 }

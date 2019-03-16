@@ -4,18 +4,10 @@
 #import "MSCustomApplicationDelegate.h"
 #import "MSIdentity.h"
 #import "MSIdentityConfig.h"
+#import "MSIdentityConfigIngestion.h"
 #import "MSServiceInternal.h"
 
 NS_ASSUME_NONNULL_BEGIN
-
-// The eTag key to store the eTag of current configuration.
-static NSString *const kMSIdentityETagKey = @"MSIdentityETagKey";
-
-// The key for Identity auth token stored in keychain.
-static NSString *const kMSIdentityAuthTokenKey = @"MSIdentityAuthToken";
-
-// The key for the MSALAccount homeAccountId stored in user defaults.
-static NSString *const kMSIdentityMSALAccountHomeAccountKey = @"MSIdentityMSALAccountHomeAccount";
 
 @class MSALPublicClientApplication;
 
@@ -32,14 +24,24 @@ static NSString *const kMSIdentityMSALAccountHomeAccountKey = @"MSIdentityMSALAc
 @property(nonatomic, nullable) MSIdentityConfig *identityConfig;
 
 /**
- * The flag that indicates a user requested signIn before it is configured.
+ * Base URL of the remote configuration file.
  */
-@property(nonatomic) BOOL signInDelayedAndRetryLater;
+@property(atomic, copy, nullable) NSString *configUrl;
+
+/**
+ * Ingestion instance (should not be deallocated).
+ */
+@property(nonatomic, nullable) MSIdentityConfigIngestion *ingestion;
 
 /**
  * Custom application delegate dedicated to Identity.
  */
 @property(nonatomic) id<MSCustomApplicationDelegate> appDelegate;
+
+/**
+ * Completion handler for sign-in.
+ */
+@property(atomic, nullable) MSSignInCompletionHandler signInCompletionHandler;
 
 /**
  * Rest singleton instance.

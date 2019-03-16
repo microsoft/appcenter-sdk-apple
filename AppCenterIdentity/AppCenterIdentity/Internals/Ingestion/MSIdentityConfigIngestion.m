@@ -2,13 +2,14 @@
 #import "MSAppCenter.h"
 #import "MSAppCenterInternal.h"
 #import "MSHttpIngestionPrivate.h"
+#import "MSIdentityConstants.h"
 #import "MSIdentityPrivate.h"
 #import "MSLoggerInternal.h"
 
 @implementation MSIdentityConfigIngestion
 
 - (id)initWithBaseUrl:(NSString *)baseUrl appSecret:(NSString *)appSecret {
-  NSString *apiPath = [NSString stringWithFormat:@"/identity/%@.json", appSecret];
+  NSString *apiPath = [NSString stringWithFormat:kMSIdentityConfigApiFormat, appSecret];
   if ((self = [super initWithBaseUrl:baseUrl
                              apiPath:apiPath
                              headers:nil
