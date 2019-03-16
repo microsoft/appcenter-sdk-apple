@@ -2,6 +2,8 @@
 
 @class MSTokenResult;
 
+extern NSString *const kMSTokens;
+
 @interface MSTokensResponse : NSObject
 
 /**
