@@ -390,15 +390,6 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
   return NO;
 }
 
-- (void)authTokenContext:(__unused MSAuthTokenContext *)authTokenContext didReceiveAuthToken:(__unused NSString *)authToken {
-
-  // Make a copy of push token so that this code is thread safe.
-  NSString *pushTokenCopy = self.pushToken;
-  if (pushTokenCopy) {
-    [self sendPushToken:pushTokenCopy];
-  }
-}
-
 - (void)didReceivePushNotification:(MSPushNotification *)pushNotification {
   dispatch_async(dispatch_get_main_queue(), ^{
     id<MSPushDelegate> delegate = self.delegate;
@@ -406,6 +397,16 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
       [delegate push:self didReceivePushNotification:pushNotification];
     }
   });
+}
+
+- (void)authTokenContext:(__unused MSAuthTokenContext *)authTokenContext
+    didSetNewAccountIdWithAuthToken:(nullable __unused NSString *)authToken {
+
+  // Make a copy of push token so that this code is thread safe.
+  NSString *pushTokenCopy = self.pushToken;
+  if (pushTokenCopy) {
+    [self sendPushToken:pushTokenCopy];
+  }
 }
 
 @end

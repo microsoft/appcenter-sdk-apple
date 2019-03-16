@@ -59,6 +59,7 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
       [(MSAnalyticsViewController *)controller setAnalyticsResult:self.analyticsResult];
     }
   }
+  [MSIdentity setConfigUrl:kMSIntConfigUrl];
 #endif
 
 // Customize App Center SDK.

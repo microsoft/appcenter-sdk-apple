@@ -8,6 +8,7 @@
 #import "MSIdentityAppDelegate.h"
 #import "MSIdentityConfig.h"
 #import "MSIdentityConfigIngestion.h"
+#import "MSIdentityConstants.h"
 #import "MSIdentityPrivate.h"
 #import "MSKeychainUtil.h"
 #import "MSServiceAbstractProtected.h"
@@ -18,12 +19,6 @@ static NSString *const kMSServiceName = @"Identity";
 
 // The group Id for storage.
 static NSString *const kMSGroupId = @"Identity";
-
-// The path component of Identity for configuration.
-static NSString *const kMSIdentityPathComponent = @"identity";
-
-// The Identity config file name.
-static NSString *const kMSIdentityConfigFilename = @"config.json";
 
 // Singleton
 static MSIdentity *sharedInstance = nil;
@@ -39,6 +34,7 @@ static dispatch_once_t onceToken;
   if ((self = [super init])) {
     _channelUnitConfiguration = [[MSChannelUnitConfiguration alloc] initDefaultConfigurationWithGroupId:[self groupId]];
     _appDelegate = [MSIdentityAppDelegate new];
+    _configUrl = kMSIdentityDefaultBaseURL;
     [MSUtility createDirectoryForPathComponent:kMSIdentityPathComponent];
   }
   return self;
@@ -94,10 +90,11 @@ static dispatch_once_t onceToken;
       eTag = [MS_USER_DEFAULTS objectForKey:kMSIdentityETagKey];
     }
     NSString *authToken = [self retrieveAuthToken];
+    NSString *accountId = [self retrieveAccountId];
 
-    // Only set the auth token if it is not nil to avoid triggering callbacks.
-    if (authToken) {
-      [MSAuthTokenContext sharedInstance].authToken = authToken;
+    // Only set the auth token if auth token and account id are not nil to avoid triggering callbacks.
+    if (authToken && accountId) {
+      [[MSAuthTokenContext sharedInstance] setAuthToken:authToken withAccountId:accountId];
     }
 
     // Download identity configuration.
@@ -105,12 +102,15 @@ static dispatch_once_t onceToken;
     MSLogInfo([MSIdentity logTag], @"Identity service has been enabled.");
   } else {
     [[MSAppDelegateForwarder sharedInstance] removeDelegate:self.appDelegate];
+    [self clearAuthData];
     self.clientApplication = nil;
-    [MSAuthTokenContext sharedInstance].authToken = nil;
-    [self removeAuthToken];
-    [self removeAccountId];
     [self clearConfigurationCache];
     [self.channelGroup removeDelegate:self];
+    self.ingestion = nil;
+    NSError *error = [[NSError alloc] initWithDomain:MSIdentityErrorDomain
+                                                code:MSIdentityErrorServiceDisabled
+                                            userInfo:@{MSIdentityErrorDescriptionKey : @"Identity is disabled."}];
+    [self completeAcquireTokenRequestForResult:nil withError:error];
     MSLogInfo([MSIdentity logTag], @"Identity service has been disabled.");
   }
 }
@@ -146,25 +146,79 @@ static dispatch_once_t onceToken;
   return [MSALPublicClientApplication handleMSALResponse:url];
 }
 
-+ (void)signIn {
++ (void)signInWithCompletionHandler:(MSSignInCompletionHandler _Nullable)completionHandler {
+
+  // We allow completion handler to be optional but we need a non nil one to track operation progress internally.
+  if (!completionHandler) {
+    completionHandler = ^(MSUserInformation *_Nullable __unused userInformation, NSError *_Nullable __unused error) {
+    };
+  }
   @synchronized([MSIdentity sharedInstance]) {
-    if ([[MSIdentity sharedInstance] canBeUsed]) {
+    if ([[MSIdentity sharedInstance] canBeUsed] && [[MSIdentity sharedInstance] isEnabled]) {
+      if ([MSIdentity sharedInstance].signInCompletionHandler) {
+        MSLogError([MSIdentity logTag], @"signIn already in progress.");
+        NSError *error = [[NSError alloc] initWithDomain:MSIdentityErrorDomain
+                                                    code:MSIdentityErrorPreviousSignInRequestInProgress
+                                                userInfo:@{MSIdentityErrorDescriptionKey : @"signIn already in progress."}];
+        completionHandler(nil, error);
+        return;
+      }
+      [MSIdentity sharedInstance].signInCompletionHandler = completionHandler;
       [[MSIdentity sharedInstance] signIn];
+    } else {
+      NSError *error = [[NSError alloc] initWithDomain:MSIdentityErrorDomain
+                                                  code:MSIdentityErrorServiceDisabled
+                                              userInfo:@{MSIdentityErrorDescriptionKey : @"Identity is disabled."}];
+      completionHandler(nil, error);
     }
   }
 }
 
++ (void)signOut {
+  [[MSIdentity sharedInstance] signOut];
+}
+
 - (void)signIn {
-  if (self.clientApplication == nil || self.identityConfig == nil) {
-    self.signInDelayedAndRetryLater = YES;
+  if ([[MS_Reachability reachabilityForInternetConnection] currentReachabilityStatus] == NotReachable) {
+    [self completeSignInWithErrorCode:MSIdentityErrorSignInWhenNoConnection
+                           andMessage:@"User sign-in failed. Internet connection is down."];
     return;
   }
-  self.signInDelayedAndRetryLater = NO;
+  if (self.clientApplication == nil || self.identityConfig == nil) {
+    [self completeSignInWithErrorCode:MSIdentityErrorSignInBackgroundOrNotConfigured
+                           andMessage:@"signIn is called while it's not configured or not in the foreground."];
+    return;
+  }
   MSALAccount *account = [self retrieveAccountWithAccountId:[self retrieveAccountId]];
   if (account) {
     [self acquireTokenSilentlyWithMSALAccount:account];
   } else {
     [self acquireTokenInteractively];
+  }
+}
+
++ (void)setConfigUrl:(NSString *)configUrl {
+  [MSIdentity sharedInstance].configUrl = configUrl;
+}
+
+- (void)completeSignInWithErrorCode:(NSInteger)errorCode andMessage:(NSString *)errorMessage {
+  if (!self.signInCompletionHandler) {
+    return;
+  }
+  NSError *error = [[NSError alloc] initWithDomain:MSIdentityErrorDomain
+                                              code:errorCode
+                                          userInfo:@{MSIdentityErrorDescriptionKey : errorMessage}];
+  self.signInCompletionHandler(nil, error);
+}
+
+- (void)signOut {
+  @synchronized(self) {
+    if (![self canBeUsed]) {
+      return;
+    }
+    if ([self clearAuthData]) {
+      MSLogInfo([MSIdentity logTag], @"User sign-out succeeded.");
+    }
   }
 }
 
@@ -191,57 +245,53 @@ static dispatch_once_t onceToken;
   return NO;
 }
 
+- (MSIdentityConfigIngestion *)ingestion {
+  if (!_ingestion) {
+    _ingestion = [[MSIdentityConfigIngestion alloc] initWithBaseUrl:self.configUrl appSecret:self.appSecret];
+  }
+  return _ingestion;
+}
+
 - (void)downloadConfigurationWithETag:(nullable NSString *)eTag {
 
   // Download configuration.
-  MSIdentityConfigIngestion *ingestion =
-      [[MSIdentityConfigIngestion alloc] initWithBaseUrl:@"https://mobilecentersdkdev.blob.core.windows.net" appSecret:self.appSecret];
-  [ingestion sendAsync:nil
-                   eTag:eTag
-      completionHandler:^(__unused NSString *callId, NSHTTPURLResponse *response, NSData *data, __unused NSError *error) {
-        MSIdentityConfig *config = nil;
-        if (response.statusCode == MSHTTPCodesNo304NotModified) {
-          MSLogInfo([MSIdentity logTag], @"Identity configuration hasn't changed.");
-        } else if (response.statusCode == MSHTTPCodesNo200OK) {
-          config = [self deserializeData:data];
-          if ([config isValid]) {
-            NSURL *configUrl = [MSUtility createFileAtPathComponent:[self identityConfigFilePath]
-                                                           withData:data
-                                                         atomically:YES
-                                                     forceOverwrite:YES];
+  [self.ingestion sendAsync:nil
+                       eTag:eTag
+          completionHandler:^(__unused NSString *callId, NSHTTPURLResponse *response, NSData *data, __unused NSError *error) {
+            MSIdentityConfig *config = nil;
+            if (response.statusCode == MSHTTPCodesNo304NotModified) {
+              MSLogInfo([MSIdentity logTag], @"Identity configuration hasn't changed.");
+            } else if (response.statusCode == MSHTTPCodesNo200OK) {
+              config = [self deserializeData:data];
+              if ([config isValid]) {
+                NSURL *configUrl = [MSUtility createFileAtPathComponent:[self identityConfigFilePath]
+                                                               withData:data
+                                                             atomically:YES
+                                                         forceOverwrite:YES];
 
-            // Store eTag only when the configuration file is created successfully.
-            if (configUrl) {
-              NSString *newETag = [MSHttpIngestion eTagFromResponse:response];
-              if (newETag) {
-                [MS_USER_DEFAULTS setObject:newETag forKey:kMSIdentityETagKey];
+                // Store eTag only when the configuration file is created successfully.
+                if (configUrl) {
+                  NSString *newETag = [MSHttpIngestion eTagFromResponse:response];
+                  if (newETag) {
+                    [MS_USER_DEFAULTS setObject:newETag forKey:kMSIdentityETagKey];
+                  }
+                } else {
+                  MSLogWarning([MSIdentity logTag], @"Couldn't create Identity config file.");
+                }
+                @synchronized(self) {
+                  self.identityConfig = config;
+
+                  // Reinitialize client application.
+                  [self configAuthenticationClient];
+                }
+              } else {
+                MSLogError([MSIdentity logTag], @"Downloaded identity configuration is not valid.");
               }
             } else {
-              MSLogWarning([MSIdentity logTag], @"Couldn't create Identity config file.");
+              MSLogError([MSIdentity logTag], @"Failed to download identity configuration. Status code received: %ld",
+                         (long)response.statusCode);
             }
-            @synchronized(self) {
-              self.identityConfig = config;
-
-              // Reinitialize client application.
-              [self configAuthenticationClient];
-
-              // SignIn if it is delayed.
-              /*
-               * TODO: SignIn can be called when the app is in background. Make sure the SDK doesn't display browser with signIn screen when
-               * the app is in background. Only display in foreground.
-               */
-              if (self.signInDelayedAndRetryLater) {
-                [self signIn];
-              }
-            }
-          } else {
-            MSLogError([MSIdentity logTag], @"Downloaded identity configuration is not valid.");
-          }
-        } else {
-          MSLogError([MSIdentity logTag], @"Failed to download identity configuration. Status code received: %ld",
-                     (long)response.statusCode);
-        }
-      }];
+          }];
 }
 
 - (void)configAuthenticationClient {
@@ -278,6 +328,34 @@ static dispatch_once_t onceToken;
   return config;
 }
 
+- (BOOL)clearAuthData {
+  if (![[MSAuthTokenContext sharedInstance] clearAuthToken]) {
+    MSLogWarning([MSIdentity logTag], @"Couldn't clear authToken: it doesn't exist.");
+    return NO;
+  }
+  BOOL result = YES;
+  result &= [self removeAccount];
+  result &= [self removeAuthToken];
+  [self removeAccountId];
+  return result;
+}
+
+- (BOOL)removeAccount {
+  if (!self.clientApplication) {
+    return NO;
+  }
+  MSALAccount *account = [self retrieveAccountWithAccountId:[self retrieveAccountId]];
+  if (account) {
+    NSError *error;
+    [self.clientApplication removeAccount:account error:&error];
+    if (error) {
+      MSLogWarning([MSIdentity logTag], @"Failed to remove account: %@", error.localizedDescription);
+      return NO;
+    }
+  }
+  return YES;
+}
+
 - (void)saveAuthToken:(NSString *)authToken {
   BOOL success = [MSKeychainUtil storeString:authToken forKey:kMSIdentityAuthTokenKey];
   if (success) {
@@ -297,13 +375,14 @@ static dispatch_once_t onceToken;
   return authToken;
 }
 
-- (void)removeAuthToken {
+- (BOOL)removeAuthToken {
   NSString *authToken = [MSKeychainUtil deleteStringForKey:kMSIdentityAuthTokenKey];
   if (authToken) {
     MSLogDebug([MSIdentity logTag], @"Removed auth token from keychain.");
   } else {
     MSLogWarning([MSIdentity logTag], @"Failed to remove auth token from keychain or none was found.");
   }
+  return authToken != nil;
 }
 
 - (void)acquireTokenSilentlyWithMSALAccount:(MSALAccount *)account {
@@ -318,9 +397,13 @@ static dispatch_once_t onceToken;
                                    @"Silent acquisition of token failed with error: %@. Triggering interactive acquisition", e);
                       [strongSelf acquireTokenInteractively];
                     } else {
-                      [MSAuthTokenContext sharedInstance].authToken = result.idToken;
+                      MSALAccountId *accountId = (MSALAccountId * _Nonnull) result.account.homeAccountId;
+                      [[MSAuthTokenContext sharedInstance] setAuthToken:(NSString * _Nonnull) result.idToken
+                                                          withAccountId:(NSString * _Nonnull) accountId.identifier];
                       [strongSelf saveAuthToken:result.idToken];
                       [strongSelf saveAccountId:(NSString * _Nonnull) result.account.homeAccountId.identifier];
+                      [strongSelf completeAcquireTokenRequestForResult:result withError:nil];
+                      MSLogInfo([MSIdentity logTag], @"Silent acquisition of token succeeded.");
                     }
                   }];
 }
@@ -329,15 +412,39 @@ static dispatch_once_t onceToken;
   __weak typeof(self) weakSelf = self;
   [self.clientApplication acquireTokenForScopes:@[ (NSString * _Nonnull) self.identityConfig.identityScope ]
                                 completionBlock:^(MSALResult *result, NSError *e) {
+                                  typeof(self) strongSelf = weakSelf;
                                   if (e) {
-                                    MSLogError([MSIdentity logTag], @"User sign-in failed. Error: %@", e);
+                                    if (e.code == MSALErrorUserCanceled) {
+                                      MSLogWarning([MSIdentity logTag], @"User canceled sign-in.");
+                                    } else {
+                                      MSLogError([MSIdentity logTag], @"User sign-in failed. Error: %@", e);
+                                    }
                                   } else {
-                                    typeof(self) strongSelf = weakSelf;
-                                    [MSAuthTokenContext sharedInstance].authToken = result.idToken;
+                                    MSALAccountId *accountId = (MSALAccountId * _Nonnull) result.account.homeAccountId;
+                                    [[MSAuthTokenContext sharedInstance] setAuthToken:(NSString * _Nonnull) result.idToken
+                                                                        withAccountId:(NSString * _Nonnull) accountId.identifier];
                                     [strongSelf saveAuthToken:result.idToken];
                                     [strongSelf saveAccountId:(NSString * _Nonnull) result.account.homeAccountId.identifier];
+                                    MSLogInfo([MSIdentity logTag], @"User sign-in succeeded.");
                                   }
+                                  [strongSelf completeAcquireTokenRequestForResult:result withError:e];
                                 }];
+}
+
+- (void)completeAcquireTokenRequestForResult:(MSALResult *)result withError:(NSError *)error {
+  @synchronized(self) {
+    if (!self.signInCompletionHandler) {
+      return;
+    }
+    if (error) {
+      self.signInCompletionHandler(nil, error);
+    } else {
+      MSUserInformation *userInformation = [MSUserInformation new];
+      userInformation.accountId = (NSString * _Nonnull) result.uniqueId;
+      self.signInCompletionHandler(userInformation, nil);
+    }
+    self.signInCompletionHandler = nil;
+  }
 }
 
 - (MSALAccount *)retrieveAccountWithAccountId:(NSString *)homeAccountId {
@@ -352,7 +459,7 @@ static dispatch_once_t onceToken;
   return account;
 }
 
-- (NSString *)retrieveAccountId {
+- (nullable NSString *)retrieveAccountId {
   return [[MSUserDefaults shared] objectForKey:kMSIdentityMSALAccountHomeAccountKey];
 }
 

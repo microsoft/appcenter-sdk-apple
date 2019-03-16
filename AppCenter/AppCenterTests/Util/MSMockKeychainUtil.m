@@ -58,8 +58,9 @@ static NSString *kMSDefaultServiceName = @"DefaultServiceName";
 }
 
 + (NSString *_Nullable)deleteStringForKey:(NSString *)key withServiceName:(NSString *)serviceName {
+  NSString *value = dictionary[serviceName][key];
   [dictionary[serviceName] removeObjectForKey:key];
-  return key;
+  return value;
 }
 
 + (NSString *_Nullable)stringForKey:(NSString *)key {

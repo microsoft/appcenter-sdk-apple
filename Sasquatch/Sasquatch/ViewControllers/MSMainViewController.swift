@@ -110,6 +110,10 @@ class MSMainViewController: UITableViewController, AppCenterProtocol, CLLocation
   @IBAction func identitySignIn(_ sender: UIButton) {
     appCenter.signIn()
   }
+
+  @IBAction func identitySignOut(_ sender: UIButton) {
+    appCenter.signOut()
+  }
   
   func updateViewState() {
     self.appCenterEnabledSwitch.isOn = appCenter.isAppCenterEnabled()
