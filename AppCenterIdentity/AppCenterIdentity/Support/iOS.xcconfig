@@ -1,5 +1,5 @@
 #include "../../../Config/iOS.xcconfig"
 
-OTHER_LDFLAGS=$(inherited) -framework UIKit -framework AuthenticationServices -ObjC -all_load
+OTHER_LDFLAGS=$(inherited) -framework UIKit -framework AuthenticationServices
 
 OTHER_CFLAGS = $(inherited) -iframework "$(SRCROOT)/../Vendor/iOS/MSAL"
