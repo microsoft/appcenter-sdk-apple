@@ -34,7 +34,7 @@ static dispatch_once_t onceToken;
   if ((self = [super init])) {
     _channelUnitConfiguration = [[MSChannelUnitConfiguration alloc] initDefaultConfigurationWithGroupId:[self groupId]];
     _appDelegate = [MSIdentityAppDelegate new];
-    _configURL = kMSIdentityDefaultBaseURL;
+    _configUrl = kMSIdentityDefaultBaseURL;
     [MSUtility createDirectoryForPathComponent:kMSIdentityPathComponent];
   }
   return self;
@@ -142,8 +142,8 @@ static dispatch_once_t onceToken;
   sharedInstance = nil;
 }
 
-+ (BOOL)openURL:(NSURL *)URL {
-  return [MSALPublicClientApplication handleMSALResponse:URL];
++ (BOOL)openURL:(NSURL *)url {
+  return [MSALPublicClientApplication handleMSALResponse:url];
 }
 
 + (void)signInWithCompletionHandler:(MSSignInCompletionHandler _Nullable)completionHandler {
@@ -197,8 +197,8 @@ static dispatch_once_t onceToken;
   }
 }
 
-+ (void)setConfigURL:(NSString *)configURL {
-  [MSIdentity sharedInstance].configURL = configURL;
++ (void)setConfigUrl:(NSString *)configUrl {
+  [MSIdentity sharedInstance].configUrl = configUrl;
 }
 
 - (void)completeSignInWithErrorCode:(NSInteger)errorCode andMessage:(NSString *)errorMessage {
@@ -247,7 +247,7 @@ static dispatch_once_t onceToken;
 
 - (MSIdentityConfigIngestion *)ingestion {
   if (!_ingestion) {
-    _ingestion = [[MSIdentityConfigIngestion alloc] initWithBaseURL:self.configURL appSecret:self.appSecret];
+    _ingestion = [[MSIdentityConfigIngestion alloc] initWithBaseUrl:self.configUrl appSecret:self.appSecret];
   }
   return _ingestion;
 }

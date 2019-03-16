@@ -1003,10 +1003,10 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 - (void)testConfigURLIsPassedToIngestionWhenSetBeforeServiceStart {
 
   // If
-  NSString *baseConfigURL = @"https://baseconfigurl.com";
+  NSString *baseConfigUrl = @"https://baseconfigurl.com";
 
   // When
-  [MSIdentity setConfigURL:baseConfigURL];
+  [MSIdentity setConfigUrl:baseConfigUrl];
   [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
                         appSecret:kMSTestAppSecret
           transmissionTargetToken:nil
@@ -1014,7 +1014,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
   // Then
   XCTAssertNotNil(self.sut.ingestion);
-  XCTAssertEqualObjects(self.sut.ingestion.baseURL, baseConfigURL);
+  XCTAssertEqualObjects(self.sut.ingestion.baseURL, baseConfigUrl);
 }
 
 @end

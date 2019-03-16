@@ -39,13 +39,13 @@ static NSString *const MSIdentityErrorDescriptionKey = @"MSIdentityErrorDescript
 /**
  * Process URL request for the service.
  *
- * @param URL  The URL with parameters.
+ * @param url  The url with parameters.
  *
  * @return `YES` if the URL is intended for App Center Identity and your application, `NO` otherwise.
  *
  * @discussion Place this method call into your app delegate's openURL method.
  */
-+ (BOOL)openURL:(NSURL *)URL;
++ (BOOL)openURL:(NSURL *)url;
 
 /**
  * Sign-in to get user information.
@@ -62,9 +62,9 @@ static NSString *const MSIdentityErrorDescriptionKey = @"MSIdentityErrorDescript
 /**
  * Sets the base URL for the remote configuration file.
  *
- * @param configURL The base URL of the remote configuration file.
+ * @param configUrl The base URL of the remote configuration file.
  */
-+ (void)setConfigURL:(NSString *)configURL;
++ (void)setConfigUrl:(NSString *)configUrl;
 
 @end
 
