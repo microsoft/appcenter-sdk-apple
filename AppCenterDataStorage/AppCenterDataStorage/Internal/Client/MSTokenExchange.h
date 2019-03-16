@@ -5,7 +5,7 @@ NS_ASSUME_NONNULL_BEGIN
 @class MSTokensResponse;
 @class MSStorageIngestion;
 
-typedef void (^MSGetTokenAsyncCompletionHandler)(MSTokensResponse *tokenResponses, NSError *error);
+typedef void (^MSGetTokenAsyncCompletionHandler)(MSTokensResponse *tokenResponses, NSError *_Nullable error);
 
 /**
  * This class retrieves and caches Cosmosdb access token.
@@ -15,13 +15,19 @@ typedef void (^MSGetTokenAsyncCompletionHandler)(MSTokensResponse *tokenResponse
 /**
  * Get token from token exchange.
  *
- * @param httpIngestion http client.
- * @param completion callback that gets the token.
+ * @param httpClient http client.
+ * @param partition cosmosdb partition.
+ * @param completionHandler callback that gets the token.
  *
  */
-+ (void)tokenAsync:(MSStorageIngestion *)httpIngestion
-           partitions:(NSArray *)partitions
-    completionHandler:(MSGetTokenAsyncCompletionHandler)completion;
++ (void)performDbTokenAsyncOperationWithHttpClient:(MSStorageIngestion *)httpClient
+                                         partition:(NSString *)partition
+                                 completionHandler:(MSGetTokenAsyncCompletionHandler _Nonnull)completionHandler;
+
+/*
+ * When the user logs out, all the cached tokens are deleted.
+ */
++ (void)removeAllCachedTokens;
 
 @end
 
