@@ -5,6 +5,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@protocol MSAuthTokenStorage;
 @protocol MSAuthTokenContextDelegate;
 
 /**
@@ -17,6 +18,16 @@ NS_ASSUME_NONNULL_BEGIN
  * Cached authorization token.
  */
 @property(nullable, atomic, readonly) NSString *authToken;
+
+/**
+ *
+ */
+@property(nullable, atomic, readonly) NSString *accountId;
+
+/**
+ *
+ */
+@property(nullable) id<MSAuthTokenStorage> storage;
 
 /**
  * Get singleton instance.
@@ -48,6 +59,8 @@ NS_ASSUME_NONNULL_BEGIN
  * Set current auth token and account id.
  */
 - (void)setAuthToken:(NSString *)authToken withAccountId:(NSString *)accountId;
+
+- (void)cacheAuthToken;
 
 /**
  * Reset singleton instance.

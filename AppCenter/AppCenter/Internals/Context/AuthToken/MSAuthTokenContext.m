@@ -3,6 +3,7 @@
 
 #import "MSAuthTokenContext.h"
 #import "MSAuthTokenContextDelegate.h"
+#import "MSAuthTokenStorage.h"
 
 /**
  * Singleton.
@@ -54,11 +55,16 @@ static dispatch_once_t onceToken;
 }
 
 - (void)setAuthToken:(NSString *)authToken withAccountId:(NSString *)accountId {
+  [self.storage saveAuthToken:authToken withAccountId:accountId];
+  [self updateAuthToken:authToken withAccountId:accountId];
+}
+
+- (void)updateAuthToken:(NSString *)authToken withAccountId:(NSString *)accountId {
   NSArray *synchronizedDelegates;
   BOOL isNewUser = NO;
   @synchronized(self) {
-    self.authToken = authToken;
     isNewUser = ![self.homeAccountId isEqualToString:accountId];
+    self.authToken = authToken;
     self.homeAccountId = accountId;
 
     // Don't invoke the delegate while locking; it might be locking too and deadlock ourselves.
@@ -75,28 +81,12 @@ static dispatch_once_t onceToken;
 }
 
 - (BOOL)clearAuthToken {
-  NSArray *synchronizedDelegates;
-  BOOL clearedExistingUser = NO;
   @synchronized(self) {
     if (!self.authToken) {
       return NO;
-    } else if (self.homeAccountId) {
-      clearedExistingUser = YES;
-    }
-    self.authToken = nil;
-    self.homeAccountId = nil;
-
-    // Don't invoke the delegate while locking; it might be locking too and deadlock ourselves.
-    synchronizedDelegates = [self.delegates allObjects];
-  }
-  for (id<MSAuthTokenContextDelegate> delegate in synchronizedDelegates) {
-    if ([delegate respondsToSelector:@selector(authTokenContext:didSetNewAuthToken:)]) {
-      [delegate authTokenContext:self didSetNewAuthToken:nil];
-    }
-    if (clearedExistingUser && [delegate respondsToSelector:@selector(authTokenContext:didSetNewAccountIdWithAuthToken:)]) {
-      [delegate authTokenContext:self didSetNewAccountIdWithAuthToken:nil];
     }
   }
+  [self updateAuthToken:nil withAccountId:nil];
   return YES;
 }
 
@@ -109,6 +99,13 @@ static dispatch_once_t onceToken;
 - (void)removeDelegate:(id<MSAuthTokenContextDelegate>)delegate {
   @synchronized(self) {
     [self.delegates removeObject:delegate];
+  }
+}
+
+- (void)cacheAuthToken {
+  @synchronized (self) {
+    self.authToken = [self.storage retrieveAuthToken];
+    self.homeAccountId = [self.storage retrieveAccountId];
   }
 }
 
