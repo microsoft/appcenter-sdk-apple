@@ -342,8 +342,6 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
                                }];
 }
 
-// TODO: Create test to check flow when we miss MSAppCenterIngestion::sendAsync call and go to MSHttpIngestion::sendAsync
-
 - (void)testInvalidContainer {
 
   MSAbstractLog *log = [MSAbstractLog new];
@@ -580,22 +578,20 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   XCTAssertTrue(request.HTTPBody.length < httpBody.length);
 }
 
-// TODO: Uncomment, fix
-//- (void)testSendsAuthHeaderWhenAuthTokenIsNotNil {
-//
-//  // If
-//  NSString *expectedToken = @"auth token";
-//  MSLogContainer *logContainer = [[MSLogContainer alloc] initWithBatchId:@"whatever" andLogs:(NSArray<id<MSLog>> *)@ [[MSMockLog new]]];
-//  self.sut.authToken = expectedToken;
-//
-//  // When
-//  NSURLRequest *request = [self.sut createRequest:logContainer eTag:nil authToken:nil];
-//
-//  // Then
-//  NSString *expectedHeader = [NSString stringWithFormat:kMSBearerTokenHeaderFormat, expectedToken];
-//  NSString *actualHeader = request.allHTTPHeaderFields[kMSAuthorizationHeaderKey];
-//  XCTAssertEqualObjects(expectedHeader, actualHeader);
-//}
+- (void)testSendsAuthHeaderWhenAuthTokenIsNotNil {
+
+  // If
+  NSString *token = @"auth token";
+  MSLogContainer *logContainer = [[MSLogContainer alloc] initWithBatchId:@"whatever" andLogs:(NSArray<id<MSLog>> *)@ [[MSMockLog new]]];
+
+  // When
+  NSURLRequest *request = [self.sut createRequest:logContainer eTag:nil authToken:token];
+
+  // Then
+  NSString *expectedHeader = [NSString stringWithFormat:kMSBearerTokenHeaderFormat, token];
+  NSString *actualHeader = request.allHTTPHeaderFields[kMSAuthorizationHeaderKey];
+  XCTAssertEqualObjects(expectedHeader, actualHeader);
+}
 
 - (void)testDoesNotSendAuthHeaderWithNilAuthToken {
 
@@ -609,19 +605,17 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   XCTAssertNil([request.allHTTPHeaderFields valueForKey:kMSAuthorizationHeaderKey]);
 }
 
-// TODO: Uncomment, fix
-//- (void)testDoesNotSendAuthHeaderWithEmptyAuthToken {
-//
-//  // If
-//  MSLogContainer *logContainer = [[MSLogContainer alloc] initWithBatchId:@"whatever" andLogs:(NSArray<id<MSLog>> *)@ [[MSMockLog new]]];
-//  self.sut.authToken = @"";
-//
-//  // When
-//  NSURLRequest *request = [self.sut createRequest:logContainer eTag:nil authToken:nil];
-//
-//  // Then
-//  XCTAssertNil([request.allHTTPHeaderFields valueForKey:kMSAuthorizationHeaderKey]);
-//}
+- (void)testDoesNotSendAuthHeaderWithEmptyAuthToken {
+
+  // If
+  MSLogContainer *logContainer = [[MSLogContainer alloc] initWithBatchId:@"whatever" andLogs:(NSArray<id<MSLog>> *)@ [[MSMockLog new]]];
+
+  // When
+  NSURLRequest *request = [self.sut createRequest:logContainer eTag:nil authToken:nil];
+
+  // Then
+  XCTAssertNil([request.allHTTPHeaderFields valueForKey:kMSAuthorizationHeaderKey]);
+}
 
 - (void)testObfuscateHeaderValue {
 
