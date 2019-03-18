@@ -12,7 +12,6 @@
 @property NSWindowController *rootController;
 
 @end
-#define APP_SECRET_VALUE "d80aae71-af34-4e0c-af61-2381391c4a7a"
 
 enum StartupMode { appCenter, oneCollector, both, none, skip };
 
@@ -59,7 +58,7 @@ enum StartupMode { appCenter, oneCollector, both, none, skip };
   // Start AppCenter.
   NSArray<Class> *services = @ [[MSAnalytics class], [MSCrashes class], [MSPush class]];
   NSInteger startTarget = [[NSUserDefaults standardUserDefaults] integerForKey:kMSStartTargetKey];
-  NSString *appSecret = [[NSUserDefaults standardUserDefaults] objectForKey:kMSAppSecret] ?: [NSString stringWithUTF8String:APP_SECRET_VALUE];
+  NSString *appSecret = [[NSUserDefaults standardUserDefaults] objectForKey:kMSAppSecret] ?: kMSObjcAppSecret;
   switch (startTarget) {
       case appCenter:
           [MSAppCenter start:appSecret withServices:services];

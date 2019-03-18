@@ -1,5 +1,6 @@
 #import "AppCenterDelegateObjC.h"
 #import "MSEventFilter.h"
+#import "Constants.h"
 
 @import AppCenter;
 @import AppCenterAnalytics;
@@ -41,7 +42,7 @@
 
   // TODO: Uncomment when appSecret is moved from internal to public
   // return [[MSAppCenter sharedInstance] appSecret];
-  return @"Internal";
+  return kMSObjcAppSecret;
 }
 
 - (BOOL)isDebuggerAttached {
