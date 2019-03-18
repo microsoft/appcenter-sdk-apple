@@ -37,8 +37,6 @@ class AppCenterDelegateSwift: AppCenterDelegate {
   }
 
   func appSecret() -> String {
-    // TODO: Uncomment when appSecret is moved from internal to public
-    // return MSAppCenter.sharedInstance().appSecret()
     return kMSSwiftAppSecret
   }
 
