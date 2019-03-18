@@ -7,15 +7,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface MSAuthTokenInfo : NSObject
 
-@property(nonatomic, nullable,  copy, readonly) NSString *authToken;
+@property(nonatomic, nullable, copy, readonly) NSString *authToken;
 
-@property(nonatomic, nullable, readonly) NSDate *startTime;
-
-@property(nonatomic, nullable, readonly) NSDate *endTime;
+@property(nonatomic, readonly) int timestamp;
 
 - (instancetype)initWithAuthToken:(nullable NSString *)authToken
-                     andStartTime:(nullable NSDate *)startTime
-                       andEndTime:(nullable NSDate *)endTime;
+                     andTimestamp:(int)timestamp;
 
 @end
 
