@@ -40,9 +40,9 @@ static NSString *const kMSETagRequestHeader = @"If-None-Match";
  *
  * @param data A data instance that will be transformed request body.
  * @param eTag HTTP entity tag.
- * @param authToken Auth token to send data with
+ * @param authToken Auth token to send data with.
  * @param callId A unique ID that identify a request.
- * @param handler Completion handler
+ * @param handler Completion handler.
  */
 - (void)sendAsync:(nullable NSObject *)data
                  eTag:(nullable NSString *)eTag
@@ -55,7 +55,7 @@ static NSString *const kMSETagRequestHeader = @"If-None-Match";
  *
  * @param data A data instance that will be transformed to request body.
  * @param eTag HTTP entity tag.
- * @param authToken auth token to send data with
+ * @param authToken auth token to send data with.
  *
  * @return A URL request.
  */
