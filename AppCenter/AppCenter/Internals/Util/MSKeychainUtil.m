@@ -17,6 +17,20 @@ static NSString *AppCenterKeychainServiceName(NSString *suffix) {
   return serviceName;
 }
 
++ (BOOL)storeArray:(NSMutableArray *)mutableArray forKey:(NSString *)key {
+  NSData *data = [NSKeyedArchiver archivedDataWithRootObject:mutableArray];
+  return [self storeString:data forKey:key];
+}
+
++ (NSMutableArray *)arrayForKey:(NSString *)key{
+  NSString *data = [self stringForKey:key];
+  if (data){
+    return [NSKeyedUnarchiver unarchiveObjectWithData:data];
+  } else {
+    return nil;
+  }
+}
+
 + (BOOL)storeString:(NSString *)string forKey:(NSString *)key withServiceName:(NSString *)serviceName {
   NSMutableDictionary *attributes = [MSKeychainUtil generateItem:key withServiceName:serviceName];
   attributes[(__bridge id)kSecValueData] = [string dataUsingEncoding:NSUTF8StringEncoding];

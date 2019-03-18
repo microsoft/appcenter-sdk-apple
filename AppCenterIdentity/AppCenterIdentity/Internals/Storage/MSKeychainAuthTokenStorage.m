@@ -36,37 +36,44 @@
   return nil;
 }
 
+- (void)addTokenToStory:(nullable NSString *)authToken {
+  if ([MSKeychainUtil storeString:(NSString *)authToken forKey:kMSIdentityAuthTokenKey]) {
+    MSLogDebug([MSIdentity logTag], @"Saved new auth token in keychain.");
+  } else {
+    MSLogWarning([MSIdentity logTag], @"Failed to save new auth token in keychain.");
+  }
+}
+
 - (void)saveAuthToken:(nullable NSString *)authToken withAccountId:(nullable NSString *)accountId {
+
   /*
+ TODO:
+ 1. [ ] read history
+ 2. [x] deserialize (lazy cache?)
+ 3. [ ] don't add duplicates to story
+ 4. [x] add token
+ 5. [ ] remove oldest if the limit is reached
+ 6. [ ] serialize, save new history
+ */
+  @synchronized (self) {
+    [self addTokenToStory:authToken];
 
-   TODO:
-   1. read history, deserialize (lazy cache?)
-   2. if there is no history at all, add null entry
-   3. add token
-   4. remove oldest if the limit is reached
-   5. serialize, save new history
-
-   */
-
-  if (authToken) {
-    BOOL success = [MSKeychainUtil storeString:(NSString *)authToken forKey:kMSIdentityAuthTokenKey];
-    if (success) {
-      MSLogDebug([MSIdentity logTag], @"Saved auth token in keychain.");
+    /*
+     if (authToken) {
+      [self addTokenToStoryOnSignIn:authToken];
     } else {
-      MSLogWarning([MSIdentity logTag], @"Failed to save auth token in keychain.");
+      [self addEmptyTokenToStoryOnSignOut];
     }
-  } else {
-    if ([MSKeychainUtil deleteStringForKey:kMSIdentityAuthTokenKey]) {
-      MSLogDebug([MSIdentity logTag], @"Removed auth token from keychain.");
+     */
+    if (authToken && accountId) {
+      [MS_USER_DEFAULTS setObject:(NSString *)accountId forKey:kMSIdentityMSALAccountHomeAccountKey];
+
     } else {
-      MSLogWarning([MSIdentity logTag], @"Failed to remove auth token from keychain or none was found.");
+      [MS_USER_DEFAULTS removeObjectForKey:kMSIdentityMSALAccountHomeAccountKey];
     }
   }
-  if (authToken && accountId) {
-    [MS_USER_DEFAULTS setObject:(NSString *)accountId forKey:kMSIdentityMSALAccountHomeAccountKey];
-  } else {
-    [MS_USER_DEFAULTS removeObjectForKey:kMSIdentityMSALAccountHomeAccountKey];
-  }
+
+
 }
 
 - (void)removeAuthToken:(nullable NSString *)authToken {

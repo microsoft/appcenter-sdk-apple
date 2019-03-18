@@ -67,6 +67,8 @@
   // Then
   OCMVerifyAll(self.keychainUtilMock);
 }
+
+//TODO: Test keychain serialization&deserialization (storeArray, arrayForKey).
 #endif
 
 @end
