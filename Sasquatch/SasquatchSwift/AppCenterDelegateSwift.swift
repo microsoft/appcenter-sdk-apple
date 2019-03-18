@@ -39,7 +39,7 @@ class AppCenterDelegateSwift: AppCenterDelegate {
   func appSecret() -> String {
     // TODO: Uncomment when appSecret is moved from internal to public
     // return MSAppCenter.sharedInstance().appSecret()
-    return "Internal"
+    return kMSSwiftAppSecret
   }
 
   func setLogUrl(_ logUrl: String?) {

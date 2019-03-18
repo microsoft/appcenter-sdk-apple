@@ -16,7 +16,6 @@ import AppCenterAnalytics
   func setCustomProperties(_ customProperties: MSCustomProperties)
   func installId() -> String
   func appSecret() -> String
-  func logUrl() -> String
   func sdkVersion() -> String
   func isDebuggerAttached() -> Bool
   func startAnalyticsFromLibrary()

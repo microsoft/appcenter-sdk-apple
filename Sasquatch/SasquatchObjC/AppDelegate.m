@@ -16,16 +16,12 @@
 
 // Internal ones
 #import "MSAnalyticsInternal.h"
-
-#define APP_SECRET_VALUE "7dfb022a-17b5-4d4a-9c75-12bc3ef5e6b7"
 #else
 @import AppCenter;
 @import AppCenterAnalytics;
 @import AppCenterCrashes;
 @import AppCenterDistribute;
 @import AppCenterPush;
-
-#define APP_SECRET_VALUE "3ccfe7f5-ec01-4de5-883c-f563bbbe147a"
 #endif
 
 enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
@@ -103,15 +99,20 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
   // Start App Center SDK.
   NSArray<Class> *services = @ [[MSAnalytics class], [MSCrashes class], [MSDistribute class], [MSPush class]];
   NSInteger startTarget = [[NSUserDefaults standardUserDefaults] integerForKey:kMSStartTargetKey];
+#if GCC_PREPROCESSOR_MACRO_PUPPET
+  NSString *appSecret = [[NSUserDefaults standardUserDefaults] objectForKey:kMSAppSecret] ?: kMSPuppetAppSecret;
+#else
+  NSString *appSecret = [[NSUserDefaults standardUserDefaults] objectForKey:kMSAppSecret] ?: kMSObjcAppSecret;
+#endif
   switch (startTarget) {
   case APPCENTER:
-    [MSAppCenter start:[NSString stringWithUTF8String:APP_SECRET_VALUE] withServices:services];
+    [MSAppCenter start:appSecret withServices:services];
     break;
   case ONECOLLECTOR:
     [MSAppCenter start:[NSString stringWithFormat:@"target=%@", kMSObjCTargetToken] withServices:services];
     break;
   case BOTH:
-    [MSAppCenter start:[NSString stringWithFormat:@"appsecret=%s;target=%@", APP_SECRET_VALUE, kMSObjCTargetToken] withServices:services];
+    [MSAppCenter start:[NSString stringWithFormat:@"appsecret=%@;target=%@", appSecret, kMSObjCTargetToken] withServices:services];
     break;
   case NONE:
     [MSAppCenter startWithServices:services];
