@@ -22,6 +22,7 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate {
   @IBOutlet weak var storageFileSizeField: NSTextField!
   @IBOutlet weak var signInButton: NSButton!
   @IBOutlet weak var signOutButton: NSButton!
+  @IBOutlet weak var overrideCountryCodeButton: NSButton!
 
   private var dbFileDescriptor: CInt = 0
   private var dbFileSource: DispatchSourceProtocol?
@@ -83,6 +84,10 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate {
     appCenter.setUserId(userId)
   }
 
+  @IBAction func overrideCountryCode(_ sender: NSButton) {
+    let appDelegate: AppDelegate? =  NSApplication.shared().delegate as? AppDelegate
+    appDelegate?.overrideCountryCode()
+  }
   // Get device identifier.
   class func getDeviceIdentifier() -> String? {
     let platformExpert = IOServiceGetMatchingService(kIOMasterPortDefault, IOServiceMatching("IOPlatformExpertDevice"))

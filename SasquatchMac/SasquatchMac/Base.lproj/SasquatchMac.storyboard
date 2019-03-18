@@ -938,6 +938,20 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="LkF-ia-gZD">
+                                <rect key="frame" x="125" y="199" width="180" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="168" id="GFv-rx-hIl"/>
+                                    <constraint firstAttribute="height" constant="21" id="oVi-4A-25k"/>
+                                </constraints>
+                                <buttonCell key="cell" type="push" title="Override Country Code" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="weR-Hr-FeH">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="overrideCountryCode:" target="O3Z-WH-pbf" id="Loq-qT-DTn"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <constraints>
                             <constraint firstItem="QHt-Sf-WnZ" firstAttribute="leading" secondItem="t5v-V3-aso" secondAttribute="leading" id="0Ig-la-AVj"/>
@@ -963,6 +977,7 @@
                             <constraint firstItem="QHt-Sf-WnZ" firstAttribute="trailing" secondItem="t5v-V3-aso" secondAttribute="trailing" constant="-3" id="Ezy-pQ-a0G"/>
                             <constraint firstItem="FL1-7e-JUq" firstAttribute="leading" secondItem="k9u-4S-Pzy" secondAttribute="leading" constant="20" id="GM4-QV-juO"/>
                             <constraint firstAttribute="trailing" secondItem="VA4-N7-8nZ" secondAttribute="trailing" constant="20" symbolic="YES" id="HWO-Dq-51M"/>
+                            <constraint firstItem="LkF-ia-gZD" firstAttribute="centerX" secondItem="k9u-4S-Pzy" secondAttribute="centerX" id="HfA-3A-PXD"/>
                             <constraint firstAttribute="trailing" secondItem="Ih6-MC-nUR" secondAttribute="trailing" constant="20" id="JcB-sN-XRW"/>
                             <constraint firstItem="VA4-N7-8nZ" firstAttribute="leading" secondItem="FL1-7e-JUq" secondAttribute="trailing" constant="8" symbolic="YES" id="JuS-GV-Vkj"/>
                             <constraint firstItem="4qO-Fe-RWA" firstAttribute="baseline" secondItem="M7z-d7-GnN" secondAttribute="baseline" id="KLk-Eh-ge0"/>
@@ -996,10 +1011,12 @@
                             <constraint firstItem="M7z-d7-GnN" firstAttribute="leading" secondItem="UAF-Zh-FC1" secondAttribute="leading" id="sKW-ik-deo"/>
                             <constraint firstItem="4qO-Fe-RWA" firstAttribute="bottom" secondItem="t5v-V3-aso" secondAttribute="bottom" id="seA-4B-UcG"/>
                             <constraint firstItem="M7z-d7-GnN" firstAttribute="leading" secondItem="N1B-nD-gUu" secondAttribute="leading" id="tkw-3f-WWJ"/>
+                            <constraint firstItem="rUG-7Y-zgX" firstAttribute="top" secondItem="LkF-ia-gZD" secondAttribute="bottom" constant="43" id="txv-1J-Zb2"/>
                             <constraint firstItem="7dF-GM-Y0D" firstAttribute="leading" secondItem="VA4-N7-8nZ" secondAttribute="leading" id="wgk-LQ-1yc"/>
                             <constraint firstItem="7dF-GM-Y0D" firstAttribute="top" secondItem="UAF-Zh-FC1" secondAttribute="top" id="xJH-nt-8u4"/>
                             <constraint firstItem="QHt-Sf-WnZ" firstAttribute="leading" secondItem="ufS-r3-0uH" secondAttribute="leading" id="y5c-WP-vxG"/>
                             <constraint firstItem="AJ3-cu-c5f" firstAttribute="top" secondItem="mid-Fe-HHm" secondAttribute="bottom" constant="8" id="yjr-1I-ELb"/>
+                            <constraint firstItem="LkF-ia-gZD" firstAttribute="top" secondItem="rm3-tN-rQO" secondAttribute="bottom" constant="31" id="zCb-Xp-IJY"/>
                             <constraint firstItem="rUG-7Y-zgX" firstAttribute="centerX" secondItem="k9u-4S-Pzy" secondAttribute="centerX" id="zQO-F5-djA"/>
                         </constraints>
                     </view>
@@ -1009,6 +1026,7 @@
                         <outlet property="installIdLabel" destination="Ih6-MC-nUR" id="X6a-Ru-i1f"/>
                         <outlet property="logURLLabel" destination="ktO-VZ-RCE" id="FrS-qE-UaM"/>
                         <outlet property="loginButton" destination="rm3-tN-rQO" id="xbE-Fo-Hu6"/>
+                        <outlet property="overrideCountryCodeButton" destination="LkF-ia-gZD" id="C3Q-GC-XEx"/>
                         <outlet property="setEnabledButton" destination="rUG-7Y-zgX" id="GbW-bg-fMF"/>
                         <outlet property="signInButton" destination="rm3-tN-rQO" id="IYi-Aw-fbA"/>
                         <outlet property="signOutButton" destination="9qE-Q3-fww" id="ueX-Zo-hgU"/>
@@ -2649,11 +2667,11 @@
                                                                         <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                         <prototypeCellViews>
                                                                             <tableCellView identifier="key" id="WLk-Qk-bTn">
-                                                                                <rect key="frame" x="165" y="1" width="200" height="17"/>
+                                                                                <rect key="frame" x="165" y="1" width="201" height="17"/>
                                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                 <subviews>
                                                                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="6Pk-cx-Q4K">
-                                                                                        <rect key="frame" x="0.0" y="0.0" width="200" height="17"/>
+                                                                                        <rect key="frame" x="0.0" y="0.0" width="201" height="17"/>
                                                                                         <textFieldCell key="cell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" placeholderString="Key" id="mAi-HI-cfz">
                                                                                             <font key="font" metaFont="system"/>
                                                                                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>

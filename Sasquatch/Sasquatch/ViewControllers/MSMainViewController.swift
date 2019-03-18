@@ -27,7 +27,8 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
   @IBOutlet weak var storageMaxSizeField: UITextField!
   @IBOutlet weak var storageFileSizeLabel: UILabel!
   @IBOutlet weak var userIdField: UITextField!
-  
+  @IBOutlet weak var overrideCountryCodeButton: UIButton!
+
   var appCenter: AppCenterDelegate!
   private var startupModePicker: MSEnumPicker<StartupMode>?
   private var eventFilterStarted = false
@@ -123,6 +124,12 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     updateViewState()
   }
   
+    
+  @IBAction func overrideCountryCode(_ sender: UIButton) {
+    let appDelegate: AppDelegate? = UIApplication.shared.delegate as? AppDelegate
+    appDelegate?.requestLocation()
+  }
+
   @IBAction func logFilterSwitchChanged(_ sender: UISwitch) {
     #if ACTIVE_COMPILATION_CONDITION_PUPPET
     if !eventFilterStarted {

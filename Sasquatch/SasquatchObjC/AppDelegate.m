@@ -133,6 +133,10 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
   return YES;
 }
 
+-(void)requestLocation {
+    [self.locationManager requestLocation];
+}
+
 #pragma mark - Application life cycle
 
 - (void)applicationWillResignActive:(UIApplication *)application {

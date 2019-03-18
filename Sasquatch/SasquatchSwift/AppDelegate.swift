@@ -238,6 +238,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
     return attachments
   }
 
+  func requestLocation() {
+    if CLLocationManager.locationServicesEnabled()
+    {
+      self.locationManager.requestLocation()
+    }
+  }
+
   // Distribute Delegate
 
   func distribute(_ distribute: MSDistribute!, releaseAvailableWith details: MSReleaseDetails!) -> Bool {

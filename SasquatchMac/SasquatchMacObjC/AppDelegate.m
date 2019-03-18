@@ -80,6 +80,18 @@ enum StartupMode { appCenter, oneCollector, both, none, skip };
   [self overrideCountryCode];
 }
 
+- (void)overrideCountryCode {
+    if ([CLLocationManager locationServicesEnabled]) {
+        [self.locationManager startUpdatingLocation];
+    } else {
+        NSAlert *alert = [[NSAlert alloc] init];
+        alert.messageText = @"Location service is disabled";
+        alert.informativeText = @"Please enable location service on your Mac.";
+        [alert addButtonWithTitle:@"OK"];
+        [alert runModal];
+    }
+}
+
 #pragma mark - Private
 
 - (void)initUI {
@@ -89,17 +101,7 @@ enum StartupMode { appCenter, oneCollector, both, none, skip };
   [self.rootController.window makeKeyAndOrderFront:self];
 }
 
-- (void)overrideCountryCode {
-  if ([CLLocationManager locationServicesEnabled]) {
-    [self.locationManager startUpdatingLocation];
-  } else {
-    NSAlert *alert = [[NSAlert alloc] init];
-    alert.messageText = @"Location service is disabled";
-    alert.informativeText = @"Please enable location service on your Mac.";
-    [alert addButtonWithTitle:@"OK"];
-    [alert runModal];
-  }
-}
+
 
 - (void)setupCrashes {
   if ([MSCrashes hasCrashedInLastSession]) {
