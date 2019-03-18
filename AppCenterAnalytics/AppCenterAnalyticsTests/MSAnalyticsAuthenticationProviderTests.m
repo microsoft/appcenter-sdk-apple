@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 #import "MSAnalyticsAuthenticationProviderInternal.h"
 #import "MSTestFrameworks.h"
 #import "MSTicketCache.h"

@@ -1,7 +1,27 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 #import <Foundation/Foundation.h>
 
 #import "MSAbstractLogInternal.h"
 #import "MSDevice.h"
+
+static NSString *const kMSSDKName = @"sdkName";
+static NSString *const kMSSDKVersion = @"sdkVersion";
+static NSString *const kMSModel = @"model";
+static NSString *const kMSOEMName = @"oemName";
+static NSString *const kMSACOSName = @"osName";
+static NSString *const kMSOSVersion = @"osVersion";
+static NSString *const kMSOSBuild = @"osBuild";
+static NSString *const kMSOSAPILevel = @"osApiLevel";
+static NSString *const kMSLocale = @"locale";
+static NSString *const kMSTimeZoneOffset = @"timeZoneOffset";
+static NSString *const kMSScreenSize = @"screenSize";
+static NSString *const kMSAppVersion = @"appVersion";
+static NSString *const kMSCarrierName = @"carrierName";
+static NSString *const kMSCarrierCountry = @"carrierCountry";
+static NSString *const kMSAppBuild = @"appBuild";
+static NSString *const kMSAppNamespace = @"appNamespace";
 
 @interface MSDevice () <MSSerializableObject>
 
