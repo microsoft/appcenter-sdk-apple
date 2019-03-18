@@ -161,22 +161,21 @@ static dispatch_once_t onceToken;
 
 + (void)deleteDocumentWithPartition:(NSString *)partition
                          documentId:(NSString *)documentId
-                  completionHandler:(MSDataStoreErrorCompletionHandler)completionHandler {
-  // @todo
-  (void)partition;
-  (void)documentId;
-  (void)completionHandler;
+                  completionHandler:(MSDataSourceErrorCompletionHandler)completionHandler {
+  [[MSDataStore sharedInstance] deleteDocumentWithPartition:partition
+                                                 documentId:documentId
+                                               writeOptions:nil
+                                          completionHandler:completionHandler];
 }
 
 + (void)deleteDocumentWithPartition:(NSString *)partition
                          documentId:(NSString *)documentId
                        writeOptions:(MSWriteOptions *)writeOptions
-                  completionHandler:(MSDataStoreErrorCompletionHandler)completionHandler {
-  // @todo
-  (void)partition;
-  (void)documentId;
-  (void)writeOptions;
-  (void)completionHandler;
+                  completionHandler:(MSDataSourceErrorCompletionHandler)completionHandler {
+  [[MSDataStore sharedInstance] deleteDocumentWithPartition:partition
+                                                 documentId:documentId
+                                               writeOptions:writeOptions
+                                          completionHandler:completionHandler];
 }
 
 #pragma mark - MSDataStore Implementation
@@ -259,6 +258,42 @@ static dispatch_once_t onceToken;
                                                                  return;
                                                                }];
                                }];
+}
+
+- (void)deleteDocumentWithPartition:(NSString *)partition
+                         documentId:(NSString *)documentId
+                       writeOptions:(MSWriteOptions *)__unused writeOptions
+                  completionHandler:(MSDataSourceErrorCompletionHandler)completionHandler {
+  // TODO consume writeOptions
+  [MSTokenExchange tokenAsync:(MSStorageIngestion *)self.ingestion
+                   partitions:@[ partition ]
+            completionHandler:^(MSTokensResponse *_Nonnull tokenResponses, NSError *_Nonnull error) {
+              // If error getting token.
+              if (error || !tokenResponses) {
+                MSLogError([MSDataStore logTag], @"Can't get CosmosDb token:%@", [error description]);
+                completionHandler([[MSDataSourceError alloc] initWithError:error]);
+                return;
+              }
+
+              MSCosmosDbIngestion *cosmosDbIngestion = [[MSCosmosDbIngestion alloc] init];
+              // Call CosmosDB
+              [MSCosmosDb performCosmosDbAsyncOperationWithHttpClient:cosmosDbIngestion
+                                                          tokenResult:tokenResponses.tokens[0]
+                                                           documentId:documentId
+                                                           httpMethod:@"DELETE"
+                                                                 body:[NSData data]
+                                                    completionHandler:^(NSData *__unused data, NSError *_Nonnull cosmosDbError) {
+                                                      // body returned from call (data) is empty
+                                                      NSNumber *errorCode = [cosmosDbError userInfo][kMSCosmosDbHttpCodeKey];
+                                                      if ([errorCode integerValue] != MSHTTPCodesNo204NoContent) {
+                                                        MSLogError([MSDataStore logTag], @"Not able to delete document: %@",
+                                                                   [cosmosDbError description]);
+                                                      } else {
+                                                        MSLogDebug([MSDataStore logTag], @"Document deleted: %@/%@", partition, documentId);
+                                                      }
+                                                      completionHandler([[MSDataSourceError alloc] initWithError:error]);
+                                                    }];
+            }];
 }
 
 #pragma mark - MSServiceInternal

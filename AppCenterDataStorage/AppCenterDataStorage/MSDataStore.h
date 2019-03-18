@@ -1,7 +1,7 @@
 #import "MSSerializableDocument.h"
 #import "MSServiceAbstract.h"
 
-@class MSDataStoreError;
+@class MSDataSourceError;
 @class MSDocumentWrapper<T : id<MSSerializableDocument>>;
 @class MSPaginatedDocuments<T : id<MSSerializableDocument>>;
 @class MSReadOptions;
@@ -37,7 +37,7 @@ static int const MSDataStoreTimeToLiveDefault = 60 * 60;
 
 typedef void (^MSDocumentWrapperCompletionHandler)(MSDocumentWrapper<T> *document);
 typedef void (^MSPaginatedDocumentsCompletionHandler)(MSPaginatedDocuments<T> *documents);
-typedef void (^MSDataStoreErrorCompletionHandler)(MSDataStoreError *error);
+typedef void (^MSDataSourceErrorCompletionHandler)(MSDataSourceError *error);
 
 /**
  * Change The URL that will be used for getting token.
@@ -164,7 +164,7 @@ typedef void (^MSDataStoreErrorCompletionHandler)(MSDataStoreError *error);
  */
 + (void)deleteDocumentWithPartition:(NSString *)partition
                          documentId:(NSString *)documentId
-                  completionHandler:(MSDataStoreErrorCompletionHandler)completionHandler;
+                  completionHandler:(MSDataSourceErrorCompletionHandler)completionHandler;
 
 /**
  * Delete a document from CosmosDB.
@@ -177,7 +177,7 @@ typedef void (^MSDataStoreErrorCompletionHandler)(MSDataStoreError *error);
 + (void)deleteDocumentWithPartition:(NSString *)partition
                          documentId:(NSString *)documentId
                        writeOptions:(MSWriteOptions *)writeOptions
-                  completionHandler:(MSDataStoreErrorCompletionHandler)completionHandler;
+                  completionHandler:(MSDataSourceErrorCompletionHandler)completionHandler;
 
 @end
 NS_ASSUME_NONNULL_END
