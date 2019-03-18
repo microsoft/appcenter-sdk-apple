@@ -1,4 +1,4 @@
-#import "MSSerializableDocument.h"
+#import "MSAbstractDocument.h"
 #import "MSServiceAbstract.h"
 
 @class MSDataStoreError;
@@ -52,7 +52,7 @@ typedef void (^MSDataStoreErrorCompletionHandler)(MSDataStoreError *error);
  *
  * @param partition The CosmosDB partition key.
  * @param documentId The CosmosDB document id.
- * @param documentType The object type of the document. Must conform to MSSerializableDocument protocol.
+ * @param documentType The object type of the document. Must inherit from the base class MSAbstractDocument.
  * @param completionHandler Callback to accept downloaded document.
  */
 + (void)readWithPartition:(NSString *)partition
@@ -65,7 +65,7 @@ typedef void (^MSDataStoreErrorCompletionHandler)(MSDataStoreError *error);
  *
  * @param partition The CosmosDB partition key.
  * @param documentId The CosmosDB document id.
- * @param documentType The object type of the document. Must conform to MSSerializableDocument protocol.
+ * @param documentType The object type of the document. Must inherit from the base class MSAbstractDocument.
  * @param readOptions Options for reading and storing the document.
  * @param completionHandler Callback to accept document.
  */
@@ -79,7 +79,7 @@ typedef void (^MSDataStoreErrorCompletionHandler)(MSDataStoreError *error);
  * Retrieve a paginated list of the documents in a partition.
  *
  * @param partition The CosmosDB partition key.
- * @param documentType The object type of the documents in the partition. Must conform to MSSerializableDocument protocol.
+ * @param documentType The object type of the documents in the partition. Must inherit from the base class MSAbstractDocument.
  * @param completionHandler Callback to accept documents.
  */
 + (void)listWithPartition:(NSString *)partition
@@ -90,7 +90,7 @@ typedef void (^MSDataStoreErrorCompletionHandler)(MSDataStoreError *error);
  * Retrieve a paginated list of the documents in a partition.
  *
  * @param partition The CosmosDB partition key.
- * @param documentType The object type of the documents in the partition. Must conform to MSSerializableDocument protocol.
+ * @param documentType The object type of the documents in the partition. Must inherit from the base class MSAbstractDocument.
  * @param readOptions Options for reading and storing the documents.
  * @param completionHandler Callback to accept documents.
  */
@@ -104,12 +104,12 @@ typedef void (^MSDataStoreErrorCompletionHandler)(MSDataStoreError *error);
  *
  * @param partition The CosmosDB partition key.
  * @param documentId The CosmosDB document id.
- * @param document The document to be stored in CosmosDB. Must conform to MSSerializableDocument protocol.
+ * @param document The document to be stored in CosmosDB. Must inherit from the base class MSAbstractDocument.
  * @param completionHandler Callback to accept document.
  */
 + (void)createWithPartition:(NSString *)partition
                  documentId:(NSString *)documentId
-                   document:(MSSerializableDocument *)document
+                   document:(MSAbstractDocument *)document
           completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler;
 
 /**
@@ -117,13 +117,13 @@ typedef void (^MSDataStoreErrorCompletionHandler)(MSDataStoreError *error);
  *
  * @param partition The CosmosDB partition key.
  * @param documentId The CosmosDB document id.
- * @param document The document to be stored in CosmosDB. Must conform to MSSerializableDocument protocol.
+ * @param document The document to be stored in CosmosDB. Must inherit from the base class MSAbstractDocument.
  * @param writeOptions Options for writing and storing the document.
  * @param completionHandler Callback to accept document.
  */
 + (void)createWithPartition:(NSString *)partition
                  documentId:(NSString *)documentId
-                   document:(MSSerializableDocument *)document
+                   document:(MSAbstractDocument *)document
                writeOptions:(MSWriteOptions *)writeOptions
           completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler;
 
@@ -132,12 +132,12 @@ typedef void (^MSDataStoreErrorCompletionHandler)(MSDataStoreError *error);
  *
  * @param partition The CosmosDB partition key.
  * @param documentId The CosmosDB document id.
- * @param document The document to be stored in CosmosDB. Must conform to MSSerializableDocument protocol.
+ * @param document The document to be stored in CosmosDB. Must inherit from the base class MSAbstractDocument.
  * @param completionHandler Callback to accept document.
  */
 + (void)replaceWithPartition:(NSString *)partition
                   documentId:(NSString *)documentId
-                    document:(MSSerializableDocument *)document
+                    document:(MSAbstractDocument *)document
            completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler;
 
 /**
@@ -145,13 +145,13 @@ typedef void (^MSDataStoreErrorCompletionHandler)(MSDataStoreError *error);
  *
  * @param partition The CosmosDB partition key.
  * @param documentId The CosmosDB document id.
- * @param document The document to be stored in CosmosDB. Must conform to MSSerializableDocument protocol.
+ * @param document The document to be stored in CosmosDB. Must inherit from the base class MSAbstractDocument.
  * @param writeOptions Options for writing and storing the document.
  * @param completionHandler Callback to accept document.
  */
 + (void)replaceWithPartition:(NSString *)partition
                   documentId:(NSString *)documentId
-                    document:(MSSerializableDocument *)document
+                    document:(MSAbstractDocument *)document
                 writeOptions:(MSWriteOptions *)writeOptions
            completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler;
 

@@ -119,7 +119,7 @@ static dispatch_once_t onceToken;
 
 + (void)createWithPartition:(NSString *)partition
                  documentId:(NSString *)documentId
-                   document:(MSSerializableDocument *)document
+                   document:(MSAbstractDocument *)document
           completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
   [[MSDataStore sharedInstance] createWithPartition:partition
                                          documentId:documentId
@@ -130,7 +130,7 @@ static dispatch_once_t onceToken;
 
 + (void)createWithPartition:(NSString *)partition
                  documentId:(NSString *)documentId
-                   document:(MSSerializableDocument *)document
+                   document:(MSAbstractDocument *)document
                writeOptions:(MSWriteOptions *)writeOptions
           completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
   [[MSDataStore sharedInstance] createWithPartition:partition
@@ -142,7 +142,7 @@ static dispatch_once_t onceToken;
 
 + (void)replaceWithPartition:(NSString *)partition
                   documentId:(NSString *)documentId
-                    document:(MSSerializableDocument *)document
+                    document:(MSAbstractDocument *)document
            completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
   // @todo
   (void)partition;
@@ -153,7 +153,7 @@ static dispatch_once_t onceToken;
 
 + (void)replaceWithPartition:(NSString *)partition
                   documentId:(NSString *)documentId
-                    document:(MSSerializableDocument *)document
+                    document:(MSAbstractDocument *)document
                 writeOptions:(MSWriteOptions *)writeOptions
            completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
   // @todo
@@ -187,11 +187,19 @@ static dispatch_once_t onceToken;
 #pragma mark - MSDataStore Implementation
 - (void)createWithPartition:(NSString *)partition
                  documentId:(NSString *)documentId
-                   document:(MSSerializableDocument *)document
+                   document:(MSAbstractDocument *)document
                writeOptions:(MSWriteOptions *)__unused writeOptions
           completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
 
   // TODO consume writeOptions
+  // Check if document is valid serializable object
+  NSError *serializationValidationError;
+  [MSDocumentUtils validateSerializationWithDocument:document error:&serializationValidationError];
+  if (serializationValidationError) {
+    completionHandler([[MSDocumentWrapper alloc] initWithError:serializationValidationError documentId:documentId]);
+    return;
+  }
+
   // Get token.
   [MSTokenExchange
              tokenAsync:(MSStorageIngestion *)self.ingestion
@@ -251,13 +259,14 @@ static dispatch_once_t onceToken;
                                         NSString *eTag = json[kMSDocumentEtagKey];
 
                                         // Create instance of user defined class.
+                                        // TODO fix the warning.
                                         Class aClass = [(NSObject *)document class];
-                                        MSSerializableDocument *deserializedDocument =
+                                        MSAbstractDocument *deserializedDocument =
                                             [[aClass alloc] initFromDictionary:(NSDictionary *)json[kMSDocumentKey]];
 
                                         // Create document wrapper object.
                                         MSDocumentWrapper *docWrapper =
-                                            [[MSDocumentWrapper alloc] initWithDeserializedValue:deserializedDocument
+                                            [[MSDocumentWrapper alloc] initWithDeserializedDocument:deserializedDocument
                                                                                        partition:partition
                                                                                       documentId:documentId
                                                                                             eTag:eTag

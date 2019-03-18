@@ -1,4 +1,5 @@
 #import <Foundation/Foundation.h>
+#import "MSAbstractDocument.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -14,6 +15,14 @@ NS_ASSUME_NONNULL_BEGIN
  * @return Dictionary of document payload.
  */
 + (NSDictionary *)documentPayloadWithDocumentId:(NSString *)documentId partition:(NSString *)partition document:(NSDictionary *)document;
+
+/**
+ * Validate serialization/deserialization of a doucment.
+ *
+ * @param document Serializable document.
+ * @param error Serialization error(output).
+ */
++ (void)validateSerializationWithDocument:(MSAbstractDocument *)document error:(NSError **)error;
 
 @end
 

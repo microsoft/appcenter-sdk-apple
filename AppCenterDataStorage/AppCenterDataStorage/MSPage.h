@@ -1,6 +1,6 @@
+#import "MSAbstractDocument.h"
 #import "MSDataSourceError.h"
 #import "MSDocumentWrapper.h"
-#import "MSSerializableDocument.h"
 
 @interface MSPage : NSObject
 

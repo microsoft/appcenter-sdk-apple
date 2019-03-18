@@ -1,5 +1,5 @@
+#import "MSAbstractDocument.h"
 #import "MSPage.h"
-#import "MSSerializableDocument.h"
 
 // A (paginated) list of documents from CosmosDB
 @interface MSPaginatedDocuments : NSObject

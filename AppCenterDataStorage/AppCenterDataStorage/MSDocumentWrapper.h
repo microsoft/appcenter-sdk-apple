@@ -1,4 +1,4 @@
-#import "MSSerializableDocument.h"
+#import "MSAbstractDocument.h"
 
 @class MSDataSourceError;
 
@@ -7,7 +7,7 @@
 /**
  * Deserialized document.
  */
-@property(nonatomic, strong, readonly) MSSerializableDocument *deserializedValue;
+@property(nonatomic, strong, readonly) MSAbstractDocument *deserializedDocument;
 
 /**
  * Cosmos Db document partition.
@@ -37,7 +37,7 @@
 /**
  * Initialize a `MSDocumentWrapper` instance.
  *
- * @param deserializedValue The document value. Must conform to MSSerializableDocument protocol.
+ * @param deserializedDocument The document value. Must inherit the base class MSAbstractDocument.
  * @param partition Partition key.
  * @param documentId Document id.
  * @param eTag Document eTag.
@@ -45,7 +45,7 @@
  *
  * @return A new `MSDocumentWrapper` instance.
  */
-- (instancetype)initWithDeserializedValue:(MSSerializableDocument *)deserializedValue
+- (instancetype)initWithDeserializedDocument:(MSAbstractDocument *)deserializedDocument
                                 partition:(NSString *)partition
                                documentId:(NSString *)documentId
                                      eTag:(NSString *)eTag

@@ -1,5 +1,5 @@
+#import "MSAbstractDocument.h"
 #import "MSPaginatedDocuments.h"
-#import "MSSerializableDocument.h"
 
 @implementation MSPaginatedDocuments
 
