@@ -21,7 +21,7 @@
   MSIdentityConfigIngestion *ingestion = [[MSIdentityConfigIngestion alloc] initWithBaseURL:baseUrl appSecret:appSecret];
 
   // When
-  NSURLRequest *request = [ingestion createRequest:[NSData new] eTag:eTag];
+  NSURLRequest *request = [ingestion createRequest:[NSData new] eTag:eTag authToken:nil];
 
   // Then
   assertThat(request.HTTPMethod, equalTo(@"GET"));
@@ -40,7 +40,7 @@
   MSIdentityConfigIngestion *ingestion = [[MSIdentityConfigIngestion alloc] initWithBaseURL:baseUrl appSecret:appSecret];
 
   // When
-  NSURLRequest *request = [ingestion createRequest:[NSData new] eTag:nil];
+  NSURLRequest *request = [ingestion createRequest:[NSData new] eTag:nil authToken:nil];
 
   // Then
   assertThat(request.HTTPMethod, equalTo(@"GET"));
@@ -54,7 +54,7 @@
   MSIdentityConfigIngestion *ingestion1 = [[MSIdentityConfigIngestion alloc] initWithBaseURL:baseUrl appSecret:appSecret];
 
   // When
-  NSURLRequest *request1 = [ingestion1 createRequest:[NSData new] eTag:nil];
+  NSURLRequest *request1 = [ingestion1 createRequest:[NSData new] eTag:nil authToken:nil];
 
   // Then
   assertThat(request1.HTTPMethod, equalTo(@"GET"));

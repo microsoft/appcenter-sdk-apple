@@ -55,16 +55,6 @@ static NSString *const kMSETagRequestHeader = @"If-None-Match";
  *
  * @param data A data instance that will be transformed to request body.
  * @param eTag HTTP entity tag.
- *
- * @return A URL request.
- */
-- (NSURLRequest *)createRequest:(NSObject *)data eTag:(nullable NSString *)eTag;
-
-/**
- * Create a request based on data. Must override this method in sub classes.
- *
- * @param data A data instance that will be transformed to request body.
- * @param eTag HTTP entity tag.
  * @param authToken auth token to send data with.
  *
  * @return A URL request.
