@@ -110,6 +110,7 @@ class MSMainViewController: UITableViewController, AppCenterProtocol, CLLocation
 
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
+    self.setAppSecretButton.isEnabled = startUpModeForCurrentSession == 1 ? false : true
     self.locationManager.delegate = self
     self.locationManager.desiredAccuracy = kCLLocationAccuracyKilometer
     self.locationManager.requestWhenInUseAuthorization()
