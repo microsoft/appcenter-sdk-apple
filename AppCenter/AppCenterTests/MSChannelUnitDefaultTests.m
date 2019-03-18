@@ -93,7 +93,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   id<MSLog> enqueuedLog = [self getValidMockLog];
   id ingestionMock = OCMProtocolMock(@protocol(MSIngestionProtocol));
   OCMStub([ingestionMock isReadyToSend]).andReturn(YES);
-  OCMStub([ingestionMock sendAsync:OCMOCK_ANY completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+  OCMStub([ingestionMock sendAsync:OCMOCK_ANY authToken:OCMOCK_ANY completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
     // Get ingestion block for later call.
     [invocation retainArguments];
     [invocation getArgument:&ingestionBlock atIndex:4];
@@ -186,7 +186,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   id<MSLog> enqueuedLog = [self getValidMockLog];
   id ingestionMock = OCMProtocolMock(@protocol(MSIngestionProtocol));
   OCMStub([ingestionMock isReadyToSend]).andReturn(YES);
-  OCMStub([ingestionMock sendAsync:OCMOCK_ANY completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+  OCMStub([ingestionMock sendAsync:OCMOCK_ANY authToken:OCMOCK_ANY completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
     // Get ingestion block for later call.
     [invocation retainArguments];
     [invocation getArgument:&ingestionBlock atIndex:4];
@@ -438,7 +438,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   // Set up mock and stubs.
   id ingestionMock = OCMProtocolMock(@protocol(MSIngestionProtocol));
   OCMStub([ingestionMock isReadyToSend]).andReturn(YES);
-  OCMStub([ingestionMock sendAsync:OCMOCK_ANY completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+  OCMStub([ingestionMock sendAsync:OCMOCK_ANY authToken:OCMOCK_ANY completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
     MSLogContainer *container;
     [invocation getArgument:&container atIndex:2];
     if (container) {
