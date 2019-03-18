@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 #import "MSLogDBStorage.h"
 #import "MSStartServiceLog.h"
 #import "MSTestFrameworks.h"

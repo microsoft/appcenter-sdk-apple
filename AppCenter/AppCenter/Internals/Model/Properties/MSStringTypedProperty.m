@@ -1,5 +1,7 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 #import "MSStringTypedProperty.h"
-#import "MSACModelConstants.h"
 
 @implementation MSStringTypedProperty
 

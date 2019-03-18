@@ -1,7 +1,8 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 #import "MSErrorReport.h"
 #import "MSErrorReportPrivate.h"
-
-NSString *const kMSErrorReportKillSignal = @"SIGKILL";
 
 @interface MSErrorReport ()
 

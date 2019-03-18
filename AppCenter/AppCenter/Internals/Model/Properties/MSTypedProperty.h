@@ -1,6 +1,9 @@
-#import <Foundation/Foundation.h>
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 
 #import "MSSerializableObject.h"
+
+static NSString *const kMSTypedPropertyValue = @"value";
 
 @interface MSTypedProperty : NSObject <MSSerializableObject>
 

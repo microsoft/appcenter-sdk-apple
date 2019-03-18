@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 #import "MSMockLog.h"
 
 static NSString *const kMSTypeMockLog = @"mockLog";

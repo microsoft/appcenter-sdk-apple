@@ -1,6 +1,9 @@
-#import "MSDistributeIngestion.h"
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 #import "MSAppCenter.h"
 #import "MSAppCenterInternal.h"
+#import "MSDistributeIngestion.h"
 #import "MSHttpIngestionPrivate.h"
 #import "MSLoggerInternal.h"
 

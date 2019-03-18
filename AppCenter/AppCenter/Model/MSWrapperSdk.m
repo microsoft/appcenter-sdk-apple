@@ -1,5 +1,7 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 #import "MSWrapperSdk.h"
-#import "MSACModelConstants.h"
 #import "MSWrapperSdkInternal.h"
 
 @implementation MSWrapperSdk
