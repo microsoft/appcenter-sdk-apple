@@ -34,7 +34,7 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate {
   }
 
   override func viewWillAppear() {
-    setEnabledButton?.state = appCenter.isAppCenterEnabled() ? 1 : 0
+    setEnabledButton?.state = appCenter.isAppCenterEnabled() ? NSControlStateValueOn : NSControlStateValueOff
   }
 
   override func viewDidLoad() {
@@ -43,7 +43,7 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate {
     appSecretLabel?.stringValue = appCenter.appSecret()
     logURLLabel?.stringValue = appCenter.logUrl()
     userIdLabel?.stringValue = UserDefaults.standard.string(forKey: kMSUserIdKey) ?? ""
-    setEnabledButton?.state = appCenter.isAppCenterEnabled() ? 1 : 0
+    setEnabledButton?.state = appCenter.isAppCenterEnabled() ? NSControlStateValueOn : NSControlStateValueOff
   
     deviceIdField?.stringValue = AppCenterViewController.getDeviceIdentifier()!
     let indexNumber = UserDefaults.standard.integer(forKey: kMSStartTargetKey)
@@ -73,8 +73,8 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate {
   }
 
   @IBAction func setEnabled(sender : NSButton) {
-    appCenter.setAppCenterEnabled(sender.state == 1)
-    sender.state = appCenter.isAppCenterEnabled() ? 1 : 0
+    appCenter.setAppCenterEnabled(sender.state == NSControlStateValueOn)
+    sender.state = appCenter.isAppCenterEnabled() ? NSControlStateValueOn : NSControlStateValueOff
   }
 
   @IBAction func userIdChanged(sender: NSTextField) {
@@ -88,6 +88,7 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate {
     let appDelegate: AppDelegate? =  NSApplication.shared().delegate as? AppDelegate
     appDelegate?.overrideCountryCode()
   }
+
   // Get device identifier.
   class func getDeviceIdentifier() -> String? {
     let platformExpert = IOServiceGetMatchingService(kIOMasterPortDefault, IOServiceMatching("IOPlatformExpertDevice"))
