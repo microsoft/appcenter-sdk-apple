@@ -30,12 +30,14 @@
 
   //Read token array from storage.
   NSMutableArray *tokenArray = [MSKeychainUtil arrayForKey:kMSIdentityAuthTokenArrayKey];
-  if ([tokenArray count] == 0) return nil;
-  else {
-    NSDate *firstDate = tokenArray[1];
-    NSDate *lastDate = [tokenArray count] > 1 ? [tokenArray[2] timestampAsDate] : nil;
-    return [[MSAuthTokenInfo alloc] initWithAuthToken:[tokenArray[1] authToken] andStartTime:firstDate andEndTime:lastDate];
+  if ([tokenArray count] == 0) {
+    return nil;
   }
+
+  NSDate *firstDate = [[tokenArray objectAtIndex:1] timestampAsDate];
+  NSDate *lastDate = [tokenArray count] > 1 ? [[tokenArray objectAtIndex:2]  timestampAsDate] : nil;
+  return [[MSAuthTokenInfo alloc] initWithAuthToken:[[tokenArray objectAtIndex:1]  authToken] andStartTime:firstDate andEndTime:lastDate];
+
 }
 
 - (void)saveAuthToken:(nullable NSString *)authToken withAccountId:(nullable NSString *)accountId {
@@ -58,20 +60,12 @@
 
     //Cap array size at max avaliable size const (deleting from beginning).
     if ([tokenArray count] > kMSIdentityMaxAuthTokenArraySize) {
-      [tokenArray removeObjectsFromIndices:1 numIndices:kMSIdentityMaxAuthTokenArraySize - [tokenArray count]];
+      [tokenArray removeObjectAtIndex:0];
     }
 
     //Save new array.
     [MSKeychainUtil storeArray:tokenArray forKey:kMSIdentityAuthTokenArrayKey];
 
-    //TODO: Determine whether code is redundant and delete if necessary.
-    /*
-     if (authToken) {
-      [self addTokenToStoryOnSignIn:authToken];
-    } else {
-      [self addEmptyTokenToStoryOnSignOut];
-    }
-     */
     //Write token to storage.
     if ([MSKeychainUtil storeString:(NSString *) authToken forKey:kMSIdentityAuthTokenKey]) {
       MSLogDebug([MSIdentity logTag], @"Saved new auth token in keychain.");

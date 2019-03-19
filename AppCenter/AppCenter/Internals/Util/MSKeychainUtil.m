@@ -18,14 +18,16 @@ static NSString *AppCenterKeychainServiceName(NSString *suffix) {
 }
 
 + (BOOL)storeArray:(NSMutableArray *)mutableArray forKey:(NSString *)key {
-  NSData *data = [NSKeyedArchiver archivedDataWithRootObject:mutableArray];
-  return [self storeString:data forKey:key];
+  NSData *arrayData = [NSKeyedArchiver archivedDataWithRootObject:mutableArray];
+  NSString *serializedArray = [[NSString alloc] initWithData:arrayData encoding:NSUTF8StringEncoding];
+  return [self storeString:serializedArray forKey:key];
 }
 
-+ (NSMutableArray *)arrayForKey:(NSString *)key{
-  NSString *data = [self stringForKey:key];
-  if (data){
-    return [NSKeyedUnarchiver unarchiveObjectWithData:data];
++ (nullable NSMutableArray *)arrayForKey:(NSString *)key {
+  NSString *serializedArray = [self stringForKey:key];
+  NSData *arrayData = [serializedArray dataUsingEncoding:NSUTF8StringEncoding];
+  if (arrayData){
+    return [NSKeyedUnarchiver unarchiveObjectWithData:arrayData];
   } else {
     return nil;
   }

@@ -19,8 +19,7 @@
 }
 
 - (NSDate *)timestampAsDate {
-  return [NSDate dateWithTimeIntervalSince1970:_timestamp];
+  return [NSDate dateWithTimeIntervalSince1970:self.timestamp];
 }
-
 
 @end

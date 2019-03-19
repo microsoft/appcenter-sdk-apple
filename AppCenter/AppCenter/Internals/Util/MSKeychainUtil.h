@@ -27,8 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A MutableArray data if exists.
  */
-+ (NSMutableArray *)arrayForKey:(NSString *)key;
-
++ (nullable NSMutableArray *)arrayForKey:(NSString *)key;
 
 /**
  * Store a string to Keychain with the given key.
