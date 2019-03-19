@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 #!/usr/bin/env xcrun --sdk macosx swift
 
 // This script is meant to be called from an Xcode run script build phase
