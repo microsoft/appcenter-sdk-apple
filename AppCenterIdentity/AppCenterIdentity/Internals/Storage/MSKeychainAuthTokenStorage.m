@@ -8,6 +8,7 @@
 #import "MSKeychainUtil.h"
 #import "MSLogger.h"
 #import "MSUtility.h"
+#import "MSAuthTokenStoryEntry.h"
 
 @implementation MSKeychainAuthTokenStorage
 
@@ -26,38 +27,44 @@
 }
 
 - (MSAuthTokenInfo *)oldestAuthToken {
-  /*
 
-   TODO:
-   1. read history, deserialize (lazy cache?)
-   2. return: token=history[0].token, starttime=history[0].time, endtime=history[1].time (or nil)
-
-   */
-  return nil;
-}
-
-- (void)addTokenToStory:(nullable NSString *)authToken {
-  if ([MSKeychainUtil storeString:(NSString *)authToken forKey:kMSIdentityAuthTokenKey]) {
-    MSLogDebug([MSIdentity logTag], @"Saved new auth token in keychain.");
-  } else {
-    MSLogWarning([MSIdentity logTag], @"Failed to save new auth token in keychain.");
+  //Read token array from storage.
+  NSMutableArray *tokenArray = [MSKeychainUtil arrayForKey:kMSIdentityAuthTokenArrayKey];
+  if ([tokenArray count] == 0) return nil;
+  else {
+    NSDate *firstDate = tokenArray[1];
+    NSDate *lastDate = [tokenArray count] > 1 ? [tokenArray[2] timestampAsDate] : nil;
+    return [[MSAuthTokenInfo alloc] initWithAuthToken:[tokenArray[1] authToken] andStartTime:firstDate andEndTime:lastDate];
   }
 }
 
 - (void)saveAuthToken:(nullable NSString *)authToken withAccountId:(nullable NSString *)accountId {
-
-  /*
- TODO:
- 1. [ ] read history
- 2. [x] deserialize (lazy cache?)
- 3. [ ] don't add duplicates to story
- 4. [x] add token
- 5. [ ] remove oldest if the limit is reached
- 6. [ ] serialize, save new history
- */
   @synchronized (self) {
-    [self addTokenToStory:authToken];
 
+    //Read token array from storage.
+    NSMutableArray *tokenArray = [MSKeychainUtil arrayForKey:kMSIdentityAuthTokenArrayKey];
+    if ([tokenArray count] == 0) {
+
+      //Add nil token if the entire story is empty.
+      MSAuthTokenStoryEntry *newAuthToken = [[MSAuthTokenStoryEntry alloc] initWithAuthToken:nil];
+      [tokenArray addObject:newAuthToken];
+    }
+    if ([[tokenArray lastObject] authToken] != authToken) {
+
+      //If new token differs from the last token of array - add it to array.
+      MSAuthTokenStoryEntry *newAuthToken = [[MSAuthTokenStoryEntry alloc] initWithAuthToken:authToken];
+      [tokenArray addObject:newAuthToken];
+    }
+
+    //Cap array size at max avaliable size const (deleting from beginning).
+    if ([tokenArray count] > kMSIdentityMaxAuthTokenArraySize) {
+      [tokenArray removeObjectsFromIndices:1 numIndices:kMSIdentityMaxAuthTokenArraySize - [tokenArray count]];
+    }
+
+    //Save new array.
+    [MSKeychainUtil storeArray:tokenArray forKey:kMSIdentityAuthTokenArrayKey];
+
+    //TODO: Determine whether code is redundant and delete if necessary.
     /*
      if (authToken) {
       [self addTokenToStoryOnSignIn:authToken];
@@ -65,29 +72,37 @@
       [self addEmptyTokenToStoryOnSignOut];
     }
      */
+    //Write token to storage.
+    if ([MSKeychainUtil storeString:(NSString *) authToken forKey:kMSIdentityAuthTokenKey]) {
+      MSLogDebug([MSIdentity logTag], @"Saved new auth token in keychain.");
+    } else {
+      MSLogWarning([MSIdentity logTag], @"Failed to save new auth token in keychain.");
+    }
+
     if (authToken && accountId) {
-      [MS_USER_DEFAULTS setObject:(NSString *)accountId forKey:kMSIdentityMSALAccountHomeAccountKey];
+      [MS_USER_DEFAULTS setObject:(NSString *) accountId forKey:kMSIdentityMSALAccountHomeAccountKey];
 
     } else {
       [MS_USER_DEFAULTS removeObjectForKey:kMSIdentityMSALAccountHomeAccountKey];
     }
   }
-
-
 }
 
 - (void)removeAuthToken:(nullable NSString *)authToken {
+  @synchronized (self) {
 
-  (void)authToken;
-  /*
+    //Read token array from storage.
+    NSMutableArray *tokenArray = [MSKeychainUtil arrayForKey:kMSIdentityAuthTokenArrayKey];
+    for (NSUInteger i = [tokenArray count]; i > 0; i--) {
+      if ([tokenArray[i] authToken] == authToken) {
+        [tokenArray removeObjectAtIndex:i];
+        break;
+      }
+    }
 
-   TODO:
-   1. read history, deserialize (lazy cache?)
-   2. find the entry with this authToken (most likely - the first one)
-   3. remove
-   4. serialize, save new history
-
-   */
+    //Save new array.
+    [MSKeychainUtil storeArray:tokenArray forKey:kMSIdentityAuthTokenArrayKey];
+  }
 }
 
 @end
