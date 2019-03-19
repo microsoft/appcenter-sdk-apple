@@ -4,6 +4,14 @@ import CoreLocation
 // 10 MiB.
 let kMSDefaultDatabaseSize = 10 * 1024 * 1024
 class AppCenterViewController : NSViewController, NSTextFieldDelegate, NSTextViewDelegate, CLLocationManagerDelegate {
+    
+  enum StartupMode: NSInteger {
+    case AppCenter
+    case OneCollector
+    case Both
+    case None
+    case Skip
+  }
 
   var appCenter: AppCenterDelegate = AppCenterProvider.shared().appCenter!
   var currentAction = AuthenticationViewController.AuthAction.signin
@@ -42,7 +50,7 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate, NSTextVie
 
   override func viewWillAppear() {
     setEnabledButton?.state = appCenter.isAppCenterEnabled() ? 1 : 0
-    setAppSecretButton?.isEnabled = startUpModeForCurrentSession == 1 ? false : true
+    setAppSecretButton?.isEnabled = startUpModeForCurrentSession == StartupMode.OneCollector.rawValue ? false : true
   }
 
   override func viewDidLoad() {
@@ -67,19 +75,19 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate, NSTextVie
     self.storageMaxSizeField?.stringValue = "\(storageMaxSize / 1024)"
 
     if let supportDirectory = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first {
-        let dbFile = supportDirectory.appendingPathComponent(Bundle.main.bundleIdentifier!).appendingPathComponent(kMSAppCenterBundleIdentifier).appendingPathComponent("Logs.sqlite")
-        func getFileSize(_ file: URL) -> Int {
-            return (try? file.resourceValues(forKeys:[.fileSizeKey]))?.fileSize ?? 0
-        }
-        self.dbFileDescriptor = dbFile.withUnsafeFileSystemRepresentation { fileSystemPath -> CInt in
-            return open(fileSystemPath!, O_EVTONLY)
-        }
-        self.dbFileSource = DispatchSource.makeFileSystemObjectSource(fileDescriptor: self.dbFileDescriptor, eventMask: [.write], queue: DispatchQueue.main)
-        self.dbFileSource!.setEventHandler {
-            self.storageFileSizeField.stringValue = "\(getFileSize(dbFile) / 1024)"
-        }
-        self.dbFileSource!.resume()
+      let dbFile = supportDirectory.appendingPathComponent(Bundle.main.bundleIdentifier!).appendingPathComponent(kMSAppCenterBundleIdentifier).appendingPathComponent("Logs.sqlite")
+      func getFileSize(_ file: URL) -> Int {
+        return (try? file.resourceValues(forKeys:[.fileSizeKey]))?.fileSize ?? 0
+      }
+      self.dbFileDescriptor = dbFile.withUnsafeFileSystemRepresentation { fileSystemPath -> CInt in
+        return open(fileSystemPath!, O_EVTONLY)
+      }
+      self.dbFileSource = DispatchSource.makeFileSystemObjectSource(fileDescriptor: self.dbFileDescriptor, eventMask: [.write], queue: DispatchQueue.main)
+      self.dbFileSource!.setEventHandler {
         self.storageFileSizeField.stringValue = "\(getFileSize(dbFile) / 1024)"
+      }
+      self.dbFileSource!.resume()
+      self.storageFileSizeField.stringValue = "\(getFileSize(dbFile) / 1024)"
     }
   }
   
@@ -146,9 +154,9 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate, NSTextVie
 
   override func controlTextDidChange(_ obj: Notification) {
     let text = obj.object as? NSTextField
-    if text == self.storageMaxSizeField{
-        let maxSize = Int(self.storageMaxSizeField.stringValue) ?? 0
-        UserDefaults.standard.set(maxSize * 1024, forKey: kMSStorageMaxSizeKey)
+    if text == self.storageMaxSizeField {
+      let maxSize = Int(self.storageMaxSizeField.stringValue) ?? 0
+      UserDefaults.standard.set(maxSize * 1024, forKey: kMSStorageMaxSizeKey)
     }
   }
 
@@ -168,7 +176,7 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate, NSTextVie
 
   override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
     if let signInController = segue.destinationController as? AuthenticationViewController {
-        signInController.action = currentAction
+      signInController.action = currentAction
     }
   }
   
@@ -240,10 +248,10 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate, NSTextVie
   }
 
   private func prodLogUrl() -> String {
-    return startUpModeForCurrentSession == 1 ? ocProdLogUrl : acProdLogUrl
+    return startUpModeForCurrentSession == StartupMode.OneCollector.rawValue ? ocProdLogUrl : acProdLogUrl
   }
-    
+  
   private func prodAppSecret() -> String {
-    return startUpModeForCurrentSession == 1 ? "" : (UserDefaults.standard.object(forKey: kMSAppSecret) ?? appCenter.appSecret()) as! String
+    return startUpModeForCurrentSession == StartupMode.OneCollector.rawValue ? "" : (UserDefaults.standard.object(forKey: kMSAppSecret) ?? appCenter.appSecret()) as! String
   }
 }
