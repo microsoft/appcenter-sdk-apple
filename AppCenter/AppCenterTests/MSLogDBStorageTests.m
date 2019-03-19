@@ -977,7 +977,7 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
       @{kMSTargetKeyColumnName : @[ kMSSQLiteTypeText ]}
     ]
   };
-  MSDBStorage *storage2 = [[MSDBStorage alloc] initWithSchema:schema2 version:kMSTargetTokenVersion filename:kMSDBFileName];
+  MSDBStorage *storage2 = [[MSDBStorage alloc] initWithSchema:schema2 version:kMSTargetKeyVersion filename:kMSDBFileName];
   [self generateAndSaveLogsWithCount:10 size:nil groupId:kMSTestGroupId flags:MSFlagsDefault storage:storage2 andVerifyLogGeneration:YES];
 
   // When
@@ -995,7 +995,33 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
 }
 
 - (void)testMigrationFromSchema3toLatest {
-  // TODO
+
+  // If
+  // Create old version db.
+  // DO NOT CHANGE. THIS IS ALREADY PUBLISHED SCHEMA.
+  MSDBSchema *schema3 = @{
+    kMSLogTableName : @[
+      @{kMSIdColumnName : @[ kMSSQLiteTypeInteger, kMSSQLiteConstraintPrimaryKey, kMSSQLiteConstraintAutoincrement ]},
+      @{kMSGroupIdColumnName : @[ kMSSQLiteTypeText, kMSSQLiteConstraintNotNull ]},
+      @{kMSLogColumnName : @[ kMSSQLiteTypeText, kMSSQLiteConstraintNotNull ]}, @{kMSTargetTokenColumnName : @[ kMSSQLiteTypeText ]},
+      @{kMSTargetKeyColumnName : @[ kMSSQLiteTypeText ]}, @{kMSPriorityColumnName : @[ kMSSQLiteTypeInteger ]}
+    ]
+  };
+  MSDBStorage *storage3 = [[MSDBStorage alloc] initWithSchema:schema3 version:kMSLogPersistencePriorityVersion filename:kMSDBFileName];
+  [self generateAndSaveLogsWithCount:10 size:nil groupId:kMSTestGroupId flags:MSFlagsDefault storage:storage3 andVerifyLogGeneration:YES];
+
+  // When
+  self.sut = [MSLogDBStorage new];
+
+  // Then
+  assertThatInt([self loadLogsWhere:nil].count, equalToUnsignedInt(10));
+  NSString *currentTable =
+      [self.sut executeSelectionQuery:[NSString stringWithFormat:@"SELECT sql FROM sqlite_master WHERE name='%@'", kMSLogTableName]][0][0];
+  assertThat(currentTable, is(kMSLatestSchema));
+  NSString *priorityIndex =
+      [self.sut executeSelectionQuery:[NSString stringWithFormat:@"SELECT sql FROM sqlite_master WHERE name='ix_%@_%@'", kMSLogTableName,
+                                                                 kMSPriorityColumnName]][0][0];
+  assertThat(priorityIndex, is(@"CREATE INDEX \"ix_logs_priority\" ON \"logs\" (\"priority\")"));
 }
 
 #pragma mark - Helper methods
