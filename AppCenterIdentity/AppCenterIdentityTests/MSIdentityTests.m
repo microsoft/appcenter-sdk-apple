@@ -129,6 +129,10 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
   // If
   NSString *expectedToken = @"expected";
+  [[MSIdentity sharedInstance] startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
+                                           appSecret:kMSTestAppSecret
+                             transmissionTargetToken:nil
+                                     fromApplication:YES];
   [MSMockKeychainUtil storeString:expectedToken forKey:kMSIdentityAuthTokenKey];
   NSString *expectedETag = @"eTag";
   [self.settingsMock setObject:expectedETag forKey:kMSIdentityETagKey];
@@ -933,16 +937,6 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   XCTAssertNil([MSMockKeychainUtil stringForKey:kMSIdentityAuthTokenKey]);
   XCTAssertNil([self.settingsMock objectForKey:kMSIdentityMSALAccountHomeAccountKey]);
   [identityMock stopMocking];
-}
-
-- (void)testRemoveAuthToken {
-
-  // If
-  [MSMockKeychainUtil storeString:@"someToken" forKey:kMSIdentityAuthTokenKey];
-
-  // When
-  XCTAssertTrue([self.sut removeAuthToken]);
-  XCTAssertFalse([self.sut removeAuthToken]);
 }
 
 - (void)testSignOutDoesNothingWhenNotSignedIn {

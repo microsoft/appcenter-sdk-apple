@@ -4,15 +4,14 @@
 #import "MSAppCenterInternal.h"
 #import "MSAppDelegateForwarder.h"
 #import "MSAuthTokenContext.h"
-#import "MSChannelGroupProtocol.h"
 #import "MSChannelUnitConfiguration.h"
-#import "MSChannelUnitProtocol.h"
 #import "MSConstants+Internal.h"
 #import "MSIdentityAppDelegate.h"
 #import "MSIdentityConfig.h"
 #import "MSIdentityConfigIngestion.h"
 #import "MSIdentityConstants.h"
 #import "MSIdentityPrivate.h"
+#import "MSKeychainAuthTokenStorage.h"
 #import "MSServiceAbstractProtected.h"
 #import "MSUtility+File.h"
 
@@ -62,6 +61,7 @@ static dispatch_once_t onceToken;
       transmissionTargetToken:(nullable NSString *)token
               fromApplication:(BOOL)fromApplication {
   [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionTargetToken:token fromApplication:fromApplication];
+  [[MSAuthTokenContext sharedInstance] setStorage:[MSKeychainAuthTokenStorage new]];
   MSLogVerbose([MSIdentity logTag], @"Started Identity service.");
 }
 
