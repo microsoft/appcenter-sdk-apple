@@ -32,6 +32,16 @@ static NSString *const kMSIdentityETagKey = @"MSIdentityETagKey";
 static NSString *const kMSIdentityAuthTokenKey = @"MSIdentityAuthToken";
 
 /**
+ *The key for Identity auth token array stored in keychain.
+ */
+static NSString *const kMSIdentityAuthTokenArrayKey = @"MSIdentityAuthTokenArray";
+
+/**
+ *Maximum amount of avaliable token stored in keychain.
+ */
+static int const kMSIdentityMaxAuthTokenArraySize = 10;
+
+/**
  *The key for the MSALAccount homeAccountId stored in user defaults.
  */
 static NSString *const kMSIdentityMSALAccountHomeAccountKey = @"MSIdentityMSALAccountHomeAccount";
