@@ -98,6 +98,7 @@ class MSMainViewController: UITableViewController, AppCenterProtocol, CLLocation
     self.sdkVersion.text = appCenter.sdkVersion()
     self.deviceIdLabel.text = UIDevice.current.identifierForVendor?.uuidString
     self.userIdField.text = UserDefaults.standard.string(forKey: kMSUserIdKey)
+    self.setAppSecretButton.isEnabled = StartupMode.allValues[startUpModeForCurrentSession] == StartupMode.OneCollector ? false : true
 
     // Make sure the UITabBarController does not cut off the last cell.
     self.edgesForExtendedLayout = []
@@ -110,7 +111,6 @@ class MSMainViewController: UITableViewController, AppCenterProtocol, CLLocation
 
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    self.setAppSecretButton.isEnabled = startUpModeForCurrentSession == 1 ? false : true
     self.locationManager.delegate = self
     self.locationManager.desiredAccuracy = kCLLocationAccuracyKilometer
     self.locationManager.requestWhenInUseAuthorization()
@@ -257,7 +257,7 @@ class MSMainViewController: UITableViewController, AppCenterProtocol, CLLocation
   }
   
   func prodLogUrl() -> String {
-    return startUpModeForCurrentSession == 1 ? ocProdLogUrl : acProdLogUrl
+    return StartupMode.allValues[startUpModeForCurrentSession] == StartupMode.OneCollector ? ocProdLogUrl : acProdLogUrl
   }
 
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
