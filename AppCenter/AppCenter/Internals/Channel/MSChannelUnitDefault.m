@@ -226,6 +226,7 @@
       loadLogsWithGroupId:self.configuration.groupId
                     limit:self.configuration.batchSizeLimit
        excludedTargetKeys:[self.pausedTargetKeys allObjects]
+               beforeDate:nil
         completionHandler:^(NSArray<MSLog> *_Nonnull logArray, NSString *batchId) {
           // Logs may be deleted from storage before this flush.
           if (batchId.length > 0) {
