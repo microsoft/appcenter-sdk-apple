@@ -21,7 +21,7 @@ static dispatch_once_t onceToken;
 /**
  * The last value of user account id.
  */
-@property(nullable, nonatomic, copy) NSString *homeAccountId;
+@property(nullable, atomic, copy) NSString *accountId;
 
 /**
  * Collection of channel delegates.
@@ -63,9 +63,9 @@ static dispatch_once_t onceToken;
   NSArray *synchronizedDelegates;
   BOOL isNewUser = NO;
   @synchronized(self) {
-    isNewUser = ![self.homeAccountId isEqualToString:accountId];
+    isNewUser = ![self.accountId isEqualToString:accountId];
     self.authToken = authToken;
-    self.homeAccountId = accountId;
+    self.accountId = accountId;
 
     // Don't invoke the delegate while locking; it might be locking too and deadlock ourselves.
     synchronizedDelegates = [self.delegates allObjects];
@@ -105,7 +105,7 @@ static dispatch_once_t onceToken;
 - (void)cacheAuthToken {
   @synchronized (self) {
     self.authToken = [self.storage retrieveAuthToken];
-    self.homeAccountId = [self.storage retrieveAccountId];
+    self.accountId = [self.storage retrieveAccountId];
   }
 }
 
