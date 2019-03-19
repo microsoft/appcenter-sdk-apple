@@ -65,17 +65,13 @@
 
     //Save new array.
     [MSKeychainUtil storeArray:tokenArray forKey:kMSIdentityAuthTokenArrayKey];
-
-    //Write token to storage.
     if ([MSKeychainUtil storeString:(NSString *) authToken forKey:kMSIdentityAuthTokenKey]) {
       MSLogDebug([MSIdentity logTag], @"Saved new auth token in keychain.");
     } else {
       MSLogWarning([MSIdentity logTag], @"Failed to save new auth token in keychain.");
     }
-
     if (authToken && accountId) {
       [MS_USER_DEFAULTS setObject:(NSString *) accountId forKey:kMSIdentityMSALAccountHomeAccountKey];
-
     } else {
       [MS_USER_DEFAULTS removeObjectForKey:kMSIdentityMSALAccountHomeAccountKey];
     }
