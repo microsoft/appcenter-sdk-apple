@@ -44,6 +44,11 @@ static NSString *const kMSDocumentEtagKey = @"_etag";
 static NSString *const kMSCosmosDbHttpCodeKey = @"com.Microsoft.AppCenter.HttpCodeKey";
 
 /**
+ * CosmosDb document key.
+ */
+static NSString *const kMSDocumentKey = @"document";
+
+/**
  * Singleton.
  */
 static MSDataStore *sharedInstance = nil;
@@ -243,13 +248,18 @@ static dispatch_once_t onceToken;
                                                                  }
                                                                  MSLogDebug([MSDataStore logTag], @"Document json:%@", json);
 
+                                                                 // Create an instance of Document.
+                                                                 // TODO fix the warning.
+                                                                 Class aClass = [(NSObject *)document class];
+                                                                 id<MSSerializableDocument> deserializedDocument = [[aClass alloc] initFromDictionary:(NSDictionary *)json[kMSDocumentKey]];
+                                                                 
                                                                  // Create a document.
                                                                  NSTimeInterval interval =
                                                                      [(NSString *)json[kMSDocumentTimestampKey] doubleValue];
                                                                  NSDate *date = [NSDate dateWithTimeIntervalSince1970:interval];
                                                                  NSString *eTag = json[kMSDocumentEtagKey];
                                                                  MSDocumentWrapper *docWrapper =
-                                                                     [[MSDocumentWrapper alloc] initWithDeserializedValue:document
+                                                                     [[MSDocumentWrapper alloc] initWithDeserializedValue:deserializedDocument
                                                                                                                 partition:partition
                                                                                                                documentId:documentId
                                                                                                                      eTag:eTag
