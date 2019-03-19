@@ -88,7 +88,6 @@
 		043120761EE0BCF9007054C5 /* MSLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 3592ABA61DC90E3600EF4592 /* MSLogger.m */; };
 		043120771EE0BCF9007054C5 /* MSChannelUnitConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EF628F31D371B1600CAFF64 /* MSChannelUnitConfiguration.m */; };
 		043120781EE0BCF9007054C5 /* MSLogContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E171B591D234717000DC480 /* MSLogContainer.m */; };
-		0431207B1EE0BCF9007054C5 /* MSAppCenterErrors.m in Sources */ = {isa = PBXBuildFile; fileRef = 388993391E29B26D00C27B36 /* MSAppCenterErrors.m */; };
 		0431207C1EE0BCF9007054C5 /* MSDeviceHistoryInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = B2FD53611E56501B0050F909 /* MSDeviceHistoryInfo.m */; };
 		043120801EE0BCF9007054C5 /* MSHttpIngestion.m in Sources */ = {isa = PBXBuildFile; fileRef = E84B8E341D235226006FD231 /* MSHttpIngestion.m */; };
 		043120811EE0BCF9007054C5 /* MSServiceAbstract.m in Sources */ = {isa = PBXBuildFile; fileRef = D38024051E7126F500466558 /* MSServiceAbstract.m */; };
@@ -216,7 +215,6 @@
 		04754F4B1EA98182002CBA46 /* MSLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 3592ABA61DC90E3600EF4592 /* MSLogger.m */; };
 		04754F4C1EA98182002CBA46 /* MSChannelUnitConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EF628F31D371B1600CAFF64 /* MSChannelUnitConfiguration.m */; };
 		04754F4D1EA98182002CBA46 /* MSLogContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E171B591D234717000DC480 /* MSLogContainer.m */; };
-		04754F501EA98182002CBA46 /* MSAppCenterErrors.m in Sources */ = {isa = PBXBuildFile; fileRef = 388993391E29B26D00C27B36 /* MSAppCenterErrors.m */; };
 		04754F511EA98182002CBA46 /* MSDeviceHistoryInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = B2FD53611E56501B0050F909 /* MSDeviceHistoryInfo.m */; };
 		04754F541EA98182002CBA46 /* MSHttpIngestion.m in Sources */ = {isa = PBXBuildFile; fileRef = E84B8E341D235226006FD231 /* MSHttpIngestion.m */; };
 		04754F551EA98182002CBA46 /* MSServiceAbstract.m in Sources */ = {isa = PBXBuildFile; fileRef = D38024051E7126F500466558 /* MSServiceAbstract.m */; };
@@ -499,12 +497,6 @@
 		384A92622188BE400099BE70 /* MSDelegateForwarderTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 384A92602188BE400099BE70 /* MSDelegateForwarderTestUtil.m */; };
 		384A92632188BE400099BE70 /* MSDelegateForwarderTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 384A92602188BE400099BE70 /* MSDelegateForwarderTestUtil.m */; };
 		385AD9221D95898D008B354A /* MSServiceAbstractProtected.h in Headers */ = {isa = PBXBuildFile; fileRef = 385AD9211D95898D008B354A /* MSServiceAbstractProtected.h */; };
-		385E319B20C1B90700BE7271 /* MSACModelConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 385E319920C1B90700BE7271 /* MSACModelConstants.h */; };
-		385E319C20C1B90700BE7271 /* MSACModelConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 385E319920C1B90700BE7271 /* MSACModelConstants.h */; };
-		385E319D20C1B90700BE7271 /* MSACModelConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 385E319920C1B90700BE7271 /* MSACModelConstants.h */; };
-		385E319E20C1B90700BE7271 /* MSACModelConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 385E319A20C1B90700BE7271 /* MSACModelConstants.m */; };
-		385E319F20C1B90700BE7271 /* MSACModelConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 385E319A20C1B90700BE7271 /* MSACModelConstants.m */; };
-		385E31A020C1B90700BE7271 /* MSACModelConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 385E319A20C1B90700BE7271 /* MSACModelConstants.m */; };
 		385FC0551D37EBD700A1799F /* MSDeviceTrackerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 385FC0541D37EBD700A1799F /* MSDeviceTrackerTests.m */; };
 		38641B051EB0F40800B2CE73 /* MSAppDelegateForwarderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 38641B041EB0F40800B2CE73 /* MSAppDelegateForwarderTests.m */; };
 		386A69ED1FD8843D0057B316 /* MSKeychainUtilPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 386A69EC1FD8843D0057B316 /* MSKeychainUtilPrivate.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -516,7 +508,6 @@
 		387C758F1D64E50800D68CC1 /* MSServiceCommon.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C758D1D64DF2500D68CC1 /* MSServiceCommon.h */; };
 		387C75961D64EE1900D68CC1 /* MSServiceAbstractTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 387C75951D64EE1900D68CC1 /* MSServiceAbstractTests.m */; };
 		387C76FD1D6C9CF100D68CC1 /* MSServiceAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C76FC1D6C9CF100D68CC1 /* MSServiceAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		3889933A1E29B26D00C27B36 /* MSAppCenterErrors.m in Sources */ = {isa = PBXBuildFile; fileRef = 388993391E29B26D00C27B36 /* MSAppCenterErrors.m */; };
 		38A3891C212B6E3C00F1C0D8 /* MSDeadLockTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 38A3891B212B6E3C00F1C0D8 /* MSDeadLockTests.m */; };
 		38AE131120C1B54000FAB2AD /* MSModelTestsUtililty.m in Sources */ = {isa = PBXBuildFile; fileRef = 38AE131020C1B54000FAB2AD /* MSModelTestsUtililty.m */; };
 		38AE131220C1B54000FAB2AD /* MSModelTestsUtililty.m in Sources */ = {isa = PBXBuildFile; fileRef = 38AE131020C1B54000FAB2AD /* MSModelTestsUtililty.m */; };
@@ -795,12 +786,6 @@
 		E7D23C6F20B6412300A47D62 /* MSCSExtensionsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E7D23C6E20B6412300A47D62 /* MSCSExtensionsTests.m */; };
 		E7D23C7020B6412300A47D62 /* MSCSExtensionsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E7D23C6E20B6412300A47D62 /* MSCSExtensionsTests.m */; };
 		E7D23C7120B6412300A47D62 /* MSCSExtensionsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E7D23C6E20B6412300A47D62 /* MSCSExtensionsTests.m */; };
-		E7D23C7320B6450300A47D62 /* MSCSModelConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = E7D23C7220B6450300A47D62 /* MSCSModelConstants.h */; };
-		E7D23C7420B6450300A47D62 /* MSCSModelConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = E7D23C7220B6450300A47D62 /* MSCSModelConstants.h */; };
-		E7D23C7520B6450300A47D62 /* MSCSModelConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = E7D23C7220B6450300A47D62 /* MSCSModelConstants.h */; };
-		E7D23C7720B6549E00A47D62 /* MSCSModelConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = E7D23C7620B6549E00A47D62 /* MSCSModelConstants.m */; };
-		E7D23C7820B6549E00A47D62 /* MSCSModelConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = E7D23C7620B6549E00A47D62 /* MSCSModelConstants.m */; };
-		E7D23C7920B6549E00A47D62 /* MSCSModelConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = E7D23C7620B6549E00A47D62 /* MSCSModelConstants.m */; };
 		E8010E6B1D2DD4EF0035196F /* MSLogWithProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = E8010E671D2DD4EF0035196F /* MSLogWithProperties.m */; };
 		E80EB1071D50273700C9003F /* MSIngestionCall.h in Headers */ = {isa = PBXBuildFile; fileRef = E80EB1051D50273700C9003F /* MSIngestionCall.h */; };
 		E80EB1081D50273700C9003F /* MSIngestionCall.m in Sources */ = {isa = PBXBuildFile; fileRef = E80EB1061D50273700C9003F /* MSIngestionCall.m */; };
@@ -1024,8 +1009,6 @@
 		384A925F2188BE400099BE70 /* MSDelegateForwarderTestUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSDelegateForwarderTestUtil.h; sourceTree = "<group>"; };
 		384A92602188BE400099BE70 /* MSDelegateForwarderTestUtil.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSDelegateForwarderTestUtil.m; sourceTree = "<group>"; };
 		385AD9211D95898D008B354A /* MSServiceAbstractProtected.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSServiceAbstractProtected.h; sourceTree = "<group>"; };
-		385E319920C1B90700BE7271 /* MSACModelConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSACModelConstants.h; sourceTree = "<group>"; };
-		385E319A20C1B90700BE7271 /* MSACModelConstants.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSACModelConstants.m; sourceTree = "<group>"; };
 		385FC0541D37EBD700A1799F /* MSDeviceTrackerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDeviceTrackerTests.m; sourceTree = "<group>"; };
 		38641B041EB0F40800B2CE73 /* MSAppDelegateForwarderTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAppDelegateForwarderTests.m; sourceTree = "<group>"; };
 		386A69EC1FD8843D0057B316 /* MSKeychainUtilPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSKeychainUtilPrivate.h; sourceTree = "<group>"; };
@@ -1037,7 +1020,6 @@
 		387C75951D64EE1900D68CC1 /* MSServiceAbstractTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MSServiceAbstractTests.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		387C76FC1D6C9CF100D68CC1 /* MSServiceAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSServiceAbstract.h; sourceTree = "<group>"; };
 		3889932E1E29829700C27B36 /* MSAppCenterErrors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAppCenterErrors.h; sourceTree = "<group>"; };
-		388993391E29B26D00C27B36 /* MSAppCenterErrors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAppCenterErrors.m; sourceTree = "<group>"; };
 		38A3891B212B6E3C00F1C0D8 /* MSDeadLockTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDeadLockTests.m; sourceTree = "<group>"; };
 		38AE130F20C1B54000FAB2AD /* MSModelTestsUtililty.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSModelTestsUtililty.h; sourceTree = "<group>"; };
 		38AE131020C1B54000FAB2AD /* MSModelTestsUtililty.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSModelTestsUtililty.m; sourceTree = "<group>"; };
@@ -1166,8 +1148,6 @@
 		E7D23C6420B6391700A47D62 /* MSCSExtensions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSCSExtensions.h; sourceTree = "<group>"; };
 		E7D23C6520B6391700A47D62 /* MSCSExtensions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSCSExtensions.m; sourceTree = "<group>"; };
 		E7D23C6E20B6412300A47D62 /* MSCSExtensionsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSCSExtensionsTests.m; sourceTree = "<group>"; };
-		E7D23C7220B6450300A47D62 /* MSCSModelConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSCSModelConstants.h; sourceTree = "<group>"; };
-		E7D23C7620B6549E00A47D62 /* MSCSModelConstants.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSCSModelConstants.m; sourceTree = "<group>"; };
 		E8010E671D2DD4EF0035196F /* MSLogWithProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSLogWithProperties.m; sourceTree = "<group>"; };
 		E80EB1051D50273700C9003F /* MSIngestionCall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSIngestionCall.h; sourceTree = "<group>"; };
 		E80EB1061D50273700C9003F /* MSIngestionCall.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MSIngestionCall.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
@@ -1473,7 +1453,6 @@
 				6E0401551D1C9AAA0051BCFA /* MSAppCenter.h */,
 				6E0401561D1C9AAA0051BCFA /* MSAppCenter.m */,
 				3889932E1E29829700C27B36 /* MSAppCenterErrors.h */,
-				388993391E29B26D00C27B36 /* MSAppCenterErrors.m */,
 				6E04013F1D1C99AC0051BCFA /* MSConstants.h */,
 				04B525B82194D44E00FA37FD /* MSConstants+Flags.h */,
 				F803BBF11E8E3677004B1E7A /* MSCustomProperties.h */,
@@ -1612,8 +1591,6 @@
 				D38023E61E6EFC7C00466558 /* MSStartServiceLog.m */,
 				B2CD745D1F22BBBB0070E7DF /* MSWrapperSdkInternal.h */,
 				38BC346C20B8CB0C00119C05 /* MSLogConversion.h */,
-				385E319920C1B90700BE7271 /* MSACModelConstants.h */,
-				385E319A20C1B90700BE7271 /* MSACModelConstants.m */,
 				354B79E0217109CE002183B5 /* Properties */,
 			);
 			path = Model;
@@ -1723,8 +1700,6 @@
 				E7D23C5520B4E38B00A47D62 /* MSCSData.m */,
 				E7D23C6420B6391700A47D62 /* MSCSExtensions.h */,
 				E7D23C6520B6391700A47D62 /* MSCSExtensions.m */,
-				E7D23C7220B6450300A47D62 /* MSCSModelConstants.h */,
-				E7D23C7620B6549E00A47D62 /* MSCSModelConstants.m */,
 				359C38DB214079D90066C509 /* MSDeviceExtension.h */,
 				359C38DC214079D90066C509 /* MSDeviceExtension.m */,
 				E74B14A820B36B9B002C0183 /* MSLocExtension.h */,
@@ -1900,7 +1875,6 @@
 				B2787218201AB9D8004AA9A5 /* MSChannelUnitDefault.h in Headers */,
 				359C38DF214079D90066C509 /* MSDeviceExtension.h in Headers */,
 				043120D21EE0BCF9007054C5 /* MSChannelGroupDefault.h in Headers */,
-				385E319D20C1B90700BE7271 /* MSACModelConstants.h in Headers */,
 				B278721A201AB9D8004AA9A5 /* MSChannelUnitProtocol.h in Headers */,
 				35DFC1E92170030C00455589 /* MSBooleanTypedProperty.h in Headers */,
 				047FEE1921A48CD100ED77CD /* MSUserIdContext.h in Headers */,
@@ -1982,7 +1956,6 @@
 				043120CE1EE0BCF9007054C5 /* MSServiceAbstractProtected.h in Headers */,
 				B2CD74BD1F22BE270070E7DF /* MSUtility+File.h in Headers */,
 				E74B14EC20B3711F002C0183 /* MSSDKExtension.h in Headers */,
-				E7D23C7520B6450300A47D62 /* MSCSModelConstants.h in Headers */,
 				043120D11EE0BCF9007054C5 /* MSDeviceTracker.h in Headers */,
 				0446DF301F3B86CB00C8E338 /* MSWrapperSdkInternal.h in Headers */,
 				043120D31EE0BCF9007054C5 /* MSKeychainUtil.h in Headers */,
@@ -2078,7 +2051,6 @@
 				041EFD2E1EE1CADA006DCD56 /* MSDeviceInternal.h in Headers */,
 				B2CD74AD1F22BE270070E7DF /* MSUtility+ApplicationPrivate.h in Headers */,
 				04754F8B1EA98182002CBA46 /* MSLoggerInternal.h in Headers */,
-				385E319C20C1B90700BE7271 /* MSACModelConstants.h in Headers */,
 				B2CD749E1F22BE270070E7DF /* MSConstants+Internal.h in Headers */,
 				B23507B92118D22800F98D4F /* MSTicketCache.h in Headers */,
 				38032088217E85A90089772A /* MSDelegateForwarder.h in Headers */,
@@ -2091,7 +2063,6 @@
 				04754F911EA98182002CBA46 /* AppCenter.h in Headers */,
 				04754F921EA98182002CBA46 /* MSHttpIngestion.h in Headers */,
 				04754F931EA98182002CBA46 /* MSLogContainer.h in Headers */,
-				E7D23C7420B6450300A47D62 /* MSCSModelConstants.h in Headers */,
 				04754F971EA98182002CBA46 /* MSChannelUnitConfiguration.h in Headers */,
 				04F3613E1FE1A95600A5A6D2 /* MSNoAutoAssignSessionIdLog.h in Headers */,
 				04754F981EA98182002CBA46 /* MSAppCenterInternal.h in Headers */,
@@ -2215,7 +2186,6 @@
 				04F3613D1FE1A92000A5A6D2 /* MSNoAutoAssignSessionIdLog.h in Headers */,
 				B289FF881F291F9D00AA2E06 /* MSDeviceInternal.h in Headers */,
 				E84B8E391D235246006FD231 /* MSStorage.h in Headers */,
-				385E319B20C1B90700BE7271 /* MSACModelConstants.h in Headers */,
 				B23507B82118D22800F98D4F /* MSTicketCache.h in Headers */,
 				B2CD74B51F22BE270070E7DF /* MSUtility+Environment.h in Headers */,
 				B2CD74851F22BD910070E7DF /* MSLogDBStorage.h in Headers */,
@@ -2224,7 +2194,6 @@
 				359C38DD214079D90066C509 /* MSDeviceExtension.h in Headers */,
 				E74B14E520B370A5002C0183 /* MSUserExtension.h in Headers */,
 				38C633C91FDF163D005F40C9 /* MSAppDelegateUtil.h in Headers */,
-				E7D23C7320B6450300A47D62 /* MSCSModelConstants.h in Headers */,
 				3844FF211E8C2716003E9194 /* MSDevice.h in Headers */,
 				6E04016C1D1C9E1F0051BCFA /* AppCenter.h in Headers */,
 				E84B8E351D235226006FD231 /* MSHttpIngestion.h in Headers */,
@@ -2586,12 +2555,10 @@
 				043120781EE0BCF9007054C5 /* MSLogContainer.m in Sources */,
 				35DFC1E02170030C00455589 /* MSDateTimeTypedProperty.m in Sources */,
 				B2CD74AB1F22BE270070E7DF /* MSUtility+Application.m in Sources */,
-				0431207B1EE0BCF9007054C5 /* MSAppCenterErrors.m in Sources */,
 				04B45C4821E90DB500FE6746 /* MSCustomPropertiesLog.m in Sources */,
 				047FEE1F21A48CE800ED77CD /* MSUserIdHistoryInfo.m in Sources */,
 				E74B14DD20B37043002C0183 /* MSAppExtension.m in Sources */,
 				045C0BEF1EEB12300038FD6B /* MSAppDelegateForwarder.m in Sources */,
-				385E31A020C1B90700BE7271 /* MSACModelConstants.m in Sources */,
 				B2CD74A51F22BE270070E7DF /* MSUtility.m in Sources */,
 				0431207C1EE0BCF9007054C5 /* MSDeviceHistoryInfo.m in Sources */,
 				04A79A4620C6F437006D0072 /* MSOneCollectorIngestion.m in Sources */,
@@ -2621,7 +2588,6 @@
 				043120871EE0BCF9007054C5 /* MSKeychainUtil.m in Sources */,
 				35DFC1EC2170030C00455589 /* MSLongTypedProperty.m in Sources */,
 				3803208C217E85A90089772A /* MSDelegateForwarder.m in Sources */,
-				E7D23C7920B6549E00A47D62 /* MSCSModelConstants.m in Sources */,
 				B2CD748A1F22BD910070E7DF /* MSLogDBStorage.m in Sources */,
 				043120881EE0BCF9007054C5 /* MSWrapperLogger.m in Sources */,
 				0431208A1EE0BCF9007054C5 /* MSChannelUnitDefault.m in Sources */,
@@ -2788,7 +2754,6 @@
 				35DFC1EB2170030C00455589 /* MSLongTypedProperty.m in Sources */,
 				359C38E1214079D90066C509 /* MSDeviceExtension.m in Sources */,
 				047FEE1A21A48CE000ED77CD /* MSUserIdContext.m in Sources */,
-				04754F501EA98182002CBA46 /* MSAppCenterErrors.m in Sources */,
 				E74B14A620B36AAB002C0183 /* MSUserExtension.m in Sources */,
 				E74B14DF20B37043002C0183 /* MSOSExtension.m in Sources */,
 				E74B149D20B364EE002C0183 /* MSCommonSchemaLog.m in Sources */,
@@ -2802,7 +2767,6 @@
 				B28E41D72076ED1400CC6AD8 /* MSUtility+PropertyValidation.m in Sources */,
 				35DFC1DC2170030C00455589 /* MSTypedProperty.m in Sources */,
 				0499F8561EDF979A00C3EDDA /* MSDevice.m in Sources */,
-				E7D23C7820B6549E00A47D62 /* MSCSModelConstants.m in Sources */,
 				04754F551EA98182002CBA46 /* MSServiceAbstract.m in Sources */,
 				047FEE0C21A48B1B00ED77CD /* MSHistoryInfo.m in Sources */,
 				04754F561EA98182002CBA46 /* MSChannelGroupDefault.m in Sources */,
@@ -2818,7 +2782,6 @@
 				B2CD74CC1F22BFA30070E7DF /* MSDBStorage.m in Sources */,
 				044864C71EBD13B400031019 /* MSCustomPropertiesLog.m in Sources */,
 				04754F591EA98182002CBA46 /* MSAbstractLog.m in Sources */,
-				385E319F20C1B90700BE7271 /* MSACModelConstants.m in Sources */,
 				B23507B62118D22800F98D4F /* MSTicketCache.m in Sources */,
 				04754F5A1EA98182002CBA46 /* MSKeychainUtil.m in Sources */,
 				04754F5B1EA98182002CBA46 /* MSWrapperLogger.m in Sources */,
@@ -2864,7 +2827,6 @@
 				35DFC1EA2170030C00455589 /* MSLongTypedProperty.m in Sources */,
 				359C38E0214079D90066C509 /* MSDeviceExtension.m in Sources */,
 				047FEE1421A48CC200ED77CD /* MSUserIdContext.m in Sources */,
-				3889933A1E29B26D00C27B36 /* MSAppCenterErrors.m in Sources */,
 				E74B14A520B36AAB002C0183 /* MSUserExtension.m in Sources */,
 				E74B14DE20B37043002C0183 /* MSOSExtension.m in Sources */,
 				E74B149C20B364EE002C0183 /* MSCommonSchemaLog.m in Sources */,
@@ -2877,7 +2839,6 @@
 				047FEE1721A48CC200ED77CD /* MSUserIdHistoryInfo.m in Sources */,
 				B2CD74881F22BD910070E7DF /* MSLogDBStorage.m in Sources */,
 				35DFC1DB2170030C00455589 /* MSTypedProperty.m in Sources */,
-				E7D23C7720B6549E00A47D62 /* MSCSModelConstants.m in Sources */,
 				8087362920C134AC004C4157 /* MSEncrypter.m in Sources */,
 				E84B8E361D235226006FD231 /* MSHttpIngestion.m in Sources */,
 				047FEE0921A4884600ED77CD /* MSHistoryInfo.m in Sources */,
@@ -2893,7 +2854,6 @@
 				E88EBBED1D2C612E007E7785 /* MSAbstractLog.m in Sources */,
 				045BC3171E3FD88600B6C960 /* MSKeychainUtil.m in Sources */,
 				35D0B7541DDFABFD003EACCD /* MSWrapperLogger.m in Sources */,
-				385E319E20C1B90700BE7271 /* MSACModelConstants.m in Sources */,
 				B2CD745A1F22BB710070E7DF /* MSWrapperSdk.m in Sources */,
 				B23507B52118D22800F98D4F /* MSTicketCache.m in Sources */,
 				3844FF201E8C2716003E9194 /* MSDevice.m in Sources */,

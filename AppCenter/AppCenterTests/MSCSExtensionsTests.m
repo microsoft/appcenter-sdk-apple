@@ -1,7 +1,9 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 #import "MSAppExtension.h"
 #import "MSCSData.h"
 #import "MSCSExtensions.h"
-#import "MSCSModelConstants.h"
 #import "MSDeviceExtension.h"
 #import "MSLocExtension.h"
 #import "MSMetadataExtension.h"

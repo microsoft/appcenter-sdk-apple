@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import UIKit;
 
 enum AnalyticsSections : Int { case actions = 0; case settings = 1; }
