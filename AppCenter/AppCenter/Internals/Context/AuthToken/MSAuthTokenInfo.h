@@ -9,10 +9,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic, nullable, copy, readonly) NSString *authToken;
 
-@property(nonatomic, readonly) int timestamp;
+@property(nonatomic, nullable, readonly) NSDate *startTime;
+
+@property(nonatomic, nullable, readonly) NSDate *endTime;
 
 - (instancetype)initWithAuthToken:(nullable NSString *)authToken
-                     andTimestamp:(int)timestamp;
+                     andStartTime:(nullable NSDate *)startTime
+                       andEndTime:(nullable NSDate *)endTime;
 
 @end
 
