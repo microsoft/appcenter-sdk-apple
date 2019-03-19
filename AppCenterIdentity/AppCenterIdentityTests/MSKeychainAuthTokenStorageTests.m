@@ -3,12 +3,12 @@
 
 #import <Foundation/Foundation.h>
 
+#import "MSIdentityConstants.h"
+#import "MSKeychainAuthTokenStorage.h"
 #import "MSMockKeychainUtil.h"
 #import "MSMockUserDefaults.h"
 #import "MSTestFrameworks.h"
 #import "MSUtility+File.h"
-#import "MSKeychainAuthTokenStorage.h"
-#import "MSIdentityConstants.h"
 #import <OCMock/OCMock.h>
 
 @interface MSKeychainAuthTokenStorageTests : XCTestCase

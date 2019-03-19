@@ -26,11 +26,10 @@ static NSString *AppCenterKeychainServiceName(NSString *suffix) {
 + (nullable NSMutableArray *)arrayForKey:(NSString *)key {
   NSString *serializedArray = [self stringForKey:key];
   NSData *arrayData = [serializedArray dataUsingEncoding:NSUTF8StringEncoding];
-  if (arrayData){
+  if (arrayData) {
     return [NSKeyedUnarchiver unarchiveObjectWithData:arrayData];
-  } else {
-    return nil;
   }
+  return nil;
 }
 
 + (BOOL)storeString:(NSString *)string forKey:(NSString *)key withServiceName:(NSString *)serviceName {

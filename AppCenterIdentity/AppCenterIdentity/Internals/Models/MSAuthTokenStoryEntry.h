@@ -11,8 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic, readonly) double timestamp;
 
-- (instancetype)initWithAuthToken:(nullable NSString *)authToken
-                     andTimestamp:(double)timestamp;
+- (instancetype)initWithAuthToken:(nullable NSString *)authToken andTimestamp:(double)timestamp;
 
 - (instancetype)initWithAuthToken:(nullable NSString *)authToken;
 

@@ -103,7 +103,7 @@ static dispatch_once_t onceToken;
 }
 
 - (void)cacheAuthToken {
-  @synchronized (self) {
+  @synchronized(self) {
     self.authToken = [self.storage retrieveAuthToken];
     self.accountId = [self.storage retrieveAccountId];
   }

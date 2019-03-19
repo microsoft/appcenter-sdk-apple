@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nullable, atomic, readonly) NSString *authToken;
 
 /**
- *
+ * Cached home account identifier.
  */
 @property(nullable, atomic, readonly) NSString *accountId;
 

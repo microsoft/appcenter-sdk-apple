@@ -5,7 +5,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MSKeychainAuthTokenStorage : NSObject<MSAuthTokenStorage>
+@interface MSKeychainAuthTokenStorage : NSObject <MSAuthTokenStorage>
 
 @end
 
