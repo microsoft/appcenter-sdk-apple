@@ -13,7 +13,6 @@ static NSString *const kMSACDataStoreErrorDomain = MS_APP_CENTER_BASE_DOMAIN @"D
 
 #pragma mark - Error Codes
 
-// Error codes
 NS_ENUM(NSInteger){
     kMSACDocumentUnknownErrorCode = 0,
     kMSACDocumentSucceededErrorCode = 200,

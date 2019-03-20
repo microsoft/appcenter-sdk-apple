@@ -213,6 +213,7 @@ static dispatch_once_t onceToken;
                                                                       httpMethod:@"GET"
                                                                             body:nil
                                                                completionHandler:^(NSData *_Nonnull data, NSError *_Nonnull cosmosDbError) {
+                                                                 
                                                                  // If not created.
                                                                  if (!data || [MSDataSourceError errorCodeWithError:cosmosDbError] !=
                                                                                   kMSACDocumentSucceededErrorCode) {
@@ -264,7 +265,7 @@ static dispatch_once_t onceToken;
                writeOptions:(MSWriteOptions *)__unused writeOptions
           completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
 
-  // TODO consume writeOptions
+  // TODO consume writeOptions.
   [MSTokenExchange
       performDbTokenAsyncOperationWithHttpClient:(MSStorageIngestion *)self.ingestion
                                        partition:partition
@@ -299,6 +300,7 @@ static dispatch_once_t onceToken;
                                                                       httpMethod:@"POST"
                                                                             body:body
                                                                completionHandler:^(NSData *_Nonnull data, NSError *_Nonnull cosmosDbError) {
+                                                                 
                                                                  // If not created.
                                                                  if (!data || [MSDataSourceError errorCodeWithError:cosmosDbError] !=
                                                                                   kMSACDocumentCreatedErrorCode) {
@@ -332,7 +334,7 @@ static dispatch_once_t onceToken;
                                                                                                                documentId:documentId
                                                                                                                      eTag:eTag
                                                                                                           lastUpdatedDate:date];
-                                                                 MSLogDebug([MSDataStore logTag], @"Document created with Id:%@",
+                                                                 MSLogDebug([MSDataStore logTag], @"Document created with ID:%@",
                                                                             documentId);
                                                                  completionHandler(docWrapper);
                                                                  return;
