@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import Cocoa
 
 // FIXME: trackPage has been hidden in MSAnalytics temporarily. Use internal until the feature comes back.

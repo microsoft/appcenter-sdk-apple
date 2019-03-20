@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 #if !ACTIVE_COMPILATION_CONDITION_PUPPET
 import AppCenter
 import AppCenterAnalytics

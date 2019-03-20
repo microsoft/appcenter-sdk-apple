@@ -1,5 +1,8 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 #import "MSDateTimeTypedProperty.h"
-#import "MSACModelConstants.h"
+#import "MSSerializableObject.h"
 #import "MSUtility+Date.h"
 
 @implementation MSDateTimeTypedProperty

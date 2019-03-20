@@ -1,7 +1,9 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 #import "MSCommonSchemaLog.h"
 #import "MSCSData.h"
 #import "MSCSExtensions.h"
-#import "MSCSModelConstants.h"
 #import "MSModel.h"
 #import "MSOrderedDictionary.h"
 #import "MSUtility+Date.h"
