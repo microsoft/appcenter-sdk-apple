@@ -1,5 +1,7 @@
 #import "MSTokenExchange.h"
 #import "AppCenter+Internal.h"
+#import "MSAppCenterIngestion.h"
+#import "MSAuthTokenContext.h"
 #import "MSDataStorageConstants.h"
 #import "MSDataStoreInternal.h"
 #import "MSKeychainUtil.h"
@@ -31,6 +33,13 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
     NSData *payloadData = [NSJSONSerialization dataWithJSONObject:@{kMSPartitions : @[ partition ]} options:0 error:&jsonError];
 
     // Http call.
+    if ([MSAuthTokenContext sharedInstance].authToken) {
+      NSMutableDictionary *headers = [httpClient.httpHeaders mutableCopy];
+      NSString *bearerTokenHeader = [NSString stringWithFormat:kMSBearerTokenHeaderFormat, [MSAuthTokenContext sharedInstance].authToken];
+      headers[kMSAuthorizationHeaderKey] = bearerTokenHeader;
+      httpClient.httpHeaders = headers;
+    }
+
     [httpClient sendAsync:payloadData
         completionHandler:^(NSString *callId, NSHTTPURLResponse *response, NSData *data, NSError *error) {
           MSLogVerbose([MSDataStore logTag], @"Get token callback, request Id %@ with status code: %td", callId, response.statusCode);

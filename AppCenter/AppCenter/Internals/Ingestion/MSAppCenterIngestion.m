@@ -12,7 +12,6 @@
 static NSString *const kMSAPIVersion = @"1.0.0";
 static NSString *const kMSAPIVersionKey = @"api-version";
 static NSString *const kMSApiPath = @"/logs";
-NSString *const kMSBearerTokenHeaderFormat = @"Bearer %@";
 
 - (id)initWithBaseUrl:(NSString *)baseUrl installId:(NSString *)installId {
   self = [super initWithBaseUrl:baseUrl
