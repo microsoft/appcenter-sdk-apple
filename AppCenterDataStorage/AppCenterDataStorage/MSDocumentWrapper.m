@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 #import "MSDocumentWrapper.h"
 #import "MSDataSourceError.h"
 #import "MSSerializableObject.h"

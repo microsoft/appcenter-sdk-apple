@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 #import "MSTokensResponse.h"
 #import "MSDataStorageConstants.h"
 #import "MSTokenResult.h"
