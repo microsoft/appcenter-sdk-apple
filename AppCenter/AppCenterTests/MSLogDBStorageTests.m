@@ -377,6 +377,29 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   XCTAssertFalse(moreLogsAvailable);
 }
 
+- (void)testLoadLogsOnlyOldLogs {
+
+  // If
+  NSDate *date = [NSDate date];
+
+  // When
+  for (int i = 0; i < 20; i++) {
+    MSLogWithProperties *log = [MSLogWithProperties new];
+    log.sid = MS_UUID_STRING;
+    log.timestamp = [[NSCalendar currentCalendar] dateByAddingUnit:NSCalendarUnitDay value:-i toDate:date options:0];
+    [self.sut saveLog:log withGroupId:kMSTestGroupId flags:MSFlagsDefault];
+  }
+
+  // Then
+  [self.sut loadLogsWithGroupId:kMSTestGroupId
+                          limit:20
+             excludedTargetKeys:nil
+                     beforeDate:[[NSCalendar currentCalendar] dateByAddingUnit:NSCalendarUnitDay value:-10 toDate:date options:0]
+              completionHandler:^(NSArray<MSLog> *_Nonnull logArray, __unused NSString *batchId) {
+                assertThatInt(logArray.count, equalToInt(10));
+              }];
+}
+
 - (void)testLoadUnlimitedLogs {
 
   // If
@@ -1034,6 +1057,7 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
     [log.properties setValue:s forKey:@"s"];
   }
   log.sid = MS_UUID_STRING;
+  log.timestamp = [NSDate date];
   return log;
 }
 
