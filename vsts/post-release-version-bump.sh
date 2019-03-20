@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# Copyright (c) Microsoft Corporation. All rights reserved.
+# Licensed under the MIT License.
+
 help() {
   echo "Usage: $0 -d <repo-root-folder> -v <new-version>"
 }

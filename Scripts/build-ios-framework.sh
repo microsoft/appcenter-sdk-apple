@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# Copyright (c) Microsoft Corporation. All rights reserved.
+# Licensed under the MIT License.
+
 # Load custom build config.
 if [ -r "${SRCROOT}/../.build_config" ]; then
 source "${SRCROOT}/../.build_config"

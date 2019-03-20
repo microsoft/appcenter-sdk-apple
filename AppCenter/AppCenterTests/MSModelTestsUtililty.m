@@ -1,9 +1,10 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 #import "MSModelTestsUtililty.h"
-#import "MSACModelConstants.h"
 #import "MSAppExtension.h"
 #import "MSCSData.h"
 #import "MSCSExtensions.h"
-#import "MSCSModelConstants.h"
 #import "MSDeviceExtension.h"
 #import "MSDeviceInternal.h"
 #import "MSLocExtension.h"

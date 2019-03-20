@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 #import "MSDateTimeTypedProperty.h"
 #import "MSTestFrameworks.h"
 #import "MSUtility+Date.h"
