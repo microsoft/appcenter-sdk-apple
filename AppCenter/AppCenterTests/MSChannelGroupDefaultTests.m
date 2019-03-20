@@ -481,32 +481,4 @@
   [channelUnitMock stopMocking];
 }
 
-- (void)testUpdatesIngestionAuthTokenWhenAuthTokenIsReceived {
-
-  // If
-  MSAppCenterIngestion *ingestionMock = [[MSAppCenterIngestion alloc] initWithBaseUrl:@"baseurl" installId:@"5"];
-  __unused MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithIngestion:ingestionMock];
-  NSString *expectedAuthToken = @"auth token";
-
-  // When
-  [[MSAuthTokenContext sharedInstance] setAuthToken:expectedAuthToken withAccountId:@"any"];
-
-  // Then
-  XCTAssertEqualObjects(expectedAuthToken, ingestionMock.authToken);
-}
-
-- (void)testInitUpdatesIngestionAuthTokenWhenAuthTokenAlreadyExists {
-
-  // If
-  MSAppCenterIngestion *ingestionMock = [[MSAppCenterIngestion alloc] initWithBaseUrl:@"baseurl" installId:@"5"];
-  NSString *expectedAuthToken = @"auth token";
-  [[MSAuthTokenContext sharedInstance] setAuthToken:expectedAuthToken withAccountId:@"any"];
-
-  // When
-  (void)[[MSChannelGroupDefault alloc] initWithIngestion:ingestionMock];
-
-  // Then
-  XCTAssertEqualObjects(expectedAuthToken, ingestionMock.authToken);
-}
-
 @end
