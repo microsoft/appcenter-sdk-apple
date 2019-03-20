@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import <Foundation/Foundation.h>
 #import "MSHttpClientProtocol.h"
+#import <Foundation/Foundation.h>
 
-@interface MSHttpClient : NSObject<MSHttpClientProtocol>
+@interface MSHttpClient : NSObject <MSHttpClientProtocol>
 
 /**
  * Creates an instance of MSHttpClient.
