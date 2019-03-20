@@ -18,16 +18,28 @@ static NSString *AppCenterKeychainServiceName(NSString *suffix) {
 }
 
 + (BOOL)storeArray:(NSMutableArray *)mutableArray forKey:(NSString *)key {
-  NSData *arrayData = [NSKeyedArchiver archivedDataWithRootObject:mutableArray];
-  NSString *serializedArray = [[NSString alloc] initWithData:arrayData encoding:NSUTF8StringEncoding];
-  return [self storeString:serializedArray forKey:key];
+  return [MSKeychainUtil storeArray:mutableArray forKey:key withServiceName:AppCenterKeychainServiceName(kMSServiceSuffix)];
+}
+
++ (BOOL)storeArray:(NSMutableArray *)mutableArray forKey:(NSString *)key withServiceName:(NSString *)serviceName {
+  NSMutableDictionary *attributes = [MSKeychainUtil generateItem:key withServiceName:serviceName];
+  attributes[(__bridge id)kSecValueData] = [NSKeyedArchiver archivedDataWithRootObject:mutableArray];
+  OSStatus status = [self addSecItem:attributes];
+  return status == noErr;
 }
 
 + (nullable NSMutableArray *)arrayForKey:(NSString *)key {
-  NSString *serializedArray = [self stringForKey:key];
-  NSData *arrayData = [serializedArray dataUsingEncoding:NSUTF8StringEncoding];
-  if (arrayData) {
-    return [NSKeyedUnarchiver unarchiveObjectWithData:arrayData];
+  return [MSKeychainUtil arrayForKey:key withServiceName:AppCenterKeychainServiceName(kMSServiceSuffix)];
+}
+
++ (nullable NSMutableArray *)arrayForKey:(NSString *)key withServiceName:(NSString *)serviceName {
+  NSMutableDictionary *query = [MSKeychainUtil generateItem:key withServiceName:serviceName];
+  query[(__bridge id)kSecReturnData] = (__bridge id)kCFBooleanTrue;
+  query[(__bridge id)kSecMatchLimit] = (__bridge id)kSecMatchLimitOne;
+  CFTypeRef result = nil;
+  OSStatus status = [self secItemCopyMatchingQuery:query result:&result];
+  if (status == noErr) {
+    return [NSKeyedUnarchiver unarchiveObjectWithData:(__bridge_transfer NSData *)result];
   }
   return nil;
 }

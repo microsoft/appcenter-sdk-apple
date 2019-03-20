@@ -25,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nullable, atomic, readonly) NSString *accountId;
 
 /**
- *
+ * Instance of object responsible for storing auth data to settings and keychain.
  */
 @property(nullable) id<MSAuthTokenStorage> storage;
 
@@ -58,8 +58,11 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Set current auth token and account id.
  */
-- (void)setAuthToken:(NSString *)authToken withAccountId:(NSString *)accountId;
+- (void)setAuthToken:(nullable NSString *)authToken withAccountId:(nullable NSString *)accountId;
 
+/**
+ * Cache auth token and account data to be used later on.
+ */
 - (void)cacheAuthToken;
 
 /**

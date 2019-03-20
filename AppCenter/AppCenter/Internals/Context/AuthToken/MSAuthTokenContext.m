@@ -54,16 +54,16 @@ static dispatch_once_t onceToken;
   sharedInstance = nil;
 }
 
-- (void)setAuthToken:(NSString *)authToken withAccountId:(NSString *)accountId {
+- (void)setAuthToken:(nullable NSString *)authToken withAccountId:(nullable NSString *)accountId {
   [self.storage saveAuthToken:authToken withAccountId:accountId];
   [self updateAuthToken:authToken withAccountId:accountId];
 }
 
-- (void)updateAuthToken:(NSString *)authToken withAccountId:(NSString *)accountId {
+- (void)updateAuthToken:(nullable NSString *)authToken withAccountId:(nullable NSString *)accountId {
   NSArray *synchronizedDelegates;
   BOOL isNewUser = NO;
   @synchronized(self) {
-    isNewUser = ![self.accountId isEqualToString:accountId];
+    isNewUser = ![self.accountId isEqual:accountId];
     self.authToken = authToken;
     self.accountId = accountId;
 
@@ -86,7 +86,7 @@ static dispatch_once_t onceToken;
       return NO;
     }
   }
-  [self updateAuthToken:nil withAccountId:nil];
+  [self setAuthToken:nil withAccountId:nil];
   return YES;
 }
 

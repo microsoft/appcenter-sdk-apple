@@ -306,11 +306,16 @@ static dispatch_once_t onceToken;
 }
 
 - (BOOL)clearAuthData {
+  BOOL result = YES;
+  if (![self removeAccount]) {
+    MSLogWarning([MSIdentity logTag], @"Couldn't remove account data.");
+    result = NO;
+  }
   if (![[MSAuthTokenContext sharedInstance] clearAuthToken]) {
     MSLogWarning([MSIdentity logTag], @"Couldn't clear authToken: it doesn't exist.");
-    return NO;
+    result = NO;
   }
-  return [self removeAccount];
+  return result;
 }
 
 - (BOOL)removeAccount {

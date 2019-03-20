@@ -64,10 +64,10 @@
 
     // Save new array.
     [MSKeychainUtil storeArray:tokenArray forKey:kMSIdentityAuthTokenArrayKey];
-    if ([MSKeychainUtil storeString:(NSString *)authToken forKey:kMSIdentityAuthTokenKey]) {
-      MSLogDebug([MSIdentity logTag], @"Saved new auth token in keychain.");
+    if (authToken) {
+      [self saveTokenToKeychain:authToken];
     } else {
-      MSLogWarning([MSIdentity logTag], @"Failed to save new auth token in keychain.");
+      [self deleteTokenFromKeychain];
     }
     if (authToken && accountId) {
       [MS_USER_DEFAULTS setObject:(NSString *)accountId forKey:kMSIdentityMSALAccountHomeAccountKey];
@@ -91,6 +91,22 @@
 
     // Save new array.
     [MSKeychainUtil storeArray:tokenArray forKey:kMSIdentityAuthTokenArrayKey];
+  }
+}
+
+- (void)deleteTokenFromKeychain {
+  if ([MSKeychainUtil deleteStringForKey:kMSIdentityAuthTokenKey]) {
+    MSLogDebug([MSIdentity logTag], @"Deleted auth token from keychain.");
+  } else {
+    MSLogWarning([MSIdentity logTag], @"Failed to delete auth token from keychain.");
+  };
+}
+
+- (void)saveTokenToKeychain:(nullable NSString *)authToken {
+  if ([MSKeychainUtil storeString:(NSString *)authToken forKey:kMSIdentityAuthTokenKey]) {
+    MSLogDebug([MSIdentity logTag], @"Saved new auth token in keychain.");
+  } else {
+    MSLogWarning([MSIdentity logTag], @"Failed to save new auth token in keychain.");
   }
 }
 
