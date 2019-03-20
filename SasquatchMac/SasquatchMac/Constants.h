@@ -6,6 +6,7 @@
 static NSString *const kMSMainStoryboardName = @"SasquatchMac";
 static NSString *const kMSUserIdKey = @"userId";
 static NSString *const kMSLogUrl = @"logUrl";
+static NSString *const kMSAppSecret = @"appSecret";
 static NSString *const kMSLogTag = @"[SasquatchMac]";
 
 static NSString *const kSASCustomizedUpdateAlertKey = @"kSASCustomizedUpdateAlertKey";
@@ -24,6 +25,7 @@ static NSString *const kMSSwiftTargetToken = @"1dd3a9a64e144fcbbd4ce31c5def22e0"
                                              @"-e57d4574-c5e7-4f89-a745-"
                                              @"b2e850b54185-7090";
 static NSString *const kMSSwiftAppSecret = @"7e873482-108f-4609-8ef2-c4cebd7418c0";
+static NSString *const kMSObjcAppSecret = @"d80aae71-af34-4e0c-af61-2381391c4a7a";
 #if ACTIVE_COMPILATION_CONDITION_PUPPET
 static NSString *const kMSObjCTargetToken = @"09855e8251634d618c1d8ef3325e3530-"
                                             @"8c17b252-f3c1-41e1-af64-"

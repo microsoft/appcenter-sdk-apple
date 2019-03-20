@@ -96,7 +96,7 @@ class MSMainViewController: UITableViewController, AppCenterProtocol, CLLocation
 
     // Miscellaneous section.
     self.installId.text = appCenter.installId()
-    self.appSecret.text = appCenter.appSecret()
+    self.appSecret.text = UserDefaults.standard.string(forKey: kMSAppSecret) ?? appCenter.appSecret()
     self.logUrl.text = UserDefaults.standard.string(forKey: kMSLogUrl) ?? prodLogUrl()
     self.sdkVersion.text = appCenter.sdkVersion()
     self.deviceIdLabel.text = UIDevice.current.identifierForVendor?.uuidString

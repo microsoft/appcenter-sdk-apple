@@ -28,9 +28,7 @@ class AppCenterDelegateSwift : AppCenterDelegate {
     return MSAppCenter.installId().uuidString
   }
   func appSecret() -> String {
-    // TODO: Uncomment when appSecret is moved from internal to public
-    // return MSAppCenter.sharedInstance().appSecret()
-    return "Internal"
+    return kMSSwiftAppSecret
   }
   func isDebuggerAttached() -> Bool {
     return MSAppCenter.isDebuggerAttached()
