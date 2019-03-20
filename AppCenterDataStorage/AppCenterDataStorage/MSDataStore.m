@@ -44,6 +44,11 @@ static NSString *const kMSDocumentEtagKey = @"_etag";
 static NSString *const kMSCosmosDbHttpCodeKey = @"com.Microsoft.AppCenter.HttpCodeKey";
 
 /**
+ *
+ */
+static NSString *const kMSHttpDeleteVerb = @"DELETE";
+
+/**
  * Singleton.
  */
 static MSDataStore *sharedInstance = nil;
@@ -265,13 +270,15 @@ static dispatch_once_t onceToken;
                        writeOptions:(MSWriteOptions *)__unused writeOptions
                   completionHandler:(MSDataSourceErrorCompletionHandler)completionHandler {
   // TODO consume writeOptions
-  [MSTokenExchange tokenAsync:(MSStorageIngestion *)self.ingestion
-                   partitions:@[ partition ]
-            completionHandler:^(MSTokensResponse *_Nonnull tokenResponses, NSError *_Nonnull error) {
+    [MSTokenExchange
+     performDbTokenAsyncOperationWithHttpClient:(MSStorageIngestion *)self.ingestion
+     partition:partition
+            completionHandler:^(MSTokensResponse *_Nonnull tokenResponses, NSError *_Nonnull tokenExchangeError) {
               // If error getting token.
-              if (error || !tokenResponses) {
-                MSLogError([MSDataStore logTag], @"Can't get CosmosDb token:%@", [error description]);
-                completionHandler([[MSDataSourceError alloc] initWithError:error]);
+              if (tokenExchangeError || !tokenResponses || [tokenResponses.tokens count] <= 0) {
+                  NSNumber *httpErrorCode = [tokenExchangeError userInfo][kMSCosmosDbHttpCodeKey];
+                  MSLogError([MSDataStore logTag], @"Can't get CosmosDb token. Http error code: %ld; Partition: %@", (long)[httpErrorCode integerValue], partition);
+                completionHandler([[MSDataSourceError alloc] initWithError:tokenExchangeError]);
                 return;
               }
 
@@ -280,18 +287,17 @@ static dispatch_once_t onceToken;
               [MSCosmosDb performCosmosDbAsyncOperationWithHttpClient:cosmosDbIngestion
                                                           tokenResult:tokenResponses.tokens[0]
                                                            documentId:documentId
-                                                           httpMethod:@"DELETE"
+                                                           httpMethod:kMSHttpDeleteVerb
                                                                  body:[NSData data]
                                                     completionHandler:^(NSData *__unused data, NSError *_Nonnull cosmosDbError) {
                                                       // body returned from call (data) is empty
-                                                      NSNumber *errorCode = [cosmosDbError userInfo][kMSCosmosDbHttpCodeKey];
-                                                      if ([errorCode integerValue] != MSHTTPCodesNo204NoContent) {
-                                                        MSLogError([MSDataStore logTag], @"Not able to delete document: %@",
-                                                                   [cosmosDbError description]);
+                                                      NSNumber *httpStatusCode = [cosmosDbError userInfo][kMSCosmosDbHttpCodeKey];
+                                                      if ([httpStatusCode integerValue] != MSHTTPCodesNo204NoContent) {
+                                                          MSLogError([MSDataStore logTag], @"Not able to delete document. Http error code: %ld; Document: %@/%@", (long)[httpStatusCode integerValue], partition, documentId);
                                                       } else {
                                                         MSLogDebug([MSDataStore logTag], @"Document deleted: %@/%@", partition, documentId);
                                                       }
-                                                      completionHandler([[MSDataSourceError alloc] initWithError:error]);
+                                                      completionHandler([[MSDataSourceError alloc] initWithError:cosmosDbError]);
                                                     }];
             }];
 }
