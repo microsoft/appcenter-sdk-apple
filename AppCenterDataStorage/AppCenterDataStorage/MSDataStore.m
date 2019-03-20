@@ -277,8 +277,8 @@ static dispatch_once_t onceToken;
                                  // If error getting token.
                                  if (tokenExchangeError || [tokenResponses.tokens count] == 0) {
                                    NSNumber *httpStatusCode = [tokenExchangeError userInfo][kMSCosmosDbHttpCodeKey];
-                                     MSLogError([MSDataStore logTag], @"Can't get CosmosDb token. Error: %@;  HTTP status code: %ld; Partition: %@", tokenExchangeError.localizedDescription,
-                                              (long)[httpStatusCode integerValue], partition);
+                                     MSLogError([MSDataStore logTag], @"Can't get CosmosDb token. Error: %@;  HTTP status code: %d; Partition: %@", tokenExchangeError.localizedDescription,
+                                              [httpStatusCode intValue], partition);
                                    completionHandler([[MSDataSourceError alloc] initWithError:tokenExchangeError]);
                                    return;
                                  }
@@ -297,9 +297,9 @@ static dispatch_once_t onceToken;
                                                                      [cosmosDbError userInfo][kMSCosmosDbHttpCodeKey];
                                                                  if ([httpStatusCode integerValue] != MSHTTPCodesNo204NoContent) {
                                                                    MSLogError([MSDataStore logTag],
-                                                                              @"Not able to delete document. Error: %@; HTTP status code: %ld; "
+                                                                              @"Not able to delete document. Error: %@; HTTP status code: %d; "
                                                                               @"Document: %@/%@",cosmosDbError.localizedDescription,
-                                                                              (long)[httpStatusCode integerValue], partition, documentId);
+                                                                              [httpStatusCode intValue], partition, documentId);
                                                                  } else {
                                                                    MSLogDebug([MSDataStore logTag], @"Document deleted: %@/%@", partition,
                                                                               documentId);
