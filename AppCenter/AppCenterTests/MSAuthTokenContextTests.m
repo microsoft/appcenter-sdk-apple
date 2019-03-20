@@ -42,7 +42,7 @@
   [self.sut addDelegate:delegateMock];
 
   // When
-  [self.sut setAuthToken:expectedAuthToken withAccountId:expectedAccountId];
+  [self.sut setAuthToken:expectedAuthToken withAccountId:expectedAccountId expiresOn:nil];
 
   // Then
   XCTAssertEqualObjects([self.sut authToken], expectedAuthToken);
@@ -59,8 +59,8 @@
   [self.sut addDelegate:delegateMock];
 
   // When
-  [self.sut setAuthToken:expectedAuthToken withAccountId:expectedAccountId];
-  [self.sut setAuthToken:expectedAuthToken withAccountId:expectedAccountId];
+  [self.sut setAuthToken:expectedAuthToken withAccountId:expectedAccountId expiresOn:nil];
+  [self.sut setAuthToken:expectedAuthToken withAccountId:expectedAccountId expiresOn:nil];
 
   // Then
   OCMVerify([delegateMock authTokenContext:self.sut didSetNewAccountIdWithAuthToken:expectedAuthToken]);
@@ -77,8 +77,8 @@
   [self.sut addDelegate:delegateMock];
 
   // When
-  [self.sut setAuthToken:expectedAuthToken withAccountId:expectedAccountId];
-  [self.sut setAuthToken:expectedAuthToken withAccountId:expectedAccountId2];
+  [self.sut setAuthToken:expectedAuthToken withAccountId:expectedAccountId expiresOn:nil];
+  [self.sut setAuthToken:expectedAuthToken withAccountId:expectedAccountId2 expiresOn:nil];
 
   // Then
   OCMVerify([delegateMock authTokenContext:self.sut didSetNewAccountIdWithAuthToken:expectedAuthToken]);
@@ -95,7 +95,7 @@
   XCTAssertFalse([self.sut clearAuthToken]);
 
   // When
-  [self.sut setAuthToken:@"some-token" withAccountId:@"some-id"];
+  [self.sut setAuthToken:@"some-token" withAccountId:@"some-id" expiresOn:nil];
   XCTAssertTrue([self.sut clearAuthToken]);
 
   // Then
@@ -116,7 +116,7 @@
 
   // When
   [self.sut removeDelegate:delegateMock];
-  [self.sut setAuthToken:@"something" withAccountId:@"someome"];
+  [self.sut setAuthToken:@"something" withAccountId:@"someome" expiresOn:nil];
 
   // Then
   OCMVerifyAll(delegateMock);

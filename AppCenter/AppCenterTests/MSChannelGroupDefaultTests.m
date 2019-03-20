@@ -489,7 +489,7 @@
   NSString *expectedAuthToken = @"auth token";
 
   // When
-  [[MSAuthTokenContext sharedInstance] setAuthToken:expectedAuthToken withAccountId:@"any"];
+  [[MSAuthTokenContext sharedInstance] setAuthToken:expectedAuthToken withAccountId:@"any" expiresOn:nil];
 
   // Then
   XCTAssertEqualObjects(expectedAuthToken, ingestionMock.authToken);
@@ -500,7 +500,7 @@
   // If
   MSAppCenterIngestion *ingestionMock = [[MSAppCenterIngestion alloc] initWithBaseUrl:@"baseurl" installId:@"5"];
   NSString *expectedAuthToken = @"auth token";
-  [[MSAuthTokenContext sharedInstance] setAuthToken:expectedAuthToken withAccountId:@"any"];
+  [[MSAuthTokenContext sharedInstance] setAuthToken:expectedAuthToken withAccountId:@"any" expiresOn:nil];
 
   // When
   (void)[[MSChannelGroupDefault alloc] initWithIngestion:ingestionMock];

@@ -37,7 +37,7 @@
   NSString *expectedAccount = @"someAccountData";
 
   // When
-  [self.sut saveAuthToken:expectedToken withAccountId:expectedAccount];
+  [self.sut saveAuthToken:expectedToken withAccountId:expectedAccount expiresOn:nil];
 
   // Then
   XCTAssertEqual([MSMockKeychainUtil stringForKey:kMSIdentityAuthTokenKey], expectedToken);
@@ -51,7 +51,7 @@
   [self.settingsMock setObject:@"someAccountData" forKey:kMSIdentityMSALAccountHomeAccountKey];
 
   // When
-  [self.sut saveAuthToken:nil withAccountId:@"someNewAccountData"];
+  [self.sut saveAuthToken:nil withAccountId:@"someNewAccountData" expiresOn:nil];
 
   // Then
   XCTAssertNil([MSMockKeychainUtil stringForKey:kMSIdentityAuthTokenKey]);
@@ -66,7 +66,7 @@
   [self.settingsMock setObject:@"someAccountData" forKey:kMSIdentityMSALAccountHomeAccountKey];
 
   // When
-  [self.sut saveAuthToken:expectedToken withAccountId:nil];
+  [self.sut saveAuthToken:expectedToken withAccountId:nil expiresOn:nil];
 
   // Then
   XCTAssertEqual([MSMockKeychainUtil stringForKey:kMSIdentityAuthTokenKey], expectedToken);
