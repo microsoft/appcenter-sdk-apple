@@ -59,7 +59,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
 - (void)tearDown {
   [super tearDown];
-  [self.reachabilityMock stopMocking];
+
   [MSHttpTestUtil removeAllStubs];
 
   /*

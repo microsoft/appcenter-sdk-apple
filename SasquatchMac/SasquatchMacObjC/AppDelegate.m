@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "AppCenterDelegateObjC.h"
 #import "AppDelegate.h"
+#import "AppCenterDelegateObjC.h"
 #import "Constants.h"
 
 @import AppCenter;
@@ -37,38 +37,38 @@ enum StartupMode { appCenter, oneCollector, both, none, skip };
   // Set max storage size.
   NSNumber *storageMaxSize = [[NSUserDefaults standardUserDefaults] objectForKey:kMSStorageMaxSizeKey];
   if (storageMaxSize) {
-      [MSAppCenter setMaxStorageSize:storageMaxSize.integerValue
-                   completionHandler:^(BOOL success) {
-                       dispatch_async(dispatch_get_main_queue(), ^{
-                           if (success) {
-                               long realStorageSize = (long)(ceil([storageMaxSize doubleValue] / kMSStoragePageSize) * kMSStoragePageSize);
-                               [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithLong:realStorageSize]
-                                                                  forKey:kMSStorageMaxSizeKey];
-                           } else {
+    [MSAppCenter setMaxStorageSize:storageMaxSize.integerValue
+                 completionHandler:^(BOOL success) {
+                   dispatch_async(dispatch_get_main_queue(), ^{
+                     if (success) {
+                       long realStorageSize = (long)(ceil([storageMaxSize doubleValue] / kMSStoragePageSize) * kMSStoragePageSize);
+                       [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithLong:realStorageSize]
+                                                                 forKey:kMSStorageMaxSizeKey];
+                     } else {
 
-                               // Remove invalid value.
-                               [[NSUserDefaults standardUserDefaults] removeObjectForKey:kMSStorageMaxSizeKey];
-                           }
-                       });
-                   }];
+                       // Remove invalid value.
+                       [[NSUserDefaults standardUserDefaults] removeObjectForKey:kMSStorageMaxSizeKey];
+                     }
+                   });
+                 }];
   }
 
   // Start AppCenter.
   NSArray<Class> *services = @ [[MSAnalytics class], [MSCrashes class], [MSPush class]];
   NSInteger startTarget = [[NSUserDefaults standardUserDefaults] integerForKey:kMSStartTargetKey];
   switch (startTarget) {
-      case appCenter:
-          [MSAppCenter start:[NSString stringWithUTF8String:APP_SECRET_VALUE] withServices:services];
-          break;
-      case oneCollector:
-          [MSAppCenter start:[NSString stringWithFormat:@"target=%@", kMSObjCTargetToken] withServices:services];
-          break;
-      case both:
-          [MSAppCenter start:[NSString stringWithFormat:@"appsecret=%s;target=%@", APP_SECRET_VALUE, kMSObjCTargetToken] withServices:services];
-          break;
-      case none:
-          [MSAppCenter startWithServices:services];
-          break;
+  case appCenter:
+    [MSAppCenter start:[NSString stringWithUTF8String:APP_SECRET_VALUE] withServices:services];
+    break;
+  case oneCollector:
+    [MSAppCenter start:[NSString stringWithFormat:@"target=%@", kMSObjCTargetToken] withServices:services];
+    break;
+  case both:
+    [MSAppCenter start:[NSString stringWithFormat:@"appsecret=%s;target=%@", APP_SECRET_VALUE, kMSObjCTargetToken] withServices:services];
+    break;
+  case none:
+    [MSAppCenter startWithServices:services];
+    break;
   }
 
   [AppCenterProvider shared].appCenter = [[AppCenterDelegateObjC alloc] init];
@@ -100,7 +100,6 @@ enum StartupMode { appCenter, oneCollector, both, none, skip };
 
   [MSCrashes setDelegate:self];
   [MSCrashes setUserConfirmationHandler:(^(NSArray<MSErrorReport *> *errorReports) {
-
                // Use MSAlertViewController to show a dialog to the user where they can choose if they want to provide a crash report.
                NSAlert *alert = [[NSAlert alloc] init];
                [alert setMessageText:@"Sorry about that!"];
@@ -173,8 +172,9 @@ enum StartupMode { appCenter, oneCollector, both, none, skip };
           UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, (__bridge CFStringRef)[referenceUrl pathExtension], nil);
       NSString *MIMEType = (__bridge_transfer NSString *)UTTypeCopyPreferredTagWithClass(UTI, kUTTagClassMIMEType);
       CFRelease(UTI);
-      MSErrorAttachmentLog *binaryAttachment =
-          [MSErrorAttachmentLog attachmentWithBinary:data filename:referenceUrl.lastPathComponent contentType:MIMEType];
+      MSErrorAttachmentLog *binaryAttachment = [MSErrorAttachmentLog attachmentWithBinary:data
+                                                                                 filename:referenceUrl.lastPathComponent
+                                                                              contentType:MIMEType];
       [attachments addObject:binaryAttachment];
       NSLog(@"Add binary attachment with %tu bytes", [data length]);
     } else {

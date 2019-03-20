@@ -185,6 +185,9 @@
       location = "group:AppCenterCrashes/AppCenterCrashes.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:AppCenterDataStorage/AppCenterDataStorage.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:AppCenterDistribute/AppCenterDistribute.xcodeproj">
    </FileRef>
    <FileRef
