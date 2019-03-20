@@ -43,9 +43,7 @@
   return authTokenInfo;
 }
 
-- (void)saveAuthToken:(nullable NSString *)authToken
-        withAccountId:(nullable NSString *)accountId
-            expiresOn:(nullable NSDate *)expiresOn {
+- (void)saveAuthToken:(nullable NSString *)authToken withAccountId:(nullable NSString *)accountId expiresOn:(nullable NSDate *)expiresOn {
   @synchronized(self) {
 
     // Read token array from storage.
@@ -58,9 +56,7 @@
     if (![tokenArray.lastObject.authToken isEqual:authToken]) {
 
       // If new token differs from the last token of array - add it to array.
-      MSAuthTokenInfo *newAuthToken = [[MSAuthTokenInfo alloc] initWithAuthToken:authToken
-                                                                    andStartTime:[NSDate date]
-                                                                      andEndTime:expiresOn];
+      MSAuthTokenInfo *newAuthToken = [[MSAuthTokenInfo alloc] initWithAuthToken:authToken andStartTime:[NSDate date] andEndTime:expiresOn];
       [tokenArray addObject:newAuthToken];
     }
 

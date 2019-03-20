@@ -8,7 +8,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Represents token data entity.
  */
-@interface MSAuthTokenInfo : NSObject<NSCoding>
+@interface MSAuthTokenInfo : NSObject <NSCoding>
 
 /**
  * Auth token string.
