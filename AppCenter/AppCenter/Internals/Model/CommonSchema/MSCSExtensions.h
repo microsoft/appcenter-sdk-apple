@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 #import <Foundation/Foundation.h>
 
 #import "MSModel.h"
@@ -12,6 +15,16 @@
 @class MSProtocolExtension;
 @class MSSDKExtension;
 @class MSUserExtension;
+
+static NSString *const kMSCSAppExt = @"app";
+static NSString *const kMSCSDeviceExt = @"device";
+static NSString *const kMSCSLocExt = @"loc";
+static NSString *const kMSCSMetadataExt = @"metadata";
+static NSString *const kMSCSNetExt = @"net";
+static NSString *const kMSCSOSExt = @"os";
+static NSString *const kMSCSProtocolExt = @"protocol";
+static NSString *const kMSCSUserExt = @"user";
+static NSString *const kMSCSSDKExt = @"sdk";
 
 /**
  * Part A extensions.

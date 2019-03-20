@@ -1,9 +1,26 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 #import "MSAbstractLogInternal.h"
 #import "MSModel.h"
 #import "MSSerializableObject.h"
 
 @class MSCSExtensions;
 @class MSCSData;
+
+// Keys
+static NSString *const kMSCSCV = @"cV";
+static NSString *const kMSCSData = @"data";
+static NSString *const kMSCSExt = @"ext";
+static NSString *const kMSCSFlags = @"flags";
+static NSString *const kMSCSIKey = @"iKey";
+static NSString *const kMSCSName = @"name";
+static NSString *const kMSCSPopSample = @"popSample";
+static NSString *const kMSCSTime = @"time";
+static NSString *const kMSCSVer = @"ver";
+
+// Values
+static NSString *const kMSCSVerValue = @"3.0";
 
 /**
  * Common schema has one event type with extensions, everything is called an event.

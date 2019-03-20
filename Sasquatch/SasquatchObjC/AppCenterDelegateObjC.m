@@ -1,4 +1,8 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 #import "AppCenterDelegateObjC.h"
+#import "Constants.h"
 
 #if GCC_PREPROCESSOR_MACRO_PUPPET
 #import "AppCenter.h"
@@ -41,7 +45,7 @@
 #if GCC_PREPROCESSOR_MACRO_PUPPET
   return [[MSAppCenter sharedInstance] appSecret];
 #else
-  return @"Internal";
+  return kMSObjcAppSecret;
 #endif
 }
 

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 #if !ACTIVE_COMPILATION_CONDITION_PUPPET
 import AppCenter
 import AppCenterAnalytics
@@ -16,7 +19,6 @@ import AppCenterAnalytics
   func setCustomProperties(_ customProperties: MSCustomProperties)
   func installId() -> String
   func appSecret() -> String
-  func logUrl() -> String
   func sdkVersion() -> String
   func isDebuggerAttached() -> Bool
   func startAnalyticsFromLibrary()

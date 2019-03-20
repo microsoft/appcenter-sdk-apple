@@ -1,6 +1,6 @@
-[![codecov](https://codecov.io/gh/Microsoft/AppCenter-SDK-Apple/branch/develop/graph/badge.svg?token=6dlCB5riVi)](https://codecov.io/gh/Microsoft/AppCenter-SDK-Apple)
+[![Coverage Status](https://codecov.io/gh/Microsoft/AppCenter-SDK-Apple/branch/develop/graph/badge.svg?token=6dlCB5riVi)](https://codecov.io/gh/Microsoft/AppCenter-SDK-Apple)
+[![GitHub Release](https://img.shields.io/github/release/Microsoft/AppCenter-SDK-Apple.svg)](https://github.com/Microsoft/AppCenter-SDK-Apple/releases/latest)
 [![CocoaPods](https://img.shields.io/cocoapods/v/AppCenter.svg)](https://cocoapods.org/pods/AppCenter)
-[![CocoaPods](https://img.shields.io/cocoapods/dt/AppCenter.svg)](https://cocoapods.org/pods/AppCenter)
 [![license](https://img.shields.io/badge/license-MIT%20License-00AAAA.svg)](https://github.com/Microsoft/AppCenter-SDK-Apple/blob/master/LICENSE)
 
 # Visual Studio App Center SDK for iOS and macOS

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import CoreLocation
 import UIKit
 
@@ -31,6 +34,7 @@ class MSMainViewController: UITableViewController, AppCenterProtocol, CLLocation
   @IBOutlet weak var storageFileSizeLabel: UILabel!
   @IBOutlet weak var userIdField: UITextField!
   @IBOutlet weak var setLogUrlButton: UIButton!
+  @IBOutlet weak var setAppSecretButton: UIButton!
   @IBOutlet weak var overrideCountryCodeButton: UIButton!
   
   var appCenter: AppCenterDelegate!
@@ -97,6 +101,7 @@ class MSMainViewController: UITableViewController, AppCenterProtocol, CLLocation
     self.sdkVersion.text = appCenter.sdkVersion()
     self.deviceIdLabel.text = UIDevice.current.identifierForVendor?.uuidString
     self.userIdField.text = UserDefaults.standard.string(forKey: kMSUserIdKey)
+    self.setAppSecretButton.isEnabled = StartupMode.allValues[startUpModeForCurrentSession] == StartupMode.OneCollector ? false : true
 
     // Make sure the UITabBarController does not cut off the last cell.
     self.edgesForExtendedLayout = []
@@ -205,6 +210,31 @@ class MSMainViewController: UITableViewController, AppCenterProtocol, CLLocation
     alertController.addAction(resetAction)
     self.present(alertController, animated: true, completion: nil)
   }
+  
+  @IBAction func appSecretSetting(_ sender: UIButton) {
+    let alertController = UIAlertController(title: "App Secret",
+                                            message: "Please restart app after updating the appsecret",
+                                            preferredStyle:.alert)
+    alertController.addTextField { (appSecretTextField) in
+      appSecretTextField.text = UserDefaults.standard.string(forKey: kMSAppSecret) ?? self.appCenter.appSecret()
+    }
+    let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+    let saveAction = UIAlertAction(title: "Save", style: .default, handler: {
+      (_ action : UIAlertAction) -> Void in
+      let text = alertController.textFields?[0].text ?? ""
+      UserDefaults.standard.set(text, forKey: kMSAppSecret)
+      self.appSecret.text = text
+    })
+    let resetAction = UIAlertAction(title: "Reset", style: .destructive, handler: {
+      (_ action : UIAlertAction) -> Void in
+      UserDefaults.standard.removeObject(forKey: kMSAppSecret)
+      self.appSecret.text = self.appCenter.appSecret()
+    })
+    alertController.addAction(cancelAction)
+    alertController.addAction(saveAction)
+    alertController.addAction(resetAction)
+    self.present(alertController, animated: true, completion: nil)
+  }
 
   @IBAction func dismissKeyboard(_ sender: UITextField!) {
     sender.resignFirstResponder()
@@ -230,7 +260,7 @@ class MSMainViewController: UITableViewController, AppCenterProtocol, CLLocation
   }
   
   func prodLogUrl() -> String {
-    return startUpModeForCurrentSession == 1 ? ocProdLogUrl : acProdLogUrl
+    return StartupMode.allValues[startUpModeForCurrentSession] == StartupMode.OneCollector ? ocProdLogUrl : acProdLogUrl
   }
 
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

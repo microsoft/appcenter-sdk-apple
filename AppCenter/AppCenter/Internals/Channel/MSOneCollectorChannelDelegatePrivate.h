@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 #import "MSOneCollectorChannelDelegate.h"
 
 @class MSOneCollectorIngestion;
@@ -10,7 +13,7 @@
 /**
  * Regex for Custom Schema log name validation.
  */
-extern NSString *const kMSLogNameRegex;
+static NSString *const kMSLogNameRegex = @"^[a-zA-Z0-9]((\\.(?!(\\.|$)))|[_a-zA-Z0-9]){3,99}$";
 
 @interface MSOneCollectorChannelDelegate ()
 
