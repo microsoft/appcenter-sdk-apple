@@ -124,7 +124,7 @@ static NSString *const kMSHeaderMsDate = @"x-ms-date";
                                         tokenResult:(MSTokenResult *)tokenResult
                                          documentId:(NSString *)documentId
                                          httpMethod:(NSString *)httpMethod
-                                               body:(NSData *)body
+                                               body:(nullable NSData *)body
                                   completionHandler:(MSCosmosDbCompletionHandler)completion {
 
   // Configure http client.

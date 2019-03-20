@@ -30,7 +30,7 @@ typedef void (^MSCosmosDbCompletionHandler)(NSData *data, NSError *error);
                                         tokenResult:(MSTokenResult *)tokenResult
                                          documentId:(NSString *)documentId
                                          httpMethod:(NSString *)httpMethod
-                                               body:(NSData *)body
+                                               body:(NSData *_Nullable)body
                                   completionHandler:(MSCosmosDbCompletionHandler)completionHandler;
 
 @end
