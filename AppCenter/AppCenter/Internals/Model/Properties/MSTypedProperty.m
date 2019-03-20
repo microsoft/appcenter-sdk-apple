@@ -1,3 +1,7 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+#import "MSSerializableObject.h"
 #import "MSTypedProperty.h"
 
 static NSString *const kMSTypedPropertyType = @"type";

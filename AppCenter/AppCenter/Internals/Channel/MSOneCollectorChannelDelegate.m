@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 #import "MSAbstractLogInternal.h"
 #import "MSAppCenterInternal.h"
 #import "MSCSData.h"
@@ -16,7 +19,6 @@ static NSString *const kMSBaseErrorMsg = @"Log validation failed.";
 /**
  * Log name regex. alnum characters, no heading or trailing periods, no heading underscores, min length of 4, max length of 100.
  */
-NSString *const kMSLogNameRegex = @"^[a-zA-Z0-9]((\\.(?!(\\.|$)))|[_a-zA-Z0-9]){3,99}$";
 
 @implementation MSOneCollectorChannelDelegate
 

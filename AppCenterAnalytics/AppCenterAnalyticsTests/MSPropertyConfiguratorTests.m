@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 #import "MSAnalyticsTransmissionTargetInternal.h"
 #import "MSAppExtension.h"
 #import "MSBooleanTypedProperty.h"

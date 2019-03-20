@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 #import "MS_Reachability.h"
 #import "MSTestFrameworks.h"
 
