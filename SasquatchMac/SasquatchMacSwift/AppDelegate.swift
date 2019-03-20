@@ -23,10 +23,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, MSCrashesDelegate, MSPushDel
   var rootController: NSWindowController!
 
   func applicationDidFinishLaunching(_ notification: Notification) {
+    
     // Crashes Delegate.
     MSCrashes.setDelegate(self);
     MSCrashes.setUserConfirmationHandler({ (errorReports: [MSErrorReport]) in
-
       let alert: NSAlert = NSAlert()
       alert.messageText = "Sorry about that!"
       alert.informativeText = "Do you want to send an anonymous crash report so we can fix the issue?"
@@ -54,9 +54,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, MSCrashesDelegate, MSPushDel
     // Push Delegate.
     MSPush.setDelegate(self);
 
+    // Set loglevel to verbose.
     MSAppCenter.setLogLevel(MSLogLevel.verbose)
 
-    // Set custom log URL
+    // Set custom log URL.
     let logUrl = UserDefaults.standard.string(forKey: kMSLogUrl)
     if logUrl != nil {
       MSAppCenter.setLogUrl(logUrl)
