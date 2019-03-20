@@ -14,7 +14,6 @@
 #import "MSAppCenterPrivate.h"
 #import "MSChannelGroupDefault.h"
 #import "MSDeviceTrackerPrivate.h"
-#import "MSHttpIngestion.h"
 #import "MSHttpIngestionPrivate.h"
 #import "MSMockSecondService.h"
 #import "MSMockService.h"
@@ -383,12 +382,21 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 }
 
 - (void)testDefaultLogUrl {
+  
+  // If
   NSString *defaultUrl = @"https://in.appcenter.ms";
 
+  // When
   [MSAppCenter start:MS_UUID_STRING withServices:nil];
+  
+  // Then
   XCTAssertNil([[MSAppCenter sharedInstance] logUrl]);
+  
+  // When
   MSChannelGroupDefault *channelGroup = [[MSAppCenter sharedInstance] channelGroup];
   NSURL *endPointLogUrl = [[channelGroup ingestion] sendURL];
+  
+  // Then
   XCTAssertTrue([[endPointLogUrl absoluteString] containsString:defaultUrl]);
 }
 
