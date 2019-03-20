@@ -35,7 +35,7 @@ SDKROOT = iphoneos
 TARGETED_DEVICE_FAMILY = 1,2
 
 HEADER_SEARCH_PATHS = $(SRCROOT)/../CrashLib/CrashLib
-FRAMEWORK_SEARCH_PATHS = $(PROJECT_DIR)/../AppCenter-SDK-Apple/iOS/** $(SRCROOT)/../Vendor/iOS/MSAL/**
+FRAMEWORK_SEARCH_PATHS = $(PROJECT_DIR)/../AppCenter-SDK-Apple/iOS/**
 
 LD_RUNPATH_SEARCH_PATHS = $(inherited) @executable_path/Frameworks
 

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 #import <Foundation/Foundation.h>
 
 typedef void (^MSSendAsyncCompletionHandler)(NSString *callId, NSHTTPURLResponse *response, NSData *data, NSError *error);
