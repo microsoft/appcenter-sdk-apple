@@ -225,7 +225,8 @@
  */
 - (void)allAccountsFilteredByAuthority:(nonnull MSALAccountsCompletionBlock)completionBlock;
 
-#pragma SafariViewController Support
+#pragma mark -
+#pragma mark SafariViewController Support
 
 #if TARGET_OS_IPHONE
 /*!
