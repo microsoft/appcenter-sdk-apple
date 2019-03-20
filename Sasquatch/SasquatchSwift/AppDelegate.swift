@@ -242,8 +242,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
   }
 
   func requestLocation() {
-    if CLLocationManager.locationServicesEnabled()
-    {
+    if CLLocationManager.locationServicesEnabled() {
       self.locationManager.requestLocation()
     }
   }
@@ -306,7 +305,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
     }
   }
     
-  func locationManager(_ Manager: CLLocationManager, didFailWithError error: Error){
+  func locationManager(_ Manager: CLLocationManager, didFailWithError error: Error) {
     print("Failed to find user's location: \(error.localizedDescription)")
   }
     

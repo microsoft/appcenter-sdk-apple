@@ -104,8 +104,6 @@ enum StartupMode { appCenter, oneCollector, both, none, skip };
   [self.rootController.window makeKeyAndOrderFront:self];
 }
 
-
-
 - (void)setupCrashes {
   if ([MSCrashes hasCrashedInLastSession]) {
     MSErrorReport *errorReport = [MSCrashes lastSessionCrashReport];

@@ -9,5 +9,7 @@
 
 @interface AppDelegate
     : NSObject <NSApplicationDelegate, MSCrashesDelegate, MSPushDelegate, NSUserNotificationCenterDelegate, CLLocationManagerDelegate>
+
 - (void) overrideCountryCode;
+
 @end

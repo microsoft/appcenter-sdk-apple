@@ -126,7 +126,6 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     appCenter.setPushEnabled(sender.isOn)
     updateViewState()
   }
-  
     
   @IBAction func overrideCountryCode(_ sender: UIButton) {
     let appDelegate: AppDelegate? = UIApplication.shared.delegate as? AppDelegate
