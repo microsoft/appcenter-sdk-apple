@@ -42,9 +42,6 @@
 }
 
 - (NSString *)appSecret {
-
-  // TODO: Uncomment when appSecret is moved from internal to public
-  // return [[MSAppCenter sharedInstance] appSecret];
   return kMSObjcAppSecret;
 }
 

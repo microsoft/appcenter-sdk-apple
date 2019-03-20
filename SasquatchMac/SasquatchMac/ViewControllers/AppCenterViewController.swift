@@ -59,7 +59,7 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate, NSTextVie
   override func viewDidLoad() {
     super.viewDidLoad()
     installIdLabel?.stringValue = appCenter.installId()
-    appSecretLabel?.stringValue = appCenter.appSecret()
+    appSecretLabel?.stringValue = UserDefaults.standard.string(forKey: kMSAppSecret) ?? appCenter.appSecret()
     logURLLabel?.stringValue = (UserDefaults.standard.object(forKey: kMSLogUrl) ?? prodLogUrl()) as! String
     userIdLabel?.stringValue = UserDefaults.standard.string(forKey: kMSUserIdKey) ?? ""
     setEnabledButton?.state = appCenter.isAppCenterEnabled() ? 1 : 0
