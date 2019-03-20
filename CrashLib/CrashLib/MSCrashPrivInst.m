@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-mport "MSCrashPrivInst.h"
+#import "MSCrashPrivInst.h"
 
 @implementation MSCrashPrivInst
 
