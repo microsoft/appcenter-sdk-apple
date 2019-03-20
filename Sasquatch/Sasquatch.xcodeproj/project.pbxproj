@@ -16,16 +16,7 @@
 		046790431E8DA7E90033FDEC /* AppCenterPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 046790411E8DA7D80033FDEC /* AppCenterPush.framework */; };
 		047D13721EAFBDBE00D699BA /* AppCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 047D13711EAFBDBE00D699BA /* AppCenterDistributeResources.bundle */; };
 		048933631F8D395A00C38A87 /* Sasquatch.strings in Resources */ = {isa = PBXBuildFile; fileRef = 041A4BAF1F8C28A3009E1B6C /* Sasquatch.strings */; };
-		048C07C421F11ED200769A85 /* MSAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 048C079121F11ED200769A85 /* MSAL.framework */; };
-		048C07C521F11ED200769A85 /* MSAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 048C079121F11ED200769A85 /* MSAL.framework */; };
-		048C07C621F11ED200769A85 /* MSAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 048C079121F11ED200769A85 /* MSAL.framework */; };
-		048C07C721F11ED200769A85 /* MSAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 048C079121F11ED200769A85 /* MSAL.framework */; };
-		04CCE78421F79348000AD84C /* MSAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 048C079121F11ED200769A85 /* MSAL.framework */; };
-		04CCE78D21F7A148000AD84C /* MSAL.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 048C079121F11ED200769A85 /* MSAL.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		04CCE78F21F7A4EB000AD84C /* MSAL.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 048C079121F11ED200769A85 /* MSAL.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		04CCE79121F7A4FF000AD84C /* MSAL.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 048C079121F11ED200769A85 /* MSAL.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		04CCE79321F7A50D000AD84C /* MSAL.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 048C079121F11ED200769A85 /* MSAL.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		04CCE79521F7A51A000AD84C /* MSAL.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 048C079121F11ED200769A85 /* MSAL.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		04A1DB34223B65EB006A48D6 /* AuthenticationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04A1DB33223B65EB006A48D6 /* AuthenticationServices.framework */; };
 		352A3E7420F801A900D09CF0 /* EventPropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 352A3E7320F801A900D09CF0 /* EventPropertiesTableSection.swift */; };
 		352A3E7520F80C8600D09CF0 /* EventPropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 352A3E7320F801A900D09CF0 /* EventPropertiesTableSection.swift */; };
 		35396A7820F95A9C00A091E0 /* MSTransmissionTargetsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35396A7720F95A9C00A091E0 /* MSTransmissionTargetsViewController.swift */; };
@@ -635,7 +626,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				04CCE78D21F7A148000AD84C /* MSAL.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -645,7 +635,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				04CCE78F21F7A4EB000AD84C /* MSAL.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -655,7 +644,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				04CCE79121F7A4FF000AD84C /* MSAL.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -665,7 +653,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				04CCE79321F7A50D000AD84C /* MSAL.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -675,7 +662,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				04CCE79521F7A51A000AD84C /* MSAL.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -781,7 +767,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		040856192231C87000977E8F /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		041A4BB01F8C28A3009E1B6C /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Sasquatch.strings; sourceTree = "<group>"; };
 		041A4BB21F8C29E7009E1B6C /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/Sasquatch.strings; sourceTree = "<group>"; };
 		041A4BB31F8C2A33009E1B6C /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Sasquatch.strings; sourceTree = "<group>"; };
@@ -803,7 +788,7 @@
 		047746422201000B0045504A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		047D13711EAFBDBE00D699BA /* AppCenterDistributeResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = AppCenterDistributeResources.bundle; path = "../AppCenter-SDK-Apple/iOS/AppCenterDistributeResources.bundle"; sourceTree = "<group>"; };
 		0482105C1FD0B611006824F7 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/Sasquatch.strings; sourceTree = "<group>"; };
-		048C079121F11ED200769A85 /* MSAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MSAL.framework; path = ../Vendor/iOS/MSAL/MSAL.framework; sourceTree = "<group>"; };
+		04A1DB33223B65EB006A48D6 /* AuthenticationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AuthenticationServices.framework; path = System/Library/Frameworks/AuthenticationServices.framework; sourceTree = SDKROOT; };
 		352A3E7320F801A900D09CF0 /* EventPropertiesTableSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventPropertiesTableSection.swift; sourceTree = "<group>"; };
 		35396A7720F95A9C00A091E0 /* MSTransmissionTargetsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSTransmissionTargetsViewController.swift; sourceTree = "<group>"; };
 		354273DE20126A3E00BE766F /* MSEventFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSEventFilter.m; sourceTree = "<group>"; };
@@ -940,7 +925,6 @@
 				84226D391E89302900798417 /* AppCenterDistribute.framework in Frameworks */,
 				0459920F21F0042300BD3F82 /* AppCenterIdentity.framework in Frameworks */,
 				046790421E8DA7D80033FDEC /* AppCenterPush.framework in Frameworks */,
-				048C07C521F11ED200769A85 /* MSAL.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -956,7 +940,6 @@
 				C25DAE3F22280B150073B86A /* AppCenterDataStorage.framework in Frameworks */,
 				84226D351E89301B00798417 /* AppCenterDistribute.framework in Frameworks */,
 				046790431E8DA7E90033FDEC /* AppCenterPush.framework in Frameworks */,
-				048C07C721F11ED200769A85 /* MSAL.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -964,7 +947,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				04CCE78421F79348000AD84C /* MSAL.framework in Frameworks */,
+				04A1DB34223B65EB006A48D6 /* AuthenticationServices.framework in Frameworks */,
 				B20AE48A21028E3C00A1A195 /* libz.tbd in Frameworks */,
 				B20AE48821028E3300A1A195 /* libc++.tbd in Frameworks */,
 				B2A888A62102A44B001ACFDF /* SafariServices.framework in Frameworks */,
@@ -992,7 +975,6 @@
 				C25DAE3C22280B150073B86A /* AppCenterDataStorage.framework in Frameworks */,
 				B27D54C0210A5E7E004E82C9 /* AppCenterDistribute.framework in Frameworks */,
 				B27D54C1210A5E7E004E82C9 /* AppCenterPush.framework in Frameworks */,
-				048C07C421F11ED200769A85 /* MSAL.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1008,7 +990,6 @@
 				C25DAE3E22280B150073B86A /* AppCenterDataStorage.framework in Frameworks */,
 				B2A4CFA4210A6E6900199B4F /* AppCenterDistribute.framework in Frameworks */,
 				B2A4CFA5210A6E6900199B4F /* AppCenterPush.framework in Frameworks */,
-				048C07C621F11ED200769A85 /* MSAL.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1211,6 +1192,7 @@
 		84226D0F1E8921DE00798417 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				04A1DB33223B65EB006A48D6 /* AuthenticationServices.framework */,
 				B2A888A52102A44B001ACFDF /* SafariServices.framework */,
 				B20AE48921028E3C00A1A195 /* libz.tbd */,
 				B20AE48721028E3300A1A195 /* libc++.tbd */,
@@ -1224,7 +1206,6 @@
 				C25DAE3B22280B150073B86A /* AppCenterDataStorage.framework */,
 				84226D311E89301B00798417 /* AppCenterDistribute.framework */,
 				0459920E21F0042300BD3F82 /* AppCenterIdentity.framework */,
-				048C079121F11ED200769A85 /* MSAL.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

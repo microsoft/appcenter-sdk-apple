@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 #import "AppCenterDelegateObjC.h"
 #import "MSAlertController.h"
 #import "MSEventFilter.h"

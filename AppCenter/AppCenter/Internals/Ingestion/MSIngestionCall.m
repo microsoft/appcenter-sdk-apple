@@ -1,6 +1,9 @@
-#import "MSIngestionCall.h"
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 #import "MSAppCenterErrors.h"
 #import "MSAppCenterInternal.h"
+#import "MSIngestionCall.h"
 
 @implementation MSIngestionCall
 
