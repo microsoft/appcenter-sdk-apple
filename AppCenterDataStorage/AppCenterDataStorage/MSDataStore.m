@@ -44,7 +44,7 @@ static NSString *const kMSDocumentEtagKey = @"_etag";
 static NSString *const kMSCosmosDbHttpCodeKey = @"com.Microsoft.AppCenter.HttpCodeKey";
 
 /**
- *
+ * HTTP verb for delete operations.
  */
 static NSString *const kMSHttpDeleteVerb = @"DELETE";
 
@@ -270,36 +270,43 @@ static dispatch_once_t onceToken;
                        writeOptions:(MSWriteOptions *)__unused writeOptions
                   completionHandler:(MSDataSourceErrorCompletionHandler)completionHandler {
   // TODO consume writeOptions
-    [MSTokenExchange
-     performDbTokenAsyncOperationWithHttpClient:(MSStorageIngestion *)self.ingestion
-     partition:partition
-            completionHandler:^(MSTokensResponse *_Nonnull tokenResponses, NSError *_Nonnull tokenExchangeError) {
-              // If error getting token.
-              if (tokenExchangeError || !tokenResponses || [tokenResponses.tokens count] <= 0) {
-                  NSNumber *httpErrorCode = [tokenExchangeError userInfo][kMSCosmosDbHttpCodeKey];
-                  MSLogError([MSDataStore logTag], @"Can't get CosmosDb token. Http error code: %ld; Partition: %@", (long)[httpErrorCode integerValue], partition);
-                completionHandler([[MSDataSourceError alloc] initWithError:tokenExchangeError]);
-                return;
-              }
+  [MSTokenExchange
+      performDbTokenAsyncOperationWithHttpClient:(MSStorageIngestion *)self.ingestion
+                                       partition:partition
+                               completionHandler:^(MSTokensResponse *_Nonnull tokenResponses, NSError *_Nonnull tokenExchangeError) {
+                                 // If error getting token.
+                                 if (tokenExchangeError || [tokenResponses.tokens count] == 0) {
+                                   NSNumber *httpStatusCode = [tokenExchangeError userInfo][kMSCosmosDbHttpCodeKey];
+                                     MSLogError([MSDataStore logTag], @"Can't get CosmosDb token. Error: %@;  HTTP status code: %ld; Partition: %@", tokenExchangeError.localizedDescription,
+                                              (long)[httpStatusCode integerValue], partition);
+                                   completionHandler([[MSDataSourceError alloc] initWithError:tokenExchangeError]);
+                                   return;
+                                 }
 
-              MSCosmosDbIngestion *cosmosDbIngestion = [[MSCosmosDbIngestion alloc] init];
-              // Call CosmosDB
-              [MSCosmosDb performCosmosDbAsyncOperationWithHttpClient:cosmosDbIngestion
-                                                          tokenResult:tokenResponses.tokens[0]
-                                                           documentId:documentId
-                                                           httpMethod:kMSHttpDeleteVerb
-                                                                 body:[NSData data]
-                                                    completionHandler:^(NSData *__unused data, NSError *_Nonnull cosmosDbError) {
-                                                      // body returned from call (data) is empty
-                                                      NSNumber *httpStatusCode = [cosmosDbError userInfo][kMSCosmosDbHttpCodeKey];
-                                                      if ([httpStatusCode integerValue] != MSHTTPCodesNo204NoContent) {
-                                                          MSLogError([MSDataStore logTag], @"Not able to delete document. Http error code: %ld; Document: %@/%@", (long)[httpStatusCode integerValue], partition, documentId);
-                                                      } else {
-                                                        MSLogDebug([MSDataStore logTag], @"Document deleted: %@/%@", partition, documentId);
-                                                      }
-                                                      completionHandler([[MSDataSourceError alloc] initWithError:cosmosDbError]);
-                                                    }];
-            }];
+                                 MSCosmosDbIngestion *cosmosDbIngestion = [MSCosmosDbIngestion new];
+                                 // Call CosmosDB
+                                 [MSCosmosDb
+                                     performCosmosDbAsyncOperationWithHttpClient:cosmosDbIngestion
+                                                                     tokenResult:tokenResponses.tokens[0]
+                                                                      documentId:documentId
+                                                                      httpMethod:kMSHttpDeleteVerb
+                                                                            body:[NSData data]
+                                                               completionHandler:^(NSData *__unused data, NSError *_Nonnull cosmosDbError) {
+                                                                 // body returned from call (data) is empty
+                                                                 NSNumber *httpStatusCode =
+                                                                     [cosmosDbError userInfo][kMSCosmosDbHttpCodeKey];
+                                                                 if ([httpStatusCode integerValue] != MSHTTPCodesNo204NoContent) {
+                                                                   MSLogError([MSDataStore logTag],
+                                                                              @"Not able to delete document. Error: %@; HTTP status code: %ld; "
+                                                                              @"Document: %@/%@",cosmosDbError.localizedDescription,
+                                                                              (long)[httpStatusCode integerValue], partition, documentId);
+                                                                 } else {
+                                                                   MSLogDebug([MSDataStore logTag], @"Document deleted: %@/%@", partition,
+                                                                              documentId);
+                                                                 }
+                                                                 completionHandler([[MSDataSourceError alloc] initWithError:cosmosDbError]);
+                                                               }];
+                               }];
 }
 
 #pragma mark - MSServiceInternal
