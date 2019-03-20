@@ -492,7 +492,7 @@
   [[MSAuthTokenContext sharedInstance] setAuthToken:expectedAuthToken withAccountId:@"any" expiresOn:nil];
 
   // Then
-  XCTAssertEqualObjects(expectedAuthToken, ingestionMock.authToken);
+  XCTAssertEqualObjects(expectedAuthToken, [MSAuthTokenContext sharedInstance].authToken);
 }
 
 - (void)testInitUpdatesIngestionAuthTokenWhenAuthTokenAlreadyExists {
@@ -506,7 +506,7 @@
   (void)[[MSChannelGroupDefault alloc] initWithIngestion:ingestionMock];
 
   // Then
-  XCTAssertEqualObjects(expectedAuthToken, ingestionMock.authToken);
+  XCTAssertEqualObjects(expectedAuthToken, [MSAuthTokenContext sharedInstance].authToken);
 }
 
 @end
