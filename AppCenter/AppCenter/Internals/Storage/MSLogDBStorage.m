@@ -387,7 +387,7 @@ static const NSUInteger kMSSchemaVersion = 4;
     [MSDBStorage executeNonSelectionQuery:migrationQuery inOpenedDatabase:db];
     [self createPriorityIndex:db];
   }
-  if (version < kMSTimestmpVersion) {
+  if (version < kMSTimestampVersion) {
     NSString *migrationQuery = [NSString stringWithFormat:@"ALTER TABLE \"%@\" ADD COLUMN \"%@\" %@ DEFAULT %lld", kMSLogTableName,
                                                           kMSTimestampColumnName, kMSSQLiteTypeInteger, 0ll];
     [MSDBStorage executeNonSelectionQuery:migrationQuery inOpenedDatabase:db];
