@@ -60,11 +60,10 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
     __block NSMutableString *queryStringForEncoding = [NSMutableString new];
 
     // Set query parameter.
-    [queryStrings
-        enumerateKeysAndObjectsUsingBlock:^(id _Nonnull key, id _Nonnull queryString, __unused BOOL *_Nonnull stop) {
-          [queryStringForEncoding
-              appendString:[NSString stringWithFormat:@"%@%@=%@", [queryStringForEncoding length] > 0 ? @"&" : @"", key, queryString]];
-        }];
+    [queryStrings enumerateKeysAndObjectsUsingBlock:^(id _Nonnull key, id _Nonnull queryString, __unused BOOL *_Nonnull stop) {
+      [queryStringForEncoding
+          appendString:[NSString stringWithFormat:@"%@%@=%@", [queryStringForEncoding length] > 0 ? @"&" : @"", key, queryString]];
+    }];
     if ([queryStringForEncoding length] > 0) {
       [urlString appendFormat:@"?%@", [queryStringForEncoding
                                           stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]];
@@ -136,12 +135,12 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
       self.paused = YES;
 
       // Suspend current calls' retry.
-      [self.pendingCalls.allValues enumerateObjectsUsingBlock:^(MSIngestionCall *_Nonnull call, __unused NSUInteger idx,
-                                                                __unused BOOL *_Nonnull stop) {
-        if (!call.submitted) {
-          [call resetRetry];
-        }
-      }];
+      [self.pendingCalls.allValues
+          enumerateObjectsUsingBlock:^(MSIngestionCall *_Nonnull call, __unused NSUInteger idx, __unused BOOL *_Nonnull stop) {
+            if (!call.submitted) {
+              [call resetRetry];
+            }
+          }];
 
       // Notify delegates.
       [self enumerateDelegatesForSelector:@selector(ingestionDidPause:)
@@ -160,14 +159,13 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
       MSLogInfo([MSAppCenter logTag], @"Resume ingestion.");
       self.paused = NO;
 
-
       // Resume calls.
-      [self.pendingCalls.allValues enumerateObjectsUsingBlock:^(MSIngestionCall *_Nonnull call, __unused NSUInteger idx,
-                                                                __unused BOOL *_Nonnull stop) {
-        if (!call.submitted) {
-          [self sendCallAsync:call];
-        }
-      }];
+      [self.pendingCalls.allValues
+          enumerateObjectsUsingBlock:^(MSIngestionCall *_Nonnull call, __unused NSUInteger idx, __unused BOOL *_Nonnull stop) {
+            if (!call.submitted) {
+              [self sendCallAsync:call];
+            }
+          }];
 
       // Propagate.
       [self enumerateDelegatesForSelector:@selector(ingestionDidResume:)

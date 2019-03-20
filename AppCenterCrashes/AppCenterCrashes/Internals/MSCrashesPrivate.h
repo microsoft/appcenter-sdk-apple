@@ -34,8 +34,7 @@ struct MSCrashesBufferedLog {
 
   MSCrashesBufferedLog(NSString *path, NSData *data)
       : bufferPath(path.UTF8String),
-        buffer(&reinterpret_cast<const char *>(data.bytes)[0],
-               &reinterpret_cast<const char *>(data.bytes)[data.length]) {}
+        buffer(&reinterpret_cast<const char *>(data.bytes)[0], &reinterpret_cast<const char *>(data.bytes)[data.length]) {}
 };
 
 /**
@@ -47,8 +46,7 @@ const int ms_crashes_log_buffer_size = 60;
  * The log buffer object where we keep out BUFFERED_LOGs which will be written
  * to disk in case of a crash.
  */
-extern std::array<MSCrashesBufferedLog, ms_crashes_log_buffer_size>
-    msCrashesLogBuffer;
+extern std::array<MSCrashesBufferedLog, ms_crashes_log_buffer_size> msCrashesLogBuffer;
 
 /**
  * Save the log buffer to files.
@@ -90,8 +88,7 @@ typedef struct MSCrashesCallbacks {
   MSCrashesPostCrashSignalCallback handleSignal;
 } MSCrashesCallbacks;
 
-@property(nonatomic, assign, getter=isMachExceptionHandlerEnabled)
-    BOOL enableMachExceptionHandler;
+@property(nonatomic, assign, getter=isMachExceptionHandlerEnabled) BOOL enableMachExceptionHandler;
 
 /**
  * A list containing all crash files that currently stored on disk for this app.
