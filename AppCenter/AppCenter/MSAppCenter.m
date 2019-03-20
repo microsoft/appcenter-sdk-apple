@@ -227,7 +227,6 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
 - (instancetype)init {
   if ((self = [super init])) {
     _services = [NSMutableArray new];
-    _logUrl = kMSAppCenterBaseUrl;
     _enabledStateUpdating = NO;
   }
   return self;
@@ -588,7 +587,7 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
           self.oneCollectorChannelDelegate ?: [[MSOneCollectorChannelDelegate alloc] initWithInstallId:self.installId baseUrl:self.logUrl];
     }
     if (!self.channelGroup) {
-      self.channelGroup = [[MSChannelGroupDefault alloc] initWithInstallId:self.installId logUrl:self.logUrl];
+      self.channelGroup = [[MSChannelGroupDefault alloc] initWithInstallId:self.installId logUrl:self.logUrl ?: kMSAppCenterBaseUrl];
       [self.channelGroup addDelegate:self.oneCollectorChannelDelegate];
       if (self.requestedMaxStorageSizeInBytes) {
         long storageSize = [self.requestedMaxStorageSizeInBytes longValue];
