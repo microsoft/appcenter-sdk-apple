@@ -12,7 +12,7 @@
 }
 
 - (instancetype)initWithMaxHttpConnectionsPerHost:(int)maxHttpConnectionsPerHost {
-  if (self = [super init]) {
+  if ((self = [super init])) {
 
     // TODO implement this properly.
     (void)maxHttpConnectionsPerHost;
