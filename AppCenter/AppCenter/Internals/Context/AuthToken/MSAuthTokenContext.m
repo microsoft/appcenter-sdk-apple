@@ -54,8 +54,10 @@ static dispatch_once_t onceToken;
   sharedInstance = nil;
 }
 
-- (void)setAuthToken:(nullable NSString *)authToken withAccountId:(nullable NSString *)accountId {
-  [self.storage saveAuthToken:authToken withAccountId:accountId];
+- (void)setAuthToken:(nullable NSString *)authToken
+       withAccountId:(nullable NSString *)accountId
+           expiresOn:(nullable NSDate *)expiresOn {
+  [self.storage saveAuthToken:authToken withAccountId:accountId expiresOn:expiresOn];
   [self updateAuthToken:authToken withAccountId:accountId];
 }
 
@@ -86,7 +88,7 @@ static dispatch_once_t onceToken;
       return NO;
     }
   }
-  [self setAuthToken:nil withAccountId:nil];
+  [self setAuthToken:nil withAccountId:nil expiresOn:nil];
   return YES;
 }
 

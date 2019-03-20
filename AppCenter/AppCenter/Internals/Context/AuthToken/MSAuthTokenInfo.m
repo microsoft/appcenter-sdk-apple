@@ -3,6 +3,10 @@
 
 #import "MSAuthTokenInfo.h"
 
+static NSString *const kMSAuthTokenKey = @"authTokenKey";
+static NSString *const kMSStartTimeKey = @"startTimeKey";
+static NSString *const kMSEndTimeKey = @"endTimeKey";
+
 @implementation MSAuthTokenInfo
 
 - (instancetype)initWithAuthToken:(nullable NSString *)authToken
@@ -15,6 +19,24 @@
     _endTime = endTime;
   }
   return self;
+}
+
+#pragma mark - NSCoding
+
+- (instancetype)initWithCoder:(NSCoder *)coder {
+  self = [super init];
+  if (self) {
+    _authToken = [coder decodeObjectForKey:kMSAuthTokenKey];
+    _startTime = [coder decodeObjectForKey:kMSStartTimeKey];
+    _endTime = [coder decodeObjectForKey:kMSEndTimeKey];
+  }
+  return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder {
+  [coder encodeObject:self.authToken forKey:kMSAuthTokenKey];
+  [coder encodeObject:self.startTime forKey:kMSStartTimeKey];
+  [coder encodeObject:self.endTime forKey:kMSEndTimeKey];
 }
 
 @end

@@ -36,7 +36,9 @@ NS_ASSUME_NONNULL_BEGIN
  * @param authToken Auth token.
  * @param accountId Account identifier.
  */
-- (void)saveAuthToken:(nullable NSString *)authToken withAccountId:(nullable NSString *)accountId;
+- (void)saveAuthToken:(nullable NSString *)authToken
+        withAccountId:(nullable NSString *)accountId
+            expiresOn:(nullable NSDate *)expiresOn;
 
 /**
  * Removes auth token from the history.

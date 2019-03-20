@@ -58,7 +58,9 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Set current auth token and account id.
  */
-- (void)setAuthToken:(nullable NSString *)authToken withAccountId:(nullable NSString *)accountId;
+- (void)setAuthToken:(nullable NSString *)authToken
+       withAccountId:(nullable NSString *)accountId
+           expiresOn:(nullable NSDate *)expiresOn;
 
 /**
  * Cache auth token and account data to be used later on.

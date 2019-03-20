@@ -3,7 +3,6 @@
 
 #import "MSKeychainAuthTokenStorage.h"
 #import "MSAuthTokenInfo.h"
-#import "MSAuthTokenStoryEntry.h"
 #import "MSIdentityConstants.h"
 #import "MSIdentityPrivate.h"
 #import "MSKeychainUtil.h"
@@ -29,31 +28,39 @@
 - (MSAuthTokenInfo *)oldestAuthToken {
 
   // Read token array from storage.
-  NSMutableArray *tokenArray = [MSKeychainUtil arrayForKey:kMSIdentityAuthTokenArrayKey];
-  if ([tokenArray count] == 0) {
+  NSMutableArray<MSAuthTokenInfo *> *tokenArray = [MSKeychainUtil arrayForKey:kMSIdentityAuthTokenArrayKey];
+  if (tokenArray.count == 0) {
     return nil;
   }
 
-  NSDate *firstDate = [[tokenArray objectAtIndex:1] timestampAsDate];
-  NSDate *lastDate = [tokenArray count] > 1 ? [[tokenArray objectAtIndex:2] timestampAsDate] : nil;
-  return [[MSAuthTokenInfo alloc] initWithAuthToken:[[tokenArray objectAtIndex:1] authToken] andStartTime:firstDate andEndTime:lastDate];
+  MSAuthTokenInfo *authTokenInfo = tokenArray.firstObject;
+  NSDate *nextChangeTime = tokenArray.count > 1 ? tokenArray[1].startTime : nil;
+  if ([authTokenInfo.endTime laterDate:nextChangeTime]) {
+    return [[MSAuthTokenInfo alloc] initWithAuthToken:authTokenInfo.authToken
+                                         andStartTime:authTokenInfo.startTime
+                                           andEndTime:nextChangeTime];
+  }
+  return authTokenInfo;
 }
 
-- (void)saveAuthToken:(nullable NSString *)authToken withAccountId:(nullable NSString *)accountId {
+- (void)saveAuthToken:(nullable NSString *)authToken
+        withAccountId:(nullable NSString *)accountId
+            expiresOn:(nullable NSDate *)expiresOn {
   @synchronized(self) {
 
     // Read token array from storage.
-    NSMutableArray *tokenArray = [MSKeychainUtil arrayForKey:kMSIdentityAuthTokenArrayKey];
-    if ([tokenArray count] == 0) {
+    NSMutableArray<MSAuthTokenInfo *> *tokenArray = [MSKeychainUtil arrayForKey:kMSIdentityAuthTokenArrayKey];
+    if (tokenArray.count == 0) {
 
       // Add nil token if the entire story is empty.
-      MSAuthTokenStoryEntry *newAuthToken = [[MSAuthTokenStoryEntry alloc] initWithAuthToken:nil];
-      [tokenArray addObject:newAuthToken];
+      [tokenArray addObject:[MSAuthTokenInfo new]];
     }
-    if ([[tokenArray lastObject] authToken] != authToken) {
+    if (![tokenArray.lastObject.authToken isEqual:authToken]) {
 
       // If new token differs from the last token of array - add it to array.
-      MSAuthTokenStoryEntry *newAuthToken = [[MSAuthTokenStoryEntry alloc] initWithAuthToken:authToken];
+      MSAuthTokenInfo *newAuthToken = [[MSAuthTokenInfo alloc] initWithAuthToken:authToken
+                                                                    andStartTime:[NSDate date]
+                                                                      andEndTime:expiresOn];
       [tokenArray addObject:newAuthToken];
     }
 
@@ -81,8 +88,8 @@
   @synchronized(self) {
 
     // Read token array from storage.
-    NSMutableArray *tokenArray = [MSKeychainUtil arrayForKey:kMSIdentityAuthTokenArrayKey];
-    for (NSUInteger i = [tokenArray count]; i > 0; i--) {
+    NSMutableArray<MSAuthTokenInfo *> *tokenArray = [MSKeychainUtil arrayForKey:kMSIdentityAuthTokenArrayKey];
+    for (NSUInteger i = 0; i < tokenArray.count; i++) {
       if ([tokenArray[i] authToken] == authToken) {
         [tokenArray removeObjectAtIndex:i];
         break;

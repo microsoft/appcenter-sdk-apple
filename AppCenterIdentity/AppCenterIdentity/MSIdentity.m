@@ -348,8 +348,9 @@ static dispatch_once_t onceToken;
                       [strongSelf acquireTokenInteractively];
                     } else {
                       MSALAccountId *accountId = (MSALAccountId * _Nonnull) result.account.homeAccountId;
-                      [[MSAuthTokenContext sharedInstance] setAuthToken:(NSString * _Nonnull) result.idToken
-                                                          withAccountId:(NSString * _Nonnull) accountId.identifier];
+                      [[MSAuthTokenContext sharedInstance] setAuthToken:result.idToken
+                                                          withAccountId:accountId.identifier
+                                                              expiresOn:result.expiresOn];
                       [strongSelf completeAcquireTokenRequestForResult:result withError:nil];
                       MSLogInfo([MSIdentity logTag], @"Silent acquisition of token succeeded.");
                     }
@@ -369,8 +370,9 @@ static dispatch_once_t onceToken;
                                     }
                                   } else {
                                     MSALAccountId *accountId = (MSALAccountId * _Nonnull) result.account.homeAccountId;
-                                    [[MSAuthTokenContext sharedInstance] setAuthToken:(NSString * _Nonnull) result.idToken
-                                                                        withAccountId:(NSString * _Nonnull) accountId.identifier];
+                                    [[MSAuthTokenContext sharedInstance] setAuthToken:result.idToken
+                                                                        withAccountId:accountId.identifier
+                                                                            expiresOn:result.expiresOn];
                                     MSLogInfo([MSIdentity logTag], @"User sign-in succeeded.");
                                   }
                                   [strongSelf completeAcquireTokenRequestForResult:result withError:e];

@@ -5,7 +5,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MSAuthTokenInfo : NSObject
+@interface MSAuthTokenInfo : NSObject<NSCoding>
 
 @property(nonatomic, nullable, copy, readonly) NSString *authToken;
 
