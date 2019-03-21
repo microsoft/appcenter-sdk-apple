@@ -280,30 +280,34 @@ static dispatch_once_t onceToken;
                                                                      tokenResult:tokenResponses.tokens[0]
                                                                       documentId:@""
                                                                       httpMethod:kMSHttpGetVerb
+                                                                            body:nil
                                                                completionHandler:^(NSData *_Nonnull data, NSError *_Nonnull cosmosDbError) {
-                                                                 
                                                                  // If not OK.
-                                                                 NSNumber *errorCode = [cosmosDbError userInfo][kMSCosmosDbHttpCodeKey];
-                                                                 if (!data || [errorCode integerValue] != MSHTTPCodesNo200OK) {
+                                                                 if (!data || [MSDataSourceError errorCodeWithError:cosmosDbError] !=
+                                                                     kMSACDocumentSucceededErrorCode) {
                                                                    MSLogError([MSDataStore logTag], @"Not able to retrieve documents: %@",
                                                                               [cosmosDbError description]);
-                                                                   MSDataSourceError *dataSourceCosmosDbError = [[MSDataSourceError alloc] initWithError:cosmosDbError];
-                                                                   MSPaginatedDocuments *documents = [[MSPaginatedDocuments alloc] initWithError:dataSourceCosmosDbError];
+                                                                   MSDataSourceError *dataSourceCosmosDbError =
+                                                                       [[MSDataSourceError alloc] initWithError:cosmosDbError];
+                                                                   MSPaginatedDocuments *documents =
+                                                                       [[MSPaginatedDocuments alloc] initWithError:dataSourceCosmosDbError];
                                                                    completionHandler(documents);
                                                                    return;
                                                                  }
-                                                                 
+
                                                                  // Deserialize.
                                                                  NSError *deserializeError;
                                                                  NSDictionary *json =
-                                                                    [NSJSONSerialization JSONObjectWithData:data
-                                                                                                    options:0
-                                                                                                      error:&deserializeError];
+                                                                     [NSJSONSerialization JSONObjectWithData:data
+                                                                                                     options:0
+                                                                                                       error:&deserializeError];
                                                                  if (deserializeError) {
                                                                    MSLogError([MSDataStore logTag], @"Error deserializing data: %@",
                                                                               [deserializeError description]);
-                                                                   MSDataSourceError *dataSourceDeserializeError = [[MSDataSourceError alloc] initWithError:deserializeError];
-                                                                   MSPaginatedDocuments *documents = [[MSPaginatedDocuments alloc] initWithError:dataSourceDeserializeError];
+                                                                   MSDataSourceError *dataSourceDeserializeError =
+                                                                       [[MSDataSourceError alloc] initWithError:deserializeError];
+                                                                   MSPaginatedDocuments *documents = [[MSPaginatedDocuments alloc]
+                                                                       initWithError:dataSourceDeserializeError];
                                                                    completionHandler(documents);
                                                                    return;
                                                                  }
@@ -311,25 +315,30 @@ static dispatch_once_t onceToken;
 
                                                                  // Get list of documents.
                                                                  NSArray *jsonDocuments = json[@"Documents"];
-                                                                 NSMutableArray<MSDocumentWrapper *> * items = [NSMutableArray new];
+                                                                 NSMutableArray<MSDocumentWrapper *> *items = [NSMutableArray new];
                                                                  for (id document in jsonDocuments) {
-                                                                   id<MSSerializableDocument> deserializedDocument = [[documentType alloc] initFromDictionary:(NSDictionary *)document];
+                                                                   
+                                                                   // Deserialize document.
+                                                                   id<MSSerializableDocument> deserializedDocument =
+                                                                   [(id<MSSerializableDocument>)[documentType alloc]
+                                                                    initFromDictionary:(NSDictionary *)document];
                                                                    
                                                                    // Create a document.
                                                                    NSTimeInterval interval =
-                                                                   [(NSString *)json[kMSDocumentTimestampKey] doubleValue];
+                                                                       [(NSString *)json[kMSDocumentTimestampKey] doubleValue];
                                                                    NSDate *date = [NSDate dateWithTimeIntervalSince1970:interval];
                                                                    NSString *eTag = json[kMSDocumentEtagKey];
                                                                    MSDocumentWrapper *docWrapper = [[MSDocumentWrapper alloc]
-                                                                                                    initWithDeserializedValue:deserializedDocument
-                                                                                                    partition:partition
-                                                                                                    documentId:@""
-                                                                                                    eTag:eTag
-                                                                                                    lastUpdatedDate:date];
+                                                                       initWithDeserializedValue:deserializedDocument
+                                                                                       partition:partition
+                                                                                      documentId:@""
+                                                                                            eTag:eTag
+                                                                                 lastUpdatedDate:date];
                                                                    [items addObject:docWrapper];
                                                                  }
                                                                  MSPage *page = [[MSPage alloc] initWithItems:items];
-                                                                 MSPaginatedDocuments *documents = [[MSPaginatedDocuments alloc] initWithPage:page];
+                                                                 MSPaginatedDocuments *documents =
+                                                                     [[MSPaginatedDocuments alloc] initWithPage:page];
                                                                  completionHandler(documents);
                                                                }];
                                }];

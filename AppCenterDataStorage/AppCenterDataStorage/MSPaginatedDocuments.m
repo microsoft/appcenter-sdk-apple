@@ -17,7 +17,7 @@
 
 - (instancetype)initWithError:(MSDataSourceError *)error {
   if ((self = [super init])) {
-    MSPage* pageWithError = [[MSPage alloc] initWithError:error];
+    MSPage *pageWithError = [[MSPage alloc] initWithError:error];
     return [self initWithPage:pageWithError];
   }
   return self;
