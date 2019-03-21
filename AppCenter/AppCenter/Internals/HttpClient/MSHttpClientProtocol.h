@@ -5,7 +5,7 @@
 
 typedef void (^MSHttpRequestCompletionHandler)(NSHTTPURLResponse *response, NSData *data, NSError *error);
 
-@protocol MSHttpClientProtocol <NSObject>
+@protocol MSHttpClientProtocol
 
 @required
 
