@@ -128,6 +128,7 @@ static NSString *const kMSHeaderMsDate = @"x-ms-date";
   return [MSCosmosDb documentDbEndpointWithDbAccount:tokenResult.dbAccount documentResourceId:documentResourceIdPrefix];
 }
 
+// TODO: delete this signature and use the one with nullable additionalHeaders
 + (void)performCosmosDbAsyncOperationWithHttpClient:(MSCosmosDbIngestion *)httpClient
                                         tokenResult:(MSTokenResult *)tokenResult
                                          documentId:(NSString *)documentId

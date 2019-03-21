@@ -6,14 +6,30 @@
 
 @implementation MSPaginatedDocuments
 
+@synthesize currentPage = _currentPage;
+
+- (instancetype)initWithPage:(MSPage *)page {
+  if ((self = [super init])) {
+    _currentPage = page;
+  }
+  return self;
+}
+
+- (instancetype)initWithError:(MSDataSourceError *)error {
+  if ((self = [super init])) {
+    MSPage* pageWithError = [[MSPage alloc] initWithError:error];
+    return [self initWithPage:pageWithError];
+  }
+  return self;
+}
+
 - (BOOL)hasNextPage {
   // @todo
   return NO;
 }
 
 - (MSPage<id<MSSerializableDocument>> *)currentPage {
-  // @todo
-  return nil;
+  return _currentPage;
 }
 
 - (MSPage<id<MSSerializableDocument>> *)nextPageWithCompletionHandler:

@@ -8,7 +8,32 @@
 @interface MSPaginatedDocuments<T : id <MSSerializableDocument>> : NSObject
 
 /**
+ * Current page
+ */
+@property(nonatomic, strong, readonly) MSPage *currentPage;
+
+/**
+ * Initialize documents with page
+ *
+ * @param page Page to instantiate documents with.
+ *
+ * @return The paginated documents.
+ */
+- (instancetype)initWithPage:(MSPage *)page;
+
+/**
+ * Instantiate paginated Documents with single page with error.
+ *
+ * @param error Error to initialize with.
+ *
+ * @return The paginated documents.
+ */
+- (instancetype)initWithError:(MSDataSourceError *)error;
+
+/**
  * Boolean indicating if an extra page is available.
+ *
+ * @return True if there is another page of documents, false otherwise.
  */
 - (BOOL)hasNextPage;
 

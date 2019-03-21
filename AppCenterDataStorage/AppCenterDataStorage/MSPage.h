@@ -22,4 +22,22 @@
  */
 @property(readonly) NSArray<MSDocumentWrapper<T> *> *items;
 
+/**
+ * Initialize a page with an error.
+ *
+ * @param items Error to initialize page with.
+ *
+ * @return The page with documents.
+ */
+- (instancetype)initWithItems:(NSArray<MSDocumentWrapper<T> *> *)items;
+
+/**
+ * Initialize a page with an error.
+ *
+ * @param error Error to initialize page with.
+ *
+ * @return The page with error.
+ */
+- (instancetype)initWithError:(MSDataSourceError *)error;
+
 @end
