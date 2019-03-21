@@ -29,43 +29,7 @@ static NSString *const kMSCosmosDbHttpCodeKey = @"com.Microsoft.AppCenter.HttpCo
   if (error == nil) {
     return kMSACDocumentSucceededErrorCode;
   }
-
-  // Get error code.
-  NSNumber *errorCode = [error userInfo][kMSCosmosDbHttpCodeKey];
-  switch ([errorCode integerValue]) {
-  case 200:
-    return kMSACDocumentSucceededErrorCode;
-  case 201:
-    return kMSACDocumentCreatedErrorCode;
-  case 204:
-    return kMSACDocumentNoContentErrorCode;
-  case 400:
-    return kMSACDocumentBadRequestErrorCode;
-  case 401:
-    return kMSACDocumentUnauthorizedErrorCode;
-  case 403:
-    return kMSACDocumentForbiddenErrorCode;
-  case 404:
-    return kMSACDocumentNotFoundErrorCode;
-  case 408:
-    return kMSACDocumentRequestTimeoutErrorCode;
-  case 409:
-    return kMSACDocumentConflictErrorCode;
-  case 412:
-    return kMSACDocumentPreconditionFailedErrorCode;
-  case 413:
-    return kMSACDocumentEntityTooLargeErrorCode;
-  case 429:
-    return kMSACDocumentTooManyRequestErrorCode;
-  case 449:
-    return kMSACDocumentRetryWithErrorCode;
-  case 500:
-    return kMSACDocumentInternalServerErrorErrorCode;
-  case 503:
-    return kMSACDocumentServiceUnavailableErrorCode;
-  default:
-    return kMSACDocumentUnknownErrorCode;
-  }
+  return (NSInteger)[error userInfo][kMSCosmosDbHttpCodeKey];
 }
 
 @end

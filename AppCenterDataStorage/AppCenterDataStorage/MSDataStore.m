@@ -261,7 +261,7 @@ static dispatch_once_t onceToken;
         MSLogDebug([MSDataStore logTag], @"Document json:%@", json);
         
         // Create document.
-        id<MSSerializableDocument> deserializedDocument = [[documentType alloc]
+        id<MSSerializableDocument> deserializedDocument = [(id<MSSerializableDocument>)[documentType alloc]
                                                            initFromDictionary:(NSDictionary *)json[kMSDocumentKey]];
         
         // Create a document.
@@ -320,7 +320,7 @@ static dispatch_once_t onceToken;
       performCosmosDbAsyncOperationWithHttpClient:cosmosDbIngestion
       tokenResult:tokenResponses.tokens[0]
       documentId:@""
-      httpMethod:kMSBearerTokenHeaderFormat //@"POST"
+      httpMethod:@"POST"
       body:body
       additionalHeaders:@{ kMSDocumentUpsertHeaderKey : @"true" }
       completionHandler:^(NSData *_Nonnull data, NSError *_Nonnull cosmosDbError) {
@@ -371,6 +371,7 @@ static dispatch_once_t onceToken;
                          documentId:(NSString *)documentId
                        writeOptions:(MSWriteOptions *)__unused writeOptions
                   completionHandler:(MSDataSourceErrorCompletionHandler)completionHandler {
+
   // TODO consume writeOptions
   [MSTokenExchange
       performDbTokenAsyncOperationWithHttpClient:(MSStorageIngestion *)self.ingestion
@@ -379,16 +380,15 @@ static dispatch_once_t onceToken;
 
                                  // If error getting token.
                                  if (tokenExchangeError || [tokenResponses.tokens count] == 0) {
-                                   NSNumber *httpStatusCode = [tokenExchangeError userInfo][kMSCosmosDbHttpCodeKey];
-                                     MSLogError([MSDataStore logTag], @"Can't get CosmosDb token. Error: %@;  HTTP status code: %d; Partition: %@", tokenExchangeError.localizedDescription,
-                                              [httpStatusCode intValue], partition);
+                                   NSInteger httpStatusCode = [MSDataSourceError errorCodeWithError:tokenExchangeError];
+                                   MSLogError([MSDataStore logTag], @"Can't get CosmosDb token. Error: %@;  HTTP status code: %ld; Partition: %@", tokenExchangeError.localizedDescription,
+                                              (long)httpStatusCode, partition);
                                    completionHandler([[MSDataSourceError alloc] initWithError:tokenExchangeError]);
                                    return;
                                  }
-
-                                 MSCosmosDbIngestion *cosmosDbIngestion = [MSCosmosDbIngestion new];
-
+                                 
                                  // Call CosmosDB
+                                 MSCosmosDbIngestion *cosmosDbIngestion = [MSCosmosDbIngestion new];
                                  [MSCosmosDb
                                      performCosmosDbAsyncOperationWithHttpClient:cosmosDbIngestion
                                                                      tokenResult:tokenResponses.tokens[0]
@@ -398,13 +398,12 @@ static dispatch_once_t onceToken;
                                                                completionHandler:^(NSData *__unused data, NSError *_Nonnull cosmosDbError) {
 
                                                                  // body returned from call (data) is empty
-                                                                 NSNumber *httpStatusCode =
-                                                                     [cosmosDbError userInfo][kMSCosmosDbHttpCodeKey];
-                                                                 if ([httpStatusCode integerValue] != MSHTTPCodesNo204NoContent) {
+                                                                  NSInteger httpStatusCode = [MSDataSourceError errorCodeWithError:tokenExchangeError];
+                                                                 if (httpStatusCode != MSHTTPCodesNo204NoContent) {
                                                                    MSLogError([MSDataStore logTag],
-                                                                              @"Not able to delete document. Error: %@; HTTP status code: %d; "
+                                                                              @"Not able to delete document. Error: %@; HTTP status code: %ld; "
                                                                               @"Document: %@/%@", cosmosDbError.localizedDescription,
-                                                                              [httpStatusCode intValue], partition, documentId);
+                                                                              (long)httpStatusCode, partition, documentId);
                                                                  } else {
                                                                    MSLogDebug([MSDataStore logTag], @"Document deleted: %@/%@", partition,
                                                                               documentId);
