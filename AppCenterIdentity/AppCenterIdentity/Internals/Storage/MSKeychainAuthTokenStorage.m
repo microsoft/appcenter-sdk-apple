@@ -69,7 +69,11 @@
     }
 
     // Save new array.
-    [MSKeychainUtil storeArray:tokenArray forKey:kMSIdentityAuthTokenArrayKey];
+    if ([MSKeychainUtil storeArray:tokenArray forKey:kMSIdentityAuthTokenArrayKey]) {
+      MSLogDebug([MSIdentity logTag], @"Saved new history state in keychain.");
+    } else {
+      MSLogWarning([MSIdentity logTag], @"Failed to save new history state in keychain.");
+    }
     if (authToken) {
       [self saveTokenToKeychain:authToken];
     } else {
