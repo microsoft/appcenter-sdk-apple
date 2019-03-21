@@ -13,7 +13,7 @@
 
 - (nullable NSString *)retrieveAuthToken {
   NSMutableArray<MSAuthTokenInfo *> *authTokensHistory = [self authTokensHistoryState];
-  MSAuthTokenInfo *latestAuthTokenInfo = authTokensHistory.firstObject;
+  MSAuthTokenInfo *latestAuthTokenInfo = authTokensHistory.lastObject;
   return latestAuthTokenInfo.authToken;
 }
 
