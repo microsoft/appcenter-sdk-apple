@@ -66,7 +66,6 @@ typedef void (^MSLoadDataCompletionHandler)(NSArray<id<MSLog>> *_Nullable logArr
  */
 - (void)deleteLogsWithDateBefore:(NSDate *)dateBefore;
 
-
 /**
  * Return the most recent logs for a Group Id.
  *
