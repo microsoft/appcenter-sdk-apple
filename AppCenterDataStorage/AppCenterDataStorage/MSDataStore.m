@@ -256,9 +256,8 @@ static dispatch_once_t onceToken;
                                                                  MSLogDebug([MSDataStore logTag], @"Document json:%@", json);
 
                                                                  // Create an instance of Document.
-                                                                 // TODO fix the warning.
-                                                                 Class aClass = [(NSObject *)document class];
-                                                                 id<MSSerializableDocument> deserializedDocument = [[aClass alloc] initFromDictionary:(NSDictionary *)json[kMSDocumentKey]];
+                                                                 Class aClass = [document class];
+                                                                 id<MSSerializableDocument> deserializedDocument = [(id<MSSerializableDocument>)[aClass alloc] initFromDictionary:(NSDictionary *)json[kMSDocumentKey]];
                                                                  
                                                                  // Create a document.
                                                                  NSTimeInterval interval =
