@@ -351,19 +351,21 @@ static dispatch_once_t onceToken;
 
                                                                  // Create an instance of Document.
                                                                  Class aClass = [document class];
-                                                                 id<MSSerializableDocument> deserializedDocument = [(id<MSSerializableDocument>)[aClass alloc] initFromDictionary:(NSDictionary *)json[kMSDocumentKey]];
-                                                                 
+                                                                 id<MSSerializableDocument> deserializedDocument =
+                                                                     [(id<MSSerializableDocument>)[aClass alloc]
+                                                                         initFromDictionary:(NSDictionary *)json[kMSDocumentKey]];
+
                                                                  // Create a document.
                                                                  NSTimeInterval interval =
                                                                      [(NSString *)json[kMSDocumentTimestampKey] doubleValue];
                                                                  NSDate *date = [NSDate dateWithTimeIntervalSince1970:interval];
                                                                  NSString *eTag = json[kMSDocumentEtagKey];
-                                                                 MSDocumentWrapper *docWrapper =
-                                                                     [[MSDocumentWrapper alloc] initWithDeserializedValue:deserializedDocument
-                                                                                                                partition:partition
-                                                                                                               documentId:documentId
-                                                                                                                     eTag:eTag
-                                                                                                          lastUpdatedDate:date];
+                                                                 MSDocumentWrapper *docWrapper = [[MSDocumentWrapper alloc]
+                                                                     initWithDeserializedValue:deserializedDocument
+                                                                                     partition:partition
+                                                                                    documentId:documentId
+                                                                                          eTag:eTag
+                                                                               lastUpdatedDate:date];
                                                                  MSLogDebug([MSDataStore logTag], @"Document created with ID:%@",
                                                                             documentId);
                                                                  completionHandler(docWrapper);
