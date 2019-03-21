@@ -15,8 +15,9 @@ static NSString *const kMSCosmosDbHttpCodeKey = @"com.Microsoft.AppCenter.HttpCo
 @synthesize errorCode = _errorCode;
 
 - (instancetype)initWithError:(NSError *)error {
-  return [self initWithError:error errorCode:[MSDataSourceError errorCodeWithError:error]];
+  return [self initWithError:error errorCode:[MSDataSourceError errorCodeFromError:error]];
 }
+
 - (instancetype)initWithError:(NSError *)error errorCode:(NSInteger)errorCode {
   if ((self = [super init])) {
     _error = error;
@@ -25,8 +26,8 @@ static NSString *const kMSCosmosDbHttpCodeKey = @"com.Microsoft.AppCenter.HttpCo
   return self;
 }
 
-+ (NSInteger)errorCodeWithError:(NSError *)error {
-  if (error == nil) {
++ (NSInteger)errorCodeFromError:(NSError *)error {
+  if (!error) {
     return kMSACDocumentSucceededErrorCode;
   }
   return (NSInteger)[error userInfo][kMSCosmosDbHttpCodeKey];

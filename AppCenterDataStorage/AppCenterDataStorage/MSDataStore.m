@@ -242,7 +242,7 @@ static dispatch_once_t onceToken;
                                                                             body:nil
                                                                completionHandler:^(NSData *_Nonnull data, NSError *_Nonnull cosmosDbError) {
                                                                  // If not created.
-                                                                 if (!data || [MSDataSourceError errorCodeWithError:cosmosDbError] !=
+                                                                 if (!data || [MSDataSourceError errorCodeFromError:cosmosDbError] !=
                                                                                   kMSACDocumentSucceededErrorCode) {
                                                                    MSLogError([MSDataStore logTag],
                                                                               @"Not able to read the document ID:%@ with error:%@",
@@ -327,7 +327,7 @@ static dispatch_once_t onceToken;
                                                                additionalHeaders:@{kMSDocumentUpsertHeaderKey : @"true"}
                                                                completionHandler:^(NSData *_Nonnull data, NSError *_Nonnull cosmosDbError) {
                                                                  // If not created.
-                                                                 NSInteger errorCode = [MSDataSourceError errorCodeWithError:cosmosDbError];
+                                                                 NSInteger errorCode = [MSDataSourceError errorCodeFromError:cosmosDbError];
                                                                  if (!data || (errorCode != kMSACDocumentCreatedErrorCode &&
                                                                                errorCode != kMSACDocumentSucceededErrorCode)) {
                                                                    MSLogError([MSDataStore logTag], @"Not able to create document:%@",
@@ -384,7 +384,7 @@ static dispatch_once_t onceToken;
                                completionHandler:^(MSTokensResponse *_Nonnull tokenResponses, NSError *_Nonnull tokenExchangeError) {
                                  // If error getting token.
                                  if (tokenExchangeError || [tokenResponses.tokens count] == 0) {
-                                   NSInteger httpStatusCode = [MSDataSourceError errorCodeWithError:tokenExchangeError];
+                                   NSInteger httpStatusCode = [MSDataSourceError errorCodeFromError:tokenExchangeError];
                                    MSLogError([MSDataStore logTag],
                                               @"Can't get CosmosDb token. Error: %@;  HTTP status code: %ld; Partition: %@",
                                               tokenExchangeError.localizedDescription, (long)httpStatusCode, partition);
@@ -403,7 +403,7 @@ static dispatch_once_t onceToken;
                                                                completionHandler:^(NSData *__unused data, NSError *_Nonnull cosmosDbError) {
                                                                  // body returned from call (data) is empty
                                                                  NSInteger httpStatusCode =
-                                                                     [MSDataSourceError errorCodeWithError:tokenExchangeError];
+                                                                     [MSDataSourceError errorCodeFromError:tokenExchangeError];
                                                                  if (httpStatusCode != MSHTTPCodesNo204NoContent) {
                                                                    MSLogError(
                                                                        [MSDataStore logTag],
