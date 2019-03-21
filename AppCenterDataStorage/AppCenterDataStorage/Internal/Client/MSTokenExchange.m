@@ -35,7 +35,6 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
     NSError *jsonError;
     NSData *payloadData = [NSJSONSerialization dataWithJSONObject:@{kMSPartitions : @[ partition ]} options:0 error:&jsonError];
 
-    // Http call.
     if ([MSAuthTokenContext sharedInstance].authToken) {
       NSMutableDictionary *headers = [httpClient.httpHeaders mutableCopy];
       NSString *bearerTokenHeader = [NSString stringWithFormat:kMSBearerTokenHeaderFormat, [MSAuthTokenContext sharedInstance].authToken];
