@@ -19,9 +19,9 @@ typedef void (^MSHttpRequestCompletionHandler)(NSHTTPURLResponse *response, NSDa
  * @param handler Completion handler.
  */
 - (void)sendAsync:(NSURL *)url
-           method:(NSString *)method
-          headers:(nullable NSDictionary<NSString *, NSString *> *)headers
-             data:(nullable NSObject *)data
-completionHandler:(MSHttpRequestCompletionHandler)handler;
+               method:(NSString *)method
+              headers:(nullable NSDictionary<NSString *, NSString *> *)headers
+                 data:(nullable NSObject *)data
+    completionHandler:(MSHttpRequestCompletionHandler)handler;
 
 @end
