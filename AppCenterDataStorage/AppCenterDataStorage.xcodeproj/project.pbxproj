@@ -72,19 +72,19 @@
 		2600124022273E94007F4D3A /* MSTokensResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 2600123C22273E94007F4D3A /* MSTokensResponse.h */; };
 		2600124122273E94007F4D3A /* MSTokenResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 2600123D22273E94007F4D3A /* MSTokenResult.m */; };
 		2600124222273E94007F4D3A /* MSTokensResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 2600123E22273E94007F4D3A /* MSTokensResponse.m */; };
-		267464ED222F28A300EC1FF3 /* MSPage.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464DD222F28A200EC1FF3 /* MSPage.h */; };
+		267464ED222F28A300EC1FF3 /* MSPage.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464DD222F28A200EC1FF3 /* MSPage.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		267464EE222F28A300EC1FF3 /* MSDataSourceError.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464DE222F28A200EC1FF3 /* MSDataSourceError.m */; };
 		267464EF222F28A300EC1FF3 /* MSBaseOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464DF222F28A200EC1FF3 /* MSBaseOptions.h */; };
-		267464F0222F28A300EC1FF3 /* MSPaginatedDocuments.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464E0222F28A300EC1FF3 /* MSPaginatedDocuments.h */; };
+		267464F0222F28A300EC1FF3 /* MSPaginatedDocuments.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464E0222F28A300EC1FF3 /* MSPaginatedDocuments.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		267464F1222F28A300EC1FF3 /* MSWriteOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464E1222F28A300EC1FF3 /* MSWriteOptions.h */; };
-		267464F2222F28A300EC1FF3 /* MSDataStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464E2222F28A300EC1FF3 /* MSDataStore.h */; };
+		267464F2222F28A300EC1FF3 /* MSDataStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464E2222F28A300EC1FF3 /* MSDataStore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		267464F3222F28A300EC1FF3 /* MSDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464E3222F28A300EC1FF3 /* MSDataStore.m */; };
 		267464F4222F28A300EC1FF3 /* MSDocumentWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464E4222F28A300EC1FF3 /* MSDocumentWrapper.m */; };
 		267464F5222F28A300EC1FF3 /* MSPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464E5222F28A300EC1FF3 /* MSPage.m */; };
-		267464F6222F28A300EC1FF3 /* MSDataSourceError.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464E6222F28A300EC1FF3 /* MSDataSourceError.h */; };
+		267464F6222F28A300EC1FF3 /* MSDataSourceError.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464E6222F28A300EC1FF3 /* MSDataSourceError.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		267464F7222F28A300EC1FF3 /* MSReadOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464E7222F28A300EC1FF3 /* MSReadOptions.m */; };
 		267464F8222F28A300EC1FF3 /* MSPaginatedDocuments.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464E8222F28A300EC1FF3 /* MSPaginatedDocuments.m */; };
-		267464F9222F28A300EC1FF3 /* MSDocumentWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464E9222F28A300EC1FF3 /* MSDocumentWrapper.h */; };
+		267464F9222F28A300EC1FF3 /* MSDocumentWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464E9222F28A300EC1FF3 /* MSDocumentWrapper.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		267464FA222F28A300EC1FF3 /* MSBaseOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464EA222F28A300EC1FF3 /* MSBaseOptions.m */; };
 		267464FB222F28A300EC1FF3 /* MSReadOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464EB222F28A300EC1FF3 /* MSReadOptions.h */; };
 		267464FC222F28A300EC1FF3 /* MSWriteOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464EC222F28A300EC1FF3 /* MSWriteOptions.m */; };
@@ -523,22 +523,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				267464EF222F28A300EC1FF3 /* MSBaseOptions.h in Headers */,
-				267464F6222F28A300EC1FF3 /* MSDataSourceError.h in Headers */,
+				267464ED222F28A300EC1FF3 /* MSPage.h in Headers */,
 				E8FE51EA221CBF87005FB52B /* MSSerializableDocument.h in Headers */,
 				D3AD5F0F1E5C845B001627AB /* AppCenterDataStorage.h in Headers */,
+				267464F9222F28A300EC1FF3 /* MSDocumentWrapper.h in Headers */,
+				267464F6222F28A300EC1FF3 /* MSDataSourceError.h in Headers */,
+				267464F2222F28A300EC1FF3 /* MSDataStore.h in Headers */,
+				267464F0222F28A300EC1FF3 /* MSPaginatedDocuments.h in Headers */,
 				2600123F22273E94007F4D3A /* MSTokenResult.h in Headers */,
 				D3AD5F0D1E5C844B001627AB /* MSServiceAbstract.h in Headers */,
 				267464F1222F28A300EC1FF3 /* MSWriteOptions.h in Headers */,
-				267464F9222F28A300EC1FF3 /* MSDocumentWrapper.h in Headers */,
 				E824A5422225E80E005B69B5 /* MSStorageIngestion.h in Headers */,
 				267464FB222F28A300EC1FF3 /* MSReadOptions.h in Headers */,
 				D3AD5F0C1E5C819A001627AB /* AppCenter+Internal.h in Headers */,
 				E824A5482225FDAC005B69B5 /* MSDataStoreInternal.h in Headers */,
-				267464F2222F28A300EC1FF3 /* MSDataStore.h in Headers */,
 				2600124022273E94007F4D3A /* MSTokensResponse.h in Headers */,
-				267464ED222F28A300EC1FF3 /* MSPage.h in Headers */,
 				E83D121E22378143002B6585 /* MSDocumentUtils.h in Headers */,
-				267464F0222F28A300EC1FF3 /* MSPaginatedDocuments.h in Headers */,
 				D3AD5F121E5C847B001627AB /* MSDataStorePrivate.h in Headers */,
 				E8593A16222B91B20001F87E /* MSCosmosDb.h in Headers */,
 				E8593A1D222BA37B0001F87E /* MSCosmosDbIngestion.h in Headers */,
