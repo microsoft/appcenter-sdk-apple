@@ -1,4 +1,8 @@
 #!/bin/bash
+
+# Copyright (c) Microsoft Corporation. All rights reserved.
+# Licensed under the MIT License.
+
 if [ -z "$1" ]; then
   echo "This build doesn't have an associated commit hash which is required."
   echo "If this is an ad hoc build, please specify an appropriate commit hash for the build"
