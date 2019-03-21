@@ -24,7 +24,7 @@
   return self;
 }
 
-- (NSURLRequest *)createRequest:(NSObject *)__unused data eTag:(NSString *)eTag {
+- (NSURLRequest *)createRequest:(NSObject *)__unused data eTag:(NSString *)eTag authToken:(nullable NSString *)__unused authToken {
 
   // Ignoring local cache data to receive 304 when configuration hasn't changed since last download.
   NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:self.sendURL

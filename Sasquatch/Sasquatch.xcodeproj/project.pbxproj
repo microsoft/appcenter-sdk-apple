@@ -16,16 +16,7 @@
 		046790431E8DA7E90033FDEC /* AppCenterPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 046790411E8DA7D80033FDEC /* AppCenterPush.framework */; };
 		047D13721EAFBDBE00D699BA /* AppCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 047D13711EAFBDBE00D699BA /* AppCenterDistributeResources.bundle */; };
 		048933631F8D395A00C38A87 /* Sasquatch.strings in Resources */ = {isa = PBXBuildFile; fileRef = 041A4BAF1F8C28A3009E1B6C /* Sasquatch.strings */; };
-		048C07C421F11ED200769A85 /* MSAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 048C079121F11ED200769A85 /* MSAL.framework */; };
-		048C07C521F11ED200769A85 /* MSAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 048C079121F11ED200769A85 /* MSAL.framework */; };
-		048C07C621F11ED200769A85 /* MSAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 048C079121F11ED200769A85 /* MSAL.framework */; };
-		048C07C721F11ED200769A85 /* MSAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 048C079121F11ED200769A85 /* MSAL.framework */; };
-		04CCE78421F79348000AD84C /* MSAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 048C079121F11ED200769A85 /* MSAL.framework */; };
-		04CCE78D21F7A148000AD84C /* MSAL.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 048C079121F11ED200769A85 /* MSAL.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		04CCE78F21F7A4EB000AD84C /* MSAL.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 048C079121F11ED200769A85 /* MSAL.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		04CCE79121F7A4FF000AD84C /* MSAL.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 048C079121F11ED200769A85 /* MSAL.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		04CCE79321F7A50D000AD84C /* MSAL.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 048C079121F11ED200769A85 /* MSAL.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		04CCE79521F7A51A000AD84C /* MSAL.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 048C079121F11ED200769A85 /* MSAL.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		04A1DB34223B65EB006A48D6 /* AuthenticationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04A1DB33223B65EB006A48D6 /* AuthenticationServices.framework */; };
 		352A3E7420F801A900D09CF0 /* EventPropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 352A3E7320F801A900D09CF0 /* EventPropertiesTableSection.swift */; };
 		352A3E7520F80C8600D09CF0 /* EventPropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 352A3E7320F801A900D09CF0 /* EventPropertiesTableSection.swift */; };
 		35396A7820F95A9C00A091E0 /* MSTransmissionTargetsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35396A7720F95A9C00A091E0 /* MSTransmissionTargetsViewController.swift */; };
@@ -217,6 +208,11 @@
 		B2E011FD21091F0A003F4A5B /* MSAnalyticsTransmissionTargetSelectorViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2E011EE21091EF1003F4A5B /* MSAnalyticsTransmissionTargetSelectorViewCell.xib */; };
 		B2E011FE21091F0E003F4A5B /* MSCustomPropertyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E011ED21091EF1003F4A5B /* MSCustomPropertyTableViewCell.swift */; };
 		B2E011FF21091F0F003F4A5B /* MSCustomPropertyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E011ED21091EF1003F4A5B /* MSCustomPropertyTableViewCell.swift */; };
+		C25DAE3A22280A800073B86A /* libAppCenterDataStorage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C25DAE3122280A590073B86A /* libAppCenterDataStorage.a */; };
+		C25DAE3C22280B150073B86A /* AppCenterDataStorage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C25DAE3B22280B150073B86A /* AppCenterDataStorage.framework */; };
+		C25DAE3D22280B150073B86A /* AppCenterDataStorage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C25DAE3B22280B150073B86A /* AppCenterDataStorage.framework */; };
+		C25DAE3E22280B150073B86A /* AppCenterDataStorage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C25DAE3B22280B150073B86A /* AppCenterDataStorage.framework */; };
+		C25DAE3F22280B150073B86A /* AppCenterDataStorage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C25DAE3B22280B150073B86A /* AppCenterDataStorage.framework */; };
 		D31EF92D1E9517B600450162 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D31EF92B1E9517B600450162 /* Interface.storyboard */; };
 		D31EF92F1E9517B600450162 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D31EF92E1E9517B600450162 /* Assets.xcassets */; };
 		D31EF9361E9517B600450162 /* SasquatchWatchObjC Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = D31EF9351E9517B600450162 /* SasquatchWatchObjC Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -558,6 +554,41 @@
 			remoteGlobalIDString = B20AE37C21027D6200A1A195;
 			remoteInfo = SasquatchPuppet;
 		};
+		C25DAE3022280A590073B86A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C25DAE2522280A590073B86A /* AppCenterDataStorage.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D33A94511E5B11BB003966DB;
+			remoteInfo = AppCenterDataStorageIOS;
+		};
+		C25DAE3222280A590073B86A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C25DAE2522280A590073B86A /* AppCenterDataStorage.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D3AD5EC01E5C4F6A001627AB;
+			remoteInfo = AppCenterDataStorageIOSTests;
+		};
+		C25DAE3422280A590073B86A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C25DAE2522280A590073B86A /* AppCenterDataStorage.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0469640D1F2A558300F9D31F;
+			remoteInfo = AppCenterDataStorageMacOS;
+		};
+		C25DAE3622280A590073B86A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C25DAE2522280A590073B86A /* AppCenterDataStorage.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 046964251F2A559C00F9D31F;
+			remoteInfo = AppCenterDataStorageMacOSTests;
+		};
+		C25DAE3822280A6F0073B86A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C25DAE2522280A590073B86A /* AppCenterDataStorage.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = D33A94501E5B11BB003966DB;
+			remoteInfo = AppCenterDataStorageIOS;
+		};
 		D31EF9371E9517B600450162 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 84226C0A1E88FEFC00798417 /* Project object */;
@@ -595,7 +626,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				04CCE78D21F7A148000AD84C /* MSAL.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -605,7 +635,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				04CCE78F21F7A4EB000AD84C /* MSAL.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -615,7 +644,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				04CCE79121F7A4FF000AD84C /* MSAL.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -625,7 +653,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				04CCE79321F7A50D000AD84C /* MSAL.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -635,7 +662,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				04CCE79521F7A51A000AD84C /* MSAL.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -741,7 +767,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		040856192231C87000977E8F /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		041A4BB01F8C28A3009E1B6C /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Sasquatch.strings; sourceTree = "<group>"; };
 		041A4BB21F8C29E7009E1B6C /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/Sasquatch.strings; sourceTree = "<group>"; };
 		041A4BB31F8C2A33009E1B6C /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Sasquatch.strings; sourceTree = "<group>"; };
@@ -763,7 +788,7 @@
 		047746422201000B0045504A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		047D13711EAFBDBE00D699BA /* AppCenterDistributeResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = AppCenterDistributeResources.bundle; path = "../AppCenter-SDK-Apple/iOS/AppCenterDistributeResources.bundle"; sourceTree = "<group>"; };
 		0482105C1FD0B611006824F7 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/Sasquatch.strings; sourceTree = "<group>"; };
-		048C079121F11ED200769A85 /* MSAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MSAL.framework; path = ../Vendor/iOS/MSAL/MSAL.framework; sourceTree = "<group>"; };
+		04A1DB33223B65EB006A48D6 /* AuthenticationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AuthenticationServices.framework; path = System/Library/Frameworks/AuthenticationServices.framework; sourceTree = SDKROOT; };
 		352A3E7320F801A900D09CF0 /* EventPropertiesTableSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventPropertiesTableSection.swift; sourceTree = "<group>"; };
 		35396A7720F95A9C00A091E0 /* MSTransmissionTargetsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSTransmissionTargetsViewController.swift; sourceTree = "<group>"; };
 		354273DE20126A3E00BE766F /* MSEventFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSEventFilter.m; sourceTree = "<group>"; };
@@ -834,6 +859,8 @@
 		B2E011EE21091EF1003F4A5B /* MSAnalyticsTransmissionTargetSelectorViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MSAnalyticsTransmissionTargetSelectorViewCell.xib; path = Cells/MSAnalyticsTransmissionTargetSelectorViewCell.xib; sourceTree = "<group>"; };
 		B2E011EF21091EF2003F4A5B /* MSAnalyticsPropertyTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MSAnalyticsPropertyTableViewCell.xib; path = Cells/MSAnalyticsPropertyTableViewCell.xib; sourceTree = "<group>"; };
 		B2E011F021091EF2003F4A5B /* MSAnalyticsPropertyTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MSAnalyticsPropertyTableViewCell.swift; path = Cells/MSAnalyticsPropertyTableViewCell.swift; sourceTree = "<group>"; };
+		C25DAE2522280A590073B86A /* AppCenterDataStorage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AppCenterDataStorage.xcodeproj; path = ../AppCenterDataStorage/AppCenterDataStorage.xcodeproj; sourceTree = "<group>"; };
+		C25DAE3B22280B150073B86A /* AppCenterDataStorage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenterDataStorage.framework; path = "../AppCenter-SDK-Apple/iOS/AppCenterDataStorage.framework"; sourceTree = "<group>"; };
 		D31EF9291E9517B500450162 /* SasquatchWatchObjC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SasquatchWatchObjC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D31EF92C1E9517B600450162 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
 		D31EF92E1E9517B600450162 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -894,10 +921,10 @@
 				84226D361E89302900798417 /* AppCenter.framework in Frameworks */,
 				84226D371E89302900798417 /* AppCenterAnalytics.framework in Frameworks */,
 				84226D381E89302900798417 /* AppCenterCrashes.framework in Frameworks */,
+				C25DAE3D22280B150073B86A /* AppCenterDataStorage.framework in Frameworks */,
 				84226D391E89302900798417 /* AppCenterDistribute.framework in Frameworks */,
 				0459920F21F0042300BD3F82 /* AppCenterIdentity.framework in Frameworks */,
 				046790421E8DA7D80033FDEC /* AppCenterPush.framework in Frameworks */,
-				048C07C521F11ED200769A85 /* MSAL.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -910,9 +937,9 @@
 				0459924821F0050B00BD3F82 /* AppCenterIdentity.framework in Frameworks */,
 				84226D331E89301B00798417 /* AppCenterAnalytics.framework in Frameworks */,
 				84226D341E89301B00798417 /* AppCenterCrashes.framework in Frameworks */,
+				C25DAE3F22280B150073B86A /* AppCenterDataStorage.framework in Frameworks */,
 				84226D351E89301B00798417 /* AppCenterDistribute.framework in Frameworks */,
 				046790431E8DA7E90033FDEC /* AppCenterPush.framework in Frameworks */,
-				048C07C721F11ED200769A85 /* MSAL.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -920,13 +947,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				04CCE78421F79348000AD84C /* MSAL.framework in Frameworks */,
+				04A1DB34223B65EB006A48D6 /* AuthenticationServices.framework in Frameworks */,
 				B20AE48A21028E3C00A1A195 /* libz.tbd in Frameworks */,
 				B20AE48821028E3300A1A195 /* libc++.tbd in Frameworks */,
 				B2A888A62102A44B001ACFDF /* SafariServices.framework in Frameworks */,
 				B20AE39521027D6200A1A195 /* CrashLibIOS.framework in Frameworks */,
 				B20AE4402102820300A1A195 /* libAppCenterPush.a in Frameworks */,
 				F8FE732F210730A8005C6A74 /* CrashReporter.framework in Frameworks */,
+				C25DAE3A22280A800073B86A /* libAppCenterDataStorage.a in Frameworks */,
 				995BA64221EFFBFD000E3212 /* libAppCenterIdentity.a in Frameworks */,
 				B20AE43F210281FF00A1A195 /* libAppCenterDistribute.a in Frameworks */,
 				B20AE43E210281F800A1A195 /* libAppCenterCrashes.a in Frameworks */,
@@ -944,9 +972,9 @@
 				0459924621F0050900BD3F82 /* AppCenterIdentity.framework in Frameworks */,
 				B27D54BE210A5E7E004E82C9 /* AppCenterAnalytics.framework in Frameworks */,
 				B27D54BF210A5E7E004E82C9 /* AppCenterCrashes.framework in Frameworks */,
+				C25DAE3C22280B150073B86A /* AppCenterDataStorage.framework in Frameworks */,
 				B27D54C0210A5E7E004E82C9 /* AppCenterDistribute.framework in Frameworks */,
 				B27D54C1210A5E7E004E82C9 /* AppCenterPush.framework in Frameworks */,
-				048C07C421F11ED200769A85 /* MSAL.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -959,9 +987,9 @@
 				0459924721F0050B00BD3F82 /* AppCenterIdentity.framework in Frameworks */,
 				B2A4CFA2210A6E6900199B4F /* AppCenterAnalytics.framework in Frameworks */,
 				B2A4CFA3210A6E6900199B4F /* AppCenterCrashes.framework in Frameworks */,
+				C25DAE3E22280B150073B86A /* AppCenterDataStorage.framework in Frameworks */,
 				B2A4CFA4210A6E6900199B4F /* AppCenterDistribute.framework in Frameworks */,
 				B2A4CFA5210A6E6900199B4F /* AppCenterPush.framework in Frameworks */,
-				048C07C621F11ED200769A85 /* MSAL.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -989,10 +1017,10 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0477460F2200FFED0045504A /* Supporting Files */ = {
+		040856182231C85600977E8F /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				047746422201000B0045504A /* Info.plist */,
+				040856192231C87000977E8F /* Info.plist */,
 				B2C97B8A2106535500042A03 /* Assets.xcassets */,
 			);
 			name = "Supporting Files";
@@ -1164,6 +1192,7 @@
 		84226D0F1E8921DE00798417 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				04A1DB33223B65EB006A48D6 /* AuthenticationServices.framework */,
 				B2A888A52102A44B001ACFDF /* SafariServices.framework */,
 				B20AE48921028E3C00A1A195 /* libz.tbd */,
 				B20AE48721028E3300A1A195 /* libc++.tbd */,
@@ -1174,9 +1203,9 @@
 				84226D2E1E89301A00798417 /* AppCenter.framework */,
 				84226D2F1E89301B00798417 /* AppCenterAnalytics.framework */,
 				84226D301E89301B00798417 /* AppCenterCrashes.framework */,
+				C25DAE3B22280B150073B86A /* AppCenterDataStorage.framework */,
 				84226D311E89301B00798417 /* AppCenterDistribute.framework */,
 				0459920E21F0042300BD3F82 /* AppCenterIdentity.framework */,
-				048C079121F11ED200769A85 /* MSAL.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1233,6 +1262,7 @@
 				B20AE3B92102812300A1A195 /* AppCenter.xcodeproj */,
 				B20AE3D42102813300A1A195 /* AppCenterAnalytics.xcodeproj */,
 				B20AE3F22102818B00A1A195 /* AppCenterCrashes.xcodeproj */,
+				C25DAE2522280A590073B86A /* AppCenterDataStorage.xcodeproj */,
 				B20AE40D2102819C00A1A195 /* AppCenterDistribute.xcodeproj */,
 				995BA60C21EFFA93000E3212 /* AppCenterIdentity.xcodeproj */,
 				B20AE429210281C400A1A195 /* AppCenterPush.xcodeproj */,
@@ -1277,7 +1307,7 @@
 		B2C97B5A21064A5300042A03 /* SasquatchPuppet */ = {
 			isa = PBXGroup;
 			children = (
-				0477460F2200FFED0045504A /* Supporting Files */,
+				040856182231C85600977E8F /* Supporting Files */,
 			);
 			path = SasquatchPuppet;
 			sourceTree = "<group>";
@@ -1295,6 +1325,17 @@
 				35CAA1F92143229300A8BED2 /* MSTableViewCellExtension.swift */,
 			);
 			name = Cells;
+			sourceTree = "<group>";
+		};
+		C25DAE2622280A590073B86A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C25DAE3122280A590073B86A /* libAppCenterDataStorage.a */,
+				C25DAE3322280A590073B86A /* AppCenterDataStorage.xctest */,
+				C25DAE3522280A590073B86A /* libAppCenterDataStorage.a */,
+				C25DAE3722280A590073B86A /* AppCenterDataStorage.xctest */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		D31EF92A1E9517B600450162 /* SasquatchWatchObjC */ = {
@@ -1486,6 +1527,7 @@
 				B20AE4422102820D00A1A195 /* PBXTargetDependency */,
 				B20AE4442102821400A1A195 /* PBXTargetDependency */,
 				B20AE4462102821D00A1A195 /* PBXTargetDependency */,
+				C25DAE3922280A6F0073B86A /* PBXTargetDependency */,
 				B20AE4482102822500A1A195 /* PBXTargetDependency */,
 				995BA64421EFFC13000E3212 /* PBXTargetDependency */,
 				B20AE44A2102822C00A1A195 /* PBXTargetDependency */,
@@ -1771,6 +1813,10 @@
 					ProjectRef = B20AE3F22102818B00A1A195 /* AppCenterCrashes.xcodeproj */;
 				},
 				{
+					ProductGroup = C25DAE2622280A590073B86A /* Products */;
+					ProjectRef = C25DAE2522280A590073B86A /* AppCenterDataStorage.xcodeproj */;
+				},
+				{
 					ProductGroup = B20AE40E2102819C00A1A195 /* Products */;
 					ProjectRef = B20AE40D2102819C00A1A195 /* AppCenterDistribute.xcodeproj */;
 				},
@@ -2003,6 +2049,34 @@
 			fileType = wrapper.cfbundle;
 			path = AppCenterPush.xctest;
 			remoteRef = B20AE43A210281C400A1A195 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C25DAE3122280A590073B86A /* libAppCenterDataStorage.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libAppCenterDataStorage.a;
+			remoteRef = C25DAE3022280A590073B86A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C25DAE3322280A590073B86A /* AppCenterDataStorage.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = AppCenterDataStorage.xctest;
+			remoteRef = C25DAE3222280A590073B86A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C25DAE3522280A590073B86A /* libAppCenterDataStorage.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libAppCenterDataStorage.a;
+			remoteRef = C25DAE3422280A590073B86A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C25DAE3722280A590073B86A /* AppCenterDataStorage.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = AppCenterDataStorage.xctest;
+			remoteRef = C25DAE3622280A590073B86A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -2543,6 +2617,11 @@
 			target = B20AE37C21027D6200A1A195 /* SasquatchPuppet */;
 			targetProxy = B2A888BA2102B1E7001ACFDF /* PBXContainerItemProxy */;
 		};
+		C25DAE3922280A6F0073B86A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = AppCenterDataStorageIOS;
+			targetProxy = C25DAE3822280A6F0073B86A /* PBXContainerItemProxy */;
+		};
 		D31EF9381E9517B600450162 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = D31EF9341E9517B600450162 /* SasquatchWatchObjC Extension */;
@@ -2736,7 +2815,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
-				INFOPLIST_FILE = SasquatchPuppet/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/SasquatchPuppet/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchpuppet;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
@@ -2750,7 +2829,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
-				INFOPLIST_FILE = SasquatchPuppet/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/SasquatchPuppet/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchpuppet;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};

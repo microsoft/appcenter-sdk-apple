@@ -30,9 +30,7 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
     _storage = [MSLogDBStorage new];
     if (ingestion) {
       _ingestion = ingestion;
-      _ingestion.authToken = [MSAuthTokenContext sharedInstance].authToken;
     }
-    [[MSAuthTokenContext sharedInstance] addDelegate:self];
   }
   return self;
 }
@@ -237,12 +235,6 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
   dispatch_async(self.logsDispatchQueue, ^{
     [self.storage setMaxStorageSize:sizeInBytes completionHandler:completionHandler];
   });
-}
-
-- (void)authTokenContext:(__unused MSAuthTokenContext *)authTokenContext didSetNewAuthToken:(NSString *)authToken {
-  if (self.ingestion) {
-    self.ingestion.authToken = authToken;
-  }
 }
 
 @end

@@ -59,7 +59,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
 - (void)tearDown {
   [super tearDown];
-  [self.reachabilityMock stopMocking];
+
   [MSHttpTestUtil removeAllStubs];
 
   /*
@@ -77,6 +77,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   MSLogContainer *container = [self createLogContainerWithId:containerId];
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@"HTTP Response 200"];
   [self.sut sendAsync:container
+              authToken:nil
       completionHandler:^(NSString *batchId, NSHTTPURLResponse *response, __unused NSData *data, NSError *error) {
         XCTAssertNil(error);
         XCTAssertEqual(containerId, batchId);
@@ -106,6 +107,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
   // When
   [self.sut sendAsync:container
+              authToken:nil
       completionHandler:^(NSString *batchId, NSHTTPURLResponse *response, __unused NSData *data, NSError *error) {
         // Then
         XCTAssertEqual(containerId, batchId);
@@ -353,6 +355,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   MSLogContainer *container = [[MSLogContainer alloc] initWithBatchId:@"1" andLogs:(NSArray<id<MSLog>> *)@[ log ]];
 
   [self.sut sendAsync:container
+              authToken:nil
       completionHandler:^(__unused NSString *batchId, __unused NSHTTPURLResponse *response, __unused NSData *data, NSError *error) {
         XCTAssertEqual(error.domain, kMSACErrorDomain);
         XCTAssertEqual(error.code, kMSACLogInvalidContainerErrorCode);
@@ -367,6 +370,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@"HTTP Network Down"];
   [self.sut sendAsync:container
+              authToken:nil
       completionHandler:^(__unused NSString *batchId, __unused NSHTTPURLResponse *response, __unused NSData *data, NSError *error) {
         XCTAssertNotNil(error);
         [expectation fulfill];
@@ -557,7 +561,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   NSData *httpBody = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
 
   // When
-  NSURLRequest *request = [self.sut createRequest:logContainer eTag:nil];
+  NSURLRequest *request = [self.sut createRequest:logContainer eTag:nil authToken:nil];
 
   // Then
   XCTAssertEqualObjects(request.HTTPBody, httpBody);
@@ -571,7 +575,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   httpBody = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
 
   // When
-  request = [self.sut createRequest:logContainer eTag:nil];
+  request = [self.sut createRequest:logContainer eTag:nil authToken:nil];
 
   // Then
   XCTAssertTrue(request.HTTPBody.length < httpBody.length);
@@ -580,15 +584,14 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 - (void)testSendsAuthHeaderWhenAuthTokenIsNotNil {
 
   // If
-  NSString *expectedToken = @"auth token";
+  NSString *token = @"auth token";
   MSLogContainer *logContainer = [[MSLogContainer alloc] initWithBatchId:@"whatever" andLogs:(NSArray<id<MSLog>> *)@ [[MSMockLog new]]];
-  self.sut.authToken = expectedToken;
 
   // When
-  NSURLRequest *request = [self.sut createRequest:logContainer eTag:nil];
+  NSURLRequest *request = [self.sut createRequest:logContainer eTag:nil authToken:token];
 
   // Then
-  NSString *expectedHeader = [NSString stringWithFormat:kMSBearerTokenHeaderFormat, expectedToken];
+  NSString *expectedHeader = [NSString stringWithFormat:kMSBearerTokenHeaderFormat, token];
   NSString *actualHeader = request.allHTTPHeaderFields[kMSAuthorizationHeaderKey];
   XCTAssertEqualObjects(expectedHeader, actualHeader);
 }
@@ -599,7 +602,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   MSLogContainer *logContainer = [[MSLogContainer alloc] initWithBatchId:@"whatever" andLogs:(NSArray<id<MSLog>> *)@ [[MSMockLog new]]];
 
   // When
-  NSURLRequest *request = [self.sut createRequest:logContainer eTag:nil];
+  NSURLRequest *request = [self.sut createRequest:logContainer eTag:nil authToken:nil];
 
   // Then
   XCTAssertNil([request.allHTTPHeaderFields valueForKey:kMSAuthorizationHeaderKey]);
@@ -609,10 +612,9 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
   // If
   MSLogContainer *logContainer = [[MSLogContainer alloc] initWithBatchId:@"whatever" andLogs:(NSArray<id<MSLog>> *)@ [[MSMockLog new]]];
-  self.sut.authToken = @"";
 
   // When
-  NSURLRequest *request = [self.sut createRequest:logContainer eTag:nil];
+  NSURLRequest *request = [self.sut createRequest:logContainer eTag:nil authToken:nil];
 
   // Then
   XCTAssertNil([request.allHTTPHeaderFields valueForKey:kMSAuthorizationHeaderKey]);

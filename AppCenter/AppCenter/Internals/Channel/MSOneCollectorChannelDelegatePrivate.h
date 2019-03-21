@@ -28,6 +28,11 @@ static NSString *const kMSLogNameRegex = @"^[a-zA-Z0-9]((\\.(?!(\\.|$)))|[_a-zA-
 @property(nonatomic) MSOneCollectorIngestion *oneCollectorIngestion;
 
 /**
+ * Base Url for One Collector endpoint.
+ */
+@property(nonatomic, copy) NSString *baseUrl;
+
+/**
  * Keep track of epoch and sequence per tenant token.
  */
 @property(nonatomic) NSMutableDictionary<NSString *, MSCSEpochAndSeq *> *epochsAndSeqsByIKey;

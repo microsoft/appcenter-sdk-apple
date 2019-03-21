@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Copyright (c) Microsoft Corporation. All rights reserved.
+# Licensed under the MIT License.
+
 help() {
   echo "Usage: $0 {internal|external} -a <azure-storage-account> -k <azure-storage-access-key> -t <github-access-token>"
 }

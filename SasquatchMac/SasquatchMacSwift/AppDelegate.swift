@@ -23,10 +23,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, MSCrashesDelegate, MSPushDel
   var rootController: NSWindowController!
 
   func applicationDidFinishLaunching(_ notification: Notification) {
+    
     // Crashes Delegate.
     MSCrashes.setDelegate(self);
     MSCrashes.setUserConfirmationHandler({ (errorReports: [MSErrorReport]) in
-
       let alert: NSAlert = NSAlert()
       alert.messageText = "Sorry about that!"
       alert.informativeText = "Do you want to send an anonymous crash report so we can fix the issue?"
@@ -54,7 +54,14 @@ class AppDelegate: NSObject, NSApplicationDelegate, MSCrashesDelegate, MSPushDel
     // Push Delegate.
     MSPush.setDelegate(self);
 
+    // Set loglevel to verbose.
     MSAppCenter.setLogLevel(MSLogLevel.verbose)
+
+    // Set custom log URL.
+    let logUrl = UserDefaults.standard.string(forKey: kMSLogUrl)
+    if logUrl != nil {
+      MSAppCenter.setLogUrl(logUrl)
+    }
 
     // Set user id.
     let userId = UserDefaults.standard.string(forKey: kMSUserIdKey)
@@ -82,15 +89,16 @@ class AppDelegate: NSObject, NSApplicationDelegate, MSCrashesDelegate, MSPushDel
     // Start AppCenter.
     let services = [MSAnalytics.self, MSCrashes.self, MSPush.self]
     let startTarget = StartupMode(rawValue: UserDefaults.standard.integer(forKey: kMSStartTargetKey))!
+    let appSecret = UserDefaults.standard.string(forKey: kMSAppSecret) ?? kMSSwiftAppSecret
     switch startTarget {
     case .appCenter:
-        MSAppCenter.start(kMSSwiftAppSecret, withServices: services)
+        MSAppCenter.start(appSecret, withServices: services)
         break
     case .oneCollector:
         MSAppCenter.start("target=\(kMSSwiftTargetToken)", withServices: services)
         break
     case .both:
-        MSAppCenter.start("appsecret=\(kMSSwiftAppSecret);target=\(kMSSwiftTargetToken)", withServices: services)
+        MSAppCenter.start("appsecret=\(appSecret);target=\(kMSSwiftTargetToken)", withServices: services)
         break
     case .none:
         MSAppCenter.start(withServices: services)

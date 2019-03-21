@@ -1,5 +1,8 @@
 #!/usr/bin/env xcrun --sdk macosx swift
 
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 // This script is meant to be called from an Xcode run script build phase
 // It verifies there are no buildSettings embedded in the Xcode project
 // as it is preferable to have build settings specified in .xcconfig files

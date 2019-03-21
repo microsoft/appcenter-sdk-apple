@@ -1,4 +1,7 @@
-﻿param([String]$SrcRoot="undefined",[String]$AuthToken="",[String]$Branch="")
+# Copyright (c) Microsoft Corporation. All rights reserved.
+# Licensed under the MIT License.
+
+param([String]$SrcRoot="undefined",[String]$AuthToken="",[String]$Branch="")
 
 # This script will upload the files which need to be localized to the Touchdown servers and they will automatically be translated by Bing translate
 

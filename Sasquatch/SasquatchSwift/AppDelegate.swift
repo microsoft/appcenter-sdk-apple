@@ -8,6 +8,7 @@ import UIKit
 import AppCenter
 import AppCenterAnalytics
 import AppCenterCrashes
+import AppCenterDataStorage
 import AppCenterDistribute
 import AppCenterIdentity
 import AppCenterPush
@@ -63,9 +64,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
       })
     }
 
+    let logUrl = UserDefaults.standard.string(forKey: kMSLogUrl)
+    if logUrl != nil {
+      MSAppCenter.setLogUrl(logUrl)
+    }
+
     // Start App Center SDK.
-    let appSecret = "0dbca56b-b9ae-4d53-856a-7c2856137d85"
-    let services = [MSAnalytics.self, MSCrashes.self, MSDistribute.self, MSIdentity.self, MSPush.self]
+    let services = [MSAnalytics.self, MSCrashes.self, MSDataStore<MSSerializableDocument>.self, MSDistribute.self, MSIdentity.self, MSPush.self]
+    let appSecret = UserDefaults.standard.string(forKey: kMSAppSecret) ?? kMSSwiftAppSecret
     let startTarget = StartupMode(rawValue: UserDefaults.standard.integer(forKey: kMSStartTargetKey))!
     switch startTarget {
     case .APPCENTER:

@@ -7,7 +7,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-extern NSString *const kMSAuthorizationHeaderKey;
 extern NSString *const kMSBearerTokenHeaderFormat;
 
 @interface MSAppCenterIngestion : MSHttpIngestion
@@ -16,11 +15,6 @@ extern NSString *const kMSBearerTokenHeaderFormat;
  * The app secret.
  */
 @property(nonatomic, copy) NSString *appSecret;
-
-/**
- * The authorization token. If unavailable, this is nil.
- */
-@property(atomic, copy, nullable) NSString *authToken;
 
 /**
  * Initialize the Ingestion.

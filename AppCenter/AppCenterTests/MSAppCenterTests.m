@@ -19,6 +19,8 @@
 #import "MSMockService.h"
 #import "MSMockUserDefaults.h"
 #import "MSOneCollectorChannelDelegate.h"
+#import "MSOneCollectorChannelDelegatePrivate.h"
+#import "MSOneCollectorIngestion.h"
 #import "MSSessionContextPrivate.h"
 #import "MSStartServiceLog.h"
 #import "MSTestFrameworks.h"
@@ -364,14 +366,62 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 
 - (void)testSetLogUrl {
   NSString *fakeUrl = @"http://testUrl:1234";
+  NSString *updateUrl = @"http://testUrlUpdate:1234";
+
   [MSAppCenter setLogUrl:fakeUrl];
   [MSAppCenter start:MS_UUID_STRING withServices:nil];
   XCTAssertTrue([[[MSAppCenter sharedInstance] logUrl] isEqualToString:fakeUrl]);
+  MSChannelGroupDefault *channelGroup = [[MSAppCenter sharedInstance] channelGroup];
+  NSURL *endPointLogUrl = [[channelGroup ingestion] sendURL];
+  XCTAssertTrue([[endPointLogUrl absoluteString] containsString:fakeUrl]);
+
+  [MSAppCenter setLogUrl:updateUrl];
+  XCTAssertTrue([[[MSAppCenter sharedInstance] logUrl] isEqualToString:updateUrl]);
+  endPointLogUrl = [[channelGroup ingestion] sendURL];
+  XCTAssertTrue([[endPointLogUrl absoluteString] containsString:updateUrl]);
 }
 
 - (void)testDefaultLogUrl {
+  
+  // If
+  NSString *defaultUrl = @"https://in.appcenter.ms";
+
+  // When
   [MSAppCenter start:MS_UUID_STRING withServices:nil];
-  XCTAssertTrue([[[MSAppCenter sharedInstance] logUrl] isEqualToString:@"https://in.appcenter.ms"]);
+  
+  // Then
+  XCTAssertNil([[MSAppCenter sharedInstance] logUrl]);
+  
+  // When
+  MSChannelGroupDefault *channelGroup = [[MSAppCenter sharedInstance] channelGroup];
+  NSURL *endPointLogUrl = [[channelGroup ingestion] sendURL];
+  
+  // Then
+  XCTAssertTrue([[endPointLogUrl absoluteString] containsString:defaultUrl]);
+}
+
+- (void)testDefaultLogUrlWithNoAppsecret {
+  NSString *defaultUrl = @"https://mobile.events.data.microsoft.com";
+
+  [MSAppCenter startWithServices:nil];
+  NSURL *endPointLogUrl = [[[[MSAppCenter sharedInstance] oneCollectorChannelDelegate] oneCollectorIngestion] sendURL];
+  XCTAssertTrue([[endPointLogUrl absoluteString] containsString:defaultUrl]);
+}
+
+- (void)testSetLogUrlWithNoAppsecret {
+  NSString *fakeUrl = @"http://testUrl:1234";
+  NSString *updateUrl = @"http://testUrlUpdate:1234";
+
+  [MSAppCenter setLogUrl:fakeUrl];
+  [MSAppCenter startWithServices:nil];
+  XCTAssertTrue([[[MSAppCenter sharedInstance] logUrl] isEqualToString:fakeUrl]);
+  NSURL *endPointLogUrl = [[[[MSAppCenter sharedInstance] oneCollectorChannelDelegate] oneCollectorIngestion] sendURL];
+  XCTAssertTrue([[endPointLogUrl absoluteString] containsString:fakeUrl]);
+
+  [MSAppCenter setLogUrl:updateUrl];
+  XCTAssertTrue([[[MSAppCenter sharedInstance] logUrl] isEqualToString:updateUrl]);
+  endPointLogUrl = [[[[MSAppCenter sharedInstance] oneCollectorChannelDelegate] oneCollectorIngestion] sendURL];
+  XCTAssertTrue([[endPointLogUrl absoluteString] containsString:updateUrl]);
 }
 
 - (void)testSdkVersion {
