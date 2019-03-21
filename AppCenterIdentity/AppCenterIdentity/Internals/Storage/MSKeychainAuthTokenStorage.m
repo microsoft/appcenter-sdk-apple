@@ -85,14 +85,19 @@
 
     // Read token array from storage.
     NSMutableArray<MSAuthTokenInfo *> *tokenArray = [MSKeychainUtil arrayForKey:kMSIdentityAuthTokenArrayKey];
-    for (NSUInteger i = 0; i < tokenArray.count; i++) {
+
+    // Do nothing if there's just one entry in the history.
+    if (tokenArray.count==1) return;
+
+    // Find, delete the oldest entry. Do not delete the most recent entry.
+    for (NSUInteger i = 0; i < tokenArray.count-1; i++) {
       if ([tokenArray[i] authToken] == authToken) {
         [tokenArray removeObjectAtIndex:i];
         break;
       }
     }
 
-    // Save new array.
+    // Save new array after changes.
     [MSKeychainUtil storeArray:tokenArray forKey:kMSIdentityAuthTokenArrayKey];
   }
 }
