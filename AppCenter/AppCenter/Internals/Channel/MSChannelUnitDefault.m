@@ -227,6 +227,7 @@
   // Reset item count and load data from the storage.
   self.itemsCount = 0;
   MSAuthTokenInfo *tokenInfo = [MSAuthTokenContext sharedInstance].storage.oldestAuthToken;
+  [self.storage deleteLogsWithDateBefore:tokenInfo.startTime];
   self.availableBatchFromStorage = [self.storage
       loadLogsWithGroupId:self.configuration.groupId
                     limit:self.configuration.batchSizeLimit
@@ -259,11 +260,10 @@
                                           [delegate channel:self willSendLog:aLog];
                                         }
                                       }];
-            NSString *authToken = [MSAuthTokenContext sharedInstance].authToken;
 
             // Forward logs to the ingestion.
             [self.ingestion sendAsync:container
-                            authToken:authToken
+                            authToken:tokenInfo.authToken
                     completionHandler:^(NSString *ingestionBatchId, NSHTTPURLResponse *response, __attribute__((unused)) NSData *data,
                                         NSError *error) {
                       dispatch_async(self.logsDispatchQueue, ^{
@@ -290,6 +290,8 @@
                               self.pendingBatchQueueFull = NO;
                               if (self.availableBatchFromStorage) {
                                 [self flushQueue];
+                              } else {
+                                [[MSAuthTokenContext sharedInstance].storage removeAuthToken:tokenInfo.authToken];
                               }
                             }
                           }
@@ -326,7 +328,6 @@
   // Flush again if there is another batch to send.
   if (self.availableBatchFromStorage && !self.pendingBatchQueueFull) {
     [self flushQueue];
-    [[MSAuthTokenContext sharedInstance].storage removeAuthToken:tokenInfo.authToken];
   }
 }
 

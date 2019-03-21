@@ -211,6 +211,10 @@ static const NSUInteger kMSSchemaVersion = 4;
 
 #pragma mark - Delete logs
 
+- (void)deleteLogsWithDateBefore:(NSDate *)dateBefore {
+  NSArray<id<MSLog>> *logs = [self logsFromDBWithDateBefore:dateBefore];
+}
+
 - (NSArray<id<MSLog>> *)deleteLogsWithGroupId:(NSString *)groupId {
   NSArray<id<MSLog>> *logs = [self logsFromDBWithGroupId:groupId];
 
@@ -239,7 +243,23 @@ static const NSUInteger kMSSchemaVersion = 4;
   }
 }
 
+
+
 #pragma mark - DB selection
+
+- (NSArray<id<MSLog>> *)logsFromDBWithDateBefore:(NSDate *)dateBefore {
+
+  // Get log entries for the given group Id.
+  NSString *condition = [NSString stringWithFormat:@"\"%@\" <= '%@'", kMSTimestampColumnName, dateBefore];
+  NSArray<NSArray *> *logEntries = [self logsWithCondition:condition];
+
+  // Get logs only.
+  NSMutableArray<id<MSLog>> *logs = [NSMutableArray<id<MSLog>> new];
+  for (NSArray *logEntry in logEntries) {
+    [logs addObject:logEntry[self.logColumnIndex]];
+  }
+  return logs;
+}
 
 - (NSArray<id<MSLog>> *)logsFromDBWithGroupId:(NSString *)groupId {
 
@@ -322,6 +342,30 @@ static const NSUInteger kMSSchemaVersion = 4;
   [self executeQueryUsingBlock:^int(void *db) {
     return [MSLogDBStorage deleteLogsFromDBWithColumnValues:columnValues columnName:columnName inOpenedDatabase:db];
   }];
+}
+
+- (void)deleteLogsFromDBWithColumnName:(NSString *)columnName andDateBefore:(NSDate *)dateBefore {
+  [self executeQueryUsingBlock:^int(void *db) {
+    return [MSLogDBStorage deleteLogsFromDBWithColumnName:columnName andDateBefore:dateBefore inOpenedDatabase:db];
+  }];
+}
+
++ (int)deleteLogsFromDBWithColumnName:(NSString *)columnName andDateBefore:(NSDate *)dateBefore inOpenedDatabase:(void *)db {
+  NSString *deletionTrace = [NSString
+      stringWithFormat:@"Deletion of log(s) by %@ with date<= '%@'", columnName, dateBefore];
+
+  // Build up delete query.
+  NSString *whereCondition = [NSString stringWithFormat:@"\"%@\" <= '%@')", columnName, dateBefore];
+  NSString *deleteLogsQuery = [NSString stringWithFormat:@"DELETE FROM \"%@\" WHERE %@", kMSLogTableName, whereCondition];
+
+  // Execute.
+  int result = [MSDBStorage executeNonSelectionQuery:deleteLogsQuery inOpenedDatabase:db];
+  if (result == SQLITE_OK) {
+    MSLogVerbose([MSAppCenter logTag], @"%@ %@", deletionTrace, @"succeeded.");
+  } else {
+    MSLogError([MSAppCenter logTag], @"%@ %@", deletionTrace, @"failed.");
+  }
+  return result;
 }
 
 + (int)deleteLogsFromDBWithColumnValues:(NSArray *)columnValues columnName:(NSString *)columnName inOpenedDatabase:(void *)db {

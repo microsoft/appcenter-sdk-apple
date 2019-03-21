@@ -60,6 +60,14 @@ typedef void (^MSLoadDataCompletionHandler)(NSArray<id<MSLog>> *_Nullable logArr
 - (void)deleteLogsWithBatchId:(NSString *)batchId groupId:(NSString *)groupId;
 
 /**
+ * Delete logs with date less than the given param from the storage.
+ *
+ * @param batchId Id of the log to be deleted from storage.
+ */
+- (void)deleteLogsWithDateBefore:(NSDate *)dateBefore;
+
+
+/**
  * Return the most recent logs for a Group Id.
  *
  * @param groupId The key used for grouping.
