@@ -8,7 +8,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class MSAppCenterIngestion;
 
-@interface MSChannelGroupDefault () <MSAuthTokenContextDelegate, MSChannelDelegate>
+@interface MSChannelGroupDefault () <MSChannelDelegate>
 
 /**
  * Initializes a new `MSChannelGroupDefault` instance.

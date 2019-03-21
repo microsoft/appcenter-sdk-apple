@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Copyright (c) Microsoft Corporation. All rights reserved.
+# Licensed under the MIT License.
+
 # Copy LICENSE, README and CHANGELOG
 cp LICENSE $FRAMEWORKS_ZIP_FOLDER
 cp README.md $FRAMEWORKS_ZIP_FOLDER
