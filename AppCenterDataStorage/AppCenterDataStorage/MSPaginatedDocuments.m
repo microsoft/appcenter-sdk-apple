@@ -7,10 +7,12 @@
 @implementation MSPaginatedDocuments
 
 @synthesize currentPage = _currentPage;
+@synthesize continuationToken = _continuationToken;
 
-- (instancetype)initWithPage:(MSPage *)page {
+- (instancetype)initWithPage:(MSPage *)page andContinuationToken:(nullable NSString *)continuationToken {
   if ((self = [super init])) {
     _currentPage = page;
+    _continuationToken = continuationToken;
   }
   return self;
 }
@@ -18,18 +20,13 @@
 - (instancetype)initWithError:(MSDataSourceError *)error {
   if ((self = [super init])) {
     MSPage *pageWithError = [[MSPage alloc] initWithError:error];
-    return [self initWithPage:pageWithError];
+    return [self initWithPage:pageWithError andContinuationToken:nil];
   }
   return self;
 }
 
 - (BOOL)hasNextPage {
-  // @todo
-  return NO;
-}
-
-- (MSPage<id<MSSerializableDocument>> *)currentPage {
-  return _currentPage;
+  return !self.continuationToken.length;
 }
 
 - (MSPage<id<MSSerializableDocument>> *)nextPageWithCompletionHandler:

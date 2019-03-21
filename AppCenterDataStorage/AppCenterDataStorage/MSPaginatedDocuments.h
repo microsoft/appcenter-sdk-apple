@@ -8,18 +8,24 @@
 @interface MSPaginatedDocuments<T : id <MSSerializableDocument>> : NSObject
 
 /**
- * Current page
+ * Current page.
  */
 @property(nonatomic, strong, readonly) MSPage *currentPage;
+
+/**
+ * Current continuation token if any.
+ */
+@property(nonatomic, strong, readonly, nullable) NSString *continuationToken;
 
 /**
  * Initialize documents with page
  *
  * @param page Page to instantiate documents with.
+ * @param continuationToken The continuation token if any.
  *
  * @return The paginated documents.
  */
-- (instancetype)initWithPage:(MSPage *)page;
+- (instancetype)initWithPage:(MSPage *)page andContinuationToken:(nullable NSString *)continuationToken;
 
 /**
  * Instantiate paginated Documents with single page with error.

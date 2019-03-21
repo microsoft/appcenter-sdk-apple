@@ -284,7 +284,7 @@ static dispatch_once_t onceToken;
                                                                completionHandler:^(NSData *_Nonnull data, NSError *_Nonnull cosmosDbError) {
                                                                  // If not OK.
                                                                  if (!data || [MSDataSourceError errorCodeWithError:cosmosDbError] !=
-                                                                     kMSACDocumentSucceededErrorCode) {
+                                                                                  kMSACDocumentSucceededErrorCode) {
                                                                    MSLogError([MSDataStore logTag], @"Not able to retrieve documents: %@",
                                                                               [cosmosDbError description]);
                                                                    MSDataSourceError *dataSourceCosmosDbError =
@@ -317,13 +317,13 @@ static dispatch_once_t onceToken;
                                                                  NSArray *jsonDocuments = json[@"Documents"];
                                                                  NSMutableArray<MSDocumentWrapper *> *items = [NSMutableArray new];
                                                                  for (id document in jsonDocuments) {
-                                                                   
-                                                                   // Deserialize document.
+
+                                                                   // Deserialize current document.
                                                                    id<MSSerializableDocument> deserializedDocument =
-                                                                   [(id<MSSerializableDocument>)[documentType alloc]
-                                                                    initFromDictionary:(NSDictionary *)document];
-                                                                   
-                                                                   // Create a document.
+                                                                       [(id<MSSerializableDocument>)[documentType alloc]
+                                                                           initFromDictionary:(NSDictionary *)document];
+
+                                                                   // Create a document wrapper object.
                                                                    NSTimeInterval interval =
                                                                        [(NSString *)json[kMSDocumentTimestampKey] doubleValue];
                                                                    NSDate *date = [NSDate dateWithTimeIntervalSince1970:interval];
@@ -336,9 +336,12 @@ static dispatch_once_t onceToken;
                                                                                  lastUpdatedDate:date];
                                                                    [items addObject:docWrapper];
                                                                  }
+
+                                                                 // Instanciate the first page and return it.
                                                                  MSPage *page = [[MSPage alloc] initWithItems:items];
-                                                                 MSPaginatedDocuments *documents =
-                                                                     [[MSPaginatedDocuments alloc] initWithPage:page];
+                                                                 MSPaginatedDocuments *documents = [[MSPaginatedDocuments alloc]
+                                                                             initWithPage:page
+                                                                     andContinuationToken:nil]; // TODO: pass the token
                                                                  completionHandler(documents);
                                                                }];
                                }];
