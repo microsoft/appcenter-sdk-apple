@@ -7,6 +7,7 @@
 #import "MSAuthTokenContext.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitProtocol.h"
+#import "MSConstants+Internal.h"
 #import "MSCosmosDb.h"
 #import "MSDataSourceError.h"
 #import "MSDataStoreErrors.h"
@@ -51,13 +52,6 @@ static NSString *const kMSDocumentKey = @"document";
  * CosmosDb upsert header key.
  */
 static NSString *const kMSDocumentUpsertHeaderKey = @"x-ms-documentdb-is-upsert";
-
-/**
- * HTTP method names.
- */
-static NSString *const kMSHttpMethodDelete = @"DELETE";
-static NSString *const kMSHttpMethodGet = @"GET";
-static NSString *const kMSHttpMethodPost = @"POST";
 
 /**
  * Singleton.

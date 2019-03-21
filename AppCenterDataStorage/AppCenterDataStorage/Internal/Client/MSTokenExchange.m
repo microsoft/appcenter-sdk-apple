@@ -37,7 +37,8 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
 
     if ([MSAuthTokenContext sharedInstance].authToken) {
       NSMutableDictionary *headers = [httpClient.httpHeaders mutableCopy];
-      headers[kMSAuthorizationHeaderKey] = [NSString stringWithFormat:kMSBearerTokenHeaderFormat, [MSAuthTokenContext sharedInstance].authToken];
+      headers[kMSAuthorizationHeaderKey] =
+          [NSString stringWithFormat:kMSBearerTokenHeaderFormat, [MSAuthTokenContext sharedInstance].authToken];
       httpClient.httpHeaders = headers;
     }
 
@@ -68,7 +69,7 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
           // Create token response object.
           MSTokensResponse *tokens = [[MSTokensResponse alloc] initWithTokens:@[ tokenResult ]];
 
-          // Token exchange did not get back an error but aquiring the token did not succeed either
+          // Token exchange did not get back an error but acquiring the token did not succeed either
           if (tokenResult && ![tokenResult.status isEqualToString:kMSTokenResultSucceed]) {
             MSLogError([MSDataStore logTag], @"Token result had a status of %@", tokenResult.status);
             completionHandler(tokens, error);
