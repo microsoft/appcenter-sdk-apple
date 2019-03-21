@@ -1095,10 +1095,11 @@ static NSString *const kMSTestGroupId = @"GroupId";
 - (void)testResumeWhenOnlyPausedObjectIsDeallocated {
 
   // If
-  [self.sut pauseWithIdentifyingObjectSync:[NSObject new]];
+  NSObject *object = [NSObject new];
+  [self.sut pauseWithIdentifyingObjectSync:object];
 
   // When
-  [self.sut resumeWithIdentifyingObjectSync:[NSObject new]];
+  [self.sut resumeWithIdentifyingObjectSync:object];
 
   // Then
   XCTAssertFalse([self.sut paused]);
