@@ -14,6 +14,9 @@
 #import "MSStorage.h"
 #import "MSUserIdContext.h"
 #import "MSUtility+StringFormatting.h"
+#import "MSAuthTokenInfo.h"
+#import "MSKeychainAuthTokenStorage.h"
+#import "MSAuthTokenStorage.h"
 
 @implementation MSChannelUnitDefault
 
@@ -223,11 +226,12 @@
 
   // Reset item count and load data from the storage.
   self.itemsCount = 0;
+  MSAuthTokenInfo *tokenInfo = [MSAuthTokenContext sharedInstance].storage.oldestAuthToken;
   self.availableBatchFromStorage = [self.storage
       loadLogsWithGroupId:self.configuration.groupId
                     limit:self.configuration.batchSizeLimit
        excludedTargetKeys:[self.pausedTargetKeys allObjects]
-               beforeDate:nil
+               beforeDate:tokenInfo.endTime
         completionHandler:^(NSArray<MSLog> *_Nonnull logArray, NSString *batchId) {
           // Logs may be deleted from storage before this flush.
           if (batchId.length > 0) {
@@ -322,6 +326,7 @@
   // Flush again if there is another batch to send.
   if (self.availableBatchFromStorage && !self.pendingBatchQueueFull) {
     [self flushQueue];
+    [[MSAuthTokenContext sharedInstance].storage removeAuthToken:tokenInfo.authToken];
   }
 }
 
