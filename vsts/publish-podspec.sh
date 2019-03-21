@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Copyright (c) Microsoft Corporation. All rights reserved.
+# Licensed under the MIT License.
+
 help() {
   echo "Usage: $0 {internal|external|test} -a <podspec-repo-user-account> -t <podspec-repo-access-token> -r <podspec-repo-name>"
 }

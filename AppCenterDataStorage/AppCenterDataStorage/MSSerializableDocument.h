@@ -5,7 +5,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol MSSerializableDocument
+@protocol MSSerializableDocument<NSObject>
+
+@required
 
 /**
  * Create a dictionary from the object.

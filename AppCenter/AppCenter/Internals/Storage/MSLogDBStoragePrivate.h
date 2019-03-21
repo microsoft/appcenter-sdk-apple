@@ -14,6 +14,7 @@ static NSString *const kMSLogColumnName = @"log";
 static NSString *const kMSTargetTokenColumnName = @"targetToken";
 static NSString *const kMSTargetKeyColumnName = @"targetKey";
 static NSString *const kMSPriorityColumnName = @"priority";
+static NSString *const kMSTimestampColumnName = @"timestamp";
 
 @protocol MSDatabaseConnection;
 

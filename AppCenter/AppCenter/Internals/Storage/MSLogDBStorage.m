@@ -10,7 +10,7 @@
 #import "MSLogDBStorageVersion.h"
 #import "MSUtility+StringFormatting.h"
 
-static const NSUInteger kMSSchemaVersion = 3;
+static const NSUInteger kMSSchemaVersion = 4;
 
 @implementation MSLogDBStorage
 
@@ -26,7 +26,8 @@ static const NSUInteger kMSSchemaVersion = 3;
       @{kMSIdColumnName : @[ kMSSQLiteTypeInteger, kMSSQLiteConstraintPrimaryKey, kMSSQLiteConstraintAutoincrement ]},
       @{kMSGroupIdColumnName : @[ kMSSQLiteTypeText, kMSSQLiteConstraintNotNull ]},
       @{kMSLogColumnName : @[ kMSSQLiteTypeText, kMSSQLiteConstraintNotNull ]}, @{kMSTargetTokenColumnName : @[ kMSSQLiteTypeText ]},
-      @{kMSTargetKeyColumnName : @[ kMSSQLiteTypeText ]}, @{kMSPriorityColumnName : @[ kMSSQLiteTypeInteger ]}
+      @{kMSTargetKeyColumnName : @[ kMSSQLiteTypeText ]}, @{kMSPriorityColumnName : @[ kMSSQLiteTypeInteger ]},
+      @{kMSTimestampColumnName : @[ kMSSQLiteTypeInteger ]}
     ]
   };
   self = [super initWithSchema:schema version:kMSSchemaVersion filename:kMSDBFileName];
@@ -53,21 +54,22 @@ static const NSUInteger kMSSchemaVersion = 3;
   // Insert this log to the DB.
   NSData *logData = [NSKeyedArchiver archivedDataWithRootObject:log];
   NSString *base64Data = [logData base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
-  NSString *addLogQuery = [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\") VALUES ('%@', '%@', '%u')",
-                                                     kMSLogTableName, kMSGroupIdColumnName, kMSLogColumnName, kMSPriorityColumnName,
-                                                     groupId, base64Data, (unsigned int)persistenceFlags];
+  NSString *addLogQuery =
+      [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\", \"%@\") VALUES ('%@', '%@', '%u', '%lld')", kMSLogTableName,
+                                 kMSGroupIdColumnName, kMSLogColumnName, kMSPriorityColumnName, kMSTimestampColumnName, groupId, base64Data,
+                                 (unsigned int)persistenceFlags, (long long)[log.timestamp timeIntervalSince1970]];
 
   // Serialize target token.
   if ([(NSObject *)log isKindOfClass:[MSCommonSchemaLog class]]) {
     NSString *targetToken = [[log transmissionTargetTokens] anyObject];
     NSString *encryptedToken = [self.targetTokenEncrypter encryptString:targetToken];
     NSString *targetKey = [MSUtility targetKeyFromTargetToken:targetToken];
-    addLogQuery =
-        [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", "
-                                   @"\"%@\", \"%@\", \"%@\") VALUES ('%@', '%@', '%@', %@, '%u')",
-                                   kMSLogTableName, kMSGroupIdColumnName, kMSLogColumnName, kMSTargetTokenColumnName,
-                                   kMSTargetKeyColumnName, kMSPriorityColumnName, groupId, base64Data, encryptedToken,
-                                   targetKey ? [NSString stringWithFormat:@"'%@'", targetKey] : @"NULL", (unsigned int)persistenceFlags];
+    addLogQuery = [NSString
+        stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\") VALUES ('%@', '%@', '%@', %@, '%u', '%lld')",
+                         kMSLogTableName, kMSGroupIdColumnName, kMSLogColumnName, kMSTargetTokenColumnName, kMSTargetKeyColumnName,
+                         kMSPriorityColumnName, kMSTimestampColumnName, groupId, base64Data, encryptedToken,
+                         targetKey ? [NSString stringWithFormat:@"'%@'", targetKey] : @"NULL", (unsigned int)persistenceFlags,
+                         (long long)[log.timestamp timeIntervalSince1970]];
   }
   return [self executeQueryUsingBlock:^int(void *db) {
            // Check maximum size.
@@ -128,6 +130,7 @@ static const NSUInteger kMSSchemaVersion = 3;
 - (BOOL)loadLogsWithGroupId:(NSString *)groupId
                       limit:(NSUInteger)limit
          excludedTargetKeys:(nullable NSArray<NSString *> *)excludedTargetKeys
+                 beforeDate:(nullable NSDate *)date
           completionHandler:(nullable MSLoadDataCompletionHandler)completionHandler {
   BOOL logsAvailable;
   BOOL moreLogsAvailable = NO;
@@ -155,6 +158,11 @@ static const NSUInteger kMSSchemaVersion = 3;
   // Take only logs that are not already part of a batch.
   if (idsInBatches.count > 0) {
     [condition appendFormat:@" AND \"%@\" NOT IN (%@)", kMSIdColumnName, [idsInBatches componentsJoinedByString:@", "]];
+  }
+
+  // Filter by time.
+  if (date) {
+    [condition appendFormat:@" AND \"%@\" <= '%lld'", kMSTimestampColumnName, (long long)[date timeIntervalSince1970]];
   }
 
   // Build the "ORDER BY" clause's conditions.
@@ -378,6 +386,11 @@ static const NSUInteger kMSSchemaVersion = 3;
                                    kMSSQLiteTypeInteger, (unsigned int)MSFlagsPersistenceNormal];
     [MSDBStorage executeNonSelectionQuery:migrationQuery inOpenedDatabase:db];
     [self createPriorityIndex:db];
+  }
+  if (version < kMSTimestampVersion) {
+    NSString *migrationQuery = [NSString stringWithFormat:@"ALTER TABLE \"%@\" ADD COLUMN \"%@\" %@ DEFAULT %lld", kMSLogTableName,
+                                                          kMSTimestampColumnName, kMSSQLiteTypeInteger, 0ll];
+    [MSDBStorage executeNonSelectionQuery:migrationQuery inOpenedDatabase:db];
   }
 }
 
