@@ -218,6 +218,7 @@ static dispatch_once_t onceToken;
    performDbTokenAsyncOperationWithHttpClient:(MSStorageIngestion *)self.ingestion
    partition:partition
    completionHandler:^(MSTokensResponse *_Nonnull tokenResponses, NSError *_Nonnull error) {
+     
      // If error getting token.
      if (error || !tokenResponses) {
        MSLogError([MSDataStore logTag], @"Can't get CosmosDb token:%@", [error description]);
@@ -263,8 +264,6 @@ static dispatch_once_t onceToken;
         // Create document.
         id<MSSerializableDocument> deserializedDocument = [(id<MSSerializableDocument>)[documentType alloc]
                                                            initFromDictionary:(NSDictionary *)json[kMSDocumentKey]];
-        
-        // Create a document.
         NSTimeInterval interval =
         [(NSString *)json[kMSDocumentTimestampKey] doubleValue];
         NSDate *date = [NSDate dateWithTimeIntervalSince1970:interval];
@@ -293,6 +292,7 @@ static dispatch_once_t onceToken;
    performDbTokenAsyncOperationWithHttpClient:(MSStorageIngestion *)self.ingestion
    partition:partition
    completionHandler:^(MSTokensResponse *_Nonnull tokenResponses, NSError *_Nonnull error) {
+     
      // If error getting token.
      if (error || !tokenResponses) {
        MSLogError([MSDataStore logTag], @"Can't get CosmosDb token:%@", [error description]);
