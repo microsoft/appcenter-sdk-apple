@@ -1259,7 +1259,7 @@
                         <outlet property="logFilterSwitch" destination="Noo-Uo-Lot" id="joI-f2-5vY"/>
                         <outlet property="logUrl" destination="XnS-uI-vJv" id="2Vi-KP-bXN"/>
                         <outlet property="overrideCountryCodeButton" destination="qrr-JY-Bts" id="ZTH-Ix-aJM"/>
-                        <outlet property="pushEnabledSwitch" destination="BRq-Gz-5da" id="7Um-CW-UYX"/>
+                        <outlet property="pushEnabledSwitch" destination="a34-Sx-8Yt" id="7Um-CW-UYX"/>
                         <outlet property="sdkVersion" destination="mii-om-0Af" id="psx-bf-oWr"/>
                         <outlet property="setAppSecretButton" destination="t7d-q5-2xe" id="znD-AZ-42t"/>
                         <outlet property="setLogUrlButton" destination="fUr-hH-BQu" id="Y6k-Lg-OV2"/>
