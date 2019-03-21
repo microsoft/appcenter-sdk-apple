@@ -34,21 +34,6 @@ static NSString *const kMSServiceName = @"DataStorage";
 static NSString *const kMSGroupId = @"DataStorage";
 
 /**
- * CosmosDb document timestamp key.
- */
-static NSString *const kMSDocumentTimestampKey = @"_ts";
-
-/**
- * CosmosDb document eTag key.
- */
-static NSString *const kMSDocumentEtagKey = @"_etag";
-
-/**
- * CosmosDb document key.
- */
-static NSString *const kMSDocumentKey = @"document";
-
-/**
  * CosmosDb upsert header key.
  */
 static NSString *const kMSDocumentUpsertHeaderKey = @"x-ms-documentdb-is-upsert";
@@ -314,7 +299,7 @@ static dispatch_once_t onceToken;
                                                         completionHandler(documents);
                                                         return;
                                                       }
-                                                      MSLogDebug([MSDataStore logTag], @"Document json: %@", json);
+                                                      MSLogDebug([MSDataStore logTag], @"Documents json: %@", json);
 
                                                       // Get list of documents.
                                                       NSArray *jsonDocuments = json[@"Documents"];
