@@ -12,16 +12,16 @@ typedef void (^MSHttpRequestCompletionHandler)(NSHTTPURLResponse *response, NSDa
 /**
  * Send data to backend
  *
- * @param data A data instance that will be transformed request body.
- * @param headers HTTP headers.
  * @param url The endpoint to use in the HTTP request.
  * @param method The HTTP method (verb) to use for the HTTP request (e.g. GET, POST, etc.).
+ * @param headers HTTP headers.
+ * @param data A data instance that will be transformed request body.
  * @param handler Completion handler.
  */
-- (void)sendAsync:(nullable NSObject *)data
-              headers:(nullable NSDictionary<NSString *, NSString *> *)headers
-                  url:(NSURL *)url
-               method:(NSString *)method
-    completionHandler:(MSHttpRequestCompletionHandler)handler;
+- (void)sendAsync:(NSURL *)url
+           method:(NSString *)method
+          headers:(nullable NSDictionary<NSString *, NSString *> *)headers
+             data:(nullable NSObject *)data
+completionHandler:(MSHttpRequestCompletionHandler)handler;
 
 @end
