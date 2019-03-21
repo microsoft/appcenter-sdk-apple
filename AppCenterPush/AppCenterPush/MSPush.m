@@ -12,6 +12,7 @@
 
 #import "MSAppCenterInternal.h"
 #import "MSAppDelegateForwarder.h"
+#import "MSAuthTokenContext.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitProtocol.h"
 #import "MSPush.h"
@@ -178,6 +179,7 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
                                  object:nil];
 #endif
     [[MSAppDelegateForwarder sharedInstance] addDelegate:self.appDelegate];
+    [[MSAuthTokenContext sharedInstance] addDelegate:self];
     if (!self.pushToken) {
       [self registerForRemoteNotifications];
     }
@@ -187,6 +189,7 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
     [MS_NOTIFICATION_CENTER removeObserver:self name:NSApplicationDidFinishLaunchingNotification object:nil];
 #endif
     [[MSAppDelegateForwarder sharedInstance] removeDelegate:self.appDelegate];
+    [[MSAuthTokenContext sharedInstance] removeDelegate:self];
     MSLogInfo([MSPush logTag], @"Push service has been disabled.");
   }
 }
@@ -397,6 +400,16 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
       [delegate push:self didReceivePushNotification:pushNotification];
     }
   });
+}
+
+- (void)authTokenContext:(__unused MSAuthTokenContext *)authTokenContext
+    didSetNewAccountIdWithAuthToken:(nullable __unused NSString *)authToken {
+
+  // Make a copy of push token so that this code is thread safe.
+  NSString *pushTokenCopy = self.pushToken;
+  if (pushTokenCopy) {
+    [self sendPushToken:pushTokenCopy];
+  }
 }
 
 @end

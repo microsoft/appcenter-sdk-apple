@@ -3,7 +3,7 @@
 
 #import <Foundation/Foundation.h>
 
-typedef void (^MSSendAsyncCompletionHandler)(NSString *callId, NSUInteger statusCode, NSData *data, NSError *error);
+typedef void (^MSSendAsyncCompletionHandler)(NSString *callId, NSHTTPURLResponse *response, NSData *data, NSError *error);
 
 static short const kMSMaxCharactersDisplayedForAppSecret = 8;
 static NSString *const kMSHidingStringForAppSecret = @"*";
@@ -18,15 +18,6 @@ static NSString *const kMSHidingStringForAppSecret = @"*";
  * @return is recoverable.
  */
 + (BOOL)isRecoverableError:(NSInteger)statusCode;
-
-/**
- * Get http status code from response.
- *
- * @param response http response.
- *
- * @return status code.
- */
-+ (NSInteger)getStatusCode:(NSURLResponse *)response;
 
 /**
  * Indicate if error is due to no internet connection.
@@ -64,5 +55,14 @@ static NSString *const kMSHidingStringForAppSecret = @"*";
  * @return secret by hiding some characters.
  */
 + (NSString *)hideSecret:(NSString *)secret;
+
+/**
+ * Hide an authentication JWT token.
+ *
+ * @param token the token string.
+ *
+ * @return token by hiding some characters.
+ */
++ (NSString *)hideAuthToken:(NSString *)token;
 
 @end

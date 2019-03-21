@@ -6,6 +6,7 @@
 #import "MSAppCenterErrors.h"
 #import "MSAppCenterIngestion.h"
 #import "MSAppCenterInternal.h"
+#import "MSAuthTokenContext.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitDefaultPrivate.h"
 #import "MSDeviceTracker.h"
@@ -253,16 +254,18 @@
                                           [delegate channel:self willSendLog:aLog];
                                         }
                                       }];
+            NSString *authToken = [MSAuthTokenContext sharedInstance].authToken;
 
             // Forward logs to the ingestion.
             [self.ingestion sendAsync:container
-                    completionHandler:^(NSString *ingestionBatchId, NSUInteger statusCode, __attribute__((unused)) NSData *data,
+                            authToken:authToken
+                    completionHandler:^(NSString *ingestionBatchId, NSHTTPURLResponse *response, __attribute__((unused)) NSData *data,
                                         NSError *error) {
                       dispatch_async(self.logsDispatchQueue, ^{
                         if ([self.pendingBatchIds containsObject:ingestionBatchId]) {
 
                           // Success.
-                          if (statusCode == MSHTTPCodesNo200OK) {
+                          if (response.statusCode == MSHTTPCodesNo200OK) {
                             MSLogDebug([MSAppCenter logTag], @"Log(s) sent with success, batch Id:%@.", ingestionBatchId);
 
                             // Notify delegates.
@@ -289,7 +292,7 @@
                           // Failure.
                           else {
                             MSLogError([MSAppCenter logTag], @"Log(s) sent with failure, batch Id:%@, status code:%tu", ingestionBatchId,
-                                       statusCode);
+                                       response.statusCode);
 
                             // Notify delegates.
                             [self enumerateDelegatesForSelector:@selector(channel:didFailSendingLog:withError:)

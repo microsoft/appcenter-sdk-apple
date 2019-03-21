@@ -44,6 +44,18 @@
   assertThat(hiddenSecret, is(fullyHiddenSecret));
 }
 
+- (void)testHideAuthToken {
+
+  // If
+  NSString *token = @"Bearer jwttoken";
+
+  // When
+  NSString *hiddenToken = [MSIngestionUtil hideAuthToken:token];
+
+  // Then
+  assertThat(hiddenToken, is(@"Bearer ***"));
+}
+
 - (void)testIsNoInternetConnectionError {
 
   // When

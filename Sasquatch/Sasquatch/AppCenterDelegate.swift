@@ -30,10 +30,12 @@ import AppCenterAnalytics
   func isAnalyticsEnabled() -> Bool
   func isCrashesEnabled() -> Bool
   func isDistributeEnabled() -> Bool
+  func isIdentityEnabled() -> Bool
   func isPushEnabled() -> Bool
   func setAnalyticsEnabled(_ isEnabled: Bool)
   func setCrashesEnabled(_ isEnabled: Bool)
   func setDistributeEnabled(_ isEnabled: Bool)
+  func setIdentityEnabled(_ isEnabled: Bool)
   func setPushEnabled(_ isEnabled: Bool)
 
   // MSAnalytics section.
@@ -51,10 +53,14 @@ import AppCenterAnalytics
   func hasCrashedInLastSession() -> Bool
   func generateTestCrash()
   
-  // MSDistribute section
+  // MSDistribute section.
   func showConfirmationAlert()
   func showDistributeDisabledAlert()
   func showCustomConfirmationAlert()
+
+  // MSIdentity section.
+  func signIn()
+  func signOut()
   
   // Last crash report section.
   func lastCrashReportIncidentIdentifier() -> String?

@@ -347,7 +347,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                                                          queryStrings:queryStrings];
       __weak typeof(self) weakSelf = self;
       [self.ingestion sendAsync:nil
-              completionHandler:^(__unused NSString *callId, NSUInteger statusCode, NSData *data, __unused NSError *error) {
+              completionHandler:^(__unused NSString *callId, NSHTTPURLResponse *response, NSData *data, __unused NSError *error) {
                 typeof(self) strongSelf = weakSelf;
                 if (!strongSelf) {
                   return;
@@ -365,7 +365,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                 NSError *jsonError = nil;
 
                 // Success.
-                if (statusCode == MSHTTPCodesNo200OK) {
+                if (response.statusCode == MSHTTPCodesNo200OK) {
                   MSReleaseDetails *details = nil;
                   if (data) {
                     id dictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&jsonError];
@@ -399,7 +399,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
                 // Failure.
                 else {
-                  MSLogDebug([MSDistribute logTag], @"Failed to get an update response, status code: %tu", statusCode);
+                  MSLogDebug([MSDistribute logTag], @"Failed to get an update response, status code: %tu", response.statusCode);
                   NSString *jsonString = nil;
                   id dictionary = nil;
 
@@ -423,7 +423,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                   }
 
                   // Check the status code to clean up Distribute data for an unrecoverable error.
-                  if (![MSIngestionUtil isRecoverableError:statusCode]) {
+                  if (![MSIngestionUtil isRecoverableError:response.statusCode]) {
 
                     // Deserialize payload to check if it contains error details.
                     MSErrorDetails *details = nil;

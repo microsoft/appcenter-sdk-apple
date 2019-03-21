@@ -11,11 +11,6 @@
   return statusCode >= 500 || statusCode == 408 || statusCode == 429 || statusCode == 0;
 }
 
-+ (NSInteger)getStatusCode:(NSURLResponse *)response {
-  NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-  return httpResponse.statusCode;
-}
-
 + (BOOL)isNoInternetConnectionError:(NSError *)error {
   return ([error.domain isEqualToString:NSURLErrorDomain] &&
           ((error.code == NSURLErrorNotConnectedToInternet) || (error.code == NSURLErrorNetworkConnectionLost)));
@@ -37,9 +32,17 @@
   // Hide everything if secret is shorter than the max number of displayed characters.
   NSUInteger appSecretHiddenPartLength =
       (secret.length > kMSMaxCharactersDisplayedForAppSecret ? secret.length - kMSMaxCharactersDisplayedForAppSecret : secret.length);
-  NSString *appSecretHiddenPart =
-      [@"" stringByPaddingToLength:appSecretHiddenPartLength withString:kMSHidingStringForAppSecret startingAtIndex:0];
+  NSString *appSecretHiddenPart = [@"" stringByPaddingToLength:appSecretHiddenPartLength
+                                                    withString:kMSHidingStringForAppSecret
+                                               startingAtIndex:0];
   return [secret stringByReplacingCharactersInRange:NSMakeRange(0, appSecretHiddenPart.length) withString:appSecretHiddenPart];
+}
+
++ (NSString *)hideAuthToken:(NSString *)token {
+
+  // Hide token value.
+  NSString *prefix = [[token componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] firstObject];
+  return [prefix stringByAppendingString:@" ***"];
 }
 
 @end

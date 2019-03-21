@@ -26,6 +26,19 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
               apiPath:(NSString *)apiPath
               headers:(NSDictionary *)headers
          queryStrings:(NSDictionary *)queryStrings
+         reachability:(MS_Reachability *)reachability {
+  return [self initWithBaseUrl:baseUrl
+                       apiPath:apiPath
+                       headers:headers
+                  queryStrings:queryStrings
+                  reachability:reachability
+                retryIntervals:@[ @(10), @(5 * 60), @(20 * 60) ]];
+}
+
+- (id)initWithBaseUrl:(NSString *)baseUrl
+              apiPath:(NSString *)apiPath
+              headers:(NSDictionary *)headers
+         queryStrings:(NSDictionary *)queryStrings
          reachability:(MS_Reachability *)reachability
        retryIntervals:(NSArray *)retryIntervals {
   return [self initWithBaseUrl:baseUrl
@@ -54,6 +67,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
     _callsRetryIntervals = retryIntervals;
     _apiPath = apiPath;
     _maxNumberOfConnections = maxNumberOfConnections;
+    _baseURL = baseUrl;
 
     // Construct the URL string with the query string.
     NSMutableString *urlString = [NSMutableString stringWithFormat:@"%@%@", baseUrl, apiPath];
@@ -85,8 +99,23 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
   return YES;
 }
 
+- (void)sendAsync:(NSObject *)data authToken:(nullable NSString *)authToken completionHandler:(MSSendAsyncCompletionHandler)handler {
+  [self sendAsync:data eTag:nil authToken:authToken callId:MS_UUID_STRING completionHandler:handler];
+}
+
+- (void)sendAsync:(NSObject *)data
+                 eTag:(nullable NSString *)eTag
+            authToken:(nullable NSString *)authToken
+    completionHandler:(MSSendAsyncCompletionHandler)handler {
+  [self sendAsync:data eTag:eTag authToken:authToken callId:MS_UUID_STRING completionHandler:handler];
+}
+
 - (void)sendAsync:(NSObject *)data completionHandler:(MSSendAsyncCompletionHandler)handler {
-  [self sendAsync:data callId:MS_UUID_STRING completionHandler:handler];
+  [self sendAsync:data eTag:nil authToken:nil callId:MS_UUID_STRING completionHandler:handler];
+}
+
+- (void)sendAsync:(NSObject *)data eTag:(nullable NSString *)eTag completionHandler:(MSSendAsyncCompletionHandler)handler {
+  [self sendAsync:data eTag:eTag authToken:nil callId:MS_UUID_STRING completionHandler:handler];
 }
 
 - (void)addDelegate:(id<MSIngestionDelegate>)delegate {
@@ -188,35 +217,36 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
     }
 
     // Create the request.
-    NSURLRequest *request = [self createRequest:call.data];
+    NSURLRequest *request = [self createRequest:call.data eTag:call.eTag authToken:call.authToken];
     if (!request) {
       return;
     }
 
     // Create a task for the request.
-    NSURLSessionDataTask *task = [self.session
-        dataTaskWithRequest:request
-          completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-            @synchronized(self) {
-              NSInteger statusCode = [MSIngestionUtil getStatusCode:response];
-              if (error) {
-                MSLogDebug([MSAppCenter logTag], @"HTTP request error with code: %td, domain: %@, description: %@", error.code,
-                           error.domain, error.localizedDescription);
-              }
+    NSURLSessionDataTask *task =
+        [self.session dataTaskWithRequest:request
+                        completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                          @synchronized(self) {
+                            NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+                            if (error) {
+                              MSLogDebug([MSAppCenter logTag], @"HTTP request error with code: %td, domain: %@, description: %@",
+                                         error.code, error.domain, error.localizedDescription);
+                            }
 
-              // Don't lose time pretty printing if not going to be printed.
-              else if ([MSAppCenter logLevel] <= MSLogLevelVerbose) {
-                NSString *payload = [MSUtility prettyPrintJson:data];
-                MSLogVerbose([MSAppCenter logTag], @"HTTP response received with status code: %tu, payload:\n%@", statusCode, payload);
-              }
+                            // Don't lose time pretty printing if not going to be printed.
+                            else if ([MSAppCenter logLevel] <= MSLogLevelVerbose) {
+                              NSString *payload = [MSUtility prettyPrintJson:data];
+                              MSLogVerbose([MSAppCenter logTag], @"HTTP response received with status code: %tu, payload:\n%@",
+                                           httpResponse.statusCode, payload);
+                            }
 
-              // Call handles the completion.
-              if (call) {
-                call.submitted = NO;
-                [call ingestion:self callCompletedWithStatus:statusCode data:data error:error];
-              }
-            }
-          }];
+                            // Call handles the completion.
+                            if (call) {
+                              call.submitted = NO;
+                              [call ingestion:self callCompletedWithResponse:httpResponse data:data error:error];
+                            }
+                          }
+                        }];
 
     // TODO: Set task priority.
     [task resume];
@@ -315,7 +345,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
 /**
  * This is an empty method expected to be overridden in sub classes.
  */
-- (NSURLRequest *)createRequest:(NSObject *)__unused data {
+- (NSURLRequest *)createRequest:(NSObject *)__unused data eTag:(NSString *)__unused eTag authToken:(nullable NSString *)__unused authToken {
   return nil;
 }
 
@@ -358,7 +388,11 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
   return [flattenedHeaders componentsJoinedByString:@", "];
 }
 
-- (void)sendAsync:(NSObject *)data callId:(NSString *)callId completionHandler:(MSSendAsyncCompletionHandler)handler {
+- (void)sendAsync:(NSObject *)data
+                 eTag:(nullable NSString *)eTag
+            authToken:(nullable NSString *)authToken
+               callId:(NSString *)callId
+    completionHandler:(MSSendAsyncCompletionHandler)handler {
   @synchronized(self) {
 
     // Check if call has already been created(retry scenario).
@@ -367,6 +401,8 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
       call = [[MSIngestionCall alloc] initWithRetryIntervals:self.callsRetryIntervals];
       call.delegate = self;
       call.data = data;
+      call.authToken = authToken;
+      call.eTag = eTag;
       call.callId = callId;
       call.completionHandler = handler;
 
@@ -380,6 +416,20 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
 - (void)dealloc {
   [self.reachability stopNotifier];
   [MS_NOTIFICATION_CENTER removeObserver:self name:kMSReachabilityChangedNotification object:nil];
+  [self.session finishTasksAndInvalidate];
+}
+
+#pragma mark - Helper
+
++ (nullable NSString *)eTagFromResponse:(NSHTTPURLResponse *)response {
+
+  // Response header keys are case-insensitive but NSHTTPURLResponse contains case-sensitive keys in Dictionary.
+  for (NSString *key in response.allHeaderFields.allKeys) {
+    if ([[key lowercaseString] isEqualToString:kMSETagResponseHeader]) {
+      return response.allHeaderFields[key];
+    }
+  }
+  return nil;
 }
 
 @end

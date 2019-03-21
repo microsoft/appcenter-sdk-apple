@@ -14,7 +14,9 @@
 #import "AppCenter.h"
 #import "AppCenterAnalytics.h"
 #import "AppCenterCrashes.h"
+#import "AppCenterDataStorage.h"
 #import "AppCenterDistribute.h"
+#import "AppCenterIdentity.h"
 #import "AppCenterPush.h"
 
 // Internal ones
@@ -23,7 +25,9 @@
 @import AppCenter;
 @import AppCenterAnalytics;
 @import AppCenterCrashes;
+@import AppCenterDataStorage;
 @import AppCenterDistribute;
+@import AppCenterIdentity;
 @import AppCenterPush;
 #endif
 
@@ -54,6 +58,7 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
       [(MSAnalyticsViewController *)controller setAnalyticsResult:self.analyticsResult];
     }
   }
+  [MSIdentity setConfigUrl:kMSIntConfigUrl];
 #endif
 
 // Customize App Center SDK.
@@ -100,7 +105,8 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
   }
 
   // Start App Center SDK.
-  NSArray<Class> *services = @ [[MSAnalytics class], [MSCrashes class], [MSDistribute class], [MSPush class]];
+  NSArray<Class> *services =
+      @ [[MSAnalytics class], [MSCrashes class], [MSDataStore class], [MSDistribute class], [MSIdentity class], [MSPush class]];
   NSInteger startTarget = [[NSUserDefaults standardUserDefaults] integerForKey:kMSStartTargetKey];
 #if GCC_PREPROCESSOR_MACRO_PUPPET
   NSString *appSecret = [[NSUserDefaults standardUserDefaults] objectForKey:kMSAppSecret] ?: kMSPuppetAppSecret;

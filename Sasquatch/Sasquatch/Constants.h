@@ -45,3 +45,5 @@ static int const kMSStoragePageSize = SQLITE_DEFAULT_PAGE_SIZE;
 #else
 static int const kMSStoragePageSize = 4096;
 #endif
+
+static const NSString *kMSIntConfigUrl = @"https://config-integration.dev.avalanch.es";

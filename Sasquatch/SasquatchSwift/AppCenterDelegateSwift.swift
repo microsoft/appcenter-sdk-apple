@@ -5,6 +5,7 @@ import AppCenter
 import AppCenterAnalytics
 import AppCenterCrashes
 import AppCenterDistribute
+import AppCenterIdentity
 import AppCenterPush
 
 /**
@@ -80,6 +81,10 @@ class AppCenterDelegateSwift: AppCenterDelegate {
     return MSDistribute.isEnabled()
   }
 
+  func isIdentityEnabled() -> Bool {
+    return MSIdentity.isEnabled()
+  }
+
   func isPushEnabled() -> Bool {
     return MSPush.isEnabled()
   }
@@ -94,6 +99,10 @@ class AppCenterDelegateSwift: AppCenterDelegate {
 
   func setDistributeEnabled(_ isEnabled: Bool) {
     MSDistribute.setEnabled(isEnabled)
+  }
+
+  func setIdentityEnabled(_ isEnabled: Bool) {
+    MSIdentity.setEnabled(isEnabled)
   }
 
   func setPushEnabled(_ isEnabled: Bool) {
@@ -148,7 +157,7 @@ class AppCenterDelegateSwift: AppCenterDelegate {
     MSCrashes.generateTestCrash()
   }
 
-  // MSDistribute section
+  // MSDistribute section.
   func showConfirmationAlert() {
     let sharedInstanceSelector = #selector(Selectors.sharedInstance)
     let confirmationAlertSelector = #selector(Selectors.showConfirmationAlert(_:))
@@ -185,6 +194,22 @@ class AppCenterDelegateSwift: AppCenterDelegate {
       let distriuteDelegate = distributeInstance.perform(delegateSelector).takeUnretainedValue()
       _ = distriuteDelegate.distribute?(distributeInstance as! MSDistribute, releaseAvailableWith: releaseDetails)
     }
+  }
+
+  // MSIdentity section.
+  func signIn() {
+    MSIdentity.signIn { userInformation, error in
+      if error == nil {
+        print("Identity.signIn succeeded, accountId=\(userInformation!.accountId)")
+      }
+      else {
+        print("Identity.signIn failed, error=\(String(describing: error))")
+      }
+    }
+  }
+
+  func signOut() {
+    MSIdentity.signOut()
   }
 
   // Last crash report section.

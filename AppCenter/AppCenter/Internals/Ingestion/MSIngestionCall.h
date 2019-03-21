@@ -25,6 +25,16 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic) NSObject *data;
 
 /**
+ * Entity tag of the request.
+ */
+@property(nonatomic, nullable, copy) NSString *eTag;
+
+/**
+ * Auth token for the request.
+ */
+@property(nonatomic, nullable, copy) NSString *authToken;
+
+/**
  * Unique call ID.
  */
 @property(nonatomic, copy) NSString *callId;
@@ -74,14 +84,14 @@ NS_ASSUME_NONNULL_BEGIN
  * Call completed with error/success.
  *
  * @param ingestion ingestion object.
- * @param statusCode status code.
+ * @param response HTTP response.
  * @param data response data.
  * @param error call error.
  */
 - (void)ingestion:(id<MSIngestionProtocol>)ingestion
-    callCompletedWithStatus:(NSUInteger)statusCode
-                       data:(nullable NSData *)data
-                      error:(NSError *)error;
+    callCompletedWithResponse:(NSHTTPURLResponse *)response
+                         data:(nullable NSData *)data
+                        error:(NSError *)error;
 
 @end
 
