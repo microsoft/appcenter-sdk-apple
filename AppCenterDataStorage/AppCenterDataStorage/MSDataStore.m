@@ -281,6 +281,7 @@ static dispatch_once_t onceToken;
                                                                       documentId:@""
                                                                       httpMethod:kMSHttpGetVerb
                                                                             body:nil
+                                                               additionalHeaders:nil
                                                                completionHandler:^(NSData *_Nonnull data, NSError *_Nonnull cosmosDbError) {
                                                                  // If not OK.
                                                                  if (!data || [MSDataSourceError errorCodeWithError:cosmosDbError] !=

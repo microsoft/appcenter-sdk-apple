@@ -25,40 +25,6 @@ typedef void (^MSCosmosDbCompletionHandlerWithHeaders)(NSData *_Nullable data, N
  * @param documentId Document Id.
  * @param httpMethod Http method.
  * @param body Http body.
- * @param completionHandler Completion handler callback.
- */
-+ (void)performCosmosDbAsyncOperationWithHttpClient:(MSCosmosDbIngestion *)httpClient
-                                        tokenResult:(MSTokenResult *)tokenResult
-                                         documentId:(NSString *)documentId
-                                         httpMethod:(NSString *)httpMethod
-                                               body:(NSData *_Nullable)body
-                                  completionHandler:(MSCosmosDbCompletionHandler)completionHandler;
-
-/**
- * Call CosmosDb Api and perform db actions(read, write, delete, list, etc).
- *
- * @param httpClient Http client to call perform http calls .
- * @param tokenResult Token result object containing token value used to call CosmosDb Api.
- * @param documentId Document Id.
- * @param httpMethod Http method.
- * @param body Http body.
- * @param completionHandlerWithHeaders Completion handler callback.
- */
-+ (void)performCosmosDbAsyncOperationWithHttpClient:(MSCosmosDbIngestion *)httpClient
-                                        tokenResult:(MSTokenResult *)tokenResult
-                                         documentId:(NSString *)documentId
-                                         httpMethod:(NSString *)httpMethod
-                                               body:(NSData *_Nullable)body
-                       completionHandlerWithHeaders:(MSCosmosDbCompletionHandlerWithHeaders)completionHandlerWithHeaders;
-
-/**
- * Call CosmosDb Api and perform db actions(read, write, delete, list, etc).
- *
- * @param httpClient Http client to call perform http calls .
- * @param tokenResult Token result object containing token value used to call CosmosDb Api.
- * @param documentId Document Id.
- * @param httpMethod Http method.
- * @param body Http body.
  * @param additionalHeaders Additional http headers.
  * @param completionHandler Completion handler callback.
  */
