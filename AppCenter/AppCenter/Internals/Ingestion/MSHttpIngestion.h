@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 #import <Foundation/Foundation.h>
 
 #import "MSIngestionProtocol.h"
@@ -45,11 +48,13 @@ static NSString *const kMSETagRequestHeader = @"If-None-Match";
  *
  * @param data A data instance that will be transformed request body.
  * @param eTag HTTP entity tag.
+ * @param authToken Auth token to send data with.
  * @param callId A unique ID that identify a request.
- * @param handler Completion handler
+ * @param handler Completion handler.
  */
 - (void)sendAsync:(nullable NSObject *)data
                  eTag:(nullable NSString *)eTag
+            authToken:(nullable NSString *)authToken
                callId:(NSString *)callId
     completionHandler:(MSSendAsyncCompletionHandler)handler;
 
@@ -58,10 +63,11 @@ static NSString *const kMSETagRequestHeader = @"If-None-Match";
  *
  * @param data A data instance that will be transformed to request body.
  * @param eTag HTTP entity tag.
+ * @param authToken auth token to send data with.
  *
  * @return A URL request.
  */
-- (NSURLRequest *)createRequest:(NSObject *)data eTag:(nullable NSString *)eTag;
+- (NSURLRequest *)createRequest:(NSObject *)data eTag:(nullable NSString *)eTag authToken:(nullable NSString *)authToken;
 
 /**
  * Get eTag from the given response.

@@ -1,5 +1,9 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 #import "AppCenterDelegateObjC.h"
 #import "MSEventFilter.h"
+#import "Constants.h"
 
 @import AppCenter;
 @import AppCenterAnalytics;
@@ -38,17 +42,7 @@
 }
 
 - (NSString *)appSecret {
-
-  // TODO: Uncomment when appSecret is moved from internal to public
-  // return [[MSAppCenter sharedInstance] appSecret];
-  return @"Internal";
-}
-
-- (NSString *)logUrl {
-
-  // TODO: Uncomment when logUrl is moved from internal to public
-  // return [[MSAppCenter sharedInstance] logUrl];
-  return @"Internal";
+  return kMSObjcAppSecret;
 }
 
 - (BOOL)isDebuggerAttached {
@@ -57,6 +51,10 @@
 
 - (void)setUserId:(NSString *)userId {
   [MSAppCenter setUserId:userId];
+}
+
+- (void)setLogUrl:(NSString *)logUrl {
+  [MSAppCenter setLogUrl:logUrl];
 }
 
 #pragma mark - Modules section.

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 #import <Foundation/Foundation.h>
 
 #import "MSHttpIngestion.h"
@@ -12,11 +15,6 @@ extern NSString *const kMSBearerTokenHeaderFormat;
  * The app secret.
  */
 @property(nonatomic, copy) NSString *appSecret;
-
-/**
- * The authorization token. If unavailable, this is nil.
- */
-@property(atomic, copy, nullable) NSString *authToken;
 
 /**
  * Initialize the Ingestion.

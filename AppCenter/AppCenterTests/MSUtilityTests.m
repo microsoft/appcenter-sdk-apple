@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 #import "MSConstants+Internal.h"
 #import "MSTestFrameworks.h"
 #import "MSUtility+ApplicationPrivate.h"

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 #import <Foundation/Foundation.h>
 
 #import "MSAppCenterIngestion.h"
@@ -224,7 +227,6 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
 - (instancetype)init {
   if ((self = [super init])) {
     _services = [NSMutableArray new];
-    _logUrl = kMSAppCenterBaseUrl;
     _enabledStateUpdating = NO;
   }
   return self;
@@ -416,12 +418,18 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
 }
 
 - (void)setLogUrl:(NSString *)logUrl {
-  _logUrl = logUrl;
-
-  // Retain using a local var just in case to ensure it is not set to `nil` in between checking for `nil` & the call to `setLogUrl:`.
-  id<MSChannelGroupProtocol> localChannelGroup = self.channelGroup;
-  if (localChannelGroup) {
-    [localChannelGroup setLogUrl:logUrl];
+  @synchronized(self) {
+    _logUrl = logUrl;
+    id<MSChannelGroupProtocol> localChannelGroup = self.channelGroup;
+    if (localChannelGroup) {
+      if (self.appSecret) {
+        MSLogInfo([MSAppCenter logTag], @"The log url of App Center endpoint was changed to %@", self.logUrl);
+        [localChannelGroup setLogUrl:logUrl];
+      } else {
+        MSLogInfo([MSAppCenter logTag], @"The log url of One Collector endpoint was changed to %@", self.logUrl);
+        [self.oneCollectorChannelDelegate setLogUrl:logUrl];
+      }
+    }
   }
 }
 
@@ -568,14 +576,15 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
 }
 
 - (void)initializeChannelGroup {
-
   @synchronized(self) {
 
     // Construct channel group.
-    self.oneCollectorChannelDelegate =
-        self.oneCollectorChannelDelegate ?: [[MSOneCollectorChannelDelegate alloc] initWithInstallId:self.installId];
+    if (!self.oneCollectorChannelDelegate) {
+      self.oneCollectorChannelDelegate = [[MSOneCollectorChannelDelegate alloc] initWithInstallId:self.installId
+                                                                                          baseUrl:self.appSecret ? nil : self.logUrl];
+    }
     if (!self.channelGroup) {
-      self.channelGroup = [[MSChannelGroupDefault alloc] initWithInstallId:self.installId logUrl:self.logUrl];
+      self.channelGroup = [[MSChannelGroupDefault alloc] initWithInstallId:self.installId logUrl:self.logUrl ?: kMSAppCenterBaseUrl];
       [self.channelGroup addDelegate:self.oneCollectorChannelDelegate];
       if (self.requestedMaxStorageSizeInBytes) {
         long storageSize = [self.requestedMaxStorageSizeInBytes longValue];

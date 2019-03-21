@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 #import "MSAuthTokenContextDelegate.h"
 #import "MSChannelDelegate.h"
 
@@ -5,7 +8,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class MSAppCenterIngestion;
 
-@interface MSChannelGroupDefault () <MSAuthTokenContextDelegate, MSChannelDelegate>
+@interface MSChannelGroupDefault () <MSChannelDelegate>
 
 /**
  * Initializes a new `MSChannelGroupDefault` instance.

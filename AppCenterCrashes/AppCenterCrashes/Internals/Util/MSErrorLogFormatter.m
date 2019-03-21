@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 /*
  * Authors:
  *  Landon Fuller <landonf@plausiblelabs.com>

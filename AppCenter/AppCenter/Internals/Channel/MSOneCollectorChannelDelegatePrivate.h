@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 #import "MSOneCollectorChannelDelegate.h"
 
 @class MSOneCollectorIngestion;
@@ -23,6 +26,11 @@ static NSString *const kMSLogNameRegex = @"^[a-zA-Z0-9]((\\.(?!(\\.|$)))|[_a-zA-
  * Http ingestion to send logs to One Collector endpoint.
  */
 @property(nonatomic) MSOneCollectorIngestion *oneCollectorIngestion;
+
+/**
+ * Base Url for One Collector endpoint.
+ */
+@property(nonatomic, copy) NSString *baseUrl;
 
 /**
  * Keep track of epoch and sequence per tenant token.

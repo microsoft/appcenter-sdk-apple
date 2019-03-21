@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 #import <Foundation/Foundation.h>
 #if !TARGET_OS_OSX
 #import <UserNotifications/UserNotifications.h>

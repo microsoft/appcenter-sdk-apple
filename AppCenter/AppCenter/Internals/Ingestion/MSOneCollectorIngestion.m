@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 #import "MSAbstractLogInternal.h"
 #import "MSAppCenterErrors.h"
 #import "MSAppCenterInternal.h"
@@ -27,7 +30,7 @@
   return self;
 }
 
-- (void)sendAsync:(NSObject *)data completionHandler:(MSSendAsyncCompletionHandler)handler {
+- (void)sendAsync:(NSObject *)data authToken:(nullable NSString *)authToken completionHandler:(MSSendAsyncCompletionHandler)handler {
   MSLogContainer *container = (MSLogContainer *)data;
   NSString *batchId = container.batchId;
 
@@ -45,10 +48,10 @@
     handler(batchId, 0, nil, error);
     return;
   }
-  [super sendAsync:container eTag:nil callId:container.batchId completionHandler:handler];
+  [super sendAsync:container eTag:nil authToken:authToken callId:container.batchId completionHandler:handler];
 }
 
-- (NSURLRequest *)createRequest:(NSObject *)data eTag:(NSString *)__unused eTag {
+- (NSURLRequest *)createRequest:(NSObject *)data eTag:(NSString *)__unused eTag authToken:(NSString *)__unused authToken {
   MSLogContainer *container = (MSLogContainer *)data;
   NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:self.sendURL];
 

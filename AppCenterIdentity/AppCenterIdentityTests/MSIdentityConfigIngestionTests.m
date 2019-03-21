@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 #import "MSIdentity.h"
 #import "MSIdentityConfigIngestion.h"
 #import "MSLoggerInternal.h"
@@ -21,7 +24,7 @@
   MSIdentityConfigIngestion *ingestion = [[MSIdentityConfigIngestion alloc] initWithBaseUrl:baseUrl appSecret:appSecret];
 
   // When
-  NSURLRequest *request = [ingestion createRequest:[NSData new] eTag:eTag];
+  NSURLRequest *request = [ingestion createRequest:[NSData new] eTag:eTag authToken:nil];
 
   // Then
   assertThat(request.HTTPMethod, equalTo(@"GET"));
@@ -40,7 +43,7 @@
   MSIdentityConfigIngestion *ingestion = [[MSIdentityConfigIngestion alloc] initWithBaseUrl:baseUrl appSecret:appSecret];
 
   // When
-  NSURLRequest *request = [ingestion createRequest:[NSData new] eTag:nil];
+  NSURLRequest *request = [ingestion createRequest:[NSData new] eTag:nil authToken:nil];
 
   // Then
   assertThat(request.HTTPMethod, equalTo(@"GET"));
@@ -54,7 +57,7 @@
   MSIdentityConfigIngestion *ingestion1 = [[MSIdentityConfigIngestion alloc] initWithBaseUrl:baseUrl appSecret:appSecret];
 
   // When
-  NSURLRequest *request1 = [ingestion1 createRequest:[NSData new] eTag:nil];
+  NSURLRequest *request1 = [ingestion1 createRequest:[NSData new] eTag:nil authToken:nil];
 
   // Then
   assertThat(request1.HTTPMethod, equalTo(@"GET"));

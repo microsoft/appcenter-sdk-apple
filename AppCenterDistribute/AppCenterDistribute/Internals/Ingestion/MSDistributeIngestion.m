@@ -1,6 +1,9 @@
-#import "MSDistributeIngestion.h"
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 #import "MSAppCenter.h"
 #import "MSAppCenterInternal.h"
+#import "MSDistributeIngestion.h"
 #import "MSHttpIngestionPrivate.h"
 #import "MSLoggerInternal.h"
 
@@ -36,7 +39,7 @@ static NSString *const kMSLatestPublicReleaseApiPathFormat = @"/public/sdk/apps/
   return self;
 }
 
-- (NSURLRequest *)createRequest:(NSObject *)__unused data eTag:(NSString *)__unused eTag {
+- (NSURLRequest *)createRequest:(NSObject *)__unused data eTag:(NSString *)__unused eTag authToken:(nullable NSString *)__unused authToken {
   NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:self.sendURL];
 
   // Set method.
