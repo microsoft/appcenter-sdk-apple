@@ -31,6 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param authToken Auth token.
  * @param startTime Start time.
  * @param endTime End time.
+ *
  * @return Token info instance.
  */
 - (instancetype)initWithAuthToken:(nullable NSString *)authToken

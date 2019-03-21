@@ -9,7 +9,6 @@
 #import "MSMockUserDefaults.h"
 #import "MSTestFrameworks.h"
 #import "MSUtility+File.h"
-#import <OCMock/OCMock.h>
 
 @interface MSKeychainAuthTokenStorageTests : XCTestCase
 

@@ -29,7 +29,7 @@
 
   // Read token array from storage.
   NSMutableArray<MSAuthTokenInfo *> *tokenArray = [MSKeychainUtil arrayForKey:kMSIdentityAuthTokenArrayKey];
-  if (tokenArray.count == 0) {
+  if (!tokenArray || tokenArray.count == 0) {
     return nil;
   }
 
@@ -48,6 +48,9 @@
 
     // Read token array from storage.
     NSMutableArray<MSAuthTokenInfo *> *tokenArray = [MSKeychainUtil arrayForKey:kMSIdentityAuthTokenArrayKey];
+    if (!tokenArray) {
+      tokenArray = [NSMutableArray<MSAuthTokenInfo *> new];
+    }
     if (tokenArray.count == 0) {
 
       // Add nil token if the entire story is empty.
@@ -86,11 +89,13 @@
     // Read token array from storage.
     NSMutableArray<MSAuthTokenInfo *> *tokenArray = [MSKeychainUtil arrayForKey:kMSIdentityAuthTokenArrayKey];
 
-    // Do nothing if there's just one entry in the history.
-    if (tokenArray.count==1) return;
+    // Do nothing if there's just one entry in the history or no history at all.
+    if (!tokenArray || tokenArray.count == 1) {
+      return;
+    }
 
     // Find, delete the oldest entry. Do not delete the most recent entry.
-    for (NSUInteger i = 0; i < tokenArray.count-1; i++) {
+    for (NSUInteger i = 0; i < tokenArray.count - 1; i++) {
       if ([tokenArray[i] authToken] == authToken) {
         [tokenArray removeObjectAtIndex:i];
         break;

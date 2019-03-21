@@ -49,7 +49,6 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
 - (void)setUp {
   [super setUp];
-  [MSAuthTokenContext sharedInstance].init;
   self.settingsMock = [MSMockUserDefaults new];
   self.utilityMock = OCMClassMock([MSUtility class]);
   self.dummyConfigDic = @{
