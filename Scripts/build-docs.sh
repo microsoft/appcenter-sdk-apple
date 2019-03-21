@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# Copyright (c) Microsoft Corporation. All rights reserved.
+# Licensed under the MIT License.
+
 OS_NAME=$1
 FMK_NAME=$2
 PRODUCTS_DIR="${SRCROOT}/../AppCenter-SDK-Apple/$1"

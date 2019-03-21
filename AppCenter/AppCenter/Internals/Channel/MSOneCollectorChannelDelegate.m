@@ -22,20 +22,14 @@ static NSString *const kMSBaseErrorMsg = @"Log validation failed.";
 
 @implementation MSOneCollectorChannelDelegate
 
-- (instancetype)init {
-  self = [super init];
-  if (self) {
-    _oneCollectorChannels = [NSMutableDictionary new];
-    _oneCollectorIngestion = [[MSOneCollectorIngestion alloc] initWithBaseUrl:kMSOneCollectorBaseUrl];
-    _epochsAndSeqsByIKey = [NSMutableDictionary new];
-  }
-  return self;
-}
-
-- (instancetype)initWithInstallId:(NSUUID *)installId {
+- (instancetype)initWithInstallId:(NSUUID *)installId baseUrl:(nullable NSString *)baseUrl {
   self = [self init];
   if (self) {
     _installId = installId;
+    _baseUrl = baseUrl ?: kMSOneCollectorBaseUrl;
+    _oneCollectorChannels = [NSMutableDictionary new];
+    _oneCollectorIngestion = [[MSOneCollectorIngestion alloc] initWithBaseUrl:_baseUrl];
+    _epochsAndSeqsByIKey = [NSMutableDictionary new];
   }
   return self;
 }
@@ -191,6 +185,10 @@ static NSString *const kMSBaseErrorMsg = @"Log validation failed.";
     return NO;
   }
   return YES;
+}
+
+- (void)setLogUrl:(NSString *)logUrl {
+  self.oneCollectorIngestion.baseURL = logUrl;
 }
 
 @end

@@ -29,10 +29,16 @@ static NSString *const kMSObjCTargetToken = @"5a06bf4972a44a059d59c757e6d0b595-"
 static NSString *const kMSObjCRuntimeTargetToken = @"1aa046cfdc8f49bdbd64190290caf7dd-ba041023-af4d-4432-a87e-eb2431150797-"
                                                    @"7361";
 #endif
+
+static NSString *const kMSPuppetAppSecret = @"7dfb022a-17b5-4d4a-9c75-12bc3ef5e6b7";
+static NSString *const kMSObjcAppSecret = @"3ccfe7f5-ec01-4de5-883c-f563bbbe147a";
+static NSString *const kMSSwiftAppSecret = @"0dbca56b-b9ae-4d53-856a-7c2856137d85";
 static NSString *const kMSStartTargetKey = @"startTarget";
 static NSString *const kMSStorageMaxSizeKey = @"storageMaxSize";
 static NSNotificationName const kUpdateAnalyticsResultNotification = @"updateAnalyticsResult";
 static NSString *const kMSUserIdKey = @"userId";
+static NSString *const kMSLogUrl = @"logUrl";
+static NSString *const kMSAppSecret = @"appSecret";
 
 #ifdef SQLITE_DEFAULT_PAGE_SIZE
 static int const kMSStoragePageSize = SQLITE_DEFAULT_PAGE_SIZE;
