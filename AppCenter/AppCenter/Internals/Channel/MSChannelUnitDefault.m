@@ -7,16 +7,16 @@
 #import "MSAppCenterIngestion.h"
 #import "MSAppCenterInternal.h"
 #import "MSAuthTokenContext.h"
+#import "MSAuthTokenInfo.h"
+#import "MSAuthTokenStorage.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitDefaultPrivate.h"
 #import "MSDeviceTracker.h"
 #import "MSIngestionProtocol.h"
+#import "MSKeychainAuthTokenStorage.h"
 #import "MSStorage.h"
 #import "MSUserIdContext.h"
 #import "MSUtility+StringFormatting.h"
-#import "MSAuthTokenInfo.h"
-#import "MSKeychainAuthTokenStorage.h"
-#import "MSAuthTokenStorage.h"
 
 @implementation MSChannelUnitDefault
 

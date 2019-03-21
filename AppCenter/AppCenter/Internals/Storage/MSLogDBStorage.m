@@ -249,7 +249,8 @@ static const NSUInteger kMSSchemaVersion = 4;
 - (NSArray<id<MSLog>> *)logsFromDBWithDateBefore:(NSDate *)dateBefore {
 
   // Get log entries for the given group Id.
-  NSString *condition = [NSString stringWithFormat:@"\"%@\" < %u", kMSTimestampColumnName, (unsigned int)[dateBefore timeIntervalSince1970]];
+  NSString *condition =
+      [NSString stringWithFormat:@"\"%@\" < %u", kMSTimestampColumnName, (unsigned int)[dateBefore timeIntervalSince1970]];
   NSArray<NSArray *> *logEntries = [self logsWithCondition:condition];
 
   // Get logs only.
@@ -350,8 +351,7 @@ static const NSUInteger kMSSchemaVersion = 4;
 }
 
 + (int)deleteLogsFromDBWithColumnName:(NSString *)columnName andTimestampBefore:(unsigned int)timestampBefore inOpenedDatabase:(void *)db {
-  NSString *deletionTrace = [NSString
-      stringWithFormat:@"Deletion of log(s) by %@ with timestamp< %u", columnName, timestampBefore];
+  NSString *deletionTrace = [NSString stringWithFormat:@"Deletion of log(s) by %@ with timestamp< %u", columnName, timestampBefore];
 
   // Build up delete query.
   NSString *whereCondition = [NSString stringWithFormat:@"\"%@\" < %u)", columnName, timestampBefore];
