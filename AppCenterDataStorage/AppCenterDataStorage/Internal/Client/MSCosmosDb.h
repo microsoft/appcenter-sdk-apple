@@ -41,7 +41,7 @@ typedef void (^MSCosmosDbCompletionHandler)(NSData *data, NSError *error);
  * @param documentId Document Id.
  * @param httpMethod Http method.
  * @param body Http body.
- 8 @param additionalHeaders Additional http headers.
+ * @param additionalHeaders Additional http headers.
  * @param completionHandler Completion handler callback.
  */
 + (void)performCosmosDbAsyncOperationWithHttpClient:(MSCosmosDbIngestion *)httpClient

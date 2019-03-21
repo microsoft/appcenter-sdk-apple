@@ -219,6 +219,7 @@ static dispatch_once_t onceToken;
    partition:partition
    completionHandler:^(MSTokensResponse *_Nonnull tokenResponses, NSError *_Nonnull error) {
      
+
      // If error getting token.
      if (error || !tokenResponses) {
        MSLogError([MSDataStore logTag], @"Can't get CosmosDb token:%@", [error description]);
@@ -286,13 +287,13 @@ static dispatch_once_t onceToken;
                    document:(id<MSSerializableDocument>)document
                writeOptions:(MSWriteOptions *)__unused writeOptions
           completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
-  
   // TODO consume writeOptions
   [MSTokenExchange
    performDbTokenAsyncOperationWithHttpClient:(MSStorageIngestion *)self.ingestion
    partition:partition
    completionHandler:^(MSTokensResponse *_Nonnull tokenResponses, NSError *_Nonnull error) {
      
+
      // If error getting token.
      if (error || !tokenResponses) {
        MSLogError([MSDataStore logTag], @"Can't get CosmosDb token:%@", [error description]);
@@ -429,7 +430,6 @@ static dispatch_once_t onceToken;
       transmissionTargetToken:(nullable NSString *)token
               fromApplication:(BOOL)fromApplication {
   [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionTargetToken:token fromApplication:fromApplication];
-  
   // Make sure that ingestion hasn't already been initialized.
   if (appSecret && !self.ingestion) {
     self.ingestion = [[MSStorageIngestion alloc] initWithBaseUrl:self.tokenExchangeUrl appSecret:(NSString *)appSecret];

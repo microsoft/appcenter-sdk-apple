@@ -151,7 +151,6 @@ static NSString *const kMSHeaderMsDate = @"x-ms-date";
       completionHandler:^(NSString *callId, NSHTTPURLResponse *response, NSData *data, NSError *error) {
         MSLogVerbose([MSDataStore logTag], @"CosmosDb HttpClient callback, request Id %@ with status code: %lu and description: %@", callId,
                      (unsigned long)response.statusCode, [error description]);
-        
         // Completion handler.
         completionHandler(data, error);
       }];
