@@ -53,6 +53,11 @@ static NSString *const kMSDocumentKey = @"document";
 static NSString *const kMSDocumentUpsertHeaderKey = @"x-ms-documentdb-is-upsert";
 
 /**
+ * CosmosDb document key.
+ */
+static NSString *const kMSDocumentKey = @"document";
+
+/**
  * HTTP verb for delete operations.
  */
 static NSString *const kMSHttpDeleteVerb = @"DELETE";
@@ -344,13 +349,17 @@ static dispatch_once_t onceToken;
                                                                  }
                                                                  MSLogDebug([MSDataStore logTag], @"Document json:%@", json);
 
+                                                                 // Create an instance of Document.
+                                                                 Class aClass = [document class];
+                                                                 id<MSSerializableDocument> deserializedDocument = [(id<MSSerializableDocument>)[aClass alloc] initFromDictionary:(NSDictionary *)json[kMSDocumentKey]];
+                                                                 
                                                                  // Create a document.
                                                                  NSTimeInterval interval =
                                                                      [(NSString *)json[kMSDocumentTimestampKey] doubleValue];
                                                                  NSDate *date = [NSDate dateWithTimeIntervalSince1970:interval];
                                                                  NSString *eTag = json[kMSDocumentEtagKey];
                                                                  MSDocumentWrapper *docWrapper =
-                                                                     [[MSDocumentWrapper alloc] initWithDeserializedValue:document
+                                                                     [[MSDocumentWrapper alloc] initWithDeserializedValue:deserializedDocument
                                                                                                                 partition:partition
                                                                                                                documentId:documentId
                                                                                                                      eTag:eTag
