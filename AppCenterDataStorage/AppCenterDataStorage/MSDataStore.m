@@ -220,7 +220,6 @@ static dispatch_once_t onceToken;
                                 body:nil
                    additionalHeaders:nil
                    completionHandler:^(NSData *data, NSError *_Nonnull cosmosDbError) {
-
                      // If not created.
                      if (!data || [MSDataSourceError errorCodeWithError:cosmosDbError] != kMSACDocumentSucceededErrorCode) {
                        MSLogError([MSDataStore logTag], @"Not able to read the document ID:%@ with error:%@", documentId,
@@ -239,7 +238,7 @@ static dispatch_once_t onceToken;
 
                      // Create document.
                      id<MSSerializableDocument> deserializedDocument =
-                     [(id<MSSerializableDocument>)[documentType alloc] initFromDictionary:(NSDictionary *)json[kMSDocumentKey]];
+                         [(id<MSSerializableDocument>)[documentType alloc] initFromDictionary:(NSDictionary *)json[kMSDocumentKey]];
                      NSTimeInterval interval = [(NSString *)json[kMSDocumentTimestampKey] doubleValue];
                      NSDate *date = [NSDate dateWithTimeIntervalSince1970:interval];
                      NSString *eTag = json[kMSDocumentEtagKey];
@@ -287,33 +286,27 @@ static dispatch_once_t onceToken;
 
                      // Deserialize.
                      NSError *deserializeError;
-                     NSDictionary *json =
-                     [NSJSONSerialization JSONObjectWithData:data
-                                                     options:0
-                                                       error:&deserializeError];
+                     NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:&deserializeError];
                      if (deserializeError) {
-                       MSLogError([MSDataStore logTag], @"Error deserializing data:%@",
-                                  [deserializeError description]);
+                       MSLogError([MSDataStore logTag], @"Error deserializing data:%@", [deserializeError description]);
                      }
                      MSLogDebug([MSDataStore logTag], @"Document json:%@", json);
 
                      // Create an instance of Document.
                      Class aClass = [document class];
-                     id<MSSerializableDocument> deserializedDocument = [(id<MSSerializableDocument>)[aClass alloc] initFromDictionary:(NSDictionary *)json[kMSDocumentKey]];
+                     id<MSSerializableDocument> deserializedDocument =
+                         [(id<MSSerializableDocument>)[aClass alloc] initFromDictionary:(NSDictionary *)json[kMSDocumentKey]];
 
                      // Create a document.
-                     NSTimeInterval interval =
-                     [(NSString *)json[kMSDocumentTimestampKey] doubleValue];
+                     NSTimeInterval interval = [(NSString *)json[kMSDocumentTimestampKey] doubleValue];
                      NSDate *date = [NSDate dateWithTimeIntervalSince1970:interval];
                      NSString *eTag = json[kMSDocumentEtagKey];
-                     MSDocumentWrapper *docWrapper =
-                     [[MSDocumentWrapper alloc] initWithDeserializedValue:deserializedDocument
-                                                                partition:partition
-                                                               documentId:documentId
-                                                                     eTag:eTag
-                                                          lastUpdatedDate:date];
-                     MSLogDebug([MSDataStore logTag], @"Document created with ID:%@",
-                                documentId);
+                     MSDocumentWrapper *docWrapper = [[MSDocumentWrapper alloc] initWithDeserializedValue:deserializedDocument
+                                                                                                partition:partition
+                                                                                               documentId:documentId
+                                                                                                     eTag:eTag
+                                                                                          lastUpdatedDate:date];
+                     MSLogDebug([MSDataStore logTag], @"Document created with ID:%@", documentId);
                      completionHandler(docWrapper);
                      return;
                    }];
