@@ -10,7 +10,7 @@ typedef void (^MSHttpRequestCompletionHandler)(NSHTTPURLResponse *response, NSDa
 @required
 
 /**
- * Send data to backend
+ * Make an HTTP call.
  *
  * @param url The endpoint to use in the HTTP request.
  * @param method The HTTP method (verb) to use for the HTTP request (e.g. GET, POST, etc.).
