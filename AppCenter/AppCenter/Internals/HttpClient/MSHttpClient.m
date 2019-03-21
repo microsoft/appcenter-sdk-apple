@@ -23,7 +23,7 @@
 - (void)sendAsync:(NSURL *)url
                method:(NSString *)method
               headers:(nullable NSDictionary<NSString *, NSString *> *)headers
-                 data:(nullable NSObject *)data
+                 data:(nullable NSData *)data
     completionHandler:(MSHttpRequestCompletionHandler)handler {
 
   // TODO implement this.
