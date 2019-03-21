@@ -3,7 +3,7 @@
 
 #import <Foundation/Foundation.h>
 
-typedef void (^MSHttpRequestCompletionHandler)(NSHTTPURLResponse *response, NSData *data, NSError *error);
+typedef void (^MSHttpRequestCompletionHandler)(NSData *responseBody, NSHTTPURLResponse *response, NSError *error);
 
 @protocol MSHttpClientProtocol
 
