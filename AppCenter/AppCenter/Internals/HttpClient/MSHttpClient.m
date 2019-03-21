@@ -19,6 +19,7 @@
   }
   return self;
 }
+
 - (void)sendAsync:(nullable NSObject *)data
               headers:(nullable NSDictionary<NSString *, NSString *> *)headers
                   url:(NSURL *)url
