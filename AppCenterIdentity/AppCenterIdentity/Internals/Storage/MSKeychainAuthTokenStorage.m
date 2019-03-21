@@ -12,7 +12,8 @@
 @implementation MSKeychainAuthTokenStorage
 
 - (nullable NSString *)retrieveAuthToken {
-  MSAuthTokenInfo *latestAuthTokenInfo = [self latestAuthToken];
+  NSMutableArray<MSAuthTokenInfo *> *authTokensHistory = [self authTokensHistoryState];
+  MSAuthTokenInfo *latestAuthTokenInfo = authTokensHistory.firstObject;
   return latestAuthTokenInfo.authToken;
 }
 
@@ -40,12 +41,6 @@
   }
   return authTokenInfo;
    */
-}
-
-- (MSAuthTokenInfo *)latestAuthToken {
-  NSMutableArray<MSAuthTokenInfo *> *authTokensHistory = [self authTokensHistoryState];
-  MSAuthTokenInfo *latestAuthTokenInfo = authTokensHistory.firstObject;
-  return latestAuthTokenInfo;
 }
 
 - (void)saveAuthToken:(nullable NSString *)authToken withAccountId:(nullable NSString *)accountId expiresOn:(nullable NSDate *)expiresOn {
