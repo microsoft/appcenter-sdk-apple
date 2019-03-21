@@ -32,15 +32,14 @@ static NSString *const kMSLatestPublicReleaseApiPathFormat = @"/public/sdk/apps/
                              apiPath:apiPath
                              headers:header
                         queryStrings:queryStrings
-                        reachability:[MS_Reachability reachabilityForInternetConnection]
-                      retryIntervals:@[ @(10), @(5 * 60), @(20 * 60) ]])) {
+                        reachability:[MS_Reachability reachabilityForInternetConnection]])) {
     _appSecret = appSecret;
   }
 
   return self;
 }
 
-- (NSURLRequest *)createRequest:(NSObject *)__unused data {
+- (NSURLRequest *)createRequest:(NSObject *)__unused data eTag:(NSString *)__unused eTag authToken:(nullable NSString *)__unused authToken {
   NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:self.sendURL];
 
   // Set method.

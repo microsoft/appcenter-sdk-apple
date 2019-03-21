@@ -29,7 +29,7 @@
                                                                      retryIntervals:@[]];
 
   // When
-  NSURLRequest *request = [ingestion createRequest:[NSData new]];
+  NSURLRequest *request = [ingestion createRequest:[NSData new] eTag:nil authToken:nil];
 
   // Then
   assertThat(request.HTTPMethod, equalTo(@"GET"));
@@ -54,7 +54,7 @@
                                                                         queryStrings:@{}];
 
   // When
-  NSURLRequest *request1 = [ingestion1 createRequest:[NSData new]];
+  NSURLRequest *request1 = [ingestion1 createRequest:[NSData new] eTag:nil authToken:nil];
 
   // Then
   assertThat(request1.HTTPMethod, equalTo(@"GET"));

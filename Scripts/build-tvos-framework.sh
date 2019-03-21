@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# Copyright (c) Microsoft Corporation. All rights reserved.
+# Licensed under the MIT License.
+
 # Sets the target folders and the final framework product.
 FMK_NAME=$1
 TGT_NAME=${FMK_NAME}TVOS

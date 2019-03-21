@@ -16,7 +16,6 @@
 @property(nonatomic) CLLocationManager *locationManager;
 
 @end
-#define APP_SECRET_VALUE "d80aae71-af34-4e0c-af61-2381391c4a7a"
 
 enum StartupMode { appCenter, oneCollector, both, none, skip };
 
@@ -29,6 +28,12 @@ enum StartupMode { appCenter, oneCollector, both, none, skip };
   self.locationManager = [[CLLocationManager alloc] init];
   self.locationManager.delegate = self;
   self.locationManager.desiredAccuracy = kCLLocationAccuracyKilometer;
+
+  // Set custom log URL.
+  NSString *logUrl = [[NSUserDefaults standardUserDefaults] objectForKey:kMSLogUrl];
+  if (logUrl) {
+    [MSAppCenter setLogUrl:logUrl];
+  }
 
   // Set user id.
   NSString *userId = [[NSUserDefaults standardUserDefaults] objectForKey:@"userId"];
@@ -62,19 +67,20 @@ enum StartupMode { appCenter, oneCollector, both, none, skip };
   // Start AppCenter.
   NSArray<Class> *services = @ [[MSAnalytics class], [MSCrashes class], [MSPush class]];
   NSInteger startTarget = [[NSUserDefaults standardUserDefaults] integerForKey:kMSStartTargetKey];
+  NSString *appSecret = [[NSUserDefaults standardUserDefaults] objectForKey:kMSAppSecret] ?: kMSObjcAppSecret;
   switch (startTarget) {
-  case appCenter:
-    [MSAppCenter start:[NSString stringWithUTF8String:APP_SECRET_VALUE] withServices:services];
-    break;
-  case oneCollector:
-    [MSAppCenter start:[NSString stringWithFormat:@"target=%@", kMSObjCTargetToken] withServices:services];
-    break;
-  case both:
-    [MSAppCenter start:[NSString stringWithFormat:@"appsecret=%s;target=%@", APP_SECRET_VALUE, kMSObjCTargetToken] withServices:services];
-    break;
-  case none:
-    [MSAppCenter startWithServices:services];
-    break;
+      case appCenter:
+          [MSAppCenter start:appSecret withServices:services];
+          break;
+      case oneCollector:
+          [MSAppCenter start:[NSString stringWithFormat:@"target=%@", kMSObjCTargetToken] withServices:services];
+          break;
+      case both:
+          [MSAppCenter start:[NSString stringWithFormat:@"appsecret=%@;target=%@", appSecret, kMSObjCTargetToken] withServices:services];
+          break;
+      case none:
+          [MSAppCenter startWithServices:services];
+          break;
   }
 
   [AppCenterProvider shared].appCenter = [[AppCenterDelegateObjC alloc] init];

@@ -31,7 +31,7 @@ static MSUserNotificationCenterDelegateForwarder *sharedInstance = nil;
 #endif
 }
 
-+ (void)doNothingButForceLoadTheClass{
++ (void)doNothingButForceLoadTheClass {
   // This method doesn't need to do anything it's purpose is just to force load this class into the runtime.
 }
 

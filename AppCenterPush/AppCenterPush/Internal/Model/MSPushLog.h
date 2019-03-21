@@ -10,6 +10,6 @@
 /**
  * Push token for push service
  */
-@property(nonatomic) NSString *pushToken;
+@property(nonatomic, copy) NSString *pushToken;
 
 @end
