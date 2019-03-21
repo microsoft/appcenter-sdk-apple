@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# Copyright (c) Microsoft Corporation. All rights reserved.
+# Licensed under the MIT License.
+
 # This script runs clang_format on all .h, .m, and .mm files that have changes from develop branch.
 # Before running this, ensure that your local develop branch is up to date.
 upstream=$(git remote -v | grep "Microsoft/" | awk '{print $1}' | uniq)

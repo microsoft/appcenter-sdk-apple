@@ -29,7 +29,7 @@ static NSString *const kMSApiPath = @"/logs";
   return self.appSecret != nil;
 }
 
-- (void)sendAsync:(NSObject *)data completionHandler:(MSSendAsyncCompletionHandler)handler {
+- (void)sendAsync:(NSObject *)data authToken:(NSString *)authToken completionHandler:(MSSendAsyncCompletionHandler)handler {
   MSLogContainer *container = (MSLogContainer *)data;
   NSString *batchId = container.batchId;
 
@@ -47,10 +47,10 @@ static NSString *const kMSApiPath = @"/logs";
     return;
   }
 
-  [super sendAsync:container eTag:nil callId:container.batchId completionHandler:handler];
+  [super sendAsync:container eTag:nil authToken:authToken callId:container.batchId completionHandler:handler];
 }
 
-- (NSURLRequest *)createRequest:(NSObject *)data eTag:(NSString *)__unused eTag {
+- (NSURLRequest *)createRequest:(NSObject *)data eTag:(NSString *)__unused eTag authToken:(nullable NSString *)authToken {
   if (!self.appSecret) {
     MSLogError([MSAppCenter logTag], @"AppCenter ingestion is used without app secret.");
     return nil;
@@ -64,11 +64,8 @@ static NSString *const kMSApiPath = @"/logs";
   // Set Header params.
   request.allHTTPHeaderFields = self.httpHeaders;
   [request setValue:self.appSecret forHTTPHeaderField:kMSHeaderAppSecretKey];
-
-  // Copy self.authToken into a local variable to avoid a race condition.
-  NSString *authTokenCopy = self.authToken;
-  if ([authTokenCopy length] > 0) {
-    NSString *bearerTokenHeader = [NSString stringWithFormat:kMSBearerTokenHeaderFormat, authTokenCopy];
+  if ([authToken length] > 0) {
+    NSString *bearerTokenHeader = [NSString stringWithFormat:kMSBearerTokenHeaderFormat, authToken];
     [request setValue:bearerTokenHeader forHTTPHeaderField:kMSAuthorizationHeaderKey];
   }
 
