@@ -221,7 +221,7 @@ static dispatch_once_t onceToken;
                    additionalHeaders:nil
                    completionHandler:^(NSData *data, NSError *_Nonnull cosmosDbError) {
                      // If not created.
-                     if (!data || [MSDataSourceError errorCodeWithError:cosmosDbError] != kMSACDocumentSucceededErrorCode) {
+                     if (!data || [MSDataSourceError errorCodeFromError:cosmosDbError] != kMSACDocumentSucceededErrorCode) {
                        MSLogError([MSDataStore logTag], @"Not able to read the document ID:%@ with error:%@", documentId,
                                   [cosmosDbError description]);
                        completionHandler([[MSDocumentWrapper alloc] initWithError:cosmosDbError documentId:documentId]);
@@ -277,7 +277,7 @@ static dispatch_once_t onceToken;
                    additionalHeaders:@{kMSDocumentUpsertHeaderKey : @"true"}
                    completionHandler:^(NSData *_Nonnull data, NSError *_Nonnull cosmosDbError) {
                      // If not created.
-                     NSInteger errorCode = [MSDataSourceError errorCodeWithError:cosmosDbError];
+                     NSInteger errorCode = [MSDataSourceError errorCodeFromError:cosmosDbError];
                      if (!data || (errorCode != kMSACDocumentCreatedErrorCode && errorCode != kMSACDocumentSucceededErrorCode)) {
                        MSLogError([MSDataStore logTag], @"Not able to create document:%@", [cosmosDbError description]);
                        completionHandler([[MSDocumentWrapper alloc] initWithError:cosmosDbError documentId:documentId]);
@@ -323,7 +323,7 @@ static dispatch_once_t onceToken;
                    additionalHeaders:nil
                    completionHandler:^(NSData *__unused data, NSError *_Nonnull cosmosDbError) {
                      // Body returned from call (data) is empty.
-                     NSInteger httpStatusCode = [MSDataSourceError errorCodeWithError:cosmosDbError];
+                     NSInteger httpStatusCode = [MSDataSourceError errorCodeFromError:cosmosDbError];
                      if (httpStatusCode != MSHTTPCodesNo204NoContent) {
                        MSLogError([MSDataStore logTag],
                                   @"Not able to delete document. Error: %@; HTTP status code: %ld; "
@@ -346,7 +346,7 @@ static dispatch_once_t onceToken;
                                                     partition:partition
                                             completionHandler:^(MSTokensResponse *_Nonnull tokenResponses, NSError *_Nonnull error) {
                                               if (error || [tokenResponses.tokens count] == 0) {
-                                                NSInteger httpStatusCode = [MSDataSourceError errorCodeWithError:error];
+                                                NSInteger httpStatusCode = [MSDataSourceError errorCodeFromError:error];
                                                 MSLogError([MSDataStore logTag],
                                                            @"Can't get CosmosDb token. Error: %@;  HTTP status code: %ld; Partition: %@",
                                                            error.localizedDescription, (long)httpStatusCode, partition);

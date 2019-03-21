@@ -41,6 +41,6 @@
  *
  * @return The error code.
  */
-+ (NSInteger)errorCodeWithError:(NSError *)error;
++ (NSInteger)errorCodeFromError:(NSError *)error;
 
 @end
