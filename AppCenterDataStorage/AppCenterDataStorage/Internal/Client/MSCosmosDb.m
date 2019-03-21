@@ -89,15 +89,17 @@ static NSString *const kMSHeaderMsDate = @"x-ms-date";
   return [df stringFromDate:date];
 }
 
-+ (NSDictionary *)defaultHeaderWithPartition:(NSString *)partition dbToken:(NSString *)dbToken additionalHeaders:(NSDictionary *_Nullable) additionalHeaders{
-  NSMutableDictionary *allHeaders =
-  [NSMutableDictionary dictionaryWithDictionary:@{ kMSHeaderDocumentDbPartitionKey : [NSString stringWithFormat:kMSHeaderDocumentDbPartitionKeyFormat, partition],
-                                                   kMSHeaderMsVesion : kMSHeaderMsVesionValue,
-                                                   kMSHeaderMsDate : [MSCosmosDb rfc1123String:[NSDate date]],
-                                                   kMSHeaderContentTypeKey : kMSAppCenterContentType,
-                                                   kMSAuthorizationHeaderKey : [MSCosmosDb encodeUrl:dbToken]
-                                                  }];
-  
++ (NSDictionary *)defaultHeaderWithPartition:(NSString *)partition
+                                     dbToken:(NSString *)dbToken
+                           additionalHeaders:(NSDictionary *_Nullable)additionalHeaders {
+  NSMutableDictionary *allHeaders = [NSMutableDictionary dictionaryWithDictionary:@{
+    kMSHeaderDocumentDbPartitionKey : [NSString stringWithFormat:kMSHeaderDocumentDbPartitionKeyFormat, partition],
+    kMSHeaderMsVesion : kMSHeaderMsVesionValue,
+    kMSHeaderMsDate : [MSCosmosDb rfc1123String:[NSDate date]],
+    kMSHeaderContentTypeKey : kMSAppCenterContentType,
+    kMSAuthorizationHeaderKey : [MSCosmosDb encodeUrl:dbToken]
+  }];
+
   // Add additional headers(if any).
   if (additionalHeaders) {
     [allHeaders addEntriesFromDictionary:(NSDictionary *)additionalHeaders];
@@ -133,7 +135,13 @@ static NSString *const kMSHeaderMsDate = @"x-ms-date";
                                                body:(nullable NSData *)body
                                   completionHandler:(MSCosmosDbCompletionHandler)completionHandler {
 
-  [MSCosmosDb performCosmosDbAsyncOperationWithHttpClient:httpClient tokenResult:tokenResult documentId:documentId httpMethod:httpMethod body:body additionalHeaders:nil completionHandler:completionHandler];
+  [MSCosmosDb performCosmosDbAsyncOperationWithHttpClient:httpClient
+                                              tokenResult:tokenResult
+                                               documentId:documentId
+                                               httpMethod:httpMethod
+                                                     body:body
+                                        additionalHeaders:nil
+                                        completionHandler:completionHandler];
 }
 
 + (void)performCosmosDbAsyncOperationWithHttpClient:(MSCosmosDbIngestion *)httpClient
@@ -145,7 +153,9 @@ static NSString *const kMSHeaderMsDate = @"x-ms-date";
                                   completionHandler:(MSCosmosDbCompletionHandler)completionHandler {
   // Configure http client.
   httpClient.httpMethod = httpMethod;
-  httpClient.httpHeaders = [MSCosmosDb defaultHeaderWithPartition:tokenResult.partition dbToken:tokenResult.token additionalHeaders:additionalHeaders];
+  httpClient.httpHeaders = [MSCosmosDb defaultHeaderWithPartition:tokenResult.partition
+                                                          dbToken:tokenResult.token
+                                                additionalHeaders:additionalHeaders];
   httpClient.sendURL = (NSURL *)[NSURL URLWithString:[MSCosmosDb documentUrlWithTokenResult:tokenResult documentId:documentId]];
   [httpClient sendAsync:body
       completionHandler:^(NSString *callId, NSHTTPURLResponse *response, NSData *data, NSError *error) {

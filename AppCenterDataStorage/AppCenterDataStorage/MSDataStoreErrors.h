@@ -13,23 +13,21 @@ static NSString *const kMSACDataStoreErrorDomain = MS_APP_CENTER_BASE_DOMAIN @"D
 
 #pragma mark - Error Codes
 
-NS_ENUM(NSInteger){
-    kMSACDocumentUnknownErrorCode = 0,
-    kMSACDocumentSucceededErrorCode = 200,
-    kMSACDocumentCreatedErrorCode = 201,
-    kMSACDocumentNoContentErrorCode = 204,
-    kMSACDocumentBadRequestErrorCode = 400,
-    kMSACDocumentUnauthorizedErrorCode = 401,
-    kMSACDocumentForbiddenErrorCode = 403,
-    kMSACDocumentNotFoundErrorCode = 404,
-    kMSACDocumentRequestTimeoutErrorCode = 408,
-    kMSACDocumentConflictErrorCode = 409,
-    kMSACDocumentPreconditionFailedErrorCode = 412,
-    kMSACDocumentEntityTooLargeErrorCode = 413,
-    kMSACDocumentTooManyRequestErrorCode = 429,
-    kMSACDocumentRetryWithErrorCode = 449,
-    kMSACDocumentInternalServerErrorErrorCode = 500,
-    kMSACDocumentServiceUnavailableErrorCode = 503
-};
+NS_ENUM(NSInteger){kMSACDocumentUnknownErrorCode = 0,
+                   kMSACDocumentSucceededErrorCode = 200,
+                   kMSACDocumentCreatedErrorCode = 201,
+                   kMSACDocumentNoContentErrorCode = 204,
+                   kMSACDocumentBadRequestErrorCode = 400,
+                   kMSACDocumentUnauthorizedErrorCode = 401,
+                   kMSACDocumentForbiddenErrorCode = 403,
+                   kMSACDocumentNotFoundErrorCode = 404,
+                   kMSACDocumentRequestTimeoutErrorCode = 408,
+                   kMSACDocumentConflictErrorCode = 409,
+                   kMSACDocumentPreconditionFailedErrorCode = 412,
+                   kMSACDocumentEntityTooLargeErrorCode = 413,
+                   kMSACDocumentTooManyRequestErrorCode = 429,
+                   kMSACDocumentRetryWithErrorCode = 449,
+                   kMSACDocumentInternalServerErrorErrorCode = 500,
+                   kMSACDocumentServiceUnavailableErrorCode = 503};
 
 NS_ASSUME_NONNULL_END
