@@ -359,14 +359,14 @@ static dispatch_once_t onceToken;
     [[MSAuthTokenContext sharedInstance] addDelegate:self];
   } else {
     [[MSAuthTokenContext sharedInstance] removeDelegate:self];
+    [MSTokenExchange removeAllCachedTokens];
   }
 }
 
 #pragma mark - MSAuthTokenContextDelegate
 
-- (void)authTokenContext:(MSAuthTokenContext *)__unused authTokenContext
-     didReceiveAuthToken:(/* nullable (changed in #1328) */ NSString *)authToken {
-  if (authToken == nil) {
+- (void)authTokenContext:(MSAuthTokenContext *)__unused authTokenContext didSetNewAccountIdWithAuthToken:(NSString *)authToken {
+  if (!authToken) {
     [MSTokenExchange removeAllCachedTokens];
   }
 }
