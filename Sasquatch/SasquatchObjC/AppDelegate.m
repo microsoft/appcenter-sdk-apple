@@ -148,8 +148,8 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
   return YES;
 }
 
--(void)requestLocation {
-  if (CLLocationManager.locationServicesEnabled){
+- (void)requestLocation {
+  if (CLLocationManager.locationServicesEnabled) {
     [self.locationManager requestLocation];
   }
 }
