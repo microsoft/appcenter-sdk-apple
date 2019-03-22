@@ -52,7 +52,11 @@
     NSMutableArray<MSAuthTokenInfo *> *authTokensHistory = [self authTokensHistoryState];
     if (authTokensHistory.count == 0) {
 
-      // Add nil token if the entire story is empty.
+      /*
+       * Adding a nil entry is required during the first initialization to differentiate
+       * anonymous usage before the moment and situation when we don't have a token
+       * in history because of the size limit for example.
+       */
       [authTokensHistory addObject:[MSAuthTokenInfo new]];
     }
 

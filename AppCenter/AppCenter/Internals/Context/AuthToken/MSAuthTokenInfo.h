@@ -17,11 +17,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * Time and date from which the token began to act.
+ * It can be nil if it applies to all logs before endTime.
  */
 @property(nonatomic, nullable, readonly) NSDate *startTime;
 
 /**
- * Time and date to which token acted. In the keychain encoded data contains expiration time.
+ * Time and date to which token acted.
+ * It can be nil if it's still valid.
+ * In the keychain encoded data used to store expiration time.
  */
 @property(nonatomic, nullable, readonly) NSDate *endTime;
 

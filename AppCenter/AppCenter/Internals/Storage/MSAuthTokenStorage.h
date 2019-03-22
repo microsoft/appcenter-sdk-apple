@@ -39,9 +39,13 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)saveAuthToken:(nullable NSString *)authToken withAccountId:(nullable NSString *)accountId expiresOn:(nullable NSDate *)expiresOn;
 
 /**
- * Removes auth token from the history.
+ * Removes the token from history. Please note that only oldest token is
+ * allowed to remove. To reset current to anonymous, use
+ * the saveToken method with nil value instead.
  *
- * @param authToken Auth token to delete.
+ * @param authToken Auth token to remove. Despite the fact that only the oldest
+ *                  token can be removed, it's required to avoid removing
+ *                  the wrong one on duplicated calls etc.
  */
 - (void)removeAuthToken:(nullable NSString *)authToken;
 
