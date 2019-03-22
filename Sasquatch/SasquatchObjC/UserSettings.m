@@ -14,7 +14,7 @@
                          email:(NSString *)email
                     dictionary:(NSDictionary *)dictionary {
   
-  if (self = [super init]) {
+  if ((self = [super init])) {
     _userId = userId;
     _email = email;
     _dictionary = dictionary;
@@ -30,7 +30,7 @@
 }
 
 - (instancetype)initFromDictionary:(NSDictionary *)dictionary {
-  if (self = [super init]) {
+  if ((self = [super init])) {
     _userId = dictionary[@"userId"];
     _email = dictionary[@"email"];
     _dictionary = dictionary[@"dictionary"];

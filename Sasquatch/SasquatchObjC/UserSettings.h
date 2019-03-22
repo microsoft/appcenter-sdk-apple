@@ -17,7 +17,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString *email;
 @property (nonatomic, strong) NSDictionary *dictionary;
 
-
 - (instancetype)initWithUserId:(NSString *)userId
                          email:(NSString *)email
                     dictionary:(NSDictionary *)dictionary;

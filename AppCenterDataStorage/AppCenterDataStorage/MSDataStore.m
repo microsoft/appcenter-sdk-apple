@@ -277,6 +277,7 @@ static dispatch_once_t onceToken;
                                 body:[NSData data]
                    additionalHeaders:nil
                    completionHandler:^(NSData *__unused data, NSError *_Nonnull cosmosDbError) {
+
                      // Body returned from call (data) is empty.
                      NSInteger httpStatusCode = [MSDataSourceError errorCodeFromError:cosmosDbError];
                      if (httpStatusCode != MSHTTPCodesNo204NoContent) {
@@ -318,7 +319,7 @@ static dispatch_once_t onceToken;
                      // If not created.
                      NSInteger errorCode = [MSDataSourceError errorCodeFromError:cosmosDbError];
                      if (!data || (errorCode != kMSACDocumentCreatedErrorCode && errorCode != kMSACDocumentSucceededErrorCode)) {
-                       MSLogError([MSDataStore logTag], @"Not able to create/replace document:%@", [cosmosDbError description]);
+                       MSLogError([MSDataStore logTag], @"Not able to create/replace document: %@", [cosmosDbError description]);
                        completionHandler([[MSDocumentWrapper alloc] initWithError:cosmosDbError documentId:documentId]);
                        return;
                      }
@@ -345,7 +346,7 @@ static dispatch_once_t onceToken;
                                                                                                documentId:documentId
                                                                                                      eTag:eTag
                                                                                           lastUpdatedDate:date];
-                     MSLogDebug([MSDataStore logTag], @"Document created/replaced with ID:%@", documentId);
+                     MSLogDebug([MSDataStore logTag], @"Document created/replaced with ID: %@", documentId);
                      completionHandler(docWrapper);
                      return;
                    }];
