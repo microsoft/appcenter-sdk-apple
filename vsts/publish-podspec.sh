@@ -69,22 +69,22 @@ if [ "$mode" == "internal" ] || [ "$mode" == "test" ]; then
     # Update podspec change for other platforms
     sed -i '' 's/App\ Center\ Analytics\ (iOS\ and\ macOS)/App\ Center\ Analytics\ (iOS,\ macOS\ and\ tvOS)/g' $PODSPEC_FILENAME
     sed -i '' 's/App\ Center\ Crashes\ (iOS\ and\ macOS)/App\ Center\ Crashes\ (iOS,\ macOS\ and\ tvOS)/g' $PODSPEC_FILENAME
-    sed -i '' '34 i\
+    sed -i '' '37 i\
       \ \ s.tvos.deployment_target = '\''10.0'\''\
       ' $PODSPEC_FILENAME
-    sed -i '' '46 i\
+    sed -i '' '49 i\
       \ \ \ \ ss.tvos.frameworks = '\''UIKit'\''\
       ' $PODSPEC_FILENAME
-    sed -i '' '49 i\
+    sed -i '' '52 i\
       \ \ \ \ ss.tvos.vendored_frameworks = '\"'AppCenter-SDK-Apple/tvOS/AppCenter.framework'\"'\
       ' $PODSPEC_FILENAME
-    sed -i '' '58 i\
+    sed -i '' '61 i\
       \ \ \ \ ss.tvos.frameworks = '\''UIKit'\''\
       ' $PODSPEC_FILENAME
-    sed -i '' '61 i\
+    sed -i '' '64 i\
       \ \ \ \ ss.tvos.vendored_frameworks = '\"'AppCenter-SDK-Apple/tvOS/AppCenterAnalytics.framework'\"'\
       ' $PODSPEC_FILENAME
-    sed -i '' '70 i\
+    sed -i '' '73 i\
       \ \ \ \ ss.tvos.vendored_frameworks = '\"'AppCenter-SDK-Apple/tvOS/AppCenterCrashes.framework'\"'\
       ' $PODSPEC_FILENAME
     sed -i '' 's/Not\ available\ for\ macOS/Not\ available\ for\ macOS\ and\ tvOS/g' README.md
