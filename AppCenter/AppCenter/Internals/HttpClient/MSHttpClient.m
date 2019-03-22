@@ -20,6 +20,15 @@
   return self;
 }
 
+- (instancetype)initWithRetryIntervals:(NSArray *)retryIntervals {
+  if ((self = [super init])) {
+
+    // TODO implement this properly.
+    (void)retryIntervals;
+  }
+  return self;
+}
+
 - (void)sendAsync:(NSURL *)url
                method:(NSString *)method
               headers:(nullable NSDictionary<NSString *, NSString *> *)headers

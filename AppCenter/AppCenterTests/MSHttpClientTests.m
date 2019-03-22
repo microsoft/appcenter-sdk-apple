@@ -24,6 +24,12 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
 
 @end
 
+@interface MSHttpClient ()
+
+- (instancetype)initWithRetryIntervals:(NSArray *)retryIntervals;
+
+@end
+
 @implementation MSHttpClientTests
 
 - (void)setUp {
@@ -53,8 +59,10 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
 
 - (void)testPostSuccessWithoutHeaders {
 
-  // Stub http response
+  // If
   __block NSURLRequest *actualRequest;
+
+  // Stub HTTP response.
   [OHHTTPStubs
    stubRequestsPassingTest:^BOOL(__attribute__((unused)) NSURLRequest *request) {
      actualRequest = request;
@@ -71,29 +79,39 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
   NSDictionary *headers = nil;
   NSData *payload = [@"somePayload" dataUsingEncoding:kCFStringEncodingUTF8];
 
+  // When
   [self.sut sendAsync:url
                method:method
               headers:headers
                  data:payload
       completionHandler:^(NSData *responseBody, NSHTTPURLResponse *response, NSError *error) {
-        XCTAssertEqual((MSHTTPCodesNo)response.statusCode, MSHTTPCodesNo200OK);
-        XCTAssertEqual(responseBody, [@"OK" dataUsingEncoding:kCFStringEncodingUTF8]);
+
+        // Then
+        XCTAssertEqual(response.statusCode, MSHTTPCodesNo200OK);
+        XCTAssertEqualObjects(responseBody, [@"OK" dataUsingEncoding:kCFStringEncodingUTF8]);
         XCTAssertNil(error);
         [expectation fulfill];
       }];
-
   [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *_Nullable error) {
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
                                }];
+
+  // Then
+  XCTAssertEqualObjects(actualRequest.URL, url);
+  XCTAssertEqualObjects(actualRequest.HTTPMethod, method);
+  XCTAssertEqualObjects(actualRequest.allHTTPHeaderFields, headers);
+  XCTAssertEqualObjects(actualRequest.HTTPBody, payload);
 }
 
 - (void)testGetWithHeadersWhileNetworkIsNotConnected {
-  
-  // Stub http response
+
+  // If
   __block NSURLRequest *actualRequest;
+
+  // Stub HTTP response.
   [OHHTTPStubs
    stubRequestsPassingTest:^BOOL(__attribute__((unused)) NSURLRequest *request) {
      actualRequest = request;
@@ -109,24 +127,134 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
   NSString *method = @"GET";
   NSDictionary *headers = @{ @"Authorization" : @"something", @"Content-Length": @"0" };
   NSData *payload = nil;
-  
+
+  // When
   [self.sut sendAsync:url
                method:method
               headers:headers
                  data:payload
     completionHandler:^(NSData *responseBody, NSHTTPURLResponse *response, NSError *error) {
+
+      // Then
       XCTAssertNil(response);
       XCTAssertNil(responseBody);
       XCTAssertNotNil(error);
       [expectation fulfill];
     }];
-  
   [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *_Nullable error) {
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
                                }];
+
+  // Then
+  XCTAssertEqualObjects(actualRequest.URL, url);
+  XCTAssertEqualObjects(actualRequest.HTTPMethod, method);
+  XCTAssertEqualObjects(actualRequest.allHTTPHeaderFields, headers);
+  XCTAssertEqualObjects(actualRequest.HTTPBody, payload);
+}
+
+- (void)testDeleteUnrecoverableErrorWithoutHeadersNotRetried {
+
+  // If
+  // Stub HTTP response.
+  __block int numRequests = 0;
+  __block NSURLRequest *actualRequest;
+  [OHHTTPStubs
+   stubRequestsPassingTest:^BOOL(__attribute__((unused)) NSURLRequest *request) {
+     ++numRequests;
+     actualRequest = request;
+     return YES;
+   }
+   withStubResponse:^OHHTTPStubsResponse *(__attribute__((unused)) NSURLRequest *request) {
+     return [OHHTTPStubsResponse responseWithData:[NSData data] statusCode:MSHTTPCodesNo400BadRequest headers:nil];
+   }];
+  __weak XCTestExpectation *expectation = [self expectationWithDescription:@""];
+  self.sut = [MSHttpClient new];
+  NSURL *url = [NSURL URLWithString:@"https://mock/something?a=b"];
+  NSString *method = @"DELETE";
+  NSDictionary *headers = nil;
+  NSData *payload = nil;
+
+  // When
+  [self.sut sendAsync:url
+               method:method
+              headers:headers
+                 data:payload
+    completionHandler:^(NSData *responseBody, NSHTTPURLResponse *response, NSError *error) {
+
+      // Then
+      XCTAssertEqual(response.statusCode, MSHTTPCodesNo400BadRequest);
+      XCTAssertNotNil(responseBody);
+      XCTAssertNil(error);
+      [expectation fulfill];
+    }];
+
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
+                               handler:^(NSError *_Nullable error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+  // Then
+  XCTAssertEqualObjects(actualRequest.URL, url);
+  XCTAssertEqualObjects(actualRequest.HTTPMethod, method);
+  XCTAssertEqualObjects(actualRequest.allHTTPHeaderFields, headers);
+  XCTAssertEqualObjects(actualRequest.HTTPBody, payload);
+  XCTAssertEqual(numRequests, 1);
+}
+
+- (void)testDeleteRecoverableErrorWithoutHeadersRetried {
+
+  // If
+  // Stub HTTP response.
+  __block int numRequests = 0;
+  __block NSURLRequest *actualRequest;
+  NSArray *retryIntervals = @[@0.1, @0.2];
+  [OHHTTPStubs
+   stubRequestsPassingTest:^BOOL(__attribute__((unused)) NSURLRequest *request) {
+     ++numRequests;
+     actualRequest = request;
+     return YES;
+   }
+   withStubResponse:^OHHTTPStubsResponse *(__attribute__((unused)) NSURLRequest *request) {
+     return [OHHTTPStubsResponse responseWithData:[NSData data] statusCode:MSHTTPCodesNo500InternalServerError headers:nil];
+   }];
+  __weak XCTestExpectation *expectation = [self expectationWithDescription:@""];
+  self.sut = [[MSHttpClient alloc] initWithRetryIntervals:retryIntervals];
+  NSURL *url = [NSURL URLWithString:@"https://mock/something?a=b"];
+  NSString *method = @"DELETE";
+  NSDictionary *headers = nil;
+  NSData *payload = nil;
+
+  // When
+  [self.sut sendAsync:url
+               method:method
+              headers:headers
+                 data:payload
+    completionHandler:^(NSData *responseBody, NSHTTPURLResponse *response, NSError *error) {
+
+      // Then
+      XCTAssertEqual(response.statusCode, MSHTTPCodesNo500InternalServerError);
+      XCTAssertNotNil(responseBody);
+      XCTAssertNil(error);
+      [expectation fulfill];
+    }];
+
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
+                               handler:^(NSError *_Nullable error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+
+  // Then
+  XCTAssertEqualObjects(actualRequest.URL, url);
+  XCTAssertEqualObjects(actualRequest.HTTPMethod, method);
+  XCTAssertEqualObjects(actualRequest.allHTTPHeaderFields, headers);
+  XCTAssertEqualObjects(actualRequest.HTTPBody, payload);
+  XCTAssertEqual(numRequests, 1 + [retryIntervals count]);
 }
 
 @end
