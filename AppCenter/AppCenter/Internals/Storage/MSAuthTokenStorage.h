@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Returns auth token info for the oldest entity in the the history.
  *
- * @return auth token.
+ * @return auth token info.
  */
 - (MSAuthTokenInfo *)oldestAuthToken;
 
