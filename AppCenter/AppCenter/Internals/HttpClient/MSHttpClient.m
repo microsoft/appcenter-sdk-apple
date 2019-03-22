@@ -10,25 +10,31 @@
 - (instancetype)init {
   if ((self = [super init])) {
     _session = [NSURLSession new];
+    _pendingCalls = [NSSet new];
+    _reachability = [MS_Reachability new];
+    _retryIntervals = @[@1.0];
   }
   return self;
 }
 
 - (instancetype)initWithMaxHttpConnectionsPerHost:(int)maxHttpConnectionsPerHost {
-  self = [self init];
-  if (self) {
-    // TODO implement this properly.
-    (void)maxHttpConnectionsPerHost;
+    if ((self = [super init])) {
+      NSURLSessionConfiguration *config = [NSURLSessionConfiguration new];
+      config.HTTPMaximumConnectionsPerHost = maxHttpConnectionsPerHost;
+      _session = [NSURLSession sessionWithConfiguration:config];
+      _pendingCalls = [NSSet new];
+      _reachability = [MS_Reachability new];
+      _retryIntervals = @[@1.0];
   }
   return self;
 }
 
 - (instancetype)initWithRetryIntervals:(NSArray *)retryIntervals reachability:(MS_Reachability *)reachability {
   if ((self = [super init])) {
-
-    // TODO implement this properly.
-    (void)retryIntervals;
-    (void)reachability;
+    _session = [NSURLSession new];
+    _pendingCalls = [NSSet new];
+    _reachability = reachability;
+    _retryIntervals = [NSArray arrayWithArray:retryIntervals];
   }
   return self;
 }

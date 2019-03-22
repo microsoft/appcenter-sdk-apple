@@ -8,8 +8,9 @@
 
 @interface MSHttpClient ()
 
-@property NSURLSession *session;
-@property MS_Reachability *reachability;
-@property NSSet *pendingCalls;
+@property(nonatomic) NSURLSession *session;
+@property(nonatomic) MS_Reachability *reachability;
+@property(nonatomic) NSSet *pendingCalls;
+@property(nonatomic) NSArray *retryIntervals;
 
 @end
