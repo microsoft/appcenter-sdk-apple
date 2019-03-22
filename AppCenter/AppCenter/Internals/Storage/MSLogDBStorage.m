@@ -335,8 +335,7 @@ static const NSUInteger kMSSchemaVersion = 4;
 }
 
 + (int)deleteLogsFromDBWithColumnName:(NSString *)columnName andTimestampBefore:(long long)timestampBefore inOpenedDatabase:(void *)db {
-  NSString *deletionTrace = [NSString
-      stringWithFormat:@"Deletion of log(s) by %@ with timestamp < %lld", columnName, timestampBefore];
+  NSString *deletionTrace = [NSString stringWithFormat:@"Deletion of log(s) by %@ with timestamp < %lld", columnName, timestampBefore];
 
   // Build up delete query.
   NSString *whereCondition = [NSString stringWithFormat:@"\"%@\" < %lld", columnName, timestampBefore];
