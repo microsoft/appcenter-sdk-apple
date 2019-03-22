@@ -149,7 +149,9 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
 }
 
 -(void)requestLocation {
+  if (CLLocationManager.locationServicesEnabled){
     [self.locationManager requestLocation];
+  }
 }
 
 #pragma mark - Application life cycle
