@@ -24,36 +24,6 @@
 #import "MSWriteOptions.h"
 
 /**
- * Service storage key name.
- */
-static NSString *const kMSServiceName = @"DataStorage";
-
-/**
- * The group ID for storage.
- */
-static NSString *const kMSGroupId = @"DataStorage";
-
-/**
- * CosmosDb upsert header key.
- */
-static NSString *const kMSDocumentUpsertHeaderKey = @"x-ms-documentdb-is-upsert";
-
-/**
- * CosmosDb continuation token header key.
- */
-static NSString *const kMSDocumentContinuationTokenHeaderKey = @"x-ms-continuation";
-
-/**
- * HTTP verb for delete operations.
- */
-static NSString *const kMSHttpDeleteVerb = @"DELETE";
-
-/**
- * HTTP verb for get operations.
- */
-static NSString *const kMSHttpGetVerb = @"GET";
-
-/**
  * Singleton.
  */
 static MSDataStore *sharedInstance = nil;

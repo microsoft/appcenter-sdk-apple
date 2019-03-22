@@ -36,6 +36,13 @@ static int const MSDataStoreTimeToLiveInfinite = -1;
 static int const MSDataStoreTimeToLiveNoCache = 0;
 static int const MSDataStoreTimeToLiveDefault = 60 * 60;
 
+static NSString *const kMSServiceName = @"DataStorage";
+static NSString *const kMSGroupId = @"DataStorage";
+static NSString *const kMSDocumentUpsertHeaderKey = @"x-ms-documentdb-is-upsert";
+static NSString *const kMSDocumentContinuationTokenHeaderKey = @"x-ms-continuation";
+static NSString *const kMSHttpDeleteVerb = @"DELETE";
+static NSString *const kMSHttpGetVerb = @"GET";
+
 @interface MSDataStore<T : id <MSSerializableDocument>> : MSServiceAbstract
 
 typedef void (^MSDocumentWrapperCompletionHandler)(MSDocumentWrapper<T> *document);
