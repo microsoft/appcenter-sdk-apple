@@ -3,9 +3,9 @@
 
 #import "AppCenter+Internal.h"
 #import "MSAppCenterErrors.h"
-#import "MSHttpClient.h"
 #import "MSDevice.h"
 #import "MSDeviceInternal.h"
+#import "MSHttpClient.h"
 #import "MSHttpIngestionPrivate.h"
 #import "MSHttpTestUtil.h"
 #import "MSIngestionCall.h"
@@ -64,14 +64,14 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
 
   // Stub HTTP response.
   [OHHTTPStubs
-   stubRequestsPassingTest:^BOOL(__attribute__((unused)) NSURLRequest *request) {
-     actualRequest = request;
-     return YES;
-   }
-   withStubResponse:^OHHTTPStubsResponse *(__attribute__((unused)) NSURLRequest *request) {
-     NSData *responsePayload = [@"OK" dataUsingEncoding:kCFStringEncodingUTF8];
-     return [OHHTTPStubsResponse responseWithData:responsePayload statusCode:MSHTTPCodesNo200OK headers:nil];
-   }];
+      stubRequestsPassingTest:^BOOL(__attribute__((unused)) NSURLRequest *request) {
+        actualRequest = request;
+        return YES;
+      }
+      withStubResponse:^OHHTTPStubsResponse *(__attribute__((unused)) NSURLRequest *request) {
+        NSData *responsePayload = [@"OK" dataUsingEncoding:kCFStringEncodingUTF8];
+        return [OHHTTPStubsResponse responseWithData:responsePayload statusCode:MSHTTPCodesNo200OK headers:nil];
+      }];
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@"HTTP Response 200"];
   self.sut = [MSHttpClient new];
   NSURL *url = [NSURL URLWithString:@"https://mock/something?a=b"];
@@ -81,11 +81,10 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
 
   // When
   [self.sut sendAsync:url
-               method:method
-              headers:headers
-                 data:payload
+                 method:method
+                headers:headers
+                   data:payload
       completionHandler:^(NSData *responseBody, NSHTTPURLResponse *response, NSError *error) {
-
         // Then
         XCTAssertEqual(response.statusCode, MSHTTPCodesNo200OK);
         XCTAssertEqualObjects(responseBody, [@"OK" dataUsingEncoding:kCFStringEncodingUTF8]);
@@ -113,34 +112,33 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
 
   // Stub HTTP response.
   [OHHTTPStubs
-   stubRequestsPassingTest:^BOOL(__attribute__((unused)) NSURLRequest *request) {
-     actualRequest = request;
-     return YES;
-   }
-   withStubResponse:^OHHTTPStubsResponse *(__attribute__((unused)) NSURLRequest *request) {
-     NSError *error = [NSError errorWithDomain:NSURLErrorDomain code:kCFURLErrorNotConnectedToInternet userInfo:nil];
-     return [OHHTTPStubsResponse responseWithError:error];
-   }];
+      stubRequestsPassingTest:^BOOL(__attribute__((unused)) NSURLRequest *request) {
+        actualRequest = request;
+        return YES;
+      }
+      withStubResponse:^OHHTTPStubsResponse *(__attribute__((unused)) NSURLRequest *request) {
+        NSError *error = [NSError errorWithDomain:NSURLErrorDomain code:kCFURLErrorNotConnectedToInternet userInfo:nil];
+        return [OHHTTPStubsResponse responseWithError:error];
+      }];
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@"Network error"];
   self.sut = [MSHttpClient new];
   NSURL *url = [NSURL URLWithString:@"https://mock/something?a=b"];
   NSString *method = @"GET";
-  NSDictionary *headers = @{ @"Authorization" : @"something", @"Content-Length": @"0" };
+  NSDictionary *headers = @{@"Authorization" : @"something", @"Content-Length" : @"0"};
   NSData *payload = nil;
 
   // When
   [self.sut sendAsync:url
-               method:method
-              headers:headers
-                 data:payload
-    completionHandler:^(NSData *responseBody, NSHTTPURLResponse *response, NSError *error) {
-
-      // Then
-      XCTAssertNil(response);
-      XCTAssertNil(responseBody);
-      XCTAssertNotNil(error);
-      [expectation fulfill];
-    }];
+                 method:method
+                headers:headers
+                   data:payload
+      completionHandler:^(NSData *responseBody, NSHTTPURLResponse *response, NSError *error) {
+        // Then
+        XCTAssertNil(response);
+        XCTAssertNil(responseBody);
+        XCTAssertNotNil(error);
+        [expectation fulfill];
+      }];
   [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *_Nullable error) {
                                  if (error) {
@@ -162,14 +160,14 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
   __block int numRequests = 0;
   __block NSURLRequest *actualRequest;
   [OHHTTPStubs
-   stubRequestsPassingTest:^BOOL(__attribute__((unused)) NSURLRequest *request) {
-     ++numRequests;
-     actualRequest = request;
-     return YES;
-   }
-   withStubResponse:^OHHTTPStubsResponse *(__attribute__((unused)) NSURLRequest *request) {
-     return [OHHTTPStubsResponse responseWithData:[NSData data] statusCode:MSHTTPCodesNo400BadRequest headers:nil];
-   }];
+      stubRequestsPassingTest:^BOOL(__attribute__((unused)) NSURLRequest *request) {
+        ++numRequests;
+        actualRequest = request;
+        return YES;
+      }
+      withStubResponse:^OHHTTPStubsResponse *(__attribute__((unused)) NSURLRequest *request) {
+        return [OHHTTPStubsResponse responseWithData:[NSData data] statusCode:MSHTTPCodesNo400BadRequest headers:nil];
+      }];
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@""];
   self.sut = [MSHttpClient new];
   NSURL *url = [NSURL URLWithString:@"https://mock/something?a=b"];
@@ -179,17 +177,16 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
 
   // When
   [self.sut sendAsync:url
-               method:method
-              headers:headers
-                 data:payload
-    completionHandler:^(NSData *responseBody, NSHTTPURLResponse *response, NSError *error) {
-
-      // Then
-      XCTAssertEqual(response.statusCode, MSHTTPCodesNo400BadRequest);
-      XCTAssertNotNil(responseBody);
-      XCTAssertNil(error);
-      [expectation fulfill];
-    }];
+                 method:method
+                headers:headers
+                   data:payload
+      completionHandler:^(NSData *responseBody, NSHTTPURLResponse *response, NSError *error) {
+        // Then
+        XCTAssertEqual(response.statusCode, MSHTTPCodesNo400BadRequest);
+        XCTAssertNotNil(responseBody);
+        XCTAssertNil(error);
+        [expectation fulfill];
+      }];
 
   [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *_Nullable error) {
@@ -216,15 +213,15 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
   dispatch_semaphore_t timingSemaphore = dispatch_semaphore_create(0);
 
   [OHHTTPStubs
-   stubRequestsPassingTest:^BOOL(__attribute__((unused)) NSURLRequest *request) {
-     ++numRequests;
-     actualRequest = request;
-     return YES;
-   }
-   withStubResponse:^OHHTTPStubsResponse *(__attribute__((unused)) NSURLRequest *request) {
-     return [OHHTTPStubsResponse responseWithData:[NSData data] statusCode:MSHTTPCodesNo204NoContent headers:nil];
-   }];
-  self.sut = [[MSHttpClient alloc] initWithRetryIntervals:@[@1] reachability:self.reachabilityMock];
+      stubRequestsPassingTest:^BOOL(__attribute__((unused)) NSURLRequest *request) {
+        ++numRequests;
+        actualRequest = request;
+        return YES;
+      }
+      withStubResponse:^OHHTTPStubsResponse *(__attribute__((unused)) NSURLRequest *request) {
+        return [OHHTTPStubsResponse responseWithData:[NSData data] statusCode:MSHTTPCodesNo204NoContent headers:nil];
+      }];
+  self.sut = [[MSHttpClient alloc] initWithRetryIntervals:@[ @1 ] reachability:self.reachabilityMock];
   NSURL *url = [NSURL URLWithString:@"https://mock/something?a=b"];
   NSString *method = @"DELETE";
   NSDictionary *headers = nil;
@@ -233,18 +230,17 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
   // When
   [self simulateReachabilityChangedNotification:NotReachable];
   [self.sut sendAsync:url
-               method:method
-              headers:headers
-                 data:payload
-    completionHandler:^(NSData *responseBody, NSHTTPURLResponse *response, NSError *error) {
-
-      // Then
-      XCTAssertEqual(response.statusCode, MSHTTPCodesNo204NoContent);
-      XCTAssertEqualObjects(responseBody, [NSData data]);
-      XCTAssertNil(error);
-      completionHandlerCalled = YES;
-      [expectation fulfill];
-    }];
+                 method:method
+                headers:headers
+                   data:payload
+      completionHandler:^(NSData *responseBody, NSHTTPURLResponse *response, NSError *error) {
+        // Then
+        XCTAssertEqual(response.statusCode, MSHTTPCodesNo204NoContent);
+        XCTAssertEqualObjects(responseBody, [NSData data]);
+        XCTAssertNil(error);
+        completionHandlerCalled = YES;
+        [expectation fulfill];
+      }];
 
   // Wait a while to make sure that the requests are not sent while the network is down.
   dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -278,16 +274,16 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
   // Stub HTTP response.
   __block int numRequests = 0;
   __block NSURLRequest *actualRequest;
-  NSArray *retryIntervals = @[@0.1, @0.2];
+  NSArray *retryIntervals = @[ @0.1, @0.2 ];
   [OHHTTPStubs
-   stubRequestsPassingTest:^BOOL(__attribute__((unused)) NSURLRequest *request) {
-     ++numRequests;
-     actualRequest = request;
-     return YES;
-   }
-   withStubResponse:^OHHTTPStubsResponse *(__attribute__((unused)) NSURLRequest *request) {
-     return [OHHTTPStubsResponse responseWithData:[NSData data] statusCode:MSHTTPCodesNo500InternalServerError headers:nil];
-   }];
+      stubRequestsPassingTest:^BOOL(__attribute__((unused)) NSURLRequest *request) {
+        ++numRequests;
+        actualRequest = request;
+        return YES;
+      }
+      withStubResponse:^OHHTTPStubsResponse *(__attribute__((unused)) NSURLRequest *request) {
+        return [OHHTTPStubsResponse responseWithData:[NSData data] statusCode:MSHTTPCodesNo500InternalServerError headers:nil];
+      }];
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@""];
   self.sut = [[MSHttpClient alloc] initWithRetryIntervals:retryIntervals reachability:self.reachabilityMock];
   NSURL *url = [NSURL URLWithString:@"https://mock/something?a=b"];
@@ -297,17 +293,16 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
 
   // When
   [self.sut sendAsync:url
-               method:method
-              headers:headers
-                 data:payload
-    completionHandler:^(NSData *responseBody, NSHTTPURLResponse *response, NSError *error) {
-
-      // Then
-      XCTAssertEqual(response.statusCode, MSHTTPCodesNo500InternalServerError);
-      XCTAssertNotNil(responseBody);
-      XCTAssertNil(error);
-      [expectation fulfill];
-    }];
+                 method:method
+                headers:headers
+                   data:payload
+      completionHandler:^(NSData *responseBody, NSHTTPURLResponse *response, NSError *error) {
+        // Then
+        XCTAssertEqual(response.statusCode, MSHTTPCodesNo500InternalServerError);
+        XCTAssertNotNil(responseBody);
+        XCTAssertNil(error);
+        [expectation fulfill];
+      }];
 
   [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *_Nullable error) {

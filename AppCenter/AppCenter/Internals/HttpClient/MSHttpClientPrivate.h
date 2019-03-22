@@ -10,7 +10,7 @@
 
 @property(nonatomic) NSURLSession *session;
 @property(nonatomic) MS_Reachability *reachability;
-@property(nonatomic) NSSet *pendingCalls;
+@property(nonatomic) NSMutableSet *pendingCalls;
 @property(nonatomic) NSArray *retryIntervals;
 
 @end

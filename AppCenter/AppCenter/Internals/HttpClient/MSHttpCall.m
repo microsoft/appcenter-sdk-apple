@@ -16,7 +16,6 @@
 }
 
 - (void)resetTimer {
-
 }
 
 - (void)resetRetry {

@@ -16,12 +16,12 @@ typedef void (^MSHttpRequestCompletionHandler)(NSData *responseBody, NSHTTPURLRe
  * @param method The HTTP method (verb) to use for the HTTP request (e.g. GET, POST, etc.).
  * @param headers HTTP headers.
  * @param data A data instance that will be transformed request body.
- * @param handler Completion handler.
+ * @param completionHandler Completion handler.
  */
 - (void)sendAsync:(NSURL *)url
                method:(NSString *)method
               headers:(nullable NSDictionary<NSString *, NSString *> *)headers
                  data:(nullable NSData *)data
-    completionHandler:(MSHttpRequestCompletionHandler)handler;
+    completionHandler:(MSHttpRequestCompletionHandler)completionHandler;
 
 @end

@@ -63,18 +63,18 @@ enum StartupMode { appCenter, oneCollector, both, none, skip };
   NSInteger startTarget = [[NSUserDefaults standardUserDefaults] integerForKey:kMSStartTargetKey];
   NSString *appSecret = [[NSUserDefaults standardUserDefaults] objectForKey:kMSAppSecret] ?: kMSObjcAppSecret;
   switch (startTarget) {
-      case appCenter:
-          [MSAppCenter start:appSecret withServices:services];
-          break;
-      case oneCollector:
-          [MSAppCenter start:[NSString stringWithFormat:@"target=%@", kMSObjCTargetToken] withServices:services];
-          break;
-      case both:
-          [MSAppCenter start:[NSString stringWithFormat:@"appsecret=%@;target=%@", appSecret, kMSObjCTargetToken] withServices:services];
-          break;
-      case none:
-          [MSAppCenter startWithServices:services];
-          break;
+  case appCenter:
+    [MSAppCenter start:appSecret withServices:services];
+    break;
+  case oneCollector:
+    [MSAppCenter start:[NSString stringWithFormat:@"target=%@", kMSObjCTargetToken] withServices:services];
+    break;
+  case both:
+    [MSAppCenter start:[NSString stringWithFormat:@"appsecret=%@;target=%@", appSecret, kMSObjCTargetToken] withServices:services];
+    break;
+  case none:
+    [MSAppCenter startWithServices:services];
+    break;
   }
 
   [AppCenterProvider shared].appCenter = [[AppCenterDelegateObjC alloc] init];

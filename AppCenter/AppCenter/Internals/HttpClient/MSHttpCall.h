@@ -1,10 +1,14 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import <Foundation/Foundation.h>
 #import "MSHttpClientProtocol.h"
+#import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
+
+@class MSHttpCall;
+
+typedef void (^MSHttpCallCompletionHandler)(MSHttpCall *call, NSData *responseBody, NSHTTPURLResponse *response, NSError *error);
 
 @interface MSHttpCall : NSObject
 
@@ -55,8 +59,8 @@ NS_ASSUME_NONNULL_BEGIN
  * @param method The HTTP method (verb) to use for the HTTP request (e.g. GET, POST, etc.).
  * @param headers HTTP headers.
  * @param data A data instance that will be transformed request body.
- * @param handler Completion handler.
  * @param retryIntervals Retry intervals used in case of recoverable errors.
+ * @param completionHandler Completion handler.
  *
  * @return A retriable call instance.
  */
@@ -64,8 +68,8 @@ NS_ASSUME_NONNULL_BEGIN
                      method:(NSString *)method
                     headers:(nullable NSDictionary<NSString *, NSString *> *)headers
                        data:(nullable NSData *)data
-                    handler:(MSHttpRequestCompletionHandler)handler
-             retryIntervals:(NSArray *)retryIntervals;
+             retryIntervals:(NSArray *)retryIntervals
+          completionHandler:(MSHttpCallCompletionHandler)completionHandler;
 
 /**
  * Indicate if the limit of maximum retries has been reached.
@@ -79,20 +83,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)resetRetry;
 
-/**
- * Call completed with error/success.
- *
- * @param httpClient HTTP Client responsible for this call.
- * @param response HTTP response.
- * @param data response data.
- * @param error call error.
- */
-- (void)httpClient:(id<MSHttpClientProtocol>)httpClient
-callCompletedWithResponse:(NSHTTPURLResponse *)response
-              data:(nullable NSData *)data
-             error:(NSError *)error;
-
 @end
 
 NS_ASSUME_NONNULL_END
-
