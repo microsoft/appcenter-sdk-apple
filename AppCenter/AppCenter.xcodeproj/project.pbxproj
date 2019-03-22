@@ -399,6 +399,12 @@
 		3571F64C22454EDF0052406C /* MSHttpClientPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 3571F64B22454EDF0052406C /* MSHttpClientPrivate.h */; };
 		3571F64D22454EDF0052406C /* MSHttpClientPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 3571F64B22454EDF0052406C /* MSHttpClientPrivate.h */; };
 		3571F64E22454EDF0052406C /* MSHttpClientPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 3571F64B22454EDF0052406C /* MSHttpClientPrivate.h */; };
+		3571F65022457E220052406C /* MSHttpCall.h in Headers */ = {isa = PBXBuildFile; fileRef = 3571F64F22457E220052406C /* MSHttpCall.h */; };
+		3571F65122457E220052406C /* MSHttpCall.h in Headers */ = {isa = PBXBuildFile; fileRef = 3571F64F22457E220052406C /* MSHttpCall.h */; };
+		3571F65222457E220052406C /* MSHttpCall.h in Headers */ = {isa = PBXBuildFile; fileRef = 3571F64F22457E220052406C /* MSHttpCall.h */; };
+		3571F65422457FCC0052406C /* MSHttpCall.m in Sources */ = {isa = PBXBuildFile; fileRef = 3571F65322457FCC0052406C /* MSHttpCall.m */; };
+		3571F65522457FCC0052406C /* MSHttpCall.m in Sources */ = {isa = PBXBuildFile; fileRef = 3571F65322457FCC0052406C /* MSHttpCall.m */; };
+		3571F65622457FCC0052406C /* MSHttpCall.m in Sources */ = {isa = PBXBuildFile; fileRef = 3571F65322457FCC0052406C /* MSHttpCall.m */; };
 		358F9BC920195F3300B9E22C /* MSLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 358F9BC22019531F00B9E22C /* MSLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3592ABA71DC90E3600EF4592 /* MSLoggerInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 3592ABA51DC90E3600EF4592 /* MSLoggerInternal.h */; };
 		3592ABA81DC90E3600EF4592 /* MSLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 3592ABA61DC90E3600EF4592 /* MSLogger.m */; };
@@ -975,6 +981,8 @@
 		3542741C2012B53B00BE766F /* MSChannelUnitDefault.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSChannelUnitDefault.h; sourceTree = "<group>"; };
 		3542742220167DA400BE766F /* MSEnable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSEnable.h; sourceTree = "<group>"; };
 		3571F64B22454EDF0052406C /* MSHttpClientPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSHttpClientPrivate.h; sourceTree = "<group>"; };
+		3571F64F22457E220052406C /* MSHttpCall.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSHttpCall.h; sourceTree = "<group>"; };
+		3571F65322457FCC0052406C /* MSHttpCall.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSHttpCall.m; sourceTree = "<group>"; };
 		358F9BC22019531F00B9E22C /* MSLogger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSLogger.h; sourceTree = "<group>"; };
 		3592ABA51DC90E3600EF4592 /* MSLoggerInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSLoggerInternal.h; sourceTree = "<group>"; };
 		3592ABA61DC90E3600EF4592 /* MSLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSLogger.m; sourceTree = "<group>"; };
@@ -1391,6 +1399,8 @@
 				2DA0350241FEC3A6A4919BFE /* MSHttpClient.m */,
 				2DA03260792C64C0290E6E41 /* MSHttpClient.h */,
 				3571F64B22454EDF0052406C /* MSHttpClientPrivate.h */,
+				3571F64F22457E220052406C /* MSHttpCall.h */,
+				3571F65322457FCC0052406C /* MSHttpCall.m */,
 			);
 			path = HttpClient;
 			sourceTree = "<group>";
@@ -1934,6 +1944,7 @@
 				B2CD74A81F22BE270070E7DF /* MSUtility+Application.h in Headers */,
 				043120AD1EE0BCF9007054C5 /* MSDeviceHistoryInfo.h in Headers */,
 				B2CD74A21F22BE270070E7DF /* MSUtility.h in Headers */,
+				3571F65222457E220052406C /* MSHttpCall.h in Headers */,
 				043120AF1EE0BCF9007054C5 /* AppCenter+Internal.h in Headers */,
 				043120B11EE0BCF9007054C5 /* MSIngestionDelegate.h in Headers */,
 				B2CD74C31F22BE270070E7DF /* MSUtility+StringFormatting.h in Headers */,
@@ -2064,6 +2075,7 @@
 				80B7EA2320CA9CC000DF524C /* MSEncrypter.h in Headers */,
 				0446DF2D1F3B86C300C8E338 /* MSAbstractLogInternal.h in Headers */,
 				04754F821EA98182002CBA46 /* MSIngestionDelegate.h in Headers */,
+				3571F65122457E220052406C /* MSHttpCall.h in Headers */,
 				35DFC1CA2170030C00455589 /* MSStringTypedProperty.h in Headers */,
 				04754F831EA98182002CBA46 /* MSStartServiceLog.h in Headers */,
 				805275C320A1ADCE00704115 /* MSOneCollectorChannelDelegate.h in Headers */,
@@ -2194,6 +2206,7 @@
 				3814A8E220BF5E790093AF45 /* MSCSEpochAndSeq.h in Headers */,
 				35DFC1CF2170030C00455589 /* MSTypedProperty.h in Headers */,
 				E8753D6E1D4BE53F00241513 /* MSIngestionUtil.h in Headers */,
+				3571F65022457E220052406C /* MSHttpCall.h in Headers */,
 				E74B14AA20B36B9B002C0183 /* MSLocExtension.h in Headers */,
 				045C85101FE0B1D900089540 /* MSSessionContext.h in Headers */,
 				E8E48F951D50FF4300A8C1B0 /* MSIngestionCallDelegate.h in Headers */,
@@ -2614,6 +2627,7 @@
 				E74B14D720B36EC5002C0183 /* MSNetExtension.m in Sources */,
 				E74B14A720B36AAB002C0183 /* MSUserExtension.m in Sources */,
 				041EFD281EE1CAA6006DCD56 /* MSDevice.m in Sources */,
+				3571F65622457FCC0052406C /* MSHttpCall.m in Sources */,
 				043120801EE0BCF9007054C5 /* MSHttpIngestion.m in Sources */,
 				043120811EE0BCF9007054C5 /* MSServiceAbstract.m in Sources */,
 				043120821EE0BCF9007054C5 /* MSChannelGroupDefault.m in Sources */,
@@ -2814,6 +2828,7 @@
 				0499F8561EDF979A00C3EDDA /* MSDevice.m in Sources */,
 				04754F551EA98182002CBA46 /* MSServiceAbstract.m in Sources */,
 				047FEE0C21A48B1B00ED77CD /* MSHistoryInfo.m in Sources */,
+				3571F65522457FCC0052406C /* MSHttpCall.m in Sources */,
 				04754F561EA98182002CBA46 /* MSChannelGroupDefault.m in Sources */,
 				B2CD745B1F22BB710070E7DF /* MSWrapperSdk.m in Sources */,
 				B2CD74C51F22BE270070E7DF /* MSUtility+StringFormatting.m in Sources */,
@@ -2888,6 +2903,7 @@
 				8087362920C134AC004C4157 /* MSEncrypter.m in Sources */,
 				E84B8E361D235226006FD231 /* MSHttpIngestion.m in Sources */,
 				047FEE0921A4884600ED77CD /* MSHistoryInfo.m in Sources */,
+				3571F65422457FCC0052406C /* MSHttpCall.m in Sources */,
 				D38024061E7126F500466558 /* MSServiceAbstract.m in Sources */,
 				B2CD74C41F22BE270070E7DF /* MSUtility+StringFormatting.m in Sources */,
 				E84B8E301D2351DB006FD231 /* MSChannelGroupDefault.m in Sources */,
