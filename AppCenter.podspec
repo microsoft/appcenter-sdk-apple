@@ -84,4 +84,11 @@ Pod::Spec.new do |s|
     ss.osx.vendored_frameworks = "AppCenter-SDK-Apple/macOS/AppCenterPush.framework"
  end
 
+s.subspec 'DataStorage' do |ss|
+    ss.dependency 'AppCenter/Core'
+    ss.frameworks = 'Foundation'
+    ss.ios.frameworks = 'UIKit'
+    ss.ios.vendored_frameworks = "AppCenter-SDK-Apple/iOS/AppCenterDataStorage.framework"
+end
+
 end
