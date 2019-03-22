@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 #import "MSPage.h"
+#import "MSReadOptions.h"
 #import "MSSerializableDocument.h"
 
 // A (paginated) list of documents from CosmosDB
@@ -13,19 +14,50 @@
 @property(nonatomic, strong, readonly) MSPage *currentPage;
 
 /**
+ * Partition.
+ */
+@property(nonatomic, strong, readonly) NSString *partition;
+
+/**
+ * Type of the documents.
+ */
+@property(nonatomic, strong, readonly) Class documentType;
+
+/**
+ * Read options.
+ */
+@property(nonatomic, strong, readonly) MSReadOptions *readOptions;
+
+/**
  * Current continuation token if any.
  */
 @property(nonatomic, strong, readonly, nullable) NSString *continuationToken;
 
 /**
- * Initialize documents with page
+ * Initialize documents with page.
  *
  * @param page Page to instantiate documents with.
- * @param continuationToken The continuation token if any.
+ * @param partition The partition for the documents.
+ * @param documentType The type of the documents in the partition.
+ * @param readOptions The read options.
+ * @param continuationToken The continuation token, if any.
  *
  * @return The paginated documents.
  */
-- (instancetype)initWithPage:(MSPage *)page andContinuationToken:(nullable NSString *)continuationToken;
+- (instancetype)initWithPage:(MSPage *)page
+                   partition:(NSString *)partition
+                documentType:(Class)documentType
+                 readOptions:(nullable MSReadOptions *) readOptions
+           continuationToken:(nullable NSString *)continuationToken;
+
+/**
+ * Initialize documents with page and nil continuation token.
+ *
+ * @param page Page to instantiate documents with.
+ *
+ * @return The paginated documents.
+ */
+- (instancetype)initWithPage:(MSPage *)page;
 
 /**
  * Instantiate paginated Documents with single page with error.
@@ -54,9 +86,7 @@
  * Asynchronously fetch the next page.
  *
  * @param completionHandler Callback to accept the next page of documents.
- *
- * @return The next page of documents.
  */
-- (MSPage<T> *)nextPageWithCompletionHandler:(void (^)(MSPage<T> *page))completionHandler;
+- (void)nextPageWithCompletionHandler:(void (^)(MSPage<T> *page))completionHandler;
 
 @end

@@ -8,11 +8,6 @@
 @interface MSPage<T : id <MSSerializableDocument>> : NSObject
 
 /**
- * Continuation token for retrieving the next page from CosmosDB.
- */
-@property(readonly) NSString *continuationToken;
-
-/**
  * Error (or null).
  */
 @property(readonly) MSDataSourceError *error;

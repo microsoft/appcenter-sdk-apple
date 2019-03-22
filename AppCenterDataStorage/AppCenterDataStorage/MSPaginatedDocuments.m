@@ -2,17 +2,42 @@
 // Licensed under the MIT License.
 
 #import "MSPaginatedDocuments.h"
+#import "MSCosmosDb.h"
+#import "MSCosmosDbIngestion.h"
+#import "MSDataStore.h"
+#import "MSDataStorePrivate.h"
+#import "MSTokenExchange.h"
 #import "MSSerializableDocument.h"
 
 @implementation MSPaginatedDocuments
 
 @synthesize currentPage = _currentPage;
 @synthesize continuationToken = _continuationToken;
+@synthesize partition = _partition;
+@synthesize documentType = _documentType;
+@synthesize readOptions = _readOptions;
 
-- (instancetype)initWithPage:(MSPage *)page andContinuationToken:(nullable NSString *)continuationToken {
+- (instancetype)initWithPage:(MSPage *)page
+                   partition:(NSString *)partition
+                documentType:(Class)documentType
+                 readOptions:(nullable MSReadOptions *) readOptions
+           continuationToken:(nullable NSString *)continuationToken
+{
   if ((self = [super init])) {
     _currentPage = page;
+    _partition = partition;
+    _documentType = documentType;
+    _readOptions = readOptions;
     _continuationToken = continuationToken;
+  }
+  return self;
+}
+
+- (instancetype)initWithPage:(MSPage *)page
+{
+  if ((self = [super init])) {
+    _currentPage = page;
+    _continuationToken = nil;
   }
   return self;
 }
@@ -20,7 +45,7 @@
 - (instancetype)initWithError:(MSDataSourceError *)error {
   if ((self = [super init])) {
     MSPage *pageWithError = [[MSPage alloc] initWithError:error];
-    return [self initWithPage:pageWithError andContinuationToken:nil];
+    return [self initWithPage:pageWithError];
   }
   return self;
 }
@@ -29,11 +54,19 @@
   return !self.continuationToken.length;
 }
 
-- (MSPage<id<MSSerializableDocument>> *)nextPageWithCompletionHandler:
+- (void)nextPageWithCompletionHandler:
     (void (^)(MSPage<id<MSSerializableDocument>> *page))completionHandler {
-  // @todo
-  (void)completionHandler;
-  return nil;
+  if ([self hasNextPage]) {
+    [MSDataStore listWithPartition:self.partition
+                      documentType:self.documentType
+                       readOptions:nil
+                 continuationToken:self.continuationToken
+                 completionHandler:^(MSPaginatedDocuments *documents) {
+                   // TODO convert documents to page
+                   completionHandler(documents);
+    }];
+    
+  }
 }
 
 @end

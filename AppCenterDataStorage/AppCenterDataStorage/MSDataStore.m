@@ -74,7 +74,7 @@ static dispatch_once_t onceToken;
 + (void)listWithPartition:(NSString *)partition
              documentType:(Class)documentType
         completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler {
-  [[MSDataStore sharedInstance] listWithPartition:partition documentType:documentType readOptions:nil completionHandler:completionHandler];
+  [[MSDataStore sharedInstance] listWithPartition:partition documentType:documentType readOptions:nil continuationToken:nil completionHandler:completionHandler];
 }
 
 + (void)listWithPartition:(NSString *)partition
@@ -84,6 +84,7 @@ static dispatch_once_t onceToken;
   [[MSDataStore sharedInstance] listWithPartition:partition
                                      documentType:documentType
                                       readOptions:readOptions
+                                continuationToken:nil
                                 completionHandler:completionHandler];
 }
 
@@ -212,9 +213,22 @@ static dispatch_once_t onceToken;
                    }];
 }
 
++ (void)listWithPartition:(NSString *)partition
+             documentType:(Class)documentType
+              readOptions:(nullable MSReadOptions *)readOptions
+        continuationToken:(nullable NSString *)continuationToken
+        completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler {
+  [[MSDataStore sharedInstance] listWithPartition:partition
+                                     documentType:documentType
+                                      readOptions:readOptions
+                                continuationToken:continuationToken
+                                completionHandler:completionHandler];
+}
+
 - (void)listWithPartition:(NSString *)partition
              documentType:(Class)documentType
               readOptions:(MSReadOptions *)__unused readOptions
+        continuationToken:(nullable NSString *)continuationToken
         completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler {
 
   // TODO consume readOptions
@@ -222,17 +236,23 @@ static dispatch_once_t onceToken;
       performDbTokenAsyncOperationWithHttpClient:(MSStorageIngestion *)self.ingestion
                                        partition:partition
                                completionHandler:^(MSTokensResponse *_Nonnull tokenResponses, NSError *_Nonnull tokenExchangeError) {
+                                 
                                  // If error getting token
                                  if (tokenExchangeError || !tokenResponses) {
-                                   MSLogError([MSDataStore logTag], @"Can't get CosmosDb token:%@", [tokenExchangeError description]);
+                                   MSLogError([MSDataStore logTag], @"Can't get CosmosDb token: %@", [tokenExchangeError description]);
                                    MSDataSourceError *dataSourceTokenError = [[MSDataSourceError alloc] initWithError:tokenExchangeError];
                                    MSPaginatedDocuments *documents = [[MSPaginatedDocuments alloc] initWithError:dataSourceTokenError];
                                    completionHandler(documents);
                                    return;
                                  }
 
-                                 // Create http client
-                                 MSCosmosDbIngestion *cosmosDbIngestion = [[MSCosmosDbIngestion alloc] init];
+                                 // Create http client and headers.
+                                 MSCosmosDbIngestion *cosmosDbIngestion = [MSCosmosDbIngestion new];
+                                 NSDictionary *additionalHeaders = nil;
+                                 if (continuationToken) {
+                                   additionalHeaders = [NSDictionary new];
+                                   [additionalHeaders setValue:continuationToken forKey:kMSDocumentContinuationTokenHeaderKey];
+                                 }
 
                                  // Call CosmosDb.
                                  [MSCosmosDb
@@ -241,7 +261,7 @@ static dispatch_once_t onceToken;
                                                                       documentId:@""
                                                                       httpMethod:kMSHttpGetVerb
                                                                             body:nil
-                                                               additionalHeaders:nil
+                                                               additionalHeaders:additionalHeaders
                                                     completionHandlerWithHeaders:^(NSData *_Nonnull data, NSDictionary *headers,
                                                                                    NSError *_Nonnull cosmosDbError) {
                                                       
@@ -300,9 +320,11 @@ static dispatch_once_t onceToken;
 
                                                       // Instanciate the first page and return it.
                                                       MSPage *page = [[MSPage alloc] initWithItems:items];
-                                                      MSPaginatedDocuments *documents = [[MSPaginatedDocuments alloc]
-                                                                  initWithPage:page
-                                                          andContinuationToken:headers[kMSDocumentContinuationTokenHeaderKey]];
+                                                      MSPaginatedDocuments *documents = [[MSPaginatedDocuments alloc] initWithPage:page
+                                                                                                                         partition:partition
+                                                                                                                      documentType:documentType
+                                                                                                                       readOptions:nil
+                                                                                                                 continuationToken:headers[kMSDocumentContinuationTokenHeaderKey]];
                                                       completionHandler(documents);
                                                     }];
                                }];
