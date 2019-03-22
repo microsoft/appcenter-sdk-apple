@@ -4,7 +4,8 @@
 #import "MSMockKeychainUtil.h"
 #import "MSTestFrameworks.h"
 
-static NSMutableDictionary<NSString *, NSMutableDictionary<NSString *, NSString *> *> *dictionary;
+static NSMutableDictionary<NSString *, NSMutableDictionary<NSString *, NSString *> *> *stringsDictionary;
+static NSMutableDictionary<NSString *, NSMutableDictionary<NSString *, NSMutableArray *> *> *arraysDictionary;
 static NSString *kMSDefaultServiceName = @"DefaultServiceName";
 
 @interface MSMockKeychainUtil ()
@@ -16,7 +17,8 @@ static NSString *kMSDefaultServiceName = @"DefaultServiceName";
 @implementation MSMockKeychainUtil
 
 + (void)load {
-  dictionary = [NSMutableDictionary new];
+  stringsDictionary = [NSMutableDictionary new];
+  arraysDictionary = [NSMutableDictionary new];
 }
 
 - (instancetype)init {
@@ -55,10 +57,10 @@ static NSString *kMSDefaultServiceName = @"DefaultServiceName";
   if (!mutableArray) {
     return NO;
   }
-  if (!dictionary[serviceName]) {
-    dictionary[serviceName] = [NSMutableDictionary new];
+  if (!arraysDictionary[serviceName]) {
+    arraysDictionary[serviceName] = [NSMutableDictionary new];
   }
-  dictionary[serviceName][key] = mutableArray;
+  arraysDictionary[serviceName][key] = mutableArray;
   return YES;
 }
 
@@ -67,7 +69,7 @@ static NSString *kMSDefaultServiceName = @"DefaultServiceName";
 }
 
 + (nullable NSMutableArray *)arrayForKey:(NSString *)key withServiceName:(NSString *)serviceName {
-  return dictionary[serviceName][key];
+  return arraysDictionary[serviceName][key];
 }
 
 + (BOOL)storeString:(NSString *)string forKey:(NSString *)key {
@@ -80,10 +82,10 @@ static NSString *kMSDefaultServiceName = @"DefaultServiceName";
   if (!string) {
     return NO;
   }
-  if (!dictionary[serviceName]) {
-    dictionary[serviceName] = [NSMutableDictionary new];
+  if (!stringsDictionary[serviceName]) {
+    stringsDictionary[serviceName] = [NSMutableDictionary new];
   }
-  dictionary[serviceName][key] = string;
+  stringsDictionary[serviceName][key] = string;
   return YES;
 }
 
@@ -92,8 +94,8 @@ static NSString *kMSDefaultServiceName = @"DefaultServiceName";
 }
 
 + (NSString *_Nullable)deleteStringForKey:(NSString *)key withServiceName:(NSString *)serviceName {
-  NSString *value = dictionary[serviceName][key];
-  [dictionary[serviceName] removeObjectForKey:key];
+  NSString *value = stringsDictionary[serviceName][key];
+  [stringsDictionary[serviceName] removeObjectForKey:key];
   return value;
 }
 
@@ -102,16 +104,16 @@ static NSString *kMSDefaultServiceName = @"DefaultServiceName";
 }
 
 + (NSString *_Nullable)stringForKey:(NSString *)key withServiceName:(NSString *)serviceName {
-  return dictionary[serviceName][key];
+  return stringsDictionary[serviceName][key];
 }
 
 + (BOOL)clear {
-  [dictionary[kMSDefaultServiceName] removeAllObjects];
+  [stringsDictionary[kMSDefaultServiceName] removeAllObjects];
   return YES;
 }
 
 - (void)stopMocking {
-  [dictionary removeAllObjects];
+  [stringsDictionary removeAllObjects];
   [self.mockKeychainUtil stopMocking];
 }
 
