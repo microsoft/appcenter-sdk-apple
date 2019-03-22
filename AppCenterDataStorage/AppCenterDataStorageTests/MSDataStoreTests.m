@@ -93,10 +93,8 @@ additionalHeaders:(NSDictionary *_Nullable)additionalHeaders;
     NSString *result = [MSCosmosDb documentUrlWithTokenResult:tokenResult
                                                    documentId:@"documentId"];
     XCTAssertNotNil(result);
-    XCTAssertTrue([result containsString:@"documentId"]);
-    XCTAssertTrue([result containsString:@"dbAccount"]);
-    XCTAssertTrue([result containsString:@"dbName"]);
-    XCTAssertTrue([result containsString:@"dbCollectionName"]);
+    XCTAssertTrue([result isEqualToString:@"https://dbAccount.documents.azure.com/dbs/dbName/colls/dbCollectionName/docs/documentId"] );
+
 }
 
 - (void)testDocumentUrlWithTokenResultWithDictionaryToken {
@@ -112,10 +110,7 @@ additionalHeaders:(NSDictionary *_Nullable)additionalHeaders;
     NSString *result = [MSCosmosDb documentUrlWithTokenResult:tokenResult
                                                    documentId:@"documentId"];
     XCTAssertNotNil(result);
-    XCTAssertTrue([result containsString:@"documentId"]);
-    XCTAssertTrue([result containsString:@"dbAccount"]);
-    XCTAssertTrue([result containsString:@"dbName"]);
-    XCTAssertTrue([result containsString:@"dbCollectionName"]);
+    XCTAssertTrue([result isEqualToString:@"https://dbAccount.documents.azure.com/dbs/dbName/colls/dbCollectionName/docs/documentId"] );
 }
 
 @end
