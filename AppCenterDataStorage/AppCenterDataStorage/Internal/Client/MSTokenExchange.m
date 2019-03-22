@@ -37,7 +37,8 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
 
     if ([MSAuthTokenContext sharedInstance].authToken) {
       NSMutableDictionary *headers = [httpClient.httpHeaders mutableCopy];
-      headers[kMSAuthorizationHeaderKey] = [NSString stringWithFormat:kMSBearerTokenHeaderFormat, [MSAuthTokenContext sharedInstance].authToken];
+      headers[kMSAuthorizationHeaderKey] =
+          [NSString stringWithFormat:kMSBearerTokenHeaderFormat, [MSAuthTokenContext sharedInstance].authToken];
       httpClient.httpHeaders = headers;
     }
 
