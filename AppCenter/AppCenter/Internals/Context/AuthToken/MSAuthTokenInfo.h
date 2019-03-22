@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, nullable, readonly) NSDate *startTime;
 
 /**
- * Time and date to which token acted.
+ * Time and date to which token acted. In the keychain encoded data contains expiration time.
  */
 @property(nonatomic, nullable, readonly) NSDate *endTime;
 
