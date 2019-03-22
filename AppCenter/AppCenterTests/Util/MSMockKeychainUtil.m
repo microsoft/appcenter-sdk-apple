@@ -109,11 +109,13 @@ static NSString *kMSDefaultServiceName = @"DefaultServiceName";
 
 + (BOOL)clear {
   [stringsDictionary[kMSDefaultServiceName] removeAllObjects];
+  [arraysDictionary removeAllObjects];
   return YES;
 }
 
 - (void)stopMocking {
   [stringsDictionary removeAllObjects];
+  [arraysDictionary removeAllObjects];
   [self.mockKeychainUtil stopMocking];
 }
 
