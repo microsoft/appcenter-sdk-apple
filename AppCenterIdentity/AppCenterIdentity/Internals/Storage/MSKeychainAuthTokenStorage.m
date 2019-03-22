@@ -45,9 +45,9 @@
 
 - (void)saveAuthToken:(nullable NSString *)authToken withAccountId:(nullable NSString *)accountId expiresOn:(nullable NSDate *)expiresOn {
   @synchronized(self) {
-    NSMutableArray<MSAuthTokenInfo *> *authTokensHistory = [self authTokensHistoryState];
 
     // Read token array from storage.
+    NSMutableArray<MSAuthTokenInfo *> *authTokensHistory = [self authTokensHistoryState];
     if (![authTokensHistory.lastObject.authToken isEqual:authToken]) {
 
       // If new token differs from the last token of array - add it to array.

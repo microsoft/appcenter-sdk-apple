@@ -5,6 +5,7 @@
 
 #import "MSAuthTokenContext.h"
 #import "MSAuthTokenContextDelegate.h"
+#import "MSAuthTokenInfo.h"
 #import "MSChannelGroupProtocol.h"
 #import "MSChannelUnitProtocol.h"
 #import "MSHttpTestUtil.h"
@@ -131,7 +132,10 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
                                            appSecret:kMSTestAppSecret
                              transmissionTargetToken:nil
                                      fromApplication:YES];
-  [MSMockKeychainUtil storeString:expectedToken forKey:kMSIdentityAuthTokenKey];
+  MSAuthTokenInfo *authTokenInfo = [[MSAuthTokenInfo alloc] initWithAuthToken:expectedToken andStartTime:nil andEndTime:nil];
+  NSMutableArray<MSAuthTokenInfo *> *authTokenHistory = [NSMutableArray<MSAuthTokenInfo *> new];
+  [authTokenHistory addObject:authTokenInfo];
+  [MSMockKeychainUtil storeArray:authTokenHistory forKey:kMSIdentityAuthTokenArrayKey];
   NSString *expectedETag = @"eTag";
   [self.settingsMock setObject:expectedETag forKey:kMSIdentityETagKey];
   [self.settingsMock setObject:@"fakeHomeAccountId" forKey:kMSIdentityMSALAccountHomeAccountKey];
@@ -150,7 +154,10 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
   // If
   NSString *expectedToken = @"expected";
-  [MSMockKeychainUtil storeString:expectedToken forKey:kMSIdentityAuthTokenKey];
+  MSAuthTokenInfo *authTokenInfo = [[MSAuthTokenInfo alloc] initWithAuthToken:expectedToken andStartTime:nil andEndTime:nil];
+  NSMutableArray<MSAuthTokenInfo *> *authTokenHistory = [NSMutableArray<MSAuthTokenInfo *> new];
+  [authTokenHistory addObject:authTokenInfo];
+  [MSMockKeychainUtil storeArray:authTokenHistory forKey:kMSIdentityAuthTokenArrayKey];
   NSString *expectedETag = @"eTag";
   [self.settingsMock setObject:expectedETag forKey:kMSIdentityETagKey];
   NSData *serializedConfig = [NSJSONSerialization dataWithJSONObject:self.dummyConfigDic options:(NSJSONWritingOptions)0 error:nil];
@@ -194,7 +201,10 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
                                            appSecret:kMSTestAppSecret
                              transmissionTargetToken:nil
                                      fromApplication:YES];
-  [MSMockKeychainUtil storeString:@"foobar" forKey:kMSIdentityAuthTokenKey];
+  MSAuthTokenInfo *authTokenInfo = [[MSAuthTokenInfo alloc] initWithAuthToken:@"someToken" andStartTime:nil andEndTime:nil];
+  NSMutableArray<MSAuthTokenInfo *> *authTokenHistory = [NSMutableArray<MSAuthTokenInfo *> new];
+  [authTokenHistory addObject:authTokenInfo];
+  [MSMockKeychainUtil storeArray:authTokenHistory forKey:kMSIdentityAuthTokenArrayKey];
   [[MSAuthTokenContext sharedInstance] setAuthToken:@"someToken" withAccountId:@"someAccount" expiresOn:nil];
   [self.settingsMock setObject:@"fakeHomeAccountId" forKey:kMSIdentityMSALAccountHomeAccountKey];
   [self.sut setEnabled:YES];
@@ -204,11 +214,12 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
   // When
   [self.sut setEnabled:NO];
+  MSAuthTokenInfo *actualAuthTokenInfo = [[MSMockKeychainUtil arrayForKey:kMSIdentityAuthTokenArrayKey] lastObject];
 
   // Then
   XCTAssertNil(self.sut.clientApplication);
   XCTAssertNil([MSAuthTokenContext sharedInstance].authToken);
-  XCTAssertNil([MSMockKeychainUtil stringForKey:kMSIdentityAuthTokenKey]);
+  XCTAssertNil(actualAuthTokenInfo.authToken);
   OCMVerify([self.utilityMock deleteItemForPathComponent:[self.sut identityConfigFilePath]]);
   XCTAssertNil([self.settingsMock objectForKey:kMSIdentityETagKey]);
   XCTAssertNil([self.settingsMock objectForKey:kMSIdentityMSALAccountHomeAccountKey]);
@@ -440,11 +451,12 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
     self.signInError = error;
   };
   [MSIdentity signInWithCompletionHandler:handler];
+  MSAuthTokenInfo *actualAuthTokenInfo = [[MSMockKeychainUtil arrayForKey:kMSIdentityAuthTokenArrayKey] lastObject];
 
   // Then
   OCMVerify([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]);
   XCTAssertEqualObjects(idToken, [MSAuthTokenContext sharedInstance].authToken);
-  XCTAssertEqualObjects(idToken, [MSMockKeychainUtil stringForKey:kMSIdentityAuthTokenKey]);
+  XCTAssertEqualObjects(idToken, actualAuthTokenInfo.authToken);
   XCTAssertNotNil(self.signInUserInformation);
   XCTAssertEqualObjects(accountId, self.signInUserInformation.accountId);
   XCTAssertNil(self.signInError);
@@ -586,9 +598,10 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
   // When
   [self.sut acquireTokenSilentlyWithMSALAccount:accountMock];
+  MSAuthTokenInfo *actualAuthTokenInfo = [[MSMockKeychainUtil arrayForKey:kMSIdentityAuthTokenArrayKey] lastObject];
 
   // Then
-  XCTAssertEqualObjects([MSMockKeychainUtil stringForKey:kMSIdentityAuthTokenKey], expectedAuthToken);
+  XCTAssertEqualObjects(actualAuthTokenInfo.authToken, expectedAuthToken);
   XCTAssertEqualObjects([MSAuthTokenContext sharedInstance].authToken, expectedAuthToken);
   XCTAssertEqualObjects([self.settingsMock valueForKey:kMSIdentityMSALAccountHomeAccountKey], expectedHomeAccountId);
   [accountMock stopMocking];
@@ -728,11 +741,12 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
   // When we complete first call
   self.msalCompletionBlock(msalResultMock, nil);
+  MSAuthTokenInfo *actualAuthTokenInfo = [[MSMockKeychainUtil arrayForKey:kMSIdentityAuthTokenArrayKey] lastObject];
 
   // Then
   OCMVerify([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]);
   XCTAssertEqualObjects(idToken, [MSAuthTokenContext sharedInstance].authToken);
-  XCTAssertEqualObjects(idToken, [MSMockKeychainUtil stringForKey:kMSIdentityAuthTokenKey]);
+  XCTAssertEqualObjects(idToken, actualAuthTokenInfo.authToken);
   XCTAssertNotNil(self.signInUserInformation);
   XCTAssertEqualObjects(accountId, self.signInUserInformation.accountId);
   XCTAssertNil(self.signInError);
@@ -940,7 +954,10 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
                              transmissionTargetToken:nil
                                      fromApplication:YES];
   [[MSAuthTokenContext sharedInstance] setAuthToken:@"someToken" withAccountId:@"someAccount" expiresOn:nil];
-  [MSMockKeychainUtil storeString:@"someToken" forKey:kMSIdentityAuthTokenKey];
+  MSAuthTokenInfo *authTokenInfo = [[MSAuthTokenInfo alloc] initWithAuthToken:@"someToken" andStartTime:nil andEndTime:nil];
+  NSMutableArray<MSAuthTokenInfo *> *authTokenHistory = [NSMutableArray<MSAuthTokenInfo *> new];
+  [authTokenHistory addObject:authTokenInfo];
+  [MSMockKeychainUtil storeArray:authTokenHistory forKey:kMSIdentityAuthTokenArrayKey];
   [self.settingsMock setObject:@"someAccount" forKey:kMSIdentityMSALAccountHomeAccountKey];
   [[MSAuthTokenContext sharedInstance] cacheAuthToken];
   id identityMock = OCMPartialMock(self.sut);
@@ -949,9 +966,10 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
   // When
   [MSIdentity signOut];
+  MSAuthTokenInfo *actualAuthTokenInfo = [[MSMockKeychainUtil arrayForKey:kMSIdentityAuthTokenArrayKey] lastObject];
 
   // Then
-  XCTAssertNil([MSMockKeychainUtil stringForKey:kMSIdentityAuthTokenKey]);
+  XCTAssertNil(actualAuthTokenInfo.authToken);
   XCTAssertNil([self.settingsMock objectForKey:kMSIdentityMSALAccountHomeAccountKey]);
   [identityMock stopMocking];
 }
@@ -986,7 +1004,10 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   NSString *authToken = @"someToken";
   NSString *accountId = @"someAccount";
   [[MSAuthTokenContext sharedInstance] setAuthToken:authToken withAccountId:accountId expiresOn:nil];
-  [MSMockKeychainUtil storeString:authToken forKey:kMSIdentityAuthTokenKey];
+  MSAuthTokenInfo *authTokenInfo = [[MSAuthTokenInfo alloc] initWithAuthToken:authToken andStartTime:nil andEndTime:nil];
+  NSMutableArray<MSAuthTokenInfo *> *authTokenHistory = [NSMutableArray<MSAuthTokenInfo *> new];
+  [authTokenHistory addObject:authTokenInfo];
+  [MSMockKeychainUtil storeArray:authTokenHistory forKey:kMSIdentityAuthTokenArrayKey];
   [self.settingsMock setObject:accountId forKey:kMSIdentityMSALAccountHomeAccountKey];
   id identityMock = OCMPartialMock(self.sut);
   OCMStub([identityMock sharedInstance]).andReturn(identityMock);
@@ -994,10 +1015,11 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
   // When
   [MSIdentity signOut];
+  MSAuthTokenInfo *actualAuthTokenInfo = [[MSMockKeychainUtil arrayForKey:kMSIdentityAuthTokenArrayKey] lastObject];
 
   // Then
   XCTAssertEqualObjects([[MSAuthTokenContext sharedInstance] authToken], authToken);
-  XCTAssertEqualObjects([MSMockKeychainUtil stringForKey:kMSIdentityAuthTokenKey], authToken);
+  XCTAssertEqualObjects(actualAuthTokenInfo.authToken, authToken);
   XCTAssertEqualObjects([self.settingsMock objectForKey:kMSIdentityMSALAccountHomeAccountKey], accountId);
   [identityMock stopMocking];
 }

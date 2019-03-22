@@ -27,11 +27,6 @@ static NSString *const kMSIdentityConfigFilename = @"config.json";
 static NSString *const kMSIdentityETagKey = @"MSIdentityETagKey";
 
 /**
- * The key for Identity auth token stored in keychain.
- */
-static NSString *const kMSIdentityAuthTokenKey = @"MSIdentityAuthToken";
-
-/**
  * The key for Identity auth token array stored in keychain.
  */
 static NSString *const kMSIdentityAuthTokenArrayKey = @"MSIdentityAuthTokenArray";

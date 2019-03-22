@@ -25,6 +25,12 @@ static NSString *kMSDefaultServiceName = @"DefaultServiceName";
 
     // Mock MSUserDefaults shared method to return this instance.
     _mockKeychainUtil = OCMClassMock([MSKeychainUtil class]);
+    OCMStub([_mockKeychainUtil storeArray:[OCMArg any] forKey:[OCMArg any]]).andCall([self class], @selector(storeArray:forKey:));
+    OCMStub([_mockKeychainUtil storeArray:[OCMArg any] forKey:[OCMArg any] withServiceName:[OCMArg any]])
+        .andCall([self class], @selector(storeArray:forKey:withServiceName:));
+    OCMStub([_mockKeychainUtil arrayForKey:[OCMArg any]]).andCall([self class], @selector(arrayForKey:));
+    OCMStub([_mockKeychainUtil arrayForKey:[OCMArg any] withServiceName:[OCMArg any]])
+        .andCall([self class], @selector(arrayForKey:withServiceName:));
     OCMStub([_mockKeychainUtil storeString:[OCMArg any] forKey:[OCMArg any]]).andCall([self class], @selector(storeString:forKey:));
     OCMStub([_mockKeychainUtil storeString:[OCMArg any] forKey:[OCMArg any] withServiceName:[OCMArg any]])
         .andCall([self class], @selector(storeString:forKey:withServiceName:));
@@ -37,6 +43,31 @@ static NSString *kMSDefaultServiceName = @"DefaultServiceName";
     OCMStub([_mockKeychainUtil clear]).andCall([self class], @selector(clear));
   }
   return self;
+}
+
++ (BOOL)storeArray:(NSMutableArray *)mutableArray forKey:(NSString *)key {
+  return [self storeArray:mutableArray forKey:key withServiceName:kMSDefaultServiceName];
+}
+
++ (BOOL)storeArray:(NSMutableArray *)mutableArray forKey:(NSString *)key withServiceName:(NSString *)serviceName {
+
+  // Don't store nil objects.
+  if (!mutableArray) {
+    return NO;
+  }
+  if (!dictionary[serviceName]) {
+    dictionary[serviceName] = [NSMutableDictionary new];
+  }
+  dictionary[serviceName][key] = mutableArray;
+  return YES;
+}
+
++ (nullable NSMutableArray *)arrayForKey:(NSString *)key {
+  return [self arrayForKey:key withServiceName:kMSDefaultServiceName];
+}
+
++ (nullable NSMutableArray *)arrayForKey:(NSString *)key withServiceName:(NSString *)serviceName {
+  return dictionary[serviceName][key];
 }
 
 + (BOOL)storeString:(NSString *)string forKey:(NSString *)key {
