@@ -11,6 +11,8 @@
 
 @implementation MSKeychainAuthTokenStorage
 
+@synthesize authTokensHistoryState = _authTokensHistoryState;
+
 - (nullable NSString *)retrieveAuthToken {
   NSMutableArray<MSAuthTokenInfo *> *authTokensHistory = [self authTokensHistoryState];
   MSAuthTokenInfo *latestAuthTokenInfo = authTokensHistory.lastObject;
@@ -67,7 +69,7 @@
     }
 
     // Save new array.
-    [self storeAuthTokensHistoryState:authTokensHistory];
+    [self setAuthTokensHistoryState:authTokensHistory];
     if (authToken && accountId) {
       [MS_USER_DEFAULTS setObject:(NSString *)accountId forKey:kMSIdentityMSALAccountHomeAccountKey];
     } else {
@@ -105,23 +107,27 @@
 }
 
 - (NSMutableArray<MSAuthTokenInfo *> *)authTokensHistoryState {
-  NSMutableArray<MSAuthTokenInfo *> *authTokensHistory = [MSKeychainUtil arrayForKey:kMSIdentityAuthTokenArrayKey];
-  if (authTokensHistory) {
+  if (_authTokensHistoryState) {
+    return _authTokensHistoryState;
+  }
+  NSMutableArray<MSAuthTokenInfo *> *history = [MSKeychainUtil arrayForKey:kMSIdentityAuthTokenArrayKey];
+  if (history) {
     MSLogDebug([MSIdentity logTag], @"Retrieved history state from the keychain.");
   } else {
     MSLogWarning([MSIdentity logTag], @"Failed to retrieve history state from the keychain or none was found.");
-    authTokensHistory = [NSMutableArray<MSAuthTokenInfo *> new];
+    history = [NSMutableArray<MSAuthTokenInfo *> new];
   }
-  return authTokensHistory;
+  _authTokensHistoryState = history;
+  return _authTokensHistoryState;
 }
 
-- (BOOL)storeAuthTokensHistoryState:(NSMutableArray<MSAuthTokenInfo *> *)authTokensHistory {
+- (void)setAuthTokensHistoryState:(NSMutableArray<MSAuthTokenInfo *> *)authTokensHistory {
   if ([MSKeychainUtil storeArray:authTokensHistory forKey:kMSIdentityAuthTokenArrayKey]) {
     MSLogDebug([MSIdentity logTag], @"Saved new history state in the keychain.");
-    return YES;
+    _authTokensHistoryState = authTokensHistory;
+  } else {
+    MSLogWarning([MSIdentity logTag], @"Failed to save new history state in the keychain.");
   }
-  MSLogWarning([MSIdentity logTag], @"Failed to save new history state in the keychain.");
-  return NO;
 }
 
 @end
