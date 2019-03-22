@@ -7,6 +7,7 @@
 #import "MSTestFrameworks.h"
 
 @interface MSAuthTokenInfoTests : XCTestCase
+
 @property(nonatomic) id keychainUtilMock;
 @property(nonatomic, copy) NSString *acServiceName;
 

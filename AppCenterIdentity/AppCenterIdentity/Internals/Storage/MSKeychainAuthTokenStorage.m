@@ -49,8 +49,7 @@
     // Read token array from storage.
     NSMutableArray<MSAuthTokenInfo *> *authTokensHistory = [self authTokensHistoryState];
     NSString *latestAuthToken = [authTokensHistory lastObject].authToken;
-    if ((latestAuthToken != authToken) &&
-        !(latestAuthToken && authToken && [latestAuthToken isEqualToString:(NSString * _Nonnull) authToken])) {
+    if (latestAuthToken ? ![latestAuthToken isEqualToString:(NSString * _Nonnull) authToken] : authToken != nil) {
 
       // If new token differs from the last token of array - add it to array.
       MSAuthTokenInfo *newAuthToken = [[MSAuthTokenInfo alloc] initWithAuthToken:authToken andStartTime:[NSDate date] andEndTime:expiresOn];
