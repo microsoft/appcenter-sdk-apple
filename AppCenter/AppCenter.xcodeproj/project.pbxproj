@@ -396,6 +396,9 @@
 		3568A7EA201A91D100F3B860 /* MSCustomApplicationDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 38C633C61FDF15DD005F40C9 /* MSCustomApplicationDelegate.h */; };
 		3568A7EB201A91D100F3B860 /* MSCustomPropertiesLog.h in Headers */ = {isa = PBXBuildFile; fileRef = F803BBFA1E8E39AB004B1E7A /* MSCustomPropertiesLog.h */; };
 		3568A7EC201A921600F3B860 /* MSSessionContextPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 049378381FE44539000ADBAF /* MSSessionContextPrivate.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		3571F64C22454EDF0052406C /* MSHttpClientPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 3571F64B22454EDF0052406C /* MSHttpClientPrivate.h */; };
+		3571F64D22454EDF0052406C /* MSHttpClientPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 3571F64B22454EDF0052406C /* MSHttpClientPrivate.h */; };
+		3571F64E22454EDF0052406C /* MSHttpClientPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 3571F64B22454EDF0052406C /* MSHttpClientPrivate.h */; };
 		358F9BC920195F3300B9E22C /* MSLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 358F9BC22019531F00B9E22C /* MSLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3592ABA71DC90E3600EF4592 /* MSLoggerInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 3592ABA51DC90E3600EF4592 /* MSLoggerInternal.h */; };
 		3592ABA81DC90E3600EF4592 /* MSLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 3592ABA61DC90E3600EF4592 /* MSLogger.m */; };
@@ -971,6 +974,7 @@
 		3542741B2012B02600BE766F /* MSChannelDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSChannelDelegate.h; sourceTree = "<group>"; };
 		3542741C2012B53B00BE766F /* MSChannelUnitDefault.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSChannelUnitDefault.h; sourceTree = "<group>"; };
 		3542742220167DA400BE766F /* MSEnable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSEnable.h; sourceTree = "<group>"; };
+		3571F64B22454EDF0052406C /* MSHttpClientPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSHttpClientPrivate.h; sourceTree = "<group>"; };
 		358F9BC22019531F00B9E22C /* MSLogger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSLogger.h; sourceTree = "<group>"; };
 		3592ABA51DC90E3600EF4592 /* MSLoggerInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSLoggerInternal.h; sourceTree = "<group>"; };
 		3592ABA61DC90E3600EF4592 /* MSLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSLogger.m; sourceTree = "<group>"; };
@@ -1386,6 +1390,7 @@
 				2DA0373E842A41C8413D1722 /* MSHttpClientProtocol.h */,
 				2DA0350241FEC3A6A4919BFE /* MSHttpClient.m */,
 				2DA03260792C64C0290E6E41 /* MSHttpClient.h */,
+				3571F64B22454EDF0052406C /* MSHttpClientPrivate.h */,
 			);
 			path = HttpClient;
 			sourceTree = "<group>";
@@ -1920,6 +1925,7 @@
 				043120A91EE0BCF9007054C5 /* MSIngestionCallDelegate.h in Headers */,
 				38BC346F20B8CB0C00119C05 /* MSLogConversion.h in Headers */,
 				0446DF2E1F3B86C500C8E338 /* MSAbstractLogInternal.h in Headers */,
+				3571F64E22454EDF0052406C /* MSHttpClientPrivate.h in Headers */,
 				80B7EA2420CA9CC100DF524C /* MSEncrypter.h in Headers */,
 				80B7EA2620CA9CC500DF524C /* MSEncrypterPrivate.h in Headers */,
 				805275C420A1ADCF00704115 /* MSOneCollectorChannelDelegate.h in Headers */,
@@ -2049,6 +2055,7 @@
 				B2CD74861F22BD910070E7DF /* MSLogDBStorage.h in Headers */,
 				E74B14AB20B36B9B002C0183 /* MSLocExtension.h in Headers */,
 				04754F7C1EA98182002CBA46 /* MS_Reachability.h in Headers */,
+				3571F64D22454EDF0052406C /* MSHttpClientPrivate.h in Headers */,
 				B2CD74A11F22BE270070E7DF /* MSUtility.h in Headers */,
 				04754F7D1EA98182002CBA46 /* MSConstants.h in Headers */,
 				04754F7E1EA98182002CBA46 /* MSDeviceHistoryInfo.h in Headers */,
@@ -2178,6 +2185,7 @@
 				358F9BC920195F3300B9E22C /* MSLogger.h in Headers */,
 				3592ABA71DC90E3600EF4592 /* MSLoggerInternal.h in Headers */,
 				046658B8215AD59D0079DCC7 /* MSLogDBStorageVersion.h in Headers */,
+				3571F64C22454EDF0052406C /* MSHttpClientPrivate.h in Headers */,
 				3542741F2016769C00BE766F /* MSChannelUnitProtocol.h in Headers */,
 				35DFC1D52170030C00455589 /* MSLongTypedProperty.h in Headers */,
 				3542741D2016769C00BE766F /* MSChannelUnitDefault.h in Headers */,

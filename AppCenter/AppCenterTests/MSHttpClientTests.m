@@ -26,7 +26,7 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
 
 @interface MSHttpClient ()
 
-- (instancetype)initWithRetryIntervals:(NSArray *)retryIntervals;
+- (instancetype)initWithRetryIntervals:(NSArray *)retryIntervals reachability:(MS_Reachability *)reachability;
 
 @end
 
@@ -106,7 +106,7 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
   XCTAssertEqualObjects(actualRequest.HTTPBody, payload);
 }
 
-- (void)testGetWithHeadersWhileNetworkIsNotConnected {
+- (void)testGetWithHeadersWhileNetworkError {
 
   // If
   __block NSURLRequest *actualRequest;
@@ -205,6 +205,73 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
   XCTAssertEqual(numRequests, 1);
 }
 
+- (void)testNetworkDownAndThenUpAgain {
+
+  // If
+  // Stub HTTP response.
+  __block int numRequests = 0;
+  __block NSURLRequest *actualRequest;
+  __block BOOL completionHandlerCalled = NO;
+  __weak XCTestExpectation *expectation = [self expectationWithDescription:@""];
+  dispatch_semaphore_t timingSemaphore = dispatch_semaphore_create(0);
+
+  [OHHTTPStubs
+   stubRequestsPassingTest:^BOOL(__attribute__((unused)) NSURLRequest *request) {
+     ++numRequests;
+     actualRequest = request;
+     return YES;
+   }
+   withStubResponse:^OHHTTPStubsResponse *(__attribute__((unused)) NSURLRequest *request) {
+     return [OHHTTPStubsResponse responseWithData:[NSData data] statusCode:MSHTTPCodesNo204NoContent headers:nil];
+   }];
+  self.sut = [[MSHttpClient alloc] initWithRetryIntervals:@[@1] reachability:self.reachabilityMock];
+  NSURL *url = [NSURL URLWithString:@"https://mock/something?a=b"];
+  NSString *method = @"DELETE";
+  NSDictionary *headers = nil;
+  NSData *payload = nil;
+
+  // When
+  [self simulateReachabilityChangedNotification:NotReachable];
+  [self.sut sendAsync:url
+               method:method
+              headers:headers
+                 data:payload
+    completionHandler:^(NSData *responseBody, NSHTTPURLResponse *response, NSError *error) {
+
+      // Then
+      XCTAssertEqual(response.statusCode, MSHTTPCodesNo204NoContent);
+      XCTAssertEqualObjects(responseBody, [NSData data]);
+      XCTAssertNil(error);
+      completionHandlerCalled = YES;
+      [expectation fulfill];
+    }];
+
+  // Wait a while to make sure that the requests are not sent while the network is down.
+  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    dispatch_semaphore_signal(timingSemaphore);
+  });
+
+  dispatch_semaphore_wait(timingSemaphore, dispatch_time(DISPATCH_TIME_NOW, (int64_t)(kMSTestTimeout * NSEC_PER_SEC)));
+  XCTAssertFalse(completionHandlerCalled);
+  XCTAssertEqual(numRequests, 0);
+
+  // When
+  [self simulateReachabilityChangedNotification:ReachableViaWiFi];
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
+                               handler:^(NSError *_Nullable error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+
+                                 // Then
+                                 XCTAssertEqualObjects(actualRequest.URL, url);
+                                 XCTAssertEqualObjects(actualRequest.HTTPMethod, method);
+                                 XCTAssertEqualObjects(actualRequest.allHTTPHeaderFields, headers);
+                                 XCTAssertEqualObjects(actualRequest.HTTPBody, payload);
+                                 XCTAssertEqual(numRequests, 1);
+                               }];
+}
+
 - (void)testDeleteRecoverableErrorWithoutHeadersRetried {
 
   // If
@@ -222,7 +289,7 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
      return [OHHTTPStubsResponse responseWithData:[NSData data] statusCode:MSHTTPCodesNo500InternalServerError headers:nil];
    }];
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@""];
-  self.sut = [[MSHttpClient alloc] initWithRetryIntervals:retryIntervals];
+  self.sut = [[MSHttpClient alloc] initWithRetryIntervals:retryIntervals reachability:self.reachabilityMock];
   NSURL *url = [NSURL URLWithString:@"https://mock/something?a=b"];
   NSString *method = @"DELETE";
   NSDictionary *headers = nil;
@@ -255,6 +322,11 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
   XCTAssertEqualObjects(actualRequest.allHTTPHeaderFields, headers);
   XCTAssertEqualObjects(actualRequest.HTTPBody, payload);
   XCTAssertEqual(numRequests, 1 + [retryIntervals count]);
+}
+
+- (void)simulateReachabilityChangedNotification:(NetworkStatus)status {
+  self.currentNetworkStatus = status;
+  [[NSNotificationCenter defaultCenter] postNotificationName:kMSReachabilityChangedNotification object:self.reachabilityMock];
 }
 
 @end
