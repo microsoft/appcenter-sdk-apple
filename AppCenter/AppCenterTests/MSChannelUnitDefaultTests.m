@@ -1099,7 +1099,8 @@ static NSString *const kMSTestGroupId = @"GroupId";
   [self.sut pauseWithIdentifyingObjectSync:object];
 
   // When
-  [self.sut resumeWithIdentifyingObjectSync:object];
+  [[self.sut pausedIdentifyingObjects] removeObject:object];
+  [self.sut resumeWithIdentifyingObjectSync:[NSObject new]];
 
   // Then
   XCTAssertFalse([self.sut paused]);
