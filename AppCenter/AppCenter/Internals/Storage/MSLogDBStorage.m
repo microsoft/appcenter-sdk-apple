@@ -211,8 +211,8 @@ static const NSUInteger kMSSchemaVersion = 4;
 
 #pragma mark - Delete logs
 
-- (void)deleteLogsWithDateBefore:(NSDate *)dateBefore {
-  [self deleteLogsFromDBWithColumnName:kMSTimestampColumnName andTimestampBefore:[dateBefore timeIntervalSince1970]];
+- (void)deleteLogsWithDateBefore:(nonnull NSDate *)dateBefore {
+  [self deleteLogsFromDBWithColumnName:kMSTimestampColumnName andTimestampBefore:(long long)[dateBefore timeIntervalSince1970]];
 }
 
 - (NSArray<id<MSLog>> *)deleteLogsWithGroupId:(NSString *)groupId {
@@ -328,18 +328,18 @@ static const NSUInteger kMSSchemaVersion = 4;
   }];
 }
 
-- (void)deleteLogsFromDBWithColumnName:(NSString *)columnName andTimestampBefore:(unsigned int)timestampBefore {
+- (void)deleteLogsFromDBWithColumnName:(NSString *)columnName andTimestampBefore:(long long)timestampBefore {
   [self executeQueryUsingBlock:^int(void *db) {
     return [MSLogDBStorage deleteLogsFromDBWithColumnName:columnName andTimestampBefore:timestampBefore inOpenedDatabase:db];
   }];
 }
 
-+ (int)deleteLogsFromDBWithColumnName:(NSString *)columnName andTimestampBefore:(unsigned int)timestampBefore inOpenedDatabase:(void *)db {
++ (int)deleteLogsFromDBWithColumnName:(NSString *)columnName andTimestampBefore:(long long)timestampBefore inOpenedDatabase:(void *)db {
   NSString *deletionTrace = [NSString
       stringWithFormat:@"Deletion of log(s) by %@ with timestamp < %lld", columnName, timestampBefore];
 
   // Build up delete query.
-  NSString *whereCondition = [NSString stringWithFormat:@"\"%@\" < %lld)", columnName, timestampBefore];
+  NSString *whereCondition = [NSString stringWithFormat:@"\"%@\" < %lld", columnName, timestampBefore];
   NSString *deleteLogsQuery = [NSString stringWithFormat:@"DELETE FROM \"%@\" WHERE %@", kMSLogTableName, whereCondition];
 
   // Execute.

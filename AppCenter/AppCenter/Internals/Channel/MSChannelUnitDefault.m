@@ -226,7 +226,9 @@
   // Reset item count and load data from the storage.
   self.itemsCount = 0;
   MSAuthTokenInfo *tokenInfo = [MSAuthTokenContext sharedInstance].storage.oldestAuthToken;
-  [self.storage deleteLogsWithDateBefore:tokenInfo.startTime];
+  if (tokenInfo.startTime) {
+    [self.storage deleteLogsWithDateBefore:(NSDate *_Nonnull)tokenInfo.startTime];
+  }
   self.availableBatchFromStorage = [self.storage
       loadLogsWithGroupId:self.configuration.groupId
                     limit:self.configuration.batchSizeLimit
