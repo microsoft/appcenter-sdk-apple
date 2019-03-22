@@ -13,6 +13,7 @@
 #import "MSChannelUnitDefaultPrivate.h"
 #import "MSDeviceTracker.h"
 #import "MSIngestionProtocol.h"
+#import "MSKeychainAuthTokenStorage.h"
 #import "MSStorage.h"
 #import "MSUserIdContext.h"
 #import "MSUtility+StringFormatting.h"
