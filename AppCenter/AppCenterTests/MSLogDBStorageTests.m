@@ -627,7 +627,6 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
 - (void)testDeleteLogsByDateBefore {
 
   // If
-  __block NSArray *expectedLogs;
   NSString *condition;
   NSArray *remainingLogs;
   [self.sut.batches removeAllObjects];
@@ -654,7 +653,7 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   // Then
   remainingLogs = [self loadLogsWhere:nil];
   condition = [NSString stringWithFormat:@"%@ = %lld", kMSTimestampColumnName, (long long)[deleteLogEntriesBefore timeIntervalSince1970]];
-  assertThatInteger([self.sut countEntriesForTable:kMSLogTableName condition:@""], equalToInteger(5));
+  assertThatInteger([self.sut countEntriesForTable:kMSLogTableName condition:@""], equalToInteger((NSInteger)[logsRemainExpected count]));
 }
 
 - (void)testCommonSchemaLogTargetTokenIsSavedAndRestored {
@@ -1013,7 +1012,7 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
                                flags:MSFlagsDefault
                              storage:storage0
               andVerifyLogGeneration:YES
-                           timestamp:[[NSDate new] timeIntervalSince1970]];
+                           timestamp:(long long)[[NSDate new] timeIntervalSince1970]];
 
   // When
   self.sut = [MSLogDBStorage new];
@@ -1048,7 +1047,7 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
                                flags:MSFlagsDefault
                              storage:storage1
               andVerifyLogGeneration:YES
-                           timestamp:[[NSDate new] timeIntervalSince1970]];
+                           timestamp:(long long)[[NSDate new] timeIntervalSince1970]];
 
   // When
   self.sut = [MSLogDBStorage new];
@@ -1084,7 +1083,7 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
                                flags:MSFlagsDefault
                              storage:storage2
               andVerifyLogGeneration:YES
-                           timestamp:[[NSDate new] timeIntervalSince1970]];
+                           timestamp:(long long)[[NSDate new] timeIntervalSince1970]];
 
   // When
   self.sut = [MSLogDBStorage new];
@@ -1120,7 +1119,7 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
                                flags:MSFlagsDefault
                              storage:storage3
               andVerifyLogGeneration:YES
-                           timestamp:[[NSDate new] timeIntervalSince1970]];
+                           timestamp:(long long)[[NSDate new] timeIntervalSince1970]];
 
   // When
   self.sut = [MSLogDBStorage new];
@@ -1161,7 +1160,7 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
                                       flags:flags
                                     storage:self.sut
                      andVerifyLogGeneration:verify
-                                  timestamp:[logDate timeIntervalSince1970]];
+                                  timestamp:(long long)[logDate timeIntervalSince1970]];
 }
 
 - (NSArray<id<MSLog>> *)generateAndSaveLogsWithCount:(NSUInteger)count
@@ -1176,7 +1175,7 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
                                       flags:flags
                                     storage:self.sut
                      andVerifyLogGeneration:verify
-                                  timestamp:[logDate timeIntervalSince1970]];
+                                  timestamp:(long long)[logDate timeIntervalSince1970]];
 }
 
 - (NSArray<id<MSLog>> *)generateAndSaveLogsWithCount:(NSUInteger)count
