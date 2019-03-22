@@ -212,8 +212,7 @@ static const NSUInteger kMSSchemaVersion = 4;
 #pragma mark - Delete logs
 
 - (void)deleteLogsWithDateBefore:(NSDate *)dateBefore {
-  NSArray<id<MSLog>> *logs = [self logsFromDBWithDateBefore:dateBefore];
-  [[self deleteLogsFromDBWithColumnName:kMSTimestampColumnName andTimestampBefore:[dateBefore timeIntervalSince1970]];
+  [self deleteLogsFromDBWithColumnName:kMSTimestampColumnName andTimestampBefore:[dateBefore timeIntervalSince1970]];
 }
 
 - (NSArray<id<MSLog>> *)deleteLogsWithGroupId:(NSString *)groupId {
@@ -245,20 +244,6 @@ static const NSUInteger kMSSchemaVersion = 4;
 }
 
 #pragma mark - DB selection
-
-- (NSArray<id<MSLog>> *)logsFromDBWithDateBefore:(NSDate *)dateBefore {
-
-  // Get log entries for the given group Id.
-  NSString *condition = [NSString stringWithFormat:@"\"%@\" < %u", kMSTimestampColumnName, (unsigned int)[dateBefore timeIntervalSince1970]];
-  NSArray<NSArray *> *logEntries = [self logsWithCondition:condition];
-
-  // Get logs only.
-  NSMutableArray<id<MSLog>> *logs = [NSMutableArray<id<MSLog>> new];
-  for (NSArray *logEntry in logEntries) {
-    [logs addObject:logEntry[self.logColumnIndex]];
-  }
-  return logs;
-}
 
 - (NSArray<id<MSLog>> *)logsFromDBWithGroupId:(NSString *)groupId {
 
@@ -351,18 +336,18 @@ static const NSUInteger kMSSchemaVersion = 4;
 
 + (int)deleteLogsFromDBWithColumnName:(NSString *)columnName andTimestampBefore:(unsigned int)timestampBefore inOpenedDatabase:(void *)db {
   NSString *deletionTrace = [NSString
-      stringWithFormat:@"Deletion of log(s) by %@ with timestamp< %u", columnName, timestampBefore];
+      stringWithFormat:@"Deletion of log(s) by %@ with timestamp < %lld", columnName, timestampBefore];
 
   // Build up delete query.
-  NSString *whereCondition = [NSString stringWithFormat:@"\"%@\" < %u)", columnName, timestampBefore];
+  NSString *whereCondition = [NSString stringWithFormat:@"\"%@\" < %lld)", columnName, timestampBefore];
   NSString *deleteLogsQuery = [NSString stringWithFormat:@"DELETE FROM \"%@\" WHERE %@", kMSLogTableName, whereCondition];
 
   // Execute.
   int result = [MSDBStorage executeNonSelectionQuery:deleteLogsQuery inOpenedDatabase:db];
   if (result == SQLITE_OK) {
-    MSLogVerbose([MSAppCenter logTag], @"%@ %@", deletionTrace, @"succeeded.");
+    MSLogVerbose([MSAppCenter logTag], @"%@ succeeded.", deletionTrace);
   } else {
-    MSLogError([MSAppCenter logTag], @"%@ %@", deletionTrace, @"failed.");
+    MSLogError([MSAppCenter logTag], @"%@ failed.", deletionTrace);
   }
   return result;
 }
@@ -381,9 +366,9 @@ static const NSUInteger kMSSchemaVersion = 4;
   // Execute.
   int result = [MSDBStorage executeNonSelectionQuery:deleteLogsQuery inOpenedDatabase:db];
   if (result == SQLITE_OK) {
-    MSLogVerbose([MSAppCenter logTag], @"%@ %@", deletionTrace, @"succeeded.");
+    MSLogVerbose([MSAppCenter logTag], @"%@ succeeded.", deletionTrace);
   } else {
-    MSLogError([MSAppCenter logTag], @"%@ %@", deletionTrace, @"failed.");
+    MSLogError([MSAppCenter logTag], @"%@ failed.", deletionTrace);
   }
   return result;
 }

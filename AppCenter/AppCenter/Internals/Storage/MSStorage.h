@@ -62,7 +62,7 @@ typedef void (^MSLoadDataCompletionHandler)(NSArray<id<MSLog>> *_Nullable logArr
 /**
  * Delete logs with date less than the given param from the storage.
  *
- * @param batchId Id of the log to be deleted from storage.
+ * @param dateBefore date of log entries to filter for delete.
  */
 - (void)deleteLogsWithDateBefore:(NSDate *)dateBefore;
 

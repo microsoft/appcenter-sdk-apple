@@ -15,7 +15,6 @@
 #import "MSUserIdContext.h"
 #import "MSUtility+StringFormatting.h"
 #import "MSAuthTokenInfo.h"
-#import "MSKeychainAuthTokenStorage.h"
 #import "MSAuthTokenStorage.h"
 
 @implementation MSChannelUnitDefault
