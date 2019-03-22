@@ -200,8 +200,7 @@ static dispatch_once_t onceToken;
                 writeOptions:(MSWriteOptions *)writeOptions
            completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
 
-  // In the current version we do not support E-tag optimistic concurrency logic and `replace` will call Create (POST) operation instead of
-  // Replace (PUT).
+  // In the current version we do not support E-tag optimistic concurrency logic and replace will call create.
   [self createOrReplaceWithPartition:partition
                           documentId:documentId
                             document:document
@@ -311,7 +310,7 @@ static dispatch_once_t onceToken;
     return;
   }
   [self performOperationForPartition:partition
-                          documentId:@""
+                          documentId:nil
                           httpMethod:kMSHttpMethodPost
                                 body:body
                    additionalHeaders:additionalHeaders
