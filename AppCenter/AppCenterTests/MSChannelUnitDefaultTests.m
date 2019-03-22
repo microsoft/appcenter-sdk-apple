@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import <Foundation/Foundation.h>
-#import <OCMock/OCMock.h>
-
 #import "MSAbstractLogInternal.h"
 #import "MSAppCenter.h"
+#import "MSAuthTokenContext.h"
+#import "MSAuthTokenInfo.h"
+#import "MSAuthTokenStorage.h"
 #import "MSChannelDelegate.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitDefault.h"
@@ -14,6 +14,7 @@
 #import "MSHttpIngestion.h"
 #import "MSHttpTestUtil.h"
 #import "MSLogContainer.h"
+#import "MSServiceCommon.h"
 #import "MSStorage.h"
 #import "MSTestFrameworks.h"
 #import "MSUserIdContext.h"
@@ -1236,6 +1237,26 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                  XCTAssertTrue([excludedKeys count] == 1);
                                  XCTAssertTrue([excludedKeys containsObject:targetKey]);
                                }];
+}
+
+- (void)testLogsBeforeOldestTokenDeletedOnFlushQueue {
+
+  // If
+  NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+  [dateFormat setDateFormat:@"yyyyMMdd"];
+  NSDate *tokenStartTime = [dateFormat dateFromString:@"20190402"];
+  NSDate *tokenEndTime = [dateFormat dateFromString:@"20190403"];
+  id<MSAuthTokenStorage> tokenStorageMock = OCMProtocolMock(@protocol(MSAuthTokenStorage));
+  [MSAuthTokenContext sharedInstance].storage = tokenStorageMock;
+  MSAuthTokenInfo *tokenInfo = [[MSAuthTokenInfo alloc] initWithAuthToken:@"AuthToken" andStartTime:tokenStartTime andEndTime:tokenEndTime];
+  OCMStub([tokenStorageMock oldestAuthToken]).andReturn(tokenInfo);
+  OCMStub([self.storageMock countLogs]).andReturn(10);
+
+  // When
+  [self.sut flushQueue];
+
+  // Then
+  OCMVerify([self.storageMock deleteLogsWithDateBefore:tokenStartTime]);
 }
 
 - (void)testLogsStoredWhenTargetKeyIsPaused {

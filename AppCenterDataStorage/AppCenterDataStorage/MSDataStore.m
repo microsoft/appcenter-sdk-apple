@@ -277,12 +277,12 @@ static dispatch_once_t onceToken;
       performDbTokenAsyncOperationWithHttpClient:(MSStorageIngestion *)self.ingestion
                                        partition:partition
                                completionHandler:^(MSTokensResponse *_Nonnull tokenResponses, NSError *_Nonnull tokenExchangeError) {
-
                                  // If error getting token.
                                  if (tokenExchangeError || [tokenResponses.tokens count] == 0) {
                                    NSNumber *httpStatusCode = [tokenExchangeError userInfo][kMSCosmosDbHttpCodeKey];
-                                     MSLogError([MSDataStore logTag], @"Can't get CosmosDb token. Error: %@;  HTTP status code: %d; Partition: %@", tokenExchangeError.localizedDescription,
-                                              [httpStatusCode intValue], partition);
+                                   MSLogError([MSDataStore logTag],
+                                              @"Can't get CosmosDb token. Error: %@;  HTTP status code: %d; Partition: %@",
+                                              tokenExchangeError.localizedDescription, [httpStatusCode intValue], partition);
                                    completionHandler([[MSDataSourceError alloc] initWithError:tokenExchangeError]);
                                    return;
                                  }
@@ -297,15 +297,16 @@ static dispatch_once_t onceToken;
                                                                       httpMethod:kMSHttpDeleteVerb
                                                                             body:[NSData data]
                                                                completionHandler:^(NSData *__unused data, NSError *_Nonnull cosmosDbError) {
-
                                                                  // body returned from call (data) is empty
                                                                  NSNumber *httpStatusCode =
                                                                      [cosmosDbError userInfo][kMSCosmosDbHttpCodeKey];
                                                                  if ([httpStatusCode integerValue] != MSHTTPCodesNo204NoContent) {
-                                                                   MSLogError([MSDataStore logTag],
-                                                                              @"Not able to delete document. Error: %@; HTTP status code: %d; "
-                                                                              @"Document: %@/%@", cosmosDbError.localizedDescription,
-                                                                              [httpStatusCode intValue], partition, documentId);
+                                                                   MSLogError(
+                                                                       [MSDataStore logTag],
+                                                                       @"Not able to delete document. Error: %@; HTTP status code: %d; "
+                                                                       @"Document: %@/%@",
+                                                                       cosmosDbError.localizedDescription, [httpStatusCode intValue],
+                                                                       partition, documentId);
                                                                  } else {
                                                                    MSLogDebug([MSDataStore logTag], @"Document deleted: %@/%@", partition,
                                                                               documentId);
