@@ -52,7 +52,7 @@ else
   resp="$(pod repo add $repo_name https://$user_account:$access_token@github.com/$GITHUB_ORG_NAME/$repo_name.git)"
 fi
 
-error="$(echo $resp | grep -i 'error\|fatal')"
+error="$(echo $resp | grep -i 'error\|fatal\|exception')"
 if [ "$error" ]; then
   echo "Couldn't add private spec repo for $mode"
   exit 1
@@ -107,7 +107,7 @@ if [ "$mode" == "internal" ] || [ "$mode" == "test" ]; then
   echo $resp
 
   # Check error from the response
-  error="$(echo $resp | grep -i 'error\|fatal')"
+  error="$(echo $resp | grep -i 'error\|fatal\|exception')"
   if [ "$error" ]; then
     echo "Cannot publish to internal repo"
     exit 1
@@ -127,7 +127,7 @@ else
   echo $resp
 
   # Check error from the response
-  error="$(echo $resp | grep -i 'error\|fatal')"
+  error="$(echo $resp | grep -i 'error\|fatal\|exception')"
   if [ "$error" ]; then
     echo "Cannot publish to CocoaPods due to spec validation failure"
     exit 1
@@ -138,7 +138,7 @@ else
   echo $resp
 
   # Check error from the response
-  error="$(echo $resp | grep -i 'error\|fatal')"
+  error="$(echo $resp | grep -i 'error\|fatal\|exception')"
   if [ "$error" ]; then
     echo "Cannot publish to CocoaPods"
     exit 1
