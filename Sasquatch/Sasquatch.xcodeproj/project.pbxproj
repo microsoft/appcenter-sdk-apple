@@ -885,8 +885,6 @@
 		D31EF96B1E9517C600450162 /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
 		D31EF96D1E9517C600450162 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D31EF96F1E9517C600450162 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E822D64E224444080091E2F5 /* UserSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserSettings.h; sourceTree = "<group>"; };
-		E822D688224444080091E2F5 /* UserSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserSettings.m; sourceTree = "<group>"; };
 		E8BABE9E224416FC0001B7E0 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F809D5031FC6DA2B005E0F83 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F84924542111C83000E14DBE /* Watch.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Watch.xcconfig; sourceTree = "<group>"; };
@@ -1120,8 +1118,6 @@
 		84226C481E88FF4A00798417 /* SasquatchObjC */ = {
 			isa = PBXGroup;
 			children = (
-				E822D64E224444080091E2F5 /* UserSettings.h */,
-				E822D688224444080091E2F5 /* UserSettings.m */,
 				84226D401E89538D00798417 /* AppCenterDelegateObjC.h */,
 				84226D411E8953F100798417 /* AppCenterDelegateObjC.m */,
 				046790451E8DA8DD0033FDEC /* SasquatchObjC.entitlements */,
@@ -2381,7 +2377,6 @@
 				84226C4E1E88FF4A00798417 /* AppDelegate.m in Sources */,
 				807DB553212164E000F35E03 /* MSSignInViewController.swift in Sources */,
 				B2B36CE21EEF49B700230341 /* MSCustomPropertiesViewController.swift in Sources */,
-				E822D689224444080091E2F5 /* UserSettings.m in Sources */,
 				84226C4B1E88FF4A00798417 /* main.m in Sources */,
 				359171F720F7F80800F3DDE6 /* PropertiesTableSection.swift in Sources */,
 				84A0FF6C1E8A87E1000E7A28 /* MSDistributeViewController.swift in Sources */,
@@ -2457,7 +2452,6 @@
 				B20AE38D21027D6200A1A195 /* AppDelegate.m in Sources */,
 				B20AE38E21027D6200A1A195 /* MSCustomPropertiesViewController.swift in Sources */,
 				B20AE38F21027D6200A1A195 /* main.m in Sources */,
-				E822D68A224446AC0091E2F5 /* UserSettings.m in Sources */,
 				B20AE39021027D6200A1A195 /* PropertiesTableSection.swift in Sources */,
 				B20AE39221027D6200A1A195 /* MSDistributeViewController.swift in Sources */,
 				F8AA9F372164F994009104E3 /* MSAnalyticsTypedPropertyTableViewCell.swift in Sources */,
