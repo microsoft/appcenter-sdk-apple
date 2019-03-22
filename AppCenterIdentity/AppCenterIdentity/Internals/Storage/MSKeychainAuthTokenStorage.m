@@ -48,10 +48,15 @@
 
     // Read token array from storage.
     NSMutableArray<MSAuthTokenInfo *> *authTokensHistory = [self authTokensHistoryState];
+    if (authTokensHistory.count == 0) {
+
+      // Add nil token if the entire story is empty.
+      [authTokensHistory addObject:[MSAuthTokenInfo new]];
+    }
+
+    // If new token differs from the last token of array - add it to array.
     NSString *latestAuthToken = [authTokensHistory lastObject].authToken;
     if (latestAuthToken ? ![latestAuthToken isEqualToString:(NSString * _Nonnull) authToken] : authToken != nil) {
-
-      // If new token differs from the last token of array - add it to array.
       MSAuthTokenInfo *newAuthToken = [[MSAuthTokenInfo alloc] initWithAuthToken:authToken andStartTime:[NSDate date] andEndTime:expiresOn];
       [authTokensHistory addObject:newAuthToken];
     }
@@ -106,11 +111,6 @@
   } else {
     MSLogWarning([MSIdentity logTag], @"Failed to retrieve history state from the keychain or none was found.");
     authTokensHistory = [NSMutableArray<MSAuthTokenInfo *> new];
-  }
-  if (authTokensHistory.count == 0) {
-
-    // Add nil token if the entire story is empty.
-    [authTokensHistory addObject:[MSAuthTokenInfo new]];
   }
   return authTokensHistory;
 }
