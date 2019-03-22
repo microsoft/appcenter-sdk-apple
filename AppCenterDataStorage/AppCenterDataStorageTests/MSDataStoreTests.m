@@ -122,7 +122,6 @@
     NSString *testResult;
 
     // When
-
     testResult = [MSCosmosDb documentUrlWithTokenResult:tokenResult documentId:@"documentId"];
 
     // Then
