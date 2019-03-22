@@ -5,6 +5,11 @@
 
 @class MSDataSourceError;
 
+static NSString *const kMSDocumentIdKey = @"id";
+static NSString *const kMSDocumentTimestampKey = @"_ts";
+static NSString *const kMSDocumentEtagKey = @"_etag";
+static NSString *const kMSDocumentKey = @"document";
+
 @interface MSDocumentWrapper<T : id <MSSerializableDocument>> : NSObject
 
 /**

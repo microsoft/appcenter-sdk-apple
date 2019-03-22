@@ -8,26 +8,6 @@
 #import "MSSerializableObject.h"
 #import "MSServiceInternal.h"
 
-/**
- * CosmosDb document id key.
- */
-static NSString *const kMSDocumentIdKey = @"id";
-
-/**
- * CosmosDb document timestamp key.
- */
-static NSString *const kMSDocumentTimestampKey = @"_ts";
-
-/**
- * CosmosDb document eTag key.
- */
-static NSString *const kMSDocumentEtagKey = @"_etag";
-
-/**
- * CosmosDb document key.
- */
-static NSString *const kMSDocumentKey = @"document";
-
 @implementation MSDocumentWrapper
 
 @synthesize jsonValue = _jsonValue;

@@ -38,6 +38,9 @@ static NSString *const kMSGroupId = @"DataStorage";
  */
 static NSString *const kMSDocumentUpsertHeaderKey = @"x-ms-documentdb-is-upsert";
 
+/**
+ * CosmosDb continuation token header key.
+ */
 static NSString *const kMSDocumentContinuationTokenHeaderKey = @"x-ms-continuation";
 
 /**
@@ -271,6 +274,7 @@ static dispatch_once_t onceToken;
                                                                additionalHeaders:nil
                                                     completionHandlerWithHeaders:^(NSData *_Nonnull data, NSDictionary *headers,
                                                                                    NSError *_Nonnull cosmosDbError) {
+                                                      
                                                       // If not OK.
                                                       if (!data || [MSDataSourceError errorCodeWithError:cosmosDbError] !=
                                                                        kMSACDocumentSucceededErrorCode) {
