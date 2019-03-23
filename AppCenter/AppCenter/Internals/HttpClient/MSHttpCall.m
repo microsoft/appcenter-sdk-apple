@@ -6,8 +6,19 @@
 
 @implementation MSHttpCall
 
-- (instancetype)initWithRetryIntervals:(NSArray *)retryIntervals {
-  (void)retryIntervals;
+- (instancetype)initWithUrl:(NSURL *)url
+                     method:(NSString *)method
+                    headers:(NSDictionary<NSString *, NSString *> *)headers
+                       data:(NSData *)data
+             retryIntervals:(NSArray *)retryIntervals
+          completionHandler:(MSHttpRequestCompletionHandler)completionHandler {
+  _url = url;
+  _method = method;
+  _headers = headers;
+  _data = data;
+  _retryIntervals = retryIntervals;
+  _completionHandler = completionHandler;
+  _retryCount = 0;
   return self;
 }
 

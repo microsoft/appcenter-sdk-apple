@@ -6,16 +6,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class MSHttpCall;
-
-typedef void (^MSHttpCallCompletionHandler)(MSHttpCall *call, NSData *responseBody, NSHTTPURLResponse *response, NSError *error);
-
 @interface MSHttpCall : NSObject
 
 /**
  * Request body.
  */
-@property(nonatomic) NSData *body;
+@property(nonatomic) NSData *data;
 
 /**
  * Request headers.
@@ -69,7 +65,7 @@ typedef void (^MSHttpCallCompletionHandler)(MSHttpCall *call, NSData *responseBo
                     headers:(nullable NSDictionary<NSString *, NSString *> *)headers
                        data:(nullable NSData *)data
              retryIntervals:(NSArray *)retryIntervals
-          completionHandler:(MSHttpCallCompletionHandler)completionHandler;
+          completionHandler:(MSHttpRequestCompletionHandler)completionHandler;
 
 /**
  * Indicate if the limit of maximum retries has been reached.
