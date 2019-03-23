@@ -15,7 +15,7 @@
 
 - (instancetype)init {
   if ((self = [super init])) {
-    _session = [NSURLSession new];
+    _session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
     _pendingCalls = [NSMutableSet new];
     _reachability = [MS_Reachability new];
     _retryIntervals = @[ @1.0 ];
@@ -25,7 +25,7 @@
 
 - (instancetype)initWithMaxHttpConnectionsPerHost:(int)maxHttpConnectionsPerHost {
   if ((self = [super init])) {
-    NSURLSessionConfiguration *config = [NSURLSessionConfiguration new];
+    NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
     config.HTTPMaximumConnectionsPerHost = maxHttpConnectionsPerHost;
     _session = [NSURLSession sessionWithConfiguration:config];
     _pendingCalls = [NSMutableSet new];
@@ -37,7 +37,7 @@
 
 - (instancetype)initWithRetryIntervals:(NSArray *)retryIntervals reachability:(MS_Reachability *)reachability {
   if ((self = [super init])) {
-    _session = [NSURLSession new];
+    _session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
     _pendingCalls = [NSMutableSet new];
     _reachability = reachability;
     _retryIntervals = [NSArray arrayWithArray:retryIntervals];
