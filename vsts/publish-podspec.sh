@@ -123,7 +123,7 @@ if [ "$mode" == "internal" ] || [ "$mode" == "test" ]; then
 else
 
   ## 1. Run lint to validate podspec.
-  resp="$(pod spec lint $PODSPEC_FILENAME)"
+  resp="$(pod spec lint --verbose $PODSPEC_FILENAME)"
   echo $resp
 
   # Check error from the response
