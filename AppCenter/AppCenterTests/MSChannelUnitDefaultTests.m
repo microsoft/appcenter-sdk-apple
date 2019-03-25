@@ -1095,15 +1095,21 @@ static NSString *const kMSTestGroupId = @"GroupId";
 - (void)testResumeWhenOnlyPausedObjectIsDeallocated {
 
   // If
-  NSObject *object = [NSObject new];
-  [self.sut pauseWithIdentifyingObjectSync:object];
+  __weak NSObject *weakObject = nil;
+  @autoreleasepool {
+    NSObject *object = [NSObject new];
+    weakObject = object;
+    // Ignore arc-repeated-use-of-weak warning in this scope to simulate dealloc.
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-repeated-use-of-weak"
+    [self.sut pauseWithIdentifyingObjectSync:weakObject];
+#pragma clang diagnostic pop
+  }
 
   // Then
   XCTAssertTrue([self.sut paused]);
 
   // When
-  // To use `dealloc`, `-fno-objc-arc` flag should be enabled for this class in Build Phases > Compile Sources.
-  [object dealloc];
   [self.sut resumeWithIdentifyingObjectSync:[NSObject new]];
 
   // Then

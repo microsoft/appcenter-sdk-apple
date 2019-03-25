@@ -546,7 +546,7 @@
 		6E3E2CC11D3596AE00B1EE50 /* MSDeviceLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E3E2CC01D3596AE00B1EE50 /* MSDeviceLogTests.m */; };
 		6E48A5A41D3831FE006E8B5F /* MSChannelUnitConfigurationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E48A5A31D3831FE006E8B5F /* MSChannelUnitConfigurationTests.m */; };
 		6E48A5A71D383893006E8B5F /* MSChannelGroupDefaultTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E48A5A61D383893006E8B5F /* MSChannelGroupDefaultTests.m */; };
-		6EB1F40E1D2443B7005F9F99 /* MSChannelUnitDefaultTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EB1F40D1D2443B7005F9F99 /* MSChannelUnitDefaultTests.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		6EB1F40E1D2443B7005F9F99 /* MSChannelUnitDefaultTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EB1F40D1D2443B7005F9F99 /* MSChannelUnitDefaultTests.m */; };
 		6EF628F41D371B1600CAFF64 /* MSChannelUnitConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF628F21D371B1600CAFF64 /* MSChannelUnitConfiguration.h */; };
 		6EF628F51D371B1600CAFF64 /* MSChannelUnitConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EF628F31D371B1600CAFF64 /* MSChannelUnitConfiguration.m */; };
 		7FB7054B222E595F00D93258 /* MSMockReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FB70548222E58FB00D93258 /* MSMockReachability.m */; };
