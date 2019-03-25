@@ -6,7 +6,7 @@
 #import "MSConstants+Internal.h"
 #import "MSHttpCall.h"
 #import "MSHttpClientPrivate.h"
-#import "MSIngestionUtil.h"
+#import "MSHttpUtil.h"
 #import "MSLoggerInternal.h"
 #import "MSUtility+StringFormatting.h"
 #import "MS_Reachability.h"
@@ -79,21 +79,28 @@
   NSURLSessionDataTask *task =
       [self.session dataTaskWithRequest:request
                       completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                        NSHTTPURLResponse *httpResponse;
                         @synchronized(self) {
 
-                          /*
-                           * If the call was canceled, then it won't have been removed above, and thus, we should not call the completion
-                           * handler, because the cancelation would have already done so.
-                           */
-                          if ([self.pendingCalls containsObject:call]) {
-                            [self.pendingCalls removeObject:call];
-                          } else {
+                          // If canceled, then return immediately.
+                          if (![self.pendingCalls containsObject:call]) {
+                            MSLogDebug([MSAppCenter logTag], @"HTTP call was canceled, not processing result.");
+                            NSLog(@"HTTP call was canceled, not processing result.");
                             return;
                           }
+
+                          httpResponse = (NSHTTPURLResponse *)response;
+                          if ([MSHttpUtil isRecoverableError:httpResponse.statusCode] && ![call hasReachedMaxRetries]) {
+                            NSLog(@"Recoverable error with remaining retries. Retry enqueued.");
+                            [call startRetryTimerWithStatusCode:httpResponse.statusCode event:^{
+                              [self sendCallAsync:call];
+                            }];
+                            return;
+                          }
+                          [self.pendingCalls removeObject:call];
                         }
 
                         // Unblock the caller now with the outcome of the call.
-                        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
                         call.completionHandler(data, httpResponse, error);
 
                         // Log error payload.
@@ -112,11 +119,13 @@
   [task resume];
 }
 
+
+
 - (NSString *)obfuscateHeaderValue:(NSString *)value forKey:(NSString *)key {
   if ([key isEqualToString:kMSAuthorizationHeaderKey]) {
-    return [MSIngestionUtil hideAuthToken:value];
+    return [MSHttpUtil hideAuthToken:value];
   } else if ([key isEqualToString:kMSHeaderAppSecretKey]) {
-    return [MSIngestionUtil hideSecret:value];
+    return [MSHttpUtil hideSecret:value];
   }
   return value;
 }

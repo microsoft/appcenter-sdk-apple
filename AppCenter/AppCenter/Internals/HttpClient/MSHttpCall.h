@@ -67,6 +67,8 @@ NS_ASSUME_NONNULL_BEGIN
              retryIntervals:(NSArray *)retryIntervals
           completionHandler:(MSHttpRequestCompletionHandler)completionHandler;
 
+- (void)startRetryTimerWithStatusCode:(NSUInteger)statusCode event:(dispatch_block_t)event;
+
 /**
  * Indicate if the limit of maximum retries has been reached.
  *
