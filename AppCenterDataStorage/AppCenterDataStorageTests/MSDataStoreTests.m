@@ -3,12 +3,6 @@
 
 #import <Foundation/Foundation.h>
 
-#if TARGET_OS_OSX
-#import <AppKit/AppKit.h>
-#else
-#import <UserNotifications/UserNotifications.h>
-#endif
-
 #import "MSChannelGroupProtocol.h"
 #import "MSChannelUnitProtocol.h"
 #import "MSDataStore.h"
