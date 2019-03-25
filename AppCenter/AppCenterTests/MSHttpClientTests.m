@@ -13,6 +13,7 @@
 #import "MSMockLog.h"
 #import "MSTestFrameworks.h"
 #import <OHHTTPStubs/OHHTTPStubs.h>
+#import <OHHTTPStubs/NSURLRequest+HTTPBodyTesting.h>
 
 static NSTimeInterval const kMSTestTimeout = 5.0;
 
@@ -64,7 +65,7 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
 
   // Stub HTTP response.
   [OHHTTPStubs
-      stubRequestsPassingTest:^BOOL(__attribute__((unused)) NSURLRequest *request) {
+      stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         actualRequest = request;
         return YES;
       }
@@ -77,12 +78,11 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
   NSURL *url = [NSURL URLWithString:@"https://mock/something?a=b"];
   NSString *method = @"POST";
   NSData *payload = [@"somePayload" dataUsingEncoding:kCFStringEncodingUTF8];
-  NSDictionary *headers = @{@"Content-Length" : [@([payload length]) stringValue]};
 
   // When
   [self.sut sendAsync:url
                  method:method
-                headers:headers
+                headers:nil
                    data:payload
       completionHandler:^(NSData *responseBody, NSHTTPURLResponse *response, NSError *error) {
         // Then
@@ -101,16 +101,17 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
   // OHHTTPStubs does not populate the request payload, so do not perform a check for it.
   XCTAssertEqualObjects(actualRequest.URL, url);
   XCTAssertEqualObjects(actualRequest.HTTPMethod, method);
-  XCTAssertEqualObjects(actualRequest.allHTTPHeaderFields, headers);
+  XCTAssertEqualObjects(actualRequest.OHHTTPStubs_HTTPBody, payload);
 }
 
 - (void)testGetWithHeadersWhileNetworkError {
 
   // If
   __block NSURLRequest *actualRequest;
+  
   // Stub HTTP response.
   [OHHTTPStubs
-      stubRequestsPassingTest:^BOOL(__attribute__((unused)) NSURLRequest *request) {
+      stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         actualRequest = request;
         return YES;
       }
@@ -122,14 +123,13 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
   self.sut = [MSHttpClient new];
   NSURL *url = [NSURL URLWithString:@"https://mock/something?a=b"];
   NSString *method = @"GET";
-  NSDictionary *headers = @{@"Authorization" : @"something", @"Content-Length" : @"0"};
-  NSData *payload = nil;
+  NSDictionary *headers = @{@"Authorization" : @"something"};
 
   // When
   [self.sut sendAsync:url
                  method:method
                 headers:headers
-                   data:payload
+                   data:nil
       completionHandler:^(NSData *responseBody, NSHTTPURLResponse *response, NSError *error) {
         // Then
         XCTAssertNil(response);
@@ -147,17 +147,18 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
   // Then
   XCTAssertEqualObjects(actualRequest.URL, url);
   XCTAssertEqualObjects(actualRequest.HTTPMethod, method);
-  XCTAssertEqualObjects(actualRequest.allHTTPHeaderFields, headers);
+  XCTAssertEqualObjects(actualRequest.allHTTPHeaderFields[@"Authorization"],  @"something");
 }
 
 - (void)testDeleteUnrecoverableErrorWithoutHeadersNotRetried {
 
   // If
+
   // Stub HTTP response.
   __block int numRequests = 0;
   __block NSURLRequest *actualRequest;
   [OHHTTPStubs
-      stubRequestsPassingTest:^BOOL(__attribute__((unused)) NSURLRequest *request) {
+      stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         ++numRequests;
         actualRequest = request;
         return YES;
@@ -169,14 +170,12 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
   self.sut = [MSHttpClient new];
   NSURL *url = [NSURL URLWithString:@"https://mock/something?a=b"];
   NSString *method = @"DELETE";
-  NSDictionary *headers = [NSDictionary new];
-  NSData *payload = nil;
 
   // When
   [self.sut sendAsync:url
                  method:method
-                headers:headers
-                   data:payload
+                headers:nil
+                   data:nil
       completionHandler:^(NSData *responseBody, NSHTTPURLResponse *response, NSError *error) {
         // Then
         XCTAssertEqual(response.statusCode, MSHTTPCodesNo400BadRequest);
@@ -194,13 +193,13 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
   // Then
   XCTAssertEqualObjects(actualRequest.URL, url);
   XCTAssertEqualObjects(actualRequest.HTTPMethod, method);
-  XCTAssertEqualObjects(actualRequest.allHTTPHeaderFields, headers);
   XCTAssertEqual(numRequests, 1);
 }
 
 - (void)testNetworkDownAndThenUpAgain {
 
   // If
+
   // Stub HTTP response.
   __block int numRequests = 0;
   __block NSURLRequest *actualRequest;
@@ -209,7 +208,7 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
   dispatch_semaphore_t timingSemaphore = dispatch_semaphore_create(0);
 
   [OHHTTPStubs
-      stubRequestsPassingTest:^BOOL(__attribute__((unused)) NSURLRequest *request) {
+      stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         ++numRequests;
         actualRequest = request;
         return YES;
@@ -220,15 +219,13 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
   self.sut = [[MSHttpClient alloc] initWithRetryIntervals:@[ @1 ] reachability:self.reachabilityMock];
   NSURL *url = [NSURL URLWithString:@"https://mock/something?a=b"];
   NSString *method = @"DELETE";
-  NSDictionary *headers = [NSDictionary new];
-  NSData *payload = nil;
 
   // When
   [self simulateReachabilityChangedNotification:NotReachable];
   [self.sut sendAsync:url
                  method:method
-                headers:headers
-                   data:payload
+                headers:nil
+                   data:nil
       completionHandler:^(NSData *responseBody, NSHTTPURLResponse *response, NSError *error) {
         // Then
         XCTAssertEqual(response.statusCode, MSHTTPCodesNo204NoContent);
@@ -258,7 +255,6 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
                                  // Then
                                  XCTAssertEqualObjects(actualRequest.URL, url);
                                  XCTAssertEqualObjects(actualRequest.HTTPMethod, method);
-                                 XCTAssertEqualObjects(actualRequest.allHTTPHeaderFields, headers);
                                  XCTAssertEqual(numRequests, 1);
                                }];
 }
@@ -266,12 +262,13 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
 - (void)testDeleteRecoverableErrorWithoutHeadersRetried {
 
   // If
+
   // Stub HTTP response.
   __block int numRequests = 0;
   __block NSURLRequest *actualRequest;
   NSArray *retryIntervals = @[ @0.1, @0.2 ];
   [OHHTTPStubs
-      stubRequestsPassingTest:^BOOL(__attribute__((unused)) NSURLRequest *request) {
+      stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         ++numRequests;
         actualRequest = request;
         return YES;
@@ -283,14 +280,12 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
   self.sut = [[MSHttpClient alloc] initWithRetryIntervals:retryIntervals reachability:self.reachabilityMock];
   NSURL *url = [NSURL URLWithString:@"https://mock/something?a=b"];
   NSString *method = @"DELETE";
-  NSDictionary *headers = [NSDictionary new];
-  NSData *payload = nil;
 
   // When
   [self.sut sendAsync:url
                  method:method
-                headers:headers
-                   data:payload
+                headers:nil
+                   data:nil
       completionHandler:^(NSData *responseBody, NSHTTPURLResponse *response, NSError *error) {
         // Then
         XCTAssertEqual(response.statusCode, MSHTTPCodesNo500InternalServerError);
@@ -309,7 +304,6 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
   // Then
   XCTAssertEqualObjects(actualRequest.URL, url);
   XCTAssertEqualObjects(actualRequest.HTTPMethod, method);
-  XCTAssertEqualObjects(actualRequest.allHTTPHeaderFields, headers);
   XCTAssertEqual(numRequests, 1 + [retryIntervals count]);
 }
 
