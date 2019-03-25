@@ -9,6 +9,14 @@
 #import "MSTokenExchange.h"
 #import "MSSerializableDocument.h"
 
+// Redefine readonly properties to be locally readwrite-able.
+@interface MSPaginatedDocuments ()
+
+@property(nonatomic, strong, readwrite) MSPage *currentPage;
+@property(nonatomic, strong, readwrite, nullable) NSString *continuationToken;
+
+@end
+
 @implementation MSPaginatedDocuments
 
 @synthesize currentPage = _currentPage;
@@ -62,8 +70,13 @@
                        readOptions:nil
                  continuationToken:self.continuationToken
                  completionHandler:^(MSPaginatedDocuments *documents) {
-                   // TODO convert documents to page
-                   completionHandler(documents);
+                   
+                   // Update current page and continuation token.
+                   self.currentPage = documents.currentPage;
+                   self.continuationToken = documents.continuationToken;
+                   
+                   // Notify completion handler.
+                   completionHandler(documents.currentPage);
     }];
     
   }
