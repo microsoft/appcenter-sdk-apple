@@ -141,6 +141,23 @@ static NSString *const expiresOn = @"mockDate";
   XCTAssertEqualObjects(result, token2);
 }
 
+- (void)testSerializedToStringFailed {
+
+  // If
+  id serialization = OCMClassMock([NSJSONSerialization class]);
+  OCMStub(ClassMethod([serialization isValidJSONObject:OCMOCK_ANY])).andReturn(NO);
+  NSData *tokenData = [NSJSONSerialization dataWithJSONObject:[self getDefaultTokenData] options:NSJSONWritingPrettyPrinted error:nil];
+  NSString *tokenString = [[NSString alloc] initWithData:tokenData encoding:NSUTF8StringEncoding];
+
+  // When
+  MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithString:tokenString];
+  NSString *serializedString = [tokenResult serializeToString];
+
+  // Then
+  XCTAssertNil(serializedString);
+  [serialization stopMocking];
+}
+
 - (void)testGetTokenResponseWithDictionary {
 
   // If
