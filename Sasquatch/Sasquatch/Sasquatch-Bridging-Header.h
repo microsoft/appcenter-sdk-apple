@@ -8,6 +8,7 @@
 
 #import "Constants.h"
 #import "CrashLib.h"
+#import "AppDelegate.h"
 
 #if GCC_PREPROCESSOR_MACRO_PUPPET
 #import "MSEventFilter.h"

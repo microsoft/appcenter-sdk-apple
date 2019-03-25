@@ -7,6 +7,7 @@
 #import "MSAuthTokenContext.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitProtocol.h"
+#import "MSConstants+Internal.h"
 #import "MSCosmosDb.h"
 #import "MSDataSourceError.h"
 #import "MSDataStoreErrors.h"
@@ -51,13 +52,6 @@ static NSString *const kMSDocumentKey = @"document";
  * CosmosDb upsert header key.
  */
 static NSString *const kMSDocumentUpsertHeaderKey = @"x-ms-documentdb-is-upsert";
-
-/**
- * HTTP method names.
- */
-static NSString *const kMSHttpMethodDelete = @"DELETE";
-static NSString *const kMSHttpMethodGet = @"GET";
-static NSString *const kMSHttpMethodPost = @"POST";
 
 /**
  * Singleton.
@@ -200,8 +194,7 @@ static dispatch_once_t onceToken;
                 writeOptions:(MSWriteOptions *)writeOptions
            completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
 
-  // In the current version we do not support E-tag optimistic concurrency logic and `replace` will call Create (POST) operation instead of
-  // Replace (PUT).
+  // In the current version we do not support E-tag optimistic concurrency logic and replace will call create.
   [self createOrReplaceWithPartition:partition
                           documentId:documentId
                             document:document
@@ -277,6 +270,7 @@ static dispatch_once_t onceToken;
                                 body:[NSData data]
                    additionalHeaders:nil
                    completionHandler:^(NSData *__unused data, NSError *_Nonnull cosmosDbError) {
+
                      // Body returned from call (data) is empty.
                      NSInteger httpStatusCode = [MSDataSourceError errorCodeFromError:cosmosDbError];
                      if (httpStatusCode != MSHTTPCodesNo204NoContent) {
@@ -310,7 +304,7 @@ static dispatch_once_t onceToken;
     return;
   }
   [self performOperationForPartition:partition
-                          documentId:@""
+                          documentId:nil
                           httpMethod:kMSHttpMethodPost
                                 body:body
                    additionalHeaders:additionalHeaders
@@ -318,7 +312,7 @@ static dispatch_once_t onceToken;
                      // If not created.
                      NSInteger errorCode = [MSDataSourceError errorCodeFromError:cosmosDbError];
                      if (!data || (errorCode != kMSACDocumentCreatedErrorCode && errorCode != kMSACDocumentSucceededErrorCode)) {
-                       MSLogError([MSDataStore logTag], @"Not able to create/replace document:%@", [cosmosDbError description]);
+                       MSLogError([MSDataStore logTag], @"Not able to create/replace document: %@", [cosmosDbError description]);
                        completionHandler([[MSDocumentWrapper alloc] initWithError:cosmosDbError documentId:documentId]);
                        return;
                      }
@@ -345,7 +339,7 @@ static dispatch_once_t onceToken;
                                                                                                documentId:documentId
                                                                                                      eTag:eTag
                                                                                           lastUpdatedDate:date];
-                     MSLogDebug([MSDataStore logTag], @"Document created/replaced with ID:%@", documentId);
+                     MSLogDebug([MSDataStore logTag], @"Document created/replaced with ID: %@", documentId);
                      completionHandler(docWrapper);
                      return;
                    }];
