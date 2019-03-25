@@ -450,7 +450,7 @@ static dispatch_once_t onceToken;
 + (instancetype)sharedInstance {
   dispatch_once(&onceToken, ^{
     if (sharedInstance == nil) {
-      sharedInstance = [self new];
+      sharedInstance = [[MSDataStore alloc] init];
     }
   });
   return sharedInstance;
