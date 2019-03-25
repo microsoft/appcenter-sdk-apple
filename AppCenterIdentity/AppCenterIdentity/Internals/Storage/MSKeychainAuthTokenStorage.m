@@ -43,6 +43,14 @@
    */
 }
 
+- (NSMutableArray<MSAuthTokenInfo *> *)authTokenArray {
+  NSMutableArray<MSAuthTokenInfo *> *tokenArray = [MSKeychainUtil arrayForKey:kMSIdentityAuthTokenArrayKey];
+  if (tokenArray == nil) {
+    return [NSMutableArray<MSAuthTokenInfo *> new];
+  }
+  return tokenArray;
+}
+
 - (void)saveAuthToken:(nullable NSString *)authToken withAccountId:(nullable NSString *)accountId expiresOn:(nullable NSDate *)expiresOn {
   @synchronized(self) {
 

@@ -31,6 +31,13 @@ NS_ASSUME_NONNULL_BEGIN
 - (MSAuthTokenInfo *)oldestAuthToken;
 
 /**
+ * Returns array of auth tokens.
+ *
+ * @return Array of MSAuthTokenInfo
+ */
+- (NSMutableArray<MSAuthTokenInfo *> *)authTokenArray;
+
+/**
  * Stores auth token and account ID to settings and keychain.
  *
  * @param authToken Auth token.

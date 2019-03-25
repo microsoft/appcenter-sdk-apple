@@ -80,8 +80,18 @@ typedef void (^MSLoadDataCompletionHandler)(NSArray<id<MSLog>> *_Nullable logArr
 - (BOOL)loadLogsWithGroupId:(NSString *)groupId
                       limit:(NSUInteger)limit
          excludedTargetKeys:(nullable NSArray<NSString *> *)excludedTargetKeys
+                  afterDate:(nullable NSDate *)dateAfter
                  beforeDate:(nullable NSDate *)date
           completionHandler:(nullable MSLoadDataCompletionHandler)completionHandler;
+
+/**
+ * Return amount of log entries before date.
+ *
+ * @param date Date to count logs until.
+ *
+ * @return amount of log entries.
+ */
+- (NSUInteger)countLogsBeforeDate:(nullable NSDate *)date;
 
 /**
  * Set the maximum size of the internal storage. This method must be called before App Center is started.

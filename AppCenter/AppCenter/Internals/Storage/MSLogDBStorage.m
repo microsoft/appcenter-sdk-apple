@@ -127,10 +127,17 @@ static const NSUInteger kMSSchemaVersion = 4;
 
 #pragma mark - Load logs
 
+- (NSUInteger)countLogsBeforeDate:(NSDate *)date {
+  NSMutableString *condition =
+      [NSMutableString stringWithFormat:@"\"%@\" <= '%lld'", kMSTimestampColumnName, (long long)[date timeIntervalSince1970]];
+  return [self countEntriesForTable:kMSLogTableName condition:condition];
+}
+
 - (BOOL)loadLogsWithGroupId:(NSString *)groupId
                       limit:(NSUInteger)limit
          excludedTargetKeys:(nullable NSArray<NSString *> *)excludedTargetKeys
-                 beforeDate:(nullable NSDate *)date
+                  afterDate:(nullable NSDate *)afterDate
+                 beforeDate:(nullable NSDate *)beforeDate
           completionHandler:(nullable MSLoadDataCompletionHandler)completionHandler {
   BOOL logsAvailable;
   BOOL moreLogsAvailable = NO;
@@ -161,8 +168,11 @@ static const NSUInteger kMSSchemaVersion = 4;
   }
 
   // Filter by time.
-  if (date) {
-    [condition appendFormat:@" AND \"%@\" <= '%lld'", kMSTimestampColumnName, (long long)[date timeIntervalSince1970]];
+  if (afterDate) {
+    [condition appendFormat:@" AND \"%@\" >= '%lld'", kMSTimestampColumnName, (long long)[afterDate timeIntervalSince1970]];
+  }
+  if (beforeDate) {
+    [condition appendFormat:@" AND \"%@\" <= '%lld'", kMSTimestampColumnName, (long long)[beforeDate timeIntervalSince1970]];
   }
 
   // Build the "ORDER BY" clause's conditions.
