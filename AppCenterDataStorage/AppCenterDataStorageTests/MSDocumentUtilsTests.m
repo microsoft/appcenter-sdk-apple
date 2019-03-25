@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+#import "MSDataStorageConstants.h"
 #import "MSDocumentUtils.h"
 #import "MSTestFrameworks.h"
 
@@ -21,9 +22,9 @@
   NSDictionary *actualDic = [MSDocumentUtils documentPayloadWithDocumentId:documentId partition:partition document:document];
 
   // Then
-  XCTAssertEqualObjects(actualDic[@"document"], document);
-  XCTAssertEqualObjects(actualDic[@"PartitionKey"], partition);
-  XCTAssertEqualObjects(actualDic[@"id"], documentId);
+  XCTAssertEqualObjects(actualDic[kMSDocument], document);
+  XCTAssertEqualObjects(actualDic[kMSPartitionKey], partition);
+  XCTAssertEqualObjects(actualDic[kMSIdKey], documentId);
 }
 
 @end
