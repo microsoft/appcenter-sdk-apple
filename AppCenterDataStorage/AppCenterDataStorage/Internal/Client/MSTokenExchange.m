@@ -11,6 +11,7 @@
 #import "MSStorageIngestion.h"
 #import "MSTokenResult.h"
 #import "MSTokensResponse.h"
+#import "MSDataStoreErrors.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -45,19 +46,7 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
     [httpClient sendAsync:payloadData
         completionHandler:^(NSString *callId, NSHTTPURLResponse *response, NSData *data, NSError *error) {
           MSLogVerbose([MSDataStore logTag], @"Get token callback, request Id %@ with status code: %td", callId, response.statusCode);
-
-          // Read tokens.
-          NSError *tokenResponsejsonError;
-          NSDictionary *jsonDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&tokenResponsejsonError];
-          if (tokenResponsejsonError) {
-            MSLogError([MSDataStore logTag], @"Can't deserialize tokens with error: %@", [tokenResponsejsonError description]);
-            completionHandler([[MSTokensResponse alloc] initWithTokens:nil], error);
-            return;
-          }
-
-          // Create token result object.
-          MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:jsonDictionary[kMSTokens][0]];
-
+          
           // Token exchange failed to give back a token
           if (error) {
             MSLogError([MSDataStore logTag], @"Get on DB Token had an error with code: %td, description: %@", error.code,
@@ -66,13 +55,33 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
             return;
           }
 
+          // Read tokens.
+          NSError *tokenResponsejsonError;
+          NSDictionary *jsonDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&tokenResponsejsonError];
+          if (tokenResponsejsonError) {
+            MSLogError([MSDataStore logTag], @"Can't deserialize tokens with error: %@", [tokenResponsejsonError description]);
+            NSError *serializeError = [[NSError alloc] initWithDomain:kMSACDataStoreErrorDomain
+                                                        code:MSDataStoreErrorJSONSerializationFailed
+                                                    userInfo:@{kMSACDataStoreErrorDescriptionKey:
+                                                                 [NSString stringWithFormat: @"Can't deserialize tokens with error: %@", [tokenResponsejsonError description]]}];
+            completionHandler([[MSTokensResponse alloc] initWithTokens:nil], serializeError);
+            return;
+          }
+
+          // Create token result object.
+          MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:jsonDictionary[kMSTokens][0]];
+
           // Create token response object.
           MSTokensResponse *tokens = [[MSTokensResponse alloc] initWithTokens:@[ tokenResult ]];
 
           // Token exchange did not get back an error but acquiring the token did not succeed either
           if (tokenResult && ![tokenResult.status isEqualToString:kMSTokenResultSucceed]) {
             MSLogError([MSDataStore logTag], @"Token result had a status of %@", tokenResult.status);
-            completionHandler(tokens, error);
+            NSError *statusError = [[NSError alloc] initWithDomain:kMSACDataStoreErrorDomain
+                                                                 code:MSDataStoreErrorHTTPError
+                                                             userInfo:@{kMSACDataStoreErrorDescriptionKey:
+                                                                          [NSString stringWithFormat:@"Token result had a status of %@", tokenResult.status]}];
+            completionHandler(tokens, statusError);
             return;
           }
 
