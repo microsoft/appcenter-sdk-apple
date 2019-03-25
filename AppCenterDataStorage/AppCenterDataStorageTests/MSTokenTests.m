@@ -73,7 +73,6 @@ static NSString *const expiresOn = @"mockDate";
 
   // When
   NSString *resultString = [result serializeToString];
-
   NSDictionary *resultDic = [self deserializeDataString:resultString];
   NSDictionary *tokenDic = [self deserializeDataString:tokenString];
 
@@ -182,7 +181,7 @@ static NSString *const expiresOn = @"mockDate";
   [self compareTokenObject:result andDictinary:tokenDic];
 }
 
-// Helper Methods
+#pragma mark - Helper methods
 
 - (NSObject *)getDefaultTokenData {
   return @{
