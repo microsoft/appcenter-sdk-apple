@@ -35,172 +35,149 @@
 
 @implementation MSDataStoreTests
 
-- (void)setUp {
-    [super setUp];
-}
+static NSString *const kMSTokenTest = @"token";
+static NSString *const kMSPartitionTest = @"partition";
+static NSString *const kMSDbAccountTest = @"dbAccount";
+static NSString *const kMSDbNameTest = @"dbName";
+static NSString *const kMSDbCollectionNameTest = @"dbCollectionName";
+static NSString *const kMSStatusTest = @"status";
+static NSString *const kMSExpiresOnTest = @"20191212";
+static NSString *const kMSDocumentIdTest = @"documentId";
 
-- (void)tearDown {
-    [super tearDown];
+- (nullable NSMutableDictionary *)prepareMutableDictionary {
+  NSMutableDictionary *_Nullable tokenResultDictionary = [NSMutableDictionary new];
+  tokenResultDictionary[@"partition"] = kMSPartitionTest;
+  tokenResultDictionary[@"dbAccount"] = kMSDbAccountTest;
+  tokenResultDictionary[@"dbName"] = kMSDbNameTest;
+  tokenResultDictionary[@"dbCollectionName"] = kMSDbCollectionNameTest;
+  tokenResultDictionary[@"token"] = kMSTokenTest;
+  tokenResultDictionary[@"status"] = kMSStatusTest;
+  tokenResultDictionary[@"expiresOn"] = kMSExpiresOnTest;
+  return tokenResultDictionary;
 }
 
 - (void)testDefaultHeaderWithPartitionWithDictionaryNotNull {
 
-    // If
-    NSMutableDictionary *_Nullable additionalHeaders = [NSMutableDictionary new];
-    additionalHeaders[@"Type1"] = @"Value1";
-    additionalHeaders[@"Type2"] = @"Value2";
-    additionalHeaders[@"Type3"] = @"Value3";
+  // If
+  NSMutableDictionary *_Nullable additionalHeaders = [NSMutableDictionary new];
+  additionalHeaders[@"Type1"] = @"Value1";
+  additionalHeaders[@"Type2"] = @"Value2";
+  additionalHeaders[@"Type3"] = @"Value3";
 
-    // When
-    NSDictionary *dic = [MSCosmosDb defaultHeaderWithPartition:@"partition" dbToken:@"token" additionalHeaders:additionalHeaders];
+  // When
+  NSDictionary *dic = [MSCosmosDb defaultHeaderWithPartition:kMSPartitionTest dbToken:kMSTokenTest additionalHeaders:additionalHeaders];
 
-    // Then
-    XCTAssertNotNil(dic);
-    XCTAssertTrue(dic[@"Type1"]);
-    XCTAssertTrue(dic[@"Type2"]);
-    XCTAssertTrue(dic[@"Type3"]);
+  // Then
+  XCTAssertNotNil(dic);
+  XCTAssertTrue(dic[@"Type1"]);
+  XCTAssertTrue(dic[@"Type2"]);
+  XCTAssertTrue(dic[@"Type3"]);
 }
 
 - (void)testDefaultHeaderWithPartitionWithDictionaryNull {
 
-    // If
-    NSDictionary *dic;
+  // When
+  NSDictionary *dic = [MSCosmosDb defaultHeaderWithPartition:kMSPartitionTest dbToken:kMSTokenTest additionalHeaders:nil];
 
-    // When
-    dic = [MSCosmosDb defaultHeaderWithPartition:@"partition" dbToken:@"token" additionalHeaders:nil];
-
-    // Then
-    XCTAssertNotNil(dic);
-    XCTAssertTrue(dic[@"Content-Type"]);
+  // Then
+  XCTAssertNotNil(dic);
+  XCTAssertTrue(dic[@"Content-Type"]);
 }
 
 - (void)testDocumentUrlWithTokenResultWithStringToken {
 
-    // If
-    MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithString:@"token"];
+  // If
+  MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithString:kMSTokenTest];
 
-    // When
-    NSString *result = [MSCosmosDb documentUrlWithTokenResult:tokenResult documentId:@"documentId"];
+  // When
+  NSString *result = [MSCosmosDb documentUrlWithTokenResult:tokenResult documentId:kMSDocumentIdTest];
 
-    // Then
-    XCTAssertNotNil(result);
+  // Then
+  XCTAssertNotNil(result);
 }
 
 - (void)testDocumentUrlWithTokenResultWithObjectToken {
 
-    // If
-    MSTokenResult *tokenResult;
-    NSString *testResult;
+  // When
+  MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
+  NSString *testResult = [MSCosmosDb documentUrlWithTokenResult:tokenResult documentId:@"documentId"];
 
-    // When
-    tokenResult = [[MSTokenResult alloc] initWithPartition:@"token"
-                                                 dbAccount:@"dbAccount"
-                                                    dbName:@"dbName"
-                                          dbCollectionName:@"dbCollectionName"
-                                                     token:@"token"
-                                                    status:@"status"
-                                                 expiresOn:@"expiresOn"];
-    testResult = [MSCosmosDb documentUrlWithTokenResult:tokenResult documentId:@"documentId"];
-
-    // Then
-    XCTAssertNotNil(testResult);
-    XCTAssertTrue([testResult isEqualToString:@"https://dbAccount.documents.azure.com/dbs/dbName/colls/dbCollectionName/docs/documentId"]);
+  // Then
+  XCTAssertNotNil(testResult);
+  XCTAssertTrue([testResult containsString:kMSDocumentIdTest]);
+  XCTAssertTrue([testResult containsString:kMSDbAccountTest]);
+  XCTAssertTrue([testResult containsString:kMSDbNameTest]);
+  XCTAssertTrue([testResult containsString:kMSDbCollectionNameTest]);
 }
 
 - (void)testDocumentUrlWithTokenResultWithDictionaryToken {
 
-    // If
-    NSMutableDictionary *_Nullable tokenResultDictionary = [NSMutableDictionary new];
-    tokenResultDictionary[@"partition"] = @"partition";
-    tokenResultDictionary[@"dbAccount"] = @"dbAccountTest0";
-    tokenResultDictionary[@"dbName"] = @"dbNameTest1";
-    tokenResultDictionary[@"dbCollectionName"] = @"dbCollectionNameTest2";
-    tokenResultDictionary[@"token"] = @"token";
-    tokenResultDictionary[@"status"] = @"status";
-    tokenResultDictionary[@"expiresOn"] = @"expiresOn";
-    MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:tokenResultDictionary];
-    NSString *testResult;
+  // If
+  MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
 
-    // When
+  // When
+  NSString *testResult = [MSCosmosDb documentUrlWithTokenResult:tokenResult documentId:kMSDocumentIdTest];
 
-    testResult = [MSCosmosDb documentUrlWithTokenResult:tokenResult documentId:@"documentId"];
-
-    // Then
-    XCTAssertNotNil(testResult);
-    XCTAssertTrue([testResult containsString:@"documentId"]);
-    XCTAssertTrue([testResult containsString:@"dbAccountTest0"]);
-    XCTAssertTrue([testResult containsString:@"dbNameTest1"]);
-    XCTAssertTrue([testResult containsString:@"dbCollectionNameTest2"]);
+  // Then
+  XCTAssertNotNil(testResult);
+  XCTAssertTrue([testResult containsString:kMSDocumentIdTest]);
+  XCTAssertTrue([testResult containsString:kMSDbAccountTest]);
+  XCTAssertTrue([testResult containsString:kMSDbNameTest]);
+  XCTAssertTrue([testResult containsString:kMSDbCollectionNameTest]);
 }
 
 - (void)testPerformCosmosDbAsyncOperationWithHttpClientWithAdditionalParams {
 
-    // If
-    MSCosmosDbIngestion *httpClient = [[MSCosmosDbIngestion alloc] init];
-    NSMutableDictionary *tokenResultDictionary = [NSMutableDictionary new];
-    tokenResultDictionary[@"partition"] = @"partition";
-    tokenResultDictionary[@"dbAccount"] = @"dbAccount";
-    tokenResultDictionary[@"dbName"] = @"dbName";
-    tokenResultDictionary[@"dbCollectionName"] = @"dbCollectionName";
-    tokenResultDictionary[@"token"] = @"token";
-    tokenResultDictionary[@"status"] = @"status";
-    tokenResultDictionary[@"expiresOn"] = @"expiresOn";
-    MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:tokenResultDictionary];
-    NSMutableDictionary *additionalHeaders = [NSMutableDictionary new];
-    additionalHeaders[@"Foo"] = @"Bar";
-    __block BOOL completionHandlerCalled = NO;
-    XCTestExpectation *completeExpectation = [self expectationWithDescription:@"Task finished"];
-    MSCosmosDbCompletionHandler handler = ^(NSData *_Nullable data, NSError *_Nullable error) {
-      completionHandlerCalled = YES;
-      [completeExpectation fulfill];
-    };
+  // If
+  MSCosmosDbIngestion *httpClient = [[MSCosmosDbIngestion alloc] init];
+  MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
+  NSMutableDictionary *additionalHeaders = [NSMutableDictionary new];
+  additionalHeaders[@"Foo"] = @"Bar";
+  __block BOOL completionHandlerCalled = NO;
+  XCTestExpectation *completeExpectation = [self expectationWithDescription:@"Task finished"];
+  MSCosmosDbCompletionHandler handler = ^(NSData *_Nullable data, NSError *_Nullable error) {
+    completionHandlerCalled = YES;
+    [completeExpectation fulfill];
+  };
 
-    // When
-    [MSCosmosDb performCosmosDbAsyncOperationWithHttpClient:httpClient
-                                                tokenResult:tokenResult
-                                                 documentId:@"documentID"
-                                                 httpMethod:@"GET"
-                                                       body:nil
-                                          additionalHeaders:additionalHeaders
-                                          completionHandler:handler];
-    [self waitForExpectationsWithTimeout:5 handler:NULL];
+  // When
+  [MSCosmosDb performCosmosDbAsyncOperationWithHttpClient:httpClient
+                                              tokenResult:tokenResult
+                                               documentId:kMSDocumentIdTest
+                                               httpMethod:kMSHttpMethodGet
+                                                     body:nil
+                                        additionalHeaders:additionalHeaders
+                                        completionHandler:handler];
+  [self waitForExpectationsWithTimeout:5 handler:nil];
 
-    // Then
-    XCTAssertTrue([completeExpectation assertForOverFulfill]);
-    XCTAssertTrue(completionHandlerCalled);
+  // Then
+  XCTAssertTrue([completeExpectation assertForOverFulfill]);
+  XCTAssertTrue(completionHandlerCalled);
 }
 
 - (void)testPerformCosmosDbAsyncOperationWithHttpClient {
 
-    // If
-    MSCosmosDbIngestion *httpClient = [[MSCosmosDbIngestion alloc] init];
-    NSMutableDictionary *tokenResultDictionary = [NSMutableDictionary new];
-    tokenResultDictionary[@"partition"] = @"partition";
-    tokenResultDictionary[@"dbAccount"] = @"dbAccount";
-    tokenResultDictionary[@"dbName"] = @"dbName";
-    tokenResultDictionary[@"dbCollectionName"] = @"dbCollectionName";
-    tokenResultDictionary[@"token"] = @"token";
-    tokenResultDictionary[@"status"] = @"status";
-    tokenResultDictionary[@"expiresOn"] = @"expiresOn";
-    MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:tokenResultDictionary];
-    __block BOOL completionHandlerCalled = NO;
-    XCTestExpectation *completeExpectation = [self expectationWithDescription:@"Task finished"];
-    MSCosmosDbCompletionHandler handler = ^(NSData *_Nullable data, NSError *_Nullable error) {
-      completionHandlerCalled = YES;
-      [completeExpectation fulfill];
-    };
+  // If
+  MSCosmosDbIngestion *httpClient = [[MSCosmosDbIngestion alloc] init];
+  MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
+  __block BOOL completionHandlerCalled = NO;
+  XCTestExpectation *completeExpectation = [self expectationWithDescription:@"Task finished"];
+  MSCosmosDbCompletionHandler handler = ^(NSData *_Nullable data, NSError *_Nullable error) {
+    completionHandlerCalled = YES;
+    [completeExpectation fulfill];
+  };
 
-    // When
-    [MSCosmosDb performCosmosDbAsyncOperationWithHttpClient:httpClient
-                                                tokenResult:tokenResult
-                                                 documentId:@"documentID"
-                                                 httpMethod:@"GET"
-                                                       body:nil
-                                          completionHandler:handler];
-    [self waitForExpectationsWithTimeout:5 handler:NULL];
+  // When
+  [MSCosmosDb performCosmosDbAsyncOperationWithHttpClient:httpClient
+                                              tokenResult:tokenResult
+                                               documentId:kMSDocumentIdTest
+                                               httpMethod:kMSHttpMethodGet
+                                                     body:nil
+                                        completionHandler:handler];
+  [self waitForExpectationsWithTimeout:5 handler:nil];
 
-    // Then
-    XCTAssertTrue([completeExpectation assertForOverFulfill]);
-    XCTAssertTrue(completionHandlerCalled);
+  // Then
+  XCTAssertTrue([completeExpectation assertForOverFulfill]);
+  XCTAssertTrue(completionHandlerCalled);
 }
 @end
