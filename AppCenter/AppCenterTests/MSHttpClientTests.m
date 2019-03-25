@@ -85,6 +85,7 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
                 headers:headers
                    data:payload
       completionHandler:^(NSData *responseBody, NSHTTPURLResponse *response, NSError *error) {
+
         // Then
         XCTAssertEqual(response.statusCode, MSHTTPCodesNo200OK);
         XCTAssertEqualObjects(responseBody, [@"OK" dataUsingEncoding:kCFStringEncodingUTF8]);
@@ -108,6 +109,7 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
 
   // If
   __block NSURLRequest *actualRequest;
+
   // Stub HTTP response.
   [OHHTTPStubs
       stubRequestsPassingTest:^BOOL(__attribute__((unused)) NSURLRequest *request) {
@@ -131,6 +133,7 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
                 headers:headers
                    data:payload
       completionHandler:^(NSData *responseBody, NSHTTPURLResponse *response, NSError *error) {
+
         // Then
         XCTAssertNil(response);
         XCTAssertNil(responseBody);
@@ -178,6 +181,7 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
                 headers:headers
                    data:payload
       completionHandler:^(NSData *responseBody, NSHTTPURLResponse *response, NSError *error) {
+
         // Then
         XCTAssertEqual(response.statusCode, MSHTTPCodesNo400BadRequest);
         XCTAssertNotNil(responseBody);
@@ -292,6 +296,7 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
                 headers:headers
                    data:payload
       completionHandler:^(NSData *responseBody, NSHTTPURLResponse *response, NSError *error) {
+
         // Then
         XCTAssertEqual(response.statusCode, MSHTTPCodesNo500InternalServerError);
         XCTAssertNotNil(responseBody);
