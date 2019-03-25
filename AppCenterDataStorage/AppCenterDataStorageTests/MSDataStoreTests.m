@@ -8,8 +8,12 @@
 #import "MSDataStore.h"
 #import "MSDataStoreInternal.h"
 #import "MSMockUserDefaults.h"
+#import "MSServiceAbstract.h"
+#import "MSServiceAbstractProtected.h"
 #import "MSTestFrameworks.h"
 #import "MSUserIdContextPrivate.h"
+
+static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
 @interface MSDataStoreTests : XCTestCase
 
@@ -41,7 +45,7 @@
                                             appSecret:kMSTestAppSecret
                               transmissionTargetToken:nil
                                       fromApplication:YES];
-  MSServiceAbstract *service = (MSServiceAbstract *)[MSDataStore sharedInstancce];
+  MSServiceAbstract *service = [MSDataStore sharedInstance];
 
    // When
   [service setEnabled:YES];
