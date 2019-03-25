@@ -90,6 +90,8 @@
 		267464FC222F28A300EC1FF3 /* MSWriteOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464EC222F28A300EC1FF3 /* MSWriteOptions.m */; };
 		4A9C4402223B2405008548A7 /* MSTokenTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A9C4400223B23E3008548A7 /* MSTokenTests.m */; };
 		4A9C4403223B2408008548A7 /* MSTokenTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A9C4400223B23E3008548A7 /* MSTokenTests.m */; };
+		87FC45D718C70D5B72340A1C /* MSCosmosDbPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 87FA7FB5BC7302D0062016E1 /* MSCosmosDbPrivate.h */; };
+		87FD963F7BF9C9E07DE16D82 /* MSCosmosDbPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 87FA7FB5BC7302D0062016E1 /* MSCosmosDbPrivate.h */; };
 		D3AD5EC51E5C4F6A001627AB /* libAppCenterDataStorage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D33A94511E5B11BB003966DB /* libAppCenterDataStorage.a */; };
 		D3AD5F0C1E5C819A001627AB /* AppCenter+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5F0B1E5C819A001627AB /* AppCenter+Internal.h */; };
 		D3AD5F0D1E5C844B001627AB /* MSServiceAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5EFE1E5C7DAE001627AB /* MSServiceAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -216,6 +218,7 @@
 		267464EB222F28A300EC1FF3 /* MSReadOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSReadOptions.h; sourceTree = "<group>"; };
 		267464EC222F28A300EC1FF3 /* MSWriteOptions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSWriteOptions.m; sourceTree = "<group>"; };
 		4A9C4400223B23E3008548A7 /* MSTokenTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSTokenTests.m; sourceTree = "<group>"; };
+		87FA7FB5BC7302D0062016E1 /* MSCosmosDbPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSCosmosDbPrivate.h; sourceTree = "<group>"; };
 		D33A94511E5B11BB003966DB /* libAppCenterDataStorage.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAppCenterDataStorage.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D33A94541E5B11BB003966DB /* AppCenterDataStorage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppCenterDataStorage.h; sourceTree = "<group>"; };
 		D3AD5EC01E5C4F6A001627AB /* AppCenterDataStorage.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppCenterDataStorage.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -476,6 +479,7 @@
 				E8593A15222B91B20001F87E /* MSCosmosDb.m */,
 				E86B95D72224B5F60062E552 /* MSTokenExchange.h */,
 				E86B95D92224B6310062E552 /* MSTokenExchange.m */,
+				87FA7FB5BC7302D0062016E1 /* MSCosmosDbPrivate.h */,
 			);
 			path = Client;
 			sourceTree = "<group>";
@@ -520,6 +524,7 @@
 				E824A549222600C3005B69B5 /* MSDataStorePrivate.h in Headers */,
 				E8DADEF122286D1A00587E15 /* MSTokenResult.h in Headers */,
 				E80BE8922242215E004DD008 /* MSDataStoreErrors.h in Headers */,
+				87FC45D718C70D5B72340A1C /* MSCosmosDbPrivate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -550,6 +555,7 @@
 				E8593A1D222BA37B0001F87E /* MSCosmosDbIngestion.h in Headers */,
 				04A0820C1F74BBCA00DC776D /* MSService.h in Headers */,
 				E86B95D82224B5F60062E552 /* MSTokenExchange.h in Headers */,
+				87FD963F7BF9C9E07DE16D82 /* MSCosmosDbPrivate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -4,28 +4,9 @@
 #import "MSChannelGroupProtocol.h"
 #import "MSCosmosDb.h"
 #import "MSCosmosDbIngestion.h"
+#import "MSCosmosDbPrivate.h"
 #import "MSTestFrameworks.h"
 #import "MSTokenResult.h"
-
-@interface MSTokenResult (Test)
-- (instancetype)initWithPartition:(NSString *)partition
-                        dbAccount:(NSString *)dbAccount
-                           dbName:(NSString *)dbName
-                 dbCollectionName:(NSString *)dbCollectionName
-                            token:(NSString *)token
-                           status:(NSString *)status
-                        expiresOn:(NSString *)expiresOn;
-@end
-
-@interface MSCosmosDb (Test)
-
-+ (NSDictionary *)defaultHeaderWithPartition:(NSString *)partition
-                                     dbToken:(NSString *)dbToken
-                           additionalHeaders:(NSDictionary *_Nullable)additionalHeaders;
-
-+ (NSString *)documentUrlWithTokenResult:tokenResult documentId:(NSString *)documentId;
-
-@end
 
 @interface MSDataStoreTests : XCTestCase
 
