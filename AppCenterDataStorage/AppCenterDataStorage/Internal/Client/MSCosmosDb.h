@@ -6,7 +6,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 typedef void (^MSCosmosDbCompletionHandler)(NSData *_Nullable data, NSError *error);
-typedef void (^MSCosmosDbCompletionHandlerWithHeaders)(NSData *_Nullable data, NSDictionary *headers, NSError *error);
+typedef void (^MSCosmosDbCompletionHandlerWithHeaders)(NSData *_Nullable data, NSDictionary *_Nullable headers, NSError *error);
 
 @class MSCosmosDbIngestion;
 @class MSSerializableDocument;

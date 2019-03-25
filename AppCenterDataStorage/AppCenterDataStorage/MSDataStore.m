@@ -258,6 +258,7 @@ static dispatch_once_t onceToken;
                                  }
 
                                  // Call CosmosDb.
+                                 // TODO: Replace this call by performOperationForPartition...
                                  [MSCosmosDb
                                      performCosmosDbAsyncOperationWithHttpClient:cosmosDbIngestion
                                                                      tokenResult:tokenResponses.tokens[0]
@@ -435,7 +436,23 @@ static dispatch_once_t onceToken;
                           httpMethod:(NSString *)httpMethod
                                 body:(NSData *)body
                    additionalHeaders:(NSDictionary *)additionalHeaders
-                   completionHandler:(MSCosmosDbCompletionHandler)completionHandler {
+        completionHandler:(MSCosmosDbCompletionHandler)completionHandler {
+  [self performOperationForPartition:partition
+                          documentId:documentId
+                          httpMethod:httpMethod
+                                body:body
+                   additionalHeaders:additionalHeaders
+        completionHandlerWithHeaders:^(NSData *_Nullable data, NSDictionary *__unused _Nullable headers, NSError *error) {
+          completionHandler(data, error);
+        }];
+}
+
+- (void)performOperationForPartition:(NSString *)partition
+                          documentId:(NSString *)documentId
+                          httpMethod:(NSString *)httpMethod
+                                body:(NSData *)body
+                   additionalHeaders:(NSDictionary *)additionalHeaders
+                   completionHandlerWithHeaders:(MSCosmosDbCompletionHandlerWithHeaders)completionHandlerWithHeaders {
   [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:(MSStorageIngestion *)self.ingestion
                                                     partition:partition
                                             completionHandler:^(MSTokensResponse *_Nonnull tokenResponses, NSError *_Nonnull error) {
@@ -444,7 +461,7 @@ static dispatch_once_t onceToken;
                                                 MSLogError([MSDataStore logTag],
                                                            @"Can't get CosmosDb token. Error: %@;  HTTP status code: %ld; Partition: %@",
                                                            error.localizedDescription, (long)httpStatusCode, partition);
-                                                completionHandler(nil, error);
+                                                completionHandlerWithHeaders(nil, nil, error);
                                                 return;
                                               }
                                               MSCosmosDbIngestion *cosmosDbIngestion = [MSCosmosDbIngestion new];
@@ -454,7 +471,7 @@ static dispatch_once_t onceToken;
                                                                                            httpMethod:httpMethod
                                                                                                  body:body
                                                                                     additionalHeaders:additionalHeaders
-                                                                                    completionHandler:completionHandler];
+                                                                                    completionHandlerWithHeaders:completionHandlerWithHeaders];
                                             }];
 }
 
