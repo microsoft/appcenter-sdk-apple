@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Cached home account identifier.
  */
-@property(nullable, atomic, readonly) NSString *accountId;
+@property(nullable, atomic, readonly) NSString *homeAccountId;
 
 /**
  * Instance of object responsible for storing auth data to settings and keychain.

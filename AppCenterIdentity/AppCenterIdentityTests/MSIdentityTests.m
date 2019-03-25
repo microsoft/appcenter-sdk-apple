@@ -993,7 +993,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
   // Then
   XCTAssertNil([[MSAuthTokenContext sharedInstance] authToken]);
-  XCTAssertNil([[MSAuthTokenContext sharedInstance] accountId]);
+  XCTAssertNil([[MSAuthTokenContext sharedInstance] homeAccountId]);
   [identityMock stopMocking];
   [authTokenContextMock stopMocking];
 }

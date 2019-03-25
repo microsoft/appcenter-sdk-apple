@@ -46,7 +46,7 @@
 
   // Then
   XCTAssertEqualObjects([self.sut authToken], expectedAuthToken);
-  XCTAssertEqualObjects([self.sut accountId], expectedAccountId);
+  XCTAssertEqualObjects([self.sut homeAccountId], expectedAccountId);
   OCMVerify([delegateMock authTokenContext:self.sut didSetNewAccountIdWithAuthToken:expectedAuthToken]);
 }
 
@@ -100,7 +100,7 @@
 
   // Then
   XCTAssertNil([self.sut authToken]);
-  XCTAssertNil([self.sut accountId]);
+  XCTAssertNil([self.sut homeAccountId]);
   OCMVerify([delegateMock authTokenContext:self.sut didSetNewAuthToken:nil]);
   OCMVerify([delegateMock authTokenContext:self.sut didSetNewAccountIdWithAuthToken:nil]);
 }
