@@ -11,10 +11,10 @@
 
 @implementation MSKeychainAuthTokenStorage
 
-@synthesize authTokensHistoryState = _authTokensHistoryState;
+@synthesize authTokensHistory = _authTokensHistory;
 
 - (nullable NSString *)retrieveAuthToken {
-  NSArray<MSAuthTokenInfo *> *authTokensHistoryState = [self authTokensHistoryState];
+  NSArray<MSAuthTokenInfo *> *authTokensHistoryState = [self authTokensHistory];
   MSAuthTokenInfo *latestAuthTokenInfo = authTokensHistoryState.lastObject;
   return latestAuthTokenInfo.authToken;
 }
@@ -49,7 +49,7 @@
   @synchronized(self) {
 
     // Read token array from storage.
-    NSMutableArray<MSAuthTokenInfo *> *authTokensHistory = [[self authTokensHistoryState] mutableCopy];
+    NSMutableArray<MSAuthTokenInfo *> *authTokensHistory = [[self authTokensHistory] mutableCopy];
     if (authTokensHistory.count == 0) {
 
       /*
@@ -73,7 +73,7 @@
     }
 
     // Save new array.
-    [self setAuthTokensHistoryState:authTokensHistory];
+    [self setAuthTokensHistory:authTokensHistory];
     if (authToken && accountId) {
       [MS_USER_DEFAULTS setObject:(NSString *)accountId forKey:kMSIdentityMSALAccountHomeAccountKey];
     } else {
@@ -88,7 +88,7 @@
   @synchronized(self) {
 
     // Read token array from storage.
-    NSMutableArray<MSAuthTokenInfo *> *tokenArray = [self authTokensHistoryState];
+    NSMutableArray<MSAuthTokenInfo *> *tokenArray = [self authTokensHistory];
 
     // TODO: Allow only the oldest token to be removed.
     // Do nothing if there's just one entry in the history or no history at all.
@@ -110,9 +110,9 @@
    */
 }
 
-- (NSArray<MSAuthTokenInfo *> *)authTokensHistoryState {
-  if (_authTokensHistoryState) {
-    return _authTokensHistoryState;
+- (NSArray<MSAuthTokenInfo *> *)authTokensHistory {
+  if (_authTokensHistory) {
+    return _authTokensHistory;
   }
   NSArray<MSAuthTokenInfo *> *history = [MSKeychainUtil arrayForKey:kMSIdentityAuthTokenArrayKey];
   if (history) {
@@ -121,14 +121,14 @@
     MSLogWarning([MSIdentity logTag], @"Failed to retrieve history state from the keychain or none was found.");
     history = [NSArray<MSAuthTokenInfo *> new];
   }
-  _authTokensHistoryState = history;
-  return _authTokensHistoryState;
+  _authTokensHistory = history;
+  return _authTokensHistory;
 }
 
-- (void)setAuthTokensHistoryState:(NSArray<MSAuthTokenInfo *> *)authTokensHistory {
+- (void)setAuthTokensHistory:(NSArray<MSAuthTokenInfo *> *)authTokensHistory {
   if ([MSKeychainUtil storeArray:authTokensHistory forKey:kMSIdentityAuthTokenArrayKey]) {
     MSLogDebug([MSIdentity logTag], @"Saved new history state in the keychain.");
-    _authTokensHistoryState = authTokensHistory;
+    _authTokensHistory = authTokensHistory;
   } else {
     MSLogWarning([MSIdentity logTag], @"Failed to save new history state in the keychain.");
   }
