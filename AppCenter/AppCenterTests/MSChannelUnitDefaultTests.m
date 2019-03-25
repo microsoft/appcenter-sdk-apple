@@ -1098,8 +1098,12 @@ static NSString *const kMSTestGroupId = @"GroupId";
   NSObject *object = [NSObject new];
   [self.sut pauseWithIdentifyingObjectSync:object];
 
+  // Then
+  XCTAssertTrue([self.sut paused]);
+
   // When
-  [[self.sut pausedIdentifyingObjects] removeObject:object];
+  // To use `dealloc`, `-fno-objc-arc` flag should be enabled for this class in Build Phases > Compile Sources.
+  [object dealloc];
   [self.sut resumeWithIdentifyingObjectSync:[NSObject new]];
 
   // Then
