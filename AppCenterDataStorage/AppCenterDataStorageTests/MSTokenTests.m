@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+#import <Foundation/Foundation.h>
+
 #import "MSTestFrameworks.h"
 #import "MSTokenResult.h"
 #import "MSTokensResponse.h"
-#import <Foundation/Foundation.h>
 
 static NSString *const kMSPartition = @"partition";
 static NSString *const kMSToken = @"token";
@@ -23,7 +24,6 @@ static NSString *const dbCollectionName = @"mockDBCollection";
 static NSString *const expiresOn = @"mockDate";
 
 @interface MSTokenTests : XCTestCase
-- (NSDictionary *)deserializeDataString:(NSString *)dataString;
 
 @end
 
@@ -49,47 +49,27 @@ static NSString *const expiresOn = @"mockDate";
                                                          expiresOn:expiresOn];
 
   // Then
-  XCTAssertTrue([partitionName isEqualToString:result.partition]);
-  XCTAssertTrue([token isEqualToString:result.token]);
-  XCTAssertTrue([status isEqualToString:result.status]);
-  XCTAssertTrue([dbName isEqualToString:result.dbName]);
-  XCTAssertTrue([dbCollectionName isEqualToString:result.dbCollectionName]);
-  XCTAssertTrue([expiresOn isEqualToString:result.expiresOn]);
-  XCTAssertTrue([dbAccount isEqualToString:result.dbAccount]);
+  [self compareWithTokenObject:result];
 
   // When
   NSString *resultString = [result serializeToString];
   NSDictionary *resultDic = [self deserializeDataString:resultString];
 
   // Then
-  XCTAssertTrue([partitionName isEqualToString:resultDic[kMSPartition]]);
-  XCTAssertTrue([token isEqualToString:resultDic[kMSToken]]);
-  XCTAssertTrue([status isEqualToString:resultDic[kMSStatus]]);
-  XCTAssertTrue([dbName isEqualToString:resultDic[kMSDbName]]);
-  XCTAssertTrue([dbAccount isEqualToString:resultDic[kMSDbAccount]]);
-  XCTAssertTrue([dbCollectionName isEqualToString:resultDic[kMSDbCollectionName]]);
-  XCTAssertTrue([expiresOn isEqualToString:resultDic[kMSExpiresOn]]);
+  [self compareWithDictionary:resultDic];
 }
 
 - (void)testGetTokenResultWithString {
 
   // If
-  NSString *tokenString =
-      [NSString stringWithFormat:@"{\"%@\":\"%@\",\"%@\":\"%@\",\"%@\":\"%@\",\"%@\":\"%@\",\"%@\":\"%@\",\"%@\":\"%@\",\"%@\":\"%@\"}",
-                                 kMSPartition, partitionName, kMSToken, token, kMSStatus, status, kMSDbName, dbName, kMSDbCollectionName,
-                                 dbCollectionName, kMSExpiresOn, expiresOn, kMSDbAccount, dbAccount];
+  NSData *tokenData = [NSJSONSerialization dataWithJSONObject:[self getDefaultTokenData] options:NSJSONWritingPrettyPrinted error:nil];
+  NSString *tokenString = [[NSString alloc] initWithData:tokenData encoding:NSUTF8StringEncoding];
 
   // When
   MSTokenResult *result = [[MSTokenResult alloc] initWithString:tokenString];
 
   // Then
-  XCTAssertTrue([partitionName isEqualToString:result.partition]);
-  XCTAssertTrue([token isEqualToString:result.token]);
-  XCTAssertTrue([status isEqualToString:result.status]);
-  XCTAssertTrue([dbName isEqualToString:result.dbName]);
-  XCTAssertTrue([dbCollectionName isEqualToString:result.dbCollectionName]);
-  XCTAssertTrue([expiresOn isEqualToString:result.expiresOn]);
-  XCTAssertTrue([dbAccount isEqualToString:result.dbAccount]);
+  [self compareWithTokenObject:result];
 
   // When
   NSString *resultString = [result serializeToString];
@@ -98,65 +78,51 @@ static NSString *const expiresOn = @"mockDate";
   NSDictionary *tokenDic = [self deserializeDataString:tokenString];
 
   // Then
-  XCTAssertTrue([resultDic isEqualToDictionary:tokenDic]);
+  XCTAssertEqualObjects(resultDic, tokenDic);
+}
+
+- (void)testGetTokenResultWithWrongString {
+
+  // If
+  NSData *tokenData = [NSJSONSerialization dataWithJSONObject:[self getDefaultTokenData] options:NSJSONWritingPrettyPrinted error:nil];
+  NSString *tokenString = [[NSString alloc] initWithData:tokenData encoding:NSUTF8StringEncoding];
+
+  tokenString = [tokenString stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+
+  // When
+  MSTokenResult *result = [[MSTokenResult alloc] initWithString:tokenString];
+
+  // Then
+  XCTAssertNotNil(result);
+  XCTAssertNil(result.partition);
 }
 
 - (void)testGetTokenResultWithDictionary {
 
   // If
-  NSMutableDictionary *tokenDic = [@{
-    kMSPartition : partitionName,
-    kMSToken : token,
-    kMSStatus : status,
-    kMSDbName : dbName,
-    kMSDbAccount : dbAccount,
-    kMSDbCollectionName : dbCollectionName,
-    kMSExpiresOn : expiresOn
-  } mutableCopy];
+  NSMutableDictionary *tokenDic = [[self getDefaultTokenData] mutableCopy];
 
   // When
   MSTokenResult *result = [[MSTokenResult alloc] initWithDictionary:tokenDic];
 
   // Then
-  XCTAssertEqual(tokenDic[kMSPartition], result.partition);
-  XCTAssertEqual(tokenDic[kMSToken], result.token);
-  XCTAssertEqual(tokenDic[kMSStatus], result.status);
-  XCTAssertEqual(tokenDic[kMSDbName], result.dbName);
-  XCTAssertEqual(tokenDic[kMSDbAccount], result.dbAccount);
-  XCTAssertEqual(tokenDic[kMSDbCollectionName], result.dbCollectionName);
-  XCTAssertEqual(tokenDic[kMSExpiresOn], result.expiresOn);
+  [self compareTokenObject:result andDictinary:tokenDic];
 
   // When
   NSString *resultString = [result serializeToString];
   NSDictionary *resultDic = [self deserializeDataString:resultString];
 
   // Then
-  XCTAssertTrue([resultDic isEqualToDictionary:tokenDic]);
+  XCTAssertEqualObjects(resultDic, tokenDic);
 }
 
 - (void)testGetTokenResponseWithTokenList {
 
   // If
-  NSMutableDictionary *tokenDic1 = [@{
-    kMSPartition : partitionName,
-    kMSToken : token,
-    kMSStatus : status,
-    kMSDbName : dbName,
-    kMSDbAccount : dbAccount,
-    kMSDbCollectionName : dbCollectionName,
-    kMSExpiresOn : expiresOn
-  } mutableCopy];
+  NSMutableDictionary *tokenDic1 = [[self getDefaultTokenData] mutableCopy];
   MSTokenResult *token1 = [[MSTokenResult alloc] initWithDictionary:tokenDic1];
 
-  NSMutableDictionary *tokenDic2 = [@{
-    kMSPartition : [[NSString alloc] initWithFormat:@"%@Sec", partitionName],
-    kMSToken : [[NSString alloc] initWithFormat:@"%@Sec", token],
-    kMSStatus : [[NSString alloc] initWithFormat:@"%@Sec", status],
-    kMSDbName : [[NSString alloc] initWithFormat:@"%@Sec", dbName],
-    kMSDbAccount : [[NSString alloc] initWithFormat:@"%@Sec", dbAccount],
-    kMSDbCollectionName : [[NSString alloc] initWithFormat:@"%@Sec", dbCollectionName],
-    kMSExpiresOn : [[NSString alloc] initWithFormat:@"%@Sec", expiresOn]
-  } mutableCopy];
+  NSMutableDictionary *tokenDic2 = [[self getUpdateTokenData] mutableCopy];
   MSTokenResult *token2 = [[MSTokenResult alloc] initWithDictionary:tokenDic2];
 
   NSArray<MSTokenResult *> *tokenList = @[ token1, token2 ];
@@ -166,36 +132,20 @@ static NSString *const expiresOn = @"mockDate";
   MSTokenResult *result = response.tokens[0];
 
   // Then
-  XCTAssertEqual(result, token1);
+  XCTAssertEqualObjects(result, token1);
 
   // When
   result = response.tokens[1];
 
   // Then
-  XCTAssertEqual(result, token2);
+  XCTAssertEqualObjects(result, token2);
 }
 
 - (void)testGetTokenResponseWithDictionary {
 
   // If
-  NSObject *token1 = @{
-    kMSPartition : partitionName,
-    kMSToken : token,
-    kMSStatus : status,
-    kMSDbName : dbName,
-    kMSDbAccount : dbAccount,
-    kMSDbCollectionName : dbCollectionName,
-    kMSExpiresOn : expiresOn
-  };
-  NSObject *token2 = @{
-    kMSPartition : [[NSString alloc] initWithFormat:@"%@Sec", partitionName],
-    kMSToken : [[NSString alloc] initWithFormat:@"%@Sec", token],
-    kMSStatus : [[NSString alloc] initWithFormat:@"%@Sec", status],
-    kMSDbName : [[NSString alloc] initWithFormat:@"%@Sec", dbName],
-    kMSDbAccount : [[NSString alloc] initWithFormat:@"%@Sec", dbAccount],
-    kMSDbCollectionName : [[NSString alloc] initWithFormat:@"%@Sec", dbCollectionName],
-    kMSExpiresOn : [[NSString alloc] initWithFormat:@"%@Sec", expiresOn]
-  };
+  NSObject *token1 = [self getDefaultTokenData];
+  NSObject *token2 = [self getUpdateTokenData];
   NSMutableDictionary *tokenList = [@{@"tokens" : @[ token1, token2 ]} mutableCopy];
 
   // When
@@ -205,31 +155,76 @@ static NSString *const expiresOn = @"mockDate";
   NSDictionary *tokenDic = tokenList[@"tokens"][0];
 
   // Then
-  XCTAssertEqual(tokenDic[kMSPartition], result.partition);
-  XCTAssertEqual(tokenDic[kMSToken], result.token);
-  XCTAssertEqual(tokenDic[kMSStatus], result.status);
-  XCTAssertEqual(tokenDic[kMSDbName], result.dbName);
-  XCTAssertEqual(tokenDic[kMSDbAccount], result.dbAccount);
-  XCTAssertEqual(tokenDic[kMSDbCollectionName], result.dbCollectionName);
-  XCTAssertEqual(tokenDic[kMSExpiresOn], result.expiresOn);
+  [self compareTokenObject:result andDictinary:tokenDic];
 
   // When
   result = response.tokens[1];
   tokenDic = tokenList[@"tokens"][1];
 
   // Then
-  XCTAssertEqual(tokenDic[kMSPartition], result.partition);
-  XCTAssertEqual(tokenDic[kMSToken], result.token);
-  XCTAssertEqual(tokenDic[kMSStatus], result.status);
-  XCTAssertEqual(tokenDic[kMSDbName], result.dbName);
-  XCTAssertEqual(tokenDic[kMSDbAccount], result.dbAccount);
-  XCTAssertEqual(tokenDic[kMSDbCollectionName], result.dbCollectionName);
-  XCTAssertEqual(tokenDic[kMSExpiresOn], result.expiresOn);
+  [self compareTokenObject:result andDictinary:tokenDic];
+}
+
+// Helper Methods
+
+- (NSObject *)getDefaultTokenData {
+  return @{
+    kMSPartition : partitionName,
+    kMSToken : token,
+    kMSStatus : status,
+    kMSDbName : dbName,
+    kMSDbAccount : dbAccount,
+    kMSDbCollectionName : dbCollectionName,
+    kMSExpiresOn : expiresOn
+  };
+}
+
+- (NSObject *)getUpdateTokenData {
+  return @{
+    kMSPartition : [[NSString alloc] initWithFormat:@"%@Sec", partitionName],
+    kMSToken : [[NSString alloc] initWithFormat:@"%@Sec", token],
+    kMSStatus : [[NSString alloc] initWithFormat:@"%@Sec", status],
+    kMSDbName : [[NSString alloc] initWithFormat:@"%@Sec", dbName],
+    kMSDbAccount : [[NSString alloc] initWithFormat:@"%@Sec", dbAccount],
+    kMSDbCollectionName : [[NSString alloc] initWithFormat:@"%@Sec", dbCollectionName],
+    kMSExpiresOn : [[NSString alloc] initWithFormat:@"%@Sec", expiresOn]
+  };
 }
 
 - (NSDictionary *)deserializeDataString:(NSString *)dataString {
   NSData *jsonData = [dataString dataUsingEncoding:NSUTF8StringEncoding];
   NSError *error = nil;
   return [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
+}
+
+- (void)compareWithTokenObject:(MSTokenResult *)tokenResult {
+  XCTAssertEqualObjects(partitionName, tokenResult.partition);
+  XCTAssertEqualObjects(token, tokenResult.token);
+  XCTAssertEqualObjects(status, tokenResult.status);
+  XCTAssertEqualObjects(dbName, tokenResult.dbName);
+  XCTAssertEqualObjects(dbAccount, tokenResult.dbAccount);
+  XCTAssertEqualObjects(dbCollectionName, tokenResult.dbCollectionName);
+  XCTAssertEqualObjects(expiresOn, tokenResult.expiresOn);
+}
+
+- (void)compareWithDictionary:(NSDictionary *)tokenDic {
+  XCTAssertEqualObjects(partitionName, tokenDic[kMSPartition]);
+  XCTAssertEqualObjects(token, tokenDic[kMSToken]);
+  XCTAssertEqualObjects(status, tokenDic[kMSStatus]);
+  XCTAssertEqualObjects(dbName, tokenDic[kMSDbName]);
+  XCTAssertEqualObjects(dbAccount, tokenDic[kMSDbAccount]);
+  XCTAssertEqualObjects(dbCollectionName, tokenDic[kMSDbCollectionName]);
+  XCTAssertEqualObjects(expiresOn, tokenDic[kMSExpiresOn]);
+}
+
+- (void)compareTokenObject:(MSTokenResult *)tokenResult andDictinary:(NSDictionary *)tokenDic {
+
+  XCTAssertEqualObjects(tokenDic[kMSPartition], tokenResult.partition);
+  XCTAssertEqualObjects(tokenDic[kMSToken], tokenResult.token);
+  XCTAssertEqualObjects(tokenDic[kMSStatus], tokenResult.status);
+  XCTAssertEqualObjects(tokenDic[kMSDbName], tokenResult.dbName);
+  XCTAssertEqualObjects(tokenDic[kMSDbAccount], tokenResult.dbAccount);
+  XCTAssertEqualObjects(tokenDic[kMSDbCollectionName], tokenResult.dbCollectionName);
+  XCTAssertEqualObjects(tokenDic[kMSExpiresOn], tokenResult.expiresOn);
 }
 @end
