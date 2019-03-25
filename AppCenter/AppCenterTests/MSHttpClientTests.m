@@ -65,11 +65,11 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
 
   // Stub HTTP response.
   [OHHTTPStubs
-      stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-        actualRequest = request;
+      stubRequestsPassingTest:^BOOL(__unused NSURLRequest *request) {
         return YES;
       }
-      withStubResponse:^OHHTTPStubsResponse *(__attribute__((unused)) NSURLRequest *request) {
+      withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+        actualRequest = request;
         NSData *responsePayload = [@"OK" dataUsingEncoding:kCFStringEncodingUTF8];
         return [OHHTTPStubsResponse responseWithData:responsePayload statusCode:MSHTTPCodesNo200OK headers:nil];
       }];
@@ -112,11 +112,11 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
 
   // Stub HTTP response.
   [OHHTTPStubs
-      stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-        actualRequest = request;
+      stubRequestsPassingTest:^BOOL(__unused NSURLRequest *request) {
         return YES;
       }
-      withStubResponse:^OHHTTPStubsResponse *(__attribute__((unused)) NSURLRequest *request) {
+      withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+        actualRequest = request;
         NSError *error = [NSError errorWithDomain:NSURLErrorDomain code:kCFURLErrorNotConnectedToInternet userInfo:nil];
         return [OHHTTPStubsResponse responseWithError:error];
       }];
@@ -157,15 +157,15 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
   // If
 
   // To count requests, use a set instead of an integer, because even if a request is only sent once, the callback can be invoked twice.
-  __block NSMutableSet *requests = [NSMutableSet new];
+  __block int numRequests = 0;
   __block NSURLRequest *actualRequest;
   [OHHTTPStubs
-      stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-        [requests addObject:request];
-        actualRequest = request;
+      stubRequestsPassingTest:^BOOL(__unused NSURLRequest *request) {
         return YES;
       }
-      withStubResponse:^OHHTTPStubsResponse *(__attribute__((unused)) NSURLRequest *request) {
+      withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+        ++numRequests;
+        actualRequest = request;
         return [OHHTTPStubsResponse responseWithData:[NSData data] statusCode:MSHTTPCodesNo400BadRequest headers:nil];
       }];
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@""];
@@ -196,7 +196,7 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
   // Then
   XCTAssertEqualObjects(actualRequest.URL, url);
   XCTAssertEqualObjects(actualRequest.HTTPMethod, method);
-  XCTAssertEqual([requests count], 1);
+  XCTAssertEqual(numRequests, 1);
 }
 
 - (void)testNetworkDownAndThenUpAgain {
@@ -204,19 +204,19 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
   // If
 
   // To count requests, use a set instead of an integer, because even if a request is only sent once, the callback can be invoked twice.
-  __block NSMutableSet *requests = [NSMutableSet new];
+  __block int numRequests = 0;
   __block NSURLRequest *actualRequest;
   __block BOOL completionHandlerCalled = NO;
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@""];
   dispatch_semaphore_t timingSemaphore = dispatch_semaphore_create(0);
 
   [OHHTTPStubs
-      stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-        [requests addObject:request];
-        actualRequest = request;
+      stubRequestsPassingTest:^BOOL(__unused NSURLRequest *request) {
         return YES;
       }
-      withStubResponse:^OHHTTPStubsResponse *(__attribute__((unused)) NSURLRequest *request) {
+      withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+        ++numRequests;
+        actualRequest = request;
         return [OHHTTPStubsResponse responseWithData:[NSData data] statusCode:MSHTTPCodesNo204NoContent headers:nil];
       }];
   self.sut = [[MSHttpClient alloc] initWithRetryIntervals:@[ @1 ] reachability:self.reachabilityMock];
@@ -245,7 +245,7 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
 
   dispatch_semaphore_wait(timingSemaphore, dispatch_time(DISPATCH_TIME_NOW, (int64_t)(kMSTestTimeout * NSEC_PER_SEC)));
   XCTAssertFalse(completionHandlerCalled);
-  XCTAssertEqual([requests count], 0);
+  XCTAssertEqual(numRequests, 0);
 
   // When
   [self simulateReachabilityChangedNotification:ReachableViaWiFi];
@@ -258,7 +258,7 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
                                  // Then
                                  XCTAssertEqualObjects(actualRequest.URL, url);
                                  XCTAssertEqualObjects(actualRequest.HTTPMethod, method);
-                                 XCTAssertEqual([requests count], 1);
+                                 XCTAssertEqual(numRequests, 1);
                                }];
 }
 
@@ -271,12 +271,12 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
   __block NSURLRequest *actualRequest;
   NSArray *retryIntervals = @[ @1, @2 ];
   [OHHTTPStubs
-      stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-        ++numRequests;
-        actualRequest = request;
+      stubRequestsPassingTest:^BOOL(__unused NSURLRequest *request) {
         return YES;
       }
-      withStubResponse:^OHHTTPStubsResponse *(__attribute__((unused)) NSURLRequest *request) {
+      withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+        actualRequest = request;
+        ++numRequests;
         return [OHHTTPStubsResponse responseWithData:[NSData data] statusCode:MSHTTPCodesNo500InternalServerError headers:nil];
       }];
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@""];
@@ -308,7 +308,7 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
   // Then
   XCTAssertEqualObjects(actualRequest.URL, url);
   XCTAssertEqualObjects(actualRequest.HTTPMethod, method);
-  XCTAssertEqual(numRequests/2, 1 + [retryIntervals count]);
+  XCTAssertEqual(numRequests, 1 + [retryIntervals count]);
 }
 
 - (void)simulateReachabilityChangedNotification:(NetworkStatus)status {
