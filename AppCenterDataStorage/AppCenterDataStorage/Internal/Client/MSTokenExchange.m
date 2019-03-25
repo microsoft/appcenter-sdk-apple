@@ -3,6 +3,8 @@
 
 #import "MSTokenExchange.h"
 #import "AppCenter+Internal.h"
+#import "MSAppCenterIngestion.h"
+#import "MSAuthTokenContext.h"
 #import "MSDataStorageConstants.h"
 #import "MSDataStoreInternal.h"
 #import "MSKeychainUtil.h"
@@ -33,7 +35,13 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
     NSError *jsonError;
     NSData *payloadData = [NSJSONSerialization dataWithJSONObject:@{kMSPartitions : @[ partition ]} options:0 error:&jsonError];
 
-    // Http call.
+    if ([MSAuthTokenContext sharedInstance].authToken) {
+      NSMutableDictionary *headers = [httpClient.httpHeaders mutableCopy];
+      headers[kMSAuthorizationHeaderKey] =
+          [NSString stringWithFormat:kMSBearerTokenHeaderFormat, [MSAuthTokenContext sharedInstance].authToken];
+      httpClient.httpHeaders = headers;
+    }
+
     [httpClient sendAsync:payloadData
         completionHandler:^(NSString *callId, NSHTTPURLResponse *response, NSData *data, NSError *error) {
           MSLogVerbose([MSDataStore logTag], @"Get token callback, request Id %@ with status code: %td", callId, response.statusCode);
@@ -61,7 +69,7 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
           // Create token response object.
           MSTokensResponse *tokens = [[MSTokensResponse alloc] initWithTokens:@[ tokenResult ]];
 
-          // Token exchange did not get back an error but aquiring the token did not succeed either
+          // Token exchange did not get back an error but acquiring the token did not succeed either
           if (tokenResult && ![tokenResult.status isEqualToString:kMSTokenResultSucceed]) {
             MSLogError([MSDataStore logTag], @"Token result had a status of %@", tokenResult.status);
             completionHandler(tokens, error);
