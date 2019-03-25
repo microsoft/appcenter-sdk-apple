@@ -24,13 +24,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (nullable NSString *)retrieveAccountId;
 
 /**
- * Returns auth token info for the oldest entity in the the history.
- *
- * @return auth token info.
- */
-- (MSAuthTokenInfo *)oldestAuthToken;
-
-/**
  * Returns array of auth tokens.
  *
  * @return Array of MSAuthTokenInfo

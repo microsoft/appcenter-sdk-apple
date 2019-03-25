@@ -21,28 +21,6 @@
   return [MS_USER_DEFAULTS objectForKey:kMSIdentityMSALAccountHomeAccountKey];
 }
 
-// TODO: Finish the implementation, this method will be used to get logs from DB for a period when token was active.
-- (MSAuthTokenInfo *)oldestAuthToken {
-  return [MSAuthTokenInfo new];
-
-  /*
-  // Read token array from storage.
-  NSMutableArray<MSAuthTokenInfo *> *tokenArray = [MSKeychainUtil arrayForKey:kMSIdentityAuthTokenArrayKey];
-  if (!tokenArray || tokenArray.count == 0) {
-    return nil;
-  }
-
-  MSAuthTokenInfo *authTokenInfo = tokenArray.firstObject;
-  NSDate *nextChangeTime = tokenArray.count > 1 ? tokenArray[1].startTime : nil;
-  if ([authTokenInfo.endTime laterDate:nextChangeTime]) {
-    return [[MSAuthTokenInfo alloc] initWithAuthToken:authTokenInfo.authToken
-                                         andStartTime:authTokenInfo.startTime
-                                           andEndTime:nextChangeTime];
-  }
-  return authTokenInfo;
-   */
-}
-
 - (NSMutableArray<MSAuthTokenInfo *> *)authTokenArray {
   NSMutableArray<MSAuthTokenInfo *> *tokenArray = [MSKeychainUtil arrayForKey:kMSIdentityAuthTokenArrayKey];
   if (tokenArray == nil) {
@@ -79,15 +57,13 @@
   }
 }
 
-// TODO: Finish the implementation of tokens removal as part of the separate PR.
 - (void)removeAuthToken:(nullable NSString *)__unused authToken {
-  /*
+
   @synchronized(self) {
 
     // Read token array from storage.
     NSMutableArray<MSAuthTokenInfo *> *tokenArray = [self authTokensHistoryState];
 
-    // TODO: Allow only the oldest token to be removed.
     // Do nothing if there's just one entry in the history or no history at all.
     if (!tokenArray || tokenArray.count == 1) {
       return;
@@ -104,7 +80,6 @@
     // Save new array after changes.
     [self storeAuthTokensHistoryState:tokenArray];
   }
-   */
 }
 
 - (NSMutableArray<MSAuthTokenInfo *> *)authTokensHistoryState {

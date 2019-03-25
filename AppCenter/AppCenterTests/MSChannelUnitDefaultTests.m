@@ -1246,26 +1246,6 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                }];
 }
 
-- (void)testLogsBeforeOldestTokenDeletedOnFlushQueue {
-
-  // If
-  NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-  [dateFormat setDateFormat:@"yyyyMMdd"];
-  NSDate *tokenStartTime = [dateFormat dateFromString:@"20190402"];
-  NSDate *tokenEndTime = [dateFormat dateFromString:@"20190403"];
-  id<MSAuthTokenStorage> tokenStorageMock = OCMProtocolMock(@protocol(MSAuthTokenStorage));
-  [MSAuthTokenContext sharedInstance].storage = tokenStorageMock;
-  MSAuthTokenInfo *tokenInfo = [[MSAuthTokenInfo alloc] initWithAuthToken:@"AuthToken" andStartTime:tokenStartTime andEndTime:tokenEndTime];
-  OCMStub([tokenStorageMock oldestAuthToken]).andReturn(tokenInfo);
-  OCMStub([self.storageMock countLogs]).andReturn(10);
-
-  // When
-  [self.sut flushQueue];
-
-  // Then
-  OCMVerify([self.storageMock deleteLogsWithDateBefore:tokenStartTime]);
-}
-
 - (void)testLogsStoredWhenTargetKeyIsPaused {
 
   // If
