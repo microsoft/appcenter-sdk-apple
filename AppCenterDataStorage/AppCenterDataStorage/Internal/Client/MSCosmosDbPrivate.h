@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-@interface MSCosmosDb (Test)
+@interface MSCosmosDb ()
 
 + (NSDictionary *)defaultHeaderWithPartition:(NSString *)partition
                                      dbToken:(NSString *)dbToken

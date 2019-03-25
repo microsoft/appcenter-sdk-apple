@@ -10,8 +10,6 @@
 
 @interface MSDataStoreTests : XCTestCase
 
-@property(nonatomic) id settingsMock;
-
 @end
 
 @implementation MSDataStoreTests
