@@ -6,6 +6,11 @@
 // Device manufacturer
 static NSString *const kMSDeviceManufacturer = @"Apple";
 
+// HTTP method names.
+static NSString *const kMSHttpMethodGet = @"GET";
+static NSString *const kMSHttpMethodPost = @"POST";
+static NSString *const kMSHttpMethodDelete = @"DELETE";
+
 // HTTP Headers + Query string.
 static NSString *const kMSHeaderAppSecretKey = @"App-Secret";
 static NSString *const kMSHeaderInstallIDKey = @"Install-ID";
@@ -15,7 +20,7 @@ static NSString *const kMSHeaderContentEncodingKey = @"Content-Encoding";
 static NSString *const kMSHeaderContentEncoding = @"gzip";
 static NSString *const kMSAuthorizationHeaderKey = @"Authorization";
 
-// HTTP constants.
+// Other HTTP constants.
 static short const kMSHTTPMinGZipLength = 1400;
 
 /**

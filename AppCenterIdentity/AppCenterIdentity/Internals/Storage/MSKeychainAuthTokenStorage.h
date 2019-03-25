@@ -7,6 +7,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface MSKeychainAuthTokenStorage : NSObject <MSAuthTokenStorage>
 
+@property(nullable, nonatomic) NSMutableArray<MSAuthTokenInfo *> *authTokensHistoryState;
+
 @end
 
 NS_ASSUME_NONNULL_END

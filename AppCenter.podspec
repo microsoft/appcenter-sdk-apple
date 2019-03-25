@@ -21,6 +21,9 @@ Pod::Spec.new do |s|
                       4. App Center Push (iOS and macOS):
                       App Center Push enables you to send push notifications to users of your app from the App Center portal. You can also segment your user base based on a set of properties and send them targeted notifications.
 
+                      5. App Center DataStorage (iOS):
+                      TODO: Add description for Datastorage
+
                         DESC
 
   s.homepage          = 'https://appcenter.ms'
@@ -83,5 +86,12 @@ Pod::Spec.new do |s|
     ss.ios.vendored_frameworks = "AppCenter-SDK-Apple/iOS/AppCenterPush.framework"
     ss.osx.vendored_frameworks = "AppCenter-SDK-Apple/macOS/AppCenterPush.framework"
  end
+
+s.subspec 'DataStorage' do |ss|
+    ss.dependency 'AppCenter/Core'
+    ss.frameworks = 'Foundation'
+    ss.ios.frameworks = 'UIKit'
+    ss.ios.vendored_frameworks = "AppCenter-SDK-Apple/iOS/AppCenterDataStorage.framework"
+end
 
 end

@@ -52,7 +52,7 @@ else
   resp="$(pod repo add $repo_name https://$user_account:$access_token@github.com/$GITHUB_ORG_NAME/$repo_name.git)"
 fi
 
-error="$(echo $resp | grep -i 'error\|fatal')"
+error="$(echo $resp | grep -i 'error\|fatal\|exception')"
 if [ "$error" ]; then
   echo "Couldn't add private spec repo for $mode"
   exit 1
@@ -69,22 +69,22 @@ if [ "$mode" == "internal" ] || [ "$mode" == "test" ]; then
     # Update podspec change for other platforms
     sed -i '' 's/App\ Center\ Analytics\ (iOS\ and\ macOS)/App\ Center\ Analytics\ (iOS,\ macOS\ and\ tvOS)/g' $PODSPEC_FILENAME
     sed -i '' 's/App\ Center\ Crashes\ (iOS\ and\ macOS)/App\ Center\ Crashes\ (iOS,\ macOS\ and\ tvOS)/g' $PODSPEC_FILENAME
-    sed -i '' '34 i\
+    sed -i '' '37 i\
       \ \ s.tvos.deployment_target = '\''10.0'\''\
       ' $PODSPEC_FILENAME
-    sed -i '' '46 i\
+    sed -i '' '49 i\
       \ \ \ \ ss.tvos.frameworks = '\''UIKit'\''\
       ' $PODSPEC_FILENAME
-    sed -i '' '49 i\
+    sed -i '' '52 i\
       \ \ \ \ ss.tvos.vendored_frameworks = '\"'AppCenter-SDK-Apple/tvOS/AppCenter.framework'\"'\
       ' $PODSPEC_FILENAME
-    sed -i '' '58 i\
+    sed -i '' '61 i\
       \ \ \ \ ss.tvos.frameworks = '\''UIKit'\''\
       ' $PODSPEC_FILENAME
-    sed -i '' '61 i\
+    sed -i '' '64 i\
       \ \ \ \ ss.tvos.vendored_frameworks = '\"'AppCenter-SDK-Apple/tvOS/AppCenterAnalytics.framework'\"'\
       ' $PODSPEC_FILENAME
-    sed -i '' '70 i\
+    sed -i '' '73 i\
       \ \ \ \ ss.tvos.vendored_frameworks = '\"'AppCenter-SDK-Apple/tvOS/AppCenterCrashes.framework'\"'\
       ' $PODSPEC_FILENAME
     sed -i '' 's/Not\ available\ for\ macOS/Not\ available\ for\ macOS\ and\ tvOS/g' README.md
@@ -107,7 +107,7 @@ if [ "$mode" == "internal" ] || [ "$mode" == "test" ]; then
   echo $resp
 
   # Check error from the response
-  error="$(echo $resp | grep -i 'error\|fatal')"
+  error="$(echo $resp | grep -i 'error\|fatal\|exception')"
   if [ "$error" ]; then
     echo "Cannot publish to internal repo"
     exit 1
@@ -123,11 +123,11 @@ if [ "$mode" == "internal" ] || [ "$mode" == "test" ]; then
 else
 
   ## 1. Run lint to validate podspec.
-  resp="$(pod spec lint $PODSPEC_FILENAME)"
+  resp="$(pod spec lint --verbose $PODSPEC_FILENAME)"
   echo $resp
 
   # Check error from the response
-  error="$(echo $resp | grep -i 'error\|fatal')"
+  error="$(echo $resp | grep -i 'error\|fatal\|exception')"
   if [ "$error" ]; then
     echo "Cannot publish to CocoaPods due to spec validation failure"
     exit 1
@@ -138,7 +138,7 @@ else
   echo $resp
 
   # Check error from the response
-  error="$(echo $resp | grep -i 'error\|fatal')"
+  error="$(echo $resp | grep -i 'error\|fatal\|exception')"
   if [ "$error" ]; then
     echo "Cannot publish to CocoaPods"
     exit 1

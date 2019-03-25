@@ -2,11 +2,10 @@
 // Licensed under the MIT License.
 
 import Cocoa
-import CoreLocation
 
 // 10 MiB.
 let kMSDefaultDatabaseSize = 10 * 1024 * 1024
-class AppCenterViewController : NSViewController, NSTextFieldDelegate, NSTextViewDelegate, CLLocationManagerDelegate {
+class AppCenterViewController : NSViewController, NSTextFieldDelegate, NSTextViewDelegate {
     
   enum StartupMode: NSInteger {
     case AppCenter
@@ -29,9 +28,6 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate, NSTextVie
   @IBOutlet var logURLLabel : NSTextField?
   @IBOutlet var userIdLabel : NSTextField?
   @IBOutlet var setEnabledButton : NSButton?
-  @IBOutlet var overrideCountryCodeButton: NSButton!
-
-  private var locationManager: CLLocationManager = CLLocationManager()
     
   @IBOutlet weak var deviceIdField: NSTextField!
   @IBOutlet weak var startupModeField: NSComboBox!
@@ -39,6 +35,8 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate, NSTextVie
   @IBOutlet weak var storageFileSizeField: NSTextField!
   @IBOutlet weak var signInButton: NSButton!
   @IBOutlet weak var signOutButton: NSButton!
+  @IBOutlet weak var overrideCountryCodeButton: NSButton!
+
   @IBOutlet weak var setLogURLButton: NSButton!
   @IBOutlet weak var setAppSecretButton: NSButton!
   
@@ -52,7 +50,7 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate, NSTextVie
   }
 
   override func viewWillAppear() {
-    setEnabledButton?.state = appCenter.isAppCenterEnabled() ? 1 : 0
+    setEnabledButton?.state = appCenter.isAppCenterEnabled() ? NSControlStateValueOn : NSControlStateValueOff
     setAppSecretButton?.isEnabled = startUpModeForCurrentSession == StartupMode.OneCollector.rawValue ? false : true
   }
 
@@ -62,10 +60,7 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate, NSTextVie
     appSecretLabel?.stringValue = UserDefaults.standard.string(forKey: kMSAppSecret) ?? appCenter.appSecret()
     logURLLabel?.stringValue = (UserDefaults.standard.object(forKey: kMSLogUrl) ?? prodLogUrl()) as! String
     userIdLabel?.stringValue = UserDefaults.standard.string(forKey: kMSUserIdKey) ?? ""
-    setEnabledButton?.state = appCenter.isAppCenterEnabled() ? 1 : 0
-    
-    self.locationManager.delegate = self
-    self.locationManager.desiredAccuracy = kCLLocationAccuracyKilometer
+    setEnabledButton?.state = appCenter.isAppCenterEnabled() ? NSControlStateValueOn : NSControlStateValueOff
   
     deviceIdField?.stringValue = AppCenterViewController.getDeviceIdentifier()!
     let indexNumber = UserDefaults.standard.integer(forKey: kMSStartTargetKey)
@@ -93,24 +88,10 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate, NSTextVie
       self.storageFileSizeField.stringValue = "\(getFileSize(dbFile) / 1024)"
     }
   }
-  
-  func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-    self.locationManager.stopUpdatingLocation()
-    let userLocation:CLLocation = locations[0] as CLLocation
-    CLGeocoder().reverseGeocodeLocation(userLocation) { (placemarks, error) in
-      if error == nil {
-        self.appCenter.setCountryCode(placemarks?.first?.isoCountryCode)
-      }
-    }
-  }
-  
-  func locationManager(_ Manager: CLLocationManager, didFailWithError error: Error) {
-    print("Failed to find user's location: \(error.localizedDescription)")
-  }
 
   @IBAction func setEnabled(sender : NSButton) {
-    appCenter.setAppCenterEnabled(sender.state == 1)
-    sender.state = appCenter.isAppCenterEnabled() ? 1 : 0
+    appCenter.setAppCenterEnabled(sender.state == NSControlStateValueOn)
+    sender.state = appCenter.isAppCenterEnabled() ? NSControlStateValueOn : NSControlStateValueOff
   }
 
   @IBAction func userIdChanged(sender: NSTextField) {
@@ -119,18 +100,10 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate, NSTextVie
     UserDefaults.standard.set(userId, forKey: kMSUserIdKey)
     appCenter.setUserId(userId)
   }
-  
+
   @IBAction func overrideCountryCode(_ sender: NSButton) {
-    if CLLocationManager.locationServicesEnabled() {
-      self.locationManager.startUpdatingLocation()
-    }
-    else {
-      let alert : NSAlert = NSAlert()
-      alert.messageText = "Location service is disabled"
-      alert.informativeText = "Please enable location service on your Mac."
-      alert.addButton(withTitle: "OK")
-      alert.runModal()
-    }
+    let appDelegate: AppDelegate? =  NSApplication.shared().delegate as? AppDelegate
+    appDelegate?.overrideCountryCode()
   }
 
   // Get device identifier.

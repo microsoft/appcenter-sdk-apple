@@ -21,7 +21,8 @@
   return self;
 }
 
-- (NSURLRequest *)createRequest:(NSObject *)data eTag:(NSString *)__unused eTag {
+
+- (NSURLRequest *)createRequest:(NSObject *)data eTag:(NSString *)__unused eTag authToken:(nullable NSString *)__unused authToken {
   NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:self.sendURL];
 
   // Set method.
