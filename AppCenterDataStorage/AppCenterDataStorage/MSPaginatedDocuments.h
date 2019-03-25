@@ -47,7 +47,7 @@
 - (instancetype)initWithPage:(MSPage *)page
                    partition:(NSString *)partition
                 documentType:(Class)documentType
-                 readOptions:(nullable MSReadOptions *) readOptions
+                 readOptions:(nullable MSReadOptions *)readOptions
            continuationToken:(nullable NSString *)continuationToken;
 
 /**

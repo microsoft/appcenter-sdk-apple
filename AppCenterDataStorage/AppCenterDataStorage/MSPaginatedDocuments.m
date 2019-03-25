@@ -6,8 +6,8 @@
 #import "MSCosmosDbIngestion.h"
 #import "MSDataStore.h"
 #import "MSDataStorePrivate.h"
-#import "MSTokenExchange.h"
 #import "MSSerializableDocument.h"
+#import "MSTokenExchange.h"
 
 // Redefine readonly properties to be locally readwrite-able.
 @interface MSPaginatedDocuments ()
@@ -28,9 +28,8 @@
 - (instancetype)initWithPage:(MSPage *)page
                    partition:(NSString *)partition
                 documentType:(Class)documentType
-                 readOptions:(nullable MSReadOptions *) readOptions
-           continuationToken:(nullable NSString *)continuationToken
-{
+                 readOptions:(nullable MSReadOptions *)readOptions
+           continuationToken:(nullable NSString *)continuationToken {
   if ((self = [super init])) {
     _currentPage = page;
     _partition = partition;
@@ -41,8 +40,7 @@
   return self;
 }
 
-- (instancetype)initWithPage:(MSPage *)page
-{
+- (instancetype)initWithPage:(MSPage *)page {
   if ((self = [super init])) {
     _currentPage = page;
     _continuationToken = nil;
@@ -62,23 +60,20 @@
   return !self.continuationToken.length;
 }
 
-- (void)nextPageWithCompletionHandler:
-    (void (^)(MSPage<id<MSSerializableDocument>> *page))completionHandler {
+- (void)nextPageWithCompletionHandler:(void (^)(MSPage<id<MSSerializableDocument>> *page))completionHandler {
   if ([self hasNextPage]) {
     [MSDataStore listWithPartition:self.partition
                       documentType:self.documentType
                        readOptions:nil
                  continuationToken:self.continuationToken
                  completionHandler:^(MSPaginatedDocuments *documents) {
-                   
                    // Update current page and continuation token.
                    self.currentPage = documents.currentPage;
                    self.continuationToken = documents.continuationToken;
-                   
+
                    // Notify completion handler.
                    completionHandler(documents.currentPage);
-    }];
-    
+                 }];
   }
 }
 

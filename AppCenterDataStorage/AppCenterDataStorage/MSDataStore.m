@@ -74,7 +74,11 @@ static dispatch_once_t onceToken;
 + (void)listWithPartition:(NSString *)partition
              documentType:(Class)documentType
         completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler {
-  [[MSDataStore sharedInstance] listWithPartition:partition documentType:documentType readOptions:nil continuationToken:nil completionHandler:completionHandler];
+  [[MSDataStore sharedInstance] listWithPartition:partition
+                                     documentType:documentType
+                                      readOptions:nil
+                                continuationToken:nil
+                                completionHandler:completionHandler];
 }
 
 + (void)listWithPartition:(NSString *)partition
@@ -236,7 +240,6 @@ static dispatch_once_t onceToken;
       performDbTokenAsyncOperationWithHttpClient:(MSStorageIngestion *)self.ingestion
                                        partition:partition
                                completionHandler:^(MSTokensResponse *_Nonnull tokenResponses, NSError *_Nonnull tokenExchangeError) {
-                                 
                                  // If error getting token
                                  if (tokenExchangeError || !tokenResponses) {
                                    MSLogError([MSDataStore logTag], @"Can't get CosmosDb token: %@", [tokenExchangeError description]);
@@ -264,9 +267,8 @@ static dispatch_once_t onceToken;
                                                                additionalHeaders:additionalHeaders
                                                     completionHandlerWithHeaders:^(NSData *_Nonnull data, NSDictionary *headers,
                                                                                    NSError *_Nonnull cosmosDbError) {
-                                                      
                                                       // If not OK.
-                                                      if (!data || [MSDataSourceError errorCodeWithError:cosmosDbError] !=
+                                                      if (!data || [MSDataSourceError errorCodeFromError:cosmosDbError] !=
                                                                        kMSACDocumentSucceededErrorCode) {
                                                         MSLogError([MSDataStore logTag], @"Not able to retrieve documents: %@",
                                                                    [cosmosDbError description]);
@@ -320,11 +322,12 @@ static dispatch_once_t onceToken;
 
                                                       // Instanciate the first page and return it.
                                                       MSPage *page = [[MSPage alloc] initWithItems:items];
-                                                      MSPaginatedDocuments *documents = [[MSPaginatedDocuments alloc] initWithPage:page
-                                                                                                                         partition:partition
-                                                                                                                      documentType:documentType
-                                                                                                                       readOptions:nil
-                                                                                                                 continuationToken:headers[kMSDocumentContinuationTokenHeaderKey]];
+                                                      MSPaginatedDocuments *documents = [[MSPaginatedDocuments alloc]
+                                                               initWithPage:page
+                                                                  partition:partition
+                                                               documentType:documentType
+                                                                readOptions:nil
+                                                          continuationToken:headers[kMSDocumentContinuationTokenHeaderKey]];
                                                       completionHandler(documents);
                                                     }];
                                }];
@@ -353,7 +356,6 @@ static dispatch_once_t onceToken;
                                 body:[NSData data]
                    additionalHeaders:nil
                    completionHandler:^(NSData *__unused data, NSError *_Nonnull cosmosDbError) {
-
                      // Body returned from call (data) is empty.
                      NSInteger httpStatusCode = [MSDataSourceError errorCodeFromError:cosmosDbError];
                      if (httpStatusCode != MSHTTPCodesNo204NoContent) {
