@@ -235,7 +235,9 @@ static dispatch_once_t onceToken;
         continuationToken:(nullable NSString *)continuationToken
         completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler {
   NSDictionary *additionalHeaders = [NSDictionary new];
-  [additionalHeaders setValue:continuationToken forKey:kMSDocumentContinuationTokenHeaderKey];
+  if (continuationToken) {
+    [additionalHeaders setValue:continuationToken forKey:kMSDocumentContinuationTokenHeaderKey];
+  }
   
   // Call cosmos DB.
   [self performOperationForPartition:partition documentId:@"" httpMethod:kMSHttpGetVerb body:nil additionalHeaders:additionalHeaders completionHandlerWithHeaders:^(NSData * _Nullable data, NSDictionary * _Nullable headers, NSError * _Nonnull cosmosDbError) {
@@ -273,6 +275,7 @@ static dispatch_once_t onceToken;
     NSArray *jsonDocuments = json[@"Documents"];
     NSMutableArray<MSDocumentWrapper *> *items = [NSMutableArray new];
     for (id document in jsonDocuments) {
+      // TODO: handle deserialization errors here
       
       // Deserialize current document.
       id<MSSerializableDocument> deserializedDocument =
