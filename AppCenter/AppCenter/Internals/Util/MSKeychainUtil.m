@@ -17,22 +17,22 @@ static NSString *AppCenterKeychainServiceName(NSString *suffix) {
   return serviceName;
 }
 
-+ (BOOL)storeArray:(NSMutableArray *)mutableArray forKey:(NSString *)key {
-  return [MSKeychainUtil storeArray:mutableArray forKey:key withServiceName:AppCenterKeychainServiceName(kMSServiceSuffix)];
++ (BOOL)storeArray:(NSArray *)array forKey:(NSString *)key {
+  return [MSKeychainUtil storeArray:array forKey:key withServiceName:AppCenterKeychainServiceName(kMSServiceSuffix)];
 }
 
-+ (BOOL)storeArray:(NSMutableArray *)mutableArray forKey:(NSString *)key withServiceName:(NSString *)serviceName {
++ (BOOL)storeArray:(NSArray *)array forKey:(NSString *)key withServiceName:(NSString *)serviceName {
   NSMutableDictionary *attributes = [MSKeychainUtil generateItem:key withServiceName:serviceName];
-  attributes[(__bridge id)kSecValueData] = [NSKeyedArchiver archivedDataWithRootObject:mutableArray];
+  attributes[(__bridge id)kSecValueData] = [NSKeyedArchiver archivedDataWithRootObject:array];
   OSStatus status = [self addSecItem:attributes];
   return status == noErr;
 }
 
-+ (nullable NSMutableArray *)arrayForKey:(NSString *)key {
++ (nullable NSArray *)arrayForKey:(NSString *)key {
   return [MSKeychainUtil arrayForKey:key withServiceName:AppCenterKeychainServiceName(kMSServiceSuffix)];
 }
 
-+ (nullable NSMutableArray *)arrayForKey:(NSString *)key withServiceName:(NSString *)serviceName {
++ (nullable NSArray *)arrayForKey:(NSString *)key withServiceName:(NSString *)serviceName {
   NSMutableDictionary *query = [MSKeychainUtil generateItem:key withServiceName:serviceName];
   query[(__bridge id)kSecReturnData] = (__bridge id)kCFBooleanTrue;
   query[(__bridge id)kSecMatchLimit] = (__bridge id)kSecMatchLimitOne;

@@ -14,8 +14,8 @@
 @synthesize authTokensHistoryState = _authTokensHistoryState;
 
 - (nullable NSString *)retrieveAuthToken {
-  NSMutableArray<MSAuthTokenInfo *> *authTokensHistory = [self authTokensHistoryState];
-  MSAuthTokenInfo *latestAuthTokenInfo = authTokensHistory.lastObject;
+  NSArray<MSAuthTokenInfo *> *authTokensHistoryState = [self authTokensHistoryState];
+  MSAuthTokenInfo *latestAuthTokenInfo = authTokensHistoryState.lastObject;
   return latestAuthTokenInfo.authToken;
 }
 
@@ -49,7 +49,7 @@
   @synchronized(self) {
 
     // Read token array from storage.
-    NSMutableArray<MSAuthTokenInfo *> *authTokensHistory = [self authTokensHistoryState];
+    NSMutableArray<MSAuthTokenInfo *> *authTokensHistory = [[self authTokensHistoryState] mutableCopy];
     if (authTokensHistory.count == 0) {
 
       /*
@@ -110,22 +110,22 @@
    */
 }
 
-- (NSMutableArray<MSAuthTokenInfo *> *)authTokensHistoryState {
+- (NSArray<MSAuthTokenInfo *> *)authTokensHistoryState {
   if (_authTokensHistoryState) {
     return _authTokensHistoryState;
   }
-  NSMutableArray<MSAuthTokenInfo *> *history = [MSKeychainUtil arrayForKey:kMSIdentityAuthTokenArrayKey];
+  NSArray<MSAuthTokenInfo *> *history = [MSKeychainUtil arrayForKey:kMSIdentityAuthTokenArrayKey];
   if (history) {
     MSLogDebug([MSIdentity logTag], @"Retrieved history state from the keychain.");
   } else {
     MSLogWarning([MSIdentity logTag], @"Failed to retrieve history state from the keychain or none was found.");
-    history = [NSMutableArray<MSAuthTokenInfo *> new];
+    history = [NSArray<MSAuthTokenInfo *> new];
   }
   _authTokensHistoryState = history;
   return _authTokensHistoryState;
 }
 
-- (void)setAuthTokensHistoryState:(NSMutableArray<MSAuthTokenInfo *> *)authTokensHistory {
+- (void)setAuthTokensHistoryState:(NSArray<MSAuthTokenInfo *> *)authTokensHistory {
   if ([MSKeychainUtil storeArray:authTokensHistory forKey:kMSIdentityAuthTokenArrayKey]) {
     MSLogDebug([MSIdentity logTag], @"Saved new history state in the keychain.");
     _authTokensHistoryState = authTokensHistory;

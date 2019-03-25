@@ -13,12 +13,12 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Serialize and store mutable array as a string in a Keychain with given key.
  *
- * @param mutableArray An array of data to be placed in Keychain.
+ * @param array An array of data to be placed in Keychain.
  * @param key A unique key for the data.
  *
  * @return YES if stored successfully, NO otherwise.
  */
-+ (BOOL)storeArray:(NSMutableArray *)mutableArray forKey:(NSString *)key;
++ (BOOL)storeArray:(NSArray *)array forKey:(NSString *)key;
 
 /**
  * Get a string with the given key from Keychain, deserialize and return it as MutableArray.
@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A MutableArray data if exists.
  */
-+ (nullable NSMutableArray *)arrayForKey:(NSString *)key;
++ (nullable NSArray *)arrayForKey:(NSString *)key;
 
 /**
  * Store a string to Keychain with the given key.
