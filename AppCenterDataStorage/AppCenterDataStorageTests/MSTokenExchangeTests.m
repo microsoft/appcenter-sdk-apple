@@ -136,7 +136,7 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
 
 - (void)testRemoveAllTokens {
   
-  //If
+  // If
   OCMStub([self.keychainUtilMock deleteStringForKey:OCMOCK_ANY]).andReturn(@"success");
   OCMStub([self.keychainUtilMock deleteStringForKey:OCMOCK_ANY]).andReturn(@"success");
   
@@ -328,4 +328,5 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
            kMSExpiresOn : expiresOn
            };
 }
+
 @end
