@@ -1,24 +1,33 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "MSTestFrameworks.h"
 #import <Foundation/Foundation.h>
 
-static NSString *const partitionName = @"TestAppSecret";
-static NSString *const token = @"mockToken";
+#import "MSMockKeychainUtil.h"
+#import "MSMockUserDefaults.h"
+#import "MSTestFrameworks.h"
 
-@interface MSTokenTests : XCTestCase
+static NSString *const cachedToken = @"mockCachedToken";
+
+@interface MSTokenExchangeTests : XCTestCase
+
+@property(nonatomic) MSMockUserDefaults *settingsMock;
+@property(nonatomic) id keychainUtilMock;
 
 @end
 
-@implementation MSTokenTests
+@implementation MSTokenExchangeTests
 
 - (void)setUp {
   [super setUp];
+  self.settingsMock = [MSMockUserDefaults new];
+  self.keychainUtilMock = [MSMockKeychainUtil new];
 }
 
 - (void)tearDown {
   [super tearDown];
+  [self.settingsMock stopMocking];
+  [self.keychainUtilMock stopMocking];
 }
 
 - (void)testWhenNoCachedTokenNewTokenIsCached {
