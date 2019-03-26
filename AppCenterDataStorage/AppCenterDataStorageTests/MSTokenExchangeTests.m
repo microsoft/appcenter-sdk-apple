@@ -9,6 +9,8 @@
 #import "MSStorageIngestion.h"
 #import "MSTokenResult.h"
 #import "MSDataStoreErrors.h"
+#import "MSUtility+Date.h"
+#import "MSAuthTokenContext.h"
 #import "MSTokensResponse.h"
 #import "MSConstants+Internal.h"
 
@@ -29,6 +31,7 @@ static NSString *const mockTokenKeyName = @"mock-token-key-name";
 static NSString *const cachedToken = @"mockCachedToken";
 static NSString *const kMSStorageReadOnlyDbTokenKey = @"MSStorageReadOnlyDbToken";
 static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
+static NSString *const MSDataStoreAppDocumentsPartition = @"readonly";
 
 @interface MSTokenExchange (Test)
 
@@ -73,6 +76,11 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
                                                           options:NSJSONWritingPrettyPrinted
                                                             error:nil];
   
+  MSAuthTokenContext *mockContext = [MSAuthTokenContext sharedInstance];
+  [mockContext setAuthToken:@"fake-token" withAccountId:@"account-id"];
+  id authContextMock = OCMClassMock([MSAuthTokenContext class]);
+  OCMStub(ClassMethod([authContextMock sharedInstance])).andReturn(mockContext);
+  
   // Mock HTTP call returning fake token data.
   OCMStub([self.ingestionStoreMock sendAsync:OCMOCK_ANY completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
     MSSendAsyncCompletionHandler completionBlock;
@@ -85,7 +93,7 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
   
   // Mock returning nil for cached token.
   OCMStub([self.keychainUtilMock stringForKey:mockTokenKeyName]).andReturn(nil);
-  OCMStub([self.keychainUtilMock storeString:OCMOCK_ANY forKey:OCMOCK_ANY]);
+  OCMStub([self.keychainUtilMock storeString:OCMOCK_ANY forKey:OCMOCK_ANY]).andReturn(YES);
   XCTestExpectation *completeExpectation = [self expectationWithDescription:@"Task finished"];
   
   // When
@@ -110,10 +118,11 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
   // If
   NSData *tokenData = [NSJSONSerialization dataWithJSONObject:[self getSuccessfulTokenData] options:NSJSONWritingPrettyPrinted error:nil];
   NSString *tokenString = [[NSString alloc] initWithData:tokenData encoding:NSUTF8StringEncoding];
+  OCMStub([self.keychainUtilMock stringForKey:mockTokenKeyName]).andReturn(tokenString);
+  id utilityMock = OCMClassMock([MSUtility class]);
   
-  // Mock returning valid cached token.
-  MSTokenResult *result = [[MSTokenResult alloc] initWithString:tokenString];
-  OCMStub(ClassMethod([self.sut retrieveCachedToken:mockPartition])).andReturn(result);
+  // Mock returning valid expire date.
+  OCMStub(ClassMethod([utilityMock dateFromISO8601:OCMOCK_ANY])).andReturn([NSDate dateWithTimeIntervalSinceNow:100000]);
   
   // We should not call for new token if the cached valid.
   OCMReject([self.ingestionStoreMock sendAsync:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
@@ -132,6 +141,7 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
   // Then
   [self waitForExpectationsWithTimeout:5 handler:nil];
   OCMVerifyAll(self.ingestionStoreMock);
+  [utilityMock stopMocking];
 }
 
 - (void)testRemoveAllTokens {
@@ -150,10 +160,10 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
 - (void)testCachedTokenIsExpired {
   
   // If
-  OCMStub(ClassMethod([self.sut removeCachedToken:mockPartition]));
   NSData *tokenData = [NSJSONSerialization dataWithJSONObject:[self getExpiredTokenData] options:NSJSONWritingPrettyPrinted error:nil];
   NSString *tokenString = [[NSString alloc] initWithData:tokenData encoding:NSUTF8StringEncoding];
   OCMStub([self.keychainUtilMock stringForKey:mockTokenKeyName]).andReturn(tokenString);
+  OCMStub([self.keychainUtilMock deleteStringForKey:OCMOCK_ANY]).andReturn(@"success");
   OCMStub([self.ingestionStoreMock sendAsync:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
   
   // When
@@ -163,7 +173,7 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
                                             }];
   
   // Then
-  OCMVerify(ClassMethod([self.sut removeCachedToken:mockPartition]));
+  OCMVerify([self.keychainUtilMock deleteStringForKey:OCMOCK_ANY]);
 }
 
 - (void)testCachedTokenNotFoundInKeychain {
@@ -277,6 +287,98 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
   
   // Then
   [self waitForExpectationsWithTimeout:5 handler:nil];
+}
+
+- (void)testSaveTokenFails {
+  
+  // If
+  OCMReject([self.keychainUtilMock storeString:OCMOCK_ANY forKey:OCMOCK_ANY]);
+  
+  // When
+  [MSTokenExchange saveToken:nil];
+  
+  // Then
+  OCMVerifyAll(self.keychainUtilMock);
+}
+
+- (void)testSaveTokenFailsWithoutPartition {
+  
+  // If
+  NSData *tokenData = [NSJSONSerialization dataWithJSONObject:[self getSuccessfulTokenData] options:NSJSONWritingPrettyPrinted error:nil];
+  NSString *tokenString = [[NSString alloc] initWithData:tokenData encoding:NSUTF8StringEncoding];
+  MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithString:tokenString];
+  id mockResult = OCMPartialMock(tokenResult);
+  OCMStub([mockResult partition]).andReturn(nil);
+  OCMStub([mockResult serializeToString]).andReturn(@"string");
+  
+  // When
+  [MSTokenExchange saveToken:mockResult];
+  
+  // Then
+  OCMVerifyAll(self.keychainUtilMock);
+}
+
+- (void)testSaveTokenFailsIfStoreStringFails {
+  
+  // If
+  OCMStub([self.keychainUtilMock storeString:OCMOCK_ANY forKey:OCMOCK_ANY]).andReturn(NO);
+  NSData *tokenData = [NSJSONSerialization dataWithJSONObject:[self getSuccessfulTokenData] options:NSJSONWritingPrettyPrinted error:nil];
+  NSString *tokenString = [[NSString alloc] initWithData:tokenData encoding:NSUTF8StringEncoding];
+  MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithString:tokenString];
+  
+  // When
+  [MSTokenExchange saveToken:tokenResult];
+  
+  // Then
+  OCMVerifyAll(self.keychainUtilMock);
+}
+
+- (void)testRemoveCachedTokenNotRaisesError {
+  
+  // If
+  OCMStub([self.keychainUtilMock deleteStringForKey:OCMOCK_ANY]).andReturn(nil);
+  
+  // When
+  [MSTokenExchange removeCachedToken:@"token"];
+  
+  // Then
+  OCMVerifyAll(self.keychainUtilMock);
+}
+
+- (void)testRemoveAllCachedTokensNotRaisesError {
+  
+  // If
+  OCMStub([self.keychainUtilMock deleteStringForKey:OCMOCK_ANY]).andReturn(nil);
+  
+  // When
+  [MSTokenExchange removeAllCachedTokens];
+  
+  // Then
+  OCMVerifyAll(self.keychainUtilMock);
+}
+
+- (void)testTokenKeyNameForPartitionReturnsReadOnlyKey {
+  
+  // If
+  NSString *readonlyPartition = [NSString stringWithFormat:@"partition-%@", MSDataStoreAppDocumentsPartition];
+  
+  // When
+  NSString *tokenKeyName = [MSTokenExchange tokenKeyNameForPartition:readonlyPartition];
+  
+  // Then
+  XCTAssertTrue([tokenKeyName isEqualToString:kMSStorageReadOnlyDbTokenKey]);
+}
+
+- (void)testTokenKeyNameForPartitionReturnsValidKey {
+  
+  // If
+  NSString *notReadonlyPartition = @"partition";
+  
+  // When
+  NSString *tokenKeyName = [MSTokenExchange tokenKeyNameForPartition:notReadonlyPartition];
+  
+  // Then
+  XCTAssertTrue([tokenKeyName isEqualToString:kMSStorageUserDbTokenKey]);
 }
 
 - (NSObject *)getExpiredTokenData {
