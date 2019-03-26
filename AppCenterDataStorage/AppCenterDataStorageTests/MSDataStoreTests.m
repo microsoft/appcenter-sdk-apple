@@ -72,8 +72,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
                               transmissionTargetToken:nil
                                       fromApplication:YES];
   
-  //TODO
-  [self.sut listWithPartition:(nonnull NSString *) documentType:<#(nonnull Class)#> readOptions:<#(nullable MSReadOptions *)#> continuationToken:(nullable NSString *) completionHandler:<#^(MSPaginatedDocuments<T> * _Nonnull documents)completionHandler#>]
+ 
 }
 
 @end
