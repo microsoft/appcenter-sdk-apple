@@ -67,16 +67,6 @@ static NSString *const kMSDocumentKey = @"document";
 /**
  * Initialize a `MSDocumentWrapper` instance.
  *
- * @param data Document data.
- * @param documentType Document type.
- *
- * @return A new `MSDocumentWrapper` instance.
- */
-- (instancetype)initWithData:(NSData *)data documentType:(Class)documentType partition:(NSString *)partition;
-
-/**
- * Initialize a `MSDocumentWrapper` instance.
- *
  * @param error Document error.
  * @param documentId Document Id.
  *

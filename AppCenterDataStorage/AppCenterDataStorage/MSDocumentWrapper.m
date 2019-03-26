@@ -33,37 +33,6 @@
   return self;
 }
 
-- (instancetype)initWithData:(NSData *)data documentType:(Class)documentType partition:(NSString *)partition {
-  if ((self = [super init])) {
-
-    // Try to deserialize the data.
-    NSError *deserializeError;
-    NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:&deserializeError];
-
-    // Handle logging.
-    if (deserializeError) {
-      MSLogError([MSDataStore logTag], @"Error deserializing data: %@", [deserializeError description]);
-    }
-    MSLogDebug([MSDataStore logTag], @"Deserializing document from data: %@", json);
-
-    // Instanciate requested document type.
-    id<MSSerializableDocument> deserializedDocument =
-        [(id<MSSerializableDocument>)[documentType alloc] initFromDictionary:(NSDictionary *)json[kMSDocumentKey]];
-
-    // Build document wrapper object.
-    NSTimeInterval interval = [(NSString *)json[kMSDocumentTimestampKey] doubleValue];
-    NSDate *date = [NSDate dateWithTimeIntervalSince1970:interval];
-    NSString *eTag = json[kMSDocumentEtagKey];
-    MSLogDebug([MSDataStore logTag], @"Document created: %@", data);
-    return [self initWithDeserializedValue:deserializedDocument
-                                 partition:partition
-                                documentId:json[kMSDocumentIdKey]
-                                      eTag:eTag
-                           lastUpdatedDate:date];
-  }
-  return self;
-}
-
 - (instancetype)initWithError:(NSError *)error documentId:(NSString *)documentId {
   if ((self = [super init])) {
     _documentId = documentId;

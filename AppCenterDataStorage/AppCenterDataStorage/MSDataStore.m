@@ -282,7 +282,7 @@ static dispatch_once_t onceToken;
       [items addObject:docWrapper];
     }
     
-    // Instanciate the first page and return it.
+    // Instantiate the first page and return it.
     MSPage *page = [[MSPage alloc] initWithItems:items];
     MSPaginatedDocuments *documents = [[MSPaginatedDocuments alloc]
                                        initWithPage:page
