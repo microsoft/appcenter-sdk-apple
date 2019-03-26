@@ -371,8 +371,8 @@ static dispatch_once_t onceToken;
                                                 completionHandler(nil, error);
                                                 return;
                                               }
-                                              MSCosmosDbIngestion *cosmosDbIngestion =
-                                                  [[MSCosmosDbIngestion alloc] initWithOfflineMode:[self isOfflineMode]];
+                                              MSCosmosDbIngestion *cosmosDbIngestion = [MSCosmosDbIngestion new];
+                                              [cosmosDbIngestion setOfflineMode:[self isOfflineMode]];
                                               [MSCosmosDb performCosmosDbAsyncOperationWithHttpClient:cosmosDbIngestion
                                                                                           tokenResult:tokenResponses.tokens[0]
                                                                                            documentId:documentId

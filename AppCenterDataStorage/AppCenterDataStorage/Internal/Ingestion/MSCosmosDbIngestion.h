@@ -13,9 +13,10 @@ static NSString *const MSDataStorageErrorDomain = @"MSDataStorageErrorDomain";
 
 @interface MSCosmosDbIngestion : MSHttpIngestion
 
-@property BOOL offlineMode;
-
-- (id)initWithOfflineMode:(BOOL)offlineMode;
+/**
+ * A flag that indicates offline mode is on or off.
+ */
+@property(nonatomic) BOOL offlineMode;
 
 @end
 
