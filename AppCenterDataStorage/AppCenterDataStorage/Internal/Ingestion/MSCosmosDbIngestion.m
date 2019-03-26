@@ -17,10 +17,31 @@
                         queryStrings:nil
                         reachability:[MS_Reachability reachabilityForInternetConnection]
                       retryIntervals:@[ @(10), @(5 * 60), @(20 * 60) ]])) {
+    self.offlineMode = false;
   }
   return self;
 }
 
+- (instancetype)initWithOfflineMode:(bool)offlineMode {
+  if ((self = [self init])) {
+    self.offlineMode = offlineMode;
+  }
+  return self;
+}
+
+- (void)sendAsync:(nullable NSObject *)data
+                 eTag:(nullable NSString *)eTag
+            authToken:(nullable NSString *)authToken
+               callId:(NSString *)callId
+    completionHandler:(MSSendAsyncCompletionHandler)completionHandler {
+  if (self.offlineMode) {
+    NSDictionary *userInfo = @{NSLocalizedDescriptionKey : @"Storage offline simulation mode is enabled."};
+    completionHandler(callId, nil, nil,
+                      [NSError errorWithDomain:MSDataStorageErrorDomain code:NSURLErrorNotConnectedToInternet userInfo:userInfo]);
+  } else {
+    [super sendAsync:data eTag:eTag authToken:authToken callId:callId completionHandler:completionHandler];
+  }
+}
 
 - (NSURLRequest *)createRequest:(NSObject *)data eTag:(NSString *)__unused eTag authToken:(nullable NSString *)__unused authToken {
   NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:self.sendURL];

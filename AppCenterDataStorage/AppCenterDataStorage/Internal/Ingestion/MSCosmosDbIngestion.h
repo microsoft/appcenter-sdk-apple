@@ -6,7 +6,17 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ * Error domain for Storage.
+ */
+static NSString *const MSDataStorageErrorDomain = @"MSDataStorageErrorDomain";
+
 @interface MSCosmosDbIngestion : MSHttpIngestion
+
+@property BOOL offlineMode;
+
+- (id)initWithOfflineMode:(bool)offlineMode;
+
 @end
 
 NS_ASSUME_NONNULL_END

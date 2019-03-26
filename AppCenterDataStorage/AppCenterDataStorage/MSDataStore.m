@@ -186,6 +186,16 @@ static dispatch_once_t onceToken;
                                           completionHandler:completionHandler];
 }
 
++ (void)setOfflineMode:(BOOL)offlineMode {
+  @synchronized([MSDataStore sharedInstance]) {
+    [MSDataStore sharedInstance].offlineMode = offlineMode;
+  }
+}
+
++ (BOOL)isOfflineMode {
+  return [[MSDataStore sharedInstance] isOfflineMode];
+}
+
 #pragma mark - MSDataStore Implementation
 
 - (void)replaceWithPartition:(NSString *)partition
@@ -270,7 +280,6 @@ static dispatch_once_t onceToken;
                                 body:[NSData data]
                    additionalHeaders:nil
                    completionHandler:^(NSData *__unused data, NSError *_Nonnull cosmosDbError) {
-
                      // Body returned from call (data) is empty.
                      NSInteger httpStatusCode = [MSDataSourceError errorCodeFromError:cosmosDbError];
                      if (httpStatusCode != MSHTTPCodesNo204NoContent) {
@@ -362,7 +371,8 @@ static dispatch_once_t onceToken;
                                                 completionHandler(nil, error);
                                                 return;
                                               }
-                                              MSCosmosDbIngestion *cosmosDbIngestion = [MSCosmosDbIngestion new];
+                                              MSCosmosDbIngestion *cosmosDbIngestion =
+                                                  [[MSCosmosDbIngestion alloc] initWithOfflineMode:[self isOfflineMode]];
                                               [MSCosmosDb performCosmosDbAsyncOperationWithHttpClient:cosmosDbIngestion
                                                                                           tokenResult:tokenResponses.tokens[0]
                                                                                            documentId:documentId
@@ -371,6 +381,12 @@ static dispatch_once_t onceToken;
                                                                                     additionalHeaders:additionalHeaders
                                                                                     completionHandler:completionHandler];
                                             }];
+}
+
+- (BOOL)isOfflineMode {
+  @synchronized(self) {
+    return self.offlineMode;
+  }
 }
 
 #pragma mark - MSServiceInternal

@@ -1,18 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import <Foundation/Foundation.h>
-
-#if TARGET_OS_OSX
-#import <AppKit/AppKit.h>
-#else
-#import <UserNotifications/UserNotifications.h>
-#endif
-
-#import "MSChannelGroupProtocol.h"
-#import "MSChannelUnitProtocol.h"
+#import "MSDataStore.h"
+#import "MSDataStoreInternal.h"
 #import "MSTestFrameworks.h"
-#import "MSUserIdContextPrivate.h"
 
 @interface MSDataStoreTests : XCTestCase
 
@@ -28,6 +19,14 @@
 
 - (void)tearDown {
   [super tearDown];
+}
+
+#pragma mark - Tests
+- (void)testSetOfflineMode {
+  // when
+  [MSDataStore setOfflineMode:YES];
+  // then
+  XCTAssertTrue([MSDataStore isOfflineMode]);
 }
 
 @end

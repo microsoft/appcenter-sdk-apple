@@ -182,5 +182,17 @@ typedef void (^MSDataSourceErrorCompletionHandler)(MSDataSourceError *error);
                        writeOptions:(MSWriteOptions *)writeOptions
                   completionHandler:(MSDataSourceErrorCompletionHandler)completionHandler;
 
+/**
+ * Enable or disable offline mode.
+ *
+ * @param offlineMode True to turn on offline mode, false to turn off.
+ */
++ (void)setOfflineMode:(BOOL)offlineMode;
+
+/**
+ * Check whether offline mode is enabled or not. False by default.
+ */
++ (BOOL)isOfflineMode;
+
 @end
 NS_ASSUME_NONNULL_END
