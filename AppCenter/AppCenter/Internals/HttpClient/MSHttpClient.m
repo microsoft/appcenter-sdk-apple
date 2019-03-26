@@ -13,33 +13,30 @@
 
 @implementation MSHttpClient
 
+#define DEFAULT_RETRY_INTERVALS @[ @10, @(5 * 60), @(20 * 60) ]
+
 - (instancetype)init {
-  if ((self = [super init])) {
-    _session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-    _pendingCalls = [NSMutableSet new];
-    _reachability = [MS_Reachability new];
-    _retryIntervals = @[ @1.0 ];
-  }
-  return self;
+  return [self initWithMaxHttpConnectionsPerHost:nil retryIntervals:DEFAULT_RETRY_INTERVALS reachability:[MS_Reachability new]];
 }
 
 - (instancetype)initWithMaxHttpConnectionsPerHost:(int)maxHttpConnectionsPerHost {
-  if ((self = [super init])) {
-    NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
-    config.HTTPMaximumConnectionsPerHost = maxHttpConnectionsPerHost;
-    _session = [NSURLSession sessionWithConfiguration:config];
-    _pendingCalls = [NSMutableSet new];
-    _reachability = [MS_Reachability new];
-    _retryIntervals = @[ @1.0 ];
-  }
-  return self;
+  return [self initWithMaxHttpConnectionsPerHost:@(maxHttpConnectionsPerHost)
+                                  retryIntervals:DEFAULT_RETRY_INTERVALS
+                                    reachability:[MS_Reachability new]];
 }
 
-- (instancetype)initWithRetryIntervals:(NSArray *)retryIntervals reachability:(MS_Reachability *)reachability {
+- (instancetype)initWithMaxHttpConnectionsPerHost:(NSNumber *)maxHttpConnectionsPerHost
+                                   retryIntervals:(NSArray *)retryIntervals
+                                     reachability:(MS_Reachability *)reachability {
   if ((self = [super init])) {
-    _session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+    NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+    if (maxHttpConnectionsPerHost) {
+      config.HTTPMaximumConnectionsPerHost = [maxHttpConnectionsPerHost intValue];
+    }
+    _session = [NSURLSession sessionWithConfiguration:config];
     _pendingCalls = [NSMutableSet new];
     _reachability = reachability;
+    // TODO init reachability notifier and callbacks and use it for real.
     _retryIntervals = [NSArray arrayWithArray:retryIntervals];
   }
   return self;
@@ -76,50 +73,60 @@
     MSLogVerbose([MSAppCenter logTag], @"URL: %@", request.URL);
     MSLogVerbose([MSAppCenter logTag], @"Headers: %@", [self prettyPrintHeaders:request.allHTTPHeaderFields]);
   }
-  NSURLSessionDataTask *task =
-      [self.session dataTaskWithRequest:request
-                      completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-                        NSHTTPURLResponse *httpResponse;
-                        @synchronized(self) {
+  NSURLSessionDataTask *task = [self.session
+      dataTaskWithRequest:request
+        completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+          NSHTTPURLResponse *httpResponse;
+          @synchronized(self) {
 
-                          // If canceled, then return immediately.
-                          if (![self.pendingCalls containsObject:call]) {
-                            MSLogDebug([MSAppCenter logTag], @"HTTP call was canceled, not processing result.");
-                            NSLog(@"HTTP call was canceled, not processing result.");
-                            return;
-                          }
+            // If canceled, then return immediately.
+            if (![self.pendingCalls containsObject:call]) {
+              MSLogDebug([MSAppCenter logTag], @"HTTP call was canceled, not processing result.");
+              return;
+            }
 
-                          httpResponse = (NSHTTPURLResponse *)response;
-                          if ([MSHttpUtil isRecoverableError:httpResponse.statusCode] && ![call hasReachedMaxRetries]) {
-                            NSLog(@"Recoverable error with remaining retries. Retry enqueued.");
-                            [call startRetryTimerWithStatusCode:httpResponse.statusCode event:^{
-                              [self sendCallAsync:call];
-                            }];
-                            return;
-                          }
-                          [self.pendingCalls removeObject:call];
-                        }
+            // Handle NSError (low level error where we don't even get a HTTP response).
+            BOOL internetIsDown = [MSHttpUtil isNoInternetConnectionError:error];
+            BOOL couldNotEstablishSecureConnection = [MSHttpUtil isSSLConnectionError:error];
+            if (error) {
+              if (internetIsDown || couldNotEstablishSecureConnection) {
 
-                        // Unblock the caller now with the outcome of the call.
-                        call.completionHandler(data, httpResponse, error);
+                // Reset the retry count, will retry once the (secure) connection is established again.
+                [call resetRetry];
+                NSString *logMessage = internetIsDown ? @"Internet connection is down." : @"Could not establish secure connection.";
+                MSLogInfo([MSAppCenter logTag], @"HTTP call failed with error: %@", logMessage);
+              } else {
+                MSLogError([MSAppCenter logTag], @"HTTP request error with code: %td, domain: %@, description: %@", error.code,
+                           error.domain, error.localizedDescription);
+              }
+            }
 
-                        // Log error payload.
-                        if (error) {
-                          MSLogDebug([MSAppCenter logTag], @"HTTP request error with code: %td, domain: %@, description: %@", error.code,
-                                     error.domain, error.localizedDescription);
-                        }
+            // Handle HTTP error.
+            else {
+              httpResponse = (NSHTTPURLResponse *)response;
+              if ([MSHttpUtil isRecoverableError:httpResponse.statusCode] && ![call hasReachedMaxRetries]) {
+                [call startRetryTimerWithStatusCode:httpResponse.statusCode
+                                              event:^{
+                                                [self sendCallAsync:call];
+                                              }];
+                return;
+              }
 
-                        // Don't lose time pretty printing if not going to be printed.
-                        else if ([MSAppCenter logLevel] <= MSLogLevelVerbose) {
-                          NSString *payload = [MSUtility prettyPrintJson:data];
-                          MSLogVerbose([MSAppCenter logTag], @"HTTP response received with status code: %tu, payload:\n%@",
-                                       httpResponse.statusCode, payload);
-                        }
-                      }];
+              // Don't lose time pretty printing if not going to be printed.
+              if ([MSAppCenter logLevel] <= MSLogLevelVerbose) {
+                NSString *payload = [MSUtility prettyPrintJson:data];
+                MSLogVerbose([MSAppCenter logTag], @"HTTP response received with status code: %tu, payload:\n%@", httpResponse.statusCode,
+                             payload);
+              }
+            }
+            [self.pendingCalls removeObject:call];
+          }
+
+          // Unblock the caller now with the outcome of the call.
+          call.completionHandler(data, httpResponse, error);
+        }];
   [task resume];
 }
-
-
 
 - (NSString *)obfuscateHeaderValue:(NSString *)value forKey:(NSString *)key {
   if ([key isEqualToString:kMSAuthorizationHeaderKey]) {

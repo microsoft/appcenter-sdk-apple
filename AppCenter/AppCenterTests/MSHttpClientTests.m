@@ -12,8 +12,8 @@
 #import "MSIngestionDelegate.h"
 #import "MSMockLog.h"
 #import "MSTestFrameworks.h"
-#import <OHHTTPStubs/OHHTTPStubs.h>
 #import <OHHTTPStubs/NSURLRequest+HTTPBodyTesting.h>
+#import <OHHTTPStubs/OHHTTPStubs.h>
 
 static NSTimeInterval const kMSTestTimeout = 5.0;
 
@@ -27,7 +27,9 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
 
 @interface MSHttpClient ()
 
-- (instancetype)initWithRetryIntervals:(NSArray *)retryIntervals reachability:(MS_Reachability *)reachability;
+- (instancetype)initWithMaxHttpConnectionsPerHost:(NSNumber *)maxHttpConnectionsPerHost
+                                   retryIntervals:(NSArray *)retryIntervals
+                                     reachability:(MS_Reachability *)reachability;
 
 @end
 
@@ -85,7 +87,6 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
                 headers:nil
                    data:payload
       completionHandler:^(NSData *responseBody, NSHTTPURLResponse *response, NSError *error) {
-
         // Then
         XCTAssertEqual(response.statusCode, MSHTTPCodesNo200OK);
         XCTAssertEqualObjects(responseBody, [@"OK" dataUsingEncoding:kCFStringEncodingUTF8]);
@@ -105,7 +106,7 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
   XCTAssertEqualObjects(actualRequest.OHHTTPStubs_HTTPBody, payload);
 }
 
-- (void)testGetWithHeadersWhileNetworkError {
+- (void)testGetWithHeadersResultInFatalNSError {
 
   // If
   __block NSURLRequest *actualRequest;
@@ -117,7 +118,7 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
       }
       withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         actualRequest = request;
-        NSError *error = [NSError errorWithDomain:NSURLErrorDomain code:kCFURLErrorNotConnectedToInternet userInfo:nil];
+        NSError *error = [NSError errorWithDomain:NSURLErrorDomain code:kCFURLErrorBadURL userInfo:nil];
         return [OHHTTPStubsResponse responseWithError:error];
       }];
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@"Network error"];
@@ -132,7 +133,6 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
                 headers:headers
                    data:nil
       completionHandler:^(NSData *responseBody, NSHTTPURLResponse *response, NSError *error) {
-
         // Then
         XCTAssertNil(response);
         XCTAssertNil(responseBody);
@@ -149,14 +149,12 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
   // Then
   XCTAssertEqualObjects(actualRequest.URL, url);
   XCTAssertEqualObjects(actualRequest.HTTPMethod, method);
-  XCTAssertEqualObjects(actualRequest.allHTTPHeaderFields[@"Authorization"],  @"something");
+  XCTAssertEqualObjects(actualRequest.allHTTPHeaderFields[@"Authorization"], @"something");
 }
 
 - (void)testDeleteUnrecoverableErrorWithoutHeadersNotRetried {
 
   // If
-
-  // To count requests, use a set instead of an integer, because even if a request is only sent once, the callback can be invoked twice.
   __block int numRequests = 0;
   __block NSURLRequest *actualRequest;
   [OHHTTPStubs
@@ -179,7 +177,6 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
                 headers:nil
                    data:nil
       completionHandler:^(NSData *responseBody, NSHTTPURLResponse *response, NSError *error) {
-
         // Then
         XCTAssertEqual(response.statusCode, MSHTTPCodesNo400BadRequest);
         XCTAssertNotNil(responseBody);
@@ -202,8 +199,6 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
 - (void)testNetworkDownAndThenUpAgain {
 
   // If
-
-  // To count requests, use a set instead of an integer, because even if a request is only sent once, the callback can be invoked twice.
   __block int numRequests = 0;
   __block NSURLRequest *actualRequest;
   __block BOOL completionHandlerCalled = NO;
@@ -219,7 +214,7 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
         actualRequest = request;
         return [OHHTTPStubsResponse responseWithData:[NSData data] statusCode:MSHTTPCodesNo204NoContent headers:nil];
       }];
-  self.sut = [[MSHttpClient alloc] initWithRetryIntervals:@[ @1 ] reachability:self.reachabilityMock];
+  self.sut = [[MSHttpClient alloc] initWithMaxHttpConnectionsPerHost:nil retryIntervals:@[ @1 ] reachability:self.reachabilityMock];
   NSURL *url = [NSURL URLWithString:@"https://mock/something?a=b"];
   NSString *method = @"DELETE";
 
@@ -265,8 +260,6 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
 - (void)testDeleteRecoverableErrorWithoutHeadersRetried {
 
   // If
-
-  // To count requests, use a set instead of an integer, because even if a request is only sent once, the callback can be invoked twice.
   __block int numRequests = 0;
   __block NSURLRequest *actualRequest;
   NSArray *retryIntervals = @[ @1, @2 ];
@@ -280,7 +273,7 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
         return [OHHTTPStubsResponse responseWithData:[NSData data] statusCode:MSHTTPCodesNo500InternalServerError headers:nil];
       }];
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@""];
-  self.sut = [[MSHttpClient alloc] initWithRetryIntervals:retryIntervals reachability:self.reachabilityMock];
+  self.sut = [[MSHttpClient alloc] initWithMaxHttpConnectionsPerHost:nil retryIntervals:retryIntervals reachability:self.reachabilityMock];
   NSURL *url = [NSURL URLWithString:@"https://mock/something?a=b"];
   NSString *method = @"DELETE";
 
@@ -290,7 +283,6 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
                 headers:nil
                    data:nil
       completionHandler:^(NSData *responseBody, NSHTTPURLResponse *response, NSError *error) {
-
         // Then
         XCTAssertEqual(response.statusCode, MSHTTPCodesNo500InternalServerError);
         XCTAssertNotNil(responseBody);
@@ -298,7 +290,7 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
         [expectation fulfill];
       }];
 
-  [self waitForExpectationsWithTimeout:kMSTestTimeout*100
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *_Nullable error) {
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
