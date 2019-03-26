@@ -216,7 +216,7 @@ static dispatch_once_t onceToken;
 
 - (void)listWithPartition:(NSString *)partition
              documentType:(Class)documentType
-              readOptions:(MSReadOptions *_Nullable)__unused readOptions
+              readOptions:(MSReadOptions *_Nullable) readOptions
         continuationToken:(nullable NSString *)continuationToken
         completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler {
   NSMutableDictionary *additionalHeaders = [NSMutableDictionary new];
@@ -227,7 +227,7 @@ static dispatch_once_t onceToken;
   [additionalHeaders setObject:@"10" forKey:@"x-ms-max-item-count"];
   
   // Call cosmos DB.
-  [self performOperationForPartition:partition documentId:@"" httpMethod:kMSHttpMethodGet body:nil additionalHeaders:additionalHeaders completionHandlerWithHeaders:^(NSData * _Nullable data, NSDictionary * _Nullable headers, NSError * _Nonnull cosmosDbError) {
+  [self performOperationForPartition:partition documentId:nil httpMethod:kMSHttpMethodGet body:nil additionalHeaders:additionalHeaders completionHandlerWithHeaders:^(NSData * _Nullable data, NSDictionary * _Nullable headers, NSError * _Nonnull cosmosDbError) {
     // If not OK.
     if (!data || [MSDataSourceError errorCodeFromError:cosmosDbError] !=
         kMSACDocumentSucceededErrorCode) {
@@ -276,7 +276,7 @@ static dispatch_once_t onceToken;
       MSDocumentWrapper *docWrapper =
       [[MSDocumentWrapper alloc] initWithDeserializedValue:deserializedDocument
                                                  partition:partition
-                                                documentId:@""
+                                                documentId:nil
                                                       eTag:eTag
                                            lastUpdatedDate:date];
       [items addObject:docWrapper];
@@ -288,7 +288,7 @@ static dispatch_once_t onceToken;
                                        initWithPage:page
                                        partition:partition
                                        documentType:documentType
-                                       readOptions:nil
+                                       readOptions:readOptions
                                        continuationToken:headers[kMSDocumentContinuationTokenHeaderKey]];
     completionHandler(documents);
   }];
