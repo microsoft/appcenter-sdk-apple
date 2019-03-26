@@ -5,8 +5,8 @@
 #import "MSCosmosDb.h"
 #import "MSCosmosDbIngestion.h"
 #import "MSDataStore.h"
-#import "MSDataStorePrivate.h"
 #import "MSDataStoreInternal.h"
+#import "MSDataStorePrivate.h"
 #import "MSSerializableDocument.h"
 #import "MSTokenExchange.h"
 
@@ -63,7 +63,7 @@
 
 - (void)nextPageWithCompletionHandler:(void (^)(MSPage<id<MSSerializableDocument>> *page))completionHandler {
   if ([self hasNextPage]) {
-    
+
     [MSDataStore listWithPartition:self.partition
                       documentType:self.documentType
                        readOptions:nil
@@ -77,7 +77,7 @@
                    completionHandler(documents.currentPage);
                  }];
   }
-  
+
   // TODO: log an error? Shall we call the completion handler if there are no more pages?
 }
 

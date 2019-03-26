@@ -43,11 +43,11 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
   // If
   [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
-                                            appSecret:kMSTestAppSecret
-                              transmissionTargetToken:nil
-                                      fromApplication:YES];
+                        appSecret:kMSTestAppSecret
+          transmissionTargetToken:nil
+                  fromApplication:YES];
 
-   // When
+  // When
   [self.sut setEnabled:YES];
 
   // Then
@@ -68,11 +68,9 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
 - (void)testListDocumentsGoldenPath {
   [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
-                                            appSecret:kMSTestAppSecret
-                              transmissionTargetToken:nil
-                                      fromApplication:YES];
-  
- 
+                        appSecret:kMSTestAppSecret
+          transmissionTargetToken:nil
+                  fromApplication:YES];
 }
 
 @end

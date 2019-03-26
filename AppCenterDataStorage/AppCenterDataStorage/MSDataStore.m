@@ -144,10 +144,10 @@ static dispatch_once_t onceToken;
                 writeOptions:(MSWriteOptions *_Nullable)writeOptions
            completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
   [[MSDataStore sharedInstance] replaceWithPartition:partition
-                  documentId:documentId
-                    document:document
-                writeOptions:writeOptions
-           completionHandler:completionHandler];
+                                          documentId:documentId
+                                            document:document
+                                        writeOptions:writeOptions
+                                   completionHandler:completionHandler];
 }
 
 + (void)deleteDocumentWithPartition:(NSString *)partition
@@ -216,7 +216,7 @@ static dispatch_once_t onceToken;
 
 - (void)listWithPartition:(NSString *)partition
              documentType:(Class)documentType
-              readOptions:(MSReadOptions *_Nullable) readOptions
+              readOptions:(MSReadOptions *_Nullable)readOptions
         continuationToken:(nullable NSString *)continuationToken
         completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler {
   NSMutableDictionary *additionalHeaders = [NSMutableDictionary new];
@@ -225,73 +225,66 @@ static dispatch_once_t onceToken;
   }
   // TODO: Add constant and set max items (maybe provide a way to change it e.g. in the read options)
   [additionalHeaders setObject:@"10" forKey:@"x-ms-max-item-count"];
-  
+
   // Call cosmos DB.
-  [self performOperationForPartition:partition documentId:nil httpMethod:kMSHttpMethodGet body:nil additionalHeaders:additionalHeaders completionHandlerWithHeaders:^(NSData * _Nullable data, NSDictionary * _Nullable headers, NSError * _Nonnull cosmosDbError) {
-    // If not OK.
-    if (!data || [MSDataSourceError errorCodeFromError:cosmosDbError] !=
-        kMSACDocumentSucceededErrorCode) {
-      MSLogError([MSDataStore logTag], @"Not able to retrieve documents: %@",
-                 [cosmosDbError description]);
-      MSDataSourceError *dataSourceCosmosDbError =
-      [[MSDataSourceError alloc] initWithError:cosmosDbError];
-      MSPaginatedDocuments *documents =
-      [[MSPaginatedDocuments alloc] initWithError:dataSourceCosmosDbError];
-      completionHandler(documents);
-      return;
-    }
-    
-    // Deserialize.
-    NSError *deserializeError;
-    NSDictionary *json = [NSJSONSerialization JSONObjectWithData:(NSData *)data
-                                                         options:0
-                                                           error:&deserializeError];
-    if (deserializeError) {
-      MSLogError([MSDataStore logTag], @"Error deserializing data: %@",
-                 [deserializeError description]);
-      MSDataSourceError *dataSourceDeserializeError =
-      [[MSDataSourceError alloc] initWithError:deserializeError];
-      MSPaginatedDocuments *documents =
-      [[MSPaginatedDocuments alloc] initWithError:dataSourceDeserializeError];
-      completionHandler(documents);
-      return;
-    }
-    MSLogDebug([MSDataStore logTag], @"Documents json: %@", json);
-    
-    // Get list of documents.
-    NSArray *jsonDocuments = json[@"Documents"];
-    NSMutableArray<MSDocumentWrapper *> *items = [NSMutableArray new];
-    for (id document in jsonDocuments) {
-      // TODO: handle deserialization errors here
-      
-      // Deserialize current document.
-      id<MSSerializableDocument> deserializedDocument =
-      [(id<MSSerializableDocument>)[documentType alloc]
-       initFromDictionary:(NSDictionary *)document];
-      
-      // Create a document wrapper object.
-      NSTimeInterval interval = [(NSString *)json[kMSDocumentTimestampKey] doubleValue];
-      NSDate *date = [NSDate dateWithTimeIntervalSince1970:interval];
-      NSString *eTag = json[kMSDocumentEtagKey];
-      MSDocumentWrapper *docWrapper =
-      [[MSDocumentWrapper alloc] initWithDeserializedValue:deserializedDocument
-                                                 partition:partition
-                                                documentId:nil
-                                                      eTag:eTag
-                                           lastUpdatedDate:date];
-      [items addObject:docWrapper];
-    }
-    
-    // Instantiate the first page and return it.
-    MSPage *page = [[MSPage alloc] initWithItems:items];
-    MSPaginatedDocuments *documents = [[MSPaginatedDocuments alloc]
-                                       initWithPage:page
-                                       partition:partition
-                                       documentType:documentType
-                                       readOptions:readOptions
-                                       continuationToken:headers[kMSDocumentContinuationTokenHeaderKey]];
-    completionHandler(documents);
-  }];
+  [self performOperationForPartition:partition
+                          documentId:nil
+                          httpMethod:kMSHttpMethodGet
+                                body:nil
+                   additionalHeaders:additionalHeaders
+        completionHandlerWithHeaders:^(NSData *_Nullable data, NSDictionary *_Nullable headers, NSError *_Nonnull cosmosDbError) {
+          // If not OK.
+          if (!data || [MSDataSourceError errorCodeFromError:cosmosDbError] != kMSACDocumentSucceededErrorCode) {
+            MSLogError([MSDataStore logTag], @"Not able to retrieve documents: %@", [cosmosDbError description]);
+            MSDataSourceError *dataSourceCosmosDbError = [[MSDataSourceError alloc] initWithError:cosmosDbError];
+            MSPaginatedDocuments *documents = [[MSPaginatedDocuments alloc] initWithError:dataSourceCosmosDbError];
+            completionHandler(documents);
+            return;
+          }
+
+          // Deserialize.
+          NSError *deserializeError;
+          NSDictionary *json = [NSJSONSerialization JSONObjectWithData:(NSData *)data options:0 error:&deserializeError];
+          if (deserializeError) {
+            MSLogError([MSDataStore logTag], @"Error deserializing data: %@", [deserializeError description]);
+            MSDataSourceError *dataSourceDeserializeError = [[MSDataSourceError alloc] initWithError:deserializeError];
+            MSPaginatedDocuments *documents = [[MSPaginatedDocuments alloc] initWithError:dataSourceDeserializeError];
+            completionHandler(documents);
+            return;
+          }
+          MSLogDebug([MSDataStore logTag], @"Documents json: %@", json);
+
+          // Get list of documents.
+          NSArray *jsonDocuments = json[@"Documents"];
+          NSMutableArray<MSDocumentWrapper *> *items = [NSMutableArray new];
+          for (id document in jsonDocuments) {
+            // TODO: handle deserialization errors here
+
+            // Deserialize current document.
+            id<MSSerializableDocument> deserializedDocument =
+                [(id<MSSerializableDocument>)[documentType alloc] initFromDictionary:(NSDictionary *)document];
+
+            // Create a document wrapper object.
+            NSTimeInterval interval = [(NSString *)json[kMSDocumentTimestampKey] doubleValue];
+            NSDate *date = [NSDate dateWithTimeIntervalSince1970:interval];
+            NSString *eTag = json[kMSDocumentEtagKey];
+            MSDocumentWrapper *docWrapper = [[MSDocumentWrapper alloc] initWithDeserializedValue:deserializedDocument
+                                                                                       partition:partition
+                                                                                      documentId:nil
+                                                                                            eTag:eTag
+                                                                                 lastUpdatedDate:date];
+            [items addObject:docWrapper];
+          }
+
+          // Instantiate the first page and return it.
+          MSPage *page = [[MSPage alloc] initWithItems:items];
+          MSPaginatedDocuments *documents = [[MSPaginatedDocuments alloc] initWithPage:page
+                                                                             partition:partition
+                                                                          documentType:documentType
+                                                                           readOptions:readOptions
+                                                                     continuationToken:headers[kMSDocumentContinuationTokenHeaderKey]];
+          completionHandler(documents);
+        }];
 }
 
 - (void)createWithPartition:(NSString *)partition
@@ -300,11 +293,11 @@ static dispatch_once_t onceToken;
                writeOptions:(MSWriteOptions *_Nullable)writeOptions
           completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
   [[MSDataStore sharedInstance] createOrReplaceWithPartition:partition
-                          documentId:documentId
-                            document:document
-                        writeOptions:writeOptions
-                   additionalHeaders:nil
-                   completionHandler:completionHandler];
+                                                  documentId:documentId
+                                                    document:document
+                                                writeOptions:writeOptions
+                                           additionalHeaders:nil
+                                           completionHandler:completionHandler];
 }
 
 - (void)createOrReplaceWithPartition:(NSString *)partition
@@ -372,7 +365,7 @@ static dispatch_once_t onceToken;
                     document:(id<MSSerializableDocument>)document
                 writeOptions:(MSWriteOptions *_Nullable)writeOptions
            completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
-  
+
   // In the current version we do not support E-tag optimistic concurrency logic and replace will call create.
   [[MSDataStore sharedInstance] createOrReplaceWithPartition:partition
                                                   documentId:documentId
@@ -411,7 +404,7 @@ static dispatch_once_t onceToken;
                           httpMethod:(NSString *)httpMethod
                                 body:(NSData *)body
                    additionalHeaders:(NSDictionary *)additionalHeaders
-        completionHandler:(MSCosmosDbCompletionHandler)completionHandler {
+                   completionHandler:(MSCosmosDbCompletionHandler)completionHandler {
   [self performOperationForPartition:partition
                           documentId:documentId
                           httpMethod:httpMethod
@@ -427,7 +420,7 @@ static dispatch_once_t onceToken;
                           httpMethod:(NSString *)httpMethod
                                 body:(NSData *)body
                    additionalHeaders:(NSDictionary *)additionalHeaders
-                   completionHandlerWithHeaders:(MSCosmosDbCompletionHandlerWithHeaders)completionHandlerWithHeaders {
+        completionHandlerWithHeaders:(MSCosmosDbCompletionHandlerWithHeaders)completionHandlerWithHeaders {
   [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:(MSStorageIngestion *)self.ingestion
                                                     partition:partition
                                             completionHandler:^(MSTokensResponse *_Nonnull tokenResponses, NSError *_Nonnull error) {
@@ -446,7 +439,7 @@ static dispatch_once_t onceToken;
                                                                                            httpMethod:httpMethod
                                                                                                  body:body
                                                                                     additionalHeaders:additionalHeaders
-                                                                                    completionHandlerWithHeaders:completionHandlerWithHeaders];
+                                                                         completionHandlerWithHeaders:completionHandlerWithHeaders];
                                             }];
 }
 
@@ -462,7 +455,7 @@ static dispatch_once_t onceToken;
 }
 
 + (void)resetSharedInstance {
-  
+
   // resets the once_token so dispatch_once will run again.
   onceToken = 0;
   sharedInstance = nil;

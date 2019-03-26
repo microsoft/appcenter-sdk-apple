@@ -27,7 +27,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property(nonatomic, nullable) MSCosmosDbIngestion *cosmosHttpClient;
 
-
 // TODO: add doc
 + (void)listWithPartition:(NSString *)partition
              documentType:(Class)documentType
