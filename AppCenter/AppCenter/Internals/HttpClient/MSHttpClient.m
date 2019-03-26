@@ -212,7 +212,6 @@
   }
 }
 
-
 - (NSString *)obfuscateHeaderValue:(NSString *)value forKey:(NSString *)key {
   if ([key isEqualToString:kMSAuthorizationHeaderKey]) {
     return [MSHttpUtil hideAuthToken:value];
@@ -229,6 +228,12 @@
         addObject:[NSString stringWithFormat:@"%@ = %@", headerKey, [self obfuscateHeaderValue:headers[headerKey] forKey:headerKey]]];
   }
   return [flattenedHeaders componentsJoinedByString:@", "];
+}
+
+- (void)dealloc {
+  [self.reachability stopNotifier];
+  [MS_NOTIFICATION_CENTER removeObserver:self name:kMSReachabilityChangedNotification object:nil];
+  [self.session finishTasksAndInvalidate];
 }
 
 @end
