@@ -3,6 +3,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 typedef void (^MSHttpRequestCompletionHandler)(NSData *responseBody, NSHTTPURLResponse *response, NSError *error);
 
 @protocol MSHttpClientProtocol
@@ -22,6 +24,8 @@ typedef void (^MSHttpRequestCompletionHandler)(NSData *responseBody, NSHTTPURLRe
                method:(NSString *)method
               headers:(nullable NSDictionary<NSString *, NSString *> *)headers
                  data:(nullable NSData *)data
-    completionHandler:(MSHttpRequestCompletionHandler)completionHandler;
+    completionHandler:(nullable MSHttpRequestCompletionHandler)completionHandler;
 
 @end
+
+NS_ASSUME_NONNULL_END

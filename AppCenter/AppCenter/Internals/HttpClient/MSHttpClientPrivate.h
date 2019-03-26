@@ -12,5 +12,7 @@
 @property(nonatomic) MS_Reachability *reachability;
 @property(nonatomic) NSMutableSet *pendingCalls;
 @property(nonatomic) NSArray *retryIntervals;
-
+@property(nonatomic) BOOL paused;
+@property(nonatomic) BOOL enabled;
+@property(nonatomic) NSURLSessionConfiguration *sessionConfiguration;
 @end

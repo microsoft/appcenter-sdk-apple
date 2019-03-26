@@ -8,9 +8,9 @@
 #import "MSIngestionCallDelegate.h"
 #import "MS_Reachability.h"
 
-typedef void (^MSSendAsyncCompletionHandler)(NSString *callId, NSHTTPURLResponse *response, NSData *data, NSError *error);
-
 NS_ASSUME_NONNULL_BEGIN
+
+typedef void (^MSSendAsyncCompletionHandler)(NSString *callId, NSHTTPURLResponse * _Nullable response, NSData * _Nullable data, NSError *error);
 
 @protocol MSIngestionDelegate;
 

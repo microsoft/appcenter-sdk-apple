@@ -23,7 +23,7 @@ static dispatch_once_t swizzlingOnceToken;
    * never be called even if added later via swizzling. This is why the application delegate swizzling should happen at the time it is set
    * to the application object.
    */
-  [[self sharedInstance] setEnabledFromPlistForKey:kMSAppDelegateForwarderEnabledKey];
+  [(MSAppDelegateForwarder *)[self sharedInstance] setEnabledFromPlistForKey:kMSAppDelegateForwarderEnabledKey];
 }
 
 - (instancetype)init {

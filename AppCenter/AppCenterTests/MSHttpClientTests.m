@@ -225,6 +225,7 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
                 headers:nil
                    data:nil
       completionHandler:^(NSData *responseBody, NSHTTPURLResponse *response, NSError *error) {
+
         // Then
         XCTAssertEqual(response.statusCode, MSHTTPCodesNo204NoContent);
         XCTAssertEqualObjects(responseBody, [NSData data]);
@@ -234,17 +235,16 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
       }];
 
   // Wait a while to make sure that the requests are not sent while the network is down.
-  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
     dispatch_semaphore_signal(timingSemaphore);
   });
-
   dispatch_semaphore_wait(timingSemaphore, dispatch_time(DISPATCH_TIME_NOW, (int64_t)(kMSTestTimeout * NSEC_PER_SEC)));
   XCTAssertFalse(completionHandlerCalled);
   XCTAssertEqual(numRequests, 0);
 
   // When
   [self simulateReachabilityChangedNotification:ReachableViaWiFi];
-  [self waitForExpectationsWithTimeout:kMSTestTimeout
+  [self waitForExpectationsWithTimeout:kMSTestTimeout*8
                                handler:^(NSError *_Nullable error) {
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
@@ -308,5 +308,4 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
   [[NSNotificationCenter defaultCenter] postNotificationName:kMSReachabilityChangedNotification object:self.reachabilityMock];
 }
 
-// TODO test disabled on fatal error
 @end
