@@ -108,56 +108,76 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 - (void)testPerformCosmosDbAsyncOperationWithHttpClientWithAdditionalParams {
 
   // If
-  MSCosmosDbIngestion *httpClient = [[MSCosmosDbIngestion alloc] init];
+  MSCosmosDbIngestion *httpClient = OCMPartialMock([MSCosmosDbIngestion new]);
   MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
-  NSMutableDictionary *additionalHeaders = [NSMutableDictionary new];
-  additionalHeaders[@"Foo"] = @"Bar";
   __block BOOL completionHandlerCalled = NO;
-  XCTestExpectation *completeExpectation = [self expectationWithDescription:@"Task finished"];
   MSCosmosDbCompletionHandler handler = ^(NSData *_Nullable data, NSError *_Nullable error) {
     completionHandlerCalled = YES;
-    [completeExpectation fulfill];
   };
+  NSString *expectedURLString = @"https://dbAccount.documents.azure.com/dbs/dbName/colls/dbCollectionName/docs/documentId";
+  __block NSData *actualData;
+  OCMStub([httpClient sendAsync:OCMOCK_ANY completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+    MSCosmosDbCompletionHandler completionHandler;
+    [invocation retainArguments];
+    [invocation getArgument:&actualData atIndex:2];
+    [invocation getArgument:&completionHandler atIndex:3];
+    completionHandler(actualData, nil);
+  });
+  NSString *expectedUrl = @"123";
+  NSMutableDictionary *additionalHeaders = [NSMutableDictionary new];
+  additionalHeaders[@"Foo"] = @"Bar";
+  NSDictionary *dic = @{@"abv" : @1, @"foo" : @"bar"};
+  __block NSData *data = [NSJSONSerialization dataWithJSONObject:dic options:0 error:nil];
 
   // When
   [MSCosmosDb performCosmosDbAsyncOperationWithHttpClient:httpClient
                                               tokenResult:tokenResult
                                                documentId:kMSDocumentIdTest
                                                httpMethod:kMSHttpMethodGet
-                                                     body:nil
+                                                     body:data
                                         additionalHeaders:additionalHeaders
                                         completionHandler:handler];
-  [self waitForExpectationsWithTimeout:1 handler:nil];
 
   // Then
-  XCTAssertTrue([completeExpectation assertForOverFulfill]);
   XCTAssertTrue(completionHandlerCalled);
+  XCTAssertEqualObjects(data, actualData);
+  XCTAssertTrue([expectedURLString isEqualToString:httpClient.sendURL.absoluteString]);
 }
 
 - (void)testPerformCosmosDbAsyncOperationWithHttpClient {
 
   // If
-  MSCosmosDbIngestion *httpClient = [[MSCosmosDbIngestion alloc] init];
+  MSCosmosDbIngestion *httpClient = OCMPartialMock([MSCosmosDbIngestion new]);
   MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
   __block BOOL completionHandlerCalled = NO;
-  XCTestExpectation *completeExpectation = [self expectationWithDescription:@"Task finished"];
   MSCosmosDbCompletionHandler handler = ^(NSData *_Nullable data, NSError *_Nullable error) {
     completionHandlerCalled = YES;
-    [completeExpectation fulfill];
   };
+  NSString *expectedURLString = @"https://dbAccount.documents.azure.com/dbs/dbName/colls/dbCollectionName/docs/documentId";
+  __block NSData *actualData;
+  OCMStub([httpClient sendAsync:OCMOCK_ANY completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+    MSCosmosDbCompletionHandler completionHandler;
+    [invocation retainArguments];
+    [invocation getArgument:&actualData atIndex:2];
+    [invocation getArgument:&completionHandler atIndex:3];
+    completionHandler(actualData, nil);
+  });
+  NSString *expectedUrl = @"123";
+  NSDictionary *dic = @{@"abv" : @1, @"foo" : @"bar"};
+  __block NSData *data = [NSJSONSerialization dataWithJSONObject:dic options:0 error:nil];
 
   // When
   [MSCosmosDb performCosmosDbAsyncOperationWithHttpClient:httpClient
                                               tokenResult:tokenResult
                                                documentId:kMSDocumentIdTest
                                                httpMethod:kMSHttpMethodGet
-                                                     body:nil
+                                                     body:data
                                         completionHandler:handler];
-  [self waitForExpectationsWithTimeout:1 handler:nil];
 
   // Then
-  XCTAssertTrue([completeExpectation assertForOverFulfill]);
   XCTAssertTrue(completionHandlerCalled);
+  XCTAssertEqualObjects(data, actualData);
+  XCTAssertTrue([expectedURLString isEqualToString:httpClient.sendURL.absoluteString]);
 }
 
 @end
