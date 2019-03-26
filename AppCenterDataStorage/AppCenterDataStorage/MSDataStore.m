@@ -234,10 +234,12 @@ static dispatch_once_t onceToken;
               readOptions:(MSReadOptions *)__unused readOptions
         continuationToken:(nullable NSString *)continuationToken
         completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler {
-  NSDictionary *additionalHeaders = [NSDictionary new];
+  NSMutableDictionary *additionalHeaders = [NSMutableDictionary new];
   if (continuationToken) {
-    [additionalHeaders setValue:continuationToken forKey:kMSDocumentContinuationTokenHeaderKey];
+    [additionalHeaders setObject:(NSString *)continuationToken forKey:kMSDocumentContinuationTokenHeaderKey];
   }
+  // TODO: Add constant and set max items (maybe provide a way to change it e.g. in the read options)
+  [additionalHeaders setObject:@"10" forKey:@"x-ms-max-item-count"];
   
   // Call cosmos DB.
   [self performOperationForPartition:partition documentId:@"" httpMethod:kMSHttpGetVerb body:nil additionalHeaders:additionalHeaders completionHandlerWithHeaders:^(NSData * _Nullable data, NSDictionary * _Nullable headers, NSError * _Nonnull cosmosDbError) {

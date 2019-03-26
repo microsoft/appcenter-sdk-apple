@@ -57,7 +57,7 @@
 }
 
 - (BOOL)hasNextPage {
-  return !self.continuationToken.length;
+  return self.continuationToken.length;
 }
 
 - (void)nextPageWithCompletionHandler:(void (^)(MSPage<id<MSSerializableDocument>> *page))completionHandler {
@@ -75,6 +75,8 @@
                    completionHandler(documents.currentPage);
                  }];
   }
+  
+  // TODO: log an error? Shall we call the completion handler if there are no more pages?
 }
 
 @end
