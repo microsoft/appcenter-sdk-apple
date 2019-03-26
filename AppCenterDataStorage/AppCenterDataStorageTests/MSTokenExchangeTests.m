@@ -304,6 +304,7 @@ static NSString *const MSDataStoreAppDocumentsPartition = @"readonly";
 - (void)testSaveTokenFailsWithoutPartition {
   
   // If
+  OCMReject([self.keychainUtilMock storeString:OCMOCK_ANY forKey:OCMOCK_ANY]);
   NSData *tokenData = [NSJSONSerialization dataWithJSONObject:[self getSuccessfulTokenData] options:NSJSONWritingPrettyPrinted error:nil];
   NSString *tokenString = [[NSString alloc] initWithData:tokenData encoding:NSUTF8StringEncoding];
   MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithString:tokenString];
