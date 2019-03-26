@@ -234,7 +234,7 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
       }];
 
   // Wait a while to make sure that the requests are not sent while the network is down.
-  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)NSEC_PER_SEC), dispatch_get_main_queue(), ^{
     dispatch_semaphore_signal(timingSemaphore);
   });
   dispatch_semaphore_wait(timingSemaphore, dispatch_time(DISPATCH_TIME_NOW, (int64_t)(kMSTestTimeout * NSEC_PER_SEC)));
@@ -243,7 +243,7 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
 
   // When
   [self simulateReachabilityChangedNotification:ReachableViaWiFi];
-  [self waitForExpectationsWithTimeout:kMSTestTimeout * 8
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *_Nullable error) {
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);

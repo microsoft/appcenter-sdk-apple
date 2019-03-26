@@ -196,7 +196,7 @@
       if (isEnabled) {
         self.session = [NSURLSession sessionWithConfiguration:self.sessionConfiguration];
         [self.reachability startNotifier];
-        self.paused = NO;
+        [self resume];
       } else {
         [self.reachability stopNotifier];
         [self pause];
