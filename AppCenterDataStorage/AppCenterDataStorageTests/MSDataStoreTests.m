@@ -127,7 +127,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                                      body:nil
                                         additionalHeaders:additionalHeaders
                                         completionHandler:handler];
-  [self waitForExpectationsWithTimeout:5 handler:nil];
+  [self waitForExpectationsWithTimeout:1 handler:nil];
 
   // Then
   XCTAssertTrue([completeExpectation assertForOverFulfill]);
@@ -153,10 +153,11 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                                httpMethod:kMSHttpMethodGet
                                                      body:nil
                                         completionHandler:handler];
-  [self waitForExpectationsWithTimeout:5 handler:nil];
+  [self waitForExpectationsWithTimeout:1 handler:nil];
 
   // Then
   XCTAssertTrue([completeExpectation assertForOverFulfill]);
   XCTAssertTrue(completionHandlerCalled);
 }
+
 @end
