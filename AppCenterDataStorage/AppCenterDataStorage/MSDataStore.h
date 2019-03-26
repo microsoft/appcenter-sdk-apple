@@ -40,8 +40,6 @@ static NSString *const kMSServiceName = @"DataStorage";
 static NSString *const kMSGroupId = @"DataStorage";
 static NSString *const kMSDocumentUpsertHeaderKey = @"x-ms-documentdb-is-upsert";
 static NSString *const kMSDocumentContinuationTokenHeaderKey = @"x-ms-continuation";
-static NSString *const kMSHttpDeleteVerb = @"DELETE";
-static NSString *const kMSHttpGetVerb = @"GET";
 
 @interface MSDataStore<T : id <MSSerializableDocument>> : MSServiceAbstract
 

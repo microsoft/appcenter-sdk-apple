@@ -227,7 +227,7 @@ static dispatch_once_t onceToken;
   [additionalHeaders setObject:@"10" forKey:@"x-ms-max-item-count"];
   
   // Call cosmos DB.
-  [self performOperationForPartition:partition documentId:@"" httpMethod:kMSHttpGetVerb body:nil additionalHeaders:additionalHeaders completionHandlerWithHeaders:^(NSData * _Nullable data, NSDictionary * _Nullable headers, NSError * _Nonnull cosmosDbError) {
+  [self performOperationForPartition:partition documentId:@"" httpMethod:kMSHttpMethodGet body:nil additionalHeaders:additionalHeaders completionHandlerWithHeaders:^(NSData * _Nullable data, NSDictionary * _Nullable headers, NSError * _Nonnull cosmosDbError) {
     // If not OK.
     if (!data || [MSDataSourceError errorCodeFromError:cosmosDbError] !=
         kMSACDocumentSucceededErrorCode) {
