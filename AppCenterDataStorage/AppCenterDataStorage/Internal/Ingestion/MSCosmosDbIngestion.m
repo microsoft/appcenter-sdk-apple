@@ -25,7 +25,7 @@
 }
 
 - (void)setOfflineMode:(BOOL)offlineMode {
-    _offlineMode = offlineMode;
+  _offlineMode = offlineMode;
 }
 
 - (void)sendAsync:(nullable NSObject *)data

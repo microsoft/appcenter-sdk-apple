@@ -13,14 +13,6 @@
 
 @implementation MSDataStoreTests
 
-- (void)setUp {
-  [super setUp];
-}
-
-- (void)tearDown {
-  [super tearDown];
-}
-
 #pragma mark - Tests
 
 - (void)testSetOfflineMode {
