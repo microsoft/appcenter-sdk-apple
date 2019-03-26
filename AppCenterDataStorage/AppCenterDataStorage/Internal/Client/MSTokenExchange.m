@@ -47,7 +47,7 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
         completionHandler:^(NSString *callId, NSHTTPURLResponse *response, NSData *data, NSError *error) {
           MSLogVerbose([MSDataStore logTag], @"Get token callback, request Id %@ with status code: %td", callId, response.statusCode);
           
-          // Token exchange failed to give back a token
+          // Token exchange failed to give back a token.
           if (error) {
             MSLogError([MSDataStore logTag], @"Get on DB Token had an error with code: %td, description: %@", error.code,
                        error.localizedDescription);
