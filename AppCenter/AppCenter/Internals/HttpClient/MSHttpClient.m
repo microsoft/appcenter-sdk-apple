@@ -50,24 +50,26 @@
 }
 
 - (void)sendAsync:(NSURL *)url
-               method:(NSString *)method
-              headers:(nullable NSDictionary<NSString *, NSString *> *)headers
-                 data:(nullable NSData *)data
-    completionHandler:(MSHttpRequestCompletionHandler)completionHandler {
-  MSHttpCall *call = [[MSHttpCall alloc] initWithUrl:url
-                                              method:method
-                                             headers:headers
-                                                data:data
-                                      retryIntervals:self.retryIntervals
-                                   completionHandler:completionHandler];
-  [self sendCallAsync:call];
-}
-
-- (void)sendCallAsync:(MSHttpCall *)call {
+           method:(NSString *)method
+          headers:(nullable NSDictionary<NSString *, NSString *> *)headers
+             data:(nullable NSData *)data
+completionHandler:(MSHttpRequestCompletionHandler)completionHandler {
   @synchronized(self) {
     if (!self.enabled) {
       return;
     }
+      MSHttpCall *call = [[MSHttpCall alloc] initWithUrl:url
+                                                  method:method
+                                                 headers:headers
+                                                    data:data
+                                          retryIntervals:self.retryIntervals
+                                       completionHandler:completionHandler];
+      [self sendCallAsync:call];
+    }
+}
+
+- (void)sendCallAsync:(MSHttpCall *)call {
+  @synchronized(self) {
     [self.pendingCalls addObject:call];
     if (self.paused) {
       return;
@@ -85,6 +87,7 @@
       MSLogVerbose([MSAppCenter logTag], @"URL: %@", request.URL);
       MSLogVerbose([MSAppCenter logTag], @"Headers: %@", [self prettyPrintHeaders:request.allHTTPHeaderFields]);
     }
+    call.inProgress = YES;
     NSURLSessionDataTask *task = [self.session dataTaskWithRequest:request
                                                  completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
                                                    [self requestCompletedWithHttpCall:call data:data response:response error:error];
@@ -96,6 +99,12 @@
 - (void)requestCompletedWithHttpCall:(MSHttpCall *)httpCall data:(NSData *)data response:(NSURLResponse *)response error:(NSError *)error {
   NSHTTPURLResponse *httpResponse;
   @synchronized(self) {
+
+    // If the call was removed, do not invoke the completion handler as that will have been done already by set enabled.
+    if (![self.pendingCalls containsObject:httpCall]) {
+      MSLogDebug([MSAppCenter logTag], @"HTTP call was canceled; do not process further.");
+      return;
+    }
 
     // Handle NSError (low level error where we don't even get a HTTP response).
     BOOL internetIsDown = [MSHttpUtil isNoInternetConnectionError:error];
@@ -194,7 +203,12 @@
         [self.session invalidateAndCancel];
         self.session = nil;
 
-        // Remove pending calls.
+        // Remove pending calls and invoke their completion handler.
+        for (MSHttpCall *call in self.pendingCalls) {
+          NSError *error = [NSError errorWithDomain:@"com.mycompany.myapp" code:14 userInfo:[NSDictionary dictionaryWithObject:@"My error message" forKey:NSLocalizedDescriptionKey]];
+
+          call.completionHandler(nil, nil, [NSError error])
+        }
         [self.pendingCalls removeAllObjects];
       }
     }

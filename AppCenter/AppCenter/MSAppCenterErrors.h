@@ -11,18 +11,21 @@ NS_ASSUME_NONNULL_BEGIN
 
 static NSString *const kMSACErrorDomain = MS_APP_CENTER_BASE_DOMAIN @"ErrorDomain";
 
-#pragma mark - Log
+#pragma mark - General
+
+static const int kMSBaseErrorCode = 1337;
 
 // Error codes
-NS_ENUM(NSInteger){kMSACLogInvalidContainerErrorCode = 1};
+NS_ENUM(NSInteger){kMSACLogInvalidContainerErrorCode = kMSBaseErrorCode + 1, kMSCanceledErrorCode = kMSBaseErrorCode + 2};
 
 // Error descriptions
 static NSString const *kMSACLogInvalidContainerErrorDesc = @"Invalid log container";
+static NSString const *kMSCanceledErrorDesc = @"The operation was canceled.";
 
 #pragma mark - Connection
 
 // Error codes
-NS_ENUM(NSInteger){kMSACConnectionPausedErrorCode = 100, kMSACConnectionHttpErrorCode = 101};
+NS_ENUM(NSInteger){kMSACConnectionPausedErrorCode = kMSBaseErrorCode + 100, kMSACConnectionHttpErrorCode = kMSBaseErrorCode + 101};
 
 // Error descriptions
 static NSString const *kMSACConnectionHttpErrorDesc = @"An HTTP error occured.";

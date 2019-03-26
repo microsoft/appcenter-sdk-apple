@@ -49,6 +49,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic) NSArray *retryIntervals;
 
 /**
+ * Indicates if the call is currently being sent or awaiting a response.
+ */
+@property (atomic) BOOL inProgress;
+
+/**
  * Initialize a call with specified retry intervals.
  *
  * @param url The endpoint to use in the HTTP request.

@@ -21,6 +21,7 @@
   _retryIntervals = retryIntervals;
   _completionHandler = completionHandler;
   _retryCount = 0;
+  _inProgress = NO;
   return self;
 }
 
