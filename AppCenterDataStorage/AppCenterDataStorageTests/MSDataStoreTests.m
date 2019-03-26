@@ -7,6 +7,7 @@
 #import "MSChannelUnitProtocol.h"
 #import "MSDataStore.h"
 #import "MSDataStoreInternal.h"
+#import "MSDataStorePrivate.h"
 #import "MSMockUserDefaults.h"
 #import "MSServiceAbstract.h"
 #import "MSServiceAbstractProtected.h"
@@ -17,8 +18,8 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
 @interface MSDataStoreTests : XCTestCase
 
+@property(nonatomic, strong) MSDataStore *sut;
 @property(nonatomic) id settingsMock;
-@property(nonatomic) MSDataStore *sut;
 
 @end
 
@@ -32,7 +33,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
 - (void)tearDown {
   [super tearDown];
-  //[MSDataStore resetSharedInstance];
+  [MSDataStore resetSharedInstance];
   [self.settingsMock stopMocking];
 }
 
@@ -41,29 +42,38 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 - (void)testApplyEnabledStateWorks {
 
   // If
-  [[MSDataStore sharedInstance] startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
+  [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
                                             appSecret:kMSTestAppSecret
                               transmissionTargetToken:nil
                                       fromApplication:YES];
-  MSServiceAbstract *service = [MSDataStore sharedInstance];
 
    // When
-  [service setEnabled:YES];
+  [self.sut setEnabled:YES];
 
   // Then
-  XCTAssertTrue([service isEnabled]);
+  XCTAssertTrue([self.sut isEnabled]);
 
   // When
-  [service setEnabled:NO];
+  [self.sut setEnabled:NO];
 
   // Then
-  XCTAssertFalse([service isEnabled]);
+  XCTAssertFalse([self.sut isEnabled]);
 
   // When
-  [service setEnabled:YES];
+  [self.sut setEnabled:YES];
 
   // Then
-  XCTAssertTrue([service isEnabled]);
+  XCTAssertTrue([self.sut isEnabled]);
+}
+
+- (void)testListDocumentsGoldenPath {
+  [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
+                                            appSecret:kMSTestAppSecret
+                              transmissionTargetToken:nil
+                                      fromApplication:YES];
+  
+  //TODO
+  [self.sut listWithPartition:(nonnull NSString *) documentType:<#(nonnull Class)#> readOptions:<#(nullable MSReadOptions *)#> continuationToken:(nullable NSString *) completionHandler:<#^(MSPaginatedDocuments<T> * _Nonnull documents)completionHandler#>]
 }
 
 @end

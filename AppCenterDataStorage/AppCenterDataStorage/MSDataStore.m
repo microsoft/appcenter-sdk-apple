@@ -92,6 +92,18 @@ static dispatch_once_t onceToken;
                                 completionHandler:completionHandler];
 }
 
++ (void)listWithPartition:(NSString *)partition
+             documentType:(Class)documentType
+              readOptions:(nullable MSReadOptions *)readOptions
+        continuationToken:(nullable NSString *)continuationToken
+        completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler {
+  [[MSDataStore sharedInstance] listWithPartition:partition
+                                     documentType:documentType
+                                      readOptions:readOptions
+                                continuationToken:continuationToken
+                                completionHandler:completionHandler];
+}
+
 + (void)createWithPartition:(NSString *)partition
                  documentId:(NSString *)documentId
                    document:(id<MSSerializableDocument>)document
@@ -131,7 +143,7 @@ static dispatch_once_t onceToken;
                     document:(id<MSSerializableDocument>)document
                 writeOptions:(MSWriteOptions *)writeOptions
            completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
-  [self replaceWithPartition:partition
+  [[MSDataStore sharedInstance] replaceWithPartition:partition
                   documentId:documentId
                     document:document
                 writeOptions:writeOptions
@@ -158,21 +170,6 @@ static dispatch_once_t onceToken;
 }
 
 #pragma mark - MSDataStore Implementation
-- (void)replaceWithPartition:(NSString *)partition
-                  documentId:(NSString *)documentId
-                    document:(id<MSSerializableDocument>)document
-                writeOptions:(MSWriteOptions *)writeOptions
-           completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
-
-  // In the current version we do not support E-tag optimistic concurrency logic and replace will call create.
-  [self createOrReplaceWithPartition:partition
-                          documentId:documentId
-                            document:document
-                        writeOptions:writeOptions
-                   additionalHeaders:@{kMSDocumentUpsertHeaderKey : @"true"}
-                   completionHandler:completionHandler];
-}
-
 - (void)readWithPartition:(NSString *)partition
                documentId:(NSString *)documentId
              documentType:(Class)documentType
@@ -215,18 +212,6 @@ static dispatch_once_t onceToken;
                      completionHandler(docWrapper);
                      return;
                    }];
-}
-
-+ (void)listWithPartition:(NSString *)partition
-             documentType:(Class)documentType
-              readOptions:(nullable MSReadOptions *)readOptions
-        continuationToken:(nullable NSString *)continuationToken
-        completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler {
-  [[MSDataStore sharedInstance] listWithPartition:partition
-                                     documentType:documentType
-                                      readOptions:readOptions
-                                continuationToken:continuationToken
-                                completionHandler:completionHandler];
 }
 
 - (void)listWithPartition:(NSString *)partition
@@ -314,36 +299,12 @@ static dispatch_once_t onceToken;
                    document:(id<MSSerializableDocument>)document
                writeOptions:(MSWriteOptions *)writeOptions
           completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
-  [self createOrReplaceWithPartition:partition
+  [[MSDataStore sharedInstance] createOrReplaceWithPartition:partition
                           documentId:documentId
                             document:document
                         writeOptions:writeOptions
                    additionalHeaders:nil
                    completionHandler:completionHandler];
-}
-
-- (void)deleteDocumentWithPartition:(NSString *)partition
-                         documentId:(NSString *)documentId
-                       writeOptions:(MSWriteOptions *)__unused writeOptions
-                  completionHandler:(MSDataSourceErrorCompletionHandler)completionHandler {
-  [self performOperationForPartition:partition
-                          documentId:documentId
-                          httpMethod:kMSHttpMethodDelete
-                                body:[NSData data]
-                   additionalHeaders:nil
-                   completionHandler:^(NSData *__unused data, NSError *_Nonnull cosmosDbError) {
-                     // Body returned from call (data) is empty.
-                     NSInteger httpStatusCode = [MSDataSourceError errorCodeFromError:cosmosDbError];
-                     if (httpStatusCode != MSHTTPCodesNo204NoContent) {
-                       MSLogError([MSDataStore logTag],
-                                  @"Not able to delete document. Error: %@; HTTP status code: %ld; "
-                                  @"Document: %@/%@",
-                                  cosmosDbError.localizedDescription, (long)httpStatusCode, partition, documentId);
-                     } else {
-                       MSLogDebug([MSDataStore logTag], @"Document deleted: %@/%@", partition, documentId);
-                     }
-                     completionHandler([[MSDataSourceError alloc] initWithError:cosmosDbError]);
-                   }];
 }
 
 - (void)createOrReplaceWithPartition:(NSString *)partition
@@ -406,6 +367,45 @@ static dispatch_once_t onceToken;
                    }];
 }
 
+- (void)replaceWithPartition:(NSString *)partition
+                  documentId:(NSString *)documentId
+                    document:(id<MSSerializableDocument>)document
+                writeOptions:(MSWriteOptions *)writeOptions
+           completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
+  
+  // In the current version we do not support E-tag optimistic concurrency logic and replace will call create.
+  [[MSDataStore sharedInstance] createOrReplaceWithPartition:partition
+                                                  documentId:documentId
+                                                    document:document
+                                                writeOptions:writeOptions
+                                           additionalHeaders:@{kMSDocumentUpsertHeaderKey : @"true"}
+                                           completionHandler:completionHandler];
+}
+
+- (void)deleteDocumentWithPartition:(NSString *)partition
+                         documentId:(NSString *)documentId
+                       writeOptions:(MSWriteOptions *)__unused writeOptions
+                  completionHandler:(MSDataSourceErrorCompletionHandler)completionHandler {
+  [self performOperationForPartition:partition
+                          documentId:documentId
+                          httpMethod:kMSHttpMethodDelete
+                                body:[NSData data]
+                   additionalHeaders:nil
+                   completionHandler:^(NSData *__unused data, NSError *_Nonnull cosmosDbError) {
+                     // Body returned from call (data) is empty.
+                     NSInteger httpStatusCode = [MSDataSourceError errorCodeFromError:cosmosDbError];
+                     if (httpStatusCode != MSHTTPCodesNo204NoContent) {
+                       MSLogError([MSDataStore logTag],
+                                  @"Not able to delete document. Error: %@; HTTP status code: %ld; "
+                                  @"Document: %@/%@",
+                                  cosmosDbError.localizedDescription, (long)httpStatusCode, partition, documentId);
+                     } else {
+                       MSLogDebug([MSDataStore logTag], @"Document deleted: %@/%@", partition, documentId);
+                     }
+                     completionHandler([[MSDataSourceError alloc] initWithError:cosmosDbError]);
+                   }];
+}
+
 - (void)performOperationForPartition:(NSString *)partition
                           documentId:(NSString *)documentId
                           httpMethod:(NSString *)httpMethod
@@ -459,6 +459,13 @@ static dispatch_once_t onceToken;
     }
   });
   return sharedInstance;
+}
+
++ (void)resetSharedInstance {
+  
+  // resets the once_token so dispatch_once will run again.
+  onceToken = 0;
+  sharedInstance = nil;
 }
 
 - (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup
