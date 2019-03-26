@@ -16,7 +16,9 @@
 #define DEFAULT_RETRY_INTERVALS @[ @10, @(5 * 60), @(20 * 60) ]
 
 - (instancetype)init {
-  return [self initWithMaxHttpConnectionsPerHost:nil retryIntervals:DEFAULT_RETRY_INTERVALS reachability:[MS_Reachability reachabilityForInternetConnection]];
+  return [self initWithMaxHttpConnectionsPerHost:nil
+                                  retryIntervals:DEFAULT_RETRY_INTERVALS
+                                    reachability:[MS_Reachability reachabilityForInternetConnection]];
 }
 
 - (instancetype)initWithMaxHttpConnectionsPerHost:(int)maxHttpConnectionsPerHost {
@@ -83,11 +85,10 @@
       MSLogVerbose([MSAppCenter logTag], @"URL: %@", request.URL);
       MSLogVerbose([MSAppCenter logTag], @"Headers: %@", [self prettyPrintHeaders:request.allHTTPHeaderFields]);
     }
-    NSURLSessionDataTask *task = [self.session
-                                  dataTaskWithRequest:request
-                                  completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-                                    [self requestCompletedWithHttpCall:call data:data response:response error:error];
-                                  }];
+    NSURLSessionDataTask *task = [self.session dataTaskWithRequest:request
+                                                 completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                                                   [self requestCompletedWithHttpCall:call data:data response:response error:error];
+                                                 }];
     [task resume];
   }
 }
@@ -118,8 +119,8 @@
         NSString *logMessage = internetIsDown ? @"Internet connection is down." : @"Could not establish secure connection.";
         MSLogInfo([MSAppCenter logTag], @"HTTP call failed with error: %@", logMessage);
       } else {
-        MSLogError([MSAppCenter logTag], @"HTTP request error with code: %td, domain: %@, description: %@", error.code,
-                   error.domain, error.localizedDescription);
+        MSLogError([MSAppCenter logTag], @"HTTP request error with code: %td, domain: %@, description: %@", error.code, error.domain,
+                   error.localizedDescription);
       }
     }
 
@@ -128,17 +129,16 @@
       httpResponse = (NSHTTPURLResponse *)response;
       if ([MSHttpUtil isRecoverableError:httpResponse.statusCode] && ![httpCall hasReachedMaxRetries]) {
         [httpCall startRetryTimerWithStatusCode:httpResponse.statusCode
-                                      event:^{
-                                        [self sendCallAsync:httpCall];
-                                      }];
+                                          event:^{
+                                            [self sendCallAsync:httpCall];
+                                          }];
         return;
       }
 
       // Don't lose time pretty printing if not going to be printed.
       if ([MSAppCenter logLevel] <= MSLogLevelVerbose) {
         NSString *payload = [MSUtility prettyPrintJson:data];
-        MSLogVerbose([MSAppCenter logTag], @"HTTP response received with status code: %tu, payload:\n%@", httpResponse.statusCode,
-                     payload);
+        MSLogVerbose([MSAppCenter logTag], @"HTTP response received with status code: %tu, payload:\n%@", httpResponse.statusCode, payload);
       }
     }
     [self.pendingCalls removeObject:httpCall];

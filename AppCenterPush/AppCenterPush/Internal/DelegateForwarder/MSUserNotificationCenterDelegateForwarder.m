@@ -17,7 +17,8 @@ static MSUserNotificationCenterDelegateForwarder *sharedInstance = nil;
 @implementation MSUserNotificationCenterDelegateForwarder
 
 + (void)load {
-  [(MSUserNotificationCenterDelegateForwarder *)[self sharedInstance] setEnabledFromPlistForKey:kMSUserNotificationCenterDelegateForwarderEnabledKey];
+  [(MSUserNotificationCenterDelegateForwarder *)[self sharedInstance]
+      setEnabledFromPlistForKey:kMSUserNotificationCenterDelegateForwarderEnabledKey];
 
   // TODO test the forwarder on macOS.
   // Register selectors to swizzle (iOS 10+).

@@ -225,7 +225,6 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
                 headers:nil
                    data:nil
       completionHandler:^(NSData *responseBody, NSHTTPURLResponse *response, NSError *error) {
-
         // Then
         XCTAssertEqual(response.statusCode, MSHTTPCodesNo204NoContent);
         XCTAssertEqualObjects(responseBody, [NSData data]);
@@ -244,7 +243,7 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
 
   // When
   [self simulateReachabilityChangedNotification:ReachableViaWiFi];
-  [self waitForExpectationsWithTimeout:kMSTestTimeout*8
+  [self waitForExpectationsWithTimeout:kMSTestTimeout * 8
                                handler:^(NSError *_Nullable error) {
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);

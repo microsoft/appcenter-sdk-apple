@@ -10,7 +10,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void (^MSSendAsyncCompletionHandler)(NSString *callId, NSHTTPURLResponse * _Nullable response, NSData * _Nullable data, NSError *error);
+typedef void (^MSSendAsyncCompletionHandler)(NSString *callId, NSHTTPURLResponse *_Nullable response, NSData *_Nullable data,
+                                             NSError *error);
 
 @protocol MSIngestionDelegate;
 
