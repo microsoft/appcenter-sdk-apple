@@ -4,9 +4,11 @@
 #import <Foundation/Foundation.h>
 
 #import "MSEnable.h"
+#import "MSHttpUtil.h"
 #import "MSIngestionCallDelegate.h"
-#import "MSIngestionUtil.h"
 #import "MS_Reachability.h"
+
+typedef void (^MSSendAsyncCompletionHandler)(NSString *callId, NSHTTPURLResponse *response, NSData *data, NSError *error);
 
 NS_ASSUME_NONNULL_BEGIN
 
