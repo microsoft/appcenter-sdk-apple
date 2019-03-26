@@ -185,14 +185,15 @@ typedef void (^MSDataSourceErrorCompletionHandler)(MSDataSourceError *error);
 /**
  * Enable or disable offline mode.
  *
- * @param offlineMode True to turn on offline mode, false to turn off.
+ * @param offlineMode `YES` to turn on offline mode, `NO` to turn off.
  */
 + (void)setOfflineMode:(BOOL)offlineMode;
 
 /**
- * Check whether offline mode is enabled or not. False by default.
+ * Check whether offline mode is enabled or not. It is disabled by default.
  */
 + (BOOL)isOfflineMode;
 
 @end
+
 NS_ASSUME_NONNULL_END

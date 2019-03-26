@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "MSHttpIngestion.h"
 #import <Foundation/Foundation.h>
+#import "MSHttpIngestion.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -15,7 +15,7 @@ static NSString *const MSDataStorageErrorDomain = @"MSDataStorageErrorDomain";
 
 @property BOOL offlineMode;
 
-- (id)initWithOfflineMode:(bool)offlineMode;
+- (id)initWithOfflineMode:(BOOL)offlineMode;
 
 @end
 
