@@ -22,11 +22,23 @@
 }
 
 #pragma mark - Tests
+
 - (void)testSetOfflineMode {
-  // when
+
+  // Then
+  XCTAssertFalse([MSDataStore isOfflineMode]);
+
+  // When
   [MSDataStore setOfflineMode:YES];
-  // then
+
+  // Then
   XCTAssertTrue([MSDataStore isOfflineMode]);
+
+  // When
+  [MSDataStore setOfflineMode:NO];
+
+  // Then
+  XCTAssertFalse([MSDataStore isOfflineMode]);
 }
 
 @end
