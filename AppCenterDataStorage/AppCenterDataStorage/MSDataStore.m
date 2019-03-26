@@ -62,7 +62,7 @@ static dispatch_once_t onceToken;
 + (void)readWithPartition:(NSString *)partition
                documentId:(NSString *)documentId
              documentType:(Class)documentType
-              readOptions:(MSReadOptions *)readOptions
+              readOptions:(MSReadOptions *_Nullable)readOptions
         completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
   [[MSDataStore sharedInstance] readWithPartition:partition
                                        documentId:documentId
@@ -83,7 +83,7 @@ static dispatch_once_t onceToken;
 
 + (void)listWithPartition:(NSString *)partition
              documentType:(Class)documentType
-              readOptions:(MSReadOptions *)readOptions
+              readOptions:(MSReadOptions *_Nullable)readOptions
         completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler {
   [[MSDataStore sharedInstance] listWithPartition:partition
                                      documentType:documentType
@@ -94,8 +94,8 @@ static dispatch_once_t onceToken;
 
 + (void)listWithPartition:(NSString *)partition
              documentType:(Class)documentType
-              readOptions:(nullable MSReadOptions *)readOptions
-        continuationToken:(nullable NSString *)continuationToken
+              readOptions:(MSReadOptions *_Nullable)readOptions
+        continuationToken:(NSString *_Nullable)continuationToken
         completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler {
   [[MSDataStore sharedInstance] listWithPartition:partition
                                      documentType:documentType
@@ -118,7 +118,7 @@ static dispatch_once_t onceToken;
 + (void)createWithPartition:(NSString *)partition
                  documentId:(NSString *)documentId
                    document:(id<MSSerializableDocument>)document
-               writeOptions:(MSWriteOptions *)writeOptions
+               writeOptions:(MSWriteOptions *_Nullable)writeOptions
           completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
   [[MSDataStore sharedInstance] createWithPartition:partition
                                          documentId:documentId
@@ -141,7 +141,7 @@ static dispatch_once_t onceToken;
 + (void)replaceWithPartition:(NSString *)partition
                   documentId:(NSString *)documentId
                     document:(id<MSSerializableDocument>)document
-                writeOptions:(MSWriteOptions *)writeOptions
+                writeOptions:(MSWriteOptions *_Nullable)writeOptions
            completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
   [[MSDataStore sharedInstance] replaceWithPartition:partition
                   documentId:documentId
@@ -161,7 +161,7 @@ static dispatch_once_t onceToken;
 
 + (void)deleteDocumentWithPartition:(NSString *)partition
                          documentId:(NSString *)documentId
-                       writeOptions:(MSWriteOptions *)writeOptions
+                       writeOptions:(MSWriteOptions *_Nullable)writeOptions
                   completionHandler:(MSDataSourceErrorCompletionHandler)completionHandler {
   [[MSDataStore sharedInstance] deleteDocumentWithPartition:partition
                                                  documentId:documentId
@@ -173,7 +173,7 @@ static dispatch_once_t onceToken;
 - (void)readWithPartition:(NSString *)partition
                documentId:(NSString *)documentId
              documentType:(Class)documentType
-              readOptions:(MSReadOptions *)__unused readOptions
+              readOptions:(MSReadOptions *_Nullable)__unused readOptions
         completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
   [self performOperationForPartition:partition
                           documentId:documentId
@@ -216,7 +216,7 @@ static dispatch_once_t onceToken;
 
 - (void)listWithPartition:(NSString *)partition
              documentType:(Class)documentType
-              readOptions:(MSReadOptions *)__unused readOptions
+              readOptions:(MSReadOptions *_Nullable)__unused readOptions
         continuationToken:(nullable NSString *)continuationToken
         completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler {
   NSMutableDictionary *additionalHeaders = [NSMutableDictionary new];
@@ -297,7 +297,7 @@ static dispatch_once_t onceToken;
 - (void)createWithPartition:(NSString *)partition
                  documentId:(NSString *)documentId
                    document:(id<MSSerializableDocument>)document
-               writeOptions:(MSWriteOptions *)writeOptions
+               writeOptions:(MSWriteOptions *_Nullable)writeOptions
           completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
   [[MSDataStore sharedInstance] createOrReplaceWithPartition:partition
                           documentId:documentId
@@ -310,7 +310,7 @@ static dispatch_once_t onceToken;
 - (void)createOrReplaceWithPartition:(NSString *)partition
                           documentId:(NSString *)documentId
                             document:(id<MSSerializableDocument>)document
-                        writeOptions:(MSWriteOptions *)__unused writeOptions
+                        writeOptions:(MSWriteOptions *_Nullable)__unused writeOptions
                    additionalHeaders:(NSDictionary *)additionalHeaders
                    completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
 
@@ -370,7 +370,7 @@ static dispatch_once_t onceToken;
 - (void)replaceWithPartition:(NSString *)partition
                   documentId:(NSString *)documentId
                     document:(id<MSSerializableDocument>)document
-                writeOptions:(MSWriteOptions *)writeOptions
+                writeOptions:(MSWriteOptions *_Nullable)writeOptions
            completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
   
   // In the current version we do not support E-tag optimistic concurrency logic and replace will call create.
@@ -384,7 +384,7 @@ static dispatch_once_t onceToken;
 
 - (void)deleteDocumentWithPartition:(NSString *)partition
                          documentId:(NSString *)documentId
-                       writeOptions:(MSWriteOptions *)__unused writeOptions
+                       writeOptions:(MSWriteOptions *_Nullable)__unused writeOptions
                   completionHandler:(MSDataSourceErrorCompletionHandler)completionHandler {
   [self performOperationForPartition:partition
                           documentId:documentId

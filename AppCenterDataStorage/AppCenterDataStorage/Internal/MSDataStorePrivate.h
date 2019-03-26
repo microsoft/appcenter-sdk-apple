@@ -13,62 +13,33 @@ static NSString *const kMSDefaultApiUrl = @"https://api.appcenter.ms/v0.1";
 
 @interface MSDataStore () <MSAuthTokenContextDelegate>
 
-// TODO add docs
 - (void)readWithPartition:(NSString *)partition
                documentId:(NSString *)documentId
              documentType:(Class)documentType
-        completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler;
-
-- (void)readWithPartition:(NSString *)partition
-               documentId:(NSString *)documentId
-             documentType:(Class)documentType
-              readOptions:(MSReadOptions *)readOptions
+              readOptions:(MSReadOptions *_Nullable)readOptions
         completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler;
 
 - (void)listWithPartition:(NSString *)partition
              documentType:(Class)documentType
-        completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler;
-
-- (void)listWithPartition:(NSString *)partition
-             documentType:(Class)documentType
-              readOptions:(MSReadOptions *)readOptions
-        completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler;
-
-- (void)listWithPartition:(NSString *)partition
-             documentType:(Class)documentType
-              readOptions:(nullable MSReadOptions *)readOptions
-        continuationToken:(nullable NSString *)continuationToken
+              readOptions:(MSReadOptions *_Nullable)readOptions
+        continuationToken:(NSString *_Nullable)continuationToken
         completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler;
 
 - (void)createWithPartition:(NSString *)partition
                  documentId:(NSString *)documentId
                    document:(id<MSSerializableDocument>)document
-          completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler;
-
-- (void)createWithPartition:(NSString *)partition
-                 documentId:(NSString *)documentId
-                   document:(id<MSSerializableDocument>)document
-               writeOptions:(MSWriteOptions *)writeOptions
+               writeOptions:(MSWriteOptions *_Nullable)writeOptions
           completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler;
 
 - (void)replaceWithPartition:(NSString *)partition
                   documentId:(NSString *)documentId
                     document:(id<MSSerializableDocument>)document
-           completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler;
-
-- (void)replaceWithPartition:(NSString *)partition
-                  documentId:(NSString *)documentId
-                    document:(id<MSSerializableDocument>)document
-                writeOptions:(MSWriteOptions *)writeOptions
+                writeOptions:(MSWriteOptions *_Nullable)writeOptions
            completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler;
 
 - (void)deleteDocumentWithPartition:(NSString *)partition
                          documentId:(NSString *)documentId
-                  completionHandler:(MSDataSourceErrorCompletionHandler)completionHandler;
-
-- (void)deleteDocumentWithPartition:(NSString *)partition
-                         documentId:(NSString *)documentId
-                       writeOptions:(MSWriteOptions *)writeOptions
+                       writeOptions:(MSWriteOptions *_Nullable)writeOptions
                   completionHandler:(MSDataSourceErrorCompletionHandler)completionHandler;
 
 /**

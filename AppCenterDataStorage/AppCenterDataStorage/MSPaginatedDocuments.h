@@ -47,8 +47,8 @@
 - (instancetype)initWithPage:(MSPage *)page
                    partition:(NSString *)partition
                 documentType:(Class)documentType
-                 readOptions:(nullable MSReadOptions *)readOptions
-           continuationToken:(nullable NSString *)continuationToken;
+                 readOptions:(MSReadOptions *_Nullable)readOptions
+           continuationToken:(NSString *_Nullable)continuationToken;
 
 /**
  * Initialize documents with page and nil continuation token.

@@ -27,6 +27,14 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property(nonatomic, nullable) MSCosmosDbIngestion *cosmosHttpClient;
 
+
+// TODO: add doc
++ (void)listWithPartition:(NSString *)partition
+             documentType:(Class)documentType
+              readOptions:(MSReadOptions *_Nullable)readOptions
+        continuationToken:(NSString *_Nullable)continuationToken
+        completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler;
+
 @end
 
 NS_ASSUME_NONNULL_END

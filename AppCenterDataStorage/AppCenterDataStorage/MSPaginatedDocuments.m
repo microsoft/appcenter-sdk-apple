@@ -6,6 +6,7 @@
 #import "MSCosmosDbIngestion.h"
 #import "MSDataStore.h"
 #import "MSDataStorePrivate.h"
+#import "MSDataStoreInternal.h"
 #import "MSSerializableDocument.h"
 #import "MSTokenExchange.h"
 
@@ -28,8 +29,8 @@
 - (instancetype)initWithPage:(MSPage *)page
                    partition:(NSString *)partition
                 documentType:(Class)documentType
-                 readOptions:(nullable MSReadOptions *)readOptions
-           continuationToken:(nullable NSString *)continuationToken {
+                 readOptions:(MSReadOptions *_Nullable)readOptions
+           continuationToken:(NSString *_Nullable)continuationToken {
   if ((self = [super init])) {
     _currentPage = page;
     _partition = partition;
@@ -62,6 +63,7 @@
 
 - (void)nextPageWithCompletionHandler:(void (^)(MSPage<id<MSSerializableDocument>> *page))completionHandler {
   if ([self hasNextPage]) {
+    
     [MSDataStore listWithPartition:self.partition
                       documentType:self.documentType
                        readOptions:nil
