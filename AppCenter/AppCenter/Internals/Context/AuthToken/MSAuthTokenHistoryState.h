@@ -8,12 +8,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Represents token data entity.
  */
-@interface MSAuthTokenInfo : NSObject <NSCoding>
-
-/**
- * Account ID string.
- */
-@property(nonatomic, nullable, copy, readonly) NSString *accountId;
+@interface MSAuthTokenHistoryState : NSObject
 
 /**
  * Auth token string.
@@ -43,7 +38,6 @@ NS_ASSUME_NONNULL_BEGIN
  * @return Token info instance.
  */
 - (instancetype)initWithAuthToken:(nullable NSString *)authToken
-                     andAccountId:(nullable NSString *)accountId
                      andStartTime:(nullable NSDate *)startTime
                        andEndTime:(nullable NSDate *)endTime;
 

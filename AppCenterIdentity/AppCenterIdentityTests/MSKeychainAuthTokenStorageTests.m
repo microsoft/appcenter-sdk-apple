@@ -57,7 +57,7 @@
 - (void)testSaveAuthTokenWhenTokenIsEmpty {
 
   // If
-  MSAuthTokenInfo *authTokenInfo = [[MSAuthTokenInfo alloc] initWithAuthToken:@"someToken" andStartTime:nil andEndTime:nil];
+  MSAuthTokenInfo *authTokenInfo = [[MSAuthTokenInfo alloc] initWithAuthToken:@"someToken" andAccountId:@"someAccountId" andStartTime:nil andEndTime:nil];
   NSMutableArray<MSAuthTokenInfo *> *authTokenHistory = [NSMutableArray<MSAuthTokenInfo *> new];
   [authTokenHistory addObject:authTokenInfo];
   [MSMockKeychainUtil storeArray:authTokenHistory forKey:kMSIdentityAuthTokenArrayKey];
@@ -93,8 +93,8 @@
 
   // If
   NSString *expectedAuthToken = @"expectedAuthToken";
-  MSAuthTokenInfo *authTokenInfo1 = [[MSAuthTokenInfo alloc] initWithAuthToken:@"someAuthToken" andStartTime:nil andEndTime:nil];
-  MSAuthTokenInfo *authTokenInfo2 = [[MSAuthTokenInfo alloc] initWithAuthToken:expectedAuthToken andStartTime:nil andEndTime:nil];
+  MSAuthTokenInfo *authTokenInfo1 = [[MSAuthTokenInfo alloc] initWithAuthToken:@"someAuthToken" andAccountId:@"someAccountId" andStartTime:nil andEndTime:nil];
+  MSAuthTokenInfo *authTokenInfo2 = [[MSAuthTokenInfo alloc] initWithAuthToken:expectedAuthToken andAccountId:@"someAccountId" andStartTime:nil andEndTime:nil];
   NSMutableArray<MSAuthTokenInfo *> *authTokenHistory = [NSMutableArray<MSAuthTokenInfo *> new];
   [authTokenHistory addObject:authTokenInfo1];
   [authTokenHistory addObject:authTokenInfo2];

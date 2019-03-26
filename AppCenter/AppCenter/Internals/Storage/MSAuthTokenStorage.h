@@ -4,6 +4,7 @@
 #import <Foundation/Foundation.h>
 
 @class MSAuthTokenInfo;
+@class MSAuthTokenHistoryState;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -28,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return Array of MSAuthTokenInfo
  */
-- (NSMutableArray<MSAuthTokenInfo *> *)authTokenArray;
+- (NSMutableArray<MSAuthTokenHistoryState *> *)authTokenArray;
 
 /**
  * Stores auth token and account ID to settings and keychain.

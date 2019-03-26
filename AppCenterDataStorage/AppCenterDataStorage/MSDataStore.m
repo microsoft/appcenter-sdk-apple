@@ -264,7 +264,6 @@ static dispatch_once_t onceToken;
                          documentId:(NSString *)documentId
                        writeOptions:(MSWriteOptions *)__unused writeOptions
                   completionHandler:(MSDataSourceErrorCompletionHandler)completionHandler {
-                                       partition:partition
   [self performOperationForPartition:partition
                           documentId:documentId
                           httpMethod:kMSHttpMethodDelete

@@ -7,13 +7,13 @@
 #import "MSAppCenterIngestion.h"
 #import "MSAppCenterInternal.h"
 #import "MSAuthTokenContext.h"
-#import "MSAuthTokenInfo.h"
 #import "MSAuthTokenStorage.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitDefaultPrivate.h"
 #import "MSDeviceTracker.h"
 #import "MSStorage.h"
 #import "MSUtility+StringFormatting.h"
+#import "MSAuthTokenHistoryState.h"
 
 @implementation MSChannelUnitDefault
 
@@ -38,8 +38,8 @@
   return self;
 }
 
-- (instancetype)initWithIngestion:(nullable id<MSIngestionProtocol>)ingestion
-                          storage:(id<MSStorage>)storage
+- (instancetype)initWithIngestion:(nullable id <MSIngestionProtocol>)ingestion
+                          storage:(id <MSStorage>)storage
                     configuration:(MSChannelUnitConfiguration *)configuration
                 logsDispatchQueue:(dispatch_queue_t)logsDispatchQueue {
   if ((self = [self init])) {
@@ -53,7 +53,7 @@
 
     // Match ingestion's current status, if one is passed.
     if (_ingestion && _ingestion.paused) {
-      [self pauseWithIdentifyingObject:(_Nonnull id<MSIngestionProtocol>)_ingestion];
+      [self pauseWithIdentifyingObject:(_Nonnull id <MSIngestionProtocol>) _ingestion];
     }
   }
   return self;
@@ -61,17 +61,17 @@
 
 #pragma mark - MSChannelDelegate
 
-- (void)addDelegate:(id<MSChannelDelegate>)delegate {
+- (void)addDelegate:(id <MSChannelDelegate>)delegate {
   dispatch_async(self.logsDispatchQueue, ^{
-    @synchronized(self.delegates) {
+    @synchronized (self.delegates) {
       [self.delegates addObject:delegate];
     }
   });
 }
 
-- (void)removeDelegate:(id<MSChannelDelegate>)delegate {
+- (void)removeDelegate:(id <MSChannelDelegate>)delegate {
   dispatch_async(self.logsDispatchQueue, ^{
-    @synchronized(self.delegates) {
+    @synchronized (self.delegates) {
       [self.delegates removeObject:delegate];
     }
   });
@@ -79,15 +79,15 @@
 
 #pragma mark - MSIngestionDelegate
 
-- (void)ingestionDidPause:(id<MSIngestionProtocol>)ingestion {
+- (void)ingestionDidPause:(id <MSIngestionProtocol>)ingestion {
   [self pauseWithIdentifyingObject:ingestion];
 }
 
-- (void)ingestionDidResume:(id<MSIngestionProtocol>)ingestion {
+- (void)ingestionDidResume:(id <MSIngestionProtocol>)ingestion {
   [self resumeWithIdentifyingObject:ingestion];
 }
 
-- (void)ingestionDidReceiveFatalError:(__unused id<MSIngestionProtocol>)ingestion {
+- (void)ingestionDidReceiveFatalError:(__unused id <MSIngestionProtocol>)ingestion {
 
   // Disable and delete data on fatal errors.
   [self setEnabled:NO andDeleteDataOnDisabled:YES];
@@ -95,7 +95,7 @@
 
 #pragma mark - Managing queue
 
-- (void)enqueueItem:(id<MSLog>)item flags:(MSFlags)flags {
+- (void)enqueueItem:(id <MSLog>)item flags:(MSFlags)flags {
 
   /*
    * Set common log info.
@@ -115,7 +115,7 @@
 
   // Additional preparations for the log. Used to specify the session id and distribution group id.
   [self enumerateDelegatesForSelector:@selector(channel:prepareLog:)
-                            withBlock:^(id<MSChannelDelegate> delegate) {
+                            withBlock:^(id <MSChannelDelegate> delegate) {
                               [delegate channel:self prepareLog:item];
                             }];
 
@@ -124,7 +124,7 @@
 
   // Notify delegate about enqueuing as fast as possible on the current thread.
   [self enumerateDelegatesForSelector:@selector(channel:didPrepareLog:internalId:flags:)
-                            withBlock:^(id<MSChannelDelegate> delegate) {
+                            withBlock:^(id <MSChannelDelegate> delegate) {
                               [delegate channel:self didPrepareLog:item internalId:internalLogId flags:flags];
                             }];
 
@@ -136,22 +136,22 @@
       // Check if the log should be filtered out. If so, don't enqueue it.
       __block BOOL shouldFilter = NO;
       [self enumerateDelegatesForSelector:@selector(channelUnit:shouldFilterLog:)
-                                withBlock:^(id<MSChannelDelegate> delegate) {
+                                withBlock:^(id <MSChannelDelegate> delegate) {
                                   shouldFilter = shouldFilter || [delegate channelUnit:self shouldFilterLog:item];
                                 }];
       if (shouldFilter) {
         MSLogDebug([MSAppCenter logTag], @"Log of type '%@' was filtered out by delegate(s)", item.type);
         [self enumerateDelegatesForSelector:@selector(channel:didCompleteEnqueueingLog:internalId:)
-                                  withBlock:^(id<MSChannelDelegate> delegate) {
+                                  withBlock:^(id <MSChannelDelegate> delegate) {
                                     [delegate channel:self didCompleteEnqueueingLog:item internalId:internalLogId];
                                   }];
         return;
       }
       if (!self.ingestion.isReadyToSend) {
         MSLogDebug([MSAppCenter logTag], @"Log of type '%@' was not filtered out by delegate(s) but ingestion is not ready to send it.",
-                   item.type);
+          item.type);
         [self enumerateDelegatesForSelector:@selector(channel:didCompleteEnqueueingLog:internalId:)
-                                  withBlock:^(id<MSChannelDelegate> delegate) {
+                                  withBlock:^(id <MSChannelDelegate> delegate) {
                                     [delegate channel:self didCompleteEnqueueingLog:item internalId:internalLogId];
                                   }];
         return;
@@ -160,22 +160,22 @@
         MSLogWarning([MSAppCenter logTag], @"Channel %@ disabled in log discarding mode, discard this log.", self.configuration.groupId);
         NSError *error = [NSError errorWithDomain:kMSACErrorDomain
                                              code:kMSACConnectionPausedErrorCode
-                                         userInfo:@{NSLocalizedDescriptionKey : kMSACConnectionPausedErrorDesc}];
+                                         userInfo:@{NSLocalizedDescriptionKey: kMSACConnectionPausedErrorDesc}];
         [self notifyFailureBeforeSendingForItem:item withError:error];
         [self enumerateDelegatesForSelector:@selector(channel:didCompleteEnqueueingLog:internalId:)
-                                  withBlock:^(id<MSChannelDelegate> delegate) {
+                                  withBlock:^(id <MSChannelDelegate> delegate) {
                                     [delegate channel:self didCompleteEnqueueingLog:item internalId:internalLogId];
                                   }];
         return;
       }
 
       // Save the log first.
-      MSLogDebug([MSAppCenter logTag], @"Saving log, type: %@, flags: %u.", item.type, (unsigned int)flags);
+      MSLogDebug([MSAppCenter logTag], @"Saving log, type: %@, flags: %u.", item.type, (unsigned int) flags);
       bool success = [self.storage saveLog:item withGroupId:self.configuration.groupId flags:flags];
 
       // Notify delegates of completion (whatever the result is).
       [self enumerateDelegatesForSelector:@selector(channel:didCompleteEnqueueingLog:internalId:)
-                                withBlock:^(id<MSChannelDelegate> delegate) {
+                                withBlock:^(id <MSChannelDelegate> delegate) {
                                   [delegate channel:self didCompleteEnqueueingLog:item internalId:internalLogId];
                                 }];
 
@@ -188,7 +188,9 @@
   });
 }
 
-- (void)sendLogArray:(NSArray<id<MSLog>> *__nonnull)logArray withBatchId:(NSString *)batchId andAuthToken:(MSAuthTokenInfo *)tokenInfo {
+- (void)sendLogArray:(NSArray<id <MSLog>> *__nonnull)logArray
+         withBatchId:(NSString *)batchId
+        andAuthToken:(MSAuthTokenHistoryState *)tokenInfo {
 
   // Logs may be deleted from storage before this flush.
   if (batchId.length > 0) {
@@ -204,94 +206,116 @@
       NSUInteger count = [container.logs count];
       for (NSUInteger i = 0; i < count; i++) {
         MSLogDebug([MSAppCenter logTag], @"Sending %tu/%tu log, group Id: %@, batch Id: %@, session Id: %@, payload:\n%@", (i + 1), count,
-                   self.configuration.groupId, batchId, container.logs[i].sid,
-                   [(MSAbstractLog *)container.logs[i] serializeLogWithPrettyPrinting:YES]);
+          self.configuration.groupId, batchId, container.logs[i].sid,
+          [(MSAbstractLog *) container.logs[i] serializeLogWithPrettyPrinting:YES]);
       }
     }
 
     // Notify delegates.
     [self enumerateDelegatesForSelector:@selector(channel:willSendLog:)
-                              withBlock:^(id<MSChannelDelegate> delegate) {
-                                for (id<MSLog> aLog in logArray) {
+                              withBlock:^(id <MSChannelDelegate> delegate) {
+                                for (id <MSLog> aLog in logArray) {
                                   [delegate channel:self willSendLog:aLog];
                                 }
                               }];
 
     // Forward logs to the ingestion.
     [self.ingestion
-                sendAsync:container
-                authToken:tokenInfo.authToken
-        completionHandler:^(NSString *ingestionBatchId, NSHTTPURLResponse *response, __attribute__((unused)) NSData *data, NSError *error) {
-          dispatch_async(self.logsDispatchQueue, ^{
-            if ([self.pendingBatchIds containsObject:ingestionBatchId]) {
+        sendAsync:container
+        authToken:tokenInfo.authToken
+completionHandler:^(NSString *ingestionBatchId, NSHTTPURLResponse *response, __attribute__((unused)) NSData *data, NSError *error) {
+  dispatch_async(self.logsDispatchQueue, ^{
+    if ([self.pendingBatchIds containsObject:ingestionBatchId]) {
 
-              // Success.
-              if (response.statusCode == MSHTTPCodesNo200OK) {
-                MSLogDebug([MSAppCenter logTag], @"Log(s) sent with success, batch Id:%@.", ingestionBatchId);
+      // Success.
+      if (response.statusCode == MSHTTPCodesNo200OK) {
+        MSLogDebug([MSAppCenter logTag], @"Log(s) sent with success, batch Id:%@.", ingestionBatchId);
 
-                // Notify delegates.
-                [self enumerateDelegatesForSelector:@selector(channel:didSucceedSendingLog:)
-                                          withBlock:^(id<MSChannelDelegate> delegate) {
-                                            for (id<MSLog> aLog in logArray) {
-                                              [delegate channel:self didSucceedSendingLog:aLog];
-                                            }
-                                          }];
+        // Notify delegates.
+        [self enumerateDelegatesForSelector:@selector(channel:didSucceedSendingLog:)
+                                  withBlock:^(id <MSChannelDelegate> delegate) {
+                                    for (id <MSLog> aLog in logArray) {
+                                      [delegate channel:self didSucceedSendingLog:aLog];
+                                    }
+                                  }];
 
-                // Remove from pending logs and storage.
-                [self.pendingBatchIds removeObject:ingestionBatchId];
-                [self.storage deleteLogsWithBatchId:ingestionBatchId groupId:self.configuration.groupId];
+        // Remove from pending logs and storage.
+        [self.pendingBatchIds removeObject:ingestionBatchId];
+        [self.storage deleteLogsWithBatchId:ingestionBatchId groupId:self.configuration.groupId];
 
-                // Try to flush again if batch queue is not full anymore.
-                if (self.pendingBatchQueueFull && self.pendingBatchIds.count < self.configuration.pendingBatchesLimit) {
-                  self.pendingBatchQueueFull = NO;
-                  if (self.availableBatchFromStorage) {
-                    [self flushQueue];
-                  }
-                }
-              }
+        // Try to flush again if batch queue is not full anymore.
+        if (self.pendingBatchQueueFull && self.pendingBatchIds.count < self.configuration.pendingBatchesLimit) {
+          self.pendingBatchQueueFull = NO;
+          if (self.availableBatchFromStorage) {
+            [self sendLogArray:logArray
+                   withBatchId:batchId
+                  andAuthToken:tokenInfo];
+          }
+        }
+      } else {
+        MSLogError([MSAppCenter logTag], @"Log(s) sent with failure, batch Id:%@, status code:%tu", ingestionBatchId,
+          response.statusCode);
 
-              // Failure.
-              else {
-                MSLogError([MSAppCenter logTag], @"Log(s) sent with failure, batch Id:%@, status code:%tu", ingestionBatchId,
-                           response.statusCode);
+        // Notify delegates.
+        [self enumerateDelegatesForSelector:@selector(channel:didFailSendingLog:withError:)
+                                  withBlock:^(id <MSChannelDelegate> delegate) {
+                                    for (id <MSLog> aLog in logArray) {
+                                      [delegate channel:self didFailSendingLog:aLog withError:error];
+                                    }
+                                  }];
 
-                // Notify delegates.
-                [self enumerateDelegatesForSelector:@selector(channel:didFailSendingLog:withError:)
-                                          withBlock:^(id<MSChannelDelegate> delegate) {
-                                            for (id<MSLog> aLog in logArray) {
-                                              [delegate channel:self didFailSendingLog:aLog withError:error];
-                                            }
-                                          }];
+        // Remove from pending logs.
+        [self.pendingBatchIds removeObject:ingestionBatchId];
+        [self.storage deleteLogsWithBatchId:ingestionBatchId groupId:self.configuration.groupId];
 
-                // Remove from pending logs.
-                [self.pendingBatchIds removeObject:ingestionBatchId];
-                [self.storage deleteLogsWithBatchId:ingestionBatchId groupId:self.configuration.groupId];
-
-                // Update pending batch queue state.
-                if (self.pendingBatchQueueFull && self.pendingBatchIds.count < self.configuration.pendingBatchesLimit) {
-                  self.pendingBatchQueueFull = NO;
-                }
-              }
-            } else
-              MSLogWarning([MSAppCenter logTag], @"Batch Id %@ not expected, ignore.", ingestionBatchId);
-          });
-        }];
+        // Update pending batch queue state.
+        if (self.pendingBatchQueueFull && self.pendingBatchIds.count < self.configuration.pendingBatchesLimit) {
+          self.pendingBatchQueueFull = NO;
+        }
+      }
+    } else {
+      MSLogWarning([MSAppCenter logTag], @"Batch Id %@ not expected, ignore.", ingestionBatchId);
+    }
+  });
+}];
   }
 }
 
-- (void)flushQueueBatchForToken:(MSAuthTokenInfo *)tokenInfo {
+- (void)flushQueueBatchForTokenArray:(NSMutableArray<MSAuthTokenHistoryState *> *)tokenArray
+                      withTokenIndex:(NSUInteger)tokenIndex {
+  if (tokenIndex == 0 && tokenArray[tokenIndex].startTime && [self.storage countLogsBeforeDate:tokenArray[tokenIndex].startTime] > 0) {
+    [self.storage deleteLogsWithDateBefore:(NSDate *_Nonnull) tokenArray[tokenIndex].startTime];
+  }
+  MSAuthTokenHistoryState *tokenInfo = tokenArray[tokenIndex];
   self.availableBatchFromStorage = [self.storage loadLogsWithGroupId:self.configuration.groupId
                                                                limit:self.configuration.batchSizeLimit
                                                   excludedTargetKeys:[self.pausedTargetKeys allObjects]
                                                            afterDate:tokenInfo.startTime
                                                           beforeDate:tokenInfo.endTime
-                                                   completionHandler:^(NSArray<id<MSLog>> *_Nonnull logArray, NSString *batchId) {
-                                                     [self sendLogArray:logArray withBatchId:batchId andAuthToken:tokenInfo];
+                                                   completionHandler:^(NSArray<id <MSLog>> *_Nonnull logArray, NSString *batchId) {
+                                                     if (logArray.count > 0) {
+
+                                                       // We have data to send.
+                                                       [self sendLogArray:logArray withBatchId:batchId andAuthToken:tokenInfo];
+                                                     } else {
+
+                                                       // No logs available with given params.
+                                                       if ([self.storage countLogsBeforeDate:tokenArray[tokenIndex].endTime] == 0) {
+
+                                                         // Delete token from history if we don't have logs fitting it in DB.
+                                                         [[MSAuthTokenContext sharedInstance].storage removeAuthToken:tokenInfo.authToken];
+                                                       }
+                                                       if (tokenIndex + 1 < tokenArray.count) {
+
+                                                         // Iterate to next token in array.
+                                                         [self flushQueueBatchForTokenArray:tokenArray withTokenIndex:tokenIndex + 1];
+                                                       }
+                                                     }
                                                    }];
 
   // Flush again if there is another batch to send.
   if (self.availableBatchFromStorage && !self.pendingBatchQueueFull) {
-    [self flushQueueBatchForToken:tokenInfo];
+    [self flushQueueBatchForTokenArray:tokenArray withTokenIndex:tokenIndex];
   }
 }
 
@@ -330,23 +354,17 @@
 
   // Reset item count and load data from the storage.
   self.itemsCount = 0;
-  NSMutableArray<MSAuthTokenInfo *> *tokenArray = [MSAuthTokenContext sharedInstance].storage.authTokenArray;
-  MSAuthTokenInfo *tokenInfo;
-  NSUInteger i = 0;
-  if (tokenArray.count > 0) {
-    tokenInfo = tokenArray[i];
-    while (i < tokenArray.count) {
-      if (tokenArray[i].startTime && [self.storage countLogsBeforeDate:tokenArray[i].startTime] > 0 && i == 0) {
-        [self.storage deleteLogsWithDateBefore:(NSDate * _Nonnull) tokenArray[i].startTime];
-      }
-      [self flushQueueBatchForToken:tokenInfo];
-      if ([self.storage countLogsBeforeDate:tokenArray[i].endTime] == 0 && i == 0) {
-        [[MSAuthTokenContext sharedInstance].storage removeAuthToken:tokenInfo.authToken];
-      } else {
-        i++;
-      }
-    }
+  NSMutableArray<MSAuthTokenHistoryState *> *tokenArray;
+  if ([MSAuthTokenContext sharedInstance].storage) {
+    tokenArray = [MSAuthTokenContext sharedInstance].storage.authTokenArray;
   }
+  if (!tokenArray) {
+    tokenArray = [NSMutableArray <MSAuthTokenHistoryState *> new];
+  }
+  if (tokenArray.count == 0) {
+    [tokenArray addObject:[[MSAuthTokenHistoryState alloc] initWithAuthToken:nil andStartTime:nil andEndTime:nil]];
+  }
+  [self flushQueueBatchForTokenArray:tokenArray withTokenIndex:0];
 }
 
 - (void)checkPendingLogs {
@@ -380,8 +398,8 @@
    * Cast (NSEC_PER_SEC * self.configuration.flushInterval) to (int64_t) silence warning. The compiler otherwise complains that we're using
    * a float param (flushInterval) and implicitly downcast to int64_t.
    */
-  dispatch_source_set_timer(self.timerSource, dispatch_walltime(NULL, (int64_t)(NSEC_PER_SEC * self.configuration.flushInterval)),
-                            1ull * NSEC_PER_SEC, 1ull * NSEC_PER_SEC);
+  dispatch_source_set_timer(self.timerSource, dispatch_walltime(NULL, (int64_t) (NSEC_PER_SEC * self.configuration.flushInterval)),
+    1ull * NSEC_PER_SEC, 1ull * NSEC_PER_SEC);
   __weak typeof(self) weakSelf = self;
   dispatch_source_set_event_handler(self.timerSource, ^{
     typeof(self) strongSelf = weakSelf;
@@ -421,7 +439,7 @@
       MSLogDebug([MSAppCenter logTag], @"Delete all logs for group Id %@", self.configuration.groupId);
       NSError *error = [NSError errorWithDomain:kMSACErrorDomain
                                            code:kMSACConnectionPausedErrorCode
-                                       userInfo:@{NSLocalizedDescriptionKey : kMSACConnectionPausedErrorDesc}];
+                                       userInfo:@{NSLocalizedDescriptionKey: kMSACConnectionPausedErrorDesc}];
       [self deleteAllLogsWithErrorSync:error];
 
       // Reset states.
@@ -439,50 +457,50 @@
 
     // Notify delegates.
     [self enumerateDelegatesForSelector:@selector(channel:didSetEnabled:andDeleteDataOnDisabled:)
-                              withBlock:^(id<MSChannelDelegate> delegate) {
+                              withBlock:^(id <MSChannelDelegate> delegate) {
                                 [delegate channel:self didSetEnabled:isEnabled andDeleteDataOnDisabled:deleteData];
                               }];
   });
 }
 
-- (void)pauseWithIdentifyingObject:(id<NSObject>)identifyingObject {
+- (void)pauseWithIdentifyingObject:(id <NSObject>)identifyingObject {
   dispatch_async(self.logsDispatchQueue, ^{
     [self pauseWithIdentifyingObjectSync:identifyingObject];
   });
 }
 
-- (void)resumeWithIdentifyingObject:(id<NSObject>)identifyingObject {
+- (void)resumeWithIdentifyingObject:(id <NSObject>)identifyingObject {
   dispatch_async(self.logsDispatchQueue, ^{
     [self resumeWithIdentifyingObjectSync:identifyingObject];
   });
 }
 
-- (void)pauseWithIdentifyingObjectSync:(id<NSObject>)identifyingObject {
+- (void)pauseWithIdentifyingObjectSync:(id <NSObject>)identifyingObject {
   [self.pausedIdentifyingObjects addObject:identifyingObject];
   MSLogVerbose([MSAppCenter logTag], @"Identifying object %@ added to pause lane for channel %@.", identifyingObject,
-               self.configuration.groupId);
+    self.configuration.groupId);
   if (!self.paused) {
     MSLogDebug([MSAppCenter logTag], @"Pause channel %@.", self.configuration.groupId);
     self.paused = YES;
     [self resetTimer];
   }
   [self enumerateDelegatesForSelector:@selector(channel:didPauseWithIdentifyingObject:)
-                            withBlock:^(id<MSChannelDelegate> delegate) {
+                            withBlock:^(id <MSChannelDelegate> delegate) {
                               [delegate channel:self didPauseWithIdentifyingObject:identifyingObject];
                             }];
 }
 
-- (void)resumeWithIdentifyingObjectSync:(id<NSObject>)identifyingObject {
+- (void)resumeWithIdentifyingObjectSync:(id <NSObject>)identifyingObject {
   [self.pausedIdentifyingObjects removeObject:identifyingObject];
   MSLogVerbose([MSAppCenter logTag], @"Identifying object %@ removed from pause lane for channel %@.", identifyingObject,
-               self.configuration.groupId);
+    self.configuration.groupId);
   if ([self.pausedIdentifyingObjects count] == 0) {
     MSLogDebug([MSAppCenter logTag], @"Resume channel %@.", self.configuration.groupId);
     self.paused = NO;
     [self flushQueue];
   }
   [self enumerateDelegatesForSelector:@selector(channel:didResumeWithIdentifyingObject:)
-                            withBlock:^(id<MSChannelDelegate> delegate) {
+                            withBlock:^(id <MSChannelDelegate> delegate) {
                               [delegate channel:self didResumeWithIdentifyingObject:identifyingObject];
                             }];
 }
@@ -518,7 +536,7 @@
 }
 
 - (void)deleteAllLogsWithErrorSync:(NSError *)error {
-  NSArray<id<MSLog>> *deletedLogs;
+  NSArray<id <MSLog>> *deletedLogs;
 
   // Delete pending batches first.
   for (NSString *batchId in self.pendingBatchIds) {
@@ -529,16 +547,16 @@
   deletedLogs = [self.storage deleteLogsWithGroupId:self.configuration.groupId];
 
   // Notify failure of remaining logs.
-  for (id<MSLog> log in deletedLogs) {
+  for (id <MSLog> log in deletedLogs) {
     [self notifyFailureBeforeSendingForItem:log withError:error];
   }
 }
 
 #pragma mark - Helper
 
-- (void)enumerateDelegatesForSelector:(SEL)selector withBlock:(void (^)(id<MSChannelDelegate> delegate))block {
-  @synchronized(self.delegates) {
-    for (id<MSChannelDelegate> delegate in self.delegates) {
+- (void)enumerateDelegatesForSelector:(SEL)selector withBlock:(void (^)(id <MSChannelDelegate> delegate))block {
+  @synchronized (self.delegates) {
+    for (id <MSChannelDelegate> delegate in self.delegates) {
       if ([delegate respondsToSelector:selector]) {
         block(delegate);
       }
@@ -546,9 +564,9 @@
   }
 }
 
-- (void)notifyFailureBeforeSendingForItem:(id<MSLog>)item withError:(NSError *)error {
-  @synchronized(self.delegates) {
-    for (id<MSChannelDelegate> delegate in self.delegates) {
+- (void)notifyFailureBeforeSendingForItem:(id <MSLog>)item withError:(NSError *)error {
+  @synchronized (self.delegates) {
+    for (id <MSChannelDelegate> delegate in self.delegates) {
 
       // Call willSendLog before didFailSendingLog
       if ([delegate respondsToSelector:@selector(channel:willSendLog:)])

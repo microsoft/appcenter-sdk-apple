@@ -172,7 +172,7 @@ static const NSUInteger kMSSchemaVersion = 4;
     [condition appendFormat:@" AND \"%@\" >= '%lld'", kMSTimestampColumnName, (long long)[afterDate timeIntervalSince1970]];
   }
   if (beforeDate) {
-    [condition appendFormat:@" AND \"%@\" <= '%lld'", kMSTimestampColumnName, (long long)[beforeDate timeIntervalSince1970]];
+    [condition appendFormat:@" AND \"%@\" < '%lld'", kMSTimestampColumnName, (long long)[beforeDate timeIntervalSince1970]];
   }
 
   // Build the "ORDER BY" clause's conditions.
