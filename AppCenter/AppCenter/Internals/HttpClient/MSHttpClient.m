@@ -97,17 +97,6 @@
   NSHTTPURLResponse *httpResponse;
   @synchronized(self) {
 
-    // If paused or disabled, do nothing and return.
-    if (self.paused || !self.enabled) {
-      return;
-    }
-
-    // If canceled, then return immediately.
-    if (![self.pendingCalls containsObject:httpCall]) {
-      MSLogDebug([MSAppCenter logTag], @"HTTP call was canceled, not processing result.");
-      return;
-    }
-
     // Handle NSError (low level error where we don't even get a HTTP response).
     BOOL internetIsDown = [MSHttpUtil isNoInternetConnectionError:error];
     BOOL couldNotEstablishSecureConnection = [MSHttpUtil isSSLConnectionError:error];
