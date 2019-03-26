@@ -302,6 +302,53 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
   XCTAssertEqual(numRequests, 1 + [retryIntervals count]);
 }
 
+- (void)testPauseThenResumeDoesNotResendCalls {
+
+  // If
+  __block int numRequests = 0;
+  dispatch_semaphore_t timingSemaphore = dispatch_semaphore_create(0);
+  dispatch_semaphore_t responseSemaphore = dispatch_semaphore_create(0);
+  dispatch_semaphore_t pauseSemaphore = dispatch_semaphore_create(0);
+
+  [OHHTTPStubs
+   stubRequestsPassingTest:^BOOL(__unused NSURLRequest *request) {
+     return YES;
+   }
+   withStubResponse:^OHHTTPStubsResponse *(__unused NSURLRequest *request) {
+     ++numRequests;
+     dispatch_semaphore_signal(responseSemaphore);
+
+     // Don't let the request finish before pausing.
+     dispatch_semaphore_wait(pauseSemaphore, dispatch_time(DISPATCH_TIME_NOW, (int64_t)(kMSTestTimeout * NSEC_PER_SEC)));
+     return [OHHTTPStubsResponse responseWithData:[NSData data] statusCode:MSHTTPCodesNo204NoContent headers:nil];
+   }];
+  self.sut = [[MSHttpClient alloc] initWithMaxHttpConnectionsPerHost:nil retryIntervals:@[ @1 ] reachability:self.reachabilityMock];
+  NSURL *url = [NSURL URLWithString:@"https://mock/something?a=b"];
+  NSString *method = @"DELETE";
+
+  // When
+  [self.sut sendAsync:url
+               method:method
+              headers:nil
+                 data:nil
+    completionHandler:^(__unused NSData *responseBody, __unused NSHTTPURLResponse *response, __unused NSError *error) {}];
+
+  // Don't pause until the call has been enqueued.
+  dispatch_semaphore_wait(responseSemaphore, dispatch_time(DISPATCH_TIME_NOW, (int64_t)(kMSTestTimeout * NSEC_PER_SEC)));
+  [self simulateReachabilityChangedNotification:NotReachable];
+  dispatch_semaphore_signal(pauseSemaphore);
+  [self simulateReachabilityChangedNotification:ReachableViaWiFi];
+
+  // Wait a while to make sure that the request is not sent after resuming.
+  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+    dispatch_semaphore_signal(timingSemaphore);
+  });
+  dispatch_semaphore_wait(timingSemaphore, dispatch_time(DISPATCH_TIME_NOW, (int64_t)(kMSTestTimeout * NSEC_PER_SEC)));
+
+  // Then
+  XCTAssertEqual(numRequests, 1);
+}
+
 - (void)simulateReachabilityChangedNotification:(NetworkStatus)status {
   self.currentNetworkStatus = status;
   [[NSNotificationCenter defaultCenter] postNotificationName:kMSReachabilityChangedNotification object:self.reachabilityMock];
