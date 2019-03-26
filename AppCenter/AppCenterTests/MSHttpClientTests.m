@@ -99,8 +99,6 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
                                }];
-
-  // OHHTTPStubs does not populate the request payload, so do not perform a check for it.
   XCTAssertEqualObjects(actualRequest.URL, url);
   XCTAssertEqualObjects(actualRequest.HTTPMethod, method);
   XCTAssertEqualObjects(actualRequest.OHHTTPStubs_HTTPBody, payload);
@@ -304,25 +302,28 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
 
 - (void)testPauseThenResumeDoesNotResendCalls {
 
+  // Scenario is pausing the client while there is a call that is being sent but hasn't completed yet, and then calling resume.
+
   // If
   __block int numRequests = 0;
   dispatch_semaphore_t timingSemaphore = dispatch_semaphore_create(0);
   dispatch_semaphore_t responseSemaphore = dispatch_semaphore_create(0);
   dispatch_semaphore_t pauseSemaphore = dispatch_semaphore_create(0);
-
   [OHHTTPStubs
    stubRequestsPassingTest:^BOOL(__unused NSURLRequest *request) {
      return YES;
    }
    withStubResponse:^OHHTTPStubsResponse *(__unused NSURLRequest *request) {
      ++numRequests;
+
+     // Use this semaphore to prevent the pause from occurring before the call is enqueued.
      dispatch_semaphore_signal(responseSemaphore);
 
      // Don't let the request finish before pausing.
      dispatch_semaphore_wait(pauseSemaphore, dispatch_time(DISPATCH_TIME_NOW, (int64_t)(kMSTestTimeout * NSEC_PER_SEC)));
      return [OHHTTPStubsResponse responseWithData:[NSData data] statusCode:MSHTTPCodesNo204NoContent headers:nil];
    }];
-  self.sut = [[MSHttpClient alloc] initWithMaxHttpConnectionsPerHost:nil retryIntervals:@[ @1 ] reachability:self.reachabilityMock];
+  self.sut = [[MSHttpClient alloc] initWithMaxHttpConnectionsPerHost:nil retryIntervals:@[] reachability:self.reachabilityMock];
   NSURL *url = [NSURL URLWithString:@"https://mock/something?a=b"];
   NSString *method = @"DELETE";
 
@@ -347,6 +348,101 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
 
   // Then
   XCTAssertEqual(numRequests, 1);
+}
+
+- (void)testDisablingCancelsCalls {
+
+  // If
+  __weak XCTestExpectation *expectation = [self expectationWithDescription:@""];
+  dispatch_semaphore_t responseSemaphore = dispatch_semaphore_create(0);
+  dispatch_semaphore_t testCompletedSemaphore = dispatch_semaphore_create(0);
+  [OHHTTPStubs
+   stubRequestsPassingTest:^BOOL(__unused NSURLRequest *request) {
+     return YES;
+   }
+   withStubResponse:^OHHTTPStubsResponse *(__unused NSURLRequest *request) {
+     dispatch_semaphore_signal(responseSemaphore);
+
+     // Sleep to ensure that the call is really canceled instead of waiting for the response.
+     dispatch_semaphore_wait(testCompletedSemaphore, DISPATCH_TIME_FOREVER);
+     return [OHHTTPStubsResponse responseWithData:[NSData data] statusCode:MSHTTPCodesNo204NoContent headers:nil];
+   }];
+  self.sut = [[MSHttpClient alloc] initWithMaxHttpConnectionsPerHost:nil retryIntervals:@[ @1 ] reachability:self.reachabilityMock];
+  NSURL *url = [NSURL URLWithString:@"https://mock/something?a=b"];
+  NSString *method = @"DELETE";
+
+  // When
+  [self.sut sendAsync:url
+               method:method
+              headers:nil
+                 data:nil
+    completionHandler:^(NSData *responseBody, NSHTTPURLResponse *response, NSError *error) {
+      XCTAssertNotNil(error);
+      XCTAssertNil(response);
+      XCTAssertNil(responseBody);
+      [expectation fulfill];
+    }];
+
+  // Don't disable until the call has been enqueued.
+  dispatch_semaphore_wait(responseSemaphore, dispatch_time(DISPATCH_TIME_NOW, (int64_t)(kMSTestTimeout * NSEC_PER_SEC)));
+  [self.sut setEnabled:NO];
+
+  // Then
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
+                               handler:^(NSError *_Nullable error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+
+  // Clean up.
+  dispatch_semaphore_signal(testCompletedSemaphore);
+}
+
+- (void)testDisableThenEnable {
+
+  // If
+  __block NSURLRequest *actualRequest;
+
+  // Stub HTTP response.
+  [OHHTTPStubs
+   stubRequestsPassingTest:^BOOL(__unused NSURLRequest *request) {
+     return YES;
+   }
+   withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+     actualRequest = request;
+     NSData *responsePayload = [@"OK" dataUsingEncoding:kCFStringEncodingUTF8];
+     return [OHHTTPStubsResponse responseWithData:responsePayload statusCode:MSHTTPCodesNo200OK headers:nil];
+   }];
+  __weak XCTestExpectation *expectation = [self expectationWithDescription:@"HTTP Response 200"];
+  self.sut = [MSHttpClient new];
+  NSURL *url = [NSURL URLWithString:@"https://mock/something?a=b"];
+  NSString *method = @"POST";
+  NSData *payload = [@"somePayload" dataUsingEncoding:kCFStringEncodingUTF8];
+
+  // When
+  [self.sut setEnabled:NO];
+  [self.sut setEnabled:YES];
+  [self.sut sendAsync:url
+               method:method
+              headers:nil
+                 data:payload
+    completionHandler:^(NSData *responseBody, NSHTTPURLResponse *response, NSError *error) {
+      // Then
+      XCTAssertEqual(response.statusCode, MSHTTPCodesNo200OK);
+      XCTAssertEqualObjects(responseBody, [@"OK" dataUsingEncoding:kCFStringEncodingUTF8]);
+      XCTAssertNil(error);
+      [expectation fulfill];
+    }];
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
+                               handler:^(NSError *_Nullable error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+  XCTAssertEqualObjects(actualRequest.URL, url);
+  XCTAssertEqualObjects(actualRequest.HTTPMethod, method);
+  XCTAssertEqualObjects(actualRequest.OHHTTPStubs_HTTPBody, payload);
 }
 
 - (void)simulateReachabilityChangedNotification:(NetworkStatus)status {

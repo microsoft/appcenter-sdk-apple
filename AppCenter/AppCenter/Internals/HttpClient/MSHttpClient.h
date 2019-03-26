@@ -22,4 +22,11 @@
  */
 - (instancetype)initWithMaxHttpConnectionsPerHost:(int)maxHttpConnectionsPerHost;
 
+/**
+ * Enables or disables the client. All pending requests are canceled and discarded upon disabling.
+ *
+ * @param isEnabled The desired enabled state of the client - pass `YES` to enable, `NO` to disable.
+ */
+- (void)setEnabled:(BOOL)isEnabled;
+
 @end

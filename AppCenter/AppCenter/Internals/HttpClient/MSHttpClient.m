@@ -192,7 +192,7 @@
 - (void)setEnabled:(BOOL)isEnabled {
   @synchronized(self) {
     if (self.enabled != isEnabled) {
-      self.enabled = isEnabled;
+      _enabled = isEnabled;
       if (isEnabled) {
         self.session = [NSURLSession sessionWithConfiguration:self.sessionConfiguration];
         [self.reachability startNotifier];
