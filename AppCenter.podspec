@@ -22,7 +22,7 @@ Pod::Spec.new do |s|
                       App Center Push enables you to send push notifications to users of your app from the App Center portal. You can also segment your user base based on a set of properties and send them targeted notifications.
 
                       5. App Center DataStorage (iOS):
-                      TODO: Add description for Datastorage
+                      The App Center Data Storage service provides functionality enabling developers to persist app data in the cloud in both online and offline scenarios. This enables you to store and manage both user-specific data as well as data shared between users and across platforms. In addition, this service includes basic conflict resolution out of the box.
 
                         DESC
 
