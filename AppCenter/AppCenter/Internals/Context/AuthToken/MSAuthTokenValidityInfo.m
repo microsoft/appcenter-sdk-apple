@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "MSAuthTokenHistoryState.h"
+#import "MSAuthTokenValidityInfo.h"
 
-@implementation MSAuthTokenHistoryState
+@implementation MSAuthTokenValidityInfo
 
 - (instancetype)initWithAuthToken:(nullable NSString *)authToken
                      andStartTime:(nullable NSDate *)startTime

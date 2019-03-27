@@ -3,7 +3,7 @@
 
 #import "MSAppCenterInternal.h"
 #import "MSAuthTokenContextDelegate.h"
-#import "MSAuthTokenHistoryState.h"
+#import "MSAuthTokenValidityInfo.h"
 #import "MSAuthTokenInfo.h"
 #import "MSConstants.h"
 #import "MSKeychainUtil.h"
@@ -79,11 +79,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (nullable NSString *)accountId;
 
 /**
- * Returns array of auth tokens.
+ * Returns array of auth tokens validity info.
  *
- * @return Array of MSAuthTokenInfo
+ * @return Array of MSAuthTokenValidityInfo
  */
-- (NSMutableArray<MSAuthTokenHistoryState *> *)authTokenArray;
+- (NSMutableArray<MSAuthTokenValidityInfo *> *)authTokenValidityArray;
 
 /**
  * Stores auth token and account ID to settings and keychain.
@@ -103,6 +103,13 @@ NS_ASSUME_NONNULL_BEGIN
  *                  the wrong one on duplicated calls etc.
  */
 - (void)removeAuthToken:(nullable NSString *)authToken;
+
+/**
+ * Returns array of auth tokens info.
+ *
+ * @return Array of MSAuthTokenInfo.
+ */
+- (NSArray<MSAuthTokenInfo *> *)authTokenHistory;
 
 @end
 

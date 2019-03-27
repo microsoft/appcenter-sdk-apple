@@ -195,17 +195,33 @@
   XCTAssertEqual(actualAuthToken, expectedAuthToken);
 }
 
-- (void)testGetAuthTokenArray {
+- (void)testGetAuthTokenValidityArray {
 
   // If
-  [self.sut saveAuthToken:@"someAuthToken" withAccountId:@"someAccountId" expiresOn:nil];
-  [self.sut saveAuthToken:@"anotherAuthToken" withAccountId:@"someAccountId" expiresOn:nil];
+  NSString *expectedAuthToken = @"expectedAuthToken";
+  [self.sut saveAuthToken:@"unexpectedAuthToken" withAccountId:@"someAccountId" expiresOn:nil];
+  [self.sut saveAuthToken:expectedAuthToken withAccountId:@"anotherAccountId" expiresOn:nil];
 
   // When
-  NSString *actualAuthToken = [self.sut authToken];
+  NSMutableArray<MSAuthTokenValidityInfo *> *actualAuthTokenValidityArray = [self.sut authTokenValidityArray];
 
   // Then
-  XCTAssertEqual(actualAuthToken, expectedAuthToken);
+  XCTAssertEqual(expectedAuthToken, actualAuthTokenValidityArray.lastObject.authToken);
+}
+
+- (void)testRemoveAuthToken {
+  
+  // If
+  NSString *authTokenToDelete = @"tokenExpectedToBeDeleted";
+  [self.sut saveAuthToken:authTokenToDelete withAccountId:@"someAccountId" expiresOn:nil];
+  [self.sut saveAuthToken:@"someNewAuthToken" withAccountId:@"anotherAccountId" expiresOn:nil];
+  
+  // When
+  [self.sut removeAuthToken:authTokenToDelete];
+  NSArray<MSAuthTokenInfo *> *actualAuthTokenArray = [self.sut authTokenHistory];
+  
+  // Then
+  XCTAssertEqual(actualAuthTokenArray.count, 1);
 }
 
 - (void)testSaveAuthTokenLimitsHistorySize {

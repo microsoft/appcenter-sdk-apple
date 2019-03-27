@@ -104,10 +104,10 @@ static dispatch_once_t onceToken;
   return [MS_USER_DEFAULTS objectForKey:kMSHomeAccountKey];
 }
 
-- (NSMutableArray<MSAuthTokenHistoryState *> *)authTokenArray {
+- (NSMutableArray<MSAuthTokenValidityInfo *> *)authTokenValidityArray {
   NSMutableArray<MSAuthTokenInfo *> *__nullable tokenArray =
       (NSMutableArray<MSAuthTokenInfo *> * __nullable)[MSKeychainUtil arrayForKey:kMSAuthTokenArrayKey];
-  NSMutableArray<MSAuthTokenHistoryState *> *resultArray = [NSMutableArray<MSAuthTokenHistoryState *> new];
+  NSMutableArray<MSAuthTokenValidityInfo *> *resultArray = [NSMutableArray<MSAuthTokenValidityInfo *> new];
   if (!tokenArray || tokenArray.count == 0) {
     return nil;
   }
@@ -120,7 +120,7 @@ static dispatch_once_t onceToken;
     } else if (!endTime && nextTokenStartTime) {
       endTime = nextTokenStartTime;
     }
-    [resultArray addObject:[[MSAuthTokenHistoryState alloc] initWithAuthToken:currentAuthTokenInfo.authToken
+    [resultArray addObject:[[MSAuthTokenValidityInfo alloc] initWithAuthToken:currentAuthTokenInfo.authToken
                                                                  andStartTime:currentAuthTokenInfo.startTime
                                                                    andEndTime:endTime]];
   }
@@ -178,7 +178,7 @@ static dispatch_once_t onceToken;
       return;
     }
 
-    // Find, delete the oldest entry. Do not delete the most recent entry.
+    // Check oldest entry, delete if it matches.
     if (tokenArray[0].authToken == authToken) {
       [tokenArray removeObjectAtIndex:0];
     }

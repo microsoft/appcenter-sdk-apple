@@ -7,7 +7,7 @@
 #import "MSAppCenterIngestion.h"
 #import "MSAppCenterInternal.h"
 #import "MSAuthTokenContext.h"
-#import "MSAuthTokenHistoryState.h"
+#import "MSAuthTokenValidityInfo.h"
 #import "MSAuthTokenStorage.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitDefaultPrivate.h"
@@ -190,7 +190,7 @@
 
 - (void)sendLogArray:(NSArray<id<MSLog>> *__nonnull)logArray
          withBatchId:(NSString *)batchId
-        andAuthToken:(MSAuthTokenHistoryState *)tokenInfo {
+        andAuthToken:(MSAuthTokenValidityInfo *)tokenInfo {
 
   // Logs may be deleted from storage before this flush.
   if (batchId.length > 0) {
@@ -279,8 +279,8 @@
   }
 }
 
-- (void)flushQueueForTokenArray:(NSMutableArray<MSAuthTokenHistoryState *> *)tokenArray withTokenIndex:(NSUInteger)tokenIndex {
-  MSAuthTokenHistoryState *tokenInfo = tokenArray[tokenIndex];
+- (void)flushQueueForTokenArray:(NSMutableArray<MSAuthTokenValidityInfo *> *)tokenArray withTokenIndex:(NSUInteger)tokenIndex {
+  MSAuthTokenValidityInfo *tokenInfo = tokenArray[tokenIndex];
   self.availableBatchFromStorage =
       [self.storage loadLogsWithGroupId:self.configuration.groupId
                                   limit:self.configuration.batchSizeLimit
@@ -349,12 +349,12 @@
 
   // Reset item count and load data from the storage.
   self.itemsCount = 0;
-  NSMutableArray<MSAuthTokenHistoryState *> *tokenArray = [MSAuthTokenContext sharedInstance].authTokenArray;
+  NSMutableArray<MSAuthTokenValidityInfo *> *tokenArray = [MSAuthTokenContext sharedInstance].authTokenValidityArray;
   if (!tokenArray) {
-    tokenArray = [NSMutableArray<MSAuthTokenHistoryState *> new];
+    tokenArray = [NSMutableArray<MSAuthTokenValidityInfo *> new];
   }
   if (tokenArray.count == 0) {
-    [tokenArray addObject:[[MSAuthTokenHistoryState alloc] initWithAuthToken:nil andStartTime:nil andEndTime:nil]];
+    [tokenArray addObject:[[MSAuthTokenValidityInfo alloc] initWithAuthToken:nil andStartTime:nil andEndTime:nil]];
   }
   [self flushQueueForTokenArray:tokenArray withTokenIndex:0];
 }

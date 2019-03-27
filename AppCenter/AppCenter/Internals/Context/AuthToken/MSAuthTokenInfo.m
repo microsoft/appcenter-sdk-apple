@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 #import "MSAuthTokenInfo.h"
-#import "MSAuthTokenHistoryState.h"
+#import "MSAuthTokenValidityInfo.h"
 
 static NSString *const kMSAuthTokenKey = @"authTokenKey";
 static NSString *const kMSAccountIdKey = @"accountIdKey";
