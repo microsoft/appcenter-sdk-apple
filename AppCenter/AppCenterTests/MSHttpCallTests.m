@@ -26,9 +26,10 @@
   // If
 
   // HTTP body is big enough to be compressed.
-  NSData *longData = [NSData dataWithBytes:"h" length:kMSHTTPMinGZipLength];
+  NSString *longString = [@"" stringByPaddingToLength:kMSHTTPMinGZipLength withString:@"h" startingAtIndex:0];
+  NSData *longData = [longString dataUsingEncoding:NSUTF8StringEncoding];
   NSData *expectedData = [MSCompression compressData:longData];
-  NSDictionary *expectedHeaders = @{kMSHeaderContentEncodingKey : kMSHeaderContentEncoding};
+  NSDictionary *expectedHeaders = @{kMSHeaderContentEncodingKey : kMSHeaderContentEncoding, kMSHeaderContentTypeKey : kMSAppCenterContentType };
 
   // When
   MSHttpCall *call =
@@ -49,9 +50,9 @@
 
   // If
 
-  // HTTP body is big enough to be compressed.
-  NSData *shortData = [NSData dataWithBytes:"h" length:1];
-  NSDictionary *expectedHeaders = @{};
+  // HTTP body is small and will not be compressed.
+  NSData *shortData = [NSData dataWithBytes:"hi" length:2];
+  NSDictionary *expectedHeaders = @{ kMSHeaderContentTypeKey : kMSAppCenterContentType };
 
   // When
   MSHttpCall *call =
