@@ -32,6 +32,9 @@
       data = [MSCompression compressData:data];
       mutableHeaders[kMSHeaderContentEncodingKey] = kMSHeaderContentEncoding;
     }
+    if (data && ![mutableHeaders objectForKey:kMSHeaderContentTypeKey]){
+      mutableHeaders[kMSHeaderContentTypeKey] = kMSAppCenterContentType;
+    }
     _data = data;
     _headers = mutableHeaders;
   }
