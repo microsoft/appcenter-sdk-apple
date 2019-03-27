@@ -7,9 +7,12 @@
 #import "MSCosmosDbPrivate.h"
 #import "MSTestFrameworks.h"
 #import "MSTokenResult.h"
+#import "MSDataSourceError.h"
 #import "MSDataStore.h"
+#import "MSDataStoreErrors.h"
 #import "MSDataStoreInternal.h"
 #import "MSDataStorePrivate.h"
+#import "MSDocumentWrapper.h"
 #import "MSMockUserDefaults.h"
 #import "MSTokenExchange.h"
 #import "MSTokensResponse.h"
@@ -43,6 +46,7 @@
 @implementation MSDataStoreTests
 
 static NSString *const kMSTestAppSecret = @"TestAppSecret";
+static NSString *const kMSCosmosDbHttpCodeKey = @"com.Microsoft.AppCenter.HttpCodeKey";
 static NSString *const kMSDocumentTimestampKey = @"_ts";
 static NSString *const kMSDocumentEtagKey = @"_etag";
 static NSString *const kMSDocumentKey = @"document";
@@ -270,7 +274,53 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   XCTAssertTrue(completionHandlerCalled);
 }
 
-- (void)testCreateWithPartitionWhenDbError {
+- (void)testCreateWithPartitionWhenCreationFails {
+
+  // If
+  NSString *partition = @"partition";
+  NSString *documentId = @"documentId";
+  id<MSSerializableDocument> mockSerializableDocument = [MSFakeSerializableDocument new];
+  __block BOOL completionHandlerCalled = NO;
+  NSDictionary *errorUserInfo = @{kMSCosmosDbHttpCodeKey : @(kMSACDocumentInternalServerErrorErrorCode)};
+  NSError *expectedCosmosDbError = [NSError errorWithDomain:kMSACErrorDomain code:0 userInfo:errorUserInfo];
+  __block MSDataSourceError *actualError;
+
+  // Mock tokens fetching.
+  MSTokenResult *testToken = [[MSTokenResult alloc] initWithString:@"testToken"];
+  MSTokensResponse *testTokensResponse = [[MSTokensResponse alloc] initWithTokens:@[ testToken ]];
+  OCMStub([self.tokenExchangeMock performDbTokenAsyncOperationWithHttpClient:OCMOCK_ANY partition:OCMOCK_ANY completionHandler:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        MSGetTokenAsyncCompletionHandler getTokenCallback;
+        [invocation getArgument:&getTokenCallback atIndex:4];
+        getTokenCallback(testTokensResponse, nil);
+      });
+
+  // Mock CosmosDB requests.
+  OCMStub([self.cosmosDbMock performCosmosDbAsyncOperationWithHttpClient:OCMOCK_ANY
+                                                             tokenResult:OCMOCK_ANY
+                                                              documentId:OCMOCK_ANY
+                                                              httpMethod:OCMOCK_ANY
+                                                                    body:OCMOCK_ANY
+                                                       additionalHeaders:OCMOCK_ANY
+                                            completionHandler:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        MSCosmosDbCompletionHandler cosmosdbOperationCallback;
+        [invocation getArgument:&cosmosdbOperationCallback atIndex:8];
+        cosmosdbOperationCallback(nil, expectedCosmosDbError);
+      });
+
+  // When
+  [MSDataStore createWithPartition:partition
+                        documentId:documentId
+                          document:mockSerializableDocument
+                 completionHandler:^(MSDocumentWrapper *data) {
+                   completionHandlerCalled = YES;
+                   actualError = data.error;
+                 }];
+
+  // Then
+  XCTAssertTrue(completionHandlerCalled);
+  XCTAssertEqualObjects(actualError.error, expectedCosmosDbError);
 }
 
 /*
