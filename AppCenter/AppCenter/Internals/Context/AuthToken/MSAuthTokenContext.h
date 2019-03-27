@@ -3,8 +3,8 @@
 
 #import "MSAppCenterInternal.h"
 #import "MSAuthTokenContextDelegate.h"
-#import "MSAuthTokenValidityInfo.h"
 #import "MSAuthTokenInfo.h"
+#import "MSAuthTokenValidityInfo.h"
 #import "MSConstants.h"
 #import "MSKeychainUtil.h"
 #import "MSLogger.h"

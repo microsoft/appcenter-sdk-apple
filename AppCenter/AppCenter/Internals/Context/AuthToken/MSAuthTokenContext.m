@@ -101,7 +101,9 @@ static dispatch_once_t onceToken;
 }
 
 - (nullable NSString *)accountId {
-  return [MS_USER_DEFAULTS objectForKey:kMSHomeAccountKey];
+  NSArray<MSAuthTokenInfo *> *authTokenHistory = [self authTokenHistory];
+  MSAuthTokenInfo *latestAuthTokenInfo = authTokenHistory.lastObject;
+  return latestAuthTokenInfo.accountId;
 }
 
 - (NSMutableArray<MSAuthTokenValidityInfo *> *)authTokenValidityArray {
@@ -143,27 +145,47 @@ static dispatch_once_t onceToken;
     }
 
     // If new token differs from the last token of array - add it to array.
-    NSString *latestAuthToken = [authTokenHistory lastObject].authToken;
+    MSAuthTokenInfo *lastEntry = [authTokenHistory lastObject];
+    NSString *__nullable latestAuthToken = lastEntry ? lastEntry.authToken : nil;
+    NSString *__nullable latestAccountId = lastEntry ? lastEntry.accountId : nil;
+    NSDate *__nullable latestTokenEndTime = lastEntry ? lastEntry.endTime : nil;
     if (latestAuthToken ? ![latestAuthToken isEqualToString:(NSString * _Nonnull) authToken] : authToken != nil) {
+      BOOL isNewUser = [authTokenHistory lastObject] == nil || ![accountId isEqualToString:(NSString * __nonnull) latestAccountId];
+      NSDate *newTokenStartDate = [NSDate date];
+
+      // If there is a gap between tokens.
+      if (latestTokenEndTime && [newTokenStartDate laterDate:(NSDate * __nonnull) latestTokenEndTime]) {
+
+        // If the account the same or become anonymous.
+        if (!isNewUser || authToken == nil) {
+
+          // Apply the new token to this time.
+          newTokenStartDate = latestTokenEndTime;
+        } else {
+
+          // If it's not the same account treat the gap as anonymous.
+          MSAuthTokenInfo *newAuthToken = [[MSAuthTokenInfo alloc] initWithAuthToken:nil
+                                                                        andAccountId:nil
+                                                                        andStartTime:lastEntry.endTime
+                                                                          andEndTime:newTokenStartDate];
+          [authTokenHistory addObject:newAuthToken];
+        }
+      }
+
       MSAuthTokenInfo *newAuthToken = [[MSAuthTokenInfo alloc] initWithAuthToken:authToken
                                                                     andAccountId:accountId
-                                                                    andStartTime:[NSDate date]
+                                                                    andStartTime:newTokenStartDate
                                                                       andEndTime:expiresOn];
       [authTokenHistory addObject:newAuthToken];
     }
 
     // Cap array size at max available size const (deleting from beginning).
     if ([authTokenHistory count] > kMSMaxAuthTokenArraySize) {
-      [authTokenHistory removeObjectsInRange:(NSRange){0, [authTokenHistory count]-kMSMaxAuthTokenArraySize}];
+      [authTokenHistory removeObjectsInRange:(NSRange){0, [authTokenHistory count] - kMSMaxAuthTokenArraySize}];
     }
 
     // Save new array.
     [self setAuthTokenHistory:authTokenHistory];
-    if (authToken && accountId) {
-      [MS_USER_DEFAULTS setObject:(NSString *)accountId forKey:kMSHomeAccountKey];
-    } else {
-      [MS_USER_DEFAULTS removeObjectForKey:kMSHomeAccountKey];
-    }
   }
 }
 
@@ -189,8 +211,8 @@ static dispatch_once_t onceToken;
 }
 
 - (NSArray<MSAuthTokenInfo *> *)authTokenHistory {
-  if (self.authTokenHistoryArray) {
-    return self.authTokenHistoryArray;
+  if (self.authTokenHistoryArray != nil) {
+    return (NSArray<MSAuthTokenInfo *> *)self.authTokenHistoryArray;
   }
   NSArray<MSAuthTokenInfo *> *history = [MSKeychainUtil arrayForKey:kMSAuthTokenArrayKey];
   if (history) {
@@ -200,7 +222,7 @@ static dispatch_once_t onceToken;
     history = [NSArray<MSAuthTokenInfo *> new];
   }
   self.authTokenHistoryArray = history;
-  return self.authTokenHistoryArray;
+  return (NSArray<MSAuthTokenInfo *> *)self.authTokenHistoryArray;
 }
 
 - (void)setAuthTokenHistory:(nullable NSArray<MSAuthTokenInfo *> *)authTokenHistory {

@@ -60,7 +60,7 @@
 
   // Then
   XCTAssertEqualObjects([self.sut authToken], expectedAuthToken);
-  XCTAssertEqualObjects([self.sut homeAccountId], expectedAccountId);
+  XCTAssertEqualObjects([self.sut accountId], expectedAccountId);
   OCMVerify([delegateMock authTokenContext:self.sut didSetNewAccountIdWithAuthToken:expectedAuthToken]);
 }
 
@@ -130,7 +130,7 @@
   XCTAssertEqual(actualAuthTokenInfo.authToken, expectedToken);
   XCTAssertNotNil(actualAuthTokenInfo.startTime);
   XCTAssertNil(actualAuthTokenInfo.endTime);
-  XCTAssertEqual([self.settingsMock objectForKey:kMSHomeAccountKey], expectedAccount);
+  XCTAssertTrue([expectedAccount isEqualToString:actualAuthTokenInfo.accountId]);
 }
 
 - (void)testSaveAuthTokenWhenTokenIsEmpty {
@@ -151,7 +151,6 @@
 
   // Then
   XCTAssertNil(actualAuthTokenInfo.authToken);
-  XCTAssertNil([self.settingsMock objectForKey:kMSHomeAccountKey]);
 }
 
 - (void)testSaveAuthTokenWhenAccountIsEmpty {
@@ -168,7 +167,7 @@
   XCTAssertEqual(actualAuthTokenInfo.authToken, expectedToken);
   XCTAssertNotNil(actualAuthTokenInfo.startTime);
   XCTAssertNil(actualAuthTokenInfo.endTime);
-  XCTAssertNil([self.settingsMock objectForKey:kMSHomeAccountKey]);
+  XCTAssertNil(actualAuthTokenInfo.accountId);
 }
 
 - (void)testRetrieveAuthTokenReturnsLatestHistoryElement {
@@ -210,18 +209,33 @@
 }
 
 - (void)testRemoveAuthToken {
-  
+
   // If
-  NSString *authTokenToDelete = @"tokenExpectedToBeDeleted";
-  [self.sut saveAuthToken:authTokenToDelete withAccountId:@"someAccountId" expiresOn:nil];
+  NSString *tokenExpectedToBeDeleted = @"someAuthToken";
+  [self.sut saveAuthToken:tokenExpectedToBeDeleted withAccountId:@"someAccountId" expiresOn:nil];
   [self.sut saveAuthToken:@"someNewAuthToken" withAccountId:@"anotherAccountId" expiresOn:nil];
-  
+
   // When
-  [self.sut removeAuthToken:authTokenToDelete];
+  [self.sut removeAuthToken:nil];
+  [self.sut removeAuthToken:tokenExpectedToBeDeleted];
   NSArray<MSAuthTokenInfo *> *actualAuthTokenArray = [self.sut authTokenHistory];
-  
+
   // Then
   XCTAssertEqual(actualAuthTokenArray.count, 1);
+}
+
+- (void)testDoNotRemoveNotOldestAuthToken {
+
+  // If
+  NSString *tokenExpectedNotToBeDeleted = @"someAuthToken";
+  [self.sut saveAuthToken:tokenExpectedNotToBeDeleted withAccountId:@"someAccountId" expiresOn:nil];
+
+  // When
+  [self.sut removeAuthToken:tokenExpectedNotToBeDeleted];
+  NSArray<MSAuthTokenInfo *> *actualAuthTokenArray = [self.sut authTokenHistory];
+
+  // Then
+  XCTAssertEqual(actualAuthTokenArray.count, 2);
 }
 
 - (void)testSaveAuthTokenLimitsHistorySize {
@@ -264,4 +278,42 @@
   XCTAssertEqual(latestAuthTokenInfo.authToken, authToken);
 }
 
+- (void)testSaveAuthTokenFillsTheGap {
+  
+  // If
+  NSString *authToken = @"someToken";
+  NSString *newAuthToken = @"someNewToken";
+  NSString *accountId = @"someAccountId";
+  NSString *newAccountId = @"someNewAccountId";
+  NSDate *expiryFirst = [NSDate dateWithTimeIntervalSince1970:1900];
+  NSDate *expirySecond = [NSDate dateWithTimeIntervalSinceNow:1000];
+
+  // When
+  [self.sut saveAuthToken:authToken withAccountId:accountId expiresOn:expiryFirst];
+  [self.sut saveAuthToken:newAuthToken withAccountId:newAccountId expiresOn:expirySecond];
+
+  // Then
+  NSArray<MSAuthTokenInfo *> *actualAuthTokensHistory = [MSMockKeychainUtil arrayForKey:kMSAuthTokenArrayKey];
+  MSAuthTokenInfo *latestAuthTokenInfo = actualAuthTokensHistory[2];
+  XCTAssertNil(latestAuthTokenInfo.authToken);
+}
+
+- (void)testSaveAuthTokenExtendsStartTimeIfAccountTheSame {
+  
+  // If
+  NSString *authToken = @"someToken";
+  NSString *newAuthToken = @"someNewAuthToken";
+  NSString *accountId = @"someAccountId";
+  NSDate *expiryFirst = [NSDate dateWithTimeIntervalSince1970:1900];
+  NSDate *expirySecond = [NSDate dateWithTimeIntervalSinceNow:1000];
+
+  // When
+  [self.sut saveAuthToken:authToken withAccountId:accountId expiresOn:expiryFirst];
+  [self.sut saveAuthToken:newAuthToken withAccountId:accountId expiresOn:expirySecond];
+
+  // Then
+  NSArray<MSAuthTokenInfo *> *actualAuthTokensHistory = [MSMockKeychainUtil arrayForKey:kMSAuthTokenArrayKey];
+  MSAuthTokenInfo *latestAuthTokenInfo = [actualAuthTokensHistory lastObject];
+  XCTAssertTrue([latestAuthTokenInfo.startTime isEqualToDate:expiryFirst]);
+}
 @end

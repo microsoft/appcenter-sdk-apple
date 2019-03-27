@@ -308,6 +308,7 @@ static dispatch_once_t onceToken;
     MSLogWarning([MSIdentity logTag], @"Couldn't remove account data.");
     result = NO;
   }
+  [[MSAuthTokenContext sharedInstance] setAuthToken:nil withAccountId:nil expiresOn:nil];
   return result;
 }
 
