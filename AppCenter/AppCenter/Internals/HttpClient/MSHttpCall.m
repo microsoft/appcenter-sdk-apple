@@ -3,9 +3,9 @@
 
 #import "MSHttpCall.h"
 #import "MSAppCenterInternal.h"
-#import "MSLogger.h"
-#import "MSConstants+Internal.h"
 #import "MSCompression.h"
+#import "MSConstants+Internal.h"
+#import "MSLogger.h"
 #import <Foundation/Foundation.h>
 
 @implementation MSHttpCall

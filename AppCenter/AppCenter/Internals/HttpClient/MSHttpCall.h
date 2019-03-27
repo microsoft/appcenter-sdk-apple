@@ -76,7 +76,8 @@ NS_ASSUME_NONNULL_BEGIN
  * Start the retry timer and invoke a callback after.
  *
  * @param statusCode The status code that the call received.
- * @param retryAfter If this is not nil, the retry intervals will be ignored the next time and the value passed will be used instead. Unit is milliseconds.
+ * @param retryAfter If this is not nil, the retry intervals will be ignored the next time and the value passed will be used instead. Unit
+ * is milliseconds.
  * @param event The callback to be invoked after the timer.
  */
 - (void)startRetryTimerWithStatusCode:(NSUInteger)statusCode retryAfter:(NSNumber *)retryAfter event:(dispatch_block_t)event;

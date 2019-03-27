@@ -3,6 +3,7 @@
 
 #import "AppCenter+Internal.h"
 #import "MSAppCenterErrors.h"
+#import "MSCompression.h"
 #import "MSDevice.h"
 #import "MSDeviceInternal.h"
 #import "MSHttpCall.h"
@@ -12,10 +13,8 @@
 #import "MSIngestionDelegate.h"
 #import "MSMockLog.h"
 #import "MSTestFrameworks.h"
-#import "MSCompression.h"
 #import <OHHTTPStubs/NSURLRequest+HTTPBodyTesting.h>
 #import <OHHTTPStubs/OHHTTPStubs.h>
-
 
 @interface MSHttpCallTests : XCTestCase
 @end
@@ -32,19 +31,19 @@
   NSDictionary *expectedHeaders = @{kMSHeaderContentEncodingKey : kMSHeaderContentEncoding};
 
   // When
-  MSHttpCall *call = [[MSHttpCall alloc] initWithUrl:[NSURL new]
-                                              method:@"POST"
-                                             headers:nil
-                                                data:longData
-                                      retryIntervals:@[]
-                                   completionHandler:^(__unused NSData *responseBody, __unused NSHTTPURLResponse *response, __unused NSError *error){
-  }];
+  MSHttpCall *call =
+      [[MSHttpCall alloc] initWithUrl:[NSURL new]
+                               method:@"POST"
+                              headers:nil
+                                 data:longData
+                       retryIntervals:@[]
+                    completionHandler:^(__unused NSData *responseBody, __unused NSHTTPURLResponse *response, __unused NSError *error){
+                    }];
 
   // Then
   XCTAssertEqualObjects(call.data, expectedData);
   XCTAssertEqualObjects(call.headers, expectedHeaders);
 }
-
 
 - (void)testDoesNotCompressHTTPBodyWhenSmall {
 
@@ -55,13 +54,14 @@
   NSDictionary *expectedHeaders = @{};
 
   // When
-  MSHttpCall *call = [[MSHttpCall alloc] initWithUrl:[NSURL new]
-                                              method:@"POST"
-                                             headers:nil
-                                                data:shortData
-                                      retryIntervals:@[]
-                                   completionHandler:^(__unused NSData *responseBody, __unused NSHTTPURLResponse *response, __unused NSError *error){
-                                   }];
+  MSHttpCall *call =
+      [[MSHttpCall alloc] initWithUrl:[NSURL new]
+                               method:@"POST"
+                              headers:nil
+                                 data:shortData
+                       retryIntervals:@[]
+                    completionHandler:^(__unused NSData *responseBody, __unused NSHTTPURLResponse *response, __unused NSError *error){
+                    }];
 
   // Then
   XCTAssertEqualObjects(call.data, shortData);
