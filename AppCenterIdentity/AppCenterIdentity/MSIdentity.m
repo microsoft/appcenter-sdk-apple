@@ -91,6 +91,7 @@ static dispatch_once_t onceToken;
       eTag = [MS_USER_DEFAULTS objectForKey:kMSIdentityETagKey];
     }
 
+    
     // Download identity configuration.
     [self downloadConfigurationWithETag:eTag];
     MSLogInfo([MSIdentity logTag], @"Identity service has been enabled.");

@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 #import "MSKeychainAuthTokenStorage.h"
+#import "MSAppCenterInternal.h"
 #import "MSAuthTokenHistoryState.h"
 #import "MSAuthTokenInfo.h"
-#import "MSIdentityConstants.h"
-#import "MSIdentityPrivate.h"
+#import "MSConstants.h"
 #import "MSKeychainUtil.h"
 #import "MSLogger.h"
 #import "MSUtility.h"
@@ -28,12 +28,12 @@
 }
 
 - (nullable NSString *)accountId {
-  return [MS_USER_DEFAULTS objectForKey:kMSIdentityMSALAccountHomeAccountKey];
+  return [MS_USER_DEFAULTS objectForKey:kMSHomeAccountKey];
 }
 
 - (NSMutableArray<MSAuthTokenHistoryState *> *)authTokenArray {
   NSMutableArray<MSAuthTokenInfo *> *__nullable tokenArray =
-      (NSMutableArray<MSAuthTokenInfo *> * __nullable)[MSKeychainUtil arrayForKey:kMSIdentityAuthTokenArrayKey];
+      (NSMutableArray<MSAuthTokenInfo *> * __nullable)[MSKeychainUtil arrayForKey:kMSAuthTokenArrayKey];
   NSMutableArray<MSAuthTokenHistoryState *> *resultArray = [NSMutableArray<MSAuthTokenHistoryState *> new];
   if (!tokenArray || tokenArray.count == 0) {
     return nil;
@@ -80,16 +80,16 @@
     }
 
     // Cap array size at max available size const (deleting from beginning).
-    if ([authTokenHistory count] > kMSIdentityMaxAuthTokenArraySize) {
+    if ([authTokenHistory count] > kMSMaxAuthTokenArraySize) {
       [authTokenHistory removeObjectAtIndex:0];
     }
 
     // Save new array.
     [self setAuthTokenHistory:authTokenHistory];
     if (authToken && accountId) {
-      [MS_USER_DEFAULTS setObject:(NSString *)accountId forKey:kMSIdentityMSALAccountHomeAccountKey];
+      [MS_USER_DEFAULTS setObject:(NSString *)accountId forKey:kMSHomeAccountKey];
     } else {
-      [MS_USER_DEFAULTS removeObjectForKey:kMSIdentityMSALAccountHomeAccountKey];
+      [MS_USER_DEFAULTS removeObjectForKey:kMSHomeAccountKey];
     }
   }
 }
@@ -122,11 +122,11 @@
   if (self.authTokenHistoryArray) {
     return self.authTokenHistoryArray;
   }
-  NSArray<MSAuthTokenInfo *> *history = [MSKeychainUtil arrayForKey:kMSIdentityAuthTokenArrayKey];
+  NSArray<MSAuthTokenInfo *> *history = [MSKeychainUtil arrayForKey:kMSAuthTokenArrayKey];
   if (history) {
-    MSLogDebug([MSIdentity logTag], @"Retrieved history state from the keychain.");
+    MSLogDebug([MSAppCenter logTag], @"Retrieved history state from the keychain.");
   } else {
-    MSLogWarning([MSIdentity logTag], @"Failed to retrieve history state from the keychain or none was found.");
+    MSLogWarning([MSAppCenter logTag], @"Failed to retrieve history state from the keychain or none was found.");
     history = [NSArray<MSAuthTokenInfo *> new];
   }
   self.authTokenHistoryArray = history;
@@ -134,11 +134,11 @@
 }
 
 - (void)setAuthTokenHistory:(nullable NSArray<MSAuthTokenInfo *> *)authTokenHistory {
-  if ([MSKeychainUtil storeArray:(NSArray * __nonnull) authTokenHistory forKey:kMSIdentityAuthTokenArrayKey]) {
-    MSLogDebug([MSIdentity logTag], @"Saved new history state in the keychain.");
+  if ([MSKeychainUtil storeArray:(NSArray * __nonnull) authTokenHistory forKey:kMSAuthTokenArrayKey]) {
+    MSLogDebug([MSAppCenter logTag], @"Saved new history state in the keychain.");
     self.authTokenHistoryArray = authTokenHistory;
   } else {
-    MSLogWarning([MSIdentity logTag], @"Failed to save new history state in the keychain.");
+    MSLogWarning([MSAppCenter logTag], @"Failed to save new history state in the keychain.");
   }
 }
 

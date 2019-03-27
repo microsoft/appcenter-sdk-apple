@@ -4,7 +4,7 @@
 #import <Foundation/Foundation.h>
 
 #import "MSAuthTokenInfo.h"
-#import "MSIdentityConstants.h"
+#import "MSConstants.h"
 #import "MSKeychainAuthTokenStorage.h"
 #import "MSMockKeychainUtil.h"
 #import "MSMockUserDefaults.h"
@@ -45,13 +45,13 @@
 
   // When
   [self.sut saveAuthToken:expectedToken withAccountId:expectedAccount expiresOn:nil];
-  MSAuthTokenInfo *actualAuthTokenInfo = [[MSMockKeychainUtil arrayForKey:kMSIdentityAuthTokenArrayKey] lastObject];
+  MSAuthTokenInfo *actualAuthTokenInfo = [[MSMockKeychainUtil arrayForKey:kMSAuthTokenArrayKey] lastObject];
 
   // Then
   XCTAssertEqual(actualAuthTokenInfo.authToken, expectedToken);
   XCTAssertNotNil(actualAuthTokenInfo.startTime);
   XCTAssertNil(actualAuthTokenInfo.endTime);
-  XCTAssertEqual([self.settingsMock objectForKey:kMSIdentityMSALAccountHomeAccountKey], expectedAccount);
+  XCTAssertEqual([self.settingsMock objectForKey:kMSHomeAccountKey], expectedAccount);
 }
 
 - (void)testSaveAuthTokenWhenTokenIsEmpty {
@@ -63,33 +63,33 @@
                                                                    andEndTime:nil];
   NSMutableArray<MSAuthTokenInfo *> *authTokenHistory = [NSMutableArray<MSAuthTokenInfo *> new];
   [authTokenHistory addObject:authTokenInfo];
-  [MSMockKeychainUtil storeArray:authTokenHistory forKey:kMSIdentityAuthTokenArrayKey];
-  [self.settingsMock setObject:@"someAccountData" forKey:kMSIdentityMSALAccountHomeAccountKey];
+  [MSMockKeychainUtil storeArray:authTokenHistory forKey:kMSAuthTokenArrayKey];
+  [self.settingsMock setObject:@"someAccountData" forKey:kMSHomeAccountKey];
 
   // When
   [self.sut saveAuthToken:nil withAccountId:@"someNewAccountData" expiresOn:nil];
-  MSAuthTokenInfo *actualAuthTokenInfo = [[MSMockKeychainUtil arrayForKey:kMSIdentityAuthTokenArrayKey] lastObject];
+  MSAuthTokenInfo *actualAuthTokenInfo = [[MSMockKeychainUtil arrayForKey:kMSAuthTokenArrayKey] lastObject];
 
   // Then
   XCTAssertNil(actualAuthTokenInfo.authToken);
-  XCTAssertNil([self.settingsMock objectForKey:kMSIdentityMSALAccountHomeAccountKey]);
+  XCTAssertNil([self.settingsMock objectForKey:kMSHomeAccountKey]);
 }
 
 - (void)testSaveAuthTokenWhenAccountIsEmpty {
 
   // If
   NSString *expectedToken = @"someNewToken";
-  [self.settingsMock setObject:@"someAccountData" forKey:kMSIdentityMSALAccountHomeAccountKey];
+  [self.settingsMock setObject:@"someAccountData" forKey:kMSHomeAccountKey];
 
   // When
   [self.sut saveAuthToken:expectedToken withAccountId:nil expiresOn:nil];
-  MSAuthTokenInfo *actualAuthTokenInfo = [[MSMockKeychainUtil arrayForKey:kMSIdentityAuthTokenArrayKey] lastObject];
+  MSAuthTokenInfo *actualAuthTokenInfo = [[MSMockKeychainUtil arrayForKey:kMSAuthTokenArrayKey] lastObject];
 
   // Then
   XCTAssertEqual(actualAuthTokenInfo.authToken, expectedToken);
   XCTAssertNotNil(actualAuthTokenInfo.startTime);
   XCTAssertNil(actualAuthTokenInfo.endTime);
-  XCTAssertNil([self.settingsMock objectForKey:kMSIdentityMSALAccountHomeAccountKey]);
+  XCTAssertNil([self.settingsMock objectForKey:kMSHomeAccountKey]);
 }
 
 - (void)testRetrieveAuthTokenReturnsLatestHistoryElement {
@@ -107,7 +107,7 @@
   NSMutableArray<MSAuthTokenInfo *> *authTokenHistory = [NSMutableArray<MSAuthTokenInfo *> new];
   [authTokenHistory addObject:authTokenInfo1];
   [authTokenHistory addObject:authTokenInfo2];
-  [MSMockKeychainUtil storeArray:authTokenHistory forKey:kMSIdentityAuthTokenArrayKey];
+  [MSMockKeychainUtil storeArray:authTokenHistory forKey:kMSAuthTokenArrayKey];
 
   // When
   NSString *actualAuthToken = [self.sut authToken];
@@ -122,14 +122,14 @@
   NSString *accountId = @"someAccountId";
 
   // When
-  for (int i = 0; i < kMSIdentityMaxAuthTokenArraySize; ++i) {
+  for (int i = 0; i < kMSMaxAuthTokenArraySize; ++i) {
     [self.sut saveAuthToken:@"someToken" withAccountId:accountId expiresOn:nil];
     [self.sut saveAuthToken:nil withAccountId:accountId expiresOn:nil];
   }
-  NSArray<MSAuthTokenInfo *> *actualAuthTokensHistory = [MSMockKeychainUtil arrayForKey:kMSIdentityAuthTokenArrayKey];
+  NSArray<MSAuthTokenInfo *> *actualAuthTokensHistory = [MSMockKeychainUtil arrayForKey:kMSAuthTokenArrayKey];
 
   // Then
-  XCTAssertEqual([actualAuthTokensHistory count], kMSIdentityMaxAuthTokenArraySize);
+  XCTAssertEqual([actualAuthTokensHistory count], kMSMaxAuthTokenArraySize);
 }
 
 - (void)testSaveAuthTokenAddsNewItemOnlyIfDiffersFromLatest {
@@ -148,7 +148,7 @@
   for (int i = 0; i < 2; ++i) {
     [self.sut saveAuthToken:authToken withAccountId:accountId expiresOn:nil];
   }
-  NSArray<MSAuthTokenInfo *> *actualAuthTokensHistory = [MSMockKeychainUtil arrayForKey:kMSIdentityAuthTokenArrayKey];
+  NSArray<MSAuthTokenInfo *> *actualAuthTokensHistory = [MSMockKeychainUtil arrayForKey:kMSAuthTokenArrayKey];
   MSAuthTokenInfo *latestAuthTokenInfo = [actualAuthTokensHistory lastObject];
 
   // Then
