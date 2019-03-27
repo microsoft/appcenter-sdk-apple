@@ -47,28 +47,28 @@ static NSString *kMSDefaultServiceName = @"DefaultServiceName";
   return self;
 }
 
-+ (BOOL)storeArray:(NSMutableArray *)mutableArray forKey:(NSString *)key {
-  return [self storeArray:mutableArray forKey:key withServiceName:kMSDefaultServiceName];
++ (BOOL)storeArray:(NSArray *)array forKey:(NSString *)key {
+  return [self storeArray:array forKey:key withServiceName:kMSDefaultServiceName];
 }
 
-+ (BOOL)storeArray:(NSMutableArray *)mutableArray forKey:(NSString *)key withServiceName:(NSString *)serviceName {
++ (BOOL)storeArray:(NSArray *)array forKey:(NSString *)key withServiceName:(NSString *)serviceName {
 
   // Don't store nil objects.
-  if (!mutableArray) {
+  if (!array) {
     return NO;
   }
   if (!arraysDictionary[serviceName]) {
     arraysDictionary[serviceName] = [NSMutableDictionary new];
   }
-  arraysDictionary[serviceName][key] = mutableArray;
+  arraysDictionary[serviceName][key] = array;
   return YES;
 }
 
-+ (nullable NSMutableArray *)arrayForKey:(NSString *)key {
++ (nullable NSArray *)arrayForKey:(NSString *)key {
   return [self arrayForKey:key withServiceName:kMSDefaultServiceName];
 }
 
-+ (nullable NSMutableArray *)arrayForKey:(NSString *)key withServiceName:(NSString *)serviceName {
++ (nullable NSArray *)arrayForKey:(NSString *)key withServiceName:(NSString *)serviceName {
   return arraysDictionary[serviceName][key];
 }
 

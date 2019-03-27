@@ -126,7 +126,7 @@
     [self.sut saveAuthToken:@"someToken" withAccountId:accountId expiresOn:nil];
     [self.sut saveAuthToken:nil withAccountId:accountId expiresOn:nil];
   }
-  NSMutableArray<MSAuthTokenInfo *> *actualAuthTokensHistory = [MSMockKeychainUtil arrayForKey:kMSIdentityAuthTokenArrayKey];
+  NSArray<MSAuthTokenInfo *> *actualAuthTokensHistory = [MSMockKeychainUtil arrayForKey:kMSIdentityAuthTokenArrayKey];
 
   // Then
   XCTAssertEqual([actualAuthTokensHistory count], kMSIdentityMaxAuthTokenArraySize);
@@ -148,7 +148,7 @@
   for (int i = 0; i < 2; ++i) {
     [self.sut saveAuthToken:authToken withAccountId:accountId expiresOn:nil];
   }
-  NSMutableArray<MSAuthTokenInfo *> *actualAuthTokensHistory = [MSMockKeychainUtil arrayForKey:kMSIdentityAuthTokenArrayKey];
+  NSArray<MSAuthTokenInfo *> *actualAuthTokensHistory = [MSMockKeychainUtil arrayForKey:kMSIdentityAuthTokenArrayKey];
   MSAuthTokenInfo *latestAuthTokenInfo = [actualAuthTokensHistory lastObject];
 
   // Then
