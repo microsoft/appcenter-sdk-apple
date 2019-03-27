@@ -490,6 +490,58 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
   XCTAssertEqualObjects(actualRequest.OHHTTPStubs_HTTPBody, payload);
 }
 
+- (void)testRetryHeaderInResponse {
+
+  // If
+  __block int numRequests = 0;
+  __block NSURLRequest *actualRequest;
+  NSArray *retryIntervals = @[ @1000000000, @100000000 ];
+  [OHHTTPStubs
+   stubRequestsPassingTest:^BOOL(__unused NSURLRequest *request) {
+     return YES;
+   }
+   withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+     actualRequest = request;
+     ++numRequests;
+     if (numRequests == [retryIntervals count] + 1) {
+       return [OHHTTPStubsResponse responseWithData:[NSData data]
+                                         statusCode:MSHTTPCodesNo429TooManyRequests
+                                            headers:@{@"x-ms-retry-after-ms" : @"100"}];
+     }
+     return [OHHTTPStubsResponse responseWithData:[NSData data] statusCode:MSHTTPCodesNo204NoContent headers:nil];
+   }];
+  __weak XCTestExpectation *expectation = [self expectationWithDescription:@""];
+  self.sut = [[MSHttpClient alloc] initWithMaxHttpConnectionsPerHost:nil retryIntervals:retryIntervals reachability:self.reachabilityMock];
+  NSURL *url = [NSURL URLWithString:@"https://mock/something?a=b"];
+  NSString *method = @"DELETE";
+
+  // When
+  [self.sut sendAsync:url
+               method:method
+              headers:nil
+                 data:nil
+    completionHandler:^(NSData *responseBody, NSHTTPURLResponse *response, NSError *error) {
+      // Then
+      XCTAssertEqual(response.statusCode, MSHTTPCodesNo500InternalServerError);
+      XCTAssertNotNil(responseBody);
+      XCTAssertNil(error);
+      [expectation fulfill];
+    }];
+
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
+                               handler:^(NSError *_Nullable error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+
+  // Then
+  XCTAssertEqualObjects(actualRequest.URL, url);
+  XCTAssertEqualObjects(actualRequest.HTTPMethod, method);
+  XCTAssertEqual(numRequests, 1 + [retryIntervals count]);
+
+}
+
 - (void)simulateReachabilityChangedNotification:(NetworkStatus)status {
   self.currentNetworkStatus = status;
   [[NSNotificationCenter defaultCenter] postNotificationName:kMSReachabilityChangedNotification object:self.reachabilityMock];
