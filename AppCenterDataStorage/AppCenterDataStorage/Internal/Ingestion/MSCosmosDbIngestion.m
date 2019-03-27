@@ -47,7 +47,7 @@
 
 - (NSString *)obfuscateHeaderValue:(NSString *)value forKey:(NSString *)key {
   // TODO Remove this implementation once parent class support obfuscating authorization header.
-  return [key isEqualToString:kMSAuthorizationHeaderKey] ? [MSIngestionUtil hideSecret:value] : value;
+  return [key isEqualToString:kMSAuthorizationHeaderKey] ? [MSHttpUtil hideSecret:value] : value;
 }
 
 @end

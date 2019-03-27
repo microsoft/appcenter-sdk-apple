@@ -137,6 +137,8 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
   // Set delegates.
   [self crashes];
   [self setAppCenterDelegate];
+
+
   return YES;
 }
 

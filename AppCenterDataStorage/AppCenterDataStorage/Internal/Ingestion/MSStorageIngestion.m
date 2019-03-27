@@ -44,7 +44,7 @@ static NSString *const kMSGetTokenPath = @"/data/tokens";
   // Don't lose time pretty printing headers if not going to be printed.
   if ([MSLogger currentLogLevel] <= MSLogLevelVerbose) {
     NSString *url = [request.URL.absoluteString stringByReplacingOccurrencesOfString:self.appSecret
-                                                                          withString:[MSIngestionUtil hideSecret:self.appSecret]];
+                                                                          withString:[MSHttpUtil hideSecret:self.appSecret]];
     MSLogVerbose([MSAppCenter logTag], @"URL: %@", url);
     MSLogVerbose([MSAppCenter logTag], @"Headers: %@", [super prettyPrintHeaders:request.allHTTPHeaderFields]);
   }
@@ -52,7 +52,7 @@ static NSString *const kMSGetTokenPath = @"/data/tokens";
 }
 
 - (NSString *)obfuscateHeaderValue:(NSString *)value forKey:(NSString *)key {
-  return [key isEqualToString:kMSHeaderAppSecretKey] ? [MSIngestionUtil hideSecret:value] : value;
+  return [key isEqualToString:kMSHeaderAppSecretKey] ? [MSHttpUtil hideSecret:value] : value;
 }
 
 @end
