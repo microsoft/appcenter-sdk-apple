@@ -503,7 +503,7 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
       withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         actualRequest = request;
         ++numRequests;
-        if (numRequests == [retryIntervals count] + 1) {
+        if (numRequests < 3) {
           return [OHHTTPStubsResponse responseWithData:[NSData data]
                                             statusCode:MSHTTPCodesNo429TooManyRequests
                                                headers:@{@"x-ms-retry-after-ms" : @"100"}];
@@ -522,7 +522,7 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
                    data:nil
       completionHandler:^(NSData *responseBody, NSHTTPURLResponse *response, NSError *error) {
         // Then
-        XCTAssertEqual(response.statusCode, MSHTTPCodesNo500InternalServerError);
+        XCTAssertEqual(response.statusCode, MSHTTPCodesNo204NoContent);
         XCTAssertNotNil(responseBody);
         XCTAssertNil(error);
         [expectation fulfill];
