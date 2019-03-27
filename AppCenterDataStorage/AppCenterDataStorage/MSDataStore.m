@@ -322,6 +322,8 @@ static dispatch_once_t onceToken;
                      NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:&deserializeError];
                      if (deserializeError) {
                        MSLogError([MSDataStore logTag], @"Error deserializing data:%@", [deserializeError description]);
+                       completionHandler([[MSDocumentWrapper alloc] initWithError:deserializeError documentId:documentId]);
+                       return;
                      }
                      MSLogDebug([MSDataStore logTag], @"Document json:%@", json);
 
