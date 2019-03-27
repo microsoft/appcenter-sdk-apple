@@ -100,7 +100,8 @@
 - (void)requestCompletedWithHttpCall:(MSHttpCall *)httpCall data:(NSData *)data response:(NSURLResponse *)response error:(NSError *)error {
   NSHTTPURLResponse *httpResponse;
   @synchronized(self) {
-
+    httpCall.inProgress = NO;
+    
     // If the call was removed, do not invoke the completion handler as that will have been done already by set enabled.
     if (![self.pendingCalls containsObject:httpCall]) {
       MSLogDebug([MSAppCenter logTag], @"HTTP call was canceled; do not process further.");
