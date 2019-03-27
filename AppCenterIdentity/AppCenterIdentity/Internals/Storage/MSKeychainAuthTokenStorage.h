@@ -10,7 +10,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Used to get and set auth tokens history array.
  */
-@property(nullable, nonatomic) NSArray<MSAuthTokenInfo *> *authTokensHistory;
+@property(nullable, nonatomic) NSArray<MSAuthTokenInfo *> *authTokenHistory;
 
 @end
 
