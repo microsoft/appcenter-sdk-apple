@@ -274,6 +274,39 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   XCTAssertTrue(completionHandlerCalled);
 }
 
+- (void)testCreateWithPartitionWhenTokenExchangeFails {
+
+  // If
+  NSString *partition = @"partition";
+  NSString *documentId = @"documentId";
+  id<MSSerializableDocument> mockSerializableDocument = [MSFakeSerializableDocument new];
+  __block BOOL completionHandlerCalled = NO;
+  NSDictionary *errorUserInfo = @{kMSCosmosDbHttpCodeKey : @(kMSACDocumentInternalServerErrorErrorCode)};
+  NSError *expectedTokenExchangeError = [NSError errorWithDomain:kMSACErrorDomain code:0 userInfo:errorUserInfo];
+  __block MSDataSourceError *actualError;
+
+  // Mock tokens fetching.
+  OCMStub([self.tokenExchangeMock performDbTokenAsyncOperationWithHttpClient:OCMOCK_ANY partition:OCMOCK_ANY completionHandler:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        MSGetTokenAsyncCompletionHandler getTokenCallback;
+        [invocation getArgument:&getTokenCallback atIndex:4];
+        getTokenCallback(nil, expectedTokenExchangeError);
+      });
+
+  // When
+  [MSDataStore createWithPartition:partition
+                        documentId:documentId
+                          document:mockSerializableDocument
+                 completionHandler:^(MSDocumentWrapper *data) {
+                   completionHandlerCalled = YES;
+                   actualError = data.error;
+                 }];
+
+  // Then
+  XCTAssertTrue(completionHandlerCalled);
+  XCTAssertEqualObjects(actualError.error, expectedTokenExchangeError);
+}
+
 - (void)testCreateWithPartitionWhenCreationFails {
 
   // If
