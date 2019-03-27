@@ -25,7 +25,7 @@
 }
 
 - (NSMutableArray<MSAuthTokenHistoryState *> *)authTokenArray {
-  NSMutableArray<MSAuthTokenInfo *> *tokenArray = [MSKeychainUtil arrayForKey:kMSIdentityAuthTokenArrayKey];
+  NSMutableArray<MSAuthTokenInfo *> *__nullable tokenArray = [MSKeychainUtil arrayForKey:kMSIdentityAuthTokenArrayKey];
   NSMutableArray<MSAuthTokenHistoryState *> *resultArray = [NSMutableArray<MSAuthTokenHistoryState *> new];
   if (!tokenArray || tokenArray.count == 0) {
     return nil;
@@ -90,7 +90,7 @@
   @synchronized(self) {
 
     // Read token array from storage.
-    NSMutableArray<MSAuthTokenInfo *> *tokenArray = [self authTokensHistoryState];
+    NSMutableArray<MSAuthTokenInfo *> *__nullable tokenArray = [self authTokensHistoryState];
 
     // Do nothing if there's just one entry in the history or no history at all.
     if (!tokenArray || tokenArray.count == 1) {
@@ -125,7 +125,7 @@
   return _authTokensHistoryState;
 }
 
-- (void)setAuthTokensHistoryState:(NSMutableArray<MSAuthTokenInfo *> *)authTokensHistory {
+- (void)setAuthTokensHistoryState:(nullable NSMutableArray<MSAuthTokenInfo *> *)authTokensHistory {
   if ([MSKeychainUtil storeArray:authTokensHistory forKey:kMSIdentityAuthTokenArrayKey]) {
     MSLogDebug([MSIdentity logTag], @"Saved new history state in the keychain.");
     _authTokensHistoryState = authTokensHistory;
