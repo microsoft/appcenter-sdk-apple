@@ -35,6 +35,10 @@ static NSString *const kMSExpiresOn = @"date";
 
 @end
 
+/*
+ * Test document object.
+ */
+
 @interface SomeObject : NSObject <MSSerializableDocument>
 
 @property(strong, nonatomic) NSString *property1;
@@ -59,14 +63,9 @@ static NSString *const kMSExpiresOn = @"date";
 
 @end
 
-
-//@implementation MSTokenExchange
-//
-//+ (nullable MSTokenResult *)retrieveCachedToken:(NSString *)partitionName {
-//
-//}
-//
-//@end
+/*
+ * Tests.
+ */
 
 @implementation MSDataStoreTests
 
@@ -84,6 +83,7 @@ static NSString *const kMSExpiresOn = @"date";
   [super tearDown];
   [MSDataStore resetSharedInstance];
   [self.settingsMock stopMocking];
+  [self.cosmosDbIngestionMock stopMocking];
 }
 
 #pragma mark - Tests
@@ -120,25 +120,19 @@ static NSString *const kMSExpiresOn = @"date";
                         appSecret:kMSTestAppSecret
           transmissionTargetToken:nil
                   fromApplication:YES];
-  
-  
-  // Mock the token exchange.
+ 
+  // If
   id msTokenEchangeMock = OCMClassMock([MSTokenExchange class]);
   OCMStub([msTokenEchangeMock retrieveCachedToken:[OCMArg any]])
-      .andReturn([[MSTokenResult alloc] initWithPartition:@"partition"
-                                                dbAccount:@"account"
-                                                   dbName:@"db"
-                                         dbCollectionName:@"collection"
-                                                    token:@"token"
-                                                   status:@"status"
-                                                expiresOn:@"date"]);
-
-  // Mock the list HTTP response
-  OCMStub([self.cosmosDbIngestionMock sendAsync:OCMOCK_ANY eTag:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
-  
-  // If
+  .andReturn([[MSTokenResult alloc] initWithPartition:@"partition"
+                                            dbAccount:@"account"
+                                               dbName:@"db"
+                                     dbCollectionName:@"collection"
+                                                token:@"token"
+                                               status:@"status"
+                                            expiresOn:@"date"]);
   __block MSSendAsyncCompletionHandler cosmosDbIngestionBlock;
-  OCMStub([self.cosmosDbIngestionMock sendAsync:nil eTag:nil completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+  OCMStub([self.cosmosDbIngestionMock sendAsync:OCMOCK_ANY completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
     // Get ingestion block for later call.
     [invocation retainArguments];
     [invocation getArgument:&cosmosDbIngestionBlock atIndex:4];
@@ -150,12 +144,20 @@ static NSString *const kMSExpiresOn = @"date";
     BOOL hasNextPage = [documents hasNextPage];
     
   }];
-  NSData *payload = [NSData new];
+  NSData *payload = [self getJsonFixture:@"listDocuments"];
+  // Fails here because the block was not "captured"at line 138???
   cosmosDbIngestionBlock(@"callId", [MSHttpTestUtil createMockResponseForStatusCode:200 headers:nil], payload, nil);
-  
-  
 
+}
 
+/*
+ * Utils.
+ */
+
+- (NSData *) getJsonFixture:(NSString *) fixture {
+  NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+  NSString *path = [bundle pathForResource:fixture ofType:@"json"];
+  return [NSData dataWithContentsOfFile:path];
 }
 
 @end

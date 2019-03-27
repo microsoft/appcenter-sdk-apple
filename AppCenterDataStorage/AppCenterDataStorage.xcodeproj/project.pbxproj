@@ -103,6 +103,8 @@
 		8F70267E224AFF7400A52339 /* MSHttpTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F702677224AFE9700A52339 /* MSHttpTestUtil.m */; };
 		8F702689224B016A00A52339 /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F702684224B010500A52339 /* OHHTTPStubs.framework */; };
 		8F70268C224B017300A52339 /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F702687224B013700A52339 /* OHHTTPStubs.framework */; };
+		8F70268F224BDF9B00A52339 /* listDocuments.json in Resources */ = {isa = PBXBuildFile; fileRef = 8F70268E224BDF8D00A52339 /* listDocuments.json */; };
+		8F702690224BDF9D00A52339 /* listDocuments.json in Resources */ = {isa = PBXBuildFile; fileRef = 8F70268E224BDF8D00A52339 /* listDocuments.json */; };
 		99259705224982F60069BF24 /* MSDataStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464E2222F28A300EC1FF3 /* MSDataStore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		99259708224985B50069BF24 /* MSDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464E3222F28A300EC1FF3 /* MSDataStore.m */; };
 		99259709224985DE0069BF24 /* MSBaseOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464DF222F28A200EC1FF3 /* MSBaseOptions.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -255,6 +257,7 @@
 		8F702678224AFE9700A52339 /* MSHttpTestUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSHttpTestUtil.h; sourceTree = "<group>"; };
 		8F702684224B010500A52339 /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OHHTTPStubs.framework; path = ../../Vendor/iOS/OHHTTPStubs/OHHTTPStubs.framework; sourceTree = "<group>"; };
 		8F702687224B013700A52339 /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OHHTTPStubs.framework; path = ../../Vendor/macOS/OHHTTPStubs/OHHTTPStubs.framework; sourceTree = "<group>"; };
+		8F70268E224BDF8D00A52339 /* listDocuments.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = listDocuments.json; sourceTree = "<group>"; };
 		9925973422498B910069BF24 /* MSMockUserDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSMockUserDefaults.h; sourceTree = "<group>"; };
 		9925973522498B910069BF24 /* MSMockUserDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSMockUserDefaults.m; sourceTree = "<group>"; };
 		9925973622498B920069BF24 /* MSTestFrameworks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSTestFrameworks.h; sourceTree = "<group>"; };
@@ -403,6 +406,14 @@
 			name = macOS;
 			sourceTree = "<group>";
 		};
+		8F70268D224BDE0900A52339 /* Fixtures */ = {
+			isa = PBXGroup;
+			children = (
+				8F70268E224BDF8D00A52339 /* listDocuments.json */,
+			);
+			path = Fixtures;
+			sourceTree = "<group>";
+		};
 		9925973922498B990069BF24 /* Util */ = {
 			isa = PBXGroup;
 			children = (
@@ -486,6 +497,7 @@
 				D3AD5EC21E5C4F6A001627AB /* MSDataStoreTests.m */,
 				2ACE55FF2245277000FCD5DF /* MSDocumentUtilsTests.m */,
 				4A9C4400223B23E3008548A7 /* MSTokenTests.m */,
+				8F70268D224BDE0900A52339 /* Fixtures */,
 				D3AD5F661E5D73F2001627AB /* Frameworks */,
 				04A140C31ECE877A001CEE94 /* Support */,
 				9925973922498B990069BF24 /* Util */,
@@ -756,6 +768,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8F702690224BDF9D00A52339 /* listDocuments.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -763,6 +776,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8F70268F224BDF9B00A52339 /* listDocuments.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
