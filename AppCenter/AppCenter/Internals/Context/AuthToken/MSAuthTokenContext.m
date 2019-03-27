@@ -55,6 +55,8 @@ static dispatch_once_t onceToken;
 }
 
 - (void)setAuthToken:(nullable NSString *)authToken withAccountId:(nullable NSString *)accountId expiresOn:(nullable NSDate *)expiresOn {
+  self.authToken = authToken;
+  self.homeAccountId = accountId;
   [self.storage saveAuthToken:authToken withAccountId:accountId expiresOn:expiresOn];
   [self updateAuthToken:authToken withAccountId:accountId];
 }
@@ -86,6 +88,8 @@ static dispatch_once_t onceToken;
       return NO;
     }
   }
+  self.authToken = nil;
+  self.homeAccountId = nil;
   [self setAuthToken:nil withAccountId:nil expiresOn:nil];
   return YES;
 }
@@ -99,13 +103,6 @@ static dispatch_once_t onceToken;
 - (void)removeDelegate:(id<MSAuthTokenContextDelegate>)delegate {
   @synchronized(self) {
     [self.delegates removeObject:delegate];
-  }
-}
-
-- (void)cacheAuthToken {
-  @synchronized(self) {
-    self.authToken = [self.storage retrieveAuthToken];
-    self.homeAccountId = [self.storage retrieveAccountId];
   }
 }
 

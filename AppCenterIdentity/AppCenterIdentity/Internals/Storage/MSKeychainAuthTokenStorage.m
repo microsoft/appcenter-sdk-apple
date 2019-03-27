@@ -22,8 +22,8 @@
 @implementation MSKeychainAuthTokenStorage
 
 - (nullable NSString *)retrieveAuthToken {
-  NSArray<MSAuthTokenInfo *> *authTokensHistoryState = [self authTokenHistory];
-  MSAuthTokenInfo *latestAuthTokenInfo = authTokensHistoryState.lastObject;
+  NSArray<MSAuthTokenInfo *> *authTokenHistory = [self authTokenHistory];
+  MSAuthTokenInfo *latestAuthTokenInfo = authTokenHistory.lastObject;
   return latestAuthTokenInfo.authToken;
 }
 
@@ -58,34 +58,34 @@
   @synchronized(self) {
 
     // Read token array from storage.
-    NSMutableArray<MSAuthTokenInfo *> *authTokensHistory = [[self authTokenHistory] mutableCopy];
-    if (authTokensHistory.count == 0) {
+    NSMutableArray<MSAuthTokenInfo *> *authTokenHistory = [[self authTokenHistory] mutableCopy];
+    if (authTokenHistory.count == 0) {
 
       /*
        * Adding a nil entry is required during the first initialization to differentiate
        * anonymous usage before the moment and situation when we don't have a token
        * in history because of the size limit for example.
        */
-      [authTokensHistory addObject:[MSAuthTokenInfo new]];
+      [authTokenHistory addObject:[MSAuthTokenInfo new]];
     }
 
     // If new token differs from the last token of array - add it to array.
-    NSString *latestAuthToken = [authTokensHistory lastObject].authToken;
+    NSString *latestAuthToken = [authTokenHistory lastObject].authToken;
     if (latestAuthToken ? ![latestAuthToken isEqualToString:(NSString * _Nonnull) authToken] : authToken != nil) {
       MSAuthTokenInfo *newAuthToken = [[MSAuthTokenInfo alloc] initWithAuthToken:authToken
                                                                     andAccountId:accountId
                                                                     andStartTime:[NSDate date]
                                                                       andEndTime:expiresOn];
-      [authTokensHistory addObject:newAuthToken];
+      [authTokenHistory addObject:newAuthToken];
     }
 
     // Cap array size at max available size const (deleting from beginning).
-    if ([authTokensHistory count] > kMSIdentityMaxAuthTokenArraySize) {
-      [authTokensHistory removeObjectAtIndex:0];
+    if ([authTokenHistory count] > kMSIdentityMaxAuthTokenArraySize) {
+      [authTokenHistory removeObjectAtIndex:0];
     }
 
     // Save new array.
-    [self setAuthTokenHistory:authTokensHistory];
+    [self setAuthTokenHistory:authTokenHistory];
     if (authToken && accountId) {
       [MS_USER_DEFAULTS setObject:(NSString *)accountId forKey:kMSIdentityMSALAccountHomeAccountKey];
     } else {

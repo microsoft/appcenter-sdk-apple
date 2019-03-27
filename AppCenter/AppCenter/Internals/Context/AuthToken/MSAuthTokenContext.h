@@ -65,11 +65,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setAuthToken:(nullable NSString *)authToken withAccountId:(nullable NSString *)accountId expiresOn:(nullable NSDate *)expiresOn;
 
 /**
- * Cache auth token and account data to be used later on.
- */
-- (void)cacheAuthToken;
-
-/**
  * Reset singleton instance.
  */
 + (void)resetSharedInstance;

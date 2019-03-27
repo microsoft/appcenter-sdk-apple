@@ -90,7 +90,6 @@ static dispatch_once_t onceToken;
       [self configAuthenticationClient];
       eTag = [MS_USER_DEFAULTS objectForKey:kMSIdentityETagKey];
     }
-    [[MSAuthTokenContext sharedInstance] cacheAuthToken];
 
     // Download identity configuration.
     [self downloadConfigurationWithETag:eTag];
