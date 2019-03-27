@@ -208,6 +208,9 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
       withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         actualRequest = request;
         if (firstTime) {
+
+          // Simulate network outage mid-request
+          [self simulateReachabilityChangedNotification:NotReachable];
           firstTime = NO;
           NSError *error = [NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorCannotLoadFromNetwork userInfo:nil];
           return [OHHTTPStubsResponse responseWithError:error];
