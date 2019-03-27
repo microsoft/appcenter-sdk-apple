@@ -75,7 +75,9 @@
     if (self.paused) {
       return;
     }
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:call.url];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:call.url
+                                                           cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
+                                                       timeoutInterval:0];
     request.HTTPBody = call.data;
     request.HTTPMethod = call.method;
     request.allHTTPHeaderFields = call.headers;
