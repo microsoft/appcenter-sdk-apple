@@ -356,6 +356,55 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   XCTAssertEqualObjects(actualError.error, expectedCosmosDbError);
 }
 
+- (void)testCreateWithPartitionWhenDeserializationFails {
+
+  // If
+  NSString *partition = @"partition";
+  NSString *documentId = @"documentId";
+  id<MSSerializableDocument> mockSerializableDocument = [MSFakeSerializableDocument new];
+  __block BOOL completionHandlerCalled = NO;
+  __block MSDataSourceError *actualError;
+
+  // Mock tokens fetching.
+  MSTokenResult *testToken = [[MSTokenResult alloc] initWithString:@"testToken"];
+  MSTokensResponse *testTokensResponse = [[MSTokensResponse alloc] initWithTokens:@[ testToken ]];
+  OCMStub([self.tokenExchangeMock performDbTokenAsyncOperationWithHttpClient:OCMOCK_ANY partition:OCMOCK_ANY completionHandler:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        MSGetTokenAsyncCompletionHandler getTokenCallback;
+        [invocation getArgument:&getTokenCallback atIndex:4];
+        getTokenCallback(testTokensResponse, nil);
+      });
+
+  // Mock CosmosDB requests.
+  NSData *brokenCosmosDbResponse = [@"<h1>502 Bad Gateway</h1>" dataUsingEncoding:NSUTF8StringEncoding];
+  OCMStub([self.cosmosDbMock performCosmosDbAsyncOperationWithHttpClient:OCMOCK_ANY
+                                                             tokenResult:OCMOCK_ANY
+                                                              documentId:OCMOCK_ANY
+                                                              httpMethod:OCMOCK_ANY
+                                                                    body:OCMOCK_ANY
+                                                       additionalHeaders:OCMOCK_ANY
+                                            completionHandlerWithHeaders:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        MSCosmosDbCompletionHandlerWithHeaders cosmosdbOperationCallback;
+        [invocation getArgument:&cosmosdbOperationCallback atIndex:8];
+        cosmosdbOperationCallback(brokenCosmosDbResponse, nil, nil);
+      });
+
+  // When
+  [MSDataStore createWithPartition:partition
+                        documentId:documentId
+                          document:mockSerializableDocument
+                 completionHandler:^(MSDocumentWrapper *data) {
+                   completionHandlerCalled = YES;
+                   actualError = data.error;
+                 }];
+
+  // Then
+  XCTAssertTrue(completionHandlerCalled);
+  XCTAssertEqual(actualError.error.domain, NSCocoaErrorDomain);
+  XCTAssertEqual(actualError.error.code, 3840);
+}
+
 /*
 - (void)testDeleteDocumentWithPartitionWithoutWriteOptions {
 
