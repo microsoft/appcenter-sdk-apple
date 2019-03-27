@@ -952,7 +952,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
   // Then
   XCTAssertNil(actualAuthTokenInfo.authToken);
-  XCTAssertNil([self.settingsMock objectForKey:kMSHomeAccountKey]);
+  XCTAssertNil(actualAuthTokenInfo.accountId);
   [identityMock stopMocking];
 }
 
@@ -968,14 +968,13 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
   // Then
   OCMReject([self.clientApplicationMock removeAccount:OCMOCK_ANY error:[OCMArg anyObjectRef]]);
-  OCMReject([authTokenContextMock setAuthToken:OCMOCK_ANY withAccountId:OCMOCK_ANY expiresOn:nil]);
 
   // When
   [MSIdentity signOut];
 
   // Then
   XCTAssertNil([[MSAuthTokenContext sharedInstance] authToken]);
-  XCTAssertNil([[MSAuthTokenContext sharedInstance] homeAccountId]);
+  XCTAssertNil([[MSAuthTokenContext sharedInstance] accountId]);
   [identityMock stopMocking];
   [authTokenContextMock stopMocking];
 }
