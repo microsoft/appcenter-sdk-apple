@@ -4,6 +4,8 @@
 #import "MSHttpCall.h"
 #import "MSAppCenterInternal.h"
 #import "MSLogger.h"
+#import "MSConstants+Internal.h"
+#import "MSCompression.h"
 #import <Foundation/Foundation.h>
 
 @implementation MSHttpCall
@@ -14,14 +16,25 @@
                        data:(NSData *)data
              retryIntervals:(NSArray *)retryIntervals
           completionHandler:(MSHttpRequestCompletionHandler)completionHandler {
-  _url = url;
-  _method = method;
-  _headers = headers;
-  _data = data;
-  _retryIntervals = retryIntervals;
-  _completionHandler = completionHandler;
-  _retryCount = 0;
-  _inProgress = NO;
+  if ((self = [super init])) {
+    _url = url;
+    _method = method;
+    _retryIntervals = retryIntervals;
+    _completionHandler = completionHandler;
+    _retryCount = 0;
+    _inProgress = NO;
+
+    // Create copy of given headers. Mutable in case compression header must be added.
+    NSMutableDictionary *mutableHeaders = [NSMutableDictionary dictionaryWithDictionary:headers];
+
+    // Zip data if it is long enough.
+    if (data.length >= kMSHTTPMinGZipLength) {
+      data = [MSCompression compressData:data];
+      mutableHeaders[kMSHeaderContentEncodingKey] = kMSHeaderContentEncoding;
+    }
+    _data = data;
+    _headers = mutableHeaders;
+  }
   return self;
 }
 
