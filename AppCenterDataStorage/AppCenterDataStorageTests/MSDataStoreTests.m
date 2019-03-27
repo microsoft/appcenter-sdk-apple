@@ -12,6 +12,7 @@
 #import "MSDataStorePrivate.h"
 #import "MSMockUserDefaults.h"
 #import "MSTokenExchange.h"
+#import "MSTokenResult.h"
 #import "MSTokensResponse.h"
 
 static NSString *const kMSTestAppSecret = @"TestAppSecret";
@@ -220,36 +221,31 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   id<MSSerializableDocument> mockSerializableDocument = [MSFakeSerializableDocument new];
 
   // Mock tokens fetching.
-  MSTokensResponse *testTokensResponse = [[MSTokensResponse alloc] initWithTokens:@ [[MSTokenResult new]]];
+  MSTokenResult *testToken = [[MSTokenResult alloc] initWithString:@"testToken"];
+  MSTokensResponse *testTokensResponse = [[MSTokensResponse alloc] initWithTokens:@[ testToken ]];
   id tokenExchangeMock = OCMClassMock([MSTokenExchange class]);
   OCMStub([tokenExchangeMock performDbTokenAsyncOperationWithHttpClient:OCMOCK_ANY partition:OCMOCK_ANY completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         MSGetTokenAsyncCompletionHandler getTokenCallback;
-        [invocation retainArguments];
         [invocation getArgument:&getTokenCallback atIndex:4];
         getTokenCallback(testTokensResponse, nil);
       });
 
   // Mock CosmosDB requests.
   NSDictionary *dic = @{kMSDocumentKey : @{}, kMSDocumentTimestampKey : @1, kMSDocumentEtagKey : @""};
-
   __block NSData *testResponse = [NSJSONSerialization dataWithJSONObject:dic options:0 error:nil];
-
   id mockMSCosmosDb = OCMClassMock([MSCosmosDb class]);
   OCMStub([mockMSCosmosDb performCosmosDbAsyncOperationWithHttpClient:OCMOCK_ANY
                                                           tokenResult:OCMOCK_ANY
                                                            documentId:OCMOCK_ANY
                                                            httpMethod:OCMOCK_ANY
-                                                                 body:OCMOCK_ANY // we need to double check what body is allowed here,
-                                                                                 // defined as nil for now
-                                                    additionalHeaders:OCMOCK_ANY // the same for headers, but we have a reference here and
-                                                                                 // need to check values using [OCMArg checkWithBlock]
-                                                    completionHandler:OCMOCK_ANY])
+                                                                 body:OCMOCK_ANY
+                                                    additionalHeaders:OCMOCK_ANY
+                                         completionHandlerWithHeaders:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
-        MSCosmosDbCompletionHandler cosmosdbOperationCallback;
-        [invocation retainArguments];
+        MSCosmosDbCompletionHandlerWithHeaders cosmosdbOperationCallback;
         [invocation getArgument:&cosmosdbOperationCallback atIndex:8];
-        cosmosdbOperationCallback(testResponse, nil);
+        cosmosdbOperationCallback(testResponse, nil, nil);
       });
   __block BOOL completionHandlerCalled = NO;
 
