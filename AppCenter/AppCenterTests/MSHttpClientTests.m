@@ -310,29 +310,30 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
   dispatch_semaphore_t responseSemaphore = dispatch_semaphore_create(0);
   dispatch_semaphore_t pauseSemaphore = dispatch_semaphore_create(0);
   [OHHTTPStubs
-   stubRequestsPassingTest:^BOOL(__unused NSURLRequest *request) {
-     return YES;
-   }
-   withStubResponse:^OHHTTPStubsResponse *(__unused NSURLRequest *request) {
-     ++numRequests;
+      stubRequestsPassingTest:^BOOL(__unused NSURLRequest *request) {
+        return YES;
+      }
+      withStubResponse:^OHHTTPStubsResponse *(__unused NSURLRequest *request) {
+        ++numRequests;
 
-     // Use this semaphore to prevent the pause from occurring before the call is enqueued.
-     dispatch_semaphore_signal(responseSemaphore);
+        // Use this semaphore to prevent the pause from occurring before the call is enqueued.
+        dispatch_semaphore_signal(responseSemaphore);
 
-     // Don't let the request finish before pausing.
-     dispatch_semaphore_wait(pauseSemaphore, dispatch_time(DISPATCH_TIME_NOW, (int64_t)(kMSTestTimeout * NSEC_PER_SEC)));
-     return [OHHTTPStubsResponse responseWithData:[NSData data] statusCode:MSHTTPCodesNo204NoContent headers:nil];
-   }];
+        // Don't let the request finish before pausing.
+        dispatch_semaphore_wait(pauseSemaphore, dispatch_time(DISPATCH_TIME_NOW, (int64_t)(kMSTestTimeout * NSEC_PER_SEC)));
+        return [OHHTTPStubsResponse responseWithData:[NSData data] statusCode:MSHTTPCodesNo204NoContent headers:nil];
+      }];
   self.sut = [[MSHttpClient alloc] initWithMaxHttpConnectionsPerHost:nil retryIntervals:@[] reachability:self.reachabilityMock];
   NSURL *url = [NSURL URLWithString:@"https://mock/something?a=b"];
   NSString *method = @"DELETE";
 
   // When
   [self.sut sendAsync:url
-               method:method
-              headers:nil
-                 data:nil
-    completionHandler:^(__unused NSData *responseBody, __unused NSHTTPURLResponse *response, __unused NSError *error) {}];
+                 method:method
+                headers:nil
+                   data:nil
+      completionHandler:^(__unused NSData *responseBody, __unused NSHTTPURLResponse *response, __unused NSError *error){
+      }];
 
   // Don't pause until the call has been enqueued.
   dispatch_semaphore_wait(responseSemaphore, dispatch_time(DISPATCH_TIME_NOW, (int64_t)(kMSTestTimeout * NSEC_PER_SEC)));
@@ -357,31 +358,31 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
   dispatch_semaphore_t responseSemaphore = dispatch_semaphore_create(0);
   dispatch_semaphore_t testCompletedSemaphore = dispatch_semaphore_create(0);
   [OHHTTPStubs
-   stubRequestsPassingTest:^BOOL(__unused NSURLRequest *request) {
-     return YES;
-   }
-   withStubResponse:^OHHTTPStubsResponse *(__unused NSURLRequest *request) {
-     dispatch_semaphore_signal(responseSemaphore);
+      stubRequestsPassingTest:^BOOL(__unused NSURLRequest *request) {
+        return YES;
+      }
+      withStubResponse:^OHHTTPStubsResponse *(__unused NSURLRequest *request) {
+        dispatch_semaphore_signal(responseSemaphore);
 
-     // Sleep to ensure that the call is really canceled instead of waiting for the response.
-     dispatch_semaphore_wait(testCompletedSemaphore, DISPATCH_TIME_FOREVER);
-     return [OHHTTPStubsResponse responseWithData:[NSData data] statusCode:MSHTTPCodesNo204NoContent headers:nil];
-   }];
+        // Sleep to ensure that the call is really canceled instead of waiting for the response.
+        dispatch_semaphore_wait(testCompletedSemaphore, DISPATCH_TIME_FOREVER);
+        return [OHHTTPStubsResponse responseWithData:[NSData data] statusCode:MSHTTPCodesNo204NoContent headers:nil];
+      }];
   self.sut = [[MSHttpClient alloc] initWithMaxHttpConnectionsPerHost:nil retryIntervals:@[ @1 ] reachability:self.reachabilityMock];
   NSURL *url = [NSURL URLWithString:@"https://mock/something?a=b"];
   NSString *method = @"DELETE";
 
   // When
   [self.sut sendAsync:url
-               method:method
-              headers:nil
-                 data:nil
-    completionHandler:^(NSData *responseBody, NSHTTPURLResponse *response, NSError *error) {
-      XCTAssertNotNil(error);
-      XCTAssertNil(response);
-      XCTAssertNil(responseBody);
-      [expectation fulfill];
-    }];
+                 method:method
+                headers:nil
+                   data:nil
+      completionHandler:^(NSData *responseBody, NSHTTPURLResponse *response, NSError *error) {
+        XCTAssertNotNil(error);
+        XCTAssertNil(response);
+        XCTAssertNil(responseBody);
+        [expectation fulfill];
+      }];
 
   // Don't disable until the call has been enqueued.
   dispatch_semaphore_wait(responseSemaphore, dispatch_time(DISPATCH_TIME_NOW, (int64_t)(kMSTestTimeout * NSEC_PER_SEC)));
@@ -406,14 +407,14 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
 
   // Stub HTTP response.
   [OHHTTPStubs
-   stubRequestsPassingTest:^BOOL(__unused NSURLRequest *request) {
-     return YES;
-   }
-   withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-     actualRequest = request;
-     NSData *responsePayload = [@"OK" dataUsingEncoding:kCFStringEncodingUTF8];
-     return [OHHTTPStubsResponse responseWithData:responsePayload statusCode:MSHTTPCodesNo200OK headers:nil];
-   }];
+      stubRequestsPassingTest:^BOOL(__unused NSURLRequest *request) {
+        return YES;
+      }
+      withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+        actualRequest = request;
+        NSData *responsePayload = [@"OK" dataUsingEncoding:kCFStringEncodingUTF8];
+        return [OHHTTPStubsResponse responseWithData:responsePayload statusCode:MSHTTPCodesNo200OK headers:nil];
+      }];
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@"HTTP Response 200"];
   self.sut = [MSHttpClient new];
   NSURL *url = [NSURL URLWithString:@"https://mock/something?a=b"];
@@ -424,16 +425,16 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
   [self.sut setEnabled:NO];
   [self.sut setEnabled:YES];
   [self.sut sendAsync:url
-               method:method
-              headers:nil
-                 data:payload
-    completionHandler:^(NSData *responseBody, NSHTTPURLResponse *response, NSError *error) {
-      // Then
-      XCTAssertEqual(response.statusCode, MSHTTPCodesNo200OK);
-      XCTAssertEqualObjects(responseBody, [@"OK" dataUsingEncoding:kCFStringEncodingUTF8]);
-      XCTAssertNil(error);
-      [expectation fulfill];
-    }];
+                 method:method
+                headers:nil
+                   data:payload
+      completionHandler:^(NSData *responseBody, NSHTTPURLResponse *response, NSError *error) {
+        // Then
+        XCTAssertEqual(response.statusCode, MSHTTPCodesNo200OK);
+        XCTAssertEqualObjects(responseBody, [@"OK" dataUsingEncoding:kCFStringEncodingUTF8]);
+        XCTAssertNil(error);
+        [expectation fulfill];
+      }];
   [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *_Nullable error) {
                                  if (error) {

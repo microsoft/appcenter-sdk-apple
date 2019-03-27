@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 #import "MSHttpClient.h"
+#import "MSAppCenterErrors.h"
 #import "MSAppCenterInternal.h"
 #import "MSConstants+Internal.h"
 #import "MSHttpCall.h"
@@ -50,22 +51,22 @@
 }
 
 - (void)sendAsync:(NSURL *)url
-           method:(NSString *)method
-          headers:(nullable NSDictionary<NSString *, NSString *> *)headers
-             data:(nullable NSData *)data
-completionHandler:(MSHttpRequestCompletionHandler)completionHandler {
+               method:(NSString *)method
+              headers:(nullable NSDictionary<NSString *, NSString *> *)headers
+                 data:(nullable NSData *)data
+    completionHandler:(MSHttpRequestCompletionHandler)completionHandler {
   @synchronized(self) {
     if (!self.enabled) {
       return;
     }
-      MSHttpCall *call = [[MSHttpCall alloc] initWithUrl:url
-                                                  method:method
-                                                 headers:headers
-                                                    data:data
-                                          retryIntervals:self.retryIntervals
-                                       completionHandler:completionHandler];
-      [self sendCallAsync:call];
-    }
+    MSHttpCall *call = [[MSHttpCall alloc] initWithUrl:url
+                                                method:method
+                                               headers:headers
+                                                  data:data
+                                        retryIntervals:self.retryIntervals
+                                     completionHandler:completionHandler];
+    [self sendCallAsync:call];
+  }
 }
 
 - (void)sendCallAsync:(MSHttpCall *)call {
@@ -205,9 +206,10 @@ completionHandler:(MSHttpRequestCompletionHandler)completionHandler {
 
         // Remove pending calls and invoke their completion handler.
         for (MSHttpCall *call in self.pendingCalls) {
-          NSError *error = [NSError errorWithDomain:@"com.mycompany.myapp" code:14 userInfo:[NSDictionary dictionaryWithObject:@"My error message" forKey:NSLocalizedDescriptionKey]];
-
-          call.completionHandler(nil, nil, [NSError error])
+          NSError *error = [NSError errorWithDomain:kMSACErrorDomain
+                                               code:kMSACCanceledErrorCode
+                                           userInfo:@{NSLocalizedDescriptionKey : kMSACCanceledErrorDesc}];
+          call.completionHandler(nil, nil, error);
         }
         [self.pendingCalls removeAllObjects];
       }

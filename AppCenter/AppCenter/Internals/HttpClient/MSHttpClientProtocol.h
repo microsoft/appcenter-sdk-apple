@@ -3,9 +3,9 @@
 
 #import <Foundation/Foundation.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 typedef void (^MSHttpRequestCompletionHandler)(NSData *responseBody, NSHTTPURLResponse *response, NSError *error);
+
+NS_ASSUME_NONNULL_BEGIN
 
 @protocol MSHttpClientProtocol
 
