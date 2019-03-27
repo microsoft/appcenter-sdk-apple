@@ -736,9 +736,12 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   // Check if we are not in AppStore or TestFlight environments.
   BOOL environmentOkay = [MSUtility currentAppEnvironment] == MSEnvironmentOther;
 
+  // Check if we are currently in guided access mode
+  BOOL noGuidedAccessMode = !UIAccessibilityIsGuidedAccessEnabled();
+    
   // Check if a debugger is attached.
   BOOL noDebuggerAttached = ![MSAppCenter isDebuggerAttached];
-  return environmentOkay && noDebuggerAttached;
+  return environmentOkay && noDebuggerAttached && noGuidedAccessMode;
 }
 
 - (BOOL)isNewerVersion:(MSReleaseDetails *)details {
