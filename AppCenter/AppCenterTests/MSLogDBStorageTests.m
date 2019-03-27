@@ -411,7 +411,10 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
     log.timestamp = [[NSCalendar currentCalendar] dateByAddingUnit:NSCalendarUnitDay value:-i toDate:date options:0];
     [self.sut saveLog:log withGroupId:kMSTestGroupId flags:MSFlagsDefault];
   }
-
+    
+  // Dates are compared by < not <=, so we need to change date a bit to compare with same shifts 
+  date = [[NSCalendar currentCalendar] dateByAddingUnit:NSCalendarUnitSecond value:1 toDate:date options:0];
+    
   // Then
   [self.sut loadLogsWithGroupId:kMSTestGroupId
                           limit:20
