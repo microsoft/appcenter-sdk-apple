@@ -101,7 +101,7 @@
   NSHTTPURLResponse *httpResponse;
   @synchronized(self) {
     httpCall.inProgress = NO;
-    
+
     // If the call was removed, do not invoke the completion handler as that will have been done already by set enabled.
     if (![self.pendingCalls containsObject:httpCall]) {
       MSLogDebug([MSAppCenter logTag], @"HTTP call was canceled; do not process further.");
@@ -129,7 +129,16 @@
     else {
       httpResponse = (NSHTTPURLResponse *)response;
       if ([MSHttpUtil isRecoverableError:httpResponse.statusCode] && ![httpCall hasReachedMaxRetries]) {
+
+        // Check if there is a "retry after" header in the response
+        NSString *retryAfter = httpResponse.allHeaderFields[kMSRetryHeaderKey];
+        NSNumber *retryAfterMilliseconds;
+        if (retryAfter) {
+          NSNumberFormatter *formatter = [NSNumberFormatter new];
+          retryAfterMilliseconds = [formatter numberFromString:retryAfter];
+        }
         [httpCall startRetryTimerWithStatusCode:httpResponse.statusCode
+                                     retryAfter:retryAfterMilliseconds
                                           event:^{
                                             [self sendCallAsync:httpCall];
                                           }];

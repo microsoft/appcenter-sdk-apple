@@ -53,12 +53,12 @@
   }
 }
 
-- (void)startRetryTimerWithStatusCode:(NSUInteger)statusCode event:(dispatch_block_t)event {
+- (void)startRetryTimerWithStatusCode:(NSUInteger)statusCode retryAfter:(NSNumber *)retryAfter event:(dispatch_block_t)event {
   @synchronized(self) {
 
     // Create queue.
     self.timerSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, DISPATCH_TARGET_QUEUE_DEFAULT);
-    uint32_t millisecondsDelta = [self delayForRetryCount:self.retryCount];
+    uint32_t millisecondsDelta = retryAfter ? [retryAfter unsignedIntValue] : [self delayForRetryCount:self.retryCount];
     MSLogWarning([MSAppCenter logTag], @"Call attempt #%tu failed with status code: %tu, it will be retried in %d ms.", self.retryCount,
                  statusCode, millisecondsDelta);
     uint64_t nanosecondsDelta = NSEC_PER_MSEC * millisecondsDelta;
