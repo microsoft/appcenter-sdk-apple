@@ -261,7 +261,7 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   [MSPush didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
 
   // When
-  [[MSAuthTokenContext sharedInstance] clearAuthToken];
+  [[MSAuthTokenContext sharedInstance] setAuthToken:nil withAccountId:nil expiresOn:nil];
 
   // Then
   OCMVerifyAll(pushMock);

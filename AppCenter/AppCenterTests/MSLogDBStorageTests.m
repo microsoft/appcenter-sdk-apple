@@ -645,38 +645,6 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   assertThatInteger(self.sut.batches.count, equalToInteger(1));
 }
 
-- (void)testDeleteLogsByDateBefore {
-
-  // If
-  NSString *condition;
-  NSArray *remainingLogs;
-  [self.sut.batches removeAllObjects];
-
-  NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-  [dateFormat setDateFormat:@"yyyyMMdd"];
-  NSDate *deleteLogEntriesBefore = [dateFormat dateFromString:@"20190402"];
-  NSDate *deleteLogDate = [dateFormat dateFromString:@"20190401"];
-  NSDate *remainLogDate = [dateFormat dateFromString:@"20190405"];
-  NSArray *logsDeleteExpected = [self generateAndSaveLogsWithCount:5
-                                                           groupId:kMSTestGroupId
-                                                             flags:MSFlagsDefault
-                                            andVerifyLogGeneration:YES
-                                                        andLogDate:deleteLogDate];
-  NSArray *logsRemainExpected = [self generateAndSaveLogsWithCount:5
-                                                           groupId:kMSTestGroupId
-                                                             flags:MSFlagsDefault
-                                            andVerifyLogGeneration:YES
-                                                        andLogDate:remainLogDate];
-
-  // When
-  [self.sut deleteLogsWithDateBefore:deleteLogEntriesBefore];
-
-  // Then
-  remainingLogs = [self loadLogsWhere:nil];
-  condition = [NSString stringWithFormat:@"%@ = %lld", kMSTimestampColumnName, (long long)[deleteLogEntriesBefore timeIntervalSince1970]];
-  assertThatInteger([self.sut countEntriesForTable:kMSLogTableName condition:@""], equalToInteger((NSInteger)[logsRemainExpected count]));
-}
-
 - (void)testCommonSchemaLogTargetTokenIsSavedAndRestored {
 
   // If

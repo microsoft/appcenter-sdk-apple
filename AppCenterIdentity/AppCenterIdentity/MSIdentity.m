@@ -11,7 +11,6 @@
 #import "MSIdentityConfigIngestion.h"
 #import "MSIdentityConstants.h"
 #import "MSIdentityPrivate.h"
-#import "MSKeychainAuthTokenStorage.h"
 #import "MSServiceAbstractProtected.h"
 #import "MSUtility+File.h"
 
@@ -61,7 +60,6 @@ static dispatch_once_t onceToken;
       transmissionTargetToken:(nullable NSString *)token
               fromApplication:(BOOL)fromApplication {
   [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionTargetToken:token fromApplication:fromApplication];
-  [[MSAuthTokenContext sharedInstance] setStorage:[MSKeychainAuthTokenStorage new]];
   MSLogVerbose([MSIdentity logTag], @"Started Identity service.");
 }
 
@@ -91,7 +89,6 @@ static dispatch_once_t onceToken;
       eTag = [MS_USER_DEFAULTS objectForKey:kMSIdentityETagKey];
     }
 
-    
     // Download identity configuration.
     [self downloadConfigurationWithETag:eTag];
     MSLogInfo([MSIdentity logTag], @"Identity service has been enabled.");
@@ -309,10 +306,6 @@ static dispatch_once_t onceToken;
   BOOL result = YES;
   if (![self removeAccount]) {
     MSLogWarning([MSIdentity logTag], @"Couldn't remove account data.");
-    result = NO;
-  }
-  if (![[MSAuthTokenContext sharedInstance] clearAuthToken]) {
-    MSLogWarning([MSIdentity logTag], @"Couldn't clear authToken: it doesn't exist.");
     result = NO;
   }
   return result;

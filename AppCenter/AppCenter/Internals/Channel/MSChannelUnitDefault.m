@@ -281,31 +281,32 @@
 
 - (void)flushQueueForTokenArray:(NSMutableArray<MSAuthTokenHistoryState *> *)tokenArray withTokenIndex:(NSUInteger)tokenIndex {
   MSAuthTokenHistoryState *tokenInfo = tokenArray[tokenIndex];
-  self.availableBatchFromStorage = [self.storage loadLogsWithGroupId:self.configuration.groupId
-                                                               limit:self.configuration.batchSizeLimit
-                                                  excludedTargetKeys:[self.pausedTargetKeys allObjects]
-                                                           afterDate:tokenInfo.startTime
-                                                          beforeDate:tokenInfo.endTime
-                                                   completionHandler:^(NSArray<id<MSLog>> *_Nonnull logArray, NSString *batchId) {
-                                                     if (logArray.count > 0) {
+  self.availableBatchFromStorage =
+      [self.storage loadLogsWithGroupId:self.configuration.groupId
+                                  limit:self.configuration.batchSizeLimit
+                     excludedTargetKeys:[self.pausedTargetKeys allObjects]
+                              afterDate:tokenInfo.startTime
+                             beforeDate:tokenInfo.endTime
+                      completionHandler:^(NSArray<id<MSLog>> *_Nonnull logArray, NSString *batchId) {
+                        if (logArray.count > 0) {
 
-                                                       // We have data to send.
-                                                       [self sendLogArray:logArray withBatchId:batchId andAuthToken:tokenInfo];
-                                                     } else {
+                          // We have data to send.
+                          [self sendLogArray:logArray withBatchId:batchId andAuthToken:tokenInfo];
+                        } else {
 
-                                                       // No logs available with given params.
-                                                       if ([self.storage countLogsBeforeDate:tokenArray[tokenIndex].endTime] == 0) {
+                          // No logs available with given params.
+                          if (tokenIndex == 0 && [self.storage countLogsBeforeDate:tokenArray[tokenIndex].endTime] == 0) {
 
-                                                         // Delete token from history if we don't have logs fitting it in DB.
-                                                         [[MSAuthTokenContext sharedInstance].storage removeAuthToken:tokenInfo.authToken];
-                                                       }
-                                                       if (tokenIndex + 1 < tokenArray.count) {
+                            // Delete token from history if we don't have logs fitting it in DB.
+                            [[MSAuthTokenContext sharedInstance] removeAuthToken:tokenInfo.authToken];
+                          }
+                          if (tokenIndex + 1 < tokenArray.count) {
 
-                                                         // Iterate to next token in array.
-                                                         [self flushQueueForTokenArray:tokenArray withTokenIndex:tokenIndex + 1];
-                                                       }
-                                                     }
-                                                   }];
+                            // Iterate to next token in array.
+                            [self flushQueueForTokenArray:tokenArray withTokenIndex:tokenIndex + 1];
+                          }
+                        }
+                      }];
 
   // Flush again if there is another batch to send.
   if (self.availableBatchFromStorage && !self.pendingBatchQueueFull) {
@@ -348,10 +349,7 @@
 
   // Reset item count and load data from the storage.
   self.itemsCount = 0;
-  NSMutableArray<MSAuthTokenHistoryState *> *tokenArray;
-  if ([MSAuthTokenContext sharedInstance].storage) {
-    tokenArray = [MSAuthTokenContext sharedInstance].storage.authTokenArray;
-  }
+  NSMutableArray<MSAuthTokenHistoryState *> *tokenArray = [MSAuthTokenContext sharedInstance].authTokenArray;
   if (!tokenArray) {
     tokenArray = [NSMutableArray<MSAuthTokenHistoryState *> new];
   }

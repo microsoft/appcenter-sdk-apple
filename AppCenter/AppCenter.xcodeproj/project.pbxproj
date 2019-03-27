@@ -270,15 +270,6 @@
 		047EBBA01FE3086B009BB1C8 /* MSSessionHistoryInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 047EBB9C1FE30842009BB1C8 /* MSSessionHistoryInfo.h */; };
 		047EBBA11FE3086C009BB1C8 /* MSSessionHistoryInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 047EBB9C1FE30842009BB1C8 /* MSSessionHistoryInfo.h */; };
 		047EBBA21FE3086D009BB1C8 /* MSSessionHistoryInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 047EBB9C1FE30842009BB1C8 /* MSSessionHistoryInfo.h */; };
-		047EEB1D224B9AA60029CBC6 /* MSKeychainAuthTokenStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = 047EEB1C224B9AA60029CBC6 /* MSKeychainAuthTokenStorage.h */; };
-		047EEB1E224B9AA60029CBC6 /* MSKeychainAuthTokenStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = 047EEB1C224B9AA60029CBC6 /* MSKeychainAuthTokenStorage.h */; };
-		047EEB1F224B9AA60029CBC6 /* MSKeychainAuthTokenStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = 047EEB1C224B9AA60029CBC6 /* MSKeychainAuthTokenStorage.h */; };
-		047EEB21224B9AB90029CBC6 /* MSKeychainAuthTokenStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 047EEB20224B9AB90029CBC6 /* MSKeychainAuthTokenStorage.m */; };
-		047EEB22224B9AB90029CBC6 /* MSKeychainAuthTokenStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 047EEB20224B9AB90029CBC6 /* MSKeychainAuthTokenStorage.m */; };
-		047EEB23224B9AB90029CBC6 /* MSKeychainAuthTokenStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 047EEB20224B9AB90029CBC6 /* MSKeychainAuthTokenStorage.m */; };
-		047EEB25224B9E150029CBC6 /* MSKeychainAuthTokenStorageTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 047EEB24224B9E150029CBC6 /* MSKeychainAuthTokenStorageTests.m */; };
-		047EEB26224B9E150029CBC6 /* MSKeychainAuthTokenStorageTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 047EEB24224B9E150029CBC6 /* MSKeychainAuthTokenStorageTests.m */; };
-		047EEB27224B9E150029CBC6 /* MSKeychainAuthTokenStorageTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 047EEB24224B9E150029CBC6 /* MSKeychainAuthTokenStorageTests.m */; };
 		047FEE0821A4884600ED77CD /* MSHistoryInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 047FEE0621A4884600ED77CD /* MSHistoryInfo.h */; };
 		047FEE0921A4884600ED77CD /* MSHistoryInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 047FEE0721A4884600ED77CD /* MSHistoryInfo.m */; };
 		047FEE0A21A488DC00ED77CD /* MSHistoryInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 047FEE0621A4884600ED77CD /* MSHistoryInfo.h */; };
@@ -951,9 +942,6 @@
 		04754FAB1EA98182002CBA46 /* libAppCenter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAppCenter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		047EBB9B1FE30842009BB1C8 /* MSSessionHistoryInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSSessionHistoryInfo.m; sourceTree = "<group>"; };
 		047EBB9C1FE30842009BB1C8 /* MSSessionHistoryInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSSessionHistoryInfo.h; sourceTree = "<group>"; };
-		047EEB1C224B9AA60029CBC6 /* MSKeychainAuthTokenStorage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSKeychainAuthTokenStorage.h; sourceTree = "<group>"; };
-		047EEB20224B9AB90029CBC6 /* MSKeychainAuthTokenStorage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSKeychainAuthTokenStorage.m; sourceTree = "<group>"; };
-		047EEB24224B9E150029CBC6 /* MSKeychainAuthTokenStorageTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSKeychainAuthTokenStorageTests.m; sourceTree = "<group>"; };
 		047FEE0621A4884600ED77CD /* MSHistoryInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSHistoryInfo.h; sourceTree = "<group>"; };
 		047FEE0721A4884600ED77CD /* MSHistoryInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSHistoryInfo.m; sourceTree = "<group>"; };
 		047FEE1021A48CC200ED77CD /* MSUserIdContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSUserIdContext.m; sourceTree = "<group>"; };
@@ -1693,7 +1681,6 @@
 				04A140AB1ECE7F6F001CEE94 /* Support */,
 				6E363AEF1D2C84D60079043D /* Util */,
 				2A7FBFD722428CD800F0C77A /* MSAuthTokenInfoTests.m */,
-				047EEB24224B9E150029CBC6 /* MSKeychainAuthTokenStorageTests.m */,
 			);
 			path = AppCenterTests;
 			sourceTree = "<group>";
@@ -1866,8 +1853,6 @@
 				383481721EA7FF6100787F56 /* MSLogDBStoragePrivate.h */,
 				B2CD74841F22BD910070E7DF /* MSLogDBStorage.m */,
 				046658B7215AD59D0079DCC7 /* MSLogDBStorageVersion.h */,
-				047EEB1C224B9AA60029CBC6 /* MSKeychainAuthTokenStorage.h */,
-				047EEB20224B9AB90029CBC6 /* MSKeychainAuthTokenStorage.m */,
 			);
 			path = Storage;
 			sourceTree = "<group>";
@@ -2028,7 +2013,6 @@
 				043120D11EE0BCF9007054C5 /* MSDeviceTracker.h in Headers */,
 				0446DF301F3B86CB00C8E338 /* MSWrapperSdkInternal.h in Headers */,
 				043120D31EE0BCF9007054C5 /* MSKeychainUtil.h in Headers */,
-				047EEB1F224B9AA60029CBC6 /* MSKeychainAuthTokenStorage.h in Headers */,
 				B28E41D92076ED1700CC6AD8 /* MSUtility+PropertyValidation.h in Headers */,
 				E74B14AC20B36B9B002C0183 /* MSLocExtension.h in Headers */,
 				041EFD291EE1CAAC006DCD56 /* MSLogWithProperties.h in Headers */,
@@ -2161,7 +2145,6 @@
 				04873E821F2FCE3700A13AFF /* MSAppDelegateForwarder.h in Headers */,
 				04B45C4121E90D0100FE6746 /* MSCustomPropertiesPrivate.h in Headers */,
 				04AB676420E18ABB002828AA /* MSChannelGroupDefaultPrivate.h in Headers */,
-				047EEB1E224B9AA60029CBC6 /* MSKeychainAuthTokenStorage.h in Headers */,
 				0446DF2F1F3B86CB00C8E338 /* MSWrapperSdkInternal.h in Headers */,
 				B2CD74B61F22BE270070E7DF /* MSUtility+Environment.h in Headers */,
 				E74B14CB20B36DF1002C0183 /* MSProtocolExtension.h in Headers */,
@@ -2294,7 +2277,6 @@
 				3844FF131E8C22CC003E9194 /* MSAbstractLogInternal.h in Headers */,
 				381C91E91D3DB65D004512F1 /* MSDeviceTracker.h in Headers */,
 				E84B8E2F1D2351DB006FD231 /* MSChannelGroupDefault.h in Headers */,
-				047EEB1D224B9AA60029CBC6 /* MSKeychainAuthTokenStorage.h in Headers */,
 				38C447221ECE5352002E1B11 /* MSAppDelegateForwarder.h in Headers */,
 				047FEE1621A48CC200ED77CD /* MSUserIdContext.h in Headers */,
 				045BC3191E3FD8AC00B6C960 /* MSKeychainUtil.h in Headers */,
@@ -2671,7 +2653,6 @@
 				04B45C3D21E90CF600FE6746 /* MSCustomProperties.m in Sources */,
 				B23507B72118D22800F98D4F /* MSTicketCache.m in Sources */,
 				043120861EE0BCF9007054C5 /* MSAbstractLog.m in Sources */,
-				047EEB23224B9AB90029CBC6 /* MSKeychainAuthTokenStorage.m in Sources */,
 				043120871EE0BCF9007054C5 /* MSKeychainUtil.m in Sources */,
 				35DFC1EC2170030C00455589 /* MSLongTypedProperty.m in Sources */,
 				3803208C217E85A90089772A /* MSDelegateForwarder.m in Sources */,
@@ -2712,7 +2693,6 @@
 				B29D884921E9286100EAF084 /* MSOrderedDictionaryTest.m in Sources */,
 				0446DF051F3B864600C8E338 /* MSLogWithPropertiesTests.m in Sources */,
 				0446DF061F3B864600C8E338 /* MSDeviceLogTests.m in Sources */,
-				047EEB27224B9E150029CBC6 /* MSKeychainAuthTokenStorageTests.m in Sources */,
 				E7D23C7120B6412300A47D62 /* MSCSExtensionsTests.m in Sources */,
 				38EDBCBE212CBB4D00C39B1E /* MSDeadLockTests.m in Sources */,
 				35DFC23A2170052100455589 /* MSLongTypedPropertyTests.m in Sources */,
@@ -2799,7 +2779,6 @@
 				35C0E3CC1FD6146A004E841E /* MSMockSecondService.m in Sources */,
 				046AEAE41ECA562A00CBE511 /* MSStartServiceLogTests.m in Sources */,
 				F82E4C6E217F159A00EDAB34 /* sqlite3.c in Sources */,
-				047EEB26224B9E150029CBC6 /* MSKeychainAuthTokenStorageTests.m in Sources */,
 				B26D4DBB211B5BE300AB4E28 /* MSMockCommonSchemaLog.m in Sources */,
 				0446DF331F3B870A00C8E338 /* MSLogDBStorageTests.m in Sources */,
 				046AEAE61ECA562A00CBE511 /* MSChannelUnitConfigurationTests.m in Sources */,
@@ -2875,7 +2854,6 @@
 				B2CD74CC1F22BFA30070E7DF /* MSDBStorage.m in Sources */,
 				044864C71EBD13B400031019 /* MSCustomPropertiesLog.m in Sources */,
 				04754F591EA98182002CBA46 /* MSAbstractLog.m in Sources */,
-				047EEB22224B9AB90029CBC6 /* MSKeychainAuthTokenStorage.m in Sources */,
 				B23507B62118D22800F98D4F /* MSTicketCache.m in Sources */,
 				04754F5A1EA98182002CBA46 /* MSKeychainUtil.m in Sources */,
 				04754F5B1EA98182002CBA46 /* MSWrapperLogger.m in Sources */,
@@ -2952,7 +2930,6 @@
 				045BC3171E3FD88600B6C960 /* MSKeychainUtil.m in Sources */,
 				35D0B7541DDFABFD003EACCD /* MSWrapperLogger.m in Sources */,
 				B2CD745A1F22BB710070E7DF /* MSWrapperSdk.m in Sources */,
-				047EEB21224B9AB90029CBC6 /* MSKeychainAuthTokenStorage.m in Sources */,
 				B23507B52118D22800F98D4F /* MSTicketCache.m in Sources */,
 				3844FF201E8C2716003E9194 /* MSDevice.m in Sources */,
 				6E0684641D36BC8D00A8CC6C /* MSChannelUnitDefault.m in Sources */,
@@ -3017,7 +2994,6 @@
 				805F3F6B1F209C9D00B489E4 /* MSMockService.m in Sources */,
 				E88EBBFB1D2C8CC7007E7785 /* MSLogContainerTests.m in Sources */,
 				04FD126B1E4103CC007ABFE7 /* MSKeychainUtilTests.m in Sources */,
-				047EEB25224B9E150029CBC6 /* MSKeychainAuthTokenStorageTests.m in Sources */,
 				384A92612188BE400099BE70 /* MSDelegateForwarderTestUtil.m in Sources */,
 				D38024121E7130C700466558 /* MSStartServiceLogTests.m in Sources */,
 				387C75961D64EE1900D68CC1 /* MSServiceAbstractTests.m in Sources */,
