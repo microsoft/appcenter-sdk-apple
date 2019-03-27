@@ -21,13 +21,13 @@
 
 @implementation MSKeychainAuthTokenStorage
 
-- (nullable NSString *)retrieveAuthToken {
+- (nullable NSString *)authToken {
   NSArray<MSAuthTokenInfo *> *authTokenHistory = [self authTokenHistory];
   MSAuthTokenInfo *latestAuthTokenInfo = authTokenHistory.lastObject;
   return latestAuthTokenInfo.authToken;
 }
 
-- (nullable NSString *)retrieveAccountId {
+- (nullable NSString *)accountId {
   return [MS_USER_DEFAULTS objectForKey:kMSIdentityMSALAccountHomeAccountKey];
 }
 

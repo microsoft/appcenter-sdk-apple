@@ -110,7 +110,7 @@
   [MSMockKeychainUtil storeArray:authTokenHistory forKey:kMSIdentityAuthTokenArrayKey];
 
   // When
-  NSString *actualAuthToken = [self.sut retrieveAuthToken];
+  NSString *actualAuthToken = [self.sut authToken];
 
   // Then
   XCTAssertEqual(actualAuthToken, expectedAuthToken);

@@ -15,14 +15,14 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return auth token.
  */
-- (nullable NSString *)retrieveAuthToken;
+- (nullable NSString *)authToken;
 
 /**
  * Returns current account identifier.
  *
  * @return account identifier.
  */
-- (nullable NSString *)retrieveAccountId;
+- (nullable NSString *)accountId;
 
 /**
  * Returns array of auth tokens.
