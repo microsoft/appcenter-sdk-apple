@@ -194,13 +194,13 @@ static dispatch_once_t onceToken;
                 writeOptions:(MSWriteOptions *)writeOptions
            completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
 
-  // In the current version we do not support E-tag optimistic concurrency logic and `replace` will call Create (POST) operation instead of
-  // Replace (PUT).
-  [self createWithPartition:partition
-                 documentId:documentId
-                   document:document
-               writeOptions:writeOptions
-          completionHandler:completionHandler];
+  // In the current version we do not support E-tag optimistic concurrency logic and replace will call create.
+  [self createOrReplaceWithPartition:partition
+                          documentId:documentId
+                            document:document
+                        writeOptions:writeOptions
+                   additionalHeaders:@{kMSDocumentUpsertHeaderKey : @"true"}
+                   completionHandler:completionHandler];
 }
 
 - (void)readWithPartition:(NSString *)partition
@@ -250,8 +250,47 @@ static dispatch_once_t onceToken;
 - (void)createWithPartition:(NSString *)partition
                  documentId:(NSString *)documentId
                    document:(id<MSSerializableDocument>)document
-               writeOptions:(MSWriteOptions *)__unused writeOptions
+               writeOptions:(MSWriteOptions *)writeOptions
           completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
+  [self createOrReplaceWithPartition:partition
+                          documentId:documentId
+                            document:document
+                        writeOptions:writeOptions
+                   additionalHeaders:nil
+                   completionHandler:completionHandler];
+}
+
+- (void)deleteDocumentWithPartition:(NSString *)partition
+                         documentId:(NSString *)documentId
+                       writeOptions:(MSWriteOptions *)__unused writeOptions
+                  completionHandler:(MSDataSourceErrorCompletionHandler)completionHandler {
+  [self performOperationForPartition:partition
+                          documentId:documentId
+                          httpMethod:kMSHttpMethodDelete
+                                body:[NSData data]
+                   additionalHeaders:nil
+                   completionHandler:^(NSData *__unused data, NSError *_Nonnull cosmosDbError) {
+
+                     // Body returned from call (data) is empty.
+                     NSInteger httpStatusCode = [MSDataSourceError errorCodeFromError:cosmosDbError];
+                     if (httpStatusCode != MSHTTPCodesNo204NoContent) {
+                       MSLogError([MSDataStore logTag],
+                                  @"Not able to delete document. Error: %@; HTTP status code: %ld; "
+                                  @"Document: %@/%@",
+                                  cosmosDbError.localizedDescription, (long)httpStatusCode, partition, documentId);
+                     } else {
+                       MSLogDebug([MSDataStore logTag], @"Document deleted: %@/%@", partition, documentId);
+                     }
+                     completionHandler([[MSDataSourceError alloc] initWithError:cosmosDbError]);
+                   }];
+}
+
+- (void)createOrReplaceWithPartition:(NSString *)partition
+                          documentId:(NSString *)documentId
+                            document:(id<MSSerializableDocument>)document
+                        writeOptions:(MSWriteOptions *)__unused writeOptions
+                   additionalHeaders:(NSDictionary *)additionalHeaders
+                   completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
 
   // Create document payload.
   NSError *serializationError;
@@ -265,15 +304,15 @@ static dispatch_once_t onceToken;
     return;
   }
   [self performOperationForPartition:partition
-                          documentId:documentId
+                          documentId:nil
                           httpMethod:kMSHttpMethodPost
                                 body:body
-                   additionalHeaders:@{kMSDocumentUpsertHeaderKey : @"true"}
+                   additionalHeaders:additionalHeaders
                    completionHandler:^(NSData *_Nonnull data, NSError *_Nonnull cosmosDbError) {
                      // If not created.
                      NSInteger errorCode = [MSDataSourceError errorCodeFromError:cosmosDbError];
                      if (!data || (errorCode != kMSACDocumentCreatedErrorCode && errorCode != kMSACDocumentSucceededErrorCode)) {
-                       MSLogError([MSDataStore logTag], @"Not able to create document:%@", [cosmosDbError description]);
+                       MSLogError([MSDataStore logTag], @"Not able to create/replace document: %@", [cosmosDbError description]);
                        completionHandler([[MSDocumentWrapper alloc] initWithError:cosmosDbError documentId:documentId]);
                        return;
                      }
@@ -300,33 +339,9 @@ static dispatch_once_t onceToken;
                                                                                                documentId:documentId
                                                                                                      eTag:eTag
                                                                                           lastUpdatedDate:date];
-                     MSLogDebug([MSDataStore logTag], @"Document created with ID:%@", documentId);
+                     MSLogDebug([MSDataStore logTag], @"Document created/replaced with ID: %@", documentId);
                      completionHandler(docWrapper);
                      return;
-                   }];
-}
-
-- (void)deleteDocumentWithPartition:(NSString *)partition
-                         documentId:(NSString *)documentId
-                       writeOptions:(MSWriteOptions *)__unused writeOptions
-                  completionHandler:(MSDataSourceErrorCompletionHandler)completionHandler {
-  [self performOperationForPartition:partition
-                          documentId:documentId
-                          httpMethod:kMSHttpMethodDelete
-                                body:[NSData data]
-                   additionalHeaders:nil
-                   completionHandler:^(NSData *__unused data, NSError *_Nonnull cosmosDbError) {
-                     // Body returned from call (data) is empty.
-                     NSInteger httpStatusCode = [MSDataSourceError errorCodeFromError:cosmosDbError];
-                     if (httpStatusCode != MSHTTPCodesNo204NoContent) {
-                       MSLogError([MSDataStore logTag],
-                                  @"Not able to delete document. Error: %@; HTTP status code: %ld; "
-                                  @"Document: %@/%@",
-                                  cosmosDbError.localizedDescription, (long)httpStatusCode, partition, documentId);
-                     } else {
-                       MSLogDebug([MSDataStore logTag], @"Document deleted: %@/%@", partition, documentId);
-                     }
-                     completionHandler([[MSDataSourceError alloc] initWithError:cosmosDbError]);
                    }];
 }
 

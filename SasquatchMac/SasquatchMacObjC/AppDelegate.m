@@ -13,6 +13,7 @@
 @interface AppDelegate ()
 
 @property NSWindowController *rootController;
+@property(nonatomic) CLLocationManager *locationManager;
 
 @end
 
@@ -22,6 +23,11 @@ enum StartupMode { appCenter, oneCollector, both, none, skip };
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification {
   [MSAppCenter setLogLevel:MSLogLevelVerbose];
+
+  // Setup location manager.
+  self.locationManager = [[CLLocationManager alloc] init];
+  self.locationManager.delegate = self;
+  self.locationManager.desiredAccuracy = kCLLocationAccuracyKilometer;
 
   // Set custom log URL.
   NSString *logUrl = [[NSUserDefaults standardUserDefaults] objectForKey:kMSLogUrl];
@@ -80,6 +86,19 @@ enum StartupMode { appCenter, oneCollector, both, none, skip };
   [AppCenterProvider shared].appCenter = [[AppCenterDelegateObjC alloc] init];
 
   [self initUI];
+  [self overrideCountryCode];
+}
+
+- (void)overrideCountryCode {
+    if ([CLLocationManager locationServicesEnabled]) {
+        [self.locationManager startUpdatingLocation];
+    } else {
+        NSAlert *alert = [[NSAlert alloc] init];
+        alert.messageText = @"Location service is disabled";
+        alert.informativeText = @"Please enable location service on your Mac.";
+        [alert addButtonWithTitle:@"OK"];
+        [alert runModal];
+    }
 }
 
 #pragma mark - Private
@@ -233,6 +252,25 @@ enum StartupMode { appCenter, oneCollector, both, none, skip };
   [alert setInformativeText:message];
   [alert addButtonWithTitle:@"OK"];
   [alert runModal];
+}
+
+#pragma mark - CLLocationManagerDelegate
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations {
+  [self.locationManager stopUpdatingLocation];
+  CLLocation *location = [locations lastObject];
+  CLGeocoder *geocoder = [[CLGeocoder alloc] init];
+  [geocoder reverseGeocodeLocation:location
+                 completionHandler:^(NSArray *placemarks, NSError *error) {
+                   if (placemarks.count == 0 || error)
+                     return;
+                   CLPlacemark *placemark = [placemarks firstObject];
+                   [MSAppCenter setCountryCode:placemark.ISOcountryCode];
+                 }];
+}
+
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
+  NSLog(@"Failed to find user's location: %@", error.localizedDescription);
 }
 
 @end

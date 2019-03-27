@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import Cocoa
+import CoreLocation
 
 import AppCenter
 import AppCenterAnalytics
@@ -18,10 +19,11 @@ enum StartupMode: Int {
 
 @NSApplicationMain
 @objc(AppDelegate)
-class AppDelegate: NSObject, NSApplicationDelegate, MSCrashesDelegate, MSPushDelegate {
+class AppDelegate: NSObject, NSApplicationDelegate, MSCrashesDelegate, MSPushDelegate, CLLocationManagerDelegate {
 
   var rootController: NSWindowController!
-
+  var locationManager: CLLocationManager = CLLocationManager()
+    
   func applicationDidFinishLaunching(_ notification: Notification) {
     
     // Crashes Delegate.
@@ -68,6 +70,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, MSCrashesDelegate, MSPushDel
     if userId != nil {
       MSAppCenter.setUserId(userId)
     }
+    
+    // Set location manager.
+    locationManager.delegate = self
+    locationManager.desiredAccuracy = kCLLocationAccuracyKilometer
 
     // Set max storage size.
     let storageMaxSize = UserDefaults.standard.object(forKey: kMSStorageMaxSizeKey) as? Int
@@ -110,6 +116,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, MSCrashesDelegate, MSPushDel
     AppCenterProvider.shared().appCenter = AppCenterDelegateSwift()
 
     initUI()
+
+    overrideCountryCode()
   }
 
   func initUI() {
@@ -119,6 +127,18 @@ class AppDelegate: NSObject, NSApplicationDelegate, MSCrashesDelegate, MSPushDel
     rootController.window?.makeKeyAndOrderFront(self)
   }
 
+  func overrideCountryCode() {
+    if CLLocationManager.locationServicesEnabled() {
+      self.locationManager.startUpdatingLocation()
+    }
+    else {
+      let alert : NSAlert = NSAlert()
+      alert.messageText = "Location service is disabled"
+      alert.informativeText = "Please enable location service on your Mac."
+      alert.addButton(withTitle: "OK")
+      alert.runModal()
+    }
+  }
   // Crashes Delegate
 
   func crashes(_ crashes: MSCrashes!, shouldProcessErrorReport errorReport: MSErrorReport!) -> Bool {
@@ -197,5 +217,20 @@ class AppDelegate: NSObject, NSApplicationDelegate, MSCrashesDelegate, MSPushDel
     alert.informativeText = message
     alert.addButton(withTitle: "OK")
     alert.runModal()
+  }
+    
+  // CLLocationManager Delegate
+  func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    self.locationManager.stopUpdatingLocation()
+    let userLocation:CLLocation = locations[0] as CLLocation
+    CLGeocoder().reverseGeocodeLocation(userLocation) { (placemarks, error) in
+      if error == nil {
+        MSAppCenter.setCountryCode(placemarks?.first?.isoCountryCode)
+      }
+    }
+  }
+    
+  func locationManager(_ Manager: CLLocationManager, didFailWithError error: Error) {
+    print("Failed to find user's location: \(error.localizedDescription)")
   }
 }

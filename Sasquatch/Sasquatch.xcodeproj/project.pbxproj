@@ -785,7 +785,6 @@
 		046790411E8DA7D80033FDEC /* AppCenterPush.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenterPush.framework; path = "../AppCenter-SDK-Apple/iOS/AppCenterPush.framework"; sourceTree = "<group>"; };
 		046790441E8DA8D50033FDEC /* SasquatchSwift.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SasquatchSwift.entitlements; sourceTree = "<group>"; };
 		046790451E8DA8DD0033FDEC /* SasquatchObjC.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SasquatchObjC.entitlements; sourceTree = "<group>"; };
-		047746422201000B0045504A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		047D13711EAFBDBE00D699BA /* AppCenterDistributeResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = AppCenterDistributeResources.bundle; path = "../AppCenter-SDK-Apple/iOS/AppCenterDistributeResources.bundle"; sourceTree = "<group>"; };
 		0482105C1FD0B611006824F7 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/Sasquatch.strings; sourceTree = "<group>"; };
 		04A1DB33223B65EB006A48D6 /* AuthenticationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AuthenticationServices.framework; path = System/Library/Frameworks/AuthenticationServices.framework; sourceTree = SDKROOT; };
@@ -886,6 +885,7 @@
 		D31EF96B1E9517C600450162 /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
 		D31EF96D1E9517C600450162 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D31EF96F1E9517C600450162 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E8BABE9E224416FC0001B7E0 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F809D5031FC6DA2B005E0F83 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F84924542111C83000E14DBE /* Watch.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Watch.xcconfig; sourceTree = "<group>"; };
 		F849248A2112FA3400E14DBE /* Watch Extension.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Watch Extension.xcconfig"; sourceTree = "<group>"; };
@@ -1020,7 +1020,7 @@
 		040856182231C85600977E8F /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				040856192231C87000977E8F /* Info.plist */,
+				E8BABE9E224416FC0001B7E0 /* Info.plist */,
 				B2C97B8A2106535500042A03 /* Assets.xcassets */,
 			);
 			name = "Supporting Files";
