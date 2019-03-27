@@ -237,6 +237,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   NSString *documentId = @"documentId";
   id<MSSerializableDocument> mockSerializableDocument = [MSFakeSerializableDocument new];
   __block BOOL completionHandlerCalled = NO;
+  __block MSDocumentWrapper *actualDocumentWrapper;
 
   // Mock tokens fetching.
   MSTokenResult *testToken = [[MSTokenResult alloc] initWithString:@"testToken"];
@@ -266,12 +267,14 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   [MSDataStore createWithPartition:partition
                         documentId:documentId
                           document:mockSerializableDocument
-                 completionHandler:^(__unused MSDocumentWrapper *data) {
+                 completionHandler:^(MSDocumentWrapper *data) {
                    completionHandlerCalled = YES;
+                   actualDocumentWrapper = data;
                  }];
 
   // Then
   XCTAssertTrue(completionHandlerCalled);
+  XCTAssertEqual(actualDocumentWrapper.documentId, documentId);
 }
 
 - (void)testCreateWithPartitionWhenTokenExchangeFails {
@@ -363,6 +366,8 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   NSString *documentId = @"documentId";
   id<MSSerializableDocument> mockSerializableDocument = [MSFakeSerializableDocument new];
   __block BOOL completionHandlerCalled = NO;
+  NSErrorDomain expectedErrorDomain = NSCocoaErrorDomain;
+  NSInteger expectedErrorCode = 3840;
   __block MSDataSourceError *actualError;
 
   // Mock tokens fetching.
@@ -401,53 +406,55 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // Then
   XCTAssertTrue(completionHandlerCalled);
-  XCTAssertEqual(actualError.error.domain, NSCocoaErrorDomain);
-  XCTAssertEqual(actualError.error.code, 3840);
+  XCTAssertEqual(actualError.error.domain, expectedErrorDomain);
+  XCTAssertEqual(actualError.error.code, expectedErrorCode);
 }
 
-/*
-- (void)testDeleteDocumentWithPartitionWithoutWriteOptions {
+- (void)testDeleteDocumentWithPartitionGoldenPath {
 
-    // If
-    NSString *partition = @"partition";
-    NSString *documentId = @"documentId";
-    __block BOOL completionHandlerCalled = NO;
-    XCTestExpectation *completeExpectation = [self expectationWithDescription:@"Task finished"];
-    MSDataSourceErrorCompletionHandler completionHandler = ^(MSDataSourceError __unused *error) {
-        completionHandlerCalled = YES;
-        [completionHandler fulfill];
-    };
+  // If
+  NSString *partition = @"partition";
+  NSString *documentId = @"documentId";
+  id<MSSerializableDocument> mockSerializableDocument = [MSFakeSerializableDocument new];
+  __block BOOL completionHandlerCalled = NO;
+  NSInteger expectedResponseCode = kMSACDocumentSucceededErrorCode;
+  __block NSInteger actualResponseCode;
 
-    // When
-    [MSDataStore deleteDocumentWithPartition:partition documentId:documentId completionHandler:completionHandler];
-    [self waitForExpectationsWithTimeout:5 handler:nil];
+  // Mock tokens fetching.
+  MSTokenResult *testToken = [[MSTokenResult alloc] initWithString:@"testToken"];
+  MSTokensResponse *testTokensResponse = [[MSTokensResponse alloc] initWithTokens:@[ testToken ]];
+  OCMStub([self.tokenExchangeMock performDbTokenAsyncOperationWithHttpClient:OCMOCK_ANY partition:OCMOCK_ANY completionHandler:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        MSGetTokenAsyncCompletionHandler getTokenCallback;
+        [invocation getArgument:&getTokenCallback atIndex:4];
+        getTokenCallback(testTokensResponse, nil);
+      });
 
-    // Then
-    XCTAssertTrue([completeExpectation assertForOverFulfill]);
-    XCTAssertTrue(completionHandlerCalled);
+  // Mock CosmosDB requests.
+  OCMStub([self.cosmosDbMock performCosmosDbAsyncOperationWithHttpClient:OCMOCK_ANY
+                                                             tokenResult:OCMOCK_ANY
+                                                              documentId:OCMOCK_ANY
+                                                              httpMethod:OCMOCK_ANY
+                                                                    body:OCMOCK_ANY
+                                                       additionalHeaders:OCMOCK_ANY
+                                            completionHandlerWithHeaders:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        MSCosmosDbCompletionHandlerWithHeaders cosmosdbOperationCallback;
+        [invocation getArgument:&cosmosdbOperationCallback atIndex:8];
+        cosmosdbOperationCallback(nil, nil, nil);
+      });
+
+  // When
+  [MSDataStore deleteDocumentWithPartition:partition
+                                documentId:(NSString *)documentId
+                         completionHandler:^(MSDataSourceError *error) {
+                           completionHandlerCalled = YES;
+                           actualResponseCode = error.errorCode;
+                         }];
+
+  // Then
+  XCTAssertTrue(completionHandlerCalled);
+  XCTAssertEqual(actualResponseCode, expectedResponseCode);
 }
-
-- (void)testDeleteDocumentWithPartitionWithWriteOptions {
-
-    // If
-    NSString *partition = @"partition";
-    NSString *documentId = @"documentId";
-    MSWriteOptions *options = [MSWriteOptions new];
-    __block BOOL completionHandlerCalled = NO;
-    XCTestExpectation *completeExpectation = [self expectationWithDescription:@"Task finished"];
-    MSDataSourceErrorCompletionHandler completionHandler = ^(MSDataSourceError *error) {
-        completionHandlerCalled = YES;
-        [completionHandler fulfill];
-    };
-
-    // When
-    [MSDataStore deleteDocumentWithPartition:partition documentId:documentId writeOptions:options completionHandler:completionHandler];
-    [self waitForExpectationsWithTimeout:5 handler:nil];
-
-    // Then
-    XCTAssertTrue([completeExpectation assertForOverFulfill]);
-    XCTAssertTrue(completionHandlerCalled);
-}
- */
 
 @end
