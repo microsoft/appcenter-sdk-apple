@@ -12,16 +12,7 @@
 #import "MSDataStorePrivate.h"
 #import "MSMockUserDefaults.h"
 #import "MSTokenExchange.h"
-#import "MSTokenResult.h"
 #import "MSTokensResponse.h"
-
-static NSString *const kMSTestAppSecret = @"TestAppSecret";
-
-static NSString *const kMSDocumentTimestampKey = @"_ts";
-
-static NSString *const kMSDocumentEtagKey = @"_etag";
-
-static NSString *const kMSDocumentKey = @"document";
 
 @interface MSFakeSerializableDocument : NSObject <MSSerializableDocument>
 - (instancetype)initFromDictionary:(NSDictionary *)dictionary;
@@ -43,10 +34,18 @@ static NSString *const kMSDocumentKey = @"document";
 
 @interface MSDataStoreTests : XCTestCase
 
+@property(nonatomic) id settingsMock;
+@property(nonatomic) id tokenExchangeMock;
+@property(nonatomic) id cosmosDbMock;
+
 @end
 
 @implementation MSDataStoreTests
 
+static NSString *const kMSTestAppSecret = @"TestAppSecret";
+static NSString *const kMSDocumentTimestampKey = @"_ts";
+static NSString *const kMSDocumentEtagKey = @"_etag";
+static NSString *const kMSDocumentKey = @"document";
 static NSString *const kMSTokenTest = @"token";
 static NSString *const kMSPartitionTest = @"partition";
 static NSString *const kMSDbAccountTest = @"dbAccount";
@@ -55,6 +54,20 @@ static NSString *const kMSDbCollectionNameTest = @"dbCollectionName";
 static NSString *const kMSStatusTest = @"status";
 static NSString *const kMSExpiresOnTest = @"20191212";
 static NSString *const kMSDocumentIdTest = @"documentId";
+
+- (void)setUp {
+  [super setUp];
+  self.settingsMock = [MSMockUserDefaults new];
+  self.tokenExchangeMock = OCMClassMock([MSTokenExchange class]);
+  self.cosmosDbMock = OCMClassMock([MSCosmosDb class]);
+}
+
+- (void)tearDown {
+  [super tearDown];
+  [self.settingsMock stopMocking];
+  [self.tokenExchangeMock stopMocking];
+  [self.cosmosDbMock stopMocking];
+}
 
 - (nullable NSMutableDictionary *)prepareMutableDictionary {
   NSMutableDictionary *_Nullable tokenResultDictionary = [NSMutableDictionary new];
@@ -213,18 +226,18 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   XCTAssertTrue([expectedURLString isEqualToString:httpClient.sendURL.absoluteString]);
 }
 
-- (void)testCreateWithPartitionWithoutWriteOptionsGoldenTest {
+- (void)testCreateWithPartitionGoldenPath {
 
   // If
   NSString *partition = @"partition";
   NSString *documentId = @"documentId";
   id<MSSerializableDocument> mockSerializableDocument = [MSFakeSerializableDocument new];
+  __block BOOL completionHandlerCalled = NO;
 
   // Mock tokens fetching.
   MSTokenResult *testToken = [[MSTokenResult alloc] initWithString:@"testToken"];
   MSTokensResponse *testTokensResponse = [[MSTokensResponse alloc] initWithTokens:@[ testToken ]];
-  id tokenExchangeMock = OCMClassMock([MSTokenExchange class]);
-  OCMStub([tokenExchangeMock performDbTokenAsyncOperationWithHttpClient:OCMOCK_ANY partition:OCMOCK_ANY completionHandler:OCMOCK_ANY])
+  OCMStub([self.tokenExchangeMock performDbTokenAsyncOperationWithHttpClient:OCMOCK_ANY partition:OCMOCK_ANY completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         MSGetTokenAsyncCompletionHandler getTokenCallback;
         [invocation getArgument:&getTokenCallback atIndex:4];
@@ -232,66 +245,35 @@ static NSString *const kMSDocumentIdTest = @"documentId";
       });
 
   // Mock CosmosDB requests.
-  NSDictionary *dic = @{kMSDocumentKey : @{}, kMSDocumentTimestampKey : @1, kMSDocumentEtagKey : @""};
-  __block NSData *testResponse = [NSJSONSerialization dataWithJSONObject:dic options:0 error:nil];
-  id mockMSCosmosDb = OCMClassMock([MSCosmosDb class]);
-  OCMStub([mockMSCosmosDb performCosmosDbAsyncOperationWithHttpClient:OCMOCK_ANY
-                                                          tokenResult:OCMOCK_ANY
-                                                           documentId:OCMOCK_ANY
-                                                           httpMethod:OCMOCK_ANY
-                                                                 body:OCMOCK_ANY
-                                                    additionalHeaders:OCMOCK_ANY
-                                         completionHandlerWithHeaders:OCMOCK_ANY])
+  OCMStub([self.cosmosDbMock performCosmosDbAsyncOperationWithHttpClient:OCMOCK_ANY
+                                                             tokenResult:OCMOCK_ANY
+                                                              documentId:OCMOCK_ANY
+                                                              httpMethod:OCMOCK_ANY
+                                                                    body:OCMOCK_ANY
+                                                       additionalHeaders:OCMOCK_ANY
+                                                       completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
-        MSCosmosDbCompletionHandlerWithHeaders cosmosdbOperationCallback;
+        MSCosmosDbCompletionHandler cosmosdbOperationCallback;
         [invocation getArgument:&cosmosdbOperationCallback atIndex:8];
-        cosmosdbOperationCallback(testResponse, nil, nil);
+        cosmosdbOperationCallback(nil, nil);
       });
-  __block BOOL completionHandlerCalled = NO;
 
   // When
   [MSDataStore createWithPartition:partition
                         documentId:documentId
                           document:mockSerializableDocument
-                 completionHandler:^(MSDocumentWrapper *data) {
+                 completionHandler:^(__unused MSDocumentWrapper *data) {
                    completionHandlerCalled = YES;
                  }];
 
   // Then
   XCTAssertTrue(completionHandlerCalled);
-  [tokenExchangeMock stopMocking];
-  [mockMSCosmosDb stopMocking];
+}
+
+- (void)testCreateWithPartitionWhenDbError {
 }
 
 /*
-- (void)testCreateWithPartitionWithWriteOptionsGoldenTest {
-
-    // If
-    NSString *partition = @"partition";
-    NSString *documentId = @"documentId";
-    MSWriteOptions *options = [MSWriteOptions new];
-    id mockSerializableDocument = OCMProtocolMock(@protocol(MSSerializableDocument));
-    OCMStub([mockSerializableDocument serializeToDictionary]).andReturn([NSDictionary new]);
-    __block BOOL completionHandlerCalled = NO;
-    XCTestExpectation *completeExpectation = [self expectationWithDescription:@"Task finished"];
-    MSDocumentWrapperCompletionHandler completionHandler = ^(MSDocumentWrapper __unused *data) {
-        completionHandlerCalled = YES;
-        [completionHandler fulfill];
-    };
-
-    // When
-    [MSDataStore createWithPartition:partition
-                          documentId:documentId
-                            document:mockSerializableDocument
-                        writeOptions:options
-                   completionHandler:completionHandler];
-    [self waitForExpectationsWithTimeout:5 handler:nil];
-
-    // Then
-    XCTAssertTrue([completeExpectation assertForOverFulfill]);
-    XCTAssertTrue(completionHandlerCalled);
-}
-
 - (void)testDeleteDocumentWithPartitionWithoutWriteOptions {
 
     // If
