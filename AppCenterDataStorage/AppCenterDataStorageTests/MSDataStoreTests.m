@@ -13,15 +13,60 @@
 #import "MSServiceAbstractProtected.h"
 #import "MSTestFrameworks.h"
 #import "MSUserIdContextPrivate.h"
+#import "MSTokenExchange.h"
+#import "MSTokenExchangePrivate.h"
+#import "MSPaginatedDocuments.h"
+#import "MSCosmosDbIngestion.h"
+#import "MSHttpTestUtil.h"
 
 static NSString *const kMSTestAppSecret = @"TestAppSecret";
+static NSString *const kMSPartitionName = @"partition";
+static NSString *const kMSDbAccountName = @"dbAccount";
+static NSString *const kMSCollectionName = @"collection";
+static NSString *const kMSToken = @"token";
+static NSString *const kMSStatus = @"status";
+static NSString *const kMSExpiresOn = @"date";
 
 @interface MSDataStoreTests : XCTestCase
 
 @property(nonatomic, strong) MSDataStore *sut;
 @property(nonatomic) id settingsMock;
+@property(nonatomic) id cosmosDbIngestionMock;
 
 @end
+
+@interface SomeObject : NSObject <MSSerializableDocument>
+
+@property(strong, nonatomic) NSString *property1;
+@property(strong, nonatomic) NSNumber *property2;
+
+@end
+
+@implementation SomeObject
+
+@synthesize property1 = _property1;
+@synthesize property2 = _property2;
+
+- (instancetype)initFromDictionary:(NSDictionary *)dictionary {
+  self.property1 = ((NSDictionary *)dictionary[@"document"])[@"property1"];
+  self.property2 = ((NSDictionary *)dictionary[@"document"])[@"property2"];
+  return self;
+}
+
+- (nonnull NSDictionary *)serializeToDictionary {
+  return [NSDictionary new];
+}
+
+@end
+
+
+//@implementation MSTokenExchange
+//
+//+ (nullable MSTokenResult *)retrieveCachedToken:(NSString *)partitionName {
+//
+//}
+//
+//@end
 
 @implementation MSDataStoreTests
 
@@ -29,6 +74,10 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [super setUp];
   self.settingsMock = [MSMockUserDefaults new];
   self.sut = [MSDataStore new];
+  
+  // Create CosmosDBIngestion mock.
+  self.cosmosDbIngestionMock = OCMPartialMock([MSCosmosDbIngestion alloc]);
+  OCMStub([self.cosmosDbIngestionMock alloc]).andReturn(self.cosmosDbIngestionMock);
 }
 
 - (void)tearDown {
@@ -71,6 +120,42 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
                         appSecret:kMSTestAppSecret
           transmissionTargetToken:nil
                   fromApplication:YES];
+  
+  
+  // Mock the token exchange.
+  id msTokenEchangeMock = OCMClassMock([MSTokenExchange class]);
+  OCMStub([msTokenEchangeMock retrieveCachedToken:[OCMArg any]])
+      .andReturn([[MSTokenResult alloc] initWithPartition:@"partition"
+                                                dbAccount:@"account"
+                                                   dbName:@"db"
+                                         dbCollectionName:@"collection"
+                                                    token:@"token"
+                                                   status:@"status"
+                                                expiresOn:@"date"]);
+
+  // Mock the list HTTP response
+  OCMStub([self.cosmosDbIngestionMock sendAsync:OCMOCK_ANY eTag:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
+  
+  // If
+  __block MSSendAsyncCompletionHandler cosmosDbIngestionBlock;
+  OCMStub([self.cosmosDbIngestionMock sendAsync:nil eTag:nil completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+    // Get ingestion block for later call.
+    [invocation retainArguments];
+    [invocation getArgument:&cosmosDbIngestionBlock atIndex:4];
+  });
+  
+  // When
+  [self.sut listWithPartition:@"partition" documentType:[SomeObject class] readOptions:nil continuationToken:nil completionHandler:^(MSPaginatedDocuments * _Nonnull documents) {
+    
+    BOOL hasNextPage = [documents hasNextPage];
+    
+  }];
+  NSData *payload = [NSData new];
+  cosmosDbIngestionBlock(@"callId", [MSHttpTestUtil createMockResponseForStatusCode:200 headers:nil], payload, nil);
+  
+  
+
+
 }
 
 @end
