@@ -7,7 +7,7 @@
 
 @interface MSCosmosDbIngestionTests : XCTestCase
 
-@property (nonatomic, strong) MSCosmosDbIngestion *sut;
+@property(nonatomic, strong) MSCosmosDbIngestion *sut;
 
 @end
 
@@ -35,16 +35,24 @@
 
   // When
   [ingestionMock setOfflineMode:YES];
-  [ingestionMock sendAsync:testData eTag:testETag authToken:testAuthToken callId:testCallId completionHandler:^(NSString *callId, NSHTTPURLResponse *response, NSData *data, NSError *error) {
-    XCTAssertEqualObjects(testCallId, callId);
-    XCTAssertNil(response);
-    XCTAssertNil(data);
-    XCTAssertNotNil(error);
-    XCTAssertEqualObjects(error.domain, MSDataStorageErrorDomain);
-    XCTAssertEqual(error.code, NSURLErrorNotConnectedToInternet);
-    OCMReject([ingestionMock sendAsync:testData eTag:testETag authToken:testAuthToken callId:testCallId completionHandler:OCMOCK_ANY]);
-    [expectation fulfill];
-  }];
+  [ingestionMock sendAsync:testData
+                      eTag:testETag
+                 authToken:testAuthToken
+                    callId:testCallId
+         completionHandler:^(NSString *callId, NSHTTPURLResponse *response, NSData *data, NSError *error) {
+           XCTAssertEqualObjects(testCallId, callId);
+           XCTAssertNil(response);
+           XCTAssertNil(data);
+           XCTAssertNotNil(error);
+           XCTAssertEqualObjects(error.domain, MSDataStorageErrorDomain);
+           XCTAssertEqual(error.code, NSURLErrorNotConnectedToInternet);
+           OCMReject([ingestionMock sendAsync:testData
+                                         eTag:testETag
+                                    authToken:testAuthToken
+                                       callId:testCallId
+                            completionHandler:OCMOCK_ANY]);
+           [expectation fulfill];
+         }];
 
   // Then
   [self waitForExpectationsWithTimeout:1
