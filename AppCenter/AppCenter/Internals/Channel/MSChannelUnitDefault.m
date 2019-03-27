@@ -280,9 +280,6 @@
 }
 
 - (void)flushQueueForTokenArray:(NSMutableArray<MSAuthTokenHistoryState *> *)tokenArray withTokenIndex:(NSUInteger)tokenIndex {
-  if (tokenIndex == 0 && tokenArray[tokenIndex].startTime && [self.storage countLogsBeforeDate:tokenArray[tokenIndex].startTime] > 0) {
-    [self.storage deleteLogsWithDateBefore:(NSDate * _Nonnull) tokenArray[tokenIndex].startTime];
-  }
   MSAuthTokenHistoryState *tokenInfo = tokenArray[tokenIndex];
   self.availableBatchFromStorage = [self.storage loadLogsWithGroupId:self.configuration.groupId
                                                                limit:self.configuration.batchSizeLimit

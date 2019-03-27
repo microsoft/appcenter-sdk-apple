@@ -97,10 +97,12 @@ static NSString *const kMSTestGroupId = @"GroupId";
   id<MSLog> enqueuedLog = [self getValidMockLog];
   id ingestionMock = OCMProtocolMock(@protocol(MSIngestionProtocol));
   OCMStub([ingestionMock isReadyToSend]).andReturn(YES);
+  __block NSString *actualAuthToken;
   OCMStub([ingestionMock sendAsync:OCMOCK_ANY authToken:OCMOCK_ANY completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
     // Get ingestion block for later call.
     [invocation retainArguments];
     [invocation getArgument:&ingestionBlock atIndex:4];
+    [invocation getArgument:&actualAuthToken atIndex:3];
     [invocation getArgument:&logContainer atIndex:2];
   });
   __block id responseMock = [MSHttpTestUtil createMockResponseForStatusCode:200 headers:nil];
@@ -175,6 +177,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
+                                 XCTAssertNil(actualAuthToken);
                                }];
   [responseMock stopMocking];
 }
