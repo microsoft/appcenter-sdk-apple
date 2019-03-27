@@ -26,7 +26,7 @@
 
 - (NSMutableArray<MSAuthTokenHistoryState *> *)authTokenArray {
   NSMutableArray<MSAuthTokenInfo *> *tokenArray = [MSKeychainUtil arrayForKey:kMSIdentityAuthTokenArrayKey];
-  NSMutableArray<MSAuthTokenHistoryState *> *resultArray = [NSMutableArray<MSAuthTokenHistoryState> new];
+  NSMutableArray<MSAuthTokenHistoryState *> *resultArray = [NSMutableArray<MSAuthTokenHistoryState *> new];
   if (!tokenArray || tokenArray.count == 0) {
     return nil;
   }
@@ -106,7 +106,7 @@
     }
 
     // Save new array after changes.
-    [self storeAuthTokensHistoryState:tokenArray];
+    [self setAuthTokensHistoryState:tokenArray];
   }
 }
 
