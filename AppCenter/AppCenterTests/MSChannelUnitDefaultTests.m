@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import <Foundation/Foundation.h>
-#import <OCMock/OCMock.h>
-
 #import "MSAbstractLogInternal.h"
 #import "MSAppCenter.h"
+#import "MSAuthTokenContext.h"
+#import "MSAuthTokenInfo.h"
+#import "MSAuthTokenStorage.h"
 #import "MSChannelDelegate.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitDefault.h"
@@ -14,6 +14,7 @@
 #import "MSHttpIngestion.h"
 #import "MSHttpTestUtil.h"
 #import "MSLogContainer.h"
+#import "MSServiceCommon.h"
 #import "MSStorage.h"
 #import "MSTestFrameworks.h"
 #import "MSUserIdContext.h"
@@ -110,13 +111,14 @@ static NSString *const kMSTestGroupId = @"GroupId";
   OCMStub([storageMock loadLogsWithGroupId:kMSTestGroupId
                                      limit:batchSizeLimit
                         excludedTargetKeys:OCMOCK_ANY
+                                 afterDate:OCMOCK_ANY
                                 beforeDate:OCMOCK_ANY
                          completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         MSLoadDataCompletionHandler loadCallback;
 
         // Get ingestion block for later call.
-        [invocation getArgument:&loadCallback atIndex:6];
+        [invocation getArgument:&loadCallback atIndex:7];
 
         // Mock load.
         loadCallback(((NSArray<id<MSLog>> *)@[ expectedLog ]), expectedBatchId);
@@ -207,13 +209,14 @@ static NSString *const kMSTestGroupId = @"GroupId";
   OCMStub([storageMock loadLogsWithGroupId:kMSTestGroupId
                                      limit:batchSizeLimit
                         excludedTargetKeys:OCMOCK_ANY
+                                 afterDate:OCMOCK_ANY
                                 beforeDate:OCMOCK_ANY
                          completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         MSLoadDataCompletionHandler loadCallback;
 
         // Get ingestion block for later call.
-        [invocation getArgument:&loadCallback atIndex:6];
+        [invocation getArgument:&loadCallback atIndex:7];
 
         // Mock load.
         loadCallback(((NSArray<id<MSLog>> *)@[ expectedLog ]), expectedBatchId);
@@ -461,13 +464,14 @@ static NSString *const kMSTestGroupId = @"GroupId";
   OCMStub([storageMock loadLogsWithGroupId:kMSTestGroupId
                                      limit:batchSizeLimit
                         excludedTargetKeys:OCMOCK_ANY
+                                 afterDate:OCMOCK_ANY
                                 beforeDate:OCMOCK_ANY
                          completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         MSLoadDataCompletionHandler loadCallback;
 
         // Mock load.
-        [invocation getArgument:&loadCallback atIndex:6];
+        [invocation getArgument:&loadCallback atIndex:7];
         loadCallback(((NSArray<id<MSLog>> *)@[ OCMProtocolMock(@protocol(MSLog)) ]), [@(currentBatchId++) stringValue]);
       });
   MSChannelUnitConfiguration *config = [[MSChannelUnitConfiguration alloc] initWithGroupId:kMSTestGroupId
@@ -528,13 +532,14 @@ static NSString *const kMSTestGroupId = @"GroupId";
   OCMStub([storageMock loadLogsWithGroupId:kMSTestGroupId
                                      limit:batchSizeLimit
                         excludedTargetKeys:OCMOCK_ANY
+                                 afterDate:OCMOCK_ANY
                                 beforeDate:OCMOCK_ANY
                          completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         MSLoadDataCompletionHandler loadCallback;
 
         // Get ingestion block for later call.
-        [invocation getArgument:&loadCallback atIndex:6];
+        [invocation getArgument:&loadCallback atIndex:7];
 
         // Mock load.
         loadCallback(((NSArray<id<MSLog>> *)@[ OCMProtocolMock(@protocol(MSLog)) ]), [@(currentBatchId) stringValue]);
@@ -601,6 +606,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   OCMStub([storageMock loadLogsWithGroupId:kMSTestGroupId
                                      limit:batchSizeLimit
                         excludedTargetKeys:OCMOCK_ANY
+                                 afterDate:OCMOCK_ANY
                                 beforeDate:OCMOCK_ANY
                          completionHandler:([OCMArg invokeBlockWithArgs:((NSArray<id<MSLog>> *)@[ mockLog ]), @"1", nil])]);
   MSChannelUnitConfiguration *config = [[MSChannelUnitConfiguration alloc] initWithGroupId:kMSTestGroupId
@@ -639,6 +645,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   OCMStub([storageMock loadLogsWithGroupId:kMSTestGroupId
                                      limit:batchSizeLimit
                         excludedTargetKeys:OCMOCK_ANY
+                                 afterDate:OCMOCK_ANY
                                 beforeDate:OCMOCK_ANY
                          completionHandler:([OCMArg invokeBlockWithArgs:((NSArray<id<MSLog>> *)@[ mockLog ]), @"1", nil])]);
   MSChannelUnitConfiguration *config = [[MSChannelUnitConfiguration alloc] initWithGroupId:kMSTestGroupId
@@ -1214,6 +1221,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   OCMStub([self.storageMock loadLogsWithGroupId:self.sut.configuration.groupId
                                           limit:self.sut.configuration.batchSizeLimit
                              excludedTargetKeys:OCMOCK_ANY
+                                      afterDate:OCMOCK_ANY
                                      beforeDate:OCMOCK_ANY
                               completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {

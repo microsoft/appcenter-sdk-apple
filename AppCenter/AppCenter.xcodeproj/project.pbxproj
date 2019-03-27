@@ -582,6 +582,12 @@
 		80B7EA2420CA9CC100DF524C /* MSEncrypter.h in Headers */ = {isa = PBXBuildFile; fileRef = 8087362720C1348B004C4157 /* MSEncrypter.h */; };
 		80B7EA2520CA9CC400DF524C /* MSEncrypterPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 80B7EA2020CA9C9C00DF524C /* MSEncrypterPrivate.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		80B7EA2620CA9CC500DF524C /* MSEncrypterPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 80B7EA2020CA9C9C00DF524C /* MSEncrypterPrivate.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		87F297B22D57054EF6EBC90D /* MSAuthTokenHistoryState.m in Sources */ = {isa = PBXBuildFile; fileRef = 87F7AB21BD187EFD83F7F15E /* MSAuthTokenHistoryState.m */; };
+		87F31354132971040A2D5BDB /* MSAuthTokenHistoryState.h in Headers */ = {isa = PBXBuildFile; fileRef = 87F7B696F92E973BB1FCD190 /* MSAuthTokenHistoryState.h */; };
+		87F3B4270C3F130138D63C71 /* MSAuthTokenHistoryState.m in Sources */ = {isa = PBXBuildFile; fileRef = 87F7AB21BD187EFD83F7F15E /* MSAuthTokenHistoryState.m */; };
+		87F53B87450A92C9C4276BCD /* MSAuthTokenHistoryState.m in Sources */ = {isa = PBXBuildFile; fileRef = 87F7AB21BD187EFD83F7F15E /* MSAuthTokenHistoryState.m */; };
+		87F66CA7011BE49BEF1E8A78 /* MSAuthTokenHistoryState.h in Headers */ = {isa = PBXBuildFile; fileRef = 87F7B696F92E973BB1FCD190 /* MSAuthTokenHistoryState.h */; };
+		87FC89A1536EAB0BAB7B4B7D /* MSAuthTokenHistoryState.h in Headers */ = {isa = PBXBuildFile; fileRef = 87F7B696F92E973BB1FCD190 /* MSAuthTokenHistoryState.h */; };
 		9CB67DA02213790A006E20AC /* MSAuthTokenContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 9CB67D9F2213790A006E20AC /* MSAuthTokenContext.h */; };
 		9CB67DA12213790A006E20AC /* MSAuthTokenContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 9CB67D9F2213790A006E20AC /* MSAuthTokenContext.h */; };
 		9CB67DA22213790A006E20AC /* MSAuthTokenContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 9CB67D9F2213790A006E20AC /* MSAuthTokenContext.h */; };
@@ -1091,6 +1097,8 @@
 		8087362820C134AC004C4157 /* MSEncrypter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSEncrypter.m; sourceTree = "<group>"; };
 		8087362A20C1DCCF004C4157 /* MSEncrypterTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSEncrypterTests.m; sourceTree = "<group>"; };
 		80B7EA2020CA9C9C00DF524C /* MSEncrypterPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSEncrypterPrivate.h; sourceTree = "<group>"; };
+		87F7AB21BD187EFD83F7F15E /* MSAuthTokenHistoryState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAuthTokenHistoryState.m; sourceTree = "<group>"; };
+		87F7B696F92E973BB1FCD190 /* MSAuthTokenHistoryState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAuthTokenHistoryState.h; sourceTree = "<group>"; };
 		9C02498021A4BF3800C7B887 /* MSUserIdContextTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSUserIdContextTests.m; sourceTree = "<group>"; };
 		9CB67D9F2213790A006E20AC /* MSAuthTokenContext.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSAuthTokenContext.h; sourceTree = "<group>"; };
 		9CB67DA322137936006E20AC /* MSAuthTokenContext.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSAuthTokenContext.m; sourceTree = "<group>"; };
@@ -1726,6 +1734,8 @@
 				9CB67DA722137CCA006E20AC /* MSAuthTokenContextDelegate.h */,
 				C2751A55223FCBAB0040BFEB /* MSAuthTokenInfo.h */,
 				C2751A56223FCBAB0040BFEB /* MSAuthTokenInfo.m */,
+				87F7AB21BD187EFD83F7F15E /* MSAuthTokenHistoryState.m */,
+				87F7B696F92E973BB1FCD190 /* MSAuthTokenHistoryState.h */,
 			);
 			path = AuthToken;
 			sourceTree = "<group>";
@@ -2013,6 +2023,7 @@
 				2DA033F72EB5B6AA6990DA39 /* MSMetadataExtension.h in Headers */,
 				2DA0359F3499CF176A49FB8E /* MSHttpClientProtocol.h in Headers */,
 				2DA03260F92E20A2704722BA /* MSHttpClient.h in Headers */,
+				87F31354132971040A2D5BDB /* MSAuthTokenHistoryState.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2144,6 +2155,7 @@
 				047FEE2721A4968E00ED77CD /* MSUserIdContextPrivate.h in Headers */,
 				2DA035EFE1285F75525F45C2 /* MSHttpClientProtocol.h in Headers */,
 				2DA03928B5F43D9628F960A8 /* MSHttpClient.h in Headers */,
+				87F66CA7011BE49BEF1E8A78 /* MSAuthTokenHistoryState.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2275,6 +2287,7 @@
 				266EDC94C8B60B195B13BF40 /* MSCustomPropertiesPrivate.h in Headers */,
 				2DA03F23E66D07FE3AEED57B /* MSHttpClientProtocol.h in Headers */,
 				2DA03F20DF6F588E805FF21D /* MSHttpClient.h in Headers */,
+				87FC89A1536EAB0BAB7B4B7D /* MSAuthTokenHistoryState.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2663,6 +2676,7 @@
 				043120951EE0BCF9007054C5 /* MSAppCenterIngestion.m in Sources */,
 				2DA035A646596E34DAD3E440 /* MSMetadataExtension.m in Sources */,
 				2DA03CEA52ABB22AD531979C /* MSHttpClient.m in Sources */,
+				87F3B4270C3F130138D63C71 /* MSAuthTokenHistoryState.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2863,6 +2877,7 @@
 				B2CD74AA1F22BE270070E7DF /* MSUtility+Application.m in Sources */,
 				2DA03E86D60D8AC11B345613 /* MSMetadataExtension.m in Sources */,
 				2DA03AB5E1E3C1FACB5DD091 /* MSHttpClient.m in Sources */,
+				87F297B22D57054EF6EBC90D /* MSAuthTokenHistoryState.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2938,6 +2953,7 @@
 				B2CD74A91F22BE270070E7DF /* MSUtility+Application.m in Sources */,
 				2DA03EFBAD1AC21D07F02509 /* MSMetadataExtension.m in Sources */,
 				2DA03F59C2DD4E84B741D49F /* MSHttpClient.m in Sources */,
+				87F53B87450A92C9C4276BCD /* MSAuthTokenHistoryState.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

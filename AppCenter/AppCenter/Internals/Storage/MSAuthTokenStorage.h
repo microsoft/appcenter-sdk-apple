@@ -4,6 +4,7 @@
 #import <Foundation/Foundation.h>
 
 @class MSAuthTokenInfo;
+@class MSAuthTokenHistoryState;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -24,11 +25,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (nullable NSString *)retrieveAccountId;
 
 /**
- * Returns auth token info for the oldest entity in the the history.
+ * Returns array of auth tokens.
  *
- * @return auth token info.
+ * @return Array of MSAuthTokenInfo
  */
-- (MSAuthTokenInfo *)oldestAuthToken;
+- (NSMutableArray<MSAuthTokenHistoryState *> *)authTokenArray;
 
 /**
  * Stores auth token and account ID to settings and keychain.
