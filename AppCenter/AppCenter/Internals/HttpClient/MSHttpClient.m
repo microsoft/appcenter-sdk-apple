@@ -117,6 +117,7 @@
         [httpCall resetRetry];
         NSString *logMessage = internetIsDown ? @"Internet connection is down." : @"Could not establish secure connection.";
         MSLogInfo([MSAppCenter logTag], @"HTTP call failed with error: %@", logMessage);
+        return;
       } else {
         MSLogError([MSAppCenter logTag], @"HTTP request error with code: %td, domain: %@, description: %@", error.code, error.domain,
                    error.localizedDescription);
@@ -182,7 +183,9 @@
 
       // Resume calls.
       for (MSHttpCall *call in self.pendingCalls) {
-        [self sendCallAsync:call];
+        if (!call.inProgress) {
+          [self sendCallAsync:call];
+        }
       }
     }
   }

@@ -194,6 +194,59 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
   XCTAssertEqual(numRequests, 1);
 }
 
+- (void)testRecoverableNSErrorRetriedWhenNetworkReturns {
+
+  // If
+  __block BOOL completionHandlerCalled = NO;
+  __block BOOL firstTime = YES;
+  __block NSURLRequest *actualRequest;
+  NSArray *retryIntervals = @[ @1, @2 ];
+  [OHHTTPStubs
+   stubRequestsPassingTest:^BOOL(__unused NSURLRequest *request) {
+     return YES;
+   }
+   withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+     actualRequest = request;
+     if (firstTime) {
+       firstTime = NO;
+       NSError *error = [NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorCannotLoadFromNetwork userInfo:nil];
+       return [OHHTTPStubsResponse responseWithError:error];
+     }
+     return [OHHTTPStubsResponse responseWithData:[NSData data] statusCode:MSHTTPCodesNo204NoContent headers:nil];
+   }];
+  __weak XCTestExpectation *expectation = [self expectationWithDescription:@""];
+  self.sut = [[MSHttpClient alloc] initWithMaxHttpConnectionsPerHost:nil retryIntervals:retryIntervals reachability:self.reachabilityMock];
+  NSURL *url = [NSURL URLWithString:@"https://mock/something?a=b"];
+  NSString *method = @"DELETE";
+
+  // When
+  [self.sut sendAsync:url
+               method:method
+              headers:nil
+                 data:nil
+    completionHandler:^(__unused NSData *responseBody, __unused NSHTTPURLResponse *response, __unused NSError *error) {
+      completionHandlerCalled = YES;
+      [expectation fulfill];
+    }];
+
+  // Wait a little to ensure that the completion handler is not invoked yet.
+  sleep(1);
+
+  // Then
+  XCTAssertFalse(completionHandlerCalled);
+
+  // Restore the network and wait for completion handler to be called.
+  [self simulateReachabilityChangedNotification:ReachableViaWiFi];
+
+  // Then
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
+                               handler:^(NSError *_Nullable error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+}
+
 - (void)testNetworkDownAndThenUpAgain {
 
   // If
@@ -201,8 +254,6 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
   __block NSURLRequest *actualRequest;
   __block BOOL completionHandlerCalled = NO;
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@""];
-  dispatch_semaphore_t timingSemaphore = dispatch_semaphore_create(0);
-
   [OHHTTPStubs
       stubRequestsPassingTest:^BOOL(__unused NSURLRequest *request) {
         return YES;
@@ -232,10 +283,7 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
       }];
 
   // Wait a while to make sure that the requests are not sent while the network is down.
-  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-    dispatch_semaphore_signal(timingSemaphore);
-  });
-  dispatch_semaphore_wait(timingSemaphore, dispatch_time(DISPATCH_TIME_NOW, (int64_t)(kMSTestTimeout * NSEC_PER_SEC)));
+  sleep(1);
   XCTAssertFalse(completionHandlerCalled);
   XCTAssertEqual(numRequests, 0);
 
@@ -306,7 +354,6 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
 
   // If
   __block int numRequests = 0;
-  dispatch_semaphore_t timingSemaphore = dispatch_semaphore_create(0);
   dispatch_semaphore_t responseSemaphore = dispatch_semaphore_create(0);
   dispatch_semaphore_t pauseSemaphore = dispatch_semaphore_create(0);
   [OHHTTPStubs
@@ -342,10 +389,7 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
   [self simulateReachabilityChangedNotification:ReachableViaWiFi];
 
   // Wait a while to make sure that the request is not sent after resuming.
-  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-    dispatch_semaphore_signal(timingSemaphore);
-  });
-  dispatch_semaphore_wait(timingSemaphore, dispatch_time(DISPATCH_TIME_NOW, (int64_t)(kMSTestTimeout * NSEC_PER_SEC)));
+  sleep(1);
 
   // Then
   XCTAssertEqual(numRequests, 1);
