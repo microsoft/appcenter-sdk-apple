@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Error domain for Storage.
  */
-static NSString *const MSDataStorageErrorDomain = @"MSDataStorageErrorDomain";
+static NSString *const kMSDataStorageErrorDomain = @"MSDataStorageErrorDomain";
 
 /**
  * User partition.

@@ -30,7 +30,7 @@
   if (self.offlineMode) {
     NSDictionary *userInfo = @{NSLocalizedDescriptionKey : @"Storage offline simulation mode is enabled."};
     completionHandler(callId, nil, nil,
-                      [NSError errorWithDomain:MSDataStorageErrorDomain code:NSURLErrorNotConnectedToInternet userInfo:userInfo]);
+                      [NSError errorWithDomain:kMSDataStorageErrorDomain code:NSURLErrorNotConnectedToInternet userInfo:userInfo]);
   } else {
     [super sendAsync:data eTag:eTag authToken:authToken callId:callId completionHandler:completionHandler];
   }

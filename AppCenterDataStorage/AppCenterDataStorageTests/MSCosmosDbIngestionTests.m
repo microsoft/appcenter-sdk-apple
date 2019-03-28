@@ -33,7 +33,7 @@
            XCTAssertNil(response);
            XCTAssertNil(data);
            XCTAssertNotNil(error);
-           XCTAssertEqualObjects(error.domain, MSDataStorageErrorDomain);
+           XCTAssertEqualObjects(error.domain, kMSDataStorageErrorDomain);
            XCTAssertEqual(error.code, NSURLErrorNotConnectedToInternet);
            OCMReject([ingestionMock sendAsync:testData
                                          eTag:testETag

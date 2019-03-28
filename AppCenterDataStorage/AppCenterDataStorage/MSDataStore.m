@@ -187,15 +187,11 @@ static dispatch_once_t onceToken;
 }
 
 + (void)setOfflineMode:(BOOL)offlineMode {
-  @synchronized([MSDataStore sharedInstance]) {
-    [MSDataStore sharedInstance].offlineMode = offlineMode;
-  }
+  [MSDataStore sharedInstance].offlineMode = offlineMode;
 }
 
 + (BOOL)isOfflineMode {
-  @synchronized([MSDataStore sharedInstance]) {
-    return [MSDataStore sharedInstance].offlineMode;
-  }
+  return [MSDataStore sharedInstance].offlineMode;
 }
 
 #pragma mark - MSDataStore Implementation
