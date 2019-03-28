@@ -54,19 +54,67 @@ static dispatch_once_t onceToken;
 
 - (void)setAuthToken:(nullable NSString *)authToken withAccountId:(nullable NSString *)accountId expiresOn:(nullable NSDate *)expiresOn {
   NSArray *synchronizedDelegates;
-  BOOL isNewUser = NO;
+  BOOL isNewAccount = NO;
   @synchronized(self) {
-    isNewUser = ![self.accountId isEqual:accountId];
+    if (!authToken) {
+      accountId = nil;
+      expiresOn = nil;
+    }
+    NSMutableArray<MSAuthTokenInfo *> *authTokenHistory = [[self authTokenHistory] mutableCopy];
+
+    // If new token differs from the last token of array - add it to array.
+    MSAuthTokenInfo *lastEntry = authTokenHistory.lastObject;
+    NSString *__nullable latestAuthToken = lastEntry.authToken;
+    NSString *__nullable latestAccountId = lastEntry.accountId;
+    NSDate *__nullable latestTokenEndTime = lastEntry.expiresOn;
+    if (lastEntry != nil && [latestAuthToken isEqual:(NSString * _Nonnull) authToken]) {
+      return;
+    }
+    BOOL isNewUser = authTokenHistory.lastObject == nil || ![accountId isEqualToString:(NSString * __nonnull) latestAccountId];
+    NSDate *newTokenStartDate = [NSDate date];
+
+    // If there is a gap between tokens.
+    if (latestTokenEndTime && [newTokenStartDate laterDate:(NSDate * __nonnull) latestTokenEndTime]) {
+
+      // If the account the same or become anonymous.
+      if (!isNewUser || authToken == nil) {
+
+        // Apply the new token to this time.
+        newTokenStartDate = latestTokenEndTime;
+      } else {
+
+        // If it's not the same account treat the gap as anonymous.
+        MSAuthTokenInfo *newAuthToken = [[MSAuthTokenInfo alloc] initWithAuthToken:nil
+                                                                      andAccountId:nil
+                                                                      andStartTime:lastEntry.expiresOn
+                                                                      andExpiresOn:newTokenStartDate];
+        [authTokenHistory addObject:newAuthToken];
+      }
+    }
+    MSAuthTokenInfo *newAuthToken = [[MSAuthTokenInfo alloc] initWithAuthToken:authToken
+                                                                  andAccountId:accountId
+                                                                  andStartTime:newTokenStartDate
+                                                                  andExpiresOn:expiresOn];
+    [authTokenHistory addObject:newAuthToken];
+
+    // Cap array size at max available size const (deleting from beginning).
+    if ([authTokenHistory count] > kMSMaxAuthTokenArraySize) {
+      [authTokenHistory removeObjectsInRange:(NSRange){0, [authTokenHistory count] - kMSMaxAuthTokenArraySize}];
+      MSLogWarning([MSAppCenter logTag], @"Size of the token history is exceeded. The oldest token has been removed.");
+    }
+    isNewAccount = ![self.accountId isEqual:accountId];
 
     // Don't invoke the delegate while locking; it might be locking too and deadlock ourselves.
     synchronizedDelegates = [self.delegates allObjects];
-    [self saveAuthToken:authToken withAccountId:accountId expiresOn:expiresOn];
+
+    // Save new array.
+    [self setAuthTokenHistory:authTokenHistory];
   }
   for (id<MSAuthTokenContextDelegate> delegate in synchronizedDelegates) {
     if ([delegate respondsToSelector:@selector(authTokenContext:didSetNewAuthToken:)]) {
       [delegate authTokenContext:self didSetNewAuthToken:authToken];
     }
-    if (isNewUser && [delegate respondsToSelector:@selector(authTokenContext:didSetNewAccountIdWithAuthToken:)]) {
+    if (isNewAccount && [delegate respondsToSelector:@selector(authTokenContext:didSetNewAccountIdWithAuthToken:)]) {
       [delegate authTokenContext:self didSetNewAccountIdWithAuthToken:authToken];
     }
   }
@@ -101,7 +149,7 @@ static dispatch_once_t onceToken;
       (NSMutableArray<MSAuthTokenInfo *> * __nullable)[MSKeychainUtil arrayForKey:kMSAuthTokenHistoryKey];
   NSMutableArray<MSAuthTokenValidityInfo *> *resultArray = [NSMutableArray<MSAuthTokenValidityInfo *> new];
   if (!tokenArray || tokenArray.count == 0) {
-    [resultArray addObject:[[MSAuthTokenValidityInfo alloc] initWithAuthToken:nil andStartTime:nil andExpiresOn:nil]];
+    [resultArray addObject:[[MSAuthTokenValidityInfo alloc] initWithAuthToken:nil andStartTime:nil andEndTime:nil]];
     return resultArray;
   }
   for (NSUInteger i = 0; i < tokenArray.count; i++) {
@@ -115,60 +163,9 @@ static dispatch_once_t onceToken;
     }
     [resultArray addObject:[[MSAuthTokenValidityInfo alloc] initWithAuthToken:currentAuthTokenInfo.authToken
                                                                  andStartTime:currentAuthTokenInfo.startTime
-                                                                 andExpiresOn:expiresOn]];
+                                                                   andEndTime:expiresOn]];
   }
   return resultArray;
-}
-
-- (void)saveAuthToken:(nullable NSString *)authToken withAccountId:(nullable NSString *)accountId expiresOn:(nullable NSDate *)expiresOn {
-  @synchronized(self) {
-
-    // Read token array from storage.
-    NSMutableArray<MSAuthTokenInfo *> *authTokenHistory = [[self authTokenHistory] mutableCopy];
-
-    // If new token differs from the last token of array - add it to array.
-    MSAuthTokenInfo *lastEntry = authTokenHistory.lastObject;
-    NSString *__nullable latestAuthToken = lastEntry.authToken;
-    NSString *__nullable latestAccountId = lastEntry.accountId;
-    NSDate *__nullable latestTokenEndTime = lastEntry.expiresOn;
-    if (latestAuthToken ? ![latestAuthToken isEqualToString:(NSString * _Nonnull) authToken] : authToken != nil) {
-      BOOL isNewUser = authTokenHistory.lastObject == nil || ![accountId isEqualToString:(NSString * __nonnull) latestAccountId];
-      NSDate *newTokenStartDate = [NSDate date];
-
-      // If there is a gap between tokens.
-      if (latestTokenEndTime && [newTokenStartDate laterDate:(NSDate * __nonnull) latestTokenEndTime]) {
-
-        // If the account the same or become anonymous.
-        if (!isNewUser || authToken == nil) {
-
-          // Apply the new token to this time.
-          newTokenStartDate = latestTokenEndTime;
-        } else {
-
-          // If it's not the same account treat the gap as anonymous.
-          MSAuthTokenInfo *newAuthToken = [[MSAuthTokenInfo alloc] initWithAuthToken:nil
-                                                                        andAccountId:nil
-                                                                        andStartTime:lastEntry.expiresOn
-                                                                        andExpiresOn:newTokenStartDate];
-          [authTokenHistory addObject:newAuthToken];
-        }
-      }
-      MSAuthTokenInfo *newAuthToken = [[MSAuthTokenInfo alloc] initWithAuthToken:authToken
-                                                                    andAccountId:accountId
-                                                                    andStartTime:newTokenStartDate
-                                                                    andExpiresOn:expiresOn];
-      [authTokenHistory addObject:newAuthToken];
-    }
-
-    // Cap array size at max available size const (deleting from beginning).
-    if ([authTokenHistory count] > kMSMaxAuthTokenArraySize) {
-      [authTokenHistory removeObjectsInRange:(NSRange){0, [authTokenHistory count] - kMSMaxAuthTokenArraySize}];
-      MSLogWarning([MSAppCenter logTag], @"Size of the token history is exceeded. The oldest token has been removed.");
-    }
-
-    // Save new array.
-    [self setAuthTokenHistory:authTokenHistory];
-  }
 }
 
 - (void)removeAuthToken:(nullable NSString *)authToken {
@@ -184,7 +181,7 @@ static dispatch_once_t onceToken;
     }
 
     // Check oldest entry, delete if it matches.
-    if (tokenArray[0].authToken == authToken) {
+    if ([authToken isEqual:tokenArray[0].authToken]) {
       [tokenArray removeObjectAtIndex:0];
     } else {
       MSLogWarning([MSAppCenter logTag], @"Couldn't remove token from history; the token isn't oldest or is already removed.");
