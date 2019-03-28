@@ -12,6 +12,8 @@
 #import "MSDataStorePrivate.h"
 #import "MSDocumentWrapper.h"
 #import "MSMockUserDefaults.h"
+#import "MSServiceAbstract.h"
+#import "MSServiceAbstractProtected.h"
 #import "MSTestFrameworks.h"
 #import "MSTokenExchange.h"
 #import "MSTokenResult.h"
@@ -37,6 +39,7 @@
 
 @interface MSDataStoreTests : XCTestCase
 
+@property(nonatomic, strong) MSDataStore *sut;
 @property(nonatomic) id settingsMock;
 @property(nonatomic) id tokenExchangeMock;
 @property(nonatomic) id cosmosDbMock;
@@ -45,6 +48,7 @@
 
 @implementation MSDataStoreTests
 
+static NSString *const kMSTestAppSecret = @"TestAppSecret";
 static NSString *const kMSCosmosDbHttpCodeKey = @"com.Microsoft.AppCenter.HttpCodeKey";
 static NSString *const kMSTokenTest = @"token";
 static NSString *const kMSPartitionTest = @"partition";
@@ -58,12 +62,14 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 - (void)setUp {
   [super setUp];
   self.settingsMock = [MSMockUserDefaults new];
+  self.sut = [MSDataStore new];
   self.tokenExchangeMock = OCMClassMock([MSTokenExchange class]);
   self.cosmosDbMock = OCMClassMock([MSCosmosDb class]);
 }
 
 - (void)tearDown {
   [super tearDown];
+  [MSDataStore resetSharedInstance];
   [self.settingsMock stopMocking];
   [self.tokenExchangeMock stopMocking];
   [self.cosmosDbMock stopMocking];
@@ -79,6 +85,33 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   tokenResultDictionary[@"status"] = kMSStatusTest;
   tokenResultDictionary[@"expiresOn"] = kMSExpiresOnTest;
   return tokenResultDictionary;
+}
+
+- (void)testApplyEnabledStateWorks {
+
+  // If
+  [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
+                        appSecret:kMSTestAppSecret
+          transmissionTargetToken:nil
+                  fromApplication:YES];
+
+  // When
+  [self.sut setEnabled:YES];
+
+  // Then
+  XCTAssertTrue([self.sut isEnabled]);
+
+  // When
+  [self.sut setEnabled:NO];
+
+  // Then
+  XCTAssertFalse([self.sut isEnabled]);
+
+  // When
+  [self.sut setEnabled:YES];
+
+  // Then
+  XCTAssertTrue([self.sut isEnabled]);
 }
 
 - (void)testDefaultHeaderWithPartitionWithDictionaryNotNull {
