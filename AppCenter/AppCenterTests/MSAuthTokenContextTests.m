@@ -125,7 +125,7 @@
   NSString *expectedAccount = @"someAccountData";
 
   // When
-  [self.sut saveAuthToken:expectedToken withAccountId:expectedAccount expiresOn:nil];
+  [self.sut setAuthToken:expectedToken withAccountId:expectedAccount expiresOn:nil];
   MSAuthTokenInfo *actualAuthTokenInfo = [[MSMockKeychainUtil arrayForKey:kMSAuthTokenHistoryKey] lastObject];
 
   // Then
@@ -145,10 +145,9 @@
   NSMutableArray<MSAuthTokenInfo *> *authTokenHistory = [NSMutableArray<MSAuthTokenInfo *> new];
   [authTokenHistory addObject:authTokenInfo];
   [MSMockKeychainUtil storeArray:authTokenHistory forKey:kMSAuthTokenHistoryKey];
-  [self.settingsMock setObject:@"someAccountData" forKey:kMSHomeAccountKey];
 
   // When
-  [self.sut saveAuthToken:nil withAccountId:@"someNewAccountData" expiresOn:nil];
+  [self.sut setAuthToken:nil withAccountId:@"someNewAccountData" expiresOn:nil];
   MSAuthTokenInfo *actualAuthTokenInfo = [[MSMockKeychainUtil arrayForKey:kMSAuthTokenHistoryKey] lastObject];
 
   // Then
@@ -159,10 +158,9 @@
 
   // If
   NSString *expectedToken = @"someNewToken";
-  [self.settingsMock setObject:@"someAccountData" forKey:kMSHomeAccountKey];
 
   // When
-  [self.sut saveAuthToken:expectedToken withAccountId:nil expiresOn:nil];
+  [self.sut setAuthToken:expectedToken withAccountId:nil expiresOn:nil];
   MSAuthTokenInfo *actualAuthTokenInfo = [[MSMockKeychainUtil arrayForKey:kMSAuthTokenHistoryKey] lastObject];
 
   // Then
@@ -203,10 +201,10 @@
   NSDate *expiryFirst = [NSDate dateWithTimeIntervalSince1970:1900];
   NSDate *expirySecond = [NSDate dateWithTimeIntervalSinceNow:1000];
   NSDate *expiryThird = [NSDate dateWithTimeIntervalSinceNow:50000];
-  [self.sut saveAuthToken:@"unexpectedAuthToken1" withAccountId:@"someAccountId" expiresOn:nil];
-  [self.sut saveAuthToken:@"unexpectedAuthToken2" withAccountId:@"anotherAccountId" expiresOn:expiryFirst];
-  [self.sut saveAuthToken:@"unexpectedAuthToken3" withAccountId:@"anotherAccountId" expiresOn:expirySecond];
-  [self.sut saveAuthToken:expectedAuthToken withAccountId:@"anotherAccountId" expiresOn:expiryThird];
+  [self.sut setAuthToken:@"unexpectedAuthToken1" withAccountId:@"someAccountId" expiresOn:nil];
+  [self.sut setAuthToken:@"unexpectedAuthToken2" withAccountId:@"anotherAccountId" expiresOn:expiryFirst];
+  [self.sut setAuthToken:@"unexpectedAuthToken3" withAccountId:@"anotherAccountId" expiresOn:expirySecond];
+  [self.sut setAuthToken:expectedAuthToken withAccountId:@"anotherAccountId" expiresOn:expiryThird];
 
   // When
   NSMutableArray<MSAuthTokenValidityInfo *> *actualAuthTokenValidityArray = [self.sut authTokenValidityArray];
@@ -219,8 +217,8 @@
 
   // If
   NSString *tokenExpectedToBeDeleted = @"someAuthToken";
-  [self.sut saveAuthToken:tokenExpectedToBeDeleted withAccountId:@"someAccountId" expiresOn:nil];
-  [self.sut saveAuthToken:@"someNewAuthToken" withAccountId:@"anotherAccountId" expiresOn:nil];
+  [self.sut setAuthToken:tokenExpectedToBeDeleted withAccountId:@"someAccountId" expiresOn:nil];
+  [self.sut setAuthToken:@"someNewAuthToken" withAccountId:@"anotherAccountId" expiresOn:nil];
 
   // When
   [self.sut removeAuthToken:nil];
@@ -235,7 +233,7 @@
 
   // If
   NSString *tokenExpectedNotToBeDeleted = @"someAuthToken";
-  [self.sut saveAuthToken:tokenExpectedNotToBeDeleted withAccountId:@"someAccountId" expiresOn:nil];
+  [self.sut setAuthToken:tokenExpectedNotToBeDeleted withAccountId:@"someAccountId" expiresOn:nil];
 
   // When
   [self.sut removeAuthToken:tokenExpectedNotToBeDeleted];
@@ -252,8 +250,8 @@
 
   // When
   for (int i = 0; i < kMSMaxAuthTokenArraySize; ++i) {
-    [self.sut saveAuthToken:@"someToken" withAccountId:accountId expiresOn:nil];
-    [self.sut saveAuthToken:nil withAccountId:accountId expiresOn:nil];
+    [self.sut setAuthToken:@"someToken" withAccountId:accountId expiresOn:nil];
+    [self.sut setAuthToken:nil withAccountId:accountId expiresOn:nil];
   }
   NSArray<MSAuthTokenInfo *> *actualAuthTokensHistory = [MSMockKeychainUtil arrayForKey:kMSAuthTokenHistoryKey];
 
@@ -269,13 +267,13 @@
 
   // When
   for (int i = 0; i < 2; ++i) {
-    [self.sut saveAuthToken:authToken withAccountId:accountId expiresOn:nil];
+    [self.sut setAuthToken:authToken withAccountId:accountId expiresOn:nil];
   }
   for (int i = 0; i < 2; ++i) {
-    [self.sut saveAuthToken:nil withAccountId:accountId expiresOn:nil];
+    [self.sut setAuthToken:nil withAccountId:accountId expiresOn:nil];
   }
   for (int i = 0; i < 2; ++i) {
-    [self.sut saveAuthToken:authToken withAccountId:accountId expiresOn:nil];
+    [self.sut setAuthToken:authToken withAccountId:accountId expiresOn:nil];
   }
   NSArray<MSAuthTokenInfo *> *actualAuthTokensHistory = [MSMockKeychainUtil arrayForKey:kMSAuthTokenHistoryKey];
   MSAuthTokenInfo *latestAuthTokenInfo = [actualAuthTokensHistory lastObject];
@@ -296,8 +294,8 @@
   NSDate *expirySecond = [NSDate dateWithTimeIntervalSinceNow:1000];
 
   // When
-  [self.sut saveAuthToken:authToken withAccountId:accountId expiresOn:expiryFirst];
-  [self.sut saveAuthToken:newAuthToken withAccountId:newAccountId expiresOn:expirySecond];
+  [self.sut setAuthToken:authToken withAccountId:accountId expiresOn:expiryFirst];
+  [self.sut setAuthToken:newAuthToken withAccountId:newAccountId expiresOn:expirySecond];
 
   // Then
   NSArray<MSAuthTokenInfo *> *actualAuthTokensHistory = [MSMockKeychainUtil arrayForKey:kMSAuthTokenHistoryKey];
@@ -315,8 +313,8 @@
   NSDate *expirySecond = [NSDate dateWithTimeIntervalSinceNow:1000];
 
   // When
-  [self.sut saveAuthToken:authToken withAccountId:accountId expiresOn:expiryFirst];
-  [self.sut saveAuthToken:newAuthToken withAccountId:accountId expiresOn:expirySecond];
+  [self.sut setAuthToken:authToken withAccountId:accountId expiresOn:expiryFirst];
+  [self.sut setAuthToken:newAuthToken withAccountId:accountId expiresOn:expirySecond];
 
   // Then
   NSArray<MSAuthTokenInfo *> *actualAuthTokensHistory = [MSMockKeychainUtil arrayForKey:kMSAuthTokenHistoryKey];

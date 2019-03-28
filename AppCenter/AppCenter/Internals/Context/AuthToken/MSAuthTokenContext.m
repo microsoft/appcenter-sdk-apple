@@ -101,21 +101,21 @@ static dispatch_once_t onceToken;
       (NSMutableArray<MSAuthTokenInfo *> * __nullable)[MSKeychainUtil arrayForKey:kMSAuthTokenHistoryKey];
   NSMutableArray<MSAuthTokenValidityInfo *> *resultArray = [NSMutableArray<MSAuthTokenValidityInfo *> new];
   if (!tokenArray || tokenArray.count == 0) {
-    [resultArray addObject:[[MSAuthTokenValidityInfo alloc] initWithAuthToken:nil andStartTime:nil andEndTime:nil]];
+    [resultArray addObject:[[MSAuthTokenValidityInfo alloc] initWithAuthToken:nil andStartTime:nil andExpiresOn:nil]];
     return resultArray;
   }
   for (NSUInteger i = 0; i < tokenArray.count; i++) {
     MSAuthTokenInfo *currentAuthTokenInfo = tokenArray[i];
-    NSDate *endTime = currentAuthTokenInfo.expiresOn;
+    NSDate *expiresOn = currentAuthTokenInfo.expiresOn;
     NSDate *nextTokenStartTime = i + 1 < tokenArray.count ? tokenArray[i + 1].startTime : nil;
-    if (nextTokenStartTime && endTime && [nextTokenStartTime laterDate:endTime]) {
-      endTime = nextTokenStartTime;
-    } else if (!endTime && nextTokenStartTime) {
-      endTime = nextTokenStartTime;
+    if (nextTokenStartTime && expiresOn && [nextTokenStartTime laterDate:expiresOn]) {
+      expiresOn = nextTokenStartTime;
+    } else if (!expiresOn && nextTokenStartTime) {
+      expiresOn = nextTokenStartTime;
     }
     [resultArray addObject:[[MSAuthTokenValidityInfo alloc] initWithAuthToken:currentAuthTokenInfo.authToken
                                                                  andStartTime:currentAuthTokenInfo.startTime
-                                                                   andEndTime:endTime]];
+                                                                 andExpiresOn:expiresOn]];
   }
   return resultArray;
 }
@@ -163,6 +163,7 @@ static dispatch_once_t onceToken;
     // Cap array size at max available size const (deleting from beginning).
     if ([authTokenHistory count] > kMSMaxAuthTokenArraySize) {
       [authTokenHistory removeObjectsInRange:(NSRange){0, [authTokenHistory count] - kMSMaxAuthTokenArraySize}];
+      MSLogWarning([MSAppCenter logTag], @"Size of the token history is exceeded. The oldest token has been removed.");
     }
 
     // Save new array.
@@ -178,16 +179,20 @@ static dispatch_once_t onceToken;
 
     // Do nothing if there's just one entry in the history or no history at all.
     if (!tokenArray || tokenArray.count <= 1) {
+      MSLogWarning([MSAppCenter logTag], @"Couldn't remove token from history; token history is empty or contains only current one.");
       return;
     }
 
     // Check oldest entry, delete if it matches.
     if (tokenArray[0].authToken == authToken) {
       [tokenArray removeObjectAtIndex:0];
+    } else {
+      MSLogWarning([MSAppCenter logTag], @"Couldn't remove token from history; the token isn't oldest or is already removed.");
     }
 
     // Save new array after changes.
     [self setAuthTokenHistory:tokenArray];
+    MSLogDebug([MSAppCenter logTag], @"The token has been removed from teh history.");
   }
 }
 

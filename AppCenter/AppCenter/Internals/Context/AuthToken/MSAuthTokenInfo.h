@@ -38,7 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param authToken Auth token.
  * @param startTime Start time.
- * @param endTime End time.
+ * @param expiresOn End time.
  *
  * @return Token info instance.
  */

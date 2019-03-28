@@ -33,11 +33,11 @@
   NSString *authToken = @"authToken";
   NSString *accountId = @"accountId";
   NSDate *startTime = [NSDate new];
-  NSDate *endTime = [NSDate new];
+  NSDate *expiresOn = [NSDate new];
   MSAuthTokenInfo *expectedTokenInfo = [[MSAuthTokenInfo alloc] initWithAuthToken:authToken
                                                                      andAccountId:accountId
                                                                      andStartTime:startTime
-                                                                     andExpiresOn:endTime];
+                                                                     andExpiresOn:expiresOn];
   [expectedArray addObject:expectedTokenInfo];
   NSString *key = @"keyToStoreAuthTokenArray";
   __block NSMutableDictionary *attributes;

@@ -285,7 +285,7 @@
                                   limit:self.configuration.batchSizeLimit
                      excludedTargetKeys:[self.pausedTargetKeys allObjects]
                               afterDate:tokenInfo.startTime
-                             beforeDate:tokenInfo.endTime
+                             beforeDate:tokenInfo.expiresOn
                       completionHandler:^(NSArray<id<MSLog>> *_Nonnull logArray, NSString *batchId) {
                         if (logArray.count > 0) {
 
@@ -294,7 +294,7 @@
                         } else {
 
                           // No logs available with given params.
-                          if (tokenIndex == 0 && [self.storage countLogsBeforeDate:tokenArray[tokenIndex].endTime] == 0) {
+                          if (tokenIndex == 0 && [self.storage countLogsBeforeDate:tokenArray[tokenIndex].expiresOn] == 0) {
 
                             // Delete token from history if we don't have logs fitting it in DB.
                             [[MSAuthTokenContext sharedInstance] removeAuthToken:tokenInfo.authToken];

@@ -7,12 +7,12 @@
 
 - (instancetype)initWithAuthToken:(nullable NSString *)authToken
                      andStartTime:(nullable NSDate *)startTime
-                       andEndTime:(nullable NSDate *)endTime {
+                     andExpiresOn:(nullable NSDate *)expiresOn {
   self = [super init];
   if (self) {
     _authToken = authToken;
     _startTime = startTime;
-    _endTime = endTime;
+    _expiresOn = expiresOn;
   }
   return self;
 }

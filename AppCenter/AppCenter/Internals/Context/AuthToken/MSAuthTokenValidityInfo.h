@@ -26,20 +26,20 @@ NS_ASSUME_NONNULL_BEGIN
  * It can be nil if it's still valid.
  * In the keychain encoded data used to store expiration time.
  */
-@property(nonatomic, nullable, readonly) NSDate *endTime;
+@property(nonatomic, nullable, readonly) NSDate *expiresOn;
 
 /**
  * Initialize a token info with required parameters.
  *
  * @param authToken Auth token.
  * @param startTime Start time.
- * @param endTime End time.
+ * @param expiresOn End time.
  *
  * @return Token info instance.
  */
 - (instancetype)initWithAuthToken:(nullable NSString *)authToken
                      andStartTime:(nullable NSDate *)startTime
-                       andEndTime:(nullable NSDate *)endTime;
+                     andExpiresOn:(nullable NSDate *)expiresOn;
 
 @end
 
