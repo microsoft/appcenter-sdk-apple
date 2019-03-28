@@ -162,7 +162,7 @@ static dispatch_once_t onceToken;
                            andMessage:@"signIn is called while it's not configured or not in the foreground."];
     return;
   }
-  NSString *accountId = [[MSAuthTokenContext sharedInstance] homeAccountId];
+  NSString *accountId = [[MSAuthTokenContext sharedInstance] accountId];
   MSALAccount *account = [self retrieveAccountWithAccountId:accountId];
   if (account) {
     [self acquireTokenSilentlyWithMSALAccount:account];
@@ -316,7 +316,7 @@ static dispatch_once_t onceToken;
   if (!self.clientApplication) {
     return NO;
   }
-  NSString *accountId = [[MSAuthTokenContext sharedInstance] homeAccountId];
+  NSString *accountId = [[MSAuthTokenContext sharedInstance] accountId];
   MSALAccount *account = [self retrieveAccountWithAccountId:accountId];
   if (account) {
     NSError *error;

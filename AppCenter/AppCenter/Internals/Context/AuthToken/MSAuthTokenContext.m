@@ -22,11 +22,6 @@ static dispatch_once_t onceToken;
 @property(nullable, atomic, copy) NSString *authTokenCache;
 
 /**
- * The last value of user account id.
- */
-@property(nullable, atomic, copy) NSString *homeAccountId;
-
-/**
  * Collection of channel delegates.
  */
 @property(nonatomic) NSHashTable<id<MSAuthTokenContextDelegate>> *delegates;
@@ -58,19 +53,14 @@ static dispatch_once_t onceToken;
 }
 
 - (void)setAuthToken:(nullable NSString *)authToken withAccountId:(nullable NSString *)accountId expiresOn:(nullable NSDate *)expiresOn {
-  [self saveAuthToken:authToken withAccountId:accountId expiresOn:expiresOn];
-  [self updateAuthToken:authToken withAccountId:accountId];
-}
-
-- (void)updateAuthToken:(nullable NSString *)authToken withAccountId:(nullable NSString *)accountId {
   NSArray *synchronizedDelegates;
   BOOL isNewUser = NO;
   @synchronized(self) {
-    isNewUser = ![self.homeAccountId isEqual:accountId];
-    self.homeAccountId = accountId;
+    isNewUser = ![self.accountId isEqual:accountId];
 
     // Don't invoke the delegate while locking; it might be locking too and deadlock ourselves.
     synchronizedDelegates = [self.delegates allObjects];
+    [self saveAuthToken:authToken withAccountId:accountId expiresOn:expiresOn];
   }
   for (id<MSAuthTokenContextDelegate> delegate in synchronizedDelegates) {
     if ([delegate respondsToSelector:@selector(authTokenContext:didSetNewAuthToken:)]) {
@@ -108,14 +98,15 @@ static dispatch_once_t onceToken;
 
 - (NSMutableArray<MSAuthTokenValidityInfo *> *)authTokenValidityArray {
   NSMutableArray<MSAuthTokenInfo *> *__nullable tokenArray =
-      (NSMutableArray<MSAuthTokenInfo *> * __nullable)[MSKeychainUtil arrayForKey:kMSAuthTokenArrayKey];
+      (NSMutableArray<MSAuthTokenInfo *> * __nullable)[MSKeychainUtil arrayForKey:kMSAuthTokenHistoryKey];
   NSMutableArray<MSAuthTokenValidityInfo *> *resultArray = [NSMutableArray<MSAuthTokenValidityInfo *> new];
   if (!tokenArray || tokenArray.count == 0) {
-    return nil;
+    [resultArray addObject:[[MSAuthTokenValidityInfo alloc] initWithAuthToken:nil andStartTime:nil andEndTime:nil]];
+    return resultArray;
   }
   for (NSUInteger i = 0; i < tokenArray.count; i++) {
     MSAuthTokenInfo *currentAuthTokenInfo = tokenArray[i];
-    NSDate *endTime = currentAuthTokenInfo.endTime;
+    NSDate *endTime = currentAuthTokenInfo.expiresOn;
     NSDate *nextTokenStartTime = i + 1 < tokenArray.count ? tokenArray[i + 1].startTime : nil;
     if (nextTokenStartTime && endTime && [nextTokenStartTime laterDate:endTime]) {
       endTime = nextTokenStartTime;
@@ -136,12 +127,12 @@ static dispatch_once_t onceToken;
     NSMutableArray<MSAuthTokenInfo *> *authTokenHistory = [[self authTokenHistory] mutableCopy];
 
     // If new token differs from the last token of array - add it to array.
-    MSAuthTokenInfo *lastEntry = [authTokenHistory lastObject];
-    NSString *__nullable latestAuthToken = lastEntry ? lastEntry.authToken : nil;
-    NSString *__nullable latestAccountId = lastEntry ? lastEntry.accountId : nil;
-    NSDate *__nullable latestTokenEndTime = lastEntry ? lastEntry.endTime : nil;
+    MSAuthTokenInfo *lastEntry = authTokenHistory.lastObject;
+    NSString *__nullable latestAuthToken = lastEntry.authToken;
+    NSString *__nullable latestAccountId = lastEntry.accountId;
+    NSDate *__nullable latestTokenEndTime = lastEntry.expiresOn;
     if (latestAuthToken ? ![latestAuthToken isEqualToString:(NSString * _Nonnull) authToken] : authToken != nil) {
-      BOOL isNewUser = [authTokenHistory lastObject] == nil || ![accountId isEqualToString:(NSString * __nonnull) latestAccountId];
+      BOOL isNewUser = authTokenHistory.lastObject == nil || ![accountId isEqualToString:(NSString * __nonnull) latestAccountId];
       NSDate *newTokenStartDate = [NSDate date];
 
       // If there is a gap between tokens.
@@ -157,15 +148,15 @@ static dispatch_once_t onceToken;
           // If it's not the same account treat the gap as anonymous.
           MSAuthTokenInfo *newAuthToken = [[MSAuthTokenInfo alloc] initWithAuthToken:nil
                                                                         andAccountId:nil
-                                                                        andStartTime:lastEntry.endTime
-                                                                          andEndTime:newTokenStartDate];
+                                                                        andStartTime:lastEntry.expiresOn
+                                                                        andExpiresOn:newTokenStartDate];
           [authTokenHistory addObject:newAuthToken];
         }
       }
       MSAuthTokenInfo *newAuthToken = [[MSAuthTokenInfo alloc] initWithAuthToken:authToken
                                                                     andAccountId:accountId
                                                                     andStartTime:newTokenStartDate
-                                                                      andEndTime:expiresOn];
+                                                                    andExpiresOn:expiresOn];
       [authTokenHistory addObject:newAuthToken];
     }
 
@@ -204,7 +195,7 @@ static dispatch_once_t onceToken;
   if (self.authTokenHistoryArray != nil) {
     return (NSArray<MSAuthTokenInfo *> *)self.authTokenHistoryArray;
   }
-  NSArray<MSAuthTokenInfo *> *history = [MSKeychainUtil arrayForKey:kMSAuthTokenArrayKey];
+  NSArray<MSAuthTokenInfo *> *history = [MSKeychainUtil arrayForKey:kMSAuthTokenHistoryKey];
   if (history) {
     MSLogDebug([MSAppCenter logTag], @"Retrieved history state from the keychain.");
   } else {
@@ -216,7 +207,7 @@ static dispatch_once_t onceToken;
 }
 
 - (void)setAuthTokenHistory:(nullable NSArray<MSAuthTokenInfo *> *)authTokenHistory {
-  if ([MSKeychainUtil storeArray:(NSArray * __nonnull) authTokenHistory forKey:kMSAuthTokenArrayKey]) {
+  if ([MSKeychainUtil storeArray:(NSArray * __nonnull) authTokenHistory forKey:kMSAuthTokenHistoryKey]) {
     MSLogDebug([MSAppCenter logTag], @"Saved new history state in the keychain.");
     self.authTokenHistoryArray = authTokenHistory;
   } else {

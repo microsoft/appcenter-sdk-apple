@@ -74,7 +74,7 @@ typedef void (^MSLoadDataCompletionHandler)(NSArray<id<MSLog>> *_Nullable logArr
                       limit:(NSUInteger)limit
          excludedTargetKeys:(nullable NSArray<NSString *> *)excludedTargetKeys
                   afterDate:(nullable NSDate *)dateAfter
-                 beforeDate:(nullable NSDate *)date
+                 beforeDate:(nullable NSDate *)dateBefore
           completionHandler:(nullable MSLoadDataCompletionHandler)completionHandler;
 
 /**

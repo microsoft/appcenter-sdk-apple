@@ -7,7 +7,6 @@
 #import "MSAppCenterIngestion.h"
 #import "MSAppCenterInternal.h"
 #import "MSAuthTokenContext.h"
-#import "MSAuthTokenStorage.h"
 #import "MSAuthTokenValidityInfo.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitDefaultPrivate.h"
@@ -350,12 +349,6 @@
   // Reset item count and load data from the storage.
   self.itemsCount = 0;
   NSMutableArray<MSAuthTokenValidityInfo *> *tokenArray = [MSAuthTokenContext sharedInstance].authTokenValidityArray;
-  if (!tokenArray) {
-    tokenArray = [NSMutableArray<MSAuthTokenValidityInfo *> new];
-  }
-  if (tokenArray.count == 0) {
-    [tokenArray addObject:[[MSAuthTokenValidityInfo alloc] initWithAuthToken:nil andStartTime:nil andEndTime:nil]];
-  }
   [self flushQueueForTokenArray:tokenArray withTokenIndex:0];
 }
 

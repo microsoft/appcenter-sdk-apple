@@ -12,7 +12,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol MSAuthTokenStorage;
 @protocol MSAuthTokenContextDelegate;
 
 /**
@@ -25,11 +24,6 @@ NS_ASSUME_NONNULL_BEGIN
  * Cached authorization token.
  */
 @property(nullable, atomic, readonly) NSString *authToken;
-
-/**
- * Cached home account identifier.
- */
-@property(nullable, atomic, readonly) NSString *homeAccountId;
 
 /**
  * Get singleton instance.
@@ -58,11 +52,6 @@ NS_ASSUME_NONNULL_BEGIN
  * @param expiresOn expiration date of a token.
  */
 - (void)setAuthToken:(nullable NSString *)authToken withAccountId:(nullable NSString *)accountId expiresOn:(nullable NSDate *)expiresOn;
-
-/**
- * Reset singleton instance.
- */
-+ (void)resetSharedInstance;
 
 /**
  * Returns current auth token.
@@ -103,13 +92,6 @@ NS_ASSUME_NONNULL_BEGIN
  *                  the wrong one on duplicated calls etc.
  */
 - (void)removeAuthToken:(nullable NSString *)authToken;
-
-/**
- * Returns array of auth tokens info.
- *
- * @return Array of MSAuthTokenInfo.
- */
-- (NSArray<MSAuthTokenInfo *> *)authTokenHistory;
 
 @end
 

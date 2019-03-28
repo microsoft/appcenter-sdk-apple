@@ -136,8 +136,8 @@ static const NSUInteger kMSSchemaVersion = 4;
 - (BOOL)loadLogsWithGroupId:(NSString *)groupId
                       limit:(NSUInteger)limit
          excludedTargetKeys:(nullable NSArray<NSString *> *)excludedTargetKeys
-                  afterDate:(nullable NSDate *)afterDate
-                 beforeDate:(nullable NSDate *)beforeDate
+                  afterDate:(nullable NSDate *)dateAfter
+                 beforeDate:(nullable NSDate *)dateBefore
           completionHandler:(nullable MSLoadDataCompletionHandler)completionHandler {
   BOOL logsAvailable;
   BOOL moreLogsAvailable = NO;
@@ -168,11 +168,11 @@ static const NSUInteger kMSSchemaVersion = 4;
   }
 
   // Filter by time.
-  if (afterDate) {
-    [condition appendFormat:@" AND \"%@\" >= '%lld'", kMSTimestampColumnName, (long long)[afterDate timeIntervalSince1970]];
+  if (dateAfter) {
+    [condition appendFormat:@" AND \"%@\" >= '%lld'", kMSTimestampColumnName, (long long)[dateAfter timeIntervalSince1970]];
   }
-  if (beforeDate) {
-    [condition appendFormat:@" AND \"%@\" < '%lld'", kMSTimestampColumnName, (long long)[beforeDate timeIntervalSince1970]];
+  if (dateBefore) {
+    [condition appendFormat:@" AND \"%@\" < '%lld'", kMSTimestampColumnName, (long long)[dateBefore timeIntervalSince1970]];
   }
 
   // Build the "ORDER BY" clause's conditions.

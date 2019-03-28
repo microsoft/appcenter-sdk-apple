@@ -56,19 +56,14 @@ typedef NS_ENUM(NSInteger, MSPriority) { MSPriorityBackground, MSPriorityDefault
 static short const kMSPriorityCount = MSPriorityHigh + 1;
 
 /**
- * The key for Identity auth token array stored in keychain.
+ * The key for auth token history array stored in keychain.
  */
-static NSString *const kMSAuthTokenArrayKey = @"MSAppCenterAuthTokenArray";
+static NSString *const kMSAuthTokenHistoryKey = @"MSAppCenterAuthTokenHistory";
 
 /**
  * Maximum amount of available token stored in the keychain.
  */
 static int const kMSMaxAuthTokenArraySize = 5;
-
-/**
- * The key for the account homeAccountId stored in user defaults.
- */
-static NSString *const kMSHomeAccountKey = @"MSAppCenterHomeAccount";
 
 /**
  * The priority by which the modules are initialized.

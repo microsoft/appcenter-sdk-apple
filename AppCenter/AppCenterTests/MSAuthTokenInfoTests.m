@@ -37,7 +37,7 @@
   MSAuthTokenInfo *expectedTokenInfo = [[MSAuthTokenInfo alloc] initWithAuthToken:authToken
                                                                      andAccountId:accountId
                                                                      andStartTime:startTime
-                                                                       andEndTime:endTime];
+                                                                     andExpiresOn:endTime];
   [expectedArray addObject:expectedTokenInfo];
   NSString *key = @"keyToStoreAuthTokenArray";
   __block NSMutableDictionary *attributes;
@@ -56,7 +56,7 @@
   MSAuthTokenInfo *actualTokenInfo = actualArray[0];
   XCTAssertTrue([expectedTokenInfo.authToken isEqualToString:actualTokenInfo.authToken]);
   XCTAssertTrue([expectedTokenInfo.startTime isEqualToDate:actualTokenInfo.startTime]);
-  XCTAssertTrue([expectedTokenInfo.endTime isEqualToDate:actualTokenInfo.endTime]);
+  XCTAssertTrue([expectedTokenInfo.expiresOn isEqualToDate:actualTokenInfo.expiresOn]);
 }
 
 @end
