@@ -197,6 +197,15 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
 
 - (void)testRecoverableNSErrorRetriedWhenNetworkReturns {
 
+  /*
+   * The test scenario:
+   * 1. Request is sent.
+   * 2. Network goes down during request.
+   * 3. Test must ensure that the completion handler is not called here.
+   * 4. Network returns.
+   * 5. Test must verify that the completion handler is called now.
+   */
+
   // If
   __block BOOL completionHandlerCalled = NO;
   __block BOOL firstTime = YES;
@@ -244,6 +253,8 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
 
   // Then
   XCTAssertFalse(completionHandlerCalled);
+
+  // When
 
   // Restore the network and wait for completion handler to be called.
   [self simulateReachabilityChangedNotification:ReachableViaWiFi];
@@ -361,6 +372,8 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
 
   // Wait a while to make sure that the requests are not sent while the network is down.
   sleep(1);
+
+  // Then
   XCTAssertFalse(completionHandlerCalled);
   XCTAssertEqual(numRequests, 0);
 
@@ -505,6 +518,7 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
                 headers:nil
                    data:nil
       completionHandler:^(NSData *responseBody, NSHTTPURLResponse *response, NSError *error) {
+        // Then
         XCTAssertNotNil(error);
         XCTAssertNil(response);
         XCTAssertNil(responseBody);
@@ -568,6 +582,8 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
                                }];
+
+  // Then
   XCTAssertEqualObjects(actualRequest.URL, url);
   XCTAssertEqualObjects(actualRequest.HTTPMethod, method);
   XCTAssertEqualObjects(actualRequest.OHHTTPStubs_HTTPBody, payload);
