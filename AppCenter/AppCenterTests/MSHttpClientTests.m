@@ -232,6 +232,75 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
                    data:nil
       completionHandler:^(__unused NSData *responseBody, __unused NSHTTPURLResponse *response, __unused NSError *error) {
         completionHandlerCalled = YES;
+        XCTAssertNotNil(responseBody);
+        XCTAssertNotNil(response);
+        XCTAssertEqual(response.statusCode, MSHTTPCodesNo204NoContent);
+        XCTAssertNil(error);
+        [expectation fulfill];
+      }];
+
+  // Wait a little to ensure that the completion handler is not invoked yet.
+  sleep(1);
+
+  // Then
+  XCTAssertFalse(completionHandlerCalled);
+
+  // Restore the network and wait for completion handler to be called.
+  [self simulateReachabilityChangedNotification:ReachableViaWiFi];
+
+  // Then
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
+                               handler:^(NSError *_Nullable error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+}
+
+- (void)testRecoverableHttpErrorThenPauseResume {
+
+  // If
+  __block BOOL completionHandlerCalled = NO;
+  __block BOOL firstTime = YES;
+  __block NSURLRequest *actualRequest;
+  NSArray *retryIntervals = @[ @1, @2 ];
+  __block MSHttpClient *httpClient = [[MSHttpClient alloc] initWithMaxHttpConnectionsPerHost:nil
+                                                                              retryIntervals:retryIntervals
+                                                                                reachability:self.reachabilityMock];
+  [OHHTTPStubs
+      stubRequestsPassingTest:^BOOL(__unused NSURLRequest *request) {
+        return YES;
+      }
+      withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+        actualRequest = request;
+        if (firstTime) {
+
+          // Simulate network outage while waiting for retry
+          int64_t nanoseconds = (int64_t)(0.5 * NSEC_PER_SEC);
+          dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, nanoseconds);
+          dispatch_after(popTime, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
+            [httpClient pause];
+          });
+          firstTime = NO;
+          return [OHHTTPStubsResponse responseWithData:[NSData data] statusCode:MSHTTPCodesNo503ServiceUnavailable headers:nil];
+        }
+        return [OHHTTPStubsResponse responseWithData:[NSData data] statusCode:MSHTTPCodesNo204NoContent headers:nil];
+      }];
+  __weak XCTestExpectation *expectation = [self expectationWithDescription:@""];
+  NSURL *url = [NSURL URLWithString:@"https://mock/something?a=b"];
+  NSString *method = @"DELETE";
+
+  // When
+  [httpClient sendAsync:url
+                 method:method
+                headers:nil
+                   data:nil
+      completionHandler:^(__unused NSData *responseBody, __unused NSHTTPURLResponse *response, __unused NSError *error) {
+        completionHandlerCalled = YES;
+        XCTAssertNotNil(responseBody);
+        XCTAssertNotNil(response);
+        XCTAssertEqual(response.statusCode, MSHTTPCodesNo204NoContent);
+        XCTAssertNil(error);
         [expectation fulfill];
       }];
 
