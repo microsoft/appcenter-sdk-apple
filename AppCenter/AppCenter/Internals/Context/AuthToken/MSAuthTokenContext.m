@@ -134,15 +134,6 @@ static dispatch_once_t onceToken;
 
     // Read token array from storage.
     NSMutableArray<MSAuthTokenInfo *> *authTokenHistory = [[self authTokenHistory] mutableCopy];
-    if (authTokenHistory.count == 0) {
-
-      /*
-       * Adding a nil entry is required during the first initialization to differentiate
-       * anonymous usage before the moment and situation when we don't have a token
-       * in history because of the size limit for example.
-       */
-      [authTokenHistory addObject:[MSAuthTokenInfo new]];
-    }
 
     // If new token differs from the last token of array - add it to array.
     MSAuthTokenInfo *lastEntry = [authTokenHistory lastObject];

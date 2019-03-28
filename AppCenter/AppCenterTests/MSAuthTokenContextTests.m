@@ -240,7 +240,7 @@
   NSArray<MSAuthTokenInfo *> *actualAuthTokenArray = [self.sut authTokenHistory];
 
   // Then
-  XCTAssertEqual(actualAuthTokenArray.count, 2);
+  XCTAssertEqual(actualAuthTokenArray.count, 1);
 }
 
 - (void)testSaveAuthTokenLimitsHistorySize {
@@ -279,7 +279,7 @@
   MSAuthTokenInfo *latestAuthTokenInfo = [actualAuthTokensHistory lastObject];
 
   // Then
-  XCTAssertEqual([actualAuthTokensHistory count], 3 + 1);
+  XCTAssertEqual([actualAuthTokensHistory count], 3);
   XCTAssertEqual(latestAuthTokenInfo.authToken, authToken);
 }
 
@@ -299,7 +299,7 @@
 
   // Then
   NSArray<MSAuthTokenInfo *> *actualAuthTokensHistory = [MSMockKeychainUtil arrayForKey:kMSAuthTokenArrayKey];
-  MSAuthTokenInfo *latestAuthTokenInfo = actualAuthTokensHistory[2];
+  MSAuthTokenInfo *latestAuthTokenInfo = actualAuthTokensHistory[1];
   XCTAssertNil(latestAuthTokenInfo.authToken);
 }
 
