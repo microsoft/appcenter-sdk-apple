@@ -9,7 +9,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface MSTokenExchange ()
 
-// WIP
+/**
+ * Return a cached (CosmosDB resource) token for a given partition name.
+ *
+ * @param partitionName The partition for which to return the token.
+ * @return The cached token or `nil`.
+ */
 + (MSTokenResult *_Nullable)retrieveCachedToken:(NSString *)partitionName;
 
 @end

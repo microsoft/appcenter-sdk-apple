@@ -106,10 +106,12 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
 }
 
 /*
- * Get back the Cached Cosmos DB token
- * If the DB token has expired, that token is deleted from KeyChain
+ * Return a cached (CosmosDB resource) token for a given partition name.
+ *
+ * @param partitionName The partition for which to return the token.
+ * @return The cached token or `nil`.
  */
-+ (nullable MSTokenResult *)retrieveCachedToken:(NSString *)partitionName {
++ (MSTokenResult *_Nullable)retrieveCachedToken:(NSString *)partitionName {
   if (partitionName) {
     NSString *tokenString = [MSKeychainUtil stringForKey:[MSTokenExchange tokenKeyNameForPartition:partitionName]];
     if (tokenString) {
