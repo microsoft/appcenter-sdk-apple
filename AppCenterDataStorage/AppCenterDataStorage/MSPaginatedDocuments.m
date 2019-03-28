@@ -63,7 +63,6 @@
 
 - (void)nextPageWithCompletionHandler:(void (^)(MSPage<id<MSSerializableDocument>> *page))completionHandler {
   if ([self hasNextPage]) {
-
     [MSDataStore listWithPartition:self.partition
                       documentType:self.documentType
                        readOptions:nil
@@ -76,9 +75,9 @@
                    // Notify completion handler.
                    completionHandler(documents.currentPage);
                  }];
+  } else {
+    completionHandler(nil);
   }
-
-  // TODO: log an error? Shall we call the completion handler if there are no more pages?
 }
 
 @end
