@@ -7,6 +7,7 @@
 #import "MSDataStore.h"
 #import "MSServiceInternal.h"
 #import "MSStorageIngestion.h"
+#import "MSLocalDocumentStore.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -21,6 +22,11 @@ NS_ASSUME_NONNULL_BEGIN
  * An ingestion instance that is used to send a request for new token exchange service.
  */
 @property(nonatomic, nullable) MSStorageIngestion *ingestion;
+
+/**
+ * A local store instance that is used to manage application and user level documents.
+ */
+@property(nonatomic, nullable) MSLocalDocumentStore *documentStore;
 
 /**
  * An ingestion instance that is used to send a request to CosmosDb.

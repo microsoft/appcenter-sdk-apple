@@ -5,6 +5,20 @@
 
 @interface MSWriteOptions : MSBaseOptions
 
-// @todo
+/**
+ * Initialize the Write options object
+ *
+ * @return A writeOptions instance.
+ */
+- (instancetype)init;
+
+/**
+ * Initialize the Token result object
+ *
+ * @param ttl timeToLive Device document time to live in seconds
+ *
+ * @return A writeOptions instance.
+ */
+- (instancetype)initWithTtl:(NSInteger)ttl;
 
 @end

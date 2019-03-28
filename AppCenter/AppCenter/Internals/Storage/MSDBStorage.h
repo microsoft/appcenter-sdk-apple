@@ -81,6 +81,16 @@ static NSString *const kMSSQLiteConstraintAutoincrement = @"AUTOINCREMENT";
 + (NSDictionary *)columnsIndexes:(MSDBSchema *)schema;
 
 /**
+ * Create a table within an existing databse
+ *
+ * @param schema Schema describing the database.
+ * @param db database instance.
+ *
+ * @return operation status.
+ */
++ (NSUInteger)createTablesWithSchema:(MSDBSchema *)schema inOpenedDatabase:(void *)db;
+
+/**
  * Set the maximum size of the internal storage. This method must be called before App Center is started.
  *
  * @param sizeInBytes Maximum size of the internal storage in bytes. This will be rounded up to the nearest multiple of a SQLite page size

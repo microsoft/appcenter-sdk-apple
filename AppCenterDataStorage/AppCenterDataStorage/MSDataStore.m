@@ -288,7 +288,7 @@ static dispatch_once_t onceToken;
 - (void)createOrReplaceWithPartition:(NSString *)partition
                           documentId:(NSString *)documentId
                             document:(id<MSSerializableDocument>)document
-                        writeOptions:(MSWriteOptions *)__unused writeOptions
+                        writeOptions:(MSWriteOptions *) writeOptions
                    additionalHeaders:(NSDictionary *)additionalHeaders
                    completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
 
@@ -339,6 +339,7 @@ static dispatch_once_t onceToken;
                                                                                                documentId:documentId
                                                                                                      eTag:eTag
                                                                                           lastUpdatedDate:date];
+                     [self.documentStore saveDocument:docWrapper partition:partition writeOptions:writeOptions];
                      MSLogDebug([MSDataStore logTag], @"Document created/replaced with ID: %@", documentId);
                      completionHandler(docWrapper);
                      return;
@@ -394,6 +395,7 @@ static dispatch_once_t onceToken;
   if (appSecret && !self.ingestion) {
     self.ingestion = [[MSStorageIngestion alloc] initWithBaseUrl:self.tokenExchangeUrl appSecret:(NSString *)appSecret];
   }
+  self.documentStore = [MSLocalDocumentStore new];
   MSLogVerbose([MSDataStore logTag], @"Started Data Storage service.");
 }
 
@@ -423,9 +425,13 @@ static dispatch_once_t onceToken;
 
 #pragma mark - MSAuthTokenContextDelegate
 
-- (void)authTokenContext:(MSAuthTokenContext *)__unused authTokenContext didSetNewAccountIdWithAuthToken:(NSString *)authToken {
+- (void)authTokenContext:(MSAuthTokenContext *) __unused authTokenContext didSetNewAccountIdWithAuthToken:(NSString *)authToken {
   if (!authToken) {
     [MSTokenExchange removeAllCachedTokens];
+    //[self.documentStore deleteTableWithPartition:@"UserDocuments"];
+  } else {
+    //TODO change this to get the UserID and then provision the right table
+      [self.documentStore createTableWithTableName:@"UserDocuments"];
   }
 }
 
