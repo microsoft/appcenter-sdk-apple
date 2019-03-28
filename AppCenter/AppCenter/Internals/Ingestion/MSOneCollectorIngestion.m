@@ -133,7 +133,7 @@
   NSArray *tokens = [tokenString componentsSeparatedByString:@","];
   NSMutableArray *obfuscatedTokens = [NSMutableArray new];
   for (NSString *token in tokens) {
-    [obfuscatedTokens addObject:[MSIngestionUtil hideSecret:token]];
+    [obfuscatedTokens addObject:[MSHttpUtil hideSecret:token]];
   }
   return [obfuscatedTokens componentsJoinedByString:@","];
 }
