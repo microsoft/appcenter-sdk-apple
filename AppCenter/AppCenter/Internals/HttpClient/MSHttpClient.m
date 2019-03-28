@@ -75,7 +75,9 @@
 
 - (void)sendCallAsync:(MSHttpCall *)call {
   @synchronized(self) {
-    [self.pendingCalls addObject:call];
+    if (![self.pendingCalls containsObject:call]) {
+      [self.pendingCalls addObject:call];
+    }
     if (self.paused) {
       return;
     }
