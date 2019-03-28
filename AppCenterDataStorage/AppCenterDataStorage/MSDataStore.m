@@ -265,12 +265,13 @@ static dispatch_once_t onceToken;
                 [(id<MSSerializableDocument>)[documentType alloc] initFromDictionary:(NSDictionary *)document];
 
             // Create a document wrapper object.
-            NSTimeInterval interval = [(NSString *)json[kMSDocumentTimestampKey] doubleValue];
+            NSTimeInterval interval = [(NSString *)document[kMSDocumentTimestampKey] doubleValue];
             NSDate *date = [NSDate dateWithTimeIntervalSince1970:interval];
-            NSString *eTag = json[kMSDocumentEtagKey];
+            NSString *documentId = document[kMSDocumentIdKey];
+            NSString *eTag = document[kMSDocumentEtagKey];
             MSDocumentWrapper *docWrapper = [[MSDocumentWrapper alloc] initWithDeserializedValue:deserializedDocument
                                                                                        partition:partition
-                                                                                      documentId:nil
+                                                                                      documentId:documentId
                                                                                             eTag:eTag
                                                                                  lastUpdatedDate:date];
             [items addObject:docWrapper];
