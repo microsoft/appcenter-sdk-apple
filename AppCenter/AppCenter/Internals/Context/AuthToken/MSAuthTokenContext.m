@@ -171,7 +171,6 @@ static dispatch_once_t onceToken;
           [authTokenHistory addObject:newAuthToken];
         }
       }
-
       MSAuthTokenInfo *newAuthToken = [[MSAuthTokenInfo alloc] initWithAuthToken:authToken
                                                                     andAccountId:accountId
                                                                     andStartTime:newTokenStartDate
@@ -196,7 +195,7 @@ static dispatch_once_t onceToken;
     NSMutableArray<MSAuthTokenInfo *> *tokenArray = [[self authTokenHistory] mutableCopy];
 
     // Do nothing if there's just one entry in the history or no history at all.
-    if (!tokenArray || tokenArray.count == 1) {
+    if (!tokenArray || tokenArray.count <= 1) {
       return;
     }
 

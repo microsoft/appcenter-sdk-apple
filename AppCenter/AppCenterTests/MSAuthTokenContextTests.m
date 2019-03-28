@@ -198,9 +198,14 @@
 
   // If
   NSString *expectedAuthToken = @"expectedAuthToken";
-  [self.sut saveAuthToken:@"unexpectedAuthToken" withAccountId:@"someAccountId" expiresOn:nil];
-  [self.sut saveAuthToken:expectedAuthToken withAccountId:@"anotherAccountId" expiresOn:nil];
-
+  NSDate *expiryFirst = [NSDate dateWithTimeIntervalSince1970:1900];
+  NSDate *expirySecond = [NSDate dateWithTimeIntervalSinceNow:1000];
+  NSDate *expiryThird = [NSDate dateWithTimeIntervalSinceNow:50000];
+  [self.sut saveAuthToken:@"unexpectedAuthToken1" withAccountId:@"someAccountId" expiresOn:nil];
+  [self.sut saveAuthToken:@"unexpectedAuthToken2" withAccountId:@"anotherAccountId" expiresOn:expiryFirst];
+  [self.sut saveAuthToken:@"unexpectedAuthToken3" withAccountId:@"anotherAccountId" expiresOn:expirySecond];
+  [self.sut saveAuthToken:expectedAuthToken withAccountId:@"anotherAccountId" expiresOn:expiryThird];
+  
   // When
   NSMutableArray<MSAuthTokenValidityInfo *> *actualAuthTokenValidityArray = [self.sut authTokenValidityArray];
 
