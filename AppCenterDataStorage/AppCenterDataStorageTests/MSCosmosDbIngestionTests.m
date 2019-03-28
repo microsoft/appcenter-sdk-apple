@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 #import "MSCosmosDbIngestion.h"
+#import "MSDataStore.h"
 #import "MSTestFrameworks.h"
 #import "MSUtility.h"
 

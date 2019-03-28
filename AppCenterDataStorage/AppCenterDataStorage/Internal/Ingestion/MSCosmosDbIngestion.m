@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 #import "MSCosmosDbIngestion.h"
-#import "MSAppCenter.h"
 #import "MSAppCenterInternal.h"
+#import "MSDataStore.h"
 #import "MSHttpIngestionPrivate.h"
 #import "MSLoggerInternal.h"
 
