@@ -29,7 +29,8 @@
   NSString *longString = [@"" stringByPaddingToLength:kMSHTTPMinGZipLength withString:@"h" startingAtIndex:0];
   NSData *longData = [longString dataUsingEncoding:NSUTF8StringEncoding];
   NSData *expectedData = [MSCompression compressData:longData];
-  NSDictionary *expectedHeaders = @{kMSHeaderContentEncodingKey : kMSHeaderContentEncoding, kMSHeaderContentTypeKey : kMSAppCenterContentType };
+  NSDictionary *expectedHeaders =
+      @{kMSHeaderContentEncodingKey : kMSHeaderContentEncoding, kMSHeaderContentTypeKey : kMSAppCenterContentType};
 
   // When
   MSHttpCall *call =
@@ -52,7 +53,7 @@
 
   // HTTP body is small and will not be compressed.
   NSData *shortData = [NSData dataWithBytes:"hi" length:2];
-  NSDictionary *expectedHeaders = @{ kMSHeaderContentTypeKey : kMSAppCenterContentType };
+  NSDictionary *expectedHeaders = @{kMSHeaderContentTypeKey : kMSAppCenterContentType};
 
   // When
   MSHttpCall *call =

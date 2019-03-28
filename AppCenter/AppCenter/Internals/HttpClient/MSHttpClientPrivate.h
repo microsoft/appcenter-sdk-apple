@@ -29,7 +29,8 @@
 @property(nonatomic) NSArray *retryIntervals;
 
 /**
- * A boolean value set to YES if the client is paused or NO otherwise. While paused, the client will store new calls but not send them until resumed.
+ * A boolean value set to YES if the client is paused or NO otherwise. While paused, the client will store new calls but not send them until
+ * resumed.
  */
 @property(nonatomic) BOOL paused;
 
@@ -39,7 +40,8 @@
 @property(nonatomic) BOOL enabled;
 
 /**
- * Configuration object for the NSURLSession. Need to store this because the session will need to be re-created after re-enabling the client.
+ * Configuration object for the NSURLSession. Need to store this because the session will need to be re-created after re-enabling the
+ * client.
  */
 @property(nonatomic) NSURLSessionConfiguration *sessionConfiguration;
 
