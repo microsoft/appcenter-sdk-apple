@@ -493,4 +493,54 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   XCTAssertEqual(actualError.errorCode, expectedResponseCode);
 }
 
+- (void)testDeleteDocumentWithPartitionWhenDeletionFails {
+
+  // If
+  NSString *partition = @"partition";
+  NSString *documentId = @"documentId";
+  id<MSSerializableDocument> mockSerializableDocument = [MSFakeSerializableDocument new];
+  __block BOOL completionHandlerCalled = NO;
+  NSInteger expectedResponseCode = kMSACDocumentInternalServerErrorErrorCode;
+  NSDictionary *errorUserInfo = @{kMSCosmosDbHttpCodeKey : @(expectedResponseCode)};
+  NSError *expectedCosmosDbError = [NSError errorWithDomain:kMSACErrorDomain code:0 userInfo:errorUserInfo];
+  __block MSDataSourceError *actualError;
+
+  // Mock tokens fetching.
+  MSTokenResult *testToken = [[MSTokenResult alloc] initWithString:@"testToken"];
+  MSTokensResponse *testTokensResponse = [[MSTokensResponse alloc] initWithTokens:@[ testToken ]];
+  OCMStub([self.tokenExchangeMock performDbTokenAsyncOperationWithHttpClient:OCMOCK_ANY partition:OCMOCK_ANY completionHandler:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        MSGetTokenAsyncCompletionHandler getTokenCallback;
+        [invocation getArgument:&getTokenCallback atIndex:4];
+        getTokenCallback(testTokensResponse, nil);
+      });
+
+  // Mock CosmosDB requests.
+  OCMStub([self.cosmosDbMock performCosmosDbAsyncOperationWithHttpClient:OCMOCK_ANY
+                                                             tokenResult:OCMOCK_ANY
+                                                              documentId:OCMOCK_ANY
+                                                              httpMethod:OCMOCK_ANY
+                                                                    body:OCMOCK_ANY
+                                                       additionalHeaders:OCMOCK_ANY
+                                            completionHandlerWithHeaders:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        MSCosmosDbCompletionHandlerWithHeaders cosmosdbOperationCallback;
+        [invocation getArgument:&cosmosdbOperationCallback atIndex:8];
+        cosmosdbOperationCallback(nil, nil, expectedCosmosDbError);
+      });
+
+  // When
+  [MSDataStore deleteDocumentWithPartition:partition
+                                documentId:(NSString *)documentId
+                         completionHandler:^(MSDataSourceError *error) {
+                           completionHandlerCalled = YES;
+                           actualError = error;
+                         }];
+
+  // Then
+  XCTAssertTrue(completionHandlerCalled);
+  XCTAssertEqualObjects(actualError.error, expectedCosmosDbError);
+  XCTAssertEqual(actualError.errorCode, expectedResponseCode);
+}
+
 @end
