@@ -6,16 +6,9 @@
 @interface MSWriteOptions : MSBaseOptions
 
 /**
- * Initialize the Write options object
+ * Initialize the Token result object.
  *
- * @return A writeOptions instance.
- */
-- (instancetype)init;
-
-/**
- * Initialize the Token result object
- *
- * @param ttl timeToLive Device document time to live in seconds
+ * @param ttl timeToLive Device document time to live in seconds.
  *
  * @return A writeOptions instance.
  */

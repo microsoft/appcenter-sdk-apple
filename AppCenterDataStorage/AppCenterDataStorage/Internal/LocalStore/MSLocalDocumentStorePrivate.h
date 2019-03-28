@@ -18,6 +18,7 @@ static NSString *const kMSDownloadTimeColumnName = @"download_time";
 static NSString *const kMSOperationTimeColumnName = @"operation_time";
 static NSString *const kMSPendingDownloadColumnName = @"pending_operation";
 
+// Operations.
 static NSString *const kMSPendingOperationCreate = @"CREATE";
 static NSString *const kMSPendingOperationReplace = @"REPLACE";
 static NSString *const kMSPendingOperationDelete = @"DELETE";

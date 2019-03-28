@@ -21,14 +21,18 @@
                                      eTag:(NSString *)eTag
                           lastUpdatedDate:(NSDate *)lastUpdatedDate {
   if ((self = [super init])) {
-      _deserializedValue = deserializedValue;
-      NSError * err;
-      NSData * jsonData = [NSJSONSerialization  dataWithJSONObject:[deserializedValue serializeToDictionary] options:0 error:&err];
+
+    // Create json string.
+    NSError *err;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:[deserializedValue serializeToDictionary] options:0 error:&err];
+    if (!err) {
       _jsonValue = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-      _partition = partition;
-      _documentId = documentId;
-      _eTag = eTag;
-      _lastUpdatedDate = lastUpdatedDate;
+    }
+    _deserializedValue = deserializedValue;
+    _partition = partition;
+    _documentId = documentId;
+    _eTag = eTag;
+    _lastUpdatedDate = lastUpdatedDate;
   }
   return self;
 }

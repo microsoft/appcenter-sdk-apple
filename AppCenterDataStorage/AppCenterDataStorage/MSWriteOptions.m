@@ -5,14 +5,10 @@
 
 @implementation MSWriteOptions
 
-- (instancetype)init {
-    self = [super init];
-    return self;
-}
-
 - (instancetype)initWithTtl:(NSInteger)ttl {
-    self = [super initWithDeviceTimeToLive:ttl];
-    return self;
+  if ((self = [super initWithDeviceTimeToLive:ttl])) {
+  }
+  return self;
 }
 
 @end

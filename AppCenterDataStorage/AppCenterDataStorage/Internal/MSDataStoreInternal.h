@@ -5,9 +5,9 @@
 
 #import "MSCosmosDbIngestion.h"
 #import "MSDataStore.h"
+#import "MSLocalDocumentStore.h"
 #import "MSServiceInternal.h"
 #import "MSStorageIngestion.h"
-#import "MSLocalDocumentStore.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
