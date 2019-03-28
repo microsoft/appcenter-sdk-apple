@@ -22,7 +22,7 @@
                                     reachability:[MS_Reachability reachabilityForInternetConnection]];
 }
 
-- (instancetype)initWithMaxHttpConnectionsPerHost:(int)maxHttpConnectionsPerHost {
+- (instancetype)initWithMaxHttpConnectionsPerHost:(NSInteger)maxHttpConnectionsPerHost {
   return [self initWithMaxHttpConnectionsPerHost:@(maxHttpConnectionsPerHost)
                                   retryIntervals:DEFAULT_RETRY_INTERVALS
                                     reachability:[MS_Reachability reachabilityForInternetConnection]];
@@ -34,7 +34,7 @@
   if ((self = [super init])) {
     _sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
     if (maxHttpConnectionsPerHost) {
-      _sessionConfiguration.HTTPMaximumConnectionsPerHost = [maxHttpConnectionsPerHost intValue];
+      _sessionConfiguration.HTTPMaximumConnectionsPerHost = [maxHttpConnectionsPerHost integerValue];
     }
     _session = [NSURLSession sessionWithConfiguration:_sessionConfiguration];
     _pendingCalls = [NSMutableSet new];
