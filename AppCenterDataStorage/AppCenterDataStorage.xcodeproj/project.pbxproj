@@ -105,6 +105,8 @@
 		8F70268C224B017300A52339 /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F702687224B013700A52339 /* OHHTTPStubs.framework */; };
 		8F70268F224BDF9B00A52339 /* oneDocumentPage.json in Resources */ = {isa = PBXBuildFile; fileRef = 8F70268E224BDF8D00A52339 /* oneDocumentPage.json */; };
 		8F702690224BDF9D00A52339 /* oneDocumentPage.json in Resources */ = {isa = PBXBuildFile; fileRef = 8F70268E224BDF8D00A52339 /* oneDocumentPage.json */; };
+		8FA281F4224D50AD005D414F /* MSDataStoreErrors.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FA281F3224D50AD005D414F /* MSDataStoreErrors.m */; };
+		8FA281F5224D50BD005D414F /* MSDataStoreErrors.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FA281F3224D50AD005D414F /* MSDataStoreErrors.m */; };
 		99259705224982F60069BF24 /* MSDataStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464E2222F28A300EC1FF3 /* MSDataStore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		99259708224985B50069BF24 /* MSDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464E3222F28A300EC1FF3 /* MSDataStore.m */; };
 		99259709224985DE0069BF24 /* MSBaseOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464DF222F28A200EC1FF3 /* MSBaseOptions.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -258,6 +260,7 @@
 		8F702684224B010500A52339 /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OHHTTPStubs.framework; path = ../../Vendor/iOS/OHHTTPStubs/OHHTTPStubs.framework; sourceTree = "<group>"; };
 		8F702687224B013700A52339 /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OHHTTPStubs.framework; path = ../../Vendor/macOS/OHHTTPStubs/OHHTTPStubs.framework; sourceTree = "<group>"; };
 		8F70268E224BDF8D00A52339 /* oneDocumentPage.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = oneDocumentPage.json; sourceTree = "<group>"; };
+		8FA281F3224D50AD005D414F /* MSDataStoreErrors.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSDataStoreErrors.m; sourceTree = "<group>"; };
 		9925973422498B910069BF24 /* MSMockUserDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSMockUserDefaults.h; sourceTree = "<group>"; };
 		9925973522498B910069BF24 /* MSMockUserDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSMockUserDefaults.m; sourceTree = "<group>"; };
 		9925973622498B920069BF24 /* MSTestFrameworks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSTestFrameworks.h; sourceTree = "<group>"; };
@@ -461,6 +464,7 @@
 				267464E6222F28A300EC1FF3 /* MSDataSourceError.h */,
 				267464DE222F28A200EC1FF3 /* MSDataSourceError.m */,
 				E80BE8902242215E004DD008 /* MSDataStoreErrors.h */,
+				8FA281F3224D50AD005D414F /* MSDataStoreErrors.m */,
 				267464E9222F28A300EC1FF3 /* MSDocumentWrapper.h */,
 				267464E4222F28A300EC1FF3 /* MSDocumentWrapper.m */,
 				267464DD222F28A200EC1FF3 /* MSPage.h */,
@@ -878,6 +882,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8FA281F5224D50BD005D414F /* MSDataStoreErrors.m in Sources */,
 				99259712224986160069BF24 /* MSPaginatedDocuments.m in Sources */,
 				E8DADEF422286D2500587E15 /* MSTokenResult.m in Sources */,
 				E820F1A5222767C8009EFA5D /* MSTokenExchange.m in Sources */,
@@ -927,6 +932,7 @@
 				E824A5412225E80E005B69B5 /* MSStorageIngestion.m in Sources */,
 				E83D121F22378143002B6585 /* MSDocumentUtils.m in Sources */,
 				267464F4222F28A300EC1FF3 /* MSDocumentWrapper.m in Sources */,
+				8FA281F4224D50AD005D414F /* MSDataStoreErrors.m in Sources */,
 				267464F8222F28A300EC1FF3 /* MSPaginatedDocuments.m in Sources */,
 				267464EE222F28A300EC1FF3 /* MSDataSourceError.m in Sources */,
 			);

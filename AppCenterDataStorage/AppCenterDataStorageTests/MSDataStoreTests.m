@@ -114,6 +114,7 @@ static NSString *const kMSExpiresOn = @"date";
   XCTAssertTrue([self.sut isEnabled]);
 }
 
+// TODO: add more tests for list operation.
 - (void)testListSingleDocument {
   // If
   id msTokenEchangeMock = OCMClassMock([MSTokenExchange class]);

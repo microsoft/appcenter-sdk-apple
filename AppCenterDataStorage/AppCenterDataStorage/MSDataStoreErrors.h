@@ -6,13 +6,32 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@interface MSDataStoreErrors : NSObject
+
+/*
+ * Return an unexpected deserialization error object.
+ */
++ (NSError *) unexpectedDeserializationError;
+
+@end
+
 #pragma mark - Domain
 
-// Error documentation here: https://docs.microsoft.com/en-us/rest/api/cosmos-db/http-status-codes-for-cosmosdb
+// Custom error domain constants.
 static NSString *const kMSACDataStoreErrorDomain = MS_APP_CENTER_BASE_DOMAIN @"DataStoreErrorDomain";
+static NSString *const kMSACDataStoreErrorDescriptionKey = @"MSDataStoreErrorDescriptionKey";
 
-#pragma mark - Error Codes
+#pragma mark - Local error codes (within the domain)
 
+// Error codes.
+NS_ENUM(NSInteger){kMSACLocalDocumentUnexpectedDeserializationError = 1};
+  
+// Error descriptions.
+static NSString const *kMSACLocalDocumentUnexpectedDeserializationErrorDesc = @"Unexpected deserialization error";
+
+#pragma mark - CosmosDB error codes
+
+// Error documentation here: https://docs.microsoft.com/en-us/rest/api/cosmos-db/http-status-codes-for-cosmosdb
 NS_ENUM(NSInteger){kMSACDocumentUnknownErrorCode = 0,
                    kMSACDocumentSucceededErrorCode = 200,
                    kMSACDocumentCreatedErrorCode = 201,
@@ -29,5 +48,5 @@ NS_ENUM(NSInteger){kMSACDocumentUnknownErrorCode = 0,
                    kMSACDocumentRetryWithErrorCode = 449,
                    kMSACDocumentInternalServerErrorErrorCode = 500,
                    kMSACDocumentServiceUnavailableErrorCode = 503};
-
+  
 NS_ASSUME_NONNULL_END

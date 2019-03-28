@@ -29,6 +29,12 @@
 static MSDataStore *sharedInstance = nil;
 static dispatch_once_t onceToken;
 
+// Constants.
+static NSString *const kMSServiceName = @"DataStorage";
+static NSString *const kMSGroupId = @"DataStorage";
+static NSString *const kMSDocumentUpsertHeaderKey = @"x-ms-documentdb-is-upsert";
+static NSString *const kMSDocumentContinuationTokenHeaderKey = @"x-ms-continuation";
+
 @implementation MSDataStore
 
 @synthesize channelUnitConfiguration = _channelUnitConfiguration;
@@ -242,39 +248,49 @@ static dispatch_once_t onceToken;
                        return;
                      }
 
-                     // Deserialize.
+                     // Deserialize the list payload.
                      NSError *deserializeError;
-                     NSDictionary *json = [NSJSONSerialization JSONObjectWithData:(NSData *)data options:0 error:&deserializeError];
-                     if (deserializeError) {
+                     id jsonPayload = [NSJSONSerialization JSONObjectWithData:(NSData *)data options:0 error:&deserializeError];
+                     if (deserializeError || !jsonPayload || ![(NSObject*)jsonPayload isKindOfClass:[NSDictionary class]]) {
+                       if (!deserializeError) {
+                         deserializeError = [MSDataStoreErrors unexpectedDeserializationError];
+                       }
                        MSLogError([MSDataStore logTag], @"Error deserializing data: %@", [deserializeError description]);
                        MSDataSourceError *dataSourceDeserializeError = [[MSDataSourceError alloc] initWithError:deserializeError];
                        MSPaginatedDocuments *documents = [[MSPaginatedDocuments alloc] initWithError:dataSourceDeserializeError];
                        completionHandler(documents);
                        return;
                      }
-                     MSLogDebug([MSDataStore logTag], @"Documents json: %@", json);
-
+                     NSDictionary* jsonPayloadDict = (NSDictionary*) jsonPayload;
+                     
                      // Get list of documents.
-                     NSArray *jsonDocuments = json[@"Documents"];
+                     if (![jsonPayloadDict objectForKey:@"Documents"] || ![(NSObject*)jsonPayloadDict[@"Documents"] isKindOfClass:[NSArray class]]) {
+                       // TODO: when we review the entire error logic, do not duplicate code between this block and above.
+                       deserializeError = [MSDataStoreErrors unexpectedDeserializationError];
+                       MSLogError([MSDataStore logTag], @"Error deserializing data: %@", [deserializeError description]);
+                       MSDataSourceError *dataSourceDeserializeError = [[MSDataSourceError alloc] initWithError:deserializeError];
+                       MSPaginatedDocuments *documents = [[MSPaginatedDocuments alloc] initWithError:dataSourceDeserializeError];
+                       completionHandler(documents);
+                     }
+                     NSArray *jsonDocuments = jsonPayloadDict[@"Documents"];
                      NSMutableArray<MSDocumentWrapper *> *items = [NSMutableArray new];
                      for (id document in jsonDocuments) {
-                       // TODO: handle deserialization errors here
-
                        // Deserialize current document.
+                       // TODO: handle deserialization here.
                        id<MSSerializableDocument> deserializedDocument =
                            [(id<MSSerializableDocument>)[documentType alloc] initFromDictionary:(NSDictionary *)document];
 
                        // Create a document wrapper object.
+                       // TODO: handle deserialization error for CosmosDB internal properties here.
                        NSTimeInterval interval = [(NSString *)document[kMSDocumentTimestampKey] doubleValue];
                        NSDate *date = [NSDate dateWithTimeIntervalSince1970:interval];
                        NSString *documentId = document[kMSDocumentIdKey];
                        NSString *eTag = document[kMSDocumentEtagKey];
-                       MSDocumentWrapper *docWrapper = [[MSDocumentWrapper alloc] initWithDeserializedValue:deserializedDocument
-                                                                                                  partition:partition
-                                                                                                 documentId:documentId
-                                                                                                       eTag:eTag
-                                                                                            lastUpdatedDate:date];
-                       [items addObject:docWrapper];
+                       [items addObject:[[MSDocumentWrapper alloc] initWithDeserializedValue:deserializedDocument
+                                                                                   partition:partition
+                                                                                  documentId:documentId
+                                                                                        eTag:eTag
+                                                                             lastUpdatedDate:date]];
                      }
 
                      // Instantiate the first page and return it.
