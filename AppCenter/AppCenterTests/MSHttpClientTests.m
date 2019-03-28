@@ -3,15 +3,14 @@
 
 #import "AppCenter+Internal.h"
 #import "MSAppCenterErrors.h"
+#import "MSConstants+Internal.h"
 #import "MSDevice.h"
 #import "MSDeviceInternal.h"
-#import "MSHttpClient.h"
-#import "MSHttpIngestionPrivate.h"
+#import "MSHttpClientPrivate.h"
 #import "MSHttpTestUtil.h"
-#import "MSIngestionCall.h"
-#import "MSIngestionDelegate.h"
 #import "MSMockLog.h"
 #import "MSTestFrameworks.h"
+#import "MS_Reachability.h"
 #import <OHHTTPStubs/NSURLRequest+HTTPBodyTesting.h>
 #import <OHHTTPStubs/OHHTTPStubs.h>
 
@@ -51,6 +50,15 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
 
   [MSHttpTestUtil removeAllStubs];
   [self.reachabilityMock stopMocking];
+}
+
+- (void)testCreateInitWithMaxConnections {
+
+  // When
+  MSHttpClient *httpClient = [[MSHttpClient alloc] initWithMaxHttpConnectionsPerHost:2];
+
+  // Then
+  XCTAssertEqual(httpClient.sessionConfiguration.HTTPMaximumConnectionsPerHost, 2);
 }
 
 - (void)testPostSuccessWithoutHeaders {
