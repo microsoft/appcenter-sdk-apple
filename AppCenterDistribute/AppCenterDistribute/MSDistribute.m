@@ -423,7 +423,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                   }
 
                   // Check the status code to clean up Distribute data for an unrecoverable error.
-                  if (![MSIngestionUtil isRecoverableError:response.statusCode]) {
+                  if (![MSHttpUtil isRecoverableError:response.statusCode]) {
 
                     // Deserialize payload to check if it contains error details.
                     MSErrorDetails *details = nil;

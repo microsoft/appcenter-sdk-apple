@@ -3,12 +3,10 @@
 
 #import <Foundation/Foundation.h>
 
-typedef void (^MSSendAsyncCompletionHandler)(NSString *callId, NSHTTPURLResponse *response, NSData *data, NSError *error);
-
 static short const kMSMaxCharactersDisplayedForAppSecret = 8;
 static NSString *const kMSHidingStringForAppSecret = @"*";
 
-@interface MSIngestionUtil : NSObject
+@interface MSHttpUtil : NSObject
 
 /**
  * Indicate if the http response is recoverable.
@@ -37,15 +35,6 @@ static NSString *const kMSHidingStringForAppSecret = @"*";
  * @return YES if it is an SSL connection error, NO otherwise.
  */
 + (BOOL)isSSLConnectionError:(NSError *)error;
-
-/**
- * Indicate if error is due to cancelation of the request.
- *
- * @param error http error.
- *
- * @return is request canceled.
- */
-+ (BOOL)isRequestCanceledError:(NSError *)error;
 
 /**
  * Hide a secret replacing the first N characters by a hiding character.

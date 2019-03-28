@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "MSIngestionUtil.h"
+#import "MSHttpUtil.h"
 
-@implementation MSIngestionUtil
+@implementation MSHttpUtil
 
 + (BOOL)isRecoverableError:(NSInteger)statusCode {
 
@@ -21,10 +21,6 @@
   // Check for error domain and if the error.code falls in the range of SSL connection errors (between -2000 and -1200).
   return ([error.domain isEqualToString:NSURLErrorDomain] &&
           ((error.code >= NSURLErrorCannotLoadFromNetwork) && (error.code <= NSURLErrorSecureConnectionFailed)));
-}
-
-+ (BOOL)isRequestCanceledError:(NSError *)error {
-  return ([error.domain isEqualToString:NSURLErrorDomain] && (error.code == NSURLErrorCancelled));
 }
 
 + (NSString *)hideSecret:(NSString *)secret {

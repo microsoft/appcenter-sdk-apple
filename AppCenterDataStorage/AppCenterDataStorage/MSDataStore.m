@@ -423,7 +423,7 @@ static dispatch_once_t onceToken;
 
 #pragma mark - MSAuthTokenContextDelegate
 
-- (void)authTokenContext:(MSAuthTokenContext *)__unused authTokenContext didSetNewAccountIdWithAuthToken:(NSString *)authToken {
+- (void)authTokenContext:(MSAuthTokenContext *)__unused authTokenContext didUpdateAccountIdWithAuthToken:(NSString *)authToken {
 
   // TODO: consume the unique account id once provided in authTokenContext.
   NSString *uniqueAccountId = @"unique-account-id";
