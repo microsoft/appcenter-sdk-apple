@@ -79,6 +79,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		040D76CF224D242A009AFA0C /* MSAuthTokenInfoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A7FBFD722428CD800F0C77A /* MSAuthTokenInfoTests.m */; };
 		041EFD261EE1CA98006DCD56 /* MSAbstractLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 3844FF1C1E8C2716003E9194 /* MSAbstractLog.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		041EFD271EE1CAA1006DCD56 /* MSDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 3844FF1B1E8C2716003E9194 /* MSDevice.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		041EFD281EE1CAA6006DCD56 /* MSDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3844FF1A1E8C2716003E9194 /* MSDevice.m */; };
@@ -2735,6 +2736,7 @@
 				7FB7054D222E596200D93258 /* MSMockReachability.m in Sources */,
 				0446DF1B1F3B864600C8E338 /* MSIngestionUtilTests.m in Sources */,
 				0446DF1C1F3B864600C8E338 /* MSMockLog.m in Sources */,
+				040D76CF224D242A009AFA0C /* MSAuthTokenInfoTests.m in Sources */,
 				9CB67DAE22139A0B006E20AC /* MSAuthTokenContextTests.m in Sources */,
 				35DFC23E2170052D00455589 /* MSTypedPropertyTests.m in Sources */,
 				0446DF1D1F3B864600C8E338 /* MSChannelGroupDefaultTests.m in Sources */,

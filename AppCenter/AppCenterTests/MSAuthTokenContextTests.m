@@ -191,7 +191,7 @@
   NSString *actualAuthToken = [self.sut authToken];
 
   // Then
-  XCTAssertEqual(actualAuthToken, expectedAuthToken);
+  XCTAssertTrue([actualAuthToken isEqualToString:expectedAuthToken]);
 }
 
 - (void)testGetAuthTokenValidityArray {
