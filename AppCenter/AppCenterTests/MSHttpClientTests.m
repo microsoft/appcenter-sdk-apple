@@ -19,7 +19,6 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
 
 @interface MSHttpClientTests : XCTestCase
 
-@property(nonatomic) MSHttpClient *sut;
 @property(nonatomic) id reachabilityMock;
 @property(nonatomic) NetworkStatus currentNetworkStatus;
 
@@ -52,12 +51,6 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
 
   [MSHttpTestUtil removeAllStubs];
   [self.reachabilityMock stopMocking];
-
-  /*
-   * Setting the variable to nil. We are experiencing test failure on Xcode 9 beta because the instance that was used for previous test
-   * method is not disposed and still listening to network changes in other tests.
-   */
-  self.sut = nil;
 }
 
 - (void)testPostSuccessWithoutHeaders {
@@ -76,13 +69,13 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
         return [OHHTTPStubsResponse responseWithData:responsePayload statusCode:MSHTTPCodesNo200OK headers:nil];
       }];
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@"HTTP Response 200"];
-  self.sut = [MSHttpClient new];
+  MSHttpClient *httpClient = [MSHttpClient new];
   NSURL *url = [NSURL URLWithString:@"https://mock/something?a=b"];
   NSString *method = @"POST";
   NSData *payload = [@"somePayload" dataUsingEncoding:kCFStringEncodingUTF8];
 
   // When
-  [self.sut sendAsync:url
+  [httpClient sendAsync:url
                  method:method
                 headers:nil
                    data:payload
@@ -120,13 +113,13 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
         return [OHHTTPStubsResponse responseWithError:error];
       }];
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@"Network error"];
-  self.sut = [MSHttpClient new];
+  MSHttpClient *httpClient = [MSHttpClient new];
   NSURL *url = [NSURL URLWithString:@"https://mock/something?a=b"];
   NSString *method = @"GET";
   NSDictionary *headers = @{@"Authorization" : @"something"};
 
   // When
-  [self.sut sendAsync:url
+  [httpClient sendAsync:url
                  method:method
                 headers:headers
                    data:nil
@@ -165,12 +158,12 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
         return [OHHTTPStubsResponse responseWithData:[NSData data] statusCode:MSHTTPCodesNo400BadRequest headers:nil];
       }];
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@""];
-  self.sut = [MSHttpClient new];
+  MSHttpClient *httpClient = [MSHttpClient new];
   NSURL *url = [NSURL URLWithString:@"https://mock/something?a=b"];
   NSString *method = @"DELETE";
 
   // When
-  [self.sut sendAsync:url
+  [httpClient sendAsync:url
                  method:method
                 headers:nil
                    data:nil
@@ -218,12 +211,14 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
         return [OHHTTPStubsResponse responseWithData:[NSData data] statusCode:MSHTTPCodesNo204NoContent headers:nil];
       }];
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@""];
-  self.sut = [[MSHttpClient alloc] initWithMaxHttpConnectionsPerHost:nil retryIntervals:retryIntervals reachability:self.reachabilityMock];
+  MSHttpClient *httpClient = [[MSHttpClient alloc] initWithMaxHttpConnectionsPerHost:nil
+                                                                      retryIntervals:retryIntervals
+                                                                        reachability:self.reachabilityMock];
   NSURL *url = [NSURL URLWithString:@"https://mock/something?a=b"];
   NSString *method = @"DELETE";
 
   // When
-  [self.sut sendAsync:url
+  [httpClient sendAsync:url
                  method:method
                 headers:nil
                    data:nil
@@ -266,13 +261,15 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
         actualRequest = request;
         return [OHHTTPStubsResponse responseWithData:[NSData data] statusCode:MSHTTPCodesNo204NoContent headers:nil];
       }];
-  self.sut = [[MSHttpClient alloc] initWithMaxHttpConnectionsPerHost:nil retryIntervals:@[ @1 ] reachability:self.reachabilityMock];
+  MSHttpClient *httpClient = [[MSHttpClient alloc] initWithMaxHttpConnectionsPerHost:nil
+                                                                      retryIntervals:@[ @1 ]
+                                                                        reachability:self.reachabilityMock];
   NSURL *url = [NSURL URLWithString:@"https://mock/something?a=b"];
   NSString *method = @"DELETE";
 
   // When
   [self simulateReachabilityChangedNotification:NotReachable];
-  [self.sut sendAsync:url
+  [httpClient sendAsync:url
                  method:method
                 headers:nil
                    data:nil
@@ -321,12 +318,14 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
         return [OHHTTPStubsResponse responseWithData:[NSData data] statusCode:MSHTTPCodesNo500InternalServerError headers:nil];
       }];
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@""];
-  self.sut = [[MSHttpClient alloc] initWithMaxHttpConnectionsPerHost:nil retryIntervals:retryIntervals reachability:self.reachabilityMock];
+  MSHttpClient *httpClient = [[MSHttpClient alloc] initWithMaxHttpConnectionsPerHost:nil
+                                                                      retryIntervals:retryIntervals
+                                                                        reachability:self.reachabilityMock];
   NSURL *url = [NSURL URLWithString:@"https://mock/something?a=b"];
   NSString *method = @"DELETE";
 
   // When
-  [self.sut sendAsync:url
+  [httpClient sendAsync:url
                  method:method
                 headers:nil
                    data:nil
@@ -373,12 +372,14 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
         dispatch_semaphore_wait(pauseSemaphore, dispatch_time(DISPATCH_TIME_NOW, (int64_t)(kMSTestTimeout * NSEC_PER_SEC)));
         return [OHHTTPStubsResponse responseWithData:[NSData data] statusCode:MSHTTPCodesNo204NoContent headers:nil];
       }];
-  self.sut = [[MSHttpClient alloc] initWithMaxHttpConnectionsPerHost:nil retryIntervals:@[] reachability:self.reachabilityMock];
+  MSHttpClient *httpClient = [[MSHttpClient alloc] initWithMaxHttpConnectionsPerHost:nil
+                                                                      retryIntervals:@[]
+                                                                        reachability:self.reachabilityMock];
   NSURL *url = [NSURL URLWithString:@"https://mock/something?a=b"];
   NSString *method = @"DELETE";
 
   // When
-  [self.sut sendAsync:url
+  [httpClient sendAsync:url
                  method:method
                 headers:nil
                    data:nil
@@ -415,12 +416,14 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
         dispatch_semaphore_wait(testCompletedSemaphore, DISPATCH_TIME_FOREVER);
         return [OHHTTPStubsResponse responseWithData:[NSData data] statusCode:MSHTTPCodesNo204NoContent headers:nil];
       }];
-  self.sut = [[MSHttpClient alloc] initWithMaxHttpConnectionsPerHost:nil retryIntervals:@[ @1 ] reachability:self.reachabilityMock];
+  MSHttpClient *httpClient = [[MSHttpClient alloc] initWithMaxHttpConnectionsPerHost:nil
+                                                                      retryIntervals:@[ @1 ]
+                                                                        reachability:self.reachabilityMock];
   NSURL *url = [NSURL URLWithString:@"https://mock/something?a=b"];
   NSString *method = @"DELETE";
 
   // When
-  [self.sut sendAsync:url
+  [httpClient sendAsync:url
                  method:method
                 headers:nil
                    data:nil
@@ -433,7 +436,7 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
 
   // Don't disable until the call has been enqueued.
   dispatch_semaphore_wait(responseSemaphore, dispatch_time(DISPATCH_TIME_NOW, (int64_t)(kMSTestTimeout * NSEC_PER_SEC)));
-  [self.sut setEnabled:NO];
+  [httpClient setEnabled:NO];
 
   // Then
   [self waitForExpectationsWithTimeout:kMSTestTimeout
@@ -463,15 +466,15 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
         return [OHHTTPStubsResponse responseWithData:responsePayload statusCode:MSHTTPCodesNo200OK headers:nil];
       }];
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@"HTTP Response 200"];
-  self.sut = [MSHttpClient new];
+  MSHttpClient *httpClient = [MSHttpClient new];
   NSURL *url = [NSURL URLWithString:@"https://mock/something?a=b"];
   NSString *method = @"POST";
   NSData *payload = [@"somePayload" dataUsingEncoding:kCFStringEncodingUTF8];
 
   // When
-  [self.sut setEnabled:NO];
-  [self.sut setEnabled:YES];
-  [self.sut sendAsync:url
+  [httpClient setEnabled:NO];
+  [httpClient setEnabled:YES];
+  [httpClient sendAsync:url
                  method:method
                 headers:nil
                    data:payload
@@ -514,12 +517,14 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
         return [OHHTTPStubsResponse responseWithData:[NSData data] statusCode:MSHTTPCodesNo204NoContent headers:nil];
       }];
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@""];
-  self.sut = [[MSHttpClient alloc] initWithMaxHttpConnectionsPerHost:nil retryIntervals:retryIntervals reachability:self.reachabilityMock];
+  MSHttpClient *httpClient = [[MSHttpClient alloc] initWithMaxHttpConnectionsPerHost:nil
+                                                                      retryIntervals:retryIntervals
+                                                                        reachability:self.reachabilityMock];
   NSURL *url = [NSURL URLWithString:@"https://mock/something?a=b"];
   NSString *method = @"DELETE";
 
   // When
-  [self.sut sendAsync:url
+  [httpClient sendAsync:url
                  method:method
                 headers:nil
                    data:nil
