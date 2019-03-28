@@ -263,6 +263,8 @@
 
   // If
   NSString *authToken = @"someToken";
+  NSString *authToken1 = @"someNewToken";
+  NSString *authToken2 = @"someNewNewToken";
   NSString *accountId = @"someAccountId";
 
   // When
@@ -270,17 +272,17 @@
     [self.sut setAuthToken:authToken withAccountId:accountId expiresOn:nil];
   }
   for (int i = 0; i < 2; ++i) {
-    [self.sut setAuthToken:nil withAccountId:accountId expiresOn:nil];
+    [self.sut setAuthToken:authToken1 withAccountId:accountId expiresOn:nil];
   }
   for (int i = 0; i < 2; ++i) {
-    [self.sut setAuthToken:authToken withAccountId:accountId expiresOn:nil];
+    [self.sut setAuthToken:authToken2 withAccountId:accountId expiresOn:nil];
   }
   NSArray<MSAuthTokenInfo *> *actualAuthTokensHistory = [MSMockKeychainUtil arrayForKey:kMSAuthTokenHistoryKey];
   MSAuthTokenInfo *latestAuthTokenInfo = [actualAuthTokensHistory lastObject];
 
   // Then
   XCTAssertEqual([actualAuthTokensHistory count], 3);
-  XCTAssertEqual(latestAuthTokenInfo.authToken, authToken);
+  XCTAssertEqual(latestAuthTokenInfo.authToken, authToken2);
 }
 
 - (void)testSaveAuthTokenFillsTheGap {
