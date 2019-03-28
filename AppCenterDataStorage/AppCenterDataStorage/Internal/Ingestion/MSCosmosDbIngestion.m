@@ -9,8 +9,6 @@
 
 @implementation MSCosmosDbIngestion
 
-@synthesize offlineMode = _offlineMode;
-
 - (instancetype)init {
   // @TODO: clean up once the MSHttpIngestion is refactored to take generic requests.
   if ((self = [super initWithBaseUrl:@""
@@ -22,10 +20,6 @@
     _offlineMode = NO;
   }
   return self;
-}
-
-- (void)setOfflineMode:(BOOL)offlineMode {
-  _offlineMode = offlineMode;
 }
 
 - (void)sendAsync:(nullable NSObject *)data

@@ -193,7 +193,9 @@ static dispatch_once_t onceToken;
 }
 
 + (BOOL)isOfflineMode {
-  return [[MSDataStore sharedInstance] isOfflineMode];
+  @synchronized([MSDataStore sharedInstance]) {
+    return [MSDataStore sharedInstance].offlineMode;
+  }
 }
 
 #pragma mark - MSDataStore Implementation
@@ -372,7 +374,7 @@ static dispatch_once_t onceToken;
                                                 return;
                                               }
                                               MSCosmosDbIngestion *cosmosDbIngestion = [MSCosmosDbIngestion new];
-                                              [cosmosDbIngestion setOfflineMode:[self isOfflineMode]];
+                                              cosmosDbIngestion.offlineMode = self.offlineMode;
                                               [MSCosmosDb performCosmosDbAsyncOperationWithHttpClient:cosmosDbIngestion
                                                                                           tokenResult:tokenResponses.tokens[0]
                                                                                            documentId:documentId
@@ -381,12 +383,6 @@ static dispatch_once_t onceToken;
                                                                                     additionalHeaders:additionalHeaders
                                                                                     completionHandler:completionHandler];
                                             }];
-}
-
-- (BOOL)isOfflineMode {
-  @synchronized(self) {
-    return self.offlineMode;
-  }
 }
 
 #pragma mark - MSServiceInternal

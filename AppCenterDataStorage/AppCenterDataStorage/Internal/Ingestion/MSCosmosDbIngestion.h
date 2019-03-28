@@ -16,7 +16,7 @@ static NSString *const MSDataStorageErrorDomain = @"MSDataStorageErrorDomain";
 /**
  * A flag that indicates offline mode is on or off.
  */
-@property(nonatomic) BOOL offlineMode;
+@property(atomic) BOOL offlineMode;
 
 @end
 
