@@ -380,10 +380,17 @@ static dispatch_once_t onceToken;
 + (instancetype)sharedInstance {
   dispatch_once(&onceToken, ^{
     if (sharedInstance == nil) {
-      sharedInstance = [self new];
+      sharedInstance = [[MSDataStore alloc] init];
     }
   });
   return sharedInstance;
+}
+
++ (void)resetSharedInstance {
+
+  // resets the once_token so dispatch_once will run again.
+  onceToken = 0;
+  sharedInstance = nil;
 }
 
 - (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup
