@@ -41,6 +41,12 @@ NS_ASSUME_NONNULL_BEGIN
                      andStartTime:(nullable NSDate *)startTime
                      andExpiresOn:(nullable NSDate *)expiresOn;
 
+/**
+ * Indicates whether this token expires soon.
+ * @see kMSSecBeforeExpireToRefresh.
+ */
+- (BOOL)expiresSoon;
+
 @end
 
 NS_ASSUME_NONNULL_END

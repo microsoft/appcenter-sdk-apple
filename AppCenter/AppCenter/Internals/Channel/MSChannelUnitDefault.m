@@ -300,6 +300,7 @@
                             [[MSAuthTokenContext sharedInstance] removeAuthToken:tokenInfo.authToken];
                           }
                           if (tokenIndex + 1 < tokenArray.count) {
+                            [[MSAuthTokenContext sharedInstance] checkIfTokenNeedsToBeRefreshed:tokenArray[tokenIndex]];
 
                             // Iterate to next token in array.
                             [self flushQueueForTokenArray:tokenArray withTokenIndex:tokenIndex + 1];

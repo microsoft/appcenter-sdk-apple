@@ -81,6 +81,7 @@ static dispatch_once_t onceToken;
   [super applyEnabledState:isEnabled];
   if (isEnabled) {
     [[MSAppDelegateForwarder sharedInstance] addDelegate:self.appDelegate];
+    [[MSAuthTokenContext sharedInstance] addDelegate:self];
 
     // Read Identity config file.
     NSString *eTag = nil;
@@ -94,6 +95,7 @@ static dispatch_once_t onceToken;
     MSLogInfo([MSIdentity logTag], @"Identity service has been enabled.");
   } else {
     [[MSAppDelegateForwarder sharedInstance] removeDelegate:self.appDelegate];
+    [[MSAuthTokenContext sharedInstance] removeDelegate:self];
     [self clearAuthData];
     self.clientApplication = nil;
     [self clearConfigurationCache];
@@ -401,4 +403,14 @@ static dispatch_once_t onceToken;
   return account;
 }
 
+#pragma mark - MSAuthTokenContextDelegate
+
+- (void)authTokenContext:(MSAuthTokenContext *)__unused authTokenContext
+    authTokenNeedsToBeRefreshed:(nullable MSAuthTokenInfo *)authTokenInfo {
+  NSString *accountId = authTokenInfo.accountId;
+  MSALAccount *account = [self retrieveAccountWithAccountId:accountId];
+  if (account) {
+    [self acquireTokenSilentlyWithMSALAccount:account];
+  }
+}
 @end

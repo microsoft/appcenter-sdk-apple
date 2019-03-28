@@ -220,4 +220,27 @@ static dispatch_once_t onceToken;
   }
 }
 
+- (void)checkIfTokenNeedsToBeRefreshed:(MSAuthTokenValidityInfo *)tokenValidityInfo {
+  NSArray *synchronizedDelegates;
+  MSAuthTokenInfo *lastEntry;
+  @synchronized(self) {
+    lastEntry = [[self authTokenHistory] lastObject];
+
+    // Don't invoke the delegate while locking; it might be locking too and deadlock ourselves.
+    synchronizedDelegates = [self.delegates allObjects];
+  }
+  BOOL tokenIslastTokenEntry = [lastEntry.authToken isEqual:tokenValidityInfo.authToken];
+  if (!tokenIslastTokenEntry) {
+    return;
+  }
+  if (![tokenValidityInfo expiresSoon]) {
+    return;
+  }
+  for (id<MSAuthTokenContextDelegate> delegate in synchronizedDelegates) {
+    if ([delegate respondsToSelector:@selector(authTokenContext:authTokenNeedsToBeRefreshed:)]) {
+      [delegate authTokenContext:self authTokenNeedsToBeRefreshed:lastEntry];
+    }
+  }
+}
+
 @end

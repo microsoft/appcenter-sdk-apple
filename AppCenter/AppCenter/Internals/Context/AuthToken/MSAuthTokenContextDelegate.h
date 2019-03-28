@@ -3,6 +3,8 @@
 
 #import <Foundation/Foundation.h>
 
+#import "MSAuthTokenInfo.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 @class MSAuthTokenContext;
@@ -26,6 +28,14 @@ NS_ASSUME_NONNULL_BEGIN
  * @param authToken The auth token.
  */
 - (void)authTokenContext:(MSAuthTokenContext *)authTokenContext didSetNewAccountIdWithAuthToken:(nullable NSString *)authToken;
+
+/**
+ * A callback that is called when a token needs to be refreshed.
+ *
+ * @param authTokenContext The auth token context.
+ * @param authTokenInfo The auth token that expires soon and needs to be refreshed.
+ */
+- (void)authTokenContext:(MSAuthTokenContext *)authTokenContext authTokenNeedsToBeRefreshed:(nullable MSAuthTokenInfo *)authTokenInfo;
 
 @end
 
