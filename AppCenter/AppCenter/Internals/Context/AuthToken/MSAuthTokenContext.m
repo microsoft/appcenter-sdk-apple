@@ -192,7 +192,7 @@ static dispatch_once_t onceToken;
 
     // Save new array after changes.
     [self setAuthTokenHistory:tokenArray];
-    MSLogDebug([MSAppCenter logTag], @"The token has been removed from teh history.");
+    MSLogDebug([MSAppCenter logTag], @"The token has been removed from the history.");
   }
 }
 
