@@ -7,21 +7,9 @@
 
 @interface MSCosmosDbIngestionTests : XCTestCase
 
-@property(nonatomic, strong) MSCosmosDbIngestion *sut;
-
 @end
 
 @implementation MSCosmosDbIngestionTests
-
-- (void)setUp {
-  [super setUp];
-  self.sut = [MSCosmosDbIngestion new];
-}
-
-- (void)tearDown {
-  self.sut = nil;
-  [super tearDown];
-}
 
 - (void)testOfflineModeCallsCompletionHandlerWithError {
 
@@ -30,7 +18,7 @@
   __block NSString *testETag = @"etag";
   __block NSString *testAuthToken = @"token";
   __block NSString *testCallId = MS_UUID_STRING;
-  id ingestionMock = OCMPartialMock(self.sut);
+  id ingestionMock = OCMPartialMock([MSCosmosDbIngestion new]);
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler called."];
 
   // When
