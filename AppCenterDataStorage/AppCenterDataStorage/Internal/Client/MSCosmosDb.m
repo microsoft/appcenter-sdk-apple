@@ -134,26 +134,7 @@ static NSString *const kMSHeaderMsDate = @"x-ms-date";
                                          httpMethod:(NSString *)httpMethod
                                                body:(NSData *_Nullable)body
                                   additionalHeaders:(NSDictionary *_Nullable)additionalHeaders
-                                  completionHandler:(MSCosmosDbCompletionHandler)completionHandler {
-  [MSCosmosDb
-      performCosmosDbAsyncOperationWithHttpClient:httpClient
-                                      tokenResult:tokenResult
-                                       documentId:documentId
-                                       httpMethod:httpMethod
-                                             body:body
-                                additionalHeaders:additionalHeaders
-                     completionHandlerWithHeaders:^(NSData *_Nonnull data, NSDictionary *__unused headers, NSError *_Nonnull error) {
-                       completionHandler(data, error);
-                     }];
-}
-
-+ (void)performCosmosDbAsyncOperationWithHttpClient:(MSCosmosDbIngestion *)httpClient
-                                        tokenResult:(MSTokenResult *)tokenResult
-                                         documentId:(NSString *)documentId
-                                         httpMethod:(NSString *)httpMethod
-                                               body:(NSData *_Nullable)body
-                                  additionalHeaders:(NSDictionary *_Nullable)additionalHeaders
-                       completionHandlerWithHeaders:(MSCosmosDbCompletionHandlerWithHeaders)completionHandlerWithHeaders {
+                                  completionHandler:(MSCosmosDbCompletionHandler)completionHandlerWithHeaders {
   // Configure http client.
   httpClient.httpMethod = httpMethod;
   httpClient.httpHeaders = [MSCosmosDb defaultHeaderWithPartition:tokenResult.partition
