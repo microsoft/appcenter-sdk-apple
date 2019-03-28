@@ -405,9 +405,7 @@ static dispatch_once_t onceToken;
 
 #pragma mark - MSAuthTokenContextDelegate
 
-- (void)authTokenContext:(MSAuthTokenContext *)__unused authTokenContext
-    authTokenNeedsToBeRefreshed:(nullable MSAuthTokenInfo *)authTokenInfo {
-  NSString *accountId = authTokenInfo.accountId;
+- (void)authTokenContext:(MSAuthTokenContext *)__unused authTokenContext authTokenNeedsToBeRefreshed:(nullable NSString *)accountId {
   MSALAccount *account = [self retrieveAccountWithAccountId:accountId];
   if (account) {
     [self acquireTokenSilentlyWithMSALAccount:account];

@@ -221,21 +221,22 @@ static dispatch_once_t onceToken;
   NSArray *synchronizedDelegates;
   MSAuthTokenInfo *lastEntry;
   @synchronized(self) {
-    lastEntry = [[self authTokenHistory] lastObject];
+    lastEntry = [self authTokenHistory].lastObject;
+    BOOL tokenIslastTokenEntry = [lastEntry.authToken isEqual:tokenValidityInfo.authToken];
+    if (!tokenIslastTokenEntry) {
+      return;
+    }
+    if (![tokenValidityInfo expiresSoon]) {
+      return;
+    }
 
     // Don't invoke the delegate while locking; it might be locking too and deadlock ourselves.
     synchronizedDelegates = [self.delegates allObjects];
   }
-  BOOL tokenIslastTokenEntry = [lastEntry.authToken isEqual:tokenValidityInfo.authToken];
-  if (!tokenIslastTokenEntry) {
-    return;
-  }
-  if (![tokenValidityInfo expiresSoon]) {
-    return;
-  }
   for (id<MSAuthTokenContextDelegate> delegate in synchronizedDelegates) {
+    MSLogWarning([MSAppCenter logTag], @"The token for account id %@ needs to be refreshed.", lastEntry.accountId);
     if ([delegate respondsToSelector:@selector(authTokenContext:authTokenNeedsToBeRefreshed:)]) {
-      [delegate authTokenContext:self authTokenNeedsToBeRefreshed:lastEntry];
+      [delegate authTokenContext:self authTokenNeedsToBeRefreshed:lastEntry.accountId];
     }
   }
 }
