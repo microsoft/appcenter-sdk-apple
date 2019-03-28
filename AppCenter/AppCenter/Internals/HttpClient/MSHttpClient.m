@@ -12,9 +12,9 @@
 #import "MSUtility+StringFormatting.h"
 #import "MS_Reachability.h"
 
-@implementation MSHttpClient
-
 #define DEFAULT_RETRY_INTERVALS @[ @10, @(5 * 60), @(20 * 60) ]
+
+@implementation MSHttpClient
 
 - (instancetype)init {
   return [self initWithMaxHttpConnectionsPerHost:nil
