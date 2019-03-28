@@ -38,7 +38,7 @@
     }
     _session = [NSURLSession sessionWithConfiguration:_sessionConfiguration];
     _pendingCalls = [NSMutableSet new];
-    _retryIntervals = [NSArray arrayWithArray:retryIntervals];
+    _retryIntervals = retryIntervals;
     _enabled = YES;
     _paused = NO;
     _reachability = reachability;

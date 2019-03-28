@@ -26,7 +26,7 @@
 /**
  * Time intervals between each retry, in seconds.
  */
-@property(nonatomic) NSArray *retryIntervals;
+@property(nonatomic, copy) NSArray *retryIntervals;
 
 /**
  * A boolean value set to YES if the client is paused or NO otherwise. While paused, the client will store new calls but not send them until
