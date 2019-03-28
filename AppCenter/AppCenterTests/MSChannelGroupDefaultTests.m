@@ -33,7 +33,6 @@
                                                               flushInterval:flushInterval
                                                              batchSizeLimit:batchSizeLimit
                                                         pendingBatchesLimit:pendingBatchesLimit];
-  [[MSAuthTokenContext sharedInstance] init];
 }
 
 #pragma mark - Tests
