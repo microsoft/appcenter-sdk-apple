@@ -457,4 +457,40 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   XCTAssertEqual(actualResponseCode, expectedResponseCode);
 }
 
+- (void)testDeleteDocumentWithPartitionWhenTokenExchangeFails {
+
+  // If
+  NSString *partition = @"partition";
+  NSString *documentId = @"documentId";
+  id<MSSerializableDocument> mockSerializableDocument = [MSFakeSerializableDocument new];
+  __block BOOL completionHandlerCalled = NO;
+  NSInteger expectedResponseCode = kMSACDocumentUnauthorizedErrorCode;
+  NSDictionary *errorUserInfo = @{kMSCosmosDbHttpCodeKey : @(expectedResponseCode)};
+  NSError *expectedTokenExchangeError = [NSError errorWithDomain:kMSACErrorDomain code:0 userInfo:errorUserInfo];
+  __block MSDataSourceError *actualError;
+
+  // Mock tokens fetching.
+  MSTokenResult *testToken = [[MSTokenResult alloc] initWithString:@"testToken"];
+  MSTokensResponse *testTokensResponse = [[MSTokensResponse alloc] initWithTokens:@[ testToken ]];
+  OCMStub([self.tokenExchangeMock performDbTokenAsyncOperationWithHttpClient:OCMOCK_ANY partition:OCMOCK_ANY completionHandler:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        MSGetTokenAsyncCompletionHandler getTokenCallback;
+        [invocation getArgument:&getTokenCallback atIndex:4];
+        getTokenCallback(nil, expectedTokenExchangeError);
+      });
+
+  // When
+  [MSDataStore deleteDocumentWithPartition:partition
+                                documentId:(NSString *)documentId
+                         completionHandler:^(MSDataSourceError *error) {
+                           completionHandlerCalled = YES;
+                           actualError = error;
+                         }];
+
+  // Then
+  XCTAssertTrue(completionHandlerCalled);
+  XCTAssertEqualObjects(actualError.error, expectedTokenExchangeError);
+  XCTAssertEqual(actualError.errorCode, expectedResponseCode);
+}
+
 @end
