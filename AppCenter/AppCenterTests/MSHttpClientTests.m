@@ -245,7 +245,7 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
   // Then
   XCTAssertFalse(completionHandlerCalled);
 
-  // Restore the network and wait for completion handler to be called.
+  // When we restore the network and wait for completion handler to be called.
   [self simulateReachabilityChangedNotification:ReachableViaWiFi];
 
   // Then
@@ -310,7 +310,7 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
   // Then
   XCTAssertFalse(completionHandlerCalled);
 
-  // Restore the network and wait for completion handler to be called.
+  // When we restore the network and wait for completion handler to be called.
   [self simulateReachabilityChangedNotification:ReachableViaWiFi];
 
   // Then
