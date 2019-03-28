@@ -3,7 +3,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface MSDataSourceError : NSError
+@interface MSDataSourceError : NSObject
 
 /**
  * Document Error.
