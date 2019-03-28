@@ -57,6 +57,10 @@
     completionHandler:(MSHttpRequestCompletionHandler)completionHandler {
   @synchronized(self) {
     if (!self.enabled) {
+      NSError *error = [NSError errorWithDomain:kMSACErrorDomain
+                                           code:kMSACDisabledErrorCode
+                                       userInfo:@{NSLocalizedDescriptionKey : kMSACDisabledErrorDesc}];
+      completionHandler(nil, nil, error);
       return;
     }
     MSHttpCall *call = [[MSHttpCall alloc] initWithUrl:url

@@ -557,6 +557,48 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
   XCTAssertEqual(numRequests, 1 + [retryIntervals count]);
 }
 
+- (void)testSendAsyncWhileDisabled {
+
+  // If
+  __block NSURLRequest *actualRequest;
+  [OHHTTPStubs
+      stubRequestsPassingTest:^BOOL(__unused NSURLRequest *request) {
+        return YES;
+      }
+      withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+        actualRequest = request;
+        return [OHHTTPStubsResponse responseWithData:[NSData data] statusCode:MSHTTPCodesNo204NoContent headers:nil];
+      }];
+  __weak XCTestExpectation *expectation = [self expectationWithDescription:@""];
+  MSHttpClient *httpClient = [MSHttpClient new];
+  NSURL *url = [NSURL URLWithString:@"https://mock/something?a=b"];
+  NSString *method = @"GET";
+
+  // When
+  [httpClient setEnabled:NO];
+  [httpClient sendAsync:url
+                 method:method
+                headers:nil
+                   data:nil
+      completionHandler:^(NSData *responseBody, NSHTTPURLResponse *response, NSError *error) {
+        // Then
+        XCTAssertNil(response);
+        XCTAssertNil(responseBody);
+        XCTAssertNotNil(error);
+        [expectation fulfill];
+      }];
+
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
+                               handler:^(NSError *_Nullable error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+
+  // Then
+  XCTAssertNil(actualRequest);
+}
+
 - (void)simulateReachabilityChangedNotification:(NetworkStatus)status {
   self.currentNetworkStatus = status;
   [[NSNotificationCenter defaultCenter] postNotificationName:kMSReachabilityChangedNotification object:self.reachabilityMock];
