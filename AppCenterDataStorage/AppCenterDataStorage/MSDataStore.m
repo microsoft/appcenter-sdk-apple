@@ -388,7 +388,7 @@ static dispatch_once_t onceToken;
 
 + (void)resetSharedInstance {
 
-  // resets the once_token so dispatch_once will run again.
+  // Resets the once_token so dispatch_once will run again.
   onceToken = 0;
   sharedInstance = nil;
 }
