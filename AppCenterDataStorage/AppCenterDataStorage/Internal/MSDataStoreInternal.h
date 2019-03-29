@@ -10,6 +10,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@protocol MSHttpClientProtocol;
+
 @interface MSDataStore <T : id <MSSerializableDocument>>() <MSServiceInternal>
 
 /**
@@ -25,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * HTTP client.
  */
-@property(nonatomic, nullable) MSHttpClient *httpClient;
+@property(nonatomic, nullable) id<MSHttpClientProtocol> httpClient;
 
 @end
 
