@@ -74,6 +74,8 @@
 		0485AF7E1EAA79E300C10CAF /* MSIdentity.h in Headers */ = {isa = PBXBuildFile; fileRef = E85547C31D2D6253002DF6E2 /* MSIdentity.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		048C07D421F1630A00769A85 /* MSAL.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 04C6EC7921F10D8300A6FDAF /* MSAL.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		048C07D621F1634700769A85 /* MSAL.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 04C6EC7C21F10D9D00A6FDAF /* MSAL.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		049BC836224E8AD900AE7FBB /* MSIdentityErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = 049BC835224E8AD900AE7FBB /* MSIdentityErrors.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		049BC837224E8AE100AE7FBB /* MSIdentityErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = 049BC835224E8AD900AE7FBB /* MSIdentityErrors.h */; };
 		04A082061F74BB8600DC776D /* MSService.h in Headers */ = {isa = PBXBuildFile; fileRef = 04A082051F74BB8600DC776D /* MSService.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		04BED7181ECB64FB00E20975 /* OCHamcrest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04BED7161ECB64CE00E20975 /* OCHamcrest.framework */; };
 		04C6EC7E21F10DCA00A6FDAF /* MSAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04C6EC7921F10D8300A6FDAF /* MSAL.framework */; };
@@ -215,6 +217,7 @@
 		049BC82A1ECE3B9400FB6719 /* iOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = iOS.xcconfig; sourceTree = "<group>"; };
 		049BC82B1ECE3B9A00FB6719 /* macOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
 		049BC82C1ECE3CF000FB6719 /* Tests macOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Tests macOS.xcconfig"; path = "../../Config/Tests macOS.xcconfig"; sourceTree = "<group>"; };
+		049BC835224E8AD900AE7FBB /* MSIdentityErrors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSIdentityErrors.h; sourceTree = "<group>"; };
 		04A082051F74BB8600DC776D /* MSService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSService.h; path = ../AppCenter/AppCenter/MSService.h; sourceTree = "<group>"; };
 		04BED7161ECB64CE00E20975 /* OCHamcrest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrest.framework; path = ../../Vendor/macOS/OCHamcrest/OCHamcrest.framework; sourceTree = "<group>"; };
 		04C6EC7921F10D8300A6FDAF /* MSAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MSAL.framework; path = ../Vendor/iOS/MSAL/MSAL.framework; sourceTree = "<group>"; };
@@ -522,6 +525,7 @@
 				E85547CC1D2D63EF002DF6E2 /* AppCenterIdentity.h */,
 				E85547C31D2D6253002DF6E2 /* MSIdentity.h */,
 				E85547C51D2D6253002DF6E2 /* MSIdentity.m */,
+				049BC835224E8AD900AE7FBB /* MSIdentityErrors.h */,
 				04183C522229D5D400B5C70E /* MSUserInformation.h */,
 				04D707DE2229F593001EE415 /* MSUserInformation.m */,
 				995BA5D621EFF01F000E3212 /* Internals */,
@@ -572,6 +576,7 @@
 				35BCB33C22382EA300E948A4 /* MSIdentityConstants.h in Headers */,
 				B2B25645220B365A00716D6A /* MSIdentityAppDelegate.h in Headers */,
 				3568A7EF201A9BBB00F3B860 /* MSService.h in Headers */,
+				049BC837224E8AE100AE7FBB /* MSIdentityErrors.h in Headers */,
 				38F796CD21F93E33007E7C15 /* MSIdentityConfig.h in Headers */,
 				0481A54D21FA51D4001FA9D8 /* MSIdentityConfigIngestion.h in Headers */,
 				3568A7F0201A9BBB00F3B860 /* MSServiceAbstract.h in Headers */,
@@ -591,6 +596,7 @@
 				35BCB33B22382EA100E948A4 /* MSIdentityConstants.h in Headers */,
 				B2B25644220B365A00716D6A /* MSIdentityAppDelegate.h in Headers */,
 				04A082061F74BB8600DC776D /* MSService.h in Headers */,
+				049BC836224E8AD900AE7FBB /* MSIdentityErrors.h in Headers */,
 				38F796CC21F93E33007E7C15 /* MSIdentityConfig.h in Headers */,
 				387C77051D6CC39400D68CC1 /* MSServiceAbstract.h in Headers */,
 				0481A54C21FA511C001FA9D8 /* MSIdentityConfigIngestion.h in Headers */,

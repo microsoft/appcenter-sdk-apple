@@ -9,7 +9,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Domain
 
 // Error documentation here: https://docs.microsoft.com/en-us/rest/api/cosmos-db/http-status-codes-for-cosmosdb
-static NSString *const kMSACDataStoreErrorDomain = MS_APP_CENTER_BASE_DOMAIN @"DataStoreErrorDomain";
+static NSString *const kMSACDataStoreErrorDomain = MS_APP_CENTER_BASE_DOMAIN @"DataStore.ErrorDomain";
 
 static NSString *const kMSACDataStoreErrorDescriptionKey = @"DataStoreErrorDescriptionKey";
 

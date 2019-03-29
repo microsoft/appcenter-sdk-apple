@@ -11,6 +11,7 @@
 #import "MSIdentity.h"
 #import "MSIdentityConfigIngestion.h"
 #import "MSIdentityConstants.h"
+#import "MSIdentityErrors.h"
 #import "MSIdentityPrivate.h"
 #import "MSMockKeychainUtil.h"
 #import "MSMockUserDefaults.h"
@@ -19,7 +20,6 @@
 #import "MSUtility+File.h"
 #import <MSAL/MSAL.h>
 #import <MSAL/MSALPublicClientApplication.h>
-#import <OCMock/OCMock.h>
 
 static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
