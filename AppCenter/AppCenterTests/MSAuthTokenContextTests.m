@@ -419,7 +419,7 @@
   OCMVerify([delegateMock authTokenContext:OCMOCK_ANY authTokenNeedsToBeRefreshed:expectedAccountId]);
 }
 
-- (void)finishDoesNotResetTokenIfInitialized {
+- (void)testfinishDoesNotResetTokenIfInitialized {
 
   // If
   [self.sut doNotResetAuthTokenAfterStart];
@@ -432,7 +432,7 @@
   OCMVerify(self.sut);
 }
 
-- (void)finishInsertsAnonymousSessionIfNotPrevented {
+- (void)testfinishInsertsAnonymousSessionIfNotPrevented {
 
   // If
   OCMStub([self.sut setAuthToken:nil withAccountId:nil expiresOn:nil]);
