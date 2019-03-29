@@ -27,9 +27,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, nullable, readonly) NSDate *startTime;
 
 /**
- * Time and date to which token acted.
- * It can be nil if it's still valid.
- * In the keychain encoded data used to store expiration time.
+ * TUsed to store expiration time of token.
+ * Nil for valid tokens with unknown or not pre-defined expiration time.
  */
 @property(nonatomic, nullable, readonly) NSDate *expiresOn;
 
@@ -43,9 +42,9 @@ NS_ASSUME_NONNULL_BEGIN
  * @return Token info instance.
  */
 - (instancetype)initWithAuthToken:(nullable NSString *)authToken
-                     andAccountId:(nullable NSString *)accountId
-                     andStartTime:(nullable NSDate *)startTime
-                     andExpiresOn:(nullable NSDate *)expiresOn;
+                        accountId:(nullable NSString *)accountId
+                        startTime:(nullable NSDate *)startTime
+                        expiresOn:(nullable NSDate *)expiresOn;
 
 @end
 

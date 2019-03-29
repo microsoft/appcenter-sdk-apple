@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 #import "MSAuthTokenContext.h"
+#import "MSAuthTokenContextPrivate.h"
 
 /**
  * Singleton.
@@ -10,11 +11,6 @@ static MSAuthTokenContext *sharedInstance;
 static dispatch_once_t onceToken;
 
 @interface MSAuthTokenContext ()
-
-/**
- * Private field used to get and set auth tokens history array.
- */
-@property(nullable, nonatomic) NSArray<MSAuthTokenInfo *> *authTokenHistoryArray;
 
 /**
  * Cached authorization token.
@@ -85,16 +81,16 @@ static dispatch_once_t onceToken;
 
         // If it's not the same account treat the gap as anonymous.
         MSAuthTokenInfo *newAuthToken = [[MSAuthTokenInfo alloc] initWithAuthToken:nil
-                                                                      andAccountId:nil
-                                                                      andStartTime:lastEntry.expiresOn
-                                                                      andExpiresOn:newTokenStartDate];
+                                                                         accountId:nil
+                                                                         startTime:lastEntry.expiresOn
+                                                                         expiresOn:newTokenStartDate];
         [authTokenHistory addObject:newAuthToken];
       }
     }
     MSAuthTokenInfo *newAuthToken = [[MSAuthTokenInfo alloc] initWithAuthToken:authToken
-                                                                  andAccountId:accountId
-                                                                  andStartTime:newTokenStartDate
-                                                                  andExpiresOn:expiresOn];
+                                                                     accountId:accountId
+                                                                     startTime:newTokenStartDate
+                                                                     expiresOn:expiresOn];
     [authTokenHistory addObject:newAuthToken];
 
     // Cap array size at max available size const (deleting from beginning).
@@ -149,7 +145,7 @@ static dispatch_once_t onceToken;
       (NSMutableArray<MSAuthTokenInfo *> * __nullable)[MSKeychainUtil arrayForKey:kMSAuthTokenHistoryKey];
   NSMutableArray<MSAuthTokenValidityInfo *> *resultArray = [NSMutableArray<MSAuthTokenValidityInfo *> new];
   if (!tokenArray || tokenArray.count == 0) {
-    [resultArray addObject:[[MSAuthTokenValidityInfo alloc] initWithAuthToken:nil andStartTime:nil andEndTime:nil]];
+    [resultArray addObject:[[MSAuthTokenValidityInfo alloc] initWithAuthToken:nil startTime:nil endTime:nil]];
     return resultArray;
   }
   for (NSUInteger i = 0; i < tokenArray.count; i++) {
@@ -162,8 +158,8 @@ static dispatch_once_t onceToken;
       expiresOn = nextTokenStartTime;
     }
     [resultArray addObject:[[MSAuthTokenValidityInfo alloc] initWithAuthToken:currentAuthTokenInfo.authToken
-                                                                 andStartTime:currentAuthTokenInfo.startTime
-                                                                   andEndTime:expiresOn]];
+                                                                    startTime:currentAuthTokenInfo.startTime
+                                                                      endTime:expiresOn]];
   }
   return resultArray;
 }

@@ -130,9 +130,9 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   // If
   NSString *expectedToken = @"expected";
   MSAuthTokenInfo *authTokenInfo = [[MSAuthTokenInfo alloc] initWithAuthToken:expectedToken
-                                                                 andAccountId:@"someAccountId"
-                                                                 andStartTime:nil
-                                                                 andExpiresOn:nil];
+                                                                    accountId:@"someAccountId"
+                                                                    startTime:nil
+                                                                    expiresOn:nil];
   NSMutableArray<MSAuthTokenInfo *> *authTokenHistory = [NSMutableArray<MSAuthTokenInfo *> new];
   [authTokenHistory addObject:authTokenInfo];
   [MSMockKeychainUtil storeArray:authTokenHistory forKey:kMSAuthTokenHistoryKey];
@@ -182,9 +182,9 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
                              transmissionTargetToken:nil
                                      fromApplication:YES];
   MSAuthTokenInfo *authTokenInfo = [[MSAuthTokenInfo alloc] initWithAuthToken:fakeToken
-                                                                 andAccountId:fakeAccountId
-                                                                 andStartTime:nil
-                                                                 andExpiresOn:nil];
+                                                                    accountId:fakeAccountId
+                                                                    startTime:nil
+                                                                    expiresOn:nil];
   NSMutableArray<MSAuthTokenInfo *> *authTokenHistory = [NSMutableArray<MSAuthTokenInfo *> new];
   [authTokenHistory addObject:authTokenInfo];
   [MSMockKeychainUtil storeArray:authTokenHistory forKey:kMSAuthTokenHistoryKey];
@@ -934,9 +934,9 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
                                      fromApplication:YES];
   [[MSAuthTokenContext sharedInstance] setAuthToken:@"someToken" withAccountId:@"someAccount" expiresOn:nil];
   MSAuthTokenInfo *authTokenInfo = [[MSAuthTokenInfo alloc] initWithAuthToken:@"someToken"
-                                                                 andAccountId:@"someAccountId"
-                                                                 andStartTime:nil
-                                                                 andExpiresOn:nil];
+                                                                    accountId:@"someAccountId"
+                                                                    startTime:nil
+                                                                    expiresOn:nil];
   NSMutableArray<MSAuthTokenInfo *> *authTokenHistory = [NSMutableArray<MSAuthTokenInfo *> new];
   [authTokenHistory addObject:authTokenInfo];
   [MSMockKeychainUtil storeArray:authTokenHistory forKey:kMSAuthTokenHistoryKey];
@@ -983,10 +983,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   NSString *authToken = @"someToken";
   NSString *accountId = @"someAccount";
   [[MSAuthTokenContext sharedInstance] setAuthToken:authToken withAccountId:accountId expiresOn:nil];
-  MSAuthTokenInfo *authTokenInfo = [[MSAuthTokenInfo alloc] initWithAuthToken:authToken
-                                                                 andAccountId:accountId
-                                                                 andStartTime:nil
-                                                                 andExpiresOn:nil];
+  MSAuthTokenInfo *authTokenInfo = [[MSAuthTokenInfo alloc] initWithAuthToken:authToken accountId:accountId startTime:nil expiresOn:nil];
   NSMutableArray<MSAuthTokenInfo *> *authTokenHistory = [NSMutableArray<MSAuthTokenInfo *> new];
   [authTokenHistory addObject:authTokenInfo];
   [MSMockKeychainUtil storeArray:authTokenHistory forKey:kMSAuthTokenHistoryKey];
