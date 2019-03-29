@@ -214,7 +214,7 @@ static NSString *const MSDataStoreAppDocumentsPartition = @"readonly";
                                                     partition:mockPartition
                                             completionHandler:^(MSTokensResponse *__unused tokenResponses, NSError *_Nullable returnError) {
                                               XCTAssertNotNil(returnError);
-                                              XCTAssertEqual(returnError.code, kMSDataStoreErrorJSONSerializationFailed);
+                                              XCTAssertEqual(returnError.code, kMSACDataStoreErrorJSONSerializationFailed);
                                               [completeExpectation fulfill];
                                             }];
 
@@ -277,7 +277,7 @@ static NSString *const MSDataStoreAppDocumentsPartition = @"readonly";
                                                     partition:mockPartition
                                             completionHandler:^(MSTokensResponse *__unused tokenResponses, NSError *_Nullable returnError) {
                                               XCTAssertNotNil(returnError);
-                                              XCTAssertEqual([returnError code], kMSDataStoreErrorHTTPError);
+                                              XCTAssertEqual([returnError code], kMSACDataStoreErrorHTTPError);
                                               [completeExpectation fulfill];
                                             }];
 

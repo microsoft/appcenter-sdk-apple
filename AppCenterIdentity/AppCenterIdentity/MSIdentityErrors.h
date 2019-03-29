@@ -11,19 +11,19 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Error domain for Identity.
  */
-static NSString *const kMSIdentityErrorDomain = MS_APP_CENTER_BASE_DOMAIN @"Identity.ErrorDomain";
+static NSString *const kMSACIdentityErrorDomain = MS_APP_CENTER_BASE_DOMAIN @"Identity.ErrorDomain";
 
 /**
  * Error description key for Identity.
  */
-static NSString *const kMSIdentityErrorDescriptionKey = @"MSIdentityErrorDescriptionKey";
+static NSString *const kMSACIdentityErrorKey = @"MSACIdentity";
 
 #pragma mark - Error Codes
 
 /**
  * Error code for Identity.
  */
-NS_ENUM(NSInteger){kMSIdentityErrorServiceDisabled = -420000, kMSIdentityErrorPreviousSignInRequestInProgress = -420001,
-  kMSIdentityErrorSignInBackgroundOrNotConfigured = -420002, kMSIdentityErrorSignInWhenNoConnection = -420003};
+NS_ENUM(NSInteger){kMSACIdentityErrorServiceDisabled = -420000, kMSACIdentityErrorPreviousSignInRequestInProgress = -420001,
+                   kMSACIdentityErrorSignInBackgroundOrNotConfigured = -420002, kMSACIdentityErrorSignInWhenNoConnection = -420003};
 
 NS_ASSUME_NONNULL_END

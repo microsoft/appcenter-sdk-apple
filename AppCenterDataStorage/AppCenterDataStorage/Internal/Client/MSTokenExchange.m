@@ -62,9 +62,9 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
             MSLogError([MSDataStore logTag], @"Can't deserialize tokens with error: %@", [tokenResponsejsonError description]);
             NSError *serializeError = [[NSError alloc]
                 initWithDomain:kMSACDataStoreErrorDomain
-                          code:kMSDataStoreErrorJSONSerializationFailed
+                          code:kMSACDataStoreErrorJSONSerializationFailed
                       userInfo:@{
-                        kMSACDataStoreErrorDescriptionKey :
+                        kMSACDataStoreErrorKey :
                             [NSString stringWithFormat:@"Can't deserialize tokens with error: %@", [tokenResponsejsonError description]]
                       }];
             completionHandler([[MSTokensResponse alloc] initWithTokens:nil], serializeError);
@@ -80,12 +80,12 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
           // Token exchange did not get back an error but acquiring the token did not succeed either
           if (tokenResult && ![tokenResult.status isEqualToString:kMSTokenResultSucceed]) {
             MSLogError([MSDataStore logTag], @"Token result had a status of %@", tokenResult.status);
-            NSError *statusError = [[NSError alloc] initWithDomain:kMSACDataStoreErrorDomain
-                                                              code:kMSDataStoreErrorHTTPError
-                                                          userInfo:@{
-                                                            kMSACDataStoreErrorDescriptionKey : [NSString
-                                                                stringWithFormat:@"Token result had a status of %@", tokenResult.status]
-                                                          }];
+            NSError *statusError = [[NSError alloc]
+                initWithDomain:kMSACDataStoreErrorDomain
+                          code:kMSACDataStoreErrorHTTPError
+                      userInfo:@{
+                        kMSACDataStoreErrorKey : [NSString stringWithFormat:@"Token result had a status of %@", tokenResult.status]
+                      }];
             completionHandler(tokens, statusError);
             return;
           }
