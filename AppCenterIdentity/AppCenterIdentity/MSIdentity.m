@@ -405,7 +405,7 @@ static dispatch_once_t onceToken;
 
 #pragma mark - MSAuthTokenContextDelegate
 
-- (void)authTokenContext:(MSAuthTokenContext *)__unused authTokenContext authTokenNeedsToBeRefreshed:(nullable NSString *)accountId {
+- (void)authTokenContext:(MSAuthTokenContext *) authTokenContext authTokenNeedsToBeRefreshed:(nullable NSString *)accountId {
   MSALAccount *account = [self retrieveAccountWithAccountId:accountId];
   if (account) {
     [self acquireTokenSilentlyWithMSALAccount:account];
@@ -414,7 +414,7 @@ static dispatch_once_t onceToken;
     // If account not found, start an anonymous session to avoid deadlock.
     MSLogWarning([MSIdentity logTag],
                  @"Could not get account for the accountId of the token that needs to be refreshed. Starting anonymous session.");
-    [[MSAuthTokenContext sharedInstance] setAuthToken:nil withAccountId:nil expiresOn:nil];
+    [authTokenContext setAuthToken:nil withAccountId:nil expiresOn:nil];
   }
 }
 @end
