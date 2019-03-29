@@ -1,16 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#ifndef Header_h
-#define Header_h
-
-
-#endif /* Header_h */
-
-
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
-
 #import <Foundation/Foundation.h>
 
 #import "MSDBStorage.h"
@@ -18,9 +8,31 @@
 
 @interface MSLocalDocumentStore : MSDBStorage
 
--(bool) deleteTableWithPartition:(NSString *)partitionName;
+/**
+ * Delete table.
+ *
+ * @param partition The partition name.
+ */
+- (BOOL)deleteTableWithPartition:(NSString *)partition;
 
--(void) createTableWithTableName:(NSString *)tableName;
+/**
+ * Create table.
+ *
+ * @param tableName Table name.
+ */
+- (void)createTableWithTableName:(NSString *)tableName;
 
--(bool) saveDocument:(MSDocumentWrapper *) document partition:(NSString *)partitionName writeOptions:(MSWriteOptions *)options;
+/**
+ * Get table schema.
+ *
+ * @return Table schema.
+ */
++ (NSArray<NSDictionary<NSString *, NSArray<NSString *> *> *> *)tableSchema;
+
+/**
+ * Get table name by partition.
+ *
+ * @return Table name.
+ */
++ (NSString *)tableNameWithPartition:(NSString *)partition;
 @end

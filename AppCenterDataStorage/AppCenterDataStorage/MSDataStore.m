@@ -295,7 +295,7 @@ static dispatch_once_t onceToken;
 - (void)createOrReplaceWithPartition:(NSString *)partition
                           documentId:(NSString *)documentId
                             document:(id<MSSerializableDocument>)document
-                        writeOptions:(MSWriteOptions *) writeOptions
+                        writeOptions:(MSWriteOptions *)__unused writeOptions
                    additionalHeaders:(NSDictionary *)additionalHeaders
                    completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
 
@@ -346,7 +346,6 @@ static dispatch_once_t onceToken;
                                                                                                documentId:documentId
                                                                                                      eTag:eTag
                                                                                           lastUpdatedDate:date];
-                     [self.documentStore saveDocument:docWrapper partition:partition writeOptions:writeOptions];
                      MSLogDebug([MSDataStore logTag], @"Document created/replaced with ID: %@", documentId);
                      completionHandler(docWrapper);
                      return;
@@ -434,12 +433,13 @@ static dispatch_once_t onceToken;
 #pragma mark - MSAuthTokenContextDelegate
 
 - (void)authTokenContext:(MSAuthTokenContext *)__unused authTokenContext didUpdateAccountIdWithAuthToken:(NSString *)authToken {
+  // TODO: consume the unique account id once provided in authTokenContext.
+  NSString *uniqueAccountId = @"unique-account-id";
   if (!authToken) {
     [MSTokenExchange removeAllCachedTokens];
-    [self.documentStore deleteTableWithPartition:@"userDocuments"];
+    [self.documentStore deleteTableWithPartition:uniqueAccountId];
   } else {
-    //TODO change this to get the UserID and then provision the right table
-    [self.documentStore createTableWithTableName:@"userDocuments"];
+    [self.documentStore createTableWithTableName:uniqueAccountId];
   }
 }
 
