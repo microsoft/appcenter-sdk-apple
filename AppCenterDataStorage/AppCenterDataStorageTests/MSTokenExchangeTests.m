@@ -5,7 +5,6 @@
 #import "MSConstants+Internal.h"
 #import "MSDataStoreErrors.h"
 #import "MSKeychainUtil.h"
-#import "MSStorageIngestion.h"
 #import "MSTestFrameworks.h"
 #import "MSTokenExchange.h"
 #import "MSTokenResult.h"
@@ -238,7 +237,7 @@ static NSString *const MSDataStoreAppDocumentsPartition = @"readonly";
   id<MSHttpClientProtocol> httpMock = OCMProtocolMock(@protocol(MSHttpClientProtocol));
 
   // Mock returning error.
-  NSError *serviceError = [NSError new];
+  NSError *serviceError = [[NSError alloc] initWithDomain:NSURLErrorDomain code:NSURLErrorCannotDecodeRawData userInfo:nil];
   OCMStub([httpMock sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:OCMOCK_ANY data:OCMOCK_ANY completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
     __block MSHttpRequestCompletionHandler completionBlock;
     [invocation getArgument:&completionBlock atIndex:6];

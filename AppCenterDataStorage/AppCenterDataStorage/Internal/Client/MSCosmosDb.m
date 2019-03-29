@@ -5,6 +5,7 @@
 #import "AppCenter+Internal.h"
 #import "MSDataStoreInternal.h"
 #import "MSTokenResult.h"
+#import "MSConstants+Internal.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

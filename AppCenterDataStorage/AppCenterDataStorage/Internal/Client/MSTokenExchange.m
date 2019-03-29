@@ -11,6 +11,7 @@
 #import "MSTokenResult.h"
 #import "MSTokensResponse.h"
 #import "MSHttpClientProtocol.h"
+#import "MSConstants+Internal.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

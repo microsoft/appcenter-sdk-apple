@@ -4,9 +4,7 @@
 #import <Foundation/Foundation.h>
 
 #import "MSDataStore.h"
-#import "MSHttpClient.h"
 #import "MSServiceInternal.h"
-#import "MSStorageIngestion.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

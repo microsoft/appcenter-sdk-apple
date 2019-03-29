@@ -7,7 +7,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol MSHttpClientProtocol;
 @class MSTokensResponse;
-@class MSStorageIngestion;
 
 typedef void (^MSGetTokenAsyncCompletionHandler)(MSTokensResponse *tokenResponses, NSError *_Nullable error);
 

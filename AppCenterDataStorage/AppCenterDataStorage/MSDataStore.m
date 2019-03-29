@@ -17,10 +17,10 @@
 #import "MSDocumentWrapper.h"
 #import "MSPaginatedDocuments.h"
 #import "MSReadOptions.h"
-#import "MSStorageIngestion.h"
 #import "MSTokenExchange.h"
 #import "MSTokensResponse.h"
 #import "MSWriteOptions.h"
+#import "MSHttpClient.h"
 
 /**
  * Service storage key name.
