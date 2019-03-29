@@ -46,7 +46,7 @@
   // Don't lose time pretty printing headers if not going to be printed.
   if ([MSLogger currentLogLevel] <= MSLogLevelVerbose) {
     NSString *url = [request.URL.absoluteString stringByReplacingOccurrencesOfString:self.appSecret
-                                                                          withString:[MSIngestionUtil hideSecret:self.appSecret]];
+                                                                          withString:[MSHttpUtil hideSecret:self.appSecret]];
     MSLogVerbose([MSIdentity logTag], @"URL: %@", url);
     if (request.allHTTPHeaderFields) {
       MSLogVerbose([MSIdentity logTag], @"Headers: %@", [super prettyPrintHeaders:request.allHTTPHeaderFields]);

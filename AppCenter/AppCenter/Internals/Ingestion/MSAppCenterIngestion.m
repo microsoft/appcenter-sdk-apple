@@ -96,9 +96,9 @@ static NSString *const kMSApiPath = @"/logs";
 
 - (NSString *)obfuscateHeaderValue:(NSString *)value forKey:(NSString *)key {
   if ([key isEqualToString:kMSAuthorizationHeaderKey]) {
-    return [MSIngestionUtil hideAuthToken:value];
+    return [MSHttpUtil hideAuthToken:value];
   } else if ([key isEqualToString:kMSHeaderAppSecretKey]) {
-    return [MSIngestionUtil hideSecret:value];
+    return [MSHttpUtil hideSecret:value];
   }
   return value;
 }

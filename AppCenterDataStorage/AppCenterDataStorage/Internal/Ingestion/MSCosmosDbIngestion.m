@@ -21,7 +21,6 @@
   return self;
 }
 
-
 - (NSURLRequest *)createRequest:(NSObject *)data eTag:(NSString *)__unused eTag authToken:(nullable NSString *)__unused authToken {
   NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:self.sendURL];
 
@@ -47,7 +46,7 @@
 
 - (NSString *)obfuscateHeaderValue:(NSString *)value forKey:(NSString *)key {
   // TODO Remove this implementation once parent class support obfuscating authorization header.
-  return [key isEqualToString:kMSAuthorizationHeaderKey] ? [MSIngestionUtil hideSecret:value] : value;
+  return [key isEqualToString:kMSAuthorizationHeaderKey] ? [MSHttpUtil hideSecret:value] : value;
 }
 
 @end

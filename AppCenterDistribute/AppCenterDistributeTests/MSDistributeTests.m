@@ -638,10 +638,6 @@ static NSURL *sfURL;
                                                  appName, details.shortVersion, details.version];
 #pragma clang diagnostic pop
 
-  // Mock MSDistribute isNewerVersion to return YES.
-  id distributeMock = OCMPartialMock(self.sut);
-  OCMStub([distributeMock isNewerVersion:OCMOCK_ANY]).andReturn(YES);
-
   // Mock reachability.
   id reachabilityMock = OCMClassMock([MS_Reachability class]);
   OCMStub([reachabilityMock reachabilityForInternetConnection]).andReturn(reachabilityMock);
@@ -696,7 +692,6 @@ static NSURL *sfURL;
                                  OCMVerifyAll(self.alertControllerMock);
                                }];
 
-  [distributeMock stopMocking];
   [reachabilityMock stopMocking];
 }
 
@@ -785,7 +780,7 @@ static NSURL *sfURL;
   [MSHttpTestUtil stubHttp404Response];
 
   // When
-  [self.sut checkLatestRelease:kMSTestUpdateToken distributionGroupId:kMSTestDistributionGroupId releaseHash:kMSTestReleaseHash];
+  [distributeMock checkLatestRelease:kMSTestUpdateToken distributionGroupId:kMSTestDistributionGroupId releaseHash:kMSTestReleaseHash];
 
   // Then
   [self waitForExpectationsWithTimeout:1
@@ -847,7 +842,7 @@ static NSURL *sfURL;
   [self.settingsMock setObject:@1 forKey:kMSUpdateTokenRequestIdKey];
   [self.settingsMock setObject:@1 forKey:kMSPostponedTimestampKey];
   [self.settingsMock setObject:@1 forKey:kMSDistributionGroupIdKey];
-  [self.sut checkLatestRelease:kMSTestUpdateToken distributionGroupId:kMSTestDistributionGroupId releaseHash:kMSTestReleaseHash];
+  [distributeMock checkLatestRelease:kMSTestUpdateToken distributionGroupId:kMSTestDistributionGroupId releaseHash:kMSTestReleaseHash];
 
   // Then
   [self waitForExpectationsWithTimeout:1
@@ -886,7 +881,7 @@ static NSURL *sfURL;
   OCMStub([distributeMock isNewerVersion:OCMOCK_ANY]).andReturn(YES);
 
   // When
-  [self.sut handleUpdate:details];
+  [distributeMock handleUpdate:details];
 
   // Then
   NSMutableDictionary *persistedDict = [self.settingsMock objectForKey:kMSMandatoryReleaseKey];
@@ -1270,7 +1265,7 @@ static NSURL *sfURL;
   OCMStub([utilityMock currentAppEnvironment]).andReturn(MSEnvironmentOther);
 
   // Then
-  XCTAssertTrue([self.sut checkForUpdatesAllowed]);
+  XCTAssertTrue([distributeMock checkForUpdatesAllowed]);
 
   // When
   [distributeMock applyEnabledState:YES];
@@ -1330,7 +1325,7 @@ static NSURL *sfURL;
   OCMStub([utilityMock currentAppEnvironment]).andReturn(MSEnvironmentOther);
 
   // Then
-  XCTAssertTrue([self.sut checkForUpdatesAllowed]);
+  XCTAssertTrue([distributeMock checkForUpdatesAllowed]);
 
   // If
   [self.settingsMock setObject:kMSTestReleaseHash forKey:kMSUpdateSetupFailedPackageHashKey];
@@ -1369,7 +1364,7 @@ static NSURL *sfURL;
   OCMStub([utilityMock currentAppEnvironment]).andReturn(MSEnvironmentOther);
 
   // Then
-  XCTAssertTrue([self.sut checkForUpdatesAllowed]);
+  XCTAssertTrue([distributeMock checkForUpdatesAllowed]);
 
   // If
   [self.settingsMock setObject:@"different-release-hash" forKey:kMSUpdateSetupFailedPackageHashKey];
@@ -1379,7 +1374,7 @@ static NSURL *sfURL;
   XCTAssertNotEqual([self.settingsMock objectForKey:kMSUpdateSetupFailedPackageHashKey], kMSTestReleaseHash);
 
   // When
-  [self.sut applyEnabledState:YES];
+  [distributeMock applyEnabledState:YES];
 
   // Then
   OCMVerify([distributeMock requestInstallInformationWith:kMSTestReleaseHash]);
@@ -1414,10 +1409,10 @@ static NSURL *sfURL;
   OCMStub([utilityMock currentAppEnvironment]).andReturn(MSEnvironmentOther);
 
   // Then
-  XCTAssertTrue([self.sut checkForUpdatesAllowed]);
+  XCTAssertTrue([distributeMock checkForUpdatesAllowed]);
 
   // When
-  [self.sut applyEnabledState:YES];
+  [distributeMock applyEnabledState:YES];
   [distributeMock startUpdate];
   dispatch_async(dispatch_get_main_queue(), ^{
     [expectation fulfill];
@@ -2117,7 +2112,7 @@ static NSURL *sfURL;
   [self.settingsMock setObject:kMSTestReleaseHash forKey:kMSDownloadedReleaseHashKey];
 
   // When
-  [self.sut checkLatestRelease:kMSTestUpdateToken distributionGroupId:kMSTestDistributionGroupId releaseHash:kMSTestReleaseHash];
+  [distributeMock checkLatestRelease:kMSTestUpdateToken distributionGroupId:kMSTestDistributionGroupId releaseHash:kMSTestReleaseHash];
 
   // Then
   [self waitForExpectationsWithTimeout:1
