@@ -286,6 +286,24 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   [httpClient stopMocking];
 }
 
+- (void)testSetOfflineMode {
+
+  // Then
+  XCTAssertFalse([MSDataStore isOfflineMode]);
+
+  // When
+  [MSDataStore setOfflineMode:YES];
+
+  // Then
+  XCTAssertTrue([MSDataStore isOfflineMode]);
+
+  // When
+  [MSDataStore setOfflineMode:NO];
+
+  // Then
+  XCTAssertFalse([MSDataStore isOfflineMode]);
+}
+
 /*
  * Utils.
  */

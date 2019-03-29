@@ -175,6 +175,14 @@ static NSString *const kMSDocumentContinuationTokenHeaderKey = @"x-ms-continuati
                                           completionHandler:completionHandler];
 }
 
++ (void)setOfflineMode:(BOOL)offlineMode {
+  [MSDataStore sharedInstance].offlineMode = offlineMode;
+}
+
++ (BOOL)isOfflineMode {
+  return [MSDataStore sharedInstance].offlineMode;
+}
+
 #pragma mark - MSDataStore Implementation
 - (void)readWithPartition:(NSString *)partition
                documentId:(NSString *)documentId
@@ -444,6 +452,7 @@ static NSString *const kMSDocumentContinuationTokenHeaderKey = @"x-ms-continuati
                                                 return;
                                               }
                                               MSCosmosDbIngestion *cosmosDbIngestion = [MSCosmosDbIngestion new];
+                                              cosmosDbIngestion.offlineMode = self.offlineMode;
                                               [MSCosmosDb performCosmosDbAsyncOperationWithHttpClient:cosmosDbIngestion
                                                                                           tokenResult:tokenResponses.tokens[0]
                                                                                            documentId:documentId
