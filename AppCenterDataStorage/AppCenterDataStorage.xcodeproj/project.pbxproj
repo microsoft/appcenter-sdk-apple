@@ -378,12 +378,14 @@
 		D33A94531E5B11BB003966DB /* AppCenterDataStorage */ = {
 			isa = PBXGroup;
 			children = (
+				D33A94541E5B11BB003966DB /* AppCenterDataStorage.h */,
 				267464DF222F28A200EC1FF3 /* MSBaseOptions.h */,
 				267464EA222F28A300EC1FF3 /* MSBaseOptions.m */,
 				267464E2222F28A300EC1FF3 /* MSDataStore.h */,
 				267464E3222F28A300EC1FF3 /* MSDataStore.m */,
 				267464E6222F28A300EC1FF3 /* MSDataSourceError.h */,
 				267464DE222F28A200EC1FF3 /* MSDataSourceError.m */,
+				E80BE8902242215E004DD008 /* MSDataStoreErrors.h */,
 				267464E9222F28A300EC1FF3 /* MSDocumentWrapper.h */,
 				267464E4222F28A300EC1FF3 /* MSDocumentWrapper.m */,
 				267464DD222F28A200EC1FF3 /* MSPage.h */,
@@ -392,11 +394,9 @@
 				267464E8222F28A300EC1FF3 /* MSPaginatedDocuments.m */,
 				267464EB222F28A300EC1FF3 /* MSReadOptions.h */,
 				267464E7222F28A300EC1FF3 /* MSReadOptions.m */,
+				E8FE51E9221CBF87005FB52B /* MSSerializableDocument.h */,
 				267464E1222F28A300EC1FF3 /* MSWriteOptions.h */,
 				267464EC222F28A300EC1FF3 /* MSWriteOptions.m */,
-				D33A94541E5B11BB003966DB /* AppCenterDataStorage.h */,
-				E8FE51E9221CBF87005FB52B /* MSSerializableDocument.h */,
-				E80BE8902242215E004DD008 /* MSDataStoreErrors.h */,
 				D3AD5F071E5C8136001627AB /* Internal */,
 				D3AD5F031E5C7FC9001627AB /* Support */,
 			);
@@ -449,9 +449,9 @@
 				E8DADEF0222864C800587E15 /* Model */,
 				E824A53C2225E7C6005B69B5 /* Ingestion */,
 				E86B95D62224B54E0062E552 /* Client */,
+				D3AD5F0B1E5C819A001627AB /* AppCenter+Internal.h */,
 				E824A5472225FDAC005B69B5 /* MSDataStoreInternal.h */,
 				D3AD5F081E5C8156001627AB /* MSDataStorePrivate.h */,
-				D3AD5F0B1E5C819A001627AB /* AppCenter+Internal.h */,
 			);
 			path = Internal;
 			sourceTree = "<group>";
@@ -493,9 +493,9 @@
 			children = (
 				E8593A14222B91B20001F87E /* MSCosmosDb.h */,
 				E8593A15222B91B20001F87E /* MSCosmosDb.m */,
+				87FA7FB5BC7302D0062016E1 /* MSCosmosDbPrivate.h */,
 				E86B95D72224B5F60062E552 /* MSTokenExchange.h */,
 				E86B95D92224B6310062E552 /* MSTokenExchange.m */,
-				87FA7FB5BC7302D0062016E1 /* MSCosmosDbPrivate.h */,
 			);
 			path = Client;
 			sourceTree = "<group>";

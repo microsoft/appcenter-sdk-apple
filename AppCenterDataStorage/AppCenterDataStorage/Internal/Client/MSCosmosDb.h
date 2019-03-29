@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "MSHttpClient.h"
+#import "MSHttpClientProtocol.h"
 #import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
@@ -24,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param body Http body.
  * @param completionHandler Completion handler callback.
  */
-+ (void)performCosmosDbAsyncOperationWithHttpClient:(MSHttpClient *)httpClient
++ (void)performCosmosDbAsyncOperationWithHttpClient:(id<MSHttpClientProtocol>)httpClient
                                         tokenResult:(MSTokenResult *)tokenResult
                                          documentId:(NSString *)documentId
                                          httpMethod:(NSString *)httpMethod
@@ -42,7 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param additionalHeaders Additional http headers.
  * @param completionHandler Completion handler callback.
  */
-+ (void)performCosmosDbAsyncOperationWithHttpClient:(MSHttpClient *)httpClient
++ (void)performCosmosDbAsyncOperationWithHttpClient:(id<MSHttpClientProtocol>)httpClient
                                         tokenResult:(MSTokenResult *)tokenResult
                                          documentId:(NSString *)documentId
                                          httpMethod:(NSString *)httpMethod

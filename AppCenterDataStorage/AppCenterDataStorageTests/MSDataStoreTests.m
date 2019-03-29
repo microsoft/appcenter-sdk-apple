@@ -5,6 +5,7 @@
 #import "MSConstants+Internal.h"
 #import "MSCosmosDb.h"
 #import "MSCosmosDbPrivate.h"
+#import "MSHttpClient.h"
 #import "MSTestFrameworks.h"
 #import "MSTokenResult.h"
 

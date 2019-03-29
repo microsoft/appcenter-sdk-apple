@@ -127,7 +127,7 @@ static NSString *const kMSHeaderMsDate = @"x-ms-date";
   return [MSCosmosDb documentDbEndpointWithDbAccount:tokenResult.dbAccount documentResourceId:documentResourceIdPrefix];
 }
 
-+ (void)performCosmosDbAsyncOperationWithHttpClient:(MSHttpClient *)httpClient
++ (void)performCosmosDbAsyncOperationWithHttpClient:(id<MSHttpClientProtocol>)httpClient
                                         tokenResult:(MSTokenResult *)tokenResult
                                          documentId:(NSString *)documentId
                                          httpMethod:(NSString *)httpMethod
@@ -142,7 +142,7 @@ static NSString *const kMSHeaderMsDate = @"x-ms-date";
                                         completionHandler:completionHandler];
 }
 
-+ (void)performCosmosDbAsyncOperationWithHttpClient:(MSHttpClient *)httpClient
++ (void)performCosmosDbAsyncOperationWithHttpClient:(id<MSHttpClientProtocol>)httpClient
                                         tokenResult:(MSTokenResult *)tokenResult
                                          documentId:(NSString *)documentId
                                          httpMethod:(NSString *)httpMethod
