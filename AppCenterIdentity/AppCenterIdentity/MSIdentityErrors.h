@@ -13,11 +13,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 static NSString *const kMSACIdentityErrorDomain = MS_APP_CENTER_BASE_DOMAIN @"Identity.ErrorDomain";
 
-/**
- * Error description key for Identity.
- */
-static NSString *const kMSACIdentityErrorKey = @"MSACIdentity";
-
 #pragma mark - Error Codes
 
 /**

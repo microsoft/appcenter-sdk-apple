@@ -113,7 +113,7 @@ static dispatch_once_t onceToken;
     self.ingestion = nil;
     NSError *error = [[NSError alloc] initWithDomain:kMSACIdentityErrorDomain
                                                 code:kMSACIdentityErrorServiceDisabled
-                                            userInfo:@{kMSACIdentityErrorKey : @"Identity is disabled."}];
+                                            userInfo:@{NSLocalizedDescriptionKey : @"Identity is disabled."}];
     [self completeAcquireTokenRequestForResult:nil withError:error];
     MSLogInfo([MSIdentity logTag], @"Identity service has been disabled.");
   }
@@ -163,7 +163,7 @@ static dispatch_once_t onceToken;
         MSLogError([MSIdentity logTag], @"signIn already in progress.");
         NSError *error = [[NSError alloc] initWithDomain:kMSACIdentityErrorDomain
                                                     code:kMSACIdentityErrorPreviousSignInRequestInProgress
-                                                userInfo:@{kMSACIdentityErrorKey : @"signIn already in progress."}];
+                                                userInfo:@{NSLocalizedDescriptionKey : @"signIn already in progress."}];
         completionHandler(nil, error);
         return;
       }
@@ -172,7 +172,7 @@ static dispatch_once_t onceToken;
     } else {
       NSError *error = [[NSError alloc] initWithDomain:kMSACIdentityErrorDomain
                                                   code:kMSACIdentityErrorServiceDisabled
-                                              userInfo:@{kMSACIdentityErrorKey : @"Identity is disabled."}];
+                                              userInfo:@{NSLocalizedDescriptionKey : @"Identity is disabled."}];
       completionHandler(nil, error);
     }
   }
@@ -211,7 +211,7 @@ static dispatch_once_t onceToken;
   }
   NSError *error = [[NSError alloc] initWithDomain:kMSACIdentityErrorDomain
                                               code:errorCode
-                                          userInfo:@{kMSACIdentityErrorKey : errorMessage}];
+                                          userInfo:@{NSLocalizedDescriptionKey : errorMessage}];
   self.signInCompletionHandler(nil, error);
 }
 

@@ -11,8 +11,6 @@ NS_ASSUME_NONNULL_BEGIN
 // Error documentation here: https://docs.microsoft.com/en-us/rest/api/cosmos-db/http-status-codes-for-cosmosdb
 static NSString *const kMSACDataStoreErrorDomain = MS_APP_CENTER_BASE_DOMAIN @"DataStore.ErrorDomain";
 
-static NSString *const kMSACDataStoreErrorKey = @"MSACDataStore";
-
 #pragma mark - Error Codes
 
 NS_ENUM(NSInteger){kMSACDocumentUnknownErrorCode = 0,

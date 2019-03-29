@@ -64,7 +64,7 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
                 initWithDomain:kMSACDataStoreErrorDomain
                           code:kMSACDataStoreErrorJSONSerializationFailed
                       userInfo:@{
-                        kMSACDataStoreErrorKey :
+                        NSLocalizedDescriptionKey :
                             [NSString stringWithFormat:@"Can't deserialize tokens with error: %@", [tokenResponsejsonError description]]
                       }];
             completionHandler([[MSTokensResponse alloc] initWithTokens:nil], serializeError);
@@ -84,7 +84,7 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
                 initWithDomain:kMSACDataStoreErrorDomain
                           code:kMSACDataStoreErrorHTTPError
                       userInfo:@{
-                        kMSACDataStoreErrorKey : [NSString stringWithFormat:@"Token result had a status of %@", tokenResult.status]
+                        NSLocalizedDescriptionKey : [NSString stringWithFormat:@"Token result had a status of %@", tokenResult.status]
                       }];
             completionHandler(tokens, statusError);
             return;
