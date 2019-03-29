@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "MSAuthTokenContextDelegate.h"
 #import "MSServiceAbstract.h"
 #import "MSUserInformation.h"
 
@@ -38,7 +37,7 @@ static NSString *const MSIdentityErrorDescriptionKey = @"MSIdentityErrorDescript
 /**
  * App Center Identity service.
  */
-@interface MSIdentity : MSServiceAbstract <MSAuthTokenContextDelegate>
+@interface MSIdentity : MSServiceAbstract
 
 /**
  * Process URL request for the service.
