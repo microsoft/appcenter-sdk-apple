@@ -409,6 +409,10 @@ static dispatch_once_t onceToken;
   MSALAccount *account = [self retrieveAccountWithAccountId:accountId];
   if (account) {
     [self acquireTokenSilentlyWithMSALAccount:account];
+  } else {
+    
+    // If account not found, start an anonymous session to avoid deadlock.
+    [[MSAuthTokenContext sharedInstance] setAuthToken:nil withAccountId:nil expiresOn:nil];
   }
 }
 @end
