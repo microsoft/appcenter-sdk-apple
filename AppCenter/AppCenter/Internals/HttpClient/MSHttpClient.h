@@ -20,6 +20,6 @@
  *
  * @return A new instance of MSHttpClient.
  */
-- (instancetype)initWithMaxHttpConnectionsPerHost:(int)maxHttpConnectionsPerHost;
+- (instancetype)initWithMaxHttpConnectionsPerHost:(NSInteger)maxHttpConnectionsPerHost;
 
 @end
