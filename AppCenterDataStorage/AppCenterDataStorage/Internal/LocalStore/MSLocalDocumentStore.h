@@ -22,5 +22,5 @@
 
 -(void) createTableWithTableName:(NSString *)tableName;
 
-- (BOOL)saveDocument:(MSDocumentWrapper *) document partition:(NSString *)partitionType writeOptions:(MSWriteOptions *)options;
+-(bool) saveDocument:(MSDocumentWrapper *) document partition:(NSString *)partitionName writeOptions:(MSWriteOptions *)options;
 @end

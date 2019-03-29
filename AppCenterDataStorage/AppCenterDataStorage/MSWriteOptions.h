@@ -15,10 +15,10 @@
 /**
  * Initialize the Token result object
  *
- * @param ttl timeToLive Device document time to live in seconds
+ * @param timeToLive timeToLive Device document time to live in seconds
  *
  * @return A writeOptions instance.
  */
-- (instancetype)initWithTtl:(NSInteger)ttl;
+- (instancetype)initWithTimeToLive:(NSInteger)timeToLive;
 
 @end

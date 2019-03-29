@@ -10,8 +10,8 @@
     return self;
 }
 
-- (instancetype)initWithTtl:(NSInteger)ttl {
-    self = [super initWithDeviceTimeToLive:ttl];
+- (instancetype)initWithTimeToLive:(NSInteger)timeToLive {
+    self = [super initWithDeviceTimeToLive:timeToLive];
     return self;
 }
 

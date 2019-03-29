@@ -33,7 +33,7 @@ static const NSUInteger kMSSchemaVersion = 1;
     _idColumnIndex = ((NSNumber *)columnIndexes[kMSAppDocumentTableName][kMSIdColumnName]).unsignedIntegerValue;
     _partitionColumnIndex = ((NSNumber *)columnIndexes[kMSAppDocumentTableName][kMSPartitionColumnName]).unsignedIntegerValue;
     _documentIdColumnIndex = ((NSNumber *)columnIndexes[kMSAppDocumentTableName][kMSDocumentIdColumnName]).unsignedIntegerValue;
-    _documentColumnIndex = ((NSNumber *)columnIndexes[kMSAppDocumentTableName][kMSdocumentColumnName]).unsignedIntegerValue;
+    _documentColumnIndex = ((NSNumber *)columnIndexes[kMSAppDocumentTableName][kMSDocumentColumnName]).unsignedIntegerValue;
     _eTagColumnIndex = ((NSNumber *)columnIndexes[kMSAppDocumentTableName][kMSETagColumnName]).unsignedIntegerValue;
     _expirationTimeColumnIndex = ((NSNumber *)columnIndexes[kMSAppDocumentTableName][kMSExpirationTimeColumnName]).unsignedIntegerValue;
     _downloadTimeColumnIndex = ((NSNumber *)columnIndexes[kMSAppDocumentTableName][kMSDownloadTimeColumnName]).unsignedIntegerValue;
@@ -55,13 +55,13 @@ static const NSUInteger kMSSchemaVersion = 1;
 
 #pragma mark - Save Document
 
-- (BOOL)saveDocument:(MSDocumentWrapper *) document partition:(NSString *)partitionType writeOptions:(MSWriteOptions *)options{
+- (bool) saveDocument:(MSDocumentWrapper *) document partition:(NSString *)partitionName writeOptions:(MSWriteOptions *)options{
     if (!document) {
         return NO;
     }
     
     NSString *addDocumentQuery =
-    [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\") VALUES ('%@', '%@', '%@','%@', '%lld', '%lld', '%lld', '%@')", [self getTableWithPartition:partitionType], kMSPartitionColumnName, kMSDocumentIdColumnName, kMSdocumentColumnName, kMSETagColumnName, kMSExpirationTimeColumnName, kMSDownloadTimeColumnName, kMSOperationTimeColumnName, kMSPendingDownloadColumnName, document.partition, document.documentId, document.jsonValue, document.eTag, (long long)options.deviceTimeToLive, (long long)[[NSDate date] timeIntervalSince1970], (long long)[[NSDate date] timeIntervalSince1970], (partitionType == Readonly ? nil : kMSPendingOperationCreate)];
+    [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\") VALUES ('%@', '%@', '%@','%@', '%lld', '%lld', '%lld', '%@')", [self getTableWithPartition:partitionName], kMSPartitionColumnName, kMSDocumentIdColumnName, kMSDocumentColumnName, kMSETagColumnName, kMSExpirationTimeColumnName, kMSDownloadTimeColumnName, kMSOperationTimeColumnName, kMSPendingDownloadColumnName, document.partition, document.documentId, document.jsonValue, document.eTag, (long long)options.deviceTimeToLive, (long long)[[NSDate date] timeIntervalSince1970], (long long)[[NSDate date] timeIntervalSince1970], ([partitionName isEqualToString:MSDataStoreAppDocumentsPartition] ? nil : kMSPendingOperationCreate)];
     
     return [self executeQueryUsingBlock:^int(void *db) {
         
@@ -111,7 +111,7 @@ static const NSUInteger kMSSchemaVersion = 1;
              @{kMSIdColumnName : @[ kMSSQLiteTypeInteger, kMSSQLiteConstraintPrimaryKey, kMSSQLiteConstraintAutoincrement ]},
              @{kMSPartitionColumnName : @[ kMSSQLiteTypeText, kMSSQLiteConstraintNotNull ]},
              @{kMSDocumentIdColumnName : @[ kMSSQLiteTypeText, kMSSQLiteConstraintNotNull ]},
-             @{kMSdocumentColumnName : @[ kMSSQLiteTypeText ]},
+             @{kMSDocumentColumnName : @[ kMSSQLiteTypeText ]},
              @{kMSETagColumnName : @[ kMSSQLiteTypeText ]},
              @{kMSExpirationTimeColumnName : @[ kMSSQLiteTypeInteger ]},
              @{kMSDownloadTimeColumnName : @[ kMSSQLiteTypeInteger ]},

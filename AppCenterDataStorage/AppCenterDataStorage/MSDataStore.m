@@ -428,10 +428,10 @@ static dispatch_once_t onceToken;
 - (void)authTokenContext:(MSAuthTokenContext *)__unused authTokenContext didUpdateAccountIdWithAuthToken:(NSString *)authToken {
   if (!authToken) {
     [MSTokenExchange removeAllCachedTokens];
-    //[self.documentStore deleteTableWithPartition:@"UserDocuments"];
+    [self.documentStore deleteTableWithPartition:@"userDocuments"];
   } else {
     //TODO change this to get the UserID and then provision the right table
-      [self.documentStore createTableWithTableName:@"UserDocuments"];
+    [self.documentStore createTableWithTableName:@"userDocuments"];
   }
 }
 
