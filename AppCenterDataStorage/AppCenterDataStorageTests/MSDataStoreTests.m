@@ -260,8 +260,6 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 - (void)testCreateWithPartitionGoldenPath {
 
   // If
-  NSString *expectedDocumentId = @"testDocumentId";
-  NSString *expectedPartition = @"testPartition";
   id<MSSerializableDocument> mockSerializableDocument = [MSFakeSerializableDocument new];
   __block BOOL completionHandlerCalled = NO;
   __block MSDocumentWrapper *actualDocumentWrapper;
@@ -269,7 +267,9 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   // Mock tokens fetching.
   MSTokenResult *testToken = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
   MSTokensResponse *testTokensResponse = [[MSTokensResponse alloc] initWithTokens:@[ testToken ]];
-  OCMStub([self.tokenExchangeMock performDbTokenAsyncOperationWithHttpClient:OCMOCK_ANY partition:OCMOCK_ANY completionHandler:OCMOCK_ANY])
+  OCMStub([self.tokenExchangeMock performDbTokenAsyncOperationWithHttpClient:OCMOCK_ANY
+                                                                   partition:kMSPartitionTest
+                                                           completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         MSGetTokenAsyncCompletionHandler getTokenCallback;
         [invocation getArgument:&getTokenCallback atIndex:4];
@@ -279,9 +279,9 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   // Mock CosmosDB requests.
   NSData *testCosmosDbResponse = [@"{\"test\": true}" dataUsingEncoding:NSUTF8StringEncoding];
   OCMStub([self.cosmosDbMock performCosmosDbAsyncOperationWithHttpClient:OCMOCK_ANY
-                                                             tokenResult:OCMOCK_ANY
-                                                              documentId:OCMOCK_ANY
-                                                              httpMethod:OCMOCK_ANY
+                                                             tokenResult:testToken
+                                                              documentId:kMSDocumentIdTest
+                                                              httpMethod:kMSHttpMethodPost
                                                                     body:OCMOCK_ANY
                                                        additionalHeaders:OCMOCK_ANY
                                                        completionHandler:OCMOCK_ANY])
@@ -292,8 +292,8 @@ static NSString *const kMSDocumentIdTest = @"documentId";
       });
 
   // When
-  [MSDataStore createWithPartition:expectedPartition
-                        documentId:expectedDocumentId
+  [MSDataStore createWithPartition:kMSPartitionTest
+                        documentId:kMSDocumentIdTest
                           document:mockSerializableDocument
                  completionHandler:^(MSDocumentWrapper *data) {
                    completionHandlerCalled = YES;
@@ -303,8 +303,8 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   // Then
   XCTAssertTrue(completionHandlerCalled);
   XCTAssertNotNil(actualDocumentWrapper.deserializedValue);
-  XCTAssertEqual(actualDocumentWrapper.documentId, expectedDocumentId);
-  XCTAssertEqual(actualDocumentWrapper.partition, expectedPartition);
+  XCTAssertEqual(actualDocumentWrapper.documentId, kMSDocumentIdTest);
+  XCTAssertEqual(actualDocumentWrapper.partition, kMSPartitionTest);
 }
 
 - (void)testCreateWithPartitionWhenTokenExchangeFails {
@@ -320,7 +320,9 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // Mock tokens fetching.
   MSTokensResponse *testTokensResponse = [[MSTokensResponse alloc] initWithTokens:nil];
-  OCMStub([self.tokenExchangeMock performDbTokenAsyncOperationWithHttpClient:OCMOCK_ANY partition:OCMOCK_ANY completionHandler:OCMOCK_ANY])
+  OCMStub([self.tokenExchangeMock performDbTokenAsyncOperationWithHttpClient:OCMOCK_ANY
+                                                                   partition:kMSPartitionTest
+                                                           completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         MSGetTokenAsyncCompletionHandler getTokenCallback;
         [invocation getArgument:&getTokenCallback atIndex:4];
@@ -328,8 +330,8 @@ static NSString *const kMSDocumentIdTest = @"documentId";
       });
 
   // When
-  [MSDataStore createWithPartition:@"testPartition"
-                        documentId:@"testDocumentId"
+  [MSDataStore createWithPartition:kMSPartitionTest
+                        documentId:kMSDocumentIdTest
                           document:mockSerializableDocument
                  completionHandler:^(MSDocumentWrapper *data) {
                    completionHandlerCalled = YES;
@@ -356,7 +358,9 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   // Mock tokens fetching.
   MSTokenResult *testToken = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
   MSTokensResponse *testTokensResponse = [[MSTokensResponse alloc] initWithTokens:@[ testToken ]];
-  OCMStub([self.tokenExchangeMock performDbTokenAsyncOperationWithHttpClient:OCMOCK_ANY partition:OCMOCK_ANY completionHandler:OCMOCK_ANY])
+  OCMStub([self.tokenExchangeMock performDbTokenAsyncOperationWithHttpClient:OCMOCK_ANY
+                                                                   partition:kMSPartitionTest
+                                                           completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         MSGetTokenAsyncCompletionHandler getTokenCallback;
         [invocation getArgument:&getTokenCallback atIndex:4];
@@ -365,9 +369,9 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // Mock CosmosDB requests.
   OCMStub([self.cosmosDbMock performCosmosDbAsyncOperationWithHttpClient:OCMOCK_ANY
-                                                             tokenResult:OCMOCK_ANY
-                                                              documentId:OCMOCK_ANY
-                                                              httpMethod:OCMOCK_ANY
+                                                             tokenResult:testToken
+                                                              documentId:kMSDocumentIdTest
+                                                              httpMethod:kMSHttpMethodPost
                                                                     body:OCMOCK_ANY
                                                        additionalHeaders:OCMOCK_ANY
                                                        completionHandler:OCMOCK_ANY])
@@ -378,8 +382,8 @@ static NSString *const kMSDocumentIdTest = @"documentId";
       });
 
   // When
-  [MSDataStore createWithPartition:@"testPartition"
-                        documentId:@"testDocumentId"
+  [MSDataStore createWithPartition:kMSPartitionTest
+                        documentId:kMSDocumentIdTest
                           document:mockSerializableDocument
                  completionHandler:^(MSDocumentWrapper *data) {
                    completionHandlerCalled = YES;
@@ -395,8 +399,6 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 - (void)testCreateWithPartitionWhenDeserializationFails {
 
   // If
-  NSString *partition = @"partition";
-  NSString *documentId = @"documentId";
   id<MSSerializableDocument> mockSerializableDocument = [MSFakeSerializableDocument new];
   __block BOOL completionHandlerCalled = NO;
   NSErrorDomain expectedErrorDomain = NSCocoaErrorDomain;
@@ -406,7 +408,9 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   // Mock tokens fetching.
   MSTokenResult *testToken = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
   MSTokensResponse *testTokensResponse = [[MSTokensResponse alloc] initWithTokens:@[ testToken ]];
-  OCMStub([self.tokenExchangeMock performDbTokenAsyncOperationWithHttpClient:OCMOCK_ANY partition:OCMOCK_ANY completionHandler:OCMOCK_ANY])
+  OCMStub([self.tokenExchangeMock performDbTokenAsyncOperationWithHttpClient:OCMOCK_ANY
+                                                                   partition:kMSPartitionTest
+                                                           completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         MSGetTokenAsyncCompletionHandler getTokenCallback;
         [invocation getArgument:&getTokenCallback atIndex:4];
@@ -416,9 +420,9 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   // Mock CosmosDB requests.
   NSData *brokenCosmosDbResponse = [@"<h1>502 Bad Gateway</h1><p>nginx</p>" dataUsingEncoding:NSUTF8StringEncoding];
   OCMStub([self.cosmosDbMock performCosmosDbAsyncOperationWithHttpClient:OCMOCK_ANY
-                                                             tokenResult:OCMOCK_ANY
-                                                              documentId:OCMOCK_ANY
-                                                              httpMethod:OCMOCK_ANY
+                                                             tokenResult:testToken
+                                                              documentId:kMSDocumentIdTest
+                                                              httpMethod:kMSHttpMethodPost
                                                                     body:OCMOCK_ANY
                                                        additionalHeaders:OCMOCK_ANY
                                                        completionHandler:OCMOCK_ANY])
@@ -429,8 +433,8 @@ static NSString *const kMSDocumentIdTest = @"documentId";
       });
 
   // When
-  [MSDataStore createWithPartition:partition
-                        documentId:documentId
+  [MSDataStore createWithPartition:kMSPartitionTest
+                        documentId:kMSDocumentIdTest
                           document:mockSerializableDocument
                  completionHandler:^(MSDocumentWrapper *data) {
                    completionHandlerCalled = YES;
@@ -453,7 +457,9 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   // Mock tokens fetching.
   MSTokenResult *testToken = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
   MSTokensResponse *testTokensResponse = [[MSTokensResponse alloc] initWithTokens:@[ testToken ]];
-  OCMStub([self.tokenExchangeMock performDbTokenAsyncOperationWithHttpClient:OCMOCK_ANY partition:OCMOCK_ANY completionHandler:OCMOCK_ANY])
+  OCMStub([self.tokenExchangeMock performDbTokenAsyncOperationWithHttpClient:OCMOCK_ANY
+                                                                   partition:kMSPartitionTest
+                                                           completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         MSGetTokenAsyncCompletionHandler getTokenCallback;
         [invocation getArgument:&getTokenCallback atIndex:4];
@@ -462,9 +468,9 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // Mock CosmosDB requests.
   OCMStub([self.cosmosDbMock performCosmosDbAsyncOperationWithHttpClient:OCMOCK_ANY
-                                                             tokenResult:OCMOCK_ANY
-                                                              documentId:OCMOCK_ANY
-                                                              httpMethod:OCMOCK_ANY
+                                                             tokenResult:testToken
+                                                              documentId:kMSDocumentIdTest
+                                                              httpMethod:kMSHttpMethodDelete
                                                                     body:OCMOCK_ANY
                                                        additionalHeaders:OCMOCK_ANY
                                                        completionHandler:OCMOCK_ANY])
@@ -475,8 +481,8 @@ static NSString *const kMSDocumentIdTest = @"documentId";
       });
 
   // When
-  [MSDataStore deleteDocumentWithPartition:@"testPartition"
-                                documentId:@"testDocumentId"
+  [MSDataStore deleteDocumentWithPartition:kMSPartitionTest
+                                documentId:kMSDocumentIdTest
                          completionHandler:^(MSDataSourceError *error) {
                            completionHandlerCalled = YES;
                            actualResponseCode = error.errorCode;
@@ -499,7 +505,9 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // Mock tokens fetching
   MSTokensResponse *testTokensResponse = [[MSTokensResponse alloc] initWithTokens:nil];
-  OCMStub([self.tokenExchangeMock performDbTokenAsyncOperationWithHttpClient:OCMOCK_ANY partition:OCMOCK_ANY completionHandler:OCMOCK_ANY])
+  OCMStub([self.tokenExchangeMock performDbTokenAsyncOperationWithHttpClient:OCMOCK_ANY
+                                                                   partition:kMSPartitionTest
+                                                           completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         MSGetTokenAsyncCompletionHandler getTokenCallback;
         [invocation getArgument:&getTokenCallback atIndex:4];
@@ -507,8 +515,8 @@ static NSString *const kMSDocumentIdTest = @"documentId";
       });
 
   // When
-  [MSDataStore deleteDocumentWithPartition:@"testPartition"
-                                documentId:@"testDocumentId"
+  [MSDataStore deleteDocumentWithPartition:kMSPartitionTest
+                                documentId:kMSDocumentIdTest
                          completionHandler:^(MSDataSourceError *error) {
                            completionHandlerCalled = YES;
                            actualError = error;
@@ -533,7 +541,9 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   // Mock tokens fetching.
   MSTokenResult *testToken = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
   MSTokensResponse *testTokensResponse = [[MSTokensResponse alloc] initWithTokens:@[ testToken ]];
-  OCMStub([self.tokenExchangeMock performDbTokenAsyncOperationWithHttpClient:OCMOCK_ANY partition:OCMOCK_ANY completionHandler:OCMOCK_ANY])
+  OCMStub([self.tokenExchangeMock performDbTokenAsyncOperationWithHttpClient:OCMOCK_ANY
+                                                                   partition:kMSPartitionTest
+                                                           completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         MSGetTokenAsyncCompletionHandler getTokenCallback;
         [invocation getArgument:&getTokenCallback atIndex:4];
@@ -542,9 +552,9 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // Mock CosmosDB requests.
   OCMStub([self.cosmosDbMock performCosmosDbAsyncOperationWithHttpClient:OCMOCK_ANY
-                                                             tokenResult:OCMOCK_ANY
-                                                              documentId:OCMOCK_ANY
-                                                              httpMethod:OCMOCK_ANY
+                                                             tokenResult:testToken
+                                                              documentId:kMSDocumentIdTest
+                                                              httpMethod:kMSHttpMethodDelete
                                                                     body:OCMOCK_ANY
                                                        additionalHeaders:OCMOCK_ANY
                                                        completionHandler:OCMOCK_ANY])
@@ -555,8 +565,8 @@ static NSString *const kMSDocumentIdTest = @"documentId";
       });
 
   // When
-  [MSDataStore deleteDocumentWithPartition:@"testPartition"
-                                documentId:@"testDocumentId"
+  [MSDataStore deleteDocumentWithPartition:kMSPartitionTest
+                                documentId:kMSDocumentIdTest
                          completionHandler:^(MSDataSourceError *error) {
                            completionHandlerCalled = YES;
                            actualError = error;
