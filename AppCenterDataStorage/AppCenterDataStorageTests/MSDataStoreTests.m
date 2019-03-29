@@ -281,8 +281,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
       XCTAssertTrue([[deserializedDocument property2] isEqual:@42]);
     }
   };
-  [self waitForExpectationsWithTimeout:1
-                               handler:handler];
+  [self waitForExpectationsWithTimeout:1 handler:handler];
   [httpClient stopMocking];
 }
 
