@@ -3,8 +3,6 @@
 
 #import <Foundation/Foundation.h>
 
-#import "MSAuthTokenInfo.h"
-
 NS_ASSUME_NONNULL_BEGIN
 
 @class MSAuthTokenContext;

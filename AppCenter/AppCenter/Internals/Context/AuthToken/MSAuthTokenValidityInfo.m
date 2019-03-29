@@ -4,7 +4,7 @@
 #import "MSAuthTokenValidityInfo.h"
 
 // If the given number of seconds is left until the token expires, it indicates that it needs refreshing.
-static int const kMSSecBeforeExpireToRefresh = 10 * 60;
+static NSTimeInterval const kMSSecBeforeExpireToRefresh = 10 * 60;
 
 @implementation MSAuthTokenValidityInfo
 
@@ -19,8 +19,12 @@ static int const kMSSecBeforeExpireToRefresh = 10 * 60;
 }
 
 - (BOOL)expiresSoon {
-  NSTimeInterval seconds = kMSSecBeforeExpireToRefresh;
-  return self.endTime && [[NSDate dateWithTimeIntervalSinceNow:seconds] laterDate:(NSDate * __nonnull)self.endTime];
+  NSDate *endTimeThreadSafe;
+  @synchronized(self) {
+    endTimeThreadSafe = self.endTime;
+  }
+  NSDate *futureDate = [NSDate dateWithTimeIntervalSinceNow:kMSSecBeforeExpireToRefresh];
+  return endTimeThreadSafe && [futureDate compare:(NSDate * __nonnull) endTimeThreadSafe] == NSOrderedDescending;
 }
 
 @end

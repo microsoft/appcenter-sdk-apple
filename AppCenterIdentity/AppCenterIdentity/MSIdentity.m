@@ -410,8 +410,10 @@ static dispatch_once_t onceToken;
   if (account) {
     [self acquireTokenSilentlyWithMSALAccount:account];
   } else {
-    
+
     // If account not found, start an anonymous session to avoid deadlock.
+    MSLogWarning([MSIdentity logTag],
+                 @"Could not get account for the accountId of the token that needs to be refreshed. Starting anonymous session.");
     [[MSAuthTokenContext sharedInstance] setAuthToken:nil withAccountId:nil expiresOn:nil];
   }
 }

@@ -29,6 +29,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
 - (void)configAuthenticationClient;
 - (BOOL)removeAccount;
+- (MSALAccount *)retrieveAccountWithAccountId:(NSString *)homeAccountId;
 
 @end
 
@@ -1030,6 +1031,57 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   // Then
   XCTAssertNotNil(self.sut.ingestion);
   XCTAssertEqualObjects(self.sut.ingestion.baseURL, baseConfigUrl);
+}
+
+- (void)testRefreshNeededTriggersRefresh {
+
+  // If
+  NSString *fakeAccountId = @"accountId";
+  NSString *fakeAuthToken = @"authToken";
+  id identityMock = OCMPartialMock(self.sut);
+  [[MSAuthTokenContext sharedInstance] addDelegate:identityMock];
+  [[MSAuthTokenContext sharedInstance] setAuthToken:fakeAuthToken withAccountId:fakeAccountId expiresOn:nil];
+  MSAuthTokenValidityInfo *fakeValidityInfo = OCMClassMock([MSAuthTokenValidityInfo class]);
+  OCMStub([fakeValidityInfo expiresSoon]).andReturn(YES);
+  OCMStub([fakeValidityInfo authToken]).andReturn(fakeAuthToken);
+  OCMStub([identityMock sharedInstance]).andReturn(identityMock);
+  OCMStub([identityMock canBeUsed]).andReturn(YES);
+  MSALAccount *accountMock = OCMClassMock([MSALAccount class]);
+  OCMStub([identityMock retrieveAccountWithAccountId:fakeAccountId]).andReturn(accountMock);
+  OCMStub([identityMock acquireTokenSilentlyWithMSALAccount:accountMock]);
+
+  // When
+  [[MSAuthTokenContext sharedInstance] checkIfTokenNeedsToBeRefreshed:fakeValidityInfo];
+
+  // Then
+  OCMVerify([identityMock acquireTokenSilentlyWithMSALAccount:accountMock]);
+  [identityMock stopMocking];
+}
+
+- (void)testRefreshNeededWithNilAccountTriggersAnonymous {
+
+  // If
+  NSString *fakeAccountId = @"accountId";
+  NSString *fakeAuthToken = @"authToken";
+  id identityMock = OCMPartialMock(self.sut);
+  [[MSAuthTokenContext sharedInstance] addDelegate:identityMock];
+  [[MSAuthTokenContext sharedInstance] setAuthToken:fakeAuthToken withAccountId:fakeAccountId expiresOn:nil];
+  MSAuthTokenValidityInfo *fakeValidityInfo = OCMClassMock([MSAuthTokenValidityInfo class]);
+  OCMStub([fakeValidityInfo expiresSoon]).andReturn(YES);
+  OCMStub([fakeValidityInfo authToken]).andReturn(fakeAuthToken);
+  OCMStub([identityMock sharedInstance]).andReturn(identityMock);
+  OCMStub([identityMock canBeUsed]).andReturn(YES);
+  OCMStub([identityMock retrieveAccountWithAccountId:fakeAccountId]).andReturn(nil);
+  OCMStub([identityMock acquireTokenSilentlyWithMSALAccount:OCMOCK_ANY]);
+  OCMReject([identityMock acquireTokenSilentlyWithMSALAccount:OCMOCK_ANY]);
+  id contextMock = OCMPartialMock([MSAuthTokenContext sharedInstance]);
+
+  // When
+  [[MSAuthTokenContext sharedInstance] checkIfTokenNeedsToBeRefreshed:fakeValidityInfo];
+
+  // Then
+  OCMVerify([contextMock setAuthToken:nil withAccountId:nil expiresOn:nil]);
+  [identityMock stopMocking];
 }
 
 @end

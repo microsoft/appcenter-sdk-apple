@@ -42,6 +42,8 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Indicates whether this token expires soon.
  * @see kMSSecBeforeExpireToRefresh.
+ *
+ * @return YES if token expires soon and needs to be refreshed, NO otherwise.
  */
 - (BOOL)expiresSoon;
 

@@ -221,6 +221,8 @@ static dispatch_once_t onceToken;
   MSAuthTokenInfo *lastEntry;
   @synchronized(self) {
     lastEntry = [self authTokenHistory].lastObject;
+
+    // Don't invoke refresh on old tokens - only on the latest one, if it's soon to be expired.
     BOOL tokenIslastTokenEntry = [lastEntry.authToken isEqual:tokenValidityInfo.authToken];
     if (!tokenIslastTokenEntry) {
       return;
