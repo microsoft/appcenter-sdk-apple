@@ -15,12 +15,12 @@
 #import "MSDataStorePrivate.h"
 #import "MSDocumentUtils.h"
 #import "MSDocumentWrapper.h"
+#import "MSHttpClient.h"
 #import "MSPaginatedDocuments.h"
 #import "MSReadOptions.h"
 #import "MSTokenExchange.h"
 #import "MSTokensResponse.h"
 #import "MSWriteOptions.h"
-#import "MSHttpClient.h"
 
 /**
  * Service storage key name.
@@ -358,6 +358,7 @@ static dispatch_once_t onceToken;
                    completionHandler:(MSHttpRequestCompletionHandler)completionHandler {
   [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:(id<MSHttpClientProtocol>)self.httpClient
                                              tokenExchangeUrl:self.tokenExchangeUrl
+                                                    appSecret:self.appSecret
                                                     partition:partition
                                             completionHandler:^(MSTokensResponse *_Nonnull tokenResponses, NSError *_Nonnull error) {
                                               if (error || [tokenResponses.tokens count] == 0) {

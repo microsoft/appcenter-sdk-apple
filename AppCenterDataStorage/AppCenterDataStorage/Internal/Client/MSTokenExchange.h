@@ -25,6 +25,7 @@ typedef void (^MSGetTokenAsyncCompletionHandler)(MSTokensResponse *tokenResponse
  */
 + (void)performDbTokenAsyncOperationWithHttpClient:(id<MSHttpClientProtocol>)httpClient
                                   tokenExchangeUrl:(NSURL *)tokenExchangeUrl
+                                         appSecret:(NSString *)appSecret
                                          partition:(NSString *)partition
                                  completionHandler:(MSGetTokenAsyncCompletionHandler)completionHandler;
 

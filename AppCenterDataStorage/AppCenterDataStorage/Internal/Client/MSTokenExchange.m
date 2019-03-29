@@ -4,14 +4,14 @@
 #import "MSTokenExchange.h"
 #import "AppCenter+Internal.h"
 #import "MSAuthTokenContext.h"
+#import "MSConstants+Internal.h"
 #import "MSDataStorageConstants.h"
 #import "MSDataStoreErrors.h"
 #import "MSDataStoreInternal.h"
+#import "MSHttpClientProtocol.h"
 #import "MSKeychainUtil.h"
 #import "MSTokenResult.h"
 #import "MSTokensResponse.h"
-#import "MSHttpClientProtocol.h"
-#import "MSConstants+Internal.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -29,8 +29,9 @@ static NSString *const kMSGetTokenPath = @"/data/tokens";
 
 + (void)performDbTokenAsyncOperationWithHttpClient:(id<MSHttpClientProtocol>)httpClient
                                   tokenExchangeUrl:(NSURL *)tokenExchangeUrl
+                                         appSecret:(NSString *)appSecret
                                          partition:(NSString *)partition
-                                 completionHandler:(MSGetTokenAsyncCompletionHandler _Nonnull)completionHandler {
+                                 completionHandler:(MSGetTokenAsyncCompletionHandler)completionHandler {
 
   // Get the cached token if it is saved.
   MSTokenResult *cachedToken = [MSTokenExchange retrieveCachedToken:partition];
@@ -39,15 +40,23 @@ static NSString *const kMSGetTokenPath = @"/data/tokens";
   // Get a fresh token from the token exchange service if the token is not cached or has expired.
   if (!cachedToken) {
 
-    // Payload.
+    // Serialize payload.
     NSError *jsonError;
     NSData *payloadData = [NSJSONSerialization dataWithJSONObject:@{kMSPartitions : @[ partition ]} options:0 error:&jsonError];
-    NSDictionary *headers = nil;
-    if ([MSAuthTokenContext sharedInstance].authToken) {
-      headers = @{kMSAuthorizationHeaderKey : [NSString stringWithFormat:kMSBearerTokenHeaderFormat, [MSAuthTokenContext sharedInstance].authToken]};
-    }
 
-    [httpClient sendAsync:sendUrl method:kMSHttpMethodPost headers:headers data:payloadData completionHandler:^(NSData *data, NSHTTPURLResponse *response, NSError *error) {
+    // Call token exchange service.
+    NSMutableDictionary *headers = [NSMutableDictionary new];
+    headers[kMSHeaderContentTypeKey] = kMSAppCenterContentType;
+    headers[kMSHeaderAppSecretKey] = appSecret;
+    if ([MSAuthTokenContext sharedInstance].authToken) {
+      headers[kMSAuthorizationHeaderKey] =
+          [NSString stringWithFormat:kMSBearerTokenHeaderFormat, [MSAuthTokenContext sharedInstance].authToken];
+    }
+    [httpClient sendAsync:sendUrl
+                   method:kMSHttpMethodPost
+                  headers:headers
+                     data:payloadData
+        completionHandler:^(NSData *data, NSHTTPURLResponse *response, NSError *error) {
           MSLogVerbose([MSDataStore logTag], @"Get token callback status code: %td", response.statusCode);
 
           // Token exchange failed to give back a token.

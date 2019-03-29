@@ -37,9 +37,7 @@
     (__bridge id)kSecValueData : (NSData * _Nonnull)[value dataUsingEncoding:NSUTF8StringEncoding]
   };
   NSDictionary *expectedDeleteItemQuery =
-      @{(__bridge id)kSecAttrService : self.acServiceName,
-        (__bridge id)kSecClass : @"genp",
-        (__bridge id)kSecAttrAccount : key };
+      @{(__bridge id)kSecAttrService : self.acServiceName, (__bridge id)kSecClass : @"genp", (__bridge id)kSecAttrAccount : key};
   NSDictionary *expectedMatchItemQuery = @{
     (__bridge id)kSecAttrService : self.acServiceName,
     (__bridge id)kSecClass : @"genp",

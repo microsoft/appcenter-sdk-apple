@@ -243,6 +243,16 @@
                ReferencedContainer = "container:AppCenterIdentity/AppCenterIdentity.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "D3AD5EBF1E5C4F6A001627AB"
+               BuildableName = "AppCenterDataStorage.xctest"
+               BlueprintName = "AppCenterDataStorageIOSTests"
+               ReferencedContainer = "container:AppCenterDataStorage/AppCenterDataStorage.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference

@@ -97,21 +97,21 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
   __block BOOL completionHandlerCalled = NO;
   MSHttpRequestCompletionHandler handler =
-  ^(NSData *_Nullable __unused responseBody, NSHTTPURLResponse *_Nullable __unused response, NSError *_Nullable __unused error) {
-    completionHandlerCalled = YES;
-  };
+      ^(NSData *_Nullable __unused responseBody, NSHTTPURLResponse *_Nullable __unused response, NSError *_Nullable __unused error) {
+        completionHandlerCalled = YES;
+      };
   NSString *expectedURLString = @"https://dbAccount.documents.azure.com/dbs/dbName/colls/dbCollectionName/docs/documentId";
   __block NSURL *actualURL;
   __block NSData *actualData;
   OCMStub([httpClient sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:OCMOCK_ANY data:OCMOCK_ANY completionHandler:OCMOCK_ANY])
-  .andDo(^(NSInvocation *invocation) {
-    MSHttpRequestCompletionHandler completionHandler;
-    [invocation retainArguments];
-    [invocation getArgument:&actualURL atIndex:2];
-    [invocation getArgument:&actualData atIndex:5];
-    [invocation getArgument:&completionHandler atIndex:6];
-    completionHandler(actualData, nil, nil);
-  });
+      .andDo(^(NSInvocation *invocation) {
+        MSHttpRequestCompletionHandler completionHandler;
+        [invocation retainArguments];
+        [invocation getArgument:&actualURL atIndex:2];
+        [invocation getArgument:&actualData atIndex:5];
+        [invocation getArgument:&completionHandler atIndex:6];
+        completionHandler(actualData, nil, nil);
+      });
   NSMutableDictionary *additionalHeaders = [NSMutableDictionary new];
   additionalHeaders[@"Foo"] = @"Bar";
   NSDictionary *dic = @{@"abv" : @1, @"foo" : @"bar"};
@@ -139,21 +139,21 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
   __block BOOL completionHandlerCalled = NO;
   MSHttpRequestCompletionHandler handler =
-  ^(NSData *_Nullable __unused responseBody, NSHTTPURLResponse *_Nullable __unused response, NSError *_Nullable __unused error) {
-    completionHandlerCalled = YES;
-  };
+      ^(NSData *_Nullable __unused responseBody, NSHTTPURLResponse *_Nullable __unused response, NSError *_Nullable __unused error) {
+        completionHandlerCalled = YES;
+      };
   NSString *expectedURLString = @"https://dbAccount.documents.azure.com/dbs/dbName/colls/dbCollectionName/docs/documentId";
   __block NSURL *actualURL;
   __block NSData *actualData;
   OCMStub([httpClient sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:OCMOCK_ANY data:OCMOCK_ANY completionHandler:OCMOCK_ANY])
-  .andDo(^(NSInvocation *invocation) {
-    MSHttpRequestCompletionHandler completionHandler;
-    [invocation retainArguments];
-    [invocation getArgument:&actualURL atIndex:2];
-    [invocation getArgument:&actualData atIndex:5];
-    [invocation getArgument:&completionHandler atIndex:6];
-    completionHandler(actualData, nil, nil);
-  });
+      .andDo(^(NSInvocation *invocation) {
+        MSHttpRequestCompletionHandler completionHandler;
+        [invocation retainArguments];
+        [invocation getArgument:&actualURL atIndex:2];
+        [invocation getArgument:&actualData atIndex:5];
+        [invocation getArgument:&completionHandler atIndex:6];
+        completionHandler(actualData, nil, nil);
+      });
   NSDictionary *dic = @{@"abv" : @1, @"foo" : @"bar"};
   __block NSData *data = [NSJSONSerialization dataWithJSONObject:dic options:0 error:nil];
 
