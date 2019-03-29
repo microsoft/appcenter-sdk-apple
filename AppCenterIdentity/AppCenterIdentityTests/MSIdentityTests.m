@@ -465,9 +465,9 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   // Then
   XCTAssertNil(self.signInUserInformation);
   XCTAssertNotNil(self.signInError);
-  XCTAssertEqualObjects(MSIdentityErrorDomain, self.signInError.domain);
-  XCTAssertEqual(MSIdentityErrorServiceDisabled, self.signInError.code);
-  XCTAssertNotNil(self.signInError.userInfo[MSIdentityErrorDescriptionKey]);
+  XCTAssertEqualObjects(kMSIdentityErrorDomain, self.signInError.domain);
+  XCTAssertEqual(kMSIdentityErrorServiceDisabled, self.signInError.code);
+  XCTAssertNotNil(self.signInError.userInfo[kMSIdentityErrorDescriptionKey]);
   [identityMock stopMocking];
 }
 
@@ -494,9 +494,9 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   // Then
   XCTAssertNil(self.signInUserInformation);
   XCTAssertNotNil(self.signInError);
-  XCTAssertEqualObjects(MSIdentityErrorDomain, self.signInError.domain);
-  XCTAssertEqual(MSIdentityErrorSignInWhenNoConnection, self.signInError.code);
-  XCTAssertNotNil(self.signInError.userInfo[MSIdentityErrorDescriptionKey]);
+  XCTAssertEqualObjects(kMSIdentityErrorDomain, self.signInError.domain);
+  XCTAssertEqual(kMSIdentityErrorSignInWhenNoConnection, self.signInError.code);
+  XCTAssertNotNil(self.signInError.userInfo[kMSIdentityErrorDescriptionKey]);
   [identityMock stopMocking];
 }
 
@@ -519,9 +519,9 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   // Then
   XCTAssertNil(self.signInUserInformation);
   XCTAssertNotNil(self.signInError);
-  XCTAssertEqualObjects(MSIdentityErrorDomain, self.signInError.domain);
-  XCTAssertEqual(MSIdentityErrorSignInBackgroundOrNotConfigured, self.signInError.code);
-  XCTAssertNotNil(self.signInError.userInfo[MSIdentityErrorDescriptionKey]);
+  XCTAssertEqualObjects(kMSIdentityErrorDomain, self.signInError.domain);
+  XCTAssertEqual(kMSIdentityErrorSignInBackgroundOrNotConfigured, self.signInError.code);
+  XCTAssertNotNil(self.signInError.userInfo[kMSIdentityErrorDescriptionKey]);
   [identityMock stopMocking];
 }
 
@@ -543,9 +543,9 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   // Then
   XCTAssertNil(self.signInUserInformation);
   XCTAssertNotNil(self.signInError);
-  XCTAssertEqualObjects(MSIdentityErrorDomain, self.signInError.domain);
-  XCTAssertEqual(MSIdentityErrorSignInBackgroundOrNotConfigured, self.signInError.code);
-  XCTAssertNotNil(self.signInError.userInfo[MSIdentityErrorDescriptionKey]);
+  XCTAssertEqualObjects(kMSIdentityErrorDomain, self.signInError.domain);
+  XCTAssertEqual(kMSIdentityErrorSignInBackgroundOrNotConfigured, self.signInError.code);
+  XCTAssertNotNil(self.signInError.userInfo[kMSIdentityErrorDescriptionKey]);
   [identityMock stopMocking];
 }
 
@@ -704,9 +704,9 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   // Then second call immediately fails
   XCTAssertNil(self.signInUserInformation);
   XCTAssertNotNil(self.signInError);
-  XCTAssertEqualObjects(MSIdentityErrorDomain, self.signInError.domain);
-  XCTAssertEqual(MSIdentityErrorPreviousSignInRequestInProgress, self.signInError.code);
-  XCTAssertNotNil(self.signInError.userInfo[MSIdentityErrorDescriptionKey]);
+  XCTAssertEqualObjects(kMSIdentityErrorDomain, self.signInError.domain);
+  XCTAssertEqual(kMSIdentityErrorPreviousSignInRequestInProgress, self.signInError.code);
+  XCTAssertNotNil(self.signInError.userInfo[kMSIdentityErrorDescriptionKey]);
 
   // When we complete first call
   self.msalCompletionBlock(msalResultMock, nil);
@@ -824,9 +824,9 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   OCMVerify([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]);
   XCTAssertNil(self.signInUserInformation);
   XCTAssertNotNil(self.signInError);
-  XCTAssertEqualObjects(MSIdentityErrorDomain, self.signInError.domain);
-  XCTAssertEqual(MSIdentityErrorServiceDisabled, self.signInError.code);
-  XCTAssertNotNil(self.signInError.userInfo[MSIdentityErrorDescriptionKey]);
+  XCTAssertEqualObjects(kMSIdentityErrorDomain, self.signInError.domain);
+  XCTAssertEqual(kMSIdentityErrorServiceDisabled, self.signInError.code);
+  XCTAssertNotNil(self.signInError.userInfo[kMSIdentityErrorDescriptionKey]);
   [identityMock stopMocking];
 }
 

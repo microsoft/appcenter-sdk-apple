@@ -17,22 +17,18 @@ typedef void (^MSSignInCompletionHandler)(MSUserInformation *_Nullable userInfor
 /**
  * Error code for Identity.
  */
-typedef NS_ENUM(NSInteger, MSIdentityErrorCode) {
-  MSIdentityErrorServiceDisabled = -420000,
-  MSIdentityErrorPreviousSignInRequestInProgress = -420001,
-  MSIdentityErrorSignInBackgroundOrNotConfigured = -420002,
-  MSIdentityErrorSignInWhenNoConnection = -420003
-};
+NS_ENUM(NSInteger){kMSIdentityErrorServiceDisabled = -420000, kMSIdentityErrorPreviousSignInRequestInProgress = -420001,
+                   kMSIdentityErrorSignInBackgroundOrNotConfigured = -420002, kMSIdentityErrorSignInWhenNoConnection = -420003};
 
 /**
  * Error domain for Identity.
  */
-static NSString *const MSIdentityErrorDomain = @"MSIdentityErrorDomain";
+static NSString *const kMSIdentityErrorDomain = @"MSIdentityErrorDomain";
 
 /**
  * Error description key for Identity.
  */
-static NSString *const MSIdentityErrorDescriptionKey = @"MSIdentityErrorDescriptionKey";
+static NSString *const kMSIdentityErrorDescriptionKey = @"MSIdentityErrorDescriptionKey";
 
 /**
  * App Center Identity service.

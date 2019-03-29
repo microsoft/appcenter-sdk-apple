@@ -32,6 +32,6 @@ NS_ENUM(NSInteger){kMSACDocumentUnknownErrorCode = 0,
                    kMSACDocumentInternalServerErrorErrorCode = 500,
                    kMSACDocumentServiceUnavailableErrorCode = 503};
 
-typedef NS_ENUM(NSInteger, MSIdentityErrorCode) { MSDataStoreErrorJSONSerializationFailed = -620000, MSDataStoreErrorHTTPError = -620001 };
+NS_ENUM(NSInteger){kMSDataStoreErrorJSONSerializationFailed = -620000, kMSDataStoreErrorHTTPError = -620001};
 
 NS_ASSUME_NONNULL_END
