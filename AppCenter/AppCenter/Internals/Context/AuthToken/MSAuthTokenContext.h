@@ -16,7 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * MSAuthTokenContext is a singleton responsible for keeping an in-memory reference to an auth token and token history.
- * This enables all App Center modules to access the token, token history, and receive a notification when the token changes or needs to be refreshed.
+ * This enables all App Center modules to access the token, token history, and receive a notification when the token changes or needs to be
+ * refreshed.
  */
 @interface MSAuthTokenContext : NSObject
 

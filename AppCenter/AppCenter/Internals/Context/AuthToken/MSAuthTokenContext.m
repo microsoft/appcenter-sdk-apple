@@ -52,7 +52,7 @@ static dispatch_once_t onceToken;
   NSArray *synchronizedDelegates;
   BOOL isNewAccount = NO;
   @synchronized(self) {
-    
+
     // If a nil authToken is passed with non-nil paarmeters, reset them.
     if (!authToken) {
       accountId = nil;
@@ -64,7 +64,7 @@ static dispatch_once_t onceToken;
     NSString *__nullable latestAuthToken = lastEntry.authToken;
     NSString *__nullable latestAccountId = lastEntry.accountId;
     NSDate *__nullable latestTokenEndTime = lastEntry.expiresOn;
-    
+
     // If new token doesn't differ from the last token of array - no need to add it to array.
     if (lastEntry != nil && [latestAuthToken isEqual:(NSString * _Nonnull) authToken]) {
       return;
@@ -110,11 +110,11 @@ static dispatch_once_t onceToken;
     [self setAuthTokenHistory:authTokenHistory];
   }
   for (id<MSAuthTokenContextDelegate> delegate in synchronizedDelegates) {
-    if ([delegate respondsToSelector:@selector(authTokenContext:didSetNewAuthToken:)]) {
-      [delegate authTokenContext:self didSetNewAuthToken:authToken];
+    if ([delegate respondsToSelector:@selector(authTokenContext:didSetAuthToken:)]) {
+      [delegate authTokenContext:self didSetAuthToken:authToken];
     }
-    if (isNewAccount && [delegate respondsToSelector:@selector(authTokenContext:didSetNewAccountIdWithAuthToken:)]) {
-      [delegate authTokenContext:self didSetNewAccountIdWithAuthToken:authToken];
+    if (isNewAccount && [delegate respondsToSelector:@selector(authTokenContext:didUpdateAccountIdWithAuthToken:)]) {
+      [delegate authTokenContext:self didUpdateAccountIdWithAuthToken:authToken];
     }
   }
 }
