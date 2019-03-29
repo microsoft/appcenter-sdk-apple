@@ -502,7 +502,7 @@ static NSString *const kMSDocumentContinuationTokenHeaderKey = @"x-ms-continuati
 
 #pragma mark - MSAuthTokenContextDelegate
 
-- (void)authTokenContext:(MSAuthTokenContext *)__unused authTokenContext didSetNewAccountIdWithAuthToken:(NSString *)authToken {
+- (void)authTokenContext:(MSAuthTokenContext *)__unused authTokenContext didUpdateAccountIdWithAuthToken:(NSString *)authToken {
   if (!authToken) {
     [MSTokenExchange removeAllCachedTokens];
   }

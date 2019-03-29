@@ -46,7 +46,7 @@
 
   // Then
   XCTAssertEqualObjects([self.sut authToken], expectedAuthToken);
-  OCMVerify([delegateMock authTokenContext:self.sut didSetNewAccountIdWithAuthToken:expectedAuthToken]);
+  OCMVerify([delegateMock authTokenContext:self.sut didUpdateAccountIdWithAuthToken:expectedAuthToken]);
 }
 
 - (void)testSetAuthTokenDoesNotTriggerNewUserOnSameAccount {
@@ -62,8 +62,8 @@
   [self.sut setAuthToken:expectedAuthToken withAccountId:expectedAccountId];
 
   // Then
-  OCMVerify([delegateMock authTokenContext:self.sut didSetNewAccountIdWithAuthToken:expectedAuthToken]);
-  OCMVerify([delegateMock authTokenContext:self.sut didSetNewAuthToken:expectedAuthToken]);
+  OCMVerify([delegateMock authTokenContext:self.sut didUpdateAccountIdWithAuthToken:expectedAuthToken]);
+  OCMVerify([delegateMock authTokenContext:self.sut didSetAuthToken:expectedAuthToken]);
 }
 
 - (void)testSetAuthTokenDoesTriggerNewUserOnNewAccount {
@@ -80,8 +80,8 @@
   [self.sut setAuthToken:expectedAuthToken withAccountId:expectedAccountId2];
 
   // Then
-  OCMVerify([delegateMock authTokenContext:self.sut didSetNewAccountIdWithAuthToken:expectedAuthToken]);
-  OCMVerify([delegateMock authTokenContext:self.sut didSetNewAccountIdWithAuthToken:expectedAuthToken]);
+  OCMVerify([delegateMock authTokenContext:self.sut didUpdateAccountIdWithAuthToken:expectedAuthToken]);
+  OCMVerify([delegateMock authTokenContext:self.sut didUpdateAccountIdWithAuthToken:expectedAuthToken]);
 }
 
 - (void)testClearAuthToken {
@@ -99,8 +99,8 @@
 
   // Then
   XCTAssertNil([self.sut authToken]);
-  OCMVerify([delegateMock authTokenContext:self.sut didSetNewAuthToken:nil]);
-  OCMVerify([delegateMock authTokenContext:self.sut didSetNewAccountIdWithAuthToken:nil]);
+  OCMVerify([delegateMock authTokenContext:self.sut didSetAuthToken:nil]);
+  OCMVerify([delegateMock authTokenContext:self.sut didUpdateAccountIdWithAuthToken:nil]);
 }
 
 - (void)testRemoveDelegate {
@@ -110,7 +110,7 @@
   [self.sut addDelegate:delegateMock];
 
   // Then
-  OCMReject([delegateMock authTokenContext:self.sut didSetNewAuthToken:OCMOCK_ANY]);
+  OCMReject([delegateMock authTokenContext:self.sut didSetAuthToken:OCMOCK_ANY]);
 
   // When
   [self.sut removeDelegate:delegateMock];
