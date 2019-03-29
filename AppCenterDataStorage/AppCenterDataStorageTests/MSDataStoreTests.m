@@ -6,6 +6,7 @@
 #import "MSConstants+Internal.h"
 #import "MSCosmosDb.h"
 #import "MSCosmosDbPrivate.h"
+#import "MSDataStore.h"
 #import "MSDataStoreInternal.h"
 #import "MSHttpClient.h"
 #import "MSTestFrameworks.h"
@@ -38,6 +39,24 @@
 
   // Then
   OCMVerify([httpClientMock setEnabled:YES]);
+}
+
+- (void)testSetOfflineMode {
+
+  // Then
+  XCTAssertFalse([MSDataStore isOfflineMode]);
+
+  // When
+  [MSDataStore setOfflineMode:YES];
+
+  // Then
+  XCTAssertTrue([MSDataStore isOfflineMode]);
+
+  // When
+  [MSDataStore setOfflineMode:NO];
+
+  // Then
+  XCTAssertFalse([MSDataStore isOfflineMode]);
 }
 
 @end

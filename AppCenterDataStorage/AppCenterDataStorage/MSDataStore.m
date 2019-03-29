@@ -185,6 +185,14 @@ static dispatch_once_t onceToken;
                                           completionHandler:completionHandler];
 }
 
++ (void)setOfflineMode:(BOOL)offlineMode {
+  [MSDataStore sharedInstance].offlineMode = offlineMode;
+}
+
++ (BOOL)isOfflineMode {
+  return [MSDataStore sharedInstance].offlineMode;
+}
+
 #pragma mark - MSDataStore Implementation
 
 - (void)replaceWithPartition:(NSString *)partition
