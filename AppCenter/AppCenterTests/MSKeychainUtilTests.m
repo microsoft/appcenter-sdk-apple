@@ -104,13 +104,11 @@
   OCMVerify([self.keychainUtilMock secItemCopyMatchingQuery:[expectedMatchItemQuery mutableCopy] result:[OCMArg anyPointer]]);
 }
 
-- (void)testStoreArrayHandlesDuplicateItemError {
+- (void)testStoreStringHandlesDuplicateItemError {
 
   // If
-  NSMutableArray *array = [[NSMutableArray alloc] init];
-  [array addObject:@"authToken1"];
-  [array addObject:@"authToken2"];
   NSString *key = @"testKey";
+  NSString *value = @"testValue";
   __block int addSecItemCallsCount = 0;
   OCMStub([self.keychainUtilMock addSecItem:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
     ++addSecItemCallsCount;
@@ -119,7 +117,7 @@
   });
 
   // When
-  BOOL actualResult = [MSKeychainUtil storeArray:array forKey:key];
+  BOOL actualResult = [MSKeychainUtil storeString:value forKey:key];
 
   // Then
   XCTAssertEqual(addSecItemCallsCount, 2);

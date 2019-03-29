@@ -12,9 +12,9 @@ static NSString *const kMSExpiresOnKey = @"expiresOnKey";
 @implementation MSAuthTokenInfo
 
 - (instancetype)initWithAuthToken:(nullable NSString *)authToken
-                     andAccountId:(nullable NSString *)accountId
-                     andStartTime:(nullable NSDate *)startTime
-                     andExpiresOn:(nullable NSDate *)expiresOn {
+                        accountId:(nullable NSString *)accountId
+                        startTime:(nullable NSDate *)startTime
+                        expiresOn:(nullable NSDate *)expiresOn {
   self = [super init];
   if (self) {
     _authToken = authToken;

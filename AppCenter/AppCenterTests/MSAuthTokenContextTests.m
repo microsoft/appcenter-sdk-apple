@@ -63,7 +63,7 @@
   // Then
   XCTAssertEqualObjects([self.sut authToken], expectedAuthToken);
   XCTAssertEqualObjects([self.sut accountId], expectedAccountId);
-  OCMVerify([delegateMock authTokenContext:self.sut didSetNewAccountIdWithAuthToken:expectedAuthToken]);
+  OCMVerify([delegateMock authTokenContext:self.sut didUpdateAccountIdWithAuthToken:expectedAuthToken]);
 }
 
 - (void)testSetAuthTokenDoesNotTriggerNewUserOnSameAccount {
@@ -79,8 +79,8 @@
   [self.sut setAuthToken:expectedAuthToken withAccountId:expectedAccountId expiresOn:nil];
 
   // Then
-  OCMVerify([delegateMock authTokenContext:self.sut didSetNewAccountIdWithAuthToken:expectedAuthToken]);
-  OCMVerify([delegateMock authTokenContext:self.sut didSetNewAuthToken:expectedAuthToken]);
+  OCMVerify([delegateMock authTokenContext:self.sut didUpdateAccountIdWithAuthToken:expectedAuthToken]);
+  OCMVerify([delegateMock authTokenContext:self.sut didSetAuthToken:expectedAuthToken]);
 }
 
 - (void)testSetAuthTokenDoesTriggerNewUserOnNewAccount {
@@ -97,8 +97,8 @@
   [self.sut setAuthToken:expectedAuthToken withAccountId:expectedAccountId2 expiresOn:nil];
 
   // Then
-  OCMVerify([delegateMock authTokenContext:self.sut didSetNewAccountIdWithAuthToken:expectedAuthToken]);
-  OCMVerify([delegateMock authTokenContext:self.sut didSetNewAccountIdWithAuthToken:expectedAuthToken]);
+  OCMVerify([delegateMock authTokenContext:self.sut didUpdateAccountIdWithAuthToken:expectedAuthToken]);
+  OCMVerify([delegateMock authTokenContext:self.sut didUpdateAccountIdWithAuthToken:expectedAuthToken]);
 }
 
 - (void)testRemoveDelegate {
@@ -108,7 +108,7 @@
   [self.sut addDelegate:delegateMock];
 
   // Then
-  OCMReject([delegateMock authTokenContext:self.sut didSetNewAuthToken:OCMOCK_ANY]);
+  OCMReject([delegateMock authTokenContext:self.sut didUpdateAccountIdWithAuthToken:OCMOCK_ANY]);
 
   // When
   [self.sut removeDelegate:delegateMock];
@@ -139,9 +139,9 @@
 
   // If
   MSAuthTokenInfo *authTokenInfo = [[MSAuthTokenInfo alloc] initWithAuthToken:@"someToken"
-                                                                 andAccountId:@"someAccountId"
-                                                                 andStartTime:nil
-                                                                 andExpiresOn:nil];
+                                                                    accountId:@"someAccountId"
+                                                                    startTime:nil
+                                                                    expiresOn:nil];
   NSMutableArray<MSAuthTokenInfo *> *authTokenHistory = [NSMutableArray<MSAuthTokenInfo *> new];
   [authTokenHistory addObject:authTokenInfo];
   [MSMockKeychainUtil storeArray:authTokenHistory forKey:kMSAuthTokenHistoryKey];
@@ -175,13 +175,13 @@
   // If
   NSString *expectedAuthToken = @"expectedAuthToken";
   MSAuthTokenInfo *authTokenInfo1 = [[MSAuthTokenInfo alloc] initWithAuthToken:@"someAuthToken"
-                                                                  andAccountId:@"someAccountId"
-                                                                  andStartTime:nil
-                                                                  andExpiresOn:nil];
+                                                                     accountId:@"someAccountId"
+                                                                     startTime:nil
+                                                                     expiresOn:nil];
   MSAuthTokenInfo *authTokenInfo2 = [[MSAuthTokenInfo alloc] initWithAuthToken:expectedAuthToken
-                                                                  andAccountId:@"someAccountId"
-                                                                  andStartTime:nil
-                                                                  andExpiresOn:nil];
+                                                                     accountId:@"someAccountId"
+                                                                     startTime:nil
+                                                                     expiresOn:nil];
   NSMutableArray<MSAuthTokenInfo *> *authTokenHistory = [NSMutableArray<MSAuthTokenInfo *> new];
   [authTokenHistory addObject:authTokenInfo1];
   [authTokenHistory addObject:authTokenInfo2];

@@ -8,9 +8,7 @@ static int const kMSSecBeforeExpireToRefresh = 10 * 60;
 
 @implementation MSAuthTokenValidityInfo
 
-- (instancetype)initWithAuthToken:(nullable NSString *)authToken
-                     andStartTime:(nullable NSDate *)startTime
-                       andEndTime:(nullable NSDate *)endTime {
+- (instancetype)initWithAuthToken:(nullable NSString *)authToken startTime:(nullable NSDate *)startTime endTime:(nullable NSDate *)endTime {
   self = [super init];
   if (self) {
     _authToken = authToken;

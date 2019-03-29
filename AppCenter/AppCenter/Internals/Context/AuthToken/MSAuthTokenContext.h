@@ -15,15 +15,11 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol MSAuthTokenContextDelegate;
 
 /**
- * MSAuthTokenContext is a singleton responsible for keeping an in-memory reference to an auth token that the Identity service provides.
- * This enables all App Center modules to access the token, and receive a notification when the token changes.
+ * MSAuthTokenContext is a singleton responsible for keeping an in-memory reference to an auth token and token history.
+ * This enables all App Center modules to access the token, token history, and receive a notification when the token changes or needs to be
+ * refreshed.
  */
 @interface MSAuthTokenContext : NSObject
-
-/**
- * Cached authorization token.
- */
-@property(nullable, atomic, readonly) NSString *authToken;
 
 /**
  * Get singleton instance.
@@ -70,16 +66,16 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Returns array of auth tokens validity info.
  *
- * @return Array of MSAuthTokenValidityInfo
+ * @return Array of MSAuthTokenValidityInfo.
  */
 - (NSMutableArray<MSAuthTokenValidityInfo *> *)authTokenValidityArray;
 
 /**
  * Removes the token from history. Please note that only oldest token is
- * allowed to remove. To reset current to anonymous, use
- * the saveToken method with nil value instead.
+ * allowed to be removed. To reset current token to be anonymous, use
+ * the setToken method with nil parameters instead.
  *
- * @param authToken Auth token to remove. Despite the fact that only the oldest
+ * @param authToken Auth token to be removed. Despite the fact that only the oldest
  *                  token can be removed, it's required to avoid removing
  *                  the wrong one on duplicated calls etc.
  */

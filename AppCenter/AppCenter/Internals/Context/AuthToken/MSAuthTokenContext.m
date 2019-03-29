@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 #import "MSAuthTokenContext.h"
+#import "MSAuthTokenContextPrivate.h"
 
 /**
  * Singleton.
@@ -10,11 +11,6 @@ static MSAuthTokenContext *sharedInstance;
 static dispatch_once_t onceToken;
 
 @interface MSAuthTokenContext ()
-
-/**
- * Private field used to get and set auth tokens history array.
- */
-@property(nullable, nonatomic) NSArray<MSAuthTokenInfo *> *authTokenHistoryArray;
 
 /**
  * Cached authorization token.
@@ -56,17 +52,20 @@ static dispatch_once_t onceToken;
   NSArray *synchronizedDelegates;
   BOOL isNewAccount = NO;
   @synchronized(self) {
+
+    // If a nil authToken is passed with non-nil paarmeters, reset them.
     if (!authToken) {
       accountId = nil;
       expiresOn = nil;
     }
     NSMutableArray<MSAuthTokenInfo *> *authTokenHistory = [[self authTokenHistory] mutableCopy];
 
-    // If new token differs from the last token of array - add it to array.
     MSAuthTokenInfo *lastEntry = authTokenHistory.lastObject;
     NSString *__nullable latestAuthToken = lastEntry.authToken;
     NSString *__nullable latestAccountId = lastEntry.accountId;
     NSDate *__nullable latestTokenEndTime = lastEntry.expiresOn;
+
+    // If new token doesn't differ from the last token of array - no need to add it to array.
     if (lastEntry != nil && [latestAuthToken isEqual:(NSString * _Nonnull) authToken]) {
       return;
     }
@@ -76,7 +75,7 @@ static dispatch_once_t onceToken;
     // If there is a gap between tokens.
     if (latestTokenEndTime && [newTokenStartDate laterDate:(NSDate * __nonnull) latestTokenEndTime]) {
 
-      // If the account the same or become anonymous.
+      // If the account is the same or becomes anonymous.
       if (!isNewUser || authToken == nil) {
 
         // Apply the new token to this time.
@@ -85,16 +84,16 @@ static dispatch_once_t onceToken;
 
         // If it's not the same account treat the gap as anonymous.
         MSAuthTokenInfo *newAuthToken = [[MSAuthTokenInfo alloc] initWithAuthToken:nil
-                                                                      andAccountId:nil
-                                                                      andStartTime:lastEntry.expiresOn
-                                                                      andExpiresOn:newTokenStartDate];
+                                                                         accountId:nil
+                                                                         startTime:lastEntry.expiresOn
+                                                                         expiresOn:newTokenStartDate];
         [authTokenHistory addObject:newAuthToken];
       }
     }
     MSAuthTokenInfo *newAuthToken = [[MSAuthTokenInfo alloc] initWithAuthToken:authToken
-                                                                  andAccountId:accountId
-                                                                  andStartTime:newTokenStartDate
-                                                                  andExpiresOn:expiresOn];
+                                                                     accountId:accountId
+                                                                     startTime:newTokenStartDate
+                                                                     expiresOn:expiresOn];
     [authTokenHistory addObject:newAuthToken];
 
     // Cap array size at max available size const (deleting from beginning).
@@ -111,11 +110,11 @@ static dispatch_once_t onceToken;
     [self setAuthTokenHistory:authTokenHistory];
   }
   for (id<MSAuthTokenContextDelegate> delegate in synchronizedDelegates) {
-    if ([delegate respondsToSelector:@selector(authTokenContext:didSetNewAuthToken:)]) {
-      [delegate authTokenContext:self didSetNewAuthToken:authToken];
+    if ([delegate respondsToSelector:@selector(authTokenContext:didSetAuthToken:)]) {
+      [delegate authTokenContext:self didSetAuthToken:authToken];
     }
-    if (isNewAccount && [delegate respondsToSelector:@selector(authTokenContext:didSetNewAccountIdWithAuthToken:)]) {
-      [delegate authTokenContext:self didSetNewAccountIdWithAuthToken:authToken];
+    if (isNewAccount && [delegate respondsToSelector:@selector(authTokenContext:didUpdateAccountIdWithAuthToken:)]) {
+      [delegate authTokenContext:self didUpdateAccountIdWithAuthToken:authToken];
     }
   }
 }
@@ -149,7 +148,7 @@ static dispatch_once_t onceToken;
       (NSMutableArray<MSAuthTokenInfo *> * __nullable)[MSKeychainUtil arrayForKey:kMSAuthTokenHistoryKey];
   NSMutableArray<MSAuthTokenValidityInfo *> *resultArray = [NSMutableArray<MSAuthTokenValidityInfo *> new];
   if (!tokenArray || tokenArray.count == 0) {
-    [resultArray addObject:[[MSAuthTokenValidityInfo alloc] initWithAuthToken:nil andStartTime:nil andEndTime:nil]];
+    [resultArray addObject:[[MSAuthTokenValidityInfo alloc] initWithAuthToken:nil startTime:nil endTime:nil]];
     return resultArray;
   }
   for (NSUInteger i = 0; i < tokenArray.count; i++) {
@@ -162,8 +161,8 @@ static dispatch_once_t onceToken;
       expiresOn = nextTokenStartTime;
     }
     [resultArray addObject:[[MSAuthTokenValidityInfo alloc] initWithAuthToken:currentAuthTokenInfo.authToken
-                                                                 andStartTime:currentAuthTokenInfo.startTime
-                                                                   andEndTime:expiresOn]];
+                                                                    startTime:currentAuthTokenInfo.startTime
+                                                                      endTime:expiresOn]];
   }
   return resultArray;
 }

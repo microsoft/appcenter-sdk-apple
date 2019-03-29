@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param authTokenContext The auth token context.
  * @param authToken The auth token.
  */
-- (void)authTokenContext:(MSAuthTokenContext *)authTokenContext didSetNewAuthToken:(nullable NSString *)authToken;
+- (void)authTokenContext:(MSAuthTokenContext *)authTokenContext didSetAuthToken:(nullable NSString *)authToken;
 
 /**
  * A callback that is called when a new user signs in.
@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param authTokenContext The auth token context.
  * @param authToken The auth token.
  */
-- (void)authTokenContext:(MSAuthTokenContext *)authTokenContext didSetNewAccountIdWithAuthToken:(nullable NSString *)authToken;
+- (void)authTokenContext:(MSAuthTokenContext *)authTokenContext didUpdateAccountIdWithAuthToken:(nullable NSString *)authToken;
 
 /**
  * A callback that is called when a token needs to be refreshed.

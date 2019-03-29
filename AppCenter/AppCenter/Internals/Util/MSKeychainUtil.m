@@ -54,6 +54,12 @@ static NSString *AppCenterKeychainServiceName(NSString *suffix) {
   NSMutableDictionary *attributes = [MSKeychainUtil generateItem:key withServiceName:serviceName];
   attributes[(__bridge id)kSecValueData] = [string dataUsingEncoding:NSUTF8StringEncoding];
   OSStatus status = [self addSecItem:attributes];
+
+  // Delete item if already exists.
+  if (status == errSecDuplicateItem) {
+    [self deleteSecItem:attributes];
+    status = [self addSecItem:attributes];
+  }
   return status == noErr;
 }
 

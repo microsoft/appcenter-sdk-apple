@@ -4,6 +4,11 @@
 @interface MSAuthTokenContext ()
 
 /**
+ * Private field used to get and set auth tokens history array.
+ */
+@property(nullable, nonatomic) NSArray<MSAuthTokenInfo *> *authTokenHistoryArray;
+
+/**
  * Reset singleton instance.
  */
 + (void)resetSharedInstance;

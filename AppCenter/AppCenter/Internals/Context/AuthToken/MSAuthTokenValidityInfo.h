@@ -37,9 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return Token info instance.
  */
-- (instancetype)initWithAuthToken:(nullable NSString *)authToken
-                     andStartTime:(nullable NSDate *)startTime
-                       andEndTime:(nullable NSDate *)endTime;
+- (instancetype)initWithAuthToken:(nullable NSString *)authToken startTime:(nullable NSDate *)startTime endTime:(nullable NSDate *)endTime;
 
 /**
  * Indicates whether this token expires soon.
