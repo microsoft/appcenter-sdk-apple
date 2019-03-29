@@ -304,7 +304,7 @@ static dispatch_once_t onceToken;
     return;
   }
   [self performOperationForPartition:partition
-                          documentId:nil
+                          documentId:documentId
                           httpMethod:kMSHttpMethodPost
                                 body:body
                    additionalHeaders:additionalHeaders
