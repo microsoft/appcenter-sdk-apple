@@ -419,4 +419,29 @@
   OCMVerify([delegateMock authTokenContext:OCMOCK_ANY authTokenNeedsToBeRefreshed:expectedAccountId]);
 }
 
+- (void)finishDoesNotResetTokenIfInitialized {
+
+  // If
+  [self.sut doNotResetAuthTokenAfterStart];
+  OCMReject([self.sut setAuthToken:OCMOCK_ANY withAccountId:OCMOCK_ANY expiresOn:OCMOCK_ANY]);
+
+  // When
+  [self.sut finishInitialize];
+
+  // Then
+  OCMVerify(self.sut);
+}
+
+- (void)finishInsertsAnonymousSessionIfNotPrevented {
+
+  // If
+  OCMStub([self.sut setAuthToken:nil withAccountId:nil expiresOn:nil]);
+
+  // When
+  [self.sut finishInitialize];
+
+  // Then
+  OCMVerify([self.sut setAuthToken:nil withAccountId:nil expiresOn:nil]);
+}
+
 @end
