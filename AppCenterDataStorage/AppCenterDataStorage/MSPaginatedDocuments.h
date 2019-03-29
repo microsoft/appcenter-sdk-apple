@@ -8,6 +8,8 @@
 // A (paginated) list of documents from CosmosDB
 @interface MSPaginatedDocuments<T : id <MSSerializableDocument>> : NSObject
 
+// FIXME: these properties should not be part of the public interface.
+
 /**
  * Current page.
  */

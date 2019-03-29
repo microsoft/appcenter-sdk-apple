@@ -71,11 +71,8 @@
 		04B61DCC2248F518008D0102 /* MSTokenExchangeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B61DCA2248F518008D0102 /* MSTokenExchangeTests.m */; };
 		04B61DCF2248F7DB008D0102 /* MSMockKeychainUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B61DCD2248F7DA008D0102 /* MSMockKeychainUtil.m */; };
 		04B61DD02248F7DB008D0102 /* MSMockKeychainUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B61DCD2248F7DA008D0102 /* MSMockKeychainUtil.m */; };
-		04B61DD32248F8CD008D0102 /* MSMockUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B61DD22248F8CD008D0102 /* MSMockUserDefaults.m */; };
-		04B61DD42248F8CD008D0102 /* MSMockUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B61DD22248F8CD008D0102 /* MSMockUserDefaults.m */; };
 		2600123F22273E94007F4D3A /* MSTokenResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 2600123B22273E94007F4D3A /* MSTokenResult.h */; };
 		2600124022273E94007F4D3A /* MSTokensResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 2600123C22273E94007F4D3A /* MSTokensResponse.h */; };
-		2600124122273E94007F4D3A /* MSTokenResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 2600123D22273E94007F4D3A /* MSTokenResult.m */; };
 		2600124222273E94007F4D3A /* MSTokensResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 2600123E22273E94007F4D3A /* MSTokensResponse.m */; };
 		267464ED222F28A300EC1FF3 /* MSPage.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464DD222F28A200EC1FF3 /* MSPage.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		267464EE222F28A300EC1FF3 /* MSDataSourceError.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464DE222F28A200EC1FF3 /* MSDataSourceError.m */; };
@@ -115,10 +112,9 @@
 		8F702690224BDF9D00A52339 /* oneDocumentPage.json in Resources */ = {isa = PBXBuildFile; fileRef = 8F70268E224BDF8D00A52339 /* oneDocumentPage.json */; };
 		8FA281F4224D50AD005D414F /* MSDataStoreErrors.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FA281F3224D50AD005D414F /* MSDataStoreErrors.m */; };
 		8FA281F5224D50BD005D414F /* MSDataStoreErrors.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FA281F3224D50AD005D414F /* MSDataStoreErrors.m */; };
-		8FAD9DE9224D941600DBFB40 /* MSMockKeychainUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FAD9DE4224D940800DBFB40 /* MSMockKeychainUtil.m */; };
-		8FAD9DEA224D941600DBFB40 /* MSMockKeychainUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FAD9DE4224D940800DBFB40 /* MSMockKeychainUtil.m */; };
 		8FAD9DEB224D943B00DBFB40 /* MSMockUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 9925973522498B910069BF24 /* MSMockUserDefaults.m */; };
 		8FAD9DEC224D943C00DBFB40 /* MSMockUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 9925973522498B910069BF24 /* MSMockUserDefaults.m */; };
+		8FAD9DED224DC7F300DBFB40 /* MSTokenResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 2600123D22273E94007F4D3A /* MSTokenResult.m */; };
 		99259705224982F60069BF24 /* MSDataStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464E2222F28A300EC1FF3 /* MSDataStore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		99259708224985B50069BF24 /* MSDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464E3222F28A300EC1FF3 /* MSDataStore.m */; };
 		99259709224985DE0069BF24 /* MSBaseOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464DF222F28A200EC1FF3 /* MSBaseOptions.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -772,7 +768,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = MS;
-				LastUpgradeCheck = 0820;
+				LastUpgradeCheck = 1010;
 				ORGANIZATIONNAME = Microsoft;
 			};
 			buildConfigurationList = D33A944C1E5B11BB003966DB /* Build configuration list for PBXProject "AppCenterDataStorage" */;
@@ -937,7 +933,6 @@
 			files = (
 				8FAD9DEC224D943C00DBFB40 /* MSMockUserDefaults.m in Sources */,
 				8F70267E224AFF7400A52339 /* MSHttpTestUtil.m in Sources */,
-				04B61DD42248F8CD008D0102 /* MSMockUserDefaults.m in Sources */,
 				04B61DCC2248F518008D0102 /* MSTokenExchangeTests.m in Sources */,
 				2ACE56012245277000FCD5DF /* MSDocumentUtilsTests.m in Sources */,
 				0469644F1F2A5D4A00F9D31F /* MSDataStoreTests.m in Sources */,
@@ -945,7 +940,6 @@
 				2ACE560B2245340A00FCD5DF /* MSBaseOptionsTests.m in Sources */,
 				4A9C4403223B2408008548A7 /* MSTokenTests.m in Sources */,
 				04B61DD02248F7DB008D0102 /* MSMockKeychainUtil.m in Sources */,
-				8FAD9DE9224D941600DBFB40 /* MSMockKeychainUtil.m in Sources */,
 				2ACE562222453BE600FCD5DF /* MSDataSourceErrorTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -959,11 +953,10 @@
 				267464FA222F28A300EC1FF3 /* MSBaseOptions.m in Sources */,
 				2600124222273E94007F4D3A /* MSTokensResponse.m in Sources */,
 				267464F5222F28A300EC1FF3 /* MSPage.m in Sources */,
-				2600124122273E94007F4D3A /* MSTokenResult.m in Sources */,
+				8FAD9DED224DC7F300DBFB40 /* MSTokenResult.m in Sources */,
 				267464F3222F28A300EC1FF3 /* MSDataStore.m in Sources */,
 				267464F7222F28A300EC1FF3 /* MSReadOptions.m in Sources */,
 				E8593A1C222BA37B0001F87E /* MSCosmosDbIngestion.m in Sources */,
-				2600124122273E94007F4D3A /* MSTokenResult.m in Sources */,
 				E8593A17222B91B20001F87E /* MSCosmosDb.m in Sources */,
 				E824A5412225E80E005B69B5 /* MSStorageIngestion.m in Sources */,
 				E83D121F22378143002B6585 /* MSDocumentUtils.m in Sources */,
@@ -980,7 +973,6 @@
 			files = (
 				8FAD9DEB224D943B00DBFB40 /* MSMockUserDefaults.m in Sources */,
 				8F70267D224AFF7200A52339 /* MSHttpTestUtil.m in Sources */,
-				04B61DD32248F8CD008D0102 /* MSMockUserDefaults.m in Sources */,
 				04B61DCB2248F518008D0102 /* MSTokenExchangeTests.m in Sources */,
 				2ACE56002245277000FCD5DF /* MSDocumentUtilsTests.m in Sources */,
 				0496A67B1F3128CE005AE1DB /* MSDataStoreTests.m in Sources */,
@@ -988,7 +980,6 @@
 				2ACE560A2245340A00FCD5DF /* MSBaseOptionsTests.m in Sources */,
 				4A9C4402223B2405008548A7 /* MSTokenTests.m in Sources */,
 				04B61DCF2248F7DB008D0102 /* MSMockKeychainUtil.m in Sources */,
-				8FAD9DEA224D941600DBFB40 /* MSMockKeychainUtil.m in Sources */,
 				2ACE562122453BE600FCD5DF /* MSDataSourceErrorTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

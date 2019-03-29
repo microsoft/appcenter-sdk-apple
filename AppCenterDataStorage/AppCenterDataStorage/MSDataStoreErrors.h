@@ -11,7 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 /*
  * Return an unexpected deserialization error object.
  */
-+ (NSError *) unexpectedDeserializationError;
++ (NSError *)unexpectedDeserializationError;
 
 @end
 
@@ -25,7 +25,7 @@ static NSString *const kMSACDataStoreErrorDescriptionKey = @"MSDataStoreErrorDes
 
 // Error codes.
 NS_ENUM(NSInteger){kMSACLocalDocumentUnexpectedDeserializationError = 1};
-  
+
 // Error descriptions.
 static NSString const *kMSACLocalDocumentUnexpectedDeserializationErrorDesc = @"Unexpected deserialization error";
 

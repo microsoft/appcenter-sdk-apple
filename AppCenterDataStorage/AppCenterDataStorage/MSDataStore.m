@@ -209,11 +209,13 @@ static NSString *const kMSDocumentContinuationTokenHeaderKey = @"x-ms-continuati
                      NSTimeInterval interval = [(NSString *)json[kMSDocumentTimestampKey] doubleValue];
                      NSDate *date = [NSDate dateWithTimeIntervalSince1970:interval];
                      NSString *eTag = json[kMSDocumentEtagKey];
-                     MSDocumentWrapper *docWrapper = [[MSDocumentWrapper alloc] initWithDeserializedValue:deserializedDocument
-                                                                                                partition:partition
-                                                                                               documentId:documentId
-                                                                                                     eTag:eTag
-                                                                                          lastUpdatedDate:date];
+                     MSDocumentWrapper *docWrapper = [[MSDocumentWrapper alloc]
+                         initWithDeserializedValue:deserializedDocument
+                                         jsonValue:[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]
+                                         partition:partition
+                                        documentId:documentId
+                                              eTag:eTag
+                                   lastUpdatedDate:date];
                      MSLogDebug([MSDataStore logTag], @"Document created:%@", data);
                      completionHandler(docWrapper);
                      return;
@@ -248,31 +250,28 @@ static NSString *const kMSDocumentContinuationTokenHeaderKey = @"x-ms-continuati
                        return;
                      }
 
-                     // Deserialize the list payload.
+                     // Deserialize the list payload and try to get the array of documents.
                      NSError *deserializeError;
                      id jsonPayload = [NSJSONSerialization JSONObjectWithData:(NSData *)data options:0 error:&deserializeError];
-                     if (deserializeError || !jsonPayload || ![(NSObject*)jsonPayload isKindOfClass:[NSDictionary class]]) {
-                       if (!deserializeError) {
+                     NSDictionary *jsonPayloadDict = nil;
+                     NSArray *jsonDocuments = nil;
+                     if (!deserializeError && jsonPayload && [(NSObject *)jsonPayload isKindOfClass:[NSDictionary class]]) {
+                       jsonPayloadDict = (NSDictionary *)jsonPayload;
+                     }
+                     if (jsonPayloadDict && [jsonPayloadDict objectForKey:@"Documents"] &&
+                         [(NSObject *)jsonPayloadDict[@"Documents"] isKindOfClass:[NSArray class]]) {
+                       jsonDocuments = jsonPayloadDict[@"Documents"];
+                     }
+                     if (!jsonDocuments) {
+                       if (!deserializeError)
                          deserializeError = [MSDataStoreErrors unexpectedDeserializationError];
-                       }
-                       MSLogError([MSDataStore logTag], @"Error deserializing data: %@", [deserializeError description]);
                        MSDataSourceError *dataSourceDeserializeError = [[MSDataSourceError alloc] initWithError:deserializeError];
                        MSPaginatedDocuments *documents = [[MSPaginatedDocuments alloc] initWithError:dataSourceDeserializeError];
                        completionHandler(documents);
                        return;
                      }
-                     NSDictionary* jsonPayloadDict = (NSDictionary*) jsonPayload;
-                     
-                     // Get list of documents.
-                     if (![jsonPayloadDict objectForKey:@"Documents"] || ![(NSObject*)jsonPayloadDict[@"Documents"] isKindOfClass:[NSArray class]]) {
-                       // TODO: when we review the entire error logic, do not duplicate code between this block and above.
-                       deserializeError = [MSDataStoreErrors unexpectedDeserializationError];
-                       MSLogError([MSDataStore logTag], @"Error deserializing data: %@", [deserializeError description]);
-                       MSDataSourceError *dataSourceDeserializeError = [[MSDataSourceError alloc] initWithError:deserializeError];
-                       MSPaginatedDocuments *documents = [[MSPaginatedDocuments alloc] initWithError:dataSourceDeserializeError];
-                       completionHandler(documents);
-                     }
-                     NSArray *jsonDocuments = jsonPayloadDict[@"Documents"];
+
+                     // Parse the documents.
                      NSMutableArray<MSDocumentWrapper *> *items = [NSMutableArray new];
                      for (id document in jsonDocuments) {
                        // Deserialize current document.
@@ -286,7 +285,15 @@ static NSString *const kMSDocumentContinuationTokenHeaderKey = @"x-ms-continuati
                        NSDate *date = [NSDate dateWithTimeIntervalSince1970:interval];
                        NSString *documentId = document[kMSDocumentIdKey];
                        NSString *eTag = document[kMSDocumentEtagKey];
+                       NSString *jsonValue;
+                       {
+                         NSError *error;
+                         NSData *jsonData = [NSJSONSerialization dataWithJSONObject:document options:0 error:&error];
+                         if (!error)
+                           jsonValue = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+                       }
                        [items addObject:[[MSDocumentWrapper alloc] initWithDeserializedValue:deserializedDocument
+                                                                                   jsonValue:jsonValue
                                                                                    partition:partition
                                                                                   documentId:documentId
                                                                                         eTag:eTag
@@ -367,11 +374,13 @@ static NSString *const kMSDocumentContinuationTokenHeaderKey = @"x-ms-continuati
                      NSTimeInterval interval = [(NSString *)json[kMSDocumentTimestampKey] doubleValue];
                      NSDate *date = [NSDate dateWithTimeIntervalSince1970:interval];
                      NSString *eTag = json[kMSDocumentEtagKey];
-                     MSDocumentWrapper *docWrapper = [[MSDocumentWrapper alloc] initWithDeserializedValue:deserializedDocument
-                                                                                                partition:partition
-                                                                                               documentId:documentId
-                                                                                                     eTag:eTag
-                                                                                          lastUpdatedDate:date];
+                     MSDocumentWrapper *docWrapper = [[MSDocumentWrapper alloc]
+                         initWithDeserializedValue:deserializedDocument
+                                         jsonValue:[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]
+                                         partition:partition
+                                        documentId:documentId
+                                              eTag:eTag
+                                   lastUpdatedDate:date];
                      MSLogDebug([MSDataStore logTag], @"Document created/replaced with ID: %@", documentId);
                      completionHandler(docWrapper);
                      return;
@@ -454,13 +463,6 @@ static NSString *const kMSDocumentContinuationTokenHeaderKey = @"x-ms-continuati
     }
   });
   return sharedInstance;
-}
-
-+ (void)resetSharedInstance {
-
-  // resets the once_token so dispatch_once will run again.
-  onceToken = 0;
-  sharedInstance = nil;
 }
 
 - (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup

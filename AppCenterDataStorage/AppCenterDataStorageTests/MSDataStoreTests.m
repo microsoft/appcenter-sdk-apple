@@ -3,7 +3,9 @@
 
 #import "MSChannelGroupProtocol.h"
 #import "MSChannelUnitProtocol.h"
+#import "MSCosmosDb.h"
 #import "MSCosmosDbIngestion.h"
+#import "MSCosmosDbPrivate.h"
 #import "MSDataStore.h"
 #import "MSDataStoreInternal.h"
 #import "MSDataStorePrivate.h"
@@ -15,26 +17,19 @@
 #import "MSTestFrameworks.h"
 #import "MSTokenExchange.h"
 #import "MSTokenExchangePrivate.h"
-#import "MSUserIdContextPrivate.h"
-#import "MSCosmosDb.h"
-#import "MSTestFrameworks.h"
 #import "MSTokenResult.h"
-#import "MSCosmosDbPrivate.h"
+#import "MSUserIdContextPrivate.h"
 
-static NSTimeInterval const kMSTestExpectationTimeoutInSeconds = 1.0;
-static NSString *const kMSTestAppSecret = @"TestAppSecret";
-static NSString *const kMSPartitionName = @"partition";
-static NSString *const kMSDbAccountName = @"dbAccount";
-static NSString *const kMSCollectionName = @"collection";
-static NSString *const kMSToken = @"token";
-static NSString *const kMSStatus = @"status";
-static NSString *const kMSExpiresOn = @"date";
+static NSString *const kMSTokenTest = @"token";
+static NSString *const kMSPartitionTest = @"partition";
+static NSString *const kMSDbAccountTest = @"dbAccount";
+static NSString *const kMSDbNameTest = @"dbName";
+static NSString *const kMSDbCollectionNameTest = @"dbCollectionName";
+static NSString *const kMSStatusTest = @"status";
+static NSString *const kMSExpiresOnTest = @"20191212";
+static NSString *const kMSDocumentIdTest = @"documentId";
 
 @interface MSDataStoreTests : XCTestCase
-
-@property(nonatomic, strong) MSDataStore *sut;
-@property(nonatomic) id settingsMock;
-@property(nonatomic) id ingestionMock;
 
 @end
 
@@ -72,131 +67,7 @@ static NSString *const kMSExpiresOn = @"date";
 
 @implementation MSDataStoreTests
 
-- (void)setUp {
-  [super setUp];
-  self.settingsMock = [MSMockUserDefaults new];
-  self.sut = [MSDataStore new];
-//  self.ingestionMock = OCMClassMock([MSCosmosDbIngestion class]);
-//  OCMStub([self.ingestionMock new]).andReturn(self.ingestionMock);
-}
-
-- (void)tearDown {
-  [super tearDown];
-  [MSDataStore resetSharedInstance];
-  [self.settingsMock stopMocking];
-//  [self.ingestionMock stopMocking];
-}
-
 #pragma mark - Tests
-
-- (void)testApplyEnabledStateWorks {
-
-  // If
-  [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
-                        appSecret:kMSTestAppSecret
-          transmissionTargetToken:nil
-                  fromApplication:YES];
-
-  // When
-  [self.sut setEnabled:YES];
-
-  // Then
-  XCTAssertTrue([self.sut isEnabled]);
-
-  // When
-  [self.sut setEnabled:NO];
-
-  // Then
-  XCTAssertFalse([self.sut isEnabled]);
-
-  // When
-  [self.sut setEnabled:YES];
-
-  // Then
-  XCTAssertTrue([self.sut isEnabled]);
-}
-
-// TODO: add more tests for list operation.
-//- (void)testListSingleDocument {
-//  // If
-//  id msTokenEchangeMock = OCMClassMock([MSTokenExchange class]);
-//  OCMStub([msTokenEchangeMock retrieveCachedToken:[OCMArg any]])
-//      .andReturn([[MSTokenResult alloc] initWithPartition:@"partition"
-//                                                dbAccount:@"account"
-//                                                   dbName:@"db"
-//                                         dbCollectionName:@"collection"
-//                                                    token:@"token"
-//                                                   status:@"status"
-//                                                expiresOn:@"date"]);
-//
-//  __weak XCTestExpectation *expectation = [self expectationWithDescription:@"HTTP Response 200"];
-//  OCMStub([self.ingestionMock sendAsync:OCMOCK_ANY completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
-//    [invocation retainArguments];
-//
-//    MSSendAsyncCompletionHandler ingestionBlock;
-//    [invocation getArgument:&ingestionBlock atIndex:3];
-//    NSData *payload = [self getJsonFixture:@"oneDocumentPage"];
-//    ingestionBlock(@"callId", [MSHttpTestUtil createMockResponseForStatusCode:200 headers:nil], payload, nil);
-//  });
-//
-//  // When
-//  __block MSPaginatedDocuments *testDocuments;
-//  [self.sut listWithPartition:@"partition"
-//                 documentType:[SomeObject class]
-//                  readOptions:nil
-//            continuationToken:nil
-//            completionHandler:^(MSPaginatedDocuments *_Nonnull documents) {
-//              testDocuments = documents;
-//              [expectation fulfill];
-//            }];
-//
-//  // Then
-//  [self waitForExpectationsWithTimeout:kMSTestExpectationTimeoutInSeconds
-//                               handler:^(NSError *_Nullable error) {
-//                                 if (error) {
-//                                   XCTFail(@"Expectation Failed with error: %@", error);
-//                                 } else {
-//                                   // WIP do verification
-//                                   XCTAssertNotNil(testDocuments);
-//                                   XCTAssertFalse([testDocuments hasNextPage]);
-//                                   XCTAssertEqual([[testDocuments currentPage] items].count, 1);
-//                                   [testDocuments nextPageWithCompletionHandler:^(MSPage *page) {
-//                                     XCTAssertNil(page);
-//                                   }];
-//                                   MSDocumentWrapper<SomeObject *> *documentWrapper = [[testDocuments currentPage] items][0];
-//                                   XCTAssertTrue([[documentWrapper documentId] isEqualToString:@"doc1"]);
-//                                   XCTAssertNil([documentWrapper error]);
-//                                   // TODO: fix
-//                                   // XCTAssertNotNil([documentWrapper jsonValue]);
-//                                   XCTAssertTrue([[documentWrapper eTag] isEqualToString:@"etag value"]);
-//                                   XCTAssertTrue([[documentWrapper partition] isEqualToString:@"partition"]);
-//                                   XCTAssertNotNil([documentWrapper lastUpdatedDate]);
-//                                   SomeObject *deserializedDocument = [documentWrapper deserializedValue];
-//                                   XCTAssertNotNil(deserializedDocument);
-//                                   XCTAssertTrue([[deserializedDocument property1] isEqualToString:@"property 1 string"]);
-//                                   XCTAssertTrue([[deserializedDocument property2] isEqual:@42]);
-//                                 }
-//                               }];
-//}
-
-/*
- * Utils.
- */
-
-- (NSData *)getJsonFixture:(NSString *)fixture {
-  NSBundle *bundle = [NSBundle bundleForClass:[self class]];
-  NSString *path = [bundle pathForResource:fixture ofType:@"json"];
-  return [NSData dataWithContentsOfFile:path];
-}
-
-static NSString *const kMSTokenTest = @"token";
-static NSString *const kMSPartitionTest = @"partition";
-static NSString *const kMSDbAccountTest = @"dbAccount";
-static NSString *const kMSDbNameTest = @"dbName";
-static NSString *const kMSDbCollectionNameTest = @"dbCollectionName";
-static NSString *const kMSStatusTest = @"status";
-static NSString *const kMSExpiresOnTest = @"20191212";
-static NSString *const kMSDocumentIdTest = @"documentId";
 
 - (nullable NSMutableDictionary *)prepareMutableDictionary {
   NSMutableDictionary *_Nullable tokenResultDictionary = [NSMutableDictionary new];
@@ -286,9 +157,10 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   MSCosmosDbIngestion *httpClient = OCMPartialMock([MSCosmosDbIngestion new]);
   MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
   __block BOOL completionHandlerCalled = NO;
-  MSCosmosDbCompletionHandler handler = ^(NSData *_Nullable __unused data, NSDictionary *_Nullable __unused headers, NSError *_Nullable __unused error) {
-    completionHandlerCalled = YES;
-  };
+  MSCosmosDbCompletionHandler handler =
+      ^(NSData *_Nullable __unused data, NSDictionary *_Nullable __unused headers, NSError *_Nullable __unused error) {
+        completionHandlerCalled = YES;
+      };
   NSString *expectedURLString = @"https://dbAccount.documents.azure.com/dbs/dbName/colls/dbCollectionName/docs/documentId";
   __block NSData *actualData;
   OCMStub([httpClient sendAsync:OCMOCK_ANY completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
@@ -296,9 +168,8 @@ static NSString *const kMSDocumentIdTest = @"documentId";
     [invocation retainArguments];
     [invocation getArgument:&actualData atIndex:2];
     [invocation getArgument:&completionHandler atIndex:3];
-    completionHandler(actualData, nil, nil);
+    completionHandler(actualData, nil, (NSError *)nil);
   });
-  NSString *expectedUrl = @"123";
   NSMutableDictionary *additionalHeaders = [NSMutableDictionary new];
   additionalHeaders[@"Foo"] = @"Bar";
   NSDictionary *dic = @{@"abv" : @1, @"foo" : @"bar"};
@@ -325,9 +196,10 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   MSCosmosDbIngestion *httpClient = OCMPartialMock([MSCosmosDbIngestion new]);
   MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
   __block BOOL completionHandlerCalled = NO;
-  MSCosmosDbCompletionHandler handler = ^(NSData *_Nullable __unused data, NSDictionary *_Nullable __unused headers, NSError *_Nullable __unused error) {
-    completionHandlerCalled = YES;
-  };
+  MSCosmosDbCompletionHandler handler =
+      ^(NSData *_Nullable __unused data, NSDictionary *_Nullable __unused headers, NSError *_Nullable __unused error) {
+        completionHandlerCalled = YES;
+      };
   NSString *expectedURLString = @"https://dbAccount.documents.azure.com/dbs/dbName/colls/dbCollectionName/docs/documentId";
   __block NSData *actualData;
   OCMStub([httpClient sendAsync:OCMOCK_ANY completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
@@ -337,7 +209,6 @@ static NSString *const kMSDocumentIdTest = @"documentId";
     [invocation getArgument:&completionHandler atIndex:3];
     completionHandler(actualData, nil, nil);
   });
-  NSString *expectedUrl = @"123";
   NSDictionary *dic = @{@"abv" : @1, @"foo" : @"bar"};
   __block NSData *data = [NSJSONSerialization dataWithJSONObject:dic options:0 error:nil];
 
@@ -347,13 +218,82 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                                documentId:kMSDocumentIdTest
                                                httpMethod:kMSHttpMethodGet
                                                      body:data
-                                                  additionalHeaders: nil
+                                        additionalHeaders:nil
                                         completionHandler:handler];
 
   // Then
   XCTAssertTrue(completionHandlerCalled);
   XCTAssertEqualObjects(data, actualData);
   XCTAssertTrue([expectedURLString isEqualToString:httpClient.sendURL.absoluteString]);
+}
+
+// TODO: add more tests for list operation.
+- (void)testListSingleDocument {
+
+  // If
+  MSDataStore *sut = [MSDataStore new];
+  id httpClient = OCMClassMock([MSCosmosDbIngestion class]);
+  OCMStub([httpClient new]).andReturn(httpClient);
+  id msTokenEchange = OCMClassMock([MSTokenExchange class]);
+  OCMStub([msTokenEchange retrieveCachedToken:[OCMArg any]])
+      .andReturn([[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]]);
+  __weak XCTestExpectation *expectation = [self expectationWithDescription:@"List single document"];
+  OCMStub([httpClient sendAsync:OCMOCK_ANY completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+    [invocation retainArguments];
+    MSSendAsyncCompletionHandler completionHandler;
+    [invocation getArgument:&completionHandler atIndex:3];
+    NSData *payload = [self getJsonFixture:@"oneDocumentPage"];
+    completionHandler(@"callId", [MSHttpTestUtil createMockResponseForStatusCode:200 headers:nil], payload, nil);
+  });
+
+  // When
+  __block MSPaginatedDocuments *testDocuments;
+  [sut listWithPartition:@"partition"
+            documentType:[SomeObject class]
+             readOptions:nil
+       continuationToken:nil
+       completionHandler:^(MSPaginatedDocuments *_Nonnull documents) {
+         testDocuments = documents;
+         [expectation fulfill];
+       }];
+
+  // Then
+  id handler = ^(NSError *_Nullable error) {
+    if (error) {
+      XCTFail(@"Expectation Failed with error: %@", error);
+    } else {
+      XCTAssertNotNil(testDocuments);
+      XCTAssertFalse([testDocuments hasNextPage]);
+      XCTAssertEqual([[testDocuments currentPage] items].count, 1);
+      [testDocuments nextPageWithCompletionHandler:^(MSPage *page) {
+        XCTAssertNil(page);
+      }];
+      MSDocumentWrapper<SomeObject *> *documentWrapper = [[testDocuments currentPage] items][0];
+      XCTAssertTrue([[documentWrapper documentId] isEqualToString:@"doc1"]);
+      XCTAssertNil([documentWrapper error]);
+      XCTAssertNotNil([documentWrapper jsonValue]);
+      XCTAssertTrue([[documentWrapper eTag] isEqualToString:@"etag value"]);
+      XCTAssertTrue([[documentWrapper partition] isEqualToString:@"partition"]);
+      XCTAssertNotNil([documentWrapper lastUpdatedDate]);
+      SomeObject *deserializedDocument = [documentWrapper deserializedValue];
+      XCTAssertNotNil(deserializedDocument);
+      XCTAssertTrue([[deserializedDocument property1] isEqualToString:@"property 1 string"]);
+      XCTAssertTrue([[deserializedDocument property2] isEqual:@42]);
+    }
+  };
+  [self waitForExpectationsWithTimeout:1
+                               handler:handler];
+  [httpClient stopMocking];
+}
+
+/*
+ * Utils.
+ */
+
+- (NSData *)getJsonFixture:(NSString *)fixture {
+  NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+  NSString *path = [bundle pathForResource:fixture ofType:@"json"];
+  return [NSData dataWithContentsOfFile:path];
 }
 
 @end

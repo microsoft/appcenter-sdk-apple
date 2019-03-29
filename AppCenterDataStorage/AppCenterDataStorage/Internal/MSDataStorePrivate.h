@@ -42,11 +42,6 @@ static NSString *const kMSDefaultApiUrl = @"https://api.appcenter.ms/v0.1";
                        writeOptions:(MSWriteOptions *_Nullable)writeOptions
                   completionHandler:(MSDataSourceErrorCompletionHandler)completionHandler;
 
-/**
- * Method to reset the singleton when running unit tests only. So calling sharedInstance returns a fresh instance.
- */
-+ (void)resetSharedInstance;
-
 @end
 
 NS_ASSUME_NONNULL_END
