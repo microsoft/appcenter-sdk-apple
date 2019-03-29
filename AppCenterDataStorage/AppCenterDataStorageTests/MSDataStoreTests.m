@@ -257,6 +257,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   XCTAssertTrue([expectedURLString isEqualToString:httpClient.sendURL.absoluteString]);
 }
 
+<<<<<<< HEAD
 - (void)testCreateWithPartitionGoldenPath {
 
   // If
@@ -576,6 +577,24 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   XCTAssertTrue(completionHandlerCalled);
   XCTAssertEqualObjects(actualError.error, expectedCosmosDbError);
   XCTAssertEqual(actualError.errorCode, expectedResponseCode);
+=======
+- (void)testSetOfflineMode {
+
+  // Then
+  XCTAssertFalse([MSDataStore isOfflineMode]);
+
+  // When
+  [MSDataStore setOfflineMode:YES];
+
+  // Then
+  XCTAssertTrue([MSDataStore isOfflineMode]);
+
+  // When
+  [MSDataStore setOfflineMode:NO];
+
+  // Then
+  XCTAssertFalse([MSDataStore isOfflineMode]);
+>>>>>>> develop
 }
 
 @end
