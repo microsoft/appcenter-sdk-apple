@@ -76,7 +76,7 @@ static dispatch_once_t onceToken;
     // If there is a gap between tokens.
     if (latestTokenEndTime && [newTokenStartDate laterDate:(NSDate * __nonnull) latestTokenEndTime]) {
 
-      // If the account the same or become anonymous.
+      // If the account is the same or becomes anonymous.
       if (!isNewUser || authToken == nil) {
 
         // Apply the new token to this time.
