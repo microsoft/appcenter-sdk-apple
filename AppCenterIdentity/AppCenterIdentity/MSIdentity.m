@@ -12,6 +12,7 @@
 #import "MSIdentityConfig.h"
 #import "MSIdentityConfigIngestion.h"
 #import "MSIdentityConstants.h"
+#import "MSIdentityErrors.h"
 #import "MSIdentityPrivate.h"
 #import "MSKeychainUtil.h"
 #import "MSServiceAbstractProtected.h"
