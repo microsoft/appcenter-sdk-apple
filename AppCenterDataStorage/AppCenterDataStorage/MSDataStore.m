@@ -15,7 +15,6 @@
 #import "MSDataStorePrivate.h"
 #import "MSDocumentUtils.h"
 #import "MSDocumentWrapper.h"
-#import "MSHttpIngestion.h"
 #import "MSPaginatedDocuments.h"
 #import "MSReadOptions.h"
 #import "MSStorageIngestion.h"
@@ -213,7 +212,8 @@ static dispatch_once_t onceToken;
                           httpMethod:kMSHttpMethodGet
                                 body:nil
                    additionalHeaders:nil
-                   completionHandler:^(NSData *data, NSError *_Nonnull cosmosDbError) {
+                   completionHandler:^(NSData *_Nullable data, NSHTTPURLResponse *_Nullable __unused response,
+                                       NSError *_Nullable cosmosDbError) {
                      // If not created.
                      if (!data || [MSDataSourceError errorCodeFromError:cosmosDbError] != kMSACDocumentSucceededErrorCode) {
                        MSLogError([MSDataStore logTag], @"Not able to read the document ID:%@ with error:%@", documentId,
@@ -224,7 +224,9 @@ static dispatch_once_t onceToken;
 
                      // Deserialize.
                      NSError *deserializeError;
-                     NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:&deserializeError];
+                     NSDictionary *json = [NSJSONSerialization JSONObjectWithData:(NSData * _Nonnull) data
+                                                                          options:0
+                                                                            error:&deserializeError];
                      if (deserializeError) {
                        MSLogError([MSDataStore logTag], @"Error deserializing data:%@", [deserializeError description]);
                      }
@@ -269,8 +271,8 @@ static dispatch_once_t onceToken;
                           httpMethod:kMSHttpMethodDelete
                                 body:[NSData data]
                    additionalHeaders:nil
-                   completionHandler:^(NSData *__unused data, NSError *_Nonnull cosmosDbError) {
-
+                   completionHandler:^(NSData *_Nullable __unused responseBody, NSHTTPURLResponse *_Nullable __unused response,
+                                       NSError *_Nullable cosmosDbError) {
                      // Body returned from call (data) is empty.
                      NSInteger httpStatusCode = [MSDataSourceError errorCodeFromError:cosmosDbError];
                      if (httpStatusCode != MSHTTPCodesNo204NoContent) {
@@ -308,7 +310,8 @@ static dispatch_once_t onceToken;
                           httpMethod:kMSHttpMethodPost
                                 body:body
                    additionalHeaders:additionalHeaders
-                   completionHandler:^(NSData *_Nonnull data, NSError *_Nonnull cosmosDbError) {
+                   completionHandler:^(NSData *_Nullable data, NSHTTPURLResponse *_Nullable __unused response,
+                                       NSError *_Nullable cosmosDbError) {
                      // If not created.
                      NSInteger errorCode = [MSDataSourceError errorCodeFromError:cosmosDbError];
                      if (!data || (errorCode != kMSACDocumentCreatedErrorCode && errorCode != kMSACDocumentSucceededErrorCode)) {
@@ -319,7 +322,9 @@ static dispatch_once_t onceToken;
 
                      // Deserialize.
                      NSError *deserializeError;
-                     NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:&deserializeError];
+                     NSDictionary *json = [NSJSONSerialization JSONObjectWithData:(NSData * _Nonnull) data
+                                                                          options:0
+                                                                            error:&deserializeError];
                      if (deserializeError) {
                        MSLogError([MSDataStore logTag], @"Error deserializing data:%@", [deserializeError description]);
                      }
@@ -350,7 +355,7 @@ static dispatch_once_t onceToken;
                           httpMethod:(NSString *)httpMethod
                                 body:(NSData *)body
                    additionalHeaders:(NSDictionary *)additionalHeaders
-                   completionHandler:(MSCosmosDbCompletionHandler)completionHandler {
+                   completionHandler:(MSHttpRequestCompletionHandler)completionHandler {
   [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:(MSStorageIngestion *)self.ingestion
                                                     partition:partition
                                             completionHandler:^(MSTokensResponse *_Nonnull tokenResponses, NSError *_Nonnull error) {
@@ -359,17 +364,17 @@ static dispatch_once_t onceToken;
                                                 MSLogError([MSDataStore logTag],
                                                            @"Can't get CosmosDb token. Error: %@;  HTTP status code: %ld; Partition: %@",
                                                            error.localizedDescription, (long)httpStatusCode, partition);
-                                                completionHandler(nil, error);
+                                                completionHandler(nil, nil, error);
                                                 return;
                                               }
-                                              MSCosmosDbIngestion *cosmosDbIngestion = [MSCosmosDbIngestion new];
-                                              [MSCosmosDb performCosmosDbAsyncOperationWithHttpClient:cosmosDbIngestion
-                                                                                          tokenResult:tokenResponses.tokens[0]
-                                                                                           documentId:documentId
-                                                                                           httpMethod:httpMethod
-                                                                                                 body:body
-                                                                                    additionalHeaders:additionalHeaders
-                                                                                    completionHandler:completionHandler];
+                                              [MSCosmosDb
+                                                  performCosmosDbAsyncOperationWithHttpClient:(MSHttpClient * _Nonnull) self.httpClient
+                                                                                  tokenResult:tokenResponses.tokens[0]
+                                                                                   documentId:documentId
+                                                                                   httpMethod:httpMethod
+                                                                                         body:body
+                                                                            additionalHeaders:additionalHeaders
+                                                                            completionHandler:completionHandler];
                                             }];
 }
 
@@ -389,9 +394,8 @@ static dispatch_once_t onceToken;
       transmissionTargetToken:(nullable NSString *)token
               fromApplication:(BOOL)fromApplication {
   [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionTargetToken:token fromApplication:fromApplication];
-
-  // Make sure that ingestion hasn't already been initialized.
-  if (appSecret && !self.ingestion) {
+  if (appSecret) {
+    self.httpClient = [MSHttpClient new];
     self.ingestion = [[MSStorageIngestion alloc] initWithBaseUrl:self.tokenExchangeUrl appSecret:(NSString *)appSecret];
   }
   MSLogVerbose([MSDataStore logTag], @"Started Data Storage service.");
@@ -413,6 +417,7 @@ static dispatch_once_t onceToken;
 
 - (void)applyEnabledState:(BOOL)isEnabled {
   [super applyEnabledState:isEnabled];
+  [self.httpClient setEnabled:isEnabled];
   if (isEnabled) {
     [[MSAuthTokenContext sharedInstance] addDelegate:self];
   } else {

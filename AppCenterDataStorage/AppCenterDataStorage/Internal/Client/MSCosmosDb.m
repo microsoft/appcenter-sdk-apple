@@ -3,7 +3,6 @@
 
 #import "MSCosmosDb.h"
 #import "AppCenter+Internal.h"
-#import "MSCosmosDbIngestion.h"
 #import "MSDataStoreInternal.h"
 #import "MSTokenResult.h"
 
@@ -128,13 +127,12 @@ static NSString *const kMSHeaderMsDate = @"x-ms-date";
   return [MSCosmosDb documentDbEndpointWithDbAccount:tokenResult.dbAccount documentResourceId:documentResourceIdPrefix];
 }
 
-+ (void)performCosmosDbAsyncOperationWithHttpClient:(MSCosmosDbIngestion *)httpClient
++ (void)performCosmosDbAsyncOperationWithHttpClient:(MSHttpClient *)httpClient
                                         tokenResult:(MSTokenResult *)tokenResult
                                          documentId:(NSString *)documentId
                                          httpMethod:(NSString *)httpMethod
                                                body:(nullable NSData *)body
-                                  completionHandler:(MSCosmosDbCompletionHandler)completionHandler {
-
+                                  completionHandler:(MSHttpRequestCompletionHandler)completionHandler {
   [MSCosmosDb performCosmosDbAsyncOperationWithHttpClient:httpClient
                                               tokenResult:tokenResult
                                                documentId:documentId
@@ -144,26 +142,18 @@ static NSString *const kMSHeaderMsDate = @"x-ms-date";
                                         completionHandler:completionHandler];
 }
 
-+ (void)performCosmosDbAsyncOperationWithHttpClient:(MSCosmosDbIngestion *)httpClient
++ (void)performCosmosDbAsyncOperationWithHttpClient:(MSHttpClient *)httpClient
                                         tokenResult:(MSTokenResult *)tokenResult
                                          documentId:(NSString *)documentId
                                          httpMethod:(NSString *)httpMethod
                                                body:(NSData *_Nullable)body
                                   additionalHeaders:(NSDictionary *_Nullable)additionalHeaders
-                                  completionHandler:(MSCosmosDbCompletionHandler)completionHandler {
-  // Configure http client.
-  httpClient.httpMethod = httpMethod;
-  httpClient.httpHeaders = [MSCosmosDb defaultHeaderWithPartition:tokenResult.partition
-                                                          dbToken:tokenResult.token
-                                                additionalHeaders:additionalHeaders];
-  httpClient.sendURL = (NSURL *)[NSURL URLWithString:[MSCosmosDb documentUrlWithTokenResult:tokenResult documentId:documentId]];
-  [httpClient sendAsync:body
-      completionHandler:^(NSString *callId, NSHTTPURLResponse *response, NSData *data, NSError *error) {
-        MSLogVerbose([MSDataStore logTag], @"CosmosDb HttpClient callback, request Id %@ with status code: %lu and description: %@", callId,
-                     (unsigned long)response.statusCode, [error description]);
-        // Completion handler.
-        completionHandler(data, error);
-      }];
+                                  completionHandler:(MSHttpRequestCompletionHandler)completionHandler {
+  NSDictionary *httpHeaders = [MSCosmosDb defaultHeaderWithPartition:tokenResult.partition
+                                                             dbToken:tokenResult.token
+                                                   additionalHeaders:additionalHeaders];
+  NSURL *sendURL = (NSURL *)[NSURL URLWithString:[MSCosmosDb documentUrlWithTokenResult:tokenResult documentId:documentId]];
+  [httpClient sendAsync:sendURL method:httpMethod headers:httpHeaders data:body completionHandler:completionHandler];
 }
 
 @end

@@ -3,8 +3,8 @@
 
 #import <Foundation/Foundation.h>
 
-#import "MSCosmosDbIngestion.h"
 #import "MSDataStore.h"
+#import "MSHttpClient.h"
 #import "MSServiceInternal.h"
 #import "MSStorageIngestion.h"
 
@@ -23,9 +23,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, nullable) MSStorageIngestion *ingestion;
 
 /**
- * An ingestion instance that is used to send a request to CosmosDb.
+ * HTTP client.
  */
-@property(nonatomic, nullable) MSCosmosDbIngestion *cosmosHttpClient;
+@property(nonatomic, nullable) MSHttpClient *httpClient;
 
 @end
 
