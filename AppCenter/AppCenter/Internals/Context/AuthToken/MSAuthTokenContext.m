@@ -52,17 +52,20 @@ static dispatch_once_t onceToken;
   NSArray *synchronizedDelegates;
   BOOL isNewAccount = NO;
   @synchronized(self) {
+    
+    // If a nil authToken is passed with non-nil paarmeters, reset them.
     if (!authToken) {
       accountId = nil;
       expiresOn = nil;
     }
     NSMutableArray<MSAuthTokenInfo *> *authTokenHistory = [[self authTokenHistory] mutableCopy];
 
-    // If new token differs from the last token of array - add it to array.
     MSAuthTokenInfo *lastEntry = authTokenHistory.lastObject;
     NSString *__nullable latestAuthToken = lastEntry.authToken;
     NSString *__nullable latestAccountId = lastEntry.accountId;
     NSDate *__nullable latestTokenEndTime = lastEntry.expiresOn;
+    
+    // If new token doesn't differ from the last token of array - no need to add it to array.
     if (lastEntry != nil && [latestAuthToken isEqual:(NSString * _Nonnull) authToken]) {
       return;
     }

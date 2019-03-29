@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, nullable, readonly) NSDate *startTime;
 
 /**
- * TUsed to store expiration time of token.
+ * Used to store expiration time of token.
  * Nil for valid tokens with unknown or not pre-defined expiration time.
  */
 @property(nonatomic, nullable, readonly) NSDate *expiresOn;
