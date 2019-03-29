@@ -21,9 +21,8 @@ static int const kMSSecBeforeExpireToRefresh = 10 * 60;
 }
 
 - (BOOL)expiresSoon {
-  NSDate *currentDate = [NSDate date];
   NSTimeInterval seconds = kMSSecBeforeExpireToRefresh;
-  return [[NSDate dateWithTimeIntervalSinceNow:seconds] laterDate:currentDate];
+  return self.endTime && [[NSDate dateWithTimeIntervalSinceNow:seconds] laterDate:(NSDate * __nonnull)self.endTime];
 }
 
 @end
