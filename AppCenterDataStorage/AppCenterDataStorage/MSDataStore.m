@@ -186,6 +186,14 @@ static dispatch_once_t onceToken;
                                           completionHandler:completionHandler];
 }
 
++ (void)setOfflineMode:(BOOL)offlineMode {
+  [MSDataStore sharedInstance].offlineMode = offlineMode;
+}
+
++ (BOOL)isOfflineMode {
+  return [MSDataStore sharedInstance].offlineMode;
+}
+
 #pragma mark - MSDataStore Implementation
 
 - (void)replaceWithPartition:(NSString *)partition
@@ -270,7 +278,6 @@ static dispatch_once_t onceToken;
                                 body:[NSData data]
                    additionalHeaders:nil
                    completionHandler:^(NSData *__unused data, NSError *_Nonnull cosmosDbError) {
-
                      // Body returned from call (data) is empty.
                      NSInteger httpStatusCode = [MSDataSourceError errorCodeFromError:cosmosDbError];
                      if (httpStatusCode != MSHTTPCodesNo204NoContent) {
@@ -363,6 +370,7 @@ static dispatch_once_t onceToken;
                                                 return;
                                               }
                                               MSCosmosDbIngestion *cosmosDbIngestion = [MSCosmosDbIngestion new];
+                                              cosmosDbIngestion.offlineMode = self.offlineMode;
                                               [MSCosmosDb performCosmosDbAsyncOperationWithHttpClient:cosmosDbIngestion
                                                                                           tokenResult:tokenResponses.tokens[0]
                                                                                            documentId:documentId

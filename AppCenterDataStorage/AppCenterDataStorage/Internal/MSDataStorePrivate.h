@@ -13,6 +13,11 @@ static NSString *const kMSDefaultApiUrl = @"https://api.appcenter.ms/v0.1";
 
 @interface MSDataStore () <MSAuthTokenContextDelegate>
 
+/**
+ * A flag that indicates offline mode is on or off.
+ */
+@property(atomic) BOOL offlineMode;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -5,6 +5,8 @@
 #import "MSCosmosDb.h"
 #import "MSCosmosDbIngestion.h"
 #import "MSCosmosDbPrivate.h"
+#import "MSDataStore.h"
+#import "MSDataStoreInternal.h"
 #import "MSTestFrameworks.h"
 #import "MSTokenResult.h"
 
@@ -178,6 +180,24 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   XCTAssertTrue(completionHandlerCalled);
   XCTAssertEqualObjects(data, actualData);
   XCTAssertTrue([expectedURLString isEqualToString:httpClient.sendURL.absoluteString]);
+}
+
+- (void)testSetOfflineMode {
+
+  // Then
+  XCTAssertFalse([MSDataStore isOfflineMode]);
+
+  // When
+  [MSDataStore setOfflineMode:YES];
+
+  // Then
+  XCTAssertTrue([MSDataStore isOfflineMode]);
+
+  // When
+  [MSDataStore setOfflineMode:NO];
+
+  // Then
+  XCTAssertFalse([MSDataStore isOfflineMode]);
 }
 
 @end

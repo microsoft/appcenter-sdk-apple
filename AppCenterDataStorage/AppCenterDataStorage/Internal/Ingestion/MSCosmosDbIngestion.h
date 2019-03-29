@@ -7,6 +7,12 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface MSCosmosDbIngestion : MSHttpIngestion
+
+/**
+ * A flag that indicates offline mode is on or off.
+ */
+@property(atomic) BOOL offlineMode;
+
 @end
 
 NS_ASSUME_NONNULL_END

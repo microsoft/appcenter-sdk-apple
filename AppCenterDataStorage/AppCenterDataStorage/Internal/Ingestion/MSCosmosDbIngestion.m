@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 #import "MSCosmosDbIngestion.h"
-#import "MSAppCenter.h"
 #import "MSAppCenterInternal.h"
+#import "MSDataStore.h"
 #import "MSHttpIngestionPrivate.h"
 #import "MSLoggerInternal.h"
 
@@ -17,8 +17,23 @@
                         queryStrings:nil
                         reachability:[MS_Reachability reachabilityForInternetConnection]
                       retryIntervals:@[ @(10), @(5 * 60), @(20 * 60) ]])) {
+    _offlineMode = NO;
   }
   return self;
+}
+
+- (void)sendAsync:(nullable NSObject *)data
+                 eTag:(nullable NSString *)eTag
+            authToken:(nullable NSString *)authToken
+               callId:(NSString *)callId
+    completionHandler:(MSSendAsyncCompletionHandler)completionHandler {
+  if (self.offlineMode) {
+    NSDictionary *userInfo = @{NSLocalizedDescriptionKey : @"Storage offline simulation mode is enabled."};
+    completionHandler(callId, nil, nil,
+                      [NSError errorWithDomain:kMSDataStorageErrorDomain code:NSURLErrorNotConnectedToInternet userInfo:userInfo]);
+  } else {
+    [super sendAsync:data eTag:eTag authToken:authToken callId:callId completionHandler:completionHandler];
+  }
 }
 
 - (NSURLRequest *)createRequest:(NSObject *)data eTag:(NSString *)__unused eTag authToken:(nullable NSString *)__unused authToken {
