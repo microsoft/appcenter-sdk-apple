@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "MSAppCenterIngestion.h"
+#import "MSHttpUtil.h"
 #import "MSTestFrameworks.h"
 
-@interface MSIngestionUtilTests : XCTestCase
+@interface MSHttpUtilTests : XCTestCase
 
 @end
 
-@implementation MSIngestionUtilTests
+@implementation MSHttpUtilTests
 
 - (void)testLargeSecret {
 
@@ -17,7 +17,7 @@
   NSString *hiddenSecret;
 
   // When
-  hiddenSecret = [MSIngestionUtil hideSecret:secret];
+  hiddenSecret = [MSHttpUtil hideSecret:secret];
 
   // Then
   NSString *fullyHiddenSecret = [@"" stringByPaddingToLength:hiddenSecret.length withString:kMSHidingStringForAppSecret startingAtIndex:0];
@@ -36,7 +36,7 @@
   NSString *hiddenSecret;
 
   // When
-  hiddenSecret = [MSIngestionUtil hideSecret:secret];
+  hiddenSecret = [MSHttpUtil hideSecret:secret];
 
   // Then
   NSString *fullyHiddenSecret = [@"" stringByPaddingToLength:hiddenSecret.length withString:kMSHidingStringForAppSecret startingAtIndex:0];
@@ -50,7 +50,7 @@
   NSString *token = @"Bearer jwttoken";
 
   // When
-  NSString *hiddenToken = [MSIngestionUtil hideAuthToken:token];
+  NSString *hiddenToken = [MSHttpUtil hideAuthToken:token];
 
   // Then
   assertThat(hiddenToken, is(@"Bearer ***"));
@@ -62,19 +62,19 @@
   NSError *error = [[NSError alloc] initWithDomain:NSURLErrorDomain code:NSURLErrorNotConnectedToInternet userInfo:nil];
 
   // Then
-  XCTAssertTrue([MSIngestionUtil isNoInternetConnectionError:error]);
+  XCTAssertTrue([MSHttpUtil isNoInternetConnectionError:error]);
 
   // When
   error = [[NSError alloc] initWithDomain:NSURLErrorDomain code:NSURLErrorNetworkConnectionLost userInfo:nil];
 
   // Then
-  XCTAssertTrue([MSIngestionUtil isNoInternetConnectionError:error]);
+  XCTAssertTrue([MSHttpUtil isNoInternetConnectionError:error]);
 
   // When
   error = [[NSError alloc] initWithDomain:NSURLErrorDomain code:NSURLErrorServerCertificateHasBadDate userInfo:nil];
 
   // Then
-  XCTAssertFalse([MSIngestionUtil isNoInternetConnectionError:error]);
+  XCTAssertFalse([MSHttpUtil isNoInternetConnectionError:error]);
 }
 
 - (void)testSSLConnectionErrorDetected {
@@ -83,68 +83,68 @@
   NSError *error = [[NSError alloc] initWithDomain:NSURLErrorDomain code:NSURLErrorSecureConnectionFailed userInfo:nil];
 
   // Then
-  XCTAssertTrue([MSIngestionUtil isSSLConnectionError:error]);
+  XCTAssertTrue([MSHttpUtil isSSLConnectionError:error]);
 
   // When
   error = [[NSError alloc] initWithDomain:NSURLErrorDomain code:NSURLErrorServerCertificateHasBadDate userInfo:nil];
 
   // Then
-  XCTAssertTrue([MSIngestionUtil isSSLConnectionError:error]);
+  XCTAssertTrue([MSHttpUtil isSSLConnectionError:error]);
 
   // When
   error = [[NSError alloc] initWithDomain:NSURLErrorDomain code:NSURLErrorServerCertificateUntrusted userInfo:nil];
 
   // Then
-  XCTAssertTrue([MSIngestionUtil isSSLConnectionError:error]);
+  XCTAssertTrue([MSHttpUtil isSSLConnectionError:error]);
 
   // When
   error = [[NSError alloc] initWithDomain:NSURLErrorDomain code:NSURLErrorServerCertificateHasUnknownRoot userInfo:nil];
 
   // Then
-  XCTAssertTrue([MSIngestionUtil isSSLConnectionError:error]);
+  XCTAssertTrue([MSHttpUtil isSSLConnectionError:error]);
 
   // When
   error = [[NSError alloc] initWithDomain:NSURLErrorDomain code:NSURLErrorServerCertificateNotYetValid userInfo:nil];
 
   // Then
-  XCTAssertTrue([MSIngestionUtil isSSLConnectionError:error]);
+  XCTAssertTrue([MSHttpUtil isSSLConnectionError:error]);
 
   // When
   error = [[NSError alloc] initWithDomain:NSURLErrorDomain code:NSURLErrorClientCertificateRejected userInfo:nil];
 
   // Then
-  XCTAssertTrue([MSIngestionUtil isSSLConnectionError:error]);
+  XCTAssertTrue([MSHttpUtil isSSLConnectionError:error]);
 
   // When
   error = [[NSError alloc] initWithDomain:NSURLErrorDomain code:NSURLErrorClientCertificateRequired userInfo:nil];
 
   // Then
-  XCTAssertTrue([MSIngestionUtil isSSLConnectionError:error]);
+  XCTAssertTrue([MSHttpUtil isSSLConnectionError:error]);
 
   // When
   error = [[NSError alloc] initWithDomain:NSURLErrorDomain code:NSURLErrorCannotLoadFromNetwork userInfo:nil];
 
   // Then
-  XCTAssertTrue([MSIngestionUtil isSSLConnectionError:error]);
+  XCTAssertTrue([MSHttpUtil isSSLConnectionError:error]);
 
   // When
   error = [[NSError alloc] initWithDomain:NSURLErrorFailingURLErrorKey code:NSURLErrorCannotLoadFromNetwork userInfo:nil];
 
   // Then
-  XCTAssertFalse([MSIngestionUtil isSSLConnectionError:error]);
+  XCTAssertFalse([MSHttpUtil isSSLConnectionError:error]);
 
   // When
   error = [[NSError alloc] initWithDomain:NSURLErrorDomain code:10 userInfo:nil];
 
   // Then
-  XCTAssertFalse([MSIngestionUtil isSSLConnectionError:error]);
+  XCTAssertFalse([MSHttpUtil isSSLConnectionError:error]);
 }
 
 - (void)testIsRecoverableError {
   for (int i = 0; i < 530; i++) {
 
     // When
-    BOOL result = [MSIngestionUtil isRecoverableError:i];
+    BOOL result = [MSHttpUtil isRecoverableError:i];
 
     // Then
     if (i >= 500) {
