@@ -66,7 +66,7 @@ static dispatch_once_t onceToken;
 
 - (instancetype)init {
   if ((self = [super init])) {
-    _tokenExchangeUrl = kMSDefaultApiUrl;
+    _tokenExchangeUrl = (NSURL *)[NSURL URLWithString:kMSDefaultApiUrl];
   }
   return self;
 }
@@ -74,7 +74,7 @@ static dispatch_once_t onceToken;
 #pragma mark - Public
 
 + (void)setTokenExchangeUrl:(NSString *)tokenExchangeUrl {
-  [[MSDataStore sharedInstance] setTokenExchangeUrl:tokenExchangeUrl];
+  [[MSDataStore sharedInstance] setTokenExchangeUrl:(NSURL *)[NSURL URLWithString:tokenExchangeUrl]];
 }
 
 + (void)readWithPartition:(NSString *)partition
@@ -356,7 +356,8 @@ static dispatch_once_t onceToken;
                                 body:(NSData *)body
                    additionalHeaders:(NSDictionary *)additionalHeaders
                    completionHandler:(MSHttpRequestCompletionHandler)completionHandler {
-  [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:(MSStorageIngestion *)self.ingestion
+  [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:(id<MSHttpClientProtocol>)self.httpClient
+                                             tokenExchangeUrl:self.tokenExchangeUrl
                                                     partition:partition
                                             completionHandler:^(MSTokensResponse *_Nonnull tokenResponses, NSError *_Nonnull error) {
                                               if (error || [tokenResponses.tokens count] == 0) {
@@ -396,7 +397,6 @@ static dispatch_once_t onceToken;
   [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionTargetToken:token fromApplication:fromApplication];
   if (appSecret) {
     self.httpClient = [MSHttpClient new];
-    self.ingestion = [[MSStorageIngestion alloc] initWithBaseUrl:self.tokenExchangeUrl appSecret:(NSString *)appSecret];
   }
   MSLogVerbose([MSDataStore logTag], @"Started Data Storage service.");
 }

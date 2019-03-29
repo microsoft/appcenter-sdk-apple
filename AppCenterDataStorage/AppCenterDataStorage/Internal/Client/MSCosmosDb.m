@@ -99,7 +99,7 @@ static NSString *const kMSHeaderMsDate = @"x-ms-date";
     kMSAuthorizationHeaderKey : [MSCosmosDb encodeUrl:dbToken]
   }];
 
-  // Add additional headers(if any).
+  // Add additional headers (if any).
   if (additionalHeaders) {
     [allHeaders addEntriesFromDictionary:(NSDictionary *)additionalHeaders];
   }

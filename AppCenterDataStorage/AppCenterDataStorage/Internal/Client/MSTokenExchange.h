@@ -5,6 +5,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@protocol MSHttpClientProtocol;
 @class MSTokensResponse;
 @class MSStorageIngestion;
 
@@ -23,9 +24,10 @@ typedef void (^MSGetTokenAsyncCompletionHandler)(MSTokensResponse *tokenResponse
  * @param completionHandler callback that gets the token.
  *
  */
-+ (void)performDbTokenAsyncOperationWithHttpClient:(MSStorageIngestion *)httpClient
++ (void)performDbTokenAsyncOperationWithHttpClient:(id<MSHttpClientProtocol>)httpClient
+                                  tokenExchangeUrl:(NSURL *)tokenExchangeUrl
                                          partition:(NSString *)partition
-                                 completionHandler:(MSGetTokenAsyncCompletionHandler _Nonnull)completionHandler;
+                                 completionHandler:(MSGetTokenAsyncCompletionHandler)completionHandler;
 
 /*
  * When the user logs out, all the cached tokens are deleted.

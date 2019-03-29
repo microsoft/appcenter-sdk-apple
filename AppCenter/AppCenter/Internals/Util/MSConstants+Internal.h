@@ -23,6 +23,8 @@ static NSString *const kMSRetryHeaderKey = @"x-ms-retry-after-ms";
 
 // Other HTTP constants.
 static short const kMSHTTPMinGZipLength = 1400;
+static NSString *const kMSBearerTokenHeaderFormat = @"Bearer %@";
+
 
 /**
  * Enum with the different HTTP status codes.

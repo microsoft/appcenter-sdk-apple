@@ -17,12 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * An token exchange url that is used to get resouce tokens.
  */
-@property(nonatomic, copy) NSString *tokenExchangeUrl;
-
-/**
- * An ingestion instance that is used to send a request for new token exchange service.
- */
-@property(nonatomic, nullable) MSStorageIngestion *ingestion;
+@property(nonatomic, copy) NSURL *tokenExchangeUrl;
 
 /**
  * HTTP client.

@@ -9,14 +9,9 @@
 
 @implementation MSStorageIngestion
 
-/**
- * The API paths for cosmosDb token.
- */
-static NSString *const kMSGetTokenPath = @"/data/tokens";
-
 - (id)initWithBaseUrl:(NSString *)baseUrl appSecret:(NSString *)appSecret {
   if ((self = [super initWithBaseUrl:baseUrl
-                             apiPath:kMSGetTokenPath
+                             apiPath:@""
                              headers:@{kMSHeaderAppSecretKey : appSecret, kMSHeaderContentTypeKey : kMSAppCenterContentType}
                         queryStrings:nil
                         reachability:[MS_Reachability reachabilityForInternetConnection]
