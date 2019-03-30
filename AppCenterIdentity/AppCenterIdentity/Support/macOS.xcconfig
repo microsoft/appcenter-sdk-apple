@@ -1,5 +1,5 @@
 #include "../../../Config/macOS.xcconfig"
 
-OTHER_LDFLAGS=$(inherited) -framework AppKit
+OTHER_LDFLAGS=$(inherited) -framework AppKit -framework WebKit
 
-FRAMEWORK_SEARCH_PATHS="$(SRCROOT)/../Vendor/macOS/MSAL"/**
+OTHER_CFLAGS = $(inherited) -iframework "$(SRCROOT)/../Vendor/macOS/MSAL"
