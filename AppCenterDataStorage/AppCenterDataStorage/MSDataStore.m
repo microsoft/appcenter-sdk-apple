@@ -384,6 +384,7 @@ static dispatch_once_t onceToken;
                                                                                    httpMethod:httpMethod
                                                                                          body:body
                                                                             additionalHeaders:additionalHeaders
+                                                                                  offlineMode:self.offlineMode
                                                                             completionHandler:completionHandler];
                                             }];
 }
