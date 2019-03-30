@@ -221,7 +221,7 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
         if (firstTime) {
           firstTime = NO;
           NSError *error = [NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorCannotLoadFromNetwork userInfo:nil];
-          
+
           // Simulate network outage mid-request
           [self simulateReachabilityChangedNotification:NotReachable];
 
@@ -334,7 +334,6 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
 
   // Only bring the network back once it went down.
   dispatch_semaphore_wait(networkDownSemaphore, dispatch_time(DISPATCH_TIME_NOW, (int64_t)(kMSTestTimeout * NSEC_PER_SEC)));
-
 
   // Restore the network and wait for completion handler to be called.
   [self simulateReachabilityChangedNotification:ReachableViaWiFi];
