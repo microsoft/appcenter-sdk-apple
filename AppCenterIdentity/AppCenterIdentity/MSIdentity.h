@@ -39,6 +39,7 @@ static NSString *const MSIdentityErrorDescriptionKey = @"MSIdentityErrorDescript
  */
 @interface MSIdentity : MSServiceAbstract
 
+#if TARGET_OS_IOS
 /**
  * Process URL request for the service.
  *
@@ -49,6 +50,7 @@ static NSString *const MSIdentityErrorDescriptionKey = @"MSIdentityErrorDescript
  * @discussion Place this method call into your app delegate's openURL method.
  */
 + (BOOL)openURL:(NSURL *)url;
+#endif
 
 /**
  * Sign-in to get user information.
