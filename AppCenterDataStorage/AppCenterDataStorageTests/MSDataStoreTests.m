@@ -730,18 +730,6 @@ static NSString *const kMSDocumentIdTest = @"documentId";
           transmissionTargetToken:nil
                   fromApplication:YES];
   [MSDataStore setOfflineMode:YES];
-  __block BOOL calledWithOfflineModeEnabled = NO;
-  OCMStub([self.cosmosDbMock performCosmosDbAsyncOperationWithHttpClient:OCMOCK_ANY
-                                                             tokenResult:OCMOCK_ANY
-                                                              documentId:OCMOCK_ANY
-                                                              httpMethod:OCMOCK_ANY
-                                                                    body:OCMOCK_ANY
-                                                       additionalHeaders:OCMOCK_ANY
-                                                             offlineMode:YES
-                                                       completionHandler:OCMOCK_ANY])
-      .andDo(^(__unused NSInvocation *invocation) {
-        calledWithOfflineModeEnabled = YES;
-      });
 
   // Mock tokens fetching.
   MSTokenResult *testToken = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
@@ -764,7 +752,14 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                          }];
 
   // Then
-  XCTAssertTrue(calledWithOfflineModeEnabled);
+  OCMVerify([self.cosmosDbMock performCosmosDbAsyncOperationWithHttpClient:OCMOCK_ANY
+                                                               tokenResult:OCMOCK_ANY
+                                                                documentId:OCMOCK_ANY
+                                                                httpMethod:OCMOCK_ANY
+                                                                      body:OCMOCK_ANY
+                                                         additionalHeaders:OCMOCK_ANY
+                                                               offlineMode:YES
+                                                         completionHandler:OCMOCK_ANY]);
 }
 
 @end
