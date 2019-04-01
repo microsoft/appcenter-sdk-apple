@@ -14,7 +14,6 @@
 @interface MSAuthTokenContext ()
 
 + (void)resetSharedInstance;
-- (NSArray<MSAuthTokenInfo *> *)authTokenHistory;
 
 @end
 
@@ -323,4 +322,5 @@
   MSAuthTokenInfo *latestAuthTokenInfo = [actualAuthTokensHistory lastObject];
   XCTAssertTrue([latestAuthTokenInfo.startTime isEqualToDate:expiryFirst]);
 }
+
 @end

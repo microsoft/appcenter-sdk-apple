@@ -426,6 +426,33 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
               }];
 }
 
+- (void)testLoadLogsInRange {
+
+  // If
+  NSDate *date = [NSDate date];
+
+  // When
+  for (int i = 0; i < 20; i++) {
+    MSLogWithProperties *log = [MSLogWithProperties new];
+    log.sid = MS_UUID_STRING;
+    log.timestamp = [[NSCalendar currentCalendar] dateByAddingUnit:NSCalendarUnitDay value:-i toDate:date options:0];
+    [self.sut saveLog:log withGroupId:kMSTestGroupId flags:MSFlagsDefault];
+  }
+
+  // Dates are compared by < not <=, so we need to change date a bit to compare with same shifts
+  date = [[NSCalendar currentCalendar] dateByAddingUnit:NSCalendarUnitSecond value:1 toDate:date options:0];
+
+  // Then
+  [self.sut loadLogsWithGroupId:kMSTestGroupId
+                          limit:20
+             excludedTargetKeys:nil
+                      afterDate:[[NSCalendar currentCalendar] dateByAddingUnit:NSCalendarUnitDay value:-5 toDate:date options:0]
+                     beforeDate:[[NSCalendar currentCalendar] dateByAddingUnit:NSCalendarUnitDay value:10 toDate:date options:0]
+              completionHandler:^(NSArray<MSLog> *_Nonnull logArray, __unused NSString *batchId) {
+                assertThatInt(logArray.count, equalToInt(5));
+              }];
+}
+
 - (void)testLoadUnlimitedLogs {
 
   // If
