@@ -575,6 +575,9 @@
 		7F306CBF2251AB0D006FE296 /* MSUserInformation.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F306CBE2251AB0D006FE296 /* MSUserInformation.m */; };
 		7F306CC02251AB0D006FE296 /* MSUserInformation.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F306CBE2251AB0D006FE296 /* MSUserInformation.m */; };
 		7F306CC12251AB0D006FE296 /* MSUserInformation.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F306CBE2251AB0D006FE296 /* MSUserInformation.m */; };
+		7F306CC22251DBA3006FE296 /* MSUserInformation.h in Headers */ = {isa = PBXBuildFile; fileRef = 7F306CBD2251AB07006FE296 /* MSUserInformation.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7F306CC32251DBA4006FE296 /* MSUserInformation.h in Headers */ = {isa = PBXBuildFile; fileRef = 7F306CBD2251AB07006FE296 /* MSUserInformation.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7F306CC42251DBA6006FE296 /* MSUserInformation.h in Headers */ = {isa = PBXBuildFile; fileRef = 7F306CBD2251AB07006FE296 /* MSUserInformation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7FB7054B222E595F00D93258 /* MSMockReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FB70548222E58FB00D93258 /* MSMockReachability.m */; };
 		7FB7054C222E596100D93258 /* MSMockReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FB70548222E58FB00D93258 /* MSMockReachability.m */; };
 		7FB7054D222E596200D93258 /* MSMockReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FB70548222E58FB00D93258 /* MSMockReachability.m */; };
@@ -1525,6 +1528,8 @@
 				D38024051E7126F500466558 /* MSServiceAbstract.m */,
 				35D0B7511DDFABFD003EACCD /* MSWrapperLogger.h */,
 				35D0B7521DDFABFD003EACCD /* MSWrapperLogger.m */,
+				7F306CBD2251AB07006FE296 /* MSUserInformation.h */,
+				7F306CBE2251AB0D006FE296 /* MSUserInformation.m */,
 				6E0401421D1C99AC0051BCFA /* Internals */,
 				3844FF161E8C261D003E9194 /* Model */,
 				6E0401821D1CAD810051BCFA /* Support */,
@@ -1745,8 +1750,6 @@
 		9CB67D9E221377F1006E20AC /* AuthToken */ = {
 			isa = PBXGroup;
 			children = (
-				7F306CBD2251AB07006FE296 /* MSUserInformation.h */,
-				7F306CBE2251AB0D006FE296 /* MSUserInformation.m */,
 				9CB67D9F2213790A006E20AC /* MSAuthTokenContext.h */,
 				9CB67DA322137936006E20AC /* MSAuthTokenContext.m */,
 				9CB67DA722137CCA006E20AC /* MSAuthTokenContextDelegate.h */,
@@ -1992,6 +1995,7 @@
 				E74B14C420B36C66002C0183 /* MSAppExtension.h in Headers */,
 				043120BA1EE0BCF9007054C5 /* MSLoggerInternal.h in Headers */,
 				043120BE1EE0BCF9007054C5 /* MSDeviceTrackerPrivate.h in Headers */,
+				7F306CC42251DBA6006FE296 /* MSUserInformation.h in Headers */,
 				04B45C4A21E90E0B00FE6746 /* MSKeychainUtilPrivate.h in Headers */,
 				38032090217E8BD40089772A /* MSDelegateForwarderPrivate.h in Headers */,
 				B2CD748C1F22BDA70070E7DF /* MSDBStorage.h in Headers */,
@@ -2123,6 +2127,7 @@
 				B2CD749E1F22BE270070E7DF /* MSConstants+Internal.h in Headers */,
 				B23507B92118D22800F98D4F /* MSTicketCache.h in Headers */,
 				38032088217E85A90089772A /* MSDelegateForwarder.h in Headers */,
+				7F306CC32251DBA4006FE296 /* MSUserInformation.h in Headers */,
 				04B45C4921E90E0800FE6746 /* MSKeychainUtilPrivate.h in Headers */,
 				B2CD74BC1F22BE270070E7DF /* MSUtility+File.h in Headers */,
 				B2CD74CA1F22BF8C0070E7DF /* MSLogDBStoragePrivate.h in Headers */,
@@ -2254,6 +2259,7 @@
 				38032092217E9DC50089772A /* MSCustomDelegate.h in Headers */,
 				387C76FD1D6C9CF100D68CC1 /* MSServiceAbstract.h in Headers */,
 				B2CD74A61F22BE270070E7DF /* MSUtility+Application.h in Headers */,
+				7F306CC22251DBA3006FE296 /* MSUserInformation.h in Headers */,
 				047FEE1521A48CC200ED77CD /* MSUserIdHistoryInfo.h in Headers */,
 				E74B14C220B36C66002C0183 /* MSAppExtension.h in Headers */,
 				04F3613D1FE1A92000A5A6D2 /* MSNoAutoAssignSessionIdLog.h in Headers */,

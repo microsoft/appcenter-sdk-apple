@@ -4,4 +4,3 @@
 #import <Foundation/Foundation.h>
 
 #import "MSIdentity.h"
-#import "MSUserInformation.h"

@@ -13,6 +13,7 @@
 #import "MSIdentityPrivate.h"
 #import "MSKeychainUtil.h"
 #import "MSServiceAbstractProtected.h"
+#import "MSUserInformation.h"
 #import "MSUtility+File.h"
 
 #if TARGET_OS_IOS
