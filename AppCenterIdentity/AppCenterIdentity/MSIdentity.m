@@ -88,8 +88,8 @@ static dispatch_once_t onceToken;
   if (isEnabled) {
 #if TARGET_OS_IOS
     [[MSAppDelegateForwarder sharedInstance] addDelegate:self.appDelegate];
-    [[MSAuthTokenContext sharedInstance] addDelegate:self];
 #endif
+    [[MSAuthTokenContext sharedInstance] addDelegate:self];
 
     // Read Identity config file.
     NSString *eTag = nil;
@@ -104,8 +104,8 @@ static dispatch_once_t onceToken;
   } else {
 #if TARGET_OS_IOS
     [[MSAppDelegateForwarder sharedInstance] removeDelegate:self.appDelegate];
-    [[MSAuthTokenContext sharedInstance] removeDelegate:self];
 #endif
+    [[MSAuthTokenContext sharedInstance] removeDelegate:self];
     [self clearAuthData];
     self.clientApplication = nil;
     [self clearConfigurationCache];
