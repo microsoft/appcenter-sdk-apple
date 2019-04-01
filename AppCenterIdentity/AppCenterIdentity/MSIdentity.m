@@ -86,7 +86,6 @@ static dispatch_once_t onceToken;
 - (void)applyEnabledState:(BOOL)isEnabled {
   [super applyEnabledState:isEnabled];
   if (isEnabled) {
-    [self.channelGroup addDelegate:self];
 #if TARGET_OS_IOS
     [[MSAppDelegateForwarder sharedInstance] addDelegate:self.appDelegate];
 #endif
