@@ -1058,7 +1058,6 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   NSString *fakeAccountId = @"accountId";
   NSString *fakeAuthToken = @"authToken";
   id identityMock = OCMPartialMock(self.sut);
-  [[MSAuthTokenContext sharedInstance] addDelegate:identityMock];
   [[MSAuthTokenContext sharedInstance] setAuthToken:fakeAuthToken withAccountId:fakeAccountId expiresOn:nil];
   MSAuthTokenValidityInfo *fakeValidityInfo = OCMClassMock([MSAuthTokenValidityInfo class]);
   OCMStub([fakeValidityInfo expiresSoon]).andReturn(YES);
@@ -1070,6 +1069,10 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   OCMStub([identityMock acquireTokenSilentlyWithMSALAccount:accountMock]);
 
   // When
+  [identityMock startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
+                            appSecret:kMSTestAppSecret
+              transmissionTargetToken:nil
+                      fromApplication:YES];
   [[MSAuthTokenContext sharedInstance] checkIfTokenNeedsToBeRefreshed:fakeValidityInfo];
 
   // Then
