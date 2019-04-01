@@ -99,7 +99,7 @@
     if (!error && response.statusCode != MSHTTPCodesNo200OK) {
       NSDictionary *userInfo =
           @{NSLocalizedDescriptionKey : kMSACConnectionHttpErrorDesc, kMSACConnectionHttpCodeErrorKey : @(response.statusCode)};
-      error = [NSError errorWithDomain:kMSACErrorDomain code:kMSACConnectionHttpErrorCode userInfo:userInfo];
+      error = [NSError errorWithDomain:kMSACErrorDomain code:MSACConnectionHttpErrorCode userInfo:userInfo];
     }
 
     // Check for error.

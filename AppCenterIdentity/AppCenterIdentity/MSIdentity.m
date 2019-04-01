@@ -122,7 +122,7 @@ static dispatch_once_t onceToken;
     [self.channelGroup removeDelegate:self];
     self.ingestion = nil;
     NSError *error = [[NSError alloc] initWithDomain:kMSACIdentityErrorDomain
-                                                code:kMSACIdentityErrorServiceDisabled
+                                                code:MSACIdentityErrorServiceDisabled
                                             userInfo:@{NSLocalizedDescriptionKey : @"Identity is disabled."}];
     [self completeAcquireTokenRequestForResult:nil withError:error];
     MSLogInfo([MSIdentity logTag], @"Identity service has been disabled.");
@@ -174,7 +174,7 @@ static dispatch_once_t onceToken;
       if ([MSIdentity sharedInstance].signInCompletionHandler) {
         MSLogError([MSIdentity logTag], @"signIn already in progress.");
         NSError *error = [[NSError alloc] initWithDomain:kMSACIdentityErrorDomain
-                                                    code:kMSACIdentityErrorPreviousSignInRequestInProgress
+                                                    code:MSACIdentityErrorPreviousSignInRequestInProgress
                                                 userInfo:@{NSLocalizedDescriptionKey : @"signIn already in progress."}];
         completionHandler(nil, error);
         return;
@@ -183,7 +183,7 @@ static dispatch_once_t onceToken;
       [[MSIdentity sharedInstance] signIn];
     } else {
       NSError *error = [[NSError alloc] initWithDomain:kMSACIdentityErrorDomain
-                                                  code:kMSACIdentityErrorServiceDisabled
+                                                  code:MSACIdentityErrorServiceDisabled
                                               userInfo:@{NSLocalizedDescriptionKey : @"Identity is disabled."}];
       completionHandler(nil, error);
     }
@@ -196,12 +196,12 @@ static dispatch_once_t onceToken;
 
 - (void)signIn {
   if ([[MS_Reachability reachabilityForInternetConnection] currentReachabilityStatus] == NotReachable) {
-    [self completeSignInWithErrorCode:kMSACIdentityErrorSignInWhenNoConnection
+    [self completeSignInWithErrorCode:MSACIdentityErrorSignInWhenNoConnection
                            andMessage:@"User sign-in failed. Internet connection is down."];
     return;
   }
   if (self.clientApplication == nil || self.identityConfig == nil) {
-    [self completeSignInWithErrorCode:kMSACIdentityErrorSignInBackgroundOrNotConfigured
+    [self completeSignInWithErrorCode:MSACIdentityErrorSignInBackgroundOrNotConfigured
                            andMessage:@"signIn is called while it's not configured or not in the foreground."];
     return;
   }
