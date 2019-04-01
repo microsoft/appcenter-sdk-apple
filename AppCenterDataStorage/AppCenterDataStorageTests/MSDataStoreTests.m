@@ -63,7 +63,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 - (void)setUp {
   [super setUp];
   self.settingsMock = [MSMockUserDefaults new];
-  self.sut = [MSDataStore new];
+  self.sut = [MSDataStore sharedInstance];
   self.tokenExchangeMock = OCMClassMock([MSTokenExchange class]);
   self.cosmosDbMock = OCMClassMock([MSCosmosDb class]);
 }
@@ -746,7 +746,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   MSTokensResponse *testTokensResponse = [[MSTokensResponse alloc] initWithTokens:@[ testToken ]];
   OCMStub([self.tokenExchangeMock performDbTokenAsyncOperationWithHttpClient:OCMOCK_ANY
                                                             tokenExchangeUrl:OCMOCK_ANY
-                                                                   appSecret:OCMOCK_ANY
+                                                                   appSecret:kMSTestAppSecret
                                                                    partition:kMSPartitionTest
                                                            completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
