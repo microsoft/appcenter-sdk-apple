@@ -58,7 +58,7 @@
   @synchronized(self) {
     if (!self.enabled) {
       NSError *error = [NSError errorWithDomain:kMSACErrorDomain
-                                           code:kMSACDisabledErrorCode
+                                           code:MSACDisabledErrorCode
                                        userInfo:@{NSLocalizedDescriptionKey : kMSACDisabledErrorDesc}];
       completionHandler(nil, nil, error);
       return;
@@ -228,7 +228,7 @@
         // Remove pending calls and invoke their completion handler.
         for (MSHttpCall *call in self.pendingCalls) {
           NSError *error = [NSError errorWithDomain:kMSACErrorDomain
-                                               code:kMSACCanceledErrorCode
+                                               code:MSACCanceledErrorCode
                                            userInfo:@{NSLocalizedDescriptionKey : kMSACCanceledErrorDesc}];
           call.completionHandler(nil, nil, error);
         }
