@@ -88,6 +88,7 @@ static dispatch_once_t onceToken;
   if (isEnabled) {
 #if TARGET_OS_IOS
     [[MSAppDelegateForwarder sharedInstance] addDelegate:self.appDelegate];
+    [[MSAuthTokenContext sharedInstance] addDelegate:self];
 #endif
 
     // Read Identity config file.
@@ -103,6 +104,7 @@ static dispatch_once_t onceToken;
   } else {
 #if TARGET_OS_IOS
     [[MSAppDelegateForwarder sharedInstance] removeDelegate:self.appDelegate];
+    [[MSAuthTokenContext sharedInstance] removeDelegate:self];
 #endif
     [self clearAuthData];
     self.clientApplication = nil;
@@ -415,7 +417,7 @@ static dispatch_once_t onceToken;
 
 #pragma mark - MSAuthTokenContextDelegate
 
-- (void)authTokenContext:(MSAuthTokenContext *) authTokenContext authTokenNeedsToBeRefreshed:(nullable NSString *)accountId {
+- (void)authTokenContext:(MSAuthTokenContext *)authTokenContext authTokenNeedsToBeRefreshed:(nullable NSString *)accountId {
   MSALAccount *account = [self retrieveAccountWithAccountId:accountId];
   if (account) {
     [self acquireTokenSilentlyWithMSALAccount:account];

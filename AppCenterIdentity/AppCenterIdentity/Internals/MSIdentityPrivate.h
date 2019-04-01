@@ -3,13 +3,13 @@
 
 #import <MSAL/MSALPublicClientApplication.h>
 
+#import "MSAuthTokenContextDelegate.h"
 #import "MSChannelDelegate.h"
 #import "MSCustomApplicationDelegate.h"
 #import "MSIdentity.h"
 #import "MSIdentityConfig.h"
 #import "MSIdentityConfigIngestion.h"
 #import "MSServiceInternal.h"
-#import "MSAuthTokenContextDelegate.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
