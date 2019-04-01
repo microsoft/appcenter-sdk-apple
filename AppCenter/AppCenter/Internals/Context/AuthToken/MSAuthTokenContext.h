@@ -5,7 +5,7 @@
 #import "MSAuthTokenContextDelegate.h"
 #import "MSAuthTokenInfo.h"
 #import "MSAuthTokenValidityInfo.h"
-#import "MSConstants.h"
+#import "MSConstants+Internal.h"
 #import "MSKeychainUtil.h"
 #import "MSLogger.h"
 #import "MSUtility.h"
@@ -75,9 +75,8 @@ NS_ASSUME_NONNULL_BEGIN
  * allowed to be removed. To reset current token to be anonymous, use
  * the setToken method with nil parameters instead.
  *
- * @param authToken Auth token to be removed. Despite the fact that only the oldest
- *                  token can be removed, it's required to avoid removing
- *                  the wrong one on duplicated calls etc.
+ * @param authToken Auth token to be removed. Despite the fact that only the oldest token can be removed, it's required to avoid removing
+ * the wrong one on duplicated calls etc.
  */
 - (void)removeAuthToken:(nullable NSString *)authToken;
 
