@@ -61,11 +61,17 @@
 
   // When
   [self.sut setAuthToken:expectedAuthToken withUserInformation:expectedUser];
-  [self.sut setAuthToken:expectedAuthToken withUserInformation:expectedUser];
 
   // Then
   OCMVerify([delegateMock authTokenContext:self.sut didUpdateUserInformation:expectedUser]);
   OCMVerify([delegateMock authTokenContext:self.sut didUpdateAuthToken:expectedAuthToken]);
+
+  // When
+  [self.sut setAuthToken:expectedAuthToken withUserInformation:expectedUser];
+
+  // Then
+  OCMVerify([delegateMock authTokenContext:self.sut didUpdateAuthToken:expectedAuthToken]);
+  OCMReject([delegateMock authTokenContext:self.sut didUpdateUserInformation:expectedUser]);
 }
 
 - (void)testSetAuthTokenDoesTriggerNewUserOnNewAccount {
