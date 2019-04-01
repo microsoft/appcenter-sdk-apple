@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Auth token string.
  */
-@property(nonatomic, nullable, copy, readonly) NSString *authToken;
+@property(nonatomic, nullable, readonly) NSString *authToken;
 
 /**
  * Time and date from which the token began to act.

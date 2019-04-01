@@ -638,10 +638,6 @@ static NSURL *sfURL;
                                                  appName, details.shortVersion, details.version];
 #pragma clang diagnostic pop
 
-  // Mock MSDistribute isNewerVersion to return YES.
-  id distributeMock = OCMPartialMock(self.sut);
-  OCMStub([distributeMock isNewerVersion:OCMOCK_ANY]).andReturn(YES);
-
   // Mock reachability.
   id reachabilityMock = OCMClassMock([MS_Reachability class]);
   OCMStub([reachabilityMock reachabilityForInternetConnection]).andReturn(reachabilityMock);
@@ -654,7 +650,7 @@ static NSURL *sfURL;
   [MS_USER_DEFAULTS setObject:[details serializeToDictionary] forKey:kMSMandatoryReleaseKey];
 
   // When
-  [distributeMock checkLatestRelease:@"whateverToken" distributionGroupId:@"whateverGroupId" releaseHash:@"whateverReleaseHash"];
+  [self.sut checkLatestRelease:@"whateverToken" distributionGroupId:@"whateverGroupId" releaseHash:@"whateverReleaseHash"];
   dispatch_async(dispatch_get_main_queue(), ^{
     [expectation fulfill];
   });
@@ -677,7 +673,7 @@ static NSURL *sfURL;
   expectation = [self expectationWithDescription:@"Confirmation alert for public distribution has been displayed"];
 
   // When
-  [distributeMock checkLatestRelease:nil distributionGroupId:@"whateverGroupId" releaseHash:@"whateverReleaseHash"];
+  [self.sut checkLatestRelease:nil distributionGroupId:@"whateverGroupId" releaseHash:@"whateverReleaseHash"];
   dispatch_async(dispatch_get_main_queue(), ^{
     [expectation fulfill];
   });
@@ -696,7 +692,6 @@ static NSURL *sfURL;
                                  OCMVerifyAll(self.alertControllerMock);
                                }];
 
-  [distributeMock stopMocking];
   [reachabilityMock stopMocking];
 }
 

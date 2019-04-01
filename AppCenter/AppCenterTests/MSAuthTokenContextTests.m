@@ -21,7 +21,6 @@
 @interface MSAuthTokenContext ()
 
 + (void)resetSharedInstance;
-- (NSArray<MSAuthTokenInfo *> *)authTokenHistory;
 
 @end
 

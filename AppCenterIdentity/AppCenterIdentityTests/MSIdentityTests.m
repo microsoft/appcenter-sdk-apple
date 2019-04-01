@@ -321,6 +321,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   ingestionBlock(@"callId", [MSHttpTestUtil createMockResponseForStatusCode:500 headers:nil], expectedConfig, nil);
 }
 
+#if TARGET_OS_IOS
 - (void)testForwardRedirectURLToMSAL {
 
   // If
@@ -335,6 +336,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   XCTAssertFalse(result);
   [msalMock stopMocking];
 }
+#endif
 
 - (void)testConfigureMSALWithInvalidConfig {
 

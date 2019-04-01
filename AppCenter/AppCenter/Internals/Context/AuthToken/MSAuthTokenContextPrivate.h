@@ -13,4 +13,9 @@
  */
 + (void)resetSharedInstance;
 
+/**
+ * Gets auth token history array.
+ */
+- (NSArray<MSAuthTokenInfo *> *)authTokenHistory;
+
 @end
