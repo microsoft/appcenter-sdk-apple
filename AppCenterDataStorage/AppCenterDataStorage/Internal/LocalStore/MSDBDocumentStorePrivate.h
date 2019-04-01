@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "MSDocumentStore.h"
+#import "MSDBDocumentStore.h"
 #import "MSDBStorage.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 static NSString *const kMSDBDocumentFileName = @"Documents.sqlite";
 static NSString *const kMSAppDocumentTableName = @"appDocuments";
-static NSString *const kMSUserDocumentTableName = @"userDocuments";
+static NSString *const kMSUserDocumentTableNameFormat = @"user_%@_documents";
 static NSString *const kMSIdColumnName = @"id";
 static NSString *const kMSPartitionColumnName = @"partition";
 static NSString *const kMSDocumentIdColumnName = @"document_id";
@@ -26,7 +26,7 @@ static NSString *const kMSPendingOperationDelete = @"DELETE";
 
 @protocol MSDatabaseConnection;
 
-@interface MSDocumentStore ()
+@interface MSDBDocumentStore ()
 
 /**
  * "id" database column index.

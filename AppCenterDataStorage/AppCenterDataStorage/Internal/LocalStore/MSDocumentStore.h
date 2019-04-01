@@ -3,37 +3,28 @@
 
 #import <Foundation/Foundation.h>
 
-#import "MSDBStorage.h"
-#import "MSDataStore.h"
+@class MSWriteOptions;
+@class MSDocumentWrapper;
 
-@interface MSDocumentStore : NSObject
+NS_ASSUME_NONNULL_BEGIN
+
+@protocol MSDocumentStore <NSObject>
+
+- (bool)createWithPartition:(NSString *)partition document:(MSDocumentWrapper *)document writeOptions:(MSWriteOptions *)options;
 
 /**
  * Delete table.
  *
- * @param partition The partition name.
+ * @param accountId The logged in user id.
  */
-- (BOOL)deleteTableWithPartition:(NSString *)partition;
+- (BOOL)deleteUserStorageWithAccountId:(NSString *)accountId;
 
 /**
  * Create table.
  *
- * @param tableName Table name.
+ * @param accountId The logged in user id..
  */
-- (void)createTableWithTableName:(NSString *)tableName;
-
-/**
- * Get table schema.
- *
- * @return Table schema.
- */
-+ (NSArray<NSDictionary<NSString *, NSArray<NSString *> *> *> *)tableSchema;
-
-/**
- * Get table name by partition.
- *
- * @return Table name.
- */
-+ (NSString *)tableNameWithPartition:(NSString *)partition;
-
+- (void)createUserStorageWithAccountId:(NSString *)accountId;
 @end
+
+NS_ASSUME_NONNULL_END
