@@ -348,7 +348,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   // If
   id<MSSerializableDocument> mockSerializableDocument = [MSFakeSerializableDocument new];
   __block BOOL completionHandlerCalled = NO;
-  NSInteger expectedResponseCode = kMSACDocumentUnauthorizedErrorCode;
+  NSInteger expectedResponseCode = MSACDocumentUnauthorizedErrorCode;
   NSError *expectedTokenExchangeError = [NSError errorWithDomain:kMSACErrorDomain
                                                             code:0
                                                         userInfo:@{kMSCosmosDbHttpCodeKey : @(expectedResponseCode)}];
@@ -387,7 +387,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   // If
   id<MSSerializableDocument> mockSerializableDocument = [MSFakeSerializableDocument new];
   __block BOOL completionHandlerCalled = NO;
-  NSInteger expectedResponseCode = kMSACDocumentInternalServerErrorErrorCode;
+  NSInteger expectedResponseCode = MSACDocumentInternalServerErrorErrorCode;
   NSError *expectedCosmosDbError = [NSError errorWithDomain:kMSACErrorDomain
                                                        code:0
                                                    userInfo:@{kMSCosmosDbHttpCodeKey : @(expectedResponseCode)}];
@@ -495,7 +495,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // If
   __block BOOL completionHandlerCalled = NO;
-  NSInteger expectedResponseCode = kMSACDocumentSucceededErrorCode;
+  NSInteger expectedResponseCode = MSACDocumentSucceededErrorCode;
   __block NSInteger actualResponseCode;
 
   // Mock tokens fetching.
@@ -544,7 +544,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // If
   __block BOOL completionHandlerCalled = NO;
-  NSInteger expectedResponseCode = kMSACDocumentUnauthorizedErrorCode;
+  NSInteger expectedResponseCode = MSACDocumentUnauthorizedErrorCode;
   NSError *expectedTokenExchangeError = [NSError errorWithDomain:kMSACErrorDomain
                                                             code:0
                                                         userInfo:@{kMSCosmosDbHttpCodeKey : @(expectedResponseCode)}];
@@ -581,7 +581,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // If
   __block BOOL completionHandlerCalled = NO;
-  NSInteger expectedResponseCode = kMSACDocumentInternalServerErrorErrorCode;
+  NSInteger expectedResponseCode = MSACDocumentInternalServerErrorErrorCode;
   NSError *expectedCosmosDbError = [NSError errorWithDomain:kMSACErrorDomain
                                                        code:0
                                                    userInfo:@{kMSCosmosDbHttpCodeKey : @(expectedResponseCode)}];

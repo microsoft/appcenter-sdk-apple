@@ -223,7 +223,7 @@ static dispatch_once_t onceToken;
                    completionHandler:^(NSData *_Nullable data, NSHTTPURLResponse *_Nullable __unused response,
                                        NSError *_Nullable cosmosDbError) {
                      // If not created.
-                     if (!data || [MSDataSourceError errorCodeFromError:cosmosDbError] != kMSACDocumentSucceededErrorCode) {
+                     if (!data || [MSDataSourceError errorCodeFromError:cosmosDbError] != MSACDocumentSucceededErrorCode) {
                        MSLogError([MSDataStore logTag], @"Not able to read the document ID:%@ with error:%@", documentId,
                                   [cosmosDbError description]);
                        completionHandler([[MSDocumentWrapper alloc] initWithError:cosmosDbError documentId:documentId]);
@@ -322,7 +322,7 @@ static dispatch_once_t onceToken;
                                        NSError *_Nullable cosmosDbError) {
                      // If not created.
                      NSInteger errorCode = [MSDataSourceError errorCodeFromError:cosmosDbError];
-                     if (!data || (errorCode != kMSACDocumentCreatedErrorCode && errorCode != kMSACDocumentSucceededErrorCode)) {
+                     if (!data || (errorCode != MSACDocumentCreatedErrorCode && errorCode != MSACDocumentSucceededErrorCode)) {
                        MSLogError([MSDataStore logTag], @"Not able to create/replace document: %@", [cosmosDbError description]);
                        completionHandler([[MSDocumentWrapper alloc] initWithError:cosmosDbError documentId:documentId]);
                        return;

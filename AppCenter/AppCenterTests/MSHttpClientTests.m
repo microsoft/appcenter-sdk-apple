@@ -210,6 +210,7 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
   __block BOOL completionHandlerCalled = NO;
   __block BOOL firstTime = YES;
   __block NSURLRequest *actualRequest;
+  dispatch_semaphore_t networkDownSemaphore = dispatch_semaphore_create(0);
   NSArray *retryIntervals = @[ @1, @2 ];
   [OHHTTPStubs
       stubRequestsPassingTest:^BOOL(__unused NSURLRequest *request) {
@@ -218,11 +219,14 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
       withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         actualRequest = request;
         if (firstTime) {
+          firstTime = NO;
+          NSError *error = [NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorCannotLoadFromNetwork userInfo:nil];
 
           // Simulate network outage mid-request
           [self simulateReachabilityChangedNotification:NotReachable];
-          firstTime = NO;
-          NSError *error = [NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorCannotLoadFromNetwork userInfo:nil];
+
+          // Network is down so it is now okay for the test to bring the network back.
+          dispatch_semaphore_signal(networkDownSemaphore);
           return [OHHTTPStubsResponse responseWithError:error];
         }
         return [OHHTTPStubsResponse responseWithData:[NSData data] statusCode:MSHTTPCodesNo204NoContent headers:nil];
@@ -256,6 +260,9 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
 
   // When
 
+  // Only bring the network back once it went down.
+  dispatch_semaphore_wait(networkDownSemaphore, dispatch_time(DISPATCH_TIME_NOW, (int64_t)(kMSTestTimeout * NSEC_PER_SEC)));
+
   // Restore the network and wait for completion handler to be called.
   [self simulateReachabilityChangedNotification:ReachableViaWiFi];
 
@@ -274,7 +281,8 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
   __block BOOL completionHandlerCalled = NO;
   __block BOOL firstTime = YES;
   __block NSURLRequest *actualRequest;
-  NSArray *retryIntervals = @[ @1, @2 ];
+  dispatch_semaphore_t networkDownSemaphore = dispatch_semaphore_create(0);
+  NSArray *retryIntervals = @[ @5, @2 ];
   __block MSHttpClient *httpClient = [[MSHttpClient alloc] initWithMaxHttpConnectionsPerHost:nil
                                                                               retryIntervals:retryIntervals
                                                                                 reachability:self.reachabilityMock];
@@ -286,11 +294,12 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
         actualRequest = request;
         if (firstTime) {
 
-          // Simulate network outage while waiting for retry
-          int64_t nanoseconds = (int64_t)(0.5 * NSEC_PER_SEC);
+          // Simulate network outage while waiting for retry.
+          int64_t nanoseconds = (int64_t)(1 * NSEC_PER_SEC);
           dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, nanoseconds);
           dispatch_after(popTime, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
-            [httpClient pause];
+            [self simulateReachabilityChangedNotification:NotReachable];
+            dispatch_semaphore_signal(networkDownSemaphore);
           });
           firstTime = NO;
           return [OHHTTPStubsResponse responseWithData:[NSData data] statusCode:MSHTTPCodesNo503ServiceUnavailable headers:nil];
@@ -321,7 +330,12 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
   // Then
   XCTAssertFalse(completionHandlerCalled);
 
-  // When we restore the network and wait for completion handler to be called.
+  // When
+
+  // Only bring the network back once it went down.
+  dispatch_semaphore_wait(networkDownSemaphore, dispatch_time(DISPATCH_TIME_NOW, (int64_t)(kMSTestTimeout * NSEC_PER_SEC)));
+
+  // Restore the network and wait for completion handler to be called.
   [self simulateReachabilityChangedNotification:ReachableViaWiFi];
 
   // Then

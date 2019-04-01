@@ -28,7 +28,7 @@ static NSString *const kMSCosmosDbHttpCodeKey = @"com.Microsoft.AppCenter.HttpCo
 
 + (NSInteger)errorCodeFromError:(NSError *)error {
   if (!error) {
-    return kMSACDocumentSucceededErrorCode;
+    return MSACDocumentSucceededErrorCode;
   }
 
   // Get error code form userInfo dictionary.
@@ -36,7 +36,7 @@ static NSString *const kMSCosmosDbHttpCodeKey = @"com.Microsoft.AppCenter.HttpCo
   if (userInfo[kMSCosmosDbHttpCodeKey]) {
     return [(NSNumber *)userInfo[kMSCosmosDbHttpCodeKey] integerValue];
   }
-  return kMSACDocumentUnknownErrorCode;
+  return MSACDocumentUnknownErrorCode;
 }
 
 @end

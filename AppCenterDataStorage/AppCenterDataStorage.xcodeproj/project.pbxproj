@@ -89,6 +89,8 @@
 		049BC862224EDBE200AE7FBB /* MSDataStorageConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = E83D122022378296002B6585 /* MSDataStorageConstants.h */; };
 		04A0820C1F74BBCA00DC776D /* MSService.h in Headers */ = {isa = PBXBuildFile; fileRef = 04A0820B1F74BBCA00DC776D /* MSService.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		04A0820D1F74BBCF00DC776D /* MSService.h in Headers */ = {isa = PBXBuildFile; fileRef = 04A0820B1F74BBCA00DC776D /* MSService.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		04B1C8C92252AF0A00CBD876 /* MSAppCenterErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = 04B1C8C82252AF0900CBD876 /* MSAppCenterErrors.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		04B1C8CA2252AF0A00CBD876 /* MSAppCenterErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = 04B1C8C82252AF0900CBD876 /* MSAppCenterErrors.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		04B61DCB2248F518008D0102 /* MSTokenExchangeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B61DCA2248F518008D0102 /* MSTokenExchangeTests.m */; };
 		04B61DCC2248F518008D0102 /* MSTokenExchangeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B61DCA2248F518008D0102 /* MSTokenExchangeTests.m */; };
 		04B61DCF2248F7DB008D0102 /* MSMockKeychainUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B61DCD2248F7DA008D0102 /* MSMockKeychainUtil.m */; };
@@ -132,8 +134,8 @@
 		D3AD5F121E5C847B001627AB /* MSDataStorePrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5F081E5C8156001627AB /* MSDataStorePrivate.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		D3AD5FDA1E5DDF72001627AB /* libAppCenter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D3AD5FD91E5DDF72001627AB /* libAppCenter.a */; };
 		D3D0CFE91E640ABD003015AF /* OCHamcrestIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3D0CFE81E640ABD003015AF /* OCHamcrestIOS.framework */; };
-		E80BE8912242215E004DD008 /* MSDataStoreErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = E80BE8902242215E004DD008 /* MSDataStoreErrors.h */; };
-		E80BE8922242215E004DD008 /* MSDataStoreErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = E80BE8902242215E004DD008 /* MSDataStoreErrors.h */; };
+		E80BE8912242215E004DD008 /* MSDataStoreErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = E80BE8902242215E004DD008 /* MSDataStoreErrors.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E80BE8922242215E004DD008 /* MSDataStoreErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = E80BE8902242215E004DD008 /* MSDataStoreErrors.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E820F1A1222767B8009EFA5D /* MSSerializableDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = E8FE51E9221CBF87005FB52B /* MSSerializableDocument.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E820F1A4222767C5009EFA5D /* MSTokenExchange.h in Headers */ = {isa = PBXBuildFile; fileRef = E86B95D72224B5F60062E552 /* MSTokenExchange.h */; };
 		E820F1A5222767C8009EFA5D /* MSTokenExchange.m in Sources */ = {isa = PBXBuildFile; fileRef = E86B95D92224B6310062E552 /* MSTokenExchange.m */; };
@@ -222,6 +224,7 @@
 		0469643F1F2A572800F9D31F /* libAppCenter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAppCenter.a; path = ../AppCenter/build/Debug/libAppCenter.a; sourceTree = "<group>"; };
 		049BC81E1ECE333700FB6719 /* iOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = iOS.xcconfig; sourceTree = "<group>"; };
 		04A0820B1F74BBCA00DC776D /* MSService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSService.h; path = ../AppCenter/AppCenter/MSService.h; sourceTree = "<group>"; };
+		04B1C8C82252AF0900CBD876 /* MSAppCenterErrors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSAppCenterErrors.h; path = ../AppCenter/AppCenter/MSAppCenterErrors.h; sourceTree = "<group>"; };
 		04B61DCA2248F518008D0102 /* MSTokenExchangeTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSTokenExchangeTests.m; sourceTree = "<group>"; };
 		04B61DCD2248F7DA008D0102 /* MSMockKeychainUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSMockKeychainUtil.m; path = ../../AppCenter/AppCenterTests/Util/MSMockKeychainUtil.m; sourceTree = "<group>"; };
 		04B61DCE2248F7DB008D0102 /* MSMockKeychainUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSMockKeychainUtil.h; path = ../../AppCenter/AppCenterTests/Util/MSMockKeychainUtil.h; sourceTree = "<group>"; };
@@ -371,10 +374,11 @@
 		D33A94481E5B11BB003966DB = {
 			isa = PBXGroup;
 			children = (
-				D33A94531E5B11BB003966DB /* AppCenterDataStorage */,
-				D3AD5EC11E5C4F6A001627AB /* AppCenterDataStorageTests */,
+				04B1C8C82252AF0900CBD876 /* MSAppCenterErrors.h */,
 				04A0820B1F74BBCA00DC776D /* MSService.h */,
 				D3AD5EFE1E5C7DAE001627AB /* MSServiceAbstract.h */,
+				D33A94531E5B11BB003966DB /* AppCenterDataStorage */,
+				D3AD5EC11E5C4F6A001627AB /* AppCenterDataStorageTests */,
 				D33A94521E5B11BB003966DB /* Products */,
 			);
 			sourceTree = "<group>";
@@ -542,6 +546,7 @@
 				049BC852224EDAFF00AE7FBB /* MSDataSourceError.h in Headers */,
 				049BC85B224EDB1D00AE7FBB /* MSPage.h in Headers */,
 				049BC85C224EDB2200AE7FBB /* MSReadOptions.h in Headers */,
+				04B1C8CA2252AF0A00CBD876 /* MSAppCenterErrors.h in Headers */,
 				049BC854224EDB0700AE7FBB /* MSDocumentWrapper.h in Headers */,
 				0469644E1F2A5D2800F9D31F /* AppCenterDataStorage.h in Headers */,
 				E820F1A1222767B8009EFA5D /* MSSerializableDocument.h in Headers */,
@@ -573,6 +578,7 @@
 				267464F6222F28A300EC1FF3 /* MSDataSourceError.h in Headers */,
 				267464F2222F28A300EC1FF3 /* MSDataStore.h in Headers */,
 				267464F0222F28A300EC1FF3 /* MSPaginatedDocuments.h in Headers */,
+				04B1C8C92252AF0A00CBD876 /* MSAppCenterErrors.h in Headers */,
 				2600123F22273E94007F4D3A /* MSTokenResult.h in Headers */,
 				D3AD5F0D1E5C844B001627AB /* MSServiceAbstract.h in Headers */,
 				267464F1222F28A300EC1FF3 /* MSWriteOptions.h in Headers */,
