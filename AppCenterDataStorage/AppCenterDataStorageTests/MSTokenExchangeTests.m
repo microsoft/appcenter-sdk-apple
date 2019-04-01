@@ -105,13 +105,19 @@ static NSString *const MSDataStoreAppDocumentsPartition = @"readonly";
                                               XCTAssertTrue([tokenValue isEqualToString:token]);
                                               [completeExpectation fulfill];
                                             }];
+  [self waitForExpectationsWithTimeout:5
+                               handler:^(NSError *error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
 
-  // Then
-  [self waitForExpectationsWithTimeout:5 handler:nil];
-  OCMVerify([self.keychainUtilMock storeString:[returnedTokenResult serializeToString] forKey:mockTokenKeyName]);
-  XCTAssertEqualObjects(actualHeaders[@"Authorization"], @"Bearer fake-token");
-  XCTAssertEqualObjects(actualHeaders[@"Content-Type"], @"application/json");
-  XCTAssertEqualObjects(actualHeaders[@"App-Secret"], @"appSecret");
+                                 // Then
+                                 OCMVerify([self.keychainUtilMock storeString:[returnedTokenResult serializeToString]
+                                                                       forKey:mockTokenKeyName]);
+                                 XCTAssertEqualObjects(actualHeaders[@"Authorization"], @"Bearer fake-token");
+                                 XCTAssertEqualObjects(actualHeaders[@"Content-Type"], @"application/json");
+                                 XCTAssertEqualObjects(actualHeaders[@"App-Secret"], @"appSecret");
+                               }];
 }
 
 - (void)testGetReadOnlyToken {
@@ -153,13 +159,19 @@ static NSString *const MSDataStoreAppDocumentsPartition = @"readonly";
                                               XCTAssertTrue([tokenValue isEqualToString:token]);
                                               [completeExpectation fulfill];
                                             }];
+  [self waitForExpectationsWithTimeout:5
+                               handler:^(NSError *error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
 
-  // Then
-  [self waitForExpectationsWithTimeout:5 handler:nil];
-  OCMVerify([self.keychainUtilMock storeString:[returnedTokenResult serializeToString] forKey:mockTokenKeyName]);
-  XCTAssertNil(actualHeaders[@"Authorization"]);
-  XCTAssertEqualObjects(actualHeaders[@"Content-Type"], @"application/json");
-  XCTAssertEqualObjects(actualHeaders[@"App-Secret"], @"appSecret");
+                                 // Then
+                                 OCMVerify([self.keychainUtilMock storeString:[returnedTokenResult serializeToString]
+                                                                       forKey:mockTokenKeyName]);
+                                 XCTAssertNil(actualHeaders[@"Authorization"]);
+                                 XCTAssertEqualObjects(actualHeaders[@"Content-Type"], @"application/json");
+                                 XCTAssertEqualObjects(actualHeaders[@"App-Secret"], @"appSecret");
+                               }];
 }
 
 - (void)testValidCachedTokenExists {
@@ -184,14 +196,18 @@ static NSString *const MSDataStoreAppDocumentsPartition = @"readonly";
                                                     appSecret:@"appSecret"
                                                     partition:mockPartition
                                             completionHandler:^(MSTokensResponse *tokenResponses, NSError *_Nullable error) {
+                                              // Then
                                               XCTAssertNil(error);
                                               NSString *tokenValue = [tokenResponses tokens][0].token;
                                               XCTAssertTrue([tokenValue isEqualToString:token]);
                                               [completeExpectation fulfill];
                                             }];
-
-  // Then
-  [self waitForExpectationsWithTimeout:5 handler:nil];
+  [self waitForExpectationsWithTimeout:5
+                               handler:^(NSError *error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
   [utilityMock stopMocking];
 }
 
@@ -278,13 +294,17 @@ static NSString *const MSDataStoreAppDocumentsPartition = @"readonly";
                                                     appSecret:@"appSecret"
                                                     partition:mockPartition
                                             completionHandler:^(MSTokensResponse *__unused tokenResponses, NSError *_Nullable returnError) {
+                                              // Then
                                               XCTAssertNotNil(returnError);
                                               XCTAssertEqual(returnError.code, MSACDataStoreErrorJSONSerializationFailed);
                                               [completeExpectation fulfill];
                                             }];
-
-  // Then
-  [self waitForExpectationsWithTimeout:5 handler:nil];
+  [self waitForExpectationsWithTimeout:5
+                               handler:^(NSError *error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
 }
 
 - (void)testExchangeServiceReturnsError {
@@ -313,12 +333,16 @@ static NSString *const MSDataStoreAppDocumentsPartition = @"readonly";
                                                     appSecret:@"appSecret"
                                                     partition:mockPartition
                                             completionHandler:^(MSTokensResponse *__unused tokenResponses, NSError *_Nullable returnError) {
+                                              // Then
                                               XCTAssertEqual(returnError, serviceError);
                                               [completeExpectation fulfill];
                                             }];
-
-  // Then
-  [self waitForExpectationsWithTimeout:5 handler:nil];
+  [self waitForExpectationsWithTimeout:5
+                               handler:^(NSError *error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
 }
 
 - (void)testExchangeServiceReturnsTokenError {
@@ -349,13 +373,17 @@ static NSString *const MSDataStoreAppDocumentsPartition = @"readonly";
                                                     appSecret:@"appSecret"
                                                     partition:mockPartition
                                             completionHandler:^(MSTokensResponse *__unused tokenResponses, NSError *_Nullable returnError) {
+                                              // Then
                                               XCTAssertNotNil(returnError);
                                               XCTAssertEqual([returnError code], MSACDataStoreErrorHTTPError);
                                               [completeExpectation fulfill];
                                             }];
-
-  // Then
-  [self waitForExpectationsWithTimeout:5 handler:nil];
+  [self waitForExpectationsWithTimeout:5
+                               handler:^(NSError *error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
 }
 
 - (void)testSaveTokenFails {
