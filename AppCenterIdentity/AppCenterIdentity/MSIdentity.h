@@ -20,6 +20,7 @@ typedef void (^MSSignInCompletionHandler)(MSUserInformation *_Nullable userInfor
  */
 @interface MSIdentity : MSServiceAbstract
 
+#if TARGET_OS_IOS
 /**
  * Process URL request for the service.
  *
@@ -30,6 +31,7 @@ typedef void (^MSSignInCompletionHandler)(MSUserInformation *_Nullable userInfor
  * @discussion Place this method call into your app delegate's openURL method.
  */
 + (BOOL)openURL:(NSURL *)url;
+#endif
 
 /**
  * Sign-in to get user information.

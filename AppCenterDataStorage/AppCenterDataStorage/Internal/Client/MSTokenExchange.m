@@ -180,7 +180,8 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
  *       User partition : MSStorageUserDbToken
  */
 + (NSString *)tokenKeyNameForPartition:(NSString *)partitionName {
-  if ([partitionName containsString:MSDataStoreAppDocumentsPartition]) {
+  NSRange partition = [partitionName rangeOfString:MSDataStoreAppDocumentsPartition];
+  if (partition.location != NSNotFound) {
     return kMSStorageReadOnlyDbTokenKey;
   }
 
