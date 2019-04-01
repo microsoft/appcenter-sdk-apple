@@ -282,6 +282,8 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                                documentId:kMSDocumentIdTest
                                                httpMethod:kMSHttpMethodGet
                                                      body:data
+                                        additionalHeaders:nil
+                                              offlineMode:NO
                                         completionHandler:handler];
 
   // Then

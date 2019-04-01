@@ -132,22 +132,6 @@ static NSString *const kMSHeaderMsDate = @"x-ms-date";
                                         tokenResult:(MSTokenResult *)tokenResult
                                          documentId:(NSString *)documentId
                                          httpMethod:(NSString *)httpMethod
-                                               body:(nullable NSData *)body
-                                  completionHandler:(MSHttpRequestCompletionHandler)completionHandler {
-  [MSCosmosDb performCosmosDbAsyncOperationWithHttpClient:httpClient
-                                              tokenResult:tokenResult
-                                               documentId:documentId
-                                               httpMethod:httpMethod
-                                                     body:body
-                                        additionalHeaders:nil
-                                              offlineMode:NO
-                                        completionHandler:completionHandler];
-}
-
-+ (void)performCosmosDbAsyncOperationWithHttpClient:(id<MSHttpClientProtocol>)httpClient
-                                        tokenResult:(MSTokenResult *)tokenResult
-                                         documentId:(NSString *)documentId
-                                         httpMethod:(NSString *)httpMethod
                                                body:(NSData *_Nullable)body
                                   additionalHeaders:(NSDictionary *_Nullable)additionalHeaders
                                         offlineMode:(BOOL)offlineMode
