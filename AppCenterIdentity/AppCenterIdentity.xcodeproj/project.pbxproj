@@ -75,12 +75,14 @@
 		048C07D421F1630A00769A85 /* MSAL.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 04C6EC7921F10D8300A6FDAF /* MSAL.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		048C07D621F1634700769A85 /* MSAL.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 04C6EC7C21F10D9D00A6FDAF /* MSAL.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		049BC836224E8AD900AE7FBB /* MSIdentityErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = 049BC835224E8AD900AE7FBB /* MSIdentityErrors.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		049BC837224E8AE100AE7FBB /* MSIdentityErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = 049BC835224E8AD900AE7FBB /* MSIdentityErrors.h */; };
+		049BC837224E8AE100AE7FBB /* MSIdentityErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = 049BC835224E8AD900AE7FBB /* MSIdentityErrors.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		049BC849224ED7C100AE7FBB /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 049BC848224ED7C100AE7FBB /* WebKit.framework */; };
 		049BC84B224ED7C900AE7FBB /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 049BC84A224ED7C900AE7FBB /* WebKit.framework */; };
 		049BC84C224ED9D600AE7FBB /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 049BC848224ED7C100AE7FBB /* WebKit.framework */; };
 		049BC84D224ED9E500AE7FBB /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 049BC84A224ED7C900AE7FBB /* WebKit.framework */; };
 		04A082061F74BB8600DC776D /* MSService.h in Headers */ = {isa = PBXBuildFile; fileRef = 04A082051F74BB8600DC776D /* MSService.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		04B1C8CC2252AF2300CBD876 /* MSAppCenterErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = 04B1C8CB2252AF2300CBD876 /* MSAppCenterErrors.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		04B1C8CD2252AF2300CBD876 /* MSAppCenterErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = 04B1C8CB2252AF2300CBD876 /* MSAppCenterErrors.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		04BED7181ECB64FB00E20975 /* OCHamcrest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04BED7161ECB64CE00E20975 /* OCHamcrest.framework */; };
 		04C6EC7E21F10DCA00A6FDAF /* MSAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04C6EC7921F10D8300A6FDAF /* MSAL.framework */; };
 		04C6EC8021F10DDB00A6FDAF /* MSAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04C6EC7C21F10D9D00A6FDAF /* MSAL.framework */; };
@@ -222,6 +224,7 @@
 		049BC848224ED7C100AE7FBB /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/WebKit.framework; sourceTree = DEVELOPER_DIR; };
 		049BC84A224ED7C900AE7FBB /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		04A082051F74BB8600DC776D /* MSService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSService.h; path = ../AppCenter/AppCenter/MSService.h; sourceTree = "<group>"; };
+		04B1C8CB2252AF2300CBD876 /* MSAppCenterErrors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSAppCenterErrors.h; path = ../AppCenter/AppCenter/MSAppCenterErrors.h; sourceTree = "<group>"; };
 		04BED7161ECB64CE00E20975 /* OCHamcrest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrest.framework; path = ../../Vendor/macOS/OCHamcrest/OCHamcrest.framework; sourceTree = "<group>"; };
 		04C6EC7921F10D8300A6FDAF /* MSAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MSAL.framework; path = ../Vendor/iOS/MSAL/MSAL.framework; sourceTree = "<group>"; };
 		04C6EC7C21F10D9D00A6FDAF /* MSAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MSAL.framework; path = ../Vendor/macOS/MSAL/MSAL.framework; sourceTree = "<group>"; };
@@ -507,6 +510,7 @@
 		E85547B71D2D6253002DF6E2 = {
 			isa = PBXGroup;
 			children = (
+				04B1C8CB2252AF2300CBD876 /* MSAppCenterErrors.h */,
 				04A082051F74BB8600DC776D /* MSService.h */,
 				387C77041D6CC39400D68CC1 /* MSServiceAbstract.h */,
 				E85547C21D2D6253002DF6E2 /* AppCenterIdentity */,
@@ -587,6 +591,7 @@
 				049BC837224E8AE100AE7FBB /* MSIdentityErrors.h in Headers */,
 				38F796CD21F93E33007E7C15 /* MSIdentityConfig.h in Headers */,
 				0481A54D21FA51D4001FA9D8 /* MSIdentityConfigIngestion.h in Headers */,
+				04B1C8CD2252AF2300CBD876 /* MSAppCenterErrors.h in Headers */,
 				3568A7F0201A9BBB00F3B860 /* MSServiceAbstract.h in Headers */,
 				0485AF781EAA79E300C10CAF /* AppCenterIdentity.h in Headers */,
 				38F796D321F93ED6007E7C15 /* MSIdentityAuthority.h in Headers */,
@@ -598,6 +603,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04B1C8CC2252AF2300CBD876 /* MSAppCenterErrors.h in Headers */,
 				04183C542229D5D400B5C70E /* MSUserInformation.h in Headers */,
 				995BA5DC21EFF414000E3212 /* MSIdentityPrivate.h in Headers */,
 				995BA5D321EFEF6D000E3212 /* AppCenter+Internal.h in Headers */,
