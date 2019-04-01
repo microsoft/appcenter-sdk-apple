@@ -2,17 +2,20 @@
 // Licensed under the MIT License.
 
 #import "MSAppCenterInternal.h"
-#import "MSAppDelegateForwarder.h"
 #import "MSAuthTokenContext.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSConstants+Internal.h"
-#import "MSIdentityAppDelegate.h"
 #import "MSIdentityConfig.h"
 #import "MSIdentityConfigIngestion.h"
 #import "MSIdentityConstants.h"
 #import "MSIdentityPrivate.h"
 #import "MSServiceAbstractProtected.h"
 #import "MSUtility+File.h"
+
+#if TARGET_OS_IOS
+#import "MSAppDelegateForwarder.h"
+#import "MSIdentityAppDelegate.h"
+#endif
 
 // Service name for initialization.
 static NSString *const kMSServiceName = @"Identity";
@@ -33,7 +36,10 @@ static dispatch_once_t onceToken;
 - (instancetype)init {
   if ((self = [super init])) {
     _channelUnitConfiguration = [[MSChannelUnitConfiguration alloc] initDefaultConfigurationWithGroupId:[self groupId]];
+
+#if TARGET_OS_IOS
     _appDelegate = [MSIdentityAppDelegate new];
+#endif
     _configUrl = kMSIdentityDefaultBaseURL;
     [MSUtility createDirectoryForPathComponent:kMSIdentityPathComponent];
   }
@@ -80,7 +86,10 @@ static dispatch_once_t onceToken;
 - (void)applyEnabledState:(BOOL)isEnabled {
   [super applyEnabledState:isEnabled];
   if (isEnabled) {
+    [self.channelGroup addDelegate:self];
+#if TARGET_OS_IOS
     [[MSAppDelegateForwarder sharedInstance] addDelegate:self.appDelegate];
+#endif
 
     // Read Identity config file.
     NSString *eTag = nil;
@@ -93,7 +102,9 @@ static dispatch_once_t onceToken;
     [self downloadConfigurationWithETag:eTag];
     MSLogInfo([MSIdentity logTag], @"Identity service has been enabled.");
   } else {
+#if TARGET_OS_IOS
     [[MSAppDelegateForwarder sharedInstance] removeDelegate:self.appDelegate];
+#endif
     [self clearAuthData];
     self.clientApplication = nil;
     [self clearConfigurationCache];
@@ -115,9 +126,11 @@ static dispatch_once_t onceToken;
   sharedInstance = nil;
 }
 
+#if TARGET_OS_IOS
 + (BOOL)openURL:(NSURL *)url {
   return [MSALPublicClientApplication handleMSALResponse:url];
 }
+#endif
 
 + (void)signInWithCompletionHandler:(MSSignInCompletionHandler _Nullable)completionHandler {
 
