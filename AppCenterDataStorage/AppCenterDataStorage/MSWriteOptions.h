@@ -5,11 +5,6 @@
 
 @interface MSWriteOptions : MSBaseOptions
 
-/**
- * Initialize the MSWriteOptions object.
- *
- * @return A writeOptions instance.
- */
-- (instancetype) initWithTimeToLive:(NSInteger)timeToLive;
+// @todo
 
 @end

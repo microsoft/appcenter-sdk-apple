@@ -6,7 +6,7 @@
 #import "MSDBStorage.h"
 #import "MSDataStore.h"
 
-@interface MSLocalDocumentStore : MSDBStorage
+@interface MSDocumentStore : NSObject
 
 /**
  * Delete table.
@@ -35,4 +35,5 @@
  * @return Table name.
  */
 + (NSString *)tableNameWithPartition:(NSString *)partition;
+
 @end

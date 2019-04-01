@@ -68,6 +68,7 @@ static dispatch_once_t onceToken;
 - (instancetype)init {
   if ((self = [super init])) {
     _tokenExchangeUrl = kMSDefaultApiUrl;
+    self.documentStore = [MSDocumentStore new];
   }
   return self;
 }
@@ -411,7 +412,6 @@ static dispatch_once_t onceToken;
   if (appSecret && !self.ingestion) {
     self.ingestion = [[MSStorageIngestion alloc] initWithBaseUrl:self.tokenExchangeUrl appSecret:(NSString *)appSecret];
   }
-  self.documentStore = [MSLocalDocumentStore new];
   MSLogVerbose([MSDataStore logTag], @"Started Data Storage service.");
 }
 
@@ -445,11 +445,11 @@ static dispatch_once_t onceToken;
 
   // TODO: consume the unique account id once provided in authTokenContext.
   NSString *uniqueAccountId = @"unique-account-id";
-  if (!authToken) {
+  if (authToken) {
+    [self.documentStore createTableWithTableName:uniqueAccountId];
+  } else {
     [MSTokenExchange removeAllCachedTokens];
     [self.documentStore deleteTableWithPartition:uniqueAccountId];
-  } else {
-    [self.documentStore createTableWithTableName:uniqueAccountId];
   }
 }
 

@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "MSLocalDocumentStore.h"
+#import "MSDocumentStore.h"
+#import "MSDBStorage.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -25,7 +26,7 @@ static NSString *const kMSPendingOperationDelete = @"DELETE";
 
 @protocol MSDatabaseConnection;
 
-@interface MSLocalDocumentStore ()
+@interface MSDocumentStore ()
 
 /**
  * "id" database column index.
@@ -71,6 +72,11 @@ static NSString *const kMSPendingOperationDelete = @"DELETE";
  * "pendingOperation" database column index.
  */
 @property(nonatomic, readonly) NSUInteger pendingOperationColumnIndex;
+
+/**
+ * A local store instance that is used to manage all operation on the sqLite instance.
+ */
+@property(nonatomic, nullable) MSDBStorage *dbStorage;
 
 @end
 

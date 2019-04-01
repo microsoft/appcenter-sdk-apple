@@ -23,9 +23,9 @@
   if ((self = [super init])) {
 
     // Create json string.
-    NSError *err;
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:[deserializedValue serializeToDictionary] options:0 error:&err];
-    if (!err) {
+    NSError *error;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:[deserializedValue serializeToDictionary] options:0 error:&error];
+    if (!error) {
       _jsonValue = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     }
     _deserializedValue = deserializedValue;

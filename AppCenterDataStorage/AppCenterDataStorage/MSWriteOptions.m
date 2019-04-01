@@ -5,10 +5,6 @@
 
 @implementation MSWriteOptions
 
-- (instancetype)initWithTimeToLive:(NSInteger)timeToLive {
-  if ((self = [super initWithDeviceTimeToLive:timeToLive])) {
-  }
-  return self;
-}
+// @todo
 
 @end

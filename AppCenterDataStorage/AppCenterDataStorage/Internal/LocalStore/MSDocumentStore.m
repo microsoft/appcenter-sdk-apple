@@ -10,13 +10,13 @@
 #import "MSDataStore.h"
 #import "MSDataStoreInternal.h"
 #import "MSDocumentWrapper.h"
-#import "MSLocalDocumentStorePrivate.h"
+#import "MSDocumentStorePrivate.h"
 #import "MSUtility+StringFormatting.h"
 #import "MSWriteOptions.h"
 
 static const NSUInteger kMSSchemaVersion = 1;
 
-@implementation MSLocalDocumentStore
+@implementation MSDocumentStore
 
 #pragma mark - Initialization
 
@@ -25,10 +25,9 @@ static const NSUInteger kMSSchemaVersion = 1;
   /*
    * DO NOT modify schema without a migration plan and bumping database version.
    */
-
-  // TODO create composite key for partition and the document id
-  MSDBSchema *schema = @{kMSAppDocumentTableName : [MSLocalDocumentStore tableSchema]};
-  if ((self = [super initWithSchema:schema version:kMSSchemaVersion filename:kMSDBDocumentFileName])) {
+  MSDBSchema *schema = @{kMSAppDocumentTableName : [MSDocumentStore tableSchema]};
+  if ((self = [super init])) {
+    self.dbStorage = [[MSDBStorage alloc] initWithSchema:schema version:kMSSchemaVersion filename:kMSDBDocumentFileName];
     NSDictionary *columnIndexes = [MSDBStorage columnsIndexes:schema];
     _idColumnIndex = ((NSNumber *)columnIndexes[kMSAppDocumentTableName][kMSIdColumnName]).unsignedIntegerValue;
     _partitionColumnIndex = ((NSNumber *)columnIndexes[kMSAppDocumentTableName][kMSPartitionColumnName]).unsignedIntegerValue;
@@ -47,8 +46,8 @@ static const NSUInteger kMSSchemaVersion = 1;
 
 
 - (void)createTableWithTableName:(NSString *)tableName {
-  [self executeQueryUsingBlock:^int(void *db) {
-    MSDBSchema *schema = @{tableName : [MSLocalDocumentStore tableSchema]};
+  [self.dbStorage executeQueryUsingBlock:^int(void *db) {
+    MSDBSchema *schema = @{tableName : [MSDocumentStore tableSchema]};
 
     // Create table based on the schema.
     return (int)[MSDBStorage createTablesWithSchema:schema inOpenedDatabase:db];
@@ -56,8 +55,8 @@ static const NSUInteger kMSSchemaVersion = 1;
 }
 
 - (BOOL)deleteTableWithPartition:(NSString *)partition {
-  return [self executeQueryUsingBlock:^int(void *db) {
-           NSString *tableName = [MSLocalDocumentStore tableNameWithPartition:partition];
+  return [self.dbStorage executeQueryUsingBlock:^int(void *db) {
+           NSString *tableName = [MSDocumentStore tableNameWithPartition:partition];
            if ([MSDBStorage tableExists:tableName inOpenedDatabase:db]) {
              NSString *deleteQuery = [NSString stringWithFormat:@"DROP TABLE \"%@\";", tableName];
              int result = [MSDBStorage executeNonSelectionQuery:deleteQuery inOpenedDatabase:db];
@@ -81,6 +80,8 @@ static const NSUInteger kMSSchemaVersion = 1;
 }
 
 + (NSArray<NSDictionary<NSString *, NSArray<NSString *> *> *> *)tableSchema {
+  
+  // TODO create composite key for partition and the document id
   return @[
     @{kMSIdColumnName : @[ kMSSQLiteTypeInteger, kMSSQLiteConstraintPrimaryKey, kMSSQLiteConstraintAutoincrement ]},
     @{kMSPartitionColumnName : @[ kMSSQLiteTypeText, kMSSQLiteConstraintNotNull ]},
