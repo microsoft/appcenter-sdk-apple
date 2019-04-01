@@ -720,4 +720,49 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   XCTAssertEqualObjects([actualUrl host], @"another.domain.com");
 }
 
+- (void)testOfflineModeBehavior {
+
+  // If
+  [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
+                        appSecret:kMSTestAppSecret
+          transmissionTargetToken:nil
+                  fromApplication:YES];
+  [MSDataStore setOfflineMode:YES];
+  __block BOOL calledWithOfflineModeEnabled = NO;
+  OCMStub([self.cosmosDbMock performCosmosDbAsyncOperationWithHttpClient:OCMOCK_ANY
+                                                             tokenResult:OCMOCK_ANY
+                                                              documentId:OCMOCK_ANY
+                                                              httpMethod:OCMOCK_ANY
+                                                                    body:OCMOCK_ANY
+                                                       additionalHeaders:OCMOCK_ANY
+                                                             offlineMode:YES
+                                                       completionHandler:OCMOCK_ANY])
+      .andDo(^(__unused NSInvocation *invocation) {
+        calledWithOfflineModeEnabled = YES;
+      });
+
+  // Mock tokens fetching.
+  MSTokenResult *testToken = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
+  MSTokensResponse *testTokensResponse = [[MSTokensResponse alloc] initWithTokens:@[ testToken ]];
+  OCMStub([self.tokenExchangeMock performDbTokenAsyncOperationWithHttpClient:OCMOCK_ANY
+                                                            tokenExchangeUrl:OCMOCK_ANY
+                                                                   appSecret:OCMOCK_ANY
+                                                                   partition:kMSPartitionTest
+                                                           completionHandler:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        MSGetTokenAsyncCompletionHandler getTokenCallback;
+        [invocation getArgument:&getTokenCallback atIndex:6];
+        getTokenCallback(testTokensResponse, nil);
+      });
+
+  // When
+  [MSDataStore deleteDocumentWithPartition:kMSPartitionTest
+                                documentId:kMSDocumentIdTest
+                         completionHandler:^(__unused MSDataSourceError *error){
+                         }];
+
+  // Then
+  XCTAssertTrue(calledWithOfflineModeEnabled);
+}
+
 @end
