@@ -625,4 +625,46 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   XCTAssertFalse([MSDataStore isOfflineMode]);
 }
 
+- (void)testOfflineModeCallsCompletionHandlerWithError {
+
+  // If
+  MSHttpClient *httpClient = OCMClassMock([MSHttpClient class]);
+  MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
+  __block BOOL completionHandlerCalled = NO;
+  NSDictionary *dic = @{@"abv" : @1, @"foo" : @"bar"};
+  __block NSData *data = [NSJSONSerialization dataWithJSONObject:dic options:0 error:nil];
+  __weak XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler called."];
+
+  // When
+  [MSCosmosDb
+   performCosmosDbAsyncOperationWithHttpClient:httpClient
+   tokenResult:tokenResult
+   documentId:kMSDocumentIdTest
+   httpMethod:kMSHttpMethodGet
+   body:data
+   additionalHeaders:nil
+   offlineMode:YES
+   completionHandler:^(NSData *_Nullable __unused responseBody, NSHTTPURLResponse *_Nullable __unused response,
+                       NSError *_Nullable __unused error) {
+     completionHandlerCalled = YES;
+     XCTAssertNotNil(error);
+     XCTAssertEqualObjects(error.domain, kMSDataStorageErrorDomain);
+     XCTAssertEqual(error.code, NSURLErrorNotConnectedToInternet);
+     OCMReject([httpClient sendAsync:OCMOCK_ANY
+                              method:OCMOCK_ANY
+                             headers:OCMOCK_ANY
+                                data:OCMOCK_ANY
+                   completionHandler:OCMOCK_ANY]);
+     [expectation fulfill];
+   }];
+
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *_Nullable error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+}
+
 @end
