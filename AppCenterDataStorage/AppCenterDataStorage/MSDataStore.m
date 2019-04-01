@@ -21,6 +21,7 @@
 #import "MSStorageIngestion.h"
 #import "MSTokenExchange.h"
 #import "MSTokensResponse.h"
+#import "MSUserInformation.h"
 #import "MSWriteOptions.h"
 
 /**
@@ -440,8 +441,8 @@ static dispatch_once_t onceToken;
 
 #pragma mark - MSAuthTokenContextDelegate
 
-- (void)authTokenContext:(MSAuthTokenContext *)__unused authTokenContext didUpdateAccountIdWithAuthToken:(NSString *)authToken {
-  if (!authToken) {
+- (void)authTokenContext:(MSAuthTokenContext *)__unused authTokenContext didUpdateUserInformation:(MSUserInformation *)userInformation {
+  if (!userInformation.accountId) {
     [MSTokenExchange removeAllCachedTokens];
   }
 }

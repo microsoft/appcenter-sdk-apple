@@ -10,7 +10,11 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * The account identifier for the user.
  */
-@property(nonatomic, copy) NSString *accountId;
+@property(nonatomic, copy, nullable) NSString *accountId;
+
+- (instancetype)initWithAccountId:(nullable NSString *)accountId;
+
+- (BOOL)compareUser:(MSUserInformation *)userInfor;
 
 @end
 

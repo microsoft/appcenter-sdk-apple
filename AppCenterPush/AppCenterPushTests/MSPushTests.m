@@ -22,6 +22,7 @@
 #import "MSPushTestUtil.h"
 #import "MSTestFrameworks.h"
 #import "MSUserIdContextPrivate.h"
+#import "MSUserInformation.h"
 
 static NSString *const kMSTestAppSecret = @"TestAppSecret";
 static NSString *const kMSTestPushToken = @"TestPushToken";
@@ -225,12 +226,12 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
                          transmissionTargetToken:nil
                                  fromApplication:YES];
   [MSPush didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
-  NSString *account1 = @"account1";
-  NSString *account2 = @"account2";
+  MSUserInformation *user1 = [[MSUserInformation alloc] initWithAccountId:@"account1"];
+  MSUserInformation *user2 = [[MSUserInformation alloc] initWithAccountId:@"account2"];
 
   // When
-  [[MSAuthTokenContext sharedInstance] setAuthToken:@"token1" withAccountId:account1];
-  [[MSAuthTokenContext sharedInstance] setAuthToken:@"token1" withAccountId:account2];
+  [[MSAuthTokenContext sharedInstance] setAuthToken:@"token1" withUserInformation:user1];
+  [[MSAuthTokenContext sharedInstance] setAuthToken:@"token1" withUserInformation:user2];
 
   // Then
   OCMVerifyAll(pushMock);
@@ -295,7 +296,8 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   OCMReject([pushMock sendPushToken:pushToken]);
 
   // When
-  [[MSAuthTokenContext sharedInstance] setAuthToken:@"something" withAccountId:@"someone"];
+  [[MSAuthTokenContext sharedInstance] setAuthToken:@"something"
+                                withUserInformation:[[MSUserInformation alloc] initWithAccountId:@"someone"]];
 }
 
 - (void)testDidFailToRegisterForRemoteNotificationsWithError {

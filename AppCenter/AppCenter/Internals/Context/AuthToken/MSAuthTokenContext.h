@@ -5,6 +5,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class MSUserInformation;
 @protocol MSAuthTokenContextDelegate;
 
 /**
@@ -17,6 +18,11 @@ NS_ASSUME_NONNULL_BEGIN
  * Cached authorization token.
  */
 @property(nullable, atomic, readonly) NSString *authToken;
+
+/**
+ * The last value of user information.
+ */
+@property(nonatomic, strong, readonly) MSUserInformation *homeUser;
 
 /**
  * Get singleton instance.
@@ -38,16 +44,16 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)removeDelegate:(id<MSAuthTokenContextDelegate>)delegate;
 
 /**
- * Clear cached token and account id.
+ * Clear cached token and user information.
  *
  * @return `YES` if the auth token is cleared, `NO` otherwise.
  */
 - (BOOL)clearAuthToken;
 
 /**
- * Set current auth token and account id.
+ * Set current auth token and user information.
  */
-- (void)setAuthToken:(NSString *)authToken withAccountId:(NSString *)accountId;
+- (void)setAuthToken:(NSString *)authToken withUserInformation:(MSUserInformation *)userInformation;
 
 /**
  * Reset singleton instance.

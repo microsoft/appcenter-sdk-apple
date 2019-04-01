@@ -101,11 +101,11 @@ static dispatch_once_t onceToken;
       eTag = [MS_USER_DEFAULTS objectForKey:kMSIdentityETagKey];
     }
     NSString *authToken = [self retrieveAuthToken];
-    NSString *accountId = [self retrieveAccountId];
+    MSUserInformation *user = [[MSUserInformation alloc] initWithAccountId:[self retrieveAccountId]];
 
     // Only set the auth token if auth token and account id are not nil to avoid triggering callbacks.
-    if (authToken && accountId) {
-      [[MSAuthTokenContext sharedInstance] setAuthToken:authToken withAccountId:accountId];
+    if (authToken && user.accountId) {
+      [[MSAuthTokenContext sharedInstance] setAuthToken:authToken withUserInformation:user];
     }
 
     // Download identity configuration.
@@ -413,8 +413,8 @@ static dispatch_once_t onceToken;
                       [strongSelf acquireTokenInteractively];
                     } else {
                       MSALAccountId *accountId = (MSALAccountId * _Nonnull) result.account.homeAccountId;
-                      [[MSAuthTokenContext sharedInstance] setAuthToken:(NSString * _Nonnull) result.idToken
-                                                          withAccountId:(NSString * _Nonnull) accountId.identifier];
+                      MSUserInformation *user = [[MSUserInformation alloc] initWithAccountId:accountId.identifier];
+                      [[MSAuthTokenContext sharedInstance] setAuthToken:(NSString * _Nonnull) result.idToken withUserInformation:user];
                       [strongSelf saveAuthToken:result.idToken];
                       [strongSelf saveAccountId:(NSString * _Nonnull) result.account.homeAccountId.identifier];
                       [strongSelf completeAcquireTokenRequestForResult:result withError:nil];
@@ -436,8 +436,9 @@ static dispatch_once_t onceToken;
                                     }
                                   } else {
                                     MSALAccountId *accountId = (MSALAccountId * _Nonnull) result.account.homeAccountId;
+                                    MSUserInformation *user = [[MSUserInformation alloc] initWithAccountId:accountId.identifier];
                                     [[MSAuthTokenContext sharedInstance] setAuthToken:(NSString * _Nonnull) result.idToken
-                                                                        withAccountId:(NSString * _Nonnull) accountId.identifier];
+                                                                  withUserInformation:user];
                                     [strongSelf saveAuthToken:result.idToken];
                                     [strongSelf saveAccountId:(NSString * _Nonnull) result.account.homeAccountId.identifier];
                                     MSLogInfo([MSIdentity logTag], @"User sign-in succeeded.");

@@ -3,6 +3,7 @@
 
 #import "MSAuthTokenContext.h"
 #import "MSAuthTokenContextDelegate.h"
+#import "MSUserInformation.h"
 
 /**
  * Singleton.
@@ -18,9 +19,9 @@ static dispatch_once_t onceToken;
 @property(nullable, atomic, copy) NSString *authToken;
 
 /**
- * The last value of user account id.
+ * The last value of user information.
  */
-@property(nullable, nonatomic, copy) NSString *homeAccountId;
+@property(nonatomic, strong) MSUserInformation *homeUser;
 
 /**
  * Collection of channel delegates.
@@ -53,23 +54,23 @@ static dispatch_once_t onceToken;
   sharedInstance = nil;
 }
 
-- (void)setAuthToken:(NSString *)authToken withAccountId:(NSString *)accountId {
+- (void)setAuthToken:(NSString *)authToken withUserInformation:(MSUserInformation *)userInformation {
   NSArray *synchronizedDelegates;
   BOOL isNewUser = NO;
   @synchronized(self) {
     self.authToken = authToken;
-    isNewUser = ![self.homeAccountId isEqualToString:accountId];
-    self.homeAccountId = accountId;
+    isNewUser = ![self.homeUser compareUser:userInformation];
+    self.homeUser = userInformation;
 
     // Don't invoke the delegate while locking; it might be locking too and deadlock ourselves.
     synchronizedDelegates = [self.delegates allObjects];
   }
   for (id<MSAuthTokenContextDelegate> delegate in synchronizedDelegates) {
-    if ([delegate respondsToSelector:@selector(authTokenContext:didSetAuthToken:)]) {
-      [delegate authTokenContext:self didSetAuthToken:authToken];
+    if ([delegate respondsToSelector:@selector(authTokenContext:didUpdateAuthToken:)]) {
+      [delegate authTokenContext:self didUpdateAuthToken:authToken];
     }
-    if (isNewUser && [delegate respondsToSelector:@selector(authTokenContext:didUpdateAccountIdWithAuthToken:)]) {
-      [delegate authTokenContext:self didUpdateAccountIdWithAuthToken:authToken];
+    if (isNewUser && [delegate respondsToSelector:@selector(authTokenContext:didUpdateUserInformation:)]) {
+      [delegate authTokenContext:self didUpdateUserInformation:userInformation];
     }
   }
 }
@@ -80,21 +81,21 @@ static dispatch_once_t onceToken;
   @synchronized(self) {
     if (!self.authToken) {
       return NO;
-    } else if (self.homeAccountId) {
+    } else if (self.homeUser.accountId) {
       clearedExistingUser = YES;
     }
     self.authToken = nil;
-    self.homeAccountId = nil;
+    self.homeUser.accountId = nil;
 
     // Don't invoke the delegate while locking; it might be locking too and deadlock ourselves.
     synchronizedDelegates = [self.delegates allObjects];
   }
   for (id<MSAuthTokenContextDelegate> delegate in synchronizedDelegates) {
-    if ([delegate respondsToSelector:@selector(authTokenContext:didSetAuthToken:)]) {
-      [delegate authTokenContext:self didSetAuthToken:nil];
+    if ([delegate respondsToSelector:@selector(authTokenContext:didUpdateAuthToken:)]) {
+      [delegate authTokenContext:self didUpdateAuthToken:nil];
     }
-    if (clearedExistingUser && [delegate respondsToSelector:@selector(authTokenContext:didUpdateAccountIdWithAuthToken:)]) {
-      [delegate authTokenContext:self didUpdateAccountIdWithAuthToken:nil];
+    if (clearedExistingUser && [delegate respondsToSelector:@selector(authTokenContext:didUpdateUserInformation:)]) {
+      [delegate authTokenContext:self didUpdateUserInformation:self.homeUser];
     }
   }
   return YES;

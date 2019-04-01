@@ -10,6 +10,7 @@
 #import "MSTokenExchange.h"
 #import "MSTokenResult.h"
 #import "MSTokensResponse.h"
+#import "MSUserInformation.h"
 #import "MSUtility+Date.h"
 
 static NSString *const kMSPartition = @"partition";
@@ -71,9 +72,10 @@ static NSString *const MSDataStoreAppDocumentsPartition = @"readonly";
   NSObject *tokenData = [self getSuccessfulTokenData];
   NSMutableDictionary *tokenList = [@{kMSTokens : @[ tokenData ]} mutableCopy];
   NSData *jsonTokenData = [NSJSONSerialization dataWithJSONObject:tokenList options:NSJSONWritingPrettyPrinted error:nil];
+  MSUserInformation *userInfo = [[MSUserInformation alloc] initWithAccountId:@"account-id"];
 
   MSAuthTokenContext *mockContext = [MSAuthTokenContext sharedInstance];
-  [mockContext setAuthToken:@"fake-token" withAccountId:@"account-id"];
+  [mockContext setAuthToken:@"fake-token" withUserInformation:userInfo];
   id authContextMock = OCMClassMock([MSAuthTokenContext class]);
   OCMStub(ClassMethod([authContextMock sharedInstance])).andReturn(mockContext);
 

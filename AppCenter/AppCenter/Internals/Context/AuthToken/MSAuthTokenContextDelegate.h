@@ -6,6 +6,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @class MSAuthTokenContext;
+@class MSUserInformation;
 
 @protocol MSAuthTokenContextDelegate <NSObject>
 
@@ -17,15 +18,15 @@ NS_ASSUME_NONNULL_BEGIN
  * @param authTokenContext The auth token context.
  * @param authToken The auth token.
  */
-- (void)authTokenContext:(MSAuthTokenContext *)authTokenContext didSetAuthToken:(nullable NSString *)authToken;
+- (void)authTokenContext:(MSAuthTokenContext *)authTokenContext didUpdateAuthToken:(nullable NSString *)authToken;
 
 /**
  * A callback that is called when a new user signs in.
  *
  * @param authTokenContext The auth token context.
- * @param authToken The auth token.
+ * @param userInformation The user information.
  */
-- (void)authTokenContext:(MSAuthTokenContext *)authTokenContext didUpdateAccountIdWithAuthToken:(nullable NSString *)authToken;
+- (void)authTokenContext:(MSAuthTokenContext *)authTokenContext didUpdateUserInformation:(MSUserInformation *)userInformation;
 
 @end
 
