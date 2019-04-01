@@ -95,12 +95,31 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                         appSecret:kMSTestAppSecret
           transmissionTargetToken:nil
                   fromApplication:YES];
+  self.sut.httpClient = OCMProtocolMock(@protocol(MSHttpClientProtocol));
+  __block int enabledCount = 0;
+  OCMStub([self.sut.httpClient setEnabled:YES]).andDo(^(__unused NSInvocation *invocation) {
+    enabledCount++;
+  });
+  __block int disabledCount = 0;
+  OCMStub([self.sut.httpClient setEnabled:NO]).andDo(^(__unused NSInvocation *invocation) {
+    disabledCount++;
+  });
 
   // When
   [self.sut setEnabled:YES];
 
   // Then
   XCTAssertTrue([self.sut isEnabled]);
+
+  // It's already enabled at start so the enabled logic is not triggered again.
+  XCTAssertEqual(enabledCount, 0);
+
+  // When
+  [self.sut setEnabled:NO];
+
+  // Then
+  XCTAssertFalse([self.sut isEnabled]);
+  XCTAssertEqual(disabledCount, 1);
 
   // When
   [self.sut setEnabled:NO];
@@ -108,11 +127,15 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   // Then
   XCTAssertFalse([self.sut isEnabled]);
 
+  // It's already disabled, so the disabled logic is not triggered again.
+  XCTAssertEqual(disabledCount, 1);
+
   // When
   [self.sut setEnabled:YES];
 
   // Then
   XCTAssertTrue([self.sut isEnabled]);
+  XCTAssertEqual(enabledCount, 1);
 }
 
 - (void)testDefaultHeaderWithPartitionWithDictionaryNotNull {
@@ -637,26 +660,26 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // When
   [MSCosmosDb
-   performCosmosDbAsyncOperationWithHttpClient:httpClient
-   tokenResult:tokenResult
-   documentId:kMSDocumentIdTest
-   httpMethod:kMSHttpMethodGet
-   body:data
-   additionalHeaders:nil
-   offlineMode:YES
-   completionHandler:^(NSData *_Nullable __unused responseBody, NSHTTPURLResponse *_Nullable __unused response,
-                       NSError *_Nullable __unused error) {
-     completionHandlerCalled = YES;
-     XCTAssertNotNil(error);
-     XCTAssertEqualObjects(error.domain, kMSDataStorageErrorDomain);
-     XCTAssertEqual(error.code, NSURLErrorNotConnectedToInternet);
-     OCMReject([httpClient sendAsync:OCMOCK_ANY
-                              method:OCMOCK_ANY
-                             headers:OCMOCK_ANY
-                                data:OCMOCK_ANY
-                   completionHandler:OCMOCK_ANY]);
-     [expectation fulfill];
-   }];
+      performCosmosDbAsyncOperationWithHttpClient:httpClient
+                                      tokenResult:tokenResult
+                                       documentId:kMSDocumentIdTest
+                                       httpMethod:kMSHttpMethodGet
+                                             body:data
+                                additionalHeaders:nil
+                                      offlineMode:YES
+                                completionHandler:^(NSData *_Nullable __unused responseBody, NSHTTPURLResponse *_Nullable __unused response,
+                                                    NSError *_Nullable __unused error) {
+                                  completionHandlerCalled = YES;
+                                  XCTAssertNotNil(error);
+                                  XCTAssertEqualObjects(error.domain, kMSDataStorageErrorDomain);
+                                  XCTAssertEqual(error.code, NSURLErrorNotConnectedToInternet);
+                                  OCMReject([httpClient sendAsync:OCMOCK_ANY
+                                                           method:OCMOCK_ANY
+                                                          headers:OCMOCK_ANY
+                                                             data:OCMOCK_ANY
+                                                completionHandler:OCMOCK_ANY]);
+                                  [expectation fulfill];
+                                }];
 
   // Then
   [self waitForExpectationsWithTimeout:1
