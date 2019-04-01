@@ -35,5 +35,4 @@
  * @return Table name.
  */
 + (NSString *)tableNameWithPartition:(NSString *)partition;
-
 @end

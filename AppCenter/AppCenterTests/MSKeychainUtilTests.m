@@ -37,9 +37,7 @@
     (__bridge id)kSecValueData : (NSData * _Nonnull)[value dataUsingEncoding:NSUTF8StringEncoding]
   };
   NSDictionary *expectedDeleteItemQuery =
-      @{(__bridge id)kSecAttrService : self.acServiceName,
-        (__bridge id)kSecClass : @"genp",
-        (__bridge id)kSecAttrAccount : key };
+      @{(__bridge id)kSecAttrService : self.acServiceName, (__bridge id)kSecClass : @"genp", (__bridge id)kSecAttrAccount : key};
   NSDictionary *expectedMatchItemQuery = @{
     (__bridge id)kSecAttrService : self.acServiceName,
     (__bridge id)kSecClass : @"genp",
@@ -67,6 +65,28 @@
   // Then
   OCMVerifyAll(self.keychainUtilMock);
 }
+
+- (void)testStoreStringHandlesDuplicateItemError {
+
+  // If
+  NSString *key = @"testKey";
+  NSString *value = @"testValue";
+  __block int addSecItemCallsCount = 0;
+  OCMStub([self.keychainUtilMock addSecItem:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+    ++addSecItemCallsCount;
+    int returnValue = addSecItemCallsCount > 1 ? noErr : errSecDuplicateItem;
+    [invocation setReturnValue:&returnValue];
+  });
+
+  // When
+  BOOL actualResult = [MSKeychainUtil storeString:value forKey:key];
+
+  // Then
+  XCTAssertEqual(addSecItemCallsCount, 2);
+  XCTAssertEqual(actualResult, YES);
+  OCMVerify([self.keychainUtilMock deleteSecItem:OCMOCK_ANY]);
+}
+
 #endif
 
 @end

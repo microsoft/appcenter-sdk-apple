@@ -5,8 +5,8 @@
 
 @implementation MSWriteOptions
 
-- (instancetype)initWithTtl:(NSInteger)ttl {
-  if ((self = [super initWithDeviceTimeToLive:ttl])) {
+- (instancetype)initWithTimeToLive:(NSInteger)timeToLive {
+  if ((self = [super initWithDeviceTimeToLive:timeToLive])) {
   }
   return self;
 }

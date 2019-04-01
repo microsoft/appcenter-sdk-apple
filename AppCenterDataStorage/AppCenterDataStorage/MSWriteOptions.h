@@ -6,12 +6,10 @@
 @interface MSWriteOptions : MSBaseOptions
 
 /**
- * Initialize the Token result object.
- *
- * @param ttl timeToLive Device document time to live in seconds.
+ * Initialize the MSWriteOptions object.
  *
  * @return A writeOptions instance.
  */
-- (instancetype)initWithTtl:(NSInteger)ttl;
+- (instancetype) initWithTimeToLive:(NSInteger)timeToLive;
 
 @end

@@ -186,6 +186,14 @@ static dispatch_once_t onceToken;
                                           completionHandler:completionHandler];
 }
 
++ (void)setOfflineMode:(BOOL)offlineMode {
+  [MSDataStore sharedInstance].offlineMode = offlineMode;
+}
+
++ (BOOL)isOfflineMode {
+  return [MSDataStore sharedInstance].offlineMode;
+}
+
 #pragma mark - MSDataStore Implementation
 
 - (void)replaceWithPartition:(NSString *)partition
@@ -303,7 +311,7 @@ static dispatch_once_t onceToken;
     return;
   }
   [self performOperationForPartition:partition
-                          documentId:nil
+                          documentId:documentId
                           httpMethod:kMSHttpMethodPost
                                 body:body
                    additionalHeaders:additionalHeaders
@@ -321,6 +329,8 @@ static dispatch_once_t onceToken;
                      NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:&deserializeError];
                      if (deserializeError) {
                        MSLogError([MSDataStore logTag], @"Error deserializing data:%@", [deserializeError description]);
+                       completionHandler([[MSDocumentWrapper alloc] initWithError:deserializeError documentId:documentId]);
+                       return;
                      }
                      MSLogDebug([MSDataStore logTag], @"Document json:%@", json);
 
@@ -362,6 +372,7 @@ static dispatch_once_t onceToken;
                                                 return;
                                               }
                                               MSCosmosDbIngestion *cosmosDbIngestion = [MSCosmosDbIngestion new];
+                                              cosmosDbIngestion.offlineMode = self.offlineMode;
                                               [MSCosmosDb performCosmosDbAsyncOperationWithHttpClient:cosmosDbIngestion
                                                                                           tokenResult:tokenResponses.tokens[0]
                                                                                            documentId:documentId
@@ -377,10 +388,17 @@ static dispatch_once_t onceToken;
 + (instancetype)sharedInstance {
   dispatch_once(&onceToken, ^{
     if (sharedInstance == nil) {
-      sharedInstance = [self new];
+      sharedInstance = [[MSDataStore alloc] init];
     }
   });
   return sharedInstance;
+}
+
++ (void)resetSharedInstance {
+
+  // Resets the once_token so dispatch_once will run again.
+  onceToken = 0;
+  sharedInstance = nil;
 }
 
 - (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup

@@ -33,7 +33,7 @@ static const NSUInteger kMSSchemaVersion = 1;
     _idColumnIndex = ((NSNumber *)columnIndexes[kMSAppDocumentTableName][kMSIdColumnName]).unsignedIntegerValue;
     _partitionColumnIndex = ((NSNumber *)columnIndexes[kMSAppDocumentTableName][kMSPartitionColumnName]).unsignedIntegerValue;
     _documentIdColumnIndex = ((NSNumber *)columnIndexes[kMSAppDocumentTableName][kMSDocumentIdColumnName]).unsignedIntegerValue;
-    _documentColumnIndex = ((NSNumber *)columnIndexes[kMSAppDocumentTableName][kMSdocumentColumnName]).unsignedIntegerValue;
+    _documentColumnIndex = ((NSNumber *)columnIndexes[kMSAppDocumentTableName][kMSDocumentColumnName]).unsignedIntegerValue;
     _eTagColumnIndex = ((NSNumber *)columnIndexes[kMSAppDocumentTableName][kMSETagColumnName]).unsignedIntegerValue;
     _expirationTimeColumnIndex = ((NSNumber *)columnIndexes[kMSAppDocumentTableName][kMSExpirationTimeColumnName]).unsignedIntegerValue;
     _downloadTimeColumnIndex = ((NSNumber *)columnIndexes[kMSAppDocumentTableName][kMSDownloadTimeColumnName]).unsignedIntegerValue;
@@ -45,11 +45,12 @@ static const NSUInteger kMSSchemaVersion = 1;
 
 #pragma mark - Table Management
 
+
 - (void)createTableWithTableName:(NSString *)tableName {
   [self executeQueryUsingBlock:^int(void *db) {
     MSDBSchema *schema = @{tableName : [MSLocalDocumentStore tableSchema]};
 
-    // Create tables based on the schema.
+    // Create table based on the schema.
     return (int)[MSDBStorage createTablesWithSchema:schema inOpenedDatabase:db];
   }];
 }
@@ -83,7 +84,7 @@ static const NSUInteger kMSSchemaVersion = 1;
   return @[
     @{kMSIdColumnName : @[ kMSSQLiteTypeInteger, kMSSQLiteConstraintPrimaryKey, kMSSQLiteConstraintAutoincrement ]},
     @{kMSPartitionColumnName : @[ kMSSQLiteTypeText, kMSSQLiteConstraintNotNull ]},
-    @{kMSDocumentIdColumnName : @[ kMSSQLiteTypeText, kMSSQLiteConstraintNotNull ]}, @{kMSdocumentColumnName : @[ kMSSQLiteTypeText ]},
+    @{kMSDocumentIdColumnName : @[ kMSSQLiteTypeText, kMSSQLiteConstraintNotNull ]}, @{kMSDocumentColumnName : @[ kMSSQLiteTypeText ]},
     @{kMSETagColumnName : @[ kMSSQLiteTypeText ]}, @{kMSExpirationTimeColumnName : @[ kMSSQLiteTypeInteger ]},
     @{kMSDownloadTimeColumnName : @[ kMSSQLiteTypeInteger ]}, @{kMSOperationTimeColumnName : @[ kMSSQLiteTypeInteger ]},
     @{kMSPendingDownloadColumnName : @[ kMSSQLiteTypeText ]}
