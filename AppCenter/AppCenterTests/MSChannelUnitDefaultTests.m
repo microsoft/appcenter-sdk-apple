@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+#import <Foundation/Foundation.h>
+
 #import "MSAbstractLogInternal.h"
 #import "MSAppCenter.h"
 #import "MSChannelDelegate.h"
@@ -15,7 +17,6 @@
 #import "MSTestFrameworks.h"
 #import "MSUserIdContext.h"
 #import "MSUtility.h"
-#import <Foundation/Foundation.h>
 
 static NSString *const kMSTestGroupId = @"GroupId";
 

@@ -2,6 +2,8 @@
 // Licensed under the MIT License.
 
 #import <Foundation/Foundation.h>
+#import <MSAL/MSAL.h>
+#import <MSAL/MSALPublicClientApplication.h>
 
 #import "MSAuthTokenContext.h"
 #import "MSAuthTokenContextDelegate.h"
@@ -18,8 +20,6 @@
 #import "MSServiceAbstractProtected.h"
 #import "MSTestFrameworks.h"
 #import "MSUtility+File.h"
-#import <MSAL/MSAL.h>
-#import <MSAL/MSALPublicClientApplication.h>
 
 static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
