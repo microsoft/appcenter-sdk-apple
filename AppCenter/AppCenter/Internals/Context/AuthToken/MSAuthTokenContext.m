@@ -60,7 +60,9 @@ static dispatch_once_t onceToken;
   @synchronized(self) {
     self.authToken = authToken;
     isNewUser = ![self.homeUser compareUser:userInformation];
-    self.homeUser = userInformation;
+    if (isNewUser) {
+      self.homeUser = userInformation;
+    }
 
     // Don't invoke the delegate while locking; it might be locking too and deadlock ourselves.
     synchronizedDelegates = [self.delegates allObjects];
