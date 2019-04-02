@@ -10,6 +10,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 typedef void (^MSGetTokenAsyncCompletionHandler)(MSTokensResponse *tokenResponses, NSError *_Nullable error);
 
+static NSString *const kMSTokenResultSucceed = @"Succeed";
+
 /**
  * This class retrieves and caches Cosmosdb access token.
  */
