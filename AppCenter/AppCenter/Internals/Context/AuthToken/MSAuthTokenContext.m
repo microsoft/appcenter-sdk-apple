@@ -64,14 +64,15 @@ static dispatch_once_t onceToken;
     NSString *__nullable latestAuthToken = lastEntry.authToken;
     NSString *__nullable latestAccountId = lastEntry.accountId;
     NSDate *__nullable latestTokenEndTime = lastEntry.expiresOn;
-
-    // If new token doesn't differ from the last token of array - no need to add it to array.
-    if (latestAuthToken != nil && authToken != nil && [latestAuthToken isEqualToString:(NSString * __nonnull) authToken]) {
+    if (latestAuthToken == nil && authToken == nil) {
       return;
     }
-    BOOL oneOfIdsIsNil = ((accountId == nil && latestAccountId != nil) || (accountId != nil && latestAccountId == nil));
-    isNewUser = !(accountId == nil && latestAccountId == nil) &&
-                (oneOfIdsIsNil || ![accountId isEqualToString:(NSString * __nonnull) latestAccountId]);
+    
+    // If new token doesn't differ from the last token of array - no need to add it to array.
+    if (latestAuthToken != nil && [latestAuthToken isEqualToString:(NSString * __nonnull) authToken]) {
+      return;
+    }
+    isNewUser = ![accountId ?: @"" isEqualToString:(lastestAccountId ?: @"")];
     NSDate *newTokenStartDate = [NSDate date];
 
     // If there is a gap between tokens.
