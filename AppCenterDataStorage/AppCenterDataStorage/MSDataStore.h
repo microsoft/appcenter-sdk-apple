@@ -80,7 +80,7 @@ typedef void (^MSDataSourceErrorCompletionHandler)(MSDataSourceError *error);
 + (void)readWithPartition:(NSString *)partition
                documentId:(NSString *)documentId
              documentType:(Class)documentType
-              readOptions:(MSReadOptions *)readOptions
+              readOptions:(MSReadOptions *_Nullable)readOptions
         completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler;
 
 /**
@@ -104,7 +104,7 @@ typedef void (^MSDataSourceErrorCompletionHandler)(MSDataSourceError *error);
  */
 + (void)listWithPartition:(NSString *)partition
              documentType:(Class)documentType
-              readOptions:(MSReadOptions *)readOptions
+              readOptions:(MSReadOptions *_Nullable)readOptions
         completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler;
 
 /**
@@ -132,7 +132,7 @@ typedef void (^MSDataSourceErrorCompletionHandler)(MSDataSourceError *error);
 + (void)createWithPartition:(NSString *)partition
                  documentId:(NSString *)documentId
                    document:(T)document
-               writeOptions:(MSWriteOptions *)writeOptions
+               writeOptions:(MSWriteOptions *_Nullable)writeOptions
           completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler;
 
 /**
@@ -160,7 +160,7 @@ typedef void (^MSDataSourceErrorCompletionHandler)(MSDataSourceError *error);
 + (void)replaceWithPartition:(NSString *)partition
                   documentId:(NSString *)documentId
                     document:(T)document
-                writeOptions:(MSWriteOptions *)writeOptions
+                writeOptions:(MSWriteOptions *_Nullable)writeOptions
            completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler;
 
 /**
@@ -184,7 +184,7 @@ typedef void (^MSDataSourceErrorCompletionHandler)(MSDataSourceError *error);
  */
 + (void)deleteDocumentWithPartition:(NSString *)partition
                          documentId:(NSString *)documentId
-                       writeOptions:(MSWriteOptions *)writeOptions
+                       writeOptions:(MSWriteOptions *_Nullable)writeOptions
                   completionHandler:(MSDataSourceErrorCompletionHandler)completionHandler;
 
 /**

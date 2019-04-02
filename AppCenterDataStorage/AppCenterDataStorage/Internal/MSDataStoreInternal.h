@@ -22,6 +22,21 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property(nonatomic, nullable) id<MSHttpClientProtocol> httpClient;
 
+/**
+ * Retrieve a paginated list of the documents in a partition.
+ *
+ * @param partition The CosmosDB partition key.
+ * @param documentType The object type of the documents in the partition. Must conform to MSSerializableDocument protocol.
+ * @param readOptions Options for reading and storing the documents.
+ * @param continuationToken The continuation token for the page to retrieve (if any).
+ * @param completionHandler Callback to accept documents.
+ */
++ (void)listWithPartition:(NSString *)partition
+             documentType:(Class)documentType
+              readOptions:(MSReadOptions *_Nullable)readOptions
+        continuationToken:(NSString *_Nullable)continuationToken
+        completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler;
+
 @end
 
 NS_ASSUME_NONNULL_END
