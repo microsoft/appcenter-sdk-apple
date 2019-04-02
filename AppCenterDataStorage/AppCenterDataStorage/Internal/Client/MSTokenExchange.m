@@ -48,9 +48,9 @@ static NSString *const kMSGetTokenPath = @"/data/tokens";
     NSMutableDictionary *headers = [NSMutableDictionary new];
     headers[kMSHeaderContentTypeKey] = kMSAppCenterContentType;
     headers[kMSHeaderAppSecretKey] = appSecret;
-    if ([MSAuthTokenContext sharedInstance].authToken) {
+    if ([[MSAuthTokenContext sharedInstance] authToken]) {
       headers[kMSAuthorizationHeaderKey] =
-          [NSString stringWithFormat:kMSBearerTokenHeaderFormat, [MSAuthTokenContext sharedInstance].authToken];
+          [NSString stringWithFormat:kMSBearerTokenHeaderFormat, [[MSAuthTokenContext sharedInstance] authToken]];
     }
     [httpClient sendAsync:sendUrl
                    method:kMSHttpMethodPost

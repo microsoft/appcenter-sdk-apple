@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class MSALPublicClientApplication;
 
-@interface MSIdentity () <MSServiceInternal, MSChannelDelegate>
+@interface MSIdentity () <MSServiceInternal>
 
 /**
  * The MSAL client for authentication.
