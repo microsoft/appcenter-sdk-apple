@@ -6,9 +6,9 @@
 #import "MSDataStore.h"
 #import "MSDataStoreInternal.h"
 #import "MSDataStorePrivate.h"
+#import "MSPaginatedDocumentsInternal.h"
 #import "MSSerializableDocument.h"
 #import "MSTokenExchange.h"
-#import "MSPaginatedDocumentsInternal.h"
 
 @implementation MSPaginatedDocuments
 

@@ -22,14 +22,44 @@
 #import "MSTokensResponse.h"
 #import "MSWriteOptions.h"
 
-// Constants.
+/**
+ * Service storage key name.
+ */
 static NSString *const kMSServiceName = @"DataStorage";
+
+/**
+ * The group ID for storage.
+ */
 static NSString *const kMSGroupId = @"DataStorage";
+
+/**
+ * CosmosDb document identifier key.
+ */
 static NSString *const kMSDocumentIdKey = @"id";
+
+/**
+ * CosmosDb document timestamp key.
+ */
 static NSString *const kMSDocumentTimestampKey = @"_ts";
+
+/**
+ * CosmosDb document eTag key.
+ */
 static NSString *const kMSDocumentEtagKey = @"_etag";
+
+/**
+ * CosmosDb document key.
+ */
 static NSString *const kMSDocumentKey = @"document";
+
+/**
+ * CosmosDb upsert header key.
+ */
 static NSString *const kMSDocumentUpsertHeaderKey = @"x-ms-documentdb-is-upsert";
+
+/**
+ * CosmosDb continuation token header key.
+ */
 static NSString *const kMSDocumentContinuationTokenHeaderKey = @"x-ms-continuation";
 
 /**

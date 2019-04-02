@@ -4,7 +4,7 @@
 #import "MSPage.h"
 #import "MSReadOptions.h"
 
-@interface MSPaginatedDocuments()
+@interface MSPaginatedDocuments ()
 
 // Read-only.
 @property(nonatomic, copy, readonly) NSString *partition;
