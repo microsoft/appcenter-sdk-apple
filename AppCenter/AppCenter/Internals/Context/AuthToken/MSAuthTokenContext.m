@@ -62,10 +62,10 @@ static dispatch_once_t onceToken;
     MSAuthTokenInfo *lastEntry = authTokenHistory.lastObject;
 
     // If new token doesn't differ from the last token of array - no need to add it to array.
-    if (lastEntry && (authToken == lastEntry.authToken || [authToken isEqualToString:lastEntry.authToken])) {
+    if (lastEntry && (authToken == lastEntry.authToken || [authToken isEqualToString:(NSString *__nonnull) lastEntry.authToken])) {
       return;
     }
-    isNewUser = !lastEntry || !(accountId == lastEntry.accountId || [accountId isEqualToString:lastEntry.accountId]);
+    isNewUser = !lastEntry || !(accountId == lastEntry.accountId || [accountId isEqualToString:(NSString *__nonnull) lastEntry.accountId]);
     NSDate *newTokenStartDate = [NSDate date];
 
     // If there is a gap between tokens.
