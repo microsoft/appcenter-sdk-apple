@@ -47,7 +47,7 @@ static const NSUInteger kMSSchemaVersion = 1;
 //TODO work item created to tracl this implementation
 - (BOOL)createWithPartition:(NSString *)__unused partition
                    document:(MSDocumentWrapper *)__unused document
-               writeOptions:(MSWriteOptions *)__unused options {
+               writeOptions:(MSWriteOptions *)__unused writeOptions {
   return YES;
 }
 
