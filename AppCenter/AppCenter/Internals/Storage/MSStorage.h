@@ -79,7 +79,7 @@ typedef void (^MSLoadDataCompletionHandler)(NSArray<id<MSLog>> *_Nullable logArr
           completionHandler:(nullable MSLoadDataCompletionHandler)completionHandler;
 
 /**
- * Return amount of log entries before date.
+ * Return the number of logs on or before the given date.
  *
  * @param date Date to count logs until.
  *

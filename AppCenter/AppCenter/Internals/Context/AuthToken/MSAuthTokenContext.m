@@ -59,29 +59,23 @@ static dispatch_once_t onceToken;
       expiresOn = nil;
     }
     NSMutableArray<MSAuthTokenInfo *> *authTokenHistory = [[self authTokenHistory] mutableCopy];
-
     MSAuthTokenInfo *lastEntry = authTokenHistory.lastObject;
-    NSString *__nullable latestAuthToken = lastEntry.authToken;
-    NSString *__nullable latestAccountId = lastEntry.accountId;
-    NSDate *__nullable latestTokenEndTime = lastEntry.expiresOn;
 
     // If new token doesn't differ from the last token of array - no need to add it to array.
-    if (latestAuthToken != nil && authToken != nil && [latestAuthToken isEqualToString:(NSString * __nonnull) authToken]) {
+    if (lastEntry && (authToken == lastEntry.authToken || [authToken isEqualToString:(NSString * __nonnull) lastEntry.authToken])) {
       return;
     }
-    BOOL oneOfIdsIsNil = ((accountId == nil && latestAccountId != nil) || (accountId != nil && latestAccountId == nil));
-    isNewUser = !(accountId == nil && latestAccountId == nil) &&
-                (oneOfIdsIsNil || ![accountId isEqualToString:(NSString * __nonnull) latestAccountId]);
+    isNewUser = !lastEntry || !(accountId == lastEntry.accountId || [accountId isEqualToString:(NSString * __nonnull) lastEntry.accountId]);
     NSDate *newTokenStartDate = [NSDate date];
 
     // If there is a gap between tokens.
-    if (latestTokenEndTime && [newTokenStartDate laterDate:(NSDate * __nonnull) latestTokenEndTime]) {
+    if (lastEntry.expiresOn && [newTokenStartDate laterDate:(NSDate * __nonnull) lastEntry.expiresOn]) {
 
       // If the account is the same or becomes anonymous.
       if (!isNewUser || authToken == nil) {
 
         // Apply the new token to this time.
-        newTokenStartDate = latestTokenEndTime;
+        newTokenStartDate = lastEntry.expiresOn;
       } else {
 
         // If it's not the same account treat the gap as anonymous.
