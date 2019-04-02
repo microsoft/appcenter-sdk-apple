@@ -66,7 +66,7 @@
 		0469644E1F2A5D2800F9D31F /* AppCenterDataStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = D33A94541E5B11BB003966DB /* AppCenterDataStorage.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0469644F1F2A5D4A00F9D31F /* MSDataStoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D3AD5EC21E5C4F6A001627AB /* MSDataStoreTests.m */; };
 		0496A67B1F3128CE005AE1DB /* MSDataStoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D3AD5EC21E5C4F6A001627AB /* MSDataStoreTests.m */; };
-		049BC84E224EDAEE00AE7FBB /* MSBaseOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464DF222F28A200EC1FF3 /* MSBaseOptions.h */; };
+		049BC84E224EDAEE00AE7FBB /* MSBaseOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464DF222F28A200EC1FF3 /* MSBaseOptions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		049BC84F224EDAF300AE7FBB /* MSBaseOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464EA222F28A300EC1FF3 /* MSBaseOptions.m */; };
 		049BC850224EDAF600AE7FBB /* MSDataStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464E2222F28A300EC1FF3 /* MSDataStore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		049BC851224EDAFC00AE7FBB /* MSDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464E3222F28A300EC1FF3 /* MSDataStore.m */; };
@@ -80,8 +80,8 @@
 		049BC859224EDB1100AE7FBB /* MSWriteOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464EC222F28A300EC1FF3 /* MSWriteOptions.m */; };
 		049BC85A224EDB1900AE7FBB /* MSPaginatedDocuments.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464E0222F28A300EC1FF3 /* MSPaginatedDocuments.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		049BC85B224EDB1D00AE7FBB /* MSPage.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464DD222F28A200EC1FF3 /* MSPage.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		049BC85C224EDB2200AE7FBB /* MSReadOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464EB222F28A300EC1FF3 /* MSReadOptions.h */; };
-		049BC85D224EDB2700AE7FBB /* MSWriteOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464E1222F28A300EC1FF3 /* MSWriteOptions.h */; };
+		049BC85C224EDB2200AE7FBB /* MSReadOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464EB222F28A300EC1FF3 /* MSReadOptions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		049BC85D224EDB2700AE7FBB /* MSWriteOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464E1222F28A300EC1FF3 /* MSWriteOptions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		049BC85E224EDBB700AE7FBB /* MSCosmosDb.m in Sources */ = {isa = PBXBuildFile; fileRef = E8593A15222B91B20001F87E /* MSCosmosDb.m */; };
 		049BC85F224EDBC900AE7FBB /* MSDocumentUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = E83D121C22378143002B6585 /* MSDocumentUtils.h */; };
 		049BC860224EDBCD00AE7FBB /* MSDocumentUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E83D121D22378143002B6585 /* MSDocumentUtils.m */; };
@@ -103,9 +103,9 @@
 		2600124222273E94007F4D3A /* MSTokensResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 2600123E22273E94007F4D3A /* MSTokensResponse.m */; };
 		267464ED222F28A300EC1FF3 /* MSPage.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464DD222F28A200EC1FF3 /* MSPage.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		267464EE222F28A300EC1FF3 /* MSDataSourceError.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464DE222F28A200EC1FF3 /* MSDataSourceError.m */; };
-		267464EF222F28A300EC1FF3 /* MSBaseOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464DF222F28A200EC1FF3 /* MSBaseOptions.h */; };
+		267464EF222F28A300EC1FF3 /* MSBaseOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464DF222F28A200EC1FF3 /* MSBaseOptions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		267464F0222F28A300EC1FF3 /* MSPaginatedDocuments.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464E0222F28A300EC1FF3 /* MSPaginatedDocuments.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		267464F1222F28A300EC1FF3 /* MSWriteOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464E1222F28A300EC1FF3 /* MSWriteOptions.h */; };
+		267464F1222F28A300EC1FF3 /* MSWriteOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464E1222F28A300EC1FF3 /* MSWriteOptions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		267464F2222F28A300EC1FF3 /* MSDataStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464E2222F28A300EC1FF3 /* MSDataStore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		267464F3222F28A300EC1FF3 /* MSDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464E3222F28A300EC1FF3 /* MSDataStore.m */; };
 		267464F4222F28A300EC1FF3 /* MSDocumentWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464E4222F28A300EC1FF3 /* MSDocumentWrapper.m */; };
@@ -115,7 +115,7 @@
 		267464F8222F28A300EC1FF3 /* MSPaginatedDocuments.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464E8222F28A300EC1FF3 /* MSPaginatedDocuments.m */; };
 		267464F9222F28A300EC1FF3 /* MSDocumentWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464E9222F28A300EC1FF3 /* MSDocumentWrapper.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		267464FA222F28A300EC1FF3 /* MSBaseOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464EA222F28A300EC1FF3 /* MSBaseOptions.m */; };
-		267464FB222F28A300EC1FF3 /* MSReadOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464EB222F28A300EC1FF3 /* MSReadOptions.h */; };
+		267464FB222F28A300EC1FF3 /* MSReadOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464EB222F28A300EC1FF3 /* MSReadOptions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		267464FC222F28A300EC1FF3 /* MSWriteOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464EC222F28A300EC1FF3 /* MSWriteOptions.m */; };
 		2ACE56002245277000FCD5DF /* MSDocumentUtilsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ACE55FF2245277000FCD5DF /* MSDocumentUtilsTests.m */; };
 		2ACE56012245277000FCD5DF /* MSDocumentUtilsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ACE55FF2245277000FCD5DF /* MSDocumentUtilsTests.m */; };
