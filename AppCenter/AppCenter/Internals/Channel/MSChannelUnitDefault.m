@@ -348,7 +348,7 @@
 
   // Reset item count and load data from the storage.
   self.itemsCount = 0;
-  NSMutableArray<MSAuthTokenValidityInfo *> *tokenArray = [MSAuthTokenContext sharedInstance].authTokenValidityArray;
+  NSMutableArray<MSAuthTokenValidityInfo *> *tokenArray = [[MSAuthTokenContext sharedInstance] authTokenValidityArray];
   [self flushQueueForTokenArray:tokenArray withTokenIndex:0];
 }
 
