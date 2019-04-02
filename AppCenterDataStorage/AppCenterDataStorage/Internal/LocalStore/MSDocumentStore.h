@@ -25,6 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param accountId The logged in user id..
  */
 - (void)createUserStorageWithAccountId:(NSString *)accountId;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -66,9 +66,9 @@ static const NSUInteger kMSSchemaVersion = 1;
              NSString *deleteQuery = [NSString stringWithFormat:@"DROP TABLE \"%@\";", tableName];
              int result = [MSDBStorage executeNonSelectionQuery:deleteQuery inOpenedDatabase:db];
              if (result == SQLITE_OK) {
-               MSLogVerbose([MSDataStore logTag], @"Document table %@ has been deleted", tableName);
+               MSLogVerbose([MSDataStore logTag], @"Document table '%@' has been deleted", tableName);
              } else {
-               MSLogError([MSDataStore logTag], @"Failed to delete the Document table %@", tableName);
+               MSLogError([MSDataStore logTag], @"Failed to delete the Document table '%@'", tableName);
              }
              return result;
            }
