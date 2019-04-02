@@ -3,7 +3,9 @@
 
 #import "MSAuthTokenValidityInfo.h"
 
-// If the given number of seconds is left until the token expires, it indicates that it needs refreshing.
+/**
+ * If the given number of seconds is left until the token expires, it indicates that it needs refreshing.
+ */
 static NSTimeInterval const kMSSecBeforeExpireToRefresh = 10 * 60;
 
 @implementation MSAuthTokenValidityInfo

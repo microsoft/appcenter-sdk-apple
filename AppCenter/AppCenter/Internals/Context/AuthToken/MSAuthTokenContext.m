@@ -224,8 +224,7 @@ static dispatch_once_t onceToken;
     lastEntry = [self authTokenHistory].lastObject;
 
     // Don't invoke refresh on old tokens - only on the latest one, if it's soon to be expired.
-    BOOL tokenIslastTokenEntry = [lastEntry.authToken isEqual:tokenValidityInfo.authToken];
-    if (!tokenIslastTokenEntry) {
+    if (![lastEntry.authToken isEqual:tokenValidityInfo.authToken]) {
       return;
     }
     if (![tokenValidityInfo expiresSoon]) {
@@ -236,9 +235,9 @@ static dispatch_once_t onceToken;
     synchronizedDelegates = [self.delegates allObjects];
   }
   for (id<MSAuthTokenContextDelegate> delegate in synchronizedDelegates) {
-    MSLogWarning([MSAppCenter logTag], @"The token for account id %@ needs to be refreshed.", lastEntry.accountId);
-    if ([delegate respondsToSelector:@selector(authTokenContext:authTokenNeedsToBeRefreshed:)]) {
-      [delegate authTokenContext:self authTokenNeedsToBeRefreshed:lastEntry.accountId];
+    MSLogInfo([MSAppCenter logTag], @"The token needs to be refreshed.", lastEntry.accountId);
+    if ([delegate respondsToSelector:@selector(authTokenContext:refreshAuthTokenForAccountIdrefreshAuthTokenForAccountId:)]) {
+      [delegate authTokenContext:self refreshAuthTokenForAccountId:lastEntry.accountId];
     }
   }
 }
