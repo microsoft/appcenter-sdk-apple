@@ -142,6 +142,10 @@ static NSString *const MSDataStoreAppDocumentsPartition = @"readonly";
       });
 
   // Mock returning nil for cached token.
+  MSAuthTokenContext *mockContext = [MSAuthTokenContext sharedInstance];
+  [mockContext setAuthToken:nil withAccountId:nil expiresOn:nil];
+  id authContextMock = OCMClassMock([MSAuthTokenContext class]);
+  OCMStub(ClassMethod([authContextMock sharedInstance])).andReturn(mockContext);
   OCMStub([self.keychainUtilMock stringForKey:mockTokenKeyName]).andReturn(nil);
   OCMStub([self.keychainUtilMock storeString:OCMOCK_ANY forKey:OCMOCK_ANY]).andReturn(YES);
   XCTestExpectation *completeExpectation = [self expectationWithDescription:@"Task finished"];
