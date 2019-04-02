@@ -8,33 +8,6 @@
 // A (paginated) list of documents from CosmosDB
 @interface MSPaginatedDocuments<T : id <MSSerializableDocument>> : NSObject
 
-// FIXME: these properties should not be part of the public interface.
-
-/**
- * Current page.
- */
-@property(nonatomic, strong, readonly) MSPage *currentPage;
-
-/**
- * Partition.
- */
-@property(nonatomic, strong, readonly) NSString *partition;
-
-/**
- * Type of the documents.
- */
-@property(nonatomic, strong, readonly) Class documentType;
-
-/**
- * Read options.
- */
-@property(nonatomic, strong, readonly) MSReadOptions *readOptions;
-
-/**
- * Current continuation token if any.
- */
-@property(nonatomic, strong, readonly, nullable) NSString *continuationToken;
-
 /**
  * Initialize documents with page.
  *

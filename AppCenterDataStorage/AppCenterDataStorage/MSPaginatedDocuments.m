@@ -9,9 +9,15 @@
 #import "MSSerializableDocument.h"
 #import "MSTokenExchange.h"
 
-// Redefine readonly properties to be locally readwrite-able.
+// Implementation members.
 @interface MSPaginatedDocuments ()
 
+// Read-only.
+@property(nonatomic, strong, readonly) NSString *partition;
+@property(nonatomic, strong, readonly) Class documentType;
+@property(nonatomic, strong, readonly) MSReadOptions *readOptions;
+
+// Read-write (to implement pagination).
 @property(nonatomic, strong, readwrite) MSPage *currentPage;
 @property(nonatomic, strong, readwrite, nullable) NSString *continuationToken;
 
