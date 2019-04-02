@@ -185,12 +185,12 @@ static dispatch_once_t onceToken;
                                           completionHandler:completionHandler];
 }
 
-+ (void)setOfflineMode:(BOOL)offlineMode {
-  [MSDataStore sharedInstance].offlineMode = offlineMode;
++ (void)setOfflineModeEnabled:(BOOL)isOfflineModeEnabled {
+  [MSDataStore sharedInstance].isOfflineModeEnabled = isOfflineModeEnabled;
 }
 
-+ (BOOL)isOfflineMode {
-  return [MSDataStore sharedInstance].offlineMode;
++ (BOOL)isOfflineModeEnabled {
+  return [MSDataStore sharedInstance].isOfflineModeEnabled;
 }
 
 #pragma mark - MSDataStore Implementation
@@ -386,7 +386,7 @@ static dispatch_once_t onceToken;
                                                                                    httpMethod:httpMethod
                                                                                          body:body
                                                                             additionalHeaders:additionalHeaders
-                                                                                  offlineMode:self.offlineMode
+                                                                                  offlineMode:self.isOfflineModeEnabled
                                                                             completionHandler:completionHandler];
                                             }];
 }
