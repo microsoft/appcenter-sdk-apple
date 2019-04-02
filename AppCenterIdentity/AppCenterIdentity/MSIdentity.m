@@ -10,6 +10,7 @@
 #import "MSIdentityConfig.h"
 #import "MSIdentityConfigIngestion.h"
 #import "MSIdentityConstants.h"
+#import "MSIdentityErrors.h"
 #import "MSIdentityPrivate.h"
 #import "MSKeychainUtil.h"
 #import "MSServiceAbstractProtected.h"
@@ -121,9 +122,9 @@ static dispatch_once_t onceToken;
     [self clearConfigurationCache];
     [self.channelGroup removeDelegate:self];
     self.ingestion = nil;
-    NSError *error = [[NSError alloc] initWithDomain:MSIdentityErrorDomain
-                                                code:MSIdentityErrorServiceDisabled
-                                            userInfo:@{MSIdentityErrorDescriptionKey : @"Identity is disabled."}];
+    NSError *error = [[NSError alloc] initWithDomain:kMSACIdentityErrorDomain
+                                                code:MSACIdentityErrorServiceDisabled
+                                            userInfo:@{NSLocalizedDescriptionKey : @"Identity is disabled."}];
     [self completeAcquireTokenRequestForResult:nil withError:error];
     MSLogInfo([MSIdentity logTag], @"Identity service has been disabled.");
   }
@@ -173,18 +174,18 @@ static dispatch_once_t onceToken;
     if ([[MSIdentity sharedInstance] canBeUsed] && [[MSIdentity sharedInstance] isEnabled]) {
       if ([MSIdentity sharedInstance].signInCompletionHandler) {
         MSLogError([MSIdentity logTag], @"signIn already in progress.");
-        NSError *error = [[NSError alloc] initWithDomain:MSIdentityErrorDomain
-                                                    code:MSIdentityErrorPreviousSignInRequestInProgress
-                                                userInfo:@{MSIdentityErrorDescriptionKey : @"signIn already in progress."}];
+        NSError *error = [[NSError alloc] initWithDomain:kMSACIdentityErrorDomain
+                                                    code:MSACIdentityErrorPreviousSignInRequestInProgress
+                                                userInfo:@{NSLocalizedDescriptionKey : @"signIn already in progress."}];
         completionHandler(nil, error);
         return;
       }
       [MSIdentity sharedInstance].signInCompletionHandler = completionHandler;
       [[MSIdentity sharedInstance] signIn];
     } else {
-      NSError *error = [[NSError alloc] initWithDomain:MSIdentityErrorDomain
-                                                  code:MSIdentityErrorServiceDisabled
-                                              userInfo:@{MSIdentityErrorDescriptionKey : @"Identity is disabled."}];
+      NSError *error = [[NSError alloc] initWithDomain:kMSACIdentityErrorDomain
+                                                  code:MSACIdentityErrorServiceDisabled
+                                              userInfo:@{NSLocalizedDescriptionKey : @"Identity is disabled."}];
       completionHandler(nil, error);
     }
   }
@@ -196,12 +197,12 @@ static dispatch_once_t onceToken;
 
 - (void)signIn {
   if ([[MS_Reachability reachabilityForInternetConnection] currentReachabilityStatus] == NotReachable) {
-    [self completeSignInWithErrorCode:MSIdentityErrorSignInWhenNoConnection
+    [self completeSignInWithErrorCode:MSACIdentityErrorSignInWhenNoConnection
                            andMessage:@"User sign-in failed. Internet connection is down."];
     return;
   }
   if (self.clientApplication == nil || self.identityConfig == nil) {
-    [self completeSignInWithErrorCode:MSIdentityErrorSignInBackgroundOrNotConfigured
+    [self completeSignInWithErrorCode:MSACIdentityErrorSignInBackgroundOrNotConfigured
                            andMessage:@"signIn is called while it's not configured or not in the foreground."];
     return;
   }
@@ -221,9 +222,9 @@ static dispatch_once_t onceToken;
   if (!self.signInCompletionHandler) {
     return;
   }
-  NSError *error = [[NSError alloc] initWithDomain:MSIdentityErrorDomain
+  NSError *error = [[NSError alloc] initWithDomain:kMSACIdentityErrorDomain
                                               code:errorCode
-                                          userInfo:@{MSIdentityErrorDescriptionKey : errorMessage}];
+                                          userInfo:@{NSLocalizedDescriptionKey : errorMessage}];
   self.signInCompletionHandler(nil, error);
 }
 

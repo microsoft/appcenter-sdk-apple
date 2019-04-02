@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 #import <Foundation/Foundation.h>
-#import <OCMock/OCMock.h>
 
 #import "MSAbstractLogInternal.h"
 #import "MSAppCenter.h"

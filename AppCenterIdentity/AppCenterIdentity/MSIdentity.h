@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+#import "MSIdentityErrors.h"
 #import "MSServiceAbstract.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -14,26 +15,6 @@ NS_ASSUME_NONNULL_BEGIN
  * @param error Error for sign-in failure.
  */
 typedef void (^MSSignInCompletionHandler)(MSUserInformation *_Nullable userInformation, NSError *_Nullable error);
-
-/**
- * Error code for Identity.
- */
-typedef NS_ENUM(NSInteger, MSIdentityErrorCode) {
-  MSIdentityErrorServiceDisabled = -420000,
-  MSIdentityErrorPreviousSignInRequestInProgress = -420001,
-  MSIdentityErrorSignInBackgroundOrNotConfigured = -420002,
-  MSIdentityErrorSignInWhenNoConnection = -420003
-};
-
-/**
- * Error domain for Identity.
- */
-static NSString *const MSIdentityErrorDomain = @"MSIdentityErrorDomain";
-
-/**
- * Error description key for Identity.
- */
-static NSString *const MSIdentityErrorDescriptionKey = @"MSIdentityErrorDescriptionKey";
 
 /**
  * App Center Identity service.
