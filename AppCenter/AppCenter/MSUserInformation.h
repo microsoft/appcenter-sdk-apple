@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param userInfo the other user.
  *
- * @return Yes or no.
+ * @return `YES` if current user is equal to another user, `NO` not equal
  */
 - (BOOL)isEqualTo:(MSUserInformation *)userInfo;
 
