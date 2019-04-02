@@ -24,6 +24,9 @@ Pod::Spec.new do |s|
                       5. App Center DataStorage (iOS):
                       The App Center Data Storage service provides functionality enabling developers to persist app data in the cloud in both online and offline scenarios. This enables you to store and manage both user-specific data as well as data shared between users and across platforms. In addition, this service includes basic conflict resolution out of the box.
 
+                      6. App Center Identity (iOS and macOS):
+                      The App Center Identity is an identity management service that allows you to customize and control how your users interact with your app. We provide an out of the box UI that allows app developers to authenticate their users to an app. In addition, app developers may use and track the user's identity across App Center services.
+
                         DESC
 
   s.homepage          = 'https://appcenter.ms'
@@ -92,6 +95,15 @@ s.subspec 'DataStorage' do |ss|
     ss.frameworks = 'Foundation'
     ss.ios.frameworks = 'UIKit'
     ss.ios.vendored_frameworks = "AppCenter-SDK-Apple/iOS/AppCenterDataStorage.framework"
+end
+
+s.subspec 'Identity' do |ss|
+    ss.dependency 'AppCenter/Core'
+    ss.frameworks = 'Foundation', 'WebKit'
+    ss.ios.frameworks = 'UIKit', 'AuthenticationServices'
+    ss.osx.frameworks = 'AppKit'
+    ss.ios.vendored_frameworks = "AppCenter-SDK-Apple/iOS/AppCenterIdentity.framework"
+    ss.osx.vendored_frameworks = "AppCenter-SDK-Apple/macOS/AppCenterIdentity.framework"
 end
 
 end

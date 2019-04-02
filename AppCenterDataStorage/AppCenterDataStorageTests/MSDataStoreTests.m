@@ -275,7 +275,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                                httpMethod:kMSHttpMethodGet
                                                      body:data
                                         additionalHeaders:additionalHeaders
-                                              offlineMode:NO
+                                       offlineModeEnabled:NO
                                         completionHandler:handler];
 
   // Then
@@ -316,7 +316,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                                httpMethod:kMSHttpMethodGet
                                                      body:data
                                         additionalHeaders:nil
-                                              offlineMode:NO
+                                       offlineModeEnabled:NO
                                         completionHandler:handler];
 
   // Then
@@ -354,7 +354,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                                               httpMethod:kMSHttpMethodPost
                                                                     body:OCMOCK_ANY
                                                        additionalHeaders:OCMOCK_ANY
-                                                             offlineMode:NO
+                                                      offlineModeEnabled:NO
                                                        completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         MSHttpRequestCompletionHandler cosmosdbOperationCallback;
@@ -449,7 +449,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                                               httpMethod:kMSHttpMethodPost
                                                                     body:OCMOCK_ANY
                                                        additionalHeaders:OCMOCK_ANY
-                                                             offlineMode:NO
+                                                      offlineModeEnabled:NO
                                                        completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         MSHttpRequestCompletionHandler cosmosdbOperationCallback;
@@ -503,7 +503,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                                               httpMethod:kMSHttpMethodPost
                                                                     body:OCMOCK_ANY
                                                        additionalHeaders:OCMOCK_ANY
-                                                             offlineMode:NO
+                                                      offlineModeEnabled:NO
                                                        completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         MSHttpRequestCompletionHandler cosmosdbOperationCallback;
@@ -554,7 +554,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                                               httpMethod:kMSHttpMethodDelete
                                                                     body:OCMOCK_ANY
                                                        additionalHeaders:OCMOCK_ANY
-                                                             offlineMode:NO
+                                                      offlineModeEnabled:NO
                                                        completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         MSHttpRequestCompletionHandler cosmosdbOperationCallback;
@@ -643,7 +643,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                                               httpMethod:kMSHttpMethodDelete
                                                                     body:OCMOCK_ANY
                                                        additionalHeaders:OCMOCK_ANY
-                                                             offlineMode:NO
+                                                      offlineModeEnabled:NO
                                                        completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         MSHttpRequestCompletionHandler cosmosdbOperationCallback;
@@ -701,7 +701,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                        httpMethod:kMSHttpMethodGet
                                              body:data
                                 additionalHeaders:nil
-                                      offlineMode:YES
+                               offlineModeEnabled:YES
                                 completionHandler:^(NSData *_Nullable __unused responseBody, NSHTTPURLResponse *_Nullable __unused response,
                                                     NSError *_Nullable __unused error) {
                                   completionHandlerCalled = YES;
@@ -791,7 +791,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                                                 httpMethod:OCMOCK_ANY
                                                                       body:OCMOCK_ANY
                                                          additionalHeaders:OCMOCK_ANY
-                                                               offlineMode:YES
+                                                        offlineModeEnabled:YES
                                                          completionHandler:OCMOCK_ANY]);
 }
 
