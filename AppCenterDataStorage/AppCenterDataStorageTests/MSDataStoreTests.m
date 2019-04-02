@@ -635,19 +635,19 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 - (void)testSetOfflineMode {
 
   // Then
-  XCTAssertFalse([MSDataStore isOfflineMode]);
+  XCTAssertFalse([MSDataStore isOfflineModeEnabled]);
 
   // When
-  [MSDataStore setOfflineMode:YES];
+  [MSDataStore setOfflineModeEnabled:YES];
 
   // Then
-  XCTAssertTrue([MSDataStore isOfflineMode]);
+  XCTAssertTrue([MSDataStore isOfflineModeEnabled]);
 
   // When
-  [MSDataStore setOfflineMode:NO];
+  [MSDataStore setOfflineModeEnabled:NO];
 
   // Then
-  XCTAssertFalse([MSDataStore isOfflineMode]);
+  XCTAssertFalse([MSDataStore isOfflineModeEnabled]);
 }
 
 - (void)testOfflineModeCallsCompletionHandlerWithError {
@@ -729,7 +729,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                         appSecret:kMSTestAppSecret
           transmissionTargetToken:nil
                   fromApplication:YES];
-  [MSDataStore setOfflineMode:YES];
+  [MSDataStore setOfflineModeEnabled:YES];
 
   // Mock tokens fetching.
   MSTokenResult *testToken = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
