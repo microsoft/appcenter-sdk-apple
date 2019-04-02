@@ -61,26 +61,24 @@
   return result;
 }
 
-- (BOOL)dropTable:(NSString *)tableName{
+- (BOOL)dropTable:(NSString *)tableName {
   return [self executeQueryUsingBlock:^int(void *db) {
-    if ([MSDBStorage tableExists:tableName inOpenedDatabase:db]) {
-      NSString *deleteQuery = [NSString stringWithFormat:@"DROP TABLE \"%@\";", tableName];
-      int result = [MSDBStorage executeNonSelectionQuery:deleteQuery inOpenedDatabase:db];
-      if (result == SQLITE_OK) {
-        MSLogVerbose([MSAppCenter logTag], @"Table %@ has been deleted", tableName);
-      } else {
-        MSLogError([MSAppCenter logTag], @"Failed to delete the table %@", tableName);
-      }
-      return result;
-    }
-    return SQLITE_OK;
-  }] == SQLITE_OK;
+           if ([MSDBStorage tableExists:tableName inOpenedDatabase:db]) {
+             NSString *deleteQuery = [NSString stringWithFormat:@"DROP TABLE \"%@\";", tableName];
+             int result = [MSDBStorage executeNonSelectionQuery:deleteQuery inOpenedDatabase:db];
+             if (result == SQLITE_OK) {
+               MSLogVerbose([MSAppCenter logTag], @"Table %@ has been deleted", tableName);
+             } else {
+               MSLogError([MSAppCenter logTag], @"Failed to delete the table %@", tableName);
+             }
+             return result;
+           }
+           return SQLITE_OK;
+         }] == SQLITE_OK;
 }
 
-- (NSUInteger)createTablesWithSchema:(MSDBSchema *)schema
-{
+- (NSUInteger)createTablesWithSchema:(MSDBSchema *)schema {
   return [self executeQueryUsingBlock:^int(void *db) {
-    
     // Create tables based on the schema.
     return (int)[MSDBStorage createTablesWithSchema:schema inOpenedDatabase:db];
   }];
@@ -155,7 +153,7 @@
 + (void)enableAutoVacuumInOpenedDatabase:(void *)db {
   NSArray<NSArray *> *result = [MSDBStorage executeSelectionQuery:@"PRAGMA auto_vacuum" inOpenedDatabase:db];
   int vacuumMode = 0;
-  if (result.count > 0 && result[0].count > 0){
+  if (result.count > 0 && result[0].count > 0) {
     vacuumMode = [(NSNumber *)result[0][0] intValue];
   }
   BOOL autoVacuumDisabled = vacuumMode != 1;

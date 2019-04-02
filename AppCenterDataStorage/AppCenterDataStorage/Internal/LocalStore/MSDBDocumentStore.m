@@ -44,18 +44,18 @@ static const NSUInteger kMSSchemaVersion = 1;
 
 #pragma mark - Table Management
 
-//TODO work item created to tracl this implementation
+// TODO work item created to tracl this implementation
 - (BOOL)createWithPartition:(NSString *)__unused partition
                    document:(MSDocumentWrapper *)__unused document
                writeOptions:(MSWriteOptions *)__unused writeOptions {
   return YES;
 }
 
-- (NSUInteger) createUserStorageWithAccountId:(NSString *)accountId {
-    MSDBSchema *schema = @{[NSString stringWithFormat:kMSUserDocumentTableNameFormat, accountId] : [MSDBDocumentStore tableSchema]};
-  
-    // Create table based on the schema.
-    return (int)[self.dbStorage createTablesWithSchema:schema];
+- (NSUInteger)createUserStorageWithAccountId:(NSString *)accountId {
+  MSDBSchema *schema = @{[NSString stringWithFormat:kMSUserDocumentTableNameFormat, accountId] : [MSDBDocumentStore tableSchema]};
+
+  // Create table based on the schema.
+  return (int)[self.dbStorage createTablesWithSchema:schema];
 }
 
 - (BOOL)deleteUserStorageWithAccountId:(NSString *)accountId {
