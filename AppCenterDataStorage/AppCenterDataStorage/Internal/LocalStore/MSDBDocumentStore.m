@@ -44,36 +44,23 @@ static const NSUInteger kMSSchemaVersion = 1;
 
 #pragma mark - Table Management
 
-- (bool)createWithPartition:(nonnull NSString *)__unused partition
-                   document:(nonnull MSDocumentWrapper *)__unused document
-               writeOptions:(nonnull MSWriteOptions *)__unused options {
-  return true;
+//TODO work item created to tracl this implementation
+- (BOOL)createWithPartition:(NSString *)__unused partition
+                   document:(MSDocumentWrapper *)__unused document
+               writeOptions:(MSWriteOptions *)__unused options {
+  return YES;
 }
 
-- (void)createUserStorageWithAccountId:(NSString *)accountId {
-  [self.dbStorage executeQueryUsingBlock:^int(void *db) {
+- (NSUInteger) createUserStorageWithAccountId:(NSString *)accountId {
     MSDBSchema *schema = @{[NSString stringWithFormat:kMSUserDocumentTableNameFormat, accountId] : [MSDBDocumentStore tableSchema]};
-
+  
     // Create table based on the schema.
-    return (int)[MSDBStorage createTablesWithSchema:schema inOpenedDatabase:db];
-  }];
+    return (int)[self.dbStorage createTablesWithSchema:schema];
 }
 
 - (BOOL)deleteUserStorageWithAccountId:(NSString *)accountId {
-  return [self.dbStorage executeQueryUsingBlock:^int(void *db) {
-           NSString *tableName = [NSString stringWithFormat:kMSUserDocumentTableNameFormat, accountId];
-           if ([MSDBStorage tableExists:tableName inOpenedDatabase:db]) {
-             NSString *deleteQuery = [NSString stringWithFormat:@"DROP TABLE \"%@\";", tableName];
-             int result = [MSDBStorage executeNonSelectionQuery:deleteQuery inOpenedDatabase:db];
-             if (result == SQLITE_OK) {
-               MSLogVerbose([MSDataStore logTag], @"Document table %@ has been deleted", tableName);
-             } else {
-               MSLogError([MSDataStore logTag], @"Failed to delete the Document table %@", tableName);
-             }
-             return result;
-           }
-           return SQLITE_OK;
-         }] == SQLITE_OK;
+  NSString *tableName = [NSString stringWithFormat:kMSUserDocumentTableNameFormat, accountId];
+  return [self.dbStorage dropTable:tableName];
 }
 
 + (NSArray<NSDictionary<NSString *, NSArray<NSString *> *> *> *)tableSchema {
