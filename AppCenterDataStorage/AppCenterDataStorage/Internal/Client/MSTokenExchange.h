@@ -19,6 +19,8 @@ typedef void (^MSGetTokenAsyncCompletionHandler)(MSTokensResponse *tokenResponse
  * Get token from token exchange.
  *
  * @param httpClient http client.
+ * @param tokenExchangeUrl API url to exchange token.
+ * @param appSecret application secret.
  * @param partition cosmosdb partition.
  * @param completionHandler callback that gets the token.
  *
