@@ -835,9 +835,6 @@ static NSString *const kMSDocumentIdTest = @"documentId";
       XCTAssertNotNil(testDocuments);
       XCTAssertFalse([testDocuments hasNextPage]);
       XCTAssertEqual([[testDocuments currentPage] items].count, 1);
-      [testDocuments nextPageWithCompletionHandler:^(MSPage *page) {
-        XCTAssertNil(page);
-      }];
       MSDocumentWrapper<SomeObject *> *documentWrapper = [[testDocuments currentPage] items][0];
       XCTAssertTrue([[documentWrapper documentId] isEqualToString:@"doc1"]);
       XCTAssertNil([documentWrapper error]);
@@ -852,6 +849,97 @@ static NSString *const kMSDocumentIdTest = @"documentId";
     }
   };
   [self waitForExpectationsWithTimeout:1 handler:handler];
+  expectation = [self expectationWithDescription:@"Get extra page"];
+  __block MSPage *testPage;
+  [testDocuments nextPageWithCompletionHandler:^(MSPage *page) {
+    testPage = page;
+    [expectation fulfill];
+  }];
+  handler = ^(NSError *_Nullable error) {
+    if (error) {
+      XCTFail(@"Expectation Failed with error: %@", error);
+    } else {
+      XCTAssertNil(testPage);
+    }
+  };
+  [self waitForExpectationsWithTimeout:1 handler:handler];
+  [httpClient stopMocking];
+}
+
+- (void)testListPagination {
+
+  // If
+  id httpClient = OCMClassMock([MSHttpClient class]);
+  OCMStub([httpClient new]).andReturn(httpClient);
+  self.sut.httpClient = httpClient;
+  id msTokenEchange = OCMClassMock([MSTokenExchange class]);
+  OCMStub([msTokenEchange retrieveCachedToken:[OCMArg any]])
+      .andReturn([[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]]);
+  __weak XCTestExpectation *expectation = [self expectationWithDescription:@"List first page"];
+  NSMutableDictionary *continuationHeaders = [NSMutableDictionary new];
+  continuationHeaders[@"x-ms-continuation"] = @"continuation token";
+  // First page
+  NSDictionary *firstPageHeaders = [MSCosmosDb defaultHeaderWithPartition:@"partition" dbToken:kMSTokenTest additionalHeaders:nil];
+  OCMStub([httpClient sendAsync:OCMOCK_ANY method:@"GET" headers:firstPageHeaders data:nil completionHandler:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        [invocation retainArguments];
+        MSHttpRequestCompletionHandler completionHandler;
+        [invocation getArgument:&completionHandler atIndex:6];
+        NSData *payload = [self getJsonFixture:@"oneDocumentPage"];
+        completionHandler(payload, [MSHttpTestUtil createMockResponseForStatusCode:200 headers:continuationHeaders], nil);
+      });
+  // Second page
+  NSDictionary *secondPageHeaders = [MSCosmosDb defaultHeaderWithPartition:@"partition"
+                                                                   dbToken:kMSTokenTest
+                                                         additionalHeaders:continuationHeaders];
+  OCMStub([httpClient sendAsync:OCMOCK_ANY method:@"GET" headers:secondPageHeaders data:nil completionHandler:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        [invocation retainArguments];
+        MSHttpRequestCompletionHandler completionHandler;
+        [invocation getArgument:&completionHandler atIndex:6];
+        NSData *payload = [self getJsonFixture:@"zeroDocumentsPage"];
+        completionHandler(payload, [MSHttpTestUtil createMockResponseForStatusCode:200 headers:nil], nil);
+      });
+
+  // When
+  __block MSPaginatedDocuments *testDocuments;
+  [self.sut listWithPartition:@"partition"
+                 documentType:[SomeObject class]
+                  readOptions:nil
+            continuationToken:nil
+            completionHandler:^(MSPaginatedDocuments *_Nonnull documents) {
+              testDocuments = documents;
+              [expectation fulfill];
+            }];
+
+  // Then
+  id handler = ^(NSError *_Nullable error) {
+    if (error) {
+      XCTFail(@"Expectation Failed with error: %@", error);
+    } else {
+      XCTAssertNotNil(testDocuments);
+      XCTAssertEqual([[testDocuments currentPage] items].count, 1);
+      XCTAssertTrue([testDocuments hasNextPage]);
+    }
+  };
+  [self waitForExpectationsWithTimeout:3 handler:handler];
+  expectation = [self expectationWithDescription:@"List second page"];
+  __block MSPage *testPage;
+  [testDocuments nextPageWithCompletionHandler:^(MSPage *page) {
+    testPage = page;
+    [expectation fulfill];
+  }];
+  handler = ^(NSError *_Nullable error) {
+    if (error) {
+      XCTFail(@"Expectation Failed with error: %@", error);
+    } else {
+      XCTAssertFalse([testDocuments hasNextPage]);
+      XCTAssertEqual([[testDocuments currentPage] items].count, 0);
+      XCTAssertEqual([testPage items].count, 0);
+      XCTAssertEqualObjects(testPage, [testDocuments currentPage]);
+    }
+  };
+  [self waitForExpectationsWithTimeout:3 handler:handler];
   [httpClient stopMocking];
 }
 

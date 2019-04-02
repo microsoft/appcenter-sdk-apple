@@ -12,14 +12,15 @@
 // Implementation members.
 @interface MSPaginatedDocuments ()
 
+// WIP: move this to dedicated header file.
 // Read-only.
-@property(nonatomic, strong, readonly) NSString *partition;
-@property(nonatomic, strong, readonly) Class documentType;
-@property(nonatomic, strong, readonly) MSReadOptions *readOptions;
+@property(nonatomic, copy, readonly) NSString *partition;
+@property(nonatomic, readonly) Class documentType;
+@property(nonatomic, readonly) MSReadOptions *readOptions;
 
 // Read-write (to implement pagination).
-@property(nonatomic, strong, readwrite) MSPage *currentPage;
-@property(nonatomic, strong, readwrite, nullable) NSString *continuationToken;
+@property(nonatomic, readwrite) MSPage *currentPage;
+@property(nonatomic, copy, readwrite, nullable) NSString *continuationToken;
 
 @end
 
@@ -63,7 +64,7 @@
 }
 
 - (BOOL)hasNextPage {
-  return self.continuationToken.length;
+  return [self.continuationToken length] != 0;
 }
 
 - (void)nextPageWithCompletionHandler:(void (^)(MSPage<id<MSSerializableDocument>> *page))completionHandler {

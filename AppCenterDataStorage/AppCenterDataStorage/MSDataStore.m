@@ -367,9 +367,6 @@ static dispatch_once_t onceToken;
   if (continuationToken) {
     [additionalHeaders setObject:(NSString *)continuationToken forKey:kMSDocumentContinuationTokenHeaderKey];
   }
-  // TODO: Add constant and set max items (maybe provide a way to change it e.g. in the read options)
-  [additionalHeaders setObject:@"10" forKey:@"x-ms-max-item-count"];
-
   // Call cosmos DB.
   [self performOperationForPartition:partition
                           documentId:nil
