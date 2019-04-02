@@ -224,7 +224,7 @@ static dispatch_once_t onceToken;
               readOptions:(MSReadOptions *)readOptions
         completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
 
-  if (self.offlineMode) {
+  if ([self isOfflineModeEnabled]) {
     [self readFromLocalStoreWithPartition:partition documentId:documentId documentType:documentType readOptions:readOptions completionHandler:completionHandler];
   } else {
     [self readFromCosmosDbWithPartition:partition documentId:documentId documentType:documentType readOptions:readOptions completionHandler:completionHandler];
@@ -236,11 +236,10 @@ static dispatch_once_t onceToken;
                          documentType:(Class)documentType
                           readOptions:(MSReadOptions *)readOptions
                     completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
-  (void)partition; (void)documentId; (void)documentType; (void)readOptions; (void)completionHandler;
-
-  //TODO put this in a task queue
-
-
+  dispatch_async(self.dataStoreDispatchQueue, ^{
+    MSDocumentWrapper *document = [self.documentStore readWithPartition:partition documentId:documentId documentType:documentType readOptions:readOptions];
+    completionHandler(document);
+  });
 }
 
 - (void)readFromCosmosDbWithPartition:(NSString *)partition

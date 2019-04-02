@@ -771,7 +771,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                         appSecret:kMSTestAppSecret
           transmissionTargetToken:nil
                   fromApplication:YES];
-  [MSDataStore setOfflineMode:YES];
+  [MSDataStore setOfflineModeEnabled:YES];
   XCTestExpectation *expectation = [self expectationWithDescription:@""];
 
   // If there are documents cached on disk.
