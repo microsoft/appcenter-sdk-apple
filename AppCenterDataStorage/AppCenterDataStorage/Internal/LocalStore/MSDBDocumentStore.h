@@ -11,13 +11,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface MSDBDocumentStore : NSObject <MSDocumentStore>
 
-/**
- * Get table schema.
- *
- * @return Table schema.
- */
-+ (NSArray<NSDictionary<NSString *, NSArray<NSString *> *> *> *)tableSchema;
-
 @end
 
 NS_ASSUME_NONNULL_END

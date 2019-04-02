@@ -16,7 +16,7 @@ static NSString *const kMSDefaultApiUrl = @"https://api.appcenter.ms/v0.1";
 /**
  * A flag that indicates offline mode is on or off.
  */
-@property(atomic) BOOL offlineMode;
+@property(atomic, getter=isOfflineModeEnabled) BOOL offlineModeEnabled;
 
 /**
  * The dispatch queue that cache operations will be performed with.

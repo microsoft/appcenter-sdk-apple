@@ -61,6 +61,31 @@
   return result;
 }
 
+- (BOOL)dropTable:(NSString *)tableName{
+  return [self executeQueryUsingBlock:^int(void *db) {
+    if ([MSDBStorage tableExists:tableName inOpenedDatabase:db]) {
+      NSString *deleteQuery = [NSString stringWithFormat:@"DROP TABLE \"%@\";", tableName];
+      int result = [MSDBStorage executeNonSelectionQuery:deleteQuery inOpenedDatabase:db];
+      if (result == SQLITE_OK) {
+        MSLogVerbose([MSAppCenter logTag], @"Table %@ has been deleted", tableName);
+      } else {
+        MSLogError([MSAppCenter logTag], @"Failed to delete the table %@", tableName);
+      }
+      return result;
+    }
+    return SQLITE_OK;
+  }] == SQLITE_OK;
+}
+
+- (NSUInteger)createTablesWithSchema:(MSDBSchema *)schema
+{
+  return [self executeQueryUsingBlock:^int(void *db) {
+    
+    // Create tables based on the schema.
+    return (int)[MSDBStorage createTablesWithSchema:schema inOpenedDatabase:db];
+  }];
+}
+
 + (NSUInteger)createTablesWithSchema:(MSDBSchema *)schema inOpenedDatabase:(void *)db {
   NSMutableArray *tableQueries = [NSMutableArray new];
 

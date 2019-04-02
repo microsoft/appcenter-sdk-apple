@@ -81,7 +81,7 @@ static NSString *const kMSSQLiteConstraintAutoincrement = @"AUTOINCREMENT";
 + (NSDictionary *)columnsIndexes:(MSDBSchema *)schema;
 
 /**
- * Creates tables within an existing databse
+ * Creates tables within an existing database
  *
  * @param schema Schema describing the table structure.
  * @param db database instance.
@@ -89,6 +89,24 @@ static NSString *const kMSSQLiteConstraintAutoincrement = @"AUTOINCREMENT";
  * @return operation status.
  */
 + (NSUInteger)createTablesWithSchema:(MSDBSchema *)schema inOpenedDatabase:(void *)db;
+
+/**
+ * Creates tables within an existing database
+ *
+ * @param schema Schema describing the table structure.
+ *
+ * @return operation status.
+ */
+- (NSUInteger)createTablesWithSchema:(MSDBSchema *)schema;
+
+/**
+ * Deletes table within an existing database
+ *
+ * @param tableName Name of the table to delete.
+ *
+ * @return operation status.
+ */
+- (BOOL)dropTable:(NSString *)tableName;
 
 /**
  * Set the maximum size of the internal storage. This method must be called before App Center is started.
