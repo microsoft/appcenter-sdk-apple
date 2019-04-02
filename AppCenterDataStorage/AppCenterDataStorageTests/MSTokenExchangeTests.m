@@ -68,10 +68,19 @@ static NSString *const MSDataStoreAppDocumentsPartition = @"readonly";
   NSObject *tokenData = [self getSuccessfulTokenData];
   NSMutableDictionary *tokenList = [@{kMSTokens : @[ tokenData ]} mutableCopy];
   NSData *jsonTokenData = [NSJSONSerialization dataWithJSONObject:tokenList options:NSJSONWritingPrettyPrinted error:nil];
-  MSAuthTokenContext *mockContext = [MSAuthTokenContext sharedInstance];
-  [mockContext setAuthToken:@"fake-token" withAccountId:@"account-id" expiresOn:nil];
-  id authContextMock = OCMClassMock([MSAuthTokenContext class]);
-  OCMStub(ClassMethod([authContextMock sharedInstance])).andReturn(mockContext);
+    
+  // Create instance of MSAuthTokenContext to mock later.
+  MSAuthTokenContext *context = [MSAuthTokenContext sharedInstance];
+    
+  // Create mock from instance.
+  id contextInstanсeMock = OCMPartialMock(context);
+    
+  // Stub method on mocked instance.
+  OCMStub([contextInstanсeMock authToken]).andReturn(@"fake-token");
+    
+  // Make static method always return mocked instance with stubbed method.
+  OCMClassMock([MSAuthTokenContext class]);
+  OCMStub(ClassMethod([MSAuthTokenContext sharedInstance])).andReturn(contextInstanсeMock);
   id<MSHttpClientProtocol> httpMock = OCMProtocolMock(@protocol(MSHttpClientProtocol));
   __block NSDictionary *actualHeaders;
 
@@ -86,10 +95,6 @@ static NSString *const MSDataStoreAppDocumentsPartition = @"readonly";
         OCMStub([mockResponse statusCode]).andReturn(MSHTTPCodesNo200OK);
         completionBlock(jsonTokenData, mockResponse, nil);
       });
-
-  // Mock returning nil for cached token.
-  OCMStub([self.keychainUtilMock stringForKey:mockTokenKeyName]).andReturn(nil);
-  OCMStub([self.keychainUtilMock storeString:OCMOCK_ANY forKey:OCMOCK_ANY]).andReturn(YES);
   XCTestExpectation *completeExpectation = [self expectationWithDescription:@"Task finished"];
 
   // When
@@ -142,10 +147,7 @@ static NSString *const MSDataStoreAppDocumentsPartition = @"readonly";
       });
 
   // Mock returning nil for cached token.
-  MSAuthTokenContext *mockContext = [MSAuthTokenContext sharedInstance];
-  [mockContext setAuthToken:nil withAccountId:nil expiresOn:nil];
-  id authContextMock = OCMClassMock([MSAuthTokenContext class]);
-  OCMStub(ClassMethod([authContextMock sharedInstance])).andReturn(mockContext);
+  [[MSAuthTokenContext sharedInstance] setAuthToken:nil withAccountId:nil expiresOn:nil];
   OCMStub([self.keychainUtilMock stringForKey:mockTokenKeyName]).andReturn(nil);
   OCMStub([self.keychainUtilMock storeString:OCMOCK_ANY forKey:OCMOCK_ANY]).andReturn(YES);
   XCTestExpectation *completeExpectation = [self expectationWithDescription:@"Task finished"];
