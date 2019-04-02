@@ -153,8 +153,7 @@ static NSString *const kMSGetTokenPath = @"/data/tokens";
       MSLogDebug([MSDataStore logTag], @"Retrieved token from keychain for the partition : %@.", partitionName);
       return tokenResult;
     }
-    MSLogWarning([MSDataStore logTag], @"Failed to retrieve token from keychain or none was found for the partition : %@.",
-                 partitionName);
+    MSLogWarning([MSDataStore logTag], @"Failed to retrieve token from keychain or none was found for the partition : %@.", partitionName);
   }
   return nil;
 }
