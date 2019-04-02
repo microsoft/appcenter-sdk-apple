@@ -101,7 +101,6 @@ static dispatch_once_t onceToken;
                                 completionHandler:completionHandler];
 }
 
-// Internal signature with continuation token.
 + (void)listWithPartition:(NSString *)partition
              documentType:(Class)documentType
               readOptions:(MSReadOptions *_Nullable)readOptions
@@ -367,6 +366,7 @@ static dispatch_once_t onceToken;
   if (continuationToken) {
     [additionalHeaders setObject:(NSString *)continuationToken forKey:kMSDocumentContinuationTokenHeaderKey];
   }
+
   // Call cosmos DB.
   [self performOperationForPartition:partition
                           documentId:nil

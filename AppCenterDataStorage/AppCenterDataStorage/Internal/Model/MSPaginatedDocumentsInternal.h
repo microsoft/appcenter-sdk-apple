@@ -12,7 +12,7 @@
 @property(nonatomic, readonly) MSReadOptions *readOptions;
 
 // Read-write (to implement pagination).
-@property(nonatomic, readwrite) MSPage *currentPage;
-@property(nonatomic, copy, readwrite, nullable) NSString *continuationToken;
+@property(nonatomic) MSPage *currentPage;
+@property(nonatomic, copy, nullable) NSString *continuationToken;
 
 @end
