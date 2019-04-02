@@ -593,7 +593,6 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
     self.signInUserInformation = userInformation;
     self.signInError = error;
   };
-
   [MSIdentity signInWithCompletionHandler:handler2];
 
   // When we complete second call
@@ -606,7 +605,6 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   XCTAssertNotNil(self.signInUserInformation);
   XCTAssertEqualObjects(accountId, self.signInUserInformation.accountId);
   XCTAssertNil(self.signInError);
-
   [identityMock stopMocking];
 }
 
