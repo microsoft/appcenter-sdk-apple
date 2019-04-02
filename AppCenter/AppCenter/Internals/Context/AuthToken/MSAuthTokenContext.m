@@ -59,7 +59,7 @@ static dispatch_once_t onceToken;
   BOOL isNewUser = NO;
   @synchronized(self) {
     self.authToken = authToken;
-    isNewUser = ![self.homeUser compareUser:userInformation];
+    isNewUser = ![self.homeUser isEqualTo:userInformation];
     if (isNewUser) {
       self.homeUser = userInformation;
     }

@@ -12,9 +12,23 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property(nonatomic, copy, nullable) NSString *accountId;
 
+/**
+ * Create user with account identifier.
+ *
+ * @param accountId account identifier for the user.
+ *
+ * @return user with account identifier.
+ */
 - (instancetype)initWithAccountId:(nullable NSString *)accountId;
 
-- (BOOL)compareUser:(MSUserInformation *)userInfor;
+/**
+ * Confirm current user is equal to another user.
+ *
+ * @param userInfo the other user.
+ *
+ * @return Yes or no.
+ */
+- (BOOL)isEqualTo:(MSUserInformation *)userInfo;
 
 @end
 
