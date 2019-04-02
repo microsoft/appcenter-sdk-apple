@@ -235,8 +235,8 @@ static dispatch_once_t onceToken;
     synchronizedDelegates = [self.delegates allObjects];
   }
   for (id<MSAuthTokenContextDelegate> delegate in synchronizedDelegates) {
-    MSLogInfo([MSAppCenter logTag], @"The token needs to be refreshed.", lastEntry.accountId);
-    if ([delegate respondsToSelector:@selector(authTokenContext:refreshAuthTokenForAccountIdrefreshAuthTokenForAccountId:)]) {
+    MSLogInfo([MSAppCenter logTag], @"The token needs to be refreshed.");
+      if ([delegate respondsToSelector:@selector(authTokenContext:refreshAuthTokenForAccountId:)]) {
       [delegate authTokenContext:self refreshAuthTokenForAccountId:lastEntry.accountId];
     }
   }
