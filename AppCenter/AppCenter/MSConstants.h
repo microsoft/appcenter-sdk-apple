@@ -56,16 +56,6 @@ typedef NS_ENUM(NSInteger, MSPriority) { MSPriorityBackground, MSPriorityDefault
 static short const kMSPriorityCount = MSPriorityHigh + 1;
 
 /**
- * The key for auth token history array stored in keychain.
- */
-static NSString *const kMSAuthTokenHistoryKey = @"MSAppCenterAuthTokenHistory";
-
-/**
- * Maximum amount of available token stored in the keychain.
- */
-static int const kMSMaxAuthTokenArraySize = 5;
-
-/**
  * The priority by which the modules are initialized.
  * MSPriorityMax is reserved for only 1 module and this needs to be Crashes.
  * Crashes needs to be initialized first to catch crashes in our other SDK Modules (which will hopefully never happen) and to avoid losing

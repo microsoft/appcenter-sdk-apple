@@ -74,7 +74,15 @@
 		0485AF7E1EAA79E300C10CAF /* MSIdentity.h in Headers */ = {isa = PBXBuildFile; fileRef = E85547C31D2D6253002DF6E2 /* MSIdentity.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		048C07D421F1630A00769A85 /* MSAL.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 04C6EC7921F10D8300A6FDAF /* MSAL.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		048C07D621F1634700769A85 /* MSAL.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 04C6EC7C21F10D9D00A6FDAF /* MSAL.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		049BC836224E8AD900AE7FBB /* MSIdentityErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = 049BC835224E8AD900AE7FBB /* MSIdentityErrors.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		049BC837224E8AE100AE7FBB /* MSIdentityErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = 049BC835224E8AD900AE7FBB /* MSIdentityErrors.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		049BC849224ED7C100AE7FBB /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 049BC848224ED7C100AE7FBB /* WebKit.framework */; };
+		049BC84B224ED7C900AE7FBB /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 049BC84A224ED7C900AE7FBB /* WebKit.framework */; };
+		049BC84C224ED9D600AE7FBB /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 049BC848224ED7C100AE7FBB /* WebKit.framework */; };
+		049BC84D224ED9E500AE7FBB /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 049BC84A224ED7C900AE7FBB /* WebKit.framework */; };
 		04A082061F74BB8600DC776D /* MSService.h in Headers */ = {isa = PBXBuildFile; fileRef = 04A082051F74BB8600DC776D /* MSService.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		04B1C8CC2252AF2300CBD876 /* MSAppCenterErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = 04B1C8CB2252AF2300CBD876 /* MSAppCenterErrors.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		04B1C8CD2252AF2300CBD876 /* MSAppCenterErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = 04B1C8CB2252AF2300CBD876 /* MSAppCenterErrors.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		04BED7181ECB64FB00E20975 /* OCHamcrest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04BED7161ECB64CE00E20975 /* OCHamcrest.framework */; };
 		04C6EC7E21F10DCA00A6FDAF /* MSAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04C6EC7921F10D8300A6FDAF /* MSAL.framework */; };
 		04C6EC8021F10DDB00A6FDAF /* MSAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04C6EC7C21F10D9D00A6FDAF /* MSAL.framework */; };
@@ -114,11 +122,8 @@
 		9CFD2EC6221CCE33006C5FBD /* MSMockKeychainUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CFD2EC4221CCE33006C5FBD /* MSMockKeychainUtil.m */; };
 		9CFD2EC7221CCE33006C5FBD /* MSMockKeychainUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CFD2EC4221CCE33006C5FBD /* MSMockKeychainUtil.m */; };
 		B2B25642220B365A00716D6A /* MSIdentityAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B2B25640220B365A00716D6A /* MSIdentityAppDelegate.m */; };
-		B2B25643220B365A00716D6A /* MSIdentityAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B2B25640220B365A00716D6A /* MSIdentityAppDelegate.m */; };
 		B2B25644220B365A00716D6A /* MSIdentityAppDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = B2B25641220B365A00716D6A /* MSIdentityAppDelegate.h */; };
-		B2B25645220B365A00716D6A /* MSIdentityAppDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = B2B25641220B365A00716D6A /* MSIdentityAppDelegate.h */; };
 		B2B25647220B370200716D6A /* MSIdentityAppDelegateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2B25646220B370200716D6A /* MSIdentityAppDelegateTests.m */; };
-		B2B25648220B370200716D6A /* MSIdentityAppDelegateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2B25646220B370200716D6A /* MSIdentityAppDelegateTests.m */; };
 		E85547C61D2D6253002DF6E2 /* MSIdentity.m in Sources */ = {isa = PBXBuildFile; fileRef = E85547C51D2D6253002DF6E2 /* MSIdentity.m */; };
 		E85547DA1D2D6723002DF6E2 /* libAppCenterIdentity.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E85547C01D2D6253002DF6E2 /* libAppCenterIdentity.a */; };
 		E85547F71D2D6A7D002DF6E2 /* AppCenterIdentity.h in Headers */ = {isa = PBXBuildFile; fileRef = E85547CC1D2D63EF002DF6E2 /* AppCenterIdentity.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -215,7 +220,11 @@
 		049BC82A1ECE3B9400FB6719 /* iOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = iOS.xcconfig; sourceTree = "<group>"; };
 		049BC82B1ECE3B9A00FB6719 /* macOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
 		049BC82C1ECE3CF000FB6719 /* Tests macOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Tests macOS.xcconfig"; path = "../../Config/Tests macOS.xcconfig"; sourceTree = "<group>"; };
+		049BC835224E8AD900AE7FBB /* MSIdentityErrors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSIdentityErrors.h; sourceTree = "<group>"; };
+		049BC848224ED7C100AE7FBB /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/WebKit.framework; sourceTree = DEVELOPER_DIR; };
+		049BC84A224ED7C900AE7FBB /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		04A082051F74BB8600DC776D /* MSService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSService.h; path = ../AppCenter/AppCenter/MSService.h; sourceTree = "<group>"; };
+		04B1C8CB2252AF2300CBD876 /* MSAppCenterErrors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSAppCenterErrors.h; path = ../AppCenter/AppCenter/MSAppCenterErrors.h; sourceTree = "<group>"; };
 		04BED7161ECB64CE00E20975 /* OCHamcrest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrest.framework; path = ../../Vendor/macOS/OCHamcrest/OCHamcrest.framework; sourceTree = "<group>"; };
 		04C6EC7921F10D8300A6FDAF /* MSAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MSAL.framework; path = ../Vendor/iOS/MSAL/MSAL.framework; sourceTree = "<group>"; };
 		04C6EC7C21F10D9D00A6FDAF /* MSAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MSAL.framework; path = ../Vendor/macOS/MSAL/MSAL.framework; sourceTree = "<group>"; };
@@ -263,6 +272,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				049BC84C224ED9D600AE7FBB /* WebKit.framework in Frameworks */,
 				0446DF621F3B95EB00C8E338 /* libAppCenter.a in Frameworks */,
 				046AEACB1ECA554600CBE511 /* libAppCenterIdentity.a in Frameworks */,
 				04C802E9220399A30039E9BC /* OHHTTPStubs.framework in Frameworks */,
@@ -275,6 +285,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				049BC849224ED7C100AE7FBB /* WebKit.framework in Frameworks */,
 				04C6EC8021F10DDB00A6FDAF /* MSAL.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -283,6 +294,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				049BC84B224ED7C900AE7FBB /* WebKit.framework in Frameworks */,
 				04E0F320223B246B0080C968 /* AuthenticationServices.framework in Frameworks */,
 				04C6EC7E21F10DCA00A6FDAF /* MSAL.framework in Frameworks */,
 			);
@@ -292,6 +304,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				049BC84D224ED9E500AE7FBB /* WebKit.framework in Frameworks */,
 				0446DF641F3B95F200C8E338 /* libAppCenter.a in Frameworks */,
 				E85547DA1D2D6723002DF6E2 /* libAppCenterIdentity.a in Frameworks */,
 				04C802EA220399A80039E9BC /* OHHTTPStubs.framework in Frameworks */,
@@ -415,6 +428,8 @@
 		04E0F31E223B246A0080C968 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				049BC848224ED7C100AE7FBB /* WebKit.framework */,
+				049BC84A224ED7C900AE7FBB /* WebKit.framework */,
 				04E0F31F223B246B0080C968 /* AuthenticationServices.framework */,
 			);
 			name = Frameworks;
@@ -495,6 +510,7 @@
 		E85547B71D2D6253002DF6E2 = {
 			isa = PBXGroup;
 			children = (
+				04B1C8CB2252AF2300CBD876 /* MSAppCenterErrors.h */,
 				04A082051F74BB8600DC776D /* MSService.h */,
 				387C77041D6CC39400D68CC1 /* MSServiceAbstract.h */,
 				E85547C21D2D6253002DF6E2 /* AppCenterIdentity */,
@@ -522,6 +538,7 @@
 				E85547CC1D2D63EF002DF6E2 /* AppCenterIdentity.h */,
 				E85547C31D2D6253002DF6E2 /* MSIdentity.h */,
 				E85547C51D2D6253002DF6E2 /* MSIdentity.m */,
+				049BC835224E8AD900AE7FBB /* MSIdentityErrors.h */,
 				04183C522229D5D400B5C70E /* MSUserInformation.h */,
 				04D707DE2229F593001EE415 /* MSUserInformation.m */,
 				995BA5D621EFF01F000E3212 /* Internals */,
@@ -570,10 +587,11 @@
 				995BA5DD21EFF414000E3212 /* MSIdentityPrivate.h in Headers */,
 				995BA5D421EFEF6D000E3212 /* AppCenter+Internal.h in Headers */,
 				35BCB33C22382EA300E948A4 /* MSIdentityConstants.h in Headers */,
-				B2B25645220B365A00716D6A /* MSIdentityAppDelegate.h in Headers */,
 				3568A7EF201A9BBB00F3B860 /* MSService.h in Headers */,
+				049BC837224E8AE100AE7FBB /* MSIdentityErrors.h in Headers */,
 				38F796CD21F93E33007E7C15 /* MSIdentityConfig.h in Headers */,
 				0481A54D21FA51D4001FA9D8 /* MSIdentityConfigIngestion.h in Headers */,
+				04B1C8CD2252AF2300CBD876 /* MSAppCenterErrors.h in Headers */,
 				3568A7F0201A9BBB00F3B860 /* MSServiceAbstract.h in Headers */,
 				0485AF781EAA79E300C10CAF /* AppCenterIdentity.h in Headers */,
 				38F796D321F93ED6007E7C15 /* MSIdentityAuthority.h in Headers */,
@@ -585,12 +603,14 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04B1C8CC2252AF2300CBD876 /* MSAppCenterErrors.h in Headers */,
 				04183C542229D5D400B5C70E /* MSUserInformation.h in Headers */,
 				995BA5DC21EFF414000E3212 /* MSIdentityPrivate.h in Headers */,
 				995BA5D321EFEF6D000E3212 /* AppCenter+Internal.h in Headers */,
 				35BCB33B22382EA100E948A4 /* MSIdentityConstants.h in Headers */,
 				B2B25644220B365A00716D6A /* MSIdentityAppDelegate.h in Headers */,
 				04A082061F74BB8600DC776D /* MSService.h in Headers */,
+				049BC836224E8AD900AE7FBB /* MSIdentityErrors.h in Headers */,
 				38F796CC21F93E33007E7C15 /* MSIdentityConfig.h in Headers */,
 				387C77051D6CC39400D68CC1 /* MSServiceAbstract.h in Headers */,
 				0481A54C21FA511C001FA9D8 /* MSIdentityConfigIngestion.h in Headers */,
@@ -826,7 +846,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B2B25648220B370200716D6A /* MSIdentityAppDelegateTests.m in Sources */,
 				F82E4C72217F1FA600EDAB34 /* sqlite3.c in Sources */,
 				9CFD2EC7221CCE33006C5FBD /* MSMockKeychainUtil.m in Sources */,
 				04774645220112480045504A /* MSIdentityConfigTest.m in Sources */,
@@ -846,7 +865,6 @@
 				38F796D521F93ED6007E7C15 /* MSIdentityAuthority.m in Sources */,
 				0481A54E21FA51D7001FA9D8 /* MSIdentityConfigIngestion.m in Sources */,
 				04D707E32229F5FC001EE415 /* MSUserInformation.m in Sources */,
-				B2B25643220B365A00716D6A /* MSIdentityAppDelegate.m in Sources */,
 				38F796CF21F93E33007E7C15 /* MSIdentityConfig.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

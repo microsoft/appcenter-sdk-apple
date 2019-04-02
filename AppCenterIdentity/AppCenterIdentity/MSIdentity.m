@@ -2,17 +2,21 @@
 // Licensed under the MIT License.
 
 #import "MSAppCenterInternal.h"
-#import "MSAppDelegateForwarder.h"
 #import "MSAuthTokenContext.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSConstants+Internal.h"
-#import "MSIdentityAppDelegate.h"
 #import "MSIdentityConfig.h"
 #import "MSIdentityConfigIngestion.h"
 #import "MSIdentityConstants.h"
+#import "MSIdentityErrors.h"
 #import "MSIdentityPrivate.h"
 #import "MSServiceAbstractProtected.h"
 #import "MSUtility+File.h"
+
+#if TARGET_OS_IOS
+#import "MSAppDelegateForwarder.h"
+#import "MSIdentityAppDelegate.h"
+#endif
 
 // Service name for initialization.
 static NSString *const kMSServiceName = @"Identity";
@@ -33,7 +37,10 @@ static dispatch_once_t onceToken;
 - (instancetype)init {
   if ((self = [super init])) {
     _channelUnitConfiguration = [[MSChannelUnitConfiguration alloc] initDefaultConfigurationWithGroupId:[self groupId]];
+
+#if TARGET_OS_IOS
     _appDelegate = [MSIdentityAppDelegate new];
+#endif
     _configUrl = kMSIdentityDefaultBaseURL;
     [MSUtility createDirectoryForPathComponent:kMSIdentityPathComponent];
   }
@@ -80,7 +87,9 @@ static dispatch_once_t onceToken;
 - (void)applyEnabledState:(BOOL)isEnabled {
   [super applyEnabledState:isEnabled];
   if (isEnabled) {
+#if TARGET_OS_IOS
     [[MSAppDelegateForwarder sharedInstance] addDelegate:self.appDelegate];
+#endif
 
     // Read Identity config file.
     NSString *eTag = nil;
@@ -93,14 +102,16 @@ static dispatch_once_t onceToken;
     [self downloadConfigurationWithETag:eTag];
     MSLogInfo([MSIdentity logTag], @"Identity service has been enabled.");
   } else {
+#if TARGET_OS_IOS
     [[MSAppDelegateForwarder sharedInstance] removeDelegate:self.appDelegate];
+#endif
     [self clearAuthData];
     self.clientApplication = nil;
     [self clearConfigurationCache];
     self.ingestion = nil;
-    NSError *error = [[NSError alloc] initWithDomain:MSIdentityErrorDomain
-                                                code:MSIdentityErrorServiceDisabled
-                                            userInfo:@{MSIdentityErrorDescriptionKey : @"Identity is disabled."}];
+    NSError *error = [[NSError alloc] initWithDomain:kMSACIdentityErrorDomain
+                                                code:MSACIdentityErrorServiceDisabled
+                                            userInfo:@{NSLocalizedDescriptionKey : @"Identity is disabled."}];
     [self completeAcquireTokenRequestForResult:nil withError:error];
     MSLogInfo([MSIdentity logTag], @"Identity service has been disabled.");
   }
@@ -115,9 +126,11 @@ static dispatch_once_t onceToken;
   sharedInstance = nil;
 }
 
+#if TARGET_OS_IOS
 + (BOOL)openURL:(NSURL *)url {
   return [MSALPublicClientApplication handleMSALResponse:url];
 }
+#endif
 
 + (void)signInWithCompletionHandler:(MSSignInCompletionHandler _Nullable)completionHandler {
 
@@ -130,18 +143,18 @@ static dispatch_once_t onceToken;
     if ([[MSIdentity sharedInstance] canBeUsed] && [[MSIdentity sharedInstance] isEnabled]) {
       if ([MSIdentity sharedInstance].signInCompletionHandler) {
         MSLogError([MSIdentity logTag], @"signIn already in progress.");
-        NSError *error = [[NSError alloc] initWithDomain:MSIdentityErrorDomain
-                                                    code:MSIdentityErrorPreviousSignInRequestInProgress
-                                                userInfo:@{MSIdentityErrorDescriptionKey : @"signIn already in progress."}];
+        NSError *error = [[NSError alloc] initWithDomain:kMSACIdentityErrorDomain
+                                                    code:MSACIdentityErrorPreviousSignInRequestInProgress
+                                                userInfo:@{NSLocalizedDescriptionKey : @"signIn already in progress."}];
         completionHandler(nil, error);
         return;
       }
       [MSIdentity sharedInstance].signInCompletionHandler = completionHandler;
       [[MSIdentity sharedInstance] signIn];
     } else {
-      NSError *error = [[NSError alloc] initWithDomain:MSIdentityErrorDomain
-                                                  code:MSIdentityErrorServiceDisabled
-                                              userInfo:@{MSIdentityErrorDescriptionKey : @"Identity is disabled."}];
+      NSError *error = [[NSError alloc] initWithDomain:kMSACIdentityErrorDomain
+                                                  code:MSACIdentityErrorServiceDisabled
+                                              userInfo:@{NSLocalizedDescriptionKey : @"Identity is disabled."}];
       completionHandler(nil, error);
     }
   }
@@ -153,12 +166,12 @@ static dispatch_once_t onceToken;
 
 - (void)signIn {
   if ([[MS_Reachability reachabilityForInternetConnection] currentReachabilityStatus] == NotReachable) {
-    [self completeSignInWithErrorCode:MSIdentityErrorSignInWhenNoConnection
+    [self completeSignInWithErrorCode:MSACIdentityErrorSignInWhenNoConnection
                            andMessage:@"User sign-in failed. Internet connection is down."];
     return;
   }
   if (self.clientApplication == nil || self.identityConfig == nil) {
-    [self completeSignInWithErrorCode:MSIdentityErrorSignInBackgroundOrNotConfigured
+    [self completeSignInWithErrorCode:MSACIdentityErrorSignInBackgroundOrNotConfigured
                            andMessage:@"signIn is called while it's not configured or not in the foreground."];
     return;
   }
@@ -179,9 +192,9 @@ static dispatch_once_t onceToken;
   if (!self.signInCompletionHandler) {
     return;
   }
-  NSError *error = [[NSError alloc] initWithDomain:MSIdentityErrorDomain
+  NSError *error = [[NSError alloc] initWithDomain:kMSACIdentityErrorDomain
                                               code:errorCode
-                                          userInfo:@{MSIdentityErrorDescriptionKey : errorMessage}];
+                                          userInfo:@{NSLocalizedDescriptionKey : errorMessage}];
   self.signInCompletionHandler(nil, error);
 }
 
@@ -272,8 +285,8 @@ static dispatch_once_t onceToken;
 
   // Init MSAL client application.
   NSError *error;
-  MSALAuthority *auth = [MSALAuthority authorityWithURL:(NSURL * _Nonnull) self.identityConfig.authorities[0].authorityUrl error:nil];
-  self.clientApplication = [[MSALPublicClientApplication alloc] initWithClientId:(NSString * _Nonnull) self.identityConfig.clientId
+  MSALAuthority *auth = [MSALAuthority authorityWithURL:(NSURL * __nonnull) self.identityConfig.authorities[0].authorityUrl error:nil];
+  self.clientApplication = [[MSALPublicClientApplication alloc] initWithClientId:(NSString * __nonnull) self.identityConfig.clientId
                                                                        authority:auth
                                                                      redirectUri:self.identityConfig.redirectUri
                                                                            error:&error];
@@ -332,7 +345,7 @@ static dispatch_once_t onceToken;
 - (void)acquireTokenSilentlyWithMSALAccount:(MSALAccount *)account {
   __weak typeof(self) weakSelf = self;
   [self.clientApplication
-      acquireTokenSilentForScopes:@[ (NSString * _Nonnull) self.identityConfig.identityScope ]
+      acquireTokenSilentForScopes:@[ (NSString * __nonnull) self.identityConfig.identityScope ]
                           account:account
                   completionBlock:^(MSALResult *result, NSError *e) {
                     typeof(self) strongSelf = weakSelf;
@@ -341,7 +354,7 @@ static dispatch_once_t onceToken;
                                    @"Silent acquisition of token failed with error: %@. Triggering interactive acquisition", e);
                       [strongSelf acquireTokenInteractively];
                     } else {
-                      MSALAccountId *accountId = (MSALAccountId * _Nonnull) result.account.homeAccountId;
+                      MSALAccountId *accountId = (MSALAccountId * __nonnull) result.account.homeAccountId;
                       [[MSAuthTokenContext sharedInstance] setAuthToken:result.idToken
                                                           withAccountId:accountId.identifier
                                                               expiresOn:result.expiresOn];
@@ -353,7 +366,7 @@ static dispatch_once_t onceToken;
 
 - (void)acquireTokenInteractively {
   __weak typeof(self) weakSelf = self;
-  [self.clientApplication acquireTokenForScopes:@[ (NSString * _Nonnull) self.identityConfig.identityScope ]
+  [self.clientApplication acquireTokenForScopes:@[ (NSString * __nonnull) self.identityConfig.identityScope ]
                                 completionBlock:^(MSALResult *result, NSError *e) {
                                   typeof(self) strongSelf = weakSelf;
                                   if (e) {
@@ -363,7 +376,7 @@ static dispatch_once_t onceToken;
                                       MSLogError([MSIdentity logTag], @"User sign-in failed. Error: %@", e);
                                     }
                                   } else {
-                                    MSALAccountId *accountId = (MSALAccountId * _Nonnull) result.account.homeAccountId;
+                                    MSALAccountId *accountId = (MSALAccountId * __nonnull) result.account.homeAccountId;
                                     [[MSAuthTokenContext sharedInstance] setAuthToken:result.idToken
                                                                         withAccountId:accountId.identifier
                                                                             expiresOn:result.expiresOn];
@@ -382,7 +395,7 @@ static dispatch_once_t onceToken;
       self.signInCompletionHandler(nil, error);
     } else {
       MSUserInformation *userInformation = [MSUserInformation new];
-      userInformation.accountId = (NSString * _Nonnull) result.uniqueId;
+      userInformation.accountId = (NSString * __nonnull) result.uniqueId;
       self.signInCompletionHandler(userInformation, nil);
     }
     self.signInCompletionHandler = nil;

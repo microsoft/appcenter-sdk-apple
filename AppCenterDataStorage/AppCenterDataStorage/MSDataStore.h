@@ -17,6 +17,11 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
+ * Error domain for Storage.
+ */
+static NSString *const kMSDataStorageErrorDomain = @"MSDataStorageErrorDomain";
+
+/**
  * User partition.
  * An authenticated user can read/write documents in this partition.
  */
@@ -182,5 +187,18 @@ typedef void (^MSDataSourceErrorCompletionHandler)(MSDataSourceError *error);
                        writeOptions:(MSWriteOptions *)writeOptions
                   completionHandler:(MSDataSourceErrorCompletionHandler)completionHandler;
 
+/**
+ * Enable or disable offline mode.
+ *
+ * @param isOfflineModeEnabled `YES` to turn on offline mode, `NO` to turn off.
+ */
++ (void)setOfflineModeEnabled:(BOOL)isOfflineModeEnabled;
+
+/**
+ * Check whether offline mode is enabled or not. It is disabled by default.
+ */
++ (BOOL)isOfflineModeEnabled;
+
 @end
+
 NS_ASSUME_NONNULL_END

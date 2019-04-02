@@ -50,7 +50,7 @@ static dispatch_once_t onceToken;
 
 - (void)setAuthToken:(nullable NSString *)authToken withAccountId:(nullable NSString *)accountId expiresOn:(nullable NSDate *)expiresOn {
   NSArray *synchronizedDelegates;
-  BOOL isNewAccount = NO;
+  BOOL isNewUser = NO;
   @synchronized(self) {
 
     // If a nil authToken is passed with non-nil paarmeters, reset them.
@@ -59,27 +59,23 @@ static dispatch_once_t onceToken;
       expiresOn = nil;
     }
     NSMutableArray<MSAuthTokenInfo *> *authTokenHistory = [[self authTokenHistory] mutableCopy];
-
     MSAuthTokenInfo *lastEntry = authTokenHistory.lastObject;
-    NSString *__nullable latestAuthToken = lastEntry.authToken;
-    NSString *__nullable latestAccountId = lastEntry.accountId;
-    NSDate *__nullable latestTokenEndTime = lastEntry.expiresOn;
 
     // If new token doesn't differ from the last token of array - no need to add it to array.
-    if (lastEntry != nil && [latestAuthToken isEqual:(NSString * _Nonnull) authToken]) {
+    if (lastEntry && (authToken == lastEntry.authToken || [authToken isEqualToString:(NSString * __nonnull) lastEntry.authToken])) {
       return;
     }
-    BOOL isNewUser = authTokenHistory.lastObject == nil || ![accountId isEqualToString:(NSString * __nonnull) latestAccountId];
+    isNewUser = !lastEntry || !(accountId == lastEntry.accountId || [accountId isEqualToString:(NSString * __nonnull) lastEntry.accountId]);
     NSDate *newTokenStartDate = [NSDate date];
 
     // If there is a gap between tokens.
-    if (latestTokenEndTime && [newTokenStartDate laterDate:(NSDate * __nonnull) latestTokenEndTime]) {
+    if (lastEntry.expiresOn && [newTokenStartDate laterDate:(NSDate * __nonnull) lastEntry.expiresOn]) {
 
       // If the account is the same or becomes anonymous.
       if (!isNewUser || authToken == nil) {
 
         // Apply the new token to this time.
-        newTokenStartDate = latestTokenEndTime;
+        newTokenStartDate = lastEntry.expiresOn;
       } else {
 
         // If it's not the same account treat the gap as anonymous.
@@ -99,9 +95,8 @@ static dispatch_once_t onceToken;
     // Cap array size at max available size const (deleting from beginning).
     if ([authTokenHistory count] > kMSMaxAuthTokenArraySize) {
       [authTokenHistory removeObjectsInRange:(NSRange){0, [authTokenHistory count] - kMSMaxAuthTokenArraySize}];
-      MSLogWarning([MSAppCenter logTag], @"Size of the token history is exceeded. The oldest token has been removed.");
+      MSLogDebug([MSAppCenter logTag], @"Size of the token history is exceeded. The oldest token has been removed.");
     }
-    isNewAccount = ![self.accountId isEqual:accountId];
 
     // Don't invoke the delegate while locking; it might be locking too and deadlock ourselves.
     synchronizedDelegates = [self.delegates allObjects];
@@ -113,7 +108,7 @@ static dispatch_once_t onceToken;
     if ([delegate respondsToSelector:@selector(authTokenContext:didSetAuthToken:)]) {
       [delegate authTokenContext:self didSetAuthToken:authToken];
     }
-    if (isNewAccount && [delegate respondsToSelector:@selector(authTokenContext:didUpdateAccountIdWithAuthToken:)]) {
+    if (isNewUser && [delegate respondsToSelector:@selector(authTokenContext:didUpdateAccountIdWithAuthToken:)]) {
       [delegate authTokenContext:self didUpdateAccountIdWithAuthToken:authToken];
     }
   }
@@ -175,15 +170,15 @@ static dispatch_once_t onceToken;
 
     // Do nothing if there's just one entry in the history or no history at all.
     if (!tokenArray || tokenArray.count <= 1) {
-      MSLogWarning([MSAppCenter logTag], @"Couldn't remove token from history; token history is empty or contains only current one.");
+      MSLogDebug([MSAppCenter logTag], @"Couldn't remove token from history; token history is empty or contains only current one.");
       return;
     }
 
     // Check oldest entry, delete if it matches.
-    if ([authToken isEqual:tokenArray[0].authToken]) {
+    if (authToken != nil && tokenArray[0].authToken != nil && [authToken isEqualToString:(NSString * __nonnull) tokenArray[0].authToken]) {
       [tokenArray removeObjectAtIndex:0];
     } else {
-      MSLogWarning([MSAppCenter logTag], @"Couldn't remove token from history; the token isn't oldest or is already removed.");
+      MSLogDebug([MSAppCenter logTag], @"Couldn't remove token from history; the token isn't oldest or is already removed.");
     }
 
     // Save new array after changes.

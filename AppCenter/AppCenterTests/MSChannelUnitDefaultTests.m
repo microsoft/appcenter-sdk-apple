@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+#import <Foundation/Foundation.h>
+
 #import "MSAbstractLogInternal.h"
 #import "MSAppCenter.h"
 #import "MSAuthTokenContext.h"
@@ -100,9 +102,9 @@ static NSString *const kMSTestGroupId = @"GroupId";
   OCMStub([ingestionMock sendAsync:OCMOCK_ANY authToken:OCMOCK_ANY completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
     // Get ingestion block for later call.
     [invocation retainArguments];
-    [invocation getArgument:&ingestionBlock atIndex:4];
-    [invocation getArgument:&actualAuthToken atIndex:3];
     [invocation getArgument:&logContainer atIndex:2];
+    [invocation getArgument:&actualAuthToken atIndex:3];
+    [invocation getArgument:&ingestionBlock atIndex:4];
   });
   __block id responseMock = [MSHttpTestUtil createMockResponseForStatusCode:200 headers:nil];
 
