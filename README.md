@@ -20,6 +20,8 @@ The App Center SDK uses a modular architecture so you can use any or all of the 
 
 5. **App Center DataStorage**: The App Center Data Storage service provides functionality enabling developers to persist app data in the cloud in both online and offline scenarios. This enables you to store and manage both user-specific data as well as data shared between users and across platforms. In addition, this service includes basic conflict resolution out of the box. **Not available for macOS*.
 
+6. **App Center Identity**: The App Center Identity is an identity management service that allows you to customize and control how your users interact with your app. We provide an out of the box UI that allows app developers to authenticate their users to an app. In addition, app developers may use and track the user's identity across App Center services.
+
 ## 1. Get started
 
 It is super easy to use App Center. Have a look at our [get started documentation](https://docs.microsoft.com/en-us/appcenter/sdk/getting-started/ios) and onboard your app within minutes. Our [detailed documentation](https://docs.microsoft.com/en-us/appcenter/sdk/) is available as well.
