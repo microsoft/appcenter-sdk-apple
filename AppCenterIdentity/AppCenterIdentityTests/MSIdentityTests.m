@@ -23,8 +23,6 @@
 #import "MSServiceAbstractProtected.h"
 #import "MSTestFrameworks.h"
 #import "MSUtility+File.h"
-#import <MSAL/MSAL.h>
-#import <MSAL/MSALPublicClientApplication.h>
 
 static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
