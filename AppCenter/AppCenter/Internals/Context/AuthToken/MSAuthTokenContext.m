@@ -25,7 +25,7 @@ static dispatch_once_t onceToken;
 /**
  * YES if the current token should be reset.
  */
-@property(atomic) BOOL resetAuthTokenRequired;
+@property() BOOL resetAuthTokenRequired;
 
 @end
 
