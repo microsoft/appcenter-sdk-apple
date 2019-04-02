@@ -28,7 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return `YES` if current user is equal to another user, `NO` not equal
  */
-- (BOOL)isEqualTo:(MSUserInformation *)userInfo;
+- (BOOL)isEqualTo:(nullable id)userInfo;
 
 @end
 

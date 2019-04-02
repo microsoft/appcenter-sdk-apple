@@ -13,7 +13,8 @@
   return self;
 }
 
-- (BOOL)isEqualTo:(MSUserInformation *)userInfo {
-  return [self.accountId isEqualToString:userInfo.accountId ?: nil];
+- (BOOL)isEqualTo:(nullable id)userInfo {
+  MSUserInformation *user = (MSUserInformation *)userInfo;
+  return [self.accountId isEqualToString:user.accountId ?: nil];
 }
 @end
