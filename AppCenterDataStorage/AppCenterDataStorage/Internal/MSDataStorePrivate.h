@@ -19,6 +19,11 @@ static NSString *const kMSDefaultApiUrl = @"https://api.appcenter.ms/v0.1";
 @property(atomic) BOOL offlineMode;
 
 /**
+ * The dispatch queue that cache operations will be performed with.
+ */
+@property dispatch_queue_t dataStoreDispatchQueue;
+
+/**
  * Method to reset the singleton when running unit tests only. So calling sharedInstance returns a fresh instance.
  */
 + (void)resetSharedInstance;

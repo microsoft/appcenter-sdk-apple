@@ -13,6 +13,17 @@ NS_ASSUME_NONNULL_BEGIN
 - (bool)createWithPartition:(NSString *)partition document:(MSDocumentWrapper *)document writeOptions:(MSWriteOptions *)options;
 
 /**
+ * Reads a document from local storage.
+ *
+ * @param documentId The identifier for the document.
+ * @param partition The name of the partition that contains the document.
+ * @param readOptions Options for reading the document.
+ *
+ * @returns A document.
+ */
+- (MSDocumentWrapper *)readWithPartition:(NSString *)partition documentId:(NSString *)documentId documentType:(Class)documentType readOptions:(MSReadOptions *)readOptions;
+
+/**
  * Delete table.
  *
  * @param accountId The logged in user id.

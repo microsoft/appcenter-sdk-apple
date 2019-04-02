@@ -76,6 +76,11 @@ static const NSUInteger kMSSchemaVersion = 1;
          }] == SQLITE_OK;
 }
 
+- (MSDocumentWrapper *)readWithPartition:(NSString *)partition documentId:(NSString *)documentId documentType:(Class)documentType readOptions:(MSReadOptions *)readOptions {
+  (void)documentId; (void)partition; (void)readOptions; (void)documentType;
+  return [MSDocumentWrapper new];
+}
+
 + (NSArray<NSDictionary<NSString *, NSArray<NSString *> *> *> *)tableSchema {
 
   // TODO create composite key for partition and the document id

@@ -3,7 +3,6 @@
 
 #import "MSChannelGroupProtocol.h"
 #import "MSCosmosDb.h"
-#import "MSCosmosDbIngestion.h"
 #import "MSCosmosDbPrivate.h"
 #import "MSDataSourceError.h"
 #import "MSDataStore.h"
@@ -18,6 +17,8 @@
 #import "MSTokenExchange.h"
 #import "MSTokenResult.h"
 #import "MSTokensResponse.h"
+#import "MSDocumentStore.h"
+#import "MSReadOptions.h"
 
 @interface MSFakeSerializableDocument : NSObject <MSSerializableDocument>
 - (instancetype)initFromDictionary:(NSDictionary *)dictionary;
@@ -594,6 +595,40 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // Then
   XCTAssertFalse([MSDataStore isOfflineMode]);
+}
+
+- (void)testReadsFromLocalStoreInOfflineMode {
+
+  // If the module is started and set to offline mode.
+  [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
+                        appSecret:kMSTestAppSecret
+          transmissionTargetToken:nil
+                  fromApplication:YES];
+  [MSDataStore setOfflineMode:YES];
+  XCTestExpectation *expectation = [self expectationWithDescription:@""];
+
+  // If there are documents cached on disk.
+  NSString *documentId = @"6";
+  NSString *partition = @"partition name";
+  Class documentType = [NSString class];
+  MSDocumentWrapper *readDocument = [MSDocumentWrapper new];
+  self.sut.documentStore = OCMProtocolMock(@protocol(MSDocumentStore));
+  OCMStub([self.sut.documentStore readWithPartition:partition documentId:documentId documentType:documentType readOptions:OCMOCK_ANY]).andReturn(readDocument);
+
+  // When
+  [MSDataStore readWithPartition:partition documentId:documentId documentType:documentType readOptions:[[MSReadOptions alloc] initWithDeviceTimeToLive:3600] completionHandler:^(MSDocumentWrapper * _Nonnull document) {
+
+    // Then
+    XCTAssertEqual(readDocument, document);
+    [expectation fulfill];
+  }];
+
+  // Then
+  [self waitForExpectationsWithTimeout:5 handler:^(NSError * _Nullable error) {
+    if (error) {
+      XCTFail(@"Expectation Failed with error: %@", error);
+    }
+  }];
 }
 
 @end

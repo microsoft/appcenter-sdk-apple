@@ -55,6 +55,11 @@ static NSString *const kMSDocumentKey = @"document";
 static NSString *const kMSDocumentUpsertHeaderKey = @"x-ms-documentdb-is-upsert";
 
 /**
+ * Dispatch queue name.
+ */
+static char *const kMSDataStoreDispatchQueue = "com.microsoft.appcenter.DataStoreQueue";
+
+/**
  * Singleton.
  */
 static MSDataStore *sharedInstance = nil;
@@ -70,6 +75,7 @@ static dispatch_once_t onceToken;
   if ((self = [super init])) {
     _tokenExchangeUrl = kMSDefaultApiUrl;
     self.documentStore = [MSDBDocumentStore new];
+    _dataStoreDispatchQueue = dispatch_queue_create(kMSDataStoreDispatchQueue, DISPATCH_QUEUE_SERIAL);
   }
   return self;
 }
@@ -216,8 +222,33 @@ static dispatch_once_t onceToken;
 - (void)readWithPartition:(NSString *)partition
                documentId:(NSString *)documentId
              documentType:(Class)documentType
-              readOptions:(MSReadOptions *)__unused readOptions
+              readOptions:(MSReadOptions *)readOptions
         completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
+
+  if (self.offlineMode) {
+    [self readFromLocalStoreWithPartition:partition documentId:documentId documentType:documentType readOptions:readOptions completionHandler:completionHandler];
+  } else {
+    [self readFromCosmosDbWithPartition:partition documentId:documentId documentType:documentType readOptions:readOptions completionHandler:completionHandler];
+  }
+}
+
+- (void)readFromLocalStoreWithPartition:(NSString *)partition
+                           documentId:(NSString *)documentId
+                         documentType:(Class)documentType
+                          readOptions:(MSReadOptions *)readOptions
+                    completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
+  (void)partition; (void)documentId; (void)documentType; (void)readOptions; (void)completionHandler;
+
+  //TODO put this in a task queue
+
+
+}
+
+- (void)readFromCosmosDbWithPartition:(NSString *)partition
+                       documentId:(NSString *)documentId
+                     documentType:(Class)documentType
+                      readOptions:(MSReadOptions *)__unused readOptions
+                completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
   [self performOperationForPartition:partition
                           documentId:documentId
                           httpMethod:kMSHttpMethodGet
@@ -242,7 +273,7 @@ static dispatch_once_t onceToken;
 
                      // Create document.
                      id<MSSerializableDocument> deserializedDocument =
-                         [(id<MSSerializableDocument>)[documentType alloc] initFromDictionary:(NSDictionary *)json[kMSDocumentKey]];
+                     [(id<MSSerializableDocument>)[documentType alloc] initFromDictionary:(NSDictionary *)json[kMSDocumentKey]];
                      NSTimeInterval interval = [(NSString *)json[kMSDocumentTimestampKey] doubleValue];
                      NSDate *date = [NSDate dateWithTimeIntervalSince1970:interval];
                      NSString *eTag = json[kMSDocumentEtagKey];
