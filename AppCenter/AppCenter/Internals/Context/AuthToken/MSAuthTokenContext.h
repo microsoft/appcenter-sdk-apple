@@ -1,22 +1,25 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import <Foundation/Foundation.h>
+#import "MSAppCenterInternal.h"
+#import "MSAuthTokenContextDelegate.h"
+#import "MSAuthTokenInfo.h"
+#import "MSAuthTokenValidityInfo.h"
+#import "MSConstants+Internal.h"
+#import "MSKeychainUtil.h"
+#import "MSLogger.h"
+#import "MSUtility.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol MSAuthTokenContextDelegate;
 
 /**
- * MSAuthTokenContext is a singleton responsible for keeping an in-memory reference to an auth token that the Identity service provides.
- * This enables all App Center modules to access the token, and receive a notification when the token changes.
+ * MSAuthTokenContext is a singleton responsible for keeping an in-memory reference to an auth token and token history.
+ * This enables all App Center modules to access the token, token history, and receive a notification when the token changes or needs to be
+ * refreshed.
  */
 @interface MSAuthTokenContext : NSObject
-
-/**
- * Cached authorization token.
- */
-@property(nullable, atomic, readonly) NSString *authToken;
 
 /**
  * Get singleton instance.
@@ -38,21 +41,44 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)removeDelegate:(id<MSAuthTokenContextDelegate>)delegate;
 
 /**
- * Clear cached token and account id.
- *
- * @return `YES` if the auth token is cleared, `NO` otherwise.
- */
-- (BOOL)clearAuthToken;
-
-/**
  * Set current auth token and account id.
+ *
+ * @param authToken token to be added to the storage.
+ * @param accountId account id to be added to the storage.
+ * @param expiresOn expiration date of a token.
  */
-- (void)setAuthToken:(NSString *)authToken withAccountId:(NSString *)accountId;
+- (void)setAuthToken:(nullable NSString *)authToken withAccountId:(nullable NSString *)accountId expiresOn:(nullable NSDate *)expiresOn;
 
 /**
- * Reset singleton instance.
+ * Returns current auth token.
+ *
+ * @return auth token.
  */
-+ (void)resetSharedInstance;
+- (nullable NSString *)authToken;
+
+/**
+ * Returns current account identifier.
+ *
+ * @return account identifier.
+ */
+- (nullable NSString *)accountId;
+
+/**
+ * Returns array of auth tokens validity info.
+ *
+ * @return Array of MSAuthTokenValidityInfo.
+ */
+- (NSMutableArray<MSAuthTokenValidityInfo *> *)authTokenValidityArray;
+
+/**
+ * Removes the token from history. Please note that only oldest token is
+ * allowed to be removed. To reset current token to be anonymous, use
+ * the setToken method with nil parameters instead.
+ *
+ * @param authToken Auth token to be removed. Despite the fact that only the oldest token can be removed, it's required to avoid removing
+ * the wrong one on duplicated calls etc.
+ */
+- (void)removeAuthToken:(nullable NSString *)authToken;
 
 @end
 

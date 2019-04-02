@@ -190,14 +190,14 @@ typedef void (^MSDataSourceErrorCompletionHandler)(MSDataSourceError *error);
 /**
  * Enable or disable offline mode.
  *
- * @param offlineMode `YES` to turn on offline mode, `NO` to turn off.
+ * @param isOfflineModeEnabled `YES` to turn on offline mode, `NO` to turn off.
  */
-+ (void)setOfflineMode:(BOOL)offlineMode;
++ (void)setOfflineModeEnabled:(BOOL)isOfflineModeEnabled;
 
 /**
  * Check whether offline mode is enabled or not. It is disabled by default.
  */
-+ (BOOL)isOfflineMode;
++ (BOOL)isOfflineModeEnabled;
 
 @end
 

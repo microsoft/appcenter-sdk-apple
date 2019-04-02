@@ -113,7 +113,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
         XCTAssertEqual(containerId, batchId);
         XCTAssertEqual((MSHTTPCodesNo)response.statusCode, MSHTTPCodesNo404NotFound);
         XCTAssertEqual(error.domain, kMSACErrorDomain);
-        XCTAssertEqual(error.code, kMSACConnectionHttpErrorCode);
+        XCTAssertEqual(error.code, MSACConnectionHttpErrorCode);
         XCTAssertEqual(error.localizedDescription, kMSACConnectionHttpErrorDesc);
         XCTAssertTrue([error.userInfo[(NSString *)kMSACConnectionHttpCodeErrorKey] isEqual:@(MSHTTPCodesNo404NotFound)]);
 
@@ -358,7 +358,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
               authToken:nil
       completionHandler:^(__unused NSString *batchId, __unused NSHTTPURLResponse *response, __unused NSData *data, NSError *error) {
         XCTAssertEqual(error.domain, kMSACErrorDomain);
-        XCTAssertEqual(error.code, kMSACLogInvalidContainerErrorCode);
+        XCTAssertEqual(error.code, MSACLogInvalidContainerErrorCode);
       }];
 
   XCTAssertEqual([self.sut.pendingCalls count], (unsigned long)0);

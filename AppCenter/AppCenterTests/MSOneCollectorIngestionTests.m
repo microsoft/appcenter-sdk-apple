@@ -193,7 +193,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
                           __attribute__((unused)) NSData *data, NSError *error) {
         // Then
         XCTAssertEqual(error.domain, kMSACErrorDomain);
-        XCTAssertEqual(error.code, kMSACLogInvalidContainerErrorCode);
+        XCTAssertEqual(error.code, MSACLogInvalidContainerErrorCode);
       }];
 
   // Then

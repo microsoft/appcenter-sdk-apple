@@ -127,10 +127,17 @@ static const NSUInteger kMSSchemaVersion = 4;
 
 #pragma mark - Load logs
 
+- (NSUInteger)countLogsBeforeDate:(NSDate *)date {
+  NSMutableString *condition =
+      [NSMutableString stringWithFormat:@"\"%@\" <= '%lld'", kMSTimestampColumnName, (long long)[date timeIntervalSince1970]];
+  return [self countEntriesForTable:kMSLogTableName condition:condition];
+}
+
 - (BOOL)loadLogsWithGroupId:(NSString *)groupId
                       limit:(NSUInteger)limit
          excludedTargetKeys:(nullable NSArray<NSString *> *)excludedTargetKeys
-                 beforeDate:(nullable NSDate *)date
+                  afterDate:(nullable NSDate *)dateAfter
+                 beforeDate:(nullable NSDate *)dateBefore
           completionHandler:(nullable MSLoadDataCompletionHandler)completionHandler {
   BOOL logsAvailable;
   BOOL moreLogsAvailable = NO;
@@ -161,8 +168,11 @@ static const NSUInteger kMSSchemaVersion = 4;
   }
 
   // Filter by time.
-  if (date) {
-    [condition appendFormat:@" AND \"%@\" <= '%lld'", kMSTimestampColumnName, (long long)[date timeIntervalSince1970]];
+  if (dateAfter) {
+    [condition appendFormat:@" AND \"%@\" >= '%lld'", kMSTimestampColumnName, (long long)[dateAfter timeIntervalSince1970]];
+  }
+  if (dateBefore) {
+    [condition appendFormat:@" AND \"%@\" <= '%lld'", kMSTimestampColumnName, (long long)[dateBefore timeIntervalSince1970]];
   }
 
   // Build the "ORDER BY" clause's conditions.
@@ -338,9 +348,9 @@ static const NSUInteger kMSSchemaVersion = 4;
   // Execute.
   int result = [MSDBStorage executeNonSelectionQuery:deleteLogsQuery inOpenedDatabase:db];
   if (result == SQLITE_OK) {
-    MSLogVerbose([MSAppCenter logTag], @"%@ %@", deletionTrace, @"succeeded.");
+    MSLogVerbose([MSAppCenter logTag], @"%@ succeeded.", deletionTrace);
   } else {
-    MSLogError([MSAppCenter logTag], @"%@ %@", deletionTrace, @"failed.");
+    MSLogError([MSAppCenter logTag], @"%@ failed.", deletionTrace);
   }
   return result;
 }

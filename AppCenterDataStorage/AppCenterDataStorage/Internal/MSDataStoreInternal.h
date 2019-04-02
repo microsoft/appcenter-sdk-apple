@@ -3,26 +3,21 @@
 
 #import <Foundation/Foundation.h>
 
-#import "MSCosmosDbIngestion.h"
 #import "MSDataStore.h"
 #import "MSServiceInternal.h"
-#import "MSStorageIngestion.h"
 
 @protocol MSDocumentStore;
 
 NS_ASSUME_NONNULL_BEGIN
 
+@protocol MSHttpClientProtocol;
+
 @interface MSDataStore <T : id <MSSerializableDocument>>() <MSServiceInternal>
 
 /**
- * An token exchange url that is used to get resouce tokens.
+ * A token exchange url that is used to get resource tokens.
  */
-@property(nonatomic, copy) NSString *tokenExchangeUrl;
-
-/**
- * An ingestion instance that is used to send a request for new token exchange service.
- */
-@property(nonatomic, nullable) MSStorageIngestion *ingestion;
+@property(nonatomic, copy) NSURL *tokenExchangeUrl;
 
 /**
  * A local store instance that is used to manage application and user level documents.
@@ -31,8 +26,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * An ingestion instance that is used to send a request to CosmosDb.
+ * HTTP client.
  */
-@property(nonatomic, nullable) MSCosmosDbIngestion *cosmosHttpClient;
+@property(nonatomic, nullable) id<MSHttpClientProtocol> httpClient;
 
 @end
 
