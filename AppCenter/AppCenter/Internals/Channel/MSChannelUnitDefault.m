@@ -158,7 +158,7 @@
       if (self.discardLogs) {
         MSLogWarning([MSAppCenter logTag], @"Channel %@ disabled in log discarding mode, discard this log.", self.configuration.groupId);
         NSError *error = [NSError errorWithDomain:kMSACErrorDomain
-                                             code:kMSACConnectionPausedErrorCode
+                                             code:MSACConnectionPausedErrorCode
                                          userInfo:@{NSLocalizedDescriptionKey : kMSACConnectionPausedErrorDesc}];
         [self notifyFailureBeforeSendingForItem:item withError:error];
         [self enumerateDelegatesForSelector:@selector(channel:didCompleteEnqueueingLog:internalId:)
@@ -423,7 +423,7 @@
     if (!isEnabled && deleteData) {
       MSLogDebug([MSAppCenter logTag], @"Delete all logs for group Id %@", self.configuration.groupId);
       NSError *error = [NSError errorWithDomain:kMSACErrorDomain
-                                           code:kMSACConnectionPausedErrorCode
+                                           code:MSACConnectionPausedErrorCode
                                        userInfo:@{NSLocalizedDescriptionKey : kMSACConnectionPausedErrorDesc}];
       [self deleteAllLogsWithErrorSync:error];
 

@@ -5,8 +5,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@protocol MSHttpClientProtocol;
 @class MSTokensResponse;
-@class MSStorageIngestion;
 
 typedef void (^MSGetTokenAsyncCompletionHandler)(MSTokensResponse *tokenResponses, NSError *_Nullable error);
 
@@ -19,13 +19,17 @@ typedef void (^MSGetTokenAsyncCompletionHandler)(MSTokensResponse *tokenResponse
  * Get token from token exchange.
  *
  * @param httpClient http client.
+ * @param tokenExchangeUrl API url to exchange token.
+ * @param appSecret application secret.
  * @param partition cosmosdb partition.
  * @param completionHandler callback that gets the token.
  *
  */
-+ (void)performDbTokenAsyncOperationWithHttpClient:(MSStorageIngestion *)httpClient
++ (void)performDbTokenAsyncOperationWithHttpClient:(id<MSHttpClientProtocol>)httpClient
+                                  tokenExchangeUrl:(NSURL *)tokenExchangeUrl
+                                         appSecret:(NSString *)appSecret
                                          partition:(NSString *)partition
-                                 completionHandler:(MSGetTokenAsyncCompletionHandler _Nonnull)completionHandler;
+                                 completionHandler:(MSGetTokenAsyncCompletionHandler)completionHandler;
 
 /*
  * When the user logs out, all the cached tokens are deleted.
