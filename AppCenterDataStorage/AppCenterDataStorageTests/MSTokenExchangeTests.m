@@ -68,19 +68,19 @@ static NSString *const MSDataStoreAppDocumentsPartition = @"readonly";
   NSObject *tokenData = [self getSuccessfulTokenData];
   NSMutableDictionary *tokenList = [@{kMSTokens : @[ tokenData ]} mutableCopy];
   NSData *jsonTokenData = [NSJSONSerialization dataWithJSONObject:tokenList options:NSJSONWritingPrettyPrinted error:nil];
-    
+
   // Create instance of MSAuthTokenContext to mock later.
   MSAuthTokenContext *context = [MSAuthTokenContext sharedInstance];
-    
+
   // Create mock from instance.
-  id contextInstanсeMock = OCMPartialMock(context);
-    
+  id contextInstanceMock = OCMPartialMock(context);
+
   // Stub method on mocked instance.
-  OCMStub([contextInstanсeMock authToken]).andReturn(@"fake-token");
-    
+  OCMStub([contextInstanceMock authToken]).andReturn(@"fake-token");
+
   // Make static method always return mocked instance with stubbed method.
   OCMClassMock([MSAuthTokenContext class]);
-  OCMStub(ClassMethod([MSAuthTokenContext sharedInstance])).andReturn(contextInstanсeMock);
+  OCMStub(ClassMethod([MSAuthTokenContext sharedInstance])).andReturn(contextInstanceMock);
   id<MSHttpClientProtocol> httpMock = OCMProtocolMock(@protocol(MSHttpClientProtocol));
   __block NSDictionary *actualHeaders;
 
@@ -123,6 +123,7 @@ static NSString *const MSDataStoreAppDocumentsPartition = @"readonly";
                                  XCTAssertEqualObjects(actualHeaders[@"Content-Type"], @"application/json");
                                  XCTAssertEqualObjects(actualHeaders[@"App-Secret"], @"appSecret");
                                }];
+  [contextInstanceMock stopMocking];
 }
 
 - (void)testGetReadOnlyToken {
