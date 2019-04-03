@@ -20,7 +20,7 @@
 /**
  * Initialize a page with an array of documents.
  *
- * @param items Error to initialize page with.
+ * @param items The documents in a page.
  *
  * @return The page with documents.
  */
