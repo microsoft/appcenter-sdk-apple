@@ -18,6 +18,7 @@
 @synthesize error = _error;
 
 - (instancetype)initWithDeserializedValue:(id<MSSerializableDocument>)deserializedValue
+                                jsonValue:(NSString *)jsonValue
                                 partition:(NSString *)partition
                                documentId:(NSString *)documentId
                                      eTag:(NSString *)eTag
@@ -33,6 +34,7 @@
       _jsonValue = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     }
     _deserializedValue = deserializedValue;
+    _jsonValue = jsonValue;
     _partition = partition;
     _documentId = documentId;
     _eTag = eTag;

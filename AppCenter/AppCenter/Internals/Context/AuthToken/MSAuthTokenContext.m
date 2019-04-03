@@ -2,7 +2,9 @@
 // Licensed under the MIT License.
 
 #import "MSAuthTokenContext.h"
+#import "MSAuthTokenContextDelegate.h"
 #import "MSAuthTokenContextPrivate.h"
+#import "MSUserInformation.h"
 
 /**
  * Singleton.
@@ -105,11 +107,15 @@ static dispatch_once_t onceToken;
     [self setAuthTokenHistory:authTokenHistory];
   }
   for (id<MSAuthTokenContextDelegate> delegate in synchronizedDelegates) {
-    if ([delegate respondsToSelector:@selector(authTokenContext:didSetAuthToken:)]) {
-      [delegate authTokenContext:self didSetAuthToken:authToken];
+    if ([delegate respondsToSelector:@selector(authTokenContext:didUpdateAuthToken:)]) {
+      [delegate authTokenContext:self didUpdateAuthToken:authToken];
     }
-    if (isNewUser && [delegate respondsToSelector:@selector(authTokenContext:didUpdateAccountIdWithAuthToken:)]) {
-      [delegate authTokenContext:self didUpdateAccountIdWithAuthToken:authToken];
+    if (isNewUser && [delegate respondsToSelector:@selector(authTokenContext:didUpdateUserInformation:)]) {
+      MSUserInformation *userInfo = nil;
+      if (accountId) {
+        userInfo = [[MSUserInformation alloc] initWithAccountId:(NSString *)accountId];
+      }
+      [delegate authTokenContext:self didUpdateUserInformation:userInfo];
     }
   }
 }

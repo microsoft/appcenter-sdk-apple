@@ -5,4 +5,10 @@
 
 @implementation MSUserInformation
 
+- (instancetype)initWithAccountId:(NSString *)accountId {
+  if ((self = [super init])) {
+    _accountId = accountId;
+  }
+  return self;
+}
 @end

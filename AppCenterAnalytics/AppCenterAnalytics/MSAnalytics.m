@@ -294,14 +294,13 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
         MSLogError([MSAnalytics logTag], @"This transmission target is disabled.");
         return;
       }
+    } else {
+      properties = [self validateAppCenterEventProperties:properties];
     }
 
     // Set properties of the event log.
     log.name = eventName;
     log.eventId = MS_UUID_STRING;
-    if (!self.defaultTransmissionTarget) {
-      properties = [self validateAppCenterEventProperties:properties];
-    }
     log.typedProperties = [properties isEmpty] ? nil : properties;
 
     // Send log to channel.

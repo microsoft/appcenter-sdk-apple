@@ -12,6 +12,14 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property(nonatomic, copy) NSString *accountId;
 
+/**
+ * Create user with account identifier.
+ *
+ * @param accountId account identifier for the user.
+ *
+ * @return user with account identifier.
+ */
+- (instancetype)initWithAccountId:(NSString *)accountId;
 @end
 
 NS_ASSUME_NONNULL_END

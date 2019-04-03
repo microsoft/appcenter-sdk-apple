@@ -5,4 +5,3 @@
 
 #import "MSIdentity.h"
 #import "MSIdentityErrors.h"
-#import "MSUserInformation.h"

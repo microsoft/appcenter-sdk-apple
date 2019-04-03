@@ -46,6 +46,7 @@
  * Initialize a `MSDocumentWrapper` instance.
  *
  * @param deserializedValue The document value. Must conform to MSSerializableDocument protocol.
+ * @param jsonValue The document's JSON representation.
  * @param partition Partition key.
  * @param documentId Document id.
  * @param eTag Document eTag.
@@ -54,6 +55,7 @@
  * @return A new `MSDocumentWrapper` instance.
  */
 - (instancetype)initWithDeserializedValue:(T)deserializedValue
+                                jsonValue:(NSString *)jsonValue
                                 partition:(NSString *)partition
                                documentId:(NSString *)documentId
                                      eTag:(NSString *)eTag
