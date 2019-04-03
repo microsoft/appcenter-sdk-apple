@@ -291,6 +291,7 @@
                               afterDate:tokenInfo.startTime
                              beforeDate:tokenInfo.endTime
                       completionHandler:^(NSArray<id<MSLog>> *_Nonnull logArray, NSString *batchId) {
+                        [[MSAuthTokenContext sharedInstance] checkIfTokenNeedsToBeRefreshed:tokenArray[tokenIndex]];
                         if (logArray.count > 0) {
 
                           // We have data to send.
@@ -304,8 +305,9 @@
                             // Delete token from history if we don't have logs fitting it in DB.
                             [[MSAuthTokenContext sharedInstance] removeAuthToken:tokenInfo.authToken];
                           }
+
+                          // Check to determine if the next index is within bounds.
                           if (tokenIndex + 1 < tokenArray.count) {
-                            [[MSAuthTokenContext sharedInstance] checkIfTokenNeedsToBeRefreshed:tokenArray[tokenIndex]];
 
                             // Iterate to next token in array.
                             [self flushQueueForTokenArray:tokenArray withTokenIndex:tokenIndex + 1];
