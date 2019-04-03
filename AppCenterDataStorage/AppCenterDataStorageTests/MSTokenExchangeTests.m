@@ -237,7 +237,8 @@ static NSString *const MSDataStoreAppDocumentsPartition = @"readonly";
         [invocation getArgument:&completionBlock atIndex:6];
         NSHTTPURLResponse *response = [NSHTTPURLResponse new];
         id mockResponse = OCMPartialMock(response);
-        [MSHttpTestUtil stubHttp200Response];
+        //[MSHttpTestUtil stubHttp404Response];
+        OCMStub([mockResponse statusCode]).andReturn(MSHTTPCodesNo404NotFound);
         completionBlock(jsonTokenData, mockResponse, nil);
       });
   XCTestExpectation *completeExpectation = [self expectationWithDescription:@"Task finished"];
@@ -247,10 +248,10 @@ static NSString *const MSDataStoreAppDocumentsPartition = @"readonly";
                                              tokenExchangeUrl:[NSURL new]
                                                     appSecret:@"appSecret"
                                                     partition:mockPartition
-                                            completionHandler:^(MSTokensResponse *__unused tokenResponses, NSError *_Nullable returnError) {
+                                            completionHandler:^(MSTokensResponse *tokenResponses, NSError *_Nullable returnError) {
                                               // Then
                                               XCTAssertNotNil(returnError);
-                                              XCTAssertEqual([returnError code], MSACDataStoreErrorHTTPError);
+                                              XCTAssertEqual([tokenResponses tokens].count, 0);
                                               [completeExpectation fulfill];
                                             }];
   [self waitForExpectationsWithTimeout:5

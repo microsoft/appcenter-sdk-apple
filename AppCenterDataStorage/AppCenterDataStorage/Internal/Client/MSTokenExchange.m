@@ -66,6 +66,19 @@ static NSString *const kMSGetTokenPath = @"/data/tokens";
             return;
           }
 
+          // Token store returned non-200 response code.
+          if (response.statusCode != MSHTTPCodesNo200OK) {
+            MSLogError([MSDataStore logTag], @"The token store returned %ld", response.statusCode);
+            completionHandler([[MSTokensResponse alloc] initWithTokens:nil],
+                              [[NSError alloc] initWithDomain:kMSACDataStoreErrorDomain
+                                                         code:MSACDataStoreErrorHTTPError
+                                                     userInfo:@{
+                                                       NSLocalizedDescriptionKey :
+                                                           [NSString stringWithFormat:@"The token store returned %ld", response.statusCode]
+                                                     }]);
+            return;
+          }
+
           // Read tokens.
           NSError *tokenResponsejsonError;
           NSDictionary *jsonDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&tokenResponsejsonError];
@@ -119,7 +132,7 @@ static NSString *const kMSGetTokenPath = @"/data/tokens";
   if (!tokenString) {
     MSLogError([MSDataStore logTag], @"Can't save the token to keychain because token is nil.");
   } else if (!tokenResult.partition) {
-    MSLogError([MSDataStore logTag], @"Can't save the token in keychain because partitionKey is nill");
+    MSLogError([MSDataStore logTag], @"Can't save the token in keychain because partitionKey is nil.");
   } else {
     BOOL success = [MSKeychainUtil storeString:tokenString forKey:[MSTokenExchange tokenKeyNameForPartition:tokenResult.partition]];
     if (success) {
@@ -139,10 +152,6 @@ static NSString *const kMSGetTokenPath = @"/data/tokens";
     NSString *tokenString = [MSKeychainUtil stringForKey:[MSTokenExchange tokenKeyNameForPartition:partitionName]];
     if (tokenString) {
       MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithString:tokenString];
-      if (![kMSTokenResultSucceed isEqualToString:tokenResult.status]) {
-        MSLogWarning([MSDataStore logTag], @"The token was unable to be retrieved from the cache for the partition : %@.", partitionName);
-        return nil;
-      }
       NSDate *currentUTCDate = [NSDate date];
       NSDate *tokenExpireDate = [MSUtility dateFromISO8601:tokenResult.expiresOn];
       if ([currentUTCDate laterDate:tokenExpireDate] == currentUTCDate) {
