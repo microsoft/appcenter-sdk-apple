@@ -5,16 +5,11 @@
 
 @implementation MSUserInformation
 
-- (instancetype)initWithAccountId:(nullable NSString *)accountId {
+- (instancetype)initWithAccountId:(nonnull NSString *)accountId {
   self = [super init];
   if (self) {
     _accountId = accountId;
   }
   return self;
-}
-
-- (BOOL)isEqualTo:(nullable id)userInfo {
-  MSUserInformation *user = (MSUserInformation *)userInfo;
-  return [self.accountId isEqualToString:user.accountId ?: nil];
 }
 @end

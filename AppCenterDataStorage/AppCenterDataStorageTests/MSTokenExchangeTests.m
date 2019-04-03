@@ -69,11 +69,20 @@ static NSString *const MSDataStoreAppDocumentsPartition = @"readonly";
   NSObject *tokenData = [self getSuccessfulTokenData];
   NSMutableDictionary *tokenList = [@{kMSTokens : @[ tokenData ]} mutableCopy];
   NSData *jsonTokenData = [NSJSONSerialization dataWithJSONObject:tokenList options:NSJSONWritingPrettyPrinted error:nil];
-  MSUserInformation *userInfo = [[MSUserInformation alloc] initWithAccountId:@"account-id"];
-  MSAuthTokenContext *mockContext = [MSAuthTokenContext sharedInstance];
-  [mockContext setAuthToken:@"fake-token" withUserInformation:userInfo];
-  id authContextMock = OCMClassMock([MSAuthTokenContext class]);
-  OCMStub(ClassMethod([authContextMock sharedInstance])).andReturn(mockContext);
+
+  // Create instance of MSAuthTokenContext to mock later.
+  MSAuthTokenContext *context = [MSAuthTokenContext sharedInstance];
+
+  // Create mock from instance.
+  id contextInstanceMock = OCMPartialMock(context);
+
+  // Stub method on mocked instance.
+  OCMStub([contextInstanceMock authToken]).andReturn(@"fake-token");
+
+  // Make static method always return mocked instance with stubbed method.
+  OCMClassMock([MSAuthTokenContext class]);
+  OCMStub(ClassMethod([MSAuthTokenContext sharedInstance])).andReturn(contextInstanceMock);
+
   id<MSHttpClientProtocol> httpMock = OCMProtocolMock(@protocol(MSHttpClientProtocol));
   __block NSDictionary *actualHeaders;
 
@@ -88,10 +97,6 @@ static NSString *const MSDataStoreAppDocumentsPartition = @"readonly";
         OCMStub([mockResponse statusCode]).andReturn(MSHTTPCodesNo200OK);
         completionBlock(jsonTokenData, mockResponse, nil);
       });
-
-  // Mock returning nil for cached token.
-  OCMStub([self.keychainUtilMock stringForKey:mockTokenKeyName]).andReturn(nil);
-  OCMStub([self.keychainUtilMock storeString:OCMOCK_ANY forKey:OCMOCK_ANY]).andReturn(YES);
   XCTestExpectation *completeExpectation = [self expectationWithDescription:@"Task finished"];
 
   // When
@@ -120,6 +125,7 @@ static NSString *const MSDataStoreAppDocumentsPartition = @"readonly";
                                  XCTAssertEqualObjects(actualHeaders[@"Content-Type"], @"application/json");
                                  XCTAssertEqualObjects(actualHeaders[@"App-Secret"], @"appSecret");
                                }];
+  [contextInstanceMock stopMocking];
 }
 
 - (void)testGetReadOnlyToken {
@@ -144,6 +150,7 @@ static NSString *const MSDataStoreAppDocumentsPartition = @"readonly";
       });
 
   // Mock returning nil for cached token.
+  [[MSAuthTokenContext sharedInstance] setAuthToken:nil withAccountId:nil expiresOn:nil];
   OCMStub([self.keychainUtilMock stringForKey:mockTokenKeyName]).andReturn(nil);
   OCMStub([self.keychainUtilMock storeString:OCMOCK_ANY forKey:OCMOCK_ANY]).andReturn(YES);
   XCTestExpectation *completeExpectation = [self expectationWithDescription:@"Task finished"];

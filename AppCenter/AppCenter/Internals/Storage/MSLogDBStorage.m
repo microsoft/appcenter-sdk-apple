@@ -50,6 +50,7 @@ static const NSUInteger kMSSchemaVersion = 4;
     return NO;
   }
   MSFlags persistenceFlags = flags & kMSPersistenceFlagsMask;
+  long long timestampMs = (long long)([log.timestamp timeIntervalSince1970] * 1000);
 
   // Insert this log to the DB.
   NSData *logData = [NSKeyedArchiver archivedDataWithRootObject:log];
@@ -57,7 +58,7 @@ static const NSUInteger kMSSchemaVersion = 4;
   NSString *addLogQuery =
       [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\", \"%@\") VALUES ('%@', '%@', '%u', '%lld')", kMSLogTableName,
                                  kMSGroupIdColumnName, kMSLogColumnName, kMSPriorityColumnName, kMSTimestampColumnName, groupId, base64Data,
-                                 (unsigned int)persistenceFlags, (long long)[log.timestamp timeIntervalSince1970]];
+                                 (unsigned int)persistenceFlags, timestampMs];
 
   // Serialize target token.
   if ([(NSObject *)log isKindOfClass:[MSCommonSchemaLog class]]) {
@@ -68,8 +69,7 @@ static const NSUInteger kMSSchemaVersion = 4;
         stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\") VALUES ('%@', '%@', '%@', %@, '%u', '%lld')",
                          kMSLogTableName, kMSGroupIdColumnName, kMSLogColumnName, kMSTargetTokenColumnName, kMSTargetKeyColumnName,
                          kMSPriorityColumnName, kMSTimestampColumnName, groupId, base64Data, encryptedToken,
-                         targetKey ? [NSString stringWithFormat:@"'%@'", targetKey] : @"NULL", (unsigned int)persistenceFlags,
-                         (long long)[log.timestamp timeIntervalSince1970]];
+                         targetKey ? [NSString stringWithFormat:@"'%@'", targetKey] : @"NULL", (unsigned int)persistenceFlags, timestampMs];
   }
   return [self executeQueryUsingBlock:^int(void *db) {
            // Check maximum size.
@@ -127,10 +127,17 @@ static const NSUInteger kMSSchemaVersion = 4;
 
 #pragma mark - Load logs
 
+- (NSUInteger)countLogsBeforeDate:(NSDate *)date {
+  long long timestampMs = (long long)([date timeIntervalSince1970] * 1000);
+  NSMutableString *condition = [NSMutableString stringWithFormat:@"\"%@\" <= '%lld'", kMSTimestampColumnName, timestampMs];
+  return [self countEntriesForTable:kMSLogTableName condition:condition];
+}
+
 - (BOOL)loadLogsWithGroupId:(NSString *)groupId
                       limit:(NSUInteger)limit
          excludedTargetKeys:(nullable NSArray<NSString *> *)excludedTargetKeys
-                 beforeDate:(nullable NSDate *)date
+                  afterDate:(nullable NSDate *)dateAfter
+                 beforeDate:(nullable NSDate *)dateBefore
           completionHandler:(nullable MSLoadDataCompletionHandler)completionHandler {
   BOOL logsAvailable;
   BOOL moreLogsAvailable = NO;
@@ -161,8 +168,13 @@ static const NSUInteger kMSSchemaVersion = 4;
   }
 
   // Filter by time.
-  if (date) {
-    [condition appendFormat:@" AND \"%@\" <= '%lld'", kMSTimestampColumnName, (long long)[date timeIntervalSince1970]];
+  if (dateAfter) {
+    long long timestampAfterMs = (long long)([dateAfter timeIntervalSince1970] * 1000);
+    [condition appendFormat:@" AND \"%@\" >= '%lld'", kMSTimestampColumnName, timestampAfterMs];
+  }
+  if (dateBefore) {
+    long long timestampBeforeMs = (long long)([dateBefore timeIntervalSince1970] * 1000);
+    [condition appendFormat:@" AND \"%@\" < '%lld'", kMSTimestampColumnName, timestampBeforeMs];
   }
 
   // Build the "ORDER BY" clause's conditions.
@@ -338,9 +350,9 @@ static const NSUInteger kMSSchemaVersion = 4;
   // Execute.
   int result = [MSDBStorage executeNonSelectionQuery:deleteLogsQuery inOpenedDatabase:db];
   if (result == SQLITE_OK) {
-    MSLogVerbose([MSAppCenter logTag], @"%@ %@", deletionTrace, @"succeeded.");
+    MSLogVerbose([MSAppCenter logTag], @"%@ succeeded.", deletionTrace);
   } else {
-    MSLogError([MSAppCenter logTag], @"%@ %@", deletionTrace, @"failed.");
+    MSLogError([MSAppCenter logTag], @"%@ failed.", deletionTrace);
   }
   return result;
 }

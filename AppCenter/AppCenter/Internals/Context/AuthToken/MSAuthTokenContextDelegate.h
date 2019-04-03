@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param authTokenContext The auth token context.
  * @param userInformation The user information.
  */
-- (void)authTokenContext:(MSAuthTokenContext *)authTokenContext didUpdateUserInformation:(MSUserInformation *)userInformation;
+- (void)authTokenContext:(MSAuthTokenContext *)authTokenContext didUpdateUserInformation:(nullable MSUserInformation *)userInformation;
 
 @end
 
