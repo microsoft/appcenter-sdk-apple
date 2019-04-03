@@ -11,6 +11,7 @@
 #import "MSIdentityErrors.h"
 #import "MSIdentityPrivate.h"
 #import "MSServiceAbstractProtected.h"
+#import "MSUserInformation.h"
 #import "MSUtility+File.h"
 
 #if TARGET_OS_IOS

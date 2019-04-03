@@ -22,6 +22,7 @@
 #import "MSMockUserDefaults.h"
 #import "MSServiceAbstractProtected.h"
 #import "MSTestFrameworks.h"
+#import "MSUserInformation.h"
 #import "MSUtility+File.h"
 
 static NSString *const kMSTestAppSecret = @"TestAppSecret";
@@ -146,7 +147,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   OCMStub([self.ingestionMock sendAsync:OCMOCK_ANY eTag:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
 
   // Then
-  OCMReject([mockDelegate authTokenContext:OCMOCK_ANY didSetAuthToken:OCMOCK_ANY]);
+  OCMReject([mockDelegate authTokenContext:OCMOCK_ANY didUpdateAuthToken:OCMOCK_ANY]);
 
   // When
   [self.sut applyEnabledState:YES];
@@ -164,7 +165,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   OCMStub([self.ingestionMock sendAsync:OCMOCK_ANY eTag:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
 
   // Then
-  OCMReject([mockDelegate authTokenContext:OCMOCK_ANY didSetAuthToken:OCMOCK_ANY]);
+  OCMReject([mockDelegate authTokenContext:OCMOCK_ANY didUpdateAuthToken:OCMOCK_ANY]);
 
   // When
   [self.sut applyEnabledState:YES];
@@ -919,8 +920,8 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [MSIdentity signOut];
 
   // Then
-  OCMVerify([mockDelegate authTokenContext:OCMOCK_ANY didSetAuthToken:nil]);
-  OCMVerify([mockDelegate authTokenContext:OCMOCK_ANY didUpdateAccountIdWithAuthToken:nil]);
+  OCMVerify([mockDelegate authTokenContext:OCMOCK_ANY didUpdateAuthToken:nil]);
+  OCMVerify([mockDelegate authTokenContext:OCMOCK_ANY didUpdateUserInformation:nil]);
   [identityMock stopMocking];
 }
 
