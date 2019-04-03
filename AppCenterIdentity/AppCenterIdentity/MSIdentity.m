@@ -196,6 +196,7 @@ static dispatch_once_t onceToken;
                                               code:errorCode
                                           userInfo:@{NSLocalizedDescriptionKey : errorMessage}];
   self.signInCompletionHandler(nil, error);
+  self.signInCompletionHandler = nil;
 }
 
 - (void)signOut {
