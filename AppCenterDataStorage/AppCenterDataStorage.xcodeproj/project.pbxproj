@@ -57,6 +57,8 @@
 
 /* Begin PBXBuildFile section */
 		0420A6A21ECA7D7200915619 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0420A6A11ECA7D7200915619 /* OCMock.framework */; };
+		0460FD9A225544E3004E48EA /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0460FD99225544E3004E48EA /* OHHTTPStubs.framework */; };
+		0460FD9C225544F6004E48EA /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0460FD9B225544F6004E48EA /* OHHTTPStubs.framework */; };
 		0469643A1F2A56F400F9D31F /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 046964371F2A56DF00F9D31F /* OCMock.framework */; };
 		0469643D1F2A570500F9D31F /* OCHamcrest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0469643B1F2A570000F9D31F /* OCHamcrest.framework */; };
 		046964401F2A572800F9D31F /* libAppCenter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0469643F1F2A572800F9D31F /* libAppCenter.a */; };
@@ -224,6 +226,8 @@
 		041CFFA71ECD0E9A00B4654B /* Tests iOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Tests iOS.xcconfig"; path = "../../Config/Tests iOS.xcconfig"; sourceTree = "<group>"; };
 		0420A6A11ECA7D7200915619 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = ../Vendor/iOS/OCMock/OCMock.framework; sourceTree = "<group>"; };
 		043E2ABA1F4E033A00615AD9 /* AppCenterDataStorage Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "AppCenterDataStorage Release.xcconfig"; sourceTree = "<group>"; };
+		0460FD99225544E3004E48EA /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OHHTTPStubs.framework; path = ../Vendor/iOS/OHHTTPStubs/OHHTTPStubs.framework; sourceTree = "<group>"; };
+		0460FD9B225544F6004E48EA /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OHHTTPStubs.framework; path = ../Vendor/macOS/OHHTTPStubs/OHHTTPStubs.framework; sourceTree = "<group>"; };
 		0469640D1F2A558300F9D31F /* libAppCenterDataStorage.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAppCenterDataStorage.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		046964251F2A559C00F9D31F /* AppCenterDataStorage.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppCenterDataStorage.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0469642E1F2A55CF00F9D31F /* macOS.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = macOS.modulemap; sourceTree = "<group>"; };
@@ -311,6 +315,7 @@
 			files = (
 				046964401F2A572800F9D31F /* libAppCenter.a in Frameworks */,
 				0469643A1F2A56F400F9D31F /* OCMock.framework in Frameworks */,
+				0460FD9C225544F6004E48EA /* OHHTTPStubs.framework in Frameworks */,
 				0469643D1F2A570500F9D31F /* OCHamcrest.framework in Frameworks */,
 				046964411F2A5AA300F9D31F /* libAppCenterDataStorage.a in Frameworks */,
 			);
@@ -329,6 +334,7 @@
 			files = (
 				D3AD5FDA1E5DDF72001627AB /* libAppCenter.a in Frameworks */,
 				D3AD5EC51E5C4F6A001627AB /* libAppCenterDataStorage.a in Frameworks */,
+				0460FD9A225544E3004E48EA /* OHHTTPStubs.framework in Frameworks */,
 				D3D0CFE91E640ABD003015AF /* OCHamcrestIOS.framework in Frameworks */,
 				0420A6A21ECA7D7200915619 /* OCMock.framework in Frameworks */,
 			);
@@ -343,6 +349,31 @@
 				0420A6A11ECA7D7200915619 /* OCMock.framework */,
 			);
 			name = iOS;
+			sourceTree = "<group>";
+		};
+		0460FD96225544B8004E48EA /* OHHTTPStubs */ = {
+			isa = PBXGroup;
+			children = (
+				0460FD97225544C3004E48EA /* iOS */,
+				0460FD98225544C9004E48EA /* macOS */,
+			);
+			name = OHHTTPStubs;
+			sourceTree = "<group>";
+		};
+		0460FD97225544C3004E48EA /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				0460FD99225544E3004E48EA /* OHHTTPStubs.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
+		0460FD98225544C9004E48EA /* macOS */ = {
+			isa = PBXGroup;
+			children = (
+				0460FD9B225544F6004E48EA /* OHHTTPStubs.framework */,
+			);
+			name = macOS;
 			sourceTree = "<group>";
 		};
 		046964351F2A56C500F9D31F /* macOS */ = {
@@ -459,17 +490,17 @@
 		D3AD5EC11E5C4F6A001627AB /* AppCenterDataStorageTests */ = {
 			isa = PBXGroup;
 			children = (
-				8F5227DB2253DE1F004F37FE /* Fixtures */,
-				E8FE51A4221C8C41005FB52B /* Util */,
-				D3AD5EC21E5C4F6A001627AB /* MSDataStoreTests.m */,
-				4A9C4400223B23E3008548A7 /* MSTokenTests.m */,
 				D3AD5EC41E5C4F6A001627AB /* Info.plist */,
-				D3AD5F661E5D73F2001627AB /* Frameworks */,
-				04A140C31ECE877A001CEE94 /* Support */,
 				04B61DCA2248F518008D0102 /* MSTokenExchangeTests.m */,
 				2ACE55FF2245277000FCD5DF /* MSDocumentUtilsTests.m */,
 				2ACE56092245340A00FCD5DF /* MSBaseOptionsTests.m */,
 				2ACE562022453BE600FCD5DF /* MSDataSourceErrorTests.m */,
+				D3AD5EC21E5C4F6A001627AB /* MSDataStoreTests.m */,
+				4A9C4400223B23E3008548A7 /* MSTokenTests.m */,
+				8F5227DB2253DE1F004F37FE /* Fixtures */,
+				D3AD5F661E5D73F2001627AB /* Frameworks */,
+				04A140C31ECE877A001CEE94 /* Support */,
+				E8FE51A4221C8C41005FB52B /* Util */,
 			);
 			path = AppCenterDataStorageTests;
 			sourceTree = "<group>";
@@ -507,6 +538,7 @@
 				D3AD5FD91E5DDF72001627AB /* libAppCenter.a */,
 				0469643F1F2A572800F9D31F /* libAppCenter.a */,
 				04BED71B1ECB653800E20975 /* OCHamcrest */,
+				0460FD96225544B8004E48EA /* OHHTTPStubs */,
 				D38023C51E6DF3F400466558 /* OCMock */,
 			);
 			name = Frameworks;
@@ -960,7 +992,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0469642F1F2A55CF00F9D31F /* macOS.xcconfig */;
 			buildSettings = {
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.datastorage;
 			};
 			name = Debug;
 		};
@@ -968,7 +999,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0469642F1F2A55CF00F9D31F /* macOS.xcconfig */;
 			buildSettings = {
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.datastorage;
 			};
 			name = Release;
 		};
@@ -976,7 +1006,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0469642F1F2A55CF00F9D31F /* macOS.xcconfig */;
 			buildSettings = {
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.datastorage;
 			};
 			name = Debug;
 		};
@@ -984,7 +1013,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0469642F1F2A55CF00F9D31F /* macOS.xcconfig */;
 			buildSettings = {
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.datastorage;
 			};
 			name = Release;
 		};
@@ -992,7 +1020,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 046964301F2A561900F9D31F /* Tests macOS.xcconfig */;
 			buildSettings = {
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.datastorage;
 			};
 			name = Debug;
 		};
@@ -1000,7 +1027,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 046964301F2A561900F9D31F /* Tests macOS.xcconfig */;
 			buildSettings = {
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.datastorage;
 			};
 			name = Release;
 		};
@@ -1008,7 +1034,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0469642F1F2A55CF00F9D31F /* macOS.xcconfig */;
 			buildSettings = {
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.datastorage;
 			};
 			name = Debug;
 		};
@@ -1016,7 +1041,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0469642F1F2A55CF00F9D31F /* macOS.xcconfig */;
 			buildSettings = {
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.datastorage;
 			};
 			name = Release;
 		};
@@ -1040,7 +1064,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC81E1ECE333700FB6719 /* iOS.xcconfig */;
 			buildSettings = {
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.datastorage;
 			};
 			name = Debug;
 		};
@@ -1048,7 +1071,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC81E1ECE333700FB6719 /* iOS.xcconfig */;
 			buildSettings = {
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.datastorage;
 			};
 			name = Release;
 		};
@@ -1056,7 +1078,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 041CFFA71ECD0E9A00B4654B /* Tests iOS.xcconfig */;
 			buildSettings = {
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.datastorage;
 			};
 			name = Debug;
 		};
@@ -1064,7 +1085,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 041CFFA71ECD0E9A00B4654B /* Tests iOS.xcconfig */;
 			buildSettings = {
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.datastorage;
 			};
 			name = Release;
 		};
@@ -1072,7 +1092,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC81E1ECE333700FB6719 /* iOS.xcconfig */;
 			buildSettings = {
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.datastorage;
 			};
 			name = Debug;
 		};
@@ -1080,7 +1099,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC81E1ECE333700FB6719 /* iOS.xcconfig */;
 			buildSettings = {
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.datastorage;
 			};
 			name = Release;
 		};
@@ -1088,7 +1106,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC81E1ECE333700FB6719 /* iOS.xcconfig */;
 			buildSettings = {
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.datastorage;
 			};
 			name = Debug;
 		};
@@ -1096,7 +1113,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC81E1ECE333700FB6719 /* iOS.xcconfig */;
 			buildSettings = {
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.datastorage;
 			};
 			name = Release;
 		};
