@@ -3,9 +3,10 @@
 
 #import "MSIdentityErrors.h"
 #import "MSServiceAbstract.h"
-#import "MSUserInformation.h"
 
 NS_ASSUME_NONNULL_BEGIN
+
+@class MSUserInformation;
 
 /**
  * Completion handler triggered when sign-in completed.

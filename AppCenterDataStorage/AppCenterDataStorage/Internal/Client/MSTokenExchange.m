@@ -147,7 +147,7 @@ static NSString *const kMSGetTokenPath = @"/data/tokens";
  * Get back the Cached Cosmos DB token
  * If the DB token has expired, that token is deleted from KeyChain
  */
-+ (MSTokenResult *)retrieveCachedToken:(NSString *)partitionName {
++ (MSTokenResult *_Nullable)retrieveCachedToken:(NSString *)partitionName {
   if (partitionName) {
     NSString *tokenString = [MSKeychainUtil stringForKey:[MSTokenExchange tokenKeyNameForPartition:partitionName]];
     if (tokenString) {

@@ -57,6 +57,8 @@
 
 /* Begin PBXBuildFile section */
 		0420A6A21ECA7D7200915619 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0420A6A11ECA7D7200915619 /* OCMock.framework */; };
+		0460FD9A225544E3004E48EA /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0460FD99225544E3004E48EA /* OHHTTPStubs.framework */; };
+		0460FD9C225544F6004E48EA /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0460FD9B225544F6004E48EA /* OHHTTPStubs.framework */; };
 		0469643A1F2A56F400F9D31F /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 046964371F2A56DF00F9D31F /* OCMock.framework */; };
 		0469643D1F2A570500F9D31F /* OCHamcrest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0469643B1F2A570000F9D31F /* OCHamcrest.framework */; };
 		046964401F2A572800F9D31F /* libAppCenter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0469643F1F2A572800F9D31F /* libAppCenter.a */; };
@@ -66,7 +68,7 @@
 		0469644E1F2A5D2800F9D31F /* AppCenterDataStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = D33A94541E5B11BB003966DB /* AppCenterDataStorage.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0469644F1F2A5D4A00F9D31F /* MSDataStoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D3AD5EC21E5C4F6A001627AB /* MSDataStoreTests.m */; };
 		0496A67B1F3128CE005AE1DB /* MSDataStoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D3AD5EC21E5C4F6A001627AB /* MSDataStoreTests.m */; };
-		049BC84E224EDAEE00AE7FBB /* MSBaseOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464DF222F28A200EC1FF3 /* MSBaseOptions.h */; };
+		049BC84E224EDAEE00AE7FBB /* MSBaseOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464DF222F28A200EC1FF3 /* MSBaseOptions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		049BC84F224EDAF300AE7FBB /* MSBaseOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464EA222F28A300EC1FF3 /* MSBaseOptions.m */; };
 		049BC850224EDAF600AE7FBB /* MSDataStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464E2222F28A300EC1FF3 /* MSDataStore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		049BC851224EDAFC00AE7FBB /* MSDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464E3222F28A300EC1FF3 /* MSDataStore.m */; };
@@ -80,8 +82,8 @@
 		049BC859224EDB1100AE7FBB /* MSWriteOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464EC222F28A300EC1FF3 /* MSWriteOptions.m */; };
 		049BC85A224EDB1900AE7FBB /* MSPaginatedDocuments.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464E0222F28A300EC1FF3 /* MSPaginatedDocuments.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		049BC85B224EDB1D00AE7FBB /* MSPage.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464DD222F28A200EC1FF3 /* MSPage.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		049BC85C224EDB2200AE7FBB /* MSReadOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464EB222F28A300EC1FF3 /* MSReadOptions.h */; };
-		049BC85D224EDB2700AE7FBB /* MSWriteOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464E1222F28A300EC1FF3 /* MSWriteOptions.h */; };
+		049BC85C224EDB2200AE7FBB /* MSReadOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464EB222F28A300EC1FF3 /* MSReadOptions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		049BC85D224EDB2700AE7FBB /* MSWriteOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464E1222F28A300EC1FF3 /* MSWriteOptions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		049BC85E224EDBB700AE7FBB /* MSCosmosDb.m in Sources */ = {isa = PBXBuildFile; fileRef = E8593A15222B91B20001F87E /* MSCosmosDb.m */; };
 		049BC85F224EDBC900AE7FBB /* MSDocumentUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = E83D121C22378143002B6585 /* MSDocumentUtils.h */; };
 		049BC860224EDBCD00AE7FBB /* MSDocumentUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E83D121D22378143002B6585 /* MSDocumentUtils.m */; };
@@ -105,9 +107,9 @@
 		2600124222273E94007F4D3A /* MSTokensResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 2600123E22273E94007F4D3A /* MSTokensResponse.m */; };
 		267464ED222F28A300EC1FF3 /* MSPage.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464DD222F28A200EC1FF3 /* MSPage.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		267464EE222F28A300EC1FF3 /* MSDataSourceError.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464DE222F28A200EC1FF3 /* MSDataSourceError.m */; };
-		267464EF222F28A300EC1FF3 /* MSBaseOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464DF222F28A200EC1FF3 /* MSBaseOptions.h */; };
+		267464EF222F28A300EC1FF3 /* MSBaseOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464DF222F28A200EC1FF3 /* MSBaseOptions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		267464F0222F28A300EC1FF3 /* MSPaginatedDocuments.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464E0222F28A300EC1FF3 /* MSPaginatedDocuments.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		267464F1222F28A300EC1FF3 /* MSWriteOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464E1222F28A300EC1FF3 /* MSWriteOptions.h */; };
+		267464F1222F28A300EC1FF3 /* MSWriteOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464E1222F28A300EC1FF3 /* MSWriteOptions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		267464F2222F28A300EC1FF3 /* MSDataStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464E2222F28A300EC1FF3 /* MSDataStore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		267464F3222F28A300EC1FF3 /* MSDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464E3222F28A300EC1FF3 /* MSDataStore.m */; };
 		267464F4222F28A300EC1FF3 /* MSDocumentWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464E4222F28A300EC1FF3 /* MSDocumentWrapper.m */; };
@@ -117,7 +119,7 @@
 		267464F8222F28A300EC1FF3 /* MSPaginatedDocuments.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464E8222F28A300EC1FF3 /* MSPaginatedDocuments.m */; };
 		267464F9222F28A300EC1FF3 /* MSDocumentWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464E9222F28A300EC1FF3 /* MSDocumentWrapper.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		267464FA222F28A300EC1FF3 /* MSBaseOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464EA222F28A300EC1FF3 /* MSBaseOptions.m */; };
-		267464FB222F28A300EC1FF3 /* MSReadOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464EB222F28A300EC1FF3 /* MSReadOptions.h */; };
+		267464FB222F28A300EC1FF3 /* MSReadOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464EB222F28A300EC1FF3 /* MSReadOptions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		267464FC222F28A300EC1FF3 /* MSWriteOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464EC222F28A300EC1FF3 /* MSWriteOptions.m */; };
 		2ACE56002245277000FCD5DF /* MSDocumentUtilsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ACE55FF2245277000FCD5DF /* MSDocumentUtilsTests.m */; };
 		2ACE56012245277000FCD5DF /* MSDocumentUtilsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ACE55FF2245277000FCD5DF /* MSDocumentUtilsTests.m */; };
@@ -129,6 +131,16 @@
 		4A9C4403223B2408008548A7 /* MSTokenTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A9C4400223B23E3008548A7 /* MSTokenTests.m */; };
 		87FC45D718C70D5B72340A1C /* MSCosmosDbPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 87FA7FB5BC7302D0062016E1 /* MSCosmosDbPrivate.h */; };
 		87FD963F7BF9C9E07DE16D82 /* MSCosmosDbPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 87FA7FB5BC7302D0062016E1 /* MSCosmosDbPrivate.h */; };
+		8F5227DD2253DE88004F37FE /* oneDocumentPage.json in Resources */ = {isa = PBXBuildFile; fileRef = 8F5227DC2253DE84004F37FE /* oneDocumentPage.json */; };
+		8F5227DE2253DE89004F37FE /* oneDocumentPage.json in Resources */ = {isa = PBXBuildFile; fileRef = 8F5227DC2253DE84004F37FE /* oneDocumentPage.json */; };
+		8F5227E02253E0B8004F37FE /* MSTokenExchangePrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 8F5227DF2253E0B2004F37FE /* MSTokenExchangePrivate.h */; };
+		8F5227E12253E0B9004F37FE /* MSTokenExchangePrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 8F5227DF2253E0B2004F37FE /* MSTokenExchangePrivate.h */; };
+		8F5227E42253E22F004F37FE /* MSHttpTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F5227E22253E22F004F37FE /* MSHttpTestUtil.m */; };
+		8F5227E52253E22F004F37FE /* MSHttpTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F5227E22253E22F004F37FE /* MSHttpTestUtil.m */; };
+		8F5227ED2253F0C8004F37FE /* zeroDocumentsPage.json in Resources */ = {isa = PBXBuildFile; fileRef = 8F5227EC2253F0C7004F37FE /* zeroDocumentsPage.json */; };
+		8F5227EE2253F0C8004F37FE /* zeroDocumentsPage.json in Resources */ = {isa = PBXBuildFile; fileRef = 8F5227EC2253F0C7004F37FE /* zeroDocumentsPage.json */; };
+		8F5227F02254255D004F37FE /* MSPaginatedDocumentsInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 8F5227EF22542556004F37FE /* MSPaginatedDocumentsInternal.h */; };
+		8F5227F12254255F004F37FE /* MSPaginatedDocumentsInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 8F5227EF22542556004F37FE /* MSPaginatedDocumentsInternal.h */; };
 		D3AD5EC51E5C4F6A001627AB /* libAppCenterDataStorage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D33A94511E5B11BB003966DB /* libAppCenterDataStorage.a */; };
 		D3AD5F0C1E5C819A001627AB /* AppCenter+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5F0B1E5C819A001627AB /* AppCenter+Internal.h */; };
 		D3AD5F0D1E5C844B001627AB /* MSServiceAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5EFE1E5C7DAE001627AB /* MSServiceAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -216,6 +228,8 @@
 		041CFFA71ECD0E9A00B4654B /* Tests iOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Tests iOS.xcconfig"; path = "../../Config/Tests iOS.xcconfig"; sourceTree = "<group>"; };
 		0420A6A11ECA7D7200915619 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = ../Vendor/iOS/OCMock/OCMock.framework; sourceTree = "<group>"; };
 		043E2ABA1F4E033A00615AD9 /* AppCenterDataStorage Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "AppCenterDataStorage Release.xcconfig"; sourceTree = "<group>"; };
+		0460FD99225544E3004E48EA /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OHHTTPStubs.framework; path = ../Vendor/iOS/OHHTTPStubs/OHHTTPStubs.framework; sourceTree = "<group>"; };
+		0460FD9B225544F6004E48EA /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OHHTTPStubs.framework; path = ../Vendor/macOS/OHHTTPStubs/OHHTTPStubs.framework; sourceTree = "<group>"; };
 		0469640D1F2A558300F9D31F /* libAppCenterDataStorage.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAppCenterDataStorage.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		046964251F2A559C00F9D31F /* AppCenterDataStorage.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppCenterDataStorage.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0469642E1F2A55CF00F9D31F /* macOS.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = macOS.modulemap; sourceTree = "<group>"; };
@@ -259,6 +273,12 @@
 		2ACE562022453BE600FCD5DF /* MSDataSourceErrorTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSDataSourceErrorTests.m; sourceTree = "<group>"; };
 		4A9C4400223B23E3008548A7 /* MSTokenTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSTokenTests.m; sourceTree = "<group>"; };
 		87FA7FB5BC7302D0062016E1 /* MSCosmosDbPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSCosmosDbPrivate.h; sourceTree = "<group>"; };
+		8F5227DC2253DE84004F37FE /* oneDocumentPage.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = oneDocumentPage.json; sourceTree = "<group>"; };
+		8F5227DF2253E0B2004F37FE /* MSTokenExchangePrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSTokenExchangePrivate.h; sourceTree = "<group>"; };
+		8F5227E22253E22F004F37FE /* MSHttpTestUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSHttpTestUtil.m; path = ../../AppCenter/AppCenterTests/Util/MSHttpTestUtil.m; sourceTree = "<group>"; };
+		8F5227E32253E22F004F37FE /* MSHttpTestUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSHttpTestUtil.h; path = ../../AppCenter/AppCenterTests/Util/MSHttpTestUtil.h; sourceTree = "<group>"; };
+		8F5227EC2253F0C7004F37FE /* zeroDocumentsPage.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = zeroDocumentsPage.json; sourceTree = "<group>"; };
+		8F5227EF22542556004F37FE /* MSPaginatedDocumentsInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSPaginatedDocumentsInternal.h; sourceTree = "<group>"; };
 		D33A94511E5B11BB003966DB /* libAppCenterDataStorage.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAppCenterDataStorage.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D33A94541E5B11BB003966DB /* AppCenterDataStorage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppCenterDataStorage.h; sourceTree = "<group>"; };
 		D3AD5EC01E5C4F6A001627AB /* AppCenterDataStorage.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppCenterDataStorage.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -299,6 +319,7 @@
 			files = (
 				046964401F2A572800F9D31F /* libAppCenter.a in Frameworks */,
 				0469643A1F2A56F400F9D31F /* OCMock.framework in Frameworks */,
+				0460FD9C225544F6004E48EA /* OHHTTPStubs.framework in Frameworks */,
 				0469643D1F2A570500F9D31F /* OCHamcrest.framework in Frameworks */,
 				046964411F2A5AA300F9D31F /* libAppCenterDataStorage.a in Frameworks */,
 			);
@@ -317,6 +338,7 @@
 			files = (
 				D3AD5FDA1E5DDF72001627AB /* libAppCenter.a in Frameworks */,
 				D3AD5EC51E5C4F6A001627AB /* libAppCenterDataStorage.a in Frameworks */,
+				0460FD9A225544E3004E48EA /* OHHTTPStubs.framework in Frameworks */,
 				D3D0CFE91E640ABD003015AF /* OCHamcrestIOS.framework in Frameworks */,
 				0420A6A21ECA7D7200915619 /* OCMock.framework in Frameworks */,
 			);
@@ -331,6 +353,31 @@
 				0420A6A11ECA7D7200915619 /* OCMock.framework */,
 			);
 			name = iOS;
+			sourceTree = "<group>";
+		};
+		0460FD96225544B8004E48EA /* OHHTTPStubs */ = {
+			isa = PBXGroup;
+			children = (
+				0460FD97225544C3004E48EA /* iOS */,
+				0460FD98225544C9004E48EA /* macOS */,
+			);
+			name = OHHTTPStubs;
+			sourceTree = "<group>";
+		};
+		0460FD97225544C3004E48EA /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				0460FD99225544E3004E48EA /* OHHTTPStubs.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
+		0460FD98225544C9004E48EA /* macOS */ = {
+			isa = PBXGroup;
+			children = (
+				0460FD9B225544F6004E48EA /* OHHTTPStubs.framework */,
+			);
+			name = macOS;
 			sourceTree = "<group>";
 		};
 		046964351F2A56C500F9D31F /* macOS */ = {
@@ -373,6 +420,15 @@
 				D3D0CFE81E640ABD003015AF /* OCHamcrestIOS.framework */,
 			);
 			name = iOS;
+			sourceTree = "<group>";
+		};
+		8F5227DB2253DE1F004F37FE /* Fixtures */ = {
+			isa = PBXGroup;
+			children = (
+				8F5227EC2253F0C7004F37FE /* zeroDocumentsPage.json */,
+				8F5227DC2253DE84004F37FE /* oneDocumentPage.json */,
+			);
+			path = Fixtures;
 			sourceTree = "<group>";
 		};
 		D33A94481E5B11BB003966DB = {
@@ -438,16 +494,17 @@
 		D3AD5EC11E5C4F6A001627AB /* AppCenterDataStorageTests */ = {
 			isa = PBXGroup;
 			children = (
-				E8FE51A4221C8C41005FB52B /* Util */,
-				D3AD5EC21E5C4F6A001627AB /* MSDataStoreTests.m */,
-				4A9C4400223B23E3008548A7 /* MSTokenTests.m */,
 				D3AD5EC41E5C4F6A001627AB /* Info.plist */,
-				D3AD5F661E5D73F2001627AB /* Frameworks */,
-				04A140C31ECE877A001CEE94 /* Support */,
 				04B61DCA2248F518008D0102 /* MSTokenExchangeTests.m */,
 				2ACE55FF2245277000FCD5DF /* MSDocumentUtilsTests.m */,
 				2ACE56092245340A00FCD5DF /* MSBaseOptionsTests.m */,
 				2ACE562022453BE600FCD5DF /* MSDataSourceErrorTests.m */,
+				D3AD5EC21E5C4F6A001627AB /* MSDataStoreTests.m */,
+				4A9C4400223B23E3008548A7 /* MSTokenTests.m */,
+				8F5227DB2253DE1F004F37FE /* Fixtures */,
+				D3AD5F661E5D73F2001627AB /* Frameworks */,
+				04A140C31ECE877A001CEE94 /* Support */,
+				E8FE51A4221C8C41005FB52B /* Util */,
 			);
 			path = AppCenterDataStorageTests;
 			sourceTree = "<group>";
@@ -485,6 +542,7 @@
 				D3AD5FD91E5DDF72001627AB /* libAppCenter.a */,
 				0469643F1F2A572800F9D31F /* libAppCenter.a */,
 				04BED71B1ECB653800E20975 /* OCHamcrest */,
+				0460FD96225544B8004E48EA /* OHHTTPStubs */,
 				D38023C51E6DF3F400466558 /* OCMock */,
 			);
 			name = Frameworks;
@@ -509,6 +567,7 @@
 				87FA7FB5BC7302D0062016E1 /* MSCosmosDbPrivate.h */,
 				E86B95D72224B5F60062E552 /* MSTokenExchange.h */,
 				E86B95D92224B6310062E552 /* MSTokenExchange.m */,
+				8F5227DF2253E0B2004F37FE /* MSTokenExchangePrivate.h */,
 			);
 			path = Client;
 			sourceTree = "<group>";
@@ -520,6 +579,7 @@
 				2600123D22273E94007F4D3A /* MSTokenResult.m */,
 				2600123C22273E94007F4D3A /* MSTokensResponse.h */,
 				2600123E22273E94007F4D3A /* MSTokensResponse.m */,
+				8F5227EF22542556004F37FE /* MSPaginatedDocumentsInternal.h */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -527,8 +587,13 @@
 		E8FE51A4221C8C41005FB52B /* Util */ = {
 			isa = PBXGroup;
 			children = (
+<<<<<<< HEAD
 				1A20ABD42255336600D758FE /* MSHttpTestUtil.h */,
 				1A20ABD32255336600D758FE /* MSHttpTestUtil.m */,
+=======
+				8F5227E32253E22F004F37FE /* MSHttpTestUtil.h */,
+				8F5227E22253E22F004F37FE /* MSHttpTestUtil.m */,
+>>>>>>> develop
 				04B61DD12248F8CD008D0102 /* MSMockUserDefaults.h */,
 				04B61DD22248F8CD008D0102 /* MSMockUserDefaults.m */,
 				04B61DCE2248F7DB008D0102 /* MSMockKeychainUtil.h */,
@@ -552,6 +617,7 @@
 				049BC852224EDAFF00AE7FBB /* MSDataSourceError.h in Headers */,
 				049BC85B224EDB1D00AE7FBB /* MSPage.h in Headers */,
 				049BC85C224EDB2200AE7FBB /* MSReadOptions.h in Headers */,
+				8F5227E12253E0B9004F37FE /* MSTokenExchangePrivate.h in Headers */,
 				04B1C8CA2252AF0A00CBD876 /* MSAppCenterErrors.h in Headers */,
 				049BC854224EDB0700AE7FBB /* MSDocumentWrapper.h in Headers */,
 				0469644E1F2A5D2800F9D31F /* AppCenterDataStorage.h in Headers */,
@@ -564,6 +630,7 @@
 				E824A549222600C3005B69B5 /* MSDataStorePrivate.h in Headers */,
 				049BC85A224EDB1900AE7FBB /* MSPaginatedDocuments.h in Headers */,
 				049BC84E224EDAEE00AE7FBB /* MSBaseOptions.h in Headers */,
+				8F5227F12254255F004F37FE /* MSPaginatedDocumentsInternal.h in Headers */,
 				E8DADEF122286D1A00587E15 /* MSTokenResult.h in Headers */,
 				E80BE8922242215E004DD008 /* MSDataStoreErrors.h in Headers */,
 				049BC85D224EDB2700AE7FBB /* MSWriteOptions.h in Headers */,
@@ -583,6 +650,7 @@
 				267464F9222F28A300EC1FF3 /* MSDocumentWrapper.h in Headers */,
 				267464F6222F28A300EC1FF3 /* MSDataSourceError.h in Headers */,
 				267464F2222F28A300EC1FF3 /* MSDataStore.h in Headers */,
+				8F5227E02253E0B8004F37FE /* MSTokenExchangePrivate.h in Headers */,
 				267464F0222F28A300EC1FF3 /* MSPaginatedDocuments.h in Headers */,
 				04B1C8C92252AF0A00CBD876 /* MSAppCenterErrors.h in Headers */,
 				2600123F22273E94007F4D3A /* MSTokenResult.h in Headers */,
@@ -595,6 +663,7 @@
 				049BC861224EDBE100AE7FBB /* MSDataStorageConstants.h in Headers */,
 				E83D121E22378143002B6585 /* MSDocumentUtils.h in Headers */,
 				D3AD5F121E5C847B001627AB /* MSDataStorePrivate.h in Headers */,
+				8F5227F02254255D004F37FE /* MSPaginatedDocumentsInternal.h in Headers */,
 				E8593A16222B91B20001F87E /* MSCosmosDb.h in Headers */,
 				E80BE8912242215E004DD008 /* MSDataStoreErrors.h in Headers */,
 				04A0820C1F74BBCA00DC776D /* MSService.h in Headers */,
@@ -719,6 +788,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8F5227DE2253DE89004F37FE /* oneDocumentPage.json in Resources */,
+				8F5227EE2253F0C8004F37FE /* zeroDocumentsPage.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -726,6 +797,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8F5227DD2253DE88004F37FE /* oneDocumentPage.json in Resources */,
+				8F5227ED2253F0C8004F37FE /* zeroDocumentsPage.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -850,7 +923,11 @@
 				04B61DD42248F8CD008D0102 /* MSMockUserDefaults.m in Sources */,
 				04B61DCC2248F518008D0102 /* MSTokenExchangeTests.m in Sources */,
 				2ACE56012245277000FCD5DF /* MSDocumentUtilsTests.m in Sources */,
+<<<<<<< HEAD
 				1A20ABD82255339D00D758FE /* MSHttpTestUtil.m in Sources */,
+=======
+				8F5227E52253E22F004F37FE /* MSHttpTestUtil.m in Sources */,
+>>>>>>> develop
 				0469644F1F2A5D4A00F9D31F /* MSDataStoreTests.m in Sources */,
 				F82E4C86217F218D00EDAB34 /* sqlite3.c in Sources */,
 				2ACE560B2245340A00FCD5DF /* MSBaseOptionsTests.m in Sources */,
@@ -888,7 +965,11 @@
 				04B61DD32248F8CD008D0102 /* MSMockUserDefaults.m in Sources */,
 				04B61DCB2248F518008D0102 /* MSTokenExchangeTests.m in Sources */,
 				2ACE56002245277000FCD5DF /* MSDocumentUtilsTests.m in Sources */,
+<<<<<<< HEAD
 				1A20ABD72255339C00D758FE /* MSHttpTestUtil.m in Sources */,
+=======
+				8F5227E42253E22F004F37FE /* MSHttpTestUtil.m in Sources */,
+>>>>>>> develop
 				0496A67B1F3128CE005AE1DB /* MSDataStoreTests.m in Sources */,
 				F82E4C85217F218D00EDAB34 /* sqlite3.c in Sources */,
 				2ACE560A2245340A00FCD5DF /* MSBaseOptionsTests.m in Sources */,
@@ -928,7 +1009,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0469642F1F2A55CF00F9D31F /* macOS.xcconfig */;
 			buildSettings = {
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.datastorage;
 			};
 			name = Debug;
 		};
@@ -936,7 +1016,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0469642F1F2A55CF00F9D31F /* macOS.xcconfig */;
 			buildSettings = {
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.datastorage;
 			};
 			name = Release;
 		};
@@ -944,7 +1023,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0469642F1F2A55CF00F9D31F /* macOS.xcconfig */;
 			buildSettings = {
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.datastorage;
 			};
 			name = Debug;
 		};
@@ -952,7 +1030,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0469642F1F2A55CF00F9D31F /* macOS.xcconfig */;
 			buildSettings = {
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.datastorage;
 			};
 			name = Release;
 		};
@@ -960,7 +1037,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 046964301F2A561900F9D31F /* Tests macOS.xcconfig */;
 			buildSettings = {
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.datastorage;
 			};
 			name = Debug;
 		};
@@ -968,7 +1044,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 046964301F2A561900F9D31F /* Tests macOS.xcconfig */;
 			buildSettings = {
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.datastorage;
 			};
 			name = Release;
 		};
@@ -976,7 +1051,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0469642F1F2A55CF00F9D31F /* macOS.xcconfig */;
 			buildSettings = {
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.datastorage;
 			};
 			name = Debug;
 		};
@@ -984,7 +1058,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0469642F1F2A55CF00F9D31F /* macOS.xcconfig */;
 			buildSettings = {
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.datastorage;
 			};
 			name = Release;
 		};
@@ -1008,7 +1081,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC81E1ECE333700FB6719 /* iOS.xcconfig */;
 			buildSettings = {
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.datastorage;
 			};
 			name = Debug;
 		};
@@ -1016,7 +1088,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC81E1ECE333700FB6719 /* iOS.xcconfig */;
 			buildSettings = {
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.datastorage;
 			};
 			name = Release;
 		};
@@ -1024,7 +1095,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 041CFFA71ECD0E9A00B4654B /* Tests iOS.xcconfig */;
 			buildSettings = {
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.datastorage;
 			};
 			name = Debug;
 		};
@@ -1032,7 +1102,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 041CFFA71ECD0E9A00B4654B /* Tests iOS.xcconfig */;
 			buildSettings = {
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.datastorage;
 			};
 			name = Release;
 		};
@@ -1040,7 +1109,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC81E1ECE333700FB6719 /* iOS.xcconfig */;
 			buildSettings = {
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.datastorage;
 			};
 			name = Debug;
 		};
@@ -1048,7 +1116,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC81E1ECE333700FB6719 /* iOS.xcconfig */;
 			buildSettings = {
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.datastorage;
 			};
 			name = Release;
 		};
@@ -1056,7 +1123,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC81E1ECE333700FB6719 /* iOS.xcconfig */;
 			buildSettings = {
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.datastorage;
 			};
 			name = Debug;
 		};
@@ -1064,7 +1130,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC81E1ECE333700FB6719 /* iOS.xcconfig */;
 			buildSettings = {
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.datastorage;
 			};
 			name = Release;
 		};

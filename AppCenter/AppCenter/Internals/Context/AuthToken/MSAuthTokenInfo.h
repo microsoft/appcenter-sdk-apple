@@ -11,7 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MSAuthTokenInfo : NSObject <NSCoding>
 
 /**
- * Account ID string.
+ * Account Id string.
  */
 @property(nonatomic, nullable, copy, readonly) NSString *accountId;
 
@@ -36,6 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
  * Initialize a token info with required parameters.
  *
  * @param authToken Auth token.
+ * @param accountId Account Id.
  * @param startTime Start time.
  * @param expiresOn End time.
  *
