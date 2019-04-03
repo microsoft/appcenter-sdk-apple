@@ -12,7 +12,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class MSUserInformation;
 @protocol MSAuthTokenContextDelegate;
 
 /**
@@ -21,11 +20,6 @@ NS_ASSUME_NONNULL_BEGIN
  * refreshed.
  */
 @interface MSAuthTokenContext : NSObject
-
-/**
- * Cached authorization token.
- */
-@property(nullable, atomic, readonly) NSString *authToken;
 
 /**
  * Get singleton instance.
@@ -47,10 +41,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)removeDelegate:(id<MSAuthTokenContextDelegate>)delegate;
 
 /**
- * Set current auth token and user information.
+ * Set current auth token and account id.
  *
  * @param authToken token to be added to the storage.
- * @param accountId account Id to be added to the storage.
+ * @param accountId account id to be added to the storage.
  * @param expiresOn expiration date of a token.
  */
 - (void)setAuthToken:(nullable NSString *)authToken withAccountId:(nullable NSString *)accountId expiresOn:(nullable NSDate *)expiresOn;
@@ -63,9 +57,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (nullable NSString *)authToken;
 
 /**
- * Returns current user account Id.
+ * Returns current account identifier.
  *
- * @return account Id.
+ * @return account identifier.
  */
 - (nullable NSString *)accountId;
 

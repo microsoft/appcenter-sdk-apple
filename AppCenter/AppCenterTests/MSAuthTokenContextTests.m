@@ -53,16 +53,16 @@
 
   // If
   NSString *expectedAuthToken = @"authToken1";
-  NSString *expectedUser = @"account1";
+  NSString *expectedAccountId = @"account1";
   id<MSAuthTokenContextDelegate> delegateMock = OCMProtocolMock(@protocol(MSAuthTokenContextDelegate));
   [self.sut addDelegate:delegateMock];
 
   // When
-  [self.sut setAuthToken:expectedAuthToken withAccountId:expectedUser expiresOn:nil];
+  [self.sut setAuthToken:expectedAuthToken withAccountId:expectedAccountId expiresOn:nil];
 
   // Then
   XCTAssertEqualObjects([self.sut authToken], expectedAuthToken);
-  XCTAssertEqualObjects([self.sut accountId], expectedUser);
+  XCTAssertEqualObjects([self.sut accountId], expectedAccountId);
   OCMVerify([delegateMock authTokenContext:self.sut didUpdateUserInformation:OCMOCK_ANY]);
 }
 
@@ -70,19 +70,19 @@
 
   // If
   NSString *expectedAuthToken = @"authToken1";
-  NSString *expectedUser = @"account1";
+  NSString *expectedAccountId = @"account1";
   id<MSAuthTokenContextDelegate> delegateMock = OCMProtocolMock(@protocol(MSAuthTokenContextDelegate));
   [self.sut addDelegate:delegateMock];
 
   // When
-  [self.sut setAuthToken:expectedAuthToken withAccountId:expectedUser expiresOn:nil];
+  [self.sut setAuthToken:expectedAuthToken withAccountId:expectedAccountId expiresOn:nil];
 
   // Then
   OCMVerify([delegateMock authTokenContext:self.sut didUpdateUserInformation:OCMOCK_ANY]);
   OCMVerify([delegateMock authTokenContext:self.sut didUpdateAuthToken:expectedAuthToken]);
 
   // When
-  [self.sut setAuthToken:expectedAuthToken withAccountId:expectedUser expiresOn:nil];
+  [self.sut setAuthToken:expectedAuthToken withAccountId:expectedAccountId expiresOn:nil];
 
   // Then
   OCMVerify([delegateMock authTokenContext:self.sut didUpdateAuthToken:expectedAuthToken]);
@@ -93,19 +93,19 @@
 
   // If
   NSString *expectedAuthToken = @"authToken1";
-  NSString *expectedUser = @"account1";
-  NSString *expectedUser2 = @"account2";
+  NSString *expectedAccountId = @"account1";
+  NSString *expectedAccountId2 = @"account2";
   id<MSAuthTokenContextDelegate> delegateMock = OCMProtocolMock(@protocol(MSAuthTokenContextDelegate));
   [self.sut addDelegate:delegateMock];
 
   // When
-  [self.sut setAuthToken:expectedAuthToken withAccountId:expectedUser expiresOn:nil];
+  [self.sut setAuthToken:expectedAuthToken withAccountId:expectedAccountId expiresOn:nil];
 
   // Then
   OCMVerify([delegateMock authTokenContext:self.sut didUpdateUserInformation:OCMOCK_ANY]);
 
   // When
-  [self.sut setAuthToken:expectedAuthToken withAccountId:expectedUser2 expiresOn:nil];
+  [self.sut setAuthToken:expectedAuthToken withAccountId:expectedAccountId2 expiresOn:nil];
 
   // Then
   OCMVerify([delegateMock authTokenContext:self.sut didUpdateUserInformation:OCMOCK_ANY]);
@@ -122,8 +122,7 @@
 
   // When
   [self.sut removeDelegate:delegateMock];
-  NSString *user = @"some-id";
-  [self.sut setAuthToken:@"some-token" withAccountId:user expiresOn:nil];
+  [self.sut setAuthToken:@"some-token" withAccountId:@"someome" expiresOn:nil];
 
   // Then
   OCMVerifyAll(delegateMock);
@@ -158,8 +157,7 @@
   [MSMockKeychainUtil storeArray:authTokenHistory forKey:kMSAuthTokenHistoryKey];
 
   // When
-  NSString *expectedUser = @"someNewAccountData";
-  [self.sut setAuthToken:nil withAccountId:expectedUser expiresOn:nil];
+  [self.sut setAuthToken:nil withAccountId:@"someNewAccountData" expiresOn:nil];
   MSAuthTokenInfo *actualAuthTokenInfo = [[MSMockKeychainUtil arrayForKey:kMSAuthTokenHistoryKey] lastObject];
 
   XCTAssertNil(actualAuthTokenInfo.authToken);

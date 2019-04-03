@@ -10,7 +10,6 @@
 #import "MSTokenExchange.h"
 #import "MSTokenResult.h"
 #import "MSTokensResponse.h"
-#import "MSUserInformation.h"
 #import "MSUtility+Date.h"
 
 static NSString *const kMSPartition = @"partition";
@@ -82,7 +81,6 @@ static NSString *const MSDataStoreAppDocumentsPartition = @"readonly";
   // Make static method always return mocked instance with stubbed method.
   OCMClassMock([MSAuthTokenContext class]);
   OCMStub(ClassMethod([MSAuthTokenContext sharedInstance])).andReturn(contextInstanceMock);
-
   id<MSHttpClientProtocol> httpMock = OCMProtocolMock(@protocol(MSHttpClientProtocol));
   __block NSDictionary *actualHeaders;
 

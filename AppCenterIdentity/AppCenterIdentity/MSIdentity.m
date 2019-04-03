@@ -377,8 +377,8 @@ static dispatch_once_t onceToken;
                                       MSLogError([MSIdentity logTag], @"User sign-in failed. Error: %@", e);
                                     }
                                   } else {
-                                    MSALAccountId *accountId = (MSALAccountId * _Nonnull) result.account.homeAccountId;
-                                    [[MSAuthTokenContext sharedInstance] setAuthToken:(NSString * _Nonnull) result.idToken
+                                    MSALAccountId *accountId = (MSALAccountId * __nonnull) result.account.homeAccountId;
+                                    [[MSAuthTokenContext sharedInstance] setAuthToken:(NSString * __nonnull) result.idToken
                                                                         withAccountId:accountId.identifier
                                                                             expiresOn:result.expiresOn];
                                     MSLogInfo([MSIdentity logTag], @"User sign-in succeeded.");

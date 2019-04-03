@@ -115,7 +115,6 @@ static dispatch_once_t onceToken;
       if (accountId) {
         userInfo = [[MSUserInformation alloc] initWithAccountId:(NSString * __nonnull) accountId];
       }
-
       [delegate authTokenContext:self didUpdateUserInformation:userInfo];
     }
   }
