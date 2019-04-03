@@ -73,7 +73,7 @@ static dispatch_once_t onceToken;
 - (instancetype)init {
   if ((self = [super init])) {
     _tokenExchangeUrl = (NSURL *)[NSURL URLWithString:kMSDefaultApiUrl];
-    self.documentStore = [MSDBDocumentStore new];
+    _documentStore = [MSDBDocumentStore new];
     _dataStoreDispatchQueue = dispatch_queue_create(kMSDataStoreDispatchQueue, DISPATCH_QUEUE_SERIAL);
   }
   return self;
