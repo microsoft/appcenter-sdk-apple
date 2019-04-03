@@ -878,6 +878,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@"List first page"];
   NSMutableDictionary *continuationHeaders = [NSMutableDictionary new];
   continuationHeaders[@"x-ms-continuation"] = @"continuation token";
+
   // First page
   NSDictionary *firstPageHeaders = [MSCosmosDb defaultHeaderWithPartition:@"partition" dbToken:kMSTokenTest additionalHeaders:nil];
   OCMStub([httpClient sendAsync:OCMOCK_ANY method:@"GET" headers:firstPageHeaders data:nil completionHandler:OCMOCK_ANY])
@@ -888,6 +889,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
         NSData *payload = [self getJsonFixture:@"oneDocumentPage"];
         completionHandler(payload, [MSHttpTestUtil createMockResponseForStatusCode:200 headers:continuationHeaders], nil);
       });
+
   // Second page
   NSDictionary *secondPageHeaders = [MSCosmosDb defaultHeaderWithPartition:@"partition"
                                                                    dbToken:kMSTokenTest
