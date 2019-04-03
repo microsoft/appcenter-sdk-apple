@@ -378,7 +378,7 @@ static dispatch_once_t onceToken;
                                     }
                                   } else {
                                     MSALAccountId *accountId = (MSALAccountId * __nonnull) result.account.homeAccountId;
-                                    [[MSAuthTokenContext sharedInstance] setAuthToken:(NSString * __nonnull) result.idToken
+                                    [[MSAuthTokenContext sharedInstance] setAuthToken:result.idToken
                                                                         withAccountId:accountId.identifier
                                                                             expiresOn:result.expiresOn];
                                     MSLogInfo([MSIdentity logTag], @"User sign-in succeeded.");

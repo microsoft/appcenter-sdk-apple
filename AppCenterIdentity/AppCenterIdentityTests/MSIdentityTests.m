@@ -870,7 +870,6 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   // If
   NSString *accountId = @"someAccount";
   [[MSAuthTokenContext sharedInstance] setAuthToken:@"someToken" withAccountId:accountId expiresOn:nil];
-
   id accountMock = OCMPartialMock([MSALAccount new]);
   self.sut.clientApplication = self.clientApplicationMock;
   OCMStub([self.clientApplicationMock accountForHomeAccountId:accountId error:[OCMArg anyObjectRef]]).andReturn(accountMock);
@@ -892,7 +891,6 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   // If
   NSString *accountId = @"someAccount";
   [[MSAuthTokenContext sharedInstance] setAuthToken:@"someToken" withAccountId:accountId expiresOn:nil];
-
   id identityMock = OCMPartialMock(self.sut);
   OCMStub([identityMock sharedInstance]).andReturn(identityMock);
   OCMStub([identityMock canBeUsed]).andReturn(YES);
@@ -914,7 +912,6 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   // If
   NSString *accountId = @"someAccount";
   [[MSAuthTokenContext sharedInstance] setAuthToken:@"someToken" withAccountId:accountId expiresOn:nil];
-
   self.sut.clientApplication = self.clientApplicationMock;
   id identityMock = OCMPartialMock(self.sut);
   OCMStub([identityMock sharedInstance]).andReturn(identityMock);

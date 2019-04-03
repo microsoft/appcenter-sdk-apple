@@ -403,7 +403,7 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
 }
 
 - (void)authTokenContext:(__unused MSAuthTokenContext *)authTokenContext
-    didUpdateUserInformation:(__unused MSUserInformation *)userInformation {
+    didUpdateUserInformation:(nullable __unused MSUserInformation *)userInfo {
 
   // Make a copy of push token so that this code is thread safe.
   NSString *pushTokenCopy = self.pushToken;

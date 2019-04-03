@@ -22,7 +22,6 @@
 #import "MSPushTestUtil.h"
 #import "MSTestFrameworks.h"
 #import "MSUserIdContextPrivate.h"
-#import "MSUserInformation.h"
 
 static NSString *const kMSTestAppSecret = @"TestAppSecret";
 static NSString *const kMSTestPushToken = @"TestPushToken";

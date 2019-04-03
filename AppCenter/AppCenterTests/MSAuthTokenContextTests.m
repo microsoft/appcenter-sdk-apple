@@ -160,6 +160,7 @@
   [self.sut setAuthToken:nil withAccountId:@"someNewAccountData" expiresOn:nil];
   MSAuthTokenInfo *actualAuthTokenInfo = [[MSMockKeychainUtil arrayForKey:kMSAuthTokenHistoryKey] lastObject];
 
+  // Then
   XCTAssertNil(actualAuthTokenInfo.authToken);
 }
 
