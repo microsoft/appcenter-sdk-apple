@@ -257,7 +257,7 @@ static dispatch_once_t onceToken;
   [self setAuthToken:nil withAccountId:nil expiresOn:nil];
 }
 
-- (void)doNotResetAuthTokenAfterStart {
+- (void)preventResetAuthTokenAfterStart {
   self.resetAuthTokenRequired = NO;
 }
 

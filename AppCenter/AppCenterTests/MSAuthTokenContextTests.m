@@ -421,7 +421,7 @@
 - (void)testFinishDoesNotResetTokenIfPrevented {
 
   // If
-  [self.sut doNotResetAuthTokenAfterStart];
+  [self.sut preventResetAuthTokenAfterStart];
   OCMReject([self.sut setAuthToken:OCMOCK_ANY withAccountId:OCMOCK_ANY expiresOn:OCMOCK_ANY]);
 
   // When

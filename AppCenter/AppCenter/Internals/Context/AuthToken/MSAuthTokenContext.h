@@ -96,7 +96,7 @@ NS_ASSUME_NONNULL_BEGIN
  * Prevents resetting the current auth token if it exists. Should be called during
  * initialization process if the current auth token should be kept.
  */
-- (void)doNotResetAuthTokenAfterStart;
+- (void)preventResetAuthTokenAfterStart;
 
 @end
 
