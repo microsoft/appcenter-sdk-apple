@@ -65,7 +65,7 @@ static dispatch_once_t onceToken;
                     appSecret:(nullable NSString *)appSecret
       transmissionTargetToken:(nullable NSString *)token
               fromApplication:(BOOL)fromApplication {
-  [[MSAuthTokenContext sharedInstance] doNotResetAuthTokenAfterStart];
+  [[MSAuthTokenContext sharedInstance] preventResetAuthTokenAfterStart];
   [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionTargetToken:token fromApplication:fromApplication];
   MSLogVerbose([MSIdentity logTag], @"Started Identity service.");
 }
