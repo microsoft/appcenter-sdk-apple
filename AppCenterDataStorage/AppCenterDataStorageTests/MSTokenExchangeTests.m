@@ -237,7 +237,6 @@ static NSString *const MSDataStoreAppDocumentsPartition = @"readonly";
         [invocation getArgument:&completionBlock atIndex:6];
         NSHTTPURLResponse *response = [NSHTTPURLResponse new];
         id mockResponse = OCMPartialMock(response);
-        //[MSHttpTestUtil stubHttp404Response];
         OCMStub([mockResponse statusCode]).andReturn(MSHTTPCodesNo404NotFound);
         completionBlock(jsonTokenData, mockResponse, nil);
       });
