@@ -448,8 +448,8 @@ static dispatch_once_t onceToken;
 
 #pragma mark - MSAuthTokenContextDelegate
 
-- (void)authTokenContext:(MSAuthTokenContext *)__unused authTokenContext didUpdateUserInformation:(MSUserInformation *)userInfo {
-  if (!userInfo || !userInfo.accountId) {
+- (void)authTokenContext:(MSAuthTokenContext *)__unused authTokenContext didUpdateUserInformation:(MSUserInformation *)userInfomation {
+  if (!userInfomation) {
     [MSTokenExchange removeAllCachedTokens];
   }
 }

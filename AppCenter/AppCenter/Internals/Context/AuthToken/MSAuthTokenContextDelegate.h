@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
  * A callback that is called when an auth token is received.
  *
  * @param authTokenContext The auth token context.
- * @param authToken The auth token.
+ * @param authToken The new auth token.
  */
 - (void)authTokenContext:(MSAuthTokenContext *)authTokenContext didUpdateAuthToken:(nullable NSString *)authToken;
 
@@ -24,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
  * A callback that is called when a new user signs in.
  *
  * @param authTokenContext The auth token context.
- * @param userInformation The user information.
+ * @param userInformation The new user information. `nil` if a user signed out.
  */
 - (void)authTokenContext:(MSAuthTokenContext *)authTokenContext didUpdateUserInformation:(nullable MSUserInformation *)userInformation;
 
