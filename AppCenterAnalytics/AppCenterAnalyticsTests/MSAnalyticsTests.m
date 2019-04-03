@@ -386,6 +386,36 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   [[MSAnalytics sharedInstance].sessionTracker stop];
 }
 
+- (void)testTrackEventWithPropertiesWhenTransmissionTargetProvided {
+
+  // If
+  __block NSUInteger propertiesCount = 0;
+  [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
+  id channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  id channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
+  [[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock
+                                            appSecret:kMSTestAppSecret
+                              transmissionTargetToken:nil
+                                      fromApplication:YES];
+  OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSEventLog class]] flags:MSFlagsDefault]).andDo(^(NSInvocation *invocation) {
+    MSEventLog *log;
+    [invocation getArgument:&log atIndex:2];
+    propertiesCount = log.typedProperties.properties.count;
+  });
+
+  // When
+  NSMutableDictionary *properties = [NSMutableDictionary new];
+  for (int i = 0; i < 100; i++) {
+    properties[[@"prop" stringByAppendingFormat:@"%d", i]] = [@"val" stringByAppendingFormat:@"%d", i];
+  }
+  MSAnalyticsTransmissionTarget *target = [MSAnalytics transmissionTargetForToken:@"test"];
+  [[MSAnalytics sharedInstance] trackEvent:@"Some event" withProperties:properties forTransmissionTarget:target flags:MSFlagsDefault];
+
+  // Then
+  XCTAssertEqual(properties.count, propertiesCount);
+}
+
 - (void)testTrackEventSetsTagWhenTransmissionTargetProvided {
 
   // If
