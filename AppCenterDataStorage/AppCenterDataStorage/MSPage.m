@@ -9,14 +9,16 @@
 @synthesize items = _items;
 
 - (instancetype)initWithItems:(NSArray<MSDocumentWrapper *> *)items {
-  if ((self = [super init])) {
-    _items = items;
-  }
-  return self;
+  return [self initWithItems:items error:nil];
 }
 
 - (instancetype)initWithError:(MSDataSourceError *)error {
+  return [self initWithItems:nil error:error];
+}
+
+- (instancetype)initWithItems:(NSArray<MSDocumentWrapper *> *)items error:(MSDataSourceError *)error {
   if ((self = [super init])) {
+    _items = items;
     _error = error;
   }
   return self;
