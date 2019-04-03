@@ -34,19 +34,11 @@
 }
 
 - (instancetype)initWithPage:(MSPage *)page {
-  if ((self = [super init])) {
-    _currentPage = page;
-    _continuationToken = nil;
-  }
-  return self;
+  return [self initWithPage:page partition:nil documentType:nil readOptions:nil continuationToken:nil];
 }
 
 - (instancetype)initWithError:(MSDataSourceError *)error {
-  if ((self = [super init])) {
-    MSPage *pageWithError = [[MSPage alloc] initWithError:error];
-    return [self initWithPage:pageWithError];
-  }
-  return self;
+  return [self initWithPage:[[MSPage alloc] initWithError:error]];
 }
 
 - (BOOL)hasNextPage {

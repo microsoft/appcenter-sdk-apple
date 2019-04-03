@@ -35,7 +35,7 @@
 - (instancetype)initWithPage:(MSPage *)page;
 
 /**
- * Instantiate paginated Documents with single page with error.
+ * Initialize documents with a single page containing a document error.
  *
  * @param error Error to initialize with.
  *

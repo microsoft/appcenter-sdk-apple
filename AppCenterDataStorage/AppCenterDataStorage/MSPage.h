@@ -18,7 +18,7 @@
 @property(readonly) NSArray<MSDocumentWrapper<T> *> *items;
 
 /**
- * Initialize a page with an error.
+ * Initialize a page with an array of documents.
  *
  * @param items Error to initialize page with.
  *
