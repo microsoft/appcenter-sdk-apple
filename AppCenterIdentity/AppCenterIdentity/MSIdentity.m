@@ -11,6 +11,7 @@
 #import "MSIdentityErrors.h"
 #import "MSIdentityPrivate.h"
 #import "MSServiceAbstractProtected.h"
+#import "MSUserInformation.h"
 #import "MSUtility+File.h"
 
 #if TARGET_OS_IOS
@@ -196,6 +197,7 @@ static dispatch_once_t onceToken;
                                               code:errorCode
                                           userInfo:@{NSLocalizedDescriptionKey : errorMessage}];
   self.signInCompletionHandler(nil, error);
+  self.signInCompletionHandler = nil;
 }
 
 - (void)signOut {

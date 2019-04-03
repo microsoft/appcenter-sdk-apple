@@ -22,6 +22,7 @@
 #import "MSMockUserDefaults.h"
 #import "MSServiceAbstractProtected.h"
 #import "MSTestFrameworks.h"
+#import "MSUserInformation.h"
 #import "MSUtility+File.h"
 
 static NSString *const kMSTestAppSecret = @"TestAppSecret";
@@ -146,7 +147,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   OCMStub([self.ingestionMock sendAsync:OCMOCK_ANY eTag:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
 
   // Then
-  OCMReject([mockDelegate authTokenContext:OCMOCK_ANY didSetAuthToken:OCMOCK_ANY]);
+  OCMReject([mockDelegate authTokenContext:OCMOCK_ANY didUpdateAuthToken:OCMOCK_ANY]);
 
   // When
   [self.sut applyEnabledState:YES];
@@ -164,7 +165,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   OCMStub([self.ingestionMock sendAsync:OCMOCK_ANY eTag:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
 
   // Then
-  OCMReject([mockDelegate authTokenContext:OCMOCK_ANY didSetAuthToken:OCMOCK_ANY]);
+  OCMReject([mockDelegate authTokenContext:OCMOCK_ANY didUpdateAuthToken:OCMOCK_ANY]);
 
   // When
   [self.sut applyEnabledState:YES];
@@ -551,6 +552,66 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [identityMock stopMocking];
 }
 
+- (void)testSecondSignInSuccessAfterFirstSignInFails {
+
+  // If
+  NSString *idToken = @"idToken";
+  NSString *accountId = @"94c82516-cbee-44aa-8a6a-19f8d20322be";
+  id msalResultMock = OCMPartialMock([MSALResult new]);
+  OCMStub([msalResultMock idToken]).andReturn(idToken);
+  OCMStub([msalResultMock uniqueId]).andReturn(accountId);
+  self.sut.clientApplication = self.clientApplicationMock;
+  id identityMock = OCMPartialMock(self.sut);
+  OCMStub([identityMock sharedInstance]).andReturn(identityMock);
+  OCMStub([identityMock canBeUsed]).andReturn(YES);
+
+  // When
+
+  // We expect the call would fail and the handler will be called with an error because identityConfig isn't mocked and configured.
+  MSSignInCompletionHandler handler1 = ^(MSUserInformation *_Nullable userInformation, NSError *_Nullable error) {
+    self.signInUserInformation = userInformation;
+    self.signInError = error;
+  };
+  [MSIdentity signInWithCompletionHandler:handler1];
+
+  // Then
+  XCTAssertNil(self.signInUserInformation);
+  XCTAssertNotNil(self.signInError);
+  XCTAssertEqualObjects(kMSACIdentityErrorDomain, self.signInError.domain);
+  XCTAssertEqual(MSACIdentityErrorSignInBackgroundOrNotConfigured, self.signInError.code);
+  XCTAssertNotNil(self.signInError.userInfo[NSLocalizedDescriptionKey]);
+
+  // If
+  id configMock = OCMPartialMock([MSIdentityConfig new]);
+  OCMStub([configMock identityScope]).andReturn(@"fake");
+  OCMStub([identityMock identityConfig]).andReturn(configMock);
+  OCMStub([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+    __block MSALCompletionBlock completionBlock;
+    [invocation getArgument:&completionBlock atIndex:3];
+    self.msalCompletionBlock = completionBlock;
+  });
+
+  // When
+  MSSignInCompletionHandler handler2 = ^(MSUserInformation *_Nullable userInformation, NSError *_Nullable error) {
+    self.signInUserInformation = userInformation;
+    self.signInError = error;
+  };
+  [MSIdentity signInWithCompletionHandler:handler2];
+
+  // When we complete second call
+  self.msalCompletionBlock(msalResultMock, nil);
+  MSAuthTokenInfo *actualAuthTokenInfo = [[MSMockKeychainUtil arrayForKey:kMSAuthTokenHistoryKey] lastObject];
+
+  // Then
+  OCMVerify([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]);
+  XCTAssertEqualObjects(idToken, [MSAuthTokenContext sharedInstance].authToken);
+  XCTAssertEqualObjects(idToken, actualAuthTokenInfo.authToken);
+  XCTAssertNotNil(self.signInUserInformation);
+  XCTAssertEqualObjects(accountId, self.signInUserInformation.accountId);
+  XCTAssertNil(self.signInError);
+  [identityMock stopMocking];
+}
+
 - (void)testSilentSignInSavesAuthTokenAndHomeAccountId {
 
   // If
@@ -859,8 +920,8 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [MSIdentity signOut];
 
   // Then
-  OCMVerify([mockDelegate authTokenContext:OCMOCK_ANY didSetAuthToken:nil]);
-  OCMVerify([mockDelegate authTokenContext:OCMOCK_ANY didUpdateAccountIdWithAuthToken:nil]);
+  OCMVerify([mockDelegate authTokenContext:OCMOCK_ANY didUpdateAuthToken:nil]);
+  OCMVerify([mockDelegate authTokenContext:OCMOCK_ANY didUpdateUserInformation:nil]);
   [identityMock stopMocking];
 }
 

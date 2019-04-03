@@ -50,6 +50,7 @@ static const NSUInteger kMSSchemaVersion = 4;
     return NO;
   }
   MSFlags persistenceFlags = flags & kMSPersistenceFlagsMask;
+  long long timestampMs = (long long)([log.timestamp timeIntervalSince1970] * 1000);
 
   // Insert this log to the DB.
   NSData *logData = [NSKeyedArchiver archivedDataWithRootObject:log];
@@ -57,7 +58,7 @@ static const NSUInteger kMSSchemaVersion = 4;
   NSString *addLogQuery =
       [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\", \"%@\") VALUES ('%@', '%@', '%u', '%lld')", kMSLogTableName,
                                  kMSGroupIdColumnName, kMSLogColumnName, kMSPriorityColumnName, kMSTimestampColumnName, groupId, base64Data,
-                                 (unsigned int)persistenceFlags, (long long)[log.timestamp timeIntervalSince1970]];
+                                 (unsigned int)persistenceFlags, timestampMs];
 
   // Serialize target token.
   if ([(NSObject *)log isKindOfClass:[MSCommonSchemaLog class]]) {
@@ -68,8 +69,7 @@ static const NSUInteger kMSSchemaVersion = 4;
         stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\") VALUES ('%@', '%@', '%@', %@, '%u', '%lld')",
                          kMSLogTableName, kMSGroupIdColumnName, kMSLogColumnName, kMSTargetTokenColumnName, kMSTargetKeyColumnName,
                          kMSPriorityColumnName, kMSTimestampColumnName, groupId, base64Data, encryptedToken,
-                         targetKey ? [NSString stringWithFormat:@"'%@'", targetKey] : @"NULL", (unsigned int)persistenceFlags,
-                         (long long)[log.timestamp timeIntervalSince1970]];
+                         targetKey ? [NSString stringWithFormat:@"'%@'", targetKey] : @"NULL", (unsigned int)persistenceFlags, timestampMs];
   }
   return [self executeQueryUsingBlock:^int(void *db) {
            // Check maximum size.
@@ -128,8 +128,8 @@ static const NSUInteger kMSSchemaVersion = 4;
 #pragma mark - Load logs
 
 - (NSUInteger)countLogsBeforeDate:(NSDate *)date {
-  NSMutableString *condition =
-      [NSMutableString stringWithFormat:@"\"%@\" <= '%lld'", kMSTimestampColumnName, (long long)[date timeIntervalSince1970]];
+  long long timestampMs = (long long)([date timeIntervalSince1970] * 1000);
+  NSMutableString *condition = [NSMutableString stringWithFormat:@"\"%@\" <= '%lld'", kMSTimestampColumnName, timestampMs];
   return [self countEntriesForTable:kMSLogTableName condition:condition];
 }
 
@@ -169,10 +169,12 @@ static const NSUInteger kMSSchemaVersion = 4;
 
   // Filter by time.
   if (dateAfter) {
-    [condition appendFormat:@" AND \"%@\" >= '%lld'", kMSTimestampColumnName, (long long)[dateAfter timeIntervalSince1970]];
+    long long timestampAfterMs = (long long)([dateAfter timeIntervalSince1970] * 1000);
+    [condition appendFormat:@" AND \"%@\" >= '%lld'", kMSTimestampColumnName, timestampAfterMs];
   }
   if (dateBefore) {
-    [condition appendFormat:@" AND \"%@\" <= '%lld'", kMSTimestampColumnName, (long long)[dateBefore timeIntervalSince1970]];
+    long long timestampBeforeMs = (long long)([dateBefore timeIntervalSince1970] * 1000);
+    [condition appendFormat:@" AND \"%@\" < '%lld'", kMSTimestampColumnName, timestampBeforeMs];
   }
 
   // Build the "ORDER BY" clause's conditions.

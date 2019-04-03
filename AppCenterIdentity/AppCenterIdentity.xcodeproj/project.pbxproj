@@ -56,8 +56,6 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		04183C542229D5D400B5C70E /* MSUserInformation.h in Headers */ = {isa = PBXBuildFile; fileRef = 04183C522229D5D400B5C70E /* MSUserInformation.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		04183C562229D5E000B5C70E /* MSUserInformation.h in Headers */ = {isa = PBXBuildFile; fileRef = 04183C522229D5D400B5C70E /* MSUserInformation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0420A6871ECA7A4B00915619 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0420A6861ECA7A4B00915619 /* OCMock.framework */; };
 		0420A6931ECA7B1100915619 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0420A6921ECA7B1100915619 /* OCMock.framework */; };
 		0446DF621F3B95EB00C8E338 /* libAppCenter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0446DF611F3B95EB00C8E338 /* libAppCenter.a */; };
@@ -88,8 +86,6 @@
 		04C6EC8021F10DDB00A6FDAF /* MSAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04C6EC7C21F10D9D00A6FDAF /* MSAL.framework */; };
 		04C802E9220399A30039E9BC /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04C802E72203999E0039E9BC /* OHHTTPStubs.framework */; };
 		04C802EA220399A80039E9BC /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04C802E5220399860039E9BC /* OHHTTPStubs.framework */; };
-		04D707E22229F5FB001EE415 /* MSUserInformation.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D707DE2229F593001EE415 /* MSUserInformation.m */; };
-		04D707E32229F5FC001EE415 /* MSUserInformation.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D707DE2229F593001EE415 /* MSUserInformation.m */; };
 		04E0F320223B246B0080C968 /* AuthenticationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04E0F31F223B246B0080C968 /* AuthenticationServices.framework */; };
 		1A0D73FE2200CD540085FDE3 /* MSIdentityAuthorityTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A0D73FD2200CD540085FDE3 /* MSIdentityAuthorityTest.m */; };
 		1A0D74032200EB400085FDE3 /* MSIdentityConfigTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A0D74022200EB400085FDE3 /* MSIdentityConfigTest.m */; };
@@ -205,7 +201,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		04183C522229D5D400B5C70E /* MSUserInformation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSUserInformation.h; sourceTree = "<group>"; };
 		041CFF8B1ECCFF6700B4654B /* Tests iOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Tests iOS.xcconfig"; path = "../../Config/Tests iOS.xcconfig"; sourceTree = "<group>"; };
 		0420A6861ECA7A4B00915619 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = ../../macOS/OCMock/OCMock.framework; sourceTree = "<group>"; };
 		0420A6921ECA7B1100915619 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = ../../iOS/OCMock/OCMock.framework; sourceTree = "<group>"; };
@@ -230,7 +225,6 @@
 		04C6EC7C21F10D9D00A6FDAF /* MSAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MSAL.framework; path = ../Vendor/macOS/MSAL/MSAL.framework; sourceTree = "<group>"; };
 		04C802E5220399860039E9BC /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OHHTTPStubs.framework; path = ../../Vendor/iOS/OHHTTPStubs/OHHTTPStubs.framework; sourceTree = "<group>"; };
 		04C802E72203999E0039E9BC /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OHHTTPStubs.framework; path = ../../Vendor/macOS/OHHTTPStubs/OHHTTPStubs.framework; sourceTree = "<group>"; };
-		04D707DE2229F593001EE415 /* MSUserInformation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSUserInformation.m; sourceTree = "<group>"; };
 		04E0F31F223B246B0080C968 /* AuthenticationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AuthenticationServices.framework; path = System/Library/Frameworks/AuthenticationServices.framework; sourceTree = SDKROOT; };
 		04ED31E91EAAD32B0033BAAE /* macOS.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = macOS.modulemap; sourceTree = "<group>"; };
 		04ED31EB1EAAD3390033BAAE /* iOS.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = iOS.modulemap; sourceTree = "<group>"; };
@@ -539,8 +533,6 @@
 				E85547C31D2D6253002DF6E2 /* MSIdentity.h */,
 				E85547C51D2D6253002DF6E2 /* MSIdentity.m */,
 				049BC835224E8AD900AE7FBB /* MSIdentityErrors.h */,
-				04183C522229D5D400B5C70E /* MSUserInformation.h */,
-				04D707DE2229F593001EE415 /* MSUserInformation.m */,
 				995BA5D621EFF01F000E3212 /* Internals */,
 				E85547D01D2D65AF002DF6E2 /* Support */,
 			);
@@ -583,7 +575,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				04183C562229D5E000B5C70E /* MSUserInformation.h in Headers */,
 				995BA5DD21EFF414000E3212 /* MSIdentityPrivate.h in Headers */,
 				995BA5D421EFEF6D000E3212 /* AppCenter+Internal.h in Headers */,
 				35BCB33C22382EA300E948A4 /* MSIdentityConstants.h in Headers */,
@@ -604,7 +595,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				04B1C8CC2252AF2300CBD876 /* MSAppCenterErrors.h in Headers */,
-				04183C542229D5D400B5C70E /* MSUserInformation.h in Headers */,
 				995BA5DC21EFF414000E3212 /* MSIdentityPrivate.h in Headers */,
 				995BA5D321EFEF6D000E3212 /* AppCenter+Internal.h in Headers */,
 				35BCB33B22382EA100E948A4 /* MSIdentityConstants.h in Headers */,
@@ -864,7 +854,6 @@
 				0485AF6A1EAA79E300C10CAF /* MSIdentity.m in Sources */,
 				38F796D521F93ED6007E7C15 /* MSIdentityAuthority.m in Sources */,
 				0481A54E21FA51D7001FA9D8 /* MSIdentityConfigIngestion.m in Sources */,
-				04D707E32229F5FC001EE415 /* MSUserInformation.m in Sources */,
 				38F796CF21F93E33007E7C15 /* MSIdentityConfig.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -876,7 +865,6 @@
 				E85547C61D2D6253002DF6E2 /* MSIdentity.m in Sources */,
 				0481A54B21FA511C001FA9D8 /* MSIdentityConfigIngestion.m in Sources */,
 				38F796D421F93ED6007E7C15 /* MSIdentityAuthority.m in Sources */,
-				04D707E22229F5FB001EE415 /* MSUserInformation.m in Sources */,
 				B2B25642220B365A00716D6A /* MSIdentityAppDelegate.m in Sources */,
 				38F796CE21F93E33007E7C15 /* MSIdentityConfig.m in Sources */,
 			);
