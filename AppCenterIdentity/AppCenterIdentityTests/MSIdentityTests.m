@@ -740,6 +740,8 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 - (void)testSignInError {
 
   // If
+  id authTokenContextMock = OCMPartialMock([MSAuthTokenContext sharedInstance]);
+  OCMStub([authTokenContextMock sharedInstance]).andReturn(authTokenContextMock);
   NSError *signInError = [[NSError alloc] initWithDomain:MSALErrorDomain
                                                     code:MSALErrorAuthorizationFailed
                                                 userInfo:@{MSALErrorDescriptionKey : @"failed"}];
@@ -764,17 +766,21 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
   // Then
   OCMVerify([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]);
+  OCMVerify([authTokenContextMock setAuthToken:nil withAccountId:nil expiresOn:nil]);
   XCTAssertNil(self.signInUserInformation);
   XCTAssertNotNil(self.signInError);
   XCTAssertEqualObjects(MSALErrorDomain, self.signInError.domain);
   XCTAssertEqual(MSALErrorAuthorizationFailed, self.signInError.code);
   XCTAssertNotNil(self.signInError.userInfo[MSALErrorDescriptionKey]);
   [identityMock stopMocking];
+  [authTokenContextMock stopMocking];
 }
 
 - (void)testSignInCancelled {
 
   // If
+  id authTokenContextMock = OCMPartialMock([MSAuthTokenContext sharedInstance]);
+  OCMStub([authTokenContextMock sharedInstance]).andReturn(authTokenContextMock);
   NSError *signInError = [[NSError alloc] initWithDomain:MSALErrorDomain
                                                     code:MSALErrorUserCanceled
                                                 userInfo:@{MSALErrorDescriptionKey : @"cancelled"}];
@@ -799,12 +805,14 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
   // Then
   OCMVerify([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]);
+  OCMVerify([authTokenContextMock setAuthToken:nil withAccountId:nil expiresOn:nil]);
   XCTAssertNil(self.signInUserInformation);
   XCTAssertNotNil(self.signInError);
   XCTAssertEqualObjects(MSALErrorDomain, self.signInError.domain);
   XCTAssertEqual(MSALErrorUserCanceled, self.signInError.code);
   XCTAssertNotNil(self.signInError.userInfo[MSALErrorDescriptionKey]);
   [identityMock stopMocking];
+  [authTokenContextMock stopMocking];
 }
 
 - (void)testSignInFailsAfterDisablingEvenIfBrowserWasOpenedAndSignInSucceeds {
@@ -1080,14 +1088,16 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   OCMStub([identityMock retrieveAccountWithAccountId:fakeAccountId]).andReturn(nil);
   OCMStub([identityMock acquireTokenSilentlyWithMSALAccount:OCMOCK_ANY]);
   OCMReject([identityMock acquireTokenSilentlyWithMSALAccount:OCMOCK_ANY]);
-  id contextMock = OCMPartialMock([MSAuthTokenContext sharedInstance]);
+  id authTokenContextMock = OCMPartialMock([MSAuthTokenContext sharedInstance]);
+  OCMStub([authTokenContextMock sharedInstance]).andReturn(authTokenContextMock);
 
   // When
   [[MSAuthTokenContext sharedInstance] checkIfTokenNeedsToBeRefreshed:fakeValidityInfo];
 
   // Then
-  OCMVerify([contextMock setAuthToken:nil withAccountId:nil expiresOn:nil]);
+  OCMVerify([authTokenContextMock setAuthToken:nil withAccountId:nil expiresOn:nil]);
   [identityMock stopMocking];
+  [authTokenContextMock stopMocking];
 }
 
 @end
