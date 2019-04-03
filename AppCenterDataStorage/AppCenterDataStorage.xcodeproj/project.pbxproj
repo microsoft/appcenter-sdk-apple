@@ -123,6 +123,10 @@
 		2ACE560B2245340A00FCD5DF /* MSBaseOptionsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ACE56092245340A00FCD5DF /* MSBaseOptionsTests.m */; };
 		2ACE562122453BE600FCD5DF /* MSDataSourceErrorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ACE562022453BE600FCD5DF /* MSDataSourceErrorTests.m */; };
 		2ACE562222453BE600FCD5DF /* MSDataSourceErrorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ACE562022453BE600FCD5DF /* MSDataSourceErrorTests.m */; };
+		351064BA225417F40009DB96 /* MSDBDocumentStoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 351064B9225417F40009DB96 /* MSDBDocumentStoreTests.m */; };
+		351064BB225417F40009DB96 /* MSDBDocumentStoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 351064B9225417F40009DB96 /* MSDBDocumentStoreTests.m */; };
+		351064BE22541A750009DB96 /* MSMockDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 351064BD22541A750009DB96 /* MSMockDocument.m */; };
+		351064BF22541A750009DB96 /* MSMockDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 351064BD22541A750009DB96 /* MSMockDocument.m */; };
 		4A193736225129B700459E1E /* MSDBDocumentStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A193733225129B700459E1E /* MSDBDocumentStore.m */; };
 		4A193737225129B700459E1E /* MSDBDocumentStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A193734225129B700459E1E /* MSDBDocumentStore.h */; };
 		4A193738225129B700459E1E /* MSDBDocumentStorePrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A193735225129B700459E1E /* MSDBDocumentStorePrivate.h */; };
@@ -261,6 +265,9 @@
 		2ACE55FF2245277000FCD5DF /* MSDocumentUtilsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSDocumentUtilsTests.m; sourceTree = "<group>"; };
 		2ACE56092245340A00FCD5DF /* MSBaseOptionsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSBaseOptionsTests.m; sourceTree = "<group>"; };
 		2ACE562022453BE600FCD5DF /* MSDataSourceErrorTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSDataSourceErrorTests.m; sourceTree = "<group>"; };
+		351064B9225417F40009DB96 /* MSDBDocumentStoreTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSDBDocumentStoreTests.m; sourceTree = "<group>"; };
+		351064BC22541A750009DB96 /* MSMockDocument.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MSMockDocument.h; path = AppCenterDataStorageTests/MSMockDocument.h; sourceTree = SOURCE_ROOT; };
+		351064BD22541A750009DB96 /* MSMockDocument.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MSMockDocument.m; path = AppCenterDataStorageTests/MSMockDocument.m; sourceTree = SOURCE_ROOT; };
 		4A193733225129B700459E1E /* MSDBDocumentStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDBDocumentStore.m; sourceTree = "<group>"; };
 		4A193734225129B700459E1E /* MSDBDocumentStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDBDocumentStore.h; sourceTree = "<group>"; };
 		4A193735225129B700459E1E /* MSDBDocumentStorePrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDBDocumentStorePrivate.h; sourceTree = "<group>"; };
@@ -467,6 +474,7 @@
 				2ACE55FF2245277000FCD5DF /* MSDocumentUtilsTests.m */,
 				2ACE56092245340A00FCD5DF /* MSBaseOptionsTests.m */,
 				2ACE562022453BE600FCD5DF /* MSDataSourceErrorTests.m */,
+				351064B9225417F40009DB96 /* MSDBDocumentStoreTests.m */,
 			);
 			path = AppCenterDataStorageTests;
 			sourceTree = "<group>";
@@ -547,6 +555,8 @@
 		E8FE51A4221C8C41005FB52B /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				351064BC22541A750009DB96 /* MSMockDocument.h */,
+				351064BD22541A750009DB96 /* MSMockDocument.m */,
 				04B61DD12248F8CD008D0102 /* MSMockUserDefaults.h */,
 				04B61DD22248F8CD008D0102 /* MSMockUserDefaults.m */,
 				04B61DCE2248F7DB008D0102 /* MSMockKeychainUtil.h */,
@@ -569,7 +579,6 @@
 				046964491F2A5B4D00F9D31F /* AppCenter+Internal.h in Headers */,
 				049BC852224EDAFF00AE7FBB /* MSDataSourceError.h in Headers */,
 				4A193739225129C200459E1E /* MSDBDocumentStore.h in Headers */,
-				E820F1A2222767C0009EFA5D /* MSStorageIngestion.h in Headers */,
 				4A1937982252CA6600459E1E /* MSDocumentStore.h in Headers */,
 				049BC85B224EDB1D00AE7FBB /* MSPage.h in Headers */,
 				049BC85C224EDB2200AE7FBB /* MSReadOptions.h in Headers */,
@@ -861,7 +870,6 @@
 				049BC858224EDB1100AE7FBB /* MSReadOptions.m in Sources */,
 				049BC859224EDB1100AE7FBB /* MSWriteOptions.m in Sources */,
 				4A19373A225129C400459E1E /* MSDBDocumentStore.m in Sources */,
-				E877CEB4223057E700259BA0 /* MSCosmosDbIngestion.m in Sources */,
 				049BC85E224EDBB700AE7FBB /* MSCosmosDb.m in Sources */,
 				049BC84F224EDAF300AE7FBB /* MSBaseOptions.m in Sources */,
 				049BC855224EDB0C00AE7FBB /* MSDocumentWrapper.m in Sources */,
@@ -874,11 +882,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				351064BB225417F40009DB96 /* MSDBDocumentStoreTests.m in Sources */,
 				04B61DD42248F8CD008D0102 /* MSMockUserDefaults.m in Sources */,
 				04B61DCC2248F518008D0102 /* MSTokenExchangeTests.m in Sources */,
 				2ACE56012245277000FCD5DF /* MSDocumentUtilsTests.m in Sources */,
 				0469644F1F2A5D4A00F9D31F /* MSDataStoreTests.m in Sources */,
 				F82E4C86217F218D00EDAB34 /* sqlite3.c in Sources */,
+				351064BF22541A750009DB96 /* MSMockDocument.m in Sources */,
 				2ACE560B2245340A00FCD5DF /* MSBaseOptionsTests.m in Sources */,
 				4A9C4403223B2408008548A7 /* MSTokenTests.m in Sources */,
 				04B61DD02248F7DB008D0102 /* MSMockKeychainUtil.m in Sources */,
@@ -912,11 +922,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				351064BA225417F40009DB96 /* MSDBDocumentStoreTests.m in Sources */,
 				04B61DD32248F8CD008D0102 /* MSMockUserDefaults.m in Sources */,
 				04B61DCB2248F518008D0102 /* MSTokenExchangeTests.m in Sources */,
 				2ACE56002245277000FCD5DF /* MSDocumentUtilsTests.m in Sources */,
 				0496A67B1F3128CE005AE1DB /* MSDataStoreTests.m in Sources */,
 				F82E4C85217F218D00EDAB34 /* sqlite3.c in Sources */,
+				351064BE22541A750009DB96 /* MSMockDocument.m in Sources */,
 				2ACE560A2245340A00FCD5DF /* MSBaseOptionsTests.m in Sources */,
 				4A9C4402223B2405008548A7 /* MSTokenTests.m in Sources */,
 				04B61DCF2248F7DB008D0102 /* MSMockKeychainUtil.m in Sources */,
