@@ -171,6 +171,108 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   XCTAssertEqual(enabledCount, 1);
 }
 
+- (void)testReadWithPartitionDisabled {
+
+  // If
+  [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
+                        appSecret:kMSTestAppSecret
+          transmissionTargetToken:nil
+                  fromApplication:YES];
+  self.sut.httpClient = OCMProtocolMock(@protocol(MSHttpClientProtocol));
+  OCMReject([self.sut.httpClient sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:OCMOCK_ANY data:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
+  __block MSDocumentWrapper *actualDocumentWrapper;
+  __weak XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler called."];
+
+  // When
+  [self.sut setEnabled:NO];
+  [MSDataStore readWithPartition:kMSPartitionTest
+                      documentId:kMSDocumentIdTest
+                    documentType:[MSFakeSerializableDocument class]
+               completionHandler:^(MSDocumentWrapper *data) {
+                 actualDocumentWrapper = data;
+                 [expectation fulfill];
+               }];
+
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *_Nullable error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+  XCTAssertNotNil(actualDocumentWrapper);
+  XCTAssertNotNil(actualDocumentWrapper.error);
+  XCTAssertEqualObjects(actualDocumentWrapper.documentId, kMSDocumentIdTest);
+}
+
+- (void)testCreateWithPartitionDisabled {
+
+  // If
+  [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
+                        appSecret:kMSTestAppSecret
+          transmissionTargetToken:nil
+                  fromApplication:YES];
+  self.sut.httpClient = OCMProtocolMock(@protocol(MSHttpClientProtocol));
+  OCMReject([self.sut.httpClient sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:OCMOCK_ANY data:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
+  __block MSDocumentWrapper *actualDocumentWrapper;
+  __weak XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler called."];
+
+  // When
+  [self.sut setEnabled:NO];
+  [MSDataStore createWithPartition:kMSPartitionTest
+                        documentId:kMSDocumentIdTest
+                          document:[MSFakeSerializableDocument new]
+                 completionHandler:^(MSDocumentWrapper *data) {
+                   actualDocumentWrapper = data;
+                   [expectation fulfill];
+                 }];
+
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *_Nullable error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+  XCTAssertNotNil(actualDocumentWrapper);
+  XCTAssertNotNil(actualDocumentWrapper.error);
+  XCTAssertEqualObjects(actualDocumentWrapper.documentId, kMSDocumentIdTest);
+}
+
+- (void)testReplaceWithPartitionDisabled {
+
+  // If
+  [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
+                        appSecret:kMSTestAppSecret
+          transmissionTargetToken:nil
+                  fromApplication:YES];
+  self.sut.httpClient = OCMProtocolMock(@protocol(MSHttpClientProtocol));
+  OCMReject([self.sut.httpClient sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:OCMOCK_ANY data:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
+  __block MSDocumentWrapper *actualDocumentWrapper;
+  __weak XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler called."];
+
+  // When
+  [self.sut setEnabled:NO];
+  [MSDataStore replaceWithPartition:kMSPartitionTest
+                         documentId:kMSDocumentIdTest
+                           document:[MSFakeSerializableDocument new]
+                  completionHandler:^(MSDocumentWrapper *data) {
+                    actualDocumentWrapper = data;
+                    [expectation fulfill];
+                  }];
+
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *_Nullable error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+  XCTAssertNotNil(actualDocumentWrapper);
+  XCTAssertNotNil(actualDocumentWrapper.error);
+  XCTAssertEqualObjects(actualDocumentWrapper.documentId, kMSDocumentIdTest);
+}
+
 - (void)testDefaultHeaderWithPartitionWithDictionaryNotNull {
 
   // If
