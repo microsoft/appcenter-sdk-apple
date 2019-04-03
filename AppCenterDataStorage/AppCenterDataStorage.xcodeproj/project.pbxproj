@@ -587,13 +587,8 @@
 		E8FE51A4221C8C41005FB52B /* Util */ = {
 			isa = PBXGroup;
 			children = (
-<<<<<<< HEAD
 				1A20ABD42255336600D758FE /* MSHttpTestUtil.h */,
 				1A20ABD32255336600D758FE /* MSHttpTestUtil.m */,
-=======
-				8F5227E32253E22F004F37FE /* MSHttpTestUtil.h */,
-				8F5227E22253E22F004F37FE /* MSHttpTestUtil.m */,
->>>>>>> develop
 				04B61DD12248F8CD008D0102 /* MSMockUserDefaults.h */,
 				04B61DD22248F8CD008D0102 /* MSMockUserDefaults.m */,
 				04B61DCE2248F7DB008D0102 /* MSMockKeychainUtil.h */,
@@ -923,11 +918,7 @@
 				04B61DD42248F8CD008D0102 /* MSMockUserDefaults.m in Sources */,
 				04B61DCC2248F518008D0102 /* MSTokenExchangeTests.m in Sources */,
 				2ACE56012245277000FCD5DF /* MSDocumentUtilsTests.m in Sources */,
-<<<<<<< HEAD
 				1A20ABD82255339D00D758FE /* MSHttpTestUtil.m in Sources */,
-=======
-				8F5227E52253E22F004F37FE /* MSHttpTestUtil.m in Sources */,
->>>>>>> develop
 				0469644F1F2A5D4A00F9D31F /* MSDataStoreTests.m in Sources */,
 				F82E4C86217F218D00EDAB34 /* sqlite3.c in Sources */,
 				2ACE560B2245340A00FCD5DF /* MSBaseOptionsTests.m in Sources */,
@@ -965,11 +956,7 @@
 				04B61DD32248F8CD008D0102 /* MSMockUserDefaults.m in Sources */,
 				04B61DCB2248F518008D0102 /* MSTokenExchangeTests.m in Sources */,
 				2ACE56002245277000FCD5DF /* MSDocumentUtilsTests.m in Sources */,
-<<<<<<< HEAD
 				1A20ABD72255339C00D758FE /* MSHttpTestUtil.m in Sources */,
-=======
-				8F5227E42253E22F004F37FE /* MSHttpTestUtil.m in Sources */,
->>>>>>> develop
 				0496A67B1F3128CE005AE1DB /* MSDataStoreTests.m in Sources */,
 				F82E4C85217F218D00EDAB34 /* sqlite3.c in Sources */,
 				2ACE560A2245340A00FCD5DF /* MSBaseOptionsTests.m in Sources */,
