@@ -76,7 +76,7 @@ static NSString *const kMSPendingOperationDelete = @"DELETE";
 /**
  * A local store instance that is used to manage all operation on the sqLite instance.
  */
-@property(nonatomic, nullable) MSDBStorage *dbStorage;
+@property(nonatomic) MSDBStorage *dbStorage;
 
 @end
 
