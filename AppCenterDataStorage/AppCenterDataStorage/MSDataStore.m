@@ -441,7 +441,6 @@ static dispatch_once_t onceToken;
                      NSMutableArray<MSDocumentWrapper *> *items = [NSMutableArray new];
                      for (id document in jsonDocuments) {
                        // Deserialize current document.
-                       // TODO: handle deserialization here.
                        id<MSSerializableDocument> deserializedDocument =
                            [(id<MSSerializableDocument>)[documentType alloc] initFromDictionary:(NSDictionary *)document];
 
