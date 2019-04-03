@@ -3,16 +3,13 @@
 
 #import "MSAppCenterInternal.h"
 #import "MSAuthTokenContext.h"
-#import "MSChannelGroupProtocol.h"
 #import "MSChannelUnitConfiguration.h"
-#import "MSChannelUnitProtocol.h"
 #import "MSConstants+Internal.h"
 #import "MSIdentityConfig.h"
 #import "MSIdentityConfigIngestion.h"
 #import "MSIdentityConstants.h"
 #import "MSIdentityErrors.h"
 #import "MSIdentityPrivate.h"
-#import "MSKeychainUtil.h"
 #import "MSServiceAbstractProtected.h"
 #import "MSUtility+File.h"
 
@@ -90,7 +87,6 @@ static dispatch_once_t onceToken;
 - (void)applyEnabledState:(BOOL)isEnabled {
   [super applyEnabledState:isEnabled];
   if (isEnabled) {
-    [self.channelGroup addDelegate:self];
 #if TARGET_OS_IOS
     [[MSAppDelegateForwarder sharedInstance] addDelegate:self.appDelegate];
 #endif
@@ -100,13 +96,6 @@ static dispatch_once_t onceToken;
     if ([self loadConfigurationFromCache]) {
       [self configAuthenticationClient];
       eTag = [MS_USER_DEFAULTS objectForKey:kMSIdentityETagKey];
-    }
-    NSString *authToken = [self retrieveAuthToken];
-    NSString *accountId = [self retrieveAccountId];
-
-    // Only set the auth token if auth token and account id are not nil to avoid triggering callbacks.
-    if (authToken && accountId) {
-      [[MSAuthTokenContext sharedInstance] setAuthToken:authToken withAccountId:accountId];
     }
 
     // Download identity configuration.
@@ -119,7 +108,6 @@ static dispatch_once_t onceToken;
     [self clearAuthData];
     self.clientApplication = nil;
     [self clearConfigurationCache];
-    [self.channelGroup removeDelegate:self];
     self.ingestion = nil;
     NSError *error = [[NSError alloc] initWithDomain:kMSACIdentityErrorDomain
                                                 code:MSACIdentityErrorServiceDisabled
@@ -127,24 +115,6 @@ static dispatch_once_t onceToken;
     [self completeAcquireTokenRequestForResult:nil withError:error];
     MSLogInfo([MSIdentity logTag], @"Identity service has been disabled.");
   }
-}
-
-#pragma mark - MSChannelDelegate
-
-- (void)channel:(id<MSChannelProtocol>)channel willSendLog:(id<MSLog>)log {
-  (void)channel;
-  (void)log;
-}
-
-- (void)channel:(id<MSChannelProtocol>)channel didSucceedSendingLog:(id<MSLog>)log {
-  (void)channel;
-  (void)log;
-}
-
-- (void)channel:(id<MSChannelProtocol>)channel didFailSendingLog:(id<MSLog>)log withError:(NSError *)error {
-  (void)channel;
-  (void)log;
-  (void)error;
 }
 
 #pragma mark - Service methods
@@ -205,7 +175,8 @@ static dispatch_once_t onceToken;
                            andMessage:@"signIn is called while it's not configured or not in the foreground."];
     return;
   }
-  MSALAccount *account = [self retrieveAccountWithAccountId:[self retrieveAccountId]];
+  NSString *accountId = [[MSAuthTokenContext sharedInstance] accountId];
+  MSALAccount *account = [self retrieveAccountWithAccountId:accountId];
   if (account) {
     [self acquireTokenSilentlyWithMSALAccount:account];
   } else {
@@ -315,8 +286,8 @@ static dispatch_once_t onceToken;
 
   // Init MSAL client application.
   NSError *error;
-  MSALAuthority *auth = [MSALAuthority authorityWithURL:(NSURL * _Nonnull) self.identityConfig.authorities[0].authorityUrl error:nil];
-  self.clientApplication = [[MSALPublicClientApplication alloc] initWithClientId:(NSString * _Nonnull) self.identityConfig.clientId
+  MSALAuthority *auth = [MSALAuthority authorityWithURL:(NSURL * __nonnull) self.identityConfig.authorities[0].authorityUrl error:nil];
+  self.clientApplication = [[MSALPublicClientApplication alloc] initWithClientId:(NSString * __nonnull) self.identityConfig.clientId
                                                                        authority:auth
                                                                      redirectUri:self.identityConfig.redirectUri
                                                                            error:&error];
@@ -346,14 +317,12 @@ static dispatch_once_t onceToken;
 }
 
 - (BOOL)clearAuthData {
-  if (![[MSAuthTokenContext sharedInstance] clearAuthToken]) {
-    MSLogWarning([MSIdentity logTag], @"Couldn't clear authToken: it doesn't exist.");
-    return NO;
-  }
   BOOL result = YES;
-  result &= [self removeAccount];
-  result &= [self removeAuthToken];
-  [self removeAccountId];
+  if (![self removeAccount]) {
+    MSLogWarning([MSIdentity logTag], @"Couldn't remove account data.");
+    result = NO;
+  }
+  [[MSAuthTokenContext sharedInstance] setAuthToken:nil withAccountId:nil expiresOn:nil];
   return result;
 }
 
@@ -361,7 +330,8 @@ static dispatch_once_t onceToken;
   if (!self.clientApplication) {
     return NO;
   }
-  MSALAccount *account = [self retrieveAccountWithAccountId:[self retrieveAccountId]];
+  NSString *accountId = [[MSAuthTokenContext sharedInstance] accountId];
+  MSALAccount *account = [self retrieveAccountWithAccountId:accountId];
   if (account) {
     NSError *error;
     [self.clientApplication removeAccount:account error:&error];
@@ -373,39 +343,10 @@ static dispatch_once_t onceToken;
   return YES;
 }
 
-- (void)saveAuthToken:(NSString *)authToken {
-  BOOL success = [MSKeychainUtil storeString:authToken forKey:kMSIdentityAuthTokenKey];
-  if (success) {
-    MSLogDebug([MSIdentity logTag], @"Saved auth token in keychain.");
-  } else {
-    MSLogWarning([MSIdentity logTag], @"Failed to save auth token in keychain.");
-  }
-}
-
-- (NSString *)retrieveAuthToken {
-  NSString *authToken = [MSKeychainUtil stringForKey:kMSIdentityAuthTokenKey];
-  if (authToken) {
-    MSLogDebug([MSIdentity logTag], @"Retrieved auth token from keychain.");
-  } else {
-    MSLogWarning([MSIdentity logTag], @"Failed to retrieve auth token from keychain or none was found.");
-  }
-  return authToken;
-}
-
-- (BOOL)removeAuthToken {
-  NSString *authToken = [MSKeychainUtil deleteStringForKey:kMSIdentityAuthTokenKey];
-  if (authToken) {
-    MSLogDebug([MSIdentity logTag], @"Removed auth token from keychain.");
-  } else {
-    MSLogWarning([MSIdentity logTag], @"Failed to remove auth token from keychain or none was found.");
-  }
-  return authToken != nil;
-}
-
 - (void)acquireTokenSilentlyWithMSALAccount:(MSALAccount *)account {
   __weak typeof(self) weakSelf = self;
   [self.clientApplication
-      acquireTokenSilentForScopes:@[ (NSString * _Nonnull) self.identityConfig.identityScope ]
+      acquireTokenSilentForScopes:@[ (NSString * __nonnull) self.identityConfig.identityScope ]
                           account:account
                   completionBlock:^(MSALResult *result, NSError *e) {
                     typeof(self) strongSelf = weakSelf;
@@ -414,11 +355,10 @@ static dispatch_once_t onceToken;
                                    @"Silent acquisition of token failed with error: %@. Triggering interactive acquisition", e);
                       [strongSelf acquireTokenInteractively];
                     } else {
-                      MSALAccountId *accountId = (MSALAccountId * _Nonnull) result.account.homeAccountId;
-                      [[MSAuthTokenContext sharedInstance] setAuthToken:(NSString * _Nonnull) result.idToken
-                                                          withAccountId:(NSString * _Nonnull) accountId.identifier];
-                      [strongSelf saveAuthToken:result.idToken];
-                      [strongSelf saveAccountId:(NSString * _Nonnull) result.account.homeAccountId.identifier];
+                      MSALAccountId *accountId = (MSALAccountId * __nonnull) result.account.homeAccountId;
+                      [[MSAuthTokenContext sharedInstance] setAuthToken:result.idToken
+                                                          withAccountId:accountId.identifier
+                                                              expiresOn:result.expiresOn];
                       [strongSelf completeAcquireTokenRequestForResult:result withError:nil];
                       MSLogInfo([MSIdentity logTag], @"Silent acquisition of token succeeded.");
                     }
@@ -427,7 +367,7 @@ static dispatch_once_t onceToken;
 
 - (void)acquireTokenInteractively {
   __weak typeof(self) weakSelf = self;
-  [self.clientApplication acquireTokenForScopes:@[ (NSString * _Nonnull) self.identityConfig.identityScope ]
+  [self.clientApplication acquireTokenForScopes:@[ (NSString * __nonnull) self.identityConfig.identityScope ]
                                 completionBlock:^(MSALResult *result, NSError *e) {
                                   typeof(self) strongSelf = weakSelf;
                                   if (e) {
@@ -437,11 +377,10 @@ static dispatch_once_t onceToken;
                                       MSLogError([MSIdentity logTag], @"User sign-in failed. Error: %@", e);
                                     }
                                   } else {
-                                    MSALAccountId *accountId = (MSALAccountId * _Nonnull) result.account.homeAccountId;
-                                    [[MSAuthTokenContext sharedInstance] setAuthToken:(NSString * _Nonnull) result.idToken
-                                                                        withAccountId:(NSString * _Nonnull) accountId.identifier];
-                                    [strongSelf saveAuthToken:result.idToken];
-                                    [strongSelf saveAccountId:(NSString * _Nonnull) result.account.homeAccountId.identifier];
+                                    MSALAccountId *accountId = (MSALAccountId * __nonnull) result.account.homeAccountId;
+                                    [[MSAuthTokenContext sharedInstance] setAuthToken:result.idToken
+                                                                        withAccountId:accountId.identifier
+                                                                            expiresOn:result.expiresOn];
                                     MSLogInfo([MSIdentity logTag], @"User sign-in succeeded.");
                                   }
                                   [strongSelf completeAcquireTokenRequestForResult:result withError:e];
@@ -457,7 +396,7 @@ static dispatch_once_t onceToken;
       self.signInCompletionHandler(nil, error);
     } else {
       MSUserInformation *userInformation = [MSUserInformation new];
-      userInformation.accountId = (NSString * _Nonnull) result.uniqueId;
+      userInformation.accountId = (NSString * __nonnull) result.uniqueId;
       self.signInCompletionHandler(userInformation, nil);
     }
     self.signInCompletionHandler = nil;
@@ -474,18 +413,6 @@ static dispatch_once_t onceToken;
     MSLogWarning([MSIdentity logTag], @"Could not get MSALAccount for homeAccountId. Error: %@", error);
   }
   return account;
-}
-
-- (nullable NSString *)retrieveAccountId {
-  return [[MSUserDefaults shared] objectForKey:kMSIdentityMSALAccountHomeAccountKey];
-}
-
-- (void)saveAccountId:(NSString *)accountId {
-  [[MSUserDefaults shared] setObject:accountId forKey:kMSIdentityMSALAccountHomeAccountKey];
-}
-
-- (void)removeAccountId {
-  [[MSUserDefaults shared] removeObjectForKey:kMSIdentityMSALAccountHomeAccountKey];
 }
 
 @end
