@@ -5,7 +5,7 @@
 
 @implementation MSUserInformation
 
-- (instancetype)initWithAccountId:(nonnull NSString *)accountId {
+- (instancetype)initWithAccountId:(NSString *)accountId {
   if ((self = [super init])) {
     _accountId = accountId;
   }

@@ -63,7 +63,10 @@
   // Then
   XCTAssertEqualObjects([self.sut authToken], expectedAuthToken);
   XCTAssertEqualObjects([self.sut accountId], expectedAccountId);
-  OCMVerify([delegateMock authTokenContext:self.sut didUpdateUserInformation:OCMOCK_ANY]);
+  OCMVerify([delegateMock authTokenContext:self.sut
+                  didUpdateUserInformation:[OCMArg checkWithBlock:^BOOL(id obj) {
+                    return [((MSUserInformation *)obj).accountId isEqualToString:expectedAccountId];
+                  }]]);
 }
 
 - (void)testSetAuthTokenDoesNotTriggerNewUserOnSameAccount {
@@ -78,7 +81,11 @@
   [self.sut setAuthToken:expectedAuthToken withAccountId:expectedAccountId expiresOn:nil];
 
   // Then
-  OCMVerify([delegateMock authTokenContext:self.sut didUpdateUserInformation:OCMOCK_ANY]);
+  OCMVerify([delegateMock authTokenContext:self.sut
+                  didUpdateUserInformation:[OCMArg checkWithBlock:^BOOL(id obj) {
+                    return [((MSUserInformation *)obj).accountId isEqualToString:expectedAccountId];
+                  }]]);
+
   OCMVerify([delegateMock authTokenContext:self.sut didUpdateAuthToken:expectedAuthToken]);
 
   // When
@@ -93,6 +100,7 @@
 
   // If
   NSString *expectedAuthToken = @"authToken1";
+  NSString *expectedAuthToken2 = @"authToken2";
   NSString *expectedAccountId = @"account1";
   NSString *expectedAccountId2 = @"account2";
   id<MSAuthTokenContextDelegate> delegateMock = OCMProtocolMock(@protocol(MSAuthTokenContextDelegate));
@@ -102,13 +110,19 @@
   [self.sut setAuthToken:expectedAuthToken withAccountId:expectedAccountId expiresOn:nil];
 
   // Then
-  OCMVerify([delegateMock authTokenContext:self.sut didUpdateUserInformation:OCMOCK_ANY]);
+  OCMVerify([delegateMock authTokenContext:self.sut
+                  didUpdateUserInformation:[OCMArg checkWithBlock:^BOOL(id obj) {
+                    return [((MSUserInformation *)obj).accountId isEqualToString:expectedAccountId];
+                  }]]);
 
   // When
-  [self.sut setAuthToken:expectedAuthToken withAccountId:expectedAccountId2 expiresOn:nil];
+  [self.sut setAuthToken:expectedAuthToken2 withAccountId:expectedAccountId2 expiresOn:nil];
 
   // Then
-  OCMVerify([delegateMock authTokenContext:self.sut didUpdateUserInformation:OCMOCK_ANY]);
+  OCMVerify([delegateMock authTokenContext:self.sut
+                  didUpdateUserInformation:[OCMArg checkWithBlock:^BOOL(id obj) {
+                    return [((MSUserInformation *)obj).accountId isEqualToString:expectedAccountId];
+                  }]]);
 }
 
 - (void)testRemoveDelegate {

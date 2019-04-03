@@ -113,7 +113,7 @@ static dispatch_once_t onceToken;
     if (isNewUser && [delegate respondsToSelector:@selector(authTokenContext:didUpdateUserInformation:)]) {
       MSUserInformation *userInfo = nil;
       if (accountId) {
-        userInfo = [[MSUserInformation alloc] initWithAccountId:(NSString * __nonnull) accountId];
+        userInfo = [[MSUserInformation alloc] initWithAccountId:(NSString *)accountId];
       }
       [delegate authTokenContext:self didUpdateUserInformation:userInfo];
     }

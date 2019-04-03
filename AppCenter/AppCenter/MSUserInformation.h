@@ -10,7 +10,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * The account identifier for the user.
  */
-@property(nonatomic, copy, nonnull) NSString *accountId;
+@property(nonatomic, copy) NSString *accountId;
 
 /**
  * Create user with account identifier.
@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return user with account identifier.
  */
-- (instancetype)initWithAccountId:(nonnull NSString *)accountId;
+- (instancetype)initWithAccountId:(NSString *)accountId;
 @end
 
 NS_ASSUME_NONNULL_END
