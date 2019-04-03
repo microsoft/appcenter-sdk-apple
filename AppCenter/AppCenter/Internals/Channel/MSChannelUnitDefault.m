@@ -95,7 +95,9 @@
 #pragma mark - MSAuthTokenContextDelegate
 
 - (void)authTokenContext:(MSAuthTokenContext *)__unused authTokenContext didSetAuthToken:(nullable NSString *)__unused authToken {
-  [self flushQueue];
+  dispatch_async(self.logsDispatchQueue, ^{
+    [self flushQueue];
+  });
 }
 
 #pragma mark - Managing queue
