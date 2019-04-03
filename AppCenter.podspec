@@ -90,20 +90,19 @@ Pod::Spec.new do |s|
     ss.osx.vendored_frameworks = "AppCenter-SDK-Apple/macOS/AppCenterPush.framework"
  end
 
-s.subspec 'DataStorage' do |ss|
+  s.subspec 'DataStorage' do |ss|
     ss.dependency 'AppCenter/Core'
     ss.frameworks = 'Foundation'
     ss.ios.frameworks = 'UIKit'
     ss.ios.vendored_frameworks = "AppCenter-SDK-Apple/iOS/AppCenterDataStorage.framework"
-end
+  end
 
-s.subspec 'Identity' do |ss|
+  s.subspec 'Identity' do |ss|
     ss.dependency 'AppCenter/Core'
-    ss.frameworks = 'Foundation', 'WebKit'
-    ss.ios.frameworks = 'UIKit', 'AuthenticationServices'
-    ss.osx.frameworks = 'AppKit'
+    ss.frameworks = 'Foundation'
+    ss.ios.frameworks = 'UIKit', 'AuthenticationServices', 'WebKit'
+    ss.ios.weak_frameworks = 'SafariServices'
     ss.ios.vendored_frameworks = "AppCenter-SDK-Apple/iOS/AppCenterIdentity.framework"
-    ss.osx.vendored_frameworks = "AppCenter-SDK-Apple/macOS/AppCenterIdentity.framework"
-end
+  end
 
 end
