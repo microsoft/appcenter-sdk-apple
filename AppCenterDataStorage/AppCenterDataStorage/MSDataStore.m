@@ -426,10 +426,11 @@ static dispatch_once_t onceToken;
                        jsonDocuments = jsonPayloadDict[@"Documents"];
                      }
                      if (!jsonDocuments) {
-                       if (!deserializeError)
+                       if (!deserializeError) {
                          deserializeError = [[NSError alloc] initWithDomain:kMSACDataStoreErrorDomain
                                                                        code:MSACDataStoreErrorJSONSerializationFailed
                                                                    userInfo:@{NSLocalizedDescriptionKey : @"Can't deserialize documents"}];
+                       }
                        MSDataSourceError *dataSourceDeserializeError = [[MSDataSourceError alloc] initWithError:deserializeError];
                        MSPaginatedDocuments *documents = [[MSPaginatedDocuments alloc] initWithError:dataSourceDeserializeError];
                        completionHandler(documents);
@@ -454,8 +455,9 @@ static dispatch_once_t onceToken;
                        {
                          NSError *error;
                          NSData *jsonData = [NSJSONSerialization dataWithJSONObject:document options:0 error:&error];
-                         if (!error)
+                         if (!error) {
                            jsonValue = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+                         }
                        }
                        [items addObject:[[MSDocumentWrapper alloc] initWithDeserializedValue:deserializedDocument
                                                                                    jsonValue:jsonValue
