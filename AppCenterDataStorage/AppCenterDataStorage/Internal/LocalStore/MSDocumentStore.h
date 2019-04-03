@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param document Document object to cache
  * @param writeOptions Gives the Time To Live to be set on the cached document
  *
- * @return BOOL Indicates if the document was saved successfully.
+ * @return YES if the document was saved successfully, NO otherwise.
  */
 - (BOOL)createWithPartition:(NSString *)partition document:(MSDocumentWrapper *)document writeOptions:(MSWriteOptions *)writeOptions;
 
@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param accountId The logged in user id.
  *
- * @return BOOL Indicates if the table was deleted successfully.
+ * @return YES if the table was deleted successfully, NO otherwise.
  */
 - (BOOL)deleteUserStorageWithAccountId:(NSString *)accountId;
 
@@ -35,7 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param accountId The logged in user id.
  *
- * @return BOOL Indicates if the table was created successfully.
+ * @return YES if the table was created successfully, NO otherwise.
  */
 - (NSUInteger)createUserStorageWithAccountId:(NSString *)accountId;
 

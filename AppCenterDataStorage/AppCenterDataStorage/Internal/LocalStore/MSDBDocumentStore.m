@@ -44,7 +44,7 @@ static const NSUInteger kMSSchemaVersion = 1;
 
 #pragma mark - Table Management
 
-// TODO work item created to tracl this implementation
+// TODO work item created to track this implementation
 - (BOOL)createWithPartition:(NSString *)__unused partition
                    document:(MSDocumentWrapper *)__unused document
                writeOptions:(MSWriteOptions *)__unused writeOptions {
