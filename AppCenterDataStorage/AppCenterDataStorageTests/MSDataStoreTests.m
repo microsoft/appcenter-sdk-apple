@@ -273,6 +273,39 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   XCTAssertEqualObjects(actualDocumentWrapper.documentId, kMSDocumentIdTest);
 }
 
+- (void)testDeleteDocumentWithPartitionDisabled {
+    
+    // If
+    [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
+                          appSecret:kMSTestAppSecret
+            transmissionTargetToken:nil
+                    fromApplication:YES];
+    self.sut.httpClient = OCMProtocolMock(@protocol(MSHttpClientProtocol));
+    OCMReject([self.sut.httpClient sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:OCMOCK_ANY data:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
+    __block MSDataSourceError *actualDataSourceError;
+    __weak XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler called."];
+    
+    // When
+    [self.sut setEnabled:NO];
+    [MSDataStore deleteDocumentWithPartition:kMSPartitionTest
+                           documentId:kMSDocumentIdTest
+                    completionHandler:^(MSDataSourceError *error) {
+                        actualDataSourceError = error;
+                        [expectation fulfill];
+                    }];
+    
+    // Then
+    [self waitForExpectationsWithTimeout:1
+                                 handler:^(NSError *_Nullable error) {
+                                     if (error) {
+                                         XCTFail(@"Expectation Failed with error: %@", error);
+                                     }
+                                 }];
+    XCTAssertNotNil(actualDataSourceError);
+    XCTAssertNotNil(actualDataSourceError.error);
+    XCTAssertEqual(actualDataSourceError.errorCode, MSACDocumentUnknownErrorCode);
+}
+
 - (void)testDefaultHeaderWithPartitionWithDictionaryNotNull {
 
   // If

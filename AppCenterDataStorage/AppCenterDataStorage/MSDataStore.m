@@ -317,6 +317,16 @@ static dispatch_once_t onceToken;
                          documentId:(NSString *)documentId
                        writeOptions:(MSWriteOptions *_Nullable)__unused writeOptions
                   completionHandler:(MSDataSourceErrorCompletionHandler)completionHandler {
+    
+    @synchronized(self) {
+        if (![self canBeUsed] || ![self isEnabled]) {
+            NSError *error = [[NSError alloc] initWithDomain:kMSACErrorDomain
+                                                        code:MSACDisabledErrorCode
+                                                    userInfo:@{NSLocalizedDescriptionKey : kMSACDisabledErrorDesc}];
+            MSLogError([MSDataStore logTag], @"Not able to delete the document ID:%@ with error:%@", documentId, [error description]);
+            completionHandler([[MSDataSourceError alloc] initWithError:error errorCode:MSACDocumentUnknownErrorCode]);
+            return;
+        }
   [self performOperationForPartition:partition
                           documentId:documentId
                           httpMethod:kMSHttpMethodDelete
@@ -336,6 +346,7 @@ static dispatch_once_t onceToken;
                      }
                      completionHandler([[MSDataSourceError alloc] initWithError:cosmosDbError]);
                    }];
+    }
 }
 
 - (void)createOrReplaceWithPartition:(NSString *)partition
