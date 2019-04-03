@@ -452,12 +452,10 @@ static dispatch_once_t onceToken;
                        NSString *documentId = document[kMSDocumentIdKey];
                        NSString *eTag = document[kMSDocumentEtagKey];
                        NSString *jsonValue;
-                       {
-                         NSError *error;
-                         NSData *jsonData = [NSJSONSerialization dataWithJSONObject:document options:0 error:&error];
-                         if (!error) {
-                           jsonValue = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-                         }
+                       NSError *error;
+                       NSData *jsonData = [NSJSONSerialization dataWithJSONObject:document options:0 error:&error];
+                       if (!error) {
+                         jsonValue = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
                        }
                        [items addObject:[[MSDocumentWrapper alloc] initWithDeserializedValue:deserializedDocument
                                                                                    jsonValue:jsonValue
