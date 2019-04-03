@@ -139,7 +139,7 @@ static NSString *const kMSGetTokenPath = @"/data/tokens";
     NSString *tokenString = [MSKeychainUtil stringForKey:[MSTokenExchange tokenKeyNameForPartition:partitionName]];
     if (tokenString) {
       MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithString:tokenString];
-      if (tokenResult && ![tokenResult.status isEqualToString:kMSTokenResultSucceed]) {
+      if (![kMSTokenResultSucceed isEqualToString:tokenResult.status]) {
         MSLogWarning([MSDataStore logTag], @"The token was unable to be retrieved from the cache for the partition : %@.", partitionName);
         return nil;
       }

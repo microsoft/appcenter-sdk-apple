@@ -3,8 +3,10 @@
 
 #import "MSAuthTokenContext.h"
 #import "MSConstants+Internal.h"
+#import "MSDataStorageConstants.h"
 #import "MSDataStoreErrors.h"
 #import "MSHttpClientProtocol.h"
+#import "MSHttpTestUtil.h"
 #import "MSKeychainUtil.h"
 #import "MSTestFrameworks.h"
 #import "MSTokenExchange.h"
@@ -217,7 +219,7 @@ static NSString *const MSDataStoreAppDocumentsPartition = @"readonly";
   [utilityMock stopMocking];
 }
 
-- (void)testRetrieveCachedTokenFails {
+- (void)testReadTokenFromCacheWhenTokenResultStatusFailed {
 
   // If
   NSData *tokenData = [NSJSONSerialization dataWithJSONObject:[self getFailedTokenData] options:NSJSONWritingPrettyPrinted error:nil];
@@ -231,11 +233,11 @@ static NSString *const MSDataStoreAppDocumentsPartition = @"readonly";
   NSData *jsonTokenData = [NSJSONSerialization dataWithJSONObject:tokenList options:NSJSONWritingPrettyPrinted error:nil];
   OCMStub([httpMock sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:OCMOCK_ANY data:OCMOCK_ANY completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
-        __block MSHttpRequestCompletionHandler completionBlock;
+        MSHttpRequestCompletionHandler completionBlock;
         [invocation getArgument:&completionBlock atIndex:6];
         NSHTTPURLResponse *response = [NSHTTPURLResponse new];
         id mockResponse = OCMPartialMock(response);
-        OCMStub([mockResponse statusCode]).andReturn(MSHTTPCodesNo200OK);
+        [MSHttpTestUtil stubHttp200Response];
         completionBlock(jsonTokenData, mockResponse, nil);
       });
   XCTestExpectation *completeExpectation = [self expectationWithDescription:@"Task finished"];

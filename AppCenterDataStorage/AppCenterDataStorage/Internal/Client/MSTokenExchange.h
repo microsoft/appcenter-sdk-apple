@@ -3,14 +3,14 @@
 
 #import <Foundation/Foundation.h>
 
+#import "MSDataStorageConstants.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol MSHttpClientProtocol;
 @class MSTokensResponse;
 
 typedef void (^MSGetTokenAsyncCompletionHandler)(MSTokensResponse *tokenResponses, NSError *_Nullable error);
-
-static NSString *const kMSTokenResultSucceed = @"Succeed";
 
 /**
  * This class retrieves and caches Cosmosdb access token.
