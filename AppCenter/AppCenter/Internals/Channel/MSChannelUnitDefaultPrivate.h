@@ -7,7 +7,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MSChannelUnitDefault ()
+@interface MSChannelUnitDefault () <MSAuthTokenContextDelegate>
 
 @property(nonatomic) NSHashTable *pausedIdentifyingObjects;
 

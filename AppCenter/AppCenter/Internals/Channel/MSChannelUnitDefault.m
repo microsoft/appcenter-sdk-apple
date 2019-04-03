@@ -187,6 +187,10 @@
   });
 }
 
+- (void)authTokenContext:(MSAuthTokenContext *)__unused authTokenContext didSetAuthToken:(nullable NSString *)__unused authToken {
+  [self checkPendingLogs];
+}
+
 - (void)sendLogArray:(NSArray<id<MSLog>> *__nonnull)logArray
          withBatchId:(NSString *)batchId
         andAuthToken:(MSAuthTokenValidityInfo *)tokenInfo {
