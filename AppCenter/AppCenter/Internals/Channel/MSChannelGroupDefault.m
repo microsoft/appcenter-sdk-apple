@@ -7,7 +7,6 @@
 #import "MSAuthTokenContext.h"
 #import "MSChannelGroupDefaultPrivate.h"
 #import "MSChannelUnitConfiguration.h"
-#import "MSChannelUnitDefault.h"
 #import "MSChannelUnitDefaultPrivate.h"
 #import "MSLogDBStorage.h"
 

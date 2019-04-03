@@ -92,6 +92,12 @@
   [self setEnabled:NO andDeleteDataOnDisabled:YES];
 }
 
+#pragma mark - MSAuthTokenContextDelegate
+
+- (void)authTokenContext:(MSAuthTokenContext *)__unused authTokenContext didSetAuthToken:(nullable NSString *)__unused authToken {
+  [self flushQueue];
+}
+
 #pragma mark - Managing queue
 
 - (void)enqueueItem:(id<MSLog>)item flags:(MSFlags)flags {
@@ -185,10 +191,6 @@
       }
     }
   });
-}
-
-- (void)authTokenContext:(MSAuthTokenContext *)__unused authTokenContext didSetAuthToken:(nullable NSString *)__unused authToken {
-  [self checkPendingLogs];
 }
 
 - (void)sendLogArray:(NSArray<id<MSLog>> *__nonnull)logArray
@@ -291,7 +293,7 @@
                               afterDate:tokenInfo.startTime
                              beforeDate:tokenInfo.endTime
                       completionHandler:^(NSArray<id<MSLog>> *_Nonnull logArray, NSString *batchId) {
-                        [[MSAuthTokenContext sharedInstance] checkIfTokenNeedsToBeRefreshed:tokenArray[tokenIndex]];
+                        [[MSAuthTokenContext sharedInstance] checkIfTokenNeedsToBeRefreshed:tokenInfo];
                         if (logArray.count > 0) {
 
                           // We have data to send.
