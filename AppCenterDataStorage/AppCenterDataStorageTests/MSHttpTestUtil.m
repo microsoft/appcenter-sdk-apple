@@ -44,39 +44,39 @@ static NSString *const kMSStubLongResponseTimeOutName = @"httpStub_LongResponseT
 
 + (void)stubLongTimeOutResponse {
   [OHHTTPStubs
-   stubRequestsPassingTest:^BOOL(__attribute__((unused)) NSURLRequest *request) {
-     return YES;
-   }
-   withStubResponse:^OHHTTPStubsResponse *(__attribute__((unused)) NSURLRequest *request) {
-     OHHTTPStubsResponse *responseStub = [OHHTTPStubsResponse new];
-     responseStub.statusCode = MSHTTPCodesNo200OK;
-     return [responseStub responseTime:kMSStubbedResponseTimeout];
-   }]
-  .name = kMSStubLongResponseTimeOutName;
+      stubRequestsPassingTest:^BOOL(__attribute__((unused)) NSURLRequest *request) {
+        return YES;
+      }
+      withStubResponse:^OHHTTPStubsResponse *(__attribute__((unused)) NSURLRequest *request) {
+        OHHTTPStubsResponse *responseStub = [OHHTTPStubsResponse new];
+        responseStub.statusCode = MSHTTPCodesNo200OK;
+        return [responseStub responseTime:kMSStubbedResponseTimeout];
+      }]
+      .name = kMSStubLongResponseTimeOutName;
 }
 
 + (void)stubResponseWithCode:(NSInteger)code name:(NSString *)name {
   [OHHTTPStubs
-   stubRequestsPassingTest:^BOOL(__attribute__((unused)) NSURLRequest *request) {
-     return YES;
-   }
-   withStubResponse:^OHHTTPStubsResponse *(__attribute__((unused)) NSURLRequest *request) {
-     OHHTTPStubsResponse *responseStub = [OHHTTPStubsResponse new];
-     responseStub.statusCode = (int)code;
-     return responseStub;
-   }]
-  .name = name;
+      stubRequestsPassingTest:^BOOL(__attribute__((unused)) NSURLRequest *request) {
+        return YES;
+      }
+      withStubResponse:^OHHTTPStubsResponse *(__attribute__((unused)) NSURLRequest *request) {
+        OHHTTPStubsResponse *responseStub = [OHHTTPStubsResponse new];
+        responseStub.statusCode = (int)code;
+        return responseStub;
+      }]
+      .name = name;
 }
 
 + (void)stubResponseWithError:(NSError *)error name:(NSString *)name {
   [OHHTTPStubs
-   stubRequestsPassingTest:^BOOL(__attribute__((unused)) NSURLRequest *request) {
-     return YES;
-   }
-   withStubResponse:^OHHTTPStubsResponse *(__attribute__((unused)) NSURLRequest *request) {
-     return [OHHTTPStubsResponse responseWithError:error];
-   }]
-  .name = name;
+      stubRequestsPassingTest:^BOOL(__attribute__((unused)) NSURLRequest *request) {
+        return YES;
+      }
+      withStubResponse:^OHHTTPStubsResponse *(__attribute__((unused)) NSURLRequest *request) {
+        return [OHHTTPStubsResponse responseWithError:error];
+      }]
+      .name = name;
 }
 
 + (NSHTTPURLResponse *)createMockResponseForStatusCode:(int)statusCode headers:(NSDictionary *)headers {
