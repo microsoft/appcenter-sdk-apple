@@ -130,7 +130,7 @@
 + (void)enableAutoVacuumInOpenedDatabase:(void *)db {
   NSArray<NSArray *> *result = [MSDBStorage executeSelectionQuery:@"PRAGMA auto_vacuum" inOpenedDatabase:db];
   int vacuumMode = 0;
-  if (result.count > 0 && result[0].count > 0){
+  if (result.count > 0 && result[0].count > 0) {
     vacuumMode = [(NSNumber *)result[0][0] intValue];
   }
   BOOL autoVacuumDisabled = vacuumMode != 1;

@@ -6,7 +6,9 @@
 #import "MSDataStorageConstants.h"
 #import "MSDataStoreErrors.h"
 #import "MSDataStoreInternal.h"
+#import "MSDocumentWrapper.h"
 #import "MSLogger.h"
+#import "NSObject+MSDictionaryUtils.h"
 
 /**
  * CosmosDb document identifier key.
@@ -37,23 +39,6 @@ static NSString *const kMSDocumentKey = @"document";
 
 + (NSDictionary *)documentPayloadWithDocumentId:(NSString *)documentId partition:(NSString *)partition document:(NSDictionary *)document {
   return @{kMSDocument : document, kMSPartitionKey : partition, kMSIdKey : documentId};
-}
-
-+ (BOOL)isReferenceDictionaryWithKey:(id _Nullable)reference key:(NSString *)key keyType:(Class)keyType {
-
-  // Validate the reference is a dictionary.
-  if (!reference || ![(NSObject *)reference isKindOfClass:[NSDictionary class]]) {
-    return false;
-  }
-
-  // Validate the reference has the expected key.
-  NSObject *keyObject = [(NSDictionary *)reference objectForKey:key];
-  if (!keyObject) {
-    return false;
-  }
-
-  // Validate the key object is of the expected type.
-  return [keyObject isKindOfClass:keyType];
 }
 
 + (MSDocumentWrapper *)documentWrapperFromData:(NSData *_Nullable)data documentType:(Class)documentType {
@@ -87,10 +72,10 @@ static NSString *const kMSDocumentKey = @"document";
   NSDate *lastUpdatedDate;
   NSString *etag;
   NSString *partition;
-  if (![MSDocumentUtils isReferenceDictionaryWithKey:object key:kMSDocumentIdKey keyType:[NSString class]] ||
-      ![MSDocumentUtils isReferenceDictionaryWithKey:object key:kMSDocumentTimestampKey keyType:[NSNumber class]] ||
-      ![MSDocumentUtils isReferenceDictionaryWithKey:object key:kMSDocumentEtagKey keyType:[NSString class]] ||
-      ![MSDocumentUtils isReferenceDictionaryWithKey:object key:kMSPartitionKey keyType:[NSString class]]) {
+  if (![object isDictionaryWithKey:kMSDocumentIdKey keyType:[NSString class]] ||
+      ![object isDictionaryWithKey:kMSDocumentTimestampKey keyType:[NSNumber class]] ||
+      ![object isDictionaryWithKey:kMSDocumentEtagKey keyType:[NSString class]] ||
+      ![object isDictionaryWithKey:kMSPartitionKey keyType:[NSString class]]) {
 
     // Prepare and return error.
     NSError *error = [[NSError alloc]
@@ -116,7 +101,7 @@ static NSString *const kMSDocumentKey = @"document";
 
   // Deserialize document.
   id<MSSerializableDocument> deserializedValue;
-  if (!error && ![MSDocumentUtils isReferenceDictionaryWithKey:dictionary key:kMSDocumentKey keyType:[NSDictionary class]]) {
+  if (!error && ![dictionary isDictionaryWithKey:kMSDocumentKey keyType:[NSDictionary class]]) {
     error = [[NSError alloc] initWithDomain:kMSACDataStoreErrorDomain
                                        code:MSACDataStoreErrorJSONSerializationFailed
                                    userInfo:@{NSLocalizedDescriptionKey : @"Can't deserialize document (missing document property)"}];
