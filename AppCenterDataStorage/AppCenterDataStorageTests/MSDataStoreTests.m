@@ -54,8 +54,8 @@
 @synthesize property2 = _property2;
 
 - (instancetype)initFromDictionary:(NSDictionary *)dictionary {
-  self.property1 = ((NSDictionary *)dictionary[@"document"])[@"property1"];
-  self.property2 = ((NSDictionary *)dictionary[@"document"])[@"property2"];
+  self.property1 = dictionary[@"property1"];
+  self.property2 = dictionary[@"property2"];
   return self;
 }
 
