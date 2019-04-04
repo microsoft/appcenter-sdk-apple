@@ -239,7 +239,7 @@ static dispatch_once_t onceToken;
   NSError *error = [[NSError alloc] initWithDomain:kMSACErrorDomain
                                               code:MSACDisabledErrorCode
                                           userInfo:@{NSLocalizedDescriptionKey : kMSACDisabledErrorDesc}];
-  MSLogError([MSDataStore logTag], @"Not able to %@ the document ID: %@; error: %@", operation, documentId, [error description]);
+  MSLogError([MSDataStore logTag], @"Not able to %@ the document ID: %@; error: %@", operation, documentId, [error localizedDescription]);
   return error;
 }
 
@@ -264,7 +264,7 @@ static dispatch_once_t onceToken;
                        // If not created.
                        if (!data || [MSDataSourceError errorCodeFromError:cosmosDbError] != MSACDocumentSucceededErrorCode) {
                          MSLogError([MSDataStore logTag], @"Not able to read the document ID:%@ with error:%@", documentId,
-                                    [cosmosDbError description]);
+                                    [cosmosDbError localizedDescription]);
                          completionHandler([[MSDocumentWrapper alloc] initWithError:cosmosDbError documentId:documentId]);
                          return;
                        }
@@ -275,7 +275,7 @@ static dispatch_once_t onceToken;
                                                                             options:0
                                                                               error:&deserializeError];
                        if (deserializeError) {
-                         MSLogError([MSDataStore logTag], @"Error deserializing data:%@", [deserializeError description]);
+                         MSLogError([MSDataStore logTag], @"Error deserializing data:%@", [deserializeError localizedDescription]);
                        }
                        MSLogDebug([MSDataStore logTag], @"Document json:%@", json);
 
@@ -366,7 +366,7 @@ static dispatch_once_t onceToken;
                                                               document:[document serializeToDictionary]];
     NSData *body = [NSJSONSerialization dataWithJSONObject:dic options:0 error:&serializationError];
     if (!body || serializationError) {
-      MSLogError([MSDataStore logTag], @"Error serializing data:%@", [serializationError description]);
+      MSLogError([MSDataStore logTag], @"Error serializing data:%@", [serializationError localizedDescription]);
       completionHandler([[MSDocumentWrapper alloc] initWithError:serializationError documentId:documentId]);
       return;
     }
@@ -380,7 +380,7 @@ static dispatch_once_t onceToken;
                        // If not created.
                        NSInteger errorCode = [MSDataSourceError errorCodeFromError:cosmosDbError];
                        if (!data || (errorCode != MSACDocumentCreatedErrorCode && errorCode != MSACDocumentSucceededErrorCode)) {
-                         MSLogError([MSDataStore logTag], @"Not able to create/replace document: %@", [cosmosDbError description]);
+                         MSLogError([MSDataStore logTag], @"Not able to create/replace document: %@", [cosmosDbError localizedDescription]);
                          completionHandler([[MSDocumentWrapper alloc] initWithError:cosmosDbError documentId:documentId]);
                          return;
                        }
@@ -391,7 +391,7 @@ static dispatch_once_t onceToken;
                                                                             options:0
                                                                               error:&deserializeError];
                        if (deserializeError) {
-                         MSLogError([MSDataStore logTag], @"Error deserializing data:%@", [deserializeError description]);
+                         MSLogError([MSDataStore logTag], @"Error deserializing data:%@", [deserializeError localizedDescription]);
                          completionHandler([[MSDocumentWrapper alloc] initWithError:deserializeError documentId:documentId]);
                          return;
                        }
@@ -431,7 +431,7 @@ static dispatch_once_t onceToken;
       NSError *error = [[NSError alloc] initWithDomain:kMSACErrorDomain
                                                   code:MSACDisabledErrorCode
                                               userInfo:@{NSLocalizedDescriptionKey : kMSACDisabledErrorDesc}];
-      MSLogError([MSDataStore logTag], @"Not able to list the documents in partition: %@; error: %@", partition, [error description]);
+      MSLogError([MSDataStore logTag], @"Not able to list the documents in partition: %@; error: %@", partition, [error localizedDescription]);
       completionHandler([[MSPaginatedDocuments alloc]
           initWithError:[[MSDataSourceError alloc] initWithError:error errorCode:MSACDocumentUnknownErrorCode]]);
       return;
