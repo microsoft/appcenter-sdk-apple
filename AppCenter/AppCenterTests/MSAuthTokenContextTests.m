@@ -348,13 +348,14 @@
 
   // If
   NSString *expectedAuthToken = @"authToken1";
-  NSString *expectedAccountId = @"account1";
   NSDate *startDate = [NSDate dateWithTimeIntervalSinceNow:-((60.0f * 60.0f * 24.0f))];
   NSDate *expiresDate = [NSDate dateWithTimeIntervalSinceNow:+(60.0f * 60.0f * 24.0f)];
   id<MSAuthTokenContextDelegate> delegateMock = OCMProtocolMock(@protocol(MSAuthTokenContextDelegate));
   [self.sut addDelegate:delegateMock];
   OCMReject([delegateMock authTokenContext:OCMOCK_ANY refreshAuthTokenForAccountId:OCMOCK_ANY]);
-  [self.sut setAuthToken:expectedAuthToken withAccountId:expectedAccountId expiresOn:expiresDate];
+  
+  NSArray<MSAuthTokenValidityInfo *> *mockArray = @[[[MSAuthTokenValidityInfo alloc] initWithAuthToken:expectedAuthToken startTime:nil endTime:nil]];
+  OCMStub([MSMockKeychainUtil arrayForKey:kMSAuthTokenHistoryKey]).andReturn(mockArray);
   MSAuthTokenValidityInfo *authToken = [[MSAuthTokenValidityInfo alloc] initWithAuthToken:expectedAuthToken
                                                                                 startTime:startDate
                                                                                   endTime:expiresDate];
