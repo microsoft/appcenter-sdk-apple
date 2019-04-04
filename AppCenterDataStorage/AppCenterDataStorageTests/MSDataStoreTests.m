@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+#import "MSAppCenter.h"
 #import "MSChannelGroupProtocol.h"
 #import "MSConstants+Internal.h"
 #import "MSCosmosDb.h"
@@ -93,6 +94,11 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   self.sut = [MSDataStore sharedInstance];
   self.tokenExchangeMock = OCMClassMock([MSTokenExchange class]);
   self.cosmosDbMock = OCMClassMock([MSCosmosDb class]);
+  [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
+  [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
+                        appSecret:kMSTestAppSecret
+          transmissionTargetToken:nil
+                  fromApplication:YES];
 }
 
 - (void)tearDown {
@@ -124,10 +130,6 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 - (void)testApplyEnabledStateWorks {
 
   // If
-  [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
-                        appSecret:kMSTestAppSecret
-          transmissionTargetToken:nil
-                  fromApplication:YES];
   self.sut.httpClient = OCMProtocolMock(@protocol(MSHttpClientProtocol));
   __block int enabledCount = 0;
   OCMStub([self.sut.httpClient setEnabled:YES]).andDo(^(__unused NSInvocation *invocation) {
@@ -169,6 +171,155 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   // Then
   XCTAssertTrue([self.sut isEnabled]);
   XCTAssertEqual(enabledCount, 1);
+}
+
+- (void)testReadWhenDataModuleDisabled {
+
+  // If
+  self.sut.httpClient = OCMProtocolMock(@protocol(MSHttpClientProtocol));
+  OCMReject([self.sut.httpClient sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:OCMOCK_ANY data:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
+  __block MSDocumentWrapper *actualDocumentWrapper;
+  __weak XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler called."];
+
+  // When
+  [self.sut setEnabled:NO];
+  [MSDataStore readWithPartition:kMSPartitionTest
+                      documentId:kMSDocumentIdTest
+                    documentType:[MSFakeSerializableDocument class]
+               completionHandler:^(MSDocumentWrapper *data) {
+                 actualDocumentWrapper = data;
+                 [expectation fulfill];
+               }];
+
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *_Nullable error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+  XCTAssertNotNil(actualDocumentWrapper);
+  XCTAssertNotNil(actualDocumentWrapper.error);
+  XCTAssertEqualObjects(actualDocumentWrapper.documentId, kMSDocumentIdTest);
+}
+
+- (void)testCreateWhenDataModuleDisabled {
+
+  // If
+  self.sut.httpClient = OCMProtocolMock(@protocol(MSHttpClientProtocol));
+  OCMReject([self.sut.httpClient sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:OCMOCK_ANY data:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
+  __block MSDocumentWrapper *actualDocumentWrapper;
+  __weak XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler called."];
+
+  // When
+  [self.sut setEnabled:NO];
+  [MSDataStore createWithPartition:kMSPartitionTest
+                        documentId:kMSDocumentIdTest
+                          document:[MSFakeSerializableDocument new]
+                 completionHandler:^(MSDocumentWrapper *data) {
+                   actualDocumentWrapper = data;
+                   [expectation fulfill];
+                 }];
+
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *_Nullable error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+  XCTAssertNotNil(actualDocumentWrapper);
+  XCTAssertNotNil(actualDocumentWrapper.error);
+  XCTAssertEqualObjects(actualDocumentWrapper.documentId, kMSDocumentIdTest);
+}
+
+- (void)testReplaceWhenDataModuleDisabled {
+
+  // If
+  self.sut.httpClient = OCMProtocolMock(@protocol(MSHttpClientProtocol));
+  OCMReject([self.sut.httpClient sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:OCMOCK_ANY data:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
+  __block MSDocumentWrapper *actualDocumentWrapper;
+  __weak XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler called."];
+
+  // When
+  [self.sut setEnabled:NO];
+  [MSDataStore replaceWithPartition:kMSPartitionTest
+                         documentId:kMSDocumentIdTest
+                           document:[MSFakeSerializableDocument new]
+                  completionHandler:^(MSDocumentWrapper *data) {
+                    actualDocumentWrapper = data;
+                    [expectation fulfill];
+                  }];
+
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *_Nullable error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+  XCTAssertNotNil(actualDocumentWrapper);
+  XCTAssertNotNil(actualDocumentWrapper.error);
+  XCTAssertEqualObjects(actualDocumentWrapper.documentId, kMSDocumentIdTest);
+}
+
+- (void)testDeleteWhenDataModuleDisabled {
+
+  // If
+  self.sut.httpClient = OCMProtocolMock(@protocol(MSHttpClientProtocol));
+  OCMReject([self.sut.httpClient sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:OCMOCK_ANY data:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
+  __block MSDataSourceError *actualDataSourceError;
+  __weak XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler called."];
+
+  // When
+  [self.sut setEnabled:NO];
+  [MSDataStore deleteDocumentWithPartition:kMSPartitionTest
+                                documentId:kMSDocumentIdTest
+                         completionHandler:^(MSDataSourceError *error) {
+                           actualDataSourceError = error;
+                           [expectation fulfill];
+                         }];
+
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *_Nullable error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+  XCTAssertNotNil(actualDataSourceError);
+  XCTAssertNotNil(actualDataSourceError.error);
+  XCTAssertEqual(actualDataSourceError.errorCode, MSACDocumentUnknownErrorCode);
+}
+
+- (void)testListWhenDataModuleDisabled {
+
+  // If
+  self.sut.httpClient = OCMProtocolMock(@protocol(MSHttpClientProtocol));
+  OCMReject([self.sut.httpClient sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:OCMOCK_ANY data:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
+  __block MSPaginatedDocuments *actualPaginatedDocuments;
+  __weak XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler called."];
+
+  // When
+  [self.sut setEnabled:NO];
+  [MSDataStore listWithPartition:kMSPartitionTest
+                    documentType:[MSFakeSerializableDocument class]
+               completionHandler:^(MSPaginatedDocuments *documents) {
+                 actualPaginatedDocuments = documents;
+                 [expectation fulfill];
+               }];
+
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *_Nullable error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+  XCTAssertNotNil(actualPaginatedDocuments);
+  XCTAssertNotNil(actualPaginatedDocuments.currentPage.error);
+  XCTAssertNotNil(actualPaginatedDocuments.currentPage.error.error);
+  XCTAssertEqual(actualPaginatedDocuments.currentPage.error.errorCode, MSACDocumentUnknownErrorCode);
 }
 
 - (void)testDefaultHeaderWithPartitionWithDictionaryNotNull {
@@ -730,10 +881,6 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   // If we change the default token URL.
   NSString *expectedUrl = @"https://another.domain.com";
   [MSDataStore setTokenExchangeUrl:expectedUrl];
-  [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
-                        appSecret:kMSTestAppSecret
-          transmissionTargetToken:nil
-                  fromApplication:YES];
   __block NSURL *actualUrl;
   OCMStub([self.tokenExchangeMock performDbTokenAsyncOperationWithHttpClient:OCMOCK_ANY
                                                             tokenExchangeUrl:OCMOCK_ANY
@@ -758,10 +905,6 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 - (void)testOfflineModeBehavior {
 
   // If
-  [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
-                        appSecret:kMSTestAppSecret
-          transmissionTargetToken:nil
-                  fromApplication:YES];
   [MSDataStore setOfflineModeEnabled:YES];
 
   // Mock tokens fetching.
@@ -798,10 +941,9 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 - (void)testListSingleDocument {
 
   // If
-  MSDataStore *sut = [MSDataStore new];
   id httpClient = OCMClassMock([MSHttpClient class]);
   OCMStub([httpClient new]).andReturn(httpClient);
-  sut.httpClient = httpClient;
+  self.sut.httpClient = httpClient;
   id msTokenEchange = OCMClassMock([MSTokenExchange class]);
   OCMStub([msTokenEchange retrieveCachedToken:[OCMArg any]])
       .andReturn([[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]]);
@@ -818,14 +960,14 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // When
   __block MSPaginatedDocuments *testDocuments;
-  [sut listWithPartition:@"partition"
-            documentType:[SomeObject class]
-             readOptions:nil
-       continuationToken:nil
-       completionHandler:^(MSPaginatedDocuments *_Nonnull documents) {
-         testDocuments = documents;
-         [expectation fulfill];
-       }];
+  [self.sut listWithPartition:@"partition"
+                 documentType:[SomeObject class]
+                  readOptions:nil
+            continuationToken:nil
+            completionHandler:^(MSPaginatedDocuments *_Nonnull documents) {
+              testDocuments = documents;
+              [expectation fulfill];
+            }];
 
   // Then
   id handler = ^(NSError *_Nullable error) {
