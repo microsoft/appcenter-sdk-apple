@@ -22,6 +22,7 @@
 #import "MSTokenExchangePrivate.h"
 #import "MSTokenResult.h"
 #import "MSTokensResponse.h"
+#import "MSAppCenter.h"
 
 @interface MSFakeSerializableDocument : NSObject <MSSerializableDocument>
 - (instancetype)initFromDictionary:(NSDictionary *)dictionary;
@@ -93,6 +94,11 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   self.sut = [MSDataStore sharedInstance];
   self.tokenExchangeMock = OCMClassMock([MSTokenExchange class]);
   self.cosmosDbMock = OCMClassMock([MSCosmosDb class]);
+  [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
+  [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
+                         appSecret:kMSTestAppSecret
+           transmissionTargetToken:nil
+                   fromApplication:YES];
 }
 
 - (void)tearDown {
@@ -124,10 +130,6 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 - (void)testApplyEnabledStateWorks {
 
   // If
-  [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
-                        appSecret:kMSTestAppSecret
-          transmissionTargetToken:nil
-                  fromApplication:YES];
   self.sut.httpClient = OCMProtocolMock(@protocol(MSHttpClientProtocol));
   __block int enabledCount = 0;
   OCMStub([self.sut.httpClient setEnabled:YES]).andDo(^(__unused NSInvocation *invocation) {
@@ -174,10 +176,6 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 - (void)testReadWithPartitionDisabled {
 
   // If
-  [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
-                        appSecret:kMSTestAppSecret
-          transmissionTargetToken:nil
-                  fromApplication:YES];
   self.sut.httpClient = OCMProtocolMock(@protocol(MSHttpClientProtocol));
   OCMReject([self.sut.httpClient sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:OCMOCK_ANY data:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
   __block MSDocumentWrapper *actualDocumentWrapper;
@@ -242,10 +240,6 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 - (void)testReplaceWithPartitionDisabled {
 
   // If
-  [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
-                        appSecret:kMSTestAppSecret
-          transmissionTargetToken:nil
-                  fromApplication:YES];
   self.sut.httpClient = OCMProtocolMock(@protocol(MSHttpClientProtocol));
   OCMReject([self.sut.httpClient sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:OCMOCK_ANY data:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
   __block MSDocumentWrapper *actualDocumentWrapper;
@@ -276,10 +270,6 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 - (void)testDeleteDocumentWithPartitionDisabled {
 
   // If
-  [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
-                        appSecret:kMSTestAppSecret
-          transmissionTargetToken:nil
-                  fromApplication:YES];
   self.sut.httpClient = OCMProtocolMock(@protocol(MSHttpClientProtocol));
   OCMReject([self.sut.httpClient sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:OCMOCK_ANY data:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
   __block MSDataSourceError *actualDataSourceError;
@@ -309,10 +299,6 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 - (void)testListWithPartitionDisabled {
 
   // If
-  [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
-                        appSecret:kMSTestAppSecret
-          transmissionTargetToken:nil
-                  fromApplication:YES];
   self.sut.httpClient = OCMProtocolMock(@protocol(MSHttpClientProtocol));
   OCMReject([self.sut.httpClient sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:OCMOCK_ANY data:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
   __block MSPaginatedDocuments *actualPaginatedDocuments;
@@ -497,6 +483,10 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 - (void)testCreateWithPartitionGoldenPath {
 
   // If
+  [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
+                        appSecret:kMSTestAppSecret
+          transmissionTargetToken:nil
+                  fromApplication:YES];
   id<MSSerializableDocument> mockSerializableDocument = [MSFakeSerializableDocument new];
   __block BOOL completionHandlerCalled = NO;
   __block MSDocumentWrapper *actualDocumentWrapper;
@@ -532,6 +522,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
       });
 
   // When
+  XCTAssertTrue([[MSDataStore sharedInstance] canBeUsed]);
   [MSDataStore createWithPartition:kMSPartitionTest
                         documentId:kMSDocumentIdTest
                           document:mockSerializableDocument
@@ -899,10 +890,6 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   // If we change the default token URL.
   NSString *expectedUrl = @"https://another.domain.com";
   [MSDataStore setTokenExchangeUrl:expectedUrl];
-  [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
-                        appSecret:kMSTestAppSecret
-          transmissionTargetToken:nil
-                  fromApplication:YES];
   __block NSURL *actualUrl;
   OCMStub([self.tokenExchangeMock performDbTokenAsyncOperationWithHttpClient:OCMOCK_ANY
                                                             tokenExchangeUrl:OCMOCK_ANY
@@ -927,10 +914,6 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 - (void)testOfflineModeBehavior {
 
   // If
-  [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
-                        appSecret:kMSTestAppSecret
-          transmissionTargetToken:nil
-                  fromApplication:YES];
   [MSDataStore setOfflineModeEnabled:YES];
 
   // Mock tokens fetching.
@@ -967,10 +950,9 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 - (void)testListSingleDocument {
 
   // If
-  MSDataStore *sut = [MSDataStore new];
   id httpClient = OCMClassMock([MSHttpClient class]);
   OCMStub([httpClient new]).andReturn(httpClient);
-  sut.httpClient = httpClient;
+  self.sut.httpClient = httpClient;
   id msTokenEchange = OCMClassMock([MSTokenExchange class]);
   OCMStub([msTokenEchange retrieveCachedToken:[OCMArg any]])
       .andReturn([[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]]);
@@ -987,7 +969,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // When
   __block MSPaginatedDocuments *testDocuments;
-  [sut listWithPartition:@"partition"
+  [self.sut listWithPartition:@"partition"
             documentType:[SomeObject class]
              readOptions:nil
        continuationToken:nil
