@@ -173,7 +173,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   XCTAssertEqual(enabledCount, 1);
 }
 
-- (void)testReadWithPartitionDisabled {
+- (void)testReadWhenDataModuleDisabled {
 
   // If
   self.sut.httpClient = OCMProtocolMock(@protocol(MSHttpClientProtocol));
@@ -203,7 +203,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   XCTAssertEqualObjects(actualDocumentWrapper.documentId, kMSDocumentIdTest);
 }
 
-- (void)testCreateWithPartitionDisabled {
+- (void)testCreateWhenDataModuleDisabled {
 
   // If
   self.sut.httpClient = OCMProtocolMock(@protocol(MSHttpClientProtocol));
@@ -233,7 +233,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   XCTAssertEqualObjects(actualDocumentWrapper.documentId, kMSDocumentIdTest);
 }
 
-- (void)testReplaceWithPartitionDisabled {
+- (void)testReplaceWhenDataModuleDisabled {
 
   // If
   self.sut.httpClient = OCMProtocolMock(@protocol(MSHttpClientProtocol));
@@ -263,7 +263,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   XCTAssertEqualObjects(actualDocumentWrapper.documentId, kMSDocumentIdTest);
 }
 
-- (void)testDeleteDocumentWithPartitionDisabled {
+- (void)testDeleteWhenDataModuleDisabled {
 
   // If
   self.sut.httpClient = OCMProtocolMock(@protocol(MSHttpClientProtocol));
@@ -292,7 +292,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   XCTAssertEqual(actualDataSourceError.errorCode, MSACDocumentUnknownErrorCode);
 }
 
-- (void)testListWithPartitionDisabled {
+- (void)testListWhenDataModuleDisabled {
 
   // If
   self.sut.httpClient = OCMProtocolMock(@protocol(MSHttpClientProtocol));
