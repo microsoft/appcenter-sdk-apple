@@ -111,7 +111,6 @@ static NSString *const kMSDocumentKey = @"document";
   NSError *error;
   NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary options:0 error:&error];
   if (!error) {
-
     jsonValue = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
   }
 
