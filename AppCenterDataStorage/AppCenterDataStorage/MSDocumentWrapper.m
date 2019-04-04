@@ -3,6 +3,8 @@
 
 #import "MSDocumentWrapper.h"
 #import "MSDataSourceError.h"
+#import "MSDataStoreInternal.h"
+#import "MSLoggerInternal.h"
 #import "MSSerializableObject.h"
 
 @implementation MSDocumentWrapper

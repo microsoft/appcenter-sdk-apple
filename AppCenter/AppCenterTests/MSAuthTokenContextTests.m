@@ -121,7 +121,7 @@
   // Then
   OCMVerify([delegateMock authTokenContext:self.sut
                   didUpdateUserInformation:[OCMArg checkWithBlock:^BOOL(id obj) {
-                    return [((MSUserInformation *)obj).accountId isEqualToString:expectedAccountId];
+                    return [((MSUserInformation *)obj).accountId isEqualToString:expectedAccountId2];
                   }]]);
 }
 

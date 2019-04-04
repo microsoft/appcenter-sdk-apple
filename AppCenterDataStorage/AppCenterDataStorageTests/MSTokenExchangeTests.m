@@ -3,8 +3,10 @@
 
 #import "MSAuthTokenContext.h"
 #import "MSConstants+Internal.h"
+#import "MSDataStorageConstants.h"
 #import "MSDataStoreErrors.h"
 #import "MSHttpClientProtocol.h"
+#import "MSHttpTestUtil.h"
 #import "MSKeychainUtil.h"
 #import "MSTestFrameworks.h"
 #import "MSTokenExchange.h"
@@ -19,7 +21,6 @@ static NSString *const kMSDbName = @"dbName";
 static NSString *const kMSDbAccount = @"dbAccount";
 static NSString *const kMSDbCollectionName = @"dbCollectionName";
 static NSString *const kMSExpiresOn = @"expiresOn";
-static NSString *const kMSTokenResultSucceed = @"Succeed";
 
 static NSString *const expiresOn = @"1999-09-19T11:11:11.111Z";
 static NSString *const token = @"mock-token";
@@ -216,6 +217,48 @@ static NSString *const MSDataStoreAppDocumentsPartition = @"readonly";
                                  }
                                }];
   [utilityMock stopMocking];
+}
+
+- (void)testReadTokenFromCacheWhenTokenResultStatusFailed {
+
+  // If
+  NSData *tokenData = [NSJSONSerialization dataWithJSONObject:[self getFailedTokenData] options:NSJSONWritingPrettyPrinted error:nil];
+  NSString *tokenString = [[NSString alloc] initWithData:tokenData encoding:NSUTF8StringEncoding];
+  OCMStub([self.keychainUtilMock stringForKey:mockTokenKeyName]).andReturn(tokenString);
+  id<MSHttpClientProtocol> httpMock = OCMProtocolMock(@protocol(MSHttpClientProtocol));
+
+  // Mock returning failed token.
+  NSObject *failedToken = [self getFailedTokenData];
+  NSMutableDictionary *tokenList = [@{kMSTokens : @[ failedToken ]} mutableCopy];
+  NSData *jsonTokenData = [NSJSONSerialization dataWithJSONObject:tokenList options:NSJSONWritingPrettyPrinted error:nil];
+  OCMStub([httpMock sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:OCMOCK_ANY data:OCMOCK_ANY completionHandler:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        MSHttpRequestCompletionHandler completionBlock;
+        [invocation getArgument:&completionBlock atIndex:6];
+        NSHTTPURLResponse *response = [NSHTTPURLResponse new];
+        id mockResponse = OCMPartialMock(response);
+        OCMStub([mockResponse statusCode]).andReturn(MSHTTPCodesNo404NotFound);
+        completionBlock(jsonTokenData, mockResponse, nil);
+      });
+  XCTestExpectation *completeExpectation = [self expectationWithDescription:@"Task finished"];
+
+  // When
+  [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:httpMock
+                                             tokenExchangeUrl:[NSURL new]
+                                                    appSecret:@"appSecret"
+                                                    partition:mockPartition
+                                            completionHandler:^(MSTokensResponse *tokenResponses, NSError *_Nullable returnError) {
+                                              // Then
+                                              XCTAssertNotNil(returnError);
+                                              XCTAssertEqual([tokenResponses tokens].count, 0);
+                                              [completeExpectation fulfill];
+                                            }];
+  [self waitForExpectationsWithTimeout:5
+                               handler:^(NSError *error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
 }
 
 - (void)testRemoveAllTokens {
@@ -490,7 +533,7 @@ static NSString *const MSDataStoreAppDocumentsPartition = @"readonly";
   return @{
     kMSPartition : @"",
     kMSToken : token,
-    kMSStatus : @"",
+    kMSStatus : kMSTokenResultSucceed,
     kMSDbName : @"",
     kMSDbAccount : @"",
     kMSDbCollectionName : @"",
