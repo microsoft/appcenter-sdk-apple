@@ -206,10 +206,6 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 - (void)testCreateWithPartitionDisabled {
 
   // If
-  [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
-                        appSecret:kMSTestAppSecret
-          transmissionTargetToken:nil
-                  fromApplication:YES];
   self.sut.httpClient = OCMProtocolMock(@protocol(MSHttpClientProtocol));
   OCMReject([self.sut.httpClient sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:OCMOCK_ANY data:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
   __block MSDocumentWrapper *actualDocumentWrapper;
@@ -483,10 +479,6 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 - (void)testCreateWithPartitionGoldenPath {
 
   // If
-  [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
-                        appSecret:kMSTestAppSecret
-          transmissionTargetToken:nil
-                  fromApplication:YES];
   id<MSSerializableDocument> mockSerializableDocument = [MSFakeSerializableDocument new];
   __block BOOL completionHandlerCalled = NO;
   __block MSDocumentWrapper *actualDocumentWrapper;
