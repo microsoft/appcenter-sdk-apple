@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+#import "MSAppCenter.h"
 #import "MSChannelGroupProtocol.h"
 #import "MSConstants+Internal.h"
 #import "MSCosmosDb.h"
@@ -22,7 +23,6 @@
 #import "MSTokenExchangePrivate.h"
 #import "MSTokenResult.h"
 #import "MSTokensResponse.h"
-#import "MSAppCenter.h"
 
 @interface MSFakeSerializableDocument : NSObject <MSSerializableDocument>
 - (instancetype)initFromDictionary:(NSDictionary *)dictionary;
@@ -96,9 +96,9 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   self.cosmosDbMock = OCMClassMock([MSCosmosDb class]);
   [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
   [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
-                         appSecret:kMSTestAppSecret
-           transmissionTargetToken:nil
-                   fromApplication:YES];
+                        appSecret:kMSTestAppSecret
+          transmissionTargetToken:nil
+                  fromApplication:YES];
 }
 
 - (void)tearDown {
@@ -970,13 +970,13 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   // When
   __block MSPaginatedDocuments *testDocuments;
   [self.sut listWithPartition:@"partition"
-            documentType:[SomeObject class]
-             readOptions:nil
-       continuationToken:nil
-       completionHandler:^(MSPaginatedDocuments *_Nonnull documents) {
-         testDocuments = documents;
-         [expectation fulfill];
-       }];
+                 documentType:[SomeObject class]
+                  readOptions:nil
+            continuationToken:nil
+            completionHandler:^(MSPaginatedDocuments *_Nonnull documents) {
+              testDocuments = documents;
+              [expectation fulfill];
+            }];
 
   // Then
   id handler = ^(NSError *_Nullable error) {
