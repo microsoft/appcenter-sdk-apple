@@ -45,10 +45,6 @@
 
   // Don't lose time pretty printing headers if not going to be printed.
   if ([MSLogger currentLogLevel] <= MSLogLevelVerbose) {
-    if(self.appSecret == nil) {
-        MSLogVerbose([MSIdentity logTag], @"appSecret: nil");
-        return request;
-    }
     NSString *url = [request.URL.absoluteString stringByReplacingOccurrencesOfString:self.appSecret
                                                                           withString:[MSHttpUtil hideSecret:self.appSecret]];
     MSLogVerbose([MSIdentity logTag], @"URL: %@", url);
