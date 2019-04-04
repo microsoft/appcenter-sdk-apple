@@ -7,10 +7,10 @@
 
 @implementation MSDocumentWrapper
 
-@synthesize jsonValue = _jsonValue;
 @synthesize deserializedValue = _deserializedValue;
-@synthesize documentId = _documentId;
+@synthesize jsonValue = _jsonValue;
 @synthesize partition = _partition;
+@synthesize documentId = _documentId;
 @synthesize eTag = _eTag;
 @synthesize lastUpdatedDate = _lastUpdatedDate;
 @synthesize error = _error;
@@ -20,7 +20,8 @@
                                 partition:(NSString *)partition
                                documentId:(NSString *)documentId
                                      eTag:(NSString *)eTag
-                          lastUpdatedDate:(NSDate *)lastUpdatedDate {
+                          lastUpdatedDate:(NSDate *)lastUpdatedDate
+                                    error:(MSDataSourceError *)error {
   if ((self = [super init])) {
     _deserializedValue = deserializedValue;
     _jsonValue = jsonValue;
@@ -28,6 +29,7 @@
     _documentId = documentId;
     _eTag = eTag;
     _lastUpdatedDate = lastUpdatedDate;
+    _error = error;
   }
   return self;
 }

@@ -34,26 +34,6 @@ static NSString *const kMSServiceName = @"DataStorage";
 static NSString *const kMSGroupId = @"DataStorage";
 
 /**
- * CosmosDb document identifier key.
- */
-static NSString *const kMSDocumentIdKey = @"id";
-
-/**
- * CosmosDb document timestamp key.
- */
-static NSString *const kMSDocumentTimestampKey = @"_ts";
-
-/**
- * CosmosDb document eTag key.
- */
-static NSString *const kMSDocumentEtagKey = @"_etag";
-
-/**
- * CosmosDb document key.
- */
-static NSString *const kMSDocumentKey = @"document";
-
-/**
  * CosmosDb Documents key (for paginated results).
  */
 static NSString *const kMSDocumentsKey = @"Documents";
@@ -260,30 +240,7 @@ static dispatch_once_t onceToken;
                      }
 
                      // Deserialize.
-                     NSError *deserializeError;
-                     NSDictionary *json = [NSJSONSerialization JSONObjectWithData:(NSData * _Nonnull) data
-                                                                          options:0
-                                                                            error:&deserializeError];
-                     if (deserializeError) {
-                       MSLogError([MSDataStore logTag], @"Error deserializing data:%@", [deserializeError description]);
-                     }
-                     MSLogDebug([MSDataStore logTag], @"Document json:%@", json);
-
-                     // Create document.
-                     id<MSSerializableDocument> deserializedDocument =
-                         [(id<MSSerializableDocument>)[documentType alloc] initFromDictionary:(NSDictionary *)json[kMSDocumentKey]];
-                     NSTimeInterval interval = [(NSString *)json[kMSDocumentTimestampKey] doubleValue];
-                     NSDate *date = [NSDate dateWithTimeIntervalSince1970:interval];
-                     NSString *eTag = json[kMSDocumentEtagKey];
-                     MSDocumentWrapper *docWrapper = [[MSDocumentWrapper alloc]
-                         initWithDeserializedValue:deserializedDocument
-                                         jsonValue:[[NSString alloc] initWithData:(NSData *)data encoding:NSUTF8StringEncoding]
-                                         partition:partition
-                                        documentId:documentId
-                                              eTag:eTag
-                                   lastUpdatedDate:date];
-                     MSLogDebug([MSDataStore logTag], @"Document created:%@", data);
-                     completionHandler(docWrapper);
+                     completionHandler([MSDocumentUtils documentWrapperFromData:data documentType:documentType]);
                      return;
                    }];
 }
@@ -360,35 +317,8 @@ static dispatch_once_t onceToken;
                      }
 
                      // Deserialize.
-                     NSError *deserializeError;
-                     NSDictionary *json = [NSJSONSerialization JSONObjectWithData:(NSData * _Nonnull) data
-                                                                          options:0
-                                                                            error:&deserializeError];
-                     if (deserializeError) {
-                       MSLogError([MSDataStore logTag], @"Error deserializing data:%@", [deserializeError description]);
-                       completionHandler([[MSDocumentWrapper alloc] initWithError:deserializeError documentId:documentId]);
-                       return;
-                     }
-                     MSLogDebug([MSDataStore logTag], @"Document json:%@", json);
-
-                     // Create an instance of Document.
-                     Class aClass = [document class];
-                     id<MSSerializableDocument> deserializedDocument =
-                         [(id<MSSerializableDocument>)[aClass alloc] initFromDictionary:(NSDictionary *)json[kMSDocumentKey]];
-
-                     // Create a document.
-                     NSTimeInterval interval = [(NSString *)json[kMSDocumentTimestampKey] doubleValue];
-                     NSDate *date = [NSDate dateWithTimeIntervalSince1970:interval];
-                     NSString *eTag = json[kMSDocumentEtagKey];
-                     MSDocumentWrapper *docWrapper = [[MSDocumentWrapper alloc]
-                         initWithDeserializedValue:deserializedDocument
-                                         jsonValue:[[NSString alloc] initWithData:(NSData *)data encoding:NSUTF8StringEncoding]
-                                         partition:partition
-                                        documentId:documentId
-                                              eTag:eTag
-                                   lastUpdatedDate:date];
                      MSLogDebug([MSDataStore logTag], @"Document created/replaced with ID: %@", documentId);
-                     completionHandler(docWrapper);
+                     completionHandler([MSDocumentUtils documentWrapperFromData:data documentType:[document class]]);
                      return;
                    }];
 }
@@ -440,39 +370,8 @@ static dispatch_once_t onceToken;
                      NSMutableArray<MSDocumentWrapper *> *items = [NSMutableArray new];
                      for (id document in jsonPayload[kMSDocumentsKey]) {
 
-                       // Extract CosmosDB metadata information.
-                       NSTimeInterval interval = [(NSString *)document[kMSDocumentTimestampKey] doubleValue];
-                       NSDate *date = [NSDate dateWithTimeIntervalSince1970:interval];
-                       NSString *documentId = document[kMSDocumentIdKey];
-                       NSString *eTag = document[kMSDocumentEtagKey];
-                       NSString *jsonValue;
-                       NSError *error;
-                       NSData *jsonData = [NSJSONSerialization dataWithJSONObject:document options:0 error:&error];
-                       if (!error) {
-                         jsonValue = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-                       }
-
-                       // If document is missing a top-level document object property, skip it.
-                       if (![MSDocumentUtils isReferenceDictionaryWithKey:document key:kMSDocumentKey keyType:[NSDictionary class]]) {
-                         [items addObject:[[MSDocumentWrapper alloc]
-                                              initWithError:[[NSError alloc]
-                                                                initWithDomain:kMSACDataStoreErrorDomain
-                                                                          code:MSACDataStoreErrorJSONSerializationFailed
-                                                                      userInfo:@{NSLocalizedDescriptionKey : @"Can't deserialize document"}]
-                                                 documentId:documentId]];
-                       }
-
-                       // Deserialize the current document.
-                       else {
-                         id<MSSerializableDocument> deserializedDocument =
-                             [(id<MSSerializableDocument>)[documentType alloc] initFromDictionary:(NSDictionary *)document[kMSDocumentKey]];
-                         [items addObject:[[MSDocumentWrapper alloc] initWithDeserializedValue:deserializedDocument
-                                                                                     jsonValue:jsonValue
-                                                                                     partition:partition
-                                                                                    documentId:documentId
-                                                                                          eTag:eTag
-                                                                               lastUpdatedDate:date]];
-                       }
+                       // Deserialize document.
+                       [items addObject:[MSDocumentUtils documentWrapperFromDictionary:document documentType:documentType]];
                      }
 
                      // Instantiate the first page and return it.

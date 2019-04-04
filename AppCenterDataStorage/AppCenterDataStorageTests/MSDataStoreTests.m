@@ -17,6 +17,7 @@
 #import "MSPaginatedDocuments.h"
 #import "MSServiceAbstract.h"
 #import "MSServiceAbstractProtected.h"
+#import "MSTestDocument.h"
 #import "MSTestFrameworks.h"
 #import "MSTokenExchange.h"
 #import "MSTokenExchangePrivate.h"
@@ -37,30 +38,6 @@
 - (instancetype)initFromDictionary:(NSDictionary *)__unused dictionary {
   (self = [super init]);
   return self;
-}
-
-@end
-
-@interface SomeObject : NSObject <MSSerializableDocument>
-
-@property(strong, nonatomic) NSString *property1;
-@property(strong, nonatomic) NSNumber *property2;
-
-@end
-
-@implementation SomeObject
-
-@synthesize property1 = _property1;
-@synthesize property2 = _property2;
-
-- (instancetype)initFromDictionary:(NSDictionary *)dictionary {
-  self.property1 = dictionary[@"property1"];
-  self.property2 = dictionary[@"property2"];
-  return self;
-}
-
-- (nonnull NSDictionary *)serializeToDictionary {
-  return [NSDictionary new];
 }
 
 @end
@@ -113,12 +90,6 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   tokenResultDictionary[@"status"] = kMSStatusTest;
   tokenResultDictionary[@"expiresOn"] = kMSExpiresOnTest;
   return tokenResultDictionary;
-}
-
-- (NSData *)getJsonFixture:(NSString *)fixture {
-  NSBundle *bundle = [NSBundle bundleForClass:[self class]];
-  NSString *path = [bundle pathForResource:fixture ofType:@"json"];
-  return [NSData dataWithContentsOfFile:path];
 }
 
 - (void)testApplyEnabledStateWorks {
@@ -347,7 +318,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
       });
 
   // Mock CosmosDB requests.
-  NSData *testCosmosDbResponse = [@"{\"test\": true}" dataUsingEncoding:NSUTF8StringEncoding];
+  NSData *testCosmosDbResponse = [MSTestDocument getDocumentFixture:@"testDocument"];
   OCMStub([self.cosmosDbMock performCosmosDbAsyncOperationWithHttpClient:OCMOCK_ANY
                                                              tokenResult:testToken
                                                               documentId:kMSDocumentIdTest
@@ -374,8 +345,8 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   // Then
   XCTAssertTrue(completionHandlerCalled);
   XCTAssertNotNil(actualDocumentWrapper.deserializedValue);
-  XCTAssertEqual(actualDocumentWrapper.documentId, kMSDocumentIdTest);
-  XCTAssertEqual(actualDocumentWrapper.partition, kMSPartitionTest);
+  XCTAssertTrue([[actualDocumentWrapper documentId] isEqualToString:@"standalonedocument1"]);
+  XCTAssertTrue([[actualDocumentWrapper partition] isEqualToString:@"readonly"]);
 }
 
 - (void)testCreateWithPartitionWhenTokenExchangeFails {
@@ -812,14 +783,14 @@ static NSString *const kMSDocumentIdTest = @"documentId";
         [invocation retainArguments];
         MSHttpRequestCompletionHandler completionHandler;
         [invocation getArgument:&completionHandler atIndex:6];
-        NSData *payload = [self getJsonFixture:@"oneDocumentPage"];
+        NSData *payload = [MSTestDocument getDocumentFixture:@"oneDocumentPage"];
         completionHandler(payload, [MSHttpTestUtil createMockResponseForStatusCode:200 headers:nil], nil);
       });
 
   // When
   __block MSPaginatedDocuments *testDocuments;
   [sut listWithPartition:@"partition"
-            documentType:[SomeObject class]
+            documentType:[MSTestDocument class]
              readOptions:nil
        continuationToken:nil
        completionHandler:^(MSPaginatedDocuments *_Nonnull documents) {
@@ -835,14 +806,14 @@ static NSString *const kMSDocumentIdTest = @"documentId";
       XCTAssertNotNil(testDocuments);
       XCTAssertFalse([testDocuments hasNextPage]);
       XCTAssertEqual([[testDocuments currentPage] items].count, 1);
-      MSDocumentWrapper<SomeObject *> *documentWrapper = [[testDocuments currentPage] items][0];
+      MSDocumentWrapper<MSTestDocument *> *documentWrapper = [[testDocuments currentPage] items][0];
       XCTAssertTrue([[documentWrapper documentId] isEqualToString:@"doc1"]);
       XCTAssertNil([documentWrapper error]);
       XCTAssertNotNil([documentWrapper jsonValue]);
       XCTAssertTrue([[documentWrapper eTag] isEqualToString:@"etag value"]);
       XCTAssertTrue([[documentWrapper partition] isEqualToString:@"partition"]);
       XCTAssertNotNil([documentWrapper lastUpdatedDate]);
-      SomeObject *deserializedDocument = [documentWrapper deserializedValue];
+      MSTestDocument *deserializedDocument = [documentWrapper deserializedValue];
       XCTAssertNotNil(deserializedDocument);
       XCTAssertTrue([[deserializedDocument property1] isEqualToString:@"property 1 string"]);
       XCTAssertTrue([[deserializedDocument property2] isEqual:@42]);
@@ -886,7 +857,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
         [invocation retainArguments];
         MSHttpRequestCompletionHandler completionHandler;
         [invocation getArgument:&completionHandler atIndex:6];
-        NSData *payload = [self getJsonFixture:@"oneDocumentPage"];
+        NSData *payload = [MSTestDocument getDocumentFixture:@"oneDocumentPage"];
         completionHandler(payload, [MSHttpTestUtil createMockResponseForStatusCode:200 headers:continuationHeaders], nil);
       });
 
@@ -899,14 +870,14 @@ static NSString *const kMSDocumentIdTest = @"documentId";
         [invocation retainArguments];
         MSHttpRequestCompletionHandler completionHandler;
         [invocation getArgument:&completionHandler atIndex:6];
-        NSData *payload = [self getJsonFixture:@"zeroDocumentsPage"];
+        NSData *payload = [MSTestDocument getDocumentFixture:@"zeroDocumentsPage"];
         completionHandler(payload, [MSHttpTestUtil createMockResponseForStatusCode:200 headers:nil], nil);
       });
 
   // When
   __block MSPaginatedDocuments *testDocuments;
   [self.sut listWithPartition:@"partition"
-                 documentType:[SomeObject class]
+                 documentType:[MSTestDocument class]
                   readOptions:nil
             continuationToken:nil
             completionHandler:^(MSPaginatedDocuments *_Nonnull documents) {
