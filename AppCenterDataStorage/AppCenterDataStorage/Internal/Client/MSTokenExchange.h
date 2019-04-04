@@ -3,6 +3,8 @@
 
 #import <Foundation/Foundation.h>
 
+#import "MSDataStorageConstants.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol MSHttpClientProtocol;
