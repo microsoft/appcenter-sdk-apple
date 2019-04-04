@@ -71,7 +71,7 @@ static dispatch_once_t onceToken;
     NSDate *newTokenStartDate = [NSDate date];
 
     // If there is a gap between tokens.
-    if (lastEntry.expiresOn && [newTokenStartDate laterDate:(NSDate * __nonnull) lastEntry.expiresOn]) {
+    if (lastEntry.expiresOn && [newTokenStartDate compare:(NSDate * __nonnull) lastEntry.expiresOn] == NSOrderedDescending) {
 
       // If the account is the same or becomes anonymous.
       if (!isNewUser || authToken == nil) {
@@ -214,6 +214,31 @@ static dispatch_once_t onceToken;
     self.authTokenHistoryArray = authTokenHistory;
   } else {
     MSLogWarning([MSAppCenter logTag], @"Failed to save new history state in the keychain.");
+  }
+}
+
+- (void)checkIfTokenNeedsToBeRefreshed:(MSAuthTokenValidityInfo *)tokenValidityInfo {
+  NSArray *synchronizedDelegates;
+  MSAuthTokenInfo *lastEntry;
+  @synchronized(self) {
+    lastEntry = [self authTokenHistory].lastObject;
+
+    // Don't invoke refresh on old tokens - only on the latest one, if it's soon to be expired.
+    if (![lastEntry.authToken isEqual:tokenValidityInfo.authToken]) {
+      return;
+    }
+    if (![tokenValidityInfo expiresSoon]) {
+      return;
+    }
+
+    // Don't invoke the delegate while locking; it might be locking too and deadlock ourselves.
+    synchronizedDelegates = [self.delegates allObjects];
+  }
+  for (id<MSAuthTokenContextDelegate> delegate in synchronizedDelegates) {
+    MSLogInfo([MSAppCenter logTag], @"The token needs to be refreshed.");
+    if ([delegate respondsToSelector:@selector(authTokenContext:refreshAuthTokenForAccountId:)]) {
+      [delegate authTokenContext:self refreshAuthTokenForAccountId:lastEntry.accountId];
+    }
   }
 }
 
