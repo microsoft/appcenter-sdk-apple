@@ -278,6 +278,52 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   OCMVerify([dbStorageMock executeNonSelectionQuery:[OCMArg any] inOpenedDatabase:db]);
 }
 
+- (void)testCreateTableWhenTableExists {
+
+  // When
+  BOOL tableCreated = [self.sut createTable:kMSTestTableName columnsSchema:self.schema[kMSTestTableName]];
+
+  // Then
+  XCTAssertTrue(tableCreated);
+  XCTAssertTrue([self tableExists:kMSTestTableName]);
+}
+
+- (void)testCreateTableWhenTableDoesntExists {
+
+  // If
+  NSString *tableToCreate = @"NewTable";
+
+  // When
+  BOOL tableCreated = [self.sut createTable:tableToCreate columnsSchema:self.schema[kMSTestTableName]];
+
+  // Then
+  XCTAssertTrue(tableCreated);
+  XCTAssertTrue([self tableExists:tableToCreate]);
+}
+
+- (void)testDropTableWhenTableExists {
+
+  // When
+  BOOL tableDropped = [self.sut dropTable:kMSTestTableName];
+
+  // Then
+  XCTAssertTrue(tableDropped);
+  XCTAssertFalse([self tableExists:kMSTestTableName]);
+}
+
+- (void)testDroppedTableWhenTableDoesntExists {
+
+  // If
+  NSString *tableToDrop = @"NewTable";
+
+  // When
+  BOOL tableDropped = [self.sut dropTable:tableToDrop];
+
+  // Then
+  XCTAssertTrue(tableDropped);
+  XCTAssertFalse([self tableExists:tableToDrop]);
+}
+
 - (void)testExecuteQuery {
 
   // If
@@ -579,6 +625,13 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
 
 - (NSString *)queryTable:(NSString *)tableName {
   return [self.sut executeSelectionQuery:[NSString stringWithFormat:@"SELECT sql FROM sqlite_master WHERE name='%@'", tableName]][0][0];
+}
+
+- (BOOL)tableExists:(NSString *)tableName {
+  NSArray<NSArray *> *result = [self.sut
+      executeSelectionQuery:[NSString stringWithFormat:@"SELECT COUNT(*) FROM \"sqlite_master\" WHERE \"type\"='table' AND \"name\"='%@';",
+                                                       tableName]];
+  return [(NSNumber *)result[0][0] boolValue];
 }
 
 - (BOOL)autoVacuumIsSetToFull {

@@ -62,8 +62,6 @@
 }
 
 - (BOOL)dropTable:(NSString *)tableName {
-
-  // TODO we probably don't need to check for existance we can let it fail and just report success in this case.
   return [self executeQueryUsingBlock:^int(void *db) {
            if ([MSDBStorage tableExists:tableName inOpenedDatabase:db]) {
              NSString *deleteQuery = [NSString stringWithFormat:@"DROP TABLE \"%@\";", tableName];
@@ -71,7 +69,7 @@
              if (result == SQLITE_OK) {
                MSLogVerbose([MSAppCenter logTag], @"Table %@ has been deleted", tableName);
              } else {
-               MSLogError([MSAppCenter logTag], @"Failed to delete the table %@", tableName);
+               MSLogError([MSAppCenter logTag], @"Failed to delete table %@", tableName);
              }
              return result;
            }
@@ -80,17 +78,20 @@
 }
 
 - (BOOL)createTable:(NSString *)tableName columnsSchema:(MSDBColumnsSchema *)columnsSchema {
-  NSString *createQuery =
-      [NSString stringWithFormat:@"CREATE TABLE \"%@\" (%@);", tableName, [MSDBStorage columnsQueryFromColumnsSchema:columnsSchema]];
-  int result = [self executeNonSelectionQuery:createQuery];
-
-  // TODO Handle no table to create error.
-  if (result == SQLITE_OK) {
-    MSLogVerbose([MSAppCenter logTag], @"Table %@ has been created", tableName);
-  } else {
-    MSLogError([MSAppCenter logTag], @"Failed to created the table %@", tableName);
-  }
-  return result;
+  return [self executeQueryUsingBlock:^int(void *db) {
+           if (![MSDBStorage tableExists:tableName inOpenedDatabase:db]) {
+             NSString *createQuery = [NSString
+                 stringWithFormat:@"CREATE TABLE \"%@\" (%@);", tableName, [MSDBStorage columnsQueryFromColumnsSchema:columnsSchema]];
+             int result = [MSDBStorage executeNonSelectionQuery:createQuery inOpenedDatabase:db];
+             if (result == SQLITE_OK) {
+               MSLogVerbose([MSAppCenter logTag], @"Table %@ has been created", tableName);
+             } else {
+               MSLogError([MSAppCenter logTag], @"Failed to create table %@", tableName);
+             }
+             return result;
+           }
+           return SQLITE_OK;
+         }] == SQLITE_OK;
 }
 
 + (NSString *)columnsQueryFromColumnsSchema:(MSDBColumnsSchema *)columnsSchema {
