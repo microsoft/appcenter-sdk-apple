@@ -245,8 +245,6 @@ static dispatch_once_t onceToken;
 - (void)finishInitialize {
   if (self.resetAuthTokenRequired) {
     [self setAuthToken:nil withAccountId:nil expiresOn:nil];
-  } else {
-    self.resetAuthTokenRequired = YES;
   }
 }
 
