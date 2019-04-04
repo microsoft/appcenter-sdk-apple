@@ -239,7 +239,7 @@ static dispatch_once_t onceToken;
   NSError *error = [[NSError alloc] initWithDomain:kMSACErrorDomain
                                               code:MSACDisabledErrorCode
                                           userInfo:@{NSLocalizedDescriptionKey : kMSACDisabledErrorDesc}];
-  MSLogError([MSDataStore logTag], @"Not able to %@ the document ID:%@ with error:%@", operation, documentId, [error description]);
+  MSLogError([MSDataStore logTag], @"Not able to %@ the document ID: %@; error: %@", operation, documentId, [error description]);
   return error;
 }
 
@@ -431,7 +431,7 @@ static dispatch_once_t onceToken;
       NSError *error = [[NSError alloc] initWithDomain:kMSACErrorDomain
                                                   code:MSACDisabledErrorCode
                                               userInfo:@{NSLocalizedDescriptionKey : kMSACDisabledErrorDesc}];
-      MSLogError([MSDataStore logTag], @"Not able to list the documents in partition:%@ with error:%@", partition, [error description]);
+      MSLogError([MSDataStore logTag], @"Not able to list the documents in partition: %@; error: %@", partition, [error description]);
       completionHandler([[MSPaginatedDocuments alloc]
           initWithError:[[MSDataSourceError alloc] initWithError:error errorCode:MSACDocumentUnknownErrorCode]]);
       return;
