@@ -514,7 +514,6 @@ static NSString *const kMSDocumentIdTest = @"documentId";
       });
 
   // When
-  XCTAssertTrue([[MSDataStore sharedInstance] canBeUsed]);
   [MSDataStore createWithPartition:kMSPartitionTest
                         documentId:kMSDocumentIdTest
                           document:mockSerializableDocument
