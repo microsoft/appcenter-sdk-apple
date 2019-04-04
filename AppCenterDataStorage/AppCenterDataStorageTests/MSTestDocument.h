@@ -7,8 +7,8 @@
 
 @interface MSTestDocument : NSObject <MSSerializableDocument>
 
-@property(strong, nonatomic) NSString *property1;
-@property(strong, nonatomic) NSNumber *property2;
+@property(copy, nonatomic) NSString *property1;
+@property(copy, nonatomic) NSNumber *property2;
 
 /**
  * Return a document (JSON) fixture by name.
