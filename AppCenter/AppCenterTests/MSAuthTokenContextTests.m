@@ -72,6 +72,28 @@
   OCMVerify([delegateMock authTokenContext:self.sut didUpdateAccountIdWithAuthToken:expectedAuthToken]);
 }
 
+- (void)testSetAuthTokenWithGap {
+
+  // If
+  NSDate *expectedGapStartDate = [NSDate dateWithTimeIntervalSinceNow:-10];
+  MSAuthTokenInfo *oldToken = [[MSAuthTokenInfo alloc] initWithAuthToken:@"oldToken"
+                                                               accountId:@"oldAccountId"
+                                                               startTime:[NSDate dateWithTimeIntervalSinceNow:-60]
+                                                               expiresOn:expectedGapStartDate];
+  NSMutableArray<MSAuthTokenInfo *> *tokenHistory = [[NSMutableArray<MSAuthTokenInfo *> alloc] initWithObjects:oldToken, nil];
+  [self.sut setAuthTokenHistoryArray:tokenHistory];
+
+  // When
+  [self.sut setAuthToken:@"newToken" withAccountId:@"newAccountId" expiresOn:[NSDate dateWithTimeIntervalSinceNow:+42]];
+
+  // Then
+  XCTAssertEqual([[self.sut authTokenHistory] count], 3);
+  MSAuthTokenInfo *actualToken = [[self.sut authTokenHistory] objectAtIndex:1];
+  XCTAssertNil(actualToken.authToken);
+  XCTAssertTrue([actualToken.startTime isEqualToDate:expectedGapStartDate]);
+  XCTAssertNotNil(actualToken.expiresOn);
+}
+
 - (void)testSetAuthTokenDoesNotTriggerNewUserOnSameAccount {
 
   // If
