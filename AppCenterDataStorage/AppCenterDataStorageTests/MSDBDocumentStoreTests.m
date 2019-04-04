@@ -11,6 +11,9 @@
 #import "MSDocumentWrapper.h"
 #import "MSUtility+File.h"
 #import "MSDBStoragePrivate.h"
+#import "MSDataSourceError.h"
+#import "MSDataStoreErrors.h"
+#import "MSUtility+Date.h"
 
 @interface MSDBDocumentStoreTests : XCTestCase
 
@@ -39,45 +42,102 @@
 
   // If
   NSString *documentId = @"12829";
-  NSString *partitionKey = @"partition1234123";
+  NSString *partitionKey = @"user";
   MSMockDocument *document = [MSMockDocument new];
   NSString *accountId = @"dabe069b-ee80-4ca6-8657-9128a4600958";
   document.contentDictionary = @{@"key" : @"value"};
   NSString *eTag = @"398";
   MSDBDocumentStore *sut = [MSDBDocumentStore new];
   [sut createUserStorageWithAccountId:accountId];
-  NSString *expectedPartition = [NSString stringWithFormat:@"%@-%@", partitionKey, accountId];
-  [self addDocumentToTable:document eTag:eTag partition:expectedPartition documentId:documentId];
+  NSString *fullPartition = [NSString stringWithFormat:@"%@-%@", partitionKey, accountId];
+  NSString *jsonString = [self getJsonStringForDocument:document];
+  [self addJsonStringToTable:jsonString eTag:eTag partition:fullPartition documentId:documentId expirationTime:[NSDate dateWithTimeIntervalSinceNow:1000000]];
 
   // When
-  MSDocumentWrapper *documentWrapper = [sut readWithPartition:partitionKey documentId:documentId documentType:[document class] readOptions:[MSReadOptions new]];
+  MSDocumentWrapper *documentWrapper = [sut readWithPartition:fullPartition documentId:documentId documentType:[document class] readOptions:[MSReadOptions new]];
 
   // Then
   XCTAssertNotNil(documentWrapper);
   XCTAssertNil(documentWrapper.error);
-  XCTAssertEqualObjects(documentWrapper.deserializedValue, document.contentDictionary);
-  XCTAssertEqualObjects(documentWrapper.partition, expectedPartition);
+  NSDictionary *retrievedContentDictionary = ((MSMockDocument *)(documentWrapper.deserializedValue)).contentDictionary;
+  XCTAssertEqualObjects(document.contentDictionary, retrievedContentDictionary);
+  XCTAssertEqualObjects(documentWrapper.partition, fullPartition);
   XCTAssertEqualObjects(documentWrapper.documentId, documentId);
-
 }
 
-- (void)addDocumentToTable:(id<MSSerializableDocument>) document eTag:(NSString *)eTag partition:(NSString *)partition documentId:(NSString *)documentId {
-  NSDictionary *documentDict = [document serializeToDictionary];
-  NSData *documentData = [NSKeyedArchiver archivedDataWithRootObject:documentDict];
-  NSString *base64Data = [documentData base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
-  sqlite3 *db = [self openDatabase:kMSDBDocumentFileName];
-  NSString *insertQuery = [NSString stringWithFormat:@"INSERT INTO '%@' ('%@', '%@', '%@', '%@', '%@') VALUES ('%@', '%@', '%@', '%@', '%@')", kMSAppDocumentTableName,
-                           kMSIdColumnName, kMSPartitionColumnName, kMSETagColumnName, kMSDocumentColumnName, kMSDocumentIdColumnName, @0, partition, eTag, base64Data, documentId];
-  char *error;
-  sqlite3_exec(db, [insertQuery UTF8String], NULL, NULL, &error);
-  sqlite3_close(db);
+- (void)testReadUserDocumentFromLocalDatabaseWithDeserializationError {
+
+  // If
+  NSString *documentId = @"12829";
+  NSString *partitionKey = @"user";
+  MSMockDocument *document = [MSMockDocument new];
+  NSString *accountId = @"dabe069b-ee80-4ca6-8657-9128a4600958";
+  document.contentDictionary = @{@"key" : @"value"};
+  NSString *eTag = @"398";
+  MSDBDocumentStore *sut = [MSDBDocumentStore new];
+  [sut createUserStorageWithAccountId:accountId];
+  NSString *fullPartition = [NSString stringWithFormat:@"%@-%@", partitionKey, accountId];
+  NSString *jsonString = @"abc {";
+  [self addJsonStringToTable:jsonString eTag:eTag partition:fullPartition documentId:documentId expirationTime:[NSDate dateWithTimeIntervalSinceNow:1000000]];
+
+  // When
+  MSDocumentWrapper *documentWrapper = [sut readWithPartition:fullPartition documentId:documentId documentType:[document class] readOptions:[MSReadOptions new]];
+
+  // Then
+  XCTAssertNotNil(documentWrapper);
+  XCTAssertNotNil(documentWrapper.error);
+  XCTAssertEqualObjects(documentWrapper.documentId, documentId);
 }
 
-- (sqlite3 *)openDatabase:(NSString *)path {
-  sqlite3 *db = NULL;
-  NSURL *dbURL = [MSUtility createFileAtPathComponent:path withData:nil atomically:NO forceOverwrite:NO];
-  sqlite3_open_v2([[dbURL absoluteString] UTF8String], &db, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_URI, NULL);
-  return db;
+- (void)testReadExpiredUserDocument {
+
+  // If
+  NSString *documentId = @"12829";
+  NSString *partitionKey = @"user";
+  MSMockDocument *document = [MSMockDocument new];
+  NSString *accountId = @"dabe069b-ee80-4ca6-8657-9128a4600958";
+  document.contentDictionary = @{@"key" : @"value"};
+  NSString *eTag = @"398";
+  MSDBDocumentStore *sut = OCMPartialMock([MSDBDocumentStore new]);
+  [sut createUserStorageWithAccountId:accountId];
+  NSString *fullPartition = [NSString stringWithFormat:@"%@-%@", partitionKey, accountId];
+  NSString *jsonString = [self getJsonStringForDocument:document];
+  [self addJsonStringToTable:jsonString eTag:eTag partition:fullPartition documentId:documentId expirationTime:[NSDate dateWithTimeIntervalSinceNow:-100000]];
+
+  // When
+  MSDocumentWrapper *documentWrapper = [sut readWithPartition:fullPartition documentId:documentId documentType:[document class] readOptions:[MSReadOptions new]];
+
+  // Then
+  XCTAssertNotNil(documentWrapper);
+  XCTAssertNotNil(documentWrapper.error);
+  XCTAssertEqualObjects(documentWrapper.error.error.domain, kMSACDataStoreErrorDomain);
+  XCTAssertEqual(documentWrapper.error.error.code, MSACDataStoreErrorLocalDocumentExpired);
+  XCTAssertEqualObjects(documentWrapper.documentId, documentId);
+  OCMVerify([sut deleteDocumentWithPartition:fullPartition documentId:documentId]);
+}
+
+
+- (void)testReadUserDocumentFromLocalDatabaseNotFound {
+
+  // If
+  NSString *documentId = @"12829";
+  NSString *partitionKey = @"user";
+  MSMockDocument *document = [MSMockDocument new];
+  NSString *accountId = @"dabe069b-ee80-4ca6-8657-9128a4600958";
+  document.contentDictionary = @{@"key" : @"value"};
+  MSDBDocumentStore *sut = [MSDBDocumentStore new];
+  [sut createUserStorageWithAccountId:accountId];
+  NSString *fullPartition = [NSString stringWithFormat:@"%@-%@", partitionKey, accountId];
+
+  // When
+  MSDocumentWrapper *documentWrapper = [sut readWithPartition:fullPartition documentId:documentId documentType:[document class] readOptions:[MSReadOptions new]];
+
+  // Then
+  XCTAssertNotNil(documentWrapper);
+  XCTAssertNotNil(documentWrapper.error);
+  XCTAssertEqualObjects(documentWrapper.error.error.domain, kMSACDataStoreErrorDomain);
+  XCTAssertEqual(documentWrapper.error.error.code, MSACDataStoreErrorLocalDocumentNotFound);
+  XCTAssertEqualObjects(documentWrapper.documentId, documentId);
 }
 
 - (void)testCreateOfApplicationLevelTable {
@@ -160,4 +220,28 @@
     @{kMSPendingDownloadColumnName : @[ kMSSQLiteTypeText ]}
   ];
 }
+
+- (NSString *)getJsonStringForDocument:(id<MSSerializableDocument>)document {
+  NSDictionary *documentDict = [document serializeToDictionary];
+  NSData *jsonData = [NSJSONSerialization dataWithJSONObject:documentDict options:0 error:nil];
+  return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+}
+
+- (void)addJsonStringToTable:(NSString *)jsonString eTag:(NSString *)eTag partition:(NSString *)partition documentId:(NSString *)documentId expirationTime:(NSDate *)expirationTime {
+  sqlite3 *db = [self openDatabase:kMSDBDocumentFileName];
+  NSString *expirationTimeString = [MSUtility dateToISO8601:expirationTime];
+  NSString *insertQuery = [NSString stringWithFormat:@"INSERT INTO '%@' ('%@', '%@', '%@', '%@', '%@', '%@') VALUES ('%@', '%@', '%@', '%@', '%@', '%@')", kMSAppDocumentTableName,
+                           kMSIdColumnName, kMSPartitionColumnName, kMSETagColumnName, kMSDocumentColumnName, kMSDocumentIdColumnName, kMSExpirationTimeColumnName, @0, partition, eTag, jsonString, documentId, expirationTimeString];
+  char *error;
+  sqlite3_exec(db, [insertQuery UTF8String], NULL, NULL, &error);
+  sqlite3_close(db);
+}
+
+- (sqlite3 *)openDatabase:(NSString *)path {
+  sqlite3 *db = NULL;
+  NSURL *dbURL = [MSUtility createFileAtPathComponent:path withData:nil atomically:NO forceOverwrite:NO];
+  sqlite3_open_v2([[dbURL absoluteString] UTF8String], &db, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_URI, NULL);
+  return db;
+}
+
 @end

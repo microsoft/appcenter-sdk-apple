@@ -33,6 +33,15 @@ NS_ASSUME_NONNULL_BEGIN
 - (MSDocumentWrapper *)readWithPartition:(NSString *)partition documentId:(NSString *)documentId documentType:(Class)documentType readOptions:(MSReadOptions *)readOptions;
 
 /**
+ * Delete a document from loacl storage.
+ *
+ * @param partition The partition key.
+ * @param documentId The document id.
+ */
+- (void)deleteDocumentWithPartition:(NSString *)partition
+                         documentId:(NSString *)documentId;
+
+/**
  * Delete table.
  *
  * @param accountId The logged in user id.

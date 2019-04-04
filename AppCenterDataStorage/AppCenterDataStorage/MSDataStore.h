@@ -17,11 +17,6 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- * Error domain for Storage.
- */
-static NSString *const kMSDataStorageErrorDomain = @"MSDataStorageErrorDomain";
-
-/**
  * User partition.
  * An authenticated user can read/write documents in this partition.
  */

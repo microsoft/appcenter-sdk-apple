@@ -6,6 +6,7 @@
 #import "MSConstants+Internal.h"
 #import "MSDataStoreInternal.h"
 #import "MSTokenResult.h"
+#import "MSDataStoreErrors.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -141,7 +142,7 @@ static NSString *const kMSHeaderMsDate = @"x-ms-date";
                                                    additionalHeaders:additionalHeaders];
   if (offlineModeEnabled) {
     NSDictionary *userInfo = @{NSLocalizedDescriptionKey : @"Storage offline simulation mode is enabled."};
-    NSError *error = [NSError errorWithDomain:kMSDataStorageErrorDomain code:NSURLErrorNotConnectedToInternet userInfo:userInfo];
+    NSError *error = [NSError errorWithDomain:kMSACDataStoreErrorDomain code:NSURLErrorNotConnectedToInternet userInfo:userInfo];
     completionHandler(nil, nil, error);
   } else {
     NSURL *sendURL = (NSURL *)[NSURL URLWithString:[MSCosmosDb documentUrlWithTokenResult:tokenResult documentId:documentId]];

@@ -709,7 +709,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                                     NSError *_Nullable __unused error) {
                                   completionHandlerCalled = YES;
                                   XCTAssertNotNil(error);
-                                  XCTAssertEqualObjects(error.domain, kMSDataStorageErrorDomain);
+                                  XCTAssertEqualObjects(error.domain, kMSACDataStoreErrorDomain);
                                   XCTAssertEqual(error.code, NSURLErrorNotConnectedToInternet);
                                   OCMReject([httpClient sendAsync:OCMOCK_ANY
                                                            method:OCMOCK_ANY
