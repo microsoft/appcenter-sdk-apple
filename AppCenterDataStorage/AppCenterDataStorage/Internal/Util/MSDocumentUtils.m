@@ -132,7 +132,7 @@ static NSString *const kMSDocumentKey = @"document";
     dataSourceError = [[MSDataSourceError alloc] initWithError:error];
     MSLogError([MSDataStore logTag], @"Error deserializing data: %@", [error description]);
   } else {
-    MSLogDebug([MSDataStore logTag], @"Successfully Deserialized document: %@ (partition: %@)", documentId, partition);
+    MSLogDebug([MSDataStore logTag], @"Successfully deserialized document: %@ (partition: %@)", documentId, partition);
   }
   return [[MSDocumentWrapper alloc] initWithDeserializedValue:deserializedValue
                                                     jsonValue:jsonValue
