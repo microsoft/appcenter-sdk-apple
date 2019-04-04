@@ -59,11 +59,13 @@ static const NSUInteger kMSSchemaVersion = 1;
   }
   NSDate *now = [NSDate date];
   NSDate *expirationTime = [now dateByAddingTimeInterval:options.deviceTimeToLive];
-  NSString *insertQuery = [NSString stringWithFormat:@"REPLACE INTO '%@' ('%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@') "
-                           @"VALUES ('%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@')", kMSAppDocumentTableName,
-                           kMSIdColumnName, kMSPartitionColumnName, kMSDocumentIdColumnName, kMSDocumentColumnName, kMSETagColumnName,
-                           kMSExpirationTimeColumnName, kMSDownloadTimeColumnName, kMSOperationTimeColumnName, kMSPendingOperationColumnName,
-                           @0, partition, documentId, base64Data, eTag, expirationTime, lastUpdatedDate, now, operation];
+  NSString *insertQuery =
+      [NSString stringWithFormat:@"REPLACE INTO '%@' ('%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@') "
+                                 @"VALUES ('%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@')",
+                                 kMSAppDocumentTableName, kMSIdColumnName, kMSPartitionColumnName, kMSDocumentIdColumnName,
+                                 kMSDocumentColumnName, kMSETagColumnName, kMSExpirationTimeColumnName, kMSDownloadTimeColumnName,
+                                 kMSOperationTimeColumnName, kMSPendingOperationColumnName, @0, partition, documentId, base64Data, eTag,
+                                 expirationTime, lastUpdatedDate, now, operation];
   NSInteger result = [self.dbStorage executeNonSelectionQuery:insertQuery];
   if (result != SQLITE_OK) {
     MSLogError([MSDataStore logTag], @"Unable to update or replace cached document, SQLite error code: %ld", (long)result);
@@ -71,10 +73,9 @@ static const NSUInteger kMSSchemaVersion = 1;
   return result == SQLITE_OK;
 }
 
-- (BOOL)deleteWithPartition:(NSString *)partition
-                 documentId:(NSString *)documentId {
+- (BOOL)deleteWithPartition:(NSString *)partition documentId:(NSString *)documentId {
   NSString *deleteQuery = [NSString stringWithFormat:@"DELETE FROM '%@' WHERE '%@' = '%@' AND '%@' = '%@'", kMSAppDocumentTableName,
-                           kMSPartitionColumnName, partition, kMSDocumentIdColumnName, documentId];
+                                                     kMSPartitionColumnName, partition, kMSDocumentIdColumnName, documentId];
   NSInteger result = [self.dbStorage executeNonSelectionQuery:deleteQuery];
   if (result != SQLITE_OK) {
     MSLogError([MSDataStore logTag], @"Unable to delete cached document, SQLite error code: %ld", (long)result);

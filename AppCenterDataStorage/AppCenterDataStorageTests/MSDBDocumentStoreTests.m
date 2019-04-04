@@ -41,7 +41,7 @@
     }
   };
   OCMStub([MSDBStorage columnsIndexes:expectedSchema]).andReturn(expectedColumnIndexes);
-  
+
   // When - TODO change this pattern, already called in setup.
   self.sut = [MSDBDocumentStore new];
 
@@ -67,7 +67,7 @@
   // If
   NSString *expectedAccountId = @"Test-account-id";
   NSString *tableName = [NSString stringWithFormat:kMSUserDocumentTableNameFormat, expectedAccountId];
-  
+
   // When
   [self.sut createUserStorageWithAccountId:expectedAccountId];
 
@@ -86,10 +86,6 @@
 
   // Then
   OCMVerify([self.dbStorageMock dropTable:userTableName]);
-}
-
-- (void)testInsertDocumentIntoTable {
-  
 }
 
 @end
