@@ -444,4 +444,23 @@
   OCMVerify([self.sut setAuthToken:nil withAccountId:nil expiresOn:nil]);
 }
 
+- (void)testFinishResetsTokenIfNotPreventedOnlyOnce {
+  
+  // If
+  id mockedSut = OCMPartialMock(self.sut);
+  __block int callCount = 0;
+  OCMStub([mockedSut setAuthToken:nil withAccountId:nil expiresOn:nil]).andDo(^(__unused NSInvocation *invocation) {
+    ++callCount;
+  });
+  
+  // When
+  [mockedSut finishInitialize];
+  
+  // Another module starts.
+  [mockedSut finishInitialize];
+  
+  // Then
+  XCTAssertEqual(callCount, 1);
+}
+
 @end

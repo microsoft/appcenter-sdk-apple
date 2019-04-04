@@ -243,9 +243,11 @@ static dispatch_once_t onceToken;
 }
 
 - (void)finishInitialize {
-  if (self.resetAuthTokenRequired) {
+    if (!self.resetAuthTokenRequired) {
+      return;
+    }
+    self.resetAuthTokenRequired = NO;
     [self setAuthToken:nil withAccountId:nil expiresOn:nil];
-  }
 }
 
 - (void)preventResetAuthTokenAfterStart {
