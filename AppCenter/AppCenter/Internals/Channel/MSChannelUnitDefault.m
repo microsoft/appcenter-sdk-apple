@@ -13,6 +13,7 @@
 #import "MSDeviceTracker.h"
 #import "MSStorage.h"
 #import "MSUtility+StringFormatting.h"
+#import "MSLogger.h"
 
 @implementation MSChannelUnitDefault
 
@@ -90,6 +91,15 @@
 
   // Disable and delete data on fatal errors.
   [self setEnabled:NO andDeleteDataOnDisabled:YES];
+}
+
+#pragma mark - MSAuthTokenContextDelegate
+
+- (void)authTokenContext:(MSAuthTokenContext *)__unused authTokenContext didSetAuthToken:(nullable NSString *)__unused authToken {
+  dispatch_async(self.logsDispatchQueue, ^{
+    MSLogInfo([MSAppCenter logTag], @"New auth token received, flushing queue.");
+    [self flushQueue];
+  });
 }
 
 #pragma mark - Managing queue
@@ -280,32 +290,36 @@
 
 - (void)flushQueueForTokenArray:(NSMutableArray<MSAuthTokenValidityInfo *> *)tokenArray withTokenIndex:(NSUInteger)tokenIndex {
   MSAuthTokenValidityInfo *tokenInfo = tokenArray[tokenIndex];
-  self.availableBatchFromStorage = [self.storage loadLogsWithGroupId:self.configuration.groupId
-                                                               limit:self.configuration.batchSizeLimit
-                                                  excludedTargetKeys:[self.pausedTargetKeys allObjects]
-                                                           afterDate:tokenInfo.startTime
-                                                          beforeDate:tokenInfo.endTime
-                                                   completionHandler:^(NSArray<id<MSLog>> *_Nonnull logArray, NSString *batchId) {
-                                                     if (logArray.count > 0) {
+  self.availableBatchFromStorage =
+      [self.storage loadLogsWithGroupId:self.configuration.groupId
+                                  limit:self.configuration.batchSizeLimit
+                     excludedTargetKeys:[self.pausedTargetKeys allObjects]
+                              afterDate:tokenInfo.startTime
+                             beforeDate:tokenInfo.endTime
+                      completionHandler:^(NSArray<id<MSLog>> *_Nonnull logArray, NSString *batchId) {
+                        [[MSAuthTokenContext sharedInstance] checkIfTokenNeedsToBeRefreshed:tokenInfo];
+                        if (logArray.count > 0) {
 
-                                                       // We have data to send.
-                                                       [self sendLogArray:logArray withBatchId:batchId andAuthToken:tokenInfo];
-                                                     } else {
+                          // We have data to send.
+                          [self sendLogArray:logArray withBatchId:batchId andAuthToken:tokenInfo];
+                        } else {
 
-                                                       // No logs available with given params.
-                                                       if (tokenIndex == 0 && tokenArray[tokenIndex].endTime != nil &&
-                                                           [self.storage countLogsBeforeDate:tokenArray[tokenIndex].endTime] == 0) {
+                          // No logs available with given params.
+                          if (tokenIndex == 0 && tokenArray[tokenIndex].endTime != nil &&
+                              [self.storage countLogsBeforeDate:tokenArray[tokenIndex].endTime] == 0) {
 
-                                                         // Delete token from history if we don't have logs fitting it in DB.
-                                                         [[MSAuthTokenContext sharedInstance] removeAuthToken:tokenInfo.authToken];
-                                                       }
-                                                       if (tokenIndex + 1 < tokenArray.count) {
+                            // Delete token from history if we don't have logs fitting it in DB.
+                            [[MSAuthTokenContext sharedInstance] removeAuthToken:tokenInfo.authToken];
+                          }
 
-                                                         // Iterate to next token in array.
-                                                         [self flushQueueForTokenArray:tokenArray withTokenIndex:tokenIndex + 1];
-                                                       }
-                                                     }
-                                                   }];
+                          // Check to determine if the next index is within bounds.
+                          if (tokenIndex + 1 < tokenArray.count) {
+
+                            // Iterate to next token in array.
+                            [self flushQueueForTokenArray:tokenArray withTokenIndex:tokenIndex + 1];
+                          }
+                        }
+                      }];
 
   // Flush again if there is another batch to send.
   if (self.availableBatchFromStorage && !self.pendingBatchQueueFull) {

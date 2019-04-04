@@ -10,10 +10,10 @@
 
 @implementation MSDocumentWrapper
 
-@synthesize jsonValue = _jsonValue;
 @synthesize deserializedValue = _deserializedValue;
-@synthesize documentId = _documentId;
+@synthesize jsonValue = _jsonValue;
 @synthesize partition = _partition;
+@synthesize documentId = _documentId;
 @synthesize eTag = _eTag;
 @synthesize lastUpdatedDate = _lastUpdatedDate;
 @synthesize error = _error;
@@ -23,23 +23,16 @@
                                 partition:(NSString *)partition
                                documentId:(NSString *)documentId
                                      eTag:(NSString *)eTag
-                          lastUpdatedDate:(NSDate *)lastUpdatedDate {
+                          lastUpdatedDate:(NSDate *)lastUpdatedDate
+                                    error:(MSDataSourceError *)error {
   if ((self = [super init])) {
-
-    // Create json string.
-    NSError *error;
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:[deserializedValue serializeToDictionary] options:0 error:&error];
-    if (error) {
-      MSLogWarning([MSDataStore logTag], @"Failed to parse the deserializedValue, error : %@", error.localizedDescription);
-    } else {
-      _jsonValue = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-    }
     _deserializedValue = deserializedValue;
     _jsonValue = jsonValue;
     _partition = partition;
     _documentId = documentId;
     _eTag = eTag;
     _lastUpdatedDate = lastUpdatedDate;
+    _error = error;
   }
   return self;
 }
