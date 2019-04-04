@@ -33,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param authTokenContext The auth token context.
  * @param accountId The accountId of the auth token that expires soon and needs to be refreshed.
  */
-- (void)authTokenContext:(MSAuthTokenContext *)authTokenContext authTokenNeedsToBeRefreshed:(nullable NSString *)accountId;
+- (void)authTokenContext:(MSAuthTokenContext *)authTokenContext refreshAuthTokenForAccountId:(nullable NSString *)accountId;
 
 @end
 

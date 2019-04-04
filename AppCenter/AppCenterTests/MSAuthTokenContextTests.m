@@ -335,7 +335,7 @@
   NSString *expectedAccountId1 = @"account1";
   NSString *expectedAuthToken2 = @"authToken2";
   id<MSAuthTokenContextDelegate> delegateMock = OCMProtocolMock(@protocol(MSAuthTokenContextDelegate));
-  OCMReject([delegateMock authTokenContext:OCMOCK_ANY authTokenNeedsToBeRefreshed:OCMOCK_ANY]);
+  OCMReject([delegateMock authTokenContext:OCMOCK_ANY refreshAuthTokenForAccountId:OCMOCK_ANY]);
   [self.sut addDelegate:delegateMock];
 
   // When
@@ -353,7 +353,7 @@
   NSDate *expiresDate = [NSDate dateWithTimeIntervalSinceNow:+(60.0f * 60.0f * 24.0f)];
   id<MSAuthTokenContextDelegate> delegateMock = OCMProtocolMock(@protocol(MSAuthTokenContextDelegate));
   [self.sut addDelegate:delegateMock];
-  OCMReject([delegateMock authTokenContext:OCMOCK_ANY authTokenNeedsToBeRefreshed:OCMOCK_ANY]);
+  OCMReject([delegateMock authTokenContext:OCMOCK_ANY refreshAuthTokenForAccountId:OCMOCK_ANY]);
   [self.sut setAuthToken:expectedAuthToken withAccountId:expectedAccountId expiresOn:expiresDate];
   MSAuthTokenValidityInfo *authToken = [[MSAuthTokenValidityInfo alloc] initWithAuthToken:expectedAuthToken
                                                                                 startTime:startDate
@@ -397,7 +397,7 @@
   XCTAssertFalse(isExpiresSoon);
 }
 
-- (void)testAuthTokenNeedsToBeRefreshed {
+- (void)testRefreshAuthTokenForAccountId {
 
   // If
   NSString *expectedAuthToken = @"authToken1";
@@ -415,7 +415,7 @@
   [self.sut checkIfTokenNeedsToBeRefreshed:authToken];
 
   // Then
-  OCMVerify([delegateMock authTokenContext:OCMOCK_ANY authTokenNeedsToBeRefreshed:expectedAccountId]);
+  OCMVerify([delegateMock authTokenContext:OCMOCK_ANY refreshAuthTokenForAccountId:expectedAccountId]);
 }
 
 - (void)testFinishDoesNotResetTokenIfPrevented {

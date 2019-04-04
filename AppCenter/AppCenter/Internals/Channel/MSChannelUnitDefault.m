@@ -92,6 +92,14 @@
   [self setEnabled:NO andDeleteDataOnDisabled:YES];
 }
 
+#pragma mark - MSAuthTokenContextDelegate
+
+- (void)authTokenContext:(MSAuthTokenContext *)__unused authTokenContext didSetAuthToken:(nullable NSString *)__unused authToken {
+  dispatch_async(self.logsDispatchQueue, ^{
+    [self flushQueue];
+  });
+}
+
 #pragma mark - Managing queue
 
 - (void)enqueueItem:(id<MSLog>)item flags:(MSFlags)flags {
@@ -158,7 +166,7 @@
       if (self.discardLogs) {
         MSLogWarning([MSAppCenter logTag], @"Channel %@ disabled in log discarding mode, discard this log.", self.configuration.groupId);
         NSError *error = [NSError errorWithDomain:kMSACErrorDomain
-                                             code:kMSACConnectionPausedErrorCode
+                                             code:MSACConnectionPausedErrorCode
                                          userInfo:@{NSLocalizedDescriptionKey : kMSACConnectionPausedErrorDesc}];
         [self notifyFailureBeforeSendingForItem:item withError:error];
         [self enumerateDelegatesForSelector:@selector(channel:didCompleteEnqueueingLog:internalId:)
@@ -287,6 +295,7 @@
                               afterDate:tokenInfo.startTime
                              beforeDate:tokenInfo.endTime
                       completionHandler:^(NSArray<id<MSLog>> *_Nonnull logArray, NSString *batchId) {
+                        [[MSAuthTokenContext sharedInstance] checkIfTokenNeedsToBeRefreshed:tokenInfo];
                         if (logArray.count > 0) {
 
                           // We have data to send.
@@ -300,8 +309,9 @@
                             // Delete token from history if we don't have logs fitting it in DB.
                             [[MSAuthTokenContext sharedInstance] removeAuthToken:tokenInfo.authToken];
                           }
+
+                          // Check to determine if the next index is within bounds.
                           if (tokenIndex + 1 < tokenArray.count) {
-                            [[MSAuthTokenContext sharedInstance] checkIfTokenNeedsToBeRefreshed:tokenArray[tokenIndex]];
 
                             // Iterate to next token in array.
                             [self flushQueueForTokenArray:tokenArray withTokenIndex:tokenIndex + 1];
@@ -350,7 +360,7 @@
 
   // Reset item count and load data from the storage.
   self.itemsCount = 0;
-  NSMutableArray<MSAuthTokenValidityInfo *> *tokenArray = [MSAuthTokenContext sharedInstance].authTokenValidityArray;
+  NSMutableArray<MSAuthTokenValidityInfo *> *tokenArray = [[MSAuthTokenContext sharedInstance] authTokenValidityArray];
   [self flushQueueForTokenArray:tokenArray withTokenIndex:0];
 }
 
@@ -425,7 +435,7 @@
     if (!isEnabled && deleteData) {
       MSLogDebug([MSAppCenter logTag], @"Delete all logs for group Id %@", self.configuration.groupId);
       NSError *error = [NSError errorWithDomain:kMSACErrorDomain
-                                           code:kMSACConnectionPausedErrorCode
+                                           code:MSACConnectionPausedErrorCode
                                        userInfo:@{NSLocalizedDescriptionKey : kMSACConnectionPausedErrorDesc}];
       [self deleteAllLogsWithErrorSync:error];
 
