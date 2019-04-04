@@ -479,11 +479,11 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
   NSObject *logObject = (NSObject *)log;
   id<MSAnalyticsDelegate> delegate = self.delegate;
   if ([logObject isKindOfClass:[MSEventLog class]] && [delegate respondsToSelector:@selector(analytics:
-                                                                                            didFailSendingEventLog:withError:)]) {
+                                                                                       didFailSendingEventLog:withError:)]) {
     MSEventLog *eventLog = (MSEventLog *)log;
     [delegate analytics:self didFailSendingEventLog:eventLog withError:error];
   } else if ([logObject isKindOfClass:[MSPageLog class]] && [delegate respondsToSelector:@selector(analytics:
-                                                                                                  didFailSendingPageLog:withError:)]) {
+                                                                                             didFailSendingPageLog:withError:)]) {
     MSPageLog *pageLog = (MSPageLog *)log;
     [delegate analytics:self didFailSendingPageLog:pageLog withError:error];
   }
