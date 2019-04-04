@@ -9,6 +9,7 @@
 #import "MSChannelUnitProtocol.h"
 #import "MSConstants+Internal.h"
 #import "MSCosmosDb.h"
+#import "MSDBDocumentStore.h"
 #import "MSDataSourceError.h"
 #import "MSDataStoreErrors.h"
 #import "MSDataStoreInternal.h"
@@ -78,6 +79,7 @@ static dispatch_once_t onceToken;
 - (instancetype)init {
   if ((self = [super init])) {
     _tokenExchangeUrl = (NSURL *)[NSURL URLWithString:kMSDefaultApiUrl];
+    _documentStore = [MSDBDocumentStore new];
   }
   return self;
 }
@@ -566,8 +568,14 @@ static dispatch_once_t onceToken;
 #pragma mark - MSAuthTokenContextDelegate
 
 - (void)authTokenContext:(MSAuthTokenContext *)__unused authTokenContext didUpdateUserInformation:(MSUserInformation *)userInfomation {
-  if (!userInfomation) {
+  
+  // TODO: consume the unique account id once provided in authTokenContext.
+  NSString *uniqueAccountId = @"unique-account-id";
+  if (userInfomation) {
+    [self.documentStore createUserStorageWithAccountId:uniqueAccountId];
+  } else {
     [MSTokenExchange removeAllCachedTokens];
+    [self.documentStore deleteUserStorageWithAccountId:uniqueAccountId];
   }
 }
 

@@ -61,6 +61,53 @@
   return result;
 }
 
+- (BOOL)dropTable:(NSString *)tableName {
+  return [self executeQueryUsingBlock:^int(void *db) {
+           if ([MSDBStorage tableExists:tableName inOpenedDatabase:db]) {
+             NSString *deleteQuery = [NSString stringWithFormat:@"DROP TABLE \"%@\";", tableName];
+             int result = [MSDBStorage executeNonSelectionQuery:deleteQuery inOpenedDatabase:db];
+             if (result == SQLITE_OK) {
+               MSLogVerbose([MSAppCenter logTag], @"Table %@ has been deleted", tableName);
+             } else {
+               MSLogError([MSAppCenter logTag], @"Failed to delete table %@", tableName);
+             }
+             return result;
+           }
+           return SQLITE_OK;
+         }] == SQLITE_OK;
+}
+
+- (BOOL)createTable:(NSString *)tableName columnsSchema:(MSDBColumnsSchema *)columnsSchema {
+  return [self executeQueryUsingBlock:^int(void *db) {
+           if (![MSDBStorage tableExists:tableName inOpenedDatabase:db]) {
+             NSString *createQuery = [NSString
+                 stringWithFormat:@"CREATE TABLE \"%@\" (%@);", tableName, [MSDBStorage columnsQueryFromColumnsSchema:columnsSchema]];
+             int result = [MSDBStorage executeNonSelectionQuery:createQuery inOpenedDatabase:db];
+             if (result == SQLITE_OK) {
+               MSLogVerbose([MSAppCenter logTag], @"Table %@ has been created", tableName);
+             } else {
+               MSLogError([MSAppCenter logTag], @"Failed to create table %@", tableName);
+             }
+             return result;
+           }
+           return SQLITE_OK;
+         }] == SQLITE_OK;
+}
+
++ (NSString *)columnsQueryFromColumnsSchema:(MSDBColumnsSchema *)columnsSchema {
+  NSMutableArray *columnQueries = [NSMutableArray new];
+
+  // Browse columns.
+  for (NSUInteger i = 0; i < columnsSchema.count; i++) {
+    NSString *columnName = columnsSchema[i].allKeys[0];
+
+    // Compute column query.
+    [columnQueries
+        addObject:[NSString stringWithFormat:@"\"%@\" %@", columnName, [columnsSchema[i][columnName] componentsJoinedByString:@" "]]];
+  }
+  return [columnQueries componentsJoinedByString:@", "];
+}
+
 + (NSUInteger)createTablesWithSchema:(MSDBSchema *)schema inOpenedDatabase:(void *)db {
   NSMutableArray *tableQueries = [NSMutableArray new];
 
@@ -71,21 +118,10 @@
     if ([self tableExists:tableName inOpenedDatabase:db]) {
       continue;
     }
-    NSMutableArray *columnQueries = [NSMutableArray new];
-    NSArray<NSDictionary<NSString *, NSArray<NSString *> *> *> *columns = schema[tableName];
-
-    // Browse columns.
-    for (NSUInteger i = 0; i < columns.count; i++) {
-      NSString *columnName = columns[i].allKeys[0];
-
-      // Compute column query.
-      [columnQueries
-          addObject:[NSString stringWithFormat:@"\"%@\" %@", columnName, [columns[i][columnName] componentsJoinedByString:@" "]]];
-    }
 
     // Compute table query.
-    [tableQueries
-        addObject:[NSString stringWithFormat:@"CREATE TABLE \"%@\" (%@);", tableName, [columnQueries componentsJoinedByString:@", "]]];
+    [tableQueries addObject:[NSString stringWithFormat:@"CREATE TABLE \"%@\" (%@);", tableName,
+                                                       [MSDBStorage columnsQueryFromColumnsSchema:schema[tableName]]]];
   }
 
   // Create the tables.
@@ -130,7 +166,7 @@
 + (void)enableAutoVacuumInOpenedDatabase:(void *)db {
   NSArray<NSArray *> *result = [MSDBStorage executeSelectionQuery:@"PRAGMA auto_vacuum" inOpenedDatabase:db];
   int vacuumMode = 0;
-  if (result.count > 0 && result[0].count > 0){
+  if (result.count > 0 && result[0].count > 0) {
     vacuumMode = [(NSNumber *)result[0][0] intValue];
   }
   BOOL autoVacuumDisabled = vacuumMode != 1;
