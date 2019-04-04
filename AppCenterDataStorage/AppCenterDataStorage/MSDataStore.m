@@ -22,7 +22,6 @@
 #import "MSTokensResponse.h"
 #import "MSUserInformation.h"
 #import "MSWriteOptions.h"
-#import "NSObject+MSDictionaryUtils.h"
 
 /**
  * Service storage key name.
@@ -353,7 +352,9 @@ static dispatch_once_t onceToken;
                      // Deserialize the list payload and try to get the array of documents.
                      NSError *deserializeError;
                      id jsonPayload = [NSJSONSerialization JSONObjectWithData:(NSData *)data options:0 error:&deserializeError];
-                     if (!deserializeError && ![jsonPayload isDictionaryWithKey:kMSDocumentsKey keyType:[NSArray class]]) {
+                     if (!deserializeError && ![MSDocumentUtils isReferenceDictionaryWithKey:jsonPayload
+                                                                                         key:kMSDocumentsKey
+                                                                                     keyType:[NSArray class]]) {
                        deserializeError = [[NSError alloc] initWithDomain:kMSACDataStoreErrorDomain
                                                                      code:MSACDataStoreErrorJSONSerializationFailed
                                                                  userInfo:@{NSLocalizedDescriptionKey : @"Can't deserialize documents"}];

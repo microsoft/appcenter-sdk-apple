@@ -21,6 +21,15 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSDictionary *)documentPayloadWithDocumentId:(NSString *)documentId partition:(NSString *)partition document:(NSDictionary *)document;
 
 /**
+ * Test if a reference is a dictionary that has a key of a given type.
+ *
+ * @param reference The reference to test.
+ * @param key The key to look for in the dictionary reference.
+ * @param keyType The expected key type.
+ */
++ (BOOL)isReferenceDictionaryWithKey:(id _Nullable)reference key:(NSString *)key keyType:(Class)keyType;
+
+/**
  * Deserialize a CosmosDB document from data and return a document wrapper (valid or in an error state).
  *
  * @param data Data from which to create the document wrapper.
