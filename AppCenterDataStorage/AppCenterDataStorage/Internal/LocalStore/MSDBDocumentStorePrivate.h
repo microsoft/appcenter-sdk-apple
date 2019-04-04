@@ -17,7 +17,7 @@ static NSString *const kMSETagColumnName = @"etag";
 static NSString *const kMSExpirationTimeColumnName = @"expiration_time";
 static NSString *const kMSDownloadTimeColumnName = @"download_time";
 static NSString *const kMSOperationTimeColumnName = @"operation_time";
-static NSString *const kMSPendingDownloadColumnName = @"pending_operation";
+static NSString *const kMSPendingOperationColumnName = @"pending_operation";
 
 // Operations.
 static NSString *const kMSPendingOperationCreate = @"CREATE";

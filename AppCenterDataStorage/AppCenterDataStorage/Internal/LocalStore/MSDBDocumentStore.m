@@ -37,18 +37,49 @@ static const NSUInteger kMSSchemaVersion = 1;
     _expirationTimeColumnIndex = ((NSNumber *)columnIndexes[kMSAppDocumentTableName][kMSExpirationTimeColumnName]).unsignedIntegerValue;
     _downloadTimeColumnIndex = ((NSNumber *)columnIndexes[kMSAppDocumentTableName][kMSDownloadTimeColumnName]).unsignedIntegerValue;
     _operationTimeColumnIndex = ((NSNumber *)columnIndexes[kMSAppDocumentTableName][kMSOperationTimeColumnName]).unsignedIntegerValue;
-    _pendingOperationColumnIndex = ((NSNumber *)columnIndexes[kMSAppDocumentTableName][kMSPendingDownloadColumnName]).unsignedIntegerValue;
+    _pendingOperationColumnIndex = ((NSNumber *)columnIndexes[kMSAppDocumentTableName][kMSPendingOperationColumnName]).unsignedIntegerValue;
   }
   return self;
 }
 
 #pragma mark - Table Management
 
-// TODO work item created to track this implementation
-- (BOOL)createWithPartition:(NSString *)__unused partition
-                   document:(MSDocumentWrapper *)__unused document
-               writeOptions:(MSWriteOptions *)__unused writeOptions {
-  return YES;
+- (BOOL)upsertWithPartition:(NSString *)partition
+                   document:(id<MSSerializableDocument>)document
+                 documentId:(NSString *)documentId
+            lastUpdatedDate:(NSDate *)lastUpdatedDate
+                       eTag:(NSString *)eTag
+                  operation:(NSString *_Nullable)operation
+                    options:(MSBaseOptions *)options {
+  NSString *base64Data;
+  if (document) {
+    NSDictionary *documentDict = [document serializeToDictionary];
+    NSData *documentData = [NSKeyedArchiver archivedDataWithRootObject:documentDict];
+    base64Data = [documentData base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
+  }
+  NSDate *now = [NSDate date];
+  NSDate *expirationTime = [now dateByAddingTimeInterval:options.deviceTimeToLive];
+  NSString *insertQuery = [NSString stringWithFormat:@"REPLACE INTO '%@' ('%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@') "
+                           @"VALUES ('%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@')", kMSAppDocumentTableName,
+                           kMSIdColumnName, kMSPartitionColumnName, kMSDocumentIdColumnName, kMSDocumentColumnName, kMSETagColumnName,
+                           kMSExpirationTimeColumnName, kMSDownloadTimeColumnName, kMSOperationTimeColumnName, kMSPendingOperationColumnName,
+                           @0, partition, documentId, base64Data, eTag, expirationTime, lastUpdatedDate, now, operation];
+  NSInteger result = [self.dbStorage executeNonSelectionQuery:insertQuery];
+  if (result != SQLITE_OK) {
+    MSLogError([MSDataStore logTag], @"Unable to update or replace cached document, SQLite error code: %ld", (long)result);
+  }
+  return result == SQLITE_OK;
+}
+
+- (BOOL)deleteWithPartition:(NSString *)partition
+                 documentId:(NSString *)documentId {
+  NSString *deleteQuery = [NSString stringWithFormat:@"DELETE FROM '%@' WHERE '%@' = '%@' AND '%@' = '%@'", kMSAppDocumentTableName,
+                           kMSPartitionColumnName, partition, kMSDocumentIdColumnName, documentId];
+  NSInteger result = [self.dbStorage executeNonSelectionQuery:deleteQuery];
+  if (result != SQLITE_OK) {
+    MSLogError([MSDataStore logTag], @"Unable to delete cached document, SQLite error code: %ld", (long)result);
+  }
+  return result == SQLITE_OK;
 }
 
 - (BOOL)createUserStorageWithAccountId:(NSString *)accountId {
@@ -66,14 +97,17 @@ static const NSUInteger kMSSchemaVersion = 1;
 + (MSDBColumnsSchema *)columnsSchema {
 
   // TODO create composite key for partition and the document id
-  return @[
-    @{kMSIdColumnName : @[ kMSSQLiteTypeInteger, kMSSQLiteConstraintPrimaryKey, kMSSQLiteConstraintAutoincrement ]},
-    @{kMSPartitionColumnName : @[ kMSSQLiteTypeText, kMSSQLiteConstraintNotNull ]},
-    @{kMSDocumentIdColumnName : @[ kMSSQLiteTypeText, kMSSQLiteConstraintNotNull ]}, @{kMSDocumentColumnName : @[ kMSSQLiteTypeText ]},
-    @{kMSETagColumnName : @[ kMSSQLiteTypeText ]}, @{kMSExpirationTimeColumnName : @[ kMSSQLiteTypeInteger ]},
-    @{kMSDownloadTimeColumnName : @[ kMSSQLiteTypeInteger ]}, @{kMSOperationTimeColumnName : @[ kMSSQLiteTypeInteger ]},
-    @{kMSPendingDownloadColumnName : @[ kMSSQLiteTypeText ]}
-  ];
+  NSMutableArray *schema = [NSMutableArray new];
+  [schema addObject:@{kMSIdColumnName : @[ kMSSQLiteTypeInteger, kMSSQLiteConstraintPrimaryKey, kMSSQLiteConstraintAutoincrement ]}];
+  [schema addObject:@{kMSPartitionColumnName : @[ kMSSQLiteTypeText, kMSSQLiteConstraintNotNull ]}];
+  [schema addObject:@{kMSDocumentIdColumnName : @[ kMSSQLiteTypeText, kMSSQLiteConstraintNotNull ]}];
+  [schema addObject:@{kMSDocumentColumnName : @[ kMSSQLiteTypeText ]}];
+  [schema addObject:@{kMSETagColumnName : @[ kMSSQLiteTypeText ]}];
+  [schema addObject:@{kMSExpirationTimeColumnName : @[ kMSSQLiteTypeInteger ]}];
+  [schema addObject:@{kMSDownloadTimeColumnName : @[ kMSSQLiteTypeInteger ]}];
+  [schema addObject:@{kMSOperationTimeColumnName : @[ kMSSQLiteTypeInteger ]}];
+  [schema addObject:@{kMSPendingOperationColumnName : @[ kMSSQLiteTypeText ]}];
+  return schema;
 }
 
 @end
