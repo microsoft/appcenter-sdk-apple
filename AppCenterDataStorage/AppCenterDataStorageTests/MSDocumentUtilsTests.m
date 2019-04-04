@@ -169,7 +169,7 @@
   XCTAssertNil([document jsonValue]);
 
   // If, data is set to a valid document
-  data = [MSTestDocument getDocumentFixture:@"testDocument"];
+  data = [MSTestDocument getDocumentFixture:@"validTestDocument"];
 
   // When
   document = [MSDocumentUtils documentWrapperFromData:data documentType:[MSTestDocument class]];

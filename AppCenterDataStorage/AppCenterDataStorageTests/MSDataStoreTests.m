@@ -318,7 +318,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
       });
 
   // Mock CosmosDB requests.
-  NSData *testCosmosDbResponse = [MSTestDocument getDocumentFixture:@"testDocument"];
+  NSData *testCosmosDbResponse = [MSTestDocument getDocumentFixture:@"validTestDocument"];
   OCMStub([self.cosmosDbMock performCosmosDbAsyncOperationWithHttpClient:OCMOCK_ANY
                                                              tokenResult:testToken
                                                               documentId:kMSDocumentIdTest
