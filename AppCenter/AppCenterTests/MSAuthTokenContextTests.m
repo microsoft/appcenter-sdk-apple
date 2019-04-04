@@ -395,13 +395,14 @@
 
   // If
   NSString *expectedAuthToken = @"authToken1";
-  NSString *expectedAccountId = @"account1";
   NSDate *startDate = [NSDate dateWithTimeIntervalSinceNow:-((60.0f * 60.0f * 24.0f))];
   NSDate *expiresDate = [NSDate dateWithTimeIntervalSinceNow:+(60.0f * 60.0f * 24.0f)];
   id<MSAuthTokenContextDelegate> delegateMock = OCMProtocolMock(@protocol(MSAuthTokenContextDelegate));
   [self.sut addDelegate:delegateMock];
   OCMReject([delegateMock authTokenContext:OCMOCK_ANY refreshAuthTokenForAccountId:OCMOCK_ANY]);
-  [self.sut setAuthToken:expectedAuthToken withAccountId:expectedAccountId expiresOn:expiresDate];
+  
+  NSArray<MSAuthTokenValidityInfo *> *mockArray = @[[[MSAuthTokenValidityInfo alloc] initWithAuthToken:expectedAuthToken startTime:nil endTime:nil]];
+  OCMStub([MSMockKeychainUtil arrayForKey:kMSAuthTokenHistoryKey]).andReturn(mockArray);
   MSAuthTokenValidityInfo *authToken = [[MSAuthTokenValidityInfo alloc] initWithAuthToken:expectedAuthToken
                                                                                 startTime:startDate
                                                                                   endTime:expiresDate];
@@ -463,6 +464,50 @@
 
   // Then
   OCMVerify([delegateMock authTokenContext:OCMOCK_ANY refreshAuthTokenForAccountId:expectedAccountId]);
+}
+
+- (void)testFinishDoesNotResetTokenIfPrevented {
+
+  // If
+  [self.sut preventResetAuthTokenAfterStart];
+  OCMReject([self.sut setAuthToken:OCMOCK_ANY withAccountId:OCMOCK_ANY expiresOn:OCMOCK_ANY]);
+
+  // When
+  [self.sut finishInitialize];
+
+  // Then
+  OCMVerify(self.sut);
+}
+
+- (void)testFinishResetsTokenIfNotPrevented {
+
+  // If
+  OCMStub([self.sut setAuthToken:nil withAccountId:nil expiresOn:nil]);
+
+  // When
+  [self.sut finishInitialize];
+
+  // Then
+  OCMVerify([self.sut setAuthToken:nil withAccountId:nil expiresOn:nil]);
+}
+
+- (void)testFinishResetsTokenIfNotPreventedOnlyOnce {
+  
+  // If
+  id mockedSut = OCMPartialMock(self.sut);
+  __block int callCount = 0;
+  OCMStub([mockedSut setAuthToken:nil withAccountId:nil expiresOn:nil]).andDo(^(__unused NSInvocation *invocation) {
+    ++callCount;
+  });
+  
+  // When
+  [mockedSut finishInitialize];
+  
+  // Another module starts.
+  [mockedSut finishInitialize];
+  
+  // Then
+  XCTAssertEqual(callCount, 1);
 }
 
 @end

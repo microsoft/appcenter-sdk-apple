@@ -87,6 +87,17 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)checkIfTokenNeedsToBeRefreshed:(MSAuthTokenValidityInfo *)tokenValidityInfo;
 
+/**
+ * Finishes initialization process. Resets current token if nothing prevents it.
+ */
+- (void)finishInitialize;
+
+/**
+ * Prevents resetting the current auth token if it exists. Should be called during
+ * initialization process if the current auth token should be kept.
+ */
+- (void)preventResetAuthTokenAfterStart;
+
 @end
 
 NS_ASSUME_NONNULL_END

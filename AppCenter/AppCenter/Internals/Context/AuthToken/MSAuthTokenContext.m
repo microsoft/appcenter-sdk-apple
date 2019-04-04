@@ -24,6 +24,11 @@ static dispatch_once_t onceToken;
  */
 @property(nonatomic) NSHashTable<id<MSAuthTokenContextDelegate>> *delegates;
 
+/**
+ * YES if the current token should be reset.
+ */
+@property() BOOL resetAuthTokenRequired;
+
 @end
 
 @implementation MSAuthTokenContext
@@ -32,6 +37,7 @@ static dispatch_once_t onceToken;
   self = [super init];
   if (self) {
     _delegates = [NSHashTable new];
+    _resetAuthTokenRequired = YES;
   }
   return self;
 }
@@ -240,6 +246,18 @@ static dispatch_once_t onceToken;
       [delegate authTokenContext:self refreshAuthTokenForAccountId:lastEntry.accountId];
     }
   }
+}
+
+- (void)finishInitialize {
+    if (!self.resetAuthTokenRequired) {
+      return;
+    }
+    self.resetAuthTokenRequired = NO;
+    [self setAuthToken:nil withAccountId:nil expiresOn:nil];
+}
+
+- (void)preventResetAuthTokenAfterStart {
+  self.resetAuthTokenRequired = NO;
 }
 
 @end
