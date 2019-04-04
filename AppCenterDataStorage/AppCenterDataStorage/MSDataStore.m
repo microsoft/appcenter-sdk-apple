@@ -260,6 +260,9 @@ static dispatch_once_t onceToken;
                          documentType:(Class)documentType
                           readOptions:(MSReadOptions *)readOptions
                     completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
+  if ([partition isEqualToString:kMSUserPartitionKey]) {
+    partition = [MSDataStore getFullUserPartitionKey];
+  }
   dispatch_async(self.dataStoreDispatchQueue, ^{
     MSDocumentWrapper *document = [self.documentStore readWithPartition:partition documentId:documentId documentType:documentType readOptions:readOptions];
     completionHandler(document);
@@ -541,6 +544,12 @@ static dispatch_once_t onceToken;
                                             }];
 }
 
++ (NSString *)getFullUserPartitionKey {
+  NSString *accountId = [MSAuthTokenContext sharedInstance].accountId;
+  NSString *suffix = [@"-" stringByAppendingString:(NSString *)accountId];
+  return [kMSUserPartitionKey stringByAppendingString:suffix];
+}
+
 #pragma mark - MSServiceInternal
 
 + (instancetype)sharedInstance {
@@ -598,7 +607,7 @@ static dispatch_once_t onceToken;
 #pragma mark - MSAuthTokenContextDelegate
 
 - (void)authTokenContext:(MSAuthTokenContext *)__unused authTokenContext didUpdateUserInformation:(MSUserInformation *)userInfomation {
-  
+
   // TODO: consume the unique account id once provided in authTokenContext.
   NSString *uniqueAccountId = @"unique-account-id";
   if (userInfomation) {

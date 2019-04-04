@@ -41,7 +41,7 @@
   NSString *documentId = @"12829";
   NSString *partitionKey = @"partition1234123";
   MSMockDocument *document = [MSMockDocument new];
-  NSString *accountId = @"account12";
+  NSString *accountId = @"dabe069b-ee80-4ca6-8657-9128a4600958";
   document.contentDictionary = @{@"key" : @"value"};
   NSString *eTag = @"398";
   MSDBDocumentStore *sut = [MSDBDocumentStore new];
@@ -68,7 +68,8 @@
   sqlite3 *db = [self openDatabase:kMSDBDocumentFileName];
   NSString *insertQuery = [NSString stringWithFormat:@"INSERT INTO '%@' ('%@', '%@', '%@', '%@', '%@') VALUES ('%@', '%@', '%@', '%@', '%@')", kMSAppDocumentTableName,
                            kMSIdColumnName, kMSPartitionColumnName, kMSETagColumnName, kMSDocumentColumnName, kMSDocumentIdColumnName, @0, partition, eTag, base64Data, documentId];
-  sqlite3_exec(db, [insertQuery UTF8String], NULL, NULL, NULL);
+  char *error;
+  sqlite3_exec(db, [insertQuery UTF8String], NULL, NULL, &error);
   sqlite3_close(db);
 }
 

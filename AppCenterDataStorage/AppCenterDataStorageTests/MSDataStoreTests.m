@@ -24,6 +24,7 @@
 #import "MSTokensResponse.h"
 #import "MSDocumentStore.h"
 #import "MSReadOptions.h"
+#import "MSAuthTokenContext.h"
 
 @interface MSFakeSerializableDocument : NSObject <MSSerializableDocument>
 - (instancetype)initFromDictionary:(NSDictionary *)dictionary;
@@ -806,17 +807,23 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                   fromApplication:YES];
   [MSDataStore setOfflineModeEnabled:YES];
   XCTestExpectation *expectation = [self expectationWithDescription:@""];
+  NSString *accountId = @"dabe069b-ee80-4ca6-8657-9128a4600958";
+  NSString *fullPartitionName = [NSString stringWithFormat:@"%@-%@", kMSUserPartitionKey, accountId];
+  // If the auth context account id is not nil
+  id authTokenContextMock = OCMClassMock([MSAuthTokenContext class]);
+  OCMStub([authTokenContextMock sharedInstance]).andReturn(authTokenContextMock);
+  OCMStub(((MSAuthTokenContext *)authTokenContextMock).accountId).andReturn(accountId);
 
   // If there are documents cached on disk.
   NSString *documentId = @"6";
-  NSString *partition = @"partition name";
+
   Class documentType = [NSString class];
   MSDocumentWrapper *readDocument = [MSDocumentWrapper new];
   self.sut.documentStore = OCMProtocolMock(@protocol(MSDocumentStore));
-  OCMStub([self.sut.documentStore readWithPartition:partition documentId:documentId documentType:documentType readOptions:OCMOCK_ANY]).andReturn(readDocument);
+  OCMStub([self.sut.documentStore readWithPartition:fullPartitionName documentId:documentId documentType:documentType readOptions:OCMOCK_ANY]).andReturn(readDocument);
 
   // When
-  [MSDataStore readWithPartition:partition documentId:documentId documentType:documentType readOptions:[[MSReadOptions alloc] initWithDeviceTimeToLive:3600] completionHandler:^(MSDocumentWrapper * _Nonnull document) {
+  [MSDataStore readWithPartition:kMSUserPartitionKey documentId:documentId documentType:documentType readOptions:[[MSReadOptions alloc] initWithDeviceTimeToLive:3600] completionHandler:^(MSDocumentWrapper * _Nonnull document) {
 
     // Then
     XCTAssertEqual(readDocument, document);

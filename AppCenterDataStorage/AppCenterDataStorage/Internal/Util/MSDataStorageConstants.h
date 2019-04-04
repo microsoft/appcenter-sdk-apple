@@ -11,3 +11,4 @@ static NSString *const kMSDocument = @"document";
 static NSString *const kMSPartitionKey = @"PartitionKey";
 static NSString *const kMSIdKey = @"id";
 static NSString *const kMSTokenResultSucceed = @"Succeed";
+static NSString *const kMSUserPartitionKey = @"user";

@@ -64,9 +64,10 @@ static const NSUInteger kMSSchemaVersion = 1;
 }
 
 - (MSDocumentWrapper *)readWithPartition:(NSString *)partition documentId:(NSString *)documentId documentType:(Class)documentType readOptions:(MSReadOptions *)readOptions {
-  NSString *queryString = [NSString stringWithFormat:@"%@ * FROM ]
-  self.dbStorage executeSelectionQuery:<#(nonnull NSString *)#>
+
   (void)documentId; (void)partition; (void)readOptions; (void)documentType;
+
+  
   return [MSDocumentWrapper new];
 }
 

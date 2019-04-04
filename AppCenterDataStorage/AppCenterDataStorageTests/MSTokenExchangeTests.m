@@ -34,7 +34,6 @@ static NSString *const MSDataStoreAppDocumentsPartition = @"readonly";
 
 @interface MSTokenExchange (Test)
 
-+ (void)removeCachedToken:(NSString *)partitionName;
 + (NSString *)tokenKeyNameForPartition:(NSString *)partitionName;
 + (void)saveToken:(MSTokenResult *)tokenResult;
 + (MSTokenResult *)retrieveCachedToken:(NSString *)partitionName;
@@ -476,18 +475,6 @@ static NSString *const MSDataStoreAppDocumentsPartition = @"readonly";
 
   // When
   [MSTokenExchange saveToken:tokenResult];
-
-  // Then
-  OCMVerifyAll(self.keychainUtilMock);
-}
-
-- (void)testRemoveCachedTokenNotRaisesError {
-
-  // If
-  OCMStub([self.keychainUtilMock deleteStringForKey:OCMOCK_ANY]).andReturn(nil);
-
-  // When
-  [MSTokenExchange removeCachedToken:@"token"];
 
   // Then
   OCMVerifyAll(self.keychainUtilMock);
