@@ -78,6 +78,11 @@ static NSString *const kMSPendingOperationDelete = @"DELETE";
  */
 @property(nonatomic) MSDBStorage *dbStorage;
 
+/**
+ * The schema for the documents cache.
+ */
++ (MSDBColumnsSchema *)columnsSchema;
+
 @end
 
 NS_ASSUME_NONNULL_END

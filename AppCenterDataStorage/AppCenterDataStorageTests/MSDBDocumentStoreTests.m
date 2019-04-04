@@ -7,7 +7,6 @@
 
 @interface MSDBDocumentStoreTests : XCTestCase
 
-@property(nonatomic) id dbStorageMock;
 @property(nonatomic, nullable) MSDBDocumentStore *sut;
 
 @end
@@ -17,20 +16,17 @@
 - (void)setUp {
   [super setUp];
   self.sut = [MSDBDocumentStore new];
-  self.dbStorageMock = OCMClassMock([MSDBStorage class]);
-  self.sut.dbStorage = self.dbStorageMock;
 }
 
 - (void)tearDown {
   [super tearDown];
-  [self.dbStorageMock stopMocking];
 }
 
-- (void)testCreateOfApplicationLevelTable {
+- (void)testCreationOfApplicationLevelTable {
 
   // If
   NSUInteger expectedSchemaVersion = 1;
-  MSDBSchema *expectedSchema = @{kMSAppDocumentTableName : [self expectedColumnSchema]};
+  MSDBSchema *expectedSchema = @{kMSAppDocumentTableName : [MSDBDocumentStore columnsSchema]};
   NSDictionary *expectedColumnIndexes = @{
     kMSAppDocumentTableName : @{
       kMSIdColumnName : @(0),
@@ -41,16 +37,15 @@
       kMSExpirationTimeColumnName : @(5),
       kMSDownloadTimeColumnName : @(6),
       kMSOperationTimeColumnName : @(7),
-      kMSPendingDownloadColumnName : @(8)
+      kMSPendingOperationColumnName : @(8)
     }
   };
   OCMStub([MSDBStorage columnsIndexes:expectedSchema]).andReturn(expectedColumnIndexes);
-
-  // When
+  
+  // When - TODO change this pattern, already called in setup.
   self.sut = [MSDBDocumentStore new];
 
   // Then
-  OCMVerify([self.sut.dbStorage initWithSchema:expectedSchema version:expectedSchemaVersion filename:kMSDBDocumentFileName]);
   OCMVerify([MSDBStorage columnsIndexes:expectedSchema]);
   XCTAssertEqual([expectedColumnIndexes[kMSAppDocumentTableName][kMSIdColumnName] integerValue], self.sut.idColumnIndex);
   XCTAssertEqual([expectedColumnIndexes[kMSAppDocumentTableName][kMSPartitionColumnName] integerValue], self.sut.partitionColumnIndex);
@@ -63,7 +58,7 @@
                  self.sut.downloadTimeColumnIndex);
   XCTAssertEqual([expectedColumnIndexes[kMSAppDocumentTableName][kMSOperationTimeColumnName] integerValue],
                  self.sut.operationTimeColumnIndex);
-  XCTAssertEqual([expectedColumnIndexes[kMSAppDocumentTableName][kMSPendingDownloadColumnName] integerValue],
+  XCTAssertEqual([expectedColumnIndexes[kMSAppDocumentTableName][kMSPendingOperationColumnName] integerValue],
                  self.sut.pendingOperationColumnIndex);
 }
 
@@ -72,11 +67,12 @@
   // If
   NSString *expectedAccountId = @"Test-account-id";
   NSString *tableName = [NSString stringWithFormat:kMSUserDocumentTableNameFormat, expectedAccountId];
+  
   // When
   [self.sut createUserStorageWithAccountId:expectedAccountId];
 
   // Then
-  OCMVerify([self.dbStorageMock createTable:tableName columnsSchema:[self expectedColumnSchema]]);
+  OCMVerify([self.dbStorageMock createTable:tableName columnsSchema:[MSDBDocumentStore columnsSchema]]);
 }
 
 - (void)testDeletionOfUserLevelTable {
@@ -92,16 +88,8 @@
   OCMVerify([self.dbStorageMock dropTable:userTableName]);
 }
 
-- (MSDBColumnsSchema *)expectedColumnSchema {
-
-  // TODO create composite key for partition and the document id
-  return @[
-    @{kMSIdColumnName : @[ kMSSQLiteTypeInteger, kMSSQLiteConstraintPrimaryKey, kMSSQLiteConstraintAutoincrement ]},
-    @{kMSPartitionColumnName : @[ kMSSQLiteTypeText, kMSSQLiteConstraintNotNull ]},
-    @{kMSDocumentIdColumnName : @[ kMSSQLiteTypeText, kMSSQLiteConstraintNotNull ]}, @{kMSDocumentColumnName : @[ kMSSQLiteTypeText ]},
-    @{kMSETagColumnName : @[ kMSSQLiteTypeText ]}, @{kMSExpirationTimeColumnName : @[ kMSSQLiteTypeInteger ]},
-    @{kMSDownloadTimeColumnName : @[ kMSSQLiteTypeInteger ]}, @{kMSOperationTimeColumnName : @[ kMSSQLiteTypeInteger ]},
-    @{kMSPendingDownloadColumnName : @[ kMSSQLiteTypeText ]}
-  ];
+- (void)testInsertDocumentIntoTable {
+  
 }
+
 @end
