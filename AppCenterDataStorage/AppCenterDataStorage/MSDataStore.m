@@ -235,14 +235,12 @@ static dispatch_once_t onceToken;
                    completionHandler:completionHandler];
 }
 
-- (void)completeForDisabledError:(NSString *)operation
-                      documentId:(NSString *)documentId
-               completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
+- (NSError *)generateDisabledError:(NSString *)operation documentId:(NSString *)documentId {
   NSError *error = [[NSError alloc] initWithDomain:kMSACErrorDomain
                                               code:MSACDisabledErrorCode
                                           userInfo:@{NSLocalizedDescriptionKey : kMSACDisabledErrorDesc}];
   MSLogError([MSDataStore logTag], @"Not able to %@ the document ID:%@ with error:%@", operation, documentId, [error description]);
-  completionHandler([[MSDocumentWrapper alloc] initWithError:error documentId:documentId]);
+  return error;
 }
 
 - (void)readWithPartition:(NSString *)partition
@@ -252,7 +250,8 @@ static dispatch_once_t onceToken;
         completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
   @synchronized(self) {
     if (![self canBeUsed] || ![self isEnabled]) {
-      [self completeForDisabledError:@"read" documentId:documentId completionHandler:completionHandler];
+      NSError *error = [self generateDisabledError:@"read" documentId:documentId];
+      completionHandler([[MSDocumentWrapper alloc] initWithError:error documentId:documentId]);
       return;
     }
     [self performOperationForPartition:partition
@@ -320,10 +319,7 @@ static dispatch_once_t onceToken;
 
   @synchronized(self) {
     if (![self canBeUsed] || ![self isEnabled]) {
-      NSError *error = [[NSError alloc] initWithDomain:kMSACErrorDomain
-                                                  code:MSACDisabledErrorCode
-                                              userInfo:@{NSLocalizedDescriptionKey : kMSACDisabledErrorDesc}];
-      MSLogError([MSDataStore logTag], @"Not able to delete the document ID:%@ with error:%@", documentId, [error description]);
+      NSError *error = [self generateDisabledError:@"delete" documentId:documentId];
       completionHandler([[MSDataSourceError alloc] initWithError:error errorCode:MSACDocumentUnknownErrorCode]);
       return;
     }
@@ -358,7 +354,8 @@ static dispatch_once_t onceToken;
 
   @synchronized(self) {
     if (![self canBeUsed] || ![self isEnabled]) {
-      [self completeForDisabledError:@"create or replace" documentId:documentId completionHandler:completionHandler];
+      NSError *error = [self generateDisabledError:@"create or replace" documentId:documentId];
+      completionHandler([[MSDocumentWrapper alloc] initWithError:error documentId:documentId]);
       return;
     }
 
