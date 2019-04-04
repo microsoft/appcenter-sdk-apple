@@ -250,11 +250,9 @@ static dispatch_once_t onceToken;
 }
 
 - (void)finishInitialize {
-  if (!self.resetAuthTokenRequired) {
-    return;
+  if (self.resetAuthTokenRequired) {
+    [self setAuthToken:nil withAccountId:nil expiresOn:nil];
   }
-  self.resetAuthTokenRequired = YES;
-  [self setAuthToken:nil withAccountId:nil expiresOn:nil];
 }
 
 - (void)preventResetAuthTokenAfterStart {
