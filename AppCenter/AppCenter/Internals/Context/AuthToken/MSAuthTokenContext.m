@@ -69,7 +69,7 @@ static dispatch_once_t onceToken;
     NSDate *newTokenStartDate = [NSDate date];
 
     // If there is a gap between tokens.
-    if (lastEntry.expiresOn && [newTokenStartDate laterDate:(NSDate * __nonnull) lastEntry.expiresOn]) {
+    if (lastEntry.expiresOn && [newTokenStartDate compare:(NSDate * __nonnull) lastEntry.expiresOn] == NSOrderedDescending) {
 
       // If the account is the same or becomes anonymous.
       if (!isNewUser || authToken == nil) {
