@@ -31,13 +31,13 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)deleteUserStorageWithAccountId:(NSString *)accountId;
 
 /**
- * Create table.
+ * Create a user table for the given account Id.
  *
  * @param accountId The logged in user id.
  *
- * @return YES if the table was created successfully, NO otherwise.
+ * @return YES if the table was created for this user successfully, NO otherwise.
  */
-- (NSUInteger)createUserStorageWithAccountId:(NSString *)accountId;
+- (BOOL)createUserStorageWithAccountId:(NSString *)accountId;
 
 @end
 

@@ -30,7 +30,7 @@
 
   // If
   NSUInteger expectedSchemaVersion = 1;
-  MSDBSchema *expectedSchema = @{kMSAppDocumentTableName : [self expectedTableSchema]};
+  MSDBSchema *expectedSchema = @{kMSAppDocumentTableName : [self expectedColumnSchema]};
   NSDictionary *expectedColumnIndexes = @{
     kMSAppDocumentTableName : @{
       kMSIdColumnName : @(0),
@@ -67,21 +67,19 @@
                  self.sut.pendingOperationColumnIndex);
 }
 
-- (void)testCreateOfUserLevelTable {
+- (void)testCreationOfUserLevelTable {
 
   // If
   NSString *expectedAccountId = @"Test-account-id";
-  MSDBSchema *expectedSchema =
-      @{[NSString stringWithFormat:kMSUserDocumentTableNameFormat, expectedAccountId] : [self expectedTableSchema]};
-
+  NSString *tableName = [NSString stringWithFormat:kMSUserDocumentTableNameFormat, expectedAccountId];
   // When
   [self.sut createUserStorageWithAccountId:expectedAccountId];
 
   // Then
-  OCMVerify([self.dbStorageMock createTablesWithSchema:expectedSchema]);
+  OCMVerify([self.dbStorageMock createTable:tableName columnsSchema:[self expectedColumnSchema]]);
 }
 
-- (void)testDeleteOfUserLevelTable {
+- (void)testDeletionOfUserLevelTable {
 
   // If
   NSString *expectedAccountId = @"Test-account-id";
@@ -94,7 +92,7 @@
   OCMVerify([self.dbStorageMock dropTable:userTableName]);
 }
 
-- (NSArray<NSDictionary<NSString *, NSArray<NSString *> *> *> *)expectedTableSchema {
+- (MSDBColumnsSchema *)expectedColumnSchema {
 
   // TODO create composite key for partition and the document id
   return @[

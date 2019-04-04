@@ -62,6 +62,8 @@
 }
 
 - (BOOL)dropTable:(NSString *)tableName {
+
+  // TODO we probably don't need to check for existance we can let it fail and just report success in this case.
   return [self executeQueryUsingBlock:^int(void *db) {
            if ([MSDBStorage tableExists:tableName inOpenedDatabase:db]) {
              NSString *deleteQuery = [NSString stringWithFormat:@"DROP TABLE \"%@\";", tableName];
@@ -77,11 +79,32 @@
          }] == SQLITE_OK;
 }
 
-- (NSUInteger)createTablesWithSchema:(MSDBSchema *)schema {
-  return [self executeQueryUsingBlock:^int(void *db) {
-    // Create tables based on the schema.
-    return (int)[MSDBStorage createTablesWithSchema:schema inOpenedDatabase:db];
-  }];
+- (BOOL)createTable:(NSString *)tableName columnsSchema:(MSDBColumnsSchema *)columnsSchema {
+  NSString *createQuery =
+      [NSString stringWithFormat:@"CREATE TABLE \"%@\" (%@);", tableName, [MSDBStorage columnsQueryFromColumnsSchema:columnsSchema]];
+  int result = [self executeNonSelectionQuery:createQuery];
+
+  // TODO Handle no table to create error.
+  if (result == SQLITE_OK) {
+    MSLogVerbose([MSAppCenter logTag], @"Table %@ has been created", tableName);
+  } else {
+    MSLogError([MSAppCenter logTag], @"Failed to created the table %@", tableName);
+  }
+  return result;
+}
+
++ (NSString *)columnsQueryFromColumnsSchema:(MSDBColumnsSchema *)columnsSchema {
+  NSMutableArray *columnQueries = [NSMutableArray new];
+
+  // Browse columns.
+  for (NSUInteger i = 0; i < columnsSchema.count; i++) {
+    NSString *columnName = columnsSchema[i].allKeys[0];
+
+    // Compute column query.
+    [columnQueries
+        addObject:[NSString stringWithFormat:@"\"%@\" %@", columnName, [columnsSchema[i][columnName] componentsJoinedByString:@" "]]];
+  }
+  return [columnQueries componentsJoinedByString:@", "];
 }
 
 + (NSUInteger)createTablesWithSchema:(MSDBSchema *)schema inOpenedDatabase:(void *)db {
@@ -94,21 +117,10 @@
     if ([self tableExists:tableName inOpenedDatabase:db]) {
       continue;
     }
-    NSMutableArray *columnQueries = [NSMutableArray new];
-    NSArray<NSDictionary<NSString *, NSArray<NSString *> *> *> *columns = schema[tableName];
-
-    // Browse columns.
-    for (NSUInteger i = 0; i < columns.count; i++) {
-      NSString *columnName = columns[i].allKeys[0];
-
-      // Compute column query.
-      [columnQueries
-          addObject:[NSString stringWithFormat:@"\"%@\" %@", columnName, [columns[i][columnName] componentsJoinedByString:@" "]]];
-    }
 
     // Compute table query.
-    [tableQueries
-        addObject:[NSString stringWithFormat:@"CREATE TABLE \"%@\" (%@);", tableName, [columnQueries componentsJoinedByString:@", "]]];
+    [tableQueries addObject:[NSString stringWithFormat:@"CREATE TABLE \"%@\" (%@);", tableName,
+                                                       [MSDBStorage columnsQueryFromColumnsSchema:schema[tableName]]]];
   }
 
   // Create the tables.

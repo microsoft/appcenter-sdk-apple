@@ -19,7 +19,8 @@ NS_ASSUME_NONNULL_BEGIN
  *           ...
  *        };
  */
-typedef NSDictionary<NSString *, NSArray<NSDictionary<NSString *, NSArray<NSString *> *> *> *> MSDBSchema;
+typedef NSArray<NSDictionary<NSString *, NSArray<NSString *> *> *> MSDBColumnsSchema;
+typedef NSDictionary<NSString *, MSDBColumnsSchema *> MSDBSchema;
 
 // SQLite types
 static NSString *const kMSSQLiteTypeText = @"TEXT";
@@ -83,21 +84,12 @@ static NSString *const kMSSQLiteConstraintAutoincrement = @"AUTOINCREMENT";
 /**
  * Creates tables within an existing database
  *
- * @param schema Schema describing the table structure.
- * @param db database instance.
+ * @param tableName Table name.
+ * @param columnsSchema Schema describing the columns structure.
  *
  * @return operation status.
  */
-+ (NSUInteger)createTablesWithSchema:(MSDBSchema *)schema inOpenedDatabase:(void *)db;
-
-/**
- * Creates tables within an existing database
- *
- * @param schema Schema describing the table structure.
- *
- * @return operation status.
- */
-- (NSUInteger)createTablesWithSchema:(MSDBSchema *)schema;
+- (BOOL)createTable:(NSString *)tableName columnsSchema:(MSDBColumnsSchema *)columnsSchema;
 
 /**
  * Deletes table within an existing database

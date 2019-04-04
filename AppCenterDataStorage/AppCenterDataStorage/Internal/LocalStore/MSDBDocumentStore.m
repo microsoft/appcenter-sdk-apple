@@ -25,7 +25,7 @@ static const NSUInteger kMSSchemaVersion = 1;
   /*
    * DO NOT modify schema without a migration plan and bumping database version.
    */
-  MSDBSchema *schema = @{kMSAppDocumentTableName : [MSDBDocumentStore tableSchema]};
+  MSDBSchema *schema = @{kMSAppDocumentTableName : [MSDBDocumentStore columnsSchema]};
   if ((self = [super init])) {
     self.dbStorage = [[MSDBStorage alloc] initWithSchema:schema version:kMSSchemaVersion filename:kMSDBDocumentFileName];
     NSDictionary *columnIndexes = [MSDBStorage columnsIndexes:schema];
@@ -51,11 +51,11 @@ static const NSUInteger kMSSchemaVersion = 1;
   return YES;
 }
 
-- (NSUInteger)createUserStorageWithAccountId:(NSString *)accountId {
-  MSDBSchema *schema = @{[NSString stringWithFormat:kMSUserDocumentTableNameFormat, accountId] : [MSDBDocumentStore tableSchema]};
+- (BOOL)createUserStorageWithAccountId:(NSString *)accountId {
 
   // Create table based on the schema.
-  return (int)[self.dbStorage createTablesWithSchema:schema];
+  return [self.dbStorage createTable:[NSString stringWithFormat:kMSUserDocumentTableNameFormat, accountId]
+                       columnsSchema:[MSDBDocumentStore columnsSchema]];
 }
 
 - (BOOL)deleteUserStorageWithAccountId:(NSString *)accountId {
@@ -63,7 +63,7 @@ static const NSUInteger kMSSchemaVersion = 1;
   return [self.dbStorage dropTable:tableName];
 }
 
-+ (NSArray<NSDictionary<NSString *, NSArray<NSString *> *> *> *)tableSchema {
++ (MSDBColumnsSchema *)columnsSchema {
 
   // TODO create composite key for partition and the document id
   return @[
