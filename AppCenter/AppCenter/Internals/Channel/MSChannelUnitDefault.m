@@ -13,6 +13,7 @@
 #import "MSDeviceTracker.h"
 #import "MSStorage.h"
 #import "MSUtility+StringFormatting.h"
+#import "MSLogger.h"
 
 @implementation MSChannelUnitDefault
 
@@ -96,6 +97,7 @@
 
 - (void)authTokenContext:(MSAuthTokenContext *)__unused authTokenContext didSetAuthToken:(nullable NSString *)__unused authToken {
   dispatch_async(self.logsDispatchQueue, ^{
+    MSLogInfo([MSAppCenter logTag], @"New auth token received, flushing queue.");
     [self flushQueue];
   });
 }
