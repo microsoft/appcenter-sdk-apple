@@ -1,13 +1,12 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import <Foundation/Foundation.h>
-
+#import "MSAuthTokenContextDelegate.h"
 #import "MSChannelUnitDefault.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MSChannelUnitDefault ()
+@interface MSChannelUnitDefault () <MSAuthTokenContextDelegate>
 
 @property(nonatomic) NSHashTable *pausedIdentifyingObjects;
 

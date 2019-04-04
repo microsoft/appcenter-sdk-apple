@@ -15,6 +15,7 @@
 #import "MSWriteOptions.h"
 #import "MSDataStoreErrors.h"
 #import "MSUtility+Date.h"
+#import "MSDocumentUtils.h"
 
 static const NSUInteger kMSSchemaVersion = 1;
 
@@ -27,7 +28,7 @@ static const NSUInteger kMSSchemaVersion = 1;
   /*
    * DO NOT modify schema without a migration plan and bumping database version.
    */
-  MSDBSchema *schema = @{kMSAppDocumentTableName : [MSDBDocumentStore tableSchema]};
+  MSDBSchema *schema = @{kMSAppDocumentTableName : [MSDBDocumentStore columnsSchema]};
   if ((self = [super init])) {
     self.dbStorage = [[MSDBStorage alloc] initWithSchema:schema version:kMSSchemaVersion filename:kMSDBDocumentFileName];
     NSDictionary *columnIndexes = [MSDBStorage columnsIndexes:schema];
@@ -53,11 +54,11 @@ static const NSUInteger kMSSchemaVersion = 1;
   return YES;
 }
 
-- (NSUInteger)createUserStorageWithAccountId:(NSString *)accountId {
-  MSDBSchema *schema = @{[NSString stringWithFormat:kMSUserDocumentTableNameFormat, accountId] : [MSDBDocumentStore tableSchema]};
+- (BOOL)createUserStorageWithAccountId:(NSString *)accountId {
 
   // Create table based on the schema.
-  return (int)[self.dbStorage createTablesWithSchema:schema];
+  return [self.dbStorage createTable:[NSString stringWithFormat:kMSUserDocumentTableNameFormat, accountId]
+                       columnsSchema:[MSDBDocumentStore columnsSchema]];
 }
 
 - (BOOL)deleteUserStorageWithAccountId:(NSString *)accountId {
@@ -96,16 +97,8 @@ static const NSUInteger kMSSchemaVersion = 1;
   // Deserialize.
   NSString *jsonString = result[0][self.documentColumnIndex];
   NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
-  NSError *deserializeError;
-  NSDictionary *documentDictionary = [NSJSONSerialization JSONObjectWithData:jsonData
-                                                       options:0
-                                                         error:&deserializeError];
-  if (deserializeError) {
-    MSLogWarning([MSDataStore logTag], @"Error deserializing data:%@", [deserializeError description]);
-    return [[MSDocumentWrapper alloc] initWithError:deserializeError documentId:documentId];
-  }
-  id<MSSerializableDocument> document = [(id<MSSerializableDocument>)[documentType alloc] initFromDictionary:documentDictionary];
-  return [[MSDocumentWrapper alloc] initWithDeserializedValue:document jsonValue:jsonString partition:partition documentId:documentId eTag:result[0][self.eTagColumnIndex] lastUpdatedDate:result[0][self.operationTimeColumnIndex]];
+  NSDate *lastUpdatedDate = [MSUtility dateFromISO8601:result[0][self.operationTimeColumnIndex]];
+  return [MSDocumentUtils documentWrapperFromDocumentData:jsonData documentType:documentType eTag:result[0][self.eTagColumnIndex] lastUpdatedDate:lastUpdatedDate partition:partition documentId:documentId];
 }
 
 - (void)deleteDocumentWithPartition:(NSString *)partition
@@ -115,7 +108,7 @@ static const NSUInteger kMSSchemaVersion = 1;
   //TODO implement this.
 }
 
-+ (NSArray<NSDictionary<NSString *, NSArray<NSString *> *> *> *)tableSchema {
++ (MSDBColumnsSchema *)columnsSchema {
 
   // TODO create composite key for partition and the document id
   return @[
