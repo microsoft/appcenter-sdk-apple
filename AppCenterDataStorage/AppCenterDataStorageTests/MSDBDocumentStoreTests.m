@@ -11,9 +11,21 @@
 
 @interface MSDBDocumentStoreTests : XCTestCase
 
+@property(nonatomic) MSDBDocumentStore *sut;
+
 @end
 
 @implementation MSDBDocumentStoreTests
+
+- (void)setUp {
+  [super setUp];
+  self.sut = [MSDBDocumentStore new];
+}
+
+- (void)tearDown {
+  [super tearDown];
+  [self.sut.dbStorage dropTable:kMSAppDocumentTableName];
+}
 
 - (void)testCreationOfApplicationLevelTable {
 
@@ -34,21 +46,18 @@
   };
   OCMStub([MSDBStorage columnsIndexes:expectedSchema]).andReturn(expectedColumnIndexes);
 
-  // When
-  MSDBDocumentStore *sut = [MSDBDocumentStore new];
-
-  // Then
+  // When, Then
   OCMVerify([MSDBStorage columnsIndexes:expectedSchema]);
-  XCTAssertEqual([expectedColumnIndexes[kMSAppDocumentTableName][kMSIdColumnName] integerValue], sut.idColumnIndex);
-  XCTAssertEqual([expectedColumnIndexes[kMSAppDocumentTableName][kMSPartitionColumnName] integerValue], sut.partitionColumnIndex);
-  XCTAssertEqual([expectedColumnIndexes[kMSAppDocumentTableName][kMSDocumentIdColumnName] integerValue], sut.documentIdColumnIndex);
-  XCTAssertEqual([expectedColumnIndexes[kMSAppDocumentTableName][kMSDocumentColumnName] integerValue], sut.documentColumnIndex);
-  XCTAssertEqual([expectedColumnIndexes[kMSAppDocumentTableName][kMSETagColumnName] integerValue], sut.eTagColumnIndex);
-  XCTAssertEqual([expectedColumnIndexes[kMSAppDocumentTableName][kMSExpirationTimeColumnName] integerValue], sut.expirationTimeColumnIndex);
-  XCTAssertEqual([expectedColumnIndexes[kMSAppDocumentTableName][kMSDownloadTimeColumnName] integerValue], sut.downloadTimeColumnIndex);
-  XCTAssertEqual([expectedColumnIndexes[kMSAppDocumentTableName][kMSOperationTimeColumnName] integerValue], sut.operationTimeColumnIndex);
+  XCTAssertEqual([expectedColumnIndexes[kMSAppDocumentTableName][kMSIdColumnName] integerValue], self.sut.idColumnIndex);
+  XCTAssertEqual([expectedColumnIndexes[kMSAppDocumentTableName][kMSPartitionColumnName] integerValue], self.sut.partitionColumnIndex);
+  XCTAssertEqual([expectedColumnIndexes[kMSAppDocumentTableName][kMSDocumentIdColumnName] integerValue], self.sut.documentIdColumnIndex);
+  XCTAssertEqual([expectedColumnIndexes[kMSAppDocumentTableName][kMSDocumentColumnName] integerValue], self.sut.documentColumnIndex);
+  XCTAssertEqual([expectedColumnIndexes[kMSAppDocumentTableName][kMSETagColumnName] integerValue], self.sut.eTagColumnIndex);
+  XCTAssertEqual([expectedColumnIndexes[kMSAppDocumentTableName][kMSExpirationTimeColumnName] integerValue], self.sut.expirationTimeColumnIndex);
+  XCTAssertEqual([expectedColumnIndexes[kMSAppDocumentTableName][kMSDownloadTimeColumnName] integerValue], self.sut.downloadTimeColumnIndex);
+  XCTAssertEqual([expectedColumnIndexes[kMSAppDocumentTableName][kMSOperationTimeColumnName] integerValue], self.sut.operationTimeColumnIndex);
   XCTAssertEqual([expectedColumnIndexes[kMSAppDocumentTableName][kMSPendingOperationColumnName] integerValue],
-                 sut.pendingOperationColumnIndex);
+                 self.sut.pendingOperationColumnIndex);
 }
 
 - (void)testCreationOfUserLevelTable {
@@ -59,9 +68,8 @@
 
   // When
   id dbStorageMock = OCMClassMock([MSDBStorage class]);
-  MSDBDocumentStore *sut = [MSDBDocumentStore new];
-  sut.dbStorage = dbStorageMock;
-  [sut createUserStorageWithAccountId:expectedAccountId];
+  self.sut.dbStorage = dbStorageMock;
+  [self.sut createUserStorageWithAccountId:expectedAccountId];
 
   // Then
   OCMVerify([dbStorageMock createTable:tableName columnsSchema:[MSDBDocumentStore columnsSchema]]);
@@ -75,9 +83,8 @@
 
   // When
   id dbStorageMock = OCMClassMock([MSDBStorage class]);
-  MSDBDocumentStore *sut = [MSDBDocumentStore new];
-  sut.dbStorage = dbStorageMock;
-  [sut deleteUserStorageWithAccountId:expectedAccountId];
+  self.sut.dbStorage = dbStorageMock;
+  [self.sut deleteUserStorageWithAccountId:expectedAccountId];
 
   // Then
   OCMVerify([dbStorageMock dropTable:userTableName]);
@@ -90,8 +97,7 @@
                                                                    documentType:[MSTestDocument class]];
 
   // When
-  MSDBDocumentStore *sut = [MSDBDocumentStore new];
-  BOOL result = [sut upsertWithPartition:MSDataStoreAppDocumentsPartition
+  BOOL result = [self.sut upsertWithPartition:MSDataStoreAppDocumentsPartition
                          documentWrapper:documentWrapper
                                operation:@"CREATE"
                                  options:[[MSReadOptions alloc] initWithDeviceTimeToLive:1]];
@@ -104,11 +110,10 @@
 - (void)testDeleteWithPartitionForNonExistentDocument {
 
   // If, When
-  MSDBDocumentStore *sut = [MSDBDocumentStore new];
-  BOOL result = [sut deleteWithPartition:MSDataStoreUserDocumentsPartition documentId:@"documentid"];
+  BOOL result = [self.sut deleteWithPartition:MSDataStoreUserDocumentsPartition documentId:@"some-document-id"];
 
-  // Then
-  XCTAssertFalse(result);
+  // Then, should succeed but be a no-op
+  XCTAssertTrue(result);
 }
 
 - (void)testDeleteWithPartitionForExistingDocument {
@@ -116,14 +121,13 @@
   // If
   MSDocumentWrapper *documentWrapper = [MSDocumentUtils documentWrapperFromData:[MSTestDocument getDocumentFixture:@"validTestDocument"]
                                                                    documentType:[MSTestDocument class]];
-  MSDBDocumentStore *sut = [MSDBDocumentStore new];
-  [sut upsertWithPartition:MSDataStoreAppDocumentsPartition
+  [self.sut upsertWithPartition:MSDataStoreAppDocumentsPartition
            documentWrapper:documentWrapper
                  operation:@"CREATE"
                    options:[[MSReadOptions alloc] initWithDeviceTimeToLive:1]];
 
   // When
-  BOOL result = [sut deleteWithPartition:MSDataStoreUserDocumentsPartition documentId:documentWrapper.documentId];
+  BOOL result = [self.sut deleteWithPartition:MSDataStoreUserDocumentsPartition documentId:documentWrapper.documentId];
 
   // Then
   XCTAssertTrue(result);
