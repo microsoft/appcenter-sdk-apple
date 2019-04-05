@@ -76,7 +76,9 @@
   [self.sut createUserStorageWithAccountId:expectedAccountId];
 
   // Then
-  OCMVerify([self.dbStorageMock createTable:tableName columnsSchema:[self expectedColumnSchema]]);
+  OCMVerify([self.dbStorageMock createTable:tableName
+                              columnsSchema:[self expectedColumnSchema]
+                    uniqueColumnsConstraint:[self expectedUniqueColumnsConstraint]]);
 }
 
 - (void)testDeletionOfUserLevelTable {
@@ -104,4 +106,9 @@
     @{kMSPendingDownloadColumnName : @[ kMSSQLiteTypeText ]}
   ];
 }
+
+- (NSArray<NSString *> *)expectedUniqueColumnsConstraint {
+  return @[ kMSPartitionColumnName, kMSDocumentIdColumnName ];
+}
+
 @end
