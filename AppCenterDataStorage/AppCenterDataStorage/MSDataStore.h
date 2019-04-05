@@ -20,14 +20,14 @@ NS_ASSUME_NONNULL_BEGIN
  * User partition.
  * An authenticated user can read/write documents in this partition.
  */
-static NSString *const MSDataStoreUserDocumentsPartition = @"user";
+static NSString *const kMSDataStoreUserDocumentsPartition = @"user";
 
 /**
  * Application partition.
  * Everyone can read documents in this partition.
  * Writes not allowed via the SDK.
  */
-static NSString *const MSDataStoreAppDocumentsPartition = @"readonly";
+static NSString *const kMSDataStoreAppDocumentsPartition = @"readonly";
 
 /**
  * Time to live constants

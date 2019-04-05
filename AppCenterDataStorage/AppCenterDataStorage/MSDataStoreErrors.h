@@ -31,6 +31,7 @@ NS_ENUM(NSInteger){MSACDocumentUnknownErrorCode = 0,
                    MSACDocumentInternalServerErrorErrorCode = 500,
                    MSACDocumentServiceUnavailableErrorCode = 503};
 
-NS_ENUM(NSInteger){MSACDataStoreErrorJSONSerializationFailed = 620000, MSACDataStoreErrorHTTPError = 620001, MSACDataStoreErrorLocalDocumentNotFound = 620002, MSACDataStoreErrorLocalDocumentExpired = 620003};
+NS_ENUM(NSInteger){MSACDataStoreErrorJSONSerializationFailed = -620000, MSACDataStoreErrorHTTPError = -620001,
+                   MSACDataStoreErrorLocalDocumentNotFound = -620002, MSACDataStoreErrorLocalDocumentExpired = -620003};
 
 NS_ASSUME_NONNULL_END

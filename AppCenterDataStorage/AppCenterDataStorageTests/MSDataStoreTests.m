@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 #import "MSAppCenter.h"
+#import "MSAuthTokenContext.h"
 #import "MSChannelGroupProtocol.h"
 #import "MSConstants+Internal.h"
 #import "MSCosmosDb.h"
@@ -11,11 +12,13 @@
 #import "MSDataStoreErrors.h"
 #import "MSDataStoreInternal.h"
 #import "MSDataStorePrivate.h"
+#import "MSDocumentStore.h"
 #import "MSDocumentWrapper.h"
 #import "MSHttpClient.h"
 #import "MSHttpTestUtil.h"
 #import "MSMockUserDefaults.h"
 #import "MSPaginatedDocuments.h"
+#import "MSReadOptions.h"
 #import "MSServiceAbstract.h"
 #import "MSServiceAbstractProtected.h"
 #import "MSTestDocument.h"
@@ -24,9 +27,6 @@
 #import "MSTokenExchangePrivate.h"
 #import "MSTokenResult.h"
 #import "MSTokensResponse.h"
-#import "MSDocumentStore.h"
-#import "MSReadOptions.h"
-#import "MSAuthTokenContext.h"
 
 @interface MSFakeSerializableDocument : NSObject <MSSerializableDocument>
 - (instancetype)initFromDictionary:(NSDictionary *)dictionary;
@@ -912,6 +912,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                                          completionHandler:OCMOCK_ANY]);
 }
 
+// TODO: Offline mode isn't available. Rename and revise the test to use a real network connectivity.
 - (void)testReadsFromLocalStoreInOfflineMode {
 
   // If the module is started and set to offline mode.
@@ -922,7 +923,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   [MSDataStore setOfflineModeEnabled:YES];
   XCTestExpectation *expectation = [self expectationWithDescription:@""];
   NSString *accountId = @"dabe069b-ee80-4ca6-8657-9128a4600958";
-  NSString *fullPartitionName = [NSString stringWithFormat:@"%@-%@", kMSUserPartitionKey, accountId];
+  NSString *fullPartitionName = [NSString stringWithFormat:@"%@-%@", kMSDataStoreUserDocumentsPartition, accountId];
   // If the auth context account id is not nil
   id authTokenContextMock = OCMClassMock([MSAuthTokenContext class]);
   OCMStub([authTokenContextMock sharedInstance]).andReturn(authTokenContextMock);
@@ -934,22 +935,30 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   Class documentType = [NSString class];
   MSDocumentWrapper *readDocument = [MSDocumentWrapper new];
   self.sut.documentStore = OCMProtocolMock(@protocol(MSDocumentStore));
-  OCMStub([self.sut.documentStore readWithPartition:fullPartitionName documentId:documentId documentType:documentType readOptions:OCMOCK_ANY]).andReturn(readDocument);
+  OCMStub([self.sut.documentStore readWithPartition:fullPartitionName
+                                         documentId:documentId
+                                       documentType:documentType
+                                        readOptions:OCMOCK_ANY])
+      .andReturn(readDocument);
 
   // When
-  [MSDataStore readWithPartition:kMSUserPartitionKey documentId:documentId documentType:documentType readOptions:[[MSReadOptions alloc] initWithDeviceTimeToLive:3600] completionHandler:^(MSDocumentWrapper * _Nonnull document) {
-
-    // Then
-    XCTAssertEqual(readDocument, document);
-    [expectation fulfill];
-  }];
+  [MSDataStore readWithPartition:kMSDataStoreUserDocumentsPartition
+                      documentId:documentId
+                    documentType:documentType
+                     readOptions:[[MSReadOptions alloc] initWithDeviceTimeToLive:3600]
+               completionHandler:^(MSDocumentWrapper *_Nonnull document) {
+                 // Then
+                 XCTAssertEqual(readDocument, document);
+                 [expectation fulfill];
+               }];
 
   // Then
-  [self waitForExpectationsWithTimeout:5 handler:^(NSError * _Nullable error) {
-    if (error) {
-      XCTFail(@"Expectation Failed with error: %@", error);
-    }
-  }];
+  [self waitForExpectationsWithTimeout:5
+                               handler:^(NSError *_Nullable error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
 }
 
 - (void)testListSingleDocument {

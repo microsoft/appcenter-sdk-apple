@@ -30,16 +30,18 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @returns A document.
  */
-- (MSDocumentWrapper *)readWithPartition:(NSString *)partition documentId:(NSString *)documentId documentType:(Class)documentType readOptions:(MSReadOptions *)readOptions;
+- (MSDocumentWrapper *)readWithPartition:(NSString *)partition
+                              documentId:(NSString *)documentId
+                            documentType:(Class)documentType
+                             readOptions:(MSReadOptions *)readOptions;
 
 /**
- * Delete a document from loacl storage.
+ * Delete a document from local storage.
  *
  * @param partition The partition key.
  * @param documentId The document id.
  */
-- (void)deleteDocumentWithPartition:(NSString *)partition
-                         documentId:(NSString *)documentId;
+- (void)deleteDocumentWithPartition:(NSString *)partition documentId:(NSString *)documentId;
 
 /**
  * Delete table.

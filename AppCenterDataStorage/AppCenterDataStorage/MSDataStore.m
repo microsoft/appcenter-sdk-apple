@@ -239,7 +239,7 @@ static dispatch_once_t onceToken;
 - (void)readWithPartition:(NSString *)partition
                documentId:(NSString *)documentId
              documentType:(Class)documentType
-              readOptions:(MSReadOptions *_Nullable) readOptions
+              readOptions:(MSReadOptions *_Nullable)readOptions
         completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
   @synchronized(self) {
     if (![self canBeUsed] || ![self isEnabled]) {
@@ -248,32 +248,44 @@ static dispatch_once_t onceToken;
       return;
     }
   }
+  // FIXME: Check real network connection instad of offline mode.
   if ([self isOfflineModeEnabled]) {
-    [self readFromLocalStoreWithPartition:partition documentId:documentId documentType:documentType readOptions:readOptions completionHandler:completionHandler];
+    [self readFromLocalStoreWithPartition:partition
+                               documentId:documentId
+                             documentType:documentType
+                              readOptions:readOptions
+                        completionHandler:completionHandler];
   } else {
-    [self readFromCosmosDbWithPartition:partition documentId:documentId documentType:documentType readOptions:readOptions completionHandler:completionHandler];
+    [self readFromCosmosDbWithPartition:partition
+                             documentId:documentId
+                           documentType:documentType
+                            readOptions:readOptions
+                      completionHandler:completionHandler];
   }
 }
 
 - (void)readFromLocalStoreWithPartition:(NSString *)partition
-                           documentId:(NSString *)documentId
-                         documentType:(Class)documentType
-                          readOptions:(MSReadOptions *)readOptions
-                    completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
-  if ([partition isEqualToString:kMSUserPartitionKey]) {
+                             documentId:(NSString *)documentId
+                           documentType:(Class)documentType
+                            readOptions:(MSReadOptions *)readOptions
+                      completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
+  if ([partition isEqualToString:kMSDataStoreUserDocumentsPartition]) {
     partition = [MSDataStore getFullUserPartitionKey];
   }
   dispatch_async(self.dataStoreDispatchQueue, ^{
-    MSDocumentWrapper *document = [self.documentStore readWithPartition:partition documentId:documentId documentType:documentType readOptions:readOptions];
+    MSDocumentWrapper *document = [self.documentStore readWithPartition:partition
+                                                             documentId:documentId
+                                                           documentType:documentType
+                                                            readOptions:readOptions];
     completionHandler(document);
   });
 }
 
 - (void)readFromCosmosDbWithPartition:(NSString *)partition
-                       documentId:(NSString *)documentId
-                     documentType:(Class)documentType
-                      readOptions:(MSReadOptions *)__unused readOptions
-                completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
+                           documentId:(NSString *)documentId
+                         documentType:(Class)documentType
+                          readOptions:(MSReadOptions *)__unused readOptions
+                    completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
   [self performOperationForPartition:partition
                           documentId:documentId
                           httpMethod:kMSHttpMethodGet
@@ -498,9 +510,10 @@ static dispatch_once_t onceToken;
 }
 
 + (NSString *)getFullUserPartitionKey {
+  // TODO: Read cached token from MSTokenExchange
   NSString *accountId = [MSAuthTokenContext sharedInstance].accountId;
   NSString *suffix = [@"-" stringByAppendingString:(NSString *)accountId];
-  return [kMSUserPartitionKey stringByAppendingString:suffix];
+  return [kMSDataStoreUserDocumentsPartition stringByAppendingString:suffix];
 }
 
 #pragma mark - MSServiceInternal
