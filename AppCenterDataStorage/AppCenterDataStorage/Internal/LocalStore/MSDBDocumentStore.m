@@ -59,7 +59,7 @@ static const NSUInteger kMSSchemaVersion = 1;
                                  documentWrapper.eTag, expirationTime, documentWrapper.lastUpdatedDate, now, operation];
   NSInteger result = [self.dbStorage executeNonSelectionQuery:insertQuery];
   if (result != SQLITE_OK) {
-    MSLogError([MSDataStore logTag], @"Unable to update or replace cached document, SQLite error code: %ld", (long)result);
+    MSLogError([MSDataStore logTag], @"Unable to update or replace stored document, SQLite error code: %ld", (long)result);
   }
   return result == SQLITE_OK;
 }
@@ -69,7 +69,7 @@ static const NSUInteger kMSSchemaVersion = 1;
                                                      kMSPartitionColumnName, partition, kMSDocumentIdColumnName, documentId];
   NSInteger result = [self.dbStorage executeNonSelectionQuery:deleteQuery];
   if (result != SQLITE_OK) {
-    MSLogError([MSDataStore logTag], @"Unable to delete cached document, SQLite error code: %ld", (long)result);
+    MSLogError([MSDataStore logTag], @"Unable to delete stored document, SQLite error code: %ld", (long)result);
   }
   return result == SQLITE_OK;
 }
