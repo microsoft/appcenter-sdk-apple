@@ -1108,7 +1108,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 }
 
 - (void)applicationWillEnterForeground {
-  if ([self started] && [self isEnabled] && ![MS_USER_DEFAULTS objectForKey:kMSUpdateTokenRequestIdKey]) {
+  if (self.canBeUsed && self.isEnabled && ![MS_USER_DEFAULTS objectForKey:kMSUpdateTokenRequestIdKey]) {
     [self startUpdate];
   }
 }
