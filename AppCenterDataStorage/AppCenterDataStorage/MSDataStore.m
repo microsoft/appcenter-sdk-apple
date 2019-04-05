@@ -36,24 +36,9 @@ static NSString *const kMSServiceName = @"DataStorage";
 static NSString *const kMSGroupId = @"DataStorage";
 
 /**
- * CosmosDb document identifier key.
+ * CosmosDb Documents key (for paginated results).
  */
-static NSString *const kMSDocumentIdKey = @"id";
-
-/**
- * CosmosDb document timestamp key.
- */
-static NSString *const kMSDocumentTimestampKey = @"_ts";
-
-/**
- * CosmosDb document eTag key.
- */
-static NSString *const kMSDocumentEtagKey = @"_etag";
-
-/**
- * CosmosDb document key.
- */
-static NSString *const kMSDocumentKey = @"document";
+static NSString *const kMSDocumentsKey = @"Documents";
 
 /**
  * CosmosDb upsert header key.
@@ -272,30 +257,7 @@ static dispatch_once_t onceToken;
                        }
 
                        // Deserialize.
-                       NSError *deserializeError;
-                       NSDictionary *json = [NSJSONSerialization JSONObjectWithData:(NSData * _Nonnull) data
-                                                                            options:0
-                                                                              error:&deserializeError];
-                       if (deserializeError) {
-                         MSLogError([MSDataStore logTag], @"Error deserializing data:%@", [deserializeError localizedDescription]);
-                       }
-                       MSLogDebug([MSDataStore logTag], @"Document json:%@", json);
-
-                       // Create document.
-                       id<MSSerializableDocument> deserializedDocument =
-                           [(id<MSSerializableDocument>)[documentType alloc] initFromDictionary:(NSDictionary *)json[kMSDocumentKey]];
-                       NSTimeInterval interval = [(NSString *)json[kMSDocumentTimestampKey] doubleValue];
-                       NSDate *date = [NSDate dateWithTimeIntervalSince1970:interval];
-                       NSString *eTag = json[kMSDocumentEtagKey];
-                       MSDocumentWrapper *docWrapper = [[MSDocumentWrapper alloc]
-                           initWithDeserializedValue:deserializedDocument
-                                           jsonValue:[[NSString alloc] initWithData:(NSData *)data encoding:NSUTF8StringEncoding]
-                                           partition:partition
-                                          documentId:documentId
-                                                eTag:eTag
-                                     lastUpdatedDate:date];
-                       MSLogDebug([MSDataStore logTag], @"Document created:%@", data);
-                       completionHandler(docWrapper);
+                       completionHandler([MSDocumentUtils documentWrapperFromData:data documentType:documentType]);
                        return;
                      }];
   }
@@ -388,35 +350,8 @@ static dispatch_once_t onceToken;
                        }
 
                        // Deserialize.
-                       NSError *deserializeError;
-                       NSDictionary *json = [NSJSONSerialization JSONObjectWithData:(NSData * _Nonnull) data
-                                                                            options:0
-                                                                              error:&deserializeError];
-                       if (deserializeError) {
-                         MSLogError([MSDataStore logTag], @"Error deserializing data:%@", [deserializeError localizedDescription]);
-                         completionHandler([[MSDocumentWrapper alloc] initWithError:deserializeError documentId:documentId]);
-                         return;
-                       }
-                       MSLogDebug([MSDataStore logTag], @"Document json:%@", json);
-
-                       // Create an instance of Document.
-                       Class aClass = [document class];
-                       id<MSSerializableDocument> deserializedDocument =
-                           [(id<MSSerializableDocument>)[aClass alloc] initFromDictionary:(NSDictionary *)json[kMSDocumentKey]];
-
-                       // Create a document.
-                       NSTimeInterval interval = [(NSString *)json[kMSDocumentTimestampKey] doubleValue];
-                       NSDate *date = [NSDate dateWithTimeIntervalSince1970:interval];
-                       NSString *eTag = json[kMSDocumentEtagKey];
-                       MSDocumentWrapper *docWrapper = [[MSDocumentWrapper alloc]
-                           initWithDeserializedValue:deserializedDocument
-                                           jsonValue:[[NSString alloc] initWithData:(NSData *)data encoding:NSUTF8StringEncoding]
-                                           partition:partition
-                                          documentId:documentId
-                                                eTag:eTag
-                                     lastUpdatedDate:date];
                        MSLogDebug([MSDataStore logTag], @"Document created/replaced with ID: %@", documentId);
-                       completionHandler(docWrapper);
+                       completionHandler([MSDocumentUtils documentWrapperFromData:data documentType:[document class]]);
                        return;
                      }];
   }
@@ -433,7 +368,8 @@ static dispatch_once_t onceToken;
       NSError *error = [[NSError alloc] initWithDomain:kMSACErrorDomain
                                                   code:MSACDisabledErrorCode
                                               userInfo:@{NSLocalizedDescriptionKey : kMSACDisabledErrorDesc}];
-      MSLogError([MSDataStore logTag], @"Not able to list the documents in partition: %@; error: %@", partition, [error localizedDescription]);
+      MSLogError([MSDataStore logTag], @"Not able to list the documents in partition: %@; error: %@", partition,
+                 [error localizedDescription]);
       completionHandler([[MSPaginatedDocuments alloc]
           initWithError:[[MSDataSourceError alloc] initWithError:error errorCode:MSACDocumentUnknownErrorCode]]);
       return;
@@ -462,22 +398,14 @@ static dispatch_once_t onceToken;
                        // Deserialize the list payload and try to get the array of documents.
                        NSError *deserializeError;
                        id jsonPayload = [NSJSONSerialization JSONObjectWithData:(NSData *)data options:0 error:&deserializeError];
-                       NSDictionary *jsonPayloadDict = nil;
-                       NSArray *jsonDocuments = nil;
-                       if (!deserializeError && jsonPayload && [(NSObject *)jsonPayload isKindOfClass:[NSDictionary class]]) {
-                         jsonPayloadDict = (NSDictionary *)jsonPayload;
+                       if (!deserializeError && ![MSDocumentUtils isReferenceDictionaryWithKey:jsonPayload
+                                                                                           key:kMSDocumentsKey
+                                                                                       keyType:[NSArray class]]) {
+                         deserializeError = [[NSError alloc] initWithDomain:kMSACDataStoreErrorDomain
+                                                                       code:MSACDataStoreErrorJSONSerializationFailed
+                                                                   userInfo:@{NSLocalizedDescriptionKey : @"Can't deserialize documents"}];
                        }
-                       if (jsonPayloadDict && [jsonPayloadDict objectForKey:@"Documents"] &&
-                           [(NSObject *)jsonPayloadDict[@"Documents"] isKindOfClass:[NSArray class]]) {
-                         jsonDocuments = jsonPayloadDict[@"Documents"];
-                       }
-                       if (!jsonDocuments) {
-                         if (!deserializeError) {
-                           deserializeError =
-                               [[NSError alloc] initWithDomain:kMSACDataStoreErrorDomain
-                                                          code:MSACDataStoreErrorJSONSerializationFailed
-                                                      userInfo:@{NSLocalizedDescriptionKey : @"Can't deserialize documents"}];
-                         }
+                       if (deserializeError) {
                          MSDataSourceError *dataSourceDeserializeError = [[MSDataSourceError alloc] initWithError:deserializeError];
                          MSPaginatedDocuments *documents = [[MSPaginatedDocuments alloc] initWithError:dataSourceDeserializeError];
                          completionHandler(documents);
@@ -486,30 +414,10 @@ static dispatch_once_t onceToken;
 
                        // Parse the documents.
                        NSMutableArray<MSDocumentWrapper *> *items = [NSMutableArray new];
-                       for (id document in jsonDocuments) {
+                       for (id document in jsonPayload[kMSDocumentsKey]) {
 
-                         // Deserialize current document.
-                         id<MSSerializableDocument> deserializedDocument =
-                             [(id<MSSerializableDocument>)[documentType alloc] initFromDictionary:(NSDictionary *)document];
-
-                         // Create a document wrapper object.
-                         // TODO: handle deserialization error for CosmosDB internal properties here.
-                         NSTimeInterval interval = [(NSString *)document[kMSDocumentTimestampKey] doubleValue];
-                         NSDate *date = [NSDate dateWithTimeIntervalSince1970:interval];
-                         NSString *documentId = document[kMSDocumentIdKey];
-                         NSString *eTag = document[kMSDocumentEtagKey];
-                         NSString *jsonValue;
-                         NSError *error;
-                         NSData *jsonData = [NSJSONSerialization dataWithJSONObject:document options:0 error:&error];
-                         if (!error) {
-                           jsonValue = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-                         }
-                         [items addObject:[[MSDocumentWrapper alloc] initWithDeserializedValue:deserializedDocument
-                                                                                     jsonValue:jsonValue
-                                                                                     partition:partition
-                                                                                    documentId:documentId
-                                                                                          eTag:eTag
-                                                                               lastUpdatedDate:date]];
+                         // Deserialize document.
+                         [items addObject:[MSDocumentUtils documentWrapperFromDictionary:document documentType:documentType]];
                        }
 
                        // Instantiate the first page and return it.
@@ -613,7 +521,7 @@ static dispatch_once_t onceToken;
 #pragma mark - MSAuthTokenContextDelegate
 
 - (void)authTokenContext:(MSAuthTokenContext *)__unused authTokenContext didUpdateUserInformation:(MSUserInformation *)userInfomation {
-  
+
   // TODO: consume the unique account id once provided in authTokenContext.
   NSString *uniqueAccountId = @"unique-account-id";
   if (userInfomation) {
