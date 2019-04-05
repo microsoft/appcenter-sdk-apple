@@ -260,7 +260,6 @@
 		04B61DCE2248F7DB008D0102 /* MSMockKeychainUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSMockKeychainUtil.h; path = ../../AppCenter/AppCenterTests/Util/MSMockKeychainUtil.h; sourceTree = "<group>"; };
 		04B61DD12248F8CD008D0102 /* MSMockUserDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSMockUserDefaults.h; path = ../../AppCenter/AppCenterTests/Util/MSMockUserDefaults.h; sourceTree = "<group>"; };
 		04B61DD22248F8CD008D0102 /* MSMockUserDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSMockUserDefaults.m; path = ../../AppCenter/AppCenterTests/Util/MSMockUserDefaults.m; sourceTree = "<group>"; };
-		1A20ABD32255336600D758FE /* MSHttpTestUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSHttpTestUtil.m; path = ../../AppCenter/AppCenterTests/Util/MSHttpTestUtil.m; sourceTree = "<group>"; };
 		2600123B22273E94007F4D3A /* MSTokenResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSTokenResult.h; sourceTree = "<group>"; };
 		2600123C22273E94007F4D3A /* MSTokensResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSTokensResponse.h; sourceTree = "<group>"; };
 		2600123D22273E94007F4D3A /* MSTokenResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSTokenResult.m; sourceTree = "<group>"; };
@@ -445,14 +444,6 @@
 			name = iOS;
 			sourceTree = "<group>";
 		};
-		350D453722568B0000982E20 /* Recovered References */ = {
-			isa = PBXGroup;
-			children = (
-				1A20ABD32255336600D758FE /* MSHttpTestUtil.m */,
-			);
-			name = "Recovered References";
-			sourceTree = "<group>";
-		};
 		4A1937322251297900459E1E /* LocalStore */ = {
 			isa = PBXGroup;
 			children = (
@@ -483,7 +474,6 @@
 				D33A94531E5B11BB003966DB /* AppCenterDataStorage */,
 				D3AD5EC11E5C4F6A001627AB /* AppCenterDataStorageTests */,
 				D33A94521E5B11BB003966DB /* Products */,
-				350D453722568B0000982E20 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
