@@ -7,8 +7,6 @@
 
 @implementation MSDictionaryDocument
 
-@synthesize dictionary = _dictionary;
-
 - (instancetype)initFromDictionary:(NSDictionary *)dictionary {
   if ((self = [super init])) {
     _dictionary = dictionary;
