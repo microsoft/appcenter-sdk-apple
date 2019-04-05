@@ -2335,43 +2335,43 @@ static NSURL *sfURL;
   return utilityMock;
 }
 
-- (void) test1 {
-    NSString *isEnabledKye = @"MSAppCenterIsEnabled";
-    [MS_USER_DEFAULTS setObject:@(YES) forKey:isEnabledKye];
+- (void)testStartUpdateWhenEnableYesStartNo {
+  NSString *isEnabledKye = @"MSAppCenterIsEnabled";
+  [MS_USER_DEFAULTS setObject:@(YES) forKey:isEnabledKye];
     
-    // If
-    id notificationCenterMock = OCMPartialMock([NSNotificationCenter new]);
-    OCMStub([notificationCenterMock defaultCenter]).andReturn(notificationCenterMock);
-    id distributeMock = OCMPartialMock([MSDistribute new]);
-    __block int startUpdateCounter = 0;
-    OCMStub([distributeMock startUpdate]).andDo(^(__attribute((unused)) NSInvocation *invocation) {
-        startUpdateCounter++;
-    });
+  // If
+  id notificationCenterMock = OCMPartialMock([NSNotificationCenter new]);
+  OCMStub([notificationCenterMock defaultCenter]).andReturn(notificationCenterMock);
+  id distributeMock = OCMPartialMock([MSDistribute new]);
+  __block int startUpdateCounter = 0;
+  OCMStub([distributeMock startUpdate]).andDo(^(__attribute((unused)) NSInvocation *invocation) {
+      startUpdateCounter++;
+  });
     
-    // When
-    [distributeMock setEnabled:YES];
-    [notificationCenterMock postNotificationName:UIApplicationWillEnterForegroundNotification object:nil];
-    
-    // Then
-    OCMVerify([distributeMock isEnabled]);
-    XCTAssertEqual(startUpdateCounter, 0);
-    
-    // When
-    [distributeMock setEnabled:YES];
-    
-    // Then
-    XCTAssertEqual(startUpdateCounter, 0);
-    
-    // When
-    [notificationCenterMock postNotificationName:UIApplicationWillEnterForegroundNotification object:nil];
-    
-    // Then
-    OCMVerify([distributeMock isEnabled]);
-    XCTAssertEqual(startUpdateCounter, 0);
-    
-    // Clear
-    [notificationCenterMock stopMocking];
-    [distributeMock stopMocking];
+  // When
+  [distributeMock setEnabled:YES];
+  [notificationCenterMock postNotificationName:UIApplicationWillEnterForegroundNotification object:nil];
+
+  // Then
+  OCMVerify([distributeMock isEnabled]);
+  XCTAssertEqual(startUpdateCounter, 0);
+
+  // When
+  [distributeMock setEnabled:YES];
+
+  // Then
+  XCTAssertEqual(startUpdateCounter, 0);
+
+  // When
+  [notificationCenterMock postNotificationName:UIApplicationWillEnterForegroundNotification object:nil];
+
+  // Then
+  OCMVerify([distributeMock isEnabled]);
+  XCTAssertEqual(startUpdateCounter, 0);
+
+  // Clear
+  [notificationCenterMock stopMocking];
+  [distributeMock stopMocking];
 }
 
 @end
