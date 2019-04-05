@@ -11,6 +11,7 @@
 #import "MSMockDocument.h"
 #import "MSReadOptions.h"
 #import "MSTestFrameworks.h"
+#import "MSTokenExchange.h"
 #import "MSUtility+Date.h"
 #import "MSUtility+File.h"
 #import "MSWriteOptions.h"
@@ -28,76 +29,81 @@
   [super setUp];
   [MSUtility deleteItemForPathComponent:kMSDBDocumentFileName];
   self.sut = [MSDBDocumentStore new];
-  self.dbStorageMock = OCMClassMock([MSDBStorage class]);
-  self.sut.dbStorage = self.dbStorageMock;
 }
 
 - (void)tearDown {
   [MSUtility deleteItemForPathComponent:kMSDBDocumentFileName];
-  [self.dbStorageMock stopMocking];
   [super tearDown];
 }
 
-// TODO: Fix test failure
-- (void)readUserDocumentFromLocalDatabase {
+- (void)testReadUserDocumentFromLocalDatabase {
 
   // If
   NSString *documentId = @"12829";
   NSString *partitionKey = @"user";
-  MSMockDocument *document = [MSMockDocument new];
   NSString *accountId = @"dabe069b-ee80-4ca6-8657-9128a4600958";
-  document.contentDictionary = @{@"key" : @"value"};
   NSString *eTag = @"398";
-  MSDBDocumentStore *sut = [MSDBDocumentStore new];
-  [sut createUserStorageWithAccountId:accountId];
   NSString *fullPartition = [NSString stringWithFormat:@"%@-%@", partitionKey, accountId];
-  NSString *jsonString = [self getJsonStringForDocument:document];
+  NSString *jsonString = @"{ \"document\": {\"key\": \"value\"}}";
   [self addJsonStringToTable:jsonString
                         eTag:eTag
                    partition:fullPartition
                   documentId:documentId
               expirationTime:[NSDate dateWithTimeIntervalSinceNow:1000000]];
+  id tokenExchangeMock = OCMClassMock([MSTokenExchange class]);
+  MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithPartition:fullPartition
+                                                              dbAccount:nil
+                                                                 dbName:nil
+                                                       dbCollectionName:nil
+                                                                  token:nil
+                                                                 status:nil
+                                                              expiresOn:nil];
+  OCMStub(ClassMethod([tokenExchangeMock retrieveCachedToken:OCMOCK_ANY expiredTokenIncluded:YES])).andReturn(tokenResult);
 
   // When
-  MSDocumentWrapper *documentWrapper = [sut readWithPartition:fullPartition
-                                                   documentId:documentId
-                                                 documentType:[document class]
-                                                  readOptions:[MSReadOptions new]];
+  MSDocumentWrapper *documentWrapper = [self.sut readWithPartition:fullPartition
+                                                        documentId:documentId
+                                                      documentType:[MSMockDocument class]
+                                                       readOptions:[MSReadOptions new]];
 
   // Then
   XCTAssertNotNil(documentWrapper);
   XCTAssertNil(documentWrapper.error);
   NSDictionary *retrievedContentDictionary = ((MSMockDocument *)(documentWrapper.deserializedValue)).contentDictionary;
-  XCTAssertEqualObjects(document.contentDictionary, retrievedContentDictionary);
+  XCTAssertEqualObjects(retrievedContentDictionary[@"key"], @"value");
   XCTAssertEqualObjects(documentWrapper.partition, fullPartition);
   XCTAssertEqualObjects(documentWrapper.documentId, documentId);
 }
 
-// TODO: Fix this unit test
-- (void)readUserDocumentFromLocalDatabaseWithDeserializationError {
+- (void)testReadUserDocumentFromLocalDatabaseWithDeserializationError {
 
   // If
   NSString *documentId = @"12829";
   NSString *partitionKey = @"user";
-  MSMockDocument *document = [MSMockDocument new];
   NSString *accountId = @"dabe069b-ee80-4ca6-8657-9128a4600958";
-  document.contentDictionary = @{@"key" : @"value"};
   NSString *eTag = @"398";
-  MSDBDocumentStore *sut = [MSDBDocumentStore new];
-  [sut createUserStorageWithAccountId:accountId];
   NSString *fullPartition = [NSString stringWithFormat:@"%@-%@", partitionKey, accountId];
-  NSString *jsonString = @"abc {";
+  NSString *jsonString = @"{";
   [self addJsonStringToTable:jsonString
                         eTag:eTag
                    partition:fullPartition
                   documentId:documentId
               expirationTime:[NSDate dateWithTimeIntervalSinceNow:1000000]];
+  id tokenExchangeMock = OCMClassMock([MSTokenExchange class]);
+  MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithPartition:fullPartition
+                                                              dbAccount:nil
+                                                                 dbName:nil
+                                                       dbCollectionName:nil
+                                                                  token:nil
+                                                                 status:nil
+                                                              expiresOn:nil];
+  OCMStub(ClassMethod([tokenExchangeMock retrieveCachedToken:OCMOCK_ANY expiredTokenIncluded:YES])).andReturn(tokenResult);
 
   // When
-  MSDocumentWrapper *documentWrapper = [sut readWithPartition:fullPartition
-                                                   documentId:documentId
-                                                 documentType:[document class]
-                                                  readOptions:[MSReadOptions new]];
+  MSDocumentWrapper *documentWrapper = [self.sut readWithPartition:fullPartition
+                                                        documentId:documentId
+                                                      documentType:[MSMockDocument class]
+                                                       readOptions:[MSReadOptions new]];
 
   // Then
   XCTAssertNotNil(documentWrapper);
@@ -110,25 +116,30 @@
   // If
   NSString *documentId = @"12829";
   NSString *partitionKey = @"user";
-  MSMockDocument *document = [MSMockDocument new];
   NSString *accountId = @"dabe069b-ee80-4ca6-8657-9128a4600958";
-  document.contentDictionary = @{@"key" : @"value"};
   NSString *eTag = @"398";
-  MSDBDocumentStore *sut = OCMPartialMock([MSDBDocumentStore new]);
-  [sut createUserStorageWithAccountId:accountId];
   NSString *fullPartition = [NSString stringWithFormat:@"%@-%@", partitionKey, accountId];
-  NSString *jsonString = [self getJsonStringForDocument:document];
+  NSString *jsonString = @"{ \"document\": {\"key\": \"value\"}}";
   [self addJsonStringToTable:jsonString
                         eTag:eTag
                    partition:fullPartition
                   documentId:documentId
-              expirationTime:[NSDate dateWithTimeIntervalSinceNow:-100000]];
+              expirationTime:[NSDate dateWithTimeIntervalSinceNow:-1000000]];
+  id tokenExchangeMock = OCMClassMock([MSTokenExchange class]);
+  MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithPartition:fullPartition
+                                                              dbAccount:nil
+                                                                 dbName:nil
+                                                       dbCollectionName:nil
+                                                                  token:nil
+                                                                 status:nil
+                                                              expiresOn:nil];
+  OCMStub(ClassMethod([tokenExchangeMock retrieveCachedToken:OCMOCK_ANY expiredTokenIncluded:YES])).andReturn(tokenResult);
 
   // When
-  MSDocumentWrapper *documentWrapper = [sut readWithPartition:fullPartition
-                                                   documentId:documentId
-                                                 documentType:[document class]
-                                                  readOptions:[MSReadOptions new]];
+  MSDocumentWrapper *documentWrapper = [self.sut readWithPartition:fullPartition
+                                                        documentId:documentId
+                                                      documentType:[MSMockDocument class]
+                                                       readOptions:[MSReadOptions new]];
 
   // Then
   XCTAssertNotNil(documentWrapper);
@@ -136,7 +147,7 @@
   XCTAssertEqualObjects(documentWrapper.error.error.domain, kMSACDataStoreErrorDomain);
   XCTAssertEqual(documentWrapper.error.error.code, MSACDataStoreErrorLocalDocumentExpired);
   XCTAssertEqualObjects(documentWrapper.documentId, documentId);
-  OCMVerify([sut deleteDocumentWithPartition:fullPartition documentId:documentId]);
+  OCMVerify([self.sut deleteDocumentWithPartition:fullPartition documentId:documentId]);
 }
 
 - (void)testReadUserDocumentFromLocalDatabaseNotFound {
@@ -245,12 +256,6 @@
 }
 
 // These are temporary methods due to create method not exist.
-- (NSString *)getJsonStringForDocument:(id<MSSerializableDocument>)document {
-  NSDictionary *documentDict = [document serializeToDictionary];
-  NSData *jsonData = [NSJSONSerialization dataWithJSONObject:documentDict options:0 error:nil];
-  return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-}
-
 - (void)addJsonStringToTable:(NSString *)jsonString
                         eTag:(NSString *)eTag
                    partition:(NSString *)partition
@@ -258,11 +263,11 @@
               expirationTime:(NSDate *)expirationTime {
   sqlite3 *db = [self openDatabase:kMSDBDocumentFileName];
   NSString *expirationTimeString = [MSUtility dateToISO8601:expirationTime];
-  NSString *insertQuery =
-      [NSString stringWithFormat:@"INSERT INTO '%@' ('%@', '%@', '%@', '%@', '%@', '%@') VALUES ('%@', '%@', '%@', '%@', '%@', '%@')",
-                                 kMSAppDocumentTableName, kMSIdColumnName, kMSPartitionColumnName, kMSETagColumnName, kMSDocumentColumnName,
-                                 kMSDocumentIdColumnName, kMSExpirationTimeColumnName, @0, partition, eTag, jsonString, documentId,
-                                 expirationTimeString];
+  NSString *insertQuery = [NSString
+      stringWithFormat:@"INSERT INTO '%@' ('%@', '%@', '%@', '%@', '%@', '%@', '%@') VALUES ('%@', '%@', '%@', '%@', '%@', '%@', '%@')",
+                       kMSAppDocumentTableName, kMSIdColumnName, kMSPartitionColumnName, kMSETagColumnName, kMSDocumentColumnName,
+                       kMSDocumentIdColumnName, kMSExpirationTimeColumnName, kMSOperationTimeColumnName, @0, partition, eTag, jsonString,
+                       documentId, expirationTimeString, [NSDate date]];
   char *error;
   sqlite3_exec(db, [insertQuery UTF8String], NULL, NULL, &error);
   sqlite3_close(db);

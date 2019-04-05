@@ -102,7 +102,7 @@ static NSString *const kMSDocumentKey = @"document";
                                      userInfo:@{NSLocalizedDescriptionKey : @"Can't deserialize JSON payload"}];
     }
     MSLogError([MSDataStore logTag], @"Error deserializing data: %@", [error localizedDescription]);
-    return [[MSDocumentWrapper alloc] initWithError:error documentId:nil];
+    return [[MSDocumentWrapper alloc] initWithError:error documentId:documentId];
   }
 
   // Proceed from the dictionary.
