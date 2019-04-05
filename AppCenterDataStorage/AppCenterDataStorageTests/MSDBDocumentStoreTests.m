@@ -95,8 +95,6 @@
 }
 
 - (MSDBColumnsSchema *)expectedColumnSchema {
-
-  // TODO create composite key for partition and the document id
   return @[
     @{kMSIdColumnName : @[ kMSSQLiteTypeInteger, kMSSQLiteConstraintPrimaryKey, kMSSQLiteConstraintAutoincrement ]},
     @{kMSPartitionColumnName : @[ kMSSQLiteTypeText, kMSSQLiteConstraintNotNull ]},

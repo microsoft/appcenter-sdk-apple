@@ -65,8 +65,6 @@ static const NSUInteger kMSSchemaVersion = 1;
 }
 
 + (MSDBColumnsSchema *)columnsSchema {
-
-  // TODO create composite key for partition and the document id
   return @[
     @{kMSIdColumnName : @[ kMSSQLiteTypeInteger, kMSSQLiteConstraintPrimaryKey, kMSSQLiteConstraintAutoincrement ]},
     @{kMSPartitionColumnName : @[ kMSSQLiteTypeText, kMSSQLiteConstraintNotNull ]},
