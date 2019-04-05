@@ -4,38 +4,32 @@
 #import <Foundation/Foundation.h>
 
 #import "MSBaseOptions.h"
-#import "MSSerializableDocument.h"
+#import "MSDocumentWrapper.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface MSDBDocumentStore : NSObject
 
 /**
- * Create or replace an entry in the cache.
+ * Create or replace an entry in the store.
  *
- * @param partition The logged in user id.
- * @param document Document object to cache.
- * @param documentId The document ID.
- * @param lastUpdatedDate The last time the document was updated.
- * @param eTag The document's eTag.
- * @param operation The operation to perform on the document.
- * @param options Gives the Time To Live to be set on the cached document.
+ * @param partition Document partition.
+ * @param documentWrapper Document wrapper object to store (may be `nil`, e.g. for a DELETE operation).
+ * @param operation The operation store.
+ * @param options The operation options (used to extract the device time-to-live information).
  *
  * @return YES if the document was saved successfully, NO otherwise.
  */
 - (BOOL)upsertWithPartition:(NSString *)partition
-                   document:(id<MSSerializableDocument>)document
-                 documentId:(NSString *)documentId
-            lastUpdatedDate:(NSDate *)lastUpdatedDate
-                       eTag:(NSString *)eTag
+            documentWrapper:(MSDocumentWrapper *)documentWrapper
                   operation:(NSString *_Nullable)operation
                     options:(MSBaseOptions *)options;
 
 /**
- * Delete an entry from the cache.
+ * Delete an entry from the store.
  *
- * @param partition The logged in user id.
- * @param documentId The document ID.
+ * @param partition Document partition.
+ * @param documentId Document ID.
  *
  * @return YES if the document was deleted successfully, NO otherwise.
  */

@@ -45,27 +45,18 @@ static const NSUInteger kMSSchemaVersion = 1;
 #pragma mark - Table Management
 
 - (BOOL)upsertWithPartition:(NSString *)partition
-                   document:(id<MSSerializableDocument>)document
-                 documentId:(NSString *)documentId
-            lastUpdatedDate:(NSDate *)lastUpdatedDate
-                       eTag:(NSString *)eTag
+            documentWrapper:(MSDocumentWrapper *)documentWrapper
                   operation:(NSString *_Nullable)operation
                     options:(MSBaseOptions *)options {
-  NSString *base64Data;
-  if (document) {
-    NSDictionary *documentDict = [document serializeToDictionary];
-    NSData *documentData = [NSKeyedArchiver archivedDataWithRootObject:documentDict];
-    base64Data = [documentData base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
-  }
   NSDate *now = [NSDate date];
   NSDate *expirationTime = [now dateByAddingTimeInterval:options.deviceTimeToLive];
   NSString *insertQuery =
-      [NSString stringWithFormat:@"REPLACE INTO '%@' ('%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@') "
-                                 @"VALUES ('%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@')",
-                                 kMSAppDocumentTableName, kMSIdColumnName, kMSPartitionColumnName, kMSDocumentIdColumnName,
-                                 kMSDocumentColumnName, kMSETagColumnName, kMSExpirationTimeColumnName, kMSDownloadTimeColumnName,
-                                 kMSOperationTimeColumnName, kMSPendingOperationColumnName, @0, partition, documentId, base64Data, eTag,
-                                 expirationTime, lastUpdatedDate, now, operation];
+      [NSString stringWithFormat:@"REPLACE INTO '%@' ('%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@') "
+                                 @"VALUES ('%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@')",
+                                 kMSAppDocumentTableName, kMSPartitionColumnName, kMSDocumentIdColumnName, kMSDocumentColumnName,
+                                 kMSETagColumnName, kMSExpirationTimeColumnName, kMSDownloadTimeColumnName, kMSOperationTimeColumnName,
+                                 kMSPendingOperationColumnName, partition, documentWrapper.documentId, documentWrapper.jsonValue,
+                                 documentWrapper.eTag, expirationTime, documentWrapper.lastUpdatedDate, now, operation];
   NSInteger result = [self.dbStorage executeNonSelectionQuery:insertQuery];
   if (result != SQLITE_OK) {
     MSLogError([MSDataStore logTag], @"Unable to update or replace cached document, SQLite error code: %ld", (long)result);

@@ -3,6 +3,10 @@
 
 #import "MSDBDocumentStorePrivate.h"
 #import "MSDBStoragePrivate.h"
+#import "MSDataStore.h"
+#import "MSDocumentUtils.h"
+#import "MSReadOptions.h"
+#import "MSTestDocument.h"
 #import "MSTestFrameworks.h"
 
 @interface MSDBDocumentStoreTests : XCTestCase
@@ -77,6 +81,52 @@
 
   // Then
   OCMVerify([dbStorageMock dropTable:userTableName]);
+}
+
+- (void)testUpsertWithPartition {
+
+  // If
+  MSDocumentWrapper *documentWrapper = [MSDocumentUtils documentWrapperFromData:[MSTestDocument getDocumentFixture:@"validTestDocument"]
+                                                                   documentType:[MSTestDocument class]];
+
+  // When
+  MSDBDocumentStore *sut = [MSDBDocumentStore new];
+  BOOL result = [sut upsertWithPartition:MSDataStoreAppDocumentsPartition
+                         documentWrapper:documentWrapper
+                               operation:@"CREATE"
+                                 options:[[MSReadOptions alloc] initWithDeviceTimeToLive:1]];
+
+  // Then
+  XCTAssertTrue(result);
+  // TODO: also validate with read when we have it.
+}
+
+- (void)testDeleteWithPartitionForNonExistentDocument {
+
+  // If, When
+  MSDBDocumentStore *sut = [MSDBDocumentStore new];
+  BOOL result = [sut deleteWithPartition:MSDataStoreUserDocumentsPartition documentId:@"documentid"];
+
+  // Then
+  XCTAssertFalse(result);
+}
+
+- (void)testDeleteWithPartitionForExistingDocument {
+
+  // If
+  MSDocumentWrapper *documentWrapper = [MSDocumentUtils documentWrapperFromData:[MSTestDocument getDocumentFixture:@"validTestDocument"]
+                                                                   documentType:[MSTestDocument class]];
+  MSDBDocumentStore *sut = [MSDBDocumentStore new];
+  [sut upsertWithPartition:MSDataStoreAppDocumentsPartition
+           documentWrapper:documentWrapper
+                 operation:@"CREATE"
+                   options:[[MSReadOptions alloc] initWithDeviceTimeToLive:1]];
+
+  // When
+  BOOL result = [sut deleteWithPartition:MSDataStoreUserDocumentsPartition documentId:documentWrapper.documentId];
+
+  // Then
+  XCTAssertTrue(result);
 }
 
 @end
