@@ -143,8 +143,8 @@
 		87FD963F7BF9C9E07DE16D82 /* MSCosmosDbPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 87FA7FB5BC7302D0062016E1 /* MSCosmosDbPrivate.h */; };
 		8F1FF9522255C1350083471E /* validTestDocument.json in Resources */ = {isa = PBXBuildFile; fileRef = 8F1FF9512255C12F0083471E /* validTestDocument.json */; };
 		8F1FF9532255C1360083471E /* validTestDocument.json in Resources */ = {isa = PBXBuildFile; fileRef = 8F1FF9512255C12F0083471E /* validTestDocument.json */; };
-		8F4548E02256D2450021B0BF /* MSDictionaryDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = 8F4548DF2256D2450021B0BF /* MSDictionaryDocument.h */; };
-		8F4548E12256D2450021B0BF /* MSDictionaryDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = 8F4548DF2256D2450021B0BF /* MSDictionaryDocument.h */; };
+		8F4548E02256D2450021B0BF /* MSDictionaryDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = 8F4548DF2256D2450021B0BF /* MSDictionaryDocument.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8F4548E12256D2450021B0BF /* MSDictionaryDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = 8F4548DF2256D2450021B0BF /* MSDictionaryDocument.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8F4548E32256D3160021B0BF /* MSDictionaryDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F4548E22256D3160021B0BF /* MSDictionaryDocument.m */; };
 		8F4548E42256D3160021B0BF /* MSDictionaryDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F4548E22256D3160021B0BF /* MSDictionaryDocument.m */; };
 		8F4548E72256D5470021B0BF /* NSObject+MSTestFixture.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F4548E62256D5470021B0BF /* NSObject+MSTestFixture.m */; };
