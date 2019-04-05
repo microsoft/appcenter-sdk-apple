@@ -4,7 +4,7 @@
 #import <UIKit/UIKit.h>
 
 #import "MSAlertController.h"
-#import "MSAppCenter.h"
+#import "MSAppCenterInternal.h"
 #import "MSBasicMachOParser.h"
 #import "MSChannelGroupDefault.h"
 #import "MSDistribute.h"
@@ -1785,9 +1785,23 @@ static NSURL *sfURL;
   OCMStub([notificationCenterMock defaultCenter]).andReturn(notificationCenterMock);
   id distributeMock = OCMPartialMock([MSDistribute new]);
   __block int startUpdateCounter = 0;
-  OCMStub([distributeMock startUpdate]).andDo(^(__attribute((unused)) NSInvocation *invocation) {
+  OCMStub([distributeMock startUpdate]).andDo(^(__unused NSInvocation *invocation) {
     startUpdateCounter++;
   });
+  
+  // When
+  id appCenterMock = OCMClassMock([MSAppCenter class]);
+  OCMStub([appCenterMock sharedInstance]).andReturn(appCenterMock);
+  OCMStub([appCenterMock sdkConfigured]).andReturn(YES);
+  OCMStub([appCenterMock isConfigured]).andReturn(YES);
+  [distributeMock startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
+                              appSecret:kMSTestAppSecret
+                transmissionTargetToken:nil
+                        fromApplication:YES];
+  
+  // Then
+  OCMVerify([distributeMock isEnabled]);
+  XCTAssertEqual(startUpdateCounter, 1);
 
   // When
   [distributeMock setEnabled:NO];
@@ -1795,20 +1809,20 @@ static NSURL *sfURL;
 
   // Then
   OCMVerify([distributeMock isEnabled]);
-  XCTAssertEqual(startUpdateCounter, 0);
+  XCTAssertEqual(startUpdateCounter, 1);
 
   // When
   [distributeMock setEnabled:YES];
 
   // Then
-  XCTAssertEqual(startUpdateCounter, 1);
+  XCTAssertEqual(startUpdateCounter, 2);
 
   // When
   [notificationCenterMock postNotificationName:UIApplicationWillEnterForegroundNotification object:nil];
 
   // Then
   OCMVerify([distributeMock isEnabled]);
-  XCTAssertEqual(startUpdateCounter, 2);
+  XCTAssertEqual(startUpdateCounter, 3);
 
   // Clear
   [notificationCenterMock stopMocking];
@@ -2335,7 +2349,7 @@ static NSURL *sfURL;
   return utilityMock;
 }
 
-- (void)testStartUpdateWhenEnableYesStartNo {
+- (void)testStartUpdateWhenEnabledButDoesNotStarted {
   NSString *isEnabledKye = @"MSAppCenterIsEnabled";
   [MS_USER_DEFAULTS setObject:@(YES) forKey:isEnabledKye];
     
@@ -2344,7 +2358,7 @@ static NSURL *sfURL;
   OCMStub([notificationCenterMock defaultCenter]).andReturn(notificationCenterMock);
   id distributeMock = OCMPartialMock([MSDistribute new]);
   __block int startUpdateCounter = 0;
-  OCMStub([distributeMock startUpdate]).andDo(^(__attribute((unused)) NSInvocation *invocation) {
+  OCMStub([distributeMock startUpdate]).andDo(^(__unused NSInvocation *invocation) {
       startUpdateCounter++;
   });
     
