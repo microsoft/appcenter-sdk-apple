@@ -25,7 +25,7 @@ static NSString *const kMSDataStorageErrorDomain = @"MSDataStorageErrorDomain";
  * User partition.
  * An authenticated user can read/write documents in this partition.
  */
-static NSString *const MSDataStoreUserDocumentsPartition = @"user-{userid}";
+static NSString *const MSDataStoreUserDocumentsPartition = @"user";
 
 /**
  * Application partition.
