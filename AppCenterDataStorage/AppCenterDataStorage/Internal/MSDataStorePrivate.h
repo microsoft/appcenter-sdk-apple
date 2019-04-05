@@ -14,11 +14,6 @@ static NSString *const kMSDefaultApiUrl = @"https://api.appcenter.ms/v0.1";
 @interface MSDataStore () <MSAuthTokenContextDelegate>
 
 /**
- * A flag that indicates offline mode is on or off.
- */
-@property(atomic, getter=isOfflineModeEnabled) BOOL offlineModeEnabled;
-
-/**
  * Method to reset the singleton when running unit tests only. So calling sharedInstance returns a fresh instance.
  */
 + (void)resetSharedInstance;
