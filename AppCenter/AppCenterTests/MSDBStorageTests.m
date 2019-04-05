@@ -280,11 +280,14 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
 
 - (void)testCreateTableWhenTableExists {
 
+  // Then
+  XCTAssertTrue([self tableExists:kMSTestTableName]);
+
   // When
-  BOOL tableCreated = [self.sut createTable:kMSTestTableName columnsSchema:self.schema[kMSTestTableName]];
+  BOOL tableExistsOrCreated = [self.sut createTable:kMSTestTableName columnsSchema:self.schema[kMSTestTableName]];
 
   // Then
-  XCTAssertTrue(tableCreated);
+  XCTAssertTrue(tableExistsOrCreated);
   XCTAssertTrue([self tableExists:kMSTestTableName]);
 }
 
@@ -294,10 +297,10 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   NSString *tableToCreate = @"NewTable";
 
   // When
-  BOOL tableCreated = [self.sut createTable:tableToCreate columnsSchema:self.schema[kMSTestTableName]];
+  BOOL tableExistsOrCreated = [self.sut createTable:tableToCreate columnsSchema:self.schema[kMSTestTableName]];
 
   // Then
-  XCTAssertTrue(tableCreated);
+  XCTAssertTrue(tableExistsOrCreated);
   XCTAssertTrue([self tableExists:tableToCreate]);
 }
 
