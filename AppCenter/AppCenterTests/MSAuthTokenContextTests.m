@@ -400,8 +400,10 @@
   id<MSAuthTokenContextDelegate> delegateMock = OCMProtocolMock(@protocol(MSAuthTokenContextDelegate));
   [self.sut addDelegate:delegateMock];
   OCMReject([delegateMock authTokenContext:OCMOCK_ANY refreshAuthTokenForAccountId:OCMOCK_ANY]);
-  
-  NSArray<MSAuthTokenValidityInfo *> *mockArray = @[[[MSAuthTokenValidityInfo alloc] initWithAuthToken:expectedAuthToken startTime:nil endTime:nil]];
+
+  NSArray<MSAuthTokenValidityInfo *> *mockArray = @[ [[MSAuthTokenValidityInfo alloc] initWithAuthToken:expectedAuthToken
+                                                                                              startTime:nil
+                                                                                                endTime:nil] ];
   OCMStub([MSMockKeychainUtil arrayForKey:kMSAuthTokenHistoryKey]).andReturn(mockArray);
   MSAuthTokenValidityInfo *authToken = [[MSAuthTokenValidityInfo alloc] initWithAuthToken:expectedAuthToken
                                                                                 startTime:startDate
@@ -492,20 +494,20 @@
 }
 
 - (void)testFinishResetsTokenIfNotPreventedOnlyOnce {
-  
+
   // If
   id mockedSut = OCMPartialMock(self.sut);
   __block int callCount = 0;
   OCMStub([mockedSut setAuthToken:nil withAccountId:nil expiresOn:nil]).andDo(^(__unused NSInvocation *invocation) {
     ++callCount;
   });
-  
+
   // When
   [mockedSut finishInitialize];
-  
+
   // Another module starts.
   [mockedSut finishInitialize];
-  
+
   // Then
   XCTAssertEqual(callCount, 1);
 }
