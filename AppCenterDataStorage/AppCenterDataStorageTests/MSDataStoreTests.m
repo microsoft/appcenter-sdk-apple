@@ -24,7 +24,6 @@
 #import "MSTestDocument.h"
 #import "MSTestFrameworks.h"
 #import "MSTokenExchange.h"
-#import "MSTokenExchangePrivate.h"
 #import "MSTokenResult.h"
 #import "MSTokensResponse.h"
 
@@ -913,7 +912,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 }
 
 // TODO: Offline mode isn't available. Rename and revise the test to use a real network connectivity.
-- (void)testReadsFromLocalStoreInOfflineMode {
+- (void)readsFromLocalStoreInOfflineMode {
 
   // If the module is started and set to offline mode.
   [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
@@ -968,7 +967,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   OCMStub([httpClient new]).andReturn(httpClient);
   self.sut.httpClient = httpClient;
   id msTokenEchange = OCMClassMock([MSTokenExchange class]);
-  OCMStub([msTokenEchange retrieveCachedToken:[OCMArg any]])
+  OCMStub([msTokenEchange retrieveCachedToken:[OCMArg any] expiredTokenIncluded:NO])
       .andReturn([[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]]);
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@"List single document"];
 
@@ -1038,7 +1037,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   OCMStub([httpClient new]).andReturn(httpClient);
   self.sut.httpClient = httpClient;
   id msTokenEchange = OCMClassMock([MSTokenExchange class]);
-  OCMStub([msTokenEchange retrieveCachedToken:[OCMArg any]])
+  OCMStub([msTokenEchange retrieveCachedToken:[OCMArg any] expiredTokenIncluded:NO])
       .andReturn([[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]]);
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@"List first page"];
   NSMutableDictionary *continuationHeaders = [NSMutableDictionary new];

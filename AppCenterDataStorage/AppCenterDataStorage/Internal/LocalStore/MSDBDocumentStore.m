@@ -9,13 +9,13 @@
 #import "MSDBDocumentStorePrivate.h"
 #import "MSDBStoragePrivate.h"
 #import "MSDataStore.h"
+#import "MSDataStoreErrors.h"
 #import "MSDataStoreInternal.h"
+#import "MSDocumentUtils.h"
 #import "MSDocumentWrapper.h"
+#import "MSUtility+Date.h"
 #import "MSUtility+StringFormatting.h"
 #import "MSWriteOptions.h"
-#import "MSDataStoreErrors.h"
-#import "MSUtility+Date.h"
-#import "MSDocumentUtils.h"
 
 static const NSUInteger kMSSchemaVersion = 1;
 
@@ -66,18 +66,23 @@ static const NSUInteger kMSSchemaVersion = 1;
   return [self.dbStorage dropTable:tableName];
 }
 
-- (MSDocumentWrapper *)readWithPartition:(NSString *)partition documentId:(NSString *)documentId documentType:(Class)documentType readOptions:(MSReadOptions *)readOptions {
-  (void)readOptions;
-  NSString *selectionQuery = [NSString stringWithFormat:@"SELECT * FROM \"%@\" WHERE \"%@\" = \"%@\" AND \"%@\" = \"%@\"", kMSAppDocumentTableName, kMSPartitionColumnName, partition, kMSDocumentIdColumnName, documentId];
+- (MSDocumentWrapper *)readWithPartition:(NSString *)partition
+                              documentId:(NSString *)documentId
+                            documentType:(Class)documentType
+                             readOptions:(MSReadOptions *)__unused readOptions {
+  NSString *selectionQuery =
+      [NSString stringWithFormat:@"SELECT * FROM \"%@\" WHERE \"%@\" = \"%@\" AND \"%@\" = \"%@\"", kMSAppDocumentTableName,
+                                 kMSPartitionColumnName, partition, kMSDocumentIdColumnName, documentId];
   NSArray *result = [self.dbStorage executeSelectionQuery:selectionQuery];
 
   // Return an error if the entry could not be found in the database.
   if (result.count == 0) {
-    NSString *errorMessage = [NSString stringWithFormat:@"Unable to find document in local database with partition key '%@' and document ID '%@'", partition, documentId];
+    NSString *errorMessage = [NSString
+        stringWithFormat:@"Unable to find document in local database with partition key '%@' and document ID '%@'", partition, documentId];
     MSLogWarning([MSDataStore logTag], @"%@", errorMessage);
     NSError *error = [[NSError alloc] initWithDomain:kMSACDataStoreErrorDomain
-                                                  code:MSACDataStoreErrorLocalDocumentNotFound
-                                              userInfo:@{NSLocalizedDescriptionKey : errorMessage}];
+                                                code:MSACDataStoreErrorLocalDocumentNotFound
+                                            userInfo:@{NSLocalizedDescriptionKey : errorMessage}];
     return [[MSDocumentWrapper alloc] initWithError:error documentId:documentId];
   }
 
@@ -85,7 +90,8 @@ static const NSUInteger kMSSchemaVersion = 1;
   NSDate *expirationTime = [MSUtility dateFromISO8601:result[0][self.expirationTimeColumnIndex]];
   NSDate *currentDate = [NSDate date];
   if ([expirationTime laterDate:currentDate] == currentDate) {
-    NSString *errorMessage = [NSString stringWithFormat:@"Local document with partition key '%@' and document ID '%@' expired at %@", partition, documentId, expirationTime];
+    NSString *errorMessage = [NSString stringWithFormat:@"Local document with partition key '%@' and document ID '%@' expired at %@",
+                                                        partition, documentId, expirationTime];
     MSLogWarning([MSDataStore logTag], @"%@", errorMessage);
     NSError *error = [[NSError alloc] initWithDomain:kMSACDataStoreErrorDomain
                                                 code:MSACDataStoreErrorLocalDocumentExpired
@@ -98,14 +104,17 @@ static const NSUInteger kMSSchemaVersion = 1;
   NSString *jsonString = result[0][self.documentColumnIndex];
   NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
   NSDate *lastUpdatedDate = [MSUtility dateFromISO8601:result[0][self.operationTimeColumnIndex]];
-  return [MSDocumentUtils documentWrapperFromDocumentData:jsonData documentType:documentType eTag:result[0][self.eTagColumnIndex] lastUpdatedDate:lastUpdatedDate partition:partition documentId:documentId];
+  return [MSDocumentUtils documentWrapperFromDocumentData:jsonData
+                                             documentType:documentType
+                                                     eTag:result[0][self.eTagColumnIndex]
+                                          lastUpdatedDate:lastUpdatedDate
+                                                partition:partition
+                                               documentId:documentId];
 }
 
-- (void)deleteDocumentWithPartition:(NSString *)partition
-                         documentId:(NSString *)documentId {
-  (void)partition; (void)documentId;
+- (void)deleteDocumentWithPartition:(NSString *)__unused partition documentId:(NSString *)__unused documentId {
 
-  //TODO implement this.
+  // TODO implement this.
 }
 
 + (MSDBColumnsSchema *)columnsSchema {

@@ -269,11 +269,14 @@ static dispatch_once_t onceToken;
                            documentType:(Class)documentType
                             readOptions:(MSReadOptions *)readOptions
                       completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
-  if ([partition isEqualToString:kMSDataStoreUserDocumentsPartition]) {
-    partition = [MSDataStore getFullUserPartitionKey];
+  MSTokenResult *tokenResult = [MSTokenExchange retrieveCachedToken:partition expiredTokenIncluded:YES];
+  if (!tokenResult.partition) {
+    NSError *error = [self generateDisabledError:@"Failed to find the partition" documentId:documentId];
+    completionHandler([[MSDocumentWrapper alloc] initWithError:error documentId:documentId]);
+    return;
   }
   dispatch_async(self.dataStoreDispatchQueue, ^{
-    MSDocumentWrapper *document = [self.documentStore readWithPartition:partition
+    MSDocumentWrapper *document = [self.documentStore readWithPartition:tokenResult.partition
                                                              documentId:documentId
                                                            documentType:documentType
                                                             readOptions:readOptions];
@@ -507,13 +510,6 @@ static dispatch_once_t onceToken;
                                                                            offlineModeEnabled:self.offlineModeEnabled
                                                                             completionHandler:completionHandler];
                                             }];
-}
-
-+ (NSString *)getFullUserPartitionKey {
-  // TODO: Read cached token from MSTokenExchange
-  NSString *accountId = [MSAuthTokenContext sharedInstance].accountId;
-  NSString *suffix = [@"-" stringByAppendingString:(NSString *)accountId];
-  return [kMSDataStoreUserDocumentsPartition stringByAppendingString:suffix];
 }
 
 #pragma mark - MSServiceInternal

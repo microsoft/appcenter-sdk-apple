@@ -37,7 +37,6 @@ static NSString *const kMSDataStoreAppDocumentsPartition = @"readonly";
 + (void)removeCachedToken:(NSString *)partitionName;
 + (NSString *)tokenKeyNameForPartition:(NSString *)partitionName;
 + (void)saveToken:(MSTokenResult *)tokenResult;
-+ (MSTokenResult *)retrieveCachedToken:(NSString *)partitionName;
 
 @end
 
