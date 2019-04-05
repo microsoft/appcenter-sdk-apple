@@ -45,15 +45,17 @@ static const NSUInteger kMSSchemaVersion = 1;
 #pragma mark - Table Management
 
 - (BOOL)upsertWithPartition:(NSString *)partition
+                  accountId:(NSString *_Nullable)accountId
             documentWrapper:(MSDocumentWrapper *)documentWrapper
                   operation:(NSString *_Nullable)operation
                     options:(MSBaseOptions *)options {
   NSDate *now = [NSDate date];
   NSDate *expirationTime = [now dateByAddingTimeInterval:options.deviceTimeToLive];
+  NSString *tableName = [MSDBDocumentStore tableNameForPartition:partition accountId:accountId];
   NSString *insertQuery =
       [NSString stringWithFormat:@"REPLACE INTO '%@' ('%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@') "
                                  @"VALUES ('%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@')",
-                                 kMSAppDocumentTableName, kMSPartitionColumnName, kMSDocumentIdColumnName, kMSDocumentColumnName,
+                                 tableName, kMSPartitionColumnName, kMSDocumentIdColumnName, kMSDocumentColumnName,
                                  kMSETagColumnName, kMSExpirationTimeColumnName, kMSDownloadTimeColumnName, kMSOperationTimeColumnName,
                                  kMSPendingOperationColumnName, partition, documentWrapper.documentId, documentWrapper.jsonValue,
                                  documentWrapper.eTag, expirationTime, documentWrapper.lastUpdatedDate, now, operation];
@@ -64,8 +66,11 @@ static const NSUInteger kMSSchemaVersion = 1;
   return result == SQLITE_OK;
 }
 
-- (BOOL)deleteWithPartition:(NSString *)partition documentId:(NSString *)documentId {
-  NSString *deleteQuery = [NSString stringWithFormat:@"DELETE FROM '%@' WHERE '%@' = '%@' AND '%@' = '%@'", kMSAppDocumentTableName,
+- (BOOL)deleteWithPartition:(NSString *)partition
+                  accountId:(NSString *_Nullable)accountId
+                 documentId:(NSString *)documentId {
+  NSString *tableName = [MSDBDocumentStore tableNameForPartition:partition accountId:accountId];
+  NSString *deleteQuery = [NSString stringWithFormat:@"DELETE FROM '%@' WHERE '%@' = '%@' AND '%@' = '%@'", tableName,
                                                      kMSPartitionColumnName, partition, kMSDocumentIdColumnName, documentId];
   NSInteger result = [self.dbStorage executeNonSelectionQuery:deleteQuery];
   if (result != SQLITE_OK) {
@@ -99,7 +104,18 @@ static const NSUInteger kMSSchemaVersion = 1;
   [schema addObject:@{kMSDownloadTimeColumnName : @[ kMSSQLiteTypeInteger ]}];
   [schema addObject:@{kMSOperationTimeColumnName : @[ kMSSQLiteTypeInteger ]}];
   [schema addObject:@{kMSPendingOperationColumnName : @[ kMSSQLiteTypeText ]}];
-  return schema;
+  
+  // Schema needs to be immutable for versioning.
+  NSArray *immutableSchema = [schema copy];
+  return immutableSchema;
+}
+
++ (NSString *)tableNameForPartition:(NSString *)partition
+                          accountId:(NSString *_Nullable)accountId {
+  if ([partition isEqualToString:MSDataStoreAppDocumentsPartition]) {
+    return kMSAppDocumentTableName;
+  }
+  return [NSString stringWithFormat:kMSUserDocumentTableNameFormat, userId];
 }
 
 @end

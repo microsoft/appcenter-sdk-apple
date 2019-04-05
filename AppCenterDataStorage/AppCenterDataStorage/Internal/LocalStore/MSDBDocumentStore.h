@@ -14,13 +14,15 @@ NS_ASSUME_NONNULL_BEGIN
  * Create or replace an entry in the store.
  *
  * @param partition Document partition.
- * @param documentWrapper Document wrapper object to store (may be `nil`, e.g. for a DELETE operation).
+ * @param accountId Account ID, if the document is a user document.
+ * @param documentWrapper Document wrapper object to store.
  * @param operation The operation store.
  * @param options The operation options (used to extract the device time-to-live information).
  *
  * @return YES if the document was saved successfully, NO otherwise.
  */
 - (BOOL)upsertWithPartition:(NSString *)partition
+                  accountId:(NSString *_Nullable)accountId
             documentWrapper:(MSDocumentWrapper *)documentWrapper
                   operation:(NSString *_Nullable)operation
                     options:(MSBaseOptions *)options;
@@ -29,11 +31,14 @@ NS_ASSUME_NONNULL_BEGIN
  * Delete an entry from the store.
  *
  * @param partition Document partition.
+ * @param accountId Account ID, if the document is a user document.
  * @param documentId Document ID.
  *
  * @return YES if the document was deleted successfully, NO otherwise.
  */
-- (BOOL)deleteWithPartition:(NSString *)partition documentId:(NSString *)documentId;
+- (BOOL)deleteWithPartition:(NSString *)partition
+                  accountId:(NSString *_Nullable)accountId
+                 documentId:(NSString *)documentId;
 
 /**
  * Delete table.
