@@ -477,7 +477,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                                        completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         MSHttpRequestCompletionHandler cosmosdbOperationCallback;
-        [invocation getArgument:&cosmosdbOperationCallback atIndex:9];
+        [invocation getArgument:&cosmosdbOperationCallback atIndex:8];
         cosmosdbOperationCallback(testCosmosDbResponse, nil, nil);
       });
 
@@ -571,7 +571,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                                        completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         MSHttpRequestCompletionHandler cosmosdbOperationCallback;
-        [invocation getArgument:&cosmosdbOperationCallback atIndex:9];
+        [invocation getArgument:&cosmosdbOperationCallback atIndex:8];
         cosmosdbOperationCallback(nil, nil, expectedCosmosDbError);
       });
 
@@ -624,7 +624,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                                        completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         MSHttpRequestCompletionHandler cosmosdbOperationCallback;
-        [invocation getArgument:&cosmosdbOperationCallback atIndex:9];
+        [invocation getArgument:&cosmosdbOperationCallback atIndex:8];
         cosmosdbOperationCallback(brokenCosmosDbResponse, nil, nil);
       });
 
@@ -674,7 +674,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                                        completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         MSHttpRequestCompletionHandler cosmosdbOperationCallback;
-        [invocation getArgument:&cosmosdbOperationCallback atIndex:9];
+        [invocation getArgument:&cosmosdbOperationCallback atIndex:8];
         cosmosdbOperationCallback(nil, nil, nil);
       });
 
@@ -762,7 +762,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                                        completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         MSHttpRequestCompletionHandler cosmosdbOperationCallback;
-        [invocation getArgument:&cosmosdbOperationCallback atIndex:9];
+        [invocation getArgument:&cosmosdbOperationCallback atIndex:8];
         cosmosdbOperationCallback(nil, nil, expectedCosmosDbError);
       });
 
