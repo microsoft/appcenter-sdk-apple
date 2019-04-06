@@ -24,6 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param httpMethod Http method.
  * @param body Http body.
  * @param additionalHeaders Additional http headers.
+ * @param offlineModeEnabled YES to simulate being offline and thus cause an http call failure, NO for a real call.
  * @param completionHandler Completion handler callback.
  */
 + (void)performCosmosDbAsyncOperationWithHttpClient:(id<MSHttpClientProtocol>)httpClient
@@ -32,6 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
                                          httpMethod:(NSString *)httpMethod
                                                body:(NSData *_Nullable)body
                                   additionalHeaders:(NSDictionary *_Nullable)additionalHeaders
+                                 offlineModeEnabled:(BOOL)offlineModeEnabled
                                   completionHandler:(MSHttpRequestCompletionHandler)completionHandler;
 
 @end
