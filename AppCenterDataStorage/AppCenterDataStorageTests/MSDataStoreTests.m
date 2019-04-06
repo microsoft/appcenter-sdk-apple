@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 #import "MSAppCenter.h"
+#import "MSAppCenterInternal.h"
 #import "MSAppCenterPrivate.h"
 #import "MSChannelGroupProtocol.h"
 #import "MSConstants+Internal.h"
@@ -72,7 +73,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   self.sut = [MSDataStore sharedInstance];
   self.tokenExchangeMock = OCMClassMock([MSTokenExchange class]);
   self.cosmosDbMock = OCMClassMock([MSCosmosDb class]);
-  [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
+  [MSAppCenter sharedInstance].sdkConfigured = YES;
   [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
                         appSecret:kMSTestAppSecret
           transmissionTargetToken:nil
