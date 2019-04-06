@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 #import "MSAppCenter.h"
+#import "MSAppCenterPrivate.h"
 #import "MSChannelGroupProtocol.h"
 #import "MSConstants+Internal.h"
 #import "MSCosmosDb.h"
@@ -81,6 +82,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 - (void)tearDown {
   [super tearDown];
   [MSDataStore resetSharedInstance];
+  [MSAppCenter resetSharedInstance];
   [self.settingsMock stopMocking];
   [self.tokenExchangeMock stopMocking];
   [self.cosmosDbMock stopMocking];
