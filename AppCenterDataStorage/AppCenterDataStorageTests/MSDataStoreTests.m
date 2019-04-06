@@ -171,6 +171,39 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                }];
   XCTAssertNotNil(actualDocumentWrapper);
   XCTAssertNotNil(actualDocumentWrapper.error);
+  XCTAssertEqual(actualDocumentWrapper.error.error.domain, kMSACErrorDomain);
+  XCTAssertEqual(actualDocumentWrapper.error.error.code, MSACDisabledErrorCode);
+  XCTAssertEqualObjects(actualDocumentWrapper.documentId, kMSDocumentIdTest);
+}
+
+- (void)testReadWithInvalidDocumentType {
+
+  // If
+  self.sut.httpClient = OCMProtocolMock(@protocol(MSHttpClientProtocol));
+  OCMReject([self.sut.httpClient sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:OCMOCK_ANY data:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
+  __block MSDocumentWrapper *actualDocumentWrapper;
+  __weak XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler called."];
+
+  // When
+  [MSDataStore readWithPartition:kMSPartitionTest
+                      documentId:kMSDocumentIdTest
+                    documentType:[NSString class]
+               completionHandler:^(MSDocumentWrapper *data) {
+                 actualDocumentWrapper = data;
+                 [expectation fulfill];
+               }];
+
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *_Nullable error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+  XCTAssertNotNil(actualDocumentWrapper);
+  XCTAssertNotNil(actualDocumentWrapper.error);
+  XCTAssertEqual(actualDocumentWrapper.error.error.domain, kMSACErrorDomain);
+  XCTAssertEqual(actualDocumentWrapper.error.error.code, MCACInvalidClassCode);
   XCTAssertEqualObjects(actualDocumentWrapper.documentId, kMSDocumentIdTest);
 }
 
@@ -201,6 +234,8 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                }];
   XCTAssertNotNil(actualDocumentWrapper);
   XCTAssertNotNil(actualDocumentWrapper.error);
+  XCTAssertEqual(actualDocumentWrapper.error.error.domain, kMSACErrorDomain);
+  XCTAssertEqual(actualDocumentWrapper.error.error.code, MSACDisabledErrorCode);
   XCTAssertEqualObjects(actualDocumentWrapper.documentId, kMSDocumentIdTest);
 }
 
@@ -231,6 +266,8 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                }];
   XCTAssertNotNil(actualDocumentWrapper);
   XCTAssertNotNil(actualDocumentWrapper.error);
+  XCTAssertEqual(actualDocumentWrapper.error.error.domain, kMSACErrorDomain);
+  XCTAssertEqual(actualDocumentWrapper.error.error.code, MSACDisabledErrorCode);
   XCTAssertEqualObjects(actualDocumentWrapper.documentId, kMSDocumentIdTest);
 }
 
@@ -260,6 +297,8 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                }];
   XCTAssertNotNil(actualDataSourceError);
   XCTAssertNotNil(actualDataSourceError.error);
+  XCTAssertEqual(actualDataSourceError.error.domain, kMSACErrorDomain);
+  XCTAssertEqual(actualDataSourceError.error.code, MSACDisabledErrorCode);
   XCTAssertEqual(actualDataSourceError.errorCode, MSACDocumentUnknownErrorCode);
 }
 
@@ -290,7 +329,39 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   XCTAssertNotNil(actualPaginatedDocuments);
   XCTAssertNotNil(actualPaginatedDocuments.currentPage.error);
   XCTAssertNotNil(actualPaginatedDocuments.currentPage.error.error);
+  XCTAssertEqual(actualPaginatedDocuments.currentPage.error.error.domain, kMSACErrorDomain);
+  XCTAssertEqual(actualPaginatedDocuments.currentPage.error.error.code, MSACDisabledErrorCode);
   XCTAssertEqual(actualPaginatedDocuments.currentPage.error.errorCode, MSACDocumentUnknownErrorCode);
+}
+
+- (void)testListWithInvalidDocumentType {
+
+  // If
+  self.sut.httpClient = OCMProtocolMock(@protocol(MSHttpClientProtocol));
+  OCMReject([self.sut.httpClient sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:OCMOCK_ANY data:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
+  __block MSPaginatedDocuments *actualPaginatedDocuments;
+  __weak XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler called."];
+
+  // When
+  [MSDataStore listWithPartition:kMSPartitionTest
+                    documentType:[NSString class]
+               completionHandler:^(MSPaginatedDocuments *documents) {
+                 actualPaginatedDocuments = documents;
+                 [expectation fulfill];
+               }];
+
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *_Nullable error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+  XCTAssertNotNil(actualPaginatedDocuments);
+  XCTAssertNotNil(actualPaginatedDocuments.currentPage.error);
+  XCTAssertNotNil(actualPaginatedDocuments.currentPage.error.error);
+  XCTAssertEqual(actualPaginatedDocuments.currentPage.error.error.domain, kMSACErrorDomain);
+  XCTAssertEqual(actualPaginatedDocuments.currentPage.error.error.code, MCACInvalidClassCode);
 }
 
 - (void)testDefaultHeaderWithPartitionWithDictionaryNotNull {

@@ -45,6 +45,13 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (MSDocumentWrapper *)documentWrapperFromDictionary:(NSObject *)object documentType:(Class)documentType;
 
+/**
+ * Check if a given class type implements the `MSSerializableDocument` protocol.
+ *
+ * @param classType The type to check.
+ */
++ (BOOL)isSerializableDocument:(Class)classType;
+
 @end
 
 NS_ASSUME_NONNULL_END
