@@ -322,7 +322,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   XCTAssertTrue([self tableExists:kMSTestTableName]);
 }
 
-- (void)testCreateTableWhenTableDoesntExistsWithUniqueColumns {
+- (void)testCreateTableWhenTableDoesntExistWithUniqueColumns {
 
   // If
   NSString *tableToCreate = @"NewTable";
