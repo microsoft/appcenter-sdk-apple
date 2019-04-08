@@ -115,7 +115,7 @@ static const NSUInteger kMSSchemaVersion = 1;
   if ([partition isEqualToString:MSDataStoreAppDocumentsPartition]) {
     return kMSAppDocumentTableName;
   }
-  return [NSString stringWithFormat:kMSUserDocumentTableNameFormat, userId];
+  return [NSString stringWithFormat:kMSUserDocumentTableNameFormat, accountId];
 }
 
 @end

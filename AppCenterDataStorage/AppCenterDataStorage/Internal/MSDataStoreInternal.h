@@ -3,9 +3,12 @@
 
 #import <Foundation/Foundation.h>
 
-#import "MSDBDocumentStore.h"
 #import "MSDataStore.h"
+#import "MSDBDocumentStore.h"
+#import "MSDocumentStore.h"
 #import "MSServiceInternal.h"
+
+@protocol MSDocumentStore;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -21,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * A local store instance that is used to manage application and user level documents.
  */
-@property(nonatomic) MSDBDocumentStore *documentStore;
+@property(nonatomic) id<MSDocumentStore> documentStore;
 
 /**
  * An ingestion instance that is used to send a request to CosmosDb.
