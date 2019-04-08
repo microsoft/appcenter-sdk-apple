@@ -20,7 +20,7 @@ NS_ENUM(NSInteger){MSACLogInvalidContainerErrorCode = 1, MSACCanceledErrorCode =
 static NSString const *kMSACLogInvalidContainerErrorDesc = @"Invalid log container.";
 static NSString const *kMSACCanceledErrorDesc = @"The operation was canceled.";
 static NSString const *kMSACDisabledErrorDesc = @"The service is disabled.";
-static NSString const *kMSACInvalidClassDesc = @"Provided class does not comform to serialization protocol (MSSerializableDocument).";
+static NSString const *kMSACInvalidClassDesc = @"Provided class does not conform to serialization protocol (MSSerializableDocument).";
 
 #pragma mark - Connection
 
