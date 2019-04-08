@@ -21,7 +21,6 @@ NS_ASSUME_NONNULL_BEGIN
  * @return YES if the document was saved successfully, NO otherwise.
  */
 - (BOOL)upsertWithPartition:(NSString *)partition
-                  accountId:(NSString *_Nullable)accountId
             documentWrapper:(MSDocumentWrapper *)documentWrapper
                   operation:(NSString *_Nullable)operation
                     options:(MSBaseOptions *)options;
@@ -34,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return YES if the document was deleted successfully, NO otherwise.
  */
-- (BOOL)deleteWithPartition:(NSString *)partition accountId:(NSString *_Nullable)accountId documentId:(NSString *)documentId;
+- (BOOL)deleteWithPartition:(NSString *)partition documentId:(NSString *)documentId;
 
 /**
  * Delete table.

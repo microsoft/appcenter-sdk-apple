@@ -100,7 +100,7 @@
                                                                    documentType:[MSTestDocument class]];
 
   // When
-  BOOL result = [self.sut upsertWithPartition:MSDataStoreAppDocumentsPartition
+  BOOL result = [self.sut upsertWithPartition:@"some-partition"
                               documentWrapper:documentWrapper
                                     operation:@"CREATE"
                                       options:[[MSReadOptions alloc] initWithDeviceTimeToLive:1]];
@@ -113,7 +113,7 @@
 - (void)testDeleteWithPartitionForNonExistentDocument {
 
   // If, When
-  BOOL result = [self.sut deleteWithPartition:MSDataStoreUserDocumentsPartition documentId:@"some-document-id"];
+  BOOL result = [self.sut deleteWithPartition:@"some-partition" documentId:@"some-document-id"];
 
   // Then, should succeed but be a no-op
   XCTAssertTrue(result);
@@ -124,13 +124,13 @@
   // If
   MSDocumentWrapper *documentWrapper = [MSDocumentUtils documentWrapperFromData:[MSTestDocument getDocumentFixture:@"validTestDocument"]
                                                                    documentType:[MSTestDocument class]];
-  [self.sut upsertWithPartition:MSDataStoreAppDocumentsPartition
+  [self.sut upsertWithPartition:@"some-partition"
                 documentWrapper:documentWrapper
                       operation:@"CREATE"
                         options:[[MSReadOptions alloc] initWithDeviceTimeToLive:1]];
 
   // When
-  BOOL result = [self.sut deleteWithPartition:MSDataStoreUserDocumentsPartition documentId:documentWrapper.documentId];
+  BOOL result = [self.sut deleteWithPartition:@"some-partition" documentId:documentWrapper.documentId];
 
   // Then
   XCTAssertTrue(result);

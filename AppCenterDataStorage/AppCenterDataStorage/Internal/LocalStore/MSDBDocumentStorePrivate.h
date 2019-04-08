@@ -9,6 +9,7 @@ NS_ASSUME_NONNULL_BEGIN
 static NSString *const kMSDBDocumentFileName = @"Documents.sqlite";
 static NSString *const kMSAppDocumentTableName = @"appDocuments";
 static NSString *const kMSUserDocumentTableNameFormat = @"user_%@_documents";
+static NSString *const kMSDataStoreAppDocumentsUserPartitionPrefix = @"user-";
 static NSString *const kMSIdColumnName = @"id";
 static NSString *const kMSPartitionColumnName = @"partition";
 static NSString *const kMSDocumentIdColumnName = @"document_id";

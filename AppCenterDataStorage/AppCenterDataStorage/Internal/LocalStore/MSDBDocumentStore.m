@@ -45,13 +45,12 @@ static const NSUInteger kMSSchemaVersion = 1;
 #pragma mark - Table Management
 
 - (BOOL)upsertWithPartition:(NSString *)partition
-                  accountId:(NSString *_Nullable)accountId
             documentWrapper:(MSDocumentWrapper *)documentWrapper
                   operation:(NSString *_Nullable)operation
                     options:(MSBaseOptions *)options {
   NSDate *now = [NSDate date];
   NSDate *expirationTime = [now dateByAddingTimeInterval:options.deviceTimeToLive];
-  NSString *tableName = [MSDBDocumentStore tableNameForPartition:partition accountId:accountId];
+  NSString *tableName = [MSDBDocumentStore tableNameForPartition:partition];
   NSString *insertQuery =
       [NSString stringWithFormat:@"REPLACE INTO \"%@\" (\"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\") "
                                  @"VALUES ('%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@')",
@@ -67,8 +66,8 @@ static const NSUInteger kMSSchemaVersion = 1;
   return result == SQLITE_OK;
 }
 
-- (BOOL)deleteWithPartition:(NSString *)partition accountId:(NSString *_Nullable)accountId documentId:(NSString *)documentId {
-  NSString *tableName = [MSDBDocumentStore tableNameForPartition:partition accountId:accountId];
+- (BOOL)deleteWithPartition:(NSString *)partition documentId:(NSString *)documentId {
+  NSString *tableName = [MSDBDocumentStore tableNameForPartition:partition];
   NSString *deleteQuery = [NSString stringWithFormat:@"DELETE FROM \"%@' WHERE \"%@\" = '%@' AND \"%@\" = '%@'", tableName,
                                                      kMSPartitionColumnName, partition, kMSDocumentIdColumnName, documentId];
   int result = [self.dbStorage executeNonSelectionQuery:deleteQuery];
@@ -107,11 +106,11 @@ static const NSUInteger kMSSchemaVersion = 1;
   // clang-format on
 }
 
-+ (NSString *)tableNameForPartition:(NSString *)partition accountId:(NSString *_Nullable)accountId {
++ (NSString *)tableNameForPartition:(NSString *)partition {
   if ([partition isEqualToString:MSDataStoreAppDocumentsPartition]) {
     return kMSAppDocumentTableName;
   }
-  return [NSString stringWithFormat:kMSUserDocumentTableNameFormat, accountId];
+  return [NSString stringWithFormat:kMSUserDocumentTableNameFormat, [partition substringFromIndex:kMSDataStoreAppDocumentsUserPartitionPrefix.length]];
 }
 
 @end
