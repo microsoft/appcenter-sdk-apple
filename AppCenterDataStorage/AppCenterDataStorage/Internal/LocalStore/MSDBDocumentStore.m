@@ -16,6 +16,7 @@
 #import "MSUtility+Date.h"
 #import "MSUtility+StringFormatting.h"
 #import "MSWriteOptions.h"
+#import "MSDataStorageConstants.h"
 
 static const NSUInteger kMSSchemaVersion = 1;
 
@@ -40,7 +41,7 @@ static const NSUInteger kMSSchemaVersion = 1;
     _expirationTimeColumnIndex = ((NSNumber *)columnIndexes[kMSAppDocumentTableName][kMSExpirationTimeColumnName]).unsignedIntegerValue;
     _downloadTimeColumnIndex = ((NSNumber *)columnIndexes[kMSAppDocumentTableName][kMSDownloadTimeColumnName]).unsignedIntegerValue;
     _operationTimeColumnIndex = ((NSNumber *)columnIndexes[kMSAppDocumentTableName][kMSOperationTimeColumnName]).unsignedIntegerValue;
-    _pendingOperationColumnIndex = ((NSNumber *)columnIndexes[kMSAppDocumentTableName][kMSPendingDownloadColumnName]).unsignedIntegerValue;
+    _pendingOperationColumnIndex = ((NSNumber *)columnIndexes[kMSAppDocumentTableName][kMSPendingOperationColumnName]).unsignedIntegerValue;
   }
   return self;
 }
@@ -104,12 +105,14 @@ static const NSUInteger kMSSchemaVersion = 1;
   NSString *jsonString = result[0][self.documentColumnIndex];
   NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
   NSDate *lastUpdatedDate = [MSUtility dateFromISO8601:result[0][self.operationTimeColumnIndex]];
+  NSString *pendingOperation = result[0][self.pendingOperationColumnIndex];
   return [MSDocumentUtils documentWrapperFromDocumentData:jsonData
                                              documentType:documentType
                                                      eTag:result[0][self.eTagColumnIndex]
                                           lastUpdatedDate:lastUpdatedDate
                                                 partition:partition
-                                               documentId:documentId];
+                                               documentId:documentId
+                                         pendingOperation:pendingOperation];
 }
 
 - (void)deleteDocumentWithPartition:(NSString *)__unused partition documentId:(NSString *)__unused documentId {
@@ -126,7 +129,7 @@ static const NSUInteger kMSSchemaVersion = 1;
     @{kMSDocumentIdColumnName : @[ kMSSQLiteTypeText, kMSSQLiteConstraintNotNull ]}, @{kMSDocumentColumnName : @[ kMSSQLiteTypeText ]},
     @{kMSETagColumnName : @[ kMSSQLiteTypeText ]}, @{kMSExpirationTimeColumnName : @[ kMSSQLiteTypeInteger ]},
     @{kMSDownloadTimeColumnName : @[ kMSSQLiteTypeInteger ]}, @{kMSOperationTimeColumnName : @[ kMSSQLiteTypeInteger ]},
-    @{kMSPendingDownloadColumnName : @[ kMSSQLiteTypeText ]}
+    @{kMSPendingOperationColumnName : @[ kMSSQLiteTypeText ]}
   ];
 }
 

@@ -7,6 +7,7 @@
 #import "MSDataStoreErrors.h"
 #import "MSDataStoreInternal.h"
 #import "MSLogger.h"
+#import "MSDocumentWrapperInternal.h"
 
 /**
  * CosmosDb document identifier key.
@@ -39,7 +40,7 @@ static NSString *const kMSDocumentKey = @"document";
   return @{kMSDocument : document, kMSPartitionKey : partition, kMSIdKey : documentId};
 }
 
-+ (BOOL)isReferenceDictionaryWithKey:(id _Nullable)reference key:(NSString *)key keyType:(Class)keyType {
++ (BOOL)isReferenceDictionaryWithKey:(nullable id)reference key:(NSString *)key keyType:(Class)keyType {
 
   // Validate the reference is a dictionary.
   if (!reference || ![(NSObject *)reference isKindOfClass:[NSDictionary class]]) {
@@ -56,7 +57,7 @@ static NSString *const kMSDocumentKey = @"document";
   return [keyObject isKindOfClass:keyType];
 }
 
-+ (MSDocumentWrapper *)documentWrapperFromData:(NSData *_Nullable)data documentType:(Class)documentType {
++ (MSDocumentWrapper *)documentWrapperFromData:(nullable NSData *)data documentType:(Class)documentType {
 
   // Deserialize data.
   NSError *error;
@@ -80,13 +81,13 @@ static NSString *const kMSDocumentKey = @"document";
   return [MSDocumentUtils documentWrapperFromDictionary:(NSDictionary *)dictionary documentType:documentType];
 }
 
-+ (MSDocumentWrapper *)documentWrapperFromDocumentData:(NSData *_Nullable)data
++ (MSDocumentWrapper *)documentWrapperFromDocumentData:(nullable NSData *)data
                                           documentType:(Class)documentType
                                                   eTag:(NSString *)eTag
                                        lastUpdatedDate:(NSDate *)lastUpdatedDate
                                              partition:(NSString *)partition
-                                            documentId:(NSString *)documentId {
-
+                                            documentId:(NSString *)documentId
+                                      pendingOperation:(nullable NSString *)pendingOperation {
   // Deserialize data.
   NSError *error;
   NSObject *dictionary;
@@ -111,7 +112,8 @@ static NSString *const kMSDocumentKey = @"document";
                                         eTag:eTag
                              lastUpdatedDate:lastUpdatedDate
                                    partition:partition
-                                  documentId:documentId];
+                                  documentId:documentId
+                            pendingOperation:pendingOperation];
 }
 
 + (MSDocumentWrapper *)documentWrapperFromDictionary:(NSObject *)object documentType:(Class)documentType {
@@ -140,7 +142,8 @@ static NSString *const kMSDocumentKey = @"document";
                                         eTag:eTag
                              lastUpdatedDate:lastUpdatedDate
                                    partition:partition
-                                  documentId:documentId];
+                                  documentId:documentId
+                            pendingOperation:nil];;
 }
 
 + (MSDocumentWrapper *)documentWrapperFromDictionary:(NSObject *)object
@@ -148,7 +151,8 @@ static NSString *const kMSDocumentKey = @"document";
                                                 eTag:(NSString *)eTag
                                      lastUpdatedDate:(NSDate *)lastUpdatedDate
                                            partition:(NSString *)partition
-                                          documentId:(NSString *)documentId {
+                                          documentId:(NSString *)documentId
+                                    pendingOperation:(nullable NSString *)pendingOperation {
   NSDictionary *dictionary = (NSDictionary *)object;
 
   // Extract json value.
@@ -184,6 +188,7 @@ static NSString *const kMSDocumentKey = @"document";
                                                    documentId:documentId
                                                          eTag:eTag
                                               lastUpdatedDate:lastUpdatedDate
+                                             pendingOperation:pendingOperation
                                                         error:dataSourceError];
 }
 

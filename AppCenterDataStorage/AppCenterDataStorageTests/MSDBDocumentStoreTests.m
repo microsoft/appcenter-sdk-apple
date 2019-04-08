@@ -7,7 +7,7 @@
 #import "MSDBStoragePrivate.h"
 #import "MSDataSourceError.h"
 #import "MSDataStoreErrors.h"
-#import "MSDocumentWrapper.h"
+#import "MSDocumentWrapperInternal.h"
 #import "MSMockDocument.h"
 #import "MSReadOptions.h"
 #import "MSTestFrameworks.h"
@@ -45,10 +45,12 @@
   NSString *eTag = @"398";
   NSString *fullPartition = [NSString stringWithFormat:@"%@-%@", partitionKey, accountId];
   NSString *jsonString = @"{ \"document\": {\"key\": \"value\"}}";
+  NSString *pendingOperation = kMSPendingOperationReplace;
   [self addJsonStringToTable:jsonString
                         eTag:eTag
                    partition:fullPartition
                   documentId:documentId
+            pendingOperation:pendingOperation
               expirationTime:[NSDate dateWithTimeIntervalSinceNow:1000000]];
 
   // When
@@ -64,6 +66,7 @@
   XCTAssertEqualObjects(retrievedContentDictionary[@"key"], @"value");
   XCTAssertEqualObjects(documentWrapper.partition, fullPartition);
   XCTAssertEqualObjects(documentWrapper.documentId, documentId);
+  XCTAssertEqualObjects(documentWrapper.pendingOperation, pendingOperation);
 }
 
 - (void)testReadUserDocumentFromLocalDatabaseWithDeserializationError {
@@ -79,6 +82,7 @@
                         eTag:eTag
                    partition:fullPartition
                   documentId:documentId
+            pendingOperation:@""
               expirationTime:[NSDate dateWithTimeIntervalSinceNow:1000000]];
 
   // When
@@ -106,6 +110,7 @@
                         eTag:eTag
                    partition:fullPartition
                   documentId:documentId
+            pendingOperation:@""
               expirationTime:[NSDate dateWithTimeIntervalSinceNow:-1000000]];
 
   // When
@@ -164,7 +169,7 @@
       kMSExpirationTimeColumnName : @(5),
       kMSDownloadTimeColumnName : @(6),
       kMSOperationTimeColumnName : @(7),
-      kMSPendingDownloadColumnName : @(8)
+      kMSPendingOperationColumnName : @(8)
     }
   };
   OCMStub([MSDBStorage columnsIndexes:expectedSchema]).andReturn(expectedColumnIndexes);
@@ -186,7 +191,7 @@
                  self.sut.downloadTimeColumnIndex);
   XCTAssertEqual([expectedColumnIndexes[kMSAppDocumentTableName][kMSOperationTimeColumnName] integerValue],
                  self.sut.operationTimeColumnIndex);
-  XCTAssertEqual([expectedColumnIndexes[kMSAppDocumentTableName][kMSPendingDownloadColumnName] integerValue],
+  XCTAssertEqual([expectedColumnIndexes[kMSAppDocumentTableName][kMSPendingOperationColumnName] integerValue],
                  self.sut.pendingOperationColumnIndex);
 }
 
@@ -224,7 +229,7 @@
     @{kMSDocumentIdColumnName : @[ kMSSQLiteTypeText, kMSSQLiteConstraintNotNull ]}, @{kMSDocumentColumnName : @[ kMSSQLiteTypeText ]},
     @{kMSETagColumnName : @[ kMSSQLiteTypeText ]}, @{kMSExpirationTimeColumnName : @[ kMSSQLiteTypeInteger ]},
     @{kMSDownloadTimeColumnName : @[ kMSSQLiteTypeInteger ]}, @{kMSOperationTimeColumnName : @[ kMSSQLiteTypeInteger ]},
-    @{kMSPendingDownloadColumnName : @[ kMSSQLiteTypeText ]}
+    @{kMSPendingOperationColumnName : @[ kMSSQLiteTypeText ]}
   ];
 }
 
@@ -233,14 +238,16 @@
                         eTag:(NSString *)eTag
                    partition:(NSString *)partition
                   documentId:(NSString *)documentId
+            pendingOperation:(NSString *)pendingOperation
               expirationTime:(NSDate *)expirationTime {
   sqlite3 *db = [self openDatabase:kMSDBDocumentFileName];
   NSString *expirationTimeString = [MSUtility dateToISO8601:expirationTime];
+  NSString *operationTimeString = [MSUtility dateToISO8601:[NSDate date]];
   NSString *insertQuery = [NSString
-      stringWithFormat:@"INSERT INTO '%@' ('%@', '%@', '%@', '%@', '%@', '%@', '%@') VALUES ('%@', '%@', '%@', '%@', '%@', '%@', '%@')",
+      stringWithFormat:@"INSERT INTO '%@' ('%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@') VALUES ('%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@')",
                        kMSAppDocumentTableName, kMSIdColumnName, kMSPartitionColumnName, kMSETagColumnName, kMSDocumentColumnName,
-                       kMSDocumentIdColumnName, kMSExpirationTimeColumnName, kMSOperationTimeColumnName, @0, partition, eTag, jsonString,
-                       documentId, expirationTimeString, [NSDate date]];
+                       kMSDocumentIdColumnName, kMSExpirationTimeColumnName, kMSOperationTimeColumnName, kMSPendingOperationColumnName, @0, partition, eTag, jsonString,
+                       documentId, expirationTimeString, operationTimeString, pendingOperation];
   char *error;
   sqlite3_exec(db, [insertQuery UTF8String], NULL, NULL, &error);
   sqlite3_close(db);
