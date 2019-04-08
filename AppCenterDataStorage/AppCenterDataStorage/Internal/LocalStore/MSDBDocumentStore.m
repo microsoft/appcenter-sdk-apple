@@ -38,7 +38,7 @@ static const NSUInteger kMSSchemaVersion = 1;
 }
 
 - (instancetype)init {
-  
+
   /*
    * DO NOT modify schema without a migration plan and bumping database version.
    */
@@ -75,7 +75,7 @@ static const NSUInteger kMSSchemaVersion = 1;
 }
 
 + (MSDBSchema *)documentTableSchema {
-  return  @{kMSAppDocumentTableName : [MSDBDocumentStore columnsSchema]};
+  return @{kMSAppDocumentTableName : [MSDBDocumentStore columnsSchema]};
 }
 
 + (MSDBColumnsSchema *)columnsSchema {

@@ -375,23 +375,22 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
 }
 
 - (void)testDroppAllTables {
-  
+
   // If
   NSString *tableName1 = @"shortLivedTabled1";
   NSString *tableName2 = @"shortLivedTabled2";
-  
+
   // When
   XCTAssertTrue([self.sut createTable:tableName1 columnsSchema:self.schema[kMSTestTableName]]);
   XCTAssertTrue([self tableExists:tableName1]);
   XCTAssertTrue([self.sut createTable:tableName2 columnsSchema:self.schema[kMSTestTableName]]);
   XCTAssertTrue([self tableExists:tableName2]);
   [self.sut dropAllTables];
-  
+
   // Then
   XCTAssertFalse([self tableExists:tableName1]);
   XCTAssertFalse([self tableExists:tableName2]);
 }
-
 
 - (void)testDroppedTableWhenTableDoesntExists {
 

@@ -79,9 +79,9 @@
 
 - (void)dropAllTables {
   // Get all table names.
-  NSString * query = @"SELECT name FROM sqlite_master WHERE type='table'";
+  NSString *query = @"SELECT name FROM sqlite_master WHERE type='table'";
   NSArray<NSArray *> *result = [self executeSelectionQuery:query];
-  for (NSArray * arr in result) {
+  for (NSArray *arr in result) {
     [self dropTable:arr[0]];
   }
 }

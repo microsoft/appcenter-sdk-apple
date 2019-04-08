@@ -77,9 +77,8 @@
 
   // Then
   OCMVerify([self.dbStorag createTable:tableName
-                              columnsSchema:[self expectedColumnSchema]
-                    uniqueColumnsConstraint:[self expectedUniqueColumnsConstraint]]);
-
+                         columnsSchema:[self expectedColumnSchema]
+               uniqueColumnsConstraint:[self expectedUniqueColumnsConstraint]]);
 }
 
 - (void)testDeletionOfUserLevelTable {
@@ -95,7 +94,6 @@
   OCMVerify([self.dbStorag dropTable:userTableName]);
 }
 
-
 - (void)testDeletionOfAllTables {
 
   // If
@@ -104,14 +102,13 @@
   [self.sut createUserStorageWithAccountId:expectedAccountId];
   OCMVerify([self.dbStorag createTable:tableName columnsSchema:[self expectedColumnSchema]]);
   XCTAssertTrue([self tableExists:tableName]);
-  
+
   // When
   [self.sut deleteAllTables];
 
   // Then
   XCTAssertFalse([self tableExists:tableName]);
 }
-
 
 - (MSDBColumnsSchema *)expectedColumnSchema {
   return @[
@@ -126,7 +123,7 @@
 
 - (BOOL)tableExists:(NSString *)tableName {
   NSArray<NSArray *> *result = [self.dbStorag
-                                executeSelectionQuery:[NSString stringWithFormat:@"SELECT COUNT(*) FROM \"sqlite_master\" WHERE \"type\"='table' AND \"name\"='%@';",
+      executeSelectionQuery:[NSString stringWithFormat:@"SELECT COUNT(*) FROM \"sqlite_master\" WHERE \"type\"='table' AND \"name\"='%@';",
                                                        tableName]];
   return [(NSNumber *)result[0][0] boolValue];
 }
