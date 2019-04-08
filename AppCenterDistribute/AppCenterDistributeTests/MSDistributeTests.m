@@ -1784,7 +1784,7 @@ static NSURL *sfURL;
   id notificationCenterMock = OCMPartialMock([NSNotificationCenter new]);
   OCMStub([notificationCenterMock defaultCenter]).andReturn(notificationCenterMock);
   id distributeMock = OCMPartialMock([MSDistribute new]);
-  OCMStub([distributeMock startUpdate]);
+  OCMStub([distributeMock startUpdate]).andDo(nil);
   
   // When
   id appCenterMock = OCMClassMock([MSAppCenter class]);
@@ -2354,7 +2354,7 @@ static NSURL *sfURL;
   id notificationCenterMock = OCMPartialMock([NSNotificationCenter new]);
   OCMStub([notificationCenterMock defaultCenter]).andReturn(notificationCenterMock);
   id distributeMock = OCMPartialMock([MSDistribute new]);
-  OCMStub([distributeMock startUpdate]);
+  OCMStub([distributeMock startUpdate]).andDo(nil);
     
   // When
   [distributeMock setEnabled:YES];
