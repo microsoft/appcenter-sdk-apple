@@ -4,10 +4,11 @@
 #import "MSDBDocumentStorePrivate.h"
 #import "MSDBStoragePrivate.h"
 #import "MSDataStore.h"
+#import "MSDictionaryDocument.h"
 #import "MSDocumentUtils.h"
 #import "MSReadOptions.h"
-#import "MSTestDocument.h"
 #import "MSTestFrameworks.h"
+#import "NSObject+MSTestFixture.h"
 
 @interface MSDBDocumentStoreTests : XCTestCase
 
@@ -75,7 +76,10 @@
   [self.sut createUserStorageWithAccountId:expectedAccountId];
 
   // Then
-  OCMVerify([dbStorageMock createTable:tableName columnsSchema:[MSDBDocumentStore columnsSchema]]);
+  NSArray<NSString *> *expectedConstraint = @[ kMSPartitionColumnName, kMSDocumentIdColumnName ];
+  OCMVerify([dbStorageMock createTable:tableName
+                         columnsSchema:[MSDBDocumentStore columnsSchema]
+               uniqueColumnsConstraint:expectedConstraint]);
 }
 
 - (void)testDeletionOfUserLevelTable {
@@ -96,11 +100,11 @@
 - (void)testUpsertWithPartition {
 
   // If
-  MSDocumentWrapper *documentWrapper = [MSDocumentUtils documentWrapperFromData:[MSTestDocument getDocumentFixture:@"validTestDocument"]
-                                                                   documentType:[MSTestDocument class]];
+  MSDocumentWrapper *documentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestDocument"]
+                                                                   documentType:[MSDictionaryDocument class]];
 
   // When
-  BOOL result = [self.sut upsertWithPartition:@"some-partition"
+  BOOL result = [self.sut upsertWithPartition:MSDataStoreAppDocumentsPartition
                               documentWrapper:documentWrapper
                                     operation:@"CREATE"
                                       options:[[MSReadOptions alloc] initWithDeviceTimeToLive:1]];
@@ -113,47 +117,44 @@
 - (void)testDeleteWithPartitionForNonExistentDocument {
 
   // If, When
-  BOOL result = [self.sut deleteWithPartition:@"some-partition" documentId:@"some-document-id"];
+  BOOL result = [self.sut deleteWithPartition:MSDataStoreAppDocumentsPartition documentId:@"some-document-id"];
 
   // Then, should succeed but be a no-op
   XCTAssertTrue(result);
 }
 
-- (void)testDeleteWithPartitionForExistingDocument {
+- (void)testDeleteWithReadonlyPartitionForExistingDocument {
 
   // If
-  MSDocumentWrapper *documentWrapper = [MSDocumentUtils documentWrapperFromData:[MSTestDocument getDocumentFixture:@"validTestDocument"]
-                                                                   documentType:[MSTestDocument class]];
-  [self.sut upsertWithPartition:@"some-partition"
+  MSDocumentWrapper *documentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestDocument"]
+                                                                   documentType:[MSDictionaryDocument class]];
+  [self.sut upsertWithPartition:MSDataStoreAppDocumentsPartition
                 documentWrapper:documentWrapper
                       operation:@"CREATE"
                         options:[[MSReadOptions alloc] initWithDeviceTimeToLive:1]];
 
   // When
-  BOOL result = [self.sut deleteWithPartition:@"some-partition" documentId:documentWrapper.documentId];
+  BOOL result = [self.sut deleteWithPartition:MSDataStoreAppDocumentsPartition documentId:documentWrapper.documentId];
 
   // Then
   XCTAssertTrue(result);
 }
 
-- (MSDBColumnsSchema *)expectedColumnSchema {
-  // clang-format off
-  return @[
-    @{kMSIdColumnName : @[ kMSSQLiteTypeInteger, kMSSQLiteConstraintPrimaryKey, kMSSQLiteConstraintAutoincrement ]},
-    @{kMSPartitionColumnName : @[ kMSSQLiteTypeText, kMSSQLiteConstraintNotNull ]},
-    @{kMSDocumentIdColumnName : @[ kMSSQLiteTypeText, kMSSQLiteConstraintNotNull ]}, 
-    @{kMSDocumentColumnName : @[ kMSSQLiteTypeText ]},
-    @{kMSETagColumnName : @[ kMSSQLiteTypeText ]}, 
-    @{kMSExpirationTimeColumnName : @[ kMSSQLiteTypeInteger ]},
-    @{kMSDownloadTimeColumnName : @[ kMSSQLiteTypeInteger ]}, 
-    @{kMSOperationTimeColumnName : @[ kMSSQLiteTypeInteger ]},
-    @{kMSPendingOperationColumnName : @[ kMSSQLiteTypeText ]}
-  ];
-  // clang-format on
-}
-
-- (NSArray<NSString *> *)expectedUniqueColumnsConstraint {
-  return @[ kMSPartitionColumnName, kMSDocumentIdColumnName ];
+- (void)testDeleteWithUserPartitionForExistingDocument {
+  
+  // If
+  MSDocumentWrapper *documentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestDocument"]
+                                                                   documentType:[MSDictionaryDocument class]];
+  [self.sut upsertWithPartition:MSDataStoreUserDocumentsPartition
+                documentWrapper:documentWrapper
+                      operation:@"CREATE"
+                        options:[[MSReadOptions alloc] initWithDeviceTimeToLive:1]];
+  
+  // When
+  BOOL result = [self.sut deleteWithPartition:MSDataStoreAppDocumentsPartition documentId:documentWrapper.documentId];
+  
+  // Then
+  XCTAssertTrue(result);
 }
 
 @end

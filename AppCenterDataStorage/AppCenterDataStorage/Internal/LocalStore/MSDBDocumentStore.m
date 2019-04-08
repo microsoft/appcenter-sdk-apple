@@ -68,7 +68,7 @@ static const NSUInteger kMSSchemaVersion = 1;
 
 - (BOOL)deleteWithPartition:(NSString *)partition documentId:(NSString *)documentId {
   NSString *tableName = [MSDBDocumentStore tableNameForPartition:partition];
-  NSString *deleteQuery = [NSString stringWithFormat:@"DELETE FROM \"%@' WHERE \"%@\" = '%@' AND \"%@\" = '%@'", tableName,
+  NSString *deleteQuery = [NSString stringWithFormat:@"DELETE FROM \"%@\" WHERE \"%@\" = '%@' AND \"%@\" = '%@'", tableName,
                                                      kMSPartitionColumnName, partition, kMSDocumentIdColumnName, documentId];
   int result = [self.dbStorage executeNonSelectionQuery:deleteQuery];
   if (result != SQLITE_OK) {
