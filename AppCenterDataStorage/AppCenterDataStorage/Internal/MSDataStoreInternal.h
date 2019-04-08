@@ -3,8 +3,8 @@
 
 #import <Foundation/Foundation.h>
 
-#import "MSDataStore.h"
 #import "MSDBDocumentStore.h"
+#import "MSDataStore.h"
 #import "MSDocumentStore.h"
 #import "MSServiceInternal.h"
 
