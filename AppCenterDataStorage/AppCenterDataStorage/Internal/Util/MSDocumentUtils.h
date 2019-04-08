@@ -49,6 +49,8 @@ NS_ASSUME_NONNULL_BEGIN
  * Check if a given class type implements the `MSSerializableDocument` protocol.
  *
  * @param classType The type to check.
+ *
+ * @return YES if the class type implements `MSSerializableDocument`; NO otherwise.
  */
 + (BOOL)isSerializableDocument:(Class)classType;
 

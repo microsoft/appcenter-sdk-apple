@@ -203,7 +203,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   XCTAssertNotNil(actualDocumentWrapper);
   XCTAssertNotNil(actualDocumentWrapper.error);
   XCTAssertEqual(actualDocumentWrapper.error.error.domain, kMSACErrorDomain);
-  XCTAssertEqual(actualDocumentWrapper.error.error.code, MCACInvalidClassCode);
+  XCTAssertEqual(actualDocumentWrapper.error.error.code, MSACInvalidClassCode);
   XCTAssertEqualObjects(actualDocumentWrapper.documentId, kMSDocumentIdTest);
 }
 
@@ -361,7 +361,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   XCTAssertNotNil(actualPaginatedDocuments.currentPage.error);
   XCTAssertNotNil(actualPaginatedDocuments.currentPage.error.error);
   XCTAssertEqual(actualPaginatedDocuments.currentPage.error.error.domain, kMSACErrorDomain);
-  XCTAssertEqual(actualPaginatedDocuments.currentPage.error.error.code, MCACInvalidClassCode);
+  XCTAssertEqual(actualPaginatedDocuments.currentPage.error.error.code, MSACInvalidClassCode);
 }
 
 - (void)testDefaultHeaderWithPartitionWithDictionaryNotNull {

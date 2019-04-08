@@ -220,6 +220,7 @@ static dispatch_once_t onceToken;
               readOptions:(MSReadOptions *_Nullable)__unused readOptions
         completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
   @synchronized(self) {
+
     // Check preconditions.
     NSError *error;
     if (![self canBeUsed] || ![self isEnabled]) {
@@ -275,6 +276,7 @@ static dispatch_once_t onceToken;
                   completionHandler:(MSDataSourceErrorCompletionHandler)completionHandler {
 
   @synchronized(self) {
+
     // Check precondition.
     if (![self canBeUsed] || ![self isEnabled]) {
       NSError *error = [self generateDisabledError:@"delete" documentId:documentId];
@@ -313,6 +315,7 @@ static dispatch_once_t onceToken;
                    completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
 
   @synchronized(self) {
+
     // Check the precondition.
     if (![self canBeUsed] || ![self isEnabled]) {
       NSError *error = [self generateDisabledError:@"create or replace" documentId:documentId];
@@ -361,6 +364,7 @@ static dispatch_once_t onceToken;
         completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler {
 
   @synchronized(self) {
+
     // Check the preconditions.
     NSError *error;
     if (![self canBeUsed] || ![self isEnabled]) {
@@ -478,7 +482,7 @@ static dispatch_once_t onceToken;
 
 - (NSError *)generateInvalidClassError {
   NSError *error = [[NSError alloc] initWithDomain:kMSACErrorDomain
-                                              code:MCACInvalidClassCode
+                                              code:MSACInvalidClassCode
                                           userInfo:@{NSLocalizedDescriptionKey : kMSACInvalidClassDesc}];
   MSLogError([MSDataStore logTag], @"Not able to validate document deserialization precondition: %@", [error localizedDescription]);
   return error;
