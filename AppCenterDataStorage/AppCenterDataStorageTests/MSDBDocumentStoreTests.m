@@ -76,7 +76,10 @@
   [self.sut createUserStorageWithAccountId:expectedAccountId];
 
   // Then
-  OCMVerify([self.dbStorag createTable:tableName columnsSchema:[self expectedColumnSchema]]);
+  OCMVerify([self.dbStorag createTable:tableName
+                              columnsSchema:[self expectedColumnSchema]
+                    uniqueColumnsConstraint:[self expectedUniqueColumnsConstraint]]);
+
 }
 
 - (void)testDeletionOfUserLevelTable {
@@ -111,8 +114,6 @@
 
 
 - (MSDBColumnsSchema *)expectedColumnSchema {
-
-  // TODO create composite key for partition and the document id
   return @[
     @{kMSIdColumnName : @[ kMSSQLiteTypeInteger, kMSSQLiteConstraintPrimaryKey, kMSSQLiteConstraintAutoincrement ]},
     @{kMSPartitionColumnName : @[ kMSSQLiteTypeText, kMSSQLiteConstraintNotNull ]},
@@ -128,6 +129,10 @@
                                 executeSelectionQuery:[NSString stringWithFormat:@"SELECT COUNT(*) FROM \"sqlite_master\" WHERE \"type\"='table' AND \"name\"='%@';",
                                                        tableName]];
   return [(NSNumber *)result[0][0] boolValue];
+}
+
+- (NSArray<NSString *> *)expectedUniqueColumnsConstraint {
+  return @[ kMSPartitionColumnName, kMSDocumentIdColumnName ];
 }
 
 @end
