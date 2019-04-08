@@ -1,9 +1,20 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+#import <sqlite3.h>
+
 #import "MSDBDocumentStorePrivate.h"
 #import "MSDBStoragePrivate.h"
+#import "MSDataSourceError.h"
+#import "MSDataStoreErrors.h"
+#import "MSDocumentWrapper.h"
+#import "MSMockDocument.h"
+#import "MSReadOptions.h"
 #import "MSTestFrameworks.h"
+#import "MSTokenExchange.h"
+#import "MSUtility+Date.h"
+#import "MSUtility+File.h"
+#import "MSWriteOptions.h"
 
 @interface MSDBDocumentStoreTests : XCTestCase
 
@@ -16,14 +27,126 @@
 
 - (void)setUp {
   [super setUp];
+  [MSUtility deleteItemForPathComponent:kMSDBDocumentFileName];
   self.sut = [MSDBDocumentStore new];
-  self.dbStorageMock = OCMClassMock([MSDBStorage class]);
-  self.sut.dbStorage = self.dbStorageMock;
 }
 
 - (void)tearDown {
+  [MSUtility deleteItemForPathComponent:kMSDBDocumentFileName];
   [super tearDown];
-  [self.dbStorageMock stopMocking];
+}
+
+- (void)testReadUserDocumentFromLocalDatabase {
+
+  // If
+  NSString *documentId = @"12829";
+  NSString *partitionKey = @"user";
+  NSString *accountId = @"dabe069b-ee80-4ca6-8657-9128a4600958";
+  NSString *eTag = @"398";
+  NSString *fullPartition = [NSString stringWithFormat:@"%@-%@", partitionKey, accountId];
+  NSString *jsonString = @"{ \"document\": {\"key\": \"value\"}}";
+  [self addJsonStringToTable:jsonString
+                        eTag:eTag
+                   partition:fullPartition
+                  documentId:documentId
+              expirationTime:[NSDate dateWithTimeIntervalSinceNow:1000000]];
+
+  // When
+  MSDocumentWrapper *documentWrapper = [self.sut readWithPartition:fullPartition
+                                                        documentId:documentId
+                                                      documentType:[MSMockDocument class]
+                                                       readOptions:[MSReadOptions new]];
+
+  // Then
+  XCTAssertNotNil(documentWrapper);
+  XCTAssertNil(documentWrapper.error);
+  NSDictionary *retrievedContentDictionary = ((MSMockDocument *)(documentWrapper.deserializedValue)).contentDictionary;
+  XCTAssertEqualObjects(retrievedContentDictionary[@"key"], @"value");
+  XCTAssertEqualObjects(documentWrapper.partition, fullPartition);
+  XCTAssertEqualObjects(documentWrapper.documentId, documentId);
+}
+
+- (void)testReadUserDocumentFromLocalDatabaseWithDeserializationError {
+
+  // If
+  NSString *documentId = @"12829";
+  NSString *partitionKey = @"user";
+  NSString *accountId = @"dabe069b-ee80-4ca6-8657-9128a4600958";
+  NSString *eTag = @"398";
+  NSString *fullPartition = [NSString stringWithFormat:@"%@-%@", partitionKey, accountId];
+  NSString *jsonString = @"{";
+  [self addJsonStringToTable:jsonString
+                        eTag:eTag
+                   partition:fullPartition
+                  documentId:documentId
+              expirationTime:[NSDate dateWithTimeIntervalSinceNow:1000000]];
+
+  // When
+  MSDocumentWrapper *documentWrapper = [self.sut readWithPartition:fullPartition
+                                                        documentId:documentId
+                                                      documentType:[MSMockDocument class]
+                                                       readOptions:[MSReadOptions new]];
+
+  // Then
+  XCTAssertNotNil(documentWrapper);
+  XCTAssertNotNil(documentWrapper.error);
+  XCTAssertEqualObjects(documentWrapper.documentId, documentId);
+}
+
+- (void)testReadExpiredUserDocument {
+
+  // If
+  NSString *documentId = @"12829";
+  NSString *partitionKey = @"user";
+  NSString *accountId = @"dabe069b-ee80-4ca6-8657-9128a4600958";
+  NSString *eTag = @"398";
+  NSString *fullPartition = [NSString stringWithFormat:@"%@-%@", partitionKey, accountId];
+  NSString *jsonString = @"{ \"document\": {\"key\": \"value\"}}";
+  [self addJsonStringToTable:jsonString
+                        eTag:eTag
+                   partition:fullPartition
+                  documentId:documentId
+              expirationTime:[NSDate dateWithTimeIntervalSinceNow:-1000000]];
+
+  // When
+  MSDocumentWrapper *documentWrapper = [self.sut readWithPartition:fullPartition
+                                                        documentId:documentId
+                                                      documentType:[MSMockDocument class]
+                                                       readOptions:[MSReadOptions new]];
+
+  // Then
+  XCTAssertNotNil(documentWrapper);
+  XCTAssertNotNil(documentWrapper.error);
+  XCTAssertEqualObjects(documentWrapper.error.error.domain, kMSACDataStoreErrorDomain);
+  XCTAssertEqual(documentWrapper.error.error.code, MSACDataStoreErrorLocalDocumentExpired);
+  XCTAssertEqualObjects(documentWrapper.documentId, documentId);
+  OCMVerify([self.sut deleteDocumentWithPartition:fullPartition documentId:documentId]);
+}
+
+- (void)testReadUserDocumentFromLocalDatabaseNotFound {
+
+  // If
+  NSString *documentId = @"12829";
+  NSString *partitionKey = @"user";
+  MSMockDocument *document = [MSMockDocument new];
+  NSString *accountId = @"dabe069b-ee80-4ca6-8657-9128a4600958";
+  document.contentDictionary = @{@"key" : @"value"};
+  MSDBDocumentStore *sut = [MSDBDocumentStore new];
+  [sut createUserStorageWithAccountId:accountId];
+  NSString *fullPartition = [NSString stringWithFormat:@"%@-%@", partitionKey, accountId];
+
+  // When
+  MSDocumentWrapper *documentWrapper = [sut readWithPartition:fullPartition
+                                                   documentId:documentId
+                                                 documentType:[document class]
+                                                  readOptions:[MSReadOptions new]];
+
+  // Then
+  XCTAssertNotNil(documentWrapper);
+  XCTAssertNotNil(documentWrapper.error);
+  XCTAssertEqualObjects(documentWrapper.error.error.domain, kMSACDataStoreErrorDomain);
+  XCTAssertEqual(documentWrapper.error.error.code, MSACDataStoreErrorLocalDocumentNotFound);
+  XCTAssertEqualObjects(documentWrapper.documentId, documentId);
 }
 
 - (void)testCreateOfApplicationLevelTable {
@@ -104,4 +227,30 @@
     @{kMSPendingDownloadColumnName : @[ kMSSQLiteTypeText ]}
   ];
 }
+
+// These are temporary methods due to create method not exist.
+- (void)addJsonStringToTable:(NSString *)jsonString
+                        eTag:(NSString *)eTag
+                   partition:(NSString *)partition
+                  documentId:(NSString *)documentId
+              expirationTime:(NSDate *)expirationTime {
+  sqlite3 *db = [self openDatabase:kMSDBDocumentFileName];
+  NSString *expirationTimeString = [MSUtility dateToISO8601:expirationTime];
+  NSString *insertQuery = [NSString
+      stringWithFormat:@"INSERT INTO '%@' ('%@', '%@', '%@', '%@', '%@', '%@', '%@') VALUES ('%@', '%@', '%@', '%@', '%@', '%@', '%@')",
+                       kMSAppDocumentTableName, kMSIdColumnName, kMSPartitionColumnName, kMSETagColumnName, kMSDocumentColumnName,
+                       kMSDocumentIdColumnName, kMSExpirationTimeColumnName, kMSOperationTimeColumnName, @0, partition, eTag, jsonString,
+                       documentId, expirationTimeString, [NSDate date]];
+  char *error;
+  sqlite3_exec(db, [insertQuery UTF8String], NULL, NULL, &error);
+  sqlite3_close(db);
+}
+
+- (sqlite3 *)openDatabase:(NSString *)path {
+  sqlite3 *db = NULL;
+  NSURL *dbURL = [MSUtility createFileAtPathComponent:path withData:nil atomically:NO forceOverwrite:NO];
+  sqlite3_open_v2([[dbURL absoluteString] UTF8String], &db, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_URI, NULL);
+  return db;
+}
+
 @end

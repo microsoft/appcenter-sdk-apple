@@ -34,6 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param data Data from which to create the document wrapper.
  * @param documentType The type of document to instantiate.
+ * @return Document wrapper (valid or in an error state).
  */
 + (MSDocumentWrapper *)documentWrapperFromData:(NSData *_Nullable)data documentType:(Class)documentType;
 
@@ -42,8 +43,23 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param object Dictionary (expected) from which to create the document wrapper.
  * @param documentType The type of document to instantiate.
+ * @return Document wrapper (valid or in an error state).
  */
 + (MSDocumentWrapper *)documentWrapperFromDictionary:(NSObject *)object documentType:(Class)documentType;
+
+/**
+ * Deserialize a serializable document from json document data.
+ *
+ * @param data Data from which to create the document wrapper.
+ * @param documentType The type of document to instantiate.
+ * @param eTag The eTag for the document.
+ * @param lastUpdatedDate The last time the document was updated.
+ * @param partition The partition of the document.
+ * @param documentId the DocumentId.
+ *
+ * @return Document wrapper (valid or in an error state).
+ */
++ (MSDocumentWrapper *)documentWrapperFromDocumentData:(NSData *_Nullable)data documentType:(Class)documentType eTag:(NSString *)eTag lastUpdatedDate:(NSDate *)lastUpdatedDate partition:(NSString *)partition documentId: (NSString *)documentId;
 
 @end
 

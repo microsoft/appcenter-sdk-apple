@@ -19,9 +19,9 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Construct an object from a dictionary.
  *
- * @param dictionary of object
+ * @param dictionary Dictionary representing the object.
  *
- * @return An instance of the object
+ * @return An instance of the object.
  */
 - (instancetype)initFromDictionary:(NSDictionary *)dictionary;
 

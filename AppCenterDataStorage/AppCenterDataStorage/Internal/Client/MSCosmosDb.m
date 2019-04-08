@@ -6,6 +6,7 @@
 #import "MSConstants+Internal.h"
 #import "MSDataStoreInternal.h"
 #import "MSTokenResult.h"
+#import "MSDataStoreErrors.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
