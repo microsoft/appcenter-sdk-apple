@@ -6,13 +6,13 @@
 #import "MSAuthTokenContext.h"
 #import "MSConstants+Internal.h"
 #import "MSDataStorageConstants.h"
+#import "MSDataStore.h"
 #import "MSDataStoreErrors.h"
 #import "MSDataStoreInternal.h"
 #import "MSHttpClientProtocol.h"
 #import "MSKeychainUtil.h"
 #import "MSTokenResult.h"
 #import "MSTokensResponse.h"
-#import "MSDataStore.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
