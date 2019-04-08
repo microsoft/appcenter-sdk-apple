@@ -19,7 +19,8 @@ NS_ASSUME_NONNULL_BEGIN
  *           ...
  *        };
  */
-typedef NSDictionary<NSString *, NSArray<NSDictionary<NSString *, NSArray<NSString *> *> *> *> MSDBSchema;
+typedef NSArray<NSDictionary<NSString *, NSArray<NSString *> *> *> MSDBColumnsSchema;
+typedef NSDictionary<NSString *, MSDBColumnsSchema *> MSDBSchema;
 
 // SQLite types
 static NSString *const kMSSQLiteTypeText = @"TEXT";
@@ -79,6 +80,25 @@ static NSString *const kMSSQLiteConstraintAutoincrement = @"AUTOINCREMENT";
  * @return Database tables columns indexes.
  */
 + (NSDictionary *)columnsIndexes:(MSDBSchema *)schema;
+
+/**
+ * Creates tables within an existing database
+ *
+ * @param tableName Table name.
+ * @param columnsSchema Schema describing the columns structure.
+ *
+ * @return operation status.
+ */
+- (BOOL)createTable:(NSString *)tableName columnsSchema:(MSDBColumnsSchema *)columnsSchema;
+
+/**
+ * Deletes table within an existing database
+ *
+ * @param tableName Name of the table to delete.
+ *
+ * @return operation status.
+ */
+- (BOOL)dropTable:(NSString *)tableName;
 
 /**
  * Set the maximum size of the internal storage. This method must be called before App Center is started.

@@ -51,6 +51,7 @@
  * @param documentId Document id.
  * @param eTag Document eTag.
  * @param lastUpdatedDate Last updated date of the document.
+ * @param error An error.
  *
  * @return A new `MSDocumentWrapper` instance.
  */
@@ -59,7 +60,8 @@
                                 partition:(NSString *)partition
                                documentId:(NSString *)documentId
                                      eTag:(NSString *)eTag
-                          lastUpdatedDate:(NSDate *)lastUpdatedDate;
+                          lastUpdatedDate:(NSDate *)lastUpdatedDate
+                                    error:(MSDataSourceError *)error;
 
 /**
  * Initialize a `MSDocumentWrapper` instance.

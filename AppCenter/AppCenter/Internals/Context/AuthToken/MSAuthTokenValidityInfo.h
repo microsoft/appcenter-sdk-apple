@@ -39,6 +39,14 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (instancetype)initWithAuthToken:(nullable NSString *)authToken startTime:(nullable NSDate *)startTime endTime:(nullable NSDate *)endTime;
 
+/**
+ * Indicates whether this token expires soon.
+ * @see kMSSecBeforeExpireToRefresh.
+ *
+ * @return YES if token expires soon and needs to be refreshed, NO otherwise.
+ */
+- (BOOL)expiresSoon;
+
 @end
 
 NS_ASSUME_NONNULL_END
