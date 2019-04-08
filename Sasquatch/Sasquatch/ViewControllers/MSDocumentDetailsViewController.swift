@@ -3,11 +3,11 @@
 
 import UIKit
 
-class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate,UITableViewDataSource {
+class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
   var docmentType: String?
   var documentId: String?
   var userDocumentAddPropertiesSection: EventPropertiesTableSection!
-  var documentContent: [String: Any]!
+  var documentContent: [String: Any]?
   private var kUserDocumentAddPropertiesSectionIndex: Int = 0
 
   @IBOutlet weak var backButton: UIButton!
@@ -17,6 +17,7 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate,UIT
   override func viewDidLoad() {
     super.viewDidLoad()
     DocIdField.text = documentId
+    DocIdField.placeholder = "Please input an user document id"
     self.tableView.delegate = self
     self.tableView.dataSource = self
     self.tableView.setEditing(true, animated: false)
@@ -49,7 +50,7 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate,UIT
     } else if docmentType == "User" && section == 1 {
       return 1
     }
-    return documentContent.count
+    return documentContent?.count ?? 0
   }
 
   func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -74,8 +75,9 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate,UIT
     if docmentType == "User" && indexPath.section == kUserDocumentAddPropertiesSectionIndex {
       userDocumentAddPropertiesSection.tableView(tableView, commit: editingStyle, forRowAt: indexPath)
     } else if docmentType == "User" && indexPath.section == 2 {
-      let index = documentContent.index(documentContent.startIndex, offsetBy: indexPath.row)
-      documentContent.remove(at: index)
+      let index = documentContent!.index(documentContent!.startIndex, offsetBy: indexPath.row)
+      documentContent!.remove(at: index)
+      MSStorageViewController.UserDocumentsContent.remove(at: index)
       tableView.deleteRows(at: [indexPath], with: .automatic)
     }
   }
@@ -97,29 +99,31 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate,UIT
       return cell
     } else{
       let cell = tableView.dequeueReusableCell(withIdentifier: "property", for: indexPath)
-      cell.textLabel?.text = "\(Array(documentContent.keys)[indexPath.row]) : \(Array(documentContent.values)[indexPath.row])"
+      cell.textLabel?.text = "\(Array(documentContent!.keys)[indexPath.row]) : \(Array(documentContent!.values)[indexPath.row])"
       return cell
     }
   }
 
-  func saveButtonClicked (_ sender: Any) {
-    let docProperties = userDocumentAddPropertiesSection.typedProperties
-    for property in docProperties {
-      switch property.type {
-      case .String:
-        MSStorageViewController.UserDocumentsContent.updateValue(property.value as! String, forKey: property.key);
-      case .Double:
-        MSStorageViewController.UserDocumentsContent.updateValue(property.value as! Double, forKey: property.key)
-      case .Long:
-        MSStorageViewController.UserDocumentsContent.updateValue(property.value as! Int64, forKey: property.key)
-      case .Boolean:
-        MSStorageViewController.UserDocumentsContent.updateValue(property.value as! Bool, forKey: property.key)
-      case .DateTime:
-        MSStorageViewController.UserDocumentsContent.updateValue(property.value as! Date, forKey: property.key)
-      }
-    }
+  func saveButtonClicked (_ sender: UIButton) {
     if DocIdField.isEnabled && !((DocIdField.text?.isEmpty)!) {
       MSStorageViewController.UserDocuments.append(DocIdField.text!)
+    }
+    if !((DocIdField.text?.isEmpty)!) {
+      let docProperties = userDocumentAddPropertiesSection.typedProperties
+      for property in docProperties {
+        switch property.type {
+        case .String:
+          MSStorageViewController.UserDocumentsContent.updateValue(property.value as! String, forKey: property.key)
+        case .Double:
+          MSStorageViewController.UserDocumentsContent.updateValue(property.value as! Double, forKey: property.key)
+        case .Long:
+          MSStorageViewController.UserDocumentsContent.updateValue(property.value as! Int64, forKey: property.key)
+        case .Boolean:
+          MSStorageViewController.UserDocumentsContent.updateValue(property.value as! Bool, forKey: property.key)
+        case .DateTime:
+          MSStorageViewController.UserDocumentsContent.updateValue(property.value as! Date, forKey: property.key)
+        }
+      }
     }
     self.presentingViewController?.dismiss(animated: true, completion: nil)
   }

@@ -27,6 +27,11 @@ class MSStorageViewController: UITableViewController {
     identitySignIn = UserDefaults.standard.bool(forKey: "identitySignIn")
   }
 
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    tableView.reloadData()
+  }
+
   override func numberOfSections(in tableView: UITableView) -> Int {
     return 3
   }
@@ -145,7 +150,7 @@ class MSStorageViewController: UITableViewController {
     if segue.identifier == "ShowDocumentDetails" {
       let documentDetailsController = segue.destination as! MSDocumentDetailsViewController
       documentDetailsController.docmentType = self.storageType
-      documentDetailsController.documentId = sender as! String
+      documentDetailsController.documentId = sender as? String
       if self.storageType == StorageType.App.rawValue {
         documentDetailsController.documentContent = MSStorageViewController.AppDocumentContent
       } else {
