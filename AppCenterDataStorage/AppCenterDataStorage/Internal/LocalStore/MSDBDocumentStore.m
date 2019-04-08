@@ -53,14 +53,14 @@ static const NSUInteger kMSSchemaVersion = 1;
   NSDate *expirationTime = [now dateByAddingTimeInterval:options.deviceTimeToLive];
   NSString *tableName = [MSDBDocumentStore tableNameForPartition:partition accountId:accountId];
   NSString *insertQuery =
-      [NSString stringWithFormat:@"REPLACE INTO '%@' ('%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@') "
+      [NSString stringWithFormat:@"REPLACE INTO \"%@\" (\"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\") "
                                  @"VALUES ('%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@')",
                                  tableName, kMSPartitionColumnName, kMSDocumentIdColumnName, kMSDocumentColumnName, kMSETagColumnName,
                                  kMSExpirationTimeColumnName, kMSDownloadTimeColumnName, kMSOperationTimeColumnName,
                                  kMSPendingOperationColumnName, partition, documentWrapper.documentId, documentWrapper.jsonValue,
                                  documentWrapper.eTag, [MSUtility dateToISO8601:expirationTime],
                                  [MSUtility dateToISO8601:documentWrapper.lastUpdatedDate], [MSUtility dateToISO8601:now], operation];
-  NSInteger result = [self.dbStorage executeNonSelectionQuery:insertQuery];
+  int result = [self.dbStorage executeNonSelectionQuery:insertQuery];
   if (result != SQLITE_OK) {
     MSLogError([MSDataStore logTag], @"Unable to update or replace stored document, SQLite error code: %ld", (long)result);
   }
@@ -69,9 +69,9 @@ static const NSUInteger kMSSchemaVersion = 1;
 
 - (BOOL)deleteWithPartition:(NSString *)partition accountId:(NSString *_Nullable)accountId documentId:(NSString *)documentId {
   NSString *tableName = [MSDBDocumentStore tableNameForPartition:partition accountId:accountId];
-  NSString *deleteQuery = [NSString stringWithFormat:@"DELETE FROM '%@' WHERE '%@' = '%@' AND '%@' = '%@'", tableName,
+  NSString *deleteQuery = [NSString stringWithFormat:@"DELETE FROM \"%@' WHERE \"%@\" = '%@' AND \"%@\" = '%@'", tableName,
                                                      kMSPartitionColumnName, partition, kMSDocumentIdColumnName, documentId];
-  NSInteger result = [self.dbStorage executeNonSelectionQuery:deleteQuery];
+  int result = [self.dbStorage executeNonSelectionQuery:deleteQuery];
   if (result != SQLITE_OK) {
     MSLogError([MSDataStore logTag], @"Unable to delete stored document, SQLite error code: %ld", (long)result);
   }
@@ -91,22 +91,19 @@ static const NSUInteger kMSSchemaVersion = 1;
 }
 
 + (MSDBColumnsSchema *)columnsSchema {
-
-  // TODO create composite key for partition and the document id
-  NSMutableArray *schema = [NSMutableArray new];
-  [schema addObject:@{kMSIdColumnName : @[ kMSSQLiteTypeInteger, kMSSQLiteConstraintPrimaryKey, kMSSQLiteConstraintAutoincrement ]}];
-  [schema addObject:@{kMSPartitionColumnName : @[ kMSSQLiteTypeText, kMSSQLiteConstraintNotNull ]}];
-  [schema addObject:@{kMSDocumentIdColumnName : @[ kMSSQLiteTypeText, kMSSQLiteConstraintNotNull ]}];
-  [schema addObject:@{kMSDocumentColumnName : @[ kMSSQLiteTypeText ]}];
-  [schema addObject:@{kMSETagColumnName : @[ kMSSQLiteTypeText ]}];
-  [schema addObject:@{kMSExpirationTimeColumnName : @[ kMSSQLiteTypeInteger ]}];
-  [schema addObject:@{kMSDownloadTimeColumnName : @[ kMSSQLiteTypeInteger ]}];
-  [schema addObject:@{kMSOperationTimeColumnName : @[ kMSSQLiteTypeInteger ]}];
-  [schema addObject:@{kMSPendingOperationColumnName : @[ kMSSQLiteTypeText ]}];
-
-  // Schema needs to be immutable for versioning.
-  NSArray *immutableSchema = [schema copy];
-  return immutableSchema;
+  // clang-format off
+  return @[
+           @{kMSIdColumnName : @[ kMSSQLiteTypeInteger, kMSSQLiteConstraintPrimaryKey, kMSSQLiteConstraintAutoincrement ]},
+           @{kMSPartitionColumnName : @[ kMSSQLiteTypeText, kMSSQLiteConstraintNotNull ]},
+           @{kMSDocumentIdColumnName : @[ kMSSQLiteTypeText, kMSSQLiteConstraintNotNull ]},
+           @{kMSDocumentColumnName : @[ kMSSQLiteTypeText ]},
+           @{kMSETagColumnName : @[ kMSSQLiteTypeText ]},
+           @{kMSExpirationTimeColumnName : @[ kMSSQLiteTypeInteger ]},
+           @{kMSDownloadTimeColumnName : @[ kMSSQLiteTypeInteger ]},
+           @{kMSOperationTimeColumnName : @[ kMSSQLiteTypeInteger ]},
+           @{kMSPendingOperationColumnName : @[ kMSSQLiteTypeText ]}
+           ];
+  // clang-format on
 }
 
 + (NSString *)tableNameForPartition:(NSString *)partition accountId:(NSString *_Nullable)accountId {
