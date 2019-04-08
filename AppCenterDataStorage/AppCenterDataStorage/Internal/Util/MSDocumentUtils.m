@@ -6,8 +6,8 @@
 #import "MSDataStorageConstants.h"
 #import "MSDataStoreErrors.h"
 #import "MSDataStoreInternal.h"
-#import "MSLogger.h"
 #import "MSDocumentWrapperInternal.h"
+#import "MSLogger.h"
 
 /**
  * CosmosDb document identifier key.
@@ -143,7 +143,8 @@ static NSString *const kMSDocumentKey = @"document";
                              lastUpdatedDate:lastUpdatedDate
                                    partition:partition
                                   documentId:documentId
-                            pendingOperation:nil];;
+                            pendingOperation:nil];
+  ;
 }
 
 + (MSDocumentWrapper *)documentWrapperFromDictionary:(NSObject *)object

@@ -59,7 +59,13 @@ NS_ASSUME_NONNULL_BEGIN
  * @param pendingOperation The pending operation, or nil.
  * @return Document wrapper (valid or in an error state).
  */
-+ (MSDocumentWrapper *)documentWrapperFromDocumentData:(nullable NSData *)data documentType:(Class)documentType eTag:(NSString *)eTag lastUpdatedDate:(NSDate *)lastUpdatedDate partition:(NSString *)partition documentId: (NSString *)documentId pendingOperation:(nullable NSString *)pendingOperation;
++ (MSDocumentWrapper *)documentWrapperFromDocumentData:(nullable NSData *)data
+                                          documentType:(Class)documentType
+                                                  eTag:(NSString *)eTag
+                                       lastUpdatedDate:(NSDate *)lastUpdatedDate
+                                             partition:(NSString *)partition
+                                            documentId:(NSString *)documentId
+                                      pendingOperation:(nullable NSString *)pendingOperation;
 
 @end
 

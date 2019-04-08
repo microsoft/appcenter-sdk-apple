@@ -4,9 +4,9 @@
 #import "MSCosmosDb.h"
 #import "AppCenter+Internal.h"
 #import "MSConstants+Internal.h"
+#import "MSDataStoreErrors.h"
 #import "MSDataStoreInternal.h"
 #import "MSTokenResult.h"
-#import "MSDataStoreErrors.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -139,8 +139,8 @@ static NSString *const kMSHeaderMsDate = @"x-ms-date";
   NSDictionary *httpHeaders = [MSCosmosDb defaultHeaderWithPartition:tokenResult.partition
                                                              dbToken:tokenResult.token
                                                    additionalHeaders:additionalHeaders];
-    NSURL *sendURL = (NSURL *)[NSURL URLWithString:[MSCosmosDb documentUrlWithTokenResult:tokenResult documentId:documentId]];
-    [httpClient sendAsync:sendURL method:httpMethod headers:httpHeaders data:body completionHandler:completionHandler];
+  NSURL *sendURL = (NSURL *)[NSURL URLWithString:[MSCosmosDb documentUrlWithTokenResult:tokenResult documentId:documentId]];
+  [httpClient sendAsync:sendURL method:httpMethod headers:httpHeaders data:body completionHandler:completionHandler];
 }
 
 @end

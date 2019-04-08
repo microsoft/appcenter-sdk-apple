@@ -5,7 +5,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol MSSerializableDocument<NSObject>
+@protocol MSSerializableDocument <NSObject>
 
 @required
 

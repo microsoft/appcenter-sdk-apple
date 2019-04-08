@@ -3,7 +3,7 @@
 
 #import "MSDocumentWrapper.h"
 
-@interface MSDocumentWrapper<T : id <MSSerializableDocument>> ()
+@interface MSDocumentWrapper <T : id <MSSerializableDocument>>()
 
 /**
  * Initialize a `MSDocumentWrapper` instance.

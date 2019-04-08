@@ -8,6 +8,7 @@
 #import "MSConstants+Internal.h"
 #import "MSDBDocumentStorePrivate.h"
 #import "MSDBStoragePrivate.h"
+#import "MSDataStorageConstants.h"
 #import "MSDataStore.h"
 #import "MSDataStoreErrors.h"
 #import "MSDataStoreInternal.h"
@@ -16,7 +17,6 @@
 #import "MSUtility+Date.h"
 #import "MSUtility+StringFormatting.h"
 #import "MSWriteOptions.h"
-#import "MSDataStorageConstants.h"
 
 static const NSUInteger kMSSchemaVersion = 1;
 
