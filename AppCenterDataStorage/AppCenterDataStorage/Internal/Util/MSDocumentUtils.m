@@ -6,6 +6,7 @@
 #import "MSDataStorageConstants.h"
 #import "MSDataStoreErrors.h"
 #import "MSDataStoreInternal.h"
+#import "MSDocumentWrapperInternal.h"
 #import "MSLogger.h"
 
 /**
@@ -39,7 +40,7 @@ static NSString *const kMSDocumentKey = @"document";
   return @{kMSDocument : document, kMSPartitionKey : partition, kMSIdKey : documentId};
 }
 
-+ (BOOL)isReferenceDictionaryWithKey:(id _Nullable)reference key:(NSString *)key keyType:(Class)keyType {
++ (BOOL)isReferenceDictionaryWithKey:(nullable id)reference key:(NSString *)key keyType:(Class)keyType {
 
   // Validate the reference is a dictionary.
   if (!reference || ![(NSObject *)reference isKindOfClass:[NSDictionary class]]) {
@@ -56,7 +57,7 @@ static NSString *const kMSDocumentKey = @"document";
   return [keyObject isKindOfClass:keyType];
 }
 
-+ (MSDocumentWrapper *)documentWrapperFromData:(NSData *_Nullable)data documentType:(Class)documentType {
++ (MSDocumentWrapper *)documentWrapperFromData:(nullable NSData *)data documentType:(Class)documentType {
 
   // Deserialize data.
   NSError *error;
@@ -78,15 +79,46 @@ static NSString *const kMSDocumentKey = @"document";
 
   // Proceed from the dictionary.
   return [MSDocumentUtils documentWrapperFromDictionary:(NSDictionary *)dictionary documentType:documentType];
-};
+}
+
++ (MSDocumentWrapper *)documentWrapperFromDocumentData:(nullable NSData *)data
+                                          documentType:(Class)documentType
+                                                  eTag:(NSString *)eTag
+                                       lastUpdatedDate:(NSDate *)lastUpdatedDate
+                                             partition:(NSString *)partition
+                                            documentId:(NSString *)documentId
+                                      pendingOperation:(nullable NSString *)pendingOperation {
+  // Deserialize data.
+  NSError *error;
+  NSObject *dictionary;
+  if (data) {
+    dictionary = [NSJSONSerialization JSONObjectWithData:(NSData *)data options:0 error:&error];
+  }
+
+  // Handle deserialization error.
+  if (error || ![dictionary isKindOfClass:[NSDictionary class]]) {
+    if (!error) {
+      error = [[NSError alloc] initWithDomain:kMSACDataStoreErrorDomain
+                                         code:MSACDataStoreErrorJSONSerializationFailed
+                                     userInfo:@{NSLocalizedDescriptionKey : @"Can't deserialize JSON payload"}];
+    }
+    MSLogError([MSDataStore logTag], @"Error deserializing data: %@", [error localizedDescription]);
+    return [[MSDocumentWrapper alloc] initWithError:error documentId:documentId];
+  }
+
+  // Proceed from the dictionary.
+  return [self documentWrapperFromDictionary:(NSDictionary *)dictionary
+                                documentType:documentType
+                                        eTag:eTag
+                             lastUpdatedDate:lastUpdatedDate
+                                   partition:partition
+                                  documentId:documentId
+                            pendingOperation:pendingOperation];
+}
 
 + (MSDocumentWrapper *)documentWrapperFromDictionary:(NSObject *)object documentType:(Class)documentType {
 
   // Extract CosmosDB metadata information (id, date, etag) and partition key.
-  NSString *documentId;
-  NSDate *lastUpdatedDate;
-  NSString *etag;
-  NSString *partition;
   if (![MSDocumentUtils isReferenceDictionaryWithKey:object key:kMSDocumentIdKey keyType:[NSString class]] ||
       ![MSDocumentUtils isReferenceDictionaryWithKey:object key:kMSDocumentTimestampKey keyType:[NSNumber class]] ||
       ![MSDocumentUtils isReferenceDictionaryWithKey:object key:kMSDocumentEtagKey keyType:[NSString class]] ||
@@ -97,14 +129,32 @@ static NSString *const kMSDocumentKey = @"document";
         initWithDomain:kMSACDataStoreErrorDomain
                   code:MSACDataStoreErrorJSONSerializationFailed
               userInfo:@{NSLocalizedDescriptionKey : @"Can't deserialize document (missing system properties or partition key)"}];
-    MSLogError([MSDataStore logTag], @"Error deserializing data: %@", [error description]);
+    MSLogError([MSDataStore logTag], @"Error deserializing data: %@", [error localizedDescription]);
     return [[MSDocumentWrapper alloc] initWithError:error documentId:nil];
   }
   NSDictionary *dictionary = (NSDictionary *)object;
-  documentId = dictionary[kMSDocumentIdKey];
-  lastUpdatedDate = [NSDate dateWithTimeIntervalSince1970:[(NSNumber *)dictionary[kMSDocumentTimestampKey] doubleValue]];
-  etag = dictionary[kMSDocumentEtagKey];
-  partition = dictionary[kMSPartitionKey];
+  NSString *documentId = dictionary[kMSDocumentIdKey];
+  NSDate *lastUpdatedDate = [NSDate dateWithTimeIntervalSince1970:[(NSNumber *)dictionary[kMSDocumentTimestampKey] doubleValue]];
+  NSString *eTag = dictionary[kMSDocumentEtagKey];
+  NSString *partition = dictionary[kMSPartitionKey];
+  return [self documentWrapperFromDictionary:object
+                                documentType:documentType
+                                        eTag:eTag
+                             lastUpdatedDate:lastUpdatedDate
+                                   partition:partition
+                                  documentId:documentId
+                            pendingOperation:nil];
+  ;
+}
+
++ (MSDocumentWrapper *)documentWrapperFromDictionary:(NSObject *)object
+                                        documentType:(Class)documentType
+                                                eTag:(NSString *)eTag
+                                     lastUpdatedDate:(NSDate *)lastUpdatedDate
+                                           partition:(NSString *)partition
+                                          documentId:(NSString *)documentId
+                                    pendingOperation:(nullable NSString *)pendingOperation {
+  NSDictionary *dictionary = (NSDictionary *)object;
 
   // Extract json value.
   NSString *jsonValue;
@@ -129,7 +179,7 @@ static NSString *const kMSDocumentKey = @"document";
   MSDataSourceError *dataSourceError;
   if (error) {
     dataSourceError = [[MSDataSourceError alloc] initWithError:error];
-    MSLogError([MSDataStore logTag], @"Error deserializing data: %@", [error description]);
+    MSLogError([MSDataStore logTag], @"Error deserializing data: %@", [error localizedDescription]);
   } else {
     MSLogDebug([MSDataStore logTag], @"Successfully deserialized document: %@ (partition: %@)", documentId, partition);
   }
@@ -137,8 +187,9 @@ static NSString *const kMSDocumentKey = @"document";
                                                     jsonValue:jsonValue
                                                     partition:partition
                                                    documentId:documentId
-                                                         eTag:etag
+                                                         eTag:eTag
                                               lastUpdatedDate:lastUpdatedDate
+                                             pendingOperation:pendingOperation
                                                         error:dataSourceError];
 }
 
