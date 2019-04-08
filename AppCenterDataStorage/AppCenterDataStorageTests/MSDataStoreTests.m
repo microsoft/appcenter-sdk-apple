@@ -397,7 +397,6 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                                httpMethod:kMSHttpMethodGet
                                                      body:data
                                         additionalHeaders:additionalHeaders
-                                       offlineModeEnabled:NO
                                         completionHandler:handler];
 
   // Then
@@ -438,7 +437,6 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                                httpMethod:kMSHttpMethodGet
                                                      body:data
                                         additionalHeaders:nil
-                                       offlineModeEnabled:NO
                                         completionHandler:handler];
 
   // Then
@@ -476,11 +474,10 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                                               httpMethod:kMSHttpMethodPost
                                                                     body:OCMOCK_ANY
                                                        additionalHeaders:OCMOCK_ANY
-                                                      offlineModeEnabled:NO
                                                        completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         MSHttpRequestCompletionHandler cosmosdbOperationCallback;
-        [invocation getArgument:&cosmosdbOperationCallback atIndex:9];
+        [invocation getArgument:&cosmosdbOperationCallback atIndex:8];
         cosmosdbOperationCallback(testCosmosDbResponse, nil, nil);
       });
 
@@ -571,11 +568,10 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                                               httpMethod:kMSHttpMethodPost
                                                                     body:OCMOCK_ANY
                                                        additionalHeaders:OCMOCK_ANY
-                                                      offlineModeEnabled:NO
                                                        completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         MSHttpRequestCompletionHandler cosmosdbOperationCallback;
-        [invocation getArgument:&cosmosdbOperationCallback atIndex:9];
+        [invocation getArgument:&cosmosdbOperationCallback atIndex:8];
         cosmosdbOperationCallback(nil, nil, expectedCosmosDbError);
       });
 
@@ -625,11 +621,10 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                                               httpMethod:kMSHttpMethodPost
                                                                     body:OCMOCK_ANY
                                                        additionalHeaders:OCMOCK_ANY
-                                                      offlineModeEnabled:NO
                                                        completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         MSHttpRequestCompletionHandler cosmosdbOperationCallback;
-        [invocation getArgument:&cosmosdbOperationCallback atIndex:9];
+        [invocation getArgument:&cosmosdbOperationCallback atIndex:8];
         cosmosdbOperationCallback(brokenCosmosDbResponse, nil, nil);
       });
 
@@ -676,11 +671,10 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                                               httpMethod:kMSHttpMethodDelete
                                                                     body:OCMOCK_ANY
                                                        additionalHeaders:OCMOCK_ANY
-                                                      offlineModeEnabled:NO
                                                        completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         MSHttpRequestCompletionHandler cosmosdbOperationCallback;
-        [invocation getArgument:&cosmosdbOperationCallback atIndex:9];
+        [invocation getArgument:&cosmosdbOperationCallback atIndex:8];
         cosmosdbOperationCallback(nil, nil, nil);
       });
 
@@ -765,11 +759,10 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                                               httpMethod:kMSHttpMethodDelete
                                                                     body:OCMOCK_ANY
                                                        additionalHeaders:OCMOCK_ANY
-                                                      offlineModeEnabled:NO
                                                        completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         MSHttpRequestCompletionHandler cosmosdbOperationCallback;
-        [invocation getArgument:&cosmosdbOperationCallback atIndex:9];
+        [invocation getArgument:&cosmosdbOperationCallback atIndex:8];
         cosmosdbOperationCallback(nil, nil, expectedCosmosDbError);
       });
 
@@ -785,66 +778,6 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   XCTAssertTrue(completionHandlerCalled);
   XCTAssertEqualObjects(actualError.error, expectedCosmosDbError);
   XCTAssertEqual(actualError.errorCode, expectedResponseCode);
-}
-
-- (void)testSetOfflineMode {
-
-  // Then
-  XCTAssertFalse([MSDataStore isOfflineModeEnabled]);
-
-  // When
-  [MSDataStore setOfflineModeEnabled:YES];
-
-  // Then
-  XCTAssertTrue([MSDataStore isOfflineModeEnabled]);
-
-  // When
-  [MSDataStore setOfflineModeEnabled:NO];
-
-  // Then
-  XCTAssertFalse([MSDataStore isOfflineModeEnabled]);
-}
-
-- (void)testOfflineModeCallsCompletionHandlerWithError {
-
-  // If
-  MSHttpClient *httpClient = OCMClassMock([MSHttpClient class]);
-  MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
-  __block BOOL completionHandlerCalled = NO;
-  NSDictionary *dic = @{@"abv" : @1, @"foo" : @"bar"};
-  __block NSData *data = [NSJSONSerialization dataWithJSONObject:dic options:0 error:nil];
-  __weak XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler called."];
-
-  // When
-  [MSCosmosDb
-      performCosmosDbAsyncOperationWithHttpClient:httpClient
-                                      tokenResult:tokenResult
-                                       documentId:kMSDocumentIdTest
-                                       httpMethod:kMSHttpMethodGet
-                                             body:data
-                                additionalHeaders:nil
-                               offlineModeEnabled:YES
-                                completionHandler:^(NSData *_Nullable __unused responseBody, NSHTTPURLResponse *_Nullable __unused response,
-                                                    NSError *_Nullable __unused error) {
-                                  completionHandlerCalled = YES;
-                                  XCTAssertNotNil(error);
-                                  XCTAssertEqualObjects(error.domain, kMSDataStorageErrorDomain);
-                                  XCTAssertEqual(error.code, NSURLErrorNotConnectedToInternet);
-                                  OCMReject([httpClient sendAsync:OCMOCK_ANY
-                                                           method:OCMOCK_ANY
-                                                          headers:OCMOCK_ANY
-                                                             data:OCMOCK_ANY
-                                                completionHandler:OCMOCK_ANY]);
-                                  [expectation fulfill];
-                                }];
-
-  // Then
-  [self waitForExpectationsWithTimeout:1
-                               handler:^(NSError *_Nullable error) {
-                                 if (error) {
-                                   XCTFail(@"Expectation Failed with error: %@", error);
-                                 }
-                               }];
 }
 
 - (void)testSetTokenExchangeUrl {
@@ -871,42 +804,6 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   // Then that call uses the base URL we specified.
   XCTAssertEqualObjects([actualUrl scheme], @"https");
   XCTAssertEqualObjects([actualUrl host], @"another.domain.com");
-}
-
-- (void)testOfflineModeBehavior {
-
-  // If
-  [MSDataStore setOfflineModeEnabled:YES];
-
-  // Mock tokens fetching.
-  MSTokenResult *testToken = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
-  MSTokensResponse *testTokensResponse = [[MSTokensResponse alloc] initWithTokens:@[ testToken ]];
-  OCMStub([self.tokenExchangeMock performDbTokenAsyncOperationWithHttpClient:OCMOCK_ANY
-                                                            tokenExchangeUrl:OCMOCK_ANY
-                                                                   appSecret:kMSTestAppSecret
-                                                                   partition:kMSPartitionTest
-                                                           completionHandler:OCMOCK_ANY])
-      .andDo(^(NSInvocation *invocation) {
-        MSGetTokenAsyncCompletionHandler getTokenCallback;
-        [invocation getArgument:&getTokenCallback atIndex:6];
-        getTokenCallback(testTokensResponse, nil);
-      });
-
-  // When
-  [MSDataStore deleteDocumentWithPartition:kMSPartitionTest
-                                documentId:kMSDocumentIdTest
-                         completionHandler:^(__unused MSDataSourceError *error){
-                         }];
-
-  // Then
-  OCMVerify([self.cosmosDbMock performCosmosDbAsyncOperationWithHttpClient:OCMOCK_ANY
-                                                               tokenResult:OCMOCK_ANY
-                                                                documentId:OCMOCK_ANY
-                                                                httpMethod:OCMOCK_ANY
-                                                                      body:OCMOCK_ANY
-                                                         additionalHeaders:OCMOCK_ANY
-                                                        offlineModeEnabled:YES
-                                                         completionHandler:OCMOCK_ANY]);
 }
 
 - (void)testListSingleDocument {

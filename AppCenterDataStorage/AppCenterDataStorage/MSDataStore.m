@@ -197,14 +197,6 @@ static dispatch_once_t onceToken;
                                           completionHandler:completionHandler];
 }
 
-+ (void)setOfflineModeEnabled:(BOOL)offlineModeEnabled {
-  [MSDataStore sharedInstance].offlineModeEnabled = offlineModeEnabled;
-}
-
-+ (BOOL)isOfflineModeEnabled {
-  return [MSDataStore sharedInstance].offlineModeEnabled;
-}
-
 #pragma mark - MSDataStore Implementation
 
 - (void)replaceWithPartition:(NSString *)partition
@@ -459,7 +451,6 @@ static dispatch_once_t onceToken;
                                                                                    httpMethod:httpMethod
                                                                                          body:body
                                                                             additionalHeaders:additionalHeaders
-                                                                           offlineModeEnabled:self.offlineModeEnabled
                                                                             completionHandler:completionHandler];
                                             }];
 }

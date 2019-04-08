@@ -12,6 +12,11 @@
 static MSAuthTokenContext *sharedInstance;
 static dispatch_once_t onceToken;
 
+/*
+ * Length of accountId in home accountId.
+ */
+static NSUInteger const kMSAccountIdLengthInHomeAccount = 36;
+
 @interface MSAuthTokenContext ()
 
 /**
@@ -119,6 +124,9 @@ static dispatch_once_t onceToken;
     if (isNewUser && [delegate respondsToSelector:@selector(authTokenContext:didUpdateUserInformation:)]) {
       MSUserInformation *userInfo = nil;
       if (accountId) {
+        if ([accountId length] > kMSAccountIdLengthInHomeAccount) {
+          accountId = [accountId substringToIndex:kMSAccountIdLengthInHomeAccount];
+        }
         userInfo = [[MSUserInformation alloc] initWithAccountId:(NSString *)accountId];
       }
       [delegate authTokenContext:self didUpdateUserInformation:userInfo];
@@ -249,11 +257,11 @@ static dispatch_once_t onceToken;
 }
 
 - (void)finishInitialize {
-    if (!self.resetAuthTokenRequired) {
-      return;
-    }
-    self.resetAuthTokenRequired = NO;
-    [self setAuthToken:nil withAccountId:nil expiresOn:nil];
+  if (!self.resetAuthTokenRequired) {
+    return;
+  }
+  self.resetAuthTokenRequired = NO;
+  [self setAuthToken:nil withAccountId:nil expiresOn:nil];
 }
 
 - (void)preventResetAuthTokenAfterStart {
