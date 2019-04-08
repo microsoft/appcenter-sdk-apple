@@ -204,7 +204,9 @@
   [self.sut createUserStorageWithAccountId:expectedAccountId];
 
   // Then
-  OCMVerify([self.dbStorageMock createTable:tableName columnsSchema:[self expectedColumnSchema]]);
+  OCMVerify([self.dbStorageMock createTable:tableName
+                              columnsSchema:[self expectedColumnSchema]
+                    uniqueColumnsConstraint:[self expectedUniqueColumnsConstraint]]);
 }
 
 - (void)testDeletionOfUserLevelTable {
@@ -221,8 +223,6 @@
 }
 
 - (MSDBColumnsSchema *)expectedColumnSchema {
-
-  // TODO create composite key for partition and the document id
   return @[
     @{kMSIdColumnName : @[ kMSSQLiteTypeInteger, kMSSQLiteConstraintPrimaryKey, kMSSQLiteConstraintAutoincrement ]},
     @{kMSPartitionColumnName : @[ kMSSQLiteTypeText, kMSSQLiteConstraintNotNull ]},
@@ -233,7 +233,6 @@
   ];
 }
 
-// These are temporary methods due to create method not exist.
 - (void)addJsonStringToTable:(NSString *)jsonString
                         eTag:(NSString *)eTag
                    partition:(NSString *)partition
@@ -259,6 +258,10 @@
   NSURL *dbURL = [MSUtility createFileAtPathComponent:path withData:nil atomically:NO forceOverwrite:NO];
   sqlite3_open_v2([[dbURL absoluteString] UTF8String], &db, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_URI, NULL);
   return db;
+}
+
+- (NSArray<NSString *> *)expectedUniqueColumnsConstraint {
+  return @[ kMSPartitionColumnName, kMSDocumentIdColumnName ];
 }
 
 @end

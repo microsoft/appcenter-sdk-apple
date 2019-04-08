@@ -280,11 +280,14 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
 
 - (void)testCreateTableWhenTableExists {
 
+  // Then
+  XCTAssertTrue([self tableExists:kMSTestTableName]);
+
   // When
-  BOOL tableCreated = [self.sut createTable:kMSTestTableName columnsSchema:self.schema[kMSTestTableName]];
+  BOOL tableExistsOrCreated = [self.sut createTable:kMSTestTableName columnsSchema:self.schema[kMSTestTableName]];
 
   // Then
-  XCTAssertTrue(tableCreated);
+  XCTAssertTrue(tableExistsOrCreated);
   XCTAssertTrue([self tableExists:kMSTestTableName]);
 }
 
@@ -294,11 +297,71 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   NSString *tableToCreate = @"NewTable";
 
   // When
-  BOOL tableCreated = [self.sut createTable:tableToCreate columnsSchema:self.schema[kMSTestTableName]];
+  BOOL tableExistsOrCreated = [self.sut createTable:tableToCreate columnsSchema:self.schema[kMSTestTableName]];
 
   // Then
-  XCTAssertTrue(tableCreated);
+  XCTAssertTrue(tableExistsOrCreated);
   XCTAssertTrue([self tableExists:tableToCreate]);
+}
+
+- (void)testCreateTableWhenTableExistsWithUniqueColumns {
+
+  // If
+  NSArray<NSString *> *uniqueColumns = @[ kMSTestHungrinessColName, kMSTestMealColName ];
+
+  // Then
+  XCTAssertTrue([self tableExists:kMSTestTableName]);
+
+  // When
+  BOOL tableExistsOrCreated = [self.sut createTable:kMSTestTableName
+                                      columnsSchema:self.schema[kMSTestTableName]
+                            uniqueColumnsConstraint:uniqueColumns];
+
+  // Then
+  XCTAssertTrue(tableExistsOrCreated);
+  XCTAssertTrue([self tableExists:kMSTestTableName]);
+}
+
+- (void)testCreateTableWhenTableDoesntExistWithUniqueColumns {
+
+  // If
+  NSString *tableToCreate = @"NewTable";
+  NSArray<NSString *> *uniqueColumns = @[ kMSTestHungrinessColName, kMSTestMealColName ];
+
+  // When
+  BOOL tableExistsOrCreated = [self.sut createTable:tableToCreate
+                                      columnsSchema:self.schema[kMSTestTableName]
+                            uniqueColumnsConstraint:uniqueColumns];
+
+  // Then
+  XCTAssertTrue(tableExistsOrCreated);
+  XCTAssertTrue([self tableExists:tableToCreate]);
+
+  // If
+  NSString *expectedPerson1 = @"Hungry Guy";
+  NSNumber *expectedHungriness = @(99);
+  NSString *expectedMeal = @"Big burger";
+  NSString *query1 = [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\") "
+                                                @"VALUES ('%@', %@, '%@')",
+                                                tableToCreate, kMSTestPersonColName, kMSTestHungrinessColName, kMSTestMealColName,
+                                                expectedPerson1, expectedHungriness.stringValue, expectedMeal];
+  NSString *expectedPerson2 = @"Second Hungry Guy";
+  NSString *query2 = [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\") "
+                                                @"VALUES ('%@', %@, '%@')",
+                                                tableToCreate, kMSTestPersonColName, kMSTestHungrinessColName, kMSTestMealColName,
+                                                expectedPerson2, expectedHungriness.stringValue, expectedMeal];
+
+  // When
+  int result = [self.sut executeNonSelectionQuery:query1];
+
+  // Then
+  XCTAssertEqual(result, SQLITE_OK);
+
+  // When
+  result = [self.sut executeNonSelectionQuery:query2];
+
+  // Then
+  XCTAssertEqual(result, SQLITE_CONSTRAINT);
 }
 
 - (void)testDropTableWhenTableExists {
