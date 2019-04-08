@@ -82,7 +82,7 @@ static NSString *const kMSSQLiteConstraintAutoincrement = @"AUTOINCREMENT";
 + (NSDictionary *)columnsIndexes:(MSDBSchema *)schema;
 
 /**
- * Creates tables within an existing database
+ * Creates a table within an existing database.
  *
  * @param tableName Table name.
  * @param columnsSchema Schema describing the columns structure.
@@ -92,7 +92,7 @@ static NSString *const kMSSQLiteConstraintAutoincrement = @"AUTOINCREMENT";
 - (BOOL)createTable:(NSString *)tableName columnsSchema:(MSDBColumnsSchema *)columnsSchema;
 
 /**
- * Creates tables within an existing database with unique columns constraint
+ * Creates a table within an existing database with unique columns constraint.
  *
  * @param tableName Table name.
  * @param columnsSchema Schema describing the columns structure.
