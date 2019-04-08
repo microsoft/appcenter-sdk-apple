@@ -23,6 +23,15 @@
 
 static NSString *const kMSTestGroupId = @"GroupId";
 
+@interface MSChannelUnitDefault (Test)
+
+- (void)sendLogArray:(NSArray<id<MSLog>> *__nonnull)logArray
+         withBatchId:(NSString *)batchId
+        andAuthToken:(MSAuthTokenValidityInfo *)tokenInfo;
+- (void)flushQueueForTokenArray:(NSMutableArray<MSAuthTokenValidityInfo *> *)tokenArray withTokenIndex:(NSUInteger)tokenIndex;
+
+@end
+
 @interface MSChannelUnitDefaultTests : XCTestCase
 
 @property(nonatomic) MSChannelUnitDefault *sut;
@@ -1262,6 +1271,63 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                }];
 }
 
+- (void)testFlushQueueIteratesThroughArrayRecursively {
+
+  // If
+  NSDate *date1 = [NSDate dateWithTimeIntervalSince1970:1];
+  NSDate *date2 = [NSDate dateWithTimeIntervalSince1970:60];
+  NSDate *date3 = [NSDate dateWithTimeIntervalSince1970:120];
+  NSDate *date4 = [NSDate dateWithTimeIntervalSince1970:180];
+  NSMutableArray<MSAuthTokenValidityInfo *> *tokenValidityArray = [NSMutableArray<MSAuthTokenValidityInfo *> new];
+  MSAuthTokenValidityInfo *token1 = [[MSAuthTokenValidityInfo alloc] initWithAuthToken:@"token1" startTime:date1 endTime:date2];
+  MSAuthTokenValidityInfo *token2 = [[MSAuthTokenValidityInfo alloc] initWithAuthToken:@"token2" startTime:date2 endTime:date3];
+  MSAuthTokenValidityInfo *token3 = [[MSAuthTokenValidityInfo alloc] initWithAuthToken:@"token3" startTime:date3 endTime:date4];
+  [tokenValidityArray addObject:token1];
+  [tokenValidityArray addObject:token2];
+  [tokenValidityArray addObject:token3];
+  NSArray<id<MSLog>> *logsForToken1 = [self getValidMockLogArrayForDate:date1 andCount:0];
+  NSArray<id<MSLog>> *logsForToken2 = [self getValidMockLogArrayForDate:date2 andCount:0];
+  NSArray<id<MSLog>> *logsForToken3 = [self getValidMockLogArrayForDate:date3 andCount:5];
+  NSString *batchId = @"batchId";
+  __block NSDate *dateAfter;
+  __block NSDate *dateBefore;
+  __block MSLoadDataCompletionHandler completionHandler;
+
+  // Stub sendLogArray part - we don't need this in this test.
+  id sutMock = OCMPartialMock(self.sut);
+  OCMStub([sutMock sendLogArray:OCMOCK_ANY withBatchId:OCMOCK_ANY andAuthToken:OCMOCK_ANY]);
+  OCMStub([self.storageMock loadLogsWithGroupId:self.sut.configuration.groupId
+                                          limit:self.sut.configuration.batchSizeLimit
+                             excludedTargetKeys:OCMOCK_ANY
+                                      afterDate:OCMOCK_ANY
+                                     beforeDate:OCMOCK_ANY
+                              completionHandler:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        [invocation getArgument:&dateAfter atIndex:(5)];
+        [invocation getArgument:&dateBefore atIndex:(6)];
+        [invocation getArgument:&completionHandler atIndex:7];
+        if ([dateAfter isEqualToDate:date1] && [dateBefore isEqualToDate:date2]) {
+          completionHandler(logsForToken1, batchId);
+          return;
+        }
+        if ([dateAfter isEqualToDate:date2] && [dateBefore isEqualToDate:date3]) {
+          completionHandler(logsForToken2, batchId);
+          return;
+        }
+        if ([dateAfter isEqualToDate:date3] && [dateBefore isEqualToDate:date4]) {
+          completionHandler(logsForToken3, batchId);
+          return;
+        }
+      });
+
+  // When
+  [sutMock flushQueueForTokenArray:tokenValidityArray withTokenIndex:0];
+
+  // Then
+  OCMVerify([sutMock sendLogArray:logsForToken3 withBatchId:OCMOCK_ANY andAuthToken:token3]);
+  [sutMock stopMocking];
+}
+
 - (void)testLogsStoredWhenTargetKeyIsPaused {
 
   // If
@@ -1447,8 +1513,23 @@ static NSString *const kMSTestGroupId = @"GroupId";
   });
 }
 
+- (NSArray<id<MSLog>> *)getValidMockLogArrayForDate:(NSDate *)date andCount:(NSUInteger)count {
+  NSMutableArray<id<MSLog>> *logs = [NSMutableArray<id<MSLog>> new];
+  for (NSUInteger i = 0; i < count; i++) {
+    [logs addObject:[self getValidMockLogWithDate:[date dateByAddingTimeInterval:i]]];
+  }
+  return logs;
+}
+
 - (id)getValidMockLog {
   id mockLog = OCMPartialMock([MSAbstractLog new]);
+  OCMStub([mockLog isValid]).andReturn(YES);
+  return mockLog;
+}
+
+- (id)getValidMockLogWithDate:(NSDate *)date {
+  id<MSLog> mockLog = OCMPartialMock([MSAbstractLog new]);
+  OCMStub([mockLog timestamp]).andReturn(date);
   OCMStub([mockLog isValid]).andReturn(YES);
   return mockLog;
 }
