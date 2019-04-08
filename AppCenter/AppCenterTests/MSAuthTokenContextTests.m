@@ -400,7 +400,6 @@
   id<MSAuthTokenContextDelegate> delegateMock = OCMProtocolMock(@protocol(MSAuthTokenContextDelegate));
   [self.sut addDelegate:delegateMock];
   OCMReject([delegateMock authTokenContext:OCMOCK_ANY refreshAuthTokenForAccountId:OCMOCK_ANY]);
-
   NSArray<MSAuthTokenValidityInfo *> *mockArray = @[ [[MSAuthTokenValidityInfo alloc] initWithAuthToken:expectedAuthToken
                                                                                               startTime:nil
                                                                                                 endTime:nil] ];
