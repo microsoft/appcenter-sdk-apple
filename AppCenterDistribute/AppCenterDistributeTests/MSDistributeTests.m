@@ -1784,7 +1784,10 @@ static NSURL *sfURL;
   id notificationCenterMock = OCMPartialMock([NSNotificationCenter new]);
   OCMStub([notificationCenterMock defaultCenter]).andReturn(notificationCenterMock);
   id distributeMock = OCMPartialMock([MSDistribute new]);
-  OCMStub([distributeMock startUpdate]).andDo(nil);
+  __block int startUpdateCounter = 0;
+  OCMStub([distributeMock startUpdate]).andDo(^(__attribute((unused)) NSInvocation *invocation) {
+    startUpdateCounter++;
+  });
   
   // When
   id appCenterMock = OCMClassMock([MSAppCenter class]);
@@ -1798,7 +1801,7 @@ static NSURL *sfURL;
   
   // Then
   OCMVerify([distributeMock isEnabled]);
-  OCMVerify([distributeMock startUpdate]);
+  XCTAssertEqual(startUpdateCounter, 1);
 
   // When
   [distributeMock setEnabled:NO];
@@ -1806,20 +1809,20 @@ static NSURL *sfURL;
 
   // Then
   OCMVerify([distributeMock isEnabled]);
-  OCMReject([distributeMock startUpdate]);
+  XCTAssertEqual(startUpdateCounter, 1);
 
   // When
   [distributeMock setEnabled:YES];
 
   // Then
-  OCMVerify([distributeMock startUpdate]);
+  XCTAssertEqual(startUpdateCounter, 2);
 
   // When
   [notificationCenterMock postNotificationName:UIApplicationWillEnterForegroundNotification object:nil];
 
   // Then
   OCMVerify([distributeMock isEnabled]);
-  OCMVerify([distributeMock startUpdate]);
+  XCTAssertEqual(startUpdateCounter, 3);
 
   // Clear
   [notificationCenterMock stopMocking];
@@ -2354,7 +2357,7 @@ static NSURL *sfURL;
   id notificationCenterMock = OCMPartialMock([NSNotificationCenter new]);
   OCMStub([notificationCenterMock defaultCenter]).andReturn(notificationCenterMock);
   id distributeMock = OCMPartialMock([MSDistribute new]);
-  OCMStub([distributeMock startUpdate]).andDo(nil);
+  OCMReject([distributeMock startUpdate]);
     
   // When
   [distributeMock setEnabled:YES];
@@ -2362,20 +2365,16 @@ static NSURL *sfURL;
 
   // Then
   OCMVerify([distributeMock isEnabled]);
-  OCMReject([distributeMock startUpdate]);
 
   // When
   [distributeMock setEnabled:YES];
-
-  // Then
-  OCMReject([distributeMock startUpdate]);
 
   // When
   [notificationCenterMock postNotificationName:UIApplicationWillEnterForegroundNotification object:nil];
 
   // Then
   OCMVerify([distributeMock isEnabled]);
-  OCMReject([distributeMock startUpdate]);
+  OCMVerifyAll(distributeMock);
 
   // Clear
   [notificationCenterMock stopMocking];
