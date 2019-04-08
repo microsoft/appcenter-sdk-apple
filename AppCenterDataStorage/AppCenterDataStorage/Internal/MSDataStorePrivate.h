@@ -3,6 +3,7 @@
 
 #import "MSAuthTokenContextDelegate.h"
 #import "MSServiceInternal.h"
+#import "MS_Reachability.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -17,6 +18,11 @@ static NSString *const kMSDefaultApiUrl = @"https://api.appcenter.ms/v0.1";
  * Method to reset the singleton when running unit tests only. So calling sharedInstance returns a fresh instance.
  */
 + (void)resetSharedInstance;
+
+/**
+ * Network state helper.
+ */
+@property(nonatomic) MS_Reachability *reachability;
 
 /**
  * Retrieve a paginated list of the documents in a partition.

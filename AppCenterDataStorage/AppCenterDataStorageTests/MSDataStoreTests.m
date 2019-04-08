@@ -11,7 +11,7 @@
 #import "MSDataStoreInternal.h"
 #import "MSDataStorePrivate.h"
 #import "MSDictionaryDocument.h"
-#import "MSDocumentWrapper.h"
+#import "MSDocumentWrapperInternal.h"
 #import "MSHttpClient.h"
 #import "MSHttpTestUtil.h"
 #import "MSMockUserDefaults.h"
@@ -23,6 +23,8 @@
 #import "MSTokenResult.h"
 #import "MSTokensResponse.h"
 #import "NSObject+MSTestFixture.h"
+#import "MSDocumentStore.h"
+#import "MSDocumentUtils.h"
 
 @interface MSFakeSerializableDocument : NSObject <MSSerializableDocument>
 - (instancetype)initFromDictionary:(NSDictionary *)dictionary;
@@ -56,8 +58,8 @@
 static NSString *const kMSTestAppSecret = @"TestAppSecret";
 static NSString *const kMSCosmosDbHttpCodeKey = @"com.Microsoft.AppCenter.HttpCodeKey";
 static NSString *const kMSTokenTest = @"token";
-static NSString *const kMSPartitionTest = @"partition";
-static NSString *const kMSDbAccountTest = @"dbAccount";
+static NSString *const kMSPartitionTest = @"user";
+static NSString *const kMSDbAccountTest = @"ceb61029-d032-4e7a-be03-2614cfe2a564";
 static NSString *const kMSDbNameTest = @"dbName";
 static NSString *const kMSDbCollectionNameTest = @"dbCollectionName";
 static NSString *const kMSStatusTest = @"status";
@@ -87,7 +89,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
 - (nullable NSMutableDictionary *)prepareMutableDictionary {
   NSMutableDictionary *_Nullable tokenResultDictionary = [NSMutableDictionary new];
-  tokenResultDictionary[@"partition"] = kMSPartitionTest;
+  tokenResultDictionary[@"partition"] = [MSDataStoreTests fullTestPartitionName];
   tokenResultDictionary[@"dbAccount"] = kMSDbAccountTest;
   tokenResultDictionary[@"dbName"] = kMSDbNameTest;
   tokenResultDictionary[@"dbCollectionName"] = kMSDbCollectionNameTest;
@@ -953,6 +955,185 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   };
   [self waitForExpectationsWithTimeout:3 handler:handler];
   [httpClient stopMocking];
+}
+
+- (void)testReturnsUserDocumentFromLocalStorageWhenOffline {
+
+  // If
+  __weak XCTestExpectation *expectation = [self expectationWithDescription:@""];
+
+  // Simulate being offline.
+  MS_Reachability *reachabilityMock = OCMPartialMock([MS_Reachability reachabilityForInternetConnection]);
+  OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(NotReachable);
+  self.sut.reachability = reachabilityMock;
+
+  // Mock cached token result.
+  MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
+  OCMStub([self.tokenExchangeMock retrieveCachedToken:kMSPartitionTest expiredTokenIncluded:YES]).andReturn(tokenResult);
+
+  // Mock local storage.
+  id<MSDocumentStore> localStorageMock = OCMProtocolMock(@protocol(MSDocumentStore));
+  self.sut.documentStore = localStorageMock;
+  MSDocumentWrapper *expectedDocument = [MSDocumentWrapper new];
+  OCMStub([localStorageMock readWithPartition:[MSDataStoreTests fullTestPartitionName] documentId:OCMOCK_ANY documentType:OCMOCK_ANY readOptions:OCMOCK_ANY]).andReturn(expectedDocument);
+
+  // When
+  [MSDataStore readWithPartition:kMSPartitionTest documentId:@"4" documentType:[MSDictionaryDocument class] completionHandler:^(MSDocumentWrapper * _Nonnull document) {
+    XCTAssertEqual(expectedDocument, document);
+    [expectation fulfill];
+  }];
+
+  // Then
+  [self waitForExpectationsWithTimeout:3 handler:^(NSError * _Nullable error) {
+    if (error) {
+      XCTFail(@"Expectation Failed with error: %@", error);
+    }
+  }];
+}
+
+- (void)testReadErrorIfNoTokenResultCachedAndReadingFromLocalStorage {
+
+  // If
+  __weak XCTestExpectation *expectation = [self expectationWithDescription:@""];
+
+  // Simulate being offline.
+  MS_Reachability *reachabilityMock = OCMPartialMock([MS_Reachability reachabilityForInternetConnection]);
+  OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(NotReachable);
+  self.sut.reachability = reachabilityMock;
+
+  // When
+  [MSDataStore readWithPartition:kMSPartitionTest documentId:@"4" documentType:[MSDictionaryDocument class] completionHandler:^(MSDocumentWrapper * _Nonnull document) {
+    XCTAssertNotNil(document.error);
+
+    //TODO add more specific checks when possible. Need an error for not authenticated
+    [expectation fulfill];
+  }];
+
+  // Then
+  [self waitForExpectationsWithTimeout:3 handler:^(NSError * _Nullable error) {
+    if (error) {
+      XCTFail(@"Expectation Failed with error: %@", error);
+    }
+  }];
+}
+
+- (void)testReadsFromLocalStorageWhenOnlineIfNonDeletePendingOperations {
+
+  // If
+  __weak XCTestExpectation *expectation = [self expectationWithDescription:@""];
+
+  // Simulate being online.
+  MS_Reachability *reachabilityMock = OCMPartialMock([MS_Reachability reachabilityForInternetConnection]);
+  OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(ReachableViaWiFi);
+  self.sut.reachability = reachabilityMock;
+
+  // Mock cached token result.
+  MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
+  OCMStub([self.tokenExchangeMock retrieveCachedToken:kMSPartitionTest expiredTokenIncluded:YES]).andReturn(tokenResult);
+
+  // Mock local storage.
+  id<MSDocumentStore> localStorageMock = OCMProtocolMock(@protocol(MSDocumentStore));
+  self.sut.documentStore = localStorageMock;
+  MSDocumentWrapper *expectedDocument = [MSDocumentWrapper new];
+  expectedDocument.pendingOperation = kMSPendingOperationCreate;
+  OCMStub([localStorageMock readWithPartition:[MSDataStoreTests fullTestPartitionName] documentId:OCMOCK_ANY documentType:OCMOCK_ANY readOptions:OCMOCK_ANY]).andReturn(expectedDocument);
+
+  // When
+  [MSDataStore readWithPartition:kMSPartitionTest documentId:@"4" documentType:[MSDictionaryDocument class] completionHandler:^(MSDocumentWrapper * _Nonnull document) {
+    XCTAssertEqual(expectedDocument, document);
+    [expectation fulfill];
+  }];
+
+  // Then
+  [self waitForExpectationsWithTimeout:3 handler:^(NSError * _Nullable error) {
+    if (error) {
+      XCTFail(@"Expectation Failed with error: %@", error);
+    }
+  }];
+}
+
+- (void)testReadReturnsNotFoundWhenOnlineIfDeletePendingOperations {
+
+  // If
+  __weak XCTestExpectation *expectation = [self expectationWithDescription:@""];
+
+  // Simulate being online.
+  MS_Reachability *reachabilityMock = OCMPartialMock([MS_Reachability reachabilityForInternetConnection]);
+  OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(ReachableViaWiFi);
+  self.sut.reachability = reachabilityMock;
+
+  // Mock cached token result.
+  MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
+  OCMStub([self.tokenExchangeMock retrieveCachedToken:kMSPartitionTest expiredTokenIncluded:YES]).andReturn(tokenResult);
+
+  // Mock local storage.
+  id<MSDocumentStore> localStorageMock = OCMProtocolMock(@protocol(MSDocumentStore));
+  self.sut.documentStore = localStorageMock;
+  MSDocumentWrapper *expectedDocument = [MSDocumentWrapper new];
+  expectedDocument.pendingOperation = kMSPendingOperationDelete;
+  OCMStub([localStorageMock readWithPartition:[MSDataStoreTests fullTestPartitionName] documentId:OCMOCK_ANY documentType:OCMOCK_ANY readOptions:OCMOCK_ANY]).andReturn(expectedDocument);
+
+  // When
+  [MSDataStore readWithPartition:kMSPartitionTest documentId:@"4" documentType:[MSDictionaryDocument class] completionHandler:^(MSDocumentWrapper * _Nonnull document) {
+    XCTAssertNotNil(document.error);
+    //TODO check the right error when possible. Need an error for document not found
+    [expectation fulfill];
+  }];
+
+  // Then
+  [self waitForExpectationsWithTimeout:3 handler:^(NSError * _Nullable error) {
+    if (error) {
+      XCTFail(@"Expectation Failed with error: %@", error);
+    }
+  }];
+}
+
+- (void)testReadsFromRemoteIfExpiredAndOnline {
+
+  // If
+  __weak XCTestExpectation *expectation = [self expectationWithDescription:@""];
+
+  // Simulate being online.
+  MS_Reachability *reachabilityMock = OCMPartialMock([MS_Reachability reachabilityForInternetConnection]);
+  OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(ReachableViaWiFi);
+  self.sut.reachability = reachabilityMock;
+
+  // Mock cached token result.
+  MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
+  OCMStub([self.tokenExchangeMock retrieveCachedToken:kMSPartitionTest expiredTokenIncluded:YES]).andReturn(tokenResult);
+
+  // Create expired error.
+  NSError *expiredError = [NSError errorWithDomain:kMSACDataStoreErrorDomain code:MSACDataStoreErrorLocalDocumentExpired userInfo:nil];
+  MSDataSourceError *error = [[MSDataSourceError alloc] initWithError:expiredError];
+
+  // Mock local storage.
+  id<MSDocumentStore> localStorageMock = OCMProtocolMock(@protocol(MSDocumentStore));
+  self.sut.documentStore = localStorageMock;
+  MSDocumentWrapper *expectedDocument = [[MSDocumentWrapper alloc] initWithError:error documentId:@"4"];
+  expectedDocument.pendingOperation = kMSPendingOperationDelete;
+  OCMStub([localStorageMock readWithPartition:[MSDataStoreTests fullTestPartitionName] documentId:OCMOCK_ANY documentType:OCMOCK_ANY readOptions:OCMOCK_ANY]).andReturn(expectedDocument);
+
+  // When
+  [MSDataStore readWithPartition:kMSPartitionTest documentId:@"4" documentType:[MSDictionaryDocument class] completionHandler:^(MSDocumentWrapper * _Nonnull document) {
+    XCTAssertNotNil(document.error);
+    //TODO check the right error when possible. Need an error for document not found
+    [expectation fulfill];
+  }];
+
+  // Then
+  [self waitForExpectationsWithTimeout:3 handler:^(NSError * _Nullable error) {
+    if (error) {
+      XCTFail(@"Expectation Failed with error: %@", error);
+    }
+  }];
+}
+
+- (void)testReadsReturnsErrorIfDocumentExpiredAndOffline {
+
+}
+
++ (NSString *)fullTestPartitionName {
+  return [NSString stringWithFormat:@"%@-%@", kMSPartitionTest, kMSDbAccountTest];
 }
 
 @end

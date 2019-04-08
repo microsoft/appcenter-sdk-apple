@@ -66,6 +66,7 @@ static dispatch_once_t onceToken;
   if ((self = [super init])) {
     _tokenExchangeUrl = (NSURL *)[NSURL URLWithString:kMSDefaultApiUrl];
     _documentStore = [MSDBDocumentStore new];
+    _reachability = [MS_Reachability reachabilityForInternetConnection];
   }
   return self;
 }
@@ -225,7 +226,7 @@ static dispatch_once_t onceToken;
 - (void)readWithPartition:(NSString *)partition
                documentId:(NSString *)documentId
              documentType:(Class)documentType
-              readOptions:(MSReadOptions *_Nullable)__unused readOptions
+              readOptions:(MSReadOptions *_Nullable) readOptions
         completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
   @synchronized(self) {
     if (![self canBeUsed] || ![self isEnabled]) {
@@ -233,26 +234,46 @@ static dispatch_once_t onceToken;
       completionHandler([[MSDocumentWrapper alloc] initWithError:error documentId:documentId]);
       return;
     }
-    [self performOperationForPartition:partition
-                            documentId:documentId
-                            httpMethod:kMSHttpMethodGet
-                                  body:nil
-                     additionalHeaders:nil
-                     completionHandler:^(NSData *_Nullable data, NSHTTPURLResponse *_Nullable __unused response,
-                                         NSError *_Nullable cosmosDbError) {
-                       // If not created.
-                       if (!data || [MSDataSourceError errorCodeFromError:cosmosDbError] != MSACDocumentSucceededErrorCode) {
-                         MSLogError([MSDataStore logTag], @"Not able to read the document ID:%@ with error:%@", documentId,
-                                    [cosmosDbError localizedDescription]);
-                         completionHandler([[MSDocumentWrapper alloc] initWithError:cosmosDbError documentId:documentId]);
-                         return;
-                       }
-
-                       // Deserialize.
-                       completionHandler([MSDocumentUtils documentWrapperFromData:data documentType:documentType]);
-                       return;
-                     }];
+    [self readFromCosmosDbWithPartition:partition
+                             documentId:documentId
+                           documentType:documentType
+                            readOptions:readOptions
+                      completionHandler:completionHandler];
   }
+}
+
+- (void)readFromLocalStorageWithPartition:(NSString *)partition
+                           documentId:(NSString *)documentId
+                         documentType:(Class)documentType
+                          readOptions:(MSReadOptions *_Nullable)__unused readOptions
+                    completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
+  (void)partition; (void)documentId; (void)documentType;(void)completionHandler;
+}
+
+- (void)readFromCosmosDbWithPartition:(NSString *)partition
+                           documentId:(NSString *)documentId
+                         documentType:(Class)documentType
+                          readOptions:(MSReadOptions *_Nullable)__unused readOptions
+                    completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
+  [self performOperationForPartition:partition
+                          documentId:documentId
+                          httpMethod:kMSHttpMethodGet
+                                body:nil
+                   additionalHeaders:nil
+                   completionHandler:^(NSData *_Nullable data, NSHTTPURLResponse *_Nullable __unused response,
+                                       NSError *_Nullable cosmosDbError) {
+                     // If not created.
+                     if (!data || [MSDataSourceError errorCodeFromError:cosmosDbError] != MSACDocumentSucceededErrorCode) {
+                       MSLogError([MSDataStore logTag], @"Not able to read the document ID:%@ with error:%@", documentId,
+                                  [cosmosDbError localizedDescription]);
+                       completionHandler([[MSDocumentWrapper alloc] initWithError:cosmosDbError documentId:documentId]);
+                       return;
+                     }
+
+                     // Deserialize.
+                     completionHandler([MSDocumentUtils documentWrapperFromData:data documentType:documentType]);
+                     return;
+                   }];
 }
 
 - (void)createWithPartition:(NSString *)partition
