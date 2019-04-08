@@ -136,4 +136,24 @@
   XCTAssertTrue(result);
 }
 
+- (MSDBColumnsSchema *)expectedColumnSchema {
+  // clang-format off
+  return @[
+    @{kMSIdColumnName : @[ kMSSQLiteTypeInteger, kMSSQLiteConstraintPrimaryKey, kMSSQLiteConstraintAutoincrement ]},
+    @{kMSPartitionColumnName : @[ kMSSQLiteTypeText, kMSSQLiteConstraintNotNull ]},
+    @{kMSDocumentIdColumnName : @[ kMSSQLiteTypeText, kMSSQLiteConstraintNotNull ]}, 
+    @{kMSDocumentColumnName : @[ kMSSQLiteTypeText ]},
+    @{kMSETagColumnName : @[ kMSSQLiteTypeText ]}, 
+    @{kMSExpirationTimeColumnName : @[ kMSSQLiteTypeInteger ]},
+    @{kMSDownloadTimeColumnName : @[ kMSSQLiteTypeInteger ]}, 
+    @{kMSOperationTimeColumnName : @[ kMSSQLiteTypeInteger ]},
+    @{kMSPendingOperationColumnName : @[ kMSSQLiteTypeText ]}
+  ];
+  // clang-format on
+}
+
+- (NSArray<NSString *> *)expectedUniqueColumnsConstraint {
+  return @[ kMSPartitionColumnName, kMSDocumentIdColumnName ];
+}
+
 @end

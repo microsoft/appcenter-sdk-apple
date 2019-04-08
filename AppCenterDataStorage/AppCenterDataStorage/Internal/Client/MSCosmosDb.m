@@ -134,19 +134,12 @@ static NSString *const kMSHeaderMsDate = @"x-ms-date";
                                          httpMethod:(NSString *)httpMethod
                                                body:(NSData *_Nullable)body
                                   additionalHeaders:(NSDictionary *_Nullable)additionalHeaders
-                                 offlineModeEnabled:(BOOL)offlineModeEnabled
                                   completionHandler:(MSHttpRequestCompletionHandler)completionHandler {
   NSDictionary *httpHeaders = [MSCosmosDb defaultHeaderWithPartition:tokenResult.partition
                                                              dbToken:tokenResult.token
                                                    additionalHeaders:additionalHeaders];
-  if (offlineModeEnabled) {
-    NSDictionary *userInfo = @{NSLocalizedDescriptionKey : @"Storage offline simulation mode is enabled."};
-    NSError *error = [NSError errorWithDomain:kMSDataStorageErrorDomain code:NSURLErrorNotConnectedToInternet userInfo:userInfo];
-    completionHandler(nil, nil, error);
-  } else {
     NSURL *sendURL = (NSURL *)[NSURL URLWithString:[MSCosmosDb documentUrlWithTokenResult:tokenResult documentId:documentId]];
     [httpClient sendAsync:sendURL method:httpMethod headers:httpHeaders data:body completionHandler:completionHandler];
-  }
 }
 
 @end

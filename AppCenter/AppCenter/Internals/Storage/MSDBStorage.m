@@ -78,10 +78,21 @@
 }
 
 - (BOOL)createTable:(NSString *)tableName columnsSchema:(MSDBColumnsSchema *)columnsSchema {
+  return [self createTable:tableName columnsSchema:columnsSchema uniqueColumnsConstraint:nil];
+}
+
+- (BOOL)createTable:(NSString *)tableName
+              columnsSchema:(MSDBColumnsSchema *)columnsSchema
+    uniqueColumnsConstraint:(NSArray<NSString *> *)uniqueColumns {
   return [self executeQueryUsingBlock:^int(void *db) {
            if (![MSDBStorage tableExists:tableName inOpenedDatabase:db]) {
-             NSString *createQuery = [NSString
-                 stringWithFormat:@"CREATE TABLE \"%@\" (%@);", tableName, [MSDBStorage columnsQueryFromColumnsSchema:columnsSchema]];
+             NSString *uniqueContraintQuery = @"";
+             if (uniqueColumns.count > 0) {
+               uniqueContraintQuery = [NSString stringWithFormat:@", UNIQUE(%@)", [uniqueColumns componentsJoinedByString:@", "]];
+             }
+             NSString *createQuery =
+                 [NSString stringWithFormat:@"CREATE TABLE \"%@\" (%@%@);", tableName,
+                                            [MSDBStorage columnsQueryFromColumnsSchema:columnsSchema], uniqueContraintQuery];
              int result = [MSDBStorage executeNonSelectionQuery:createQuery inOpenedDatabase:db];
              if (result == SQLITE_OK) {
                MSLogVerbose([MSAppCenter logTag], @"Table %@ has been created", tableName);

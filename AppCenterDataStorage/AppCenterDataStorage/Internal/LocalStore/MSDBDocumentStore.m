@@ -82,7 +82,8 @@ static const NSUInteger kMSSchemaVersion = 1;
 
   // Create table based on the schema.
   return [self.dbStorage createTable:[NSString stringWithFormat:kMSUserDocumentTableNameFormat, accountId]
-                       columnsSchema:[MSDBDocumentStore columnsSchema]];
+                       columnsSchema:[MSDBDocumentStore columnsSchema]
+             uniqueColumnsConstraint:@[ kMSPartitionColumnName, kMSDocumentIdColumnName ]];
 }
 
 - (BOOL)deleteUserStorageWithAccountId:(NSString *)accountId {
