@@ -2350,8 +2350,8 @@ static NSURL *sfURL;
 }
 
 - (void)testStartUpdateWhenEnabledButDidNotStart {
-  NSString *isEnabledKye = @"MSAppCenterIsEnabled";
-  [MS_USER_DEFAULTS setObject:@(YES) forKey:isEnabledKye];
+  NSString *isEnabledKey = @"MSAppCenterIsEnabled";
+  [MS_USER_DEFAULTS setObject:@(YES) forKey:isEnabledKey];
     
   // If
   id notificationCenterMock = OCMPartialMock([NSNotificationCenter new]);
