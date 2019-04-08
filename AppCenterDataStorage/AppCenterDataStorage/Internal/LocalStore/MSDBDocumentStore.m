@@ -20,14 +20,9 @@ static const NSUInteger kMSSchemaVersion = 1;
 
 #pragma mark - Initialization
 
-- (instancetype)init {
-
-  /*
-   * DO NOT modify schema without a migration plan and bumping database version.
-   */
-  MSDBSchema *schema = @{kMSAppDocumentTableName : [MSDBDocumentStore columnsSchema]};
+- (instancetype)initWithDbStorage:(MSDBStorage *)dbStorage schema:(MSDBSchema *)schema {
   if ((self = [super init])) {
-    self.dbStorage = [[MSDBStorage alloc] initWithSchema:schema version:kMSSchemaVersion filename:kMSDBDocumentFileName];
+    _dbStorage = dbStorage;
     NSDictionary *columnIndexes = [MSDBStorage columnsIndexes:schema];
     _idColumnIndex = ((NSNumber *)columnIndexes[kMSAppDocumentTableName][kMSIdColumnName]).unsignedIntegerValue;
     _partitionColumnIndex = ((NSNumber *)columnIndexes[kMSAppDocumentTableName][kMSPartitionColumnName]).unsignedIntegerValue;
@@ -40,6 +35,16 @@ static const NSUInteger kMSSchemaVersion = 1;
     _pendingOperationColumnIndex = ((NSNumber *)columnIndexes[kMSAppDocumentTableName][kMSPendingDownloadColumnName]).unsignedIntegerValue;
   }
   return self;
+}
+
+- (instancetype)init {
+  
+  /*
+   * DO NOT modify schema without a migration plan and bumping database version.
+   */
+  MSDBSchema *schema = [MSDBDocumentStore documentTableSchema];
+  MSDBStorage *dbStorage = [[MSDBStorage alloc] initWithSchema:schema version:kMSSchemaVersion filename:kMSDBDocumentFileName];
+  return [self initWithDbStorage:dbStorage schema:schema];
 }
 
 #pragma mark - Table Management
@@ -61,6 +66,15 @@ static const NSUInteger kMSSchemaVersion = 1;
 - (BOOL)deleteUserStorageWithAccountId:(NSString *)accountId {
   NSString *tableName = [NSString stringWithFormat:kMSUserDocumentTableNameFormat, accountId];
   return [self.dbStorage dropTable:tableName];
+}
+
+- (void)deleteAllTables {
+  // Delete all the tables.
+  [self.dbStorage dropAllTables];
+}
+
++ (MSDBSchema *)documentTableSchema {
+  return  @{kMSAppDocumentTableName : [MSDBDocumentStore columnsSchema]};
 }
 
 + (MSDBColumnsSchema *)columnsSchema {

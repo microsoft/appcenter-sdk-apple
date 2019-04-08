@@ -7,8 +7,9 @@
 
 @interface MSDBDocumentStoreTests : XCTestCase
 
-@property(nonatomic) id dbStorageMock;
-@property(nonatomic, nullable) MSDBDocumentStore *sut;
+@property(nonatomic, strong) MSDBStorage *dbStorag;
+@property(nonatomic, strong) MSDBDocumentStore *sut;
+@property(nonnull, strong) MSDBSchema *schema;
 
 @end
 
@@ -16,14 +17,13 @@
 
 - (void)setUp {
   [super setUp];
-  self.sut = [MSDBDocumentStore new];
-  self.dbStorageMock = OCMClassMock([MSDBStorage class]);
-  self.sut.dbStorage = self.dbStorageMock;
+  self.schema = [MSDBDocumentStore documentTableSchema];
+  self.dbStorag = [[MSDBStorage alloc] initWithSchema:self.schema version:0 filename:kMSDBDocumentFileName];
+  self.sut = [[MSDBDocumentStore alloc] initWithDbStorage:self.dbStorag schema:self.schema];
 }
 
 - (void)tearDown {
   [super tearDown];
-  [self.dbStorageMock stopMocking];
 }
 
 - (void)testCreateOfApplicationLevelTable {
@@ -76,7 +76,7 @@
   [self.sut createUserStorageWithAccountId:expectedAccountId];
 
   // Then
-  OCMVerify([self.dbStorageMock createTable:tableName columnsSchema:[self expectedColumnSchema]]);
+  OCMVerify([self.dbStorag createTable:tableName columnsSchema:[self expectedColumnSchema]]);
 }
 
 - (void)testDeletionOfUserLevelTable {
@@ -89,8 +89,26 @@
   [self.sut deleteUserStorageWithAccountId:expectedAccountId];
 
   // Then
-  OCMVerify([self.dbStorageMock dropTable:userTableName]);
+  OCMVerify([self.dbStorag dropTable:userTableName]);
 }
+
+
+- (void)testDeletionOfAllTables {
+
+  // If
+  NSString *expectedAccountId = @"Test-account-id";
+  NSString *tableName = [NSString stringWithFormat:kMSUserDocumentTableNameFormat, expectedAccountId];
+  [self.sut createUserStorageWithAccountId:expectedAccountId];
+  OCMVerify([self.dbStorag createTable:tableName columnsSchema:[self expectedColumnSchema]]);
+  XCTAssertTrue([self tableExists:tableName]);
+  
+  // When
+  [self.sut deleteAllTables];
+
+  // Then
+  XCTAssertFalse([self tableExists:tableName]);
+}
+
 
 - (MSDBColumnsSchema *)expectedColumnSchema {
 
@@ -104,4 +122,12 @@
     @{kMSPendingDownloadColumnName : @[ kMSSQLiteTypeText ]}
   ];
 }
+
+- (BOOL)tableExists:(NSString *)tableName {
+  NSArray<NSArray *> *result = [self.dbStorag
+                                executeSelectionQuery:[NSString stringWithFormat:@"SELECT COUNT(*) FROM \"sqlite_master\" WHERE \"type\"='table' AND \"name\"='%@';",
+                                                       tableName]];
+  return [(NSNumber *)result[0][0] boolValue];
+}
+
 @end

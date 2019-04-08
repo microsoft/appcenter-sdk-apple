@@ -31,6 +31,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)deleteUserStorageWithAccountId:(NSString *)accountId;
 
 /**
+ * Delete all tables.
+ */
+- (void)deleteAllTables;
+
+/**
  * Create a user table for the given account Id.
  *
  * @param accountId The logged in user id.

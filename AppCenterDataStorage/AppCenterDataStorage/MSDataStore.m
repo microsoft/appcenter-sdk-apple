@@ -506,20 +506,23 @@ static dispatch_once_t onceToken;
   } else {
     [[MSAuthTokenContext sharedInstance] removeDelegate:self];
     [MSTokenExchange removeAllCachedTokens];
+    [self.documentStore deleteAllTables];
   }
 }
 
 #pragma mark - MSAuthTokenContextDelegate
 
 - (void)authTokenContext:(MSAuthTokenContext *)__unused authTokenContext didUpdateUserInformation:(MSUserInformation *)userInfomation {
-
-  // TODO: consume the unique account id once provided in authTokenContext.
-  NSString *uniqueAccountId = @"unique-account-id";
-  if (userInfomation) {
-    [self.documentStore createUserStorageWithAccountId:uniqueAccountId];
+  
+  // If user logs in.
+  if (userInfomation && userInfomation) {
+    [self.documentStore createUserStorageWithAccountId:userInfomation.accountId];
   } else {
+    // If user logs out.
     [MSTokenExchange removeAllCachedTokens];
-    [self.documentStore deleteUserStorageWithAccountId:uniqueAccountId];
+    
+    // Delete all the data (user and read-only).
+    [self.documentStore deleteAllTables];
   }
 }
 
