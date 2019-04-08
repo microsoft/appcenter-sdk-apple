@@ -7,6 +7,7 @@
 #import "MSDataSourceError.h"
 #import "MSDataStore.h"
 #import "MSDataStoreErrors.h"
+#import "MSDictionaryDocument.h"
 #import "MSDocumentWrapper.h"
 #import "MSPage.h"
 #import "MSPaginatedDocuments.h"

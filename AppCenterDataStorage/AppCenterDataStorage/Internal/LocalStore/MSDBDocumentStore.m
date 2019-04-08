@@ -55,7 +55,8 @@ static const NSUInteger kMSSchemaVersion = 1;
 
   // Create table based on the schema.
   return [self.dbStorage createTable:[NSString stringWithFormat:kMSUserDocumentTableNameFormat, accountId]
-                       columnsSchema:[MSDBDocumentStore columnsSchema]];
+                       columnsSchema:[MSDBDocumentStore columnsSchema]
+             uniqueColumnsConstraint:@[ kMSPartitionColumnName, kMSDocumentIdColumnName ]];
 }
 
 - (BOOL)deleteUserStorageWithAccountId:(NSString *)accountId {
@@ -64,8 +65,6 @@ static const NSUInteger kMSSchemaVersion = 1;
 }
 
 + (MSDBColumnsSchema *)columnsSchema {
-
-  // TODO create composite key for partition and the document id
   return @[
     @{kMSIdColumnName : @[ kMSSQLiteTypeInteger, kMSSQLiteConstraintPrimaryKey, kMSSQLiteConstraintAutoincrement ]},
     @{kMSPartitionColumnName : @[ kMSSQLiteTypeText, kMSSQLiteConstraintNotNull ]},

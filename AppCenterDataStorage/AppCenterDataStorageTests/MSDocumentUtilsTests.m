@@ -3,9 +3,10 @@
 
 #import "MSDataSourceError.h"
 #import "MSDataStorageConstants.h"
+#import "MSDictionaryDocument.h"
 #import "MSDocumentUtils.h"
-#import "MSTestDocument.h"
 #import "MSTestFrameworks.h"
+#import "NSObject+MSTestFixture.h"
 
 @interface MSDocumentUtilsTests : XCTestCase
 
@@ -151,15 +152,16 @@
   dictionary[@"document"][@"property2"] = @123;
 
   // When
-  document = [MSDocumentUtils documentWrapperFromDictionary:dictionary documentType:[MSTestDocument class]];
+  document = [MSDocumentUtils documentWrapperFromDictionary:dictionary documentType:[MSDictionaryDocument class]];
+  NSDictionary *resultDictionary = [[document deserializedValue] serializeToDictionary];
 
   // Then
   XCTAssertNotNil(document);
   XCTAssertNil([document error]);
   XCTAssertTrue([[document documentId] isEqualToString:@"document-id"]);
   XCTAssertNotNil([document deserializedValue]);
-  XCTAssertTrue([[[document deserializedValue] property1] isEqualToString:@"first property"]);
-  XCTAssertTrue([[[document deserializedValue] property2] isEqualToNumber:@123]);
+  XCTAssertTrue([resultDictionary[@"property1"] isEqualToString:@"first property"]);
+  XCTAssertTrue([resultDictionary[@"property2"] isEqualToNumber:@123]);
   XCTAssertTrue([[document eTag] isEqualToString:@"etag"]);
   XCTAssertNotNil([document lastUpdatedDate]);
   XCTAssertTrue([[document partition] isEqualToString:@"readonly"]);
@@ -204,18 +206,19 @@
   XCTAssertNil([document jsonValue]);
 
   // If, data is set to a valid document
-  data = [MSTestDocument getDocumentFixture:@"validTestDocument"];
+  data = [self jsonFixture:@"validTestDocument"];
 
   // When
-  document = [MSDocumentUtils documentWrapperFromData:data documentType:[MSTestDocument class]];
+  document = [MSDocumentUtils documentWrapperFromData:data documentType:[MSDictionaryDocument class]];
+  NSDictionary *resultDictionary = [[document deserializedValue] serializeToDictionary];
 
   // Then
   XCTAssertNotNil(document);
   XCTAssertNil([document error]);
   XCTAssertTrue([[document documentId] isEqualToString:@"standalonedocument1"]);
   XCTAssertNotNil([document deserializedValue]);
-  XCTAssertTrue([[[document deserializedValue] property1] isEqualToString:@"property number 1"]);
-  XCTAssertTrue([[[document deserializedValue] property2] isEqualToNumber:@123]);
+  XCTAssertTrue([resultDictionary[@"property1"] isEqualToString:@"property number 1"]);
+  XCTAssertTrue([resultDictionary[@"property2"] isEqualToNumber:@123]);
   XCTAssertTrue([[document eTag] isEqualToString:@"etag value"]);
   XCTAssertNotNil([document lastUpdatedDate]);
   XCTAssertTrue([[document partition] isEqualToString:@"readonly"]);
