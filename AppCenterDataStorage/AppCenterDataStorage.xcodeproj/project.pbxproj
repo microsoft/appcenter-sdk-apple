@@ -151,8 +151,6 @@
 		8F4548E82256D5470021B0BF /* NSObject+MSTestFixture.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F4548E62256D5470021B0BF /* NSObject+MSTestFixture.m */; };
 		8F5227DD2253DE88004F37FE /* oneDocumentPage.json in Resources */ = {isa = PBXBuildFile; fileRef = 8F5227DC2253DE84004F37FE /* oneDocumentPage.json */; };
 		8F5227DE2253DE89004F37FE /* oneDocumentPage.json in Resources */ = {isa = PBXBuildFile; fileRef = 8F5227DC2253DE84004F37FE /* oneDocumentPage.json */; };
-		8F5227E02253E0B8004F37FE /* MSTokenExchangePrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 8F5227DF2253E0B2004F37FE /* MSTokenExchangePrivate.h */; };
-		8F5227E12253E0B9004F37FE /* MSTokenExchangePrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 8F5227DF2253E0B2004F37FE /* MSTokenExchangePrivate.h */; };
 		8F5227ED2253F0C8004F37FE /* zeroDocumentsPage.json in Resources */ = {isa = PBXBuildFile; fileRef = 8F5227EC2253F0C7004F37FE /* zeroDocumentsPage.json */; };
 		8F5227EE2253F0C8004F37FE /* zeroDocumentsPage.json in Resources */ = {isa = PBXBuildFile; fileRef = 8F5227EC2253F0C7004F37FE /* zeroDocumentsPage.json */; };
 		8F5227F02254255D004F37FE /* MSPaginatedDocumentsInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 8F5227EF22542556004F37FE /* MSPaginatedDocumentsInternal.h */; };
@@ -300,7 +298,6 @@
 		8F4548E52256D5470021B0BF /* NSObject+MSTestFixture.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSObject+MSTestFixture.h"; sourceTree = "<group>"; };
 		8F4548E62256D5470021B0BF /* NSObject+MSTestFixture.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSObject+MSTestFixture.m"; sourceTree = "<group>"; };
 		8F5227DC2253DE84004F37FE /* oneDocumentPage.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = oneDocumentPage.json; sourceTree = "<group>"; };
-		8F5227DF2253E0B2004F37FE /* MSTokenExchangePrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSTokenExchangePrivate.h; sourceTree = "<group>"; };
 		8F5227EC2253F0C7004F37FE /* zeroDocumentsPage.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = zeroDocumentsPage.json; sourceTree = "<group>"; };
 		8F5227EF22542556004F37FE /* MSPaginatedDocumentsInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSPaginatedDocumentsInternal.h; sourceTree = "<group>"; };
 		D33A94511E5B11BB003966DB /* libAppCenterDataStorage.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAppCenterDataStorage.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -609,7 +606,6 @@
 				87FA7FB5BC7302D0062016E1 /* MSCosmosDbPrivate.h */,
 				E86B95D72224B5F60062E552 /* MSTokenExchange.h */,
 				E86B95D92224B6310062E552 /* MSTokenExchange.m */,
-				8F5227DF2253E0B2004F37FE /* MSTokenExchangePrivate.h */,
 			);
 			path = Client;
 			sourceTree = "<group>";
@@ -657,7 +653,6 @@
 				4A1937982252CA6600459E1E /* MSDocumentStore.h in Headers */,
 				049BC85B224EDB1D00AE7FBB /* MSPage.h in Headers */,
 				049BC85C224EDB2200AE7FBB /* MSReadOptions.h in Headers */,
-				8F5227E12253E0B9004F37FE /* MSTokenExchangePrivate.h in Headers */,
 				04B1C8CA2252AF0A00CBD876 /* MSAppCenterErrors.h in Headers */,
 				049BC854224EDB0700AE7FBB /* MSDocumentWrapper.h in Headers */,
 				0469644E1F2A5D2800F9D31F /* AppCenterDataStorage.h in Headers */,
@@ -694,7 +689,6 @@
 				267464F6222F28A300EC1FF3 /* MSDataSourceError.h in Headers */,
 				4A1937972252CA6600459E1E /* MSDocumentStore.h in Headers */,
 				267464F2222F28A300EC1FF3 /* MSDataStore.h in Headers */,
-				8F5227E02253E0B8004F37FE /* MSTokenExchangePrivate.h in Headers */,
 				267464F0222F28A300EC1FF3 /* MSPaginatedDocuments.h in Headers */,
 				04B1C8C92252AF0A00CBD876 /* MSAppCenterErrors.h in Headers */,
 				2600123F22273E94007F4D3A /* MSTokenResult.h in Headers */,
