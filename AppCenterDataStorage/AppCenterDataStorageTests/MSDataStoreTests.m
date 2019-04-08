@@ -466,7 +466,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
       });
 
   // Mock CosmosDB requests.
-  NSData *testCosmosDbResponse = [self getJsonFixture:@"validTestDocument"];
+  NSData *testCosmosDbResponse = [self jsonFixture:@"validTestDocument"];
   OCMStub([self.cosmosDbMock performCosmosDbAsyncOperationWithHttpClient:OCMOCK_ANY
                                                              tokenResult:testToken
                                                               documentId:kMSDocumentIdTest
@@ -821,7 +821,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
         [invocation retainArguments];
         MSHttpRequestCompletionHandler completionHandler;
         [invocation getArgument:&completionHandler atIndex:6];
-        NSData *payload = [self getJsonFixture:@"oneDocumentPage"];
+        NSData *payload = [self jsonFixture:@"oneDocumentPage"];
         completionHandler(payload, [MSHttpTestUtil createMockResponseForStatusCode:200 headers:nil], nil);
       });
 
@@ -896,7 +896,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
         [invocation retainArguments];
         MSHttpRequestCompletionHandler completionHandler;
         [invocation getArgument:&completionHandler atIndex:6];
-        NSData *payload = [self getJsonFixture:@"oneDocumentPage"];
+        NSData *payload = [self jsonFixture:@"oneDocumentPage"];
         completionHandler(payload, [MSHttpTestUtil createMockResponseForStatusCode:200 headers:continuationHeaders], nil);
       });
 
@@ -909,7 +909,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
         [invocation retainArguments];
         MSHttpRequestCompletionHandler completionHandler;
         [invocation getArgument:&completionHandler atIndex:6];
-        NSData *payload = [self getJsonFixture:@"zeroDocumentsPage"];
+        NSData *payload = [self jsonFixture:@"zeroDocumentsPage"];
         completionHandler(payload, [MSHttpTestUtil createMockResponseForStatusCode:200 headers:nil], nil);
       });
 

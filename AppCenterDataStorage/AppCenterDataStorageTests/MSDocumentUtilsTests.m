@@ -206,7 +206,7 @@
   XCTAssertNil([document jsonValue]);
 
   // If, data is set to a valid document
-  data = [self getJsonFixture:@"validTestDocument"];
+  data = [self jsonFixture:@"validTestDocument"];
 
   // When
   document = [MSDocumentUtils documentWrapperFromData:data documentType:[MSDictionaryDocument class]];

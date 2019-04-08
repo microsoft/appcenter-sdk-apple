@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param fixture The name of the fixture to retrieve.
  * @return The fixture's data.
  */
-- (NSData *)getJsonFixture:(NSString *)fixture;
+- (NSData *)jsonFixture:(NSString *)fixture;
 
 @end
 

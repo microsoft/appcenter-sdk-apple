@@ -5,11 +5,10 @@
 
 @implementation NSObject (MSTestFixture)
 
-- (NSData *)getJsonFixture:(NSString *)fixture {
+- (NSData *)jsonFixture:(NSString *)fixture {
   NSBundle *bundle = [NSBundle bundleForClass:[self class]];
   NSString *path = [bundle pathForResource:fixture ofType:@"json"];
   return [NSData dataWithContentsOfFile:path];
 }
 
 @end
-
