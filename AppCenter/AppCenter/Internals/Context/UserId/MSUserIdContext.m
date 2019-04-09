@@ -92,7 +92,7 @@ static dispatch_once_t onceToken;
     [MS_USER_DEFAULTS setObject:[NSKeyedArchiver archivedDataWithRootObject:self.userIdHistory] forKey:kMSUserIdHistoryKey];
     MSLogVerbose([MSAppCenter logTag], @"Stored new userId:%@ and timestamp: %@.", self.currentUserIdInfo.userId,
                  self.currentUserIdInfo.timestamp);
-    if (![self isUserIdChanged:self.mUserId]){
+    if (![self changeUserIdIfDifferent:self.mUserId]){
       return;
     }
     synchronizedDelegates = [self.delegates allObjects];
@@ -102,8 +102,8 @@ static dispatch_once_t onceToken;
   }
 }
 
-- (BOOL) isUserIdChanged:(NSString *)userId {
-  if (self.mUserId != nil && self.mUserId == userId ){
+- (BOOL) changeUserIdIfDifferent:(NSString *)userId {
+  if (self.mUserId != nil && [self.mUserId isEqualToString:userId]) {
     return false;
   }
   self.mUserId = userId;

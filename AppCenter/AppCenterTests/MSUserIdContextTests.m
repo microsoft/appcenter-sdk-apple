@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import <Foundation/Foundation.h>
-
 #import "MSMockUserDefaults.h"
 #import "MSTestFrameworks.h"
 #import "MSUserIdContextDelegate.h"
