@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+#import "MS_Reachability.h"
 #import "MSDataStore.h"
 #import "MSAppCenterInternal.h"
 #import "MSAppDelegateForwarder.h"
@@ -62,10 +63,14 @@ static dispatch_once_t onceToken;
 
 #pragma mark - Service initialization
 
-- (instancetype)init {
+- (instancetype)initWithReachability:(MS_Reachability *)reachability {
   if ((self = [super init])) {
+    _reachability = reachability;
     _tokenExchangeUrl = (NSURL *)[NSURL URLWithString:kMSDefaultApiUrl];
     _documentStore = [MSDBDocumentStore new];
+    
+    // Listen to network events.
+    [MS_NOTIFICATION_CENTER addObserver:self selector:@selector(networkStateChanged:) name:kMSReachabilityChangedNotification object:nil];
   }
   return self;
 }
@@ -460,7 +465,7 @@ static dispatch_once_t onceToken;
 + (instancetype)sharedInstance {
   dispatch_once(&onceToken, ^{
     if (sharedInstance == nil) {
-      sharedInstance = [[MSDataStore alloc] init];
+      sharedInstance = [[MSDataStore alloc] initWithReachability:[MS_Reachability reachabilityForInternetConnection]];
     }
   });
   return sharedInstance;
@@ -524,6 +529,35 @@ static dispatch_once_t onceToken;
     // Delete all the data (user and read-only).
     [self.documentStore deleteAllTables];
   }
+}
+
+#pragma mark - Reachability
+
+- (void)networkStateChanged:(NSNotificationCenter *) __unused notification {
+  //(void)notification;
+  [self networkStateChanged];
+}
+
+- (void)networkStateChanged {
+  if ([self.reachability currentReachabilityStatus] == NotReachable) {
+    MSLogInfo([MSAppCenter logTag], @"Internet connection is down.");
+    [self onNetworkGoesOffline];
+  } else {
+    MSLogInfo([MSAppCenter logTag], @"Internet connection is up.");
+    [self onNetworkGoesOnline];
+  }
+}
+
+- (void)onNetworkGoesOffline {
+  
+}
+
+- (void)onNetworkGoesOnline {
+  
+}
+
+- (BOOL)isOffline {
+  return ([self.reachability currentReachabilityStatus] == NotReachable);
 }
 
 @end

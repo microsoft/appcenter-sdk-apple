@@ -66,6 +66,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (BOOL)createUserStorageWithAccountId:(NSString *)accountId;
 
+
+- (NASArray<MSDocumentWrapper *> *)listPendingDocument:
+                            documentType:(Class)documentType
+                             readOptions:(MSReadOptions *)readOptions;
+
 @end
 
 NS_ASSUME_NONNULL_END
