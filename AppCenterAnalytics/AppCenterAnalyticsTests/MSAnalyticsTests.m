@@ -9,6 +9,7 @@
 #import "MSAppCenterInternal.h"
 #import "MSAppCenterPrivate.h"
 #import "MSBooleanTypedProperty.h"
+#import "MSChannelGroupDefault.h"
 #import "MSChannelUnitDefault.h"
 #import "MSConstants+Internal.h"
 #import "MSDateTimeTypedProperty.h"
@@ -199,11 +200,14 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 - (void)testAnalyticsDelegateWithoutImplementations {
 
   // If
+  // Mock event log.
   MSEventLog *eventLog = OCMClassMock([MSEventLog class]);
   id delegateMock = OCMProtocolMock(@protocol(MSAnalyticsDelegate));
   OCMReject([delegateMock analytics:[MSAnalytics sharedInstance] willSendEventLog:eventLog]);
   OCMReject([delegateMock analytics:[MSAnalytics sharedInstance] didSucceedSendingEventLog:eventLog]);
   OCMReject([delegateMock analytics:[MSAnalytics sharedInstance] didFailSendingEventLog:eventLog withError:nil]);
+
+  // Start AppCenter.
   [MSAppCenter sharedInstance].sdkConfigured = NO;
   [MSAppCenter sharedInstance].configuredFromApplication = NO;
   [MSAppCenter start:kMSTestAppSecret withServices:@ [[MSAnalytics class]]];
@@ -226,6 +230,10 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 
   // Then
   OCMVerifyAll(delegateMock);
+
+  // Wait background queue.
+  MSChannelGroupDefault *channelGroup = [MSAppCenter sharedInstance].channelGroup;
+  dispatch_sync(channelGroup.logsDispatchQueue, ^{});
 }
 
 - (void)testAnalyticsDelegateMethodsAreCalled {
@@ -259,6 +267,10 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   OCMVerify([delegateMock analytics:[MSAnalytics sharedInstance] willSendEventLog:eventLog]);
   OCMVerify([delegateMock analytics:[MSAnalytics sharedInstance] didSucceedSendingEventLog:eventLog]);
   OCMVerify([delegateMock analytics:[MSAnalytics sharedInstance] didFailSendingEventLog:eventLog withError:nil]);
+
+  // Wait background queue.
+  MSChannelGroupDefault *channelGroup = [MSAppCenter sharedInstance].channelGroup;
+  dispatch_sync(channelGroup.logsDispatchQueue, ^{});
 }
 
 - (void)testAnalyticsLogsVerificationIsCalled {
@@ -1244,6 +1256,10 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 
   // Then
   XCTAssertTrue([MSAnalytics sharedInstance].sessionTracker.started);
+
+  // Wait background queue.
+  MSChannelGroupDefault *channelGroup = [MSAppCenter sharedInstance].channelGroup;
+  dispatch_sync(channelGroup.logsDispatchQueue, ^{});
 }
 
 - (void)testAutoPageTrackingWhenStartedFromLibrary {

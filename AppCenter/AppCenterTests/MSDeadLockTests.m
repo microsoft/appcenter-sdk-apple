@@ -3,8 +3,10 @@
 
 #import "MSAbstractLog.h"
 #import "MSAppCenter.h"
+#import "MSAppCenterInternal.h"
 #import "MSAppCenterPrivate.h"
 #import "MSChannelDelegate.h"
+#import "MSChannelGroupDefault.h"
 #import "MSChannelUnitProtocol.h"
 #import "MSMockService.h"
 #import "MSTestFrameworks.h"
@@ -95,6 +97,11 @@ static MSDummyService2 *sharedInstanceService2 = nil;
 
 @implementation MSDeadLockTests
 
+- (void)setUp {
+  [super setUp];
+  [MSAppCenter resetSharedInstance];
+}
+
 - (void)testDeadLockAtStartup {
 
   // If
@@ -114,6 +121,10 @@ static MSDummyService2 *sharedInstanceService2 = nil;
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
                                }];
+
+  // Wait background queue.
+  MSChannelGroupDefault *channelGroup = [MSAppCenter sharedInstance].channelGroup;
+  dispatch_sync(channelGroup.logsDispatchQueue, ^{});
 }
 
 @end

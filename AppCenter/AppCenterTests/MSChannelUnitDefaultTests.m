@@ -75,11 +75,6 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                            logsDispatchQueue:self.logsDispatchQueue];
 }
 
-- (void)tearDown {
-  // Put teardown code here. This method is called after the invocation of each test method in the class.
-  [super tearDown];
-}
-
 #pragma mark - Tests
 
 - (void)testNewInstanceWasInitialisedCorrectly {

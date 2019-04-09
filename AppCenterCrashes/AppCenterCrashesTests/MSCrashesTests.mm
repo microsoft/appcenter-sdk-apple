@@ -3,6 +3,7 @@
 
 #import "MSAppCenterInternal.h"
 #import "MSAppleErrorLog.h"
+#import "MSChannelGroupDefault.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitDefault.h"
 #import "MSCrashHandlerSetupDelegate.h"
@@ -169,6 +170,10 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   OCMVerify([delegateMock crashes:[MSCrashes sharedInstance] willSendErrorReport:errorReport]);
   OCMVerify([delegateMock crashes:[MSCrashes sharedInstance] didSucceedSendingErrorReport:errorReport]);
   OCMVerify([delegateMock crashes:[MSCrashes sharedInstance] didFailSendingErrorReport:errorReport withError:nil]);
+
+  // Wait background queue.
+  MSChannelGroupDefault *channelGroup = [MSAppCenter sharedInstance].channelGroup;
+  dispatch_sync(channelGroup.logsDispatchQueue, ^{});
 }
 
 - (void)testCrashHandlerSetupDelegateMethodsAreCalled {

@@ -64,9 +64,11 @@
 @interface MSServiceAbstractTest : XCTestCase
 
 @property(nonatomic) id settingsMock;
+@property(nonatomic) id channelGroupMock;
+@property(nonatomic) id channelUnitMock;
 
 /**
- *  System Under test
+ * System Under test.
  */
 @property(nonatomic) MSServiceAbstractImplementation *abstractService;
 
@@ -80,14 +82,21 @@
   // Set up the mocked storage.
   self.settingsMock = [MSMockUserDefaults new];
 
+  // Set up the mock channel.
+  self.channelGroupMock = OCMClassMock([MSChannelGroupDefault class]);
+  self.channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  OCMStub([self.channelGroupMock alloc]).andReturn(self.channelGroupMock);
+  OCMStub([self.channelGroupMock initWithInstallId:OCMOCK_ANY logUrl:OCMOCK_ANY]).andReturn(self.channelGroupMock);
+  OCMStub([self.channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(self.channelUnitMock);
+
   // System Under Test.
   self.abstractService = [MSServiceAbstractImplementation new];
 }
 
 - (void)tearDown {
-  [super tearDown];
-
+  [self.channelGroupMock stopMocking];
   [self.settingsMock stopMocking];
+  [super tearDown];
 }
 
 - (void)testIsEnabledTrueByDefault {
@@ -265,28 +274,19 @@
 - (void)testLogDeletedOnDisabled {
 
   // If
-  id channelGroup = OCMClassMock([MSChannelGroupDefault class]);
-  id channelUnit = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
-  OCMStub([channelGroup new]).andReturn(channelGroup);
-  OCMStub([channelGroup addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnit);
-  OCMExpect([channelUnit setEnabled:NO andDeleteDataOnDisabled:YES]);
-  self.abstractService.channelGroup = channelGroup;
-  self.abstractService.channelUnit = channelUnit;
+  self.abstractService.channelGroup = self.channelGroupMock;
+  self.abstractService.channelUnit = self.channelUnitMock;
   [self.settingsMock setObject:@YES forKey:self.abstractService.isEnabledKey];
 
   // When
   [self.abstractService setEnabled:NO];
 
   // Then
-
   // Check that log deletion has been triggered.
-  OCMVerify([channelUnit setEnabled:NO andDeleteDataOnDisabled:YES]);
+  OCMVerify([self.channelUnitMock setEnabled:NO andDeleteDataOnDisabled:YES]);
 
   // GroupId from the service must match the groupId used to delete logs.
   XCTAssertTrue(self.abstractService.channelUnitConfiguration.groupId == self.abstractService.groupId);
-
-  // Clear
-  [channelGroup stopMocking];
 }
 
 - (void)testEnableChannelUnitOnStartWithChannelGroup {
