@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
  * Create or replace an entry in the store.
  *
  * @param partition Document partition.
- * @param documentWrapper Document wrapper object to store (may be `nil`, e.g. for a DELETE operation).
+ * @param documentWrapper Document wrapper object to store.
  * @param operation The operation store.
  * @param options The operation options (used to extract the device time-to-live information).
  *
