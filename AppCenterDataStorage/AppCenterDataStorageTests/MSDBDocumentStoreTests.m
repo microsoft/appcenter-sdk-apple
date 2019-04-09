@@ -208,8 +208,8 @@
 
   // Then
   OCMVerify([self.dbStorage createTable:tableName
-                         columnsSchema:[self expectedColumnSchema]
-               uniqueColumnsConstraint:[self expectedUniqueColumnsConstraint]]);
+                          columnsSchema:[self expectedColumnSchema]
+                uniqueColumnsConstraint:[self expectedUniqueColumnsConstraint]]);
 }
 
 - (void)testDeletionOfUserLevelTable {
@@ -261,12 +261,12 @@
   sqlite3 *db = [self openDatabase:kMSDBDocumentFileName];
   NSString *expirationTimeString = [MSUtility dateToISO8601:expirationTime];
   NSString *operationTimeString = [MSUtility dateToISO8601:[NSDate date]];
-  NSString *insertQuery = [NSString
-      stringWithFormat:
-          @"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\") VALUES ('%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@')",
-          kMSAppDocumentTableName, kMSIdColumnName, kMSPartitionColumnName, kMSETagColumnName, kMSDocumentColumnName,
-          kMSDocumentIdColumnName, kMSExpirationTimeColumnName, kMSOperationTimeColumnName, kMSPendingOperationColumnName, @0, partition,
-          eTag, jsonString, documentId, expirationTimeString, operationTimeString, pendingOperation];
+  NSString *insertQuery = [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\") "
+                                                     @"VALUES ('%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@')",
+                                                     kMSAppDocumentTableName, kMSIdColumnName, kMSPartitionColumnName, kMSETagColumnName,
+                                                     kMSDocumentColumnName, kMSDocumentIdColumnName, kMSExpirationTimeColumnName,
+                                                     kMSOperationTimeColumnName, kMSPendingOperationColumnName, @0, partition, eTag,
+                                                     jsonString, documentId, expirationTimeString, operationTimeString, pendingOperation];
   char *error;
   sqlite3_exec(db, [insertQuery UTF8String], NULL, NULL, &error);
   sqlite3_close(db);
