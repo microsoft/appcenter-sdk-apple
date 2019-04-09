@@ -91,7 +91,6 @@ static dispatch_once_t onceToken;
 - (void)applyEnabledState:(BOOL)isEnabled {
   [super applyEnabledState:isEnabled];
   if (isEnabled) {
-    [self.channelGroup addDelegate:self];
 #if TARGET_OS_IOS
     [[MSAppDelegateForwarder sharedInstance] addDelegate:self.appDelegate];
 #endif
@@ -120,7 +119,6 @@ static dispatch_once_t onceToken;
     [self clearAuthData];
     self.clientApplication = nil;
     [self clearConfigurationCache];
-    [self.channelGroup removeDelegate:self];
     self.ingestion = nil;
     NSError *error = [[NSError alloc] initWithDomain:kMSACIdentityErrorDomain
                                                 code:MSACIdentityErrorServiceDisabled
