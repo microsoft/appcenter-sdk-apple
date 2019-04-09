@@ -33,16 +33,21 @@
 
 - (void)setUp {
   [super setUp];
+
+  // Delete existing database.
   [MSUtility deleteItemForPathComponent:kMSDBDocumentFileName];
+
+  // Init storage.
   self.schema = [MSDBDocumentStore documentTableSchema];
   self.dbStorage = [[MSDBStorage alloc] initWithSchema:self.schema version:0 filename:kMSDBDocumentFileName];
   self.sut = [[MSDBDocumentStore alloc] initWithDbStorage:self.dbStorage schema:self.schema];
 }
 
 - (void)tearDown {
-  [MSUtility deleteItemForPathComponent:kMSDBDocumentFileName];
   [super tearDown];
-  [self.sut.dbStorage dropTable:kMSAppDocumentTableName];
+
+  // Delete existing database.
+  [MSUtility deleteItemForPathComponent:kMSDBDocumentFileName];
 }
 
 - (void)testReadUserDocumentFromLocalDatabase {
@@ -273,18 +278,19 @@
 }
 
 - (void)testDeleteWithUserPartitionForExistingDocument {
-  
+
   // If
   MSDocumentWrapper *documentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestDocument"]
                                                                    documentType:[MSDictionaryDocument class]];
-  [self.sut upsertWithPartition:@"user-accountId"
+  [self.sut createUserStorageWithAccountId:@"1"];
+  [self.sut upsertWithPartition:@"user-1"
                 documentWrapper:documentWrapper
                       operation:@"CREATE"
                         options:[[MSReadOptions alloc] initWithDeviceTimeToLive:1]];
-  
+
   // When
-  BOOL result = [self.sut deleteWithPartition:@"user-accountId" documentId:documentWrapper.documentId];
-  
+  BOOL result = [self.sut deleteWithPartition:@"user-1" documentId:documentWrapper.documentId];
+
   // Then
   XCTAssertTrue(result);
 }

@@ -180,9 +180,11 @@ static const NSUInteger kMSSchemaVersion = 1;
 + (NSString *)tableNameForPartition:(NSString *)partition {
   if ([partition isEqualToString:MSDataStoreAppDocumentsPartition]) {
     return kMSAppDocumentTableName;
+  } else if ([partition rangeOfString:kMSDataStoreAppDocumentsUserPartitionPrefix options:NSAnchoredSearch].location == 0) {
+    return [NSString
+        stringWithFormat:kMSUserDocumentTableNameFormat, [partition substringFromIndex:kMSDataStoreAppDocumentsUserPartitionPrefix.length]];
   }
-  //TODO defensive programming - need to check length of partition name
-  return [NSString stringWithFormat:kMSUserDocumentTableNameFormat, [partition substringFromIndex:kMSDataStoreAppDocumentsUserPartitionPrefix.length]];
+  return nil;
 }
 
 @end
