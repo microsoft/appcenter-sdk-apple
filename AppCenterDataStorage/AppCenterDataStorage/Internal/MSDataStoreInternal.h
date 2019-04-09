@@ -3,7 +3,9 @@
 
 #import <Foundation/Foundation.h>
 
+#import "MSDBDocumentStore.h"
 #import "MSDataStore.h"
+#import "MSDocumentStore.h"
 #import "MSServiceInternal.h"
 
 @protocol MSDocumentStore;

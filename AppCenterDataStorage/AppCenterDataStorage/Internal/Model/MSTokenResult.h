@@ -41,6 +41,11 @@
 @property(nonatomic, readonly, copy) NSString *expiresOn;
 
 /**
+ * Account id.
+ */
+@property(nonatomic, readonly, copy, nullable) NSString *accountId;
+
+/**
  * Initialize the Token result object
  *
  * @param partition Database partition
@@ -58,7 +63,8 @@
                  dbCollectionName:(NSString *)dbCollectionName
                             token:(NSString *)token
                            status:(NSString *)status
-                        expiresOn:(NSString *)expiresOn;
+                        expiresOn:(NSString *)expiresOn
+                        accountId:(NSString *_Nullable)accountId;
 
 /**
  * Initialize the Token result object
