@@ -1001,7 +1001,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   [self initChannelEndJobExpectation];
   id<MSLog> log = [self getValidMockLog];
   id storageMock = OCMProtocolMock(@protocol(MSStorage));
-  OCMExpect([storageMock saveLog:log withGroupId:self.configMock.groupId flags:MSFlagsDefault]);
+  OCMExpect([storageMock saveLog:log withGroupId:OCMOCK_ANY flags:MSFlagsDefault]);
   MSChannelUnitDefault *sut = [[MSChannelUnitDefault alloc] initWithIngestion:self.ingestionMock
                                                                       storage:storageMock
                                                                 configuration:self.configMock

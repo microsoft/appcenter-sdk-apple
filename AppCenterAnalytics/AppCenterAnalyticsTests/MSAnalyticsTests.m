@@ -8,6 +8,8 @@
 #import "MSAppCenter.h"
 #import "MSAppCenterInternal.h"
 #import "MSAppCenterPrivate.h"
+#import "MSAuthTokenContext.h"
+#import "MSAuthTokenContextPrivate.h"
 #import "MSBooleanTypedProperty.h"
 #import "MSChannelGroupDefault.h"
 #import "MSChannelUnitDefault.h"
@@ -63,11 +65,13 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 
 - (void)setUp {
   [super setUp];
+  [MSAppCenter resetSharedInstance];
+  [MSAuthTokenContext resetSharedInstance];
 
-  // Mock NSUserDefaults
+  // Mock NSUserDefaults.
   self.settingsMock = [MSMockUserDefaults new];
 
-  // Mock session context
+  // Mock session context.
   [MSSessionContext resetSharedInstance];
   self.sessionContextMock = OCMClassMock([MSSessionContext class]);
   OCMStub([self.sessionContextMock sharedInstance]).andReturn(self.sessionContextMock);
@@ -258,6 +262,10 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
     }
   });
 
+  // Wait background queue (channel delegates will be added in background thread).
+  MSChannelGroupDefault *channelGroup = [MSAppCenter sharedInstance].channelGroup;
+  dispatch_sync(channelGroup.logsDispatchQueue, ^{});
+
   // When
   [[MSAnalytics sharedInstance] setDelegate:delegateMock];
   MSEventLog *eventLog = OCMClassMock([MSEventLog class]);
@@ -269,7 +277,6 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   OCMVerify([delegateMock analytics:[MSAnalytics sharedInstance] didFailSendingEventLog:eventLog withError:nil]);
 
   // Wait background queue.
-  MSChannelGroupDefault *channelGroup = [MSAppCenter sharedInstance].channelGroup;
   dispatch_sync(channelGroup.logsDispatchQueue, ^{});
 }
 
@@ -1241,9 +1248,6 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 }
 
 - (void)testSessionTrackerStarted {
-
-  // If
-  [MSAppCenter resetSharedInstance];
 
   // When
   [MSAppCenter startFromLibraryWithServices:@ [[MSAnalytics class]]];

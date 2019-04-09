@@ -12,6 +12,8 @@
 #import "MSAppCenterIngestion.h"
 #import "MSAppCenterInternal.h"
 #import "MSAppCenterPrivate.h"
+#import "MSAuthTokenContext.h"
+#import "MSAuthTokenContextPrivate.h"
 #import "MSChannelGroupDefault.h"
 #import "MSDeviceTrackerPrivate.h"
 #import "MSHttpIngestionPrivate.h"
@@ -48,6 +50,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 - (void)setUp {
   [super setUp];
   [MSAppCenter resetSharedInstance];
+  [MSAuthTokenContext resetSharedInstance];
   [MSUserIdContext resetSharedInstance];
 
   // System Under Test.
