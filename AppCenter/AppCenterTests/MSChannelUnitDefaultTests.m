@@ -7,6 +7,7 @@
 #import "MSAppCenter.h"
 #import "MSAuthTokenContext.h"
 #import "MSAuthTokenInfo.h"
+#import "MSAuthTokenValidityInfo.h"
 #import "MSChannelDelegate.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitDefault.h"
