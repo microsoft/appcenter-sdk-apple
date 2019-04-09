@@ -273,30 +273,6 @@ static NSString *const kMSDataStoreAppDocumentsPartition = @"readonly";
   OCMVerify([self.keychainUtilMock deleteStringForKey:kMSStorageUserDbTokenKey]);
 }
 
-// TODO: Fix test failure
-- (void)cachedTokenIsExpired {
-
-  // If
-  NSData *tokenData = [NSJSONSerialization dataWithJSONObject:[self getExpiredTokenData] options:NSJSONWritingPrettyPrinted error:nil];
-  NSString *tokenString = [[NSString alloc] initWithData:tokenData encoding:NSUTF8StringEncoding];
-  OCMStub([self.keychainUtilMock stringForKey:kMSMockTokenKeyName]).andReturn(tokenString);
-  OCMStub([self.keychainUtilMock deleteStringForKey:OCMOCK_ANY]).andReturn(@"success");
-  id<MSHttpClientProtocol> httpMock = OCMProtocolMock(@protocol(MSHttpClientProtocol));
-  OCMStub([httpMock sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:OCMOCK_ANY data:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
-
-  // When
-  [MSTokenExchange
-      performDbTokenAsyncOperationWithHttpClient:httpMock
-                                tokenExchangeUrl:[NSURL new]
-                                       appSecret:@"appSecret"
-                                       partition:kMSPartitionName
-                               completionHandler:^(MSTokensResponse *__unused tokenResponses, NSError *_Nullable __unused error){
-                               }];
-
-  // Then
-  OCMVerify([self.keychainUtilMock deleteStringForKey:OCMOCK_ANY]);
-}
-
 - (void)testCachedTokenNotFoundInKeychain {
 
   // If
