@@ -18,7 +18,7 @@
 
 @interface MSDBDocumentStoreTests : XCTestCase
 
-@property(nonatomic, strong) MSDBStorage *dbStorag;
+@property(nonatomic, strong) MSDBStorage *dbStorage;
 @property(nonatomic, strong) MSDBDocumentStore *sut;
 @property(nonnull, strong) MSDBSchema *schema;
 
@@ -30,8 +30,8 @@
   [super setUp];
   [MSUtility deleteItemForPathComponent:kMSDBDocumentFileName];
   self.schema = [MSDBDocumentStore documentTableSchema];
-  self.dbStorag = [[MSDBStorage alloc] initWithSchema:self.schema version:0 filename:kMSDBDocumentFileName];
-  self.sut = [[MSDBDocumentStore alloc] initWithDbStorage:self.dbStorag schema:self.schema];
+  self.dbStorage = [[MSDBStorage alloc] initWithSchema:self.schema version:0 filename:kMSDBDocumentFileName];
+  self.sut = [[MSDBDocumentStore alloc] initWithDbStorage:self.dbStorage schema:self.schema];
 }
 
 - (void)tearDown {
@@ -207,7 +207,7 @@
   [self.sut createUserStorageWithAccountId:expectedAccountId];
 
   // Then
-  OCMVerify([self.dbStorag createTable:tableName
+  OCMVerify([self.dbStorage createTable:tableName
                          columnsSchema:[self expectedColumnSchema]
                uniqueColumnsConstraint:[self expectedUniqueColumnsConstraint]]);
 }
@@ -222,7 +222,7 @@
   [self.sut deleteUserStorageWithAccountId:expectedAccountId];
 
   // Then
-  OCMVerify([self.dbStorag dropTable:userTableName]);
+  OCMVerify([self.dbStorage dropTable:userTableName]);
 }
 
 - (void)testDeletionOfAllTables {
@@ -231,7 +231,7 @@
   NSString *expectedAccountId = @"Test-account-id";
   NSString *tableName = [NSString stringWithFormat:kMSUserDocumentTableNameFormat, expectedAccountId];
   [self.sut createUserStorageWithAccountId:expectedAccountId];
-  OCMVerify([self.dbStorag createTable:tableName columnsSchema:[self expectedColumnSchema]]);
+  OCMVerify([self.dbStorage createTable:tableName columnsSchema:[self expectedColumnSchema]]);
   XCTAssertTrue([self tableExists:tableName]);
 
   // When
@@ -263,7 +263,7 @@
   NSString *operationTimeString = [MSUtility dateToISO8601:[NSDate date]];
   NSString *insertQuery = [NSString
       stringWithFormat:
-          @"INSERT INTO '%@' ('%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@') VALUES ('%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@')",
+          @"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\") VALUES ('%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@')",
           kMSAppDocumentTableName, kMSIdColumnName, kMSPartitionColumnName, kMSETagColumnName, kMSDocumentColumnName,
           kMSDocumentIdColumnName, kMSExpirationTimeColumnName, kMSOperationTimeColumnName, kMSPendingOperationColumnName, @0, partition,
           eTag, jsonString, documentId, expirationTimeString, operationTimeString, pendingOperation];
@@ -280,7 +280,7 @@
 }
 
 - (BOOL)tableExists:(NSString *)tableName {
-  NSArray<NSArray *> *result = [self.dbStorag
+  NSArray<NSArray *> *result = [self.dbStorage
       executeSelectionQuery:[NSString stringWithFormat:@"SELECT COUNT(*) FROM \"sqlite_master\" WHERE \"type\"='table' AND \"name\"='%@';",
                                                        tableName]];
   return [(NSNumber *)result[0][0] boolValue];
