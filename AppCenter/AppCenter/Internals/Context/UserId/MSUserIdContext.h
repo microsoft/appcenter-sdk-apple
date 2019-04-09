@@ -7,6 +7,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@protocol MSUserIdContextDelegate;
+
 @interface MSUserIdContext : NSObject
 
 /**
@@ -19,10 +21,18 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property(nonatomic) NSMutableArray<MSUserIdHistoryInfo *> *userIdHistory;
 
+@property(nonatomic) NSHashTable<id<MSUserIdContextDelegate>> *delegates;
+
+@property(nullable, nonatomic) NSString *mUserId;
+
 /**
  * Get singleton instance.
  */
 + (instancetype)sharedInstance;
+
+- (void)addDelegate:(id<MSUserIdContextDelegate>)delegate;
+
+- (void)removeDelegate:(id<MSUserIdContextDelegate>)delegate;
 
 /**
  * Set current user Id.

@@ -4,6 +4,7 @@
 #import "MSAppCenterInternal.h"
 #import "MSConstants+Internal.h"
 #import "MSLogger.h"
+#import "MSUserIdContextDelegate.h"
 #import "MSUserIdContextPrivate.h"
 #import "MSUtility.h"
 
@@ -61,6 +62,7 @@ static dispatch_once_t onceToken;
      * Center start and setUserId call.
      */
     [MS_USER_DEFAULTS setObject:[NSKeyedArchiver archivedDataWithRootObject:self.userIdHistory] forKey:kMSUserIdHistoryKey];
+    _delegates = [NSHashTable new];
   }
   return self;
 }
@@ -75,6 +77,7 @@ static dispatch_once_t onceToken;
 }
 
 - (void)setUserId:(nullable NSString *)userId {
+  NSArray *synchronizedDelegates;
   @synchronized(self) {
 
     /*
@@ -89,7 +92,22 @@ static dispatch_once_t onceToken;
     [MS_USER_DEFAULTS setObject:[NSKeyedArchiver archivedDataWithRootObject:self.userIdHistory] forKey:kMSUserIdHistoryKey];
     MSLogVerbose([MSAppCenter logTag], @"Stored new userId:%@ and timestamp: %@.", self.currentUserIdInfo.userId,
                  self.currentUserIdInfo.timestamp);
+    if (![self isUserIdChanged:self.mUserId]){
+      return;
+    }
+    synchronizedDelegates = [self.delegates allObjects];
+    for (id<MSUserIdContextDelegate> delegate in synchronizedDelegates) {
+      [delegate onNewUserId:self];
+    }
   }
+}
+
+- (BOOL) isUserIdChanged:(NSString *)userId {
+  if (self.mUserId != nil && self.mUserId == userId ){
+    return false;
+  }
+  self.mUserId = userId;
+  return true;
 }
 
 - (nullable NSString *)userIdAt:(NSDate *)date {
@@ -147,6 +165,18 @@ static dispatch_once_t onceToken;
     return [NSString stringWithFormat:@"%@%@%@", kMSUserIdCustomPrefix, kMSCommonSchemaPrefixSeparator, userId];
   }
   return userId;
+}
+
+- (void)addDelegate:(id<MSUserIdContextDelegate>)delegate {
+  @synchronized (self) {
+    [self.delegates addObject:delegate];
+  }
+}
+
+- (void)removeDelegate:(id<MSUserIdContextDelegate>)delegate {
+  @synchronized (self) {
+    [self.delegates removeObject:delegate];
+  }
 }
 
 @end

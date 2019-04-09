@@ -5,6 +5,7 @@
 
 #import "MSMockUserDefaults.h"
 #import "MSTestFrameworks.h"
+#import "MSUserIdContextDelegate.h"
 #import "MSUserIdContextPrivate.h"
 
 @interface MSUserIdContextTests : XCTestCase
@@ -149,6 +150,15 @@
   XCTAssertEqualObjects([MSUserIdContext prefixedUserIdFromUserId:@"alice"], @"c:alice");
   XCTAssertEqualObjects([MSUserIdContext prefixedUserIdFromUserId:@":"], @":");
   XCTAssertNil([MSUserIdContext prefixedUserIdFromUserId:nil]);
+}
+
+- (void)testUserIdEqualCurrentUserId {
+  NSString *mockUserId = @"UserId";
+  id<MSUserIdContextDelegate> delegateMock = OCMProtocolMock(@protocol(MSUserIdContextDelegate));
+  [self.sut addDelegate:delegateMock];
+  [[MSUserIdContext sharedInstance] setUserId:mockUserId];
+  OCMVerify([delegateMock onNewUserId:self.sut]);
+  XCTAssertEqual([self.sut userId], mockUserId);
 }
 
 @end
