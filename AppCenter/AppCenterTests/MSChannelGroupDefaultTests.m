@@ -39,9 +39,14 @@
 }
 
 - (void)tearDown {
-  dispatch_sync(self.sut.logsDispatchQueue, ^{
-                });
   [super tearDown];
+
+  // Wait all tasks in tests.
+  XCTestExpectation *expectation = [self expectationWithDescription:@"tearDown"];
+  dispatch_async(self.sut.logsDispatchQueue, ^{
+    [expectation fulfill];
+  });
+  [self waitForExpectations:@[ expectation ] timeout:1];
 }
 
 #pragma mark - Tests
