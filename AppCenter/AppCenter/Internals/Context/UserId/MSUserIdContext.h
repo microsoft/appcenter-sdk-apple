@@ -23,8 +23,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic) NSHashTable<id<MSUserIdContextDelegate>> *delegates;
 
-@property(nullable, nonatomic) NSString *mUserId;
-
 /**
  * Get singleton instance.
  */
