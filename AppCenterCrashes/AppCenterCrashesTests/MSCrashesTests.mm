@@ -151,30 +151,27 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
   // If
   id<MSCrashesDelegate> delegateMock = OCMProtocolMock(@protocol(MSCrashesDelegate));
-  [MSAppCenter sharedInstance].sdkConfigured = NO;
-  [MSAppCenter start:kMSTestAppSecret withServices:@ [[MSCrashes class]]];
   MSAppleErrorLog *errorLog = OCMClassMock([MSAppleErrorLog class]);
   MSErrorReport *errorReport = OCMClassMock([MSErrorReport class]);
   id errorLogFormatterMock = OCMClassMock([MSErrorLogFormatter class]);
   OCMStub(ClassMethod([errorLogFormatterMock errorReportFromLog:errorLog])).andReturn(errorReport);
 
   // When
-  [[MSCrashes sharedInstance] setDelegate:delegateMock];
+  [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
+                        appSecret:kMSTestAppSecret
+          transmissionTargetToken:nil
+                  fromApplication:YES];
+  [self.sut setDelegate:delegateMock];
   id<MSChannelProtocol> channel = [MSCrashes sharedInstance].channelUnit;
   id<MSLog> log = errorLog;
-  [[MSCrashes sharedInstance] channel:channel willSendLog:log];
-  [[MSCrashes sharedInstance] channel:channel didSucceedSendingLog:log];
-  [[MSCrashes sharedInstance] channel:channel didFailSendingLog:log withError:nil];
+  [self.sut channel:channel willSendLog:log];
+  [self.sut channel:channel didSucceedSendingLog:log];
+  [self.sut channel:channel didFailSendingLog:log withError:nil];
 
   // Then
-  OCMVerify([delegateMock crashes:[MSCrashes sharedInstance] willSendErrorReport:errorReport]);
-  OCMVerify([delegateMock crashes:[MSCrashes sharedInstance] didSucceedSendingErrorReport:errorReport]);
-  OCMVerify([delegateMock crashes:[MSCrashes sharedInstance] didFailSendingErrorReport:errorReport withError:nil]);
-
-  // Wait background queue.
-  MSChannelGroupDefault *channelGroup = [MSAppCenter sharedInstance].channelGroup;
-  dispatch_sync(channelGroup.logsDispatchQueue, ^{
-                });
+  OCMVerify([delegateMock crashes:self.sut willSendErrorReport:errorReport]);
+  OCMVerify([delegateMock crashes:self.sut didSucceedSendingErrorReport:errorReport]);
+  OCMVerify([delegateMock crashes:self.sut didFailSendingErrorReport:errorReport withError:nil]);
 }
 
 - (void)testCrashHandlerSetupDelegateMethodsAreCalled {
@@ -724,6 +721,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
                               return [configuration.groupId isEqualToString:@"Crashes"];
                             }]])
       .andReturn(channelUnitMock);
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(OCMProtocolMock(@protocol(MSChannelUnitProtocol)));
   OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSLogWithProperties class]] flags:MSFlagsDefault])
       .andDo(^(NSInvocation *invocation) {
         MSHandledErrorLog *log;
@@ -769,6 +767,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
                               return [configuration.groupId isEqualToString:@"Crashes"];
                             }]])
       .andReturn(channelUnitMock);
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(OCMProtocolMock(@protocol(MSChannelUnitProtocol)));
   OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSAbstractLog class]] flags:MSFlagsDefault])
       .andDo(^(NSInvocation *invocation) {
         MSHandledErrorLog *log;
