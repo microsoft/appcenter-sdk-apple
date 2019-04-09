@@ -375,7 +375,6 @@ static dispatch_once_t onceToken;
                                 completionBlock:^(MSALResult *result, NSError *e) {
                                   typeof(self) strongSelf = weakSelf;
                                   if (e) {
-                                    [[MSAuthTokenContext sharedInstance] setAuthToken:nil withAccountId:nil expiresOn:nil];
                                     if (e.code == MSALErrorUserCanceled) {
                                       MSLogWarning([MSIdentity logTag], @"User canceled sign-in.");
                                     } else {
