@@ -34,7 +34,6 @@ static NSString *const kMSDataStoreAppDocumentsPartition = @"readonly";
 
 @interface MSTokenExchange (Test)
 
-+ (void)removeCachedToken:(NSString *)partitionName;
 + (NSString *)tokenKeyNameForPartition:(NSString *)partitionName;
 + (void)saveToken:(MSTokenResult *)tokenResult;
 
@@ -218,8 +217,7 @@ static NSString *const kMSDataStoreAppDocumentsPartition = @"readonly";
   [utilityMock stopMocking];
 }
 
-// TODO: Fix test failure
-- (void)readTokenFromCacheWhenTokenResultStatusFailed {
+- (void)testReadTokenFromCacheWhenTokenResultStatusFailed {
 
   // If
   NSData *tokenData = [NSJSONSerialization dataWithJSONObject:[self getFailedTokenData] options:NSJSONWritingPrettyPrinted error:nil];
@@ -482,18 +480,6 @@ static NSString *const kMSDataStoreAppDocumentsPartition = @"readonly";
   OCMVerifyAll(self.keychainUtilMock);
 }
 
-- (void)testRemoveCachedTokenNotRaisesError {
-
-  // If
-  OCMStub([self.keychainUtilMock deleteStringForKey:OCMOCK_ANY]).andReturn(nil);
-
-  // When
-  [MSTokenExchange removeCachedToken:@"token"];
-
-  // Then
-  OCMVerifyAll(self.keychainUtilMock);
-}
-
 - (void)testRemoveAllCachedTokensNotRaisesError {
 
   // If
@@ -508,10 +494,8 @@ static NSString *const kMSDataStoreAppDocumentsPartition = @"readonly";
 
 - (void)testTokenKeyNameForPartitionReturnsReadOnlyKey {
 
-  // If
-  NSString *readonlyPartition = @"readonly";
   // When
-  NSString *tokenKeyName = [MSTokenExchange tokenKeyNameForPartition:readonlyPartition];
+  NSString *tokenKeyName = [MSTokenExchange tokenKeyNameForPartition:kMSDataStoreAppDocumentsPartition];
 
   // Then
   XCTAssertTrue([tokenKeyName isEqualToString:kMSStorageReadOnlyDbTokenKey]);

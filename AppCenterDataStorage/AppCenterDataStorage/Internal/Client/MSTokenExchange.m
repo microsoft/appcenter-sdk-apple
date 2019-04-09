@@ -6,7 +6,6 @@
 #import "MSAuthTokenContext.h"
 #import "MSConstants+Internal.h"
 #import "MSDataStorageConstants.h"
-#import "MSDataStore.h"
 #import "MSDataStoreErrors.h"
 #import "MSDataStoreInternal.h"
 #import "MSHttpClientProtocol.h"
@@ -168,21 +167,6 @@ static NSString *const kMSGetTokenPath = @"/data/tokens";
     MSLogWarning([MSDataStore logTag], @"Failed to retrieve token from keychain or none was found for the partition : %@.", partition);
   }
   return nil;
-}
-
-/*
- * Delete the cached DB token
- */
-+ (void)removeCachedToken:(NSString *)partitionName {
-  if (partitionName) {
-    NSString *tokenString = [MSKeychainUtil deleteStringForKey:[MSTokenExchange tokenKeyNameForPartition:partitionName]];
-    if (tokenString) {
-      MSLogDebug([MSDataStore logTag], @"Removed token from keychain for the partitionKey : %@.", partitionName);
-    } else {
-      MSLogWarning([MSDataStore logTag], @"Failed to remove token from keychain or none was found for the partitionKey : %@.",
-                   partitionName);
-    }
-  }
 }
 
 /*
