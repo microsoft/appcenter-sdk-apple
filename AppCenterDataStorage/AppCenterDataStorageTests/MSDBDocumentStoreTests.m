@@ -18,8 +18,9 @@
 
 @interface MSDBDocumentStoreTests : XCTestCase
 
-@property(nonatomic) id dbStorageMock;
-@property(nonatomic, nullable) MSDBDocumentStore *sut;
+@property(nonatomic, strong) MSDBStorage *dbStorag;
+@property(nonatomic, strong) MSDBDocumentStore *sut;
+@property(nonnull, strong) MSDBSchema *schema;
 
 @end
 
@@ -28,7 +29,9 @@
 - (void)setUp {
   [super setUp];
   [MSUtility deleteItemForPathComponent:kMSDBDocumentFileName];
-  self.sut = [MSDBDocumentStore new];
+  self.schema = [MSDBDocumentStore documentTableSchema];
+  self.dbStorag = [[MSDBStorage alloc] initWithSchema:self.schema version:0 filename:kMSDBDocumentFileName];
+  self.sut = [[MSDBDocumentStore alloc] initWithDbStorage:self.dbStorag schema:self.schema];
 }
 
 - (void)tearDown {
@@ -204,9 +207,9 @@
   [self.sut createUserStorageWithAccountId:expectedAccountId];
 
   // Then
-  OCMVerify([self.dbStorageMock createTable:tableName
-                              columnsSchema:[self expectedColumnSchema]
-                    uniqueColumnsConstraint:[self expectedUniqueColumnsConstraint]]);
+  OCMVerify([self.dbStorag createTable:tableName
+                         columnsSchema:[self expectedColumnSchema]
+               uniqueColumnsConstraint:[self expectedUniqueColumnsConstraint]]);
 }
 
 - (void)testDeletionOfUserLevelTable {
@@ -219,7 +222,23 @@
   [self.sut deleteUserStorageWithAccountId:expectedAccountId];
 
   // Then
-  OCMVerify([self.dbStorageMock dropTable:userTableName]);
+  OCMVerify([self.dbStorag dropTable:userTableName]);
+}
+
+- (void)testDeletionOfAllTables {
+
+  // If
+  NSString *expectedAccountId = @"Test-account-id";
+  NSString *tableName = [NSString stringWithFormat:kMSUserDocumentTableNameFormat, expectedAccountId];
+  [self.sut createUserStorageWithAccountId:expectedAccountId];
+  OCMVerify([self.dbStorag createTable:tableName columnsSchema:[self expectedColumnSchema]]);
+  XCTAssertTrue([self tableExists:tableName]);
+
+  // When
+  [self.sut deleteAllTables];
+
+  // Then
+  XCTAssertFalse([self tableExists:tableName]);
 }
 
 - (MSDBColumnsSchema *)expectedColumnSchema {
@@ -258,6 +277,13 @@
   NSURL *dbURL = [MSUtility createFileAtPathComponent:path withData:nil atomically:NO forceOverwrite:NO];
   sqlite3_open_v2([[dbURL absoluteString] UTF8String], &db, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_URI, NULL);
   return db;
+}
+
+- (BOOL)tableExists:(NSString *)tableName {
+  NSArray<NSArray *> *result = [self.dbStorag
+      executeSelectionQuery:[NSString stringWithFormat:@"SELECT COUNT(*) FROM \"sqlite_master\" WHERE \"type\"='table' AND \"name\"='%@';",
+                                                       tableName]];
+  return [(NSNumber *)result[0][0] boolValue];
 }
 
 - (NSArray<NSString *> *)expectedUniqueColumnsConstraint {
