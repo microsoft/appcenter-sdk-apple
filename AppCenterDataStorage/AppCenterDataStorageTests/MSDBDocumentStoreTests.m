@@ -212,7 +212,7 @@
 
   // Then
   OCMVerify([self.dbStorage createTable:tableName
-                          columnsSchema:[self expectedColumnSchema]
+                          columnsSchema:[MSDBDocumentStore columnsSchema]
                 uniqueColumnsConstraint:[self expectedUniqueColumnsConstraint]]);
 }
 
@@ -277,13 +277,13 @@
   // If
   MSDocumentWrapper *documentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestDocument"]
                                                                    documentType:[MSDictionaryDocument class]];
-  [self.sut upsertWithPartition:MSDataStoreUserDocumentsPartition
+  [self.sut upsertWithPartition:@"user-accountId"
                 documentWrapper:documentWrapper
                       operation:@"CREATE"
                         options:[[MSReadOptions alloc] initWithDeviceTimeToLive:1]];
   
   // When
-  BOOL result = [self.sut deleteWithPartition:MSDataStoreAppDocumentsPartition documentId:documentWrapper.documentId];
+  BOOL result = [self.sut deleteWithPartition:@"user-accountId" documentId:documentWrapper.documentId];
   
   // Then
   XCTAssertTrue(result);
@@ -295,7 +295,7 @@
   NSString *expectedAccountId = @"Test-account-id";
   NSString *tableName = [NSString stringWithFormat:kMSUserDocumentTableNameFormat, expectedAccountId];
   [self.sut createUserStorageWithAccountId:expectedAccountId];
-  OCMVerify([self.dbStorage createTable:tableName columnsSchema:[self expectedColumnSchema]]);
+  OCMVerify([self.dbStorage createTable:tableName columnsSchema:[MSDBDocumentStore columnsSchema]]);
   XCTAssertTrue([self tableExists:tableName]);
 
   // When

@@ -181,6 +181,7 @@ static const NSUInteger kMSSchemaVersion = 1;
   if ([partition isEqualToString:MSDataStoreAppDocumentsPartition]) {
     return kMSAppDocumentTableName;
   }
+  //TODO defensive programming - need to check length of partition name
   return [NSString stringWithFormat:kMSUserDocumentTableNameFormat, [partition substringFromIndex:kMSDataStoreAppDocumentsUserPartitionPrefix.length]];
 }
 

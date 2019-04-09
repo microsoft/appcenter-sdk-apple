@@ -4,6 +4,7 @@
 #import <Foundation/Foundation.h>
 
 #import "MSBaseOptions.h"
+#import "MSDBStorage.h"
 #import "MSDocumentStore.h"
 #import "MSDocumentWrapper.h"
 

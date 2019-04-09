@@ -4,6 +4,7 @@
 #import <Foundation/Foundation.h>
 
 @class MSWriteOptions;
+@class MSReadOptions;
 @class MSDocumentWrapper;
 
 NS_ASSUME_NONNULL_BEGIN
