@@ -124,7 +124,8 @@ static MSDummyService2 *sharedInstanceService2 = nil;
 
   // Wait background queue.
   MSChannelGroupDefault *channelGroup = [MSAppCenter sharedInstance].channelGroup;
-  dispatch_sync(channelGroup.logsDispatchQueue, ^{});
+  dispatch_sync(channelGroup.logsDispatchQueue, ^{
+                });
 }
 
 @end

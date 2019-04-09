@@ -400,13 +400,13 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 }
 
 - (void)testDefaultLogUrl {
-  
+
   // If
   NSString *defaultUrl = @"https://in.appcenter.ms";
 
   // When
   [MSAppCenter start:MS_UUID_STRING withServices:nil];
-  
+
   // Then
   XCTAssertNil([[MSAppCenter sharedInstance] logUrl]);
   OCMVerify([self.channelGroupMock initWithInstallId:OCMOCK_ANY logUrl:equalTo(defaultUrl)]);

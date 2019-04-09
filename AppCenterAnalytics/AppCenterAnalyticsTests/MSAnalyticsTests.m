@@ -237,7 +237,8 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 
   // Wait background queue.
   MSChannelGroupDefault *channelGroup = [MSAppCenter sharedInstance].channelGroup;
-  dispatch_sync(channelGroup.logsDispatchQueue, ^{});
+  dispatch_sync(channelGroup.logsDispatchQueue, ^{
+                });
 }
 
 - (void)testAnalyticsDelegateMethodsAreCalled {
@@ -264,7 +265,8 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 
   // Wait background queue (channel delegates will be added in background thread).
   MSChannelGroupDefault *channelGroup = [MSAppCenter sharedInstance].channelGroup;
-  dispatch_sync(channelGroup.logsDispatchQueue, ^{});
+  dispatch_sync(channelGroup.logsDispatchQueue, ^{
+                });
 
   // When
   [[MSAnalytics sharedInstance] setDelegate:delegateMock];
@@ -277,7 +279,8 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   OCMVerify([delegateMock analytics:[MSAnalytics sharedInstance] didFailSendingEventLog:eventLog withError:nil]);
 
   // Wait background queue.
-  dispatch_sync(channelGroup.logsDispatchQueue, ^{});
+  dispatch_sync(channelGroup.logsDispatchQueue, ^{
+                });
 }
 
 - (void)testAnalyticsLogsVerificationIsCalled {
@@ -1263,7 +1266,8 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 
   // Wait background queue.
   MSChannelGroupDefault *channelGroup = [MSAppCenter sharedInstance].channelGroup;
-  dispatch_sync(channelGroup.logsDispatchQueue, ^{});
+  dispatch_sync(channelGroup.logsDispatchQueue, ^{
+                });
 }
 
 - (void)testAutoPageTrackingWhenStartedFromLibrary {

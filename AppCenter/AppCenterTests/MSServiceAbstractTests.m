@@ -192,7 +192,7 @@
 
   assertThatBool([[MSServiceAbstractImplementation sharedInstance] canBeUsed], isFalse());
 
-  [MSAppCenter start:MS_UUID_STRING withServices:@[ [MSServiceAbstractImplementation class] ]];
+  [MSAppCenter start:MS_UUID_STRING withServices:@ [[MSServiceAbstractImplementation class]]];
 
   assertThatBool([[MSServiceAbstractImplementation sharedInstance] canBeUsed], isTrue());
 }
@@ -204,7 +204,7 @@
   [MSAppCenter resetSharedInstance];
   [self.settingsMock setObject:@NO forKey:kMSAppCenterIsEnabledKey];
   [self.settingsMock setObject:@NO forKey:self.abstractService.isEnabledKey];
-  [MSAppCenter start:MS_UUID_STRING withServices:@[ [MSServiceAbstractImplementation class] ]];
+  [MSAppCenter start:MS_UUID_STRING withServices:@ [[MSServiceAbstractImplementation class]]];
 
   // When
   [[MSServiceAbstractImplementation class] setEnabled:YES];
@@ -219,7 +219,7 @@
   [MSAppCenter resetSharedInstance];
   [self.settingsMock setObject:@YES forKey:kMSAppCenterIsEnabledKey];
   [self.settingsMock setObject:@YES forKey:self.abstractService.isEnabledKey];
-  [MSAppCenter start:MS_UUID_STRING withServices:@[ [MSServiceAbstractImplementation class] ]];
+  [MSAppCenter start:MS_UUID_STRING withServices:@ [[MSServiceAbstractImplementation class]]];
 
   // When
   [[MSServiceAbstractImplementation class] setEnabled:NO];
@@ -234,7 +234,7 @@
   [MSAppCenter resetSharedInstance];
   [self.settingsMock setObject:@YES forKey:kMSAppCenterIsEnabledKey];
   [self.settingsMock setObject:@NO forKey:self.abstractService.isEnabledKey];
-  [MSAppCenter start:MS_UUID_STRING withServices:@[ [MSServiceAbstractImplementation class] ]];
+  [MSAppCenter start:MS_UUID_STRING withServices:@ [[MSServiceAbstractImplementation class]]];
 
   // When
   [[MSServiceAbstractImplementation class] setEnabled:YES];
@@ -248,7 +248,7 @@
   // If
   [self.settingsMock setObject:@YES forKey:kMSAppCenterIsEnabledKey];
   [self.settingsMock setObject:@NO forKey:self.abstractService.isEnabledKey];
-  [MSAppCenter start:MS_UUID_STRING withServices:@[ [MSServiceAbstractImplementation class] ]];
+  [MSAppCenter start:MS_UUID_STRING withServices:@ [[MSServiceAbstractImplementation class]]];
 
   // When
   [MSAppCenter setEnabled:YES];
@@ -262,7 +262,7 @@
   // If
   [self.settingsMock setObject:@YES forKey:kMSAppCenterIsEnabledKey];
   [self.settingsMock setObject:@YES forKey:self.abstractService.isEnabledKey];
-  [MSAppCenter start:MS_UUID_STRING withServices:@[ [MSServiceAbstractImplementation class] ]];
+  [MSAppCenter start:MS_UUID_STRING withServices:@ [[MSServiceAbstractImplementation class]]];
 
   // When
   [MSAppCenter setEnabled:YES];

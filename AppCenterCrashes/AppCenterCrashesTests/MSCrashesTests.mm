@@ -173,7 +173,8 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
   // Wait background queue.
   MSChannelGroupDefault *channelGroup = [MSAppCenter sharedInstance].channelGroup;
-  dispatch_sync(channelGroup.logsDispatchQueue, ^{});
+  dispatch_sync(channelGroup.logsDispatchQueue, ^{
+                });
 }
 
 - (void)testCrashHandlerSetupDelegateMethodsAreCalled {

@@ -40,7 +40,7 @@
 
 - (void)tearDown {
   dispatch_sync(self.sut.logsDispatchQueue, ^{
-  });
+                });
   [super tearDown];
 }
 
