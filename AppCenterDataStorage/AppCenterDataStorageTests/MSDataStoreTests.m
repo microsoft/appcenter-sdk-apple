@@ -812,7 +812,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   OCMStub([httpClient new]).andReturn(httpClient);
   self.sut.httpClient = httpClient;
   id msTokenEchange = OCMClassMock([MSTokenExchange class]);
-  OCMStub([msTokenEchange retrieveCachedToken:[OCMArg any] expiredTokenIncluded:NO])
+  OCMStub([msTokenEchange retrieveCachedTokenForPartition:[OCMArg any] includeExpiredToken:NO])
       .andReturn([[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]]);
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@"List single document"];
 
@@ -883,7 +883,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   OCMStub([httpClient new]).andReturn(httpClient);
   self.sut.httpClient = httpClient;
   id msTokenEchange = OCMClassMock([MSTokenExchange class]);
-  OCMStub([msTokenEchange retrieveCachedToken:[OCMArg any] expiredTokenIncluded:NO])
+  OCMStub([msTokenEchange retrieveCachedTokenForPartition:[OCMArg any] includeExpiredToken:NO])
       .andReturn([[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]]);
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@"List first page"];
   NSMutableDictionary *continuationHeaders = [NSMutableDictionary new];

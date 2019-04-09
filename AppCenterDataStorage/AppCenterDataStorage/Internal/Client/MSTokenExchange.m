@@ -33,7 +33,7 @@ static NSString *const kMSGetTokenPath = @"/data/tokens";
                                  completionHandler:(MSGetTokenAsyncCompletionHandler)completionHandler {
 
   // Get the cached token if it is saved.
-  MSTokenResult *cachedToken = [MSTokenExchange retrieveCachedToken:partition expiredTokenIncluded:NO];
+  MSTokenResult *cachedToken = [MSTokenExchange retrieveCachedTokenForPartition:partition includeExpiredToken:NO];
   NSURL *sendUrl = [tokenExchangeUrl URLByAppendingPathComponent:kMSGetTokenPath];
 
   // Get a fresh token from the token exchange service if the token is not cached or has expired.
@@ -143,11 +143,7 @@ static NSString *const kMSGetTokenPath = @"/data/tokens";
   }
 }
 
-/*
- * Get back the Cached Cosmos DB token
- * If the DB token has expired, that token is deleted from KeyChain
- */
-+ (MSTokenResult *_Nullable)retrieveCachedToken:(NSString *)partition expiredTokenIncluded:(BOOL)expiredTokenIncluded {
++ (MSTokenResult *_Nullable)retrieveCachedTokenForPartition:(NSString *)partition includeExpiredToken:(BOOL)includeExpiredToken {
   if (partition) {
     NSString *tokenString = [MSKeychainUtil stringForKey:[MSTokenExchange tokenKeyNameForPartition:partition]];
     if (tokenString) {
@@ -156,7 +152,7 @@ static NSString *const kMSGetTokenPath = @"/data/tokens";
       NSDate *tokenExpireDate = [MSUtility dateFromISO8601:tokenResult.expiresOn];
       if ([currentUTCDate laterDate:tokenExpireDate] == currentUTCDate) {
         MSLogWarning([MSDataStore logTag], @"The token in the cache has expired for the partition : %@.", partition);
-        if (expiredTokenIncluded) {
+        if (includeExpiredToken) {
           return tokenResult;
         }
         return nil;
