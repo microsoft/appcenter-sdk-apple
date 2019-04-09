@@ -3,7 +3,6 @@
 
 #import <MSAL/MSALPublicClientApplication.h>
 
-#import "MSAuthTokenContextDelegate.h"
 #import "MSChannelDelegate.h"
 #import "MSCustomApplicationDelegate.h"
 #import "MSIdentity.h"
@@ -15,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class MSALPublicClientApplication;
 
-@interface MSIdentity () <MSServiceInternal, MSAuthTokenContextDelegate>
+@interface MSIdentity () <MSServiceInternal>
 
 /**
  * The MSAL client for authentication.

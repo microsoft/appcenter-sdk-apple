@@ -91,7 +91,6 @@ static dispatch_once_t onceToken;
 #if TARGET_OS_IOS
     [[MSAppDelegateForwarder sharedInstance] addDelegate:self.appDelegate];
 #endif
-    [[MSAuthTokenContext sharedInstance] addDelegate:self];
 
     // Read Identity config file.
     NSString *eTag = nil;
@@ -107,7 +106,6 @@ static dispatch_once_t onceToken;
 #if TARGET_OS_IOS
     [[MSAppDelegateForwarder sharedInstance] removeDelegate:self.appDelegate];
 #endif
-    [[MSAuthTokenContext sharedInstance] removeDelegate:self];
     [self clearAuthData];
     self.clientApplication = nil;
     [self clearConfigurationCache];
@@ -418,18 +416,4 @@ static dispatch_once_t onceToken;
   return account;
 }
 
-#pragma mark - MSAuthTokenContextDelegate
-
-- (void)authTokenContext:(MSAuthTokenContext *)authTokenContext refreshAuthTokenForAccountId:(nullable NSString *)accountId {
-  MSALAccount *account = [self retrieveAccountWithAccountId:accountId];
-  if (account) {
-    [self acquireTokenSilentlyWithMSALAccount:account];
-  } else {
-
-    // If account not found, start an anonymous session to avoid deadlock.
-    MSLogWarning([MSIdentity logTag],
-                 @"Could not get account for the accountId of the token that needs to be refreshed. Starting anonymous session.");
-    [authTokenContext setAuthToken:nil withAccountId:nil expiresOn:nil];
-  }
-}
 @end

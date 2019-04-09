@@ -80,13 +80,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)removeAuthToken:(nullable NSString *)authToken;
 
-/**
- * Checks if the given token is the last, soon expires and needs to be refreshed, sends refresh event if needed.
- *
- * @param tokenValidityInfo token validity object to be checked.
- */
-- (void)checkIfTokenNeedsToBeRefreshed:(MSAuthTokenValidityInfo *)tokenValidityInfo;
-
 @end
 
 NS_ASSUME_NONNULL_END

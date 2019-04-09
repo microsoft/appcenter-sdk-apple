@@ -56,7 +56,6 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
                               withBlock:^(id<MSChannelDelegate> channelDelegate) {
                                 [channelDelegate channelGroup:self didAddChannelUnit:channel];
                               }];
-    [[MSAuthTokenContext sharedInstance] addDelegate:channel];
   }
   return channel;
 }
