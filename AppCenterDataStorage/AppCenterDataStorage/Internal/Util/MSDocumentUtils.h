@@ -27,23 +27,45 @@ NS_ASSUME_NONNULL_BEGIN
  * @param key The key to look for in the dictionary reference.
  * @param keyType The expected key type.
  */
-+ (BOOL)isReferenceDictionaryWithKey:(id _Nullable)reference key:(NSString *)key keyType:(Class)keyType;
++ (BOOL)isReferenceDictionaryWithKey:(nullable id)reference key:(NSString *)key keyType:(Class)keyType;
 
 /**
  * Deserialize a CosmosDB document from data and return a document wrapper (valid or in an error state).
  *
  * @param data Data from which to create the document wrapper.
  * @param documentType The type of document to instantiate.
+ * @return Document wrapper (valid or in an error state).
  */
-+ (MSDocumentWrapper *)documentWrapperFromData:(NSData *_Nullable)data documentType:(Class)documentType;
++ (MSDocumentWrapper *)documentWrapperFromData:(nullable NSData *)data documentType:(Class)documentType;
 
 /**
  * Deserialize a CosmosDB document from a dictionary and return a document wrapper (valid or in an error state).
  *
  * @param object Dictionary (expected) from which to create the document wrapper.
  * @param documentType The type of document to instantiate.
+ * @return Document wrapper (valid or in an error state).
  */
 + (MSDocumentWrapper *)documentWrapperFromDictionary:(NSObject *)object documentType:(Class)documentType;
+
+/**
+ * Deserialize a serializable document from json document data.
+ *
+ * @param data Data from which to create the document wrapper.
+ * @param documentType The type of document to instantiate.
+ * @param eTag The eTag for the document.
+ * @param lastUpdatedDate The last time the document was updated.
+ * @param partition The partition of the document.
+ * @param documentId The DocumentId.
+ * @param pendingOperation The pending operation, or nil.
+ * @return Document wrapper (valid or in an error state).
+ */
++ (MSDocumentWrapper *)documentWrapperFromDocumentData:(nullable NSData *)data
+                                          documentType:(Class)documentType
+                                                  eTag:(NSString *)eTag
+                                       lastUpdatedDate:(NSDate *)lastUpdatedDate
+                                             partition:(NSString *)partition
+                                            documentId:(NSString *)documentId
+                                      pendingOperation:(nullable NSString *)pendingOperation;
 
 @end
 
