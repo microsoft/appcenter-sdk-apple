@@ -600,12 +600,10 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
   // When we complete second call
   self.msalCompletionBlock(msalResultMock, nil);
-  MSAuthTokenInfo *actualAuthTokenInfo = [[MSMockKeychainUtil arrayForKey:kMSAuthTokenHistoryKey] lastObject];
 
   // Then
   OCMVerify([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]);
   XCTAssertEqualObjects(idToken, [MSAuthTokenContext sharedInstance].authToken);
-  XCTAssertEqualObjects(idToken, actualAuthTokenInfo.authToken);
   XCTAssertNotNil(self.signInUserInformation);
   XCTAssertEqualObjects(accountId, self.signInUserInformation.accountId);
   XCTAssertNil(self.signInError);
@@ -1018,7 +1016,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   OCMStub([identityMock canBeUsed]).andReturn(YES);
 
   // Then
-  OCMReject([mockDelegate authTokenContext:OCMOCK_ANY didSetAuthToken:OCMOCK_ANY]);
+  OCMReject([mockDelegate authTokenContext:OCMOCK_ANY didUpdateAuthToken:OCMOCK_ANY]);
   OCMReject([identityMock removeAccount]);
   OCMReject([identityMock removeAuthToken]);
   OCMReject([identityMock removeAccountId]);
