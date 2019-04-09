@@ -15,7 +15,7 @@
 #import "MSDataStoreInternal.h"
 #import "MSDataStorePrivate.h"
 #import "MSDocumentUtils.h"
-#import "MSDocumentWrapper.h"
+#import "MSDocumentWrapperInternal.h"
 #import "MSHttpClient.h"
 #import "MSPaginatedDocuments.h"
 #import "MSReadOptions.h"
@@ -244,8 +244,16 @@ static dispatch_once_t onceToken;
                                  documentId:documentId
                                documentType:documentType
                                 readOptions:readOptions
-                          completionHandler:completionHandler];
-  }
+                          completionHandler:^(MSDocumentWrapper* _Nonnull document) {
+                            if ([self.reachability currentReachabilityStatus] == NotReachable) {
+                              completionHandler(document);
+                            } else if (document.pendingOperation) {
+                              completionHandler(document);
+                            } else {
+                              [self readFromCosmosDbWithPartition:partition documentId:documentId documentType:documentType readOptions:readOptions completionHandler:completionHandler];
+                            }
+                          }];
+     }
 }
 
 - (void)readFromLocalStorageWithPartition:(NSString *)partition
@@ -283,6 +291,16 @@ static dispatch_once_t onceToken;
                                                                                                        documentId:documentId
                                                                                                      documentType:documentType
                                                                                                       readOptions:readOptions];
+                                       if ([documentWrapper.pendingOperation isEqualToString:kMSPendingOperationDelete]) {
+                                         NSError *notFoundError = [[NSError alloc]
+                                                                         initWithDomain:kMSACDataStoreErrorDomain
+                                                                         code:MSACDataStoreErrorDocumentNotFound
+                                                                         userInfo:@{
+                                                                                    NSLocalizedDescriptionKey : @"The document was marked for deletion and could not be read."
+                                                                                    }];
+                                         documentWrapper = [[MSDocumentWrapper alloc] initWithError:notFoundError documentId:documentId];
+                                         documentWrapper.pendingOperation = kMSPendingOperationDelete;
+                                       }
                                        completionHandler(documentWrapper);
                                      });
                                    }];

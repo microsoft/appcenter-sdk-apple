@@ -64,7 +64,7 @@ static NSString *const kMSAccountId = @"ceb61029-d032-4e7a-be03-2614cfe2a564";
 static NSString *const kMSDbNameTest = @"dbName";
 static NSString *const kMSDbCollectionNameTest = @"dbCollectionName";
 static NSString *const kMSStatusTest = @"status";
-static NSString *const kMSExpiresOnTest = @"20191212";
+static NSString *const kMSExpiresOnTest = @"2999-09-19T11:11:11.111Z";;
 static NSString *const kMSDocumentIdTest = @"documentId";
 
 - (void)setUp {
@@ -1233,9 +1233,15 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   // If
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@""];
 
+  // Simulate being online.
+  MS_Reachability *reachabilityMock = OCMPartialMock([MS_Reachability reachabilityForInternetConnection]);
+  OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(ReachableViaWiFi);
+  self.sut.reachability = reachabilityMock;
+
   // Mock cached token result.
   MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
   OCMStub([self.tokenExchangeMock retrieveCachedToken:kMSPartitionTest expiredTokenIncluded:YES]).andReturn(tokenResult);
+  OCMStub([self.tokenExchangeMock retrieveCachedToken:kMSPartitionTest expiredTokenIncluded:NO]).andReturn(tokenResult);
 
   // Mock expired document in local storage.
   NSError *expiredError = [NSError errorWithDomain:kMSACDataStoreErrorDomain code:MSACDataStoreErrorLocalDocumentExpired userInfo:nil];
@@ -1267,7 +1273,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // When
   [MSDataStore readWithPartition:kMSPartitionTest
-                      documentId:@"4"
+                      documentId:kMSDocumentIdTest
                     documentType:[MSDictionaryDocument class]
                completionHandler:^(MSDocumentWrapper *_Nonnull document) {
                  // Then
@@ -1290,10 +1296,75 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                }];
 }
 
+- (void)testReadsFromRemoteIfNotExpiredAndOnlineWithNoPendingOperation {
+
+  // If
+  __weak XCTestExpectation *expectation = [self expectationWithDescription:@""];
+
+  // Mock cached token result.
+  MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
+  OCMStub([self.tokenExchangeMock retrieveCachedToken:kMSPartitionTest expiredTokenIncluded:YES]).andReturn(tokenResult);
+  OCMStub([self.tokenExchangeMock retrieveCachedToken:kMSPartitionTest expiredTokenIncluded:NO]).andReturn(tokenResult);
+
+  // Mock document in local storage.
+  id<MSDocumentStore> localStorageMock = OCMProtocolMock(@protocol(MSDocumentStore));
+  self.sut.documentStore = localStorageMock;
+  NSData *jsonFixture = [self jsonFixture:@"validTestDocument"];
+  MSDocumentWrapper *expectedDocumentWrapper = [MSDocumentUtils documentWrapperFromData:jsonFixture
+                                                                         documentType:[MSDictionaryDocument class]];
+
+  MSDocumentWrapper *localDocumentWrapper = OCMPartialMock([MSDocumentUtils documentWrapperFromData:jsonFixture
+                                                                                          documentType:[MSDictionaryDocument class]]);
+  
+  OCMStub(localDocumentWrapper.eTag).andReturn(@"some other etag");
+  OCMStub([localStorageMock readWithPartition:[MSDataStoreTests fullTestPartitionName]
+                                   documentId:OCMOCK_ANY
+                                 documentType:OCMOCK_ANY
+                                  readOptions:OCMOCK_ANY]).andReturn(localDocumentWrapper);
+
+  // Mock CosmosDB requests.
+  OCMStub([self.cosmosDbMock performCosmosDbAsyncOperationWithHttpClient:OCMOCK_ANY
+                                                             tokenResult:tokenResult
+                                                              documentId:kMSDocumentIdTest
+                                                              httpMethod:kMSHttpMethodGet
+                                                                    body:OCMOCK_ANY
+                                                       additionalHeaders:OCMOCK_ANY
+                                                       completionHandler:OCMOCK_ANY])
+  .andDo(^(NSInvocation *invocation) {
+    MSHttpRequestCompletionHandler cosmosdbOperationCallback;
+    [invocation getArgument:&cosmosdbOperationCallback atIndex:8];
+    cosmosdbOperationCallback(jsonFixture, nil, nil);
+  });
+
+  // When
+  [MSDataStore readWithPartition:kMSPartitionTest
+                      documentId:kMSDocumentIdTest
+                    documentType:[MSDictionaryDocument class]
+               completionHandler:^(MSDocumentWrapper *_Nonnull document) {
+                 // Then
+                 XCTAssertNil(document.error);
+                 XCTAssertEqualObjects(expectedDocumentWrapper.eTag, document.eTag);
+                 [expectation fulfill];
+               }];
+
+  // Then
+  [self waitForExpectationsWithTimeout:3
+                               handler:^(NSError *_Nullable error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+}
+
+
 - (void)testReadsReturnsErrorIfDocumentExpiredAndOffline {
 
   // If
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@""];
+
+  // Mock cached token result.
+  MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
+  OCMStub([self.tokenExchangeMock retrieveCachedToken:kMSPartitionTest expiredTokenIncluded:YES]).andReturn(tokenResult);
 
   // Simulate being offline.
   MS_Reachability *reachabilityMock = OCMPartialMock([MS_Reachability reachabilityForInternetConnection]);
