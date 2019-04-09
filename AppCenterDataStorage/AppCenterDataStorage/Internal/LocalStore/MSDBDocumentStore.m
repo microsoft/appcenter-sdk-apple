@@ -88,7 +88,7 @@ static const NSUInteger kMSSchemaVersion = 1;
         stringWithFormat:@"Unable to find document in local database with partition key '%@' and document ID '%@'", partition, documentId];
     MSLogWarning([MSDataStore logTag], @"%@", errorMessage);
     NSError *error = [[NSError alloc] initWithDomain:kMSACDataStoreErrorDomain
-                                                code:MSACDataStoreErrorLocalDocumentNotFound
+                                                code:MSACDataStoreErrorDocumentNotFound
                                             userInfo:@{NSLocalizedDescriptionKey : errorMessage}];
     return [[MSDocumentWrapper alloc] initWithError:error documentId:documentId];
   }

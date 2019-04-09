@@ -153,7 +153,7 @@
   XCTAssertNotNil(documentWrapper);
   XCTAssertNotNil(documentWrapper.error);
   XCTAssertEqualObjects(documentWrapper.error.error.domain, kMSACDataStoreErrorDomain);
-  XCTAssertEqual(documentWrapper.error.error.code, MSACDataStoreErrorLocalDocumentNotFound);
+  XCTAssertEqual(documentWrapper.error.error.code, MSACDataStoreErrorDocumentNotFound);
   XCTAssertEqualObjects(documentWrapper.documentId, documentId);
 }
 
