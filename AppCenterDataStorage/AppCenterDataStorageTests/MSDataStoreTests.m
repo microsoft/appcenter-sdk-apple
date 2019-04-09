@@ -59,7 +59,8 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 static NSString *const kMSCosmosDbHttpCodeKey = @"com.Microsoft.AppCenter.HttpCodeKey";
 static NSString *const kMSTokenTest = @"token";
 static NSString *const kMSPartitionTest = @"user";
-static NSString *const kMSDbAccountTest = @"ceb61029-d032-4e7a-be03-2614cfe2a564";
+static NSString *const kMSDbAccountTest = @"dbAccount";
+static NSString *const kMSAccountId = @"ceb61029-d032-4e7a-be03-2614cfe2a564";
 static NSString *const kMSDbNameTest = @"dbName";
 static NSString *const kMSDbCollectionNameTest = @"dbCollectionName";
 static NSString *const kMSStatusTest = @"status";
@@ -68,6 +69,11 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
 - (void)setUp {
   [super setUp];
+
+  // Simulate being online.
+  MS_Reachability *reachabilityMock = OCMPartialMock([MS_Reachability reachabilityForInternetConnection]);
+  OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(ReachableViaWiFi);
+  self.sut.reachability = reachabilityMock;
   self.settingsMock = [MSMockUserDefaults new];
   self.sut = [MSDataStore sharedInstance];
   self.tokenExchangeMock = OCMClassMock([MSTokenExchange class]);
@@ -885,14 +891,15 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   OCMStub([httpClient new]).andReturn(httpClient);
   self.sut.httpClient = httpClient;
   id msTokenEchange = OCMClassMock([MSTokenExchange class]);
+  MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
   OCMStub([msTokenEchange retrieveCachedToken:[OCMArg any] expiredTokenIncluded:NO])
-      .andReturn([[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]]);
+      .andReturn(tokenResult);
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@"List first page"];
   NSMutableDictionary *continuationHeaders = [NSMutableDictionary new];
   continuationHeaders[@"x-ms-continuation"] = @"continuation token";
 
   // First page
-  NSDictionary *firstPageHeaders = [MSCosmosDb defaultHeaderWithPartition:@"partition" dbToken:kMSTokenTest additionalHeaders:nil];
+  NSDictionary *firstPageHeaders = [MSCosmosDb defaultHeaderWithPartition:tokenResult.partition dbToken:kMSTokenTest additionalHeaders:nil];
   OCMStub([httpClient sendAsync:OCMOCK_ANY method:@"GET" headers:firstPageHeaders data:nil completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         [invocation retainArguments];
@@ -903,7 +910,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
       });
 
   // Second page
-  NSDictionary *secondPageHeaders = [MSCosmosDb defaultHeaderWithPartition:@"partition"
+  NSDictionary *secondPageHeaders = [MSCosmosDb defaultHeaderWithPartition:tokenResult.partition
                                                                    dbToken:kMSTokenTest
                                                          additionalHeaders:continuationHeaders];
   OCMStub([httpClient sendAsync:OCMOCK_ANY method:@"GET" headers:secondPageHeaders data:nil completionHandler:OCMOCK_ANY])
@@ -1134,11 +1141,6 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   // If
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@""];
 
-  // Simulate being online.
-  MS_Reachability *reachabilityMock = OCMPartialMock([MS_Reachability reachabilityForInternetConnection]);
-  OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(ReachableViaWiFi);
-  self.sut.reachability = reachabilityMock;
-
   // Mock cached token result.
   MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
   OCMStub([self.tokenExchangeMock retrieveCachedToken:kMSPartitionTest expiredTokenIncluded:YES]).andReturn(tokenResult);
@@ -1223,7 +1225,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 }
 
 + (NSString *)fullTestPartitionName {
-  return [NSString stringWithFormat:@"%@-%@", kMSPartitionTest, kMSDbAccountTest];
+  return [NSString stringWithFormat:@"%@-%@", kMSPartitionTest, kMSAccountId];
 }
 
 @end
