@@ -29,11 +29,6 @@ static NSUInteger const kMSAccountIdLengthInHomeAccount = 36;
  */
 @property(nonatomic) NSHashTable<id<MSAuthTokenContextDelegate>> *delegates;
 
-/**
- * YES if the current token should be reset.
- */
-@property() BOOL resetAuthTokenRequired;
-
 @end
 
 @implementation MSAuthTokenContext
@@ -42,7 +37,6 @@ static NSUInteger const kMSAccountIdLengthInHomeAccount = 36;
   self = [super init];
   if (self) {
     _delegates = [NSHashTable new];
-    _resetAuthTokenRequired = YES;
   }
   return self;
 }
@@ -254,18 +248,6 @@ static NSUInteger const kMSAccountIdLengthInHomeAccount = 36;
       [delegate authTokenContext:self refreshAuthTokenForAccountId:lastEntry.accountId];
     }
   }
-}
-
-- (void)finishInitialize {
-  if (!self.resetAuthTokenRequired) {
-    return;
-  }
-  self.resetAuthTokenRequired = NO;
-  [self setAuthToken:nil withAccountId:nil expiresOn:nil];
-}
-
-- (void)preventResetAuthTokenAfterStart {
-  self.resetAuthTokenRequired = NO;
 }
 
 @end

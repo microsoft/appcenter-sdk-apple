@@ -111,43 +111,6 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   XCTAssertTrue([self.sut isEnabled]);
 }
 
-- (void)testTokenIsPersistedOnStart {
-
-  // If
-  NSString *previousAuthToken = @"any-token";
-  [[MSAuthTokenContext sharedInstance] setAuthToken:@"any-token" withAccountId:nil expiresOn:nil];
-  [[MSIdentity sharedInstance] startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
-                                           appSecret:kMSTestAppSecret
-                             transmissionTargetToken:nil
-                                     fromApplication:YES];
-
-  // When
-  [[MSAuthTokenContext sharedInstance] finishInitialize];
-
-  // Then
-  XCTAssertTrue([previousAuthToken isEqual:[[MSAuthTokenContext sharedInstance] authToken]]);
-}
-
-- (void)testTokenIsPersistedOnSeparateStart {
-
-  // If
-  NSString *previousAuthToken = @"any-token";
-  [[MSAuthTokenContext sharedInstance] setAuthToken:@"any-token" withAccountId:nil expiresOn:nil];
-  [[MSIdentity sharedInstance] startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
-                                           appSecret:kMSTestAppSecret
-                             transmissionTargetToken:nil
-                                     fromApplication:YES];
-
-  // When
-  [[MSAuthTokenContext sharedInstance] finishInitialize];
-
-  // Another module started separately.
-  [[MSAuthTokenContext sharedInstance] finishInitialize];
-
-  // Then
-  XCTAssertTrue([previousAuthToken isEqual:[[MSAuthTokenContext sharedInstance] authToken]]);
-}
-
 - (void)testLoadAndDownloadOnEnabling {
 
   // If
