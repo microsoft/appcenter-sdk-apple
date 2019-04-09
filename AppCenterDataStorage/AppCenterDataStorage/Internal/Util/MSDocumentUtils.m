@@ -144,7 +144,6 @@ static NSString *const kMSDocumentKey = @"document";
                                    partition:partition
                                   documentId:documentId
                             pendingOperation:nil];
-  ;
 }
 
 + (MSDocumentWrapper *)documentWrapperFromDictionary:(NSObject *)object

@@ -4,7 +4,7 @@
 #import <UIKit/UIKit.h>
 
 #import "MSAlertController.h"
-#import "MSAppCenter.h"
+#import "MSAppCenterInternal.h"
 #import "MSBasicMachOParser.h"
 #import "MSChannelGroupDefault.h"
 #import "MSDistribute.h"
@@ -1788,6 +1788,20 @@ static NSURL *sfURL;
   OCMStub([distributeMock startUpdate]).andDo(^(__attribute((unused)) NSInvocation *invocation) {
     startUpdateCounter++;
   });
+  
+  // When
+  id appCenterMock = OCMClassMock([MSAppCenter class]);
+  OCMStub([appCenterMock sharedInstance]).andReturn(appCenterMock);
+  OCMStub([appCenterMock sdkConfigured]).andReturn(YES);
+  OCMStub([appCenterMock isConfigured]).andReturn(YES);
+  [distributeMock startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
+                              appSecret:kMSTestAppSecret
+                transmissionTargetToken:nil
+                        fromApplication:YES];
+  
+  // Then
+  OCMVerify([distributeMock isEnabled]);
+  XCTAssertEqual(startUpdateCounter, 1);
 
   // When
   [distributeMock setEnabled:NO];
@@ -1795,20 +1809,20 @@ static NSURL *sfURL;
 
   // Then
   OCMVerify([distributeMock isEnabled]);
-  XCTAssertEqual(startUpdateCounter, 0);
+  XCTAssertEqual(startUpdateCounter, 1);
 
   // When
   [distributeMock setEnabled:YES];
 
   // Then
-  XCTAssertEqual(startUpdateCounter, 1);
+  XCTAssertEqual(startUpdateCounter, 2);
 
   // When
   [notificationCenterMock postNotificationName:UIApplicationWillEnterForegroundNotification object:nil];
 
   // Then
   OCMVerify([distributeMock isEnabled]);
-  XCTAssertEqual(startUpdateCounter, 2);
+  XCTAssertEqual(startUpdateCounter, 3);
 
   // Clear
   [notificationCenterMock stopMocking];
@@ -2333,6 +2347,38 @@ static NSURL *sfURL;
   NSDictionary<NSString *, id> *plist = @{@"CFBundleShortVersionString" : @"1.0", @"CFBundleVersion" : @"1"};
   OCMStub([self.bundleMock infoDictionary]).andReturn(plist);
   return utilityMock;
+}
+
+- (void)testStartUpdateWhenEnabledButDidNotStart {
+  NSString *isEnabledKey = @"MSAppCenterIsEnabled";
+  [MS_USER_DEFAULTS setObject:@(YES) forKey:isEnabledKey];
+    
+  // If
+  id notificationCenterMock = OCMPartialMock([NSNotificationCenter new]);
+  OCMStub([notificationCenterMock defaultCenter]).andReturn(notificationCenterMock);
+  id distributeMock = OCMPartialMock([MSDistribute new]);
+  OCMReject([distributeMock startUpdate]);
+    
+  // When
+  [distributeMock setEnabled:YES];
+  [notificationCenterMock postNotificationName:UIApplicationWillEnterForegroundNotification object:nil];
+
+  // Then
+  OCMVerify([distributeMock isEnabled]);
+
+  // When
+  [distributeMock setEnabled:YES];
+
+  // When
+  [notificationCenterMock postNotificationName:UIApplicationWillEnterForegroundNotification object:nil];
+
+  // Then
+  OCMVerify([distributeMock isEnabled]);
+  OCMVerifyAll(distributeMock);
+
+  // Clear
+  [notificationCenterMock stopMocking];
+  [distributeMock stopMocking];
 }
 
 @end
