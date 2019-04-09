@@ -25,6 +25,11 @@ static NSString *const kMSDefaultApiUrl = @"https://api.appcenter.ms/v0.1";
 @property(nonatomic) MS_Reachability *reachability;
 
 /**
+ * Dispatch queue to execute local storage operations with.
+ */
+@property(nonatomic) dispatch_queue_t dispatchQueue;
+
+/**
  * Retrieve a paginated list of the documents in a partition.
  *
  * @param partition The CosmosDB partition key.

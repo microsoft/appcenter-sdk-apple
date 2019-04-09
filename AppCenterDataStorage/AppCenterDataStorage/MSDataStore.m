@@ -51,6 +51,11 @@ static NSString *const kMSDocumentUpsertHeaderKey = @"x-ms-documentdb-is-upsert"
 static NSString *const kMSDocumentContinuationTokenHeaderKey = @"x-ms-continuation";
 
 /**
+ * Data Store dispatch queue name.
+ */
+static char *const kMSDataStoreDispatchQueue = "com.microsoft.appcenter.DataStoreDispatchQueue";
+
+/**
  * Singleton.
  */
 static MSDataStore *sharedInstance = nil;
@@ -67,6 +72,7 @@ static dispatch_once_t onceToken;
     _tokenExchangeUrl = (NSURL *)[NSURL URLWithString:kMSDefaultApiUrl];
     _documentStore = [MSDBDocumentStore new];
     _reachability = [MS_Reachability reachabilityForInternetConnection];
+    _dispatchQueue = dispatch_queue_create(kMSDataStoreDispatchQueue, DISPATCH_QUEUE_SERIAL);
   }
   return self;
 }
@@ -226,7 +232,7 @@ static dispatch_once_t onceToken;
 - (void)readWithPartition:(NSString *)partition
                documentId:(NSString *)documentId
              documentType:(Class)documentType
-              readOptions:(MSReadOptions *_Nullable) readOptions
+              readOptions:(MSReadOptions *_Nullable)readOptions
         completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
   @synchronized(self) {
     if (![self canBeUsed] || ![self isEnabled]) {
@@ -234,20 +240,53 @@ static dispatch_once_t onceToken;
       completionHandler([[MSDocumentWrapper alloc] initWithError:error documentId:documentId]);
       return;
     }
-    [self readFromCosmosDbWithPartition:partition
-                             documentId:documentId
-                           documentType:documentType
-                            readOptions:readOptions
-                      completionHandler:completionHandler];
+    [self readFromLocalStorageWithPartition:partition
+                                 documentId:documentId
+                               documentType:documentType
+                                readOptions:readOptions
+                          completionHandler:completionHandler];
   }
 }
 
 - (void)readFromLocalStorageWithPartition:(NSString *)partition
-                           documentId:(NSString *)documentId
-                         documentType:(Class)documentType
-                          readOptions:(MSReadOptions *_Nullable)__unused readOptions
-                    completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
-  (void)partition; (void)documentId; (void)documentType;(void)completionHandler;
+                               documentId:(NSString *)documentId
+                             documentType:(Class)documentType
+                              readOptions:(MSReadOptions *_Nullable)readOptions
+                        completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
+
+      // Try to get a token from the backend or cache.
+      [MSTokenExchange
+          performDbTokenAsyncOperationWithHttpClient:(id<MSHttpClientProtocol>)self.httpClient
+                                    tokenExchangeUrl:self.tokenExchangeUrl
+                                           appSecret:self.appSecret
+                                           partition:partition
+                                 includeExpiredToken:YES
+                                   completionHandler:^(MSTokensResponse *_Nonnull tokenResponse, NSError *_Nonnull error) {
+                                     if (error) {
+                                       NSError *authenticationError = [[NSError alloc]
+                                           initWithDomain:kMSACDataStoreErrorDomain
+                                                     code:MSACDataStoreNotAuthenticated
+                                                 userInfo:@{
+                                                   NSLocalizedDescriptionKey : @"Cannot read from local storage because there is no "
+                                                                               @"account ID cached and failed to retrieve token."
+                                                 }];
+                                       MSDocumentWrapper *documentWrapper = [[MSDocumentWrapper alloc] initWithError:authenticationError
+                                                                                                   documentId:documentId];
+                                       completionHandler(documentWrapper);
+                                       return;
+                                     }
+
+                                     // Run the operation in a dispatch queue to avoid blocking and concurrent database accesses.
+                                     dispatch_async(self.dispatchQueue, ^{
+                                       NSString *fullPartitionName = tokenResponse.tokens[0].partition;
+                                       MSDocumentWrapper *documentWrapper = [self.documentStore readWithPartition:fullPartitionName
+                                                                                                       documentId:documentId
+                                                                                                     documentType:documentType
+                                                                                                      readOptions:readOptions];
+                                       completionHandler(documentWrapper);
+                                     });
+                                   }];
+      return;
 }
 
 - (void)readFromCosmosDbWithPartition:(NSString *)partition
@@ -456,12 +495,9 @@ static dispatch_once_t onceToken;
                                              tokenExchangeUrl:self.tokenExchangeUrl
                                                     appSecret:self.appSecret
                                                     partition:partition
+                                          includeExpiredToken:NO
                                             completionHandler:^(MSTokensResponse *_Nonnull tokenResponses, NSError *_Nonnull error) {
-                                              if (error || [tokenResponses.tokens count] == 0) {
-                                                NSInteger httpStatusCode = [MSDataSourceError errorCodeFromError:error];
-                                                MSLogError([MSDataStore logTag],
-                                                           @"Can't get CosmosDb token. Error: %@;  HTTP status code: %ld; Partition: %@",
-                                                           error.localizedDescription, (long)httpStatusCode, partition);
+                                              if (error) {
                                                 completionHandler(nil, nil, error);
                                                 return;
                                               }

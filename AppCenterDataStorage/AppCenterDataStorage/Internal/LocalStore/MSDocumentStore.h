@@ -33,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (MSDocumentWrapper *)readWithPartition:(NSString *)partition
                               documentId:(NSString *)documentId
                             documentType:(Class)documentType
-                             readOptions:(MSReadOptions *)readOptions;
+                             readOptions:(nullable MSReadOptions *)readOptions;
 
 /**
  * Delete a document from local storage.

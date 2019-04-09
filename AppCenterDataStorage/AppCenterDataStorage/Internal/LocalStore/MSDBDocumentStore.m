@@ -76,7 +76,7 @@ static const NSUInteger kMSSchemaVersion = 1;
 - (MSDocumentWrapper *)readWithPartition:(NSString *)partition
                               documentId:(NSString *)documentId
                             documentType:(Class)documentType
-                             readOptions:(MSReadOptions *)__unused readOptions {
+                             readOptions:(nullable MSReadOptions *)__unused readOptions {
   NSString *selectionQuery =
       [NSString stringWithFormat:@"SELECT * FROM \"%@\" WHERE \"%@\" = \"%@\" AND \"%@\" = \"%@\"", kMSAppDocumentTableName,
                                  kMSPartitionColumnName, partition, kMSDocumentIdColumnName, documentId];
