@@ -13,6 +13,7 @@ static NSString *const kMSDbAccount = @"dbAccount";
 static NSString *const kMSDbCollectionName = @"dbCollectionName";
 static NSString *const kMSExpiresOn = @"expiresOn";
 static NSString *const kMSToken = @"token";
+static NSString *const kMSAccountId = @"accountId";
 
 @synthesize partition = _partition;
 @synthesize dbAccount = _dbAccount;
@@ -21,6 +22,7 @@ static NSString *const kMSToken = @"token";
 @synthesize token = _token;
 @synthesize status = _status;
 @synthesize expiresOn = _expiresOn;
+@synthesize accountId = _accountId;
 
 - (instancetype)initWithPartition:(NSString *)partition
                         dbAccount:(NSString *)dbAccount
@@ -28,7 +30,8 @@ static NSString *const kMSToken = @"token";
                  dbCollectionName:(NSString *)dbCollectionName
                             token:(NSString *)token
                            status:(NSString *)status
-                        expiresOn:(NSString *)expiresOn {
+                        expiresOn:(NSString *)expiresOn
+                        accountId:(NSString *_Nullable)accountId {
   self = [super init];
   if (self) {
     _partition = partition;
@@ -38,6 +41,7 @@ static NSString *const kMSToken = @"token";
     _token = token;
     _status = status;
     _expiresOn = expiresOn;
+    _accountId = accountId;
   }
   return self;
 }
@@ -51,7 +55,8 @@ static NSString *const kMSToken = @"token";
                                    dbCollectionName:tokens[kMSDbCollectionName]
                                               token:tokens[kMSToken]
                                              status:tokens[kMSStatus]
-                                          expiresOn:tokens[kMSExpiresOn]];
+                                          expiresOn:tokens[kMSExpiresOn]
+                                          accountId:tokens[kMSAccountId]];
   }
   return self;
 }
@@ -71,7 +76,8 @@ static NSString *const kMSToken = @"token";
                                      dbCollectionName:jsonDictionary[kMSDbCollectionName]
                                                 token:jsonDictionary[kMSToken]
                                                status:jsonDictionary[kMSStatus]
-                                            expiresOn:jsonDictionary[kMSExpiresOn]];
+                                            expiresOn:jsonDictionary[kMSExpiresOn]
+                                            accountId:jsonDictionary[kMSAccountId]];
     }
   }
   return self;
@@ -86,6 +92,7 @@ static NSString *const kMSToken = @"token";
     kMSToken : self.token,
     kMSStatus : self.status,
     kMSExpiresOn : self.expiresOn,
+    kMSAccountId : self.accountId ? self.accountId : [NSNull null]
   };
 }
 

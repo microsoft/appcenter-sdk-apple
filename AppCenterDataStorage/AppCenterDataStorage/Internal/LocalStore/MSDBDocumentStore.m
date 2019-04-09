@@ -53,11 +53,37 @@ static const NSUInteger kMSSchemaVersion = 1;
 
 #pragma mark - Table Management
 
-// TODO work item created to track this implementation
-- (BOOL)createWithPartition:(NSString *)__unused partition
-                   document:(MSDocumentWrapper *)__unused document
-               writeOptions:(MSWriteOptions *)__unused writeOptions {
-  return YES;
+- (BOOL)upsertWithPartition:(NSString *)partition
+            documentWrapper:(MSDocumentWrapper *)documentWrapper
+                  operation:(NSString *_Nullable)operation
+                    options:(MSBaseOptions *)options {
+  NSDate *now = [NSDate date];
+  NSDate *expirationTime = [now dateByAddingTimeInterval:options.deviceTimeToLive];
+  NSString *tableName = [MSDBDocumentStore tableNameForPartition:partition];
+  NSString *insertQuery =
+      [NSString stringWithFormat:@"REPLACE INTO \"%@\" (\"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\") "
+                                 @"VALUES ('%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@')",
+                                 tableName, kMSPartitionColumnName, kMSDocumentIdColumnName, kMSDocumentColumnName, kMSETagColumnName,
+                                 kMSExpirationTimeColumnName, kMSDownloadTimeColumnName, kMSOperationTimeColumnName,
+                                 kMSPendingOperationColumnName, partition, documentWrapper.documentId, documentWrapper.jsonValue,
+                                 documentWrapper.eTag, [MSUtility dateToISO8601:expirationTime],
+                                 [MSUtility dateToISO8601:documentWrapper.lastUpdatedDate], [MSUtility dateToISO8601:now], operation];
+  int result = [self.dbStorage executeNonSelectionQuery:insertQuery];
+  if (result != SQLITE_OK) {
+    MSLogError([MSDataStore logTag], @"Unable to update or replace stored document, SQLite error code: %ld", (long)result);
+  }
+  return result == SQLITE_OK;
+}
+
+- (BOOL)deleteWithPartition:(NSString *)partition documentId:(NSString *)documentId {
+  NSString *tableName = [MSDBDocumentStore tableNameForPartition:partition];
+  NSString *deleteQuery = [NSString stringWithFormat:@"DELETE FROM \"%@\" WHERE \"%@\" = '%@' AND \"%@\" = '%@'", tableName,
+                                                     kMSPartitionColumnName, partition, kMSDocumentIdColumnName, documentId];
+  int result = [self.dbStorage executeNonSelectionQuery:deleteQuery];
+  if (result != SQLITE_OK) {
+    MSLogError([MSDataStore logTag], @"Unable to delete stored document, SQLite error code: %ld", (long)result);
+  }
+  return result == SQLITE_OK;
 }
 
 - (BOOL)createUserStorageWithAccountId:(NSString *)accountId {
@@ -136,14 +162,29 @@ static const NSUInteger kMSSchemaVersion = 1;
 }
 
 + (MSDBColumnsSchema *)columnsSchema {
+  // clang-format off
   return @[
-    @{kMSIdColumnName : @[ kMSSQLiteTypeInteger, kMSSQLiteConstraintPrimaryKey, kMSSQLiteConstraintAutoincrement ]},
-    @{kMSPartitionColumnName : @[ kMSSQLiteTypeText, kMSSQLiteConstraintNotNull ]},
-    @{kMSDocumentIdColumnName : @[ kMSSQLiteTypeText, kMSSQLiteConstraintNotNull ]}, @{kMSDocumentColumnName : @[ kMSSQLiteTypeText ]},
-    @{kMSETagColumnName : @[ kMSSQLiteTypeText ]}, @{kMSExpirationTimeColumnName : @[ kMSSQLiteTypeInteger ]},
-    @{kMSDownloadTimeColumnName : @[ kMSSQLiteTypeInteger ]}, @{kMSOperationTimeColumnName : @[ kMSSQLiteTypeInteger ]},
-    @{kMSPendingOperationColumnName : @[ kMSSQLiteTypeText ]}
-  ];
+           @{kMSIdColumnName : @[ kMSSQLiteTypeInteger, kMSSQLiteConstraintPrimaryKey, kMSSQLiteConstraintAutoincrement ]},
+           @{kMSPartitionColumnName : @[ kMSSQLiteTypeText, kMSSQLiteConstraintNotNull ]},
+           @{kMSDocumentIdColumnName : @[ kMSSQLiteTypeText, kMSSQLiteConstraintNotNull ]},
+           @{kMSDocumentColumnName : @[ kMSSQLiteTypeText ]},
+           @{kMSETagColumnName : @[ kMSSQLiteTypeText ]},
+           @{kMSExpirationTimeColumnName : @[ kMSSQLiteTypeInteger ]},
+           @{kMSDownloadTimeColumnName : @[ kMSSQLiteTypeInteger ]},
+           @{kMSOperationTimeColumnName : @[ kMSSQLiteTypeInteger ]},
+           @{kMSPendingOperationColumnName : @[ kMSSQLiteTypeText ]}
+           ];
+  // clang-format on
+}
+
++ (NSString *)tableNameForPartition:(NSString *)partition {
+  if ([partition isEqualToString:MSDataStoreAppDocumentsPartition]) {
+    return kMSAppDocumentTableName;
+  } else if ([partition rangeOfString:kMSDataStoreAppDocumentsUserPartitionPrefix options:NSAnchoredSearch].location == 0) {
+    return [NSString
+        stringWithFormat:kMSUserDocumentTableNameFormat, [partition substringFromIndex:kMSDataStoreAppDocumentsUserPartitionPrefix.length]];
+  }
+  return nil;
 }
 
 @end
