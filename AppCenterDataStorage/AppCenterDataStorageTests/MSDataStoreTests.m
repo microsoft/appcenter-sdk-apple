@@ -64,7 +64,8 @@ static NSString *const kMSAccountId = @"ceb61029-d032-4e7a-be03-2614cfe2a564";
 static NSString *const kMSDbNameTest = @"dbName";
 static NSString *const kMSDbCollectionNameTest = @"dbCollectionName";
 static NSString *const kMSStatusTest = @"status";
-static NSString *const kMSExpiresOnTest = @"2999-09-19T11:11:11.111Z";;
+static NSString *const kMSExpiresOnTest = @"2999-09-19T11:11:11.111Z";
+;
 static NSString *const kMSDocumentIdTest = @"documentId";
 
 - (void)setUp {
@@ -1311,16 +1312,17 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   self.sut.documentStore = localStorageMock;
   NSData *jsonFixture = [self jsonFixture:@"validTestDocument"];
   MSDocumentWrapper *expectedDocumentWrapper = [MSDocumentUtils documentWrapperFromData:jsonFixture
-                                                                         documentType:[MSDictionaryDocument class]];
+                                                                           documentType:[MSDictionaryDocument class]];
 
   MSDocumentWrapper *localDocumentWrapper = OCMPartialMock([MSDocumentUtils documentWrapperFromData:jsonFixture
-                                                                                          documentType:[MSDictionaryDocument class]]);
-  
+                                                                                       documentType:[MSDictionaryDocument class]]);
+
   OCMStub(localDocumentWrapper.eTag).andReturn(@"some other etag");
   OCMStub([localStorageMock readWithPartition:[MSDataStoreTests fullTestPartitionName]
                                    documentId:OCMOCK_ANY
                                  documentType:OCMOCK_ANY
-                                  readOptions:OCMOCK_ANY]).andReturn(localDocumentWrapper);
+                                  readOptions:OCMOCK_ANY])
+      .andReturn(localDocumentWrapper);
 
   // Mock CosmosDB requests.
   OCMStub([self.cosmosDbMock performCosmosDbAsyncOperationWithHttpClient:OCMOCK_ANY
@@ -1330,11 +1332,11 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                                                     body:OCMOCK_ANY
                                                        additionalHeaders:OCMOCK_ANY
                                                        completionHandler:OCMOCK_ANY])
-  .andDo(^(NSInvocation *invocation) {
-    MSHttpRequestCompletionHandler cosmosdbOperationCallback;
-    [invocation getArgument:&cosmosdbOperationCallback atIndex:8];
-    cosmosdbOperationCallback(jsonFixture, nil, nil);
-  });
+      .andDo(^(NSInvocation *invocation) {
+        MSHttpRequestCompletionHandler cosmosdbOperationCallback;
+        [invocation getArgument:&cosmosdbOperationCallback atIndex:8];
+        cosmosdbOperationCallback(jsonFixture, nil, nil);
+      });
 
   // When
   [MSDataStore readWithPartition:kMSPartitionTest
@@ -1355,7 +1357,6 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                  }
                                }];
 }
-
 
 - (void)testReadsReturnsErrorIfDocumentExpiredAndOffline {
 

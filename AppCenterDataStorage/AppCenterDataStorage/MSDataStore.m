@@ -244,16 +244,20 @@ static dispatch_once_t onceToken;
                                  documentId:documentId
                                documentType:documentType
                                 readOptions:readOptions
-                          completionHandler:^(MSDocumentWrapper* _Nonnull document) {
+                          completionHandler:^(MSDocumentWrapper *_Nonnull document) {
                             if ([self.reachability currentReachabilityStatus] == NotReachable) {
                               completionHandler(document);
                             } else if (document.pendingOperation) {
                               completionHandler(document);
                             } else {
-                              [self readFromCosmosDbWithPartition:partition documentId:documentId documentType:documentType readOptions:readOptions completionHandler:completionHandler];
+                              [self readFromCosmosDbWithPartition:partition
+                                                       documentId:documentId
+                                                     documentType:documentType
+                                                      readOptions:readOptions
+                                                completionHandler:completionHandler];
                             }
                           }];
-     }
+  }
 }
 
 - (void)readFromLocalStorageWithPartition:(NSString *)partition
@@ -262,49 +266,49 @@ static dispatch_once_t onceToken;
                               readOptions:(MSReadOptions *_Nullable)readOptions
                         completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
 
-      // Try to get a token from the backend or cache.
-      [MSTokenExchange
-          performDbTokenAsyncOperationWithHttpClient:(id<MSHttpClientProtocol>)self.httpClient
-                                    tokenExchangeUrl:self.tokenExchangeUrl
-                                           appSecret:self.appSecret
-                                           partition:partition
-                                 includeExpiredToken:YES
-                                   completionHandler:^(MSTokensResponse *_Nonnull tokenResponse, NSError *_Nonnull error) {
-                                     if (error) {
-                                       NSError *authenticationError = [[NSError alloc]
-                                           initWithDomain:kMSACDataStoreErrorDomain
-                                                     code:MSACDataStoreNotAuthenticated
-                                                 userInfo:@{
-                                                   NSLocalizedDescriptionKey : @"Cannot read from local storage because there is no "
-                                                                               @"account ID cached and failed to retrieve token."
-                                                 }];
-                                       MSDocumentWrapper *documentWrapper = [[MSDocumentWrapper alloc] initWithError:authenticationError
-                                                                                                   documentId:documentId];
-                                       completionHandler(documentWrapper);
-                                       return;
-                                     }
+  // Try to get a token from the backend or cache.
+  [MSTokenExchange
+      performDbTokenAsyncOperationWithHttpClient:(id<MSHttpClientProtocol>)self.httpClient
+                                tokenExchangeUrl:self.tokenExchangeUrl
+                                       appSecret:self.appSecret
+                                       partition:partition
+                             includeExpiredToken:YES
+                               completionHandler:^(MSTokensResponse *_Nonnull tokenResponse, NSError *_Nonnull error) {
+                                 if (error) {
+                                   NSError *authenticationError = [[NSError alloc]
+                                       initWithDomain:kMSACDataStoreErrorDomain
+                                                 code:MSACDataStoreNotAuthenticated
+                                             userInfo:@{
+                                               NSLocalizedDescriptionKey : @"Cannot read from local storage because there is no "
+                                                                           @"account ID cached and failed to retrieve token."
+                                             }];
+                                   MSDocumentWrapper *documentWrapper = [[MSDocumentWrapper alloc] initWithError:authenticationError
+                                                                                                      documentId:documentId];
+                                   completionHandler(documentWrapper);
+                                   return;
+                                 }
 
-                                     // Run the operation in a dispatch queue to avoid blocking and concurrent database accesses.
-                                     dispatch_async(self.dispatchQueue, ^{
-                                       NSString *fullPartitionName = tokenResponse.tokens[0].partition;
-                                       MSDocumentWrapper *documentWrapper = [self.documentStore readWithPartition:fullPartitionName
-                                                                                                       documentId:documentId
-                                                                                                     documentType:documentType
-                                                                                                      readOptions:readOptions];
-                                       if ([documentWrapper.pendingOperation isEqualToString:kMSPendingOperationDelete]) {
-                                         NSError *notFoundError = [[NSError alloc]
-                                                                         initWithDomain:kMSACDataStoreErrorDomain
-                                                                         code:MSACDataStoreErrorDocumentNotFound
-                                                                         userInfo:@{
-                                                                                    NSLocalizedDescriptionKey : @"The document was marked for deletion and could not be read."
-                                                                                    }];
-                                         documentWrapper = [[MSDocumentWrapper alloc] initWithError:notFoundError documentId:documentId];
-                                         documentWrapper.pendingOperation = kMSPendingOperationDelete;
-                                       }
-                                       completionHandler(documentWrapper);
-                                     });
-                                   }];
-      return;
+                                 // Run the operation in a dispatch queue to avoid blocking and concurrent database accesses.
+                                 dispatch_async(self.dispatchQueue, ^{
+                                   NSString *fullPartitionName = tokenResponse.tokens[0].partition;
+                                   MSDocumentWrapper *documentWrapper = [self.documentStore readWithPartition:fullPartitionName
+                                                                                                   documentId:documentId
+                                                                                                 documentType:documentType
+                                                                                                  readOptions:readOptions];
+                                   if ([documentWrapper.pendingOperation isEqualToString:kMSPendingOperationDelete]) {
+                                     NSError *notFoundError = [[NSError alloc]
+                                         initWithDomain:kMSACDataStoreErrorDomain
+                                                   code:MSACDataStoreErrorDocumentNotFound
+                                               userInfo:@{
+                                                 NSLocalizedDescriptionKey : @"The document was marked for deletion and could not be read."
+                                               }];
+                                     documentWrapper = [[MSDocumentWrapper alloc] initWithError:notFoundError documentId:documentId];
+                                     documentWrapper.pendingOperation = kMSPendingOperationDelete;
+                                   }
+                                   completionHandler(documentWrapper);
+                                 });
+                               }];
+  return;
 }
 
 - (void)readFromCosmosDbWithPartition:(NSString *)partition
