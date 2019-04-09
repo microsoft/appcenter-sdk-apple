@@ -50,6 +50,17 @@ static NSString *const kMSOneCollectorGroupId = @"baseGroupId/one";
                                                                 pendingBatchesLimit:60];
 }
 
+- (void)tearDown {
+  [super tearDown];
+
+  // Wait all tasks in tests.
+  XCTestExpectation *expectation = [self expectationWithDescription:@"tearDown"];
+  dispatch_async(self.logsDispatchQueue, ^{
+    [expectation fulfill];
+  });
+  [self waitForExpectations:@[ expectation ] timeout:1];
+}
+
 - (void)testDidAddChannelUnitWithBaseGroupId {
 
   // Test adding a base channel unit on MSChannelGroupDefault will also add a One Collector channel unit.
