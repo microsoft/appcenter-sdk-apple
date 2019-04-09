@@ -3,9 +3,10 @@
 
 #import <Foundation/Foundation.h>
 
+#import "MSBaseOptions.h"
 #import "MSDBStorage.h"
-#import "MSDataStore.h"
 #import "MSDocumentStore.h"
+#import "MSDocumentWrapper.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

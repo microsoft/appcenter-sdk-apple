@@ -5,8 +5,12 @@
 
 #import "MSDBDocumentStorePrivate.h"
 #import "MSDBStoragePrivate.h"
+
 #import "MSDataSourceError.h"
+#import "MSDataStore.h"
 #import "MSDataStoreErrors.h"
+#import "MSDictionaryDocument.h"
+#import "MSDocumentUtils.h"
 #import "MSDocumentWrapperInternal.h"
 #import "MSMockDocument.h"
 #import "MSReadOptions.h"
@@ -15,6 +19,7 @@
 #import "MSUtility+Date.h"
 #import "MSUtility+File.h"
 #import "MSWriteOptions.h"
+#import "NSObject+MSTestFixture.h"
 
 @interface MSDBDocumentStoreTests : XCTestCase
 
@@ -28,15 +33,21 @@
 
 - (void)setUp {
   [super setUp];
+
+  // Delete existing database.
   [MSUtility deleteItemForPathComponent:kMSDBDocumentFileName];
+
+  // Init storage.
   self.schema = [MSDBDocumentStore documentTableSchema];
   self.dbStorage = [[MSDBStorage alloc] initWithSchema:self.schema version:0 filename:kMSDBDocumentFileName];
   self.sut = [[MSDBDocumentStore alloc] initWithDbStorage:self.dbStorage schema:self.schema];
 }
 
 - (void)tearDown {
-  [MSUtility deleteItemForPathComponent:kMSDBDocumentFileName];
   [super tearDown];
+
+  // Delete existing database.
+  [MSUtility deleteItemForPathComponent:kMSDBDocumentFileName];
 }
 
 - (void)testReadUserDocumentFromLocalDatabase {
@@ -140,7 +151,7 @@
   NSString *accountId = @"dabe069b-ee80-4ca6-8657-9128a4600958";
   document.contentDictionary = @{@"key" : @"value"};
   MSDBDocumentStore *sut = [MSDBDocumentStore new];
-  [sut createUserStorageWithAccountId:accountId];
+  [self.sut createUserStorageWithAccountId:accountId];
   NSString *fullPartition = [NSString stringWithFormat:@"%@-%@", partitionKey, accountId];
 
   // When
@@ -157,11 +168,10 @@
   XCTAssertEqualObjects(documentWrapper.documentId, documentId);
 }
 
-- (void)testCreateOfApplicationLevelTable {
+- (void)testCreationOfApplicationLevelTable {
 
   // If
-  NSUInteger expectedSchemaVersion = 1;
-  MSDBSchema *expectedSchema = @{kMSAppDocumentTableName : [self expectedColumnSchema]};
+  MSDBSchema *expectedSchema = @{kMSAppDocumentTableName : [MSDBDocumentStore columnsSchema]};
   NSDictionary *expectedColumnIndexes = @{
     kMSAppDocumentTableName : @{
       kMSIdColumnName : @(0),
@@ -177,11 +187,7 @@
   };
   OCMStub([MSDBStorage columnsIndexes:expectedSchema]).andReturn(expectedColumnIndexes);
 
-  // When
-  self.sut = [MSDBDocumentStore new];
-
-  // Then
-  OCMVerify([self.sut.dbStorage initWithSchema:expectedSchema version:expectedSchemaVersion filename:kMSDBDocumentFileName]);
+  // When, Then
   OCMVerify([MSDBStorage columnsIndexes:expectedSchema]);
   XCTAssertEqual([expectedColumnIndexes[kMSAppDocumentTableName][kMSIdColumnName] integerValue], self.sut.idColumnIndex);
   XCTAssertEqual([expectedColumnIndexes[kMSAppDocumentTableName][kMSPartitionColumnName] integerValue], self.sut.partitionColumnIndex);
@@ -203,12 +209,15 @@
   // If
   NSString *expectedAccountId = @"Test-account-id";
   NSString *tableName = [NSString stringWithFormat:kMSUserDocumentTableNameFormat, expectedAccountId];
+
   // When
+  id dbStorageMock = OCMClassMock([MSDBStorage class]);
+  self.sut.dbStorage = dbStorageMock;
   [self.sut createUserStorageWithAccountId:expectedAccountId];
 
   // Then
   OCMVerify([self.dbStorage createTable:tableName
-                          columnsSchema:[self expectedColumnSchema]
+                          columnsSchema:[MSDBDocumentStore columnsSchema]
                 uniqueColumnsConstraint:[self expectedUniqueColumnsConstraint]]);
 }
 
@@ -225,13 +234,74 @@
   OCMVerify([self.dbStorage dropTable:userTableName]);
 }
 
+- (void)testUpsertWithPartition {
+
+  // If
+  MSDocumentWrapper *documentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestDocument"]
+                                                                   documentType:[MSDictionaryDocument class]];
+
+  // When
+  BOOL result = [self.sut upsertWithPartition:MSDataStoreAppDocumentsPartition
+                              documentWrapper:documentWrapper
+                                    operation:@"CREATE"
+                                      options:[[MSReadOptions alloc] initWithDeviceTimeToLive:1]];
+
+  // Then
+  XCTAssertTrue(result);
+  // TODO: also validate with read when we have it.
+}
+
+- (void)testDeleteWithPartitionForNonExistentDocument {
+
+  // If, When
+  BOOL result = [self.sut deleteWithPartition:MSDataStoreAppDocumentsPartition documentId:@"some-document-id"];
+
+  // Then, should succeed but be a no-op
+  XCTAssertTrue(result);
+}
+
+- (void)testDeleteWithReadonlyPartitionForExistingDocument {
+
+  // If
+  MSDocumentWrapper *documentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestDocument"]
+                                                                   documentType:[MSDictionaryDocument class]];
+  [self.sut upsertWithPartition:MSDataStoreAppDocumentsPartition
+                documentWrapper:documentWrapper
+                      operation:@"CREATE"
+                        options:[[MSReadOptions alloc] initWithDeviceTimeToLive:1]];
+
+  // When
+  BOOL result = [self.sut deleteWithPartition:MSDataStoreAppDocumentsPartition documentId:documentWrapper.documentId];
+
+  // Then
+  XCTAssertTrue(result);
+}
+
+- (void)testDeleteWithUserPartitionForExistingDocument {
+
+  // If
+  MSDocumentWrapper *documentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestDocument"]
+                                                                   documentType:[MSDictionaryDocument class]];
+  [self.sut createUserStorageWithAccountId:@"1"];
+  [self.sut upsertWithPartition:@"user-1"
+                documentWrapper:documentWrapper
+                      operation:@"CREATE"
+                        options:[[MSReadOptions alloc] initWithDeviceTimeToLive:1]];
+
+  // When
+  BOOL result = [self.sut deleteWithPartition:@"user-1" documentId:documentWrapper.documentId];
+
+  // Then
+  XCTAssertTrue(result);
+}
+
 - (void)testDeletionOfAllTables {
 
   // If
   NSString *expectedAccountId = @"Test-account-id";
   NSString *tableName = [NSString stringWithFormat:kMSUserDocumentTableNameFormat, expectedAccountId];
   [self.sut createUserStorageWithAccountId:expectedAccountId];
-  OCMVerify([self.dbStorage createTable:tableName columnsSchema:[self expectedColumnSchema]]);
+  OCMVerify([self.dbStorage createTable:tableName columnsSchema:[MSDBDocumentStore columnsSchema]]);
   XCTAssertTrue([self tableExists:tableName]);
 
   // When
@@ -239,17 +309,6 @@
 
   // Then
   XCTAssertFalse([self tableExists:tableName]);
-}
-
-- (MSDBColumnsSchema *)expectedColumnSchema {
-  return @[
-    @{kMSIdColumnName : @[ kMSSQLiteTypeInteger, kMSSQLiteConstraintPrimaryKey, kMSSQLiteConstraintAutoincrement ]},
-    @{kMSPartitionColumnName : @[ kMSSQLiteTypeText, kMSSQLiteConstraintNotNull ]},
-    @{kMSDocumentIdColumnName : @[ kMSSQLiteTypeText, kMSSQLiteConstraintNotNull ]}, @{kMSDocumentColumnName : @[ kMSSQLiteTypeText ]},
-    @{kMSETagColumnName : @[ kMSSQLiteTypeText ]}, @{kMSExpirationTimeColumnName : @[ kMSSQLiteTypeInteger ]},
-    @{kMSDownloadTimeColumnName : @[ kMSSQLiteTypeInteger ]}, @{kMSOperationTimeColumnName : @[ kMSSQLiteTypeInteger ]},
-    @{kMSPendingOperationColumnName : @[ kMSSQLiteTypeText ]}
-  ];
 }
 
 - (void)addJsonStringToTable:(NSString *)jsonString

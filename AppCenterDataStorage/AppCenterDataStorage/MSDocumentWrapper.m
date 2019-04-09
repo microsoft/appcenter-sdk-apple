@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 #import "MSDataSourceError.h"
+#import "MSDataStore.h"
 #import "MSDataStoreInternal.h"
 #import "MSDocumentWrapperInternal.h"
 #import "MSLoggerInternal.h"
