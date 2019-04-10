@@ -410,9 +410,9 @@
             pendingOperation:(NSString *)pendingOperation
               expirationTime:(long)expirationTime {
   sqlite3 *db = [self openDatabase:kMSDBDocumentFileName];
-  NSString *operationTimeString = [MSUtility dateToISO8601:[NSDate date]];
+  long operationTimeString = NSTimeIntervalSince1970;
   NSString *insertQuery = [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\") "
-                           @"VALUES ('%@', '%@', '%@', '%@', '%@', %ld, '%@', '%@')",
+                           @"VALUES ('%@', '%@', '%@', '%@', '%@', %ld, '%ld', '%@')",
                                                      kMSAppDocumentTableName, kMSIdColumnName, kMSPartitionColumnName, kMSETagColumnName,
                                                      kMSDocumentColumnName, kMSDocumentIdColumnName, kMSExpirationTimeColumnName,
                                                      kMSOperationTimeColumnName, kMSPendingOperationColumnName, @0, partition, eTag,

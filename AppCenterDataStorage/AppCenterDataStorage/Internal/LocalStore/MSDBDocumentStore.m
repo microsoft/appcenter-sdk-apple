@@ -69,19 +69,19 @@ static const NSUInteger kMSSchemaVersion = 1;
   // Compute expiration time as now + device time to live (in seconds).
   // If device time to live is set to infinite, set expiration time as null in the database.
   // Note: If the cache/store is meant to be disabled, this method should not even be called.
-  NSDate *now = [NSDate date];
+  NSTimeInterval now = NSDate.timeIntervalSinceReferenceDate + NSTimeIntervalSince1970;
   NSTimeInterval expirationTime = -1;
   if (options.deviceTimeToLive != MSDataStoreTimeToLiveInfinite) {
-    expirationTime = [[NSDate dateWithTimeIntervalSinceNow:options.deviceTimeToLive] timeIntervalSince1970];
+    expirationTime = now + options.deviceTimeToLive;
   }
   NSString *tableName = [MSDBDocumentStore tableNameForPartition:token.partition];
   NSString *insertQuery = [NSString
       stringWithFormat:@"REPLACE INTO \"%@\" (\"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\") "
-                           @"VALUES ('%@', '%@', '%@', '%@', %ld, '%@', '%@', '%@')",
+                           @"VALUES ('%@', '%@', '%@', '%@', %ld, '%ld', '%ld', '%@')",
                        tableName, kMSPartitionColumnName, kMSDocumentIdColumnName, kMSDocumentColumnName, kMSETagColumnName,
                        kMSExpirationTimeColumnName, kMSDownloadTimeColumnName, kMSOperationTimeColumnName, kMSPendingOperationColumnName,
                        token.partition, documentWrapper.documentId, documentWrapper.jsonValue, documentWrapper.eTag, (long)expirationTime,
-                       [MSUtility dateToISO8601:documentWrapper.lastUpdatedDate], [MSUtility dateToISO8601:now], operation];
+                      (long)[documentWrapper.lastUpdatedDate timeIntervalSince1970], (long)now, operation];
   int result = [self.dbStorage executeNonSelectionQuery:insertQuery];
   if (result != SQLITE_OK) {
     MSLogError([MSDataStore logTag], @"Unable to update or replace stored document, SQLite error code: %ld", (long)result);
@@ -127,7 +127,7 @@ static const NSUInteger kMSSchemaVersion = 1;
   }
 
   // If the document is expired, return an error and delete it.
-  long expirationTime = [((NSNumber *)(result[0][self.expirationTimeColumnIndex])) longValue];
+  long expirationTime = [(NSNumber *)(result[0][self.expirationTimeColumnIndex]) longValue];
   if (expirationTime != MSDataStoreTimeToLiveInfinite) {
     NSDate *expirationDate = [NSDate dateWithTimeIntervalSince1970:expirationTime];
     NSDate *currentDate = [NSDate date];
@@ -146,12 +146,12 @@ static const NSUInteger kMSSchemaVersion = 1;
   // Deserialize.
   NSString *jsonString = result[0][self.documentColumnIndex];
   NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
-  NSDate *lastUpdatedDate = [MSUtility dateFromISO8601:result[0][self.operationTimeColumnIndex]];
+  long lastUpdatedDate = [(NSNumber *)result[0][self.operationTimeColumnIndex] longValue];
   NSString *pendingOperation = result[0][self.pendingOperationColumnIndex];
   return [MSDocumentUtils documentWrapperFromDocumentData:jsonData
                                              documentType:documentType
                                                      eTag:result[0][self.eTagColumnIndex]
-                                          lastUpdatedDate:lastUpdatedDate
+                                          lastUpdatedDate:[NSDate dateWithTimeIntervalSince1970:lastUpdatedDate]
                                                 partition:token.partition
                                                documentId:documentId
                                          pendingOperation:pendingOperation];
