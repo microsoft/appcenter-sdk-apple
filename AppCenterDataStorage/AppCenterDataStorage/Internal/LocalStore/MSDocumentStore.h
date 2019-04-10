@@ -47,7 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)deleteWithToken:(MSTokenResult *)token documentId:(NSString *)documentId;
 
 /**
- * Delete table.
+ * Delete table for a given account id.
  *
  * @param accountId Account id.
  *
@@ -61,19 +61,15 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)deleteAllTables;
 
 /**
- * Reads a document from local storage.
+ * Reads a document from the store.
  *
  * @param token CosmosDB token.
  * @param documentId Document ID.
  * @param documentType The document type to read.
- * @param readOptions Options for reading the document.
  *
  * @returns A document.
  */
-- (MSDocumentWrapper *)readWithToken:(MSTokenResult *)token
-                          documentId:(NSString *)documentId
-                        documentType:(Class)documentType
-                         readOptions:(MSReadOptions *)readOptions;
+- (MSDocumentWrapper *)readWithToken:(MSTokenResult *)token documentId:(NSString *)documentId documentType:(Class)documentType;
 
 @end
 
