@@ -2,12 +2,13 @@
 // Licensed under the MIT License.
 
 #import "MSBaseOptions.h"
+#import "MSDataStore.h"
 
 @implementation MSBaseOptions
 
 @synthesize deviceTimeToLive = _deviceTimeToLive;
 
-- (instancetype)initWithDeviceTimeToLive:(NSInteger)deviceTimeToLive {
+- (instancetype)initWithDeviceTimeToLive:(NSTimeInterval)deviceTimeToLive {
   self = [super init];
   if (self) {
     self.deviceTimeToLive = deviceTimeToLive;
@@ -18,7 +19,7 @@
 - (instancetype)init {
   self = [super init];
   if (self) {
-    self.deviceTimeToLive = 3600; // one hour in seconds
+    _deviceTimeToLive = MSDataStoreTimeToLiveDefault;
   }
   return self;
 }
