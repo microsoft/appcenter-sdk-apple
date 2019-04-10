@@ -86,8 +86,6 @@ static dispatch_once_t onceToken;
      * crashes on apps between previous userId and current userId.
      */
     [self.userIdHistory removeLastObject];
-
-    // TODO: Refactor condition
     BOOL sameUserId = (userId && [self.currentUserIdInfo.userId isEqualToString:(NSString *)userId]) ||
                       (!userId && self.currentUserIdInfo.userId == userId);
     self.currentUserIdInfo.userId = userId;
@@ -100,9 +98,9 @@ static dispatch_once_t onceToken;
       return;
     }
     synchronizedDelegates = [self.delegates allObjects];
-    for (id<MSUserIdContextDelegate> delegate in synchronizedDelegates) {
-      [delegate onNewUserId:self];
-    }
+  }
+  for (id<MSUserIdContextDelegate> delegate in synchronizedDelegates) {
+    [delegate userIdContext:self didUpdateUserId:userId];
   }
 }
 
