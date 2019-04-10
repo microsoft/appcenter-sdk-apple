@@ -245,9 +245,7 @@ static dispatch_once_t onceToken;
                                documentType:documentType
                                 readOptions:readOptions
                           completionHandler:^(MSDocumentWrapper *_Nonnull document) {
-                            if ([self.reachability currentReachabilityStatus] == NotReachable) {
-                              completionHandler(document);
-                            } else if (document.pendingOperation) {
+                            if ([self.reachability currentReachabilityStatus] == NotReachable || document.pendingOperation) {
                               completionHandler(document);
                             } else {
                               [self readFromCosmosDbWithPartition:partition
@@ -308,7 +306,6 @@ static dispatch_once_t onceToken;
                                    completionHandler(documentWrapper);
                                  });
                                }];
-  return;
 }
 
 - (void)readFromCosmosDbWithPartition:(NSString *)partition
@@ -333,7 +330,6 @@ static dispatch_once_t onceToken;
 
                      // Deserialize.
                      completionHandler([MSDocumentUtils documentWrapperFromData:data documentType:documentType]);
-                     return;
                    }];
 }
 
