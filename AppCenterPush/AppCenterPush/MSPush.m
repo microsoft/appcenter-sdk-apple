@@ -118,6 +118,14 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
 
 #endif
 
+#pragma mark - MSUserIdContextDelegate
+- (void) userIdContext:(MSUserIdContext *)userIdContext didUpdateUserId:(NSString *)userId {
+  (void)userId;
+  (void)userIdContext;
+  
+  // TODO: Send push
+}
+
 #pragma mark - MSServiceInternal
 
 + (instancetype)sharedInstance {
@@ -180,6 +188,7 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
 #endif
     [[MSAppDelegateForwarder sharedInstance] addDelegate:self.appDelegate];
     [[MSAuthTokenContext sharedInstance] addDelegate:self];
+    [[MSUserIdContext sharedInstance] addDelegate:self];
     if (!self.pushToken) {
       [self registerForRemoteNotifications];
     }
@@ -190,6 +199,7 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
 #endif
     [[MSAppDelegateForwarder sharedInstance] removeDelegate:self.appDelegate];
     [[MSAuthTokenContext sharedInstance] removeDelegate:self];
+    [[MSUserIdContext sharedInstance] removeDelegate:self];
     MSLogInfo([MSPush logTag], @"Push service has been disabled.");
   }
 }
