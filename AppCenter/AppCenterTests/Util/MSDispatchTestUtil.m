@@ -18,7 +18,10 @@ static const int kMSDispatchQueueWaitTime = 2;
     dispatch_semaphore_signal(semaphore);
   });
   dispatch_time_t timeout = dispatch_time(DISPATCH_TIME_NOW, kMSDispatchQueueWaitTime * NSEC_PER_SEC);
-  dispatch_semaphore_wait(semaphore, timeout);
+  BOOL timedOut = dispatch_semaphore_wait(semaphore, timeout) != 0;
+  if (timedOut) {
+    [NSException raise:@"Dispatch queue stuck during test tear down." format:@""];
+  }
 }
 
 @end
