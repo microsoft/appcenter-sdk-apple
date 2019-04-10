@@ -66,17 +66,25 @@ static const NSUInteger kMSSchemaVersion = 1;
         documentWrapper:(MSDocumentWrapper *)documentWrapper
               operation:(NSString *_Nullable)operation
                 options:(MSBaseOptions *)options {
+  // Compute expiration time as now + device time to live (in seconds).
+  // If device time to live is set to infinite, set expiration time as null in the database.
+  // Note: If the cache/store is meant to be disabled, this method should not even be called.
   NSDate *now = [NSDate date];
-  NSDate *expirationTime = [now dateByAddingTimeInterval:options.deviceTimeToLive];
+  NSString *isoExpirationTime;
+  if (options.deviceTimeToLive != MSDataStoreTimeToLiveInfinite) {
+    isoExpirationTime =
+        [NSString stringWithFormat:@"\"%@\"", [MSUtility dateToISO8601:[now dateByAddingTimeInterval:options.deviceTimeToLive]]];
+  } else {
+    isoExpirationTime = @"NULL";
+  }
   NSString *tableName = [MSDBDocumentStore tableNameForPartition:token.partition];
-  NSString *insertQuery =
-      [NSString stringWithFormat:@"REPLACE INTO \"%@\" (\"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\") "
-                                 @"VALUES ('%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@')",
-                                 tableName, kMSPartitionColumnName, kMSDocumentIdColumnName, kMSDocumentColumnName, kMSETagColumnName,
-                                 kMSExpirationTimeColumnName, kMSDownloadTimeColumnName, kMSOperationTimeColumnName,
-                                 kMSPendingOperationColumnName, token.partition, documentWrapper.documentId, documentWrapper.jsonValue,
-                                 documentWrapper.eTag, [MSUtility dateToISO8601:expirationTime],
-                                 [MSUtility dateToISO8601:documentWrapper.lastUpdatedDate], [MSUtility dateToISO8601:now], operation];
+  NSString *insertQuery = [NSString
+      stringWithFormat:@"REPLACE INTO \"%@\" (\"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\") "
+                       @"VALUES ('%@', '%@', '%@', '%@', %@, '%@', '%@', '%@')",
+                       tableName, kMSPartitionColumnName, kMSDocumentIdColumnName, kMSDocumentColumnName, kMSETagColumnName,
+                       kMSExpirationTimeColumnName, kMSDownloadTimeColumnName, kMSOperationTimeColumnName, kMSPendingOperationColumnName,
+                       token.partition, documentWrapper.documentId, documentWrapper.jsonValue, documentWrapper.eTag, isoExpirationTime,
+                       [MSUtility dateToISO8601:documentWrapper.lastUpdatedDate], [MSUtility dateToISO8601:now], operation];
   int result = [self.dbStorage executeNonSelectionQuery:insertQuery];
   if (result != SQLITE_OK) {
     MSLogError([MSDataStore logTag], @"Unable to update or replace stored document, SQLite error code: %ld", (long)result);
@@ -119,9 +127,11 @@ static const NSUInteger kMSSchemaVersion = 1;
   }
 
   // If the document is expired, return an error and delete it.
-  NSDate *expirationTime = [MSUtility dateFromISO8601:result[0][self.expirationTimeColumnIndex]];
+  NSDate *expirationTime = result[0][self.expirationTimeColumnIndex] == [NSNull null]
+                               ? nil
+                               : [MSUtility dateFromISO8601:result[0][self.expirationTimeColumnIndex]];
   NSDate *currentDate = [NSDate date];
-  if ([expirationTime laterDate:currentDate] == currentDate) {
+  if (expirationTime && [expirationTime laterDate:currentDate] == currentDate) {
     NSString *errorMessage = [NSString stringWithFormat:@"Local document with partition key '%@' and document ID '%@' expired at %@",
                                                         token.partition, documentId, expirationTime];
     MSLogWarning([MSDataStore logTag], @"%@", errorMessage);

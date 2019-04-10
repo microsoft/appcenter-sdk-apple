@@ -34,8 +34,6 @@
 
 @implementation MSDBDocumentStoreTests
 
-MSTokenResult *token1;
-
 - (void)setUp {
   [super setUp];
 
@@ -73,7 +71,7 @@ MSTokenResult *token1;
   [MSUtility deleteItemForPathComponent:kMSDBDocumentFileName];
 }
 
-- (void)testReadUserDocumentFromLocalDatabase {
+- (void)testReadAppDocumentFromLocalDatabase {
 
   // If
   NSString *documentId = @"12829";
@@ -100,7 +98,7 @@ MSTokenResult *token1;
   XCTAssertEqualObjects(documentWrapper.pendingOperation, pendingOperation);
 }
 
-- (void)testReadUserDocumentFromLocalDatabaseWithDeserializationError {
+- (void)testReadAppDocumentFromLocalDatabaseWithDeserializationError {
 
   // If
   NSString *documentId = @"12829";
@@ -108,13 +106,13 @@ MSTokenResult *token1;
   NSString *jsonString = @"{";
   [self addJsonStringToTable:jsonString
                         eTag:eTag
-                   partition:self.userToken.partition
+                   partition:self.appToken.partition
                   documentId:documentId
             pendingOperation:@""
               expirationTime:[NSDate dateWithTimeIntervalSinceNow:1000000]];
 
   // When
-  MSDocumentWrapper *documentWrapper = [self.sut readWithToken:self.userToken documentId:documentId documentType:[MSMockDocument class]];
+  MSDocumentWrapper *documentWrapper = [self.sut readWithToken:self.appToken documentId:documentId documentType:[MSMockDocument class]];
 
   // Then
   XCTAssertNotNil(documentWrapper);
@@ -122,7 +120,29 @@ MSTokenResult *token1;
   XCTAssertEqualObjects(documentWrapper.documentId, documentId);
 }
 
-- (void)testReadExpiredUserDocument {
+- (void)testReadNoExpirationAppDocument {
+
+  // If
+  NSString *documentId = @"12829";
+  NSString *eTag = @"398";
+  NSString *jsonString = @"{ \"document\": {\"key\": \"value\"}}";
+  [self addJsonStringToTable:jsonString
+                        eTag:eTag
+                   partition:self.appToken.partition
+                  documentId:documentId
+            pendingOperation:@""
+              expirationTime:nil];
+
+  // When
+  MSDocumentWrapper *documentWrapper = [self.sut readWithToken:self.appToken documentId:documentId documentType:[MSMockDocument class]];
+
+  // Then
+  XCTAssertNotNil(documentWrapper);
+  XCTAssertNil(documentWrapper.error);
+  XCTAssertTrue([[NSNull null] isEqual:[self expirationTimeWithToken:self.appToken documentId:documentId]]);
+}
+
+- (void)testReadExpiredAppDocument {
 
   // If
   NSString *documentId = @"12829";
@@ -144,7 +164,7 @@ MSTokenResult *token1;
   XCTAssertEqualObjects(documentWrapper.error.error.domain, kMSACDataStoreErrorDomain);
   XCTAssertEqual(documentWrapper.error.error.code, MSACDataStoreErrorLocalDocumentExpired);
   XCTAssertEqualObjects(documentWrapper.documentId, documentId);
-  OCMVerify([self.sut deleteWithToken:self.userToken documentId:documentId]);
+  OCMVerify([self.sut deleteWithToken:self.appToken documentId:documentId]);
 }
 
 - (void)testReadUserDocumentFromLocalDatabaseNotFound {
@@ -233,7 +253,7 @@ MSTokenResult *token1;
   OCMVerify([self.dbStorage dropTable:userTableName]);
 }
 
-- (void)testUpsertAppDocument {
+- (void)testUpsertAppDocumentWithValidTTL {
 
   // If
   MSDocumentWrapper *documentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestDocument"]
@@ -254,10 +274,35 @@ MSTokenResult *token1;
   XCTAssertEqualObjects(expectedDocumentWrapper.documentId, documentWrapper.documentId);
   XCTAssertEqualObjects(expectedDocumentWrapper.partition, documentWrapper.partition);
   XCTAssertEqualObjects(expectedDocumentWrapper.eTag, documentWrapper.eTag);
+  XCTAssertFalse([[NSNull null] isEqual:[self expirationTimeWithToken:self.appToken documentId:documentWrapper.documentId]]);
 
-  // The expected document wrapper should have its last updated date set to now + read option (at insertion time). The fixture we use should
+  // The expected document wrapper should have its last updated date set to now (at insertion time). The fixture we use should
   // hence be in the past.
   XCTAssertTrue([expectedDocumentWrapper.lastUpdatedDate compare:documentWrapper.lastUpdatedDate] == NSOrderedDescending);
+}
+
+- (void)testUpsertAppDocumentWithNoTTL {
+
+  // If
+  MSDocumentWrapper *documentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestDocument"]
+                                                                   documentType:[MSDictionaryDocument class]];
+  MSReadOptions *readOptions = [[MSReadOptions alloc] initWithDeviceTimeToLive:MSDataStoreTimeToLiveInfinite];
+
+  // When
+  BOOL result = [self.sut upsertWithToken:self.appToken documentWrapper:documentWrapper operation:@"CREATE" options:readOptions];
+  MSDocumentWrapper *expectedDocumentWrapper = [self.sut readWithToken:self.appToken
+                                                            documentId:documentWrapper.documentId
+                                                          documentType:[MSDictionaryDocument class]];
+
+  // Then
+  XCTAssertTrue(result);
+  XCTAssertNil(expectedDocumentWrapper.error);
+  XCTAssertNotNil(expectedDocumentWrapper.deserializedValue);
+  XCTAssertNotNil(expectedDocumentWrapper.jsonValue);
+  XCTAssertEqualObjects(expectedDocumentWrapper.documentId, documentWrapper.documentId);
+  XCTAssertEqualObjects(expectedDocumentWrapper.partition, documentWrapper.partition);
+  XCTAssertEqualObjects(expectedDocumentWrapper.eTag, documentWrapper.eTag);
+  XCTAssertTrue([[NSNull null] isEqual:[self expirationTimeWithToken:self.appToken documentId:documentWrapper.documentId]]);
 }
 
 - (void)testDeleteAppDocumentForNonExistentDocument {
@@ -347,10 +392,10 @@ MSTokenResult *token1;
             pendingOperation:(NSString *)pendingOperation
               expirationTime:(NSDate *)expirationTime {
   sqlite3 *db = [self openDatabase:kMSDBDocumentFileName];
-  NSString *expirationTimeString = [MSUtility dateToISO8601:expirationTime];
+  NSString *expirationTimeString = expirationTime ? [NSString stringWithFormat:@"'%@'", [MSUtility dateToISO8601:expirationTime]] : @"NULL";
   NSString *operationTimeString = [MSUtility dateToISO8601:[NSDate date]];
   NSString *insertQuery = [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\") "
-                                                     @"VALUES ('%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@')",
+                                                     @"VALUES ('%@', '%@', '%@', '%@', '%@', %@, '%@', '%@')",
                                                      kMSAppDocumentTableName, kMSIdColumnName, kMSPartitionColumnName, kMSETagColumnName,
                                                      kMSDocumentColumnName, kMSDocumentIdColumnName, kMSExpirationTimeColumnName,
                                                      kMSOperationTimeColumnName, kMSPendingOperationColumnName, @0, partition, eTag,
@@ -376,6 +421,15 @@ MSTokenResult *token1;
 
 - (NSArray<NSString *> *)expectedUniqueColumnsConstraint {
   return @[ kMSPartitionColumnName, kMSDocumentIdColumnName ];
+}
+
+- (NSString *)expirationTimeWithToken:(MSTokenResult *)token documentId:(NSString *)documentId {
+  NSString *tableName = [MSDBDocumentStore tableNameForPartition:token.partition];
+  NSArray<NSArray *> *result = [self.dbStorage
+      executeSelectionQuery:[NSString stringWithFormat:@"SELECT \"%@\" FROM \"%@\" WHERE \"%@\" = \"%@\" AND \"%@\" = \"%@\"",
+                                                       kMSExpirationTimeColumnName, tableName, kMSDocumentIdColumnName, documentId,
+                                                       kMSPartitionColumnName, token.partition]];
+  return (NSString *)result[0][0];
 }
 
 @end
