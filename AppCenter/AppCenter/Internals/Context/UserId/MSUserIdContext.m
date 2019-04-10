@@ -86,16 +86,17 @@ static dispatch_once_t onceToken;
      * crashes on apps between previous userId and current userId.
      */
     [self.userIdHistory removeLastObject];
-    
+
     // TODO: Refactor condition
-    BOOL sameUserId = (userId && [self.currentUserIdInfo.userId isEqualToString:(NSString *)userId]) || (!userId && self.currentUserIdInfo.userId==userId);
+    BOOL sameUserId = (userId && [self.currentUserIdInfo.userId isEqualToString:(NSString *)userId]) ||
+                      (!userId && self.currentUserIdInfo.userId == userId);
     self.currentUserIdInfo.userId = userId;
     self.currentUserIdInfo.timestamp = [NSDate date];
     [self.userIdHistory addObject:self.currentUserIdInfo];
     [MS_USER_DEFAULTS setObject:[NSKeyedArchiver archivedDataWithRootObject:self.userIdHistory] forKey:kMSUserIdHistoryKey];
     MSLogVerbose([MSAppCenter logTag], @"Stored new userId:%@ and timestamp: %@.", self.currentUserIdInfo.userId,
                  self.currentUserIdInfo.timestamp);
-    if (sameUserId){
+    if (sameUserId) {
       return;
     }
     synchronizedDelegates = [self.delegates allObjects];
@@ -163,13 +164,13 @@ static dispatch_once_t onceToken;
 }
 
 - (void)addDelegate:(id<MSUserIdContextDelegate>)delegate {
-  @synchronized (self) {
+  @synchronized(self) {
     [self.delegates addObject:delegate];
   }
 }
 
 - (void)removeDelegate:(id<MSUserIdContextDelegate>)delegate {
-  @synchronized (self) {
+  @synchronized(self) {
     [self.delegates removeObject:delegate];
   }
 }

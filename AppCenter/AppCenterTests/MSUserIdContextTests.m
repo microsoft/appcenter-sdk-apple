@@ -150,13 +150,37 @@
   XCTAssertNil([MSUserIdContext prefixedUserIdFromUserId:nil]);
 }
 
-- (void)testUserIdEqualCurrentUserId {
-  NSString *mockUserId = @"UserId";
-  id<MSUserIdContextDelegate> delegateMock = OCMProtocolMock(@protocol(MSUserIdContextDelegate));
+- (void)testDelegateCalledOnUserIdChanged {
+
+  // If
+  XCTAssertNil([self.sut currentUserIdInfo].userId);
+  NSString *expectedUserId = @"UserId";
+  id delegateMock = OCMProtocolMock(@protocol(MSUserIdContextDelegate));
   [self.sut addDelegate:delegateMock];
-  [[MSUserIdContext sharedInstance] setUserId:mockUserId];
+  OCMExpect([delegateMock onNewUserId:self.sut]);
+
+  // When
+  [[MSUserIdContext sharedInstance] setUserId:expectedUserId];
+
+  // Then
+  XCTAssertEqual([self.sut userId], expectedUserId);
   OCMVerify([delegateMock onNewUserId:self.sut]);
-  XCTAssertEqual([self.sut userId], mockUserId);
+}
+
+- (void)testDelegateNotCalledOnUserIdSame {
+
+  // If
+  NSString *expectedUserId = @"Patrick";
+  [[MSUserIdContext sharedInstance] setUserId:expectedUserId];
+  id delegateMock = OCMProtocolMock(@protocol(MSUserIdContextDelegate));
+  [self.sut addDelegate:delegateMock];
+  OCMReject([delegateMock onNewUserId:self.sut]);
+
+  // When
+  [[MSUserIdContext sharedInstance] setUserId:expectedUserId];
+
+  // Then
+  OCMVerifyAll(delegateMock);
 }
 
 @end
