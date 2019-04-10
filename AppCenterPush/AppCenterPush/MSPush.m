@@ -119,11 +119,11 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
 #endif
 
 #pragma mark - MSUserIdContextDelegate
-- (void) userIdContext:(MSUserIdContext *)userIdContext didUpdateUserId:(NSString *)userId {
-  (void)userId;
-  (void)userIdContext;
-  
-  // TODO: Send push
+- (void) userIdContext:(MSUserIdContext *)__unused userIdContext didUpdateUserId:(NSString *)__unused userId {
+  NSString *pushTokenCopy = self.pushToken;
+  if (pushTokenCopy) {
+    [self sendPushToken:pushTokenCopy];
+  }
 }
 
 #pragma mark - MSServiceInternal
