@@ -6,8 +6,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol MSUserIdContextDelegate <NSObject>
 
-@optional
-
 /**
  * A callback that is called after a new userId is set.
  *
@@ -15,7 +13,5 @@ NS_ASSUME_NONNULL_BEGIN
  * @param userId userId which was set.
  */
 - (void)userIdContext:(MSUserIdContext *)userIdContext didUpdateUserId:(nullable NSString *)userId;
-
-@end
 
 NS_ASSUME_NONNULL_END
