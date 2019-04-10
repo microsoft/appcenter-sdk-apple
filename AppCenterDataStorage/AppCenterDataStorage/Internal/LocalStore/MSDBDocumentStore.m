@@ -14,6 +14,7 @@
 #import "MSDataStoreInternal.h"
 #import "MSDocumentUtils.h"
 #import "MSDocumentWrapper.h"
+#import "MSPendingOperation.h"
 #import "MSTokenResult.h"
 #import "MSUtility+Date.h"
 #import "MSUtility+StringFormatting.h"
@@ -190,6 +191,45 @@ static NSString *const kMSNullString = @"NULL";
         stringWithFormat:kMSUserDocumentTableNameFormat, [partition substringFromIndex:kMSDataStoreAppDocumentsUserPartitionPrefix.length]];
   }
   return nil;
+}
+
+- (NSArray<MSPendingOperation *> *)pendingOperationsWithToken:(MSTokenResult *)token {
+  NSString *tableName = [MSDBDocumentStore tableNameForPartition:token.partition];
+  NSString *selectionQuery =
+      [NSString stringWithFormat:@"SELECT * FROM \"%@\" WHERE \"%@\" \"IS NOT NULL\"", tableName, kMSPendingOperationColumnName];
+  NSArray *result = [self.dbStorage executeSelectionQuery:selectionQuery];
+  NSMutableArray *pendingDocuments = [NSMutableArray new];
+
+  // Return empty list if there are no pending documents.
+  if (result.count == 0) {
+    return pendingDocuments;
+  }
+
+  // Create object of MSPendingOperation for each row.
+  for (id row in result) {
+    NSString *documentId = row[0][self.documentIdColumnIndex];
+    NSString *partition = row[0][self.partitionColumnIndex];
+
+    // If the document is expired, return an error and delete it.
+    NSDate *expirationTime = [MSUtility dateFromISO8601:row[0][self.expirationTimeColumnIndex]];
+    NSDate *currentDate = [NSDate date];
+    if ([expirationTime laterDate:currentDate] == currentDate) {
+      [self deleteWithToken:token documentId:documentId];
+      MSLogInfo([MSDataStore logTag], @"Document expired and removed from local cache: partition: %@, documentId: %@", partition,
+                documentId);
+      continue;
+    }
+
+    // TODO: verify that * 1000 for the expirationTime is valid.
+    MSPendingOperation *pendingOperation = [[MSPendingOperation alloc] initWithOperation:row[0][self.operationTimeColumnIndex]
+                                                                               partition:partition
+                                                                              documentId:documentId
+                                                                                document:result[0][self.documentColumnIndex]
+                                                                                    etag:row[0][self.eTagColumnIndex]
+                                                                          expirationTime:[expirationTime timeIntervalSince1970] * 1000];
+    [pendingDocuments addObject:pendingOperation];
+  }
+  return pendingDocuments;
 }
 
 @end

@@ -3,10 +3,11 @@
 
 #import <Foundation/Foundation.h>
 
-@class MSWriteOptions;
-@class MSReadOptions;
 @class MSDocumentWrapper;
+@class MSPendingOperation;
+@class MSReadOptions;
 @class MSTokenResult;
+@class MSWriteOptions;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -71,10 +72,13 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (MSDocumentWrapper *)readWithToken:(MSTokenResult *)token documentId:(NSString *)documentId documentType:(Class)documentType;
 
-
-- (NASArray<MSDocumentWrapper *> *)listPendingDocument:
-                            documentType:(Class)documentType
-                             readOptions:(MSReadOptions *)readOptions;
+/**
+ * Get all pending operations.
+ *
+ * @param token CosmosDB token.
+ * @return List of all pending operations.
+ */
+- (NSArray<MSPendingOperation *> *)pendingOperationsWithToken:(MSTokenResult *)token;
 
 @end
 

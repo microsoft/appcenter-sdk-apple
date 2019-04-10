@@ -3,11 +3,11 @@
 
 #import <Foundation/Foundation.h>
 
-#import "MS_Reachability.h"
 #import "MSDBDocumentStore.h"
 #import "MSDataStore.h"
 #import "MSDocumentStore.h"
 #import "MSServiceInternal.h"
+#import "MS_Reachability.h"
 
 @protocol MSDocumentStore;
 

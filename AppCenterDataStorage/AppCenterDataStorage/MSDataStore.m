@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "MS_Reachability.h"
 #import "MSDataStore.h"
 #import "MSAppCenterInternal.h"
 #import "MSAppDelegateForwarder.h"
@@ -25,6 +24,7 @@
 #import "MSTokensResponse.h"
 #import "MSUserInformation.h"
 #import "MSWriteOptions.h"
+#import "MS_Reachability.h"
 
 /**
  * Service storage key name.
@@ -68,7 +68,7 @@ static dispatch_once_t onceToken;
     _reachability = reachability;
     _tokenExchangeUrl = (NSURL *)[NSURL URLWithString:kMSDefaultApiUrl];
     _documentStore = [MSDBDocumentStore new];
-    
+
     // Listen to network events.
     [MS_NOTIFICATION_CENTER addObserver:self selector:@selector(networkStateChanged:) name:kMSReachabilityChangedNotification object:nil];
   }
@@ -533,7 +533,7 @@ static dispatch_once_t onceToken;
 
 #pragma mark - Reachability
 
-- (void)networkStateChanged:(NSNotificationCenter *) __unused notification {
+- (void)networkStateChanged:(NSNotificationCenter *)__unused notification {
   //(void)notification;
   [self networkStateChanged];
 }
@@ -549,11 +549,9 @@ static dispatch_once_t onceToken;
 }
 
 - (void)onNetworkGoesOffline {
-  
 }
 
 - (void)onNetworkGoesOnline {
-  
 }
 
 - (BOOL)isOffline {
