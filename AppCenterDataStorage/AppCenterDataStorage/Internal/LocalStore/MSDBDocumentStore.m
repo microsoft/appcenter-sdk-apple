@@ -20,6 +20,7 @@
 #import "MSWriteOptions.h"
 
 static const NSUInteger kMSSchemaVersion = 1;
+static NSString *const kMSNullString = @"NULL";
 
 @implementation MSDBDocumentStore
 
@@ -71,11 +72,11 @@ static const NSUInteger kMSSchemaVersion = 1;
   // Note: If the cache/store is meant to be disabled, this method should not even be called.
   NSDate *now = [NSDate date];
   NSString *isoExpirationTime;
-  if (options.deviceTimeToLive != MSDataStoreTimeToLiveInfinite) {
+  if (options.deviceTimeToLive == MSDataStoreTimeToLiveInfinite) {
+    isoExpirationTime = kMSNullString;
+  } else {
     isoExpirationTime =
         [NSString stringWithFormat:@"\"%@\"", [MSUtility dateToISO8601:[now dateByAddingTimeInterval:options.deviceTimeToLive]]];
-  } else {
-    isoExpirationTime = @"NULL";
   }
   NSString *tableName = [MSDBDocumentStore tableNameForPartition:token.partition];
   NSString *insertQuery = [NSString
@@ -180,7 +181,7 @@ static const NSUInteger kMSSchemaVersion = 1;
            @{kMSDownloadTimeColumnName : @[ kMSSQLiteTypeInteger ]},
            @{kMSOperationTimeColumnName : @[ kMSSQLiteTypeInteger ]},
            @{kMSPendingOperationColumnName : @[ kMSSQLiteTypeText ]}
-           ];
+         ];
   // clang-format on
 }
 
