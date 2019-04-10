@@ -21,6 +21,9 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property(nonatomic) NSMutableArray<MSUserIdHistoryInfo *> *userIdHistory;
 
+/**
+ * Hash table containing all the delegates as weak references.
+ */
 @property(nonatomic) NSHashTable<id<MSUserIdContextDelegate>> *delegates;
 
 /**
@@ -28,8 +31,18 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (instancetype)sharedInstance;
 
+/**
+ * Add a delegate. This method is thread safe.
+ *
+ * @param delegate A delegate.
+ */
 - (void)addDelegate:(id<MSUserIdContextDelegate>)delegate;
 
+/**
+ * Remove a delegate. This method is thread safe.
+ *
+ * @param delegate A delegate.
+ */
 - (void)removeDelegate:(id<MSUserIdContextDelegate>)delegate;
 
 /**
