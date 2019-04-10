@@ -16,7 +16,7 @@
 
 @interface MSChannelGroupDefaultTests : XCTestCase
 
-@property(nonatomic) MSAppCenterIngestion *ingestionMock;
+@property(nonatomic) id ingestionMock;
 
 @property(nonatomic) MSChannelUnitConfiguration *validConfiguration;
 
@@ -39,18 +39,33 @@
                                                                  batchSizeLimit:batchSizeLimit
                                                             pendingBatchesLimit:pendingBatchesLimit];
   self.sut = [[MSChannelGroupDefault alloc] initWithIngestion:self.ingestionMock];
+
+  /*
+   * dispatch_get_main_queue isn't good option for logsDispatchQueue because
+   * we can't clear pending actions from it after the test. It can cause usages of stopped mocks.
+   *
+   * Keep the serial queue that created during the initialization.
+   */
 }
 
 - (void)tearDown {
-  [super tearDown];
 
   // Wait all tasks in tests.
   XCTestExpectation *expectation = [self expectationWithDescription:@"tearDown"];
   dispatch_async(self.sut.logsDispatchQueue, ^{
+    /*
+     * Prevent the execution of any blocks that have been enqueue. It happens when
+     * we call dispatch_async from logsDispatchQueue.
+     * There is no API to clear this queue, so we should suspend it at least.
+     */
     dispatch_suspend(self.sut.logsDispatchQueue);
     [expectation fulfill];
   });
   [self waitForExpectations:@[ expectation ] timeout:1];
+
+  // Stop mocks.
+  [self.ingestionMock stopMocking];
+  [super tearDown];
 }
 
 #pragma mark - Tests
@@ -98,7 +113,7 @@
 
   // When
   MSChannelUnitDefault *channelUnit = (MSChannelUnitDefault *)[self.sut addChannelUnitWithConfiguration:[MSChannelUnitConfiguration new]
-                                                                                     withIngestion:ingestionMockCustom];
+                                                                                          withIngestion:ingestionMockCustom];
 
   // Then
   XCTAssertNotEqual(self.ingestionMock, channelUnit.ingestion);
@@ -158,8 +173,6 @@
 
   // Then
   OCMVerify([self.ingestionMock setEnabled:YES andDeleteDataOnDisabled:NO]);
-  dispatch_sync(self.sut.logsDispatchQueue, ^{
-                });
   OCMVerify([channelMock resumeWithIdentifyingObject:token]);
 }
 
@@ -175,8 +188,6 @@
 
   // Then
   OCMVerify([self.ingestionMock setEnabled:NO andDeleteDataOnDisabled:NO]);
-  dispatch_sync(self.sut.logsDispatchQueue, ^{
-                });
   OCMVerify([channelMock pauseWithIdentifyingObject:identifyingObject]);
 }
 
@@ -190,11 +201,10 @@
 
   // When
   [self.sut addChannelUnitWithConfiguration:self.validConfiguration];
-  dispatch_sync(self.sut.logsDispatchQueue, ^{
-                });
 
   // Then
   OCMVerify([channelUnitMock addDelegate:(id<MSChannelDelegate>)self.sut]);
+  [self waitForLogsDispatchQueue];
   OCMVerify([channelUnitMock flushQueue]);
 
   // Clear
@@ -449,6 +459,16 @@
 
   // Clear
   [channelUnitMock stopMocking];
+}
+
+#pragma mark - Helper
+
+- (void)waitForLogsDispatchQueue {
+  XCTestExpectation *expectation = [self expectationWithDescription:@"Logs dispatch queue"];
+  dispatch_async(self.sut.logsDispatchQueue, ^{
+    [expectation fulfill];
+  });
+  [self waitForExpectations:@[ expectation ] timeout:1];
 }
 
 @end

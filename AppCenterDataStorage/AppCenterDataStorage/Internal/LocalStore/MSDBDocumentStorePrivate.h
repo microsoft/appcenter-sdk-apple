@@ -9,6 +9,7 @@ NS_ASSUME_NONNULL_BEGIN
 static NSString *const kMSDBDocumentFileName = @"Documents.sqlite";
 static NSString *const kMSAppDocumentTableName = @"appDocuments";
 static NSString *const kMSUserDocumentTableNameFormat = @"user_%@_documents";
+static NSString *const kMSDataStoreAppDocumentsUserPartitionPrefix = @"user-";
 static NSString *const kMSIdColumnName = @"id";
 static NSString *const kMSPartitionColumnName = @"partition";
 static NSString *const kMSDocumentIdColumnName = @"document_id";
@@ -17,12 +18,7 @@ static NSString *const kMSETagColumnName = @"etag";
 static NSString *const kMSExpirationTimeColumnName = @"expiration_time";
 static NSString *const kMSDownloadTimeColumnName = @"download_time";
 static NSString *const kMSOperationTimeColumnName = @"operation_time";
-static NSString *const kMSPendingDownloadColumnName = @"pending_operation";
-
-// Operations.
-static NSString *const kMSPendingOperationCreate = @"CREATE";
-static NSString *const kMSPendingOperationReplace = @"REPLACE";
-static NSString *const kMSPendingOperationDelete = @"DELETE";
+static NSString *const kMSPendingOperationColumnName = @"pending_operation";
 
 @protocol MSDatabaseConnection;
 
@@ -77,6 +73,11 @@ static NSString *const kMSPendingOperationDelete = @"DELETE";
  * A local store instance that is used to manage all operation on the sqLite instance.
  */
 @property(nonatomic) MSDBStorage *dbStorage;
+
+/**
+ * The schema for the documents cache.
+ */
++ (MSDBColumnsSchema *)columnsSchema;
 
 @end
 
