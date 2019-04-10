@@ -183,4 +183,17 @@
   OCMVerifyAll(delegateMock);
 }
 
+- (void)testRemoveDelegate {
+
+  // If
+  id delegateMock = OCMProtocolMock(@protocol(MSUserIdContextDelegate));
+  [self.sut addDelegate:delegateMock];
+
+  // When
+  [self.sut removeDelegate:delegateMock];
+
+  // Then
+  XCTAssertEqual([[self.sut delegates] count], 0);
+}
+
 @end
