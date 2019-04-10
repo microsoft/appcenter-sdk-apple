@@ -53,7 +53,6 @@
   // Wait all tasks in tests.
   XCTestExpectation *expectation = [self expectationWithDescription:@"tearDown"];
   dispatch_async(self.sut.logsDispatchQueue, ^{
-
     /*
      * Prevent the execution of any blocks that have been enqueue. It happens when
      * we call dispatch_async from logsDispatchQueue.
@@ -114,7 +113,7 @@
 
   // When
   MSChannelUnitDefault *channelUnit = (MSChannelUnitDefault *)[self.sut addChannelUnitWithConfiguration:[MSChannelUnitConfiguration new]
-                                                                                     withIngestion:ingestionMockCustom];
+                                                                                          withIngestion:ingestionMockCustom];
 
   // Then
   XCTAssertNotEqual(self.ingestionMock, channelUnit.ingestion);
@@ -469,7 +468,7 @@
   dispatch_async(self.sut.logsDispatchQueue, ^{
     [expectation fulfill];
   });
-  [self waitForExpectations:@[expectation] timeout:1];
+  [self waitForExpectations:@[ expectation ] timeout:1];
 }
 
 @end
