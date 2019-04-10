@@ -320,10 +320,10 @@ static NSString *const kMSTestGroupId = @"GroupId";
   // If
   [self initChannelEndJobExpectation];
   id configMock = [[MSChannelUnitConfiguration alloc] initWithGroupId:kMSTestGroupId
-                                                               priority:MSPriorityDefault
-                                                          flushInterval:5
-                                                         batchSizeLimit:10
-                                                    pendingBatchesLimit:3];
+                                                             priority:MSPriorityDefault
+                                                        flushInterval:5
+                                                       batchSizeLimit:10
+                                                  pendingBatchesLimit:3];
   self.storageMock = OCMProtocolMock(@protocol(MSStorage));
   OCMStub([self.storageMock saveLog:OCMOCK_ANY withGroupId:OCMOCK_ANY flags:MSFlagsDefault]).andReturn(NO);
   self.sut = [[MSChannelUnitDefault alloc] initWithIngestion:self.ingestionMock

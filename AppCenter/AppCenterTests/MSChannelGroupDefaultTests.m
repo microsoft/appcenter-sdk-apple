@@ -92,7 +92,7 @@
 
   // When
   MSChannelUnitDefault *channelUnit = (MSChannelUnitDefault *)[self.sut addChannelUnitWithConfiguration:[MSChannelUnitConfiguration new]
-                                                                                     withIngestion:ingestionMockCustom];
+                                                                                          withIngestion:ingestionMockCustom];
 
   // Then
   XCTAssertNotEqual(self.ingestionMock, channelUnit.ingestion);
@@ -188,7 +188,7 @@
     OCMVerify([channelUnitMock flushQueue]);
     [expectation fulfill];
   });
-  [self waitForExpectations:@[expectation] timeout:1];
+  [self waitForExpectations:@[ expectation ] timeout:1];
 
   // Clear
   [channelUnitMock stopMocking];
