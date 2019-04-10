@@ -47,7 +47,7 @@ static NSString *const kMSAccountId = @"accountId";
   return self;
 }
 
-- (instancetype)initWithDictionary:(NSDictionary *)token {
+- (instancetype _Nullable)initWithDictionary:(NSDictionary *)token {
   self = [super init];
   if (self) {
 
@@ -72,7 +72,7 @@ static NSString *const kMSAccountId = @"accountId";
   return self;
 }
 
-- (instancetype)initWithString:(NSString *)tokenString {
+- (instancetype _Nullable)initWithString:(NSString *)tokenString {
   self = [super init];
   if (self) {
     NSData *jsonData = [tokenString dataUsingEncoding:NSUTF8StringEncoding];
