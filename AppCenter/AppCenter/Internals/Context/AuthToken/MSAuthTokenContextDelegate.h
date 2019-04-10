@@ -28,6 +28,14 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)authTokenContext:(MSAuthTokenContext *)authTokenContext didUpdateUserInformation:(nullable MSUserInformation *)userInformation;
 
+/**
+ * A callback that is called when a token needs to be refreshed.
+ *
+ * @param authTokenContext The auth token context.
+ * @param accountId The accountId of the auth token that expires soon and needs to be refreshed.
+ */
+- (void)authTokenContext:(MSAuthTokenContext *)authTokenContext refreshAuthTokenForAccountId:(nullable NSString *)accountId;
+
 @end
 
 NS_ASSUME_NONNULL_END

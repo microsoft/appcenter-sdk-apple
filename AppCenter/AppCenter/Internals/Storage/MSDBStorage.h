@@ -19,7 +19,8 @@ NS_ASSUME_NONNULL_BEGIN
  *           ...
  *        };
  */
-typedef NSDictionary<NSString *, NSArray<NSDictionary<NSString *, NSArray<NSString *> *> *> *> MSDBSchema;
+typedef NSArray<NSDictionary<NSString *, NSArray<NSString *> *> *> MSDBColumnsSchema;
+typedef NSDictionary<NSString *, MSDBColumnsSchema *> MSDBSchema;
 
 // SQLite types
 static NSString *const kMSSQLiteTypeText = @"TEXT";
@@ -79,6 +80,45 @@ static NSString *const kMSSQLiteConstraintAutoincrement = @"AUTOINCREMENT";
  * @return Database tables columns indexes.
  */
 + (NSDictionary *)columnsIndexes:(MSDBSchema *)schema;
+
+/**
+ * Creates a table within an existing database.
+ *
+ * @param tableName Table name.
+ * @param columnsSchema Schema describing the columns structure.
+ *
+ * @return YES if table is created or already exists, NO otherwise.
+ */
+- (BOOL)createTable:(NSString *)tableName columnsSchema:(MSDBColumnsSchema *)columnsSchema;
+
+/**
+ * Creates a table within an existing database with unique columns constraint.
+ *
+ * @param tableName Table name.
+ * @param columnsSchema Schema describing the columns structure.
+ * @param uniqueColumns The name of the columns where the combination of the columns is unique.
+ *
+ * @discussion The combination of the columns (not individual columns) forms a unique contraint on the table.
+ * @return YES if table is created or already exists, NO otherwise.
+ */
+- (BOOL)createTable:(NSString *)tableName
+              columnsSchema:(MSDBColumnsSchema *)columnsSchema
+    uniqueColumnsConstraint:(nullable NSArray<NSString *> *)uniqueColumns;
+
+/**
+ * Deletes table within an existing database
+ *
+ * @param tableName Name of the table to delete.
+ *
+ * @return operation status.
+ */
+- (BOOL)dropTable:(NSString *)tableName;
+
+/**
+ * Deletes all the tables within an existing database
+ *
+ */
+- (void)dropAllTables;
 
 /**
  * Set the maximum size of the internal storage. This method must be called before App Center is started.

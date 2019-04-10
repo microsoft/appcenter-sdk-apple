@@ -4,9 +4,10 @@
 #import <Foundation/Foundation.h>
 
 #import "MSTestFrameworks.h"
-#import "MSTokenResult.h"
+#import "MSTokenResultPrivate.h"
 #import "MSTokensResponse.h"
 
+// FIXME: use actual constants instead of redefining them here.
 static NSString *const kMSPartition = @"partition";
 static NSString *const kMSToken = @"token";
 static NSString *const kMSStatus = @"status";
@@ -14,6 +15,7 @@ static NSString *const kMSDbName = @"dbName";
 static NSString *const kMSDbAccount = @"dbAccount";
 static NSString *const kMSDbCollectionName = @"dbCollectionName";
 static NSString *const kMSExpiresOn = @"expiresOn";
+static NSString *const kMSAccountId = @"accountId";
 
 static NSString *const partitionName = @"TestAppSecret";
 static NSString *const token = @"mockToken";
@@ -22,6 +24,7 @@ static NSString *const dbName = @"mockDB";
 static NSString *const dbAccount = @"mockAccount";
 static NSString *const dbCollectionName = @"mockDBCollection";
 static NSString *const expiresOn = @"mockDate";
+static NSString *const accountId = @"someAccountID123";
 
 @interface MSTokenTests : XCTestCase
 
@@ -46,7 +49,8 @@ static NSString *const expiresOn = @"mockDate";
                                                   dbCollectionName:dbCollectionName
                                                              token:token
                                                             status:status
-                                                         expiresOn:expiresOn];
+                                                         expiresOn:expiresOn
+                                                         accountId:kMSAccountId];
 
   // Then
   [self compareWithTokenObject:result];
@@ -181,6 +185,21 @@ static NSString *const expiresOn = @"mockDate";
   [self compareTokenObject:result andDictinary:tokenDic];
 }
 
+- (void)testConvertToDictionary {
+
+  // If
+  MSTokenResult *token1 = [[MSTokenResult alloc] initWithDictionary:(NSDictionary *)[self getDefaultTokenData]];
+  MSTokenResult *token2 = [[MSTokenResult alloc] initWithDictionary:(NSDictionary *)[self getUpdateTokenData]];
+
+  // When
+  NSDictionary *dictionary1 = [token1 convertToDictionary];
+  NSDictionary *dictionary2 = [token2 convertToDictionary];
+
+  // Then
+  [self compareTokenObject:token1 andDictinary:dictionary1];
+  [self compareTokenObject:token2 andDictinary:dictionary2];
+}
+
 #pragma mark - Helper methods
 
 - (NSObject *)getDefaultTokenData {
@@ -191,7 +210,8 @@ static NSString *const expiresOn = @"mockDate";
     kMSDbName : dbName,
     kMSDbAccount : dbAccount,
     kMSDbCollectionName : dbCollectionName,
-    kMSExpiresOn : expiresOn
+    kMSExpiresOn : expiresOn,
+    kMSAccountId : accountId
   };
 }
 
@@ -242,5 +262,10 @@ static NSString *const expiresOn = @"mockDate";
   XCTAssertEqualObjects(tokenDic[kMSDbAccount], tokenResult.dbAccount);
   XCTAssertEqualObjects(tokenDic[kMSDbCollectionName], tokenResult.dbCollectionName);
   XCTAssertEqualObjects(tokenDic[kMSExpiresOn], tokenResult.expiresOn);
+  if (tokenDic[kMSAccountId] == [NSNull null]) {
+    XCTAssertNil(tokenResult.accountId);
+  } else {
+    XCTAssertEqualObjects(tokenDic[kMSAccountId], tokenResult.accountId);
+  }
 }
 @end
