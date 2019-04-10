@@ -48,10 +48,10 @@
 
 - (void)tearDown {
   [MSAuthTokenContext resetSharedInstance];
-  [super tearDown];
   [self.settingsMock stopMocking];
   [self.utilityMock stopMocking];
   [self.keychainUtilMock stopMocking];
+  [super tearDown];
 }
 
 #pragma mark - Tests

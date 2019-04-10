@@ -5,6 +5,8 @@
 
 #import "MSAlertController.h"
 #import "MSAppCenterInternal.h"
+#import "MSAuthTokenContext.h"
+#import "MSAuthTokenContextPrivate.h"
 #import "MSBasicMachOParser.h"
 #import "MSChannelGroupDefault.h"
 #import "MSDistribute.h"
@@ -126,8 +128,9 @@ static NSURL *sfURL;
   [MSMockReachability setCurrentNetworkStatus:ReachableViaWiFi];
   self.reachabilityMock = [MSMockReachability startMocking];
 
-  // Clear all previous sessions
+  // Clear all previous sessions and tokens.
   [MSSessionContext resetSharedInstance];
+  [MSAuthTokenContext resetSharedInstance];
 }
 
 - (void)tearDown {
@@ -1825,6 +1828,7 @@ static NSURL *sfURL;
   XCTAssertEqual(startUpdateCounter, 3);
 
   // Clear
+  [appCenterMock stopMocking];
   [notificationCenterMock stopMocking];
   [distributeMock stopMocking];
 }
