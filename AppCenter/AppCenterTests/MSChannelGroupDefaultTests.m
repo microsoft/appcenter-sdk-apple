@@ -39,12 +39,34 @@
                                                                  batchSizeLimit:batchSizeLimit
                                                             pendingBatchesLimit:pendingBatchesLimit];
   self.sut = [[MSChannelGroupDefault alloc] initWithIngestion:self.ingestionMock];
-  self.sut.logsDispatchQueue = dispatch_get_main_queue();
+
+  /*
+   * dispatch_get_main_queue isn't good option for slogsDispatchQueue because
+   * we can't clear pending actions from it after the test. It can cause usages of stopped mocks.
+   *
+   * Keep the serial queue that created during the initialization.
+   */
 }
 
 - (void)tearDown {
-  [super tearDown];
+
+  // Wait all tasks in tests.
+  XCTestExpectation *expectation = [self expectationWithDescription:@"tearDown"];
+  dispatch_async(self.sut.logsDispatchQueue, ^{
+
+    /*
+     * Prevent the execution of any blocks that have been enqueue. It happens when
+     * we call dispatch_async from logsDispatchQueue.
+     * There is no API to clear this queue, so we should suspend it at least.
+     */
+    dispatch_suspend(self.sut.logsDispatchQueue);
+    [expectation fulfill];
+  });
+  [self waitForExpectations:@[ expectation ] timeout:1];
+
+  // Stop mocks.
   [self.ingestionMock stopMocking];
+  [super tearDown];
 }
 
 #pragma mark - Tests
@@ -173,7 +195,6 @@
 - (void)testChannelUnitIsCorrectlyInitialized {
 
   // If
-  XCTestExpectation *expectation = [self expectationWithDescription:@"Flush executed"];
   id channelUnitMock = OCMClassMock([MSChannelUnitDefault class]);
   OCMStub([channelUnitMock alloc]).andReturn(channelUnitMock);
   OCMStub([channelUnitMock initWithIngestion:OCMOCK_ANY storage:OCMOCK_ANY configuration:OCMOCK_ANY logsDispatchQueue:OCMOCK_ANY])
@@ -184,11 +205,8 @@
 
   // Then
   OCMVerify([channelUnitMock addDelegate:(id<MSChannelDelegate>)self.sut]);
-  dispatch_async(self.sut.logsDispatchQueue, ^{
-    OCMVerify([channelUnitMock flushQueue]);
-    [expectation fulfill];
-  });
-  [self waitForExpectations:@[expectation] timeout:1];
+  [self waitForLogsDispatchQueue];
+  OCMVerify([channelUnitMock flushQueue]);
 
   // Clear
   [channelUnitMock stopMocking];
@@ -442,6 +460,16 @@
 
   // Clear
   [channelUnitMock stopMocking];
+}
+
+#pragma mark - Helper
+
+- (void)waitForLogsDispatchQueue {
+  XCTestExpectation *expectation = [self expectationWithDescription:@"Logs dispatch queue"];
+  dispatch_async(self.sut.logsDispatchQueue, ^{
+    [expectation fulfill];
+  });
+  [self waitForExpectations:@[expectation] timeout:1];
 }
 
 @end
