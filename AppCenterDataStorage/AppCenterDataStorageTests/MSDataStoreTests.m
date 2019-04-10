@@ -986,10 +986,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   id<MSDocumentStore> localStorageMock = OCMProtocolMock(@protocol(MSDocumentStore));
   self.sut.documentStore = localStorageMock;
   MSDocumentWrapper *expectedDocument = [MSDocumentWrapper new];
-  OCMStub([localStorageMock readWithPartition:[MSDataStoreTests fullTestPartitionName]
-                                   documentId:OCMOCK_ANY
-                                 documentType:OCMOCK_ANY
-                                  readOptions:OCMOCK_ANY])
+  OCMStub([localStorageMock readWithToken:tokenResult documentId:OCMOCK_ANY documentType:OCMOCK_ANY readOptions:OCMOCK_ANY])
       .andReturn(expectedDocument);
 
   // When
@@ -1072,10 +1069,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   self.sut.documentStore = localStorageMock;
   MSDocumentWrapper *expectedDocument = [MSDocumentWrapper new];
   expectedDocument.pendingOperation = kMSPendingOperationCreate;
-  OCMStub([localStorageMock readWithPartition:[MSDataStoreTests fullTestPartitionName]
-                                   documentId:OCMOCK_ANY
-                                 documentType:OCMOCK_ANY
-                                  readOptions:OCMOCK_ANY])
+  OCMStub([localStorageMock readWithToken:testToken documentId:OCMOCK_ANY documentType:OCMOCK_ANY readOptions:OCMOCK_ANY])
       .andReturn(expectedDocument);
 
   // When
@@ -1115,10 +1109,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   self.sut.documentStore = localStorageMock;
   MSDocumentWrapper *expectedDocument = [MSDocumentWrapper new];
   expectedDocument.pendingOperation = kMSPendingOperationCreate;
-  OCMStub([localStorageMock readWithPartition:[MSDataStoreTests fullTestPartitionName]
-                                   documentId:OCMOCK_ANY
-                                 documentType:OCMOCK_ANY
-                                  readOptions:OCMOCK_ANY])
+  OCMStub([localStorageMock readWithToken:tokenResult documentId:OCMOCK_ANY documentType:OCMOCK_ANY readOptions:OCMOCK_ANY])
       .andReturn(expectedDocument);
 
   // When
@@ -1159,10 +1150,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   self.sut.documentStore = localStorageMock;
   MSDocumentWrapper *expectedDocument = [MSDocumentWrapper new];
   expectedDocument.pendingOperation = kMSPendingOperationReplace;
-  OCMStub([localStorageMock readWithPartition:[MSDataStoreTests fullTestPartitionName]
-                                   documentId:OCMOCK_ANY
-                                 documentType:OCMOCK_ANY
-                                  readOptions:OCMOCK_ANY])
+  OCMStub([localStorageMock readWithToken:tokenResult documentId:OCMOCK_ANY documentType:OCMOCK_ANY readOptions:OCMOCK_ANY])
       .andReturn(expectedDocument);
 
   // When
@@ -1203,10 +1191,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   self.sut.documentStore = localStorageMock;
   MSDocumentWrapper *expectedDocument = [MSDocumentWrapper new];
   expectedDocument.pendingOperation = kMSPendingOperationDelete;
-  OCMStub([localStorageMock readWithPartition:[MSDataStoreTests fullTestPartitionName]
-                                   documentId:OCMOCK_ANY
-                                 documentType:OCMOCK_ANY
-                                  readOptions:OCMOCK_ANY])
+  OCMStub([localStorageMock readWithToken:tokenResult documentId:OCMOCK_ANY documentType:OCMOCK_ANY readOptions:OCMOCK_ANY])
       .andReturn(expectedDocument);
 
   // When
@@ -1250,10 +1235,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   id<MSDocumentStore> localStorageMock = OCMProtocolMock(@protocol(MSDocumentStore));
   self.sut.documentStore = localStorageMock;
   MSDocumentWrapper *expiredDocument = [[MSDocumentWrapper alloc] initWithError:expiredError documentId:@"4"];
-  OCMStub([localStorageMock readWithPartition:[MSDataStoreTests fullTestPartitionName]
-                                   documentId:OCMOCK_ANY
-                                 documentType:OCMOCK_ANY
-                                  readOptions:OCMOCK_ANY])
+  OCMStub([localStorageMock readWithToken:tokenResult documentId:OCMOCK_ANY documentType:OCMOCK_ANY readOptions:OCMOCK_ANY])
       .andReturn(expiredDocument);
 
   // Mock CosmosDB requests.
@@ -1319,10 +1301,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                                                                        documentType:[MSDictionaryDocument class]]);
 
   OCMStub(localDocumentWrapper.eTag).andReturn(@"some other etag");
-  OCMStub([localStorageMock readWithPartition:[MSDataStoreTests fullTestPartitionName]
-                                   documentId:OCMOCK_ANY
-                                 documentType:OCMOCK_ANY
-                                  readOptions:OCMOCK_ANY])
+  OCMStub([localStorageMock readWithToken:tokenResult documentId:OCMOCK_ANY documentType:OCMOCK_ANY readOptions:OCMOCK_ANY])
       .andReturn(localDocumentWrapper);
 
   // Mock CosmosDB requests.
@@ -1378,10 +1357,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   id<MSDocumentStore> localStorageMock = OCMProtocolMock(@protocol(MSDocumentStore));
   self.sut.documentStore = localStorageMock;
   MSDocumentWrapper *expiredDocument = [[MSDocumentWrapper alloc] initWithError:expiredError documentId:@"4"];
-  OCMStub([localStorageMock readWithPartition:[MSDataStoreTests fullTestPartitionName]
-                                   documentId:OCMOCK_ANY
-                                 documentType:OCMOCK_ANY
-                                  readOptions:OCMOCK_ANY])
+  OCMStub([localStorageMock readWithToken:tokenResult documentId:OCMOCK_ANY documentType:OCMOCK_ANY readOptions:OCMOCK_ANY])
       .andReturn(expiredDocument);
 
   // When

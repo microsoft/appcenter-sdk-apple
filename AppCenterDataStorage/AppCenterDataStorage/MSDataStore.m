@@ -245,7 +245,9 @@ static dispatch_once_t onceToken;
                                documentType:documentType
                                 readOptions:readOptions
                           completionHandler:^(MSDocumentWrapper *_Nonnull document) {
-                            if ([self.reachability currentReachabilityStatus] == NotReachable || document.pendingOperation) {
+                            if ([self.reachability currentReachabilityStatus] == NotReachable) {
+                              completionHandler(document);
+                            } else if (document.pendingOperation) {
                               completionHandler(document);
                             } else {
                               [self readFromCosmosDbWithPartition:partition
@@ -288,11 +290,10 @@ static dispatch_once_t onceToken;
 
                                  // Run the operation in a dispatch queue.
                                  dispatch_async(self.dispatchQueue, ^{
-                                   NSString *fullPartitionName = tokenResponse.tokens[0].partition;
-                                   MSDocumentWrapper *documentWrapper = [self.documentStore readWithPartition:fullPartitionName
-                                                                                                   documentId:documentId
-                                                                                                 documentType:documentType
-                                                                                                  readOptions:readOptions];
+                                   MSDocumentWrapper *documentWrapper = [self.documentStore readWithToken:tokenResponse.tokens[0]
+                                                                                               documentId:documentId
+                                                                                             documentType:documentType
+                                                                                              readOptions:readOptions];
                                    if ([documentWrapper.pendingOperation isEqualToString:kMSPendingOperationDelete]) {
                                      NSError *notFoundError = [[NSError alloc]
                                          initWithDomain:kMSACDataStoreErrorDomain
@@ -306,6 +307,7 @@ static dispatch_once_t onceToken;
                                    completionHandler(documentWrapper);
                                  });
                                }];
+  return;
 }
 
 - (void)readFromCosmosDbWithPartition:(NSString *)partition
@@ -330,6 +332,7 @@ static dispatch_once_t onceToken;
 
                      // Deserialize.
                      completionHandler([MSDocumentUtils documentWrapperFromData:data documentType:documentType]);
+                     return;
                    }];
 }
 
