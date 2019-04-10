@@ -9,11 +9,11 @@
 #import "MSChannelGroupDefaultPrivate.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitDefault.h"
+#import "MSDispatchTestUtil.h"
 #import "MSIngestionProtocol.h"
 #import "MSMockLog.h"
 #import "MSStorage.h"
 #import "MSTestFrameworks.h"
-#import "MSDispatchTestUtil.h"
 
 @interface MSChannelGroupDefaultTests : XCTestCase
 

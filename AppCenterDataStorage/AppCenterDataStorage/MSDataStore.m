@@ -290,11 +290,10 @@ static dispatch_once_t onceToken;
 
                                  // Run the operation in a dispatch queue.
                                  dispatch_async(self.dispatchQueue, ^{
-                                   NSString *fullPartitionName = tokenResponse.tokens[0].partition;
-                                   MSDocumentWrapper *documentWrapper = [self.documentStore readWithPartition:fullPartitionName
-                                                                                                   documentId:documentId
-                                                                                                 documentType:documentType
-                                                                                                  readOptions:readOptions];
+                                   MSDocumentWrapper *documentWrapper = [self.documentStore readWithToken:tokenResponse.tokens[0]
+                                                                                               documentId:documentId
+                                                                                             documentType:documentType
+                                                                                              readOptions:readOptions];
                                    if ([documentWrapper.pendingOperation isEqualToString:kMSPendingOperationDelete]) {
                                      NSError *notFoundError = [[NSError alloc]
                                          initWithDomain:kMSACDataStoreErrorDomain

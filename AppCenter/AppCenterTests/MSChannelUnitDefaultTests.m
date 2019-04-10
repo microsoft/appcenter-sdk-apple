@@ -13,6 +13,7 @@
 #import "MSChannelUnitDefault.h"
 #import "MSChannelUnitDefaultPrivate.h"
 #import "MSDevice.h"
+#import "MSDispatchTestUtil.h"
 #import "MSHttpIngestion.h"
 #import "MSHttpTestUtil.h"
 #import "MSLogContainer.h"
@@ -21,7 +22,6 @@
 #import "MSTestFrameworks.h"
 #import "MSUserIdContext.h"
 #import "MSUtility.h"
-#import "MSDispatchTestUtil.h"
 
 static NSString *const kMSTestGroupId = @"GroupId";
 

@@ -3,6 +3,9 @@
 
 #import <Foundation/Foundation.h>
 
+// FIXME: Uncomment next line and fix implementation.
+// NS_ASSUME_NONNULL_BEGIN
+
 @interface MSTokenResult : NSObject
 
 /**
@@ -87,3 +90,5 @@
 - (NSString *)serializeToString;
 
 @end
+
+// NS_ASSUME_NONNULL_END
