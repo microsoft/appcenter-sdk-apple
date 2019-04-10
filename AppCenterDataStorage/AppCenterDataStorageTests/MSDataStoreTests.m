@@ -896,7 +896,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   OCMStub([httpClient new]).andReturn(httpClient);
   self.sut.httpClient = httpClient;
   id msTokenEchange = OCMClassMock([MSTokenExchange class]);
-  OCMStub([msTokenEchange retrieveCachedToken:[OCMArg any] expiredTokenIncluded:NO])
+  OCMStub([msTokenEchange retrieveCachedTokenForPartition:[OCMArg any] includeExpiredToken:NO])
       .andReturn([[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]]);
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@"List single document"];
 
@@ -968,7 +968,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   self.sut.httpClient = httpClient;
   id msTokenEchange = OCMClassMock([MSTokenExchange class]);
   MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
-  OCMStub([msTokenEchange retrieveCachedToken:[OCMArg any] expiredTokenIncluded:NO]).andReturn(tokenResult);
+  OCMStub([msTokenEchange retrieveCachedTokenForPartition:[OCMArg any] includeExpiredToken:NO]).andReturn(tokenResult);
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@"List first page"];
   NSMutableDictionary *continuationHeaders = [NSMutableDictionary new];
   continuationHeaders[@"x-ms-continuation"] = @"continuation token";
@@ -1051,7 +1051,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // Mock cached token result.
   MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
-  OCMStub([self.tokenExchangeMock retrieveCachedToken:kMSPartitionTest expiredTokenIncluded:YES]).andReturn(tokenResult);
+  OCMStub([self.tokenExchangeMock retrieveCachedTokenForPartition:kMSPartitionTest includeExpiredToken:YES]).andReturn(tokenResult);
 
   // Mock local storage.
   id<MSDocumentStore> localStorageMock = OCMProtocolMock(@protocol(MSDocumentStore));
@@ -1173,7 +1173,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // Mock cached token result.
   MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
-  OCMStub([self.tokenExchangeMock retrieveCachedToken:kMSPartitionTest expiredTokenIncluded:YES]).andReturn(tokenResult);
+  OCMStub([self.tokenExchangeMock retrieveCachedTokenForPartition:kMSPartitionTest includeExpiredToken:YES]).andReturn(tokenResult);
 
   // Mock local storage.
   id<MSDocumentStore> localStorageMock = OCMProtocolMock(@protocol(MSDocumentStore));
@@ -1214,7 +1214,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // Mock cached token result.
   MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
-  OCMStub([self.tokenExchangeMock retrieveCachedToken:kMSPartitionTest expiredTokenIncluded:YES]).andReturn(tokenResult);
+  OCMStub([self.tokenExchangeMock retrieveCachedTokenForPartition:kMSPartitionTest includeExpiredToken:YES]).andReturn(tokenResult);
 
   // Mock local storage.
   id<MSDocumentStore> localStorageMock = OCMProtocolMock(@protocol(MSDocumentStore));
@@ -1255,7 +1255,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // Mock cached token result.
   MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
-  OCMStub([self.tokenExchangeMock retrieveCachedToken:kMSPartitionTest expiredTokenIncluded:YES]).andReturn(tokenResult);
+  OCMStub([self.tokenExchangeMock retrieveCachedTokenForPartition:kMSPartitionTest includeExpiredToken:YES]).andReturn(tokenResult);
 
   // Mock local storage.
   id<MSDocumentStore> localStorageMock = OCMProtocolMock(@protocol(MSDocumentStore));
@@ -1298,8 +1298,8 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // Mock cached token result.
   MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
-  OCMStub([self.tokenExchangeMock retrieveCachedToken:kMSPartitionTest expiredTokenIncluded:YES]).andReturn(tokenResult);
-  OCMStub([self.tokenExchangeMock retrieveCachedToken:kMSPartitionTest expiredTokenIncluded:NO]).andReturn(tokenResult);
+  OCMStub([self.tokenExchangeMock retrieveCachedTokenForPartition:kMSPartitionTest includeExpiredToken:YES]).andReturn(tokenResult);
+  OCMStub([self.tokenExchangeMock retrieveCachedTokenForPartition:kMSPartitionTest includeExpiredToken:NO]).andReturn(tokenResult);
 
   // Mock expired document in local storage.
   NSError *expiredError = [NSError errorWithDomain:kMSACDataStoreErrorDomain code:MSACDataStoreErrorLocalDocumentExpired userInfo:nil];
@@ -1358,8 +1358,8 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // Mock cached token result.
   MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
-  OCMStub([self.tokenExchangeMock retrieveCachedToken:kMSPartitionTest expiredTokenIncluded:YES]).andReturn(tokenResult);
-  OCMStub([self.tokenExchangeMock retrieveCachedToken:kMSPartitionTest expiredTokenIncluded:NO]).andReturn(tokenResult);
+  OCMStub([self.tokenExchangeMock retrieveCachedTokenForPartition:kMSPartitionTest includeExpiredToken:YES]).andReturn(tokenResult);
+  OCMStub([self.tokenExchangeMock retrieveCachedTokenForPartition:kMSPartitionTest includeExpiredToken:NO]).andReturn(tokenResult);
 
   // Mock document in local storage.
   id<MSDocumentStore> localStorageMock = OCMProtocolMock(@protocol(MSDocumentStore));
@@ -1416,7 +1416,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // Mock cached token result.
   MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
-  OCMStub([self.tokenExchangeMock retrieveCachedToken:kMSPartitionTest expiredTokenIncluded:YES]).andReturn(tokenResult);
+  OCMStub([self.tokenExchangeMock retrieveCachedTokenForPartition:kMSPartitionTest includeExpiredToken:YES]).andReturn(tokenResult);
 
   // Simulate being offline.
   MS_Reachability *reachabilityMock = OCMPartialMock([MS_Reachability reachabilityForInternetConnection]);
