@@ -70,20 +70,17 @@ static const NSUInteger kMSSchemaVersion = 1;
   // If device time to live is set to infinite, set expiration time as null in the database.
   // Note: If the cache/store is meant to be disabled, this method should not even be called.
   NSDate *now = [NSDate date];
-  NSString *isoExpirationTime;
+  NSTimeInterval expirationTime = -1;
   if (options.deviceTimeToLive != MSDataStoreTimeToLiveInfinite) {
-    isoExpirationTime =
-        [NSString stringWithFormat:@"\"%@\"", [MSUtility dateToISO8601:[now dateByAddingTimeInterval:options.deviceTimeToLive]]];
-  } else {
-    isoExpirationTime = @"NULL";
+    expirationTime = [[NSDate dateWithTimeIntervalSinceNow:options.deviceTimeToLive] timeIntervalSince1970];
   }
   NSString *tableName = [MSDBDocumentStore tableNameForPartition:token.partition];
   NSString *insertQuery = [NSString
       stringWithFormat:@"REPLACE INTO \"%@\" (\"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\") "
-                       @"VALUES ('%@', '%@', '%@', '%@', %@, '%@', '%@', '%@')",
+                           @"VALUES ('%@', '%@', '%@', '%@', %ld, '%@', '%@', '%@')",
                        tableName, kMSPartitionColumnName, kMSDocumentIdColumnName, kMSDocumentColumnName, kMSETagColumnName,
                        kMSExpirationTimeColumnName, kMSDownloadTimeColumnName, kMSOperationTimeColumnName, kMSPendingOperationColumnName,
-                       token.partition, documentWrapper.documentId, documentWrapper.jsonValue, documentWrapper.eTag, isoExpirationTime,
+                       token.partition, documentWrapper.documentId, documentWrapper.jsonValue, documentWrapper.eTag, (long)expirationTime,
                        [MSUtility dateToISO8601:documentWrapper.lastUpdatedDate], [MSUtility dateToISO8601:now], operation];
   int result = [self.dbStorage executeNonSelectionQuery:insertQuery];
   if (result != SQLITE_OK) {
@@ -130,19 +127,20 @@ static const NSUInteger kMSSchemaVersion = 1;
   }
 
   // If the document is expired, return an error and delete it.
-  NSDate *expirationTime = result[0][self.expirationTimeColumnIndex] == [NSNull null]
-                               ? nil
-                               : [MSUtility dateFromISO8601:result[0][self.expirationTimeColumnIndex]];
-  NSDate *currentDate = [NSDate date];
-  if (expirationTime && [expirationTime laterDate:currentDate] == currentDate) {
-    NSString *errorMessage = [NSString stringWithFormat:@"Local document with partition key '%@' and document ID '%@' expired at %@",
-                                                        token.partition, documentId, expirationTime];
-    MSLogWarning([MSDataStore logTag], @"%@", errorMessage);
-    NSError *error = [[NSError alloc] initWithDomain:kMSACDataStoreErrorDomain
-                                                code:MSACDataStoreErrorLocalDocumentExpired
-                                            userInfo:@{NSLocalizedDescriptionKey : errorMessage}];
-    [self deleteWithToken:token documentId:documentId];
-    return [[MSDocumentWrapper alloc] initWithError:error documentId:documentId];
+  long expirationTime = [((NSNumber *)(result[0][self.expirationTimeColumnIndex])) longValue];
+  if (expirationTime != MSDataStoreTimeToLiveInfinite) {
+    NSDate *expirationDate = [NSDate dateWithTimeIntervalSince1970:expirationTime];
+    NSDate *currentDate = [NSDate date];
+    if (expirationDate && [expirationDate laterDate:currentDate] == currentDate) {
+      NSString *errorMessage = [NSString stringWithFormat:@"Local document with partition key '%@' and document ID '%@' expired at %@",
+                                token.partition, documentId, expirationDate];
+      MSLogWarning([MSDataStore logTag], @"%@", errorMessage);
+      NSError *error = [[NSError alloc] initWithDomain:kMSACDataStoreErrorDomain
+                                                  code:MSACDataStoreErrorLocalDocumentExpired
+                                              userInfo:@{NSLocalizedDescriptionKey : errorMessage}];
+      [self deleteWithToken:token documentId:documentId];
+      return [[MSDocumentWrapper alloc] initWithError:error documentId:documentId];
+    }
   }
 
   // Deserialize.
