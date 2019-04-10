@@ -19,12 +19,6 @@
                        andEndTime:(nullable NSDate *)endTime;
 @end
 
-@interface MSAuthTokenContext ()
-
-+ (void)resetSharedInstance;
-
-@end
-
 @interface MSAuthTokenContextTests : XCTestCase
 
 @property(nonatomic) MSAuthTokenContext *sut;
