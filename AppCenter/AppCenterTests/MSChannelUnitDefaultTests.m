@@ -38,7 +38,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
 @property(nonatomic) dispatch_queue_t logsDispatchQueue;
 
-@property(nonatomic) MSChannelUnitConfiguration *configMock;
+@property(nonatomic) id configMock;
 
 @property(nonatomic) id<MSStorage> storageMock;
 
@@ -77,13 +77,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
 - (void)tearDown {
   [super tearDown];
-
-  // Wait all tasks in tests.
-  XCTestExpectation *expectation = [self expectationWithDescription:@"tearDown"];
-  dispatch_async(self.logsDispatchQueue, ^{
-    [expectation fulfill];
-  });
-  [self waitForExpectations:@[ expectation ] timeout:1];
+  [self.configMock stopMocking];
 }
 
 #pragma mark - Tests
@@ -325,7 +319,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
   // If
   [self initChannelEndJobExpectation];
-  self.configMock = [[MSChannelUnitConfiguration alloc] initWithGroupId:kMSTestGroupId
+  id configMock = [[MSChannelUnitConfiguration alloc] initWithGroupId:kMSTestGroupId
                                                                priority:MSPriorityDefault
                                                           flushInterval:5
                                                          batchSizeLimit:10
@@ -334,7 +328,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   OCMStub([self.storageMock saveLog:OCMOCK_ANY withGroupId:OCMOCK_ANY flags:MSFlagsDefault]).andReturn(NO);
   self.sut = [[MSChannelUnitDefault alloc] initWithIngestion:self.ingestionMock
                                                      storage:self.storageMock
-                                               configuration:self.configMock
+                                               configuration:configMock
                                            logsDispatchQueue:self.logsDispatchQueue];
   id channelUnitMock = OCMPartialMock(self.sut);
   OCMReject([channelUnitMock checkPendingLogs]);
@@ -1123,9 +1117,12 @@ static NSString *const kMSTestGroupId = @"GroupId";
   // If
   __weak NSObject *weakObject = nil;
   @autoreleasepool {
-    NSObject *object = [NSObject new];
-    weakObject = object;
-    // Ignore arc-repeated-use-of-weak warning in this scope to simulate dealloc.
+
+// Ignore warning on weak variable usage in this scope to simulate dealloc.
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-unsafe-retained-assign"
+    weakObject = [NSObject new];
+#pragma clang diagnostic pop
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-repeated-use-of-weak"
     [self.sut pauseWithIdentifyingObjectSync:weakObject];

@@ -16,7 +16,7 @@
 
 @interface MSChannelGroupDefaultTests : XCTestCase
 
-@property(nonatomic) MSAppCenterIngestion *ingestionMock;
+@property(nonatomic) id ingestionMock;
 
 @property(nonatomic) MSChannelUnitConfiguration *validConfiguration;
 
@@ -39,18 +39,12 @@
                                                                  batchSizeLimit:batchSizeLimit
                                                             pendingBatchesLimit:pendingBatchesLimit];
   self.sut = [[MSChannelGroupDefault alloc] initWithIngestion:self.ingestionMock];
+  self.sut.logsDispatchQueue = dispatch_get_main_queue();
 }
 
 - (void)tearDown {
   [super tearDown];
-
-  // Wait all tasks in tests.
-  XCTestExpectation *expectation = [self expectationWithDescription:@"tearDown"];
-  dispatch_async(self.sut.logsDispatchQueue, ^{
-    dispatch_suspend(self.sut.logsDispatchQueue);
-    [expectation fulfill];
-  });
-  [self waitForExpectations:@[ expectation ] timeout:1];
+  [self.ingestionMock stopMocking];
 }
 
 #pragma mark - Tests
@@ -158,8 +152,6 @@
 
   // Then
   OCMVerify([self.ingestionMock setEnabled:YES andDeleteDataOnDisabled:NO]);
-  dispatch_sync(self.sut.logsDispatchQueue, ^{
-                });
   OCMVerify([channelMock resumeWithIdentifyingObject:token]);
 }
 
@@ -175,14 +167,13 @@
 
   // Then
   OCMVerify([self.ingestionMock setEnabled:NO andDeleteDataOnDisabled:NO]);
-  dispatch_sync(self.sut.logsDispatchQueue, ^{
-                });
   OCMVerify([channelMock pauseWithIdentifyingObject:identifyingObject]);
 }
 
 - (void)testChannelUnitIsCorrectlyInitialized {
 
   // If
+  XCTestExpectation *expectation = [self expectationWithDescription:@"Flush executed"];
   id channelUnitMock = OCMClassMock([MSChannelUnitDefault class]);
   OCMStub([channelUnitMock alloc]).andReturn(channelUnitMock);
   OCMStub([channelUnitMock initWithIngestion:OCMOCK_ANY storage:OCMOCK_ANY configuration:OCMOCK_ANY logsDispatchQueue:OCMOCK_ANY])
@@ -190,12 +181,14 @@
 
   // When
   [self.sut addChannelUnitWithConfiguration:self.validConfiguration];
-  dispatch_sync(self.sut.logsDispatchQueue, ^{
-                });
 
   // Then
   OCMVerify([channelUnitMock addDelegate:(id<MSChannelDelegate>)self.sut]);
-  OCMVerify([channelUnitMock flushQueue]);
+  dispatch_async(self.sut.logsDispatchQueue, ^{
+    OCMVerify([channelUnitMock flushQueue]);
+    [expectation fulfill];
+  });
+  [self waitForExpectations:@[expectation] timeout:1];
 
   // Clear
   [channelUnitMock stopMocking];
