@@ -41,7 +41,7 @@
   self.sut = [[MSChannelGroupDefault alloc] initWithIngestion:self.ingestionMock];
 
   /*
-   * dispatch_get_main_queue isn't good option for slogsDispatchQueue because
+   * dispatch_get_main_queue isn't good option for logsDispatchQueue because
    * we can't clear pending actions from it after the test. It can cause usages of stopped mocks.
    *
    * Keep the serial queue that created during the initialization.
