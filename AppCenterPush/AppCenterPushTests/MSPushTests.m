@@ -119,6 +119,29 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   XCTAssertTrue([service isEnabled]);
 }
 
+- (void)testApplyEnabledAddsAndRemovesDelegate {
+  
+  // If
+  NSUInteger expectedDelegateCount = [[MSUserIdContext sharedInstance] delegates].count;
+  [[MSPush sharedInstance] startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
+                                       appSecret:kMSTestAppSecret
+                         transmissionTargetToken:nil
+                                 fromApplication:YES];
+  MSServiceAbstract *service = (MSServiceAbstract *)[MSPush sharedInstance];
+  
+  // When
+  [service setEnabled:YES];
+  
+  // Then
+  XCTAssertEqual([[MSUserIdContext sharedInstance] delegates].count, expectedDelegateCount+1);
+  
+  // When
+  [service setEnabled:NO];
+  
+  // Then
+  XCTAssertEqual([[MSUserIdContext sharedInstance] delegates].count, expectedDelegateCount);
+}
+
 - (void)testInitializationPriorityCorrect {
 
   // Then
