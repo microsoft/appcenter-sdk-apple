@@ -3,6 +3,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface MSTokenResult : NSObject
 
 /**
@@ -78,12 +80,19 @@
 /**
  * Initialize the Token result object
  *
- * @param tokens A dictionary the token properties
+ * @param token A dictionary the token properties
  *
  * @return A token response instance.
  */
-- (instancetype)initWithDictionary:(NSDictionary *)tokens;
+- (instancetype)initWithDictionary:(NSDictionary *)token;
 
-- (NSString *)serializeToString;
+/**
+ * Serialize the token has a string.
+ *
+ * @return The serialized token (or nil in case of error).
+ */
+- (NSString *_Nullable)serializeToString;
 
 @end
+
+NS_ASSUME_NONNULL_END
