@@ -100,7 +100,9 @@ static dispatch_once_t onceToken;
     synchronizedDelegates = [self.delegates allObjects];
   }
   for (id<MSUserIdContextDelegate> delegate in synchronizedDelegates) {
-    [delegate userIdContext:self didUpdateUserId:userId];
+    if ([delegate respondsToSelector:@selector(userIdContext:didUpdateUserId:)]) {
+      [delegate userIdContext:self didUpdateUserId:userId];
+    }
   }
 }
 
