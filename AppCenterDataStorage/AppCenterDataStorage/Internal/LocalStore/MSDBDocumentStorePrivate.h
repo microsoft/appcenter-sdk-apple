@@ -79,6 +79,15 @@ static NSString *const kMSPendingOperationColumnName = @"pending_operation";
  */
 + (MSDBColumnsSchema *)columnsSchema;
 
+/**
+ * Return the table for a given partition.
+ *
+ * @param partition The partition.
+ *
+ * @return The table name.
+ */
++ (NSString *)tableNameForPartition:(NSString *)partition;
+
 @end
 
 NS_ASSUME_NONNULL_END
