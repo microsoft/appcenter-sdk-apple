@@ -234,7 +234,7 @@
   // When, Then
   XCTAssertFalse([MSDocumentUtils isSerializableDocument:[NSString class]]);
   XCTAssertFalse([MSDocumentUtils isSerializableDocument:object_getClass(anotherRootObject)]);
-  XCTAssertTrue([MSDocumentUtils isSerializableDocument:[MSTestDocument class]]);
+  XCTAssertTrue([MSDocumentUtils isSerializableDocument:[MSDictionaryDocument class]]);
 }
 
 @end
