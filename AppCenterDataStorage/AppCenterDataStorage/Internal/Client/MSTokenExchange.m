@@ -33,7 +33,7 @@ static NSString *const kMSGetTokenPath = @"/data/tokens";
                                  completionHandler:(MSGetTokenAsyncCompletionHandler)completionHandler {
 
   // Get the cached token if it is saved.
-  MSTokenResult *cachedToken = [MSTokenExchange retrieveCachedToken:partition];
+  MSTokenResult *cachedToken = [MSTokenExchange retrieveCachedTokenForPartition:partition includeExpiredToken:NO];
   NSURL *sendUrl = [tokenExchangeUrl URLByAppendingPathComponent:kMSGetTokenPath];
 
   // Get a fresh token from the token exchange service if the token is not cached or has expired.
@@ -144,43 +144,26 @@ static NSString *const kMSGetTokenPath = @"/data/tokens";
   }
 }
 
-/*
- * Get back the Cached Cosmos DB token
- * If the DB token has expired, that token is deleted from KeyChain
- */
-+ (MSTokenResult *_Nullable)retrieveCachedToken:(NSString *)partitionName {
-  if (partitionName) {
-    NSString *tokenString = [MSKeychainUtil stringForKey:[MSTokenExchange tokenKeyNameForPartition:partitionName]];
++ (MSTokenResult *_Nullable)retrieveCachedTokenForPartition:(NSString *)partition includeExpiredToken:(BOOL)includeExpiredToken {
+  if (partition) {
+    NSString *tokenString = [MSKeychainUtil stringForKey:[MSTokenExchange tokenKeyNameForPartition:partition]];
     if (tokenString) {
       MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithString:tokenString];
       NSDate *currentUTCDate = [NSDate date];
       NSDate *tokenExpireDate = [MSUtility dateFromISO8601:tokenResult.expiresOn];
       if ([currentUTCDate laterDate:tokenExpireDate] == currentUTCDate) {
-        [MSTokenExchange removeCachedToken:partitionName];
-        MSLogWarning([MSDataStore logTag], @"The token in the cache has expired for the partition : %@.", partitionName);
+        MSLogWarning([MSDataStore logTag], @"The token in the cache has expired for the partition : %@.", partition);
+        if (includeExpiredToken) {
+          return tokenResult;
+        }
         return nil;
       }
-      MSLogDebug([MSDataStore logTag], @"Retrieved token from keychain for the partition : %@.", partitionName);
+      MSLogDebug([MSDataStore logTag], @"Retrieved token from keychain for the partition : %@.", partition);
       return tokenResult;
     }
-    MSLogWarning([MSDataStore logTag], @"Failed to retrieve token from keychain or none was found for the partition : %@.", partitionName);
+    MSLogWarning([MSDataStore logTag], @"Failed to retrieve token from keychain or none was found for the partition : %@.", partition);
   }
   return nil;
-}
-
-/*
- * Delete the cached DB token
- */
-+ (void)removeCachedToken:(NSString *)partitionName {
-  if (partitionName) {
-    NSString *tokenString = [MSKeychainUtil deleteStringForKey:[MSTokenExchange tokenKeyNameForPartition:partitionName]];
-    if (tokenString) {
-      MSLogDebug([MSDataStore logTag], @"Removed token from keychain for the partitionKey : %@.", partitionName);
-    } else {
-      MSLogWarning([MSDataStore logTag], @"Failed to remove token from keychain or none was found for the partitionKey : %@.",
-                   partitionName);
-    }
-  }
 }
 
 /*
@@ -204,8 +187,7 @@ static NSString *const kMSGetTokenPath = @"/data/tokens";
  *       User partition : MSStorageUserDbToken
  */
 + (NSString *)tokenKeyNameForPartition:(NSString *)partitionName {
-  NSRange partition = [partitionName rangeOfString:MSDataStoreAppDocumentsPartition];
-  if (partition.location != NSNotFound) {
+  if ([partitionName isEqualToString:MSDataStoreAppDocumentsPartition]) {
     return kMSStorageReadOnlyDbTokenKey;
   }
 

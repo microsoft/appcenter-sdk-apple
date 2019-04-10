@@ -2,8 +2,6 @@
 // Licensed under the MIT License.
 
 #import "MSAppCenter.h"
-#import "MSAppCenterInternal.h"
-#import "MSAppCenterPrivate.h"
 #import "MSChannelGroupProtocol.h"
 #import "MSConstants+Internal.h"
 #import "MSCosmosDb.h"
@@ -21,7 +19,7 @@
 #import "MSServiceAbstract.h"
 #import "MSServiceAbstractProtected.h"
 #import "MSTestFrameworks.h"
-#import "MSTokenExchangePrivate.h"
+#import "MSTokenExchange.h"
 #import "MSTokenResult.h"
 #import "MSTokensResponse.h"
 #import "NSObject+MSTestFixture.h"
@@ -72,7 +70,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   self.sut = [MSDataStore sharedInstance];
   self.tokenExchangeMock = OCMClassMock([MSTokenExchange class]);
   self.cosmosDbMock = OCMClassMock([MSCosmosDb class]);
-  [MSAppCenter sharedInstance].sdkConfigured = YES;
+  [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
   [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
                         appSecret:kMSTestAppSecret
           transmissionTargetToken:nil
@@ -82,7 +80,6 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 - (void)tearDown {
   [super tearDown];
   [MSDataStore resetSharedInstance];
-  [MSAppCenter resetSharedInstance];
   [self.settingsMock stopMocking];
   [self.tokenExchangeMock stopMocking];
   [self.cosmosDbMock stopMocking];
@@ -886,7 +883,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   OCMStub([httpClient new]).andReturn(httpClient);
   self.sut.httpClient = httpClient;
   id msTokenEchange = OCMClassMock([MSTokenExchange class]);
-  OCMStub([msTokenEchange retrieveCachedToken:[OCMArg any]])
+  OCMStub([msTokenEchange retrieveCachedTokenForPartition:[OCMArg any] includeExpiredToken:NO])
       .andReturn([[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]]);
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@"List single document"];
 
@@ -957,7 +954,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   OCMStub([httpClient new]).andReturn(httpClient);
   self.sut.httpClient = httpClient;
   id msTokenEchange = OCMClassMock([MSTokenExchange class]);
-  OCMStub([msTokenEchange retrieveCachedToken:[OCMArg any]])
+  OCMStub([msTokenEchange retrieveCachedTokenForPartition:[OCMArg any] includeExpiredToken:NO])
       .andReturn([[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]]);
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@"List first page"];
   NSMutableDictionary *continuationHeaders = [NSMutableDictionary new];

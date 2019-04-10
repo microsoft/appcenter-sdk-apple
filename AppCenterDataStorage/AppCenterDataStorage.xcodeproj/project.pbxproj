@@ -129,8 +129,6 @@
 		350D453C22568E5600982E20 /* MSTokenResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 2600123D22273E94007F4D3A /* MSTokenResult.m */; };
 		351064BE22541A750009DB96 /* MSMockDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 351064BD22541A750009DB96 /* MSMockDocument.m */; };
 		351064BF22541A750009DB96 /* MSMockDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 351064BD22541A750009DB96 /* MSMockDocument.m */; };
-		35D89AF1225BD1B00076DB11 /* MSTokenExchangePrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 35D89AF0225BD1B00076DB11 /* MSTokenExchangePrivate.h */; };
-		35D89AF2225BD1B70076DB11 /* MSTokenExchangePrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 35D89AF0225BD1B00076DB11 /* MSTokenExchangePrivate.h */; };
 		35F515A8225BC6B0001BFFA2 /* MSDocumentWrapperInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 35F515A7225BC6B0001BFFA2 /* MSDocumentWrapperInternal.h */; };
 		35F515A9225BC6B0001BFFA2 /* MSDocumentWrapperInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 35F515A7225BC6B0001BFFA2 /* MSDocumentWrapperInternal.h */; };
 		4A193736225129B700459E1E /* MSDBDocumentStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A193733225129B700459E1E /* MSDBDocumentStore.m */; };
@@ -293,7 +291,6 @@
 		2ACE562022453BE600FCD5DF /* MSDataSourceErrorTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSDataSourceErrorTests.m; sourceTree = "<group>"; };
 		351064BC22541A750009DB96 /* MSMockDocument.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MSMockDocument.h; path = AppCenterDataStorageTests/MSMockDocument.h; sourceTree = SOURCE_ROOT; };
 		351064BD22541A750009DB96 /* MSMockDocument.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MSMockDocument.m; path = AppCenterDataStorageTests/MSMockDocument.m; sourceTree = SOURCE_ROOT; };
-		35D89AF0225BD1B00076DB11 /* MSTokenExchangePrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSTokenExchangePrivate.h; sourceTree = "<group>"; };
 		35F515A7225BC6B0001BFFA2 /* MSDocumentWrapperInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSDocumentWrapperInternal.h; sourceTree = "<group>"; };
 		4A193733225129B700459E1E /* MSDBDocumentStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDBDocumentStore.m; sourceTree = "<group>"; };
 		4A193734225129B700459E1E /* MSDBDocumentStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDBDocumentStore.h; sourceTree = "<group>"; };
@@ -615,7 +612,6 @@
 		E86B95D62224B54E0062E552 /* Client */ = {
 			isa = PBXGroup;
 			children = (
-				35D89AF0225BD1B00076DB11 /* MSTokenExchangePrivate.h */,
 				E8593A14222B91B20001F87E /* MSCosmosDb.h */,
 				E8593A15222B91B20001F87E /* MSCosmosDb.m */,
 				87FA7FB5BC7302D0062016E1 /* MSCosmosDbPrivate.h */,
@@ -668,7 +664,7 @@
 				049BC852224EDAFF00AE7FBB /* MSDataSourceError.h in Headers */,
 				8F4548E12256D2450021B0BF /* MSDictionaryDocument.h in Headers */,
 				4A193739225129C200459E1E /* MSDBDocumentStore.h in Headers */,
-				35D89AF2225BD1B70076DB11 /* MSTokenExchangePrivate.h in Headers */,
+				4A1937982252CA6600459E1E /* MSDocumentStore.h in Headers */,
 				049BC85B224EDB1D00AE7FBB /* MSPage.h in Headers */,
 				049BC85C224EDB2200AE7FBB /* MSReadOptions.h in Headers */,
 				04B1C8CA2252AF0A00CBD876 /* MSAppCenterErrors.h in Headers */,
@@ -708,7 +704,6 @@
 				8F4548E02256D2450021B0BF /* MSDictionaryDocument.h in Headers */,
 				4A193737225129B700459E1E /* MSDBDocumentStore.h in Headers */,
 				267464F6222F28A300EC1FF3 /* MSDataSourceError.h in Headers */,
-				35D89AF1225BD1B00076DB11 /* MSTokenExchangePrivate.h in Headers */,
 				267464F2222F28A300EC1FF3 /* MSDataStore.h in Headers */,
 				267464F0222F28A300EC1FF3 /* MSPaginatedDocuments.h in Headers */,
 				04B1C8C92252AF0A00CBD876 /* MSAppCenterErrors.h in Headers */,
