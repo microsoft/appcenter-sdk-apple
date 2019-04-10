@@ -11,6 +11,7 @@
 #import "MSDataStoreInternal.h"
 #import "MSDataStorePrivate.h"
 #import "MSDictionaryDocument.h"
+#import "MSDispatchTestUtil.h"
 #import "MSDocumentStore.h"
 #import "MSDocumentUtils.h"
 #import "MSDocumentWrapperInternal.h"
@@ -25,7 +26,6 @@
 #import "MSTokenResult.h"
 #import "MSTokensResponse.h"
 #import "NSObject+MSTestFixture.h"
-#import "MSDispatchTestUtil.h"
 
 @interface MSFakeSerializableDocument : NSObject <MSSerializableDocument>
 - (instancetype)initFromDictionary:(NSDictionary *)dictionary;

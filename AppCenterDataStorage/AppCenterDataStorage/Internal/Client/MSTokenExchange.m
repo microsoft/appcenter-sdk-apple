@@ -6,7 +6,6 @@
 #import "MSAuthTokenContext.h"
 #import "MSConstants+Internal.h"
 #import "MSDataStorageConstants.h"
-#import "MSDataStore.h"
 #import "MSDataStoreErrors.h"
 #import "MSDataStoreInternal.h"
 #import "MSHttpClientProtocol.h"

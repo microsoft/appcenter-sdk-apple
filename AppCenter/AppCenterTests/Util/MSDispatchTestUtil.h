@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param dispatchQueue The dispatch queue to suspend.
  */
-+ (void) awaitAndSuspendDispatchQueue:(dispatch_queue_t)dispatchQueue;
++ (void)awaitAndSuspendDispatchQueue:(dispatch_queue_t)dispatchQueue;
 
 @end
 
