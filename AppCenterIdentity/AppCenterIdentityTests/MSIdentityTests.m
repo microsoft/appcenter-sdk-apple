@@ -9,6 +9,7 @@
 #import "MSAuthTokenContextDelegate.h"
 #import "MSAuthTokenContextPrivate.h"
 #import "MSAuthTokenInfo.h"
+#import "MSAuthTokenValidityInfo.h"
 #import "MSChannelGroupProtocol.h"
 #import "MSChannelUnitProtocol.h"
 #import "MSConstants.h"
