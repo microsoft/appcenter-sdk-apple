@@ -50,7 +50,7 @@ class MSStorageViewController: UITableViewController {
   }
   override func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
     if section == 1 && self.storageType == StorageType.User.rawValue && !identitySignIn {
-      return "Please sign in to Identity firstly"
+      return "Please sign in to access user documents."
     }
     return nil
   }
