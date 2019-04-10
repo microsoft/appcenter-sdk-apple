@@ -273,15 +273,15 @@
   // If
   int ttl = 1;
   MSDocumentWrapper *expectedDocumentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestDocument"]
-                                                                   documentType:[MSDictionaryDocument class]];
+                                                                           documentType:[MSDictionaryDocument class]];
   MSReadOptions *readOptions = [[MSReadOptions alloc] initWithDeviceTimeToLive:ttl];
 
   // When
   BOOL result = [self.sut upsertWithToken:self.appToken documentWrapper:expectedDocumentWrapper operation:@"CREATE" options:readOptions];
   MSDocumentWrapper *documentWrapper = [self.sut readWithToken:self.appToken
-                                                            documentId:expectedDocumentWrapper.documentId
-                                                          documentType:[MSDictionaryDocument class]
-                                                           readOptions:nil];
+                                                    documentId:expectedDocumentWrapper.documentId
+                                                  documentType:[MSDictionaryDocument class]
+                                                   readOptions:nil];
 
   // Then
   XCTAssertTrue(result);
@@ -291,7 +291,6 @@
   XCTAssertEqualObjects(documentWrapper.documentId, expectedDocumentWrapper.documentId);
   XCTAssertEqualObjects(documentWrapper.partition, expectedDocumentWrapper.partition);
   XCTAssertEqualObjects(documentWrapper.eTag, expectedDocumentWrapper.eTag);
-
 }
 
 - (void)testUpsertAppDocumentWithNoTTL {
@@ -412,7 +411,7 @@
   sqlite3 *db = [self openDatabase:kMSDBDocumentFileName];
   long operationTimeString = NSTimeIntervalSince1970;
   NSString *insertQuery = [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\") "
-                           @"VALUES ('%@', '%@', '%@', '%@', '%@', %ld, '%ld', '%@')",
+                                                     @"VALUES ('%@', '%@', '%@', '%@', '%@', %ld, '%ld', '%@')",
                                                      kMSAppDocumentTableName, kMSIdColumnName, kMSPartitionColumnName, kMSETagColumnName,
                                                      kMSDocumentColumnName, kMSDocumentIdColumnName, kMSExpirationTimeColumnName,
                                                      kMSOperationTimeColumnName, kMSPendingOperationColumnName, @0, partition, eTag,

@@ -77,11 +77,11 @@ static const NSUInteger kMSSchemaVersion = 1;
   NSString *tableName = [MSDBDocumentStore tableNameForPartition:token.partition];
   NSString *insertQuery = [NSString
       stringWithFormat:@"REPLACE INTO \"%@\" (\"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\") "
-                           @"VALUES ('%@', '%@', '%@', '%@', %ld, '%ld', '%ld', '%@')",
+                       @"VALUES ('%@', '%@', '%@', '%@', %ld, '%ld', '%ld', '%@')",
                        tableName, kMSPartitionColumnName, kMSDocumentIdColumnName, kMSDocumentColumnName, kMSETagColumnName,
                        kMSExpirationTimeColumnName, kMSDownloadTimeColumnName, kMSOperationTimeColumnName, kMSPendingOperationColumnName,
                        token.partition, documentWrapper.documentId, documentWrapper.jsonValue, documentWrapper.eTag, (long)expirationTime,
-                      (long)[documentWrapper.lastUpdatedDate timeIntervalSince1970], (long)now, operation];
+                       (long)[documentWrapper.lastUpdatedDate timeIntervalSince1970], (long)now, operation];
   int result = [self.dbStorage executeNonSelectionQuery:insertQuery];
   if (result != SQLITE_OK) {
     MSLogError([MSDataStore logTag], @"Unable to update or replace stored document, SQLite error code: %ld", (long)result);
@@ -133,7 +133,7 @@ static const NSUInteger kMSSchemaVersion = 1;
     NSDate *currentDate = [NSDate date];
     if (expirationDate && [expirationDate laterDate:currentDate] == currentDate) {
       NSString *errorMessage = [NSString stringWithFormat:@"Local document with partition key '%@' and document ID '%@' expired at %@",
-                                token.partition, documentId, expirationDate];
+                                                          token.partition, documentId, expirationDate];
       MSLogWarning([MSDataStore logTag], @"%@", errorMessage);
       NSError *error = [[NSError alloc] initWithDomain:kMSACDataStoreErrorDomain
                                                   code:MSACDataStoreErrorLocalDocumentExpired
