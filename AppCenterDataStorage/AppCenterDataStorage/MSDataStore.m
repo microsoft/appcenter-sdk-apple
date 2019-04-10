@@ -214,25 +214,26 @@ static dispatch_once_t onceToken;
                    completionHandler:completionHandler];
 }
 
-- (NSError *)generateDisabledError:(NSString *)operation documentId:(NSString *)documentId {
-  NSError *error = [[NSError alloc] initWithDomain:kMSACErrorDomain
-                                              code:MSACDisabledErrorCode
-                                          userInfo:@{NSLocalizedDescriptionKey : kMSACDisabledErrorDesc}];
-  MSLogError([MSDataStore logTag], @"Not able to %@ the document ID: %@; error: %@", operation, documentId, [error localizedDescription]);
-  return error;
-}
-
 - (void)readWithPartition:(NSString *)partition
                documentId:(NSString *)documentId
              documentType:(Class)documentType
               readOptions:(MSReadOptions *_Nullable)__unused readOptions
         completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
   @synchronized(self) {
+
+    // Check preconditions.
+    NSError *error;
     if (![self canBeUsed] || ![self isEnabled]) {
-      NSError *error = [self generateDisabledError:@"read" documentId:documentId];
+      error = [self generateDisabledError:@"read" documentId:documentId];
+    } else if (![MSDocumentUtils isSerializableDocument:documentType]) {
+      error = [self generateInvalidClassError];
+    }
+    if (error) {
       completionHandler([[MSDocumentWrapper alloc] initWithError:error documentId:documentId]);
       return;
     }
+
+    // Perform the operation.
     [self performOperationForPartition:partition
                             documentId:documentId
                             httpMethod:kMSHttpMethodGet
@@ -274,11 +275,15 @@ static dispatch_once_t onceToken;
                   completionHandler:(MSDataSourceErrorCompletionHandler)completionHandler {
 
   @synchronized(self) {
+
+    // Check precondition.
     if (![self canBeUsed] || ![self isEnabled]) {
       NSError *error = [self generateDisabledError:@"delete" documentId:documentId];
       completionHandler([[MSDataSourceError alloc] initWithError:error errorCode:MSACDocumentUnknownErrorCode]);
       return;
     }
+
+    // Perform the operation.
     [self performOperationForPartition:partition
                             documentId:documentId
                             httpMethod:kMSHttpMethodDelete
@@ -309,13 +314,15 @@ static dispatch_once_t onceToken;
                    completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
 
   @synchronized(self) {
+
+    // Check the precondition.
     if (![self canBeUsed] || ![self isEnabled]) {
       NSError *error = [self generateDisabledError:@"create or replace" documentId:documentId];
       completionHandler([[MSDocumentWrapper alloc] initWithError:error documentId:documentId]);
       return;
     }
 
-    // Create document payload.
+    // Perform the operation.
     NSError *serializationError;
     NSDictionary *dic = [MSDocumentUtils documentPayloadWithDocumentId:documentId
                                                              partition:partition
@@ -356,22 +363,27 @@ static dispatch_once_t onceToken;
         completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler {
 
   @synchronized(self) {
+
+    // Check the preconditions.
+    NSError *error;
     if (![self canBeUsed] || ![self isEnabled]) {
-      NSError *error = [[NSError alloc] initWithDomain:kMSACErrorDomain
-                                                  code:MSACDisabledErrorCode
-                                              userInfo:@{NSLocalizedDescriptionKey : kMSACDisabledErrorDesc}];
-      MSLogError([MSDataStore logTag], @"Not able to list the documents in partition: %@; error: %@", partition,
-                 [error localizedDescription]);
+      error = [self generateDisabledError:@"list" documentId:nil];
+    } else if (![MSDocumentUtils isSerializableDocument:documentType]) {
+      error = [self generateInvalidClassError];
+    }
+    if (error) {
       completionHandler([[MSPaginatedDocuments alloc]
           initWithError:[[MSDataSourceError alloc] initWithError:error errorCode:MSACDocumentUnknownErrorCode]]);
       return;
     }
+
+    // Build headers.
     NSMutableDictionary *additionalHeaders = [NSMutableDictionary new];
     if (continuationToken) {
       [additionalHeaders setObject:(NSString *)continuationToken forKey:kMSDocumentContinuationTokenHeaderKey];
     }
 
-    // Call cosmos DB.
+    // Perform the operation.
     [self performOperationForPartition:partition
                             documentId:nil
                             httpMethod:kMSHttpMethodGet
@@ -453,6 +465,25 @@ static dispatch_once_t onceToken;
                                                                             additionalHeaders:additionalHeaders
                                                                             completionHandler:completionHandler];
                                             }];
+}
+
+#pragma mark - MSDataStore implementation utils
+
+- (NSError *)generateDisabledError:(NSString *)operation documentId:(NSString *_Nullable)documentId {
+  NSError *error = [[NSError alloc] initWithDomain:kMSACErrorDomain
+                                              code:MSACDisabledErrorCode
+                                          userInfo:@{NSLocalizedDescriptionKey : kMSACDisabledErrorDesc}];
+  MSLogError([MSDataStore logTag], @"Not able to perform %@ operation, document ID: %@; error: %@", operation, documentId,
+             [error localizedDescription]);
+  return error;
+}
+
+- (NSError *)generateInvalidClassError {
+  NSError *error = [[NSError alloc] initWithDomain:kMSACDataStoreErrorDomain
+                                              code:MSACDataStoreInvalidClassCode
+                                          userInfo:@{NSLocalizedDescriptionKey : kMSACDataStoreInvalidClassDesc}];
+  MSLogError([MSDataStore logTag], @"Not able to validate document deserialization precondition: %@", [error localizedDescription]);
+  return error;
 }
 
 #pragma mark - MSServiceInternal

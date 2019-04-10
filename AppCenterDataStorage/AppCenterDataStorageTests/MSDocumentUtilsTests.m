@@ -225,4 +225,16 @@
   XCTAssertNotNil([document jsonValue]);
 }
 
+- (void)testIsSerializableDocument {
+
+  // If
+  // NSProxy is not a NSObject, but it conforms to the NSObject protocol (light edge case testing).
+  NSProxy *anotherRootObject = [NSProxy alloc];
+
+  // When, Then
+  XCTAssertFalse([MSDocumentUtils isSerializableDocument:[NSString class]]);
+  XCTAssertFalse([MSDocumentUtils isSerializableDocument:object_getClass(anotherRootObject)]);
+  XCTAssertTrue([MSDocumentUtils isSerializableDocument:[MSDictionaryDocument class]]);
+}
+
 @end
