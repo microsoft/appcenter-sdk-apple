@@ -239,7 +239,11 @@ static NSUInteger const kMSAccountIdLengthInHomeAccount = 36;
   NSData *decryptedData = authTokenHistory ? [NSKeyedArchiver archivedDataWithRootObject:(id)authTokenHistory] : nil;
   NSData *encryptedData = decryptedData ? [self.encrypter encryptData:decryptedData] : nil;
   [MS_USER_DEFAULTS setObject:encryptedData forKey:kMSAuthTokenHistoryKey];
-  MSLogDebug([MSAppCenter logTag], @"Saved new history state");
+  if (encryptedData) {
+    MSLogDebug([MSAppCenter logTag], @"Saved new history state.");
+  } else {
+    MSLogWarning([MSAppCenter logTag], @"Failed to saved new history state.");
+  }
 }
 
 - (void)checkIfTokenNeedsToBeRefreshed:(MSAuthTokenValidityInfo *)tokenValidityInfo {
