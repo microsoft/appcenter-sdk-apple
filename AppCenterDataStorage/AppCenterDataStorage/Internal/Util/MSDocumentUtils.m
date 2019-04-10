@@ -7,6 +7,7 @@
 #import "MSDataStorageConstants.h"
 #import "MSDataStoreErrors.h"
 #import "MSDataStoreInternal.h"
+#import "MSDocumentUtils.h"
 #import "MSDocumentWrapperInternal.h"
 #import "MSLogger.h"
 
