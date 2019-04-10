@@ -66,10 +66,14 @@ NS_ASSUME_NONNULL_BEGIN
  * @param token CosmosDB token.
  * @param documentId Document ID.
  * @param documentType The document type to read.
+ * @param readOptions The read options.
  *
- * @return A document with the given ID.
+ * @returns A document.
  */
-- (MSDocumentWrapper *)readWithToken:(MSTokenResult *)token documentId:(NSString *)documentId documentType:(Class)documentType;
+- (MSDocumentWrapper *)readWithToken:(MSTokenResult *)token
+                          documentId:(NSString *)documentId
+                        documentType:(Class)documentType
+                         readOptions:(nullable MSReadOptions *)readOptions;
 
 @end
 

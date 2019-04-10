@@ -13,6 +13,7 @@
 #import "MSChannelUnitDefault.h"
 #import "MSChannelUnitDefaultPrivate.h"
 #import "MSDevice.h"
+#import "MSDispatchTestUtil.h"
 #import "MSHttpIngestion.h"
 #import "MSHttpTestUtil.h"
 #import "MSLogContainer.h"
@@ -84,19 +85,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
 }
 
 - (void)tearDown {
-
-  // Wait all tasks in tests.
-  XCTestExpectation *expectation = [self expectationWithDescription:@"tearDown"];
-  dispatch_async(self.logsDispatchQueue, ^{
-    /*
-     * Prevent the execution of any blocks that have been enqueue. It happens when
-     * we call dispatch_async from logsDispatchQueue.
-     * There is no API to clear this queue, so we should suspend it at least.
-     */
-    dispatch_suspend(self.logsDispatchQueue);
-    [expectation fulfill];
-  });
-  [self waitForExpectations:@[ expectation ] timeout:1];
+  [MSDispatchTestUtil awaitAndSuspendDispatchQueue:self.logsDispatchQueue];
 
   // Stop mocks.
   [self.configMock stopMocking];

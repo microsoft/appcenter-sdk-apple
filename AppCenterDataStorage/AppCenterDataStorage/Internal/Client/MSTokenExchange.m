@@ -30,10 +30,11 @@ static NSString *const kMSGetTokenPath = @"/data/tokens";
                                   tokenExchangeUrl:(NSURL *)tokenExchangeUrl
                                          appSecret:(NSString *)appSecret
                                          partition:(NSString *)partition
+                               includeExpiredToken:(BOOL)includeExpiredToken
                                  completionHandler:(MSGetTokenAsyncCompletionHandler)completionHandler {
 
   // Get the cached token if it is saved.
-  MSTokenResult *cachedToken = [MSTokenExchange retrieveCachedTokenForPartition:partition includeExpiredToken:NO];
+  MSTokenResult *cachedToken = [MSTokenExchange retrieveCachedTokenForPartition:partition includeExpiredToken:includeExpiredToken];
   NSURL *sendUrl = [tokenExchangeUrl URLByAppendingPathComponent:kMSGetTokenPath];
 
   // Get a fresh token from the token exchange service if the token is not cached or has expired.

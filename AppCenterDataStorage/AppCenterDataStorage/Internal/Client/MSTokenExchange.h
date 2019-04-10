@@ -21,16 +21,18 @@ typedef void (^MSGetTokenAsyncCompletionHandler)(MSTokensResponse *tokenResponse
 /**
  * Gets token from token exchange.
  *
- * @param httpClient The HTTP client.
- * @param tokenExchangeUrl The API URL to exchange token.
+ * @param httpClient The http client.
+ * @param tokenExchangeUrl API url to exchange token.
  * @param appSecret The application secret.
  * @param partition The CosmosDB partition.
- * @param completionHandler A callback that is invoked when the token is acquired.
+ * @param includeExpiredToken The flag that indicates whether the method returns expired token from the cache or not.
+ * @param completionHandler Callback that gets invoked when a token is retrieved.
  */
 + (void)performDbTokenAsyncOperationWithHttpClient:(id<MSHttpClientProtocol>)httpClient
                                   tokenExchangeUrl:(NSURL *)tokenExchangeUrl
                                          appSecret:(NSString *)appSecret
                                          partition:(NSString *)partition
+                               includeExpiredToken:(BOOL)includeExpiredToken
                                  completionHandler:(MSGetTokenAsyncCompletionHandler)completionHandler;
 
 /**

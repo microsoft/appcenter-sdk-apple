@@ -15,7 +15,7 @@
 #import "MSDataStoreInternal.h"
 #import "MSDataStorePrivate.h"
 #import "MSDocumentUtils.h"
-#import "MSDocumentWrapper.h"
+#import "MSDocumentWrapperInternal.h"
 #import "MSHttpClient.h"
 #import "MSPaginatedDocuments.h"
 #import "MSReadOptions.h"
@@ -51,6 +51,11 @@ static NSString *const kMSDocumentUpsertHeaderKey = @"x-ms-documentdb-is-upsert"
 static NSString *const kMSDocumentContinuationTokenHeaderKey = @"x-ms-continuation";
 
 /**
+ * Data Store dispatch queue name.
+ */
+static char *const kMSDataStoreDispatchQueue = "com.microsoft.appcenter.DataStoreDispatchQueue";
+
+/**
  * Singleton.
  */
 static MSDataStore *sharedInstance = nil;
@@ -66,6 +71,8 @@ static dispatch_once_t onceToken;
   if ((self = [super init])) {
     _tokenExchangeUrl = (NSURL *)[NSURL URLWithString:kMSDefaultApiUrl];
     _documentStore = [MSDBDocumentStore new];
+    _reachability = [MS_Reachability reachabilityForInternetConnection];
+    _dispatchQueue = dispatch_queue_create(kMSDataStoreDispatchQueue, DISPATCH_QUEUE_SERIAL);
   }
   return self;
 }
@@ -217,7 +224,7 @@ static dispatch_once_t onceToken;
 - (void)readWithPartition:(NSString *)partition
                documentId:(NSString *)documentId
              documentType:(Class)documentType
-              readOptions:(MSReadOptions *_Nullable)__unused readOptions
+              readOptions:(MSReadOptions *_Nullable)readOptions
         completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
   @synchronized(self) {
 
@@ -232,28 +239,98 @@ static dispatch_once_t onceToken;
       completionHandler([[MSDocumentWrapper alloc] initWithError:error documentId:documentId]);
       return;
     }
-
-    // Perform the operation.
-    [self performOperationForPartition:partition
-                            documentId:documentId
-                            httpMethod:kMSHttpMethodGet
-                                  body:nil
-                     additionalHeaders:nil
-                     completionHandler:^(NSData *_Nullable data, NSHTTPURLResponse *_Nullable __unused response,
-                                         NSError *_Nullable cosmosDbError) {
-                       // If not created.
-                       if (!data || [MSDataSourceError errorCodeFromError:cosmosDbError] != MSACDocumentSucceededErrorCode) {
-                         MSLogError([MSDataStore logTag], @"Not able to read the document ID:%@ with error:%@", documentId,
-                                    [cosmosDbError localizedDescription]);
-                         completionHandler([[MSDocumentWrapper alloc] initWithError:cosmosDbError documentId:documentId]);
-                         return;
-                       }
-
-                       // Deserialize.
-                       completionHandler([MSDocumentUtils documentWrapperFromData:data documentType:documentType]);
-                       return;
-                     }];
+    [self readFromLocalStorageWithPartition:partition
+                                 documentId:documentId
+                               documentType:documentType
+                                readOptions:readOptions
+                          completionHandler:^(MSDocumentWrapper *_Nonnull document) {
+                            if ([self.reachability currentReachabilityStatus] == NotReachable || document.pendingOperation) {
+                              completionHandler(document);
+                            } else {
+                              [self readFromCosmosDbWithPartition:partition
+                                                       documentId:documentId
+                                                     documentType:documentType
+                                                      readOptions:readOptions
+                                                completionHandler:completionHandler];
+                            }
+                          }];
   }
+}
+
+- (void)readFromLocalStorageWithPartition:(NSString *)partition
+                               documentId:(NSString *)documentId
+                             documentType:(Class)documentType
+                              readOptions:(MSReadOptions *_Nullable)readOptions
+                        completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
+
+  // Try to get a token from the backend or cache.
+  [MSTokenExchange
+      performDbTokenAsyncOperationWithHttpClient:(id<MSHttpClientProtocol>)self.httpClient
+                                tokenExchangeUrl:self.tokenExchangeUrl
+                                       appSecret:self.appSecret
+                                       partition:partition
+                             includeExpiredToken:YES
+                               completionHandler:^(MSTokensResponse *_Nonnull tokenResponse, NSError *_Nonnull error) {
+                                 if (error) {
+                                   NSError *authenticationError = [[NSError alloc]
+                                       initWithDomain:kMSACDataStoreErrorDomain
+                                                 code:MSACDataStoreNotAuthenticated
+                                             userInfo:@{
+                                               NSLocalizedDescriptionKey : @"Cannot read from local storage because there is no "
+                                                                           @"account ID cached and failed to retrieve token."
+                                             }];
+                                   MSDocumentWrapper *documentWrapper = [[MSDocumentWrapper alloc] initWithError:authenticationError
+                                                                                                      documentId:documentId];
+                                   completionHandler(documentWrapper);
+                                   return;
+                                 }
+
+                                 // Run the operation in a dispatch queue.
+                                 dispatch_async(self.dispatchQueue, ^{
+                                   MSDocumentWrapper *documentWrapper = [self.documentStore readWithToken:tokenResponse.tokens[0]
+                                                                                               documentId:documentId
+                                                                                             documentType:documentType
+                                                                                              readOptions:readOptions];
+                                   if ([documentWrapper.pendingOperation isEqualToString:kMSPendingOperationDelete]) {
+                                     NSError *notFoundError = [[NSError alloc]
+                                         initWithDomain:kMSACDataStoreErrorDomain
+                                                   code:MSACDataStoreErrorDocumentNotFound
+                                               userInfo:@{
+                                                 NSLocalizedDescriptionKey : @"The document was marked for deletion and could not be read."
+                                               }];
+                                     documentWrapper = [[MSDocumentWrapper alloc] initWithError:notFoundError documentId:documentId];
+                                     documentWrapper.pendingOperation = kMSPendingOperationDelete;
+                                   }
+                                   completionHandler(documentWrapper);
+                                 });
+                               }];
+  return;
+}
+
+- (void)readFromCosmosDbWithPartition:(NSString *)partition
+                           documentId:(NSString *)documentId
+                         documentType:(Class)documentType
+                          readOptions:(MSReadOptions *_Nullable)__unused readOptions
+                    completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
+  [self performOperationForPartition:partition
+                          documentId:documentId
+                          httpMethod:kMSHttpMethodGet
+                                body:nil
+                   additionalHeaders:nil
+                   completionHandler:^(NSData *_Nullable data, NSHTTPURLResponse *_Nullable __unused response,
+                                       NSError *_Nullable cosmosDbError) {
+                     // If not created.
+                     if (!data || [MSDataSourceError errorCodeFromError:cosmosDbError] != MSACDocumentSucceededErrorCode) {
+                       MSLogError([MSDataStore logTag], @"Not able to read the document ID:%@ with error:%@", documentId,
+                                  [cosmosDbError localizedDescription]);
+                       completionHandler([[MSDocumentWrapper alloc] initWithError:cosmosDbError documentId:documentId]);
+                       return;
+                     }
+
+                     // Deserialize.
+                     completionHandler([MSDocumentUtils documentWrapperFromData:data documentType:documentType]);
+                     return;
+                   }];
 }
 
 - (void)createWithPartition:(NSString *)partition
@@ -447,12 +524,9 @@ static dispatch_once_t onceToken;
                                              tokenExchangeUrl:self.tokenExchangeUrl
                                                     appSecret:self.appSecret
                                                     partition:partition
+                                          includeExpiredToken:NO
                                             completionHandler:^(MSTokensResponse *_Nonnull tokenResponses, NSError *_Nonnull error) {
-                                              if (error || [tokenResponses.tokens count] == 0) {
-                                                NSInteger httpStatusCode = [MSDataSourceError errorCodeFromError:error];
-                                                MSLogError([MSDataStore logTag],
-                                                           @"Can't get CosmosDb token. Error: %@;  HTTP status code: %ld; Partition: %@",
-                                                           error.localizedDescription, (long)httpStatusCode, partition);
+                                              if (error) {
                                                 completionHandler(nil, nil, error);
                                                 return;
                                               }

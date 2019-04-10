@@ -20,7 +20,6 @@
 #import "MSWriteOptions.h"
 
 static const NSUInteger kMSSchemaVersion = 1;
-static NSString *const kMSNullString = @"NULL";
 
 @implementation MSDBDocumentStore
 
@@ -72,11 +71,11 @@ static NSString *const kMSNullString = @"NULL";
   // Note: If the cache/store is meant to be disabled, this method should not even be called.
   NSDate *now = [NSDate date];
   NSString *isoExpirationTime;
-  if (options.deviceTimeToLive == MSDataStoreTimeToLiveInfinite) {
-    isoExpirationTime = kMSNullString;
-  } else {
+  if (options.deviceTimeToLive != MSDataStoreTimeToLiveInfinite) {
     isoExpirationTime =
         [NSString stringWithFormat:@"\"%@\"", [MSUtility dateToISO8601:[now dateByAddingTimeInterval:options.deviceTimeToLive]]];
+  } else {
+    isoExpirationTime = @"NULL";
   }
   NSString *tableName = [MSDBDocumentStore tableNameForPartition:token.partition];
   NSString *insertQuery = [NSString
@@ -109,7 +108,10 @@ static NSString *const kMSNullString = @"NULL";
   return [self.dbStorage dropTable:tableName];
 }
 
-- (MSDocumentWrapper *)readWithToken:(MSTokenResult *)token documentId:(NSString *)documentId documentType:(Class)documentType {
+- (MSDocumentWrapper *)readWithToken:(MSTokenResult *)token
+                          documentId:(NSString *)documentId
+                        documentType:(Class)documentType
+                         readOptions:(__unused MSReadOptions *)readOptions {
   NSString *tableName = [MSDBDocumentStore tableNameForPartition:token.partition];
   NSString *selectionQuery = [NSString stringWithFormat:@"SELECT * FROM \"%@\" WHERE \"%@\" = \"%@\" AND \"%@\" = \"%@\"", tableName,
                                                         kMSPartitionColumnName, token.partition, kMSDocumentIdColumnName, documentId];
@@ -122,7 +124,7 @@ static NSString *const kMSNullString = @"NULL";
                                    token.partition, documentId];
     MSLogWarning([MSDataStore logTag], @"%@", errorMessage);
     NSError *error = [[NSError alloc] initWithDomain:kMSACDataStoreErrorDomain
-                                                code:MSACDataStoreErrorLocalDocumentNotFound
+                                                code:MSACDataStoreErrorDocumentNotFound
                                             userInfo:@{NSLocalizedDescriptionKey : errorMessage}];
     return [[MSDocumentWrapper alloc] initWithError:error documentId:documentId];
   }
@@ -178,7 +180,7 @@ static NSString *const kMSNullString = @"NULL";
            @{kMSDownloadTimeColumnName : @[ kMSSQLiteTypeInteger ]},
            @{kMSOperationTimeColumnName : @[ kMSSQLiteTypeInteger ]},
            @{kMSPendingOperationColumnName : @[ kMSSQLiteTypeText ]}
-         ];
+           ];
   // clang-format on
 }
 

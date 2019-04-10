@@ -86,7 +86,10 @@
               expirationTime:[NSDate dateWithTimeIntervalSinceNow:1000000]];
 
   // When
-  MSDocumentWrapper *documentWrapper = [self.sut readWithToken:self.appToken documentId:documentId documentType:[MSMockDocument class]];
+  MSDocumentWrapper *documentWrapper = [self.sut readWithToken:self.appToken
+                                                    documentId:documentId
+                                                  documentType:[MSMockDocument class]
+                                                   readOptions:nil];
 
   // Then
   XCTAssertNotNil(documentWrapper);
@@ -112,7 +115,10 @@
               expirationTime:[NSDate dateWithTimeIntervalSinceNow:1000000]];
 
   // When
-  MSDocumentWrapper *documentWrapper = [self.sut readWithToken:self.appToken documentId:documentId documentType:[MSMockDocument class]];
+  MSDocumentWrapper *documentWrapper = [self.sut readWithToken:self.appToken
+                                                    documentId:documentId
+                                                  documentType:[MSMockDocument class]
+                                                   readOptions:nil];
 
   // Then
   XCTAssertNotNil(documentWrapper);
@@ -134,7 +140,10 @@
               expirationTime:nil];
 
   // When
-  MSDocumentWrapper *documentWrapper = [self.sut readWithToken:self.appToken documentId:documentId documentType:[MSMockDocument class]];
+  MSDocumentWrapper *documentWrapper = [self.sut readWithToken:self.appToken
+                                                    documentId:documentId
+                                                  documentType:[MSMockDocument class]
+                                                   readOptions:nil];
 
   // Then
   XCTAssertNotNil(documentWrapper);
@@ -156,7 +165,10 @@
               expirationTime:[NSDate dateWithTimeIntervalSinceNow:-1000000]];
 
   // When
-  MSDocumentWrapper *documentWrapper = [self.sut readWithToken:self.appToken documentId:documentId documentType:[MSMockDocument class]];
+  MSDocumentWrapper *documentWrapper = [self.sut readWithToken:self.appToken
+                                                    documentId:documentId
+                                                  documentType:[MSMockDocument class]
+                                                   readOptions:nil];
 
   // Then
   XCTAssertNotNil(documentWrapper);
@@ -177,13 +189,16 @@
   [self.sut createUserStorageWithAccountId:self.userToken.accountId];
 
   // When
-  MSDocumentWrapper *documentWrapper = [sut readWithToken:self.userToken documentId:documentId documentType:[document class]];
+  MSDocumentWrapper *documentWrapper = [sut readWithToken:self.userToken
+                                               documentId:documentId
+                                             documentType:[document class]
+                                              readOptions:nil];
 
   // Then
   XCTAssertNotNil(documentWrapper);
   XCTAssertNotNil(documentWrapper.error);
   XCTAssertEqualObjects(documentWrapper.error.error.domain, kMSACDataStoreErrorDomain);
-  XCTAssertEqual(documentWrapper.error.error.code, MSACDataStoreErrorLocalDocumentNotFound);
+  XCTAssertEqual(documentWrapper.error.error.code, MSACDataStoreErrorDocumentNotFound);
   XCTAssertEqualObjects(documentWrapper.documentId, documentId);
 }
 
@@ -264,7 +279,8 @@
   BOOL result = [self.sut upsertWithToken:self.appToken documentWrapper:documentWrapper operation:@"CREATE" options:readOptions];
   MSDocumentWrapper *expectedDocumentWrapper = [self.sut readWithToken:self.appToken
                                                             documentId:documentWrapper.documentId
-                                                          documentType:[MSDictionaryDocument class]];
+                                                          documentType:[MSDictionaryDocument class]
+                                                           readOptions:nil];
 
   // Then
   XCTAssertTrue(result);
@@ -292,7 +308,8 @@
   BOOL result = [self.sut upsertWithToken:self.appToken documentWrapper:documentWrapper operation:@"CREATE" options:readOptions];
   MSDocumentWrapper *expectedDocumentWrapper = [self.sut readWithToken:self.appToken
                                                             documentId:documentWrapper.documentId
-                                                          documentType:[MSDictionaryDocument class]];
+                                                          documentType:[MSDictionaryDocument class]
+                                                           readOptions:nil];
 
   // Then
   XCTAssertTrue(result);
@@ -311,7 +328,8 @@
   BOOL result = [self.sut deleteWithToken:self.appToken documentId:@"some-non-existing-document-id"];
   MSDocumentWrapper *expectedDocumentWrapper = [self.sut readWithToken:self.appToken
                                                             documentId:@"some-non-existing-document-id"
-                                                          documentType:[MSDictionaryDocument class]];
+                                                          documentType:[MSDictionaryDocument class]
+                                                           readOptions:nil];
 
   // Then, should succeed but be a no-op
   XCTAssertTrue(result);
@@ -329,14 +347,16 @@
                     options:[[MSReadOptions alloc] initWithDeviceTimeToLive:1]];
   MSDocumentWrapper *expectedDocumentWrapper = [self.sut readWithToken:self.appToken
                                                             documentId:documentWrapper.documentId
-                                                          documentType:[MSDictionaryDocument class]];
+                                                          documentType:[MSDictionaryDocument class]
+                                                           readOptions:nil];
   XCTAssertNil(expectedDocumentWrapper.error);
 
   // When
   BOOL result = [self.sut deleteWithToken:self.appToken documentId:documentWrapper.documentId];
   expectedDocumentWrapper = [self.sut readWithToken:self.appToken
                                          documentId:documentWrapper.documentId
-                                       documentType:[MSDictionaryDocument class]];
+                                       documentType:[MSDictionaryDocument class]
+                                        readOptions:nil];
 
   // Then
   XCTAssertTrue(result);
@@ -355,14 +375,16 @@
                     options:[[MSReadOptions alloc] initWithDeviceTimeToLive:1]];
   MSDocumentWrapper *expectedDocumentWrapper = [self.sut readWithToken:self.userToken
                                                             documentId:documentWrapper.documentId
-                                                          documentType:[MSDictionaryDocument class]];
+                                                          documentType:[MSDictionaryDocument class]
+                                                           readOptions:nil];
   XCTAssertNil(expectedDocumentWrapper.error);
 
   // When
   BOOL result = [self.sut deleteWithToken:self.userToken documentId:documentWrapper.documentId];
   expectedDocumentWrapper = [self.sut readWithToken:self.userToken
                                          documentId:documentWrapper.documentId
-                                       documentType:[MSDictionaryDocument class]];
+                                       documentType:[MSDictionaryDocument class]
+                                        readOptions:nil];
 
   // Then
   XCTAssertTrue(result);

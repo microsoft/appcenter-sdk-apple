@@ -98,7 +98,8 @@ static NSString *const kMSDataStoreAppDocumentsPartition = @"readonly";
   [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:httpMock
                                              tokenExchangeUrl:[NSURL new]
                                                     appSecret:@"appSecret"
-                                                    partition:kMSPartitionName
+                                                    partition:kMSPartition
+                                          includeExpiredToken:NO
                                             completionHandler:^(MSTokensResponse *tokenResponses, NSError *_Nullable returnError) {
                                               XCTAssertNil(returnError);
                                               returnedTokenResult = [tokenResponses tokens][0];
@@ -154,7 +155,8 @@ static NSString *const kMSDataStoreAppDocumentsPartition = @"readonly";
   [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:httpMock
                                              tokenExchangeUrl:[NSURL new]
                                                     appSecret:@"appSecret"
-                                                    partition:kMSPartitionName
+                                                    partition:kMSPartition
+                                          includeExpiredToken:NO
                                             completionHandler:^(MSTokensResponse *tokenResponses, NSError *_Nullable returnError) {
                                               XCTAssertNil(returnError);
                                               returnedTokenResult = [tokenResponses tokens][0];
@@ -198,6 +200,7 @@ static NSString *const kMSDataStoreAppDocumentsPartition = @"readonly";
                                              tokenExchangeUrl:[NSURL new]
                                                     appSecret:@"appSecret"
                                                     partition:kMSPartitionName
+                                          includeExpiredToken:NO
                                             completionHandler:^(MSTokensResponse *tokenResponses, NSError *_Nullable error) {
                                               // Then
                                               XCTAssertNil(error);
@@ -241,7 +244,8 @@ static NSString *const kMSDataStoreAppDocumentsPartition = @"readonly";
   [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:httpMock
                                              tokenExchangeUrl:[NSURL new]
                                                     appSecret:@"appSecret"
-                                                    partition:kMSPartitionName
+                                                    partition:kMSPartition
+                                          includeExpiredToken:NO
                                             completionHandler:^(MSTokensResponse *tokenResponses, NSError *_Nullable returnError) {
                                               // Then
                                               XCTAssertNotNil(returnError);
@@ -283,7 +287,8 @@ static NSString *const kMSDataStoreAppDocumentsPartition = @"readonly";
       performDbTokenAsyncOperationWithHttpClient:httpMock
                                 tokenExchangeUrl:[NSURL new]
                                        appSecret:@"appSecret"
-                                       partition:kMSPartitionName
+                                       partition:kMSPartition
+                             includeExpiredToken:NO
                                completionHandler:^(MSTokensResponse *__unused tokenResponses, NSError *_Nullable __unused returnError){
                                }];
 
@@ -314,7 +319,8 @@ static NSString *const kMSDataStoreAppDocumentsPartition = @"readonly";
   [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:httpMock
                                              tokenExchangeUrl:[NSURL new]
                                                     appSecret:@"appSecret"
-                                                    partition:kMSPartitionName
+                                                    partition:kMSPartition
+                                          includeExpiredToken:NO
                                             completionHandler:^(MSTokensResponse *__unused tokenResponses, NSError *_Nullable returnError) {
                                               // Then
                                               XCTAssertNotNil(returnError);
@@ -353,7 +359,8 @@ static NSString *const kMSDataStoreAppDocumentsPartition = @"readonly";
   [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:httpMock
                                              tokenExchangeUrl:[NSURL new]
                                                     appSecret:@"appSecret"
-                                                    partition:kMSPartitionName
+                                                    partition:kMSPartition
+                                          includeExpiredToken:NO
                                             completionHandler:^(MSTokensResponse *__unused tokenResponses, NSError *_Nullable returnError) {
                                               // Then
                                               XCTAssertEqual(returnError, serviceError);
@@ -393,7 +400,8 @@ static NSString *const kMSDataStoreAppDocumentsPartition = @"readonly";
   [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:httpMock
                                              tokenExchangeUrl:[NSURL new]
                                                     appSecret:@"appSecret"
-                                                    partition:kMSPartitionName
+                                                    partition:kMSPartition
+                                          includeExpiredToken:NO
                                             completionHandler:^(MSTokensResponse *__unused tokenResponses, NSError *_Nullable returnError) {
                                               // Then
                                               XCTAssertNotNil(returnError);
