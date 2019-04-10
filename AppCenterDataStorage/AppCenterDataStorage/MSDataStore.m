@@ -225,8 +225,7 @@ static dispatch_once_t onceToken;
     NSError *error;
     if (![self canBeUsed] || ![self isEnabled]) {
       error = [self generateDisabledError:@"read" documentId:documentId];
-    }
-    if (!error && ![MSDocumentUtils isSerializableDocument:documentType]) {
+    } else if (![MSDocumentUtils isSerializableDocument:documentType]) {
       error = [self generateInvalidClassError];
     }
     if (error) {
@@ -369,8 +368,7 @@ static dispatch_once_t onceToken;
     NSError *error;
     if (![self canBeUsed] || ![self isEnabled]) {
       error = [self generateDisabledError:@"list" documentId:nil];
-    }
-    if (!error && ![MSDocumentUtils isSerializableDocument:documentType]) {
+    } else if (![MSDocumentUtils isSerializableDocument:documentType]) {
       error = [self generateInvalidClassError];
     }
     if (error) {
@@ -481,9 +479,9 @@ static dispatch_once_t onceToken;
 }
 
 - (NSError *)generateInvalidClassError {
-  NSError *error = [[NSError alloc] initWithDomain:kMSACErrorDomain
-                                              code:MSACInvalidClassCode
-                                          userInfo:@{NSLocalizedDescriptionKey : kMSACInvalidClassDesc}];
+  NSError *error = [[NSError alloc] initWithDomain:kMSACDataStoreErrorDomain
+                                              code:MSACDataStoreInvalidClassCode
+                                          userInfo:@{NSLocalizedDescriptionKey : kMSACDataStoreInvalidClassDesc}];
   MSLogError([MSDataStore logTag], @"Not able to validate document deserialization precondition: %@", [error localizedDescription]);
   return error;
 }

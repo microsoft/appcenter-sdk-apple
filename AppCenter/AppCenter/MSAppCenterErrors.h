@@ -14,13 +14,12 @@ static NSString *const kMSACErrorDomain = MS_APP_CENTER_BASE_DOMAIN @"ErrorDomai
 #pragma mark - General
 
 // Error codes.
-NS_ENUM(NSInteger){MSACLogInvalidContainerErrorCode = 1, MSACCanceledErrorCode = 2, MSACDisabledErrorCode = 3, MSACInvalidClassCode = 4};
+NS_ENUM(NSInteger){MSACLogInvalidContainerErrorCode = 1, MSACCanceledErrorCode = 2, MSACDisabledErrorCode = 3};
 
 // Error descriptions.
 static NSString const *kMSACLogInvalidContainerErrorDesc = @"Invalid log container.";
 static NSString const *kMSACCanceledErrorDesc = @"The operation was canceled.";
 static NSString const *kMSACDisabledErrorDesc = @"The service is disabled.";
-static NSString const *kMSACInvalidClassDesc = @"Provided class does not conform to serialization protocol (MSSerializableDocument).";
 
 #pragma mark - Connection
 
