@@ -14,6 +14,7 @@
 #import "MSDataStoreInternal.h"
 #import "MSDocumentUtils.h"
 #import "MSDocumentWrapper.h"
+#import "MSTokenResult.h"
 #import "MSUtility+Date.h"
 #import "MSUtility+StringFormatting.h"
 #import "MSWriteOptions.h"
@@ -53,19 +54,27 @@ static const NSUInteger kMSSchemaVersion = 1;
 
 #pragma mark - Table Management
 
-- (BOOL)upsertWithPartition:(NSString *)partition
-            documentWrapper:(MSDocumentWrapper *)documentWrapper
-                  operation:(NSString *_Nullable)operation
-                    options:(MSBaseOptions *)options {
+- (BOOL)createUserStorageWithAccountId:(NSString *)accountId {
+
+  // Create table based on the schema.
+  return [self.dbStorage createTable:[NSString stringWithFormat:kMSUserDocumentTableNameFormat, accountId]
+                       columnsSchema:[MSDBDocumentStore columnsSchema]
+             uniqueColumnsConstraint:@[ kMSPartitionColumnName, kMSDocumentIdColumnName ]];
+}
+
+- (BOOL)upsertWithToken:(MSTokenResult *)token
+        documentWrapper:(MSDocumentWrapper *)documentWrapper
+              operation:(NSString *_Nullable)operation
+                options:(MSBaseOptions *)options {
   NSDate *now = [NSDate date];
   NSDate *expirationTime = [now dateByAddingTimeInterval:options.deviceTimeToLive];
-  NSString *tableName = [MSDBDocumentStore tableNameForPartition:partition];
+  NSString *tableName = [MSDBDocumentStore tableNameForPartition:token.partition];
   NSString *insertQuery =
       [NSString stringWithFormat:@"REPLACE INTO \"%@\" (\"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\") "
                                  @"VALUES ('%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@')",
                                  tableName, kMSPartitionColumnName, kMSDocumentIdColumnName, kMSDocumentColumnName, kMSETagColumnName,
                                  kMSExpirationTimeColumnName, kMSDownloadTimeColumnName, kMSOperationTimeColumnName,
-                                 kMSPendingOperationColumnName, partition, documentWrapper.documentId, documentWrapper.jsonValue,
+                                 kMSPendingOperationColumnName, token.partition, documentWrapper.documentId, documentWrapper.jsonValue,
                                  documentWrapper.eTag, [MSUtility dateToISO8601:expirationTime],
                                  [MSUtility dateToISO8601:documentWrapper.lastUpdatedDate], [MSUtility dateToISO8601:now], operation];
   int result = [self.dbStorage executeNonSelectionQuery:insertQuery];
@@ -75,10 +84,10 @@ static const NSUInteger kMSSchemaVersion = 1;
   return result == SQLITE_OK;
 }
 
-- (BOOL)deleteWithPartition:(NSString *)partition documentId:(NSString *)documentId {
-  NSString *tableName = [MSDBDocumentStore tableNameForPartition:partition];
+- (BOOL)deleteWithToken:(MSTokenResult *)token documentId:(NSString *)documentId {
+  NSString *tableName = [MSDBDocumentStore tableNameForPartition:token.partition];
   NSString *deleteQuery = [NSString stringWithFormat:@"DELETE FROM \"%@\" WHERE \"%@\" = '%@' AND \"%@\" = '%@'", tableName,
-                                                     kMSPartitionColumnName, partition, kMSDocumentIdColumnName, documentId];
+                                                     kMSPartitionColumnName, token.partition, kMSDocumentIdColumnName, documentId];
   int result = [self.dbStorage executeNonSelectionQuery:deleteQuery];
   if (result != SQLITE_OK) {
     MSLogError([MSDataStore logTag], @"Unable to delete stored document, SQLite error code: %ld", (long)result);
@@ -86,32 +95,25 @@ static const NSUInteger kMSSchemaVersion = 1;
   return result == SQLITE_OK;
 }
 
-- (BOOL)createUserStorageWithAccountId:(NSString *)accountId {
-
-  // Create table based on the schema.
-  return [self.dbStorage createTable:[NSString stringWithFormat:kMSUserDocumentTableNameFormat, accountId]
-                       columnsSchema:[MSDBDocumentStore columnsSchema]
-             uniqueColumnsConstraint:@[ kMSPartitionColumnName, kMSDocumentIdColumnName ]];
-}
-
 - (BOOL)deleteUserStorageWithAccountId:(NSString *)accountId {
   NSString *tableName = [NSString stringWithFormat:kMSUserDocumentTableNameFormat, accountId];
   return [self.dbStorage dropTable:tableName];
 }
 
-- (MSDocumentWrapper *)readWithPartition:(NSString *)partition
-                              documentId:(NSString *)documentId
-                            documentType:(Class)documentType
-                             readOptions:(MSReadOptions *)__unused readOptions {
-  NSString *selectionQuery =
-      [NSString stringWithFormat:@"SELECT * FROM \"%@\" WHERE \"%@\" = \"%@\" AND \"%@\" = \"%@\"", kMSAppDocumentTableName,
-                                 kMSPartitionColumnName, partition, kMSDocumentIdColumnName, documentId];
+- (MSDocumentWrapper *)readWithToken:(MSTokenResult *)token
+                          documentId:(NSString *)documentId
+                        documentType:(Class)documentType
+                         readOptions:(MSReadOptions *)__unused readOptions {
+  NSString *tableName = [MSDBDocumentStore tableNameForPartition:token.partition];
+  NSString *selectionQuery = [NSString stringWithFormat:@"SELECT * FROM \"%@\" WHERE \"%@\" = \"%@\" AND \"%@\" = \"%@\"", tableName,
+                                                        kMSPartitionColumnName, token.partition, kMSDocumentIdColumnName, documentId];
   NSArray *result = [self.dbStorage executeSelectionQuery:selectionQuery];
 
   // Return an error if the entry could not be found in the database.
   if (result.count == 0) {
-    NSString *errorMessage = [NSString
-        stringWithFormat:@"Unable to find document in local database with partition key '%@' and document ID '%@'", partition, documentId];
+    NSString *errorMessage =
+        [NSString stringWithFormat:@"Unable to find document in local database with partition key '%@' and document ID '%@'",
+                                   token.partition, documentId];
     MSLogWarning([MSDataStore logTag], @"%@", errorMessage);
     NSError *error = [[NSError alloc] initWithDomain:kMSACDataStoreErrorDomain
                                                 code:MSACDataStoreErrorLocalDocumentNotFound
@@ -124,12 +126,12 @@ static const NSUInteger kMSSchemaVersion = 1;
   NSDate *currentDate = [NSDate date];
   if ([expirationTime laterDate:currentDate] == currentDate) {
     NSString *errorMessage = [NSString stringWithFormat:@"Local document with partition key '%@' and document ID '%@' expired at %@",
-                                                        partition, documentId, expirationTime];
+                                                        token.partition, documentId, expirationTime];
     MSLogWarning([MSDataStore logTag], @"%@", errorMessage);
     NSError *error = [[NSError alloc] initWithDomain:kMSACDataStoreErrorDomain
                                                 code:MSACDataStoreErrorLocalDocumentExpired
                                             userInfo:@{NSLocalizedDescriptionKey : errorMessage}];
-    [self deleteDocumentWithPartition:partition documentId:documentId];
+    [self deleteWithToken:token documentId:documentId];
     return [[MSDocumentWrapper alloc] initWithError:error documentId:documentId];
   }
 
@@ -142,14 +144,9 @@ static const NSUInteger kMSSchemaVersion = 1;
                                              documentType:documentType
                                                      eTag:result[0][self.eTagColumnIndex]
                                           lastUpdatedDate:lastUpdatedDate
-                                                partition:partition
+                                                partition:token.partition
                                                documentId:documentId
                                          pendingOperation:pendingOperation];
-}
-
-- (void)deleteDocumentWithPartition:(NSString *)__unused partition documentId:(NSString *)__unused documentId {
-
-  // TODO implement this.
 }
 
 - (void)deleteAllTables {

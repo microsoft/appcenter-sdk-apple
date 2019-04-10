@@ -16,6 +16,7 @@
 #import "MSReadOptions.h"
 #import "MSTestFrameworks.h"
 #import "MSTokenExchange.h"
+#import "MSTokenResult.h"
 #import "MSUtility+Date.h"
 #import "MSUtility+File.h"
 #import "MSWriteOptions.h"
@@ -26,10 +27,14 @@
 @property(nonatomic, strong) MSDBStorage *dbStorage;
 @property(nonatomic, strong) MSDBDocumentStore *sut;
 @property(nonnull, strong) MSDBSchema *schema;
+@property(nonnull, strong) MSTokenResult *appToken;
+@property(nonnull, strong) MSTokenResult *userToken;
 
 @end
 
 @implementation MSDBDocumentStoreTests
+
+MSTokenResult *token1;
 
 - (void)setUp {
   [super setUp];
@@ -41,6 +46,24 @@
   self.schema = [MSDBDocumentStore documentTableSchema];
   self.dbStorage = [[MSDBStorage alloc] initWithSchema:self.schema version:0 filename:kMSDBDocumentFileName];
   self.sut = [[MSDBDocumentStore alloc] initWithDbStorage:self.dbStorage schema:self.schema];
+
+  // Init tokens.
+  self.appToken = [[MSTokenResult alloc] initWithPartition:MSDataStoreAppDocumentsPartition
+                                                 dbAccount:@"account"
+                                                    dbName:@"dbname"
+                                          dbCollectionName:@"collection"
+                                                     token:@"token"
+                                                    status:@"Succeed"
+                                                 expiresOn:@"yesterday"
+                                                 accountId:nil];
+  self.userToken = [[MSTokenResult alloc] initWithPartition:@"user-123"
+                                                  dbAccount:@"account"
+                                                     dbName:@"dbname"
+                                           dbCollectionName:@"collection"
+                                                      token:@"token"
+                                                     status:@"Succeed"
+                                                  expiresOn:@"yesterday"
+                                                  accountId:@"123"];
 }
 
 - (void)tearDown {
@@ -54,31 +77,28 @@
 
   // If
   NSString *documentId = @"12829";
-  NSString *partitionKey = @"user";
-  NSString *accountId = @"dabe069b-ee80-4ca6-8657-9128a4600958";
   NSString *eTag = @"398";
-  NSString *fullPartition = [NSString stringWithFormat:@"%@-%@", partitionKey, accountId];
   NSString *jsonString = @"{ \"document\": {\"key\": \"value\"}}";
   NSString *pendingOperation = kMSPendingOperationReplace;
   [self addJsonStringToTable:jsonString
                         eTag:eTag
-                   partition:fullPartition
+                   partition:self.appToken.partition
                   documentId:documentId
             pendingOperation:pendingOperation
               expirationTime:[NSDate dateWithTimeIntervalSinceNow:1000000]];
 
   // When
-  MSDocumentWrapper *documentWrapper = [self.sut readWithPartition:fullPartition
-                                                        documentId:documentId
-                                                      documentType:[MSMockDocument class]
-                                                       readOptions:[MSReadOptions new]];
+  MSDocumentWrapper *documentWrapper = [self.sut readWithToken:self.appToken
+                                                    documentId:documentId
+                                                  documentType:[MSMockDocument class]
+                                                   readOptions:[MSReadOptions new]];
 
   // Then
   XCTAssertNotNil(documentWrapper);
   XCTAssertNil(documentWrapper.error);
   NSDictionary *retrievedContentDictionary = ((MSMockDocument *)(documentWrapper.deserializedValue)).contentDictionary;
   XCTAssertEqualObjects(retrievedContentDictionary[@"key"], @"value");
-  XCTAssertEqualObjects(documentWrapper.partition, fullPartition);
+  XCTAssertEqualObjects(documentWrapper.partition, self.appToken.partition);
   XCTAssertEqualObjects(documentWrapper.documentId, documentId);
   XCTAssertEqualObjects(documentWrapper.pendingOperation, pendingOperation);
 }
@@ -87,23 +107,20 @@
 
   // If
   NSString *documentId = @"12829";
-  NSString *partitionKey = @"user";
-  NSString *accountId = @"dabe069b-ee80-4ca6-8657-9128a4600958";
   NSString *eTag = @"398";
-  NSString *fullPartition = [NSString stringWithFormat:@"%@-%@", partitionKey, accountId];
   NSString *jsonString = @"{";
   [self addJsonStringToTable:jsonString
                         eTag:eTag
-                   partition:fullPartition
+                   partition:self.userToken.partition
                   documentId:documentId
             pendingOperation:@""
               expirationTime:[NSDate dateWithTimeIntervalSinceNow:1000000]];
 
   // When
-  MSDocumentWrapper *documentWrapper = [self.sut readWithPartition:fullPartition
-                                                        documentId:documentId
-                                                      documentType:[MSMockDocument class]
-                                                       readOptions:[MSReadOptions new]];
+  MSDocumentWrapper *documentWrapper = [self.sut readWithToken:self.userToken
+                                                    documentId:documentId
+                                                  documentType:[MSMockDocument class]
+                                                   readOptions:[MSReadOptions new]];
 
   // Then
   XCTAssertNotNil(documentWrapper);
@@ -115,23 +132,20 @@
 
   // If
   NSString *documentId = @"12829";
-  NSString *partitionKey = @"user";
-  NSString *accountId = @"dabe069b-ee80-4ca6-8657-9128a4600958";
   NSString *eTag = @"398";
-  NSString *fullPartition = [NSString stringWithFormat:@"%@-%@", partitionKey, accountId];
   NSString *jsonString = @"{ \"document\": {\"key\": \"value\"}}";
   [self addJsonStringToTable:jsonString
                         eTag:eTag
-                   partition:fullPartition
+                   partition:self.appToken.partition
                   documentId:documentId
             pendingOperation:@""
               expirationTime:[NSDate dateWithTimeIntervalSinceNow:-1000000]];
 
   // When
-  MSDocumentWrapper *documentWrapper = [self.sut readWithPartition:fullPartition
-                                                        documentId:documentId
-                                                      documentType:[MSMockDocument class]
-                                                       readOptions:[MSReadOptions new]];
+  MSDocumentWrapper *documentWrapper = [self.sut readWithToken:self.appToken
+                                                    documentId:documentId
+                                                  documentType:[MSMockDocument class]
+                                                   readOptions:[MSReadOptions new]];
 
   // Then
   XCTAssertNotNil(documentWrapper);
@@ -139,26 +153,23 @@
   XCTAssertEqualObjects(documentWrapper.error.error.domain, kMSACDataStoreErrorDomain);
   XCTAssertEqual(documentWrapper.error.error.code, MSACDataStoreErrorLocalDocumentExpired);
   XCTAssertEqualObjects(documentWrapper.documentId, documentId);
-  OCMVerify([self.sut deleteDocumentWithPartition:fullPartition documentId:documentId]);
+  OCMVerify([self.sut deleteWithToken:self.userToken documentId:documentId]);
 }
 
 - (void)testReadUserDocumentFromLocalDatabaseNotFound {
 
   // If
   NSString *documentId = @"12829";
-  NSString *partitionKey = @"user";
   MSMockDocument *document = [MSMockDocument new];
-  NSString *accountId = @"dabe069b-ee80-4ca6-8657-9128a4600958";
   document.contentDictionary = @{@"key" : @"value"};
   MSDBDocumentStore *sut = [MSDBDocumentStore new];
-  [self.sut createUserStorageWithAccountId:accountId];
-  NSString *fullPartition = [NSString stringWithFormat:@"%@-%@", partitionKey, accountId];
+  [self.sut createUserStorageWithAccountId:self.userToken.accountId];
 
   // When
-  MSDocumentWrapper *documentWrapper = [sut readWithPartition:fullPartition
-                                                   documentId:documentId
-                                                 documentType:[document class]
-                                                  readOptions:[MSReadOptions new]];
+  MSDocumentWrapper *documentWrapper = [sut readWithToken:self.userToken
+                                               documentId:documentId
+                                             documentType:[document class]
+                                              readOptions:[MSReadOptions new]];
 
   // Then
   XCTAssertNotNil(documentWrapper);
@@ -234,65 +245,101 @@
   OCMVerify([self.dbStorage dropTable:userTableName]);
 }
 
-- (void)testUpsertWithPartition {
+- (void)testUpsertAppDocument {
 
   // If
   MSDocumentWrapper *documentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestDocument"]
                                                                    documentType:[MSDictionaryDocument class]];
+  MSReadOptions *readOptions = [[MSReadOptions alloc] initWithDeviceTimeToLive:1];
 
   // When
-  BOOL result = [self.sut upsertWithPartition:MSDataStoreAppDocumentsPartition
-                              documentWrapper:documentWrapper
-                                    operation:@"CREATE"
-                                      options:[[MSReadOptions alloc] initWithDeviceTimeToLive:1]];
+  BOOL result = [self.sut upsertWithToken:self.appToken documentWrapper:documentWrapper operation:@"CREATE" options:readOptions];
+  MSDocumentWrapper *expectedDocumentWrapper = [self.sut readWithToken:self.appToken
+                                                            documentId:documentWrapper.documentId
+                                                          documentType:[MSDictionaryDocument class]
+                                                           readOptions:readOptions];
 
   // Then
   XCTAssertTrue(result);
-  // TODO: also validate with read when we have it.
+  XCTAssertNil(expectedDocumentWrapper.error);
+  XCTAssertNotNil(expectedDocumentWrapper.deserializedValue);
+  XCTAssertNotNil(expectedDocumentWrapper.jsonValue);
+  XCTAssertEqualObjects(expectedDocumentWrapper.documentId, documentWrapper.documentId);
+  XCTAssertEqualObjects(expectedDocumentWrapper.partition, documentWrapper.partition);
+  XCTAssertEqualObjects(expectedDocumentWrapper.eTag, documentWrapper.eTag);
+
+  // The expected document wrapper should have its last updated date set to now + read option (at insertion time). The fixture we use should
+  // hence be in the past.
+  XCTAssertTrue([expectedDocumentWrapper.lastUpdatedDate compare:documentWrapper.lastUpdatedDate] == NSOrderedDescending);
 }
 
-- (void)testDeleteWithPartitionForNonExistentDocument {
+- (void)testDeleteAppDocumentForNonExistentDocument {
 
   // If, When
-  BOOL result = [self.sut deleteWithPartition:MSDataStoreAppDocumentsPartition documentId:@"some-document-id"];
+  BOOL result = [self.sut deleteWithToken:self.appToken documentId:@"some-non-existing-document-id"];
+  MSDocumentWrapper *expectedDocumentWrapper = [self.sut readWithToken:self.appToken
+                                                            documentId:@"some-non-existing-document-id"
+                                                          documentType:[MSDictionaryDocument class]
+                                                           readOptions:[[MSReadOptions alloc] initWithDeviceTimeToLive:1]];
 
   // Then, should succeed but be a no-op
   XCTAssertTrue(result);
+  XCTAssertNotNil(expectedDocumentWrapper.error);
 }
 
-- (void)testDeleteWithReadonlyPartitionForExistingDocument {
+- (void)testDeleteExistingAppDocument {
 
   // If
   MSDocumentWrapper *documentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestDocument"]
                                                                    documentType:[MSDictionaryDocument class]];
-  [self.sut upsertWithPartition:MSDataStoreAppDocumentsPartition
-                documentWrapper:documentWrapper
-                      operation:@"CREATE"
-                        options:[[MSReadOptions alloc] initWithDeviceTimeToLive:1]];
+  [self.sut upsertWithToken:self.appToken
+            documentWrapper:documentWrapper
+                  operation:@"CREATE"
+                    options:[[MSReadOptions alloc] initWithDeviceTimeToLive:1]];
+  MSDocumentWrapper *expectedDocumentWrapper = [self.sut readWithToken:self.appToken
+                                                            documentId:documentWrapper.documentId
+                                                          documentType:[MSDictionaryDocument class]
+                                                           readOptions:[[MSReadOptions alloc] initWithDeviceTimeToLive:1]];
+  XCTAssertNil(expectedDocumentWrapper.error);
 
   // When
-  BOOL result = [self.sut deleteWithPartition:MSDataStoreAppDocumentsPartition documentId:documentWrapper.documentId];
+  BOOL result = [self.sut deleteWithToken:self.appToken documentId:documentWrapper.documentId];
+  expectedDocumentWrapper = [self.sut readWithToken:self.appToken
+                                         documentId:documentWrapper.documentId
+                                       documentType:[MSDictionaryDocument class]
+                                        readOptions:[[MSReadOptions alloc] initWithDeviceTimeToLive:1]];
 
   // Then
   XCTAssertTrue(result);
+  XCTAssertNotNil(expectedDocumentWrapper.error);
 }
 
-- (void)testDeleteWithUserPartitionForExistingDocument {
+- (void)testDeleteExistingUserDocument {
 
   // If
   MSDocumentWrapper *documentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestDocument"]
                                                                    documentType:[MSDictionaryDocument class]];
-  [self.sut createUserStorageWithAccountId:@"1"];
-  [self.sut upsertWithPartition:@"user-1"
-                documentWrapper:documentWrapper
-                      operation:@"CREATE"
-                        options:[[MSReadOptions alloc] initWithDeviceTimeToLive:1]];
+  [self.sut createUserStorageWithAccountId:self.userToken.accountId];
+  [self.sut upsertWithToken:self.userToken
+            documentWrapper:documentWrapper
+                  operation:@"CREATE"
+                    options:[[MSReadOptions alloc] initWithDeviceTimeToLive:1]];
+  MSDocumentWrapper *expectedDocumentWrapper = [self.sut readWithToken:self.userToken
+                                                            documentId:documentWrapper.documentId
+                                                          documentType:[MSDictionaryDocument class]
+                                                           readOptions:[[MSReadOptions alloc] initWithDeviceTimeToLive:1]];
+  XCTAssertNil(expectedDocumentWrapper.error);
 
   // When
-  BOOL result = [self.sut deleteWithPartition:@"user-1" documentId:documentWrapper.documentId];
+  BOOL result = [self.sut deleteWithToken:self.userToken documentId:documentWrapper.documentId];
+  expectedDocumentWrapper = [self.sut readWithToken:self.userToken
+                                         documentId:documentWrapper.documentId
+                                       documentType:[MSDictionaryDocument class]
+                                        readOptions:[[MSReadOptions alloc] initWithDeviceTimeToLive:1]];
 
   // Then
   XCTAssertTrue(result);
+  XCTAssertNotNil(expectedDocumentWrapper.error);
 }
 
 - (void)testDeletionOfAllTables {
