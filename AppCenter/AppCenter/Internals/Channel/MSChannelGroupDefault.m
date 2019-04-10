@@ -10,7 +10,7 @@
 #import "MSChannelUnitDefaultPrivate.h"
 #import "MSLogDBStorage.h"
 
-static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQueue";
+static char *const kMSLogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQueue";
 
 @implementation MSChannelGroupDefault
 
@@ -23,7 +23,7 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
 
 - (instancetype)initWithIngestion:(nullable MSAppCenterIngestion *)ingestion {
   if ((self = [self init])) {
-    dispatch_queue_t serialQueue = dispatch_queue_create(kMSlogsDispatchQueue, DISPATCH_QUEUE_SERIAL);
+    dispatch_queue_t serialQueue = dispatch_queue_create(kMSLogsDispatchQueue, DISPATCH_QUEUE_SERIAL);
     _logsDispatchQueue = serialQueue;
     _channels = [NSMutableArray<id<MSChannelUnitProtocol>> new];
     _delegates = [NSHashTable weakObjectsHashTable];

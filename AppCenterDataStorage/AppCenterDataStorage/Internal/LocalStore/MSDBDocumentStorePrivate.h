@@ -9,6 +9,7 @@ NS_ASSUME_NONNULL_BEGIN
 static NSString *const kMSDBDocumentFileName = @"Documents.sqlite";
 static NSString *const kMSAppDocumentTableName = @"appDocuments";
 static NSString *const kMSUserDocumentTableNameFormat = @"user_%@_documents";
+static NSString *const kMSDataStoreAppDocumentsUserPartitionPrefix = @"user-";
 static NSString *const kMSIdColumnName = @"id";
 static NSString *const kMSPartitionColumnName = @"partition";
 static NSString *const kMSDocumentIdColumnName = @"document_id";
@@ -72,6 +73,20 @@ static NSString *const kMSPendingOperationColumnName = @"pending_operation";
  * A local store instance that is used to manage all operation on the sqLite instance.
  */
 @property(nonatomic) MSDBStorage *dbStorage;
+
+/**
+ * The schema for the documents cache.
+ */
++ (MSDBColumnsSchema *)columnsSchema;
+
+/**
+ * Return the table for a given partition.
+ *
+ * @param partition The partition.
+ *
+ * @return The table name.
+ */
++ (NSString *)tableNameForPartition:(NSString *)partition;
 
 @end
 
