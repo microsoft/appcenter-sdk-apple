@@ -1,11 +1,13 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "MSDocumentUtils.h"
+#import <objc/runtime.h>
+
 #import "MSDataSourceError.h"
 #import "MSDataStorageConstants.h"
 #import "MSDataStoreErrors.h"
 #import "MSDataStoreInternal.h"
+#import "MSDocumentUtils.h"
 #import "MSDocumentWrapperInternal.h"
 #import "MSLogger.h"
 
@@ -190,6 +192,10 @@ static NSString *const kMSDocumentKey = @"document";
                                               lastUpdatedDate:lastUpdatedDate
                                              pendingOperation:pendingOperation
                                                         error:dataSourceError];
+}
+
++ (BOOL)isSerializableDocument:(Class)classType {
+  return class_conformsToProtocol(classType, @protocol(MSSerializableDocument));
 }
 
 @end

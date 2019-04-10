@@ -175,6 +175,39 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                }];
   XCTAssertNotNil(actualDocumentWrapper);
   XCTAssertNotNil(actualDocumentWrapper.error);
+  XCTAssertEqual(actualDocumentWrapper.error.error.domain, kMSACErrorDomain);
+  XCTAssertEqual(actualDocumentWrapper.error.error.code, MSACDisabledErrorCode);
+  XCTAssertEqualObjects(actualDocumentWrapper.documentId, kMSDocumentIdTest);
+}
+
+- (void)testReadWithInvalidDocumentType {
+
+  // If
+  self.sut.httpClient = OCMProtocolMock(@protocol(MSHttpClientProtocol));
+  OCMReject([self.sut.httpClient sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:OCMOCK_ANY data:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
+  __block MSDocumentWrapper *actualDocumentWrapper;
+  __weak XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler called."];
+
+  // When
+  [MSDataStore readWithPartition:kMSPartitionTest
+                      documentId:kMSDocumentIdTest
+                    documentType:[NSString class]
+               completionHandler:^(MSDocumentWrapper *data) {
+                 actualDocumentWrapper = data;
+                 [expectation fulfill];
+               }];
+
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *_Nullable error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+  XCTAssertNotNil(actualDocumentWrapper);
+  XCTAssertNotNil(actualDocumentWrapper.error);
+  XCTAssertEqual(actualDocumentWrapper.error.error.domain, kMSACDataStoreErrorDomain);
+  XCTAssertEqual(actualDocumentWrapper.error.error.code, MSACDataStoreInvalidClassCode);
   XCTAssertEqualObjects(actualDocumentWrapper.documentId, kMSDocumentIdTest);
 }
 
@@ -205,6 +238,8 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                }];
   XCTAssertNotNil(actualDocumentWrapper);
   XCTAssertNotNil(actualDocumentWrapper.error);
+  XCTAssertEqual(actualDocumentWrapper.error.error.domain, kMSACErrorDomain);
+  XCTAssertEqual(actualDocumentWrapper.error.error.code, MSACDisabledErrorCode);
   XCTAssertEqualObjects(actualDocumentWrapper.documentId, kMSDocumentIdTest);
 }
 
@@ -235,6 +270,8 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                }];
   XCTAssertNotNil(actualDocumentWrapper);
   XCTAssertNotNil(actualDocumentWrapper.error);
+  XCTAssertEqual(actualDocumentWrapper.error.error.domain, kMSACErrorDomain);
+  XCTAssertEqual(actualDocumentWrapper.error.error.code, MSACDisabledErrorCode);
   XCTAssertEqualObjects(actualDocumentWrapper.documentId, kMSDocumentIdTest);
 }
 
@@ -264,6 +301,8 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                }];
   XCTAssertNotNil(actualDataSourceError);
   XCTAssertNotNil(actualDataSourceError.error);
+  XCTAssertEqual(actualDataSourceError.error.domain, kMSACErrorDomain);
+  XCTAssertEqual(actualDataSourceError.error.code, MSACDisabledErrorCode);
   XCTAssertEqual(actualDataSourceError.errorCode, MSACDocumentUnknownErrorCode);
 }
 
@@ -294,7 +333,39 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   XCTAssertNotNil(actualPaginatedDocuments);
   XCTAssertNotNil(actualPaginatedDocuments.currentPage.error);
   XCTAssertNotNil(actualPaginatedDocuments.currentPage.error.error);
+  XCTAssertEqual(actualPaginatedDocuments.currentPage.error.error.domain, kMSACErrorDomain);
+  XCTAssertEqual(actualPaginatedDocuments.currentPage.error.error.code, MSACDisabledErrorCode);
   XCTAssertEqual(actualPaginatedDocuments.currentPage.error.errorCode, MSACDocumentUnknownErrorCode);
+}
+
+- (void)testListWithInvalidDocumentType {
+
+  // If
+  self.sut.httpClient = OCMProtocolMock(@protocol(MSHttpClientProtocol));
+  OCMReject([self.sut.httpClient sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:OCMOCK_ANY data:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
+  __block MSPaginatedDocuments *actualPaginatedDocuments;
+  __weak XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler called."];
+
+  // When
+  [MSDataStore listWithPartition:kMSPartitionTest
+                    documentType:[NSString class]
+               completionHandler:^(MSPaginatedDocuments *documents) {
+                 actualPaginatedDocuments = documents;
+                 [expectation fulfill];
+               }];
+
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *_Nullable error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+  XCTAssertNotNil(actualPaginatedDocuments);
+  XCTAssertNotNil(actualPaginatedDocuments.currentPage.error);
+  XCTAssertNotNil(actualPaginatedDocuments.currentPage.error.error);
+  XCTAssertEqual(actualPaginatedDocuments.currentPage.error.error.domain, kMSACDataStoreErrorDomain);
+  XCTAssertEqual(actualPaginatedDocuments.currentPage.error.error.code, MSACDataStoreInvalidClassCode);
 }
 
 - (void)testDefaultHeaderWithPartitionWithDictionaryNotNull {
@@ -825,7 +896,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   OCMStub([httpClient new]).andReturn(httpClient);
   self.sut.httpClient = httpClient;
   id msTokenEchange = OCMClassMock([MSTokenExchange class]);
-  OCMStub([msTokenEchange retrieveCachedToken:[OCMArg any] expiredTokenIncluded:NO])
+  OCMStub([msTokenEchange retrieveCachedTokenForPartition:[OCMArg any] includeExpiredToken:NO])
       .andReturn([[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]]);
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@"List single document"];
 
@@ -897,7 +968,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   self.sut.httpClient = httpClient;
   id msTokenEchange = OCMClassMock([MSTokenExchange class]);
   MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
-  OCMStub([msTokenEchange retrieveCachedToken:[OCMArg any] expiredTokenIncluded:NO]).andReturn(tokenResult);
+  OCMStub([msTokenEchange retrieveCachedTokenForPartition:[OCMArg any] includeExpiredToken:NO]).andReturn(tokenResult);
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@"List first page"];
   NSMutableDictionary *continuationHeaders = [NSMutableDictionary new];
   continuationHeaders[@"x-ms-continuation"] = @"continuation token";
@@ -980,7 +1051,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // Mock cached token result.
   MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
-  OCMStub([self.tokenExchangeMock retrieveCachedToken:kMSPartitionTest expiredTokenIncluded:YES]).andReturn(tokenResult);
+  OCMStub([self.tokenExchangeMock retrieveCachedTokenForPartition:kMSPartitionTest includeExpiredToken:YES]).andReturn(tokenResult);
 
   // Mock local storage.
   id<MSDocumentStore> localStorageMock = OCMProtocolMock(@protocol(MSDocumentStore));
@@ -1102,7 +1173,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // Mock cached token result.
   MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
-  OCMStub([self.tokenExchangeMock retrieveCachedToken:kMSPartitionTest expiredTokenIncluded:YES]).andReturn(tokenResult);
+  OCMStub([self.tokenExchangeMock retrieveCachedTokenForPartition:kMSPartitionTest includeExpiredToken:YES]).andReturn(tokenResult);
 
   // Mock local storage.
   id<MSDocumentStore> localStorageMock = OCMProtocolMock(@protocol(MSDocumentStore));
@@ -1143,7 +1214,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // Mock cached token result.
   MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
-  OCMStub([self.tokenExchangeMock retrieveCachedToken:kMSPartitionTest expiredTokenIncluded:YES]).andReturn(tokenResult);
+  OCMStub([self.tokenExchangeMock retrieveCachedTokenForPartition:kMSPartitionTest includeExpiredToken:YES]).andReturn(tokenResult);
 
   // Mock local storage.
   id<MSDocumentStore> localStorageMock = OCMProtocolMock(@protocol(MSDocumentStore));
@@ -1184,7 +1255,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // Mock cached token result.
   MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
-  OCMStub([self.tokenExchangeMock retrieveCachedToken:kMSPartitionTest expiredTokenIncluded:YES]).andReturn(tokenResult);
+  OCMStub([self.tokenExchangeMock retrieveCachedTokenForPartition:kMSPartitionTest includeExpiredToken:YES]).andReturn(tokenResult);
 
   // Mock local storage.
   id<MSDocumentStore> localStorageMock = OCMProtocolMock(@protocol(MSDocumentStore));
@@ -1227,8 +1298,8 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // Mock cached token result.
   MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
-  OCMStub([self.tokenExchangeMock retrieveCachedToken:kMSPartitionTest expiredTokenIncluded:YES]).andReturn(tokenResult);
-  OCMStub([self.tokenExchangeMock retrieveCachedToken:kMSPartitionTest expiredTokenIncluded:NO]).andReturn(tokenResult);
+  OCMStub([self.tokenExchangeMock retrieveCachedTokenForPartition:kMSPartitionTest includeExpiredToken:YES]).andReturn(tokenResult);
+  OCMStub([self.tokenExchangeMock retrieveCachedTokenForPartition:kMSPartitionTest includeExpiredToken:NO]).andReturn(tokenResult);
 
   // Mock expired document in local storage.
   NSError *expiredError = [NSError errorWithDomain:kMSACDataStoreErrorDomain code:MSACDataStoreErrorLocalDocumentExpired userInfo:nil];
@@ -1287,8 +1358,8 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // Mock cached token result.
   MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
-  OCMStub([self.tokenExchangeMock retrieveCachedToken:kMSPartitionTest expiredTokenIncluded:YES]).andReturn(tokenResult);
-  OCMStub([self.tokenExchangeMock retrieveCachedToken:kMSPartitionTest expiredTokenIncluded:NO]).andReturn(tokenResult);
+  OCMStub([self.tokenExchangeMock retrieveCachedTokenForPartition:kMSPartitionTest includeExpiredToken:YES]).andReturn(tokenResult);
+  OCMStub([self.tokenExchangeMock retrieveCachedTokenForPartition:kMSPartitionTest includeExpiredToken:NO]).andReturn(tokenResult);
 
   // Mock document in local storage.
   id<MSDocumentStore> localStorageMock = OCMProtocolMock(@protocol(MSDocumentStore));
@@ -1345,7 +1416,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // Mock cached token result.
   MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
-  OCMStub([self.tokenExchangeMock retrieveCachedToken:kMSPartitionTest expiredTokenIncluded:YES]).andReturn(tokenResult);
+  OCMStub([self.tokenExchangeMock retrieveCachedTokenForPartition:kMSPartitionTest includeExpiredToken:YES]).andReturn(tokenResult);
 
   // Simulate being offline.
   MS_Reachability *reachabilityMock = OCMPartialMock([MS_Reachability reachabilityForInternetConnection]);
