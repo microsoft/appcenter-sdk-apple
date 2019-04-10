@@ -288,7 +288,7 @@ static dispatch_once_t onceToken;
                                    return;
                                  }
 
-                                 // Run the operation in a dispatch queue to avoid blocking and concurrent database accesses.
+                                 // Run the operation in a dispatch queue.
                                  dispatch_async(self.dispatchQueue, ^{
                                    NSString *fullPartitionName = tokenResponse.tokens[0].partition;
                                    MSDocumentWrapper *documentWrapper = [self.documentStore readWithPartition:fullPartitionName

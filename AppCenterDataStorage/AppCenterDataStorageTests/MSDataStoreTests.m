@@ -25,6 +25,7 @@
 #import "MSTokenResult.h"
 #import "MSTokensResponse.h"
 #import "NSObject+MSTestFixture.h"
+#import "MSDispatchTestUtil.h"
 
 @interface MSFakeSerializableDocument : NSObject <MSSerializableDocument>
 - (instancetype)initFromDictionary:(NSDictionary *)dictionary;
@@ -65,7 +66,6 @@ static NSString *const kMSDbNameTest = @"dbName";
 static NSString *const kMSDbCollectionNameTest = @"dbCollectionName";
 static NSString *const kMSStatusTest = @"status";
 static NSString *const kMSExpiresOnTest = @"2999-09-19T11:11:11.111Z";
-;
 static NSString *const kMSDocumentIdTest = @"documentId";
 
 - (void)setUp {
@@ -83,6 +83,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
 - (void)tearDown {
   [super tearDown];
+  [MSDispatchTestUtil awaitAndSuspendDispatchQueue:self.sut.dispatchQueue];
   [MSDataStore resetSharedInstance];
   [self.settingsMock stopMocking];
   [self.tokenExchangeMock stopMocking];

@@ -13,6 +13,7 @@
 #import "MSMockLog.h"
 #import "MSStorage.h"
 #import "MSTestFrameworks.h"
+#import "MSDispatchTestUtil.h"
 
 @interface MSChannelGroupDefaultTests : XCTestCase
 
@@ -49,19 +50,7 @@
 }
 
 - (void)tearDown {
-
-  // Wait all tasks in tests.
-  XCTestExpectation *expectation = [self expectationWithDescription:@"tearDown"];
-  dispatch_async(self.sut.logsDispatchQueue, ^{
-    /*
-     * Prevent the execution of any blocks that have been enqueue. It happens when
-     * we call dispatch_async from logsDispatchQueue.
-     * There is no API to clear this queue, so we should suspend it at least.
-     */
-    dispatch_suspend(self.sut.logsDispatchQueue);
-    [expectation fulfill];
-  });
-  [self waitForExpectations:@[ expectation ] timeout:1];
+  [MSDispatchTestUtil awaitAndSuspendDispatchQueue:self.sut.logsDispatchQueue];
 
   // Stop mocks.
   [self.ingestionMock stopMocking];
