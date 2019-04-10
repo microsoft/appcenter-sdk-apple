@@ -97,7 +97,8 @@ static NSString *const kMSGetTokenPath = @"/data/tokens";
           }
 
           // Create token result object.
-          MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:jsonDictionary[kMSTokens][0]];
+          // FIXME: we should eventually validate further the payload (we might not get the dictionary we expect).
+          MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:(NSDictionary *)jsonDictionary[kMSTokens][0]];
 
           // Create token response object.
           MSTokensResponse *tokens = [[MSTokensResponse alloc] initWithTokens:@[ tokenResult ]];
