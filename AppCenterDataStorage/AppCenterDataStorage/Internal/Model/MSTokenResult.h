@@ -75,7 +75,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A token response instance.
  */
-- (instancetype)initWithString:(NSString *)tokenString;
+- (instancetype _Nullable)initWithString:(NSString *)tokenString;
 
 /**
  * Initialize the Token result object
@@ -84,7 +84,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A token response instance.
  */
-- (instancetype)initWithDictionary:(NSDictionary *)token;
+- (instancetype _Nullable)initWithDictionary:(NSDictionary *)token;
 
 /**
  * Serialize the token has a string.
