@@ -55,8 +55,7 @@ static NSString *const kMSAccountId = @"accountId";
     for (NSString *requiredProperty in [NSArray arrayWithObjects:kMSPartition, kMSDbAccount, kMSDbName, kMSDbCollectionName,
                                                                  kMSDbCollectionName, kMSToken, kMSStatus, kMSExpiresOn, nil]) {
       if (![MSDocumentUtils isReferenceDictionaryWithKey:token key:requiredProperty keyType:[NSString class]]) {
-        self = nil;
-        return self;
+        return nil;
       }
     }
 
