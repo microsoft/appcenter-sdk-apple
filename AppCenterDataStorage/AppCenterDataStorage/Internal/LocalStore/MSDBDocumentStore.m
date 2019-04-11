@@ -107,8 +107,7 @@ static const NSUInteger kMSSchemaVersion = 1;
 
 - (MSDocumentWrapper *)readWithToken:(MSTokenResult *)token
                           documentId:(NSString *)documentId
-                        documentType:(Class)documentType
-                         readOptions:(__unused MSReadOptions *)readOptions {
+                        documentType:(Class)documentType {
   NSString *tableName = [MSDBDocumentStore tableNameForPartition:token.partition];
   NSString *selectionQuery = [NSString stringWithFormat:@"SELECT * FROM \"%@\" WHERE \"%@\" = \"%@\" AND \"%@\" = \"%@\"", tableName,
                                                         kMSPartitionColumnName, token.partition, kMSDocumentIdColumnName, documentId];

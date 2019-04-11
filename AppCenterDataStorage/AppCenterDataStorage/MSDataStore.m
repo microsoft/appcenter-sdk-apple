@@ -14,6 +14,7 @@
 #import "MSDataStoreErrors.h"
 #import "MSDataStoreInternal.h"
 #import "MSDataStorePrivate.h"
+#import "MSDictionaryDocument.h"
 #import "MSDocumentUtils.h"
 #import "MSDocumentWrapperInternal.h"
 #import "MSHttpClient.h"
@@ -188,7 +189,7 @@ static dispatch_once_t onceToken;
 + (void)deleteDocumentWithPartition:(NSString *)partition
                          documentId:(NSString *)documentId
                   completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
-  [[MSDataStore sharedInstance] deleteDocumentWithPartition:partition
+  [[MSDataStore sharedInstance] deleteWithPartition:partition
                                                  documentId:documentId
                                                writeOptions:nil
                                           completionHandler:completionHandler];
@@ -198,7 +199,7 @@ static dispatch_once_t onceToken;
                          documentId:(NSString *)documentId
                        writeOptions:(MSWriteOptions *_Nullable)writeOptions
                   completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
-  [[MSDataStore sharedInstance] deleteDocumentWithPartition:partition
+  [[MSDataStore sharedInstance] deleteWithPartition:partition
                                                  documentId:documentId
                                                writeOptions:writeOptions
                                           completionHandler:completionHandler];
@@ -260,7 +261,6 @@ static dispatch_once_t onceToken;
 - (void)readFromLocalStorageWithPartition:(NSString *)partition
                                documentId:(NSString *)documentId
                              documentType:(Class)documentType
-                              readOptions:(MSReadOptions *_Nullable)readOptions
                         completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
 
   // Try to get a token from the backend or cache.
@@ -289,8 +289,7 @@ static dispatch_once_t onceToken;
                                  dispatch_async(self.dispatchQueue, ^{
                                    MSDocumentWrapper *documentWrapper = [self.documentStore readWithToken:tokenResponse.tokens[0]
                                                                                                documentId:documentId
-                                                                                             documentType:documentType
-                                                                                              readOptions:readOptions];
+                                                                                             documentType:documentType];
                                    if ([documentWrapper.pendingOperation isEqualToString:kMSPendingOperationDelete]) {
                                      NSError *notFoundError = [[NSError alloc]
                                          initWithDomain:kMSACDataStoreErrorDomain
@@ -346,7 +345,7 @@ static dispatch_once_t onceToken;
                    completionHandler:completionHandler];
 }
 
-- (void)deleteDocumentWithPartition:(NSString *)partition
+- (void)deleteWithPartition:(NSString *)partition
                          documentId:(NSString *)documentId
                        writeOptions:(MSWriteOptions *_Nullable)__unused writeOptions
                   completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
@@ -359,6 +358,25 @@ static dispatch_once_t onceToken;
       completionHandler([[MSDocumentWrapper alloc] initWithError:error documentId:documentId]);
       return;
     }
+    
+    
+    [self readFromLocalStorageWithPartition:partition
+                                 documentId:documentId
+                               documentType:[MSDictionaryDocument class]
+                                readOptions:readOptions
+                          completionHandler:^(MSDocumentWrapper *_Nonnull document) {
+                            if ([self.reachability currentReachabilityStatus] == NotReachable || document.pendingOperation) {
+                              completionHandler(document);
+                            } else {
+                              [self readFromCosmosDbWithPartition:partition
+                                                       documentId:documentId
+                                                     documentType:documentType
+                                                      readOptions:readOptions
+                                                completionHandler:completionHandler];
+                            }
+                          }];
+    
+    
 
     // Perform the operation.
     [self performOperationForPartition:partition
