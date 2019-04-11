@@ -186,16 +186,16 @@ static dispatch_once_t onceToken;
            completionHandler:completionHandler];
 }
 
-+ (void)deleteDocumentWithPartition:(NSString *)partition
-                         documentId:(NSString *)documentId
-                  completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
++ (void)deleteWithPartition:(NSString *)partition
+                 documentId:(NSString *)documentId
+          completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
   [[MSDataStore sharedInstance] deleteWithPartition:partition documentId:documentId writeOptions:nil completionHandler:completionHandler];
 }
 
-+ (void)deleteDocumentWithPartition:(NSString *)partition
-                         documentId:(NSString *)documentId
-                       writeOptions:(MSWriteOptions *_Nullable)writeOptions
-                  completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
++ (void)deleteWithPartition:(NSString *)partition
+                 documentId:(NSString *)documentId
+               writeOptions:(MSWriteOptions *_Nullable)writeOptions
+          completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
   [[MSDataStore sharedInstance] deleteWithPartition:partition
                                          documentId:documentId
                                        writeOptions:writeOptions

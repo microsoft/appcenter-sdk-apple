@@ -169,9 +169,9 @@ typedef void (^MSPaginatedDocumentsCompletionHandler)(MSPaginatedDocuments<T> *d
  * @param documentId The CosmosDB document id.
  * @param completionHandler Callback to accept any errors.
  */
-+ (void)deleteDocumentWithPartition:(NSString *)partition
-                         documentId:(NSString *)documentId
-                  completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler;
++ (void)deleteWithPartition:(NSString *)partition
+                 documentId:(NSString *)documentId
+          completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler;
 
 /**
  * Delete a document from CosmosDB.
@@ -181,10 +181,10 @@ typedef void (^MSPaginatedDocumentsCompletionHandler)(MSPaginatedDocuments<T> *d
  * @param writeOptions Options for deleting the document.
  * @param completionHandler Callback to accept any errors.
  */
-+ (void)deleteDocumentWithPartition:(NSString *)partition
-                         documentId:(NSString *)documentId
-                       writeOptions:(MSWriteOptions *_Nullable)writeOptions
-                  completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler;
++ (void)deleteWithPartition:(NSString *)partition
+                 documentId:(NSString *)documentId
+               writeOptions:(MSWriteOptions *_Nullable)writeOptions
+          completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler;
 
 @end
 

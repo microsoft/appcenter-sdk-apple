@@ -285,12 +285,12 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // When
   [self.sut setEnabled:NO];
-  [MSDataStore deleteDocumentWithPartition:kMSPartitionTest
-                                documentId:kMSDocumentIdTest
-                         completionHandler:^(MSDocumentWrapper *wrapper) {
-                           actualDataSourceError = wrapper.error;
-                           [expectation fulfill];
-                         }];
+  [MSDataStore deleteWithPartition:kMSPartitionTest
+                        documentId:kMSDocumentIdTest
+                 completionHandler:^(MSDocumentWrapper *wrapper) {
+                   actualDataSourceError = wrapper.error;
+                   [expectation fulfill];
+                 }];
 
   // Then
   [self waitForExpectationsWithTimeout:1
@@ -792,13 +792,13 @@ static NSString *const kMSDocumentIdTest = @"documentId";
       });
 
   // When
-  [MSDataStore deleteDocumentWithPartition:kMSPartitionTest
-                                documentId:kMSDocumentIdTest
-                         completionHandler:^(MSDocumentWrapper *wrapper) {
-                           completionHandlerCalled = YES;
-                           actualResponseCode = wrapper.error.errorCode;
-                           [expectation fulfill];
-                         }];
+  [MSDataStore deleteWithPartition:kMSPartitionTest
+                        documentId:kMSDocumentIdTest
+                 completionHandler:^(MSDocumentWrapper *wrapper) {
+                   completionHandlerCalled = YES;
+                   actualResponseCode = wrapper.error.errorCode;
+                   [expectation fulfill];
+                 }];
 
   // Then
   [self waitForExpectationsWithTimeout:1
@@ -837,13 +837,13 @@ static NSString *const kMSDocumentIdTest = @"documentId";
       });
 
   // When
-  [MSDataStore deleteDocumentWithPartition:kMSPartitionTest
-                                documentId:kMSDocumentIdTest
-                         completionHandler:^(MSDocumentWrapper *wrapper) {
-                           completionHandlerCalled = YES;
-                           actualError = wrapper.error;
-                           [expectation fulfill];
-                         }];
+  [MSDataStore deleteWithPartition:kMSPartitionTest
+                        documentId:kMSDocumentIdTest
+                 completionHandler:^(MSDocumentWrapper *wrapper) {
+                   completionHandlerCalled = YES;
+                   actualError = wrapper.error;
+                   [expectation fulfill];
+                 }];
 
   // Then
   [self waitForExpectationsWithTimeout:1
@@ -898,13 +898,13 @@ static NSString *const kMSDocumentIdTest = @"documentId";
       });
 
   // When
-  [MSDataStore deleteDocumentWithPartition:kMSPartitionTest
-                                documentId:kMSDocumentIdTest
-                         completionHandler:^(MSDocumentWrapper *wrapper) {
-                           completionHandlerCalled = YES;
-                           actualError = wrapper.error;
-                           [expectation fulfill];
-                         }];
+  [MSDataStore deleteWithPartition:kMSPartitionTest
+                        documentId:kMSDocumentIdTest
+                 completionHandler:^(MSDocumentWrapper *wrapper) {
+                   completionHandlerCalled = YES;
+                   actualError = wrapper.error;
+                   [expectation fulfill];
+                 }];
 
   // Then
   [self waitForExpectationsWithTimeout:1
@@ -935,10 +935,10 @@ static NSString *const kMSDocumentIdTest = @"documentId";
       });
 
   // When doing any API call, it will request a token.
-  [MSDataStore deleteDocumentWithPartition:kMSPartitionTest
-                                documentId:kMSDocumentIdTest
-                         completionHandler:^(__unused MSDocumentWrapper *wrapper){
-                         }];
+  [MSDataStore deleteWithPartition:kMSPartitionTest
+                        documentId:kMSDocumentIdTest
+                 completionHandler:^(__unused MSDocumentWrapper *wrapper){
+                 }];
 
   // Then that call uses the base URL we specified.
   XCTAssertEqualObjects([actualUrl scheme], @"https");
