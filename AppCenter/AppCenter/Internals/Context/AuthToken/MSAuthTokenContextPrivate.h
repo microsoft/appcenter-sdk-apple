@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface MSAuthTokenContext ()
 
 /**
@@ -19,3 +21,5 @@
 - (NSArray<MSAuthTokenInfo *> *)authTokenHistory;
 
 @end
+
+NS_ASSUME_NONNULL_END

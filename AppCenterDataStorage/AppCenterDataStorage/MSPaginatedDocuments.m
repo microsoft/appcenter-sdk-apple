@@ -19,8 +19,8 @@
 @synthesize readOptions = _readOptions;
 
 - (instancetype)initWithPage:(MSPage *)page
-                   partition:(NSString *)partition
-                documentType:(Class)documentType
+                   partition:(NSString *_Nullable)partition
+                documentType:(Class _Nullable)documentType
                  readOptions:(MSReadOptions *_Nullable)readOptions
            continuationToken:(NSString *_Nullable)continuationToken {
   if ((self = [super init])) {
@@ -47,8 +47,8 @@
 
 - (void)nextPageWithCompletionHandler:(void (^)(MSPage<id<MSSerializableDocument>> *page))completionHandler {
   if ([self hasNextPage]) {
-    [MSDataStore listWithPartition:self.partition
-                      documentType:self.documentType
+    [MSDataStore listWithPartition:(NSString *)self.partition
+                      documentType:(Class)self.documentType
                        readOptions:nil
                  continuationToken:self.continuationToken
                  completionHandler:^(MSPaginatedDocuments *documents) {

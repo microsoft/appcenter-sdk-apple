@@ -7,12 +7,12 @@
 @interface MSPaginatedDocuments ()
 
 // Read-only.
-@property(nonatomic, copy, readonly) NSString *partition;
-@property(nonatomic, readonly) Class documentType;
-@property(nonatomic, readonly) MSReadOptions *readOptions;
+@property(nonatomic, copy, readonly, nullable) NSString *partition;
+@property(nonatomic, readonly, nullable) Class documentType;
+@property(nonatomic, readonly, nullable) MSReadOptions *readOptions;
 
 // Read-write (to implement pagination).
-@property(nonatomic) MSPage *currentPage;
+@property(nonatomic, nonnull) MSPage *currentPage;
 @property(nonatomic, copy, nullable) NSString *continuationToken;
 
 @end

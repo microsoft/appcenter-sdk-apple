@@ -5,6 +5,8 @@
 #import "MSReadOptions.h"
 #import "MSSerializableDocument.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 // A (paginated) list of documents from CosmosDB
 @interface MSPaginatedDocuments<T : id <MSSerializableDocument>> : NSObject
 
@@ -20,8 +22,8 @@
  * @return The paginated documents.
  */
 - (instancetype)initWithPage:(MSPage *)page
-                   partition:(NSString *)partition
-                documentType:(Class)documentType
+                   partition:(NSString *_Nullable)partition
+                documentType:(Class _Nullable)documentType
                  readOptions:(MSReadOptions *_Nullable)readOptions
            continuationToken:(NSString *_Nullable)continuationToken;
 
@@ -65,3 +67,5 @@
 - (void)nextPageWithCompletionHandler:(void (^)(MSPage<T> *page))completionHandler;
 
 @end
+
+NS_ASSUME_NONNULL_END
