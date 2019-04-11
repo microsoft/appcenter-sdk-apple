@@ -670,6 +670,7 @@
 				049BC852224EDAFF00AE7FBB /* MSDataSourceError.h in Headers */,
 				8F4548E12256D2450021B0BF /* MSDictionaryDocument.h in Headers */,
 				4A193739225129C200459E1E /* MSDBDocumentStore.h in Headers */,
+				4A1937982252CA6600459E1E /* MSDocumentStore.h in Headers */,
 				049BC85B224EDB1D00AE7FBB /* MSPage.h in Headers */,
 				049BC85C224EDB2200AE7FBB /* MSReadOptions.h in Headers */,
 				04B1C8CA2252AF0A00CBD876 /* MSAppCenterErrors.h in Headers */,

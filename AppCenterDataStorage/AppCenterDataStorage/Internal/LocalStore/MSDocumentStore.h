@@ -68,7 +68,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param documentType The document type to read.
  * @param readOptions The read options.
  *
- * @return A document with the given ID.
+ * @returns A document.
  */
 - (MSDocumentWrapper *)readWithToken:(MSTokenResult *)token
                           documentId:(NSString *)documentId

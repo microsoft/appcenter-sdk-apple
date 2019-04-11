@@ -25,7 +25,7 @@
                                documentId:(NSString *)documentId
                                      eTag:(NSString *)eTag
                           lastUpdatedDate:(NSDate *)lastUpdatedDate
-                         pendingOperation:(nullable NSString *)pendingOperation
+                         pendingOperation:(NSString *)pendingOperation
                                     error:(MSDataSourceError *)error;
 
 /**
