@@ -14,11 +14,11 @@
 #import "MSDataStoreInternal.h"
 #import "MSDocumentUtils.h"
 #import "MSDocumentWrapperInternal.h"
+#import "MSReadOptions.h"
 #import "MSTokenResult.h"
 #import "MSUtility+Date.h"
 #import "MSUtility+StringFormatting.h"
 #import "MSWriteOptions.h"
-#import "MSReadOptions.h"
 
 static const NSUInteger kMSSchemaVersion = 1;
 
@@ -157,13 +157,14 @@ static const NSUInteger kMSSchemaVersion = 1;
   NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
   long lastUpdatedDate = [(NSNumber *)result[0][self.operationTimeColumnIndex] longValue];
   NSString *pendingOperation = result[0][self.pendingOperationColumnIndex];
-  MSDocumentWrapper *documentWrapper = [MSDocumentUtils documentWrapperFromDocumentData:jsonData
-                                             documentType:documentType
-                                                     eTag:result[0][self.eTagColumnIndex]
-                                          lastUpdatedDate:[NSDate dateWithTimeIntervalSince1970:lastUpdatedDate]
-                                                partition:token.partition
-                                               documentId:documentId
-                                         pendingOperation:pendingOperation];
+  MSDocumentWrapper *documentWrapper =
+      [MSDocumentUtils documentWrapperFromDocumentData:jsonData
+                                          documentType:documentType
+                                                  eTag:result[0][self.eTagColumnIndex]
+                                       lastUpdatedDate:[NSDate dateWithTimeIntervalSince1970:lastUpdatedDate]
+                                             partition:token.partition
+                                            documentId:documentId
+                                      pendingOperation:pendingOperation];
   if (readOptions) {
     if (readOptions.deviceTimeToLive == MSDataStoreTimeToLiveNoCache) {
 

@@ -218,10 +218,7 @@
   // When
 
   // Read once and update the TTL to expire immediately, then read again to ensure the document is expired.
-  [self.sut readWithToken:self.appToken
-               documentId:documentId
-             documentType:[MSMockDocument class]
-              readOptions:readOptions];
+  [self.sut readWithToken:self.appToken documentId:documentId documentType:[MSMockDocument class] readOptions:readOptions];
 
   // Then
   OCMVerify([self.sut deleteWithToken:self.appToken documentId:documentId]);
@@ -245,10 +242,7 @@
   // When
 
   // Read once and update the TTL to expire immediately, then read again to ensure the document is expired.
-  [self.sut readWithToken:self.appToken
-               documentId:documentId
-             documentType:[MSMockDocument class]
-              readOptions:readOptions];
+  [self.sut readWithToken:self.appToken documentId:documentId documentType:[MSMockDocument class] readOptions:readOptions];
 
   // Then
   long expirationTime = [self expirationTimeWithToken:self.appToken documentId:documentId];
@@ -279,10 +273,7 @@
   // When
 
   // Read once and update the TTL to expire immediately, then read again to ensure the document is expired.
-  [self.sut readWithToken:self.appToken
-               documentId:documentId
-             documentType:[MSMockDocument class]
-              readOptions:readOptions];
+  [self.sut readWithToken:self.appToken documentId:documentId documentType:[MSMockDocument class] readOptions:readOptions];
 
   // Then
   long expirationTime = [self expirationTimeWithToken:self.appToken documentId:documentId];
