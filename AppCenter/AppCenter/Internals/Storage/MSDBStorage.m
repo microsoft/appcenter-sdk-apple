@@ -10,22 +10,31 @@
 @implementation MSDBStorage
 
 - (instancetype)initWithSchema:(MSDBSchema *)schema version:(NSUInteger)version filename:(NSString *)filename {
+  if ((self = [self initWithVersion:version filename:filename])) {
+    int result;
+    sqlite3 *db = [MSDBStorage openDatabaseAtFileURL:self.dbFileURL withResult:&result];
+    if (db) {
+
+      // Create tables based on schema.
+      [MSDBStorage createTablesWithSchema:schema inOpenedDatabase:db];
+      sqlite3_close(db);
+    }
+  }
+  return self;
+}
+
+- (instancetype)initWithVersion:(NSUInteger)version filename:(NSString *)filename {
   if ((self = [super init])) {
+    BOOL newDatabase = ![MSUtility fileExistsForPathComponent:filename];
     _dbFileURL = [MSUtility createFileAtPathComponent:filename withData:nil atomically:NO forceOverwrite:NO];
     _maxSizeInBytes = kMSDefaultDatabaseSizeInBytes;
 
     // If it is custom SQLite library we need to turn on URI filename capability.
     sqlite3_config(SQLITE_CONFIG_URI, 1);
-
-    // Execute all initialize operation with one database instance.
     int result;
     sqlite3 *db = [MSDBStorage openDatabaseAtFileURL:self.dbFileURL withResult:&result];
     if (db) {
       _pageSize = [MSDBStorage getPageSizeInOpenedDatabase:db];
-
-      // Create tables based on schema.
-      NSUInteger tablesCreated = [MSDBStorage createTablesWithSchema:schema inOpenedDatabase:db];
-      BOOL newDatabase = tablesCreated == schema.count;
       NSUInteger databaseVersion = [MSDBStorage versionInOpenedDatabase:db];
       if (newDatabase) {
         MSLogInfo([MSAppCenter logTag], @"Created \"%@\" database with %lu version.", filename, (unsigned long)version);
