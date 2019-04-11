@@ -28,7 +28,7 @@ static const NSUInteger kMSSchemaVersion = 1;
 - (instancetype)initWithDbStorage:(MSDBStorage *)dbStorage {
   if ((self = [super init])) {
     _dbStorage = dbStorage;
-    MSDBSchema *schema = @{kMSAppDocumentTableName: MSDBDocumentStore.columnsSchema };
+    MSDBSchema *schema = @{kMSAppDocumentTableName : MSDBDocumentStore.columnsSchema};
     NSDictionary *columnIndexes = [MSDBStorage columnsIndexes:schema];
     _idColumnIndex = ((NSNumber *)columnIndexes[kMSAppDocumentTableName][kMSIdColumnName]).unsignedIntegerValue;
     _partitionColumnIndex = ((NSNumber *)columnIndexes[kMSAppDocumentTableName][kMSPartitionColumnName]).unsignedIntegerValue;

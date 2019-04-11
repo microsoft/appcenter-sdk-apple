@@ -217,10 +217,11 @@
   // Ensure that there is exactly one entry in the cache with the given document ID and partition name.
   NSString *tableName = [MSDBDocumentStore tableNameForPartition:self.appToken.partition];
   NSArray<NSArray *> *result = [self.dbStorage
-                                executeSelectionQuery:[NSString stringWithFormat:@"SELECT * FROM \"%@\" WHERE \"%@\" = \"%@\" AND \"%@\" = \"%@\"", tableName, kMSDocumentIdColumnName, expectedDocumentWrapper.documentId, kMSPartitionColumnName, self.appToken.partition]];
+      executeSelectionQuery:[NSString stringWithFormat:@"SELECT * FROM \"%@\" WHERE \"%@\" = \"%@\" AND \"%@\" = \"%@\"", tableName,
+                                                       kMSDocumentIdColumnName, expectedDocumentWrapper.documentId, kMSPartitionColumnName,
+                                                       self.appToken.partition]];
   XCTAssertEqual(result.count, 1);
 }
-
 
 - (void)testCreationOfApplicationLevelTable {
 
