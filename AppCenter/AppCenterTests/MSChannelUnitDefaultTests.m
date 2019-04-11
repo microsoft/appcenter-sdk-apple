@@ -23,6 +23,7 @@
 #import "MSUserIdContext.h"
 #import "MSUtility.h"
 
+static NSTimeInterval const kMSTestTimeout = 1.0;
 static NSString *const kMSTestGroupId = @"GroupId";
 
 @interface MSChannelUnitDefault (Test)
@@ -181,7 +182,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   });
 
   // Then
-  [self waitForExpectationsWithTimeout:1
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *error) {
                                  // Get sure it has been sent.
                                  assertThat(logContainer.batchId, is(expectedBatchId));
@@ -268,7 +269,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   });
 
   // Then
-  [self waitForExpectationsWithTimeout:1
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *error) {
                                  // Get sure it has been sent.
                                  assertThat(logContainer.batchId, is(expectedBatchId));
@@ -303,7 +304,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   [self enqueueChannelEndJobExpectation];
 
   // Then
-  [self waitForExpectationsWithTimeout:1
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *error) {
                                  assertThatUnsignedLong(self.sut.itemsCount, equalToInt(itemsToAdd));
                                  if (error) {
@@ -334,7 +335,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   [self enqueueChannelEndJobExpectation];
 
   // Then
-  [self waitForExpectationsWithTimeout:1
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *error) {
                                  assertThatUnsignedLong(self.sut.itemsCount, equalToInt(0));
                                  if (error) {
@@ -355,7 +356,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   [self enqueueChannelEndJobExpectation];
 
   // Then
-  [self waitForExpectationsWithTimeout:1
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *error) {
                                  OCMVerify([self.storageMock saveLog:mockLog withGroupId:OCMOCK_ANY flags:MSFlagsPersistenceCritical]);
                                  if (error) {
@@ -375,7 +376,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   [self enqueueChannelEndJobExpectation];
 
   // Then
-  [self waitForExpectationsWithTimeout:1
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *error) {
                                  OCMVerify([self.storageMock saveLog:mockLog withGroupId:OCMOCK_ANY flags:MSFlagsPersistenceNormal]);
                                  if (error) {
@@ -395,7 +396,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   [self enqueueChannelEndJobExpectation];
 
   // Then
-  [self waitForExpectationsWithTimeout:1
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *error) {
                                  OCMVerify([self.storageMock saveLog:mockLog withGroupId:OCMOCK_ANY flags:MSFlagsDefault]);
                                  if (error) {
@@ -434,7 +435,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   [self enqueueChannelEndJobExpectation];
 
   // Then
-  [self waitForExpectationsWithTimeout:1
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *error) {
                                  assertThatUnsignedLong(self.sut.itemsCount, equalToInt(0));
                                  if (error) {
@@ -451,6 +452,8 @@ static NSString *const kMSTestGroupId = @"GroupId";
   __block int currentBatchId = 1;
   __block NSMutableArray<NSString *> *sentBatchIds = [NSMutableArray new];
   NSUInteger expectedMaxPendingBatched = 2;
+  id<MSLog> expectedLog = [MSAbstractLog new];
+  expectedLog.sid = MS_UUID_STRING;
 
   // Set up mock and stubs.
   OCMStub([self.ingestionMock sendAsync:OCMOCK_ANY authToken:OCMOCK_ANY completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
@@ -471,7 +474,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
         // Mock load.
         [invocation getArgument:&loadCallback atIndex:7];
-        loadCallback(((NSArray<id<MSLog>> *)@[ OCMProtocolMock(@protocol(MSLog)) ]), [@(currentBatchId++) stringValue]);
+        loadCallback(((NSArray<id<MSLog>> *)@[ expectedLog ]), [@(currentBatchId++) stringValue]);
       });
   self.sut.configuration = [[MSChannelUnitConfiguration alloc] initWithGroupId:kMSTestGroupId
                                                                       priority:MSPriorityDefault
@@ -486,7 +489,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   [self enqueueChannelEndJobExpectation];
 
   // Then
-  [self waitForExpectationsWithTimeout:1
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *error) {
                                  assertThatUnsignedLong(self.sut.pendingBatchIds.count, equalToUnsignedLong(expectedMaxPendingBatched));
                                  assertThatUnsignedLong(sentBatchIds.count, equalToUnsignedLong(expectedMaxPendingBatched));
@@ -508,6 +511,8 @@ static NSString *const kMSTestGroupId = @"GroupId";
   __block MSLogContainer *lastBatchLogContainer;
   __block int currentBatchId = 1;
   NSUInteger batchSizeLimit = 1;
+  id<MSLog> expectedLog = [MSAbstractLog new];
+  expectedLog.sid = MS_UUID_STRING;
 
   // Init mocks.
   OCMStub([self.ingestionMock sendAsync:OCMOCK_ANY authToken:OCMOCK_ANY completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
@@ -532,7 +537,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
         [invocation getArgument:&loadCallback atIndex:7];
 
         // Mock load.
-        loadCallback(((NSArray<id<MSLog>> *)@[ OCMProtocolMock(@protocol(MSLog)) ]), [@(currentBatchId) stringValue]);
+        loadCallback(((NSArray<id<MSLog>> *)@[ expectedLog ]), [@(currentBatchId) stringValue]);
       });
 
   // Configure channel.
@@ -567,7 +572,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   });
 
   // Then
-  [self waitForExpectationsWithTimeout:1
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *error) {
                                  // Get sure it has been sent.
                                  assertThat(lastBatchLogContainer.batchId, is([@(currentBatchId) stringValue]));
@@ -604,7 +609,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   [self enqueueChannelEndJobExpectation];
 
   // Then
-  [self waitForExpectationsWithTimeout:1
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *error) {
                                  OCMVerifyAll(self.ingestionMock);
                                  if (error) {
@@ -637,7 +642,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   [self enqueueChannelEndJobExpectation];
 
   // Then
-  [self waitForExpectationsWithTimeout:1
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *error) {
                                  // Check that logs as been requested for
                                  // deletion and that there is no batch left.
@@ -666,7 +671,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   [self.sut enqueueItem:mockLog flags:MSFlagsDefault];
 
   // Then
-  [self waitForExpectationsWithTimeout:1
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *error) {
                                  assertThatBool(self.sut.discardLogs, isTrue());
                                  if (error) {
@@ -693,7 +698,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   [self.sut enqueueItem:mockLog flags:MSFlagsDefault];
 
   // Then
-  [self waitForExpectationsWithTimeout:1
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *error) {
                                  assertThatBool(self.sut.discardLogs, isFalse());
                                  OCMVerify([self.storageMock saveLog:mockLog withGroupId:OCMOCK_ANY flags:MSFlagsDefault]);
@@ -716,7 +721,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   [self.sut enqueueItem:otherMockLog flags:MSFlagsDefault];
 
   // Then
-  [self waitForExpectationsWithTimeout:1
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *error) {
                                  assertThatBool(self.sut.discardLogs, isFalse());
                                  OCMVerify([self.storageMock saveLog:mockLog withGroupId:OCMOCK_ANY flags:MSFlagsDefault]);
@@ -737,7 +742,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
   // Then
   [self enqueueChannelEndJobExpectation];
-  [self waitForExpectationsWithTimeout:1
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *error) {
                                  assertThatBool(self.sut.enabled, isFalse());
                                  assertThatBool(self.sut.paused, isTrue());
@@ -777,7 +782,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   });
 
   // Then
-  [self waitForExpectationsWithTimeout:1
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *error) {
                                  assertThatBool(result1, isFalse());
                                  assertThatBool(result2, isTrue());
@@ -805,7 +810,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   });
 
   // Then
-  [self waitForExpectationsWithTimeout:1
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *error) {
                                  // Check the callbacks were invoked for logs.
                                  OCMVerify([delegateMock channel:self.sut
@@ -838,7 +843,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   });
 
   // Then
-  [self waitForExpectationsWithTimeout:1
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *error) {
                                  // Check the callbacks were invoked for logs.
                                  OCMVerify([delegateMock channel:self.sut didPauseWithIdentifyingObject:identifyingObject]);
@@ -865,7 +870,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   });
 
   // Then
-  [self waitForExpectationsWithTimeout:1
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *error) {
                                  // Check the callbacks were invoked for logs.
                                  OCMVerify([delegateMock channel:self.sut didResumeWithIdentifyingObject:identifyingObject]);
@@ -933,7 +938,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   });
 
   // Then
-  [self waitForExpectationsWithTimeout:1
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *error) {
                                  OCMVerifyAll(delegateMock);
                                  OCMVerifyAll(delegateMock2);
@@ -963,7 +968,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   });
 
   // Then
-  [self waitForExpectationsWithTimeout:1
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *error) {
                                  OCMVerifyAll(delegateMock);
                                  OCMVerify([self.storageMock saveLog:log withGroupId:OCMOCK_ANY flags:MSFlagsDefault]);
@@ -990,22 +995,22 @@ static NSString *const kMSTestGroupId = @"GroupId";
   // If
   [self initChannelEndJobExpectation];
   id ingestionMock = OCMProtocolMock(@protocol(MSIngestionProtocol));
-  id sut = OCMPartialMock(self.sut);
+  id delegateMock = OCMProtocolMock(@protocol(MSChannelDelegate));
+  [self.sut addDelegate:delegateMock];
 
   // When
-  [sut ingestionDidPause:ingestionMock];
+  [self.sut ingestionDidPause:ingestionMock];
 
   // Then
-  OCMVerify([sut pauseWithIdentifyingObject:ingestionMock]);
   [self enqueueChannelEndJobExpectation];
-  [self waitForExpectationsWithTimeout:1
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *error) {
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
-                                 OCMVerify([sut pauseWithIdentifyingObjectSync:ingestionMock]);
+                                 XCTAssertTrue([self.sut paused]);
+                                 OCMVerify([delegateMock channel:self.sut didPauseWithIdentifyingObject:ingestionMock]);
                                }];
-  [sut stopMocking];
 }
 
 - (void)testResumeOnIngestionResumed {
@@ -1013,59 +1018,75 @@ static NSString *const kMSTestGroupId = @"GroupId";
   // If
   [self initChannelEndJobExpectation];
   id ingestionMock = OCMProtocolMock(@protocol(MSIngestionProtocol));
-  id sut = OCMPartialMock(self.sut);
+  id delegateMock = OCMProtocolMock(@protocol(MSChannelDelegate));
+  [self.sut addDelegate:delegateMock];
 
   // When
-  [sut ingestionDidResume:ingestionMock];
+  [self.sut ingestionDidResume:ingestionMock];
 
   // Then
-  OCMVerify([sut resumeWithIdentifyingObject:ingestionMock]);
   [self enqueueChannelEndJobExpectation];
-  [self waitForExpectationsWithTimeout:1
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *error) {
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
-                                 OCMVerify([sut resumeWithIdentifyingObjectSync:ingestionMock]);
+                                 XCTAssertFalse([self.sut paused]);
+                                 OCMVerify([delegateMock channel:self.sut didResumeWithIdentifyingObject:ingestionMock]);
                                }];
-  [sut stopMocking];
 }
 
 - (void)testDoesntResumeWhenNotAllPauseObjectsResumed {
 
   // If
+  [self initChannelEndJobExpectation];
   NSObject *object1 = [NSObject new];
   NSObject *object2 = [NSObject new];
   NSObject *object3 = [NSObject new];
-  [self.sut pauseWithIdentifyingObjectSync:object1];
-  [self.sut pauseWithIdentifyingObjectSync:object2];
-  [self.sut pauseWithIdentifyingObjectSync:object3];
+  [self.sut pauseWithIdentifyingObject:object1];
+  [self.sut pauseWithIdentifyingObject:object2];
+  [self.sut pauseWithIdentifyingObject:object3];
 
   // When
-  [self.sut resumeWithIdentifyingObjectSync:object1];
-  [self.sut resumeWithIdentifyingObjectSync:object3];
+  [self.sut resumeWithIdentifyingObject:object1];
+  [self.sut resumeWithIdentifyingObject:object3];
 
   // Then
-  XCTAssertTrue([self.sut paused]);
+  [self enqueueChannelEndJobExpectation];
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
+                               handler:^(NSError *error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                                 XCTAssertTrue([self.sut paused]);
+                               }];
 }
 
 - (void)testResumesWhenAllPauseObjectsResumed {
 
   // If
+  [self initChannelEndJobExpectation];
   NSObject *object1 = [NSObject new];
   NSObject *object2 = [NSObject new];
   NSObject *object3 = [NSObject new];
-  [self.sut pauseWithIdentifyingObjectSync:object1];
-  [self.sut pauseWithIdentifyingObjectSync:object2];
-  [self.sut pauseWithIdentifyingObjectSync:object3];
+  [self.sut pauseWithIdentifyingObject:object1];
+  [self.sut pauseWithIdentifyingObject:object2];
+  [self.sut pauseWithIdentifyingObject:object3];
 
   // When
-  [self.sut resumeWithIdentifyingObjectSync:object1];
-  [self.sut resumeWithIdentifyingObjectSync:object2];
-  [self.sut resumeWithIdentifyingObjectSync:object3];
+  [self.sut resumeWithIdentifyingObject:object1];
+  [self.sut resumeWithIdentifyingObject:object2];
+  [self.sut resumeWithIdentifyingObject:object3];
 
   // Then
-  XCTAssertFalse([self.sut paused]);
+  [self enqueueChannelEndJobExpectation];
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
+                               handler:^(NSError *error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                                 XCTAssertFalse([self.sut paused]);
+                               }];
 }
 
 - (void)testResumeWhenOnlyPausedObjectIsDeallocated {
@@ -1098,15 +1119,23 @@ static NSString *const kMSTestGroupId = @"GroupId";
 - (void)testResumeWithObjectThatDoesNotExistDoesNotResumeIfCurrentlyPaused {
 
   // If
+  [self initChannelEndJobExpectation];
   NSObject *object1 = [NSObject new];
   NSObject *object2 = [NSObject new];
-  [self.sut pauseWithIdentifyingObjectSync:object1];
+  [self.sut pauseWithIdentifyingObject:object1];
 
   // When
-  [self.sut resumeWithIdentifyingObjectSync:object2];
+  [self.sut resumeWithIdentifyingObject:object2];
 
   // Then
-  XCTAssertTrue([self.sut paused]);
+  [self enqueueChannelEndJobExpectation];
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
+                               handler:^(NSError *error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                                 XCTAssertTrue([self.sut paused]);
+                               }];
 }
 
 - (void)testResumeWithObjectThatDoesNotExistDoesNotPauseIfPreviouslyResumed {
@@ -1160,7 +1189,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
   // Then
   [self enqueueChannelEndJobExpectation];
-  [self waitForExpectationsWithTimeout:1
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *error) {
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
@@ -1178,14 +1207,14 @@ static NSString *const kMSTestGroupId = @"GroupId";
   NSString *targetKey = @"targetKey";
   NSString *token = [NSString stringWithFormat:@"%@-secret", targetKey];
   [self.sut pauseSendingLogsWithToken:token];
-  [self.sut pauseWithIdentifyingObjectSync:object];
+  [self.sut pauseWithIdentifyingObject:object];
 
   // When
-  [self.sut resumeWithIdentifyingObjectSync:object];
+  [self.sut resumeWithIdentifyingObject:object];
 
   // Then
   [self enqueueChannelEndJobExpectation];
-  [self waitForExpectationsWithTimeout:1
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *error) {
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
@@ -1220,7 +1249,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   });
 
   // Then
-  [self waitForExpectationsWithTimeout:1
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *error) {
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
@@ -1305,7 +1334,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
   // Then
   [self enqueueChannelEndJobExpectation];
-  [self waitForExpectationsWithTimeout:1
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *error) {
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
@@ -1329,7 +1358,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
   // Then
   [self enqueueChannelEndJobExpectation];
-  [self waitForExpectationsWithTimeout:1
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *error) {
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
@@ -1357,7 +1386,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
   // Then
   [self enqueueChannelEndJobExpectation];
-  [self waitForExpectationsWithTimeout:1
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *error) {
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
@@ -1377,7 +1406,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
   // Then
   [self enqueueChannelEndJobExpectation];
-  [self waitForExpectationsWithTimeout:1
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *error) {
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
@@ -1394,7 +1423,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   [self enqueueChannelEndJobExpectation];
 
   // Then
-  [self waitForExpectationsWithTimeout:1
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *error) {
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
@@ -1410,7 +1439,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   [self enqueueChannelEndJobExpectation];
 
   // Then
-  [self waitForExpectationsWithTimeout:1
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *error) {
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
@@ -1444,7 +1473,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   [self.sut enqueueItem:enqueuedLog flags:MSFlagsDefault];
 
   // Then
-  [self waitForExpectationsWithTimeout:1
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *_Nullable error) {
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);

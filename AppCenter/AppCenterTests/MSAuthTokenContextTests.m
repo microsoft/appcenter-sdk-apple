@@ -34,7 +34,10 @@
 
 - (void)setUp {
   [super setUp];
-  self.sut = [MSAuthTokenContext sharedInstance];
+  [MSAuthTokenContext resetSharedInstance];
+
+  // Do NOT use the shared instance to avoid impact on other tests.
+  self.sut = [MSAuthTokenContext new];
   self.settingsMock = [MSMockUserDefaults new];
   self.utilityMock = OCMClassMock([MSUtility class]);
   self.keychainUtilMock = [MSMockKeychainUtil new];
