@@ -523,6 +523,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 - (void)testCreateWithPartitionGoldenPath {
 
   // If
+  XCTestExpectation *expectation = [self expectationWithDescription:@"Create with partition completed"];
   id<MSSerializableDocument> mockSerializableDocument = [MSFakeSerializableDocument new];
   __block BOOL completionHandlerCalled = NO;
   __block MSDocumentWrapper *actualDocumentWrapper;
@@ -564,18 +565,26 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                  completionHandler:^(MSDocumentWrapper *data) {
                    completionHandlerCalled = YES;
                    actualDocumentWrapper = data;
+                   [expectation fulfill];
                  }];
 
   // Then
-  XCTAssertTrue(completionHandlerCalled);
-  XCTAssertNotNil(actualDocumentWrapper.deserializedValue);
-  XCTAssertTrue([[actualDocumentWrapper documentId] isEqualToString:@"standalonedocument1"]);
-  XCTAssertTrue([[actualDocumentWrapper partition] isEqualToString:@"readonly"]);
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                                 XCTAssertTrue(completionHandlerCalled);
+                                 XCTAssertNotNil(actualDocumentWrapper.deserializedValue);
+                                 XCTAssertTrue([[actualDocumentWrapper documentId] isEqualToString:@"standalonedocument1"]);
+                                 XCTAssertTrue([[actualDocumentWrapper partition] isEqualToString:@"readonly"]);
+                               }];
 }
 
 - (void)testCreateWithPartitionWhenTokenExchangeFails {
 
   // If
+  XCTestExpectation *expectation = [self expectationWithDescription:@"Create with partition completed"];
   id<MSSerializableDocument> mockSerializableDocument = [MSFakeSerializableDocument new];
   __block BOOL completionHandlerCalled = NO;
   NSInteger expectedResponseCode = MSACDocumentUnauthorizedErrorCode;
@@ -605,17 +614,25 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                  completionHandler:^(MSDocumentWrapper *data) {
                    completionHandlerCalled = YES;
                    actualError = data.error;
+                   [expectation fulfill];
                  }];
 
   // Then
-  XCTAssertTrue(completionHandlerCalled);
-  XCTAssertEqualObjects(actualError.error, expectedTokenExchangeError);
-  XCTAssertEqual(actualError.errorCode, expectedResponseCode);
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                                 XCTAssertTrue(completionHandlerCalled);
+                                 XCTAssertEqualObjects(actualError.error, expectedTokenExchangeError);
+                                 XCTAssertEqual(actualError.errorCode, expectedResponseCode);
+                               }];
 }
 
 - (void)testCreateWithPartitionWhenCreationFails {
 
   // If
+  XCTestExpectation *expectation = [self expectationWithDescription:@"Create with partition completed"];
   id<MSSerializableDocument> mockSerializableDocument = [MSFakeSerializableDocument new];
   __block BOOL completionHandlerCalled = NO;
   NSInteger expectedResponseCode = MSACDocumentInternalServerErrorErrorCode;
@@ -660,17 +677,25 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                  completionHandler:^(MSDocumentWrapper *data) {
                    completionHandlerCalled = YES;
                    actualError = data.error;
+                   [expectation fulfill];
                  }];
 
   // Then
-  XCTAssertTrue(completionHandlerCalled);
-  XCTAssertEqualObjects(actualError.error, expectedCosmosDbError);
-  XCTAssertEqual(actualError.errorCode, expectedResponseCode);
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                                 XCTAssertTrue(completionHandlerCalled);
+                                 XCTAssertEqualObjects(actualError.error, expectedCosmosDbError);
+                                 XCTAssertEqual(actualError.errorCode, expectedResponseCode);
+                               }];
 }
 
 - (void)testCreateWithPartitionWhenDeserializationFails {
 
   // If
+  XCTestExpectation *expectation = [self expectationWithDescription:@"Create with partition completed"];
   id<MSSerializableDocument> mockSerializableDocument = [MSFakeSerializableDocument new];
   __block BOOL completionHandlerCalled = NO;
   NSErrorDomain expectedErrorDomain = NSCocoaErrorDomain;
@@ -714,17 +739,25 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                  completionHandler:^(MSDocumentWrapper *data) {
                    completionHandlerCalled = YES;
                    actualError = data.error;
+                   [expectation fulfill];
                  }];
 
   // Then
-  XCTAssertTrue(completionHandlerCalled);
-  XCTAssertEqual(actualError.error.domain, expectedErrorDomain);
-  XCTAssertEqual(actualError.error.code, expectedErrorCode);
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                                 XCTAssertTrue(completionHandlerCalled);
+                                 XCTAssertEqual(actualError.error.domain, expectedErrorDomain);
+                                 XCTAssertEqual(actualError.error.code, expectedErrorCode);
+                               }];
 }
 
 - (void)testDeleteDocumentWithPartitionGoldenPath {
 
   // If
+  XCTestExpectation *expectation = [self expectationWithDescription:@"Delete with partition completed"];
   __block BOOL completionHandlerCalled = NO;
   NSInteger expectedResponseCode = MSACDocumentSucceededErrorCode;
   __block NSInteger actualResponseCode;
@@ -764,16 +797,24 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                          completionHandler:^(MSDocumentWrapper *wrapper) {
                            completionHandlerCalled = YES;
                            actualResponseCode = wrapper.error.errorCode;
+                           [expectation fulfill];
                          }];
 
   // Then
-  XCTAssertTrue(completionHandlerCalled);
-  XCTAssertEqual(actualResponseCode, expectedResponseCode);
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                                 XCTAssertTrue(completionHandlerCalled);
+                                 XCTAssertEqual(actualResponseCode, expectedResponseCode);
+                               }];
 }
 
 - (void)testDeleteDocumentWithPartitionWhenTokenExchangeFails {
 
   // If
+  XCTestExpectation *expectation = [self expectationWithDescription:@"Delete with partition completed"];
   __block BOOL completionHandlerCalled = NO;
   NSInteger expectedResponseCode = MSACDocumentUnauthorizedErrorCode;
   NSError *expectedTokenExchangeError = [NSError errorWithDomain:kMSACErrorDomain
@@ -801,17 +842,25 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                          completionHandler:^(MSDocumentWrapper *wrapper) {
                            completionHandlerCalled = YES;
                            actualError = wrapper.error;
+                           [expectation fulfill];
                          }];
 
   // Then
-  XCTAssertTrue(completionHandlerCalled);
-  XCTAssertEqualObjects(actualError.error, expectedTokenExchangeError);
-  XCTAssertEqual(actualError.errorCode, expectedResponseCode);
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                                 XCTAssertTrue(completionHandlerCalled);
+                                 XCTAssertEqualObjects(actualError.error, expectedTokenExchangeError);
+                                 XCTAssertEqual(actualError.errorCode, expectedResponseCode);
+                               }];
 }
 
 - (void)testDeleteDocumentWithPartitionWhenDeletionFails {
 
   // If
+  XCTestExpectation *expectation = [self expectationWithDescription:@"Delete with partition completed"];
   __block BOOL completionHandlerCalled = NO;
   NSInteger expectedResponseCode = MSACDocumentInternalServerErrorErrorCode;
   NSError *expectedCosmosDbError = [NSError errorWithDomain:kMSACErrorDomain
@@ -854,12 +903,19 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                          completionHandler:^(MSDocumentWrapper *wrapper) {
                            completionHandlerCalled = YES;
                            actualError = wrapper.error;
+                           [expectation fulfill];
                          }];
 
   // Then
-  XCTAssertTrue(completionHandlerCalled);
-  XCTAssertEqualObjects(actualError.error, expectedCosmosDbError);
-  XCTAssertEqual(actualError.errorCode, expectedResponseCode);
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                                 XCTAssertTrue(completionHandlerCalled);
+                                 XCTAssertEqualObjects(actualError.error, expectedCosmosDbError);
+                                 XCTAssertEqual(actualError.errorCode, expectedResponseCode);
+                               }];
 }
 
 - (void)testSetTokenExchangeUrl {
@@ -872,7 +928,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                                             tokenExchangeUrl:OCMOCK_ANY
                                                                    appSecret:OCMOCK_ANY
                                                                    partition:OCMOCK_ANY
-                                                         includeExpiredToken:NO
+                                                         includeExpiredToken:YES
                                                            completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         [invocation getArgument:&actualUrl atIndex:3];
@@ -1057,8 +1113,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   id<MSDocumentStore> localStorageMock = OCMProtocolMock(@protocol(MSDocumentStore));
   self.sut.documentStore = localStorageMock;
   MSDocumentWrapper *expectedDocument = [MSDocumentWrapper new];
-  OCMStub([localStorageMock readWithToken:tokenResult documentId:OCMOCK_ANY documentType:OCMOCK_ANY readOptions:OCMOCK_ANY])
-      .andReturn(expectedDocument);
+  OCMStub([localStorageMock readWithToken:tokenResult documentId:OCMOCK_ANY documentType:OCMOCK_ANY]).andReturn(expectedDocument);
 
   // When
   [MSDataStore readWithPartition:kMSPartitionTest
@@ -1140,8 +1195,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   self.sut.documentStore = localStorageMock;
   MSDocumentWrapper *expectedDocument = [MSDocumentWrapper new];
   expectedDocument.pendingOperation = kMSPendingOperationCreate;
-  OCMStub([localStorageMock readWithToken:testToken documentId:OCMOCK_ANY documentType:OCMOCK_ANY readOptions:OCMOCK_ANY])
-      .andReturn(expectedDocument);
+  OCMStub([localStorageMock readWithToken:testToken documentId:OCMOCK_ANY documentType:OCMOCK_ANY]).andReturn(expectedDocument);
 
   // When
   [MSDataStore readWithPartition:kMSPartitionTest
@@ -1180,8 +1234,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   self.sut.documentStore = localStorageMock;
   MSDocumentWrapper *expectedDocument = [MSDocumentWrapper new];
   expectedDocument.pendingOperation = kMSPendingOperationCreate;
-  OCMStub([localStorageMock readWithToken:tokenResult documentId:OCMOCK_ANY documentType:OCMOCK_ANY readOptions:OCMOCK_ANY])
-      .andReturn(expectedDocument);
+  OCMStub([localStorageMock readWithToken:tokenResult documentId:OCMOCK_ANY documentType:OCMOCK_ANY]).andReturn(expectedDocument);
 
   // When
   [MSDataStore readWithPartition:kMSPartitionTest
@@ -1221,8 +1274,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   self.sut.documentStore = localStorageMock;
   MSDocumentWrapper *expectedDocument = [MSDocumentWrapper new];
   expectedDocument.pendingOperation = kMSPendingOperationReplace;
-  OCMStub([localStorageMock readWithToken:tokenResult documentId:OCMOCK_ANY documentType:OCMOCK_ANY readOptions:OCMOCK_ANY])
-      .andReturn(expectedDocument);
+  OCMStub([localStorageMock readWithToken:tokenResult documentId:OCMOCK_ANY documentType:OCMOCK_ANY]).andReturn(expectedDocument);
 
   // When
   [MSDataStore readWithPartition:kMSPartitionTest
@@ -1262,8 +1314,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   self.sut.documentStore = localStorageMock;
   MSDocumentWrapper *expectedDocument = [MSDocumentWrapper new];
   expectedDocument.pendingOperation = kMSPendingOperationDelete;
-  OCMStub([localStorageMock readWithToken:tokenResult documentId:OCMOCK_ANY documentType:OCMOCK_ANY readOptions:OCMOCK_ANY])
-      .andReturn(expectedDocument);
+  OCMStub([localStorageMock readWithToken:tokenResult documentId:OCMOCK_ANY documentType:OCMOCK_ANY]).andReturn(expectedDocument);
 
   // When
   [MSDataStore readWithPartition:kMSPartitionTest
@@ -1306,8 +1357,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   id<MSDocumentStore> localStorageMock = OCMProtocolMock(@protocol(MSDocumentStore));
   self.sut.documentStore = localStorageMock;
   MSDocumentWrapper *expiredDocument = [[MSDocumentWrapper alloc] initWithError:expiredError documentId:@"4"];
-  OCMStub([localStorageMock readWithToken:tokenResult documentId:OCMOCK_ANY documentType:OCMOCK_ANY readOptions:OCMOCK_ANY])
-      .andReturn(expiredDocument);
+  OCMStub([localStorageMock readWithToken:tokenResult documentId:OCMOCK_ANY documentType:OCMOCK_ANY]).andReturn(expiredDocument);
 
   // Mock CosmosDB requests.
   NSData *testCosmosDbResponse = [self jsonFixture:@"validTestDocument"];
@@ -1372,8 +1422,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                                                                        documentType:[MSDictionaryDocument class]]);
 
   OCMStub(localDocumentWrapper.eTag).andReturn(@"some other etag");
-  OCMStub([localStorageMock readWithToken:tokenResult documentId:OCMOCK_ANY documentType:OCMOCK_ANY readOptions:OCMOCK_ANY])
-      .andReturn(localDocumentWrapper);
+  OCMStub([localStorageMock readWithToken:tokenResult documentId:OCMOCK_ANY documentType:OCMOCK_ANY]).andReturn(localDocumentWrapper);
 
   // Mock CosmosDB requests.
   OCMStub([self.cosmosDbMock performCosmosDbAsyncOperationWithHttpClient:OCMOCK_ANY
@@ -1428,8 +1477,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   id<MSDocumentStore> localStorageMock = OCMProtocolMock(@protocol(MSDocumentStore));
   self.sut.documentStore = localStorageMock;
   MSDocumentWrapper *expiredDocument = [[MSDocumentWrapper alloc] initWithError:expiredError documentId:@"4"];
-  OCMStub([localStorageMock readWithToken:tokenResult documentId:OCMOCK_ANY documentType:OCMOCK_ANY readOptions:OCMOCK_ANY])
-      .andReturn(expiredDocument);
+  OCMStub([localStorageMock readWithToken:tokenResult documentId:OCMOCK_ANY documentType:OCMOCK_ANY]).andReturn(expiredDocument);
 
   // When
   [MSDataStore readWithPartition:kMSPartitionTest

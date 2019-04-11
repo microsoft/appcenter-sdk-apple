@@ -362,8 +362,7 @@ static dispatch_once_t onceToken;
                               MSWriteOptions *safeOptions = writeOptions;
                               if (!safeOptions) {
                                 safeOptions = [[MSWriteOptions alloc] initWithDeviceTimeToLive:MSDataStoreTimeToLiveDefault];
-                              }
-                              if (safeOptions.deviceTimeToLive == MSDataStoreTimeToLiveNoCache) {
+                              } else if (safeOptions.deviceTimeToLive == MSDataStoreTimeToLiveNoCache) {
                                 NSError *dontCacheError =
                                     [[NSError alloc] initWithDomain:kMSACDataStoreErrorDomain
                                                                code:MSACDataStoreDontCache
@@ -434,8 +433,7 @@ static dispatch_once_t onceToken;
                               MSWriteOptions *safeOptions = writeOptions;
                               if (!safeOptions) {
                                 safeOptions = [[MSWriteOptions alloc] initWithDeviceTimeToLive:MSDataStoreTimeToLiveDefault];
-                              }
-                              if (safeOptions.deviceTimeToLive == MSDataStoreTimeToLiveNoCache) {
+                              } else if (safeOptions.deviceTimeToLive == MSDataStoreTimeToLiveNoCache) {
                                 NSError *dontCacheError =
                                     [[NSError alloc] initWithDomain:kMSACDataStoreErrorDomain
                                                                code:MSACDataStoreDontCache
@@ -488,7 +486,7 @@ static dispatch_once_t onceToken;
                                                    safeOptions =
                                                        [[MSWriteOptions alloc] initWithDeviceTimeToLive:MSDataStoreTimeToLiveDefault];
                                                  }
-                                                 if (safeOptions.deviceTimeToLive == MSDataStoreTimeToLiveNoCache) {
+                                                 if (safeOptions.deviceTimeToLive != MSDataStoreTimeToLiveNoCache) {
                                                    [self.documentStore upsertWithToken:tokensResponse.tokens[0]
                                                                        documentWrapper:localDocument
                                                                              operation:nil
