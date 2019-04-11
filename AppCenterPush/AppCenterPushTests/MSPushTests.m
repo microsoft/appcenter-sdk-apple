@@ -120,26 +120,33 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
 }
 
 - (void)testApplyEnabledAddsAndRemovesDelegate {
-  
+
   // If
-  NSUInteger expectedDelegateCount = [[MSUserIdContext sharedInstance] delegates].count;
-  [[MSPush sharedInstance] startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
-                                       appSecret:kMSTestAppSecret
-                         transmissionTargetToken:nil
-                                 fromApplication:YES];
-  MSServiceAbstract *service = (MSServiceAbstract *)[MSPush sharedInstance];
-  
+  id userIdContextMock = OCMClassMock([MSUserIdContext class]);
+  __block NSUInteger addCount = 0;
+  __block NSUInteger removeCount = 0;
+  OCMStub([userIdContextMock addDelegate:self.sut]).andDo(^(__unused NSInvocation *invocation) {
+    addCount++;
+  });
+  OCMStub([userIdContextMock removeDelegate:self.sut]).andDo(^(__unused NSInvocation *invocation) {
+    removeCount++;
+  });
+  OCMStub([userIdContextMock sharedInstance]).andReturn(userIdContextMock);
+  [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
+                        appSecret:kMSTestAppSecret
+          transmissionTargetToken:nil
+                  fromApplication:YES];
+
   // When
-  [service setEnabled:YES];
-  
+  [self.sut setEnabled:NO];
+  [self.sut setEnabled:YES];
+
   // Then
-  XCTAssertEqual([[MSUserIdContext sharedInstance] delegates].count, expectedDelegateCount+1);
-  
-  // When
-  [service setEnabled:NO];
-  
-  // Then
-  XCTAssertEqual([[MSUserIdContext sharedInstance] delegates].count, expectedDelegateCount);
+  XCTAssertEqual(addCount, 2);
+  XCTAssertEqual(removeCount, 1);
+  OCMVerify([userIdContextMock addDelegate:self.sut]);
+  OCMVerify([userIdContextMock removeDelegate:self.sut]);
+  [userIdContextMock stopMocking];
 }
 
 - (void)testInitializationPriorityCorrect {
