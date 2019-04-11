@@ -20,6 +20,7 @@
 
 - (void)setUp {
   [super setUp];
+  [MSSessionContext resetSharedInstance];
 
   self.settingsMock = [MSMockUserDefaults new];
   self.sut = [MSSessionContext sharedInstance];
@@ -39,7 +40,7 @@
   NSString *expectedSessionId = @"Session";
 
   // When
-  [[MSSessionContext sharedInstance] setSessionId:expectedSessionId];
+  [self.sut setSessionId:expectedSessionId];
 
   // Then
   NSData *data = [self.settingsMock objectForKey:@"SessionIdHistory"];
@@ -50,9 +51,10 @@
 - (void)testClearSessionHistory {
 
   // When
-  [[MSSessionContext sharedInstance] setSessionId:@"Session1"];
+  [self.sut setSessionId:@"Session1"];
   [MSSessionContext resetSharedInstance];
-  [[MSSessionContext sharedInstance] setSessionId:@"Session2"];
+  self.sut = [MSSessionContext sharedInstance];
+  [self.sut setSessionId:@"Session2"];
 
   // Then
   NSData *data = [self.settingsMock objectForKey:@"SessionIdHistory"];
@@ -60,7 +62,7 @@
   XCTAssertEqual([[NSKeyedUnarchiver unarchiveObjectWithData:data] count], 2);
 
   // When
-  [[MSSessionContext sharedInstance] clearSessionHistoryAndKeepCurrentSession:NO];
+  [self.sut clearSessionHistoryAndKeepCurrentSession:NO];
 
   // Then
   data = [self.settingsMock objectForKey:@"SessionIdHistory"];
@@ -73,9 +75,10 @@
 - (void)testClearSessionHistoryExceptCurrentOne {
 
   // When
-  [[MSSessionContext sharedInstance] setSessionId:@"Session1"];
+  [self.sut setSessionId:@"Session1"];
   [MSSessionContext resetSharedInstance];
-  [[MSSessionContext sharedInstance] setSessionId:@"Session2"];
+  self.sut = [MSSessionContext sharedInstance];
+  [self.sut setSessionId:@"Session2"];
 
   // Then
   NSData *data = [self.settingsMock objectForKey:@"SessionIdHistory"];
@@ -83,7 +86,7 @@
   XCTAssertEqual([[NSKeyedUnarchiver unarchiveObjectWithData:data] count], 2);
 
   // When
-  [[MSSessionContext sharedInstance] clearSessionHistoryAndKeepCurrentSession:YES];
+  [self.sut clearSessionHistoryAndKeepCurrentSession:YES];
 
   // Then
   data = [self.settingsMock objectForKey:@"SessionIdHistory"];
@@ -99,10 +102,10 @@
   NSString *expectedSessionId = @"Session";
 
   // When
-  [[MSSessionContext sharedInstance] setSessionId:expectedSessionId];
+  [self.sut setSessionId:expectedSessionId];
 
   // Then
-  XCTAssertEqualObjects(expectedSessionId, [[MSSessionContext sharedInstance] sessionId]);
+  XCTAssertEqualObjects(expectedSessionId, [self.sut sessionId]);
 }
 
 - (void)testSessionIdAt {
@@ -116,53 +119,57 @@
     date = [[NSDate alloc] initWithTimeIntervalSince1970:0];
     [invocation setReturnValue:&date];
   });
-  [[MSSessionContext sharedInstance] setSessionId:@"Session1"];
+  [self.sut setSessionId:@"Session1"];
   [dateMock stopMocking];
 
   [MSSessionContext resetSharedInstance];
+  self.sut = [MSSessionContext sharedInstance];
 
   dateMock = OCMClassMock([NSDate class]);
   OCMStub(ClassMethod([dateMock date])).andDo(^(NSInvocation *invocation) {
     date = [[NSDate alloc] initWithTimeIntervalSince1970:1000];
     [invocation setReturnValue:&date];
   });
-  [[MSSessionContext sharedInstance] setSessionId:@"Session2"];
+  [self.sut setSessionId:@"Session2"];
   [dateMock stopMocking];
 
   [MSSessionContext resetSharedInstance];
+  self.sut = [MSSessionContext sharedInstance];
 
   dateMock = OCMClassMock([NSDate class]);
   OCMStub(ClassMethod([dateMock date])).andDo(^(NSInvocation *invocation) {
     date = [[NSDate alloc] initWithTimeIntervalSince1970:2000];
     [invocation setReturnValue:&date];
   });
-  [[MSSessionContext sharedInstance] setSessionId:@"Session3"];
+  [self.sut setSessionId:@"Session3"];
   [dateMock stopMocking];
 
   [MSSessionContext resetSharedInstance];
+  self.sut = [MSSessionContext sharedInstance];
 
   dateMock = OCMClassMock([NSDate class]);
   OCMStub(ClassMethod([dateMock date])).andDo(^(NSInvocation *invocation) {
     date = [[NSDate alloc] initWithTimeIntervalSince1970:3000];
     [invocation setReturnValue:&date];
   });
-  [[MSSessionContext sharedInstance] setSessionId:@"Session4"];
+  [self.sut setSessionId:@"Session4"];
   [dateMock stopMocking];
 
   [MSSessionContext resetSharedInstance];
+  self.sut = [MSSessionContext sharedInstance];
 
   dateMock = OCMClassMock([NSDate class]);
   OCMStub(ClassMethod([dateMock date])).andDo(^(NSInvocation *invocation) {
     date = [[NSDate alloc] initWithTimeIntervalSince1970:4000];
     [invocation setReturnValue:&date];
   });
-  [[MSSessionContext sharedInstance] setSessionId:@"Session5"];
+  [self.sut setSessionId:@"Session5"];
   [dateMock stopMocking];
 
   // Then
-  XCTAssertNil([[MSSessionContext sharedInstance] sessionIdAt:[[NSDate alloc] initWithTimeIntervalSince1970:0]]);
-  XCTAssertEqualObjects(@"Session3", [[MSSessionContext sharedInstance] sessionIdAt:[[NSDate alloc] initWithTimeIntervalSince1970:2500]]);
-  XCTAssertEqualObjects(@"Session5", [[MSSessionContext sharedInstance] sessionIdAt:[[NSDate alloc] initWithTimeIntervalSince1970:5000]]);
+  XCTAssertNil([self.sut sessionIdAt:[[NSDate alloc] initWithTimeIntervalSince1970:0]]);
+  XCTAssertEqualObjects(@"Session3", [self.sut sessionIdAt:[[NSDate alloc] initWithTimeIntervalSince1970:2500]]);
+  XCTAssertEqualObjects(@"Session5", [self.sut sessionIdAt:[[NSDate alloc] initWithTimeIntervalSince1970:5000]]);
 }
 
 @end

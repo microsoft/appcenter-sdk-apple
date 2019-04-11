@@ -44,6 +44,12 @@ static MSDeviceTracker *sharedInstance = nil;
 + (void)resetSharedInstance {
   onceToken = 0;
   sharedInstance = nil;
+
+  // Reset state of global variables.
+  // FIXME: move it to shared instance.
+  needRefresh = YES;
+  wrapperSdkInformation = nil;
+  overriddenCountryCode = nil;
 }
 
 - (instancetype)init {
