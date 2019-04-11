@@ -19,12 +19,6 @@
                        andEndTime:(nullable NSDate *)endTime;
 @end
 
-@interface MSAuthTokenContext ()
-
-+ (void)resetSharedInstance;
-
-@end
-
 @interface MSAuthTokenContextTests : XCTestCase
 
 @property(nonatomic) MSAuthTokenContext *sut;
@@ -472,14 +466,16 @@
 - (void)testFinishDoesNotResetTokenIfPrevented {
 
   // If
-  [self.sut preventResetAuthTokenAfterStart];
-  OCMReject([self.sut setAuthToken:OCMOCK_ANY withAccountId:OCMOCK_ANY expiresOn:OCMOCK_ANY]);
+  id sut = OCMPartialMock(self.sut);
+  [sut preventResetAuthTokenAfterStart];
+  OCMReject([sut setAuthToken:OCMOCK_ANY withAccountId:OCMOCK_ANY expiresOn:OCMOCK_ANY]);
 
   // When
-  [self.sut finishInitialize];
+  [sut finishInitialize];
 
   // Then
-  OCMVerify(self.sut);
+  OCMVerifyAll(sut);
+  [sut stopMocking];
 }
 
 - (void)testFinishResetsTokenIfNotPrevented {
@@ -497,20 +493,21 @@
 - (void)testFinishResetsTokenIfNotPreventedOnlyOnce {
 
   // If
-  id mockedSut = OCMPartialMock(self.sut);
+  id sut = OCMPartialMock(self.sut);
   __block int callCount = 0;
-  OCMStub([mockedSut setAuthToken:nil withAccountId:nil expiresOn:nil]).andDo(^(__unused NSInvocation *invocation) {
+  OCMStub([sut setAuthToken:nil withAccountId:nil expiresOn:nil]).andDo(^(__unused NSInvocation *invocation) {
     ++callCount;
   });
 
   // When
-  [mockedSut finishInitialize];
+  [sut finishInitialize];
 
   // Another module starts.
-  [mockedSut finishInitialize];
+  [sut finishInitialize];
 
   // Then
   XCTAssertEqual(callCount, 1);
+  [sut stopMocking];
 }
 
 @end

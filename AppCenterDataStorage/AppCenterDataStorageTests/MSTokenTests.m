@@ -89,15 +89,13 @@ static NSString *const accountId = @"someAccountID123";
   // If
   NSData *tokenData = [NSJSONSerialization dataWithJSONObject:[self getDefaultTokenData] options:NSJSONWritingPrettyPrinted error:nil];
   NSString *tokenString = [[NSString alloc] initWithData:tokenData encoding:NSUTF8StringEncoding];
-
   tokenString = [tokenString stringByReplacingOccurrencesOfString:@"\"" withString:@""];
 
   // When
   MSTokenResult *result = [[MSTokenResult alloc] initWithString:tokenString];
 
   // Then
-  XCTAssertNotNil(result);
-  XCTAssertNil(result.partition);
+  XCTAssertNil(result);
 }
 
 - (void)testGetTokenResultWithDictionary {

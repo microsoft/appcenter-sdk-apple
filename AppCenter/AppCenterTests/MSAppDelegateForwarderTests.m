@@ -119,9 +119,7 @@
 #if !TARGET_OS_OSX
 - (void)testSwizzleOriginalOpenURLDelegate {
 
-  /*
-   * If
-   */
+  // If
 
   // Mock a custom app delegate.
   id<MSCustomApplicationDelegate> customDelegate = OCMProtocolMock(@protocol(MSCustomApplicationDelegate));
