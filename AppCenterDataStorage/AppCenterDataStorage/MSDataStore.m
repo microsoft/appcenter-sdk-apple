@@ -485,7 +485,8 @@ static dispatch_once_t onceToken;
                                                  MSLogDebug([MSDataStore logTag], @"Document created/replaced with ID: %@", documentId);
                                                  MSWriteOptions *safeOptions = writeOptions;
                                                  if (!safeOptions) {
-                                                   safeOptions = [[MSWriteOptions alloc] initWithDeviceTimeToLive:MSDataStoreTimeToLiveDefault];
+                                                   safeOptions =
+                                                       [[MSWriteOptions alloc] initWithDeviceTimeToLive:MSDataStoreTimeToLiveDefault];
                                                  }
                                                  if (safeOptions.deviceTimeToLive == MSDataStoreTimeToLiveNoCache) {
                                                    [self.documentStore upsertWithToken:tokensResponse.tokens[0]
