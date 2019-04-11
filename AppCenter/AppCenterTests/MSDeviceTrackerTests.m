@@ -23,12 +23,14 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 
 - (void)setUp {
   [super setUp];
+  [MSDeviceTracker resetSharedInstance];
 
   // System Under Test.
   self.sut = [MSDeviceTracker sharedInstance];
 }
 
 - (void)tearDown {
+  [MSDeviceTracker resetSharedInstance];
   [super tearDown];
 }
 
@@ -80,7 +82,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
   NSString *expected = @"macOS";
 #else
   NSString *expected = @"iMock OS";
-  UIDevice *deviceMock = OCMClassMock([UIDevice class]);
+  id deviceMock = OCMClassMock([UIDevice class]);
   OCMStub([deviceMock systemName]).andReturn(expected);
 #endif
 
@@ -89,6 +91,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
   NSString *osName = [self.sut osName];
 #else
   NSString *osName = [self.sut osName:deviceMock];
+  [deviceMock stopMocking];
 #endif
 
   // Then
@@ -117,8 +120,8 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 // TODO: No way to mock C-style functions like Gestalt. Skip the test on machine running on macOS version <= 10.9.
 #endif
 #else
-  UIDevice *deviceMock = OCMClassMock([UIDevice class]);
-  OCMStub([deviceMock systemVersion]).andReturn(expected);
+  id deviceMock = OCMClassMock([UIDevice class]);
+  OCMStub([(UIDevice *)deviceMock systemVersion]).andReturn(expected);
 #endif
 
 // When
@@ -132,6 +135,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 #endif
 #else
   NSString *osVersion = [self.sut osVersion:deviceMock];
+  [deviceMock stopMocking];
 #endif
 
   // Then
@@ -154,6 +158,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 
   // Then
   assertThat(locale, is(expected));
+  [localeMock stopMocking];
 }
 
 - (void)testDeviceLocaleWithScriptCode {
@@ -168,6 +173,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 
   // Then
   assertThat(locale, is(expected));
+  [localeMock stopMocking];
 }
 
 - (void)testDeviceLocaleWithoutCountryCode {
@@ -183,13 +189,14 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 
   // Then
   assertThat(locale, is(expected));
+  [localeMock stopMocking];
 }
 
 - (void)testDeviceTimezoneOffset {
 
   // If
   NSNumber *expected = @(-420);
-  NSTimeZone *tzMock = OCMClassMock([NSTimeZone class]);
+  id tzMock = OCMClassMock([NSTimeZone class]);
   OCMStub([tzMock secondsFromGMT]).andReturn(-25200);
 
   // When
@@ -197,6 +204,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 
   // Then
   assertThat(tz, is(expected));
+  [tzMock stopMocking];
 }
 
 - (void)testDeviceScreenSize {
@@ -214,7 +222,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 
   // If
   NSString *expected = @"MobileParadise";
-  CTCarrier *carrierMock = OCMClassMock([CTCarrier class]);
+  id carrierMock = OCMClassMock([CTCarrier class]);
   OCMStub([carrierMock carrierName]).andReturn(expected);
 
   // When
@@ -222,6 +230,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 
   // Then
   assertThat(carrierName, is(expected));
+  [carrierMock stopMocking];
 }
 #endif
 
@@ -229,7 +238,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 - (void)testNoCarrierName {
 
   // If
-  CTCarrier *carrierMock = OCMClassMock([CTCarrier class]);
+  id carrierMock = OCMClassMock([CTCarrier class]);
   OCMStub([carrierMock carrierName]).andReturn(nil);
 
   // When
@@ -237,6 +246,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 
   // Then
   assertThat(carrierName, nilValue());
+  [carrierMock stopMocking];
 }
 #endif
 
@@ -245,7 +255,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 
   // If
   NSString *expected = @"US";
-  CTCarrier *carrierMock = OCMClassMock([CTCarrier class]);
+  id carrierMock = OCMClassMock([CTCarrier class]);
   OCMStub([carrierMock isoCountryCode]).andReturn(expected);
 
   // When
@@ -253,6 +263,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 
   // Then
   assertThat(carrierCountry, is(expected));
+  [carrierMock stopMocking];
 }
 #endif
 
@@ -260,7 +271,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 - (void)testNoCarrierCountry {
 
   // If
-  CTCarrier *carrierMock = OCMClassMock([CTCarrier class]);
+  id carrierMock = OCMClassMock([CTCarrier class]);
   OCMStub([carrierMock isoCountryCode]).andReturn(nil);
 
   // When
@@ -268,6 +279,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 
   // Then
   assertThat(carrierCountry, nilValue());
+  [carrierMock stopMocking];
 }
 #endif
 
@@ -276,7 +288,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 
   // If
   NSString *expected = @"US";
-  CTCarrier *carrierMock = OCMClassMock([CTCarrier class]);
+  id carrierMock = OCMClassMock([CTCarrier class]);
   OCMStub([carrierMock isoCountryCode]).andReturn(expected);
 
   // When
@@ -286,7 +298,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
   assertThat(carrierCountry, is(expected));
 
   // If
-  [[MSDeviceTracker sharedInstance] setCountryCode:@"AU"];
+  [self.sut setCountryCode:@"AU"];
   MSDevice *device = self.sut.device;
 
   // Then
@@ -297,6 +309,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 
   // Then
   assertThat(carrierCountry, is(expected));
+  [carrierMock stopMocking];
 }
 #endif
 
@@ -305,7 +318,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
   // If
   NSString *expected = @"7.8.9";
   NSDictionary<NSString *, id> *plist = @{@"CFBundleShortVersionString" : expected};
-  NSBundle *bundleMock = OCMClassMock([NSBundle class]);
+  id bundleMock = OCMClassMock([NSBundle class]);
   OCMStub([bundleMock infoDictionary]).andReturn(plist);
 
   // When
@@ -313,6 +326,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 
   // Then
   assertThat(appVersion, is(expected));
+  [bundleMock stopMocking];
 }
 
 - (void)testAppBuild {
@@ -320,7 +334,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
   // If
   NSString *expected = @"42";
   NSDictionary<NSString *, id> *plist = @{@"CFBundleVersion" : expected};
-  NSBundle *bundleMock = OCMClassMock([NSBundle class]);
+  id bundleMock = OCMClassMock([NSBundle class]);
   OCMStub([bundleMock infoDictionary]).andReturn(plist);
 
   // When
@@ -328,13 +342,14 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 
   // Then
   assertThat(appBuild, is(expected));
+  [bundleMock stopMocking];
 }
 
 - (void)testAppNamespace {
 
   // If
   NSString *expected = @"com.microsoft.test.app";
-  NSBundle *bundleMock = OCMClassMock([NSBundle class]);
+  id bundleMock = OCMClassMock([NSBundle class]);
   OCMStub([bundleMock bundleIdentifier]).andReturn(expected);
 
   // When
@@ -342,6 +357,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 
   // Then
   assertThat(appNamespace, is(expected));
+  [bundleMock stopMocking];
 }
 
 - (void)testWrapperSdk {
@@ -355,7 +371,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
                                                        liveUpdatePackageHash:@"Package Hash"];
 
   // When
-  [[MSDeviceTracker sharedInstance] setWrapperSdk:wrapperSdk];
+  [self.sut setWrapperSdk:wrapperSdk];
   MSDevice *device = self.sut.device;
 
   // Then
@@ -371,7 +387,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
   wrapperSdk.wrapperSdkVersion = @"10.11.13";
 
   // When
-  [[MSDeviceTracker sharedInstance] setWrapperSdk:wrapperSdk];
+  [self.sut setWrapperSdk:wrapperSdk];
 
   // Then
   XCTAssertNotEqual(device.wrapperSdkVersion, wrapperSdk.wrapperSdkVersion);
@@ -386,14 +402,14 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 - (void)testCountryCode {
 
   // When
-  [[MSDeviceTracker sharedInstance] setCountryCode:@"AU"];
+  [self.sut setCountryCode:@"AU"];
   MSDevice *device = self.sut.device;
 
   // Then
   XCTAssertEqual(device.carrierCountry, @"AU");
 
   // When
-  [[MSDeviceTracker sharedInstance] setCountryCode:@"GB"];
+  [self.sut setCountryCode:@"GB"];
 
   // Then
   XCTAssertNotEqual(device.carrierCountry, @"GB");
@@ -405,7 +421,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
   XCTAssertEqual(device.carrierCountry, @"GB");
 
   // When
-  [[MSDeviceTracker sharedInstance] setCountryCode:nil];
+  [self.sut setCountryCode:nil];
 
   // Then
   XCTAssertEqual(device.carrierCountry, @"GB");
@@ -420,7 +436,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 - (void)testCreationOfNewDeviceWorks {
 
   // When
-  MSDevice *expected = [[MSDeviceTracker sharedInstance] updatedDevice];
+  MSDevice *expected = [self.sut updatedDevice];
 
   // Then
 
@@ -476,95 +492,93 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 - (void)testEnqueuingAndRefreshWorks {
 
   // If
-  MSDeviceTracker *tracker = [[MSDeviceTracker alloc] init];
-  [tracker clearDevices];
+  [self.sut clearDevices];
 
   // When
-  MSDevice *first = [tracker device];
+  MSDevice *first = [self.sut device];
   [MSDeviceTracker refreshDeviceNextTime];
-  MSDevice *second = [tracker device];
+  MSDevice *second = [self.sut device];
   [MSDeviceTracker refreshDeviceNextTime];
-  MSDevice *third = [tracker device];
+  MSDevice *third = [self.sut device];
 
   // Then
-  XCTAssertTrue([[tracker deviceHistory] count] == 3);
-  XCTAssertTrue([tracker.deviceHistory[0].device isEqual:first]);
-  XCTAssertTrue([tracker.deviceHistory[1].device isEqual:second]);
-  XCTAssertTrue([tracker.deviceHistory[2].device isEqual:third]);
+  XCTAssertTrue([[self.sut deviceHistory] count] == 3);
+  XCTAssertTrue([self.sut.deviceHistory[0].device isEqual:first]);
+  XCTAssertTrue([self.sut.deviceHistory[1].device isEqual:second]);
+  XCTAssertTrue([self.sut.deviceHistory[2].device isEqual:third]);
 
   // When
   // We haven't called setNeedsRefresh: so device won't be refreshed.
-  MSDevice *fourth = [tracker device];
+  MSDevice *fourth = [self.sut device];
 
   // Then
-  XCTAssertTrue([[tracker deviceHistory] count] == 3);
+  XCTAssertTrue([[self.sut deviceHistory] count] == 3);
   XCTAssertTrue([fourth isEqual:third]);
 
   // When
   [MSDeviceTracker refreshDeviceNextTime];
-  fourth = [tracker device];
+  fourth = [self.sut device];
 
   // Then
-  XCTAssertTrue([[tracker deviceHistory] count] == 4);
-  XCTAssertTrue([tracker.deviceHistory[3].device isEqual:fourth]);
+  XCTAssertTrue([[self.sut deviceHistory] count] == 4);
+  XCTAssertTrue([self.sut.deviceHistory[3].device isEqual:fourth]);
 
   // When
   [MSDeviceTracker refreshDeviceNextTime];
-  MSDevice *fifth = [tracker device];
+  MSDevice *fifth = [self.sut device];
 
   // Then
-  XCTAssertTrue([[tracker deviceHistory] count] == 5);
-  XCTAssertTrue([tracker.deviceHistory[4].device isEqual:fifth]);
+  XCTAssertTrue([[self.sut deviceHistory] count] == 5);
+  XCTAssertTrue([self.sut.deviceHistory[4].device isEqual:fifth]);
 
   // When
   [MSDeviceTracker refreshDeviceNextTime];
-  MSDevice *sixth = [tracker device];
+  MSDevice *sixth = [self.sut device];
 
   // Then
   // The new device should be added at the end and the first one removed so that second is at index 0
-  XCTAssertTrue([[tracker deviceHistory] count] == 5);
-  XCTAssertTrue([tracker.deviceHistory[0].device isEqual:second]);
-  XCTAssertTrue([tracker.deviceHistory[4].device isEqual:sixth]);
+  XCTAssertTrue([[self.sut deviceHistory] count] == 5);
+  XCTAssertTrue([self.sut.deviceHistory[0].device isEqual:second]);
+  XCTAssertTrue([self.sut.deviceHistory[4].device isEqual:sixth]);
 
   // When
   [MSDeviceTracker refreshDeviceNextTime];
-  MSDevice *seventh = [tracker device];
+  MSDevice *seventh = [self.sut device];
 
   // Then
   // The new device should be added at the end and the first one removed so that third is at index 0
-  XCTAssertTrue([[tracker deviceHistory] count] == 5);
-  XCTAssertTrue([tracker.deviceHistory[0].device isEqual:third]);
-  XCTAssertTrue([tracker.deviceHistory[4].device isEqual:seventh]);
+  XCTAssertTrue([[self.sut deviceHistory] count] == 5);
+  XCTAssertTrue([self.sut.deviceHistory[0].device isEqual:third]);
+  XCTAssertTrue([self.sut.deviceHistory[4].device isEqual:seventh]);
 }
 
 - (void)testHistoryReturnsClosestDevice {
 
   // If
-  MSDeviceTracker *tracker = [MSDeviceTracker sharedInstance];
-  [tracker clearDevices];
+  [self.sut clearDevices];
 
   // When
-  MSDevice *actual = [tracker deviceForTimestamp:[NSDate dateWithTimeIntervalSince1970:1]];
+  MSDevice *actual = [self.sut deviceForTimestamp:[NSDate dateWithTimeIntervalSince1970:1]];
 
   // Then
-  XCTAssertTrue([actual isEqual:tracker.device]);
-  XCTAssertTrue([[tracker deviceHistory] count] == 1);
+  XCTAssertTrue([actual isEqual:self.sut.device]);
+  XCTAssertTrue([[self.sut deviceHistory] count] == 1);
 
   // If
-  MSDevice *first = [tracker device];
+  MSDevice *first = [self.sut device];
   [MSDeviceTracker refreshDeviceNextTime];
-  [tracker device]; // we don't need the second device history info
+  [self.sut device]; // we don't need the second device history info
   [MSDeviceTracker refreshDeviceNextTime];
-  MSDevice *third = [tracker device];
+  MSDevice *third = [self.sut device];
 
   // When
-  actual = [tracker deviceForTimestamp:[NSDate dateWithTimeIntervalSince1970:1]];
+  actual = [self.sut deviceForTimestamp:[NSDate dateWithTimeIntervalSince1970:1]];
 
   // Then
   XCTAssertTrue([actual isEqual:first]);
 
   // When
-  actual = [tracker deviceForTimestamp:[NSDate date]];
+  actual = [self.sut deviceForTimestamp:[NSDate date]];
 
   // Then
   XCTAssertTrue([actual isEqual:third]);

@@ -451,6 +451,8 @@ static NSString *const kMSTestGroupId = @"GroupId";
   __block int currentBatchId = 1;
   __block NSMutableArray<NSString *> *sentBatchIds = [NSMutableArray new];
   NSUInteger expectedMaxPendingBatched = 2;
+  id<MSLog> expectedLog = [MSAbstractLog new];
+  expectedLog.sid = MS_UUID_STRING;
 
   // Set up mock and stubs.
   OCMStub([self.ingestionMock sendAsync:OCMOCK_ANY authToken:OCMOCK_ANY completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
@@ -471,7 +473,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
         // Mock load.
         [invocation getArgument:&loadCallback atIndex:7];
-        loadCallback(((NSArray<id<MSLog>> *)@[ OCMProtocolMock(@protocol(MSLog)) ]), [@(currentBatchId++) stringValue]);
+        loadCallback(((NSArray<id<MSLog>> *)@[ expectedLog ]), [@(currentBatchId++) stringValue]);
       });
   self.sut.configuration = [[MSChannelUnitConfiguration alloc] initWithGroupId:kMSTestGroupId
                                                                       priority:MSPriorityDefault
@@ -508,6 +510,8 @@ static NSString *const kMSTestGroupId = @"GroupId";
   __block MSLogContainer *lastBatchLogContainer;
   __block int currentBatchId = 1;
   NSUInteger batchSizeLimit = 1;
+  id<MSLog> expectedLog = [MSAbstractLog new];
+  expectedLog.sid = MS_UUID_STRING;
 
   // Init mocks.
   OCMStub([self.ingestionMock sendAsync:OCMOCK_ANY authToken:OCMOCK_ANY completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
@@ -532,7 +536,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
         [invocation getArgument:&loadCallback atIndex:7];
 
         // Mock load.
-        loadCallback(((NSArray<id<MSLog>> *)@[ OCMProtocolMock(@protocol(MSLog)) ]), [@(currentBatchId) stringValue]);
+        loadCallback(((NSArray<id<MSLog>> *)@[ expectedLog ]), [@(currentBatchId) stringValue]);
       });
 
   // Configure channel.

@@ -57,7 +57,7 @@
   // Then
   NSData *data = [self.settingsMock objectForKey:@"SessionIdHistory"];
   XCTAssertNotNil(data);
-  XCTAssertTrue([[NSKeyedUnarchiver unarchiveObjectWithData:data] count] == 2);
+  XCTAssertEqual([[NSKeyedUnarchiver unarchiveObjectWithData:data] count], 2);
 
   // When
   [[MSSessionContext sharedInstance] clearSessionHistoryAndKeepCurrentSession:NO];
@@ -67,7 +67,7 @@
   XCTAssertNotNil(data);
 
   // Should keep the current session.
-  XCTAssertTrue([[NSKeyedUnarchiver unarchiveObjectWithData:data] count] == 0);
+  XCTAssertEqual([[NSKeyedUnarchiver unarchiveObjectWithData:data] count], 0);
 }
 
 - (void)testClearSessionHistoryExceptCurrentOne {
@@ -80,7 +80,7 @@
   // Then
   NSData *data = [self.settingsMock objectForKey:@"SessionIdHistory"];
   XCTAssertNotNil(data);
-  XCTAssertTrue([[NSKeyedUnarchiver unarchiveObjectWithData:data] count] == 2);
+  XCTAssertEqual([[NSKeyedUnarchiver unarchiveObjectWithData:data] count], 2);
 
   // When
   [[MSSessionContext sharedInstance] clearSessionHistoryAndKeepCurrentSession:YES];
@@ -90,7 +90,7 @@
   XCTAssertNotNil(data);
 
   // Should keep the current session.
-  XCTAssertTrue([[NSKeyedUnarchiver unarchiveObjectWithData:data] count] == 1);
+  XCTAssertEqual([[NSKeyedUnarchiver unarchiveObjectWithData:data] count], 1);
 }
 
 - (void)testSessionId {

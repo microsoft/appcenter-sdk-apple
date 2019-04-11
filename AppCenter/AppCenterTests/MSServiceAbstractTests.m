@@ -78,6 +78,7 @@
 
 - (void)setUp {
   [super setUp];
+  [MSAppCenter resetSharedInstance];
 
   // Set up the mocked storage.
   self.settingsMock = [MSMockUserDefaults new];
@@ -96,6 +97,7 @@
 - (void)tearDown {
   [self.channelGroupMock stopMocking];
   [self.settingsMock stopMocking];
+  [MSAppCenter resetSharedInstance];
   [super tearDown];
 }
 
