@@ -8,16 +8,16 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
   var documentId: String?
   var userDocumentAddPropertiesSection: EventPropertiesTableSection!
   var documentContent: [String: Any]?
-  private var kUserDocumentAddPropertiesSectionIndex: Int = 0
+  private let kUserDocumentAddPropertiesSectionIndex: Int = 0
 
   @IBOutlet weak var backButton: UIButton!
-  @IBOutlet weak var DocIdField: UITextField!
+  @IBOutlet weak var docIdField: UITextField!
   @IBOutlet weak var tableView: UITableView!
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    DocIdField.text = documentId
-    DocIdField.placeholder = "Please input an user document id"
+    docIdField.text = documentId
+    docIdField.placeholder = "Please input an user document id"
     self.tableView.delegate = self
     self.tableView.dataSource = self
     self.tableView.setEditing(true, animated: false)
@@ -26,7 +26,7 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
   override func loadView() {
     super.loadView()
     if docmentType == "User" && documentId!.isEmpty {
-      DocIdField.isEnabled = true
+      docIdField.isEnabled = true
     }
     userDocumentAddPropertiesSection = EventPropertiesTableSection(tableSection: 0, tableView: self.tableView)
   }
@@ -105,10 +105,10 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
   }
 
   func saveButtonClicked (_ sender: UIButton) {
-    if DocIdField.isEnabled && !((DocIdField.text?.isEmpty)!) {
-      MSStorageViewController.UserDocuments.append(DocIdField.text!)
+    if docIdField.isEnabled && !((docIdField.text?.isEmpty)!) {
+      MSStorageViewController.UserDocuments.append(docIdField.text!)
     }
-    if !((DocIdField.text?.isEmpty)!) {
+    if !((docIdField.text?.isEmpty)!) {
       let docProperties = userDocumentAddPropertiesSection.typedProperties
       for property in docProperties {
         switch property.type {

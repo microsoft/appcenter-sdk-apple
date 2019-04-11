@@ -2032,6 +2032,7 @@
                     <connections>
                         <outlet property="DocIdField" destination="D2H-84-ETu" id="CpO-r0-eqo"/>
                         <outlet property="backButton" destination="WKj-8A-ehW" id="MGO-pd-fvn"/>
+                        <outlet property="docIdField" destination="D2H-84-ETu" id="DGz-1t-LBy"/>
                         <outlet property="tableView" destination="usS-eK-aCf" id="uCi-dy-DRy"/>
                     </connections>
                 </viewController>

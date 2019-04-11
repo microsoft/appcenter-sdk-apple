@@ -210,8 +210,8 @@ class AppCenterDelegateSwift: AppCenterDelegate {
   }
 
   func signOut() {
-    UserDefaults.standard.set(false, forKey: "identitySignIn")
     MSIdentity.signOut()
+    UserDefaults.standard.set(false, forKey: "identitySignIn")
   }
 
   // Last crash report section.
