@@ -105,9 +105,7 @@ static const NSUInteger kMSSchemaVersion = 1;
   return [self.dbStorage dropTable:tableName];
 }
 
-- (MSDocumentWrapper *)readWithToken:(MSTokenResult *)token
-                          documentId:(NSString *)documentId
-                        documentType:(Class)documentType {
+- (MSDocumentWrapper *)readWithToken:(MSTokenResult *)token documentId:(NSString *)documentId documentType:(Class)documentType {
   NSString *tableName = [MSDBDocumentStore tableNameForPartition:token.partition];
   NSString *selectionQuery = [NSString stringWithFormat:@"SELECT * FROM \"%@\" WHERE \"%@\" = \"%@\" AND \"%@\" = \"%@\"", tableName,
                                                         kMSPartitionColumnName, token.partition, kMSDocumentIdColumnName, documentId];

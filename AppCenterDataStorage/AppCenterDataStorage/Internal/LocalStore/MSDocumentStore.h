@@ -69,9 +69,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @returns A document.
  */
-- (MSDocumentWrapper *)readWithToken:(MSTokenResult *)token
-                          documentId:(NSString *)documentId
-                        documentType:(Class)documentType;
+- (MSDocumentWrapper *)readWithToken:(MSTokenResult *)token documentId:(NSString *)documentId documentType:(Class)documentType;
 
 @end
 

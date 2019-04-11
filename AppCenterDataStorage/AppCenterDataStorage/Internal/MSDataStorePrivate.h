@@ -3,6 +3,7 @@
 
 #import "MSAuthTokenContextDelegate.h"
 #import "MSServiceInternal.h"
+#import "MSTokensResponse.h"
 #import "MS_Reachability.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -13,6 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 static NSString *const kMSDefaultApiUrl = @"https://api.appcenter.ms/v0.1";
 
 @interface MSDataStore () <MSAuthTokenContextDelegate>
+
+typedef void (^MSDocumentStoreCompletionHandler)(MSDocumentWrapper *_Nonnull document, MSTokensResponse *tokenResponse);
 
 /**
  * Method to reset the singleton when running unit tests only. So calling sharedInstance returns a fresh instance.
