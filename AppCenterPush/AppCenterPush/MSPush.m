@@ -119,10 +119,13 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
 #endif
 
 #pragma mark - MSUserIdContextDelegate
-- (void) userIdContext:(MSUserIdContext *)__unused userIdContext didUpdateUserId:(NSString *)__unused userId {
+- (void)userIdContext:(MSUserIdContext *)__unused userIdContext didUpdateUserId:(NSString *)userId {
   NSString *pushTokenCopy = self.pushToken;
   if (pushTokenCopy) {
-    [self sendPushToken:pushTokenCopy];
+    MSPushLog *log = [MSPushLog new];
+    log.pushToken = pushTokenCopy;
+    log.userId = userId;
+    [self.channelUnit enqueueItem:log flags:MSFlagsDefault];
   }
 }
 
