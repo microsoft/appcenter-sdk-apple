@@ -280,7 +280,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
   // Send the call.
   [self.sut sendCallAsync:mockedCall];
-  [self waitForExpectationsWithTimeout:20
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *error) {
                                  XCTAssertTrue(self.sut.paused);
                                  XCTAssertTrue([self.sut.pendingCalls count] == 0);
