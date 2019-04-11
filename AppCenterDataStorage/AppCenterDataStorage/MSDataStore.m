@@ -11,6 +11,7 @@
 #import "MSCosmosDb.h"
 #import "MSDBDocumentStore.h"
 #import "MSDataSourceError.h"
+#import "MSDataStorageConstants.h"
 #import "MSDataStoreErrors.h"
 #import "MSDataStoreInternal.h"
 #import "MSDataStorePrivate.h"
@@ -552,6 +553,36 @@ static dispatch_once_t onceToken;
 }
 
 - (void)onNetworkGoesOnline {
+    [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:(id<MSHttpClientProtocol>)self.httpClient
+                                               tokenExchangeUrl:self.tokenExchangeUrl
+                                                      appSecret:self.appSecret
+                                                      partition:MSDataStoreUserDocumentsPartition
+          completionHandler:^(MSTokensResponse *_Nonnull tokenResponses, NSError *_Nonnull error) {
+              if (error || [tokenResponses.tokens count] == 0) {
+                  NSInteger httpStatusCode = [MSDataSourceError errorCodeFromError:error];
+                  MSLogError([MSDataStore logTag],
+                             @"Can't get CosmosDb token. Error: %@;  HTTP status code: %ld; Partition: %@",
+                             error.localizedDescription, (long)httpStatusCode, partition);
+                  completionHandler(nil, nil, error);
+                  // TODO: Need to schedule retry for sometime later otherwise
+                  //       offline cache will never be synced
+                  return;
+              }
+              
+              NSArray<MSPendingOperation *> pendingOperations = [MSDBDocumentStore pendingOperationsWithToken:tokenResponses.tokens[0]];
+              for (MSPendingOperation *operation in pendingOperations) {
+                  if([operation.operation isEqualToString:kMsPendingOperationCreate] ||
+                     [operation.operation isEqualToString:kMSPendingOperationReplace]) {
+                      // TODO: Do insert or update
+                  } else if([operation.operation isEqualToString:kMSPendingOperationDelete]) {
+                      // TODO: Do delete
+                  } else {
+                      MSLogError([MSDataStore logTag],
+                                 @"Pending operation '%@' is not supported",
+                                 operation.operation);
+                  }
+              }
+          }];ß
 }
 
 - (BOOL)isOffline {
