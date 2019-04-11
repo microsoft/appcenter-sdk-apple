@@ -21,7 +21,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 typedef NSArray<NSDictionary<NSString *, NSArray<NSString *> *> *> MSDBColumnsSchema;
 typedef NSDictionary<NSString *, MSDBColumnsSchema *> MSDBSchema;
-typedef NSDictionary<NSString *, NSArray<NSString *> *> MSDBUniqueColumnConstraints;
 
 // SQLite types
 static NSString *const kMSSQLiteTypeText = @"TEXT";
