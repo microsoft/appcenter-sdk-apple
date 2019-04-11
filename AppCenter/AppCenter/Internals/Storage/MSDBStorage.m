@@ -10,15 +10,33 @@
 @implementation MSDBStorage
 
 - (instancetype)initWithSchema:(MSDBSchema *)schema version:(NSUInteger)version filename:(NSString *)filename {
-  if ((self = [self initWithVersion:version filename:filename])) {
+  if ((self = [super init])) {
+    BOOL newDatabase = ![MSUtility fileExistsForPathComponent:filename];
+    _dbFileURL = [MSUtility createFileAtPathComponent:filename withData:nil atomically:NO forceOverwrite:NO];
+    _maxSizeInBytes = kMSDefaultDatabaseSizeInBytes;
+
+    // If it is custom SQLite library we need to turn on URI filename capability.
+    sqlite3_config(SQLITE_CONFIG_URI, 1);
     int result;
     sqlite3 *db = [MSDBStorage openDatabaseAtFileURL:self.dbFileURL withResult:&result];
     if (db) {
+      _pageSize = [MSDBStorage getPageSizeInOpenedDatabase:db];
+      NSUInteger databaseVersion = [MSDBStorage versionInOpenedDatabase:db];
 
-      // Create tables based on schema.
+      // Create table
       [MSDBStorage createTablesWithSchema:schema inOpenedDatabase:db];
+      if (newDatabase) {
+        MSLogInfo([MSAppCenter logTag], @"Created \"%@\" database with %lu version.", filename, (unsigned long)version);
+        [self customizeDatabase:db];
+      } else if (databaseVersion < version) {
+        MSLogInfo([MSAppCenter logTag], @"Migrate \"%@\" database from %lu to %lu version.", filename, (unsigned long)databaseVersion,
+                  (unsigned long)version);
+        [self migrateDatabase:db fromVersion:databaseVersion];
+      }
+      [MSDBStorage enableAutoVacuumInOpenedDatabase:db];
+      [MSDBStorage setVersion:version inOpenedDatabase:db];
       sqlite3_close(db);
-    }
+    };
   }
   return self;
 }
