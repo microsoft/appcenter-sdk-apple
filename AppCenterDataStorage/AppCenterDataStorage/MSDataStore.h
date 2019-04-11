@@ -38,6 +38,7 @@ static NSString *const MSDataStoreAppDocumentsPartition = @"readonly";
  * Time to live constants
  */
 static int const MSDataStoreTimeToLiveInfinite = -1;
+static int const MSDataStoreTimeToLiveNoCache = 0;
 static int const MSDataStoreTimeToLiveDefault = 60 * 60;
 
 @interface MSDataStore<T : id <MSSerializableDocument>> : MSServiceAbstract

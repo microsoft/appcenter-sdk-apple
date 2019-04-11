@@ -8,7 +8,7 @@
 /**
  * Device document time-to-live in seconds. Default is one hour.
  */
-@property NSTimeInterval deviceTimeToLive;
+@property long deviceTimeToLive;
 
 /**
  * Initialize a BaseOptions object.
@@ -17,6 +17,6 @@
  *
  * @return A BaseOptions instance.
  */
-- (instancetype)initWithDeviceTimeToLive:(NSTimeInterval)deviceTimeToLive;
+- (instancetype)initWithDeviceTimeToLive:(long)deviceTimeToLive;
 
 @end

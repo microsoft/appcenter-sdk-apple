@@ -8,7 +8,7 @@
 
 @synthesize deviceTimeToLive = _deviceTimeToLive;
 
-- (instancetype)initWithDeviceTimeToLive:(NSTimeInterval)deviceTimeToLive {
+- (instancetype)initWithDeviceTimeToLive:(long)deviceTimeToLive {
   self = [super init];
   if (self) {
     self.deviceTimeToLive = deviceTimeToLive;
