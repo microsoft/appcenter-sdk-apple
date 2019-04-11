@@ -359,10 +359,8 @@ static dispatch_once_t onceToken;
                                documentType:[MSDictionaryDocument class]
                           completionHandler:^(MSDocumentWrapper *_Nonnull document, MSTokensResponse *_Nonnull tokensResponse) {
                             if ([self.reachability currentReachabilityStatus] == NotReachable || document.pendingOperation) {
-                              MSWriteOptions *safeOptions = writeOptions;
-                              if (!safeOptions) {
-                                safeOptions = [[MSWriteOptions alloc] initWithDeviceTimeToLive:MSDataStoreTimeToLiveDefault];
-                              } else if (safeOptions.deviceTimeToLive == MSDataStoreTimeToLiveNoCache) {
+                              NSInteger deviceTimeToLive = writeOptions ? writeOptions.deviceTimeToLive : MSDataStoreTimeToLiveDefault;
+                              if (deviceTimeToLive == MSDataStoreTimeToLiveNoCache) {
                                 NSError *dontCacheError =
                                     [[NSError alloc] initWithDomain:kMSACDataStoreErrorDomain
                                                                code:MSACDataStoreDontCache
@@ -374,7 +372,7 @@ static dispatch_once_t onceToken;
                                 [self.documentStore upsertWithToken:tokensResponse.tokens[0]
                                                     documentWrapper:document
                                                           operation:kMSPendingOperationDelete
-                                                            options:safeOptions];
+                                                   deviceTimeToLive:deviceTimeToLive];
                                 completionHandler(document);
                               }
                             } else {
@@ -430,10 +428,8 @@ static dispatch_once_t onceToken;
                                documentType:[MSDictionaryDocument class]
                           completionHandler:^(MSDocumentWrapper *_Nonnull localDocument, MSTokensResponse *_Nonnull tokensResponse) {
                             if ([self.reachability currentReachabilityStatus] == NotReachable || localDocument.pendingOperation) {
-                              MSWriteOptions *safeOptions = writeOptions;
-                              if (!safeOptions) {
-                                safeOptions = [[MSWriteOptions alloc] initWithDeviceTimeToLive:MSDataStoreTimeToLiveDefault];
-                              } else if (safeOptions.deviceTimeToLive == MSDataStoreTimeToLiveNoCache) {
+                              NSInteger deviceTimeToLive = writeOptions ? writeOptions.deviceTimeToLive : MSDataStoreTimeToLiveDefault;
+                              if (deviceTimeToLive == MSDataStoreTimeToLiveNoCache) {
                                 NSError *dontCacheError =
                                     [[NSError alloc] initWithDomain:kMSACDataStoreErrorDomain
                                                                code:MSACDataStoreDontCache
@@ -445,7 +441,7 @@ static dispatch_once_t onceToken;
                                 [self.documentStore upsertWithToken:tokensResponse.tokens[0]
                                                     documentWrapper:localDocument
                                                           operation:pendingOperation
-                                                            options:safeOptions];
+                                                   deviceTimeToLive:deviceTimeToLive];
                                 completionHandler(localDocument);
                               }
                             } else {
@@ -481,16 +477,13 @@ static dispatch_once_t onceToken;
 
                                                  // Deserialize.
                                                  MSLogDebug([MSDataStore logTag], @"Document created/replaced with ID: %@", documentId);
-                                                 MSWriteOptions *safeOptions = writeOptions;
-                                                 if (!safeOptions) {
-                                                   safeOptions =
-                                                       [[MSWriteOptions alloc] initWithDeviceTimeToLive:MSDataStoreTimeToLiveDefault];
-                                                 }
-                                                 if (safeOptions.deviceTimeToLive != MSDataStoreTimeToLiveNoCache) {
+                                                 NSInteger deviceTimeToLive =
+                                                     writeOptions ? writeOptions.deviceTimeToLive : MSDataStoreTimeToLiveDefault;
+                                                 if (deviceTimeToLive != MSDataStoreTimeToLiveNoCache) {
                                                    [self.documentStore upsertWithToken:tokensResponse.tokens[0]
                                                                        documentWrapper:localDocument
                                                                              operation:nil
-                                                                               options:safeOptions];
+                                                                      deviceTimeToLive:deviceTimeToLive];
                                                  }
                                                  completionHandler([MSDocumentUtils documentWrapperFromData:data
                                                                                                documentType:[document class]]);

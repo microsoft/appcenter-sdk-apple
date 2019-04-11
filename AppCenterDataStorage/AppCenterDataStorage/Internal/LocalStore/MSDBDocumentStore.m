@@ -17,7 +17,6 @@
 #import "MSTokenResult.h"
 #import "MSUtility+Date.h"
 #import "MSUtility+StringFormatting.h"
-#import "MSWriteOptions.h"
 
 static const NSUInteger kMSSchemaVersion = 1;
 
@@ -65,14 +64,14 @@ static const NSUInteger kMSSchemaVersion = 1;
 - (BOOL)upsertWithToken:(MSTokenResult *)token
         documentWrapper:(MSDocumentWrapper *)documentWrapper
               operation:(NSString *_Nullable)operation
-                options:(MSBaseOptions *)options {
+       deviceTimeToLive:(NSInteger)deviceTimeToLive {
   // Compute expiration time as now + device time to live (in seconds).
   // If device time to live is set to infinite, set expiration time as null in the database.
   // Note: If the cache/store is meant to be disabled, this method should not even be called.
   NSTimeInterval now = NSDate.timeIntervalSinceReferenceDate + NSTimeIntervalSince1970;
   NSTimeInterval expirationTime = -1;
-  if (options.deviceTimeToLive != MSDataStoreTimeToLiveInfinite) {
-    expirationTime = now + options.deviceTimeToLive;
+  if (deviceTimeToLive != MSDataStoreTimeToLiveInfinite) {
+    expirationTime = now + deviceTimeToLive;
   }
   NSString *tableName = [MSDBDocumentStore tableNameForPartition:token.partition];
   NSString *insertQuery = [NSString

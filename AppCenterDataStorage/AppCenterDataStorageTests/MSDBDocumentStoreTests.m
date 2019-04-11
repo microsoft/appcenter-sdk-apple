@@ -259,10 +259,9 @@
   int ttl = 1;
   MSDocumentWrapper *expectedDocumentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestDocument"]
                                                                            documentType:[MSDictionaryDocument class]];
-  MSReadOptions *readOptions = [[MSReadOptions alloc] initWithDeviceTimeToLive:ttl];
 
   // When
-  BOOL result = [self.sut upsertWithToken:self.appToken documentWrapper:expectedDocumentWrapper operation:@"CREATE" options:readOptions];
+  BOOL result = [self.sut upsertWithToken:self.appToken documentWrapper:expectedDocumentWrapper operation:@"CREATE" deviceTimeToLive:ttl];
   MSDocumentWrapper *documentWrapper = [self.sut readWithToken:self.appToken
                                                     documentId:expectedDocumentWrapper.documentId
                                                   documentType:[MSDictionaryDocument class]];
@@ -282,10 +281,12 @@
   // If
   MSDocumentWrapper *documentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestDocument"]
                                                                    documentType:[MSDictionaryDocument class]];
-  MSReadOptions *readOptions = [[MSReadOptions alloc] initWithDeviceTimeToLive:MSDataStoreTimeToLiveInfinite];
 
   // When
-  BOOL result = [self.sut upsertWithToken:self.appToken documentWrapper:documentWrapper operation:@"CREATE" options:readOptions];
+  BOOL result = [self.sut upsertWithToken:self.appToken
+                          documentWrapper:documentWrapper
+                                operation:@"CREATE"
+                         deviceTimeToLive:MSDataStoreTimeToLiveInfinite];
   MSDocumentWrapper *expectedDocumentWrapper = [self.sut readWithToken:self.appToken
                                                             documentId:documentWrapper.documentId
                                                           documentType:[MSDictionaryDocument class]];
@@ -318,10 +319,7 @@
   // If
   MSDocumentWrapper *documentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestDocument"]
                                                                    documentType:[MSDictionaryDocument class]];
-  [self.sut upsertWithToken:self.appToken
-            documentWrapper:documentWrapper
-                  operation:@"CREATE"
-                    options:[[MSReadOptions alloc] initWithDeviceTimeToLive:1]];
+  [self.sut upsertWithToken:self.appToken documentWrapper:documentWrapper operation:@"CREATE" deviceTimeToLive:1];
   MSDocumentWrapper *expectedDocumentWrapper = [self.sut readWithToken:self.appToken
                                                             documentId:documentWrapper.documentId
                                                           documentType:[MSDictionaryDocument class]];
@@ -344,10 +342,7 @@
   MSDocumentWrapper *documentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestDocument"]
                                                                    documentType:[MSDictionaryDocument class]];
   [self.sut createUserStorageWithAccountId:self.userToken.accountId];
-  [self.sut upsertWithToken:self.userToken
-            documentWrapper:documentWrapper
-                  operation:@"CREATE"
-                    options:[[MSReadOptions alloc] initWithDeviceTimeToLive:1]];
+  [self.sut upsertWithToken:self.userToken documentWrapper:documentWrapper operation:@"CREATE" deviceTimeToLive:1];
   MSDocumentWrapper *expectedDocumentWrapper = [self.sut readWithToken:self.userToken
                                                             documentId:documentWrapper.documentId
                                                           documentType:[MSDictionaryDocument class]];

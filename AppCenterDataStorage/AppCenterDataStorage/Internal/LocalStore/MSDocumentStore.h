@@ -3,8 +3,6 @@
 
 #import <Foundation/Foundation.h>
 
-@class MSWriteOptions;
-@class MSReadOptions;
 @class MSDocumentWrapper;
 @class MSTokenResult;
 
@@ -27,14 +25,14 @@ NS_ASSUME_NONNULL_BEGIN
  * @param token CosmosDB token.
  * @param documentWrapper Document wrapper object to store.
  * @param operation The operation store.
- * @param options The operation options (used to extract the device time-to-live information).
+ * @param deviceTimeToLive The device time to live (in seconds).
  *
  * @return YES if the document was saved successfully, NO otherwise.
  */
 - (BOOL)upsertWithToken:(MSTokenResult *)token
         documentWrapper:(MSDocumentWrapper *)documentWrapper
               operation:(NSString *_Nullable)operation
-                options:(MSBaseOptions *)options;
+       deviceTimeToLive:(NSInteger)deviceTimeToLive;
 
 /**
  * Delete an entry from the store.
