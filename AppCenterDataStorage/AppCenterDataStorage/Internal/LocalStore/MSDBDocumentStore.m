@@ -26,9 +26,10 @@ static const NSUInteger kMSSchemaVersion = 1;
 
 #pragma mark - Initialization
 
-- (instancetype)initWithDbStorage:(MSDBStorage *)dbStorage schema:(MSDBSchema *)schema {
+- (instancetype)initWithDbStorage:(MSDBStorage *)dbStorage {
   if ((self = [super init])) {
     _dbStorage = dbStorage;
+    MSDBSchema *schema = @{kMSAppDocumentTableName : MSDBDocumentStore.columnsSchema};
     NSDictionary *columnIndexes = [MSDBStorage columnsIndexes:schema];
     _idColumnIndex = ((NSNumber *)columnIndexes[kMSAppDocumentTableName][kMSIdColumnName]).unsignedIntegerValue;
     _partitionColumnIndex = ((NSNumber *)columnIndexes[kMSAppDocumentTableName][kMSPartitionColumnName]).unsignedIntegerValue;
@@ -39,6 +40,7 @@ static const NSUInteger kMSSchemaVersion = 1;
     _downloadTimeColumnIndex = ((NSNumber *)columnIndexes[kMSAppDocumentTableName][kMSDownloadTimeColumnName]).unsignedIntegerValue;
     _operationTimeColumnIndex = ((NSNumber *)columnIndexes[kMSAppDocumentTableName][kMSOperationTimeColumnName]).unsignedIntegerValue;
     _pendingOperationColumnIndex = ((NSNumber *)columnIndexes[kMSAppDocumentTableName][kMSPendingOperationColumnName]).unsignedIntegerValue;
+    [self createTableWithTableName:kMSAppDocumentTableName];
   }
   return self;
 }
@@ -48,17 +50,21 @@ static const NSUInteger kMSSchemaVersion = 1;
   /*
    * DO NOT modify schema without a migration plan and bumping database version.
    */
-  MSDBSchema *schema = [MSDBDocumentStore documentTableSchema];
-  MSDBStorage *dbStorage = [[MSDBStorage alloc] initWithSchema:schema version:kMSSchemaVersion filename:kMSDBDocumentFileName];
-  return [self initWithDbStorage:dbStorage schema:schema];
+  MSDBStorage *dbStorage = [[MSDBStorage alloc] initWithVersion:kMSSchemaVersion filename:kMSDBDocumentFileName];
+  return [self initWithDbStorage:dbStorage];
 }
 
 #pragma mark - Table Management
 
 - (BOOL)createUserStorageWithAccountId:(NSString *)accountId {
+  NSString *tableName = [NSString stringWithFormat:kMSUserDocumentTableNameFormat, accountId];
+  return [self createTableWithTableName:tableName];
+}
+
+- (BOOL)createTableWithTableName:(NSString *)tableName {
 
   // Create table based on the schema.
-  return [self.dbStorage createTable:[NSString stringWithFormat:kMSUserDocumentTableNameFormat, accountId]
+  return [self.dbStorage createTable:tableName
                        columnsSchema:[MSDBDocumentStore columnsSchema]
              uniqueColumnsConstraint:@[ kMSPartitionColumnName, kMSDocumentIdColumnName ]];
 }
@@ -176,10 +182,6 @@ static const NSUInteger kMSSchemaVersion = 1;
 - (void)deleteAllTables {
   // Delete all the tables.
   [self.dbStorage dropAllTables];
-}
-
-+ (MSDBSchema *)documentTableSchema {
-  return @{kMSAppDocumentTableName : [MSDBDocumentStore columnsSchema]};
 }
 
 + (MSDBColumnsSchema *)columnsSchema {

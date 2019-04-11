@@ -25,7 +25,6 @@
 
 @property(nonatomic, strong) MSDBStorage *dbStorage;
 @property(nonatomic, strong) MSDBDocumentStore *sut;
-@property(nonnull, strong) MSDBSchema *schema;
 @property(nonnull, strong) MSTokenResult *appToken;
 @property(nonnull, strong) MSTokenResult *userToken;
 
@@ -40,9 +39,8 @@
   [MSUtility deleteItemForPathComponent:kMSDBDocumentFileName];
 
   // Init storage.
-  self.schema = [MSDBDocumentStore documentTableSchema];
-  self.dbStorage = [[MSDBStorage alloc] initWithSchema:self.schema version:0 filename:kMSDBDocumentFileName];
-  self.sut = [[MSDBDocumentStore alloc] initWithDbStorage:self.dbStorage schema:self.schema];
+  self.dbStorage = [[MSDBStorage alloc] initWithVersion:0 filename:kMSDBDocumentFileName];
+  self.sut = [[MSDBDocumentStore alloc] initWithDbStorage:self.dbStorage];
 
   // Init tokens.
   self.appToken = [[MSTokenResult alloc] initWithPartition:MSDataStoreAppDocumentsPartition
@@ -289,6 +287,29 @@
   // Then
   long expirationTime = [self expirationTimeWithToken:self.appToken documentId:documentId];
   XCTAssertEqual(expirationTime, (long)(timeToLive + NSTimeIntervalSince1970 + timeSinceReferenceDate));
+}
+
+- (void)testUpsertReplacesCorrectlyInAppStorage {
+
+  // If
+  MSDocumentWrapper *expectedDocumentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestDocument"]
+                                                                           documentType:[MSDictionaryDocument class]];
+  MSWriteOptions *writeOptions = [[MSWriteOptions alloc] initWithDeviceTimeToLive:MSDataStoreTimeToLiveInfinite];
+
+  // When
+  // Upsert twice to ensure that replacement is correct.
+  [self.sut upsertWithToken:self.appToken documentWrapper:expectedDocumentWrapper operation:@"REPLACE" options:writeOptions];
+  [self.sut upsertWithToken:self.appToken documentWrapper:expectedDocumentWrapper operation:@"REPLACE" options:writeOptions];
+
+  // Then
+
+  // Ensure that there is exactly one entry in the cache with the given document ID and partition name.
+  NSString *tableName = [MSDBDocumentStore tableNameForPartition:self.appToken.partition];
+  NSArray<NSArray *> *result = [self.dbStorage
+      executeSelectionQuery:[NSString stringWithFormat:@"SELECT * FROM \"%@\" WHERE \"%@\" = \"%@\" AND \"%@\" = \"%@\"", tableName,
+                                                       kMSDocumentIdColumnName, expectedDocumentWrapper.documentId, kMSPartitionColumnName,
+                                                       self.appToken.partition]];
+  XCTAssertEqual(result.count, 1);
 }
 
 - (void)testCreationOfApplicationLevelTable {
