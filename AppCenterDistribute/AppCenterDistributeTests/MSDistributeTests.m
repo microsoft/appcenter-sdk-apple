@@ -27,6 +27,7 @@
 #import "MSTestFrameworks.h"
 #import "MSUtility+StringFormatting.h"
 #import "MS_Reachability.h"
+#import "MSGuidedAccessUtil.h"
 
 static NSString *const kMSTestAppSecret = @"IAMSECRET";
 static NSString *const kMSTestReleaseHash = @"RELEASEHASH";
@@ -1259,9 +1260,11 @@ static NSURL *sfURL;
   [MSDistributeTestUtil unMockUpdatesAllowedConditions];
   id appCenterMock = OCMClassMock([MSAppCenter class]);
   id distributeMock = OCMPartialMock(self.sut);
+  id guidedAccessMock = OCMClassMock([MSGuidedAccessUtil class]);
   OCMStub([distributeMock checkLatestRelease:OCMOCK_ANY distributionGroupId:OCMOCK_ANY releaseHash:OCMOCK_ANY]).andDo(nil);
   OCMStub([distributeMock requestInstallInformationWith:OCMOCK_ANY]).andDo(nil);
   id utilityMock = [self mockMSPackageHash];
+  OCMStub([guidedAccessMock isGuidedAccessEnabled]).andReturn(NO);
 
   // When
   OCMStub([appCenterMock isDebuggerAttached]).andReturn(NO);
@@ -1280,6 +1283,7 @@ static NSURL *sfURL;
   [distributeMock stopMocking];
   [appCenterMock stopMocking];
   [utilityMock stopMocking];
+  [guidedAccessMock stopMocking];
 }
 
 - (void)testCheckForUpdatesDebuggerAttached {
@@ -1288,14 +1292,18 @@ static NSURL *sfURL;
   [MSDistributeTestUtil unMockUpdatesAllowedConditions];
   id appCenterMock = OCMClassMock([MSAppCenter class]);
   id utilityMock = OCMClassMock([MSUtility class]);
+  id guidedAccessMock = OCMClassMock([MSGuidedAccessUtil class]);
   OCMStub([appCenterMock isDebuggerAttached]).andReturn(YES);
   OCMStub([utilityMock currentAppEnvironment]).andReturn(MSEnvironmentOther);
+  OCMStub([guidedAccessMock isGuidedAccessEnabled]).andReturn(NO);
 
   // Then
   XCTAssertFalse([self.sut checkForUpdatesAllowed]);
 
   // Clear
   [appCenterMock stopMocking];
+  [utilityMock stopMocking];
+  [guidedAccessMock stopMocking];
 }
 
 - (void)testCheckForUpdatesInvalidEnvironment {
@@ -1304,14 +1312,38 @@ static NSURL *sfURL;
   [MSDistributeTestUtil unMockUpdatesAllowedConditions];
   id appCenterMock = OCMClassMock([MSAppCenter class]);
   id utilityMock = OCMClassMock([MSUtility class]);
+  id guidedAccessMock = OCMClassMock([MSGuidedAccessUtil class]);
   OCMStub([appCenterMock isDebuggerAttached]).andReturn(NO);
   OCMStub([utilityMock currentAppEnvironment]).andReturn(MSEnvironmentTestFlight);
+  OCMStub([guidedAccessMock isGuidedAccessEnabled]).andReturn(NO);
 
   // Then
   XCTAssertFalse([self.sut checkForUpdatesAllowed]);
 
   // Clear
   [appCenterMock stopMocking];
+  [utilityMock stopMocking];
+  [guidedAccessMock stopMocking];
+}
+
+- (void)testCheckForUpdatesInGuidedAccessMode {
+  
+  // When
+  [MSDistributeTestUtil unMockUpdatesAllowedConditions];
+  id appCenterMock = OCMClassMock([MSAppCenter class]);
+  id utilityMock = OCMClassMock([MSUtility class]);
+  id guidedAccessMock = OCMClassMock([MSGuidedAccessUtil class]);
+  OCMStub([appCenterMock isDebuggerAttached]).andReturn(NO);
+  OCMStub([utilityMock currentAppEnvironment]).andReturn(MSEnvironmentOther);
+  OCMStub([guidedAccessMock isGuidedAccessEnabled]).andReturn(YES);
+  
+  // Then
+  XCTAssertFalse([self.sut checkForUpdatesAllowed]);
+  
+  // Clear
+  [appCenterMock stopMocking];
+  [utilityMock stopMocking];
+  [guidedAccessMock stopMocking];
 }
 
 - (void)testSetupUpdatesWithPreviousFailureOnSamePackageHash {
@@ -1320,21 +1352,13 @@ static NSURL *sfURL;
   [MSDistributeTestUtil unMockUpdatesAllowedConditions];
   id appCenterMock = OCMClassMock([MSAppCenter class]);
   id distributeMock = OCMPartialMock(self.sut);
+  id guidedAccessMock = OCMClassMock([MSGuidedAccessUtil class]);
   OCMStub([distributeMock checkLatestRelease:OCMOCK_ANY distributionGroupId:OCMOCK_ANY releaseHash:OCMOCK_ANY]).andDo(nil);
   id utilityMock = [self mockMSPackageHash];
-
-  // When
   OCMStub([appCenterMock isDebuggerAttached]).andReturn(NO);
   OCMStub([utilityMock currentAppEnvironment]).andReturn(MSEnvironmentOther);
-
-  // Then
-  XCTAssertTrue([distributeMock checkForUpdatesAllowed]);
-
-  // If
+  OCMStub([guidedAccessMock isGuidedAccessEnabled]).andReturn(NO);
   [self.settingsMock setObject:kMSTestReleaseHash forKey:kMSUpdateSetupFailedPackageHashKey];
-
-  // Then
-  XCTAssertEqual([self.settingsMock objectForKey:kMSUpdateSetupFailedPackageHashKey], kMSTestReleaseHash);
 
   // When
   [distributeMock applyEnabledState:YES];
@@ -1348,6 +1372,7 @@ static NSURL *sfURL;
   [distributeMock stopMocking];
   [appCenterMock stopMocking];
   [utilityMock stopMocking];
+  [guidedAccessMock stopMocking];
 }
 
 - (void)testSetupUpdatesWithPreviousFailureOnDifferentPackageHash {
@@ -1361,15 +1386,10 @@ static NSURL *sfURL;
   id distributeMock = OCMPartialMock(self.sut);
   OCMStub([distributeMock checkLatestRelease:OCMOCK_ANY distributionGroupId:OCMOCK_ANY releaseHash:OCMOCK_ANY]).andDo(nil);
   id utilityMock = [self mockMSPackageHash];
-
-  // When
+  id guidedAccessMock = OCMClassMock([MSGuidedAccessUtil class]);
   OCMStub([appCenterMock isDebuggerAttached]).andReturn(NO);
   OCMStub([utilityMock currentAppEnvironment]).andReturn(MSEnvironmentOther);
-
-  // Then
-  XCTAssertTrue([distributeMock checkForUpdatesAllowed]);
-
-  // If
+  OCMStub([guidedAccessMock isGuidedAccessEnabled]).andReturn(NO);
   [self.settingsMock setObject:@"different-release-hash" forKey:kMSUpdateSetupFailedPackageHashKey];
 
   // Then
@@ -1388,6 +1408,7 @@ static NSURL *sfURL;
   [distributeMock stopMocking];
   [appCenterMock stopMocking];
   [utilityMock stopMocking];
+  [guidedAccessMock stopMocking];
 }
 
 - (void)testBrowserNotOpenedWhenTesterAppUsedForUpdateSetup {
@@ -1399,7 +1420,9 @@ static NSURL *sfURL;
   [MSDistributeTestUtil unMockUpdatesAllowedConditions];
   id appCenterMock = OCMClassMock([MSAppCenter class]);
   id distributeMock = OCMPartialMock(self.sut);
+  id guidedAccessMock = OCMClassMock([MSGuidedAccessUtil class]);
   id utilityMock = [self mockMSPackageHash];
+  OCMStub([guidedAccessMock isGuidedAccessEnabled]).andReturn(NO);
   OCMStub([distributeMock buildTokenRequestURLWithAppSecret:OCMOCK_ANY releaseHash:OCMOCK_ANY isTesterApp:false])
       .andReturn([NSURL URLWithString:@"https://some_url"]);
   OCMStub([distributeMock buildTokenRequestURLWithAppSecret:OCMOCK_ANY releaseHash:OCMOCK_ANY isTesterApp:true])
@@ -1439,6 +1462,7 @@ static NSURL *sfURL;
   [distributeMock stopMocking];
   [appCenterMock stopMocking];
   [utilityMock stopMocking];
+  [guidedAccessMock stopMocking];
 }
 
 - (void)testNotDeleteUpdateToken {

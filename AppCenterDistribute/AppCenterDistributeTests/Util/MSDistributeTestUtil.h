@@ -16,6 +16,11 @@
 @property(class, nonatomic) id utilMock;
 
 /**
+ * Guided access util mock.
+ */
+@property(class, nonatomic) id guidedAccessUtilMock;
+
+/**
  * Mock the conditions to allow updates.
  */
 + (void)mockUpdatesAllowedConditions;

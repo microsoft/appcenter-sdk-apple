@@ -19,6 +19,7 @@
 #import "MSKeychainUtil.h"
 #import "MSServiceAbstractProtected.h"
 #import "MSSessionContext.h"
+#import "MSGuidedAccessUtil.h"
 
 /**
  * Service storage key name.
@@ -738,7 +739,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   BOOL environmentOkay = [MSUtility currentAppEnvironment] == MSEnvironmentOther;
 
   // Check if we are currently in guided access mode. Guided access mode prevents opening update URLs.
-  BOOL noGuidedAccessMode = !UIAccessibilityIsGuidedAccessEnabled();
+  BOOL noGuidedAccessMode = ![MSGuidedAccessUtil isGuidedAccessEnabled];
 
   // Check if a debugger is attached.
   BOOL noDebuggerAttached = ![MSAppCenter isDebuggerAttached];
