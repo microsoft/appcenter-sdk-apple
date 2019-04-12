@@ -59,13 +59,13 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)deleteAllTables;
 
 /**
- * Reads a document from the store.
+ * Read a document from the store and return it if it did not expired.
  *
  * @param token CosmosDB token.
  * @param documentId Document ID.
  * @param documentType The document type to read.
  *
- * @returns A document.
+ * @return A document object. The error property will be set of the document cannot be found or if it was found but expired.
  */
 - (MSDocumentWrapper *)readWithToken:(MSTokenResult *)token documentId:(NSString *)documentId documentType:(Class)documentType;
 

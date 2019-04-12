@@ -83,7 +83,7 @@ static const NSUInteger kMSSchemaVersion = 1;
                        (long)[documentWrapper.lastUpdatedDate timeIntervalSince1970], (long)now, operation];
   int result = [self.dbStorage executeNonSelectionQuery:insertQuery];
   if (result != SQLITE_OK) {
-    MSLogError([MSDataStore logTag], @"Unable to update or replace stored document, SQLite error code: %ld", (long)result);
+    MSLogError([MSDataStore logTag], @"Unable to update or replace local document, SQLite error code: %ld", (long)result);
   }
   return result == SQLITE_OK;
 }
@@ -94,7 +94,7 @@ static const NSUInteger kMSSchemaVersion = 1;
                                                      kMSPartitionColumnName, token.partition, kMSDocumentIdColumnName, documentId];
   int result = [self.dbStorage executeNonSelectionQuery:deleteQuery];
   if (result != SQLITE_OK) {
-    MSLogError([MSDataStore logTag], @"Unable to delete stored document, SQLite error code: %ld", (long)result);
+    MSLogError([MSDataStore logTag], @"Unable to delete local document, SQLite error code: %ld", (long)result);
   }
   return result == SQLITE_OK;
 }
@@ -105,15 +105,16 @@ static const NSUInteger kMSSchemaVersion = 1;
 }
 
 - (MSDocumentWrapper *)readWithToken:(MSTokenResult *)token documentId:(NSString *)documentId documentType:(Class)documentType {
+  // Execute the query.
   NSString *tableName = [MSDBDocumentStore tableNameForPartition:token.partition];
   NSString *selectionQuery = [NSString stringWithFormat:@"SELECT * FROM \"%@\" WHERE \"%@\" = \"%@\" AND \"%@\" = \"%@\"", tableName,
                                                         kMSPartitionColumnName, token.partition, kMSDocumentIdColumnName, documentId];
   NSArray *result = [self.dbStorage executeSelectionQuery:selectionQuery];
 
-  // Return an error if the entry could not be found in the database.
+  // Return an error if the document could not be found.
   if (result.count == 0) {
     NSString *errorMessage =
-        [NSString stringWithFormat:@"Unable to find document in local database with partition key '%@' and document ID '%@'",
+        [NSString stringWithFormat:@"Unable to find document in local store for partition '%@' and document ID '%@'",
                                    token.partition, documentId];
     MSLogWarning([MSDataStore logTag], @"%@", errorMessage);
     NSError *error = [[NSError alloc] initWithDomain:kMSACDataStoreErrorDomain
@@ -128,7 +129,7 @@ static const NSUInteger kMSSchemaVersion = 1;
     NSDate *expirationDate = [NSDate dateWithTimeIntervalSince1970:expirationTime];
     NSDate *currentDate = [NSDate date];
     if (expirationDate && [expirationDate laterDate:currentDate] == currentDate) {
-      NSString *errorMessage = [NSString stringWithFormat:@"Local document with partition key '%@' and document ID '%@' expired at %@",
+      NSString *errorMessage = [NSString stringWithFormat:@"Local document for partition '%@' and document ID '%@' expired at %@, discarding it",
                                                           token.partition, documentId, expirationDate];
       MSLogWarning([MSDataStore logTag], @"%@", errorMessage);
       NSError *error = [[NSError alloc] initWithDomain:kMSACDataStoreErrorDomain
