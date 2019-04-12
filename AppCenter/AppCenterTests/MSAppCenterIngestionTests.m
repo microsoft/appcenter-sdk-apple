@@ -17,20 +17,20 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
 static NSString *const kMSBaseUrl = @"https://test.com";
 static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
-@interface MSIngestionCallExcpectation : MSIngestionCall
+@interface MSIngestionCallExpectation : MSIngestionCall
 
-@property XCTestExpectation *excpectation;
+@property XCTestExpectation *Expectation;
 
-- (id)initWithRetryIntervals:(NSArray *)retryIntervals andExcpectation:(XCTestExpectation *)excpectation;
+- (id)initWithRetryIntervals:(NSArray *)retryIntervals andExpectation:(XCTestExpectation *)Expectation;
 
 @end
 
 
-@implementation MSIngestionCallExcpectation
+@implementation MSIngestionCallExpectation
 
-- (id)initWithRetryIntervals:(NSArray *)retryIntervals andExcpectation:(XCTestExpectation *)excpectation {
+- (id)initWithRetryIntervals:(NSArray *)retryIntervals andExpectation:(XCTestExpectation *)Expectation {
   self = [super initWithRetryIntervals:retryIntervals];
-  _excpectation = excpectation;
+  _Expectation = Expectation;
   return self;
 }
 
@@ -39,7 +39,7 @@ callCompletedWithResponse:(NSHTTPURLResponse *)response
              data:(nullable NSData *)data
             error:(NSError *)error {
   [super ingestion:ingestion callCompletedWithResponse:response data:data error:error];
-  [self.excpectation fulfill];
+  [self.Expectation fulfill];
 }
 
 @end
@@ -177,14 +177,14 @@ callCompletedWithResponse:(NSHTTPURLResponse *)response
 
   // If
   [MSHttpTestUtil stubNetworkDownResponse];
-  XCTestExpectation *requestCompletedExcpectation = [self expectationWithDescription:@"Request completed."];
+  XCTestExpectation *requestCompletedExpectation = [self expectationWithDescription:@"Request completed."];
   NSString *containerId = @"1";
   MSLogContainer *container = [self createLogContainerWithId:containerId];
 
   // Mock the call to intercept the retry.
   NSArray *intervals = @[ @(0.5), @(1) ];
-  MSIngestionCall *mockedCall = [[MSIngestionCallExcpectation alloc] initWithRetryIntervals:intervals
-                                                                            andExcpectation:requestCompletedExcpectation];
+  MSIngestionCall *mockedCall = [[MSIngestionCallExpectation alloc] initWithRetryIntervals:intervals
+                                                                            andExpectation:requestCompletedExpectation];
   mockedCall.delegate = self.sut;
   mockedCall.data = container;
   mockedCall.callId = container.batchId;
@@ -215,7 +215,7 @@ callCompletedWithResponse:(NSHTTPURLResponse *)response
 - (void)testNetworkUpAgain {
 
   // If
-  XCTestExpectation *requestCompletedExcpectation = [self expectationWithDescription:@"Request completed."];
+  XCTestExpectation *requestCompletedExpectation = [self expectationWithDescription:@"Request completed."];
   __block NSInteger forwardedStatus;
   __block NSError *forwardedError;
   [MSHttpTestUtil stubHttp200Response];
@@ -230,7 +230,7 @@ callCompletedWithResponse:(NSHTTPURLResponse *)response
         completionHandler:^(__unused NSString *batchId, NSHTTPURLResponse *response, __unused NSData *data, NSError *error) {
           forwardedStatus = response.statusCode;
           forwardedError = error;
-          [requestCompletedExcpectation fulfill];
+          [requestCompletedExpectation fulfill];
         }];
 
     // When
@@ -264,15 +264,15 @@ callCompletedWithResponse:(NSHTTPURLResponse *)response
 - (void)testPausedWhenAllRetriesUsed {
 
   // If
-  XCTestExpectation *responseReceivedExcpectation = [self expectationWithDescription:@"Used all retries."];
-  responseReceivedExcpectation.expectedFulfillmentCount = 3;
+  XCTestExpectation *responseReceivedExpectation = [self expectationWithDescription:@"Used all retries."];
+  responseReceivedExpectation.expectedFulfillmentCount = 3;
   NSString *containerId = @"1";
   MSLogContainer *container = [self createLogContainerWithId:containerId];
 
   // Mock the call to intercept the retry.
   NSArray *intervals = @[ @(0.5), @(1) ];
-  MSIngestionCall *mockedCall = [[MSIngestionCallExcpectation alloc] initWithRetryIntervals:intervals
-                                                                            andExcpectation:responseReceivedExcpectation];
+  MSIngestionCall *mockedCall = [[MSIngestionCallExpectation alloc] initWithRetryIntervals:intervals
+                                                                            andExpectation:responseReceivedExpectation];
   mockedCall.delegate = self.sut;
   mockedCall.data = container;
   mockedCall.callId = container.batchId;
@@ -303,14 +303,14 @@ callCompletedWithResponse:(NSHTTPURLResponse *)response
 - (void)testRetryStoppedWhilePaused {
 
   // If
-  XCTestExpectation *responseReceivedExcpectation = [self expectationWithDescription:@"Request completed."];
+  XCTestExpectation *responseReceivedExpectation = [self expectationWithDescription:@"Request completed."];
   NSString *containerId = @"1";
   MSLogContainer *container = [self createLogContainerWithId:containerId];
 
   // Mock the call to intercept the retry.
   NSArray *intervals = @[ @(UINT_MAX) ];
-  MSIngestionCall *mockedCall = [[MSIngestionCallExcpectation alloc] initWithRetryIntervals:intervals
-                                                                            andExcpectation:responseReceivedExcpectation];
+  MSIngestionCall *mockedCall = [[MSIngestionCallExpectation alloc] initWithRetryIntervals:intervals
+                                                                            andExpectation:responseReceivedExpectation];
   mockedCall.delegate = self.sut;
   mockedCall.data = container;
   mockedCall.callId = container.batchId;
