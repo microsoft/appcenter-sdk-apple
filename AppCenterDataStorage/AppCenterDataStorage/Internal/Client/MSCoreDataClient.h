@@ -3,6 +3,7 @@
 
 #import <Foundation/Foundation.h>
 
+#import "MSBaseOptions.h"
 #import "MSDataStore.h"
 #import "MSDocumentStore.h"
 #import "MSTokensResponse.h"
@@ -40,25 +41,23 @@ typedef void (^MSCachedTokenCompletionHandler)(MSTokensResponse *_Nullable token
  * Perform a core operation for a given partition/document
  * using a combination of the local store and/or CosmosDB remote calls.
  *
- * @param partition The partition.
+ * @param operation The operation (nil, CREATE, UPDATE, DELETE).
  * @param documentId The document identifier.
  * @param documentType The document type.
  * @param document The document (if the operation is CREATE or UPDATE).
- * @param operation The operation (nil, CREATE, UPDATE, DELETE).
- * @param deviceTimeToLive The device time to live (in seconds) for the document. If nil, use default value.
- * @param withCachedToken A block returning the cached token.
- * @param withRemoteDocument A block returning the remote document.
+ * @param baseOptions The base options from which to get the device time to live (if specified).
+ * @param cachedTokenBlock A block returning the cached token.
+ * @param remoteDocumentBlock A block returning the remote document.
  * @param completionHandler The completion handler called ultimately.
  */
-- (void)performCoreOperationWithPartition:(NSString *)partition
-                               documentId:(NSString *)documentId
-                             documentType:(Class)documentType
-                                 document:(id<MSSerializableDocument> _Nullable)document
-                                operation:(NSString *_Nullable)operation
-                         deviceTimeToLive:(NSInteger *_Nullable)deviceTimeToLive
-                          withCachedToken:(void (^)(MSCachedTokenCompletionHandler handler))withCachedToken
-                       withRemoteDocument:(void (^)(MSDocumentWrapperCompletionHandler handler))withRemoteDocument
-                        completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler;
+- (void)performCoreOperation:(NSString *_Nullable)operation
+                  documentId:(NSString *)documentId
+                documentType:(Class)documentType
+                    document:(id<MSSerializableDocument> _Nullable)document
+                 baseOptions:(MSBaseOptions *_Nullable)baseOptions
+            cachedTokenBlock:(void (^)(MSCachedTokenCompletionHandler))cachedTokenBlock
+         remoteDocumentBlock:(void (^)(MSDocumentWrapperCompletionHandler))remoteDocumentBlock
+           completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler;
 
 @end
 

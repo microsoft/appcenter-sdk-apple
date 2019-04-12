@@ -16,8 +16,6 @@
 
 @implementation MSCoreDataClient : NSObject
 
-@synthesize documentStore = _documentStore;
-
 - (instancetype)initWithDocumentStore:(id<MSDocumentStore>)documentStore {
   self = [super init];
   if (self) {
@@ -27,18 +25,17 @@
   return self;
 }
 
-- (void)performCoreOperationWithPartition:(NSString *__unused)partition
-                               documentId:(NSString *)documentId
-                             documentType:(Class)documentType
-                                 document:(id<MSSerializableDocument> _Nullable)document
-                                operation:(NSString *_Nullable)operation
-                         deviceTimeToLive:(NSInteger *_Nullable)deviceTimeToLive
-                          withCachedToken:(void (^)(MSCachedTokenCompletionHandler))withCachedToken
-                       withRemoteDocument:(void (^)(MSDocumentWrapperCompletionHandler))withRemoteDocument
-                        completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
+- (void)performCoreOperation:(NSString *_Nullable)operation
+                  documentId:(NSString *)documentId
+                documentType:(Class)documentType
+                    document:(id<MSSerializableDocument> _Nullable)document
+                 baseOptions:(MSBaseOptions *_Nullable)baseOptions
+            cachedTokenBlock:(void (^)(MSCachedTokenCompletionHandler))cachedTokenBlock
+         remoteDocumentBlock:(void (^)(MSDocumentWrapperCompletionHandler))remoteDocumentBlock
+           completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
 
   // Get effective device time to live.
-  NSInteger ttl = deviceTimeToLive == nil ? MSDataStoreTimeToLiveDefault : *deviceTimeToLive;
+  NSInteger deviceTimeToLive = baseOptions ? baseOptions.deviceTimeToLive : MSDataStoreTimeToLiveDefault;
 
   // Validate current operation.
   if (![MSCoreDataClient isValidOperation:operation]) {
@@ -53,7 +50,7 @@
   //
   // Retrieve a cached token.
   //
-  withCachedToken(^(MSTokensResponse *_Nullable tokens, NSError *_Nullable error) {
+  cachedTokenBlock(^(MSTokensResponse *_Nullable tokens, NSError *_Nullable error) {
     // Handle error.
     if (error) {
       NSString *message = @"Error while retrieving cached token, abording operation";
@@ -77,13 +74,13 @@
     //
     if ([self needsRemoteOperation:cachedDocument]) {
       MSLogInfo([MSDataStore logTag], @"Performing remote operation");
-      withRemoteDocument(^(MSDocumentWrapper *_Nonnull remoteDocument) {
+      remoteDocumentBlock(^(MSDocumentWrapper *_Nonnull remoteDocument) {
         // If a valid remote document was retrieved, update local store
         if (remoteDocument.error == nil) {
           [self updateLocalStore:token
               currentCachedDocument:cachedDocument
                   newCachedDocument:remoteDocument
-                   deviceTimeToLive:ttl
+                   deviceTimeToLive:deviceTimeToLive
                           operation:operation];
         }
 
@@ -110,7 +107,7 @@
           [self updateLocalStore:token
               currentCachedDocument:cachedDocument
                   newCachedDocument:cachedDocument
-                   deviceTimeToLive:ttl
+                   deviceTimeToLive:deviceTimeToLive
                           operation:operation];
           completionHandler(cachedDocument);
         }
@@ -131,7 +128,7 @@
         [self updateLocalStore:token
             currentCachedDocument:cachedDocument
                 newCachedDocument:deletedDocument
-                 deviceTimeToLive:ttl
+                 deviceTimeToLive:deviceTimeToLive
                         operation:operation];
         // WIP: fix public deletion not to return error when it worked.
         completionHandler(deletedDocument);
@@ -170,7 +167,7 @@
         [self updateLocalStore:token
             currentCachedDocument:cachedDocument
                 newCachedDocument:createdOrUpdatedDocument
-                 deviceTimeToLive:ttl
+                 deviceTimeToLive:deviceTimeToLive
                         operation:operation];
         completionHandler(createdOrUpdatedDocument);
       }

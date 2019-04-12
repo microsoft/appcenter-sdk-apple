@@ -3,6 +3,7 @@
 
 #import <Foundation/Foundation.h>
 
+#import "MSCoreDataClient.h"
 #import "MSDBDocumentStore.h"
 #import "MSDataStore.h"
 #import "MSDocumentStore.h"
@@ -31,6 +32,11 @@ NS_ASSUME_NONNULL_BEGIN
  * HTTP client.
  */
 @property(nonatomic, nullable) id<MSHttpClientProtocol> httpClient;
+
+/**
+ * Core data client instance (used for offline scenarios).
+ */
+@property(nonatomic) MSCoreDataClient *coreDataClient;
 
 /**
  * Retrieve a paginated list of the documents in a partition.
