@@ -214,11 +214,8 @@
 
   // If the cached document has a create or replace pending operation, no etags and if the current operation is a
   // deletion, delete the document from the store.
-  // WIP: Extract that condition to a static method (just like the remote caching stuff).
-  if (([kMSPendingOperationCreate isEqualToString:currentCachedDocument.pendingOperation] ||
-       [kMSPendingOperationReplace isEqualToString:currentCachedDocument.pendingOperation]) &&
-      !currentCachedDocument.eTag && operation && [kMSPendingOperationDelete isEqualToString:(NSString *)operation]) {
-    MSLogInfo([MSDataStore logTag], @"Removing (never-synced) document from local storage");
+  if ([self isPendingOperationNeverSyncedForDocument:cachedDocument currentOperation:operation]) {
+    MSLogInfo([MSDataStore logTag], @"Removing never-synced document from local storage");
     [self.documentStore deleteWithToken:token documentId:currentCachedDocument.documentId];
   }
 
@@ -227,6 +224,13 @@
     MSLogInfo([MSDataStore logTag], @"Updating/inserting document into local storage");
     [self.documentStore upsertWithToken:token documentWrapper:newCachedDocument operation:operation deviceTimeToLive:deviceTimeToLive];
   }
+}
+
++ (void)isPendingOperationNeverSyncedForDocument:(MSDocumentWrapper *)cachedDocument
+                                currentOperation:(NSString *_Nullable)currentOperation {
+  return ([kMSPendingOperationCreate isEqualToString:cachedDocument.pendingOperation] ||
+    [kMSPendingOperationReplace isEqualToString:cachedDocument.pendingOperation]) &&
+    !cachedDocument.eTag && currentOperation && [kMSPendingOperationDelete isEqualToString:(NSString *)currentOperation];
 }
 
 @end
