@@ -99,7 +99,7 @@ callCompletedWithResponse:(NSHTTPURLResponse *)response
    */
   [self.sut.pendingCalls removeAllObjects];
   [MS_NOTIFICATION_CENTER removeObserver:self.sut name:kMSReachabilityChangedNotification object:nil];
-  [self.sut.session finishTasksAndInvalidate];
+  [self.sut.session invalidateAndCancel];
   self.sut = nil;
 }
 
