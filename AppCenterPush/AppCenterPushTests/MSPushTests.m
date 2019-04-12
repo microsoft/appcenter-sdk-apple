@@ -123,23 +123,22 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
 
   // If
   id userIdContextMock = OCMClassMock([MSUserIdContext class]);
-  __block NSUInteger addCount = 0;
-  OCMStub([userIdContextMock addDelegate:self.sut]).andDo(^(__unused NSInvocation *invocation) {
-    addCount++;
-  });
- 
-  OCMStub([userIdContextMock sharedInstance]).andReturn(userIdContextMock);
   [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
                         appSecret:kMSTestAppSecret
           transmissionTargetToken:nil
                   fromApplication:YES];
+  [self.sut setEnabled:NO];
+  __block NSUInteger addCount = 0;
+  OCMStub([userIdContextMock addDelegate:self.sut]).andDo(^(__unused NSInvocation *invocation) {
+    addCount++;
+  });
+  OCMStub([userIdContextMock sharedInstance]).andReturn(userIdContextMock);
 
   // When
-  [self.sut setEnabled:NO];
   [self.sut setEnabled:YES];
 
   // Then
-  XCTAssertEqual(addCount, 2);
+  XCTAssertEqual(addCount, 1);
   OCMVerify([userIdContextMock addDelegate:self.sut]);
   [userIdContextMock stopMocking];
 }
