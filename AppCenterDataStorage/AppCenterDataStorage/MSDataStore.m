@@ -435,7 +435,7 @@ static dispatch_once_t onceToken;
 - (void)performOperationForPartition:(NSString *)partition
                           documentId:(NSString *)documentId
                           httpMethod:(NSString *)httpMethod
-                                body:(NSData *)body
+                                body:(NSData *_Nullable)body
                    additionalHeaders:(NSDictionary *)additionalHeaders
                    completionHandler:(MSHttpRequestCompletionHandler)completionHandler {
   [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:(id<MSHttpClientProtocol>)self.httpClient
@@ -530,7 +530,7 @@ static dispatch_once_t onceToken;
                           documentId:documentId
                           httpMethod:kMSHttpMethodDelete
                                 // WIP: double check why we don't pass nil here
-                                body:[NSData data]
+                                body:nil
                    additionalHeaders:nil
                    completionHandler:^(NSData *_Nullable __unused responseBody, NSHTTPURLResponse *_Nullable __unused response,
                                        NSError *_Nullable cosmosDbError) {
