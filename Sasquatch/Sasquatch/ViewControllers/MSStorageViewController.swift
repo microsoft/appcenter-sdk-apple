@@ -149,7 +149,7 @@ class MSStorageViewController: UITableViewController {
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     if segue.identifier == "ShowDocumentDetails" {
       let documentDetailsController = segue.destination as! MSDocumentDetailsViewController
-      documentDetailsController.docmentType = self.storageType
+      documentDetailsController.documentType = self.storageType
       documentDetailsController.documentId = sender as? String
       if self.storageType == StorageType.App.rawValue {
         documentDetailsController.documentContent = MSStorageViewController.AppDocumentContent
@@ -159,7 +159,7 @@ class MSStorageViewController: UITableViewController {
     }
   }
 
-  func backButtonClicked (_ sender: Any) {
+  func backButtonClicked(_ sender: Any) {
     self.presentingViewController?.dismiss(animated: true, completion: nil)
   }
 }

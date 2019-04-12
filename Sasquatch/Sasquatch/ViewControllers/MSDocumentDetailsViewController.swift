@@ -4,7 +4,7 @@
 import UIKit
 
 class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-  var docmentType: String?
+  var documentType: String?
   var documentId: String?
   var userDocumentAddPropertiesSection: EventPropertiesTableSection!
   var documentContent: [String: Any]?
@@ -25,7 +25,7 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
 
   override func loadView() {
     super.loadView()
-    if docmentType == "User" && documentId!.isEmpty {
+    if documentType == "User" && documentId!.isEmpty {
       docIdField.isEnabled = true
     }
     userDocumentAddPropertiesSection = EventPropertiesTableSection(tableSection: 0, tableView: self.tableView)
@@ -36,45 +36,45 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
   }
 
   func numberOfSections(in tableView: UITableView) -> Int {
-    if docmentType == "User" && !(documentId!.isEmpty) {
+    if documentType == "User" && !(documentId!.isEmpty) {
       return 3
-    } else if docmentType == "User" && documentId!.isEmpty {
+    } else if documentType == "User" && documentId!.isEmpty {
       return 2
     }
     return 1
   }
 
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    if docmentType == "User" && section == kUserDocumentAddPropertiesSectionIndex {
+    if documentType == "User" && section == kUserDocumentAddPropertiesSectionIndex {
       return userDocumentAddPropertiesSection.tableView(tableView, numberOfRowsInSection: section)
-    } else if docmentType == "User" && section == 1 {
+    } else if documentType == "User" && section == 1 {
       return 1
     }
     return documentContent?.count ?? 0
   }
 
   func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-    if docmentType == "User" && indexPath.section == kUserDocumentAddPropertiesSectionIndex {
+    if documentType == "User" && indexPath.section == kUserDocumentAddPropertiesSectionIndex {
       return userDocumentAddPropertiesSection.tableView(tableView, canEditRowAt:indexPath)
-    } else if docmentType == "User" {
+    } else if documentType == "User" {
       return true
     }
     return false
   }
 
   func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
-    if docmentType == "User" && indexPath.section == kUserDocumentAddPropertiesSectionIndex {
+    if documentType == "User" && indexPath.section == kUserDocumentAddPropertiesSectionIndex {
       return userDocumentAddPropertiesSection.tableView(tableView, editingStyleForRowAt: indexPath)
-    } else if docmentType == "User" && indexPath.section == 2 {
+    } else if documentType == "User" && indexPath.section == 2 {
       return .delete
     }
     return .none
   }
 
   func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-    if docmentType == "User" && indexPath.section == kUserDocumentAddPropertiesSectionIndex {
+    if documentType == "User" && indexPath.section == kUserDocumentAddPropertiesSectionIndex {
       userDocumentAddPropertiesSection.tableView(tableView, commit: editingStyle, forRowAt: indexPath)
-    } else if docmentType == "User" && indexPath.section == 2 {
+    } else if documentType == "User" && indexPath.section == 2 {
       let index = documentContent!.index(documentContent!.startIndex, offsetBy: indexPath.row)
       documentContent!.remove(at: index)
       MSStorageViewController.UserDocumentsContent.remove(at: index)
@@ -84,15 +84,15 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
 
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     tableView.deselectRow(at: indexPath, animated: true)
-    if docmentType == "User" && indexPath.section == kUserDocumentAddPropertiesSectionIndex && userDocumentAddPropertiesSection.isInsertRow(indexPath) {
+    if documentType == "User" && indexPath.section == kUserDocumentAddPropertiesSectionIndex && userDocumentAddPropertiesSection.isInsertRow(indexPath) {
       self.tableView(tableView, commit: .insert, forRowAt: indexPath)
     }
   }
 
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    if docmentType == "User" && indexPath.section == kUserDocumentAddPropertiesSectionIndex {
+    if documentType == "User" && indexPath.section == kUserDocumentAddPropertiesSectionIndex {
       return userDocumentAddPropertiesSection.tableView(tableView, cellForRowAt:indexPath)
-    } else if docmentType == "User" && indexPath.section == 1 {
+    } else if documentType == "User" && indexPath.section == 1 {
       let cell = tableView.dequeueReusableCell(withIdentifier: "save", for: indexPath)
       let saveButton: UIButton? = cell.getSubview()
       saveButton?.addTarget(self, action: #selector(saveButtonClicked), for: .touchUpInside)
@@ -104,7 +104,7 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
     }
   }
 
-  func saveButtonClicked (_ sender: UIButton) {
+  func saveButtonClicked(_ sender: UIButton) {
     if docIdField.isEnabled && !((docIdField.text?.isEmpty)!) {
       MSStorageViewController.UserDocuments.append(docIdField.text!)
     }
