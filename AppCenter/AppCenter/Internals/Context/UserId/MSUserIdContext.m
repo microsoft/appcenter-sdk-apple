@@ -80,10 +80,10 @@ static dispatch_once_t onceToken;
   NSArray *synchronizedDelegates;
   @synchronized(self) {
     BOOL sameUserId = (!userId && !self.currentUserIdInfo.userId) || [self.currentUserIdInfo.userId isEqualToString:(NSString *)userId];
-    self.currentUserIdInfo.timestamp = [NSDate date];
     if (sameUserId) {
       return;
     }
+    self.currentUserIdInfo.timestamp = [NSDate date];
     self.currentUserIdInfo.userId = userId;
 
     /*
