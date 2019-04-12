@@ -312,8 +312,9 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                                       @"1. A debugger is attached. "
                                       @"2. You are running the debug configuration. "
                                       @"3. The app is running in a non-adhoc environment. "
-                                      @"Detach the debugger and restart the app and/or run the app with the release configuration "
-                                      @"to enable the feature.");
+                                      @"4. The device is in guided access mode which prevents opening update URLs. "
+                                      @"Detach the debugger and restart the app and/or run the app with the release configuration and/or "
+                                      @"deactivate guided access mode to enable the feature.");
   }
 }
 
@@ -736,9 +737,9 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   // Check if we are not in AppStore or TestFlight environments.
   BOOL environmentOkay = [MSUtility currentAppEnvironment] == MSEnvironmentOther;
 
-  // Check if we are currently in guided access mode
+  // Check if we are currently in guided access mode. Guided access mode prevents opening update URLs.
   BOOL noGuidedAccessMode = !UIAccessibilityIsGuidedAccessEnabled();
-    
+
   // Check if a debugger is attached.
   BOOL noDebuggerAttached = ![MSAppCenter isDebuggerAttached];
   return environmentOkay && noDebuggerAttached && noGuidedAccessMode;
