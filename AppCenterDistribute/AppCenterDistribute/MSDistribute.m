@@ -16,10 +16,10 @@
 #import "MSDistributeUtil.h"
 #import "MSDistributionStartSessionLog.h"
 #import "MSErrorDetails.h"
+#import "MSGuidedAccessUtil.h"
 #import "MSKeychainUtil.h"
 #import "MSServiceAbstractProtected.h"
 #import "MSSessionContext.h"
-#import "MSGuidedAccessUtil.h"
 
 /**
  * Service storage key name.

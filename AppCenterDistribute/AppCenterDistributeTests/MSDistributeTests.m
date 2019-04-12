@@ -15,6 +15,7 @@
 #import "MSDistributePrivate.h"
 #import "MSDistributeTestUtil.h"
 #import "MSDistributeUtil.h"
+#import "MSGuidedAccessUtil.h"
 #import "MSHttpTestUtil.h"
 #import "MSIngestionCall.h"
 #import "MSLoggerInternal.h"
@@ -27,7 +28,6 @@
 #import "MSTestFrameworks.h"
 #import "MSUtility+StringFormatting.h"
 #import "MS_Reachability.h"
-#import "MSGuidedAccessUtil.h"
 
 static NSString *const kMSTestAppSecret = @"IAMSECRET";
 static NSString *const kMSTestReleaseHash = @"RELEASEHASH";
@@ -1327,7 +1327,7 @@ static NSURL *sfURL;
 }
 
 - (void)testCheckForUpdatesInGuidedAccessMode {
-  
+
   // When
   [MSDistributeTestUtil unMockUpdatesAllowedConditions];
   id appCenterMock = OCMClassMock([MSAppCenter class]);
@@ -1336,10 +1336,10 @@ static NSURL *sfURL;
   OCMStub([appCenterMock isDebuggerAttached]).andReturn(NO);
   OCMStub([utilityMock currentAppEnvironment]).andReturn(MSEnvironmentOther);
   OCMStub([guidedAccessMock isGuidedAccessEnabled]).andReturn(YES);
-  
+
   // Then
   XCTAssertFalse([self.sut checkForUpdatesAllowed]);
-  
+
   // Clear
   [appCenterMock stopMocking];
   [utilityMock stopMocking];
@@ -1815,7 +1815,7 @@ static NSURL *sfURL;
   OCMStub([distributeMock startUpdate]).andDo(^(__attribute((unused)) NSInvocation *invocation) {
     startUpdateCounter++;
   });
-  
+
   // When
   id appCenterMock = OCMClassMock([MSAppCenter class]);
   OCMStub([appCenterMock sharedInstance]).andReturn(appCenterMock);
@@ -1825,7 +1825,7 @@ static NSURL *sfURL;
                               appSecret:kMSTestAppSecret
                 transmissionTargetToken:nil
                         fromApplication:YES];
-  
+
   // Then
   OCMVerify([distributeMock isEnabled]);
   XCTAssertEqual(startUpdateCounter, 1);
@@ -2380,13 +2380,13 @@ static NSURL *sfURL;
 - (void)testStartUpdateWhenEnabledButDidNotStart {
   NSString *isEnabledKey = @"MSAppCenterIsEnabled";
   [MS_USER_DEFAULTS setObject:@(YES) forKey:isEnabledKey];
-    
+
   // If
   id notificationCenterMock = OCMPartialMock([NSNotificationCenter new]);
   OCMStub([notificationCenterMock defaultCenter]).andReturn(notificationCenterMock);
   id distributeMock = OCMPartialMock([MSDistribute new]);
   OCMReject([distributeMock startUpdate]);
-    
+
   // When
   [distributeMock setEnabled:YES];
   [notificationCenterMock postNotificationName:UIApplicationWillEnterForegroundNotification object:nil];

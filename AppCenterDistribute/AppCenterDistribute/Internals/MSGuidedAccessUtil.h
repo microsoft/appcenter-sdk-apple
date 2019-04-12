@@ -7,7 +7,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface MSGuidedAccessUtil : NSObject
 
-+(BOOL)isGuidedAccessEnabled;
++ (BOOL)isGuidedAccessEnabled;
 
 @end
 

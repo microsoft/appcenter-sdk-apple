@@ -6,7 +6,7 @@
 
 @implementation MSGuidedAccessUtil
 
-+(BOOL)isGuidedAccessEnabled{
++ (BOOL)isGuidedAccessEnabled {
   return UIAccessibilityIsGuidedAccessEnabled();
 }
 

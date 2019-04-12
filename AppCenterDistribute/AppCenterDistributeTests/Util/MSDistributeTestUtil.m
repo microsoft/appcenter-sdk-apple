@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "AppCenter.h"
 #import "MSDistributeTestUtil.h"
+#import "AppCenter.h"
+#import "MSGuidedAccessUtil.h"
 #import "MSTestFrameworks.h"
 #import "MSUtility+Environment.h"
-#import "MSGuidedAccessUtil.h"
 
 static NSString *const kMSTestReleaseHash = @"RELEASEHASH";
 
