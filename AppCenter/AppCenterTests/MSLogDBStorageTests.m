@@ -1061,9 +1061,6 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
 
 - (void)testCreateFromLatestSchema {
 
-  // If
-  [self.storageTestUtil deleteDatabase];
-
   // When
   self.sut = [MSLogDBStorage new];
 
