@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 #import "MSBaseOptions.h"
+#import "MSDataStore.h"
 #import "MSTestFrameworks.h"
 
 @interface MSBaseOptionsTests : XCTestCase
@@ -24,14 +25,11 @@
 
 - (void)testInitWithCorrectDeviceTtlByDefault {
 
-  // If
-  NSInteger expectedTimeToLive = 3600;
-
   // When
   MSBaseOptions *baseOptions = [[MSBaseOptions alloc] init];
 
   // Then
-  XCTAssertEqual(baseOptions.deviceTimeToLive, expectedTimeToLive);
+  XCTAssertEqual(baseOptions.deviceTimeToLive, MSDataStoreTimeToLiveDefault);
 }
 
 @end
