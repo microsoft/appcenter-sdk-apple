@@ -78,6 +78,8 @@ static const NSUInteger kMSSchemaVersion = 1;
    * If device time to live is set to infinite, set expiration time as null in the database.
    * Note: If the cache/store is meant to be disabled, this method should not even be called.
    */
+
+  // This is the same as [[NSDate date] timeIntervalSince1970] - but saves us from allocating an NSDate.
   NSTimeInterval now = NSDate.timeIntervalSinceReferenceDate + NSTimeIntervalSince1970;
   NSTimeInterval expirationTime = -1;
   if (options.deviceTimeToLive != kMSDataStoreTimeToLiveInfinite) {
