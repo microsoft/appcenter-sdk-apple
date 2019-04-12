@@ -1,12 +1,11 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+
 NS_ASSUME_NONNULL_BEGIN
 
 @class MSUserIdContext;
 
 @protocol MSUserIdContextDelegate <NSObject>
-
-@optional
 
 /**
  * A callback that is called after a new userId is set.
