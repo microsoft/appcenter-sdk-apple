@@ -43,7 +43,7 @@
   self.sut = [[MSDBDocumentStore alloc] initWithDbStorage:self.dbStorage];
 
   // Init tokens.
-  self.appToken = [[MSTokenResult alloc] initWithPartition:MSDataStoreAppDocumentsPartition
+  self.appToken = [[MSTokenResult alloc] initWithPartition:kMSDataStoreAppDocumentsPartition
                                                  dbAccount:@"account"
                                                     dbName:@"dbname"
                                           dbCollectionName:@"collection"

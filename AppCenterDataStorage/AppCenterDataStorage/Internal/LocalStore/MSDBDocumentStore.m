@@ -185,7 +185,7 @@ static const NSUInteger kMSSchemaVersion = 1;
 }
 
 + (NSString *)tableNameForPartition:(NSString *)partition {
-  if ([partition isEqualToString:MSDataStoreAppDocumentsPartition]) {
+  if ([partition isEqualToString:kMSDataStoreAppDocumentsPartition]) {
     return kMSAppDocumentTableName;
   } else if ([partition rangeOfString:kMSDataStoreAppDocumentsUserPartitionPrefix options:NSAnchoredSearch].location == 0) {
     return [NSString
