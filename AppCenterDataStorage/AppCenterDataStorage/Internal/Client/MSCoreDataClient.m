@@ -49,10 +49,10 @@
 
   // Retrieve a cached token.
   cachedTokenBlock(^(MSTokensResponse *_Nullable tokens, NSError *_Nullable error) {
-
     // Handle error.
     if (error) {
-      NSString *message = @"Error while retrieving cached token, abording operation";
+      // WIP: Append incoming error to message here. Also, should we issue a new code (like current code) or just forward incoming error.
+      NSString *message = @"Error while retrieving cached token, aborting operation";
       MSLogError([MSDataStore logTag], message);
       completionHandler([[MSDocumentWrapper alloc] initWithDataStoreErrorCode:MSACDataStoreLocalStoreError
                                                                  errorMessage:message
@@ -70,7 +70,6 @@
     if ([self needsRemoteOperation:cachedDocument]) {
       MSLogInfo([MSDataStore logTag], @"Performing remote operation");
       remoteDocumentBlock(^(MSDocumentWrapper *_Nonnull remoteDocument) {
-
         // If a valid remote document was retrieved, update local store
         if (remoteDocument.error == nil) {
           [self updateLocalStore:token
@@ -194,9 +193,8 @@
  * @return YES if a remote operation should be attempted; NO otherwise.
  */
 - (BOOL)needsRemoteOperation:(MSDocumentWrapper *)cachedDocument {
-  return // Not offline
+  return
       [self.reachability currentReachabilityStatus] != NotReachable
-      // And no pending operation on cached document
       && cachedDocument.pendingOperation == nil;
 }
 
@@ -213,7 +211,7 @@
 
   // If the cached document has a create or replace pending operation, no etags and if the current operation is a
   // deletion, delete the document from the store.
-  if ([self isPendingOperationNeverSyncedForDocument:cachedDocument currentOperation:operation]) {
+  if ([MSCoreDataClient isPendingOperationNeverSyncedForDocument:currentCachedDocument currentOperation:operation]) {
     MSLogInfo([MSDataStore logTag], @"Removing never-synced document from local storage");
     [self.documentStore deleteWithToken:token documentId:currentCachedDocument.documentId];
   }
@@ -225,11 +223,11 @@
   }
 }
 
-+ (void)isPendingOperationNeverSyncedForDocument:(MSDocumentWrapper *)cachedDocument
++ (BOOL)isPendingOperationNeverSyncedForDocument:(MSDocumentWrapper *)cachedDocument
                                 currentOperation:(NSString *_Nullable)currentOperation {
   return ([kMSPendingOperationCreate isEqualToString:cachedDocument.pendingOperation] ||
-    [kMSPendingOperationReplace isEqualToString:cachedDocument.pendingOperation]) &&
-    !cachedDocument.eTag && currentOperation && [kMSPendingOperationDelete isEqualToString:(NSString *)currentOperation];
+          [kMSPendingOperationReplace isEqualToString:cachedDocument.pendingOperation]) &&
+         !cachedDocument.eTag && currentOperation && [kMSPendingOperationDelete isEqualToString:(NSString *)currentOperation];
 }
 
 @end

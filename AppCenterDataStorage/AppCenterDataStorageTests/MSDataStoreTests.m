@@ -527,21 +527,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   id<MSSerializableDocument> mockSerializableDocument = [MSFakeSerializableDocument new];
   __block BOOL completionHandlerCalled = NO;
   __block MSDocumentWrapper *actualDocumentWrapper;
-
-  // Mock tokens fetching.
-  MSTokenResult *testToken = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
-  MSTokensResponse *testTokensResponse = [[MSTokensResponse alloc] initWithTokens:@[ testToken ]];
-  OCMStub([self.tokenExchangeMock performDbTokenAsyncOperationWithHttpClient:OCMOCK_ANY
-                                                            tokenExchangeUrl:OCMOCK_ANY
-                                                                   appSecret:OCMOCK_ANY
-                                                                   partition:kMSPartitionTest
-                                                         includeExpiredToken:NO
-                                                           completionHandler:OCMOCK_ANY])
-      .andDo(^(NSInvocation *invocation) {
-        MSGetTokenAsyncCompletionHandler getTokenCallback;
-        [invocation getArgument:&getTokenCallback atIndex:7];
-        getTokenCallback(testTokensResponse, nil);
-      });
+  MSTokenResult *testToken = [self mockTokenFetchingWithError:nil];
 
   // Mock CosmosDB requests.
   NSData *testCosmosDbResponse = [self jsonFixture:@"validTestDocument"];
@@ -587,25 +573,11 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   XCTestExpectation *expectation = [self expectationWithDescription:@"Create with partition completed"];
   id<MSSerializableDocument> mockSerializableDocument = [MSFakeSerializableDocument new];
   __block BOOL completionHandlerCalled = NO;
-  NSInteger expectedResponseCode = MSACDocumentUnauthorizedErrorCode;
   NSError *expectedTokenExchangeError = [NSError errorWithDomain:kMSACErrorDomain
                                                             code:0
-                                                        userInfo:@{kMSCosmosDbHttpCodeKey : @(expectedResponseCode)}];
+                                                        userInfo:@{kMSCosmosDbHttpCodeKey : @(0)}];
   __block MSDataSourceError *actualError;
-
-  // Mock tokens fetching.
-  MSTokensResponse *testTokensResponse = [[MSTokensResponse alloc] initWithTokens:nil];
-  OCMStub([self.tokenExchangeMock performDbTokenAsyncOperationWithHttpClient:OCMOCK_ANY
-                                                            tokenExchangeUrl:OCMOCK_ANY
-                                                                   appSecret:OCMOCK_ANY
-                                                                   partition:kMSPartitionTest
-                                                         includeExpiredToken:NO
-                                                           completionHandler:OCMOCK_ANY])
-      .andDo(^(NSInvocation *invocation) {
-        MSGetTokenAsyncCompletionHandler getTokenCallback;
-        [invocation getArgument:&getTokenCallback atIndex:7];
-        getTokenCallback(testTokensResponse, expectedTokenExchangeError);
-      });
+  [self mockTokenFetchingWithError:expectedTokenExchangeError];
 
   // When
   [MSDataStore createWithPartition:kMSPartitionTest
@@ -624,8 +596,8 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
                                  XCTAssertTrue(completionHandlerCalled);
-                                 XCTAssertEqualObjects(actualError.error, expectedTokenExchangeError);
-                                 XCTAssertEqual(actualError.errorCode, expectedResponseCode);
+                                 XCTAssertEqualObjects(actualError.error.domain, kMSACDataStoreErrorDomain);
+                                 XCTAssertEqual(actualError.error.code, MSACDataStoreLocalStoreError);
                                }];
 }
 
@@ -640,21 +612,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                                        code:0
                                                    userInfo:@{kMSCosmosDbHttpCodeKey : @(expectedResponseCode)}];
   __block MSDataSourceError *actualError;
-
-  // Mock tokens fetching.
-  MSTokenResult *testToken = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
-  MSTokensResponse *testTokensResponse = [[MSTokensResponse alloc] initWithTokens:@[ testToken ]];
-  OCMStub([self.tokenExchangeMock performDbTokenAsyncOperationWithHttpClient:OCMOCK_ANY
-                                                            tokenExchangeUrl:OCMOCK_ANY
-                                                                   appSecret:OCMOCK_ANY
-                                                                   partition:kMSPartitionTest
-                                                         includeExpiredToken:NO
-                                                           completionHandler:OCMOCK_ANY])
-      .andDo(^(NSInvocation *invocation) {
-        MSGetTokenAsyncCompletionHandler getTokenCallback;
-        [invocation getArgument:&getTokenCallback atIndex:7];
-        getTokenCallback(testTokensResponse, nil);
-      });
+  MSTokenResult *testToken = [self mockTokenFetchingWithError:nil];
 
   // Mock CosmosDB requests.
   OCMStub([self.cosmosDbMock performCosmosDbAsyncOperationWithHttpClient:OCMOCK_ANY
@@ -701,21 +659,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   NSErrorDomain expectedErrorDomain = NSCocoaErrorDomain;
   NSInteger expectedErrorCode = 3840;
   __block MSDataSourceError *actualError;
-
-  // Mock tokens fetching.
-  MSTokenResult *testToken = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
-  MSTokensResponse *testTokensResponse = [[MSTokensResponse alloc] initWithTokens:@[ testToken ]];
-  OCMStub([self.tokenExchangeMock performDbTokenAsyncOperationWithHttpClient:OCMOCK_ANY
-                                                            tokenExchangeUrl:OCMOCK_ANY
-                                                                   appSecret:OCMOCK_ANY
-                                                                   partition:kMSPartitionTest
-                                                         includeExpiredToken:NO
-                                                           completionHandler:OCMOCK_ANY])
-      .andDo(^(NSInvocation *invocation) {
-        MSGetTokenAsyncCompletionHandler getTokenCallback;
-        [invocation getArgument:&getTokenCallback atIndex:7];
-        getTokenCallback(testTokensResponse, nil);
-      });
+  MSTokenResult *testToken = [self mockTokenFetchingWithError:nil];
 
   // Mock CosmosDB requests.
   NSData *brokenCosmosDbResponse = [@"<h1>502 Bad Gateway</h1><p>nginx</p>" dataUsingEncoding:NSUTF8StringEncoding];
@@ -761,21 +705,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   __block BOOL completionHandlerCalled = NO;
   NSInteger expectedResponseCode = MSACDocumentSucceededErrorCode;
   __block NSInteger actualResponseCode;
-
-  // Mock tokens fetching.
-  MSTokenResult *testToken = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
-  MSTokensResponse *testTokensResponse = [[MSTokensResponse alloc] initWithTokens:@[ testToken ]];
-  OCMStub([self.tokenExchangeMock performDbTokenAsyncOperationWithHttpClient:OCMOCK_ANY
-                                                            tokenExchangeUrl:OCMOCK_ANY
-                                                                   appSecret:OCMOCK_ANY
-                                                                   partition:kMSPartitionTest
-                                                         includeExpiredToken:NO
-                                                           completionHandler:OCMOCK_ANY])
-      .andDo(^(NSInvocation *invocation) {
-        MSGetTokenAsyncCompletionHandler getTokenCallback;
-        [invocation getArgument:&getTokenCallback atIndex:7];
-        getTokenCallback(testTokensResponse, nil);
-      });
+  MSTokenResult *testToken = [self mockTokenFetchingWithError:nil];
 
   // Mock CosmosDB requests.
   OCMStub([self.cosmosDbMock performCosmosDbAsyncOperationWithHttpClient:OCMOCK_ANY
@@ -816,25 +746,11 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   // If
   XCTestExpectation *expectation = [self expectationWithDescription:@"Delete with partition completed"];
   __block BOOL completionHandlerCalled = NO;
-  NSInteger expectedResponseCode = MSACDocumentUnauthorizedErrorCode;
   NSError *expectedTokenExchangeError = [NSError errorWithDomain:kMSACErrorDomain
                                                             code:0
-                                                        userInfo:@{kMSCosmosDbHttpCodeKey : @(expectedResponseCode)}];
+                                                        userInfo:@{kMSCosmosDbHttpCodeKey : @0}];
   __block MSDataSourceError *actualError;
-
-  // Mock tokens fetching
-  MSTokensResponse *testTokensResponse = [[MSTokensResponse alloc] initWithTokens:nil];
-  OCMStub([self.tokenExchangeMock performDbTokenAsyncOperationWithHttpClient:OCMOCK_ANY
-                                                            tokenExchangeUrl:OCMOCK_ANY
-                                                                   appSecret:OCMOCK_ANY
-                                                                   partition:kMSPartitionTest
-                                                         includeExpiredToken:NO
-                                                           completionHandler:OCMOCK_ANY])
-      .andDo(^(NSInvocation *invocation) {
-        MSGetTokenAsyncCompletionHandler getTokenCallback;
-        [invocation getArgument:&getTokenCallback atIndex:7];
-        getTokenCallback(testTokensResponse, expectedTokenExchangeError);
-      });
+   [self mockTokenFetchingWithError:expectedTokenExchangeError];
 
   // When
   [MSDataStore deleteWithPartition:kMSPartitionTest
@@ -852,8 +768,8 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
                                  XCTAssertTrue(completionHandlerCalled);
-                                 XCTAssertEqualObjects(actualError.error, expectedTokenExchangeError);
-                                 XCTAssertEqual(actualError.errorCode, expectedResponseCode);
+                                 XCTAssertEqualObjects(actualError.error.domain, kMSACDataStoreErrorDomain);
+                                  XCTAssertEqual(actualError.error.code, MSACDataStoreLocalStoreError);
                                }];
 }
 
@@ -867,21 +783,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                                        code:0
                                                    userInfo:@{kMSCosmosDbHttpCodeKey : @(expectedResponseCode)}];
   __block MSDataSourceError *actualError;
-
-  // Mock tokens fetching.
-  MSTokenResult *testToken = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
-  MSTokensResponse *testTokensResponse = [[MSTokensResponse alloc] initWithTokens:@[ testToken ]];
-  OCMStub([self.tokenExchangeMock performDbTokenAsyncOperationWithHttpClient:OCMOCK_ANY
-                                                            tokenExchangeUrl:OCMOCK_ANY
-                                                                   appSecret:OCMOCK_ANY
-                                                                   partition:kMSPartitionTest
-                                                         includeExpiredToken:NO
-                                                           completionHandler:OCMOCK_ANY])
-      .andDo(^(NSInvocation *invocation) {
-        MSGetTokenAsyncCompletionHandler getTokenCallback;
-        [invocation getArgument:&getTokenCallback atIndex:7];
-        getTokenCallback(testTokensResponse, nil);
-      });
+   MSTokenResult *testToken = [self mockTokenFetchingWithError:nil];
 
   // Mock CosmosDB requests.
   OCMStub([self.cosmosDbMock performCosmosDbAsyncOperationWithHttpClient:OCMOCK_ANY
@@ -1101,13 +1003,13 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@""];
 
   // Simulate being offline.
-  MS_Reachability *reachabilityMock = OCMPartialMock([MS_Reachability reachabilityForInternetConnection]);
+  id reachabilityMock = OCMClassMock([MS_Reachability class]);
+  OCMStub([reachabilityMock reachabilityForInternetConnection]).andReturn(reachabilityMock);
   OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(NotReachable);
   self.sut.reachability = reachabilityMock;
 
   // Mock cached token result.
-  MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
-  OCMStub([self.tokenExchangeMock retrieveCachedTokenForPartition:kMSPartitionTest includeExpiredToken:YES]).andReturn(tokenResult);
+  MSTokenResult *tokenResult = [self mockTokenFetchingWithError:nil];
 
   // Mock local storage.
   id<MSDocumentStore> localStorageMock = OCMProtocolMock(@protocol(MSDocumentStore));
@@ -1500,8 +1402,38 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                }];
 }
 
+#pragma mark Utilities
+
 + (NSString *)fullTestPartitionName {
   return [NSString stringWithFormat:@"%@-%@", kMSPartitionTest, kMSAccountId];
+}
+
+- (MSTokenResult *)mockTokenFetchingWithError:(NSError *_Nullable)error {
+  MSTokenResult *testToken = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
+  MSTokensResponse *testTokensResponse = [[MSTokensResponse alloc] initWithTokens:@[ testToken ]];
+  OCMStub([self.tokenExchangeMock performDbTokenAsyncOperationWithHttpClient:OCMOCK_ANY
+                                                            tokenExchangeUrl:OCMOCK_ANY
+                                                                   appSecret:OCMOCK_ANY
+                                                                   partition:kMSPartitionTest
+                                                         includeExpiredToken:NO
+                                                           completionHandler:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        MSGetTokenAsyncCompletionHandler getTokenCallback;
+        [invocation getArgument:&getTokenCallback atIndex:7];
+        getTokenCallback(error ? nil : testTokensResponse, error);
+      });
+  OCMStub([self.tokenExchangeMock performDbTokenAsyncOperationWithHttpClient:OCMOCK_ANY
+                                                            tokenExchangeUrl:OCMOCK_ANY
+                                                                   appSecret:OCMOCK_ANY
+                                                                   partition:kMSPartitionTest
+                                                         includeExpiredToken:YES
+                                                           completionHandler:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        MSGetTokenAsyncCompletionHandler getTokenCallback;
+        [invocation getArgument:&getTokenCallback atIndex:7];
+        getTokenCallback(error ? nil : testTokensResponse, error);
+      });
+  return testToken;
 }
 
 @end
