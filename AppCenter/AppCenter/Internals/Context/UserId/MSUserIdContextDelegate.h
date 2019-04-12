@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 NS_ASSUME_NONNULL_BEGIN
 
+
 @class MSUserIdContext;
 
 @protocol MSUserIdContextDelegate <NSObject>
