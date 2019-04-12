@@ -35,7 +35,7 @@ static NSString *const MSDataStoreUserDocumentsPartition = @"user";
 static NSString *const MSDataStoreAppDocumentsPartition = @"readonly";
 
 /**
- * Cache does not expire.
+ * No expiration on cache.
  */
 static int const MSDataStoreTimeToLiveInfinite = -1;
 
@@ -45,7 +45,7 @@ static int const MSDataStoreTimeToLiveInfinite = -1;
 static int const MSDataStoreTimeToLiveNoCache = 0;
 
 /**
- * Default cahcing value of one day.
+ * Default expiration on cache.
  */
 static int const MSDataStoreTimeToLiveDefault = 60 * 60 * 24;
 
