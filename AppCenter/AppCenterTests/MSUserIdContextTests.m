@@ -174,7 +174,7 @@
   [[MSUserIdContext sharedInstance] setUserId:userId];
   id delegateMock = OCMProtocolMock(@protocol(MSUserIdContextDelegate));
   [self.sut addDelegate:delegateMock];
-  OCMExpet([delegateMock userIdContext:self.sut didUpdateUserId:nil]);
+  OCMExpect([delegateMock userIdContext:self.sut didUpdateUserId:nil]);
   
   // When
   [[MSUserIdContext sharedInstance] setUserId:nil];
