@@ -308,7 +308,7 @@ static dispatch_once_t onceToken;
                                      documentWrapper = [[MSDocumentWrapper alloc] initWithError:notFoundError documentId:documentId];
                                      documentWrapper.pendingOperation = kMSPendingOperationDelete;
                                    }
-                                   completionHandler(documentWrapper); 
+                                   completionHandler(documentWrapper);
                                  });
                                }];
   return;
@@ -656,42 +656,79 @@ static dispatch_once_t onceToken;
 }
 
 - (void)onNetworkGoesOffline {
-
 }
 
 - (void)onNetworkGoesOnline {
   @synchronized(self) {
-    
-    [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:(id<MSHttpClientProtocol>)self.httpClient
-                                               tokenExchangeUrl:self.tokenExchangeUrl
-                                                      appSecret:self.appSecret
-                                                      partition:MSDataStoreUserDocumentsPartition
-                                            includeExpiredToken:NO
-                                              completionHandler:^(MSTokensResponse *_Nonnull tokenResponses, NSError *_Nonnull error) {
-        if (error) {
-          MSLogError([MSDataStore logTag],
-                     @"Cannot read from local storage because there is no "
-                     @"account ID cached and failed to retrieve token.");
-          return;
-        }
-        
-        // Run the operation in a dispatch queue.
-        dispatch_async(self.dispatchQueue, ^{
-          NSArray<MSPendingOperation *> *pendingOperations = [self.documentStore pendingOperationsWithToken:tokenResponses.tokens[0]];
-          for (MSPendingOperation *operation in pendingOperations) {
-            if([operation.operation isEqualToString:kMSPendingOperationCreate] ||
-               [operation.operation isEqualToString:kMSPendingOperationReplace]) {
-              // TODO: Do insert or update
-            } else if([operation.operation isEqualToString:kMSPendingOperationDelete]) {
-              // TODO: Do delete
-            } else {
-              MSLogError([MSDataStore logTag],
-                         @"Pending operation '%@' is not supported",
-                         operation.operation);
-            }
-          }
-        });
-      }];
+
+    [MSTokenExchange
+        performDbTokenAsyncOperationWithHttpClient:(id<MSHttpClientProtocol>)self.httpClient
+                                  tokenExchangeUrl:self.tokenExchangeUrl
+                                         appSecret:self.appSecret
+                                         partition:MSDataStoreUserDocumentsPartition
+                               includeExpiredToken:NO
+                                 completionHandler:^(MSTokensResponse *_Nonnull tokenResponses, NSError *_Nonnull error) {
+                                   if (error) {
+                                     MSLogError([MSDataStore logTag], @"Cannot read from local storage because there is no "
+                                                                      @"account ID cached and failed to retrieve token.");
+                                     return;
+                                   }
+
+                                   // Run the operation in a dispatch queue.
+                                   dispatch_async(self.dispatchQueue, ^{
+                                     NSArray<MSPendingOperation *> *pendingOperations =
+                                         [self.documentStore pendingOperationsWithToken:tokenResponses.tokens[0]];
+                                     for (MSPendingOperation *operation in pendingOperations) {
+                                       if ([operation.operation isEqualToString:kMSPendingOperationCreate] ||
+                                           [operation.operation isEqualToString:kMSPendingOperationReplace]) {
+                                         MSWriteOptions *writeOptions = [[MSWriteOptions alloc] init];
+                                         // TODO: When the writeOptions will be implemented construct it from the operation.expirationTime
+                                         [MSDataStore
+                                             replaceWithPartition:(NSString *)operation.partition
+                                                       documentId:(NSString *)operation.documentId
+                                                         document:(id<MSSerializableDocument>)operation.document
+                                                     writeOptions:(MSWriteOptions * _Nullable) writeOptions
+                                                completionHandler:^(MSDocumentWrapper *documentWrapper) {
+                                                  if (!documentWrapper.error) {
+                                                    // TODO: write to local cache if document isn't expired or delete it from local cache
+                                                    // otherwise
+                                                  } else if (documentWrapper.error.errorCode == MSACDocumentNotFoundErrorCode ||
+                                                             documentWrapper.error.errorCode == MSACDocumentConflictErrorCode) {
+                                                    // TODO: Delete local file without any update because we have a conflict between the
+                                                    // client and server
+                                                  } else {
+                                                    MSLogError([MSDataStore logTag], @"Failed to call Cosmos create or replace API: %@",
+                                                               [documentWrapper.error.error localizedDescription]);
+                                                  }
+                                                }];
+                                       } else if ([operation.operation isEqualToString:kMSPendingOperationDelete]) {
+                                         // TODO: Do delete
+
+                                         MSWriteOptions *writeOptions = [[MSWriteOptions alloc] init];
+                                         // TODO: When the writeOptions will be implemented construct it from the operation.expirationTime
+                                         [MSDataStore
+                                             deleteDocumentWithPartition:(NSString *)operation.partition
+                                                              documentId:(NSString *)operation.documentId
+                                                            writeOptions:(MSWriteOptions * _Nullable) writeOptions
+                                                       completionHandler:(MSDocumentWrapperCompletionHandler) ^ (MSDocumentWrapper *
+                                                                                                                 documentWrapper) {
+                                                         if (!documentWrapper.error) {
+                                                           // TODO: delete it from local cache
+                                                         } else if (documentWrapper.error.errorCode == MSACDocumentNotFoundErrorCode ||
+                                                                    documentWrapper.error.errorCode == MSACDocumentConflictErrorCode) {
+                                                           // TODO: Delete local file without any update because we have a conflict between
+                                                           // the client and server
+                                                         } else {
+                                                           MSLogError([MSDataStore logTag], @"Failed to call Cosmos delete API: %@",
+                                                                      [documentWrapper.error.error localizedDescription]);
+                                                         }
+                                                       }];
+                                       } else {
+                                         MSLogError([MSDataStore logTag], @"Pending operation '%@' is not supported", operation.operation);
+                                       }
+                                     }
+                                   });
+                                 }];
   }
 }
 
