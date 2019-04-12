@@ -262,10 +262,10 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
   return [NSString stringWithString:stringBuffer];
 }
 
-- (void)sendPushToken:(NSString *)token didUpdateUserId:(NSString *)__unused userId{
+- (void)sendPushToken:(NSString *)token didUpdateUserId:(NSString *) userId{
   MSPushLog *log = [MSPushLog new];
   log.pushToken = token;
-  log.userId = [[MSUserIdContext sharedInstance] userId];
+  log.userId = userId;
   [self.channelUnit enqueueItem:log flags:MSFlagsDefault];
 }
 
