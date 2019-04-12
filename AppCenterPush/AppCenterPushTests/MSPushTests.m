@@ -837,12 +837,13 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
 
 #endif
 
-- (void)testUserIdContextOld {
+- (void)testUserIdContextDelegateCalledOnUserIdChanged {
   
   // If
-  self.sut.pushToken = @"privet";
   id pushMock = OCMPartialMock(self.sut);
+  OCMStub([pushMock pushToken]).andReturn(@"push-token");
   NSString *expectedValue = @"mockUserId";
+  [[MSUserIdContext sharedInstance] addDelegate:self.sut];
   
   // When
   [[MSUserIdContext sharedInstance] setUserId:expectedValue];
