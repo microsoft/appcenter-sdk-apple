@@ -29,7 +29,7 @@
         MSLogInfo([MSAppCenter logTag], @"Created \"%@\" database with %lu version.", filename, (unsigned long)version);
         [self customizeDatabase:db];
       } else if (databaseVersion < version) {
-        MSLogInfo([MSAppCenter logTag], @"Migrate \"%@\" database from %lu to %lu version.", filename, (unsigned long)databaseVersion,
+        MSLogInfo([MSAppCenter logTag], @"Migrating \"%@\" database from version %lu to %lu.", filename, (unsigned long)databaseVersion,
                   (unsigned long)version);
         [self migrateDatabase:db fromVersion:databaseVersion];
       }
