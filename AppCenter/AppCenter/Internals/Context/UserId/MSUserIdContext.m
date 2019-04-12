@@ -62,7 +62,7 @@ static dispatch_once_t onceToken;
      * Center start and setUserId call.
      */
     [MS_USER_DEFAULTS setObject:[NSKeyedArchiver archivedDataWithRootObject:self.userIdHistory] forKey:kMSUserIdHistoryKey];
-    _delegates = [NSHashTable new];
+    _delegates = [NSHashTable weakObjectsHashTable];
   }
   return self;
 }
