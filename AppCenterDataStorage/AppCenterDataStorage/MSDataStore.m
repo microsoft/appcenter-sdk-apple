@@ -665,7 +665,7 @@ static dispatch_once_t onceToken;
         performDbTokenAsyncOperationWithHttpClient:(id<MSHttpClientProtocol>)self.httpClient
                                   tokenExchangeUrl:self.tokenExchangeUrl
                                          appSecret:self.appSecret
-                                         partition:MSDataStoreUserDocumentsPartition
+                                         partition:kMSDataStoreUserDocumentsPartition
                                includeExpiredToken:NO
                                  completionHandler:^(MSTokensResponse *_Nonnull tokenResponses, NSError *_Nonnull error) {
                                    if (error) {
