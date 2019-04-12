@@ -554,6 +554,7 @@ static dispatch_once_t onceToken;
 }
 
 - (void)onNetworkGoesOnline {
+  @synchronized(self) {
     [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:(id<MSHttpClientProtocol>)self.httpClient
                                                tokenExchangeUrl:self.tokenExchangeUrl
                                                       appSecret:self.appSecret
@@ -584,6 +585,7 @@ static dispatch_once_t onceToken;
                   }
               }
           }];
+  }
 }
 
 - (BOOL)isOffline {
