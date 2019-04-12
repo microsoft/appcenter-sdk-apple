@@ -15,7 +15,6 @@
 #import "MSAuthTokenContext.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitProtocol.h"
-#import "MSPush.h"
 #import "MSPushAppDelegate.h"
 #import "MSPushLog.h"
 #import "MSPushNotificationInternal.h"
