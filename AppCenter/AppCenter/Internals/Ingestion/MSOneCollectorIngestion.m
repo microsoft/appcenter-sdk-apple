@@ -43,7 +43,7 @@
   // Verify container.
   if (!container || ![container isValid]) {
     NSDictionary *userInfo = @{NSLocalizedDescriptionKey : kMSACLogInvalidContainerErrorDesc};
-    NSError *error = [NSError errorWithDomain:kMSACErrorDomain code:kMSACLogInvalidContainerErrorCode userInfo:userInfo];
+    NSError *error = [NSError errorWithDomain:kMSACErrorDomain code:MSACLogInvalidContainerErrorCode userInfo:userInfo];
     MSLogError([MSAppCenter logTag], @"%@", [error localizedDescription]);
     handler(batchId, 0, nil, error);
     return;
@@ -133,7 +133,7 @@
   NSArray *tokens = [tokenString componentsSeparatedByString:@","];
   NSMutableArray *obfuscatedTokens = [NSMutableArray new];
   for (NSString *token in tokens) {
-    [obfuscatedTokens addObject:[MSIngestionUtil hideSecret:token]];
+    [obfuscatedTokens addObject:[MSHttpUtil hideSecret:token]];
   }
   return [obfuscatedTokens componentsJoinedByString:@","];
 }

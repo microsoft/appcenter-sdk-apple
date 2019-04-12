@@ -75,8 +75,8 @@
     callCompletedWithResponse:(NSHTTPURLResponse *)response
                          data:(nullable NSData *)data
                         error:(NSError *)error {
-  BOOL internetIsDown = [MSIngestionUtil isNoInternetConnectionError:error];
-  BOOL couldNotEstablishSecureConnection = [MSIngestionUtil isSSLConnectionError:error];
+  BOOL internetIsDown = [MSHttpUtil isNoInternetConnectionError:error];
+  BOOL couldNotEstablishSecureConnection = [MSHttpUtil isSSLConnectionError:error];
 
   if (internetIsDown || couldNotEstablishSecureConnection) {
 
@@ -87,7 +87,7 @@
   }
 
   // Retry.
-  else if ([MSIngestionUtil isRecoverableError:response.statusCode] && ![self hasReachedMaxRetries]) {
+  else if ([MSHttpUtil isRecoverableError:response.statusCode] && ![self hasReachedMaxRetries]) {
     [self startRetryTimerWithStatusCode:response.statusCode];
   }
 
@@ -99,11 +99,11 @@
     if (!error && response.statusCode != MSHTTPCodesNo200OK) {
       NSDictionary *userInfo =
           @{NSLocalizedDescriptionKey : kMSACConnectionHttpErrorDesc, kMSACConnectionHttpCodeErrorKey : @(response.statusCode)};
-      error = [NSError errorWithDomain:kMSACErrorDomain code:kMSACConnectionHttpErrorCode userInfo:userInfo];
+      error = [NSError errorWithDomain:kMSACErrorDomain code:MSACConnectionHttpErrorCode userInfo:userInfo];
     }
 
     // Check for error.
-    BOOL recoverableError = ([MSIngestionUtil isRecoverableError:response.statusCode] && [self hasReachedMaxRetries]);
+    BOOL recoverableError = ([MSHttpUtil isRecoverableError:response.statusCode] && [self hasReachedMaxRetries]);
     BOOL fatalError;
     fatalError = recoverableError ? NO : (error && error.code != NSURLErrorCancelled);
 

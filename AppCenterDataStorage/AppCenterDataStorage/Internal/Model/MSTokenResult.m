@@ -3,6 +3,7 @@
 
 #import "MSTokenResult.h"
 #import "MSDataStorageConstants.h"
+#import "MSDocumentUtils.h"
 
 @implementation MSTokenResult
 
@@ -13,6 +14,7 @@ static NSString *const kMSDbAccount = @"dbAccount";
 static NSString *const kMSDbCollectionName = @"dbCollectionName";
 static NSString *const kMSExpiresOn = @"expiresOn";
 static NSString *const kMSToken = @"token";
+static NSString *const kMSAccountId = @"accountId";
 
 @synthesize partition = _partition;
 @synthesize dbAccount = _dbAccount;
@@ -21,6 +23,7 @@ static NSString *const kMSToken = @"token";
 @synthesize token = _token;
 @synthesize status = _status;
 @synthesize expiresOn = _expiresOn;
+@synthesize accountId = _accountId;
 
 - (instancetype)initWithPartition:(NSString *)partition
                         dbAccount:(NSString *)dbAccount
@@ -28,7 +31,8 @@ static NSString *const kMSToken = @"token";
                  dbCollectionName:(NSString *)dbCollectionName
                             token:(NSString *)token
                            status:(NSString *)status
-                        expiresOn:(NSString *)expiresOn {
+                        expiresOn:(NSString *)expiresOn
+                        accountId:(NSString *_Nullable)accountId {
   self = [super init];
   if (self) {
     _partition = partition;
@@ -38,40 +42,46 @@ static NSString *const kMSToken = @"token";
     _token = token;
     _status = status;
     _expiresOn = expiresOn;
+    _accountId = accountId;
   }
   return self;
 }
 
-- (instancetype)initWithDictionary:(NSDictionary *)tokens {
+- (instancetype _Nullable)initWithDictionary:(NSDictionary *)token {
   self = [super init];
   if (self) {
-    self = [[MSTokenResult alloc] initWithPartition:tokens[kMSPartition]
-                                          dbAccount:tokens[kMSDbAccount]
-                                             dbName:tokens[kMSDbName]
-                                   dbCollectionName:tokens[kMSDbCollectionName]
-                                              token:tokens[kMSToken]
-                                             status:tokens[kMSStatus]
-                                          expiresOn:tokens[kMSExpiresOn]];
+
+    // Validate the token comes with all required properties.
+    for (NSString *requiredProperty in [NSArray arrayWithObjects:kMSPartition, kMSDbAccount, kMSDbName, kMSDbCollectionName,
+                                                                 kMSDbCollectionName, kMSToken, kMSStatus, kMSExpiresOn, nil]) {
+      if (![MSDocumentUtils isReferenceDictionaryWithKey:token key:requiredProperty keyType:[NSString class]]) {
+        return nil;
+      }
+    }
+
+    // Instantiate the token.
+    self = [[MSTokenResult alloc] initWithPartition:(NSString *)token[kMSPartition]
+                                          dbAccount:(NSString *)token[kMSDbAccount]
+                                             dbName:(NSString *)token[kMSDbName]
+                                   dbCollectionName:(NSString *)token[kMSDbCollectionName]
+                                              token:(NSString *)token[kMSToken]
+                                             status:(NSString *)token[kMSStatus]
+                                          expiresOn:(NSString *)token[kMSExpiresOn]
+                                          accountId:token[kMSAccountId]];
   }
   return self;
 }
 
-- (instancetype)initWithString:(NSString *)tokenString {
+- (instancetype _Nullable)initWithString:(NSString *)tokenString {
   self = [super init];
   if (self) {
     NSData *jsonData = [tokenString dataUsingEncoding:NSUTF8StringEncoding];
     NSError *error;
     NSDictionary *jsonDictionary = [NSJSONSerialization JSONObjectWithData:jsonData options:kNilOptions error:&error];
     if (jsonData != nil && error == nil) {
-
-      // Create token result object.
-      self = [[MSTokenResult alloc] initWithPartition:jsonDictionary[kMSPartition]
-                                            dbAccount:jsonDictionary[kMSDbAccount]
-                                               dbName:jsonDictionary[kMSDbName]
-                                     dbCollectionName:jsonDictionary[kMSDbCollectionName]
-                                                token:jsonDictionary[kMSToken]
-                                               status:jsonDictionary[kMSStatus]
-                                            expiresOn:jsonDictionary[kMSExpiresOn]];
+      self = [self initWithDictionary:jsonDictionary];
+    } else {
+      self = nil;
     }
   }
   return self;
@@ -86,16 +96,17 @@ static NSString *const kMSToken = @"token";
     kMSToken : self.token,
     kMSStatus : self.status,
     kMSExpiresOn : self.expiresOn,
+    kMSAccountId : self.accountId ? self.accountId : [NSNull null]
   };
 }
 
-- (NSString *)serializeToString {
+- (NSString *_Nullable)serializeToString {
   NSError *error = nil;
-  NSDictionary *tokenDict = [self convertToDictionary];
-  if ([NSJSONSerialization isValidJSONObject:tokenDict]) {
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:tokenDict options:NSJSONWritingPrettyPrinted error:&error];
-    if (jsonData != nil && error == nil) {
-      return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+  NSDictionary *dictionary = [self convertToDictionary];
+  if ([NSJSONSerialization isValidJSONObject:dictionary]) {
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:&error];
+    if (!error && jsonData) {
+      return (NSString *)[[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     }
   }
   return nil;

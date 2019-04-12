@@ -278,6 +278,133 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   OCMVerify([dbStorageMock executeNonSelectionQuery:[OCMArg any] inOpenedDatabase:db]);
 }
 
+- (void)testCreateTableWhenTableExists {
+
+  // Then
+  XCTAssertTrue([self tableExists:kMSTestTableName]);
+
+  // When
+  BOOL tableExistsOrCreated = [self.sut createTable:kMSTestTableName columnsSchema:self.schema[kMSTestTableName]];
+
+  // Then
+  XCTAssertTrue(tableExistsOrCreated);
+  XCTAssertTrue([self tableExists:kMSTestTableName]);
+}
+
+- (void)testCreateTableWhenTableDoesntExists {
+
+  // If
+  NSString *tableToCreate = @"NewTable";
+
+  // When
+  BOOL tableExistsOrCreated = [self.sut createTable:tableToCreate columnsSchema:self.schema[kMSTestTableName]];
+
+  // Then
+  XCTAssertTrue(tableExistsOrCreated);
+  XCTAssertTrue([self tableExists:tableToCreate]);
+}
+
+- (void)testCreateTableWhenTableExistsWithUniqueColumns {
+
+  // If
+  NSArray<NSString *> *uniqueColumns = @[ kMSTestHungrinessColName, kMSTestMealColName ];
+
+  // Then
+  XCTAssertTrue([self tableExists:kMSTestTableName]);
+
+  // When
+  BOOL tableExistsOrCreated = [self.sut createTable:kMSTestTableName
+                                      columnsSchema:self.schema[kMSTestTableName]
+                            uniqueColumnsConstraint:uniqueColumns];
+
+  // Then
+  XCTAssertTrue(tableExistsOrCreated);
+  XCTAssertTrue([self tableExists:kMSTestTableName]);
+}
+
+- (void)testCreateTableWhenTableDoesntExistWithUniqueColumns {
+
+  // If
+  NSString *tableToCreate = @"NewTable";
+  NSArray<NSString *> *uniqueColumns = @[ kMSTestHungrinessColName, kMSTestMealColName ];
+
+  // When
+  BOOL tableExistsOrCreated = [self.sut createTable:tableToCreate
+                                      columnsSchema:self.schema[kMSTestTableName]
+                            uniqueColumnsConstraint:uniqueColumns];
+
+  // Then
+  XCTAssertTrue(tableExistsOrCreated);
+  XCTAssertTrue([self tableExists:tableToCreate]);
+
+  // If
+  NSString *expectedPerson1 = @"Hungry Guy";
+  NSNumber *expectedHungriness = @(99);
+  NSString *expectedMeal = @"Big burger";
+  NSString *query1 = [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\") "
+                                                @"VALUES ('%@', %@, '%@')",
+                                                tableToCreate, kMSTestPersonColName, kMSTestHungrinessColName, kMSTestMealColName,
+                                                expectedPerson1, expectedHungriness.stringValue, expectedMeal];
+  NSString *expectedPerson2 = @"Second Hungry Guy";
+  NSString *query2 = [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\") "
+                                                @"VALUES ('%@', %@, '%@')",
+                                                tableToCreate, kMSTestPersonColName, kMSTestHungrinessColName, kMSTestMealColName,
+                                                expectedPerson2, expectedHungriness.stringValue, expectedMeal];
+
+  // When
+  int result = [self.sut executeNonSelectionQuery:query1];
+
+  // Then
+  XCTAssertEqual(result, SQLITE_OK);
+
+  // When
+  result = [self.sut executeNonSelectionQuery:query2];
+
+  // Then
+  XCTAssertEqual(result, SQLITE_CONSTRAINT);
+}
+
+- (void)testDropTableWhenTableExists {
+
+  // When
+  BOOL tableDropped = [self.sut dropTable:kMSTestTableName];
+
+  // Then
+  XCTAssertTrue(tableDropped);
+  XCTAssertFalse([self tableExists:kMSTestTableName]);
+}
+
+- (void)testDroppAllTables {
+
+  // If
+  NSString *tableName1 = @"shortLivedTabled1";
+  NSString *tableName2 = @"shortLivedTabled2";
+
+  // When
+  XCTAssertTrue([self.sut createTable:tableName1 columnsSchema:self.schema[kMSTestTableName]]);
+  XCTAssertTrue([self tableExists:tableName1]);
+  XCTAssertTrue([self.sut createTable:tableName2 columnsSchema:self.schema[kMSTestTableName]]);
+  XCTAssertTrue([self tableExists:tableName2]);
+  [self.sut dropAllTables];
+
+  // Then
+  XCTAssertFalse([self tableExists:tableName1]);
+  XCTAssertFalse([self tableExists:tableName2]);
+}
+
+- (void)testDroppedTableWhenTableDoesntExists {
+
+  // If
+  NSString *tableToDrop = @"NewTable";
+
+  // When
+  BOOL tableDropped = [self.sut dropTable:tableToDrop];
+
+  // Then
+  XCTAssertTrue(tableDropped);
+  XCTAssertFalse([self tableExists:tableToDrop]);
+}
+
 - (void)testExecuteQuery {
 
   // If
@@ -579,6 +706,13 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
 
 - (NSString *)queryTable:(NSString *)tableName {
   return [self.sut executeSelectionQuery:[NSString stringWithFormat:@"SELECT sql FROM sqlite_master WHERE name='%@'", tableName]][0][0];
+}
+
+- (BOOL)tableExists:(NSString *)tableName {
+  NSArray<NSArray *> *result = [self.sut
+      executeSelectionQuery:[NSString stringWithFormat:@"SELECT COUNT(*) FROM \"sqlite_master\" WHERE \"type\"='table' AND \"name\"='%@';",
+                                                       tableName]];
+  return [(NSNumber *)result[0][0] boolValue];
 }
 
 - (BOOL)autoVacuumIsSetToFull {

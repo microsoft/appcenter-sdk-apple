@@ -3,6 +3,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface MSTokenResult : NSObject
 
 /**
@@ -41,6 +43,11 @@
 @property(nonatomic, readonly, copy) NSString *expiresOn;
 
 /**
+ * Account id.
+ */
+@property(nonatomic, readonly, copy, nullable) NSString *accountId;
+
+/**
  * Initialize the Token result object
  *
  * @param partition Database partition
@@ -58,7 +65,8 @@
                  dbCollectionName:(NSString *)dbCollectionName
                             token:(NSString *)token
                            status:(NSString *)status
-                        expiresOn:(NSString *)expiresOn;
+                        expiresOn:(NSString *)expiresOn
+                        accountId:(NSString *_Nullable)accountId;
 
 /**
  * Initialize the Token result object
@@ -67,17 +75,24 @@
  *
  * @return A token response instance.
  */
-- (instancetype)initWithString:(NSString *)tokenString;
+- (instancetype _Nullable)initWithString:(NSString *)tokenString;
 
 /**
  * Initialize the Token result object
  *
- * @param tokens A dictionary the token properties
+ * @param token A dictionary the token properties
  *
  * @return A token response instance.
  */
-- (instancetype)initWithDictionary:(NSDictionary *)tokens;
+- (instancetype _Nullable)initWithDictionary:(NSDictionary *)token;
 
-- (NSString *)serializeToString;
+/**
+ * Serialize the token has a string.
+ *
+ * @return The serialized token (or nil in case of error).
+ */
+- (NSString *_Nullable)serializeToString;
 
 @end
+
+NS_ASSUME_NONNULL_END

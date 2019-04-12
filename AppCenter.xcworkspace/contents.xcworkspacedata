@@ -123,6 +123,16 @@
          </FileRef>
       </Group>
       <Group
+         location = "group:AppCenterDataStorage"
+         name = "AppCenterDataStorage">
+         <FileRef
+            location = "group:build-appcenterdatastorage-ios-framework.sh">
+         </FileRef>
+         <FileRef
+            location = "group:build-appcenterdatastorage-macos-framework.sh">
+         </FileRef>
+      </Group>
+      <Group
          location = "group:AppCenterDistribute"
          name = "AppCenterDistribute">
          <FileRef

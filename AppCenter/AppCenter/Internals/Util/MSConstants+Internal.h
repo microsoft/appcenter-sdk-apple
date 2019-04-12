@@ -19,9 +19,21 @@ static NSString *const kMSAppCenterContentType = @"application/json";
 static NSString *const kMSHeaderContentEncodingKey = @"Content-Encoding";
 static NSString *const kMSHeaderContentEncoding = @"gzip";
 static NSString *const kMSAuthorizationHeaderKey = @"Authorization";
+static NSString *const kMSRetryHeaderKey = @"x-ms-retry-after-ms";
+
+/**
+ * The key for auth token history array stored in keychain.
+ */
+static NSString *const kMSAuthTokenHistoryKey = @"MSAppCenterAuthTokenHistory";
+
+/**
+ * Maximum amount of available token stored in the keychain.
+ */
+static int const kMSMaxAuthTokenArraySize = 5;
 
 // Other HTTP constants.
 static short const kMSHTTPMinGZipLength = 1400;
+static NSString *const kMSBearerTokenHeaderFormat = @"Bearer %@";
 
 /**
  * Enum with the different HTTP status codes.

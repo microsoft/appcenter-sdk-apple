@@ -21,6 +21,12 @@ Pod::Spec.new do |s|
                       4. App Center Push (iOS and macOS):
                       App Center Push enables you to send push notifications to users of your app from the App Center portal. You can also segment your user base based on a set of properties and send them targeted notifications.
 
+                      5. App Center DataStorage (iOS):
+                      The App Center Data Storage service provides functionality enabling developers to persist app data in the cloud in both online and offline scenarios. This enables you to store and manage both user-specific data as well as data shared between users and across platforms. In addition, this service includes basic conflict resolution out of the box.
+
+                      6. App Center Identity (iOS and macOS):
+                      The App Center Identity is an identity management service that allows you to customize and control how your users interact with your app. We provide an out of the box UI that allows app developers to authenticate their users to an app. In addition, app developers may use and track the user's identity across App Center services.
+
                         DESC
 
   s.homepage          = 'https://appcenter.ms'
@@ -83,5 +89,20 @@ Pod::Spec.new do |s|
     ss.ios.vendored_frameworks = "AppCenter-SDK-Apple/iOS/AppCenterPush.framework"
     ss.osx.vendored_frameworks = "AppCenter-SDK-Apple/macOS/AppCenterPush.framework"
  end
+
+  s.subspec 'DataStorage' do |ss|
+    ss.dependency 'AppCenter/Core'
+    ss.frameworks = 'Foundation'
+    ss.ios.frameworks = 'UIKit'
+    ss.ios.vendored_frameworks = "AppCenter-SDK-Apple/iOS/AppCenterDataStorage.framework"
+  end
+
+  s.subspec 'Identity' do |ss|
+    ss.dependency 'AppCenter/Core'
+    ss.frameworks = 'Foundation'
+    ss.ios.frameworks = 'UIKit', 'AuthenticationServices', 'WebKit'
+    ss.ios.weak_frameworks = 'SafariServices'
+    ss.ios.vendored_frameworks = "AppCenter-SDK-Apple/iOS/AppCenterIdentity.framework"
+  end
 
 end

@@ -3,62 +3,63 @@
 
 #import "MSTokenExchange.h"
 #import "AppCenter+Internal.h"
-#import "MSAppCenterIngestion.h"
 #import "MSAuthTokenContext.h"
+#import "MSConstants+Internal.h"
 #import "MSDataStorageConstants.h"
+#import "MSDataStoreErrors.h"
 #import "MSDataStoreInternal.h"
+#import "MSHttpClientProtocol.h"
 #import "MSKeychainUtil.h"
-#import "MSStorageIngestion.h"
 #import "MSTokenResult.h"
 #import "MSTokensResponse.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 static NSString *const kMSPartitions = @"partitions";
-static NSString *const kMSTokenResultSucceed = @"Succeed";
 static NSString *const kMSStorageReadOnlyDbTokenKey = @"MSStorageReadOnlyDbToken";
 static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
 
+/**
+ * The API paths for cosmosDb token.
+ */
+static NSString *const kMSGetTokenPath = @"/data/tokens";
+
 @implementation MSTokenExchange : NSObject
 
-+ (void)performDbTokenAsyncOperationWithHttpClient:(MSStorageIngestion *)httpClient
++ (void)performDbTokenAsyncOperationWithHttpClient:(id<MSHttpClientProtocol>)httpClient
+                                  tokenExchangeUrl:(NSURL *)tokenExchangeUrl
+                                         appSecret:(NSString *)appSecret
                                          partition:(NSString *)partition
-                                 completionHandler:(MSGetTokenAsyncCompletionHandler _Nonnull)completionHandler {
+                               includeExpiredToken:(BOOL)includeExpiredToken
+                                 completionHandler:(MSGetTokenAsyncCompletionHandler)completionHandler {
 
   // Get the cached token if it is saved.
-  MSTokenResult *cachedToken = [MSTokenExchange retrieveCachedToken:partition];
+  MSTokenResult *cachedToken = [MSTokenExchange retrieveCachedTokenForPartition:partition includeExpiredToken:includeExpiredToken];
+  NSURL *sendUrl = [tokenExchangeUrl URLByAppendingPathComponent:kMSGetTokenPath];
 
   // Get a fresh token from the token exchange service if the token is not cached or has expired.
   if (!cachedToken) {
 
-    // Payload.
+    // Serialize payload.
     NSError *jsonError;
     NSData *payloadData = [NSJSONSerialization dataWithJSONObject:@{kMSPartitions : @[ partition ]} options:0 error:&jsonError];
 
-    if ([MSAuthTokenContext sharedInstance].authToken) {
-      NSMutableDictionary *headers = [httpClient.httpHeaders mutableCopy];
+    // Call token exchange service.
+    NSMutableDictionary *headers = [NSMutableDictionary new];
+    headers[kMSHeaderContentTypeKey] = kMSAppCenterContentType;
+    headers[kMSHeaderAppSecretKey] = appSecret;
+    if ([[MSAuthTokenContext sharedInstance] authToken]) {
       headers[kMSAuthorizationHeaderKey] =
-          [NSString stringWithFormat:kMSBearerTokenHeaderFormat, [MSAuthTokenContext sharedInstance].authToken];
-      httpClient.httpHeaders = headers;
+          [NSString stringWithFormat:kMSBearerTokenHeaderFormat, [[MSAuthTokenContext sharedInstance] authToken]];
     }
+    [httpClient sendAsync:sendUrl
+                   method:kMSHttpMethodPost
+                  headers:headers
+                     data:payloadData
+        completionHandler:^(NSData *data, NSHTTPURLResponse *response, NSError *error) {
+          MSLogVerbose([MSDataStore logTag], @"Get token callback status code: %td", response.statusCode);
 
-    [httpClient sendAsync:payloadData
-        completionHandler:^(NSString *callId, NSHTTPURLResponse *response, NSData *data, NSError *error) {
-          MSLogVerbose([MSDataStore logTag], @"Get token callback, request Id %@ with status code: %td", callId, response.statusCode);
-
-          // Read tokens.
-          NSError *tokenResponsejsonError;
-          NSDictionary *jsonDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&tokenResponsejsonError];
-          if (tokenResponsejsonError) {
-            MSLogError([MSDataStore logTag], @"Can't deserialize tokens with error: %@", [tokenResponsejsonError description]);
-            completionHandler([[MSTokensResponse alloc] initWithTokens:nil], error);
-            return;
-          }
-
-          // Create token result object.
-          MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:jsonDictionary[kMSTokens][0]];
-
-          // Token exchange failed to give back a token
+          // Token exchange failed to give back a token.
           if (error) {
             MSLogError([MSDataStore logTag], @"Get on DB Token had an error with code: %td, description: %@", error.code,
                        error.localizedDescription);
@@ -66,13 +67,52 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
             return;
           }
 
+          // Token store returned non-200 response code.
+          if (response.statusCode != MSHTTPCodesNo200OK) {
+            MSLogError([MSDataStore logTag], @"The token store returned %ld", (long)response.statusCode);
+            completionHandler([[MSTokensResponse alloc] initWithTokens:nil],
+                              [[NSError alloc] initWithDomain:kMSACDataStoreErrorDomain
+                                                         code:MSACDataStoreErrorHTTPError
+                                                     userInfo:@{
+                                                       NSLocalizedDescriptionKey : [NSString
+                                                           stringWithFormat:@"The token store returned %ld", (long)response.statusCode]
+                                                     }]);
+            return;
+          }
+
+          // Read tokens.
+          NSError *tokenResponsejsonError;
+          NSDictionary *jsonDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&tokenResponsejsonError];
+          if (tokenResponsejsonError) {
+            MSLogError([MSDataStore logTag], @"Can't deserialize tokens with error: %@", [tokenResponsejsonError description]);
+            NSError *serializeError = [[NSError alloc]
+                initWithDomain:kMSACDataStoreErrorDomain
+                          code:MSACDataStoreErrorJSONSerializationFailed
+                      userInfo:@{
+                        NSLocalizedDescriptionKey :
+                            [NSString stringWithFormat:@"Can't deserialize tokens with error: %@", [tokenResponsejsonError description]]
+                      }];
+            completionHandler([[MSTokensResponse alloc] initWithTokens:nil], serializeError);
+            return;
+          }
+
+          // Create token result object.
+          // FIXME: we should eventually validate further the payload (we might not get the dictionary we expect).
+          MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:(NSDictionary *)jsonDictionary[kMSTokens][0]];
+
           // Create token response object.
           MSTokensResponse *tokens = [[MSTokensResponse alloc] initWithTokens:@[ tokenResult ]];
 
           // Token exchange did not get back an error but acquiring the token did not succeed either
           if (tokenResult && ![tokenResult.status isEqualToString:kMSTokenResultSucceed]) {
             MSLogError([MSDataStore logTag], @"Token result had a status of %@", tokenResult.status);
-            completionHandler(tokens, error);
+            NSError *statusError = [[NSError alloc]
+                initWithDomain:kMSACDataStoreErrorDomain
+                          code:MSACDataStoreErrorHTTPError
+                      userInfo:@{
+                        NSLocalizedDescriptionKey : [NSString stringWithFormat:@"Token result had a status of %@", tokenResult.status]
+                      }];
+            completionHandler(tokens, statusError);
             return;
           }
 
@@ -94,7 +134,7 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
   if (!tokenString) {
     MSLogError([MSDataStore logTag], @"Can't save the token to keychain because token is nil.");
   } else if (!tokenResult.partition) {
-    MSLogError([MSDataStore logTag], @"Can't save the token in keychain because partitionKey is nill");
+    MSLogError([MSDataStore logTag], @"Can't save the token in keychain because partitionKey is nil.");
   } else {
     BOOL success = [MSKeychainUtil storeString:tokenString forKey:[MSTokenExchange tokenKeyNameForPartition:tokenResult.partition]];
     if (success) {
@@ -105,44 +145,26 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
   }
 }
 
-/*
- * Get back the Cached Cosmos DB token
- * If the DB token has expired, that token is deleted from KeyChain
- */
-+ (MSTokenResult *)retrieveCachedToken:(NSString *)partitionName {
-  if (partitionName) {
-    NSString *tokenString = [MSKeychainUtil stringForKey:[MSTokenExchange tokenKeyNameForPartition:partitionName]];
++ (MSTokenResult *_Nullable)retrieveCachedTokenForPartition:(NSString *)partition includeExpiredToken:(BOOL)includeExpiredToken {
+  if (partition) {
+    NSString *tokenString = [MSKeychainUtil stringForKey:[MSTokenExchange tokenKeyNameForPartition:partition]];
     if (tokenString) {
       MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithString:tokenString];
       NSDate *currentUTCDate = [NSDate date];
       NSDate *tokenExpireDate = [MSUtility dateFromISO8601:tokenResult.expiresOn];
       if ([currentUTCDate laterDate:tokenExpireDate] == currentUTCDate) {
-        [MSTokenExchange removeCachedToken:partitionName];
-        MSLogWarning([MSDataStore logTag], @"The token in the cache has expired for the partitionKey : %@.", partitionName);
+        MSLogWarning([MSDataStore logTag], @"The token in the cache has expired for the partition : %@.", partition);
+        if (includeExpiredToken) {
+          return tokenResult;
+        }
         return nil;
       }
-      MSLogDebug([MSDataStore logTag], @"Retrieved token from keychain for the partitionKey : %@.", partitionName);
+      MSLogDebug([MSDataStore logTag], @"Retrieved token from keychain for the partition : %@.", partition);
       return tokenResult;
     }
-    MSLogWarning([MSDataStore logTag], @"Failed to retrieve token from keychain or none was found for the partitionKey : %@.",
-                 partitionName);
+    MSLogWarning([MSDataStore logTag], @"Failed to retrieve token from keychain or none was found for the partition : %@.", partition);
   }
   return nil;
-}
-
-/*
- * Delete the cached DB token
- */
-+ (void)removeCachedToken:(NSString *)partitionName {
-  if (partitionName) {
-    NSString *tokenString = [MSKeychainUtil deleteStringForKey:[MSTokenExchange tokenKeyNameForPartition:partitionName]];
-    if (tokenString) {
-      MSLogDebug([MSDataStore logTag], @"Removed token from keychain for the partitionKey : %@.", partitionName);
-    } else {
-      MSLogWarning([MSDataStore logTag], @"Failed to remove token from keychain or none was found for the partitionKey : %@.",
-                   partitionName);
-    }
-  }
 }
 
 /*
@@ -166,7 +188,7 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
  *       User partition : MSStorageUserDbToken
  */
 + (NSString *)tokenKeyNameForPartition:(NSString *)partitionName {
-  if ([partitionName containsString:MSDataStoreAppDocumentsPartition]) {
+  if ([partitionName isEqualToString:MSDataStoreAppDocumentsPartition]) {
     return kMSStorageReadOnlyDbTokenKey;
   }
 

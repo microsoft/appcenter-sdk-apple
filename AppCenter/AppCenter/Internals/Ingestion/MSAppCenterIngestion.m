@@ -41,7 +41,7 @@ static NSString *const kMSApiPath = @"/logs";
   // Verify container.
   if (!container || ![container isValid]) {
     NSDictionary *userInfo = @{NSLocalizedDescriptionKey : kMSACLogInvalidContainerErrorDesc};
-    NSError *error = [NSError errorWithDomain:kMSACErrorDomain code:kMSACLogInvalidContainerErrorCode userInfo:userInfo];
+    NSError *error = [NSError errorWithDomain:kMSACErrorDomain code:MSACLogInvalidContainerErrorCode userInfo:userInfo];
     MSLogError([MSAppCenter logTag], @"%@", [error localizedDescription]);
     handler(batchId, 0, nil, error);
     return;
@@ -96,9 +96,9 @@ static NSString *const kMSApiPath = @"/logs";
 
 - (NSString *)obfuscateHeaderValue:(NSString *)value forKey:(NSString *)key {
   if ([key isEqualToString:kMSAuthorizationHeaderKey]) {
-    return [MSIngestionUtil hideAuthToken:value];
+    return [MSHttpUtil hideAuthToken:value];
   } else if ([key isEqualToString:kMSHeaderAppSecretKey]) {
-    return [MSIngestionUtil hideSecret:value];
+    return [MSHttpUtil hideSecret:value];
   }
   return value;
 }

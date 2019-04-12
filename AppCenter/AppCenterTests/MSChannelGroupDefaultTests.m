@@ -9,6 +9,7 @@
 #import "MSChannelGroupDefaultPrivate.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitDefault.h"
+#import "MSDispatchTestUtil.h"
 #import "MSIngestionProtocol.h"
 #import "MSMockLog.h"
 #import "MSStorage.h"
@@ -16,7 +17,11 @@
 
 @interface MSChannelGroupDefaultTests : XCTestCase
 
-@property MSChannelUnitConfiguration *validConfiguration;
+@property(nonatomic) id ingestionMock;
+
+@property(nonatomic) MSChannelUnitConfiguration *validConfiguration;
+
+@property(nonatomic) MSChannelGroupDefault *sut;
 
 @end
 
@@ -28,46 +33,52 @@
   float flushInterval = 1.0;
   NSUInteger batchSizeLimit = 10;
   NSUInteger pendingBatchesLimit = 3;
-  _validConfiguration = [[MSChannelUnitConfiguration alloc] initWithGroupId:groupId
-                                                                   priority:priority
-                                                              flushInterval:flushInterval
-                                                             batchSizeLimit:batchSizeLimit
-                                                        pendingBatchesLimit:pendingBatchesLimit];
-  [[MSAuthTokenContext sharedInstance] clearAuthToken];
+  self.ingestionMock = OCMClassMock([MSAppCenterIngestion class]);
+  self.validConfiguration = [[MSChannelUnitConfiguration alloc] initWithGroupId:groupId
+                                                                       priority:priority
+                                                                  flushInterval:flushInterval
+                                                                 batchSizeLimit:batchSizeLimit
+                                                            pendingBatchesLimit:pendingBatchesLimit];
+  self.sut = [[MSChannelGroupDefault alloc] initWithIngestion:self.ingestionMock];
+
+  /*
+   * dispatch_get_main_queue isn't good option for logsDispatchQueue because
+   * we can't clear pending actions from it after the test. It can cause usages of stopped mocks.
+   *
+   * Keep the serial queue that created during the initialization.
+   */
+}
+
+- (void)tearDown {
+  [MSDispatchTestUtil awaitAndSuspendDispatchQueue:self.sut.logsDispatchQueue];
+
+  // Stop mocks.
+  [self.ingestionMock stopMocking];
+  [super tearDown];
 }
 
 #pragma mark - Tests
 
 - (void)testNewInstanceWasInitialisedCorrectly {
 
-  // If
-  MSAppCenterIngestion *ingestionMock = OCMPartialMock([MSAppCenterIngestion new]);
-
-  // When
-  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithIngestion:ingestionMock];
-
   // Then
-  assertThat(sut, notNilValue());
-  assertThat(sut.logsDispatchQueue, notNilValue());
-  assertThat(sut.channels, isEmpty());
-  assertThat(sut.ingestion, equalTo(ingestionMock));
-  assertThat(sut.storage, notNilValue());
+  assertThat(self.sut, notNilValue());
+  assertThat(self.sut.logsDispatchQueue, notNilValue());
+  assertThat(self.sut.channels, isEmpty());
+  assertThat(self.sut.ingestion, equalTo(self.ingestionMock));
+  assertThat(self.sut.storage, notNilValue());
 }
 
 - (void)testAddNewChannel {
 
-  // If
-  MSAppCenterIngestion *ingestionMock = OCMPartialMock([MSAppCenterIngestion new]);
-  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithIngestion:ingestionMock];
-
   // Then
-  assertThat(sut.channels, isEmpty());
+  assertThat(self.sut.channels, isEmpty());
 
   // When
-  id<MSChannelUnitProtocol> addedChannel = [sut addChannelUnitWithConfiguration:self.validConfiguration];
+  id<MSChannelUnitProtocol> addedChannel = [self.sut addChannelUnitWithConfiguration:self.validConfiguration];
 
   // Then
-  XCTAssertTrue([sut.channels containsObject:addedChannel]);
+  XCTAssertTrue([self.sut.channels containsObject:addedChannel]);
   assertThat(addedChannel, notNilValue());
   XCTAssertTrue(addedChannel.configuration.priority == self.validConfiguration.priority);
   assertThatFloat(addedChannel.configuration.flushInterval, equalToFloat(self.validConfiguration.flushInterval));
@@ -77,43 +88,37 @@
 
 - (void)testAddNewChannelWithDefaultIngestion {
 
-  // If
-  MSAppCenterIngestion *ingestionMock = OCMPartialMock([MSAppCenterIngestion new]);
-  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithIngestion:ingestionMock];
-
   // When
-  MSChannelUnitDefault *channelUnit = (MSChannelUnitDefault *)[sut addChannelUnitWithConfiguration:self.validConfiguration];
+  MSChannelUnitDefault *channelUnit = (MSChannelUnitDefault *)[self.sut addChannelUnitWithConfiguration:self.validConfiguration];
 
   // Then
-  XCTAssertEqual(ingestionMock, channelUnit.ingestion);
+  XCTAssertEqual(self.ingestionMock, channelUnit.ingestion);
 }
 
 - (void)testAddChannelWithCustomIngestion {
 
   // If
-  id<MSIngestionProtocol> ingestionMockDefault = OCMPartialMock([MSAppCenterIngestion new]);
-  id<MSIngestionProtocol> ingestionMockCustom = OCMPartialMock([MSAppCenterIngestion new]);
-  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithIngestion:ingestionMockDefault];
+  id ingestionMockCustom = OCMClassMock([MSAppCenterIngestion class]);
 
   // When
-  MSChannelUnitDefault *channelUnit = (MSChannelUnitDefault *)[sut addChannelUnitWithConfiguration:[MSChannelUnitConfiguration new]
-                                                                                     withIngestion:ingestionMockCustom];
+  MSChannelUnitDefault *channelUnit = (MSChannelUnitDefault *)[self.sut addChannelUnitWithConfiguration:[MSChannelUnitConfiguration new]
+                                                                                          withIngestion:ingestionMockCustom];
 
   // Then
-  XCTAssertNotEqual(ingestionMockDefault, channelUnit.ingestion);
+  XCTAssertNotEqual(self.ingestionMock, channelUnit.ingestion);
   XCTAssertEqual(ingestionMockCustom, channelUnit.ingestion);
+  [ingestionMockCustom stopMocking];
 }
 
 - (void)testDelegatesConcurrentAccess {
 
   // If
-  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithIngestion:OCMPartialMock([MSAppCenterIngestion new])];
   MSAbstractLog *log = [MSAbstractLog new];
   for (int j = 0; j < 10; j++) {
     id mockDelegate = OCMProtocolMock(@protocol(MSChannelDelegate));
-    [sut addDelegate:mockDelegate];
+    [self.sut addDelegate:mockDelegate];
   }
-  id<MSChannelUnitProtocol> addedChannel = [sut addChannelUnitWithConfiguration:self.validConfiguration];
+  id<MSChannelUnitProtocol> addedChannel = [self.sut addChannelUnitWithConfiguration:self.validConfiguration];
 
   // When
   void (^block)(void) = ^{
@@ -121,7 +126,7 @@
       [addedChannel enqueueItem:log flags:MSFlagsDefault];
     }
     for (int i = 0; i < 100; i++) {
-      [sut addDelegate:OCMProtocolMock(@protocol(MSChannelDelegate))];
+      [self.sut addDelegate:OCMProtocolMock(@protocol(MSChannelDelegate))];
     }
   };
 
@@ -132,77 +137,64 @@
 - (void)testSetEnabled {
 
   // If
-  MSAppCenterIngestion *ingestionMock = OCMClassMock(MSAppCenterIngestion.class);
   id<MSChannelUnitProtocol> channelMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
   id<MSChannelDelegate> delegateMock = OCMProtocolMock(@protocol(MSChannelDelegate));
-  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithIngestion:ingestionMock];
-  [sut addDelegate:delegateMock];
-  [sut.channels addObject:channelMock];
+  [self.sut addDelegate:delegateMock];
+  [self.sut.channels addObject:channelMock];
 
   // When
-  [sut setEnabled:NO andDeleteDataOnDisabled:YES];
+  [self.sut setEnabled:NO andDeleteDataOnDisabled:YES];
 
   // Then
-  OCMVerify([ingestionMock setEnabled:NO andDeleteDataOnDisabled:YES]);
+  OCMVerify([self.ingestionMock setEnabled:NO andDeleteDataOnDisabled:YES]);
   OCMVerify([channelMock setEnabled:NO andDeleteDataOnDisabled:YES]);
-  OCMVerify([delegateMock channel:sut didSetEnabled:NO andDeleteDataOnDisabled:YES]);
+  OCMVerify([delegateMock channel:self.sut didSetEnabled:NO andDeleteDataOnDisabled:YES]);
 }
 
 - (void)testResume {
 
   // If
-  MSAppCenterIngestion *ingestionMock = OCMClassMock(MSAppCenterIngestion.class);
   id<MSChannelUnitProtocol> channelMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
-  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithIngestion:ingestionMock];
-  [sut.channels addObject:channelMock];
+  [self.sut.channels addObject:channelMock];
   NSObject *token = [NSObject new];
 
   // When
-  [sut resumeWithIdentifyingObject:token];
+  [self.sut resumeWithIdentifyingObject:token];
 
   // Then
-  OCMVerify([ingestionMock setEnabled:YES andDeleteDataOnDisabled:NO]);
-  dispatch_sync(sut.logsDispatchQueue, ^{
-                });
+  OCMVerify([self.ingestionMock setEnabled:YES andDeleteDataOnDisabled:NO]);
   OCMVerify([channelMock resumeWithIdentifyingObject:token]);
 }
 
 - (void)testPause {
 
   // If
-  MSAppCenterIngestion *ingestionMock = OCMClassMock(MSAppCenterIngestion.class);
   id<MSChannelUnitProtocol> channelMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
-  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithIngestion:ingestionMock];
-  [sut.channels addObject:channelMock];
+  [self.sut.channels addObject:channelMock];
   NSObject *identifyingObject = [NSObject new];
 
   // When
-  [sut pauseWithIdentifyingObject:identifyingObject];
+  [self.sut pauseWithIdentifyingObject:identifyingObject];
 
   // Then
-  OCMVerify([ingestionMock setEnabled:NO andDeleteDataOnDisabled:NO]);
-  dispatch_sync(sut.logsDispatchQueue, ^{
-                });
+  OCMVerify([self.ingestionMock setEnabled:NO andDeleteDataOnDisabled:NO]);
   OCMVerify([channelMock pauseWithIdentifyingObject:identifyingObject]);
 }
 
 - (void)testChannelUnitIsCorrectlyInitialized {
 
   // If
-  MSAppCenterIngestion *ingestionMock = OCMPartialMock([MSAppCenterIngestion new]);
-  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithIngestion:ingestionMock];
   id channelUnitMock = OCMClassMock([MSChannelUnitDefault class]);
   OCMStub([channelUnitMock alloc]).andReturn(channelUnitMock);
   OCMStub([channelUnitMock initWithIngestion:OCMOCK_ANY storage:OCMOCK_ANY configuration:OCMOCK_ANY logsDispatchQueue:OCMOCK_ANY])
       .andReturn(channelUnitMock);
 
   // When
-  [sut addChannelUnitWithConfiguration:self.validConfiguration];
-  dispatch_sync(sut.logsDispatchQueue, ^{
-                });
+  [self.sut addChannelUnitWithConfiguration:self.validConfiguration];
 
   // Then
-  OCMVerify([channelUnitMock addDelegate:(id<MSChannelDelegate>)sut]);
+  OCMVerify([channelUnitMock addDelegate:(id<MSChannelDelegate>)self.sut]);
+  [self waitForLogsDispatchQueue];
   OCMVerify([channelUnitMock flushQueue]);
 
   // Clear
@@ -215,21 +207,19 @@
   // channel group.
 
   // If
-  MSAppCenterIngestion *ingestionMock = OCMPartialMock([MSAppCenterIngestion new]);
-  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithIngestion:ingestionMock];
   id channelUnitMock = OCMClassMock([MSChannelUnitDefault class]);
   OCMStub([channelUnitMock alloc]).andReturn(channelUnitMock);
   OCMStub([channelUnitMock initWithIngestion:OCMOCK_ANY storage:OCMOCK_ANY configuration:OCMOCK_ANY logsDispatchQueue:OCMOCK_ANY])
       .andReturn(channelUnitMock);
   id delegateMock1 = OCMProtocolMock(@protocol(MSChannelDelegate));
-  OCMExpect([delegateMock1 channelGroup:sut didAddChannelUnit:channelUnitMock]);
+  OCMExpect([delegateMock1 channelGroup:self.sut didAddChannelUnit:channelUnitMock]);
   id delegateMock2 = OCMProtocolMock(@protocol(MSChannelDelegate));
-  OCMExpect([delegateMock2 channelGroup:sut didAddChannelUnit:channelUnitMock]);
-  [sut addDelegate:delegateMock1];
-  [sut addDelegate:delegateMock2];
+  OCMExpect([delegateMock2 channelGroup:self.sut didAddChannelUnit:channelUnitMock]);
+  [self.sut addDelegate:delegateMock1];
+  [self.sut addDelegate:delegateMock2];
 
   // When
-  [sut addChannelUnitWithConfiguration:self.validConfiguration];
+  [self.sut addChannelUnitWithConfiguration:self.validConfiguration];
 
   // Then
   OCMVerifyAll(delegateMock1);
@@ -243,18 +233,16 @@
 
   // If
   NSObject *identifyingObject = [NSObject new];
-  MSAppCenterIngestion *ingestionMock = OCMPartialMock([MSAppCenterIngestion new]);
-  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithIngestion:ingestionMock];
   id channelUnitMock = OCMClassMock([MSChannelUnitDefault class]);
   OCMStub([channelUnitMock alloc]).andReturn(channelUnitMock);
   OCMStub([channelUnitMock initWithIngestion:OCMOCK_ANY storage:OCMOCK_ANY configuration:OCMOCK_ANY logsDispatchQueue:OCMOCK_ANY])
       .andReturn(channelUnitMock);
-  [sut addChannelUnitWithConfiguration:self.validConfiguration];
+  [self.sut addChannelUnitWithConfiguration:self.validConfiguration];
   id delegateMock = OCMProtocolMock(@protocol(MSChannelDelegate));
-  [sut addDelegate:delegateMock];
+  [self.sut addDelegate:delegateMock];
 
   // When
-  [sut channel:channelUnitMock didPauseWithIdentifyingObject:identifyingObject];
+  [self.sut channel:channelUnitMock didPauseWithIdentifyingObject:identifyingObject];
 
   // Then
   OCMVerify([delegateMock channel:channelUnitMock didPauseWithIdentifyingObject:identifyingObject]);
@@ -267,18 +255,16 @@
 
   // If
   NSObject *identifyingObject = [NSObject new];
-  MSAppCenterIngestion *ingestionMock = OCMPartialMock([MSAppCenterIngestion new]);
-  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithIngestion:ingestionMock];
   id channelUnitMock = OCMClassMock([MSChannelUnitDefault class]);
   OCMStub([channelUnitMock alloc]).andReturn(channelUnitMock);
   OCMStub([channelUnitMock initWithIngestion:OCMOCK_ANY storage:OCMOCK_ANY configuration:OCMOCK_ANY logsDispatchQueue:OCMOCK_ANY])
       .andReturn(channelUnitMock);
-  [sut addChannelUnitWithConfiguration:self.validConfiguration];
+  [self.sut addChannelUnitWithConfiguration:self.validConfiguration];
   id delegateMock = OCMProtocolMock(@protocol(MSChannelDelegate));
-  [sut addDelegate:delegateMock];
+  [self.sut addDelegate:delegateMock];
 
   // When
-  [sut channel:channelUnitMock didResumeWithIdentifyingObject:identifyingObject];
+  [self.sut channel:channelUnitMock didResumeWithIdentifyingObject:identifyingObject];
 
   // Then
   OCMVerify([delegateMock channel:channelUnitMock didResumeWithIdentifyingObject:identifyingObject]);
@@ -291,18 +277,16 @@
 
   // If
   id<MSLog> mockLog = [MSMockLog new];
-  MSAppCenterIngestion *ingestionMock = OCMPartialMock([MSAppCenterIngestion new]);
-  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithIngestion:ingestionMock];
   id channelUnitMock = OCMClassMock([MSChannelUnitDefault class]);
   OCMStub([channelUnitMock alloc]).andReturn(channelUnitMock);
   OCMStub([channelUnitMock initWithIngestion:OCMOCK_ANY storage:OCMOCK_ANY configuration:OCMOCK_ANY logsDispatchQueue:OCMOCK_ANY])
       .andReturn(channelUnitMock);
-  [sut addChannelUnitWithConfiguration:self.validConfiguration];
+  [self.sut addChannelUnitWithConfiguration:self.validConfiguration];
   id delegateMock = OCMProtocolMock(@protocol(MSChannelDelegate));
-  [sut addDelegate:delegateMock];
+  [self.sut addDelegate:delegateMock];
 
   // When
-  [sut channel:channelUnitMock prepareLog:mockLog];
+  [self.sut channel:channelUnitMock prepareLog:mockLog];
 
   // Then
   OCMVerify([delegateMock channel:channelUnitMock prepareLog:mockLog]);
@@ -316,18 +300,16 @@
   // If
   id<MSLog> mockLog = [MSMockLog new];
   NSString *internalId = @"mockId";
-  MSAppCenterIngestion *ingestionMock = OCMPartialMock([MSAppCenterIngestion new]);
-  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithIngestion:ingestionMock];
   id channelUnitMock = OCMClassMock([MSChannelUnitDefault class]);
   OCMStub([channelUnitMock alloc]).andReturn(channelUnitMock);
   OCMStub([channelUnitMock initWithIngestion:OCMOCK_ANY storage:OCMOCK_ANY configuration:OCMOCK_ANY logsDispatchQueue:OCMOCK_ANY])
       .andReturn(channelUnitMock);
-  [sut addChannelUnitWithConfiguration:self.validConfiguration];
+  [self.sut addChannelUnitWithConfiguration:self.validConfiguration];
   id delegateMock = OCMProtocolMock(@protocol(MSChannelDelegate));
-  [sut addDelegate:delegateMock];
+  [self.sut addDelegate:delegateMock];
 
   // When
-  [sut channel:channelUnitMock didPrepareLog:mockLog internalId:internalId flags:MSFlagsDefault];
+  [self.sut channel:channelUnitMock didPrepareLog:mockLog internalId:internalId flags:MSFlagsDefault];
 
   // Then
   OCMVerify([delegateMock channel:channelUnitMock didPrepareLog:mockLog internalId:internalId flags:MSFlagsDefault]);
@@ -341,18 +323,16 @@
   // If
   id<MSLog> mockLog = [MSMockLog new];
   NSString *internalId = @"mockId";
-  MSAppCenterIngestion *ingestionMock = OCMPartialMock([MSAppCenterIngestion new]);
-  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithIngestion:ingestionMock];
   id channelUnitMock = OCMClassMock([MSChannelUnitDefault class]);
   OCMStub([channelUnitMock alloc]).andReturn(channelUnitMock);
   OCMStub([channelUnitMock initWithIngestion:OCMOCK_ANY storage:OCMOCK_ANY configuration:OCMOCK_ANY logsDispatchQueue:OCMOCK_ANY])
       .andReturn(channelUnitMock);
-  [sut addChannelUnitWithConfiguration:self.validConfiguration];
+  [self.sut addChannelUnitWithConfiguration:self.validConfiguration];
   id delegateMock = OCMProtocolMock(@protocol(MSChannelDelegate));
-  [sut addDelegate:delegateMock];
+  [self.sut addDelegate:delegateMock];
 
   // When
-  [sut channel:channelUnitMock didCompleteEnqueueingLog:mockLog internalId:internalId];
+  [self.sut channel:channelUnitMock didCompleteEnqueueingLog:mockLog internalId:internalId];
 
   // Then
   OCMVerify([delegateMock channel:channelUnitMock didCompleteEnqueueingLog:mockLog internalId:internalId]);
@@ -365,18 +345,16 @@
 
   // If
   id<MSLog> mockLog = [MSMockLog new];
-  MSAppCenterIngestion *ingestionMock = OCMPartialMock([MSAppCenterIngestion new]);
-  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithIngestion:ingestionMock];
   id channelUnitMock = OCMClassMock([MSChannelUnitDefault class]);
   OCMStub([channelUnitMock alloc]).andReturn(channelUnitMock);
   OCMStub([channelUnitMock initWithIngestion:OCMOCK_ANY storage:OCMOCK_ANY configuration:OCMOCK_ANY logsDispatchQueue:OCMOCK_ANY])
       .andReturn(channelUnitMock);
-  [sut addChannelUnitWithConfiguration:self.validConfiguration];
+  [self.sut addChannelUnitWithConfiguration:self.validConfiguration];
   id delegateMock = OCMProtocolMock(@protocol(MSChannelDelegate));
-  [sut addDelegate:delegateMock];
+  [self.sut addDelegate:delegateMock];
 
   // When
-  [sut channel:channelUnitMock willSendLog:mockLog];
+  [self.sut channel:channelUnitMock willSendLog:mockLog];
 
   // Then
   OCMVerify([delegateMock channel:channelUnitMock willSendLog:mockLog]);
@@ -389,18 +367,16 @@
 
   // If
   id<MSLog> mockLog = [MSMockLog new];
-  MSAppCenterIngestion *ingestionMock = OCMPartialMock([MSAppCenterIngestion new]);
-  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithIngestion:ingestionMock];
   id channelUnitMock = OCMClassMock([MSChannelUnitDefault class]);
   OCMStub([channelUnitMock alloc]).andReturn(channelUnitMock);
   OCMStub([channelUnitMock initWithIngestion:OCMOCK_ANY storage:OCMOCK_ANY configuration:OCMOCK_ANY logsDispatchQueue:OCMOCK_ANY])
       .andReturn(channelUnitMock);
-  [sut addChannelUnitWithConfiguration:self.validConfiguration];
+  [self.sut addChannelUnitWithConfiguration:self.validConfiguration];
   id delegateMock = OCMProtocolMock(@protocol(MSChannelDelegate));
-  [sut addDelegate:delegateMock];
+  [self.sut addDelegate:delegateMock];
 
   // When
-  [sut channel:channelUnitMock didSucceedSendingLog:mockLog];
+  [self.sut channel:channelUnitMock didSucceedSendingLog:mockLog];
 
   // Then
   OCMVerify([delegateMock channel:channelUnitMock didSucceedSendingLog:mockLog]);
@@ -412,18 +388,16 @@
 - (void)testDelegateCalledWhenChannelUnitDidSetEnabled {
 
   // If
-  MSAppCenterIngestion *ingestionMock = OCMPartialMock([MSAppCenterIngestion new]);
-  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithIngestion:ingestionMock];
   id channelUnitMock = OCMClassMock([MSChannelUnitDefault class]);
   OCMStub([channelUnitMock alloc]).andReturn(channelUnitMock);
   OCMStub([channelUnitMock initWithIngestion:OCMOCK_ANY storage:OCMOCK_ANY configuration:OCMOCK_ANY logsDispatchQueue:OCMOCK_ANY])
       .andReturn(channelUnitMock);
-  [sut addChannelUnitWithConfiguration:self.validConfiguration];
+  [self.sut addChannelUnitWithConfiguration:self.validConfiguration];
   id delegateMock = OCMProtocolMock(@protocol(MSChannelDelegate));
-  [sut addDelegate:delegateMock];
+  [self.sut addDelegate:delegateMock];
 
   // When
-  [sut channel:channelUnitMock didSetEnabled:YES andDeleteDataOnDisabled:YES];
+  [self.sut channel:channelUnitMock didSetEnabled:YES andDeleteDataOnDisabled:YES];
 
   // Then
   OCMVerify([delegateMock channel:channelUnitMock didSetEnabled:YES andDeleteDataOnDisabled:YES]);
@@ -437,18 +411,16 @@
   // If
   id<MSLog> mockLog = [MSMockLog new];
   NSError *error = [NSError new];
-  MSAppCenterIngestion *ingestionMock = OCMPartialMock([MSAppCenterIngestion new]);
-  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithIngestion:ingestionMock];
   id channelUnitMock = OCMClassMock([MSChannelUnitDefault class]);
   OCMStub([channelUnitMock alloc]).andReturn(channelUnitMock);
   OCMStub([channelUnitMock initWithIngestion:OCMOCK_ANY storage:OCMOCK_ANY configuration:OCMOCK_ANY logsDispatchQueue:OCMOCK_ANY])
       .andReturn(channelUnitMock);
-  [sut addChannelUnitWithConfiguration:self.validConfiguration];
+  [self.sut addChannelUnitWithConfiguration:self.validConfiguration];
   id delegateMock = OCMProtocolMock(@protocol(MSChannelDelegate));
-  [sut addDelegate:delegateMock];
+  [self.sut addDelegate:delegateMock];
 
   // When
-  [sut channel:channelUnitMock didFailSendingLog:mockLog withError:error];
+  [self.sut channel:channelUnitMock didFailSendingLog:mockLog withError:error];
 
   // Then
   OCMVerify([delegateMock channel:channelUnitMock didFailSendingLog:mockLog withError:error]);
@@ -461,24 +433,32 @@
 
   // If
   id<MSLog> mockLog = [MSMockLog new];
-  MSAppCenterIngestion *ingestionMock = OCMPartialMock([MSAppCenterIngestion new]);
-  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithIngestion:ingestionMock];
   id channelUnitMock = OCMClassMock([MSChannelUnitDefault class]);
   OCMStub([channelUnitMock alloc]).andReturn(channelUnitMock);
   OCMStub([channelUnitMock initWithIngestion:OCMOCK_ANY storage:OCMOCK_ANY configuration:OCMOCK_ANY logsDispatchQueue:OCMOCK_ANY])
       .andReturn(channelUnitMock);
-  [sut addChannelUnitWithConfiguration:self.validConfiguration];
+  [self.sut addChannelUnitWithConfiguration:self.validConfiguration];
   id delegateMock = OCMProtocolMock(@protocol(MSChannelDelegate));
-  [sut addDelegate:delegateMock];
+  [self.sut addDelegate:delegateMock];
 
   // When
-  [sut channelUnit:channelUnitMock shouldFilterLog:mockLog];
+  [self.sut channelUnit:channelUnitMock shouldFilterLog:mockLog];
 
   // Then
   OCMVerify([delegateMock channelUnit:channelUnitMock shouldFilterLog:mockLog]);
 
   // Clear
   [channelUnitMock stopMocking];
+}
+
+#pragma mark - Helper
+
+- (void)waitForLogsDispatchQueue {
+  XCTestExpectation *expectation = [self expectationWithDescription:@"Logs dispatch queue"];
+  dispatch_async(self.sut.logsDispatchQueue, ^{
+    [expectation fulfill];
+  });
+  [self waitForExpectations:@[ expectation ] timeout:1];
 }
 
 @end

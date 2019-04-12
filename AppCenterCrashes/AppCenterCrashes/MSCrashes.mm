@@ -195,10 +195,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 }
 
 + (void)setUserConfirmationHandler:(_Nullable MSUserConfirmationHandler)userConfirmationHandler {
-
-  // FIXME: Type cast is required at the moment. Need to fix the root cause.
-  MSCrashes *crashes = static_cast<MSCrashes *>([self sharedInstance]);
-  crashes.userConfirmationHandler = userConfirmationHandler;
+  [[MSCrashes sharedInstance] setUserConfirmationHandler:userConfirmationHandler];
 }
 
 + (void)notifyWithUserConfirmation:(MSUserConfirmation)userConfirmation {
