@@ -19,7 +19,7 @@
 - (instancetype)init {
   self = [super init];
   if (self) {
-    _deviceTimeToLive = MSDataStoreTimeToLiveDefault;
+    _deviceTimeToLive = kMSDataStoreTimeToLiveDefault;
   }
   return self;
 }

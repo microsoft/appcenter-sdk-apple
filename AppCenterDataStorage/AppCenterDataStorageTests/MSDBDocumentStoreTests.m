@@ -134,7 +134,7 @@
                    partition:self.appToken.partition
                   documentId:documentId
             pendingOperation:@""
-              expirationTime:MSDataStoreTimeToLiveInfinite];
+              expirationTime:kMSDataStoreTimeToLiveInfinite];
 
   // When
   MSDocumentWrapper *documentWrapper = [self.sut readWithToken:self.appToken
@@ -213,7 +213,7 @@
                   documentId:documentId
             pendingOperation:pendingOperation
               expirationTime:(long)[[NSDate dateWithTimeIntervalSinceNow:1000000] timeIntervalSince1970]];
-  MSReadOptions *readOptions = [[MSReadOptions alloc] initWithDeviceTimeToLive:MSDataStoreTimeToLiveNoCache];
+  MSReadOptions *readOptions = [[MSReadOptions alloc] initWithDeviceTimeToLive:kMSDataStoreTimeToLiveNoCache];
 
   // When
 
@@ -237,7 +237,7 @@
                   documentId:documentId
             pendingOperation:pendingOperation
               expirationTime:(long)[[NSDate dateWithTimeIntervalSinceNow:1000000] timeIntervalSince1970]];
-  MSReadOptions *readOptions = [[MSReadOptions alloc] initWithDeviceTimeToLive:MSDataStoreTimeToLiveInfinite];
+  MSReadOptions *readOptions = [[MSReadOptions alloc] initWithDeviceTimeToLive:kMSDataStoreTimeToLiveInfinite];
 
   // When
 
@@ -246,7 +246,7 @@
 
   // Then
   long expirationTime = [self expirationTimeWithToken:self.appToken documentId:documentId];
-  XCTAssertEqual(expirationTime, MSDataStoreTimeToLiveInfinite);
+  XCTAssertEqual(expirationTime, kMSDataStoreTimeToLiveInfinite);
 }
 
 - (void)testReadFromLocalDatabaseCorrectlyUpdatesTTL {
@@ -285,7 +285,7 @@
   // If
   MSDocumentWrapper *expectedDocumentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestDocument"]
                                                                            documentType:[MSDictionaryDocument class]];
-  MSWriteOptions *writeOptions = [[MSWriteOptions alloc] initWithDeviceTimeToLive:MSDataStoreTimeToLiveInfinite];
+  MSWriteOptions *writeOptions = [[MSWriteOptions alloc] initWithDeviceTimeToLive:kMSDataStoreTimeToLiveInfinite];
 
   // When
   // Upsert twice to ensure that replacement is correct.
@@ -414,7 +414,7 @@
   // If
   MSDocumentWrapper *documentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestDocument"]
                                                                    documentType:[MSDictionaryDocument class]];
-  MSReadOptions *readOptions = [[MSReadOptions alloc] initWithDeviceTimeToLive:MSDataStoreTimeToLiveInfinite];
+  MSReadOptions *readOptions = [[MSReadOptions alloc] initWithDeviceTimeToLive:kMSDataStoreTimeToLiveInfinite];
 
   // When
   BOOL result = [self.sut upsertWithToken:self.appToken documentWrapper:documentWrapper operation:@"CREATE" options:readOptions];
@@ -432,7 +432,7 @@
   XCTAssertEqualObjects(expectedDocumentWrapper.partition, documentWrapper.partition);
   XCTAssertEqualObjects(expectedDocumentWrapper.eTag, documentWrapper.eTag);
   long expirationTime = [self expirationTimeWithToken:self.appToken documentId:expectedDocumentWrapper.documentId];
-  XCTAssertEqual(expirationTime, MSDataStoreTimeToLiveInfinite);
+  XCTAssertEqual(expirationTime, kMSDataStoreTimeToLiveInfinite);
 }
 
 - (void)testDeleteAppDocumentForNonExistentDocument {

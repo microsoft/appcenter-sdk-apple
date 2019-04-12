@@ -37,17 +37,17 @@ static NSString *const kMSDataStoreAppDocumentsPartition = @"readonly";
 /**
  * No expiration on cache.
  */
-static int const MSDataStoreTimeToLiveInfinite = -1;
+static int const kMSDataStoreTimeToLiveInfinite = -1;
 
 /**
  * Do not cache.
  */
-static int const MSDataStoreTimeToLiveNoCache = 0;
+static int const kMSDataStoreTimeToLiveNoCache = 0;
 
 /**
  * Default expiration on cache.
  */
-static int const MSDataStoreTimeToLiveDefault = 60 * 60 * 24;
+static int const kMSDataStoreTimeToLiveDefault = 60 * 60 * 24;
 
 @interface MSDataStore<T : id <MSSerializableDocument>> : MSServiceAbstract
 
