@@ -200,6 +200,86 @@
   XCTAssertEqualObjects(documentWrapper.documentId, documentId);
 }
 
+- (void)testReadFromLocalDatabaseDeletesDocumentIfNewTTLIsZero {
+
+  // If
+  NSString *documentId = @"12829";
+  NSString *eTag = @"398";
+  NSString *jsonString = @"{ \"document\": {\"key\": \"value\"}}";
+  NSString *pendingOperation = kMSPendingOperationReplace;
+  [self addJsonStringToTable:jsonString
+                        eTag:eTag
+                   partition:self.appToken.partition
+                  documentId:documentId
+            pendingOperation:pendingOperation
+              expirationTime:(long)[[NSDate dateWithTimeIntervalSinceNow:1000000] timeIntervalSince1970]];
+  MSReadOptions *readOptions = [[MSReadOptions alloc] initWithDeviceTimeToLive:MSDataStoreTimeToLiveNoCache];
+
+  // When
+
+  // Read once and update the TTL to expire immediately, then read again to ensure the document is expired.
+  [self.sut readWithToken:self.appToken documentId:documentId documentType:[MSMockDocument class] readOptions:readOptions];
+
+  // Then
+  OCMVerify([self.sut deleteWithToken:self.appToken documentId:documentId]);
+}
+
+- (void)testReadFromLocalDatabaseCorrectlyUpdatesTTLToInfinity {
+
+  // If
+  NSString *documentId = @"12829";
+  NSString *eTag = @"398";
+  NSString *jsonString = @"{ \"document\": {\"key\": \"value\"}}";
+  NSString *pendingOperation = kMSPendingOperationReplace;
+  [self addJsonStringToTable:jsonString
+                        eTag:eTag
+                   partition:self.appToken.partition
+                  documentId:documentId
+            pendingOperation:pendingOperation
+              expirationTime:(long)[[NSDate dateWithTimeIntervalSinceNow:1000000] timeIntervalSince1970]];
+  MSReadOptions *readOptions = [[MSReadOptions alloc] initWithDeviceTimeToLive:MSDataStoreTimeToLiveInfinite];
+
+  // When
+
+  // Read once and update the TTL to expire immediately, then read again to ensure the document is expired.
+  [self.sut readWithToken:self.appToken documentId:documentId documentType:[MSMockDocument class] readOptions:readOptions];
+
+  // Then
+  long expirationTime = [self expirationTimeWithToken:self.appToken documentId:documentId];
+  XCTAssertEqual(expirationTime, MSDataStoreTimeToLiveInfinite);
+}
+
+- (void)testReadFromLocalDatabaseCorrectlyUpdatesTTL {
+
+  // If
+  NSString *documentId = @"12829";
+  NSString *eTag = @"398";
+  NSString *jsonString = @"{ \"document\": {\"key\": \"value\"}}";
+  NSString *pendingOperation = kMSPendingOperationReplace;
+  [self addJsonStringToTable:jsonString
+                        eTag:eTag
+                   partition:self.appToken.partition
+                  documentId:documentId
+            pendingOperation:pendingOperation
+              expirationTime:(long)[[NSDate dateWithTimeIntervalSinceNow:1000000] timeIntervalSince1970]];
+  long timeToLive = 158493;
+  MSReadOptions *readOptions = [[MSReadOptions alloc] initWithDeviceTimeToLive:timeToLive];
+
+  // Mock NSDate to "freeze" time.
+  NSTimeInterval timeSinceReferenceDate = NSDate.timeIntervalSinceReferenceDate;
+  id nsdateMock = OCMClassMock([NSDate class]);
+  OCMStub(ClassMethod([nsdateMock timeIntervalSinceReferenceDate])).andReturn(timeSinceReferenceDate);
+
+  // When
+
+  // Read once and update the TTL to expire immediately, then read again to ensure the document is expired.
+  [self.sut readWithToken:self.appToken documentId:documentId documentType:[MSMockDocument class] readOptions:readOptions];
+
+  // Then
+  long expirationTime = [self expirationTimeWithToken:self.appToken documentId:documentId];
+  XCTAssertEqual(expirationTime, (long)(timeToLive + NSTimeIntervalSince1970 + timeSinceReferenceDate));
+}
+
 - (void)testUpsertReplacesCorrectlyInAppStorage {
 
   // If
@@ -303,10 +383,15 @@
   int ttl = 1;
   MSDocumentWrapper *expectedDocumentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestDocument"]
                                                                            documentType:[MSDictionaryDocument class]];
-  MSReadOptions *readOptions = [[MSReadOptions alloc] initWithDeviceTimeToLive:ttl];
+  MSWriteOptions *writeOptions = [[MSWriteOptions alloc] initWithDeviceTimeToLive:ttl];
+
+  // Mock NSDate to "freeze" time.
+  NSTimeInterval timeSinceReferenceDate = NSDate.timeIntervalSinceReferenceDate;
+  id nsdateMock = OCMClassMock([NSDate class]);
+  OCMStub(ClassMethod([nsdateMock timeIntervalSinceReferenceDate])).andReturn(timeSinceReferenceDate);
 
   // When
-  BOOL result = [self.sut upsertWithToken:self.appToken documentWrapper:expectedDocumentWrapper operation:@"CREATE" options:readOptions];
+  BOOL result = [self.sut upsertWithToken:self.appToken documentWrapper:expectedDocumentWrapper operation:@"CREATE" options:writeOptions];
   MSDocumentWrapper *documentWrapper = [self.sut readWithToken:self.appToken
                                                     documentId:expectedDocumentWrapper.documentId
                                                   documentType:[MSDictionaryDocument class]
@@ -320,6 +405,8 @@
   XCTAssertEqualObjects(documentWrapper.documentId, expectedDocumentWrapper.documentId);
   XCTAssertEqualObjects(documentWrapper.partition, expectedDocumentWrapper.partition);
   XCTAssertEqualObjects(documentWrapper.eTag, expectedDocumentWrapper.eTag);
+  long expirationTime = [self expirationTimeWithToken:self.appToken documentId:expectedDocumentWrapper.documentId];
+  XCTAssertEqual(expirationTime, (long)(ttl + NSTimeIntervalSince1970 + timeSinceReferenceDate));
 }
 
 - (void)testUpsertAppDocumentWithNoTTL {
@@ -344,6 +431,8 @@
   XCTAssertEqualObjects(expectedDocumentWrapper.documentId, documentWrapper.documentId);
   XCTAssertEqualObjects(expectedDocumentWrapper.partition, documentWrapper.partition);
   XCTAssertEqualObjects(expectedDocumentWrapper.eTag, documentWrapper.eTag);
+  long expirationTime = [self expirationTimeWithToken:self.appToken documentId:expectedDocumentWrapper.documentId];
+  XCTAssertEqual(expirationTime, MSDataStoreTimeToLiveInfinite);
 }
 
 - (void)testDeleteAppDocumentForNonExistentDocument {

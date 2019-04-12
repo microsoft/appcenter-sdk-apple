@@ -13,7 +13,8 @@
 #import "MSDataStoreErrors.h"
 #import "MSDataStoreInternal.h"
 #import "MSDocumentUtils.h"
-#import "MSDocumentWrapper.h"
+#import "MSDocumentWrapperInternal.h"
+#import "MSReadOptions.h"
 #import "MSTokenResult.h"
 #import "MSUtility+Date.h"
 #import "MSUtility+StringFormatting.h"
@@ -72,9 +73,11 @@ static const NSUInteger kMSSchemaVersion = 1;
         documentWrapper:(MSDocumentWrapper *)documentWrapper
               operation:(NSString *_Nullable)operation
                 options:(MSBaseOptions *)options {
-  // Compute expiration time as now + device time to live (in seconds).
-  // If device time to live is set to infinite, set expiration time as null in the database.
-  // Note: If the cache/store is meant to be disabled, this method should not even be called.
+  /*
+   * Compute expiration time as now + device time to live (in seconds).
+   * If device time to live is set to infinite, set expiration time as null in the database.
+   * Note: If the cache/store is meant to be disabled, this method should not even be called.
+   */
   NSTimeInterval now = NSDate.timeIntervalSinceReferenceDate + NSTimeIntervalSince1970;
   NSTimeInterval expirationTime = -1;
   if (options.deviceTimeToLive != MSDataStoreTimeToLiveInfinite) {
@@ -114,7 +117,7 @@ static const NSUInteger kMSSchemaVersion = 1;
 - (MSDocumentWrapper *)readWithToken:(MSTokenResult *)token
                           documentId:(NSString *)documentId
                         documentType:(Class)documentType
-                         readOptions:(__unused MSReadOptions *)readOptions {
+                         readOptions:(MSReadOptions *)readOptions {
   NSString *tableName = [MSDBDocumentStore tableNameForPartition:token.partition];
   NSString *selectionQuery = [NSString stringWithFormat:@"SELECT * FROM \"%@\" WHERE \"%@\" = \"%@\" AND \"%@\" = \"%@\"", tableName,
                                                         kMSPartitionColumnName, token.partition, kMSDocumentIdColumnName, documentId];
@@ -154,13 +157,27 @@ static const NSUInteger kMSSchemaVersion = 1;
   NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
   long lastUpdatedDate = [(NSNumber *)result[0][self.operationTimeColumnIndex] longValue];
   NSString *pendingOperation = result[0][self.pendingOperationColumnIndex];
-  return [MSDocumentUtils documentWrapperFromDocumentData:jsonData
-                                             documentType:documentType
-                                                     eTag:result[0][self.eTagColumnIndex]
-                                          lastUpdatedDate:[NSDate dateWithTimeIntervalSince1970:lastUpdatedDate]
-                                                partition:token.partition
-                                               documentId:documentId
-                                         pendingOperation:pendingOperation];
+  MSDocumentWrapper *documentWrapper =
+      [MSDocumentUtils documentWrapperFromDocumentData:jsonData
+                                          documentType:documentType
+                                                  eTag:result[0][self.eTagColumnIndex]
+                                       lastUpdatedDate:[NSDate dateWithTimeIntervalSince1970:lastUpdatedDate]
+                                             partition:token.partition
+                                            documentId:documentId
+                                      pendingOperation:pendingOperation];
+  if (readOptions) {
+    if (readOptions.deviceTimeToLive == MSDataStoreTimeToLiveNoCache) {
+
+      // If no cache, delete whatever is already in the cache.
+      [self deleteWithToken:token documentId:documentId];
+    } else {
+
+      // Update the cached time to live.
+      MSWriteOptions *writeOptions = [[MSWriteOptions alloc] initWithDeviceTimeToLive:readOptions.deviceTimeToLive];
+      [self upsertWithToken:token documentWrapper:documentWrapper operation:pendingOperation options:writeOptions];
+    }
+  }
+  return documentWrapper;
 }
 
 - (void)deleteAllTables {
