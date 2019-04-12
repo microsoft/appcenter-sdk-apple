@@ -79,23 +79,21 @@ static dispatch_once_t onceToken;
 - (void)setUserId:(nullable NSString *)userId {
   NSArray *synchronizedDelegates;
   @synchronized(self) {
-
+    BOOL sameUserId = (!userId && !self.currentUserIdInfo.userId) || ([self.currentUserIdInfo.userId isEqualToString:(NSString *)userId]);
+    self.currentUserIdInfo.timestamp = [NSDate date];
+    if (sameUserId) {
+      return;
+    }
+    self.currentUserIdInfo.userId = userId;
     /*
      * Replacing the last userId from history because the userId has changed within a same lifecycle without crashes.
      * The userId history is only used to correlate a crashes log with a userId, previous userId won't be used at all since there is no
      * crashes on apps between previous userId and current userId.
      */
     [self.userIdHistory removeLastObject];
-    BOOL sameUserId = (!userId && !self.currentUserIdInfo.userId) || ([self.currentUserIdInfo.userId isEqualToString:(NSString *)userId]);
-    self.currentUserIdInfo.userId = userId;
-    self.currentUserIdInfo.timestamp = [NSDate date];
     [self.userIdHistory addObject:self.currentUserIdInfo];
     [MS_USER_DEFAULTS setObject:[NSKeyedArchiver archivedDataWithRootObject:self.userIdHistory] forKey:kMSUserIdHistoryKey];
-    MSLogVerbose([MSAppCenter logTag], @"Stored new userId:%@ and timestamp: %@.", self.currentUserIdInfo.userId,
-                 self.currentUserIdInfo.timestamp);
-    if (sameUserId) {
-      return;
-    }
+    MSLogVerbose([MSAppCenter logTag], @"Stored new userId:%@ and timestamp: %@.", self.currentUserIdInfo.userId, self.currentUserIdInfo.timestamp);
     synchronizedDelegates = [self.delegates allObjects];
   }
   for (id<MSUserIdContextDelegate> delegate in synchronizedDelegates) {
