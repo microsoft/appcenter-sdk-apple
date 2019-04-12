@@ -16,18 +16,10 @@ NS_ASSUME_NONNULL_BEGIN
  * Create an instance of document store.
  *
  * @param dbStorage Database storage clinet.
- * @param schema Database schema.
  *
  * @return An intance of document store.
  */
-- (instancetype)initWithDbStorage:(MSDBStorage *)dbStorage schema:(MSDBSchema *)schema;
-
-/**
- * Get document table schema.
- *
- * @return Document table schema.
- */
-+ (MSDBSchema *)documentTableSchema;
+- (instancetype)initWithDbStorage:(MSDBStorage *)dbStorage;
 
 /**
  * Get column schema.
