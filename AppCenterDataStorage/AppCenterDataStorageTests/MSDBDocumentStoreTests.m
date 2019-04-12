@@ -216,7 +216,6 @@
   MSReadOptions *readOptions = [[MSReadOptions alloc] initWithDeviceTimeToLive:MSDataStoreTimeToLiveNoCache];
 
   // When
-
   // Read once and update the TTL to expire immediately, then read again to ensure the document is expired.
   [self.sut readWithToken:self.appToken documentId:documentId documentType:[MSMockDocument class] readOptions:readOptions];
 
@@ -240,7 +239,6 @@
   MSReadOptions *readOptions = [[MSReadOptions alloc] initWithDeviceTimeToLive:MSDataStoreTimeToLiveInfinite];
 
   // When
-
   // Read once and update the TTL to expire immediately, then read again to ensure the document is expired.
   [self.sut readWithToken:self.appToken documentId:documentId documentType:[MSMockDocument class] readOptions:readOptions];
 
@@ -271,7 +269,6 @@
   OCMStub(ClassMethod([nsdateMock timeIntervalSinceReferenceDate])).andReturn(timeSinceReferenceDate);
 
   // When
-
   // Read once and update the TTL to expire immediately, then read again to ensure the document is expired.
   [self.sut readWithToken:self.appToken documentId:documentId documentType:[MSMockDocument class] readOptions:readOptions];
 
