@@ -656,40 +656,42 @@ static dispatch_once_t onceToken;
 }
 
 - (void)onNetworkGoesOffline {
+
 }
 
 - (void)onNetworkGoesOnline {
   @synchronized(self) {
+    
     [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:(id<MSHttpClientProtocol>)self.httpClient
                                                tokenExchangeUrl:self.tokenExchangeUrl
                                                       appSecret:self.appSecret
                                                       partition:MSDataStoreUserDocumentsPartition
-          completionHandler:^(MSTokensResponse *_Nonnull tokenResponses, NSError *_Nonnull error) {
-              if (error || [tokenResponses.tokens count] == 0) {
-                  NSInteger httpStatusCode = [MSDataSourceError errorCodeFromError:error];
-                  MSLogError([MSDataStore logTag],
-                             @"Can't get CosmosDb token. Error: %@;  HTTP status code: %ld; Partition: %@",
-                             error.localizedDescription, (long)httpStatusCode, MSDataStoreUserDocumentsPartition);
-                  completionHandler(nil, nil, error); // completionHandler not a type, maybe MSDocumentWrapperCompletionHandler ?
-                  // TODO: Need to schedule retry for sometime later otherwise
-                  //       offline cache will never be synced
-                  return;
-              }
-              
-            NSArray<MSPendingOperation *> *pendingOperations = [self.documentStore pendingOperationsWithToken:tokenResponses.tokens[0]];
-              for (MSPendingOperation *operation in pendingOperations) {
-                if([operation.operation isEqualToString:kMSPendingOperationCreate] ||
-                     [operation.operation isEqualToString:kMSPendingOperationReplace]) {
-                      // TODO: Do insert or update
-                  } else if([operation.operation isEqualToString:kMSPendingOperationDelete]) {
-                      // TODO: Do delete
-                  } else {
-                      MSLogError([MSDataStore logTag],
-                                 @"Pending operation '%@' is not supported",
-                                 operation.operation);
-                  }
-              }
-          }];
+                                            includeExpiredToken:NO
+                                              completionHandler:^(MSTokensResponse *_Nonnull tokenResponses, NSError *_Nonnull error) {
+        if (error) {
+          MSLogError([MSDataStore logTag],
+                     @"Cannot read from local storage because there is no "
+                     @"account ID cached and failed to retrieve token.");
+          return;
+        }
+        
+        // Run the operation in a dispatch queue.
+        dispatch_async(self.dispatchQueue, ^{
+          NSArray<MSPendingOperation *> *pendingOperations = [self.documentStore pendingOperationsWithToken:tokenResponses.tokens[0]];
+          for (MSPendingOperation *operation in pendingOperations) {
+            if([operation.operation isEqualToString:kMSPendingOperationCreate] ||
+               [operation.operation isEqualToString:kMSPendingOperationReplace]) {
+              // TODO: Do insert or update
+            } else if([operation.operation isEqualToString:kMSPendingOperationDelete]) {
+              // TODO: Do delete
+            } else {
+              MSLogError([MSDataStore logTag],
+                         @"Pending operation '%@' is not supported",
+                         operation.operation);
+            }
+          }
+        });
+      }];
   }
 }
 

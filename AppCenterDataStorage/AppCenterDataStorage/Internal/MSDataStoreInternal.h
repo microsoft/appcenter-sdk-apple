@@ -28,11 +28,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic) id<MSDocumentStore> documentStore;
 
 /**
- * An instance of reachability object to track network status changes.
- */
-@property(nonatomic, strong) MS_Reachability *reachability;
-
-/**
  * An ingestion instance that is used to send a request to CosmosDb.
  * HTTP client.
  */
