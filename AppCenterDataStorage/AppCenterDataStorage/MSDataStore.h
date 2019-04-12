@@ -17,10 +17,15 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
+ * Error domain for Storage.
+ */
+static NSString *const kMSDataStorageErrorDomain = @"MSDataStorageErrorDomain";
+
+/**
  * User partition.
  * An authenticated user can read/write documents in this partition.
  */
-static NSString *const MSDataStoreUserDocumentsPartition = @"user-{userid}";
+static NSString *const MSDataStoreUserDocumentsPartition = @"user";
 
 /**
  * Application partition.
@@ -40,7 +45,6 @@ static int const MSDataStoreTimeToLiveDefault = 60 * 60;
 
 typedef void (^MSDocumentWrapperCompletionHandler)(MSDocumentWrapper<T> *document);
 typedef void (^MSPaginatedDocumentsCompletionHandler)(MSPaginatedDocuments<T> *documents);
-typedef void (^MSDataSourceErrorCompletionHandler)(MSDataSourceError *error);
 
 /**
  * Change The URL that will be used for getting token.
@@ -75,7 +79,7 @@ typedef void (^MSDataSourceErrorCompletionHandler)(MSDataSourceError *error);
 + (void)readWithPartition:(NSString *)partition
                documentId:(NSString *)documentId
              documentType:(Class)documentType
-              readOptions:(MSReadOptions *)readOptions
+              readOptions:(MSReadOptions *_Nullable)readOptions
         completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler;
 
 /**
@@ -99,7 +103,7 @@ typedef void (^MSDataSourceErrorCompletionHandler)(MSDataSourceError *error);
  */
 + (void)listWithPartition:(NSString *)partition
              documentType:(Class)documentType
-              readOptions:(MSReadOptions *)readOptions
+              readOptions:(MSReadOptions *_Nullable)readOptions
         completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler;
 
 /**
@@ -127,7 +131,7 @@ typedef void (^MSDataSourceErrorCompletionHandler)(MSDataSourceError *error);
 + (void)createWithPartition:(NSString *)partition
                  documentId:(NSString *)documentId
                    document:(T)document
-               writeOptions:(MSWriteOptions *)writeOptions
+               writeOptions:(MSWriteOptions *_Nullable)writeOptions
           completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler;
 
 /**
@@ -155,7 +159,7 @@ typedef void (^MSDataSourceErrorCompletionHandler)(MSDataSourceError *error);
 + (void)replaceWithPartition:(NSString *)partition
                   documentId:(NSString *)documentId
                     document:(T)document
-                writeOptions:(MSWriteOptions *)writeOptions
+                writeOptions:(MSWriteOptions *_Nullable)writeOptions
            completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler;
 
 /**
@@ -167,7 +171,7 @@ typedef void (^MSDataSourceErrorCompletionHandler)(MSDataSourceError *error);
  */
 + (void)deleteDocumentWithPartition:(NSString *)partition
                          documentId:(NSString *)documentId
-                  completionHandler:(MSDataSourceErrorCompletionHandler)completionHandler;
+                  completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler;
 
 /**
  * Delete a document from CosmosDB.
@@ -179,8 +183,9 @@ typedef void (^MSDataSourceErrorCompletionHandler)(MSDataSourceError *error);
  */
 + (void)deleteDocumentWithPartition:(NSString *)partition
                          documentId:(NSString *)documentId
-                       writeOptions:(MSWriteOptions *)writeOptions
-                  completionHandler:(MSDataSourceErrorCompletionHandler)completionHandler;
+                       writeOptions:(MSWriteOptions *_Nullable)writeOptions
+                  completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler;
 
 @end
+
 NS_ASSUME_NONNULL_END

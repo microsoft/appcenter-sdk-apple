@@ -1,10 +1,12 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+#import "MSIdentityErrors.h"
 #import "MSServiceAbstract.h"
-#import "MSUserInformation.h"
 
 NS_ASSUME_NONNULL_BEGIN
+
+@class MSUserInformation;
 
 /**
  * Completion handler triggered when sign-in completed.
@@ -15,30 +17,11 @@ NS_ASSUME_NONNULL_BEGIN
 typedef void (^MSSignInCompletionHandler)(MSUserInformation *_Nullable userInformation, NSError *_Nullable error);
 
 /**
- * Error code for Identity.
- */
-typedef NS_ENUM(NSInteger, MSIdentityErrorCode) {
-  MSIdentityErrorServiceDisabled = -420000,
-  MSIdentityErrorPreviousSignInRequestInProgress = -420001,
-  MSIdentityErrorSignInBackgroundOrNotConfigured = -420002,
-  MSIdentityErrorSignInWhenNoConnection = -420003
-};
-
-/**
- * Error domain for Identity.
- */
-static NSString *const MSIdentityErrorDomain = @"MSIdentityErrorDomain";
-
-/**
- * Error description key for Identity.
- */
-static NSString *const MSIdentityErrorDescriptionKey = @"MSIdentityErrorDescriptionKey";
-
-/**
  * App Center Identity service.
  */
 @interface MSIdentity : MSServiceAbstract
 
+#if TARGET_OS_IOS
 /**
  * Process URL request for the service.
  *
@@ -49,6 +32,7 @@ static NSString *const MSIdentityErrorDescriptionKey = @"MSIdentityErrorDescript
  * @discussion Place this method call into your app delegate's openURL method.
  */
 + (BOOL)openURL:(NSURL *)url;
+#endif
 
 /**
  * Sign-in to get user information.

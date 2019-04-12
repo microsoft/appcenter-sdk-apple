@@ -3,14 +3,13 @@
 
 #import <Foundation/Foundation.h>
 
+#import "MSSerializableDocument.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MSUserInformation : NSObject
+@interface MSMockDocument : NSObject <MSSerializableDocument>
 
-/**
- * The account identifier for the user.
- */
-@property(nonatomic, copy) NSString *accountId;
+@property NSDictionary *contentDictionary;
 
 @end
 

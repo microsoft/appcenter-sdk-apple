@@ -20,6 +20,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 @interface MSAppCenterIngestionTests : XCTestCase
 
 @property(nonatomic) MSAppCenterIngestion *sut;
+@property(nonatomic) id deviceMock;
 @property(nonatomic) id reachabilityMock;
 @property(nonatomic) NetworkStatus currentNetworkStatus;
 
@@ -36,8 +37,10 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [super setUp];
 
   NSDictionary *headers = @{@"Content-Type" : @"application/json", @"App-Secret" : kMSTestAppSecret, @"Install-ID" : MS_UUID_STRING};
-
   NSDictionary *queryStrings = @{@"api-version" : @"1.0.0"};
+
+  self.deviceMock = OCMPartialMock([MSDevice new]);
+  OCMStub([self.deviceMock isValid]).andReturn(YES);
 
   // Mock reachability.
   self.reachabilityMock = OCMClassMock([MS_Reachability class]);
@@ -59,7 +62,8 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
 - (void)tearDown {
   [super tearDown];
-
+  [self.deviceMock stopMocking];
+  [self.reachabilityMock stopMocking];
   [MSHttpTestUtil removeAllStubs];
 
   /*
@@ -113,7 +117,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
         XCTAssertEqual(containerId, batchId);
         XCTAssertEqual((MSHTTPCodesNo)response.statusCode, MSHTTPCodesNo404NotFound);
         XCTAssertEqual(error.domain, kMSACErrorDomain);
-        XCTAssertEqual(error.code, kMSACConnectionHttpErrorCode);
+        XCTAssertEqual(error.code, MSACConnectionHttpErrorCode);
         XCTAssertEqual(error.localizedDescription, kMSACConnectionHttpErrorDesc);
         XCTAssertTrue([error.userInfo[(NSString *)kMSACConnectionHttpCodeErrorKey] isEqual:@(MSHTTPCodesNo404NotFound)]);
 
@@ -179,6 +183,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
                                }];
+  [(id)mockedCall stopMocking];
 }
 
 // TODO: Move this to base MSHttpIngestion test.
@@ -186,7 +191,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
   // If
   XCTestExpectation *requestCompletedExcpectation = [self expectationWithDescription:@"Request completed."];
-  __block NSUInteger forwardedStatus;
+  __block NSInteger forwardedStatus;
   __block NSError *forwardedError;
   [MSHttpTestUtil stubHttp200Response];
   MSLogContainer *container = [self createLogContainerWithId:@"1"];
@@ -222,7 +227,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
                                  assertThatUnsignedLong(self.sut.pendingCalls.count, equalToInt(0));
 
                                  // Status codes and error must be the same.
-                                 assertThatLong(MSHTTPCodesNo200OK, equalToUnsignedInteger(forwardedStatus));
+                                 assertThatLong(MSHTTPCodesNo200OK, equalToInteger(forwardedStatus));
                                  assertThat(forwardedError, nilValue());
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
@@ -275,7 +280,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
   // Send the call.
   [self.sut sendCallAsync:mockedCall];
-  [self waitForExpectationsWithTimeout:20
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *error) {
                                  XCTAssertTrue(self.sut.paused);
                                  XCTAssertTrue([self.sut.pendingCalls count] == 0);
@@ -283,6 +288,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
                                }];
+  [(id)mockedCall stopMocking];
 }
 
 // TODO: Move this to base MSHttpIngestion test.
@@ -343,6 +349,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
                                }];
+  [(id)mockedCall stopMocking];
 }
 
 - (void)testInvalidContainer {
@@ -358,7 +365,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
               authToken:nil
       completionHandler:^(__unused NSString *batchId, __unused NSHTTPURLResponse *response, __unused NSData *data, NSError *error) {
         XCTAssertEqual(error.domain, kMSACErrorDomain);
-        XCTAssertEqual(error.code, kMSACLogInvalidContainerErrorCode);
+        XCTAssertEqual(error.code, MSACLogInvalidContainerErrorCode);
       }];
 
   XCTAssertEqual([self.sut.pendingCalls count], (unsigned long)0);
@@ -549,10 +556,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 - (void)testCompressHTTPBodyWhenNeeded {
 
   // If
-
   // HTTP body is too small, we don't compress.
-  id deviceMock = OCMPartialMock([MSDevice new]);
-  OCMStub([deviceMock isValid]).andReturn(YES);
   MSMockLog *log1 = [[MSMockLog alloc] init];
   log1.sid = @"";
   log1.timestamp = [NSDate date];
@@ -567,7 +571,6 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   XCTAssertEqualObjects(request.HTTPBody, httpBody);
 
   // If
-
   // HTTP body is big enough to be compressed.
   log1.sid = [log1.sid stringByPaddingToLength:kMSHTTPMinGZipLength withString:@"." startingAtIndex:0];
   logContainer.logs = @[ log1 ];
@@ -641,19 +644,15 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 }
 
 - (MSLogContainer *)createLogContainerWithId:(NSString *)batchId {
-
-  id deviceMock = OCMPartialMock([MSDevice new]);
-  OCMStub([deviceMock isValid]).andReturn(YES);
-
   MSMockLog *log1 = [[MSMockLog alloc] init];
   log1.sid = MS_UUID_STRING;
   log1.timestamp = [NSDate date];
-  log1.device = deviceMock;
+  log1.device = self.deviceMock;
 
   MSMockLog *log2 = [[MSMockLog alloc] init];
   log2.sid = MS_UUID_STRING;
   log2.timestamp = [NSDate date];
-  log2.device = deviceMock;
+  log2.device = self.deviceMock;
 
   MSLogContainer *logContainer = [[MSLogContainer alloc] initWithBatchId:batchId andLogs:(NSArray<id<MSLog>> *)@[ log1, log2 ]];
   return logContainer;

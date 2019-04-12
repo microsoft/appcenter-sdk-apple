@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import CoreLocation
 import UIKit
 
 // 10 MiB.
@@ -9,7 +8,7 @@ let kMSDefaultDatabaseSize = 10 * 1024 * 1024
 let acProdLogUrl = "https://in.appcenter.ms"
 let ocProdLogUrl = "https://mobile.events.data.microsoft.com"
 
-class MSMainViewController: UITableViewController, AppCenterProtocol, CLLocationManagerDelegate {
+class MSMainViewController: UITableViewController, AppCenterProtocol {
   
   enum StartupMode: String {
     case AppCenter = "AppCenter"
@@ -37,14 +36,12 @@ class MSMainViewController: UITableViewController, AppCenterProtocol, CLLocation
   @IBOutlet weak var setLogUrlButton: UIButton!
   @IBOutlet weak var setAppSecretButton: UIButton!
   @IBOutlet weak var overrideCountryCodeButton: UIButton!
-  
+
   var appCenter: AppCenterDelegate!
   private var startupModePicker: MSEnumPicker<StartupMode>?
   private var eventFilterStarted = false
   private var dbFileDescriptor: CInt = 0
-  private var dbFileSource: DispatchSourceProtocol?
-  private var locationManager: CLLocationManager = CLLocationManager()
-  
+  private var dbFileSource: DispatchSourceProtocol?  
   let startUpModeForCurrentSession: NSInteger = (UserDefaults.standard.object(forKey: kMSStartTargetKey) ?? 0) as! NSInteger
 
   deinit {
@@ -115,9 +112,6 @@ class MSMainViewController: UITableViewController, AppCenterProtocol, CLLocation
 
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    self.locationManager.delegate = self
-    self.locationManager.desiredAccuracy = kCLLocationAccuracyKilometer
-    self.locationManager.requestWhenInUseAuthorization()
     updateViewState()
   }
 
@@ -142,25 +136,6 @@ class MSMainViewController: UITableViewController, AppCenterProtocol, CLLocation
     cell.contentView.alpha = 0.5
     #endif
   }
-    
-  func requestLocation() {
-    if CLLocationManager.locationServicesEnabled() {
-      self.locationManager.requestLocation()
-    }
-  }
-    
-  func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-    let userLocation:CLLocation = locations[0] as CLLocation
-    CLGeocoder().reverseGeocodeLocation(userLocation) { (placemarks, error) in
-      if error == nil {
-        self.appCenter.setCountryCode(placemarks?.first?.isoCountryCode)
-      }
-    }
-  }
-  
-  func locationManager(_ Manager: CLLocationManager, didFailWithError error: Error){
-    print("Failed to find user's location: \(error.localizedDescription)")
-  }
 
   @IBAction func enabledSwitchUpdated(_ sender: UISwitch) {
     appCenter.setAppCenterEnabled(sender.isOn)
@@ -176,11 +151,12 @@ class MSMainViewController: UITableViewController, AppCenterProtocol, CLLocation
     appCenter.setPushEnabled(sender.isOn)
     updateViewState()
   }
-  
+    
   @IBAction func overrideCountryCode(_ sender: UIButton) {
-    self.requestLocation();
+    let appDelegate: AppDelegate? = UIApplication.shared.delegate as? AppDelegate
+    appDelegate?.requestLocation()
   }
-  
+
   @IBAction func logFilterSwitchChanged(_ sender: UISwitch) {
     #if ACTIVE_COMPILATION_CONDITION_PUPPET
     if !eventFilterStarted {

@@ -7,8 +7,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-static NSString *const kMSBearerTokenHeaderFormat = @"Bearer %@";
-
 @interface MSAppCenterIngestion : MSHttpIngestion
 
 /**

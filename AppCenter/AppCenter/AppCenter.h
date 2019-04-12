@@ -17,5 +17,6 @@
 #import "MSLogger.h"
 #import "MSService.h"
 #import "MSServiceAbstract.h"
+#import "MSUserInformation.h"
 #import "MSWrapperLogger.h"
 #import "MSWrapperSdk.h"

@@ -6,7 +6,14 @@
 /**
  * Common constants.
  */
-
 static NSString *const kMSDocument = @"document";
 static NSString *const kMSPartitionKey = @"PartitionKey";
 static NSString *const kMSIdKey = @"id";
+static NSString *const kMSTokenResultSucceed = @"Succeed";
+
+/**
+ * Pending operation state names.
+ */
+static NSString *const kMSPendingOperationCreate = @"CREATE";
+static NSString *const kMSPendingOperationReplace = @"REPLACE";
+static NSString *const kMSPendingOperationDelete = @"DELETE";

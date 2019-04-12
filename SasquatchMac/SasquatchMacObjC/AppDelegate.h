@@ -2,10 +2,14 @@
 // Licensed under the MIT License.
 
 #import <Cocoa/Cocoa.h>
+#import <CoreLocation/CoreLocation.h>
 
 @import AppCenterCrashes;
 @import AppCenterPush;
 
-@interface AppDelegate : NSObject <NSApplicationDelegate, MSCrashesDelegate, MSPushDelegate, NSUserNotificationCenterDelegate>
+@interface AppDelegate
+    : NSObject <NSApplicationDelegate, MSCrashesDelegate, MSPushDelegate, NSUserNotificationCenterDelegate, CLLocationManagerDelegate>
+
+- (void) overrideCountryCode;
 
 @end
