@@ -47,10 +47,9 @@
     return;
   }
 
-  //
   // Retrieve a cached token.
-  //
   cachedTokenBlock(^(MSTokensResponse *_Nullable tokens, NSError *_Nullable error) {
+
     // Handle error.
     if (error) {
       NSString *message = @"Error while retrieving cached token, abording operation";
@@ -64,17 +63,14 @@
     // Extract token.
     MSTokenResult *token = tokens.tokens[0];
 
-    //
     // Retrieve a cached document.
-    //
     MSDocumentWrapper *cachedDocument = [self.documentStore readWithToken:token documentId:documentId documentType:documentType];
 
-    //
     // Execute remote operation if needed.
-    //
     if ([self needsRemoteOperation:cachedDocument]) {
       MSLogInfo([MSDataStore logTag], @"Performing remote operation");
       remoteDocumentBlock(^(MSDocumentWrapper *_Nonnull remoteDocument) {
+
         // If a valid remote document was retrieved, update local store
         if (remoteDocument.error == nil) {
           [self updateLocalStore:token
@@ -89,12 +85,12 @@
       });
     }
 
-    //
     // Use cached document if possible.
-    //
     else {
+
       // Read operation.
       if (operation == nil) {
+
         // Cached document is invalid, error out.
         if (cachedDocument.error) {
           MSLogError([MSDataStore logTag], @"Error reading document from local storage");
@@ -103,6 +99,7 @@
 
         // Cached document is valid.
         else {
+
           // Push back cached document expiration time then return it.
           [self updateLocalStore:token
               currentCachedDocument:cachedDocument
@@ -115,6 +112,7 @@
 
       // Delete operation.
       else if ([kMSPendingOperationDelete isEqualToString:(NSString *)operation]) {
+
         // Create a deleted document record.
         MSDocumentWrapper *deletedDocument = [[MSDocumentWrapper alloc] initWithDeserializedValue:nil
                                                                                         jsonValue:nil
@@ -124,6 +122,7 @@
                                                                                   lastUpdatedDate:cachedDocument.lastUpdatedDate
                                                                                  pendingOperation:operation
                                                                                             error:nil];
+
         // Update local store and return document.
         [self updateLocalStore:token
             currentCachedDocument:cachedDocument
@@ -163,6 +162,7 @@
                                                                                            lastUpdatedDate:cachedDocument.lastUpdatedDate
                                                                                           pendingOperation:operation
                                                                                                      error:nil];
+
         // Update local store and return document.
         [self updateLocalStore:token
             currentCachedDocument:cachedDocument
