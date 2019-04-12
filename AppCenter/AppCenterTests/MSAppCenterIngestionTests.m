@@ -17,6 +17,33 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
 static NSString *const kMSBaseUrl = @"https://test.com";
 static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
+@interface MSIngestionCallExcpectation : MSIngestionCall
+
+@property XCTestExpectation *excpectation;
+
+- (id)initWithRetryIntervals:(NSArray *)retryIntervals andExcpectation:(XCTestExpectation *)excpectation;
+
+@end
+
+
+@implementation MSIngestionCallExcpectation
+
+- (id)initWithRetryIntervals:(NSArray *)retryIntervals andExcpectation:(XCTestExpectation *)excpectation {
+  self = [super initWithRetryIntervals:retryIntervals];
+  _excpectation = excpectation;
+  return self;
+}
+
+- (void)ingestion:(id<MSIngestionProtocol>)ingestion
+callCompletedWithResponse:(NSHTTPURLResponse *)response
+             data:(nullable NSData *)data
+            error:(NSError *)error {
+  [super ingestion:ingestion callCompletedWithResponse:response data:data error:error];
+  [self.excpectation fulfill];
+}
+
+@end
+
 @interface MSAppCenterIngestionTests : XCTestCase
 
 @property(nonatomic) MSAppCenterIngestion *sut;
@@ -153,7 +180,8 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
   // Mock the call to intercept the retry.
   NSArray *intervals = @[ @(0.5), @(1) ];
-  MSIngestionCall *mockedCall = OCMPartialMock([[MSIngestionCall alloc] initWithRetryIntervals:intervals]);
+  MSIngestionCall *mockedCall = [[MSIngestionCallExcpectation alloc] initWithRetryIntervals:intervals
+                                                                            andExcpectation:requestCompletedExcpectation];
   mockedCall.delegate = self.sut;
   mockedCall.data = container;
   mockedCall.callId = container.batchId;
@@ -163,11 +191,6 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   mockedCall.completionHandler = nil;
 #pragma clang diagnostic pop
 
-  OCMStub([mockedCall ingestion:self.sut callCompletedWithResponse:[OCMArg isNil] data:OCMOCK_ANY error:OCMOCK_ANY])
-      .andForwardToRealObject()
-      .andDo(^(__unused NSInvocation *invocation) {
-        [requestCompletedExcpectation fulfill];
-      });
   self.sut.pendingCalls[containerId] = mockedCall;
 
   // When
@@ -183,7 +206,6 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
                                }];
-  [(id)mockedCall stopMocking];
 }
 
 // TODO: Move this to base MSHttpIngestion test.
@@ -240,12 +262,14 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
   // If
   XCTestExpectation *responseReceivedExcpectation = [self expectationWithDescription:@"Used all retries."];
+  responseReceivedExcpectation.expectedFulfillmentCount = 3;
   NSString *containerId = @"1";
   MSLogContainer *container = [self createLogContainerWithId:containerId];
 
   // Mock the call to intercept the retry.
   NSArray *intervals = @[ @(0.5), @(1) ];
-  MSIngestionCall *mockedCall = OCMPartialMock([[MSIngestionCall alloc] initWithRetryIntervals:intervals]);
+  MSIngestionCall *mockedCall = [[MSIngestionCallExcpectation alloc] initWithRetryIntervals:intervals
+                                                                            andExcpectation:responseReceivedExcpectation];
   mockedCall.delegate = self.sut;
   mockedCall.data = container;
   mockedCall.callId = container.batchId;
@@ -255,24 +279,6 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   mockedCall.completionHandler = nil;
 #pragma clang diagnostic pop
 
-  OCMStub([mockedCall ingestion:self.sut
-              callCompletedWithResponse:[OCMArg checkWithBlock:^BOOL(NSHTTPURLResponse *response) {
-                return response.statusCode == 500;
-              }]
-                                   data:OCMOCK_ANY
-                                  error:OCMOCK_ANY])
-      .andForwardToRealObject()
-      .andDo(^(__unused NSInvocation *invocation) {
-        /*
-         * Don't fulfill the expectation immediately as the ingestion won't be paused yet. Instead of using a delay to wait for the retries,
-         * we use the retryCount as it retryCount will only be 0 before the first failed sending and after we've exhausted the retry
-         * attempts. The first one won't be the case during unit tests as the request will fail immediately, so the expectation will only by
-         * fulfilled once retries have been exhausted.
-         */
-        if (mockedCall.retryCount == 0) {
-          [responseReceivedExcpectation fulfill];
-        }
-      });
   self.sut.pendingCalls[containerId] = mockedCall;
 
   // Respond with a retryable error.
@@ -288,7 +294,6 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
                                }];
-  [(id)mockedCall stopMocking];
 }
 
 // TODO: Move this to base MSHttpIngestion test.
@@ -300,7 +305,9 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   MSLogContainer *container = [self createLogContainerWithId:containerId];
 
   // Mock the call to intercept the retry.
-  MSIngestionCall *mockedCall = OCMPartialMock([[MSIngestionCall alloc] initWithRetryIntervals:@[ @(UINT_MAX) ]]);
+  NSArray *intervals = @[ @(UINT_MAX) ];
+  MSIngestionCall *mockedCall = [[MSIngestionCallExcpectation alloc] initWithRetryIntervals:intervals
+                                                                            andExcpectation:responseReceivedExcpectation];
   mockedCall.delegate = self.sut;
   mockedCall.data = container;
   mockedCall.callId = container.batchId;
@@ -310,16 +317,6 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   mockedCall.completionHandler = nil;
 #pragma clang diagnostic pop
 
-  OCMStub([mockedCall ingestion:self.sut
-              callCompletedWithResponse:[OCMArg checkWithBlock:^BOOL(NSHTTPURLResponse *response) {
-                return response.statusCode == 500;
-              }]
-                                   data:OCMOCK_ANY
-                                  error:OCMOCK_ANY])
-      .andForwardToRealObject()
-      .andDo(^(__unused NSInvocation *invocation) {
-        [responseReceivedExcpectation fulfill];
-      });
   self.sut.pendingCalls[containerId] = mockedCall;
 
   // Respond with a retryable error.
@@ -349,7 +346,6 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
                                }];
-  [(id)mockedCall stopMocking];
 }
 
 - (void)testInvalidContainer {
