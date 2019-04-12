@@ -119,15 +119,35 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   XCTAssertTrue([service isEnabled]);
 }
 
-- (void)testApplyEnabledAddsAndRemovesDelegate {
+- (void)testApplyEnabledYesAddsDelegate {
 
   // If
   id userIdContextMock = OCMClassMock([MSUserIdContext class]);
   __block NSUInteger addCount = 0;
-  __block NSUInteger removeCount = 0;
   OCMStub([userIdContextMock addDelegate:self.sut]).andDo(^(__unused NSInvocation *invocation) {
     addCount++;
   });
+ 
+  OCMStub([userIdContextMock sharedInstance]).andReturn(userIdContextMock);
+  [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
+                        appSecret:kMSTestAppSecret
+          transmissionTargetToken:nil
+                  fromApplication:YES];
+
+  // When
+  [self.sut setEnabled:YES];
+
+  // Then
+  XCTAssertEqual(addCount, 2);
+  OCMVerify([userIdContextMock addDelegate:self.sut]);
+  [userIdContextMock stopMocking];
+}
+
+- (void)testApplyEnabledNoRemovesDelegate {
+  
+  // If
+  id userIdContextMock = OCMClassMock([MSUserIdContext class]);
+  __block NSUInteger removeCount = 0;
   OCMStub([userIdContextMock removeDelegate:self.sut]).andDo(^(__unused NSInvocation *invocation) {
     removeCount++;
   });
@@ -136,15 +156,12 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
                         appSecret:kMSTestAppSecret
           transmissionTargetToken:nil
                   fromApplication:YES];
-
+  
   // When
   [self.sut setEnabled:NO];
-  [self.sut setEnabled:YES];
 
   // Then
-  XCTAssertEqual(addCount, 2);
   XCTAssertEqual(removeCount, 1);
-  OCMVerify([userIdContextMock addDelegate:self.sut]);
   OCMVerify([userIdContextMock removeDelegate:self.sut]);
   [userIdContextMock stopMocking];
 }
