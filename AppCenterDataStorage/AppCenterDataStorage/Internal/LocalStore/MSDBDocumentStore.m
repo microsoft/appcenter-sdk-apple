@@ -13,7 +13,7 @@
 #import "MSDataStoreErrors.h"
 #import "MSDataStoreInternal.h"
 #import "MSDocumentUtils.h"
-#import "MSDocumentWrapper.h"
+#import "MSDocumentWrapperInternal.h"
 #import "MSTokenResult.h"
 #import "MSUtility+Date.h"
 #import "MSUtility+StringFormatting.h"
@@ -113,9 +113,8 @@ static const NSUInteger kMSSchemaVersion = 1;
 
   // Return an error if the document could not be found.
   if (result.count == 0) {
-    NSString *errorMessage =
-        [NSString stringWithFormat:@"Unable to find document in local store for partition '%@' and document ID '%@'",
-                                   token.partition, documentId];
+    NSString *errorMessage = [NSString
+        stringWithFormat:@"Unable to find document in local store for partition '%@' and document ID '%@'", token.partition, documentId];
     MSLogWarning([MSDataStore logTag], @"%@", errorMessage);
     NSError *error = [[NSError alloc] initWithDomain:kMSACDataStoreErrorDomain
                                                 code:MSACDataStoreErrorDocumentNotFound
@@ -129,8 +128,9 @@ static const NSUInteger kMSSchemaVersion = 1;
     NSDate *expirationDate = [NSDate dateWithTimeIntervalSince1970:expirationTime];
     NSDate *currentDate = [NSDate date];
     if (expirationDate && [expirationDate laterDate:currentDate] == currentDate) {
-      NSString *errorMessage = [NSString stringWithFormat:@"Local document for partition '%@' and document ID '%@' expired at %@, discarding it",
-                                                          token.partition, documentId, expirationDate];
+      NSString *errorMessage =
+          [NSString stringWithFormat:@"Local document for partition '%@' and document ID '%@' expired at %@, discarding it",
+                                     token.partition, documentId, expirationDate];
       MSLogWarning([MSDataStore logTag], @"%@", errorMessage);
       NSError *error = [[NSError alloc] initWithDomain:kMSACDataStoreErrorDomain
                                                   code:MSACDataStoreErrorLocalDocumentExpired

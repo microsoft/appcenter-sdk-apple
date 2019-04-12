@@ -43,16 +43,6 @@
 @property(nonatomic, strong, readonly) MSDataSourceError *error;
 
 /**
- * Initialize a `MSDocumentWrapper` instance.
- *
- * @param error Document error.
- * @param documentId Document Id.
- *
- * @return A new `MSDocumentWrapper` instance.
- */
-- (instancetype)initWithError:(NSError *)error documentId:(NSString *)documentId;
-
-/**
  * Check if the document is from the device cache.
  *
  * @return Flag indicating if the document was retrieved

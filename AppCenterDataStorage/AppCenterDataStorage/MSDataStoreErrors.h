@@ -40,7 +40,8 @@ NS_ENUM(NSInteger){MSACDataStoreErrorJSONSerializationFailed = -620000,
                    MSACDataStoreErrorLocalDocumentExpired = -620003,
                    MSACDataStoreNotAuthenticated = -620004,
                    MSACDataStoreInvalidClassCode = -620005,
-                   MSACDataStoreDontCache = -620006};
+                   MSACDataStoreDontCache = -620006,
+                   MSACDataStoreLocalStoreError = -620007};
 
 // Error descriptions.
 static NSString const *kMSACDataStoreInvalidClassDesc =
