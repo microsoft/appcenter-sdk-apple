@@ -19,6 +19,7 @@
 #import "MSDocumentWrapper.h"
 #import "MSHttpClient.h"
 #import "MSPaginatedDocuments.h"
+#import "MSPendingOperation.h"
 #import "MSReadOptions.h"
 #import "MSServiceAbstractProtected.h"
 #import "MSTokenExchange.h"
@@ -563,7 +564,7 @@ static dispatch_once_t onceToken;
                   MSLogError([MSDataStore logTag],
                              @"Can't get CosmosDb token. Error: %@;  HTTP status code: %ld; Partition: %@",
                              error.localizedDescription, (long)httpStatusCode, MSDataStoreUserDocumentsPartition);
-                  completionHandler(nil, nil, error);
+                  completionHandler(nil, nil, error); // completionHandler not a type, maybe MSDocumentWrapperCompletionHandler ?
                   // TODO: Need to schedule retry for sometime later otherwise
                   //       offline cache will never be synced
                   return;
@@ -571,7 +572,7 @@ static dispatch_once_t onceToken;
               
             NSArray<MSPendingOperation *> *pendingOperations = [self.documentStore pendingOperationsWithToken:tokenResponses.tokens[0]];
               for (MSPendingOperation *operation in pendingOperations) {
-                  if([operation.operation isEqualToString:kMsPendingOperationCreate] ||
+                if([operation.operation isEqualToString:kMSPendingOperationCreate] ||
                      [operation.operation isEqualToString:kMSPendingOperationReplace]) {
                       // TODO: Do insert or update
                   } else if([operation.operation isEqualToString:kMSPendingOperationDelete]) {
