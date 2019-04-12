@@ -1071,10 +1071,6 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   NSString *currentTable =
       [self.sut executeSelectionQuery:[NSString stringWithFormat:@"SELECT sql FROM sqlite_master WHERE name='%@'", kMSLogTableName]][0][0];
   assertThat(currentTable, is(kMSLatestSchema));
-//  NSArray *result =
-//  [self.sut executeSelectionQuery:[NSString stringWithFormat:@"SELECT * FROM sqlite_master", kMSLogTableName,
-//                                   kMSPriorityColumnName]];
-//
   NSString *priorityIndex =
       [self.sut executeSelectionQuery:[NSString stringWithFormat:@"SELECT sql FROM sqlite_master WHERE name='ix_%@_%@'", kMSLogTableName,
                                                                  kMSPriorityColumnName]][0][0];
