@@ -53,7 +53,6 @@ static int const MSDataStoreTimeToLiveDefault = 60 * 60 * 24;
 
 typedef void (^MSDocumentWrapperCompletionHandler)(MSDocumentWrapper<T> *document);
 typedef void (^MSPaginatedDocumentsCompletionHandler)(MSPaginatedDocuments<T> *documents);
-typedef void (^MSDataSourceErrorCompletionHandler)(MSDataSourceError *error);
 
 /**
  * Change The URL that will be used for getting token.
@@ -180,7 +179,7 @@ typedef void (^MSDataSourceErrorCompletionHandler)(MSDataSourceError *error);
  */
 + (void)deleteDocumentWithPartition:(NSString *)partition
                          documentId:(NSString *)documentId
-                  completionHandler:(MSDataSourceErrorCompletionHandler)completionHandler;
+                  completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler;
 
 /**
  * Delete a document from CosmosDB.
@@ -193,7 +192,7 @@ typedef void (^MSDataSourceErrorCompletionHandler)(MSDataSourceError *error);
 + (void)deleteDocumentWithPartition:(NSString *)partition
                          documentId:(NSString *)documentId
                        writeOptions:(MSWriteOptions *_Nullable)writeOptions
-                  completionHandler:(MSDataSourceErrorCompletionHandler)completionHandler;
+                  completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler;
 
 @end
 

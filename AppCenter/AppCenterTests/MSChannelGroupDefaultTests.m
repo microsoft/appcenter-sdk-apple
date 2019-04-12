@@ -98,7 +98,7 @@
 - (void)testAddChannelWithCustomIngestion {
 
   // If
-  id<MSIngestionProtocol> ingestionMockCustom = OCMClassMock([MSAppCenterIngestion class]);
+  id ingestionMockCustom = OCMClassMock([MSAppCenterIngestion class]);
 
   // When
   MSChannelUnitDefault *channelUnit = (MSChannelUnitDefault *)[self.sut addChannelUnitWithConfiguration:[MSChannelUnitConfiguration new]
@@ -107,6 +107,7 @@
   // Then
   XCTAssertNotEqual(self.ingestionMock, channelUnit.ingestion);
   XCTAssertEqual(ingestionMockCustom, channelUnit.ingestion);
+  [ingestionMockCustom stopMocking];
 }
 
 - (void)testDelegatesConcurrentAccess {

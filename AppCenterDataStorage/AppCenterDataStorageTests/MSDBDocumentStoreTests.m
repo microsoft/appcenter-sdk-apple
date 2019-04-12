@@ -290,10 +290,17 @@
   // When
   // Upsert twice to ensure that replacement is correct.
   [self.sut upsertWithToken:self.appToken documentWrapper:expectedDocumentWrapper operation:@"REPLACE" options:writeOptions];
+
+  // If
+  // Mock the document wrapper to appear to have a different eTag now.
+  MSDocumentWrapper *mockDocumentWrapper = OCMPartialMock(expectedDocumentWrapper);
+  NSString *expectedEtag = @"the new etag";
+  OCMStub(mockDocumentWrapper.eTag).andReturn(expectedEtag);
+
+  // When
   [self.sut upsertWithToken:self.appToken documentWrapper:expectedDocumentWrapper operation:@"REPLACE" options:writeOptions];
 
   // Then
-
   // Ensure that there is exactly one entry in the cache with the given document ID and partition name.
   NSString *tableName = [MSDBDocumentStore tableNameForPartition:self.appToken.partition];
   NSArray<NSArray *> *result = [self.dbStorage
@@ -301,6 +308,7 @@
                                                        kMSDocumentIdColumnName, expectedDocumentWrapper.documentId, kMSPartitionColumnName,
                                                        self.appToken.partition]];
   XCTAssertEqual(result.count, 1);
+  XCTAssertEqualObjects(expectedEtag, result[0][self.sut.eTagColumnIndex]);
 }
 
 - (void)testCreationOfApplicationLevelTable {
