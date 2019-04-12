@@ -6,9 +6,9 @@
 @interface MSBaseOptions : NSObject
 
 /**
- * Device document time-to-live in seconds. Default is one hour.
+ * Device document time-to-live in seconds. Default is one day.
  */
-@property NSInteger deviceTimeToLive;
+@property long deviceTimeToLive;
 
 /**
  * Initialize a BaseOptions object.
@@ -17,6 +17,6 @@
  *
  * @return A BaseOptions instance.
  */
-- (instancetype)initWithDeviceTimeToLive:(NSInteger)deviceTimeToLive;
+- (instancetype)initWithDeviceTimeToLive:(long)deviceTimeToLive;
 
 @end
