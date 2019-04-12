@@ -242,7 +242,7 @@ static NSUInteger const kMSAccountIdLengthInHomeAccount = 36;
   if (encryptedData) {
     MSLogDebug([MSAppCenter logTag], @"Saved new history state.");
   } else {
-    MSLogWarning([MSAppCenter logTag], @"Failed to saved new history state.");
+    MSLogWarning([MSAppCenter logTag], @"Failed to save new history state.");
   }
 }
 
