@@ -86,8 +86,7 @@ static dispatch_once_t onceToken;
      * crashes on apps between previous userId and current userId.
      */
     [self.userIdHistory removeLastObject];
-    BOOL sameUserId = (userId && [self.currentUserIdInfo.userId isEqualToString:(NSString *)userId]) ||
-                      (!userId && self.currentUserIdInfo.userId == userId);
+    BOOL sameUserId = (!userId && !self.currentUserIdInfo.userId) || ([self.currentUserIdInfo.userId isEqualToString:(NSString *)userId]);
     self.currentUserIdInfo.userId = userId;
     self.currentUserIdInfo.timestamp = [NSDate date];
     [self.userIdHistory addObject:self.currentUserIdInfo];
