@@ -562,14 +562,14 @@ static dispatch_once_t onceToken;
                   NSInteger httpStatusCode = [MSDataSourceError errorCodeFromError:error];
                   MSLogError([MSDataStore logTag],
                              @"Can't get CosmosDb token. Error: %@;  HTTP status code: %ld; Partition: %@",
-                             error.localizedDescription, (long)httpStatusCode, partition);
+                             error.localizedDescription, (long)httpStatusCode, MSDataStoreUserDocumentsPartition);
                   completionHandler(nil, nil, error);
                   // TODO: Need to schedule retry for sometime later otherwise
                   //       offline cache will never be synced
                   return;
               }
               
-              NSArray<MSPendingOperation *> pendingOperations = [MSDBDocumentStore pendingOperationsWithToken:tokenResponses.tokens[0]];
+            NSArray<MSPendingOperation *> *pendingOperations = [self.documentStore pendingOperationsWithToken:tokenResponses.tokens[0]];
               for (MSPendingOperation *operation in pendingOperations) {
                   if([operation.operation isEqualToString:kMsPendingOperationCreate] ||
                      [operation.operation isEqualToString:kMSPendingOperationReplace]) {
@@ -582,7 +582,7 @@ static dispatch_once_t onceToken;
                                  operation.operation);
                   }
               }
-          }];ß
+          }];
 }
 
 - (BOOL)isOffline {
