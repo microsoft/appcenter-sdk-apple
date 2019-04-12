@@ -82,7 +82,7 @@ static const NSUInteger kMSSchemaVersion = 1;
   // This is the same as [[NSDate date] timeIntervalSince1970] - but saves us from allocating an NSDate.
   NSTimeInterval now = NSDate.timeIntervalSinceReferenceDate + NSTimeIntervalSince1970;
   NSTimeInterval expirationTime = -1;
-  if (options.deviceTimeToLive != MSDataStoreTimeToLiveInfinite) {
+  if (options.deviceTimeToLive != kMSDataStoreTimeToLiveInfinite) {
     expirationTime = now + options.deviceTimeToLive;
   }
   NSString *tableName = [MSDBDocumentStore tableNameForPartition:token.partition];
@@ -139,7 +139,7 @@ static const NSUInteger kMSSchemaVersion = 1;
 
   // If the document is expired, return an error and delete it.
   long expirationTime = [(NSNumber *)(result[0][self.expirationTimeColumnIndex]) longValue];
-  if (expirationTime != MSDataStoreTimeToLiveInfinite) {
+  if (expirationTime != kMSDataStoreTimeToLiveInfinite) {
     NSDate *expirationDate = [NSDate dateWithTimeIntervalSince1970:expirationTime];
     NSDate *currentDate = [NSDate date];
     if (expirationDate && [expirationDate laterDate:currentDate] == currentDate) {
@@ -168,7 +168,7 @@ static const NSUInteger kMSSchemaVersion = 1;
                                             documentId:documentId
                                       pendingOperation:pendingOperation];
   if (readOptions) {
-    if (readOptions.deviceTimeToLive == MSDataStoreTimeToLiveNoCache) {
+    if (readOptions.deviceTimeToLive == kMSDataStoreTimeToLiveNoCache) {
 
       // If no cache, delete whatever is already in the cache.
       [self deleteWithToken:token documentId:documentId];
@@ -204,7 +204,7 @@ static const NSUInteger kMSSchemaVersion = 1;
 }
 
 + (NSString *)tableNameForPartition:(NSString *)partition {
-  if ([partition isEqualToString:MSDataStoreAppDocumentsPartition]) {
+  if ([partition isEqualToString:kMSDataStoreAppDocumentsPartition]) {
     return kMSAppDocumentTableName;
   } else if ([partition rangeOfString:kMSDataStoreAppDocumentsUserPartitionPrefix options:NSAnchoredSearch].location == 0) {
     return [NSString

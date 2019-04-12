@@ -29,7 +29,7 @@
   MSBaseOptions *baseOptions = [[MSBaseOptions alloc] init];
 
   // Then
-  XCTAssertEqual(baseOptions.deviceTimeToLive, MSDataStoreTimeToLiveDefault);
+  XCTAssertEqual(baseOptions.deviceTimeToLive, kMSDataStoreTimeToLiveDefault);
 }
 
 @end

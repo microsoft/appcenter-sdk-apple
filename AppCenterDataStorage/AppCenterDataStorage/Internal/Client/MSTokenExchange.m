@@ -188,7 +188,7 @@ static NSString *const kMSGetTokenPath = @"/data/tokens";
  *       User partition : MSStorageUserDbToken
  */
 + (NSString *)tokenKeyNameForPartition:(NSString *)partitionName {
-  if ([partitionName isEqualToString:MSDataStoreAppDocumentsPartition]) {
+  if ([partitionName isEqualToString:kMSDataStoreAppDocumentsPartition]) {
     return kMSStorageReadOnlyDbTokenKey;
   }
 
