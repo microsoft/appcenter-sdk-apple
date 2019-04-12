@@ -4,6 +4,7 @@
 #import <Foundation/Foundation.h>
 
 #import "MSDataStorageConstants.h"
+#import "MSTokenResult.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -13,28 +14,39 @@ NS_ASSUME_NONNULL_BEGIN
 typedef void (^MSGetTokenAsyncCompletionHandler)(MSTokensResponse *tokenResponses, NSError *_Nullable error);
 
 /**
- * This class retrieves and caches Cosmosdb access token.
+ * This class retrieves and caches CosmosDB access token.
  */
 @interface MSTokenExchange : NSObject
 
 /**
- * Get token from token exchange.
+ * Gets token from token exchange.
  *
- * @param httpClient http client.
+ * @param httpClient The http client.
  * @param tokenExchangeUrl API url to exchange token.
- * @param appSecret application secret.
- * @param partition cosmosdb partition.
- * @param completionHandler callback that gets the token.
- *
+ * @param appSecret The application secret.
+ * @param partition The CosmosDB partition.
+ * @param includeExpiredToken The flag that indicates whether the method returns expired token from the cache or not.
+ * @param completionHandler Callback that gets invoked when a token is retrieved.
  */
 + (void)performDbTokenAsyncOperationWithHttpClient:(id<MSHttpClientProtocol>)httpClient
                                   tokenExchangeUrl:(NSURL *)tokenExchangeUrl
                                          appSecret:(NSString *)appSecret
                                          partition:(NSString *)partition
+                               includeExpiredToken:(BOOL)includeExpiredToken
                                  completionHandler:(MSGetTokenAsyncCompletionHandler)completionHandler;
 
-/*
- * When the user logs out, all the cached tokens are deleted.
+/**
+ * Returns a cached (CosmosDB resource) token for a given partition name.
+ *
+ * @param partition The partition for which to return the token.
+ * @param includeExpiredToken `YES` to return the cached token even if it is expired, `NO` to return `nil` if the token is expired.
+ *
+ * @return The cached token or `nil`.
+ */
++ (MSTokenResult *_Nullable)retrieveCachedTokenForPartition:(NSString *)partition includeExpiredToken:(BOOL)includeExpiredToken;
+
+/**
+ * Deletes all cached tokens. This should be called when the user logs out.
  */
 + (void)removeAllCachedTokens;
 

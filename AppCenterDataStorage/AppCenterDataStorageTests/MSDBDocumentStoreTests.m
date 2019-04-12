@@ -5,7 +5,6 @@
 
 #import "MSDBDocumentStorePrivate.h"
 #import "MSDBStoragePrivate.h"
-
 #import "MSDataSourceError.h"
 #import "MSDataStore.h"
 #import "MSDataStoreErrors.h"
@@ -83,10 +82,13 @@
                    partition:self.appToken.partition
                   documentId:documentId
             pendingOperation:pendingOperation
-              expirationTime:[NSDate dateWithTimeIntervalSinceNow:1000000]];
+              expirationTime:(long)[[NSDate dateWithTimeIntervalSinceNow:1000000] timeIntervalSince1970]];
 
   // When
-  MSDocumentWrapper *documentWrapper = [self.sut readWithToken:self.appToken documentId:documentId documentType:[MSMockDocument class]];
+  MSDocumentWrapper *documentWrapper = [self.sut readWithToken:self.appToken
+                                                    documentId:documentId
+                                                  documentType:[MSMockDocument class]
+                                                   readOptions:nil];
 
   // Then
   XCTAssertNotNil(documentWrapper);
@@ -109,10 +111,13 @@
                    partition:self.appToken.partition
                   documentId:documentId
             pendingOperation:@""
-              expirationTime:[NSDate dateWithTimeIntervalSinceNow:1000000]];
+              expirationTime:(long)[[NSDate dateWithTimeIntervalSinceNow:1000000] timeIntervalSince1970]];
 
   // When
-  MSDocumentWrapper *documentWrapper = [self.sut readWithToken:self.appToken documentId:documentId documentType:[MSMockDocument class]];
+  MSDocumentWrapper *documentWrapper = [self.sut readWithToken:self.appToken
+                                                    documentId:documentId
+                                                  documentType:[MSMockDocument class]
+                                                   readOptions:nil];
 
   // Then
   XCTAssertNotNil(documentWrapper);
@@ -131,15 +136,19 @@
                    partition:self.appToken.partition
                   documentId:documentId
             pendingOperation:@""
-              expirationTime:nil];
+              expirationTime:MSDataStoreTimeToLiveInfinite];
 
   // When
-  MSDocumentWrapper *documentWrapper = [self.sut readWithToken:self.appToken documentId:documentId documentType:[MSMockDocument class]];
+  MSDocumentWrapper *documentWrapper = [self.sut readWithToken:self.appToken
+                                                    documentId:documentId
+                                                  documentType:[MSMockDocument class]
+                                                   readOptions:nil];
 
   // Then
   XCTAssertNotNil(documentWrapper);
   XCTAssertNil(documentWrapper.error);
-  XCTAssertTrue([[NSNull null] isEqual:[self expirationTimeWithToken:self.appToken documentId:documentId]]);
+  NSDictionary *retrievedContentDictionary = ((MSMockDocument *)(documentWrapper.deserializedValue)).contentDictionary;
+  XCTAssertEqualObjects(retrievedContentDictionary[@"key"], @"value");
 }
 
 - (void)testReadExpiredAppDocument {
@@ -153,10 +162,13 @@
                    partition:self.appToken.partition
                   documentId:documentId
             pendingOperation:@""
-              expirationTime:[NSDate dateWithTimeIntervalSinceNow:-1000000]];
+              expirationTime:0];
 
   // When
-  MSDocumentWrapper *documentWrapper = [self.sut readWithToken:self.appToken documentId:documentId documentType:[MSMockDocument class]];
+  MSDocumentWrapper *documentWrapper = [self.sut readWithToken:self.appToken
+                                                    documentId:documentId
+                                                  documentType:[MSMockDocument class]
+                                                   readOptions:nil];
 
   // Then
   XCTAssertNotNil(documentWrapper);
@@ -177,13 +189,16 @@
   [self.sut createUserStorageWithAccountId:self.userToken.accountId];
 
   // When
-  MSDocumentWrapper *documentWrapper = [sut readWithToken:self.userToken documentId:documentId documentType:[document class]];
+  MSDocumentWrapper *documentWrapper = [sut readWithToken:self.userToken
+                                               documentId:documentId
+                                             documentType:[document class]
+                                              readOptions:nil];
 
   // Then
   XCTAssertNotNil(documentWrapper);
   XCTAssertNotNil(documentWrapper.error);
   XCTAssertEqualObjects(documentWrapper.error.error.domain, kMSACDataStoreErrorDomain);
-  XCTAssertEqual(documentWrapper.error.error.code, MSACDataStoreErrorLocalDocumentNotFound);
+  XCTAssertEqual(documentWrapper.error.error.code, MSACDataStoreErrorDocumentNotFound);
   XCTAssertEqualObjects(documentWrapper.documentId, documentId);
 }
 
@@ -256,29 +271,26 @@
 - (void)testUpsertAppDocumentWithValidTTL {
 
   // If
-  MSDocumentWrapper *documentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestDocument"]
-                                                                   documentType:[MSDictionaryDocument class]];
-  MSReadOptions *readOptions = [[MSReadOptions alloc] initWithDeviceTimeToLive:1];
+  int ttl = 1;
+  MSDocumentWrapper *expectedDocumentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestDocument"]
+                                                                           documentType:[MSDictionaryDocument class]];
+  MSReadOptions *readOptions = [[MSReadOptions alloc] initWithDeviceTimeToLive:ttl];
 
   // When
-  BOOL result = [self.sut upsertWithToken:self.appToken documentWrapper:documentWrapper operation:@"CREATE" options:readOptions];
-  MSDocumentWrapper *expectedDocumentWrapper = [self.sut readWithToken:self.appToken
-                                                            documentId:documentWrapper.documentId
-                                                          documentType:[MSDictionaryDocument class]];
+  BOOL result = [self.sut upsertWithToken:self.appToken documentWrapper:expectedDocumentWrapper operation:@"CREATE" options:readOptions];
+  MSDocumentWrapper *documentWrapper = [self.sut readWithToken:self.appToken
+                                                    documentId:expectedDocumentWrapper.documentId
+                                                  documentType:[MSDictionaryDocument class]
+                                                   readOptions:nil];
 
   // Then
   XCTAssertTrue(result);
-  XCTAssertNil(expectedDocumentWrapper.error);
-  XCTAssertNotNil(expectedDocumentWrapper.deserializedValue);
-  XCTAssertNotNil(expectedDocumentWrapper.jsonValue);
-  XCTAssertEqualObjects(expectedDocumentWrapper.documentId, documentWrapper.documentId);
-  XCTAssertEqualObjects(expectedDocumentWrapper.partition, documentWrapper.partition);
-  XCTAssertEqualObjects(expectedDocumentWrapper.eTag, documentWrapper.eTag);
-  XCTAssertFalse([[NSNull null] isEqual:[self expirationTimeWithToken:self.appToken documentId:documentWrapper.documentId]]);
-
-  // The expected document wrapper should have its last updated date set to now (at insertion time). The fixture we use should
-  // hence be in the past.
-  XCTAssertTrue([expectedDocumentWrapper.lastUpdatedDate compare:documentWrapper.lastUpdatedDate] == NSOrderedDescending);
+  XCTAssertNil(documentWrapper.error);
+  XCTAssertNotNil(documentWrapper.deserializedValue);
+  XCTAssertNotNil(documentWrapper.jsonValue);
+  XCTAssertEqualObjects(documentWrapper.documentId, expectedDocumentWrapper.documentId);
+  XCTAssertEqualObjects(documentWrapper.partition, expectedDocumentWrapper.partition);
+  XCTAssertEqualObjects(documentWrapper.eTag, expectedDocumentWrapper.eTag);
 }
 
 - (void)testUpsertAppDocumentWithNoTTL {
@@ -292,7 +304,8 @@
   BOOL result = [self.sut upsertWithToken:self.appToken documentWrapper:documentWrapper operation:@"CREATE" options:readOptions];
   MSDocumentWrapper *expectedDocumentWrapper = [self.sut readWithToken:self.appToken
                                                             documentId:documentWrapper.documentId
-                                                          documentType:[MSDictionaryDocument class]];
+                                                          documentType:[MSDictionaryDocument class]
+                                                           readOptions:nil];
 
   // Then
   XCTAssertTrue(result);
@@ -302,7 +315,6 @@
   XCTAssertEqualObjects(expectedDocumentWrapper.documentId, documentWrapper.documentId);
   XCTAssertEqualObjects(expectedDocumentWrapper.partition, documentWrapper.partition);
   XCTAssertEqualObjects(expectedDocumentWrapper.eTag, documentWrapper.eTag);
-  XCTAssertTrue([[NSNull null] isEqual:[self expirationTimeWithToken:self.appToken documentId:documentWrapper.documentId]]);
 }
 
 - (void)testDeleteAppDocumentForNonExistentDocument {
@@ -311,7 +323,8 @@
   BOOL result = [self.sut deleteWithToken:self.appToken documentId:@"some-non-existing-document-id"];
   MSDocumentWrapper *expectedDocumentWrapper = [self.sut readWithToken:self.appToken
                                                             documentId:@"some-non-existing-document-id"
-                                                          documentType:[MSDictionaryDocument class]];
+                                                          documentType:[MSDictionaryDocument class]
+                                                           readOptions:nil];
 
   // Then, should succeed but be a no-op
   XCTAssertTrue(result);
@@ -329,14 +342,16 @@
                     options:[[MSReadOptions alloc] initWithDeviceTimeToLive:1]];
   MSDocumentWrapper *expectedDocumentWrapper = [self.sut readWithToken:self.appToken
                                                             documentId:documentWrapper.documentId
-                                                          documentType:[MSDictionaryDocument class]];
+                                                          documentType:[MSDictionaryDocument class]
+                                                           readOptions:nil];
   XCTAssertNil(expectedDocumentWrapper.error);
 
   // When
   BOOL result = [self.sut deleteWithToken:self.appToken documentId:documentWrapper.documentId];
   expectedDocumentWrapper = [self.sut readWithToken:self.appToken
                                          documentId:documentWrapper.documentId
-                                       documentType:[MSDictionaryDocument class]];
+                                       documentType:[MSDictionaryDocument class]
+                                        readOptions:nil];
 
   // Then
   XCTAssertTrue(result);
@@ -355,14 +370,16 @@
                     options:[[MSReadOptions alloc] initWithDeviceTimeToLive:1]];
   MSDocumentWrapper *expectedDocumentWrapper = [self.sut readWithToken:self.userToken
                                                             documentId:documentWrapper.documentId
-                                                          documentType:[MSDictionaryDocument class]];
+                                                          documentType:[MSDictionaryDocument class]
+                                                           readOptions:nil];
   XCTAssertNil(expectedDocumentWrapper.error);
 
   // When
   BOOL result = [self.sut deleteWithToken:self.userToken documentId:documentWrapper.documentId];
   expectedDocumentWrapper = [self.sut readWithToken:self.userToken
                                          documentId:documentWrapper.documentId
-                                       documentType:[MSDictionaryDocument class]];
+                                       documentType:[MSDictionaryDocument class]
+                                        readOptions:nil];
 
   // Then
   XCTAssertTrue(result);
@@ -390,16 +407,15 @@
                    partition:(NSString *)partition
                   documentId:(NSString *)documentId
             pendingOperation:(NSString *)pendingOperation
-              expirationTime:(NSDate *)expirationTime {
+              expirationTime:(long)expirationTime {
   sqlite3 *db = [self openDatabase:kMSDBDocumentFileName];
-  NSString *expirationTimeString = expirationTime ? [NSString stringWithFormat:@"'%@'", [MSUtility dateToISO8601:expirationTime]] : @"NULL";
-  NSString *operationTimeString = [MSUtility dateToISO8601:[NSDate date]];
+  long operationTimeString = NSTimeIntervalSince1970;
   NSString *insertQuery = [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\") "
-                                                     @"VALUES ('%@', '%@', '%@', '%@', '%@', %@, '%@', '%@')",
+                                                     @"VALUES ('%@', '%@', '%@', '%@', '%@', %ld, '%ld', '%@')",
                                                      kMSAppDocumentTableName, kMSIdColumnName, kMSPartitionColumnName, kMSETagColumnName,
                                                      kMSDocumentColumnName, kMSDocumentIdColumnName, kMSExpirationTimeColumnName,
                                                      kMSOperationTimeColumnName, kMSPendingOperationColumnName, @0, partition, eTag,
-                                                     jsonString, documentId, expirationTimeString, operationTimeString, pendingOperation];
+                                                     jsonString, documentId, (long)expirationTime, operationTimeString, pendingOperation];
   char *error;
   sqlite3_exec(db, [insertQuery UTF8String], NULL, NULL, &error);
   sqlite3_close(db);
@@ -423,13 +439,13 @@
   return @[ kMSPartitionColumnName, kMSDocumentIdColumnName ];
 }
 
-- (NSString *)expirationTimeWithToken:(MSTokenResult *)token documentId:(NSString *)documentId {
+- (long)expirationTimeWithToken:(MSTokenResult *)token documentId:(NSString *)documentId {
   NSString *tableName = [MSDBDocumentStore tableNameForPartition:token.partition];
   NSArray<NSArray *> *result = [self.dbStorage
       executeSelectionQuery:[NSString stringWithFormat:@"SELECT \"%@\" FROM \"%@\" WHERE \"%@\" = \"%@\" AND \"%@\" = \"%@\"",
                                                        kMSExpirationTimeColumnName, tableName, kMSDocumentIdColumnName, documentId,
                                                        kMSPartitionColumnName, token.partition]];
-  return (NSString *)result[0][0];
+  return [((NSNumber *)result[0][0]) longValue];
 }
 
 @end

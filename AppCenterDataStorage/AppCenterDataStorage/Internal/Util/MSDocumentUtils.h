@@ -67,6 +67,15 @@ NS_ASSUME_NONNULL_BEGIN
                                             documentId:(NSString *)documentId
                                       pendingOperation:(nullable NSString *)pendingOperation;
 
+/**
+ * Check if a given class type implements the `MSSerializableDocument` protocol.
+ *
+ * @param classType The type to check.
+ *
+ * @return YES if the class type implements `MSSerializableDocument`; NO otherwise.
+ */
++ (BOOL)isSerializableDocument:(Class)classType;
+
 @end
 
 NS_ASSUME_NONNULL_END

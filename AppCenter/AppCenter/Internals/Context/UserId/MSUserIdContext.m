@@ -4,6 +4,7 @@
 #import "MSAppCenterInternal.h"
 #import "MSConstants+Internal.h"
 #import "MSLogger.h"
+#import "MSUserIdContextDelegate.h"
 #import "MSUserIdContextPrivate.h"
 #import "MSUtility.h"
 
@@ -61,6 +62,7 @@ static dispatch_once_t onceToken;
      * Center start and setUserId call.
      */
     [MS_USER_DEFAULTS setObject:[NSKeyedArchiver archivedDataWithRootObject:self.userIdHistory] forKey:kMSUserIdHistoryKey];
+    _delegates = [NSHashTable weakObjectsHashTable];
   }
   return self;
 }
@@ -75,7 +77,14 @@ static dispatch_once_t onceToken;
 }
 
 - (void)setUserId:(nullable NSString *)userId {
+  NSArray *synchronizedDelegates;
   @synchronized(self) {
+    BOOL sameUserId = (!userId && !self.currentUserIdInfo.userId) || [self.currentUserIdInfo.userId isEqualToString:(NSString *)userId];
+    if (sameUserId) {
+      return;
+    }
+    self.currentUserIdInfo.timestamp = [NSDate date];
+    self.currentUserIdInfo.userId = userId;
 
     /*
      * Replacing the last userId from history because the userId has changed within a same lifecycle without crashes.
@@ -83,12 +92,15 @@ static dispatch_once_t onceToken;
      * crashes on apps between previous userId and current userId.
      */
     [self.userIdHistory removeLastObject];
-    self.currentUserIdInfo.userId = userId;
-    self.currentUserIdInfo.timestamp = [NSDate date];
     [self.userIdHistory addObject:self.currentUserIdInfo];
     [MS_USER_DEFAULTS setObject:[NSKeyedArchiver archivedDataWithRootObject:self.userIdHistory] forKey:kMSUserIdHistoryKey];
-    MSLogVerbose([MSAppCenter logTag], @"Stored new userId:%@ and timestamp: %@.", self.currentUserIdInfo.userId,
-                 self.currentUserIdInfo.timestamp);
+    MSLogVerbose([MSAppCenter logTag], @"Stored new userId:%@ and timestamp: %@.", self.currentUserIdInfo.userId, self.currentUserIdInfo.timestamp);
+    synchronizedDelegates = [self.delegates allObjects];
+  }
+  for (id<MSUserIdContextDelegate> delegate in synchronizedDelegates) {
+    if ([delegate respondsToSelector:@selector(userIdContext:didUpdateUserId:)]) {
+      [delegate userIdContext:self didUpdateUserId:userId];
+    }
   }
 }
 
@@ -147,6 +159,18 @@ static dispatch_once_t onceToken;
     return [NSString stringWithFormat:@"%@%@%@", kMSUserIdCustomPrefix, kMSCommonSchemaPrefixSeparator, userId];
   }
   return userId;
+}
+
+- (void)addDelegate:(id<MSUserIdContextDelegate>)delegate {
+  @synchronized(self) {
+    [self.delegates addObject:delegate];
+  }
+}
+
+- (void)removeDelegate:(id<MSUserIdContextDelegate>)delegate {
+  @synchronized(self) {
+    [self.delegates removeObject:delegate];
+  }
 }
 
 @end
