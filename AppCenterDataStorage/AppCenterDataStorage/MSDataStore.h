@@ -35,11 +35,19 @@ static NSString *const MSDataStoreUserDocumentsPartition = @"user";
 static NSString *const MSDataStoreAppDocumentsPartition = @"readonly";
 
 /**
- * Time to live constants
+ * Cache does not expire.
  */
 static int const MSDataStoreTimeToLiveInfinite = -1;
+
+/**
+ * Do not cache.
+ */
 static int const MSDataStoreTimeToLiveNoCache = 0;
-static int const MSDataStoreTimeToLiveDefault = 60 * 60;
+
+/**
+ * Default cahcing value of one day.
+ */
+static int const MSDataStoreTimeToLiveDefault = 60 * 60 * 24;
 
 @interface MSDataStore<T : id <MSSerializableDocument>> : MSServiceAbstract
 
