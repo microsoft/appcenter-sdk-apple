@@ -135,6 +135,7 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
                   fromApplication:YES];
 
   // When
+  [self.sut setEnabled:NO];
   [self.sut setEnabled:YES];
 
   // Then
