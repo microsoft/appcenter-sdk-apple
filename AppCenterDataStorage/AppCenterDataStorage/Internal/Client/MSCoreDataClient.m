@@ -129,7 +129,6 @@
                 newCachedDocument:deletedDocument
                  deviceTimeToLive:deviceTimeToLive
                         operation:operation];
-        // WIP: fix public deletion not to return error when it worked.
         completionHandler(deletedDocument);
       }
 
