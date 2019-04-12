@@ -85,6 +85,7 @@ static dispatch_once_t onceToken;
       return;
     }
     self.currentUserIdInfo.userId = userId;
+
     /*
      * Replacing the last userId from history because the userId has changed within a same lifecycle without crashes.
      * The userId history is only used to correlate a crashes log with a userId, previous userId won't be used at all since there is no
