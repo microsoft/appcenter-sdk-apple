@@ -23,11 +23,6 @@ typedef void (^MSDocumentStoreCompletionHandler)(MSDocumentWrapper *_Nonnull doc
 + (void)resetSharedInstance;
 
 /**
- * Network state helper.
- */
-@property(nonatomic) MS_Reachability *reachability;
-
-/**
  * Dispatch queue to execute local storage operations with.
  */
 @property(nonatomic) dispatch_queue_t dispatchQueue;

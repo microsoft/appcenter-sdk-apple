@@ -71,10 +71,9 @@ static dispatch_once_t onceToken;
 - (instancetype)init {
   if ((self = [super init])) {
     _tokenExchangeUrl = (NSURL *)[NSURL URLWithString:kMSDefaultApiUrl];
-    _documentStore = [MSDBDocumentStore new];
-    _reachability = [MS_Reachability reachabilityForInternetConnection];
+    // WIP: move that to document store
     _dispatchQueue = dispatch_queue_create(kMSDataStoreDispatchQueue, DISPATCH_QUEUE_SERIAL);
-    _coreDataClient = [[MSCoreDataClient alloc] initWithDocumentStore:self.documentStore];
+    _coreDataClient = [[MSCoreDataClient alloc] initWithDocumentStore:[MSDBDocumentStore new]];
   }
   return self;
 }
@@ -630,7 +629,7 @@ static dispatch_once_t onceToken;
   } else {
     [[MSAuthTokenContext sharedInstance] removeDelegate:self];
     [MSTokenExchange removeAllCachedTokens];
-    [self.documentStore deleteAllTables];
+    [self.coreDataClient.documentStore deleteAllTables];
   }
 }
 
@@ -640,13 +639,13 @@ static dispatch_once_t onceToken;
 
   // If user logs in.
   if (userInfomation && userInfomation) {
-    [self.documentStore createUserStorageWithAccountId:userInfomation.accountId];
+    [self.coreDataClient.documentStore createUserStorageWithAccountId:userInfomation.accountId];
   } else {
     // If user logs out.
     [MSTokenExchange removeAllCachedTokens];
 
     // Delete all the data (user and read-only).
-    [self.documentStore deleteAllTables];
+    [self.coreDataClient.documentStore deleteAllTables];
   }
 }
 

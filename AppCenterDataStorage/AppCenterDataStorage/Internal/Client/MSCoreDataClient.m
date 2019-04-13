@@ -96,6 +96,15 @@
           completionHandler(cachedDocument);
         }
 
+        // Cached document is pending deletion, error out.
+        else if ([kMSPendingOperationDelete isEqualToString:cachedDocument.pendingOperation]) {
+          NSString *message = @"Document pending deletion in local storage";
+          MSLogError([MSDataStore logTag], message);
+          completionHandler([[MSDocumentWrapper alloc] initWithDataStoreErrorCode:MSACDataStoreErrorDocumentNotFound
+                                                                     errorMessage:message
+                                                                       documentId:documentId]);
+        }
+
         // Cached document is valid.
         else {
 
@@ -193,9 +202,7 @@
  * @return YES if a remote operation should be attempted; NO otherwise.
  */
 - (BOOL)needsRemoteOperation:(MSDocumentWrapper *)cachedDocument {
-  return
-      [self.reachability currentReachabilityStatus] != NotReachable
-      && cachedDocument.pendingOperation == nil;
+  return [self.reachability currentReachabilityStatus] != NotReachable && cachedDocument.pendingOperation == nil;
 }
 
 - (void)updateLocalStore:(MSTokenResult *)token
