@@ -240,7 +240,7 @@ static dispatch_once_t onceToken;
     }
 
     // Perform read.
-    [self.dataOperationProxy performCoreOperation:nil
+    [self.dataOperationProxy performOperation:nil
         documentId:documentId
         documentType:documentType
         document:nil
@@ -288,7 +288,7 @@ static dispatch_once_t onceToken;
     }
 
     // Perform deletion.
-    [self.dataOperationProxy performCoreOperation:kMSPendingOperationDelete
+    [self.dataOperationProxy performOperation:kMSPendingOperationDelete
         documentId:documentId
         documentType:[MSDictionaryDocument class]
         document:nil
@@ -325,7 +325,7 @@ static dispatch_once_t onceToken;
     }
 
     // Perform upsert.
-    [self.dataOperationProxy performCoreOperation:pendingOperation
+    [self.dataOperationProxy performOperation:pendingOperation
         documentId:documentId
         documentType:[document class]
         document:document

@@ -38,10 +38,11 @@ typedef void (^MSCachedTokenCompletionHandler)(MSTokensResponse *_Nullable token
 - (instancetype)initWithDocumentStore:(id<MSDocumentStore>)documentStore;
 
 /**
- * Perform a core operation for a given partition/document
+ * Perform an operation for a given partition/document
  * using a combination of the local store and/or CosmosDB remote calls.
  *
- * @param operation The operation (nil, CREATE, UPDATE, DELETE).
+ * @param operation The operation (nil - read, CREATE, UPDATE, DELETE). Values are matching the pending operation column in the documents
+ * store.
  * @param documentId The document identifier.
  * @param documentType The document type.
  * @param document The document (if the operation is CREATE or UPDATE).
@@ -50,14 +51,14 @@ typedef void (^MSCachedTokenCompletionHandler)(MSTokensResponse *_Nullable token
  * @param remoteDocumentBlock A block returning the remote document.
  * @param completionHandler The completion handler called ultimately.
  */
-- (void)performCoreOperation:(NSString *_Nullable)operation
-                  documentId:(NSString *)documentId
-                documentType:(Class)documentType
-                    document:(id<MSSerializableDocument> _Nullable)document
-                 baseOptions:(MSBaseOptions *_Nullable)baseOptions
-            cachedTokenBlock:(void (^)(MSCachedTokenCompletionHandler))cachedTokenBlock
-         remoteDocumentBlock:(void (^)(MSDocumentWrapperCompletionHandler))remoteDocumentBlock
-           completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler;
+- (void)performOperation:(NSString *_Nullable)operation
+              documentId:(NSString *)documentId
+            documentType:(Class)documentType
+                document:(id<MSSerializableDocument> _Nullable)document
+             baseOptions:(MSBaseOptions *_Nullable)baseOptions
+        cachedTokenBlock:(void (^)(MSCachedTokenCompletionHandler))cachedTokenBlock
+     remoteDocumentBlock:(void (^)(MSDocumentWrapperCompletionHandler))remoteDocumentBlock
+       completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler;
 
 @end
 

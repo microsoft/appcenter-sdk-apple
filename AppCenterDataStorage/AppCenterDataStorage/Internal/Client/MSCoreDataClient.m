@@ -60,7 +60,7 @@
       return;
     }
 
-    // Extract first token.
+    // Extract token.
     MSTokenResult *token = tokens.tokens[0];
 
     // Retrieve a cached document.
@@ -182,8 +182,6 @@
   });
 }
 
-#pragma mark Utilities
-
 /**
  * Validate an operation.
  *
@@ -207,15 +205,6 @@
   return [self.reachability currentReachabilityStatus] != NotReachable && cachedDocument.pendingOperation == nil;
 }
 
-/**
- * Update the local store given a current/new cached document.
- *
- * @param token The CosmosDB token.
- * @param currentCachedDocument The current cached document.
- * @param newCachedDocument The new document that should be cached.
- * @param deviceTimeToLive The device time to live for the new cached document.
- * @param operation The operation being intended (nil - read, CREATE, UPDATE, DELETE).
- */
 - (void)updateLocalStore:(MSTokenResult *)token
     currentCachedDocument:(MSDocumentWrapper *)currentCachedDocument
         newCachedDocument:(MSDocumentWrapper *)newCachedDocument
@@ -227,11 +216,9 @@
     return;
   }
 
-  /* If the cached document has a create or replace pending operation, no etags and if the current operation is a
-   * deletion, delete the document from the store. */
-  if (([kMSPendingOperationCreate isEqualToString:currentCachedDocument.pendingOperation] ||
-       [kMSPendingOperationReplace isEqualToString:currentCachedDocument.pendingOperation]) &&
-      !currentCachedDocument.eTag && operation && [kMSPendingOperationDelete isEqualToString:(NSString *)operation]) {
+  // If the cached document has a create or replace pending operation, no etags and if the current operation is a
+  // deletion, delete the document from the store.
+  if ([MSDataOperationProxy isPendingOperationNeverSyncedForDocument:currentCachedDocument currentOperation:operation]) {
     MSLogInfo([MSDataStore logTag], @"Removing never-synced document from local storage");
     [self.documentStore deleteWithToken:token documentId:currentCachedDocument.documentId];
   }
@@ -241,6 +228,13 @@
     MSLogInfo([MSDataStore logTag], @"Updating/inserting document into local storage");
     [self.documentStore upsertWithToken:token documentWrapper:newCachedDocument operation:operation deviceTimeToLive:deviceTimeToLive];
   }
+}
+
++ (BOOL)isPendingOperationNeverSyncedForDocument:(MSDocumentWrapper *)cachedDocument
+                                currentOperation:(NSString *_Nullable)currentOperation {
+  return ([kMSPendingOperationCreate isEqualToString:cachedDocument.pendingOperation] ||
+          [kMSPendingOperationReplace isEqualToString:cachedDocument.pendingOperation]) &&
+         !cachedDocument.eTag && currentOperation && [kMSPendingOperationDelete isEqualToString:(NSString *)currentOperation];
 }
 
 @end
