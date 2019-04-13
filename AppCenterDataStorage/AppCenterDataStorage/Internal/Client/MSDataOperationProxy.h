@@ -16,7 +16,7 @@ typedef void (^MSCachedTokenCompletionHandler)(MSTokensResponse *_Nullable token
 /**
  * Class responsible for the core logic between offline and remote calls.
  */
-@interface MSCoreDataClient : NSObject
+@interface MSDataOperationProxy : NSObject
 
 /**
  * Data store.
@@ -29,11 +29,11 @@ typedef void (^MSCachedTokenCompletionHandler)(MSTokensResponse *_Nullable token
 @property(nonatomic) MS_Reachability *reachability;
 
 /**
- * Initialize a `MSCoreDataClient` instance.
+ * Initialize a `MSDataOperationProxy` instance.
  *
  * @param documentStore The document store instance.
  *
- * @return A new `MSCoreDataClient` instance.
+ * @return A new `MSDataOperationProxy` instance.
  */
 - (instancetype)initWithDocumentStore:(id<MSDocumentStore>)documentStore;
 

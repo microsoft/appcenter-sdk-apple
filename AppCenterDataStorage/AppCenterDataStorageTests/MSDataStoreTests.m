@@ -1001,14 +1001,14 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   // Simulate being offline.
   MS_Reachability *reachabilityMock = OCMPartialMock([MS_Reachability reachabilityForInternetConnection]);
   OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(NotReachable);
-  self.sut.coreDataClient.reachability = reachabilityMock;
+  self.sut.dataOperationProxy.reachability = reachabilityMock;
 
   // Mock cached token result.
   MSTokenResult *tokenResult = [self mockTokenFetchingWithError:nil];
 
   // Mock local storage.
   id<MSDocumentStore> localStorageMock = OCMProtocolMock(@protocol(MSDocumentStore));
-  self.sut.coreDataClient.documentStore = localStorageMock;
+  self.sut.dataOperationProxy.documentStore = localStorageMock;
   MSDocumentWrapper *expectedDocument = [MSDocumentWrapper new];
   OCMStub([localStorageMock readWithToken:tokenResult documentId:OCMOCK_ANY documentType:OCMOCK_ANY]).andReturn(expectedDocument);
 
@@ -1039,7 +1039,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   // Simulate being offline.
   MS_Reachability *reachabilityMock = OCMPartialMock([MS_Reachability reachabilityForInternetConnection]);
   OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(NotReachable);
-  self.sut.coreDataClient.reachability = reachabilityMock;
+  self.sut.dataOperationProxy.reachability = reachabilityMock;
 
   // When
   [MSDataStore readWithPartition:kMSPartitionTest
@@ -1070,7 +1070,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   // Simulate being online.
   MS_Reachability *reachabilityMock = OCMPartialMock([MS_Reachability reachabilityForInternetConnection]);
   OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(ReachableViaWiFi);
-  self.sut.coreDataClient.reachability = reachabilityMock;
+  self.sut.dataOperationProxy.reachability = reachabilityMock;
 
   // Mock tokens fetching but don't mock local cache.
   MSTokenResult *testToken = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
@@ -1089,7 +1089,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // Mock local storage.
   id<MSDocumentStore> localStorageMock = OCMProtocolMock(@protocol(MSDocumentStore));
-  self.sut.coreDataClient.documentStore = localStorageMock;
+  self.sut.dataOperationProxy.documentStore = localStorageMock;
   MSDocumentWrapper *expectedDocument = [MSDocumentWrapper new];
   expectedDocument.pendingOperation = kMSPendingOperationCreate;
   OCMStub([localStorageMock readWithToken:testToken documentId:OCMOCK_ANY documentType:OCMOCK_ANY]).andReturn(expectedDocument);
@@ -1120,7 +1120,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   // Simulate being online.
   MS_Reachability *reachabilityMock = OCMPartialMock([MS_Reachability reachabilityForInternetConnection]);
   OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(ReachableViaWiFi);
-  self.sut.coreDataClient.reachability = reachabilityMock;
+  self.sut.dataOperationProxy.reachability = reachabilityMock;
 
   // Mock cached token result.
   MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
@@ -1128,7 +1128,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // Mock local storage.
   id<MSDocumentStore> localStorageMock = OCMProtocolMock(@protocol(MSDocumentStore));
-  self.sut.coreDataClient.documentStore = localStorageMock;
+  self.sut.dataOperationProxy.documentStore = localStorageMock;
   MSDocumentWrapper *expectedDocument = [MSDocumentWrapper new];
   expectedDocument.pendingOperation = kMSPendingOperationCreate;
   OCMStub([localStorageMock readWithToken:tokenResult documentId:OCMOCK_ANY documentType:OCMOCK_ANY]).andReturn(expectedDocument);
@@ -1160,7 +1160,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   // Simulate being online.
   MS_Reachability *reachabilityMock = OCMPartialMock([MS_Reachability reachabilityForInternetConnection]);
   OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(ReachableViaWiFi);
-  self.sut.coreDataClient.reachability = reachabilityMock;
+  self.sut.dataOperationProxy.reachability = reachabilityMock;
 
   // Mock cached token result.
   MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
@@ -1168,7 +1168,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // Mock local storage.
   id<MSDocumentStore> localStorageMock = OCMProtocolMock(@protocol(MSDocumentStore));
-  self.sut.coreDataClient.documentStore = localStorageMock;
+  self.sut.dataOperationProxy.documentStore = localStorageMock;
   MSDocumentWrapper *expectedDocument = [MSDocumentWrapper new];
   expectedDocument.pendingOperation = kMSPendingOperationReplace;
   OCMStub([localStorageMock readWithToken:tokenResult documentId:OCMOCK_ANY documentType:OCMOCK_ANY]).andReturn(expectedDocument);
@@ -1200,14 +1200,14 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   // Simulate being online.
   MS_Reachability *reachabilityMock = OCMPartialMock([MS_Reachability reachabilityForInternetConnection]);
   OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(ReachableViaWiFi);
-  self.sut.coreDataClient.reachability = reachabilityMock;
+  self.sut.dataOperationProxy.reachability = reachabilityMock;
 
   // Mock cached token result.
   MSTokenResult *tokenResult = [self mockTokenFetchingWithError:nil];
 
   // Mock local storage.
   id<MSDocumentStore> localStorageMock = OCMProtocolMock(@protocol(MSDocumentStore));
-  self.sut.coreDataClient.documentStore = localStorageMock;
+  self.sut.dataOperationProxy.documentStore = localStorageMock;
   MSDocumentWrapper *expectedDocument = [MSDocumentWrapper new];
   expectedDocument.pendingOperation = kMSPendingOperationDelete;
   OCMStub([localStorageMock readWithToken:tokenResult documentId:OCMOCK_ANY documentType:OCMOCK_ANY]).andReturn(expectedDocument);
@@ -1241,7 +1241,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   // Simulate being online.
   MS_Reachability *reachabilityMock = OCMPartialMock([MS_Reachability reachabilityForInternetConnection]);
   OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(ReachableViaWiFi);
-  self.sut.coreDataClient.reachability = reachabilityMock;
+  self.sut.dataOperationProxy.reachability = reachabilityMock;
 
   // Mock cached token result.
   MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
@@ -1251,7 +1251,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   // Mock expired document in local storage.
   NSError *expiredError = [NSError errorWithDomain:kMSACDataStoreErrorDomain code:MSACDataStoreErrorLocalDocumentExpired userInfo:nil];
   id<MSDocumentStore> localStorageMock = OCMProtocolMock(@protocol(MSDocumentStore));
-  self.sut.coreDataClient.documentStore = localStorageMock;
+  self.sut.dataOperationProxy.documentStore = localStorageMock;
   MSDocumentWrapper *expiredDocument = [[MSDocumentWrapper alloc] initWithError:expiredError documentId:@"4"];
   OCMStub([localStorageMock readWithToken:tokenResult documentId:OCMOCK_ANY documentType:OCMOCK_ANY]).andReturn(expiredDocument);
 
@@ -1309,7 +1309,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // Mock document in local storage.
   id<MSDocumentStore> localStorageMock = OCMProtocolMock(@protocol(MSDocumentStore));
-  self.sut.coreDataClient.documentStore = localStorageMock;
+  self.sut.dataOperationProxy.documentStore = localStorageMock;
   NSData *jsonFixture = [self jsonFixture:@"validTestDocument"];
   MSDocumentWrapper *expectedDocumentWrapper = [MSDocumentUtils documentWrapperFromData:jsonFixture
                                                                            documentType:[MSDictionaryDocument class]];
@@ -1366,12 +1366,12 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   // Simulate being offline.
   MS_Reachability *reachabilityMock = OCMPartialMock([MS_Reachability reachabilityForInternetConnection]);
   OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(NotReachable);
-  self.sut.coreDataClient.reachability = reachabilityMock;
+  self.sut.dataOperationProxy.reachability = reachabilityMock;
 
   // Mock expired document in local storage.
   NSError *expiredError = [NSError errorWithDomain:kMSACDataStoreErrorDomain code:MSACDataStoreErrorLocalDocumentExpired userInfo:nil];
   id<MSDocumentStore> localStorageMock = OCMProtocolMock(@protocol(MSDocumentStore));
-  self.sut.coreDataClient.documentStore = localStorageMock;
+  self.sut.dataOperationProxy.documentStore = localStorageMock;
   MSDocumentWrapper *expiredDocument = [[MSDocumentWrapper alloc] initWithError:expiredError documentId:@"4"];
   OCMStub([localStorageMock readWithToken:tokenResult documentId:OCMOCK_ANY documentType:OCMOCK_ANY]).andReturn(expiredDocument);
 

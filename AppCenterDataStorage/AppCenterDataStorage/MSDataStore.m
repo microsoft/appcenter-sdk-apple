@@ -73,7 +73,7 @@ static dispatch_once_t onceToken;
     _tokenExchangeUrl = (NSURL *)[NSURL URLWithString:kMSDefaultApiUrl];
     // WIP: move that to document store
     _dispatchQueue = dispatch_queue_create(kMSDataStoreDispatchQueue, DISPATCH_QUEUE_SERIAL);
-    _coreDataClient = [[MSCoreDataClient alloc] initWithDocumentStore:[MSDBDocumentStore new]];
+    _dataOperationProxy = [[MSDataOperationProxy alloc] initWithDocumentStore:[MSDBDocumentStore new]];
   }
   return self;
 }
@@ -240,7 +240,7 @@ static dispatch_once_t onceToken;
     }
 
     // Perform read.
-    [self.coreDataClient performCoreOperation:nil
+    [self.dataOperationProxy performCoreOperation:nil
         documentId:documentId
         documentType:documentType
         document:nil
@@ -288,7 +288,7 @@ static dispatch_once_t onceToken;
     }
 
     // Perform deletion.
-    [self.coreDataClient performCoreOperation:kMSPendingOperationDelete
+    [self.dataOperationProxy performCoreOperation:kMSPendingOperationDelete
         documentId:documentId
         documentType:[MSDictionaryDocument class]
         document:nil
@@ -325,7 +325,7 @@ static dispatch_once_t onceToken;
     }
 
     // Perform upsert.
-    [self.coreDataClient performCoreOperation:pendingOperation
+    [self.dataOperationProxy performCoreOperation:pendingOperation
         documentId:documentId
         documentType:[document class]
         document:document
@@ -629,7 +629,7 @@ static dispatch_once_t onceToken;
   } else {
     [[MSAuthTokenContext sharedInstance] removeDelegate:self];
     [MSTokenExchange removeAllCachedTokens];
-    [self.coreDataClient.documentStore deleteAllTables];
+    [self.dataOperationProxy.documentStore deleteAllTables];
   }
 }
 
@@ -639,13 +639,13 @@ static dispatch_once_t onceToken;
 
   // If user logs in.
   if (userInfomation && userInfomation) {
-    [self.coreDataClient.documentStore createUserStorageWithAccountId:userInfomation.accountId];
+    [self.dataOperationProxy.documentStore createUserStorageWithAccountId:userInfomation.accountId];
   } else {
     // If user logs out.
     [MSTokenExchange removeAllCachedTokens];
 
     // Delete all the data (user and read-only).
-    [self.coreDataClient.documentStore deleteAllTables];
+    [self.dataOperationProxy.documentStore deleteAllTables];
   }
 }
 
