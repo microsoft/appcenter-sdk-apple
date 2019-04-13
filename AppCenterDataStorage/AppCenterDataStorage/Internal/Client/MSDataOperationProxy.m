@@ -160,7 +160,7 @@
           return;
         }
 
-        // Create a deleted document record.
+        // Create a create/replace document record.
         MSDocumentWrapper *createdOrUpdatedDocument = [[MSDocumentWrapper alloc] initWithDeserializedValue:document
                                                                                                  jsonValue:jsonDocument
                                                                                                  partition:token.partition
