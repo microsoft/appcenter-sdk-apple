@@ -1121,7 +1121,13 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
      */
     [MS_USER_DEFAULTS setObject:[[NSNumber alloc] initWithBool:YES] forKey:kMSUserConfirmationKey];
   }
-
+  
+  // Check if there is no handler set and unprocessedReports are not initialized as NSMutableArray (Init occurs in correct call sequence).
+  if ([MSCrashes sharedInstance].userConfirmationHandler==nil && !self.unprocessedReports) {
+    MSLogWarning(MSCrashes.logTag, @"Incorrect implementation of notifyWithUserConfirmation: should only be called from userConfirmationHandler. See https://docs.microsoft.com/en-us/appcenter/sdk/crashes/xamarin#ask-for-the-users-consent-to-send-a-crash-log");
+    return;
+  }
+  
   // Process crashes logs.
   for (NSUInteger i = 0; i < [self.unprocessedReports count]; i++) {
     MSAppleErrorLog *log = self.unprocessedLogs[i];
