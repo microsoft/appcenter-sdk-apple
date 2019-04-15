@@ -121,7 +121,7 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
 
 - (void)userIdContext:(MSUserIdContext *)__unused userIdContext didUpdateUserId:(NSString *)userId {
   if (self.pushToken) {
-    [self sendPushToken:self.pushToken withUserId:userId];
+    [self sendPushToken:self.pushToken userId:userId];
   }
 }
 
@@ -261,7 +261,7 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
   return [NSString stringWithString:stringBuffer];
 }
 
-- (void)sendPushToken:(NSString *)token withUserId:(NSString *)userId {
+- (void)sendPushToken:(NSString *)token userId:(NSString *)userId {
   MSPushLog *log = [MSPushLog new];
   log.pushToken = token;
   log.userId = userId;
@@ -278,7 +278,7 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
   }
   self.pushToken = pushToken;
   [MS_USER_DEFAULTS setObject:pushToken forKey:kMSPushServiceStorageKey];
-  [self sendPushToken:pushToken withUserId:[[MSUserIdContext sharedInstance] userId]];
+  [self sendPushToken:pushToken userId:[[MSUserIdContext sharedInstance] userId]];
 }
 
 - (void)didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
@@ -417,7 +417,7 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
   // Make a copy of push token so that this code is thread safe.
   NSString *pushTokenCopy = self.pushToken;
   if (pushTokenCopy) {
-    [self sendPushToken:pushTokenCopy withUserId:[[MSUserIdContext sharedInstance] userId]];
+    [self sendPushToken:pushTokenCopy userId:[[MSUserIdContext sharedInstance] userId]];
   }
 }
 

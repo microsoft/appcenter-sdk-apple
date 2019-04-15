@@ -50,7 +50,7 @@ static NSString *const kMSPushNotificationOldCustomDataKey = @"mobile_center";
  *
  * @param token The push token converted to NSString.
  */
-- (void)sendPushToken:(NSString *)token withUserId:(NSString *)userId;
+- (void)sendPushToken:(NSString *)token userId:(NSString *)userId;
 
 /**
  * Method converts NSData to NSString.

@@ -220,7 +220,7 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   XCTAssertEqualObjects(self.sut.pushToken, pushToken);
   OCMVerify([pushMock didRegisterForRemoteNotificationsWithDeviceToken:deviceToken]);
   OCMVerify([pushMock convertTokenToString:deviceToken]);
-  OCMVerify([pushMock sendPushToken:pushToken withUserId:[MSUserIdContext sharedInstance].userId]);
+  OCMVerify([pushMock sendPushToken:pushToken userId:[MSUserIdContext sharedInstance].userId]);
   XCTAssertNotNil(log);
   XCTAssertEqual(pushToken, log.pushToken);
   XCTAssertNil(log.userId);
@@ -236,13 +236,13 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   XCTAssertEqualObjects(self.sut.pushToken, pushToken);
   OCMVerify([pushMock didRegisterForRemoteNotificationsWithDeviceToken:deviceToken]);
   OCMVerify([pushMock convertTokenToString:deviceToken]);
-  OCMVerify([pushMock sendPushToken:pushToken withUserId:[MSUserIdContext sharedInstance].userId]);
+  OCMVerify([pushMock sendPushToken:pushToken userId:[MSUserIdContext sharedInstance].userId]);
   XCTAssertNotNil(log);
   XCTAssertEqual(pushToken, log.pushToken);
   XCTAssertEqual(@"alice", log.userId);
 
   // When
-  OCMReject([pushMock sendPushToken:OCMOCK_ANY withUserId:[MSUserIdContext sharedInstance].userId]);
+  OCMReject([pushMock sendPushToken:OCMOCK_ANY userId:[MSUserIdContext sharedInstance].userId]);
   [MSPush didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
 
   // Then
@@ -266,7 +266,7 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSPushLog class]] flags:MSFlagsDefault]).andDo(^(NSInvocation *invocation) {
     [invocation getArgument:&log atIndex:2];
   });
-  OCMExpect([pushMock sendPushToken:pushToken withUserId:[MSUserIdContext sharedInstance].userId]);
+  OCMExpect([pushMock sendPushToken:pushToken userId:[MSUserIdContext sharedInstance].userId]);
   [[MSPush sharedInstance] startWithChannelGroup:channelGroupMock
                                        appSecret:kMSTestAppSecret
                          transmissionTargetToken:nil
@@ -300,7 +300,7 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSPushLog class]] flags:MSFlagsDefault]).andDo(^(NSInvocation *invocation) {
     [invocation getArgument:&log atIndex:2];
   });
-  OCMExpect([pushMock sendPushToken:pushToken withUserId:[MSUserIdContext sharedInstance].userId]);
+  OCMExpect([pushMock sendPushToken:pushToken userId:[MSUserIdContext sharedInstance].userId]);
   [[MSPush sharedInstance] startWithChannelGroup:channelGroupMock
                                        appSecret:kMSTestAppSecret
                          transmissionTargetToken:nil
@@ -339,7 +339,7 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   [pushMock setEnabled:NO];
 
   // Then
-  OCMReject([pushMock sendPushToken:pushToken withUserId:[MSUserIdContext sharedInstance].userId]);
+  OCMReject([pushMock sendPushToken:pushToken userId:[MSUserIdContext sharedInstance].userId]);
 
   // When
   [[MSAuthTokenContext sharedInstance] setAuthToken:@"something" withAccountId:@"someone" expiresOn:nil];
@@ -866,7 +866,7 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   [[MSUserIdContext sharedInstance] setUserId:expectedValue];
 
   // Then
-  OCMVerify([pushMock sendPushToken:OCMOCK_ANY withUserId:expectedValue]);
+  OCMVerify([pushMock sendPushToken:OCMOCK_ANY userId:expectedValue]);
   [pushMock stopMocking];
 }
 
