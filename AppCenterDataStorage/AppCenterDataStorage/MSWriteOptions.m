@@ -5,6 +5,4 @@
 
 @implementation MSWriteOptions
 
-// @todo
-
 @end

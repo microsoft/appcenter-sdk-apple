@@ -79,12 +79,13 @@ static dispatch_once_t onceToken;
 - (void)setUserId:(nullable NSString *)userId {
   NSArray *synchronizedDelegates;
   @synchronized(self) {
-    BOOL sameUserId = (!userId && !self.currentUserIdInfo.userId) || ([self.currentUserIdInfo.userId isEqualToString:(NSString *)userId]);
-    self.currentUserIdInfo.timestamp = [NSDate date];
+    BOOL sameUserId = (!userId && !self.currentUserIdInfo.userId) || [self.currentUserIdInfo.userId isEqualToString:(NSString *)userId];
     if (sameUserId) {
       return;
     }
+    self.currentUserIdInfo.timestamp = [NSDate date];
     self.currentUserIdInfo.userId = userId;
+
     /*
      * Replacing the last userId from history because the userId has changed within a same lifecycle without crashes.
      * The userId history is only used to correlate a crashes log with a userId, previous userId won't be used at all since there is no
