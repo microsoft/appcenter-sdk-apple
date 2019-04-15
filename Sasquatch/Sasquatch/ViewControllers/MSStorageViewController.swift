@@ -24,7 +24,7 @@ class MSStorageViewController: UITableViewController {
     super.viewDidLoad()
     tableView.setEditing(true, animated: false)
     tableView.allowsSelectionDuringEditing = true
-    identitySignIn = UserDefaults.standard.bool(forKey: "identitySignIn")
+    identitySignIn = UserDefaults.standard.bool(forKey: kMSUserIdentity)
   }
 
   override func viewWillAppear(_ animated: Bool) {

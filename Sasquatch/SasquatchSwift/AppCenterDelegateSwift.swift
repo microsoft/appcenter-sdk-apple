@@ -200,7 +200,7 @@ class AppCenterDelegateSwift: AppCenterDelegate {
   func signIn() {
     MSIdentity.signIn { userInformation, error in
       if error == nil {
-        UserDefaults.standard.set(true, forKey: "identitySignIn")
+        UserDefaults.standard.set(true, forKey: kMSUserIdentity)
         print("Identity.signIn succeeded, accountId=\(userInformation!.accountId)")
       }
       else {
@@ -211,7 +211,7 @@ class AppCenterDelegateSwift: AppCenterDelegate {
 
   func signOut() {
     MSIdentity.signOut()
-    UserDefaults.standard.set(false, forKey: "identitySignIn")
+    UserDefaults.standard.set(false, forKey: kMSUserIdentity)
   }
 
   // Last crash report section.

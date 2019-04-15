@@ -216,7 +216,7 @@
 - (void)signIn {
   [MSIdentity signInWithCompletionHandler:^(MSUserInformation *_Nullable userInformation, NSError *_Nullable error) {
     if (!error) {
-      [[NSUserDefaults standardUserDefaults] setBool:true forKey:@"identitySignIn"];
+      [[NSUserDefaults standardUserDefaults] setBool:true forKey:kMSUserIdentity];
       NSLog(@"Identity.signIn succeeded, accountId=%@", userInformation.accountId);
     } else {
       NSLog(@"Identity.signIn failed, error=%@", error);
@@ -226,7 +226,7 @@
 
 - (void)signOut {
   [MSIdentity signOut];
-  [[NSUserDefaults standardUserDefaults] setBool:false forKey:@"identitySignIn"];
+  [[NSUserDefaults standardUserDefaults] setBool:false forKey:kMSUserIdentity];
 }
 
 #pragma mark - Last crash report section.
