@@ -118,6 +118,7 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
 #endif
 
 #pragma mark - MSUserIdContextDelegate
+
 - (void)userIdContext:(MSUserIdContext *)__unused userIdContext didUpdateUserId:(NSString *)userId {
   NSString *pushTokenCopy = self.pushToken;
   if (pushTokenCopy) {
