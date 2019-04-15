@@ -35,7 +35,7 @@
        completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
 
   // Get effective device time to live.
-  NSInteger deviceTimeToLive = baseOptions ? baseOptions.deviceTimeToLive : MSDataStoreTimeToLiveDefault;
+  NSInteger deviceTimeToLive = baseOptions ? baseOptions.deviceTimeToLive : kMSDataStoreTimeToLiveDefault;
 
   // Validate current operation.
   if (![MSDataOperationProxy isValidOperation:operation]) {
@@ -223,7 +223,8 @@
                 operation:(NSString *_Nullable)operation {
 
   // If the device time to live does not allow it, do not touch the local storage.
-  if (deviceTimeToLive == MSDataStoreTimeToLiveNoCache) {
+  if (deviceTimeToLive == kMSDataStoreTimeToLiveNoCache) {
+    // WIP: Shall we delete the document too?
     return;
   }
 

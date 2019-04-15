@@ -24,9 +24,10 @@ static const NSUInteger kMSSchemaVersion = 1;
 
 #pragma mark - Initialization
 
-- (instancetype)initWithDbStorage:(MSDBStorage *)dbStorage schema:(MSDBSchema *)schema {
+- (instancetype)initWithDbStorage:(MSDBStorage *)dbStorage {
   if ((self = [super init])) {
     _dbStorage = dbStorage;
+    MSDBSchema *schema = @{kMSAppDocumentTableName : MSDBDocumentStore.columnsSchema};
     NSDictionary *columnIndexes = [MSDBStorage columnsIndexes:schema];
     _idColumnIndex = ((NSNumber *)columnIndexes[kMSAppDocumentTableName][kMSIdColumnName]).unsignedIntegerValue;
     _partitionColumnIndex = ((NSNumber *)columnIndexes[kMSAppDocumentTableName][kMSPartitionColumnName]).unsignedIntegerValue;
@@ -37,6 +38,7 @@ static const NSUInteger kMSSchemaVersion = 1;
     _downloadTimeColumnIndex = ((NSNumber *)columnIndexes[kMSAppDocumentTableName][kMSDownloadTimeColumnName]).unsignedIntegerValue;
     _operationTimeColumnIndex = ((NSNumber *)columnIndexes[kMSAppDocumentTableName][kMSOperationTimeColumnName]).unsignedIntegerValue;
     _pendingOperationColumnIndex = ((NSNumber *)columnIndexes[kMSAppDocumentTableName][kMSPendingOperationColumnName]).unsignedIntegerValue;
+    [self createTableWithTableName:kMSAppDocumentTableName];
   }
   return self;
 }
@@ -46,17 +48,21 @@ static const NSUInteger kMSSchemaVersion = 1;
   /*
    * DO NOT modify schema without a migration plan and bumping database version.
    */
-  MSDBSchema *schema = [MSDBDocumentStore documentTableSchema];
-  MSDBStorage *dbStorage = [[MSDBStorage alloc] initWithSchema:schema version:kMSSchemaVersion filename:kMSDBDocumentFileName];
-  return [self initWithDbStorage:dbStorage schema:schema];
+  MSDBStorage *dbStorage = [[MSDBStorage alloc] initWithVersion:kMSSchemaVersion filename:kMSDBDocumentFileName];
+  return [self initWithDbStorage:dbStorage];
 }
 
 #pragma mark - Table Management
 
 - (BOOL)createUserStorageWithAccountId:(NSString *)accountId {
+  NSString *tableName = [NSString stringWithFormat:kMSUserDocumentTableNameFormat, accountId];
+  return [self createTableWithTableName:tableName];
+}
+
+- (BOOL)createTableWithTableName:(NSString *)tableName {
 
   // Create table based on the schema.
-  return [self.dbStorage createTable:[NSString stringWithFormat:kMSUserDocumentTableNameFormat, accountId]
+  return [self.dbStorage createTable:tableName
                        columnsSchema:[MSDBDocumentStore columnsSchema]
              uniqueColumnsConstraint:@[ kMSPartitionColumnName, kMSDocumentIdColumnName ]];
 }
@@ -65,12 +71,16 @@ static const NSUInteger kMSSchemaVersion = 1;
         documentWrapper:(MSDocumentWrapper *)documentWrapper
               operation:(NSString *_Nullable)operation
        deviceTimeToLive:(NSInteger)deviceTimeToLive {
-  // Compute expiration time as now + device time to live (in seconds).
-  // If device time to live is set to infinite, set expiration time as null in the database.
-  // Note: If the cache/store is meant to be disabled, this method should not even be called.
+  /*
+   * Compute expiration time as now + device time to live (in seconds).
+   * If device time to live is set to infinite, set expiration time as null in the database.
+   * Note: If the cache/store is meant to be disabled, this method should not even be called.
+   */
+
+  // This is the same as [[NSDate date] timeIntervalSince1970] - but saves us from allocating an NSDate.
   NSTimeInterval now = NSDate.timeIntervalSinceReferenceDate + NSTimeIntervalSince1970;
   NSTimeInterval expirationTime = -1;
-  if (deviceTimeToLive != MSDataStoreTimeToLiveInfinite) {
+  if (deviceTimeToLive != kMSDataStoreTimeToLiveInfinite) {
     expirationTime = now + deviceTimeToLive;
   }
   NSString *tableName = [MSDBDocumentStore tableNameForPartition:token.partition];
@@ -124,7 +134,7 @@ static const NSUInteger kMSSchemaVersion = 1;
 
   // If the document is expired, return an error and delete it.
   long expirationTime = [(NSNumber *)(result[0][self.expirationTimeColumnIndex]) longValue];
-  if (expirationTime != MSDataStoreTimeToLiveInfinite) {
+  if (expirationTime != kMSDataStoreTimeToLiveInfinite) {
     NSDate *expirationDate = [NSDate dateWithTimeIntervalSince1970:expirationTime];
     NSDate *currentDate = [NSDate date];
     if (expirationDate && [expirationDate laterDate:currentDate] == currentDate) {
@@ -159,10 +169,6 @@ static const NSUInteger kMSSchemaVersion = 1;
   [self.dbStorage dropAllTables];
 }
 
-+ (MSDBSchema *)documentTableSchema {
-  return @{kMSAppDocumentTableName : [MSDBDocumentStore columnsSchema]};
-}
-
 + (MSDBColumnsSchema *)columnsSchema {
   // clang-format off
   return @[
@@ -180,7 +186,7 @@ static const NSUInteger kMSSchemaVersion = 1;
 }
 
 + (NSString *)tableNameForPartition:(NSString *)partition {
-  if ([partition isEqualToString:MSDataStoreAppDocumentsPartition]) {
+  if ([partition isEqualToString:kMSDataStoreAppDocumentsPartition]) {
     return kMSAppDocumentTableName;
   } else if ([partition rangeOfString:kMSDataStoreAppDocumentsUserPartitionPrefix options:NSAnchoredSearch].location == 0) {
     return [NSString
