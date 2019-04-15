@@ -6,14 +6,17 @@
 //  expose to Swift.
 //
 
+#import "AppDelegate.h"
 #import "Constants.h"
 #import "CrashLib.h"
-#import "AppDelegate.h"
 
 #if GCC_PREPROCESSOR_MACRO_PUPPET
 #import "MSEventFilter.h"
 #import "MSEventPropertiesInternal.h"
+#import "MSPaginatedDocuments.h"
+#import "MSWriteOptions.h"
 #else
 @import AppCenter;
 @import AppCenterAnalytics;
+@import AppCenterDataStorage;
 #endif

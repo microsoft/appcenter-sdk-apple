@@ -8,6 +8,7 @@
 #import "AppCenter.h"
 #import "AppCenterAnalytics.h"
 #import "AppCenterCrashes.h"
+#import "AppCenterDataStorage.h"
 #import "AppCenterDistribute.h"
 #import "AppCenterIdentity.h"
 #import "AppCenterPush.h"
@@ -24,6 +25,7 @@
 @import AppCenterDistribute;
 @import AppCenterIdentity;
 @import AppCenterPush;
+@import AppCenterDataStorage;
 #endif
 
 /**
@@ -317,6 +319,54 @@
 
 - (NSString *)lastCrashReportDeviceCarrierCountry {
   return [[[MSCrashes lastSessionCrashReport] device] carrierCountry];
+}
+
+// MSDataStore section
+- (void)listDocumentsWithPartition:(NSString *)partitionName
+                      documentType:(Class)documentType
+                 completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler {
+  [MSDataStore listWithPartition:partitionName documentType:documentType completionHandler:completionHandler];
+}
+
+- (void)createDocumentWithPartition:(NSString *_Nonnull)
+                      partitionName:(NSString *_Nonnull)documentId
+                                   :(TestDocument *_Nonnull)document
+                                   :(MSWriteOptions *_Nonnull)writeOptions {
+  [MSDataStore createWithPartition:partitionName
+                        documentId:documentId
+                          document:document
+                 completionHandler:^(MSDocumentWrapper *_Nonnull document) {
+                   if (document) {
+                     NSLog(@"Storage.create document with id %@ succeeded", documentId);
+                   } else {
+                     NSLog(@"Storage.create document with id %@ failed", documentId);
+                   }
+                 }];
+}
+
+- (void)deleteDocumentWithPartition:(NSString *_Nonnull)partitionName:(NSString *_Nonnull)documentId {
+  [MSDataStore deleteDocumentWithPartition:partitionName
+                                documentId:documentId
+                         completionHandler:^(MSDataSourceError *_Nonnull error) {
+                           if (!error) {
+                             NSLog(@"Storage.delete document with id %@ succeeded", documentId);
+                           } else {
+                             NSLog(@"Storage.delete document with id %@ failed", documentId);
+                           }
+                         }];
+}
+
+- (void)replaceDocumentWithPartition:(NSString *_Nonnull)partitionName:(NSString *_Nonnull)documentId:(TestDocument *_Nonnull)document {
+  [MSDataStore replaceWithPartition:partitionName
+                         documentId:documentId
+                           document:document
+                  completionHandler:^(MSDocumentWrapper *_Nonnull document) {
+                    if (document) {
+                      NSLog(@"Storage.replace document with id %@ succeeded", documentId);
+                    } else {
+                      NSLog(@"Storage.replace document with id %@ failed", documentId);
+                    }
+                  }];
 }
 
 @end

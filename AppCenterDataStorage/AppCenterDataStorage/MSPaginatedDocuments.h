@@ -8,6 +8,8 @@
 // A (paginated) list of documents from CosmosDB
 @interface MSPaginatedDocuments<T : id <MSSerializableDocument>> : NSObject
 
+typedef void (^MSPaginatedDocumentsCompletionHandler)(MSPaginatedDocuments<T> *documents);
+
 /**
  * Initialize documents with page.
  *

@@ -3,8 +3,10 @@
 
 import UIKit
 
-class MSStorageViewController: UITableViewController {
-
+class MSStorageViewController: UITableViewController, AppCenterProtocol {
+  
+  var appCenter: AppCenterDelegate!
+  
   enum StorageType: String {
     case App = "App"
     case User = "User"
@@ -12,7 +14,7 @@ class MSStorageViewController: UITableViewController {
     static let allValues = [App, User]
   }
   var identitySignIn = false
-  static var AppDocuments = ["App1", "App2"]
+  static var AppDocuments: [MSDocumentWrapper<TestDocument>] = []
   static var UserDocuments = ["User1", "User2", "User3"]
   static var AppDocumentContent = ["property1" : "property 1 string", "property2": 11] as [String : Any]
   static var UserDocumentsContent = ["property1": "property 1 string", "property2": 42, "property3": true] as [String : Any]
@@ -25,8 +27,14 @@ class MSStorageViewController: UITableViewController {
     tableView.setEditing(true, animated: false)
     tableView.allowsSelectionDuringEditing = true
     identitySignIn = UserDefaults.standard.bool(forKey: kMSUserIdentity)
+    tableView.isHidden = true
+    self.appCenter.listDocumentsWithPartition("readonly", documentType: TestDocument.self, completionHandler: { (documents) in
+      MSStorageViewController.AppDocuments = documents.currentPage()?.items ?? []
+      self.tableView.isHidden = false
+      self.tableView.reloadData()
+    })
   }
-
+ 
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     tableView.reloadData()
@@ -35,7 +43,7 @@ class MSStorageViewController: UITableViewController {
   override func numberOfSections(in tableView: UITableView) -> Int {
     return 3
   }
-
+  
   override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
     if section == 1 {
       return "Storage Type"
@@ -95,7 +103,7 @@ class MSStorageViewController: UITableViewController {
       storageTypeField?.tintColor = UIColor.clear
     } else if indexPath.section == 2 {
       if self.storageType == StorageType.App.rawValue {
-        cell.textLabel?.text = MSStorageViewController.AppDocuments[indexPath.row]
+        cell.textLabel?.text = MSStorageViewController.AppDocuments[indexPath.row].documentId
       } else if self.storageType == StorageType.User.rawValue {
         if indexPath.row == 0 {
           cell.textLabel?.text = "Add document"
@@ -135,6 +143,7 @@ class MSStorageViewController: UITableViewController {
 
   override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
     if editingStyle == .delete {
+      //self.appCenter.deleteDocumentWithPartition("USER", "id");
       MSStorageViewController.UserDocuments.remove(at: indexPath.row - 1)
       tableView.deleteRows(at: [indexPath], with: .automatic)
     } else if editingStyle == .insert {
