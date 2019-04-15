@@ -261,7 +261,7 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
   return [NSString stringWithString:stringBuffer];
 }
 
-- (void)sendPushToken:(NSString *)token withUserId:(NSString *) userId{
+- (void)sendPushToken:(NSString *)token withUserId:(NSString *)userId {
   MSPushLog *log = [MSPushLog new];
   log.pushToken = token;
   log.userId = userId;

@@ -144,7 +144,7 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
 }
 
 - (void)testApplyEnabledNoRemovesDelegate {
-  
+
   // If
   id userIdContextMock = OCMClassMock([MSUserIdContext class]);
   __block NSUInteger removeCount = 0;
@@ -156,7 +156,7 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
                         appSecret:kMSTestAppSecret
           transmissionTargetToken:nil
                   fromApplication:YES];
-  
+
   // When
   [self.sut setEnabled:NO];
 
@@ -855,16 +855,16 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
 #endif
 
 - (void)testUserIdContextDelegateCalledOnUserIdChanged {
-  
+
   // If
   id pushMock = OCMPartialMock(self.sut);
   OCMStub([pushMock pushToken]).andReturn(@"push-token");
   NSString *expectedValue = @"mockUserId";
   [[MSUserIdContext sharedInstance] addDelegate:self.sut];
-  
+
   // When
   [[MSUserIdContext sharedInstance] setUserId:expectedValue];
-  
+
   // Then
   OCMVerify([pushMock sendPushToken:OCMOCK_ANY withUserId:expectedValue]);
   [pushMock stopMocking];

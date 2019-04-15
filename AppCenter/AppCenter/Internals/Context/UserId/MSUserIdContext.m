@@ -93,7 +93,8 @@ static dispatch_once_t onceToken;
     [self.userIdHistory removeLastObject];
     [self.userIdHistory addObject:self.currentUserIdInfo];
     [MS_USER_DEFAULTS setObject:[NSKeyedArchiver archivedDataWithRootObject:self.userIdHistory] forKey:kMSUserIdHistoryKey];
-    MSLogVerbose([MSAppCenter logTag], @"Stored new userId:%@ and timestamp: %@.", self.currentUserIdInfo.userId, self.currentUserIdInfo.timestamp);
+    MSLogVerbose([MSAppCenter logTag], @"Stored new userId:%@ and timestamp: %@.", self.currentUserIdInfo.userId,
+                 self.currentUserIdInfo.timestamp);
     synchronizedDelegates = [self.delegates allObjects];
   }
   for (id<MSUserIdContextDelegate> delegate in synchronizedDelegates) {
