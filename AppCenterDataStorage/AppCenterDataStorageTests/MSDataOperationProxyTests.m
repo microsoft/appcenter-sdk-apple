@@ -185,6 +185,7 @@
                                                                                            documentWrapper:OCMOCK_ANY
                                                                                                  operation:OCMOCK_ANY
                                                                                           deviceTimeToLive:0]);
+                                 OCMVerify([self.documentStoreMock deleteWithToken:token documentId:@"documentId"]);
                                }];
 }
 

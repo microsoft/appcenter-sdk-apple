@@ -222,24 +222,27 @@
          deviceTimeToLive:(NSInteger)deviceTimeToLive
                 operation:(NSString *_Nullable)operation {
 
-  // If the device time to live does not allow it, do not touch the local storage.
+  // If the device time to live does not allow it, remove document from local storage (whether it is here or not).
   if (deviceTimeToLive == kMSDataStoreTimeToLiveNoCache) {
-    // WIP: Shall we delete the document too?
-    return;
+    MSLogInfo([MSDataStore logTag], @"Removing document from local storage (partition: %@, id: %@)", token.partition,
+              currentCachedDocument.documentId);
+    [self.documentStore deleteWithToken:token documentId:currentCachedDocument.documentId];
   }
 
   /* If the cached document has a create or replace pending operation, no etags and if the current operation is a
    * deletion, delete the document from the store. */
-  if (([kMSPendingOperationCreate isEqualToString:currentCachedDocument.pendingOperation] ||
-       [kMSPendingOperationReplace isEqualToString:currentCachedDocument.pendingOperation]) &&
-      !currentCachedDocument.eTag && operation && [kMSPendingOperationDelete isEqualToString:(NSString *)operation]) {
-    MSLogInfo([MSDataStore logTag], @"Removing never-synced document from local storage");
+  else if (([kMSPendingOperationCreate isEqualToString:currentCachedDocument.pendingOperation] ||
+            [kMSPendingOperationReplace isEqualToString:currentCachedDocument.pendingOperation]) &&
+           !currentCachedDocument.eTag && operation && [kMSPendingOperationDelete isEqualToString:(NSString *)operation]) {
+    MSLogInfo([MSDataStore logTag], @"Removing never-synced document from local storage (partition: %@, id: %@)", token.partition,
+              currentCachedDocument.documentId);
     [self.documentStore deleteWithToken:token documentId:currentCachedDocument.documentId];
   }
 
   // Update document storage.
   else {
-    MSLogInfo([MSDataStore logTag], @"Updating/inserting document into local storage");
+    MSLogInfo([MSDataStore logTag], @"Updating/inserting document into local storage (partition: %@, id: %@, operation: %@)",
+              token.partition, currentCachedDocument.documentId, operation);
     [self.documentStore upsertWithToken:token documentWrapper:newCachedDocument operation:operation deviceTimeToLive:deviceTimeToLive];
   }
 }
