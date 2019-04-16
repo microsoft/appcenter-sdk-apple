@@ -48,7 +48,7 @@
   }
 
   // Retrieve a cached token.
-  cachedTokenBlock(^(MSTokensResponse *_Nullable tokens, NSError *_Nullable error) {
+  cachedTokenBlock(^(MSTokensResponse *_Nullable tokensResponse, NSError *_Nullable error) {
     // Handle error.
     if (error) {
       NSString *message =
@@ -61,7 +61,7 @@
     }
 
     // Extract first token.
-    MSTokenResult *token = tokens.tokens[0];
+    MSTokenResult *token = tokensResponse.tokens[0];
 
     // Retrieve a cached document.
     MSDocumentWrapper *cachedDocument = [self.documentStore readWithToken:token documentId:documentId documentType:documentType];

@@ -11,7 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol MSHttpClientProtocol;
 @class MSTokensResponse;
 
-typedef void (^MSGetTokenAsyncCompletionHandler)(MSTokensResponse *tokenResponses, NSError *_Nullable error);
+typedef void (^MSGetTokenAsyncCompletionHandler)(MSTokensResponse *tokensResponse, NSError *_Nullable error);
 
 /**
  * This class retrieves and caches CosmosDB access token.

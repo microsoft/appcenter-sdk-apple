@@ -116,7 +116,7 @@
   OCMStub([self.documentStoreMock readWithToken:OCMOCK_ANY documentId:OCMOCK_ANY documentType:OCMOCK_ANY])
       .andReturn([[MSDocumentWrapper alloc] initWithError:self.dummyError documentId:@"documentId"]);
   MSTokenResult *token = [MSTokenResult alloc];
-  __block MSTokensResponse *response = [[MSTokensResponse alloc] initWithTokens:@[ token ]];
+  __block MSTokensResponse *tokensResponse = [[MSTokensResponse alloc] initWithTokens:@[ token ]];
 
   // When
   [self.sut performOperation:nil
@@ -125,7 +125,7 @@
       document:nil
       baseOptions:nil
       cachedTokenBlock:^(MSCachedTokenCompletionHandler _Nonnull handler) {
-        handler(response, nil);
+        handler(tokensResponse, nil);
       }
       remoteDocumentBlock:^(MSDocumentWrapperCompletionHandler _Nonnull handler) {
         handler(remoteDocumentWrapper);
@@ -158,7 +158,7 @@
   OCMStub([self.documentStoreMock readWithToken:OCMOCK_ANY documentId:OCMOCK_ANY documentType:OCMOCK_ANY])
       .andReturn([[MSDocumentWrapper alloc] initWithError:[NSError new] documentId:@"documentId"]);
   MSTokenResult *token = [MSTokenResult alloc];
-  __block MSTokensResponse *response = [[MSTokensResponse alloc] initWithTokens:@[ token ]];
+  __block MSTokensResponse *tokensResponse = [[MSTokensResponse alloc] initWithTokens:@[ token ]];
 
   // When
   [self.sut performOperation:nil
@@ -167,7 +167,7 @@
       document:nil
       baseOptions:[[MSBaseOptions alloc] initWithDeviceTimeToLive:kMSDataStoreTimeToLiveNoCache]
       cachedTokenBlock:^(MSCachedTokenCompletionHandler _Nonnull handler) {
-        handler(response, nil);
+        handler(tokensResponse, nil);
       }
       remoteDocumentBlock:^(MSDocumentWrapperCompletionHandler _Nonnull handler) {
         handler(remoteDocumentWrapper);
@@ -201,7 +201,7 @@
   OCMStub([self.documentStoreMock readWithToken:OCMOCK_ANY documentId:OCMOCK_ANY documentType:OCMOCK_ANY])
       .andReturn([[MSDocumentWrapper alloc] initWithError:self.dummyError documentId:@"documentId"]);
   MSTokenResult *token = [MSTokenResult alloc];
-  __block MSTokensResponse *response = [[MSTokensResponse alloc] initWithTokens:@[ token ]];
+  __block MSTokensResponse *tokensResponse = [[MSTokensResponse alloc] initWithTokens:@[ token ]];
 
   // When
   NSInteger deviceTimeToLive = 100000;
@@ -211,7 +211,7 @@
       document:nil
       baseOptions:[[MSBaseOptions alloc] initWithDeviceTimeToLive:deviceTimeToLive]
       cachedTokenBlock:^(MSCachedTokenCompletionHandler _Nonnull handler) {
-        handler(response, nil);
+        handler(tokensResponse, nil);
       }
       remoteDocumentBlock:^(MSDocumentWrapperCompletionHandler _Nonnull handler) {
         handler(remoteDocumentWrapper);
@@ -250,7 +250,7 @@
   __block MSDocumentWrapper *wrapper;
   OCMStub([self.documentStoreMock readWithToken:OCMOCK_ANY documentId:OCMOCK_ANY documentType:OCMOCK_ANY]).andReturn(cachedDocumentWrapper);
   MSTokenResult *token = [MSTokenResult alloc];
-  __block MSTokensResponse *response = [[MSTokensResponse alloc] initWithTokens:@[ token ]];
+  __block MSTokensResponse *tokensResponse = [[MSTokensResponse alloc] initWithTokens:@[ token ]];
 
   // When
   [self.sut performOperation:kMSPendingOperationDelete
@@ -259,7 +259,7 @@
       document:nil
       baseOptions:nil
       cachedTokenBlock:^(MSCachedTokenCompletionHandler _Nonnull handler) {
-        handler(response, nil);
+        handler(tokensResponse, nil);
       }
       remoteDocumentBlock:^(MSDocumentWrapperCompletionHandler _Nonnull __unused handler) {
       }
@@ -300,7 +300,7 @@
   __block MSDocumentWrapper *wrapper;
   OCMStub([self.documentStoreMock readWithToken:OCMOCK_ANY documentId:OCMOCK_ANY documentType:OCMOCK_ANY]).andReturn(cachedDocumentWrapper);
   MSTokenResult *token = [MSTokenResult alloc];
-  __block MSTokensResponse *response = [[MSTokensResponse alloc] initWithTokens:@[ token ]];
+  __block MSTokensResponse *tokensResponse = [[MSTokensResponse alloc] initWithTokens:@[ token ]];
 
   // When
   [self.sut performOperation:kMSPendingOperationDelete
@@ -309,7 +309,7 @@
       document:nil
       baseOptions:nil
       cachedTokenBlock:^(MSCachedTokenCompletionHandler _Nonnull handler) {
-        handler(response, nil);
+        handler(tokensResponse, nil);
       }
       remoteDocumentBlock:^(MSDocumentWrapperCompletionHandler _Nonnull __unused handler) {
       }
@@ -350,7 +350,7 @@
   __block MSDocumentWrapper *wrapper;
   OCMStub([self.documentStoreMock readWithToken:OCMOCK_ANY documentId:OCMOCK_ANY documentType:OCMOCK_ANY]).andReturn(cachedDocumentWrapper);
   MSTokenResult *token = [MSTokenResult alloc];
-  __block MSTokensResponse *response = [[MSTokensResponse alloc] initWithTokens:@[ token ]];
+  __block MSTokensResponse *tokensResponse = [[MSTokensResponse alloc] initWithTokens:@[ token ]];
 
   // When
   [self.sut performOperation:nil
@@ -359,7 +359,7 @@
       document:nil
       baseOptions:nil
       cachedTokenBlock:^(MSCachedTokenCompletionHandler _Nonnull handler) {
-        handler(response, nil);
+        handler(tokensResponse, nil);
       }
       remoteDocumentBlock:^(MSDocumentWrapperCompletionHandler _Nonnull __unused handler) {
       }
@@ -398,7 +398,7 @@
   __block MSDocumentWrapper *wrapper;
   OCMStub([self.documentStoreMock readWithToken:OCMOCK_ANY documentId:OCMOCK_ANY documentType:OCMOCK_ANY]).andReturn(cachedDocumentWrapper);
   MSTokenResult *token = [MSTokenResult alloc];
-  __block MSTokensResponse *response = [[MSTokensResponse alloc] initWithTokens:@[ token ]];
+  __block MSTokensResponse *tokensResponse = [[MSTokensResponse alloc] initWithTokens:@[ token ]];
 
   // Simulate being offline.
   MS_Reachability *reachabilityMock = OCMPartialMock([MS_Reachability reachabilityForInternetConnection]);
@@ -412,7 +412,7 @@
       document:nil
       baseOptions:nil
       cachedTokenBlock:^(MSCachedTokenCompletionHandler _Nonnull handler) {
-        handler(response, nil);
+        handler(tokensResponse, nil);
       }
       remoteDocumentBlock:^(MSDocumentWrapperCompletionHandler _Nonnull __unused handler) {
       }
@@ -452,7 +452,7 @@
   __block MSDocumentWrapper *wrapper;
   OCMStub([self.documentStoreMock readWithToken:OCMOCK_ANY documentId:OCMOCK_ANY documentType:OCMOCK_ANY]).andReturn(cachedDocumentWrapper);
   MSTokenResult *token = [MSTokenResult alloc];
-  __block MSTokensResponse *response = [[MSTokensResponse alloc] initWithTokens:@[ token ]];
+  __block MSTokensResponse *tokensResponse = [[MSTokensResponse alloc] initWithTokens:@[ token ]];
 
   // Simulate being offline.
   MS_Reachability *reachabilityMock = OCMPartialMock([MS_Reachability reachabilityForInternetConnection]);
@@ -468,7 +468,7 @@
       document:[[MSDictionaryDocument alloc] initFromDictionary:dict]
       baseOptions:nil
       cachedTokenBlock:^(MSCachedTokenCompletionHandler _Nonnull handler) {
-        handler(response, nil);
+        handler(tokensResponse, nil);
       }
       remoteDocumentBlock:^(MSDocumentWrapperCompletionHandler _Nonnull __unused handler) {
       }
@@ -510,7 +510,7 @@
   __block MSDocumentWrapper *wrapper;
   OCMStub([self.documentStoreMock readWithToken:OCMOCK_ANY documentId:OCMOCK_ANY documentType:OCMOCK_ANY]).andReturn(cachedDocumentWrapper);
   MSTokenResult *token = [MSTokenResult alloc];
-  __block MSTokensResponse *response = [[MSTokensResponse alloc] initWithTokens:@[ token ]];
+  __block MSTokensResponse *tokensResponse = [[MSTokensResponse alloc] initWithTokens:@[ token ]];
 
   // Simulate being offline.
   MS_Reachability *reachabilityMock = OCMPartialMock([MS_Reachability reachabilityForInternetConnection]);
@@ -526,7 +526,7 @@
       document:[[MSDictionaryDocument alloc] initFromDictionary:dict]
       baseOptions:nil
       cachedTokenBlock:^(MSCachedTokenCompletionHandler _Nonnull handler) {
-        handler(response, nil);
+        handler(tokensResponse, nil);
       }
       remoteDocumentBlock:^(MSDocumentWrapperCompletionHandler _Nonnull __unused handler) {
       }

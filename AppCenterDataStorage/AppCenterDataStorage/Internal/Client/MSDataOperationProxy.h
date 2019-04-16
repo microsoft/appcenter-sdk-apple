@@ -11,7 +11,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void (^MSCachedTokenCompletionHandler)(MSTokensResponse *_Nullable tokens, NSError *_Nullable error);
+typedef void (^MSCachedTokenCompletionHandler)(MSTokensResponse *_Nullable tokensResponse, NSError *_Nullable error);
 
 /**
  * Class responsible for the core logic between offline and remote calls.

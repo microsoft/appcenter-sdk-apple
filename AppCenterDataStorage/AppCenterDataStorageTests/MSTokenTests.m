@@ -129,14 +129,14 @@ static NSString *const accountId = @"someAccountID123";
   NSArray<MSTokenResult *> *tokenList = @[ token1, token2 ];
 
   // When
-  MSTokensResponse *response = [[MSTokensResponse alloc] initWithTokens:tokenList];
-  MSTokenResult *result = response.tokens[0];
+  MSTokensResponse *tokensResponse = [[MSTokensResponse alloc] initWithTokens:tokenList];
+  MSTokenResult *result = tokensResponse.tokens[0];
 
   // Then
   XCTAssertEqualObjects(result, token1);
 
   // When
-  result = response.tokens[1];
+  result = tokensResponse.tokens[1];
 
   // Then
   XCTAssertEqualObjects(result, token2);
@@ -167,16 +167,16 @@ static NSString *const accountId = @"someAccountID123";
   NSMutableDictionary *tokenList = [@{@"tokens" : @[ token1, token2 ]} mutableCopy];
 
   // When
-  MSTokensResponse *response = [[MSTokensResponse alloc] initWithDictionary:tokenList];
+  MSTokensResponse *tokensResponse = [[MSTokensResponse alloc] initWithDictionary:tokenList];
 
-  MSTokenResult *result = response.tokens[0];
+  MSTokenResult *result = tokensResponse.tokens[0];
   NSDictionary *tokenDic = tokenList[@"tokens"][0];
 
   // Then
   [self compareTokenObject:result andDictinary:tokenDic];
 
   // When
-  result = response.tokens[1];
+  result = tokensResponse.tokens[1];
   tokenDic = tokenList[@"tokens"][1];
 
   // Then

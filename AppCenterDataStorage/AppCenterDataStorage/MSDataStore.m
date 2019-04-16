@@ -447,14 +447,14 @@ static dispatch_once_t onceToken;
                                                     appSecret:self.appSecret
                                                     partition:partition
                                           includeExpiredToken:NO
-                                            completionHandler:^(MSTokensResponse *_Nonnull tokenResponses, NSError *_Nonnull error) {
+                                            completionHandler:^(MSTokensResponse *_Nonnull tokensResponse, NSError *_Nonnull error) {
                                               if (error) {
                                                 completionHandler(nil, nil, error);
                                                 return;
                                               }
                                               [MSCosmosDb
                                                   performCosmosDbAsyncOperationWithHttpClient:(MSHttpClient * _Nonnull) self.httpClient
-                                                                                  tokenResult:tokenResponses.tokens[0]
+                                                                                  tokenResult:tokensResponse.tokens[0]
                                                                                    documentId:documentId
                                                                                    httpMethod:httpMethod
                                                                                          body:body
