@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 #import "MSPendingOperation.h"
+#import "MSDataStore.h"
 
 @implementation MSPendingOperation
 
@@ -26,6 +27,20 @@
     _expirationTime = expirationTime;
   }
   return self;
+}
+
+- (long)getDeviceTimeToLiveFromOperation {
+  long deviceTimeToLive = kMSDataStoreTimeToLiveNoCache;
+  if (self.expirationTime == -1) {
+    deviceTimeToLive = kMSDataStoreTimeToLiveInfinite;
+  } else {
+    NSTimeInterval now = NSDate.timeIntervalSinceReferenceDate + NSTimeIntervalSince1970;
+    NSTimeInterval newExpirationTime = self.expirationTime - now;
+    if (newExpirationTime > 0) {
+      deviceTimeToLive = (long)newExpirationTime;
+    }
+  }
+  return deviceTimeToLive;
 }
 
 @end

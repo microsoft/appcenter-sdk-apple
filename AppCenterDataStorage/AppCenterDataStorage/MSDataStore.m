@@ -71,14 +71,12 @@ static dispatch_once_t onceToken;
 
 #pragma mark - Service initialization
 
-- (instancetype)initWithReachability:(MS_Reachability *)reachability {
+- (instancetype)init {
   if ((self = [super init])) {
-    _reachability = reachability;
     _tokenExchangeUrl = (NSURL *)[NSURL URLWithString:kMSDefaultApiUrl];
 
     // Listen to network events.
     [MS_NOTIFICATION_CENTER addObserver:self selector:@selector(networkStateChanged:) name:kMSReachabilityChangedNotification object:nil];
-    _reachability = [MS_Reachability reachabilityForInternetConnection];
     // FIXME: move that to document store (task #60212)
     _dispatchQueue = dispatch_queue_create(kMSDataStoreDispatchQueue, DISPATCH_QUEUE_SERIAL);
     _dataOperationProxy = [[MSDataOperationProxy alloc] initWithDocumentStore:[MSDBDocumentStore new]
@@ -591,7 +589,7 @@ static dispatch_once_t onceToken;
 + (instancetype)sharedInstance {
   dispatch_once(&onceToken, ^{
     if (sharedInstance == nil) {
-      sharedInstance = [[MSDataStore alloc] initWithReachability:[MS_Reachability reachabilityForInternetConnection]];
+      sharedInstance = [[MSDataStore alloc] init];
     }
   });
   return sharedInstance;
@@ -665,7 +663,7 @@ static dispatch_once_t onceToken;
 }
 
 - (void)networkStateChanged {
-  if ([self.reachability currentReachabilityStatus] == NotReachable) {
+  if ([[MS_Reachability reachabilityForInternetConnection] currentReachabilityStatus] == NotReachable) {
     MSLogInfo([MSAppCenter logTag], @"Internet connection is down.");
     [self onNetworkGoesOffline];
   } else {
@@ -696,12 +694,11 @@ static dispatch_once_t onceToken;
                                    // Run the operation in a dispatch queue.
                                    dispatch_async(self.dispatchQueue, ^{
                                      NSArray<MSPendingOperation *> *pendingOperations =
-                                         [self.documentStore pendingOperationsWithToken:tokenResponses.tokens[0]];
+                                         [self.dataOperationProxy.documentStore pendingOperationsWithToken:tokenResponses.tokens[0]];
                                      for (MSPendingOperation *operation in pendingOperations) {
+                                       MSWriteOptions *writeOptions = [[MSWriteOptions alloc] initWithDeviceTimeToLive:operation.getDeviceTimeToLiveFromOperation];
                                        if ([operation.operation isEqualToString:kMSPendingOperationCreate] ||
                                            [operation.operation isEqualToString:kMSPendingOperationReplace]) {
-                                         MSWriteOptions *writeOptions = [[MSWriteOptions alloc] init];
-                                         // TODO: When the writeOptions will be implemented construct it from the operation.expirationTime
                                          [MSDataStore
                                              replaceWithPartition:(NSString *)operation.partition
                                                        documentId:(NSString *)operation.documentId
@@ -723,10 +720,8 @@ static dispatch_once_t onceToken;
                                        } else if ([operation.operation isEqualToString:kMSPendingOperationDelete]) {
                                          // TODO: Do delete
 
-                                         MSWriteOptions *writeOptions = [[MSWriteOptions alloc] init];
-                                         // TODO: When the writeOptions will be implemented construct it from the operation.expirationTime
                                          [MSDataStore
-                                             deleteDocumentWithPartition:(NSString *)operation.partition
+                                             deleteWithPartition:(NSString *)operation.partition
                                                               documentId:(NSString *)operation.documentId
                                                             writeOptions:(MSWriteOptions * _Nullable) writeOptions
                                                        completionHandler:(MSDocumentWrapperCompletionHandler) ^ (MSDocumentWrapper *
@@ -749,10 +744,6 @@ static dispatch_once_t onceToken;
                                    });
                                  }];
   }
-}
-
-- (BOOL)isOffline {
-  return ([self.reachability currentReachabilityStatus] == NotReachable);
 }
 
 @end

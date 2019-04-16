@@ -53,4 +53,6 @@
                              etag:(NSString *)etag
                    expirationTime:(NSTimeInterval)expirationTime;
 
+- (long)getDeviceTimeToLiveFromOperation;
+
 @end
