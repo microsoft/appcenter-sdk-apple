@@ -34,10 +34,15 @@ NS_ENUM(NSInteger){MSACDocumentUnknownErrorCode = 0,
 
 // Error codes.
 // FIXME: Re-index these codes (we have our own domain so we can index at 0 and reserve ranges for us).
-NS_ENUM(NSInteger){MSACDataStoreErrorJSONSerializationFailed = -620000, MSACDataStoreErrorHTTPError = -620001,
-                   MSACDataStoreErrorDocumentNotFound = -620002, MSACDataStoreErrorLocalDocumentExpired = -620003,
-                   MSACDataStoreNotAuthenticated = -620004, MSACDataStoreInvalidClassCode = -620005};
-                   
+NS_ENUM(NSInteger){MSACDataStoreErrorJSONSerializationFailed = -620000,
+                   MSACDataStoreErrorHTTPError = -620001,
+                   MSACDataStoreErrorDocumentNotFound = -620002,
+                   MSACDataStoreErrorLocalDocumentExpired = -620003,
+                   MSACDataStoreNotAuthenticated = -620004,
+                   MSACDataStoreInvalidClassCode = -620005,
+                   MSACDataStoreDontCache = -620006,
+                   MSACDataStoreLocalStoreError = -620007};
+
 // Error descriptions.
 static NSString const *kMSACDataStoreInvalidClassDesc =
     @"Provided class does not conform to serialization protocol (MSSerializableDocument).";

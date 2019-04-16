@@ -101,7 +101,7 @@ static NSString *const kMSGetTokenPath = @"/data/tokens";
           MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:(NSDictionary *)jsonDictionary[kMSTokens][0]];
 
           // Create token response object.
-          MSTokensResponse *tokens = [[MSTokensResponse alloc] initWithTokens:@[ tokenResult ]];
+          MSTokensResponse *tokensResponse = [[MSTokensResponse alloc] initWithTokens:@[ tokenResult ]];
 
           // Token exchange did not get back an error but acquiring the token did not succeed either
           if (tokenResult && ![tokenResult.status isEqualToString:kMSTokenResultSucceed]) {
@@ -112,13 +112,13 @@ static NSString *const kMSGetTokenPath = @"/data/tokens";
                       userInfo:@{
                         NSLocalizedDescriptionKey : [NSString stringWithFormat:@"Token result had a status of %@", tokenResult.status]
                       }];
-            completionHandler(tokens, statusError);
+            completionHandler(tokensResponse, statusError);
             return;
           }
 
           // Cache the newly acquired token.
           [MSTokenExchange saveToken:tokenResult];
-          completionHandler(tokens, error);
+          completionHandler(tokensResponse, error);
         }];
   } else {
     completionHandler([[MSTokensResponse alloc] initWithTokens:@[ cachedToken ]], nil);
