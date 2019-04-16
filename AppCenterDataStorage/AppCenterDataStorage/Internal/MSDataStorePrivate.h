@@ -3,7 +3,6 @@
 
 #import "MSAuthTokenContextDelegate.h"
 #import "MSServiceInternal.h"
-#import "MSTokensResponse.h"
 #import "MS_Reachability.h"
 
 NS_ASSUME_NONNULL_BEGIN
