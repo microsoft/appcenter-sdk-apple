@@ -30,9 +30,11 @@ static NSString *const kMSTestGroupId = @"GroupId";
 @interface MSChannelUnitDefault (Test)
 
 - (void)sendLogArray:(NSArray<id<MSLog>> *__nonnull)logArray
-         withBatchId:(NSString *)batchId
-        andAuthToken:(MSAuthTokenValidityInfo *)tokenInfo;
-- (void)flushQueueForTokenArray:(NSMutableArray<MSAuthTokenValidityInfo *> *)tokenArray withTokenIndex:(NSUInteger)tokenIndex;
+              withBatchId:(NSString *)batchId
+    andAuthTokenFromArray:(NSArray<MSAuthTokenValidityInfo *> *)tokenArray
+                  atIndex:(NSUInteger)tokenIndex;
+
+- (void)flushQueueForTokenArray:(NSArray<MSAuthTokenValidityInfo *> *)tokenArray withTokenIndex:(NSUInteger)tokenIndex;
 
 @end
 
@@ -452,6 +454,8 @@ static NSString *const kMSTestGroupId = @"GroupId";
   NSUInteger batchSizeLimit = 1;
   __block int currentBatchId = 1;
   __block NSMutableArray<NSString *> *sentBatchIds = [NSMutableArray new];
+  __block MSSendAsyncCompletionHandler ingestionBlock;
+  __block id responseMock = [MSHttpTestUtil createMockResponseForStatusCode:200 headers:nil];
   NSUInteger expectedMaxPendingBatched = 2;
   id<MSLog> expectedLog = [MSAbstractLog new];
   expectedLog.sid = MS_UUID_STRING;
@@ -459,7 +463,9 @@ static NSString *const kMSTestGroupId = @"GroupId";
   // Set up mock and stubs.
   OCMStub([self.ingestionMock sendAsync:OCMOCK_ANY authToken:OCMOCK_ANY completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
     MSLogContainer *container;
+    [invocation retainArguments];
     [invocation getArgument:&container atIndex:2];
+    [invocation getArgument:&ingestionBlock atIndex:4];
     if (container) {
       [sentBatchIds addObject:container.batchId];
     }
@@ -487,15 +493,24 @@ static NSString *const kMSTestGroupId = @"GroupId";
   for (NSUInteger i = 1; i <= expectedMaxPendingBatched + 1; i++) {
     [self.sut enqueueItem:[self getValidMockLog] flags:MSFlagsDefault];
   }
-  [self enqueueChannelEndJobExpectation];
+
+  // Try to release one batch. It should trigger sending the last one.
+  dispatch_async(self.logsDispatchQueue, ^{
+    XCTAssertNotNil(ingestionBlock);
+    if (ingestionBlock) {
+      ingestionBlock([@(1) stringValue], responseMock, nil, nil);
+    }
+    [self enqueueChannelEndJobExpectation];
+  });
 
   // Then
   [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *error) {
                                  assertThatUnsignedLong(self.sut.pendingBatchIds.count, equalToUnsignedLong(expectedMaxPendingBatched));
-                                 assertThatUnsignedLong(sentBatchIds.count, equalToUnsignedLong(expectedMaxPendingBatched));
+                                 assertThatUnsignedLong(sentBatchIds.count, equalToUnsignedLong(expectedMaxPendingBatched + 1));
                                  assertThat(sentBatchIds[0], is(@"1"));
                                  assertThat(sentBatchIds[1], is(@"2"));
+                                 assertThat(sentBatchIds[2], is(@"3"));
                                  assertThatBool(self.sut.pendingBatchQueueFull, isTrue());
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
@@ -1284,7 +1299,8 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
   // Stub sendLogArray part - we don't need this in this test.
   id sutMock = OCMPartialMock(self.sut);
-  OCMStub([sutMock sendLogArray:OCMOCK_ANY withBatchId:OCMOCK_ANY andAuthToken:OCMOCK_ANY]);
+  OCMStub([[sutMock ignoringNonObjectArgs] sendLogArray:OCMOCK_ANY withBatchId:OCMOCK_ANY andAuthTokenFromArray:OCMOCK_ANY atIndex:0])
+      .andDo(nil);
   OCMStub([self.storageMock loadLogsWithGroupId:self.sut.configuration.groupId
                                           limit:self.sut.configuration.batchSizeLimit
                              excludedTargetKeys:OCMOCK_ANY
@@ -1313,7 +1329,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   [sutMock flushQueueForTokenArray:tokenValidityArray withTokenIndex:0];
 
   // Then
-  OCMVerify([sutMock sendLogArray:logsForToken3 withBatchId:OCMOCK_ANY andAuthToken:token3]);
+  OCMVerify([sutMock sendLogArray:logsForToken3 withBatchId:OCMOCK_ANY andAuthTokenFromArray:tokenValidityArray atIndex:2]);
   [sutMock stopMocking];
 }
 
