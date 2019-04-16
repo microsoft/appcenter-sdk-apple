@@ -15,10 +15,7 @@ class MSStorageViewController: UITableViewController, AppCenterProtocol {
   }
   var identitySignIn = false
   static var AppDocuments: [MSDocumentWrapper<TestDocument>] = []
-  static var UserDocuments = ["User1", "User2", "User3"]
-  static var AppDocumentContent = ["property1" : "property 1 string", "property2": 11] as [String : Any]
-  static var UserDocumentsContent = ["property1": "property 1 string", "property2": 42, "property3": true] as [String : Any]
-
+  static var UserDocuments: [MSDocumentWrapper<TestDocument>] = []
   private var storageTypePicker: MSEnumPicker<StorageType>?
   private var storageType = "App"
 
@@ -28,11 +25,35 @@ class MSStorageViewController: UITableViewController, AppCenterProtocol {
     tableView.allowsSelectionDuringEditing = true
     identitySignIn = UserDefaults.standard.bool(forKey: kMSUserIdentity)
     tableView.isHidden = true
-    self.appCenter.listDocumentsWithPartition("readonly", documentType: TestDocument.self, completionHandler: { (documents) in
+    loadAppFiles()
+  }
+  
+  func loadAppFiles() {
+    self.appCenter.listDocumentsWithPartition("READONLY", documentType: TestDocument.self, completionHandler: { (documents) in
       MSStorageViewController.AppDocuments = documents.currentPage()?.items ?? []
+      DispatchQueue.main.sync {
+        self.tableView.isHidden = false
+        self.tableView.reloadData()
+      }
+    })
+  }
+  
+  func loadUserFiles() {
+    self.appCenter.listDocumentsWithPartition("USER", documentType: TestDocument.self, completionHandler: { (documents) in
+      MSStorageViewController.UserDocuments = documents.currentPage()?.items ?? []
+      DispatchQueue.main.sync {
+        self.tableView.isHidden = false
+        self.tableView.reloadData()
+        
+      }
+    })
+  }
+  
+  func upload()  {
+    DispatchQueue.main.sync {
       self.tableView.isHidden = false
       self.tableView.reloadData()
-    })
+    }
   }
  
   override func viewWillAppear(_ animated: Bool) {
@@ -108,7 +129,7 @@ class MSStorageViewController: UITableViewController, AppCenterProtocol {
         if indexPath.row == 0 {
           cell.textLabel?.text = "Add document"
         } else {
-          cell.textLabel?.text = MSStorageViewController.UserDocuments[indexPath.row - 1]
+          cell.textLabel?.text = MSStorageViewController.UserDocuments[indexPath.row - 1].documentId
         }
       }
     }
@@ -143,7 +164,7 @@ class MSStorageViewController: UITableViewController, AppCenterProtocol {
 
   override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
     if editingStyle == .delete {
-      //self.appCenter.deleteDocumentWithPartition("USER", "id");
+      appCenter.deleteDocumentWithPartition("USER", documentId: MSStorageViewController.UserDocuments[indexPath.row - 1].documentId)
       MSStorageViewController.UserDocuments.remove(at: indexPath.row - 1)
       tableView.deleteRows(at: [indexPath], with: .automatic)
     } else if editingStyle == .insert {
@@ -161,13 +182,13 @@ class MSStorageViewController: UITableViewController, AppCenterProtocol {
       documentDetailsController.documentType = self.storageType
       documentDetailsController.documentId = sender as? String
       if self.storageType == StorageType.App.rawValue {
-        documentDetailsController.documentContent = MSStorageViewController.AppDocumentContent
+        documentDetailsController.documentContent = MSStorageViewController.AppDocuments
       } else {
-        documentDetailsController.documentContent = MSStorageViewController.UserDocumentsContent
+        documentDetailsController.documentContent = MSStorageViewController.UserDocuments
       }
     }
   }
-
+  
   func backButtonClicked(_ sender: Any) {
     self.presentingViewController?.dismiss(animated: true, completion: nil)
   }

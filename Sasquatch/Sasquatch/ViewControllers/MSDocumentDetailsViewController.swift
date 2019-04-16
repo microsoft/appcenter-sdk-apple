@@ -7,8 +7,9 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
   var documentType: String?
   var documentId: String?
   var userDocumentAddPropertiesSection: EventPropertiesTableSection!
-  var documentContent: [String: Any]?
+  var documentContent: [MSDocumentWrapper<TestDocument>]?
   let userType: String = "User"
+  var appCenter: AppCenterDelegate!
   private let kUserDocumentAddPropertiesSectionIndex: Int = 0
 
   @IBOutlet weak var backButton: UIButton!
@@ -78,7 +79,7 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
     } else if documentType == userType && indexPath.section == 2 {
       let index = documentContent!.index(documentContent!.startIndex, offsetBy: indexPath.row)
       documentContent!.remove(at: index)
-      MSStorageViewController.UserDocumentsContent.remove(at: index)
+      self.saveFile()
       tableView.deleteRows(at: [indexPath], with: .automatic)
     }
   }
@@ -106,26 +107,32 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
   }
 
   func saveButtonClicked(_ sender: UIButton) {
-    if docIdField.isEnabled && !((docIdField.text?.isEmpty)!) {
-      MSStorageViewController.UserDocuments.append(docIdField.text!)
-    }
+    self.saveFile()
+    self.presentingViewController?.dismiss(animated: true, completion: nil)
+  }
+  
+  func saveFile() {
+    var prop = [AnyHashable: Any]()
     if !((docIdField.text?.isEmpty)!) {
       let docProperties = userDocumentAddPropertiesSection.typedProperties
       for property in docProperties {
         switch property.type {
         case .String:
-          MSStorageViewController.UserDocumentsContent.updateValue(property.value as! String, forKey: property.key)
+          prop[property.value as! String] = property.key
         case .Double:
-          MSStorageViewController.UserDocumentsContent.updateValue(property.value as! Double, forKey: property.key)
+          prop[property.value as! Double] = property.key
         case .Long:
-          MSStorageViewController.UserDocumentsContent.updateValue(property.value as! Int64, forKey: property.key)
+          prop[property.value as! Int64] = property.key
         case .Boolean:
-          MSStorageViewController.UserDocumentsContent.updateValue(property.value as! Bool, forKey: property.key)
+          prop[property.value as! Bool] = property.key
         case .DateTime:
-          MSStorageViewController.UserDocumentsContent.updateValue(property.value as! Date, forKey: property.key)
+          prop[property.value as! Date] = property.key
         }
       }
     }
-    self.presentingViewController?.dismiss(animated: true, completion: nil)
+    let document = TestDocument.init(from: prop)
+    appCenter.createDocumentWithPartition("USER", documentId: docIdField.text!, document: document, writeOptions: MSWriteOptions.init())
+    //todo add new file to list
+    //    MSStorageViewController.UserDocuments.append(docIdField.text!)
   }
 }
