@@ -49,7 +49,7 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
       allValues: TimeToLiveMode.allValues,
       onChange: { index in
         self.documentTimeToLive = TimeToLiveMode.allValues[index].rawValue
-    }
+      }
     )
     self.timeToLiveField.delegate = self.timeToLiveModePicker
     self.timeToLiveField.text = TimeToLiveMode.Default.rawValue
