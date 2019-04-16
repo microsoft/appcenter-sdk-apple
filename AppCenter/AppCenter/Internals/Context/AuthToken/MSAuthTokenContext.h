@@ -62,7 +62,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return Array of MSAuthTokenValidityInfo.
  */
-- (NSMutableArray<MSAuthTokenValidityInfo *> *)authTokenValidityArray;
+- (NSArray<MSAuthTokenValidityInfo *> *)authTokenValidityArray;
 
 /**
  * Removes the token from history. Please note that only oldest token is
