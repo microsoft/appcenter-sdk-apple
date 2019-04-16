@@ -160,6 +160,7 @@ class MSStorageViewController: UITableViewController, AppCenterProtocol {
       let documentDetailsController = segue.destination as! MSDocumentDetailsViewController
       documentDetailsController.documentType = self.storageType
       documentDetailsController.documentId = sender as? String
+//      documentDetailsController.documentTimeToLive = sender as! String
       if self.storageType == StorageType.App.rawValue {
         documentDetailsController.documentContent = MSStorageViewController.AppDocumentContent
       } else {
