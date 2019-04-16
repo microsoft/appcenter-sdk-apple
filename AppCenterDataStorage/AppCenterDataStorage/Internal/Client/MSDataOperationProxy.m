@@ -16,11 +16,11 @@
 
 @implementation MSDataOperationProxy : NSObject
 
-- (instancetype)initWithDocumentStore:(id<MSDocumentStore>)documentStore {
+- (instancetype)initWithDocumentStore:(id<MSDocumentStore>)documentStore reachability:(MS_Reachability *)reachability {
   self = [super init];
   if (self) {
     _documentStore = documentStore;
-    _reachability = [MS_Reachability reachabilityForInternetConnection];
+    _reachability = reachability;
   }
   return self;
 }

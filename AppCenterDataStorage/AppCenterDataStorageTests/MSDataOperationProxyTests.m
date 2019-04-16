@@ -18,6 +18,7 @@
 
 @property(nonatomic) MSDataOperationProxy *sut;
 @property(nonatomic) id documentStoreMock;
+@property(nonatomic) id reachability;
 @property(nonatomic) NSError *dummyError;
 
 @end
@@ -29,14 +30,16 @@
 
   // Init properties.
   _documentStoreMock = OCMClassMock([MSDBDocumentStore class]);
-  self.sut = [[MSDataOperationProxy alloc] initWithDocumentStore:_documentStoreMock];
-  self.dummyError = [NSError errorWithDomain:kMSACDataStoreErrorDomain code:-1 userInfo:@{NSLocalizedDescriptionKey : @"Some dummy error"}];
+  _reachability = OCMPartialMock([MS_Reachability reachabilityForInternetConnection]);
+  _sut = [[MSDataOperationProxy alloc] initWithDocumentStore:_documentStoreMock reachability:self.reachability];
+  _dummyError = [NSError errorWithDomain:kMSACDataStoreErrorDomain code:-1 userInfo:@{NSLocalizedDescriptionKey : @"Some dummy error"}];
 }
 
 - (void)tearDown {
   [super tearDown];
 
   [self.documentStoreMock stopMocking];
+  [self.reachability stopMocking];
 }
 
 - (void)testInvalidOperation {
@@ -401,9 +404,7 @@
   __block MSTokensResponse *tokensResponse = [[MSTokensResponse alloc] initWithTokens:@[ token ]];
 
   // Simulate being offline.
-  MS_Reachability *reachabilityMock = OCMPartialMock([MS_Reachability reachabilityForInternetConnection]);
-  OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(NotReachable);
-  self.sut.reachability = reachabilityMock;
+  OCMStub([self.reachability currentReachabilityStatus]).andReturn(NotReachable);
 
   // When
   [self.sut performOperation:kMSPendingOperationDelete
@@ -455,9 +456,7 @@
   __block MSTokensResponse *tokensResponse = [[MSTokensResponse alloc] initWithTokens:@[ token ]];
 
   // Simulate being offline.
-  MS_Reachability *reachabilityMock = OCMPartialMock([MS_Reachability reachabilityForInternetConnection]);
-  OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(NotReachable);
-  self.sut.reachability = reachabilityMock;
+  OCMStub([self.reachability currentReachabilityStatus]).andReturn(NotReachable);
 
   // When
   NSMutableDictionary *dict = [NSMutableDictionary new];
@@ -513,9 +512,7 @@
   __block MSTokensResponse *tokensResponse = [[MSTokensResponse alloc] initWithTokens:@[ token ]];
 
   // Simulate being offline.
-  MS_Reachability *reachabilityMock = OCMPartialMock([MS_Reachability reachabilityForInternetConnection]);
-  OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(NotReachable);
-  self.sut.reachability = reachabilityMock;
+  OCMStub([self.reachability currentReachabilityStatus]).andReturn(NotReachable);
 
   // When
   NSMutableDictionary *dict = [NSMutableDictionary new];

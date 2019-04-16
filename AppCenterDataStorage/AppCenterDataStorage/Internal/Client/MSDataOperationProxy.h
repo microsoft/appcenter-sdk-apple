@@ -32,10 +32,11 @@ typedef void (^MSCachedTokenCompletionHandler)(MSTokensResponse *_Nullable token
  * Initialize a `MSDataOperationProxy` instance.
  *
  * @param documentStore The document store instance.
+ * @param reachability Network state helper.
  *
  * @return A new `MSDataOperationProxy` instance.
  */
-- (instancetype)initWithDocumentStore:(id<MSDocumentStore>)documentStore;
+- (instancetype)initWithDocumentStore:(id<MSDocumentStore>)documentStore reachability:(MS_Reachability *)reachability;
 
 /**
  * Perform an operation for a given partition/document

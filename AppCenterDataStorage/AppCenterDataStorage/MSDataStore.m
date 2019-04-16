@@ -25,6 +25,7 @@
 #import "MSTokensResponse.h"
 #import "MSUserInformation.h"
 #import "MSWriteOptions.h"
+#import "MS_Reachability.h"
 
 /**
  * Service storage key name.
@@ -73,7 +74,8 @@ static dispatch_once_t onceToken;
     _tokenExchangeUrl = (NSURL *)[NSURL URLWithString:kMSDefaultApiUrl];
     // FIXME: move that to document store (task #60212)
     _dispatchQueue = dispatch_queue_create(kMSDataStoreDispatchQueue, DISPATCH_QUEUE_SERIAL);
-    _dataOperationProxy = [[MSDataOperationProxy alloc] initWithDocumentStore:[MSDBDocumentStore new]];
+    _dataOperationProxy = [[MSDataOperationProxy alloc] initWithDocumentStore:[MSDBDocumentStore new]
+                                                                 reachability:[MS_Reachability reachabilityForInternetConnection]];
   }
   return self;
 }
