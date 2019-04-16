@@ -324,12 +324,12 @@
 // MSDataStore section
 - (void)listDocumentsWithPartition:(NSString *)partitionName
                       documentType:(Class)documentType
-                 completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler {
+                 completionHandler:(void(^)( MSPaginatedDocuments<TestDocument *> *))completionHandler {
   [MSDataStore listWithPartition:partitionName documentType:documentType completionHandler:completionHandler];
 }
 
-- (void)createDocumentWithPartition:(NSString *_Nonnull)
-                      partitionName:(NSString *_Nonnull)documentId
+- (void)createDocumentWithPartition:(NSString *_Nonnull)partitionName
+                                   :(NSString *_Nonnull)documentId
                                    :(TestDocument *_Nonnull)document
                                    :(MSWriteOptions *_Nonnull)writeOptions {
   [MSDataStore createWithPartition:partitionName
@@ -344,7 +344,7 @@
                  }];
 }
 
-- (void)deleteDocumentWithPartition:(NSString *_Nonnull)partitionName:(NSString *_Nonnull)documentId {
+- (void)deleteDocumentWithPartition:(NSString *_Nonnull)partitionName _:(NSString *_Nonnull)documentId {
   [MSDataStore deleteDocumentWithPartition:partitionName
                                 documentId:documentId
                          completionHandler:^(MSDataSourceError *_Nonnull error) {
@@ -356,7 +356,7 @@
                          }];
 }
 
-- (void)replaceDocumentWithPartition:(NSString *_Nonnull)partitionName:(NSString *_Nonnull)documentId:(TestDocument *_Nonnull)document {
+- (void)replaceDocumentWithPartition:(NSString *_Nonnull)partitionName _:(NSString *_Nonnull)documentId _:(TestDocument *_Nonnull)document {
   [MSDataStore replaceWithPartition:partitionName
                          documentId:documentId
                            document:document
