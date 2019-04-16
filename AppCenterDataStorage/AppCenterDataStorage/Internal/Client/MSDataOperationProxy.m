@@ -88,7 +88,7 @@
     else {
 
       // Read operation.
-      if (operation == nil) {
+      if (operation == kMSPendingOperationRead) {
 
         // Cached document is invalid, error out.
         if (cachedDocument.error) {
@@ -192,7 +192,7 @@
  *@return YES if the operation is valid; NO otherwise.
  */
 + (BOOL)isValidOperation:(NSString *)operation {
-  return operation == nil || [kMSPendingOperationCreate isEqualToString:operation] ||
+  return operation == kMSPendingOperationRead || [kMSPendingOperationCreate isEqualToString:operation] ||
          [kMSPendingOperationReplace isEqualToString:operation] || [kMSPendingOperationDelete isEqualToString:operation];
 }
 

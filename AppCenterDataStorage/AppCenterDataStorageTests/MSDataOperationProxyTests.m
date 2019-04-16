@@ -80,7 +80,7 @@
   __block MSDocumentWrapper *wrapper;
 
   // When
-  [self.sut performOperation:nil
+  [self.sut performOperation:kMSPendingOperationRead
       documentId:@"documentId"
       documentType:[NSString class]
       document:nil
@@ -119,7 +119,7 @@
   __block MSTokensResponse *tokensResponse = [[MSTokensResponse alloc] initWithTokens:@[ token ]];
 
   // When
-  [self.sut performOperation:nil
+  [self.sut performOperation:kMSPendingOperationRead
       documentId:@"documentId"
       documentType:[NSString class]
       document:nil
@@ -144,7 +144,7 @@
                                  XCTAssertEqual(wrapper, remoteDocumentWrapper);
                                  OCMVerify([self.documentStoreMock upsertWithToken:token
                                                                    documentWrapper:remoteDocumentWrapper
-                                                                         operation:nil
+                                                                         operation:kMSPendingOperationRead
                                                                   deviceTimeToLive:kMSDataStoreTimeToLiveDefault]);
                                }];
 }
@@ -156,12 +156,12 @@
   __block MSDocumentWrapper *remoteDocumentWrapper = [MSDocumentWrapper alloc];
   __block MSDocumentWrapper *wrapper;
   OCMStub([self.documentStoreMock readWithToken:OCMOCK_ANY documentId:OCMOCK_ANY documentType:OCMOCK_ANY])
-      .andReturn([[MSDocumentWrapper alloc] initWithError:[NSError new] documentId:@"documentId"]);
+      .andReturn([[MSDocumentWrapper alloc] initWithError:self.dummyError documentId:@"documentId"]);
   MSTokenResult *token = [MSTokenResult alloc];
   __block MSTokensResponse *tokensResponse = [[MSTokensResponse alloc] initWithTokens:@[ token ]];
 
   // When
-  [self.sut performOperation:nil
+  [self.sut performOperation:kMSPendingOperationRead
       documentId:@"documentId"
       documentType:[NSString class]
       document:nil
@@ -205,7 +205,7 @@
 
   // When
   NSInteger deviceTimeToLive = 100000;
-  [self.sut performOperation:nil
+  [self.sut performOperation:kMSPendingOperationRead
       documentId:@"documentId"
       documentType:[NSString class]
       document:nil
@@ -230,7 +230,7 @@
                                  XCTAssertEqual(wrapper, remoteDocumentWrapper);
                                  OCMVerify([self.documentStoreMock upsertWithToken:token
                                                                    documentWrapper:remoteDocumentWrapper
-                                                                         operation:nil
+                                                                         operation:kMSPendingOperationRead
                                                                   deviceTimeToLive:deviceTimeToLive]);
                                }];
 }
@@ -353,7 +353,7 @@
   __block MSTokensResponse *tokensResponse = [[MSTokensResponse alloc] initWithTokens:@[ token ]];
 
   // When
-  [self.sut performOperation:nil
+  [self.sut performOperation:kMSPendingOperationRead
       documentId:@"documentId"
       documentType:[NSString class]
       document:nil
@@ -393,7 +393,7 @@
                                                                                                documentId:@"documentId"
                                                                                                      eTag:@""
                                                                                           lastUpdatedDate:nil
-                                                                                         pendingOperation:nil
+                                                                                         pendingOperation:kMSPendingOperationRead
                                                                                                     error:nil];
   __block MSDocumentWrapper *wrapper;
   OCMStub([self.documentStoreMock readWithToken:OCMOCK_ANY documentId:OCMOCK_ANY documentType:OCMOCK_ANY]).andReturn(cachedDocumentWrapper);
@@ -447,7 +447,7 @@
                                                                                                documentId:@"documentId"
                                                                                                      eTag:@""
                                                                                           lastUpdatedDate:nil
-                                                                                         pendingOperation:nil
+                                                                                         pendingOperation:kMSPendingOperationRead
                                                                                                     error:nil];
   __block MSDocumentWrapper *wrapper;
   OCMStub([self.documentStoreMock readWithToken:OCMOCK_ANY documentId:OCMOCK_ANY documentType:OCMOCK_ANY]).andReturn(cachedDocumentWrapper);
@@ -505,7 +505,7 @@
                                                                                                documentId:@"documentId"
                                                                                                      eTag:@""
                                                                                           lastUpdatedDate:nil
-                                                                                         pendingOperation:nil
+                                                                                         pendingOperation:kMSPendingOperationRead
                                                                                                     error:nil];
   __block MSDocumentWrapper *wrapper;
   OCMStub([self.documentStoreMock readWithToken:OCMOCK_ANY documentId:OCMOCK_ANY documentType:OCMOCK_ANY]).andReturn(cachedDocumentWrapper);
