@@ -3,7 +3,7 @@
 
 import UIKit
 
-class MSStorageViewController: UITableViewController {
+class MSStorageViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
   enum StorageType: String {
     case App = "App"
@@ -19,116 +19,112 @@ class MSStorageViewController: UITableViewController {
 
   private var storageTypePicker: MSEnumPicker<StorageType>?
   private var storageType = "App"
+  
+  @IBOutlet var backButton: UIButton!
+  @IBOutlet var tableView: UITableView!
+  @IBOutlet var storageTypeField: UITextField!
 
   override func viewDidLoad() {
     super.viewDidLoad()
+    tableView.delegate = self
+    tableView.dataSource = self
     tableView.setEditing(true, animated: false)
     tableView.allowsSelectionDuringEditing = true
     identitySignIn = UserDefaults.standard.bool(forKey: "identitySignIn")
+    
+    initStoragePicker()
   }
-
-  override func numberOfSections(in tableView: UITableView) -> Int {
-    return 3
-  }
-
-  override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-    if section == 1 {
-      return "Storage Type"
-    } else if section == 2 {
-      if self.storageType == StorageType.User.rawValue && identitySignIn {
-        return "User Documents List"
-      } else if self.storageType == StorageType.App.rawValue {
-        return "App Document List"
-      }
-    }
-    return nil
-  }
-  override func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-    if section == 1 && self.storageType == StorageType.User.rawValue && !identitySignIn {
-      return "Please sign in to Identity firstly"
-    }
-    return nil
-  }
-
-  override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    if section == 2 {
-      if self.storageType == StorageType.App.rawValue {
-        return MSStorageViewController.AppDocuments.count
-      } else if self.storageType == StorageType.User.rawValue {
-        if identitySignIn {
-          return MSStorageViewController.UserDocuments.count + 1
+  
+  func initStoragePicker(){
+    self.storageTypePicker = MSEnumPicker<StorageType> (
+      textField: storageTypeField,
+      allValues: StorageType.allValues,
+      onChange: { index in
+        self.storageType = (self.storageTypeField?.text)!
+        if self.storageType == StorageType.User.rawValue && !self.identitySignIn {
+          let alert = UIAlertController(title: "Error", message: "Please sign in to Identity firstly", preferredStyle: .alert)
+          alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+            self.storageTypePicker?.doneClicked()
+          }))
+          self.present(alert, animated: true, completion: nil)
         } else {
-          return 0
+          self.tableView.reloadData()
         }
+    }
+    )
+    storageTypeField?.delegate = self.storageTypePicker
+    storageTypeField?.tintColor = UIColor.clear
+  }
+
+  func numberOfSections(in tableView: UITableView) -> Int {
+    return 1
+  }
+
+  func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    if self.storageType == StorageType.User.rawValue && identitySignIn {
+      return "User Documents List"
+    } else if self.storageType == StorageType.App.rawValue {
+      return "App Document List"
+    }
+    return nil
+  }
+
+  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    if self.storageType == StorageType.App.rawValue {
+      return MSStorageViewController.AppDocuments.count
+    } else if self.storageType == StorageType.User.rawValue {
+      if identitySignIn {
+        return MSStorageViewController.UserDocuments.count + 1
+      } else {
+        return 0
       }
     }
     return 1
   }
 
-  override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    var cellIdentifier = "back"
-    if indexPath.section == 1 {
-      cellIdentifier = "storagetype"
-    } else if indexPath.section == 2 {
-      cellIdentifier = "document"
-    }
+  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    let cellIdentifier = "document"
     let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
-    if indexPath.section == 0 {
-      let backButton: UIButton? = cell.getSubview()
-      backButton?.addTarget(self, action: #selector(backButtonClicked), for: .touchUpInside)
-    } else if indexPath.section == 1 {
-      let storageTypeField: UITextField? = cell.getSubview()
-      self.storageTypePicker = MSEnumPicker<StorageType> (
-        textField: storageTypeField,
-        allValues: StorageType.allValues,
-        onChange: { index in
-          self.storageType = (storageTypeField?.text)!
-          self.tableView.reloadSections([2], with: .none)
-        }
-      )
-      storageTypeField?.delegate = self.storageTypePicker
-      storageTypeField?.tintColor = UIColor.clear
-    } else if indexPath.section == 2 {
-      if self.storageType == StorageType.App.rawValue {
-        cell.textLabel?.text = MSStorageViewController.AppDocuments[indexPath.row]
-      } else if self.storageType == StorageType.User.rawValue {
-        if indexPath.row == 0 {
-          cell.textLabel?.text = "Add document"
-        } else {
-          cell.textLabel?.text = MSStorageViewController.UserDocuments[indexPath.row - 1]
-        }
+    
+    if self.storageType == StorageType.App.rawValue {
+      cell.textLabel?.text = MSStorageViewController.AppDocuments[indexPath.row]
+    } else if self.storageType == StorageType.User.rawValue {
+      if indexPath.row == 0 {
+        cell.textLabel?.text = "Add document"
+      } else {
+        cell.textLabel?.text = MSStorageViewController.UserDocuments[indexPath.row - 1]
       }
     }
     return cell
   }
 
-  override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     tableView.deselectRow(at: indexPath, animated: true)
     let cell = tableView.cellForRow(at: indexPath)
     if isInsertRow(indexPath) {
       self.performSegue(withIdentifier: "ShowDocumentDetails", sender: "")
-    } else if indexPath.section == 2 {
+    } else {
       self.performSegue(withIdentifier: "ShowDocumentDetails", sender: cell?.textLabel?.text)
     }
   }
 
-  override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-    if indexPath.section == 2 && self.storageType == StorageType.User.rawValue {
+  func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+    if self.storageType == StorageType.User.rawValue {
       return true
     }
     return false
   }
 
-  override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
+  func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
     if isInsertRow(indexPath) {
       return .insert
-    } else if indexPath.section == 2 && self.storageType == StorageType.User.rawValue {
+    } else if self.storageType == StorageType.User.rawValue {
       return .delete
     }
     return .none
   }
 
-  override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+  func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
     if editingStyle == .delete {
       MSStorageViewController.UserDocuments.remove(at: indexPath.row - 1)
       tableView.deleteRows(at: [indexPath], with: .automatic)
@@ -138,7 +134,7 @@ class MSStorageViewController: UITableViewController {
   }
 
   func isInsertRow(_ indexPath: IndexPath) -> Bool {
-    return self.storageType == StorageType.User.rawValue && indexPath.section == 2 && indexPath.row == 0
+    return self.storageType == StorageType.User.rawValue && indexPath.row == 0
   }
 
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -154,7 +150,9 @@ class MSStorageViewController: UITableViewController {
     }
   }
 
-  func backButtonClicked (_ sender: Any) {
+  
+
+  @IBAction func backButtonClicked (_ sender: Any) {
     self.presentingViewController?.dismiss(animated: true, completion: nil)
   }
 }
