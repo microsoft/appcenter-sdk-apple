@@ -35,7 +35,7 @@
        completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
 
   // Get effective device time to live.
-  NSInteger deviceTimeToLive = baseOptions.deviceTimeToLive ?: kMSDataStoreTimeToLiveDefault;
+  NSInteger deviceTimeToLive = baseOptions ? baseOptions.deviceTimeToLive : kMSDataStoreTimeToLiveDefault;
 
   // Validate current operation.
   if (![MSDataOperationProxy isValidOperation:operation]) {
