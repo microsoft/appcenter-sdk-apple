@@ -219,7 +219,7 @@ static NSUInteger const kMSAccountIdLengthInHomeAccount = 36;
 
 - (NSArray<MSAuthTokenInfo *> *)authTokenHistory {
   if (self.authTokenHistoryArray != nil) {
-    return self.authTokenHistoryArray;
+    return (NSArray<MSAuthTokenInfo *> *)self.authTokenHistoryArray;
   }
   NSData *encryptedData = [MS_USER_DEFAULTS objectForKey:kMSAuthTokenHistoryKey];
   NSData *decryptedData = encryptedData ? [self.encrypter decryptData:encryptedData] : nil;
@@ -231,7 +231,7 @@ static NSUInteger const kMSAccountIdLengthInHomeAccount = 36;
     history = [NSArray<MSAuthTokenInfo *> new];
   }
   self.authTokenHistoryArray = history;
-  return self.authTokenHistoryArray;
+  return (NSArray<MSAuthTokenInfo *> *)self.authTokenHistoryArray;
 }
 
 - (void)setAuthTokenHistory:(nullable NSArray<MSAuthTokenInfo *> *)authTokenHistory {
