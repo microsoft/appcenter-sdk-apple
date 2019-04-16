@@ -1096,7 +1096,13 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
 - (void)notifyWithUserConfirmation:(MSUserConfirmation)userConfirmation {
   NSArray<MSErrorAttachmentLog *> *attachments;
-
+  
+  // Check if there is no handler set and unprocessedReports are not initialized as NSMutableArray (Init occurs in correct call sequence).
+  if ([MSCrashes sharedInstance].userConfirmationHandler==nil && !self.unprocessedReports) {
+    MSLogError(MSCrashes.logTag, @"Incorrect implementation of notifyWithUserConfirmation: should only be called from userConfirmationHandler. For more information refer to online documentation.");
+    return;
+  }
+  
   // Check for user confirmation.
   if (userConfirmation == MSUserConfirmationDontSend) {
 
@@ -1120,12 +1126,6 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
      * Continue crash processing afterwards.
      */
     [MS_USER_DEFAULTS setObject:[[NSNumber alloc] initWithBool:YES] forKey:kMSUserConfirmationKey];
-  }
-  
-  // Check if there is no handler set and unprocessedReports are not initialized as NSMutableArray (Init occurs in correct call sequence).
-  if ([MSCrashes sharedInstance].userConfirmationHandler==nil && !self.unprocessedReports) {
-    MSLogWarning(MSCrashes.logTag, @"Incorrect implementation of notifyWithUserConfirmation: should only be called from userConfirmationHandler. See https://docs.microsoft.com/en-us/appcenter/sdk/crashes/xamarin#ask-for-the-users-consent-to-send-a-crash-log");
-    return;
   }
   
   // Process crashes logs.
