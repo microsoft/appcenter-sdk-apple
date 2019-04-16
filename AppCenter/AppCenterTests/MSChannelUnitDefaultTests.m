@@ -29,10 +29,9 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
 @interface MSChannelUnitDefault (Test)
 
-- (void)sendLogArray:(NSArray<id<MSLog>> *__nonnull)logArray
-              withBatchId:(NSString *)batchId
-    andAuthTokenFromArray:(NSArray<MSAuthTokenValidityInfo *> *)tokenArray
-                  atIndex:(NSUInteger)tokenIndex;
+- (void)sendLogContainer:(MSLogContainer *__nonnull)container
+  withAuthTokenFromArray:(NSArray<MSAuthTokenValidityInfo *> *__nonnull)tokenArray
+                 atIndex:(NSUInteger)tokenIndex;
 
 - (void)flushQueueForTokenArray:(NSArray<MSAuthTokenValidityInfo *> *)tokenArray withTokenIndex:(NSUInteger)tokenIndex;
 
@@ -1299,8 +1298,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
   // Stub sendLogArray part - we don't need this in this test.
   id sutMock = OCMPartialMock(self.sut);
-  OCMStub([[sutMock ignoringNonObjectArgs] sendLogArray:OCMOCK_ANY withBatchId:OCMOCK_ANY andAuthTokenFromArray:OCMOCK_ANY atIndex:0])
-      .andDo(nil);
+  OCMStub([[sutMock ignoringNonObjectArgs] sendLogContainer:OCMOCK_ANY withAuthTokenFromArray:OCMOCK_ANY atIndex:0]).andDo(nil);
   OCMStub([self.storageMock loadLogsWithGroupId:self.sut.configuration.groupId
                                           limit:self.sut.configuration.batchSizeLimit
                              excludedTargetKeys:OCMOCK_ANY
@@ -1329,7 +1327,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   [sutMock flushQueueForTokenArray:tokenValidityArray withTokenIndex:0];
 
   // Then
-  OCMVerify([sutMock sendLogArray:logsForToken3 withBatchId:OCMOCK_ANY andAuthTokenFromArray:tokenValidityArray atIndex:2]);
+  OCMVerify([sutMock sendLogContainer:OCMOCK_ANY withAuthTokenFromArray:tokenValidityArray atIndex:2]);
   [sutMock stopMocking];
 }
 
