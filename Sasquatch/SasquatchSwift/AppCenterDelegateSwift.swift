@@ -310,8 +310,8 @@ class AppCenterDelegateSwift: AppCenterDelegate {
     MSDataStore.listWithPartition(partitionName, documentType:documentType, completionHandler:completionHandler)
   }
   
-  func createDocumentWithPartition(_ partitionName: String, _ documentId: String, _ document: TestDocument, _ writeOptions: MSWriteOptions) {
-    MSDataStore.createWithPartition(partitionName, documentId:documentId, document:document writeOptions:writeOptions) { document in
+  func createDocumentWithPartition(_ partitionName: String, documentId: String, document: TestDocument, writeOptions: MSWriteOptions) {
+    MSDataStore.createWithPartition(partitionName, documentId:documentId, document:document, writeOptions:writeOptions) { document in
       if document != nil {
         print("Storage.create document with id \(documentId) succeeded")
       } else {
@@ -320,7 +320,7 @@ class AppCenterDelegateSwift: AppCenterDelegate {
     }
   }
   
-  func replaceDocumentWithPartition(_ partitionName: String, _ documentId: String, _ document: TestDocument) {
+  func replaceDocumentWithPartition(_ partitionName: String, documentId: String, document: TestDocument) {
     MSDataStore.replaceWithPartition(partitionName, documentId:documentId, document:document) { document in
       if document != nil {
         print("Storage.replace document with id \(documentId) succeeded")
@@ -330,7 +330,7 @@ class AppCenterDelegateSwift: AppCenterDelegate {
     }
   }
   
-  func deleteDocumentWithPartition(_ partitionName: String, _ documentId: String) {
+  func deleteDocumentWithPartition(_ partitionName: String, documentId: String) {
     MSDataStore.deleteWithPartition(partitionName, documentId:documentId) { error in
       if error == nil {
         print("Storage.delete document with id \(documentId) succeeded")
