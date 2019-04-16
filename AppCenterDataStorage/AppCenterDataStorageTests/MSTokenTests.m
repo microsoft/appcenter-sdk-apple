@@ -130,7 +130,7 @@ static NSString *const accountId = @"someAccountID123";
 
   // When
   MSTokensResponse *tokensResponse = [[MSTokensResponse alloc] initWithTokens:tokenList];
-  MSTokenResult *result = tokensResponse.tokens[0];
+  MSTokenResult *result = tokensResponse.tokens.firstObject;
 
   // Then
   XCTAssertEqualObjects(result, token1);
@@ -169,7 +169,7 @@ static NSString *const accountId = @"someAccountID123";
   // When
   MSTokensResponse *tokensResponse = [[MSTokensResponse alloc] initWithDictionary:tokenList];
 
-  MSTokenResult *result = tokensResponse.tokens[0];
+  MSTokenResult *result = tokensResponse.tokens.firstObject;
   NSDictionary *tokenDic = tokenList[@"tokens"][0];
 
   // Then

@@ -442,25 +442,25 @@ static dispatch_once_t onceToken;
                                          body:(NSData *_Nullable)body
                             additionalHeaders:(NSDictionary *)additionalHeaders
                             completionHandler:(MSHttpRequestCompletionHandler)completionHandler {
-  [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:(id<MSHttpClientProtocol>)self.httpClient
-                                             tokenExchangeUrl:self.tokenExchangeUrl
-                                                    appSecret:self.appSecret
-                                                    partition:partition
-                                          includeExpiredToken:NO
-                                            completionHandler:^(MSTokensResponse *_Nonnull tokensResponse, NSError *_Nonnull error) {
-                                              if (error) {
-                                                completionHandler(nil, nil, error);
-                                                return;
-                                              }
-                                              [MSCosmosDb
-                                                  performCosmosDbAsyncOperationWithHttpClient:(MSHttpClient * _Nonnull) self.httpClient
-                                                                                  tokenResult:tokensResponse.tokens[0]
-                                                                                   documentId:documentId
-                                                                                   httpMethod:httpMethod
-                                                                                         body:body
-                                                                            additionalHeaders:additionalHeaders
-                                                                            completionHandler:completionHandler];
-                                            }];
+  [MSTokenExchange
+      performDbTokenAsyncOperationWithHttpClient:(id<MSHttpClientProtocol>)self.httpClient
+                                tokenExchangeUrl:self.tokenExchangeUrl
+                                       appSecret:self.appSecret
+                                       partition:partition
+                             includeExpiredToken:NO
+                               completionHandler:^(MSTokensResponse *_Nonnull tokensResponse, NSError *_Nonnull error) {
+                                 if (error) {
+                                   completionHandler(nil, nil, error);
+                                   return;
+                                 }
+                                 [MSCosmosDb performCosmosDbAsyncOperationWithHttpClient:(MSHttpClient * _Nonnull) self.httpClient
+                                                                             tokenResult:(MSTokenResult *)tokensResponse.tokens.firstObject
+                                                                              documentId:documentId
+                                                                              httpMethod:httpMethod
+                                                                                    body:body
+                                                                       additionalHeaders:additionalHeaders
+                                                                       completionHandler:completionHandler];
+                               }];
 }
 
 - (void)readFromCosmosDbWithPartition:(NSString *)partition

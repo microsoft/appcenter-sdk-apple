@@ -61,7 +61,7 @@
     }
 
     // Extract first token.
-    MSTokenResult *token = tokensResponse.tokens[0];
+    MSTokenResult *token = tokensResponse.tokens.firstObject;
 
     // Retrieve a cached document.
     MSDocumentWrapper *cachedDocument = [self.documentStore readWithToken:token documentId:documentId documentType:documentType];
