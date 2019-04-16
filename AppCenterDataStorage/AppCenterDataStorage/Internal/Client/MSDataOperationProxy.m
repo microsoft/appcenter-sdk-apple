@@ -78,8 +78,6 @@
                    deviceTimeToLive:deviceTimeToLive
                           operation:operation];
         }
-
-        // Complete the operation.
         completionHandler(remoteDocument);
       });
     }
@@ -229,8 +227,10 @@
     [self.documentStore deleteWithToken:token documentId:currentCachedDocument.documentId];
   }
 
-  /* If the cached document has a create or replace pending operation, no etags and if the current operation is a
-   * deletion, delete the document from the store. */
+  /*
+   * If the cached document has a create or replace pending operation, and no eTags, and if the current operation is a
+   * deletion, delete the document from the store.
+   */
   else if (([kMSPendingOperationCreate isEqualToString:currentCachedDocument.pendingOperation] ||
             [kMSPendingOperationReplace isEqualToString:currentCachedDocument.pendingOperation]) &&
            !currentCachedDocument.eTag && operation && [kMSPendingOperationDelete isEqualToString:(NSString *)operation]) {

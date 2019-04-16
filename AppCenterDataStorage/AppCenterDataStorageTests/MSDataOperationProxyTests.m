@@ -160,15 +160,20 @@
   __block MSDocumentWrapper *wrapper;
   OCMStub([self.documentStoreMock readWithToken:OCMOCK_ANY documentId:OCMOCK_ANY documentType:OCMOCK_ANY])
       .andReturn([[MSDocumentWrapper alloc] initWithError:self.dummyError documentId:@"documentId"]);
+  OCMReject([[self.documentStoreMock ignoringNonObjectArgs] upsertWithToken:OCMOCK_ANY
+                                                            documentWrapper:OCMOCK_ANY
+                                                                  operation:OCMOCK_ANY
+                                                           deviceTimeToLive:0]);
   MSTokenResult *token = [MSTokenResult alloc];
   __block MSTokensResponse *tokensResponse = [[MSTokensResponse alloc] initWithTokens:@[ token ]];
 
   // When
+  MSBaseOptions *options = [[MSBaseOptions alloc] initWithDeviceTimeToLive:kMSDataStoreTimeToLiveNoCache];
   [self.sut performOperation:kMSPendingOperationRead
       documentId:@"documentId"
       documentType:[NSString class]
       document:nil
-      baseOptions:[[MSBaseOptions alloc] initWithDeviceTimeToLive:kMSDataStoreTimeToLiveNoCache]
+      baseOptions:options
       cachedTokenBlock:^(MSCachedTokenCompletionHandler _Nonnull handler) {
         handler(tokensResponse, nil);
       }
@@ -187,10 +192,6 @@
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
                                  XCTAssertEqual(wrapper, remoteDocumentWrapper);
-                                 OCMReject([[self.documentStoreMock ignoringNonObjectArgs] upsertWithToken:OCMOCK_ANY
-                                                                                           documentWrapper:OCMOCK_ANY
-                                                                                                 operation:OCMOCK_ANY
-                                                                                          deviceTimeToLive:0]);
                                  OCMVerify([self.documentStoreMock deleteWithToken:token documentId:@"documentId"]);
                                }];
 }
@@ -241,7 +242,7 @@
 - (void)testDeleteWhenUnsyncedCreateOperation {
 
   // If
-  XCTestExpectation *expectation = [self expectationWithDescription:@"Completed with discarded create or replace operation."];
+  XCTestExpectation *expectation = [self expectationWithDescription:@"Completed with discarded create operation."];
   __block MSDocumentWrapper *cachedDocumentWrapper = [[MSDocumentWrapper alloc] initWithDeserializedValue:[MSDictionaryDocument alloc]
                                                                                                 jsonValue:@""
                                                                                                 partition:@"partition"
@@ -252,6 +253,10 @@
                                                                                                     error:nil];
   __block MSDocumentWrapper *wrapper;
   OCMStub([self.documentStoreMock readWithToken:OCMOCK_ANY documentId:OCMOCK_ANY documentType:OCMOCK_ANY]).andReturn(cachedDocumentWrapper);
+  OCMReject([[self.documentStoreMock ignoringNonObjectArgs] upsertWithToken:OCMOCK_ANY
+                                                            documentWrapper:OCMOCK_ANY
+                                                                  operation:OCMOCK_ANY
+                                                           deviceTimeToLive:0]);
   MSTokenResult *token = [MSTokenResult alloc];
   __block MSTokensResponse *tokensResponse = [[MSTokensResponse alloc] initWithTokens:@[ token ]];
 
@@ -280,10 +285,6 @@
                                  XCTAssertNotEqual(wrapper, cachedDocumentWrapper);
                                  XCTAssertEqual(wrapper.documentId, cachedDocumentWrapper.documentId);
                                  XCTAssertEqual(wrapper.pendingOperation, kMSPendingOperationDelete);
-                                 OCMReject([[self.documentStoreMock ignoringNonObjectArgs] upsertWithToken:OCMOCK_ANY
-                                                                                           documentWrapper:OCMOCK_ANY
-                                                                                                 operation:OCMOCK_ANY
-                                                                                          deviceTimeToLive:0]);
                                  OCMVerify([self.documentStoreMock deleteWithToken:token documentId:@"documentId"]);
                                }];
 }
@@ -291,7 +292,7 @@
 - (void)testDeleteWhenUnsyncedReplaceOperation {
 
   // If
-  XCTestExpectation *expectation = [self expectationWithDescription:@"Completed with discarded create or replace operation."];
+  XCTestExpectation *expectation = [self expectationWithDescription:@"Completed with discarded replace operation."];
   __block MSDocumentWrapper *cachedDocumentWrapper = [[MSDocumentWrapper alloc] initWithDeserializedValue:[MSDictionaryDocument alloc]
                                                                                                 jsonValue:@""
                                                                                                 partition:@"partition"
@@ -302,6 +303,10 @@
                                                                                                     error:nil];
   __block MSDocumentWrapper *wrapper;
   OCMStub([self.documentStoreMock readWithToken:OCMOCK_ANY documentId:OCMOCK_ANY documentType:OCMOCK_ANY]).andReturn(cachedDocumentWrapper);
+  OCMReject([[self.documentStoreMock ignoringNonObjectArgs] upsertWithToken:OCMOCK_ANY
+                                                            documentWrapper:OCMOCK_ANY
+                                                                  operation:OCMOCK_ANY
+                                                           deviceTimeToLive:0]);
   MSTokenResult *token = [MSTokenResult alloc];
   __block MSTokensResponse *tokensResponse = [[MSTokensResponse alloc] initWithTokens:@[ token ]];
 
@@ -330,10 +335,6 @@
                                  XCTAssertNotEqual(wrapper, cachedDocumentWrapper);
                                  XCTAssertEqual(wrapper.documentId, cachedDocumentWrapper.documentId);
                                  XCTAssertEqual(wrapper.pendingOperation, kMSPendingOperationDelete);
-                                 OCMReject([[self.documentStoreMock ignoringNonObjectArgs] upsertWithToken:OCMOCK_ANY
-                                                                                           documentWrapper:OCMOCK_ANY
-                                                                                                 operation:OCMOCK_ANY
-                                                                                          deviceTimeToLive:0]);
                                  OCMVerify([self.documentStoreMock deleteWithToken:token documentId:@"documentId"]);
                                }];
 }
@@ -341,7 +342,7 @@
 - (void)testReadOperationFailsWhenPendingDelete {
 
   // If
-  XCTestExpectation *expectation = [self expectationWithDescription:@"Completed with remote document (custom TTL)."];
+  XCTestExpectation *expectation = [self expectationWithDescription:@"Completed with failure pending local delete."];
   __block MSDocumentWrapper *cachedDocumentWrapper = [[MSDocumentWrapper alloc] initWithDeserializedValue:[MSDictionaryDocument alloc]
                                                                                                 jsonValue:@""
                                                                                                 partition:@"partition"
@@ -352,6 +353,10 @@
                                                                                                     error:nil];
   __block MSDocumentWrapper *wrapper;
   OCMStub([self.documentStoreMock readWithToken:OCMOCK_ANY documentId:OCMOCK_ANY documentType:OCMOCK_ANY]).andReturn(cachedDocumentWrapper);
+  OCMReject([[self.documentStoreMock ignoringNonObjectArgs] upsertWithToken:OCMOCK_ANY
+                                                            documentWrapper:OCMOCK_ANY
+                                                                  operation:OCMOCK_ANY
+                                                           deviceTimeToLive:0]);
   MSTokenResult *token = [MSTokenResult alloc];
   __block MSTokensResponse *tokensResponse = [[MSTokensResponse alloc] initWithTokens:@[ token ]];
 
@@ -379,17 +384,13 @@
                                  }
                                  XCTAssertNotNil(wrapper.error);
                                  XCTAssertEqual(wrapper.error.error.code, MSACDataStoreErrorDocumentNotFound);
-                                 OCMReject([[self.documentStoreMock ignoringNonObjectArgs] upsertWithToken:OCMOCK_ANY
-                                                                                           documentWrapper:OCMOCK_ANY
-                                                                                                 operation:OCMOCK_ANY
-                                                                                          deviceTimeToLive:0]);
                                }];
 }
 
 - (void)testLocalDeleteWhenCachedDocumentPresent {
 
   // If
-  XCTestExpectation *expectation = [self expectationWithDescription:@"Completed with discarded create or replace operation."];
+  XCTestExpectation *expectation = [self expectationWithDescription:@"Completed with delete and local cached document."];
   __block MSDocumentWrapper *cachedDocumentWrapper = [[MSDocumentWrapper alloc] initWithDeserializedValue:[MSDictionaryDocument alloc]
                                                                                                 jsonValue:@""
                                                                                                 partition:@"partition"
@@ -441,7 +442,7 @@
 - (void)testLocalCreateWhenCachedDocumentPresent {
 
   // If
-  XCTestExpectation *expectation = [self expectationWithDescription:@"Completed with discarded create or replace operation."];
+  XCTestExpectation *expectation = [self expectationWithDescription:@"Completed with create and local cached document."];
   __block MSDocumentWrapper *cachedDocumentWrapper = [[MSDocumentWrapper alloc] initWithDeserializedValue:[MSDictionaryDocument alloc]
                                                                                                 jsonValue:@""
                                                                                                 partition:@"partition"
@@ -497,7 +498,7 @@
 - (void)testLocalReplaceWhenCachedDocumentPresent {
 
   // If
-  XCTestExpectation *expectation = [self expectationWithDescription:@"Completed with discarded create or replace operation."];
+  XCTestExpectation *expectation = [self expectationWithDescription:@"Completed with replace and local cached document."];
   __block MSDocumentWrapper *cachedDocumentWrapper = [[MSDocumentWrapper alloc] initWithDeserializedValue:[MSDictionaryDocument alloc]
                                                                                                 jsonValue:@""
                                                                                                 partition:@"partition"
