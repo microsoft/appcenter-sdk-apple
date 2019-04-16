@@ -4,6 +4,7 @@
 #import <Foundation/Foundation.h>
 
 #import "MSDBDocumentStore.h"
+#import "MSDataOperationProxy.h"
 #import "MSDataStore.h"
 #import "MSDocumentStore.h"
 #import "MSServiceInternal.h"
@@ -23,15 +24,15 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, copy) NSURL *tokenExchangeUrl;
 
 /**
- * A local store instance that is used to manage application and user level documents.
- */
-@property(nonatomic) id<MSDocumentStore> documentStore;
-
-/**
  * An ingestion instance that is used to send a request to CosmosDb.
  * HTTP client.
  */
 @property(nonatomic, nullable) id<MSHttpClientProtocol> httpClient;
+
+/**
+ * Data operation proxy instance (for offline/online scenarios).
+ */
+@property(nonatomic) MSDataOperationProxy *dataOperationProxy;
 
 /**
  * Retrieve a paginated list of the documents in a partition.

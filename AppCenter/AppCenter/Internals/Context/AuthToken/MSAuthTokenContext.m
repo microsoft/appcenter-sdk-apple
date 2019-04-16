@@ -4,6 +4,11 @@
 #import "MSAuthTokenContext.h"
 #import "MSAuthTokenContextDelegate.h"
 #import "MSAuthTokenContextPrivate.h"
+#import "MSAuthTokenInfo.h"
+#import "MSAuthTokenValidityInfo.h"
+#import "MSAppCenterInternal.h"
+#import "MSConstants+Internal.h"
+#import "MSEncrypter.h"
 #import "MSUserInformation.h"
 
 /**
@@ -32,7 +37,12 @@ static NSUInteger const kMSAccountIdLengthInHomeAccount = 36;
 /**
  * YES if the current token should be reset.
  */
-@property() BOOL resetAuthTokenRequired;
+@property BOOL resetAuthTokenRequired;
+
+/*
+ * Encrypter for target tokens.
+ */
+@property(nonatomic) MSEncrypter *encrypter;
 
 @end
 
@@ -43,6 +53,7 @@ static NSUInteger const kMSAccountIdLengthInHomeAccount = 36;
   if (self) {
     _delegates = [NSHashTable new];
     _resetAuthTokenRequired = YES;
+    _encrypter = [MSEncrypter new];
   }
   return self;
 }
@@ -159,17 +170,16 @@ static NSUInteger const kMSAccountIdLengthInHomeAccount = 36;
 }
 
 - (NSMutableArray<MSAuthTokenValidityInfo *> *)authTokenValidityArray {
-  NSMutableArray<MSAuthTokenInfo *> *__nullable tokenArray =
-      (NSMutableArray<MSAuthTokenInfo *> * __nullable)[MSKeychainUtil arrayForKey:kMSAuthTokenHistoryKey];
+  NSArray<MSAuthTokenInfo *> *authTokenHistory = [self authTokenHistory];
   NSMutableArray<MSAuthTokenValidityInfo *> *resultArray = [NSMutableArray<MSAuthTokenValidityInfo *> new];
-  if (!tokenArray || tokenArray.count == 0) {
+  if (authTokenHistory.count == 0) {
     [resultArray addObject:[[MSAuthTokenValidityInfo alloc] initWithAuthToken:nil startTime:nil endTime:nil]];
     return resultArray;
   }
-  for (NSUInteger i = 0; i < tokenArray.count; i++) {
-    MSAuthTokenInfo *currentAuthTokenInfo = tokenArray[i];
+  for (NSUInteger i = 0; i < authTokenHistory.count; i++) {
+    MSAuthTokenInfo *currentAuthTokenInfo = authTokenHistory[i];
     NSDate *expiresOn = currentAuthTokenInfo.expiresOn;
-    NSDate *nextTokenStartTime = i + 1 < tokenArray.count ? tokenArray[i + 1].startTime : nil;
+    NSDate *nextTokenStartTime = i + 1 < authTokenHistory.count ? authTokenHistory[i + 1].startTime : nil;
     if (nextTokenStartTime && expiresOn && [nextTokenStartTime laterDate:expiresOn]) {
       expiresOn = nextTokenStartTime;
     } else if (!expiresOn && nextTokenStartTime) {
@@ -209,25 +219,30 @@ static NSUInteger const kMSAccountIdLengthInHomeAccount = 36;
 
 - (NSArray<MSAuthTokenInfo *> *)authTokenHistory {
   if (self.authTokenHistoryArray != nil) {
-    return (NSArray<MSAuthTokenInfo *> *)self.authTokenHistoryArray;
+    return self.authTokenHistoryArray;
   }
-  NSArray<MSAuthTokenInfo *> *history = [MSKeychainUtil arrayForKey:kMSAuthTokenHistoryKey];
+  NSData *encryptedData = [MS_USER_DEFAULTS objectForKey:kMSAuthTokenHistoryKey];
+  NSData *decryptedData = encryptedData ? [self.encrypter decryptData:encryptedData] : nil;
+  NSArray<MSAuthTokenInfo *> * history = decryptedData ? [NSKeyedUnarchiver unarchiveObjectWithData:decryptedData] : nil;
   if (history) {
-    MSLogDebug([MSAppCenter logTag], @"Retrieved history state from the keychain.");
+    MSLogDebug([MSAppCenter logTag], @"Retrieved history state.");
   } else {
-    MSLogWarning([MSAppCenter logTag], @"Failed to retrieve history state from the keychain or none was found.");
+    MSLogWarning([MSAppCenter logTag], @"Failed to retrieve history state or none was found.");
     history = [NSArray<MSAuthTokenInfo *> new];
   }
   self.authTokenHistoryArray = history;
-  return (NSArray<MSAuthTokenInfo *> *)self.authTokenHistoryArray;
+  return self.authTokenHistoryArray;
 }
 
 - (void)setAuthTokenHistory:(nullable NSArray<MSAuthTokenInfo *> *)authTokenHistory {
-  if ([MSKeychainUtil storeArray:(NSArray * __nonnull) authTokenHistory forKey:kMSAuthTokenHistoryKey]) {
-    MSLogDebug([MSAppCenter logTag], @"Saved new history state in the keychain.");
-    self.authTokenHistoryArray = authTokenHistory;
+  self.authTokenHistoryArray = authTokenHistory;
+  NSData *decryptedData = authTokenHistory ? [NSKeyedArchiver archivedDataWithRootObject:(id)authTokenHistory] : nil;
+  NSData *encryptedData = decryptedData ? [self.encrypter encryptData:decryptedData] : nil;
+  [MS_USER_DEFAULTS setObject:encryptedData forKey:kMSAuthTokenHistoryKey];
+  if (encryptedData) {
+    MSLogDebug([MSAppCenter logTag], @"Saved new history state.");
   } else {
-    MSLogWarning([MSAppCenter logTag], @"Failed to save new history state in the keychain.");
+    MSLogWarning([MSAppCenter logTag], @"Failed to save new history state.");
   }
 }
 

@@ -20,11 +20,6 @@ static NSString *const kMSDefaultApiUrl = @"https://api.appcenter.ms/v0.1";
 + (void)resetSharedInstance;
 
 /**
- * Network state helper.
- */
-@property(nonatomic) MS_Reachability *reachability;
-
-/**
  * Dispatch queue to execute local storage operations with.
  */
 @property(nonatomic) dispatch_queue_t dispatchQueue;
