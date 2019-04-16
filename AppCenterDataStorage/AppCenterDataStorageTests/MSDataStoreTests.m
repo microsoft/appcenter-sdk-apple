@@ -287,8 +287,8 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   [self.sut setEnabled:NO];
   [MSDataStore deleteDocumentWithPartition:kMSPartitionTest
                                 documentId:kMSDocumentIdTest
-                         completionHandler:^(MSDataSourceError *error) {
-                           actualDataSourceError = error;
+                         completionHandler:^(MSDocumentWrapper *wrapper) {
+                           actualDataSourceError = wrapper.error;
                            [expectation fulfill];
                          }];
 
@@ -761,9 +761,9 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   // When
   [MSDataStore deleteDocumentWithPartition:kMSPartitionTest
                                 documentId:kMSDocumentIdTest
-                         completionHandler:^(MSDataSourceError *error) {
+                         completionHandler:^(MSDocumentWrapper *wrapper) {
                            completionHandlerCalled = YES;
-                           actualResponseCode = error.errorCode;
+                           actualResponseCode = wrapper.error.errorCode;
                          }];
 
   // Then
@@ -798,9 +798,9 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   // When
   [MSDataStore deleteDocumentWithPartition:kMSPartitionTest
                                 documentId:kMSDocumentIdTest
-                         completionHandler:^(MSDataSourceError *error) {
+                         completionHandler:^(MSDocumentWrapper *wrapper) {
                            completionHandlerCalled = YES;
-                           actualError = error;
+                           actualError = wrapper.error;
                          }];
 
   // Then
@@ -851,9 +851,9 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   // When
   [MSDataStore deleteDocumentWithPartition:kMSPartitionTest
                                 documentId:kMSDocumentIdTest
-                         completionHandler:^(MSDataSourceError *error) {
+                         completionHandler:^(MSDocumentWrapper *wrapper) {
                            completionHandlerCalled = YES;
-                           actualError = error;
+                           actualError = wrapper.error;
                          }];
 
   // Then
@@ -881,7 +881,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   // When doing any API call, it will request a token.
   [MSDataStore deleteDocumentWithPartition:kMSPartitionTest
                                 documentId:kMSDocumentIdTest
-                         completionHandler:^(__unused MSDataSourceError *error){
+                         completionHandler:^(__unused MSDocumentWrapper *wrapper){
                          }];
 
   // Then that call uses the base URL we specified.

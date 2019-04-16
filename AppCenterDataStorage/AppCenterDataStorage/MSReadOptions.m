@@ -5,6 +5,4 @@
 
 @implementation MSReadOptions
 
-// @todo
-
 @end

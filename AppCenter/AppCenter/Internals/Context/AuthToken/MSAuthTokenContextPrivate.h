@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+@class MSAuthTokenInfo;
+
 @interface MSAuthTokenContext ()
 
 /**
@@ -17,5 +19,10 @@
  * Gets auth token history array.
  */
 - (NSArray<MSAuthTokenInfo *> *)authTokenHistory;
+
+/**
+ * Sets auth token history array.
+ */
+- (void)setAuthTokenHistory:(nullable NSArray<MSAuthTokenInfo *> *)authTokenHistory;
 
 @end

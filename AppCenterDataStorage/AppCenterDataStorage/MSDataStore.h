@@ -25,27 +25,34 @@ static NSString *const kMSDataStorageErrorDomain = @"MSDataStorageErrorDomain";
  * User partition.
  * An authenticated user can read/write documents in this partition.
  */
-static NSString *const MSDataStoreUserDocumentsPartition = @"user";
+static NSString *const kMSDataStoreUserDocumentsPartition = @"user";
 
 /**
  * Application partition.
  * Everyone can read documents in this partition.
  * Writes not allowed via the SDK.
  */
-static NSString *const MSDataStoreAppDocumentsPartition = @"readonly";
+static NSString *const kMSDataStoreAppDocumentsPartition = @"readonly";
 
 /**
- * Time to live constants
+ * No expiration on cache.
  */
-static int const MSDataStoreTimeToLiveInfinite = -1;
-static int const MSDataStoreTimeToLiveNoCache = 0;
-static int const MSDataStoreTimeToLiveDefault = 60 * 60;
+static int const kMSDataStoreTimeToLiveInfinite = -1;
+
+/**
+ * Do not cache.
+ */
+static int const kMSDataStoreTimeToLiveNoCache = 0;
+
+/**
+ * Default expiration on cache.
+ */
+static int const kMSDataStoreTimeToLiveDefault = 60 * 60 * 24;
 
 @interface MSDataStore<T : id <MSSerializableDocument>> : MSServiceAbstract
 
 typedef void (^MSDocumentWrapperCompletionHandler)(MSDocumentWrapper<T> *document);
 typedef void (^MSPaginatedDocumentsCompletionHandler)(MSPaginatedDocuments<T> *documents);
-typedef void (^MSDataSourceErrorCompletionHandler)(MSDataSourceError *error);
 
 /**
  * Change The URL that will be used for getting token.
@@ -172,7 +179,7 @@ typedef void (^MSDataSourceErrorCompletionHandler)(MSDataSourceError *error);
  */
 + (void)deleteDocumentWithPartition:(NSString *)partition
                          documentId:(NSString *)documentId
-                  completionHandler:(MSDataSourceErrorCompletionHandler)completionHandler;
+                  completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler;
 
 /**
  * Delete a document from CosmosDB.
@@ -185,7 +192,7 @@ typedef void (^MSDataSourceErrorCompletionHandler)(MSDataSourceError *error);
 + (void)deleteDocumentWithPartition:(NSString *)partition
                          documentId:(NSString *)documentId
                        writeOptions:(MSWriteOptions *_Nullable)writeOptions
-                  completionHandler:(MSDataSourceErrorCompletionHandler)completionHandler;
+                  completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler;
 
 @end
 

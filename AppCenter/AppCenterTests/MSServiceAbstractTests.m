@@ -9,6 +9,7 @@
 #import "MSConstants+Internal.h"
 #import "MSMockUserDefaults.h"
 #import "MSServiceAbstractProtected.h"
+#import "MSSessionContextPrivate.h"
 #import "MSTestFrameworks.h"
 
 @interface MSServiceAbstractImplementation : MSServiceAbstract <MSServiceInternal>
@@ -64,6 +65,7 @@
 @interface MSServiceAbstractTest : XCTestCase
 
 @property(nonatomic) id settingsMock;
+@property(nonatomic) id sessionContextMock;
 @property(nonatomic) id channelGroupMock;
 @property(nonatomic) id channelUnitMock;
 
@@ -78,9 +80,15 @@
 
 - (void)setUp {
   [super setUp];
+  [MSAppCenter resetSharedInstance];
 
   // Set up the mocked storage.
   self.settingsMock = [MSMockUserDefaults new];
+
+  // Session context.
+  [MSSessionContext resetSharedInstance];
+  self.sessionContextMock = OCMClassMock([MSSessionContext class]);
+  OCMStub([self.sessionContextMock sharedInstance]).andReturn(self.sessionContextMock);
 
   // Set up the mock channel.
   self.channelGroupMock = OCMClassMock([MSChannelGroupDefault class]);
@@ -96,6 +104,9 @@
 - (void)tearDown {
   [self.channelGroupMock stopMocking];
   [self.settingsMock stopMocking];
+  [self.sessionContextMock stopMocking];
+  [MSAppCenter resetSharedInstance];
+  [MSSessionContext resetSharedInstance];
   [super tearDown];
 }
 
