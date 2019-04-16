@@ -11,9 +11,9 @@
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitDefaultPrivate.h"
 #import "MSDeviceTracker.h"
+#import "MSLogger.h"
 #import "MSStorage.h"
 #import "MSUtility+StringFormatting.h"
-#import "MSLogger.h"
 
 @implementation MSChannelUnitDefault
 
@@ -198,8 +198,9 @@
 }
 
 - (void)sendLogArray:(NSArray<id<MSLog>> *__nonnull)logArray
-         withBatchId:(NSString *)batchId
-        andAuthToken:(MSAuthTokenValidityInfo *)tokenInfo {
+              withBatchId:(NSString *)batchId
+    andAuthTokenFromArray:(NSArray<MSAuthTokenValidityInfo *> *)tokenArray
+                  atIndex:(NSUInteger)tokenIndex {
 
   // Logs may be deleted from storage before this flush.
   if (batchId.length > 0) {
@@ -231,7 +232,7 @@
     // Forward logs to the ingestion.
     [self.ingestion
                 sendAsync:container
-                authToken:tokenInfo.authToken
+                authToken:tokenArray[tokenIndex].authToken
         completionHandler:^(NSString *ingestionBatchId, NSHTTPURLResponse *response, __attribute__((unused)) NSData *data, NSError *error) {
           dispatch_async(self.logsDispatchQueue, ^{
             if ([self.pendingBatchIds containsObject:ingestionBatchId]) {
@@ -256,7 +257,7 @@
                 if (self.pendingBatchQueueFull && self.pendingBatchIds.count < self.configuration.pendingBatchesLimit) {
                   self.pendingBatchQueueFull = NO;
                   if (self.availableBatchFromStorage) {
-                    [self sendLogArray:logArray withBatchId:batchId andAuthToken:tokenInfo];
+                    [self flushQueueForTokenArray:tokenArray withTokenIndex:tokenIndex];
                   }
                 }
               } else {
@@ -288,7 +289,7 @@
   }
 }
 
-- (void)flushQueueForTokenArray:(NSMutableArray<MSAuthTokenValidityInfo *> *)tokenArray withTokenIndex:(NSUInteger)tokenIndex {
+- (void)flushQueueForTokenArray:(NSArray<MSAuthTokenValidityInfo *> *)tokenArray withTokenIndex:(NSUInteger)tokenIndex {
   MSAuthTokenValidityInfo *tokenInfo = tokenArray[tokenIndex];
   self.availableBatchFromStorage =
       [self.storage loadLogsWithGroupId:self.configuration.groupId
@@ -301,7 +302,7 @@
                         if (logArray.count > 0) {
 
                           // We have data to send.
-                          [self sendLogArray:logArray withBatchId:batchId andAuthToken:tokenInfo];
+                          [self sendLogArray:logArray withBatchId:batchId andAuthTokenFromArray:tokenArray atIndex:tokenIndex];
                         } else {
 
                           // No logs available with given params.
@@ -362,7 +363,7 @@
 
   // Reset item count and load data from the storage.
   self.itemsCount = 0;
-  NSMutableArray<MSAuthTokenValidityInfo *> *tokenArray = [[MSAuthTokenContext sharedInstance] authTokenValidityArray];
+  NSArray<MSAuthTokenValidityInfo *> *tokenArray = [[MSAuthTokenContext sharedInstance] authTokenValidityArray];
   [self flushQueueForTokenArray:tokenArray withTokenIndex:0];
 }
 
