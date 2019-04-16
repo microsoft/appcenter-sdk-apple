@@ -1052,13 +1052,13 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
     // User confirmation is set to MSUserConfirmationAlways.
     MSLogDebug([MSCrashes logTag], @"The flag for user confirmation is set to MSUserConfirmationAlways, continue sending logs");
-    [self notifyWithUserConfirmation:MSUserConfirmationSend];
+    [self handleUserConfirmation:MSUserConfirmationSend];
     return alwaysSend;
   } else if (self.automaticProcessing && !(self.userConfirmationHandler && [self userPromptedForConfirmation])) {
 
     // User confirmation handler doesn't exist or returned NO which means 'want to process'.
     MSLogDebug([MSCrashes logTag], @"The user confirmation handler is not implemented or returned NO, continue sending logs");
-    [self notifyWithUserConfirmation:MSUserConfirmationSend];
+    [self handleUserConfirmation:MSUserConfirmationSend];
   } else if (!self.automaticProcessing) {
     MSLogDebug([MSCrashes logTag], @"Automatic crash processing is disabled and \"AlwaysSend\" is false. Awaiting user confirmation.");
   }
@@ -1095,14 +1095,19 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 }
 
 - (void)notifyWithUserConfirmation:(MSUserConfirmation)userConfirmation {
-  NSArray<MSErrorAttachmentLog *> *attachments;
-  
+
   // Check if there is no handler set and unprocessedReports are not initialized as NSMutableArray (Init occurs in correct call sequence).
-  if ([MSCrashes sharedInstance].userConfirmationHandler==nil && !self.unprocessedReports) {
-    MSLogError(MSCrashes.logTag, @"Incorrect implementation of notifyWithUserConfirmation: should only be called from userConfirmationHandler. For more information refer to online documentation.");
+  if (!self.userConfirmationHandler || !self.unprocessedReports) {
+    MSLogError(MSCrashes.logTag, @"Incorrect usage of notifyWithUserConfirmation: it should only be called from userConfirmationHandler. "
+                                 @"For more information refer to the documentation.");
     return;
   }
-  
+  [self handleUserConfirmation:userConfirmation];
+}
+
+- (void)handleUserConfirmation:(MSUserConfirmation)userConfirmation {
+  NSArray<MSErrorAttachmentLog *> *attachments;
+
   // Check for user confirmation.
   if (userConfirmation == MSUserConfirmationDontSend) {
 
@@ -1127,7 +1132,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
      */
     [MS_USER_DEFAULTS setObject:[[NSNumber alloc] initWithBool:YES] forKey:kMSUserConfirmationKey];
   }
-  
+
   // Process crashes logs.
   for (NSUInteger i = 0; i < [self.unprocessedReports count]; i++) {
     MSAppleErrorLog *log = self.unprocessedLogs[i];
