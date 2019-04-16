@@ -18,20 +18,25 @@
 
 @property(nonatomic) MSDataOperationProxy *sut;
 @property(nonatomic) id documentStoreMock;
+@property(nonatomic) NSError *dummyError;
 
 @end
 
 @implementation MSDataOperationProxyTests
 
 - (void)setUp {
+  [super setUp];
+
+  // Init properties.
   _documentStoreMock = OCMClassMock([MSDBDocumentStore class]);
   self.sut = [[MSDataOperationProxy alloc] initWithDocumentStore:_documentStoreMock];
-  [super setUp];
+  self.dummyError = [NSError errorWithDomain:kMSACDataStoreErrorDomain code:-1 userInfo:@{NSLocalizedDescriptionKey : @"Some dummy error"}];
 }
 
 - (void)tearDown {
-  [self.documentStoreMock stopMocking];
   [super tearDown];
+
+  [self.documentStoreMock stopMocking];
 }
 
 - (void)testInvalidOperation {
@@ -72,7 +77,6 @@
 
   // If
   XCTestExpectation *expectation = [self expectationWithDescription:@"Completed with error retrieving token."];
-  __block NSError *tokenError;
   __block MSDocumentWrapper *wrapper;
 
   // When
@@ -82,8 +86,7 @@
       document:nil
       baseOptions:nil
       cachedTokenBlock:^(MSCachedTokenCompletionHandler _Nonnull handler) {
-        tokenError = [NSError new];
-        handler(nil, tokenError);
+        handler(nil, self.dummyError);
       }
       remoteDocumentBlock:^(MSDocumentWrapperCompletionHandler _Nonnull __unused handler) {
       }
@@ -111,7 +114,7 @@
   __block MSDocumentWrapper *remoteDocumentWrapper = [MSDocumentWrapper alloc];
   __block MSDocumentWrapper *wrapper;
   OCMStub([self.documentStoreMock readWithToken:OCMOCK_ANY documentId:OCMOCK_ANY documentType:OCMOCK_ANY])
-      .andReturn([[MSDocumentWrapper alloc] initWithError:[NSError new] documentId:@"documentId"]);
+      .andReturn([[MSDocumentWrapper alloc] initWithError:self.dummyError documentId:@"documentId"]);
   MSTokenResult *token = [MSTokenResult alloc];
   __block MSTokensResponse *response = [[MSTokensResponse alloc] initWithTokens:@[ token ]];
 
@@ -196,7 +199,7 @@
   __block MSDocumentWrapper *remoteDocumentWrapper = [MSDocumentWrapper alloc];
   __block MSDocumentWrapper *wrapper;
   OCMStub([self.documentStoreMock readWithToken:OCMOCK_ANY documentId:OCMOCK_ANY documentType:OCMOCK_ANY])
-      .andReturn([[MSDocumentWrapper alloc] initWithError:[NSError new] documentId:@"documentId"]);
+      .andReturn([[MSDocumentWrapper alloc] initWithError:self.dummyError documentId:@"documentId"]);
   MSTokenResult *token = [MSTokenResult alloc];
   __block MSTokensResponse *response = [[MSTokensResponse alloc] initWithTokens:@[ token ]];
 
