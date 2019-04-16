@@ -251,7 +251,9 @@ static NSString *const kMSTestGroupId = @"GroupId";
   OCMReject([delegateMock channel:self.sut didSucceedSendingLog:OCMOCK_ANY]);
   OCMExpect([delegateMock channel:self.sut didPrepareLog:enqueuedLog internalId:OCMOCK_ANY flags:MSFlagsDefault]);
   OCMExpect([delegateMock channel:self.sut didCompleteEnqueueingLog:enqueuedLog internalId:OCMOCK_ANY]);
-  OCMExpect([self.storageMock deleteLogsWithBatchId:expectedBatchId groupId:kMSTestGroupId]);
+
+  // The logs shouldn't be deleted after recoverable error.
+  OCMReject([self.storageMock deleteLogsWithBatchId:expectedBatchId groupId:kMSTestGroupId]);
 
   // When
   dispatch_async(self.logsDispatchQueue, ^{
@@ -277,6 +279,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                  assertThat(logContainer.batchId, is(expectedBatchId));
                                  assertThat(logContainer.logs, is(@[ expectedLog ]));
                                  assertThatBool(self.sut.pendingBatchQueueFull, isFalse());
+                                 assertThatBool(self.sut.enabled, isTrue());
                                  assertThatUnsignedLong(self.sut.pendingBatchIds.count, equalToUnsignedLong(0));
                                  OCMVerifyAll(delegateMock);
                                  OCMVerifyAll(self.storageMock);
@@ -996,13 +999,21 @@ static NSString *const kMSTestGroupId = @"GroupId";
 - (void)testDisableAndDeleteDataOnIngestionFatalError {
 
   // If
-  id ingestionMock = OCMProtocolMock(@protocol(MSIngestionProtocol));
+  [self initChannelEndJobExpectation];
 
   // When
-  [self.sut ingestionDidReceiveFatalError:ingestionMock];
+  [self.sut ingestionDidReceiveFatalError:self.ingestionMock];
 
   // Then
-  OCMVerify([self.sut setEnabled:NO andDeleteDataOnDisabled:YES]);
+  [self enqueueChannelEndJobExpectation];
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
+                               handler:^(NSError *error) {
+                                 assertThatBool(self.sut.enabled, isFalse());
+                                 OCMVerify([self.storageMock deleteLogsWithGroupId:self.sut.configuration.groupId]);
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
 }
 
 - (void)testPauseOnIngestionPaused {
@@ -1209,7 +1220,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
-                                 XCTAssertTrue([self.sut.pausedTargetKeys count] == 1);
+                                 assertThatUnsignedLong(self.sut.pausedTargetKeys.count, equalToUnsignedLong(1));
                                  XCTAssertTrue([self.sut.pausedTargetKeys containsObject:targetKey]);
                                }];
 }
@@ -1234,7 +1245,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
-                                 XCTAssertTrue([self.sut.pausedTargetKeys count] == 1);
+                                 assertThatUnsignedLong(self.sut.pausedTargetKeys.count, equalToUnsignedLong(1));
                                  XCTAssertTrue([self.sut.pausedTargetKeys containsObject:targetKey]);
                                }];
 }
@@ -1269,7 +1280,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
-                                 XCTAssertTrue([excludedKeys count] == 1);
+                                 assertThatUnsignedLong(excludedKeys.count, equalToUnsignedLong(1));
                                  XCTAssertTrue([excludedKeys containsObject:targetKey]);
                                }];
 }
@@ -1406,7 +1417,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
-                                 XCTAssertTrue([self.sut.pausedTargetKeys count] == 1);
+                                 assertThatUnsignedLong(self.sut.pausedTargetKeys.count, equalToUnsignedLong(1));
                                  XCTAssertTrue([self.sut.pausedTargetKeys containsObject:targetKey]);
                                }];
 }
@@ -1426,7 +1437,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
-                                 XCTAssertTrue([self.sut.pausedTargetKeys count] == 1);
+                                 assertThatUnsignedLong(self.sut.pausedTargetKeys.count, equalToUnsignedLong(1));
                                  XCTAssertTrue([self.sut.pausedTargetKeys containsObject:targetKey]);
                                }];
 
@@ -1443,7 +1454,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
-                                 XCTAssertTrue([self.sut.pausedTargetKeys count] == 0);
+                                 assertThatUnsignedLong(self.sut.pausedTargetKeys.count, equalToUnsignedLong(0));
                                }];
 
   // If
@@ -1459,7 +1470,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
-                                 XCTAssertTrue([self.sut.pausedTargetKeys count] == 0);
+                                 assertThatUnsignedLong(self.sut.pausedTargetKeys.count, equalToUnsignedLong(0));
                                }];
 }
 

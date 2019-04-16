@@ -250,6 +250,9 @@
                                               [delegate channel:self didSucceedSendingLog:aLog];
                                             }
                                           }];
+
+                // Remove the logs from storage.
+                [self.storage deleteLogsWithBatchId:ingestionBatchId groupId:self.configuration.groupId];
               }
 
               // Failure.
@@ -266,9 +269,8 @@
                                           }];
               }
 
-              // Remove from pending batches and storage.
+              // Remove from pending batches.
               [self.pendingBatchIds removeObject:ingestionBatchId];
-              [self.storage deleteLogsWithBatchId:ingestionBatchId groupId:self.configuration.groupId];
 
               // Update pending batch queue state.
               if (self.pendingBatchQueueFull && self.pendingBatchIds.count < self.configuration.pendingBatchesLimit) {
