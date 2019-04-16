@@ -51,9 +51,9 @@
   cachedTokenBlock(^(MSTokensResponse *_Nullable tokens, NSError *_Nullable error) {
     // Handle error.
     if (error) {
-      // WIP: Append incoming error to message here. Also, should we issue a new code (like current code) or just forward incoming error.
-      NSString *message = @"Error while retrieving cached token, aborting operation";
-      MSLogError([MSDataStore logTag], message);
+      NSString *message =
+          [NSString stringWithFormat:@"Error while retrieving cached token, aborting operation: %@", [error localizedDescription]];
+      MSLogError([MSDataStore logTag], @"%@", message);
       completionHandler([[MSDocumentWrapper alloc] initWithDataStoreErrorCode:MSACDataStoreLocalStoreError
                                                                  errorMessage:message
                                                                    documentId:documentId]);
