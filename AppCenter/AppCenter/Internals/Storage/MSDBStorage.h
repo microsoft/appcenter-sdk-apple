@@ -45,6 +45,16 @@ static NSString *const kMSSQLiteConstraintAutoincrement = @"AUTOINCREMENT";
 - (instancetype)initWithSchema:(MSDBSchema *)schema version:(NSUInteger)version filename:(NSString *)filename;
 
 /**
+ * Initialize this database with a version and a filename for its creation.
+ *
+ * @param version Version of the database.
+ * @param filename Database filename in the file system.
+ *
+ * @return An instance of a database.
+ */
+- (instancetype)initWithVersion:(NSUInteger)version filename:(NSString *)filename;
+
+/**
  * Count entries on a given table using the given SQLite "WHERE" clause's condition.
  *
  * @param tableName Name of the table to inspect.

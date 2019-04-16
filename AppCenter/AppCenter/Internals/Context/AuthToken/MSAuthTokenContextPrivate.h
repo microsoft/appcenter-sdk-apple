@@ -3,6 +3,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class MSAuthTokenInfo;
+
 @interface MSAuthTokenContext ()
 
 /**
@@ -19,6 +21,11 @@ NS_ASSUME_NONNULL_BEGIN
  * Gets auth token history array.
  */
 - (NSArray<MSAuthTokenInfo *> *)authTokenHistory;
+
+/**
+ * Sets auth token history array.
+ */
+- (void)setAuthTokenHistory:(nullable NSArray<MSAuthTokenInfo *> *)authTokenHistory;
 
 @end
 

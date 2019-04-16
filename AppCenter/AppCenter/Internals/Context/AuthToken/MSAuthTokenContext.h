@@ -1,18 +1,12 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "MSAppCenterInternal.h"
-#import "MSAuthTokenContextDelegate.h"
-#import "MSAuthTokenInfo.h"
-#import "MSAuthTokenValidityInfo.h"
-#import "MSConstants+Internal.h"
-#import "MSKeychainUtil.h"
-#import "MSLogger.h"
-#import "MSUtility.h"
+#import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol MSAuthTokenContextDelegate;
+@class MSAuthTokenValidityInfo;
 
 /**
  * MSAuthTokenContext is a singleton responsible for keeping an in-memory reference to an auth token and token history.

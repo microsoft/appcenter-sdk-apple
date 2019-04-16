@@ -187,7 +187,7 @@ static dispatch_once_t onceToken;
 
 + (void)deleteDocumentWithPartition:(NSString *)partition
                          documentId:(NSString *)documentId
-                  completionHandler:(MSDataSourceErrorCompletionHandler)completionHandler {
+                  completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
   [[MSDataStore sharedInstance] deleteDocumentWithPartition:partition
                                                  documentId:documentId
                                                writeOptions:nil
@@ -197,7 +197,7 @@ static dispatch_once_t onceToken;
 + (void)deleteDocumentWithPartition:(NSString *)partition
                          documentId:(NSString *)documentId
                        writeOptions:(MSWriteOptions *_Nullable)writeOptions
-                  completionHandler:(MSDataSourceErrorCompletionHandler)completionHandler {
+                  completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
   [[MSDataStore sharedInstance] deleteDocumentWithPartition:partition
                                                  documentId:documentId
                                                writeOptions:writeOptions
@@ -349,14 +349,14 @@ static dispatch_once_t onceToken;
 - (void)deleteDocumentWithPartition:(NSString *)partition
                          documentId:(NSString *)documentId
                        writeOptions:(MSWriteOptions *_Nullable)__unused writeOptions
-                  completionHandler:(MSDataSourceErrorCompletionHandler)completionHandler {
+                  completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
 
   @synchronized(self) {
 
     // Check precondition.
     if (![self canBeUsed] || ![self isEnabled]) {
       NSError *error = [self generateDisabledError:@"delete" documentId:documentId];
-      completionHandler([[MSDataSourceError alloc] initWithError:error errorCode:MSACDocumentUnknownErrorCode]);
+      completionHandler([[MSDocumentWrapper alloc] initWithError:error documentId:documentId]);
       return;
     }
 
@@ -378,7 +378,7 @@ static dispatch_once_t onceToken;
                        } else {
                          MSLogDebug([MSDataStore logTag], @"Document deleted: %@/%@", partition, documentId);
                        }
-                       completionHandler([[MSDataSourceError alloc] initWithError:cosmosDbError]);
+                       completionHandler([[MSDocumentWrapper alloc] initWithError:cosmosDbError documentId:documentId]);
                      }];
   }
 }
