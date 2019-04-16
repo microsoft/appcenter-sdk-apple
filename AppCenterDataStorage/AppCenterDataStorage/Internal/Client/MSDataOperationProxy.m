@@ -67,7 +67,7 @@
     MSDocumentWrapper *cachedDocument = [self.documentStore readWithToken:token documentId:documentId documentType:documentType];
 
     // Execute remote operation if needed.
-    if ([self needsRemoteOperation:cachedDocument]) {
+    if ([self shouldAttemptRemoteOperationForDocument:cachedDocument]) {
       MSLogInfo([MSDataStore logTag], @"Performing remote operation");
       remoteDocumentBlock(^(MSDocumentWrapper *_Nonnull remoteDocument) {
         // If a valid remote document was retrieved, update local store
@@ -199,12 +199,12 @@
 /**
  * Returns a flag indicating if a remote operation should be attempted.
  *
- * @param cachedDocument The current cached document (if any).
+ * @param document The current cached document (if any).
  *
  * @return YES if a remote operation should be attempted; NO otherwise.
  */
-- (BOOL)needsRemoteOperation:(MSDocumentWrapper *)cachedDocument {
-  return [self.reachability currentReachabilityStatus] != NotReachable && cachedDocument.pendingOperation == nil;
+- (BOOL)shouldAttemptRemoteOperationForDocument:(MSDocumentWrapper *)document {
+  return [self.reachability currentReachabilityStatus] != NotReachable && document.pendingOperation == nil;
 }
 
 /**
