@@ -288,7 +288,6 @@ static dispatch_once_t onceToken;
       completionHandler([[MSDocumentWrapper alloc] initWithError:error documentId:documentId]);
       return;
     }
-    id<MSSerializableDocument> nilDoc = nil;
     // Perform deletion.
     [self.dataOperationProxy performOperation:kMSPendingOperationDelete
         documentId:documentId
