@@ -100,9 +100,9 @@ static NSString *const kMSDataStoreAppDocumentsPartition = @"readonly";
                                                     appSecret:@"appSecret"
                                                     partition:kMSPartition
                                           includeExpiredToken:NO
-                                            completionHandler:^(MSTokensResponse *tokenResponses, NSError *_Nullable returnError) {
+                                            completionHandler:^(MSTokensResponse *tokensResponse, NSError *_Nullable returnError) {
                                               XCTAssertNil(returnError);
-                                              returnedTokenResult = [tokenResponses tokens][0];
+                                              returnedTokenResult = [tokensResponse tokens][0];
                                               NSString *tokenValue = returnedTokenResult.token;
                                               XCTAssertTrue([tokenValue isEqualToString:kMSMockTokenValue]);
                                               [completeExpectation fulfill];
@@ -157,9 +157,9 @@ static NSString *const kMSDataStoreAppDocumentsPartition = @"readonly";
                                                     appSecret:@"appSecret"
                                                     partition:kMSPartition
                                           includeExpiredToken:NO
-                                            completionHandler:^(MSTokensResponse *tokenResponses, NSError *_Nullable returnError) {
+                                            completionHandler:^(MSTokensResponse *tokensResponse, NSError *_Nullable returnError) {
                                               XCTAssertNil(returnError);
-                                              returnedTokenResult = [tokenResponses tokens][0];
+                                              returnedTokenResult = [tokensResponse tokens][0];
                                               NSString *tokenValue = returnedTokenResult.token;
                                               XCTAssertTrue([tokenValue isEqualToString:kMSMockTokenValue]);
                                               [completeExpectation fulfill];
@@ -201,10 +201,10 @@ static NSString *const kMSDataStoreAppDocumentsPartition = @"readonly";
                                                     appSecret:@"appSecret"
                                                     partition:kMSPartitionName
                                           includeExpiredToken:NO
-                                            completionHandler:^(MSTokensResponse *tokenResponses, NSError *_Nullable error) {
+                                            completionHandler:^(MSTokensResponse *tokensResponse, NSError *_Nullable error) {
                                               // Then
                                               XCTAssertNil(error);
-                                              NSString *tokenValue = [tokenResponses tokens][0].token;
+                                              NSString *tokenValue = [tokensResponse tokens][0].token;
                                               XCTAssertTrue([tokenValue isEqualToString:kMSMockTokenValue]);
                                               [completeExpectation fulfill];
                                             }];
@@ -246,10 +246,10 @@ static NSString *const kMSDataStoreAppDocumentsPartition = @"readonly";
                                                     appSecret:@"appSecret"
                                                     partition:kMSPartition
                                           includeExpiredToken:NO
-                                            completionHandler:^(MSTokensResponse *tokenResponses, NSError *_Nullable returnError) {
+                                            completionHandler:^(MSTokensResponse *tokensResponse, NSError *_Nullable returnError) {
                                               // Then
                                               XCTAssertNotNil(returnError);
-                                              XCTAssertEqual([tokenResponses tokens].count, 0);
+                                              XCTAssertEqual([tokensResponse tokens].count, 0);
                                               [completeExpectation fulfill];
                                             }];
   [self waitForExpectationsWithTimeout:5
@@ -289,7 +289,7 @@ static NSString *const kMSDataStoreAppDocumentsPartition = @"readonly";
                                        appSecret:@"appSecret"
                                        partition:kMSPartition
                              includeExpiredToken:NO
-                               completionHandler:^(MSTokensResponse *__unused tokenResponses, NSError *_Nullable __unused returnError){
+                               completionHandler:^(MSTokensResponse *__unused tokensResponse, NSError *_Nullable __unused returnError){
                                }];
 
   // Then
@@ -321,7 +321,7 @@ static NSString *const kMSDataStoreAppDocumentsPartition = @"readonly";
                                                     appSecret:@"appSecret"
                                                     partition:kMSPartition
                                           includeExpiredToken:NO
-                                            completionHandler:^(MSTokensResponse *__unused tokenResponses, NSError *_Nullable returnError) {
+                                            completionHandler:^(MSTokensResponse *__unused tokensResponse, NSError *_Nullable returnError) {
                                               // Then
                                               XCTAssertNotNil(returnError);
                                               XCTAssertEqual(returnError.code, MSACDataStoreErrorJSONSerializationFailed);
@@ -361,7 +361,7 @@ static NSString *const kMSDataStoreAppDocumentsPartition = @"readonly";
                                                     appSecret:@"appSecret"
                                                     partition:kMSPartition
                                           includeExpiredToken:NO
-                                            completionHandler:^(MSTokensResponse *__unused tokenResponses, NSError *_Nullable returnError) {
+                                            completionHandler:^(MSTokensResponse *__unused tokensResponse, NSError *_Nullable returnError) {
                                               // Then
                                               XCTAssertEqual(returnError, serviceError);
                                               [completeExpectation fulfill];
@@ -402,7 +402,7 @@ static NSString *const kMSDataStoreAppDocumentsPartition = @"readonly";
                                                     appSecret:@"appSecret"
                                                     partition:kMSPartition
                                           includeExpiredToken:NO
-                                            completionHandler:^(MSTokensResponse *__unused tokenResponses, NSError *_Nullable returnError) {
+                                            completionHandler:^(MSTokensResponse *__unused tokensResponse, NSError *_Nullable returnError) {
                                               // Then
                                               XCTAssertNotNil(returnError);
                                               XCTAssertEqual([returnError code], MSACDataStoreErrorHTTPError);

@@ -40,6 +40,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 - (void)startCrashProcessing;
 - (void)shouldAlwaysSend;
 - (void)emptyLogBufferFiles;
+- (void)handleUserConfirmation:(MSUserConfirmation)userConfirmation;
 
 @property(nonatomic) dispatch_group_t bufferFileGroup;
 
@@ -1085,6 +1086,23 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
   // Then
   XCTAssertEqual([retrievedReports count], 0U);
+}
+
+- (void)testErrorOnIncorrectNotifyWithUserConfirmationCall {
+
+  // Wait for creation of buffers to avoid corruption on OCMPartialMock.
+  dispatch_group_wait(self.sut.bufferFileGroup, DISPATCH_TIME_FOREVER);
+
+  // If
+  self.sut = OCMPartialMock(self.sut);
+  id<MSChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+  [self startCrashes:self.sut withReports:YES withChannelGroup:channelGroupMock];
+
+  // Then
+  OCMReject([self.sut handleUserConfirmation:MSUserConfirmationAlways]);
+
+  // When
+  [self.sut notifyWithUserConfirmation:MSUserConfirmationAlways];
 }
 
 - (void)testCrashesSetCorrectUserIdToLogs {
