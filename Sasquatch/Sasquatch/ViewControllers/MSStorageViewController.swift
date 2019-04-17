@@ -16,7 +16,7 @@ class MSStorageViewController: UIViewController, UITableViewDelegate, UITableVie
   static var AppDocuments: [MSDocumentWrapper<TestDocument>] = []
   static var UserDocuments: [MSDocumentWrapper<TestDocument>] = []
   private var storageTypePicker: MSEnumPicker<StorageType>?
-  private var storageType = "App"
+  private var storageType = StorageType.App.rawValue
   
   @IBOutlet var backButton: UIButton!
   @IBOutlet var tableView: UITableView!
@@ -79,8 +79,10 @@ class MSStorageViewController: UIViewController, UITableViewDelegate, UITableVie
             self.storageTypePicker?.doneClicked()
           }))
           self.present(alert, animated: true, completion: nil)
+        } else if (self.storageType == StorageType.User.rawValue) {
+          self.loadUserFiles()
         } else {
-          self.tableView.reloadData()
+          self.loadAppFiles()
         }
     }
     )
@@ -157,7 +159,8 @@ class MSStorageViewController: UIViewController, UITableViewDelegate, UITableVie
 
   func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
     if editingStyle == .delete {
-      appCenter.deleteDocumentWithPartition("USER", documentId: MSStorageViewController.UserDocuments[indexPath.row - 1].documentId)
+// uncommit when work with real data
+//      appCenter.deleteDocumentWithPartition(StorageType.User.rawValue, documentId: MSStorageViewController.UserDocuments[indexPath.row - 1].documentId)
       MSStorageViewController.UserDocuments.remove(at: indexPath.row - 1)
       tableView.deleteRows(at: [indexPath], with: .automatic)
     } else if editingStyle == .insert {
@@ -174,7 +177,7 @@ class MSStorageViewController: UIViewController, UITableViewDelegate, UITableVie
       let documentDetailsController = segue.destination as! MSDocumentDetailsViewController
       documentDetailsController.documentType = self.storageType
       documentDetailsController.documentId = sender as? String
-//      documentDetailsController.documentTimeToLive = sender as! String
+      documentDetailsController.documentTimeToLive = sender as? String
       if self.storageType == StorageType.App.rawValue {
         documentDetailsController.documentContent = MSStorageViewController.AppDocuments
       } else {

@@ -19,8 +19,8 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
   var userDocumentAddPropertiesSection: EventPropertiesTableSection!
 
   var appCenter: AppCenterDelegate!
-  let userType: String = "User"
-   var documentContent: [MSDocumentWrapper<TestDocument>]?
+  let userType: String = MSStorageViewController.StorageType.User.rawValue
+  var documentContent: [MSDocumentWrapper<TestDocument>]?
   private var kUserDocumentAddPropertiesSectionIndex: Int = 0
   private var timeToLiveModePicker: MSEnumPicker<TimeToLiveMode>?
 
@@ -41,7 +41,7 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
 
   override func loadView() {
     super.loadView()
-    if documentType == userType && documentId!.isEmpty {
+    if documentType == userType && documentId != nil && documentId!.isEmpty {
       docIdField.isEnabled = true
     }
     userDocumentAddPropertiesSection = EventPropertiesTableSection(tableSection: 0, tableView: self.tableView)
@@ -65,7 +65,7 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
   func numberOfSections(in tableView: UITableView) -> Int {
     if documentType != userType {
       return 1
-    } else if documentId!.isEmpty {
+    } else if (documentId != nil && documentId!.isEmpty) {
       return 2
     }
     return 3
@@ -126,7 +126,7 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
       return cell
     } else{
       let cell = tableView.dequeueReusableCell(withIdentifier: "property", for: indexPath)
-      cell.textLabel?.text = "\(Array(documentContent!)[indexPath.row]) : \(Array(documentContent!)[indexPath.row])"
+      cell.textLabel?.text = "\(String(describing: Array(documentContent!)[indexPath.row].documentId)) : \(String(describing: Array(documentContent!)[indexPath.row].jsonValue))"
       return cell
     }
   }
@@ -156,8 +156,8 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
       }
     }
     let document = TestDocument.init(from: prop)
-    appCenter.createDocumentWithPartition("USER", documentId: docIdField.text!, document: document, writeOptions: MSWriteOptions.init())
+    appCenter.createDocumentWithPartition(MSStorageViewController.StorageType.User.rawValue, documentId: docIdField.text!, document: document, writeOptions: MSWriteOptions.init(deviceTimeToLive: 12))
     //todo add new file to list
-    //    MSStorageViewController.UserDocuments.append(docIdField.text!)
+//        MSStorageViewController.UserDocuments.append(docIdField.text!)
   }
 }
