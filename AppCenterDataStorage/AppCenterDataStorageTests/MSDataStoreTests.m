@@ -538,12 +538,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
       .andDo(^(NSInvocation *invocation) {
         MSHttpRequestCompletionHandler cosmosdbOperationCallback;
         [invocation getArgument:&cosmosdbOperationCallback atIndex:8];
-        cosmosdbOperationCallback(nil,
-                                  [[NSHTTPURLResponse alloc] initWithURL:[NSURL URLWithString:@"https://contoso.com"]
-                                                              statusCode:MSHTTPCodesNo400BadRequest
-                                                             HTTPVersion:nil
-                                                            headerFields:nil],
-                                  nil);
+        cosmosdbOperationCallback(nil, [self generateResponseWithStatusCode:MSHTTPCodesNo400BadRequest], nil);
       });
 
   // When
@@ -594,7 +589,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
       .andDo(^(NSInvocation *invocation) {
         MSHttpRequestCompletionHandler cosmosdbOperationCallback;
         [invocation getArgument:&cosmosdbOperationCallback atIndex:8];
-        cosmosdbOperationCallback(testCosmosDbResponse, nil, nil);
+        cosmosdbOperationCallback(testCosmosDbResponse, [self generateResponseWithStatusCode:MSHTTPCodesNo200OK], nil);
       });
 
   // When
@@ -724,7 +719,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
       .andDo(^(NSInvocation *invocation) {
         MSHttpRequestCompletionHandler cosmosdbOperationCallback;
         [invocation getArgument:&cosmosdbOperationCallback atIndex:8];
-        cosmosdbOperationCallback(brokenCosmosDbResponse, nil, nil);
+        cosmosdbOperationCallback(brokenCosmosDbResponse, [self generateResponseWithStatusCode:MSHTTPCodesNo200OK], nil);
       });
 
   // When
@@ -769,7 +764,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
       .andDo(^(NSInvocation *invocation) {
         MSHttpRequestCompletionHandler cosmosdbOperationCallback;
         [invocation getArgument:&cosmosdbOperationCallback atIndex:8];
-        cosmosdbOperationCallback(nil, nil, nil);
+        cosmosdbOperationCallback(nil, [self generateResponseWithStatusCode:MSHTTPCodesNo200OK], nil);
       });
 
   // When
@@ -1329,7 +1324,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
       .andDo(^(NSInvocation *invocation) {
         MSHttpRequestCompletionHandler cosmosdbOperationCallback;
         [invocation getArgument:&cosmosdbOperationCallback atIndex:8];
-        cosmosdbOperationCallback(testCosmosDbResponse, nil, nil);
+        cosmosdbOperationCallback(testCosmosDbResponse, [self generateResponseWithStatusCode:MSHTTPCodesNo200OK], nil);
       });
   MSDocumentWrapper *expectedDocumentWrapper = [MSDocumentUtils documentWrapperFromData:testCosmosDbResponse
                                                                            documentType:[MSDictionaryDocument class]];
@@ -1393,7 +1388,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
       .andDo(^(NSInvocation *invocation) {
         MSHttpRequestCompletionHandler cosmosdbOperationCallback;
         [invocation getArgument:&cosmosdbOperationCallback atIndex:8];
-        cosmosdbOperationCallback(jsonFixture, nil, nil);
+        cosmosdbOperationCallback(jsonFixture, [self generateResponseWithStatusCode:MSHTTPCodesNo200OK], nil);
       });
 
   // When
@@ -1492,4 +1487,10 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   return testToken;
 }
 
+- (NSHTTPURLResponse *)generateResponseWithStatusCode:(NSInteger)statusCode {
+  return [[NSHTTPURLResponse alloc] initWithURL:[NSURL URLWithString:@"https://contoso.com"]
+                                     statusCode:statusCode
+                                    HTTPVersion:nil
+                                   headerFields:nil];
+}
 @end
