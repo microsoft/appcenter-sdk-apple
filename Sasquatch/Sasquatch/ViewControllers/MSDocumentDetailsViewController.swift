@@ -5,21 +5,35 @@ import UIKit
 
 class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
   var documentType: String?
+  
+  enum TimeToLiveMode: String {
+    case Default = "Default"
+    case NoCache = "NoCache"
+    case TwoSeconds = "2 seconds"
+    case Infinite = "Infinite"
+    
+    static let allValues = [Default, NoCache, TwoSeconds, Infinite]
+  }
   var documentId: String?
+  var documentTimeToLive: String? = TimeToLiveMode.Default.rawValue
   var userDocumentAddPropertiesSection: EventPropertiesTableSection!
-  var documentContent: [MSDocumentWrapper<TestDocument>]?
-  let userType: String = "User"
+
   var appCenter: AppCenterDelegate!
-  private let kUserDocumentAddPropertiesSectionIndex: Int = 0
+  let userType: String = "User"
+   var documentContent: [MSDocumentWrapper<TestDocument>]?
+  private var kUserDocumentAddPropertiesSectionIndex: Int = 0
+  private var timeToLiveModePicker: MSEnumPicker<TimeToLiveMode>?
 
   @IBOutlet weak var backButton: UIButton!
   @IBOutlet weak var docIdField: UITextField!
   @IBOutlet weak var tableView: UITableView!
+  @IBOutlet weak var timeToLiveField: UITextField!
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    docIdField.text = documentId
     docIdField.placeholder = "Please input an user document id"
+    docIdField.text = documentId
+    timeToLiveField.text = documentTimeToLive
     self.tableView.delegate = self
     self.tableView.dataSource = self
     self.tableView.setEditing(true, animated: false)
@@ -31,6 +45,17 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
       docIdField.isEnabled = true
     }
     userDocumentAddPropertiesSection = EventPropertiesTableSection(tableSection: 0, tableView: self.tableView)
+    
+    self.timeToLiveModePicker = MSEnumPicker<TimeToLiveMode> (
+      textField: self.timeToLiveField,
+      allValues: TimeToLiveMode.allValues,
+      onChange: { index in
+        self.documentTimeToLive = TimeToLiveMode.allValues[index].rawValue
+      }
+    )
+    self.timeToLiveField.delegate = self.timeToLiveModePicker
+    self.timeToLiveField.text = TimeToLiveMode.Default.rawValue
+    self.timeToLiveField.tintColor = UIColor.clear
   }
 
   @IBAction func backButtonClicked(_ sender: Any) {

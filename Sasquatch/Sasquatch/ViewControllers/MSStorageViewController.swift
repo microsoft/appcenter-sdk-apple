@@ -3,7 +3,7 @@
 
 import UIKit
 
-class MSStorageViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class MSStorageViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, AppCenterProtocol {
 
   var appCenter: AppCenterDelegate!
   enum StorageType: String {
@@ -28,10 +28,9 @@ class MSStorageViewController: UIViewController, UITableViewDelegate, UITableVie
     tableView.dataSource = self
     tableView.setEditing(true, animated: false)
     tableView.allowsSelectionDuringEditing = true
-    tableView.isHidden = true
     identitySignIn = UserDefaults.standard.bool(forKey: kMSUserIdentity)
     initStoragePicker()
-//    loadAppFiles()
+    loadAppFiles()
   }
   
   func loadAppFiles() {
@@ -175,6 +174,7 @@ class MSStorageViewController: UIViewController, UITableViewDelegate, UITableVie
       let documentDetailsController = segue.destination as! MSDocumentDetailsViewController
       documentDetailsController.documentType = self.storageType
       documentDetailsController.documentId = sender as? String
+//      documentDetailsController.documentTimeToLive = sender as! String
       if self.storageType == StorageType.App.rawValue {
         documentDetailsController.documentContent = MSStorageViewController.AppDocuments
       } else {
