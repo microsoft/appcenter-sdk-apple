@@ -71,7 +71,7 @@ static NSString *const kMSHeaderMsDate = @"x-ms-date";
 
 @implementation MSCosmosDb : NSObject
 
-+ (NSString *)encodeUrl:(NSString *)string {
++ (NSString *)encodeUrl:(NSString *_Nullable)string {
   NSCharacterSet *allowedCharacters = [[NSCharacterSet characterSetWithCharactersInString:kMSUrlCharactersToEscape] invertedSet];
   return (NSString *)[string stringByAddingPercentEncodingWithAllowedCharacters:allowedCharacters];
 }
