@@ -288,14 +288,12 @@ static dispatch_once_t onceToken;
       completionHandler([[MSDocumentWrapper alloc] initWithError:error documentId:documentId]);
       return;
     }
-
-    // TODO
     id<MSSerializableDocument> nilDoc = nil;
     // Perform deletion.
     [self.dataOperationProxy performOperation:kMSPendingOperationDelete
         documentId:documentId
         documentType:[MSDictionaryDocument class]
-        document:nilDoc // TODO
+        document:nil
         baseOptions:writeOptions
         cachedTokenBlock:^(MSCachedTokenCompletionHandler handler) {
           [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:(id<MSHttpClientProtocol>)self.httpClient
