@@ -238,8 +238,6 @@
                 return;
               }
               BOOL succeeded = response.statusCode == MSHTTPCodesNo200OK;
-
-              // Success.
               if (succeeded) {
                 MSLogDebug([MSAppCenter logTag], @"Log(s) sent with success, batch Id:%@.", ingestionBatchId);
 
