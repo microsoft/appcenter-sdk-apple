@@ -874,6 +874,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   // If we change the default token URL.
   NSString *expectedUrl = @"https://another.domain.com";
   [MSDataStore setTokenExchangeUrl:expectedUrl];
+  __weak XCTestExpectation *expectation = [self expectationWithDescription:@"Make any API call"];
   __block NSURL *actualUrl;
   OCMStub([self.tokenExchangeMock performDbTokenAsyncOperationWithHttpClient:OCMOCK_ANY
                                                             tokenExchangeUrl:OCMOCK_ANY
@@ -883,6 +884,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                                            completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         [invocation getArgument:&actualUrl atIndex:3];
+        [expectation fulfill];
       });
 
   // When doing any API call, it will request a token.
@@ -892,8 +894,15 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                  }];
 
   // Then that call uses the base URL we specified.
-  XCTAssertEqualObjects([actualUrl scheme], @"https");
-  XCTAssertEqualObjects([actualUrl host], @"another.domain.com");
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *_Nullable error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 } else {
+                                   XCTAssertEqualObjects([actualUrl scheme], @"https");
+                                   XCTAssertEqualObjects([actualUrl host], @"another.domain.com");
+                                 }
+                               }];
 }
 
 - (void)testListSingleDocument {
