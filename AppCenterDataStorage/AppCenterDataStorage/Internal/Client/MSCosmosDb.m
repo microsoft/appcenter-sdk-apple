@@ -157,48 +157,11 @@ static NSString *const kMSHeaderMsDate = @"x-ms-date";
   NSDictionary *httpHeaders = [MSCosmosDb defaultHeaderWithPartition:tokenResult.partition
                                                              dbToken:tokenResult.token
                                                    additionalHeaders:additionalHeaders];
-  NSURL *sendURL = (NSURL *)[NSURL
-      URLWithString:[MSCosmosDb documentUrlWithTokenResult:tokenResult
-                                                documentId:(NSString *)additionalUrlPath]]; // @TODO Refactore the mehthod to take a path
+  NSURL *sendURL = (NSURL *)[NSURL URLWithString:[MSCosmosDb documentUrlWithTokenResult:tokenResult
+                                                                             documentId:(NSString *)additionalUrlPath]];
   [httpClient sendAsync:sendURL method:httpMethod headers:httpHeaders data:body completionHandler:completionHandler];
 }
 
-+ (void)performCosmosDbAsyncOperationWithHttpClient2:(id<MSHttpClientProtocol>)httpClient
-                                         tokenResult:(MSTokenResult *)tokenResult
-                                          documentId:(NSString *)documentId
-                                          httpMethod:(NSString *)httpMethod
-                                            // document:(id<MSSerializableDocument> _Nullable)document
-                                            document:(NSObject *_Nullable)aDocument
-                                   additionalHeaders:(NSDictionary *_Nullable)additionalHeaders
-                                   additionalUrlPath:(NSString *_Nullable)additionalUrlPath
-                                   completionHandler:(MSHttpRequestCompletionHandler)completionHandler {
-
-  id<MSSerializableDocument> document = (id<MSSerializableDocument>)aDocument;
-
-  NSData *body = nil;
-  if (document) {
-    // Serialize document
-    NSError *serializationError;
-    NSDictionary *dic = [MSDocumentUtils documentPayloadWithDocumentId:documentId
-                                                             partition:tokenResult.partition
-                                                              document:(NSDictionary *)[document serializeToDictionary]];
-    body = [NSJSONSerialization dataWithJSONObject:dic options:0 error:&serializationError];
-    if (!body || serializationError) {
-      MSLogError([MSDataStore logTag], @"Error serializing data:%@", [serializationError localizedDescription]);
-      completionHandler(nil, nil, serializationError);
-      return;
-    }
-  }
-
-  // Create http request.
-  NSDictionary *httpHeaders = [MSCosmosDb defaultHeaderWithPartition:tokenResult.partition
-                                                             dbToken:tokenResult.token
-                                                   additionalHeaders:additionalHeaders];
-  NSURL *sendURL = (NSURL *)[NSURL
-      URLWithString:[MSCosmosDb documentUrlWithTokenResult:tokenResult
-                                                documentId:(NSString *)additionalUrlPath]]; // @TODO Refactore the mehthod to take a path
-  [httpClient sendAsync:sendURL method:httpMethod headers:httpHeaders data:body completionHandler:completionHandler];
-}
 @end
 
 NS_ASSUME_NONNULL_END

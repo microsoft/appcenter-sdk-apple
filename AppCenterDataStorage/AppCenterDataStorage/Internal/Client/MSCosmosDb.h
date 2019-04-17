@@ -37,15 +37,6 @@ NS_ASSUME_NONNULL_BEGIN
                                   additionalUrlPath:(NSString *_Nullable)additionalUrlPath
                                   completionHandler:(MSHttpRequestCompletionHandler)completionHandler;
 
-+ (void)performCosmosDbAsyncOperationWithHttpClient2:(id<MSHttpClientProtocol>)httpClient
-                                         tokenResult:(MSTokenResult *)tokenResult
-                                          documentId:(NSString *)documentId
-                                          httpMethod:(NSString *)httpMethod
-                                            document:(NSObject *_Nullable)aDocument
-                                   additionalHeaders:(NSDictionary *_Nullable)additionalHeaders
-                                   additionalUrlPath:(NSString *_Nullable)additionalUrlPath
-                                   completionHandler:(MSHttpRequestCompletionHandler)completionHandler;
-
 @end
 
 NS_ASSUME_NONNULL_END
