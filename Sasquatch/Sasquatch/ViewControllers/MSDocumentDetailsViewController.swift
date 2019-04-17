@@ -101,7 +101,7 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
       return cell
     } else{
       let cell = tableView.dequeueReusableCell(withIdentifier: "property", for: indexPath)
-      cell.textLabel?.text = "\(Array(documentContent!.keys)[indexPath.row]) : \(Array(documentContent!.values)[indexPath.row])"
+      cell.textLabel?.text = "\(Array(documentContent!)[indexPath.row]) : \(Array(documentContent!)[indexPath.row])"
       return cell
     }
   }
