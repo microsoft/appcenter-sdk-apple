@@ -39,6 +39,23 @@ static NSString *const kMSDefaultApiUrl = @"https://api.appcenter.ms/v0.1";
         continuationToken:(NSString *_Nullable)continuationToken
         completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler;
 
+/**
+ * Perform Cosmos DB operation.
+ *
+ * @param partition The CosmosDB partition key.
+ * @param documentId The identifier of a document.
+ * @param httpMethod Http method.
+ * @param body Http body.
+ * @param additionalHeaders Additional http headers.
+ * @param completionHandler Completion handler callback.
+ */
+- (void)performCosmosDbOperationWithPartition:(NSString *)partition
+                                   documentId:(NSString *_Nullable)documentId
+                                   httpMethod:(NSString *)httpMethod
+                                         body:(NSData *_Nullable)body
+                            additionalHeaders:(NSDictionary *_Nullable)additionalHeaders
+                            completionHandler:(MSHttpRequestCompletionHandler)completionHandler;
+
 @end
 
 NS_ASSUME_NONNULL_END

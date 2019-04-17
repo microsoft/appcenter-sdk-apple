@@ -57,7 +57,6 @@
 @implementation MSDataStoreTests
 
 static NSString *const kMSTestAppSecret = @"TestAppSecret";
-static NSString *const kMSCosmosDbHttpCodeKey = @"com.Microsoft.AppCenter.HttpCodeKey";
 static NSString *const kMSTokenTest = @"token";
 static NSString *const kMSPartitionTest = @"user";
 static NSString *const kMSDbAccountTest = @"dbAccount";
@@ -518,6 +517,60 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   XCTAssertTrue(completionHandlerCalled);
   XCTAssertEqualObjects(data, actualData);
   XCTAssertEqualObjects(expectedURLString, [actualURL absoluteString]);
+}
+
+- (void)testPerformCosmosDbOperationWithPartitionWithErrorResponseWithoutError {
+
+  // If
+  XCTestExpectation *expectation = [self expectationWithDescription:@"Received an error code from Cosmos DB"];
+  __block NSError *actualError;
+  __block NSHTTPURLResponse *actualResponse;
+  MSTokenResult *testToken = [self mockTokenFetchingWithError:nil];
+
+  // Mock CosmosDB requests.
+  OCMStub([self.cosmosDbMock performCosmosDbAsyncOperationWithHttpClient:OCMOCK_ANY
+                                                             tokenResult:testToken
+                                                              documentId:kMSDocumentIdTest
+                                                              httpMethod:kMSHttpMethodPost
+                                                                    body:OCMOCK_ANY
+                                                       additionalHeaders:OCMOCK_ANY
+                                                       completionHandler:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        MSHttpRequestCompletionHandler cosmosdbOperationCallback;
+        [invocation getArgument:&cosmosdbOperationCallback atIndex:8];
+        cosmosdbOperationCallback(nil,
+                                  [[NSHTTPURLResponse alloc] initWithURL:[NSURL URLWithString:@"https://contoso.com"]
+                                                              statusCode:MSHTTPCodesNo400BadRequest
+                                                             HTTPVersion:nil
+                                                            headerFields:nil],
+                                  nil);
+      });
+
+  // When
+  [self.sut performCosmosDbOperationWithPartition:kMSPartitionTest
+                                       documentId:kMSDocumentIdTest
+                                       httpMethod:kMSHttpMethodPost
+                                             body:nil
+                                additionalHeaders:nil
+                                completionHandler:^(NSData *_Nullable responseBody, NSHTTPURLResponse *_Nullable response,
+                                                    NSError *_Nullable error) {
+                                  XCTAssertNil(responseBody);
+                                  actualResponse = response;
+                                  actualError = error;
+                                  [expectation fulfill];
+                                }];
+
+  // Then
+  [self waitForExpectationsWithTimeout:100
+                               handler:^(NSError *error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                                 XCTAssertNotNil(actualResponse);
+                                 XCTAssertNotNil(actualError);
+                                 XCTAssertEqual(actualResponse.statusCode, MSHTTPCodesNo400BadRequest);
+                                 XCTAssertEqual([actualError.userInfo[kMSCosmosDbHttpCodeKey] integerValue], MSHTTPCodesNo400BadRequest);
+                               }];
 }
 
 - (void)testCreateWithPartitionGoldenPath {

@@ -18,3 +18,8 @@ static NSString *const kMSPendingOperationCreate = @"CREATE";
 static NSString *const kMSPendingOperationReplace = @"REPLACE";
 static NSString *const kMSPendingOperationDelete = @"DELETE";
 static NSString *const kMSPendingOperationRead = nil;
+
+/**
+ * CosmosDb Http code key.
+ */
+static NSString *const kMSCosmosDbHttpCodeKey = @"MSHttpCodeKey";
