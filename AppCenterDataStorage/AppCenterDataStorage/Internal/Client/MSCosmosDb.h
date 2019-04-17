@@ -28,7 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (void)performCosmosDbAsyncOperationWithHttpClient:(id<MSHttpClientProtocol>)httpClient
                                         tokenResult:(MSTokenResult *)tokenResult
-                                         documentId:(NSString *)documentId
+                                         documentId:(NSString *_Nullable)documentId
                                          httpMethod:(NSString *)httpMethod
                                                body:(NSData *_Nullable)body
                                   additionalHeaders:(NSDictionary *_Nullable)additionalHeaders

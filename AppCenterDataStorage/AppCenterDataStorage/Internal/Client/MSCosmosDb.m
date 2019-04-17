@@ -115,14 +115,14 @@ static NSString *const kMSHeaderMsDate = @"x-ms-date";
 
 + (NSString *)documentBaseUrlWithDatabaseName:(NSString *)databaseName
                                collectionName:(NSString *)collectionName
-                                   documentId:(NSString *)documentId {
+                                   documentId:(NSString *_Nullable)documentId {
   NSString *dbUrlSuffix = [NSString stringWithFormat:kMSDocumentDbDatabaseUrlSuffix, [MSCosmosDb encodeUrl:databaseName]];
   NSString *dbCollectionUrlSuffix = [NSString stringWithFormat:kMSDocumentDbCollectionUrlSuffix, [MSCosmosDb encodeUrl:collectionName]];
   NSString *dbDocumentId = documentId ? [NSString stringWithFormat:@"/%@", [MSCosmosDb encodeUrl:documentId]] : @"";
   return [NSString stringWithFormat:@"%@/%@/%@%@", dbUrlSuffix, dbCollectionUrlSuffix, kMSDocumentDbDocumentUrlPrefix, dbDocumentId];
 }
 
-+ (NSString *)documentUrlWithTokenResult:(MSTokenResult *)tokenResult documentId:(NSString *)documentId {
++ (NSString *)documentUrlWithTokenResult:(MSTokenResult *)tokenResult documentId:(NSString *_Nullable)documentId {
   NSString *documentResourceIdPrefix = [MSCosmosDb documentBaseUrlWithDatabaseName:tokenResult.dbName
                                                                     collectionName:tokenResult.dbCollectionName
                                                                         documentId:documentId];
@@ -131,7 +131,7 @@ static NSString *const kMSHeaderMsDate = @"x-ms-date";
 
 + (void)performCosmosDbAsyncOperationWithHttpClient:(id<MSHttpClientProtocol>)httpClient
                                         tokenResult:(MSTokenResult *)tokenResult
-                                         documentId:(NSString *)documentId
+                                         documentId:(NSString *_Nullable)documentId
                                          httpMethod:(NSString *)httpMethod
                                                body:(NSData *_Nullable)body
                                   additionalHeaders:(NSDictionary *_Nullable)additionalHeaders

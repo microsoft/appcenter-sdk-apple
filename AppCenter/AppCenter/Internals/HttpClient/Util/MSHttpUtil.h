@@ -13,9 +13,18 @@ static NSString *const kMSHidingStringForAppSecret = @"*";
  *
  * @param statusCode Http status code.
  *
- * @return is recoverable.
+ * @return YES if it is recoverable.
  */
 + (BOOL)isRecoverableError:(NSInteger)statusCode;
+
+/**
+ * Indicate if the http response is a success response.
+ *
+ * @param statusCode Http status code.
+ *
+ * @return YES if it is a success code.
+ */
++ (BOOL)isSuccessStatusCode:(NSInteger)statusCode;
 
 /**
  * Indicate if error is due to no internet connection.

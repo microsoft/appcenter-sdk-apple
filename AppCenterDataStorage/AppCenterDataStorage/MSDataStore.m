@@ -11,6 +11,7 @@
 #import "MSCosmosDb.h"
 #import "MSDBDocumentStore.h"
 #import "MSDataSourceError.h"
+#import "MSDataStorageConstants.h"
 #import "MSDataStoreErrors.h"
 #import "MSDataStoreInternal.h"
 #import "MSDataStorePrivate.h"
@@ -18,6 +19,7 @@
 #import "MSDocumentUtils.h"
 #import "MSDocumentWrapperInternal.h"
 #import "MSHttpClient.h"
+#import "MSHttpUtil.h"
 #import "MSPaginatedDocuments.h"
 #import "MSReadOptions.h"
 #import "MSServiceAbstractProtected.h"
@@ -433,10 +435,10 @@ static dispatch_once_t onceToken;
 #pragma mark - CosmosDB operation implementations
 
 - (void)performCosmosDbOperationWithPartition:(NSString *)partition
-                                   documentId:(NSString *)documentId
+                                   documentId:(NSString *_Nullable)documentId
                                    httpMethod:(NSString *)httpMethod
                                          body:(NSData *_Nullable)body
-                            additionalHeaders:(NSDictionary *)additionalHeaders
+                            additionalHeaders:(NSDictionary *_Nullable)additionalHeaders
                             completionHandler:(MSHttpRequestCompletionHandler)completionHandler {
   [MSTokenExchange
       performDbTokenAsyncOperationWithHttpClient:(id<MSHttpClientProtocol>)self.httpClient
@@ -455,7 +457,22 @@ static dispatch_once_t onceToken;
                                                                               httpMethod:httpMethod
                                                                                     body:body
                                                                        additionalHeaders:additionalHeaders
-                                                                       completionHandler:completionHandler];
+                                                                       completionHandler:^(NSData *_Nullable data,
+                                                                                           NSHTTPURLResponse *_Nullable response,
+                                                                                           NSError *_Nullable cosmosDbError) {
+                                                                         if (!cosmosDbError &&
+                                                                             ![MSHttpUtil isSuccessStatusCode:response.statusCode]) {
+                                                                           cosmosDbError = [[NSError alloc]
+                                                                               initWithDomain:kMSDataStorageErrorDomain
+                                                                                         code:MSACDataStoreErrorHTTPError
+                                                                                     userInfo:@{
+                                                                                       NSLocalizedDescriptionKey :
+                                                                                           kMSACDataStoreCosmosDbErrorResponseDesc,
+                                                                                       kMSCosmosDbHttpCodeKey : @(response.statusCode)
+                                                                                     }];
+                                                                         }
+                                                                         completionHandler(data, response, cosmosDbError);
+                                                                       }];
                                }];
 }
 
