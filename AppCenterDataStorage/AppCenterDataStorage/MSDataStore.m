@@ -113,31 +113,7 @@ static dispatch_once_t onceToken;
         completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler {
   [[MSDataStore sharedInstance] listWithPartition:partition
                                      documentType:documentType
-                                      readOptions:nil
                                 continuationToken:nil
-                                completionHandler:completionHandler];
-}
-
-+ (void)listWithPartition:(NSString *)partition
-             documentType:(Class)documentType
-              readOptions:(MSReadOptions *_Nullable)readOptions
-        completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler {
-  [[MSDataStore sharedInstance] listWithPartition:partition
-                                     documentType:documentType
-                                      readOptions:readOptions
-                                continuationToken:nil
-                                completionHandler:completionHandler];
-}
-
-+ (void)listWithPartition:(NSString *)partition
-             documentType:(Class)documentType
-              readOptions:(MSReadOptions *_Nullable)readOptions
-        continuationToken:(NSString *_Nullable)continuationToken
-        completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler {
-  [[MSDataStore sharedInstance] listWithPartition:partition
-                                     documentType:documentType
-                                      readOptions:readOptions
-                                continuationToken:continuationToken
                                 completionHandler:completionHandler];
 }
 
@@ -201,6 +177,18 @@ static dispatch_once_t onceToken;
                                          documentId:documentId
                                        writeOptions:writeOptions
                                   completionHandler:completionHandler];
+}
+
+#pragma mark - Static internal
+
++ (void)listWithPartition:(NSString *)partition
+             documentType:(Class)documentType
+        continuationToken:(NSString *_Nullable)continuationToken
+        completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler {
+  [[MSDataStore sharedInstance] listWithPartition:partition
+                                     documentType:documentType
+                                continuationToken:continuationToken
+                                completionHandler:completionHandler];
 }
 
 #pragma mark - MSDataStore Implementation
@@ -358,7 +346,6 @@ static dispatch_once_t onceToken;
 
 - (void)listWithPartition:(NSString *)partition
              documentType:(Class)documentType
-              readOptions:(MSReadOptions *_Nullable)readOptions
         continuationToken:(nullable NSString *)continuationToken
         completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler {
 
@@ -436,7 +423,6 @@ static dispatch_once_t onceToken;
                                          initWithPage:page
                                             partition:partition
                                          documentType:documentType
-                                          readOptions:readOptions
                                     continuationToken:[response allHeaderFields][kMSDocumentContinuationTokenHeaderKey]];
                                 completionHandler(documents);
                               }];
