@@ -2,12 +2,8 @@
 // Licensed under the MIT License.
 
 #import "MSDataSourceError.h"
+#import "MSDataStorageConstants.h"
 #import "MSDataStoreErrors.h"
-
-/**
- * CosmosDb Http code key.
- */
-static NSString *const kMSCosmosDbHttpCodeKey = @"com.Microsoft.AppCenter.HttpCodeKey";
 
 @implementation MSDataSourceError
 
