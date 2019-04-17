@@ -556,7 +556,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                 }];
 
   // Then
-  [self waitForExpectationsWithTimeout:100
+  [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
