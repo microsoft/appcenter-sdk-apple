@@ -750,7 +750,7 @@ static dispatch_once_t onceToken;
                                              deleteWithPartition:(NSString *)operation.partition
                                                       documentId:(NSString *)operation.documentId
                                                     writeOptions:(MSWriteOptions * _Nullable) writeOptions
-                                               completionHandler:(MSDocumentWrapperCompletionHandler) ^ (MSDocumentWrapper *
+                                               completionHandler:(MSDocumentWrapperCompletionHandler) ^(MSDocumentWrapper *
                                                                                                          documentWrapper) {
                                                  if (!documentWrapper.error) {
                                                    [self.dataOperationProxy.documentStore deleteWithToken:tokenResponses.tokens[0]

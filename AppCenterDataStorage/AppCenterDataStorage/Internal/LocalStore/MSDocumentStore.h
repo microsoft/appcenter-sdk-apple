@@ -76,6 +76,7 @@ NS_ASSUME_NONNULL_BEGIN
  * Get all pending operations.
  *
  * @param token CosmosDB token.
+ *
  * @return List of all pending operations.
  */
 - (NSArray<MSPendingOperation *> *)pendingOperationsWithToken:(MSTokenResult *)token;

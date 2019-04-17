@@ -44,6 +44,7 @@
  * @param document Document object as string.
  * @param etag Document etag.
  * @param expirationTime Document expiration time.
+ *
  * @return A pending operation instance.
  */
 - (instancetype)initWithOperation:(NSString *)operation

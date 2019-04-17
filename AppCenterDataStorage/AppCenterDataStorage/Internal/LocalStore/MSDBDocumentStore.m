@@ -214,7 +214,7 @@ static const NSUInteger kMSSchemaVersion = 1;
     NSString *documentId = row[0][self.documentIdColumnIndex];
     NSString *partition = row[0][self.partitionColumnIndex];
 
-    // If the document is expired, return an error and delete it.
+    // If the document is expired, log a message and delete it.
     NSDate *expirationTime = [MSUtility dateFromISO8601:row[0][self.expirationTimeColumnIndex]];
     NSDate *currentDate = [NSDate date];
     if ([expirationTime laterDate:currentDate] == currentDate) {
