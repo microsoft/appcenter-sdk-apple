@@ -16,7 +16,7 @@
 
   // If
   NSInteger expectedErrorCode = MSACDocumentInternalServerErrorErrorCode;
-  NSDictionary *userInfo = @{@"com.Microsoft.AppCenter.HttpCodeKey" : @(expectedErrorCode)};
+  NSDictionary *userInfo = @{@"MSHttpCodeKey" : @(expectedErrorCode)};
   NSError *error = [NSError errorWithDomain:kMSACErrorDomain code:0 userInfo:userInfo];
   id dataSourceErrorMock = OCMClassMock([MSDataSourceError class]);
 
@@ -46,7 +46,7 @@
 
   // If
   NSInteger expectedErrorCode = MSACDocumentInternalServerErrorErrorCode;
-  NSDictionary *userInfo = @{@"com.Microsoft.AppCenter.HttpCodeKey" : @(expectedErrorCode)};
+  NSDictionary *userInfo = @{@"MSHttpCodeKey" : @(expectedErrorCode)};
   NSError *error = [NSError errorWithDomain:kMSACErrorDomain code:0 userInfo:userInfo];
 
   // When

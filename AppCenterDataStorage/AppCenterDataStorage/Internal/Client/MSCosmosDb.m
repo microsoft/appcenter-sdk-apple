@@ -116,14 +116,14 @@ static NSString *const kMSHeaderMsDate = @"x-ms-date";
 
 + (NSString *)documentBaseUrlWithDatabaseName:(NSString *)databaseName
                                collectionName:(NSString *)collectionName
-                                   documentId:(NSString *)documentId {
+                                   documentId:(NSString *_Nullable)documentId {
   NSString *dbUrlSuffix = [NSString stringWithFormat:kMSDocumentDbDatabaseUrlSuffix, databaseName];
   NSString *dbCollectionUrlSuffix = [NSString stringWithFormat:kMSDocumentDbCollectionUrlSuffix, collectionName];
   NSString *dbDocumentId = documentId ? [NSString stringWithFormat:@"/%@", documentId] : @"";
   return [NSString stringWithFormat:@"%@/%@/%@%@", dbUrlSuffix, dbCollectionUrlSuffix, kMSDocumentDbDocumentUrlPrefix, dbDocumentId];
 }
 
-+ (NSString *)documentUrlWithTokenResult:(MSTokenResult *)tokenResult documentId:(NSString *)documentId {
++ (NSString *)documentUrlWithTokenResult:(MSTokenResult *)tokenResult documentId:(NSString *_Nullable)documentId {
   NSString *documentResourceIdPrefix = [MSCosmosDb documentBaseUrlWithDatabaseName:tokenResult.dbName
                                                                     collectionName:tokenResult.dbCollectionName
                                                                         documentId:documentId];
@@ -132,17 +132,17 @@ static NSString *const kMSHeaderMsDate = @"x-ms-date";
 
 + (void)performCosmosDbAsyncOperationWithHttpClient:(id<MSHttpClientProtocol>)httpClient
                                         tokenResult:(MSTokenResult *)tokenResult
-                                         documentId:(NSString *)documentId
+                                         documentId:(NSString *_Nullable)documentId
                                          httpMethod:(NSString *)httpMethod
                                            document:(id<MSSerializableDocument> _Nullable)document
                                   additionalHeaders:(NSDictionary *_Nullable)additionalHeaders
                                   additionalUrlPath:(NSString *_Nullable)additionalUrlPath
                                   completionHandler:(MSHttpRequestCompletionHandler)completionHandler {
   NSData *body = nil;
-  if (document) {
+  if (document && documentId) {
     // Serialize document
     NSError *serializationError;
-    NSDictionary *dic = [MSDocumentUtils documentPayloadWithDocumentId:documentId
+    NSDictionary *dic = [MSDocumentUtils documentPayloadWithDocumentId:(NSString *)documentId
                                                              partition:tokenResult.partition
                                                               document:(NSDictionary *)[document serializeToDictionary]];
     body = [NSJSONSerialization dataWithJSONObject:dic options:0 error:&serializationError];
