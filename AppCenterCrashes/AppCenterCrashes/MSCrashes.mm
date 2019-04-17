@@ -1097,7 +1097,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 - (void)notifyWithUserConfirmation:(MSUserConfirmation)userConfirmation {
 
   // Check if there is no handler set and unprocessedReports are not initialized as NSMutableArray (Init occurs in correct call sequence).
-  if (!self.userConfirmationHandler || !self.unprocessedReports) {
+  if (!self.userConfirmationHandler && !self.unprocessedReports) {
     MSLogError(MSCrashes.logTag, @"Incorrect usage of notifyWithUserConfirmation: it should only be called from userConfirmationHandler. "
                                  @"For more information refer to the documentation.");
     return;
