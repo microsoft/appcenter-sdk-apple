@@ -71,7 +71,7 @@ static NSString *const kMSHeaderMsDate = @"x-ms-date";
 
 @implementation MSCosmosDb : NSObject
 
-+ (NSString *)encodeUrl:(NSString *_Nullable)string {
++ (NSString *)encodeUrl:(NSString *)string {
   NSCharacterSet *allowedCharacters = [[NSCharacterSet characterSetWithCharactersInString:kMSUrlCharactersToEscape] invertedSet];
   return (NSString *)[string stringByAddingPercentEncodingWithAllowedCharacters:allowedCharacters];
 }
@@ -118,7 +118,7 @@ static NSString *const kMSHeaderMsDate = @"x-ms-date";
                                    documentId:(NSString *_Nullable)documentId {
   NSString *dbUrlSuffix = [NSString stringWithFormat:kMSDocumentDbDatabaseUrlSuffix, [MSCosmosDb encodeUrl:databaseName]];
   NSString *dbCollectionUrlSuffix = [NSString stringWithFormat:kMSDocumentDbCollectionUrlSuffix, [MSCosmosDb encodeUrl:collectionName]];
-  NSString *dbDocumentId = documentId ? [NSString stringWithFormat:@"/%@", [MSCosmosDb encodeUrl:documentId]] : @"";
+  NSString *dbDocumentId = documentId ? [NSString stringWithFormat:@"/%@", [MSCosmosDb encodeUrl:(NSString *)documentId]] : @"";
   return [NSString stringWithFormat:@"%@/%@/%@%@", dbUrlSuffix, dbCollectionUrlSuffix, kMSDocumentDbDocumentUrlPrefix, dbDocumentId];
 }
 
