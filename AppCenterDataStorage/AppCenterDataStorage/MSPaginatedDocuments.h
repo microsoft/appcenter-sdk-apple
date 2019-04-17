@@ -14,7 +14,6 @@
  * @param page Page to instantiate documents with.
  * @param partition The partition for the documents.
  * @param documentType The type of the documents in the partition.
- * @param readOptions The read options.
  * @param continuationToken The continuation token, if any.
  *
  * @return The paginated documents.
@@ -22,7 +21,6 @@
 - (instancetype)initWithPage:(MSPage *)page
                    partition:(NSString *)partition
                 documentType:(Class)documentType
-                 readOptions:(MSReadOptions *_Nullable)readOptions
            continuationToken:(NSString *_Nullable)continuationToken;
 
 /**
