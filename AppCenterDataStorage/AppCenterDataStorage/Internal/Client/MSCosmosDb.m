@@ -116,9 +116,9 @@ static NSString *const kMSHeaderMsDate = @"x-ms-date";
 + (NSString *)documentBaseUrlWithDatabaseName:(NSString *)databaseName
                                collectionName:(NSString *)collectionName
                                    documentId:(NSString *)documentId {
-  NSString *dbUrlSuffix = [NSString stringWithFormat:kMSDocumentDbDatabaseUrlSuffix, databaseName];
-  NSString *dbCollectionUrlSuffix = [NSString stringWithFormat:kMSDocumentDbCollectionUrlSuffix, collectionName];
-  NSString *dbDocumentId = documentId ? [NSString stringWithFormat:@"/%@", documentId] : @"";
+  NSString *dbUrlSuffix = [NSString stringWithFormat:kMSDocumentDbDatabaseUrlSuffix, encodeUrl:databaseName];
+  NSString *dbCollectionUrlSuffix = [NSString stringWithFormat:kMSDocumentDbCollectionUrlSuffix, encodeUrl:collectionName];
+  NSString *dbDocumentId = documentId ? [NSString stringWithFormat:@"/%@", encodeUrl:documentId] : @"";
   return [NSString stringWithFormat:@"%@/%@/%@%@", dbUrlSuffix, dbCollectionUrlSuffix, kMSDocumentDbDocumentUrlPrefix, dbDocumentId];
 }
 
