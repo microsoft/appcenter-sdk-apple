@@ -9,13 +9,13 @@
 #import "MSChannelUnitProtocol.h"
 #import "MSConstants+Internal.h"
 #import "MSCosmosDb.h"
-#import "MSDBDocumentStore.h"
 #import "MSDataSourceError.h"
 #import "MSDataStorageConstants.h"
 #import "MSDataStoreErrors.h"
 #import "MSDataStoreInternal.h"
 #import "MSDataStorePrivate.h"
 #import "MSDictionaryDocument.h"
+#import "MSDocumentStore.h"
 #import "MSDocumentUtils.h"
 #import "MSDocumentWrapperInternal.h"
 #import "MSHttpClient.h"
@@ -696,9 +696,12 @@ static dispatch_once_t onceToken;
                                      NSArray<MSPendingOperation *> *pendingOperations =
                                          [self.dataOperationProxy.documentStore pendingOperationsWithToken:tokenResponses.tokens[0]];
                                      for (MSPendingOperation *operation in pendingOperations) {
-                                       MSWriteOptions *writeOptions = [[MSWriteOptions alloc] initWithDeviceTimeToLive:operation.getDeviceTimeToLiveFromOperation];
+                                       MSWriteOptions *writeOptions =
+                                           [[MSWriteOptions alloc] initWithDeviceTimeToLive:operation.getDeviceTimeToLiveFromOperation];
                                        if ([operation.operation isEqualToString:kMSPendingOperationCreate] ||
                                            [operation.operation isEqualToString:kMSPendingOperationReplace]) {
+
+                                         // Perform create and update operation
                                          [MSDataStore
                                              replaceWithPartition:(NSString *)operation.partition
                                                        documentId:(NSString *)operation.documentId
@@ -706,37 +709,56 @@ static dispatch_once_t onceToken;
                                                      writeOptions:(MSWriteOptions * _Nullable) writeOptions
                                                 completionHandler:^(MSDocumentWrapper *documentWrapper) {
                                                   if (!documentWrapper.error) {
-                                                    // TODO: write to local cache if document isn't expired or delete it from local cache
-                                                    // otherwise
+                                                    if (writeOptions.deviceTimeToLive > kMSDataStoreTimeToLiveNoCache ||
+                                                        writeOptions.deviceTimeToLive == kMSDataStoreTimeToLiveInfinite) {
+                                                      [self.dataOperationProxy.documentStore upsertWithToken:tokenResponses.tokens[0]
+                                                                                             documentWrapper:documentWrapper
+                                                                                                   operation:nil
+                                                                                            deviceTimeToLive:writeOptions.deviceTimeToLive];
+
+                                                    } else {
+                                                      [self.dataOperationProxy.documentStore deleteWithToken:tokenResponses.tokens[0]
+                                                                                                  documentId:operation.documentId];
+                                                    }
+
                                                   } else if (documentWrapper.error.errorCode == MSACDocumentNotFoundErrorCode ||
                                                              documentWrapper.error.errorCode == MSACDocumentConflictErrorCode) {
-                                                    // TODO: Delete local file without any update because we have a conflict between the
-                                                    // client and server
+                                                    MSLogError(
+                                                        [MSDataStore logTag],
+                                                        @"Failed to call Cosmos delete API. Remote operation failed with error code: %ld",
+                                                        documentWrapper.error.errorCode);
+                                                    [self.dataOperationProxy.documentStore deleteWithToken:tokenResponses.tokens[0]
+                                                                                                documentId:operation.documentId];
                                                   } else {
                                                     MSLogError([MSDataStore logTag], @"Failed to call Cosmos create or replace API: %@",
                                                                [documentWrapper.error.error localizedDescription]);
                                                   }
                                                 }];
                                        } else if ([operation.operation isEqualToString:kMSPendingOperationDelete]) {
-                                         // TODO: Do delete
 
+                                         // Perform delete operation
                                          [MSDataStore
                                              deleteWithPartition:(NSString *)operation.partition
-                                                              documentId:(NSString *)operation.documentId
-                                                            writeOptions:(MSWriteOptions * _Nullable) writeOptions
-                                                       completionHandler:(MSDocumentWrapperCompletionHandler) ^ (MSDocumentWrapper *
-                                                                                                                 documentWrapper) {
-                                                         if (!documentWrapper.error) {
-                                                           // TODO: delete it from local cache
-                                                         } else if (documentWrapper.error.errorCode == MSACDocumentNotFoundErrorCode ||
-                                                                    documentWrapper.error.errorCode == MSACDocumentConflictErrorCode) {
-                                                           // TODO: Delete local file without any update because we have a conflict between
-                                                           // the client and server
-                                                         } else {
-                                                           MSLogError([MSDataStore logTag], @"Failed to call Cosmos delete API: %@",
-                                                                      [documentWrapper.error.error localizedDescription]);
-                                                         }
-                                                       }];
+                                                      documentId:(NSString *)operation.documentId
+                                                    writeOptions:(MSWriteOptions * _Nullable) writeOptions
+                                               completionHandler:(MSDocumentWrapperCompletionHandler) ^ (MSDocumentWrapper *
+                                                                                                         documentWrapper) {
+                                                 if (!documentWrapper.error) {
+                                                   [self.dataOperationProxy.documentStore deleteWithToken:tokenResponses.tokens[0]
+                                                                                               documentId:operation.documentId];
+                                                 } else if (documentWrapper.error.errorCode == MSACDocumentNotFoundErrorCode ||
+                                                            documentWrapper.error.errorCode == MSACDocumentConflictErrorCode) {
+                                                   MSLogError(
+                                                       [MSDataStore logTag],
+                                                       @"Failed to call Cosmos delete API. Remote operation failed with error code: %ld",
+                                                       documentWrapper.error.errorCode);
+                                                   [self.dataOperationProxy.documentStore deleteWithToken:tokenResponses.tokens[0]
+                                                                                               documentId:operation.documentId];
+                                                 } else {
+                                                   MSLogError([MSDataStore logTag], @"Failed to call Cosmos delete API: %@",
+                                                              [documentWrapper.error.error localizedDescription]);
+                                                 }
+                                               }];
                                        } else {
                                          MSLogError([MSDataStore logTag], @"Pending operation '%@' is not supported", operation.operation);
                                        }
