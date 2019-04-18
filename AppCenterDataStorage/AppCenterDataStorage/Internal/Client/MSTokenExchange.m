@@ -34,10 +34,10 @@ static NSString *const kMSGetTokenPath = @"/data/tokens";
                                  completionHandler:(MSGetTokenAsyncCompletionHandler)completionHandler {
   if (![MSTokenExchange isValidPartitionName:partition]) {
     MSLogError([MSDataStore logTag], @"Can't perform token exchange because partition name %@ is invalid.", partition);
-    NSError *error = [[NSError alloc]
-        initWithDomain:kMSACDataStoreErrorDomain
-                  code:MSACDataStoreInvalidPartitionError
-              userInfo:@{NSLocalizedDescriptionKey : [NSString stringWithFormat:@"Invalid partition name %@", partition]}];
+    NSError *error =
+        [[NSError alloc] initWithDomain:kMSACDataStoreErrorDomain
+                                   code:MSACDataStoreInvalidPartitionError
+                               userInfo:@{NSLocalizedDescriptionKey : [NSString stringWithFormat:@"Invalid partition name %@", partition]}];
     completionHandler([[MSTokensResponse alloc] initWithTokens:nil], error);
     return;
   }
