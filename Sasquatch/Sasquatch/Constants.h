@@ -30,7 +30,6 @@ static NSString *const kMSObjCRuntimeTargetToken = @"1aa046cfdc8f49bdbd64190290c
                                                    @"7361";
 #endif
 
-static NSString *const kMSPuppetProdAppSecret = @"7dfb022a-17b5-4d4a-9c75-12bc3ef5e6b7";
 static NSString *const kMSPuppetAppSecret = @"65dc3680-7325-4000-a0e7-dbd2276eafd1";
 static NSString *const kMSObjcAppSecret = @"3ccfe7f5-ec01-4de5-883c-f563bbbe147a";
 static NSString *const kMSSwiftAppSecret = @"0dbca56b-b9ae-4d53-856a-7c2856137d85";
