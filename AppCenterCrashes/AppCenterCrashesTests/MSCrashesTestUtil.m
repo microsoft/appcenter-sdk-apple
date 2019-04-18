@@ -11,7 +11,7 @@
   NSFileManager *fm = [[NSFileManager alloc] init];
 
   if (![fm fileExistsAtPath:directory]) {
-    NSDictionary *attributes = @{NSFilePosixPermissions : @0755};
+    NSDictionary *attributes = @{ NSFilePosixPermissions : @0755 };
     NSError *error;
     [fm createDirectoryAtPath:directory withIntermediateDirectories:YES attributes:attributes error:&error];
     if (error)
@@ -47,10 +47,6 @@
     return NO;
 
   NSError *error = nil;
-  NSString *desPath = [plcrCrashesDir stringByAppendingPathComponent:@"live_report.plcrash"];
-  if ([fm fileExistsAtPath:desPath]) {
-    [fm removeItemAtPath:desPath error:&error];
-  }
   [fm copyItemAtPath:filePath toPath:[plcrCrashesDir stringByAppendingPathComponent:@"live_report.plcrash"] error:&error];
   return error == nil;
 }
