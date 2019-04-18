@@ -24,15 +24,13 @@
 + (BOOL)copyFixtureCrashReportWithFileName:(NSString *)filename {
   NSFileManager *fm = [[NSFileManager alloc] init];
 
-  NSString *bundleIdentifier = [[NSBundle mainBundle] bundleIdentifier];
-  if (!bundleIdentifier) {
-    const char *progname = getprogname();
-    if (progname == NULL) {
-      return NO;
-    }
-    bundleIdentifier = [NSString stringWithUTF8String: progname];
+  // the bundle identifier when running with unit tests is "otest"
+  const char *progName = getprogname();
+  if (progName == NULL) {
+    return NO;
   }
 
+  NSString *bundleIdentifierPathString = [NSString stringWithUTF8String:progName];
   NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
 
   // create the PLCR cache dir
@@ -40,7 +38,7 @@
   if (![MSCrashesTestUtil createTempDirectory:plcrRootCrashesDir])
     return NO;
 
-  NSString *plcrCrashesDir = [plcrRootCrashesDir stringByAppendingPathComponent:bundleIdentifier];
+  NSString *plcrCrashesDir = [plcrRootCrashesDir stringByAppendingPathComponent:bundleIdentifierPathString];
   if (![MSCrashesTestUtil createTempDirectory:plcrCrashesDir])
     return NO;
 
