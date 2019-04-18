@@ -670,57 +670,6 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   XCTAssertEqual(blockError.code, MSACDataStoreDocumentIdError);
 }
 
-- (void)testPerformCosmosDbOperationWithPartitionWithErrorResponseWithoutError {
-
-  // If
-  XCTestExpectation *expectation = [self expectationWithDescription:@"Received an error code from Cosmos DB"];
-  __block NSError *actualError;
-  __block NSHTTPURLResponse *actualResponse;
-  MSTokenResult *testToken = [self mockTokenFetchingWithError:nil];
-
-  // Mock CosmosDB requests.
-  OCMStub([self.cosmosDbMock performCosmosDbAsyncOperationWithHttpClient:OCMOCK_ANY
-                                                             tokenResult:testToken
-                                                              documentId:kMSDocumentIdTest
-                                                              httpMethod:kMSHttpMethodPost
-                                                                document:OCMOCK_ANY
-                                                       additionalHeaders:OCMOCK_ANY
-                                                       additionalUrlPath:OCMOCK_ANY
-                                                       completionHandler:OCMOCK_ANY])
-      .andDo(^(NSInvocation *invocation) {
-        MSHttpRequestCompletionHandler cosmosdbOperationCallback;
-        [invocation getArgument:&cosmosdbOperationCallback atIndex:9];
-        cosmosdbOperationCallback(nil, [self generateResponseWithStatusCode:MSHTTPCodesNo400BadRequest], nil);
-      });
-
-  // When
-  [self.sut performCosmosDbOperationWithPartition:kMSPartitionTest
-                                       documentId:kMSDocumentIdTest
-                                       httpMethod:kMSHttpMethodPost
-                                         document:nil
-                                additionalHeaders:nil
-                                additionalUrlPath:nil
-                                completionHandler:^(NSData *_Nullable responseBody, NSHTTPURLResponse *_Nullable response,
-                                                    NSError *_Nullable error) {
-                                  XCTAssertNil(responseBody);
-                                  actualResponse = response;
-                                  actualError = error;
-                                  [expectation fulfill];
-                                }];
-
-  // Then
-  [self waitForExpectationsWithTimeout:1
-                               handler:^(NSError *error) {
-                                 if (error) {
-                                   XCTFail(@"Expectation Failed with error: %@", error);
-                                 }
-                                 XCTAssertNotNil(actualResponse);
-                                 XCTAssertNotNil(actualError);
-                                 XCTAssertEqual(actualResponse.statusCode, MSHTTPCodesNo400BadRequest);
-                                 XCTAssertEqual([actualError.userInfo[kMSCosmosDbHttpCodeKey] integerValue], MSHTTPCodesNo400BadRequest);
-                               }];
-}
-
 - (void)testCreateWithPartitionGoldenPath {
 
   // If
@@ -846,7 +795,11 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
                                  XCTAssertTrue(completionHandlerCalled);
-                                 XCTAssertEqualObjects(actualError.error, expectedCosmosDbError);
+                                 XCTAssertEqualObjects(actualError.error.domain, kMSACDataStoreErrorDomain);
+                                 XCTAssertEqual(actualError.error.code, MSACDataStoreErrorHTTPError);
+                                 XCTAssertEqualObjects(actualError.error.userInfo[NSUnderlyingErrorKey], expectedCosmosDbError);
+                                 XCTAssertEqualObjects(actualError.error.userInfo[kMSCosmosDbHttpCodeKey],
+                                                       @(MSACDocumentInternalServerErrorErrorCode));
                                  XCTAssertEqual(actualError.errorCode, expectedResponseCode);
                                }];
 }
@@ -1015,7 +968,11 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
                                  XCTAssertTrue(completionHandlerCalled);
-                                 XCTAssertEqualObjects(actualError.error, expectedCosmosDbError);
+                                 XCTAssertEqualObjects(actualError.error.domain, kMSACDataStoreErrorDomain);
+                                 XCTAssertEqual(actualError.error.code, MSACDataStoreErrorHTTPError);
+                                 XCTAssertEqualObjects(actualError.error.userInfo[NSUnderlyingErrorKey], expectedCosmosDbError);
+                                 XCTAssertEqualObjects(actualError.error.userInfo[kMSCosmosDbHttpCodeKey],
+                                                       @(MSACDocumentInternalServerErrorErrorCode));
                                  XCTAssertEqual(actualError.errorCode, expectedResponseCode);
                                }];
 }

@@ -4,6 +4,7 @@
 #import "MSCosmosDb.h"
 #import "AppCenter+Internal.h"
 #import "MSConstants+Internal.h"
+#import "MSDataStorageConstants.h"
 #import "MSDataStoreErrors.h"
 #import "MSDataStoreInternal.h"
 #import "MSDocumentUtils.h"
@@ -172,6 +173,26 @@ static NSString *const kMSHeaderMsDate = @"x-ms-date";
   NSURL *sendURL = (NSURL *)[NSURL URLWithString:[MSCosmosDb documentUrlWithTokenResult:tokenResult
                                                                              documentId:(NSString *)additionalUrlPath]];
   [httpClient sendAsync:sendURL method:httpMethod headers:httpHeaders data:body completionHandler:completionHandler];
+}
+
++ (NSError *)getCosmosDbErrorWithResponse:(NSHTTPURLResponse *_Nullable)response error:(NSError *_Nullable)error {
+
+  // Prepare user info properties.
+  NSMutableDictionary *userInfo = [NSMutableDictionary new];
+  userInfo[NSLocalizedDescriptionKey] = kMSACDataStoreCosmosDbErrorResponseDesc;
+  if (response) {
+    userInfo[kMSCosmosDbHttpCodeKey] = @(response.statusCode);
+  } else if (error.userInfo[kMSCosmosDbHttpCodeKey]) {
+    userInfo[kMSCosmosDbHttpCodeKey] = error.userInfo[kMSCosmosDbHttpCodeKey];
+  } else {
+    userInfo[kMSCosmosDbHttpCodeKey] = @(MSACDocumentUnknownErrorCode);
+  }
+  if (error) {
+    userInfo[NSUnderlyingErrorKey] = error;
+  }
+
+  // Return the error.
+  return [[NSError alloc] initWithDomain:kMSACDataStoreErrorDomain code:MSACDataStoreErrorHTTPError userInfo:userInfo];
 }
 
 @end

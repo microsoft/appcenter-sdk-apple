@@ -37,6 +37,16 @@ NS_ASSUME_NONNULL_BEGIN
                                   additionalUrlPath:(NSString *_Nullable)additionalUrlPath
                                   completionHandler:(MSHttpRequestCompletionHandler)completionHandler;
 
+/**
+ * Return an error object following the execution of a CosmosDB HTTP request.
+ *
+ * @param response The response out of which build the error (if not nil).
+ * @param error The error out of which build the error (if not nil).
+ *
+ * @return An error object that can be passed back.
+ */
++ (NSError *)getCosmosDbErrorWithResponse:(NSHTTPURLResponse *_Nullable)response error:(NSError *_Nullable)error;
+
 @end
 
 NS_ASSUME_NONNULL_END

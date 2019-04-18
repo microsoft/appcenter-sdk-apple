@@ -35,6 +35,7 @@
 - (instancetype)initWithError:(NSError *)error errorCode:(NSInteger)errorCode;
 
 /**
+ * WIP: delete.
  * Get the error code from the error.
  *
  * @param error An error object.
