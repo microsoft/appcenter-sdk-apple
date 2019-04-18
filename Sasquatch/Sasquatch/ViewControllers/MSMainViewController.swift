@@ -95,7 +95,11 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     // Miscellaneous section.
     self.installId.text = appCenter.installId()
     self.appSecret.text = UserDefaults.standard.string(forKey: kMSAppSecret) ?? appCenter.appSecret()
+    #if ACTIVE_COMPILATION_CONDITION_PUPPET
+    self.logUrl.text = UserDefaults.standard.string(forKey: kMSLogUrl) ?? kMSIntLogUrl
+    #else
     self.logUrl.text = UserDefaults.standard.string(forKey: kMSLogUrl) ?? prodLogUrl()
+    #endif
     self.sdkVersion.text = appCenter.sdkVersion()
     self.deviceIdLabel.text = UIDevice.current.identifierForVendor?.uuidString
     self.userIdField.text = UserDefaults.standard.string(forKey: kMSUserIdKey)
@@ -180,7 +184,11 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
                                             message: nil,
                                             preferredStyle:.alert)
     alertController.addTextField { (logUrlTextField) in
+      #if ACTIVE_COMPILATION_CONDITION_PUPPET
+      logUrlTextField.text = UserDefaults.standard.string(forKey: kMSLogUrl) ?? kMSIntLogUrl
+      #else
       logUrlTextField.text = UserDefaults.standard.string(forKey: kMSLogUrl) ?? self.prodLogUrl()
+      #endif
     }
     let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
     let saveAction = UIAlertAction(title: "Save", style: .default, handler: {
@@ -193,8 +201,13 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     let resetAction = UIAlertAction(title: "Reset", style: .destructive, handler: {
       (_ action : UIAlertAction) -> Void in
       UserDefaults.standard.removeObject(forKey: kMSLogUrl)
+      #if ACTIVE_COMPILATION_CONDITION_PUPPET
+      self.appCenter.setLogUrl(kMSIntLogUrl)
+      self.logUrl.text = kMSIntLogUrl
+      #else
       self.appCenter.setLogUrl(self.prodLogUrl())
       self.logUrl.text = self.prodLogUrl()
+      #endif
     })
     alertController.addAction(cancelAction)
     alertController.addAction(saveAction)

@@ -61,6 +61,9 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
     }
   }
   [MSIdentity setConfigUrl:kMSIntConfigUrl];
+  [MSDataStore setTokenExchangeUrl:kMSIntTokenExchangeUrl];
+  [MSDistribute setApiUrl:kMSIntApiUrl];
+  [MSDistribute setInstallUrl:kMSIntInstallUrl];
 #endif
 
 // Customize App Center SDK.
@@ -101,7 +104,12 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
                  }];
   }
 
-  NSString *logUrl = [[NSUserDefaults standardUserDefaults] objectForKey:kMSLogUrl];
+  NSString *logUrl = @"";
+#if GCC_PREPROCESSOR_MACRO_PUPPET
+  logUrl = kMSIntLogUrl;
+#else
+  logUrl = [[NSUserDefaults standardUserDefaults] objectForKey:kMSLogUrl];
+#endif
   if (logUrl) {
     [MSAppCenter setLogUrl:logUrl];
   }
