@@ -3,7 +3,7 @@
 
 import UIKit
 
-class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, AppCenterProtocol {
+class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
   var documentType: String?
   
   enum TimeToLiveMode: String {
@@ -13,12 +13,11 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
     case Infinite = "Infinite"
     static let allValues = [Default, NoCache, TwoSeconds, Infinite]
   }
-  
+  var document: TestDocument?
+  var writeOptions: MSWriteOptions?
   var documentId: String?
   var documentTimeToLive: String? = TimeToLiveMode.Default.rawValue
   var userDocumentAddPropertiesSection: EventPropertiesTableSection!
-
-  var appCenter: AppCenterDelegate!
   let userType: String = MSStorageViewController.StorageType.User.rawValue
   var documentContent: MSDocumentWrapper<TestDocument>?
   private var kUserDocumentAddPropertiesSectionIndex: Int = 0
@@ -118,11 +117,6 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     if documentType == userType && indexPath.section == kUserDocumentAddPropertiesSectionIndex {
       return userDocumentAddPropertiesSection.tableView(tableView, cellForRowAt:indexPath)
-    } else if documentType == userType && indexPath.section == 1 {
-      let cell = tableView.dequeueReusableCell(withIdentifier: "save", for: indexPath)
-      let saveButton: UIButton? = cell.getSubview()
-      saveButton?.addTarget(self, action: #selector(saveButtonClicked), for: .touchUpInside)
-      return cell
     } else if documentContent != nil {
       let cell = tableView.dequeueReusableCell(withIdentifier: "property", for: indexPath)
       var cellText = ""
@@ -149,11 +143,6 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
       return cell
     }
   }
-
-  func saveButtonClicked(_ sender: UIButton) {
-    self.saveFile()
-    self.presentingViewController?.dismiss(animated: true, completion: nil)
-  }
   
   func convertTimeToLiveConstantToValue(_ constValue : String) -> Int {
     switch constValue {
@@ -168,7 +157,7 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
     }
   }
   
-  func saveFile() {
+  func prepareToSaveFile() {
     var prop = [AnyHashable: Any]()
     if !((docIdField.text?.isEmpty)!) {
       documentId = docIdField.text
@@ -188,9 +177,13 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
         }
       }
     }
-    let document = TestDocument.init(from: prop)
-    if(documentId != nil) {
-      self.appCenter.createDocumentWithPartition(MSStorageViewController.StorageType.User.rawValue, documentId:documentId!, document:document, writeOptions: MSWriteOptions.init(deviceTimeToLive:self.convertTimeToLiveConstantToValue(self.documentTimeToLive!)))
+    self.document = TestDocument.init(from: prop)
+    self.writeOptions = MSWriteOptions.init(deviceTimeToLive:self.convertTimeToLiveConstantToValue(self.documentTimeToLive!))
+  }
+  
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?)  {
+    if segue.identifier == "SaveDocument" {
+      prepareToSaveFile()
     }
   }
 }

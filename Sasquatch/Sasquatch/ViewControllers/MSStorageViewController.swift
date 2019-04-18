@@ -223,4 +223,11 @@ class MSStorageViewController: UIViewController, UITableViewDelegate, UITableVie
   @IBAction func backButtonClicked (_ sender: Any) {
     self.presentingViewController?.dismiss(animated:true, completion: nil)
   }
+  
+  @IBAction func saveDocument(_ segue: UIStoryboardSegue) {
+    guard let documentDetailsController = segue.source as? MSDocumentDetailsViewController, let documentId = documentDetailsController.documentId, let documentToSave = documentDetailsController.document, let writeOptions = documentDetailsController.writeOptions else {
+        return
+    }
+    self.appCenter.createDocumentWithPartition(MSStorageViewController.StorageType.User.rawValue, documentId:documentId, document:documentToSave, writeOptions: writeOptions)
+  }
 }
