@@ -196,7 +196,7 @@ class MSStorageViewController: UIViewController, UITableViewDelegate, UITableVie
       MSStorageViewController.UserDocuments.remove(at: indexPath.row - 1)
       tableView.deleteRows(at: [indexPath], with: .automatic)
     } else if editingStyle == .insert {
-      self.performSegue(withIdentifier: "ShowDocumentDetails", sender: "")
+      self.performSegue(withIdentifier: "ShowDocumentDetails", sender: MSStorageViewController.UserDocuments[indexPath.row - 1])
     }
   }
 
@@ -208,8 +208,8 @@ class MSStorageViewController: UIViewController, UITableViewDelegate, UITableVie
     if segue.identifier == "ShowDocumentDetails" {
       let documentDetailsController = segue.destination as! MSDocumentDetailsViewController
       documentDetailsController.documentType = self.storageType
-      documentDetailsController.documentId = sender as? String
-      documentDetailsController.documentTimeToLive = sender as? String
+      documentDetailsController.documentId = (sender as? MSDocumentWrapper<TestDocument>)?.documentId
+      documentDetailsController.documentTimeToLive = "Default"
       if self.storageType == StorageType.App.rawValue {
         documentDetailsController.documentContent = MSStorageViewController.AppDocuments
       } else {

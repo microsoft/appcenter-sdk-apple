@@ -54,7 +54,7 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
       }
     )
     self.timeToLiveField.delegate = self.timeToLiveModePicker
-    self.timeToLiveField.text = TimeToLiveMode.Default.rawValue
+    self.timeToLiveField.text = self.timeToLiveField.text
     self.timeToLiveField.tintColor = UIColor.clear
   }
 
