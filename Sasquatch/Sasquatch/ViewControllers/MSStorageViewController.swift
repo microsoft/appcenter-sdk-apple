@@ -193,8 +193,7 @@ class MSStorageViewController: UIViewController, UITableViewDelegate, UITableVie
   
   func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
     if editingStyle == .delete {
-// uncommit when work with real data
-//      appCenter.deleteDocumentWithPartition(StorageType.User.rawValue, documentId: MSStorageViewController.UserDocuments[indexPath.row - 1].documentId)
+      appCenter.deleteDocumentWithPartition(StorageType.User.rawValue, documentId: MSStorageViewController.UserDocuments[indexPath.row - 1].documentId)
       MSStorageViewController.UserDocuments.remove(at: indexPath.row - 1)
       tableView.deleteRows(at: [indexPath], with: .automatic)
     } else if editingStyle == .insert {
