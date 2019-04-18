@@ -32,18 +32,16 @@ static NSString *const kMSGetTokenPath = @"/data/tokens";
                                          partition:(NSString *)partition
                                includeExpiredToken:(BOOL)includeExpiredToken
                                  completionHandler:(MSGetTokenAsyncCompletionHandler)completionHandler {
-    if (![MSTokenExchange isValidPartitionName:partition]) {
-        MSLogError([MSDataStore logTag], @"Can't perform token exchange because partition name %@ is invalid.", partition);
-        NSError *error =
-            [[NSError alloc] initWithDomain:kMSACDataStoreErrorDomain
-                                       code:MSACDataStoreInvalidPartitionError
-                                   userInfo:@{
-                                     NSLocalizedDescriptionKey : [NSString stringWithFormat:@" Invalid partition name %@", partition]
-                                   }];
-        completionHandler([[MSTokensResponse alloc] initWithTokens:nil], error);
-        return;
-    }
-    
+  if (![MSTokenExchange isValidPartitionName:partition]) {
+    MSLogError([MSDataStore logTag], @"Can't perform token exchange because partition name %@ is invalid.", partition);
+    NSError *error = [[NSError alloc]
+        initWithDomain:kMSACDataStoreErrorDomain
+                  code:MSACDataStoreInvalidPartitionError
+              userInfo:@{NSLocalizedDescriptionKey : [NSString stringWithFormat:@" Invalid partition name %@", partition]}];
+    completionHandler([[MSTokensResponse alloc] initWithTokens:nil], error);
+    return;
+  }
+
   // Get the cached token if it is saved.
   MSTokenResult *cachedToken = [MSTokenExchange retrieveCachedTokenForPartition:partition includeExpiredToken:includeExpiredToken];
   NSURL *sendUrl = [tokenExchangeUrl URLByAppendingPathComponent:kMSGetTokenPath];
@@ -206,11 +204,11 @@ static NSString *const kMSGetTokenPath = @"/data/tokens";
 }
 
 + (BOOL)isValidPartitionName:(NSString *)partitionName {
-    if ([partitionName isEqualToString:kMSDataStoreAppDocumentsPartition] ||
-        [partitionName isEqualToString:kMSDataStoreUserDocumentsPartition]) {
-        return YES;
-    }
-    return NO;
+  if ([partitionName isEqualToString:kMSDataStoreAppDocumentsPartition] ||
+      [partitionName isEqualToString:kMSDataStoreUserDocumentsPartition]) {
+    return YES;
+  }
+  return NO;
 }
 
 @end
