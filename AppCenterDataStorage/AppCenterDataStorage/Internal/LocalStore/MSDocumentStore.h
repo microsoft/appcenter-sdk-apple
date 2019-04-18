@@ -3,8 +3,6 @@
 
 #import <Foundation/Foundation.h>
 
-@class MSWriteOptions;
-@class MSReadOptions;
 @class MSDocumentWrapper;
 @class MSTokenResult;
 
@@ -27,14 +25,14 @@ NS_ASSUME_NONNULL_BEGIN
  * @param token CosmosDB token.
  * @param documentWrapper Document wrapper object to store.
  * @param operation The operation store.
- * @param options The operation options (used to extract the device time-to-live information).
+ * @param deviceTimeToLive The device time to live (in seconds).
  *
  * @return YES if the document was saved successfully, NO otherwise.
  */
 - (BOOL)upsertWithToken:(MSTokenResult *)token
         documentWrapper:(MSDocumentWrapper *)documentWrapper
               operation:(NSString *_Nullable)operation
-                options:(MSBaseOptions *)options;
+       deviceTimeToLive:(NSInteger)deviceTimeToLive;
 
 /**
  * Delete an entry from the store.
@@ -61,19 +59,15 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)deleteAllTables;
 
 /**
- * Reads a document from the store.
+ * Read a document from the store and return it if it did not expired.
  *
  * @param token CosmosDB token.
  * @param documentId Document ID.
  * @param documentType The document type to read.
- * @param readOptions The read options.
  *
- * @returns A document.
+ * @return A document object. The error property will be set of the document cannot be found or if it was found but expired.
  */
-- (MSDocumentWrapper *)readWithToken:(MSTokenResult *)token
-                          documentId:(NSString *)documentId
-                        documentType:(Class)documentType
-                         readOptions:(nullable MSReadOptions *)readOptions;
+- (MSDocumentWrapper *)readWithToken:(MSTokenResult *)token documentId:(NSString *)documentId documentType:(Class)documentType;
 
 @end
 

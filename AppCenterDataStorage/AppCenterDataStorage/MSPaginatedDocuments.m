@@ -5,7 +5,6 @@
 #import "MSCosmosDb.h"
 #import "MSDataStore.h"
 #import "MSDataStoreInternal.h"
-#import "MSDataStorePrivate.h"
 #import "MSPaginatedDocumentsInternal.h"
 #import "MSSerializableDocument.h"
 #import "MSTokenExchange.h"
@@ -16,25 +15,22 @@
 @synthesize continuationToken = _continuationToken;
 @synthesize partition = _partition;
 @synthesize documentType = _documentType;
-@synthesize readOptions = _readOptions;
 
 - (instancetype)initWithPage:(MSPage *)page
-                   partition:(NSString *_Nullable)partition
-                documentType:(Class _Nullable)documentType
-                 readOptions:(MSReadOptions *_Nullable)readOptions
+                   partition:(NSString *)partition
+                documentType:(Class)documentType
            continuationToken:(NSString *_Nullable)continuationToken {
   if ((self = [super init])) {
     _currentPage = page;
     _partition = partition;
     _documentType = documentType;
-    _readOptions = readOptions;
     _continuationToken = continuationToken;
   }
   return self;
 }
 
 - (instancetype)initWithPage:(MSPage *)page {
-  return [self initWithPage:page partition:nil documentType:nil readOptions:nil continuationToken:nil];
+  return [self initWithPage:page partition:nil documentType:nil continuationToken:nil];
 }
 
 - (instancetype)initWithError:(MSDataSourceError *)error {
@@ -47,9 +43,8 @@
 
 - (void)nextPageWithCompletionHandler:(void (^)(MSPage<id<MSSerializableDocument>> *page))completionHandler {
   if ([self hasNextPage]) {
-    [MSDataStore listWithPartition:(NSString *)self.partition
-                      documentType:(Class)self.documentType
-                       readOptions:nil
+    [MSDataStore listWithPartition:self.partition
+                      documentType:self.documentType
                  continuationToken:self.continuationToken
                  completionHandler:^(MSPaginatedDocuments *documents) {
                    // Update current page and continuation token.

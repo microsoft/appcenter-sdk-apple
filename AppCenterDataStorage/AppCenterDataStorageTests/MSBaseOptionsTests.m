@@ -23,13 +23,4 @@
   XCTAssertEqual(baseOptions.deviceTimeToLive, expectedTimeToLive);
 }
 
-- (void)testInitWithCorrectDeviceTtlByDefault {
-
-  // When
-  MSBaseOptions *baseOptions = [[MSBaseOptions alloc] init];
-
-  // Then
-  XCTAssertEqual(baseOptions.deviceTimeToLive, kMSDataStoreTimeToLiveDefault);
-}
-
 @end

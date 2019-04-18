@@ -83,10 +83,7 @@
               expirationTime:(long)[[NSDate dateWithTimeIntervalSinceNow:1000000] timeIntervalSince1970]];
 
   // When
-  MSDocumentWrapper *documentWrapper = [self.sut readWithToken:self.appToken
-                                                    documentId:documentId
-                                                  documentType:[MSMockDocument class]
-                                                   readOptions:nil];
+  MSDocumentWrapper *documentWrapper = [self.sut readWithToken:self.appToken documentId:documentId documentType:[MSMockDocument class]];
 
   // Then
   XCTAssertNotNil(documentWrapper);
@@ -112,10 +109,7 @@
               expirationTime:(long)[[NSDate dateWithTimeIntervalSinceNow:1000000] timeIntervalSince1970]];
 
   // When
-  MSDocumentWrapper *documentWrapper = [self.sut readWithToken:self.appToken
-                                                    documentId:documentId
-                                                  documentType:[MSMockDocument class]
-                                                   readOptions:nil];
+  MSDocumentWrapper *documentWrapper = [self.sut readWithToken:self.appToken documentId:documentId documentType:[MSMockDocument class]];
 
   // Then
   XCTAssertNotNil(documentWrapper);
@@ -137,10 +131,7 @@
               expirationTime:kMSDataStoreTimeToLiveInfinite];
 
   // When
-  MSDocumentWrapper *documentWrapper = [self.sut readWithToken:self.appToken
-                                                    documentId:documentId
-                                                  documentType:[MSMockDocument class]
-                                                   readOptions:nil];
+  MSDocumentWrapper *documentWrapper = [self.sut readWithToken:self.appToken documentId:documentId documentType:[MSMockDocument class]];
 
   // Then
   XCTAssertNotNil(documentWrapper);
@@ -163,10 +154,7 @@
               expirationTime:0];
 
   // When
-  MSDocumentWrapper *documentWrapper = [self.sut readWithToken:self.appToken
-                                                    documentId:documentId
-                                                  documentType:[MSMockDocument class]
-                                                   readOptions:nil];
+  MSDocumentWrapper *documentWrapper = [self.sut readWithToken:self.appToken documentId:documentId documentType:[MSMockDocument class]];
 
   // Then
   XCTAssertNotNil(documentWrapper);
@@ -187,10 +175,7 @@
   [self.sut createUserStorageWithAccountId:self.userToken.accountId];
 
   // When
-  MSDocumentWrapper *documentWrapper = [sut readWithToken:self.userToken
-                                               documentId:documentId
-                                             documentType:[document class]
-                                              readOptions:nil];
+  MSDocumentWrapper *documentWrapper = [sut readWithToken:self.userToken documentId:documentId documentType:[document class]];
 
   // Then
   XCTAssertNotNil(documentWrapper);
@@ -200,93 +185,18 @@
   XCTAssertEqualObjects(documentWrapper.documentId, documentId);
 }
 
-- (void)testReadFromLocalDatabaseDeletesDocumentIfNewTTLIsZero {
-
-  // If
-  NSString *documentId = @"12829";
-  NSString *eTag = @"398";
-  NSString *jsonString = @"{ \"document\": {\"key\": \"value\"}}";
-  NSString *pendingOperation = kMSPendingOperationReplace;
-  [self addJsonStringToTable:jsonString
-                        eTag:eTag
-                   partition:self.appToken.partition
-                  documentId:documentId
-            pendingOperation:pendingOperation
-              expirationTime:(long)[[NSDate dateWithTimeIntervalSinceNow:1000000] timeIntervalSince1970]];
-  MSReadOptions *readOptions = [[MSReadOptions alloc] initWithDeviceTimeToLive:kMSDataStoreTimeToLiveNoCache];
-
-  // When
-  // Read once and update the TTL to expire immediately, then read again to ensure the document is expired.
-  [self.sut readWithToken:self.appToken documentId:documentId documentType:[MSMockDocument class] readOptions:readOptions];
-
-  // Then
-  OCMVerify([self.sut deleteWithToken:self.appToken documentId:documentId]);
-}
-
-- (void)testReadFromLocalDatabaseCorrectlyUpdatesTTLToInfinity {
-
-  // If
-  NSString *documentId = @"12829";
-  NSString *eTag = @"398";
-  NSString *jsonString = @"{ \"document\": {\"key\": \"value\"}}";
-  NSString *pendingOperation = kMSPendingOperationReplace;
-  [self addJsonStringToTable:jsonString
-                        eTag:eTag
-                   partition:self.appToken.partition
-                  documentId:documentId
-            pendingOperation:pendingOperation
-              expirationTime:(long)[[NSDate dateWithTimeIntervalSinceNow:1000000] timeIntervalSince1970]];
-  MSReadOptions *readOptions = [[MSReadOptions alloc] initWithDeviceTimeToLive:kMSDataStoreTimeToLiveInfinite];
-
-  // When
-  // Read once and update the TTL to expire immediately, then read again to ensure the document is expired.
-  [self.sut readWithToken:self.appToken documentId:documentId documentType:[MSMockDocument class] readOptions:readOptions];
-
-  // Then
-  long expirationTime = [self expirationTimeWithToken:self.appToken documentId:documentId];
-  XCTAssertEqual(expirationTime, kMSDataStoreTimeToLiveInfinite);
-}
-
-- (void)testReadFromLocalDatabaseCorrectlyUpdatesTTL {
-
-  // If
-  NSString *documentId = @"12829";
-  NSString *eTag = @"398";
-  NSString *jsonString = @"{ \"document\": {\"key\": \"value\"}}";
-  NSString *pendingOperation = kMSPendingOperationReplace;
-  [self addJsonStringToTable:jsonString
-                        eTag:eTag
-                   partition:self.appToken.partition
-                  documentId:documentId
-            pendingOperation:pendingOperation
-              expirationTime:(long)[[NSDate dateWithTimeIntervalSinceNow:1000000] timeIntervalSince1970]];
-  long timeToLive = 158493;
-  MSReadOptions *readOptions = [[MSReadOptions alloc] initWithDeviceTimeToLive:timeToLive];
-
-  // Mock NSDate to "freeze" time.
-  NSTimeInterval timeSinceReferenceDate = NSDate.timeIntervalSinceReferenceDate;
-  id nsdateMock = OCMClassMock([NSDate class]);
-  OCMStub(ClassMethod([nsdateMock timeIntervalSinceReferenceDate])).andReturn(timeSinceReferenceDate);
-
-  // When
-  // Read once and update the TTL to expire immediately, then read again to ensure the document is expired.
-  [self.sut readWithToken:self.appToken documentId:documentId documentType:[MSMockDocument class] readOptions:readOptions];
-
-  // Then
-  long expirationTime = [self expirationTimeWithToken:self.appToken documentId:documentId];
-  XCTAssertEqual(expirationTime, (long)(timeToLive + NSTimeIntervalSince1970 + timeSinceReferenceDate));
-}
-
 - (void)testUpsertReplacesCorrectlyInAppStorage {
 
   // If
   MSDocumentWrapper *expectedDocumentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestDocument"]
                                                                            documentType:[MSDictionaryDocument class]];
-  MSWriteOptions *writeOptions = [[MSWriteOptions alloc] initWithDeviceTimeToLive:kMSDataStoreTimeToLiveInfinite];
 
   // When
   // Upsert twice to ensure that replacement is correct.
-  [self.sut upsertWithToken:self.appToken documentWrapper:expectedDocumentWrapper operation:@"REPLACE" options:writeOptions];
+  [self.sut upsertWithToken:self.appToken
+            documentWrapper:expectedDocumentWrapper
+                  operation:@"REPLACE"
+           deviceTimeToLive:kMSDataStoreTimeToLiveInfinite];
 
   // If
   // Mock the document wrapper to appear to have a different eTag now.
@@ -295,7 +205,10 @@
   OCMStub(mockDocumentWrapper.eTag).andReturn(expectedEtag);
 
   // When
-  [self.sut upsertWithToken:self.appToken documentWrapper:expectedDocumentWrapper operation:@"REPLACE" options:writeOptions];
+  [self.sut upsertWithToken:self.appToken
+            documentWrapper:expectedDocumentWrapper
+                  operation:@"REPLACE"
+           deviceTimeToLive:kMSDataStoreTimeToLiveInfinite];
 
   // Then
   // Ensure that there is exactly one entry in the cache with the given document ID and partition name.
@@ -380,7 +293,6 @@
   int ttl = 1;
   MSDocumentWrapper *expectedDocumentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestDocument"]
                                                                            documentType:[MSDictionaryDocument class]];
-  MSWriteOptions *writeOptions = [[MSWriteOptions alloc] initWithDeviceTimeToLive:ttl];
 
   // Mock NSDate to "freeze" time.
   NSTimeInterval timeSinceReferenceDate = NSDate.timeIntervalSinceReferenceDate;
@@ -388,11 +300,10 @@
   OCMStub(ClassMethod([nsdateMock timeIntervalSinceReferenceDate])).andReturn(timeSinceReferenceDate);
 
   // When
-  BOOL result = [self.sut upsertWithToken:self.appToken documentWrapper:expectedDocumentWrapper operation:@"CREATE" options:writeOptions];
+  BOOL result = [self.sut upsertWithToken:self.appToken documentWrapper:expectedDocumentWrapper operation:@"CREATE" deviceTimeToLive:ttl];
   MSDocumentWrapper *documentWrapper = [self.sut readWithToken:self.appToken
                                                     documentId:expectedDocumentWrapper.documentId
-                                                  documentType:[MSDictionaryDocument class]
-                                                   readOptions:nil];
+                                                  documentType:[MSDictionaryDocument class]];
 
   // Then
   XCTAssertTrue(result);
@@ -411,14 +322,15 @@
   // If
   MSDocumentWrapper *documentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestDocument"]
                                                                    documentType:[MSDictionaryDocument class]];
-  MSReadOptions *readOptions = [[MSReadOptions alloc] initWithDeviceTimeToLive:kMSDataStoreTimeToLiveInfinite];
 
   // When
-  BOOL result = [self.sut upsertWithToken:self.appToken documentWrapper:documentWrapper operation:@"CREATE" options:readOptions];
+  BOOL result = [self.sut upsertWithToken:self.appToken
+                          documentWrapper:documentWrapper
+                                operation:@"CREATE"
+                         deviceTimeToLive:kMSDataStoreTimeToLiveInfinite];
   MSDocumentWrapper *expectedDocumentWrapper = [self.sut readWithToken:self.appToken
                                                             documentId:documentWrapper.documentId
-                                                          documentType:[MSDictionaryDocument class]
-                                                           readOptions:nil];
+                                                          documentType:[MSDictionaryDocument class]];
 
   // Then
   XCTAssertTrue(result);
@@ -438,8 +350,7 @@
   BOOL result = [self.sut deleteWithToken:self.appToken documentId:@"some-non-existing-document-id"];
   MSDocumentWrapper *expectedDocumentWrapper = [self.sut readWithToken:self.appToken
                                                             documentId:@"some-non-existing-document-id"
-                                                          documentType:[MSDictionaryDocument class]
-                                                           readOptions:nil];
+                                                          documentType:[MSDictionaryDocument class]];
 
   // Then, should succeed but be a no-op
   XCTAssertTrue(result);
@@ -451,22 +362,17 @@
   // If
   MSDocumentWrapper *documentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestDocument"]
                                                                    documentType:[MSDictionaryDocument class]];
-  [self.sut upsertWithToken:self.appToken
-            documentWrapper:documentWrapper
-                  operation:@"CREATE"
-                    options:[[MSReadOptions alloc] initWithDeviceTimeToLive:1]];
+  [self.sut upsertWithToken:self.appToken documentWrapper:documentWrapper operation:@"CREATE" deviceTimeToLive:1];
   MSDocumentWrapper *expectedDocumentWrapper = [self.sut readWithToken:self.appToken
                                                             documentId:documentWrapper.documentId
-                                                          documentType:[MSDictionaryDocument class]
-                                                           readOptions:nil];
+                                                          documentType:[MSDictionaryDocument class]];
   XCTAssertNil(expectedDocumentWrapper.error);
 
   // When
   BOOL result = [self.sut deleteWithToken:self.appToken documentId:documentWrapper.documentId];
   expectedDocumentWrapper = [self.sut readWithToken:self.appToken
                                          documentId:documentWrapper.documentId
-                                       documentType:[MSDictionaryDocument class]
-                                        readOptions:nil];
+                                       documentType:[MSDictionaryDocument class]];
 
   // Then
   XCTAssertTrue(result);
@@ -479,22 +385,17 @@
   MSDocumentWrapper *documentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestDocument"]
                                                                    documentType:[MSDictionaryDocument class]];
   [self.sut createUserStorageWithAccountId:self.userToken.accountId];
-  [self.sut upsertWithToken:self.userToken
-            documentWrapper:documentWrapper
-                  operation:@"CREATE"
-                    options:[[MSReadOptions alloc] initWithDeviceTimeToLive:1]];
+  [self.sut upsertWithToken:self.userToken documentWrapper:documentWrapper operation:@"CREATE" deviceTimeToLive:1];
   MSDocumentWrapper *expectedDocumentWrapper = [self.sut readWithToken:self.userToken
                                                             documentId:documentWrapper.documentId
-                                                          documentType:[MSDictionaryDocument class]
-                                                           readOptions:nil];
+                                                          documentType:[MSDictionaryDocument class]];
   XCTAssertNil(expectedDocumentWrapper.error);
 
   // When
   BOOL result = [self.sut deleteWithToken:self.userToken documentId:documentWrapper.documentId];
   expectedDocumentWrapper = [self.sut readWithToken:self.userToken
                                          documentId:documentWrapper.documentId
-                                       documentType:[MSDictionaryDocument class]
-                                        readOptions:nil];
+                                       documentType:[MSDictionaryDocument class]];
 
   // Then
   XCTAssertTrue(result);
