@@ -3,7 +3,7 @@
 
 import UIKit
 
-class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, AppCenterProtocol {
   var documentType: String?
   
   enum TimeToLiveMode: String {
@@ -42,7 +42,7 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
 
   override func loadView() {
     super.loadView()
-    if documentType == userType && documentId != nil && documentId!.isEmpty {
+    if documentContent == nil || documentId == nil {
       docIdField.isEnabled = true
     }
     if documentContent != nil {
@@ -171,6 +171,7 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
   func saveFile() {
     var prop = [AnyHashable: Any]()
     if !((docIdField.text?.isEmpty)!) {
+      documentId = docIdField.text
       let docProperties = userDocumentAddPropertiesSection.typedProperties
       for property in docProperties {
         switch property.type {
@@ -189,7 +190,7 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
     }
     let document = TestDocument.init(from: prop)
     if(documentId != nil) {
-      appCenter.createDocumentWithPartition(MSStorageViewController.StorageType.User.rawValue, documentId: docIdField.text!, document: document, writeOptions: MSWriteOptions.init(deviceTimeToLive: convertTimeToLiveConstantToValue(self.documentTimeToLive!)))
+      self.appCenter.createDocumentWithPartition(MSStorageViewController.StorageType.User.rawValue, documentId:documentId!, document:document, writeOptions: MSWriteOptions.init(deviceTimeToLive:self.convertTimeToLiveConstantToValue(self.documentTimeToLive!)))
     }
   }
 }
