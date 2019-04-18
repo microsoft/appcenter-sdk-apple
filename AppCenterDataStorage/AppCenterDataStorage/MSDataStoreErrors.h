@@ -42,12 +42,13 @@ NS_ENUM(NSInteger){MSACDataStoreErrorJSONSerializationFailed = -620000,
                    MSACDataStoreInvalidClassCode = -620005,
                    MSACDataStoreDontCache = -620006,
                    MSACDataStoreLocalStoreError = -620007,
-                   MSACDataStoreInvalidPartitionError = -620008
-    };
+                   MSACDataStoreDocumentIdError = -620008,
+                   MSACDataStoreInvalidPartitionError = -620009};
 
 // Error descriptions.
 static NSString const *kMSACDataStoreInvalidClassDesc =
     @"Provided class does not conform to serialization protocol (MSSerializableDocument).";
 static NSString const *kMSACDataStoreCosmosDbErrorResponseDesc = @"Cosmos DB returned error response.";
+static NSString const *kMSACDocumentCreationDesc = @"Can't create document.";
 
 NS_ASSUME_NONNULL_END
