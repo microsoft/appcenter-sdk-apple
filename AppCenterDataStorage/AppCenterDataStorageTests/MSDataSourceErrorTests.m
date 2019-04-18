@@ -30,18 +30,6 @@
   [dataSourceErrorMock stopMocking];
 }
 
-- (void)testErrorCodeFromErrorReturnsSucceededWhenNoError {
-
-  // If
-  NSInteger expectedErrorCode = MSACDocumentSucceededErrorCode;
-
-  // When
-  NSInteger actualErrorCode = [MSDataSourceError errorCodeFromError:nil];
-
-  // Then
-  XCTAssertEqual(expectedErrorCode, actualErrorCode);
-}
-
 - (void)testErrorCodeFromErrorParsesCodeFromUserInfo {
 
   // If

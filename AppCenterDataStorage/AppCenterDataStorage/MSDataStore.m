@@ -383,11 +383,13 @@ static dispatch_once_t onceToken;
                               additionalUrlPath:nil
                               completionHandler:^(NSData *_Nullable data, NSHTTPURLResponse *_Nullable response,
                                                   NSError *_Nullable cosmosDbError) {
-                                // If not OK.
-                                if (!data || [MSDataSourceError errorCodeFromError:cosmosDbError] != MSACDocumentSucceededErrorCode) {
-                                  MSLogError([MSDataStore logTag], @"Not able to retrieve documents: %@",
-                                             [cosmosDbError localizedDescription]);
-                                  MSDataSourceError *dataSourceCosmosDbError = [[MSDataSourceError alloc] initWithError:cosmosDbError];
+                              
+                               // If not OK.
+                                if (response.statusCode != MSACDocumentSucceededErrorCode) {
+                                  NSError *actualError = [MSCosmosDb getCosmosDbErrorWithResponse:response error:cosmosDbError];
+                                  MSLogError([MSDataStore logTag], @"Unable to list documents for partition %@: %@", partition,
+                                             [actualError localizedDescription]);
+                                  MSDataSourceError *dataSourceCosmosDbError = [[MSDataSourceError alloc] initWithError:actualError];
                                   MSPaginatedDocuments *documents = [[MSPaginatedDocuments alloc] initWithError:dataSourceCosmosDbError];
                                   completionHandler(documents);
                                   return;

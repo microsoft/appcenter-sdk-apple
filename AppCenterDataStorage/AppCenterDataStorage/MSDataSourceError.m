@@ -23,15 +23,12 @@
 }
 
 + (NSInteger)errorCodeFromError:(NSError *)error {
-  if (!error) {
-    return MSACDocumentSucceededErrorCode;
+  // Try to extract the error from the user info dictionary.
+  if (error.userInfo[kMSCosmosDbHttpCodeKey]) {
+    return [(NSNumber *)error.userInfo[kMSCosmosDbHttpCodeKey] integerValue];
   }
-
-  // Get error code form userInfo dictionary.
-  NSDictionary *userInfo = (NSDictionary *)[error userInfo];
-  if (userInfo[kMSCosmosDbHttpCodeKey]) {
-    return [(NSNumber *)userInfo[kMSCosmosDbHttpCodeKey] integerValue];
-  }
+  
+  // Return default unknown error code.
   return MSACDocumentUnknownErrorCode;
 }
 
