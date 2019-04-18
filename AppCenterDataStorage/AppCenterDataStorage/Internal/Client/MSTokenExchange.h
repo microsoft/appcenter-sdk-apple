@@ -56,7 +56,7 @@ typedef void (^MSGetTokenAsyncCompletionHandler)(MSTokensResponse *tokensRespons
  *
  * @return The partition is valid or not.
  **/
-+ (BOOL)isValidPartitionName: (NSString *)partition;
++ (BOOL)isValidPartitionName:(NSString *)partition;
 
 @end
 
