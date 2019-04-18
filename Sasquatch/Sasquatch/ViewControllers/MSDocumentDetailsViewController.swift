@@ -75,10 +75,12 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     if documentType == userType && section == kUserDocumentAddPropertiesSectionIndex {
       return userDocumentAddPropertiesSection.tableView(tableView, numberOfRowsInSection: section)
+    } else if documentContent == nil {
+      return 1
     } else if documentType == userType && section == 1 {
       return 1
     }
-    return documentContent?.count ?? 0
+    return 4
   }
 
   func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -93,7 +95,7 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
   func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
     if documentType == userType && indexPath.section == kUserDocumentAddPropertiesSectionIndex {
       return userDocumentAddPropertiesSection.tableView(tableView, editingStyleForRowAt: indexPath)
-    } else if documentType == userType && indexPath.section == 2 {
+    } else if documentType == userType && indexPath.section == 2 && documentContent != nil {
       return .delete
     }
     return .none
@@ -102,9 +104,9 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
   func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
     if documentType == userType && indexPath.section == kUserDocumentAddPropertiesSectionIndex {
       userDocumentAddPropertiesSection.tableView(tableView, commit: editingStyle, forRowAt: indexPath)
-    } else if documentType == userType && indexPath.section == 2 {
-      let index = documentContent!.index(documentContent!.startIndex, offsetBy: indexPath.row)
-      documentContent!.remove(at: index)
+    } else if documentType == userType && indexPath.section == 1 {
+//      let index = documentContent!.index(documentContent!.startIndex, offsetBy: indexPath.row)
+//      documentContent!.remove(at: index)
       self.saveFile()
       tableView.deleteRows(at: [indexPath], with: .automatic)
     }
@@ -148,7 +150,7 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
       cell.textLabel?.text = cellText
       return cell
     } else {
-      let cell = tableView.dequeueReusableCell(withIdentifier: "read", for: indexPath)
+      let cell = tableView.dequeueReusableCell(withIdentifier: "property", for: indexPath)
       return cell
     }
   }

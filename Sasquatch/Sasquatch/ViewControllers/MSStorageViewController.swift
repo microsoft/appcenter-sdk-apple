@@ -209,15 +209,15 @@ class MSStorageViewController: UIViewController, UITableViewDelegate, UITableVie
   }
 
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    let documentDetailsController = segue.destination as! MSDocumentDetailsViewController
     if segue.identifier == "ShowDocumentDetails" {
-      let documentDetailsController = segue.destination as! MSDocumentDetailsViewController
-      documentDetailsController.documentType = self.storageType
-      documentDetailsController.documentId = (sender as? MSDocumentWrapper<TestDocument>)?.documentId
-      documentDetailsController.documentTimeToLive = "Default"
-      if self.storageType == StorageType.App.rawValue {
-        documentDetailsController.documentContent = MSStorageViewController.AppDocuments
+      if(sender as? String == "") {
+        documentDetailsController.documentType = StorageType.User.rawValue
       } else {
-        documentDetailsController.documentContent = MSStorageViewController.UserDocuments
+        documentDetailsController.documentType = self.storageType
+        documentDetailsController.documentId = (sender as? MSDocumentWrapper<TestDocument>)?.documentId
+        documentDetailsController.documentTimeToLive = "Default"
+        documentDetailsController.documentContent = sender as? MSDocumentWrapper<TestDocument>
       }
     }
   }
