@@ -20,11 +20,6 @@ static NSString *const kMSDefaultApiUrl = @"https://api.appcenter.ms/v0.1";
 + (void)resetSharedInstance;
 
 /**
- * Network state helper.
- */
-@property(nonatomic) MS_Reachability *reachability;
-
-/**
  * Dispatch queue to execute local storage operations with.
  */
 @property(nonatomic) dispatch_queue_t dispatchQueue;
@@ -34,15 +29,30 @@ static NSString *const kMSDefaultApiUrl = @"https://api.appcenter.ms/v0.1";
  *
  * @param partition The CosmosDB partition key.
  * @param documentType The object type of the documents in the partition. Must conform to MSSerializableDocument protocol.
- * @param readOptions Options for reading and storing the documents.
  * @param continuationToken The continuation token for the page to retrieve (if any).
  * @param completionHandler Callback to accept documents.
  */
 - (void)listWithPartition:(NSString *)partition
              documentType:(Class)documentType
-              readOptions:(MSReadOptions *_Nullable)readOptions
         continuationToken:(NSString *_Nullable)continuationToken
         completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler;
+
+/**
+ * Perform Cosmos DB operation.
+ *
+ * @param partition The CosmosDB partition key.
+ * @param documentId The identifier of a document.
+ * @param httpMethod Http method.
+ * @param body Http body.
+ * @param additionalHeaders Additional http headers.
+ * @param completionHandler Completion handler callback.
+ */
+- (void)performCosmosDbOperationWithPartition:(NSString *)partition
+                                   documentId:(NSString *_Nullable)documentId
+                                   httpMethod:(NSString *)httpMethod
+                                         body:(NSData *_Nullable)body
+                            additionalHeaders:(NSDictionary *_Nullable)additionalHeaders
+                            completionHandler:(MSHttpRequestCompletionHandler)completionHandler;
 
 @end
 

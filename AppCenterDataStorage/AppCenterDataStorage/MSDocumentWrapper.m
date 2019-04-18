@@ -3,6 +3,7 @@
 
 #import "MSDataSourceError.h"
 #import "MSDataStore.h"
+#import "MSDataStoreErrors.h"
 #import "MSDataStoreInternal.h"
 #import "MSDocumentWrapperInternal.h"
 #import "MSLoggerInternal.h"
@@ -45,6 +46,13 @@
     _error = [[MSDataSourceError alloc] initWithError:error];
   }
   return self;
+}
+
+- (instancetype)initWithDataStoreErrorCode:(NSInteger)errorCode errorMessage:(NSString *)errorMessage documentId:(NSString *)documentId {
+  return [self initWithError:[[NSError alloc] initWithDomain:kMSACDataStoreErrorDomain
+                                                        code:errorCode
+                                                    userInfo:@{NSLocalizedDescriptionKey : errorMessage}]
+                  documentId:documentId];
 }
 
 - (BOOL)fromDeviceCache {
