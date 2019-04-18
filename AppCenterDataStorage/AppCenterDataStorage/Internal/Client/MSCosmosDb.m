@@ -175,7 +175,7 @@ static NSString *const kMSHeaderMsDate = @"x-ms-date";
   [httpClient sendAsync:sendURL method:httpMethod headers:httpHeaders data:body completionHandler:completionHandler];
 }
 
-+ (NSError *)getCosmosDbErrorWithResponse:(NSHTTPURLResponse *_Nullable)response error:(NSError *_Nullable)error {
++ (NSError *)cosmosDbErrorWithResponse:(NSHTTPURLResponse *_Nullable)response underlyingError:(NSError *_Nullable)error {
 
   // Prepare user info properties.
   NSMutableDictionary *userInfo = [NSMutableDictionary new];

@@ -385,7 +385,7 @@ static dispatch_once_t onceToken;
                                                     NSError *_Nullable cosmosDbError) {
                                   // If not OK.
                                   if (response.statusCode != MSACDocumentSucceededErrorCode) {
-                                    NSError *actualError = [MSCosmosDb getCosmosDbErrorWithResponse:response error:cosmosDbError];
+                                    NSError *actualError = [MSCosmosDb cosmosDbErrorWithResponse:response underlyingError:cosmosDbError];
                                     MSLogError([MSDataStore logTag], @"Unable to list documents for partition %@: %@", partition,
                                                [actualError localizedDescription]);
                                     MSDataSourceError *dataSourceCosmosDbError = [[MSDataSourceError alloc] initWithError:actualError];
@@ -490,7 +490,7 @@ static dispatch_once_t onceToken;
                                                 NSError *_Nullable cosmosDbError) {
                               // If not created.
                               if (response.statusCode != MSACDocumentSucceededErrorCode) {
-                                NSError *actualError = [MSCosmosDb getCosmosDbErrorWithResponse:response error:cosmosDbError];
+                                NSError *actualError = [MSCosmosDb cosmosDbErrorWithResponse:response underlyingError:cosmosDbError];
                                 MSLogError([MSDataStore logTag], @"Unable to read document %@ with error: %@", documentId,
                                            [actualError localizedDescription]);
                                 completionHandler([[MSDocumentWrapper alloc] initWithError:actualError documentId:documentId]);
@@ -530,7 +530,7 @@ static dispatch_once_t onceToken;
                               // If not created.
                               if (response.statusCode != MSACDocumentCreatedErrorCode &&
                                   response.statusCode != MSACDocumentSucceededErrorCode) {
-                                NSError *actualError = [MSCosmosDb getCosmosDbErrorWithResponse:response error:cosmosDbError];
+                                NSError *actualError = [MSCosmosDb cosmosDbErrorWithResponse:response underlyingError:cosmosDbError];
                                 MSLogError([MSDataStore logTag], @"Unable to create/replace document %@ with error: %@", documentId,
                                            [actualError localizedDescription]);
                                 completionHandler([[MSDocumentWrapper alloc] initWithError:actualError documentId:documentId]);
@@ -557,7 +557,7 @@ static dispatch_once_t onceToken;
                                                 NSError *_Nullable cosmosDbError) {
                               // If not deleted.
                               if (response.statusCode != MSHTTPCodesNo204NoContent) {
-                                NSError *actualError = [MSCosmosDb getCosmosDbErrorWithResponse:response error:cosmosDbError];
+                                NSError *actualError = [MSCosmosDb cosmosDbErrorWithResponse:response underlyingError:cosmosDbError];
                                 MSLogError([MSDataStore logTag], @"Unable to delete document %@ with error: %@", documentId,
                                            [actualError localizedDescription]);
                                 completionHandler([[MSDocumentWrapper alloc] initWithError:actualError documentId:documentId]);

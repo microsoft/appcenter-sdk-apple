@@ -38,14 +38,16 @@ NS_ASSUME_NONNULL_BEGIN
                                   completionHandler:(MSHttpRequestCompletionHandler)completionHandler;
 
 /**
- * Return an error object following the execution of a CosmosDB HTTP request.
+ * Build and return a rich error object for a CosmosDB HTTP response.
+ * The error exposes the HTTP status code in the user info dictionary (`kMSCosmosDbHttpCodeKey`) as well as the error
+ * (`NSUnderlyingErrorKey`).
  *
- * @param response The response out of which build the error (if not nil).
- * @param error The error out of which build the error (if not nil).
+ * @param response The HTTP response (if any).
+ * @param underlyingError The underlying error (if any).
  *
- * @return An error object that can be passed back.
+ * @return A rich error object.
  */
-+ (NSError *)getCosmosDbErrorWithResponse:(NSHTTPURLResponse *_Nullable)response error:(NSError *_Nullable)error;
++ (NSError *)cosmosDbErrorWithResponse:(NSHTTPURLResponse *_Nullable)response underlyingError:(NSError *_Nullable)underlyingError;
 
 @end
 

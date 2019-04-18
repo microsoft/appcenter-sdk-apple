@@ -444,7 +444,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   NSError *error;
 
   // When
-  error = [MSCosmosDb getCosmosDbErrorWithResponse:nil error:nil];
+  error = [MSCosmosDb cosmosDbErrorWithResponse:nil underlyingError:nil];
 
   // Then
   XCTAssertEqualObjects(error.domain, kMSACDataStoreErrorDomain);
@@ -460,7 +460,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   NSError *error;
 
   // When
-  error = [MSCosmosDb getCosmosDbErrorWithResponse:nil error:incomingError];
+  error = [MSCosmosDb cosmosDbErrorWithResponse:nil underlyingError:incomingError];
 
   // Then
   XCTAssertEqualObjects(error.domain, kMSACDataStoreErrorDomain);
@@ -476,7 +476,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   NSError *error;
 
   // When
-  error = [MSCosmosDb getCosmosDbErrorWithResponse:nil error:incomingError];
+  error = [MSCosmosDb cosmosDbErrorWithResponse:nil underlyingError:incomingError];
 
   // Then
   XCTAssertEqualObjects(error.domain, kMSACDataStoreErrorDomain);
@@ -491,7 +491,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   NSError *error;
 
   // When
-  error = [MSCosmosDb getCosmosDbErrorWithResponse:[MSHttpTestUtil createMockResponseForStatusCode:400 headers:nil] error:nil];
+  error = [MSCosmosDb cosmosDbErrorWithResponse:[MSHttpTestUtil createMockResponseForStatusCode:400 headers:nil] underlyingError:nil];
 
   // Then
   XCTAssertEqualObjects(error.domain, kMSACDataStoreErrorDomain);
@@ -507,7 +507,8 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   NSError *error;
 
   // When
-  error = [MSCosmosDb getCosmosDbErrorWithResponse:[MSHttpTestUtil createMockResponseForStatusCode:400 headers:nil] error:incomingError];
+  error = [MSCosmosDb cosmosDbErrorWithResponse:[MSHttpTestUtil createMockResponseForStatusCode:400 headers:nil]
+                                underlyingError:incomingError];
 
   // Then
   XCTAssertEqualObjects(error.domain, kMSACDataStoreErrorDomain);
