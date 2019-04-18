@@ -438,6 +438,84 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   XCTAssertTrue([testResult containsString:kMSDbCollectionNameTest]);
 }
 
+- (void)testGetCosmosDbErrorWithNilEverything {
+
+  // If
+  NSError *error;
+
+  // When
+  error = [MSCosmosDb getCosmosDbErrorWithResponse:nil error:nil];
+
+  // Then
+  XCTAssertEqualObjects(error.domain, kMSACDataStoreErrorDomain);
+  XCTAssertEqual(error.code, MSACDataStoreErrorHTTPError);
+  XCTAssertNil(error.userInfo[NSUnderlyingErrorKey]);
+  XCTAssertEqualObjects(error.userInfo[kMSCosmosDbHttpCodeKey], @(MSACDocumentUnknownErrorCode));
+}
+
+- (void)testGetCosmosDbErrorWithNilResponseAndError {
+
+  // If
+  NSError *incomingError = [[NSError alloc] initWithDomain:@"domain" code:0 userInfo:@{}];
+  NSError *error;
+
+  // When
+  error = [MSCosmosDb getCosmosDbErrorWithResponse:nil error:incomingError];
+
+  // Then
+  XCTAssertEqualObjects(error.domain, kMSACDataStoreErrorDomain);
+  XCTAssertEqual(error.code, MSACDataStoreErrorHTTPError);
+  XCTAssertEqualObjects(error.userInfo[NSUnderlyingErrorKey], incomingError);
+  XCTAssertEqualObjects(error.userInfo[kMSCosmosDbHttpCodeKey], @(MSACDocumentUnknownErrorCode));
+}
+
+- (void)testGetCosmosDbErrorWithNilResponseAndErrorContainingHTTPCode {
+
+  // If
+  NSError *incomingError = [[NSError alloc] initWithDomain:@"domain" code:0 userInfo:@{kMSCosmosDbHttpCodeKey : @(123)}];
+  NSError *error;
+
+  // When
+  error = [MSCosmosDb getCosmosDbErrorWithResponse:nil error:incomingError];
+
+  // Then
+  XCTAssertEqualObjects(error.domain, kMSACDataStoreErrorDomain);
+  XCTAssertEqual(error.code, MSACDataStoreErrorHTTPError);
+  XCTAssertEqualObjects(error.userInfo[NSUnderlyingErrorKey], incomingError);
+  XCTAssertEqualObjects(error.userInfo[kMSCosmosDbHttpCodeKey], @(123));
+}
+
+- (void)testGetCosmosDbErrorWithResponseAndNilError {
+
+  // If
+  NSError *error;
+
+  // When
+  error = [MSCosmosDb getCosmosDbErrorWithResponse:[MSHttpTestUtil createMockResponseForStatusCode:400 headers:nil] error:nil];
+
+  // Then
+  XCTAssertEqualObjects(error.domain, kMSACDataStoreErrorDomain);
+  XCTAssertEqual(error.code, MSACDataStoreErrorHTTPError);
+  XCTAssertNil(error.userInfo[NSUnderlyingErrorKey]);
+  XCTAssertEqualObjects(error.userInfo[kMSCosmosDbHttpCodeKey], @(400));
+}
+
+- (void)testGetCosmosDbErrorWithResponseAndError_NotValidScenario {
+
+  // If
+  NSError *incomingError = [[NSError alloc] initWithDomain:@"domain" code:0 userInfo:@{kMSCosmosDbHttpCodeKey : @(123)}];
+  NSError *error;
+
+  // When
+  error = [MSCosmosDb getCosmosDbErrorWithResponse:[MSHttpTestUtil createMockResponseForStatusCode:400 headers:nil] error:incomingError];
+
+  // Then
+  XCTAssertEqualObjects(error.domain, kMSACDataStoreErrorDomain);
+  XCTAssertEqual(error.code, MSACDataStoreErrorHTTPError);
+  XCTAssertEqualObjects(error.userInfo[NSUnderlyingErrorKey], incomingError);
+  XCTAssertEqualObjects(error.userInfo[kMSCosmosDbHttpCodeKey], @(400));
+}
+
 - (void)testPerformCosmosDbAsyncOperationWithHttpClientWithAdditionalParams {
 
   // If
