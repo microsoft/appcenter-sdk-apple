@@ -50,6 +50,14 @@ typedef void (^MSGetTokenAsyncCompletionHandler)(MSTokensResponse *tokensRespons
  */
 + (void)removeAllCachedTokens;
 
+/**
+ * Validate the passed to token exchange partition name.
+ * @param partition The partition name to be validated.
+ *
+ * @return The partition is valid or not.
+ **/
++ (Boolean)isValidPartitionName: (NSString *)partition;
+
 @end
 
 NS_ASSUME_NONNULL_END

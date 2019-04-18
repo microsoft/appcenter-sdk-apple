@@ -374,6 +374,32 @@ static NSString *const kMSDataStoreAppDocumentsPartition = @"readonly";
                                }];
 }
 
+- (void)testPassInvalidPartitionToTokenExchangeReturnsError {
+    
+    // If
+    NSString *invalidPartitionName = @"Invalid Partition Name";
+    id<MSHttpClientProtocol> httpMock = OCMProtocolMock(@protocol(MSHttpClientProtocol));
+    XCTestExpectation *completeExpectation = [self expectationWithDescription:@"Task finished"];
+    
+    // When
+    [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:httpMock
+                                               tokenExchangeUrl:[NSURL new]
+                                                      appSecret:@"appSecret"
+                                                      partition:invalidPartitionName
+                                            includeExpiredToken:NO
+                                              completionHandler:^(MSTokensResponse *__unused tokensResponse, NSError *_Nullable returnError) {
+                                                  // Then
+                                                  XCTAssertEqual(returnError.code, MSACDataStoreInvalidPartitionError);
+                                                  [completeExpectation fulfill];
+                                              }];
+    [self waitForExpectationsWithTimeout:5
+                                 handler:^(NSError *error) {
+                                     if (error) {
+                                         XCTFail(@"Expectation Failed with error: %@", error);
+                                     }
+                                 }];
+}
+
 - (void)testExchangeServiceReturnsTokenError {
 
   // If
