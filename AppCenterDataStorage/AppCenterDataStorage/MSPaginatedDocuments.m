@@ -29,12 +29,8 @@
   return self;
 }
 
-- (instancetype)initWithPage:(MSPage *)page {
-  return [self initWithPage:page partition:@"" documentType:[NSObject class] continuationToken:nil];
-}
-
-- (instancetype)initWithError:(MSDataSourceError *)error {
-  return [self initWithPage:[[MSPage alloc] initWithError:error]];
+- (instancetype)initWithError:(MSDataSourceError *)error partition:(NSString *)partition documentType:(Class)documentType {
+  return [self initWithPage:[[MSPage alloc] initWithError:error] partition:partition documentType:documentType continuationToken:nil];
 }
 
 - (BOOL)hasNextPage {
