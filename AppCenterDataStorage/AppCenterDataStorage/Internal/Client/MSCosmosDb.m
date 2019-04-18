@@ -44,7 +44,7 @@ static NSString *const kMSDocumentDbAuthorizationHeaderFormat = @"type=master&ve
 /**
  * Url character set to skip(utf8 encoding).
  */
-static NSString *const kMSUrlCharactersToEscape = @"!*'();:@&=+$,/?%#[]";
+static NSString *const kMSUrlCharactersToEscape = @"!*'();:@&=+$,/?%#[] ";
 
 /**
  * RFC1123 locale.
