@@ -139,12 +139,24 @@ static NSString *const kMSHeaderMsDate = @"x-ms-date";
                                   additionalUrlPath:(NSString *_Nullable)additionalUrlPath
                                   completionHandler:(MSHttpRequestCompletionHandler)completionHandler {
   NSData *body = nil;
-  if (document && documentId) {
-    // Serialize document
-    NSError *serializationError;
+  if (document) {
+
+    // Check for document id.
+    if (!documentId) {
+      MSLogError([MSDataStore logTag], @"Can't perform CosmodDb operaion without document id");
+      NSError *error = [[NSError alloc] initWithDomain:kMSDataStorageErrorDomain
+                                                  code:MSACDataStoreDocumentIdError
+                                              userInfo:@{NSLocalizedDescriptionKey : kMSACDocumentCreationDesc}];
+      completionHandler(nil, nil, error);
+      return;
+    }
+
+    // Get the document as dictionary.
     NSDictionary *dic = [MSDocumentUtils documentPayloadWithDocumentId:(NSString *)documentId
                                                              partition:tokenResult.partition
                                                               document:(NSDictionary *)[document serializeToDictionary]];
+    // Serialize document
+    NSError *serializationError;
     body = [NSJSONSerialization dataWithJSONObject:dic options:0 error:&serializationError];
     if (!body || serializationError) {
       MSLogError([MSDataStore logTag], @"Error serializing data:%@", [serializationError localizedDescription]);

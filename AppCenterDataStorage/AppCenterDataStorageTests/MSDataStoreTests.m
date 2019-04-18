@@ -651,6 +651,50 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   XCTAssertEqualObjects(expectedURLString, [actualURL absoluteString]);
 }
 
+- (void)testPerformCosmosDbAsyncOperationWithNullDocumentId {
+
+  // If
+  MSHttpClient *httpClient = OCMClassMock([MSHttpClient class]);
+  MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
+  __block BOOL completionHandlerCalled = NO;
+  __block NSData *actualDataHttpData;
+  __block NSError *blockError;
+  MSHttpRequestCompletionHandler handler =
+      ^(NSData *_Nullable responseBody, NSHTTPURLResponse *_Nullable __unused response, NSError *_Nullable error) {
+        completionHandlerCalled = YES;
+        actualDataHttpData = responseBody;
+        blockError = error;
+      };
+  __block NSURL *actualURL;
+  __block NSData *actualData;
+  OCMStub([httpClient sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:OCMOCK_ANY data:OCMOCK_ANY completionHandler:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        MSHttpRequestCompletionHandler completionHandler;
+        [invocation retainArguments];
+        [invocation getArgument:&actualURL atIndex:2];
+        [invocation getArgument:&actualData atIndex:5];
+        [invocation getArgument:&completionHandler atIndex:6];
+        completionHandler(actualData, nil, nil);
+      });
+  NSDictionary *dic = @{@"foo" : @"bar"};
+  MSMockDocument *mockDoc = [[MSMockDocument alloc] initFromDictionary:dic];
+
+  // When
+  [MSCosmosDb performCosmosDbAsyncOperationWithHttpClient:httpClient
+                                              tokenResult:tokenResult
+                                               documentId:nil
+                                               httpMethod:kMSHttpMethodGet
+                                                 document:mockDoc
+                                        additionalHeaders:nil
+                                        additionalUrlPath:kMSDocumentIdTest
+                                        completionHandler:handler];
+
+  // Then
+  XCTAssertTrue(completionHandlerCalled);
+  XCTAssertNil(actualDataHttpData);
+  XCTAssertEqual(blockError.code, MSACDataStoreDocumentIdError);
+}
+
 - (void)testPerformCosmosDbOperationWithPartitionWithErrorResponseWithoutError {
 
   // If
