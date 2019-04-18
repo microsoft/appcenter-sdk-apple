@@ -11,7 +11,6 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
     case NoCache = "NoCache"
     case TwoSeconds = "2 seconds"
     case Infinite = "Infinite"
-    
     static let allValues = [Default, NoCache, TwoSeconds, Infinite]
   }
   
@@ -25,6 +24,7 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
   private var kUserDocumentAddPropertiesSectionIndex: Int = 0
   private var timeToLiveModePicker: MSEnumPicker<TimeToLiveMode>?
 
+  @IBOutlet weak var timeToLiveBoard: UILabel!
   @IBOutlet weak var backButton: UIButton!
   @IBOutlet weak var docIdField: UITextField!
   @IBOutlet weak var tableView: UITableView!
@@ -45,8 +45,11 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
     if documentType == userType && documentId != nil && documentId!.isEmpty {
       docIdField.isEnabled = true
     }
+    if documentContent != nil {
+      timeToLiveField.isHidden = true
+      timeToLiveBoard.isHidden = true
+    }
     userDocumentAddPropertiesSection = EventPropertiesTableSection(tableSection: 0, tableView: self.tableView)
-    
     self.timeToLiveModePicker = MSEnumPicker<TimeToLiveMode> (
       textField: self.timeToLiveField,
       allValues: TimeToLiveMode.allValues,
@@ -86,7 +89,7 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
   func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
     if documentType == userType && indexPath.section == kUserDocumentAddPropertiesSectionIndex {
       return userDocumentAddPropertiesSection.tableView(tableView, canEditRowAt:indexPath)
-    } else if documentType == userType {
+    } else if documentType == userType && (documentContent == nil){
       return true
     }
     return false
@@ -95,8 +98,6 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
   func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
     if documentType == userType && indexPath.section == kUserDocumentAddPropertiesSectionIndex {
       return userDocumentAddPropertiesSection.tableView(tableView, editingStyleForRowAt: indexPath)
-    } else if documentType == userType && indexPath.section == 2 && documentContent != nil {
-      return .delete
     }
     return .none
   }
@@ -104,11 +105,6 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
   func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
     if documentType == userType && indexPath.section == kUserDocumentAddPropertiesSectionIndex {
       userDocumentAddPropertiesSection.tableView(tableView, commit: editingStyle, forRowAt: indexPath)
-    } else if documentType == userType && indexPath.section == 1 {
-//      let index = documentContent!.index(documentContent!.startIndex, offsetBy: indexPath.row)
-//      documentContent!.remove(at: index)
-      self.saveFile()
-      tableView.deleteRows(at: [indexPath], with: .automatic)
     }
   }
 
@@ -123,7 +119,6 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
     if documentType == userType && indexPath.section == kUserDocumentAddPropertiesSectionIndex {
       return userDocumentAddPropertiesSection.tableView(tableView, cellForRowAt:indexPath)
     } else if documentType == userType && indexPath.section == 1 {
-      timeToLiveField.isHidden = true
       let cell = tableView.dequeueReusableCell(withIdentifier: "save", for: indexPath)
       let saveButton: UIButton? = cell.getSubview()
       saveButton?.addTarget(self, action: #selector(saveButtonClicked), for: .touchUpInside)
@@ -138,7 +133,7 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
         case 1:
           cellText = "Partion: " + (String(describing:documentContent?.lastUpdatedDate))
         break
-      case 2:
+        case 2:
           cellText = "Date: " + (String(describing:documentContent?.lastUpdatedDate))
         break
         case 3:
@@ -193,8 +188,8 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
       }
     }
     let document = TestDocument.init(from: prop)
-    appCenter.createDocumentWithPartition(MSStorageViewController.StorageType.User.rawValue, documentId: docIdField.text!, document: document, writeOptions: MSWriteOptions.init(deviceTimeToLive: convertTimeToLiveConstantToValue(self.documentTimeToLive!)))
-    //todo add new file to list
-//        MSStorageViewController.UserDocuments.append(docIdField.text!)
+    if(documentId != nil) {
+      appCenter.createDocumentWithPartition(MSStorageViewController.StorageType.User.rawValue, documentId: docIdField.text!, document: document, writeOptions: MSWriteOptions.init(deviceTimeToLive: convertTimeToLiveConstantToValue(self.documentTimeToLive!)))
+    }
   }
 }

@@ -61,7 +61,6 @@ class MSStorageViewController: UIViewController, UITableViewDelegate, UITableVie
     let currentOffset = scrollView.contentOffset.y
     let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height
     let deltaOffset = maximumOffset - currentOffset
-    
     if deltaOffset <= 0 {
       loadMore()
     }
@@ -165,7 +164,6 @@ class MSStorageViewController: UIViewController, UITableViewDelegate, UITableVie
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     tableView.deselectRow(at: indexPath, animated: true)
-    let cell = tableView.cellForRow(at: indexPath)
     if isInsertRow(indexPath) {
       self.performSegue(withIdentifier: "ShowDocumentDetails", sender: "")
     } else {
