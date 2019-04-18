@@ -4,6 +4,7 @@
 #import "MSAuthTokenContext.h"
 #import "MSConstants+Internal.h"
 #import "MSDataStorageConstants.h"
+#import "MSDataStore.h"
 #import "MSDataStoreErrors.h"
 #import "MSHttpClientProtocol.h"
 #import "MSHttpTestUtil.h"
@@ -25,13 +26,11 @@ static NSString *const kMSExpiresOn = @"expiresOn";
 static NSString *const kMSExpiredDate = @"1999-09-19T11:11:11.111Z";
 static NSString *const kMSNotExpiredDate = @"2999-09-19T11:11:11.111Z";
 static NSString *const kMSMockTokenValue = @"mock-token";
-static NSString *const kMSPartitionName = @"mock-partition";
 static NSString *const kMSMockTokenKeyName = @"mock-token-key-name";
 
 static NSString *const kMSCachedToken = @"mockCachedToken";
 static NSString *const kMSStorageReadOnlyDbTokenKey = @"MSStorageReadOnlyDbToken";
 static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
-static NSString *const kMSDataStoreAppDocumentsPartition = @"readonly";
 
 @interface MSTokenExchange (Test)
 
@@ -53,7 +52,7 @@ static NSString *const kMSDataStoreAppDocumentsPartition = @"readonly";
   [super setUp];
   self.sut = OCMClassMock([MSTokenExchange class]);
   self.keychainUtilMock = OCMClassMock([MSKeychainUtil class]);
-  OCMStub(ClassMethod([self.sut tokenKeyNameForPartition:kMSPartitionName])).andReturn(kMSMockTokenKeyName);
+  OCMStub(ClassMethod([self.sut tokenKeyNameForPartition:kMSDataStoreUserDocumentsPartition])).andReturn(kMSMockTokenKeyName);
 }
 
 - (void)tearDown {
@@ -68,6 +67,8 @@ static NSString *const kMSDataStoreAppDocumentsPartition = @"readonly";
   NSObject *tokenData = [self getSuccessfulTokenData];
   NSMutableDictionary *tokenList = [@{kMSTokens : @[ tokenData ]} mutableCopy];
   NSData *jsonTokenData = [NSJSONSerialization dataWithJSONObject:tokenList options:NSJSONWritingPrettyPrinted error:nil];
+
+  OCMStub(ClassMethod([self.sut tokenKeyNameForPartition:kMSDataStoreUserDocumentsPartition])).andReturn(nil);
 
   // Create instance of MSAuthTokenContext to mock.
   id contextInstanceMock = OCMPartialMock([MSAuthTokenContext sharedInstance]);
@@ -98,7 +99,7 @@ static NSString *const kMSDataStoreAppDocumentsPartition = @"readonly";
   [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:httpMock
                                              tokenExchangeUrl:[NSURL new]
                                                     appSecret:@"appSecret"
-                                                    partition:kMSPartition
+                                                    partition:kMSDataStoreUserDocumentsPartition
                                           includeExpiredToken:NO
                                             completionHandler:^(MSTokensResponse *tokensResponse, NSError *_Nullable returnError) {
                                               XCTAssertNil(returnError);
@@ -155,7 +156,7 @@ static NSString *const kMSDataStoreAppDocumentsPartition = @"readonly";
   [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:httpMock
                                              tokenExchangeUrl:[NSURL new]
                                                     appSecret:@"appSecret"
-                                                    partition:kMSPartition
+                                                    partition:kMSDataStoreAppDocumentsPartition
                                           includeExpiredToken:NO
                                             completionHandler:^(MSTokensResponse *tokensResponse, NSError *_Nullable returnError) {
                                               XCTAssertNil(returnError);
@@ -199,7 +200,7 @@ static NSString *const kMSDataStoreAppDocumentsPartition = @"readonly";
   [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:httpMock
                                              tokenExchangeUrl:[NSURL new]
                                                     appSecret:@"appSecret"
-                                                    partition:kMSPartitionName
+                                                    partition:kMSDataStoreUserDocumentsPartition
                                           includeExpiredToken:NO
                                             completionHandler:^(MSTokensResponse *tokensResponse, NSError *_Nullable error) {
                                               // Then
@@ -244,7 +245,7 @@ static NSString *const kMSDataStoreAppDocumentsPartition = @"readonly";
   [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:httpMock
                                              tokenExchangeUrl:[NSURL new]
                                                     appSecret:@"appSecret"
-                                                    partition:kMSPartition
+                                                    partition:kMSDataStoreUserDocumentsPartition
                                           includeExpiredToken:NO
                                             completionHandler:^(MSTokensResponse *tokensResponse, NSError *_Nullable returnError) {
                                               // Then
@@ -287,7 +288,7 @@ static NSString *const kMSDataStoreAppDocumentsPartition = @"readonly";
       performDbTokenAsyncOperationWithHttpClient:httpMock
                                 tokenExchangeUrl:[NSURL new]
                                        appSecret:@"appSecret"
-                                       partition:kMSPartition
+                                       partition:kMSDataStoreUserDocumentsPartition
                              includeExpiredToken:NO
                                completionHandler:^(MSTokensResponse *__unused tokensResponse, NSError *_Nullable __unused returnError){
                                }];
@@ -319,7 +320,7 @@ static NSString *const kMSDataStoreAppDocumentsPartition = @"readonly";
   [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:httpMock
                                              tokenExchangeUrl:[NSURL new]
                                                     appSecret:@"appSecret"
-                                                    partition:kMSPartition
+                                                    partition:kMSDataStoreUserDocumentsPartition
                                           includeExpiredToken:NO
                                             completionHandler:^(MSTokensResponse *__unused tokensResponse, NSError *_Nullable returnError) {
                                               // Then
@@ -359,7 +360,7 @@ static NSString *const kMSDataStoreAppDocumentsPartition = @"readonly";
   [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:httpMock
                                              tokenExchangeUrl:[NSURL new]
                                                     appSecret:@"appSecret"
-                                                    partition:kMSPartition
+                                                    partition:kMSDataStoreUserDocumentsPartition
                                           includeExpiredToken:NO
                                             completionHandler:^(MSTokensResponse *__unused tokensResponse, NSError *_Nullable returnError) {
                                               // Then
@@ -426,7 +427,7 @@ static NSString *const kMSDataStoreAppDocumentsPartition = @"readonly";
   [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:httpMock
                                              tokenExchangeUrl:[NSURL new]
                                                     appSecret:@"appSecret"
-                                                    partition:kMSPartition
+                                                    partition:kMSDataStoreUserDocumentsPartition
                                           includeExpiredToken:NO
                                             completionHandler:^(MSTokensResponse *__unused tokensResponse, NSError *_Nullable returnError) {
                                               // Then
@@ -530,7 +531,7 @@ static NSString *const kMSDataStoreAppDocumentsPartition = @"readonly";
 
   // When
   // Retrieve token and include it even when expired.
-  MSTokenResult *tokenResult = [MSTokenExchange retrieveCachedTokenForPartition:kMSPartitionName includeExpiredToken:YES];
+  MSTokenResult *tokenResult = [MSTokenExchange retrieveCachedTokenForPartition:kMSDataStoreUserDocumentsPartition includeExpiredToken:YES];
 
   // Then
   XCTAssertNotNil(tokenResult);
@@ -549,7 +550,7 @@ static NSString *const kMSDataStoreAppDocumentsPartition = @"readonly";
 
   // When
   // Retrieve token and include it even when expired.
-  MSTokenResult *tokenResult = [MSTokenExchange retrieveCachedTokenForPartition:kMSPartitionName includeExpiredToken:NO];
+  MSTokenResult *tokenResult = [MSTokenExchange retrieveCachedTokenForPartition:kMSDataStoreUserDocumentsPartition includeExpiredToken:NO];
 
   // Then
   XCTAssertNil(tokenResult);
@@ -565,7 +566,7 @@ static NSString *const kMSDataStoreAppDocumentsPartition = @"readonly";
 
   // When
   // Retrieve token and include it even when expired.
-  MSTokenResult *tokenResult = [MSTokenExchange retrieveCachedTokenForPartition:kMSPartitionName includeExpiredToken:NO];
+  MSTokenResult *tokenResult = [MSTokenExchange retrieveCachedTokenForPartition:kMSDataStoreUserDocumentsPartition includeExpiredToken:NO];
 
   // Then
   XCTAssertNotNil(tokenResult);
@@ -600,7 +601,7 @@ static NSString *const kMSDataStoreAppDocumentsPartition = @"readonly";
 
 - (NSObject *)getSuccessfulTokenData {
   return @{
-    kMSPartition : kMSPartitionName,
+    kMSPartition : kMSDataStoreUserDocumentsPartition,
     kMSToken : kMSMockTokenValue,
     kMSStatus : kMSTokenResultSucceed,
     kMSDbName : @"",
