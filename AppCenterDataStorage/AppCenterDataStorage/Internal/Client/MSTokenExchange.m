@@ -206,7 +206,7 @@ static NSString *const kMSGetTokenPath = @"/data/tokens";
 }
 
 /**
- * Validate the passed partition name.
+ * Validate the partition name.
  **/
 + (Boolean)isValidPartitionName:(NSString *)partitionName {
     if ([partitionName isEqualToString:kMSDataStoreAppDocumentsPartition] ||
