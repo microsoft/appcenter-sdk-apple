@@ -200,7 +200,7 @@ static const NSUInteger kMSSchemaVersion = 1;
 - (NSArray<MSPendingOperation *> *)pendingOperationsWithToken:(MSTokenResult *)token {
   NSString *tableName = [MSDBDocumentStore tableNameForPartition:token.partition];
   NSString *selectionQuery =
-      [NSString stringWithFormat:@"SELECT * FROM \"%@\" WHERE \"%@\" \"IS NOT NULL\"", tableName, kMSPendingOperationColumnName];
+      [NSString stringWithFormat:@"SELECT * FROM \"%@\" WHERE \"%@\" IS NOT NULL", tableName, kMSPendingOperationColumnName];
   NSArray *result = [self.dbStorage executeSelectionQuery:selectionQuery];
   NSMutableArray *pendingDocuments = [NSMutableArray new];
 

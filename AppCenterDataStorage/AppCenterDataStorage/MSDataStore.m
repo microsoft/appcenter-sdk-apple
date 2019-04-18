@@ -667,7 +667,6 @@ static dispatch_once_t onceToken;
 #pragma mark - Reachability
 
 - (void)networkStateChanged:(NSNotificationCenter *)__unused notification {
-  //(void)notification;
   [self networkStateChanged];
 }
 
@@ -686,7 +685,6 @@ static dispatch_once_t onceToken;
 
 - (void)onNetworkGoesOnline {
   @synchronized(self) {
-
     [MSTokenExchange
         performDbTokenAsyncOperationWithHttpClient:(id<MSHttpClientProtocol>)self.httpClient
                                   tokenExchangeUrl:self.tokenExchangeUrl

@@ -31,7 +31,7 @@
 
 - (long)getDeviceTimeToLiveFromOperation {
   long deviceTimeToLive = kMSDataStoreTimeToLiveNoCache;
-  if (self.expirationTime == -1) {
+  if (self.expirationTime == kMSDataStoreTimeToLiveInfinite) {
     deviceTimeToLive = kMSDataStoreTimeToLiveInfinite;
   } else {
     NSTimeInterval now = NSDate.timeIntervalSinceReferenceDate + NSTimeIntervalSince1970;
