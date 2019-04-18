@@ -362,7 +362,7 @@ static dispatch_once_t onceToken;
     }
     if (error) {
       completionHandler([[MSPaginatedDocuments alloc]
-          initWithError:[[MSDataSourceError alloc] initWithError:error errorCode:MSACDocumentUnknownErrorCode]]);
+          initWithError:[[MSDataSourceError alloc] initWithError:error errorCode:MSACDocumentUnknownErrorCode] partition:partition documentType:documentType]);
       return;
     }
 
@@ -388,7 +388,7 @@ static dispatch_once_t onceToken;
                                   MSLogError([MSDataStore logTag], @"Not able to retrieve documents: %@",
                                              [cosmosDbError localizedDescription]);
                                   MSDataSourceError *dataSourceCosmosDbError = [[MSDataSourceError alloc] initWithError:cosmosDbError];
-                                  MSPaginatedDocuments *documents = [[MSPaginatedDocuments alloc] initWithError:dataSourceCosmosDbError];
+                                  MSPaginatedDocuments *documents = [[MSPaginatedDocuments alloc] initWithError:dataSourceCosmosDbError partition:partition documentType:documentType];
                                   completionHandler(documents);
                                   return;
                                 }
@@ -407,7 +407,7 @@ static dispatch_once_t onceToken;
                                 if (deserializeError) {
                                   MSDataSourceError *dataSourceDeserializeError =
                                       [[MSDataSourceError alloc] initWithError:deserializeError];
-                                  MSPaginatedDocuments *documents = [[MSPaginatedDocuments alloc] initWithError:dataSourceDeserializeError];
+                                  MSPaginatedDocuments *documents = [[MSPaginatedDocuments alloc] initWithError:dataSourceDeserializeError partition:partition documentType:documentType];
                                   completionHandler(documents);
                                   return;
                                 }
