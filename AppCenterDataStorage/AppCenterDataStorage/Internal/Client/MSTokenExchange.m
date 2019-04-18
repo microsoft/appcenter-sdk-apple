@@ -33,12 +33,12 @@ static NSString *const kMSGetTokenPath = @"/data/tokens";
                                includeExpiredToken:(BOOL)includeExpiredToken
                                  completionHandler:(MSGetTokenAsyncCompletionHandler)completionHandler {
     if (![MSTokenExchange isValidPartitionName:partition]) {
-        MSLogError([MSDataStore logTag], @"Request invalid partition %@", partition);
+        MSLogError([MSDataStore logTag], @"Can't perform token exchange because partition name %@ is invalid.", partition);
         NSError *error = [[NSError alloc]
                                 initWithDomain:kMSACDataStoreErrorDomain
                                 code:MSACDataStoreInvalidPartitionError
                                 userInfo:@{
-                                           NSLocalizedDescriptionKey : [NSString stringWithFormat:@"Request invalid partition %@", partition]
+                                           NSLocalizedDescriptionKey : [NSString stringWithFormat:@" Invalid partition name %@", partition]
                                            }];
         completionHandler([[MSTokensResponse alloc] initWithTokens:nil], error);
         return;
@@ -205,15 +205,12 @@ static NSString *const kMSGetTokenPath = @"/data/tokens";
   return kMSStorageUserDbTokenKey;
 }
 
-/**
- * Validate the partition name.
- **/
-+ (Bool)isValidPartitionName:(NSString *)partitionName {
++ (BOOL)isValidPartitionName:(NSString *)partitionName {
     if ([partitionName isEqualToString:kMSDataStoreAppDocumentsPartition] ||
         [partitionName isEqualToString:kMSDataStoreUserDocumentsPartition]) {
-        return true;
+        return YES;
     }
-    return false;
+    return NO;
 }
 
 @end
