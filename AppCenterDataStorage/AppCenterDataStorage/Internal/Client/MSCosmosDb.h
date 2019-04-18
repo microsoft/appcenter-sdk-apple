@@ -40,7 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Return an error object following the execution of a CosmosDB HTTP request.
  *
- * @param response The response out of which build the error (if not nil).
+ * @param response The response out of which the error is built (if not nil).
  * @param error The error out of which build the error (if not nil).
  *
  * @return An error object that can be passed back.
