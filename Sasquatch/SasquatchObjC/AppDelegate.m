@@ -104,12 +104,7 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
                  }];
   }
 
-  NSString *logUrl = @"";
-#if GCC_PREPROCESSOR_MACRO_PUPPET
-  logUrl = kMSIntLogUrl;
-#else
-  logUrl = [[NSUserDefaults standardUserDefaults] objectForKey:kMSLogUrl];
-#endif
+  NSString *logUrl = [[NSUserDefaults standardUserDefaults] objectForKey:kMSLogUrl];
   if (logUrl) {
     [MSAppCenter setLogUrl:logUrl];
   }

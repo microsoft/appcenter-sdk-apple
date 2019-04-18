@@ -95,11 +95,7 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     // Miscellaneous section.
     self.installId.text = appCenter.installId()
     self.appSecret.text = UserDefaults.standard.string(forKey: kMSAppSecret) ?? appCenter.appSecret()
-    #if ACTIVE_COMPILATION_CONDITION_PUPPET
-    self.logUrl.text = UserDefaults.standard.string(forKey: kMSLogUrl) ?? kMSIntLogUrl
-    #else
-    self.logUrl.text = UserDefaults.standard.string(forKey: kMSLogUrl) ?? prodLogUrl()
-    #endif
+    self.logUrl.text = UserDefaults.standard.string(forKey: kMSLogUrl) ?? defaultLogUrl()
     self.sdkVersion.text = appCenter.sdkVersion()
     self.deviceIdLabel.text = UIDevice.current.identifierForVendor?.uuidString
     self.userIdField.text = UserDefaults.standard.string(forKey: kMSUserIdKey)
@@ -184,11 +180,7 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
                                             message: nil,
                                             preferredStyle:.alert)
     alertController.addTextField { (logUrlTextField) in
-      #if ACTIVE_COMPILATION_CONDITION_PUPPET
-      logUrlTextField.text = UserDefaults.standard.string(forKey: kMSLogUrl) ?? kMSIntLogUrl
-      #else
-      logUrlTextField.text = UserDefaults.standard.string(forKey: kMSLogUrl) ?? self.prodLogUrl()
-      #endif
+      logUrlTextField.text = UserDefaults.standard.string(forKey: kMSLogUrl) ?? self.defaultLogUrl()
     }
     let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
     let saveAction = UIAlertAction(title: "Save", style: .default, handler: {
@@ -201,13 +193,8 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     let resetAction = UIAlertAction(title: "Reset", style: .destructive, handler: {
       (_ action : UIAlertAction) -> Void in
       UserDefaults.standard.removeObject(forKey: kMSLogUrl)
-      #if ACTIVE_COMPILATION_CONDITION_PUPPET
-      self.appCenter.setLogUrl(kMSIntLogUrl)
-      self.logUrl.text = kMSIntLogUrl
-      #else
-      self.appCenter.setLogUrl(self.prodLogUrl())
-      self.logUrl.text = self.prodLogUrl()
-      #endif
+      self.appCenter.setLogUrl(self.defaultLogUrl())
+      self.logUrl.text = self.defaultLogUrl()
     })
     alertController.addAction(cancelAction)
     alertController.addAction(saveAction)
@@ -263,8 +250,15 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     dismissKeyboard(self.storageMaxSizeField)
   }
   
-  func prodLogUrl() -> String {
-    return StartupMode.allValues[startUpModeForCurrentSession] == StartupMode.OneCollector ? ocProdLogUrl : acProdLogUrl
+  func defaultLogUrl() -> String {
+    if StartupMode.allValues[startUpModeForCurrentSession] == StartupMode.OneCollector {
+      return ocProdLogUrl;
+    }
+    #if ACTIVE_COMPILATION_CONDITION_PUPPET
+    return kMSIntLogUrl
+    #else
+    return acProdLogUrl
+    #endif
   }
 
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
