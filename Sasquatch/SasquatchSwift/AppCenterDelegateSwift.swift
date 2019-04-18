@@ -311,32 +311,14 @@ class AppCenterDelegateSwift: AppCenterDelegate {
   }
   
   func createDocumentWithPartition(_ partitionName: String, documentId: String, document: TestDocument, writeOptions: MSWriteOptions) {
-    MSDataStore.create(withPartition: partitionName, documentId: documentId, document: document, writeOptions:writeOptions) { document? in
-      if document != nil {
-        print("Storage.create document with id \(documentId) succeeded")
-      } else {
-        print("Storage.create document with id \(documentId) failed")
-      }
-    }
+    MSDataStore.create(withPartition: partitionName, documentId: documentId, document: document, writeOptions: writeOptions, completionHandler: nil)
   }
   
   func replaceDocumentWithPartition(_ partitionName: String, documentId: String, document: TestDocument) {
-    MSDataStore.replace(withPartition: partitionName, documentId: documentId, document: document) { document? in
-      if document != nil {
-        print("Storage.replace document with id \(documentId) succeeded")
-      } else {
-        print("Storage.replace document with id \(documentId) failed")
-      }
-    }
+    MSDataStore.replace(withPartition: partitionName, documentId: documentId, document: document, completionHandler: nil)
   }
   
   func deleteDocumentWithPartition(_ partitionName: String, documentId: String) {
-    MSDataStore.delete(withPartition: partitionName, documentId: documentId) { error in
-      if error == nil {
-        print("Storage.delete document with id \(documentId) succeeded")
-      } else {
-        print("Storage.delete document with id \(documentId) failed")
-      }
-    }
+    MSDataStore.delete(withPartition: partitionName, documentId: documentId, completionHandler: nil)
   }
 }
