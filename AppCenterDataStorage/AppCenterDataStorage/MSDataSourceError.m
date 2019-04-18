@@ -11,13 +11,9 @@
 @synthesize errorCode = _errorCode;
 
 - (instancetype)initWithError:(NSError *)error {
-  return [self initWithError:error errorCode:[MSDataSourceError errorCodeFromError:error]];
-}
-
-- (instancetype)initWithError:(NSError *)error errorCode:(NSInteger)errorCode {
   if ((self = [super init])) {
     _error = error;
-    _errorCode = errorCode;
+    _errorCode = [MSDataSourceError errorCodeFromError:error];
   }
   return self;
 }
@@ -27,7 +23,7 @@
   if (error.userInfo[kMSCosmosDbHttpCodeKey]) {
     return [(NSNumber *)error.userInfo[kMSCosmosDbHttpCodeKey] integerValue];
   }
-  
+
   // Return default unknown error code.
   return MSACDocumentUnknownErrorCode;
 }

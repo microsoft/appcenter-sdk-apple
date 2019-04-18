@@ -25,16 +25,6 @@
 - (instancetype)initWithError:(NSError *)error;
 
 /**
- * Create an instance with error object.
- *
- * @param error An error object.
- * @param errorCode An error code.
- *
- * @return A new `MSDataSourceError` instance.
- */
-- (instancetype)initWithError:(NSError *)error errorCode:(NSInteger)errorCode;
-
-/**
  * Extract an error code (HTTP) from any NSError instance.
  *
  * @param error An error object.

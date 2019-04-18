@@ -361,8 +361,7 @@ static dispatch_once_t onceToken;
       error = [self generateInvalidClassError];
     }
     if (error) {
-      completionHandler([[MSPaginatedDocuments alloc]
-          initWithError:[[MSDataSourceError alloc] initWithError:error errorCode:MSACDocumentUnknownErrorCode]]);
+      completionHandler([[MSPaginatedDocuments alloc] initWithError:[[MSDataSourceError alloc] initWithError:error]]);
       return;
     }
 
@@ -383,8 +382,7 @@ static dispatch_once_t onceToken;
                               additionalUrlPath:nil
                               completionHandler:^(NSData *_Nullable data, NSHTTPURLResponse *_Nullable response,
                                                   NSError *_Nullable cosmosDbError) {
-                              
-                               // If not OK.
+                                // If not OK.
                                 if (response.statusCode != MSACDocumentSucceededErrorCode) {
                                   NSError *actualError = [MSCosmosDb getCosmosDbErrorWithResponse:response error:cosmosDbError];
                                   MSLogError([MSDataStore logTag], @"Unable to list documents for partition %@: %@", partition,
