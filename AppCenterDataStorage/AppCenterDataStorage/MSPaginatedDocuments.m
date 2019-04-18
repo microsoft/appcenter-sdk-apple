@@ -47,7 +47,7 @@
                       documentType:self.documentType
                  continuationToken:self.continuationToken
                  completionHandler:^(MSPaginatedDocuments *documents) {
-                   // Update current page and continuation token.
+                   // Update current page and continuation token
                    self.currentPage = documents.currentPage;
                    self.continuationToken = documents.continuationToken;
 
