@@ -102,19 +102,6 @@ typedef void (^MSPaginatedDocumentsCompletionHandler)(MSPaginatedDocuments<T> *d
         completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler;
 
 /**
- * Retrieve a paginated list of the documents in a partition.
- *
- * @param partition The CosmosDB partition key.
- * @param documentType The object type of the documents in the partition. Must conform to MSSerializableDocument protocol.
- * @param readOptions Options for reading and storing the documents.
- * @param completionHandler Callback to accept documents.
- */
-+ (void)listWithPartition:(NSString *)partition
-             documentType:(Class)documentType
-              readOptions:(MSReadOptions *_Nullable)readOptions
-        completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler;
-
-/**
  * Create a document in CosmosDB.
  *
  * @param partition The CosmosDB partition key.

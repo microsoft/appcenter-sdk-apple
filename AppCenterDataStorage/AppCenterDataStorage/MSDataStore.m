@@ -19,6 +19,7 @@
 #import "MSDocumentUtils.h"
 #import "MSDocumentWrapperInternal.h"
 #import "MSHttpClient.h"
+#import "MSHttpUtil.h"
 #import "MSPaginatedDocuments.h"
 #import "MSPendingOperation.h"
 #import "MSReadOptions.h"
@@ -119,31 +120,7 @@ static dispatch_once_t onceToken;
         completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler {
   [[MSDataStore sharedInstance] listWithPartition:partition
                                      documentType:documentType
-                                      readOptions:nil
                                 continuationToken:nil
-                                completionHandler:completionHandler];
-}
-
-+ (void)listWithPartition:(NSString *)partition
-             documentType:(Class)documentType
-              readOptions:(MSReadOptions *_Nullable)readOptions
-        completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler {
-  [[MSDataStore sharedInstance] listWithPartition:partition
-                                     documentType:documentType
-                                      readOptions:readOptions
-                                continuationToken:nil
-                                completionHandler:completionHandler];
-}
-
-+ (void)listWithPartition:(NSString *)partition
-             documentType:(Class)documentType
-              readOptions:(MSReadOptions *_Nullable)readOptions
-        continuationToken:(NSString *_Nullable)continuationToken
-        completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler {
-  [[MSDataStore sharedInstance] listWithPartition:partition
-                                     documentType:documentType
-                                      readOptions:readOptions
-                                continuationToken:continuationToken
                                 completionHandler:completionHandler];
 }
 
@@ -207,6 +184,18 @@ static dispatch_once_t onceToken;
                                          documentId:documentId
                                        writeOptions:writeOptions
                                   completionHandler:completionHandler];
+}
+
+#pragma mark - Static internal
+
++ (void)listWithPartition:(NSString *)partition
+             documentType:(Class)documentType
+        continuationToken:(NSString *_Nullable)continuationToken
+        completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler {
+  [[MSDataStore sharedInstance] listWithPartition:partition
+                                     documentType:documentType
+                                continuationToken:continuationToken
+                                completionHandler:completionHandler];
 }
 
 #pragma mark - MSDataStore Implementation
@@ -364,7 +353,6 @@ static dispatch_once_t onceToken;
 
 - (void)listWithPartition:(NSString *)partition
              documentType:(Class)documentType
-              readOptions:(MSReadOptions *_Nullable)readOptions
         continuationToken:(nullable NSString *)continuationToken
         completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler {
 
@@ -395,8 +383,9 @@ static dispatch_once_t onceToken;
           performCosmosDbOperationWithPartition:partition
                                      documentId:nil
                                      httpMethod:kMSHttpMethodGet
-                                           body:nil
+                                       document:nil
                               additionalHeaders:additionalHeaders
+                              additionalUrlPath:nil
                               completionHandler:^(NSData *_Nullable data, NSHTTPURLResponse *_Nullable response,
                                                   NSError *_Nullable cosmosDbError) {
                                 // If not OK.
@@ -442,7 +431,6 @@ static dispatch_once_t onceToken;
                                          initWithPage:page
                                             partition:partition
                                          documentType:documentType
-                                          readOptions:readOptions
                                     continuationToken:[response allHeaderFields][kMSDocumentContinuationTokenHeaderKey]];
                                 completionHandler(documents);
                               }];
@@ -453,10 +441,11 @@ static dispatch_once_t onceToken;
 #pragma mark - CosmosDB operation implementations
 
 - (void)performCosmosDbOperationWithPartition:(NSString *)partition
-                                   documentId:(NSString *)documentId
+                                   documentId:(NSString *_Nullable)documentId
                                    httpMethod:(NSString *)httpMethod
-                                         body:(NSData *_Nullable)body
-                            additionalHeaders:(NSDictionary *)additionalHeaders
+                                     document:(id<MSSerializableDocument> _Nullable)document
+                            additionalHeaders:(NSDictionary *_Nullable)additionalHeaders
+                            additionalUrlPath:(NSString *_Nullable)additionalUrlPath
                             completionHandler:(MSHttpRequestCompletionHandler)completionHandler {
   [MSTokenExchange
       performDbTokenAsyncOperationWithHttpClient:(id<MSHttpClientProtocol>)self.httpClient
@@ -469,13 +458,30 @@ static dispatch_once_t onceToken;
                                    completionHandler(nil, nil, error);
                                    return;
                                  }
+
                                  [MSCosmosDb performCosmosDbAsyncOperationWithHttpClient:(MSHttpClient * _Nonnull) self.httpClient
                                                                              tokenResult:(MSTokenResult *)tokensResponse.tokens.firstObject
                                                                               documentId:documentId
                                                                               httpMethod:httpMethod
-                                                                                    body:body
+                                                                                document:document
                                                                        additionalHeaders:additionalHeaders
-                                                                       completionHandler:completionHandler];
+                                                                       additionalUrlPath:additionalUrlPath
+                                                                       completionHandler:^(NSData *_Nullable data,
+                                                                                           NSHTTPURLResponse *_Nullable response,
+                                                                                           NSError *_Nullable cosmosDbError) {
+                                                                         if (!cosmosDbError &&
+                                                                             ![MSHttpUtil isSuccessStatusCode:response.statusCode]) {
+                                                                           cosmosDbError = [[NSError alloc]
+                                                                               initWithDomain:kMSDataStorageErrorDomain
+                                                                                         code:MSACDataStoreErrorHTTPError
+                                                                                     userInfo:@{
+                                                                                       NSLocalizedDescriptionKey :
+                                                                                           kMSACDataStoreCosmosDbErrorResponseDesc,
+                                                                                       kMSCosmosDbHttpCodeKey : @(response.statusCode)
+                                                                                     }];
+                                                                         }
+                                                                         completionHandler(data, response, cosmosDbError);
+                                                                       }];
                                }];
 }
 
@@ -486,8 +492,9 @@ static dispatch_once_t onceToken;
   [self performCosmosDbOperationWithPartition:partition
                                    documentId:documentId
                                    httpMethod:kMSHttpMethodGet
-                                         body:nil
+                                     document:nil
                             additionalHeaders:nil
+                            additionalUrlPath:documentId
                             completionHandler:^(NSData *_Nullable data, NSHTTPURLResponse *_Nullable __unused response,
                                                 NSError *_Nullable cosmosDbError) {
                               // If not created.
@@ -523,8 +530,9 @@ static dispatch_once_t onceToken;
   [self performCosmosDbOperationWithPartition:partition
                                    documentId:documentId
                                    httpMethod:kMSHttpMethodPost
-                                         body:body
+                                     document:(id<MSSerializableDocument>)document
                             additionalHeaders:additionalHeaders
+                            additionalUrlPath:nil
                             completionHandler:^(NSData *_Nullable data, NSHTTPURLResponse *_Nullable __unused response,
                                                 NSError *_Nullable cosmosDbError) {
                               // If not created.
@@ -548,8 +556,9 @@ static dispatch_once_t onceToken;
   [self performCosmosDbOperationWithPartition:partition
                                    documentId:documentId
                                    httpMethod:kMSHttpMethodDelete
-                                         body:nil
+                                     document:nil
                             additionalHeaders:nil
+                            additionalUrlPath:documentId
                             completionHandler:^(NSData *_Nullable __unused responseBody, NSHTTPURLResponse *_Nullable __unused response,
                                                 NSError *_Nullable cosmosDbError) {
                               // Body returned from call (data) is empty.
