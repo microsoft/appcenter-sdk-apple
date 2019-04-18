@@ -42,7 +42,8 @@ NS_ENUM(NSInteger){MSACDataStoreErrorJSONSerializationFailed = -620000,
                    MSACDataStoreInvalidClassCode = -620005,
                    MSACDataStoreDontCache = -620006,
                    MSACDataStoreLocalStoreError = -620007,
-                   MSACDataStoreDocumentIdError = -620008};
+                   MSACDataStoreDocumentIdError = -620008,
+                   MSACDataStoreInvalidPartitionError = -620009};
 
 // Error descriptions.
 static NSString const *kMSACDataStoreInvalidClassDesc =

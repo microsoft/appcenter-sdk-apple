@@ -1078,7 +1078,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // When
   __block MSPaginatedDocuments *testDocuments;
-  [self.sut listWithPartition:@"partition"
+  [self.sut listWithPartition:@"user"
                  documentType:[MSDictionaryDocument class]
             continuationToken:nil
             completionHandler:^(MSPaginatedDocuments *_Nonnull documents) {
@@ -1165,7 +1165,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // When
   __block MSPaginatedDocuments *testDocuments;
-  [self.sut listWithPartition:@"partition"
+  [self.sut listWithPartition:@"user"
                  documentType:[MSDictionaryDocument class]
             continuationToken:nil
             completionHandler:^(MSPaginatedDocuments *_Nonnull documents) {
