@@ -651,7 +651,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   XCTAssertEqualObjects(expectedURLString, [actualURL absoluteString]);
 }
 
-- (void)testPerformCosmosDbAsyncOperationWithNullDocumentId {
+- (void)testPerformCosmosDbAsyncOperationWithNilDocumentId {
 
   // If
   MSHttpClient *httpClient = OCMClassMock([MSHttpClient class]);
