@@ -14,13 +14,14 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
     
     static let allValues = [Default, NoCache, TwoSeconds, Infinite]
   }
+  
   var documentId: String?
   var documentTimeToLive: String? = TimeToLiveMode.Default.rawValue
   var userDocumentAddPropertiesSection: EventPropertiesTableSection!
 
   var appCenter: AppCenterDelegate!
   let userType: String = MSStorageViewController.StorageType.User.rawValue
-  var documentContent: [MSDocumentWrapper<TestDocument>]?
+  var documentContent: MSDocumentWrapper<TestDocument>?
   private var kUserDocumentAddPropertiesSectionIndex: Int = 0
   private var timeToLiveModePicker: MSEnumPicker<TimeToLiveMode>?
 
@@ -120,13 +121,34 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
     if documentType == userType && indexPath.section == kUserDocumentAddPropertiesSectionIndex {
       return userDocumentAddPropertiesSection.tableView(tableView, cellForRowAt:indexPath)
     } else if documentType == userType && indexPath.section == 1 {
+      timeToLiveField.isHidden = true
       let cell = tableView.dequeueReusableCell(withIdentifier: "save", for: indexPath)
       let saveButton: UIButton? = cell.getSubview()
       saveButton?.addTarget(self, action: #selector(saveButtonClicked), for: .touchUpInside)
       return cell
-    } else{
+    } else if documentContent != nil {
       let cell = tableView.dequeueReusableCell(withIdentifier: "property", for: indexPath)
-      cell.textLabel?.text = "\(String(describing: Array(documentContent!)[indexPath.row].documentId)) : \(String(describing: Array(documentContent!)[indexPath.row].jsonValue))"
+      var cellText = ""
+      switch indexPath.row {
+        case 0:
+          cellText = "Document ID: " + (String(describing:documentContent?.documentId))
+        break
+        case 1:
+          cellText = "Partion: " + (String(describing:documentContent?.lastUpdatedDate))
+        break
+      case 2:
+          cellText = "Date: " + (String(describing:documentContent?.lastUpdatedDate))
+        break
+        case 3:
+          cellText = "Document content: " + (String(describing:documentContent?.jsonValue))
+        break
+      default:
+        cellText = "nil"
+      }
+      cell.textLabel?.text = cellText
+      return cell
+    } else {
+      let cell = tableView.dequeueReusableCell(withIdentifier: "read", for: indexPath)
       return cell
     }
   }
@@ -134,6 +156,19 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
   func saveButtonClicked(_ sender: UIButton) {
     self.saveFile()
     self.presentingViewController?.dismiss(animated: true, completion: nil)
+  }
+  
+  func convertTimeToLiveConstantToValue(_ constValue : String) -> Int {
+    switch constValue {
+      case TimeToLiveMode.Infinite.rawValue:
+      return -1
+      case TimeToLiveMode.NoCache.rawValue:
+      return 0
+      case TimeToLiveMode.TwoSeconds.rawValue:
+      return 2000
+    default:
+      return 60 * 60 * 24
+    }
   }
   
   func saveFile() {
@@ -156,7 +191,7 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
       }
     }
     let document = TestDocument.init(from: prop)
-    appCenter.createDocumentWithPartition(MSStorageViewController.StorageType.User.rawValue, documentId: docIdField.text!, document: document, writeOptions: MSWriteOptions.init(deviceTimeToLive: 12))
+    appCenter.createDocumentWithPartition(MSStorageViewController.StorageType.User.rawValue, documentId: docIdField.text!, document: document, writeOptions: MSWriteOptions.init(deviceTimeToLive: convertTimeToLiveConstantToValue(self.documentTimeToLive!)))
     //todo add new file to list
 //        MSStorageViewController.UserDocuments.append(docIdField.text!)
   }

@@ -169,7 +169,11 @@ class MSStorageViewController: UIViewController, UITableViewDelegate, UITableVie
     if isInsertRow(indexPath) {
       self.performSegue(withIdentifier: "ShowDocumentDetails", sender: "")
     } else {
-      self.performSegue(withIdentifier: "ShowDocumentDetails", sender: cell?.textLabel?.text)
+      if self.storageType == StorageType.App.rawValue {
+        self.performSegue(withIdentifier: "ShowDocumentDetails", sender: MSStorageViewController.AppDocuments[indexPath.row])
+      } else {
+        self.performSegue(withIdentifier: "ShowDocumentDetails", sender: MSStorageViewController.UserDocuments[indexPath.row - 1])
+      }
     }
   }
   
