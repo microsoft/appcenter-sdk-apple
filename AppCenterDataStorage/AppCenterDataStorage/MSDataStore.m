@@ -279,6 +279,7 @@ static dispatch_once_t onceToken;
       completionHandler([[MSDocumentWrapper alloc] initWithError:error documentId:documentId]);
       return;
     }
+
     // Perform deletion.
     dispatch_async(self.dispatchQueue, ^{
       [self.dataOperationProxy performOperation:kMSPendingOperationDelete
