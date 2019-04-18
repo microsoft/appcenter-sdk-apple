@@ -9,9 +9,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MSPaginatedDocuments ()
 
 // Read-only.
-@property(nonatomic, copy, readonly, nullable) NSString *partition;
-@property(nonatomic, readonly, nullable) Class documentType;
-@property(nonatomic, readonly, nullable) MSReadOptions *readOptions;
+@property(nonatomic, copy, readonly) NSString *partition;
+@property(nonatomic, readonly) Class documentType;
 
 // Read-write (to implement pagination).
 @property(nonatomic) MSPage *currentPage;

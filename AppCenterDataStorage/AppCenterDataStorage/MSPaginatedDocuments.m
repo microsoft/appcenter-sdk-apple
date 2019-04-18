@@ -30,7 +30,7 @@
 }
 
 - (instancetype)initWithPage:(MSPage *)page {
-  return [self initWithPage:page partition:nil documentType:nil continuationToken:nil];
+  return [self initWithPage:page partition:@"" documentType:[NSObject class] continuationToken:nil];
 }
 
 - (instancetype)initWithError:(MSDataSourceError *)error {
