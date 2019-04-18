@@ -517,6 +517,22 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   XCTAssertEqualObjects(error.userInfo[kMSCosmosDbHttpCodeKey], @(400));
 }
 
+- (void)testDocumentUrlWithUnecnodedDocumentId {
+
+  // If
+  MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
+
+  // When
+  NSString *testDocumentUnencoded = @"Test Document";
+  NSString *testDocumentEncoded = @"Test%20Document";
+  NSString *testResult = [MSCosmosDb documentUrlWithTokenResult:tokenResult documentId:testDocumentUnencoded];
+
+  // Then
+  XCTAssertNotNil(testResult);
+  XCTAssertFalse([testResult containsString:testDocumentUnencoded]);
+  XCTAssertTrue([testResult containsString:testDocumentEncoded]);
+}
+
 - (void)testPerformCosmosDbAsyncOperationWithHttpClientWithAdditionalParams {
 
   // If

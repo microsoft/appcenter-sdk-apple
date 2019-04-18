@@ -46,7 +46,7 @@ static NSString *const kMSDocumentDbAuthorizationHeaderFormat = @"type=master&ve
 /**
  * Url character set to skip(utf8 encoding).
  */
-static NSString *const kMSUrlCharactersToEscape = @"!*'();:@&=+$,/?%#[]";
+static NSString *const kMSUrlCharactersToEscape = @"!*'();:@&=+$,/?%#[] ";
 
 /**
  * RFC1123 locale.
@@ -118,9 +118,9 @@ static NSString *const kMSHeaderMsDate = @"x-ms-date";
 + (NSString *)documentBaseUrlWithDatabaseName:(NSString *)databaseName
                                collectionName:(NSString *)collectionName
                                    documentId:(NSString *_Nullable)documentId {
-  NSString *dbUrlSuffix = [NSString stringWithFormat:kMSDocumentDbDatabaseUrlSuffix, databaseName];
-  NSString *dbCollectionUrlSuffix = [NSString stringWithFormat:kMSDocumentDbCollectionUrlSuffix, collectionName];
-  NSString *dbDocumentId = documentId ? [NSString stringWithFormat:@"/%@", documentId] : @"";
+  NSString *dbUrlSuffix = [NSString stringWithFormat:kMSDocumentDbDatabaseUrlSuffix, [MSCosmosDb encodeUrl:databaseName]];
+  NSString *dbCollectionUrlSuffix = [NSString stringWithFormat:kMSDocumentDbCollectionUrlSuffix, [MSCosmosDb encodeUrl:collectionName]];
+  NSString *dbDocumentId = documentId ? [NSString stringWithFormat:@"/%@", [MSCosmosDb encodeUrl:(NSString *)documentId]] : @"";
   return [NSString stringWithFormat:@"%@/%@/%@%@", dbUrlSuffix, dbCollectionUrlSuffix, kMSDocumentDbDocumentUrlPrefix, dbDocumentId];
 }
 
