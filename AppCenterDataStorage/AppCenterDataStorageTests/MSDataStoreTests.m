@@ -575,31 +575,6 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   XCTAssertTrue(completionHandlerCalled);
   XCTAssertEqualObjects(nil, actualDataHttpData);
   XCTAssertEqualObjects(expectedURLString, [actualURL absoluteString]);
-
-  // If
-  NSDictionary *dic = @{@"foo" : @"bar"};
-  __block NSData *data = [NSJSONSerialization dataWithJSONObject:dic options:0 error:nil];
-  mockDoc = [[MSMockDocument alloc] initFromDictionary:dic];
-
-  // When
-  [MSCosmosDb performCosmosDbAsyncOperationWithHttpClient:httpClient
-                                              tokenResult:tokenResult
-                                               documentId:kMSDocumentIdTest
-                                               httpMethod:kMSHttpMethodGet
-                                                 document:mockDoc
-                                        additionalHeaders:nil
-                                        additionalUrlPath:kMSDocumentIdTest
-                                        completionHandler:handler];
-  NSError *error;
-  NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:(NSData *)actualDataHttpData options:0 error:&error];
-  NSDictionary *document = dictionary[@"document"];
-  NSData *actualDocumentAsData = [NSJSONSerialization dataWithJSONObject:document options:0 error:nil];
-
-  // Then
-  XCTAssertTrue(completionHandlerCalled);
-  XCTAssertNotNil(actualDataHttpData);
-  XCTAssertEqualObjects(actualDocumentAsData, data);
-  XCTAssertEqualObjects(expectedURLString, [actualURL absoluteString]);
 }
 
 - (void)testPerformCosmosDbAsyncOperationWithValidDocument {
