@@ -344,7 +344,7 @@
 
 
 - (void)deleteDocumentWithPartition:(NSString * _Nonnull)partitionName documentId:(NSString * _Nonnull)documentId {
-  [MSDataStore deleteWithPartition:partitionName documentId:documentId completionHandler:^(MSDocumentWrapper * _Nonnull document) {
+  [MSDataStore deleteDocumentWithPartition:partitionName documentId:documentId completionHandler:^(MSDocumentWrapper * _Nonnull document) {
     if (document != nil) {
       NSLog(@"Storage.delete document with id %@ succeeded", documentId);
     } else {
