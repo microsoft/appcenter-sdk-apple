@@ -328,13 +328,11 @@
   [MSDataStore listWithPartition:partitionName documentType:documentType completionHandler:completionHandler];
 }
 
-- (void)createDocumentWithPartition:(NSString *_Nonnull)partitionName
-                                   withDocumentId:(NSString *_Nonnull)documentId
-                                   withDocument:(TestDocument *_Nonnull)document
-                                   withWriteOptions:(MSWriteOptions *_Nonnull)writeOptions {
+- (void)createDocumentWithPartition:(NSString * _Nonnull)partitionName documentId:(NSString * _Nonnull)documentId document:(TestDocument * _Nonnull)document writeOptions:(MSWriteOptions * _Nonnull)writeOptions {
   [MSDataStore createWithPartition:partitionName
                         documentId:documentId
                           document:document
+                      writeOptions:writeOptions
                  completionHandler:^(MSDocumentWrapper *_Nonnull document) {
                    if (document) {
                      NSLog(@"Storage.create document with id %@ succeeded", documentId);
@@ -344,8 +342,9 @@
                  }];
 }
 
-- (void)deleteDocumentWithPartition:(NSString *_Nonnull)partitionName withDocumentId:(NSString *_Nonnull)documentId {
-  [MSDataStore deleteDocumentWithPartition:partitionName documentId:documentId completionHandler:^(MSDocumentWrapper * _Nonnull document) {
+
+- (void)deleteDocumentWithPartition:(NSString * _Nonnull)partitionName documentId:(NSString * _Nonnull)documentId {
+  [MSDataStore deleteWithPartition:partitionName documentId:documentId completionHandler:^(MSDocumentWrapper * _Nonnull document) {
     if (document != nil) {
       NSLog(@"Storage.delete document with id %@ succeeded", documentId);
     } else {
@@ -354,7 +353,8 @@
   }];
 }
 
-- (void)replaceDocumentWithPartition:(NSString *_Nonnull)partitionName withDocumentId:(NSString *_Nonnull)documentId withDocument:(TestDocument *_Nonnull)document {
+
+- (void)replaceDocumentWithPartition:(NSString * _Nonnull)partitionName documentId:(NSString * _Nonnull)documentId document:(TestDocument * _Nonnull)document {
   [MSDataStore replaceWithPartition:partitionName
                          documentId:documentId
                            document:document
