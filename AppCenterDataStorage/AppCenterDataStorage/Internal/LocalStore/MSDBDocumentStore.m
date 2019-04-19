@@ -211,26 +211,30 @@ static const NSUInteger kMSSchemaVersion = 1;
 
   // Create object of MSPendingOperation for each row.
   for (id row in result) {
-    NSString *documentId = row[0][self.documentIdColumnIndex];
-    NSString *partition = row[0][self.partitionColumnIndex];
+    NSString *documentId = row[self.documentIdColumnIndex];
+    NSString *partition = row[self.partitionColumnIndex];
 
     // If the document is expired, log a message and delete it.
-    NSDate *expirationTime = [MSUtility dateFromISO8601:row[0][self.expirationTimeColumnIndex]];
-    NSDate *currentDate = [NSDate date];
-    if ([expirationTime laterDate:currentDate] == currentDate) {
+    NSNumber *ttlNumber = row[self.expirationTimeColumnIndex];
+    long expirationTime = [ttlNumber longValue];
+    if ([MSPendingOperation isExpiredWithExpirationTime:expirationTime]) {
       [self deleteWithToken:token documentId:documentId];
-      MSLogInfo([MSDataStore logTag], @"Document expired and removed from local cache: partition: %@, documentId: %@", partition,
-                documentId);
+      MSLogInfo([MSDataStore logTag], @"Document expired. Deleted from local cache: partition: %@, documentId: %@", partition, documentId);
       continue;
     }
 
+    // Convert documetn json string to dictionary.
+    NSString *documetnJsonString = row[self.documentColumnIndex];
+    NSData *data = [documetnJsonString dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary *documentDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+
     // TODO: verify that * 1000 for the expirationTime is valid.
-    MSPendingOperation *pendingOperation = [[MSPendingOperation alloc] initWithOperation:row[0][self.operationTimeColumnIndex]
+    MSPendingOperation *pendingOperation = [[MSPendingOperation alloc] initWithOperation:row[self.pendingOperationColumnIndex]
                                                                                partition:partition
                                                                               documentId:documentId
-                                                                                document:result[0][self.documentColumnIndex]
-                                                                                    etag:row[0][self.eTagColumnIndex]
-                                                                          expirationTime:[expirationTime timeIntervalSince1970] * 1000];
+                                                                                document:documentDictionary
+                                                                                    etag:row[self.eTagColumnIndex]
+                                                                          expirationTime:[ttlNumber doubleValue]];
     [pendingDocuments addObject:pendingOperation];
   }
   return pendingDocuments;

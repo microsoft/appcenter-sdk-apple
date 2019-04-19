@@ -15,7 +15,7 @@
 - (instancetype)initWithOperation:(NSString *)operation
                         partition:(NSString *)partition
                        documentId:(NSString *)documentId
-                         document:(NSString *)document
+                         document:(NSDictionary *)document
                              etag:(NSString *)etag
                    expirationTime:(NSTimeInterval)expirationTime {
   if ((self = [super init])) {
@@ -29,7 +29,7 @@
   return self;
 }
 
-- (long)getDeviceTimeToLiveFromOperation {
+- (NSInteger)deviceTimeToLiveFromOperation {
   long deviceTimeToLive = kMSDataStoreTimeToLiveNoCache;
   if (self.expirationTime == kMSDataStoreTimeToLiveInfinite) {
     deviceTimeToLive = kMSDataStoreTimeToLiveInfinite;
@@ -41,6 +41,18 @@
     }
   }
   return deviceTimeToLive;
+}
+
++ (BOOL)isExpiredWithExpirationTime:(NSInteger)time {
+
+  // Check if expiration time is infinit.
+  if (time == kMSDataStoreTimeToLiveInfinite) {
+    return NO;
+  }
+
+  // Compare expiration time with now.
+  NSTimeInterval now = NSDate.timeIntervalSinceReferenceDate + NSTimeIntervalSince1970;
+  return time <= now;
 }
 
 @end

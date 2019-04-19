@@ -21,9 +21,9 @@
 @property(nonatomic, strong) NSString *documentId;
 
 /**
- * Document as string.
+ * Document as dictionary.
  */
-@property(nonatomic, strong) NSString *document;
+@property(nonatomic, strong) NSDictionary *document;
 
 /**
  * Document etag.
@@ -41,7 +41,7 @@
  * @param operation Pending operation.
  * @param partition Document partition.
  * @param documentId Document Id.
- * @param document Document object as string.
+ * @param document Document object as dictionary.
  * @param etag Document etag.
  * @param expirationTime Document expiration time.
  *
@@ -50,10 +50,24 @@
 - (instancetype)initWithOperation:(NSString *)operation
                         partition:(NSString *)partition
                        documentId:(NSString *)documentId
-                         document:(NSString *)document
+                         document:(NSDictionary *)document
                              etag:(NSString *)etag
                    expirationTime:(NSTimeInterval)expirationTime;
 
-- (long)getDeviceTimeToLiveFromOperation;
+/**
+ * Get Time to live time of the operation.
+ *
+ * @return Time to live of the operaiotn.
+ */
+- (NSInteger)deviceTimeToLiveFromOperation;
+
+/**
+ * Indicate if time is expired.
+ *
+ * @param time Time to be checked.
+ *
+ * @return YES is time is expired.
+ */
++ (BOOL)isExpiredWithExpirationTime:(NSInteger)time;
 
 @end

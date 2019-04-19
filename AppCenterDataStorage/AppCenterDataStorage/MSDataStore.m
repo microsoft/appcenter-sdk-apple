@@ -76,8 +76,6 @@ static dispatch_once_t onceToken;
   if ((self = [super init])) {
     _tokenExchangeUrl = (NSURL *)[NSURL URLWithString:kMSDefaultApiUrl];
 
-    // Listen to network events.
-    [MS_NOTIFICATION_CENTER addObserver:self selector:@selector(networkStateChanged:) name:kMSReachabilityChangedNotification object:nil];
     // FIXME: move that to document store (task #60212)
     _dispatchQueue = dispatch_queue_create(kMSDataStoreDispatchQueue, DISPATCH_QUEUE_SERIAL);
     _dataOperationProxy = [[MSDataOperationProxy alloc] initWithDocumentStore:[MSDBDocumentStore new]
@@ -163,11 +161,11 @@ static dispatch_once_t onceToken;
                     document:(id<MSSerializableDocument>)document
                 writeOptions:(MSWriteOptions *_Nullable)writeOptions
            completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
-  [self replaceWithPartition:partition
-                  documentId:documentId
-                    document:document
-                writeOptions:writeOptions
-           completionHandler:completionHandler];
+  [[MSDataStore sharedInstance] replaceWithPartition:partition
+                                          documentId:documentId
+                                            document:document
+                                        writeOptions:writeOptions
+                                   completionHandler:completionHandler];
 }
 
 + (void)deleteWithPartition:(NSString *)partition
@@ -628,6 +626,9 @@ static dispatch_once_t onceToken;
   if (appSecret) {
     self.httpClient = [MSHttpClient new];
   }
+
+  // Listen to network events.
+  [MS_NOTIFICATION_CENTER addObserver:self selector:@selector(networkStateChanged:) name:kMSReachabilityChangedNotification object:nil];
   MSLogVerbose([MSDataStore logTag], @"Started Data Storage service.");
 }
 
@@ -676,20 +677,14 @@ static dispatch_once_t onceToken;
 #pragma mark - Reachability
 
 - (void)networkStateChanged:(NSNotificationCenter *)__unused notification {
-  [self networkStateChanged];
-}
 
-- (void)networkStateChanged {
+  // Network status change event.
   if ([[MS_Reachability reachabilityForInternetConnection] currentReachabilityStatus] == NotReachable) {
-    MSLogInfo([MSAppCenter logTag], @"Internet connection is down.");
-    [self onNetworkGoesOffline];
+    MSLogInfo([MSDataStore logTag], @"Network connection is off.");
   } else {
-    MSLogInfo([MSAppCenter logTag], @"Internet connection is up.");
+    MSLogInfo([MSDataStore logTag], @"Network connection is on.");
     [self onNetworkGoesOnline];
   }
-}
-
-- (void)onNetworkGoesOffline {
 }
 
 - (void)onNetworkGoesOnline {
@@ -709,19 +704,28 @@ static dispatch_once_t onceToken;
 
                                    // Run the operation in a dispatch queue.
                                    dispatch_async(self.dispatchQueue, ^{
+                                     // Get pending operations.
                                      NSArray<MSPendingOperation *> *pendingOperations =
                                          [self.dataOperationProxy.documentStore pendingOperationsWithToken:tokenResponses.tokens[0]];
+
+                                     // Process pending operations.
                                      for (MSPendingOperation *operation in pendingOperations) {
                                        MSWriteOptions *writeOptions =
-                                           [[MSWriteOptions alloc] initWithDeviceTimeToLive:operation.getDeviceTimeToLiveFromOperation];
+                                           [[MSWriteOptions alloc] initWithDeviceTimeToLive:[operation deviceTimeToLiveFromOperation]];
                                        if ([operation.operation isEqualToString:kMSPendingOperationCreate] ||
                                            [operation.operation isEqualToString:kMSPendingOperationReplace]) {
+
+                                         // Get the document as dictionary.
+                                         NSDictionary *dic = [MSDocumentUtils documentPayloadWithDocumentId:(NSString *)operation.documentId
+                                                                                                  partition:tokenResponses.tokens[0].token
+                                                                                                   document:operation.document];
+                                         MSDictionaryDocument *dictionaryDocument = [[MSDictionaryDocument alloc] initFromDictionary:dic];
 
                                          // Perform create and update operation
                                          [MSDataStore
                                              replaceWithPartition:(NSString *)operation.partition
                                                        documentId:(NSString *)operation.documentId
-                                                         document:(id<MSSerializableDocument>)operation.document
+                                                         document:dictionaryDocument
                                                      writeOptions:(MSWriteOptions * _Nullable) writeOptions
                                                 completionHandler:^(MSDocumentWrapper *documentWrapper) {
                                                   if (!documentWrapper.error) {
@@ -757,7 +761,7 @@ static dispatch_once_t onceToken;
                                              deleteWithPartition:(NSString *)operation.partition
                                                       documentId:(NSString *)operation.documentId
                                                     writeOptions:(MSWriteOptions * _Nullable) writeOptions
-                                               completionHandler:(MSDocumentWrapperCompletionHandler) ^(MSDocumentWrapper *
+                                               completionHandler:(MSDocumentWrapperCompletionHandler) ^ (MSDocumentWrapper *
                                                                                                          documentWrapper) {
                                                  if (!documentWrapper.error) {
                                                    [self.dataOperationProxy.documentStore deleteWithToken:tokenResponses.tokens[0]
@@ -779,6 +783,7 @@ static dispatch_once_t onceToken;
                                          MSLogError([MSDataStore logTag], @"Pending operation '%@' is not supported", operation.operation);
                                        }
                                      }
+                                     return;
                                    });
                                  }];
   }
