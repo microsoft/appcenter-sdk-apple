@@ -168,7 +168,10 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
                                               [completeExpectation fulfill];
                                             }];
   [self waitForExpectationsWithTimeout:5
-                               handler:^(__unused NSError *error){
+                               handler:^(NSError *error) {
+                                 if (error) {
+                                   XCTFail(@"Failed with error: %@ due to timeout.", error);
+                                 }
                                }];
   [contextInstanceMock stopMocking];
 }
@@ -215,8 +218,11 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
                                               XCTAssertEqual(returnError.code, MSACDataStoreInvalidTokenExchangeResponse);
                                               [completeExpectation fulfill];
                                             }];
-  [self waitForExpectationsWithTimeout:5
-                               handler:^(__unused NSError *error){
+  [self waitForExpectationsWithTimeout:0
+                               handler:^(NSError *error) {
+                                 if (error) {
+                                   XCTFail(@"Failed with error: %@ due to timeout.", error);
+                                 }
                                }];
   [contextInstanceMock stopMocking];
 }
