@@ -23,7 +23,7 @@ static MSUserNotificationCenterDelegateForwarder *sharedInstance = nil;
   // TODO test the forwarder on macOS.
   // Register selectors to swizzle (iOS 10+).
 #if !TARGET_OS_OSX
-  if ([[MSUserNotificationCenterDelegateForwarder sharedInstance] originalClassForSetDelegate]) {
+  if(@available(iOS 10, *)){
     [[MSUserNotificationCenterDelegateForwarder sharedInstance]
         addDelegateSelectorToSwizzle:@selector(userNotificationCenter:willPresentNotification:withCompletionHandler:)];
     [[MSUserNotificationCenterDelegateForwarder sharedInstance]
@@ -48,26 +48,15 @@ static MSUserNotificationCenterDelegateForwarder *sharedInstance = nil;
   sharedInstance = [self new];
 }
 
-- (Class)originalClassForSetDelegate {
-
-  // TODO Use @available API when deprecating Xcode 8.
-  return NSClassFromString(@"UNUserNotificationCenter");
-}
-
 - (dispatch_once_t *)swizzlingOnceToken {
   return &swizzlingOnceToken;
 }
 
 #pragma mark - Custom Application
 
-#pragma clang diagnostic push
-
 #if !TARGET_OS_OSX
 
-// TODO Use @available API and availability attribute when deprecating Xcode 8 then we can try removing these pragma.
-#pragma clang diagnostic ignored "-Wpartial-availability"
-
-- (void)custom_setDelegate:(id<UNUserNotificationCenterDelegate>)delegate {
+- (void)custom_setDelegate:(id<UNUserNotificationCenterDelegate>)delegate API_AVAILABLE(ios(10.0)) {
 
   // Swizzle only once.
   static dispatch_once_t delegateSwizzleOnceToken;
@@ -87,7 +76,7 @@ static MSUserNotificationCenterDelegateForwarder *sharedInstance = nil;
 
 - (void)custom_userNotificationCenter:(UNUserNotificationCenter *)center
               willPresentNotification:(UNNotification *)notification
-                withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler {
+                withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler API_AVAILABLE(ios(10.0)) {
   IMP originalImp = NULL;
 
   /*
@@ -111,7 +100,7 @@ static MSUserNotificationCenterDelegateForwarder *sharedInstance = nil;
 
 - (void)custom_userNotificationCenter:(UNUserNotificationCenter *)center
        didReceiveNotificationResponse:(UNNotificationResponse *)response
-                withCompletionHandler:(void (^)(void))completionHandler {
+                withCompletionHandler:(void (^)(void))completionHandler API_AVAILABLE(ios(10.0)) {
   IMP originalImp = NULL;
 
   /*
@@ -132,8 +121,6 @@ static MSUserNotificationCenterDelegateForwarder *sharedInstance = nil;
     completionHandler();
   }
 }
-
-#pragma clang diagnostic pop
 
 #endif
 
