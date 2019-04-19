@@ -244,14 +244,14 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 }
 
 - (void)testReplaceWithPartitionGoldenPath {
-  
+
   // If
   XCTestExpectation *expectation = [self expectationWithDescription:@"Replace with partition completed"];
   id<MSSerializableDocument> mockSerializableDocument = [MSFakeSerializableDocument new];
   __block BOOL completionHandlerCalled = NO;
   __block MSDocumentWrapper *actualDocumentWrapper;
   MSTokenResult *testToken = [self mockTokenFetchingWithError:nil];
-  
+
   // Mock CosmosDB requests.
   NSData *testCosmosDbResponse = [self jsonFixture:@"validTestDocument"];
   OCMStub([self.cosmosDbMock performCosmosDbAsyncOperationWithHttpClient:OCMOCK_ANY
@@ -967,6 +967,24 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   NSInteger expectedErrorCode = MSACDataStoreErrorJSONSerializationFailed;
   __block MSDataSourceError *actualError;
 
+  XCTestExpectation *expectation = [self expectationWithDescription:@"Create with partition completes with error."];
+  MSTokenResult *testToken = [self mockTokenFetchingWithError:nil];
+
+  // Mock CosmosDB requests.
+  OCMStub([self.cosmosDbMock performCosmosDbAsyncOperationWithHttpClient:OCMOCK_ANY
+                                                             tokenResult:testToken
+                                                              documentId:kMSDocumentIdTest
+                                                              httpMethod:kMSHttpMethodPost
+                                                                document:mockSerializableDocument
+                                                       additionalHeaders:OCMOCK_ANY
+                                                       additionalUrlPath:OCMOCK_ANY
+                                                       completionHandler:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        MSHttpRequestCompletionHandler cosmosdbOperationCallback;
+        [invocation getArgument:&cosmosdbOperationCallback atIndex:9];
+        cosmosdbOperationCallback(nil, [self generateResponseWithStatusCode:MSHTTPCodesNo200OK], nil);
+      });
+
   // When
   [MSDataStore createWithPartition:kMSPartitionTest
                         documentId:kMSDocumentIdTest
@@ -974,14 +992,21 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                  completionHandler:^(MSDocumentWrapper *data) {
                    completionHandlerCalled = YES;
                    actualError = data.error;
+                   [expectation fulfill];
                  }];
 
   // Then
-  XCTAssertTrue(completionHandlerCalled);
-  XCTAssertNotNil(actualError);
-  XCTAssertNotNil(actualError.error);
-  XCTAssertEqual(actualError.error.domain, expectedErrorDomain);
-  XCTAssertEqual(actualError.error.code, expectedErrorCode);
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                                 XCTAssertTrue(completionHandlerCalled);
+                                 XCTAssertNotNil(actualError);
+                                 XCTAssertNotNil(actualError.error);
+                                 XCTAssertEqual(actualError.error.domain, expectedErrorDomain);
+                                 XCTAssertEqual(actualError.error.code, expectedErrorCode);
+                               }];
 }
 
 - (void)testCreateWithPartitionWhenDeserializationFails {
