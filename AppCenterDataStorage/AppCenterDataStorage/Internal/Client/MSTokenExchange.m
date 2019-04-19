@@ -31,7 +31,7 @@ static NSString *const kMSGetTokenPath = @"/data/tokens";
                                          appSecret:(NSString *)appSecret
                                          partition:(NSString *)partition
                                includeExpiredToken:(BOOL)includeExpiredToken
-                                      reachability:(MS_Reachability *) reachability
+                                      reachability:(MS_Reachability *)reachability
                                  completionHandler:(MSGetTokenAsyncCompletionHandler)completionHandler {
   if (![MSTokenExchange isValidPartitionName:partition]) {
     MSLogError([MSDataStore logTag], @"Can't perform token exchange because partition name %@ is invalid.", partition);
