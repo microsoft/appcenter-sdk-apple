@@ -4,8 +4,10 @@
 #import "MSCosmosDb.h"
 #import "AppCenter+Internal.h"
 #import "MSConstants+Internal.h"
+#import "MSDataStorageConstants.h"
 #import "MSDataStoreErrors.h"
 #import "MSDataStoreInternal.h"
+#import "MSDocumentUtils.h"
 #import "MSTokenResult.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -44,7 +46,7 @@ static NSString *const kMSDocumentDbAuthorizationHeaderFormat = @"type=master&ve
 /**
  * Url character set to skip(utf8 encoding).
  */
-static NSString *const kMSUrlCharactersToEscape = @"!*'();:@&=+$,/?%#[]";
+static NSString *const kMSUrlCharactersToEscape = @"!*'();:@&=+$,/?%#[] ";
 
 /**
  * RFC1123 locale.
@@ -116,9 +118,9 @@ static NSString *const kMSHeaderMsDate = @"x-ms-date";
 + (NSString *)documentBaseUrlWithDatabaseName:(NSString *)databaseName
                                collectionName:(NSString *)collectionName
                                    documentId:(NSString *_Nullable)documentId {
-  NSString *dbUrlSuffix = [NSString stringWithFormat:kMSDocumentDbDatabaseUrlSuffix, databaseName];
-  NSString *dbCollectionUrlSuffix = [NSString stringWithFormat:kMSDocumentDbCollectionUrlSuffix, collectionName];
-  NSString *dbDocumentId = documentId ? [NSString stringWithFormat:@"/%@", documentId] : @"";
+  NSString *dbUrlSuffix = [NSString stringWithFormat:kMSDocumentDbDatabaseUrlSuffix, [MSCosmosDb encodeUrl:databaseName]];
+  NSString *dbCollectionUrlSuffix = [NSString stringWithFormat:kMSDocumentDbCollectionUrlSuffix, [MSCosmosDb encodeUrl:collectionName]];
+  NSString *dbDocumentId = documentId ? [NSString stringWithFormat:@"/%@", [MSCosmosDb encodeUrl:(NSString *)documentId]] : @"";
   return [NSString stringWithFormat:@"%@/%@/%@%@", dbUrlSuffix, dbCollectionUrlSuffix, kMSDocumentDbDocumentUrlPrefix, dbDocumentId];
 }
 
@@ -133,14 +135,64 @@ static NSString *const kMSHeaderMsDate = @"x-ms-date";
                                         tokenResult:(MSTokenResult *)tokenResult
                                          documentId:(NSString *_Nullable)documentId
                                          httpMethod:(NSString *)httpMethod
-                                               body:(NSData *_Nullable)body
+                                           document:(id<MSSerializableDocument> _Nullable)document
                                   additionalHeaders:(NSDictionary *_Nullable)additionalHeaders
+                                  additionalUrlPath:(NSString *_Nullable)additionalUrlPath
                                   completionHandler:(MSHttpRequestCompletionHandler)completionHandler {
+  NSData *body = nil;
+  if (document) {
+
+    // Check for document id.
+    if (!documentId) {
+      MSLogError([MSDataStore logTag], @"Can't perform CosmodDb operation without document id.");
+      NSError *error = [[NSError alloc] initWithDomain:kMSACDataStoreErrorDomain
+                                                  code:MSACDataStoreDocumentIdError
+                                              userInfo:@{NSLocalizedDescriptionKey : kMSACDocumentCreationDesc}];
+      completionHandler(nil, nil, error);
+      return;
+    }
+
+    // Get the document as dictionary.
+    NSDictionary *dic = [MSDocumentUtils documentPayloadWithDocumentId:(NSString *)documentId
+                                                             partition:tokenResult.partition
+                                                              document:(NSDictionary *)[document serializeToDictionary]];
+    // Serialize document
+    NSError *serializationError;
+    body = [NSJSONSerialization dataWithJSONObject:dic options:0 error:&serializationError];
+    if (!body || serializationError) {
+      MSLogError([MSDataStore logTag], @"Error serializing data:%@", [serializationError localizedDescription]);
+      completionHandler(nil, nil, serializationError);
+      return;
+    }
+  }
+
+  // Create http request.
   NSDictionary *httpHeaders = [MSCosmosDb defaultHeaderWithPartition:tokenResult.partition
                                                              dbToken:tokenResult.token
                                                    additionalHeaders:additionalHeaders];
-  NSURL *sendURL = (NSURL *)[NSURL URLWithString:[MSCosmosDb documentUrlWithTokenResult:tokenResult documentId:documentId]];
+  NSURL *sendURL = (NSURL *)[NSURL URLWithString:[MSCosmosDb documentUrlWithTokenResult:tokenResult
+                                                                             documentId:(NSString *)additionalUrlPath]];
   [httpClient sendAsync:sendURL method:httpMethod headers:httpHeaders data:body completionHandler:completionHandler];
+}
+
++ (NSError *)cosmosDbErrorWithResponse:(NSHTTPURLResponse *_Nullable)response underlyingError:(NSError *_Nullable)error {
+
+  // Prepare user info properties.
+  NSMutableDictionary *userInfo = [NSMutableDictionary new];
+  userInfo[NSLocalizedDescriptionKey] = kMSACDataStoreCosmosDbErrorResponseDesc;
+  if (response) {
+    userInfo[kMSCosmosDbHttpCodeKey] = @(response.statusCode);
+  } else if (error.userInfo[kMSCosmosDbHttpCodeKey]) {
+    userInfo[kMSCosmosDbHttpCodeKey] = error.userInfo[kMSCosmosDbHttpCodeKey];
+  } else {
+    userInfo[kMSCosmosDbHttpCodeKey] = @(MSHTTPCodesNo0XXInvalidUnknown);
+  }
+  if (error) {
+    userInfo[NSUnderlyingErrorKey] = error;
+  }
+
+  // Return the error.
+  return [[NSError alloc] initWithDomain:kMSACDataStoreErrorDomain code:MSACDataStoreErrorHTTPError userInfo:userInfo];
 }
 
 @end

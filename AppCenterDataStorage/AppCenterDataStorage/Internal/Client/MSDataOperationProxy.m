@@ -76,7 +76,8 @@
               currentCachedDocument:cachedDocument
                   newCachedDocument:remoteDocument
                    deviceTimeToLive:deviceTimeToLive
-                          operation:operation];
+                          // For online scenarios, the intended pending operation in the local store is nil.
+                          operation:nil];
         }
         completionHandler(remoteDocument);
       });

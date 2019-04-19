@@ -61,6 +61,9 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
     }
   }
   [MSIdentity setConfigUrl:kMSIntConfigUrl];
+  [MSDataStore setTokenExchangeUrl:kMSIntTokenExchangeUrl];
+  [MSDistribute setApiUrl:kMSIntApiUrl];
+  [MSDistribute setInstallUrl:kMSIntInstallUrl];
 #endif
 
 // Customize App Center SDK.
