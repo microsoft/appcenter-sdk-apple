@@ -303,7 +303,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   XCTAssertNotNil(actualDataSourceError.error);
   XCTAssertEqual(actualDataSourceError.error.domain, kMSACErrorDomain);
   XCTAssertEqual(actualDataSourceError.error.code, MSACDisabledErrorCode);
-  XCTAssertEqual(actualDataSourceError.errorCode, MSACDocumentUnknownErrorCode);
+  XCTAssertEqual(actualDataSourceError.errorCode, MSHTTPCodesNo0XXInvalidUnknown);
 }
 
 - (void)testListWhenDataModuleDisabled {
@@ -335,7 +335,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   XCTAssertNotNil(actualPaginatedDocuments.currentPage.error.error);
   XCTAssertEqual(actualPaginatedDocuments.currentPage.error.error.domain, kMSACErrorDomain);
   XCTAssertEqual(actualPaginatedDocuments.currentPage.error.error.code, MSACDisabledErrorCode);
-  XCTAssertEqual(actualPaginatedDocuments.currentPage.error.errorCode, MSACDocumentUnknownErrorCode);
+  XCTAssertEqual(actualPaginatedDocuments.currentPage.error.errorCode, MSHTTPCodesNo0XXInvalidUnknown);
 }
 
 - (void)testListWithInvalidDocumentType {
@@ -436,6 +436,101 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   XCTAssertTrue([testResult containsString:kMSDbAccountTest]);
   XCTAssertTrue([testResult containsString:kMSDbNameTest]);
   XCTAssertTrue([testResult containsString:kMSDbCollectionNameTest]);
+}
+
+- (void)testGetCosmosDbErrorWithNilEverything {
+
+  // If
+  NSError *error;
+
+  // When
+  error = [MSCosmosDb cosmosDbErrorWithResponse:nil underlyingError:nil];
+
+  // Then
+  XCTAssertEqualObjects(error.domain, kMSACDataStoreErrorDomain);
+  XCTAssertEqual(error.code, MSACDataStoreErrorHTTPError);
+  XCTAssertNil(error.userInfo[NSUnderlyingErrorKey]);
+  XCTAssertEqualObjects(error.userInfo[kMSCosmosDbHttpCodeKey], @(MSHTTPCodesNo0XXInvalidUnknown));
+}
+
+- (void)testGetCosmosDbErrorWithNilResponseAndError {
+
+  // If
+  NSError *incomingError = [[NSError alloc] initWithDomain:@"domain" code:0 userInfo:@{}];
+  NSError *error;
+
+  // When
+  error = [MSCosmosDb cosmosDbErrorWithResponse:nil underlyingError:incomingError];
+
+  // Then
+  XCTAssertEqualObjects(error.domain, kMSACDataStoreErrorDomain);
+  XCTAssertEqual(error.code, MSACDataStoreErrorHTTPError);
+  XCTAssertEqualObjects(error.userInfo[NSUnderlyingErrorKey], incomingError);
+  XCTAssertEqualObjects(error.userInfo[kMSCosmosDbHttpCodeKey], @(MSHTTPCodesNo0XXInvalidUnknown));
+}
+
+- (void)testGetCosmosDbErrorWithNilResponseAndErrorContainingHTTPCode {
+
+  // If
+  NSError *incomingError = [[NSError alloc] initWithDomain:@"domain" code:0 userInfo:@{kMSCosmosDbHttpCodeKey : @(123)}];
+  NSError *error;
+
+  // When
+  error = [MSCosmosDb cosmosDbErrorWithResponse:nil underlyingError:incomingError];
+
+  // Then
+  XCTAssertEqualObjects(error.domain, kMSACDataStoreErrorDomain);
+  XCTAssertEqual(error.code, MSACDataStoreErrorHTTPError);
+  XCTAssertEqualObjects(error.userInfo[NSUnderlyingErrorKey], incomingError);
+  XCTAssertEqualObjects(error.userInfo[kMSCosmosDbHttpCodeKey], @(123));
+}
+
+- (void)testGetCosmosDbErrorWithResponseAndNilError {
+
+  // If
+  NSError *error;
+
+  // When
+  error = [MSCosmosDb cosmosDbErrorWithResponse:[MSHttpTestUtil createMockResponseForStatusCode:400 headers:nil] underlyingError:nil];
+
+  // Then
+  XCTAssertEqualObjects(error.domain, kMSACDataStoreErrorDomain);
+  XCTAssertEqual(error.code, MSACDataStoreErrorHTTPError);
+  XCTAssertNil(error.userInfo[NSUnderlyingErrorKey]);
+  XCTAssertEqualObjects(error.userInfo[kMSCosmosDbHttpCodeKey], @(400));
+}
+
+- (void)testGetCosmosDbErrorWithResponseAndErrorNotValidScenario {
+
+  // If
+  NSError *incomingError = [[NSError alloc] initWithDomain:@"domain" code:0 userInfo:@{kMSCosmosDbHttpCodeKey : @(123)}];
+  NSError *error;
+
+  // When
+  error = [MSCosmosDb cosmosDbErrorWithResponse:[MSHttpTestUtil createMockResponseForStatusCode:400 headers:nil]
+                                underlyingError:incomingError];
+
+  // Then
+  XCTAssertEqualObjects(error.domain, kMSACDataStoreErrorDomain);
+  XCTAssertEqual(error.code, MSACDataStoreErrorHTTPError);
+  XCTAssertEqualObjects(error.userInfo[NSUnderlyingErrorKey], incomingError);
+  XCTAssertEqualObjects(error.userInfo[kMSCosmosDbHttpCodeKey], @(400));
+}
+
+- (void)testDocumentUrlWithUnecnodedDocumentId {
+
+  // If
+  MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
+
+  // When
+  NSString *testDocumentUnencoded = @"Test Document";
+  NSString *testDocumentEncoded = @"Test%20Document";
+  NSString *testResult = [MSCosmosDb documentUrlWithTokenResult:tokenResult documentId:testDocumentUnencoded];
+
+  // Then
+  XCTAssertNotNil(testResult);
+  XCTAssertFalse([testResult containsString:testDocumentUnencoded]);
+  XCTAssertTrue([testResult containsString:testDocumentEncoded]);
 }
 
 - (void)testPerformCosmosDbAsyncOperationWithHttpClientWithAdditionalParams {
@@ -670,57 +765,6 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   XCTAssertEqual(blockError.code, MSACDataStoreDocumentIdError);
 }
 
-- (void)testPerformCosmosDbOperationWithPartitionWithErrorResponseWithoutError {
-
-  // If
-  XCTestExpectation *expectation = [self expectationWithDescription:@"Received an error code from Cosmos DB"];
-  __block NSError *actualError;
-  __block NSHTTPURLResponse *actualResponse;
-  MSTokenResult *testToken = [self mockTokenFetchingWithError:nil];
-
-  // Mock CosmosDB requests.
-  OCMStub([self.cosmosDbMock performCosmosDbAsyncOperationWithHttpClient:OCMOCK_ANY
-                                                             tokenResult:testToken
-                                                              documentId:kMSDocumentIdTest
-                                                              httpMethod:kMSHttpMethodPost
-                                                                document:OCMOCK_ANY
-                                                       additionalHeaders:OCMOCK_ANY
-                                                       additionalUrlPath:OCMOCK_ANY
-                                                       completionHandler:OCMOCK_ANY])
-      .andDo(^(NSInvocation *invocation) {
-        MSHttpRequestCompletionHandler cosmosdbOperationCallback;
-        [invocation getArgument:&cosmosdbOperationCallback atIndex:9];
-        cosmosdbOperationCallback(nil, [self generateResponseWithStatusCode:MSHTTPCodesNo400BadRequest], nil);
-      });
-
-  // When
-  [self.sut performCosmosDbOperationWithPartition:kMSPartitionTest
-                                       documentId:kMSDocumentIdTest
-                                       httpMethod:kMSHttpMethodPost
-                                         document:nil
-                                additionalHeaders:nil
-                                additionalUrlPath:nil
-                                completionHandler:^(NSData *_Nullable responseBody, NSHTTPURLResponse *_Nullable response,
-                                                    NSError *_Nullable error) {
-                                  XCTAssertNil(responseBody);
-                                  actualResponse = response;
-                                  actualError = error;
-                                  [expectation fulfill];
-                                }];
-
-  // Then
-  [self waitForExpectationsWithTimeout:1
-                               handler:^(NSError *error) {
-                                 if (error) {
-                                   XCTFail(@"Expectation Failed with error: %@", error);
-                                 }
-                                 XCTAssertNotNil(actualResponse);
-                                 XCTAssertNotNil(actualError);
-                                 XCTAssertEqual(actualResponse.statusCode, MSHTTPCodesNo400BadRequest);
-                                 XCTAssertEqual([actualError.userInfo[kMSCosmosDbHttpCodeKey] integerValue], MSHTTPCodesNo400BadRequest);
-                               }];
-}
-
 - (void)testCreateWithPartitionGoldenPath {
 
   // If
@@ -807,7 +851,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   XCTestExpectation *expectation = [self expectationWithDescription:@"Create with partition completed"];
   id<MSSerializableDocument> mockSerializableDocument = [MSFakeSerializableDocument new];
   __block BOOL completionHandlerCalled = NO;
-  NSInteger expectedResponseCode = MSACDocumentInternalServerErrorErrorCode;
+  NSInteger expectedResponseCode = MSHTTPCodesNo500InternalServerError;
   NSError *expectedCosmosDbError = [NSError errorWithDomain:kMSACErrorDomain
                                                        code:0
                                                    userInfo:@{kMSCosmosDbHttpCodeKey : @(expectedResponseCode)}];
@@ -846,7 +890,11 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
                                  XCTAssertTrue(completionHandlerCalled);
-                                 XCTAssertEqualObjects(actualError.error, expectedCosmosDbError);
+                                 XCTAssertEqualObjects(actualError.error.domain, kMSACDataStoreErrorDomain);
+                                 XCTAssertEqual(actualError.error.code, MSACDataStoreErrorHTTPError);
+                                 XCTAssertEqualObjects(actualError.error.userInfo[NSUnderlyingErrorKey], expectedCosmosDbError);
+                                 XCTAssertEqualObjects(actualError.error.userInfo[kMSCosmosDbHttpCodeKey],
+                                                       @(MSHTTPCodesNo500InternalServerError));
                                  XCTAssertEqual(actualError.errorCode, expectedResponseCode);
                                }];
 }
@@ -905,7 +953,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   // If
   XCTestExpectation *expectation = [self expectationWithDescription:@"Delete with partition completed"];
   __block BOOL completionHandlerCalled = NO;
-  NSInteger expectedResponseCode = MSACDocumentSucceededErrorCode;
+  NSInteger expectedResponseCode = MSHTTPCodesNo200OK;
   __block NSInteger actualResponseCode;
   MSTokenResult *testToken = [self mockTokenFetchingWithError:nil];
   OCMStub([self.cosmosDbMock performCosmosDbAsyncOperationWithHttpClient:OCMOCK_ANY
@@ -977,7 +1025,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   // If
   XCTestExpectation *expectation = [self expectationWithDescription:@"Delete with partition completed"];
   __block BOOL completionHandlerCalled = NO;
-  NSInteger expectedResponseCode = MSACDocumentInternalServerErrorErrorCode;
+  NSInteger expectedResponseCode = MSHTTPCodesNo500InternalServerError;
   NSError *expectedCosmosDbError = [NSError errorWithDomain:kMSACErrorDomain
                                                        code:0
                                                    userInfo:@{kMSCosmosDbHttpCodeKey : @(expectedResponseCode)}];
@@ -1015,7 +1063,11 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
                                  XCTAssertTrue(completionHandlerCalled);
-                                 XCTAssertEqualObjects(actualError.error, expectedCosmosDbError);
+                                 XCTAssertEqualObjects(actualError.error.domain, kMSACDataStoreErrorDomain);
+                                 XCTAssertEqual(actualError.error.code, MSACDataStoreErrorHTTPError);
+                                 XCTAssertEqualObjects(actualError.error.userInfo[NSUnderlyingErrorKey], expectedCosmosDbError);
+                                 XCTAssertEqualObjects(actualError.error.userInfo[kMSCosmosDbHttpCodeKey],
+                                                       @(MSHTTPCodesNo500InternalServerError));
                                  XCTAssertEqual(actualError.errorCode, expectedResponseCode);
                                }];
 }
@@ -1078,7 +1130,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // When
   __block MSPaginatedDocuments *testDocuments;
-  [self.sut listWithPartition:@"partition"
+  [self.sut listWithPartition:@"user"
                  documentType:[MSDictionaryDocument class]
             continuationToken:nil
             completionHandler:^(MSPaginatedDocuments *_Nonnull documents) {
@@ -1165,7 +1217,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // When
   __block MSPaginatedDocuments *testDocuments;
-  [self.sut listWithPartition:@"partition"
+  [self.sut listWithPartition:@"user"
                  documentType:[MSDictionaryDocument class]
             continuationToken:nil
             completionHandler:^(MSPaginatedDocuments *_Nonnull documents) {
