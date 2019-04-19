@@ -72,7 +72,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
     }
 
     // Start App Center SDK.
-    let services = [MSAnalytics.self, MSCrashes.self, MSDataStore<MSSerializableDocument>.self, MSDistribute.self, MSIdentity.self, MSPush.self]
+    let services = [MSAnalytics.self, MSCrashes.self, MSDistribute.self, MSIdentity.self, MSPush.self]
     let appSecret = UserDefaults.standard.string(forKey: kMSAppSecret) ?? kMSSwiftAppSecret
     let startTarget = StartupMode(rawValue: UserDefaults.standard.integer(forKey: kMSStartTargetKey))!
     switch startTarget {
@@ -157,7 +157,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
    * @return `YES` if the delegate successfully handled the request or `NO` if the attempt to open the URL resource
    * failed.
    */
-    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
+  func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
     // Forward the URL.
     return MSDistribute.open(url) && MSIdentity.open(url)
   }
