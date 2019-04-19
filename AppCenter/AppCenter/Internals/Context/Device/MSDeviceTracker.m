@@ -143,15 +143,10 @@ static MSDeviceTracker *sharedInstance = nil;
     CTCarrier *carrier;
 
     // TODO Use @available API and availability attribute when deprecating Xcode 8.
-    SEL serviceSubscriberCellularProviders = NSSelectorFromString(@"serviceSubscriberCellularProviders");
-    if ([telephonyNetworkInfo respondsToSelector:serviceSubscriberCellularProviders]) {
-
-      // Call serviceSubscriberCellularProviders.
+    if(@available(iOS 12, *)){
+      SEL serviceSubscriberCellularProviders = NSSelectorFromString(@"serviceSubscriberCellularProviders");
       NSInvocation *invocation =
-          [NSInvocation invocationWithMethodSignature:[telephonyNetworkInfo methodSignatureForSelector:serviceSubscriberCellularProviders]];
-      [invocation setSelector:serviceSubscriberCellularProviders];
-      [invocation setTarget:telephonyNetworkInfo];
-      [invocation invoke];
+                [NSInvocation invocationWithMethodSignature:[telephonyNetworkInfo methodSignatureForSelector:serviceSubscriberCellularProviders]];
       void *returnValue;
       [invocation getReturnValue:&returnValue];
       NSDictionary<NSString *, CTCarrier *> *carriers = (__bridge NSDictionary<NSString *, CTCarrier *> *)returnValue;
