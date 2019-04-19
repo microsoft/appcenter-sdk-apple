@@ -27,6 +27,7 @@
 #import "MSTokenResult.h"
 #import "MSTokensResponse.h"
 #import "NSObject+MSTestFixture.h"
+#import "MS_Reachability.h"
 
 @interface MSFakeSerializableDocument : NSObject <MSSerializableDocument>
 - (instancetype)initFromDictionary:(NSDictionary *)dictionary;
@@ -52,7 +53,7 @@
 @property(nonatomic) id settingsMock;
 @property(nonatomic) id tokenExchangeMock;
 @property(nonatomic) id cosmosDbMock;
-
+@property(nonatomic) MS_Reachability *reachabilityMock;
 @end
 
 @implementation MSDataStoreTests
@@ -79,6 +80,10 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                         appSecret:kMSTestAppSecret
           transmissionTargetToken:nil
                   fromApplication:YES];
+   
+   // Simulate being online.
+//   self.reachabilityMock = OCMPartialMock([MS_Reachability reachabilityForInternetConnection]);
+//   OCMStub([self.reachabilityMock currentReachabilityStatus]).andReturn(ReachableViaWiFi);
 }
 
 - (void)tearDown {
