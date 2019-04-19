@@ -37,7 +37,7 @@ static NSString *const kMSGetTokenPath = @"/data/tokens";
     NSError *error =
         [[NSError alloc] initWithDomain:kMSACDataStoreErrorDomain
                                    code:MSACDataStoreInvalidPartitionError
-                               userInfo:@{ NSLocalizedDescriptionKey : [NSString stringWithFormat:@"Invalid partition name %@", partition] }];
+                               userInfo:@{NSLocalizedDescriptionKey : [NSString stringWithFormat:@"Invalid partition name %@", partition]}];
     completionHandler([[MSTokensResponse alloc] initWithTokens:nil], error);
     return;
   }
@@ -51,7 +51,7 @@ static NSString *const kMSGetTokenPath = @"/data/tokens";
 
     // Serialize payload.
     NSError *jsonError;
-    NSData *payloadData = [NSJSONSerialization dataWithJSONObject:@{ kMSPartitions : @[ partition ] } options:0 error:&jsonError];
+    NSData *payloadData = [NSJSONSerialization dataWithJSONObject:@{kMSPartitions : @[ partition ]} options:0 error:&jsonError];
 
     // Call token exchange service.
     NSMutableDictionary *headers = [NSMutableDictionary new];
@@ -109,7 +109,7 @@ static NSString *const kMSGetTokenPath = @"/data/tokens";
             NSError *errorResponse = [[NSError alloc]
                 initWithDomain:kMSACDataStoreErrorDomain
                           code:MSACDataStoreInvalidTokenExchangeResponse
-                      userInfo:@{ NSLocalizedDescriptionKey : [NSString stringWithFormat:@"Invalid token exchange service response."] }];
+                      userInfo:@{NSLocalizedDescriptionKey : [NSString stringWithFormat:@"Invalid token exchange service response."]}];
             completionHandler([[MSTokensResponse alloc] initWithTokens:nil], errorResponse);
             return;
           }
