@@ -319,7 +319,7 @@ class AppCenterDelegateSwift: AppCenterDelegate {
   }
   
   func deleteDocumentWithPartition(_ partitionName: String, documentId: String) {
-    MSDataStore<TestDocument>.delete(withPartition: partitionName, documentId: documentId) { document in
+    MSDataStore<MSDictionaryDocument>.delete(withPartition: partitionName, documentId: documentId) { document in
       print("Storage.delete document with id \(documentId) succeeded")
     }
   }
