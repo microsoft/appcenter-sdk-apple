@@ -159,10 +159,10 @@ static dispatch_once_t onceToken;
                 writeOptions:(MSWriteOptions *_Nullable)writeOptions
            completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
   [[MSDataStore sharedInstance] replaceWithPartition:partition
-                  documentId:documentId
-                    document:document
-                writeOptions:writeOptions
-           completionHandler:completionHandler];
+                                          documentId:documentId
+                                            document:document
+                                        writeOptions:writeOptions
+                                   completionHandler:completionHandler];
 }
 
 + (void)deleteWithPartition:(NSString *)partition
