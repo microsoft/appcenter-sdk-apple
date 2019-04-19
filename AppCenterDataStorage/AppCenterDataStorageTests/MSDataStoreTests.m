@@ -25,6 +25,7 @@
 #import "MSTokenExchange.h"
 #import "MSTokenResult.h"
 #import "MSTokensResponse.h"
+#import "MS_Reachability.h"
 #import "NSObject+MSTestFixture.h"
 
 @interface MSDataStoreTests : XCTestCase
@@ -33,7 +34,6 @@
 @property(nonatomic) id settingsMock;
 @property(nonatomic) id tokenExchangeMock;
 @property(nonatomic) id cosmosDbMock;
-
 @end
 
 @implementation MSDataStoreTests
@@ -1122,6 +1122,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                                                    appSecret:OCMOCK_ANY
                                                                    partition:OCMOCK_ANY
                                                          includeExpiredToken:YES
+                                                                reachability:OCMOCK_ANY
                                                            completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         [invocation getArgument:&actualUrl atIndex:3];
@@ -1381,10 +1382,11 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                                                    appSecret:OCMOCK_ANY
                                                                    partition:kMSPartitionTest
                                                          includeExpiredToken:YES
+                                                                reachability:OCMOCK_ANY
                                                            completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         MSGetTokenAsyncCompletionHandler getTokenCallback;
-        [invocation getArgument:&getTokenCallback atIndex:7];
+        [invocation getArgument:&getTokenCallback atIndex:8];
         getTokenCallback(testTokensResponse, nil);
       });
 
@@ -1718,10 +1720,11 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                                                    appSecret:OCMOCK_ANY
                                                                    partition:kMSPartitionTest
                                                          includeExpiredToken:NO
+                                                                reachability:OCMOCK_ANY
                                                            completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         MSGetTokenAsyncCompletionHandler getTokenCallback;
-        [invocation getArgument:&getTokenCallback atIndex:7];
+        [invocation getArgument:&getTokenCallback atIndex:8];
         getTokenCallback(error ? nil : testTokensResponse, error);
       });
   OCMStub([self.tokenExchangeMock performDbTokenAsyncOperationWithHttpClient:OCMOCK_ANY
@@ -1729,10 +1732,11 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                                                    appSecret:OCMOCK_ANY
                                                                    partition:kMSPartitionTest
                                                          includeExpiredToken:YES
+                                                                reachability:OCMOCK_ANY
                                                            completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         MSGetTokenAsyncCompletionHandler getTokenCallback;
-        [invocation getArgument:&getTokenCallback atIndex:7];
+        [invocation getArgument:&getTokenCallback atIndex:8];
         getTokenCallback(error ? nil : testTokensResponse, error);
       });
   return testToken;
