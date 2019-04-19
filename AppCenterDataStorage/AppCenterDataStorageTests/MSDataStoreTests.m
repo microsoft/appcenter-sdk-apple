@@ -500,7 +500,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   XCTAssertEqualObjects(error.userInfo[kMSCosmosDbHttpCodeKey], @(400));
 }
 
-- (void)testGetCosmosDbErrorWithResponseAndError_NotValidScenario {
+- (void)testGetCosmosDbErrorWithResponseAndErrorNotValidScenario {
 
   // If
   NSError *incomingError = [[NSError alloc] initWithDomain:@"domain" code:0 userInfo:@{kMSCosmosDbHttpCodeKey : @(123)}];

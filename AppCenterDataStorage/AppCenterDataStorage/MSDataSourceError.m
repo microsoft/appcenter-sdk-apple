@@ -20,6 +20,7 @@
 }
 
 + (NSInteger)errorCodeFromError:(NSError *)error {
+
   // Try to extract the error from the user info dictionary.
   if (error.userInfo[kMSCosmosDbHttpCodeKey]) {
     return [(NSNumber *)error.userInfo[kMSCosmosDbHttpCodeKey] integerValue];
