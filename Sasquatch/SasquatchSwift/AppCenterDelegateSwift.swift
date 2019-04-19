@@ -306,15 +306,15 @@ class AppCenterDelegateSwift: AppCenterDelegate {
   
   // MSDataStore
   
-  func listDocumentsWithPartition(_ partitionName: String, documentType: AnyClass, completionHandler: MSPaginatedDocumentsCompletionHandler) {
+  func listDocumentsWithPartition(_ partitionName: String, documentType: AnyClass, completionHandler: @escaping (_ paginatedDocuments:MSPaginatedDocuments<MSDictionaryDocument>) -> Void) {
     MSDataStore.list(withPartition: partitionName, documentType: documentType, completionHandler:completionHandler)
   }
   
-  func createDocumentWithPartition(_ partitionName: String, documentId: String, document: MSDictionaryDocument, writeOptions: MSWriteOptions, completionHandler: MSDocumentWrapperCompletionHandler) {
+  func createDocumentWithPartition(_ partitionName: String, documentId: String, document: MSDictionaryDocument, writeOptions: MSWriteOptions, completionHandler: @escaping (_ document:MSDocumentWrapper<MSDictionaryDocument>) -> Void) {
     MSDataStore.create(withPartition: partitionName, documentId: documentId, document: document, writeOptions: writeOptions, completionHandler: completionHandler);
   }
   
-  func replaceDocumentWithPartition(_ partitionName: String, documentId: String, document: MSDictionaryDocument, writeOptions: MSWriteOptions, completionHandler: MSDocumentWrapperCompletionHandler) {
+  func replaceDocumentWithPartition(_ partitionName: String, documentId: String, document: MSDictionaryDocument, writeOptions: MSWriteOptions, completionHandler: @escaping (_ document:MSDocumentWrapper<MSDictionaryDocument>) -> Void) {
     MSDataStore.replace(withPartition: partitionName, documentId: documentId, document: document, writeOptions: writeOptions, completionHandler: completionHandler)
   }
   
