@@ -158,7 +158,7 @@ static dispatch_once_t onceToken;
                     document:(id<MSSerializableDocument>)document
                 writeOptions:(MSWriteOptions *_Nullable)writeOptions
            completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
-  [self replaceWithPartition:partition
+  [[MSDataStore sharedInstance] replaceWithPartition:partition
                   documentId:documentId
                     document:document
                 writeOptions:writeOptions
