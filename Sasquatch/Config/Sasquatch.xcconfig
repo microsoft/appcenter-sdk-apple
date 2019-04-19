@@ -5,7 +5,7 @@ ARCHS[sdk=iphoneos*] = $(PRE_XCODE_10_1_ARCHS) arm64e
 ARCHS[sdk=iphoneos9.*] = $(PRE_XCODE_10_1_ARCHS)
 ARCHS[sdk=iphoneos10.*] = $(PRE_XCODE_10_1_ARCHS)
 ARCHS[sdk=iphoneos11.*] = $(PRE_XCODE_10_1_ARCHS)
-ARCHS[sdk=iphoneos12.0] = $(PRE_XCODE_10_1_ARCHS)
+ARCHS[sdk=iphoneos12.*] = $(PRE_XCODE_10_1_ARCHS)
 PRE_XCODE_10_1_WATCH_ARCHS = armv7k
 ARCHS[sdk=watchos*] = $(PRE_XCODE_10_1_WATCH_ARCHS) arm64_32
 ARCHS[sdk=watchos4.*] = $(PRE_XCODE_10_1_WATCH_ARCHS)
@@ -15,7 +15,7 @@ VALID_ARCHS[sdk=iphoneos*] = $(ARCHS)
 VALID_ARCHS[sdk=iphoneos9.*] = $(ARCHS)
 VALID_ARCHS[sdk=iphoneos10.*] = $(ARCHS)
 VALID_ARCHS[sdk=iphoneos11.*] = $(ARCHS)
-VALID_ARCHS[sdk=iphoneos12.0] = $(ARCHS)
+VALID_ARCHS[sdk=iphoneos12.*] = $(ARCHS)
 VALID_ARCHS[sdk=watchos*] = $(ARCHS)
 VALID_ARCHS[sdk=watchos4.*] = $(ARCHS)
 VALID_ARCHS[sdk=watchos3.*] = $(ARCHS)
@@ -41,7 +41,7 @@ LD_RUNPATH_SEARCH_PATHS = $(inherited) @executable_path/Frameworks
 
 SWIFT_OBJC_BRIDGING_HEADER = Sasquatch/Sasquatch-Bridging-Header.h
 SWIFT_OBJC_INTERFACE_HEADER_NAME = Sasquatch-Swift.h
-SWIFT_VERSION = 3.0
+SWIFT_VERSION = 5.0
 SWIFT_OPTIMIZATION_LEVEL = -Owholemodule
 SWIFT_COMPILATION_MODE = wholemodule
 

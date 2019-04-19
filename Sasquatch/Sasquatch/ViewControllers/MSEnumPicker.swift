@@ -49,7 +49,7 @@ class MSEnumPicker<E: RawRepresentable & Equatable> : NSObject, UIPickerViewData
     startupModePickerView.dataSource = self
     startupModePickerView.delegate = self
     let value = E(rawValue: self.textField.text!)!
-    startupModePickerView.selectRow(self.allValues.index(of: value)!, inComponent: 0, animated: false)
+    startupModePickerView.selectRow(self.allValues.firstIndex(of: value)!, inComponent: 0, animated: false)
     
     let toolbar: UIToolbar? = toolBarForPicker()
     self.textField.inputView = startupModePickerView
@@ -65,7 +65,7 @@ class MSEnumPicker<E: RawRepresentable & Equatable> : NSObject, UIPickerViewData
     return toolbar
   }
   
-  func doneClicked() {
+  @objc func doneClicked() {
     self.textField.resignFirstResponder()
   }
 }
