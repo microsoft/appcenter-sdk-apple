@@ -89,7 +89,7 @@ class MSCustomPropertiesViewController : UITableViewController, AppCenterProtoco
   
   // MARK: - Table view delegate
   
-    override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+  override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
     if isInsertRow(at: indexPath) {
       return .insert
     } else {
@@ -129,7 +129,7 @@ class MSCustomPropertiesViewController : UITableViewController, AppCenterProtoco
     return isPropertiesRowSection(indexPath.section)
   }
   
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+  override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
     if editingStyle == .delete {
       properties.remove(at: indexPath.row - 1)
       tableView.deleteRows(at: [indexPath], with: .automatic)

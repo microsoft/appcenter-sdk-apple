@@ -216,8 +216,8 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
       guard let identifier = tableColumn?.identifier else {
         return nil
       }
-        let view = tableView.makeView(withIdentifier: identifier, owner: nil)
-        if (identifier.rawValue == "value") {
+      let view = tableView.makeView(withIdentifier: identifier, owner: nil)
+      if (identifier.rawValue == "value") {
         let eventProperties = arrayController.content as! [EventProperty]
         updateValue(property: eventProperties[row], cell: view as! NSTableCellView)
       }
@@ -228,7 +228,7 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
 
     // Common schema properties section
     if(tableView.tag == Section.CommonSchemaProperties.rawValue) {
-        if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "property"), owner: nil) as? NSTableCellView {
+      if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "property"), owner: nil) as? NSTableCellView {
         let property = propertyAtRow(row: row)
         switch (row) {
         case kDeviceIdRow:

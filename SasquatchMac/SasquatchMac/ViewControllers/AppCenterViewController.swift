@@ -176,7 +176,7 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate, NSTextVie
       appCenter.setLogUrl(prodLogUrl())
       break
     case NSApplication.ModalResponse.alertSecondButtonReturn:
-        let text = textView.string
+      let text = textView.string
       let logUrl = !text.isEmpty ? text : nil
       UserDefaults.standard.set(logUrl, forKey: kMSLogUrl)
       appCenter.setLogUrl(logUrl)
@@ -209,7 +209,7 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate, NSTextVie
       UserDefaults.standard.removeObject(forKey: kMSAppSecret)
       break
     case NSApplication.ModalResponse.alertSecondButtonReturn:
-        let text = textView.string
+      let text = textView.string
       let appSecret = !text.isEmpty ? text : nil
       if (appSecret != nil) {
         UserDefaults.standard.set(appSecret, forKey: kMSAppSecret)

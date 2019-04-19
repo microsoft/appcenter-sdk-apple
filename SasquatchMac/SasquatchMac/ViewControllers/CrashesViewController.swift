@@ -49,7 +49,7 @@ class CrashesViewController : NSViewController, NSTableViewDataSource, NSTableVi
   @IBAction func browseFileAttachment(_ sender: Any) {
     let openPanel = NSOpenPanel()
     openPanel.begin(completionHandler: { (result) -> Void in
-        let url = result.rawValue == NSApplication.ModalResponse.OK.rawValue && openPanel.url != nil ? openPanel.url : nil
+      let url = result.rawValue == NSApplication.ModalResponse.OK.rawValue && openPanel.url != nil ? openPanel.url : nil
       if url != nil {
         UserDefaults.standard.set(url, forKey: "fileAttachment")
       } else {
@@ -78,10 +78,10 @@ class CrashesViewController : NSViewController, NSTableViewDataSource, NSTableVi
 
   func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
     if isHeader(row: row) {
-        let categoryView = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "crashName"), owner: nil) as! NSTextField
+      let categoryView = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "crashName"), owner: nil) as! NSTextField
       categoryView.stringValue = crashes[row] as! String
       categoryView.alignment = NSTextAlignment.center
-        categoryView.font = NSFontManager.shared.convert(categoryView.font!, toHaveTrait: NSFontTraitMask(rawValue: UInt(NSFontBoldTrait)))
+      categoryView.font = NSFontManager.shared.convert(categoryView.font!, toHaveTrait: NSFontTraitMask(rawValue: UInt(NSFontBoldTrait)))
       return categoryView
     } else {
       switch tableColumn {
