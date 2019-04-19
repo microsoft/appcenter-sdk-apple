@@ -29,6 +29,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property(nonatomic, nullable) id<MSHttpClientProtocol> httpClient;
 
+@property(nonatomic) MS_Reachability *reachability;
+
 /**
  * Data operation proxy instance (for offline/online scenarios).
  */

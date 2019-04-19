@@ -21,34 +21,33 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSDictionary *)documentPayloadWithDocumentId:(NSString *)documentId partition:(NSString *)partition document:(NSDictionary *)document;
 
 /**
- * Test if a reference is a dictionary that has a key of a given type.
- *
- * @param reference The reference to test.
- * @param key The key to look for in the dictionary reference.
- * @param keyType The expected key type.
- */
-+ (BOOL)isReferenceDictionaryWithKey:(nullable id)reference key:(NSString *)key keyType:(Class)keyType;
-
-/**
  * Deserialize a CosmosDB document from data and return a document wrapper (valid or in an error state).
  *
  * @param data Data from which to create the document wrapper.
  * @param documentType The type of document to instantiate.
+ * @param fromDeviceCache Flag indicating if the document wrapper was retrieved remotely or not.
+ *
  * @return Document wrapper (valid or in an error state).
  */
-+ (MSDocumentWrapper *)documentWrapperFromData:(nullable NSData *)data documentType:(Class)documentType;
++ (MSDocumentWrapper *)documentWrapperFromData:(nullable NSData *)data
+                                  documentType:(Class)documentType
+                               fromDeviceCache:(BOOL)fromDeviceCache;
 
 /**
  * Deserialize a CosmosDB document from a dictionary and return a document wrapper (valid or in an error state).
  *
  * @param object Dictionary (expected) from which to create the document wrapper.
  * @param documentType The type of document to instantiate.
+ * @param fromDeviceCache Flag indicating if the document wrapper was retrieved remotely or not.
+ *
  * @return Document wrapper (valid or in an error state).
  */
-+ (MSDocumentWrapper *)documentWrapperFromDictionary:(NSObject *)object documentType:(Class)documentType;
++ (MSDocumentWrapper *)documentWrapperFromDictionary:(NSObject *)object
+                                        documentType:(Class)documentType
+                                     fromDeviceCache:(BOOL)fromDeviceCache;
 
 /**
- * Deserialize a serializable document from json document data.
+ * Deserialize a document from a byte array representing a JSON object.
  *
  * @param data Data from which to create the document wrapper.
  * @param documentType The type of document to instantiate.
@@ -57,6 +56,8 @@ NS_ASSUME_NONNULL_BEGIN
  * @param partition The partition of the document.
  * @param documentId The DocumentId.
  * @param pendingOperation The pending operation, or nil.
+ * @param fromDeviceCache Flag indicating if the document wrapper was retrieved remotely or not.
+ *
  * @return Document wrapper (valid or in an error state).
  */
 + (MSDocumentWrapper *)documentWrapperFromDocumentData:(nullable NSData *)data
@@ -65,7 +66,8 @@ NS_ASSUME_NONNULL_BEGIN
                                        lastUpdatedDate:(NSDate *)lastUpdatedDate
                                              partition:(NSString *)partition
                                             documentId:(NSString *)documentId
-                                      pendingOperation:(nullable NSString *)pendingOperation;
+                                      pendingOperation:(nullable NSString *)pendingOperation
+                                       fromDeviceCache:(BOOL)fromDeviceCache;
 
 /**
  * Check if a given class type implements the `MSSerializableDocument` protocol.
@@ -75,6 +77,17 @@ NS_ASSUME_NONNULL_BEGIN
  * @return YES if the class type implements `MSSerializableDocument`; NO otherwise.
  */
 + (BOOL)isSerializableDocument:(Class)classType;
+
+/**
+ * Test if a reference is a dictionary that has a key of a given type.
+ *
+ * @param reference The reference to test.
+ * @param key The key to look for in the dictionary reference.
+ * @param keyType The expected key type.
+ *
+ * @return YES if the reference is a dictionary with a key of the given type; NO otherwise.
+ */
++ (BOOL)isReferenceDictionaryWithKey:(nullable id)reference key:(NSString *)key keyType:(Class)keyType;
 
 @end
 

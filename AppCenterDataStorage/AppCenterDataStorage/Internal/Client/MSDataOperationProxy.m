@@ -128,7 +128,8 @@
                                                                                              eTag:cachedDocument.eTag
                                                                                   lastUpdatedDate:cachedDocument.lastUpdatedDate
                                                                                  pendingOperation:operation
-                                                                                            error:nil];
+                                                                                            error:nil
+                                                                                  fromDeviceCache:YES];
 
         // Update local store and return document.
         [self updateLocalStore:token
@@ -167,7 +168,8 @@
                                                                                                       eTag:cachedDocument.eTag
                                                                                            lastUpdatedDate:cachedDocument.lastUpdatedDate
                                                                                           pendingOperation:operation
-                                                                                                     error:nil];
+                                                                                                     error:nil
+                                                                                           fromDeviceCache:YES];
 
         // Update local store and return document.
         [self updateLocalStore:token

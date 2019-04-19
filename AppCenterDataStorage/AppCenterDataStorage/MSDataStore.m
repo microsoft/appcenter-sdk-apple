@@ -78,8 +78,8 @@ static dispatch_once_t onceToken;
 
     // FIXME: move that to document store (task #60212)
     _dispatchQueue = dispatch_queue_create(kMSDataStoreDispatchQueue, DISPATCH_QUEUE_SERIAL);
-    _dataOperationProxy = [[MSDataOperationProxy alloc] initWithDocumentStore:[MSDBDocumentStore new]
-                                                                 reachability:[MS_Reachability reachabilityForInternetConnection]];
+    _reachability = [MS_Reachability reachabilityForInternetConnection];
+    _dataOperationProxy = [[MSDataOperationProxy alloc] initWithDocumentStore:[MSDBDocumentStore new] reachability:_reachability];
   }
   return self;
 }
@@ -246,6 +246,7 @@ static dispatch_once_t onceToken;
                                                               appSecret:self.appSecret
                                                               partition:partition
                                                     includeExpiredToken:YES
+                                                           reachability:self.reachability
                                                       completionHandler:handler];
           }
           remoteDocumentBlock:^(MSDocumentWrapperCompletionHandler handler) {
@@ -296,6 +297,7 @@ static dispatch_once_t onceToken;
                                                               appSecret:self.appSecret
                                                               partition:partition
                                                     includeExpiredToken:YES
+                                                           reachability:self.reachability
                                                       completionHandler:handler];
           }
           remoteDocumentBlock:^(MSDocumentWrapperCompletionHandler handler) {
@@ -335,6 +337,7 @@ static dispatch_once_t onceToken;
                                                               appSecret:self.appSecret
                                                               partition:partition
                                                     includeExpiredToken:YES
+                                                           reachability:self.reachability
                                                       completionHandler:handler];
           }
           remoteDocumentBlock:^(MSDocumentWrapperCompletionHandler handler) {
@@ -427,7 +430,9 @@ static dispatch_once_t onceToken;
                                   for (id document in jsonPayload[kMSDocumentsKey]) {
 
                                     // Deserialize document.
-                                    [items addObject:[MSDocumentUtils documentWrapperFromDictionary:document documentType:documentType]];
+                                    [items addObject:[MSDocumentUtils documentWrapperFromDictionary:document
+                                                                                       documentType:documentType
+                                                                                    fromDeviceCache:NO]];
                                   }
 
                                   // Instantiate the first page and return it.
@@ -458,6 +463,7 @@ static dispatch_once_t onceToken;
                                        appSecret:self.appSecret
                                        partition:partition
                              includeExpiredToken:NO
+                                    reachability:self.reachability
                                completionHandler:^(MSTokensResponse *_Nonnull tokensResponse, NSError *_Nonnull error) {
                                  if (error) {
                                    completionHandler(nil, nil, error);
@@ -501,7 +507,9 @@ static dispatch_once_t onceToken;
 
                               // (Try to) deserialize the incoming document.
                               else {
-                                completionHandler([MSDocumentUtils documentWrapperFromData:data documentType:documentType]);
+                                completionHandler([MSDocumentUtils documentWrapperFromData:data
+                                                                              documentType:documentType
+                                                                           fromDeviceCache:NO]);
                               }
                             }];
 }
@@ -541,7 +549,9 @@ static dispatch_once_t onceToken;
                               // (Try to) deserialize saved document.
                               else {
                                 MSLogDebug([MSDataStore logTag], @"Document created/replaced with ID: %@", documentId);
-                                completionHandler([MSDocumentUtils documentWrapperFromData:data documentType:[document class]]);
+                                completionHandler([MSDocumentUtils documentWrapperFromData:data
+                                                                              documentType:[document class]
+                                                                           fromDeviceCache:NO]);
                               }
                             }];
 }
@@ -575,7 +585,8 @@ static dispatch_once_t onceToken;
                                                                                                   eTag:nil
                                                                                        lastUpdatedDate:nil
                                                                                       pendingOperation:nil
-                                                                                                 error:nil]);
+                                                                                                 error:nil
+                                                                                       fromDeviceCache:NO]);
                               }
                             }];
 }
