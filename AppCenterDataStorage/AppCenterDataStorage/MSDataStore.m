@@ -608,6 +608,7 @@ static dispatch_once_t onceToken;
 }
 
 + (void)resetSharedInstance {
+
   // Resets the once_token so dispatch_once will run again.
   onceToken = 0;
   sharedInstance = nil;
@@ -653,6 +654,7 @@ static dispatch_once_t onceToken;
 #pragma mark - MSAuthTokenContextDelegate
 
 - (void)authTokenContext:(MSAuthTokenContext *)__unused authTokenContext didUpdateUserInformation:(MSUserInformation *)userInfomation {
+
   // If user logs in.
   if (userInfomation && userInfomation) {
     [self.dataOperationProxy.documentStore createUserStorageWithAccountId:userInfomation.accountId];

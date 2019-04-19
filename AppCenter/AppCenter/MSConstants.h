@@ -70,7 +70,9 @@ typedef NS_ENUM(NSInteger, MSInitializationPriority) {
 /**
  * Enum with the different HTTP status codes.
  */
-typedef NS_ENUM(NSInteger, MSHTTPCodesNo) { // Invalid
+typedef NS_ENUM(NSInteger, MSHTTPCodesNo) {
+
+  // Invalid
   MSHTTPCodesNo0XXInvalidUnknown = 0,
 
   // Informational
