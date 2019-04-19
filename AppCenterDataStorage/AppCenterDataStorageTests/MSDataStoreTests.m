@@ -243,6 +243,63 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   XCTAssertEqualObjects(actualDocumentWrapper.documentId, kMSDocumentIdTest);
 }
 
+- (void)testReplaceWithPartitionGoldenPath {
+  
+  // If
+  XCTestExpectation *expectation = [self expectationWithDescription:@"Replace with partition completed"];
+  id<MSSerializableDocument> mockSerializableDocument = [MSFakeSerializableDocument new];
+  __block BOOL completionHandlerCalled = NO;
+  __block MSDocumentWrapper *actualDocumentWrapper;
+  MSTokenResult *testToken = [self mockTokenFetchingWithError:nil];
+  
+  // Mock CosmosDB requests.
+  NSData *testCosmosDbResponse = [self jsonFixture:@"validTestDocument"];
+  OCMStub([self.cosmosDbMock performCosmosDbAsyncOperationWithHttpClient:OCMOCK_ANY
+                                                             tokenResult:testToken
+                                                              documentId:kMSDocumentIdTest
+                                                              httpMethod:kMSHttpMethodPost
+                                                                document:mockSerializableDocument
+                                                       additionalHeaders:OCMOCK_ANY
+                                                       additionalUrlPath:OCMOCK_ANY
+                                                       completionHandler:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        MSHttpRequestCompletionHandler cosmosdbOperationCallback;
+        [invocation getArgument:&cosmosdbOperationCallback atIndex:9];
+        cosmosdbOperationCallback(testCosmosDbResponse, [self generateResponseWithStatusCode:MSHTTPCodesNo200OK], nil);
+      });
+
+  // When
+  [MSDataStore createWithPartition:kMSPartitionTest
+                        documentId:kMSDocumentIdTest
+                          document:mockSerializableDocument
+                 completionHandler:^(MSDocumentWrapper *data) {
+                   completionHandlerCalled = YES;
+                   actualDocumentWrapper = data;
+                   [expectation fulfill];
+                 }];
+  id<MSSerializableDocument> replaceMockSerializableDocument = [MSFakeSerializableDocument new];
+  [MSDataStore replaceWithPartition:kMSPartitionTest
+                         documentId:kMSDocumentIdTest
+                           document:replaceMockSerializableDocument
+                  completionHandler:^(MSDocumentWrapper *data) {
+                    completionHandlerCalled = YES;
+                    actualDocumentWrapper = data;
+                    [expectation fulfill];
+                  }];
+
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                                 XCTAssertTrue(completionHandlerCalled);
+                                 XCTAssertNotNil(actualDocumentWrapper.deserializedValue);
+                                 XCTAssertTrue([[actualDocumentWrapper documentId] isEqualToString:@"standalonedocument1"]);
+                                 XCTAssertTrue([[actualDocumentWrapper partition] isEqualToString:@"readonly"]);
+                               }];
+}
+
 - (void)testReplaceWhenDataModuleDisabled {
 
   // If
