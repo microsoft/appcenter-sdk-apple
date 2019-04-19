@@ -705,6 +705,7 @@ static dispatch_once_t onceToken;
                                          appSecret:self.appSecret
                                          partition:kMSDataStoreUserDocumentsPartition
                                includeExpiredToken:NO
+                                      reachability:self.reachability
                                  completionHandler:^(MSTokensResponse *_Nonnull tokenResponses, NSError *_Nonnull error) {
                                    if (error) {
                                      MSLogError([MSDataStore logTag], @"Cannot read from local storage because there is no "
