@@ -551,4 +551,118 @@
                                }];
 }
 
+- (void)testLocalCreateWhenCachedDocumentIsUnserializable {
+
+  // If
+  XCTestExpectation *expectation =
+      [self expectationWithDescription:@"Completed with error on create with unserializable local cached document."];
+  NSErrorDomain expectedErrorDomain = kMSACDataStoreErrorDomain;
+  NSInteger expectedErrorCode = MSACDataStoreErrorJSONSerializationFailed;
+  __block MSDocumentWrapper *cachedDocumentWrapper = [[MSDocumentWrapper alloc] initWithDeserializedValue:[MSDictionaryDocument alloc]
+                                                                                                jsonValue:@""
+                                                                                                partition:@"partition"
+                                                                                               documentId:@"documentId"
+                                                                                                     eTag:@""
+                                                                                          lastUpdatedDate:nil
+                                                                                         pendingOperation:kMSPendingOperationRead
+                                                                                                    error:nil];
+  __block MSDocumentWrapper *wrapper;
+  OCMStub([self.documentStoreMock readWithToken:OCMOCK_ANY documentId:OCMOCK_ANY documentType:OCMOCK_ANY]).andReturn(cachedDocumentWrapper);
+  MSTokenResult *token = [MSTokenResult alloc];
+  __block MSTokensResponse *tokensResponse = [[MSTokensResponse alloc] initWithTokens:@[ token ]];
+
+  // Simulate being offline.
+  OCMStub([self.reachability currentReachabilityStatus]).andReturn(NotReachable);
+
+  // When
+  NSMutableDictionary *dict = [NSMutableDictionary new];
+  dict[@"shouldFail"] = [NSSet set];
+  [self.sut performOperation:kMSPendingOperationCreate
+      documentId:@"documentId"
+      documentType:[NSString class]
+      document:[[MSDictionaryDocument alloc] initFromDictionary:dict]
+      baseOptions:nil
+      cachedTokenBlock:^(MSCachedTokenCompletionHandler _Nonnull handler) {
+        handler(tokensResponse, nil);
+      }
+      remoteDocumentBlock:^(MSDocumentWrapperCompletionHandler _Nonnull __unused handler) {
+      }
+      completionHandler:^(MSDocumentWrapper *_Nonnull document) {
+        wrapper = document;
+        [expectation fulfill];
+      }];
+
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                                 XCTAssertNotNil(wrapper);
+                                 XCTAssertNotNil(wrapper.error);
+                                 XCTAssertNotNil(wrapper.error.error);
+                                 XCTAssertEqual(wrapper.error.error.domain, expectedErrorDomain);
+                                 XCTAssertEqual(wrapper.error.error.code, expectedErrorCode);
+                                 XCTAssertNotEqual(wrapper, cachedDocumentWrapper);
+                                 XCTAssertEqual(wrapper.documentId, cachedDocumentWrapper.documentId);
+                               }];
+}
+
+- (void)testLocalReplaceWhenCachedDocumentIsUnserializable {
+
+  // If
+  XCTestExpectation *expectation =
+      [self expectationWithDescription:@"Completed with error on replace with unserializable local cached document."];
+  NSErrorDomain expectedErrorDomain = kMSACDataStoreErrorDomain;
+  NSInteger expectedErrorCode = MSACDataStoreErrorJSONSerializationFailed;
+  __block MSDocumentWrapper *cachedDocumentWrapper = [[MSDocumentWrapper alloc] initWithDeserializedValue:[MSDictionaryDocument alloc]
+                                                                                                jsonValue:@""
+                                                                                                partition:@"partition"
+                                                                                               documentId:@"documentId"
+                                                                                                     eTag:@""
+                                                                                          lastUpdatedDate:nil
+                                                                                         pendingOperation:kMSPendingOperationRead
+                                                                                                    error:nil];
+  __block MSDocumentWrapper *wrapper;
+  OCMStub([self.documentStoreMock readWithToken:OCMOCK_ANY documentId:OCMOCK_ANY documentType:OCMOCK_ANY]).andReturn(cachedDocumentWrapper);
+  MSTokenResult *token = [MSTokenResult alloc];
+  __block MSTokensResponse *tokensResponse = [[MSTokensResponse alloc] initWithTokens:@[ token ]];
+
+  // Simulate being offline.
+  OCMStub([self.reachability currentReachabilityStatus]).andReturn(NotReachable);
+
+  // When
+  NSMutableDictionary *dict = [NSMutableDictionary new];
+  dict[@"shouldFail"] = [NSSet set];
+  [self.sut performOperation:kMSPendingOperationReplace
+      documentId:@"documentId"
+      documentType:[NSString class]
+      document:[[MSDictionaryDocument alloc] initFromDictionary:dict]
+      baseOptions:nil
+      cachedTokenBlock:^(MSCachedTokenCompletionHandler _Nonnull handler) {
+        handler(tokensResponse, nil);
+      }
+      remoteDocumentBlock:^(MSDocumentWrapperCompletionHandler _Nonnull __unused handler) {
+      }
+      completionHandler:^(MSDocumentWrapper *_Nonnull document) {
+        wrapper = document;
+        [expectation fulfill];
+      }];
+
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                                 XCTAssertNotNil(wrapper);
+                                 XCTAssertNotNil(wrapper.error);
+                                 XCTAssertNotNil(wrapper.error.error);
+                                 XCTAssertEqual(wrapper.error.error.domain, expectedErrorDomain);
+                                 XCTAssertEqual(wrapper.error.error.code, expectedErrorCode);
+                                 XCTAssertNotEqual(wrapper, cachedDocumentWrapper);
+                                 XCTAssertEqual(wrapper.documentId, cachedDocumentWrapper.documentId);
+                               }];
+}
+
 @end

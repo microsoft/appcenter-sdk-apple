@@ -778,6 +778,47 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   XCTAssertEqualObjects(expectedURLString, [actualURL absoluteString]);
 }
 
+- (void)testPerformCosmosDbAsyncOperationWithUnserializableDocument {
+
+  // If
+  MSHttpClient *httpClient = OCMClassMock([MSHttpClient class]);
+  MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
+  __block BOOL completionHandlerCalled = NO;
+  __block NSData *actualResponseBody;
+  __block NSHTTPURLResponse *actualResponse;
+  __block NSError *actualError;
+  NSErrorDomain expectedErrorDomain = kMSACDataStoreErrorDomain;
+  NSInteger expectedErrorCode = MSACDataStoreErrorJSONSerializationFailed;
+
+  NSMutableDictionary *dic = [NSMutableDictionary new];
+  dic[@"shouldFail"] = [NSSet set];
+  MSDictionaryDocument *mockDoc = [[MSDictionaryDocument alloc] initFromDictionary:dic];
+
+  // When
+  [MSCosmosDb performCosmosDbAsyncOperationWithHttpClient:httpClient
+                                              tokenResult:tokenResult
+                                               documentId:kMSDocumentIdTest
+                                               httpMethod:kMSHttpMethodGet
+                                                 document:mockDoc
+                                        additionalHeaders:nil
+                                        additionalUrlPath:kMSDocumentIdTest
+                                        completionHandler:^(NSData *_Nullable responseBody, NSHTTPURLResponse *_Nullable __unused response,
+                                                            NSError *_Nullable __unused error) {
+                                          completionHandlerCalled = YES;
+                                          actualResponseBody = responseBody;
+                                          actualResponse = response;
+                                          actualError = error;
+                                        }];
+
+  // Then
+  XCTAssertTrue(completionHandlerCalled);
+  XCTAssertNil(actualResponseBody);
+  XCTAssertNil(actualResponse);
+  XCTAssertNotNil(actualError);
+  XCTAssertEqual(actualError.domain, expectedErrorDomain);
+  XCTAssertEqual(actualError.code, expectedErrorCode);
+}
+
 - (void)testPerformCosmosDbAsyncOperationWithNilDocumentId {
 
   // If
