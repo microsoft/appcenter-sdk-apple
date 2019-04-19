@@ -13,14 +13,15 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
     case Infinite = "Infinite"
     static let allValues = [Default, NoCache, TwoSeconds, Infinite]
   }
+  @IBOutlet weak var saveBtn: UIButton!
   var replaceDocument: Bool = false
-  var document: TestDocument?
+  var document: MSDictionaryDocument?
   var writeOptions: MSWriteOptions?
   var documentId: String?
   var documentTimeToLive: String? = TimeToLiveMode.Default.rawValue
   var userDocumentAddPropertiesSection: EventPropertiesTableSection!
   let userType: String = MSStorageViewController.StorageType.User.rawValue
-  var documentContent: MSDocumentWrapper<TestDocument>?
+  var documentContent: MSDocumentWrapper<MSDictionaryDocument>?
   private var kUserDocumentAddPropertiesSectionIndex: Int = 0
   private var timeToLiveModePicker: MSEnumPicker<TimeToLiveMode>?
 
@@ -45,6 +46,11 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
     if documentContent == nil || documentId == nil {
       docIdField.isEnabled = true
     }
+    if documentType != userType {
+      timeToLiveField.isHidden = true
+      timeToLiveBoard.isHidden = true
+      saveBtn.isHidden = true
+    }
     userDocumentAddPropertiesSection = EventPropertiesTableSection(tableSection: 0, tableView: self.tableView)
     self.timeToLiveModePicker = MSEnumPicker<TimeToLiveMode> (
       textField: self.timeToLiveField,
@@ -56,6 +62,10 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
     self.timeToLiveField.delegate = self.timeToLiveModePicker
     self.timeToLiveField.text = self.timeToLiveField.text
     self.timeToLiveField.tintColor = UIColor.clear
+  }
+  
+  func shouldDisplayProperties(in section: Int) -> Bool {
+    return documentType == userType && section == kUserDocumentAddPropertiesSectionIndex
   }
 
   @IBAction func backButtonClicked(_ sender: Any) {
@@ -72,7 +82,7 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
   }
 
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    if documentType == userType && section == kUserDocumentAddPropertiesSectionIndex {
+    if shouldDisplayProperties(in: section) {
       return userDocumentAddPropertiesSection.tableView(tableView, numberOfRowsInSection: section)
     } else if documentContent == nil {
       return 1
@@ -83,7 +93,7 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
   }
 
   func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-    if documentType == userType && indexPath.section == kUserDocumentAddPropertiesSectionIndex {
+    if shouldDisplayProperties(in: indexPath.section) {
       return userDocumentAddPropertiesSection.tableView(tableView, canEditRowAt:indexPath)
     } else if documentType == userType && (documentContent == nil){
       return true
@@ -92,27 +102,27 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
   }
 
   func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
-    if documentType == userType && indexPath.section == kUserDocumentAddPropertiesSectionIndex {
+    if shouldDisplayProperties(in: indexPath.section) {
       return userDocumentAddPropertiesSection.tableView(tableView, editingStyleForRowAt: indexPath)
     }
     return .none
   }
 
   func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-    if documentType == userType && indexPath.section == kUserDocumentAddPropertiesSectionIndex {
+    if shouldDisplayProperties(in: indexPath.section) {
       userDocumentAddPropertiesSection.tableView(tableView, commit: editingStyle, forRowAt: indexPath)
     }
   }
 
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     tableView.deselectRow(at: indexPath, animated: true)
-    if documentType == userType && indexPath.section == kUserDocumentAddPropertiesSectionIndex && userDocumentAddPropertiesSection.isInsertRow(indexPath) {
+    if shouldDisplayProperties(in: indexPath.section) && userDocumentAddPropertiesSection.isInsertRow(indexPath) {
       self.tableView(tableView, commit: .insert, forRowAt: indexPath)
     }
   }
 
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    if documentType == userType && indexPath.section == kUserDocumentAddPropertiesSectionIndex {
+    if shouldDisplayProperties(in: indexPath.section) {
       return userDocumentAddPropertiesSection.tableView(tableView, cellForRowAt:indexPath)
     } else if documentContent != nil {
       let cell = tableView.dequeueReusableCell(withIdentifier: "property", for: indexPath)
@@ -135,7 +145,15 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
         break
         case 3:
           guard (documentContent?.error) != nil else {
-            cellText = "Document content: \(documentContent?.jsonValue ?? "")"
+            cell.textLabel?.numberOfLines = 0;
+            cell.textLabel?.lineBreakMode = NSLineBreakMode.byWordWrapping;
+            let dictionary = documentContent?.deserializedValue.serializeToDictionary() ?? [:]
+            do {
+              let jsonData = try String(data: JSONSerialization.data(withJSONObject: dictionary, options: .prettyPrinted), encoding: String.Encoding.utf8)
+              cellText = "Document content: \(jsonData ?? "unknown")"
+            } catch {
+              cellText = "Document content could not be deserialized."
+            }
             break
           }
         break
@@ -186,7 +204,7 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
         }
       }
     }
-    self.document = TestDocument.init(from: prop)
+    self.document = MSDictionaryDocument.init(from: prop)
     self.writeOptions = MSWriteOptions.init(deviceTimeToLive:self.convertTimeToLiveConstantToValue(self.documentTimeToLive!))
   }
   

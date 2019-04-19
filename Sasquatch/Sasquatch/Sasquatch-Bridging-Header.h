@@ -11,6 +11,7 @@
 #import "CrashLib.h"
 
 #if GCC_PREPROCESSOR_MACRO_PUPPET
+#import "MSDictionaryDocument.h"
 #import "MSEventFilter.h"
 #import "MSEventPropertiesInternal.h"
 #import "MSPaginatedDocuments.h"

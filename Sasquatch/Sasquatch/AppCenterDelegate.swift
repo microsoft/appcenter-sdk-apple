@@ -7,18 +7,6 @@ import AppCenterAnalytics
 import AppCenterDataStorage
 #endif
 
-class TestDocument : NSObject, MSSerializableDocument {
-  var key: String = ""
-  required init(from dictionary: [AnyHashable : Any]) {
-    if let value = dictionary["key"] {
-      self.key = "\(value)";
-    }
-  }
-  func serializeToDictionary() -> [AnyHashable : Any] {
-    return ["key" : key];
-  }
-}
-
 /**
  * Protocol for interacting with AppCenter SDK.
  * Swift and Objective C implement this protocol
@@ -100,8 +88,8 @@ class TestDocument : NSObject, MSSerializableDocument {
   func lastCrashReportDeviceAppNamespace() -> String?
   
   // MSStorage section
-  func listDocumentsWithPartition(_ partitionName: String, documentType: AnyClass, completionHandler: @escaping (_ paginatedDocuments:MSPaginatedDocuments<TestDocument>) -> Void)
-  func createDocumentWithPartition(_ partitionName: String, documentId: String, document: TestDocument, writeOptions: MSWriteOptions)
-  func replaceDocumentWithPartition(_ partitionName: String, documentId: String, document: TestDocument, writeOptions: MSWriteOptions)
+  func listDocumentsWithPartition(_ partitionName: String, documentType: AnyClass, completionHandler: @escaping (_ paginatedDocuments:MSPaginatedDocuments<MSDictionaryDocument>) -> Void)
+  func createDocumentWithPartition(_ partitionName: String, documentId: String, document: MSDictionaryDocument, writeOptions: MSWriteOptions, completionHandler: @escaping (_ document:MSDocumentWrapper<MSDictionaryDocument>) -> Void)
+  func replaceDocumentWithPartition(_ partitionName: String, documentId: String, document: MSDictionaryDocument, writeOptions: MSWriteOptions, completionHandler: @escaping (_ document:MSDocumentWrapper<MSDictionaryDocument>) -> Void)
   func deleteDocumentWithPartition(_ partitionName: String, documentId: String)
 }

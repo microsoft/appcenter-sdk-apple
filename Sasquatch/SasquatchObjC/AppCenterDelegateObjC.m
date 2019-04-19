@@ -324,48 +324,40 @@
 // MSDataStore section
 - (void)listDocumentsWithPartition:(NSString *)partitionName
                       documentType:(Class)documentType
-                 completionHandler:(void(^)( MSPaginatedDocuments<TestDocument *> *))completionHandler {
+                 completionHandler:(void (^)(MSPaginatedDocuments<MSDictionaryDocument *> *))completionHandler {
   [MSDataStore listWithPartition:partitionName documentType:documentType completionHandler:completionHandler];
 }
 
-- (void)createDocumentWithPartition:(NSString * _Nonnull)partitionName documentId:(NSString * _Nonnull)documentId document:(TestDocument * _Nonnull)document writeOptions:(MSWriteOptions * _Nonnull)writeOptions {
+- (void)createDocumentWithPartition:(NSString *_Nonnull)partitionName
+                         documentId:(NSString *_Nonnull)documentId
+                           document:(MSDictionaryDocument *_Nonnull)document
+                       writeOptions:(MSWriteOptions *_Nonnull)writeOptions
+                  completionHandler:(void (^)(MSDocumentWrapper<MSDictionaryDocument *> *))completionHandler {
   [MSDataStore createWithPartition:partitionName
                         documentId:documentId
                           document:document
                       writeOptions:writeOptions
+                 completionHandler:completionHandler];
+}
+
+- (void)deleteDocumentWithPartition:(NSString *_Nonnull)partitionName documentId:(NSString *_Nonnull)documentId {
+  [MSDataStore deleteWithPartition:partitionName
+                        documentId:documentId
                  completionHandler:^(MSDocumentWrapper *_Nonnull document) {
-                   if (document) {
-                     NSLog(@"Storage.create document with id %@ succeeded", documentId);
-                   } else {
-                     NSLog(@"Storage.create document with id %@ failed", documentId);
-                   }
+                   NSLog(@"Storage.delete document with id %@ succeeded", documentId);
                  }];
 }
 
-
-- (void)deleteDocumentWithPartition:(NSString * _Nonnull)partitionName documentId:(NSString * _Nonnull)documentId {
-  [MSDataStore deleteWithPartition:partitionName documentId:documentId completionHandler:^(MSDocumentWrapper * _Nonnull document) {
-    if (document != nil) {
-      NSLog(@"Storage.delete document with id %@ succeeded", documentId);
-    } else {
-      NSLog(@"Storage.delete document with id %@ failed", documentId);
-    }
-  }];
-}
-
-
-- (void)replaceDocumentWithPartition:(NSString * _Nonnull)partitionName documentId:(NSString * _Nonnull)documentId document:(TestDocument * _Nonnull)document writeOptions:(MSWriteOptions * _Nonnull)writeOptions {
+- (void)replaceDocumentWithPartition:(NSString *_Nonnull)partitionName
+                          documentId:(NSString *_Nonnull)documentId
+                            document:(MSDictionaryDocument *_Nonnull)document
+                        writeOptions:(MSWriteOptions *_Nonnull)writeOptions
+                   completionHandler:(void (^)(MSDocumentWrapper<MSDictionaryDocument *> *))completionHandler {
   [MSDataStore replaceWithPartition:partitionName
                          documentId:documentId
                            document:document
                        writeOptions:writeOptions
-                  completionHandler:^(MSDocumentWrapper *_Nonnull document) {
-                    if (document) {
-                      NSLog(@"Storage.replace document with id %@ succeeded", documentId);
-                    } else {
-                      NSLog(@"Storage.replace document with id %@ failed", documentId);
-                    }
-                  }];
+                  completionHandler:completionHandler];
 }
 
 @end

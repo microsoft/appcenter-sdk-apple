@@ -12,11 +12,11 @@ class MSStorageViewController: UIViewController, UITableViewDelegate, UITableVie
     
     static let allValues = [App, User]
   }
-  var allDocuments: MSPaginatedDocuments<TestDocument> = MSPaginatedDocuments()
+  var allDocuments: MSPaginatedDocuments<MSDictionaryDocument> = MSPaginatedDocuments()
   var loadMoreStatus = false
   var identitySignIn = false
-  static var AppDocuments: [MSDocumentWrapper<TestDocument>] = []
-  static var UserDocuments: [MSDocumentWrapper<TestDocument>] = []
+  static var AppDocuments: [MSDocumentWrapper<MSDictionaryDocument>] = []
+  static var UserDocuments: [MSDocumentWrapper<MSDictionaryDocument>] = []
   private var storageTypePicker: MSEnumPicker<StorageType>?
   private var storageType = StorageType.App.rawValue
   
@@ -36,7 +36,7 @@ class MSStorageViewController: UIViewController, UITableViewDelegate, UITableVie
   }
   
   func loadAppFiles() {
-    self.appCenter.listDocumentsWithPartition("readonly", documentType: TestDocument.self, completionHandler: { (documents) in
+    self.appCenter.listDocumentsWithPartition("readonly", documentType: MSDictionaryDocument.self, completionHandler: { (documents) in
       self.allDocuments = documents;
       MSStorageViewController.AppDocuments = documents.currentPage().items ?? []
       DispatchQueue.main.async {
@@ -47,7 +47,7 @@ class MSStorageViewController: UIViewController, UITableViewDelegate, UITableVie
   }
   
   func loadUserFiles() {
-    self.appCenter.listDocumentsWithPartition("user", documentType: TestDocument.self, completionHandler: { (documents) in
+    self.appCenter.listDocumentsWithPartition("user", documentType: MSDictionaryDocument.self, completionHandler: { (documents) in
       self.allDocuments = documents;
       MSStorageViewController.UserDocuments = documents.currentPage().items ?? []
       DispatchQueue.main.async {
@@ -212,9 +212,9 @@ class MSStorageViewController: UIViewController, UITableViewDelegate, UITableVie
         documentDetailsController.documentType = StorageType.User.rawValue
       } else {
         documentDetailsController.documentType = self.storageType
-        documentDetailsController.documentId = (sender as? MSDocumentWrapper<TestDocument>)?.documentId
+        documentDetailsController.documentId = (sender as? MSDocumentWrapper<MSDictionaryDocument>)?.documentId
         documentDetailsController.documentTimeToLive = "Default"
-        documentDetailsController.documentContent = sender as? MSDocumentWrapper<TestDocument>
+        documentDetailsController.documentContent = sender as? MSDocumentWrapper<MSDictionaryDocument>
       }
     }
   }
@@ -228,10 +228,13 @@ class MSStorageViewController: UIViewController, UITableViewDelegate, UITableVie
         return
     }
     if (documentDetailsController.replaceDocument) {
-      self.appCenter.replaceDocumentWithPartition(MSStorageViewController.StorageType.User.rawValue.lowercased(), documentId:documentId, document:documentToSave, writeOptions: writeOptions)
+      self.appCenter.replaceDocumentWithPartition(MSStorageViewController.StorageType.User.rawValue.lowercased(), documentId:documentId, document:documentToSave, writeOptions: writeOptions, completionHandler: { (document) in
+        self.loadUserFiles()
+      })
     } else {
-      self.appCenter.createDocumentWithPartition(MSStorageViewController.StorageType.User.rawValue.lowercased(), documentId:documentId, document:documentToSave, writeOptions: writeOptions)
+      self.appCenter.createDocumentWithPartition(MSStorageViewController.StorageType.User.rawValue.lowercased(), documentId:documentId, document:documentToSave, writeOptions: writeOptions, completionHandler: { (document) in
+        self.loadUserFiles()
+      })
     }
-    loadUserFiles()
   }
 }

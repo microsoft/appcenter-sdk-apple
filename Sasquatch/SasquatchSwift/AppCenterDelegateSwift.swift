@@ -310,16 +310,12 @@ class AppCenterDelegateSwift: AppCenterDelegate {
     MSDataStore.list(withPartition: partitionName, documentType: documentType, completionHandler:completionHandler)
   }
   
-  func createDocumentWithPartition(_ partitionName: String, documentId: String, document: TestDocument, writeOptions: MSWriteOptions) {
-    MSDataStore.create(withPartition: partitionName, documentId: documentId, document: document, writeOptions: writeOptions, completionHandler: { document in
-      print("Storage.create document with id \(documentId) succeeded")
-    });
+  func createDocumentWithPartition(_ partitionName: String, documentId: String, document: MSDictionaryDocument, writeOptions: MSWriteOptions, completionHandler: MSDocumentWrapperCompletionHandler) {
+    MSDataStore.create(withPartition: partitionName, documentId: documentId, document: document, writeOptions: writeOptions, completionHandler: completionHandler);
   }
   
-  func replaceDocumentWithPartition(_ partitionName: String, documentId: String, document: TestDocument, writeOptions: MSWriteOptions) {
-    MSDataStore.replace(withPartition: partitionName, documentId: documentId, document: document, writeOptions: writeOptions) { document in
-      print("Storage.replace document with id \(documentId) succeeded")
-    }
+  func replaceDocumentWithPartition(_ partitionName: String, documentId: String, document: MSDictionaryDocument, writeOptions: MSWriteOptions, completionHandler: MSDocumentWrapperCompletionHandler) {
+    MSDataStore.replace(withPartition: partitionName, documentId: documentId, document: document, writeOptions: writeOptions, completionHandler: completionHandler)
   }
   
   func deleteDocumentWithPartition(_ partitionName: String, documentId: String) {
