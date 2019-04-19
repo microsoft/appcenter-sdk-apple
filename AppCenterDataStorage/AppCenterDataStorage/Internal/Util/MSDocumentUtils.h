@@ -76,6 +76,15 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (BOOL)isSerializableDocument:(Class)classType;
 
+/**
+ * Get serializable dictionary from a document.
+ *
+ * @param document The document to convert to a dictionary.
+ *
+ * @return NSDictionary instance if document is serializable; nil otherwise.
+ */
++ (NSDictionary *)getSerializableDictionaryFromDocument:(id<MSSerializableDocument>)document;
+
 @end
 
 NS_ASSUME_NONNULL_END

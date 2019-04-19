@@ -12,7 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Create a dictionary from the object.
  *
- * @return Dictionary representing the object.
+ * @return Dictionary representing the object. Keys must be instances of NSString
+ * and values must be instances of NSArray, NSDictionary, NSString, NSNumber, NSArray, or NSNull.
  */
 - (NSDictionary *)serializeToDictionary;
 

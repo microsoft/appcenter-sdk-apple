@@ -194,6 +194,15 @@ typedef void (^MSPaginatedDocumentsCompletionHandler)(MSPaginatedDocuments<T> *d
                        writeOptions:(MSWriteOptions *_Nullable)writeOptions
                   completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler;
 
+/**
+ * Deserialize string into `NSDate` instance.
+ *
+ * @param dateString String to deserialize.
+ *
+ * @return `NSDate` instance if `dateString` contains a valid date; nil otherwise.
+ */
++ (NSDate *)deserializeDate:(NSString *)dateString;
+
 @end
 
 NS_ASSUME_NONNULL_END

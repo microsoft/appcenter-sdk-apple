@@ -668,6 +668,34 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   XCTAssertEqual(actualError.errorCode, expectedResponseCode);
 }
 
+- (void)testCreateWithPartitionWhenSerializationFails {
+
+  // If
+  NSMutableDictionary *dictionary = [NSMutableDictionary new];
+  dictionary[@"shouldFail"] = [NSSet set];
+  id<MSSerializableDocument> mockSerializableDocument = [[MSDictionaryDocument alloc] initFromDictionary:dictionary];
+  __block BOOL completionHandlerCalled = NO;
+  NSErrorDomain expectedErrorDomain = kMSACDataStoreErrorDomain;
+  NSInteger expectedErrorCode = MSACDataStoreErrorJSONSerializationFailed;
+  __block MSDataSourceError *actualError;
+
+  // When
+  [MSDataStore createWithPartition:kMSPartitionTest
+                        documentId:kMSDocumentIdTest
+                          document:mockSerializableDocument
+                 completionHandler:^(MSDocumentWrapper *data) {
+                   completionHandlerCalled = YES;
+                   actualError = data.error;
+                 }];
+
+  // Then
+  XCTAssertTrue(completionHandlerCalled);
+  XCTAssertNotNil(actualError);
+  XCTAssertNotNil(actualError.error);
+  XCTAssertEqual(actualError.error.domain, expectedErrorDomain);
+  XCTAssertEqual(actualError.error.code, expectedErrorCode);
+}
+
 - (void)testCreateWithPartitionWhenDeserializationFails {
 
   // If

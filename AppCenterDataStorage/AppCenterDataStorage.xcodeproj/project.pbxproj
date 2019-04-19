@@ -118,6 +118,8 @@
 		267464FA222F28A300EC1FF3 /* MSBaseOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464EA222F28A300EC1FF3 /* MSBaseOptions.m */; };
 		267464FB222F28A300EC1FF3 /* MSReadOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464EB222F28A300EC1FF3 /* MSReadOptions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		267464FC222F28A300EC1FF3 /* MSWriteOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464EC222F28A300EC1FF3 /* MSWriteOptions.m */; };
+		26F4B0EA2267DFC9006381D0 /* invalidTestDocument.json in Resources */ = {isa = PBXBuildFile; fileRef = 26F4B0E92267DF99006381D0 /* invalidTestDocument.json */; };
+		26F4B0EB2267DFCC006381D0 /* invalidTestDocument.json in Resources */ = {isa = PBXBuildFile; fileRef = 26F4B0E92267DF99006381D0 /* invalidTestDocument.json */; };
 		2ACE56002245277000FCD5DF /* MSDocumentUtilsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ACE55FF2245277000FCD5DF /* MSDocumentUtilsTests.m */; };
 		2ACE56012245277000FCD5DF /* MSDocumentUtilsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ACE55FF2245277000FCD5DF /* MSDocumentUtilsTests.m */; };
 		2ACE560A2245340A00FCD5DF /* MSBaseOptionsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ACE56092245340A00FCD5DF /* MSBaseOptionsTests.m */; };
@@ -288,6 +290,7 @@
 		267464EA222F28A300EC1FF3 /* MSBaseOptions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSBaseOptions.m; sourceTree = "<group>"; };
 		267464EB222F28A300EC1FF3 /* MSReadOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSReadOptions.h; sourceTree = "<group>"; };
 		267464EC222F28A300EC1FF3 /* MSWriteOptions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSWriteOptions.m; sourceTree = "<group>"; };
+		26F4B0E92267DF99006381D0 /* invalidTestDocument.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = invalidTestDocument.json; sourceTree = "<group>"; };
 		2ACE55FF2245277000FCD5DF /* MSDocumentUtilsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSDocumentUtilsTests.m; sourceTree = "<group>"; };
 		2ACE56092245340A00FCD5DF /* MSBaseOptionsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSBaseOptionsTests.m; sourceTree = "<group>"; };
 		2ACE562022453BE600FCD5DF /* MSDataSourceErrorTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSDataSourceErrorTests.m; sourceTree = "<group>"; };
@@ -471,6 +474,7 @@
 		8F5227DB2253DE1F004F37FE /* Fixtures */ = {
 			isa = PBXGroup;
 			children = (
+				26F4B0E92267DF99006381D0 /* invalidTestDocument.json */,
 				8F1FF9512255C12F0083471E /* validTestDocument.json */,
 				8F5227EC2253F0C7004F37FE /* zeroDocumentsPage.json */,
 				8F5227DC2253DE84004F37FE /* oneDocumentPage.json */,
@@ -670,7 +674,6 @@
 				049BC852224EDAFF00AE7FBB /* MSDataSourceError.h in Headers */,
 				8F4548E12256D2450021B0BF /* MSDictionaryDocument.h in Headers */,
 				4A193739225129C200459E1E /* MSDBDocumentStore.h in Headers */,
-				4A1937982252CA6600459E1E /* MSDocumentStore.h in Headers */,
 				049BC85B224EDB1D00AE7FBB /* MSPage.h in Headers */,
 				049BC85C224EDB2200AE7FBB /* MSReadOptions.h in Headers */,
 				04B1C8CA2252AF0A00CBD876 /* MSAppCenterErrors.h in Headers */,
@@ -854,6 +857,7 @@
 			files = (
 				8F1FF9532255C1360083471E /* validTestDocument.json in Resources */,
 				8F5227DE2253DE89004F37FE /* oneDocumentPage.json in Resources */,
+				26F4B0EB2267DFCC006381D0 /* invalidTestDocument.json in Resources */,
 				8F5227EE2253F0C8004F37FE /* zeroDocumentsPage.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -864,6 +868,7 @@
 			files = (
 				8F1FF9522255C1350083471E /* validTestDocument.json in Resources */,
 				8F5227DD2253DE88004F37FE /* oneDocumentPage.json in Resources */,
+				26F4B0EA2267DFC9006381D0 /* invalidTestDocument.json in Resources */,
 				8F5227ED2253F0C8004F37FE /* zeroDocumentsPage.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

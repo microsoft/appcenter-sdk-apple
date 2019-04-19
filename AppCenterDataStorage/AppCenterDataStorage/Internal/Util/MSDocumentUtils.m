@@ -10,6 +10,7 @@
 #import "MSDocumentUtils.h"
 #import "MSDocumentWrapperInternal.h"
 #import "MSLogger.h"
+#import "MSUtility+Date.h"
 
 /**
  * CosmosDb document identifier key.
@@ -160,6 +161,19 @@ static NSString *const kMSDocumentKey = @"document";
   // Extract json value.
   NSString *jsonValue;
   NSError *error;
+
+  // validate `dictionary`
+  if (![NSJSONSerialization isValidJSONObject:dictionary]) {
+    dictionary = [MSDocumentUtils tryToMakeSerializableDictionary:dictionary];
+    if (!dictionary) {
+      error = [[NSError alloc] initWithDomain:kMSACDataStoreErrorDomain
+                                         code:MSACDataStoreErrorJSONSerializationFailed
+                                     userInfo:@{NSLocalizedDescriptionKey : @"Dictionary contains values that cannot be serialized."}];
+      MSLogError([MSDataStore logTag], @"Error deserializing data: %@", [error localizedDescription]);
+      return [[MSDocumentWrapper alloc] initWithError:error documentId:documentId];
+    }
+  }
+
   NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary options:0 error:&error];
   if (!error) {
     jsonValue = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
@@ -196,6 +210,34 @@ static NSString *const kMSDocumentKey = @"document";
 
 + (BOOL)isSerializableDocument:(Class)classType {
   return class_conformsToProtocol(classType, @protocol(MSSerializableDocument));
+}
+
+/* Serialize NSDate instances to ISO8601 strings. Returns that dictionary if
+   it is serializable, nil otherwise. */
++ (NSDictionary *)tryToMakeSerializableDictionary:(NSDictionary *)dictionary {
+  NSMutableDictionary *newDictionary = [NSMutableDictionary new];
+  for (id key in dictionary) {
+    NSObject *value = [dictionary objectForKey:key];
+    if ([value isKindOfClass:[NSDate class]]) {
+      newDictionary[key] = [MSUtility dateToISO8601:(NSDate *)value];
+    } else {
+      newDictionary[key] = value;
+    }
+  }
+  if ([NSJSONSerialization isValidJSONObject:newDictionary]) {
+    return newDictionary;
+  } else {
+    return nil;
+  }
+}
+
++ (NSDictionary *)getSerializableDictionaryFromDocument:(id<MSSerializableDocument>)document {
+  NSDictionary *dictionary = [document serializeToDictionary];
+  if ([NSJSONSerialization isValidJSONObject:dictionary]) {
+    return dictionary;
+  } else {
+    return [MSDocumentUtils tryToMakeSerializableDictionary:dictionary];
+  }
 }
 
 @end
