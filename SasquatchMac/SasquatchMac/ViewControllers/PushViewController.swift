@@ -14,11 +14,11 @@ class PushViewController: NSViewController {
   }
 
   override func viewWillAppear() {
-    setEnabledButton?.state = appCenter.isPushEnabled() ? 1 : 0
+    setEnabledButton?.state = NSControl.StateValue(rawValue: appCenter.isPushEnabled() ? 1 : 0)
   }
   
   @IBAction func setEnabled(_ sender: NSButton) {
-    appCenter.setPushEnabled(sender.state == 1)
-    sender.state = appCenter.isPushEnabled() ? 1 : 0
+    appCenter.setPushEnabled(sender.state.rawValue == 1)
+    sender.state = NSControl.StateValue(rawValue: appCenter.isPushEnabled() ? 1 : 0)
   }
 }

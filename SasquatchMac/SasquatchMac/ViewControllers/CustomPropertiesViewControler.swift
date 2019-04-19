@@ -18,7 +18,7 @@ class CustomPropertiesViewControler: NSViewController, NSTableViewDelegate {
   
   class CustomProperty : NSObject {
     var key: String = ""
-    var type: String = CustomPropertyType.Clear.rawValue
+    @objc var type: String = CustomPropertyType.Clear.rawValue
     var string: String = ""
     var number: NSNumber = 0
     var boolean: Bool = false
@@ -76,8 +76,8 @@ class CustomPropertiesViewControler: NSViewController, NSTableViewDelegate {
     guard let identifier = tableColumn?.identifier else {
       return nil
     }
-    let view = tableView.make(withIdentifier: identifier, owner: self)
-    if (identifier == "value") {
+    let view = tableView.makeView(withIdentifier: identifier, owner: self)
+    if (identifier.rawValue == "value") {
       updateValue(property: properties[row], cell: view as! NSTableCellView)
     }
     return view
@@ -87,10 +87,10 @@ class CustomPropertiesViewControler: NSViewController, NSTableViewDelegate {
     guard let property = object as? CustomProperty else {
       return
     }
-    guard let row = properties.index(of: property) else {
+    guard let row = properties.firstIndex(of: property) else {
       return
     }
-    let column = tableView.column(withIdentifier: "value")
+    let column = tableView.column(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "value"))
     guard let cell = tableView.view(atColumn: column, row: row, makeIfNecessary: false) as? NSTableCellView else {
       return
     }
@@ -105,7 +105,7 @@ class CustomPropertiesViewControler: NSViewController, NSTableViewDelegate {
     guard let type = CustomPropertyType(rawValue: property.type) else {
       return
     }
-    if let view = cell.viewWithTag(CustomPropertyType.allValues.index(of: type)!) {
+    if let view = cell.viewWithTag(CustomPropertyType.allValues.firstIndex(of: type)!) {
       view.isHidden = false
     } else {
       cell.isHidden = true

@@ -35,16 +35,16 @@ class AppDelegate: NSObject, NSApplicationDelegate, MSCrashesDelegate, MSPushDel
       alert.addButton(withTitle: "Always send")
       alert.addButton(withTitle: "Send")
       alert.addButton(withTitle: "Don't send")
-      alert.alertStyle = NSWarningAlertStyle
+      alert.alertStyle = NSAlert.Style.warning
 
       switch (alert.runModal()) {
-      case NSAlertFirstButtonReturn:
+      case NSApplication.ModalResponse.alertFirstButtonReturn:
         MSCrashes.notify(with: .always)
         break;
-      case NSAlertSecondButtonReturn:
+      case NSApplication.ModalResponse.alertSecondButtonReturn:
         MSCrashes.notify(with: .send)
         break;
-      case NSAlertThirdButtonReturn:
+      case NSApplication.ModalResponse.alertThirdButtonReturn:
         MSCrashes.notify(with: .dontSend)
         break;
       default:
@@ -122,7 +122,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, MSCrashesDelegate, MSPushDel
 
   func initUI() {
     let mainStoryboard = NSStoryboard.init(name: kMSMainStoryboardName, bundle: nil)
-    rootController = mainStoryboard.instantiateController(withIdentifier: "rootController") as! NSWindowController
+    rootController = mainStoryboard.instantiateController(withIdentifier: "rootController") as? NSWindowController
     rootController.showWindow(self)
     rootController.window?.makeKeyAndOrderFront(self)
   }

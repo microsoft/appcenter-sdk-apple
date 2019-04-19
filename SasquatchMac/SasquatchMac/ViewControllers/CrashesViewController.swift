@@ -31,7 +31,7 @@ class CrashesViewController : NSViewController, NSTableViewDataSource, NSTableVi
   }
 
   override func viewWillAppear() {
-    setEnabledButton?.state = appCenter.isCrashesEnabled() ? 1 : 0
+    setEnabledButton?.state = NSControl.StateValue(rawValue: appCenter.isCrashesEnabled() ? 1 : 0)
   }
   
   @IBAction func generateBreadCrumbsAndCrash(sender: NSButton) {
@@ -42,14 +42,14 @@ class CrashesViewController : NSViewController, NSTableViewDataSource, NSTableVi
   }
 
   @IBAction func setEnabled(sender : NSButton) {
-    appCenter.setCrashesEnabled(sender.state == 1)
-    sender.state = appCenter.isCrashesEnabled() ? 1 : 0
+    appCenter.setCrashesEnabled(sender.state.rawValue == 1)
+    sender.state = NSControl.StateValue(rawValue: appCenter.isCrashesEnabled() ? 1 : 0)
   }
   
   @IBAction func browseFileAttachment(_ sender: Any) {
     let openPanel = NSOpenPanel()
     openPanel.begin(completionHandler: { (result) -> Void in
-      let url = result == NSFileHandlingPanelOKButton && openPanel.url != nil ? openPanel.url : nil
+        let url = result.rawValue == NSApplication.ModalResponse.OK.rawValue && openPanel.url != nil ? openPanel.url : nil
       if url != nil {
         UserDefaults.standard.set(url, forKey: "fileAttachment")
       } else {
@@ -60,7 +60,7 @@ class CrashesViewController : NSViewController, NSTableViewDataSource, NSTableVi
   }
 
   func textDidChange(_ notification: Notification) {
-    let text = textAttachmentView.string ?? ""
+    let text = textAttachmentView.string
     if !text.isEmpty {
       UserDefaults.standard.set(text, forKey: "textAttachment")
     } else {
@@ -78,19 +78,19 @@ class CrashesViewController : NSViewController, NSTableViewDataSource, NSTableVi
 
   func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
     if isHeader(row: row) {
-      let categoryView = tableView.make(withIdentifier: "crashName", owner: nil) as! NSTextField
+        let categoryView = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "crashName"), owner: nil) as! NSTextField
       categoryView.stringValue = crashes[row] as! String
       categoryView.alignment = NSTextAlignment.center
-      categoryView.font = NSFontManager.shared().convert(categoryView.font!, toHaveTrait: NSFontTraitMask(rawValue: UInt(NSFontBoldTrait)))
+        categoryView.font = NSFontManager.shared.convert(categoryView.font!, toHaveTrait: NSFontTraitMask(rawValue: UInt(NSFontBoldTrait)))
       return categoryView
     } else {
       switch tableColumn {
       case tableView.tableColumns[0]?:
-        let nameView = tableView.make(withIdentifier: "crashName", owner: nil) as! NSTextField
+        let nameView = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "crashName"), owner: nil) as! NSTextField
         nameView.stringValue = (crashes[row] as! MSCrash).title
         return nameView
       case tableView.tableColumns[1]?:
-        let crashButton = tableView.make(withIdentifier: "crashButton", owner: nil) as! NSButton
+        let crashButton = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "crashButton"), owner: nil) as! NSButton
         crashButton.tag = row
         crashButton.target = self
         crashButton.action = #selector(CrashesViewController.crashButtonPressed)
@@ -105,7 +105,7 @@ class CrashesViewController : NSViewController, NSTableViewDataSource, NSTableVi
     return 30
   }
 
-  func crashButtonPressed(_ sender: Any) {
+  @objc func crashButtonPressed(_ sender: Any) {
     (crashes[(sender as! NSButton).tag] as! MSCrash).crash()
   }
   
@@ -141,7 +141,7 @@ class CrashesViewController : NSViewController, NSTableViewDataSource, NSTableVi
     let classList = objc_copyClassList(&count)
     MSCrash.removeAllCrashes()
     for i in 0..<Int(count){
-      let className: AnyClass = classList![i]!
+      let className: AnyClass = classList![i]
       if class_getSuperclass(className) == MSCrash.self && className != MSCrash.self{
         MSCrash.register((className as! MSCrash.Type).init())
       }
