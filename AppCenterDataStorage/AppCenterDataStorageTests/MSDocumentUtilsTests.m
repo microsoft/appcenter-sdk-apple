@@ -191,27 +191,6 @@
   XCTAssertEqual([document documentId], @"document-id");
 }
 
-- (void)testDocumentWrapperFromDictionaryWithDate {
-  // If
-  NSMutableDictionary *documentDictionary = [NSMutableDictionary new];
-  documentDictionary[@"date"] = [NSDate date];
-
-  NSMutableDictionary *dictionary = [NSMutableDictionary new];
-  dictionary[@"id"] = @"document-id";
-  dictionary[@"_etag"] = @"etag";
-  dictionary[@"_ts"] = @0;
-  dictionary[@"PartitionKey"] = @"readonly";
-  dictionary[@"document"] = documentDictionary;
-
-  // When
-  MSDocumentWrapper *document = [MSDocumentUtils documentWrapperFromDictionary:dictionary documentType:[NSString class]];
-
-  // Then
-  XCTAssertNotNil(document);
-  XCTAssertNil([document error]);
-  XCTAssertEqual([document documentId], @"document-id");
-}
-
 - (void)testDocumentWrapperFromDataNull {
 
   // If
@@ -325,26 +304,6 @@
   XCTAssertFalse([MSDocumentUtils isSerializableDocument:[NSString class]]);
   XCTAssertFalse([MSDocumentUtils isSerializableDocument:object_getClass(anotherRootObject)]);
   XCTAssertTrue([MSDocumentUtils isSerializableDocument:[MSDictionaryDocument class]]);
-}
-
-- (void)testIsSerializableDictionary {
-
-  // If
-  NSMutableDictionary *dictionary; //= [NSMutableDictionary new];
-  //[dictionary setObject:@"value" forKey:[NSNumber numberWithInt:2]];
-
-  // Then
-  XCTAssertTrue([NSJSONSerialization isValidJSONObject:dictionary]);
-}
-
-- (void)testIsSerializableDictionaryFake {
-
-  // If
-  NSMutableDictionary *dictionary = [NSMutableDictionary new];
-  dictionary[@"timestamp"] = [NSDate date];
-
-  // Then
-  XCTAssertFalse([NSJSONSerialization isValidJSONObject:dictionary]);
 }
 
 @end

@@ -120,6 +120,8 @@
 		267464FC222F28A300EC1FF3 /* MSWriteOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464EC222F28A300EC1FF3 /* MSWriteOptions.m */; };
 		26F4B0EA2267DFC9006381D0 /* invalidTestDocument.json in Resources */ = {isa = PBXBuildFile; fileRef = 26F4B0E92267DF99006381D0 /* invalidTestDocument.json */; };
 		26F4B0EB2267DFCC006381D0 /* invalidTestDocument.json in Resources */ = {isa = PBXBuildFile; fileRef = 26F4B0E92267DF99006381D0 /* invalidTestDocument.json */; };
+		26F4B0ED226A477A006381D0 /* MSDataStoreUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 26F4B0EC226A477A006381D0 /* MSDataStoreUtils.h */; };
+		26F4B0EF226A478F006381D0 /* MSDataStoreUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 26F4B0EE226A478F006381D0 /* MSDataStoreUtils.m */; };
 		2ACE56002245277000FCD5DF /* MSDocumentUtilsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ACE55FF2245277000FCD5DF /* MSDocumentUtilsTests.m */; };
 		2ACE56012245277000FCD5DF /* MSDocumentUtilsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ACE55FF2245277000FCD5DF /* MSDocumentUtilsTests.m */; };
 		2ACE560A2245340A00FCD5DF /* MSBaseOptionsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ACE56092245340A00FCD5DF /* MSBaseOptionsTests.m */; };
@@ -291,6 +293,8 @@
 		267464EB222F28A300EC1FF3 /* MSReadOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSReadOptions.h; sourceTree = "<group>"; };
 		267464EC222F28A300EC1FF3 /* MSWriteOptions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSWriteOptions.m; sourceTree = "<group>"; };
 		26F4B0E92267DF99006381D0 /* invalidTestDocument.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = invalidTestDocument.json; sourceTree = "<group>"; };
+		26F4B0EC226A477A006381D0 /* MSDataStoreUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSDataStoreUtils.h; sourceTree = "<group>"; };
+		26F4B0EE226A478F006381D0 /* MSDataStoreUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSDataStoreUtils.m; sourceTree = "<group>"; };
 		2ACE55FF2245277000FCD5DF /* MSDocumentUtilsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSDocumentUtilsTests.m; sourceTree = "<group>"; };
 		2ACE56092245340A00FCD5DF /* MSBaseOptionsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSBaseOptionsTests.m; sourceTree = "<group>"; };
 		2ACE562022453BE600FCD5DF /* MSDataSourceErrorTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSDataSourceErrorTests.m; sourceTree = "<group>"; };
@@ -510,25 +514,27 @@
 			children = (
 				D33A94541E5B11BB003966DB /* AppCenterDataStorage.h */,
 				267464DF222F28A200EC1FF3 /* MSBaseOptions.h */,
-				267464EA222F28A300EC1FF3 /* MSBaseOptions.m */,
-				267464E2222F28A300EC1FF3 /* MSDataStore.h */,
-				267464E3222F28A300EC1FF3 /* MSDataStore.m */,
 				267464E6222F28A300EC1FF3 /* MSDataSourceError.h */,
-				267464DE222F28A200EC1FF3 /* MSDataSourceError.m */,
-				267464E9222F28A300EC1FF3 /* MSDocumentWrapper.h */,
-				267464E4222F28A300EC1FF3 /* MSDocumentWrapper.m */,
-				267464DD222F28A200EC1FF3 /* MSPage.h */,
-				267464E5222F28A300EC1FF3 /* MSPage.m */,
-				267464E0222F28A300EC1FF3 /* MSPaginatedDocuments.h */,
-				267464E8222F28A300EC1FF3 /* MSPaginatedDocuments.m */,
-				267464EB222F28A300EC1FF3 /* MSReadOptions.h */,
-				267464E7222F28A300EC1FF3 /* MSReadOptions.m */,
-				267464E1222F28A300EC1FF3 /* MSWriteOptions.h */,
-				267464EC222F28A300EC1FF3 /* MSWriteOptions.m */,
-				E8FE51E9221CBF87005FB52B /* MSSerializableDocument.h */,
+				267464E2222F28A300EC1FF3 /* MSDataStore.h */,
 				E80BE8902242215E004DD008 /* MSDataStoreErrors.h */,
+				26F4B0EC226A477A006381D0 /* MSDataStoreUtils.h */,
 				8F4548DF2256D2450021B0BF /* MSDictionaryDocument.h */,
+				267464E9222F28A300EC1FF3 /* MSDocumentWrapper.h */,
+				267464DD222F28A200EC1FF3 /* MSPage.h */,
+				267464E0222F28A300EC1FF3 /* MSPaginatedDocuments.h */,
+				267464EB222F28A300EC1FF3 /* MSReadOptions.h */,
+				E8FE51E9221CBF87005FB52B /* MSSerializableDocument.h */,
+				267464E1222F28A300EC1FF3 /* MSWriteOptions.h */,
+				267464EA222F28A300EC1FF3 /* MSBaseOptions.m */,
+				267464DE222F28A200EC1FF3 /* MSDataSourceError.m */,
+				267464E3222F28A300EC1FF3 /* MSDataStore.m */,
 				8F4548E22256D3160021B0BF /* MSDictionaryDocument.m */,
+				267464E4222F28A300EC1FF3 /* MSDocumentWrapper.m */,
+				26F4B0EE226A478F006381D0 /* MSDataStoreUtils.m */,
+				267464E5222F28A300EC1FF3 /* MSPage.m */,
+				267464E8222F28A300EC1FF3 /* MSPaginatedDocuments.m */,
+				267464E7222F28A300EC1FF3 /* MSReadOptions.m */,
+				267464EC222F28A300EC1FF3 /* MSWriteOptions.m */,
 				D3AD5F071E5C8136001627AB /* Internal */,
 				D3AD5F031E5C7FC9001627AB /* Support */,
 			);
@@ -705,6 +711,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				26F4B0ED226A477A006381D0 /* MSDataStoreUtils.h in Headers */,
 				267464EF222F28A300EC1FF3 /* MSBaseOptions.h in Headers */,
 				267464ED222F28A300EC1FF3 /* MSPage.h in Headers */,
 				E8FE51EA221CBF87005FB52B /* MSSerializableDocument.h in Headers */,
@@ -1021,6 +1028,7 @@
 				2600124222273E94007F4D3A /* MSTokensResponse.m in Sources */,
 				267464F5222F28A300EC1FF3 /* MSPage.m in Sources */,
 				8F4548E32256D3160021B0BF /* MSDictionaryDocument.m in Sources */,
+				26F4B0EF226A478F006381D0 /* MSDataStoreUtils.m in Sources */,
 				267464F3222F28A300EC1FF3 /* MSDataStore.m in Sources */,
 				267464F7222F28A300EC1FF3 /* MSReadOptions.m in Sources */,
 				E8593A17222B91B20001F87E /* MSCosmosDb.m in Sources */,

@@ -401,8 +401,10 @@ static dispatch_once_t onceToken;
 
     // Perform the operation.
     NSError *serializationError;
-    NSDictionary *dic = [MSDocumentUtils getSerializableDictionaryFromDocument:document];
-    if (!dic) {
+    NSDictionary *dic = [MSDocumentUtils documentPayloadWithDocumentId:documentId
+                                                             partition:partition
+                                                              document:[document serializeToDictionary]];
+    if (![NSJSONSerialization isValidJSONObject:dic]) {
       serializationError =
           [[NSError alloc] initWithDomain:kMSACDataStoreErrorDomain
                                      code:MSACDataStoreErrorJSONSerializationFailed
@@ -411,7 +413,6 @@ static dispatch_once_t onceToken;
       completionHandler([[MSDocumentWrapper alloc] initWithError:serializationError documentId:documentId]);
       return;
     }
-    dic = [MSDocumentUtils documentPayloadWithDocumentId:documentId partition:partition document:[document serializeToDictionary]];
     NSData *body = [NSJSONSerialization dataWithJSONObject:dic options:0 error:&serializationError];
     if (!body || serializationError) {
       MSLogError([MSDataStore logTag], @"Error serializing data:%@", [serializationError localizedDescription]);
@@ -549,9 +550,6 @@ static dispatch_once_t onceToken;
                                             }];
 }
 
-+ (NSDate *)deserializeDate:(NSString *)dateString {
-  return [MSUtility dateFromISO8601:dateString];
-}
 
 #pragma mark - MSDataStore implementation utils
 
