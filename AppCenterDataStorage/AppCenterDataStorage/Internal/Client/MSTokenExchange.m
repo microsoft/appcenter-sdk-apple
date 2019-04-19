@@ -104,9 +104,17 @@ static NSString *const kMSGetTokenPath = @"/data/tokens";
             completionHandler([[MSTokensResponse alloc] initWithTokens:nil], serializeError);
             return;
           }
+          if ([(NSArray *)jsonDictionary[kMSTokens] count] == 0) {
+            MSLogError([MSDataStore logTag], @"Invalid token exchange service response.");
+            NSError *errorResponse = [[NSError alloc]
+                initWithDomain:kMSACDataStoreErrorDomain
+                          code:MSACDataStoreInvalidTokenExchangeResponse
+                      userInfo:@{NSLocalizedDescriptionKey : [NSString stringWithFormat:@"Invalid token exchange service response."]}];
+            completionHandler([[MSTokensResponse alloc] initWithTokens:nil], errorResponse);
+            return;
+          }
 
           // Create token result object.
-          // FIXME: we should eventually validate further the payload (we might not get the dictionary we expect).
           MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:(NSDictionary *)jsonDictionary[kMSTokens][0]];
 
           // Create token response object.
@@ -204,11 +212,8 @@ static NSString *const kMSGetTokenPath = @"/data/tokens";
 }
 
 + (BOOL)isValidPartitionName:(NSString *)partitionName {
-  if ([partitionName isEqualToString:kMSDataStoreAppDocumentsPartition] ||
-      [partitionName isEqualToString:kMSDataStoreUserDocumentsPartition]) {
-    return YES;
-  }
-  return NO;
+  return [partitionName isEqualToString:kMSDataStoreAppDocumentsPartition] ||
+         [partitionName isEqualToString:kMSDataStoreUserDocumentsPartition];
 }
 
 @end

@@ -124,6 +124,109 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
   [contextInstanceMock stopMocking];
 }
 
+- (void)testRequestTokenFailedAuthentication {
+
+  // If
+  NSObject *tokenData = [self getUnauthenticatedTokenData];
+  NSMutableDictionary *tokenList = [@{kMSTokens : @[ tokenData ]} mutableCopy];
+  NSData *jsonTokenData = [NSJSONSerialization dataWithJSONObject:tokenList options:NSJSONWritingPrettyPrinted error:nil];
+
+  OCMStub(ClassMethod([self.sut tokenKeyNameForPartition:kMSDataStoreUserDocumentsPartition])).andReturn(nil);
+
+  // Create instance of MSAuthTokenContext to mock.
+  id contextInstanceMock = OCMPartialMock([MSAuthTokenContext sharedInstance]);
+
+  // Stub method on mocked instance.
+  OCMStub([contextInstanceMock authToken]).andReturn(@"fake-token");
+
+  // Make static method always return mocked instance with stubbed method.
+  OCMStub(ClassMethod([MSAuthTokenContext sharedInstance])).andReturn(contextInstanceMock);
+  id<MSHttpClientProtocol> httpMock = OCMProtocolMock(@protocol(MSHttpClientProtocol));
+  __block NSDictionary *actualHeaders;
+
+  // Mock HTTP call returning fake token data.
+  OCMStub([httpMock sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:OCMOCK_ANY data:OCMOCK_ANY completionHandler:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        MSHttpRequestCompletionHandler completionBlock;
+        [invocation getArgument:&actualHeaders atIndex:4];
+        [invocation getArgument:&completionBlock atIndex:6];
+        NSHTTPURLResponse *response = [NSHTTPURLResponse new];
+        id mockResponse = OCMPartialMock(response);
+        OCMStub([mockResponse statusCode]).andReturn(MSHTTPCodesNo200OK);
+        completionBlock(jsonTokenData, mockResponse, nil);
+      });
+  XCTestExpectation *completeExpectation = [self expectationWithDescription:@"Task finished"];
+
+  // When
+  [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:httpMock
+                                             tokenExchangeUrl:[NSURL new]
+                                                    appSecret:@"appSecret"
+                                                    partition:kMSDataStoreUserDocumentsPartition
+                                          includeExpiredToken:NO
+                                            completionHandler:^(__unused MSTokensResponse *tokensResponse, NSError *_Nullable returnError) {
+                                              XCTAssertEqual(returnError.code, MSACDataStoreErrorHTTPError);
+                                              [completeExpectation fulfill];
+                                            }];
+  [self waitForExpectationsWithTimeout:5
+                               handler:^(NSError *error) {
+                                 if (error) {
+                                   XCTFail(@"Failed with error: %@ due to timeout.", error);
+                                 }
+                               }];
+  [contextInstanceMock stopMocking];
+}
+
+- (void)testRequestTokenInvalidResponse {
+
+  // If
+  NSMutableDictionary *tokenList = [@{kMSTokens : @[]} mutableCopy];
+  NSData *jsonTokenData = [NSJSONSerialization dataWithJSONObject:tokenList options:NSJSONWritingPrettyPrinted error:nil];
+
+  OCMStub(ClassMethod([self.sut tokenKeyNameForPartition:kMSDataStoreUserDocumentsPartition])).andReturn(nil);
+
+  // Create instance of MSAuthTokenContext to mock.
+  id contextInstanceMock = OCMPartialMock([MSAuthTokenContext sharedInstance]);
+
+  // Stub method on mocked instance.
+  OCMStub([contextInstanceMock authToken]).andReturn(@"fake-token");
+
+  // Make static method always return mocked instance with stubbed method.
+  OCMStub(ClassMethod([MSAuthTokenContext sharedInstance])).andReturn(contextInstanceMock);
+  id<MSHttpClientProtocol> httpMock = OCMProtocolMock(@protocol(MSHttpClientProtocol));
+  __block NSDictionary *actualHeaders;
+
+  // Mock HTTP call returning fake token data.
+  OCMStub([httpMock sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:OCMOCK_ANY data:OCMOCK_ANY completionHandler:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        MSHttpRequestCompletionHandler completionBlock;
+        [invocation getArgument:&actualHeaders atIndex:4];
+        [invocation getArgument:&completionBlock atIndex:6];
+        NSHTTPURLResponse *response = [NSHTTPURLResponse new];
+        id mockResponse = OCMPartialMock(response);
+        OCMStub([mockResponse statusCode]).andReturn(MSHTTPCodesNo200OK);
+        completionBlock(jsonTokenData, mockResponse, nil);
+      });
+  XCTestExpectation *completeExpectation = [self expectationWithDescription:@"Task finished"];
+
+  // When
+  [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:httpMock
+                                             tokenExchangeUrl:[NSURL new]
+                                                    appSecret:@"appSecret"
+                                                    partition:kMSDataStoreUserDocumentsPartition
+                                          includeExpiredToken:NO
+                                            completionHandler:^(__unused MSTokensResponse *tokensResponse, NSError *_Nullable returnError) {
+                                              XCTAssertEqual(returnError.code, MSACDataStoreInvalidTokenExchangeResponse);
+                                              [completeExpectation fulfill];
+                                            }];
+  [self waitForExpectationsWithTimeout:0
+                               handler:^(NSError *error) {
+                                 if (error) {
+                                   XCTFail(@"Failed with error: %@ due to timeout.", error);
+                                 }
+                               }];
+  [contextInstanceMock stopMocking];
+}
+
 - (void)testGetReadOnlyToken {
 
   // If
@@ -608,6 +711,18 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
     kMSDbAccount : @"",
     kMSDbCollectionName : @"",
     kMSExpiresOn : kMSNotExpiredDate
+  };
+}
+
+- (NSObject *)getUnauthenticatedTokenData {
+  return @{
+    kMSPartition : @"",
+    kMSToken : @"",
+    kMSStatus : @"Unauthenticated",
+    kMSDbName : @"",
+    kMSDbAccount : @"",
+    kMSDbCollectionName : @"",
+    kMSExpiresOn : @""
   };
 }
 
