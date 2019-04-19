@@ -72,19 +72,10 @@ static const NSUInteger kMSSchemaVersion = 1;
 - (BOOL)upsertWithToken:(MSTokenResult *)token
         documentWrapper:(MSDocumentWrapper *)documentWrapper
               operation:(NSString *_Nullable)operation
-       deviceTimeToLive:(NSInteger)deviceTimeToLive {
-  /*
-   * Compute expiration time as now + device time to live (in seconds).
-   * If device time to live is set to infinite, set expiration time as null in the database.
-   * Note: If the cache/store is meant to be disabled, this method should not even be called.
-   */
+         expirationTime:(NSTimeInterval)expirationTime {
 
   // This is the same as [[NSDate date] timeIntervalSince1970] - but saves us from allocating an NSDate.
   NSTimeInterval now = NSDate.timeIntervalSinceReferenceDate + NSTimeIntervalSince1970;
-  NSTimeInterval expirationTime = -1;
-  if (deviceTimeToLive != kMSDataStoreTimeToLiveInfinite) {
-    expirationTime = now + deviceTimeToLive;
-  }
   NSString *tableName = [MSDBDocumentStore tableNameForPartition:token.partition];
   NSString *insertQuery = [NSString
       stringWithFormat:@"REPLACE INTO \"%@\" (\"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\") "
@@ -98,6 +89,25 @@ static const NSUInteger kMSSchemaVersion = 1;
     MSLogError([MSDataStore logTag], @"Unable to update or replace local document, SQLite error code: %ld", (long)result);
   }
   return result == SQLITE_OK;
+}
+
+- (BOOL)upsertWithToken:(MSTokenResult *)token
+        documentWrapper:(MSDocumentWrapper *)documentWrapper
+              operation:(NSString *_Nullable)operation
+       deviceTimeToLive:(NSInteger)deviceTimeToLive {
+  /*
+   * Compute expiration time as now + device time to live (in seconds).
+   * If device time to live is set to infinite, set expiration time as null in the database.
+   * Note: If the cache/store is meant to be disabled, this method should not even be called.
+   */
+
+  // This is the same as [[NSDate date] timeIntervalSince1970] - but saves us from allocating an NSDate.
+  NSTimeInterval now = NSDate.timeIntervalSinceReferenceDate + NSTimeIntervalSince1970;
+  NSTimeInterval expirationTime = -1;
+  if (deviceTimeToLive != kMSDataStoreTimeToLiveInfinite) {
+    expirationTime = now + deviceTimeToLive;
+  }
+  return [self upsertWithToken:token documentWrapper:documentWrapper operation:operation expirationTime:expirationTime];
 }
 
 - (BOOL)deleteWithToken:(MSTokenResult *)token documentId:(NSString *)documentId {

@@ -29,20 +29,6 @@
   return self;
 }
 
-- (NSInteger)deviceTimeToLiveFromOperation {
-  long deviceTimeToLive = kMSDataStoreTimeToLiveNoCache;
-  if (self.expirationTime == kMSDataStoreTimeToLiveInfinite) {
-    deviceTimeToLive = kMSDataStoreTimeToLiveInfinite;
-  } else {
-    NSTimeInterval now = NSDate.timeIntervalSinceReferenceDate + NSTimeIntervalSince1970;
-    NSTimeInterval newExpirationTime = self.expirationTime - now;
-    if (newExpirationTime > 0) {
-      deviceTimeToLive = (long)newExpirationTime;
-    }
-  }
-  return deviceTimeToLive;
-}
-
 + (BOOL)isExpiredWithExpirationTime:(NSInteger)time {
 
   // Check if expiration time is infinit.

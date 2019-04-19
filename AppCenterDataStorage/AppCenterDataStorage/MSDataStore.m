@@ -709,75 +709,51 @@ static dispatch_once_t onceToken;
 
                                      // Process pending operations.
                                      for (MSPendingOperation *operation in pendingOperations) {
-                                       MSWriteOptions *writeOptions =
-                                           [[MSWriteOptions alloc] initWithDeviceTimeToLive:[operation deviceTimeToLiveFromOperation]];
+
+                                       // Create or Replace operation.
                                        if ([operation.operation isEqualToString:kMSPendingOperationCreate] ||
                                            [operation.operation isEqualToString:kMSPendingOperationReplace]) {
 
                                          // Get the document as dictionary.
-                                         NSDictionary *dic = [MSDocumentUtils documentPayloadWithDocumentId:(NSString *)operation.documentId
-                                                                                                  partition:tokenResponses.tokens[0].token
-                                                                                                   document:operation.document];
-                                         MSDictionaryDocument *dictionaryDocument = [[MSDictionaryDocument alloc] initFromDictionary:dic];
+                                         MSDictionaryDocument *dictionaryDocument =
+                                             [[MSDictionaryDocument alloc] initFromDictionary:operation.document];
 
-                                         // Perform create and update operation
-                                         [MSDataStore
-                                             replaceWithPartition:(NSString *)operation.partition
-                                                       documentId:(NSString *)operation.documentId
-                                                         document:dictionaryDocument
-                                                     writeOptions:(MSWriteOptions * _Nullable) writeOptions
-                                                completionHandler:^(MSDocumentWrapper *documentWrapper) {
-                                                  if (!documentWrapper.error) {
-                                                    if (writeOptions.deviceTimeToLive > kMSDataStoreTimeToLiveNoCache ||
-                                                        writeOptions.deviceTimeToLive == kMSDataStoreTimeToLiveInfinite) {
-                                                      [self.dataOperationProxy.documentStore upsertWithToken:tokenResponses.tokens[0]
-                                                                                             documentWrapper:documentWrapper
-                                                                                                   operation:nil
-                                                                                            deviceTimeToLive:writeOptions.deviceTimeToLive];
+                                         // Get header.
+                                         NSDictionary *additionalHeader = [operation.operation isEqualToString:kMSPendingOperationReplace]
+                                                                              ? @{kMSDocumentUpsertHeaderKey : @"true"}
+                                                                              : nil;
 
-                                                    } else {
-                                                      [self.dataOperationProxy.documentStore deleteWithToken:tokenResponses.tokens[0]
-                                                                                                  documentId:operation.documentId];
-                                                    }
-
-                                                  } else if (documentWrapper.error.errorCode == MSACDocumentNotFoundErrorCode ||
-                                                             documentWrapper.error.errorCode == MSACDocumentConflictErrorCode) {
-                                                    MSLogError(
-                                                        [MSDataStore logTag],
-                                                        @"Failed to call Cosmos delete API. Remote operation failed with error code: %ld",
-                                                        documentWrapper.error.errorCode);
-                                                    [self.dataOperationProxy.documentStore deleteWithToken:tokenResponses.tokens[0]
-                                                                                                documentId:operation.documentId];
-                                                  } else {
-                                                    MSLogError([MSDataStore logTag], @"Failed to call Cosmos create or replace API: %@",
-                                                               [documentWrapper.error.error localizedDescription]);
-                                                  }
-                                                }];
+                                         // Perform CosmosDb operation.
+                                         [self
+                                             upsertFromCosmosDbWithPartition:kMSDataStoreUserDocumentsPartition
+                                                                  documentId:operation.documentId
+                                                                    document:dictionaryDocument
+                                                           additionalHeaders:additionalHeader
+                                                           completionHandler:^(MSDocumentWrapper *_Nonnull documentWrapper) {
+                                                             [self
+                                                                 synchronizeLoclaCacheWithCosmosDbWithToken:tokenResponses.tokens[0]
+                                                                                                 documentId:(NSString *)operation.documentId
+                                                                                            documentWrapper:documentWrapper
+                                                                                           pendingOperation:operation.operation
+                                                                                    operationExpirationTime:(NSInteger)
+                                                                                                                operation.expirationTime];
+                                                             return;
+                                                           }];
                                        } else if ([operation.operation isEqualToString:kMSPendingOperationDelete]) {
 
-                                         // Perform delete operation
-                                         [MSDataStore
-                                             deleteWithPartition:(NSString *)operation.partition
-                                                      documentId:(NSString *)operation.documentId
-                                                    writeOptions:(MSWriteOptions * _Nullable) writeOptions
-                                               completionHandler:(MSDocumentWrapperCompletionHandler) ^ (MSDocumentWrapper *
-                                                                                                         documentWrapper) {
-                                                 if (!documentWrapper.error) {
-                                                   [self.dataOperationProxy.documentStore deleteWithToken:tokenResponses.tokens[0]
-                                                                                               documentId:operation.documentId];
-                                                 } else if (documentWrapper.error.errorCode == MSACDocumentNotFoundErrorCode ||
-                                                            documentWrapper.error.errorCode == MSACDocumentConflictErrorCode) {
-                                                   MSLogError(
-                                                       [MSDataStore logTag],
-                                                       @"Failed to call Cosmos delete API. Remote operation failed with error code: %ld",
-                                                       documentWrapper.error.errorCode);
-                                                   [self.dataOperationProxy.documentStore deleteWithToken:tokenResponses.tokens[0]
-                                                                                               documentId:operation.documentId];
-                                                 } else {
-                                                   MSLogError([MSDataStore logTag], @"Failed to call Cosmos delete API: %@",
-                                                              [documentWrapper.error.error localizedDescription]);
-                                                 }
-                                               }];
+                                         // Perform delete operation.
+                                         [self
+                                             deleteFromCosmosDbWithPartition:kMSDataStoreUserDocumentsPartition
+                                                                  documentId:operation.documentId
+                                                           completionHandler:^(MSDocumentWrapper *_Nonnull documentWrapper) {
+                                                             [self
+                                                                 synchronizeLoclaCacheWithCosmosDbWithToken:tokenResponses.tokens[0]
+                                                                                                 documentId:(NSString *)operation.documentId
+                                                                                            documentWrapper:documentWrapper
+                                                                                           pendingOperation:operation.operation
+                                                                                    operationExpirationTime:kMSDataStoreTimeToLiveNoCache];
+                                                             return;
+                                                           }];
                                        } else {
                                          MSLogError([MSDataStore logTag], @"Pending operation '%@' is not supported", operation.operation);
                                        }
@@ -785,6 +761,42 @@ static dispatch_once_t onceToken;
                                      return;
                                    });
                                  }];
+  }
+}
+
+- (void)synchronizeLoclaCacheWithCosmosDbWithToken:(MSTokenResult *)token
+                                        documentId:(NSString *)documentId
+                                   documentWrapper:(MSDocumentWrapper *)documentWrapper
+                                  pendingOperation:(NSString *)pendingOperation
+                           operationExpirationTime:(NSInteger)operationExpirationTime {
+
+  // Check if expired.
+  BOOL isExpired = [MSPendingOperation isExpiredWithExpirationTime:operationExpirationTime];
+  BOOL shouldDeleteLocalCache = YES;
+
+  // Create and Replace operations.
+  if (!documentWrapper.error && ![pendingOperation isEqualToString:kMSPendingOperationDelete]) {
+
+    // If not expired, update the local cache. otherwise, remove from the local cache.
+    if (!isExpired) {
+      [self.dataOperationProxy.documentStore upsertWithToken:token
+                                             documentWrapper:documentWrapper
+                                                   operation:nil
+                                              expirationTime:operationExpirationTime];
+      shouldDeleteLocalCache = NO;
+    }
+  } else if (documentWrapper.error.errorCode == MSHTTPCodesNo404NotFound || documentWrapper.error.errorCode == MSHTTPCodesNo409Conflict) {
+    MSLogError([MSDataStore logTag], @"Failed to call Cosmos with operation: %@. Remote operation failed with error code: %ld",
+               pendingOperation, (long)documentWrapper.error.errorCode);
+  } else if (documentWrapper.error) {
+    shouldDeleteLocalCache = NO;
+    MSLogError([MSDataStore logTag], @"Failed to call Cosmos with operation:%@ API: %@", pendingOperation,
+               [documentWrapper.error.error localizedDescription]);
+  }
+
+  // Delete the document form the local cache.
+  if (shouldDeleteLocalCache) {
+    [self.dataOperationProxy.documentStore deleteWithToken:token documentId:documentId];
   }
 }
 

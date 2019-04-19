@@ -31,7 +31,7 @@
 @property(nonatomic, strong) NSString *etag;
 
 /**
- * Document epiration time.
+ * Document expiration time.
  */
 @property(nonatomic) NSTimeInterval expirationTime;
 
@@ -53,13 +53,6 @@
                          document:(NSDictionary *)document
                              etag:(NSString *)etag
                    expirationTime:(NSTimeInterval)expirationTime;
-
-/**
- * Get Time to live time of the operation.
- *
- * @return Time to live of the operaiotn.
- */
-- (NSInteger)deviceTimeToLiveFromOperation;
 
 /**
  * Indicate if time is expired.

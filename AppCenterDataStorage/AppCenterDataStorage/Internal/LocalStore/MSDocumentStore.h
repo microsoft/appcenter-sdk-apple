@@ -38,6 +38,21 @@ NS_ASSUME_NONNULL_BEGIN
        deviceTimeToLive:(NSInteger)deviceTimeToLive;
 
 /**
+ * Create or replace an entry in the store.
+ *
+ * @param token CosmosDB token.
+ * @param documentWrapper Document wrapper object to store.
+ * @param operation The operation store.
+ * @param expirationTime Document expiration time.
+ *
+ * @return YES if the document was saved successfully, NO otherwise.
+ */
+- (BOOL)upsertWithToken:(MSTokenResult *)token
+        documentWrapper:(MSDocumentWrapper *)documentWrapper
+              operation:(NSString *_Nullable)operation
+         expirationTime:(NSTimeInterval)expirationTime;
+
+/**
  * Delete an entry from the store.
  *
  * @param token CosmosDB token.
