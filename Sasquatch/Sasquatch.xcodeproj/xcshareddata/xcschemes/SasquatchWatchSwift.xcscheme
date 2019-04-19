@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0830"
+   LastUpgradeVersion = "1010"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -65,7 +65,7 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES"
-      notificationPayloadFile = "../TestApps/Sasquatch/SasquatchWatchObjC Extension/PushNotificationPayload.apns">
+      notificationPayloadFile = "SasquatchWatchSwift Extension/PushNotificationPayload.apns">
       <RemoteRunnable
          runnableDebuggingMode = "2"
          BundleIdentifier = "com.apple.Carousel"

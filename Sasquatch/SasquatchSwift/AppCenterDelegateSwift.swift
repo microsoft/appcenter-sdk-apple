@@ -192,7 +192,7 @@ class AppCenterDelegateSwift: AppCenterDelegate {
     if (MSDistribute.responds(to: sharedInstanceSelector)) {
       let distributeInstance = MSDistribute.perform(sharedInstanceSelector).takeUnretainedValue()
       let distriuteDelegate = distributeInstance.perform(delegateSelector).takeUnretainedValue()
-      _ = distriuteDelegate.distribute?(distributeInstance as! MSDistribute, releaseAvailableWith: releaseDetails)
+      _ = distriuteDelegate.distribute?(distributeInstance as? MSDistribute, releaseAvailableWith: releaseDetails)
     }
   }
 
