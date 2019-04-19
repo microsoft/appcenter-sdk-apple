@@ -300,7 +300,6 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                }];
 }
 
-
 - (void)testReplaceWhenDataModuleDisabled {
 
   // If
