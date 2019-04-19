@@ -38,7 +38,7 @@ class MSStorageViewController: UIViewController, UITableViewDelegate, UITableVie
   func loadAppFiles() {
     self.appCenter.listDocumentsWithPartition("READONLY", documentType: TestDocument.self, completionHandler: { (documents) in
       self.allDocuments = documents;
-      MSStorageViewController.AppDocuments = documents.currentPage()?.items ?? []
+      MSStorageViewController.AppDocuments = documents.currentPage().items ?? []
       DispatchQueue.main.async {
         self.tableView.isHidden = false
         self.tableView.reloadData()
@@ -49,7 +49,7 @@ class MSStorageViewController: UIViewController, UITableViewDelegate, UITableVie
   func loadUserFiles() {
     self.appCenter.listDocumentsWithPartition("USER", documentType: TestDocument.self, completionHandler: { (documents) in
       self.allDocuments = documents;
-      MSStorageViewController.UserDocuments = documents.currentPage()?.items ?? []
+      MSStorageViewController.UserDocuments = documents.currentPage().items ?? []
       DispatchQueue.main.async {
         self.tableView.isHidden = false
         self.tableView.reloadData()
@@ -72,9 +72,9 @@ class MSStorageViewController: UIViewController, UITableViewDelegate, UITableVie
       DispatchQueue.global().async() {
         self.allDocuments.nextPage(completionHandler: { page in
           if self.storageType == StorageType.User.rawValue && self.identitySignIn {
-            MSStorageViewController.UserDocuments += page?.items ?? []
+            MSStorageViewController.UserDocuments += page.items ?? []
           } else {
-            MSStorageViewController.AppDocuments += page?.items ?? []
+            MSStorageViewController.AppDocuments += page.items ?? []
           }
           DispatchQueue.main.sync {
             self.tableView.isHidden = false
