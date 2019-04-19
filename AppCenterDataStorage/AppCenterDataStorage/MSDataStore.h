@@ -17,11 +17,6 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- * Error domain for Storage.
- */
-static NSString *const kMSDataStorageErrorDomain = @"MSDataStorageErrorDomain";
-
-/**
  * User partition.
  * An authenticated user can read/write documents in this partition.
  */
@@ -102,19 +97,6 @@ typedef void (^MSPaginatedDocumentsCompletionHandler)(MSPaginatedDocuments<T> *d
         completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler;
 
 /**
- * Retrieve a paginated list of the documents in a partition.
- *
- * @param partition The CosmosDB partition key.
- * @param documentType The object type of the documents in the partition. Must conform to MSSerializableDocument protocol.
- * @param readOptions Options for reading and storing the documents.
- * @param completionHandler Callback to accept documents.
- */
-+ (void)listWithPartition:(NSString *)partition
-             documentType:(Class)documentType
-              readOptions:(MSReadOptions *_Nullable)readOptions
-        completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler;
-
-/**
  * Create a document in CosmosDB.
  *
  * @param partition The CosmosDB partition key.
@@ -177,9 +159,9 @@ typedef void (^MSPaginatedDocumentsCompletionHandler)(MSPaginatedDocuments<T> *d
  * @param documentId The CosmosDB document id.
  * @param completionHandler Callback to accept any errors.
  */
-+ (void)deleteDocumentWithPartition:(NSString *)partition
-                         documentId:(NSString *)documentId
-                  completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler;
++ (void)deleteWithPartition:(NSString *)partition
+                 documentId:(NSString *)documentId
+          completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler;
 
 /**
  * Delete a document from CosmosDB.
@@ -189,10 +171,10 @@ typedef void (^MSPaginatedDocumentsCompletionHandler)(MSPaginatedDocuments<T> *d
  * @param writeOptions Options for deleting the document.
  * @param completionHandler Callback to accept any errors.
  */
-+ (void)deleteDocumentWithPartition:(NSString *)partition
-                         documentId:(NSString *)documentId
-                       writeOptions:(MSWriteOptions *_Nullable)writeOptions
-                  completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler;
++ (void)deleteWithPartition:(NSString *)partition
+                 documentId:(NSString *)documentId
+               writeOptions:(MSWriteOptions *_Nullable)writeOptions
+          completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler;
 
 @end
 

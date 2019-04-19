@@ -11,7 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol MSHttpClientProtocol;
 @class MSTokensResponse;
 
-typedef void (^MSGetTokenAsyncCompletionHandler)(MSTokensResponse *tokenResponses, NSError *_Nullable error);
+typedef void (^MSGetTokenAsyncCompletionHandler)(MSTokensResponse *tokensResponse, NSError *_Nullable error);
 
 /**
  * This class retrieves and caches CosmosDB access token.
@@ -49,6 +49,14 @@ typedef void (^MSGetTokenAsyncCompletionHandler)(MSTokensResponse *tokenResponse
  * Deletes all cached tokens. This should be called when the user logs out.
  */
 + (void)removeAllCachedTokens;
+
+/**
+ * Validate the partition name passed to token exchange.
+ * @param partition The partition name to be validated.
+ *
+ * @return The partition is valid or not.
+ **/
++ (BOOL)isValidPartitionName:(NSString *)partition;
 
 @end
 

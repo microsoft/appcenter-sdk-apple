@@ -30,7 +30,7 @@ static NSString *const kMSObjCRuntimeTargetToken = @"1aa046cfdc8f49bdbd64190290c
                                                    @"7361";
 #endif
 
-static NSString *const kMSPuppetAppSecret = @"7dfb022a-17b5-4d4a-9c75-12bc3ef5e6b7";
+static NSString *const kMSPuppetAppSecret = @"65dc3680-7325-4000-a0e7-dbd2276eafd1";
 static NSString *const kMSObjcAppSecret = @"3ccfe7f5-ec01-4de5-883c-f563bbbe147a";
 static NSString *const kMSSwiftAppSecret = @"0dbca56b-b9ae-4d53-856a-7c2856137d85";
 static NSString *const kMSStartTargetKey = @"startTarget";
@@ -46,4 +46,8 @@ static int const kMSStoragePageSize = SQLITE_DEFAULT_PAGE_SIZE;
 static int const kMSStoragePageSize = 4096;
 #endif
 
-static const NSString *kMSIntConfigUrl = @"https://config-integration.dev.avalanch.es";
+static NSString *const kMSIntLogUrl = @"https://in-integration.dev.avalanch.es";
+static NSString *const kMSIntConfigUrl = @"https://config-integration.dev.avalanch.es";
+static NSString *const kMSIntTokenExchangeUrl = @"https://token-exchange-mbaas-integration.dev.avalanch.es/v0.1";
+static NSString *const kMSIntApiUrl = @"https://api-gateway-core-integration.dev.avalanch.es/v0.1";
+static NSString *const kMSIntInstallUrl = @"https://install.portal-server-core-integration.dev.avalanch.es";

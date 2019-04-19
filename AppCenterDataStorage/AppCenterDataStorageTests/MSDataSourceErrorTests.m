@@ -15,8 +15,8 @@
 - (void)testInitWithErrorCallsParsingMethod {
 
   // If
-  NSInteger expectedErrorCode = MSACDocumentInternalServerErrorErrorCode;
-  NSDictionary *userInfo = @{@"com.Microsoft.AppCenter.HttpCodeKey" : @(expectedErrorCode)};
+  NSInteger expectedErrorCode = MSHTTPCodesNo500InternalServerError;
+  NSDictionary *userInfo = @{@"MSHttpCodeKey" : @(expectedErrorCode)};
   NSError *error = [NSError errorWithDomain:kMSACErrorDomain code:0 userInfo:userInfo];
   id dataSourceErrorMock = OCMClassMock([MSDataSourceError class]);
 
@@ -30,23 +30,11 @@
   [dataSourceErrorMock stopMocking];
 }
 
-- (void)testErrorCodeFromErrorReturnsSucceededWhenNoError {
-
-  // If
-  NSInteger expectedErrorCode = MSACDocumentSucceededErrorCode;
-
-  // When
-  NSInteger actualErrorCode = [MSDataSourceError errorCodeFromError:nil];
-
-  // Then
-  XCTAssertEqual(expectedErrorCode, actualErrorCode);
-}
-
 - (void)testErrorCodeFromErrorParsesCodeFromUserInfo {
 
   // If
-  NSInteger expectedErrorCode = MSACDocumentInternalServerErrorErrorCode;
-  NSDictionary *userInfo = @{@"com.Microsoft.AppCenter.HttpCodeKey" : @(expectedErrorCode)};
+  NSInteger expectedErrorCode = MSHTTPCodesNo500InternalServerError;
+  NSDictionary *userInfo = @{@"MSHttpCodeKey" : @(expectedErrorCode)};
   NSError *error = [NSError errorWithDomain:kMSACErrorDomain code:0 userInfo:userInfo];
 
   // When
@@ -59,7 +47,7 @@
 - (void)testErrorCodeFromErrorReturnsUnknownWhenNoUserInfo {
 
   // If
-  NSInteger expectedErrorCode = MSACDocumentUnknownErrorCode;
+  NSInteger expectedErrorCode = MSHTTPCodesNo0XXInvalidUnknown;
   NSError *error = [NSError errorWithDomain:kMSACErrorDomain code:0 userInfo:nil];
 
   // When

@@ -32,6 +32,15 @@ static NSString *const kMSGetTokenPath = @"/data/tokens";
                                          partition:(NSString *)partition
                                includeExpiredToken:(BOOL)includeExpiredToken
                                  completionHandler:(MSGetTokenAsyncCompletionHandler)completionHandler {
+  if (![MSTokenExchange isValidPartitionName:partition]) {
+    MSLogError([MSDataStore logTag], @"Can't perform token exchange because partition name %@ is invalid.", partition);
+    NSError *error =
+        [[NSError alloc] initWithDomain:kMSACDataStoreErrorDomain
+                                   code:MSACDataStoreInvalidPartitionError
+                               userInfo:@{NSLocalizedDescriptionKey : [NSString stringWithFormat:@"Invalid partition name %@", partition]}];
+    completionHandler([[MSTokensResponse alloc] initWithTokens:nil], error);
+    return;
+  }
 
   // Get the cached token if it is saved.
   MSTokenResult *cachedToken = [MSTokenExchange retrieveCachedTokenForPartition:partition includeExpiredToken:includeExpiredToken];
@@ -95,13 +104,21 @@ static NSString *const kMSGetTokenPath = @"/data/tokens";
             completionHandler([[MSTokensResponse alloc] initWithTokens:nil], serializeError);
             return;
           }
+          if ([(NSArray *)jsonDictionary[kMSTokens] count] == 0) {
+            MSLogError([MSDataStore logTag], @"Invalid token exchange service response.");
+            NSError *errorResponse = [[NSError alloc]
+                initWithDomain:kMSACDataStoreErrorDomain
+                          code:MSACDataStoreInvalidTokenExchangeResponse
+                      userInfo:@{NSLocalizedDescriptionKey : [NSString stringWithFormat:@"Invalid token exchange service response."]}];
+            completionHandler([[MSTokensResponse alloc] initWithTokens:nil], errorResponse);
+            return;
+          }
 
           // Create token result object.
-          // FIXME: we should eventually validate further the payload (we might not get the dictionary we expect).
           MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:(NSDictionary *)jsonDictionary[kMSTokens][0]];
 
           // Create token response object.
-          MSTokensResponse *tokens = [[MSTokensResponse alloc] initWithTokens:@[ tokenResult ]];
+          MSTokensResponse *tokensResponse = [[MSTokensResponse alloc] initWithTokens:@[ tokenResult ]];
 
           // Token exchange did not get back an error but acquiring the token did not succeed either
           if (tokenResult && ![tokenResult.status isEqualToString:kMSTokenResultSucceed]) {
@@ -112,13 +129,13 @@ static NSString *const kMSGetTokenPath = @"/data/tokens";
                       userInfo:@{
                         NSLocalizedDescriptionKey : [NSString stringWithFormat:@"Token result had a status of %@", tokenResult.status]
                       }];
-            completionHandler(tokens, statusError);
+            completionHandler(tokensResponse, statusError);
             return;
           }
 
           // Cache the newly acquired token.
           [MSTokenExchange saveToken:tokenResult];
-          completionHandler(tokens, error);
+          completionHandler(tokensResponse, error);
         }];
   } else {
     completionHandler([[MSTokensResponse alloc] initWithTokens:@[ cachedToken ]], nil);
@@ -191,8 +208,12 @@ static NSString *const kMSGetTokenPath = @"/data/tokens";
   if ([partitionName isEqualToString:kMSDataStoreAppDocumentsPartition]) {
     return kMSStorageReadOnlyDbTokenKey;
   }
-
   return kMSStorageUserDbTokenKey;
+}
+
++ (BOOL)isValidPartitionName:(NSString *)partitionName {
+  return [partitionName isEqualToString:kMSDataStoreAppDocumentsPartition] ||
+         [partitionName isEqualToString:kMSDataStoreUserDocumentsPartition];
 }
 
 @end

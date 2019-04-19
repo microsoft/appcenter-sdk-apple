@@ -2,8 +2,9 @@
 // Licensed under the MIT License.
 
 #import "MSAuthTokenContext.h"
-#import "MSConstants+Internal.h"
+#import "MSConstants.h"
 #import "MSDataStorageConstants.h"
+#import "MSDataStore.h"
 #import "MSDataStoreErrors.h"
 #import "MSHttpClientProtocol.h"
 #import "MSHttpTestUtil.h"
@@ -25,13 +26,11 @@ static NSString *const kMSExpiresOn = @"expiresOn";
 static NSString *const kMSExpiredDate = @"1999-09-19T11:11:11.111Z";
 static NSString *const kMSNotExpiredDate = @"2999-09-19T11:11:11.111Z";
 static NSString *const kMSMockTokenValue = @"mock-token";
-static NSString *const kMSPartitionName = @"mock-partition";
 static NSString *const kMSMockTokenKeyName = @"mock-token-key-name";
 
 static NSString *const kMSCachedToken = @"mockCachedToken";
 static NSString *const kMSStorageReadOnlyDbTokenKey = @"MSStorageReadOnlyDbToken";
 static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
-static NSString *const kMSDataStoreAppDocumentsPartition = @"readonly";
 
 @interface MSTokenExchange (Test)
 
@@ -53,7 +52,7 @@ static NSString *const kMSDataStoreAppDocumentsPartition = @"readonly";
   [super setUp];
   self.sut = OCMClassMock([MSTokenExchange class]);
   self.keychainUtilMock = OCMClassMock([MSKeychainUtil class]);
-  OCMStub(ClassMethod([self.sut tokenKeyNameForPartition:kMSPartitionName])).andReturn(kMSMockTokenKeyName);
+  OCMStub(ClassMethod([self.sut tokenKeyNameForPartition:kMSDataStoreUserDocumentsPartition])).andReturn(kMSMockTokenKeyName);
 }
 
 - (void)tearDown {
@@ -68,6 +67,8 @@ static NSString *const kMSDataStoreAppDocumentsPartition = @"readonly";
   NSObject *tokenData = [self getSuccessfulTokenData];
   NSMutableDictionary *tokenList = [@{kMSTokens : @[ tokenData ]} mutableCopy];
   NSData *jsonTokenData = [NSJSONSerialization dataWithJSONObject:tokenList options:NSJSONWritingPrettyPrinted error:nil];
+
+  OCMStub(ClassMethod([self.sut tokenKeyNameForPartition:kMSDataStoreUserDocumentsPartition])).andReturn(nil);
 
   // Create instance of MSAuthTokenContext to mock.
   id contextInstanceMock = OCMPartialMock([MSAuthTokenContext sharedInstance]);
@@ -98,11 +99,11 @@ static NSString *const kMSDataStoreAppDocumentsPartition = @"readonly";
   [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:httpMock
                                              tokenExchangeUrl:[NSURL new]
                                                     appSecret:@"appSecret"
-                                                    partition:kMSPartition
+                                                    partition:kMSDataStoreUserDocumentsPartition
                                           includeExpiredToken:NO
-                                            completionHandler:^(MSTokensResponse *tokenResponses, NSError *_Nullable returnError) {
+                                            completionHandler:^(MSTokensResponse *tokensResponse, NSError *_Nullable returnError) {
                                               XCTAssertNil(returnError);
-                                              returnedTokenResult = [tokenResponses tokens][0];
+                                              returnedTokenResult = [tokensResponse tokens][0];
                                               NSString *tokenValue = returnedTokenResult.token;
                                               XCTAssertTrue([tokenValue isEqualToString:kMSMockTokenValue]);
                                               [completeExpectation fulfill];
@@ -119,6 +120,109 @@ static NSString *const kMSDataStoreAppDocumentsPartition = @"readonly";
                                  XCTAssertEqualObjects(actualHeaders[@"Authorization"], @"Bearer fake-token");
                                  XCTAssertEqualObjects(actualHeaders[@"Content-Type"], @"application/json");
                                  XCTAssertEqualObjects(actualHeaders[@"App-Secret"], @"appSecret");
+                               }];
+  [contextInstanceMock stopMocking];
+}
+
+- (void)testRequestTokenFailedAuthentication {
+
+  // If
+  NSObject *tokenData = [self getUnauthenticatedTokenData];
+  NSMutableDictionary *tokenList = [@{kMSTokens : @[ tokenData ]} mutableCopy];
+  NSData *jsonTokenData = [NSJSONSerialization dataWithJSONObject:tokenList options:NSJSONWritingPrettyPrinted error:nil];
+
+  OCMStub(ClassMethod([self.sut tokenKeyNameForPartition:kMSDataStoreUserDocumentsPartition])).andReturn(nil);
+
+  // Create instance of MSAuthTokenContext to mock.
+  id contextInstanceMock = OCMPartialMock([MSAuthTokenContext sharedInstance]);
+
+  // Stub method on mocked instance.
+  OCMStub([contextInstanceMock authToken]).andReturn(@"fake-token");
+
+  // Make static method always return mocked instance with stubbed method.
+  OCMStub(ClassMethod([MSAuthTokenContext sharedInstance])).andReturn(contextInstanceMock);
+  id<MSHttpClientProtocol> httpMock = OCMProtocolMock(@protocol(MSHttpClientProtocol));
+  __block NSDictionary *actualHeaders;
+
+  // Mock HTTP call returning fake token data.
+  OCMStub([httpMock sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:OCMOCK_ANY data:OCMOCK_ANY completionHandler:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        MSHttpRequestCompletionHandler completionBlock;
+        [invocation getArgument:&actualHeaders atIndex:4];
+        [invocation getArgument:&completionBlock atIndex:6];
+        NSHTTPURLResponse *response = [NSHTTPURLResponse new];
+        id mockResponse = OCMPartialMock(response);
+        OCMStub([mockResponse statusCode]).andReturn(MSHTTPCodesNo200OK);
+        completionBlock(jsonTokenData, mockResponse, nil);
+      });
+  XCTestExpectation *completeExpectation = [self expectationWithDescription:@"Task finished"];
+
+  // When
+  [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:httpMock
+                                             tokenExchangeUrl:[NSURL new]
+                                                    appSecret:@"appSecret"
+                                                    partition:kMSDataStoreUserDocumentsPartition
+                                          includeExpiredToken:NO
+                                            completionHandler:^(__unused MSTokensResponse *tokensResponse, NSError *_Nullable returnError) {
+                                              XCTAssertEqual(returnError.code, MSACDataStoreErrorHTTPError);
+                                              [completeExpectation fulfill];
+                                            }];
+  [self waitForExpectationsWithTimeout:5
+                               handler:^(NSError *error) {
+                                 if (error) {
+                                   XCTFail(@"Failed with error: %@ due to timeout.", error);
+                                 }
+                               }];
+  [contextInstanceMock stopMocking];
+}
+
+- (void)testRequestTokenInvalidResponse {
+
+  // If
+  NSMutableDictionary *tokenList = [@{kMSTokens : @[]} mutableCopy];
+  NSData *jsonTokenData = [NSJSONSerialization dataWithJSONObject:tokenList options:NSJSONWritingPrettyPrinted error:nil];
+
+  OCMStub(ClassMethod([self.sut tokenKeyNameForPartition:kMSDataStoreUserDocumentsPartition])).andReturn(nil);
+
+  // Create instance of MSAuthTokenContext to mock.
+  id contextInstanceMock = OCMPartialMock([MSAuthTokenContext sharedInstance]);
+
+  // Stub method on mocked instance.
+  OCMStub([contextInstanceMock authToken]).andReturn(@"fake-token");
+
+  // Make static method always return mocked instance with stubbed method.
+  OCMStub(ClassMethod([MSAuthTokenContext sharedInstance])).andReturn(contextInstanceMock);
+  id<MSHttpClientProtocol> httpMock = OCMProtocolMock(@protocol(MSHttpClientProtocol));
+  __block NSDictionary *actualHeaders;
+
+  // Mock HTTP call returning fake token data.
+  OCMStub([httpMock sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:OCMOCK_ANY data:OCMOCK_ANY completionHandler:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        MSHttpRequestCompletionHandler completionBlock;
+        [invocation getArgument:&actualHeaders atIndex:4];
+        [invocation getArgument:&completionBlock atIndex:6];
+        NSHTTPURLResponse *response = [NSHTTPURLResponse new];
+        id mockResponse = OCMPartialMock(response);
+        OCMStub([mockResponse statusCode]).andReturn(MSHTTPCodesNo200OK);
+        completionBlock(jsonTokenData, mockResponse, nil);
+      });
+  XCTestExpectation *completeExpectation = [self expectationWithDescription:@"Task finished"];
+
+  // When
+  [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:httpMock
+                                             tokenExchangeUrl:[NSURL new]
+                                                    appSecret:@"appSecret"
+                                                    partition:kMSDataStoreUserDocumentsPartition
+                                          includeExpiredToken:NO
+                                            completionHandler:^(__unused MSTokensResponse *tokensResponse, NSError *_Nullable returnError) {
+                                              XCTAssertEqual(returnError.code, MSACDataStoreInvalidTokenExchangeResponse);
+                                              [completeExpectation fulfill];
+                                            }];
+  [self waitForExpectationsWithTimeout:0
+                               handler:^(NSError *error) {
+                                 if (error) {
+                                   XCTFail(@"Failed with error: %@ due to timeout.", error);
+                                 }
                                }];
   [contextInstanceMock stopMocking];
 }
@@ -155,11 +259,11 @@ static NSString *const kMSDataStoreAppDocumentsPartition = @"readonly";
   [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:httpMock
                                              tokenExchangeUrl:[NSURL new]
                                                     appSecret:@"appSecret"
-                                                    partition:kMSPartition
+                                                    partition:kMSDataStoreAppDocumentsPartition
                                           includeExpiredToken:NO
-                                            completionHandler:^(MSTokensResponse *tokenResponses, NSError *_Nullable returnError) {
+                                            completionHandler:^(MSTokensResponse *tokensResponse, NSError *_Nullable returnError) {
                                               XCTAssertNil(returnError);
-                                              returnedTokenResult = [tokenResponses tokens][0];
+                                              returnedTokenResult = [tokensResponse tokens][0];
                                               NSString *tokenValue = returnedTokenResult.token;
                                               XCTAssertTrue([tokenValue isEqualToString:kMSMockTokenValue]);
                                               [completeExpectation fulfill];
@@ -199,12 +303,12 @@ static NSString *const kMSDataStoreAppDocumentsPartition = @"readonly";
   [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:httpMock
                                              tokenExchangeUrl:[NSURL new]
                                                     appSecret:@"appSecret"
-                                                    partition:kMSPartitionName
+                                                    partition:kMSDataStoreUserDocumentsPartition
                                           includeExpiredToken:NO
-                                            completionHandler:^(MSTokensResponse *tokenResponses, NSError *_Nullable error) {
+                                            completionHandler:^(MSTokensResponse *tokensResponse, NSError *_Nullable error) {
                                               // Then
                                               XCTAssertNil(error);
-                                              NSString *tokenValue = [tokenResponses tokens][0].token;
+                                              NSString *tokenValue = [tokensResponse tokens][0].token;
                                               XCTAssertTrue([tokenValue isEqualToString:kMSMockTokenValue]);
                                               [completeExpectation fulfill];
                                             }];
@@ -244,12 +348,12 @@ static NSString *const kMSDataStoreAppDocumentsPartition = @"readonly";
   [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:httpMock
                                              tokenExchangeUrl:[NSURL new]
                                                     appSecret:@"appSecret"
-                                                    partition:kMSPartition
+                                                    partition:kMSDataStoreUserDocumentsPartition
                                           includeExpiredToken:NO
-                                            completionHandler:^(MSTokensResponse *tokenResponses, NSError *_Nullable returnError) {
+                                            completionHandler:^(MSTokensResponse *tokensResponse, NSError *_Nullable returnError) {
                                               // Then
                                               XCTAssertNotNil(returnError);
-                                              XCTAssertEqual([tokenResponses tokens].count, 0);
+                                              XCTAssertEqual([tokensResponse tokens].count, 0);
                                               [completeExpectation fulfill];
                                             }];
   [self waitForExpectationsWithTimeout:5
@@ -287,9 +391,9 @@ static NSString *const kMSDataStoreAppDocumentsPartition = @"readonly";
       performDbTokenAsyncOperationWithHttpClient:httpMock
                                 tokenExchangeUrl:[NSURL new]
                                        appSecret:@"appSecret"
-                                       partition:kMSPartition
+                                       partition:kMSDataStoreUserDocumentsPartition
                              includeExpiredToken:NO
-                               completionHandler:^(MSTokensResponse *__unused tokenResponses, NSError *_Nullable __unused returnError){
+                               completionHandler:^(MSTokensResponse *__unused tokensResponse, NSError *_Nullable __unused returnError){
                                }];
 
   // Then
@@ -319,9 +423,9 @@ static NSString *const kMSDataStoreAppDocumentsPartition = @"readonly";
   [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:httpMock
                                              tokenExchangeUrl:[NSURL new]
                                                     appSecret:@"appSecret"
-                                                    partition:kMSPartition
+                                                    partition:kMSDataStoreUserDocumentsPartition
                                           includeExpiredToken:NO
-                                            completionHandler:^(MSTokensResponse *__unused tokenResponses, NSError *_Nullable returnError) {
+                                            completionHandler:^(MSTokensResponse *__unused tokensResponse, NSError *_Nullable returnError) {
                                               // Then
                                               XCTAssertNotNil(returnError);
                                               XCTAssertEqual(returnError.code, MSACDataStoreErrorJSONSerializationFailed);
@@ -359,11 +463,37 @@ static NSString *const kMSDataStoreAppDocumentsPartition = @"readonly";
   [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:httpMock
                                              tokenExchangeUrl:[NSURL new]
                                                     appSecret:@"appSecret"
-                                                    partition:kMSPartition
+                                                    partition:kMSDataStoreUserDocumentsPartition
                                           includeExpiredToken:NO
-                                            completionHandler:^(MSTokensResponse *__unused tokenResponses, NSError *_Nullable returnError) {
+                                            completionHandler:^(MSTokensResponse *__unused tokensResponse, NSError *_Nullable returnError) {
                                               // Then
                                               XCTAssertEqual(returnError, serviceError);
+                                              [completeExpectation fulfill];
+                                            }];
+  [self waitForExpectationsWithTimeout:5
+                               handler:^(NSError *error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+}
+
+- (void)testPassInvalidPartitionToTokenExchangeReturnsError {
+
+  // If
+  NSString *invalidPartitionName = @"Invalid Partition Name";
+  id<MSHttpClientProtocol> httpMock = OCMProtocolMock(@protocol(MSHttpClientProtocol));
+  XCTestExpectation *completeExpectation = [self expectationWithDescription:@"Task finished"];
+
+  // When
+  [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:httpMock
+                                             tokenExchangeUrl:[NSURL new]
+                                                    appSecret:@"appSecret"
+                                                    partition:invalidPartitionName
+                                          includeExpiredToken:NO
+                                            completionHandler:^(MSTokensResponse *__unused tokensResponse, NSError *_Nullable returnError) {
+                                              // Then
+                                              XCTAssertEqual(returnError.code, MSACDataStoreInvalidPartitionError);
                                               [completeExpectation fulfill];
                                             }];
   [self waitForExpectationsWithTimeout:5
@@ -400,9 +530,9 @@ static NSString *const kMSDataStoreAppDocumentsPartition = @"readonly";
   [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:httpMock
                                              tokenExchangeUrl:[NSURL new]
                                                     appSecret:@"appSecret"
-                                                    partition:kMSPartition
+                                                    partition:kMSDataStoreUserDocumentsPartition
                                           includeExpiredToken:NO
-                                            completionHandler:^(MSTokensResponse *__unused tokenResponses, NSError *_Nullable returnError) {
+                                            completionHandler:^(MSTokensResponse *__unused tokensResponse, NSError *_Nullable returnError) {
                                               // Then
                                               XCTAssertNotNil(returnError);
                                               XCTAssertEqual([returnError code], MSACDataStoreErrorHTTPError);
@@ -504,7 +634,7 @@ static NSString *const kMSDataStoreAppDocumentsPartition = @"readonly";
 
   // When
   // Retrieve token and include it even when expired.
-  MSTokenResult *tokenResult = [MSTokenExchange retrieveCachedTokenForPartition:kMSPartitionName includeExpiredToken:YES];
+  MSTokenResult *tokenResult = [MSTokenExchange retrieveCachedTokenForPartition:kMSDataStoreUserDocumentsPartition includeExpiredToken:YES];
 
   // Then
   XCTAssertNotNil(tokenResult);
@@ -523,7 +653,7 @@ static NSString *const kMSDataStoreAppDocumentsPartition = @"readonly";
 
   // When
   // Retrieve token and include it even when expired.
-  MSTokenResult *tokenResult = [MSTokenExchange retrieveCachedTokenForPartition:kMSPartitionName includeExpiredToken:NO];
+  MSTokenResult *tokenResult = [MSTokenExchange retrieveCachedTokenForPartition:kMSDataStoreUserDocumentsPartition includeExpiredToken:NO];
 
   // Then
   XCTAssertNil(tokenResult);
@@ -539,7 +669,7 @@ static NSString *const kMSDataStoreAppDocumentsPartition = @"readonly";
 
   // When
   // Retrieve token and include it even when expired.
-  MSTokenResult *tokenResult = [MSTokenExchange retrieveCachedTokenForPartition:kMSPartitionName includeExpiredToken:NO];
+  MSTokenResult *tokenResult = [MSTokenExchange retrieveCachedTokenForPartition:kMSDataStoreUserDocumentsPartition includeExpiredToken:NO];
 
   // Then
   XCTAssertNotNil(tokenResult);
@@ -574,13 +704,25 @@ static NSString *const kMSDataStoreAppDocumentsPartition = @"readonly";
 
 - (NSObject *)getSuccessfulTokenData {
   return @{
-    kMSPartition : kMSPartitionName,
+    kMSPartition : kMSDataStoreUserDocumentsPartition,
     kMSToken : kMSMockTokenValue,
     kMSStatus : kMSTokenResultSucceed,
     kMSDbName : @"",
     kMSDbAccount : @"",
     kMSDbCollectionName : @"",
     kMSExpiresOn : kMSNotExpiredDate
+  };
+}
+
+- (NSObject *)getUnauthenticatedTokenData {
+  return @{
+    kMSPartition : @"",
+    kMSToken : @"",
+    kMSStatus : @"Unauthenticated",
+    kMSDbName : @"",
+    kMSDbAccount : @"",
+    kMSDbCollectionName : @"",
+    kMSExpiresOn : @""
   };
 }
 

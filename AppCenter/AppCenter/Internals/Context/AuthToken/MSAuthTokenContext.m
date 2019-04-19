@@ -2,11 +2,11 @@
 // Licensed under the MIT License.
 
 #import "MSAuthTokenContext.h"
+#import "MSAppCenterInternal.h"
 #import "MSAuthTokenContextDelegate.h"
 #import "MSAuthTokenContextPrivate.h"
 #import "MSAuthTokenInfo.h"
 #import "MSAuthTokenValidityInfo.h"
-#import "MSAppCenterInternal.h"
 #import "MSConstants+Internal.h"
 #import "MSEncrypter.h"
 #import "MSUserInformation.h"
@@ -169,7 +169,7 @@ static NSUInteger const kMSAccountIdLengthInHomeAccount = 36;
   return latestAuthTokenInfo.accountId;
 }
 
-- (NSMutableArray<MSAuthTokenValidityInfo *> *)authTokenValidityArray {
+- (NSArray<MSAuthTokenValidityInfo *> *)authTokenValidityArray {
   NSArray<MSAuthTokenInfo *> *authTokenHistory = [self authTokenHistory];
   NSMutableArray<MSAuthTokenValidityInfo *> *resultArray = [NSMutableArray<MSAuthTokenValidityInfo *> new];
   if (authTokenHistory.count == 0) {
@@ -219,11 +219,11 @@ static NSUInteger const kMSAccountIdLengthInHomeAccount = 36;
 
 - (NSArray<MSAuthTokenInfo *> *)authTokenHistory {
   if (self.authTokenHistoryArray != nil) {
-    return self.authTokenHistoryArray;
+    return (NSArray<MSAuthTokenInfo *> *)self.authTokenHistoryArray;
   }
   NSData *encryptedData = [MS_USER_DEFAULTS objectForKey:kMSAuthTokenHistoryKey];
   NSData *decryptedData = encryptedData ? [self.encrypter decryptData:encryptedData] : nil;
-  NSArray<MSAuthTokenInfo *> * history = decryptedData ? [NSKeyedUnarchiver unarchiveObjectWithData:decryptedData] : nil;
+  NSArray<MSAuthTokenInfo *> *history = decryptedData ? [NSKeyedUnarchiver unarchiveObjectWithData:decryptedData] : nil;
   if (history) {
     MSLogDebug([MSAppCenter logTag], @"Retrieved history state.");
   } else {
@@ -231,7 +231,7 @@ static NSUInteger const kMSAccountIdLengthInHomeAccount = 36;
     history = [NSArray<MSAuthTokenInfo *> new];
   }
   self.authTokenHistoryArray = history;
-  return self.authTokenHistoryArray;
+  return (NSArray<MSAuthTokenInfo *> *)self.authTokenHistoryArray;
 }
 
 - (void)setAuthTokenHistory:(nullable NSArray<MSAuthTokenInfo *> *)authTokenHistory {

@@ -9,17 +9,8 @@
 @synthesize deviceTimeToLive = _deviceTimeToLive;
 
 - (instancetype)initWithDeviceTimeToLive:(long)deviceTimeToLive {
-  self = [super init];
-  if (self) {
-    self.deviceTimeToLive = deviceTimeToLive;
-  }
-  return self;
-}
-
-- (instancetype)init {
-  self = [super init];
-  if (self) {
-    _deviceTimeToLive = kMSDataStoreTimeToLiveDefault;
+  if ((self = [super init])) {
+    _deviceTimeToLive = deviceTimeToLive;
   }
   return self;
 }
