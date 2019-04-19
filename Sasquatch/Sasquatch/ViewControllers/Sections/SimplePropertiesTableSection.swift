@@ -35,16 +35,16 @@ class SimplePropertiesTableSection : PropertiesTableSection {
 
   func propertyAtRow(row: Int) -> (key: String, value: String) {
     preconditionFailure("This method is abstract")
-  }    
+  }
   
   @objc func propertyKeyChanged(sender: UITextField!) {
     preconditionFailure("This method is abstract")
   }
-    
+  
   @objc func propertyValueChanged(sender: UITextField!) {
     preconditionFailure("This method is abstract")
   }
-    
+  
   @objc func recordCurrentTarget(sender: UITextField!) {
     preconditionFailure("This method is abstract")
   }
