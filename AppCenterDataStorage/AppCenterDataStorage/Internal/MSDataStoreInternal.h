@@ -8,6 +8,7 @@
 #import "MSDataStore.h"
 #import "MSDocumentStore.h"
 #import "MSServiceInternal.h"
+#import "MS_Reachability.h"
 
 @protocol MSDocumentStore;
 
@@ -27,6 +28,8 @@ NS_ASSUME_NONNULL_BEGIN
  * HTTP client.
  */
 @property(nonatomic, nullable) id<MSHttpClientProtocol> httpClient;
+
+@property(nonatomic) MS_Reachability *reachability;
 
 /**
  * Data operation proxy instance (for offline/online scenarios).
