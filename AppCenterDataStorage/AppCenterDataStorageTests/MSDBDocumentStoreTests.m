@@ -11,7 +11,6 @@
 #import "MSDictionaryDocument.h"
 #import "MSDocumentUtils.h"
 #import "MSDocumentWrapperInternal.h"
-#import "MSMockDocument.h"
 #import "MSReadOptions.h"
 #import "MSTestFrameworks.h"
 #import "MSTokenExchange.h"
@@ -83,12 +82,14 @@
               expirationTime:(long)[[NSDate dateWithTimeIntervalSinceNow:1000000] timeIntervalSince1970]];
 
   // When
-  MSDocumentWrapper *documentWrapper = [self.sut readWithToken:self.appToken documentId:documentId documentType:[MSMockDocument class]];
+  MSDocumentWrapper *documentWrapper = [self.sut readWithToken:self.appToken
+                                                    documentId:documentId
+                                                  documentType:[MSDictionaryDocument class]];
 
   // Then
   XCTAssertNotNil(documentWrapper);
   XCTAssertNil(documentWrapper.error);
-  NSDictionary *retrievedContentDictionary = ((MSMockDocument *)(documentWrapper.deserializedValue)).contentDictionary;
+  NSDictionary *retrievedContentDictionary = ((MSDictionaryDocument *)(documentWrapper.deserializedValue)).dictionary;
   XCTAssertEqualObjects(retrievedContentDictionary[@"key"], @"value");
   XCTAssertEqualObjects(documentWrapper.partition, self.appToken.partition);
   XCTAssertEqualObjects(documentWrapper.documentId, documentId);
@@ -109,7 +110,9 @@
               expirationTime:(long)[[NSDate dateWithTimeIntervalSinceNow:1000000] timeIntervalSince1970]];
 
   // When
-  MSDocumentWrapper *documentWrapper = [self.sut readWithToken:self.appToken documentId:documentId documentType:[MSMockDocument class]];
+  MSDocumentWrapper *documentWrapper = [self.sut readWithToken:self.appToken
+                                                    documentId:documentId
+                                                  documentType:[MSDictionaryDocument class]];
 
   // Then
   XCTAssertNotNil(documentWrapper);
@@ -131,12 +134,14 @@
               expirationTime:kMSDataStoreTimeToLiveInfinite];
 
   // When
-  MSDocumentWrapper *documentWrapper = [self.sut readWithToken:self.appToken documentId:documentId documentType:[MSMockDocument class]];
+  MSDocumentWrapper *documentWrapper = [self.sut readWithToken:self.appToken
+                                                    documentId:documentId
+                                                  documentType:[MSDictionaryDocument class]];
 
   // Then
   XCTAssertNotNil(documentWrapper);
   XCTAssertNil(documentWrapper.error);
-  NSDictionary *retrievedContentDictionary = ((MSMockDocument *)(documentWrapper.deserializedValue)).contentDictionary;
+  NSDictionary *retrievedContentDictionary = ((MSDictionaryDocument *)(documentWrapper.deserializedValue)).dictionary;
   XCTAssertEqualObjects(retrievedContentDictionary[@"key"], @"value");
 }
 
@@ -154,7 +159,9 @@
               expirationTime:0];
 
   // When
-  MSDocumentWrapper *documentWrapper = [self.sut readWithToken:self.appToken documentId:documentId documentType:[MSMockDocument class]];
+  MSDocumentWrapper *documentWrapper = [self.sut readWithToken:self.appToken
+                                                    documentId:documentId
+                                                  documentType:[MSDictionaryDocument class]];
 
   // Then
   XCTAssertNotNil(documentWrapper);
@@ -169,8 +176,7 @@
 
   // If
   NSString *documentId = @"12829";
-  MSMockDocument *document = [MSMockDocument new];
-  document.contentDictionary = @{@"key" : @"value"};
+  MSDictionaryDocument *document = [[MSDictionaryDocument alloc] initFromDictionary:@{@"key" : @"value"}];
   MSDBDocumentStore *sut = [MSDBDocumentStore new];
   [self.sut createUserStorageWithAccountId:self.userToken.accountId];
 
