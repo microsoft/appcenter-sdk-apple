@@ -22,11 +22,13 @@
     return nil
   }
 
+  @objc
   func willSend(eventLog: MSEventLog!) {
     sendingEvents[eventLog.eventId] = eventLog;
     lastEvent = eventLog;
   }
   
+  @objc
   func didSucceedSending(eventLog: MSEventLog!) {
     sendingEvents.removeValue(forKey: eventLog.eventId)
     succeededEvents[eventLog.eventId] = eventLog;
@@ -35,6 +37,7 @@
     }
   }
   
+  @objc
   func didFailSending(eventLog: MSEventLog!, withError error: NSError) {
     sendingEvents.removeValue(forKey: eventLog.eventId)
     failedEvents[eventLog.eventId] = (eventLog, error);
