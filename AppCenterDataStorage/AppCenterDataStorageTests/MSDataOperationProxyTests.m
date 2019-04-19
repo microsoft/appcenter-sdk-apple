@@ -250,7 +250,8 @@
                                                                                                      eTag:nil
                                                                                           lastUpdatedDate:nil
                                                                                          pendingOperation:kMSPendingOperationCreate
-                                                                                                    error:nil];
+                                                                                                    error:nil
+                                                                                          fromDeviceCache:YES];
   __block MSDocumentWrapper *wrapper;
   OCMStub([self.documentStoreMock readWithToken:OCMOCK_ANY documentId:OCMOCK_ANY documentType:OCMOCK_ANY]).andReturn(cachedDocumentWrapper);
   OCMReject([[self.documentStoreMock ignoringNonObjectArgs] upsertWithToken:OCMOCK_ANY
@@ -285,6 +286,8 @@
                                  XCTAssertNotEqual(wrapper, cachedDocumentWrapper);
                                  XCTAssertEqual(wrapper.documentId, cachedDocumentWrapper.documentId);
                                  XCTAssertEqual(wrapper.pendingOperation, kMSPendingOperationDelete);
+                                 XCTAssertTrue(wrapper.fromDeviceCache);
+                                 XCTAssertTrue(wrapper.fromDeviceCache);
                                  OCMVerify([self.documentStoreMock deleteWithToken:token documentId:@"documentId"]);
                                }];
 }
@@ -300,7 +303,8 @@
                                                                                                      eTag:nil
                                                                                           lastUpdatedDate:nil
                                                                                          pendingOperation:kMSPendingOperationReplace
-                                                                                                    error:nil];
+                                                                                                    error:nil
+                                                                                          fromDeviceCache:YES];
   __block MSDocumentWrapper *wrapper;
   OCMStub([self.documentStoreMock readWithToken:OCMOCK_ANY documentId:OCMOCK_ANY documentType:OCMOCK_ANY]).andReturn(cachedDocumentWrapper);
   OCMReject([[self.documentStoreMock ignoringNonObjectArgs] upsertWithToken:OCMOCK_ANY
@@ -335,6 +339,7 @@
                                  XCTAssertNotEqual(wrapper, cachedDocumentWrapper);
                                  XCTAssertEqual(wrapper.documentId, cachedDocumentWrapper.documentId);
                                  XCTAssertEqual(wrapper.pendingOperation, kMSPendingOperationDelete);
+                                 XCTAssertTrue(wrapper.fromDeviceCache);
                                  OCMVerify([self.documentStoreMock deleteWithToken:token documentId:@"documentId"]);
                                }];
 }
@@ -350,7 +355,8 @@
                                                                                                      eTag:@""
                                                                                           lastUpdatedDate:nil
                                                                                          pendingOperation:kMSPendingOperationDelete
-                                                                                                    error:nil];
+                                                                                                    error:nil
+                                                                                          fromDeviceCache:YES];
   __block MSDocumentWrapper *wrapper;
   OCMStub([self.documentStoreMock readWithToken:OCMOCK_ANY documentId:OCMOCK_ANY documentType:OCMOCK_ANY]).andReturn(cachedDocumentWrapper);
   OCMReject([[self.documentStoreMock ignoringNonObjectArgs] upsertWithToken:OCMOCK_ANY
@@ -383,6 +389,7 @@
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
                                  XCTAssertNotNil(wrapper.error);
+                                 XCTAssertFalse(wrapper.fromDeviceCache); // Error state should not have from device cache set to YES.
                                  XCTAssertEqual(wrapper.error.error.code, MSACDataStoreErrorDocumentNotFound);
                                }];
 }
@@ -398,7 +405,8 @@
                                                                                                      eTag:@""
                                                                                           lastUpdatedDate:nil
                                                                                          pendingOperation:kMSPendingOperationRead
-                                                                                                    error:nil];
+                                                                                                    error:nil
+                                                                                          fromDeviceCache:YES];
   __block MSDocumentWrapper *wrapper;
   OCMStub([self.documentStoreMock readWithToken:OCMOCK_ANY documentId:OCMOCK_ANY documentType:OCMOCK_ANY]).andReturn(cachedDocumentWrapper);
   MSTokenResult *token = [MSTokenResult alloc];
@@ -432,6 +440,7 @@
                                  XCTAssertNotEqual(wrapper, cachedDocumentWrapper);
                                  XCTAssertEqual(wrapper.documentId, cachedDocumentWrapper.documentId);
                                  XCTAssertEqual(wrapper.pendingOperation, kMSPendingOperationDelete);
+                                 XCTAssertTrue(wrapper.fromDeviceCache);
                                  OCMVerify([self.documentStoreMock upsertWithToken:token
                                                                    documentWrapper:wrapper
                                                                          operation:kMSPendingOperationDelete
@@ -450,7 +459,8 @@
                                                                                                      eTag:@""
                                                                                           lastUpdatedDate:nil
                                                                                          pendingOperation:kMSPendingOperationRead
-                                                                                                    error:nil];
+                                                                                                    error:nil
+                                                                                          fromDeviceCache:YES];
   __block MSDocumentWrapper *wrapper;
   OCMStub([self.documentStoreMock readWithToken:OCMOCK_ANY documentId:OCMOCK_ANY documentType:OCMOCK_ANY]).andReturn(cachedDocumentWrapper);
   MSTokenResult *token = [MSTokenResult alloc];
@@ -486,6 +496,7 @@
                                  XCTAssertNotEqual(wrapper, cachedDocumentWrapper);
                                  XCTAssertEqual(wrapper.documentId, cachedDocumentWrapper.documentId);
                                  XCTAssertEqual(wrapper.pendingOperation, kMSPendingOperationCreate);
+                                 XCTAssertTrue(wrapper.fromDeviceCache);
                                  NSDictionary *actualDict = [wrapper.deserializedValue serializeToDictionary];
                                  XCTAssertEqual(actualDict[@"key"], @"value");
                                  OCMVerify([self.documentStoreMock upsertWithToken:token
@@ -506,7 +517,8 @@
                                                                                                      eTag:@""
                                                                                           lastUpdatedDate:nil
                                                                                          pendingOperation:kMSPendingOperationRead
-                                                                                                    error:nil];
+                                                                                                    error:nil
+                                                                                          fromDeviceCache:YES];
   __block MSDocumentWrapper *wrapper;
   OCMStub([self.documentStoreMock readWithToken:OCMOCK_ANY documentId:OCMOCK_ANY documentType:OCMOCK_ANY]).andReturn(cachedDocumentWrapper);
   MSTokenResult *token = [MSTokenResult alloc];
@@ -542,6 +554,7 @@
                                  XCTAssertNotEqual(wrapper, cachedDocumentWrapper);
                                  XCTAssertEqual(wrapper.documentId, cachedDocumentWrapper.documentId);
                                  XCTAssertEqual(wrapper.pendingOperation, kMSPendingOperationReplace);
+                                 XCTAssertTrue(wrapper.fromDeviceCache);
                                  NSDictionary *actualDict = [wrapper.deserializedValue serializeToDictionary];
                                  XCTAssertEqual(actualDict[@"key"], @"value");
                                  OCMVerify([self.documentStoreMock upsertWithToken:token

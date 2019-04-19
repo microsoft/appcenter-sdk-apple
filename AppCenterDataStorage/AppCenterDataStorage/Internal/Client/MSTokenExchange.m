@@ -31,6 +31,7 @@ static NSString *const kMSGetTokenPath = @"/data/tokens";
                                          appSecret:(NSString *)appSecret
                                          partition:(NSString *)partition
                                includeExpiredToken:(BOOL)includeExpiredToken
+                                      reachability:(MS_Reachability *)reachability
                                  completionHandler:(MSGetTokenAsyncCompletionHandler)completionHandler {
   if (![MSTokenExchange isValidPartitionName:partition]) {
     MSLogError([MSDataStore logTag], @"Can't perform token exchange because partition name %@ is invalid.", partition);
@@ -46,97 +47,106 @@ static NSString *const kMSGetTokenPath = @"/data/tokens";
   MSTokenResult *cachedToken = [MSTokenExchange retrieveCachedTokenForPartition:partition includeExpiredToken:includeExpiredToken];
   NSURL *sendUrl = [tokenExchangeUrl URLByAppendingPathComponent:kMSGetTokenPath];
 
-  // Get a fresh token from the token exchange service if the token is not cached or has expired.
+  // Get a fresh token from the token exchange service if the token is not cached or has expired and the nework is connected.
   if (!cachedToken) {
+    if ([reachability currentReachabilityStatus] != NotReachable) {
+      // Serialize payload.
+      NSError *jsonError;
+      NSData *payloadData = [NSJSONSerialization dataWithJSONObject:@{kMSPartitions : @[ partition ]} options:0 error:&jsonError];
 
-    // Serialize payload.
-    NSError *jsonError;
-    NSData *payloadData = [NSJSONSerialization dataWithJSONObject:@{kMSPartitions : @[ partition ]} options:0 error:&jsonError];
+      // Call token exchange service.
+      NSMutableDictionary *headers = [NSMutableDictionary new];
+      headers[kMSHeaderContentTypeKey] = kMSAppCenterContentType;
+      headers[kMSHeaderAppSecretKey] = appSecret;
+      if ([[MSAuthTokenContext sharedInstance] authToken]) {
+        headers[kMSAuthorizationHeaderKey] =
+            [NSString stringWithFormat:kMSBearerTokenHeaderFormat, [[MSAuthTokenContext sharedInstance] authToken]];
+      }
+      [httpClient sendAsync:sendUrl
+                     method:kMSHttpMethodPost
+                    headers:headers
+                       data:payloadData
+          completionHandler:^(NSData *data, NSHTTPURLResponse *response, NSError *error) {
+            MSLogVerbose([MSDataStore logTag], @"Get token callback status code: %td", response.statusCode);
 
-    // Call token exchange service.
-    NSMutableDictionary *headers = [NSMutableDictionary new];
-    headers[kMSHeaderContentTypeKey] = kMSAppCenterContentType;
-    headers[kMSHeaderAppSecretKey] = appSecret;
-    if ([[MSAuthTokenContext sharedInstance] authToken]) {
-      headers[kMSAuthorizationHeaderKey] =
-          [NSString stringWithFormat:kMSBearerTokenHeaderFormat, [[MSAuthTokenContext sharedInstance] authToken]];
+            // Token exchange failed to give back a token.
+            if (error) {
+              MSLogError([MSDataStore logTag], @"Get on DB Token had an error with code: %td, description: %@", error.code,
+                         error.localizedDescription);
+              completionHandler([[MSTokensResponse alloc] initWithTokens:nil], error);
+              return;
+            }
+
+            // Token store returned non-200 response code.
+            if (response.statusCode != MSHTTPCodesNo200OK) {
+              MSLogError([MSDataStore logTag], @"The token store returned %ld", (long)response.statusCode);
+              completionHandler([[MSTokensResponse alloc] initWithTokens:nil],
+                                [[NSError alloc] initWithDomain:kMSACDataStoreErrorDomain
+                                                           code:MSACDataStoreErrorHTTPError
+                                                       userInfo:@{
+                                                         NSLocalizedDescriptionKey : [NSString
+                                                             stringWithFormat:@"The token store returned %ld", (long)response.statusCode]
+                                                       }]);
+              return;
+            }
+
+            // Read tokens.
+            NSError *tokenResponsejsonError;
+            NSDictionary *jsonDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&tokenResponsejsonError];
+            if (tokenResponsejsonError) {
+              MSLogError([MSDataStore logTag], @"Can't deserialize tokens with error: %@", [tokenResponsejsonError description]);
+              NSError *serializeError = [[NSError alloc]
+                  initWithDomain:kMSACDataStoreErrorDomain
+                            code:MSACDataStoreErrorJSONSerializationFailed
+                        userInfo:@{
+                          NSLocalizedDescriptionKey :
+                              [NSString stringWithFormat:@"Can't deserialize tokens with error: %@", [tokenResponsejsonError description]]
+                        }];
+              completionHandler([[MSTokensResponse alloc] initWithTokens:nil], serializeError);
+              return;
+            }
+            if ([(NSArray *)jsonDictionary[kMSTokens] count] == 0) {
+              MSLogError([MSDataStore logTag], @"Invalid token exchange service response.");
+              NSError *errorResponse = [[NSError alloc]
+                  initWithDomain:kMSACDataStoreErrorDomain
+                            code:MSACDataStoreInvalidTokenExchangeResponse
+                        userInfo:@{NSLocalizedDescriptionKey : [NSString stringWithFormat:@"Invalid token exchange service response."]}];
+              completionHandler([[MSTokensResponse alloc] initWithTokens:nil], errorResponse);
+              return;
+            }
+
+            // Create token result object.
+            MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:(NSDictionary *)jsonDictionary[kMSTokens][0]];
+
+            // Create token response object.
+            MSTokensResponse *tokensResponse = [[MSTokensResponse alloc] initWithTokens:@[ tokenResult ]];
+
+            // Token exchange did not get back an error but acquiring the token did not succeed either
+            if (tokenResult && ![tokenResult.status isEqualToString:kMSTokenResultSucceed]) {
+              MSLogError([MSDataStore logTag], @"Token result had a status of %@", tokenResult.status);
+              NSError *statusError = [[NSError alloc]
+                  initWithDomain:kMSACDataStoreErrorDomain
+                            code:MSACDataStoreErrorHTTPError
+                        userInfo:@{
+                          NSLocalizedDescriptionKey : [NSString stringWithFormat:@"Token result had a status of %@", tokenResult.status]
+                        }];
+              completionHandler(tokensResponse, statusError);
+              return;
+            }
+
+            // Cache the newly acquired token.
+            [MSTokenExchange saveToken:tokenResult];
+            completionHandler(tokensResponse, error);
+          }];
+    } else {
+      MSLogError([MSDataStore logTag], @"No cached token result found, and device is offline.");
+      NSError *error =
+          [[NSError alloc] initWithDomain:kMSACDataStoreErrorDomain
+                                     code:MSACDataStoreUnableToGetTokenError
+                                 userInfo:@{NSLocalizedDescriptionKey : @"No cached token result found, and device is offline."}];
+      completionHandler([[MSTokensResponse alloc] initWithTokens:nil], error);
+      return;
     }
-    [httpClient sendAsync:sendUrl
-                   method:kMSHttpMethodPost
-                  headers:headers
-                     data:payloadData
-        completionHandler:^(NSData *data, NSHTTPURLResponse *response, NSError *error) {
-          MSLogVerbose([MSDataStore logTag], @"Get token callback status code: %td", response.statusCode);
-
-          // Token exchange failed to give back a token.
-          if (error) {
-            MSLogError([MSDataStore logTag], @"Get on DB Token had an error with code: %td, description: %@", error.code,
-                       error.localizedDescription);
-            completionHandler([[MSTokensResponse alloc] initWithTokens:nil], error);
-            return;
-          }
-
-          // Token store returned non-200 response code.
-          if (response.statusCode != MSHTTPCodesNo200OK) {
-            MSLogError([MSDataStore logTag], @"The token store returned %ld", (long)response.statusCode);
-            completionHandler([[MSTokensResponse alloc] initWithTokens:nil],
-                              [[NSError alloc] initWithDomain:kMSACDataStoreErrorDomain
-                                                         code:MSACDataStoreErrorHTTPError
-                                                     userInfo:@{
-                                                       NSLocalizedDescriptionKey : [NSString
-                                                           stringWithFormat:@"The token store returned %ld", (long)response.statusCode]
-                                                     }]);
-            return;
-          }
-
-          // Read tokens.
-          NSError *tokenResponsejsonError;
-          NSDictionary *jsonDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&tokenResponsejsonError];
-          if (tokenResponsejsonError) {
-            MSLogError([MSDataStore logTag], @"Can't deserialize tokens with error: %@", [tokenResponsejsonError description]);
-            NSError *serializeError = [[NSError alloc]
-                initWithDomain:kMSACDataStoreErrorDomain
-                          code:MSACDataStoreErrorJSONSerializationFailed
-                      userInfo:@{
-                        NSLocalizedDescriptionKey :
-                            [NSString stringWithFormat:@"Can't deserialize tokens with error: %@", [tokenResponsejsonError description]]
-                      }];
-            completionHandler([[MSTokensResponse alloc] initWithTokens:nil], serializeError);
-            return;
-          }
-          if ([(NSArray *)jsonDictionary[kMSTokens] count] == 0) {
-            MSLogError([MSDataStore logTag], @"Invalid token exchange service response.");
-            NSError *errorResponse = [[NSError alloc]
-                initWithDomain:kMSACDataStoreErrorDomain
-                          code:MSACDataStoreInvalidTokenExchangeResponse
-                      userInfo:@{NSLocalizedDescriptionKey : [NSString stringWithFormat:@"Invalid token exchange service response."]}];
-            completionHandler([[MSTokensResponse alloc] initWithTokens:nil], errorResponse);
-            return;
-          }
-
-          // Create token result object.
-          MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:(NSDictionary *)jsonDictionary[kMSTokens][0]];
-
-          // Create token response object.
-          MSTokensResponse *tokensResponse = [[MSTokensResponse alloc] initWithTokens:@[ tokenResult ]];
-
-          // Token exchange did not get back an error but acquiring the token did not succeed either
-          if (tokenResult && ![tokenResult.status isEqualToString:kMSTokenResultSucceed]) {
-            MSLogError([MSDataStore logTag], @"Token result had a status of %@", tokenResult.status);
-            NSError *statusError = [[NSError alloc]
-                initWithDomain:kMSACDataStoreErrorDomain
-                          code:MSACDataStoreErrorHTTPError
-                      userInfo:@{
-                        NSLocalizedDescriptionKey : [NSString stringWithFormat:@"Token result had a status of %@", tokenResult.status]
-                      }];
-            completionHandler(tokensResponse, statusError);
-            return;
-          }
-
-          // Cache the newly acquired token.
-          [MSTokenExchange saveToken:tokenResult];
-          completionHandler(tokensResponse, error);
-        }];
   } else {
     completionHandler([[MSTokensResponse alloc] initWithTokens:@[ cachedToken ]], nil);
   }

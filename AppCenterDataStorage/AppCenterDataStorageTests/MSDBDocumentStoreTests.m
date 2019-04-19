@@ -11,7 +11,6 @@
 #import "MSDictionaryDocument.h"
 #import "MSDocumentUtils.h"
 #import "MSDocumentWrapperInternal.h"
-#import "MSMockDocument.h"
 #import "MSReadOptions.h"
 #import "MSTestFrameworks.h"
 #import "MSTokenExchange.h"
@@ -83,16 +82,20 @@
               expirationTime:(long)[[NSDate dateWithTimeIntervalSinceNow:1000000] timeIntervalSince1970]];
 
   // When
-  MSDocumentWrapper *documentWrapper = [self.sut readWithToken:self.appToken documentId:documentId documentType:[MSMockDocument class]];
+  MSDocumentWrapper *documentWrapper = [self.sut readWithToken:self.appToken
+                                                    documentId:documentId
+                                                  documentType:[MSDictionaryDocument class]];
 
   // Then
   XCTAssertNotNil(documentWrapper);
   XCTAssertNil(documentWrapper.error);
-  NSDictionary *retrievedContentDictionary = ((MSMockDocument *)(documentWrapper.deserializedValue)).contentDictionary;
+  XCTAssertTrue(documentWrapper.fromDeviceCache);
+  NSDictionary *retrievedContentDictionary = ((MSDictionaryDocument *)(documentWrapper.deserializedValue)).dictionary;
   XCTAssertEqualObjects(retrievedContentDictionary[@"key"], @"value");
   XCTAssertEqualObjects(documentWrapper.partition, self.appToken.partition);
   XCTAssertEqualObjects(documentWrapper.documentId, documentId);
   XCTAssertEqualObjects(documentWrapper.pendingOperation, pendingOperation);
+  XCTAssertTrue(documentWrapper.fromDeviceCache);
 }
 
 - (void)testReadAppDocumentFromLocalDatabaseWithDeserializationError {
@@ -109,11 +112,14 @@
               expirationTime:(long)[[NSDate dateWithTimeIntervalSinceNow:1000000] timeIntervalSince1970]];
 
   // When
-  MSDocumentWrapper *documentWrapper = [self.sut readWithToken:self.appToken documentId:documentId documentType:[MSMockDocument class]];
+  MSDocumentWrapper *documentWrapper = [self.sut readWithToken:self.appToken
+                                                    documentId:documentId
+                                                  documentType:[MSDictionaryDocument class]];
 
   // Then
   XCTAssertNotNil(documentWrapper);
   XCTAssertNotNil(documentWrapper.error);
+  XCTAssertFalse(documentWrapper.fromDeviceCache);
   XCTAssertEqualObjects(documentWrapper.documentId, documentId);
 }
 
@@ -131,12 +137,15 @@
               expirationTime:kMSDataStoreTimeToLiveInfinite];
 
   // When
-  MSDocumentWrapper *documentWrapper = [self.sut readWithToken:self.appToken documentId:documentId documentType:[MSMockDocument class]];
+  MSDocumentWrapper *documentWrapper = [self.sut readWithToken:self.appToken
+                                                    documentId:documentId
+                                                  documentType:[MSDictionaryDocument class]];
 
   // Then
   XCTAssertNotNil(documentWrapper);
   XCTAssertNil(documentWrapper.error);
-  NSDictionary *retrievedContentDictionary = ((MSMockDocument *)(documentWrapper.deserializedValue)).contentDictionary;
+  XCTAssertTrue(documentWrapper.fromDeviceCache);
+  NSDictionary *retrievedContentDictionary = ((MSDictionaryDocument *)(documentWrapper.deserializedValue)).dictionary;
   XCTAssertEqualObjects(retrievedContentDictionary[@"key"], @"value");
 }
 
@@ -154,11 +163,14 @@
               expirationTime:0];
 
   // When
-  MSDocumentWrapper *documentWrapper = [self.sut readWithToken:self.appToken documentId:documentId documentType:[MSMockDocument class]];
+  MSDocumentWrapper *documentWrapper = [self.sut readWithToken:self.appToken
+                                                    documentId:documentId
+                                                  documentType:[MSDictionaryDocument class]];
 
   // Then
   XCTAssertNotNil(documentWrapper);
   XCTAssertNotNil(documentWrapper.error);
+  XCTAssertFalse(documentWrapper.fromDeviceCache);
   XCTAssertEqualObjects(documentWrapper.error.error.domain, kMSACDataStoreErrorDomain);
   XCTAssertEqual(documentWrapper.error.error.code, MSACDataStoreErrorLocalDocumentExpired);
   XCTAssertEqualObjects(documentWrapper.documentId, documentId);
@@ -169,8 +181,7 @@
 
   // If
   NSString *documentId = @"12829";
-  MSMockDocument *document = [MSMockDocument new];
-  document.contentDictionary = @{@"key" : @"value"};
+  MSDictionaryDocument *document = [[MSDictionaryDocument alloc] initFromDictionary:@{@"key" : @"value"}];
   MSDBDocumentStore *sut = [MSDBDocumentStore new];
   [self.sut createUserStorageWithAccountId:self.userToken.accountId];
 
@@ -180,6 +191,7 @@
   // Then
   XCTAssertNotNil(documentWrapper);
   XCTAssertNotNil(documentWrapper.error);
+  XCTAssertFalse(documentWrapper.fromDeviceCache);
   XCTAssertEqualObjects(documentWrapper.error.error.domain, kMSACDataStoreErrorDomain);
   XCTAssertEqual(documentWrapper.error.error.code, MSACDataStoreErrorDocumentNotFound);
   XCTAssertEqualObjects(documentWrapper.documentId, documentId);
@@ -189,7 +201,8 @@
 
   // If
   MSDocumentWrapper *expectedDocumentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestDocument"]
-                                                                           documentType:[MSDictionaryDocument class]];
+                                                                           documentType:[MSDictionaryDocument class]
+                                                                        fromDeviceCache:YES];
 
   // When
   // Upsert twice to ensure that replacement is correct.
@@ -292,7 +305,8 @@
   // If
   int ttl = 1;
   MSDocumentWrapper *expectedDocumentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestDocument"]
-                                                                           documentType:[MSDictionaryDocument class]];
+                                                                           documentType:[MSDictionaryDocument class]
+                                                                        fromDeviceCache:YES];
 
   // Mock NSDate to "freeze" time.
   NSTimeInterval timeSinceReferenceDate = NSDate.timeIntervalSinceReferenceDate;
@@ -308,6 +322,7 @@
   // Then
   XCTAssertTrue(result);
   XCTAssertNil(documentWrapper.error);
+  XCTAssertTrue(documentWrapper.fromDeviceCache);
   XCTAssertNotNil(documentWrapper.deserializedValue);
   XCTAssertNotNil(documentWrapper.jsonValue);
   XCTAssertEqualObjects(documentWrapper.documentId, expectedDocumentWrapper.documentId);
@@ -321,7 +336,8 @@
 
   // If
   MSDocumentWrapper *documentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestDocument"]
-                                                                   documentType:[MSDictionaryDocument class]];
+                                                                   documentType:[MSDictionaryDocument class]
+                                                                fromDeviceCache:YES];
 
   // When
   BOOL result = [self.sut upsertWithToken:self.appToken
@@ -335,6 +351,7 @@
   // Then
   XCTAssertTrue(result);
   XCTAssertNil(expectedDocumentWrapper.error);
+  XCTAssertTrue(documentWrapper.fromDeviceCache);
   XCTAssertNotNil(expectedDocumentWrapper.deserializedValue);
   XCTAssertNotNil(expectedDocumentWrapper.jsonValue);
   XCTAssertEqualObjects(expectedDocumentWrapper.documentId, documentWrapper.documentId);
@@ -355,18 +372,21 @@
   // Then, should succeed but be a no-op
   XCTAssertTrue(result);
   XCTAssertNotNil(expectedDocumentWrapper.error);
+  XCTAssertFalse(expectedDocumentWrapper.fromDeviceCache);
 }
 
 - (void)testDeleteExistingAppDocument {
 
   // If
   MSDocumentWrapper *documentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestDocument"]
-                                                                   documentType:[MSDictionaryDocument class]];
+                                                                   documentType:[MSDictionaryDocument class]
+                                                                fromDeviceCache:YES];
   [self.sut upsertWithToken:self.appToken documentWrapper:documentWrapper operation:@"CREATE" deviceTimeToLive:1];
   MSDocumentWrapper *expectedDocumentWrapper = [self.sut readWithToken:self.appToken
                                                             documentId:documentWrapper.documentId
                                                           documentType:[MSDictionaryDocument class]];
   XCTAssertNil(expectedDocumentWrapper.error);
+  XCTAssertTrue(expectedDocumentWrapper.fromDeviceCache);
 
   // When
   BOOL result = [self.sut deleteWithToken:self.appToken documentId:documentWrapper.documentId];
@@ -377,19 +397,22 @@
   // Then
   XCTAssertTrue(result);
   XCTAssertNotNil(expectedDocumentWrapper.error);
+  XCTAssertFalse(expectedDocumentWrapper.fromDeviceCache);
 }
 
 - (void)testDeleteExistingUserDocument {
 
   // If
   MSDocumentWrapper *documentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestDocument"]
-                                                                   documentType:[MSDictionaryDocument class]];
+                                                                   documentType:[MSDictionaryDocument class]
+                                                                fromDeviceCache:YES];
   [self.sut createUserStorageWithAccountId:self.userToken.accountId];
   [self.sut upsertWithToken:self.userToken documentWrapper:documentWrapper operation:@"CREATE" deviceTimeToLive:1];
   MSDocumentWrapper *expectedDocumentWrapper = [self.sut readWithToken:self.userToken
                                                             documentId:documentWrapper.documentId
                                                           documentType:[MSDictionaryDocument class]];
   XCTAssertNil(expectedDocumentWrapper.error);
+  XCTAssertTrue(documentWrapper.fromDeviceCache);
 
   // When
   BOOL result = [self.sut deleteWithToken:self.userToken documentId:documentWrapper.documentId];
@@ -400,6 +423,7 @@
   // Then
   XCTAssertTrue(result);
   XCTAssertNotNil(expectedDocumentWrapper.error);
+  XCTAssertFalse(expectedDocumentWrapper.fromDeviceCache);
 }
 
 - (void)testDeletionOfAllTables {

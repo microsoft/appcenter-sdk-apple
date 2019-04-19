@@ -73,7 +73,9 @@
   NSString *badReference = @"bad reference";
 
   // When
-  MSDocumentWrapper *document = [MSDocumentUtils documentWrapperFromDictionary:badReference documentType:[NSString class]];
+  MSDocumentWrapper *document = [MSDocumentUtils documentWrapperFromDictionary:badReference
+                                                                  documentType:[NSString class]
+                                                               fromDeviceCache:NO];
 
   // Then
   XCTAssertNotNil(document);
@@ -84,6 +86,7 @@
   XCTAssertNil([document lastUpdatedDate]);
   XCTAssertNil([document partition]);
   XCTAssertNil([document jsonValue]);
+  XCTAssertFalse([document fromDeviceCache]);
 }
 
 - (void)testDocumentWrapperFromDictionaryWithSystemPropertiesAndPartition {
@@ -96,7 +99,9 @@
   dictionary[@"PartitionKey"] = @"readonly";
 
   // When
-  MSDocumentWrapper *document = [MSDocumentUtils documentWrapperFromDictionary:dictionary documentType:[NSString class]];
+  MSDocumentWrapper *document = [MSDocumentUtils documentWrapperFromDictionary:dictionary
+                                                                  documentType:[NSString class]
+                                                               fromDeviceCache:YES];
 
   // Then
   XCTAssertNotNil(document);
@@ -107,12 +112,13 @@
   XCTAssertNotNil([document lastUpdatedDate]);
   XCTAssertTrue([[document partition] isEqualToString:@"readonly"]);
   XCTAssertNotNil([document jsonValue]);
+  XCTAssertTrue([document fromDeviceCache]);
 
   // If, system property has incorrect type
   dictionary[@"_ts"] = @"some unexpected timestamp";
 
   // When
-  document = [MSDocumentUtils documentWrapperFromDictionary:dictionary documentType:[NSString class]];
+  document = [MSDocumentUtils documentWrapperFromDictionary:dictionary documentType:[NSString class] fromDeviceCache:NO];
 
   // Then
   XCTAssertNotNil(document);
@@ -123,6 +129,7 @@
   XCTAssertNil([document lastUpdatedDate]);
   XCTAssertNil([document partition]);
   XCTAssertNil([document jsonValue]);
+  XCTAssertFalse([document fromDeviceCache]);
 }
 
 - (void)testDocumentWrapperFromDictionaryWithDocument {
@@ -136,7 +143,7 @@
   dictionary[@"document"] = @"this should be a dictionary";
 
   // When
-  MSDocumentWrapper *document = [MSDocumentUtils documentWrapperFromDictionary:dictionary documentType:[NSString class]];
+  MSDocumentWrapper *document = [MSDocumentUtils documentWrapperFromDictionary:dictionary documentType:[NSString class] fromDeviceCache:NO];
 
   // Then
   XCTAssertNotNil(document);
@@ -147,6 +154,7 @@
   XCTAssertNotNil([document lastUpdatedDate]);
   XCTAssertTrue([[document partition] isEqualToString:@"readonly"]);
   XCTAssertNotNil([document jsonValue]);
+  XCTAssertFalse([document fromDeviceCache]);
 
   // If, document is a dictionary
   dictionary[@"document"] = [NSMutableDictionary new];
@@ -154,7 +162,7 @@
   dictionary[@"document"][@"property2"] = @123;
 
   // When
-  document = [MSDocumentUtils documentWrapperFromDictionary:dictionary documentType:[MSDictionaryDocument class]];
+  document = [MSDocumentUtils documentWrapperFromDictionary:dictionary documentType:[MSDictionaryDocument class] fromDeviceCache:NO];
   NSDictionary *resultDictionary = [[document deserializedValue] serializeToDictionary];
 
   // Then
@@ -168,6 +176,7 @@
   XCTAssertNotNil([document lastUpdatedDate]);
   XCTAssertTrue([[document partition] isEqualToString:@"readonly"]);
   XCTAssertNotNil([document jsonValue]);
+  XCTAssertFalse([document fromDeviceCache]);
 }
 
 - (void)testDocumentWrapperFromDictionaryWithUnserializable {
@@ -197,7 +206,7 @@
   NSData *data;
 
   // When
-  MSDocumentWrapper *document = [MSDocumentUtils documentWrapperFromData:data documentType:[NSString class]];
+  MSDocumentWrapper *document = [MSDocumentUtils documentWrapperFromData:data documentType:[NSString class] fromDeviceCache:NO];
 
   // Then
   XCTAssertNotNil(document);
@@ -208,6 +217,7 @@
   XCTAssertNil([document lastUpdatedDate]);
   XCTAssertNil([document partition]);
   XCTAssertNil([document jsonValue]);
+  XCTAssertFalse([document fromDeviceCache]);
 }
 
 - (void)testDocumentWrapperFromDataDeserializationError {
@@ -262,7 +272,7 @@
   NSData *data;
 
   // When
-  MSDocumentWrapper *document = [MSDocumentUtils documentWrapperFromData:data documentType:[NSString class]];
+  MSDocumentWrapper *document = [MSDocumentUtils documentWrapperFromData:data documentType:[NSString class] fromDeviceCache:YES];
 
   // Then
   XCTAssertNotNil(document);
@@ -273,12 +283,13 @@
   XCTAssertNil([document lastUpdatedDate]);
   XCTAssertNil([document partition]);
   XCTAssertNil([document jsonValue]);
+  XCTAssertFalse([document fromDeviceCache]); // An error case does not carry on the fromDeviceCache flag.
 
   // If, data is set to a valid document
   data = [self jsonFixture:@"validTestDocument"];
 
   // When
-  document = [MSDocumentUtils documentWrapperFromData:data documentType:[MSDictionaryDocument class]];
+  document = [MSDocumentUtils documentWrapperFromData:data documentType:[MSDictionaryDocument class] fromDeviceCache:YES];
   NSDictionary *resultDictionary = [[document deserializedValue] serializeToDictionary];
 
   // Then
@@ -292,6 +303,7 @@
   XCTAssertNotNil([document lastUpdatedDate]);
   XCTAssertTrue([[document partition] isEqualToString:@"readonly"]);
   XCTAssertNotNil([document jsonValue]);
+  XCTAssertTrue([document fromDeviceCache]);
 }
 
 - (void)testIsSerializableDocument {

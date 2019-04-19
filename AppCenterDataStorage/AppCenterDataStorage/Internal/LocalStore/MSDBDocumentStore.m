@@ -161,7 +161,8 @@ static const NSUInteger kMSSchemaVersion = 1;
                                           lastUpdatedDate:[NSDate dateWithTimeIntervalSince1970:lastUpdatedDate]
                                                 partition:token.partition
                                                documentId:documentId
-                                         pendingOperation:pendingOperation];
+                                         pendingOperation:pendingOperation
+                                          fromDeviceCache:YES];
 }
 
 - (void)deleteAllTables {
