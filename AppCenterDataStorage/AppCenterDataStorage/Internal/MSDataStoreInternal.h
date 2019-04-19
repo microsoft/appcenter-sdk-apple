@@ -33,6 +33,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property(nonatomic) MSDataOperationProxy *dataOperationProxy;
 
+@property(nonatomic) MS_Reachability *reachability;
+
 /**
  * Retrieve a paginated list of the documents in a partition.
  *

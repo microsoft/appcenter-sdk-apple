@@ -122,7 +122,7 @@
   __block MSTokensResponse *tokensResponse = [[MSTokensResponse alloc] initWithTokens:@[ token ]];
 
   // When
-  [self.sut performOperation:kMSPendingOperationDelete
+  [self.sut performOperation:kMSPendingOperationRead
       documentId:@"documentId"
       documentType:[NSString class]
       document:nil
@@ -147,7 +147,7 @@
                                  XCTAssertEqual(wrapper, remoteDocumentWrapper);
                                  OCMVerify([self.documentStoreMock upsertWithToken:token
                                                                    documentWrapper:remoteDocumentWrapper
-                                                                         operation:nil
+                                                                         operation:kMSPendingOperationRead
                                                                   deviceTimeToLive:kMSDataStoreTimeToLiveDefault]);
                                }];
 }
@@ -245,7 +245,7 @@
   XCTestExpectation *expectation = [self expectationWithDescription:@"Completed with discarded create operation."];
   __block MSDocumentWrapper *cachedDocumentWrapper = [[MSDocumentWrapper alloc] initWithDeserializedValue:[MSDictionaryDocument alloc]
                                                                                                 jsonValue:@""
-                                                                                                partition:@"partition"
+                                                                                                partition:@"user"
                                                                                                documentId:@"documentId"
                                                                                                      eTag:nil
                                                                                           lastUpdatedDate:nil

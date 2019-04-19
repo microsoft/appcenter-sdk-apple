@@ -31,6 +31,7 @@ static NSString *const kMSGetTokenPath = @"/data/tokens";
                                          appSecret:(NSString *)appSecret
                                          partition:(NSString *)partition
                                includeExpiredToken:(BOOL)includeExpiredToken
+                                    msreachability:(MS_Reachability *)msreachability
                                  completionHandler:(MSGetTokenAsyncCompletionHandler)completionHandler {
   if (![MSTokenExchange isValidPartitionName:partition]) {
     MSLogError([MSDataStore logTag], @"Can't perform token exchange because partition name %@ is invalid.", partition);
@@ -47,7 +48,7 @@ static NSString *const kMSGetTokenPath = @"/data/tokens";
   NSURL *sendUrl = [tokenExchangeUrl URLByAppendingPathComponent:kMSGetTokenPath];
 
   // Get a fresh token from the token exchange service if the token is not cached or has expired.
-  if (!cachedToken) {
+  if (!cachedToken && [msreachability currentReachabilityStatus] != NotReachable) {
 
     // Serialize payload.
     NSError *jsonError;

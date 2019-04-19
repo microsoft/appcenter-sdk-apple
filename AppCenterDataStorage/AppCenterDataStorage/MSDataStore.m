@@ -74,9 +74,9 @@ static dispatch_once_t onceToken;
 - (instancetype)init {
   if ((self = [super init])) {
     _tokenExchangeUrl = (NSURL *)[NSURL URLWithString:kMSDefaultApiUrl];
+    _reachability = [MS_Reachability reachabilityForInternetConnection];
     _dispatchQueue = dispatch_queue_create(kMSDataStoreDispatchQueue, DISPATCH_QUEUE_SERIAL);
-    _dataOperationProxy = [[MSDataOperationProxy alloc] initWithDocumentStore:[MSDBDocumentStore new]
-                                                                 reachability:[MS_Reachability reachabilityForInternetConnection]];
+    _dataOperationProxy = [[MSDataOperationProxy alloc] initWithDocumentStore:[MSDBDocumentStore new] reachability:_reachability];
   }
   return self;
 }
@@ -243,6 +243,7 @@ static dispatch_once_t onceToken;
                                                               appSecret:self.appSecret
                                                               partition:partition
                                                     includeExpiredToken:YES
+                                                         msreachability:self.reachability
                                                       completionHandler:handler];
           }
           remoteDocumentBlock:^(MSDocumentWrapperCompletionHandler handler) {
@@ -293,6 +294,7 @@ static dispatch_once_t onceToken;
                                                               appSecret:self.appSecret
                                                               partition:partition
                                                     includeExpiredToken:YES
+                                                         msreachability:self.reachability
                                                       completionHandler:handler];
           }
           remoteDocumentBlock:^(MSDocumentWrapperCompletionHandler handler) {
@@ -332,6 +334,7 @@ static dispatch_once_t onceToken;
                                                               appSecret:self.appSecret
                                                               partition:partition
                                                     includeExpiredToken:YES
+                                                         msreachability:self.reachability
                                                       completionHandler:handler];
           }
           remoteDocumentBlock:^(MSDocumentWrapperCompletionHandler handler) {
@@ -455,6 +458,7 @@ static dispatch_once_t onceToken;
                                        appSecret:self.appSecret
                                        partition:partition
                              includeExpiredToken:NO
+                                  msreachability:self.reachability
                                completionHandler:^(MSTokensResponse *_Nonnull tokensResponse, NSError *_Nonnull error) {
                                  if (error) {
                                    completionHandler(nil, nil, error);

@@ -43,6 +43,7 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
 
 @property(nonatomic) id keychainUtilMock;
 @property(nonatomic) id sut;
+@property(nonatomic) id reachabilityMock;
 
 @end
 
@@ -53,6 +54,8 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
   self.sut = OCMClassMock([MSTokenExchange class]);
   self.keychainUtilMock = OCMClassMock([MSKeychainUtil class]);
   OCMStub(ClassMethod([self.sut tokenKeyNameForPartition:kMSDataStoreUserDocumentsPartition])).andReturn(kMSMockTokenKeyName);
+  self.reachabilityMock = OCMClassMock([MS_Reachability class]);
+  OCMStub(ClassMethod([self.reachabilityMock currentReachabilityStatus])).andReturn(ReachableViaWiFi);
 }
 
 - (void)tearDown {
@@ -101,6 +104,7 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
                                                     appSecret:@"appSecret"
                                                     partition:kMSDataStoreUserDocumentsPartition
                                           includeExpiredToken:NO
+                                               msreachability:self.reachabilityMock
                                             completionHandler:^(MSTokensResponse *tokensResponse, NSError *_Nullable returnError) {
                                               XCTAssertNil(returnError);
                                               returnedTokenResult = [tokensResponse tokens][0];
@@ -163,6 +167,7 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
                                                     appSecret:@"appSecret"
                                                     partition:kMSDataStoreUserDocumentsPartition
                                           includeExpiredToken:NO
+                                               msreachability:self.reachabilityMock
                                             completionHandler:^(__unused MSTokensResponse *tokensResponse, NSError *_Nullable returnError) {
                                               XCTAssertEqual(returnError.code, MSACDataStoreErrorHTTPError);
                                               [completeExpectation fulfill];
@@ -214,6 +219,7 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
                                                     appSecret:@"appSecret"
                                                     partition:kMSDataStoreUserDocumentsPartition
                                           includeExpiredToken:NO
+                                               msreachability:self.reachabilityMock
                                             completionHandler:^(__unused MSTokensResponse *tokensResponse, NSError *_Nullable returnError) {
                                               XCTAssertEqual(returnError.code, MSACDataStoreInvalidTokenExchangeResponse);
                                               [completeExpectation fulfill];
@@ -261,6 +267,7 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
                                                     appSecret:@"appSecret"
                                                     partition:kMSDataStoreAppDocumentsPartition
                                           includeExpiredToken:NO
+                                               msreachability:self.reachabilityMock
                                             completionHandler:^(MSTokensResponse *tokensResponse, NSError *_Nullable returnError) {
                                               XCTAssertNil(returnError);
                                               returnedTokenResult = [tokensResponse tokens][0];
@@ -305,6 +312,7 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
                                                     appSecret:@"appSecret"
                                                     partition:kMSDataStoreUserDocumentsPartition
                                           includeExpiredToken:NO
+                                               msreachability:self.reachabilityMock
                                             completionHandler:^(MSTokensResponse *tokensResponse, NSError *_Nullable error) {
                                               // Then
                                               XCTAssertNil(error);
@@ -350,6 +358,7 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
                                                     appSecret:@"appSecret"
                                                     partition:kMSDataStoreUserDocumentsPartition
                                           includeExpiredToken:NO
+                                               msreachability:self.reachabilityMock
                                             completionHandler:^(MSTokensResponse *tokensResponse, NSError *_Nullable returnError) {
                                               // Then
                                               XCTAssertNotNil(returnError);
@@ -393,6 +402,7 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
                                        appSecret:@"appSecret"
                                        partition:kMSDataStoreUserDocumentsPartition
                              includeExpiredToken:NO
+                                  msreachability:self.reachabilityMock
                                completionHandler:^(MSTokensResponse *__unused tokensResponse, NSError *_Nullable __unused returnError){
                                }];
 
@@ -425,6 +435,7 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
                                                     appSecret:@"appSecret"
                                                     partition:kMSDataStoreUserDocumentsPartition
                                           includeExpiredToken:NO
+                                               msreachability:self.reachabilityMock
                                             completionHandler:^(MSTokensResponse *__unused tokensResponse, NSError *_Nullable returnError) {
                                               // Then
                                               XCTAssertNotNil(returnError);
@@ -465,6 +476,7 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
                                                     appSecret:@"appSecret"
                                                     partition:kMSDataStoreUserDocumentsPartition
                                           includeExpiredToken:NO
+                                               msreachability:self.reachabilityMock
                                             completionHandler:^(MSTokensResponse *__unused tokensResponse, NSError *_Nullable returnError) {
                                               // Then
                                               XCTAssertEqual(returnError, serviceError);
@@ -491,6 +503,7 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
                                                     appSecret:@"appSecret"
                                                     partition:invalidPartitionName
                                           includeExpiredToken:NO
+                                               msreachability:self.reachabilityMock
                                             completionHandler:^(MSTokensResponse *__unused tokensResponse, NSError *_Nullable returnError) {
                                               // Then
                                               XCTAssertEqual(returnError.code, MSACDataStoreInvalidPartitionError);
@@ -532,6 +545,7 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
                                                     appSecret:@"appSecret"
                                                     partition:kMSDataStoreUserDocumentsPartition
                                           includeExpiredToken:NO
+                                               msreachability:self.reachabilityMock
                                             completionHandler:^(MSTokensResponse *__unused tokensResponse, NSError *_Nullable returnError) {
                                               // Then
                                               XCTAssertNotNil(returnError);

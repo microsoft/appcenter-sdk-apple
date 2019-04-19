@@ -5,6 +5,7 @@
 
 #import "MSDataStorageConstants.h"
 #import "MSTokenResult.h"
+#import "MS_Reachability.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -26,6 +27,7 @@ typedef void (^MSGetTokenAsyncCompletionHandler)(MSTokensResponse *tokensRespons
  * @param appSecret The application secret.
  * @param partition The CosmosDB partition.
  * @param includeExpiredToken The flag that indicates whether the method returns expired token from the cache or not.
+ * @param msreachability Msreachability instance used for check if connected network or not.
  * @param completionHandler Callback that gets invoked when a token is retrieved.
  */
 + (void)performDbTokenAsyncOperationWithHttpClient:(id<MSHttpClientProtocol>)httpClient
@@ -33,6 +35,7 @@ typedef void (^MSGetTokenAsyncCompletionHandler)(MSTokensResponse *tokensRespons
                                          appSecret:(NSString *)appSecret
                                          partition:(NSString *)partition
                                includeExpiredToken:(BOOL)includeExpiredToken
+                                    msreachability:(MS_Reachability *)msreachability
                                  completionHandler:(MSGetTokenAsyncCompletionHandler)completionHandler;
 
 /**
