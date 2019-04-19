@@ -24,7 +24,7 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
   var documentContent: MSDocumentWrapper<MSDictionaryDocument>?
   private var kUserDocumentAddPropertiesSectionIndex: Int = 0
   private var timeToLiveModePicker: MSEnumPicker<TimeToLiveMode>?
-
+  
   @IBOutlet weak var timeToLiveBoard: UILabel!
   @IBOutlet weak var backButton: UIButton!
   @IBOutlet weak var docIdField: UITextField!
@@ -192,15 +192,15 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
       for property in docProperties {
         switch property.type {
         case .String:
-          prop[property.value as! String] = property.key
+          prop[property.key] = property.value as! String
         case .Double:
-          prop[property.value as! Double] = property.key
+          prop[property.key] = property.value as! Double
         case .Long:
-          prop[property.value as! Int64] = property.key
+          prop[property.key] = property.value as! Int64
         case .Boolean:
-          prop[property.value as! Bool] = property.key
+          prop[property.key] = property.value as! Bool
         case .DateTime:
-          prop[property.value as! Date] = property.key
+          prop[property.key] = property.value as! Date
         }
       }
     }

@@ -19,6 +19,7 @@ class MSStorageViewController: UIViewController, UITableViewDelegate, UITableVie
   static var UserDocuments: [MSDocumentWrapper<MSDictionaryDocument>] = []
   private var storageTypePicker: MSEnumPicker<StorageType>?
   private var storageType = StorageType.App.rawValue
+  var indicator = UIActivityIndicatorView()
   
   @IBOutlet var backButton: UIButton!
   @IBOutlet var tableView: UITableView!
@@ -32,14 +33,17 @@ class MSStorageViewController: UIViewController, UITableViewDelegate, UITableVie
     tableView.allowsSelectionDuringEditing = true
     identitySignIn = UserDefaults.standard.bool(forKey: kMSUserIdentity)
     initStoragePicker()
+    activityIndicator()
     loadAppFiles()
   }
   
   func loadAppFiles() {
+    indicator.startAnimating()
     self.appCenter.listDocumentsWithPartition("readonly", documentType: MSDictionaryDocument.self, completionHandler: { (documents) in
       self.allDocuments = documents;
       MSStorageViewController.AppDocuments = documents.currentPage().items ?? []
       DispatchQueue.main.async {
+        self.indicator.stopAnimating()
         self.tableView.isHidden = false
         self.tableView.reloadData()
       }
@@ -47,14 +51,24 @@ class MSStorageViewController: UIViewController, UITableViewDelegate, UITableVie
   }
   
   func loadUserFiles() {
+    indicator.startAnimating()
     self.appCenter.listDocumentsWithPartition("user", documentType: MSDictionaryDocument.self, completionHandler: { (documents) in
       self.allDocuments = documents;
       MSStorageViewController.UserDocuments = documents.currentPage().items ?? []
       DispatchQueue.main.async {
+        self.indicator.stopAnimating()
         self.tableView.isHidden = false
         self.tableView.reloadData()
       }
     })
+  }
+  
+  func activityIndicator() {
+    indicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.gray)
+    indicator.center = self.view.center
+    indicator.backgroundColor = UIColor.white
+    indicator.hidesWhenStopped = true
+    self.view.addSubview(indicator)
   }
   
   func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -227,6 +241,7 @@ class MSStorageViewController: UIViewController, UITableViewDelegate, UITableVie
     guard let documentDetailsController = segue.source as? MSDocumentDetailsViewController, let documentId = documentDetailsController.documentId, let documentToSave = documentDetailsController.document, let writeOptions = documentDetailsController.writeOptions else {
         return
     }
+    indicator.startAnimating()
     if (documentDetailsController.replaceDocument) {
       self.appCenter.replaceDocumentWithPartition(MSStorageViewController.StorageType.User.rawValue.lowercased(), documentId:documentId, document:documentToSave, writeOptions: writeOptions, completionHandler: { (document) in
         self.loadUserFiles()
