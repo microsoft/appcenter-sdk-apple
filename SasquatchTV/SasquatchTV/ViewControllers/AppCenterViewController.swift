@@ -12,7 +12,7 @@ enum AppCenterSections: Int { case actions = 0; case miscellaneous = 1; case set
   @IBOutlet weak var logURLLabel : UILabel!
   @IBOutlet weak var statusLabel : UILabel!
 
-  var appCenter: AppCenterDelegate!
+  @objc var appCenter: AppCenterDelegate!
 
   open override func viewDidLoad() {
     super.viewDidLoad()
