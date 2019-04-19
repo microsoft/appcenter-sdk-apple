@@ -316,8 +316,8 @@ class AppCenterDelegateSwift: AppCenterDelegate {
     });
   }
   
-  func replaceDocumentWithPartition(_ partitionName: String, documentId: String, document: TestDocument) {
-    MSDataStore.replace(withPartition: partitionName, documentId: documentId, document: document) { document in
+  func replaceDocumentWithPartition(_ partitionName: String, documentId: String, document: TestDocument, writeOptions: MSWriteOptions) {
+    MSDataStore.replace(withPartition: partitionName, documentId: documentId, document: document, writeOptions: writeOptions) { document in
       print("Storage.replace document with id \(documentId) succeeded")
     }
   }

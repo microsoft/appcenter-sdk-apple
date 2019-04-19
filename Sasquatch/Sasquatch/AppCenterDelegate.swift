@@ -102,6 +102,6 @@ class TestDocument : NSObject, MSSerializableDocument {
   // MSStorage section
   func listDocumentsWithPartition(_ partitionName: String, documentType: AnyClass, completionHandler: @escaping (_ paginatedDocuments:MSPaginatedDocuments<TestDocument>) -> Void)
   func createDocumentWithPartition(_ partitionName: String, documentId: String, document: TestDocument, writeOptions: MSWriteOptions)
-  func replaceDocumentWithPartition(_ partitionName: String, documentId: String, document: TestDocument)
+  func replaceDocumentWithPartition(_ partitionName: String, documentId: String, document: TestDocument, writeOptions: MSWriteOptions)
   func deleteDocumentWithPartition(_ partitionName: String, documentId: String)
 }

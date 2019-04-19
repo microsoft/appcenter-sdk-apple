@@ -13,6 +13,7 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
     case Infinite = "Infinite"
     static let allValues = [Default, NoCache, TwoSeconds, Infinite]
   }
+  var replaceDocument: Bool = false
   var document: TestDocument?
   var writeOptions: MSWriteOptions?
   var documentId: String?
@@ -43,10 +44,6 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
     super.loadView()
     if documentContent == nil || documentId == nil {
       docIdField.isEnabled = true
-    }
-    if documentContent != nil {
-      timeToLiveField.isHidden = true
-      timeToLiveBoard.isHidden = true
     }
     userDocumentAddPropertiesSection = EventPropertiesTableSection(tableSection: 0, tableView: self.tableView)
     self.timeToLiveModePicker = MSEnumPicker<TimeToLiveMode> (
@@ -122,16 +119,25 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
       var cellText = ""
       switch indexPath.row {
         case 0:
-          cellText = "Document ID: " + (String(describing:documentContent?.documentId))
+          cellText = "Document ID: \(documentContent?.documentId ?? "")"
         break
         case 1:
-          cellText = "Partion: " + (String(describing:documentContent?.lastUpdatedDate))
+          cellText = "Partition: \(documentContent?.partition ?? "")"
         break
         case 2:
-          cellText = "Date: " + (String(describing:documentContent?.lastUpdatedDate))
+          guard let error = documentContent?.error else {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "dd MMM yyyy HH:mm"
+            cellText = "Date: \(formatter.string(from: documentContent?.lastUpdatedDate ?? Date()))"
+            break
+          }
+          cellText = "Error: \(error.error.localizedDescription)"
         break
         case 3:
-          cellText = "Document content: " + (String(describing:documentContent?.jsonValue))
+          guard (documentContent?.error) != nil else {
+            cellText = "Document content: \(documentContent?.jsonValue ?? "")"
+            break
+          }
         break
       default:
         cellText = "nil"
@@ -158,6 +164,9 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
   }
   
   func prepareToSaveFile() {
+    if (documentContent != nil) {
+      replaceDocument = true
+    }
     var prop = [AnyHashable: Any]()
     if !((docIdField.text?.isEmpty)!) {
       documentId = docIdField.text

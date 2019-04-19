@@ -36,7 +36,7 @@ class MSStorageViewController: UIViewController, UITableViewDelegate, UITableVie
   }
   
   func loadAppFiles() {
-    self.appCenter.listDocumentsWithPartition("READONLY", documentType: TestDocument.self, completionHandler: { (documents) in
+    self.appCenter.listDocumentsWithPartition("readonly", documentType: TestDocument.self, completionHandler: { (documents) in
       self.allDocuments = documents;
       MSStorageViewController.AppDocuments = documents.currentPage().items ?? []
       DispatchQueue.main.async {
@@ -47,7 +47,7 @@ class MSStorageViewController: UIViewController, UITableViewDelegate, UITableVie
   }
   
   func loadUserFiles() {
-    self.appCenter.listDocumentsWithPartition("USER", documentType: TestDocument.self, completionHandler: { (documents) in
+    self.appCenter.listDocumentsWithPartition("user", documentType: TestDocument.self, completionHandler: { (documents) in
       self.allDocuments = documents;
       MSStorageViewController.UserDocuments = documents.currentPage().items ?? []
       DispatchQueue.main.async {
@@ -193,7 +193,7 @@ class MSStorageViewController: UIViewController, UITableViewDelegate, UITableVie
   
   func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
     if editingStyle == .delete {
-      appCenter.deleteDocumentWithPartition(StorageType.User.rawValue, documentId: MSStorageViewController.UserDocuments[indexPath.row - 1].documentId)
+      appCenter.deleteDocumentWithPartition(StorageType.User.rawValue.lowercased(), documentId: MSStorageViewController.UserDocuments[indexPath.row - 1].documentId)
       MSStorageViewController.UserDocuments.remove(at: indexPath.row - 1)
       tableView.deleteRows(at: [indexPath], with: .automatic)
     } else if editingStyle == .insert {
@@ -227,6 +227,11 @@ class MSStorageViewController: UIViewController, UITableViewDelegate, UITableVie
     guard let documentDetailsController = segue.source as? MSDocumentDetailsViewController, let documentId = documentDetailsController.documentId, let documentToSave = documentDetailsController.document, let writeOptions = documentDetailsController.writeOptions else {
         return
     }
-    self.appCenter.createDocumentWithPartition(MSStorageViewController.StorageType.User.rawValue, documentId:documentId, document:documentToSave, writeOptions: writeOptions)
+    if (documentDetailsController.replaceDocument) {
+      self.appCenter.replaceDocumentWithPartition(MSStorageViewController.StorageType.User.rawValue.lowercased(), documentId:documentId, document:documentToSave, writeOptions: writeOptions)
+    } else {
+      self.appCenter.createDocumentWithPartition(MSStorageViewController.StorageType.User.rawValue.lowercased(), documentId:documentId, document:documentToSave, writeOptions: writeOptions)
+    }
+    loadUserFiles()
   }
 }

@@ -354,10 +354,11 @@
 }
 
 
-- (void)replaceDocumentWithPartition:(NSString * _Nonnull)partitionName documentId:(NSString * _Nonnull)documentId document:(TestDocument * _Nonnull)document {
+- (void)replaceDocumentWithPartition:(NSString * _Nonnull)partitionName documentId:(NSString * _Nonnull)documentId document:(TestDocument * _Nonnull)document writeOptions:(MSWriteOptions * _Nonnull)writeOptions {
   [MSDataStore replaceWithPartition:partitionName
                          documentId:documentId
                            document:document
+                       writeOptions:writeOptions
                   completionHandler:^(MSDocumentWrapper *_Nonnull document) {
                     if (document) {
                       NSLog(@"Storage.replace document with id %@ succeeded", documentId);
