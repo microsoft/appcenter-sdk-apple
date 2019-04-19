@@ -38,28 +38,15 @@ static NSString *const kMSDocumentKey = @"document";
 
 @implementation MSDocumentUtils
 
+#pragma mark Interface
+
 + (NSDictionary *)documentPayloadWithDocumentId:(NSString *)documentId partition:(NSString *)partition document:(NSDictionary *)document {
   return @{kMSDocument : document, kMSPartitionKey : partition, kMSIdKey : documentId};
 }
 
-+ (BOOL)isReferenceDictionaryWithKey:(nullable id)reference key:(NSString *)key keyType:(Class)keyType {
-
-  // Validate the reference is a dictionary.
-  if (!reference || ![(NSObject *)reference isKindOfClass:[NSDictionary class]]) {
-    return false;
-  }
-
-  // Validate the reference has the expected key.
-  NSObject *keyObject = [(NSDictionary *)reference objectForKey:key];
-  if (!keyObject) {
-    return false;
-  }
-
-  // Validate the key object is of the expected type.
-  return [keyObject isKindOfClass:keyType];
-}
-
-+ (MSDocumentWrapper *)documentWrapperFromData:(nullable NSData *)data documentType:(Class)documentType {
++ (MSDocumentWrapper *)documentWrapperFromData:(nullable NSData *)data
+                                  documentType:(Class)documentType
+                               fromDeviceCache:(BOOL)fromDeviceCache {
 
   // Deserialize data.
   NSError *error;
@@ -80,7 +67,9 @@ static NSString *const kMSDocumentKey = @"document";
   }
 
   // Proceed from the dictionary.
-  return [MSDocumentUtils documentWrapperFromDictionary:(NSDictionary *)dictionary documentType:documentType];
+  return [MSDocumentUtils documentWrapperFromDictionary:(NSDictionary *)dictionary
+                                           documentType:documentType
+                                        fromDeviceCache:fromDeviceCache];
 }
 
 + (MSDocumentWrapper *)documentWrapperFromDocumentData:(nullable NSData *)data
@@ -89,7 +78,8 @@ static NSString *const kMSDocumentKey = @"document";
                                        lastUpdatedDate:(NSDate *)lastUpdatedDate
                                              partition:(NSString *)partition
                                             documentId:(NSString *)documentId
-                                      pendingOperation:(nullable NSString *)pendingOperation {
+                                      pendingOperation:(nullable NSString *)pendingOperation
+                                       fromDeviceCache:(BOOL)fromDeviceCache {
   // Deserialize data.
   NSError *error;
   NSObject *dictionary;
@@ -115,10 +105,13 @@ static NSString *const kMSDocumentKey = @"document";
                              lastUpdatedDate:lastUpdatedDate
                                    partition:partition
                                   documentId:documentId
-                            pendingOperation:pendingOperation];
+                            pendingOperation:pendingOperation
+                             fromDeviceCache:fromDeviceCache];
 }
 
-+ (MSDocumentWrapper *)documentWrapperFromDictionary:(NSObject *)object documentType:(Class)documentType {
++ (MSDocumentWrapper *)documentWrapperFromDictionary:(NSObject *)object
+                                        documentType:(Class)documentType
+                                     fromDeviceCache:(BOOL)fromDeviceCache {
 
   // Extract CosmosDB metadata information (id, date, etag) and partition key.
   if (![MSDocumentUtils isReferenceDictionaryWithKey:object key:kMSDocumentIdKey keyType:[NSString class]] ||
@@ -139,23 +132,47 @@ static NSString *const kMSDocumentKey = @"document";
   NSDate *lastUpdatedDate = [NSDate dateWithTimeIntervalSince1970:[(NSNumber *)dictionary[kMSDocumentTimestampKey] doubleValue]];
   NSString *eTag = dictionary[kMSDocumentEtagKey];
   NSString *partition = dictionary[kMSPartitionKey];
-  return [self documentWrapperFromDictionary:object
+  return [self documentWrapperFromDictionary:dictionary
                                 documentType:documentType
                                         eTag:eTag
                              lastUpdatedDate:lastUpdatedDate
                                    partition:partition
                                   documentId:documentId
-                            pendingOperation:nil];
+                            pendingOperation:nil
+                             fromDeviceCache:fromDeviceCache];
 }
 
-+ (MSDocumentWrapper *)documentWrapperFromDictionary:(NSObject *)object
++ (BOOL)isSerializableDocument:(Class)classType {
+  return class_conformsToProtocol(classType, @protocol(MSSerializableDocument));
+}
+
++ (BOOL)isReferenceDictionaryWithKey:(nullable id)reference key:(NSString *)key keyType:(Class)keyType {
+
+  // Validate the reference is a dictionary.
+  if (!reference || ![(NSObject *)reference isKindOfClass:[NSDictionary class]]) {
+    return NO;
+  }
+
+  // Validate the reference has the expected key.
+  NSObject *keyObject = [(NSDictionary *)reference objectForKey:key];
+  if (!keyObject) {
+    return NO;
+  }
+
+  // Validate the key object is of the expected type.
+  return [keyObject isKindOfClass:keyType];
+}
+
+#pragma mark Private
+
++ (MSDocumentWrapper *)documentWrapperFromDictionary:(NSDictionary *)dictionary
                                         documentType:(Class)documentType
                                                 eTag:(NSString *)eTag
                                      lastUpdatedDate:(NSDate *)lastUpdatedDate
                                            partition:(NSString *)partition
                                           documentId:(NSString *)documentId
-                                    pendingOperation:(nullable NSString *)pendingOperation {
-  NSDictionary *dictionary = (NSDictionary *)object;
+                                    pendingOperation:(nullable NSString *)pendingOperation
+                                     fromDeviceCache:(BOOL)fromDeviceCache {
 
   // Extract json value.
   NSString *jsonValue;
@@ -191,11 +208,8 @@ static NSString *const kMSDocumentKey = @"document";
                                                          eTag:eTag
                                               lastUpdatedDate:lastUpdatedDate
                                              pendingOperation:pendingOperation
-                                                        error:dataSourceError];
-}
-
-+ (BOOL)isSerializableDocument:(Class)classType {
-  return class_conformsToProtocol(classType, @protocol(MSSerializableDocument));
+                                                        error:dataSourceError
+                                              fromDeviceCache:fromDeviceCache];
 }
 
 @end

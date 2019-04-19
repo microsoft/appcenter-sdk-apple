@@ -16,6 +16,7 @@
  * @param lastUpdatedDate Last updated date of the document.
  * @param pendingOperation The name of the pending operation, or nil.
  * @param error An error.
+ * @param fromDeviceCache Flag indicating if the document wrapper was retrieved remotely or not.
  *
  * @return A new `MSDocumentWrapper` instance.
  */
@@ -26,7 +27,8 @@
                                      eTag:(NSString *)eTag
                           lastUpdatedDate:(NSDate *)lastUpdatedDate
                          pendingOperation:(NSString *)pendingOperation
-                                    error:(MSDataSourceError *)error;
+                                    error:(MSDataSourceError *)error
+                          fromDeviceCache:(BOOL)fromDeviceCache;
 
 /**
  * Initialize a `MSDocumentWrapper` instance.

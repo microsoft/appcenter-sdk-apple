@@ -39,7 +39,6 @@ static NSString *const kMSHeaderDocumentDbPartitionKeyFormat = @"[\"%@\"]";
 
 /**
  * Document DB authorization header format
- * TODO : Change the "type" to be "resource" instead of "master"
  */
 static NSString *const kMSDocumentDbAuthorizationHeaderFormat = @"type=master&ver=1.0&sig=%@";
 

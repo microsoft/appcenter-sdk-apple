@@ -1572,7 +1572,8 @@ static NSString *const kMSDocumentIdTest = @"documentId";
         cosmosdbOperationCallback(testCosmosDbResponse, [self generateResponseWithStatusCode:MSHTTPCodesNo200OK], nil);
       });
   MSDocumentWrapper *expectedDocumentWrapper = [MSDocumentUtils documentWrapperFromData:testCosmosDbResponse
-                                                                           documentType:[MSDictionaryDocument class]];
+                                                                           documentType:[MSDictionaryDocument class]
+                                                                        fromDeviceCache:NO];
 
   // When
   [MSDataStore readWithPartition:kMSPartitionTest
@@ -1584,6 +1585,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                  XCTAssertEqualObjects(expectedDocumentWrapper.eTag, document.eTag);
                  XCTAssertEqualObjects(expectedDocumentWrapper.partition, document.partition);
                  XCTAssertEqualObjects(expectedDocumentWrapper.documentId, document.documentId);
+                 XCTAssertEqual(expectedDocumentWrapper.fromDeviceCache, document.fromDeviceCache);
                  MSDictionaryDocument *expectedDictionaryDocument = (MSDictionaryDocument *)expectedDocumentWrapper.deserializedValue;
                  MSDictionaryDocument *actualDictionaryDocument = (MSDictionaryDocument *)document.deserializedValue;
                  XCTAssertEqualObjects(expectedDictionaryDocument.dictionary, actualDictionaryDocument.dictionary);
@@ -1614,10 +1616,12 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   self.sut.dataOperationProxy.documentStore = localStorageMock;
   NSData *jsonFixture = [self jsonFixture:@"validTestDocument"];
   MSDocumentWrapper *expectedDocumentWrapper = [MSDocumentUtils documentWrapperFromData:jsonFixture
-                                                                           documentType:[MSDictionaryDocument class]];
+                                                                           documentType:[MSDictionaryDocument class]
+                                                                        fromDeviceCache:NO];
 
   MSDocumentWrapper *localDocumentWrapper = OCMPartialMock([MSDocumentUtils documentWrapperFromData:jsonFixture
-                                                                                       documentType:[MSDictionaryDocument class]]);
+                                                                                       documentType:[MSDictionaryDocument class]
+                                                                                    fromDeviceCache:YES]);
 
   OCMStub(localDocumentWrapper.eTag).andReturn(@"some other etag");
   OCMStub([localStorageMock readWithToken:tokenResult documentId:OCMOCK_ANY documentType:OCMOCK_ANY]).andReturn(localDocumentWrapper);
@@ -1645,6 +1649,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                  // Then
                  XCTAssertNil(document.error);
                  XCTAssertEqualObjects(expectedDocumentWrapper.eTag, document.eTag);
+                 XCTAssertFalse(document.fromDeviceCache);
                  [expectation fulfill];
                }];
 
