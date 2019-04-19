@@ -3,7 +3,7 @@
 
 #import <OHHTTPStubs/OHHTTPStubs.h>
 
-#import "MSConstants+Internal.h"
+#import "MSConstants.h"
 #import "MSHttpTestUtil.h"
 #import "MSTestFrameworks.h"
 

@@ -20,6 +20,6 @@ static NSString *const kMSPendingOperationDelete = @"DELETE";
 static NSString *const kMSPendingOperationRead = nil;
 
 /**
- * CosmosDb Http code key.
+ * CosmosDB HTTP code key.
  */
 static NSString *const kMSCosmosDbHttpCodeKey = @"MSHttpCodeKey";

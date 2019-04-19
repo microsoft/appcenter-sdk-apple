@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 #import "MSAuthTokenContext.h"
-#import "MSConstants+Internal.h"
+#import "MSConstants.h"
 #import "MSDataStorageConstants.h"
 #import "MSDataStore.h"
 #import "MSDataStoreErrors.h"

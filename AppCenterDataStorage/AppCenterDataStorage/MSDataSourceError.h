@@ -6,7 +6,7 @@
 @interface MSDataSourceError : NSObject
 
 /**
- * Document Error.
+ * Document error.
  */
 @property(nonatomic, strong, readonly) NSError *error;
 
@@ -25,17 +25,7 @@
 - (instancetype)initWithError:(NSError *)error;
 
 /**
- * Create an instance with error object.
- *
- * @param error An error object.
- * @param errorCode An error code.
- *
- * @return A new `MSDataSourceError` instance.
- */
-- (instancetype)initWithError:(NSError *)error errorCode:(NSInteger)errorCode;
-
-/**
- * Get the error code from the error.
+ * Extract an error code (HTTP) from any NSError instance.
  *
  * @param error An error object.
  *

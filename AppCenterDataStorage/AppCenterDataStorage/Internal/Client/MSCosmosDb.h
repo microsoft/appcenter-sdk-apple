@@ -37,6 +37,18 @@ NS_ASSUME_NONNULL_BEGIN
                                   additionalUrlPath:(NSString *_Nullable)additionalUrlPath
                                   completionHandler:(MSHttpRequestCompletionHandler)completionHandler;
 
+/**
+ * Build and return a rich error object for a CosmosDB HTTP response.
+ * The error exposes the HTTP status code in the user info dictionary (`kMSCosmosDbHttpCodeKey`) as well as the error
+ * (`NSUnderlyingErrorKey`).
+ *
+ * @param response The HTTP response (if any).
+ * @param underlyingError The underlying error (if any).
+ *
+ * @return A rich error object.
+ */
++ (NSError *)cosmosDbErrorWithResponse:(NSHTTPURLResponse *_Nullable)response underlyingError:(NSError *_Nullable)underlyingError;
+
 @end
 
 NS_ASSUME_NONNULL_END
