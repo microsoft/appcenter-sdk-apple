@@ -43,7 +43,10 @@
 @property(nonatomic, strong, readonly) MSDataSourceError *error;
 
 /**
- * Flag indicating if a document was obtained from the local device store/cache (as opposed to remotely by talking to CosmosDB).
+ * Flag indicating if a document was obtained from the local device store/cache
+ * (as opposed to remotely by talking to CosmosDB).
+ *
+ * Note: The flag is always set to NO if the document is in an error state.
  */
 @property(nonatomic, readonly) BOOL fromDeviceCache;
 
