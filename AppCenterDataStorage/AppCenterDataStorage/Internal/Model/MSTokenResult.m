@@ -51,14 +51,6 @@ static NSString *const kMSAccountId = @"accountId";
   self = [super init];
   if (self) {
 
-    // Validate the token comes with all required properties.
-    for (NSString *requiredProperty in [NSArray arrayWithObjects:kMSPartition, kMSDbAccount, kMSDbName, kMSDbCollectionName,
-                                                                 kMSDbCollectionName, kMSToken, kMSStatus, kMSExpiresOn, nil]) {
-      if (![MSDocumentUtils isReferenceDictionaryWithKey:token key:requiredProperty keyType:[NSString class]]) {
-        return nil;
-      }
-    }
-
     // Instantiate the token.
     self = [[MSTokenResult alloc] initWithPartition:(NSString *)token[kMSPartition]
                                           dbAccount:(NSString *)token[kMSDbAccount]
