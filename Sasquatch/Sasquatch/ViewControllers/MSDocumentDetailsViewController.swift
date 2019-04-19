@@ -80,7 +80,7 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
     } else if documentContent == nil {
       return 1
     } else if documentType == userType && section == 1 {
-      return 1
+      return 0
     }
     return 4
   }
