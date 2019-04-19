@@ -54,8 +54,13 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
   self.sut = OCMClassMock([MSTokenExchange class]);
   self.keychainUtilMock = OCMClassMock([MSKeychainUtil class]);
   OCMStub(ClassMethod([self.sut tokenKeyNameForPartition:kMSDataStoreUserDocumentsPartition])).andReturn(kMSMockTokenKeyName);
-  self.reachabilityMock = OCMClassMock([MS_Reachability class]);
-  OCMStub(ClassMethod([self.reachabilityMock currentReachabilityStatus])).andReturn(ReachableViaWiFi);
+   
+    // Mock reachability.
+    self.reachabilityMock = OCMClassMock([MS_Reachability class]);
+    OCMStub([self.reachabilityMock currentReachabilityStatus]).andDo(^(NSInvocation *invocation) {
+        NetworkStatus test = ReachableViaWiFi;
+        [invocation setReturnValue:&test];
+    });
 }
 
 - (void)tearDown {
