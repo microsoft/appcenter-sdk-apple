@@ -424,7 +424,9 @@ static dispatch_once_t onceToken;
                                   for (id document in jsonPayload[kMSDocumentsKey]) {
 
                                     // Deserialize document.
-                                    [items addObject:[MSDocumentUtils documentWrapperFromDictionary:document documentType:documentType]];
+                                    [items addObject:[MSDocumentUtils documentWrapperFromDictionary:document
+                                                                                       documentType:documentType
+                                                                                    fromDeviceCache:NO]];
                                   }
 
                                   // Instantiate the first page and return it.
@@ -498,7 +500,9 @@ static dispatch_once_t onceToken;
 
                               // (Try to) deserialize the incoming document.
                               else {
-                                completionHandler([MSDocumentUtils documentWrapperFromData:data documentType:documentType]);
+                                completionHandler([MSDocumentUtils documentWrapperFromData:data
+                                                                              documentType:documentType
+                                                                           fromDeviceCache:NO]);
                               }
                             }];
 }
@@ -538,7 +542,9 @@ static dispatch_once_t onceToken;
                               // (Try to) deserialize saved document.
                               else {
                                 MSLogDebug([MSDataStore logTag], @"Document created/replaced with ID: %@", documentId);
-                                completionHandler([MSDocumentUtils documentWrapperFromData:data documentType:[document class]]);
+                                completionHandler([MSDocumentUtils documentWrapperFromData:data
+                                                                              documentType:[document class]
+                                                                           fromDeviceCache:NO]);
                               }
                             }];
 }
@@ -572,7 +578,8 @@ static dispatch_once_t onceToken;
                                                                                                   eTag:nil
                                                                                        lastUpdatedDate:nil
                                                                                       pendingOperation:nil
-                                                                                                 error:nil]);
+                                                                                                 error:nil
+                                                                                       fromDeviceCache:NO]);
                               }
                             }];
 }
