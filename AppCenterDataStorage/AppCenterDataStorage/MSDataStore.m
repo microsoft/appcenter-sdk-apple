@@ -790,6 +790,7 @@ static dispatch_once_t onceToken;
   if (!documentWrapper.error && ![pendingOperation isEqualToString:kMSPendingOperationDelete]) {
 
     // If not expired, update the local cache. otherwise, remove from the local cache.
+    // The operation is passes as nil in order to clear the value in `pending_operation` column.
     if (!isExpired) {
       [self.dataOperationProxy.documentStore upsertWithToken:token
                                              documentWrapper:documentWrapper
