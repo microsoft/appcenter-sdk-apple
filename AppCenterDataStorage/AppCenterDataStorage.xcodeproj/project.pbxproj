@@ -127,8 +127,6 @@
 		350D453A22568DFD00982E20 /* MSHttpTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F5227E22253E22F004F37FE /* MSHttpTestUtil.m */; };
 		350D453B22568DFE00982E20 /* MSHttpTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F5227E22253E22F004F37FE /* MSHttpTestUtil.m */; };
 		350D453C22568E5600982E20 /* MSTokenResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 2600123D22273E94007F4D3A /* MSTokenResult.m */; };
-		351064BE22541A750009DB96 /* MSMockDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 351064BD22541A750009DB96 /* MSMockDocument.m */; };
-		351064BF22541A750009DB96 /* MSMockDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 351064BD22541A750009DB96 /* MSMockDocument.m */; };
 		359D1A5A225E678B003ABD4F /* MSDispatchTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 359D1A59225E678B003ABD4F /* MSDispatchTestUtil.m */; };
 		359D1A5B225E678B003ABD4F /* MSDispatchTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 359D1A59225E678B003ABD4F /* MSDispatchTestUtil.m */; };
 		35F515A8225BC6B0001BFFA2 /* MSDocumentWrapperInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 35F515A7225BC6B0001BFFA2 /* MSDocumentWrapperInternal.h */; };
@@ -297,8 +295,6 @@
 		2ACE55FF2245277000FCD5DF /* MSDocumentUtilsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSDocumentUtilsTests.m; sourceTree = "<group>"; };
 		2ACE56092245340A00FCD5DF /* MSBaseOptionsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSBaseOptionsTests.m; sourceTree = "<group>"; };
 		2ACE562022453BE600FCD5DF /* MSDataSourceErrorTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSDataSourceErrorTests.m; sourceTree = "<group>"; };
-		351064BC22541A750009DB96 /* MSMockDocument.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MSMockDocument.h; path = AppCenterDataStorageTests/MSMockDocument.h; sourceTree = SOURCE_ROOT; };
-		351064BD22541A750009DB96 /* MSMockDocument.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MSMockDocument.m; path = AppCenterDataStorageTests/MSMockDocument.m; sourceTree = SOURCE_ROOT; };
 		359D1A58225E678B003ABD4F /* MSDispatchTestUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSDispatchTestUtil.h; path = ../../AppCenter/AppCenterTests/Util/MSDispatchTestUtil.h; sourceTree = "<group>"; };
 		359D1A59225E678B003ABD4F /* MSDispatchTestUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSDispatchTestUtil.m; path = ../../AppCenter/AppCenterTests/Util/MSDispatchTestUtil.m; sourceTree = "<group>"; };
 		35F515A7225BC6B0001BFFA2 /* MSDocumentWrapperInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSDocumentWrapperInternal.h; sourceTree = "<group>"; };
@@ -655,8 +651,6 @@
 			children = (
 				359D1A58225E678B003ABD4F /* MSDispatchTestUtil.h */,
 				359D1A59225E678B003ABD4F /* MSDispatchTestUtil.m */,
-				351064BC22541A750009DB96 /* MSMockDocument.h */,
-				351064BD22541A750009DB96 /* MSMockDocument.m */,
 				8F5227E32253E22F004F37FE /* MSHttpTestUtil.h */,
 				8F5227E22253E22F004F37FE /* MSHttpTestUtil.m */,
 				04B61DD12248F8CD008D0102 /* MSMockUserDefaults.h */,
@@ -1012,7 +1006,6 @@
 				350D453B22568DFE00982E20 /* MSHttpTestUtil.m in Sources */,
 				359D1A5B225E678B003ABD4F /* MSDispatchTestUtil.m in Sources */,
 				F82E4C86217F218D00EDAB34 /* sqlite3.c in Sources */,
-				351064BF22541A750009DB96 /* MSMockDocument.m in Sources */,
 				2ACE560B2245340A00FCD5DF /* MSBaseOptionsTests.m in Sources */,
 				4A9C4403223B2408008548A7 /* MSTokenTests.m in Sources */,
 				04B61DD02248F7DB008D0102 /* MSMockKeychainUtil.m in Sources */,
@@ -1057,7 +1050,6 @@
 				350D453A22568DFD00982E20 /* MSHttpTestUtil.m in Sources */,
 				359D1A5A225E678B003ABD4F /* MSDispatchTestUtil.m in Sources */,
 				F82E4C85217F218D00EDAB34 /* sqlite3.c in Sources */,
-				351064BE22541A750009DB96 /* MSMockDocument.m in Sources */,
 				2ACE560A2245340A00FCD5DF /* MSBaseOptionsTests.m in Sources */,
 				4A9C4402223B2405008548A7 /* MSTokenTests.m in Sources */,
 				04B61DCF2248F7DB008D0102 /* MSMockKeychainUtil.m in Sources */,
