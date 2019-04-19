@@ -116,7 +116,7 @@
   // Then
   XCTAssertNotNil(documentWrapper);
   XCTAssertNotNil(documentWrapper.error);
-  XCTAssertTrue(documentWrapper.fromDeviceCache);
+  XCTAssertFalse(documentWrapper.fromDeviceCache);
   XCTAssertEqualObjects(documentWrapper.documentId, documentId);
 }
 
@@ -417,7 +417,7 @@
   // Then
   XCTAssertTrue(result);
   XCTAssertNotNil(expectedDocumentWrapper.error);
-  XCTAssertFalse(documentWrapper.fromDeviceCache);
+  XCTAssertFalse(expectedDocumentWrapper.fromDeviceCache);
 }
 
 - (void)testDeletionOfAllTables {
