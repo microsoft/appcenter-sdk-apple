@@ -59,8 +59,8 @@
 - (void)testNSCodingSerializationAndDeserializationWorks {
 
   // When
-  NSData *serializedLog = [NSKeyedArchiver archivedDataWithRootObject:self.sut];
-  id actual = [NSKeyedUnarchiver unarchiveObjectWithData:serializedLog];
+  NSData *serializedLog = [NSKeyedArchiver archivedDataWithRootObject:self.sut requiringSecureCoding:true error:nil];
+  id actual = [NSKeyedUnarchiver unarchivedObjectOfClass:[NSObject class] fromData:serializedLog error:nil];
 
   // Then
   assertThat(actual, notNilValue());

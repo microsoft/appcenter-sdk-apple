@@ -428,7 +428,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
   // The callback can be called from any thread, making sure we make this thread-safe.
   @synchronized(self) {
-    NSData *serializedLog = [NSKeyedArchiver archivedDataWithRootObject:log];
+    NSData *serializedLog = [NSKeyedArchiver archivedDataWithRootObject:log requiringSecureCoding:true error:nil];
     if (serializedLog && (serializedLog.length > 0)) {
 
       // Serialize target token.
@@ -762,7 +762,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     if ([[fileURL pathExtension] isEqualToString:kMSLogBufferFileExtension]) {
       NSData *serializedLog = [NSData dataWithContentsOfURL:fileURL];
       if (serializedLog && serializedLog.length && serializedLog.length > 0) {
-        id<MSLog> item = [NSKeyedUnarchiver unarchiveObjectWithData:serializedLog];
+        id<MSLog> item = [NSKeyedUnarchiver unarchivedObjectOfClass:[NSObject class] fromData:serializedLog error:nil];
         if (item) {
 
           // Try to set target token.

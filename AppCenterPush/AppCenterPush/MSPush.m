@@ -219,33 +219,25 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
 #if TARGET_OS_OSX
   [NSApp registerForRemoteNotificationTypes:(NSRemoteNotificationTypeSound | NSRemoteNotificationTypeBadge)];
 #elif TARGET_OS_IOS
-  if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_9_x_Max) {
-    UIUserNotificationType allNotificationTypes =
-        (UIUserNotificationType)(UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge);
-    UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:allNotificationTypes categories:nil];
-    [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
-  } else {
-
 // Ignore the partial availability warning as the compiler doesn't get that we checked for pre-iOS 10 already.
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wpartial-availability"
-    UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
-    UNAuthorizationOptions authOptions =
-        (UNAuthorizationOptions)(UNAuthorizationOptionAlert | UNAuthorizationOptionSound | UNAuthorizationOptionBadge);
-    [center requestAuthorizationWithOptions:authOptions
-                          completionHandler:^(BOOL granted, NSError *_Nullable error) {
-                            if (granted) {
-                              MSLogVerbose([MSPush logTag], @"Push notifications authorization was granted.");
-                            } else {
-                              MSLogVerbose([MSPush logTag], @"Push notifications authorization was denied.");
-                            }
-                            if (error) {
-                              MSLogWarning([MSPush logTag], @"Push notifications authorization request has been finished with error: %@",
-                                           error.localizedDescription);
-                            }
-                          }];
+  UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+  UNAuthorizationOptions authOptions =
+      (UNAuthorizationOptions)(UNAuthorizationOptionAlert | UNAuthorizationOptionSound | UNAuthorizationOptionBadge);
+  [center requestAuthorizationWithOptions:authOptions
+                        completionHandler:^(BOOL granted, NSError *_Nullable error) {
+                          if (granted) {
+                            MSLogVerbose([MSPush logTag], @"Push notifications authorization was granted.");
+                          } else {
+                            MSLogVerbose([MSPush logTag], @"Push notifications authorization was denied.");
+                          }
+                          if (error) {
+                            MSLogWarning([MSPush logTag], @"Push notifications authorization request has been finished with error: %@",
+                                         error.localizedDescription);
+                          }
+                        }];
 #pragma clang diagnostic pop
-  }
   [[UIApplication sharedApplication] registerForRemoteNotifications];
 #endif
 }

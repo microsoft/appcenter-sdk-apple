@@ -223,7 +223,8 @@ static NSUInteger const kMSAccountIdLengthInHomeAccount = 36;
   }
   NSData *encryptedData = [MS_USER_DEFAULTS objectForKey:kMSAuthTokenHistoryKey];
   NSData *decryptedData = encryptedData ? [self.encrypter decryptData:encryptedData] : nil;
-  NSArray<MSAuthTokenInfo *> *history = decryptedData ? [NSKeyedUnarchiver unarchiveObjectWithData:decryptedData] : nil;
+  NSArray<MSAuthTokenInfo *> *history =
+      decryptedData ? [NSKeyedUnarchiver unarchivedObjectOfClass:[MSAuthTokenInfo class] fromData:decryptedData error:nil] : nil;
   if (history) {
     MSLogDebug([MSAppCenter logTag], @"Retrieved history state.");
   } else {
@@ -236,7 +237,8 @@ static NSUInteger const kMSAccountIdLengthInHomeAccount = 36;
 
 - (void)setAuthTokenHistory:(nullable NSArray<MSAuthTokenInfo *> *)authTokenHistory {
   self.authTokenHistoryArray = authTokenHistory;
-  NSData *decryptedData = authTokenHistory ? [NSKeyedArchiver archivedDataWithRootObject:(id)authTokenHistory] : nil;
+  NSData *decryptedData =
+      authTokenHistory ? [NSKeyedArchiver archivedDataWithRootObject:(id)authTokenHistory requiringSecureCoding:true error:nil] : nil;
   NSData *encryptedData = decryptedData ? [self.encrypter encryptData:decryptedData] : nil;
   [MS_USER_DEFAULTS setObject:encryptedData forKey:kMSAuthTokenHistoryKey];
   if (encryptedData) {

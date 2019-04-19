@@ -53,7 +53,7 @@ static const NSUInteger kMSSchemaVersion = 4;
   long long timestampMs = (long long)([log.timestamp timeIntervalSince1970] * 1000);
 
   // Insert this log to the DB.
-  NSData *logData = [NSKeyedArchiver archivedDataWithRootObject:log];
+  NSData *logData = [NSKeyedArchiver archivedDataWithRootObject:log requiringSecureCoding:true error:nil];
   NSString *base64Data = [logData base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
   NSString *addLogQuery =
       [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\", \"%@\") VALUES ('%@', '%@', '%u', '%lld')", kMSLogTableName,
@@ -285,7 +285,7 @@ static const NSUInteger kMSSchemaVersion = 4;
 
     // Deserialize the log.
     @try {
-      log = [NSKeyedUnarchiver unarchiveObjectWithData:logData];
+      log = [NSKeyedUnarchiver unarchivedObjectOfClass:[NSObject class] fromData:logData error:nil];
     } @catch (NSException *e) {
       exception = e;
     }

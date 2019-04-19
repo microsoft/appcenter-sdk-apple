@@ -58,7 +58,7 @@ static MSDeviceTracker *sharedInstance = nil;
     // Restore past sessions from NSUserDefaults.
     NSData *devices = [MS_USER_DEFAULTS objectForKey:kMSPastDevicesKey];
     if (devices != nil) {
-      NSArray *arrayFromData = [NSKeyedUnarchiver unarchiveObjectWithData:devices];
+      NSArray *arrayFromData = [NSKeyedUnarchiver unarchivedObjectOfClass:[NSObject class] fromData:devices error:nil];
 
       // If array is not nil, create a mutable version.
       if (arrayFromData)
@@ -126,7 +126,10 @@ static MSDeviceTracker *sharedInstance = nil;
       }
 
       // Persist the device history in NSData format.
-      [MS_USER_DEFAULTS setObject:[NSKeyedArchiver archivedDataWithRootObject:self.deviceHistory] forKey:kMSPastDevicesKey];
+      [MS_USER_DEFAULTS setObject:(NSData *)[NSKeyedArchiver archivedDataWithRootObject:self.deviceHistory
+                                                                  requiringSecureCoding:true
+                                                                                  error:nil]
+                           forKey:kMSPastDevicesKey];
     }
     return _device;
   }

@@ -84,7 +84,7 @@ static NSMutableDictionary *unprocessedWrapperExceptions;
 + (void)saveWrapperException:(MSWrapperException *)wrapperException withBaseFilename:(NSString *)baseFilename {
 
   // For some reason, archiving directly to a file fails in some cases, so archive to NSData and write that to the file
-  NSData *data = [NSKeyedArchiver archivedDataWithRootObject:wrapperException];
+  NSData *data = [NSKeyedArchiver archivedDataWithRootObject:wrapperException requiringSecureCoding:true error:nil];
   NSString *pathComponent = [NSString stringWithFormat:@"%@/%@", [MSCrashesUtil wrapperExceptionsDir], baseFilename];
   [MSUtility createFileAtPathComponent:pathComponent withData:data atomically:YES forceOverwrite:YES];
 }
@@ -107,7 +107,7 @@ static NSMutableDictionary *unprocessedWrapperExceptions;
   NSData *data = [MSUtility loadDataForPathComponent:pathComponent];
   MSWrapperException *wrapperException = nil;
   @try {
-    wrapperException = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    wrapperException = [NSKeyedUnarchiver unarchivedObjectOfClass:[MSWrapperException class] fromData:data error:nil];
   } @catch (__attribute__((unused)) NSException *exception) {
     MSLogError([MSCrashes logTag], @"Could not read exception data stored on disk with file name %@", baseFilename);
     [self deleteWrapperExceptionWithBaseFilename:baseFilename];

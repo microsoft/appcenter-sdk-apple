@@ -23,7 +23,7 @@ static NSString *AppCenterKeychainServiceName(NSString *suffix) {
 
 + (BOOL)storeArray:(NSArray *)array forKey:(NSString *)key withServiceName:(NSString *)serviceName {
   NSMutableDictionary *attributes = [MSKeychainUtil generateItem:key withServiceName:serviceName];
-  attributes[(__bridge id)kSecValueData] = [NSKeyedArchiver archivedDataWithRootObject:array];
+  attributes[(__bridge id)kSecValueData] = [NSKeyedArchiver archivedDataWithRootObject:array requiringSecureCoding:true error:nil];
   OSStatus status = [self addSecItem:attributes];
 
   // Delete item if already exists.
@@ -45,7 +45,7 @@ static NSString *AppCenterKeychainServiceName(NSString *suffix) {
   CFTypeRef result = nil;
   OSStatus status = [self secItemCopyMatchingQuery:query result:&result];
   if (status == noErr) {
-    return [NSKeyedUnarchiver unarchiveObjectWithData:(__bridge_transfer NSData *)result];
+    return [NSKeyedUnarchiver unarchivedObjectOfClass:[NSObject class] fromData:(__bridge_transfer NSData *)result error:nil];
   }
   return nil;
 }

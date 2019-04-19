@@ -33,7 +33,10 @@ static dispatch_once_t onceToken;
   if (self) {
     NSData *data = [MS_USER_DEFAULTS objectForKey:kMSSessionIdHistoryKey];
     if (data != nil) {
-      _sessionHistory = (NSMutableArray *)[(NSObject *)[NSKeyedUnarchiver unarchiveObjectWithData:data] mutableCopy];
+      NSData *unarchivedData = [NSKeyedUnarchiver unarchivedObjectOfClass:[NSObject class] fromData:data error:nil];
+      _sessionHistory = (NSMutableArray *)[NSJSONSerialization JSONObjectWithData:unarchivedData
+                                                                          options:NSJSONReadingAllowFragments
+                                                                            error:nil];
     }
     if (!_sessionHistory) {
       _sessionHistory = [NSMutableArray<MSSessionHistoryInfo *> new];
@@ -61,7 +64,8 @@ static dispatch_once_t onceToken;
     self.currentSessionInfo.sessionId = sessionId;
     self.currentSessionInfo.timestamp = [NSDate date];
     [self.sessionHistory addObject:self.currentSessionInfo];
-    [MS_USER_DEFAULTS setObject:[NSKeyedArchiver archivedDataWithRootObject:self.sessionHistory] forKey:kMSSessionIdHistoryKey];
+    NSData *userData = [NSKeyedArchiver archivedDataWithRootObject:self.sessionHistory requiringSecureCoding:true error:nil];
+    [MS_USER_DEFAULTS setObject:userData forKey:kMSSessionIdHistoryKey];
     MSLogVerbose([MSAppCenter logTag], @"Stored new session with id:%@ and timestamp: %@.", self.currentSessionInfo.sessionId,
                  self.currentSessionInfo.timestamp);
   }
@@ -84,7 +88,8 @@ static dispatch_once_t onceToken;
     if (keepCurrentSession) {
       [self.sessionHistory addObject:self.currentSessionInfo];
     }
-    [MS_USER_DEFAULTS setObject:[NSKeyedArchiver archivedDataWithRootObject:self.sessionHistory] forKey:kMSSessionIdHistoryKey];
+    NSData *userData = [NSKeyedArchiver archivedDataWithRootObject:self.sessionHistory requiringSecureCoding:true error:nil];
+    [MS_USER_DEFAULTS setObject:userData forKey:kMSSessionIdHistoryKey];
     MSLogVerbose([MSAppCenter logTag], @"Cleared old sessions.");
   }
 }

@@ -62,8 +62,8 @@
   self.startSessionLog.sid = sessionId;
 
   // When
-  NSData *serializedEvent = [NSKeyedArchiver archivedDataWithRootObject:self.startSessionLog];
-  id actual = [NSKeyedUnarchiver unarchiveObjectWithData:serializedEvent];
+  NSData *serializedEvent = [NSKeyedArchiver archivedDataWithRootObject:self.startSessionLog requiringSecureCoding:true error:nil];
+  id actual = [NSKeyedUnarchiver unarchivedObjectOfClass:[NSObject class] fromData:serializedEvent error:nil];
 
   // Then
   assertThat(actual, notNilValue());

@@ -44,8 +44,12 @@ static dispatch_once_t onceToken;
   self = [super init];
   if (self) {
     NSData *data = [MS_USER_DEFAULTS objectForKey:kMSUserIdHistoryKey];
+    NSError *error = nil;
     if (data != nil) {
-      _userIdHistory = (NSMutableArray *)[(NSObject *)[NSKeyedUnarchiver unarchiveObjectWithData:data] mutableCopy];
+      NSData *archivedData = [NSKeyedArchiver archivedDataWithRootObject:data requiringSecureCoding:true error:&error];
+      _userIdHistory = (NSMutableArray *)[NSJSONSerialization JSONObjectWithData:archivedData
+                                                                         options:NSJSONReadingAllowFragments
+                                                                           error:nil];
     }
     if (!_userIdHistory) {
       _userIdHistory = [NSMutableArray<MSUserIdHistoryInfo *> new];
@@ -61,7 +65,8 @@ static dispatch_once_t onceToken;
      * Persist nil userId as a current userId to NSUserDefaults so that Crashes can retrieve a correct userId when apps crash between App
      * Center start and setUserId call.
      */
-    [MS_USER_DEFAULTS setObject:[NSKeyedArchiver archivedDataWithRootObject:self.userIdHistory] forKey:kMSUserIdHistoryKey];
+    NSData *userData = [NSKeyedArchiver archivedDataWithRootObject:self.userIdHistory requiringSecureCoding:true error:nil];
+    [MS_USER_DEFAULTS setObject:userData forKey:kMSUserIdHistoryKey];
     _delegates = [NSHashTable weakObjectsHashTable];
   }
   return self;
@@ -93,7 +98,8 @@ static dispatch_once_t onceToken;
      */
     [self.userIdHistory removeLastObject];
     [self.userIdHistory addObject:self.currentUserIdInfo];
-    [MS_USER_DEFAULTS setObject:[NSKeyedArchiver archivedDataWithRootObject:self.userIdHistory] forKey:kMSUserIdHistoryKey];
+    NSData *userData = [NSKeyedArchiver archivedDataWithRootObject:self.userIdHistory requiringSecureCoding:true error:nil];
+    [MS_USER_DEFAULTS setObject:userData forKey:kMSUserIdHistoryKey];
     MSLogVerbose([MSAppCenter logTag], @"Stored new userId:%@ and timestamp: %@.", self.currentUserIdInfo.userId,
                  self.currentUserIdInfo.timestamp);
     synchronizedDelegates = [self.delegates allObjects];
@@ -120,7 +126,8 @@ static dispatch_once_t onceToken;
   @synchronized(self) {
     [self.userIdHistory removeAllObjects];
     [self.userIdHistory addObject:self.currentUserIdInfo];
-    [MS_USER_DEFAULTS setObject:[NSKeyedArchiver archivedDataWithRootObject:self.userIdHistory] forKey:kMSUserIdHistoryKey];
+    NSData *userData = [NSKeyedArchiver archivedDataWithRootObject:self.userIdHistory requiringSecureCoding:true error:nil];
+    [MS_USER_DEFAULTS setObject:userData forKey:kMSUserIdHistoryKey];
     MSLogVerbose([MSAppCenter logTag], @"Cleared old userIds while keeping current userId.");
   }
 }
