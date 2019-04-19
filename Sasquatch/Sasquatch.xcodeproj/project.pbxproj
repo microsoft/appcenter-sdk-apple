@@ -1451,6 +1451,7 @@
 			buildPhases = (
 				5CD700E11EA4B74500FC5D12 /* Sources */,
 				5CD700E31EA4B74500FC5D12 /* Resources */,
+				F86E4B982269C52C003FE444 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1469,6 +1470,7 @@
 				5CE258831EA5F62400DA8FB9 /* Sources */,
 				5CE258841EA5F62400DA8FB9 /* Frameworks */,
 				5CE258851EA5F62400DA8FB9 /* Resources */,
+				F86E4B992269C532003FE444 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1491,6 +1493,7 @@
 				F89D790B1E93DA3B0094521F /* Embed Frameworks */,
 				D36AD6EE1E94FF6B003D34E7 /* Embed Watch Content */,
 				04CCE79021F7A4F3000AD84C /* CopyFiles */,
+				F86E4B912269C504003FE444 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1513,6 +1516,7 @@
 				F89D790E1E93DA500094521F /* Embed Frameworks */,
 				D36AD7171E94FF98003D34E7 /* Embed Watch Content */,
 				04CCE79421F7A511000AD84C /* CopyFiles */,
+				F86E4B952269C51D003FE444 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1534,6 +1538,7 @@
 				B20AE39B21027D6200A1A195 /* Resources */,
 				B20AE3A421027D6200A1A195 /* Embed Frameworks */,
 				04CCE78C21F7A138000AD84C /* CopyFiles */,
+				F86E4B9A2269C538003FE444 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1562,6 +1567,7 @@
 				B27D54C2210A5E7E004E82C9 /* Resources */,
 				B27D54CB210A5E7E004E82C9 /* Embed Frameworks */,
 				04CCE78E21F7A4E4000AD84C /* CopyFiles */,
+				F86E4B572269C4FD003FE444 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1582,6 +1588,7 @@
 				B2A4CFA6210A6E6900199B4F /* Resources */,
 				B2A4CFAF210A6E6900199B4F /* Embed Frameworks */,
 				04CCE79221F7A505000AD84C /* CopyFiles */,
+				F86E4B942269C518003FE444 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1599,6 +1606,7 @@
 				B2A888B12102B1E7001ACFDF /* Sources */,
 				B2A888B22102B1E7001ACFDF /* Frameworks */,
 				B2A888B32102B1E7001ACFDF /* Resources */,
+				F86E4B9B2269C542003FE444 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1617,6 +1625,7 @@
 				8099A54F21121501008E1466 /* Verify no build settings */,
 				D31EF9271E9517B500450162 /* Resources */,
 				D31EF94E1E9517B600450162 /* Embed App Extensions */,
+				F86E4B922269C50A003FE444 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1635,6 +1644,7 @@
 				D31EF9311E9517B600450162 /* Sources */,
 				D31EF9321E9517B600450162 /* Frameworks */,
 				D31EF9331E9517B600450162 /* Resources */,
+				F86E4B932269C511003FE444 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1652,6 +1662,7 @@
 				8099A5D62112198F008E1466 /* Verify no build settings */,
 				D31EF9521E9517C500450162 /* Resources */,
 				D31EF9761E9517C600450162 /* Embed App Extensions */,
+				F86E4B962269C522003FE444 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1670,6 +1681,7 @@
 				D31EF95C1E9517C600450162 /* Sources */,
 				D31EF95D1E9517C600450162 /* Frameworks */,
 				D31EF95E1E9517C600450162 /* Resources */,
+				F86E4B972269C527003FE444 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -2338,6 +2350,210 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift\" ${PROJECT_NAME}.xcodeproj/project.pbxproj\n";
 			showEnvVarsInLog = 0;
+		};
+		F86E4B572269C4FD003FE444 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nTAGS=\"TODO:|FIXME:\"\necho \"searching ${SRCROOT} for ${TAGS}\"\nfind \"${SRCROOT}\" \\( -name \"*.swift\" \\) -print0 \\\n| xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$\" \\\n| perl -p -e \"s/($TAGS)/ warning: \\$1/\"\n";
+		};
+		F86E4B912269C504003FE444 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nTAGS=\"TODO:|FIXME:\"\necho \"searching ${SRCROOT} for ${TAGS}\"\nfind \"${SRCROOT}\" \\( -name \"*.swift\" \\) -print0 \\\n| xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$\" \\\n| perl -p -e \"s/($TAGS)/ warning: \\$1/\"\n";
+		};
+		F86E4B922269C50A003FE444 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nTAGS=\"TODO:|FIXME:\"\necho \"searching ${SRCROOT} for ${TAGS}\"\nfind \"${SRCROOT}\" \\( -name \"*.swift\" \\) -print0 \\\n| xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$\" \\\n| perl -p -e \"s/($TAGS)/ warning: \\$1/\"\n";
+		};
+		F86E4B932269C511003FE444 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nTAGS=\"TODO:|FIXME:\"\necho \"searching ${SRCROOT} for ${TAGS}\"\nfind \"${SRCROOT}\" \\( -name \"*.swift\" \\) -print0 \\\n| xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$\" \\\n| perl -p -e \"s/($TAGS)/ warning: \\$1/\"\n";
+		};
+		F86E4B942269C518003FE444 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nTAGS=\"TODO:|FIXME:\"\necho \"searching ${SRCROOT} for ${TAGS}\"\nfind \"${SRCROOT}\" \\( -name \"*.swift\" \\) -print0 \\\n| xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$\" \\\n| perl -p -e \"s/($TAGS)/ warning: \\$1/\"\n";
+		};
+		F86E4B952269C51D003FE444 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nTAGS=\"TODO:|FIXME:\"\necho \"searching ${SRCROOT} for ${TAGS}\"\nfind \"${SRCROOT}\" \\( -name \"*.swift\" \\) -print0 \\\n| xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$\" \\\n| perl -p -e \"s/($TAGS)/ warning: \\$1/\"\n";
+		};
+		F86E4B962269C522003FE444 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nTAGS=\"TODO:|FIXME:\"\necho \"searching ${SRCROOT} for ${TAGS}\"\nfind \"${SRCROOT}\" \\( -name \"*.swift\" \\) -print0 \\\n| xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$\" \\\n| perl -p -e \"s/($TAGS)/ warning: \\$1/\"\n";
+		};
+		F86E4B972269C527003FE444 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nTAGS=\"TODO:|FIXME:\"\necho \"searching ${SRCROOT} for ${TAGS}\"\nfind \"${SRCROOT}\" \\( -name \"*.swift\" \\) -print0 \\\n| xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$\" \\\n| perl -p -e \"s/($TAGS)/ warning: \\$1/\"\n";
+		};
+		F86E4B982269C52C003FE444 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nTAGS=\"TODO:|FIXME:\"\necho \"searching ${SRCROOT} for ${TAGS}\"\nfind \"${SRCROOT}\" \\( -name \"*.swift\" \\) -print0 \\\n| xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$\" \\\n| perl -p -e \"s/($TAGS)/ warning: \\$1/\"\n";
+		};
+		F86E4B992269C532003FE444 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nTAGS=\"TODO:|FIXME:\"\necho \"searching ${SRCROOT} for ${TAGS}\"\nfind \"${SRCROOT}\" \\( -name \"*.swift\" \\) -print0 \\\n| xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$\" \\\n| perl -p -e \"s/($TAGS)/ warning: \\$1/\"\n";
+		};
+		F86E4B9A2269C538003FE444 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nTAGS=\"TODO:|FIXME:\"\necho \"searching ${SRCROOT} for ${TAGS}\"\nfind \"${SRCROOT}\" \\( -name \"*.swift\" \\) -print0 \\\n| xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$\" \\\n| perl -p -e \"s/($TAGS)/ warning: \\$1/\"\n";
+		};
+		F86E4B9B2269C542003FE444 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nTAGS=\"TODO:|FIXME:\"\necho \"searching ${SRCROOT} for ${TAGS}\"\nfind \"${SRCROOT}\" \\( -name \"*.swift\" \\) -print0 \\\n| xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$\" \\\n| perl -p -e \"s/($TAGS)/ warning: \\$1/\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
