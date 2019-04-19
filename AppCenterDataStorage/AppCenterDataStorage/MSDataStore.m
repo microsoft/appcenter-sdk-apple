@@ -550,7 +550,6 @@ static dispatch_once_t onceToken;
                                             }];
 }
 
-
 #pragma mark - MSDataStore implementation utils
 
 - (NSError *)generateDisabledError:(NSString *)operation documentId:(NSString *_Nullable)documentId {

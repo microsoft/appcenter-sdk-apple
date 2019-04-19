@@ -6,7 +6,7 @@
 @interface MSDataStoreUtils : NSObject
 
 /**
- * Deserialize string into `NSDate` instance.
+ * Deserialize string into an `NSDate`.
  *
  * @param dateString String to deserialize.
  *
@@ -15,7 +15,7 @@
 + (NSDate *)deserializeDate:(NSString *)dateString;
 
 /**
- * Serialize `NSDate` instance into a IS8601 formatted string.
+ * Serialize an `NSDate` into a ISO 8601 formatted string.
  *
  * @param date Date to serialize.
  *

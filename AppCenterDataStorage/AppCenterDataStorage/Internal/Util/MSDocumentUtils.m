@@ -162,7 +162,7 @@ static NSString *const kMSDocumentKey = @"document";
   NSString *jsonValue;
   NSError *error;
 
-  // validate dictionary
+  // Validate dictionary
   if (![NSJSONSerialization isValidJSONObject:dictionary]) {
     error = [[NSError alloc] initWithDomain:kMSACDataStoreErrorDomain
                                        code:MSACDataStoreErrorJSONSerializationFailed

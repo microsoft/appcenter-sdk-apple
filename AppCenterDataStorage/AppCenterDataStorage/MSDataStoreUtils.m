@@ -7,11 +7,11 @@
 @implementation MSDataStoreUtils
 
 + (NSDate *)deserializeDate:(NSString *)dateString {
-    return [MSUtility dateFromISO8601:dateString];
+  return [MSUtility dateFromISO8601:dateString];
 }
 
 + (NSString *)serializeDate:(NSDate *)date {
-    return [MSUtility dateToISO8601:date];
+  return [MSUtility dateToISO8601:date];
 }
 
 @end
