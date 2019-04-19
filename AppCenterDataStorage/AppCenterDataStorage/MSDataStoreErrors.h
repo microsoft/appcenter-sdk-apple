@@ -13,25 +13,6 @@ static NSString *const kMSACDataStoreErrorDomain = MS_APP_CENTER_BASE_DOMAIN @"D
 
 #pragma mark - General
 
-// CosmosDB (HTTP) error codes.
-// Documentation: https://docs.microsoft.com/en-us/rest/api/cosmos-db/http-status-codes-for-cosmosdb
-NS_ENUM(NSInteger){MSACDocumentUnknownErrorCode = 0,
-                   MSACDocumentSucceededErrorCode = 200,
-                   MSACDocumentCreatedErrorCode = 201,
-                   MSACDocumentNoContentErrorCode = 204,
-                   MSACDocumentBadRequestErrorCode = 400,
-                   MSACDocumentUnauthorizedErrorCode = 401,
-                   MSACDocumentForbiddenErrorCode = 403,
-                   MSACDocumentNotFoundErrorCode = 404,
-                   MSACDocumentRequestTimeoutErrorCode = 408,
-                   MSACDocumentConflictErrorCode = 409,
-                   MSACDocumentPreconditionFailedErrorCode = 412,
-                   MSACDocumentEntityTooLargeErrorCode = 413,
-                   MSACDocumentTooManyRequestsErrorCode = 429,
-                   MSACDocumentRetryWithErrorCode = 449,
-                   MSACDocumentInternalServerErrorErrorCode = 500,
-                   MSACDocumentServiceUnavailableErrorCode = 503};
-
 // Error codes.
 // FIXME: Re-index these codes (we have our own domain so we can index at 0 and reserve ranges for us).
 NS_ENUM(NSInteger){MSACDataStoreErrorJSONSerializationFailed = -620000,
@@ -48,7 +29,7 @@ NS_ENUM(NSInteger){MSACDataStoreErrorJSONSerializationFailed = -620000,
 // Error descriptions.
 static NSString const *kMSACDataStoreInvalidClassDesc =
     @"Provided class does not conform to serialization protocol (MSSerializableDocument).";
-static NSString const *kMSACDataStoreCosmosDbErrorResponseDesc = @"Cosmos DB returned error response.";
+static NSString const *kMSACDataStoreCosmosDbErrorResponseDesc = @"Unexpected error while talking to CosmosDB.";
 static NSString const *kMSACDocumentCreationDesc = @"Can't create document.";
 
 NS_ASSUME_NONNULL_END
