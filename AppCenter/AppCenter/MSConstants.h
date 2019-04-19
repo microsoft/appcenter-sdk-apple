@@ -70,12 +70,15 @@ typedef NS_ENUM(NSInteger, MSInitializationPriority) {
 /**
  * Enum with the different HTTP status codes.
  */
-typedef NS_ENUM(NSInteger, MSHTTPCodesNo) { // Informational
+typedef NS_ENUM(NSInteger, MSHTTPCodesNo) { // Invalid
+  MSHTTPCodesNo0XXInvalidUnknown = 0,
+
+  // Informational
   MSHTTPCodesNo1XXInformationalUnknown = 1,
   MSHTTPCodesNo100Continue = 100,
   MSHTTPCodesNo101SwitchingProtocols = 101,
   MSHTTPCodesNo102Processing = 102,
-  
+
   // Success
   MSHTTPCodesNo2XXSuccessUnknown = 2,
   MSHTTPCodesNo200OK = 200,
@@ -88,7 +91,7 @@ typedef NS_ENUM(NSInteger, MSHTTPCodesNo) { // Informational
   MSHTTPCodesNo207MultiStatus = 207,
   MSHTTPCodesNo208AlreadyReported = 208,
   MSHTTPCodesNo209IMUsed = 209,
-  
+
   // Redirection
   MSHTTPCodesNo3XXSuccessUnknown = 3,
   MSHTTPCodesNo300MultipleChoices = 300,
@@ -100,7 +103,7 @@ typedef NS_ENUM(NSInteger, MSHTTPCodesNo) { // Informational
   MSHTTPCodesNo306SwitchProxy = 306,
   MSHTTPCodesNo307TemporaryRedirect = 307,
   MSHTTPCodesNo308PermanentRedirect = 308,
-  
+
   // Client error
   MSHTTPCodesNo4XXSuccessUnknown = 4,
   MSHTTPCodesNo400BadRequest = 400,
@@ -144,7 +147,7 @@ typedef NS_ENUM(NSInteger, MSHTTPCodesNo) { // Informational
   MSHTTPCodesNo496NoCertNginx = 496,
   MSHTTPCodesNo497HTTPToHTTPSNginx = 497,
   MSHTTPCodesNo499ClientClosedRequestNginx = 499,
-  
+
   // Server error
   MSHTTPCodesNo5XXSuccessUnknown = 5,
   MSHTTPCodesNo500InternalServerError = 500,

@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 #import "MSDataSourceError.h"
+#import "MSConstants.h"
 #import "MSDataStorageConstants.h"
 #import "MSDataStoreErrors.h"
 
@@ -25,7 +26,7 @@
   }
 
   // Return default unknown error code.
-  return MSACDocumentUnknownErrorCode;
+  return MSHTTPCodesNo0XXInvalidUnknown;
 }
 
 @end

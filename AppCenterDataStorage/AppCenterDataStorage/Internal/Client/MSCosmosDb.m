@@ -185,7 +185,7 @@ static NSString *const kMSHeaderMsDate = @"x-ms-date";
   } else if (error.userInfo[kMSCosmosDbHttpCodeKey]) {
     userInfo[kMSCosmosDbHttpCodeKey] = error.userInfo[kMSCosmosDbHttpCodeKey];
   } else {
-    userInfo[kMSCosmosDbHttpCodeKey] = @(MSACDocumentUnknownErrorCode);
+    userInfo[kMSCosmosDbHttpCodeKey] = @(MSHTTPCodesNo0XXInvalidUnknown);
   }
   if (error) {
     userInfo[NSUnderlyingErrorKey] = error;

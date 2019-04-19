@@ -384,7 +384,7 @@ static dispatch_once_t onceToken;
                                 completionHandler:^(NSData *_Nullable data, NSHTTPURLResponse *_Nullable response,
                                                     NSError *_Nullable cosmosDbError) {
                                   // If not OK.
-                                  if (response.statusCode != MSACDocumentSucceededErrorCode) {
+                                  if (response.statusCode != MSHTTPCodesNo200OK) {
                                     NSError *actualError = [MSCosmosDb cosmosDbErrorWithResponse:response underlyingError:cosmosDbError];
                                     MSLogError([MSDataStore logTag], @"Unable to list documents for partition %@: %@", partition,
                                                [actualError localizedDescription]);
@@ -489,7 +489,7 @@ static dispatch_once_t onceToken;
                             completionHandler:^(NSData *_Nullable data, NSHTTPURLResponse *_Nullable response,
                                                 NSError *_Nullable cosmosDbError) {
                               // If not created.
-                              if (response.statusCode != MSACDocumentSucceededErrorCode) {
+                              if (response.statusCode != MSHTTPCodesNo200OK) {
                                 NSError *actualError = [MSCosmosDb cosmosDbErrorWithResponse:response underlyingError:cosmosDbError];
                                 MSLogError([MSDataStore logTag], @"Unable to read document %@ with error: %@", documentId,
                                            [actualError localizedDescription]);
@@ -528,8 +528,7 @@ static dispatch_once_t onceToken;
                             completionHandler:^(NSData *_Nullable data, NSHTTPURLResponse *_Nullable response,
                                                 NSError *_Nullable cosmosDbError) {
                               // If not created.
-                              if (response.statusCode != MSACDocumentCreatedErrorCode &&
-                                  response.statusCode != MSACDocumentSucceededErrorCode) {
+                              if (response.statusCode != MSHTTPCodesNo201Created && response.statusCode != MSHTTPCodesNo200OK) {
                                 NSError *actualError = [MSCosmosDb cosmosDbErrorWithResponse:response underlyingError:cosmosDbError];
                                 MSLogError([MSDataStore logTag], @"Unable to create/replace document %@ with error: %@", documentId,
                                            [actualError localizedDescription]);
