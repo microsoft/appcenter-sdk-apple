@@ -1727,8 +1727,8 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
 - (MSTokenResult *)mockTokenFetchingWithError:(NSError *_Nullable)error {
   MSTokenResult *testToken = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
-    MS_Reachability *reachabilityMock = OCMPartialMock([MS_Reachability reachabilityForInternetConnection]);
-    OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(ReachableViaWiFi);
+  MS_Reachability *reachabilityMock = OCMPartialMock([MS_Reachability reachabilityForInternetConnection]);
+  OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(ReachableViaWiFi);
   MSTokensResponse *testTokensResponse = [[MSTokensResponse alloc] initWithTokens:@[ testToken ]];
   OCMStub([self.tokenExchangeMock performDbTokenAsyncOperationWithHttpClient:OCMOCK_ANY
                                                             tokenExchangeUrl:OCMOCK_ANY
@@ -1737,6 +1737,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                                          includeExpiredToken:NO
                                                               msreachability:reachabilityMock
                                                            completionHandler:OCMOCK_ANY])
+
       .andDo(^(NSInvocation *invocation) {
         MSGetTokenAsyncCompletionHandler getTokenCallback;
         [invocation getArgument:&getTokenCallback atIndex:7];
