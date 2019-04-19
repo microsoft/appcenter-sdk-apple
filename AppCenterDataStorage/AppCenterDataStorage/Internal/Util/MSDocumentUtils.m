@@ -150,13 +150,13 @@ static NSString *const kMSDocumentKey = @"document";
 
   // Validate the reference is a dictionary.
   if (!reference || ![(NSObject *)reference isKindOfClass:[NSDictionary class]]) {
-    return false;
+    return NO;
   }
 
   // Validate the reference has the expected key.
   NSObject *keyObject = [(NSDictionary *)reference objectForKey:key];
   if (!keyObject) {
-    return false;
+    return NO;
   }
 
   // Validate the key object is of the expected type.
