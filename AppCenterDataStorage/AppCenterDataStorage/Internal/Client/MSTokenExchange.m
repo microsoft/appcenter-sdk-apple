@@ -104,7 +104,7 @@ static NSString *const kMSGetTokenPath = @"/data/tokens";
             completionHandler([[MSTokensResponse alloc] initWithTokens:nil], serializeError);
             return;
           }
-          if (jsonDictionary[kMSTokens] == nil || [(NSArray *)(jsonDictionary[kMSTokens]) count] == 0) {
+          if ([(NSArray *)jsonDictionary[kMSTokens] count] == 0) {
             MSLogError([MSDataStore logTag], @"Invalid token exchange service response.");
             NSError *errorResponse = [[NSError alloc]
                 initWithDomain:kMSACDataStoreErrorDomain
