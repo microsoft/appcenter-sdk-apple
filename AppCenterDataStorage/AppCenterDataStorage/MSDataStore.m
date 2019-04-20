@@ -521,6 +521,15 @@ static dispatch_once_t onceToken;
   NSDictionary *dic = [MSDocumentUtils documentPayloadWithDocumentId:documentId
                                                            partition:partition
                                                             document:[document serializeToDictionary]];
+  if (![NSJSONSerialization isValidJSONObject:dic]) {
+    serializationError =
+        [[NSError alloc] initWithDomain:kMSACDataStoreErrorDomain
+                                   code:MSACDataStoreErrorJSONSerializationFailed
+                               userInfo:@{NSLocalizedDescriptionKey : @"Document dictionary contains values that cannot be serialized."}];
+    MSLogError([MSDataStore logTag], @"Error serializing data: %@", [serializationError localizedDescription]);
+    completionHandler([[MSDocumentWrapper alloc] initWithError:serializationError documentId:documentId]);
+    return;
+  }
   NSData *body = [NSJSONSerialization dataWithJSONObject:dic options:0 error:&serializationError];
   if (!body || serializationError) {
     MSLogError([MSDataStore logTag], @"Error serializing data: %@", [serializationError localizedDescription]);

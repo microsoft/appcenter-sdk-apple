@@ -148,6 +148,15 @@
         NSDictionary *dictionary = [document serializeToDictionary];
         NSString *jsonDocument;
         NSError *jsonError;
+        if (![NSJSONSerialization isValidJSONObject:dictionary]) {
+          jsonError =
+              [[NSError alloc] initWithDomain:kMSACDataStoreErrorDomain
+                                         code:MSACDataStoreErrorJSONSerializationFailed
+                                     userInfo:@{NSLocalizedDescriptionKey : @"Dictionary contains values that cannot be serialized."}];
+          MSLogError([MSDataStore logTag], @"Error serializing document for local storage: %@", [jsonError localizedDescription]);
+          completionHandler([[MSDocumentWrapper alloc] initWithError:jsonError documentId:documentId]);
+          return;
+        }
         NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary options:0 error:&jsonError];
         if (!error) {
           jsonDocument = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];

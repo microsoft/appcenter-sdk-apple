@@ -10,6 +10,7 @@
 #import "MSDocumentUtils.h"
 #import "MSDocumentWrapperInternal.h"
 #import "MSLogger.h"
+#import "MSUtility+Date.h"
 
 /**
  * CosmosDb document identifier key.
@@ -177,6 +178,16 @@ static NSString *const kMSDocumentKey = @"document";
   // Extract json value.
   NSString *jsonValue;
   NSError *error;
+
+  // Validate dictionary
+  if (![NSJSONSerialization isValidJSONObject:dictionary]) {
+    error = [[NSError alloc] initWithDomain:kMSACDataStoreErrorDomain
+                                       code:MSACDataStoreErrorJSONSerializationFailed
+                                   userInfo:@{NSLocalizedDescriptionKey : @"Dictionary contains values that cannot be serialized."}];
+    MSLogError([MSDataStore logTag], @"Error deserializing data: %@", [error localizedDescription]);
+    return [[MSDocumentWrapper alloc] initWithError:error documentId:documentId];
+  }
+
   NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary options:0 error:&error];
   if (!error) {
     jsonValue = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
