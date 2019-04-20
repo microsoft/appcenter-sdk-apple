@@ -191,7 +191,7 @@
   dictionary[@"document"] = documentDictionary;
 
   // When
-  MSDocumentWrapper *document = [MSDocumentUtils documentWrapperFromDictionary:dictionary documentType:[NSString class]];
+    MSDocumentWrapper *document = [MSDocumentUtils documentWrapperFromDictionary:dictionary documentType:[NSString class] fromDeviceCache:NO];
 
   // Then
   XCTAssertNotNil(document);
@@ -226,7 +226,7 @@
   XCTAssertNotNil(data);
 
   // When
-  MSDocumentWrapper *document = [MSDocumentUtils documentWrapperFromData:data documentType:[NSString class]];
+    MSDocumentWrapper *document = [MSDocumentUtils documentWrapperFromData:data documentType:[NSString class] fromDeviceCache:NO];
 
   // Then
   XCTAssertNotNil(document);
@@ -239,7 +239,7 @@
   XCTAssertNil([document jsonValue]);
 }
 
-- (void)testDocumentWrapperFromDocumentDataDeserializationError {
+- (void)testDocumentWrapperFromDocumentDataDeserializationßError {
 
   // If
   NSData *data = [self jsonFixture:@"invalidTestDocument"];
@@ -252,7 +252,7 @@
                                                                  lastUpdatedDate:[NSDate date]
                                                                        partition:@"partition"
                                                                       documentId:@"document-id"
-                                                                pendingOperation:nil];
+                                                                pendingOperation:nil fromDeviceCache:NO];
 
   // Then
   XCTAssertNotNil(document);

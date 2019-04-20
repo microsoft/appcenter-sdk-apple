@@ -578,7 +578,7 @@
                                                                                                      eTag:@""
                                                                                           lastUpdatedDate:nil
                                                                                          pendingOperation:kMSPendingOperationRead
-                                                                                                    error:nil];
+                                                                                                    error:nil fromDeviceCache:NO];
   __block MSDocumentWrapper *wrapper;
   OCMStub([self.documentStoreMock readWithToken:OCMOCK_ANY documentId:OCMOCK_ANY documentType:OCMOCK_ANY]).andReturn(cachedDocumentWrapper);
   MSTokenResult *token = [MSTokenResult alloc];
@@ -635,7 +635,7 @@
                                                                                                      eTag:@""
                                                                                           lastUpdatedDate:nil
                                                                                          pendingOperation:kMSPendingOperationRead
-                                                                                                    error:nil];
+                                                                                                    error:nil fromDeviceCache:NO];
   __block MSDocumentWrapper *wrapper;
   OCMStub([self.documentStoreMock readWithToken:OCMOCK_ANY documentId:OCMOCK_ANY documentType:OCMOCK_ANY]).andReturn(cachedDocumentWrapper);
   MSTokenResult *token = [MSTokenResult alloc];
