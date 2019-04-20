@@ -9,18 +9,19 @@
 #import "MSChannelUnitProtocol.h"
 #import "MSConstants+Internal.h"
 #import "MSCosmosDb.h"
-#import "MSDBDocumentStore.h"
 #import "MSDataSourceError.h"
 #import "MSDataStorageConstants.h"
 #import "MSDataStoreErrors.h"
 #import "MSDataStoreInternal.h"
 #import "MSDataStorePrivate.h"
 #import "MSDictionaryDocument.h"
+#import "MSDocumentStore.h"
 #import "MSDocumentUtils.h"
 #import "MSDocumentWrapperInternal.h"
 #import "MSHttpClient.h"
 #import "MSHttpUtil.h"
 #import "MSPaginatedDocuments.h"
+#import "MSPendingOperation.h"
 #import "MSReadOptions.h"
 #import "MSServiceAbstractProtected.h"
 #import "MSTokenExchange.h"
@@ -642,6 +643,9 @@ static dispatch_once_t onceToken;
   if (appSecret) {
     self.httpClient = [MSHttpClient new];
   }
+
+  // Listen to network events.
+  [MS_NOTIFICATION_CENTER addObserver:self selector:@selector(networkStateChanged:) name:kMSReachabilityChangedNotification object:nil];
   MSLogVerbose([MSDataStore logTag], @"Started Data Storage service.");
 }
 
@@ -684,6 +688,135 @@ static dispatch_once_t onceToken;
 
     // Delete all the data (user and read-only).
     [self.dataOperationProxy.documentStore deleteAllTables];
+  }
+}
+
+#pragma mark - Reachability
+
+- (void)networkStateChanged:(NSNotificationCenter *)__unused notification {
+
+  // Network status change event.
+  if ([[MS_Reachability reachabilityForInternetConnection] currentReachabilityStatus] == NotReachable) {
+    MSLogInfo([MSDataStore logTag], @"Network connection is off.");
+  } else {
+    MSLogInfo([MSDataStore logTag], @"Network connection is on.");
+    [self onNetworkGoesOnline];
+  }
+}
+
+- (void)onNetworkGoesOnline {
+  @synchronized(self) {
+    [MSTokenExchange
+        performDbTokenAsyncOperationWithHttpClient:(id<MSHttpClientProtocol>)self.httpClient
+                                  tokenExchangeUrl:self.tokenExchangeUrl
+                                         appSecret:self.appSecret
+                                         partition:kMSDataStoreUserDocumentsPartition
+                               includeExpiredToken:NO
+                                      reachability:self.reachability
+                                 completionHandler:^(MSTokensResponse *_Nonnull tokenResponses, NSError *_Nonnull error) {
+                                   if (error) {
+                                     MSLogError([MSDataStore logTag], @"Cannot read from local storage because there is no "
+                                                                      @"account ID cached and failed to retrieve token.");
+                                     return;
+                                   }
+
+                                   // Run the operation in a dispatch queue.
+                                   dispatch_async(self.dispatchQueue, ^{
+                                     // Get pending operations.
+                                     NSArray<MSPendingOperation *> *pendingOperations =
+                                         [self.dataOperationProxy.documentStore pendingOperationsWithToken:tokenResponses.tokens[0]];
+
+                                     // Process pending operations.
+                                     for (MSPendingOperation *operation in pendingOperations) {
+
+                                       // Create or Replace operation.
+                                       if ([operation.operation isEqualToString:kMSPendingOperationCreate] ||
+                                           [operation.operation isEqualToString:kMSPendingOperationReplace]) {
+
+                                         // Get the document as dictionary.
+                                         MSDictionaryDocument *dictionaryDocument =
+                                             [[MSDictionaryDocument alloc] initFromDictionary:operation.document];
+
+                                         // Get header.
+                                         NSDictionary *additionalHeader = [operation.operation isEqualToString:kMSPendingOperationReplace]
+                                                                              ? @{kMSDocumentUpsertHeaderKey : @"true"}
+                                                                              : nil;
+
+                                         // Perform CosmosDb operation.
+                                         [self
+                                             upsertFromCosmosDbWithPartition:kMSDataStoreUserDocumentsPartition
+                                                                  documentId:operation.documentId
+                                                                    document:dictionaryDocument
+                                                           additionalHeaders:additionalHeader
+                                                           completionHandler:^(MSDocumentWrapper *_Nonnull documentWrapper) {
+                                                             [self
+                                                                 synchronizeLocalCacheWithCosmosDbWithToken:tokenResponses.tokens[0]
+                                                                                                 documentId:(NSString *)operation.documentId
+                                                                                            documentWrapper:documentWrapper
+                                                                                           pendingOperation:operation.operation
+                                                                                    operationExpirationTime:(NSInteger)
+                                                                                                                operation.expirationTime];
+                                                             return;
+                                                           }];
+                                       } else if ([operation.operation isEqualToString:kMSPendingOperationDelete]) {
+
+                                         // Perform delete operation.
+                                         [self
+                                             deleteFromCosmosDbWithPartition:kMSDataStoreUserDocumentsPartition
+                                                                  documentId:operation.documentId
+                                                           completionHandler:^(MSDocumentWrapper *_Nonnull documentWrapper) {
+                                                             [self
+                                                                 synchronizeLocalCacheWithCosmosDbWithToken:tokenResponses.tokens[0]
+                                                                                                 documentId:(NSString *)operation.documentId
+                                                                                            documentWrapper:documentWrapper
+                                                                                           pendingOperation:operation.operation
+                                                                                    operationExpirationTime:kMSDataStoreTimeToLiveNoCache];
+                                                             return;
+                                                           }];
+                                       } else {
+                                         MSLogError([MSDataStore logTag], @"Pending operation '%@' is not supported", operation.operation);
+                                       }
+                                     }
+                                     return;
+                                   });
+                                 }];
+  }
+}
+
+- (void)synchronizeLocalCacheWithCosmosDbWithToken:(MSTokenResult *)token
+                                        documentId:(NSString *)documentId
+                                   documentWrapper:(MSDocumentWrapper *)documentWrapper
+                                  pendingOperation:(NSString *)pendingOperation
+                           operationExpirationTime:(NSInteger)operationExpirationTime {
+
+  // Check if expired.
+  BOOL isExpired = [MSPendingOperation isExpiredWithExpirationTime:operationExpirationTime];
+  BOOL shouldDeleteLocalCache = YES;
+
+  // Create and Replace operations.
+  if (!documentWrapper.error && ![pendingOperation isEqualToString:kMSPendingOperationDelete]) {
+
+    // If not expired, update the local cache. otherwise, remove from the local cache.
+    // The operation is passes as nil in order to clear the value in `pending_operation` column.
+    if (!isExpired) {
+      [self.dataOperationProxy.documentStore upsertWithToken:token
+                                             documentWrapper:documentWrapper
+                                                   operation:nil
+                                              expirationTime:operationExpirationTime];
+      shouldDeleteLocalCache = NO;
+    }
+  } else if (documentWrapper.error.errorCode == MSHTTPCodesNo404NotFound || documentWrapper.error.errorCode == MSHTTPCodesNo409Conflict) {
+    MSLogError([MSDataStore logTag], @"Failed to call Cosmos with operation: %@. Remote operation failed with error code: %ld",
+               pendingOperation, (long)documentWrapper.error.errorCode);
+  } else if (documentWrapper.error) {
+    shouldDeleteLocalCache = NO;
+    MSLogError([MSDataStore logTag], @"Failed to call Cosmos with operation:%@ API: %@", pendingOperation,
+               [documentWrapper.error.error localizedDescription]);
+  }
+
+  // Delete the document form the local cache.
+  if (shouldDeleteLocalCache) {
+    [self.dataOperationProxy.documentStore deleteWithToken:token documentId:documentId];
   }
 }
 

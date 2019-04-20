@@ -56,6 +56,21 @@ static NSString *const kMSDefaultApiUrl = @"https://tokens.appcenter.ms/v0.1";
                             additionalUrlPath:(NSString *_Nullable)additionalUrlPath
                             completionHandler:(MSHttpRequestCompletionHandler)completionHandler;
 
+/**
+ * Synchronize the document from CosmosDB with local cache.
+ *
+ * @param token The CosmosDB auth token.
+ * @param documentId The identifier of a document.
+ * @param documentWrapper Document wrapper object.
+ * @param pendingOperation Pending operation.
+ * @param operationExpirationTime oOperation expiration time.
+ */
+- (void)synchronizeLocalCacheWithCosmosDbWithToken:(MSTokenResult *)token
+                                        documentId:(NSString *)documentId
+                                   documentWrapper:(MSDocumentWrapper *)documentWrapper
+                                  pendingOperation:(NSString *)pendingOperation
+                           operationExpirationTime:(NSInteger)operationExpirationTime;
+
 @end
 
 NS_ASSUME_NONNULL_END

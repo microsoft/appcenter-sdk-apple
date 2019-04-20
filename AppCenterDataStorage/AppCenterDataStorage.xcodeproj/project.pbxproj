@@ -193,6 +193,10 @@
 		E8593A19222B91C90001F87E /* MSCosmosDb.h in Headers */ = {isa = PBXBuildFile; fileRef = E8593A14222B91B20001F87E /* MSCosmosDb.h */; };
 		E86B95D82224B5F60062E552 /* MSTokenExchange.h in Headers */ = {isa = PBXBuildFile; fileRef = E86B95D72224B5F60062E552 /* MSTokenExchange.h */; };
 		E86B95DA2224B6310062E552 /* MSTokenExchange.m in Sources */ = {isa = PBXBuildFile; fileRef = E86B95D92224B6310062E552 /* MSTokenExchange.m */; };
+		E8B79372225E9E0D00CB3D1D /* MSPendingOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = E8B79370225E9E0C00CB3D1D /* MSPendingOperation.m */; };
+		E8B79373225EA0A000CB3D1D /* MSPendingOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = E8B79370225E9E0C00CB3D1D /* MSPendingOperation.m */; };
+		E8B79375225EB13600CB3D1D /* MSPendingOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = E8B7936F225E9E0C00CB3D1D /* MSPendingOperation.h */; };
+		E8B79376225EB13700CB3D1D /* MSPendingOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = E8B7936F225E9E0C00CB3D1D /* MSPendingOperation.h */; };
 		E8DADEF122286D1A00587E15 /* MSTokenResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 2600123B22273E94007F4D3A /* MSTokenResult.h */; };
 		E8DADEF222286D2100587E15 /* MSTokensResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 2600123E22273E94007F4D3A /* MSTokensResponse.m */; };
 		E8DADEF322286D2300587E15 /* MSTokensResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 2600123C22273E94007F4D3A /* MSTokensResponse.h */; };
@@ -347,6 +351,8 @@
 		E8593A15222B91B20001F87E /* MSCosmosDb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSCosmosDb.m; sourceTree = "<group>"; };
 		E86B95D72224B5F60062E552 /* MSTokenExchange.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MSTokenExchange.h; path = AppCenterDataStorage/Internal/Client/MSTokenExchange.h; sourceTree = SOURCE_ROOT; };
 		E86B95D92224B6310062E552 /* MSTokenExchange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSTokenExchange.m; path = AppCenterDataStorage/Internal/Client/MSTokenExchange.m; sourceTree = SOURCE_ROOT; };
+		E8B7936F225E9E0C00CB3D1D /* MSPendingOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSPendingOperation.h; sourceTree = "<group>"; };
+		E8B79370225E9E0C00CB3D1D /* MSPendingOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSPendingOperation.m; sourceTree = "<group>"; };
 		E8FE51A5221C8C6E005FB52B /* MSTestFrameworks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSTestFrameworks.h; path = ../../AppCenter/AppCenterTests/Util/MSTestFrameworks.h; sourceTree = "<group>"; };
 		E8FE51E9221CBF87005FB52B /* MSSerializableDocument.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSSerializableDocument.h; sourceTree = "<group>"; };
 		F82E4C84217F218D00EDAB34 /* sqlite3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = sqlite3.c; path = ../Vendor/SQLite3/sqlite3.c; sourceTree = "<group>"; };
@@ -646,6 +652,8 @@
 		E8DADEF0222864C800587E15 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				E8B7936F225E9E0C00CB3D1D /* MSPendingOperation.h */,
+				E8B79370225E9E0C00CB3D1D /* MSPendingOperation.m */,
 				2600123B22273E94007F4D3A /* MSTokenResult.h */,
 				2600123D22273E94007F4D3A /* MSTokenResult.m */,
 				8FCF9FDF225D4D870049B326 /* MSTokenResultPrivate.h */,
@@ -696,6 +704,7 @@
 				E820F1A4222767C5009EFA5D /* MSTokenExchange.h in Headers */,
 				049BC850224EDAF600AE7FBB /* MSDataStore.h in Headers */,
 				E8593A19222B91C90001F87E /* MSCosmosDb.h in Headers */,
+				E8B79376225EB13700CB3D1D /* MSPendingOperation.h in Headers */,
 				04A0820D1F74BBCF00DC776D /* MSService.h in Headers */,
 				35F515A9225BC6B0001BFFA2 /* MSDocumentWrapperInternal.h in Headers */,
 				049BC862224EDBE200AE7FBB /* MSDataStorageConstants.h in Headers */,
@@ -736,6 +745,7 @@
 				267464F1222F28A300EC1FF3 /* MSWriteOptions.h in Headers */,
 				267464FB222F28A300EC1FF3 /* MSReadOptions.h in Headers */,
 				D3AD5F0C1E5C819A001627AB /* AppCenter+Internal.h in Headers */,
+				E8B79375225EB13600CB3D1D /* MSPendingOperation.h in Headers */,
 				E824A5482225FDAC005B69B5 /* MSDataStoreInternal.h in Headers */,
 				35F515A8225BC6B0001BFFA2 /* MSDocumentWrapperInternal.h in Headers */,
 				2600124022273E94007F4D3A /* MSTokensResponse.h in Headers */,
@@ -991,6 +1001,7 @@
 				E8DADEF422286D2500587E15 /* MSTokenResult.m in Sources */,
 				049BC851224EDAFC00AE7FBB /* MSDataStore.m in Sources */,
 				049BC856224EDB1100AE7FBB /* MSPage.m in Sources */,
+				E8B79373225EA0A000CB3D1D /* MSPendingOperation.m in Sources */,
 				E820F1A5222767C8009EFA5D /* MSTokenExchange.m in Sources */,
 				049BC853224EDB0400AE7FBB /* MSDataSourceError.m in Sources */,
 				049BC858224EDB1100AE7FBB /* MSReadOptions.m in Sources */,
@@ -1035,6 +1046,7 @@
 				350D453C22568E5600982E20 /* MSTokenResult.m in Sources */,
 				267464FA222F28A300EC1FF3 /* MSBaseOptions.m in Sources */,
 				2600124222273E94007F4D3A /* MSTokensResponse.m in Sources */,
+				E8B79372225E9E0D00CB3D1D /* MSPendingOperation.m in Sources */,
 				267464F5222F28A300EC1FF3 /* MSPage.m in Sources */,
 				8F4548E32256D3160021B0BF /* MSDictionaryDocument.m in Sources */,
 				26F4B0EF226A478F006381D0 /* MSDataStoreUtils.m in Sources */,

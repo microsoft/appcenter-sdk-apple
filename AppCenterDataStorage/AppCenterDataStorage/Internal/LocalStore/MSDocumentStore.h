@@ -4,7 +4,10 @@
 #import <Foundation/Foundation.h>
 
 @class MSDocumentWrapper;
+@class MSPendingOperation;
+@class MSReadOptions;
 @class MSTokenResult;
+@class MSWriteOptions;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -33,6 +36,21 @@ NS_ASSUME_NONNULL_BEGIN
         documentWrapper:(MSDocumentWrapper *)documentWrapper
               operation:(NSString *_Nullable)operation
        deviceTimeToLive:(NSInteger)deviceTimeToLive;
+
+/**
+ * Create or replace an entry in the store.
+ *
+ * @param token CosmosDB token.
+ * @param documentWrapper Document wrapper object to store.
+ * @param operation The operation store.
+ * @param expirationTime Document expiration time.
+ *
+ * @return YES if the document was saved successfully, NO otherwise.
+ */
+- (BOOL)upsertWithToken:(MSTokenResult *)token
+        documentWrapper:(MSDocumentWrapper *)documentWrapper
+              operation:(NSString *_Nullable)operation
+         expirationTime:(NSTimeInterval)expirationTime;
 
 /**
  * Delete an entry from the store.
@@ -68,6 +86,15 @@ NS_ASSUME_NONNULL_BEGIN
  * @return A document object. The error property will be set of the document cannot be found or if it was found but expired.
  */
 - (MSDocumentWrapper *)readWithToken:(MSTokenResult *)token documentId:(NSString *)documentId documentType:(Class)documentType;
+
+/**
+ * Get all pending operations.
+ *
+ * @param token CosmosDB token.
+ *
+ * @return List of all pending operations.
+ */
+- (NSArray<MSPendingOperation *> *)pendingOperationsWithToken:(MSTokenResult *)token;
 
 @end
 
