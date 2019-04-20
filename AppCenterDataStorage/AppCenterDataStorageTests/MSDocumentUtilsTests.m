@@ -5,7 +5,6 @@
 #import "MSDataStorageConstants.h"
 #import "MSDictionaryDocument.h"
 #import "MSDocumentUtils.h"
-#import "MSMockDocument.h"
 #import "MSTestFrameworks.h"
 #import "MSUtility+Date.h"
 #import "NSObject+MSTestFixture.h"
