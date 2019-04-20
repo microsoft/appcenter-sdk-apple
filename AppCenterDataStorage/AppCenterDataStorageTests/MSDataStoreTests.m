@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+#import "AppCenter+Internal.h"
 #import "MSAppCenter.h"
 #import "MSChannelGroupProtocol.h"
 #import "MSConstants+Internal.h"
@@ -69,6 +70,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   [self.settingsMock stopMocking];
   [self.tokenExchangeMock stopMocking];
   [self.cosmosDbMock stopMocking];
+  [MS_NOTIFICATION_CENTER removeObserver:self.sut name:kMSReachabilityChangedNotification object:nil];
 }
 
 - (nullable NSMutableDictionary *)prepareMutableDictionary {
