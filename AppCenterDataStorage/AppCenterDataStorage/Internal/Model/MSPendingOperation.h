@@ -8,27 +8,27 @@
 /**
  * Pending operation.
  */
-@property(nonatomic, strong) NSString *operation;
+@property(nonatomic, copy) NSString *operation;
 
 /**
  * Document partition.
  */
-@property(nonatomic, strong) NSString *partition;
+@property(nonatomic, copy) NSString *partition;
 
 /**
  * Document Id.
  */
-@property(nonatomic, strong) NSString *documentId;
+@property(nonatomic, copy) NSString *documentId;
 
 /**
  * Document as dictionary.
  */
-@property(nonatomic, strong) NSDictionary *document;
+@property(nonatomic, copy) NSDictionary *document;
 
 /**
  * Document etag.
  */
-@property(nonatomic, strong) NSString *etag;
+@property(nonatomic, copy) NSString *etag;
 
 /**
  * Document expiration time.

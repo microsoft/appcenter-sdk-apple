@@ -75,8 +75,6 @@ static dispatch_once_t onceToken;
 - (instancetype)init {
   if ((self = [super init])) {
     _tokenExchangeUrl = (NSURL *)[NSURL URLWithString:kMSDefaultApiUrl];
-
-    // FIXME: move that to document store (task #60212)
     _dispatchQueue = dispatch_queue_create(kMSDataStoreDispatchQueue, DISPATCH_QUEUE_SERIAL);
     _reachability = [MS_Reachability reachabilityForInternetConnection];
     _dataOperationProxy = [[MSDataOperationProxy alloc] initWithDocumentStore:[MSDBDocumentStore new] reachability:_reachability];
@@ -743,7 +741,7 @@ static dispatch_once_t onceToken;
                                                            additionalHeaders:additionalHeader
                                                            completionHandler:^(MSDocumentWrapper *_Nonnull documentWrapper) {
                                                              [self
-                                                                 synchronizeLoclaCacheWithCosmosDbWithToken:tokenResponses.tokens[0]
+                                                                 synchronizeLocalCacheWithCosmosDbWithToken:tokenResponses.tokens[0]
                                                                                                  documentId:(NSString *)operation.documentId
                                                                                             documentWrapper:documentWrapper
                                                                                            pendingOperation:operation.operation
@@ -759,7 +757,7 @@ static dispatch_once_t onceToken;
                                                                   documentId:operation.documentId
                                                            completionHandler:^(MSDocumentWrapper *_Nonnull documentWrapper) {
                                                              [self
-                                                                 synchronizeLoclaCacheWithCosmosDbWithToken:tokenResponses.tokens[0]
+                                                                 synchronizeLocalCacheWithCosmosDbWithToken:tokenResponses.tokens[0]
                                                                                                  documentId:(NSString *)operation.documentId
                                                                                             documentWrapper:documentWrapper
                                                                                            pendingOperation:operation.operation
@@ -776,7 +774,7 @@ static dispatch_once_t onceToken;
   }
 }
 
-- (void)synchronizeLoclaCacheWithCosmosDbWithToken:(MSTokenResult *)token
+- (void)synchronizeLocalCacheWithCosmosDbWithToken:(MSTokenResult *)token
                                         documentId:(NSString *)documentId
                                    documentWrapper:(MSDocumentWrapper *)documentWrapper
                                   pendingOperation:(NSString *)pendingOperation

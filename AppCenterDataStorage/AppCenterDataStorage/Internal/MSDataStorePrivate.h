@@ -65,7 +65,7 @@ static NSString *const kMSDefaultApiUrl = @"https://tokens.appcenter.ms/v0.1";
  * @param pendingOperation Pending operation.
  * @param operationExpirationTime oOperation expiration time.
  */
-- (void)synchronizeLoclaCacheWithCosmosDbWithToken:(MSTokenResult *)token
+- (void)synchronizeLocalCacheWithCosmosDbWithToken:(MSTokenResult *)token
                                         documentId:(NSString *)documentId
                                    documentWrapper:(MSDocumentWrapper *)documentWrapper
                                   pendingOperation:(NSString *)pendingOperation
