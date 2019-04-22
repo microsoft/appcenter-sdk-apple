@@ -136,8 +136,13 @@ static dispatch_once_t onceToken;
 }
 
 #if TARGET_OS_IOS
-+ (BOOL)openURL:(NSURL *)url {
-  return [MSALPublicClientApplication handleMSALResponse:url sourceApplication:@"TODO"];
++ (BOOL)openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options {
+  NSString *sourceApplication = options[UIApplicationOpenURLOptionsSourceApplicationKey];
+  if (!sourceApplication) {
+    MSLogError([MSIdentity logTag], @"sourceApplication is not provided in openURL options.");
+    return NO;
+  }
+  return [MSALPublicClientApplication handleMSALResponse:url sourceApplication:sourceApplication];
 }
 #endif
 
