@@ -111,7 +111,7 @@ class CommonSchemaPropertiesTableSection : SimplePropertiesTableSection {
     return propertyKeys.count
   }
 
-  func collectDeviceIdSwitchCellEnabled(sender: UISwitch?) {
+  @objc func collectDeviceIdSwitchCellEnabled(sender: UISwitch?) {
 
     /*
      * Disable the switch. This results in the switch's color being muted to

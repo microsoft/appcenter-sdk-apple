@@ -98,7 +98,7 @@ class MSStorageViewController: UITableViewController {
     }
   }
 
-  func backButtonClicked (_ sender: Any) {
+  @objc func backButtonClicked (_ sender: Any) {
     self.presentingViewController?.dismiss(animated: true, completion: nil)
   }
 }
