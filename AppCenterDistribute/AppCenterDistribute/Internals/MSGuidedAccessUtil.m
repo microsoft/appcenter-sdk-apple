@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "MSGuidedAccessUtil.h"
 #import <UIKit/UIKit.h>
+
+#import "MSGuidedAccessUtil.h"
 
 @implementation MSGuidedAccessUtil
 
