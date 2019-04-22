@@ -5,6 +5,7 @@
 ### AppCenterDistribute
 
 * **[Fix]** Starting the application with "Guided Access" enabled blocks the update flow since in-app update is not possible in this mode.
+
 ___
 
 ## Version 1.14.0
