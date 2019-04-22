@@ -1,6 +1,11 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+#import "MSALAccount.h"
+#import "MSALAccountId.h"
+#import "MSALAuthority.h"
+#import "MSALError.h"
+#import "MSALResult.h"
 #import "MSAppCenterInternal.h"
 #import "MSAuthTokenContext.h"
 #import "MSChannelUnitConfiguration.h"
@@ -132,7 +137,7 @@ static dispatch_once_t onceToken;
 
 #if TARGET_OS_IOS
 + (BOOL)openURL:(NSURL *)url {
-  return [MSALPublicClientApplication handleMSALResponse:url];
+  return [MSALPublicClientApplication handleMSALResponse:url sourceApplication:@"TODO"];
 }
 #endif
 

@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import <MSAL/MSALPublicClientApplication.h>
-
+#import "MSALPublicClientApplication.h"
 #import "MSAuthTokenContextDelegate.h"
 #import "MSChannelDelegate.h"
 #import "MSCustomApplicationDelegate.h"
