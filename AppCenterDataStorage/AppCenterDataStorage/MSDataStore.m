@@ -390,8 +390,8 @@ static dispatch_once_t onceToken;
                                   // If not OK.
                                   if (response.statusCode != MSHTTPCodesNo200OK) {
                                     NSError *actualError = [MSCosmosDb cosmosDbErrorWithResponse:response underlyingError:cosmosDbError];
-                                    MSLogError([MSDataStore logTag], @"Unable to list documents for partition %@: %@", partition,
-                                               [actualError localizedDescription]);
+                                    MSLogError([MSDataStore logTag], @"Unable to list documents for partition %@: %@. Status code %ld when expecting %ld.", partition,
+                                               [actualError localizedDescription], response.statusCode, MSHTTPCodesNo200OK);
                                     MSDataSourceError *dataSourceCosmosDbError = [[MSDataSourceError alloc] initWithError:actualError];
                                     MSPaginatedDocuments *documents = [[MSPaginatedDocuments alloc] initWithError:dataSourceCosmosDbError
                                                                                                         partition:partition
@@ -498,8 +498,8 @@ static dispatch_once_t onceToken;
                               // If not created.
                               if (response.statusCode != MSHTTPCodesNo200OK) {
                                 NSError *actualError = [MSCosmosDb cosmosDbErrorWithResponse:response underlyingError:cosmosDbError];
-                                MSLogError([MSDataStore logTag], @"Unable to read document %@ with error: %@", documentId,
-                                           [actualError localizedDescription]);
+                                MSLogError([MSDataStore logTag], @"Unable to read document %@ with error: %@. Status code %ld when expecting %ld.", documentId,
+                                           [actualError localizedDescription], response.statusCode, MSHTTPCodesNo200OK);
                                 completionHandler([[MSDocumentWrapper alloc] initWithError:actualError documentId:documentId]);
                               }
 
@@ -548,8 +548,8 @@ static dispatch_once_t onceToken;
                               // If not created.
                               if (response.statusCode != MSHTTPCodesNo201Created && response.statusCode != MSHTTPCodesNo200OK) {
                                 NSError *actualError = [MSCosmosDb cosmosDbErrorWithResponse:response underlyingError:cosmosDbError];
-                                MSLogError([MSDataStore logTag], @"Unable to create/replace document %@ with error: %@", documentId,
-                                           [actualError localizedDescription]);
+                                MSLogError([MSDataStore logTag], @"Unable to create/replace document %@ with error: %@. Status code %ld when expecting %ld or %ld.", documentId,
+                                           [actualError localizedDescription], response.statusCode, MSHTTPCodesNo200OK, MSHTTPCodesNo201Created);
                                 completionHandler([[MSDocumentWrapper alloc] initWithError:actualError documentId:documentId]);
                               }
 
@@ -577,8 +577,8 @@ static dispatch_once_t onceToken;
                               // If not deleted.
                               if (response.statusCode != MSHTTPCodesNo204NoContent) {
                                 NSError *actualError = [MSCosmosDb cosmosDbErrorWithResponse:response underlyingError:cosmosDbError];
-                                MSLogError([MSDataStore logTag], @"Unable to delete document %@ with error: %@", documentId,
-                                           [actualError localizedDescription]);
+                                MSLogError([MSDataStore logTag], @"Unable to delete document %@ with error: %@. Status code %ld when expecting %ld.", documentId,
+                                           [actualError localizedDescription], response.statusCode, MSHTTPCodesNo204NoContent);
                                 completionHandler([[MSDocumentWrapper alloc] initWithError:actualError documentId:documentId]);
                               }
 
