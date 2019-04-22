@@ -169,7 +169,7 @@ static NSString *const kMSHeaderMsDate = @"x-ms-date";
     // Serialize document
     body = [NSJSONSerialization dataWithJSONObject:dic options:0 error:&serializationError];
     if (!body || serializationError) {
-      MSLogError([MSDataStore logTag], @"Error serializing data:%@", [serializationError localizedDescription]);
+      MSLogError([MSDataStore logTag], @"Error serializing data: %@", [serializationError localizedDescription]);
       completionHandler(nil, nil, serializationError);
       return;
     }
