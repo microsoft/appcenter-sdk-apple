@@ -40,7 +40,7 @@ class MSStorageViewController: UIViewController, UITableViewDelegate, UITableVie
   }
   
   func loadAppFiles() {
-    indicator.startAnimating()
+    startAnimation()
     self.appCenter.listDocumentsWithPartition("readonly", documentType: MSDictionaryDocument.self, completionHandler: { (documents) in
       self.allDocuments = documents;
       MSStorageViewController.AppDocuments = documents.currentPage().items ?? []
@@ -53,7 +53,7 @@ class MSStorageViewController: UIViewController, UITableViewDelegate, UITableVie
   }
   
   func loadUserFiles() {
-    indicator.startAnimating()
+    startAnimation()
     self.appCenter.listDocumentsWithPartition("user", documentType: MSDictionaryDocument.self, completionHandler: { (documents) in
       self.allDocuments = documents;
       MSStorageViewController.UserDocuments = documents.currentPage().items ?? []
@@ -63,6 +63,12 @@ class MSStorageViewController: UIViewController, UITableViewDelegate, UITableVie
         self.tableView.reloadData()
       }
     })
+  }
+  
+  func startAnimation() {
+    DispatchQueue.main.async {
+      self.indicator.startAnimating()
+    }
   }
   
   func activityIndicator() {
