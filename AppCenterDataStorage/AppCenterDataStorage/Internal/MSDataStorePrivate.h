@@ -25,6 +25,11 @@ static NSString *const kMSDefaultApiUrl = @"https://tokens.appcenter.ms/v0.1";
 @property(nonatomic) dispatch_queue_t dispatchQueue;
 
 /**
+ * Set of outgoing pending operation ids.
+ */
+@property(nonatomic, copy) NSMutableSet<NSString *> *outgoingPendingOperations;
+
+/**
  * Retrieve a paginated list of the documents in a partition.
  *
  * @param partition The CosmosDB partition key.
