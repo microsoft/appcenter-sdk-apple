@@ -6,6 +6,7 @@ import UIKit
 class MSStorageViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, AppCenterProtocol {
   
   var appCenter: AppCenterDelegate!
+  var alert: UIAlertController!
   enum StorageType: String {
     case App = "App"
     case User = "User"
@@ -32,6 +33,7 @@ class MSStorageViewController: UIViewController, UITableViewDelegate, UITableVie
     tableView.setEditing(true, animated: false)
     tableView.allowsSelectionDuringEditing = true
     identitySignIn = UserDefaults.standard.bool(forKey: kMSUserIdentity)
+    buildAlertDialog()
     initStoragePicker()
     activityIndicator()
     loadAppFiles()
@@ -113,26 +115,31 @@ class MSStorageViewController: UIViewController, UITableViewDelegate, UITableVie
   }
   
   func initStoragePicker(){
-    let alert = UIAlertController(title: "Error", message: "Please sign in to Identity first", preferredStyle: .alert)
     self.storageTypePicker = MSEnumPicker<StorageType> (
       textField: storageTypeField,
       allValues: StorageType.allValues,
       onChange: { index in
-        self.storageType = (self.storageTypeField?.text)!
-        if self.storageType == StorageType.User.rawValue && !self.identitySignIn {
-          alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
-            self.storageTypePicker?.doneClicked()
-          }))
-          self.present(alert, animated: true, completion: nil)
-        } else if (self.storageType == StorageType.User.rawValue) {
-          self.loadUserFiles()
+        if self.storageTypeField?.text == StorageType.User.rawValue && !self.identitySignIn {
+          self.present(self.alert, animated: true, completion: nil)
+          self.storageTypeField?.text = StorageType.App.rawValue
         } else {
-          self.loadAppFiles()
+          if (self.storageTypeField?.text == StorageType.User.rawValue) {
+            self.loadUserFiles()
+          } else {
+            self.loadAppFiles()
+          }
+          self.storageType = (self.storageTypeField?.text)!
         }
-    }
-    )
+    })
     storageTypeField?.delegate = self.storageTypePicker
     storageTypeField?.tintColor = UIColor.clear
+  }
+  
+  func buildAlertDialog() {
+    self.alert = UIAlertController(title: "Error", message: "Please sign in to Identity first", preferredStyle: .alert)
+    self.alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+      self.storageTypePicker?.doneClicked()
+    }))
   }
   
   func numberOfSections(in tableView: UITableView) -> Int {
@@ -170,7 +177,8 @@ class MSStorageViewController: UIViewController, UITableViewDelegate, UITableVie
       if indexPath.row == 0 {
         cell.textLabel?.text = "Add document"
       } else {
-        cell.textLabel?.text = MSStorageViewController.UserDocuments[indexPath.row - 1].documentId
+        let index = indexPath.row == 0 ? 0 : indexPath.row - 1
+        cell.textLabel?.text = MSStorageViewController.UserDocuments[index].documentId
       }
     }
     return cell
@@ -184,7 +192,8 @@ class MSStorageViewController: UIViewController, UITableViewDelegate, UITableVie
       if self.storageType == StorageType.App.rawValue {
         self.performSegue(withIdentifier: "ShowDocumentDetails", sender: MSStorageViewController.AppDocuments[indexPath.row])
       } else {
-        self.performSegue(withIdentifier: "ShowDocumentDetails", sender: MSStorageViewController.UserDocuments[indexPath.row - 1])
+        let index = indexPath.row == 0 ? 0 : indexPath.row - 1
+        self.performSegue(withIdentifier: "ShowDocumentDetails", sender: MSStorageViewController.UserDocuments[index])
       }
     }
   }
@@ -206,12 +215,17 @@ class MSStorageViewController: UIViewController, UITableViewDelegate, UITableVie
   }
   
   func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    let index = indexPath.row == 0 ? 0 : indexPath.row - 1
     if editingStyle == .delete {
-      appCenter.deleteDocumentWithPartition(StorageType.User.rawValue.lowercased(), documentId: MSStorageViewController.UserDocuments[indexPath.row - 1].documentId)
-      MSStorageViewController.UserDocuments.remove(at: indexPath.row - 1)
+      appCenter.deleteDocumentWithPartition(StorageType.User.rawValue.lowercased(), documentId: MSStorageViewController.UserDocuments[index].documentId)
+      MSStorageViewController.UserDocuments.remove(at: index)
       tableView.deleteRows(at: [indexPath], with: .automatic)
     } else if editingStyle == .insert {
-      self.performSegue(withIdentifier: "ShowDocumentDetails", sender: MSStorageViewController.UserDocuments[indexPath.row - 1])
+      if(index != 0) {
+        self.performSegue(withIdentifier: "ShowDocumentDetails", sender: MSStorageViewController.UserDocuments[index])
+      } else {
+        self.performSegue(withIdentifier: "ShowDocumentDetails", sender: "")
+      }
     }
   }
 

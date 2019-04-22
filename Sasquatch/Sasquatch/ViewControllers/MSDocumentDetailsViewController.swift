@@ -33,7 +33,7 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    docIdField.placeholder = "Please input an user document id"
+    docIdField.placeholder = "Please input a user document id"
     docIdField.text = documentId
     timeToLiveField.text = documentTimeToLive
     self.tableView.delegate = self
