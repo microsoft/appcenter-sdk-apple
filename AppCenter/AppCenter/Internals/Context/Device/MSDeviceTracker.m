@@ -142,10 +142,10 @@ static MSDeviceTracker *sharedInstance = nil;
     CTTelephonyNetworkInfo *telephonyNetworkInfo = [CTTelephonyNetworkInfo new];
     CTCarrier *carrier;
 
-    if(@available(iOS 12, *)){
+    if (@available(iOS 12, *)) {
       SEL serviceSubscriberCellularProviders = NSSelectorFromString(@"serviceSubscriberCellularProviders");
       NSInvocation *invocation =
-                [NSInvocation invocationWithMethodSignature:[telephonyNetworkInfo methodSignatureForSelector:serviceSubscriberCellularProviders]];
+          [NSInvocation invocationWithMethodSignature:[telephonyNetworkInfo methodSignatureForSelector:serviceSubscriberCellularProviders]];
       void *returnValue;
       [invocation getReturnValue:&returnValue];
       NSDictionary<NSString *, CTCarrier *> *carriers = (__bridge NSDictionary<NSString *, CTCarrier *> *)returnValue;

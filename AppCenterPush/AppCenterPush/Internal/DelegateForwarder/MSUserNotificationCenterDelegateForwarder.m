@@ -23,7 +23,7 @@ static MSUserNotificationCenterDelegateForwarder *sharedInstance = nil;
   // TODO test the forwarder on macOS.
   // Register selectors to swizzle (iOS 10+).
 #if !TARGET_OS_OSX
-  if(@available(iOS 10, *)){
+  if (@available(iOS 10, *)) {
     [[MSUserNotificationCenterDelegateForwarder sharedInstance]
         addDelegateSelectorToSwizzle:@selector(userNotificationCenter:willPresentNotification:withCompletionHandler:)];
     [[MSUserNotificationCenterDelegateForwarder sharedInstance]
