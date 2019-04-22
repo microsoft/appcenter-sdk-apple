@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol MSHttpClientProtocol;
 
-@interface MSDataStore <T : id <MSSerializableDocument>>() <MSServiceInternal>
+@interface MSDataStore () <MSServiceInternal>
 
 /**
  * A token exchange url that is used to get resource tokens.

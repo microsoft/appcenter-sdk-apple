@@ -8,7 +8,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 // A (paginated) list of documents from CosmosDB
-@interface MSPaginatedDocuments<T : id <MSSerializableDocument>> : NSObject
+@interface MSPaginatedDocuments : NSObject
 
 /**
  * Initialize documents with page.
@@ -48,14 +48,14 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return The current page of documents.
  */
-- (MSPage<T> *)currentPage;
+- (MSPage *)currentPage;
 
 /**
  * Asynchronously fetch the next page.
  *
  * @param completionHandler Callback to accept the next page of documents.
  */
-- (void)nextPageWithCompletionHandler:(void (^)(MSPage<T> *page))completionHandler;
+- (void)nextPageWithCompletionHandler:(void (^)(MSPage *page))completionHandler;
 
 @end
 
