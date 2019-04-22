@@ -103,10 +103,8 @@ static const NSUInteger kMSSchemaVersion = 1;
 
   // This is the same as [[NSDate date] timeIntervalSince1970] - but saves us from allocating an NSDate.
   NSTimeInterval now = NSDate.timeIntervalSinceReferenceDate + NSTimeIntervalSince1970;
-  NSTimeInterval expirationTime = -1;
-  if (deviceTimeToLive != kMSDataStoreTimeToLiveInfinite) {
-    expirationTime = now + deviceTimeToLive;
-  }
+  NSTimeInterval expirationTime =
+      (deviceTimeToLive == kMSDataStoreTimeToLiveInfinite) ? kMSDataStoreTimeToLiveInfinite : now + deviceTimeToLive;
   return [self upsertWithToken:token documentWrapper:documentWrapper operation:operation expirationTime:expirationTime];
 }
 
