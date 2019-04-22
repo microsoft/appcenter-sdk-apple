@@ -1,5 +1,13 @@
 # App Center SDK for iOS and macOS Change Log
 
+## Version 2.0.0 (not yet released)
+
+### AppCenterDistribute
+
+* **[Fix]** Starting the application with "Guided Access" enabled blocks the update flow since in-app update is not possible in this mode.
+
+___
+
 ## Version 1.14.0
 
 ### AppCenter
