@@ -37,7 +37,7 @@
   return [self.continuationToken length] != 0;
 }
 
-- (void)nextPageWithCompletionHandler:(void (^)(MSPage<id<MSSerializableDocument>> *page))completionHandler {
+- (void)nextPageWithCompletionHandler:(void (^)(MSPage *page))completionHandler {
   if ([self hasNextPage]) {
     [MSDataStore listWithPartition:self.partition
                       documentType:self.documentType

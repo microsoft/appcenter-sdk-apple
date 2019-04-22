@@ -3,7 +3,7 @@
 
 #import "MSDocumentWrapper.h"
 
-@interface MSDocumentWrapper <T : id <MSSerializableDocument>>()
+@interface MSDocumentWrapper ()
 
 /**
  * Initialize a `MSDocumentWrapper` instance.
@@ -20,7 +20,7 @@
  *
  * @return A new `MSDocumentWrapper` instance.
  */
-- (instancetype)initWithDeserializedValue:(T)deserializedValue
+- (instancetype)initWithDeserializedValue:(id<MSSerializableDocument>)deserializedValue
                                 jsonValue:(NSString *)jsonValue
                                 partition:(NSString *)partition
                                documentId:(NSString *)documentId

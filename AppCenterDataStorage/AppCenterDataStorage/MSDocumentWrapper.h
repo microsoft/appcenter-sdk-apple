@@ -5,7 +5,7 @@
 
 @class MSDataSourceError;
 
-@interface MSDocumentWrapper<T : id <MSSerializableDocument>> : NSObject
+@interface MSDocumentWrapper : NSObject
 
 /**
  * Serialized document.
@@ -15,7 +15,7 @@
 /**
  * Deserialized document.
  */
-@property(nonatomic, strong, readonly) T deserializedValue;
+@property(nonatomic, strong, readonly) id<MSSerializableDocument> deserializedValue;
 
 /**
  * Cosmos Db document partition.

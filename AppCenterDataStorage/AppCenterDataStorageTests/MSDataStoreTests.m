@@ -1281,7 +1281,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
       XCTAssertNotNil(testDocuments);
       XCTAssertFalse([testDocuments hasNextPage]);
       XCTAssertEqual([[testDocuments currentPage] items].count, 1);
-      MSDocumentWrapper<MSDictionaryDocument *> *documentWrapper = [[testDocuments currentPage] items][0];
+      MSDocumentWrapper *documentWrapper = [[testDocuments currentPage] items][0];
       XCTAssertTrue([[documentWrapper documentId] isEqualToString:@"doc1"]);
       XCTAssertNil([documentWrapper error]);
       XCTAssertNotNil([documentWrapper jsonValue]);

@@ -5,8 +5,8 @@
 #import "MSServiceAbstract.h"
 
 @class MSDataSourceError;
-@class MSDocumentWrapper<T : id<MSSerializableDocument>>;
-@class MSPaginatedDocuments<T : id<MSSerializableDocument>>;
+@class MSDocumentWrapper;
+@class MSPaginatedDocuments;
 @class MSReadOptions;
 @class MSWriteOptions;
 
@@ -44,10 +44,10 @@ static int const kMSDataStoreTimeToLiveNoCache = 0;
  */
 static int const kMSDataStoreTimeToLiveDefault = 60 * 60 * 24;
 
-@interface MSDataStore<T : id <MSSerializableDocument>> : MSServiceAbstract
+@interface MSDataStore : MSServiceAbstract
 
-typedef void (^MSDocumentWrapperCompletionHandler)(MSDocumentWrapper<T> *document);
-typedef void (^MSPaginatedDocumentsCompletionHandler)(MSPaginatedDocuments<T> *documents);
+typedef void (^MSDocumentWrapperCompletionHandler)(MSDocumentWrapper *document);
+typedef void (^MSPaginatedDocumentsCompletionHandler)(MSPaginatedDocuments *documents);
 
 /**
  * Change The URL that will be used for getting token.
@@ -58,7 +58,7 @@ typedef void (^MSPaginatedDocumentsCompletionHandler)(MSPaginatedDocuments<T> *d
 
 /**
  * Read a document.
- * The document type (T) must be JSON deserializable.
+ * The document type (id<MSSerializableDocument>) must be JSON deserializable.
  *
  * @param partition The CosmosDB partition key.
  * @param documentId The CosmosDB document id.
@@ -106,7 +106,7 @@ typedef void (^MSPaginatedDocumentsCompletionHandler)(MSPaginatedDocuments<T> *d
  */
 + (void)createWithPartition:(NSString *)partition
                  documentId:(NSString *)documentId
-                   document:(T)document
+                   document:(id<MSSerializableDocument>)document
           completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler;
 
 /**
@@ -120,7 +120,7 @@ typedef void (^MSPaginatedDocumentsCompletionHandler)(MSPaginatedDocuments<T> *d
  */
 + (void)createWithPartition:(NSString *)partition
                  documentId:(NSString *)documentId
-                   document:(T)document
+                   document:(id<MSSerializableDocument>)document
                writeOptions:(MSWriteOptions *_Nullable)writeOptions
           completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler;
 
@@ -134,7 +134,7 @@ typedef void (^MSPaginatedDocumentsCompletionHandler)(MSPaginatedDocuments<T> *d
  */
 + (void)replaceWithPartition:(NSString *)partition
                   documentId:(NSString *)documentId
-                    document:(T)document
+                    document:(id<MSSerializableDocument>)document
            completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler;
 
 /**
@@ -148,7 +148,7 @@ typedef void (^MSPaginatedDocumentsCompletionHandler)(MSPaginatedDocuments<T> *d
  */
 + (void)replaceWithPartition:(NSString *)partition
                   documentId:(NSString *)documentId
-                    document:(T)document
+                    document:(id<MSSerializableDocument>)document
                 writeOptions:(MSWriteOptions *_Nullable)writeOptions
            completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler;
 
