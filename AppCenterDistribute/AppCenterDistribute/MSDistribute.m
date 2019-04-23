@@ -539,13 +539,13 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
    * versions or for any versions when the update is mandatory.
    */
   if (@available(iOS 11.0, *)) {
-    Class authClazz = NSClassFromString(@"SFAuthenticationSession");
+    Class authClazz = [SFAuthenticationSession class];
     if (authClazz) {
       dispatch_async(dispatch_get_main_queue(), ^{
         [self openURLInAuthenticationSessionWith:url fromClass:authClazz];
       });
     }
-  } else if (@available(iOS 9.0, *)) {
+  } else {
     Class clazz = [SFSafariViewController class];
     dispatch_async(dispatch_get_main_queue(), ^{
       [self openURLInSafariViewControllerWith:url fromClass:clazz];
