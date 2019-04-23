@@ -305,6 +305,10 @@ static dispatch_once_t onceToken;
       [[MSALPublicClientApplicationConfig alloc] initWithClientId:(NSString * __nonnull) self.identityConfig.clientId
                                                       redirectUri:self.identityConfig.redirectUri
                                                         authority:auth];
+  if (!auth) {
+    MSLogError([MSIdentity logTag], @"Identity config doesn't contain a valid authority.");
+    return;
+  }
   config.knownAuthorities = @[ auth ];
   self.clientApplication = [[MSALPublicClientApplication alloc] initWithConfiguration:config error:&error];
   if (error != nil) {
