@@ -89,6 +89,16 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (BOOL)isReferenceDictionaryWithKey:(nullable id)reference key:(NSString *)key keyType:(Class)keyType;
 
+/**
+ * Get operation id by combination of partition key and document Id.
+ *
+ * @param partition Partition key.
+ * @param documentId Document Id.
+ *
+ * @return Operation Id.
+ */
++ (NSString *)outgoingOperationIdWithPartition:(NSString *)partition documentId:(NSString *)documentId;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -390,8 +390,10 @@ static dispatch_once_t onceToken;
                                   // If not OK.
                                   if (response.statusCode != MSHTTPCodesNo200OK) {
                                     NSError *actualError = [MSCosmosDb cosmosDbErrorWithResponse:response underlyingError:cosmosDbError];
-                                    MSLogError([MSDataStore logTag], @"Unable to list documents for partition %@: %@", partition,
-                                               [actualError localizedDescription]);
+                                    MSLogError([MSDataStore logTag],
+                                               @"Unable to list documents for partition %@: %@. Status code %ld when expecting %ld.",
+                                               partition, [actualError localizedDescription], (long)response.statusCode,
+                                               (long)MSHTTPCodesNo200OK);
                                     MSDataSourceError *dataSourceCosmosDbError = [[MSDataSourceError alloc] initWithError:actualError];
                                     MSPaginatedDocuments *documents = [[MSPaginatedDocuments alloc] initWithError:dataSourceCosmosDbError
                                                                                                         partition:partition
@@ -498,8 +500,9 @@ static dispatch_once_t onceToken;
                               // If not created.
                               if (response.statusCode != MSHTTPCodesNo200OK) {
                                 NSError *actualError = [MSCosmosDb cosmosDbErrorWithResponse:response underlyingError:cosmosDbError];
-                                MSLogError([MSDataStore logTag], @"Unable to read document %@ with error: %@", documentId,
-                                           [actualError localizedDescription]);
+                                MSLogError([MSDataStore logTag],
+                                           @"Unable to read document %@ with error: %@. Status code %ld when expecting %ld.", documentId,
+                                           [actualError localizedDescription], (long)response.statusCode, (long)MSHTTPCodesNo200OK);
                                 completionHandler([[MSDocumentWrapper alloc] initWithError:actualError documentId:documentId]);
                               }
 
@@ -537,30 +540,33 @@ static dispatch_once_t onceToken;
     completionHandler([[MSDocumentWrapper alloc] initWithError:serializationError documentId:documentId]);
     return;
   }
-  [self performCosmosDbOperationWithPartition:partition
-                                   documentId:documentId
-                                   httpMethod:kMSHttpMethodPost
-                                     document:(id<MSSerializableDocument>)document
-                            additionalHeaders:additionalHeaders
-                            additionalUrlPath:nil
-                            completionHandler:^(NSData *_Nullable data, NSHTTPURLResponse *_Nullable response,
-                                                NSError *_Nullable cosmosDbError) {
-                              // If not created.
-                              if (response.statusCode != MSHTTPCodesNo201Created && response.statusCode != MSHTTPCodesNo200OK) {
-                                NSError *actualError = [MSCosmosDb cosmosDbErrorWithResponse:response underlyingError:cosmosDbError];
-                                MSLogError([MSDataStore logTag], @"Unable to create/replace document %@ with error: %@", documentId,
-                                           [actualError localizedDescription]);
-                                completionHandler([[MSDocumentWrapper alloc] initWithError:actualError documentId:documentId]);
-                              }
+  [self
+      performCosmosDbOperationWithPartition:partition
+                                 documentId:documentId
+                                 httpMethod:kMSHttpMethodPost
+                                   document:(id<MSSerializableDocument>)document
+                          additionalHeaders:additionalHeaders
+                          additionalUrlPath:nil
+                          completionHandler:^(NSData *_Nullable data, NSHTTPURLResponse *_Nullable response,
+                                              NSError *_Nullable cosmosDbError) {
+                            // If not created.
+                            if (response.statusCode != MSHTTPCodesNo201Created && response.statusCode != MSHTTPCodesNo200OK) {
+                              NSError *actualError = [MSCosmosDb cosmosDbErrorWithResponse:response underlyingError:cosmosDbError];
+                              MSLogError([MSDataStore logTag],
+                                         @"Unable to create/replace document %@ with error: %@. Status code %ld when expecting %ld or %ld.",
+                                         documentId, [actualError localizedDescription], (long)response.statusCode,
+                                         (long)MSHTTPCodesNo200OK, (long)MSHTTPCodesNo201Created);
+                              completionHandler([[MSDocumentWrapper alloc] initWithError:actualError documentId:documentId]);
+                            }
 
-                              // (Try to) deserialize saved document.
-                              else {
-                                MSLogDebug([MSDataStore logTag], @"Document created/replaced with ID: %@", documentId);
-                                completionHandler([MSDocumentUtils documentWrapperFromData:data
-                                                                              documentType:[document class]
-                                                                           fromDeviceCache:NO]);
-                              }
-                            }];
+                            // (Try to) deserialize saved document.
+                            else {
+                              MSLogDebug([MSDataStore logTag], @"Document created/replaced with ID: %@", documentId);
+                              completionHandler([MSDocumentUtils documentWrapperFromData:data
+                                                                            documentType:[document class]
+                                                                         fromDeviceCache:NO]);
+                            }
+                          }];
 }
 
 - (void)deleteFromCosmosDbWithPartition:(NSString *)partition
@@ -577,8 +583,9 @@ static dispatch_once_t onceToken;
                               // If not deleted.
                               if (response.statusCode != MSHTTPCodesNo204NoContent) {
                                 NSError *actualError = [MSCosmosDb cosmosDbErrorWithResponse:response underlyingError:cosmosDbError];
-                                MSLogError([MSDataStore logTag], @"Unable to delete document %@ with error: %@", documentId,
-                                           [actualError localizedDescription]);
+                                MSLogError([MSDataStore logTag],
+                                           @"Unable to delete document %@ with error: %@. Status code %ld when expecting %ld.", documentId,
+                                           [actualError localizedDescription], (long)response.statusCode, (long)MSHTTPCodesNo204NoContent);
                                 completionHandler([[MSDocumentWrapper alloc] initWithError:actualError documentId:documentId]);
                               }
 
@@ -643,10 +650,19 @@ static dispatch_once_t onceToken;
   if (appSecret) {
     self.httpClient = [MSHttpClient new];
   }
-
-  // Listen to network events.
-  [MS_NOTIFICATION_CENTER addObserver:self selector:@selector(networkStateChanged:) name:kMSReachabilityChangedNotification object:nil];
   MSLogVerbose([MSDataStore logTag], @"Started Data Storage service.");
+}
+
+- (void)enabledNotifications {
+  // Listen to network events.
+  [MS_NOTIFICATION_CENTER addObserver:self
+                             selector:@selector(networkStateChanged:)
+                                 name:kMSReachabilityChangedNotification
+                               object:nil];
+}
+
+- (void)disableNotificaitons {
+  [MS_NOTIFICATION_CENTER removeObserver:self];
 }
 
 + (NSString *)serviceName {
@@ -668,10 +684,14 @@ static dispatch_once_t onceToken;
   [self.httpClient setEnabled:isEnabled];
   if (isEnabled) {
     [[MSAuthTokenContext sharedInstance] addDelegate:self];
+    [self enabledNotifications];
+
   } else {
+    [self disableNotificaitons];
     [[MSAuthTokenContext sharedInstance] removeDelegate:self];
     [MSTokenExchange removeAllCachedTokens];
     [self.dataOperationProxy.documentStore deleteAllTables];
+    [self.outgoingPendingOperations removeAllObjects];
   }
 }
 
@@ -700,11 +720,11 @@ static dispatch_once_t onceToken;
     MSLogInfo([MSDataStore logTag], @"Network connection is off.");
   } else {
     MSLogInfo([MSDataStore logTag], @"Network connection is on.");
-    [self onNetworkGoesOnline];
+    [self processPendingOperations];
   }
 }
 
-- (void)onNetworkGoesOnline {
+- (void)processPendingOperations {
   @synchronized(self) {
     [MSTokenExchange
         performDbTokenAsyncOperationWithHttpClient:(id<MSHttpClientProtocol>)self.httpClient
@@ -728,6 +748,19 @@ static dispatch_once_t onceToken;
 
                                      // Process pending operations.
                                      for (MSPendingOperation *operation in pendingOperations) {
+
+                                       // Get outgoing operation id.
+                                       __block NSString *operationId =
+                                           [MSDocumentUtils outgoingOperationIdWithPartition:kMSDataStoreUserDocumentsPartition
+                                                                                  documentId:operation.documentId];
+
+                                       // If the operation is already being processed, skip it.
+                                       if ([self.outgoingPendingOperations containsObject:operationId]) {
+                                         continue;
+                                       }
+
+                                       // Add current operation as pending.
+                                       [self.outgoingPendingOperations addObject:operationId];
 
                                        // Create or Replace operation.
                                        if ([operation.operation isEqualToString:kMSPendingOperationCreate] ||
@@ -756,6 +789,9 @@ static dispatch_once_t onceToken;
                                                                                            pendingOperation:operation.operation
                                                                                     operationExpirationTime:(NSInteger)
                                                                                                                 operation.expirationTime];
+
+                                                             // Remove the pending operation id.
+                                                             [self.outgoingPendingOperations removeObject:operationId];
                                                              return;
                                                            }];
                                        } else if ([operation.operation isEqualToString:kMSPendingOperationDelete]) {
@@ -771,6 +807,9 @@ static dispatch_once_t onceToken;
                                                                                             documentWrapper:documentWrapper
                                                                                            pendingOperation:operation.operation
                                                                                     operationExpirationTime:kMSDataStoreTimeToLiveNoCache];
+
+                                                             // Remove the pending operation id.
+                                                             [self.outgoingPendingOperations removeObject:operationId];
                                                              return;
                                                            }];
                                        } else {

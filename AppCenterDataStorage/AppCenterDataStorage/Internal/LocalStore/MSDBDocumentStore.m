@@ -77,13 +77,16 @@ static const NSUInteger kMSSchemaVersion = 1;
   // This is the same as [[NSDate date] timeIntervalSince1970] - but saves us from allocating an NSDate.
   NSTimeInterval now = NSDate.timeIntervalSinceReferenceDate + NSTimeIntervalSince1970;
   NSString *tableName = [MSDBDocumentStore tableNameForPartition:token.partition];
+
+  // If operation is nil, pass NULL value, else use the operation name in this format '<OPERATION_NAME>' (note the single quotes).
+  NSString *normalizedOperationString = operation != nil ? [NSString stringWithFormat:@"'%@'", operation] : @"NULL";
   NSString *insertQuery = [NSString
       stringWithFormat:@"REPLACE INTO \"%@\" (\"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\") "
-                       @"VALUES ('%@', '%@', '%@', '%@', %ld, '%ld', '%ld', '%@')",
+                       @"VALUES ('%@', '%@', '%@', '%@', %ld, '%ld', '%ld', %@)",
                        tableName, kMSPartitionColumnName, kMSDocumentIdColumnName, kMSDocumentColumnName, kMSETagColumnName,
                        kMSExpirationTimeColumnName, kMSDownloadTimeColumnName, kMSOperationTimeColumnName, kMSPendingOperationColumnName,
                        token.partition, documentWrapper.documentId, documentWrapper.jsonValue, documentWrapper.eTag, (long)expirationTime,
-                       (long)[documentWrapper.lastUpdatedDate timeIntervalSince1970], (long)now, operation];
+                       (long)[documentWrapper.lastUpdatedDate timeIntervalSince1970], (long)now, normalizedOperationString];
   int result = [self.dbStorage executeNonSelectionQuery:insertQuery];
   if (result != SQLITE_OK) {
     MSLogError([MSDataStore logTag], @"Unable to update or replace local document, SQLite error code: %ld", (long)result);
@@ -103,10 +106,8 @@ static const NSUInteger kMSSchemaVersion = 1;
 
   // This is the same as [[NSDate date] timeIntervalSince1970] - but saves us from allocating an NSDate.
   NSTimeInterval now = NSDate.timeIntervalSinceReferenceDate + NSTimeIntervalSince1970;
-  NSTimeInterval expirationTime = -1;
-  if (deviceTimeToLive != kMSDataStoreTimeToLiveInfinite) {
-    expirationTime = now + deviceTimeToLive;
-  }
+  NSTimeInterval expirationTime =
+      (deviceTimeToLive == kMSDataStoreTimeToLiveInfinite) ? kMSDataStoreTimeToLiveInfinite : now + deviceTimeToLive;
   return [self upsertWithToken:token documentWrapper:documentWrapper operation:operation expirationTime:expirationTime];
 }
 
