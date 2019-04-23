@@ -292,31 +292,25 @@ static MSDeviceTracker *sharedInstance = nil;
 #endif
 
 #if TARGET_OS_OSX
-
 - (NSString *)osVersion {
   NSString *osVersion = nil;
 
-#if __MAC_OS_X_VERSION_MAX_ALLOWED > 1090
-  if ([[NSProcessInfo processInfo] respondsToSelector:@selector(operatingSystemVersion)]) {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wpartial-availability"
+  if (@available(macosx 10.10, *)) {
     NSOperatingSystemVersion osSystemVersion = [[NSProcessInfo processInfo] operatingSystemVersion];
     osVersion = [NSString stringWithFormat:@"%ld.%ld.%ld", (long)osSystemVersion.majorVersion, (long)osSystemVersion.minorVersion,
                                            (long)osSystemVersion.patchVersion];
-#pragma clang diagnostic pop
-  }
-#else
-  SInt32 major, minor, bugfix;
+  } else {
+    SInt32 major, minor, bugfix;
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated"
-  OSErr err1 = Gestalt(gestaltSystemVersionMajor, &major);
-  OSErr err2 = Gestalt(gestaltSystemVersionMinor, &minor);
-  OSErr err3 = Gestalt(gestaltSystemVersionBugFix, &bugfix);
-  if ((!err1) && (!err2) && (!err3)) {
-    osVersion = [NSString stringWithFormat:@"%ld.%ld.%ld", (long)major, (long)minor, (long)bugfix];
-  }
+    OSErr err1 = Gestalt(gestaltSystemVersionMajor, &major);
+    OSErr err2 = Gestalt(gestaltSystemVersionMinor, &minor);
+    OSErr err3 = Gestalt(gestaltSystemVersionBugFix, &bugfix);
+    if ((!err1) && (!err2) && (!err3)) {
+      osVersion = [NSString stringWithFormat:@"%ld.%ld.%ld", (long)major, (long)minor, (long)bugfix];
+    }
 #pragma clang diagnostic pop
-#endif
+  }
   return osVersion;
 }
 #else

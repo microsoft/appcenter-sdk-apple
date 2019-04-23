@@ -104,21 +104,17 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
   NSString *expected = @"4.5.6";
 
 #if TARGET_OS_OSX
-#if __MAC_OS_X_VERSION_MAX_ALLOWED > 1090
-  id processInfoMock = OCMClassMock([NSProcessInfo class]);
-  OCMStub([processInfoMock processInfo]).andReturn(processInfoMock);
-  NSOperatingSystemVersion osSystemVersionMock;
-  osSystemVersionMock.majorVersion = 4;
-  osSystemVersionMock.minorVersion = 5;
-  osSystemVersionMock.patchVersion = 6;
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wpartial-availability"
-  OCMStub([processInfoMock operatingSystemVersion]).andReturn(osSystemVersionMock);
-#pragma clang diagnostic pop
-#else
-
-// TODO: No way to mock C-style functions like Gestalt. Skip the test on machine running on macOS version <= 10.9.
-#endif
+  if (@available(macOS 10.10, *)) {
+    id processInfoMock = OCMClassMock([NSProcessInfo class]);
+    OCMStub([processInfoMock processInfo]).andReturn(processInfoMock);
+    NSOperatingSystemVersion osSystemVersionMock;
+    osSystemVersionMock.majorVersion = 4;
+    osSystemVersionMock.minorVersion = 5;
+    osSystemVersionMock.patchVersion = 6;
+    OCMStub([processInfoMock operatingSystemVersion]).andReturn(osSystemVersionMock);
+  } else {
+    // TODO: No way to mock C-style functions like Gestalt. Skip the test on machine running on macOS version <= 10.9.
+  }
 #else
   id deviceMock = OCMClassMock([UIDevice class]);
   OCMStub([(UIDevice *)deviceMock systemVersion]).andReturn(expected);
@@ -126,13 +122,12 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 
 // When
 #if TARGET_OS_OSX
-#if __MAC_OS_X_VERSION_MAX_ALLOWED > 1090
-  NSString *osVersion = [self.sut osVersion];
-#else
-
-  // TODO: No way to mock C-style functions like Gestalt. Skip the test on machine running on macOS version <= 10.9.
-  NSString *osVersion = expected;
-#endif
+  if (@available(macOS 10.10, *)) {
+    NSString *osVersion = [self.sut osVersion];
+  } else {
+    // TODO: No way to mock C-style functions like Gestalt. Skip the test on machine running on macOS version <= 10.9.
+    NSString *osVersion = expected;
+  }
 #else
   NSString *osVersion = [self.sut osVersion:deviceMock];
   [deviceMock stopMocking];
