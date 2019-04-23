@@ -78,8 +78,8 @@ static const NSUInteger kMSSchemaVersion = 1;
   NSTimeInterval now = NSDate.timeIntervalSinceReferenceDate + NSTimeIntervalSince1970;
   NSString *tableName = [MSDBDocumentStore tableNameForPartition:token.partition];
 
-  // If operation is nil, pass NULL value, else user the operation name in this format '<OPERATION_NAME>' (note the single quotes).
-  NSString *normalizedOperationString = operation != nil ? [NSString stringWithFormat:@"'%@'", operation] : nil;
+  // If operation is nil, pass NULL value, else use the operation name in this format '<OPERATION_NAME>' (note the single quotes).
+  NSString *normalizedOperationString = operation != nil ? [NSString stringWithFormat:@"'%@'", operation] : @"NULL";
   NSString *insertQuery = [NSString
       stringWithFormat:@"REPLACE INTO \"%@\" (\"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\") "
                        @"VALUES ('%@', '%@', '%@', '%@', %ld, '%ld', '%ld', %@)",

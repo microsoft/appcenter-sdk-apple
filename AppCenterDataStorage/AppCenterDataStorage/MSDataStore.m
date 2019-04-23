@@ -650,17 +650,13 @@ static dispatch_once_t onceToken;
   if (appSecret) {
     self.httpClient = [MSHttpClient new];
   }
-
-  // Listen to notificaitons.
-  [self enabledNotifications];
-
   MSLogVerbose([MSDataStore logTag], @"Started Data Storage service.");
 }
 
 - (void)enabledNotifications {
   // Listen to network events.
   [MS_NOTIFICATION_CENTER addObserver:self
-                             selector:@selector(networkStateChangedDataStoreCallback:)
+                             selector:@selector(networkStateChanged:)
                                  name:kMSReachabilityChangedNotification
                                object:nil];
 }
@@ -717,7 +713,7 @@ static dispatch_once_t onceToken;
 
 #pragma mark - Reachability
 
-- (void)networkStateChangedDataStoreCallback:(NSNotificationCenter *)__unused notification {
+- (void)networkStateChanged:(NSNotificationCenter *)__unused notification {
 
   // Network status change event.
   if ([[MS_Reachability reachabilityForInternetConnection] currentReachabilityStatus] == NotReachable) {
@@ -763,7 +759,7 @@ static dispatch_once_t onceToken;
                                          continue;
                                        }
 
-                                       // Add current operaiton as pending.
+                                       // Add current operation as pending.
                                        [self.outgoingPendingOperations addObject:operationId];
 
                                        // Create or Replace operation.
