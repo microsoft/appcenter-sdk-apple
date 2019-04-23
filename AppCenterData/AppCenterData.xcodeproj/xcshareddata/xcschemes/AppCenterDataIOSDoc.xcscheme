@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D3AD5F271E5C9633001627AB"
-               BuildableName = "AppCenterDataStorageIOSDoc"
-               BlueprintName = "AppCenterDataStorageIOSDoc"
-               ReferencedContainer = "container:AppCenterDataStorage.xcodeproj">
+               BuildableName = "AppCenterDataIOSDoc"
+               BlueprintName = "AppCenterDataIOSDoc"
+               ReferencedContainer = "container:AppCenterData.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -46,9 +46,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D3AD5F271E5C9633001627AB"
-            BuildableName = "AppCenterDataStorageIOSDoc"
-            BlueprintName = "AppCenterDataStorageIOSDoc"
-            ReferencedContainer = "container:AppCenterDataStorage.xcodeproj">
+            BuildableName = "AppCenterDataIOSDoc"
+            BlueprintName = "AppCenterDataIOSDoc"
+            ReferencedContainer = "container:AppCenterData.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -64,9 +64,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D3AD5F271E5C9633001627AB"
-            BuildableName = "AppCenterDataStorageIOSDoc"
-            BlueprintName = "AppCenterDataStorageIOSDoc"
-            ReferencedContainer = "container:AppCenterDataStorage.xcodeproj">
+            BuildableName = "AppCenterDataIOSDoc"
+            BlueprintName = "AppCenterDataIOSDoc"
+            ReferencedContainer = "container:AppCenterData.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

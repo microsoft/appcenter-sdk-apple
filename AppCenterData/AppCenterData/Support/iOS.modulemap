@@ -1,9 +1,9 @@
-framework module AppCenterDataStorage {
+framework module AppCenterData {
   umbrella header "AppCenterDataStorage.h"
-
+  
   export *
   module * { export * }
   
   link framework "Foundation"
-  link framework "AppKit"
+  link framework "UIKit"
 }

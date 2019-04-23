@@ -123,13 +123,13 @@
          </FileRef>
       </Group>
       <Group
-         location = "group:AppCenterDataStorage"
-         name = "AppCenterDataStorage">
+         location = "group:AppCenterData"
+         name = "AppCenterData">
          <FileRef
-            location = "group:build-appcenterdatastorage-ios-framework.sh">
+            location = "group:build-appcenterdata-ios-framework.sh">
          </FileRef>
          <FileRef
-            location = "group:build-appcenterdatastorage-macos-framework.sh">
+            location = "group:build-appcenterdata-macos-framework.sh">
          </FileRef>
       </Group>
       <Group
@@ -195,7 +195,7 @@
       location = "group:AppCenterCrashes/AppCenterCrashes.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:AppCenterDataStorage/AppCenterDataStorage.xcodeproj">
+      location = "group:AppCenterData/AppCenterData.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:AppCenterDistribute/AppCenterDistribute.xcodeproj">

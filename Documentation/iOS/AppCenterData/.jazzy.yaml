@@ -4,21 +4,21 @@ sdk: iphonesimulator
 
 theme: ../../Themes/apple
 
-module: AppCenterDataStorage
+module: AppCenterData
 module_version: 2.0.0
 author: Microsoft Corp
 author_url: http://www.microsoft.com
 
-readme: Guides/DataStorage.md
+readme: Guides/Data.md
 documentation: ../../Guides/[^index]*.md
 custom_categories:
   - name: Guides
     children:
     - Installation
 
-umbrella_header: ../../../AppCenter-SDK-Apple/iOS/AppCenterDataStorage.framework/Headers/AppCenterDataStorage.h
+umbrella_header: ../../../AppCenter-SDK-Apple/iOS/AppCenterData.framework/Headers/AppCenterDataStorage.h
 framework_root: ../../../AppCenter-SDK-Apple/iOS/
-exclude: [../../../AppCenter-SDK-Apple/iOS/AppCenterDataStorage.framework/Headers/MSService.h, ../../../AppCenter-SDK-Apple/iOS/AppCenterDataStorage.framework/Headers/MSServiceAbstract.h]
+exclude: [../../../AppCenter-SDK-Apple/iOS/AppCenterData.framework/Headers/MSService.h, ../../../AppCenter-SDK-Apple/iOS/AppCenterData.framework/Headers/MSServiceAbstract.h]
 
 root_url: https://docs.microsoft.com/appcenter/sdk/ios
 github_url: https://github.com/Microsoft/AppCenter-SDK-Apple

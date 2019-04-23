@@ -7,50 +7,50 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
-		0469640E1F2A558F00F9D31F /* AppCenterDataStorageMacOSFramework */ = {
+		0469640E1F2A558F00F9D31F /* AppCenterDataMacOSFramework */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 046964101F2A558F00F9D31F /* Build configuration list for PBXAggregateTarget "AppCenterDataStorageMacOSFramework" */;
+			buildConfigurationList = 046964101F2A558F00F9D31F /* Build configuration list for PBXAggregateTarget "AppCenterDataMacOSFramework" */;
 			buildPhases = (
 				0469640F1F2A558F00F9D31F /* Build framework */,
 			);
 			dependencies = (
 			);
-			name = AppCenterDataStorageMacOSFramework;
+			name = AppCenterDataMacOSFramework;
 			productName = "Fat Framework";
 		};
-		046964271F2A55A600F9D31F /* AppCenterDataStorageMacOSDoc */ = {
+		046964271F2A55A600F9D31F /* AppCenterDataMacOSDoc */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 0469642B1F2A55A600F9D31F /* Build configuration list for PBXAggregateTarget "AppCenterDataStorageMacOSDoc" */;
+			buildConfigurationList = 0469642B1F2A55A600F9D31F /* Build configuration list for PBXAggregateTarget "AppCenterDataMacOSDoc" */;
 			buildPhases = (
 				0469642A1F2A55A600F9D31F /* Build docs */,
 			);
 			dependencies = (
 				046964321F2A569B00F9D31F /* PBXTargetDependency */,
 			);
-			name = AppCenterDataStorageMacOSDoc;
+			name = AppCenterDataMacOSDoc;
 			productName = "Jazzy Docs";
 		};
-		D3AD5F221E5C9562001627AB /* AppCenterDataStorageIOSFramework */ = {
+		D3AD5F221E5C9562001627AB /* AppCenterDataIOSFramework */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = D3AD5F251E5C9562001627AB /* Build configuration list for PBXAggregateTarget "AppCenterDataStorageIOSFramework" */;
+			buildConfigurationList = D3AD5F251E5C9562001627AB /* Build configuration list for PBXAggregateTarget "AppCenterDataIOSFramework" */;
 			buildPhases = (
 				D3AD5F261E5C9588001627AB /* Build framework */,
 			);
 			dependencies = (
 			);
-			name = AppCenterDataStorageIOSFramework;
+			name = AppCenterDataIOSFramework;
 			productName = "Fat Framework";
 		};
-		D3AD5F271E5C9633001627AB /* AppCenterDataStorageIOSDoc */ = {
+		D3AD5F271E5C9633001627AB /* AppCenterDataIOSDoc */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = D3AD5F281E5C9633001627AB /* Build configuration list for PBXAggregateTarget "AppCenterDataStorageIOSDoc" */;
+			buildConfigurationList = D3AD5F281E5C9633001627AB /* Build configuration list for PBXAggregateTarget "AppCenterDataIOSDoc" */;
 			buildPhases = (
 				D3AD5F2B1E5C9636001627AB /* Build docs */,
 			);
 			dependencies = (
 				D3AD5F3D1E5D6809001627AB /* PBXTargetDependency */,
 			);
-			name = AppCenterDataStorageIOSDoc;
+			name = AppCenterDataIOSDoc;
 			productName = "Jazzy Docs";
 		};
 /* End PBXAggregateTarget section */
@@ -62,7 +62,7 @@
 		0469643A1F2A56F400F9D31F /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 046964371F2A56DF00F9D31F /* OCMock.framework */; };
 		0469643D1F2A570500F9D31F /* OCHamcrest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0469643B1F2A570000F9D31F /* OCHamcrest.framework */; };
 		046964401F2A572800F9D31F /* libAppCenter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0469643F1F2A572800F9D31F /* libAppCenter.a */; };
-		046964411F2A5AA300F9D31F /* libAppCenterDataStorage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0469640D1F2A558300F9D31F /* libAppCenterDataStorage.a */; };
+		046964411F2A5AA300F9D31F /* libAppCenterData.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0469640D1F2A558300F9D31F /* libAppCenterData.a */; };
 		046964421F2A5B2E00F9D31F /* MSServiceAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5EFE1E5C7DAE001627AB /* MSServiceAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		046964491F2A5B4D00F9D31F /* AppCenter+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5F0B1E5C819A001627AB /* AppCenter+Internal.h */; };
 		0469644E1F2A5D2800F9D31F /* AppCenterDataStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = D33A94541E5B11BB003966DB /* AppCenterDataStorage.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -171,7 +171,7 @@
 		8FCF9FE1225D4D870049B326 /* MSTokenResultPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 8FCF9FDF225D4D870049B326 /* MSTokenResultPrivate.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		9919248E225BCD070064E699 /* MSDocumentStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 9919248D225BCD060064E699 /* MSDocumentStore.h */; };
 		9919248F225BCD0F0064E699 /* MSDocumentStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 9919248D225BCD060064E699 /* MSDocumentStore.h */; };
-		D3AD5EC51E5C4F6A001627AB /* libAppCenterDataStorage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D33A94511E5B11BB003966DB /* libAppCenterDataStorage.a */; };
+		D3AD5EC51E5C4F6A001627AB /* libAppCenterData.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D33A94511E5B11BB003966DB /* libAppCenterData.a */; };
 		D3AD5F0C1E5C819A001627AB /* AppCenter+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5F0B1E5C819A001627AB /* AppCenter+Internal.h */; };
 		D3AD5F0D1E5C844B001627AB /* MSServiceAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5EFE1E5C7DAE001627AB /* MSServiceAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D3AD5F0F1E5C845B001627AB /* AppCenterDataStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = D33A94541E5B11BB003966DB /* AppCenterDataStorage.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -219,14 +219,14 @@
 			containerPortal = D33A94491E5B11BB003966DB /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 046963F41F2A558300F9D31F;
-			remoteInfo = AppCenterDataStorageMacOS;
+			remoteInfo = AppCenterDataMacOS;
 		};
 		D3AD5EC61E5C4F6A001627AB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D33A94491E5B11BB003966DB /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = D33A94501E5B11BB003966DB;
-			remoteInfo = AppCenterDataStorageIOS;
+			remoteInfo = AppCenterDataIOS;
 		};
 		D3AD5F3C1E5D6809001627AB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -261,11 +261,11 @@
 /* Begin PBXFileReference section */
 		041CFFA71ECD0E9A00B4654B /* Tests iOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Tests iOS.xcconfig"; path = "../../Config/Tests iOS.xcconfig"; sourceTree = "<group>"; };
 		0420A6A11ECA7D7200915619 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = ../Vendor/iOS/OCMock/OCMock.framework; sourceTree = "<group>"; };
-		043E2ABA1F4E033A00615AD9 /* AppCenterDataStorage Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "AppCenterDataStorage Release.xcconfig"; sourceTree = "<group>"; };
+		043E2ABA1F4E033A00615AD9 /* AppCenterData Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "AppCenterData Release.xcconfig"; sourceTree = "<group>"; };
 		0460FD99225544E3004E48EA /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OHHTTPStubs.framework; path = ../Vendor/iOS/OHHTTPStubs/OHHTTPStubs.framework; sourceTree = "<group>"; };
 		0460FD9B225544F6004E48EA /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OHHTTPStubs.framework; path = ../Vendor/macOS/OHHTTPStubs/OHHTTPStubs.framework; sourceTree = "<group>"; };
-		0469640D1F2A558300F9D31F /* libAppCenterDataStorage.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAppCenterDataStorage.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		046964251F2A559C00F9D31F /* AppCenterDataStorage.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppCenterDataStorage.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		0469640D1F2A558300F9D31F /* libAppCenterData.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAppCenterData.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		046964251F2A559C00F9D31F /* AppCenterData.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppCenterData.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0469642E1F2A55CF00F9D31F /* macOS.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = macOS.modulemap; sourceTree = "<group>"; };
 		0469642F1F2A55CF00F9D31F /* macOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
 		046964301F2A561900F9D31F /* Tests macOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Tests macOS.xcconfig"; path = "../../Config/Tests macOS.xcconfig"; sourceTree = "<group>"; };
@@ -330,13 +330,13 @@
 		8F534A16226039F400D18129 /* MSDataOperationProxy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSDataOperationProxy.m; sourceTree = "<group>"; };
 		8FCF9FDF225D4D870049B326 /* MSTokenResultPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSTokenResultPrivate.h; sourceTree = "<group>"; };
 		9919248D225BCD060064E699 /* MSDocumentStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDocumentStore.h; sourceTree = "<group>"; };
-		D33A94511E5B11BB003966DB /* libAppCenterDataStorage.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAppCenterDataStorage.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		D33A94511E5B11BB003966DB /* libAppCenterData.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAppCenterData.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D33A94541E5B11BB003966DB /* AppCenterDataStorage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppCenterDataStorage.h; sourceTree = "<group>"; };
-		D3AD5EC01E5C4F6A001627AB /* AppCenterDataStorage.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppCenterDataStorage.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D3AD5EC01E5C4F6A001627AB /* AppCenterData.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppCenterData.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3AD5EC21E5C4F6A001627AB /* MSDataStoreTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSDataStoreTests.m; sourceTree = "<group>"; };
 		D3AD5EC41E5C4F6A001627AB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D3AD5EFE1E5C7DAE001627AB /* MSServiceAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSServiceAbstract.h; path = ../AppCenter/AppCenter/MSServiceAbstract.h; sourceTree = "<group>"; };
-		D3AD5F051E5C7FFF001627AB /* AppCenterDataStorage Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "AppCenterDataStorage Debug.xcconfig"; sourceTree = "<group>"; };
+		D3AD5F051E5C7FFF001627AB /* AppCenterData Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "AppCenterData Debug.xcconfig"; sourceTree = "<group>"; };
 		D3AD5F081E5C8156001627AB /* MSDataStorePrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSDataStorePrivate.h; sourceTree = "<group>"; };
 		D3AD5F0B1E5C819A001627AB /* AppCenter+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "AppCenter+Internal.h"; path = "../../../AppCenter/AppCenter/Internals/AppCenter+Internal.h"; sourceTree = "<group>"; };
 		D3AD5F3E1E5D69B0001627AB /* iOS.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = iOS.modulemap; sourceTree = "<group>"; };
@@ -349,8 +349,8 @@
 		E83D122022378296002B6585 /* MSDataStorageConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSDataStorageConstants.h; sourceTree = "<group>"; };
 		E8593A14222B91B20001F87E /* MSCosmosDb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSCosmosDb.h; sourceTree = "<group>"; };
 		E8593A15222B91B20001F87E /* MSCosmosDb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSCosmosDb.m; sourceTree = "<group>"; };
-		E86B95D72224B5F60062E552 /* MSTokenExchange.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MSTokenExchange.h; path = AppCenterDataStorage/Internal/Client/MSTokenExchange.h; sourceTree = SOURCE_ROOT; };
-		E86B95D92224B6310062E552 /* MSTokenExchange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSTokenExchange.m; path = AppCenterDataStorage/Internal/Client/MSTokenExchange.m; sourceTree = SOURCE_ROOT; };
+		E86B95D72224B5F60062E552 /* MSTokenExchange.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MSTokenExchange.h; path = AppCenterData/Internal/Client/MSTokenExchange.h; sourceTree = SOURCE_ROOT; };
+		E86B95D92224B6310062E552 /* MSTokenExchange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSTokenExchange.m; path = AppCenterData/Internal/Client/MSTokenExchange.m; sourceTree = SOURCE_ROOT; };
 		E8B7936F225E9E0C00CB3D1D /* MSPendingOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSPendingOperation.h; sourceTree = "<group>"; };
 		E8B79370225E9E0C00CB3D1D /* MSPendingOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSPendingOperation.m; sourceTree = "<group>"; };
 		E8FE51A5221C8C6E005FB52B /* MSTestFrameworks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSTestFrameworks.h; path = ../../AppCenter/AppCenterTests/Util/MSTestFrameworks.h; sourceTree = "<group>"; };
@@ -374,7 +374,7 @@
 				0469643A1F2A56F400F9D31F /* OCMock.framework in Frameworks */,
 				0460FD9C225544F6004E48EA /* OHHTTPStubs.framework in Frameworks */,
 				0469643D1F2A570500F9D31F /* OCHamcrest.framework in Frameworks */,
-				046964411F2A5AA300F9D31F /* libAppCenterDataStorage.a in Frameworks */,
+				046964411F2A5AA300F9D31F /* libAppCenterData.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -390,7 +390,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D3AD5FDA1E5DDF72001627AB /* libAppCenter.a in Frameworks */,
-				D3AD5EC51E5C4F6A001627AB /* libAppCenterDataStorage.a in Frameworks */,
+				D3AD5EC51E5C4F6A001627AB /* libAppCenterData.a in Frameworks */,
 				0460FD9A225544E3004E48EA /* OHHTTPStubs.framework in Frameworks */,
 				D3D0CFE91E640ABD003015AF /* OCHamcrestIOS.framework in Frameworks */,
 				0420A6A21ECA7D7200915619 /* OCMock.framework in Frameworks */,
@@ -503,8 +503,8 @@
 				04B1C8C82252AF0900CBD876 /* MSAppCenterErrors.h */,
 				04A0820B1F74BBCA00DC776D /* MSService.h */,
 				D3AD5EFE1E5C7DAE001627AB /* MSServiceAbstract.h */,
-				D33A94531E5B11BB003966DB /* AppCenterDataStorage */,
-				D3AD5EC11E5C4F6A001627AB /* AppCenterDataStorageTests */,
+				D33A94531E5B11BB003966DB /* AppCenterData */,
+				D3AD5EC11E5C4F6A001627AB /* AppCenterDataTests */,
 				D33A94521E5B11BB003966DB /* Products */,
 			);
 			sourceTree = "<group>";
@@ -512,15 +512,15 @@
 		D33A94521E5B11BB003966DB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D33A94511E5B11BB003966DB /* libAppCenterDataStorage.a */,
-				D3AD5EC01E5C4F6A001627AB /* AppCenterDataStorage.xctest */,
-				0469640D1F2A558300F9D31F /* libAppCenterDataStorage.a */,
-				046964251F2A559C00F9D31F /* AppCenterDataStorage.xctest */,
+				D33A94511E5B11BB003966DB /* libAppCenterData.a */,
+				D3AD5EC01E5C4F6A001627AB /* AppCenterData.xctest */,
+				0469640D1F2A558300F9D31F /* libAppCenterData.a */,
+				046964251F2A559C00F9D31F /* AppCenterData.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		D33A94531E5B11BB003966DB /* AppCenterDataStorage */ = {
+		D33A94531E5B11BB003966DB /* AppCenterData */ = {
 			isa = PBXGroup;
 			children = (
 				D33A94541E5B11BB003966DB /* AppCenterDataStorage.h */,
@@ -549,7 +549,7 @@
 				D3AD5F071E5C8136001627AB /* Internal */,
 				D3AD5F031E5C7FC9001627AB /* Support */,
 			);
-			path = AppCenterDataStorage;
+			path = AppCenterData;
 			sourceTree = "<group>";
 		};
 		D38023C51E6DF3F400466558 /* OCMock */ = {
@@ -561,7 +561,7 @@
 			name = OCMock;
 			sourceTree = "<group>";
 		};
-		D3AD5EC11E5C4F6A001627AB /* AppCenterDataStorageTests */ = {
+		D3AD5EC11E5C4F6A001627AB /* AppCenterDataTests */ = {
 			isa = PBXGroup;
 			children = (
 				D3AD5EC41E5C4F6A001627AB /* Info.plist */,
@@ -580,14 +580,14 @@
 				04A140C31ECE877A001CEE94 /* Support */,
 				E8FE51A4221C8C41005FB52B /* Util */,
 			);
-			path = AppCenterDataStorageTests;
+			path = AppCenterDataTests;
 			sourceTree = "<group>";
 		};
 		D3AD5F031E5C7FC9001627AB /* Support */ = {
 			isa = PBXGroup;
 			children = (
-				D3AD5F051E5C7FFF001627AB /* AppCenterDataStorage Debug.xcconfig */,
-				043E2ABA1F4E033A00615AD9 /* AppCenterDataStorage Release.xcconfig */,
+				D3AD5F051E5C7FFF001627AB /* AppCenterData Debug.xcconfig */,
+				043E2ABA1F4E033A00615AD9 /* AppCenterData Release.xcconfig */,
 				049BC81E1ECE333700FB6719 /* iOS.xcconfig */,
 				D3AD5F3E1E5D69B0001627AB /* iOS.modulemap */,
 				0469642F1F2A55CF00F9D31F /* macOS.xcconfig */,
@@ -767,9 +767,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		046963F41F2A558300F9D31F /* AppCenterDataStorageMacOS */ = {
+		046963F41F2A558300F9D31F /* AppCenterDataMacOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 0469640A1F2A558300F9D31F /* Build configuration list for PBXNativeTarget "AppCenterDataStorageMacOS" */;
+			buildConfigurationList = 0469640A1F2A558300F9D31F /* Build configuration list for PBXNativeTarget "AppCenterDataMacOS" */;
 			buildPhases = (
 				F8B8EAE421105C1D004BCECB /* Verify no buildSettings */,
 				046963F51F2A558300F9D31F /* Sources */,
@@ -781,14 +781,14 @@
 			);
 			dependencies = (
 			);
-			name = AppCenterDataStorageMacOS;
-			productName = AppCenterDataStorage;
-			productReference = 0469640D1F2A558300F9D31F /* libAppCenterDataStorage.a */;
+			name = AppCenterDataMacOS;
+			productName = AppCenterData;
+			productReference = 0469640D1F2A558300F9D31F /* libAppCenterData.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		046964131F2A559C00F9D31F /* AppCenterDataStorageMacOSTests */ = {
+		046964131F2A559C00F9D31F /* AppCenterDataMacOSTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 046964221F2A559C00F9D31F /* Build configuration list for PBXNativeTarget "AppCenterDataStorageMacOSTests" */;
+			buildConfigurationList = 046964221F2A559C00F9D31F /* Build configuration list for PBXNativeTarget "AppCenterDataMacOSTests" */;
 			buildPhases = (
 				046964161F2A559C00F9D31F /* Sources */,
 				0469641A1F2A559C00F9D31F /* Frameworks */,
@@ -799,14 +799,14 @@
 			dependencies = (
 				046964341F2A56A400F9D31F /* PBXTargetDependency */,
 			);
-			name = AppCenterDataStorageMacOSTests;
-			productName = AppCenterDataStorageTests;
-			productReference = 046964251F2A559C00F9D31F /* AppCenterDataStorage.xctest */;
+			name = AppCenterDataMacOSTests;
+			productName = AppCenterDataTests;
+			productReference = 046964251F2A559C00F9D31F /* AppCenterData.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		D33A94501E5B11BB003966DB /* AppCenterDataStorageIOS */ = {
+		D33A94501E5B11BB003966DB /* AppCenterDataIOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D33A945A1E5B11BB003966DB /* Build configuration list for PBXNativeTarget "AppCenterDataStorageIOS" */;
+			buildConfigurationList = D33A945A1E5B11BB003966DB /* Build configuration list for PBXNativeTarget "AppCenterDataIOS" */;
 			buildPhases = (
 				F8B8EAE221105C11004BCECB /* Verify no buildSettings */,
 				D33A944D1E5B11BB003966DB /* Sources */,
@@ -818,14 +818,14 @@
 			);
 			dependencies = (
 			);
-			name = AppCenterDataStorageIOS;
-			productName = AppCenterDataStorage;
-			productReference = D33A94511E5B11BB003966DB /* libAppCenterDataStorage.a */;
+			name = AppCenterDataIOS;
+			productName = AppCenterData;
+			productReference = D33A94511E5B11BB003966DB /* libAppCenterData.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		D3AD5EBF1E5C4F6A001627AB /* AppCenterDataStorageIOSTests */ = {
+		D3AD5EBF1E5C4F6A001627AB /* AppCenterDataIOSTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D3AD5EC81E5C4F6A001627AB /* Build configuration list for PBXNativeTarget "AppCenterDataStorageIOSTests" */;
+			buildConfigurationList = D3AD5EC81E5C4F6A001627AB /* Build configuration list for PBXNativeTarget "AppCenterDataIOSTests" */;
 			buildPhases = (
 				D3AD5EBC1E5C4F6A001627AB /* Sources */,
 				D3AD5EBD1E5C4F6A001627AB /* Frameworks */,
@@ -836,9 +836,9 @@
 			dependencies = (
 				D3AD5EC71E5C4F6A001627AB /* PBXTargetDependency */,
 			);
-			name = AppCenterDataStorageIOSTests;
-			productName = AppCenterDataStorageTests;
-			productReference = D3AD5EC01E5C4F6A001627AB /* AppCenterDataStorage.xctest */;
+			name = AppCenterDataIOSTests;
+			productName = AppCenterDataTests;
+			productReference = D3AD5EC01E5C4F6A001627AB /* AppCenterData.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -851,7 +851,7 @@
 				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = Microsoft;
 			};
-			buildConfigurationList = D33A944C1E5B11BB003966DB /* Build configuration list for PBXProject "AppCenterDataStorage" */;
+			buildConfigurationList = D33A944C1E5B11BB003966DB /* Build configuration list for PBXProject "AppCenterData" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -863,14 +863,14 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				D33A94501E5B11BB003966DB /* AppCenterDataStorageIOS */,
-				D3AD5F221E5C9562001627AB /* AppCenterDataStorageIOSFramework */,
-				D3AD5EBF1E5C4F6A001627AB /* AppCenterDataStorageIOSTests */,
-				D3AD5F271E5C9633001627AB /* AppCenterDataStorageIOSDoc */,
-				046963F41F2A558300F9D31F /* AppCenterDataStorageMacOS */,
-				0469640E1F2A558F00F9D31F /* AppCenterDataStorageMacOSFramework */,
-				046964131F2A559C00F9D31F /* AppCenterDataStorageMacOSTests */,
-				046964271F2A55A600F9D31F /* AppCenterDataStorageMacOSDoc */,
+				D33A94501E5B11BB003966DB /* AppCenterDataIOS */,
+				D3AD5F221E5C9562001627AB /* AppCenterDataIOSFramework */,
+				D3AD5EBF1E5C4F6A001627AB /* AppCenterDataIOSTests */,
+				D3AD5F271E5C9633001627AB /* AppCenterDataIOSDoc */,
+				046963F41F2A558300F9D31F /* AppCenterDataMacOS */,
+				0469640E1F2A558F00F9D31F /* AppCenterDataMacOSFramework */,
+				046964131F2A559C00F9D31F /* AppCenterDataMacOSTests */,
+				046964271F2A55A600F9D31F /* AppCenterDataMacOSDoc */,
 			);
 		};
 /* End PBXProject section */
@@ -913,7 +913,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd \"${SRCROOT}/../Scripts/AppCenterDataStorage\"\n./build-appcenterdatastorage-macos-framework.sh\n";
+			shellScript = "cd \"${SRCROOT}/../Scripts/AppCenterData\"\n./build-appcenterdata-macos-framework.sh\n";
 		};
 		0469642A1F2A55A600F9D31F /* Build docs */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -927,7 +927,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd \"${SRCROOT}/../Scripts\"\n./build-docs.sh macOS AppCenterDataStorage\n";
+			shellScript = "cd \"${SRCROOT}/../Scripts\"\n./build-docs.sh macOS AppCenterData\n";
 			showEnvVarsInLog = 0;
 		};
 		D3AD5F261E5C9588001627AB /* Build framework */ = {
@@ -942,7 +942,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd \"${SRCROOT}/../Scripts/AppCenterDataStorage\"\n./build-appcenterdatastorage-ios-framework.sh\n";
+			shellScript = "cd \"${SRCROOT}/../Scripts/AppCenterData\"\n./build-appcenterdata-ios-framework.sh\n";
 		};
 		D3AD5F2B1E5C9636001627AB /* Build docs */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -956,7 +956,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd \"${SRCROOT}/../Scripts\"\n./build-docs.sh iOS AppCenterDataStorage\n";
+			shellScript = "cd \"${SRCROOT}/../Scripts\"\n./build-docs.sh iOS AppCenterData\n";
 			showEnvVarsInLog = 0;
 		};
 		F8B8EAE221105C11004BCECB /* Verify no buildSettings */ = {
@@ -1088,22 +1088,22 @@
 /* Begin PBXTargetDependency section */
 		046964321F2A569B00F9D31F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 0469640E1F2A558F00F9D31F /* AppCenterDataStorageMacOSFramework */;
+			target = 0469640E1F2A558F00F9D31F /* AppCenterDataMacOSFramework */;
 			targetProxy = 046964311F2A569B00F9D31F /* PBXContainerItemProxy */;
 		};
 		046964341F2A56A400F9D31F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 046963F41F2A558300F9D31F /* AppCenterDataStorageMacOS */;
+			target = 046963F41F2A558300F9D31F /* AppCenterDataMacOS */;
 			targetProxy = 046964331F2A56A400F9D31F /* PBXContainerItemProxy */;
 		};
 		D3AD5EC71E5C4F6A001627AB /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = D33A94501E5B11BB003966DB /* AppCenterDataStorageIOS */;
+			target = D33A94501E5B11BB003966DB /* AppCenterDataIOS */;
 			targetProxy = D3AD5EC61E5C4F6A001627AB /* PBXContainerItemProxy */;
 		};
 		D3AD5F3D1E5D6809001627AB /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = D3AD5F221E5C9562001627AB /* AppCenterDataStorageIOSFramework */;
+			target = D3AD5F221E5C9562001627AB /* AppCenterDataIOSFramework */;
 			targetProxy = D3AD5F3C1E5D6809001627AB /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -1167,17 +1167,17 @@
 		};
 		D33A94581E5B11BB003966DB /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D3AD5F051E5C7FFF001627AB /* AppCenterDataStorage Debug.xcconfig */;
+			baseConfigurationReference = D3AD5F051E5C7FFF001627AB /* AppCenterData Debug.xcconfig */;
 			buildSettings = {
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.datastorage;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.data;
 			};
 			name = Debug;
 		};
 		D33A94591E5B11BB003966DB /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 043E2ABA1F4E033A00615AD9 /* AppCenterDataStorage Release.xcconfig */;
+			baseConfigurationReference = 043E2ABA1F4E033A00615AD9 /* AppCenterData Release.xcconfig */;
 			buildSettings = {
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.datastorage;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.data;
 			};
 			name = Release;
 		};
@@ -1240,7 +1240,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		0469640A1F2A558300F9D31F /* Build configuration list for PBXNativeTarget "AppCenterDataStorageMacOS" */ = {
+		0469640A1F2A558300F9D31F /* Build configuration list for PBXNativeTarget "AppCenterDataMacOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0469640B1F2A558300F9D31F /* Debug */,
@@ -1249,7 +1249,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		046964101F2A558F00F9D31F /* Build configuration list for PBXAggregateTarget "AppCenterDataStorageMacOSFramework" */ = {
+		046964101F2A558F00F9D31F /* Build configuration list for PBXAggregateTarget "AppCenterDataMacOSFramework" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				046964111F2A558F00F9D31F /* Debug */,
@@ -1258,7 +1258,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		046964221F2A559C00F9D31F /* Build configuration list for PBXNativeTarget "AppCenterDataStorageMacOSTests" */ = {
+		046964221F2A559C00F9D31F /* Build configuration list for PBXNativeTarget "AppCenterDataMacOSTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				046964231F2A559C00F9D31F /* Debug */,
@@ -1267,7 +1267,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		0469642B1F2A55A600F9D31F /* Build configuration list for PBXAggregateTarget "AppCenterDataStorageMacOSDoc" */ = {
+		0469642B1F2A55A600F9D31F /* Build configuration list for PBXAggregateTarget "AppCenterDataMacOSDoc" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0469642C1F2A55A600F9D31F /* Debug */,
@@ -1276,7 +1276,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D33A944C1E5B11BB003966DB /* Build configuration list for PBXProject "AppCenterDataStorage" */ = {
+		D33A944C1E5B11BB003966DB /* Build configuration list for PBXProject "AppCenterData" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D33A94581E5B11BB003966DB /* Debug */,
@@ -1285,7 +1285,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D33A945A1E5B11BB003966DB /* Build configuration list for PBXNativeTarget "AppCenterDataStorageIOS" */ = {
+		D33A945A1E5B11BB003966DB /* Build configuration list for PBXNativeTarget "AppCenterDataIOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D33A945B1E5B11BB003966DB /* Debug */,
@@ -1294,7 +1294,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D3AD5EC81E5C4F6A001627AB /* Build configuration list for PBXNativeTarget "AppCenterDataStorageIOSTests" */ = {
+		D3AD5EC81E5C4F6A001627AB /* Build configuration list for PBXNativeTarget "AppCenterDataIOSTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D3AD5EC91E5C4F6A001627AB /* Debug */,
@@ -1303,7 +1303,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D3AD5F251E5C9562001627AB /* Build configuration list for PBXAggregateTarget "AppCenterDataStorageIOSFramework" */ = {
+		D3AD5F251E5C9562001627AB /* Build configuration list for PBXAggregateTarget "AppCenterDataIOSFramework" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D3AD5F231E5C9562001627AB /* Debug */,
@@ -1312,7 +1312,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D3AD5F281E5C9633001627AB /* Build configuration list for PBXAggregateTarget "AppCenterDataStorageIOSDoc" */ = {
+		D3AD5F281E5C9633001627AB /* Build configuration list for PBXAggregateTarget "AppCenterDataIOSDoc" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D3AD5F291E5C9633001627AB /* Debug */,

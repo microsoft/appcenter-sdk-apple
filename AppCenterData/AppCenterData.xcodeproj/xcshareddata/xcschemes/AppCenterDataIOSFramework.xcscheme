@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "046964271F2A55A600F9D31F"
-               BuildableName = "AppCenterDataStorageMacOSDoc"
-               BlueprintName = "AppCenterDataStorageMacOSDoc"
-               ReferencedContainer = "container:AppCenterDataStorage.xcodeproj">
+               BlueprintIdentifier = "D3AD5F221E5C9562001627AB"
+               BuildableName = "AppCenterDataIOSFramework"
+               BlueprintName = "AppCenterDataIOSFramework"
+               ReferencedContainer = "container:AppCenterData.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -45,10 +45,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "046964271F2A55A600F9D31F"
-            BuildableName = "AppCenterDataStorageMacOSDoc"
-            BlueprintName = "AppCenterDataStorageMacOSDoc"
-            ReferencedContainer = "container:AppCenterDataStorage.xcodeproj">
+            BlueprintIdentifier = "D3AD5F221E5C9562001627AB"
+            BuildableName = "AppCenterDataIOSFramework"
+            BlueprintName = "AppCenterDataIOSFramework"
+            ReferencedContainer = "container:AppCenterData.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -63,10 +63,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "046964271F2A55A600F9D31F"
-            BuildableName = "AppCenterDataStorageMacOSDoc"
-            BlueprintName = "AppCenterDataStorageMacOSDoc"
-            ReferencedContainer = "container:AppCenterDataStorage.xcodeproj">
+            BlueprintIdentifier = "D3AD5F221E5C9562001627AB"
+            BuildableName = "AppCenterDataIOSFramework"
+            BlueprintName = "AppCenterDataIOSFramework"
+            ReferencedContainer = "container:AppCenterData.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

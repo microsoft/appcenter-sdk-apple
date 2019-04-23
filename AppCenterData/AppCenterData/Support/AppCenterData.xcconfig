@@ -1,4 +1,4 @@
-PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.datastorage
+PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.data
 
 APPLICATION_EXTENSION_API_ONLY = NO;
 

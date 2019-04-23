@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D3AD5F221E5C9562001627AB"
-               BuildableName = "AppCenterDataStorageIOSFramework"
-               BlueprintName = "AppCenterDataStorageIOSFramework"
-               ReferencedContainer = "container:AppCenterDataStorage.xcodeproj">
+               BlueprintIdentifier = "046963F41F2A558300F9D31F"
+               BuildableName = "libAppCenterData.a"
+               BlueprintName = "AppCenterDataMacOS"
+               ReferencedContainer = "container:AppCenterData.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -26,9 +26,29 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      codeCoverageEnabled = "YES"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "046964131F2A559C00F9D31F"
+               BuildableName = "AppCenterData.xctest"
+               BlueprintName = "AppCenterDataMacOSTests"
+               ReferencedContainer = "container:AppCenterData.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "046963F41F2A558300F9D31F"
+            BuildableName = "libAppCenterData.a"
+            BlueprintName = "AppCenterDataMacOS"
+            ReferencedContainer = "container:AppCenterData.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
@@ -45,10 +65,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D3AD5F221E5C9562001627AB"
-            BuildableName = "AppCenterDataStorageIOSFramework"
-            BlueprintName = "AppCenterDataStorageIOSFramework"
-            ReferencedContainer = "container:AppCenterDataStorage.xcodeproj">
+            BlueprintIdentifier = "046963F41F2A558300F9D31F"
+            BuildableName = "libAppCenterData.a"
+            BlueprintName = "AppCenterDataMacOS"
+            ReferencedContainer = "container:AppCenterData.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -63,10 +83,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D3AD5F221E5C9562001627AB"
-            BuildableName = "AppCenterDataStorageIOSFramework"
-            BlueprintName = "AppCenterDataStorageIOSFramework"
-            ReferencedContainer = "container:AppCenterDataStorage.xcodeproj">
+            BlueprintIdentifier = "046963F41F2A558300F9D31F"
+            BuildableName = "libAppCenterData.a"
+            BlueprintName = "AppCenterDataMacOS"
+            ReferencedContainer = "container:AppCenterData.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>
