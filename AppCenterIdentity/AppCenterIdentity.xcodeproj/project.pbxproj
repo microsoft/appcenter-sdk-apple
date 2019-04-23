@@ -12,7 +12,6 @@
 			buildConfigurationList = 0485AFF11EAAADAC00C10CAF /* Build configuration list for PBXAggregateTarget "AppCenterIdentityMacOSFramework" */;
 			buildPhases = (
 				0485AFF01EAAADAC00C10CAF /* Build framework */,
-				F86E4B482269C3AC003FE444 /* ShellScript */,
 			);
 			dependencies = (
 			);
@@ -24,7 +23,6 @@
 			buildConfigurationList = 04FD11591EF2F818000C5A5C /* Build configuration list for PBXAggregateTarget "AppCenterIdentityMacOSDoc" */;
 			buildPhases = (
 				04FD11581EF2F818000C5A5C /* Build docs */,
-				F86E4B4A2269C3B5003FE444 /* ShellScript */,
 			);
 			dependencies = (
 				04FD115D1EF2F849000C5A5C /* PBXTargetDependency */,
@@ -37,7 +35,6 @@
 			buildConfigurationList = E85547E51D2D681F002DF6E2 /* Build configuration list for PBXAggregateTarget "AppCenterIdentityIOSFramework" */;
 			buildPhases = (
 				E85547E81D2D6827002DF6E2 /* Build framework */,
-				F86E4B442269C398003FE444 /* ShellScript */,
 			);
 			dependencies = (
 			);
@@ -49,7 +46,6 @@
 			buildConfigurationList = E85547EA1D2D68C5002DF6E2 /* Build configuration list for PBXAggregateTarget "AppCenterIdentityIOSDoc" */;
 			buildPhases = (
 				E85547ED1D2D68CF002DF6E2 /* Build docs */,
-				F86E4B462269C3A2003FE444 /* ShellScript */,
 			);
 			dependencies = (
 				386352E41D51047400D0D450 /* PBXTargetDependency */,
@@ -625,7 +621,6 @@
 				046AEABD1ECA51AF00CBE511 /* Frameworks */,
 				046AEAC21ECA51AF00CBE511 /* Resources */,
 				048C07D521F1633E00769A85 /* CopyFiles */,
-				F86E4B492269C3B1003FE444 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -646,7 +641,6 @@
 				0485AF701EAA79E300C10CAF /* Frameworks */,
 				0485AF711EAA79E300C10CAF /* CopyFiles */,
 				0485AF721EAA79E300C10CAF /* Headers */,
-				F86E4B472269C3A7003FE444 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -666,7 +660,6 @@
 				E85547BD1D2D6253002DF6E2 /* Frameworks */,
 				E85547BE1D2D6253002DF6E2 /* CopyFiles */,
 				E85547F61D2D6A73002DF6E2 /* Headers */,
-				F86E4B432269C392003FE444 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -685,7 +678,6 @@
 				E85547D21D2D6723002DF6E2 /* Frameworks */,
 				E85547D31D2D6723002DF6E2 /* Resources */,
 				048C07D321F162FD00769A85 /* CopyFiles */,
-				F86E4B452269C39D003FE444 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -806,142 +798,6 @@
 			shellPath = /bin/sh;
 			shellScript = "cd \"${SRCROOT}/../Scripts\"\n./build-docs.sh iOS AppCenterIdentity\n";
 			showEnvVarsInLog = 0;
-		};
-		F86E4B432269C392003FE444 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nTAGS=\"TODO:|FIXME:\"\necho \"searching ${SRCROOT} for ${TAGS}\"\nfind \"${SRCROOT}\" \\( -name \"*.swift\" \\) -print0 \\\n| xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$\" \\\n| perl -p -e \"s/($TAGS)/ warning: \\$1/\"\n";
-		};
-		F86E4B442269C398003FE444 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nTAGS=\"TODO:|FIXME:\"\necho \"searching ${SRCROOT} for ${TAGS}\"\nfind \"${SRCROOT}\" \\( -name \"*.swift\" \\) -print0 \\\n| xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$\" \\\n| perl -p -e \"s/($TAGS)/ warning: \\$1/\"\n";
-		};
-		F86E4B452269C39D003FE444 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nTAGS=\"TODO:|FIXME:\"\necho \"searching ${SRCROOT} for ${TAGS}\"\nfind \"${SRCROOT}\" \\( -name \"*.swift\" \\) -print0 \\\n| xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$\" \\\n| perl -p -e \"s/($TAGS)/ warning: \\$1/\"\n";
-		};
-		F86E4B462269C3A2003FE444 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nTAGS=\"TODO:|FIXME:\"\necho \"searching ${SRCROOT} for ${TAGS}\"\nfind \"${SRCROOT}\" \\( -name \"*.swift\" \\) -print0 \\\n| xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$\" \\\n| perl -p -e \"s/($TAGS)/ warning: \\$1/\"\n";
-		};
-		F86E4B472269C3A7003FE444 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nTAGS=\"TODO:|FIXME:\"\necho \"searching ${SRCROOT} for ${TAGS}\"\nfind \"${SRCROOT}\" \\( -name \"*.swift\" \\) -print0 \\\n| xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$\" \\\n| perl -p -e \"s/($TAGS)/ warning: \\$1/\"\n";
-		};
-		F86E4B482269C3AC003FE444 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nTAGS=\"TODO:|FIXME:\"\necho \"searching ${SRCROOT} for ${TAGS}\"\nfind \"${SRCROOT}\" \\( -name \"*.swift\" \\) -print0 \\\n| xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$\" \\\n| perl -p -e \"s/($TAGS)/ warning: \\$1/\"\n";
-		};
-		F86E4B492269C3B1003FE444 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nTAGS=\"TODO:|FIXME:\"\necho \"searching ${SRCROOT} for ${TAGS}\"\nfind \"${SRCROOT}\" \\( -name \"*.swift\" \\) -print0 \\\n| xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$\" \\\n| perl -p -e \"s/($TAGS)/ warning: \\$1/\"\n";
-		};
-		F86E4B4A2269C3B5003FE444 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nTAGS=\"TODO:|FIXME:\"\necho \"searching ${SRCROOT} for ${TAGS}\"\nfind \"${SRCROOT}\" \\( -name \"*.swift\" \\) -print0 \\\n| xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$\" \\\n| perl -p -e \"s/($TAGS)/ warning: \\$1/\"\n";
 		};
 		F8B8EAD421105B77004BCECB /* Verify no buildSettings */ = {
 			isa = PBXShellScriptBuildPhase;
