@@ -4,8 +4,8 @@
 #import <Foundation/Foundation.h>
 
 #import "MSDBDocumentStore.h"
-#import "MSDataOperationProxy.h"
 #import "MSData.h"
+#import "MSDataOperationProxy.h"
 #import "MSDocumentStore.h"
 #import "MSServiceInternal.h"
 #import "MS_Reachability.h"

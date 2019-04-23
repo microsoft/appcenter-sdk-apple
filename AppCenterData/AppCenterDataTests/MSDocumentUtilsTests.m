@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "MSDataError.h"
 #import "MSDataConstants.h"
+#import "MSDataError.h"
 #import "MSDictionaryDocument.h"
 #import "MSDocumentUtils.h"
 #import "MSTestFrameworks.h"
@@ -191,7 +191,7 @@
   dictionary[@"document"] = documentDictionary;
 
   // When
-    MSDocumentWrapper *document = [MSDocumentUtils documentWrapperFromDictionary:dictionary documentType:[NSString class] fromDeviceCache:NO];
+  MSDocumentWrapper *document = [MSDocumentUtils documentWrapperFromDictionary:dictionary documentType:[NSString class] fromDeviceCache:NO];
 
   // Then
   XCTAssertNotNil(document);
@@ -226,7 +226,7 @@
   XCTAssertNotNil(data);
 
   // When
-    MSDocumentWrapper *document = [MSDocumentUtils documentWrapperFromData:data documentType:[NSString class] fromDeviceCache:NO];
+  MSDocumentWrapper *document = [MSDocumentUtils documentWrapperFromData:data documentType:[NSString class] fromDeviceCache:NO];
 
   // Then
   XCTAssertNotNil(document);
@@ -252,7 +252,8 @@
                                                                  lastUpdatedDate:[NSDate date]
                                                                        partition:@"partition"
                                                                       documentId:@"document-id"
-                                                                pendingOperation:nil fromDeviceCache:NO];
+                                                                pendingOperation:nil
+                                                                 fromDeviceCache:NO];
 
   // Then
   XCTAssertNotNil(document);

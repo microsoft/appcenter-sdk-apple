@@ -3,8 +3,8 @@
 
 #import "MSAuthTokenContext.h"
 #import "MSConstants.h"
-#import "MSDataConstants.h"
 #import "MSData.h"
+#import "MSDataConstants.h"
 #import "MSDataErrors.h"
 #import "MSHttpClientProtocol.h"
 #import "MSHttpTestUtil.h"

@@ -5,8 +5,8 @@
 
 #import "MSDBDocumentStorePrivate.h"
 #import "MSDBStoragePrivate.h"
-#import "MSDataError.h"
 #import "MSData.h"
+#import "MSDataError.h"
 #import "MSDataErrors.h"
 #import "MSDictionaryDocument.h"
 #import "MSDocumentUtils.h"

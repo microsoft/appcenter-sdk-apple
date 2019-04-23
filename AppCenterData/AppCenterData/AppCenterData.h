@@ -4,8 +4,8 @@
 #import <Foundation/Foundation.h>
 
 #import "MSBaseOptions.h"
-#import "MSDataError.h"
 #import "MSData.h"
+#import "MSDataError.h"
 #import "MSDataErrors.h"
 #import "MSDictionaryDocument.h"
 #import "MSDocumentWrapper.h"

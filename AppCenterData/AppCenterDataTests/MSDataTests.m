@@ -142,12 +142,12 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   // When
   [self.sut setEnabled:NO];
   [MSData readWithPartition:kMSPartitionTest
-                      documentId:kMSDocumentIdTest
-                    documentType:[MSDictionaryDocument class]
-               completionHandler:^(MSDocumentWrapper *data) {
-                 actualDocumentWrapper = data;
-                 [expectation fulfill];
-               }];
+                 documentId:kMSDocumentIdTest
+               documentType:[MSDictionaryDocument class]
+          completionHandler:^(MSDocumentWrapper *data) {
+            actualDocumentWrapper = data;
+            [expectation fulfill];
+          }];
 
   // Then
   [self waitForExpectationsWithTimeout:1
@@ -173,12 +173,12 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // When
   [MSData readWithPartition:kMSPartitionTest
-                      documentId:kMSDocumentIdTest
-                    documentType:[NSString class]
-               completionHandler:^(MSDocumentWrapper *data) {
-                 actualDocumentWrapper = data;
-                 [expectation fulfill];
-               }];
+                 documentId:kMSDocumentIdTest
+               documentType:[NSString class]
+          completionHandler:^(MSDocumentWrapper *data) {
+            actualDocumentWrapper = data;
+            [expectation fulfill];
+          }];
 
   // Then
   [self waitForExpectationsWithTimeout:1
@@ -205,12 +205,12 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   // When
   [self.sut setEnabled:NO];
   [MSData createWithPartition:kMSPartitionTest
-                        documentId:kMSDocumentIdTest
-                          document:[[MSDictionaryDocument alloc] initFromDictionary:@{}]
-                 completionHandler:^(MSDocumentWrapper *data) {
-                   actualDocumentWrapper = data;
-                   [expectation fulfill];
-                 }];
+                   documentId:kMSDocumentIdTest
+                     document:[[MSDictionaryDocument alloc] initFromDictionary:@{}]
+            completionHandler:^(MSDocumentWrapper *data) {
+              actualDocumentWrapper = data;
+              [expectation fulfill];
+            }];
 
   // Then
   [self waitForExpectationsWithTimeout:1
@@ -253,22 +253,22 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // When
   [MSData createWithPartition:kMSPartitionTest
-                        documentId:kMSDocumentIdTest
-                          document:mockSerializableDocument
-                 completionHandler:^(MSDocumentWrapper *data) {
-                   completionHandlerCalled = YES;
-                   actualDocumentWrapper = data;
-                   [expectation fulfill];
-                 }];
+                   documentId:kMSDocumentIdTest
+                     document:mockSerializableDocument
+            completionHandler:^(MSDocumentWrapper *data) {
+              completionHandlerCalled = YES;
+              actualDocumentWrapper = data;
+              [expectation fulfill];
+            }];
   id<MSSerializableDocument> replaceMockSerializableDocument = [[MSDictionaryDocument alloc] initFromDictionary:@{}];
   [MSData replaceWithPartition:kMSPartitionTest
-                         documentId:kMSDocumentIdTest
-                           document:replaceMockSerializableDocument
-                  completionHandler:^(MSDocumentWrapper *data) {
-                    completionHandlerCalled = YES;
-                    actualDocumentWrapper = data;
-                    [expectation fulfill];
-                  }];
+                    documentId:kMSDocumentIdTest
+                      document:replaceMockSerializableDocument
+             completionHandler:^(MSDocumentWrapper *data) {
+               completionHandlerCalled = YES;
+               actualDocumentWrapper = data;
+               [expectation fulfill];
+             }];
 
   // Then
   [self waitForExpectationsWithTimeout:1
@@ -294,12 +294,12 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   // When
   [self.sut setEnabled:NO];
   [MSData replaceWithPartition:kMSPartitionTest
-                         documentId:kMSDocumentIdTest
-                           document:[[MSDictionaryDocument alloc] initFromDictionary:@{}]
-                  completionHandler:^(MSDocumentWrapper *data) {
-                    actualDocumentWrapper = data;
-                    [expectation fulfill];
-                  }];
+                    documentId:kMSDocumentIdTest
+                      document:[[MSDictionaryDocument alloc] initFromDictionary:@{}]
+             completionHandler:^(MSDocumentWrapper *data) {
+               actualDocumentWrapper = data;
+               [expectation fulfill];
+             }];
 
   // Then
   [self waitForExpectationsWithTimeout:1
@@ -326,11 +326,11 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   // When
   [self.sut setEnabled:NO];
   [MSData deleteWithPartition:kMSPartitionTest
-                        documentId:kMSDocumentIdTest
-                 completionHandler:^(MSDocumentWrapper *wrapper) {
-                   actualDataError = wrapper.error;
-                   [expectation fulfill];
-                 }];
+                   documentId:kMSDocumentIdTest
+            completionHandler:^(MSDocumentWrapper *wrapper) {
+              actualDataError = wrapper.error;
+              [expectation fulfill];
+            }];
 
   // Then
   [self waitForExpectationsWithTimeout:1
@@ -357,11 +357,11 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   // When
   [self.sut setEnabled:NO];
   [MSData listWithPartition:kMSPartitionTest
-                    documentType:[MSDictionaryDocument class]
-               completionHandler:^(MSPaginatedDocuments *documents) {
-                 actualPaginatedDocuments = documents;
-                 [expectation fulfill];
-               }];
+               documentType:[MSDictionaryDocument class]
+          completionHandler:^(MSPaginatedDocuments *documents) {
+            actualPaginatedDocuments = documents;
+            [expectation fulfill];
+          }];
 
   // Then
   [self waitForExpectationsWithTimeout:1
@@ -388,11 +388,11 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // When
   [MSData listWithPartition:kMSPartitionTest
-                    documentType:[NSString class]
-               completionHandler:^(MSPaginatedDocuments *documents) {
-                 actualPaginatedDocuments = documents;
-                 [expectation fulfill];
-               }];
+               documentType:[NSString class]
+          completionHandler:^(MSPaginatedDocuments *documents) {
+            actualPaginatedDocuments = documents;
+            [expectation fulfill];
+          }];
 
   // Then
   [self waitForExpectationsWithTimeout:1
@@ -873,13 +873,13 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // When
   [MSData createWithPartition:kMSPartitionTest
-                        documentId:kMSDocumentIdTest
-                          document:mockSerializableDocument
-                 completionHandler:^(MSDocumentWrapper *data) {
-                   completionHandlerCalled = YES;
-                   actualDocumentWrapper = data;
-                   [expectation fulfill];
-                 }];
+                   documentId:kMSDocumentIdTest
+                     document:mockSerializableDocument
+            completionHandler:^(MSDocumentWrapper *data) {
+              completionHandlerCalled = YES;
+              actualDocumentWrapper = data;
+              [expectation fulfill];
+            }];
 
   // Then
   [self waitForExpectationsWithTimeout:1
@@ -906,13 +906,13 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // When
   [MSData createWithPartition:kMSPartitionTest
-                        documentId:kMSDocumentIdTest
-                          document:mockSerializableDocument
-                 completionHandler:^(MSDocumentWrapper *data) {
-                   completionHandlerCalled = YES;
-                   actualError = data.error;
-                   [expectation fulfill];
-                 }];
+                   documentId:kMSDocumentIdTest
+                     document:mockSerializableDocument
+            completionHandler:^(MSDocumentWrapper *data) {
+              completionHandlerCalled = YES;
+              actualError = data.error;
+              [expectation fulfill];
+            }];
 
   // Then
   [self waitForExpectationsWithTimeout:1
@@ -956,13 +956,13 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // When
   [MSData createWithPartition:kMSPartitionTest
-                        documentId:kMSDocumentIdTest
-                          document:mockSerializableDocument
-                 completionHandler:^(MSDocumentWrapper *data) {
-                   completionHandlerCalled = YES;
-                   actualError = data.error;
-                   [expectation fulfill];
-                 }];
+                   documentId:kMSDocumentIdTest
+                     document:mockSerializableDocument
+            completionHandler:^(MSDocumentWrapper *data) {
+              completionHandlerCalled = YES;
+              actualError = data.error;
+              [expectation fulfill];
+            }];
 
   // Then
   [self waitForExpectationsWithTimeout:1
@@ -1011,13 +1011,13 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // When
   [MSData createWithPartition:kMSPartitionTest
-                        documentId:kMSDocumentIdTest
-                          document:mockSerializableDocument
-                 completionHandler:^(MSDocumentWrapper *data) {
-                   completionHandlerCalled = YES;
-                   actualError = data.error;
-                   [expectation fulfill];
-                 }];
+                   documentId:kMSDocumentIdTest
+                     document:mockSerializableDocument
+            completionHandler:^(MSDocumentWrapper *data) {
+              completionHandlerCalled = YES;
+              actualError = data.error;
+              [expectation fulfill];
+            }];
 
   // Then
   [self waitForExpectationsWithTimeout:1
@@ -1062,13 +1062,13 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // When
   [MSData createWithPartition:kMSPartitionTest
-                        documentId:kMSDocumentIdTest
-                          document:mockSerializableDocument
-                 completionHandler:^(MSDocumentWrapper *data) {
-                   completionHandlerCalled = YES;
-                   actualError = data.error;
-                   [expectation fulfill];
-                 }];
+                   documentId:kMSDocumentIdTest
+                     document:mockSerializableDocument
+            completionHandler:^(MSDocumentWrapper *data) {
+              completionHandlerCalled = YES;
+              actualError = data.error;
+              [expectation fulfill];
+            }];
 
   // Then
   [self waitForExpectationsWithTimeout:1
@@ -1106,12 +1106,12 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // When
   [MSData deleteWithPartition:kMSPartitionTest
-                        documentId:kMSDocumentIdTest
-                 completionHandler:^(MSDocumentWrapper *wrapper) {
-                   completionHandlerCalled = YES;
-                   actualResponseCode = wrapper.error.errorCode;
-                   [expectation fulfill];
-                 }];
+                   documentId:kMSDocumentIdTest
+            completionHandler:^(MSDocumentWrapper *wrapper) {
+              completionHandlerCalled = YES;
+              actualResponseCode = wrapper.error.errorCode;
+              [expectation fulfill];
+            }];
 
   // Then
   [self waitForExpectationsWithTimeout:1
@@ -1135,12 +1135,12 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // When
   [MSData deleteWithPartition:kMSPartitionTest
-                        documentId:kMSDocumentIdTest
-                 completionHandler:^(MSDocumentWrapper *wrapper) {
-                   completionHandlerCalled = YES;
-                   actualError = wrapper.error;
-                   [expectation fulfill];
-                 }];
+                   documentId:kMSDocumentIdTest
+            completionHandler:^(MSDocumentWrapper *wrapper) {
+              completionHandlerCalled = YES;
+              actualError = wrapper.error;
+              [expectation fulfill];
+            }];
 
   // Then
   [self waitForExpectationsWithTimeout:1
@@ -1183,12 +1183,12 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // When
   [MSData deleteWithPartition:kMSPartitionTest
-                        documentId:kMSDocumentIdTest
-                 completionHandler:^(MSDocumentWrapper *wrapper) {
-                   completionHandlerCalled = YES;
-                   actualError = wrapper.error;
-                   [expectation fulfill];
-                 }];
+                   documentId:kMSDocumentIdTest
+            completionHandler:^(MSDocumentWrapper *wrapper) {
+              completionHandlerCalled = YES;
+              actualError = wrapper.error;
+              [expectation fulfill];
+            }];
 
   // Then
   [self waitForExpectationsWithTimeout:1
@@ -1227,9 +1227,9 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // When doing any API call, it will request a token.
   [MSData deleteWithPartition:kMSPartitionTest
-                        documentId:kMSDocumentIdTest
-                 completionHandler:^(__unused MSDocumentWrapper *wrapper){
-                 }];
+                   documentId:kMSDocumentIdTest
+            completionHandler:^(__unused MSDocumentWrapper *wrapper){
+            }];
 
   // Then that call uses the base URL we specified.
   [self waitForExpectationsWithTimeout:1
@@ -1412,13 +1412,13 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // When
   [MSData readWithPartition:kMSPartitionTest
-                      documentId:@"4"
-                    documentType:[MSDictionaryDocument class]
-               completionHandler:^(MSDocumentWrapper *_Nonnull document) {
-                 // Then
-                 XCTAssertEqual(expectedDocument, document);
-                 [expectation fulfill];
-               }];
+                 documentId:@"4"
+               documentType:[MSDictionaryDocument class]
+          completionHandler:^(MSDocumentWrapper *_Nonnull document) {
+            // Then
+            XCTAssertEqual(expectedDocument, document);
+            [expectation fulfill];
+          }];
 
   // Then
   [self waitForExpectationsWithTimeout:3
@@ -1441,15 +1441,15 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // When
   [MSData readWithPartition:kMSPartitionTest
-                      documentId:@"4"
-                    documentType:[MSDictionaryDocument class]
-               completionHandler:^(MSDocumentWrapper *_Nonnull document) {
-                 // Then
-                 XCTAssertNotNil(document.error);
-                 XCTAssertEqualObjects(document.error.error.domain, kMSACDataErrorDomain);
-                 XCTAssertEqual(document.error.error.code, MSACDataLocalStoreError);
-                 [expectation fulfill];
-               }];
+                 documentId:@"4"
+               documentType:[MSDictionaryDocument class]
+          completionHandler:^(MSDocumentWrapper *_Nonnull document) {
+            // Then
+            XCTAssertNotNil(document.error);
+            XCTAssertEqualObjects(document.error.error.domain, kMSACDataErrorDomain);
+            XCTAssertEqual(document.error.error.code, MSACDataLocalStoreError);
+            [expectation fulfill];
+          }];
 
   // Then
   [self waitForExpectationsWithTimeout:8
@@ -1495,13 +1495,13 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // When
   [MSData readWithPartition:kMSPartitionTest
-                      documentId:@"4"
-                    documentType:[MSDictionaryDocument class]
-               completionHandler:^(MSDocumentWrapper *_Nonnull document) {
-                 // Then
-                 XCTAssertEqualObjects(expectedDocument, document);
-                 [expectation fulfill];
-               }];
+                 documentId:@"4"
+               documentType:[MSDictionaryDocument class]
+          completionHandler:^(MSDocumentWrapper *_Nonnull document) {
+            // Then
+            XCTAssertEqualObjects(expectedDocument, document);
+            [expectation fulfill];
+          }];
 
   // Then
   [self waitForExpectationsWithTimeout:3
@@ -1534,13 +1534,13 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // When
   [MSData readWithPartition:kMSPartitionTest
-                      documentId:@"4"
-                    documentType:[MSDictionaryDocument class]
-               completionHandler:^(MSDocumentWrapper *_Nonnull document) {
-                 // Then
-                 XCTAssertEqual(expectedDocument, document);
-                 [expectation fulfill];
-               }];
+                 documentId:@"4"
+               documentType:[MSDictionaryDocument class]
+          completionHandler:^(MSDocumentWrapper *_Nonnull document) {
+            // Then
+            XCTAssertEqual(expectedDocument, document);
+            [expectation fulfill];
+          }];
 
   // Then
   [self waitForExpectationsWithTimeout:3
@@ -1574,13 +1574,13 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // When
   [MSData readWithPartition:kMSPartitionTest
-                      documentId:@"4"
-                    documentType:[MSDictionaryDocument class]
-               completionHandler:^(MSDocumentWrapper *_Nonnull document) {
-                 // Then
-                 XCTAssertEqual(expectedDocument, document);
-                 [expectation fulfill];
-               }];
+                 documentId:@"4"
+               documentType:[MSDictionaryDocument class]
+          completionHandler:^(MSDocumentWrapper *_Nonnull document) {
+            // Then
+            XCTAssertEqual(expectedDocument, document);
+            [expectation fulfill];
+          }];
 
   // Then
   [self waitForExpectationsWithTimeout:3
@@ -1613,15 +1613,15 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // When
   [MSData readWithPartition:kMSPartitionTest
-                      documentId:@"4"
-                    documentType:[MSDictionaryDocument class]
-               completionHandler:^(MSDocumentWrapper *_Nonnull document) {
-                 // Then
-                 XCTAssertNotNil(document.error);
-                 XCTAssertEqualObjects(document.error.error.domain, kMSACDataErrorDomain);
-                 XCTAssertEqual(document.error.error.code, MSACDataErrorDocumentNotFound);
-                 [expectation fulfill];
-               }];
+                 documentId:@"4"
+               documentType:[MSDictionaryDocument class]
+          completionHandler:^(MSDocumentWrapper *_Nonnull document) {
+            // Then
+            XCTAssertNotNil(document.error);
+            XCTAssertEqualObjects(document.error.error.domain, kMSACDataErrorDomain);
+            XCTAssertEqual(document.error.error.code, MSACDataErrorDocumentNotFound);
+            [expectation fulfill];
+          }];
 
   // Then
   [self waitForExpectationsWithTimeout:3
@@ -1675,20 +1675,20 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // When
   [MSData readWithPartition:kMSPartitionTest
-                      documentId:kMSDocumentIdTest
-                    documentType:[MSDictionaryDocument class]
-               completionHandler:^(MSDocumentWrapper *_Nonnull document) {
-                 // Then
-                 XCTAssertNil(document.error);
-                 XCTAssertEqualObjects(expectedDocumentWrapper.eTag, document.eTag);
-                 XCTAssertEqualObjects(expectedDocumentWrapper.partition, document.partition);
-                 XCTAssertEqualObjects(expectedDocumentWrapper.documentId, document.documentId);
-                 XCTAssertEqual(expectedDocumentWrapper.fromDeviceCache, document.fromDeviceCache);
-                 MSDictionaryDocument *expectedDictionaryDocument = (MSDictionaryDocument *)expectedDocumentWrapper.deserializedValue;
-                 MSDictionaryDocument *actualDictionaryDocument = (MSDictionaryDocument *)document.deserializedValue;
-                 XCTAssertEqualObjects(expectedDictionaryDocument.dictionary, actualDictionaryDocument.dictionary);
-                 [expectation fulfill];
-               }];
+                 documentId:kMSDocumentIdTest
+               documentType:[MSDictionaryDocument class]
+          completionHandler:^(MSDocumentWrapper *_Nonnull document) {
+            // Then
+            XCTAssertNil(document.error);
+            XCTAssertEqualObjects(expectedDocumentWrapper.eTag, document.eTag);
+            XCTAssertEqualObjects(expectedDocumentWrapper.partition, document.partition);
+            XCTAssertEqualObjects(expectedDocumentWrapper.documentId, document.documentId);
+            XCTAssertEqual(expectedDocumentWrapper.fromDeviceCache, document.fromDeviceCache);
+            MSDictionaryDocument *expectedDictionaryDocument = (MSDictionaryDocument *)expectedDocumentWrapper.deserializedValue;
+            MSDictionaryDocument *actualDictionaryDocument = (MSDictionaryDocument *)document.deserializedValue;
+            XCTAssertEqualObjects(expectedDictionaryDocument.dictionary, actualDictionaryDocument.dictionary);
+            [expectation fulfill];
+          }];
 
   // Then
   [self waitForExpectationsWithTimeout:3
@@ -1741,15 +1741,15 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // When
   [MSData readWithPartition:kMSPartitionTest
-                      documentId:kMSDocumentIdTest
-                    documentType:[MSDictionaryDocument class]
-               completionHandler:^(MSDocumentWrapper *_Nonnull document) {
-                 // Then
-                 XCTAssertNil(document.error);
-                 XCTAssertEqualObjects(expectedDocumentWrapper.eTag, document.eTag);
-                 XCTAssertFalse(document.fromDeviceCache);
-                 [expectation fulfill];
-               }];
+                 documentId:kMSDocumentIdTest
+               documentType:[MSDictionaryDocument class]
+          completionHandler:^(MSDocumentWrapper *_Nonnull document) {
+            // Then
+            XCTAssertNil(document.error);
+            XCTAssertEqualObjects(expectedDocumentWrapper.eTag, document.eTag);
+            XCTAssertFalse(document.fromDeviceCache);
+            [expectation fulfill];
+          }];
 
   // Then
   [self waitForExpectationsWithTimeout:3
@@ -1783,15 +1783,15 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // When
   [MSData readWithPartition:kMSPartitionTest
-                      documentId:@"4"
-                    documentType:[MSDictionaryDocument class]
-               completionHandler:^(MSDocumentWrapper *_Nonnull document) {
-                 // Then
-                 XCTAssertNotNil(document.error);
-                 XCTAssertEqualObjects(document.error.error.domain, kMSACDataErrorDomain);
-                 XCTAssertEqual(document.error.error.code, MSACDataErrorLocalDocumentExpired);
-                 [expectation fulfill];
-               }];
+                 documentId:@"4"
+               documentType:[MSDictionaryDocument class]
+          completionHandler:^(MSDocumentWrapper *_Nonnull document) {
+            // Then
+            XCTAssertNotNil(document.error);
+            XCTAssertEqualObjects(document.error.error.domain, kMSACDataErrorDomain);
+            XCTAssertEqual(document.error.error.code, MSACDataErrorLocalDocumentExpired);
+            [expectation fulfill];
+          }];
 
   // Then
   [self waitForExpectationsWithTimeout:3

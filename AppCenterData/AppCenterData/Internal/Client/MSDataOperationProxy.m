@@ -3,11 +3,11 @@
 
 #import <Foundation/Foundation.h>
 
-#import "MSDataOperationProxy.h"
-#import "MSDataConstants.h"
 #import "MSData.h"
+#import "MSDataConstants.h"
 #import "MSDataErrors.h"
 #import "MSDataInternal.h"
+#import "MSDataOperationProxy.h"
 #import "MSDocumentUtils.h"
 #import "MSDocumentWrapperInternal.h"
 #import "MSLogger.h"
@@ -41,9 +41,7 @@
   if (![MSDataOperationProxy isValidOperation:operation]) {
     NSString *message = @"Operation is not supported";
     MSLogError([MSData logTag], message);
-    completionHandler([[MSDocumentWrapper alloc] initWithErrorCode:MSACDataLocalStoreError
-                                                      errorMessage:message
-                                                        documentId:documentId]);
+    completionHandler([[MSDocumentWrapper alloc] initWithErrorCode:MSACDataLocalStoreError errorMessage:message documentId:documentId]);
     return;
   }
 
@@ -54,9 +52,7 @@
       NSString *message =
           [NSString stringWithFormat:@"Error while retrieving cached token, aborting operation: %@", [error localizedDescription]];
       MSLogError([MSData logTag], @"%@", message);
-      completionHandler([[MSDocumentWrapper alloc] initWithErrorCode:MSACDataLocalStoreError
-                                                        errorMessage:message
-                                                          documentId:documentId]);
+      completionHandler([[MSDocumentWrapper alloc] initWithErrorCode:MSACDataLocalStoreError errorMessage:message documentId:documentId]);
       return;
     }
 
@@ -253,8 +249,8 @@
 
   // Update document storage.
   else {
-    MSLogInfo([MSData logTag], @"Updating/inserting document into local storage (partition: %@, id: %@, operation: %@)",
-              token.partition, currentCachedDocument.documentId, operation);
+    MSLogInfo([MSData logTag], @"Updating/inserting document into local storage (partition: %@, id: %@, operation: %@)", token.partition,
+              currentCachedDocument.documentId, operation);
     [self.documentStore upsertWithToken:token documentWrapper:newCachedDocument operation:operation deviceTimeToLive:deviceTimeToLive];
   }
 }

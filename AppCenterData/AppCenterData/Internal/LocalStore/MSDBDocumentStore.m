@@ -8,8 +8,8 @@
 #import "MSConstants+Internal.h"
 #import "MSDBDocumentStorePrivate.h"
 #import "MSDBStoragePrivate.h"
-#import "MSDataConstants.h"
 #import "MSData.h"
+#import "MSDataConstants.h"
 #import "MSDataErrors.h"
 #import "MSDataInternal.h"
 #import "MSDocumentUtils.h"
@@ -106,8 +106,7 @@ static const NSUInteger kMSSchemaVersion = 1;
 
   // This is the same as [[NSDate date] timeIntervalSince1970] - but saves us from allocating an NSDate.
   NSTimeInterval now = NSDate.timeIntervalSinceReferenceDate + NSTimeIntervalSince1970;
-  NSTimeInterval expirationTime =
-      (deviceTimeToLive == kMSDataTimeToLiveInfinite) ? kMSDataTimeToLiveInfinite : now + deviceTimeToLive;
+  NSTimeInterval expirationTime = (deviceTimeToLive == kMSDataTimeToLiveInfinite) ? kMSDataTimeToLiveInfinite : now + deviceTimeToLive;
   return [self upsertWithToken:token documentWrapper:documentWrapper operation:operation expirationTime:expirationTime];
 }
 

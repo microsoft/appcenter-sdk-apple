@@ -9,8 +9,8 @@
 #import "MSChannelUnitProtocol.h"
 #import "MSConstants+Internal.h"
 #import "MSCosmosDb.h"
-#import "MSDataError.h"
 #import "MSDataConstants.h"
+#import "MSDataError.h"
 #import "MSDataErrors.h"
 #import "MSDataInternal.h"
 #import "MSDataPrivate.h"
@@ -93,10 +93,10 @@ static dispatch_once_t onceToken;
              documentType:(Class)documentType
         completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
   [[MSData sharedInstance] readWithPartition:partition
-                                       documentId:documentId
-                                     documentType:documentType
-                                      readOptions:nil
-                                completionHandler:completionHandler];
+                                  documentId:documentId
+                                documentType:documentType
+                                 readOptions:nil
+                           completionHandler:completionHandler];
 }
 
 + (void)readWithPartition:(NSString *)partition
@@ -105,19 +105,16 @@ static dispatch_once_t onceToken;
               readOptions:(MSReadOptions *_Nullable)readOptions
         completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
   [[MSData sharedInstance] readWithPartition:partition
-                                       documentId:documentId
-                                     documentType:documentType
-                                      readOptions:readOptions
-                                completionHandler:completionHandler];
+                                  documentId:documentId
+                                documentType:documentType
+                                 readOptions:readOptions
+                           completionHandler:completionHandler];
 }
 
 + (void)listWithPartition:(NSString *)partition
              documentType:(Class)documentType
         completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler {
-  [[MSData sharedInstance] listWithPartition:partition
-                                     documentType:documentType
-                                continuationToken:nil
-                                completionHandler:completionHandler];
+  [[MSData sharedInstance] listWithPartition:partition documentType:documentType continuationToken:nil completionHandler:completionHandler];
 }
 
 + (void)createWithPartition:(NSString *)partition
@@ -125,10 +122,10 @@ static dispatch_once_t onceToken;
                    document:(id<MSSerializableDocument>)document
           completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
   [[MSData sharedInstance] createWithPartition:partition
-                                         documentId:documentId
-                                           document:document
-                                       writeOptions:nil
-                                  completionHandler:completionHandler];
+                                    documentId:documentId
+                                      document:document
+                                  writeOptions:nil
+                             completionHandler:completionHandler];
 }
 
 + (void)createWithPartition:(NSString *)partition
@@ -137,10 +134,10 @@ static dispatch_once_t onceToken;
                writeOptions:(MSWriteOptions *_Nullable)writeOptions
           completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
   [[MSData sharedInstance] createWithPartition:partition
-                                         documentId:documentId
-                                           document:document
-                                       writeOptions:writeOptions
-                                  completionHandler:completionHandler];
+                                    documentId:documentId
+                                      document:document
+                                  writeOptions:writeOptions
+                             completionHandler:completionHandler];
 }
 
 + (void)replaceWithPartition:(NSString *)partition
@@ -148,10 +145,10 @@ static dispatch_once_t onceToken;
                     document:(id<MSSerializableDocument>)document
            completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
   [[MSData sharedInstance] replaceWithPartition:partition
-                                          documentId:documentId
-                                            document:document
-                                        writeOptions:nil
-                                   completionHandler:completionHandler];
+                                     documentId:documentId
+                                       document:document
+                                   writeOptions:nil
+                              completionHandler:completionHandler];
 }
 
 + (void)replaceWithPartition:(NSString *)partition
@@ -160,10 +157,10 @@ static dispatch_once_t onceToken;
                 writeOptions:(MSWriteOptions *_Nullable)writeOptions
            completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
   [[MSData sharedInstance] replaceWithPartition:partition
-                                          documentId:documentId
-                                            document:document
-                                        writeOptions:writeOptions
-                                   completionHandler:completionHandler];
+                                     documentId:documentId
+                                       document:document
+                                   writeOptions:writeOptions
+                              completionHandler:completionHandler];
 }
 
 + (void)deleteWithPartition:(NSString *)partition
@@ -177,9 +174,9 @@ static dispatch_once_t onceToken;
                writeOptions:(MSWriteOptions *_Nullable)writeOptions
           completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
   [[MSData sharedInstance] deleteWithPartition:partition
-                                         documentId:documentId
-                                       writeOptions:writeOptions
-                                  completionHandler:completionHandler];
+                                    documentId:documentId
+                                  writeOptions:writeOptions
+                             completionHandler:completionHandler];
 }
 
 #pragma mark - Static internal
@@ -189,9 +186,9 @@ static dispatch_once_t onceToken;
         continuationToken:(NSString *_Nullable)continuationToken
         completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler {
   [[MSData sharedInstance] listWithPartition:partition
-                                     documentType:documentType
-                                continuationToken:continuationToken
-                                completionHandler:completionHandler];
+                                documentType:documentType
+                           continuationToken:continuationToken
+                           completionHandler:completionHandler];
 }
 
 #pragma mark - MSData Implementation
@@ -416,8 +413,7 @@ static dispatch_once_t onceToken;
                                                                userInfo:@{NSLocalizedDescriptionKey : @"Can't deserialize documents"}];
                                   }
                                   if (deserializeError) {
-                                    MSDataError *dataDeserializeError =
-                                        [[MSDataError alloc] initWithError:deserializeError];
+                                    MSDataError *dataDeserializeError = [[MSDataError alloc] initWithError:deserializeError];
                                     MSPaginatedDocuments *documents = [[MSPaginatedDocuments alloc] initWithError:dataDeserializeError
                                                                                                         partition:partition
                                                                                                      documentType:documentType];
@@ -655,10 +651,7 @@ static dispatch_once_t onceToken;
 
 - (void)enabledNotifications {
   // Listen to network events.
-  [MS_NOTIFICATION_CENTER addObserver:self
-                             selector:@selector(networkStateChanged:)
-                                 name:kMSReachabilityChangedNotification
-                               object:nil];
+  [MS_NOTIFICATION_CENTER addObserver:self selector:@selector(networkStateChanged:) name:kMSReachabilityChangedNotification object:nil];
 }
 
 - (void)disableNotificaitons {
@@ -736,7 +729,7 @@ static dispatch_once_t onceToken;
                                  completionHandler:^(MSTokensResponse *_Nonnull tokenResponses, NSError *_Nonnull error) {
                                    if (error) {
                                      MSLogError([MSData logTag], @"Cannot read from local storage because there is no "
-                                                                      @"account ID cached and failed to retrieve token.");
+                                                                 @"account ID cached and failed to retrieve token.");
                                      return;
                                    }
 
@@ -845,8 +838,8 @@ static dispatch_once_t onceToken;
       shouldDeleteLocalCache = NO;
     }
   } else if (documentWrapper.error.errorCode == MSHTTPCodesNo404NotFound || documentWrapper.error.errorCode == MSHTTPCodesNo409Conflict) {
-    MSLogError([MSData logTag], @"Failed to call Cosmos with operation: %@. Remote operation failed with error code: %ld",
-               pendingOperation, (long)documentWrapper.error.errorCode);
+    MSLogError([MSData logTag], @"Failed to call Cosmos with operation: %@. Remote operation failed with error code: %ld", pendingOperation,
+               (long)documentWrapper.error.errorCode);
   } else if (documentWrapper.error) {
     shouldDeleteLocalCache = NO;
     MSLogError([MSData logTag], @"Failed to call Cosmos with operation:%@ API: %@", pendingOperation,

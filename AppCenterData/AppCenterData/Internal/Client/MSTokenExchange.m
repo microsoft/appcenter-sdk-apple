@@ -222,8 +222,7 @@ static NSString *const kMSGetTokenPath = @"/data/tokens";
 }
 
 + (BOOL)isValidPartitionName:(NSString *)partitionName {
-  return [partitionName isEqualToString:kMSDataAppDocumentsPartition] ||
-         [partitionName isEqualToString:kMSDataUserDocumentsPartition];
+  return [partitionName isEqualToString:kMSDataAppDocumentsPartition] || [partitionName isEqualToString:kMSDataUserDocumentsPartition];
 }
 
 @end

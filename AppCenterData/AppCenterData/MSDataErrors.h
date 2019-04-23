@@ -29,8 +29,7 @@ NS_ENUM(NSInteger){MSACDataErrorJSONSerializationFailed = -620000,
                    MSACDataUnableToGetTokenError = -620011};
 
 // Error descriptions.
-static NSString const *kMSACDataInvalidClassDesc =
-    @"Provided class does not conform to serialization protocol (MSSerializableDocument).";
+static NSString const *kMSACDataInvalidClassDesc = @"Provided class does not conform to serialization protocol (MSSerializableDocument).";
 static NSString const *kMSACDataCosmosDbErrorResponseDesc = @"Unexpected error while talking to CosmosDB.";
 static NSString const *kMSACDocumentCreationDesc = @"Can't create document.";
 
