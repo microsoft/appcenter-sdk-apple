@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "MSDataUtils.h"
+#import "MSDataSerializationHelpers.h"
 #import "MSUtility+Date.h"
 
-@implementation MSDataUtils
+@implementation MSDataSerializationHelpers
 
 + (NSDate *)deserializeDate:(NSString *)dateString {
   return [MSUtility dateFromISO8601:dateString];
