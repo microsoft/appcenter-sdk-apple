@@ -324,7 +324,7 @@
 // MSDataStore section
 - (void)listDocumentsWithPartition:(NSString *)partitionName
                       documentType:(Class)documentType
-                 completionHandler:(void (^)(MSPaginatedDocuments<MSDictionaryDocument *> *))completionHandler {
+                 completionHandler:(void (^)(MSPaginatedDocuments *))completionHandler {
   [MSDataStore listWithPartition:partitionName documentType:documentType completionHandler:completionHandler];
 }
 
@@ -332,7 +332,7 @@
                          documentId:(NSString *_Nonnull)documentId
                            document:(MSDictionaryDocument *_Nonnull)document
                        writeOptions:(MSWriteOptions *_Nonnull)writeOptions
-                  completionHandler:(void (^)(MSDocumentWrapper<MSDictionaryDocument *> *))completionHandler {
+                  completionHandler:(void (^)(MSDocumentWrapper *))completionHandler {
   [MSDataStore createWithPartition:partitionName
                         documentId:documentId
                           document:document
@@ -352,7 +352,7 @@
                           documentId:(NSString *_Nonnull)documentId
                             document:(MSDictionaryDocument *_Nonnull)document
                         writeOptions:(MSWriteOptions *_Nonnull)writeOptions
-                   completionHandler:(void (^)(MSDocumentWrapper<MSDictionaryDocument *> *))completionHandler {
+                   completionHandler:(void (^)(MSDocumentWrapper *))completionHandler {
   [MSDataStore replaceWithPartition:partitionName
                          documentId:documentId
                            document:document

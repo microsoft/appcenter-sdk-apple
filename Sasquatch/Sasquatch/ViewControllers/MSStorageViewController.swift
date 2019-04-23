@@ -13,11 +13,11 @@ class MSStorageViewController: UIViewController, UITableViewDelegate, UITableVie
     
     static let allValues = [App, User]
   }
-  var allDocuments: MSPaginatedDocuments<MSDictionaryDocument> = MSPaginatedDocuments()
+  var allDocuments: MSPaginatedDocuments = MSPaginatedDocuments()
   var loadMoreStatus = false
   var identitySignIn = false
-  static var AppDocuments: [MSDocumentWrapper<MSDictionaryDocument>] = []
-  static var UserDocuments: [MSDocumentWrapper<MSDictionaryDocument>] = []
+  static var AppDocuments: [MSDocumentWrapper] = []
+  static var UserDocuments: [MSDocumentWrapper] = []
   private var storageTypePicker: MSEnumPicker<StorageType>?
   private var storageType = StorageType.App.rawValue
   var indicator = UIActivityIndicatorView()
@@ -246,9 +246,9 @@ class MSStorageViewController: UIViewController, UITableViewDelegate, UITableVie
         documentDetailsController.documentType = StorageType.User.rawValue
       } else {
         documentDetailsController.documentType = self.storageType
-        documentDetailsController.documentId = (sender as? MSDocumentWrapper<MSDictionaryDocument>)?.documentId
+        documentDetailsController.documentId = (sender as? MSDocumentWrapper)?.documentId
         documentDetailsController.documentTimeToLive = "Default"
-        documentDetailsController.documentContent = sender as? MSDocumentWrapper<MSDictionaryDocument>
+        documentDetailsController.documentContent = sender as? MSDocumentWrapper
       }
     }
   }

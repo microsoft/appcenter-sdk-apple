@@ -21,7 +21,7 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
   var documentTimeToLive: String? = TimeToLiveMode.Default.rawValue
   var userDocumentAddPropertiesSection: EventPropertiesTableSection!
   let userType: String = MSStorageViewController.StorageType.User.rawValue
-  var documentContent: MSDocumentWrapper<MSDictionaryDocument>?
+  var documentContent: MSDocumentWrapper?
   private var kUserDocumentAddPropertiesSectionIndex: Int = 0
   private var timeToLiveModePicker: MSEnumPicker<TimeToLiveMode>?
   
@@ -135,14 +135,15 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
           cellText = "Partition: \(documentContent?.partition ?? "")"
         break
         case 2:
-          guard let error = documentContent?.error else {
+          if documentContent?.lastUpdatedDate != nil {
             let formatter = DateFormatter()
             formatter.dateFormat = "dd MMM yyyy HH:mm"
-            cellText = "Date: \(formatter.string(from: documentContent?.lastUpdatedDate ?? Date()))"
-            break
+            cellText = "Last update date: \(formatter.string(from: documentContent?.lastUpdatedDate ?? Date()))"
+          } else {
+            cellText = "Last update date: unknown"
           }
-          cellText = "Error: \(error.error.localizedDescription)"
-        break
+          break
+        
         case 3:
           guard (documentContent?.error) != nil else {
             cell.textLabel?.numberOfLines = 0;
@@ -152,13 +153,13 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
               let jsonData = try String(data: JSONSerialization.data(withJSONObject: dictionary, options: .prettyPrinted), encoding: String.Encoding.utf8)
               cellText = "Document content: \(jsonData ?? "unknown")"
             } catch {
-              cellText = "Document content could not be deserialized."
+              cellText = "Document content: unknown"
             }
             break
           }
         break
       default:
-        cellText = "nil"
+        cellText = "Unknown"
       }
       cell.textLabel?.text = cellText
       return cell
