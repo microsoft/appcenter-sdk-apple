@@ -104,8 +104,9 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
   NSString *expected = @"4.5.6";
 
 #if TARGET_OS_OSX
+  id processInfoMock;
   if (@available(macOS 10.10, *)) {
-    id processInfoMock = OCMClassMock([NSProcessInfo class]);
+    processInfoMock = OCMClassMock([NSProcessInfo class]);
     OCMStub([processInfoMock processInfo]).andReturn(processInfoMock);
     NSOperatingSystemVersion osSystemVersionMock;
     osSystemVersionMock.majorVersion = 4;
@@ -122,11 +123,10 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 
 // When
 #if TARGET_OS_OSX
+  // TODO: No way to mock C-style functions like Gestalt. Skip the test on machine running on macOS version <= 10.9.
+  NSString *osVersion = expected;
   if (@available(macOS 10.10, *)) {
-    NSString *osVersion = [self.sut osVersion];
-  } else {
-    // TODO: No way to mock C-style functions like Gestalt. Skip the test on machine running on macOS version <= 10.9.
-    NSString *osVersion = expected;
+    osVersion = [self.sut osVersion];
   }
 #else
   NSString *osVersion = [self.sut osVersion:deviceMock];
