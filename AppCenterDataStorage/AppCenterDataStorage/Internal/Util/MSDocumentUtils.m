@@ -164,6 +164,10 @@ static NSString *const kMSDocumentKey = @"document";
   return [keyObject isKindOfClass:keyType];
 }
 
++ (NSString *)outgoingOperationIdWithPartition:(NSString *)partition documentId:(NSString *)documentId {
+  return [NSString stringWithFormat:@"%@_%@", partition, documentId];
+}
+
 #pragma mark Private
 
 + (MSDocumentWrapper *)documentWrapperFromDictionary:(NSDictionary *)dictionary

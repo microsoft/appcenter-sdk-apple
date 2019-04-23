@@ -651,9 +651,22 @@ static dispatch_once_t onceToken;
     self.httpClient = [MSHttpClient new];
   }
 
-  // Listen to network events.
-  [MS_NOTIFICATION_CENTER addObserver:self selector:@selector(networkStateChanged:) name:kMSReachabilityChangedNotification object:nil];
+  // Listen to notificaitons.
+  [self enabledNotifications];
+
   MSLogVerbose([MSDataStore logTag], @"Started Data Storage service.");
+}
+
+- (void)enabledNotifications {
+  // Listen to network events.
+  [MS_NOTIFICATION_CENTER addObserver:self
+                             selector:@selector(networkStateChangedDataStoreCallback:)
+                                 name:kMSReachabilityChangedNotification
+                               object:nil];
+}
+
+- (void)disableNotificaitons {
+  [MS_NOTIFICATION_CENTER removeObserver:self];
 }
 
 + (NSString *)serviceName {
@@ -675,10 +688,14 @@ static dispatch_once_t onceToken;
   [self.httpClient setEnabled:isEnabled];
   if (isEnabled) {
     [[MSAuthTokenContext sharedInstance] addDelegate:self];
+    [self enabledNotifications];
+
   } else {
+    [self disableNotificaitons];
     [[MSAuthTokenContext sharedInstance] removeDelegate:self];
     [MSTokenExchange removeAllCachedTokens];
     [self.dataOperationProxy.documentStore deleteAllTables];
+    [self.outgoingPendingOperations removeAllObjects];
   }
 }
 
@@ -700,18 +717,18 @@ static dispatch_once_t onceToken;
 
 #pragma mark - Reachability
 
-- (void)networkStateChanged:(NSNotificationCenter *)__unused notification {
+- (void)networkStateChangedDataStoreCallback:(NSNotificationCenter *)__unused notification {
 
   // Network status change event.
   if ([[MS_Reachability reachabilityForInternetConnection] currentReachabilityStatus] == NotReachable) {
     MSLogInfo([MSDataStore logTag], @"Network connection is off.");
   } else {
     MSLogInfo([MSDataStore logTag], @"Network connection is on.");
-    [self onNetworkGoesOnline];
+    [self processPendingOperations];
   }
 }
 
-- (void)onNetworkGoesOnline {
+- (void)processPendingOperations {
   @synchronized(self) {
     [MSTokenExchange
         performDbTokenAsyncOperationWithHttpClient:(id<MSHttpClientProtocol>)self.httpClient
@@ -735,6 +752,19 @@ static dispatch_once_t onceToken;
 
                                      // Process pending operations.
                                      for (MSPendingOperation *operation in pendingOperations) {
+
+                                       // Get outgoing operation id.
+                                       __block NSString *operationId =
+                                           [MSDocumentUtils outgoingOperationIdWithPartition:kMSDataStoreUserDocumentsPartition
+                                                                                  documentId:operation.documentId];
+
+                                       // If the operation is already being processed, skip it.
+                                       if ([self.outgoingPendingOperations containsObject:operationId]) {
+                                         continue;
+                                       }
+
+                                       // Add current operaiton as pending.
+                                       [self.outgoingPendingOperations addObject:operationId];
 
                                        // Create or Replace operation.
                                        if ([operation.operation isEqualToString:kMSPendingOperationCreate] ||
@@ -763,6 +793,9 @@ static dispatch_once_t onceToken;
                                                                                            pendingOperation:operation.operation
                                                                                     operationExpirationTime:(NSInteger)
                                                                                                                 operation.expirationTime];
+
+                                                             // Remove the pending operation id.
+                                                             [self.outgoingPendingOperations removeObject:operationId];
                                                              return;
                                                            }];
                                        } else if ([operation.operation isEqualToString:kMSPendingOperationDelete]) {
@@ -778,6 +811,9 @@ static dispatch_once_t onceToken;
                                                                                             documentWrapper:documentWrapper
                                                                                            pendingOperation:operation.operation
                                                                                     operationExpirationTime:kMSDataStoreTimeToLiveNoCache];
+
+                                                             // Remove the pending operation id.
+                                                             [self.outgoingPendingOperations removeObject:operationId];
                                                              return;
                                                            }];
                                        } else {
