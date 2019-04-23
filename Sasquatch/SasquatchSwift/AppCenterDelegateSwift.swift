@@ -307,19 +307,19 @@ class AppCenterDelegateSwift: AppCenterDelegate {
   // MSData
   
   func listDocumentsWithPartition(_ partitionName: String, documentType: AnyClass, completionHandler: @escaping (_ paginatedDocuments:MSPaginatedDocuments) -> Void) {
-    MSDataStore.list(withPartition: partitionName, documentType: documentType, completionHandler:completionHandler)
+    MSData.list(withPartition: partitionName, documentType: documentType, completionHandler:completionHandler)
   }
   
   func createDocumentWithPartition(_ partitionName: String, documentId: String, document: MSDictionaryDocument, writeOptions: MSWriteOptions, completionHandler: @escaping (_ document:MSDocumentWrapper) -> Void) {
-    MSDataStore.create(withPartition: partitionName, documentId: documentId, document: document, writeOptions: writeOptions, completionHandler: completionHandler);
+    MSData.create(withPartition: partitionName, documentId: documentId, document: document, writeOptions: writeOptions, completionHandler: completionHandler);
   }
   
   func replaceDocumentWithPartition(_ partitionName: String, documentId: String, document: MSDictionaryDocument, writeOptions: MSWriteOptions, completionHandler: @escaping (_ document:MSDocumentWrapper) -> Void) {
-    MSDataStore.replace(withPartition: partitionName, documentId: documentId, document: document, writeOptions: writeOptions, completionHandler: completionHandler)
+    MSData.replace(withPartition: partitionName, documentId: documentId, document: document, writeOptions: writeOptions, completionHandler: completionHandler)
   }
   
   func deleteDocumentWithPartition(_ partitionName: String, documentId: String) {
-    MSDataStore.delete(withPartition: partitionName, documentId: documentId) { document in
+    MSData.delete(withPartition: partitionName, documentId: documentId) { document in
       print("Storage.delete document with id \(documentId) succeeded")
     }
   }

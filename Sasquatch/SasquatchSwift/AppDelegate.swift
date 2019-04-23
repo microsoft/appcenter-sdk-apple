@@ -72,7 +72,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
     }
 
     // Start App Center SDK.
-    let services = [MSAnalytics.self, MSCrashes.self, MSDataStore.self, MSDistribute.self, MSIdentity.self, MSPush.self]
+    let services = [MSAnalytics.self, MSCrashes.self, MSData.self, MSDistribute.self, MSIdentity.self, MSPush.self]
     let appSecret = UserDefaults.standard.string(forKey: kMSAppSecret) ?? kMSSwiftAppSecret
     let startTarget = StartupMode(rawValue: UserDefaults.standard.integer(forKey: kMSStartTargetKey))!
     switch startTarget {

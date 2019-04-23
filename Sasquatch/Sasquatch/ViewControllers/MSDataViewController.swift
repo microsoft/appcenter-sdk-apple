@@ -3,7 +3,7 @@
 
 import UIKit
 
-class MSStorageViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, AppCenterProtocol {
+class MSDataViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, AppCenterProtocol {
   
   var appCenter: AppCenterDelegate!
   var alert: UIAlertController!
@@ -43,7 +43,7 @@ class MSStorageViewController: UIViewController, UITableViewDelegate, UITableVie
     startAnimation()
     self.appCenter.listDocumentsWithPartition("readonly", documentType: MSDictionaryDocument.self, completionHandler: { (documents) in
       self.allDocuments = documents;
-      MSStorageViewController.AppDocuments = documents.currentPage().items ?? []
+      MSDataViewController.AppDocuments = documents.currentPage().items ?? []
       DispatchQueue.main.async {
         self.indicator.stopAnimating()
         self.tableView.isHidden = false
@@ -56,7 +56,7 @@ class MSStorageViewController: UIViewController, UITableViewDelegate, UITableVie
     startAnimation()
     self.appCenter.listDocumentsWithPartition("user", documentType: MSDictionaryDocument.self, completionHandler: { (documents) in
       self.allDocuments = documents;
-      MSStorageViewController.UserDocuments = documents.currentPage().items ?? []
+      MSDataViewController.UserDocuments = documents.currentPage().items ?? []
       DispatchQueue.main.async {
         self.indicator.stopAnimating()
         self.tableView.isHidden = false
@@ -94,9 +94,9 @@ class MSStorageViewController: UIViewController, UITableViewDelegate, UITableVie
       DispatchQueue.global().async() {
         self.allDocuments.nextPage(completionHandler: { page in
           if self.storageType == StorageType.User.rawValue && self.identitySignIn {
-            MSStorageViewController.UserDocuments += page.items ?? []
+            MSDataViewController.UserDocuments += page.items ?? []
           } else {
-            MSStorageViewController.AppDocuments += page.items ?? []
+            MSDataViewController.AppDocuments += page.items ?? []
           }
           DispatchQueue.main.sync {
             self.tableView.isHidden = false
@@ -163,10 +163,10 @@ class MSStorageViewController: UIViewController, UITableViewDelegate, UITableVie
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     if self.storageType == StorageType.App.rawValue {
-      return MSStorageViewController.AppDocuments.count
+      return MSDataViewController.AppDocuments.count
     } else if self.storageType == StorageType.User.rawValue {
       if identitySignIn {
-        return MSStorageViewController.UserDocuments.count + 1
+        return MSDataViewController.UserDocuments.count + 1
       } else {
         return 0
       }
@@ -178,13 +178,13 @@ class MSStorageViewController: UIViewController, UITableViewDelegate, UITableVie
     let cellIdentifier = "document"
     let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
     if self.storageType == StorageType.App.rawValue {
-      cell.textLabel?.text = MSStorageViewController.AppDocuments[indexPath.row].documentId
+      cell.textLabel?.text = MSDataViewController.AppDocuments[indexPath.row].documentId
     } else if self.storageType == StorageType.User.rawValue {
       if indexPath.row == 0 {
         cell.textLabel?.text = "Add document"
       } else {
         let index = indexPath.row == 0 ? 0 : indexPath.row - 1
-        cell.textLabel?.text = MSStorageViewController.UserDocuments[index].documentId
+        cell.textLabel?.text = MSDataViewController.UserDocuments[index].documentId
       }
     }
     return cell
@@ -196,10 +196,10 @@ class MSStorageViewController: UIViewController, UITableViewDelegate, UITableVie
       self.performSegue(withIdentifier: "ShowDocumentDetails", sender: "")
     } else {
       if self.storageType == StorageType.App.rawValue {
-        self.performSegue(withIdentifier: "ShowDocumentDetails", sender: MSStorageViewController.AppDocuments[indexPath.row])
+        self.performSegue(withIdentifier: "ShowDocumentDetails", sender: MSDataViewController.AppDocuments[indexPath.row])
       } else {
         let index = indexPath.row == 0 ? 0 : indexPath.row - 1
-        self.performSegue(withIdentifier: "ShowDocumentDetails", sender: MSStorageViewController.UserDocuments[index])
+        self.performSegue(withIdentifier: "ShowDocumentDetails", sender: MSDataViewController.UserDocuments[index])
       }
     }
   }
@@ -223,12 +223,12 @@ class MSStorageViewController: UIViewController, UITableViewDelegate, UITableVie
   func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
     let index = indexPath.row == 0 ? 0 : indexPath.row - 1
     if editingStyle == .delete {
-      appCenter.deleteDocumentWithPartition(StorageType.User.rawValue.lowercased(), documentId: MSStorageViewController.UserDocuments[index].documentId)
-      MSStorageViewController.UserDocuments.remove(at: index)
+      appCenter.deleteDocumentWithPartition(StorageType.User.rawValue.lowercased(), documentId: MSDataViewController.UserDocuments[index].documentId)
+      MSDataViewController.UserDocuments.remove(at: index)
       tableView.deleteRows(at: [indexPath], with: .automatic)
     } else if editingStyle == .insert {
       if(index != 0) {
-        self.performSegue(withIdentifier: "ShowDocumentDetails", sender: MSStorageViewController.UserDocuments[index])
+        self.performSegue(withIdentifier: "ShowDocumentDetails", sender: MSDataViewController.UserDocuments[index])
       } else {
         self.performSegue(withIdentifier: "ShowDocumentDetails", sender: "")
       }
@@ -263,11 +263,11 @@ class MSStorageViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     indicator.startAnimating()
     if (documentDetailsController.replaceDocument) {
-      self.appCenter.replaceDocumentWithPartition(MSStorageViewController.StorageType.User.rawValue.lowercased(), documentId:documentId, document:documentToSave, writeOptions: writeOptions, completionHandler: { (document) in
+      self.appCenter.replaceDocumentWithPartition(MSDataViewController.StorageType.User.rawValue.lowercased(), documentId:documentId, document:documentToSave, writeOptions: writeOptions, completionHandler: { (document) in
         self.loadUserFiles()
       })
     } else {
-      self.appCenter.createDocumentWithPartition(MSStorageViewController.StorageType.User.rawValue.lowercased(), documentId:documentId, document:documentToSave, writeOptions: writeOptions, completionHandler: { (document) in
+      self.appCenter.createDocumentWithPartition(MSDataViewController.StorageType.User.rawValue.lowercased(), documentId:documentId, document:documentToSave, writeOptions: writeOptions, completionHandler: { (document) in
         self.loadUserFiles()
       })
     }
