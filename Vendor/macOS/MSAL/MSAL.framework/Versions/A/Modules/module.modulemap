@@ -1,6 +1,0 @@
-framework module MSAL {
-  umbrella header "MSAL.h"
-
-  export *
-  module * { export * }
-}
