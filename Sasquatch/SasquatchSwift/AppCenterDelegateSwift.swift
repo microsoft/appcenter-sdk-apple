@@ -130,13 +130,13 @@ class AppCenterDelegateSwift: AppCenterDelegate {
     MSAnalytics.trackEvent(eventName, withProperties: properties, flags: flags)
   }
 
+  #warning("TODO: Uncomment when trackPage is moved from internal to public")
   func trackPage(_ pageName: String) {
-    // TODO: Uncomment when trackPage is moved from internal to public
     // MSAnalytics.trackPage(pageName)
   }
 
+  #warning("TODO: Uncomment when trackPage is moved from internal to public")
   func trackPage(_ pageName: String, withProperties properties: Dictionary<String, String>) {
-    // TODO: Uncomment when trackPage is moved from internal to public
     // MSAnalytics.trackPage(pageName, withProperties: properties)
   }
 

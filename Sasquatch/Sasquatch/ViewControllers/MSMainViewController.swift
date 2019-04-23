@@ -49,7 +49,7 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     close(self.dbFileDescriptor)
     UserDefaults.standard.removeObserver(self, forKeyPath: kMSStorageMaxSizeKey)
   }
-
+  
   override func viewDidLoad() {
     super.viewDidLoad()
 

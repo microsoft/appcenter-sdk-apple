@@ -80,6 +80,8 @@ class AppCenterUITests : XCTestCase {
     XCTAssertTrue(enabledButton.isSelected)
   }
 
+  
+  #warning("TODO: Uncomment todos when app secret & log url is moved from internal to public.")
   func testMiscellaneousInfo() {
     guard let `app` = app else {
       return
