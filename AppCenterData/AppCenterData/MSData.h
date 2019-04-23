@@ -4,14 +4,14 @@
 #import "MSSerializableDocument.h"
 #import "MSServiceAbstract.h"
 
-@class MSDataSourceError;
+@class MSDataError;
 @class MSDocumentWrapper;
 @class MSPaginatedDocuments;
 @class MSReadOptions;
 @class MSWriteOptions;
 
 /**
- * App Data Storage service.
+ * App Data service.
  */
 
 NS_ASSUME_NONNULL_BEGIN
@@ -20,31 +20,31 @@ NS_ASSUME_NONNULL_BEGIN
  * User partition.
  * An authenticated user can read/write documents in this partition.
  */
-static NSString *const kMSDataStoreUserDocumentsPartition = @"user";
+static NSString *const kMSDataUserDocumentsPartition = @"user";
 
 /**
  * Application partition.
  * Everyone can read documents in this partition.
  * Writes not allowed via the SDK.
  */
-static NSString *const kMSDataStoreAppDocumentsPartition = @"readonly";
+static NSString *const kMSDataAppDocumentsPartition = @"readonly";
 
 /**
  * No expiration on cache.
  */
-static int const kMSDataStoreTimeToLiveInfinite = -1;
+static int const kMSDataTimeToLiveInfinite = -1;
 
 /**
  * Do not cache.
  */
-static int const kMSDataStoreTimeToLiveNoCache = 0;
+static int const kMSDataTimeToLiveNoCache = 0;
 
 /**
  * Default expiration on cache.
  */
-static int const kMSDataStoreTimeToLiveDefault = 60 * 60 * 24;
+static int const kMSDataTimeToLiveDefault = 60 * 60 * 24;
 
-@interface MSDataStore : MSServiceAbstract
+@interface MSData : MSServiceAbstract
 
 typedef void (^MSDocumentWrapperCompletionHandler)(MSDocumentWrapper *document);
 typedef void (^MSPaginatedDocumentsCompletionHandler)(MSPaginatedDocuments *documents);

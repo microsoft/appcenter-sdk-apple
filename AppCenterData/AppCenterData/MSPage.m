@@ -12,11 +12,11 @@
   return [self initWithItems:items error:nil];
 }
 
-- (instancetype)initWithError:(MSDataSourceError *)error {
+- (instancetype)initWithError:(MSDataError *)error {
   return [self initWithItems:nil error:error];
 }
 
-- (instancetype)initWithItems:(NSArray<MSDocumentWrapper *> *)items error:(MSDataSourceError *)error {
+- (instancetype)initWithItems:(NSArray<MSDocumentWrapper *> *)items error:(MSDataError *)error {
   if ((self = [super init])) {
     _items = items;
     _error = error;

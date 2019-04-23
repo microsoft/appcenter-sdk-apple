@@ -8,7 +8,7 @@
 #import "AppCenter.h"
 #import "AppCenterAnalytics.h"
 #import "AppCenterCrashes.h"
-#import "AppCenterDataStorage.h"
+#import "AppCenterData.h"
 #import "AppCenterDistribute.h"
 #import "AppCenterIdentity.h"
 #import "AppCenterPush.h"
@@ -22,7 +22,7 @@
 @import AppCenter;
 @import AppCenterAnalytics;
 @import AppCenterCrashes;
-@import AppCenterDataStorage;
+@import AppCenterData;
 @import AppCenterDistribute;
 @import AppCenterIdentity;
 @import AppCenterPush;
@@ -321,7 +321,7 @@
   return [[[MSCrashes lastSessionCrashReport] device] carrierCountry];
 }
 
-// MSDataStore section
+// MSData section
 - (void)listDocumentsWithPartition:(NSString *)partitionName
                       documentType:(Class)documentType
                  completionHandler:(void (^)(MSPaginatedDocuments *))completionHandler {

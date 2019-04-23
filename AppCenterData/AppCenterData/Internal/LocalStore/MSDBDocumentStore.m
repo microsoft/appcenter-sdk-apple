@@ -8,10 +8,10 @@
 #import "MSConstants+Internal.h"
 #import "MSDBDocumentStorePrivate.h"
 #import "MSDBStoragePrivate.h"
-#import "MSDataStorageConstants.h"
-#import "MSDataStore.h"
-#import "MSDataStoreErrors.h"
-#import "MSDataStoreInternal.h"
+#import "MSDataConstants.h"
+#import "MSData.h"
+#import "MSDataErrors.h"
+#import "MSDataInternal.h"
 #import "MSDocumentUtils.h"
 #import "MSDocumentWrapper.h"
 #import "MSDocumentWrapperInternal.h"
@@ -89,7 +89,7 @@ static const NSUInteger kMSSchemaVersion = 1;
                        (long)[documentWrapper.lastUpdatedDate timeIntervalSince1970], (long)now, normalizedOperationString];
   int result = [self.dbStorage executeNonSelectionQuery:insertQuery];
   if (result != SQLITE_OK) {
-    MSLogError([MSDataStore logTag], @"Unable to update or replace local document, SQLite error code: %ld", (long)result);
+    MSLogError([MSData logTag], @"Unable to update or replace local document, SQLite error code: %ld", (long)result);
   }
   return result == SQLITE_OK;
 }
@@ -107,7 +107,7 @@ static const NSUInteger kMSSchemaVersion = 1;
   // This is the same as [[NSDate date] timeIntervalSince1970] - but saves us from allocating an NSDate.
   NSTimeInterval now = NSDate.timeIntervalSinceReferenceDate + NSTimeIntervalSince1970;
   NSTimeInterval expirationTime =
-      (deviceTimeToLive == kMSDataStoreTimeToLiveInfinite) ? kMSDataStoreTimeToLiveInfinite : now + deviceTimeToLive;
+      (deviceTimeToLive == kMSDataTimeToLiveInfinite) ? kMSDataTimeToLiveInfinite : now + deviceTimeToLive;
   return [self upsertWithToken:token documentWrapper:documentWrapper operation:operation expirationTime:expirationTime];
 }
 
@@ -117,7 +117,7 @@ static const NSUInteger kMSSchemaVersion = 1;
                                                      kMSPartitionColumnName, token.partition, kMSDocumentIdColumnName, documentId];
   int result = [self.dbStorage executeNonSelectionQuery:deleteQuery];
   if (result != SQLITE_OK) {
-    MSLogError([MSDataStore logTag], @"Unable to delete local document, SQLite error code: %ld", (long)result);
+    MSLogError([MSData logTag], @"Unable to delete local document, SQLite error code: %ld", (long)result);
   }
   return result == SQLITE_OK;
 }
@@ -138,25 +138,25 @@ static const NSUInteger kMSSchemaVersion = 1;
   if (result.count == 0) {
     NSString *errorMessage = [NSString
         stringWithFormat:@"Unable to find document in local store for partition '%@' and document ID '%@'", token.partition, documentId];
-    MSLogWarning([MSDataStore logTag], @"%@", errorMessage);
-    NSError *error = [[NSError alloc] initWithDomain:kMSACDataStoreErrorDomain
-                                                code:MSACDataStoreErrorDocumentNotFound
+    MSLogWarning([MSData logTag], @"%@", errorMessage);
+    NSError *error = [[NSError alloc] initWithDomain:kMSACDataErrorDomain
+                                                code:MSACDataErrorDocumentNotFound
                                             userInfo:@{NSLocalizedDescriptionKey : errorMessage}];
     return [[MSDocumentWrapper alloc] initWithError:error documentId:documentId];
   }
 
   // If the document is expired, return an error and delete it.
   long expirationTime = [(NSNumber *)(result[0][self.expirationTimeColumnIndex]) longValue];
-  if (expirationTime != kMSDataStoreTimeToLiveInfinite) {
+  if (expirationTime != kMSDataTimeToLiveInfinite) {
     NSDate *expirationDate = [NSDate dateWithTimeIntervalSince1970:expirationTime];
     NSDate *currentDate = [NSDate date];
     if (expirationDate && [expirationDate laterDate:currentDate] == currentDate) {
       NSString *errorMessage =
           [NSString stringWithFormat:@"Local document for partition '%@' and document ID '%@' expired at %@, discarding it",
                                      token.partition, documentId, expirationDate];
-      MSLogWarning([MSDataStore logTag], @"%@", errorMessage);
-      NSError *error = [[NSError alloc] initWithDomain:kMSACDataStoreErrorDomain
-                                                  code:MSACDataStoreErrorLocalDocumentExpired
+      MSLogWarning([MSData logTag], @"%@", errorMessage);
+      NSError *error = [[NSError alloc] initWithDomain:kMSACDataErrorDomain
+                                                  code:MSACDataErrorLocalDocumentExpired
                                               userInfo:@{NSLocalizedDescriptionKey : errorMessage}];
       [self deleteWithToken:token documentId:documentId];
       return [[MSDocumentWrapper alloc] initWithError:error documentId:documentId];
@@ -200,11 +200,11 @@ static const NSUInteger kMSSchemaVersion = 1;
 }
 
 + (NSString *)tableNameForPartition:(NSString *)partition {
-  if ([partition isEqualToString:kMSDataStoreAppDocumentsPartition]) {
+  if ([partition isEqualToString:kMSDataAppDocumentsPartition]) {
     return kMSAppDocumentTableName;
-  } else if ([partition rangeOfString:kMSDataStoreAppDocumentsUserPartitionPrefix options:NSAnchoredSearch].location == 0) {
+  } else if ([partition rangeOfString:kMSDataAppDocumentsUserPartitionPrefix options:NSAnchoredSearch].location == 0) {
     return [NSString
-        stringWithFormat:kMSUserDocumentTableNameFormat, [partition substringFromIndex:kMSDataStoreAppDocumentsUserPartitionPrefix.length]];
+        stringWithFormat:kMSUserDocumentTableNameFormat, [partition substringFromIndex:kMSDataAppDocumentsUserPartitionPrefix.length]];
   }
   return nil;
 }
@@ -231,7 +231,7 @@ static const NSUInteger kMSSchemaVersion = 1;
     long expirationTime = [ttlNumber longValue];
     if ([MSPendingOperation isExpiredWithExpirationTime:expirationTime]) {
       [self deleteWithToken:token documentId:documentId];
-      MSLogInfo([MSDataStore logTag], @"Document expired. Deleted from local cache: partition: %@, documentId: %@", partition, documentId);
+      MSLogInfo([MSData logTag], @"Document expired. Deleted from local cache: partition: %@, documentId: %@", partition, documentId);
       continue;
     }
 

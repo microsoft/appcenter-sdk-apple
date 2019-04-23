@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 static NSString *const kMSDefaultApiUrl = @"https://tokens.appcenter.ms/v0.1";
 
-@interface MSDataStore () <MSAuthTokenContextDelegate>
+@interface MSData () <MSAuthTokenContextDelegate>
 
 /**
  * Method to reset the singleton when running unit tests only. So calling sharedInstance returns a fresh instance.

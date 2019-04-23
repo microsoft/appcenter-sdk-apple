@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 #import "MSPendingOperation.h"
-#import "MSDataStore.h"
+#import "MSData.h"
 
 @implementation MSPendingOperation
 
@@ -32,7 +32,7 @@
 + (BOOL)isExpiredWithExpirationTime:(NSInteger)time {
 
   // Check if expiration time is infinit.
-  if (time == kMSDataStoreTimeToLiveInfinite) {
+  if (time == kMSDataTimeToLiveInfinite) {
     return NO;
   }
 

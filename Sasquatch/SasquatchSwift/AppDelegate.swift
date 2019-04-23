@@ -9,7 +9,7 @@ import UIKit
 import AppCenter
 import AppCenterAnalytics
 import AppCenterCrashes
-import AppCenterDataStorage
+import AppCenterData
 import AppCenterDistribute
 import AppCenterIdentity
 import AppCenterPush

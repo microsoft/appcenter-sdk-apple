@@ -3,7 +3,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "MSDataStorageConstants.h"
+#import "MSDataConstants.h"
 #import "MSTokenResult.h"
 #import "MS_Reachability.h"
 

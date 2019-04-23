@@ -5,9 +5,9 @@
 
 #import "MSDBDocumentStorePrivate.h"
 #import "MSDBStoragePrivate.h"
-#import "MSDataSourceError.h"
-#import "MSDataStore.h"
-#import "MSDataStoreErrors.h"
+#import "MSDataError.h"
+#import "MSData.h"
+#import "MSDataErrors.h"
 #import "MSDictionaryDocument.h"
 #import "MSDocumentUtils.h"
 #import "MSDocumentWrapperInternal.h"
@@ -42,7 +42,7 @@
   self.sut = [[MSDBDocumentStore alloc] initWithDbStorage:self.dbStorage];
 
   // Init tokens.
-  self.appToken = [[MSTokenResult alloc] initWithPartition:kMSDataStoreAppDocumentsPartition
+  self.appToken = [[MSTokenResult alloc] initWithPartition:kMSDataAppDocumentsPartition
                                                  dbAccount:@"account"
                                                     dbName:@"dbname"
                                           dbCollectionName:@"collection"
@@ -134,7 +134,7 @@
                    partition:self.appToken.partition
                   documentId:documentId
             pendingOperation:@""
-              expirationTime:kMSDataStoreTimeToLiveInfinite];
+              expirationTime:kMSDataTimeToLiveInfinite];
 
   // When
   MSDocumentWrapper *documentWrapper = [self.sut readWithToken:self.appToken
@@ -171,8 +171,8 @@
   XCTAssertNotNil(documentWrapper);
   XCTAssertNotNil(documentWrapper.error);
   XCTAssertFalse(documentWrapper.fromDeviceCache);
-  XCTAssertEqualObjects(documentWrapper.error.error.domain, kMSACDataStoreErrorDomain);
-  XCTAssertEqual(documentWrapper.error.error.code, MSACDataStoreErrorLocalDocumentExpired);
+  XCTAssertEqualObjects(documentWrapper.error.error.domain, kMSACDataErrorDomain);
+  XCTAssertEqual(documentWrapper.error.error.code, MSACDataErrorLocalDocumentExpired);
   XCTAssertEqualObjects(documentWrapper.documentId, documentId);
   OCMVerify([self.sut deleteWithToken:self.appToken documentId:documentId]);
 }
@@ -192,8 +192,8 @@
   XCTAssertNotNil(documentWrapper);
   XCTAssertNotNil(documentWrapper.error);
   XCTAssertFalse(documentWrapper.fromDeviceCache);
-  XCTAssertEqualObjects(documentWrapper.error.error.domain, kMSACDataStoreErrorDomain);
-  XCTAssertEqual(documentWrapper.error.error.code, MSACDataStoreErrorDocumentNotFound);
+  XCTAssertEqualObjects(documentWrapper.error.error.domain, kMSACDataErrorDomain);
+  XCTAssertEqual(documentWrapper.error.error.code, MSACDataErrorDocumentNotFound);
   XCTAssertEqualObjects(documentWrapper.documentId, documentId);
 }
 
@@ -209,7 +209,7 @@
   [self.sut upsertWithToken:self.appToken
             documentWrapper:expectedDocumentWrapper
                   operation:@"REPLACE"
-           deviceTimeToLive:kMSDataStoreTimeToLiveInfinite];
+           deviceTimeToLive:kMSDataTimeToLiveInfinite];
 
   // If
   // Mock the document wrapper to appear to have a different eTag now.
@@ -221,7 +221,7 @@
   [self.sut upsertWithToken:self.appToken
             documentWrapper:expectedDocumentWrapper
                   operation:@"REPLACE"
-           deviceTimeToLive:kMSDataStoreTimeToLiveInfinite];
+           deviceTimeToLive:kMSDataTimeToLiveInfinite];
 
   // Then
   // Ensure that there is exactly one entry in the cache with the given document ID and partition name.
@@ -343,7 +343,7 @@
   BOOL result = [self.sut upsertWithToken:self.appToken
                           documentWrapper:documentWrapper
                                 operation:@"CREATE"
-                         deviceTimeToLive:kMSDataStoreTimeToLiveInfinite];
+                         deviceTimeToLive:kMSDataTimeToLiveInfinite];
   MSDocumentWrapper *expectedDocumentWrapper = [self.sut readWithToken:self.appToken
                                                             documentId:documentWrapper.documentId
                                                           documentType:[MSDictionaryDocument class]];
@@ -358,7 +358,7 @@
   XCTAssertEqualObjects(expectedDocumentWrapper.partition, documentWrapper.partition);
   XCTAssertEqualObjects(expectedDocumentWrapper.eTag, documentWrapper.eTag);
   long expirationTime = [self expirationTimeWithToken:self.appToken documentId:expectedDocumentWrapper.documentId];
-  XCTAssertEqual(expirationTime, kMSDataStoreTimeToLiveInfinite);
+  XCTAssertEqual(expirationTime, kMSDataTimeToLiveInfinite);
 }
 
 - (void)testDeleteAppDocumentForNonExistentDocument {

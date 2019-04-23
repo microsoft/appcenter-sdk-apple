@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "MSDataSourceError.h"
+#import "MSDataError.h"
 #import "MSConstants.h"
-#import "MSDataStorageConstants.h"
-#import "MSDataStoreErrors.h"
+#import "MSDataConstants.h"
+#import "MSDataErrors.h"
 
-@implementation MSDataSourceError
+@implementation MSDataError
 
 @synthesize error = _error;
 @synthesize errorCode = _errorCode;
@@ -14,7 +14,7 @@
 - (instancetype)initWithError:(NSError *)error {
   if ((self = [super init])) {
     _error = error;
-    _errorCode = [MSDataSourceError errorCodeFromError:error];
+    _errorCode = [MSDataError errorCodeFromError:error];
   }
   return self;
 }

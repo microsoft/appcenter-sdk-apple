@@ -4,10 +4,10 @@
 #import <Foundation/Foundation.h>
 
 #import "MSDataOperationProxy.h"
-#import "MSDataStorageConstants.h"
-#import "MSDataStore.h"
-#import "MSDataStoreErrors.h"
-#import "MSDataStoreInternal.h"
+#import "MSDataConstants.h"
+#import "MSData.h"
+#import "MSDataErrors.h"
+#import "MSDataInternal.h"
 #import "MSDocumentUtils.h"
 #import "MSDocumentWrapperInternal.h"
 #import "MSLogger.h"
@@ -35,15 +35,15 @@
        completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
 
   // Get effective device time to live.
-  NSInteger deviceTimeToLive = baseOptions ? baseOptions.deviceTimeToLive : kMSDataStoreTimeToLiveDefault;
+  NSInteger deviceTimeToLive = baseOptions ? baseOptions.deviceTimeToLive : kMSDataTimeToLiveDefault;
 
   // Validate current operation.
   if (![MSDataOperationProxy isValidOperation:operation]) {
     NSString *message = @"Operation is not supported";
-    MSLogError([MSDataStore logTag], message);
-    completionHandler([[MSDocumentWrapper alloc] initWithDataStoreErrorCode:MSACDataStoreLocalStoreError
-                                                               errorMessage:message
-                                                                 documentId:documentId]);
+    MSLogError([MSData logTag], message);
+    completionHandler([[MSDocumentWrapper alloc] initWithErrorCode:MSACDataLocalStoreError
+                                                      errorMessage:message
+                                                        documentId:documentId]);
     return;
   }
 
@@ -53,10 +53,10 @@
     if (error) {
       NSString *message =
           [NSString stringWithFormat:@"Error while retrieving cached token, aborting operation: %@", [error localizedDescription]];
-      MSLogError([MSDataStore logTag], @"%@", message);
-      completionHandler([[MSDocumentWrapper alloc] initWithDataStoreErrorCode:MSACDataStoreLocalStoreError
-                                                                 errorMessage:message
-                                                                   documentId:documentId]);
+      MSLogError([MSData logTag], @"%@", message);
+      completionHandler([[MSDocumentWrapper alloc] initWithErrorCode:MSACDataLocalStoreError
+                                                        errorMessage:message
+                                                          documentId:documentId]);
       return;
     }
 
@@ -68,7 +68,7 @@
 
     // Execute remote operation if needed.
     if ([self shouldAttemptRemoteOperationForDocument:cachedDocument]) {
-      MSLogInfo([MSDataStore logTag], @"Performing remote operation");
+      MSLogInfo([MSData logTag], @"Performing remote operation");
       remoteDocumentBlock(^(MSDocumentWrapper *_Nonnull remoteDocument) {
         // If a valid remote document was retrieved, update local store
         if (remoteDocument.error == nil) {
@@ -91,17 +91,17 @@
 
         // Cached document is invalid, error out.
         if (cachedDocument.error) {
-          MSLogError([MSDataStore logTag], @"Error reading document from local storage");
+          MSLogError([MSData logTag], @"Error reading document from local storage");
           completionHandler(cachedDocument);
         }
 
         // Cached document is pending deletion, error out.
         else if ([kMSPendingOperationDelete isEqualToString:cachedDocument.pendingOperation]) {
           NSString *message = @"Document pending deletion in local storage";
-          MSLogError([MSDataStore logTag], message);
-          completionHandler([[MSDocumentWrapper alloc] initWithDataStoreErrorCode:MSACDataStoreErrorDocumentNotFound
-                                                                     errorMessage:message
-                                                                       documentId:documentId]);
+          MSLogError([MSData logTag], message);
+          completionHandler([[MSDocumentWrapper alloc] initWithErrorCode:MSACDataErrorDocumentNotFound
+                                                            errorMessage:message
+                                                              documentId:documentId]);
         }
 
         // Cached document is valid.
@@ -150,10 +150,10 @@
         NSError *jsonError;
         if (![NSJSONSerialization isValidJSONObject:dictionary]) {
           jsonError =
-              [[NSError alloc] initWithDomain:kMSACDataStoreErrorDomain
-                                         code:MSACDataStoreErrorJSONSerializationFailed
+              [[NSError alloc] initWithDomain:kMSACDataErrorDomain
+                                         code:MSACDataErrorJSONSerializationFailed
                                      userInfo:@{NSLocalizedDescriptionKey : @"Dictionary contains values that cannot be serialized."}];
-          MSLogError([MSDataStore logTag], @"Error serializing document for local storage: %@", [jsonError localizedDescription]);
+          MSLogError([MSData logTag], @"Error serializing document for local storage: %@", [jsonError localizedDescription]);
           completionHandler([[MSDocumentWrapper alloc] initWithError:jsonError documentId:documentId]);
           return;
         }
@@ -162,10 +162,10 @@
           jsonDocument = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
         } else {
           NSString *message = @"Error serializing document for local storage";
-          MSLogError([MSDataStore logTag], message);
-          completionHandler([[MSDocumentWrapper alloc] initWithDataStoreErrorCode:MSACDataStoreLocalStoreError
-                                                                     errorMessage:message
-                                                                       documentId:documentId]);
+          MSLogError([MSData logTag], message);
+          completionHandler([[MSDocumentWrapper alloc] initWithErrorCode:MSACDataLocalStoreError
+                                                            errorMessage:message
+                                                              documentId:documentId]);
           return;
         }
 
@@ -233,8 +233,8 @@
                 operation:(NSString *_Nullable)operation {
 
   // If the device time to live does not allow it, remove document from local storage (whether it is here or not).
-  if (deviceTimeToLive == kMSDataStoreTimeToLiveNoCache) {
-    MSLogInfo([MSDataStore logTag], @"Removing document from local storage (partition: %@, id: %@)", token.partition,
+  if (deviceTimeToLive == kMSDataTimeToLiveNoCache) {
+    MSLogInfo([MSData logTag], @"Removing document from local storage (partition: %@, id: %@)", token.partition,
               currentCachedDocument.documentId);
     [self.documentStore deleteWithToken:token documentId:currentCachedDocument.documentId];
   }
@@ -246,14 +246,14 @@
   else if (([kMSPendingOperationCreate isEqualToString:currentCachedDocument.pendingOperation] ||
             [kMSPendingOperationReplace isEqualToString:currentCachedDocument.pendingOperation]) &&
            !currentCachedDocument.eTag && operation && [kMSPendingOperationDelete isEqualToString:(NSString *)operation]) {
-    MSLogInfo([MSDataStore logTag], @"Removing never-synced document from local storage (partition: %@, id: %@)", token.partition,
+    MSLogInfo([MSData logTag], @"Removing never-synced document from local storage (partition: %@, id: %@)", token.partition,
               currentCachedDocument.documentId);
     [self.documentStore deleteWithToken:token documentId:currentCachedDocument.documentId];
   }
 
   // Update document storage.
   else {
-    MSLogInfo([MSDataStore logTag], @"Updating/inserting document into local storage (partition: %@, id: %@, operation: %@)",
+    MSLogInfo([MSData logTag], @"Updating/inserting document into local storage (partition: %@, id: %@, operation: %@)",
               token.partition, currentCachedDocument.documentId, operation);
     [self.documentStore upsertWithToken:token documentWrapper:newCachedDocument operation:operation deviceTimeToLive:deviceTimeToLive];
   }

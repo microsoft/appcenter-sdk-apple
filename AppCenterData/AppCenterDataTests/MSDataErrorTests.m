@@ -2,15 +2,15 @@
 // Licensed under the MIT License.
 
 #import "AppCenter.h"
-#import "MSDataSourceError.h"
-#import "MSDataStoreErrors.h"
+#import "MSDataError.h"
+#import "MSDataErrors.h"
 #import "MSTestFrameworks.h"
 
-@interface MSDataSourceErrorTests : XCTestCase
+@interface MSDataErrorTests : XCTestCase
 
 @end
 
-@implementation MSDataSourceErrorTests
+@implementation MSDataErrorTests
 
 - (void)testInitWithErrorCallsParsingMethod {
 
@@ -18,16 +18,16 @@
   NSInteger expectedErrorCode = MSHTTPCodesNo500InternalServerError;
   NSDictionary *userInfo = @{@"MSHttpCodeKey" : @(expectedErrorCode)};
   NSError *error = [NSError errorWithDomain:kMSACErrorDomain code:0 userInfo:userInfo];
-  id dataSourceErrorMock = OCMClassMock([MSDataSourceError class]);
+  id dataErrorMock = OCMClassMock([MSDataError class]);
 
   // When
-  MSDataSourceError *dataSourceError = [[MSDataSourceError alloc] initWithError:error];
+  MSDataError *dataError = [[MSDataError alloc] initWithError:error];
 
   // Then
-  OCMVerify([dataSourceErrorMock errorCodeFromError:OCMOCK_ANY]);
-  XCTAssertEqual(expectedErrorCode, dataSourceError.errorCode);
-  XCTAssertEqualObjects(error, dataSourceError.error);
-  [dataSourceErrorMock stopMocking];
+  OCMVerify([dataErrorMock errorCodeFromError:OCMOCK_ANY]);
+  XCTAssertEqual(expectedErrorCode, dataError.errorCode);
+  XCTAssertEqualObjects(error, dataError.error);
+  [dataErrorMock stopMocking];
 }
 
 - (void)testErrorCodeFromErrorParsesCodeFromUserInfo {
@@ -38,7 +38,7 @@
   NSError *error = [NSError errorWithDomain:kMSACErrorDomain code:0 userInfo:userInfo];
 
   // When
-  NSInteger actualErrorCode = [MSDataSourceError errorCodeFromError:error];
+  NSInteger actualErrorCode = [MSDataError errorCodeFromError:error];
 
   // Then
   XCTAssertEqual(expectedErrorCode, actualErrorCode);
@@ -51,7 +51,7 @@
   NSError *error = [NSError errorWithDomain:kMSACErrorDomain code:0 userInfo:nil];
 
   // When
-  NSInteger actualErrorCode = [MSDataSourceError errorCodeFromError:error];
+  NSInteger actualErrorCode = [MSDataError errorCodeFromError:error];
 
   // Then
   XCTAssertEqual(expectedErrorCode, actualErrorCode);

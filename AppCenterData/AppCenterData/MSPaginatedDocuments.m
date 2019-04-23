@@ -3,8 +3,8 @@
 
 #import "MSPaginatedDocuments.h"
 #import "MSCosmosDb.h"
-#import "MSDataStore.h"
-#import "MSDataStoreInternal.h"
+#import "MSData.h"
+#import "MSDataInternal.h"
 #import "MSPaginatedDocumentsInternal.h"
 #import "MSSerializableDocument.h"
 #import "MSTokenExchange.h"
@@ -29,7 +29,7 @@
   return self;
 }
 
-- (instancetype)initWithError:(MSDataSourceError *)error partition:(NSString *)partition documentType:(Class)documentType {
+- (instancetype)initWithError:(MSDataError *)error partition:(NSString *)partition documentType:(Class)documentType {
   return [self initWithPage:[[MSPage alloc] initWithError:error] partition:partition documentType:documentType continuationToken:nil];
 }
 
@@ -39,7 +39,7 @@
 
 - (void)nextPageWithCompletionHandler:(void (^)(MSPage *page))completionHandler {
   if ([self hasNextPage]) {
-    [MSDataStore listWithPartition:self.partition
+    [MSData listWithPartition:self.partition
                       documentType:self.documentType
                  continuationToken:self.continuationToken
                  completionHandler:^(MSPaginatedDocuments *documents) {

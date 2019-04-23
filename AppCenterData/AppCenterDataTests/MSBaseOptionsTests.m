@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 #import "MSBaseOptions.h"
-#import "MSDataStore.h"
+#import "MSData.h"
 #import "MSTestFrameworks.h"
 
 @interface MSBaseOptionsTests : XCTestCase

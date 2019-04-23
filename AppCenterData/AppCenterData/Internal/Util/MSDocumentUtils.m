@@ -3,10 +3,10 @@
 
 #import <objc/runtime.h>
 
-#import "MSDataSourceError.h"
-#import "MSDataStorageConstants.h"
-#import "MSDataStoreErrors.h"
-#import "MSDataStoreInternal.h"
+#import "MSDataError.h"
+#import "MSDataConstants.h"
+#import "MSDataErrors.h"
+#import "MSDataInternal.h"
 #import "MSDocumentUtils.h"
 #import "MSDocumentWrapperInternal.h"
 #import "MSLogger.h"
@@ -59,11 +59,11 @@ static NSString *const kMSDocumentKey = @"document";
   // Handle deserialization error.
   if (error || !dictionary || ![dictionary isKindOfClass:[NSDictionary class]]) {
     if (!error) {
-      error = [[NSError alloc] initWithDomain:kMSACDataStoreErrorDomain
-                                         code:MSACDataStoreErrorJSONSerializationFailed
+      error = [[NSError alloc] initWithDomain:kMSACDataErrorDomain
+                                         code:MSACDataErrorJSONSerializationFailed
                                      userInfo:@{NSLocalizedDescriptionKey : @"Can't deserialize JSON payload"}];
     }
-    MSLogError([MSDataStore logTag], @"Error deserializing data: %@", [error description]);
+    MSLogError([MSData logTag], @"Error deserializing data: %@", [error description]);
     return [[MSDocumentWrapper alloc] initWithError:error documentId:nil];
   }
 
@@ -91,11 +91,11 @@ static NSString *const kMSDocumentKey = @"document";
   // Handle deserialization error.
   if (error || ![dictionary isKindOfClass:[NSDictionary class]]) {
     if (!error) {
-      error = [[NSError alloc] initWithDomain:kMSACDataStoreErrorDomain
-                                         code:MSACDataStoreErrorJSONSerializationFailed
+      error = [[NSError alloc] initWithDomain:kMSACDataErrorDomain
+                                         code:MSACDataErrorJSONSerializationFailed
                                      userInfo:@{NSLocalizedDescriptionKey : @"Can't deserialize JSON payload"}];
     }
-    MSLogError([MSDataStore logTag], @"Error deserializing data: %@", [error localizedDescription]);
+    MSLogError([MSData logTag], @"Error deserializing data: %@", [error localizedDescription]);
     return [[MSDocumentWrapper alloc] initWithError:error documentId:documentId];
   }
 
@@ -122,10 +122,10 @@ static NSString *const kMSDocumentKey = @"document";
 
     // Prepare and return error.
     NSError *error = [[NSError alloc]
-        initWithDomain:kMSACDataStoreErrorDomain
-                  code:MSACDataStoreErrorJSONSerializationFailed
+        initWithDomain:kMSACDataErrorDomain
+                  code:MSACDataErrorJSONSerializationFailed
               userInfo:@{NSLocalizedDescriptionKey : @"Can't deserialize document (missing system properties or partition key)"}];
-    MSLogError([MSDataStore logTag], @"Error deserializing data: %@", [error localizedDescription]);
+    MSLogError([MSData logTag], @"Error deserializing data: %@", [error localizedDescription]);
     return [[MSDocumentWrapper alloc] initWithError:error documentId:nil];
   }
   NSDictionary *dictionary = (NSDictionary *)object;
@@ -185,10 +185,10 @@ static NSString *const kMSDocumentKey = @"document";
 
   // Validate dictionary
   if (![NSJSONSerialization isValidJSONObject:dictionary]) {
-    error = [[NSError alloc] initWithDomain:kMSACDataStoreErrorDomain
-                                       code:MSACDataStoreErrorJSONSerializationFailed
+    error = [[NSError alloc] initWithDomain:kMSACDataErrorDomain
+                                       code:MSACDataErrorJSONSerializationFailed
                                    userInfo:@{NSLocalizedDescriptionKey : @"Dictionary contains values that cannot be serialized."}];
-    MSLogError([MSDataStore logTag], @"Error deserializing data: %@", [error localizedDescription]);
+    MSLogError([MSData logTag], @"Error deserializing data: %@", [error localizedDescription]);
     return [[MSDocumentWrapper alloc] initWithError:error documentId:documentId];
   }
 
@@ -200,8 +200,8 @@ static NSString *const kMSDocumentKey = @"document";
   // Deserialize document.
   id<MSSerializableDocument> deserializedValue;
   if (!error && ![MSDocumentUtils isReferenceDictionaryWithKey:dictionary key:kMSDocumentKey keyType:[NSDictionary class]]) {
-    error = [[NSError alloc] initWithDomain:kMSACDataStoreErrorDomain
-                                       code:MSACDataStoreErrorJSONSerializationFailed
+    error = [[NSError alloc] initWithDomain:kMSACDataErrorDomain
+                                       code:MSACDataErrorJSONSerializationFailed
                                    userInfo:@{NSLocalizedDescriptionKey : @"Can't deserialize document (missing document property)"}];
   }
   if (!error) {
@@ -209,12 +209,12 @@ static NSString *const kMSDocumentKey = @"document";
   }
 
   // Return document wrapper.
-  MSDataSourceError *dataSourceError;
+  MSDataError *dataError;
   if (error) {
-    dataSourceError = [[MSDataSourceError alloc] initWithError:error];
-    MSLogError([MSDataStore logTag], @"Error deserializing data: %@", [error localizedDescription]);
+    dataError = [[MSDataError alloc] initWithError:error];
+    MSLogError([MSData logTag], @"Error deserializing data: %@", [error localizedDescription]);
   } else {
-    MSLogDebug([MSDataStore logTag], @"Successfully deserialized document: %@ (partition: %@)", documentId, partition);
+    MSLogDebug([MSData logTag], @"Successfully deserialized document: %@ (partition: %@)", documentId, partition);
   }
   return [[MSDocumentWrapper alloc] initWithDeserializedValue:deserializedValue
                                                     jsonValue:jsonValue
@@ -223,7 +223,7 @@ static NSString *const kMSDocumentKey = @"document";
                                                          eTag:eTag
                                               lastUpdatedDate:lastUpdatedDate
                                              pendingOperation:pendingOperation
-                                                        error:dataSourceError
+                                                        error:dataError
                                               fromDeviceCache:fromDeviceCache];
 }
 

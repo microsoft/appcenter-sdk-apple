@@ -16,7 +16,7 @@ custom_categories:
     children:
     - Installation
 
-umbrella_header: ../../../AppCenter-SDK-Apple/iOS/AppCenterData.framework/Headers/AppCenterDataStorage.h
+umbrella_header: ../../../AppCenter-SDK-Apple/iOS/AppCenterData.framework/Headers/AppCenterData.h
 framework_root: ../../../AppCenter-SDK-Apple/iOS/
 exclude: [../../../AppCenter-SDK-Apple/iOS/AppCenterData.framework/Headers/MSService.h, ../../../AppCenter-SDK-Apple/iOS/AppCenterData.framework/Headers/MSServiceAbstract.h]
 

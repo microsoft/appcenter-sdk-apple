@@ -5,7 +5,7 @@
 
 #import "MSDBDocumentStore.h"
 #import "MSDataOperationProxy.h"
-#import "MSDataStore.h"
+#import "MSData.h"
 #import "MSDocumentStore.h"
 #import "MSServiceInternal.h"
 #import "MS_Reachability.h"
@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol MSHttpClientProtocol;
 
-@interface MSDataStore () <MSServiceInternal>
+@interface MSData () <MSServiceInternal>
 
 /**
  * A token exchange url that is used to get resource tokens.

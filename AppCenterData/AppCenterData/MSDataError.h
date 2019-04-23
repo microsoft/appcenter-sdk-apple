@@ -3,7 +3,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface MSDataSourceError : NSObject
+@interface MSDataError : NSObject
 
 /**
  * Document error.
@@ -20,7 +20,7 @@
  *
  * @param error An error object.
  *
- * @return A new `MSDataSourceError` instance.
+ * @return A new `MSDataError` instance.
  */
 - (instancetype)initWithError:(NSError *)error;
 

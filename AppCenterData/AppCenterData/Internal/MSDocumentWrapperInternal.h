@@ -27,7 +27,7 @@
                                      eTag:(NSString *)eTag
                           lastUpdatedDate:(NSDate *)lastUpdatedDate
                          pendingOperation:(NSString *)pendingOperation
-                                    error:(MSDataSourceError *)error
+                                    error:(MSDataError *)error
                           fromDeviceCache:(BOOL)fromDeviceCache;
 
 /**
@@ -49,7 +49,7 @@
  *
  * @return A new `MSDocumentWrapper` instance.
  */
-- (instancetype)initWithDataStoreErrorCode:(NSInteger)errorCode errorMessage:(NSString *)errorMessage documentId:(NSString *)documentId;
+- (instancetype)initWithErrorCode:(NSInteger)errorCode errorMessage:(NSString *)errorMessage documentId:(NSString *)documentId;
 
 /**
  * The type of pending operation, if any, that must be synchronized.

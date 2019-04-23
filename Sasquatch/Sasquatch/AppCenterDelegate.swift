@@ -4,7 +4,7 @@
 #if !ACTIVE_COMPILATION_CONDITION_PUPPET
 import AppCenter
 import AppCenterAnalytics
-import AppCenterDataStorage
+import AppCenterData
 #endif
 
 /**

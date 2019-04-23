@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 #import "MSTokensResponse.h"
-#import "MSDataStorageConstants.h"
+#import "MSDataConstants.h"
 #import "MSTokenResult.h"
 
 @implementation MSTokensResponse

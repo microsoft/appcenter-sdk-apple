@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "MSDataSourceError.h"
-#import "MSDataStore.h"
-#import "MSDataStoreErrors.h"
-#import "MSDataStoreInternal.h"
+#import "MSDataError.h"
+#import "MSData.h"
+#import "MSDataErrors.h"
+#import "MSDataInternal.h"
 #import "MSDocumentWrapperInternal.h"
 #import "MSLoggerInternal.h"
 #import "MSSerializableObject.h"
@@ -18,7 +18,7 @@
                                      eTag:(NSString *)eTag
                           lastUpdatedDate:(NSDate *)lastUpdatedDate
                          pendingOperation:(nullable NSString *)pendingOperation
-                                    error:(MSDataSourceError *)error
+                                    error:(MSDataError *)error
                           fromDeviceCache:(BOOL)fromDeviceCache {
   if ((self = [super init])) {
     _deserializedValue = deserializedValue;
@@ -37,13 +37,13 @@
 - (instancetype)initWithError:(NSError *)error documentId:(NSString *)documentId {
   if ((self = [super init])) {
     _documentId = documentId;
-    _error = [[MSDataSourceError alloc] initWithError:error];
+    _error = [[MSDataError alloc] initWithError:error];
   }
   return self;
 }
 
-- (instancetype)initWithDataStoreErrorCode:(NSInteger)errorCode errorMessage:(NSString *)errorMessage documentId:(NSString *)documentId {
-  return [self initWithError:[[NSError alloc] initWithDomain:kMSACDataStoreErrorDomain
+- (instancetype)initWithErrorCode:(NSInteger)errorCode errorMessage:(NSString *)errorMessage documentId:(NSString *)documentId {
+  return [self initWithError:[[NSError alloc] initWithDomain:kMSACDataErrorDomain
                                                         code:errorCode
                                                     userInfo:@{NSLocalizedDescriptionKey : errorMessage}]
                   documentId:documentId];

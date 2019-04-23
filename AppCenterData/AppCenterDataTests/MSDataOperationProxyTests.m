@@ -6,9 +6,9 @@
 #import "MSBaseOptions.h"
 #import "MSDBDocumentStore.h"
 #import "MSDataOperationProxy.h"
-#import "MSDataSourceError.h"
-#import "MSDataStorageConstants.h"
-#import "MSDataStoreErrors.h"
+#import "MSDataError.h"
+#import "MSDataConstants.h"
+#import "MSDataErrors.h"
 #import "MSDictionaryDocument.h"
 #import "MSDocumentWrapperInternal.h"
 #import "MSTestFrameworks.h"
@@ -32,7 +32,7 @@
   _documentStoreMock = OCMClassMock([MSDBDocumentStore class]);
   _reachability = OCMPartialMock([MS_Reachability reachabilityForInternetConnection]);
   _sut = [[MSDataOperationProxy alloc] initWithDocumentStore:_documentStoreMock reachability:self.reachability];
-  _dummyError = [NSError errorWithDomain:kMSACDataStoreErrorDomain code:-1 userInfo:@{NSLocalizedDescriptionKey : @"Some dummy error"}];
+  _dummyError = [NSError errorWithDomain:kMSACDataErrorDomain code:-1 userInfo:@{NSLocalizedDescriptionKey : @"Some dummy error"}];
 }
 
 - (void)tearDown {
@@ -72,7 +72,7 @@
                                  XCTAssertEqual(wrapper.documentId, @"documentId");
                                  XCTAssertEqual(wrapper.deserializedValue, nil);
                                  XCTAssertNotNil(wrapper.error);
-                                 XCTAssertEqual(wrapper.error.error.code, MSACDataStoreLocalStoreError);
+                                 XCTAssertEqual(wrapper.error.error.code, MSACDataLocalStoreError);
                                }];
 }
 
@@ -106,7 +106,7 @@
                                  }
                                  XCTAssertEqual(wrapper.documentId, @"documentId");
                                  XCTAssertEqual(wrapper.deserializedValue, nil);
-                                 XCTAssertEqual(wrapper.error.error.code, MSACDataStoreLocalStoreError);
+                                 XCTAssertEqual(wrapper.error.error.code, MSACDataLocalStoreError);
                                }];
 }
 
@@ -148,7 +148,7 @@
                                  OCMVerify([self.documentStoreMock upsertWithToken:token
                                                                    documentWrapper:remoteDocumentWrapper
                                                                          operation:nil
-                                                                  deviceTimeToLive:kMSDataStoreTimeToLiveDefault]);
+                                                                  deviceTimeToLive:kMSDataTimeToLiveDefault]);
                                }];
 }
 
@@ -168,7 +168,7 @@
   __block MSTokensResponse *tokensResponse = [[MSTokensResponse alloc] initWithTokens:@[ token ]];
 
   // When
-  MSBaseOptions *options = [[MSBaseOptions alloc] initWithDeviceTimeToLive:kMSDataStoreTimeToLiveNoCache];
+  MSBaseOptions *options = [[MSBaseOptions alloc] initWithDeviceTimeToLive:kMSDataTimeToLiveNoCache];
   [self.sut performOperation:kMSPendingOperationRead
       documentId:@"documentId"
       documentType:[NSString class]
@@ -390,7 +390,7 @@
                                  }
                                  XCTAssertNotNil(wrapper.error);
                                  XCTAssertFalse(wrapper.fromDeviceCache); // Error state should not have from device cache set to YES.
-                                 XCTAssertEqual(wrapper.error.error.code, MSACDataStoreErrorDocumentNotFound);
+                                 XCTAssertEqual(wrapper.error.error.code, MSACDataErrorDocumentNotFound);
                                }];
 }
 
@@ -444,7 +444,7 @@
                                  OCMVerify([self.documentStoreMock upsertWithToken:token
                                                                    documentWrapper:wrapper
                                                                          operation:kMSPendingOperationDelete
-                                                                  deviceTimeToLive:kMSDataStoreTimeToLiveDefault]);
+                                                                  deviceTimeToLive:kMSDataTimeToLiveDefault]);
                                }];
 }
 
@@ -502,7 +502,7 @@
                                  OCMVerify([self.documentStoreMock upsertWithToken:token
                                                                    documentWrapper:wrapper
                                                                          operation:kMSPendingOperationCreate
-                                                                  deviceTimeToLive:kMSDataStoreTimeToLiveDefault]);
+                                                                  deviceTimeToLive:kMSDataTimeToLiveDefault]);
                                }];
 }
 
@@ -560,7 +560,7 @@
                                  OCMVerify([self.documentStoreMock upsertWithToken:token
                                                                    documentWrapper:wrapper
                                                                          operation:kMSPendingOperationReplace
-                                                                  deviceTimeToLive:kMSDataStoreTimeToLiveDefault]);
+                                                                  deviceTimeToLive:kMSDataTimeToLiveDefault]);
                                }];
 }
 
@@ -569,8 +569,8 @@
   // If
   XCTestExpectation *expectation =
       [self expectationWithDescription:@"Completed with error on create with unserializable local cached document."];
-  NSErrorDomain expectedErrorDomain = kMSACDataStoreErrorDomain;
-  NSInteger expectedErrorCode = MSACDataStoreErrorJSONSerializationFailed;
+  NSErrorDomain expectedErrorDomain = kMSACDataErrorDomain;
+  NSInteger expectedErrorCode = MSACDataErrorJSONSerializationFailed;
   __block MSDocumentWrapper *cachedDocumentWrapper = [[MSDocumentWrapper alloc] initWithDeserializedValue:[MSDictionaryDocument alloc]
                                                                                                 jsonValue:@""
                                                                                                 partition:@"partition"
@@ -626,8 +626,8 @@
   // If
   XCTestExpectation *expectation =
       [self expectationWithDescription:@"Completed with error on replace with unserializable local cached document."];
-  NSErrorDomain expectedErrorDomain = kMSACDataStoreErrorDomain;
-  NSInteger expectedErrorCode = MSACDataStoreErrorJSONSerializationFailed;
+  NSErrorDomain expectedErrorDomain = kMSACDataErrorDomain;
+  NSInteger expectedErrorCode = MSACDataErrorJSONSerializationFailed;
   __block MSDocumentWrapper *cachedDocumentWrapper = [[MSDocumentWrapper alloc] initWithDeserializedValue:[MSDictionaryDocument alloc]
                                                                                                 jsonValue:@""
                                                                                                 partition:@"partition"

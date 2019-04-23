@@ -4,9 +4,9 @@
 #import "MSCosmosDb.h"
 #import "AppCenter+Internal.h"
 #import "MSConstants+Internal.h"
-#import "MSDataStorageConstants.h"
-#import "MSDataStoreErrors.h"
-#import "MSDataStoreInternal.h"
+#import "MSDataConstants.h"
+#import "MSDataErrors.h"
+#import "MSDataInternal.h"
 #import "MSDocumentUtils.h"
 #import "MSTokenResult.h"
 
@@ -143,9 +143,9 @@ static NSString *const kMSHeaderMsDate = @"x-ms-date";
 
     // Check for document id.
     if (!documentId) {
-      MSLogError([MSDataStore logTag], @"Can't perform CosmodDb operation without document id.");
-      NSError *error = [[NSError alloc] initWithDomain:kMSACDataStoreErrorDomain
-                                                  code:MSACDataStoreDocumentIdError
+      MSLogError([MSData logTag], @"Can't perform CosmodDb operation without document id.");
+      NSError *error = [[NSError alloc] initWithDomain:kMSACDataErrorDomain
+                                                  code:MSACDataDocumentIdError
                                               userInfo:@{NSLocalizedDescriptionKey : kMSACDocumentCreationDesc}];
       completionHandler(nil, nil, error);
       return;
@@ -158,10 +158,10 @@ static NSString *const kMSHeaderMsDate = @"x-ms-date";
                                                               document:(NSDictionary *)[document serializeToDictionary]];
     if (![NSJSONSerialization isValidJSONObject:dic]) {
       serializationError =
-          [[NSError alloc] initWithDomain:kMSACDataStoreErrorDomain
-                                     code:MSACDataStoreErrorJSONSerializationFailed
+          [[NSError alloc] initWithDomain:kMSACDataErrorDomain
+                                     code:MSACDataErrorJSONSerializationFailed
                                  userInfo:@{NSLocalizedDescriptionKey : @"Document dictionary contains values that cannot be serialized."}];
-      MSLogError([MSDataStore logTag], @"Error serializing data: %@", [serializationError localizedDescription]);
+      MSLogError([MSData logTag], @"Error serializing data: %@", [serializationError localizedDescription]);
       completionHandler(nil, nil, serializationError);
       return;
     }
@@ -169,7 +169,7 @@ static NSString *const kMSHeaderMsDate = @"x-ms-date";
     // Serialize document
     body = [NSJSONSerialization dataWithJSONObject:dic options:0 error:&serializationError];
     if (!body || serializationError) {
-      MSLogError([MSDataStore logTag], @"Error serializing data: %@", [serializationError localizedDescription]);
+      MSLogError([MSData logTag], @"Error serializing data: %@", [serializationError localizedDescription]);
       completionHandler(nil, nil, serializationError);
       return;
     }
@@ -188,7 +188,7 @@ static NSString *const kMSHeaderMsDate = @"x-ms-date";
 
   // Prepare user info properties.
   NSMutableDictionary *userInfo = [NSMutableDictionary new];
-  userInfo[NSLocalizedDescriptionKey] = kMSACDataStoreCosmosDbErrorResponseDesc;
+  userInfo[NSLocalizedDescriptionKey] = kMSACDataCosmosDbErrorResponseDesc;
   if (response) {
     userInfo[kMSCosmosDbHttpCodeKey] = @(response.statusCode);
   } else if (error.userInfo[kMSCosmosDbHttpCodeKey]) {
@@ -201,7 +201,7 @@ static NSString *const kMSHeaderMsDate = @"x-ms-date";
   }
 
   // Return the error.
-  return [[NSError alloc] initWithDomain:kMSACDataStoreErrorDomain code:MSACDataStoreErrorHTTPError userInfo:userInfo];
+  return [[NSError alloc] initWithDomain:kMSACDataErrorDomain code:MSACDataErrorHTTPError userInfo:userInfo];
 }
 
 @end

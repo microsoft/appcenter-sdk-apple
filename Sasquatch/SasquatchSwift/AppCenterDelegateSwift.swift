@@ -4,7 +4,7 @@
 import AppCenter
 import AppCenterAnalytics
 import AppCenterCrashes
-import AppCenterDataStorage
+import AppCenterData
 import AppCenterDistribute
 import AppCenterIdentity
 import AppCenterPush
@@ -304,7 +304,7 @@ class AppCenterDelegateSwift: AppCenterDelegate {
     return MSCrashes.lastSessionCrashReport()?.device.appNamespace
   }
   
-  // MSDataStore
+  // MSData
   
   func listDocumentsWithPartition(_ partitionName: String, documentType: AnyClass, completionHandler: @escaping (_ paginatedDocuments:MSPaginatedDocuments) -> Void) {
     MSDataStore.list(withPartition: partitionName, documentType: documentType, completionHandler:completionHandler)

@@ -3,9 +3,9 @@
 
 #import "MSAuthTokenContext.h"
 #import "MSConstants.h"
-#import "MSDataStorageConstants.h"
-#import "MSDataStore.h"
-#import "MSDataStoreErrors.h"
+#import "MSDataConstants.h"
+#import "MSData.h"
+#import "MSDataErrors.h"
 #import "MSHttpClientProtocol.h"
 #import "MSHttpTestUtil.h"
 #import "MSKeychainUtil.h"
@@ -52,7 +52,7 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
   [super setUp];
   self.sut = OCMClassMock([MSTokenExchange class]);
   self.keychainUtilMock = OCMClassMock([MSKeychainUtil class]);
-  OCMStub(ClassMethod([self.sut tokenKeyNameForPartition:kMSDataStoreUserDocumentsPartition])).andReturn(kMSMockTokenKeyName);
+  OCMStub(ClassMethod([self.sut tokenKeyNameForPartition:kMSDataUserDocumentsPartition])).andReturn(kMSMockTokenKeyName);
   self.reachabilityMock = OCMClassMock([MS_Reachability class]);
   OCMStub([self.reachabilityMock reachabilityForInternetConnection]).andReturn(self.reachabilityMock);
   OCMStub([self.reachabilityMock currentReachabilityStatus]).andReturn(ReachableViaWiFi);
@@ -71,7 +71,7 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
   NSMutableDictionary *tokenList = [@{kMSTokens : @[ tokenData ]} mutableCopy];
   NSData *jsonTokenData = [NSJSONSerialization dataWithJSONObject:tokenList options:NSJSONWritingPrettyPrinted error:nil];
 
-  OCMStub(ClassMethod([self.sut tokenKeyNameForPartition:kMSDataStoreUserDocumentsPartition])).andReturn(nil);
+  OCMStub(ClassMethod([self.sut tokenKeyNameForPartition:kMSDataUserDocumentsPartition])).andReturn(nil);
 
   // Create instance of MSAuthTokenContext to mock.
   id contextInstanceMock = OCMPartialMock([MSAuthTokenContext sharedInstance]);
@@ -102,7 +102,7 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
   [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:httpMock
                                              tokenExchangeUrl:[NSURL new]
                                                     appSecret:@"appSecret"
-                                                    partition:kMSDataStoreUserDocumentsPartition
+                                                    partition:kMSDataUserDocumentsPartition
                                           includeExpiredToken:NO
                                                  reachability:self.reachabilityMock
                                             completionHandler:^(MSTokensResponse *tokensResponse, NSError *_Nullable returnError) {
@@ -135,7 +135,7 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
   NSMutableDictionary *tokenList = [@{kMSTokens : @[ tokenData ]} mutableCopy];
   NSData *jsonTokenData = [NSJSONSerialization dataWithJSONObject:tokenList options:NSJSONWritingPrettyPrinted error:nil];
 
-  OCMStub(ClassMethod([self.sut tokenKeyNameForPartition:kMSDataStoreUserDocumentsPartition])).andReturn(nil);
+  OCMStub(ClassMethod([self.sut tokenKeyNameForPartition:kMSDataUserDocumentsPartition])).andReturn(nil);
 
   // Create instance of MSAuthTokenContext to mock.
   id contextInstanceMock = OCMPartialMock([MSAuthTokenContext sharedInstance]);
@@ -165,11 +165,11 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
   [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:httpMock
                                              tokenExchangeUrl:[NSURL new]
                                                     appSecret:@"appSecret"
-                                                    partition:kMSDataStoreUserDocumentsPartition
+                                                    partition:kMSDataUserDocumentsPartition
                                           includeExpiredToken:NO
                                                  reachability:self.reachabilityMock
                                             completionHandler:^(__unused MSTokensResponse *tokensResponse, NSError *_Nullable returnError) {
-                                              XCTAssertEqual(returnError.code, MSACDataStoreErrorHTTPError);
+                                              XCTAssertEqual(returnError.code, MSACDataErrorHTTPError);
                                               [completeExpectation fulfill];
                                             }];
   [self waitForExpectationsWithTimeout:5
@@ -187,7 +187,7 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
   NSMutableDictionary *tokenList = [@{kMSTokens : @[]} mutableCopy];
   NSData *jsonTokenData = [NSJSONSerialization dataWithJSONObject:tokenList options:NSJSONWritingPrettyPrinted error:nil];
 
-  OCMStub(ClassMethod([self.sut tokenKeyNameForPartition:kMSDataStoreUserDocumentsPartition])).andReturn(nil);
+  OCMStub(ClassMethod([self.sut tokenKeyNameForPartition:kMSDataUserDocumentsPartition])).andReturn(nil);
 
   // Create instance of MSAuthTokenContext to mock.
   id contextInstanceMock = OCMPartialMock([MSAuthTokenContext sharedInstance]);
@@ -217,11 +217,11 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
   [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:httpMock
                                              tokenExchangeUrl:[NSURL new]
                                                     appSecret:@"appSecret"
-                                                    partition:kMSDataStoreUserDocumentsPartition
+                                                    partition:kMSDataUserDocumentsPartition
                                           includeExpiredToken:NO
                                                  reachability:self.reachabilityMock
                                             completionHandler:^(__unused MSTokensResponse *tokensResponse, NSError *_Nullable returnError) {
-                                              XCTAssertEqual(returnError.code, MSACDataStoreInvalidTokenExchangeResponse);
+                                              XCTAssertEqual(returnError.code, MSACDataInvalidTokenExchangeResponse);
                                               [completeExpectation fulfill];
                                             }];
   [self waitForExpectationsWithTimeout:0
@@ -265,7 +265,7 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
   [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:httpMock
                                              tokenExchangeUrl:[NSURL new]
                                                     appSecret:@"appSecret"
-                                                    partition:kMSDataStoreAppDocumentsPartition
+                                                    partition:kMSDataAppDocumentsPartition
                                           includeExpiredToken:NO
                                                  reachability:self.reachabilityMock
                                             completionHandler:^(MSTokensResponse *tokensResponse, NSError *_Nullable returnError) {
@@ -310,7 +310,7 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
   [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:httpMock
                                              tokenExchangeUrl:[NSURL new]
                                                     appSecret:@"appSecret"
-                                                    partition:kMSDataStoreUserDocumentsPartition
+                                                    partition:kMSDataUserDocumentsPartition
                                           includeExpiredToken:NO
                                                  reachability:self.reachabilityMock
                                             completionHandler:^(MSTokensResponse *tokensResponse, NSError *_Nullable error) {
@@ -351,13 +351,13 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
   [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:httpMock
                                              tokenExchangeUrl:[NSURL new]
                                                     appSecret:@"appSecret"
-                                                    partition:kMSDataStoreUserDocumentsPartition
+                                                    partition:kMSDataUserDocumentsPartition
                                           includeExpiredToken:NO
                                                  reachability:nonReachabilityMock
                                             completionHandler:^(MSTokensResponse __unused *tokensResponse, NSError *_Nullable error) {
                                               // Then
                                               XCTAssertNotNil(error);
-                                              XCTAssertEqual(error.code, MSACDataStoreUnableToGetTokenError);
+                                              XCTAssertEqual(error.code, MSACDataUnableToGetTokenError);
                                               [completeExpectation fulfill];
                                             }];
   [self waitForExpectationsWithTimeout:5
@@ -396,7 +396,7 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
   [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:httpMock
                                              tokenExchangeUrl:[NSURL new]
                                                     appSecret:@"appSecret"
-                                                    partition:kMSDataStoreUserDocumentsPartition
+                                                    partition:kMSDataUserDocumentsPartition
                                           includeExpiredToken:NO
                                                  reachability:self.reachabilityMock
                                             completionHandler:^(MSTokensResponse *tokensResponse, NSError *_Nullable returnError) {
@@ -440,7 +440,7 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
       performDbTokenAsyncOperationWithHttpClient:httpMock
                                 tokenExchangeUrl:[NSURL new]
                                        appSecret:@"appSecret"
-                                       partition:kMSDataStoreUserDocumentsPartition
+                                       partition:kMSDataUserDocumentsPartition
                              includeExpiredToken:NO
                                     reachability:self.reachabilityMock
                                completionHandler:^(MSTokensResponse *__unused tokensResponse, NSError *_Nullable __unused returnError){
@@ -473,13 +473,13 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
   [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:httpMock
                                              tokenExchangeUrl:[NSURL new]
                                                     appSecret:@"appSecret"
-                                                    partition:kMSDataStoreUserDocumentsPartition
+                                                    partition:kMSDataUserDocumentsPartition
                                           includeExpiredToken:NO
                                                  reachability:self.reachabilityMock
                                             completionHandler:^(MSTokensResponse *__unused tokensResponse, NSError *_Nullable returnError) {
                                               // Then
                                               XCTAssertNotNil(returnError);
-                                              XCTAssertEqual(returnError.code, MSACDataStoreErrorJSONSerializationFailed);
+                                              XCTAssertEqual(returnError.code, MSACDataErrorJSONSerializationFailed);
                                               [completeExpectation fulfill];
                                             }];
   [self waitForExpectationsWithTimeout:5
@@ -514,7 +514,7 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
   [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:httpMock
                                              tokenExchangeUrl:[NSURL new]
                                                     appSecret:@"appSecret"
-                                                    partition:kMSDataStoreUserDocumentsPartition
+                                                    partition:kMSDataUserDocumentsPartition
                                           includeExpiredToken:NO
                                                  reachability:self.reachabilityMock
                                             completionHandler:^(MSTokensResponse *__unused tokensResponse, NSError *_Nullable returnError) {
@@ -546,7 +546,7 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
                                                  reachability:self.reachabilityMock
                                             completionHandler:^(MSTokensResponse *__unused tokensResponse, NSError *_Nullable returnError) {
                                               // Then
-                                              XCTAssertEqual(returnError.code, MSACDataStoreInvalidPartitionError);
+                                              XCTAssertEqual(returnError.code, MSACDataInvalidPartitionError);
                                               [completeExpectation fulfill];
                                             }];
   [self waitForExpectationsWithTimeout:5
@@ -583,13 +583,13 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
   [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:httpMock
                                              tokenExchangeUrl:[NSURL new]
                                                     appSecret:@"appSecret"
-                                                    partition:kMSDataStoreUserDocumentsPartition
+                                                    partition:kMSDataUserDocumentsPartition
                                           includeExpiredToken:NO
                                                  reachability:self.reachabilityMock
                                             completionHandler:^(MSTokensResponse *__unused tokensResponse, NSError *_Nullable returnError) {
                                               // Then
                                               XCTAssertNotNil(returnError);
-                                              XCTAssertEqual([returnError code], MSACDataStoreErrorHTTPError);
+                                              XCTAssertEqual([returnError code], MSACDataErrorHTTPError);
                                               [completeExpectation fulfill];
                                             }];
   [self waitForExpectationsWithTimeout:5
@@ -660,7 +660,7 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
 - (void)testTokenKeyNameForPartitionReturnsReadOnlyKey {
 
   // When
-  NSString *tokenKeyName = [MSTokenExchange tokenKeyNameForPartition:kMSDataStoreAppDocumentsPartition];
+  NSString *tokenKeyName = [MSTokenExchange tokenKeyNameForPartition:kMSDataAppDocumentsPartition];
 
   // Then
   XCTAssertTrue([tokenKeyName isEqualToString:kMSStorageReadOnlyDbTokenKey]);
@@ -688,7 +688,7 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
 
   // When
   // Retrieve token and include it even when expired.
-  MSTokenResult *tokenResult = [MSTokenExchange retrieveCachedTokenForPartition:kMSDataStoreUserDocumentsPartition includeExpiredToken:YES];
+  MSTokenResult *tokenResult = [MSTokenExchange retrieveCachedTokenForPartition:kMSDataUserDocumentsPartition includeExpiredToken:YES];
 
   // Then
   XCTAssertNotNil(tokenResult);
@@ -707,7 +707,7 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
 
   // When
   // Retrieve token and include it even when expired.
-  MSTokenResult *tokenResult = [MSTokenExchange retrieveCachedTokenForPartition:kMSDataStoreUserDocumentsPartition includeExpiredToken:NO];
+  MSTokenResult *tokenResult = [MSTokenExchange retrieveCachedTokenForPartition:kMSDataUserDocumentsPartition includeExpiredToken:NO];
 
   // Then
   XCTAssertNil(tokenResult);
@@ -723,7 +723,7 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
 
   // When
   // Retrieve token and include it even when expired.
-  MSTokenResult *tokenResult = [MSTokenExchange retrieveCachedTokenForPartition:kMSDataStoreUserDocumentsPartition includeExpiredToken:NO];
+  MSTokenResult *tokenResult = [MSTokenExchange retrieveCachedTokenForPartition:kMSDataUserDocumentsPartition includeExpiredToken:NO];
 
   // Then
   XCTAssertNotNil(tokenResult);
@@ -758,7 +758,7 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
 
 - (NSObject *)getSuccessfulTokenData {
   return @{
-    kMSPartition : kMSDataStoreUserDocumentsPartition,
+    kMSPartition : kMSDataUserDocumentsPartition,
     kMSToken : kMSMockTokenValue,
     kMSStatus : kMSTokenResultSucceed,
     kMSDbName : @"",

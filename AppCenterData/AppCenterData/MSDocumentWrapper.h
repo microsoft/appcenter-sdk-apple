@@ -3,7 +3,7 @@
 
 #import "MSSerializableDocument.h"
 
-@class MSDataSourceError;
+@class MSDataError;
 
 @interface MSDocumentWrapper : NSObject
 
@@ -40,7 +40,7 @@
 /**
  * Document error.
  */
-@property(nonatomic, strong, readonly) MSDataSourceError *error;
+@property(nonatomic, strong, readonly) MSDataError *error;
 
 /**
  * Flag indicating if a document was obtained from the local device store/cache

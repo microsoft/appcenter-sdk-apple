@@ -3,7 +3,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface MSDataStoreUtils : NSObject
+@interface MSDataUtils : NSObject
 
 /**
  * Deserialize string into an `NSDate`.

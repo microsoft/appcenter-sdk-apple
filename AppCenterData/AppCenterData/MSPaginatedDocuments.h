@@ -34,7 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return The paginated documents.
  */
-- (instancetype)initWithError:(MSDataSourceError *)error partition:(NSString *)partition documentType:(Class)documentType;
+- (instancetype)initWithError:(MSDataError *)error partition:(NSString *)partition documentType:(Class)documentType;
 
 /**
  * Boolean indicating if an extra page is available.

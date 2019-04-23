@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "MSDataSourceError.h"
+#import "MSDataError.h"
 #import "MSDocumentWrapper.h"
 #import "MSSerializableDocument.h"
 
@@ -10,7 +10,7 @@
 /**
  * Error (or null).
  */
-@property(readonly) MSDataSourceError *error;
+@property(readonly) MSDataError *error;
 
 /**
  * Array of documents in the current page (or null).
@@ -33,6 +33,6 @@
  *
  * @return The page with error.
  */
-- (instancetype)initWithError:(MSDataSourceError *)error;
+- (instancetype)initWithError:(MSDataError *)error;
 
 @end

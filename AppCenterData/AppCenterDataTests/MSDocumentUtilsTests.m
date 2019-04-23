@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "MSDataSourceError.h"
-#import "MSDataStorageConstants.h"
+#import "MSDataError.h"
+#import "MSDataConstants.h"
 #import "MSDictionaryDocument.h"
 #import "MSDocumentUtils.h"
 #import "MSTestFrameworks.h"

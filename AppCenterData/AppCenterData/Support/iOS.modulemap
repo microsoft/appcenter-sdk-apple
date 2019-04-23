@@ -1,5 +1,5 @@
 framework module AppCenterData {
-  umbrella header "AppCenterDataStorage.h"
+  umbrella header "AppCenterData.h"
   
   export *
   module * { export * }

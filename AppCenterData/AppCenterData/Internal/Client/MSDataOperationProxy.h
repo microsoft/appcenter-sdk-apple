@@ -4,7 +4,7 @@
 #import <Foundation/Foundation.h>
 
 #import "MSBaseOptions.h"
-#import "MSDataStore.h"
+#import "MSData.h"
 #import "MSDocumentStore.h"
 #import "MSTokensResponse.h"
 #import "MS_Reachability.h"
@@ -19,7 +19,7 @@ typedef void (^MSCachedTokenCompletionHandler)(MSTokensResponse *_Nullable token
 @interface MSDataOperationProxy : NSObject
 
 /**
- * Data store.
+ * Document store.
  */
 @property(nonatomic, nonnull) id<MSDocumentStore> documentStore;
 
