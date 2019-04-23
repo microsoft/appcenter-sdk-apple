@@ -135,7 +135,7 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
           cellText = "Partition: \(documentContent?.partition ?? "")"
         break
         case 2:
-          if documentContent?.lastUpdatedDate != nil {
+          if documentContent != nil && documentContent?.lastUpdatedDate != nil {
             let formatter = DateFormatter()
             formatter.dateFormat = "dd MMM yyyy HH:mm"
             cellText = "Last update date: \(formatter.string(from: documentContent?.lastUpdatedDate ?? Date()))"
@@ -153,13 +153,13 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
               let jsonData = try String(data: JSONSerialization.data(withJSONObject: dictionary, options: .prettyPrinted), encoding: String.Encoding.utf8)
               cellText = "Document content: \(jsonData ?? "unknown")"
             } catch {
-              cellText = "Document content: unknown"
+              cellText = "Document content could not be deserialized."
             }
             break
           }
         break
       default:
-        cellText = "Unknown"
+        cellText = "nil"
       }
       cell.textLabel?.text = cellText
       return cell
