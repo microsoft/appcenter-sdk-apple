@@ -301,11 +301,12 @@ static dispatch_once_t onceToken;
   // Init MSAL client application.
   NSError *error;
   MSALAuthority *auth = [MSALAuthority authorityWithURL:(NSURL * __nonnull) self.identityConfig.authorities[0].authorityUrl error:nil];
-  self.clientApplication = [[MSALPublicClientApplication alloc] initWithClientId:(NSString * __nonnull) self.identityConfig.clientId
-                                                                       authority:auth
-                                                                     redirectUri:self.identityConfig.redirectUri
-                                                                           error:&error];
-  self.clientApplication.validateAuthority = NO;
+  MSALPublicClientApplicationConfig *config =
+      [[MSALPublicClientApplicationConfig alloc] initWithClientId:(NSString * __nonnull) self.identityConfig.clientId
+                                                      redirectUri:self.identityConfig.redirectUri
+                                                        authority:auth];
+  config.knownAuthorities = @[ auth ];
+  self.clientApplication = [[MSALPublicClientApplication alloc] initWithConfiguration:config error:&error];
   if (error != nil) {
     MSLogError([MSIdentity logTag], @"Failed to initialize client application.");
   }
