@@ -22,10 +22,10 @@
 @import AppCenter;
 @import AppCenterAnalytics;
 @import AppCenterCrashes;
+@import AppCenterDataStorage;
 @import AppCenterDistribute;
 @import AppCenterIdentity;
 @import AppCenterPush;
-@import AppCenterDataStorage;
 #endif
 
 /**

@@ -175,7 +175,7 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
       case TimeToLiveMode.NoCache.rawValue:
       return 0
       case TimeToLiveMode.TwoSeconds.rawValue:
-      return 2000
+      return 2
     default:
       return 60 * 60 * 24
     }
