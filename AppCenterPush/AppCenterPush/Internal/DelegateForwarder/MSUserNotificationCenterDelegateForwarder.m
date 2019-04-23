@@ -48,6 +48,15 @@ static MSUserNotificationCenterDelegateForwarder *sharedInstance = nil;
   sharedInstance = [self new];
 }
 
+- (Class)originalClassForSetDelegate {
+#if !TARGET_OS_OSX
+  if (@available(iOS 10.0, tvOS 10.0, watchOS 3.0, *)) {
+    return [UNUserNotificationCenter class];
+  }
+#endif
+  return nil;
+}
+
 - (dispatch_once_t *)swizzlingOnceToken {
   return &swizzlingOnceToken;
 }
