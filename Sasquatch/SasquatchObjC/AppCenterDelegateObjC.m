@@ -8,6 +8,7 @@
 #import "AppCenter.h"
 #import "AppCenterAnalytics.h"
 #import "AppCenterCrashes.h"
+#import "AppCenterDataStorage.h"
 #import "AppCenterDistribute.h"
 #import "AppCenterIdentity.h"
 #import "AppCenterPush.h"
@@ -21,6 +22,7 @@
 @import AppCenter;
 @import AppCenterAnalytics;
 @import AppCenterCrashes;
+@import AppCenterDataStorage;
 @import AppCenterDistribute;
 @import AppCenterIdentity;
 @import AppCenterPush;
@@ -216,6 +218,7 @@
 - (void)signIn {
   [MSIdentity signInWithCompletionHandler:^(MSUserInformation *_Nullable userInformation, NSError *_Nullable error) {
     if (!error) {
+      [[NSUserDefaults standardUserDefaults] setBool:true forKey:kMSUserIdentity];
       NSLog(@"Identity.signIn succeeded, accountId=%@", userInformation.accountId);
     } else {
       NSLog(@"Identity.signIn failed, error=%@", error);
@@ -225,6 +228,7 @@
 
 - (void)signOut {
   [MSIdentity signOut];
+  [[NSUserDefaults standardUserDefaults] setBool:false forKey:kMSUserIdentity];
 }
 
 #pragma mark - Last crash report section.
@@ -315,6 +319,45 @@
 
 - (NSString *)lastCrashReportDeviceCarrierCountry {
   return [[[MSCrashes lastSessionCrashReport] device] carrierCountry];
+}
+
+// MSDataStore section
+- (void)listDocumentsWithPartition:(NSString *)partitionName
+                      documentType:(Class)documentType
+                 completionHandler:(void (^)(MSPaginatedDocuments *))completionHandler {
+  [MSDataStore listWithPartition:partitionName documentType:documentType completionHandler:completionHandler];
+}
+
+- (void)createDocumentWithPartition:(NSString *_Nonnull)partitionName
+                         documentId:(NSString *_Nonnull)documentId
+                           document:(MSDictionaryDocument *_Nonnull)document
+                       writeOptions:(MSWriteOptions *_Nonnull)writeOptions
+                  completionHandler:(void (^)(MSDocumentWrapper *))completionHandler {
+  [MSDataStore createWithPartition:partitionName
+                        documentId:documentId
+                          document:document
+                      writeOptions:writeOptions
+                 completionHandler:completionHandler];
+}
+
+- (void)deleteDocumentWithPartition:(NSString *_Nonnull)partitionName documentId:(NSString *_Nonnull)documentId {
+  [MSDataStore deleteWithPartition:partitionName
+                        documentId:documentId
+                 completionHandler:^(MSDocumentWrapper *_Nonnull document) {
+                   NSLog(@"Storage.delete document with id %@ succeeded", documentId);
+                 }];
+}
+
+- (void)replaceDocumentWithPartition:(NSString *_Nonnull)partitionName
+                          documentId:(NSString *_Nonnull)documentId
+                            document:(MSDictionaryDocument *_Nonnull)document
+                        writeOptions:(MSWriteOptions *_Nonnull)writeOptions
+                   completionHandler:(void (^)(MSDocumentWrapper *))completionHandler {
+  [MSDataStore replaceWithPartition:partitionName
+                         documentId:documentId
+                           document:document
+                       writeOptions:writeOptions
+                  completionHandler:completionHandler];
 }
 
 @end

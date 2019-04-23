@@ -39,6 +39,7 @@ static NSNotificationName const kUpdateAnalyticsResultNotification = @"updateAna
 static NSString *const kMSUserIdKey = @"userId";
 static NSString *const kMSLogUrl = @"logUrl";
 static NSString *const kMSAppSecret = @"appSecret";
+static NSString *const kMSUserIdentity = @"userIdentity";
 
 #ifdef SQLITE_DEFAULT_PAGE_SIZE
 static int const kMSStoragePageSize = SQLITE_DEFAULT_PAGE_SIZE;

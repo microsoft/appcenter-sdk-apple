@@ -3,102 +3,273 @@
 
 import UIKit
 
-class MSStorageViewController: UITableViewController {
-
+class MSStorageViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, AppCenterProtocol {
+  
+  var appCenter: AppCenterDelegate!
+  var alert: UIAlertController!
   enum StorageType: String {
     case App = "App"
     case User = "User"
-
+    
     static let allValues = [App, User]
   }
-  private var AppDocuments = ["App1","App2","App3"]
-  private var UserDocuments = ["User1","User2","User3","User4","User5"]
+  var allDocuments: MSPaginatedDocuments = MSPaginatedDocuments()
+  var loadMoreStatus = false
+  var identitySignIn = false
+  static var AppDocuments: [MSDocumentWrapper] = []
+  static var UserDocuments: [MSDocumentWrapper] = []
   private var storageTypePicker: MSEnumPicker<StorageType>?
-  private var storageType = "App"
-
+  private var storageType = StorageType.App.rawValue
+  var indicator = UIActivityIndicatorView()
+  
+  @IBOutlet var backButton: UIButton!
+  @IBOutlet var tableView: UITableView!
+  @IBOutlet var storageTypeField: UITextField!
+  
   override func viewDidLoad() {
     super.viewDidLoad()
+    tableView.delegate = self
+    tableView.dataSource = self
+    tableView.setEditing(true, animated: false)
+    tableView.allowsSelectionDuringEditing = true
+    identitySignIn = UserDefaults.standard.bool(forKey: kMSUserIdentity)
+    buildAlertDialog()
+    initStoragePicker()
+    activityIndicator()
+    loadAppFiles()
   }
-
-  override func numberOfSections(in tableView: UITableView) -> Int {
-    return 3
-  }
-
-  override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-    if section == 1 {
-      return "Storage Type"
-    } else if section == 2 {
-      if(self.storageType == StorageType.User.rawValue) {
-        return "User Documents List"
-      } else {
-        return "App Document List"
+  
+  func loadAppFiles() {
+    startAnimation()
+    self.appCenter.listDocumentsWithPartition("readonly", documentType: MSDictionaryDocument.self, completionHandler: { (documents) in
+      self.allDocuments = documents;
+      MSStorageViewController.AppDocuments = documents.currentPage().items ?? []
+      DispatchQueue.main.async {
+        self.indicator.stopAnimating()
+        self.tableView.isHidden = false
+        self.tableView.reloadData()
       }
+    })
+  }
+  
+  func loadUserFiles() {
+    startAnimation()
+    self.appCenter.listDocumentsWithPartition("user", documentType: MSDictionaryDocument.self, completionHandler: { (documents) in
+      self.allDocuments = documents;
+      MSStorageViewController.UserDocuments = documents.currentPage().items ?? []
+      DispatchQueue.main.async {
+        self.indicator.stopAnimating()
+        self.tableView.isHidden = false
+        self.tableView.reloadData()
+      }
+    })
+  }
+  
+  func startAnimation() {
+    DispatchQueue.main.async {
+      self.indicator.startAnimating()
+    }
+  }
+  
+  func activityIndicator() {
+    indicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.gray)
+    indicator.center = self.view.center
+    indicator.backgroundColor = UIColor.white
+    indicator.hidesWhenStopped = true
+    self.view.addSubview(indicator)
+  }
+  
+  func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    let currentOffset = scrollView.contentOffset.y
+    let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height
+    let deltaOffset = maximumOffset - currentOffset
+    if deltaOffset <= 0 {
+      loadMore()
+    }
+  }
+  
+  func loadMore() {
+    if (!loadMoreStatus && self.allDocuments.hasNextPage()) {
+      self.loadMoreStatus = true
+      DispatchQueue.global().async() {
+        self.allDocuments.nextPage(completionHandler: { page in
+          if self.storageType == StorageType.User.rawValue && self.identitySignIn {
+            MSStorageViewController.UserDocuments += page.items ?? []
+          } else {
+            MSStorageViewController.AppDocuments += page.items ?? []
+          }
+          DispatchQueue.main.sync {
+            self.tableView.isHidden = false
+            self.tableView.reloadData()
+            self.loadMoreStatus = false
+          }
+        })
+      }
+    }
+  }
+  
+  func upload()  {
+    DispatchQueue.main.sync {
+      self.tableView.isHidden = false
+      self.tableView.reloadData()
+    }
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    tableView.reloadData()
+  }
+  
+  func initStoragePicker(){
+    self.storageTypePicker = MSEnumPicker<StorageType> (
+      textField: storageTypeField,
+      allValues: StorageType.allValues,
+      onChange: { index in
+        if self.storageTypeField?.text == StorageType.User.rawValue && !self.identitySignIn {
+          self.present(self.alert, animated: true, completion: nil)
+          self.storageTypeField?.text = StorageType.App.rawValue
+        } else {
+          if (self.storageTypeField?.text == StorageType.User.rawValue) {
+            self.loadUserFiles()
+          } else {
+            self.loadAppFiles()
+          }
+          self.storageType = (self.storageTypeField?.text)!
+        }
+    })
+    storageTypeField?.delegate = self.storageTypePicker
+    storageTypeField?.tintColor = UIColor.clear
+  }
+  
+  func buildAlertDialog() {
+    self.alert = UIAlertController(title: "Error", message: "Please sign in to Identity first", preferredStyle: .alert)
+    self.alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+      self.storageTypePicker?.doneClicked()
+    }))
+  }
+  
+  func numberOfSections(in tableView: UITableView) -> Int {
+    return 1
+  }
+  
+  func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    if self.storageType == StorageType.User.rawValue && identitySignIn {
+      return "User Documents List"
+    } else if self.storageType == StorageType.App.rawValue {
+      return "App Document List"
     }
     return nil
   }
-
-  override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    if section == 2 {
-      if(self.storageType == StorageType.App.rawValue) {
-        return AppDocuments.count
-      } else if (self.storageType == StorageType.User.rawValue) {
-        return UserDocuments.count
+  
+  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    if self.storageType == StorageType.App.rawValue {
+      return MSStorageViewController.AppDocuments.count
+    } else if self.storageType == StorageType.User.rawValue {
+      if identitySignIn {
+        return MSStorageViewController.UserDocuments.count + 1
+      } else {
+        return 0
       }
     }
     return 1
   }
-
-  override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    var cellIdentifier = "back"
-    if indexPath.section == 1 {
-      cellIdentifier = "storagetype"
-    } else if indexPath.section == 2 {
-      cellIdentifier = "document"
-    }
+  
+  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    let cellIdentifier = "document"
     let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
-    if indexPath.section == 0 {
-      let backButton: UIButton? = cell.getSubview()
-      backButton?.addTarget(self, action: #selector(backButtonClicked), for: .touchUpInside)
-    } else if indexPath.section == 1 {
-      let storageTypeField: UITextField? = cell.getSubview()
-      self.storageTypePicker = MSEnumPicker<StorageType> (
-        textField: storageTypeField,
-        allValues: StorageType.allValues,
-        onChange: { index in
-          self.storageType = (storageTypeField?.text)!
-          self.tableView.reloadSections([2], with: .none)
-        }
-      )
-      storageTypeField?.delegate = self.storageTypePicker
-      storageTypeField?.tintColor = UIColor.clear
-    } else if indexPath.section == 2 {
-      cell.accessoryType = .disclosureIndicator
-      if (self.storageType == StorageType.App.rawValue) {
-        cell.textLabel?.text = AppDocuments[indexPath.row]
-      } else if (self.storageType == StorageType.User.rawValue) {
-        cell.textLabel?.text = UserDocuments[indexPath.row]
+    if self.storageType == StorageType.App.rawValue {
+      cell.textLabel?.text = MSStorageViewController.AppDocuments[indexPath.row].documentId
+    } else if self.storageType == StorageType.User.rawValue {
+      if indexPath.row == 0 {
+        cell.textLabel?.text = "Add document"
+      } else {
+        let index = indexPath.row == 0 ? 0 : indexPath.row - 1
+        cell.textLabel?.text = MSStorageViewController.UserDocuments[index].documentId
       }
     }
     return cell
   }
-
-  override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+  
+  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     tableView.deselectRow(at: indexPath, animated: true)
-    let cell = tableView.cellForRow(at: indexPath)
-    if indexPath.section == 2 {
-      let documentTitle = cell?.textLabel?.text
-      self.performSegue(withIdentifier: "ShowDocumentDetails", sender: documentTitle)
+    if isInsertRow(indexPath) {
+      self.performSegue(withIdentifier: "ShowDocumentDetails", sender: "")
+    } else {
+      if self.storageType == StorageType.App.rawValue {
+        self.performSegue(withIdentifier: "ShowDocumentDetails", sender: MSStorageViewController.AppDocuments[indexPath.row])
+      } else {
+        let index = indexPath.row == 0 ? 0 : indexPath.row - 1
+        self.performSegue(withIdentifier: "ShowDocumentDetails", sender: MSStorageViewController.UserDocuments[index])
+      }
     }
+  }
+  
+  func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+    if self.storageType == StorageType.User.rawValue {
+      return true
+    }
+    return false
+  }
+  
+  func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
+    if isInsertRow(indexPath) {
+      return .insert
+    } else if self.storageType == StorageType.User.rawValue {
+      return .delete
+    }
+    return .none
+  }
+  
+  func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    let index = indexPath.row == 0 ? 0 : indexPath.row - 1
+    if editingStyle == .delete {
+      appCenter.deleteDocumentWithPartition(StorageType.User.rawValue.lowercased(), documentId: MSStorageViewController.UserDocuments[index].documentId)
+      MSStorageViewController.UserDocuments.remove(at: index)
+      tableView.deleteRows(at: [indexPath], with: .automatic)
+    } else if editingStyle == .insert {
+      if(index != 0) {
+        self.performSegue(withIdentifier: "ShowDocumentDetails", sender: MSStorageViewController.UserDocuments[index])
+      } else {
+        self.performSegue(withIdentifier: "ShowDocumentDetails", sender: "")
+      }
+    }
+  }
+
+  func isInsertRow(_ indexPath: IndexPath) -> Bool {
+    return self.storageType == StorageType.User.rawValue && indexPath.row == 0
   }
 
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    let documentDetailsController = segue.destination as! MSDocumentDetailsViewController
     if segue.identifier == "ShowDocumentDetails" {
-      let documentDetailsController = segue.destination as! MSDocumentDetailsViewController
-      documentDetailsController.documentTitle = sender as? String
+      if(sender as? String == "") {
+        documentDetailsController.documentType = StorageType.User.rawValue
+      } else {
+        documentDetailsController.documentType = self.storageType
+        documentDetailsController.documentId = (sender as? MSDocumentWrapper)?.documentId
+        documentDetailsController.documentTimeToLive = "Default"
+        documentDetailsController.documentContent = sender as? MSDocumentWrapper
+      }
     }
   }
-
-  func backButtonClicked (_ sender: Any) {
-    self.presentingViewController?.dismiss(animated: true, completion: nil)
+  
+  @IBAction func backButtonClicked (_ sender: Any) {
+    self.presentingViewController?.dismiss(animated:true, completion: nil)
+  }
+  
+  @IBAction func saveDocument(_ segue: UIStoryboardSegue) {
+    guard let documentDetailsController = segue.source as? MSDocumentDetailsViewController, let documentId = documentDetailsController.documentId, let documentToSave = documentDetailsController.document, let writeOptions = documentDetailsController.writeOptions else {
+        return
+    }
+    indicator.startAnimating()
+    if (documentDetailsController.replaceDocument) {
+      self.appCenter.replaceDocumentWithPartition(MSStorageViewController.StorageType.User.rawValue.lowercased(), documentId:documentId, document:documentToSave, writeOptions: writeOptions, completionHandler: { (document) in
+        self.loadUserFiles()
+      })
+    } else {
+      self.appCenter.createDocumentWithPartition(MSStorageViewController.StorageType.User.rawValue.lowercased(), documentId:documentId, document:documentToSave, writeOptions: writeOptions, completionHandler: { (document) in
+        self.loadUserFiles()
+      })
+    }
   }
 }
