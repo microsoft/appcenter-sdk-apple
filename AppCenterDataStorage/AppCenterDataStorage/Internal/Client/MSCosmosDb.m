@@ -39,7 +39,6 @@ static NSString *const kMSHeaderDocumentDbPartitionKeyFormat = @"[\"%@\"]";
 
 /**
  * Document DB authorization header format
- * TODO : Change the "type" to be "resource" instead of "master"
  */
 static NSString *const kMSDocumentDbAuthorizationHeaderFormat = @"type=master&ver=1.0&sig=%@";
 
@@ -153,14 +152,24 @@ static NSString *const kMSHeaderMsDate = @"x-ms-date";
     }
 
     // Get the document as dictionary.
+    NSError *serializationError;
     NSDictionary *dic = [MSDocumentUtils documentPayloadWithDocumentId:(NSString *)documentId
                                                              partition:tokenResult.partition
                                                               document:(NSDictionary *)[document serializeToDictionary]];
+    if (![NSJSONSerialization isValidJSONObject:dic]) {
+      serializationError =
+          [[NSError alloc] initWithDomain:kMSACDataStoreErrorDomain
+                                     code:MSACDataStoreErrorJSONSerializationFailed
+                                 userInfo:@{NSLocalizedDescriptionKey : @"Document dictionary contains values that cannot be serialized."}];
+      MSLogError([MSDataStore logTag], @"Error serializing data: %@", [serializationError localizedDescription]);
+      completionHandler(nil, nil, serializationError);
+      return;
+    }
+
     // Serialize document
-    NSError *serializationError;
     body = [NSJSONSerialization dataWithJSONObject:dic options:0 error:&serializationError];
     if (!body || serializationError) {
-      MSLogError([MSDataStore logTag], @"Error serializing data:%@", [serializationError localizedDescription]);
+      MSLogError([MSDataStore logTag], @"Error serializing data: %@", [serializationError localizedDescription]);
       completionHandler(nil, nil, serializationError);
       return;
     }

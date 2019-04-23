@@ -5,7 +5,7 @@
 #import "MSDocumentWrapper.h"
 #import "MSSerializableDocument.h"
 
-@interface MSPage<T : id <MSSerializableDocument>> : NSObject
+@interface MSPage : NSObject
 
 /**
  * Error (or null).
@@ -15,7 +15,7 @@
 /**
  * Array of documents in the current page (or null).
  */
-@property(readonly) NSArray<MSDocumentWrapper<T> *> *items;
+@property(readonly) NSArray<MSDocumentWrapper *> *items;
 
 /**
  * Initialize a page with an array of documents.
@@ -24,7 +24,7 @@
  *
  * @return The page with documents.
  */
-- (instancetype)initWithItems:(NSArray<MSDocumentWrapper<T> *> *)items;
+- (instancetype)initWithItems:(NSArray<MSDocumentWrapper *> *)items;
 
 /**
  * Initialize a page with an error.

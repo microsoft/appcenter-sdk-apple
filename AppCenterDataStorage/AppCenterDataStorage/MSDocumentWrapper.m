@@ -11,14 +11,6 @@
 
 @implementation MSDocumentWrapper
 
-@synthesize deserializedValue = _deserializedValue;
-@synthesize jsonValue = _jsonValue;
-@synthesize partition = _partition;
-@synthesize documentId = _documentId;
-@synthesize eTag = _eTag;
-@synthesize lastUpdatedDate = _lastUpdatedDate;
-@synthesize error = _error;
-
 - (instancetype)initWithDeserializedValue:(id<MSSerializableDocument>)deserializedValue
                                 jsonValue:(NSString *)jsonValue
                                 partition:(NSString *)partition
@@ -26,7 +18,8 @@
                                      eTag:(NSString *)eTag
                           lastUpdatedDate:(NSDate *)lastUpdatedDate
                          pendingOperation:(nullable NSString *)pendingOperation
-                                    error:(MSDataSourceError *)error {
+                                    error:(MSDataSourceError *)error
+                          fromDeviceCache:(BOOL)fromDeviceCache {
   if ((self = [super init])) {
     _deserializedValue = deserializedValue;
     _jsonValue = jsonValue;
@@ -36,6 +29,7 @@
     _lastUpdatedDate = lastUpdatedDate;
     _error = error;
     _pendingOperation = pendingOperation;
+    _fromDeviceCache = fromDeviceCache;
   }
   return self;
 }
@@ -53,11 +47,6 @@
                                                         code:errorCode
                                                     userInfo:@{NSLocalizedDescriptionKey : errorMessage}]
                   documentId:documentId];
-}
-
-- (BOOL)fromDeviceCache {
-  // @todo
-  return false;
 }
 
 @end

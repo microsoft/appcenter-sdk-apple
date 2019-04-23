@@ -3,13 +3,11 @@
 
 #import <Foundation/Foundation.h>
 
-#import "MSSerializableDocument.h"
-
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MSMockDocument : NSObject <MSSerializableDocument>
+@interface MSGuidedAccessUtil : NSObject
 
-@property NSDictionary *contentDictionary;
++ (BOOL)isGuidedAccessEnabled;
 
 @end
 

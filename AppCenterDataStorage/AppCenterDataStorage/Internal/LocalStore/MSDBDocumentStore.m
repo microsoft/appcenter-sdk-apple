@@ -13,7 +13,9 @@
 #import "MSDataStoreErrors.h"
 #import "MSDataStoreInternal.h"
 #import "MSDocumentUtils.h"
+#import "MSDocumentWrapper.h"
 #import "MSDocumentWrapperInternal.h"
+#import "MSPendingOperation.h"
 #import "MSTokenResult.h"
 #import "MSUtility+Date.h"
 #import "MSUtility+StringFormatting.h"
@@ -70,6 +72,31 @@ static const NSUInteger kMSSchemaVersion = 1;
 - (BOOL)upsertWithToken:(MSTokenResult *)token
         documentWrapper:(MSDocumentWrapper *)documentWrapper
               operation:(NSString *_Nullable)operation
+         expirationTime:(NSTimeInterval)expirationTime {
+
+  // This is the same as [[NSDate date] timeIntervalSince1970] - but saves us from allocating an NSDate.
+  NSTimeInterval now = NSDate.timeIntervalSinceReferenceDate + NSTimeIntervalSince1970;
+  NSString *tableName = [MSDBDocumentStore tableNameForPartition:token.partition];
+
+  // If operation is nil, pass NULL value, else use the operation name in this format '<OPERATION_NAME>' (note the single quotes).
+  NSString *normalizedOperationString = operation != nil ? [NSString stringWithFormat:@"'%@'", operation] : @"NULL";
+  NSString *insertQuery = [NSString
+      stringWithFormat:@"REPLACE INTO \"%@\" (\"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\") "
+                       @"VALUES ('%@', '%@', '%@', '%@', %ld, '%ld', '%ld', %@)",
+                       tableName, kMSPartitionColumnName, kMSDocumentIdColumnName, kMSDocumentColumnName, kMSETagColumnName,
+                       kMSExpirationTimeColumnName, kMSDownloadTimeColumnName, kMSOperationTimeColumnName, kMSPendingOperationColumnName,
+                       token.partition, documentWrapper.documentId, documentWrapper.jsonValue, documentWrapper.eTag, (long)expirationTime,
+                       (long)[documentWrapper.lastUpdatedDate timeIntervalSince1970], (long)now, normalizedOperationString];
+  int result = [self.dbStorage executeNonSelectionQuery:insertQuery];
+  if (result != SQLITE_OK) {
+    MSLogError([MSDataStore logTag], @"Unable to update or replace local document, SQLite error code: %ld", (long)result);
+  }
+  return result == SQLITE_OK;
+}
+
+- (BOOL)upsertWithToken:(MSTokenResult *)token
+        documentWrapper:(MSDocumentWrapper *)documentWrapper
+              operation:(NSString *_Nullable)operation
        deviceTimeToLive:(NSInteger)deviceTimeToLive {
   /*
    * Compute expiration time as now + device time to live (in seconds).
@@ -79,23 +106,9 @@ static const NSUInteger kMSSchemaVersion = 1;
 
   // This is the same as [[NSDate date] timeIntervalSince1970] - but saves us from allocating an NSDate.
   NSTimeInterval now = NSDate.timeIntervalSinceReferenceDate + NSTimeIntervalSince1970;
-  NSTimeInterval expirationTime = -1;
-  if (deviceTimeToLive != kMSDataStoreTimeToLiveInfinite) {
-    expirationTime = now + deviceTimeToLive;
-  }
-  NSString *tableName = [MSDBDocumentStore tableNameForPartition:token.partition];
-  NSString *insertQuery = [NSString
-      stringWithFormat:@"REPLACE INTO \"%@\" (\"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\") "
-                       @"VALUES ('%@', '%@', '%@', '%@', %ld, '%ld', '%ld', '%@')",
-                       tableName, kMSPartitionColumnName, kMSDocumentIdColumnName, kMSDocumentColumnName, kMSETagColumnName,
-                       kMSExpirationTimeColumnName, kMSDownloadTimeColumnName, kMSOperationTimeColumnName, kMSPendingOperationColumnName,
-                       token.partition, documentWrapper.documentId, documentWrapper.jsonValue, documentWrapper.eTag, (long)expirationTime,
-                       (long)[documentWrapper.lastUpdatedDate timeIntervalSince1970], (long)now, operation];
-  int result = [self.dbStorage executeNonSelectionQuery:insertQuery];
-  if (result != SQLITE_OK) {
-    MSLogError([MSDataStore logTag], @"Unable to update or replace local document, SQLite error code: %ld", (long)result);
-  }
-  return result == SQLITE_OK;
+  NSTimeInterval expirationTime =
+      (deviceTimeToLive == kMSDataStoreTimeToLiveInfinite) ? kMSDataStoreTimeToLiveInfinite : now + deviceTimeToLive;
+  return [self upsertWithToken:token documentWrapper:documentWrapper operation:operation expirationTime:expirationTime];
 }
 
 - (BOOL)deleteWithToken:(MSTokenResult *)token documentId:(NSString *)documentId {
@@ -161,7 +174,8 @@ static const NSUInteger kMSSchemaVersion = 1;
                                           lastUpdatedDate:[NSDate dateWithTimeIntervalSince1970:lastUpdatedDate]
                                                 partition:token.partition
                                                documentId:documentId
-                                         pendingOperation:pendingOperation];
+                                         pendingOperation:pendingOperation
+                                          fromDeviceCache:YES];
 }
 
 - (void)deleteAllTables {
@@ -193,6 +207,49 @@ static const NSUInteger kMSSchemaVersion = 1;
         stringWithFormat:kMSUserDocumentTableNameFormat, [partition substringFromIndex:kMSDataStoreAppDocumentsUserPartitionPrefix.length]];
   }
   return nil;
+}
+
+- (NSArray<MSPendingOperation *> *)pendingOperationsWithToken:(MSTokenResult *)token {
+  NSString *tableName = [MSDBDocumentStore tableNameForPartition:token.partition];
+  NSString *selectionQuery =
+      [NSString stringWithFormat:@"SELECT * FROM \"%@\" WHERE \"%@\" IS NOT NULL", tableName, kMSPendingOperationColumnName];
+  NSArray *result = [self.dbStorage executeSelectionQuery:selectionQuery];
+  NSMutableArray *pendingDocuments = [NSMutableArray new];
+
+  // Return empty list if there are no pending documents.
+  if (result.count == 0) {
+    return pendingDocuments;
+  }
+
+  // Create object of MSPendingOperation for each row.
+  for (id row in result) {
+    NSString *documentId = row[self.documentIdColumnIndex];
+    NSString *partition = row[self.partitionColumnIndex];
+
+    // If the document is expired, log a message and delete it.
+    NSNumber *ttlNumber = row[self.expirationTimeColumnIndex];
+    long expirationTime = [ttlNumber longValue];
+    if ([MSPendingOperation isExpiredWithExpirationTime:expirationTime]) {
+      [self deleteWithToken:token documentId:documentId];
+      MSLogInfo([MSDataStore logTag], @"Document expired. Deleted from local cache: partition: %@, documentId: %@", partition, documentId);
+      continue;
+    }
+
+    // Convert documetn json string to dictionary.
+    NSString *documetnJsonString = row[self.documentColumnIndex];
+    NSData *data = [documetnJsonString dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary *documentDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+
+    // TODO: verify that * 1000 for the expirationTime is valid.
+    MSPendingOperation *pendingOperation = [[MSPendingOperation alloc] initWithOperation:row[self.pendingOperationColumnIndex]
+                                                                               partition:partition
+                                                                              documentId:documentId
+                                                                                document:documentDictionary
+                                                                                    etag:row[self.eTagColumnIndex]
+                                                                          expirationTime:[ttlNumber doubleValue]];
+    [pendingDocuments addObject:pendingOperation];
+  }
+  return pendingDocuments;
 }
 
 @end
