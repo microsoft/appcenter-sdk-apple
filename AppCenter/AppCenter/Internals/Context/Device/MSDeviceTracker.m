@@ -295,7 +295,7 @@ static MSDeviceTracker *sharedInstance = nil;
 - (NSString *)osVersion {
   NSString *osVersion = nil;
 
-  if (@available(macosx 10.10, *)) {
+  if (@available(macOS 10.10, *)) {
     NSOperatingSystemVersion osSystemVersion = [[NSProcessInfo processInfo] operatingSystemVersion];
     osVersion = [NSString stringWithFormat:@"%ld.%ld.%ld", (long)osSystemVersion.majorVersion, (long)osSystemVersion.minorVersion,
                                            (long)osSystemVersion.patchVersion];
