@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "04FD11551EF2F818000C5A5C"
-               BuildableName = "AppCenterIdentityMacOSDoc"
-               BlueprintName = "AppCenterIdentityMacOSDoc"
-               ReferencedContainer = "container:AppCenterIdentity.xcodeproj">
+               BlueprintIdentifier = "E85547E91D2D68C5002DF6E2"
+               BuildableName = "AppCenterAuthIOSDoc"
+               BlueprintName = "AppCenterAuthIOSDoc"
+               ReferencedContainer = "container:AppCenterAuth.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -45,10 +45,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "04FD11551EF2F818000C5A5C"
-            BuildableName = "AppCenterIdentityMacOSDoc"
-            BlueprintName = "AppCenterIdentityMacOSDoc"
-            ReferencedContainer = "container:AppCenterIdentity.xcodeproj">
+            BlueprintIdentifier = "E85547E91D2D68C5002DF6E2"
+            BuildableName = "AppCenterAuthIOSDoc"
+            BlueprintName = "AppCenterAuthIOSDoc"
+            ReferencedContainer = "container:AppCenterAuth.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -63,10 +63,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "04FD11551EF2F818000C5A5C"
-            BuildableName = "AppCenterIdentityMacOSDoc"
-            BlueprintName = "AppCenterIdentityMacOSDoc"
-            ReferencedContainer = "container:AppCenterIdentity.xcodeproj">
+            BlueprintIdentifier = "E85547E91D2D68C5002DF6E2"
+            BuildableName = "AppCenterAuthIOSDoc"
+            BlueprintName = "AppCenterAuthIOSDoc"
+            ReferencedContainer = "container:AppCenterAuth.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

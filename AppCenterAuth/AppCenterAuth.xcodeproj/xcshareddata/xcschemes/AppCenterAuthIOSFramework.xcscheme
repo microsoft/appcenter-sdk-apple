@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "E85547E91D2D68C5002DF6E2"
-               BuildableName = "AppCenterIdentityIOSDoc"
-               BlueprintName = "AppCenterIdentityIOSDoc"
-               ReferencedContainer = "container:AppCenterIdentity.xcodeproj">
+               BlueprintIdentifier = "E85547E41D2D681F002DF6E2"
+               BuildableName = "AppCenterAuthIOSFramework"
+               BlueprintName = "AppCenterAuthIOSFramework"
+               ReferencedContainer = "container:AppCenterAuth.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -45,10 +45,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "E85547E91D2D68C5002DF6E2"
-            BuildableName = "AppCenterIdentityIOSDoc"
-            BlueprintName = "AppCenterIdentityIOSDoc"
-            ReferencedContainer = "container:AppCenterIdentity.xcodeproj">
+            BlueprintIdentifier = "E85547E41D2D681F002DF6E2"
+            BuildableName = "AppCenterAuthIOSFramework"
+            BlueprintName = "AppCenterAuthIOSFramework"
+            ReferencedContainer = "container:AppCenterAuth.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -63,10 +63,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "E85547E91D2D68C5002DF6E2"
-            BuildableName = "AppCenterIdentityIOSDoc"
-            BlueprintName = "AppCenterIdentityIOSDoc"
-            ReferencedContainer = "container:AppCenterIdentity.xcodeproj">
+            BlueprintIdentifier = "E85547E41D2D681F002DF6E2"
+            BuildableName = "AppCenterAuthIOSFramework"
+            BlueprintName = "AppCenterAuthIOSFramework"
+            ReferencedContainer = "container:AppCenterAuth.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "0485AFEF1EAAADAC00C10CAF"
-               BuildableName = "AppCenterIdentityMacOSFramework"
-               BlueprintName = "AppCenterIdentityMacOSFramework"
-               ReferencedContainer = "container:AppCenterIdentity.xcodeproj">
+               BuildableName = "AppCenterAuthMacOSFramework"
+               BlueprintName = "AppCenterAuthMacOSFramework"
+               ReferencedContainer = "container:AppCenterAuth.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -46,9 +46,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "0485AFEF1EAAADAC00C10CAF"
-            BuildableName = "AppCenterIdentityMacOSFramework"
-            BlueprintName = "AppCenterIdentityMacOSFramework"
-            ReferencedContainer = "container:AppCenterIdentity.xcodeproj">
+            BuildableName = "AppCenterAuthMacOSFramework"
+            BlueprintName = "AppCenterAuthMacOSFramework"
+            ReferencedContainer = "container:AppCenterAuth.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -64,9 +64,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "0485AFEF1EAAADAC00C10CAF"
-            BuildableName = "AppCenterIdentityMacOSFramework"
-            BlueprintName = "AppCenterIdentityMacOSFramework"
-            ReferencedContainer = "container:AppCenterIdentity.xcodeproj">
+            BuildableName = "AppCenterAuthMacOSFramework"
+            BlueprintName = "AppCenterAuthMacOSFramework"
+            ReferencedContainer = "container:AppCenterAuth.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

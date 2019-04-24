@@ -1,2 +1,2 @@
 #include "../../../Config/Global Release.xcconfig"
-#include "./AppCenterIdentity.xcconfig"
+#include "./AppCenterAuth.xcconfig"
