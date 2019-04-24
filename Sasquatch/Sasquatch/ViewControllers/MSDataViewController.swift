@@ -72,7 +72,7 @@ class MSDataViewController: UIViewController, UITableViewDelegate, UITableViewDa
   }
   
   func activityIndicator() {
-    indicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.gray)
+    indicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.gray)
     indicator.center = self.view.center
     indicator.backgroundColor = UIColor.white
     indicator.hidesWhenStopped = true
@@ -211,7 +211,7 @@ class MSDataViewController: UIViewController, UITableViewDelegate, UITableViewDa
     return false
   }
   
-  func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
+  func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
     if isInsertRow(indexPath) {
       return .insert
     } else if self.storageType == StorageType.User.rawValue {
@@ -220,7 +220,7 @@ class MSDataViewController: UIViewController, UITableViewDelegate, UITableViewDa
     return .none
   }
   
-  func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+  func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
     let index = indexPath.row == 0 ? 0 : indexPath.row - 1
     if editingStyle == .delete {
       appCenter.deleteDocumentWithPartition(StorageType.User.rawValue.lowercased(), documentId: MSDataViewController.UserDocuments[index].documentId)
