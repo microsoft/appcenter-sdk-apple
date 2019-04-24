@@ -320,7 +320,7 @@ class AppCenterDelegateSwift: AppCenterDelegate {
   
   func deleteDocumentWithPartition(_ partitionName: String, documentId: String) {
     MSData.delete(withPartition: partitionName, documentId: documentId) { document in
-      print("Storage.delete document with id \(documentId) succeeded")
+      print("Data.delete document with id \(documentId) succeeded")
     }
   }
 }
