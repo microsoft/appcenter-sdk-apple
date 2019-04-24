@@ -937,7 +937,7 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection headerTitle="Identity" id="00Z-mP-RzJ">
+                            <tableViewSection headerTitle="Auth" id="00Z-mP-RzJ">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="E7Q-7Z-mDZ">
                                         <rect key="frame" x="0.0" y="730.5" width="375" height="44"/>
@@ -946,7 +946,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Identity Enabled" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eZb-zn-TmJ">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Auth Enabled" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eZb-zn-TmJ">
                                                     <rect key="frame" x="16" y="11.5" width="123.5" height="20.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -955,7 +955,7 @@
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iXu-ht-std">
                                                     <rect key="frame" x="308" y="6.5" width="51" height="31"/>
                                                     <connections>
-                                                        <action selector="identitySwitchStateUpdated:" destination="9Ck-4D-Ozb" eventType="valueChanged" id="fIO-he-FfA"/>
+                                                        <action selector="authSwitchStateUpdated:" destination="9Ck-4D-Ozb" eventType="valueChanged" id="fIO-he-FfA"/>
                                                     </connections>
                                                 </switch>
                                             </subviews>
@@ -979,7 +979,7 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                                     <state key="normal" title="Sign In"/>
                                                     <connections>
-                                                        <action selector="identitySignIn:" destination="9Ck-4D-Ozb" eventType="touchUpInside" id="Z9W-UE-hRG"/>
+                                                        <action selector="authSignIn:" destination="9Ck-4D-Ozb" eventType="touchUpInside" id="Z9W-UE-hRG"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
@@ -1002,7 +1002,7 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                                     <state key="normal" title="Sign Out"/>
                                                     <connections>
-                                                        <action selector="identitySignOut:" destination="9Ck-4D-Ozb" eventType="touchUpInside" id="0vh-px-tw5"/>
+                                                        <action selector="authSignOut:" destination="9Ck-4D-Ozb" eventType="touchUpInside" id="0vh-px-tw5"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
@@ -1279,7 +1279,7 @@
                         <outlet property="appCenterEnabledSwitch" destination="Q0F-SV-i0s" id="90F-m9-92r"/>
                         <outlet property="appSecret" destination="yfU-RL-vIN" id="MRV-0f-F7F"/>
                         <outlet property="deviceIdLabel" destination="eS2-cR-m6j" id="UsE-g6-FF0"/>
-                        <outlet property="identitySwitch" destination="iXu-ht-std" id="Sea-q6-3hw"/>
+                        <outlet property="AuthSwitch" destination="iXu-ht-std" id="Sea-q6-3hw"/>
                         <outlet property="installId" destination="NtN-Tm-B6i" id="99C-gY-7Q8"/>
                         <outlet property="logFilterSwitch" destination="Noo-Uo-Lot" id="joI-f2-5vY"/>
                         <outlet property="logUrl" destination="XnS-uI-vJv" id="2Vi-KP-bXN"/>

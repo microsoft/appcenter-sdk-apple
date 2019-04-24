@@ -85,9 +85,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E85547BF1D2D6253002DF6E2"
-               BuildableName = "libAppCenterIdentity.a"
-               BlueprintName = "AppCenterIdentityIOS"
-               ReferencedContainer = "container:AppCenterIdentity/AppCenterIdentity.xcodeproj">
+               BuildableName = "libAppCenterAuth.a"
+               BlueprintName = "AppCenterAuthIOS"
+               ReferencedContainer = "container:AppCenterAuth/AppCenterAuth.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -155,9 +155,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E85547D41D2D6723002DF6E2"
-               BuildableName = "AppCenterIdentity.xctest"
-               BlueprintName = "AppCenterIdentityIOSTests"
-               ReferencedContainer = "container:AppCenterIdentity/AppCenterIdentity.xcodeproj">
+               BuildableName = "AppCenterAuth.xctest"
+               BlueprintName = "AppCenterAuthIOSTests"
+               ReferencedContainer = "container:AppCenterAuth/AppCenterAuth.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -238,9 +238,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E85547D41D2D6723002DF6E2"
-               BuildableName = "AppCenterIdentity.xctest"
-               BlueprintName = "AppCenterIdentityIOSTests"
-               ReferencedContainer = "container:AppCenterIdentity/AppCenterIdentity.xcodeproj">
+               BuildableName = "AppCenterAuth.xctest"
+               BlueprintName = "AppCenterAuthIOSTests"
+               ReferencedContainer = "container:AppCenterAuth/AppCenterAuth.xcodeproj">
             </BuildableReference>
          </TestableReference>
          <TestableReference
