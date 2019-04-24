@@ -12,25 +12,26 @@
 
 - (BOOL)application:(__unused UIApplication *)application
               openURL:(NSURL *)url
-    sourceApplication:(__unused NSString *)sourceApplication
+    sourceApplication:(NSString *)sourceApplication
            annotation:(__unused id)annotation
         returnedValue:(BOOL)returnedValue {
-  return [self openURL:url returnedValue:returnedValue];
+  NSDictionary *options = @{UIApplicationOpenURLOptionsSourceApplicationKey : sourceApplication};
+  return [self openURL:url options:options returnedValue:returnedValue];
 }
 
 - (BOOL)application:(__unused UIApplication *)application
             openURL:(NSURL *)url
-            options:(__unused NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options
+            options:(NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options
       returnedValue:(BOOL)returnedValue {
-  return [self openURL:url returnedValue:returnedValue];
+  return [self openURL:url options:options returnedValue:returnedValue];
 }
 
 #pragma mark - Private
 
-- (BOOL)openURL:(NSURL *)url returnedValue:(BOOL)returnedValue {
+- (BOOL)openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options returnedValue:(BOOL)returnedValue {
 
   MSLogDebug([MSIdentity logTag], @"Using swizzled openURL:returnedValue: method.");
-  BOOL returnValue = [MSIdentity openURL:url];
+  BOOL returnValue = [MSIdentity openURL:url options:options];
 
   // Return original value if url not handled by the SDK.
   return (BOOL)(returnValue ?: returnedValue);

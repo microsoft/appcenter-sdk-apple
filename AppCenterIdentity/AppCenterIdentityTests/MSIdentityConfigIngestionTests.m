@@ -1,11 +1,12 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+#import <Foundation/Foundation.h>
+
 #import "MSIdentity.h"
 #import "MSIdentityConfigIngestion.h"
 #import "MSLoggerInternal.h"
 #import "MSTestFrameworks.h"
-#import <Foundation/Foundation.h>
 
 @interface MSIdentityConfigIngestionTests : XCTestCase
 

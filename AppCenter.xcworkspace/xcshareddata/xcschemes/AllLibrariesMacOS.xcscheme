@@ -57,9 +57,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "046963F41F2A558300F9D31F"
-               BuildableName = "libAppCenterDataStorage.a"
-               BlueprintName = "AppCenterDataStorageMacOS"
-               ReferencedContainer = "container:AppCenterDataStorage/AppCenterDataStorage.xcodeproj">
+               BuildableName = "libAppCenterData.a"
+               BlueprintName = "AppCenterDataMacOS"
+               ReferencedContainer = "container:AppCenterData/AppCenterData.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -169,9 +169,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "046964131F2A559C00F9D31F"
-               BuildableName = "AppCenterDataStorage.xctest"
-               BlueprintName = "AppCenterDataStorageMacOSTests"
-               ReferencedContainer = "container:AppCenterDataStorage/AppCenterDataStorage.xcodeproj">
+               BuildableName = "AppCenterData.xctest"
+               BlueprintName = "AppCenterDataMacOSTests"
+               ReferencedContainer = "container:AppCenterData/AppCenterData.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -238,9 +238,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "046964131F2A559C00F9D31F"
-               BuildableName = "AppCenterDataStorage.xctest"
-               BlueprintName = "AppCenterDataStorageMacOSTests"
-               ReferencedContainer = "container:AppCenterDataStorage/AppCenterDataStorage.xcodeproj">
+               BuildableName = "AppCenterData.xctest"
+               BlueprintName = "AppCenterDataMacOSTests"
+               ReferencedContainer = "container:AppCenterData/AppCenterData.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>

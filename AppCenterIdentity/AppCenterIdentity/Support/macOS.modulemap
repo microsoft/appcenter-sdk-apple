@@ -7,4 +7,6 @@ framework module AppCenterIdentity {
   link framework "Foundation"
   link framework "AppKit"
   link framework "WebKit"
+  link framework "GSS"
+  link framework "SecurityInterface"
 }

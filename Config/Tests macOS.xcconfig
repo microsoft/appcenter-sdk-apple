@@ -1,9 +1,11 @@
 #include "./Tests.xcconfig"
 #include "./macOS.xcconfig"
 
-OTHER_LDFLAGS = $(inherited) -framework AppKit -ObjC -lz
+OTHER_LDFLAGS = $(inherited) -framework AppKit -framework SecurityInterface -framework GSS -ObjC -lz
 
 LD_RUNPATH_SEARCH_PATHS = @executable_path/Frameworks @loader_path/Frameworks $(TOOLCHAIN_DIR)/usr/lib/swift/macosx "$(SRCROOT)/../Vendor/macOS/OCMock" "$(SRCROOT)/../Vendor/macOS/OCHamcrest" "$(SRCROOT)/../Vendor/macOS/OHHTTPStubs"
 
 // OCMock and OCHamcrest have a bunch of warnings so we just disable this only for testing.
 GCC_TREAT_WARNINGS_AS_ERRORS = NO
+
+USER_HEADER_SEARCH_PATHS=$(inherited) $(SRCROOT)/MSAL/**

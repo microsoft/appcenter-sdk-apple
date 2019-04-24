@@ -1,6 +1,10 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+#if TARGET_OS_IOS
+#import <UIKit/UIApplication.h>
+#endif
+
 #import "MSIdentityErrors.h"
 #import "MSServiceAbstract.h"
 
@@ -25,13 +29,15 @@ typedef void (^MSSignInCompletionHandler)(MSUserInformation *_Nullable userInfor
 /**
  * Process URL request for the service.
  *
- * @param url  The url with parameters.
+ * @param url The URL resource to open. This resource can be a network resource or a file.
+ * @param options A dictionary of URL handling options. For information about the possible keys in this dictionary and how to handle them,
+ * @see UIApplicationOpenURLOptionsKey. By default, the value of this parameter is an empty dictionary.
  *
  * @return `YES` if the URL is intended for App Center Identity and your application, `NO` otherwise.
  *
  * @discussion Place this method call into your app delegate's openURL method.
  */
-+ (BOOL)openURL:(NSURL *)url;
++ (BOOL)openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options;
 #endif
 
 /**

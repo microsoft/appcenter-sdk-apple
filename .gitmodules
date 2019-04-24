@@ -1,0 +1,3 @@
+[submodule "AppCenterIdentity/MSAL/microsoft-authentication-library-for-objc"]
+	path = AppCenterIdentity/MSAL/microsoft-authentication-library-for-objc
+	url = https://github.com/AzureAD/microsoft-authentication-library-for-objc

@@ -2,9 +2,13 @@
 // Licensed under the MIT License.
 
 #import <Foundation/Foundation.h>
-#import <MSAL/MSAL.h>
-#import <MSAL/MSALPublicClientApplication.h>
 
+#import "MSALAccount.h"
+#import "MSALAccountId.h"
+#import "MSALAuthority.h"
+#import "MSALError.h"
+#import "MSALPublicClientApplication.h"
+#import "MSALResult.h"
 #import "MSAuthTokenContext.h"
 #import "MSAuthTokenContextDelegate.h"
 #import "MSAuthTokenContextPrivate.h"
@@ -172,7 +176,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
                                                                     expiresOn:nil];
   NSMutableArray<MSAuthTokenInfo *> *authTokenHistory = [NSMutableArray<MSAuthTokenInfo *> new];
   [authTokenHistory addObject:authTokenInfo];
-  [[MSAuthTokenContext sharedInstance] setAuthTokenHistory: authTokenHistory];
+  [[MSAuthTokenContext sharedInstance] setAuthTokenHistory:authTokenHistory];
   NSString *expectedETag = @"eTag";
   [self.settingsMock setObject:expectedETag forKey:kMSIdentityETagKey];
   NSData *serializedConfig = [NSJSONSerialization dataWithJSONObject:self.dummyConfigDic options:(NSJSONWritingOptions)0 error:nil];
@@ -224,7 +228,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
                                                                     expiresOn:nil];
   NSMutableArray<MSAuthTokenInfo *> *authTokenHistory = [NSMutableArray<MSAuthTokenInfo *> new];
   [authTokenHistory addObject:authTokenInfo];
-  [[MSAuthTokenContext sharedInstance] setAuthTokenHistory: authTokenHistory];
+  [[MSAuthTokenContext sharedInstance] setAuthTokenHistory:authTokenHistory];
   [[MSAuthTokenContext sharedInstance] setAuthToken:fakeToken withAccountId:fakeAccountId expiresOn:nil];
   [self.sut setEnabled:YES];
   id accountMock = OCMPartialMock([MSALAccount new]);
@@ -346,12 +350,28 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   // If
   NSURL *expectedURL = [NSURL URLWithString:@"scheme://test"];
   id msalMock = OCMClassMock([MSALPublicClientApplication class]);
+  NSString *sourceApplication = @"valid_app";
 
   // When
-  BOOL result = [MSIdentity openURL:expectedURL]; // TODO add more tests
+  BOOL result = [MSIdentity openURL:expectedURL options:@{UIApplicationOpenURLOptionsSourceApplicationKey : sourceApplication}]; // TODO add more tests
 
   // Then
-  OCMVerify([msalMock handleMSALResponse:expectedURL]);
+  OCMVerify([msalMock handleMSALResponse:expectedURL sourceApplication:sourceApplication]);
+  XCTAssertFalse(result);
+  [msalMock stopMocking];
+}
+
+- (void)testForwardRedirectURLToMSALWithoutSourceApplication {
+
+  // If
+  NSURL *expectedURL = [NSURL URLWithString:@"scheme://test"];
+  id msalMock = OCMClassMock([MSALPublicClientApplication class]);
+
+  // When
+  BOOL result = [MSIdentity openURL:expectedURL options:@{}];
+
+  // Then
+  OCMReject([msalMock handleMSALResponse:expectedURL sourceApplication:OCMOCK_ANY]);
   XCTAssertFalse(result);
   [msalMock stopMocking];
 }
@@ -838,7 +858,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   id authTokenContextMock = OCMPartialMock([MSAuthTokenContext sharedInstance]);
   OCMStub([authTokenContextMock sharedInstance]).andReturn(authTokenContextMock);
   NSError *signInError = [[NSError alloc] initWithDomain:MSALErrorDomain
-                                                    code:MSALErrorAuthorizationFailed
+                                                    code:MSALInternalErrorAuthorizationFailed
                                                 userInfo:@{MSALErrorDescriptionKey : @"failed"}];
   self.sut.clientApplication = self.clientApplicationMock;
   self.sut.identityConfig = [MSIdentityConfig new];
@@ -865,7 +885,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   XCTAssertNil(self.signInUserInformation);
   XCTAssertNotNil(self.signInError);
   XCTAssertEqualObjects(MSALErrorDomain, self.signInError.domain);
-  XCTAssertEqual(MSALErrorAuthorizationFailed, self.signInError.code);
+  XCTAssertEqual(MSALInternalErrorAuthorizationFailed, self.signInError.code);
   XCTAssertNotNil(self.signInError.userInfo[MSALErrorDescriptionKey]);
   [identityMock stopMocking];
   [authTokenContextMock stopMocking];
@@ -1046,7 +1066,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
                                                                     expiresOn:nil];
   NSMutableArray<MSAuthTokenInfo *> *authTokenHistory = [NSMutableArray<MSAuthTokenInfo *> new];
   [authTokenHistory addObject:authTokenInfo];
-  [[MSAuthTokenContext sharedInstance] setAuthTokenHistory: authTokenHistory];
+  [[MSAuthTokenContext sharedInstance] setAuthTokenHistory:authTokenHistory];
   id identityMock = OCMPartialMock(self.sut);
   OCMStub([identityMock sharedInstance]).andReturn(identityMock);
   OCMStub([identityMock canBeUsed]).andReturn(YES);
@@ -1093,7 +1113,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   MSAuthTokenInfo *authTokenInfo = [[MSAuthTokenInfo alloc] initWithAuthToken:authToken accountId:accountId startTime:nil expiresOn:nil];
   NSMutableArray<MSAuthTokenInfo *> *authTokenHistory = [NSMutableArray<MSAuthTokenInfo *> new];
   [authTokenHistory addObject:authTokenInfo];
-  [[MSAuthTokenContext sharedInstance] setAuthTokenHistory: authTokenHistory];
+  [[MSAuthTokenContext sharedInstance] setAuthTokenHistory:authTokenHistory];
   id identityMock = OCMPartialMock(self.sut);
   OCMStub([identityMock sharedInstance]).andReturn(identityMock);
   OCMStub([identityMock canBeUsed]).andReturn(NO);

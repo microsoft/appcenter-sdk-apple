@@ -17,22 +17,23 @@
   MSIdentityAppDelegate *appDelegate = [[MSIdentityAppDelegate alloc] init];
   id identityMock = OCMPartialMock([MSIdentity sharedInstance]);
   __block int count = 0;
-  OCMStub([identityMock openURL:OCMOCK_ANY]).andDo(^(__unused NSInvocation *invocation) {
+  OCMStub([identityMock openURL:OCMOCK_ANY options:OCMOCK_ANY]).andDo(^(__unused NSInvocation *invocation) {
     count++;
   });
   NSURL *url = [[NSURL alloc] init];
+  NSDictionary *options = @{UIApplicationOpenURLOptionsSourceApplicationKey : @"valid_app"};
 
   // When
-  [appDelegate application:[UIApplication sharedApplication] openURL:url options:@{} returnedValue:YES];
+  [appDelegate application:[UIApplication sharedApplication] openURL:url options:options returnedValue:YES];
 
   // Then
-  OCMVerify([identityMock openURL:url]);
+  OCMVerify([identityMock openURL:url options:options]);
 
   // When
   [appDelegate application:[UIApplication sharedApplication] openURL:url sourceApplication:@"" annotation:@"" returnedValue:YES];
 
   // Then
-  OCMVerify([identityMock openURL:url]);
+  OCMVerify([identityMock openURL:url options:options]);
   XCTAssertEqual(count, 2);
 }
 

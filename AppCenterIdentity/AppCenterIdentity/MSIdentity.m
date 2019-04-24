@@ -1,6 +1,11 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+#import "MSALAccount.h"
+#import "MSALAccountId.h"
+#import "MSALAuthority.h"
+#import "MSALError.h"
+#import "MSALResult.h"
 #import "MSAppCenterInternal.h"
 #import "MSAuthTokenContext.h"
 #import "MSChannelUnitConfiguration.h"
@@ -131,8 +136,13 @@ static dispatch_once_t onceToken;
 }
 
 #if TARGET_OS_IOS
-+ (BOOL)openURL:(NSURL *)url {
-  return [MSALPublicClientApplication handleMSALResponse:url];
++ (BOOL)openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options {
+  NSString *sourceApplication = options[UIApplicationOpenURLOptionsSourceApplicationKey];
+  if (!sourceApplication) {
+    MSLogError([MSIdentity logTag], @"sourceApplication is not provided in openURL options.");
+    return NO;
+  }
+  return [MSALPublicClientApplication handleMSALResponse:url sourceApplication:sourceApplication];
 }
 #endif
 
@@ -291,11 +301,16 @@ static dispatch_once_t onceToken;
   // Init MSAL client application.
   NSError *error;
   MSALAuthority *auth = [MSALAuthority authorityWithURL:(NSURL * __nonnull) self.identityConfig.authorities[0].authorityUrl error:nil];
-  self.clientApplication = [[MSALPublicClientApplication alloc] initWithClientId:(NSString * __nonnull) self.identityConfig.clientId
-                                                                       authority:auth
-                                                                     redirectUri:self.identityConfig.redirectUri
-                                                                           error:&error];
-  self.clientApplication.validateAuthority = NO;
+  MSALPublicClientApplicationConfig *config =
+      [[MSALPublicClientApplicationConfig alloc] initWithClientId:(NSString * __nonnull) self.identityConfig.clientId
+                                                      redirectUri:self.identityConfig.redirectUri
+                                                        authority:auth];
+  if (!auth) {
+    MSLogError([MSIdentity logTag], @"Identity config doesn't contain a valid authority.");
+    return;
+  }
+  config.knownAuthorities = @[ auth ];
+  self.clientApplication = [[MSALPublicClientApplication alloc] initWithConfiguration:config error:&error];
   if (error != nil) {
     MSLogError([MSIdentity logTag], @"Failed to initialize client application.");
   }
