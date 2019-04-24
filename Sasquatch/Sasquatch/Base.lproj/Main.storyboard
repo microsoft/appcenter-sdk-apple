@@ -1276,7 +1276,7 @@
                     <tabBarItem key="tabBarItem" title="App Center" image="dials" id="xhl-ug-PCm"/>
                     <navigationItem key="navigationItem" title="App Center" id="eqe-td-JIR"/>
                     <connections>
-                        <outlet property="AuthSwitch" destination="iXu-ht-std" id="Sea-q6-3hw"/>
+                        <outlet property="authSwitch" destination="iXu-ht-std" id="Sea-q6-3hw"/>
                         <outlet property="appCenterEnabledSwitch" destination="Q0F-SV-i0s" id="90F-m9-92r"/>
                         <outlet property="appSecret" destination="yfU-RL-vIN" id="MRV-0f-F7F"/>
                         <outlet property="deviceIdLabel" destination="eS2-cR-m6j" id="UsE-g6-FF0"/>
