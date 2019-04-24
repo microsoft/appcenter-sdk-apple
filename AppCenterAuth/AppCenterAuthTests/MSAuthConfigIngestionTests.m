@@ -3,16 +3,16 @@
 
 #import <Foundation/Foundation.h>
 
-#import "MSIdentity.h"
-#import "MSIdentityConfigIngestion.h"
+#import "MSAuth.h"
+#import "MSAuthConfigIngestion.h"
 #import "MSLoggerInternal.h"
 #import "MSTestFrameworks.h"
 
-@interface MSIdentityConfigIngestionTests : XCTestCase
+@interface MSAuthConfigIngestionTests : XCTestCase
 
 @end
 
-@implementation MSIdentityConfigIngestionTests
+@implementation MSAuthConfigIngestionTests
 
 - (void)testCreateRequestWithETag {
 
@@ -22,7 +22,7 @@
   NSString *apiPath = [NSString stringWithFormat:@"/identity/%@.json", appSecret];
   NSDictionary *header = @{@"If-None-Match" : @"eTag"};
   NSString *eTag = @"eTag";
-  MSIdentityConfigIngestion *ingestion = [[MSIdentityConfigIngestion alloc] initWithBaseUrl:baseUrl appSecret:appSecret];
+  MSAuthConfigIngestion *ingestion = [[MSAuthConfigIngestion alloc] initWithBaseUrl:baseUrl appSecret:appSecret];
 
   // When
   NSURLRequest *request = [ingestion createRequest:[NSData new] eTag:eTag authToken:nil];
@@ -41,7 +41,7 @@
   NSString *baseUrl = @"https://contoso.com";
   NSString *appSecret = @"secret";
   NSString *apiPath = [NSString stringWithFormat:@"/identity/%@.json", appSecret];
-  MSIdentityConfigIngestion *ingestion = [[MSIdentityConfigIngestion alloc] initWithBaseUrl:baseUrl appSecret:appSecret];
+  MSAuthConfigIngestion *ingestion = [[MSAuthConfigIngestion alloc] initWithBaseUrl:baseUrl appSecret:appSecret];
 
   // When
   NSURLRequest *request = [ingestion createRequest:[NSData new] eTag:nil authToken:nil];
@@ -55,7 +55,7 @@
 
   // If
   [MSLogger setCurrentLogLevel:MSLogLevelVerbose];
-  MSIdentityConfigIngestion *ingestion1 = [[MSIdentityConfigIngestion alloc] initWithBaseUrl:baseUrl appSecret:appSecret];
+  MSAuthConfigIngestion *ingestion1 = [[MSAuthConfigIngestion alloc] initWithBaseUrl:baseUrl appSecret:appSecret];
 
   // When
   NSURLRequest *request1 = [ingestion1 createRequest:[NSData new] eTag:nil authToken:nil];

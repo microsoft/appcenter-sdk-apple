@@ -61,17 +61,17 @@
 		0446DF621F3B95EB00C8E338 /* libAppCenter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0446DF611F3B95EB00C8E338 /* libAppCenter.a */; };
 		0446DF641F3B95F200C8E338 /* libAppCenter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0446DF631F3B95F200C8E338 /* libAppCenter.a */; };
 		046AEACB1ECA554600CBE511 /* libAppCenterAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0485AF851EAA79E300C10CAF /* libAppCenterAuth.a */; };
-		04774644220112450045504A /* MSIdentityAuthorityTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A0D73FD2200CD540085FDE3 /* MSIdentityAuthorityTest.m */; };
-		04774645220112480045504A /* MSIdentityConfigTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A0D74022200EB400085FDE3 /* MSIdentityConfigTest.m */; };
-		0481A54B21FA511C001FA9D8 /* MSIdentityConfigIngestion.m in Sources */ = {isa = PBXBuildFile; fileRef = 0481A54921FA511C001FA9D8 /* MSIdentityConfigIngestion.m */; };
-		0481A54C21FA511C001FA9D8 /* MSIdentityConfigIngestion.h in Headers */ = {isa = PBXBuildFile; fileRef = 0481A54A21FA511C001FA9D8 /* MSIdentityConfigIngestion.h */; };
-		0481A54D21FA51D4001FA9D8 /* MSIdentityConfigIngestion.h in Headers */ = {isa = PBXBuildFile; fileRef = 0481A54A21FA511C001FA9D8 /* MSIdentityConfigIngestion.h */; };
-		0481A54E21FA51D7001FA9D8 /* MSIdentityConfigIngestion.m in Sources */ = {isa = PBXBuildFile; fileRef = 0481A54921FA511C001FA9D8 /* MSIdentityConfigIngestion.m */; };
-		0485AF6A1EAA79E300C10CAF /* MSIdentity.m in Sources */ = {isa = PBXBuildFile; fileRef = E85547C51D2D6253002DF6E2 /* MSIdentity.m */; };
-		0485AF781EAA79E300C10CAF /* AppCenterIdentity.h in Headers */ = {isa = PBXBuildFile; fileRef = E85547CC1D2D63EF002DF6E2 /* AppCenterIdentity.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0485AF7E1EAA79E300C10CAF /* MSIdentity.h in Headers */ = {isa = PBXBuildFile; fileRef = E85547C31D2D6253002DF6E2 /* MSIdentity.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		049BC836224E8AD900AE7FBB /* MSIdentityErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = 049BC835224E8AD900AE7FBB /* MSIdentityErrors.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		049BC837224E8AE100AE7FBB /* MSIdentityErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = 049BC835224E8AD900AE7FBB /* MSIdentityErrors.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		04774644220112450045504A /* MSAuthAuthorityTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A0D73FD2200CD540085FDE3 /* MSAuthAuthorityTest.m */; };
+		04774645220112480045504A /* MSAuthConfigTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A0D74022200EB400085FDE3 /* MSAuthConfigTest.m */; };
+		0481A54B21FA511C001FA9D8 /* MSAuthConfigIngestion.m in Sources */ = {isa = PBXBuildFile; fileRef = 0481A54921FA511C001FA9D8 /* MSAuthConfigIngestion.m */; };
+		0481A54C21FA511C001FA9D8 /* MSAuthConfigIngestion.h in Headers */ = {isa = PBXBuildFile; fileRef = 0481A54A21FA511C001FA9D8 /* MSAuthConfigIngestion.h */; };
+		0481A54D21FA51D4001FA9D8 /* MSAuthConfigIngestion.h in Headers */ = {isa = PBXBuildFile; fileRef = 0481A54A21FA511C001FA9D8 /* MSAuthConfigIngestion.h */; };
+		0481A54E21FA51D7001FA9D8 /* MSAuthConfigIngestion.m in Sources */ = {isa = PBXBuildFile; fileRef = 0481A54921FA511C001FA9D8 /* MSAuthConfigIngestion.m */; };
+		0485AF6A1EAA79E300C10CAF /* MSAuth.m in Sources */ = {isa = PBXBuildFile; fileRef = E85547C51D2D6253002DF6E2 /* MSAuth.m */; };
+		0485AF781EAA79E300C10CAF /* AppCenterAuth.h in Headers */ = {isa = PBXBuildFile; fileRef = E85547CC1D2D63EF002DF6E2 /* AppCenterAuth.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0485AF7E1EAA79E300C10CAF /* MSAuth.h in Headers */ = {isa = PBXBuildFile; fileRef = E85547C31D2D6253002DF6E2 /* MSAuth.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		049BC836224E8AD900AE7FBB /* MSAuthErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = 049BC835224E8AD900AE7FBB /* MSAuthErrors.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		049BC837224E8AE100AE7FBB /* MSAuthErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = 049BC835224E8AD900AE7FBB /* MSAuthErrors.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		049BC849224ED7C100AE7FBB /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 049BC848224ED7C100AE7FBB /* WebKit.framework */; };
 		049BC84B224ED7C900AE7FBB /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 049BC84A224ED7C900AE7FBB /* WebKit.framework */; };
 		049BC84C224ED9D600AE7FBB /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 049BC848224ED7C100AE7FBB /* WebKit.framework */; };
@@ -85,43 +85,43 @@
 		04E0F320223B246B0080C968 /* AuthenticationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04E0F31F223B246B0080C968 /* AuthenticationServices.framework */; };
 		04E97629226A5426007E6DD1 /* libMSAL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04E9760F226A50BF007E6DD1 /* libMSAL.a */; };
 		04E9762A226A542F007E6DD1 /* libMSAL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04E97611226A50BF007E6DD1 /* libMSAL.a */; };
-		1A0D73FE2200CD540085FDE3 /* MSIdentityAuthorityTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A0D73FD2200CD540085FDE3 /* MSIdentityAuthorityTest.m */; };
-		1A0D74032200EB400085FDE3 /* MSIdentityConfigTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A0D74022200EB400085FDE3 /* MSIdentityConfigTest.m */; };
-		1A15692421F11B09001E9452 /* MSIdentityTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A15692321F11B09001E9452 /* MSIdentityTests.m */; };
-		1A15692521F11B09001E9452 /* MSIdentityTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A15692321F11B09001E9452 /* MSIdentityTests.m */; };
+		1A0D73FE2200CD540085FDE3 /* MSAuthAuthorityTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A0D73FD2200CD540085FDE3 /* MSAuthAuthorityTest.m */; };
+		1A0D74032200EB400085FDE3 /* MSAuthConfigTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A0D74022200EB400085FDE3 /* MSAuthConfigTest.m */; };
+		1A15692421F11B09001E9452 /* MSAuthTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A15692321F11B09001E9452 /* MSAuthTests.m */; };
+		1A15692521F11B09001E9452 /* MSAuthTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A15692321F11B09001E9452 /* MSAuthTests.m */; };
 		3568A7EF201A9BBB00F3B860 /* MSService.h in Headers */ = {isa = PBXBuildFile; fileRef = 04A082051F74BB8600DC776D /* MSService.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3568A7F0201A9BBB00F3B860 /* MSServiceAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C77041D6CC39400D68CC1 /* MSServiceAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		35BCB33B22382EA100E948A4 /* MSIdentityConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 35BCB33A22382E6A00E948A4 /* MSIdentityConstants.h */; };
-		35BCB33C22382EA300E948A4 /* MSIdentityConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 35BCB33A22382E6A00E948A4 /* MSIdentityConstants.h */; };
+		35BCB33B22382EA100E948A4 /* MSAuthConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 35BCB33A22382E6A00E948A4 /* MSAuthConstants.h */; };
+		35BCB33C22382EA300E948A4 /* MSAuthConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 35BCB33A22382E6A00E948A4 /* MSAuthConstants.h */; };
 		3847ABE622028E3D008BC281 /* MSHttpTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 3847ABE522028E3D008BC281 /* MSHttpTestUtil.m */; };
 		3847ABE722028E3D008BC281 /* MSHttpTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 3847ABE522028E3D008BC281 /* MSHttpTestUtil.m */; };
 		387C77051D6CC39400D68CC1 /* MSServiceAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C77041D6CC39400D68CC1 /* MSServiceAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38D4204D22012E65006ECF44 /* MSMockUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 38D4204722012E1E006ECF44 /* MSMockUserDefaults.m */; };
 		38D4204E22012E66006ECF44 /* MSMockUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 38D4204722012E1E006ECF44 /* MSMockUserDefaults.m */; };
-		38EB8A6522038CE8005DBF5D /* MSIdentityConfigIngestionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 38EB8A6422038CE8005DBF5D /* MSIdentityConfigIngestionTests.m */; };
-		38EB8A6622038CE8005DBF5D /* MSIdentityConfigIngestionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 38EB8A6422038CE8005DBF5D /* MSIdentityConfigIngestionTests.m */; };
-		38F796CC21F93E33007E7C15 /* MSIdentityConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 38F796CA21F93E33007E7C15 /* MSIdentityConfig.h */; };
-		38F796CD21F93E33007E7C15 /* MSIdentityConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 38F796CA21F93E33007E7C15 /* MSIdentityConfig.h */; };
-		38F796CE21F93E33007E7C15 /* MSIdentityConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 38F796CB21F93E33007E7C15 /* MSIdentityConfig.m */; };
-		38F796CF21F93E33007E7C15 /* MSIdentityConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 38F796CB21F93E33007E7C15 /* MSIdentityConfig.m */; };
-		38F796D221F93ED6007E7C15 /* MSIdentityAuthority.h in Headers */ = {isa = PBXBuildFile; fileRef = 38F796D021F93ED6007E7C15 /* MSIdentityAuthority.h */; };
-		38F796D321F93ED6007E7C15 /* MSIdentityAuthority.h in Headers */ = {isa = PBXBuildFile; fileRef = 38F796D021F93ED6007E7C15 /* MSIdentityAuthority.h */; };
-		38F796D421F93ED6007E7C15 /* MSIdentityAuthority.m in Sources */ = {isa = PBXBuildFile; fileRef = 38F796D121F93ED6007E7C15 /* MSIdentityAuthority.m */; };
-		38F796D521F93ED6007E7C15 /* MSIdentityAuthority.m in Sources */ = {isa = PBXBuildFile; fileRef = 38F796D121F93ED6007E7C15 /* MSIdentityAuthority.m */; };
+		38EB8A6522038CE8005DBF5D /* MSAuthConfigIngestionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 38EB8A6422038CE8005DBF5D /* MSAuthConfigIngestionTests.m */; };
+		38EB8A6622038CE8005DBF5D /* MSAuthConfigIngestionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 38EB8A6422038CE8005DBF5D /* MSAuthConfigIngestionTests.m */; };
+		38F796CC21F93E33007E7C15 /* MSAuthConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 38F796CA21F93E33007E7C15 /* MSAuthConfig.h */; };
+		38F796CD21F93E33007E7C15 /* MSAuthConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 38F796CA21F93E33007E7C15 /* MSAuthConfig.h */; };
+		38F796CE21F93E33007E7C15 /* MSAuthConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 38F796CB21F93E33007E7C15 /* MSAuthConfig.m */; };
+		38F796CF21F93E33007E7C15 /* MSAuthConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 38F796CB21F93E33007E7C15 /* MSAuthConfig.m */; };
+		38F796D221F93ED6007E7C15 /* MSAuthAuthority.h in Headers */ = {isa = PBXBuildFile; fileRef = 38F796D021F93ED6007E7C15 /* MSAuthAuthority.h */; };
+		38F796D321F93ED6007E7C15 /* MSAuthAuthority.h in Headers */ = {isa = PBXBuildFile; fileRef = 38F796D021F93ED6007E7C15 /* MSAuthAuthority.h */; };
+		38F796D421F93ED6007E7C15 /* MSAuthAuthority.m in Sources */ = {isa = PBXBuildFile; fileRef = 38F796D121F93ED6007E7C15 /* MSAuthAuthority.m */; };
+		38F796D521F93ED6007E7C15 /* MSAuthAuthority.m in Sources */ = {isa = PBXBuildFile; fileRef = 38F796D121F93ED6007E7C15 /* MSAuthAuthority.m */; };
 		6E0684381D35A3B900A8CC6C /* OCHamcrestIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E0684371D35A3B900A8CC6C /* OCHamcrestIOS.framework */; };
 		995BA5D321EFEF6D000E3212 /* AppCenter+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 995BA5D221EFEF6D000E3212 /* AppCenter+Internal.h */; };
 		995BA5D421EFEF6D000E3212 /* AppCenter+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 995BA5D221EFEF6D000E3212 /* AppCenter+Internal.h */; };
-		995BA5DC21EFF414000E3212 /* MSIdentityPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 995BA5DB21EFF414000E3212 /* MSIdentityPrivate.h */; };
-		995BA5DD21EFF414000E3212 /* MSIdentityPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 995BA5DB21EFF414000E3212 /* MSIdentityPrivate.h */; };
+		995BA5DC21EFF414000E3212 /* MSAuthPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 995BA5DB21EFF414000E3212 /* MSAuthPrivate.h */; };
+		995BA5DD21EFF414000E3212 /* MSAuthPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 995BA5DB21EFF414000E3212 /* MSAuthPrivate.h */; };
 		9CFD2EC6221CCE33006C5FBD /* MSMockKeychainUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CFD2EC4221CCE33006C5FBD /* MSMockKeychainUtil.m */; };
 		9CFD2EC7221CCE33006C5FBD /* MSMockKeychainUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CFD2EC4221CCE33006C5FBD /* MSMockKeychainUtil.m */; };
-		B2B25642220B365A00716D6A /* MSIdentityAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B2B25640220B365A00716D6A /* MSIdentityAppDelegate.m */; };
-		B2B25644220B365A00716D6A /* MSIdentityAppDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = B2B25641220B365A00716D6A /* MSIdentityAppDelegate.h */; };
-		B2B25647220B370200716D6A /* MSIdentityAppDelegateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2B25646220B370200716D6A /* MSIdentityAppDelegateTests.m */; };
-		E85547C61D2D6253002DF6E2 /* MSIdentity.m in Sources */ = {isa = PBXBuildFile; fileRef = E85547C51D2D6253002DF6E2 /* MSIdentity.m */; };
+		B2B25642220B365A00716D6A /* MSAuthAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B2B25640220B365A00716D6A /* MSAuthAppDelegate.m */; };
+		B2B25644220B365A00716D6A /* MSAuthAppDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = B2B25641220B365A00716D6A /* MSAuthAppDelegate.h */; };
+		B2B25647220B370200716D6A /* MSAuthAppDelegateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2B25646220B370200716D6A /* MSAuthAppDelegateTests.m */; };
+		E85547C61D2D6253002DF6E2 /* MSAuth.m in Sources */ = {isa = PBXBuildFile; fileRef = E85547C51D2D6253002DF6E2 /* MSAuth.m */; };
 		E85547DA1D2D6723002DF6E2 /* libAppCenterAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E85547C01D2D6253002DF6E2 /* libAppCenterAuth.a */; };
-		E85547F71D2D6A7D002DF6E2 /* AppCenterIdentity.h in Headers */ = {isa = PBXBuildFile; fileRef = E85547CC1D2D63EF002DF6E2 /* AppCenterIdentity.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E85547F81D2D6A7D002DF6E2 /* MSIdentity.h in Headers */ = {isa = PBXBuildFile; fileRef = E85547C31D2D6253002DF6E2 /* MSIdentity.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E85547F71D2D6A7D002DF6E2 /* AppCenterAuth.h in Headers */ = {isa = PBXBuildFile; fileRef = E85547CC1D2D63EF002DF6E2 /* AppCenterAuth.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E85547F81D2D6A7D002DF6E2 /* MSAuth.h in Headers */ = {isa = PBXBuildFile; fileRef = E85547C31D2D6253002DF6E2 /* MSAuth.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F82E4C71217F1FA600EDAB34 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = F82E4C70217F1FA600EDAB34 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		F82E4C72217F1FA600EDAB34 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = F82E4C70217F1FA600EDAB34 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 /* End PBXBuildFile section */
@@ -303,13 +303,13 @@
 		0446DF631F3B95F200C8E338 /* libAppCenter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAppCenter.a; path = "../../../../../Library/Developer/Xcode/DerivedData/MobileCenter-atgozldoovnqvrcmynluxwlivwkq/Build/Products/Debug-iphonesimulator/libAppCenter.a"; sourceTree = "<group>"; };
 		0469D1B21F4DFE4C00A43A8E /* AppCenterAuth Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "AppCenterAuth Release.xcconfig"; sourceTree = "<group>"; };
 		046AEAC61ECA51AF00CBE511 /* AppCenterAuth.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppCenterAuth.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		0481A54921FA511C001FA9D8 /* MSIdentityConfigIngestion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSIdentityConfigIngestion.m; sourceTree = "<group>"; };
-		0481A54A21FA511C001FA9D8 /* MSIdentityConfigIngestion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSIdentityConfigIngestion.h; sourceTree = "<group>"; };
+		0481A54921FA511C001FA9D8 /* MSAuthConfigIngestion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAuthConfigIngestion.m; sourceTree = "<group>"; };
+		0481A54A21FA511C001FA9D8 /* MSAuthConfigIngestion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAuthConfigIngestion.h; sourceTree = "<group>"; };
 		0485AF851EAA79E300C10CAF /* libAppCenterAuth.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAppCenterAuth.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		049BC82A1ECE3B9400FB6719 /* iOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = iOS.xcconfig; sourceTree = "<group>"; };
 		049BC82B1ECE3B9A00FB6719 /* macOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
 		049BC82C1ECE3CF000FB6719 /* Tests macOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Tests macOS.xcconfig"; path = "../../Config/Tests macOS.xcconfig"; sourceTree = "<group>"; };
-		049BC835224E8AD900AE7FBB /* MSIdentityErrors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSIdentityErrors.h; sourceTree = "<group>"; };
+		049BC835224E8AD900AE7FBB /* MSAuthErrors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAuthErrors.h; sourceTree = "<group>"; };
 		049BC848224ED7C100AE7FBB /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/WebKit.framework; sourceTree = DEVELOPER_DIR; };
 		049BC84A224ED7C900AE7FBB /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		04A082051F74BB8600DC776D /* MSService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSService.h; path = ../AppCenter/AppCenter/MSService.h; sourceTree = "<group>"; };
@@ -321,34 +321,34 @@
 		04E975EA226A50BF007E6DD1 /* MSAL.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = MSAL.xcodeproj; path = "microsoft-authentication-library-for-objc/MSAL/MSAL.xcodeproj"; sourceTree = "<group>"; };
 		04ED31E91EAAD32B0033BAAE /* macOS.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = macOS.modulemap; sourceTree = "<group>"; };
 		04ED31EB1EAAD3390033BAAE /* iOS.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = iOS.modulemap; sourceTree = "<group>"; };
-		1A0D73FD2200CD540085FDE3 /* MSIdentityAuthorityTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSIdentityAuthorityTest.m; sourceTree = "<group>"; };
-		1A0D74022200EB400085FDE3 /* MSIdentityConfigTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSIdentityConfigTest.m; sourceTree = "<group>"; };
-		1A15692321F11B09001E9452 /* MSIdentityTests.m */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = MSIdentityTests.m; sourceTree = "<group>"; tabWidth = 2; };
-		35BCB33A22382E6A00E948A4 /* MSIdentityConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSIdentityConstants.h; sourceTree = "<group>"; };
+		1A0D73FD2200CD540085FDE3 /* MSAuthAuthorityTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSAuthAuthorityTest.m; sourceTree = "<group>"; };
+		1A0D74022200EB400085FDE3 /* MSAuthConfigTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSAuthConfigTest.m; sourceTree = "<group>"; };
+		1A15692321F11B09001E9452 /* MSAuthTests.m */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = MSAuthTests.m; sourceTree = "<group>"; tabWidth = 2; };
+		35BCB33A22382E6A00E948A4 /* MSAuthConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSAuthConstants.h; sourceTree = "<group>"; };
 		3847ABE422028E3D008BC281 /* MSHttpTestUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSHttpTestUtil.h; sourceTree = "<group>"; };
 		3847ABE522028E3D008BC281 /* MSHttpTestUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSHttpTestUtil.m; path = ../../../AppCenter/AppCenterTests/Util/MSHttpTestUtil.m; sourceTree = "<group>"; };
 		387C77041D6CC39400D68CC1 /* MSServiceAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSServiceAbstract.h; path = ../AppCenter/AppCenter/MSServiceAbstract.h; sourceTree = "<group>"; };
 		38D4204422012DAC006ECF44 /* MSTestFrameworks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSTestFrameworks.h; path = ../../../AppCenter/AppCenterTests/Util/MSTestFrameworks.h; sourceTree = "<group>"; };
 		38D4204722012E1E006ECF44 /* MSMockUserDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSMockUserDefaults.m; path = ../../../AppCenter/AppCenterTests/Util/MSMockUserDefaults.m; sourceTree = "<group>"; };
 		38D4204F22012F0B006ECF44 /* MSMockUserDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSMockUserDefaults.h; path = ../../../AppCenter/AppCenterTests/Util/MSMockUserDefaults.h; sourceTree = "<group>"; };
-		38EB8A6422038CE8005DBF5D /* MSIdentityConfigIngestionTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSIdentityConfigIngestionTests.m; sourceTree = "<group>"; };
-		38F796CA21F93E33007E7C15 /* MSIdentityConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSIdentityConfig.h; sourceTree = "<group>"; };
-		38F796CB21F93E33007E7C15 /* MSIdentityConfig.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSIdentityConfig.m; sourceTree = "<group>"; };
-		38F796D021F93ED6007E7C15 /* MSIdentityAuthority.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSIdentityAuthority.h; sourceTree = "<group>"; };
-		38F796D121F93ED6007E7C15 /* MSIdentityAuthority.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSIdentityAuthority.m; sourceTree = "<group>"; };
+		38EB8A6422038CE8005DBF5D /* MSAuthConfigIngestionTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSAuthConfigIngestionTests.m; sourceTree = "<group>"; };
+		38F796CA21F93E33007E7C15 /* MSAuthConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSAuthConfig.h; sourceTree = "<group>"; };
+		38F796CB21F93E33007E7C15 /* MSAuthConfig.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSAuthConfig.m; sourceTree = "<group>"; };
+		38F796D021F93ED6007E7C15 /* MSAuthAuthority.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSAuthAuthority.h; sourceTree = "<group>"; };
+		38F796D121F93ED6007E7C15 /* MSAuthAuthority.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSAuthAuthority.m; sourceTree = "<group>"; };
 		6E0684371D35A3B900A8CC6C /* OCHamcrestIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrestIOS.framework; path = ../../Vendor/iOS/OCHamcrest/OCHamcrestIOS.framework; sourceTree = "<group>"; };
 		995BA5D221EFEF6D000E3212 /* AppCenter+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "AppCenter+Internal.h"; path = "../../../AppCenter/AppCenter/Internals/AppCenter+Internal.h"; sourceTree = "<group>"; };
-		995BA5DB21EFF414000E3212 /* MSIdentityPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSIdentityPrivate.h; sourceTree = "<group>"; };
+		995BA5DB21EFF414000E3212 /* MSAuthPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSAuthPrivate.h; sourceTree = "<group>"; };
 		9CFD2EC4221CCE33006C5FBD /* MSMockKeychainUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSMockKeychainUtil.m; sourceTree = "<group>"; };
 		9CFD2EC5221CCE33006C5FBD /* MSMockKeychainUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSMockKeychainUtil.h; sourceTree = "<group>"; };
 		B2812EF21DA3148000307DCE /* AppCenterAuth Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "AppCenterAuth Debug.xcconfig"; sourceTree = "<group>"; };
-		B2B25640220B365A00716D6A /* MSIdentityAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSIdentityAppDelegate.m; sourceTree = "<group>"; };
-		B2B25641220B365A00716D6A /* MSIdentityAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSIdentityAppDelegate.h; sourceTree = "<group>"; };
-		B2B25646220B370200716D6A /* MSIdentityAppDelegateTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSIdentityAppDelegateTests.m; sourceTree = "<group>"; };
+		B2B25640220B365A00716D6A /* MSAuthAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAuthAppDelegate.m; sourceTree = "<group>"; };
+		B2B25641220B365A00716D6A /* MSAuthAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAuthAppDelegate.h; sourceTree = "<group>"; };
+		B2B25646220B370200716D6A /* MSAuthAppDelegateTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSAuthAppDelegateTests.m; sourceTree = "<group>"; };
 		E85547C01D2D6253002DF6E2 /* libAppCenterAuth.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAppCenterAuth.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		E85547C31D2D6253002DF6E2 /* MSIdentity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSIdentity.h; sourceTree = "<group>"; };
-		E85547C51D2D6253002DF6E2 /* MSIdentity.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MSIdentity.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		E85547CC1D2D63EF002DF6E2 /* AppCenterIdentity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppCenterIdentity.h; sourceTree = "<group>"; };
+		E85547C31D2D6253002DF6E2 /* MSAuth.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSAuth.h; sourceTree = "<group>"; };
+		E85547C51D2D6253002DF6E2 /* MSAuth.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MSAuth.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		E85547CC1D2D63EF002DF6E2 /* AppCenterAuth.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppCenterAuth.h; sourceTree = "<group>"; };
 		E85547D51D2D6723002DF6E2 /* AppCenterAuth.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppCenterAuth.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E85547D91D2D6723002DF6E2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F82E4C70217F1FA600EDAB34 /* sqlite3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = sqlite3.c; path = ../../Vendor/SQLite3/sqlite3.c; sourceTree = "<group>"; };
@@ -422,8 +422,8 @@
 		0481A54821FA511C001FA9D8 /* Ingestion */ = {
 			isa = PBXGroup;
 			children = (
-				0481A54921FA511C001FA9D8 /* MSIdentityConfigIngestion.m */,
-				0481A54A21FA511C001FA9D8 /* MSIdentityConfigIngestion.h */,
+				0481A54921FA511C001FA9D8 /* MSAuthConfigIngestion.m */,
+				0481A54A21FA511C001FA9D8 /* MSAuthConfigIngestion.h */,
 			);
 			path = Ingestion;
 			sourceTree = "<group>";
@@ -527,7 +527,7 @@
 		35BCB33922382E3B00E948A4 /* Util */ = {
 			isa = PBXGroup;
 			children = (
-				35BCB33A22382E6A00E948A4 /* MSIdentityConstants.h */,
+				35BCB33A22382E6A00E948A4 /* MSAuthConstants.h */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -550,10 +550,10 @@
 		38F796C921F93E09007E7C15 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				38F796CA21F93E33007E7C15 /* MSIdentityConfig.h */,
-				38F796CB21F93E33007E7C15 /* MSIdentityConfig.m */,
-				38F796D021F93ED6007E7C15 /* MSIdentityAuthority.h */,
-				38F796D121F93ED6007E7C15 /* MSIdentityAuthority.m */,
+				38F796CA21F93E33007E7C15 /* MSAuthConfig.h */,
+				38F796CB21F93E33007E7C15 /* MSAuthConfig.m */,
+				38F796D021F93ED6007E7C15 /* MSAuthAuthority.h */,
+				38F796D121F93ED6007E7C15 /* MSAuthAuthority.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -586,9 +586,9 @@
 			isa = PBXGroup;
 			children = (
 				995BA5D221EFEF6D000E3212 /* AppCenter+Internal.h */,
-				B2B25641220B365A00716D6A /* MSIdentityAppDelegate.h */,
-				B2B25640220B365A00716D6A /* MSIdentityAppDelegate.m */,
-				995BA5DB21EFF414000E3212 /* MSIdentityPrivate.h */,
+				B2B25641220B365A00716D6A /* MSAuthAppDelegate.h */,
+				B2B25640220B365A00716D6A /* MSAuthAppDelegate.m */,
+				995BA5DB21EFF414000E3212 /* MSAuthPrivate.h */,
 				0481A54821FA511C001FA9D8 /* Ingestion */,
 				38F796C921F93E09007E7C15 /* Models */,
 				35BCB33922382E3B00E948A4 /* Util */,
@@ -624,10 +624,10 @@
 		E85547C21D2D6253002DF6E2 /* AppCenterAuth */ = {
 			isa = PBXGroup;
 			children = (
-				E85547CC1D2D63EF002DF6E2 /* AppCenterIdentity.h */,
-				E85547C31D2D6253002DF6E2 /* MSIdentity.h */,
-				E85547C51D2D6253002DF6E2 /* MSIdentity.m */,
-				049BC835224E8AD900AE7FBB /* MSIdentityErrors.h */,
+				E85547CC1D2D63EF002DF6E2 /* AppCenterAuth.h */,
+				E85547C31D2D6253002DF6E2 /* MSAuth.h */,
+				E85547C51D2D6253002DF6E2 /* MSAuth.m */,
+				049BC835224E8AD900AE7FBB /* MSAuthErrors.h */,
 				995BA5D621EFF01F000E3212 /* Internals */,
 				E85547D01D2D65AF002DF6E2 /* Support */,
 			);
@@ -651,11 +651,11 @@
 			isa = PBXGroup;
 			children = (
 				E85547D91D2D6723002DF6E2 /* Info.plist */,
-				B2B25646220B370200716D6A /* MSIdentityAppDelegateTests.m */,
-				1A0D73FD2200CD540085FDE3 /* MSIdentityAuthorityTest.m */,
-				1A0D74022200EB400085FDE3 /* MSIdentityConfigTest.m */,
-				38EB8A6422038CE8005DBF5D /* MSIdentityConfigIngestionTests.m */,
-				1A15692321F11B09001E9452 /* MSIdentityTests.m */,
+				B2B25646220B370200716D6A /* MSAuthAppDelegateTests.m */,
+				1A0D73FD2200CD540085FDE3 /* MSAuthAuthorityTest.m */,
+				1A0D74022200EB400085FDE3 /* MSAuthConfigTest.m */,
+				38EB8A6422038CE8005DBF5D /* MSAuthConfigIngestionTests.m */,
+				1A15692321F11B09001E9452 /* MSAuthTests.m */,
 				6E0684361D35A39300A8CC6C /* Frameworks */,
 				04A140AE1ECE806B001CEE94 /* Support */,
 				38D4204322012D7B006ECF44 /* Util */,
@@ -670,18 +670,18 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				995BA5DD21EFF414000E3212 /* MSIdentityPrivate.h in Headers */,
+				995BA5DD21EFF414000E3212 /* MSAuthPrivate.h in Headers */,
 				995BA5D421EFEF6D000E3212 /* AppCenter+Internal.h in Headers */,
-				35BCB33C22382EA300E948A4 /* MSIdentityConstants.h in Headers */,
+				35BCB33C22382EA300E948A4 /* MSAuthConstants.h in Headers */,
 				3568A7EF201A9BBB00F3B860 /* MSService.h in Headers */,
-				049BC837224E8AE100AE7FBB /* MSIdentityErrors.h in Headers */,
-				38F796CD21F93E33007E7C15 /* MSIdentityConfig.h in Headers */,
-				0481A54D21FA51D4001FA9D8 /* MSIdentityConfigIngestion.h in Headers */,
+				049BC837224E8AE100AE7FBB /* MSAuthErrors.h in Headers */,
+				38F796CD21F93E33007E7C15 /* MSAuthConfig.h in Headers */,
+				0481A54D21FA51D4001FA9D8 /* MSAuthConfigIngestion.h in Headers */,
 				04B1C8CD2252AF2300CBD876 /* MSAppCenterErrors.h in Headers */,
 				3568A7F0201A9BBB00F3B860 /* MSServiceAbstract.h in Headers */,
-				0485AF781EAA79E300C10CAF /* AppCenterIdentity.h in Headers */,
-				38F796D321F93ED6007E7C15 /* MSIdentityAuthority.h in Headers */,
-				0485AF7E1EAA79E300C10CAF /* MSIdentity.h in Headers */,
+				0485AF781EAA79E300C10CAF /* AppCenterAuth.h in Headers */,
+				38F796D321F93ED6007E7C15 /* MSAuthAuthority.h in Headers */,
+				0485AF7E1EAA79E300C10CAF /* MSAuth.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -690,18 +690,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				04B1C8CC2252AF2300CBD876 /* MSAppCenterErrors.h in Headers */,
-				995BA5DC21EFF414000E3212 /* MSIdentityPrivate.h in Headers */,
+				995BA5DC21EFF414000E3212 /* MSAuthPrivate.h in Headers */,
 				995BA5D321EFEF6D000E3212 /* AppCenter+Internal.h in Headers */,
-				35BCB33B22382EA100E948A4 /* MSIdentityConstants.h in Headers */,
-				B2B25644220B365A00716D6A /* MSIdentityAppDelegate.h in Headers */,
+				35BCB33B22382EA100E948A4 /* MSAuthConstants.h in Headers */,
+				B2B25644220B365A00716D6A /* MSAuthAppDelegate.h in Headers */,
 				04A082061F74BB8600DC776D /* MSService.h in Headers */,
-				049BC836224E8AD900AE7FBB /* MSIdentityErrors.h in Headers */,
-				38F796CC21F93E33007E7C15 /* MSIdentityConfig.h in Headers */,
+				049BC836224E8AD900AE7FBB /* MSAuthErrors.h in Headers */,
+				38F796CC21F93E33007E7C15 /* MSAuthConfig.h in Headers */,
 				387C77051D6CC39400D68CC1 /* MSServiceAbstract.h in Headers */,
-				0481A54C21FA511C001FA9D8 /* MSIdentityConfigIngestion.h in Headers */,
-				E85547F71D2D6A7D002DF6E2 /* AppCenterIdentity.h in Headers */,
-				38F796D221F93ED6007E7C15 /* MSIdentityAuthority.h in Headers */,
-				E85547F81D2D6A7D002DF6E2 /* MSIdentity.h in Headers */,
+				0481A54C21FA511C001FA9D8 /* MSAuthConfigIngestion.h in Headers */,
+				E85547F71D2D6A7D002DF6E2 /* AppCenterAuth.h in Headers */,
+				38F796D221F93ED6007E7C15 /* MSAuthAuthority.h in Headers */,
+				E85547F81D2D6A7D002DF6E2 /* MSAuth.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1029,11 +1029,11 @@
 			files = (
 				F82E4C72217F1FA600EDAB34 /* sqlite3.c in Sources */,
 				9CFD2EC7221CCE33006C5FBD /* MSMockKeychainUtil.m in Sources */,
-				04774645220112480045504A /* MSIdentityConfigTest.m in Sources */,
-				1A15692521F11B09001E9452 /* MSIdentityTests.m in Sources */,
-				38EB8A6622038CE8005DBF5D /* MSIdentityConfigIngestionTests.m in Sources */,
+				04774645220112480045504A /* MSAuthConfigTest.m in Sources */,
+				1A15692521F11B09001E9452 /* MSAuthTests.m in Sources */,
+				38EB8A6622038CE8005DBF5D /* MSAuthConfigIngestionTests.m in Sources */,
 				38D4204E22012E66006ECF44 /* MSMockUserDefaults.m in Sources */,
-				04774644220112450045504A /* MSIdentityAuthorityTest.m in Sources */,
+				04774644220112450045504A /* MSAuthAuthorityTest.m in Sources */,
 				3847ABE722028E3D008BC281 /* MSHttpTestUtil.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1042,10 +1042,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0485AF6A1EAA79E300C10CAF /* MSIdentity.m in Sources */,
-				38F796D521F93ED6007E7C15 /* MSIdentityAuthority.m in Sources */,
-				0481A54E21FA51D7001FA9D8 /* MSIdentityConfigIngestion.m in Sources */,
-				38F796CF21F93E33007E7C15 /* MSIdentityConfig.m in Sources */,
+				0485AF6A1EAA79E300C10CAF /* MSAuth.m in Sources */,
+				38F796D521F93ED6007E7C15 /* MSAuthAuthority.m in Sources */,
+				0481A54E21FA51D7001FA9D8 /* MSAuthConfigIngestion.m in Sources */,
+				38F796CF21F93E33007E7C15 /* MSAuthConfig.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1053,11 +1053,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E85547C61D2D6253002DF6E2 /* MSIdentity.m in Sources */,
-				0481A54B21FA511C001FA9D8 /* MSIdentityConfigIngestion.m in Sources */,
-				38F796D421F93ED6007E7C15 /* MSIdentityAuthority.m in Sources */,
-				B2B25642220B365A00716D6A /* MSIdentityAppDelegate.m in Sources */,
-				38F796CE21F93E33007E7C15 /* MSIdentityConfig.m in Sources */,
+				E85547C61D2D6253002DF6E2 /* MSAuth.m in Sources */,
+				0481A54B21FA511C001FA9D8 /* MSAuthConfigIngestion.m in Sources */,
+				38F796D421F93ED6007E7C15 /* MSAuthAuthority.m in Sources */,
+				B2B25642220B365A00716D6A /* MSAuthAppDelegate.m in Sources */,
+				38F796CE21F93E33007E7C15 /* MSAuthConfig.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1065,14 +1065,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B2B25647220B370200716D6A /* MSIdentityAppDelegateTests.m in Sources */,
+				B2B25647220B370200716D6A /* MSAuthAppDelegateTests.m in Sources */,
 				F82E4C71217F1FA600EDAB34 /* sqlite3.c in Sources */,
 				9CFD2EC6221CCE33006C5FBD /* MSMockKeychainUtil.m in Sources */,
-				1A0D74032200EB400085FDE3 /* MSIdentityConfigTest.m in Sources */,
-				1A15692421F11B09001E9452 /* MSIdentityTests.m in Sources */,
-				38EB8A6522038CE8005DBF5D /* MSIdentityConfigIngestionTests.m in Sources */,
+				1A0D74032200EB400085FDE3 /* MSAuthConfigTest.m in Sources */,
+				1A15692421F11B09001E9452 /* MSAuthTests.m in Sources */,
+				38EB8A6522038CE8005DBF5D /* MSAuthConfigIngestionTests.m in Sources */,
 				38D4204D22012E65006ECF44 /* MSMockUserDefaults.m in Sources */,
-				1A0D73FE2200CD540085FDE3 /* MSIdentityAuthorityTest.m in Sources */,
+				1A0D73FE2200CD540085FDE3 /* MSAuthAuthorityTest.m in Sources */,
 				3847ABE622028E3D008BC281 /* MSHttpTestUtil.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

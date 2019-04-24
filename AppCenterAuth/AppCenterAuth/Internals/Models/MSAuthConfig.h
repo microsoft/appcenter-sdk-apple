@@ -3,16 +3,16 @@
 
 #import <Foundation/Foundation.h>
 
-#import "MSIdentityAuthority.h"
+#import "MSAuthAuthority.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MSIdentityConfig : NSObject
+@interface MSAuthConfig : NSObject
 
 /**
- * The identity scope to be used for user authentication.
+ * The auth scope to be used for user authentication.
  */
-@property(nonatomic, copy) NSString *identityScope;
+@property(nonatomic, copy) NSString *authScope;
 
 /**
  * The client ID (aka application ID) of Azure AD B2C application.
@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * The authorities that contain URLs for user flows.
  */
-@property(nonatomic, copy) NSArray<MSIdentityAuthority *> *authorities;
+@property(nonatomic, copy) NSArray<MSAuthAuthority *> *authorities;
 
 /**
  * Initialize an object from dictionary.

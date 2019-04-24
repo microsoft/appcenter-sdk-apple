@@ -7,16 +7,16 @@
 #if GCC_PREPROCESSOR_MACRO_PUPPET
 #import "AppCenter.h"
 #import "AppCenterAnalytics.h"
+#import "AppCenterAuth.h"
 #import "AppCenterCrashes.h"
 #import "AppCenterData.h"
 #import "AppCenterDistribute.h"
-#import "AppCenterIdentity.h"
 #import "AppCenterPush.h"
 
 // Internal
 #import "MSAnalyticsInternal.h"
 #import "MSAppCenterInternal.h"
-#import "MSIdentityPrivate.h"
+#import "MSAuthPrivate.h"
 
 #else
 @import AppCenter;
@@ -24,7 +24,7 @@
 @import AppCenterCrashes;
 @import AppCenterData;
 @import AppCenterDistribute;
-@import AppCenterIdentity;
+@import AppCenterAuth;
 @import AppCenterPush;
 #endif
 
@@ -97,8 +97,8 @@
   return [MSDistribute isEnabled];
 }
 
-- (BOOL)isIdentityEnabled {
-  return [MSIdentity isEnabled];
+- (BOOL)isAuthEnabled {
+  return [MSAuth isEnabled];
 }
 
 - (BOOL)isPushEnabled {
@@ -117,8 +117,8 @@
   return [MSDistribute setEnabled:isEnabled];
 }
 
-- (void)setIdentityEnabled:(BOOL)isEnabled {
-  return [MSIdentity setEnabled:isEnabled];
+- (void)setAuthEnabled:(BOOL)isEnabled {
+  return [MSAuth setEnabled:isEnabled];
 }
 
 - (void)setPushEnabled:(BOOL)isEnabled {
@@ -213,21 +213,21 @@
   }
 }
 
-#pragma mark - MSIdentity section.
+#pragma mark - MSAuth section.
 
 - (void)signIn {
-  [MSIdentity signInWithCompletionHandler:^(MSUserInformation *_Nullable userInformation, NSError *_Nullable error) {
+  [MSAuth signInWithCompletionHandler:^(MSUserInformation *_Nullable userInformation, NSError *_Nullable error) {
     if (!error) {
       [[NSUserDefaults standardUserDefaults] setBool:true forKey:kMSUserIdentity];
-      NSLog(@"Identity.signIn succeeded, accountId=%@", userInformation.accountId);
+      NSLog(@"Auth.signIn succeeded, accountId=%@", userInformation.accountId);
     } else {
-      NSLog(@"Identity.signIn failed, error=%@", error);
+      NSLog(@"Auth.signIn failed, error=%@", error);
     }
   }];
 }
 
 - (void)signOut {
-  [MSIdentity signOut];
+  [MSAuth signOut];
   [[NSUserDefaults standardUserDefaults] setBool:false forKey:kMSUserIdentity];
 }
 

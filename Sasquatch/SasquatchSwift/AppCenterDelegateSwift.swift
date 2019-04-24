@@ -6,7 +6,7 @@ import AppCenterAnalytics
 import AppCenterCrashes
 import AppCenterData
 import AppCenterDistribute
-import AppCenterIdentity
+import AppCenterAuth
 import AppCenterPush
 
 /**
@@ -82,8 +82,8 @@ class AppCenterDelegateSwift: AppCenterDelegate {
     return MSDistribute.isEnabled()
   }
 
-  func isIdentityEnabled() -> Bool {
-    return MSIdentity.isEnabled()
+  func isAuthEnabled() -> Bool {
+    return MSAuth.isEnabled()
   }
 
   func isPushEnabled() -> Bool {
@@ -102,8 +102,8 @@ class AppCenterDelegateSwift: AppCenterDelegate {
     MSDistribute.setEnabled(isEnabled)
   }
 
-  func setIdentityEnabled(_ isEnabled: Bool) {
-    MSIdentity.setEnabled(isEnabled)
+  func setAuthEnabled(_ isEnabled: Bool) {
+    MSAuth.setEnabled(isEnabled)
   }
 
   func setPushEnabled(_ isEnabled: Bool) {
@@ -197,21 +197,21 @@ class AppCenterDelegateSwift: AppCenterDelegate {
     }
   }
 
-  // MSIdentity section.
+  // MSAuth section.
   func signIn() {
-    MSIdentity.signIn { userInformation, error in
+    MSAuth.signIn { userInformation, error in
       if error == nil {
         UserDefaults.standard.set(true, forKey: kMSUserIdentity)
-        print("Identity.signIn succeeded, accountId=\(userInformation!.accountId)")
+        print("Auth.signIn succeeded, accountId=\(userInformation!.accountId)")
       }
       else {
-        print("Identity.signIn failed, error=\(String(describing: error))")
+        print("Auth.signIn failed, error=\(String(describing: error))")
       }
     }
   }
 
   func signOut() {
-    MSIdentity.signOut()
+    MSAuth.signOut()
     UserDefaults.standard.set(false, forKey: kMSUserIdentity)
   }
 

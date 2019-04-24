@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "MSIdentityAppDelegate.h"
+#import "MSAuthAppDelegate.h"
 #import "MSAppCenterInternal.h"
 #import "MSAppDelegateForwarder.h"
-#import "MSIdentityPrivate.h"
+#import "MSAuthPrivate.h"
 
-@implementation MSIdentityAppDelegate
+@implementation MSAuthAppDelegate
 
 #pragma mark - MSAppDelegate
 
@@ -30,8 +30,8 @@
 
 - (BOOL)openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options returnedValue:(BOOL)returnedValue {
 
-  MSLogDebug([MSIdentity logTag], @"Using swizzled openURL:returnedValue: method.");
-  BOOL returnValue = [MSIdentity openURL:url options:options];
+  MSLogDebug([MSAuth logTag], @"Using swizzled openURL:returnedValue: method.");
+  BOOL returnValue = [MSAuth openURL:url options:options];
 
   // Return original value if url not handled by the SDK.
   return (BOOL)(returnValue ?: returnedValue);
@@ -41,11 +41,11 @@
 
 #pragma mark - Swizzling
 
-@implementation MSAppDelegateForwarder (MSIdentity)
+@implementation MSAppDelegateForwarder (MSAuth)
 
 + (void)load {
 
-  // Register selectors to swizzle for Identity.
+  // Register selectors to swizzle for Auth.
   [[MSAppDelegateForwarder sharedInstance] addDelegateSelectorToSwizzle:@selector(application:openURL:options:)];
   [[MSAppDelegateForwarder sharedInstance] addDelegateSelectorToSwizzle:@selector(application:openURL:sourceApplication:annotation:)];
 }

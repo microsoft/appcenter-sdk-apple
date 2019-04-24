@@ -7,7 +7,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MSIdentityAppDelegate : NSObject <MSCustomApplicationDelegate>
+@interface MSAuthAppDelegate : NSObject <MSCustomApplicationDelegate>
 
 @end
 

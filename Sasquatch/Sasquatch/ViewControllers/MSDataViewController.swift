@@ -15,7 +15,7 @@ class MSDataViewController: UIViewController, UITableViewDelegate, UITableViewDa
   }
   var allDocuments: MSPaginatedDocuments = MSPaginatedDocuments()
   var loadMoreStatus = false
-  var identitySignIn = false
+  var authSignIn = false
   static var AppDocuments: [MSDocumentWrapper] = []
   static var UserDocuments: [MSDocumentWrapper] = []
   private var storageTypePicker: MSEnumPicker<StorageType>?
@@ -32,7 +32,7 @@ class MSDataViewController: UIViewController, UITableViewDelegate, UITableViewDa
     tableView.dataSource = self
     tableView.setEditing(true, animated: false)
     tableView.allowsSelectionDuringEditing = true
-    identitySignIn = UserDefaults.standard.bool(forKey: kMSUserIdentity)
+    authSignIn = UserDefaults.standard.bool(forKey: kMSUserIdentity)
     buildAlertDialog()
     initStoragePicker()
     activityIndicator()
@@ -93,7 +93,7 @@ class MSDataViewController: UIViewController, UITableViewDelegate, UITableViewDa
       self.loadMoreStatus = true
       DispatchQueue.global().async() {
         self.allDocuments.nextPage(completionHandler: { page in
-          if self.storageType == StorageType.User.rawValue && self.identitySignIn {
+          if self.storageType == StorageType.User.rawValue && self.authSignIn {
             MSDataViewController.UserDocuments += page.items ?? []
           } else {
             MSDataViewController.AppDocuments += page.items ?? []
@@ -125,7 +125,7 @@ class MSDataViewController: UIViewController, UITableViewDelegate, UITableViewDa
       textField: storageTypeField,
       allValues: StorageType.allValues,
       onChange: { index in
-        if self.storageTypeField?.text == StorageType.User.rawValue && !self.identitySignIn {
+        if self.storageTypeField?.text == StorageType.User.rawValue && !self.authSignIn {
           self.present(self.alert, animated: true, completion: nil)
           self.storageTypeField?.text = StorageType.App.rawValue
         } else {
@@ -142,7 +142,7 @@ class MSDataViewController: UIViewController, UITableViewDelegate, UITableViewDa
   }
   
   func buildAlertDialog() {
-    self.alert = UIAlertController(title: "Error", message: "Please sign in to Identity first", preferredStyle: .alert)
+    self.alert = UIAlertController(title: "Error", message: "Please sign in to Auth first", preferredStyle: .alert)
     self.alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
       self.storageTypePicker?.doneClicked()
     }))
@@ -153,7 +153,7 @@ class MSDataViewController: UIViewController, UITableViewDelegate, UITableViewDa
   }
   
   func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-    if self.storageType == StorageType.User.rawValue && identitySignIn {
+    if self.storageType == StorageType.User.rawValue && authSignIn {
       return "User Documents List"
     } else if self.storageType == StorageType.App.rawValue {
       return "App Document List"
@@ -165,7 +165,7 @@ class MSDataViewController: UIViewController, UITableViewDelegate, UITableViewDa
     if self.storageType == StorageType.App.rawValue {
       return MSDataViewController.AppDocuments.count
     } else if self.storageType == StorageType.User.rawValue {
-      if identitySignIn {
+      if authSignIn {
         return MSDataViewController.UserDocuments.count + 1
       } else {
         return 0

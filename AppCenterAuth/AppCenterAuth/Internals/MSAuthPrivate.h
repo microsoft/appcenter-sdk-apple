@@ -2,19 +2,19 @@
 // Licensed under the MIT License.
 
 #import "MSALPublicClientApplication.h"
+#import "MSAuth.h"
+#import "MSAuthConfig.h"
+#import "MSAuthConfigIngestion.h"
 #import "MSAuthTokenContextDelegate.h"
 #import "MSChannelDelegate.h"
 #import "MSCustomApplicationDelegate.h"
-#import "MSIdentity.h"
-#import "MSIdentityConfig.h"
-#import "MSIdentityConfigIngestion.h"
 #import "MSServiceInternal.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @class MSALPublicClientApplication;
 
-@interface MSIdentity () <MSServiceInternal, MSAuthTokenContextDelegate>
+@interface MSAuth () <MSServiceInternal, MSAuthTokenContextDelegate>
 
 /**
  * The MSAL client for authentication.
@@ -22,9 +22,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, nullable) MSALPublicClientApplication *clientApplication;
 
 /**
- * The configuration for the Identity service.
+ * The configuration for the Auth service.
  */
-@property(nonatomic, nullable) MSIdentityConfig *identityConfig;
+@property(nonatomic, nullable) MSAuthConfig *authConfig;
 
 /**
  * Base URL of the remote configuration file.
@@ -34,10 +34,10 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Ingestion instance (should not be deallocated).
  */
-@property(nonatomic, nullable) MSIdentityConfigIngestion *ingestion;
+@property(nonatomic, nullable) MSAuthConfigIngestion *ingestion;
 
 /**
- * Custom application delegate dedicated to Identity.
+ * Custom application delegate dedicated to Auth.
  */
 @property(nonatomic) id<MSCustomApplicationDelegate> appDelegate;
 
@@ -52,19 +52,19 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)resetSharedInstance;
 
 /**
- * Get a file path of identity config.
+ * Get a file path of auth config.
  *
  * @return The config file path.
  */
-- (NSString *)identityConfigFilePath;
+- (NSString *)authConfigFilePath;
 
 /**
- * Download identity configuration with an eTag.
+ * Download auth configuration with an eTag.
  */
 - (void)downloadConfigurationWithETag:(nullable NSString *)eTag;
 
 /**
- * Load identity configuration from cache file.
+ * Load auth configuration from cache file.
  *
  * @return `YES` if the configuration loaded successfully, otherwise `NO`.
  */

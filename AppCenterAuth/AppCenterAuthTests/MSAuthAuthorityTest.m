@@ -4,21 +4,21 @@
 #import <Foundation/Foundation.h>
 
 #import "MSAbstractLogInternal.h"
-#import "MSIdentityAuthority.h"
+#import "MSAuthAuthority.h"
 #import "MSTestFrameworks.h"
 
-@interface MSIdentityAuthorityTests : XCTestCase
+@interface MSAuthAuthorityTests : XCTestCase
 
 @end
 
-@implementation MSIdentityAuthorityTests
+@implementation MSAuthAuthorityTests
 
 #pragma mark - Tests
 
 - (void)testAuthorityInitWithNilDictionary {
 
   // When
-  MSIdentityAuthority *authority = [[MSIdentityAuthority alloc] initWithDictionary:(_Nonnull id)nil];
+  MSAuthAuthority *authority = [[MSAuthAuthority alloc] initWithDictionary:(_Nonnull id)nil];
 
   // Then
   XCTAssertNil(authority);
@@ -30,7 +30,7 @@
   NSMutableDictionary *dic = [@{@"type" : @"B2C", @"default" : @YES, @"authority_url" : @"https://contoso.com/identity/path"} mutableCopy];
 
   // When
-  MSIdentityAuthority *authority = [[MSIdentityAuthority alloc] initWithDictionary:dic];
+  MSAuthAuthority *authority = [[MSAuthAuthority alloc] initWithDictionary:dic];
 
   // Then
   XCTAssertEqualObjects(dic[@"type"], authority.type);
@@ -41,7 +41,7 @@
   dic[@"default"] = @NO;
 
   // When
-  authority = [[MSIdentityAuthority alloc] initWithDictionary:dic];
+  authority = [[MSAuthAuthority alloc] initWithDictionary:dic];
 
   // Then
   XCTAssertEqual([dic[@"default"] boolValue], authority.defaultAuthority);
@@ -50,7 +50,7 @@
 - (void)testAuthorityIsValid {
 
   // If
-  MSIdentityAuthority *auth = [MSIdentityAuthority new];
+  MSAuthAuthority *auth = [MSAuthAuthority new];
 
   // Then
   XCTAssertFalse([auth isValid]);

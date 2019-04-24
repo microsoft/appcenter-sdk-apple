@@ -5,7 +5,7 @@
 #import <UIKit/UIApplication.h>
 #endif
 
-#import "MSIdentityErrors.h"
+#import "MSAuthErrors.h"
 #import "MSServiceAbstract.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -21,9 +21,9 @@ NS_ASSUME_NONNULL_BEGIN
 typedef void (^MSSignInCompletionHandler)(MSUserInformation *_Nullable userInformation, NSError *_Nullable error);
 
 /**
- * App Center Identity service.
+ * App Center Auth service.
  */
-@interface MSIdentity : MSServiceAbstract
+@interface MSAuth : MSServiceAbstract
 
 #if TARGET_OS_IOS
 /**
@@ -33,7 +33,7 @@ typedef void (^MSSignInCompletionHandler)(MSUserInformation *_Nullable userInfor
  * @param options A dictionary of URL handling options. For information about the possible keys in this dictionary and how to handle them,
  * @see UIApplicationOpenURLOptionsKey. By default, the value of this parameter is an empty dictionary.
  *
- * @return `YES` if the URL is intended for App Center Identity and your application, `NO` otherwise.
+ * @return `YES` if the URL is intended for App Center Auth and your application, `NO` otherwise.
  *
  * @discussion Place this method call into your app delegate's openURL method.
  */

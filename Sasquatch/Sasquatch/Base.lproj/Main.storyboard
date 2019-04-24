@@ -955,7 +955,7 @@
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iXu-ht-std">
                                                     <rect key="frame" x="308" y="6.5" width="51" height="31"/>
                                                     <connections>
-                                                        <action selector="AuthSwitchStateUpdated:" destination="9Ck-4D-Ozb" eventType="valueChanged" id="fIO-he-FfA"/>
+                                                        <action selector="authSwitchStateUpdated:" destination="9Ck-4D-Ozb" eventType="valueChanged" id="fIO-he-FfA"/>
                                                     </connections>
                                                 </switch>
                                             </subviews>
@@ -979,7 +979,7 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                                     <state key="normal" title="Sign In"/>
                                                     <connections>
-                                                        <action selector="AuthSignIn:" destination="9Ck-4D-Ozb" eventType="touchUpInside" id="Z9W-UE-hRG"/>
+                                                        <action selector="authSignIn:" destination="9Ck-4D-Ozb" eventType="touchUpInside" id="Z9W-UE-hRG"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
@@ -1002,7 +1002,7 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                                     <state key="normal" title="Sign Out"/>
                                                     <connections>
-                                                        <action selector="AuthSignOut:" destination="9Ck-4D-Ozb" eventType="touchUpInside" id="0vh-px-tw5"/>
+                                                        <action selector="authSignOut:" destination="9Ck-4D-Ozb" eventType="touchUpInside" id="0vh-px-tw5"/>
                                                     </connections>
                                                 </button>
                                             </subviews>

@@ -3,12 +3,12 @@
 
 #import <Foundation/Foundation.h>
 
+#import "MSAuthConfig.h"
 #import "MSHttpIngestion.h"
-#import "MSIdentityConfig.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MSIdentityConfigIngestion : MSHttpIngestion
+@interface MSAuthConfigIngestion : MSHttpIngestion
 
 /**
  * AppSecret for the application.

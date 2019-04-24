@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "MSIdentityConfig.h"
+#import "MSAuthConfig.h"
 
-@implementation MSIdentityConfig
+@implementation MSAuthConfig
 
-static NSString *const kMSIdentityScope = @"identity_scope";
+static NSString *const kMSAuthScope = @"identity_scope";
 
 static NSString *const kMSClientId = @"client_id";
 
@@ -20,8 +20,8 @@ static NSString *const kMSAuthorityTypeB2C = @"B2C";
     return nil;
   }
   if ((self = [super init])) {
-    if (dictionary[kMSIdentityScope]) {
-      self.identityScope = (NSString * _Nonnull) dictionary[kMSIdentityScope];
+    if (dictionary[kMSAuthScope]) {
+      self.authScope = (NSString * _Nonnull) dictionary[kMSAuthScope];
     }
     if (dictionary[kMSClientId]) {
       self.clientId = (NSString * _Nonnull) dictionary[kMSClientId];
@@ -32,7 +32,7 @@ static NSString *const kMSAuthorityTypeB2C = @"B2C";
     if (dictionary[kMSAuthorities]) {
       NSMutableArray *array = [NSMutableArray new];
       for (NSDictionary *authorityDic in dictionary[kMSAuthorities]) {
-        [array addObject:[[MSIdentityAuthority alloc] initWithDictionary:authorityDic]];
+        [array addObject:[[MSAuthAuthority alloc] initWithDictionary:authorityDic]];
       }
       self.authorities = array;
     }
@@ -41,12 +41,12 @@ static NSString *const kMSAuthorityTypeB2C = @"B2C";
 }
 
 - (BOOL)isValid {
-  return self.identityScope && self.clientId && self.redirectUri && [self areAuthoritiesValid];
+  return self.authScope && self.clientId && self.redirectUri && [self areAuthoritiesValid];
 }
 
 - (BOOL)areAuthoritiesValid {
   BOOL foundDefault = NO;
-  for (MSIdentityAuthority *authority in self.authorities) {
+  for (MSAuthAuthority *authority in self.authorities) {
     if (![authority isValid]) {
       return NO;
     }

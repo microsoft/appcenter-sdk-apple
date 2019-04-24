@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "MSIdentityConfigIngestion.h"
+#import "MSAuthConfigIngestion.h"
 #import "MSAppCenter.h"
 #import "MSAppCenterInternal.h"
+#import "MSAuthConstants.h"
+#import "MSAuthPrivate.h"
 #import "MSHttpIngestionPrivate.h"
-#import "MSIdentityConstants.h"
-#import "MSIdentityPrivate.h"
 #import "MSLoggerInternal.h"
 
-@implementation MSIdentityConfigIngestion
+@implementation MSAuthConfigIngestion
 
 - (id)initWithBaseUrl:(NSString *)baseUrl appSecret:(NSString *)appSecret {
-  NSString *apiPath = [NSString stringWithFormat:kMSIdentityConfigApiFormat, appSecret];
+  NSString *apiPath = [NSString stringWithFormat:kMSAuthConfigApiFormat, appSecret];
   if ((self = [super initWithBaseUrl:baseUrl
                              apiPath:apiPath
                              headers:nil
@@ -47,9 +47,9 @@
   if ([MSLogger currentLogLevel] <= MSLogLevelVerbose) {
     NSString *url = [request.URL.absoluteString stringByReplacingOccurrencesOfString:self.appSecret
                                                                           withString:[MSHttpUtil hideSecret:self.appSecret]];
-    MSLogVerbose([MSIdentity logTag], @"URL: %@", url);
+    MSLogVerbose([MSAuth logTag], @"URL: %@", url);
     if (request.allHTTPHeaderFields) {
-      MSLogVerbose([MSIdentity logTag], @"Headers: %@", [super prettyPrintHeaders:request.allHTTPHeaderFields]);
+      MSLogVerbose([MSAuth logTag], @"Headers: %@", [super prettyPrintHeaders:request.allHTTPHeaderFields]);
     }
   }
   return request;

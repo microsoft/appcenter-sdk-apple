@@ -3,8 +3,5 @@
 
 #import <Foundation/Foundation.h>
 
-#import "AppCenter+Internal.h"
-
-@interface MSIdentityLog : MSAbstractLog
-
-@end
+#import "MSAuth.h"
+#import "MSAuthErrors.h"
