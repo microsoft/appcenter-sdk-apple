@@ -344,7 +344,7 @@
   [MSData deleteWithPartition:partitionName
                    documentId:documentId
             completionHandler:^(MSDocumentWrapper *_Nonnull document) {
-              NSLog(@"Storage.delete document with id %@ succeeded", documentId);
+              NSLog(@"Data.delete document with id %@ succeeded", documentId);
             }];
 }
 
