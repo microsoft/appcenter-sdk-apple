@@ -57,9 +57,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D33A94501E5B11BB003966DB"
-               BuildableName = "libAppCenterDataStorage.a"
-               BlueprintName = "AppCenterDataStorageIOS"
-               ReferencedContainer = "container:AppCenterDataStorage/AppCenterDataStorage.xcodeproj">
+               BuildableName = "libAppCenterData.a"
+               BlueprintName = "AppCenterDataIOS"
+               ReferencedContainer = "container:AppCenterData/AppCenterData.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -169,9 +169,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D3AD5EBF1E5C4F6A001627AB"
-               BuildableName = "AppCenterDataStorage.xctest"
-               BlueprintName = "AppCenterDataStorageIOSTests"
-               ReferencedContainer = "container:AppCenterDataStorage/AppCenterDataStorage.xcodeproj">
+               BuildableName = "AppCenterData.xctest"
+               BlueprintName = "AppCenterDataIOSTests"
+               ReferencedContainer = "container:AppCenterData/AppCenterData.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -248,9 +248,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D3AD5EBF1E5C4F6A001627AB"
-               BuildableName = "AppCenterDataStorage.xctest"
-               BlueprintName = "AppCenterDataStorageIOSTests"
-               ReferencedContainer = "container:AppCenterDataStorage/AppCenterDataStorage.xcodeproj">
+               BuildableName = "AppCenterData.xctest"
+               BlueprintName = "AppCenterDataIOSTests"
+               ReferencedContainer = "container:AppCenterData/AppCenterData.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>

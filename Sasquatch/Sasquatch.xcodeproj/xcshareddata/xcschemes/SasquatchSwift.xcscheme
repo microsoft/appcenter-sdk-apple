@@ -71,9 +71,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D3AD5F221E5C9562001627AB"
-               BuildableName = "AppCenterDataStorageIOSFramework"
-               BlueprintName = "AppCenterDataStorageIOSFramework"
-               ReferencedContainer = "container:../AppCenterDataStorage/AppCenterDataStorage.xcodeproj">
+               BuildableName = "AppCenterDataIOSFramework"
+               BlueprintName = "AppCenterDataIOSFramework"
+               ReferencedContainer = "container:../AppCenterData/AppCenterData.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry

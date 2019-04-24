@@ -20,7 +20,7 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
   var documentId: String?
   var documentTimeToLive: String? = TimeToLiveMode.Default.rawValue
   var userDocumentAddPropertiesSection: EventPropertiesTableSection!
-  let userType: String = MSStorageViewController.StorageType.User.rawValue
+  let userType: String = MSDataViewController.StorageType.User.rawValue
   var documentContent: MSDocumentWrapper?
   private var kUserDocumentAddPropertiesSectionIndex: Int = 0
   private var timeToLiveModePicker: MSEnumPicker<TimeToLiveMode>?

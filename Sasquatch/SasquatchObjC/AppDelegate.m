@@ -15,7 +15,7 @@
 #import "AppCenter.h"
 #import "AppCenterAnalytics.h"
 #import "AppCenterCrashes.h"
-#import "AppCenterDataStorage.h"
+#import "AppCenterData.h"
 #import "AppCenterDistribute.h"
 #import "AppCenterIdentity.h"
 #import "AppCenterPush.h"
@@ -26,7 +26,7 @@
 @import AppCenter;
 @import AppCenterAnalytics;
 @import AppCenterCrashes;
-@import AppCenterDataStorage;
+@import AppCenterData;
 @import AppCenterDistribute;
 @import AppCenterIdentity;
 @import AppCenterPush;
@@ -61,7 +61,7 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
     }
   }
   [MSIdentity setConfigUrl:kMSIntConfigUrl];
-  [MSDataStore setTokenExchangeUrl:kMSIntTokenExchangeUrl];
+  [MSData setTokenExchangeUrl:kMSIntTokenExchangeUrl];
   [MSDistribute setApiUrl:kMSIntApiUrl];
   [MSDistribute setInstallUrl:kMSIntInstallUrl];
 #endif
@@ -111,7 +111,7 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
 
   // Start App Center SDK.
   NSArray<Class> *services =
-      @ [[MSAnalytics class], [MSCrashes class], [MSDataStore class], [MSDistribute class], [MSIdentity class], [MSPush class]];
+      @ [[MSAnalytics class], [MSCrashes class], [MSData class], [MSDistribute class], [MSIdentity class], [MSPush class]];
   NSInteger startTarget = [[NSUserDefaults standardUserDefaults] integerForKey:kMSStartTargetKey];
 #if GCC_PREPROCESSOR_MACRO_PUPPET
   NSString *appSecret = [[NSUserDefaults standardUserDefaults] objectForKey:kMSAppSecret] ?: kMSPuppetAppSecret;

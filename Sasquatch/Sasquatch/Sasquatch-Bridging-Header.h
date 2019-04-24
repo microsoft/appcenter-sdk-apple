@@ -19,5 +19,5 @@
 #else
 @import AppCenter;
 @import AppCenterAnalytics;
-@import AppCenterDataStorage;
+@import AppCenterData;
 #endif
