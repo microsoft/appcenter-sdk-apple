@@ -4,7 +4,7 @@
 /**
  * The path component of the Auth configuration file on disk.
  */
-static NSString *const kMSAuthPathComponent = @"identity";
+static NSString *const kMSAuthPathComponent = @"auth";
 
 /**
  * Config URL format. Variable is app secret.

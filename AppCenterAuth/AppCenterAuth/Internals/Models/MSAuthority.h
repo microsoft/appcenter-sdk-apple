@@ -5,7 +5,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MSAuthAuthority : NSObject
+@interface MSAuthority : NSObject
 
 /**
  * The type of the authority

@@ -25,7 +25,7 @@ Pod::Spec.new do |s|
                       The App Center Data service provides functionality enabling developers to persist app data in the cloud in both online and offline scenarios. This enables you to store and manage both user-specific data as well as data shared between users and across platforms. In addition, this service includes basic conflict resolution out of the box.
 
                       6. App Center Auth (iOS and macOS):
-                      The App Center Auth is an identity management service that allows you to customize and control how your users interact with your app. We provide an out of the box UI that allows app developers to authenticate their users to an app. In addition, app developers may use and track the user's identity across App Center services.
+                      The App Center Auth service allows you to customize and control how your users interact with your app. We provide an out of the box UI that allows app developers to authenticate their users to an app. In addition, app developers may use and track the user's identity across App Center services.
 
                         DESC
 

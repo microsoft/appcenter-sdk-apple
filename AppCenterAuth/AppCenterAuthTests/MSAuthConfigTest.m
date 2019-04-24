@@ -47,7 +47,7 @@
   for (NSUInteger i = 0; i < config.authorities.count; i++) {
     NSDictionary *authority = dic[@"authorities"][i];
     XCTAssertEqualObjects(authority[@"type"], config.authorities[i].type);
-    XCTAssertEqual([authority[@"default"] boolValue], ((MSAuthAuthority *)config.authorities[i]).defaultAuthority);
+    XCTAssertEqual([authority[@"default"] boolValue], ((MSAuthority *)config.authorities[i]).defaultAuthority);
     XCTAssertEqualObjects([NSURL URLWithString:authority[@"authority_url"]], config.authorities[i].authorityUrl);
   }
 }
@@ -79,8 +79,8 @@
   XCTAssertFalse([config isValid]);
 
   // When
-  MSAuthAuthority *auth = [MSAuthAuthority new];
-  NSArray<MSAuthAuthority *> *auths = [NSArray arrayWithObject:auth];
+  MSAuthority *auth = [MSAuthority new];
+  NSArray<MSAuthority *> *auths = [NSArray arrayWithObject:auth];
   config.authorities = auths;
 
   // Then
@@ -104,26 +104,26 @@
   config.clientId = @"clientId";
   config.redirectUri = @"redirectUri";
 
-  MSAuthAuthority *auth1 = [MSAuthAuthority new];
+  MSAuthority *auth1 = [MSAuthority new];
   auth1.type = @"RandomType";
   auth1.defaultAuthority = NO;
   NSURL *URL1 = [NSURL URLWithString:@"https://contoso.com/identity/path"];
   auth1.authorityUrl = URL1;
 
-  NSArray<MSAuthAuthority *> *auths1 = [NSArray arrayWithObject:auth1];
+  NSArray<MSAuthority *> *auths1 = [NSArray arrayWithObject:auth1];
   config.authorities = auths1;
 
   // Then
   XCTAssertFalse([config isValid]);
 
   // When
-  MSAuthAuthority *auth2 = [MSAuthAuthority new];
+  MSAuthority *auth2 = [MSAuthority new];
   auth2.type = @"B2C";
   auth2.defaultAuthority = YES;
   NSURL *URL2 = [NSURL URLWithString:@"https://contoso.com/identity/path"];
   auth2.authorityUrl = URL2;
 
-  NSArray<MSAuthAuthority *> *auths2 = [NSArray arrayWithObjects:auth1, auth2, nil];
+  NSArray<MSAuthority *> *auths2 = [NSArray arrayWithObjects:auth1, auth2, nil];
   config.authorities = auths2;
 
   // Then

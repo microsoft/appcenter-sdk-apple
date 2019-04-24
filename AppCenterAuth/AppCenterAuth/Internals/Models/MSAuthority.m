@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "MSAuthAuthority.h"
+#import "MSAuthority.h"
 
-@implementation MSAuthAuthority
+@implementation MSAuthority
 
 static NSString *const kMSType = @"type";
 

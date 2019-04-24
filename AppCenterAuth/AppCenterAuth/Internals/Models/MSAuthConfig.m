@@ -32,7 +32,7 @@ static NSString *const kMSAuthorityTypeB2C = @"B2C";
     if (dictionary[kMSAuthorities]) {
       NSMutableArray *array = [NSMutableArray new];
       for (NSDictionary *authorityDic in dictionary[kMSAuthorities]) {
-        [array addObject:[[MSAuthAuthority alloc] initWithDictionary:authorityDic]];
+        [array addObject:[[MSAuthority alloc] initWithDictionary:authorityDic]];
       }
       self.authorities = array;
     }
@@ -46,7 +46,7 @@ static NSString *const kMSAuthorityTypeB2C = @"B2C";
 
 - (BOOL)areAuthoritiesValid {
   BOOL foundDefault = NO;
-  for (MSAuthAuthority *authority in self.authorities) {
+  for (MSAuthority *authority in self.authorities) {
     if (![authority isValid]) {
       return NO;
     }

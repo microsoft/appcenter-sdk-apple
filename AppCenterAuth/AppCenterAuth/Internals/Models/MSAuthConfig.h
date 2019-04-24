@@ -3,7 +3,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "MSAuthAuthority.h"
+#import "MSAuthority.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * The authorities that contain URLs for user flows.
  */
-@property(nonatomic, copy) NSArray<MSAuthAuthority *> *authorities;
+@property(nonatomic, copy) NSArray<MSAuthority *> *authorities;
 
 /**
  * Initialize an object from dictionary.
