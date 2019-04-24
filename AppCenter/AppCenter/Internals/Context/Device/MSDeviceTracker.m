@@ -141,7 +141,6 @@ static MSDeviceTracker *sharedInstance = nil;
 #if TARGET_OS_IOS
     CTTelephonyNetworkInfo *telephonyNetworkInfo = [CTTelephonyNetworkInfo new];
     CTCarrier *carrier;
-
     if (@available(iOS 12, *)) {
       NSDictionary<NSString *, CTCarrier *> *carriers = [telephonyNetworkInfo serviceSubscriberCellularProviders];
       for (NSString *key in carriers) {
