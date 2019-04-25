@@ -388,6 +388,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   [self.sut dropDatabase];
 
   // Then
+  XCTAssertFalse([self.sut.dbFileURL checkResourceIsReachableAndReturnError:nil]);
   XCTAssertFalse([self tableExists:tableName1]);
   XCTAssertFalse([self tableExists:tableName2]);
 }

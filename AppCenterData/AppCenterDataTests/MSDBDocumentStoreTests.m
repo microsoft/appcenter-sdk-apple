@@ -442,6 +442,7 @@
   [self.sut dropDatabase];
 
   // Then
+  XCTAssertFalse([self.dbStorage.dbFileURL checkResourceIsReachableAndReturnError:nil]);
   XCTAssertFalse([self tableExists:tableName]);
 }
 
