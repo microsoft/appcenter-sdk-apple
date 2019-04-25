@@ -72,7 +72,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)deleteUserStorageWithAccountId:(NSString *)accountId;
 
 /**
- * Delete all tables.
+  * Delete database.
  */
 - (void)dropDatabase;
 
