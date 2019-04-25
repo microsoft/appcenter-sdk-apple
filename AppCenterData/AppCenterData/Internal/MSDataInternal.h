@@ -39,15 +39,15 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Retrieve a paginated list of the documents in a partition.
  *
- * @param partition The CosmosDB partition key.
  * @param documentType The object type of the documents in the partition. Must conform to MSSerializableDocument protocol.
+ * @param partition The CosmosDB partition key.
  * @param continuationToken The continuation token for the page to retrieve (if any).
  * @param completionHandler Callback to accept documents.
  */
-+ (void)listWithPartition:(NSString *)partition
-             documentType:(Class)documentType
-        continuationToken:(NSString *_Nullable)continuationToken
-        completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler;
++ (void)listDocumentsWithType:(Class)documentType
+                    partition:(NSString *)partition
+            continuationToken:(NSString *_Nullable)continuationToken
+            completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler;
 
 @end
 

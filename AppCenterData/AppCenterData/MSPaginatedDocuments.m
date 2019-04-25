@@ -39,17 +39,17 @@
 
 - (void)nextPageWithCompletionHandler:(void (^)(MSPage *page))completionHandler {
   if ([self hasNextPage]) {
-    [MSData listWithPartition:self.partition
-                 documentType:self.documentType
-            continuationToken:self.continuationToken
-            completionHandler:^(MSPaginatedDocuments *documents) {
-              // Update current page and continuation token.
-              self.currentPage = documents.currentPage;
-              self.continuationToken = documents.continuationToken;
+    [MSData listDocumentsWithType:self.documentType
+                        partition:self.partition
+                continuationToken:self.continuationToken
+                completionHandler:^(MSPaginatedDocuments *documents) {
+                  // Update current page and continuation token.
+                  self.currentPage = documents.currentPage;
+                  self.continuationToken = documents.continuationToken;
 
-              // Notify completion handler.
-              completionHandler(documents.currentPage);
-            }];
+                  // Notify completion handler.
+                  completionHandler(documents.currentPage);
+                }];
   } else {
     completionHandler(nil);
   }
