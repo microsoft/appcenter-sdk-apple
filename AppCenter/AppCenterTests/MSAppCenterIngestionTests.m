@@ -334,7 +334,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
                                  // Then
                                  // Retry must be stopped.
-                                 if (@available(iOS 8.0, macOS 10.10, tvOS 9.0, watchOS 2.0, *)) {
+                                 if (@available(macOS 10.10, tvOS 9.0, watchOS 2.0, *)) {
                                    XCTAssertNotEqual(0, dispatch_testcancel(((MSIngestionCall *)self.sut.pendingCalls[@"1"]).timerSource));
                                  }
 
