@@ -32,8 +32,8 @@ static NSString *const kMSDefaultApiUrl = @"https://tokens.appcenter.ms/v0.1";
 /**
  * Retrieve a paginated list of the documents in a partition.
  *
- * @param documentType The CosmosDB partition key.
- * @param partition The object type of the documents in the partition. Must conform to MSSerializableDocument protocol.
+ * @param documentType The object type of the documents in the partition. Must conform to MSSerializableDocument protocol.
+ * @param partition The CosmosDB partition key.
  * @param continuationToken The continuation token for the page to retrieve (if any).
  * @param completionHandler Callback to accept documents.
  */
