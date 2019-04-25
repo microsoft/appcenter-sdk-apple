@@ -125,7 +125,7 @@ static NSString *const kMSSQLiteConstraintAutoincrement = @"AUTOINCREMENT";
 - (BOOL)dropTable:(NSString *)tableName;
 
 /**
- * Deletes all the tables within an existing database
+ * Deletes database.
  *
  */
 - (void)dropDatabase;
