@@ -20,6 +20,7 @@
 #import "MSHttpTestUtil.h"
 #import "MSMockUserDefaults.h"
 #import "MSPaginatedDocuments.h"
+#import "MSPendingOperation.h"
 #import "MSServiceAbstract.h"
 #import "MSServiceAbstractProtected.h"
 #import "MSTestFrameworks.h"
@@ -161,6 +162,65 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   XCTAssertEqual(actualDocumentWrapper.error.error.domain, kMSACErrorDomain);
   XCTAssertEqual(actualDocumentWrapper.error.error.code, MSACDisabledErrorCode);
   XCTAssertEqualObjects(actualDocumentWrapper.documentId, kMSDocumentIdTest);
+}
+
+- (void)testPendingOperationsIsProcessed {
+
+  // If
+  MSTokenResult *testToken = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
+  MSTokensResponse *testTokensResponse = [[MSTokensResponse alloc] initWithTokens:@[ testToken ]];
+
+  OCMStub([self.tokenExchangeMock performDbTokenAsyncOperationWithHttpClient:OCMOCK_ANY
+                                                            tokenExchangeUrl:OCMOCK_ANY
+                                                                   appSecret:OCMOCK_ANY
+                                                                   partition:kMSPartitionTest
+                                                         includeExpiredToken:YES
+                                                                reachability:OCMOCK_ANY
+                                                           completionHandler:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        MSGetTokenAsyncCompletionHandler getTokenCallback;
+        [invocation getArgument:&getTokenCallback atIndex:8];
+        getTokenCallback(testTokensResponse, nil);
+      });
+
+  // Mock CosmosDB requests.
+  NSData *testCosmosDbResponse = [self jsonFixture:@"validTestDocument"];
+  OCMStub([self.cosmosDbMock performCosmosDbAsyncOperationWithHttpClient:OCMOCK_ANY
+                                                             tokenResult:testToken
+                                                              documentId:kMSDocumentIdTest
+                                                              httpMethod:kMSHttpMethodDelete
+                                                                document:OCMOCK_ANY
+                                                       additionalHeaders:OCMOCK_ANY
+                                                       additionalUrlPath:OCMOCK_ANY
+                                                       completionHandler:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        MSHttpRequestCompletionHandler cosmosdbOperationCallback;
+        [invocation getArgument:&cosmosdbOperationCallback atIndex:9];
+        cosmosdbOperationCallback(testCosmosDbResponse, [self generateResponseWithStatusCode:MSHTTPCodesNo200OK], nil);
+      });
+
+  // Mock cached token result.
+  MSTokenResult *tokenResult = [self mockTokenFetchingWithError:nil];
+  OCMStub([self.tokenExchangeMock retrieveCachedTokenForPartition:kMSPartitionTest includeExpiredToken:YES]).andReturn(tokenResult);
+
+  // Mock local storage.
+  id<MSDocumentStore> localStorageMock = OCMProtocolMock(@protocol(MSDocumentStore));
+  self.sut.dataOperationProxy.documentStore = localStorageMock;
+
+  MSPendingOperation *mockPendingOperation =
+      [[MSPendingOperation alloc] initWithOperation:@"CREATE"
+                                          partition:kMSPartitionTest
+                                         documentId:kMSDocumentIdTest
+                                           document:[NSDictionary new]
+                                               etag:@"1234"
+                                     expirationTime:[[NSDate dateWithTimeIntervalSinceNow:1000000] timeIntervalSince1970]];
+  OCMStub([localStorageMock pendingOperationsWithToken:OCMOCK_ANY]).andReturn(@[ mockPendingOperation ]);
+
+  // When
+  [self.sut processPendingOperations];
+
+  // Then
+  XCTAssertEqual([self.sut.outgoingPendingOperations count], 0);
 }
 
 - (void)testReadWithInvalidDocumentType {
