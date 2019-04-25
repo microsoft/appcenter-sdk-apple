@@ -128,7 +128,7 @@ static NSString *const kMSSQLiteConstraintAutoincrement = @"AUTOINCREMENT";
  * Deletes all the tables within an existing database
  *
  */
-- (void)dropAllTables;
+- (void)dropDatabase;
 
 /**
  * Set the maximum size of the internal storage. This method must be called before App Center is started.

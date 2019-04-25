@@ -429,7 +429,7 @@
   XCTAssertFalse(expectedDocumentWrapper.fromDeviceCache);
 }
 
-- (void)testDeletionOfAllTables {
+- (void)testDropDatabase {
 
   // If
   NSString *expectedAccountId = @"Test-account-id";
@@ -439,7 +439,7 @@
   XCTAssertTrue([self tableExists:tableName]);
 
   // When
-  [self.sut deleteAllTables];
+  [self.sut dropDatabase];
 
   // Then
   XCTAssertFalse([self tableExists:tableName]);

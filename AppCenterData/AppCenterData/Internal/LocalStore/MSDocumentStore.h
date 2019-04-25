@@ -74,7 +74,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Delete all tables.
  */
-- (void)deleteAllTables;
+- (void)dropDatabase;
 
 /**
  * Read a document from the store and return it if it did not expired.
