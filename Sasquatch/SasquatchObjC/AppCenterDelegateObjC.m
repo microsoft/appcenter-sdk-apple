@@ -325,7 +325,7 @@
 - (void)listDocumentsWithPartition:(NSString *)partitionName
                       documentType:(Class)documentType
                  completionHandler:(void (^)(MSPaginatedDocuments *))completionHandler {
-  [MSData listWithPartition:partitionName documentType:documentType completionHandler:completionHandler];
+  [MSData listDocumentsWithType:documentType partition:partitionName completionHandler:completionHandler];
 }
 
 - (void)createDocumentWithPartition:(NSString *_Nonnull)partitionName
@@ -333,19 +333,19 @@
                            document:(MSDictionaryDocument *_Nonnull)document
                        writeOptions:(MSWriteOptions *_Nonnull)writeOptions
                   completionHandler:(void (^)(MSDocumentWrapper *))completionHandler {
-  [MSData createWithPartition:partitionName
-                   documentId:documentId
-                     document:document
-                 writeOptions:writeOptions
-            completionHandler:completionHandler];
+  [MSData createDocumentWithID:documentId
+                      document:document
+                     partition:partitionName
+                  writeOptions:writeOptions
+             completionHandler:completionHandler];
 }
 
 - (void)deleteDocumentWithPartition:(NSString *_Nonnull)partitionName documentId:(NSString *_Nonnull)documentId {
-  [MSData deleteWithPartition:partitionName
-                   documentId:documentId
-            completionHandler:^(MSDocumentWrapper *_Nonnull document) {
-              NSLog(@"Data.delete document with id %@ succeeded", documentId);
-            }];
+  [MSData deleteDocumentWithID:documentId
+                     partition:partitionName
+             completionHandler:^(MSDocumentWrapper *_Nonnull document) {
+               NSLog(@"Data.delete document with id %@ succeeded", documentId);
+             }];
 }
 
 - (void)replaceDocumentWithPartition:(NSString *_Nonnull)partitionName
@@ -353,11 +353,11 @@
                             document:(MSDictionaryDocument *_Nonnull)document
                         writeOptions:(MSWriteOptions *_Nonnull)writeOptions
                    completionHandler:(void (^)(MSDocumentWrapper *))completionHandler {
-  [MSData replaceWithPartition:partitionName
-                    documentId:documentId
-                      document:document
-                  writeOptions:writeOptions
-             completionHandler:completionHandler];
+  [MSData replaceDocumentWithID:documentId
+                       document:document
+                      partition:partitionName
+                   writeOptions:writeOptions
+              completionHandler:completionHandler];
 }
 
 @end
