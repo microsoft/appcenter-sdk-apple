@@ -467,7 +467,6 @@
                   documentId:documentId1
             pendingOperation:pendingOperation
               expirationTime:(long)[[NSDate dateWithTimeIntervalSinceNow:1000000] timeIntervalSince1970]];
-
   NSString *documentId2 = @"doc_id_2";
   [self addJsonStringToTable:jsonString
                         eTag:eTag

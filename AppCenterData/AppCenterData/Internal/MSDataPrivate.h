@@ -77,7 +77,7 @@ static NSString *const kMSDefaultApiUrl = @"https://tokens.appcenter.ms/v0.1";
                            operationExpirationTime:(NSInteger)operationExpirationTime;
 
 /**
- * Process pending operaitons and sync with CosmosDb.
+ * Process pending operations and sync with CosmosDb.
  */
 - (void)processPendingOperations;
 

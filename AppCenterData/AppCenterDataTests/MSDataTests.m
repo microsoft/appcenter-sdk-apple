@@ -169,7 +169,6 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   // If
   MSTokenResult *testToken = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
   MSTokensResponse *testTokensResponse = [[MSTokensResponse alloc] initWithTokens:@[ testToken ]];
-
   OCMStub([self.tokenExchangeMock performDbTokenAsyncOperationWithHttpClient:OCMOCK_ANY
                                                             tokenExchangeUrl:OCMOCK_ANY
                                                                    appSecret:OCMOCK_ANY
@@ -207,6 +206,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   id<MSDocumentStore> localStorageMock = OCMProtocolMock(@protocol(MSDocumentStore));
   self.sut.dataOperationProxy.documentStore = localStorageMock;
 
+  // Mock pending operation.
   MSPendingOperation *mockPendingOperation =
       [[MSPendingOperation alloc] initWithOperation:@"CREATE"
                                           partition:kMSPartitionTest
