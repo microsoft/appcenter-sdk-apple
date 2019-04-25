@@ -429,7 +429,7 @@
   XCTAssertFalse(expectedDocumentWrapper.fromDeviceCache);
 }
 
-- (void)testDropDatabase {
+- (void)testResetDatabase {
 
   // If
   NSString *expectedAccountId = @"Test-account-id";
@@ -437,13 +437,15 @@
   [self.sut createUserStorageWithAccountId:expectedAccountId];
   OCMVerify([self.dbStorage createTable:tableName columnsSchema:[MSDBDocumentStore columnsSchema]]);
   XCTAssertTrue([self tableExists:tableName]);
+  XCTAssertTrue([self tableExists:kMSAppDocumentTableName]);
 
   // When
-  [self.sut dropDatabase];
+  [self.sut resetDatabase];
 
   // Then
-  XCTAssertFalse([self.dbStorage.dbFileURL checkResourceIsReachableAndReturnError:nil]);
+  XCTAssertTrue([self.dbStorage.dbFileURL checkResourceIsReachableAndReturnError:nil]);
   XCTAssertFalse([self tableExists:tableName]);
+  XCTAssertTrue([self tableExists:kMSAppDocumentTableName]);
 }
 
 - (void)addJsonStringToTable:(NSString *)jsonString

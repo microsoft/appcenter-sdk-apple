@@ -177,8 +177,9 @@ static const NSUInteger kMSSchemaVersion = 1;
                                           fromDeviceCache:YES];
 }
 
-- (void)dropDatabase {
+- (void)resetDatabase {
   [self.dbStorage dropDatabase];
+  [self createTableWithTableName:kMSAppDocumentTableName];
 }
 
 + (MSDBColumnsSchema *)columnsSchema {
