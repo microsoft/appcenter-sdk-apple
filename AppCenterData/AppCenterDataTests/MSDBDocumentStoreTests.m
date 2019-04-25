@@ -310,8 +310,10 @@
 
   // Mock NSDate to "freeze" time.
   NSTimeInterval timeSinceReferenceDate = NSDate.timeIntervalSinceReferenceDate;
+  NSDate *referenceDate = [NSDate dateWithTimeIntervalSince1970:timeSinceReferenceDate];
   id nsdateMock = OCMClassMock([NSDate class]);
   OCMStub(ClassMethod([nsdateMock timeIntervalSinceReferenceDate])).andReturn(timeSinceReferenceDate);
+  OCMStub(ClassMethod([nsdateMock date])).andReturn(referenceDate);
 
   // When
   BOOL result = [self.sut upsertWithToken:self.appToken documentWrapper:expectedDocumentWrapper operation:@"CREATE" deviceTimeToLive:ttl];
@@ -330,6 +332,7 @@
   XCTAssertEqualObjects(documentWrapper.eTag, expectedDocumentWrapper.eTag);
   long expirationTime = [self expirationTimeWithToken:self.appToken documentId:expectedDocumentWrapper.documentId];
   XCTAssertEqual(expirationTime, (long)(ttl + NSTimeIntervalSince1970 + timeSinceReferenceDate));
+  [nsdateMock stopMocking];
 }
 
 - (void)testUpsertAppDocumentWithNoTTL {
