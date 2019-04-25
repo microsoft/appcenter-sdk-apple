@@ -7,7 +7,7 @@ class MSDataViewController: UIViewController, UITableViewDelegate, UITableViewDa
   
   var appCenter: AppCenterDelegate!
   var alert: UIAlertController!
-  enum StorageType: String {
+  enum DocumentType: String {
     case App = "App"
     case User = "User"
     
@@ -15,16 +15,16 @@ class MSDataViewController: UIViewController, UITableViewDelegate, UITableViewDa
   }
   var allDocuments: MSPaginatedDocuments = MSPaginatedDocuments()
   var loadMoreStatus = false
-  var identitySignIn = false
+  var authSignIn = false
   static var AppDocuments: [MSDocumentWrapper] = []
   static var UserDocuments: [MSDocumentWrapper] = []
-  private var storageTypePicker: MSEnumPicker<StorageType>?
-  private var storageType = StorageType.App.rawValue
+  private var documentTypePicker: MSEnumPicker<DocumentType>?
+  private var documentType = DocumentType.App.rawValue
   var indicator = UIActivityIndicatorView()
   
   @IBOutlet var backButton: UIButton!
   @IBOutlet var tableView: UITableView!
-  @IBOutlet var storageTypeField: UITextField!
+  @IBOutlet var documentTypeField: UITextField!
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -32,9 +32,9 @@ class MSDataViewController: UIViewController, UITableViewDelegate, UITableViewDa
     tableView.dataSource = self
     tableView.setEditing(true, animated: false)
     tableView.allowsSelectionDuringEditing = true
-    identitySignIn = UserDefaults.standard.bool(forKey: kMSUserIdentity)
+    authSignIn = UserDefaults.standard.bool(forKey: kMSUserIdentity)
     buildAlertDialog()
-    initStoragePicker()
+    initDocumentPicker()
     activityIndicator()
     loadAppFiles()
   }
@@ -93,7 +93,7 @@ class MSDataViewController: UIViewController, UITableViewDelegate, UITableViewDa
       self.loadMoreStatus = true
       DispatchQueue.global().async() {
         self.allDocuments.nextPage(completionHandler: { page in
-          if self.storageType == StorageType.User.rawValue && self.identitySignIn {
+          if self.documentType == DocumentType.User.rawValue && self.authSignIn {
             MSDataViewController.UserDocuments += page.items ?? []
           } else {
             MSDataViewController.AppDocuments += page.items ?? []
@@ -120,31 +120,31 @@ class MSDataViewController: UIViewController, UITableViewDelegate, UITableViewDa
     tableView.reloadData()
   }
   
-  func initStoragePicker(){
-    self.storageTypePicker = MSEnumPicker<StorageType> (
-      textField: storageTypeField,
-      allValues: StorageType.allValues,
+  func initDocumentPicker(){
+    self.documentTypePicker = MSEnumPicker<DocumentType> (
+      textField: documentTypeField,
+      allValues: DocumentType.allValues,
       onChange: { index in
-        if self.storageTypeField?.text == StorageType.User.rawValue && !self.identitySignIn {
+        if self.documentTypeField?.text == DocumentType.User.rawValue && !self.authSignIn {
           self.present(self.alert, animated: true, completion: nil)
-          self.storageTypeField?.text = StorageType.App.rawValue
+          self.documentTypeField?.text = DocumentType.App.rawValue
         } else {
-          if (self.storageTypeField?.text == StorageType.User.rawValue) {
+          if (self.documentTypeField?.text == DocumentType.User.rawValue) {
             self.loadUserFiles()
           } else {
             self.loadAppFiles()
           }
-          self.storageType = (self.storageTypeField?.text)!
+          self.documentType = (self.documentTypeField?.text)!
         }
     })
-    storageTypeField?.delegate = self.storageTypePicker
-    storageTypeField?.tintColor = UIColor.clear
+    documentTypeField?.delegate = self.documentTypePicker
+    documentTypeField?.tintColor = UIColor.clear
   }
   
   func buildAlertDialog() {
-    self.alert = UIAlertController(title: "Error", message: "Please sign in to Identity first", preferredStyle: .alert)
+    self.alert = UIAlertController(title: "Error", message: "Please sign in to Auth first", preferredStyle: .alert)
     self.alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
-      self.storageTypePicker?.doneClicked()
+      self.documentTypePicker?.doneClicked()
     }))
   }
   
@@ -153,19 +153,19 @@ class MSDataViewController: UIViewController, UITableViewDelegate, UITableViewDa
   }
   
   func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-    if self.storageType == StorageType.User.rawValue && identitySignIn {
+    if self.documentType == DocumentType.User.rawValue && authSignIn {
       return "User Documents List"
-    } else if self.storageType == StorageType.App.rawValue {
+    } else if self.documentType == DocumentType.App.rawValue {
       return "App Document List"
     }
     return nil
   }
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    if self.storageType == StorageType.App.rawValue {
+    if self.documentType == DocumentType.App.rawValue {
       return MSDataViewController.AppDocuments.count
-    } else if self.storageType == StorageType.User.rawValue {
-      if identitySignIn {
+    } else if self.documentType == DocumentType.User.rawValue {
+      if authSignIn {
         return MSDataViewController.UserDocuments.count + 1
       } else {
         return 0
@@ -177,9 +177,9 @@ class MSDataViewController: UIViewController, UITableViewDelegate, UITableViewDa
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cellIdentifier = "document"
     let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
-    if self.storageType == StorageType.App.rawValue {
+    if self.documentType == DocumentType.App.rawValue {
       cell.textLabel?.text = MSDataViewController.AppDocuments[indexPath.row].documentId
-    } else if self.storageType == StorageType.User.rawValue {
+    } else if self.documentType == DocumentType.User.rawValue {
       if indexPath.row == 0 {
         cell.textLabel?.text = "Add document"
       } else {
@@ -195,7 +195,7 @@ class MSDataViewController: UIViewController, UITableViewDelegate, UITableViewDa
     if isInsertRow(indexPath) {
       self.performSegue(withIdentifier: "ShowDocumentDetails", sender: "")
     } else {
-      if self.storageType == StorageType.App.rawValue {
+      if self.documentType == DocumentType.App.rawValue {
         self.performSegue(withIdentifier: "ShowDocumentDetails", sender: MSDataViewController.AppDocuments[indexPath.row])
       } else {
         let index = indexPath.row == 0 ? 0 : indexPath.row - 1
@@ -205,7 +205,7 @@ class MSDataViewController: UIViewController, UITableViewDelegate, UITableViewDa
   }
   
   func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-    if self.storageType == StorageType.User.rawValue {
+    if self.documentType == DocumentType.User.rawValue {
       return true
     }
     return false
@@ -214,7 +214,7 @@ class MSDataViewController: UIViewController, UITableViewDelegate, UITableViewDa
   func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
     if isInsertRow(indexPath) {
       return .insert
-    } else if self.storageType == StorageType.User.rawValue {
+    } else if self.documentType == DocumentType.User.rawValue {
       return .delete
     }
     return .none
@@ -223,7 +223,7 @@ class MSDataViewController: UIViewController, UITableViewDelegate, UITableViewDa
   func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
     let index = indexPath.row == 0 ? 0 : indexPath.row - 1
     if editingStyle == .delete {
-      appCenter.deleteDocumentWithPartition(StorageType.User.rawValue.lowercased(), documentId: MSDataViewController.UserDocuments[index].documentId)
+      appCenter.deleteDocumentWithPartition(DocumentType.User.rawValue.lowercased(), documentId: MSDataViewController.UserDocuments[index].documentId)
       MSDataViewController.UserDocuments.remove(at: index)
       tableView.deleteRows(at: [indexPath], with: .automatic)
     } else if editingStyle == .insert {
@@ -236,16 +236,16 @@ class MSDataViewController: UIViewController, UITableViewDelegate, UITableViewDa
   }
 
   func isInsertRow(_ indexPath: IndexPath) -> Bool {
-    return self.storageType == StorageType.User.rawValue && indexPath.row == 0
+    return self.documentType == DocumentType.User.rawValue && indexPath.row == 0
   }
 
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     let documentDetailsController = segue.destination as! MSDocumentDetailsViewController
     if segue.identifier == "ShowDocumentDetails" {
       if(sender as? String == "") {
-        documentDetailsController.documentType = StorageType.User.rawValue
+        documentDetailsController.documentType = DocumentType.User.rawValue
       } else {
-        documentDetailsController.documentType = self.storageType
+        documentDetailsController.documentType = self.documentType
         documentDetailsController.documentId = (sender as? MSDocumentWrapper)?.documentId
         documentDetailsController.documentTimeToLive = "Default"
         documentDetailsController.documentContent = sender as? MSDocumentWrapper
@@ -263,11 +263,11 @@ class MSDataViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     indicator.startAnimating()
     if (documentDetailsController.replaceDocument) {
-      self.appCenter.replaceDocumentWithPartition(MSDataViewController.StorageType.User.rawValue.lowercased(), documentId:documentId, document:documentToSave, writeOptions: writeOptions, completionHandler: { (document) in
+      self.appCenter.replaceDocumentWithPartition(MSDataViewController.DocumentType.User.rawValue.lowercased(), documentId:documentId, document:documentToSave, writeOptions: writeOptions, completionHandler: { (document) in
         self.loadUserFiles()
       })
     } else {
-      self.appCenter.createDocumentWithPartition(MSDataViewController.StorageType.User.rawValue.lowercased(), documentId:documentId, document:documentToSave, writeOptions: writeOptions, completionHandler: { (document) in
+      self.appCenter.createDocumentWithPartition(MSDataViewController.DocumentType.User.rawValue.lowercased(), documentId:documentId, document:documentToSave, writeOptions: writeOptions, completionHandler: { (document) in
         self.loadUserFiles()
       })
     }

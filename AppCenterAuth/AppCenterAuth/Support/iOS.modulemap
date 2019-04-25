@@ -1,0 +1,12 @@
+framework module AppCenterAuth {
+  umbrella header "AppCenterAuth.h"
+
+  export *
+  module * { export * }
+  
+  link framework "Foundation"
+  link framework "UIKit"
+  link framework "AuthenticationServices"
+  link framework "SafariServices"
+  link framework "WebKit"
+}

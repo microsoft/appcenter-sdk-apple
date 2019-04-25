@@ -6,7 +6,7 @@ import AppCenterAnalytics
 import AppCenterCrashes
 import AppCenterData
 import AppCenterDistribute
-import AppCenterIdentity
+import AppCenterAuth
 import AppCenterPush
 
 /**
@@ -82,8 +82,8 @@ class AppCenterDelegateSwift: AppCenterDelegate {
     return MSDistribute.isEnabled()
   }
 
-  func isIdentityEnabled() -> Bool {
-    return MSIdentity.isEnabled()
+  func isAuthEnabled() -> Bool {
+    return MSAuth.isEnabled()
   }
 
   func isPushEnabled() -> Bool {
@@ -102,8 +102,8 @@ class AppCenterDelegateSwift: AppCenterDelegate {
     MSDistribute.setEnabled(isEnabled)
   }
 
-  func setIdentityEnabled(_ isEnabled: Bool) {
-    MSIdentity.setEnabled(isEnabled)
+  func setAuthEnabled(_ isEnabled: Bool) {
+    MSAuth.setEnabled(isEnabled)
   }
 
   func setPushEnabled(_ isEnabled: Bool) {
@@ -197,21 +197,21 @@ class AppCenterDelegateSwift: AppCenterDelegate {
     }
   }
 
-  // MSIdentity section.
+  // MSAuth section.
   func signIn() {
-    MSIdentity.signIn { userInformation, error in
+    MSAuth.signIn { userInformation, error in
       if error == nil {
         UserDefaults.standard.set(true, forKey: kMSUserIdentity)
-        print("Identity.signIn succeeded, accountId=\(userInformation!.accountId)")
+        print("Auth.signIn succeeded, accountId=\(userInformation!.accountId)")
       }
       else {
-        print("Identity.signIn failed, error=\(String(describing: error))")
+        print("Auth.signIn failed, error=\(String(describing: error))")
       }
     }
   }
 
   func signOut() {
-    MSIdentity.signOut()
+    MSAuth.signOut()
     UserDefaults.standard.set(false, forKey: kMSUserIdentity)
   }
 
@@ -307,20 +307,20 @@ class AppCenterDelegateSwift: AppCenterDelegate {
   // MSData
   
   func listDocumentsWithPartition(_ partitionName: String, documentType: AnyClass, completionHandler: @escaping (_ paginatedDocuments:MSPaginatedDocuments) -> Void) {
-    MSData.list(withPartition: partitionName, documentType: documentType, completionHandler:completionHandler)
+    MSData.listDocuments(withType: documentType, partition: partitionName, completionHandler: completionHandler)
   }
   
   func createDocumentWithPartition(_ partitionName: String, documentId: String, document: MSDictionaryDocument, writeOptions: MSWriteOptions, completionHandler: @escaping (_ document:MSDocumentWrapper) -> Void) {
-    MSData.create(withPartition: partitionName, documentId: documentId, document: document, writeOptions: writeOptions, completionHandler: completionHandler);
+    MSData.createDocument(withID: documentId, document: document, partition: partitionName, writeOptions:writeOptions, completionHandler:completionHandler)
   }
   
   func replaceDocumentWithPartition(_ partitionName: String, documentId: String, document: MSDictionaryDocument, writeOptions: MSWriteOptions, completionHandler: @escaping (_ document:MSDocumentWrapper) -> Void) {
-    MSData.replace(withPartition: partitionName, documentId: documentId, document: document, writeOptions: writeOptions, completionHandler: completionHandler)
+    MSData.replaceDocument(withID: documentId, document: document, partition: partitionName, writeOptions: writeOptions, completionHandler: completionHandler)
   }
   
   func deleteDocumentWithPartition(_ partitionName: String, documentId: String) {
-    MSData.delete(withPartition: partitionName, documentId: documentId) { document in
-      print("Storage.delete document with id \(documentId) succeeded")
+    MSData.deleteDocument(withID: documentId, partition: partitionName) { document in
+      print("Data.delete document with id \(documentId) succeeded")
     }
   }
 }

@@ -60,121 +60,121 @@ typedef void (^MSPaginatedDocumentsCompletionHandler)(MSPaginatedDocuments *docu
  * Read a document.
  * The document type (id<MSSerializableDocument>) must be JSON deserializable.
  *
- * @param partition The CosmosDB partition key.
- * @param documentId The CosmosDB document id.
+ * @param documentID The CosmosDB document ID.
  * @param documentType The object type of the document. Must conform to MSSerializableDocument protocol.
+ * @param partition The CosmosDB partition key.
  * @param completionHandler Callback to accept downloaded document.
  */
-+ (void)readWithPartition:(NSString *)partition
-               documentId:(NSString *)documentId
-             documentType:(Class)documentType
-        completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler;
++ (void)readDocumentWithID:(NSString *)documentID
+                      type:(Class)documentType
+                 partition:(NSString *)partition
+         completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler;
 
 /**
  * Read a document.
  *
- * @param partition The CosmosDB partition key.
- * @param documentId The CosmosDB document id.
+ * @param documentID The CosmosDB document ID.
  * @param documentType The object type of the document. Must conform to MSSerializableDocument protocol.
+ * @param partition The CosmosDB partition key.
  * @param readOptions Options for reading and storing the document.
  * @param completionHandler Callback to accept document.
  */
-+ (void)readWithPartition:(NSString *)partition
-               documentId:(NSString *)documentId
-             documentType:(Class)documentType
-              readOptions:(MSReadOptions *_Nullable)readOptions
-        completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler;
++ (void)readDocumentWithID:(NSString *)documentID
+                      type:(Class)documentType
+                 partition:(NSString *)partition
+               readOptions:(MSReadOptions *_Nullable)readOptions
+         completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler;
 
 /**
  * Retrieve a paginated list of the documents in a partition.
  *
- * @param partition The CosmosDB partition key.
  * @param documentType The object type of the documents in the partition. Must conform to MSSerializableDocument protocol.
+ * @param partition The CosmosDB partition key.
  * @param completionHandler Callback to accept documents.
  */
-+ (void)listWithPartition:(NSString *)partition
-             documentType:(Class)documentType
-        completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler;
++ (void)listDocumentsWithType:(Class)documentType
+                    partition:(NSString *)partition
+            completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler;
 
 /**
  * Create a document in CosmosDB.
  *
- * @param partition The CosmosDB partition key.
- * @param documentId The CosmosDB document id.
+ * @param documentID The CosmosDB document ID.
  * @param document The document to be stored in CosmosDB. Must conform to MSSerializableDocument protocol.
+ * @param partition The CosmosDB partition key.
  * @param completionHandler Callback to accept document.
  */
-+ (void)createWithPartition:(NSString *)partition
-                 documentId:(NSString *)documentId
-                   document:(id<MSSerializableDocument>)document
-          completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler;
-
-/**
- * Create a document in CosmosDB.
- *
- * @param partition The CosmosDB partition key.
- * @param documentId The CosmosDB document id.
- * @param document The document to be stored in CosmosDB. Must conform to MSSerializableDocument protocol.
- * @param writeOptions Options for writing and storing the document.
- * @param completionHandler Callback to accept document.
- */
-+ (void)createWithPartition:(NSString *)partition
-                 documentId:(NSString *)documentId
-                   document:(id<MSSerializableDocument>)document
-               writeOptions:(MSWriteOptions *_Nullable)writeOptions
-          completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler;
-
-/**
- * Replace a document in CosmosDB.
- *
- * @param partition The CosmosDB partition key.
- * @param documentId The CosmosDB document id.
- * @param document The document to be stored in CosmosDB. Must conform to MSSerializableDocument protocol.
- * @param completionHandler Callback to accept document.
- */
-+ (void)replaceWithPartition:(NSString *)partition
-                  documentId:(NSString *)documentId
++ (void)createDocumentWithID:(NSString *)documentID
                     document:(id<MSSerializableDocument>)document
+                   partition:(NSString *)partition
            completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler;
 
 /**
- * Replace a document in CosmosDB.
+ * Create a document in CosmosDB.
  *
- * @param partition The CosmosDB partition key.
- * @param documentId The CosmosDB document id.
+ * @param documentID The CosmosDB document ID.
  * @param document The document to be stored in CosmosDB. Must conform to MSSerializableDocument protocol.
+ * @param partition The CosmosDB partition key.
  * @param writeOptions Options for writing and storing the document.
  * @param completionHandler Callback to accept document.
  */
-+ (void)replaceWithPartition:(NSString *)partition
-                  documentId:(NSString *)documentId
++ (void)createDocumentWithID:(NSString *)documentID
                     document:(id<MSSerializableDocument>)document
+                   partition:(NSString *)partition
                 writeOptions:(MSWriteOptions *_Nullable)writeOptions
            completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler;
 
 /**
- * Delete a document from CosmosDB.
+ * Replace a document in CosmosDB.
  *
+ * @param documentID The CosmosDB document ID.
+ * @param document The document to be stored in CosmosDB. Must conform to MSSerializableDocument protocol.
  * @param partition The CosmosDB partition key.
- * @param documentId The CosmosDB document id.
- * @param completionHandler Callback to accept any errors.
+ * @param completionHandler Callback to accept document.
  */
-+ (void)deleteWithPartition:(NSString *)partition
-                 documentId:(NSString *)documentId
-          completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler;
++ (void)replaceDocumentWithID:(NSString *)documentID
+                     document:(id<MSSerializableDocument>)document
+                    partition:(NSString *)partition
+            completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler;
+
+/**
+ * Replace a document in CosmosDB.
+ *
+ * @param documentID The CosmosDB document ID.
+ * @param document The document to be stored in CosmosDB. Must conform to MSSerializableDocument protocol.
+ * @param partition The CosmosDB partition key
+ * @param writeOptions Options for writing and storing the document.
+ * @param completionHandler Callback to accept document.
+ */
++ (void)replaceDocumentWithID:(NSString *)documentID
+                     document:(id<MSSerializableDocument>)document
+                    partition:(NSString *)partition
+                 writeOptions:(MSWriteOptions *_Nullable)writeOptions
+            completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler;
 
 /**
  * Delete a document from CosmosDB.
  *
+ * @param documentID The CosmosDB document ID.
  * @param partition The CosmosDB partition key.
- * @param documentId The CosmosDB document id.
+ * @param completionHandler Callback to accept any errors.
+ */
++ (void)deleteDocumentWithID:(NSString *)documentID
+                   partition:(NSString *)partition
+           completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler;
+
+/**
+ * Delete a document from CosmosDB.
+ *
+ * @param documentID The CosmosDB document ID.
+ * @param partition The CosmosDB partition key.
  * @param writeOptions Options for deleting the document.
  * @param completionHandler Callback to accept any errors.
  */
-+ (void)deleteWithPartition:(NSString *)partition
-                 documentId:(NSString *)documentId
-               writeOptions:(MSWriteOptions *_Nullable)writeOptions
-          completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler;
++ (void)deleteDocumentWithID:(NSString *)documentID
+                   partition:(NSString *)partition
+                writeOptions:(MSWriteOptions *_Nullable)writeOptions
+           completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler;
 
 @end
 

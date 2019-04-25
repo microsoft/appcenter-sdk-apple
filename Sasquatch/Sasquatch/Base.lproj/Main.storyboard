@@ -937,7 +937,7 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection headerTitle="Identity" id="00Z-mP-RzJ">
+                            <tableViewSection headerTitle="Auth" id="00Z-mP-RzJ">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="E7Q-7Z-mDZ">
                                         <rect key="frame" x="0.0" y="730.5" width="375" height="44"/>
@@ -946,8 +946,8 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Identity Enabled" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eZb-zn-TmJ">
-                                                    <rect key="frame" x="16" y="11.5" width="123.5" height="20.5"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Auth Enabled" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eZb-zn-TmJ">
+                                                    <rect key="frame" x="16" y="11.5" width="102" height="20.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -955,7 +955,7 @@
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iXu-ht-std">
                                                     <rect key="frame" x="308" y="6.5" width="51" height="31"/>
                                                     <connections>
-                                                        <action selector="identitySwitchStateUpdated:" destination="9Ck-4D-Ozb" eventType="valueChanged" id="fIO-he-FfA"/>
+                                                        <action selector="authSwitchStateUpdated:" destination="9Ck-4D-Ozb" eventType="valueChanged" id="fIO-he-FfA"/>
                                                     </connections>
                                                 </switch>
                                             </subviews>
@@ -979,7 +979,7 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                                     <state key="normal" title="Sign In"/>
                                                     <connections>
-                                                        <action selector="identitySignIn:" destination="9Ck-4D-Ozb" eventType="touchUpInside" id="Z9W-UE-hRG"/>
+                                                        <action selector="authSignIn:" destination="9Ck-4D-Ozb" eventType="touchUpInside" id="Z9W-UE-hRG"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
@@ -1002,7 +1002,7 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                                     <state key="normal" title="Sign Out"/>
                                                     <connections>
-                                                        <action selector="identitySignOut:" destination="9Ck-4D-Ozb" eventType="touchUpInside" id="0vh-px-tw5"/>
+                                                        <action selector="authSignOut:" destination="9Ck-4D-Ozb" eventType="touchUpInside" id="0vh-px-tw5"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
@@ -1240,7 +1240,7 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection headerTitle="Storage" id="6Vf-WW-jGy">
+                            <tableViewSection headerTitle="Data" id="6Vf-WW-jGy">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="u4X-Vu-aBk" style="IBUITableViewCellStyleDefault" id="aeH-F8-toX">
                                         <rect key="frame" x="0.0" y="1424.5" width="375" height="44"/>
@@ -1249,7 +1249,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="349" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Storage" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="u4X-Vu-aBk">
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Data" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="u4X-Vu-aBk">
                                                     <rect key="frame" x="15" y="0.0" width="325" height="43.5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -1276,10 +1276,10 @@
                     <tabBarItem key="tabBarItem" title="App Center" image="dials" id="xhl-ug-PCm"/>
                     <navigationItem key="navigationItem" title="App Center" id="eqe-td-JIR"/>
                     <connections>
+                        <outlet property="authSwitch" destination="iXu-ht-std" id="Sea-q6-3hw"/>
                         <outlet property="appCenterEnabledSwitch" destination="Q0F-SV-i0s" id="90F-m9-92r"/>
                         <outlet property="appSecret" destination="yfU-RL-vIN" id="MRV-0f-F7F"/>
                         <outlet property="deviceIdLabel" destination="eS2-cR-m6j" id="UsE-g6-FF0"/>
-                        <outlet property="identitySwitch" destination="iXu-ht-std" id="Sea-q6-3hw"/>
                         <outlet property="installId" destination="NtN-Tm-B6i" id="99C-gY-7Q8"/>
                         <outlet property="logFilterSwitch" destination="Noo-Uo-Lot" id="joI-f2-5vY"/>
                         <outlet property="logUrl" destination="XnS-uI-vJv" id="2Vi-KP-bXN"/>
@@ -1994,7 +1994,7 @@
             </objects>
             <point key="canvasLocation" x="-322" y="3239"/>
         </scene>
-        <!--Storage View Controller-->
+        <!--Data View Controller-->
         <scene sceneID="izz-xW-WYx">
             <objects>
                 <viewController id="1XZ-TD-2RZ" customClass="MSDataViewController" customModule="SasquatchObjC" customModuleProvider="target" sceneMemberID="viewController">
@@ -2012,7 +2012,7 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Pe6-jt-Mdt">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="34"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Storage Type" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C9k-2Y-jY9">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Document Type" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C9k-2Y-jY9">
                                                 <rect key="frame" x="16" y="8" width="351" height="20.5"/>
                                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                                 <nil key="textColor"/>
@@ -2086,7 +2086,7 @@
                     </view>
                     <connections>
                         <outlet property="backButton" destination="53q-dn-CKQ" id="EYg-xl-64n"/>
-                        <outlet property="storageTypeField" destination="foM-uY-z6d" id="5a4-6G-iP1"/>
+                        <outlet property="documentTypeField" destination="foM-uY-z6d" id="5a4-6G-iP1"/>
                         <outlet property="tableView" destination="9wk-kw-Rrq" id="ccU-dH-aCL"/>
                         <segue destination="9ke-7b-bu5" kind="showDetail" identifier="ShowDocumentDetails" id="OjP-E8-wqh"/>
                     </connections>

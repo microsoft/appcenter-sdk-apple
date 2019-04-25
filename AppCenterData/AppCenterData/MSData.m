@@ -88,150 +88,153 @@ static dispatch_once_t onceToken;
   [[MSData sharedInstance] setTokenExchangeUrl:(NSURL *)[NSURL URLWithString:tokenExchangeUrl]];
 }
 
-+ (void)readWithPartition:(NSString *)partition
-               documentId:(NSString *)documentId
-             documentType:(Class)documentType
-        completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
-  [[MSData sharedInstance] readWithPartition:partition
-                                  documentId:documentId
-                                documentType:documentType
-                                 readOptions:nil
-                           completionHandler:completionHandler];
++ (void)readDocumentWithID:(NSString *)documentID
+                      type:(Class)documentType
+                 partition:(NSString *)partition
+         completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
+  [[MSData sharedInstance] readDocumentWithID:documentID
+                                         type:documentType
+                                    partition:partition
+                                  readOptions:nil
+                            completionHandler:completionHandler];
 }
 
-+ (void)readWithPartition:(NSString *)partition
-               documentId:(NSString *)documentId
-             documentType:(Class)documentType
-              readOptions:(MSReadOptions *_Nullable)readOptions
-        completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
-  [[MSData sharedInstance] readWithPartition:partition
-                                  documentId:documentId
-                                documentType:documentType
-                                 readOptions:readOptions
-                           completionHandler:completionHandler];
++ (void)readDocumentWithID:(NSString *)documentID
+                      type:(Class)documentType
+                 partition:(NSString *)partition
+               readOptions:(MSReadOptions *_Nullable)readOptions
+         completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
+  [[MSData sharedInstance] readDocumentWithID:documentID
+                                         type:documentType
+                                    partition:partition
+                                  readOptions:readOptions
+                            completionHandler:completionHandler];
 }
 
-+ (void)listWithPartition:(NSString *)partition
-             documentType:(Class)documentType
-        completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler {
-  [[MSData sharedInstance] listWithPartition:partition documentType:documentType continuationToken:nil completionHandler:completionHandler];
++ (void)listDocumentsWithType:(Class)documentType
+                    partition:(NSString *)partition
+            completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler {
+  [[MSData sharedInstance] listDocumentsWithType:documentType
+                                       partition:partition
+                               continuationToken:nil
+                               completionHandler:completionHandler];
 }
 
-+ (void)createWithPartition:(NSString *)partition
-                 documentId:(NSString *)documentId
-                   document:(id<MSSerializableDocument>)document
-          completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
-  [[MSData sharedInstance] createWithPartition:partition
-                                    documentId:documentId
-                                      document:document
-                                  writeOptions:nil
-                             completionHandler:completionHandler];
-}
-
-+ (void)createWithPartition:(NSString *)partition
-                 documentId:(NSString *)documentId
-                   document:(id<MSSerializableDocument>)document
-               writeOptions:(MSWriteOptions *_Nullable)writeOptions
-          completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
-  [[MSData sharedInstance] createWithPartition:partition
-                                    documentId:documentId
-                                      document:document
-                                  writeOptions:writeOptions
-                             completionHandler:completionHandler];
-}
-
-+ (void)replaceWithPartition:(NSString *)partition
-                  documentId:(NSString *)documentId
++ (void)createDocumentWithID:(NSString *)documentID
                     document:(id<MSSerializableDocument>)document
+                   partition:(NSString *)partition
            completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
-  [[MSData sharedInstance] replaceWithPartition:partition
-                                     documentId:documentId
+  [[MSData sharedInstance] createDocumentWithID:documentID
                                        document:document
+                                      partition:partition
                                    writeOptions:nil
                               completionHandler:completionHandler];
 }
 
-+ (void)replaceWithPartition:(NSString *)partition
-                  documentId:(NSString *)documentId
++ (void)createDocumentWithID:(NSString *)documentID
                     document:(id<MSSerializableDocument>)document
+                   partition:(NSString *)partition
                 writeOptions:(MSWriteOptions *_Nullable)writeOptions
            completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
-  [[MSData sharedInstance] replaceWithPartition:partition
-                                     documentId:documentId
+  [[MSData sharedInstance] createDocumentWithID:documentID
                                        document:document
+                                      partition:partition
                                    writeOptions:writeOptions
                               completionHandler:completionHandler];
 }
 
-+ (void)deleteWithPartition:(NSString *)partition
-                 documentId:(NSString *)documentId
-          completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
-  [[MSData sharedInstance] deleteWithPartition:partition documentId:documentId writeOptions:nil completionHandler:completionHandler];
++ (void)replaceDocumentWithID:(NSString *)documentID
+                     document:(id<MSSerializableDocument>)document
+                    partition:(NSString *)partition
+            completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
+  [[MSData sharedInstance] replaceDocumentWithID:documentID
+                                        document:document
+                                       partition:partition
+                                    writeOptions:nil
+                               completionHandler:completionHandler];
 }
 
-+ (void)deleteWithPartition:(NSString *)partition
-                 documentId:(NSString *)documentId
-               writeOptions:(MSWriteOptions *_Nullable)writeOptions
-          completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
-  [[MSData sharedInstance] deleteWithPartition:partition
-                                    documentId:documentId
-                                  writeOptions:writeOptions
-                             completionHandler:completionHandler];
++ (void)replaceDocumentWithID:(NSString *)documentID
+                     document:(id<MSSerializableDocument>)document
+                    partition:(NSString *)partition
+                 writeOptions:(MSWriteOptions *_Nullable)writeOptions
+            completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
+  [[MSData sharedInstance] replaceDocumentWithID:documentID
+                                        document:document
+                                       partition:partition
+                                    writeOptions:writeOptions
+                               completionHandler:completionHandler];
+}
+
++ (void)deleteDocumentWithID:(NSString *)documentID
+                   partition:(NSString *)partition
+           completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
+  [[MSData sharedInstance] deleteDocumentWithID:documentID partition:partition writeOptions:nil completionHandler:completionHandler];
+}
+
++ (void)deleteDocumentWithID:(NSString *)documentID
+                   partition:(NSString *)partition
+                writeOptions:(MSWriteOptions *_Nullable)writeOptions
+           completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
+  [[MSData sharedInstance] deleteDocumentWithID:documentID
+                                      partition:partition
+                                   writeOptions:writeOptions
+                              completionHandler:completionHandler];
 }
 
 #pragma mark - Static internal
 
-+ (void)listWithPartition:(NSString *)partition
-             documentType:(Class)documentType
-        continuationToken:(NSString *_Nullable)continuationToken
-        completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler {
-  [[MSData sharedInstance] listWithPartition:partition
-                                documentType:documentType
-                           continuationToken:continuationToken
-                           completionHandler:completionHandler];
++ (void)listDocumentsWithType:(Class)documentType
+                    partition:(NSString *)partition
+            continuationToken:(NSString *_Nullable)continuationToken
+            completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler {
+  [[MSData sharedInstance] listDocumentsWithType:documentType
+                                       partition:partition
+                               continuationToken:continuationToken
+                               completionHandler:completionHandler];
 }
 
 #pragma mark - MSData Implementation
 
-- (void)replaceWithPartition:(NSString *)partition
-                  documentId:(NSString *)documentId
-                    document:(id<MSSerializableDocument>)document
-                writeOptions:(MSWriteOptions *_Nullable)writeOptions
-           completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
+- (void)replaceDocumentWithID:(NSString *)documentID
+                     document:(id<MSSerializableDocument>)document
+                    partition:(NSString *)partition
+                 writeOptions:(MSWriteOptions *_Nullable)writeOptions
+            completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
 
   // In the current version we do not support E-tag optimistic concurrency logic and replace will call create.
-  [self createOrReplaceWithPartition:partition
-                          documentId:documentId
-                            document:document
-                        writeOptions:writeOptions
-                   additionalHeaders:@{kMSDocumentUpsertHeaderKey : @"true"}
-                    pendingOperation:kMSPendingOperationReplace
-                   completionHandler:completionHandler];
+  [self createOrReplaceDocumentWithID:documentID
+                             document:document
+                            partition:partition
+                         writeOptions:writeOptions
+                    additionalHeaders:@{kMSDocumentUpsertHeaderKey : @"true"}
+                     pendingOperation:kMSPendingOperationReplace
+                    completionHandler:completionHandler];
 }
 
-- (void)readWithPartition:(NSString *)partition
-               documentId:(NSString *)documentId
-             documentType:(Class)documentType
-              readOptions:(MSReadOptions *_Nullable)readOptions
-        completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
+- (void)readDocumentWithID:(NSString *)documentID
+                      type:(Class)documentType
+                 partition:(NSString *)partition
+               readOptions:(MSReadOptions *_Nullable)readOptions
+         completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
   @synchronized(self) {
 
     // Check preconditions.
     NSError *error;
     if (![self canBeUsed] || ![self isEnabled]) {
-      error = [self generateDisabledError:@"read" documentId:documentId];
+      error = [self generateDisabledError:@"read" documentId:documentID];
     } else if (![MSDocumentUtils isSerializableDocument:documentType]) {
       error = [self generateInvalidClassError];
     }
     if (error) {
-      completionHandler([[MSDocumentWrapper alloc] initWithError:error documentId:documentId]);
+      completionHandler([[MSDocumentWrapper alloc] initWithError:error documentId:documentID]);
       return;
     }
 
     // Perform read.
     dispatch_async(self.dispatchQueue, ^{
       [self.dataOperationProxy performOperation:nil
-          documentId:documentId
+          documentId:documentID
           documentType:documentType
           document:nil
           baseOptions:readOptions
@@ -245,44 +248,44 @@ static dispatch_once_t onceToken;
                                                       completionHandler:handler];
           }
           remoteDocumentBlock:^(MSDocumentWrapperCompletionHandler handler) {
-            [self readFromCosmosDbWithPartition:partition documentId:documentId documentType:documentType completionHandler:handler];
+            [self readFromCosmosDbWithPartition:partition documentId:documentID documentType:documentType completionHandler:handler];
           }
           completionHandler:completionHandler];
     });
   }
 }
 
-- (void)createWithPartition:(NSString *)partition
-                 documentId:(NSString *)documentId
-                   document:(id<MSSerializableDocument>)document
-               writeOptions:(MSWriteOptions *_Nullable)writeOptions
-          completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
-  [self createOrReplaceWithPartition:partition
-                          documentId:documentId
-                            document:document
-                        writeOptions:writeOptions
-                   additionalHeaders:nil
-                    pendingOperation:kMSPendingOperationCreate
-                   completionHandler:completionHandler];
+- (void)createDocumentWithID:(NSString *)documentID
+                    document:(id<MSSerializableDocument>)document
+                   partition:(NSString *)partition
+                writeOptions:(MSWriteOptions *_Nullable)writeOptions
+           completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
+  [self createOrReplaceDocumentWithID:documentID
+                             document:document
+                            partition:partition
+                         writeOptions:writeOptions
+                    additionalHeaders:nil
+                     pendingOperation:kMSPendingOperationCreate
+                    completionHandler:completionHandler];
 }
 
-- (void)deleteWithPartition:(NSString *)partition
-                 documentId:(NSString *)documentId
-               writeOptions:(MSWriteOptions *_Nullable)writeOptions
-          completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
+- (void)deleteDocumentWithID:(NSString *)documentID
+                   partition:(NSString *)partition
+                writeOptions:(MSWriteOptions *_Nullable)writeOptions
+           completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
   @synchronized(self) {
 
     // Check precondition.
     if (![self canBeUsed] || ![self isEnabled]) {
-      NSError *error = [self generateDisabledError:@"delete" documentId:documentId];
-      completionHandler([[MSDocumentWrapper alloc] initWithError:error documentId:documentId]);
+      NSError *error = [self generateDisabledError:@"delete" documentId:documentID];
+      completionHandler([[MSDocumentWrapper alloc] initWithError:error documentId:documentID]);
       return;
     }
 
     // Perform deletion.
     dispatch_async(self.dispatchQueue, ^{
       [self.dataOperationProxy performOperation:kMSPendingOperationDelete
-          documentId:documentId
+          documentId:documentID
           documentType:[MSDictionaryDocument class]
           document:nil
           baseOptions:writeOptions
@@ -296,33 +299,33 @@ static dispatch_once_t onceToken;
                                                       completionHandler:handler];
           }
           remoteDocumentBlock:^(MSDocumentWrapperCompletionHandler handler) {
-            [self deleteFromCosmosDbWithPartition:partition documentId:documentId completionHandler:handler];
+            [self deleteFromCosmosDbWithPartition:partition documentId:documentID completionHandler:handler];
           }
           completionHandler:completionHandler];
     });
   }
 }
 
-- (void)createOrReplaceWithPartition:(NSString *)partition
-                          documentId:(NSString *)documentId
-                            document:(id<MSSerializableDocument>)document
-                        writeOptions:(MSWriteOptions *_Nullable)writeOptions
-                   additionalHeaders:(NSDictionary *)additionalHeaders
-                    pendingOperation:(NSString *)pendingOperation
-                   completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
+- (void)createOrReplaceDocumentWithID:(NSString *)documentID
+                             document:(id<MSSerializableDocument>)document
+                            partition:(NSString *)partition
+                         writeOptions:(MSWriteOptions *_Nullable)writeOptions
+                    additionalHeaders:(NSDictionary *)additionalHeaders
+                     pendingOperation:(NSString *)pendingOperation
+                    completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
   @synchronized(self) {
 
     // Check the precondition.
     if (![self canBeUsed] || ![self isEnabled]) {
-      NSError *error = [self generateDisabledError:@"create or replace" documentId:documentId];
-      completionHandler([[MSDocumentWrapper alloc] initWithError:error documentId:documentId]);
+      NSError *error = [self generateDisabledError:@"create or replace" documentId:documentID];
+      completionHandler([[MSDocumentWrapper alloc] initWithError:error documentId:documentID]);
       return;
     }
 
     // Perform upsert.
     dispatch_async(self.dispatchQueue, ^{
       [self.dataOperationProxy performOperation:pendingOperation
-          documentId:documentId
+          documentId:documentID
           documentType:[document class]
           document:document
           baseOptions:writeOptions
@@ -337,7 +340,7 @@ static dispatch_once_t onceToken;
           }
           remoteDocumentBlock:^(MSDocumentWrapperCompletionHandler handler) {
             [self upsertFromCosmosDbWithPartition:partition
-                                       documentId:documentId
+                                       documentId:documentID
                                          document:document
                                 additionalHeaders:additionalHeaders
                                 completionHandler:handler];
@@ -347,10 +350,10 @@ static dispatch_once_t onceToken;
   }
 }
 
-- (void)listWithPartition:(NSString *)partition
-             documentType:(Class)documentType
-        continuationToken:(nullable NSString *)continuationToken
-        completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler {
+- (void)listDocumentsWithType:(Class)documentType
+                    partition:(NSString *)partition
+            continuationToken:(nullable NSString *)continuationToken
+            completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler {
 
   @synchronized(self) {
 

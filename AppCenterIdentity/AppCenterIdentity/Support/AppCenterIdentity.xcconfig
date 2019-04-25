@@ -1,3 +1,0 @@
-PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.identity
-
-OTHER_LDFLAGS=$(inherited) -framework Foundation;

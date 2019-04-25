@@ -31,12 +31,12 @@ import AppCenterData
   func isAnalyticsEnabled() -> Bool
   func isCrashesEnabled() -> Bool
   func isDistributeEnabled() -> Bool
-  func isIdentityEnabled() -> Bool
+  func isAuthEnabled() -> Bool
   func isPushEnabled() -> Bool
   func setAnalyticsEnabled(_ isEnabled: Bool)
   func setCrashesEnabled(_ isEnabled: Bool)
   func setDistributeEnabled(_ isEnabled: Bool)
-  func setIdentityEnabled(_ isEnabled: Bool)
+  func setAuthEnabled(_ isEnabled: Bool)
   func setPushEnabled(_ isEnabled: Bool)
 
   // MSAnalytics section.
@@ -59,7 +59,7 @@ import AppCenterData
   func showDistributeDisabledAlert()
   func showCustomConfirmationAlert()
 
-  // MSIdentity section.
+  // MSAuth section.
   func signIn()
   func signOut()
   
@@ -87,7 +87,7 @@ import AppCenterData
   func lastCrashReportDeviceCarrierCountry() -> String?
   func lastCrashReportDeviceAppNamespace() -> String?
   
-  // MSStorage section
+  // MSData section
   func listDocumentsWithPartition(_ partitionName: String, documentType: AnyClass, completionHandler: @escaping (_ paginatedDocuments:MSPaginatedDocuments) -> Void)
   func createDocumentWithPartition(_ partitionName: String, documentId: String, document: MSDictionaryDocument, writeOptions: MSWriteOptions, completionHandler: @escaping (_ document:MSDocumentWrapper) -> Void)
   func replaceDocumentWithPartition(_ partitionName: String, documentId: String, document: MSDictionaryDocument, writeOptions: MSWriteOptions, completionHandler: @escaping (_ document:MSDocumentWrapper) -> Void)

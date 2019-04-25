@@ -99,9 +99,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E85547E41D2D681F002DF6E2"
-               BuildableName = "AppCenterIdentityIOSFramework"
-               BlueprintName = "AppCenterIdentityIOSFramework"
-               ReferencedContainer = "container:../AppCenterIdentity/AppCenterIdentity.xcodeproj">
+               BuildableName = "AppCenterAuthIOSFramework"
+               BlueprintName = "AppCenterAuthIOSFramework"
+               ReferencedContainer = "container:../AppCenterAuth/AppCenterAuth.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
