@@ -23,6 +23,13 @@
                               compressionEnabled:YES];
 }
 
+- (instancetype)initWithCompressionEnabled:(BOOL)compressionEnabled {
+  return [self initWithMaxHttpConnectionsPerHost:nil
+                                  retryIntervals:DEFAULT_RETRY_INTERVALS
+                                    reachability:[MS_Reachability reachabilityForInternetConnection]
+                              compressionEnabled:compressionEnabled];
+}
+
 - (instancetype)initWithMaxHttpConnectionsPerHost:(NSInteger)maxHttpConnectionsPerHost compressionEnabled:(BOOL)compressionEnabled {
   return [self initWithMaxHttpConnectionsPerHost:@(maxHttpConnectionsPerHost)
                                   retryIntervals:DEFAULT_RETRY_INTERVALS

@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "MSHttpClientProtocol.h"
 #import <Foundation/Foundation.h>
+
+#import "MSHttpClientProtocol.h"
 
 @interface MSHttpClient : NSObject <MSHttpClientProtocol>
 
@@ -12,6 +13,15 @@
  * @return A new instance of MSHttpClient.
  */
 - (instancetype)init;
+
+/**
+ * Creates an instance of MSHttpClient.
+ *
+ * @param compressionEnabled Enable or disable payload compression.
+ *
+ * @return A new instance of MSHttpClient.
+ */
+- (instancetype)initWithCompressionEnabled:(BOOL)compressionEnabled;
 
 /**
  * Creates an instance of MSHttpClient.
