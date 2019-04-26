@@ -19,14 +19,18 @@
   NSDictionary *userInfo = @{@"MSHttpCodeKey" : @(expectedErrorCode)};
   NSError *error = [NSError errorWithDomain:kMSACErrorDomain code:0 userInfo:userInfo];
   id dataErrorMock = OCMClassMock([MSDataError class]);
+  NSInteger errorCode = 1;
+  NSString *errorMessage = @"A serious error message!";
 
   // When
-  MSDataError *dataError = [[MSDataError alloc] initWithError:error];
+  MSDataError *dataError = [[MSDataError alloc] initWithInnerError:error code:errorCode message:errorMessage];
 
   // Then
-  OCMVerify([dataErrorMock errorCodeFromError:OCMOCK_ANY]);
-  XCTAssertEqual(expectedErrorCode, dataError.errorCode);
-  XCTAssertEqualObjects(error, dataError.error);
+  XCTAssertEqual(errorCode, dataError.code);
+  NSError *innerError = [dataError innerError];
+  XCTAssertNotNil(innerError);
+  XCTAssertTrue([innerError.userInfo[@"MSHttpCodeKey"] integerValue] == expectedErrorCode);
+  XCTAssertEqualObjects(error, dataError.userInfo[NSUnderlyingErrorKey]);
   [dataErrorMock stopMocking];
 }
 
@@ -35,26 +39,12 @@
   // If
   NSInteger expectedErrorCode = MSHTTPCodesNo500InternalServerError;
   NSDictionary *userInfo = @{@"MSHttpCodeKey" : @(expectedErrorCode)};
-  NSError *error = [NSError errorWithDomain:kMSACErrorDomain code:0 userInfo:userInfo];
 
   // When
-  NSInteger actualErrorCode = [MSDataError errorCodeFromError:error];
+  MSDataError *dataError = [[MSDataError alloc] initWithUserInfo:userInfo code:0];
 
   // Then
-  XCTAssertEqual(expectedErrorCode, actualErrorCode);
-}
-
-- (void)testErrorCodeFromErrorReturnsUnknownWhenNoUserInfo {
-
-  // If
-  NSInteger expectedErrorCode = MSHTTPCodesNo0XXInvalidUnknown;
-  NSError *error = [NSError errorWithDomain:kMSACErrorDomain code:0 userInfo:nil];
-
-  // When
-  NSInteger actualErrorCode = [MSDataError errorCodeFromError:error];
-
-  // Then
-  XCTAssertEqual(expectedErrorCode, actualErrorCode);
+  XCTAssertTrue([dataError.userInfo[@"MSHttpCodeKey"] integerValue] == expectedErrorCode);
 }
 
 @end

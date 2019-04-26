@@ -172,8 +172,8 @@
   XCTAssertNotNil(documentWrapper);
   XCTAssertNotNil(documentWrapper.error);
   XCTAssertFalse(documentWrapper.fromDeviceCache);
-  XCTAssertEqualObjects(documentWrapper.error.error.domain, kMSACDataErrorDomain);
-  XCTAssertEqual(documentWrapper.error.error.code, MSACDataErrorLocalDocumentExpired);
+  XCTAssertEqualObjects(documentWrapper.error.domain, kMSACDataErrorDomain);
+  XCTAssertEqual(documentWrapper.error.code, MSACDataErrorLocalDocumentExpired);
   XCTAssertEqualObjects(documentWrapper.documentId, documentId);
   OCMVerify([self.sut deleteWithToken:self.appToken documentId:documentId]);
 }
@@ -193,8 +193,8 @@
   XCTAssertNotNil(documentWrapper);
   XCTAssertNotNil(documentWrapper.error);
   XCTAssertFalse(documentWrapper.fromDeviceCache);
-  XCTAssertEqualObjects(documentWrapper.error.error.domain, kMSACDataErrorDomain);
-  XCTAssertEqual(documentWrapper.error.error.code, MSACDataErrorDocumentNotFound);
+  XCTAssertEqualObjects(documentWrapper.error.domain, kMSACDataErrorDomain);
+  XCTAssertEqual(documentWrapper.error.code, MSACDataErrorDocumentNotFound);
   XCTAssertEqualObjects(documentWrapper.documentId, documentId);
 }
 
@@ -450,9 +450,9 @@
 }
 
 - (void)testNoPendingOperations {
-  
+
   // If DB is empty
-  
+
   // Then
   XCTAssertEqual([[self.sut pendingOperationsWithToken:self.appToken] count], 0);
 }

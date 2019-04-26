@@ -38,18 +38,7 @@
  *
  * @return A new `MSDocumentWrapper` instance.
  */
-- (instancetype)initWithError:(NSError *)error documentId:(NSString *)documentId;
-
-/**
- * Initialize a `MSDocumentWrapper` instance.
- *
- * @param errorCode Error code in our module domain.
- * @param errorMessage Error message.
- * @param documentId Document Id.
- *
- * @return A new `MSDocumentWrapper` instance.
- */
-- (instancetype)initWithErrorCode:(NSInteger)errorCode errorMessage:(NSString *)errorMessage documentId:(NSString *)documentId;
+- (instancetype)initWithError:(MSDataError *)error documentId:(NSString *)documentId;
 
 /**
  * The type of pending operation, if any, that must be synchronized.
