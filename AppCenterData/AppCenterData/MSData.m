@@ -647,7 +647,7 @@ static dispatch_once_t onceToken;
               fromApplication:(BOOL)fromApplication {
   [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionTargetToken:token fromApplication:fromApplication];
   if (appSecret) {
-    self.httpClient = [MSHttpClient new];
+    self.httpClient = [[MSHttpClient alloc] initWithCompressionEnabled:NO];
   }
   MSLogVerbose([MSData logTag], @"Started Data service.");
 }
