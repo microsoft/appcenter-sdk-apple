@@ -23,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithPage:(MSPage *)page
                    partition:(NSString *)partition
                 documentType:(Class)documentType
-           continuationToken:(NSString *_Nullable)continuationToken;
+           continuationToken:(NSString *_Nullable)continuationToken; // TODO move to internal
 
 /**
  * Initialize documents with a single page containing a document error.
@@ -34,7 +34,8 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return The paginated documents.
  */
-- (instancetype)initWithError:(MSDataError *)error partition:(NSString *)partition documentType:(Class)documentType;
+- (instancetype)initWithError:(MSDataError *)error partition:(NSString *)partition documentType:(Class)documentType; // TODO move to
+                                                                                                                     // internal
 
 /**
  * Boolean indicating if an extra page is available.

@@ -24,7 +24,7 @@
  *
  * @return The page with documents.
  */
-- (instancetype)initWithItems:(NSArray<MSDocumentWrapper *> *)items;
+- (instancetype)initWithItems:(NSArray<MSDocumentWrapper *> *)items; // TODO move to internal
 
 /**
  * Initialize a page with an error.
@@ -33,6 +33,6 @@
  *
  * @return The page with error.
  */
-- (instancetype)initWithError:(MSDataError *)error;
+- (instancetype)initWithError:(MSDataError *)error; // TODO move to internal
 
 @end
