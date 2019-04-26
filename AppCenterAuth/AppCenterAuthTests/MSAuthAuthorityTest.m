@@ -27,7 +27,7 @@
 - (void)testAuthorityInitWithDictionary {
 
   // If
-  NSMutableDictionary *dic = [@{@"type" : @"B2C", @"default" : @YES, @"authority_url" : @"https://contoso.com/identity/path"} mutableCopy];
+  NSMutableDictionary *dic = [@{@"type" : @"B2C", @"default" : @YES, @"authority_url" : @"https://contoso.com/auth/path"} mutableCopy];
 
   // When
   MSAuthority *authority = [[MSAuthority alloc] initWithDictionary:dic];
@@ -68,7 +68,7 @@
   XCTAssertFalse([auth isValid]);
 
   // When
-  NSURL *URL = [NSURL URLWithString:@"https://contoso.com/identity/path"];
+  NSURL *URL = [NSURL URLWithString:@"https://contoso.com/auth/path"];
   auth.authorityUrl = URL;
 
   // Then
