@@ -60,12 +60,12 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   self.settingsMock = [MSMockUserDefaults new];
   self.utilityMock = OCMClassMock([MSUtility class]);
   self.dummyConfigDic = @{
-    @"identity_scope" : @"scope",
+    @"auth_scope" : @"scope",
     @"client_id" : @"clientId",
-    @"redirect_uri" : @"https://contoso.com/identity/path",
+    @"redirect_uri" : @"https://contoso.com/auth/path",
     @"authorities" : @[
-      @{@"type" : @"B2C", @"default" : @YES, @"authority_url" : @"https://contoso.com/identity/path1"},
-      @{@"type" : @"RandomType", @"default" : @NO, @"authority_url" : @"https://contoso.com/identity/path2"}
+      @{@"type" : @"B2C", @"default" : @YES, @"authority_url" : @"https://contoso.com/auth/path1"},
+      @{@"type" : @"RandomType", @"default" : @NO, @"authority_url" : @"https://contoso.com/auth/path2"}
     ]
   };
   self.sut = [MSAuth sharedInstance];
