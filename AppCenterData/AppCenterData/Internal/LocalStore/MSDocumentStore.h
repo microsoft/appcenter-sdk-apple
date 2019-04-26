@@ -72,9 +72,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)deleteUserStorageWithAccountId:(NSString *)accountId;
 
 /**
- * Delete all tables.
+ * Reset database.
  */
-- (void)deleteAllTables;
+- (void)resetDatabase;
 
 /**
  * Read a document from the store and return it if it did not expired.

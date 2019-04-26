@@ -686,7 +686,7 @@ static dispatch_once_t onceToken;
     [self disableNotificaitons];
     [[MSAuthTokenContext sharedInstance] removeDelegate:self];
     [MSTokenExchange removeAllCachedTokens];
-    [self.dataOperationProxy.documentStore deleteAllTables];
+    [self.dataOperationProxy.documentStore resetDatabase];
     [self.outgoingPendingOperations removeAllObjects];
   }
 }
@@ -703,7 +703,7 @@ static dispatch_once_t onceToken;
     [MSTokenExchange removeAllCachedTokens];
 
     // Delete all the data (user and read-only).
-    [self.dataOperationProxy.documentStore deleteAllTables];
+    [self.dataOperationProxy.documentStore resetDatabase];
   }
 }
 

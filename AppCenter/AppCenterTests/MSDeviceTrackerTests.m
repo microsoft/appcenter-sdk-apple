@@ -114,6 +114,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
     osSystemVersionMock.patchVersion = 6;
     OCMStub([processInfoMock operatingSystemVersion]).andReturn(osSystemVersionMock);
   } else {
+
     // TODO: No way to mock C-style functions like Gestalt. Skip the test on machine running on macOS version <= 10.9.
   }
 #else

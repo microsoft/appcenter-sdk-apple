@@ -540,6 +540,8 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
    * Only iOS 9.x and 10.x will download the update after users click the "Install" button. We need to force-exit the application for other
    * versions or for any versions when the update is mandatory.
    */
+
+  // TODO SFAuthenticationSession is deprecated, for iOS 12 use ASWebAuthenticationSession
   if (@available(iOS 11.0, *)) {
     Class authClazz = [SFAuthenticationSession class];
     if (authClazz) {

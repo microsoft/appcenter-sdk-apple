@@ -11,6 +11,7 @@
 #import "MSDictionaryDocument.h"
 #import "MSDocumentUtils.h"
 #import "MSDocumentWrapperInternal.h"
+#import "MSPendingOperation.h"
 #import "MSReadOptions.h"
 #import "MSTestFrameworks.h"
 #import "MSTokenExchange.h"
@@ -310,8 +311,10 @@
 
   // Mock NSDate to "freeze" time.
   NSTimeInterval timeSinceReferenceDate = NSDate.timeIntervalSinceReferenceDate;
+  NSDate *referenceDate = [NSDate dateWithTimeIntervalSince1970:timeSinceReferenceDate];
   id nsdateMock = OCMClassMock([NSDate class]);
   OCMStub(ClassMethod([nsdateMock timeIntervalSinceReferenceDate])).andReturn(timeSinceReferenceDate);
+  OCMStub(ClassMethod([nsdateMock date])).andReturn(referenceDate);
 
   // When
   BOOL result = [self.sut upsertWithToken:self.appToken documentWrapper:expectedDocumentWrapper operation:@"CREATE" deviceTimeToLive:ttl];
@@ -330,6 +333,7 @@
   XCTAssertEqualObjects(documentWrapper.eTag, expectedDocumentWrapper.eTag);
   long expirationTime = [self expirationTimeWithToken:self.appToken documentId:expectedDocumentWrapper.documentId];
   XCTAssertEqual(expirationTime, (long)(ttl + NSTimeIntervalSince1970 + timeSinceReferenceDate));
+  [nsdateMock stopMocking];
 }
 
 - (void)testUpsertAppDocumentWithNoTTL {
@@ -426,7 +430,7 @@
   XCTAssertFalse(expectedDocumentWrapper.fromDeviceCache);
 }
 
-- (void)testDeletionOfAllTables {
+- (void)testResetDatabase {
 
   // If
   NSString *expectedAccountId = @"Test-account-id";
@@ -434,12 +438,73 @@
   [self.sut createUserStorageWithAccountId:expectedAccountId];
   OCMVerify([self.dbStorage createTable:tableName columnsSchema:[MSDBDocumentStore columnsSchema]]);
   XCTAssertTrue([self tableExists:tableName]);
+  XCTAssertTrue([self tableExists:kMSAppDocumentTableName]);
 
   // When
-  [self.sut deleteAllTables];
+  [self.sut resetDatabase];
 
   // Then
+  XCTAssertTrue([self.dbStorage.dbFileURL checkResourceIsReachableAndReturnError:nil]);
   XCTAssertFalse([self tableExists:tableName]);
+  XCTAssertTrue([self tableExists:kMSAppDocumentTableName]);
+}
+
+- (void)testNoPendingOperations {
+  
+  // If DB is empty
+  
+  // Then
+  XCTAssertEqual([[self.sut pendingOperationsWithToken:self.appToken] count], 0);
+}
+
+- (void)testGetPendingOperations {
+
+  // If
+  NSString *documentId1 = @"doc_id_1";
+  NSString *eTag = @"123456789";
+  NSString *jsonString = @"{ \"document\": {\"key\": \"value\"}}";
+  NSString *pendingOperation = kMSPendingOperationReplace;
+  [self addJsonStringToTable:jsonString
+                        eTag:eTag
+                   partition:self.appToken.partition
+                  documentId:documentId1
+            pendingOperation:pendingOperation
+              expirationTime:(long)[[NSDate dateWithTimeIntervalSinceNow:1000000] timeIntervalSince1970]];
+  NSString *documentId2 = @"doc_id_2";
+  [self addJsonStringToTable:jsonString
+                        eTag:eTag
+                   partition:self.appToken.partition
+                  documentId:documentId2
+            pendingOperation:nil
+              expirationTime:(long)[[NSDate dateWithTimeIntervalSinceNow:1000000] timeIntervalSince1970]];
+
+  // When
+  NSArray<MSPendingOperation *> *pendingOperations = [self.sut pendingOperationsWithToken:self.appToken];
+
+  // Then
+  XCTAssertEqual([pendingOperations count], 1);
+  XCTAssertTrue([pendingOperations[0].documentId isEqualToString:documentId1]);
+}
+
+- (void)testGetExpiredPendingOperations {
+
+  // If
+  NSString *documentId1 = @"doc_id_1";
+  NSString *eTag = @"123456789";
+  NSString *jsonString = @"{ \"document\": {\"key\": \"value\"}}";
+  NSString *pendingOperation = kMSPendingOperationReplace;
+  [self addJsonStringToTable:jsonString
+                        eTag:eTag
+                   partition:self.appToken.partition
+                  documentId:documentId1
+            pendingOperation:pendingOperation
+              expirationTime:(long)[[NSDate dateWithTimeIntervalSinceNow:-1000] timeIntervalSince1970]];
+
+  // When
+  NSArray<MSPendingOperation *> *pendingOperations = [self.sut pendingOperationsWithToken:self.appToken];
+
+  // Then
+  XCTAssertEqual([pendingOperations count], 0);
 }
 
 - (void)addJsonStringToTable:(NSString *)jsonString

@@ -177,12 +177,13 @@ static const NSUInteger kMSSchemaVersion = 1;
                                           fromDeviceCache:YES];
 }
 
-- (void)deleteAllTables {
-  // Delete all the tables.
-  [self.dbStorage dropAllTables];
+- (void)resetDatabase {
+  [self.dbStorage dropDatabase];
+  [self createTableWithTableName:kMSAppDocumentTableName];
 }
 
 + (MSDBColumnsSchema *)columnsSchema {
+
   // clang-format off
   return @[
            @{kMSIdColumnName : @[ kMSSQLiteTypeInteger, kMSSQLiteConstraintPrimaryKey, kMSSQLiteConstraintAutoincrement ]},
