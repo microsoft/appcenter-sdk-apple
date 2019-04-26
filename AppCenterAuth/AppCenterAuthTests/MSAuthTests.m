@@ -60,7 +60,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   self.settingsMock = [MSMockUserDefaults new];
   self.utilityMock = OCMClassMock([MSUtility class]);
   self.dummyConfigDic = @{
-    @"auth_scope" : @"scope",
+    @"identity_scope" : @"scope",
     @"client_id" : @"clientId",
     @"redirect_uri" : @"https://contoso.com/auth/path",
     @"authorities" : @[

@@ -5,7 +5,7 @@
 
 @implementation MSAuthConfig
 
-static NSString *const kMSAuthScope = @"auth_scope";
+static NSString *const kMSAuthScope = @"identity_scope";
 
 static NSString *const kMSClientId = @"client_id";
 

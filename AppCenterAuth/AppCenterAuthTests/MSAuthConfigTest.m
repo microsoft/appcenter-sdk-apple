@@ -28,7 +28,7 @@
 
   // If
   NSDictionary *dic = @{
-    @"auth_scope" : @"scope",
+    @"identity_scope" : @"scope",
     @"client_id" : @"clientId",
     @"redirect_uri" : @"https://contoso.com/auth/path",
     @"authorities" : @[
@@ -41,7 +41,7 @@
   MSAuthConfig *config = [[MSAuthConfig alloc] initWithDictionary:dic];
 
   // Then
-  XCTAssertEqualObjects(dic[@"auth_scope"], config.authScope);
+  XCTAssertEqualObjects(dic[@"identity_scope"], config.authScope);
   XCTAssertEqualObjects(dic[@"client_id"], config.clientId);
   XCTAssertEqualObjects(dic[@"redirect_uri"], config.redirectUri);
   for (NSUInteger i = 0; i < config.authorities.count; i++) {
