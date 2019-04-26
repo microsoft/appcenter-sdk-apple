@@ -12,7 +12,7 @@
  *
  * @return `NSDate` instance if `dateString` contains a valid date; nil otherwise.
  */
-+ (NSDate *)deserializeDate:(NSString *)dateString;
++ (NSDate *)deserializeDate:(NSString *)dateString NS_SWIFT_NAME(deserialize(date:));
 
 /**
  * Serialize an `NSDate` into a ISO 8601 formatted string.
@@ -21,6 +21,6 @@
  *
  * @return `NSString` instance representing the date in ISO 8601 format.
  */
-+ (NSString *)serializeDate:(NSDate *)date;
++ (NSString *)serializeDate:(NSDate *)date NS_SWIFT_NAME(serialize(_:));
 
 @end

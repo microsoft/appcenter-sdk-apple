@@ -54,7 +54,7 @@ typedef void (^MSPaginatedDocumentsCompletionHandler)(MSPaginatedDocuments *docu
  *
  * @param tokenExchangeUrl The new URL.
  */
-+ (void)setTokenExchangeUrl:(NSString *)tokenExchangeUrl;
++ (void)setTokenExchangeUrl:(NSString *)tokenExchangeUrl NS_SWIFT_NAME(setTokenExchangeUrl(_:));
 
 /**
  * Read a document.
@@ -66,9 +66,11 @@ typedef void (^MSPaginatedDocumentsCompletionHandler)(MSPaginatedDocuments *docu
  * @param completionHandler Callback to accept downloaded document.
  */
 + (void)readDocumentWithID:(NSString *)documentID
-                      type:(Class)documentType
+              documentType:(Class)documentType
                  partition:(NSString *)partition
-         completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler;
+         completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler // clang-format off
+NS_SWIFT_NAME(read(withDocumentID:documentType:partition:completionHandler:));
+// clang-format on
 
 /**
  * Read a document.
@@ -80,10 +82,12 @@ typedef void (^MSPaginatedDocumentsCompletionHandler)(MSPaginatedDocuments *docu
  * @param completionHandler Callback to accept document.
  */
 + (void)readDocumentWithID:(NSString *)documentID
-                      type:(Class)documentType
+              documentType:(Class)documentType
                  partition:(NSString *)partition
                readOptions:(MSReadOptions *_Nullable)readOptions
-         completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler;
+         completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler // clang-format off
+NS_SWIFT_NAME(read(withDocumentID:documentType:partition:readOptions:completionHandler:));
+// clang-format on
 
 /**
  * Retrieve a paginated list of the documents in a partition.
@@ -107,7 +111,9 @@ typedef void (^MSPaginatedDocumentsCompletionHandler)(MSPaginatedDocuments *docu
 + (void)createDocumentWithID:(NSString *)documentID
                     document:(id<MSSerializableDocument>)document
                    partition:(NSString *)partition
-           completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler;
+           completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler // clang-format off
+NS_SWIFT_NAME(create(withDocumentID:document:partition:completionHandler:));
+// clang-format on
 
 /**
  * Create a document in CosmosDB.
@@ -122,7 +128,9 @@ typedef void (^MSPaginatedDocumentsCompletionHandler)(MSPaginatedDocuments *docu
                     document:(id<MSSerializableDocument>)document
                    partition:(NSString *)partition
                 writeOptions:(MSWriteOptions *_Nullable)writeOptions
-           completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler;
+           completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler // clang-format off
+NS_SWIFT_NAME(create(withDocumentID:document:partition:writeOptions:completionHandler:));
+// clang-format on
 
 /**
  * Replace a document in CosmosDB.
@@ -135,7 +143,9 @@ typedef void (^MSPaginatedDocumentsCompletionHandler)(MSPaginatedDocuments *docu
 + (void)replaceDocumentWithID:(NSString *)documentID
                      document:(id<MSSerializableDocument>)document
                     partition:(NSString *)partition
-            completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler;
+            completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler // clang-format off
+NS_SWIFT_NAME(replace(withDocumentID:document:partition:completionHandler:));
+// clang-format on
 
 /**
  * Replace a document in CosmosDB.
@@ -150,7 +160,9 @@ typedef void (^MSPaginatedDocumentsCompletionHandler)(MSPaginatedDocuments *docu
                      document:(id<MSSerializableDocument>)document
                     partition:(NSString *)partition
                  writeOptions:(MSWriteOptions *_Nullable)writeOptions
-            completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler;
+            completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler // clang-format off
+NS_SWIFT_NAME(replace(withDocumentID:document:partition:writeOptions:completionHandler:));
+// clang-format on
 
 /**
  * Delete a document from CosmosDB.
@@ -161,7 +173,9 @@ typedef void (^MSPaginatedDocumentsCompletionHandler)(MSPaginatedDocuments *docu
  */
 + (void)deleteDocumentWithID:(NSString *)documentID
                    partition:(NSString *)partition
-           completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler;
+           completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler // clang-format off
+NS_SWIFT_NAME(delete(withDocumentID:partition:completionHandler:));
+// clang-format on
 
 /**
  * Delete a document from CosmosDB.
@@ -174,7 +188,9 @@ typedef void (^MSPaginatedDocumentsCompletionHandler)(MSPaginatedDocuments *docu
 + (void)deleteDocumentWithID:(NSString *)documentID
                    partition:(NSString *)partition
                 writeOptions:(MSWriteOptions *_Nullable)writeOptions
-           completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler;
+           completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler // clang-format off
+    NS_SWIFT_NAME(delete(withDocumentID:partition:writeOptions:completionHandler:));
+// clang-format on
 
 @end
 

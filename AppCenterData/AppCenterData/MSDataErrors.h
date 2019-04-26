@@ -13,6 +13,7 @@ static NSString *const kMSACDataErrorDomain = MS_APP_CENTER_BASE_DOMAIN @"Data.E
 
 #pragma mark - General
 
+// TODO modernise/harmonize
 // Error codes.
 // FIXME: Re-index these codes (we have our own domain so we can index at 0 and reserve ranges for us).
 NS_ENUM(NSInteger){MSACDataErrorJSONSerializationFailed = -620000,

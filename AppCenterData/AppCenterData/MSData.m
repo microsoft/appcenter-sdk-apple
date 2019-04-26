@@ -89,23 +89,23 @@ static dispatch_once_t onceToken;
 }
 
 + (void)readDocumentWithID:(NSString *)documentID
-                      type:(Class)documentType
+              documentType:(Class)documentType
                  partition:(NSString *)partition
          completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
   [[MSData sharedInstance] readDocumentWithID:documentID
-                                         type:documentType
+                                 documentType:documentType
                                     partition:partition
                                   readOptions:nil
                             completionHandler:completionHandler];
 }
 
 + (void)readDocumentWithID:(NSString *)documentID
-                      type:(Class)documentType
+              documentType:(Class)documentType
                  partition:(NSString *)partition
                readOptions:(MSReadOptions *_Nullable)readOptions
          completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
   [[MSData sharedInstance] readDocumentWithID:documentID
-                                         type:documentType
+                                 documentType:documentType
                                     partition:partition
                                   readOptions:readOptions
                             completionHandler:completionHandler];
@@ -213,7 +213,7 @@ static dispatch_once_t onceToken;
 }
 
 - (void)readDocumentWithID:(NSString *)documentID
-                      type:(Class)documentType
+              documentType:(Class)documentType
                  partition:(NSString *)partition
                readOptions:(MSReadOptions *_Nullable)readOptions
          completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
