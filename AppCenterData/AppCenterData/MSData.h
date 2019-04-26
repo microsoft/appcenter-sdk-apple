@@ -66,10 +66,10 @@ typedef void (^MSPaginatedDocumentsCompletionHandler)(MSPaginatedDocuments *docu
  * @param completionHandler Callback to accept downloaded document.
  */
 + (void)readDocumentWithID:(NSString *)documentID
-                      type:(Class)documentType
+              documentType:(Class)documentType
                  partition:(NSString *)partition
          completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler // clang-format off
-NS_SWIFT_NAME(read(withDocumentID:type:partition:completionHandler:));
+NS_SWIFT_NAME(read(withDocumentID:documentType:partition:completionHandler:));
 // clang-format on
 
 /**
@@ -82,11 +82,11 @@ NS_SWIFT_NAME(read(withDocumentID:type:partition:completionHandler:));
  * @param completionHandler Callback to accept document.
  */
 + (void)readDocumentWithID:(NSString *)documentID
-                      type:(Class)documentType
+              documentType:(Class)documentType
                  partition:(NSString *)partition
                readOptions:(MSReadOptions *_Nullable)readOptions
          completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler // clang-format off
-NS_SWIFT_NAME(read(withDocumentID:type:partition:readOptions:completionHandler:));
+NS_SWIFT_NAME(read(withDocumentID:documentType:partition:readOptions:completionHandler:));
 // clang-format on
 
 /**
