@@ -104,12 +104,12 @@
          }] == SQLITE_OK;
 }
 
-- (void)dropAllTables {
-  // Get all table names.
-  NSString *query = @"SELECT name FROM sqlite_master WHERE type='table'";
-  NSArray<NSArray *> *result = [self executeSelectionQuery:query];
-  for (NSArray *arr in result) {
-    [self dropTable:arr[0]];
+- (void)dropDatabase {
+  BOOL result = [MSUtility deleteFileAtURL:self.dbFileURL];
+  if (result) {
+    MSLogVerbose([MSAppCenter logTag], @"Database %@ has been deleted.", (NSString * _Nonnull) self.dbFileURL.absoluteString);
+  } else {
+    MSLogError([MSAppCenter logTag], @"Failed to delete database.");
   }
 }
 

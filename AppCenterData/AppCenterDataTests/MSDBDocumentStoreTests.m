@@ -430,7 +430,7 @@
   XCTAssertFalse(expectedDocumentWrapper.fromDeviceCache);
 }
 
-- (void)testDeletionOfAllTables {
+- (void)testResetDatabase {
 
   // If
   NSString *expectedAccountId = @"Test-account-id";
@@ -438,12 +438,15 @@
   [self.sut createUserStorageWithAccountId:expectedAccountId];
   OCMVerify([self.dbStorage createTable:tableName columnsSchema:[MSDBDocumentStore columnsSchema]]);
   XCTAssertTrue([self tableExists:tableName]);
+  XCTAssertTrue([self tableExists:kMSAppDocumentTableName]);
 
   // When
-  [self.sut deleteAllTables];
+  [self.sut resetDatabase];
 
   // Then
+  XCTAssertTrue([self.dbStorage.dbFileURL checkResourceIsReachableAndReturnError:nil]);
   XCTAssertFalse([self tableExists:tableName]);
+  XCTAssertTrue([self tableExists:kMSAppDocumentTableName]);
 }
 
 - (void)testNoPendingOperations {
