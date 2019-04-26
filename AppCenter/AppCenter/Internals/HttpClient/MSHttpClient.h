@@ -17,9 +17,10 @@
  * Creates an instance of MSHttpClient.
  *
  * @param maxHttpConnectionsPerHost The maximum number of connections that can be open for a single host at once.
+ * @param compressionEnabled Enable or disable payload compression.
  *
  * @return A new instance of MSHttpClient.
  */
-- (instancetype)initWithMaxHttpConnectionsPerHost:(NSInteger)maxHttpConnectionsPerHost;
+- (instancetype)initWithMaxHttpConnectionsPerHost:(NSInteger)maxHttpConnectionsPerHost compressionEnabled:(BOOL)compressionEnabled;
 
 @end

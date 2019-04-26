@@ -1,6 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+#import <OHHTTPStubs/NSURLRequest+HTTPBodyTesting.h>
+#import <OHHTTPStubs/OHHTTPStubs.h>
+
 #import "AppCenter+Internal.h"
 #import "MSAppCenterErrors.h"
 #import "MSConstants+Internal.h"
@@ -11,8 +14,6 @@
 #import "MSMockLog.h"
 #import "MSTestFrameworks.h"
 #import "MS_Reachability.h"
-#import <OHHTTPStubs/NSURLRequest+HTTPBodyTesting.h>
-#import <OHHTTPStubs/OHHTTPStubs.h>
 
 static NSTimeInterval const kMSTestTimeout = 5.0;
 
@@ -27,7 +28,8 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
 
 - (instancetype)initWithMaxHttpConnectionsPerHost:(NSNumber *)maxHttpConnectionsPerHost
                                    retryIntervals:(NSArray *)retryIntervals
-                                     reachability:(MS_Reachability *)reachability;
+                                     reachability:(MS_Reachability *)reachability
+                               compressionEnabled:(BOOL)compressionEnabled;
 
 @end
 
@@ -55,7 +57,7 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
 - (void)testCreateInitWithMaxConnections {
 
   // When
-  MSHttpClient *httpClient = [[MSHttpClient alloc] initWithMaxHttpConnectionsPerHost:2];
+  MSHttpClient *httpClient = [[MSHttpClient alloc] initWithMaxHttpConnectionsPerHost:2 compressionEnabled:YES];
 
   // Then
   XCTAssertEqual(httpClient.sessionConfiguration.HTTPMaximumConnectionsPerHost, 2);
@@ -234,7 +236,8 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@""];
   MSHttpClient *httpClient = [[MSHttpClient alloc] initWithMaxHttpConnectionsPerHost:nil
                                                                       retryIntervals:retryIntervals
-                                                                        reachability:self.reachabilityMock];
+                                                                        reachability:self.reachabilityMock
+                                                                  compressionEnabled:YES];
   NSURL *url = [NSURL URLWithString:@"https://mock/something?a=b"];
   NSString *method = @"DELETE";
 
@@ -285,7 +288,8 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
   NSArray *retryIntervals = @[ @5, @2 ];
   __block MSHttpClient *httpClient = [[MSHttpClient alloc] initWithMaxHttpConnectionsPerHost:nil
                                                                               retryIntervals:retryIntervals
-                                                                                reachability:self.reachabilityMock];
+                                                                                reachability:self.reachabilityMock
+                                                                          compressionEnabled:YES];
   [OHHTTPStubs
       stubRequestsPassingTest:^BOOL(__unused NSURLRequest *request) {
         return YES;
@@ -365,7 +369,8 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
       }];
   MSHttpClient *httpClient = [[MSHttpClient alloc] initWithMaxHttpConnectionsPerHost:nil
                                                                       retryIntervals:@[ @1 ]
-                                                                        reachability:self.reachabilityMock];
+                                                                        reachability:self.reachabilityMock
+                                                                  compressionEnabled:YES];
   NSURL *url = [NSURL URLWithString:@"https://mock/something?a=b"];
   NSString *method = @"DELETE";
 
@@ -424,7 +429,8 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@""];
   MSHttpClient *httpClient = [[MSHttpClient alloc] initWithMaxHttpConnectionsPerHost:nil
                                                                       retryIntervals:retryIntervals
-                                                                        reachability:self.reachabilityMock];
+                                                                        reachability:self.reachabilityMock
+                                                                  compressionEnabled:YES];
   NSURL *url = [NSURL URLWithString:@"https://mock/something?a=b"];
   NSString *method = @"DELETE";
 
@@ -478,7 +484,8 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
       }];
   MSHttpClient *httpClient = [[MSHttpClient alloc] initWithMaxHttpConnectionsPerHost:nil
                                                                       retryIntervals:@[]
-                                                                        reachability:self.reachabilityMock];
+                                                                        reachability:self.reachabilityMock
+                                                                  compressionEnabled:YES];
   NSURL *url = [NSURL URLWithString:@"https://mock/something?a=b"];
   NSString *method = @"DELETE";
 
@@ -522,7 +529,8 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
       }];
   MSHttpClient *httpClient = [[MSHttpClient alloc] initWithMaxHttpConnectionsPerHost:nil
                                                                       retryIntervals:@[ @1 ]
-                                                                        reachability:self.reachabilityMock];
+                                                                        reachability:self.reachabilityMock
+                                                                  compressionEnabled:YES];
   NSURL *url = [NSURL URLWithString:@"https://mock/something?a=b"];
   NSString *method = @"DELETE";
 
@@ -626,7 +634,8 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@""];
   MSHttpClient *httpClient = [[MSHttpClient alloc] initWithMaxHttpConnectionsPerHost:nil
                                                                       retryIntervals:retryIntervals
-                                                                        reachability:self.reachabilityMock];
+                                                                        reachability:self.reachabilityMock
+                                                                  compressionEnabled:YES];
   NSURL *url = [NSURL URLWithString:@"https://mock/something?a=b"];
   NSString *method = @"DELETE";
 

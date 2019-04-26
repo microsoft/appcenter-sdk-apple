@@ -61,6 +61,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param headers HTTP headers.
  * @param data A data instance that will be transformed request body.
  * @param retryIntervals Retry intervals used in case of recoverable errors.
+ * @param compressionEnabled Enable or disable payload compression.
  * @param completionHandler Completion handler.
  *
  * @return A retriable call instance.
@@ -70,6 +71,7 @@ NS_ASSUME_NONNULL_BEGIN
                     headers:(nullable NSDictionary<NSString *, NSString *> *)headers
                        data:(nullable NSData *)data
              retryIntervals:(NSArray *)retryIntervals
+         compressionEnabled:(BOOL)compressionEnabled
           completionHandler:(MSHttpRequestCompletionHandler)completionHandler;
 
 /**
