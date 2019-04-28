@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 #import "AppCenter.h"
-#import "MSDataError.h"
+#import "MSDataErrorInternal.h"
 #import "MSDataErrors.h"
 #import "MSTestFrameworks.h"
 
