@@ -16,15 +16,6 @@
 @property(nonatomic, readonly) NSInteger errorCode;
 
 /**
- * Create an instance with error object.
- *
- * @param error An error object.
- *
- * @return A new `MSDataError` instance.
- */
-- (instancetype)initWithError:(NSError *)error; // TODO move to internal
-
-/**
  * Extract an error code (HTTP) from any NSError instance.
  *
  * @param error An error object.
