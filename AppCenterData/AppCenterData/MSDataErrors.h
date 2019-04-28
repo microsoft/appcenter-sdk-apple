@@ -20,14 +20,14 @@ NS_ENUM(NSInteger){MSACDataErrorJSONSerializationFailed = -620000,
                    MSACDataErrorHTTPError = -620001,
                    MSACDataErrorDocumentNotFound = -620002,
                    MSACDataErrorLocalDocumentExpired = -620003,
-                   MSACDataNotAuthenticated = -620004,
-                   MSACDataInvalidClassCode = -620005,
-                   MSACDataDontCache = -620006,
-                   MSACDataLocalStoreError = -620007,
-                   MSACDataDocumentIdError = -620008,
-                   MSACDataInvalidPartitionError = -620009,
-                   MSACDataInvalidTokenExchangeResponse = -620010,
-                   MSACDataUnableToGetTokenError = -620011};
+                   MSACDataErrorNotAuthenticated = -620004,
+                   MSACDataErrorInvalidClassCode = -620005,
+                   MSACDataErrorDontCache = -620006,
+                   MSACDataErrorLocalStoreError = -620007,
+                   MSACDataErrorDocumentIdError = -620008,
+                   MSACDataErrorInvalidPartitionError = -620009,
+                   MSACDataErrorInvalidTokenExchangeResponse = -620010,
+                   MSACDataErrorUnableToGetTokenError = -620011};
 
 // Error descriptions.
 static NSString const *kMSACDataInvalidClassDesc = @"Provided class does not conform to serialization protocol (MSSerializableDocument).";

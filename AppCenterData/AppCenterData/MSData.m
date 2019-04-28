@@ -617,7 +617,7 @@ static dispatch_once_t onceToken;
 
 - (NSError *)generateInvalidClassError {
   NSError *error = [[NSError alloc] initWithDomain:kMSACDataErrorDomain
-                                              code:MSACDataInvalidClassCode
+                                              code:MSACDataErrorInvalidClassCode
                                           userInfo:@{NSLocalizedDescriptionKey : kMSACDataInvalidClassDesc}];
   MSLogError([MSData logTag], @"Not able to validate document deserialization precondition: %@", [error localizedDescription]);
   return error;

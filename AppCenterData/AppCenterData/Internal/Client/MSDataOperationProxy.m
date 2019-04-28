@@ -41,7 +41,7 @@
   if (![MSDataOperationProxy isValidOperation:operation]) {
     NSString *message = @"Operation is not supported";
     MSLogError([MSData logTag], message);
-    completionHandler([[MSDocumentWrapper alloc] initWithErrorCode:MSACDataLocalStoreError errorMessage:message documentId:documentId]);
+    completionHandler([[MSDocumentWrapper alloc] initWithErrorCode:MSACDataErrorLocalStoreError errorMessage:message documentId:documentId]);
     return;
   }
 
@@ -52,7 +52,7 @@
       NSString *message =
           [NSString stringWithFormat:@"Error while retrieving cached token, aborting operation: %@", [error localizedDescription]];
       MSLogError([MSData logTag], @"%@", message);
-      completionHandler([[MSDocumentWrapper alloc] initWithErrorCode:MSACDataLocalStoreError errorMessage:message documentId:documentId]);
+      completionHandler([[MSDocumentWrapper alloc] initWithErrorCode:MSACDataErrorLocalStoreError errorMessage:message documentId:documentId]);
       return;
     }
 
@@ -159,7 +159,7 @@
         } else {
           NSString *message = @"Error serializing document for local storage";
           MSLogError([MSData logTag], message);
-          completionHandler([[MSDocumentWrapper alloc] initWithErrorCode:MSACDataLocalStoreError
+          completionHandler([[MSDocumentWrapper alloc] initWithErrorCode:MSACDataErrorLocalStoreError
                                                             errorMessage:message
                                                               documentId:documentId]);
           return;

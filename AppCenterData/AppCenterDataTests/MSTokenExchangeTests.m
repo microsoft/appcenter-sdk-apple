@@ -222,7 +222,7 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
                                           includeExpiredToken:NO
                                                  reachability:self.reachabilityMock
                                             completionHandler:^(__unused MSTokensResponse *tokensResponse, NSError *_Nullable returnError) {
-                                              XCTAssertEqual(returnError.code, MSACDataInvalidTokenExchangeResponse);
+                                              XCTAssertEqual(returnError.code, MSACDataErrorInvalidTokenExchangeResponse);
                                               [completeExpectation fulfill];
                                             }];
   [self waitForExpectationsWithTimeout:0
@@ -354,7 +354,7 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
                                             completionHandler:^(MSTokensResponse __unused *tokensResponse, NSError *_Nullable error) {
                                               // Then
                                               XCTAssertNotNil(error);
-                                              XCTAssertEqual(error.code, MSACDataUnableToGetTokenError);
+                                              XCTAssertEqual(error.code, MSACDataErrorUnableToGetTokenError);
                                               [completeExpectation fulfill];
                                             }];
   [self waitForExpectationsWithTimeout:5
@@ -523,7 +523,7 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
                                                  reachability:self.reachabilityMock
                                             completionHandler:^(MSTokensResponse *__unused tokensResponse, NSError *_Nullable returnError) {
                                               // Then
-                                              XCTAssertEqual(returnError.code, MSACDataInvalidPartitionError);
+                                              XCTAssertEqual(returnError.code, MSACDataErrorInvalidPartitionError);
                                               [completeExpectation fulfill];
                                             }];
   [self waitForExpectationsWithTimeout:5

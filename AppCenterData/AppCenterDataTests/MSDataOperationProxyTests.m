@@ -72,7 +72,7 @@
                                  XCTAssertEqual(wrapper.documentId, @"documentId");
                                  XCTAssertEqual(wrapper.deserializedValue, nil);
                                  XCTAssertNotNil(wrapper.error);
-                                 XCTAssertEqual(wrapper.error.error.code, MSACDataLocalStoreError);
+                                 XCTAssertEqual(wrapper.error.error.code, MSACDataErrorLocalStoreError);
                                }];
 }
 
@@ -106,7 +106,7 @@
                                  }
                                  XCTAssertEqual(wrapper.documentId, @"documentId");
                                  XCTAssertEqual(wrapper.deserializedValue, nil);
-                                 XCTAssertEqual(wrapper.error.error.code, MSACDataLocalStoreError);
+                                 XCTAssertEqual(wrapper.error.error.code, MSACDataErrorLocalStoreError);
                                }];
 }
 

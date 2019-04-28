@@ -250,7 +250,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   XCTAssertNotNil(actualDocumentWrapper);
   XCTAssertNotNil(actualDocumentWrapper.error);
   XCTAssertEqual(actualDocumentWrapper.error.error.domain, kMSACDataErrorDomain);
-  XCTAssertEqual(actualDocumentWrapper.error.error.code, MSACDataInvalidClassCode);
+  XCTAssertEqual(actualDocumentWrapper.error.error.code, MSACDataErrorInvalidClassCode);
   XCTAssertEqualObjects(actualDocumentWrapper.documentId, kMSDocumentIdTest);
 }
 
@@ -465,7 +465,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   XCTAssertNotNil(actualPaginatedDocuments.currentPage.error);
   XCTAssertNotNil(actualPaginatedDocuments.currentPage.error.error);
   XCTAssertEqual(actualPaginatedDocuments.currentPage.error.error.domain, kMSACDataErrorDomain);
-  XCTAssertEqual(actualPaginatedDocuments.currentPage.error.error.code, MSACDataInvalidClassCode);
+  XCTAssertEqual(actualPaginatedDocuments.currentPage.error.error.code, MSACDataErrorInvalidClassCode);
 }
 
 - (void)testDefaultHeaderWithPartitionWithDictionaryNotNull {
@@ -903,7 +903,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   // Then
   XCTAssertTrue(completionHandlerCalled);
   XCTAssertNil(actualDataHttpData);
-  XCTAssertEqual(blockError.code, MSACDataDocumentIdError);
+  XCTAssertEqual(blockError.code, MSACDataErrorDocumentIdError);
 }
 
 - (void)testCreateWithPartitionGoldenPath {
@@ -982,7 +982,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                  }
                                  XCTAssertTrue(completionHandlerCalled);
                                  XCTAssertEqualObjects(actualError.error.domain, kMSACDataErrorDomain);
-                                 XCTAssertEqual(actualError.error.code, MSACDataLocalStoreError);
+                                 XCTAssertEqual(actualError.error.code, MSACDataErrorLocalStoreError);
                                }];
 }
 
@@ -1210,7 +1210,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                  }
                                  XCTAssertTrue(completionHandlerCalled);
                                  XCTAssertEqualObjects(actualError.error.domain, kMSACDataErrorDomain);
-                                 XCTAssertEqual(actualError.error.code, MSACDataLocalStoreError);
+                                 XCTAssertEqual(actualError.error.code, MSACDataErrorLocalStoreError);
                                }];
 }
 
@@ -1507,7 +1507,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
              // Then
              XCTAssertNotNil(document.error);
              XCTAssertEqualObjects(document.error.error.domain, kMSACDataErrorDomain);
-             XCTAssertEqual(document.error.error.code, MSACDataLocalStoreError);
+             XCTAssertEqual(document.error.error.code, MSACDataErrorLocalStoreError);
              [expectation fulfill];
            }];
 
