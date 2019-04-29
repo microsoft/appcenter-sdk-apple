@@ -36,7 +36,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 @property(atomic) BOOL signInShouldWaitForConfig;
 
 - (void)configAuthenticationClient;
-- (void)ifExistsContinueSignInThatWasWaitingForConfig:(BOOL)wasWaitingForConfig;
+- (void)continueSignInAndStopWaitingForConfig:(BOOL)stopWaitingForConfig;
 - (void)ifSignInExistsCompleteWithErrorCode:(NSInteger)errorCode andMessage:(NSString *)errorMessage isDownloadConfigFailure:(BOOL)isDownloadConfigFailure;
 - (BOOL)removeAccount;
 - (MSALAccount *)retrieveAccountWithAccountId:(NSString *)homeAccountId;
@@ -1248,7 +1248,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
                  nil);
   
   // Then
-  OCMVerify([authMock ifExistsContinueSignInThatWasWaitingForConfig:YES]);
+  OCMVerify([authMock continueSignInAndStopWaitingForConfig:YES]);
   [authMock stopMocking];
 }
 

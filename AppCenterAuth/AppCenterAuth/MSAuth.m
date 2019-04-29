@@ -196,15 +196,15 @@ static dispatch_once_t onceToken;
     }
     return;
   }
-  [self ifExistsContinueSignInThatWasWaitingForConfig:NO];
+  [self continueSignInAndStopWaitingForConfig:NO];
 }
 
-- (void)ifExistsContinueSignInThatWasWaitingForConfig:(BOOL)wasWaitingForConfig {
+- (void)continueSignInAndStopWaitingForConfig:(BOOL)stopWaitingForConfig {
   @synchronized(self) {
 
     // We should turn off the flag synchronously, together with
     // completion handler nil check otherwise it will cause race conditions.
-    if (wasWaitingForConfig) {
+    if (stopWaitingForConfig) {
       self.signInShouldWaitForConfig = NO;
     }
     if (!self.signInCompletionHandler) {
@@ -325,7 +325,7 @@ static dispatch_once_t onceToken;
                   // Reinitialize client application.
                   [self configAuthenticationClient];
                 }
-                [self ifExistsContinueSignInThatWasWaitingForConfig:YES];
+                [self continueSignInAndStopWaitingForConfig:YES];
               } else {
                 MSLogError([MSAuth logTag], @"Downloaded auth config is not valid.");
                 [self ifSignInExistsCompleteWithErrorCode:MSACAuthErrorSignInConfigNotValid
