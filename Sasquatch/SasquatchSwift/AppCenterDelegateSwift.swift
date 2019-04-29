@@ -311,16 +311,16 @@ class AppCenterDelegateSwift: AppCenterDelegate {
   }
   
   func createDocumentWithPartition(_ partitionName: String, documentId: String, document: MSDictionaryDocument, writeOptions: MSWriteOptions, completionHandler: @escaping (_ document:MSDocumentWrapper) -> Void) {
-    MSData.createDocument(withID: documentId, document: document, partition: partitionName, writeOptions:writeOptions, completionHandler:completionHandler)
+    MSData.create(withDocumentID: documentId, document: document, partition: partitionName, completionHandler: completionHandler);
   }
   
   func replaceDocumentWithPartition(_ partitionName: String, documentId: String, document: MSDictionaryDocument, writeOptions: MSWriteOptions, completionHandler: @escaping (_ document:MSDocumentWrapper) -> Void) {
-    MSData.replaceDocument(withID: documentId, document: document, partition: partitionName, writeOptions: writeOptions, completionHandler: completionHandler)
+    MSData.replace(withDocumentID: documentId, document: document, partition: partitionName, writeOptions: writeOptions, completionHandler: completionHandler)
   }
   
   func deleteDocumentWithPartition(_ partitionName: String, documentId: String) {
-    MSData.deleteDocument(withID: documentId, partition: partitionName) { document in
+    MSData.delete(withDocumentID: documentId, partition: partitionName, completionHandler: { document in
       print("Data.delete document with id \(documentId) succeeded")
-    }
+    })
   }
 }

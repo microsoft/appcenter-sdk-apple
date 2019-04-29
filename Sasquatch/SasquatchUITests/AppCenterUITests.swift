@@ -171,13 +171,13 @@ class AppCenterUITests: XCTestCase {
     app.alerts.element.buttons["OK"].tap()
   }
 
-  #warning("TODO: Uncomment when \"Device Info\" will be available. There is no UI now.")
   func testMiscellaneousInfo() {
     guard let `app` = app else {
       XCTFail()
       return
     }
 
+    // TODO: Uncomment when "Device Info" will be available. There is no UI now.
     /*
     // Go to device info page.
     app.tables["App Center"].staticTexts["Device Info"].tap()

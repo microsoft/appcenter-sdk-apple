@@ -9,7 +9,7 @@ static NSString *const kMSAuthPathComponent = @"auth";
 /**
  * Config URL format. Variable is app secret.
  */
-static NSString *const kMSAuthConfigApiFormat = @"/identity/%@.json";
+static NSString *const kMSAuthConfigApiFormat = @"/auth/%@.json";
 
 /**
  * Default base URL for remote configuration.

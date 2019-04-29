@@ -22,7 +22,7 @@
  *
  * @return A new `MSDataError` instance.
  */
-- (instancetype)initWithError:(NSError *)error;
+- (instancetype)initWithError:(NSError *)error; // TODO move to internal
 
 /**
  * Extract an error code (HTTP) from any NSError instance.
@@ -31,6 +31,6 @@
  *
  * @return The error code.
  */
-+ (NSInteger)errorCodeFromError:(NSError *)error;
++ (NSInteger)errorCodeFromError:(NSError *)error NS_SWIFT_NAME(errorCode(from:));
 
 @end

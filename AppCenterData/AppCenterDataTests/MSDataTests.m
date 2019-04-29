@@ -143,7 +143,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   // When
   [self.sut setEnabled:NO];
   [MSData readDocumentWithID:kMSDocumentIdTest
-                        type:[MSDictionaryDocument class]
+                documentType:[MSDictionaryDocument class]
                    partition:kMSPartitionTest
            completionHandler:^(MSDocumentWrapper *data) {
              actualDocumentWrapper = data;
@@ -233,7 +233,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // When
   [MSData readDocumentWithID:kMSDocumentIdTest
-                        type:[NSString class]
+                documentType:[NSString class]
                    partition:kMSPartitionTest
            completionHandler:^(MSDocumentWrapper *data) {
              actualDocumentWrapper = data;
@@ -1472,7 +1472,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // When
   [MSData readDocumentWithID:@"4"
-                        type:[MSDictionaryDocument class]
+                documentType:[MSDictionaryDocument class]
                    partition:kMSPartitionTest
            completionHandler:^(MSDocumentWrapper *_Nonnull document) {
              // Then
@@ -1501,7 +1501,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // When
   [MSData readDocumentWithID:@"4"
-                        type:[MSDictionaryDocument class]
+                documentType:[MSDictionaryDocument class]
                    partition:kMSPartitionTest
            completionHandler:^(MSDocumentWrapper *_Nonnull document) {
              // Then
@@ -1555,7 +1555,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // When
   [MSData readDocumentWithID:@"4"
-                        type:[MSDictionaryDocument class]
+                documentType:[MSDictionaryDocument class]
                    partition:kMSPartitionTest
            completionHandler:^(MSDocumentWrapper *_Nonnull document) {
              // Then
@@ -1594,7 +1594,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // When
   [MSData readDocumentWithID:@"4"
-                        type:[MSDictionaryDocument class]
+                documentType:[MSDictionaryDocument class]
                    partition:kMSPartitionTest
            completionHandler:^(MSDocumentWrapper *_Nonnull document) {
              // Then
@@ -1634,7 +1634,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // When
   [MSData readDocumentWithID:@"4"
-                        type:[MSDictionaryDocument class]
+                documentType:[MSDictionaryDocument class]
                    partition:kMSPartitionTest
            completionHandler:^(MSDocumentWrapper *_Nonnull document) {
              // Then
@@ -1673,7 +1673,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // When
   [MSData readDocumentWithID:@"4"
-                        type:[MSDictionaryDocument class]
+                documentType:[MSDictionaryDocument class]
                    partition:kMSPartitionTest
            completionHandler:^(MSDocumentWrapper *_Nonnull document) {
              // Then
@@ -1735,7 +1735,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // When
   [MSData readDocumentWithID:kMSDocumentIdTest
-                        type:[MSDictionaryDocument class]
+                documentType:[MSDictionaryDocument class]
                    partition:kMSPartitionTest
            completionHandler:^(MSDocumentWrapper *_Nonnull document) {
              // Then
@@ -1801,7 +1801,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // When
   [MSData readDocumentWithID:kMSDocumentIdTest
-                        type:[MSDictionaryDocument class]
+                documentType:[MSDictionaryDocument class]
                    partition:kMSPartitionTest
            completionHandler:^(MSDocumentWrapper *_Nonnull document) {
              // Then
@@ -1843,7 +1843,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // When
   [MSData readDocumentWithID:@"4"
-                        type:[MSDictionaryDocument class]
+                documentType:[MSDictionaryDocument class]
                    partition:kMSPartitionTest
            completionHandler:^(MSDocumentWrapper *_Nonnull document) {
              // Then
