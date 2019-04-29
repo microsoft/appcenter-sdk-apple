@@ -26,7 +26,7 @@ class PropertiesTableSection : NSObject {
     super.init()
   }
 
-  func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
+  func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
     if isInsertRow(indexPath) {
       return .insert
     } else if isPropertyRow(indexPath) {
@@ -49,7 +49,7 @@ class PropertiesTableSection : NSObject {
     return loadCell(row: indexPath.row)
   }
 
-  func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+  func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
     if editingStyle == .delete {
       removeProperty(atRow: indexPath.row)
       tableView.deleteRows(at: [indexPath], with: .automatic)

@@ -141,20 +141,8 @@ static MSDeviceTracker *sharedInstance = nil;
 #if TARGET_OS_IOS
     CTTelephonyNetworkInfo *telephonyNetworkInfo = [CTTelephonyNetworkInfo new];
     CTCarrier *carrier;
-
-    // TODO Use @available API and availability attribute when deprecating Xcode 8.
-    SEL serviceSubscriberCellularProviders = NSSelectorFromString(@"serviceSubscriberCellularProviders");
-    if ([telephonyNetworkInfo respondsToSelector:serviceSubscriberCellularProviders]) {
-
-      // Call serviceSubscriberCellularProviders.
-      NSInvocation *invocation =
-          [NSInvocation invocationWithMethodSignature:[telephonyNetworkInfo methodSignatureForSelector:serviceSubscriberCellularProviders]];
-      [invocation setSelector:serviceSubscriberCellularProviders];
-      [invocation setTarget:telephonyNetworkInfo];
-      [invocation invoke];
-      void *returnValue;
-      [invocation getReturnValue:&returnValue];
-      NSDictionary<NSString *, CTCarrier *> *carriers = (__bridge NSDictionary<NSString *, CTCarrier *> *)returnValue;
+    if (@available(iOS 12, *)) {
+      NSDictionary<NSString *, CTCarrier *> *carriers = [telephonyNetworkInfo serviceSubscriberCellularProviders];
       for (NSString *key in carriers) {
         carrier = carriers[key];
         break;
@@ -303,31 +291,25 @@ static MSDeviceTracker *sharedInstance = nil;
 #endif
 
 #if TARGET_OS_OSX
-
 - (NSString *)osVersion {
   NSString *osVersion = nil;
 
-#if __MAC_OS_X_VERSION_MAX_ALLOWED > 1090
-  if ([[NSProcessInfo processInfo] respondsToSelector:@selector(operatingSystemVersion)]) {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wpartial-availability"
+  if (@available(macOS 10.10, *)) {
     NSOperatingSystemVersion osSystemVersion = [[NSProcessInfo processInfo] operatingSystemVersion];
     osVersion = [NSString stringWithFormat:@"%ld.%ld.%ld", (long)osSystemVersion.majorVersion, (long)osSystemVersion.minorVersion,
                                            (long)osSystemVersion.patchVersion];
-#pragma clang diagnostic pop
-  }
-#else
-  SInt32 major, minor, bugfix;
+  } else {
+    SInt32 major, minor, bugfix;
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated"
-  OSErr err1 = Gestalt(gestaltSystemVersionMajor, &major);
-  OSErr err2 = Gestalt(gestaltSystemVersionMinor, &minor);
-  OSErr err3 = Gestalt(gestaltSystemVersionBugFix, &bugfix);
-  if ((!err1) && (!err2) && (!err3)) {
-    osVersion = [NSString stringWithFormat:@"%ld.%ld.%ld", (long)major, (long)minor, (long)bugfix];
-  }
+    OSErr err1 = Gestalt(gestaltSystemVersionMajor, &major);
+    OSErr err2 = Gestalt(gestaltSystemVersionMinor, &minor);
+    OSErr err3 = Gestalt(gestaltSystemVersionBugFix, &bugfix);
+    if ((!err1) && (!err2) && (!err3)) {
+      osVersion = [NSString stringWithFormat:@"%ld.%ld.%ld", (long)major, (long)minor, (long)bugfix];
+    }
 #pragma clang diagnostic pop
-#endif
+  }
   return osVersion;
 }
 #else

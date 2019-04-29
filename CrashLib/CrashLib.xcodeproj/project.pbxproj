@@ -222,6 +222,8 @@
 		C2B2102321B6A9FF00F116BD /* iOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = iOS.xcconfig; path = ../../Config/iOS.xcconfig; sourceTree = "<group>"; };
 		C2B2102421B6A9FF00F116BD /* macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = macOS.xcconfig; path = ../../Config/macOS.xcconfig; sourceTree = "<group>"; };
 		C2B2102721B6A9FF00F116BD /* tvOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = tvOS.xcconfig; path = ../../Config/tvOS.xcconfig; sourceTree = "<group>"; };
+		DF1F8F7D2269D7AB002B0B9B /* CrashLib Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "CrashLib Debug.xcconfig"; sourceTree = "<group>"; };
+		DF31CF972272FD0100A39F1B /* CrashLib Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "CrashLib Release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -334,6 +336,8 @@
 				C2B2102421B6A9FF00F116BD /* macOS.xcconfig */,
 				C2B2102721B6A9FF00F116BD /* tvOS.xcconfig */,
 				C2B2102121B691F100F116BD /* CrashLib.xcconfig */,
+				DF1F8F7D2269D7AB002B0B9B /* CrashLib Debug.xcconfig */,
+				DF31CF972272FD0100A39F1B /* CrashLib Release.xcconfig */,
 			);
 			path = Config;
 			sourceTree = "<group>";
@@ -500,7 +504,7 @@
 		B21A71D21DD2A38C0044BB1C /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0830;
+				LastUpgradeCheck = 1010;
 				ORGANIZATIONNAME = Microsoft;
 				TargetAttributes = {
 					8065B5771F4C3FF4004FF622 = {
@@ -765,14 +769,14 @@
 		};
 		B21A71E11DD2A38C0044BB1C /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C2B2102121B691F100F116BD /* CrashLib.xcconfig */;
+			baseConfigurationReference = DF1F8F7D2269D7AB002B0B9B /* CrashLib Debug.xcconfig */;
 			buildSettings = {
 			};
 			name = Debug;
 		};
 		B21A71E21DD2A38C0044BB1C /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C2B2102121B691F100F116BD /* CrashLib.xcconfig */;
+			baseConfigurationReference = DF31CF972272FD0100A39F1B /* CrashLib Release.xcconfig */;
 			buildSettings = {
 			};
 			name = Release;

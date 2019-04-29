@@ -101,14 +101,14 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
     return false
   }
 
-  func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
+  func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
     if shouldDisplayProperties(in: indexPath.section) {
       return userDocumentAddPropertiesSection.tableView(tableView, editingStyleForRowAt: indexPath)
     }
     return .none
   }
 
-  func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+  func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
     if shouldDisplayProperties(in: indexPath.section) {
       userDocumentAddPropertiesSection.tableView(tableView, commit: editingStyle, forRowAt: indexPath)
     }
