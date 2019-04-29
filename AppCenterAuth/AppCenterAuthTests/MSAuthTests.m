@@ -36,8 +36,8 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 @property(atomic) BOOL signInShouldWaitForConfig;
 
 - (void)configAuthenticationClient;
-- (void)continueSignInThatWasWaitingForConfig:(BOOL)wasWaitingForConfig;
-- (void)completeSignInWithErrorCode:(NSInteger)errorCode andMessage:(NSString *)errorMessage isDownloadConfigFailure:(BOOL)isDownloadConfigFailure;
+- (void)ifExistsContinueSignInThatWasWaitingForConfig:(BOOL)wasWaitingForConfig;
+- (void)ifSignInExistsCompleteWithErrorCode:(NSInteger)errorCode andMessage:(NSString *)errorMessage isDownloadConfigFailure:(BOOL)isDownloadConfigFailure;
 - (BOOL)removeAccount;
 - (MSALAccount *)retrieveAccountWithAccountId:(NSString *)homeAccountId;
 
@@ -1220,7 +1220,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [authTokenContextMock stopMocking];
 }
 
-- (void) testCompleteSihnInWithoutErroe {
+- (void)testContinuePendingSigninAfterConfigDownload {
   
   // If
   [[MSAuth sharedInstance] setEnabled:YES];
@@ -1248,11 +1248,11 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
                  nil);
   
   // Then
-  OCMVerify([authMock continueSignInThatWasWaitingForConfig:YES]);
+  OCMVerify([authMock ifExistsContinueSignInThatWasWaitingForConfig:YES]);
   [authMock stopMocking];
 }
 
-- (void) testCompleteSignInWithError {
+- (void) testDoNotStorePendingSignInIfConfigNotDownloading {
 
   // If
   [[MSAuth sharedInstance] setEnabled:YES];
@@ -1279,7 +1279,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
                  nil);
   
   // Then
-  OCMVerify([authMock completeSignInWithErrorCode:MSACAuthErrorSignInBackgroundOrNotConfigured andMessage:OCMOCK_ANY isDownloadConfigFailure:NO]);
+  OCMVerify([authMock ifSignInExistsCompleteWithErrorCode:MSACAuthErrorSignInBackgroundOrNotConfigured andMessage:OCMOCK_ANY isDownloadConfigFailure:NO]);
   [authMock stopMocking];
 }
 

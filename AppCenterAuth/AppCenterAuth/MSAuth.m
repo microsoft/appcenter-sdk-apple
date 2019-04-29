@@ -181,14 +181,14 @@ static dispatch_once_t onceToken;
 
 - (void)signIn {
   if ([[MS_Reachability reachabilityForInternetConnection] currentReachabilityStatus] == NotReachable) {
-    [self completeSignInWithErrorCode:MSACAuthErrorSignInWhenNoConnection
+    [self ifSignInExistsCompleteWithErrorCode:MSACAuthErrorSignInWhenNoConnection
                            andMessage:@"User sign-in failed. Internet connection is down."
               isDownloadConfigFailure:NO];
     return;
   }
   if (self.clientApplication == nil || self.authConfig == nil) {
     if (!self.signInShouldWaitForConfig) {
-      [self completeSignInWithErrorCode:MSACAuthErrorSignInBackgroundOrNotConfigured
+      [self ifSignInExistsCompleteWithErrorCode:MSACAuthErrorSignInBackgroundOrNotConfigured
                              andMessage:@"signIn is called while it's not configured or not in the foreground."
                 isDownloadConfigFailure:NO];
     } else {
@@ -196,10 +196,10 @@ static dispatch_once_t onceToken;
     }
     return;
   }
-  [self continueSignInThatWasWaitingForConfig:NO];
+  [self ifExistsContinueSignInThatWasWaitingForConfig:NO];
 }
 
-- (void)continueSignInThatWasWaitingForConfig:(BOOL)wasWaitingForConfig {
+- (void)ifExistsContinueSignInThatWasWaitingForConfig:(BOOL)wasWaitingForConfig {
   @synchronized(self) {
 
     // We should turn off the flag synchronously, together with
@@ -224,7 +224,7 @@ static dispatch_once_t onceToken;
   [MSAuth sharedInstance].configUrl = configUrl;
 }
 
-- (void)completeSignInWithErrorCode:(NSInteger)errorCode
+- (void)ifSignInExistsCompleteWithErrorCode:(NSInteger)errorCode
                          andMessage:(NSString *)errorMessage
             isDownloadConfigFailure:(BOOL)isDownloadConfigFailure {
   @synchronized(self) {
@@ -299,7 +299,7 @@ static dispatch_once_t onceToken;
 
               // At this point, the expectation is that we should not have any pending signins, because
               // the configuration already exists. If we have a pending sign in, this will trigger an error.
-              [self completeSignInWithErrorCode:MSACAuthErrorSignInConfigNotValid
+              [self ifSignInExistsCompleteWithErrorCode:MSACAuthErrorSignInConfigNotValid
                                      andMessage:@"There was no auth config but the server returned 'not modified' response."
                         isDownloadConfigFailure:YES];
             } else if (response.statusCode == MSHTTPCodesNo200OK) {
@@ -325,16 +325,16 @@ static dispatch_once_t onceToken;
                   // Reinitialize client application.
                   [self configAuthenticationClient];
                 }
-                [self continueSignInThatWasWaitingForConfig:YES];
+                [self ifExistsContinueSignInThatWasWaitingForConfig:YES];
               } else {
                 MSLogError([MSAuth logTag], @"Downloaded auth config is not valid.");
-                [self completeSignInWithErrorCode:MSACAuthErrorSignInConfigNotValid
+                [self ifSignInExistsCompleteWithErrorCode:MSACAuthErrorSignInConfigNotValid
                                        andMessage:@"Downloaded auth config is not valid."
                           isDownloadConfigFailure:YES];
               }
             } else {
               MSLogError([MSAuth logTag], @"Failed to download auth config. Status code received: %ld", (long)response.statusCode);
-              [self completeSignInWithErrorCode:MSACAuthErrorSignInDownloadConfigFailed
+              [self ifSignInExistsCompleteWithErrorCode:MSACAuthErrorSignInDownloadConfigFailed
                                      andMessage:[NSString stringWithFormat:@"Failed to download auth config. Status code received: %ld",
                                                                            (long)response.statusCode]
                         isDownloadConfigFailure:YES];
