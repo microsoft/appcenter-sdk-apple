@@ -305,7 +305,7 @@ static dispatch_once_t onceToken;
                                                       redirectUri:self.authConfig.redirectUri
                                                         authority:auth];
   if (!auth) {
-    MSLogError([MSAuth logTag], @"Auth config doesn't contain a valid B2C authority.");
+    MSLogError([MSAuth logTag], @"Auth config doesn't contain a valid default B2C authority.");
     return;
   }
   config.knownAuthorities = @[ auth ];
