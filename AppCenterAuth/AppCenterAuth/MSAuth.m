@@ -299,26 +299,16 @@ static dispatch_once_t onceToken;
 
   // Init MSAL client application.
   NSError *error;
-  NSURL *authUrl = nil;
-  for (MSALAuthority *auth in self.authConfig.authorities) {
-    if ([auth isKindOfClass:[MSALB2CAuthority class]]) {
-      authUrl = authUrl.absoluteURL;
-      break;
-    }
-  }
-  MSALB2CAuthority *authB2C = nil;
-  if (authUrl != nil) {
-    authB2C = [[MSALB2CAuthority alloc] initWithURL:authUrl error:nil];
-  }
+  MSALB2CAuthority *auth = [[MSALB2CAuthority alloc] initWithURL:(NSURL * __nonnull)self.authConfig.authorities[0].authorityUrl error:nil];
   MSALPublicClientApplicationConfig *config =
       [[MSALPublicClientApplicationConfig alloc] initWithClientId:(NSString * __nonnull) self.authConfig.clientId
                                                       redirectUri:self.authConfig.redirectUri
-                                                        authority:authB2C];
-  if (!authB2C) {
+                                                        authority:auth];
+  if (!auth) {
     MSLogError([MSAuth logTag], @"Auth config doesn't contain a valid B2C authority.");
     return;
   }
-  config.knownAuthorities = @[ authB2C ];
+  config.knownAuthorities = @[ auth ];
   self.clientApplication = [[MSALPublicClientApplication alloc] initWithConfiguration:config error:&error];
   if (error != nil) {
     MSLogError([MSAuth logTag], @"Failed to initialize client application.");
