@@ -19,16 +19,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithInnerError:(NSError *_Nullable)innerError code:(NSInteger)code message:(NSString *_Nullable)message;
 
 /**
- * Create a MSDataError object.
- *
- * @param userInfo Contains context about the actual error.
- * @param code Error code.
- *
- * @return Instance of error object.
- */
-- (instancetype)initWithUserInfo:(NSDictionary *)userInfo code:(NSInteger)code;
-
-/**
  * Get the inner error if exists.
  *
  * @return The inner error.
