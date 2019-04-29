@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "MSPageInternal.h"
 #import "MSPaginatedDocuments.h"
+
+@class MSPage;
 
 NS_ASSUME_NONNULL_BEGIN
 

@@ -3,6 +3,8 @@
 
 #import "MSDataError.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface MSDataError ()
 
 /**
@@ -14,3 +16,5 @@
  */
 - (instancetype)initWithError:(NSError *)error;
 @end
+
+NS_ASSUME_NONNULL_END

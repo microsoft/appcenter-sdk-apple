@@ -20,6 +20,7 @@
 #import "MSDocumentWrapperInternal.h"
 #import "MSHttpClient.h"
 #import "MSHttpUtil.h"
+#import "MSPageInternal.h"
 #import "MSPaginatedDocumentsInternal.h"
 #import "MSPendingOperation.h"
 #import "MSReadOptions.h"
