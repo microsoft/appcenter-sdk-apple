@@ -181,22 +181,30 @@ static dispatch_once_t onceToken;
 
 - (void)signIn {
   if ([[MS_Reachability reachabilityForInternetConnection] currentReachabilityStatus] == NotReachable) {
-    [self completeSignInWithErrorCode:MSACAuthErrorSignInWhenNoConnection andMessage:@"User sign-in failed. Internet connection is down."];
+    [self completeSignInWithErrorCode:MSACAuthErrorSignInWhenNoConnection andMessage:@"User sign-in failed. Internet connection is down." downloadConfigFailed:NO];
     return;
   }
   if (self.clientApplication == nil || self.authConfig == nil) {
     if (!self.downloadConfigInProgress) {
       [self completeSignInWithErrorCode:MSACAuthErrorSignInBackgroundOrNotConfigured
-                             andMessage:@"signIn is called while it's not configured or not in the foreground."];
+                             andMessage:@"signIn is called while it's not configured or not in the foreground." downloadConfigFailed:NO];
     } else {
       MSLogDebug([MSAppCenter logTag], @"Downloading configuration in process. Waiting it before sign-in.");
     }
     return;
   }
-  [self continueSignIn];
+  [self continueSignIn:NO];
 }
 
-- (void)continueSignIn {
+- (void)continueSignIn:(BOOL)configDownloaded {
+  @synchronized ([MSAuth sharedInstance]) {
+    if (configDownloaded) {
+      self.downloadConfigInProgress = NO;
+    }
+    if (!self.signInCompletionHandler) {
+      return;
+    }
+  }
   NSString *accountId = [[MSAuthTokenContext sharedInstance] accountId];
   MSALAccount *account = [self retrieveAccountWithAccountId:accountId];
   if (account) {
@@ -210,9 +218,14 @@ static dispatch_once_t onceToken;
   [MSAuth sharedInstance].configUrl = configUrl;
 }
 
-- (void)completeSignInWithErrorCode:(NSInteger)errorCode andMessage:(NSString *)errorMessage {
-  if (!self.signInCompletionHandler) {
-    return;
+- (void)completeSignInWithErrorCode:(NSInteger)errorCode andMessage:(NSString *)errorMessage downloadConfigFailed:(BOOL)downloadFailed {
+  @synchronized ([MSAuth sharedInstance]) {
+    if (downloadFailed) {
+      self.downloadConfigInProgress = NO;
+    }
+    if (!self.signInCompletionHandler) {
+      return;
+    }
   }
   NSError *error = [[NSError alloc] initWithDomain:kMSACAuthErrorDomain
                                               code:errorCode
@@ -264,6 +277,7 @@ static dispatch_once_t onceToken;
 
 - (void)downloadConfigurationWithETag:(nullable NSString *)eTag {
   self.downloadConfigInProgress = YES;
+  
   // Download configuration.
   [self.ingestion sendAsync:nil
                        eTag:eTag
@@ -271,6 +285,7 @@ static dispatch_once_t onceToken;
             MSAuthConfig *config = nil;
             if (response.statusCode == MSHTTPCodesNo304NotModified) {
               MSLogInfo([MSAuth logTag], @"Auth config hasn't changed.");
+              [self continueSignIn:YES];
             } else if (response.statusCode == MSHTTPCodesNo200OK) {
               config = [self deserializeData:data];
               if ([config isValid]) {
@@ -294,25 +309,16 @@ static dispatch_once_t onceToken;
                   // Reinitialize client application.
                   [self configAuthenticationClient];
                 }
-                self.downloadConfigInProgress = NO;
-                if (self.signInCompletionHandler) {
-                  [self continueSignIn];
-                }
+                [self continueSignIn:YES];
               } else {
-                self.downloadConfigInProgress = NO;
-                if (self.signInCompletionHandler) {
-                  [self completeSignInWithErrorCode:MSACAuthErrorSignInConfigNotValid andMessage:@"Downloaded auth config is not valid."];
-                }
                 MSLogError([MSAuth logTag], @"Downloaded auth config is not valid.");
+                [self completeSignInWithErrorCode:MSACAuthErrorSignInConfigNotValid andMessage:@"Downloaded auth config is not valid." downloadConfigFailed:YES];
               }
             } else {
-              self.downloadConfigInProgress = NO;
-              if (self.signInCompletionHandler) {
-                [self completeSignInWithErrorCode:MSACAuthErrorSignInDownloadConfigFailed
-                                       andMessage:[NSString stringWithFormat:@"Failed to download auth config. Status code received: %ld",
-                                                                             (long)response.statusCode]];
-              }
               MSLogError([MSAuth logTag], @"Failed to download auth config. Status code received: %ld", (long)response.statusCode);
+              [self completeSignInWithErrorCode:MSACAuthErrorSignInDownloadConfigFailed
+                                       andMessage:[NSString stringWithFormat:@"Failed to download auth config. Status code received: %ld",
+                                                                             (long)response.statusCode] downloadConfigFailed:YES];
             }
           }];
 }

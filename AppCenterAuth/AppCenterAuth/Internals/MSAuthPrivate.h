@@ -49,7 +49,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Indicates whether configuration download is in progress.
  */
-@property(atomic) bool downloadConfigInProgress;
+@property(atomic) BOOL downloadConfigInProgress;
 
 /**
  * Rest singleton instance.
