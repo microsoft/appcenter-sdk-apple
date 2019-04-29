@@ -33,7 +33,6 @@ static NSString *const kMSGroupId = @"Auth";
 // Singleton
 static MSAuth *sharedInstance = nil;
 static dispatch_once_t onceToken;
-static boolean_t delayedSignIn = NO;
 
 @implementation MSAuth
 
@@ -123,7 +122,6 @@ static boolean_t delayedSignIn = NO;
                                                 code:MSACAuthErrorServiceDisabled
                                             userInfo:@{NSLocalizedDescriptionKey : @"Auth is disabled."}];
     [self completeAcquireTokenRequestForResult:nil withError:error];
-    delayedSignIn = NO;
     MSLogInfo([MSAuth logTag], @"Auth service has been disabled.");
   }
 }
@@ -186,7 +184,6 @@ static boolean_t delayedSignIn = NO;
     return;
   }
   if (self.clientApplication == nil || self.authConfig == nil) {
-    delayedSignIn = YES;
     return;
   }
   [self continueSignIn];
@@ -290,23 +287,22 @@ static boolean_t delayedSignIn = NO;
                   // Reinitialize client application.
                   [self configAuthenticationClient];
                 }
-                if (delayedSignIn) {
-                  delayedSignIn = NO;
+                if (self.signInCompletionHandler) {
                   [self continueSignIn];
                 }
               } else {
-                if (delayedSignIn) {
-                  delayedSignIn = NO;
+                if (self.signInCompletionHandler) {
                   [self completeSignInWithErrorCode:MSACAuthErrorSignInConfigNotValid andMessage:@"Downloaded auth config is not valid."];
+                  MSLogError([MSAuth logTag], @"Downloaded auth config is not valid.");
                 }
               }
             } else {
 
-              if (delayedSignIn) {
-                delayedSignIn = NO;
+              if (self.signInCompletionHandler) {
                 [self completeSignInWithErrorCode:MSACAuthErrorSignInDownloadConfigFailed
                                        andMessage:[NSString stringWithFormat:@"Failed to download auth config. Status code received: %ld",
                                                                              (long)response.statusCode]];
+                MSLogError([MSAuth logTag], @"Failed to download auth config. Status code received: %ld", (long)response.statusCode);
               }
             }
           }];
