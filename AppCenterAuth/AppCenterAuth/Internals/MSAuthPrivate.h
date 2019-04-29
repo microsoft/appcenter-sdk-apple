@@ -47,7 +47,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property(atomic, nullable) MSSignInCompletionHandler signInCompletionHandler;
 
 /**
- * Indicates whether configuration download is in progress.
+ * Indicates that there is a pending configuration download
+ * and sign in, if called, should wait until configuration is downloaded.
  */
 @property(atomic) BOOL signInShouldWaitForConfig;
 

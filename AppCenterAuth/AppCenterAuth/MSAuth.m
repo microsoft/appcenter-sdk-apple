@@ -201,6 +201,9 @@ static dispatch_once_t onceToken;
 
 - (void)continueSignInThatWasWaitingForConfig:(BOOL)wasWaitingForConfig {
   @synchronized(self) {
+    
+    // We should turn off the flag synchronously, together with
+    // completion handler nil check otherwise it will cause race conditions.
     if (wasWaitingForConfig) {
       self.signInShouldWaitForConfig = NO;
     }
@@ -225,6 +228,9 @@ static dispatch_once_t onceToken;
                          andMessage:(NSString *)errorMessage
             isDownloadConfigFailure:(BOOL)isDownloadConfigFailure {
   @synchronized(self) {
+    
+    // We should turn off the flag synchronously, together with
+    // completion handler nil check otherwise it will cause race conditions.
     if (isDownloadConfigFailure) {
       self.signInShouldWaitForConfig = NO;
     }
