@@ -119,6 +119,8 @@ static dispatch_once_t onceToken;
     self.clientApplication = nil;
     [self clearConfigurationCache];
     self.ingestion = nil;
+    self.signInInProgress = NO;
+    self.refreshInProgress = NO;
     NSError *error = [[NSError alloc] initWithDomain:kMSACAuthErrorDomain
                                                 code:MSACAuthErrorServiceDisabled
                                             userInfo:@{NSLocalizedDescriptionKey : @"Auth is disabled."}];

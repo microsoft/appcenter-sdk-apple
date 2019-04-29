@@ -47,6 +47,16 @@ NS_ASSUME_NONNULL_BEGIN
 @property(atomic, nullable) MSSignInCompletionHandler signInCompletionHandler;
 
 /**
+ * The flag indicates whether sign-in is already in progress.
+ */
+@property BOOL signInInProgress;
+
+/**
+ * The flag indicates whether refresh is already in progress.
+ */
+@property BOOL refreshInProgress;
+
+/**
  * Rest singleton instance.
  */
 + (void)resetSharedInstance;
