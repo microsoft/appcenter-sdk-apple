@@ -6,7 +6,7 @@
 #import "MSBaseOptions.h"
 #import "MSDBDocumentStore.h"
 #import "MSDataConstants.h"
-#import "MSDataError.h"
+#import "MSDataErrorInternal.h"
 #import "MSDataErrors.h"
 #import "MSDataOperationProxy.h"
 #import "MSDictionaryDocument.h"
