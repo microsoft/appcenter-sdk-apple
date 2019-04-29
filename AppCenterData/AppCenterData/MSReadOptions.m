@@ -10,11 +10,11 @@
   return [super initWithDeviceTimeToLive:deviceTimeToLive];
 }
 
-+ (MSReadOptions *)createInfiniteCacheOptions {
++ (instancetype)createInfiniteCacheOptions {
   return [[MSReadOptions alloc] initWithDeviceTimeToLive:kMSDataTimeToLiveInfinite];
 }
 
-+ (MSReadOptions *)createNoCacheOptions {
++ (instancetype)createNoCacheOptions {
   return [[MSReadOptions alloc] initWithDeviceTimeToLive:kMSDataTimeToLiveNoCache];
 }
 

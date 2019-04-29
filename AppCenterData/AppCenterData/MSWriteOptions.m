@@ -6,11 +6,11 @@
 
 @implementation MSWriteOptions
 
-+ (MSWriteOptions *)createInfiniteCacheOptions {
++ (instancetype)createInfiniteCacheOptions {
   return [[MSWriteOptions alloc] initWithDeviceTimeToLive:kMSDataTimeToLiveInfinite];
 }
 
-+ (MSWriteOptions *)createNoCacheOptions {
++ (instancetype)createNoCacheOptions {
   return [[MSWriteOptions alloc] initWithDeviceTimeToLive:kMSDataTimeToLiveNoCache];
 }
 

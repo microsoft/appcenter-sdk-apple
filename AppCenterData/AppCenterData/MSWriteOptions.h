@@ -10,13 +10,13 @@
  *
  * @return A MSWriteOptions instance.
  */
-+ (MSWriteOptions *)createInfiniteCacheOptions;
++ (instancetype)createInfiniteCacheOptions;
 
 /**
  * Create an instance of MSWriteOptions with no cache.
  *
  * @return A MSWriteOptions instance.
  */
-+ (MSWriteOptions *)createNoCacheOptions;
++ (instancetype)createNoCacheOptions;
 
 @end

@@ -10,13 +10,13 @@
  *
  * @return A MSReadOptions instance.
  */
-+ (MSReadOptions *)createInfiniteCacheOptions;
++ (instancetype)createInfiniteCacheOptions;
 
 /**
  * Create an instance of MSReadOptions with no cache.
  *
  * @return A MSReadOptions instance.
  */
-+ (MSReadOptions *)createNoCacheOptions;
++ (instancetype)createNoCacheOptions;
 
 @end
