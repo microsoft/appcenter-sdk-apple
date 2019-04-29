@@ -300,7 +300,7 @@ static dispatch_once_t onceToken;
               // At this point, the expectation is that we should not have any pending signins, because
               // the configuration already exists. If we have a pending sign in, this will trigger an error.
               [self completeSignInWithErrorCode:MSACAuthErrorSignInConfigNotValid
-                                     andMessage:@"Auth config hasn't changed."
+                                     andMessage:@"There was no auth config but the server returned 'not modified' response."
                         isDownloadConfigFailure:YES];
             } else if (response.statusCode == MSHTTPCodesNo200OK) {
               config = [self deserializeData:data];
