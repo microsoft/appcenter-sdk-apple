@@ -33,7 +33,11 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
 @interface MSAuth (Test)
 
+@property(atomic) BOOL signInShouldWaitForConfig;
+
 - (void)configAuthenticationClient;
+- (void)continueSignInThatWasWaitingForConfig:(BOOL)wasWaitingForConfig;
+- (void)completeSignInWithErrorCode:(NSInteger)errorCode andMessage:(NSString *)errorMessage isDownloadConfigFailure:(BOOL)isDownloadConfigFailure;
 - (BOOL)removeAccount;
 - (MSALAccount *)retrieveAccountWithAccountId:(NSString *)homeAccountId;
 
@@ -1214,6 +1218,69 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   OCMVerify([authTokenContextMock setAuthToken:nil withAccountId:nil expiresOn:nil]);
   [authMock stopMocking];
   [authTokenContextMock stopMocking];
+}
+
+- (void) testCompleteSihnInWithoutErroe {
+  
+  // If
+  [[MSAuth sharedInstance] setEnabled:YES];
+  id authMock = OCMPartialMock(self.sut);
+  MSSignInCompletionHandler handler = ^(MSUserInformation *_Nullable userInformation, NSError *_Nullable error) {
+    self.signInUserInformation = userInformation;
+    self.signInError = error;
+  };
+  
+  // When
+  OCMStub([authMock sharedInstance]).andReturn(authMock);
+  OCMStub([authMock canBeUsed]).andReturn(YES);
+  self.sut.signInShouldWaitForConfig = YES;
+  [MSAuth signInWithCompletionHandler:handler];
+  __block MSSendAsyncCompletionHandler ingestionBlock;
+  NSString *expectedETag = @"newETag";
+  NSData *newConfig = [NSJSONSerialization dataWithJSONObject:self.dummyConfigDic options:(NSJSONWritingOptions)0 error:nil];
+  OCMStub([self.ingestionMock sendAsync:nil eTag:nil completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+    // Get ingestion block for later call.
+    [invocation retainArguments];
+    [invocation getArgument:&ingestionBlock atIndex:4];
+  });
+  [self.sut downloadConfigurationWithETag:nil];
+  ingestionBlock(@"callId", [MSHttpTestUtil createMockResponseForStatusCode:200 headers:@{kMSETagResponseHeader : expectedETag}], newConfig,
+                 nil);
+  
+  // Then
+  OCMVerify([authMock continueSignInThatWasWaitingForConfig:YES]);
+  [authMock stopMocking];
+}
+
+- (void) testCompleteSignInWithError {
+
+  // If
+  [[MSAuth sharedInstance] setEnabled:YES];
+  id authMock = OCMPartialMock(self.sut);
+  MSSignInCompletionHandler handler = ^(MSUserInformation *_Nullable userInformation, NSError *_Nullable error) {
+    self.signInUserInformation = userInformation;
+    self.signInError = error;
+  };
+  
+  // When
+  OCMStub([authMock sharedInstance]).andReturn(authMock);
+  OCMStub([authMock canBeUsed]).andReturn(YES);
+  [MSAuth signInWithCompletionHandler:handler];
+  __block MSSendAsyncCompletionHandler ingestionBlock;
+  NSString *expectedETag = @"newETag";
+  NSData *newConfig = [NSJSONSerialization dataWithJSONObject:self.dummyConfigDic options:(NSJSONWritingOptions)0 error:nil];
+  OCMStub([self.ingestionMock sendAsync:nil eTag:nil completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+    // Get ingestion block for later call.
+    [invocation retainArguments];
+    [invocation getArgument:&ingestionBlock atIndex:4];
+  });
+  [self.sut downloadConfigurationWithETag:nil];
+  ingestionBlock(@"callId", [MSHttpTestUtil createMockResponseForStatusCode:200 headers:@{kMSETagResponseHeader : expectedETag}], newConfig,
+                 nil);
+  
+  // Then
+  OCMVerify([authMock completeSignInWithErrorCode:MSACAuthErrorSignInBackgroundOrNotConfigured andMessage:OCMOCK_ANY isDownloadConfigFailure:NO]);
+  [authMock stopMocking];
 }
 
 @end
