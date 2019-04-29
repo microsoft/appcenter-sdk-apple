@@ -299,9 +299,8 @@ static dispatch_once_t onceToken;
 
   // Init MSAL client application.
   NSError *error;
-  NSArray *auths = self.authConfig.authorities;
   NSURL *authUrl = nil;
-  for (MSALAuthority *auth in auths) {
+  for (MSALAuthority *auth in self.authConfig.authorities) {
     if ([auth isKindOfClass:[MSALB2CAuthority class]]) {
       authUrl = authUrl.absoluteURL;
       break;
