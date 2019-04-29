@@ -54,13 +54,24 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
   [self.reachabilityMock stopMocking];
 }
 
-- (void)testInitWithMaxConnections {
+- (void)testInitWithMaxHttpConnectionsPerHostCompressionEnabled {
 
   // When
   MSHttpClient *httpClient = [[MSHttpClient alloc] initWithMaxHttpConnectionsPerHost:2 compressionEnabled:YES];
 
   // Then
   XCTAssertEqual(httpClient.sessionConfiguration.HTTPMaximumConnectionsPerHost, 2);
+  XCTAssertTrue(httpClient.compressionEnabled);
+}
+
+- (void)testInitWithMaxHttpConnectionsPerHostCompressionDisabled {
+
+  // When
+  MSHttpClient *httpClient = [[MSHttpClient alloc] initWithMaxHttpConnectionsPerHost:2 compressionEnabled:NO];
+
+  // Then
+  XCTAssertEqual(httpClient.sessionConfiguration.HTTPMaximumConnectionsPerHost, 2);
+  XCTAssertFalse(httpClient.compressionEnabled);
 }
 
 - (void)testInitEnablesCompressionByDefault {
