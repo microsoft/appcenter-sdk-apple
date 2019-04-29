@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @return A new `MSDataError` instance.
  */
 - (instancetype)initWithError:(NSError *)error;
+
 @end
 
 NS_ASSUME_NONNULL_END
