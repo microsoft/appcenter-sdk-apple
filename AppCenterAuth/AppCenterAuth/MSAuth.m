@@ -33,6 +33,7 @@ static NSString *const kMSGroupId = @"Auth";
 // Singleton
 static MSAuth *sharedInstance = nil;
 static dispatch_once_t onceToken;
+static boolean_t delayedSignIn = NO;
 
 @implementation MSAuth
 
@@ -122,6 +123,7 @@ static dispatch_once_t onceToken;
                                                 code:MSACAuthErrorServiceDisabled
                                             userInfo:@{NSLocalizedDescriptionKey : @"Auth is disabled."}];
     [self completeAcquireTokenRequestForResult:nil withError:error];
+    delayedSignIn = NO;
     MSLogInfo([MSAuth logTag], @"Auth service has been disabled.");
   }
 }
@@ -184,10 +186,13 @@ static dispatch_once_t onceToken;
     return;
   }
   if (self.clientApplication == nil || self.authConfig == nil) {
-    [self completeSignInWithErrorCode:MSACAuthErrorSignInBackgroundOrNotConfigured
-                           andMessage:@"signIn is called while it's not configured or not in the foreground."];
+    delayedSignIn = YES;
     return;
   }
+  [self continueSignIn];
+}
+
+- (void)continueSignIn {
   NSString *accountId = [[MSAuthTokenContext sharedInstance] accountId];
   MSALAccount *account = [self retrieveAccountWithAccountId:accountId];
   if (account) {
@@ -285,11 +290,22 @@ static dispatch_once_t onceToken;
                   // Reinitialize client application.
                   [self configAuthenticationClient];
                 }
+                if (delayedSignIn) {
+                  delayedSignIn = NO;
+                  [self continueSignIn];
+                }
               } else {
-                MSLogError([MSAuth logTag], @"Downloaded auth config is not valid.");
+                if (delayedSignIn) {
+                  delayedSignIn = NO;
+                  [self completeSignInWithErrorCode:MSACAuthErrorSignInConfigNotValid andMessage:@"Downloaded auth config is not valid."];
+                }
               }
             } else {
-              MSLogError([MSAuth logTag], @"Failed to download auth config. Status code received: %ld", (long)response.statusCode);
+              
+              if (delayedSignIn) {
+                delayedSignIn = NO;
+                [self completeSignInWithErrorCode:MSACAuthErrorSignInDownloadConfigFailed andMessage:[NSString stringWithFormat:@"Failed to download auth config. Status code received: %ld", (long)response.statusCode]];
+              }
             }
           }];
 }
