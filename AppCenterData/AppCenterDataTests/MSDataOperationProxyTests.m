@@ -32,7 +32,7 @@
   _documentStoreMock = OCMClassMock([MSDBDocumentStore class]);
   _reachability = OCMPartialMock([MS_Reachability reachabilityForInternetConnection]);
   _sut = [[MSDataOperationProxy alloc] initWithDocumentStore:_documentStoreMock reachability:self.reachability];
-  _dummyError = [NSError errorWithDomain:kMSACDataErrorDomain code:-1 userInfo:@{NSLocalizedDescriptionKey : @"Some dummy error"}];
+  _dummyError = [[MSDataError alloc] initWithInnerError:nil code:-1 message:@"Some dummy error"];
 }
 
 - (void)tearDown {
@@ -72,7 +72,7 @@
                                  XCTAssertEqual(wrapper.documentId, @"documentId");
                                  XCTAssertEqual(wrapper.deserializedValue, nil);
                                  XCTAssertNotNil(wrapper.error);
-                                 XCTAssertEqual(wrapper.error.error.code, MSACDataLocalStoreError);
+                                 XCTAssertEqual(wrapper.error.code, MSACDataLocalStoreError);
                                }];
 }
 
@@ -106,7 +106,7 @@
                                  }
                                  XCTAssertEqual(wrapper.documentId, @"documentId");
                                  XCTAssertEqual(wrapper.deserializedValue, nil);
-                                 XCTAssertEqual(wrapper.error.error.code, MSACDataLocalStoreError);
+                                 XCTAssertEqual(wrapper.error.code, MSACDataLocalStoreError);
                                }];
 }
 
@@ -390,7 +390,7 @@
                                  }
                                  XCTAssertNotNil(wrapper.error);
                                  XCTAssertFalse(wrapper.fromDeviceCache); // Error state should not have from device cache set to YES.
-                                 XCTAssertEqual(wrapper.error.error.code, MSACDataErrorDocumentNotFound);
+                                 XCTAssertEqual(wrapper.error.code, MSACDataErrorDocumentNotFound);
                                }];
 }
 
@@ -614,9 +614,9 @@
                                  }
                                  XCTAssertNotNil(wrapper);
                                  XCTAssertNotNil(wrapper.error);
-                                 XCTAssertNotNil(wrapper.error.error);
-                                 XCTAssertEqual(wrapper.error.error.domain, expectedErrorDomain);
-                                 XCTAssertEqual(wrapper.error.error.code, expectedErrorCode);
+                                 XCTAssertNotNil(wrapper.error);
+                                 XCTAssertEqual(wrapper.error.domain, expectedErrorDomain);
+                                 XCTAssertEqual([wrapper.error innerError].code, expectedErrorCode);
                                  XCTAssertNotEqual(wrapper, cachedDocumentWrapper);
                                  XCTAssertEqual(wrapper.documentId, cachedDocumentWrapper.documentId);
                                }];
@@ -672,9 +672,9 @@
                                  }
                                  XCTAssertNotNil(wrapper);
                                  XCTAssertNotNil(wrapper.error);
-                                 XCTAssertNotNil(wrapper.error.error);
-                                 XCTAssertEqual(wrapper.error.error.domain, expectedErrorDomain);
-                                 XCTAssertEqual(wrapper.error.error.code, expectedErrorCode);
+                                 XCTAssertNotNil(wrapper.error);
+                                 XCTAssertEqual(wrapper.error.domain, expectedErrorDomain);
+                                 XCTAssertEqual([wrapper.error innerError].code, expectedErrorCode);
                                  XCTAssertNotEqual(wrapper, cachedDocumentWrapper);
                                  XCTAssertEqual(wrapper.documentId, cachedDocumentWrapper.documentId);
                                }];

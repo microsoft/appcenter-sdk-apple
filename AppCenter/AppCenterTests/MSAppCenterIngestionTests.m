@@ -25,7 +25,6 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
 @end
 
-
 @implementation MSIngestionCallExpectation
 
 - (id)initWithRetryIntervals:(NSArray *)retryIntervals andExpectation:(XCTestExpectation *)Expectation {
@@ -35,9 +34,9 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 }
 
 - (void)ingestion:(id<MSIngestionProtocol>)ingestion
-callCompletedWithResponse:(NSHTTPURLResponse *)response
-             data:(nullable NSData *)data
-            error:(NSError *)error {
+    callCompletedWithResponse:(NSHTTPURLResponse *)response
+                         data:(nullable NSData *)data
+                        error:(NSError *)error {
   [super ingestion:ingestion callCompletedWithResponse:response data:data error:error];
   [self.Expectation fulfill];
 }
@@ -333,15 +332,11 @@ callCompletedWithResponse:(NSHTTPURLResponse *)response
                                  // Pause now that the call is retrying.
                                  [self.sut pause];
 
-// Then
-// Retry must be stopped.
-// 'dispatch_block_testcancel' is only available on macOS 10.10 or newer.
-#if !TARGET_OS_OSX || __MAC_OS_X_VERSION_MAX_ALLOWED > 1090
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wpartial-availability"
-                                 XCTAssertNotEqual(0, dispatch_testcancel(((MSIngestionCall *)self.sut.pendingCalls[@"1"]).timerSource));
-#pragma clang diagnostic pop
-#endif
+                                 // Then
+                                 // Retry must be stopped.
+                                 if (@available(macOS 10.10, tvOS 9.0, watchOS 2.0, *)) {
+                                   XCTAssertNotEqual(0, dispatch_testcancel(((MSIngestionCall *)self.sut.pendingCalls[@"1"]).timerSource));
+                                 }
 
                                  // No call submitted to the session.
                                  assertThatBool(self.sut.pendingCalls[@"1"].submitted, isFalse());

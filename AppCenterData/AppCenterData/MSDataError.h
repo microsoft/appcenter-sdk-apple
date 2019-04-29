@@ -3,25 +3,28 @@
 
 #import <Foundation/Foundation.h>
 
-@interface MSDataError : NSObject
+NS_ASSUME_NONNULL_BEGIN
+
+@interface MSDataError : NSError
 
 /**
- * Document error.
- */
-@property(nonatomic, strong, readonly) NSError *error;
-
-/**
- * Error code.
- */
-@property(nonatomic, readonly) NSInteger errorCode;
-
-/**
- * Extract an error code (HTTP) from any NSError instance.
+ * Create a MSDataError object.
  *
- * @param error An error object.
+ * @param innerError Inner error that provides more context about the actual error.
+ * @param code Error code.
+ * @param message Error message.
  *
- * @return The error code.
+ * @return Instance of error object.
  */
-+ (NSInteger)errorCodeFromError:(NSError *)error NS_SWIFT_NAME(errorCode(from:));
+- (instancetype)initWithInnerError:(NSError *_Nullable)innerError code:(NSInteger)code message:(NSString *_Nullable)message;
+
+/**
+ * Get the inner error if exists.
+ *
+ * @return The inner error.
+ */
+- (NSError *)innerError;
 
 @end
+
+NS_ASSUME_NONNULL_END

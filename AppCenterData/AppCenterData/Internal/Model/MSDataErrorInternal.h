@@ -8,13 +8,14 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MSDataError ()
 
 /**
- * Create an instance with error object.
+ * Create a MSDataError object.
  *
- * @param error An error object.
+ * @param userInfo Contains context about the actual error.
+ * @param code Error code.
  *
- * @return A new `MSDataError` instance.
+ * @return Instance of error object.
  */
-- (instancetype)initWithError:(NSError *)error;
+- (instancetype)initWithUserInfo:(NSDictionary *)userInfo code:(NSInteger)code;
 
 @end
 

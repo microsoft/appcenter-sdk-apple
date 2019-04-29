@@ -15,6 +15,7 @@
                     headers:(NSDictionary<NSString *, NSString *> *)headers
                        data:(NSData *)data
              retryIntervals:(NSArray *)retryIntervals
+         compressionEnabled:(BOOL)compressionEnabled
           completionHandler:(MSHttpRequestCompletionHandler)completionHandler {
   if ((self = [super init])) {
     _url = url;
@@ -28,7 +29,7 @@
     NSMutableDictionary *mutableHeaders = [NSMutableDictionary dictionaryWithDictionary:headers];
 
     // Zip data if it is long enough.
-    if (data.length >= kMSHTTPMinGZipLength) {
+    if (compressionEnabled && data.length >= kMSHTTPMinGZipLength) {
       data = [MSCompression compressData:data];
       mutableHeaders[kMSHeaderContentEncodingKey] = kMSHeaderContentEncoding;
     }
