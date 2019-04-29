@@ -191,7 +191,7 @@ static dispatch_once_t onceToken;
   NSString *accountId = [[MSAuthTokenContext sharedInstance] accountId];
   MSALAccount *account = [self retrieveAccountWithAccountId:accountId];
   if (account) {
-    [self acquireTokenSilentlyWithMSALAccount:account];
+    [self acquireTokenSilentlyWithMSALAccount:account withUIFallback:YES];
   } else {
     [self acquireTokenInteractively];
   }
@@ -360,17 +360,23 @@ static dispatch_once_t onceToken;
   return YES;
 }
 
-- (void)acquireTokenSilentlyWithMSALAccount:(MSALAccount *)account {
+- (void)acquireTokenSilentlyWithMSALAccount:(MSALAccount *)account withUIFallback:(BOOL)withUIFallback {
   __weak typeof(self) weakSelf = self;
   [self.clientApplication
       acquireTokenSilentForScopes:@[ (NSString * __nonnull) self.authConfig.authScope ]
                           account:account
-                  completionBlock:^(MSALResult *result, NSError *e) {
+                  completionBlock:^(MSALResult *result, NSError *error) {
                     typeof(self) strongSelf = weakSelf;
-                    if (e) {
-                      MSLogWarning([MSAuth logTag],
-                                   @"Silent acquisition of token failed with error: %@. Triggering interactive acquisition", e);
-                      [strongSelf acquireTokenInteractively];
+                    if (error) {
+                      if (withUIFallback && [error.domain isEqual:MSALErrorDomain] && error.code == MSALErrorInteractionRequired) {
+                        MSLogWarning([MSAuth logTag],
+                                     @"Silent acquisition of token failed with error: %@. Triggering interactive acquisition", error);
+                        [strongSelf acquireTokenInteractively];
+                      } else {
+                        [[MSAuthTokenContext sharedInstance] setAuthToken:nil withAccountId:nil expiresOn:nil];
+                        MSLogError([MSAuth logTag], @"User sign-in failed. Error: %@", error);
+                        [strongSelf completeAcquireTokenRequestForResult:result withError:error];
+                      }
                     } else {
                       MSALAccountId *accountId = (MSALAccountId * __nonnull) result.account.homeAccountId;
                       [[MSAuthTokenContext sharedInstance] setAuthToken:result.idToken
@@ -385,14 +391,14 @@ static dispatch_once_t onceToken;
 - (void)acquireTokenInteractively {
   __weak typeof(self) weakSelf = self;
   [self.clientApplication acquireTokenForScopes:@[ (NSString * __nonnull) self.authConfig.authScope ]
-                                completionBlock:^(MSALResult *result, NSError *e) {
+                                completionBlock:^(MSALResult *result, NSError *error) {
                                   typeof(self) strongSelf = weakSelf;
-                                  if (e) {
+                                  if (error) {
                                     [[MSAuthTokenContext sharedInstance] setAuthToken:nil withAccountId:nil expiresOn:nil];
-                                    if (e.code == MSALErrorUserCanceled) {
+                                    if ([error.domain isEqual:MSALErrorDomain] && error.code == MSALErrorUserCanceled) {
                                       MSLogWarning([MSAuth logTag], @"User canceled sign-in.");
                                     } else {
-                                      MSLogError([MSAuth logTag], @"User sign-in failed. Error: %@", e);
+                                      MSLogError([MSAuth logTag], @"User sign-in failed. Error: %@", error);
                                     }
                                   } else {
                                     MSALAccountId *accountId = (MSALAccountId * __nonnull) result.account.homeAccountId;
@@ -401,7 +407,7 @@ static dispatch_once_t onceToken;
                                                                             expiresOn:result.expiresOn];
                                     MSLogInfo([MSAuth logTag], @"User sign-in succeeded.");
                                   }
-                                  [strongSelf completeAcquireTokenRequestForResult:result withError:e];
+                                  [strongSelf completeAcquireTokenRequestForResult:result withError:error];
                                 }];
 }
 
@@ -438,7 +444,7 @@ static dispatch_once_t onceToken;
 - (void)authTokenContext:(MSAuthTokenContext *)authTokenContext refreshAuthTokenForAccountId:(nullable NSString *)accountId {
   MSALAccount *account = [self retrieveAccountWithAccountId:accountId];
   if (account) {
-    [self acquireTokenSilentlyWithMSALAccount:account];
+    [self acquireTokenSilentlyWithMSALAccount:account withUIFallback:NO];
   } else {
 
     // If account not found, start an anonymous session to avoid deadlock.
