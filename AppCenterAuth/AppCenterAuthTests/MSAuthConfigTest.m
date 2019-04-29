@@ -30,10 +30,10 @@
   NSDictionary *dic = @{
     @"identity_scope" : @"scope",
     @"client_id" : @"clientId",
-    @"redirect_uri" : @"https://contoso.com/identity/path",
+    @"redirect_uri" : @"https://contoso.com/auth/path",
     @"authorities" : @[
-      @{@"type" : @"B2C", @"default" : @YES, @"authority_url" : @"https://contoso.com/identity/path1"},
-      @{@"type" : @"RandomType", @"default" : @NO, @"authority_url" : @"https://contoso.com/identity/path2"}
+      @{@"type" : @"B2C", @"default" : @YES, @"authority_url" : @"https://contoso.com/auth/path1"},
+      @{@"type" : @"RandomType", @"default" : @NO, @"authority_url" : @"https://contoso.com/auth/path2"}
     ]
   };
 
@@ -89,7 +89,7 @@
   // When
   auth.type = @"B2C";
   auth.defaultAuthority = true;
-  NSURL *URL = [NSURL URLWithString:@"https://contoso.com/identity/path"];
+  NSURL *URL = [NSURL URLWithString:@"https://contoso.com/auth/path"];
   auth.authorityUrl = URL;
 
   // Then
@@ -107,7 +107,7 @@
   MSAuthority *auth1 = [MSAuthority new];
   auth1.type = @"RandomType";
   auth1.defaultAuthority = NO;
-  NSURL *URL1 = [NSURL URLWithString:@"https://contoso.com/identity/path"];
+  NSURL *URL1 = [NSURL URLWithString:@"https://contoso.com/auth/path"];
   auth1.authorityUrl = URL1;
 
   NSArray<MSAuthority *> *auths1 = [NSArray arrayWithObject:auth1];
@@ -120,7 +120,7 @@
   MSAuthority *auth2 = [MSAuthority new];
   auth2.type = @"B2C";
   auth2.defaultAuthority = YES;
-  NSURL *URL2 = [NSURL URLWithString:@"https://contoso.com/identity/path"];
+  NSURL *URL2 = [NSURL URLWithString:@"https://contoso.com/auth/path"];
   auth2.authorityUrl = URL2;
 
   NSArray<MSAuthority *> *auths2 = [NSArray arrayWithObjects:auth1, auth2, nil];

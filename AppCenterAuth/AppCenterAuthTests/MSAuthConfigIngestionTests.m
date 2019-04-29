@@ -19,7 +19,7 @@
   // If
   NSString *baseUrl = @"https://contoso.com";
   NSString *appSecret = @"secret";
-  NSString *apiPath = [NSString stringWithFormat:@"/identity/%@.json", appSecret];
+  NSString *apiPath = [NSString stringWithFormat:@"/auth/%@.json", appSecret];
   NSDictionary *header = @{@"If-None-Match" : @"eTag"};
   NSString *eTag = @"eTag";
   MSAuthConfigIngestion *ingestion = [[MSAuthConfigIngestion alloc] initWithBaseUrl:baseUrl appSecret:appSecret];
@@ -40,7 +40,7 @@
   // If
   NSString *baseUrl = @"https://contoso.com";
   NSString *appSecret = @"secret";
-  NSString *apiPath = [NSString stringWithFormat:@"/identity/%@.json", appSecret];
+  NSString *apiPath = [NSString stringWithFormat:@"/auth/%@.json", appSecret];
   MSAuthConfigIngestion *ingestion = [[MSAuthConfigIngestion alloc] initWithBaseUrl:baseUrl appSecret:appSecret];
 
   // When
