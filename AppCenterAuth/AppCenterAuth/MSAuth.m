@@ -301,10 +301,12 @@ static boolean_t delayedSignIn = NO;
                 }
               }
             } else {
-              
+
               if (delayedSignIn) {
                 delayedSignIn = NO;
-                [self completeSignInWithErrorCode:MSACAuthErrorSignInDownloadConfigFailed andMessage:[NSString stringWithFormat:@"Failed to download auth config. Status code received: %ld", (long)response.statusCode]];
+                [self completeSignInWithErrorCode:MSACAuthErrorSignInDownloadConfigFailed
+                                       andMessage:[NSString stringWithFormat:@"Failed to download auth config. Status code received: %ld",
+                                                                             (long)response.statusCode]];
               }
             }
           }];
