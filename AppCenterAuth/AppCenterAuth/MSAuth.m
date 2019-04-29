@@ -182,7 +182,7 @@ static dispatch_once_t onceToken;
 - (void)signIn {
   if ([[MS_Reachability reachabilityForInternetConnection] currentReachabilityStatus] == NotReachable) {
     [self ifSignInExistsCompleteWithErrorCode:MSACAuthErrorSignInWhenNoConnection
-                           andMessage:@"User sign-in failed. Internet connection is down."
+                           andMessage:@"User sign-in failed. Network is unavailable."
               isDownloadConfigFailure:NO];
     return;
   }
@@ -297,8 +297,8 @@ static dispatch_once_t onceToken;
             if (response.statusCode == MSHTTPCodesNo304NotModified) {
               MSLogInfo([MSAuth logTag], @"Auth config hasn't changed.");
 
-              // At this point, the expectation is that we should not have any pending signins, because
-              // the configuration already exists. If we have a pending sign in, this will trigger an error.
+              // At this point, the expectation is that we should not have any pending sign-ins, because
+              // the configuration already exists. If we have a pending sign-in, this will trigger an error.
               [self ifSignInExistsCompleteWithErrorCode:MSACAuthErrorSignInConfigNotValid
                                      andMessage:@"There was no auth config but the server returned 'not modified' response."
                         isDownloadConfigFailure:YES];
