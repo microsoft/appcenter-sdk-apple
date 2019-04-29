@@ -354,7 +354,7 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
                                             completionHandler:^(MSTokensResponse __unused *tokensResponse, NSError *_Nullable error) {
                                               // Then
                                               XCTAssertNotNil(error);
-                                              XCTAssertEqual(error.code, MSACDataErrorUnableToGetTokenError);
+                                              XCTAssertEqual(error.code, MSACDataErrorUnableToGetToken);
                                               [completeExpectation fulfill];
                                             }];
   [self waitForExpectationsWithTimeout:5
@@ -523,7 +523,7 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
                                                  reachability:self.reachabilityMock
                                             completionHandler:^(MSTokensResponse *__unused tokensResponse, NSError *_Nullable returnError) {
                                               // Then
-                                              XCTAssertEqual(returnError.code, MSACDataErrorInvalidPartitionError);
+                                              XCTAssertEqual(returnError.code, MSACDataErrorInvalidPartition);
                                               [completeExpectation fulfill];
                                             }];
   [self waitForExpectationsWithTimeout:5
