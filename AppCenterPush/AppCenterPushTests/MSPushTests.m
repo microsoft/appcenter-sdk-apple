@@ -71,14 +71,9 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
 
 // Mock UNUserNotificationCenter since it not supported during tests.
 #if TARGET_OS_IOS
-  if (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_9_x_Max) {
-
-// Ignore the partial availability warning as the compiler doesn't get that we checked for pre-iOS 10 already.
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wpartial-availability"
+  if (@available(iOS 10.0, *)) {
     id notificationCenterMock = OCMClassMock([UNUserNotificationCenter class]);
     OCMStub(ClassMethod([notificationCenterMock currentNotificationCenter])).andReturn(nil);
-#pragma clang diagnostic pop
   }
 #endif
 }

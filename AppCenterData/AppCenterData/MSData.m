@@ -220,14 +220,14 @@ static dispatch_once_t onceToken;
   @synchronized(self) {
 
     // Check preconditions.
-    NSError *error;
+    MSDataError *dataError;
     if (![self canBeUsed] || ![self isEnabled]) {
-      error = [self generateDisabledError:@"read" documentId:documentID];
+      dataError = [self generateDisabledError:@"read" documentId:documentID];
     } else if (![MSDocumentUtils isSerializableDocument:documentType]) {
-      error = [self generateInvalidClassError];
+      dataError = [self generateInvalidClassError];
     }
-    if (error) {
-      completionHandler([[MSDocumentWrapper alloc] initWithError:error documentId:documentID]);
+    if (dataError) {
+      completionHandler([[MSDocumentWrapper alloc] initWithError:dataError documentId:documentID]);
       return;
     }
 
@@ -277,8 +277,8 @@ static dispatch_once_t onceToken;
 
     // Check precondition.
     if (![self canBeUsed] || ![self isEnabled]) {
-      NSError *error = [self generateDisabledError:@"delete" documentId:documentID];
-      completionHandler([[MSDocumentWrapper alloc] initWithError:error documentId:documentID]);
+      MSDataError *dataError = [self generateDisabledError:@"delete" documentId:documentID];
+      completionHandler([[MSDocumentWrapper alloc] initWithError:dataError documentId:documentID]);
       return;
     }
 
@@ -317,8 +317,8 @@ static dispatch_once_t onceToken;
 
     // Check the precondition.
     if (![self canBeUsed] || ![self isEnabled]) {
-      NSError *error = [self generateDisabledError:@"create or replace" documentId:documentID];
-      completionHandler([[MSDocumentWrapper alloc] initWithError:error documentId:documentID]);
+      MSDataError *dataError = [self generateDisabledError:@"create or replace" documentId:documentID];
+      completionHandler([[MSDocumentWrapper alloc] initWithError:dataError documentId:documentID]);
       return;
     }
 
@@ -358,16 +358,14 @@ static dispatch_once_t onceToken;
   @synchronized(self) {
 
     // Check the preconditions.
-    NSError *error;
+    MSDataError *dataError;
     if (![self canBeUsed] || ![self isEnabled]) {
-      error = [self generateDisabledError:@"list" documentId:nil];
+      dataError = [self generateDisabledError:@"list" documentId:nil];
     } else if (![MSDocumentUtils isSerializableDocument:documentType]) {
-      error = [self generateInvalidClassError];
+      dataError = [self generateInvalidClassError];
     }
-    if (error) {
-      completionHandler([[MSPaginatedDocuments alloc] initWithError:[[MSDataError alloc] initWithError:error]
-                                                          partition:partition
-                                                       documentType:documentType]);
+    if (dataError) {
+      completionHandler([[MSPaginatedDocuments alloc] initWithError:dataError partition:partition documentType:documentType]);
       return;
     }
 
@@ -389,13 +387,13 @@ static dispatch_once_t onceToken;
                                                     NSError *_Nullable cosmosDbError) {
                                   // If not OK.
                                   if (response.statusCode != MSHTTPCodesNo200OK) {
-                                    NSError *actualError = [MSCosmosDb cosmosDbErrorWithResponse:response underlyingError:cosmosDbError];
+                                    MSDataError *actualDataError = [MSCosmosDb cosmosDbErrorWithResponse:response
+                                                                                         underlyingError:cosmosDbError];
                                     MSLogError([MSData logTag],
                                                @"Unable to list documents for partition %@: %@. Status code %ld when expecting %ld.",
-                                               partition, [actualError localizedDescription], (long)response.statusCode,
+                                               partition, [actualDataError localizedDescription], (long)response.statusCode,
                                                (long)MSHTTPCodesNo200OK);
-                                    MSDataError *dataCosmosDbError = [[MSDataError alloc] initWithError:actualError];
-                                    MSPaginatedDocuments *documents = [[MSPaginatedDocuments alloc] initWithError:dataCosmosDbError
+                                    MSPaginatedDocuments *documents = [[MSPaginatedDocuments alloc] initWithError:actualDataError
                                                                                                         partition:partition
                                                                                                      documentType:documentType];
                                     completionHandler(documents);
@@ -407,17 +405,17 @@ static dispatch_once_t onceToken;
                                   id jsonPayload = [NSJSONSerialization JSONObjectWithData:(NSData *)data
                                                                                    options:0
                                                                                      error:&deserializeError];
+
+                                  MSDataError *deserializeDataError = nil;
                                   if (!deserializeError && ![MSDocumentUtils isReferenceDictionaryWithKey:jsonPayload
                                                                                                       key:kMSDocumentsKey
                                                                                                   keyType:[NSArray class]]) {
-                                    deserializeError =
-                                        [[NSError alloc] initWithDomain:kMSACDataErrorDomain
-                                                                   code:MSACDataErrorJSONSerializationFailed
-                                                               userInfo:@{NSLocalizedDescriptionKey : @"Can't deserialize documents"}];
+                                    deserializeDataError = [[MSDataError alloc] initWithInnerError:deserializeError
+                                                                                              code:MSACDataErrorJSONSerializationFailed
+                                                                                           message:@"Can't deserialize documents"];
                                   }
-                                  if (deserializeError) {
-                                    MSDataError *dataDeserializeError = [[MSDataError alloc] initWithError:deserializeError];
-                                    MSPaginatedDocuments *documents = [[MSPaginatedDocuments alloc] initWithError:dataDeserializeError
+                                  if (deserializeDataError) {
+                                    MSPaginatedDocuments *documents = [[MSPaginatedDocuments alloc] initWithError:deserializeDataError
                                                                                                         partition:partition
                                                                                                      documentType:documentType];
                                     completionHandler(documents);
@@ -498,11 +496,12 @@ static dispatch_once_t onceToken;
                                                 NSError *_Nullable cosmosDbError) {
                               // If not created.
                               if (response.statusCode != MSHTTPCodesNo200OK) {
-                                NSError *actualError = [MSCosmosDb cosmosDbErrorWithResponse:response underlyingError:cosmosDbError];
+                                MSDataError *actualDataError = [MSCosmosDb cosmosDbErrorWithResponse:response
+                                                                                     underlyingError:cosmosDbError];
                                 MSLogError([MSData logTag],
                                            @"Unable to read document %@ with error: %@. Status code %ld when expecting %ld.", documentId,
-                                           [actualError localizedDescription], (long)response.statusCode, (long)MSHTTPCodesNo200OK);
-                                completionHandler([[MSDocumentWrapper alloc] initWithError:actualError documentId:documentId]);
+                                           [actualDataError localizedDescription], (long)response.statusCode, (long)MSHTTPCodesNo200OK);
+                                completionHandler([[MSDocumentWrapper alloc] initWithError:actualDataError documentId:documentId]);
                               }
 
                               // (Try to) deserialize the incoming document.
@@ -520,23 +519,27 @@ static dispatch_once_t onceToken;
                       additionalHeaders:(NSDictionary *)additionalHeaders
                       completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
   // Perform the operation.
-  NSError *serializationError;
   NSDictionary *dic = [MSDocumentUtils documentPayloadWithDocumentId:documentId
                                                            partition:partition
                                                             document:[document serializeToDictionary]];
   if (![NSJSONSerialization isValidJSONObject:dic]) {
-    serializationError =
-        [[NSError alloc] initWithDomain:kMSACDataErrorDomain
-                                   code:MSACDataErrorJSONSerializationFailed
-                               userInfo:@{NSLocalizedDescriptionKey : @"Document dictionary contains values that cannot be serialized."}];
-    MSLogError([MSData logTag], @"Error serializing data: %@", [serializationError localizedDescription]);
-    completionHandler([[MSDocumentWrapper alloc] initWithError:serializationError documentId:documentId]);
+
+    MSDataError *serializationDataError =
+        [[MSDataError alloc] initWithInnerError:nil
+                                           code:MSACDataErrorJSONSerializationFailed
+                                        message:@"Document dictionary contains values that cannot be serialized."];
+    MSLogError([MSData logTag], @"Error serializing data: %@", [serializationDataError localizedDescription]);
+    completionHandler([[MSDocumentWrapper alloc] initWithError:serializationDataError documentId:documentId]);
     return;
   }
+  NSError *serializationError;
   NSData *body = [NSJSONSerialization dataWithJSONObject:dic options:0 error:&serializationError];
   if (!body || serializationError) {
-    MSLogError([MSData logTag], @"Error serializing data: %@", [serializationError localizedDescription]);
-    completionHandler([[MSDocumentWrapper alloc] initWithError:serializationError documentId:documentId]);
+    MSDataError *serializationDataError = [[MSDataError alloc] initWithInnerError:serializationError
+                                                                             code:MSACDataErrorJSONSerializationFailed
+                                                                          message:@"Can't deserialize data."];
+    MSLogError([MSData logTag], @"Error serializing data: %@", [serializationDataError localizedDescription]);
+    completionHandler([[MSDocumentWrapper alloc] initWithError:serializationDataError documentId:documentId]);
     return;
   }
   [self
@@ -550,12 +553,12 @@ static dispatch_once_t onceToken;
                                               NSError *_Nullable cosmosDbError) {
                             // If not created.
                             if (response.statusCode != MSHTTPCodesNo201Created && response.statusCode != MSHTTPCodesNo200OK) {
-                              NSError *actualError = [MSCosmosDb cosmosDbErrorWithResponse:response underlyingError:cosmosDbError];
+                              MSDataError *actualDataError = [MSCosmosDb cosmosDbErrorWithResponse:response underlyingError:cosmosDbError];
                               MSLogError([MSData logTag],
                                          @"Unable to create/replace document %@ with error: %@. Status code %ld when expecting %ld or %ld.",
-                                         documentId, [actualError localizedDescription], (long)response.statusCode,
+                                         documentId, [actualDataError localizedDescription], (long)response.statusCode,
                                          (long)MSHTTPCodesNo200OK, (long)MSHTTPCodesNo201Created);
-                              completionHandler([[MSDocumentWrapper alloc] initWithError:actualError documentId:documentId]);
+                              completionHandler([[MSDocumentWrapper alloc] initWithError:actualDataError documentId:documentId]);
                             }
 
                             // (Try to) deserialize saved document.
@@ -581,11 +584,13 @@ static dispatch_once_t onceToken;
                                                 NSError *_Nullable cosmosDbError) {
                               // If not deleted.
                               if (response.statusCode != MSHTTPCodesNo204NoContent) {
-                                NSError *actualError = [MSCosmosDb cosmosDbErrorWithResponse:response underlyingError:cosmosDbError];
+                                MSDataError *actualDataError = [MSCosmosDb cosmosDbErrorWithResponse:response
+                                                                                     underlyingError:cosmosDbError];
                                 MSLogError([MSData logTag],
                                            @"Unable to delete document %@ with error: %@. Status code %ld when expecting %ld.", documentId,
-                                           [actualError localizedDescription], (long)response.statusCode, (long)MSHTTPCodesNo204NoContent);
-                                completionHandler([[MSDocumentWrapper alloc] initWithError:actualError documentId:documentId]);
+                                           [actualDataError localizedDescription], (long)response.statusCode,
+                                           (long)MSHTTPCodesNo204NoContent);
+                                completionHandler([[MSDocumentWrapper alloc] initWithError:actualDataError documentId:documentId]);
                               }
 
                               // Return a non-error document wrapper object to confirm the operation.
@@ -606,21 +611,21 @@ static dispatch_once_t onceToken;
 
 #pragma mark - MSData error utils
 
-- (NSError *)generateDisabledError:(NSString *)operation documentId:(NSString *_Nullable)documentId {
-  NSError *error = [[NSError alloc] initWithDomain:kMSACErrorDomain
-                                              code:MSACDisabledErrorCode
-                                          userInfo:@{NSLocalizedDescriptionKey : kMSACDisabledErrorDesc}];
+- (MSDataError *)generateDisabledError:(NSString *)operation documentId:(NSString *_Nullable)documentId {
+  MSDataError *dataError = [[MSDataError alloc] initWithInnerError:nil
+                                                              code:MSACDisabledErrorCode
+                                                           message:(NSString *)kMSACDisabledErrorDesc];
   MSLogError([MSData logTag], @"Not able to perform %@ operation, document ID: %@; error: %@", operation, documentId,
-             [error localizedDescription]);
-  return error;
+             [dataError localizedDescription]);
+  return dataError;
 }
 
-- (NSError *)generateInvalidClassError {
-  NSError *error = [[NSError alloc] initWithDomain:kMSACDataErrorDomain
-                                              code:MSACDataInvalidClassCode
-                                          userInfo:@{NSLocalizedDescriptionKey : kMSACDataInvalidClassDesc}];
-  MSLogError([MSData logTag], @"Not able to validate document deserialization precondition: %@", [error localizedDescription]);
-  return error;
+- (MSDataError *)generateInvalidClassError {
+  MSDataError *dataError = [[MSDataError alloc] initWithInnerError:nil
+                                                              code:MSACDataInvalidClassCode
+                                                           message:(NSString *)kMSACDataInvalidClassDesc];
+  MSLogError([MSData logTag], @"Not able to validate document deserialization precondition: %@", [dataError localizedDescription]);
+  return dataError;
 }
 
 #pragma mark - MSServiceInternal
@@ -647,7 +652,8 @@ static dispatch_once_t onceToken;
               fromApplication:(BOOL)fromApplication {
   [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionTargetToken:token fromApplication:fromApplication];
   if (appSecret) {
-    self.httpClient = [MSHttpClient new];
+    // CosmosDb doesn't accept compressed payload. Therefore, it needs to be disabled.
+    self.httpClient = [[MSHttpClient alloc] initWithCompressionEnabled:NO];
   }
   MSLogVerbose([MSData logTag], @"Started Data service.");
 }
@@ -840,13 +846,13 @@ static dispatch_once_t onceToken;
                                               expirationTime:operationExpirationTime];
       shouldDeleteLocalCache = NO;
     }
-  } else if (documentWrapper.error.errorCode == MSHTTPCodesNo404NotFound || documentWrapper.error.errorCode == MSHTTPCodesNo409Conflict) {
+  } else if (documentWrapper.error.code == MSHTTPCodesNo404NotFound || documentWrapper.error.code == MSHTTPCodesNo409Conflict) {
     MSLogError([MSData logTag], @"Failed to call Cosmos with operation: %@. Remote operation failed with error code: %ld", pendingOperation,
-               (long)documentWrapper.error.errorCode);
+               (long)documentWrapper.error);
   } else if (documentWrapper.error) {
     shouldDeleteLocalCache = NO;
     MSLogError([MSData logTag], @"Failed to call Cosmos with operation:%@ API: %@", pendingOperation,
-               [documentWrapper.error.error localizedDescription]);
+               [documentWrapper.error localizedDescription]);
   }
 
   // Delete the document form the local cache.

@@ -49,7 +49,7 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
     eventPropertiesSection = EventPropertiesTableSection(tableSection: kEventPropertiesSectionIndex, tableView: tableView)
     super.viewDidLoad()
     tableView.estimatedRowHeight = tableView.rowHeight
-    tableView.rowHeight = UITableViewAutomaticDimension
+    tableView.rowHeight = UITableView.automaticDimension
     tableView.setEditing(true, animated: false)
 
     self.priorityPicker = MSEnumPicker<Priority>(
@@ -170,11 +170,11 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
     }
   }
 
-  override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+  override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
     eventPropertiesSection.tableView(tableView, commit: editingStyle, forRowAt: indexPath)
   }
 
-  override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
+  override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
     if indexPath.section == kEventPropertiesSectionIndex {
       return eventPropertiesSection.tableView(tableView, editingStyleForRowAt: indexPath)
     }
@@ -196,7 +196,7 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
   }
 
   override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-    return UITableViewAutomaticDimension
+    return UITableView.automaticDimension
   }
 
   /**
