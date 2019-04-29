@@ -10,7 +10,7 @@
 #import "MSDBStoragePrivate.h"
 #import "MSData.h"
 #import "MSDataConstants.h"
-#import "MSDataError.h"
+#import "MSDataErrorInternal.h"
 #import "MSDataErrors.h"
 #import "MSDataInternal.h"
 #import "MSDocumentUtils.h"
