@@ -23,4 +23,28 @@
   XCTAssertEqual(baseOptions.deviceTimeToLive, expectedTimeToLive);
 }
 
+- (void)testDefaultTtl {
+
+  // If
+  NSInteger expectedTimeToLive = kMSDataTimeToLiveDefault;
+
+  // When
+  MSBaseOptions *baseOptions = [[MSBaseOptions alloc] init];
+
+  // Then
+  XCTAssertEqual(baseOptions.deviceTimeToLive, expectedTimeToLive);
+}
+
+- (void)testInvalidTtl {
+
+  // If
+  NSInteger expectedTimeToLive = -10;
+
+  // When
+  MSBaseOptions *baseOptions = [[MSBaseOptions alloc] initWithDeviceTimeToLive:expectedTimeToLive];
+
+  // Then
+  XCTAssertNil(baseOptions);
+}
+
 @end
