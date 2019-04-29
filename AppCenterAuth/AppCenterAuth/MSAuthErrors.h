@@ -19,8 +19,8 @@ static NSString *const kMSACAuthErrorDomain = MS_APP_CENTER_BASE_DOMAIN @"Auth.E
 /**
  * Error code for Auth.
  */
-NS_ENUM(NSInteger){MSACAuthErrorServiceDisabled = -420000, MSACAuthErrorPreviousSignInRequestInProgress = -420001,
-                   MSACAuthErrorSignInConfigNotValid = -420002, MSACAuthErrorSignInWhenNoConnection = -420003,
-                   MSACAuthErrorSignInDownloadConfigFailed = -42004};
+NS_ENUM(NSInteger){MSACAuthErrorServiceDisabled = -420000,           MSACAuthErrorPreviousSignInRequestInProgress = -420001,
+                   MSACAuthErrorSignInConfigNotValid = -420002,      MSACAuthErrorSignInWhenNoConnection = -420003,
+                   MSACAuthErrorSignInDownloadConfigFailed = -42004, MSACAuthErrorSignInBackgroundOrNotConfigured = -42005};
 
 NS_ASSUME_NONNULL_END

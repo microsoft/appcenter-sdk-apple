@@ -47,6 +47,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property(atomic, nullable) MSSignInCompletionHandler signInCompletionHandler;
 
 /**
+ * Indicates whether configuration download is in progress.
+ */
+@property(atomic) bool downloadConfigInProgress;
+
+/**
  * Rest singleton instance.
  */
 + (void)resetSharedInstance;
