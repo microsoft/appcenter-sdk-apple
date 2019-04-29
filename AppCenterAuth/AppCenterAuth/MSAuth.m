@@ -201,7 +201,7 @@ static dispatch_once_t onceToken;
 
 - (void)continueSignInThatWasWaitingForConfig:(BOOL)wasWaitingForConfig {
   @synchronized(self) {
-    
+
     // We should turn off the flag synchronously, together with
     // completion handler nil check otherwise it will cause race conditions.
     if (wasWaitingForConfig) {
@@ -228,7 +228,7 @@ static dispatch_once_t onceToken;
                          andMessage:(NSString *)errorMessage
             isDownloadConfigFailure:(BOOL)isDownloadConfigFailure {
   @synchronized(self) {
-    
+
     // We should turn off the flag synchronously, together with
     // completion handler nil check otherwise it will cause race conditions.
     if (isDownloadConfigFailure) {
@@ -296,7 +296,12 @@ static dispatch_once_t onceToken;
             MSAuthConfig *config = nil;
             if (response.statusCode == MSHTTPCodesNo304NotModified) {
               MSLogInfo([MSAuth logTag], @"Auth config hasn't changed.");
-              [self continueSignInThatWasWaitingForConfig:YES];
+
+              // At this point, the expectation is that we should not have any pending signins, because
+              // the configuration already exists. If we have a pending sign in, this will trigger an error.
+              [self completeSignInWithErrorCode:MSACAuthErrorSignInConfigNotValid
+                                     andMessage:@"Auth config hasn't changed."
+                        isDownloadConfigFailure:YES];
             } else if (response.statusCode == MSHTTPCodesNo200OK) {
               config = [self deserializeData:data];
               if ([config isValid]) {
