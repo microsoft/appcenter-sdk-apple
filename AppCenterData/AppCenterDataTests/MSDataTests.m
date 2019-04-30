@@ -282,7 +282,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   XCTAssertNotNil(actualDocumentWrapper);
   XCTAssertNotNil(actualDocumentWrapper.error);
   XCTAssertEqual(actualDocumentWrapper.error.domain, kMSACDataErrorDomain);
-  XCTAssertEqual(actualDocumentWrapper.error.code, MSACDataInvalidClassCode);
+  XCTAssertEqual(actualDocumentWrapper.error.code, MSACDataErrorInvalidClassCode);
   XCTAssertEqualObjects(actualDocumentWrapper.documentId, kMSDocumentIdTest);
 }
 
