@@ -188,7 +188,7 @@ static dispatch_once_t onceToken;
   }
   if (self.clientApplication == nil || self.authConfig == nil) {
     if (self.signInShouldWaitForConfig) {
-      MSLogDebug([MSAppCenter logTag], @"Downloading configuration in process. Waiting it before sign-in.");
+      MSLogDebug([MSAppCenter logTag], @"Downloading configuration in process. Waiting for it before sign-in.");
     } else {
       [self ifSignInIsInProgressCompleteWithErrorCode:MSACAuthErrorSignInBackgroundOrNotConfigured
                                            andMessage:@"signIn is called while it's not configured or not in the foreground."
