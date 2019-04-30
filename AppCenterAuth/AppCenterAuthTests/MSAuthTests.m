@@ -1208,9 +1208,12 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   OCMStub([authMock sharedInstance]).andReturn(authMock);
   OCMStub([authMock canBeUsed]).andReturn(YES);
   OCMStub([authMock retrieveAccountWithAccountId:fakeAccountId]).andReturn(nil);
-
-  // TODO Reject MSAL call instead
-  // OCMReject([authMock acquireTokenSilentlyWithMSALAccount:OCMOCK_ANY uiFallback:NO]);
+  self.sut.authConfig = [MSAuthConfig new];
+  self.sut.authConfig.authScope = @"fake";
+  OCMStub([authMock configAuthenticationClient]).andDo(^(NSInvocation *__unused invocation) {
+    self.sut.clientApplication = self.clientApplicationMock;
+  });
+  OCMReject([self.sut.clientApplication acquireTokenSilentForScopes:OCMOCK_ANY account:OCMOCK_ANY completionBlock:OCMOCK_ANY]);
   id authTokenContextMock = OCMPartialMock([MSAuthTokenContext sharedInstance]);
   OCMStub([authTokenContextMock sharedInstance]).andReturn(authTokenContextMock);
 
