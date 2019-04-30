@@ -478,7 +478,7 @@ static dispatch_once_t onceToken;
     self.refreshInProgress = YES;
     MSALAccount *account = [self retrieveAccountWithAccountId:accountId];
     if (account) {
-      [self acquireTokenSilentlyWithMSALAccount:account];
+      [self acquireTokenSilentlyWithMSALAccount:account uiFallback:NO];
     } else {
 
       // If account not found, start an anonymous session to avoid deadlock.
