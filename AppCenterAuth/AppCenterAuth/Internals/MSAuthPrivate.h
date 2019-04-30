@@ -47,7 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(atomic, nullable) MSSignInCompletionHandler signInCompletionHandler;
 
 /**
- * TODO
+ * Completion handler for refresh completion.
  */
 @property(atomic, nullable) MSSignInCompletionHandler refreshCompletionHandler;
 
@@ -86,12 +86,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)configAuthenticationClient;
 
 /**
- * TODO
+ * Perform sign in with completion handler.
  */
 - (void)signInInWithCompletionHandler:(MSSignInCompletionHandler _Nullable)completionHandler;
 
 /**
- * TODO
+ * Refreshes token for given accountId.
  */
 - (void)refreshTokenForAccountId:(NSString *)accountId withNetworkConnected:(BOOL)networkConnected;
 
