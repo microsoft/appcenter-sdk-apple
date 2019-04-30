@@ -558,7 +558,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   XCTAssertNil(self.signInUserInformation);
   XCTAssertNotNil(self.signInError);
   XCTAssertEqualObjects(kMSACAuthErrorDomain, self.signInError.domain);
-  XCTAssertEqual(MSACAuthErrorSignInWhenNoConnection, self.signInError.code);
+  XCTAssertEqual(MSACAuthErrorNoConnection, self.signInError.code);
   XCTAssertNotNil(self.signInError.userInfo[NSLocalizedDescriptionKey]);
   [authMock stopMocking];
 }
