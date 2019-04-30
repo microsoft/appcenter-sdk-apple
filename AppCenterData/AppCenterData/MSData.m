@@ -317,8 +317,13 @@ static dispatch_once_t onceToken;
   @synchronized(self) {
 
     // Check the precondition.
+    MSDataError *dataError;
     if (![self canBeUsed] || ![self isEnabled]) {
-      MSDataError *dataError = [self generateDisabledError:@"create or replace" documentId:documentID];
+      dataError = [self generateDisabledError:@"create or replace" documentId:documentID];
+    } else if (![MSDocumentUtils isSerializableDocument:[document class]]) {
+      dataError = [self generateInvalidClassError];
+    }
+    if (dataError) {
       completionHandler([[MSDocumentWrapper alloc] initWithError:dataError documentId:documentID]);
       return;
     }
