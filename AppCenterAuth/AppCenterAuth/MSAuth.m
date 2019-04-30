@@ -119,7 +119,6 @@ static dispatch_once_t onceToken;
 #endif
     [[MSAuthTokenContext sharedInstance] removeDelegate:self];
     [MS_NOTIFICATION_CENTER removeObserver:self];
-
     [self clearAuthData];
     self.clientApplication = nil;
     [self clearConfigurationCache];
