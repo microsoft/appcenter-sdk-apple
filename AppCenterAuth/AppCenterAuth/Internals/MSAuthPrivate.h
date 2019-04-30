@@ -49,7 +49,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Completion handler for refresh completion.
  */
-@property(atomic, nullable) MSSignInCompletionHandler refreshCompletionHandler;
+@property(atomic, nullable) MSAcquireTokenCompletionHandler refreshCompletionHandler;
 
 /**
  * The home account id that should be used for refreshing token after coming back online.

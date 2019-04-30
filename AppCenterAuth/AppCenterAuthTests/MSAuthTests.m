@@ -725,7 +725,6 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   id msalResultMock = OCMPartialMock([MSALResult new]);
   NSString *expectedAuthToken = @"fakeAuthToken";
   OCMStub([msalResultMock idToken]).andReturn(expectedAuthToken);
-
   OCMStub([self.clientApplicationMock acquireTokenSilentForScopes:OCMOCK_ANY account:OCMOCK_ANY completionBlock:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         __block MSALCompletionBlock completionBlock;
@@ -1180,6 +1179,11 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   OCMStub([fakeValidityInfo authToken]).andReturn(fakeAuthToken);
   OCMStub([authMock sharedInstance]).andReturn(authMock);
   OCMStub([authMock canBeUsed]).andReturn(YES);
+  self.sut.authConfig = [MSAuthConfig new];
+  self.sut.authConfig.authScope = @"fake";
+  OCMStub([authMock configAuthenticationClient]).andDo(^(NSInvocation *__unused invocation) {
+    self.sut.clientApplication = self.clientApplicationMock;
+  });
   MSALAccount *accountMock = OCMClassMock([MSALAccount class]);
   OCMStub([authMock retrieveAccountWithAccountId:fakeAccountId]).andReturn(accountMock);
 
@@ -1191,8 +1195,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [[MSAuthTokenContext sharedInstance] checkIfTokenNeedsToBeRefreshed:fakeValidityInfo];
 
   // Then
-  // TODO verify MSAL call instead
-  // OCMVerify([authMock acquireTokenSilentlyWithMSALAccount:accountMock uiFallback:NO]);
+  OCMVerify([self.sut.clientApplication acquireTokenSilentForScopes:OCMOCK_ANY account:OCMOCK_ANY completionBlock:OCMOCK_ANY]);
   [authMock stopMocking];
 }
 
@@ -1210,9 +1213,12 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   OCMStub([authMock sharedInstance]).andReturn(authMock);
   OCMStub([authMock canBeUsed]).andReturn(YES);
   OCMStub([authMock retrieveAccountWithAccountId:fakeAccountId]).andReturn(nil);
-
-  // TODO Reject MSAL call instead
-  // OCMReject([authMock acquireTokenSilentlyWithMSALAccount:OCMOCK_ANY uiFallback:NO]);
+  self.sut.authConfig = [MSAuthConfig new];
+  self.sut.authConfig.authScope = @"fake";
+  OCMStub([authMock configAuthenticationClient]).andDo(^(NSInvocation *__unused invocation) {
+    self.sut.clientApplication = self.clientApplicationMock;
+  });
+  OCMReject([self.sut.clientApplication acquireTokenSilentForScopes:OCMOCK_ANY account:OCMOCK_ANY completionBlock:OCMOCK_ANY]);
   id authTokenContextMock = OCMPartialMock([MSAuthTokenContext sharedInstance]);
   OCMStub([authTokenContextMock sharedInstance]).andReturn(authTokenContextMock);
 
