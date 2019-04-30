@@ -9,7 +9,6 @@
 #import "MSALError.h"
 #import "MSALPublicClientApplication.h"
 #import "MSALResult.h"
-#import "MSAuth.h"
 #import "MSAuthConfigIngestion.h"
 #import "MSAuthConstants.h"
 #import "MSAuthErrors.h"
@@ -691,23 +690,24 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
         completionBlock(msalResultMock, nil);
       });
   self.sut.clientApplication = self.clientApplicationMock;
+  OCMStub([self.clientApplicationMock accountForHomeAccountId:OCMOCK_ANY error:[OCMArg anyObjectRef]]).andReturn(accountMock);
   self.sut.authConfig = [MSAuthConfig new];
   self.sut.authConfig.authScope = @"fake";
-  id authMock = OCMPartialMock(self.sut);
-  OCMStub([authMock sharedInstance]).andReturn(authMock);
-  OCMStub([authMock canBeUsed]).andReturn(YES);
+  id authTokenContextMock = OCMPartialMock([MSAuthTokenContext sharedInstance]);
+  OCMStub([authTokenContextMock accountId]).andReturn(expectedHomeAccountId);
+  OCMStub([authTokenContextMock sharedInstance]).andReturn(authTokenContextMock);
 
   // When
-  // TODO use [self.sut signInInWithCompletionHandler:]
-  //[self.sut acquireTokenSilentlyWithMSALAccount:accountMock uiFallback:YES keyPathForCompletionHandler:@"TODO"];
+  [self.sut signInInWithCompletionHandler:^(MSUserInformation *_Nullable __unused userInformation, NSError *_Nullable __unused error){
+  }];
   MSAuthTokenInfo *actualAuthTokenInfo = [[[MSAuthTokenContext sharedInstance] authTokenHistory] lastObject];
 
   // Then
   XCTAssertEqualObjects(actualAuthTokenInfo.authToken, expectedAuthToken);
   XCTAssertEqualObjects([MSAuthTokenContext sharedInstance].authToken, expectedAuthToken);
-  XCTAssertEqualObjects([MSAuthTokenContext sharedInstance].accountId, expectedHomeAccountId);
+
   [accountMock stopMocking];
-  [authMock stopMocking];
+  [authTokenContextMock stopMocking];
   [msalResultMock stopMocking];
 }
 
