@@ -202,7 +202,7 @@ static NSString *const kMSHeaderMsDate = @"x-ms-date";
   }
 
   // Return the error.
-  return [[MSDataError alloc] initWithUserInfo:userInfo code:MSACDataErrorHTTPError];
+  return [[MSDataError alloc] initWithErrorCode:MSACDataErrorHTTPError userInfo:userInfo];
 }
 
 @end

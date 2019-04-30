@@ -10,23 +10,23 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Create a MSDataError object.
  *
+ * @param errorCode Error code.
  * @param innerError Inner error that provides more context about the actual error.
- * @param code Error code.
  * @param message Error message.
  *
  * @return Instance of error object.
  */
-- (instancetype)initWithInnerError:(NSError *_Nullable)innerError code:(NSInteger)code message:(NSString *_Nullable)message;
+- (instancetype)initWithErrorCode:(NSInteger)errorCode innerError:(NSError *_Nullable)innerError message:(NSString *_Nullable)message;
 
 /**
  * Create a MSDataError object.
  *
+ * @param errorCode Error code.
  * @param userInfo Contains context about the actual error.
- * @param code Error code.
  *
  * @return Instance of error object.
  */
-- (instancetype)initWithUserInfo:(NSDictionary *)userInfo code:(NSInteger)code;
+- (instancetype)initWithErrorCode:(NSInteger)errorCode userInfo:(NSDictionary *)userInfo;
 
 @end
 

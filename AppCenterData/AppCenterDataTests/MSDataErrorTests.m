@@ -23,7 +23,7 @@
   NSString *errorMessage = @"A serious error message!";
 
   // When
-  MSDataError *dataError = [[MSDataError alloc] initWithInnerError:error code:errorCode message:errorMessage];
+  MSDataError *dataError = [[MSDataError alloc] initWithErrorCode:errorCode innerError:error message:errorMessage];
 
   // Then
   XCTAssertEqual(errorCode, dataError.code);
@@ -41,7 +41,7 @@
   NSDictionary *userInfo = @{@"MSHttpCodeKey" : @(expectedErrorCode)};
 
   // When
-  MSDataError *dataError = [[MSDataError alloc] initWithUserInfo:userInfo code:0];
+  MSDataError *dataError = [[MSDataError alloc] initWithErrorCode:0 userInfo:userInfo];
 
   // Then
   XCTAssertTrue([dataError.userInfo[@"MSHttpCodeKey"] integerValue] == expectedErrorCode);

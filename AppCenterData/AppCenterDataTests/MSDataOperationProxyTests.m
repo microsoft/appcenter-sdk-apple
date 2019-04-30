@@ -32,7 +32,7 @@
   _documentStoreMock = OCMClassMock([MSDBDocumentStore class]);
   _reachability = OCMPartialMock([MS_Reachability reachabilityForInternetConnection]);
   _sut = [[MSDataOperationProxy alloc] initWithDocumentStore:_documentStoreMock reachability:self.reachability];
-  _dummyError = [[MSDataError alloc] initWithInnerError:nil code:-1 message:@"Some dummy error"];
+  _dummyError = [[MSDataError alloc] initWithErrorCode:-1 innerError:nil message:@"Some dummy error"];
 }
 
 - (void)tearDown {
