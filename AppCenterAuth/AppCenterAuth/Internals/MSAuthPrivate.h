@@ -103,6 +103,17 @@ typedef void (^MSAcquireTokenCompletionHandler)(MSUserInformation *_Nullable use
  */
 - (void)refreshTokenForAccountId:(NSString *)accountId withNetworkConnected:(BOOL)networkConnected;
 
+/**
+ * Acquires token in background with the given account.
+ *
+ * @param account The account that is used for acquiring token.
+ * @param uiFallback The flag for fallback to interactive sign-in when it fails.
+ * @param completionHandlerKeyPath The key path of completion handler to process sign-in or refresh token.
+ */
+- (void)acquireTokenSilentlyWithMSALAccount:(MSALAccount *)account
+                                 uiFallback:(BOOL)uiFallback
+                keyPathForCompletionHandler:(NSString *)completionHandlerKeyPath;
+
 @end
 
 NS_ASSUME_NONNULL_END
