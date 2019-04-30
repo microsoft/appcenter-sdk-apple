@@ -698,7 +698,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   OCMStub([authMock canBeUsed]).andReturn(YES);
 
   // When
-  [self.sut acquireTokenSilentlyWithMSALAccount:accountMock withUIFallback:YES];
+  [self.sut acquireTokenSilentlyWithMSALAccount:accountMock uiFallback:YES];
   MSAuthTokenInfo *actualAuthTokenInfo = [[[MSAuthTokenContext sharedInstance] authTokenHistory] lastObject];
 
   // Then
@@ -730,7 +730,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
       });
 
   // When
-  [self.sut acquireTokenSilentlyWithMSALAccount:OCMOCK_ANY withUIFallback:YES];
+  [self.sut acquireTokenSilentlyWithMSALAccount:OCMOCK_ANY uiFallback:YES];
 
   // Then
   OCMVerify([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]);
@@ -1174,7 +1174,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   OCMStub([authMock canBeUsed]).andReturn(YES);
   MSALAccount *accountMock = OCMClassMock([MSALAccount class]);
   OCMStub([authMock retrieveAccountWithAccountId:fakeAccountId]).andReturn(accountMock);
-  OCMStub([authMock acquireTokenSilentlyWithMSALAccount:accountMock withUIFallback:NO]);
+  OCMStub([authMock acquireTokenSilentlyWithMSALAccount:accountMock uiFallback:NO]);
 
   // When
   [authMock startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
@@ -1184,7 +1184,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [[MSAuthTokenContext sharedInstance] checkIfTokenNeedsToBeRefreshed:fakeValidityInfo];
 
   // Then
-  OCMVerify([authMock acquireTokenSilentlyWithMSALAccount:accountMock withUIFallback:NO]);
+  OCMVerify([authMock acquireTokenSilentlyWithMSALAccount:accountMock uiFallback:NO]);
   [authMock stopMocking];
 }
 
@@ -1202,7 +1202,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   OCMStub([authMock sharedInstance]).andReturn(authMock);
   OCMStub([authMock canBeUsed]).andReturn(YES);
   OCMStub([authMock retrieveAccountWithAccountId:fakeAccountId]).andReturn(nil);
-  OCMReject([authMock acquireTokenSilentlyWithMSALAccount:OCMOCK_ANY withUIFallback:NO]);
+  OCMReject([authMock acquireTokenSilentlyWithMSALAccount:OCMOCK_ANY uiFallback:NO]);
   id authTokenContextMock = OCMPartialMock([MSAuthTokenContext sharedInstance]);
   OCMStub([authTokenContextMock sharedInstance]).andReturn(authTokenContextMock);
 

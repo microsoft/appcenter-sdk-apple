@@ -192,7 +192,7 @@ static dispatch_once_t onceToken;
   NSString *accountId = [[MSAuthTokenContext sharedInstance] accountId];
   MSALAccount *account = [self retrieveAccountWithAccountId:accountId];
   if (account) {
-    [self acquireTokenSilentlyWithMSALAccount:account withUIFallback:YES];
+    [self acquireTokenSilentlyWithMSALAccount:account uiFallback:YES];
   } else {
     [self acquireTokenInteractively];
   }
@@ -361,7 +361,7 @@ static dispatch_once_t onceToken;
   return YES;
 }
 
-- (void)acquireTokenSilentlyWithMSALAccount:(MSALAccount *)account withUIFallback:(BOOL)withUIFallback {
+- (void)acquireTokenSilentlyWithMSALAccount:(MSALAccount *)account uiFallback:(BOOL)uiFallback {
   __weak typeof(self) weakSelf = self;
   [self.clientApplication
       acquireTokenSilentForScopes:@[ (NSString * __nonnull) self.authConfig.authScope ]
@@ -369,15 +369,20 @@ static dispatch_once_t onceToken;
                   completionBlock:^(MSALResult *result, NSError *error) {
                     typeof(self) strongSelf = weakSelf;
                     if (error) {
-                      if (withUIFallback && [error.domain isEqual:MSALErrorDomain] && error.code == MSALErrorInteractionRequired) {
-                        MSLogWarning([MSAuth logTag],
-                                     @"Silent acquisition of token failed with error: %@. Triggering interactive acquisition", error);
-                        [strongSelf acquireTokenInteractively];
+                      NSString *errorMessage = [NSString stringWithFormat:@"Silent acquisition of token failed with error: %@.", error.localizedDescription];
+                      if ([error.domain isEqual:MSALErrorDomain] && error.code == MSALErrorInteractionRequired) {
+                        if (uiFallback) {
+                          MSLogInfo([MSAuth logTag], @"%@ Triggering interactive acquisition.", errorMessage);
+                          [strongSelf acquireTokenInteractively];
+                          return;
+                        } else {
+                          MSLogError([MSAuth logTag], @"%@ But interactive acquisition fallback is not allowed here.", errorMessage);
+                        }
                       } else {
-                        [[MSAuthTokenContext sharedInstance] setAuthToken:nil withAccountId:nil expiresOn:nil];
-                        MSLogError([MSAuth logTag], @"User sign-in failed. Error: %@", error);
-                        [strongSelf completeAcquireTokenRequestForResult:result withError:error];
+                        MSLogError([MSAuth logTag], @"%@", errorMessage);
                       }
+                      [[MSAuthTokenContext sharedInstance] setAuthToken:nil withAccountId:nil expiresOn:nil];
+                      [strongSelf completeAcquireTokenRequestForResult:result withError:error];
                     } else {
                       MSALAccountId *accountId = (MSALAccountId * __nonnull) result.account.homeAccountId;
                       [[MSAuthTokenContext sharedInstance] setAuthToken:result.idToken
@@ -445,7 +450,7 @@ static dispatch_once_t onceToken;
 - (void)authTokenContext:(MSAuthTokenContext *)authTokenContext refreshAuthTokenForAccountId:(nullable NSString *)accountId {
   MSALAccount *account = [self retrieveAccountWithAccountId:accountId];
   if (account) {
-    [self acquireTokenSilentlyWithMSALAccount:account withUIFallback:NO];
+    [self acquireTokenSilentlyWithMSALAccount:account uiFallback:NO];
   } else {
 
     // If account not found, start an anonymous session to avoid deadlock.

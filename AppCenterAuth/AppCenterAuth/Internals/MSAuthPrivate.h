@@ -79,9 +79,9 @@ NS_ASSUME_NONNULL_BEGIN
  * Retrieve an updated token without user interaction.
  *
  * @param account The MSALAccount that is used to retrieve an authentication token.
- * @param withUIFallback `YES` if an interactive request can be used, otherwise `NO`.
+ * @param uiFallback `YES` if an interactive request can be used, otherwise `NO`.
  */
-- (void)acquireTokenSilentlyWithMSALAccount:(MSALAccount *)account withUIFallback:(BOOL)withUIFallback;
+- (void)acquireTokenSilentlyWithMSALAccount:(MSALAccount *)account uiFallback:(BOOL)uiFallback;
 
 /**
  * Retrieve an updated token with user interaction.
