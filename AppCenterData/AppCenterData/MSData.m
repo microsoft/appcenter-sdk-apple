@@ -79,6 +79,7 @@ static dispatch_once_t onceToken;
     _dispatchQueue = dispatch_queue_create(kMSDataDispatchQueue, DISPATCH_QUEUE_SERIAL);
     _reachability = [MS_Reachability reachabilityForInternetConnection];
     _dataOperationProxy = [[MSDataOperationProxy alloc] initWithDocumentStore:[MSDBDocumentStore new] reachability:_reachability];
+    _outgoingPendingOperations = [NSMutableSet new];
   }
   return self;
 }
