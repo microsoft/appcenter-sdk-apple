@@ -100,6 +100,9 @@ static dispatch_once_t onceToken;
 #endif
     [[MSAuthTokenContext sharedInstance] addDelegate:self];
 
+    // Listen to network events.
+    [MS_NOTIFICATION_CENTER addObserver:self selector:@selector(networkStateChanged:) name:kMSReachabilityChangedNotification object:nil];
+
     // Read Auth config file.
     NSString *eTag = nil;
     if ([self loadConfigurationFromCache]) {
@@ -115,6 +118,8 @@ static dispatch_once_t onceToken;
     [[MSAppDelegateForwarder sharedInstance] removeDelegate:self.appDelegate];
 #endif
     [[MSAuthTokenContext sharedInstance] removeDelegate:self];
+    [MS_NOTIFICATION_CENTER removeObserver:self];
+
     [self clearAuthData];
     self.clientApplication = nil;
     [self clearConfigurationCache];
@@ -158,7 +163,7 @@ static dispatch_once_t onceToken;
   }
   @synchronized([MSAuth sharedInstance]) {
     if ([[MSAuth sharedInstance] canBeUsed] && [[MSAuth sharedInstance] isEnabled]) {
-      if ([MSAuth sharedInstance].signInCompletionHandler) {
+      if ([MSAuth sharedInstance].signInInProgress) {
         MSLogError([MSAuth logTag], @"signIn already in progress.");
         NSError *error = [[NSError alloc] initWithDomain:kMSACAuthErrorDomain
                                                     code:MSACAuthErrorPreviousSignInRequestInProgress
@@ -166,7 +171,13 @@ static dispatch_once_t onceToken;
         completionHandler(nil, error);
         return;
       }
+      if ([MSAuth sharedInstance].refreshInProgress) {
+
+        // TODO: Cancel refresh.
+        [MSAuth sharedInstance].refreshInProgress = NO;
+      }
       [MSAuth sharedInstance].signInCompletionHandler = completionHandler;
+      [MSAuth sharedInstance].signInInProgress = YES;
       [[MSAuth sharedInstance] signIn];
     } else {
       NSError *error = [[NSError alloc] initWithDomain:kMSACAuthErrorDomain
@@ -205,6 +216,7 @@ static dispatch_once_t onceToken;
 }
 
 - (void)completeSignInWithErrorCode:(NSInteger)errorCode andMessage:(NSString *)errorMessage {
+  self.signInInProgress = NO;
   if (!self.signInCompletionHandler) {
     return;
   }
@@ -301,7 +313,7 @@ static dispatch_once_t onceToken;
 
   // Init MSAL client application.
   NSError *error;
-  MSALB2CAuthority *auth = [[MSALB2CAuthority alloc] initWithURL:(NSURL * __nonnull)self.authConfig.authorities[0].authorityUrl error:nil];
+  MSALB2CAuthority *auth = [[MSALB2CAuthority alloc] initWithURL:(NSURL * __nonnull) self.authConfig.authorities[0].authorityUrl error:nil];
   MSALPublicClientApplicationConfig *config =
       [[MSALPublicClientApplicationConfig alloc] initWithClientId:(NSString * __nonnull) self.authConfig.clientId
                                                       redirectUri:self.authConfig.redirectUri
@@ -410,6 +422,7 @@ static dispatch_once_t onceToken;
 
 - (void)completeAcquireTokenRequestForResult:(MSALResult *)result withError:(NSError *)error {
   @synchronized(self) {
+    self.signInInProgress = NO;
     if (!self.signInCompletionHandler) {
       return;
     }
@@ -436,18 +449,51 @@ static dispatch_once_t onceToken;
   return account;
 }
 
-#pragma mark - MSAuthTokenContextDelegate
+- (void)refreshTokenForAccountId:(NSString *)accountId withNetworkConnected:(BOOL)networkConnected {
+  if (self.signInInProgress) {
+    MSLogDebug([MSAuth logTag], @"Failed to refresh token: sign-in already in progress.");
+    return;
+  }
+  if (self.refreshInProgress) {
+    MSLogDebug([MSAuth logTag], @"Token refresh already in progress. Skip this refresh request.");
+    return;
+  }
+  if (!networkConnected) {
+    MSLogDebug([MSAuth logTag], @"Network not connected. The token will be refreshed after coming back online.");
+    self.homeAccountIdToRefresh = accountId;
+    return;
+  }
+  @synchronized(self) {
+    self.refreshInProgress = YES;
+    MSALAccount *account = [self retrieveAccountWithAccountId:accountId];
+    if (account) {
+      [self acquireTokenSilentlyWithMSALAccount:account];
+    } else {
 
-- (void)authTokenContext:(MSAuthTokenContext *)authTokenContext refreshAuthTokenForAccountId:(nullable NSString *)accountId {
-  MSALAccount *account = [self retrieveAccountWithAccountId:accountId];
-  if (account) {
-    [self acquireTokenSilentlyWithMSALAccount:account];
-  } else {
-
-    // If account not found, start an anonymous session to avoid deadlock.
-    MSLogWarning([MSAuth logTag],
-                 @"Could not get account for the accountId of the token that needs to be refreshed. Starting anonymous session.");
-    [authTokenContext setAuthToken:nil withAccountId:nil expiresOn:nil];
+      // If account not found, start an anonymous session to avoid deadlock.
+      MSLogWarning([MSAuth logTag],
+                   @"Could not get account for the accountId of the token that needs to be refreshed. Starting anonymous session.");
+      [[MSAuthTokenContext sharedInstance] setAuthToken:nil withAccountId:nil expiresOn:nil];
+    }
   }
 }
+
+#pragma mark - MSAuthTokenContextDelegate
+
+- (void)authTokenContext:(MSAuthTokenContext *)__unused authTokenContext refreshAuthTokenForAccountId:(nullable NSString *)accountId {
+  BOOL networkConnected = [[MS_Reachability reachabilityForInternetConnection] currentReachabilityStatus] != NotReachable;
+  [self refreshTokenForAccountId:accountId withNetworkConnected:networkConnected];
+}
+
+#pragma mark - Reachability
+
+- (void)networkStateChanged:(NSNotificationCenter *)__unused notification {
+  BOOL networkConnected = [[MS_Reachability reachabilityForInternetConnection] currentReachabilityStatus] != NotReachable;
+  if (networkConnected && !self.homeAccountIdToRefresh) {
+    NSString *accountId = self.homeAccountIdToRefresh;
+    self.homeAccountIdToRefresh = nil;
+    [self refreshTokenForAccountId:accountId withNetworkConnected:YES];
+  }
+}
+
 @end

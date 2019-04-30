@@ -47,6 +47,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property(atomic, nullable) MSSignInCompletionHandler signInCompletionHandler;
 
 /**
+ * The home account id that should be used for refreshing token after coming back online.
+ */
+@property(nonatomic, nullable, copy) NSString *homeAccountIdToRefresh;
+
+/**
  * The flag indicates whether sign-in is already in progress.
  */
 @property BOOL signInInProgress;
