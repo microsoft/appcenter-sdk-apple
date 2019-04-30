@@ -287,23 +287,23 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 }
 
 - (void)testReplaceWithInvalidDocumentType {
-  
+
   // If
   self.sut.httpClient = OCMProtocolMock(@protocol(MSHttpClientProtocol));
   OCMReject([self.sut.httpClient sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:OCMOCK_ANY data:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
   __block MSDocumentWrapper *actualDocumentWrapper;
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler called."];
-  
+
   // When
   id badDocument = @"bad document";
   [MSData replaceDocumentWithID:kMSDocumentIdTest
-                      document:badDocument
-                     partition:kMSPartitionTest
-             completionHandler:^(MSDocumentWrapper *data) {
-               actualDocumentWrapper = data;
-               [expectation fulfill];
-             }];
-  
+                       document:badDocument
+                      partition:kMSPartitionTest
+              completionHandler:^(MSDocumentWrapper *data) {
+                actualDocumentWrapper = data;
+                [expectation fulfill];
+              }];
+
   // Then
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *_Nullable error) {
