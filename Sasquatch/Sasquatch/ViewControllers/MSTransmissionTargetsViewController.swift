@@ -120,7 +120,7 @@ class MSTransmissionTargetsViewController: UITableViewController, AppCenterProto
     // The ordering of these target sections is important so they are displayed in the right order.
     transmissionTargetSections = [defaultTargetSection, runtimeTargetSection, child1TargetSection, child2TargetSection]
     tableView.estimatedRowHeight = tableView.rowHeight
-    tableView.rowHeight = UITableViewAutomaticDimension
+    tableView.rowHeight = UITableView.automaticDimension
     tableView.setEditing(true, animated: false)
     
     // Make sure the UITabBarController does not cut off the last cell.
@@ -182,7 +182,7 @@ class MSTransmissionTargetsViewController: UITableViewController, AppCenterProto
     }
   }
 
-  func targetEnabledSwitchValueChanged(sender: UISwitch!) {
+  @objc func targetEnabledSwitchValueChanged(sender: UISwitch!) {
     let sectionIndex = getCellSection(forView: sender)
     let section = transmissionTargetSections![sectionIndex]
     if (sectionIndex == Section.Default.rawValue) {
@@ -213,7 +213,7 @@ class MSTransmissionTargetsViewController: UITableViewController, AppCenterProto
     }
   }
 
-  func targetShouldSendAnalyticsSwitchValueChanged(sender: UISwitch!) {
+  @objc func targetShouldSendAnalyticsSwitchValueChanged(sender: UISwitch!) {
     let sectionIndex = getCellSection(forView: sender)
     let section = transmissionTargetSections![sectionIndex]
     section.setShouldSendAnalytics(enabledState: sender!.isOn)
@@ -248,13 +248,13 @@ class MSTransmissionTargetsViewController: UITableViewController, AppCenterProto
     return nil
   }
 
-  override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+  override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
     if indexPath.section == Section.TargetProperties.rawValue {
       targetPropertiesSection?.tableView(tableView, commit: editingStyle, forRowAt: indexPath)
     }
   }
 
-  override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
+  override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
     if indexPath.section == Section.TargetProperties.rawValue {
       return targetPropertiesSection!.tableView(tableView, editingStyleForRowAt: indexPath)
     }
@@ -269,7 +269,7 @@ class MSTransmissionTargetsViewController: UITableViewController, AppCenterProto
   }
 
   override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-    return UITableViewAutomaticDimension
+    return UITableView.automaticDimension
   }
 
   /*

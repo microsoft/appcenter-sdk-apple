@@ -8,6 +8,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class MSDataError;
 @class MSSerializableDocument;
 @class MSTokenResult;
 
@@ -47,7 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A rich error object.
  */
-+ (NSError *)cosmosDbErrorWithResponse:(NSHTTPURLResponse *_Nullable)response underlyingError:(NSError *_Nullable)underlyingError;
++ (MSDataError *)cosmosDbErrorWithResponse:(NSHTTPURLResponse *_Nullable)response underlyingError:(NSError *_Nullable)underlyingError;
 
 @end
 

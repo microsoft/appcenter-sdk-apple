@@ -40,6 +40,11 @@
 @property(nonatomic) BOOL enabled;
 
 /**
+ * A boolean value set to YES if payload compression is enabled or NO otherwise.
+ */
+@property(nonatomic) BOOL compressionEnabled;
+
+/**
  * Configuration object for the NSURLSession. Need to store this because the session will need to be re-created after re-enabling the
  * client.
  */

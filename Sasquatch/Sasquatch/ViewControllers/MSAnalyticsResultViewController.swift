@@ -32,7 +32,7 @@ class MSAnalyticsResultViewController: UITableViewController {
     NotificationCenter.default.removeObserver(self)
   }
   
-  func updateAnalyticsResult(_ notification: Notification) {
+  @objc func updateAnalyticsResult(_ notification: Notification) {
     DispatchQueue.main.async {
       self.updateLabels()
       self.reloadCells()

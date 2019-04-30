@@ -117,7 +117,7 @@ class AppCenterUITests: XCTestCase {
       
       // Restart application.
       sleep(5)
-      XCUIDevice().press(XCUIDeviceButton.home)
+      XCUIDevice().press(XCUIDevice.Button.home)
       sleep(5)
       app.launch()
       

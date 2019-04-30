@@ -39,6 +39,7 @@
                               headers:nil
                                  data:longData
                        retryIntervals:@[]
+                   compressionEnabled:YES
                     completionHandler:^(__unused NSData *responseBody, __unused NSHTTPURLResponse *response, __unused NSError *error){
                     }];
 
@@ -62,11 +63,37 @@
                               headers:nil
                                  data:shortData
                        retryIntervals:@[]
+                   compressionEnabled:YES
                     completionHandler:^(__unused NSData *responseBody, __unused NSHTTPURLResponse *response, __unused NSError *error){
                     }];
 
   // Then
   XCTAssertEqualObjects(call.data, shortData);
+  XCTAssertEqualObjects(call.headers, expectedHeaders);
+}
+
+- (void)testDoesNotCompressHTTPBodyWhenDisabled {
+
+  // If
+
+  // HTTP body is big enough to be compressed.
+  NSString *longString = [@"" stringByPaddingToLength:kMSHTTPMinGZipLength withString:@"h" startingAtIndex:0];
+  NSData *longData = [longString dataUsingEncoding:NSUTF8StringEncoding];
+  NSDictionary *expectedHeaders = @{kMSHeaderContentTypeKey : kMSAppCenterContentType};
+
+  // When
+  MSHttpCall *call =
+      [[MSHttpCall alloc] initWithUrl:[NSURL new]
+                               method:@"POST"
+                              headers:nil
+                                 data:longData
+                       retryIntervals:@[]
+                   compressionEnabled:NO
+                    completionHandler:^(__unused NSData *responseBody, __unused NSHTTPURLResponse *response, __unused NSError *error){
+                    }];
+
+  // Then
+  XCTAssertEqualObjects(call.data, longData);
   XCTAssertEqualObjects(call.headers, expectedHeaders);
 }
 

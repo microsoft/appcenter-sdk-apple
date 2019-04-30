@@ -11,6 +11,13 @@
 @property NSInteger deviceTimeToLive;
 
 /**
+ * Initialize a BaseOptions object with the default value.
+ *
+ * @return A BaseOptions instance.
+ */
+- (instancetype)init;
+
+/**
  * Initialize a BaseOptions object.
  *
  * @param deviceTimeToLive Device document time to live in seconds.
