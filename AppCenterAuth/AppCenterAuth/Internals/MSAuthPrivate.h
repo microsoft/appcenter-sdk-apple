@@ -101,6 +101,22 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)refreshTokenForAccountId:(NSString *)accountId withNetworkConnected:(BOOL)networkConnected;
 
+/**
+ * Retrieve the account object for the given home account Id from MSAL.
+ *
+ * @param homeAccountId A home account Id.
+ *
+ * @return The account object for the given home account Id.
+ */
+- (MSALAccount *)retrieveAccountWithAccountId:(NSString *)homeAccountId;
+
+/**
+ * Remove the current account object from MSAL.
+ *
+ * @return `YES` if the account is removed successfully, otherwise `NO`.
+ */
+- (BOOL)removeAccount;
+
 @end
 
 NS_ASSUME_NONNULL_END

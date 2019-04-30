@@ -30,19 +30,6 @@
 
 static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
-@interface MSAuth (Test)
-
-@property(atomic) BOOL signInShouldWaitForConfig;
-
-- (void)configAuthenticationClient;
-- (void)ifSignInIsInProgressCompleteWithErrorCode:(NSInteger)errorCode
-                                       andMessage:(NSString *)errorMessage
-                          isDownloadConfigFailure:(BOOL)isDownloadConfigFailure;
-- (BOOL)removeAccount;
-- (MSALAccount *)retrieveAccountWithAccountId:(NSString *)homeAccountId;
-
-@end
-
 @interface MSAuthTests : XCTestCase
 
 @property(nonatomic) MSAuth *sut;
@@ -1247,8 +1234,10 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   id authMock = OCMPartialMock(self.sut);
   OCMStub([authMock sharedInstance]).andReturn(authMock);
   OCMStub([authMock canBeUsed]).andReturn(YES);
-  OCMStub([authMock configAuthenticationClient]).andDo(^(NSInvocation __unused *invocation){self.sut.clientApplication = self.clientApplicationMock;});
-  
+  OCMStub([authMock configAuthenticationClient]).andDo(^(NSInvocation __unused *invocation) {
+    self.sut.clientApplication = self.clientApplicationMock;
+  });
+
   // When
   __block MSSendAsyncCompletionHandler ingestionBlock;
   NSString *expectedETag = @"newETag";
@@ -1291,9 +1280,10 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
                  nil);
 
   // Then
-  OCMVerify([self.sut ifSignInIsInProgressCompleteWithErrorCode:MSACAuthErrorSignInBackgroundOrNotConfigured
-                                                     andMessage:OCMOCK_ANY
-                                        isDownloadConfigFailure:NO]);
+  XCTAssertNil(self.sut.signInCompletionHandler);
+  XCTAssertNil(self.signInUserInformation);
+  XCTAssertEqual(self.signInError.code, MSACAuthErrorServiceDisabled);
+  XCTAssertNotNil(self.signInError.localizedDescription);
 }
 
 @end
