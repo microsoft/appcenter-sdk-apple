@@ -42,7 +42,7 @@
   if (![MSDataOperationProxy isValidOperation:operation]) {
     NSString *message = @"Operation is not supported";
     MSLogError([MSData logTag], message);
-    MSDataError *dataError = [[MSDataError alloc] initWithInnerError:nil code:MSACDataLocalStoreError message:message];
+    MSDataError *dataError = [[MSDataError alloc] initWithErrorCode:MSACDataLocalStoreError innerError:nil message:message];
     completionHandler([[MSDocumentWrapper alloc] initWithError:dataError documentId:documentId]);
     return;
   }
@@ -54,7 +54,7 @@
       NSString *message =
           [NSString stringWithFormat:@"Error while retrieving cached token, aborting operation: %@", [error localizedDescription]];
       MSLogError([MSData logTag], @"%@", message);
-      MSDataError *dataError = [[MSDataError alloc] initWithInnerError:nil code:MSACDataLocalStoreError message:message];
+      MSDataError *dataError = [[MSDataError alloc] initWithErrorCode:MSACDataLocalStoreError innerError:nil message:message];
       completionHandler([[MSDocumentWrapper alloc] initWithError:dataError documentId:documentId]);
       return;
     }
@@ -98,7 +98,7 @@
         else if ([kMSPendingOperationDelete isEqualToString:cachedDocument.pendingOperation]) {
           NSString *message = @"Document pending deletion in local storage";
           MSLogError([MSData logTag], message);
-          MSDataError *dataError = [[MSDataError alloc] initWithInnerError:nil code:MSACDataErrorDocumentNotFound message:message];
+          MSDataError *dataError = [[MSDataError alloc] initWithErrorCode:MSACDataErrorDocumentNotFound innerError:nil message:message];
           completionHandler([[MSDocumentWrapper alloc] initWithError:dataError documentId:documentId]);
         }
 
@@ -152,7 +152,9 @@
                                          code:MSACDataErrorJSONSerializationFailed
                                      userInfo:@{NSLocalizedDescriptionKey : @"Dictionary contains values that cannot be serialized."}];
           MSLogError([MSData logTag], @"Error serializing document for local storage: %@", [jsonError localizedDescription]);
-          MSDataError *dataError = [[MSDataError alloc] initWithInnerError:jsonError code:0 message:nil];
+          MSDataError *dataError = [[MSDataError alloc] initWithErrorCode:MSACDataErrorJSONSerializationFailed
+                                                               innerError:jsonError
+                                                                  message:nil];
           completionHandler([[MSDocumentWrapper alloc] initWithError:dataError documentId:documentId]);
           return;
         }
@@ -162,7 +164,7 @@
         } else {
           NSString *message = @"Error serializing document for local storage";
           MSLogError([MSData logTag], message);
-          MSDataError *dataError = [[MSDataError alloc] initWithInnerError:nil code:MSACDataLocalStoreError message:message];
+          MSDataError *dataError = [[MSDataError alloc] initWithErrorCode:MSACDataLocalStoreError innerError:nil message:message];
           completionHandler([[MSDocumentWrapper alloc] initWithError:dataError documentId:documentId]);
           return;
         }

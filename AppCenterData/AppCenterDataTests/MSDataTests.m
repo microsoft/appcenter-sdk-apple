@@ -254,6 +254,70 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   XCTAssertEqualObjects(actualDocumentWrapper.documentId, kMSDocumentIdTest);
 }
 
+- (void)testCreateWithInvalidDocumentType {
+
+  // If
+  self.sut.httpClient = OCMProtocolMock(@protocol(MSHttpClientProtocol));
+  OCMReject([self.sut.httpClient sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:OCMOCK_ANY data:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
+  __block MSDocumentWrapper *actualDocumentWrapper;
+  __weak XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler called."];
+
+  // When
+  id badDocument = @"bad document";
+  [MSData createDocumentWithID:kMSDocumentIdTest
+                      document:badDocument
+                     partition:kMSPartitionTest
+             completionHandler:^(MSDocumentWrapper *data) {
+               actualDocumentWrapper = data;
+               [expectation fulfill];
+             }];
+
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *_Nullable error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+  XCTAssertNotNil(actualDocumentWrapper);
+  XCTAssertNotNil(actualDocumentWrapper.error);
+  XCTAssertEqual(actualDocumentWrapper.error.domain, kMSACDataErrorDomain);
+  XCTAssertEqual(actualDocumentWrapper.error.code, MSACDataInvalidClassCode);
+  XCTAssertEqualObjects(actualDocumentWrapper.documentId, kMSDocumentIdTest);
+}
+
+- (void)testReplaceWithInvalidDocumentType {
+  
+  // If
+  self.sut.httpClient = OCMProtocolMock(@protocol(MSHttpClientProtocol));
+  OCMReject([self.sut.httpClient sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:OCMOCK_ANY data:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
+  __block MSDocumentWrapper *actualDocumentWrapper;
+  __weak XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler called."];
+  
+  // When
+  id badDocument = @"bad document";
+  [MSData replaceDocumentWithID:kMSDocumentIdTest
+                      document:badDocument
+                     partition:kMSPartitionTest
+             completionHandler:^(MSDocumentWrapper *data) {
+               actualDocumentWrapper = data;
+               [expectation fulfill];
+             }];
+  
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *_Nullable error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+  XCTAssertNotNil(actualDocumentWrapper);
+  XCTAssertNotNil(actualDocumentWrapper.error);
+  XCTAssertEqual(actualDocumentWrapper.error.domain, kMSACDataErrorDomain);
+  XCTAssertEqual(actualDocumentWrapper.error.code, MSACDataInvalidClassCode);
+  XCTAssertEqualObjects(actualDocumentWrapper.documentId, kMSDocumentIdTest);
+}
+
 - (void)testCreateWhenDataModuleDisabled {
 
   // If
@@ -1832,7 +1896,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   self.sut.dataOperationProxy.reachability = reachabilityMock;
 
   // Mock expired document in local storage.
-  MSDataError *dataError = [[MSDataError alloc] initWithInnerError:nil code:MSACDataErrorLocalDocumentExpired message:nil];
+  MSDataError *dataError = [[MSDataError alloc] initWithErrorCode:MSACDataErrorLocalDocumentExpired innerError:nil message:nil];
   id<MSDocumentStore> localStorageMock = OCMProtocolMock(@protocol(MSDocumentStore));
   self.sut.dataOperationProxy.documentStore = localStorageMock;
   MSDocumentWrapper *expiredDocument = [[MSDocumentWrapper alloc] initWithError:dataError documentId:@"4"];

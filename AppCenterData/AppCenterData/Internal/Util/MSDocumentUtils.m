@@ -64,8 +64,7 @@ static NSString *const kMSDocumentKey = @"document";
                                      userInfo:@{NSLocalizedDescriptionKey : @"Can't deserialize JSON payload"}];
     }
     MSLogError([MSData logTag], @"Error deserializing data: %@", [error description]);
-
-    MSDataError *dataError = [[MSDataError alloc] initWithInnerError:error code:0 message:nil];
+    MSDataError *dataError = [[MSDataError alloc] initWithErrorCode:MSACDataErrorJSONSerializationFailed innerError:error message:nil];
     return [[MSDocumentWrapper alloc] initWithError:dataError documentId:nil];
   }
 
@@ -98,7 +97,7 @@ static NSString *const kMSDocumentKey = @"document";
                                      userInfo:@{NSLocalizedDescriptionKey : @"Can't deserialize JSON payload"}];
     }
     MSLogError([MSData logTag], @"Error deserializing data: %@", [error localizedDescription]);
-    MSDataError *dataError = [[MSDataError alloc] initWithInnerError:error code:0 message:nil];
+    MSDataError *dataError = [[MSDataError alloc] initWithErrorCode:MSACDataErrorJSONSerializationFailed innerError:error message:nil];
     return [[MSDocumentWrapper alloc] initWithError:dataError documentId:documentId];
   }
 
@@ -125,8 +124,10 @@ static NSString *const kMSDocumentKey = @"document";
 
     // Prepare and return error.
     NSString *errorMessage = @"Can't deserialize document (missing system properties or partition key)";
-    MSDataError *dataError = [[MSDataError alloc] initWithInnerError:nil code:MSACDataErrorJSONSerializationFailed message:errorMessage];
-    MSLogError([MSData logTag], @"Error deserializing data: %@", [dataError localizedDescription]);
+    MSDataError *dataError = [[MSDataError alloc] initWithErrorCode:MSACDataErrorJSONSerializationFailed
+                                                         innerError:nil
+                                                            message:errorMessage];
+    MSLogError([MSData logTag], @"Error deserializing data: %@.", [dataError localizedDescription]);
     return [[MSDocumentWrapper alloc] initWithError:dataError documentId:nil];
   }
   NSDictionary *dictionary = (NSDictionary *)object;
@@ -186,10 +187,11 @@ static NSString *const kMSDocumentKey = @"document";
 
   // Validate dictionary
   if (![NSJSONSerialization isValidJSONObject:dictionary]) {
-
     NSString *errorMessage = @"Dictionary contains values that cannot be serialized.";
-    MSDataError *dataError = [[MSDataError alloc] initWithInnerError:nil code:MSACDataErrorJSONSerializationFailed message:errorMessage];
-    MSLogError([MSData logTag], @"Error deserializing data: %@", [dataError localizedDescription]);
+    MSDataError *dataError = [[MSDataError alloc] initWithErrorCode:MSACDataErrorJSONSerializationFailed
+                                                         innerError:nil
+                                                            message:errorMessage];
+    MSLogError([MSData logTag], @"Error deserializing data: %@.", [dataError localizedDescription]);
     return [[MSDocumentWrapper alloc] initWithError:dataError documentId:documentId];
   }
 
@@ -202,11 +204,10 @@ static NSString *const kMSDocumentKey = @"document";
   MSDataError *dataError = nil;
   id<MSSerializableDocument> deserializedValue;
   if (!error && ![MSDocumentUtils isReferenceDictionaryWithKey:dictionary key:kMSDocumentKey keyType:[NSDictionary class]]) {
-
-    dataError = [[MSDataError alloc] initWithInnerError:error
-                                                   code:MSACDataErrorJSONSerializationFailed
-                                                message:@"Can't deserialize document (missing document property)"];
-    MSLogError([MSData logTag], @"Error deserializing data: %@", [dataError localizedDescription]);
+    dataError = [[MSDataError alloc] initWithErrorCode:MSACDataErrorJSONSerializationFailed
+                                            innerError:error
+                                               message:@"Can't deserialize document (missing document property)"];
+    MSLogError([MSData logTag], @"Error deserializing data: %@.", [dataError localizedDescription]);
   }
 
   // If no serialization error.
