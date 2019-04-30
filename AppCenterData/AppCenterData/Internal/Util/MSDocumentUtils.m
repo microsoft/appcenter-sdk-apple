@@ -170,7 +170,7 @@ static NSString *const kMSDocumentKey = @"document";
   NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary options:0 error:&serializationError];
   if (serializationError) {
     NSString *errorMessage = @"Document could not be serialized.";
-    MSDataError *dataError = [[MSDataError alloc] initWithInnerError:serializationError code:MSACDataErrorJSONSerializationFailed message:errorMessage];
+    MSDataError *dataError = [[MSDataError alloc] initWithErrorCode:MSACDataErrorJSONSerializationFailed innerError:serializationError message:errorMessage];
     MSLogError([MSData logTag], errorMessage);
     return [[MSDocumentWrapper alloc] initWithError:dataError documentId:documentId];
   }
