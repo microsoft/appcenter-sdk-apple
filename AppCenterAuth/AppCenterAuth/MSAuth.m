@@ -501,9 +501,6 @@ static dispatch_once_t onceToken;
 #pragma mark - MSAuthTokenContextDelegate
 
 - (void)authTokenContext:(MSAuthTokenContext *)__unused authTokenContext refreshAuthTokenForAccountId:(nullable NSString *)accountId {
-  if (!accountId) {
-    return;
-  }
   BOOL networkConnected = [[MS_Reachability reachabilityForInternetConnection] currentReachabilityStatus] != NotReachable;
   [self refreshTokenForAccountId:(NSString *)accountId withNetworkConnected:networkConnected];
 }
