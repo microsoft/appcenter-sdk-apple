@@ -7,7 +7,7 @@
 #import "MSConstants+Internal.h"
 #import "MSCosmosDb.h"
 #import "MSCosmosDbPrivate.h"
-#import "MSDataError.h"
+#import "MSDataErrorInternal.h"
 #import "MSDataErrors.h"
 #import "MSDataInternal.h"
 #import "MSDataPrivate.h"
@@ -159,8 +159,8 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                }];
   XCTAssertNotNil(actualDocumentWrapper);
   XCTAssertNotNil(actualDocumentWrapper.error);
-  XCTAssertEqual(actualDocumentWrapper.error.error.domain, kMSACErrorDomain);
-  XCTAssertEqual(actualDocumentWrapper.error.error.code, MSACDisabledErrorCode);
+  XCTAssertEqual(actualDocumentWrapper.error.domain, kMSACDataErrorDomain);
+  XCTAssertEqual(actualDocumentWrapper.error.code, MSACDisabledErrorCode);
   XCTAssertEqualObjects(actualDocumentWrapper.documentId, kMSDocumentIdTest);
 }
 
@@ -249,8 +249,72 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                }];
   XCTAssertNotNil(actualDocumentWrapper);
   XCTAssertNotNil(actualDocumentWrapper.error);
-  XCTAssertEqual(actualDocumentWrapper.error.error.domain, kMSACDataErrorDomain);
-  XCTAssertEqual(actualDocumentWrapper.error.error.code, MSACDataInvalidClassCode);
+  XCTAssertEqual(actualDocumentWrapper.error.domain, kMSACDataErrorDomain);
+  XCTAssertEqual(actualDocumentWrapper.error.code, MSACDataInvalidClassCode);
+  XCTAssertEqualObjects(actualDocumentWrapper.documentId, kMSDocumentIdTest);
+}
+
+- (void)testCreateWithInvalidDocumentType {
+
+  // If
+  self.sut.httpClient = OCMProtocolMock(@protocol(MSHttpClientProtocol));
+  OCMReject([self.sut.httpClient sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:OCMOCK_ANY data:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
+  __block MSDocumentWrapper *actualDocumentWrapper;
+  __weak XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler called."];
+
+  // When
+  id badDocument = @"bad document";
+  [MSData createDocumentWithID:kMSDocumentIdTest
+                      document:badDocument
+                     partition:kMSPartitionTest
+             completionHandler:^(MSDocumentWrapper *data) {
+               actualDocumentWrapper = data;
+               [expectation fulfill];
+             }];
+
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *_Nullable error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+  XCTAssertNotNil(actualDocumentWrapper);
+  XCTAssertNotNil(actualDocumentWrapper.error);
+  XCTAssertEqual(actualDocumentWrapper.error.domain, kMSACDataErrorDomain);
+  XCTAssertEqual(actualDocumentWrapper.error.code, MSACDataInvalidClassCode);
+  XCTAssertEqualObjects(actualDocumentWrapper.documentId, kMSDocumentIdTest);
+}
+
+- (void)testReplaceWithInvalidDocumentType {
+  
+  // If
+  self.sut.httpClient = OCMProtocolMock(@protocol(MSHttpClientProtocol));
+  OCMReject([self.sut.httpClient sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:OCMOCK_ANY data:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
+  __block MSDocumentWrapper *actualDocumentWrapper;
+  __weak XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler called."];
+  
+  // When
+  id badDocument = @"bad document";
+  [MSData replaceDocumentWithID:kMSDocumentIdTest
+                      document:badDocument
+                     partition:kMSPartitionTest
+             completionHandler:^(MSDocumentWrapper *data) {
+               actualDocumentWrapper = data;
+               [expectation fulfill];
+             }];
+  
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *_Nullable error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+  XCTAssertNotNil(actualDocumentWrapper);
+  XCTAssertNotNil(actualDocumentWrapper.error);
+  XCTAssertEqual(actualDocumentWrapper.error.domain, kMSACDataErrorDomain);
+  XCTAssertEqual(actualDocumentWrapper.error.code, MSACDataInvalidClassCode);
   XCTAssertEqualObjects(actualDocumentWrapper.documentId, kMSDocumentIdTest);
 }
 
@@ -281,8 +345,8 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                }];
   XCTAssertNotNil(actualDocumentWrapper);
   XCTAssertNotNil(actualDocumentWrapper.error);
-  XCTAssertEqual(actualDocumentWrapper.error.error.domain, kMSACErrorDomain);
-  XCTAssertEqual(actualDocumentWrapper.error.error.code, MSACDisabledErrorCode);
+  XCTAssertEqual(actualDocumentWrapper.error.domain, kMSACDataErrorDomain);
+  XCTAssertEqual(actualDocumentWrapper.error.code, MSACDisabledErrorCode);
   XCTAssertEqualObjects(actualDocumentWrapper.documentId, kMSDocumentIdTest);
 }
 
@@ -327,7 +391,6 @@ static NSString *const kMSDocumentIdTest = @"documentId";
               completionHandler:^(MSDocumentWrapper *data) {
                 completionHandlerCalled = YES;
                 actualDocumentWrapper = data;
-                [expectation fulfill];
               }];
 
   // Then
@@ -370,8 +433,8 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                }];
   XCTAssertNotNil(actualDocumentWrapper);
   XCTAssertNotNil(actualDocumentWrapper.error);
-  XCTAssertEqual(actualDocumentWrapper.error.error.domain, kMSACErrorDomain);
-  XCTAssertEqual(actualDocumentWrapper.error.error.code, MSACDisabledErrorCode);
+  XCTAssertEqual(actualDocumentWrapper.error.domain, kMSACDataErrorDomain);
+  XCTAssertEqual(actualDocumentWrapper.error.code, MSACDisabledErrorCode);
   XCTAssertEqualObjects(actualDocumentWrapper.documentId, kMSDocumentIdTest);
 }
 
@@ -400,10 +463,9 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                  }
                                }];
   XCTAssertNotNil(actualDataError);
-  XCTAssertNotNil(actualDataError.error);
-  XCTAssertEqual(actualDataError.error.domain, kMSACErrorDomain);
-  XCTAssertEqual(actualDataError.error.code, MSACDisabledErrorCode);
-  XCTAssertEqual(actualDataError.errorCode, MSHTTPCodesNo0XXInvalidUnknown);
+  XCTAssertNotNil(actualDataError);
+  XCTAssertEqual(actualDataError.domain, kMSACDataErrorDomain);
+  XCTAssertEqual(actualDataError.code, MSACDisabledErrorCode);
 }
 
 - (void)testListWhenDataModuleDisabled {
@@ -432,10 +494,9 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                }];
   XCTAssertNotNil(actualPaginatedDocuments);
   XCTAssertNotNil(actualPaginatedDocuments.currentPage.error);
-  XCTAssertNotNil(actualPaginatedDocuments.currentPage.error.error);
-  XCTAssertEqual(actualPaginatedDocuments.currentPage.error.error.domain, kMSACErrorDomain);
-  XCTAssertEqual(actualPaginatedDocuments.currentPage.error.error.code, MSACDisabledErrorCode);
-  XCTAssertEqual(actualPaginatedDocuments.currentPage.error.errorCode, MSHTTPCodesNo0XXInvalidUnknown);
+  XCTAssertNotNil(actualPaginatedDocuments.currentPage.error);
+  XCTAssertEqual(actualPaginatedDocuments.currentPage.error.domain, kMSACDataErrorDomain);
+  XCTAssertEqual(actualPaginatedDocuments.currentPage.error.code, MSACDisabledErrorCode);
 }
 
 - (void)testListWithInvalidDocumentType {
@@ -463,9 +524,9 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                }];
   XCTAssertNotNil(actualPaginatedDocuments);
   XCTAssertNotNil(actualPaginatedDocuments.currentPage.error);
-  XCTAssertNotNil(actualPaginatedDocuments.currentPage.error.error);
-  XCTAssertEqual(actualPaginatedDocuments.currentPage.error.error.domain, kMSACDataErrorDomain);
-  XCTAssertEqual(actualPaginatedDocuments.currentPage.error.error.code, MSACDataInvalidClassCode);
+  XCTAssertNotNil(actualPaginatedDocuments.currentPage.error);
+  XCTAssertEqual(actualPaginatedDocuments.currentPage.error.domain, kMSACDataErrorDomain);
+  XCTAssertEqual(actualPaginatedDocuments.currentPage.error.code, MSACDataInvalidClassCode);
 }
 
 - (void)testDefaultHeaderWithPartitionWithDictionaryNotNull {
@@ -981,8 +1042,8 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
                                  XCTAssertTrue(completionHandlerCalled);
-                                 XCTAssertEqualObjects(actualError.error.domain, kMSACDataErrorDomain);
-                                 XCTAssertEqual(actualError.error.code, MSACDataLocalStoreError);
+                                 XCTAssertEqualObjects(actualError.domain, kMSACDataErrorDomain);
+                                 XCTAssertEqual(actualError.code, MSACDataLocalStoreError);
                                }];
 }
 
@@ -1025,19 +1086,19 @@ static NSString *const kMSDocumentIdTest = @"documentId";
              }];
 
   // Then
-  [self waitForExpectationsWithTimeout:1
-                               handler:^(NSError *error) {
-                                 if (error) {
-                                   XCTFail(@"Expectation Failed with error: %@", error);
-                                 }
-                                 XCTAssertTrue(completionHandlerCalled);
-                                 XCTAssertEqualObjects(actualError.error.domain, kMSACDataErrorDomain);
-                                 XCTAssertEqual(actualError.error.code, MSACDataErrorHTTPError);
-                                 XCTAssertEqualObjects(actualError.error.userInfo[NSUnderlyingErrorKey], expectedCosmosDbError);
-                                 XCTAssertEqualObjects(actualError.error.userInfo[kMSCosmosDbHttpCodeKey],
-                                                       @(MSHTTPCodesNo500InternalServerError));
-                                 XCTAssertEqual(actualError.errorCode, expectedResponseCode);
-                               }];
+  [self
+      waitForExpectationsWithTimeout:1
+                             handler:^(NSError *error) {
+                               if (error) {
+                                 XCTFail(@"Expectation Failed with error: %@", error);
+                               }
+                               XCTAssertTrue(completionHandlerCalled);
+                               XCTAssertEqualObjects(actualError.domain, kMSACDataErrorDomain);
+                               XCTAssertEqual(actualError.code, MSACDataErrorHTTPError);
+                               XCTAssertEqualObjects(actualError.userInfo[NSUnderlyingErrorKey], expectedCosmosDbError);
+                               XCTAssertEqualObjects(actualError.userInfo[kMSCosmosDbHttpCodeKey], @(MSHTTPCodesNo500InternalServerError));
+                               XCTAssertEqual([actualError.userInfo[@"MSHttpCodeKey"] integerValue], expectedResponseCode);
+                             }];
 }
 
 - (void)testCreateWithPartitionWhenSerializationFails {
@@ -1087,9 +1148,9 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                  }
                                  XCTAssertTrue(completionHandlerCalled);
                                  XCTAssertNotNil(actualError);
-                                 XCTAssertNotNil(actualError.error);
-                                 XCTAssertEqual(actualError.error.domain, expectedErrorDomain);
-                                 XCTAssertEqual(actualError.error.code, expectedErrorCode);
+                                 XCTAssertNotNil(actualError);
+                                 XCTAssertEqual(actualError.domain, expectedErrorDomain);
+                                 XCTAssertEqual(actualError.code, expectedErrorCode);
                                }];
 }
 
@@ -1099,7 +1160,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   XCTestExpectation *expectation = [self expectationWithDescription:@"Create with partition completed"];
   id<MSSerializableDocument> mockSerializableDocument = [[MSDictionaryDocument alloc] initFromDictionary:@{}];
   __block BOOL completionHandlerCalled = NO;
-  NSErrorDomain expectedErrorDomain = NSCocoaErrorDomain;
+  NSErrorDomain expectedErrorDomain = kMSACDataErrorDomain;
   NSInteger expectedErrorCode = 3840;
   __block MSDataError *actualError;
   MSTokenResult *testToken = [self mockTokenFetchingWithError:nil];
@@ -1137,8 +1198,8 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
                                  XCTAssertTrue(completionHandlerCalled);
-                                 XCTAssertEqual(actualError.error.domain, expectedErrorDomain);
-                                 XCTAssertEqual(actualError.error.code, expectedErrorCode);
+                                 XCTAssertEqual(actualError.domain, expectedErrorDomain);
+                                 XCTAssertEqual([actualError innerError].code, expectedErrorCode);
                                }];
 }
 
@@ -1147,8 +1208,8 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   // If
   XCTestExpectation *expectation = [self expectationWithDescription:@"Delete with partition completed"];
   __block BOOL completionHandlerCalled = NO;
-  NSInteger expectedResponseCode = MSHTTPCodesNo200OK;
-  __block NSInteger actualResponseCode;
+  NSInteger expectedResponseCode = MSHTTPCodesNo204NoContent;
+  __block MSDataError *actualDataError;
   MSTokenResult *testToken = [self mockTokenFetchingWithError:nil];
   OCMStub([self.cosmosDbMock performCosmosDbAsyncOperationWithHttpClient:OCMOCK_ANY
                                                              tokenResult:testToken
@@ -1161,7 +1222,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
       .andDo(^(NSInvocation *invocation) {
         MSHttpRequestCompletionHandler cosmosdbOperationCallback;
         [invocation getArgument:&cosmosdbOperationCallback atIndex:9];
-        cosmosdbOperationCallback(nil, [self generateResponseWithStatusCode:MSHTTPCodesNo200OK], nil);
+        cosmosdbOperationCallback(nil, [self generateResponseWithStatusCode:expectedResponseCode], nil);
       });
 
   // When
@@ -1169,7 +1230,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                      partition:kMSPartitionTest
              completionHandler:^(MSDocumentWrapper *wrapper) {
                completionHandlerCalled = YES;
-               actualResponseCode = wrapper.error.errorCode;
+               actualDataError = wrapper.error;
                [expectation fulfill];
              }];
 
@@ -1180,7 +1241,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
                                  XCTAssertTrue(completionHandlerCalled);
-                                 XCTAssertEqual(actualResponseCode, expectedResponseCode);
+                                 XCTAssertNil(actualDataError);
                                }];
 }
 
@@ -1209,8 +1270,8 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
                                  XCTAssertTrue(completionHandlerCalled);
-                                 XCTAssertEqualObjects(actualError.error.domain, kMSACDataErrorDomain);
-                                 XCTAssertEqual(actualError.error.code, MSACDataLocalStoreError);
+                                 XCTAssertEqualObjects(actualError.domain, kMSACDataErrorDomain);
+                                 XCTAssertEqual(actualError.code, MSACDataLocalStoreError);
                                }];
 }
 
@@ -1251,19 +1312,19 @@ static NSString *const kMSDocumentIdTest = @"documentId";
              }];
 
   // Then
-  [self waitForExpectationsWithTimeout:1
-                               handler:^(NSError *error) {
-                                 if (error) {
-                                   XCTFail(@"Expectation Failed with error: %@", error);
-                                 }
-                                 XCTAssertTrue(completionHandlerCalled);
-                                 XCTAssertEqualObjects(actualError.error.domain, kMSACDataErrorDomain);
-                                 XCTAssertEqual(actualError.error.code, MSACDataErrorHTTPError);
-                                 XCTAssertEqualObjects(actualError.error.userInfo[NSUnderlyingErrorKey], expectedCosmosDbError);
-                                 XCTAssertEqualObjects(actualError.error.userInfo[kMSCosmosDbHttpCodeKey],
-                                                       @(MSHTTPCodesNo500InternalServerError));
-                                 XCTAssertEqual(actualError.errorCode, expectedResponseCode);
-                               }];
+  [self
+      waitForExpectationsWithTimeout:1
+                             handler:^(NSError *error) {
+                               if (error) {
+                                 XCTFail(@"Expectation Failed with error: %@", error);
+                               }
+                               XCTAssertTrue(completionHandlerCalled);
+                               XCTAssertEqualObjects(actualError.domain, kMSACDataErrorDomain);
+                               XCTAssertEqual(actualError.code, MSACDataErrorHTTPError);
+                               XCTAssertEqualObjects(actualError.userInfo[NSUnderlyingErrorKey], expectedCosmosDbError);
+                               XCTAssertEqualObjects(actualError.userInfo[kMSCosmosDbHttpCodeKey], @(MSHTTPCodesNo500InternalServerError));
+                               // XCTAssertEqual(actualError.errorCode, expectedResponseCode);
+                             }];
 }
 
 - (void)testSetTokenExchangeUrl {
@@ -1506,8 +1567,8 @@ static NSString *const kMSDocumentIdTest = @"documentId";
            completionHandler:^(MSDocumentWrapper *_Nonnull document) {
              // Then
              XCTAssertNotNil(document.error);
-             XCTAssertEqualObjects(document.error.error.domain, kMSACDataErrorDomain);
-             XCTAssertEqual(document.error.error.code, MSACDataLocalStoreError);
+             XCTAssertEqualObjects(document.error.domain, kMSACDataErrorDomain);
+             XCTAssertEqual(document.error.code, MSACDataLocalStoreError);
              [expectation fulfill];
            }];
 
@@ -1678,8 +1739,8 @@ static NSString *const kMSDocumentIdTest = @"documentId";
            completionHandler:^(MSDocumentWrapper *_Nonnull document) {
              // Then
              XCTAssertNotNil(document.error);
-             XCTAssertEqualObjects(document.error.error.domain, kMSACDataErrorDomain);
-             XCTAssertEqual(document.error.error.code, MSACDataErrorDocumentNotFound);
+             XCTAssertEqualObjects(document.error.domain, kMSACDataErrorDomain);
+             XCTAssertEqual(document.error.code, MSACDataErrorDocumentNotFound);
              [expectation fulfill];
            }];
 
@@ -1835,10 +1896,10 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   self.sut.dataOperationProxy.reachability = reachabilityMock;
 
   // Mock expired document in local storage.
-  NSError *expiredError = [NSError errorWithDomain:kMSACDataErrorDomain code:MSACDataErrorLocalDocumentExpired userInfo:nil];
+  MSDataError *dataError = [[MSDataError alloc] initWithErrorCode:MSACDataErrorLocalDocumentExpired innerError:nil message:nil];
   id<MSDocumentStore> localStorageMock = OCMProtocolMock(@protocol(MSDocumentStore));
   self.sut.dataOperationProxy.documentStore = localStorageMock;
-  MSDocumentWrapper *expiredDocument = [[MSDocumentWrapper alloc] initWithError:expiredError documentId:@"4"];
+  MSDocumentWrapper *expiredDocument = [[MSDocumentWrapper alloc] initWithError:dataError documentId:@"4"];
   OCMStub([localStorageMock readWithToken:tokenResult documentId:OCMOCK_ANY documentType:OCMOCK_ANY]).andReturn(expiredDocument);
 
   // When
@@ -1848,8 +1909,8 @@ static NSString *const kMSDocumentIdTest = @"documentId";
            completionHandler:^(MSDocumentWrapper *_Nonnull document) {
              // Then
              XCTAssertNotNil(document.error);
-             XCTAssertEqualObjects(document.error.error.domain, kMSACDataErrorDomain);
-             XCTAssertEqual(document.error.error.code, MSACDataErrorLocalDocumentExpired);
+             XCTAssertEqualObjects(document.error.domain, kMSACDataErrorDomain);
+             XCTAssertEqual(document.error.code, MSACDataErrorLocalDocumentExpired);
              [expectation fulfill];
            }];
 

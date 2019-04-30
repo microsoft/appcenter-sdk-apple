@@ -4,6 +4,7 @@
 #import "MSALAccount.h"
 #import "MSALAccountId.h"
 #import "MSALAuthority.h"
+#import "MSALB2CAuthority.h"
 #import "MSALError.h"
 #import "MSALResult.h"
 #import "MSAppCenterInternal.h"
@@ -298,13 +299,13 @@ static dispatch_once_t onceToken;
 
   // Init MSAL client application.
   NSError *error;
-  MSALAuthority *auth = [MSALAuthority authorityWithURL:(NSURL * __nonnull) self.authConfig.authorities[0].authorityUrl error:nil];
+  MSALB2CAuthority *auth = [[MSALB2CAuthority alloc] initWithURL:(NSURL * __nonnull)self.authConfig.authorities[0].authorityUrl error:nil];
   MSALPublicClientApplicationConfig *config =
       [[MSALPublicClientApplicationConfig alloc] initWithClientId:(NSString * __nonnull) self.authConfig.clientId
                                                       redirectUri:self.authConfig.redirectUri
                                                         authority:auth];
   if (!auth) {
-    MSLogError([MSAuth logTag], @"Auth config doesn't contain a valid authority.");
+    MSLogError([MSAuth logTag], @"Auth config doesn't contain a valid default B2C authority.");
     return;
   }
   config.knownAuthorities = @[ auth ];

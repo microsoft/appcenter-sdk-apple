@@ -19,18 +19,28 @@
 - (instancetype)init {
   return [self initWithMaxHttpConnectionsPerHost:nil
                                   retryIntervals:DEFAULT_RETRY_INTERVALS
-                                    reachability:[MS_Reachability reachabilityForInternetConnection]];
+                                    reachability:[MS_Reachability reachabilityForInternetConnection]
+                              compressionEnabled:YES];
 }
 
-- (instancetype)initWithMaxHttpConnectionsPerHost:(NSInteger)maxHttpConnectionsPerHost {
+- (instancetype)initWithCompressionEnabled:(BOOL)compressionEnabled {
+  return [self initWithMaxHttpConnectionsPerHost:nil
+                                  retryIntervals:DEFAULT_RETRY_INTERVALS
+                                    reachability:[MS_Reachability reachabilityForInternetConnection]
+                              compressionEnabled:compressionEnabled];
+}
+
+- (instancetype)initWithMaxHttpConnectionsPerHost:(NSInteger)maxHttpConnectionsPerHost compressionEnabled:(BOOL)compressionEnabled {
   return [self initWithMaxHttpConnectionsPerHost:@(maxHttpConnectionsPerHost)
                                   retryIntervals:DEFAULT_RETRY_INTERVALS
-                                    reachability:[MS_Reachability reachabilityForInternetConnection]];
+                                    reachability:[MS_Reachability reachabilityForInternetConnection]
+                              compressionEnabled:compressionEnabled];
 }
 
 - (instancetype)initWithMaxHttpConnectionsPerHost:(NSNumber *)maxHttpConnectionsPerHost
                                    retryIntervals:(NSArray *)retryIntervals
-                                     reachability:(MS_Reachability *)reachability {
+                                     reachability:(MS_Reachability *)reachability
+                               compressionEnabled:(BOOL)compressionEnabled {
   if ((self = [super init])) {
     _sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
     if (maxHttpConnectionsPerHost) {
@@ -42,6 +52,7 @@
     _enabled = YES;
     _paused = NO;
     _reachability = reachability;
+    _compressionEnabled = compressionEnabled;
 
     // Add listener to reachability.
     [MS_NOTIFICATION_CENTER addObserver:self selector:@selector(networkStateChanged:) name:kMSReachabilityChangedNotification object:nil];
@@ -68,6 +79,7 @@
                                                headers:headers
                                                   data:data
                                         retryIntervals:self.retryIntervals
+                                    compressionEnabled:self.compressionEnabled
                                      completionHandler:completionHandler];
     [self sendCallAsync:call];
   }

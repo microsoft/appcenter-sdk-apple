@@ -2,32 +2,33 @@
 // Licensed under the MIT License.
 
 #import "MSDataError.h"
-#import "MSConstants.h"
-#import "MSDataConstants.h"
 #import "MSDataErrors.h"
 
 @implementation MSDataError
 
-@synthesize error = _error;
-@synthesize errorCode = _errorCode;
+- (instancetype)initWithErrorCode:(NSInteger)errorCode innerError:(NSError *_Nullable)innerError message:(NSString *_Nullable)message {
 
-- (instancetype)initWithError:(NSError *)error {
-  if ((self = [super init])) {
-    _error = error;
-    _errorCode = [MSDataError errorCodeFromError:error];
+  // Prepare user info properties.
+  NSMutableDictionary *userInfo = [NSMutableDictionary new];
+  if (innerError) {
+    [userInfo setValue:innerError forKey:NSUnderlyingErrorKey];
   }
-  return self;
+  if (message) {
+    [userInfo setValue:message forKey:NSLocalizedDescriptionKey];
+  }
+
+  // Return the error.
+  return [super initWithDomain:kMSACDataErrorDomain code:errorCode userInfo:userInfo];
 }
 
-+ (NSInteger)errorCodeFromError:(NSError *)error {
+- (instancetype)initWithErrorCode:(NSInteger)errorCode userInfo:(NSDictionary *)userInfo {
 
-  // Try to extract the error from the user info dictionary.
-  if (error.userInfo[kMSCosmosDbHttpCodeKey]) {
-    return [(NSNumber *)error.userInfo[kMSCosmosDbHttpCodeKey] integerValue];
-  }
+  // Return the error.
+  return [super initWithDomain:kMSACDataErrorDomain code:errorCode userInfo:userInfo];
+}
 
-  // Return default unknown error code.
-  return MSHTTPCodesNo0XXInvalidUnknown;
+- (NSError *)innerError {
+  return self.userInfo ? self.userInfo[NSUnderlyingErrorKey] : nil;
 }
 
 @end

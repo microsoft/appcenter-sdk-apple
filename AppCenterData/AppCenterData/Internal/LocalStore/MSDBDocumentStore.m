@@ -10,6 +10,7 @@
 #import "MSDBStoragePrivate.h"
 #import "MSData.h"
 #import "MSDataConstants.h"
+#import "MSDataErrorInternal.h"
 #import "MSDataErrors.h"
 #import "MSDataInternal.h"
 #import "MSDocumentUtils.h"
@@ -138,10 +139,10 @@ static const NSUInteger kMSSchemaVersion = 1;
     NSString *errorMessage = [NSString
         stringWithFormat:@"Unable to find document in local store for partition '%@' and document ID '%@'", token.partition, documentId];
     MSLogWarning([MSData logTag], @"%@", errorMessage);
-    NSError *error = [[NSError alloc] initWithDomain:kMSACDataErrorDomain
-                                                code:MSACDataErrorDocumentNotFound
-                                            userInfo:@{NSLocalizedDescriptionKey : errorMessage}];
-    return [[MSDocumentWrapper alloc] initWithError:error documentId:documentId];
+
+    // Create error.
+    MSDataError *dataError = [[MSDataError alloc] initWithErrorCode:MSACDataErrorDocumentNotFound innerError:nil message:errorMessage];
+    return [[MSDocumentWrapper alloc] initWithError:dataError documentId:documentId];
   }
 
   // If the document is expired, return an error and delete it.
@@ -154,11 +155,13 @@ static const NSUInteger kMSSchemaVersion = 1;
           [NSString stringWithFormat:@"Local document for partition '%@' and document ID '%@' expired at %@, discarding it",
                                      token.partition, documentId, expirationDate];
       MSLogWarning([MSData logTag], @"%@", errorMessage);
-      NSError *error = [[NSError alloc] initWithDomain:kMSACDataErrorDomain
-                                                  code:MSACDataErrorLocalDocumentExpired
-                                              userInfo:@{NSLocalizedDescriptionKey : errorMessage}];
       [self deleteWithToken:token documentId:documentId];
-      return [[MSDocumentWrapper alloc] initWithError:error documentId:documentId];
+
+      // Create error.
+      MSDataError *dataError = [[MSDataError alloc] initWithErrorCode:MSACDataErrorLocalDocumentExpired
+                                                           innerError:nil
+                                                              message:errorMessage];
+      return [[MSDocumentWrapper alloc] initWithError:dataError documentId:documentId];
     }
   }
 
