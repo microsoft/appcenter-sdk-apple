@@ -15,7 +15,7 @@ class MSCustomPropertiesViewController : UITableViewController, AppCenterProtoco
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    tableView.rowHeight = UITableViewAutomaticDimension
+    tableView.rowHeight = UITableView.automaticDimension
     tableView.estimatedRowHeight = kEstimatedRowHeight
     tableView.setEditing(true, animated: false)
     
@@ -89,7 +89,7 @@ class MSCustomPropertiesViewController : UITableViewController, AppCenterProtoco
   
   // MARK: - Table view delegate
   
-  override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
+  override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
     if isInsertRow(at: indexPath) {
       return .insert
     } else {
@@ -129,7 +129,7 @@ class MSCustomPropertiesViewController : UITableViewController, AppCenterProtoco
     return isPropertiesRowSection(indexPath.section)
   }
   
-  override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+  override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
     if editingStyle == .delete {
       properties.remove(at: indexPath.row - 1)
       tableView.deleteRows(at: [indexPath], with: .automatic)

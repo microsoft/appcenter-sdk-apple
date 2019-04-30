@@ -231,7 +231,7 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     sender.resignFirstResponder()
   }
 
-  func storageMaxSizeUpdated(_ sender: UITextField) {
+  @objc func storageMaxSizeUpdated(_ sender: UITextField) {
     let maxSize = Int(sender.text ?? "0") ?? 0
     sender.text = "\(maxSize)"
     UserDefaults.standard.set(maxSize * 1024, forKey: kMSStorageMaxSizeKey)
@@ -246,7 +246,7 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     return toolbar
   }
 
-  func doneClicked() {
+  @objc func doneClicked() {
     dismissKeyboard(self.storageMaxSizeField)
   }
   

@@ -131,13 +131,13 @@ class AppCenterDelegateSwift: AppCenterDelegate {
     MSAnalytics.trackEvent(eventName, withProperties: properties, flags: flags)
   }
 
+  #warning("TODO: Uncomment when trackPage is moved from internal to public")
   func trackPage(_ pageName: String) {
-    // TODO: Uncomment when trackPage is moved from internal to public
     // MSAnalytics.trackPage(pageName)
   }
 
+  #warning("TODO: Uncomment when trackPage is moved from internal to public")
   func trackPage(_ pageName: String, withProperties properties: Dictionary<String, String>) {
-    // TODO: Uncomment when trackPage is moved from internal to public
     // MSAnalytics.trackPage(pageName, withProperties: properties)
   }
 
@@ -193,7 +193,7 @@ class AppCenterDelegateSwift: AppCenterDelegate {
     if (MSDistribute.responds(to: sharedInstanceSelector)) {
       let distributeInstance = MSDistribute.perform(sharedInstanceSelector).takeUnretainedValue()
       let distriuteDelegate = distributeInstance.perform(delegateSelector).takeUnretainedValue()
-      _ = distriuteDelegate.distribute?(distributeInstance as! MSDistribute, releaseAvailableWith: releaseDetails)
+      _ = distriuteDelegate.distribute?(distributeInstance as? MSDistribute, releaseAvailableWith: releaseDetails)
     }
   }
 

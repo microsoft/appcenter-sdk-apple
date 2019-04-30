@@ -536,30 +536,25 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
 - (void)openUrlInAuthenticationSessionOrSafari:(NSURL *)url {
 
-/*
- * Only iOS 9.x and 10.x will download the update after users click the "Install" button. We need to force-exit the application for other
- * versions or for any versions when the update is mandatory.
- */
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wpartial-availability"
-  Class clazz = [SFSafariViewController class];
-  if (clazz) {
+  /*
+   * Only iOS 9.x and 10.x will download the update after users click the "Install" button. We need to force-exit the application for other
+   * versions or for any versions when the update is mandatory.
+   */
 
-    // iOS 11
-    Class authClazz = NSClassFromString(@"SFAuthenticationSession");
+  // TODO SFAuthenticationSession is deprecated, for iOS 12 use ASWebAuthenticationSession
+  if (@available(iOS 11.0, *)) {
+    Class authClazz = [SFAuthenticationSession class];
     if (authClazz) {
       dispatch_async(dispatch_get_main_queue(), ^{
         [self openURLInAuthenticationSessionWith:url fromClass:authClazz];
       });
-    } else {
-
-      // iOS 9 and 10
-      dispatch_async(dispatch_get_main_queue(), ^{
-        [self openURLInSafariViewControllerWith:url fromClass:clazz];
-      });
     }
+  } else {
+    Class clazz = [SFSafariViewController class];
+    dispatch_async(dispatch_get_main_queue(), ^{
+      [self openURLInSafariViewControllerWith:url fromClass:clazz];
+    });
   }
-#pragma clang diagnostic pop
 }
 
 - (void)openURLInAuthenticationSessionWith:(NSURL *)url fromClass:(Class)sessionClazz {

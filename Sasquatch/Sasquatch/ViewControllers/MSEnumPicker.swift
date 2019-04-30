@@ -65,7 +65,7 @@ class MSEnumPicker<E: RawRepresentable & Equatable> : NSObject, UIPickerViewData
     return toolbar
   }
   
-  func doneClicked() {
+  @objc func doneClicked() {
     self.textField.resignFirstResponder()
   }
 }
