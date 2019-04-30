@@ -114,6 +114,14 @@ typedef void (^MSAcquireTokenCompletionHandler)(MSUserInformation *_Nullable use
                                  uiFallback:(BOOL)uiFallback
                 keyPathForCompletionHandler:(NSString *)completionHandlerKeyPath;
 
+/**
+ * Cancel pending sign-in and refresh token operation.
+ *
+ * @param errorCode The error code that indicates a reason of cancellation.
+ * @param message The message describes a reason of cancellation.
+ */
+- (void)cancelPendingOperationsWithErrorCode:(NSInteger)errorCode message:(NSString *)message;
+
 @end
 
 NS_ASSUME_NONNULL_END

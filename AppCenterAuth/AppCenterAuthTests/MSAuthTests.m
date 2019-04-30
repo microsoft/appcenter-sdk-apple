@@ -1236,4 +1236,68 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [authTokenContextMock stopMocking];
 }
 
+- (void)testCancelPendingOperationWithErrorCode {
+
+  // If
+  __weak XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler called."];
+  NSInteger errorCode = 1;
+  NSString *message = @"test";
+  __block NSError *signInError;
+  __block NSError *refreshError;
+  self.sut.signInCompletionHandler = ^(MSUserInformation *_Nullable __unused userInformation, NSError *_Nullable error) {
+    signInError = error;
+  };
+  self.sut.refreshCompletionHandler = ^(MSUserInformation *_Nullable __unused userInformation, NSError *_Nullable error) {
+    refreshError = error;
+
+    // Fulfill expectation here. MSAuth calls signInCompletionHandler and then refreshCompletionHandler.
+    [expectation fulfill];
+  };
+
+  // When
+  [self.sut cancelPendingOperationsWithErrorCode:1 message:@"test"];
+
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *_Nullable error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                                 XCTAssertNotNil(signInError);
+                                 XCTAssertEqual(signInError.domain, kMSACAuthErrorDomain);
+                                 XCTAssertEqual(signInError.code, errorCode);
+                                 XCTAssertEqual(signInError.userInfo[NSLocalizedDescriptionKey], message);
+                                 XCTAssertNotNil(refreshError);
+                                 XCTAssertEqual(refreshError.domain, kMSACAuthErrorDomain);
+                                 XCTAssertEqual(refreshError.code, errorCode);
+                                 XCTAssertEqual(refreshError.userInfo[NSLocalizedDescriptionKey], message);
+                               }];
+}
+
+- (void)testCancelPendingOperationWhenDisabled {
+
+  // If
+  id authMock = OCMPartialMock(self.sut);
+
+  // When
+  [authMock setEnabled:NO];
+
+  // Then
+  OCMVerify([authMock cancelPendingOperationsWithErrorCode:MSACAuthErrorServiceDisabled message:OCMOCK_ANY]);
+}
+
+- (void)testCancelPendingOperationWhenSignOut {
+
+  // If
+  id authMock = OCMPartialMock(self.sut);
+  OCMStub([authMock sharedInstance]).andReturn(authMock);
+  OCMStub([authMock canBeUsed]).andReturn(YES);
+
+  // When
+  [MSAuth signOut];
+
+  // Then
+  OCMVerify([authMock cancelPendingOperationsWithErrorCode:MSACAuthErrorInterruptedByAnotherOperation message:OCMOCK_ANY]);
+}
+
 @end
