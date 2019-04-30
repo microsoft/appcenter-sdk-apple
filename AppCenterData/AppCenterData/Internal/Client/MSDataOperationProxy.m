@@ -144,15 +144,22 @@
 
         // Serialize incoming document into a JSON string.
         NSDictionary *dictionary = [document serializeToDictionary];
-        MSDocumentWrapper *documentWrapper = [MSDocumentUtils documentWrapperFromDictionary:dictionary documentType:documentType eTag:cachedDocument.eTag lastUpdatedDate:cachedDocument.lastUpdatedDate partition:token.partition documentId:documentId pendingOperation:operation fromDeviceCache:YES];
+        MSDocumentWrapper *documentWrapper = [MSDocumentUtils documentWrapperFromDictionary:dictionary
+                                                                               documentType:documentType
+                                                                                       eTag:cachedDocument.eTag
+                                                                            lastUpdatedDate:cachedDocument.lastUpdatedDate
+                                                                                  partition:token.partition
+                                                                                 documentId:documentId
+                                                                           pendingOperation:operation
+                                                                            fromDeviceCache:YES];
 
         // Update local store and return document.
         [self updateLocalStore:token
-         currentCachedDocument:cachedDocument
-             newCachedDocument:documentWrapper
-              deviceTimeToLive:deviceTimeToLive
-                     operation:operation];
-          completionHandler(documentWrapper);
+            currentCachedDocument:cachedDocument
+                newCachedDocument:documentWrapper
+                 deviceTimeToLive:deviceTimeToLive
+                        operation:operation];
+        completionHandler(documentWrapper);
       }
     }
   });
