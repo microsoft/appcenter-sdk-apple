@@ -314,12 +314,10 @@ static dispatch_once_t onceToken;
               } else {
                 MSLogWarning([MSAuth logTag], @"Couldn't create Auth config file.");
               }
-              @synchronized(self) {
-                self.authConfig = config;
+              self.authConfig = config;
 
-                // Reinitialize client application.
-                [self configAuthenticationClient];
-              }
+              // Reinitialize client application.
+              [self configAuthenticationClient];
               if (continueSignIn) {
                 [self selectSignInTypeAndSignIn];
               }
