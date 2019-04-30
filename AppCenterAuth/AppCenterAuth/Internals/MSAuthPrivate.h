@@ -47,6 +47,16 @@ NS_ASSUME_NONNULL_BEGIN
 @property(atomic, nullable) MSSignInCompletionHandler signInCompletionHandler;
 
 /**
+ * Completion handler for refresh completion.
+ */
+@property(atomic, nullable) MSSignInCompletionHandler refreshCompletionHandler;
+
+/**
+ * The home account id that should be used for refreshing token after coming back online.
+ */
+@property(nonatomic, nullable, copy) NSString *homeAccountIdToRefresh;
+
+/**
  * Indicates that there is a pending configuration download
  * and sign in, if called, should wait until configuration is downloaded.
  */
@@ -82,16 +92,14 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)configAuthenticationClient;
 
 /**
- * Retrieve an updated token without user interaction.
- *
- * @param account The MSALAccount that is used to retrieve an authentication token.
+ * Perform sign in with completion handler.
  */
-- (void)acquireTokenSilentlyWithMSALAccount:(MSALAccount *)account;
+- (void)signInInWithCompletionHandler:(MSSignInCompletionHandler _Nullable)completionHandler;
 
 /**
- * Retrieve an updated token with user interaction.
+ * Refreshes token for given accountId.
  */
-- (void)acquireTokenInteractively;
+- (void)refreshTokenForAccountId:(NSString *)accountId withNetworkConnected:(BOOL)networkConnected;
 
 @end
 

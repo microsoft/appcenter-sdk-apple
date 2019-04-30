@@ -5,6 +5,7 @@
 #import "AppCenter+Internal.h"
 #import "MSConstants+Internal.h"
 #import "MSDataConstants.h"
+#import "MSDataErrorInternal.h"
 #import "MSDataErrors.h"
 #import "MSDataInternal.h"
 #import "MSDocumentUtils.h"
@@ -184,7 +185,7 @@ static NSString *const kMSHeaderMsDate = @"x-ms-date";
   [httpClient sendAsync:sendURL method:httpMethod headers:httpHeaders data:body completionHandler:completionHandler];
 }
 
-+ (NSError *)cosmosDbErrorWithResponse:(NSHTTPURLResponse *_Nullable)response underlyingError:(NSError *_Nullable)error {
++ (MSDataError *)cosmosDbErrorWithResponse:(NSHTTPURLResponse *_Nullable)response underlyingError:(NSError *_Nullable)error {
 
   // Prepare user info properties.
   NSMutableDictionary *userInfo = [NSMutableDictionary new];
@@ -201,7 +202,7 @@ static NSString *const kMSHeaderMsDate = @"x-ms-date";
   }
 
   // Return the error.
-  return [[NSError alloc] initWithDomain:kMSACDataErrorDomain code:MSACDataErrorHTTPError userInfo:userInfo];
+  return [[MSDataError alloc] initWithErrorCode:MSACDataErrorHTTPError userInfo:userInfo];
 }
 
 @end

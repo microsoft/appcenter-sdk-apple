@@ -13,21 +13,16 @@ static NSString *const kMSACDataErrorDomain = MS_APP_CENTER_BASE_DOMAIN @"Data.E
 
 #pragma mark - General
 
-// TODO modernise/harmonize
 // Error codes.
-// FIXME: Re-index these codes (we have our own domain so we can index at 0 and reserve ranges for us).
-NS_ENUM(NSInteger){MSACDataErrorJSONSerializationFailed = -620000,
-                   MSACDataErrorHTTPError = -620001,
-                   MSACDataErrorDocumentNotFound = -620002,
-                   MSACDataErrorLocalDocumentExpired = -620003,
-                   MSACDataNotAuthenticated = -620004,
-                   MSACDataInvalidClassCode = -620005,
-                   MSACDataDontCache = -620006,
-                   MSACDataLocalStoreError = -620007,
-                   MSACDataDocumentIdError = -620008,
-                   MSACDataInvalidPartitionError = -620009,
-                   MSACDataInvalidTokenExchangeResponse = -620010,
-                   MSACDataUnableToGetTokenError = -620011};
+NS_ENUM(NSInteger){// System framework errors.
+                   MSACDataInvalidClassCode = 101, MSACDataErrorJSONSerializationFailed = 102,
+
+                   // Document errors.
+                   MSACDataErrorDocumentNotFound = 200, MSACDataLocalStoreError = 201, MSACDataErrorLocalDocumentExpired = 202,
+                   MSACDataDocumentIdError = 203, MSACDataInvalidPartitionError = 204, MSACDataInvalidTokenExchangeResponse = 205,
+
+                   // Network errors
+                   MSACDataErrorHTTPError = 300, MSACDataUnableToGetTokenError = 301};
 
 // Error descriptions.
 static NSString const *kMSACDataInvalidClassDesc = @"Provided class does not conform to serialization protocol (MSSerializableDocument).";

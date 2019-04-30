@@ -68,7 +68,7 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
 
 // Customize App Center SDK.
 #pragma clang diagnostic ignored "-Wpartial-availability"
-  if ([[NSProcessInfo processInfo] operatingSystemVersion].majorVersion >= 10) {
+  if (@available(iOS 10.0, *)) {
     UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
     center.delegate = self;
   }
