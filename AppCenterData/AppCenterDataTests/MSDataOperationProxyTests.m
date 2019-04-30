@@ -439,7 +439,10 @@
                                  XCTAssertEqual(wrapper.documentId, cachedDocumentWrapper.documentId);
                                  XCTAssertEqual(wrapper.pendingOperation, kMSPendingOperationDelete);
                                  XCTAssertTrue(wrapper.fromDeviceCache);
-                                 OCMVerify([self.documentStoreMock deleteWithToken:token documentId:wrapper.documentId]);
+                                 OCMVerify([self.documentStoreMock upsertWithToken:token
+                                                                   documentWrapper:wrapper
+                                                                         operation:kMSPendingOperationDelete
+                                                                  deviceTimeToLive:kMSDataTimeToLiveDefault]);
                                }];
 }
 

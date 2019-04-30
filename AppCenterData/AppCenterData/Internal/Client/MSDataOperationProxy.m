@@ -69,20 +69,23 @@
     if ([self shouldAttemptRemoteOperationForDocument:cachedDocument]) {
       MSLogInfo([MSData logTag], @"Performing remote operation");
       remoteDocumentBlock(^(MSDocumentWrapper *_Nonnull remoteDocument) {
-
         // If a valid remote document was retrieved, update local store
         if (remoteDocument.error == nil) {
-          
-          // For delete operation, delete the document from local cache.
-          // Otherewise, for other online scenarios, the intended pending operation in the local store is nil.
-          NSString *localStorageOperation = [kMSPendingOperationDelete isEqualToString:(NSString *)operation] ? kMSPendingOperationDelete : nil;
-          
-          // Perform local storage operation.
-          [self updateLocalStore:token
-              currentCachedDocument:cachedDocument
-                  newCachedDocument:remoteDocument
-                   deviceTimeToLive:deviceTimeToLive
-                          operation:localStorageOperation];
+
+          // If operation is delete, directly delete the document from the local cache.
+          if ([kMSPendingOperationDelete isEqualToString:(NSString *)operation]) {
+            MSLogInfo([MSData logTag], @"Delete the document from local storage (partition: %@, id: %@)", token.partition,
+                      cachedDocument.documentId);
+            [self.documentStore deleteWithToken:token documentId:cachedDocument.documentId];
+          }
+          // For other online scenarios, the intended pending operation in the local store is nil.
+          else {
+            [self updateLocalStore:token
+                currentCachedDocument:cachedDocument
+                    newCachedDocument:remoteDocument
+                     deviceTimeToLive:deviceTimeToLive
+                            operation:nil];
+          }
         }
         completionHandler(remoteDocument);
       });
@@ -245,18 +248,11 @@
     [self.documentStore deleteWithToken:token documentId:currentCachedDocument.documentId];
   }
 
-   //If the cached document has a create or replace pending operation, and no eTags, delete the document from the store.
+  // If the cached document has a create or replace pending operation, and no eTags, delete the document from the store.
   else if (([kMSPendingOperationCreate isEqualToString:currentCachedDocument.pendingOperation] ||
             [kMSPendingOperationReplace isEqualToString:currentCachedDocument.pendingOperation]) &&
            !currentCachedDocument.eTag) {
     MSLogInfo([MSData logTag], @"Removing never-synced document from local storage (partition: %@, id: %@)", token.partition,
-              currentCachedDocument.documentId);
-    [self.documentStore deleteWithToken:token documentId:currentCachedDocument.documentId];
-  }
-  
-  // If operation is delete, delete the document from the local storage.
-  else if ([kMSPendingOperationDelete isEqualToString:(NSString *)operation]) {
-    MSLogInfo([MSData logTag], @"Delete the document from local storage (partition: %@, id: %@)", token.partition,
               currentCachedDocument.documentId);
     [self.documentStore deleteWithToken:token documentId:currentCachedDocument.documentId];
   }
