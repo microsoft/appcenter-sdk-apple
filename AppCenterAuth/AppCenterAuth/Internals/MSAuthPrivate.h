@@ -47,19 +47,14 @@ NS_ASSUME_NONNULL_BEGIN
 @property(atomic, nullable) MSSignInCompletionHandler signInCompletionHandler;
 
 /**
+ * TODO
+ */
+@property(atomic, nullable) MSSignInCompletionHandler refreshCompletionHandler;
+
+/**
  * The home account id that should be used for refreshing token after coming back online.
  */
 @property(nonatomic, nullable, copy) NSString *homeAccountIdToRefresh;
-
-/**
- * The flag indicates whether sign-in is already in progress.
- */
-@property BOOL signInInProgress;
-
-/**
- * The flag indicates whether refresh is already in progress.
- */
-@property BOOL refreshInProgress;
 
 /**
  * Rest singleton instance.
@@ -91,17 +86,14 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)configAuthenticationClient;
 
 /**
- * Retrieve an updated token without user interaction.
- *
- * @param account The MSALAccount that is used to retrieve an authentication token.
- * @param uiFallback `YES` if an interactive request can be used, otherwise `NO`.
+ * TODO
  */
-- (void)acquireTokenSilentlyWithMSALAccount:(MSALAccount *)account uiFallback:(BOOL)uiFallback;
+- (void)signInInWithCompletionHandler:(MSSignInCompletionHandler _Nullable)completionHandler;
 
 /**
- * Retrieve an updated token with user interaction.
+ * TODO
  */
-- (void)acquireTokenInteractively;
+- (void)refreshTokenForAccountId:(NSString *)accountId withNetworkConnected:(BOOL)networkConnected;
 
 @end
 
