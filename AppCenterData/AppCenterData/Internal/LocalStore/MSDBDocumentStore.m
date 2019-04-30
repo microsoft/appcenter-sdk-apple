@@ -238,7 +238,7 @@ static const NSUInteger kMSSchemaVersion = 1;
       continue;
     }
 
-    // Convert documetn json string to dictionary.
+    // Convert document json string to dictionary.
     NSString *documetnJsonString = row[self.documentColumnIndex];
     NSData *data = [documetnJsonString dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary *documentDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];

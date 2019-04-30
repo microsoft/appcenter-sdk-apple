@@ -474,7 +474,7 @@
   dict[@"key"] = @"value";
   [self.sut performOperation:kMSPendingOperationCreate
       documentId:@"documentId"
-      documentType:[NSString class]
+      documentType:[MSDictionaryDocument class]
       document:[[MSDictionaryDocument alloc] initFromDictionary:dict]
       baseOptions:nil
       cachedTokenBlock:^(MSCachedTokenCompletionHandler _Nonnull handler) {
@@ -532,7 +532,7 @@
   dict[@"key"] = @"value";
   [self.sut performOperation:kMSPendingOperationReplace
       documentId:@"documentId"
-      documentType:[NSString class]
+      documentType:[MSDictionaryDocument class]
       document:[[MSDictionaryDocument alloc] initFromDictionary:dict]
       baseOptions:nil
       cachedTokenBlock:^(MSCachedTokenCompletionHandler _Nonnull handler) {
@@ -593,7 +593,7 @@
   dict[@"shouldFail"] = [NSSet set];
   [self.sut performOperation:kMSPendingOperationCreate
       documentId:@"documentId"
-      documentType:[NSString class]
+      documentType:[MSDictionaryDocument class]
       document:[[MSDictionaryDocument alloc] initFromDictionary:dict]
       baseOptions:nil
       cachedTokenBlock:^(MSCachedTokenCompletionHandler _Nonnull handler) {
@@ -613,7 +613,6 @@
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
                                  XCTAssertNotNil(wrapper);
-                                 XCTAssertNotNil(wrapper.error);
                                  XCTAssertNotNil(wrapper.error);
                                  XCTAssertEqual(wrapper.error.domain, expectedErrorDomain);
                                  XCTAssertEqual([wrapper.error innerError].code, expectedErrorCode);
@@ -651,7 +650,7 @@
   dict[@"shouldFail"] = [NSSet set];
   [self.sut performOperation:kMSPendingOperationReplace
       documentId:@"documentId"
-      documentType:[NSString class]
+      documentType:[MSDictionaryDocument class]
       document:[[MSDictionaryDocument alloc] initFromDictionary:dict]
       baseOptions:nil
       cachedTokenBlock:^(MSCachedTokenCompletionHandler _Nonnull handler) {
