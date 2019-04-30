@@ -216,7 +216,7 @@ static dispatch_once_t onceToken;
   [MSAuth sharedInstance].configUrl = configUrl;
 }
 
-- (void)callCompletionHandler:(MSSignInCompletionHandler _Nullable)completionHandler
+- (void)callCompletionHandler:(MSAcquireTokenCompletionHandler _Nullable)completionHandler
                 withErrorCode:(NSInteger)errorCode
                    andMessage:(NSString *)errorMessage {
   if (completionHandler) {
@@ -384,7 +384,7 @@ static dispatch_once_t onceToken;
                           account:account
                   completionBlock:^(MSALResult *result, NSError *error) {
                     typeof(self) strongSelf = weakSelf;
-                    MSSignInCompletionHandler handler = [strongSelf valueForKey:completionHandlerKeyPath];
+                    MSAcquireTokenCompletionHandler handler = [strongSelf valueForKey:completionHandlerKeyPath];
                     if (!handler) {
                       MSLogDebug([MSAuth logTag], @"Silent acquisition has been interrupted. Ignoring the result.");
                       return;
@@ -423,7 +423,7 @@ static dispatch_once_t onceToken;
   [self.clientApplication acquireTokenForScopes:@[ (NSString * __nonnull) self.authConfig.authScope ]
                                 completionBlock:^(MSALResult *result, NSError *error) {
                                   typeof(self) strongSelf = weakSelf;
-                                  MSSignInCompletionHandler handler = [strongSelf valueForKey:completionHandlerKeyPath];
+                                  MSAcquireTokenCompletionHandler handler = [strongSelf valueForKey:completionHandlerKeyPath];
                                   if (!handler) {
                                     MSLogDebug([MSAuth logTag], @"Sign-in has been interrupted. Ignoring the result.");
                                     return;

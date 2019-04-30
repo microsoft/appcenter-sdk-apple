@@ -21,14 +21,6 @@ NS_ASSUME_NONNULL_BEGIN
 typedef void (^MSSignInCompletionHandler)(MSUserInformation *_Nullable userInformation, NSError *_Nullable error);
 
 /**
- * Completion handler triggered when complete getting a token.
- *
- * @param userInformation User information for signed in user.
- * @param error Error for sign-in failure.
- */
-typedef void (^MSAcquireTokenCompletionHandler)(MSUserInformation *_Nullable userInformation, NSError *_Nullable error);
-
-/**
  * App Center Auth service.
  */
 @interface MSAuth : MSServiceAbstract
