@@ -123,8 +123,7 @@ static dispatch_once_t onceToken;
     self.clientApplication = nil;
     [self clearConfigurationCache];
     self.ingestion = nil;
-    [self callCompletionHandler:self.signInCompletionHandler withErrorCode:MSACAuthErrorServiceDisabled andMessage:@"Auth is disabled."];
-    [self callCompletionHandler:self.refreshCompletionHandler withErrorCode:MSACAuthErrorServiceDisabled andMessage:@"Auth is disabled."];
+    [self cancelPendingOperationsWithErrorCode:MSACAuthErrorServiceDisabled message:@"Auth is disabled."];
     MSLogInfo([MSAuth logTag], @"Auth service has been disabled.");
   }
 }
@@ -156,7 +155,7 @@ static dispatch_once_t onceToken;
     } else {
       [[MSAuth sharedInstance] callCompletionHandler:completionHandler
                                        withErrorCode:MSACAuthErrorServiceDisabled
-                                          andMessage:@"Auth is disabled."];
+                                             message:@"Auth is disabled."];
     }
   }
 }
@@ -170,25 +169,25 @@ static dispatch_once_t onceToken;
     MSLogError([MSAuth logTag], @"signIn already in progress.");
     [self callCompletionHandler:completionHandler
                   withErrorCode:MSACAuthErrorPreviousSignInRequestInProgress
-                     andMessage:@"signIn already in progress."];
+                        message:@"signIn already in progress."];
     return;
   }
   if (self.refreshCompletionHandler) {
     [self callCompletionHandler:self.refreshCompletionHandler
                   withErrorCode:MSACAuthErrorInterruptedByAnotherOperation
-                     andMessage:@"Interrupted by signIn operation."];
+                        message:@"Interrupted by signIn operation."];
     self.refreshCompletionHandler = nil;
   }
   if ([[MS_Reachability reachabilityForInternetConnection] currentReachabilityStatus] == NotReachable) {
     [self callCompletionHandler:completionHandler
                   withErrorCode:MSACAuthErrorSignInWhenNoConnection
-                     andMessage:@"User sign-in failed. Internet connection is down."];
+                        message:@"User sign-in failed. Internet connection is down."];
     return;
   }
   if (self.clientApplication == nil || self.authConfig == nil) {
     [self callCompletionHandler:completionHandler
                   withErrorCode:MSACAuthErrorSignInBackgroundOrNotConfigured
-                     andMessage:@"signIn is called while it's not configured or not in the foreground."];
+                        message:@"signIn is called while it's not configured or not in the foreground."];
     return;
   }
   __weak typeof(self) weakSelf = self;
@@ -218,7 +217,7 @@ static dispatch_once_t onceToken;
 
 - (void)callCompletionHandler:(MSAcquireTokenCompletionHandler _Nullable)completionHandler
                 withErrorCode:(NSInteger)errorCode
-                   andMessage:(NSString *)errorMessage {
+                      message:(NSString *)errorMessage {
   if (completionHandler) {
     NSError *error = [[NSError alloc] initWithDomain:kMSACAuthErrorDomain
                                                 code:errorCode
@@ -227,11 +226,18 @@ static dispatch_once_t onceToken;
   }
 }
 
+- (void)cancelPendingOperationsWithErrorCode:(NSInteger)errorCode message:(NSString *)message {
+  [self callCompletionHandler:self.signInCompletionHandler withErrorCode:errorCode message:message];
+  [self callCompletionHandler:self.refreshCompletionHandler withErrorCode:errorCode message:message];
+  self.homeAccountIdToRefresh = nil;
+}
+
 - (void)signOut {
   @synchronized(self) {
     if (![self canBeUsed]) {
       return;
     }
+    [self cancelPendingOperationsWithErrorCode:MSACAuthErrorInterruptedByAnotherOperation message:@"User canceled sign-in."];
     if ([self clearAuthData]) {
       MSLogInfo([MSAuth logTag], @"User sign-out succeeded.");
     }
