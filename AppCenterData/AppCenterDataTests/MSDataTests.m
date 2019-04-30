@@ -7,7 +7,7 @@
 #import "MSConstants+Internal.h"
 #import "MSCosmosDb.h"
 #import "MSCosmosDbPrivate.h"
-#import "MSDataError.h"
+#import "MSDataErrorInternal.h"
 #import "MSDataErrors.h"
 #import "MSDataInternal.h"
 #import "MSDataPrivate.h"
@@ -1832,7 +1832,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   self.sut.dataOperationProxy.reachability = reachabilityMock;
 
   // Mock expired document in local storage.
-  MSDataError *dataError = [[MSDataError alloc] initWithInnerError:nil code:MSACDataErrorLocalDocumentExpired message:nil];
+  MSDataError *dataError = [[MSDataError alloc] initWithErrorCode:MSACDataErrorLocalDocumentExpired innerError:nil message:nil];
   id<MSDocumentStore> localStorageMock = OCMProtocolMock(@protocol(MSDocumentStore));
   self.sut.dataOperationProxy.documentStore = localStorageMock;
   MSDocumentWrapper *expiredDocument = [[MSDocumentWrapper alloc] initWithError:dataError documentId:@"4"];

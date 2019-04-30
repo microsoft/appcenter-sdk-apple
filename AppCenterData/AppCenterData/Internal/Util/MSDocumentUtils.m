@@ -4,7 +4,7 @@
 #import <objc/runtime.h>
 
 #import "MSDataConstants.h"
-#import "MSDataError.h"
+#import "MSDataErrorInternal.h"
 #import "MSDataErrors.h"
 #import "MSDataInternal.h"
 #import "MSDocumentUtils.h"
@@ -64,8 +64,7 @@ static NSString *const kMSDocumentKey = @"document";
                                      userInfo:@{NSLocalizedDescriptionKey : @"Can't deserialize JSON payload"}];
     }
     MSLogError([MSData logTag], @"Error deserializing data: %@", [error description]);
-
-    MSDataError *dataError = [[MSDataError alloc] initWithInnerError:error code:0 message:nil];
+    MSDataError *dataError = [[MSDataError alloc] initWithErrorCode:MSACDataErrorJSONSerializationFailed innerError:error message:nil];
     return [[MSDocumentWrapper alloc] initWithError:dataError documentId:nil];
   }
 
@@ -98,7 +97,7 @@ static NSString *const kMSDocumentKey = @"document";
                                      userInfo:@{NSLocalizedDescriptionKey : @"Can't deserialize JSON payload"}];
     }
     MSLogError([MSData logTag], @"Error deserializing data: %@", [error localizedDescription]);
-    MSDataError *dataError = [[MSDataError alloc] initWithInnerError:error code:0 message:nil];
+    MSDataError *dataError = [[MSDataError alloc] initWithErrorCode:MSACDataErrorJSONSerializationFailed innerError:error message:nil];
     return [[MSDocumentWrapper alloc] initWithError:dataError documentId:documentId];
   }
 
@@ -126,8 +125,10 @@ static NSString *const kMSDocumentKey = @"document";
 
     // Prepare and return error.
     NSString *errorMessage = @"Can't deserialize document (missing system properties or partition key)";
-    MSDataError *dataError = [[MSDataError alloc] initWithInnerError:nil code:MSACDataErrorJSONSerializationFailed message:errorMessage];
-    MSLogError([MSData logTag], @"Error deserializing data: %@", [dataError localizedDescription]);
+    MSDataError *dataError = [[MSDataError alloc] initWithErrorCode:MSACDataErrorJSONSerializationFailed
+                                                         innerError:nil
+                                                            message:errorMessage];
+    MSLogError([MSData logTag], @"Error deserializing data: %@.", [dataError localizedDescription]);
     return [[MSDocumentWrapper alloc] initWithError:dataError documentId:nil];
   }
   NSDictionary *dictionary = (NSDictionary *)object;
@@ -157,7 +158,9 @@ static NSString *const kMSDocumentKey = @"document";
   // Validate dictionary
   if (![NSJSONSerialization isValidJSONObject:dictionary]) {
     NSString *errorMessage = @"Dictionary cannot be processed as JSON.";
-    MSDataError *dataError = [[MSDataError alloc] initWithInnerError:nil code:MSACDataErrorJSONSerializationFailed message:errorMessage];
+    MSDataError *dataError = [[MSDataError alloc] initWithErrorCode:MSACDataErrorJSONSerializationFailed
+                                                         innerError:nil
+                                                            message:errorMessage];
     MSLogError([MSData logTag], errorMessage);
     return [[MSDocumentWrapper alloc] initWithError:dataError documentId:documentId];
   }

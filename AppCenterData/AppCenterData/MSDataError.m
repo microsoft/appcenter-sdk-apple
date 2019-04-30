@@ -6,7 +6,7 @@
 
 @implementation MSDataError
 
-- (instancetype)initWithInnerError:(NSError *_Nullable)innerError code:(NSInteger)code message:(NSString *_Nullable)message {
+- (instancetype)initWithErrorCode:(NSInteger)errorCode innerError:(NSError *_Nullable)innerError message:(NSString *_Nullable)message {
 
   // Prepare user info properties.
   NSMutableDictionary *userInfo = [NSMutableDictionary new];
@@ -18,13 +18,13 @@
   }
 
   // Return the error.
-  return [super initWithDomain:kMSACDataErrorDomain code:code userInfo:userInfo];
+  return [super initWithDomain:kMSACDataErrorDomain code:errorCode userInfo:userInfo];
 }
 
-- (instancetype)initWithUserInfo:(NSDictionary *)userInfo code:(NSInteger)code {
+- (instancetype)initWithErrorCode:(NSInteger)errorCode userInfo:(NSDictionary *)userInfo {
 
   // Return the error.
-  return [super initWithDomain:kMSACDataErrorDomain code:code userInfo:userInfo];
+  return [super initWithDomain:kMSACDataErrorDomain code:errorCode userInfo:userInfo];
 }
 
 - (NSError *)innerError {

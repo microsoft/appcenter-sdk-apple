@@ -314,6 +314,8 @@
 		4A193735225129B700459E1E /* MSDBDocumentStorePrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDBDocumentStorePrivate.h; sourceTree = "<group>"; };
 		4A9C4400223B23E3008548A7 /* MSTokenTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSTokenTests.m; sourceTree = "<group>"; };
 		4ACEAC9D225418B600976AEA /* MSDBDocumentStoreTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSDBDocumentStoreTests.m; sourceTree = "<group>"; };
+		7FE685B62275432200C2F4BA /* MSPageInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSPageInternal.h; sourceTree = "<group>"; };
+		7FE685B7227546AE00C2F4BA /* MSDataErrorInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSDataErrorInternal.h; sourceTree = "<group>"; };
 		87FA7FB5BC7302D0062016E1 /* MSCosmosDbPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSCosmosDbPrivate.h; sourceTree = "<group>"; };
 		8F1E76E822652B9D00A6D39F /* MSDataOperationProxyTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSDataOperationProxyTests.m; sourceTree = "<group>"; };
 		8F1FF9512255C12F0083471E /* validTestDocument.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = validTestDocument.json; sourceTree = "<group>"; };
@@ -660,6 +662,8 @@
 				2600123C22273E94007F4D3A /* MSTokensResponse.h */,
 				2600123E22273E94007F4D3A /* MSTokensResponse.m */,
 				8F5227EF22542556004F37FE /* MSPaginatedDocumentsInternal.h */,
+				7FE685B62275432200C2F4BA /* MSPageInternal.h */,
+				7FE685B7227546AE00C2F4BA /* MSDataErrorInternal.h */,
 			);
 			path = Model;
 			sourceTree = "<group>";

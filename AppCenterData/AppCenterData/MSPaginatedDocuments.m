@@ -5,6 +5,7 @@
 #import "MSCosmosDb.h"
 #import "MSData.h"
 #import "MSDataInternal.h"
+#import "MSPageInternal.h"
 #import "MSPaginatedDocumentsInternal.h"
 #import "MSSerializableDocument.h"
 #import "MSTokenExchange.h"

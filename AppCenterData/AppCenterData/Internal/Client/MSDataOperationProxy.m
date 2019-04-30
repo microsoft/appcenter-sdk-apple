@@ -5,7 +5,7 @@
 
 #import "MSData.h"
 #import "MSDataConstants.h"
-#import "MSDataError.h"
+#import "MSDataErrorInternal.h"
 #import "MSDataErrors.h"
 #import "MSDataInternal.h"
 #import "MSDataOperationProxy.h"
@@ -42,7 +42,7 @@
   if (![MSDataOperationProxy isValidOperation:operation]) {
     NSString *message = @"Operation is not supported";
     MSLogError([MSData logTag], message);
-    MSDataError *dataError = [[MSDataError alloc] initWithInnerError:nil code:MSACDataLocalStoreError message:message];
+    MSDataError *dataError = [[MSDataError alloc] initWithErrorCode:MSACDataLocalStoreError innerError:nil message:message];
     completionHandler([[MSDocumentWrapper alloc] initWithError:dataError documentId:documentId]);
     return;
   }
@@ -54,7 +54,7 @@
       NSString *message =
           [NSString stringWithFormat:@"Error while retrieving cached token, aborting operation: %@", [error localizedDescription]];
       MSLogError([MSData logTag], @"%@", message);
-      MSDataError *dataError = [[MSDataError alloc] initWithInnerError:nil code:MSACDataLocalStoreError message:message];
+      MSDataError *dataError = [[MSDataError alloc] initWithErrorCode:MSACDataLocalStoreError innerError:nil message:message];
       completionHandler([[MSDocumentWrapper alloc] initWithError:dataError documentId:documentId]);
       return;
     }
@@ -98,7 +98,7 @@
         else if ([kMSPendingOperationDelete isEqualToString:cachedDocument.pendingOperation]) {
           NSString *message = @"Document pending deletion in local storage";
           MSLogError([MSData logTag], message);
-          MSDataError *dataError = [[MSDataError alloc] initWithInnerError:nil code:MSACDataErrorDocumentNotFound message:message];
+          MSDataError *dataError = [[MSDataError alloc] initWithErrorCode:MSACDataErrorDocumentNotFound innerError:nil message:message];
           completionHandler([[MSDocumentWrapper alloc] initWithError:dataError documentId:documentId]);
         }
 

@@ -10,7 +10,7 @@
 #import "MSDBStoragePrivate.h"
 #import "MSData.h"
 #import "MSDataConstants.h"
-#import "MSDataError.h"
+#import "MSDataErrorInternal.h"
 #import "MSDataErrors.h"
 #import "MSDataInternal.h"
 #import "MSDocumentUtils.h"
@@ -141,7 +141,7 @@ static const NSUInteger kMSSchemaVersion = 1;
     MSLogWarning([MSData logTag], @"%@", errorMessage);
 
     // Create error.
-    MSDataError *dataError = [[MSDataError alloc] initWithInnerError:nil code:MSACDataErrorDocumentNotFound message:errorMessage];
+    MSDataError *dataError = [[MSDataError alloc] initWithErrorCode:MSACDataErrorDocumentNotFound innerError:nil message:errorMessage];
     return [[MSDocumentWrapper alloc] initWithError:dataError documentId:documentId];
   }
 
@@ -158,7 +158,9 @@ static const NSUInteger kMSSchemaVersion = 1;
       [self deleteWithToken:token documentId:documentId];
 
       // Create error.
-      MSDataError *dataError = [[MSDataError alloc] initWithInnerError:nil code:MSACDataErrorLocalDocumentExpired message:errorMessage];
+      MSDataError *dataError = [[MSDataError alloc] initWithErrorCode:MSACDataErrorLocalDocumentExpired
+                                                           innerError:nil
+                                                              message:errorMessage];
       return [[MSDocumentWrapper alloc] initWithError:dataError documentId:documentId];
     }
   }
