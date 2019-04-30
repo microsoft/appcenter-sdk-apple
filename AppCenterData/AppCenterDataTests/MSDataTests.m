@@ -468,6 +468,41 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   XCTAssertEqual(actualDataError.code, MSACDisabledErrorCode);
 }
 
+- (void)testListWhenOffline {
+
+  // Simulate being offline.
+  MS_Reachability *reachabilityMock = OCMPartialMock([MS_Reachability reachabilityForInternetConnection]);
+  OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(NotReachable);
+  self.sut.reachability = reachabilityMock;
+  self.sut.httpClient = OCMProtocolMock(@protocol(MSHttpClientProtocol));
+  OCMReject([self.sut.httpClient sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:OCMOCK_ANY data:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
+
+  // If
+  __block MSPaginatedDocuments *actualPaginatedDocuments;
+  __weak XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler called."];
+
+  // When
+  [MSData listDocumentsWithType:[MSDictionaryDocument class]
+                      partition:kMSPartitionTest
+              completionHandler:^(MSPaginatedDocuments *documents) {
+                actualPaginatedDocuments = documents;
+                [expectation fulfill];
+              }];
+
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *_Nullable error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+  XCTAssertNotNil(actualPaginatedDocuments);
+  XCTAssertNotNil(actualPaginatedDocuments.currentPage.error);
+  XCTAssertNotNil(actualPaginatedDocuments.currentPage.error);
+  XCTAssertEqual(actualPaginatedDocuments.currentPage.error.domain, kMSACDataErrorDomain);
+  XCTAssertEqual(actualPaginatedDocuments.currentPage.error.code, MSACDataErrorHTTPError);
+}
+
 - (void)testListWhenDataModuleDisabled {
 
   // If
@@ -1632,6 +1667,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                  }
                                }];
 }
+
 - (void)testReadsFromLocalStorageWhenOnlineIfCreatePendingOperation {
 
   // If

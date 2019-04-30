@@ -567,13 +567,13 @@
 			isa = PBXGroup;
 			children = (
 				D3AD5EC41E5C4F6A001627AB /* Info.plist */,
-				04B61DCA2248F518008D0102 /* MSTokenExchangeTests.m */,
-				8F1E76E822652B9D00A6D39F /* MSDataOperationProxyTests.m */,
-				2ACE55FF2245277000FCD5DF /* MSDocumentUtilsTests.m */,
 				2ACE56092245340A00FCD5DF /* MSBaseOptionsTests.m */,
+				8F1E76E822652B9D00A6D39F /* MSDataOperationProxyTests.m */,
 				2ACE562022453BE600FCD5DF /* MSDataErrorTests.m */,
-				4ACEAC9D225418B600976AEA /* MSDBDocumentStoreTests.m */,
 				D3AD5EC21E5C4F6A001627AB /* MSDataTests.m */,
+				4ACEAC9D225418B600976AEA /* MSDBDocumentStoreTests.m */,
+				2ACE55FF2245277000FCD5DF /* MSDocumentUtilsTests.m */,
+				04B61DCA2248F518008D0102 /* MSTokenExchangeTests.m */,
 				4A9C4400223B23E3008548A7 /* MSTokenTests.m */,
 				8F4548E52256D5470021B0BF /* NSObject+MSTestFixture.h */,
 				8F4548E62256D5470021B0BF /* NSObject+MSTestFixture.m */,

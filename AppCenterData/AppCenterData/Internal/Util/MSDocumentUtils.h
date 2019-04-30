@@ -70,6 +70,28 @@ NS_ASSUME_NONNULL_BEGIN
                                        fromDeviceCache:(BOOL)fromDeviceCache;
 
 /**
+ * Deserialize a document dictionary that contains no metadata.
+ *
+ * @param dictionary Dictionary from which to create the document wrapper.
+ * @param documentType The type of document to instantiate.
+ * @param eTag The eTag for the document.
+ * @param lastUpdatedDate The last time the document was updated.
+ * @param partition The partition of the document.
+ * @param documentId The DocumentId.
+ * @param pendingOperation The pending operation, or nil.
+ * @param fromDeviceCache Flag indicating if the document wrapper was retrieved remotely or not.
+ *
+ * @return Document wrapper (valid or in an error state).
+ */
++ (MSDocumentWrapper *)documentWrapperFromDictionary:(NSDictionary *)dictionary
+                                        documentType:(Class)documentType
+                                                eTag:(NSString *)eTag
+                                     lastUpdatedDate:(NSDate *)lastUpdatedDate
+                                           partition:(NSString *)partition
+                                          documentId:(NSString *)documentId
+                                    pendingOperation:(nullable NSString *)pendingOperation
+                                     fromDeviceCache:(BOOL)fromDeviceCache;
+/**
  * Check if a given class type implements the `MSSerializableDocument` protocol.
  *
  * @param classType The type to check.
