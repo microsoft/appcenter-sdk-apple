@@ -248,10 +248,13 @@
     [self.documentStore deleteWithToken:token documentId:currentCachedDocument.documentId];
   }
 
-  // If the cached document has a create or replace pending operation, and no eTags, delete the document from the store.
+  /*
+   * If the cached document has a create or replace pending operation, and no eTags, and if the current operation is a
+   * deletion, delete the document from the store.
+   */
   else if (([kMSPendingOperationCreate isEqualToString:currentCachedDocument.pendingOperation] ||
             [kMSPendingOperationReplace isEqualToString:currentCachedDocument.pendingOperation]) &&
-           !currentCachedDocument.eTag) {
+           !currentCachedDocument.eTag && operation && [kMSPendingOperationDelete isEqualToString:(NSString *)operation]) {
     MSLogInfo([MSData logTag], @"Removing never-synced document from local storage (partition: %@, id: %@)", token.partition,
               currentCachedDocument.documentId);
     [self.documentStore deleteWithToken:token documentId:currentCachedDocument.documentId];
