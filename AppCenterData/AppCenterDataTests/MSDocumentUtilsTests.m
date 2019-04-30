@@ -110,7 +110,7 @@
   XCTAssertTrue([[document eTag] isEqualToString:@"etag"]);
   XCTAssertNotNil([document lastUpdatedDate]);
   XCTAssertTrue([[document partition] isEqualToString:@"readonly"]);
-  XCTAssertNotNil([document jsonValue]);
+  XCTAssertNil([document jsonValue]);
   XCTAssertTrue([document fromDeviceCache]);
 
   // If, system property has incorrect type
@@ -152,7 +152,7 @@
   XCTAssertTrue([[document eTag] isEqualToString:@"etag"]);
   XCTAssertNotNil([document lastUpdatedDate]);
   XCTAssertTrue([[document partition] isEqualToString:@"readonly"]);
-  XCTAssertNotNil([document jsonValue]);
+  XCTAssertNil([document jsonValue]);
   XCTAssertFalse([document fromDeviceCache]);
 
   // If, document is a dictionary
