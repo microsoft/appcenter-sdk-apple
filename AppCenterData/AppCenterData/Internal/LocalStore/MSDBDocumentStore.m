@@ -169,7 +169,10 @@ static const NSUInteger kMSSchemaVersion = 1;
   NSString *jsonString = result[0][self.documentColumnIndex];
   NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
   long lastUpdatedDate = [(NSNumber *)result[0][self.operationTimeColumnIndex] longValue];
-  NSString *pendingOperation = result[0][self.pendingOperationColumnIndex];
+  
+  // If operation is NSNull, change it to nil.
+  NSString *nullableOperation = result[0][self.pendingOperationColumnIndex];
+  NSString *pendingOperation = [nullableOperation isEqual:[NSNull null]] ? nil : nullableOperation;
   return [MSDocumentUtils documentWrapperFromDocumentData:jsonData
                                              documentType:documentType
                                                      eTag:result[0][self.eTagColumnIndex]
