@@ -181,18 +181,18 @@ static dispatch_once_t onceToken;
 
 - (void)signIn {
   if ([[MS_Reachability reachabilityForInternetConnection] currentReachabilityStatus] == NotReachable) {
-    [self ifSignInExistsCompleteWithErrorCode:MSACAuthErrorSignInWhenNoConnection
-                           andMessage:@"User sign-in failed. Network is unavailable."
-              isDownloadConfigFailure:NO];
+    [self ifSignInIsInProgressCompleteWithErrorCode:MSACAuthErrorSignInWhenNoConnection
+                                         andMessage:@"User sign-in failed. Network is unavailable."
+                            isDownloadConfigFailure:NO];
     return;
   }
   if (self.clientApplication == nil || self.authConfig == nil) {
-    if (!self.signInShouldWaitForConfig) {
-      [self ifSignInExistsCompleteWithErrorCode:MSACAuthErrorSignInBackgroundOrNotConfigured
-                             andMessage:@"signIn is called while it's not configured or not in the foreground."
-                isDownloadConfigFailure:NO];
-    } else {
+    if (self.signInShouldWaitForConfig) {
       MSLogDebug([MSAppCenter logTag], @"Downloading configuration in process. Waiting it before sign-in.");
+    } else {
+      [self ifSignInIsInProgressCompleteWithErrorCode:MSACAuthErrorSignInBackgroundOrNotConfigured
+                                           andMessage:@"signIn is called while it's not configured or not in the foreground."
+                              isDownloadConfigFailure:NO];
     }
     return;
   }
@@ -224,9 +224,9 @@ static dispatch_once_t onceToken;
   [MSAuth sharedInstance].configUrl = configUrl;
 }
 
-- (void)ifSignInExistsCompleteWithErrorCode:(NSInteger)errorCode
-                         andMessage:(NSString *)errorMessage
-            isDownloadConfigFailure:(BOOL)isDownloadConfigFailure {
+- (void)ifSignInIsInProgressCompleteWithErrorCode:(NSInteger)errorCode
+                                       andMessage:(NSString *)errorMessage
+                          isDownloadConfigFailure:(BOOL)isDownloadConfigFailure {
   @synchronized(self) {
 
     // We should turn off the flag synchronously, together with
@@ -290,56 +290,58 @@ static dispatch_once_t onceToken;
   self.signInShouldWaitForConfig = YES;
 
   // Download configuration.
-  [self.ingestion sendAsync:nil
-                       eTag:eTag
-          completionHandler:^(__unused NSString *callId, NSHTTPURLResponse *response, NSData *data, __unused NSError *error) {
-            MSAuthConfig *config = nil;
-            if (response.statusCode == MSHTTPCodesNo304NotModified) {
-              MSLogInfo([MSAuth logTag], @"Auth config hasn't changed.");
+  [self.ingestion
+              sendAsync:nil
+                   eTag:eTag
+      completionHandler:^(__unused NSString *callId, NSHTTPURLResponse *response, NSData *data, __unused NSError *error) {
+        MSAuthConfig *config = nil;
+        if (response.statusCode == MSHTTPCodesNo304NotModified) {
+          MSLogInfo([MSAuth logTag], @"Auth config hasn't changed.");
 
-              // At this point, the expectation is that we should not have any pending sign-ins, because
-              // the configuration already exists. If we have a pending sign-in, this will trigger an error.
-              [self ifSignInExistsCompleteWithErrorCode:MSACAuthErrorSignInConfigNotValid
-                                     andMessage:@"There was no auth config but the server returned 'not modified' response."
-                        isDownloadConfigFailure:YES];
-            } else if (response.statusCode == MSHTTPCodesNo200OK) {
-              config = [self deserializeData:data];
-              if ([config isValid]) {
-                NSURL *configUrl = [MSUtility createFileAtPathComponent:[self authConfigFilePath]
-                                                               withData:data
-                                                             atomically:YES
-                                                         forceOverwrite:YES];
+          // At this point, the expectation is that we should not have any pending sign-ins, because
+          // the configuration already exists. If we have a pending sign-in, this will trigger an error.
+          [self ifSignInIsInProgressCompleteWithErrorCode:MSACAuthErrorSignInConfigNotValid
+                                               andMessage:@"There was no auth config but the server returned 304 (not modified)."
+                                  isDownloadConfigFailure:YES];
+        } else if (response.statusCode == MSHTTPCodesNo200OK) {
+          config = [self deserializeData:data];
+          if ([config isValid]) {
+            NSURL *configUrl = [MSUtility createFileAtPathComponent:[self authConfigFilePath]
+                                                           withData:data
+                                                         atomically:YES
+                                                     forceOverwrite:YES];
 
-                // Store eTag only when the configuration file is created successfully.
-                if (configUrl) {
-                  NSString *newETag = [MSHttpIngestion eTagFromResponse:response];
-                  if (newETag) {
-                    [MS_USER_DEFAULTS setObject:newETag forKey:kMSAuthETagKey];
-                  }
-                } else {
-                  MSLogWarning([MSAuth logTag], @"Couldn't create Auth config file.");
-                }
-                @synchronized(self) {
-                  self.authConfig = config;
-
-                  // Reinitialize client application.
-                  [self configAuthenticationClient];
-                }
-                [self continueSignInAndStopWaitingForConfig:YES];
-              } else {
-                MSLogError([MSAuth logTag], @"Downloaded auth config is not valid.");
-                [self ifSignInExistsCompleteWithErrorCode:MSACAuthErrorSignInConfigNotValid
-                                       andMessage:@"Downloaded auth config is not valid."
-                          isDownloadConfigFailure:YES];
+            // Store eTag only when the configuration file is created successfully.
+            if (configUrl) {
+              NSString *newETag = [MSHttpIngestion eTagFromResponse:response];
+              if (newETag) {
+                [MS_USER_DEFAULTS setObject:newETag forKey:kMSAuthETagKey];
               }
             } else {
-              MSLogError([MSAuth logTag], @"Failed to download auth config. Status code received: %ld", (long)response.statusCode);
-              [self ifSignInExistsCompleteWithErrorCode:MSACAuthErrorSignInDownloadConfigFailed
-                                     andMessage:[NSString stringWithFormat:@"Failed to download auth config. Status code received: %ld",
-                                                                           (long)response.statusCode]
-                        isDownloadConfigFailure:YES];
+              MSLogWarning([MSAuth logTag], @"Couldn't create Auth config file.");
             }
-          }];
+            @synchronized(self) {
+              self.authConfig = config;
+
+              // Reinitialize client application.
+              [self configAuthenticationClient];
+            }
+            [self continueSignInAndStopWaitingForConfig:YES];
+          } else {
+            MSLogError([MSAuth logTag], @"Downloaded auth config is not valid.");
+            [self ifSignInIsInProgressCompleteWithErrorCode:MSACAuthErrorSignInConfigNotValid
+                                                 andMessage:@"Downloaded auth config is not valid."
+                                    isDownloadConfigFailure:YES];
+          }
+        } else {
+          MSLogError([MSAuth logTag], @"Failed to download auth config. Status code received: %ld", (long)response.statusCode);
+          [self ifSignInIsInProgressCompleteWithErrorCode:MSACAuthErrorSignInDownloadConfigFailed
+                                               andMessage:[NSString
+                                                              stringWithFormat:@"Failed to download auth config. Status code received: %ld",
+                                                                               (long)response.statusCode]
+                                  isDownloadConfigFailure:YES];
+        }
+      }];
 }
 
 - (void)configAuthenticationClient {

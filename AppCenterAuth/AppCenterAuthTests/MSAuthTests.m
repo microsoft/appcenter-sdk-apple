@@ -37,7 +37,9 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
 - (void)configAuthenticationClient;
 - (void)continueSignInAndStopWaitingForConfig:(BOOL)stopWaitingForConfig;
-- (void)ifSignInExistsCompleteWithErrorCode:(NSInteger)errorCode andMessage:(NSString *)errorMessage isDownloadConfigFailure:(BOOL)isDownloadConfigFailure;
+- (void)ifSignInIsInProgressCompleteWithErrorCode:(NSInteger)errorCode
+                                       andMessage:(NSString *)errorMessage
+                          isDownloadConfigFailure:(BOOL)isDownloadConfigFailure;
 - (BOOL)removeAccount;
 - (MSALAccount *)retrieveAccountWithAccountId:(NSString *)homeAccountId;
 
@@ -1221,7 +1223,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 }
 
 - (void)testContinuePendingSigninAfterConfigDownload {
-  
+
   // If
   [[MSAuth sharedInstance] setEnabled:YES];
   id authMock = OCMPartialMock(self.sut);
@@ -1229,7 +1231,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
     self.signInUserInformation = userInformation;
     self.signInError = error;
   };
-  
+
   // When
   OCMStub([authMock sharedInstance]).andReturn(authMock);
   OCMStub([authMock canBeUsed]).andReturn(YES);
@@ -1246,13 +1248,13 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [self.sut downloadConfigurationWithETag:nil];
   ingestionBlock(@"callId", [MSHttpTestUtil createMockResponseForStatusCode:200 headers:@{kMSETagResponseHeader : expectedETag}], newConfig,
                  nil);
-  
+
   // Then
   OCMVerify([authMock continueSignInAndStopWaitingForConfig:YES]);
   [authMock stopMocking];
 }
 
-- (void) testDoNotStorePendingSignInIfConfigNotDownloading {
+- (void)testDoNotStorePendingSignInIfConfigNotDownloading {
 
   // If
   [[MSAuth sharedInstance] setEnabled:YES];
@@ -1261,7 +1263,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
     self.signInUserInformation = userInformation;
     self.signInError = error;
   };
-  
+
   // When
   OCMStub([authMock sharedInstance]).andReturn(authMock);
   OCMStub([authMock canBeUsed]).andReturn(YES);
@@ -1277,9 +1279,11 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [self.sut downloadConfigurationWithETag:nil];
   ingestionBlock(@"callId", [MSHttpTestUtil createMockResponseForStatusCode:200 headers:@{kMSETagResponseHeader : expectedETag}], newConfig,
                  nil);
-  
+
   // Then
-  OCMVerify([authMock ifSignInExistsCompleteWithErrorCode:MSACAuthErrorSignInBackgroundOrNotConfigured andMessage:OCMOCK_ANY isDownloadConfigFailure:NO]);
+  OCMVerify([authMock ifSignInIsInProgressCompleteWithErrorCode:MSACAuthErrorSignInBackgroundOrNotConfigured
+                                                     andMessage:OCMOCK_ANY
+                                        isDownloadConfigFailure:NO]);
   [authMock stopMocking];
 }
 
