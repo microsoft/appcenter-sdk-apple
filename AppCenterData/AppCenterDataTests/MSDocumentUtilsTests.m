@@ -96,9 +96,9 @@
   dictionary[@"_etag"] = @"etag";
   dictionary[@"_ts"] = @0;
   dictionary[@"PartitionKey"] = @"readonly";
-  
+
   // Invalid JSON
-  dictionary[@"document"] = @{@"key":[NSDate new]};
+  dictionary[@"document"] = @{@"key" : [NSDate new]};
 
   // When
   MSDocumentWrapper *document = [MSDocumentUtils documentWrapperFromDictionary:dictionary documentType:[NSString class] fromDeviceCache:NO];
