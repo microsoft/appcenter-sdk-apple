@@ -146,7 +146,7 @@ static NSString *const kMSHeaderMsDate = @"x-ms-date";
     if (!documentId) {
       MSLogError([MSData logTag], @"Can't perform CosmodDb operation without document id.");
       NSError *error = [[NSError alloc] initWithDomain:kMSACDataErrorDomain
-                                                  code:MSACDataErrorDocumentIdError
+                                                  code:MSACDataErrorDocumentIdMissing
                                               userInfo:@{NSLocalizedDescriptionKey : kMSACDocumentCreationDesc}];
       completionHandler(nil, nil, error);
       return;
