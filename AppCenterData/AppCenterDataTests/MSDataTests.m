@@ -496,7 +496,6 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
                                }];
-
   XCTAssertNotNil(actualPaginatedDocuments);
   XCTAssertNotNil(actualPaginatedDocuments.currentPage.error);
   XCTAssertNotNil(actualPaginatedDocuments.currentPage.error);
