@@ -15,21 +15,16 @@ static NSString *const kMSACDataErrorDomain = MS_APP_CENTER_BASE_DOMAIN @"Data.E
 
 // Error codes.
 // FIXME: Re-index these codes (we have our own domain so we can index at 0 and reserve ranges for us).
-typedef NS_ENUM(NSInteger,MSACDataError){
-                   MSACDataErrorJSONSerializationFailed = -620000,
-                   MSACDataErrorHTTPError = -620001,
-                   MSACDataErrorDocumentNotFound = -620002,
-                   MSACDataErrorLocalDocumentExpired = -620003,
-                   MSACDataErrorNotAuthenticated = -620004,
-                   MSACDataErrorInvalidClassCode = -620005,
-                   MSACDataErrorDontCache = -620006,
-                   MSACDataErrorLocalStoreError = -620007,
-                   MSACDataErrorDocumentIdError = -620008,
-                   MSACDataErrorInvalidPartition = -620009,
-                   MSACDataErrorInvalidTokenExchangeResponse = -620010,
-                   MSACDataErrorUnableToGetToken = -620011
-};
-
+typedef NS_ENUM(NSInteger,MSACDataError){// System framework errors.
+    MSACDataErrorInvalidClassCode = 101, MSACDataErrorJSONSerializationFailed = 102,
+    
+    // Document errors.
+    MSACDataErrorDocumentNotFound = 200, MSACDataErrorLocalStoreError = 201, MSACDataErrorLocalDocumentExpired = 202,
+    MSACDataErrorDocumentIdError = 203, MSACDataErrorInvalidPartition = 204, MSACDataErrorInvalidTokenExchangeResponse = 205,
+    
+    // Network errors
+    MSACDataErrorHTTPError = 300, MSACDataErrorUnableToGetToken = 301};
+    
 // Error descriptions.
 static NSString const *kMSACDataInvalidClassDesc = @"Provided class does not conform to serialization protocol (MSSerializableDocument).";
 static NSString const *kMSACDataCosmosDbErrorResponseDesc = @"Unexpected error while talking to CosmosDB.";
