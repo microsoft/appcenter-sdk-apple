@@ -37,7 +37,7 @@ static NSString *const kMSGetTokenPath = @"/data/tokens";
     MSLogError([MSData logTag], @"Can't perform token exchange because partition name %@ is invalid.", partition);
     NSError *error =
         [[NSError alloc] initWithDomain:kMSACDataErrorDomain
-                                   code:MSACDataInvalidPartitionError
+                                   code:MSACDataErrorInvalidPartition
                                userInfo:@{NSLocalizedDescriptionKey : [NSString stringWithFormat:@"Invalid partition name %@", partition]}];
     completionHandler([[MSTokensResponse alloc] initWithTokens:nil], error);
     return;
@@ -109,7 +109,7 @@ static NSString *const kMSGetTokenPath = @"/data/tokens";
               MSLogError([MSData logTag], @"Invalid token exchange service response.");
               NSError *errorResponse = [[NSError alloc]
                   initWithDomain:kMSACDataErrorDomain
-                            code:MSACDataInvalidTokenExchangeResponse
+                            code:MSACDataErrorInvalidTokenExchangeResponse
                         userInfo:@{NSLocalizedDescriptionKey : [NSString stringWithFormat:@"Invalid token exchange service response."]}];
               completionHandler([[MSTokensResponse alloc] initWithTokens:nil], errorResponse);
               return;
@@ -142,7 +142,7 @@ static NSString *const kMSGetTokenPath = @"/data/tokens";
       MSLogError([MSData logTag], @"No cached token result found, and device is offline.");
       NSError *error =
           [[NSError alloc] initWithDomain:kMSACDataErrorDomain
-                                     code:MSACDataUnableToGetTokenError
+                                     code:MSACDataErrorUnableToGetToken
                                  userInfo:@{NSLocalizedDescriptionKey : @"No cached token result found, and device is offline."}];
       completionHandler([[MSTokensResponse alloc] initWithTokens:nil], error);
       return;
