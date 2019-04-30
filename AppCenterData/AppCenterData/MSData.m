@@ -370,10 +370,10 @@ static dispatch_once_t onceToken;
     } else if (![MSDocumentUtils isSerializableDocument:documentType]) {
       dataError = [self generateInvalidClassError];
     } else if ([[self reachability] currentReachabilityStatus] == NotReachable) {
-        dataError = [[MSDataError alloc] initWithErrorCode:MSACDataErrorHTTPError
-                                                innerError:nil
-                                                   message:@"Can't list documents while offline."];
-      MSLogError([MSData logTag], @"Not able to list documents while online: %@", [dataError localizedDescription]);
+      dataError = [[MSDataError alloc] initWithErrorCode:MSACDataErrorHTTPError
+                                              innerError:nil
+                                                 message:@"Can't list documents while offline."];
+      MSLogError([MSData logTag], @"Not able to list documents while offline: %@", [dataError localizedDescription]);
     }
     if (dataError) {
       completionHandler([[MSPaginatedDocuments alloc] initWithError:dataError partition:partition documentType:documentType]);
