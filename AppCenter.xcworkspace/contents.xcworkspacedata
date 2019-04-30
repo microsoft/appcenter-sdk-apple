@@ -189,6 +189,9 @@
       location = "group:AppCenter/AppCenter.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:AppCenterAuth/AppCenterAuth.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:AppCenterAnalytics/AppCenterAnalytics.xcodeproj">
    </FileRef>
    <FileRef
@@ -199,9 +202,6 @@
    </FileRef>
    <FileRef
       location = "group:AppCenterDistribute/AppCenterDistribute.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:AppCenterAuth/AppCenterAuth.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:AppCenterPush/AppCenterPush.xcodeproj">

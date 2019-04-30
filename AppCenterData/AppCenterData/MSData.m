@@ -10,7 +10,7 @@
 #import "MSConstants+Internal.h"
 #import "MSCosmosDb.h"
 #import "MSDataConstants.h"
-#import "MSDataError.h"
+#import "MSDataErrorInternal.h"
 #import "MSDataErrors.h"
 #import "MSDataInternal.h"
 #import "MSDataPrivate.h"
@@ -20,7 +20,8 @@
 #import "MSDocumentWrapperInternal.h"
 #import "MSHttpClient.h"
 #import "MSHttpUtil.h"
-#import "MSPaginatedDocuments.h"
+#import "MSPageInternal.h"
+#import "MSPaginatedDocumentsInternal.h"
 #import "MSPendingOperation.h"
 #import "MSReadOptions.h"
 #import "MSServiceAbstractProtected.h"
@@ -316,8 +317,13 @@ static dispatch_once_t onceToken;
   @synchronized(self) {
 
     // Check the precondition.
+    MSDataError *dataError;
     if (![self canBeUsed] || ![self isEnabled]) {
-      MSDataError *dataError = [self generateDisabledError:@"create or replace" documentId:documentID];
+      dataError = [self generateDisabledError:@"create or replace" documentId:documentID];
+    } else if (![MSDocumentUtils isSerializableDocument:[document class]]) {
+      dataError = [self generateInvalidClassError];
+    }
+    if (dataError) {
       completionHandler([[MSDocumentWrapper alloc] initWithError:dataError documentId:documentID]);
       return;
     }
@@ -410,14 +416,13 @@ static dispatch_once_t onceToken;
                                   id jsonPayload = [NSJSONSerialization JSONObjectWithData:(NSData *)data
                                                                                    options:0
                                                                                      error:&deserializeError];
-
                                   MSDataError *deserializeDataError = nil;
                                   if (!deserializeError && ![MSDocumentUtils isReferenceDictionaryWithKey:jsonPayload
                                                                                                       key:kMSDocumentsKey
                                                                                                   keyType:[NSArray class]]) {
-                                    deserializeDataError = [[MSDataError alloc] initWithInnerError:deserializeError
-                                                                                              code:MSACDataErrorJSONSerializationFailed
-                                                                                           message:@"Can't deserialize documents"];
+                                    deserializeDataError = [[MSDataError alloc] initWithErrorCode:MSACDataErrorJSONSerializationFailed
+                                                                                       innerError:deserializeError
+                                                                                          message:@"Can't deserialize documents"];
                                   }
                                   if (deserializeDataError) {
                                     MSPaginatedDocuments *documents = [[MSPaginatedDocuments alloc] initWithError:deserializeDataError
@@ -528,11 +533,10 @@ static dispatch_once_t onceToken;
                                                            partition:partition
                                                             document:[document serializeToDictionary]];
   if (![NSJSONSerialization isValidJSONObject:dic]) {
-
     MSDataError *serializationDataError =
-        [[MSDataError alloc] initWithInnerError:nil
-                                           code:MSACDataErrorJSONSerializationFailed
-                                        message:@"Document dictionary contains values that cannot be serialized."];
+        [[MSDataError alloc] initWithErrorCode:MSACDataErrorJSONSerializationFailed
+                                    innerError:nil
+                                       message:@"Document dictionary contains values that cannot be serialized."];
     MSLogError([MSData logTag], @"Error serializing data: %@", [serializationDataError localizedDescription]);
     completionHandler([[MSDocumentWrapper alloc] initWithError:serializationDataError documentId:documentId]);
     return;
@@ -540,9 +544,9 @@ static dispatch_once_t onceToken;
   NSError *serializationError;
   NSData *body = [NSJSONSerialization dataWithJSONObject:dic options:0 error:&serializationError];
   if (!body || serializationError) {
-    MSDataError *serializationDataError = [[MSDataError alloc] initWithInnerError:serializationError
-                                                                             code:MSACDataErrorJSONSerializationFailed
-                                                                          message:@"Can't deserialize data."];
+    MSDataError *serializationDataError = [[MSDataError alloc] initWithErrorCode:MSACDataErrorJSONSerializationFailed
+                                                                      innerError:serializationError
+                                                                         message:@"Can't deserialize data."];
     MSLogError([MSData logTag], @"Error serializing data: %@", [serializationDataError localizedDescription]);
     completionHandler([[MSDocumentWrapper alloc] initWithError:serializationDataError documentId:documentId]);
     return;
@@ -617,19 +621,19 @@ static dispatch_once_t onceToken;
 #pragma mark - MSData error utils
 
 - (MSDataError *)generateDisabledError:(NSString *)operation documentId:(NSString *_Nullable)documentId {
-  MSDataError *dataError = [[MSDataError alloc] initWithInnerError:nil
-                                                              code:MSACDisabledErrorCode
-                                                           message:(NSString *)kMSACDisabledErrorDesc];
-  MSLogError([MSData logTag], @"Not able to perform %@ operation, document ID: %@; error: %@", operation, documentId,
+  MSDataError *dataError = [[MSDataError alloc] initWithErrorCode:MSACDisabledErrorCode
+                                                       innerError:nil
+                                                          message:(NSString *)kMSACDisabledErrorDesc];
+  MSLogError([MSData logTag], @"Not able to perform %@ operation, document ID: %@; error: %@.", operation, documentId,
              [dataError localizedDescription]);
   return dataError;
 }
 
 - (MSDataError *)generateInvalidClassError {
-  MSDataError *dataError = [[MSDataError alloc] initWithInnerError:nil
-                                                              code:MSACDataInvalidClassCode
-                                                           message:(NSString *)kMSACDataInvalidClassDesc];
-  MSLogError([MSData logTag], @"Not able to validate document deserialization precondition: %@", [dataError localizedDescription]);
+  MSDataError *dataError = [[MSDataError alloc] initWithErrorCode:MSACDataInvalidClassCode
+                                                       innerError:nil
+                                                          message:(NSString *)kMSACDataInvalidClassDesc];
+  MSLogError([MSData logTag], @"Not able to validate document deserialization precondition: %@.", [dataError localizedDescription]);
   return dataError;
 }
 

@@ -73,7 +73,7 @@
   // If
   NSString *documentId = @"12829";
   NSString *eTag = @"398";
-  NSString *jsonString = @"{ \"document\": {\"key\": \"value\"}}";
+  NSString *jsonString = @"{\"key\": \"value\"}";
   NSString *pendingOperation = kMSPendingOperationReplace;
   [self addJsonStringToTable:jsonString
                         eTag:eTag
@@ -129,7 +129,7 @@
   // If
   NSString *documentId = @"12829";
   NSString *eTag = @"398";
-  NSString *jsonString = @"{ \"document\": {\"key\": \"value\"}}";
+  NSString *jsonString = @"{\"key\": \"value\"}";
   [self addJsonStringToTable:jsonString
                         eTag:eTag
                    partition:self.appToken.partition
@@ -155,7 +155,7 @@
   // If
   NSString *documentId = @"12829";
   NSString *eTag = @"398";
-  NSString *jsonString = @"{ \"document\": {\"key\": \"value\"}}";
+  NSString *jsonString = @"{\"key\": \"value\"}";
   [self addJsonStringToTable:jsonString
                         eTag:eTag
                    partition:self.appToken.partition
@@ -462,7 +462,7 @@
   // If
   NSString *documentId1 = @"doc_id_1";
   NSString *eTag = @"123456789";
-  NSString *jsonString = @"{ \"document\": {\"key\": \"value\"}}";
+  NSString *jsonString = @"{\"key\": \"value\"}";
   NSString *pendingOperation = kMSPendingOperationReplace;
   [self addJsonStringToTable:jsonString
                         eTag:eTag
