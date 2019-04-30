@@ -513,7 +513,7 @@ static dispatch_once_t onceToken;
 
 - (void)networkStateChanged:(NSNotificationCenter *)__unused notification {
   BOOL networkConnected = [[MS_Reachability reachabilityForInternetConnection] currentReachabilityStatus] != NotReachable;
-  if (networkConnected && !self.homeAccountIdToRefresh) {
+  if (networkConnected && self.homeAccountIdToRefresh) {
     NSString *accountId = self.homeAccountIdToRefresh;
     self.homeAccountIdToRefresh = nil;
     [self refreshTokenForAccountId:accountId withNetworkConnected:YES];
