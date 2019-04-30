@@ -8,6 +8,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol MSChannelDelegate;
+@protocol MSChannelUnitProtocol;
 
 /**
  * `MSChannelProtocol` contains the essential operations of a channel. Channels are broadly responsible for enqueuing logs to be sent to the
@@ -52,6 +53,12 @@ NS_ASSUME_NONNULL_BEGIN
  * @see pauseWithIdentifyingObject:
  */
 - (void)resumeWithIdentifyingObject:(id<NSObject>)identifyingObject;
+
+@optional
+- (void)changeOneCollectorChannel:(id<MSChannelUnitProtocol>)oneCollectorChannel;
+
+@optional
+- (void)setIsLatencyChanel:(BOOL)isLatencyChanel;
 
 @end
 

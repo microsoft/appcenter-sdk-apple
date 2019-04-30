@@ -95,6 +95,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property(nonatomic) BOOL discardLogs;
 
+/**
+ * A boolean value set to YES if the channel is latency channel.
+ */
+@property(nonatomic) BOOL isLatencyChannel;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -199,6 +199,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (MSAnalyticsTransmissionTarget *)transmissionTargetForToken:(NSString *)token;
 
++ (void)setTransmissionInterval:(int) interval;
+
 @end
 
 NS_ASSUME_NONNULL_END

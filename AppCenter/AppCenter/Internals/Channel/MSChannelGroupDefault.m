@@ -64,11 +64,34 @@ static char *const kMSLogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
 - (id<MSChannelUnitProtocol>)channelUnitForGroupId:(NSString *)groupId {
   for (MSChannelUnitDefault *channel in self.channels) {
     if ([channel.configuration.groupId isEqualToString:groupId]) {
+      if ([groupId containsString:@"Analytics"]) {
+        if (!channel.isLatencyChannel) {
+          return channel;
+        } else {
+          continue;
+        }
+      }
       return channel;
     }
   }
   return nil;
 }
+
+- (id<MSChannelUnitProtocol>)latencyChannelUnitForGroupId:groupId {
+  for (MSChannelUnitDefault *channel in self.channels) {
+    if ([channel.configuration.groupId isEqualToString:groupId] && channel.isLatencyChannel) {
+      return channel;
+    }
+  }
+  return nil;
+}
+
+- (void)channel:(id<MSChannelProtocol>)channel changeOneCollectorChannel:(id<MSChannelUnitProtocol>)oneCollectorChannel {
+    [self enumerateDelegatesForSelector:@selector(channel:changeOneCollectorChannel:)
+                              withBlock:^(id<MSChannelDelegate> delegate) {
+                                  [delegate channel:channel changeOneCollectorChannel:oneCollectorChannel];
+                              }];
+    }
 
 #pragma mark - Delegate
 
@@ -172,6 +195,13 @@ static char *const kMSLogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
                             }];
 }
 
+- (void)channel:(id<MSChannelProtocol>)channel setIsLatencyChanel:(BOOL)isLatencyChanel {
+  [self enumerateDelegatesForSelector:@selector(channel:setIsLatencyChanel:)
+                            withBlock:^(id<MSChannelDelegate> delegate) {
+                                [delegate channel:channel setIsLatencyChanel:isLatencyChanel];
+                            }];
+}
+
 #pragma mark - Enable / Disable
 
 - (void)setEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:(BOOL)deleteData {
@@ -236,6 +266,16 @@ static char *const kMSLogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
   dispatch_async(self.logsDispatchQueue, ^{
     [self.storage setMaxStorageSize:sizeInBytes completionHandler:completionHandler];
   });
+}
+
+- (void)changeConfigurationFlushInterval:(int)interval withGroupId:(NSString *)groupId {
+  id<MSChannelUnitProtocol> latencyChannelUnit = [self latencyChannelUnitForGroupId:groupId];
+  NSString *oneCollectorGroupId = [NSString stringWithFormat:@"%@%@", groupId, kMSOneCollectorGroupIdSuffix];
+  id<MSChannelUnitProtocol> latencyOneCollectorChannelUnit = [self latencyChannelUnitForGroupId:oneCollectorGroupId];
+  if (latencyChannelUnit != nil && latencyOneCollectorChannelUnit != nil) {
+    latencyChannelUnit.configuration.flushInterval = interval;
+    latencyOneCollectorChannelUnit.configuration.flushInterval = interval;
+  }
 }
 
 @end

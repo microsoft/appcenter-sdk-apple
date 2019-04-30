@@ -31,6 +31,7 @@
     _enabled = YES;
     _paused = NO;
     _discardLogs = NO;
+    _isLatencyChannel = NO;
     _delegates = [NSHashTable weakObjectsHashTable];
     _pausedIdentifyingObjects = [NSHashTable weakObjectsHashTable];
     _pausedTargetKeys = [NSMutableSet new];
@@ -575,5 +576,21 @@
     }
   }
 }
+
+- (void)setIsLatencyChanel:(BOOL)isLatencyChannel {
+  self.isLatencyChannel = isLatencyChannel;
+  [self enumerateDelegatesForSelector:@selector(channel:setIsLatencyChanel:)
+                              withBlock:^(id<MSChannelDelegate> delegate) {
+                              [delegate channel:self setIsLatencyChanel:isLatencyChannel];
+                              }];
+}
+
+- (void)changeOneCollectorChannel:(id<MSChannelUnitProtocol>)oneCollectorChannel {
+  [self enumerateDelegatesForSelector:@selector(channel:changeOneCollectorChannel:)
+                            withBlock:^(id<MSChannelDelegate> delegate) {
+                                [delegate channel:self changeOneCollectorChannel:oneCollectorChannel];
+                            }];
+}
+
 
 @end

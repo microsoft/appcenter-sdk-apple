@@ -21,7 +21,6 @@
  * @param channel The newly added channel.
  */
 - (void)channelGroup:(id<MSChannelGroupProtocol>)channelGroup didAddChannelUnit:(id<MSChannelUnitProtocol>)channel;
-
 /**
  * A callback that is called when a log is just enqueued. Delegates may want to prepare the log a little more before further processing.
  *
@@ -96,6 +95,9 @@
  */
 - (void)channel:(id<MSChannelProtocol>)channel didResumeWithIdentifyingObject:(id<NSObject>)identifyingObject;
 
+- (void)channel:(id<MSChannelProtocol>)channel changeOneCollectorChannel:(id<MSChannelUnitProtocol>)oneCollectorChannel;
+
+- (void)channel:(id<MSChannelProtocol>)channel setIsLatencyChanel:(BOOL)isLatencyChanel;
 /**
  * Callback method that will determine if a log should be filtered out from the usual processing pipeline. If any delegate returns true, the
  * log is filtered.

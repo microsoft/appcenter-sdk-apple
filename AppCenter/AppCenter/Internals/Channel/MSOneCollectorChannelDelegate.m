@@ -191,4 +191,22 @@ static NSString *const kMSBaseErrorMsg = @"Log validation failed.";
   self.oneCollectorIngestion.baseURL = logUrl;
 }
 
+- (void)channel:(id<MSChannelProtocol>)channel changeOneCollectorChannel:(id<MSChannelUnitProtocol>)oneCollectorChannel {
+  if ([channel conformsToProtocol:@protocol(MSChannelUnitProtocol)]) {
+    NSString *groupId = ((id<MSChannelUnitProtocol>)channel).configuration.groupId;
+    if (![self isOneCollectorGroup:groupId]) {
+      self.oneCollectorChannels[groupId] = oneCollectorChannel;
+    }
+  }
+}
+
+- (void)channel:(id<MSChannelProtocol>)channel setIsLatencyChanel:(BOOL)isLatencyChanel {
+  if ([channel conformsToProtocol:@protocol(MSChannelUnitProtocol)]) {
+    NSString *groupId = ((id<MSChannelUnitProtocol>)channel).configuration.groupId;
+    if (![self isOneCollectorGroup:groupId]) {
+      [self.oneCollectorChannels[groupId] setIsLatencyChanel:isLatencyChanel];
+    }
+  }
+}
+
 @end

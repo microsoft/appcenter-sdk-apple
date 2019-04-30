@@ -32,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Interval for flushing the queue.
  */
-@property(nonatomic, readonly) float flushInterval;
+@property(nonatomic) float flushInterval;
 
 /**
  * Initializes a new instance based on given settings.

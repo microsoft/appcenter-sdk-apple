@@ -5,6 +5,8 @@
 
 #import "MSChannelProtocol.h"
 
+static float const kMSDefaultChannelInterval = 3.0;
+
 NS_ASSUME_NONNULL_BEGIN
 
 @class MSChannelUnitConfiguration;
@@ -26,6 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @return The added `MSChannelUnitProtocol`. Use this object to enqueue logs.
  */
 - (id<MSChannelUnitProtocol>)addChannelUnitWithConfiguration:(MSChannelUnitConfiguration *)configuration;
+
 
 /**
  * Initialize a channel unit with the given configuration.
@@ -72,6 +75,10 @@ NS_ASSUME_NONNULL_BEGIN
  * @return A channel unit instance or `nil`.
  */
 - (id<MSChannelUnitProtocol>)channelUnitForGroupId:(NSString *)groupId;
+
+- (id<MSChannelUnitProtocol>)latencyChannelUnitForGroupId:(NSString *)groupId;
+
+- (void)changeConfigurationFlushInterval:(int)interval withGroupId:(NSString *)groupId;
 
 @end
 

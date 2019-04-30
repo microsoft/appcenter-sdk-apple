@@ -27,6 +27,16 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
     static let allValues = [Default, Normal, Critical, Invalid]
   }
 
+  enum Latency: String {
+    case Default = "Default"
+    case TenMin = "10 Min"
+    case OneHour = "1 Hour"
+    case EightHours = "8 Hours"
+    case OneDay = "1 Day"
+
+    static let allValues = [Default, TenMin, OneHour, EightHours, OneDay]
+  }
+
   @IBOutlet weak var enabled: UISwitch!
   @IBOutlet weak var eventName: UITextField!
   @IBOutlet weak var pageName: UITextField!
@@ -35,12 +45,15 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
   @IBOutlet weak var priorityField: UITextField!
   @IBOutlet weak var countLabel: UILabel!
   @IBOutlet weak var countSlider: UISlider!
+  @IBOutlet weak var latencyField: UITextField!
 
   var appCenter: AppCenterDelegate!
   var eventPropertiesSection: EventPropertiesTableSection!
   @objc(analyticsResult) var analyticsResult: MSAnalyticsResult? = nil
   private var priorityPicker: MSEnumPicker<Priority>?
   private var priority = Priority.Default
+  private var latencyPicker: MSEnumPicker<Latency>?
+  private var latency = Latency.Default
 
   private var kEventPropertiesSectionIndex: Int = 2
   private var kResultsPageIndex: Int = 2
@@ -59,6 +72,34 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
     self.priorityField.delegate = self.priorityPicker
     self.priorityField.text = self.priority.rawValue
     self.priorityField.tintColor = UIColor.clear
+
+    self.latencyPicker = MSEnumPicker<Latency>(
+        textField: self.latencyField,
+        allValues: Latency.allValues,
+        onChange: {(index) in self.latency = Latency.allValues[index]
+            var latencyTime = 3;
+            switch (self.latency) {
+            case Latency.Default:
+                latencyTime = 3;
+                break;
+            case Latency.TenMin:
+                latencyTime = 10*60;
+                break;
+            case Latency.OneHour:
+                latencyTime = 60*60;
+                break;
+            case Latency.EightHours:
+                latencyTime = 8*60*60;
+                break;
+            case Latency.OneDay:
+                latencyTime = 24*60*60;
+                break;
+            }
+            self.appCenter.setTransmissionInterval(Int32(latencyTime))
+    })
+    self.latencyField.delegate = self.latencyPicker
+    self.latencyField.text = self.latency.rawValue
+    self.latencyField.tintColor = UIColor.clear
     self.countLabel.text = "Count: \(Int(countSlider.value))"
     
     // Disable results page.

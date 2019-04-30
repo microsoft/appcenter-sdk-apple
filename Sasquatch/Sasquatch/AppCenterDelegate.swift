@@ -49,6 +49,7 @@ import AppCenterData
   func trackPage(_ pageName: String, withProperties: Dictionary<String, String>)
   func resume()
   func pause()
+  func setTransmissionInterval(_ interval: Int32);
   
   // MSCrashes section.
   func hasCrashedInLastSession() -> Bool

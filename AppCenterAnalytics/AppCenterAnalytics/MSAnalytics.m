@@ -43,6 +43,7 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
 
 @synthesize autoPageTrackingEnabled = _autoPageTrackingEnabled;
 @synthesize channelUnitConfiguration = _channelUnitConfiguration;
+@synthesize interval = _interval;
 
 #pragma mark - Service initialization
 
@@ -51,6 +52,7 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
 
     // Set defaults.
     _autoPageTrackingEnabled = NO;
+    _interval = 3.0;
 
     // Init session tracker.
     _sessionTracker = [[MSSessionTracker alloc] init];
@@ -233,6 +235,10 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
   return [MSAnalytics sharedInstance].autoPageTrackingEnabled;
 }
 
++ (void)setTransmissionInterval:(int) interval {
+  [[MSAnalytics sharedInstance] setTransmissionInterval:interval];
+}
+
 #pragma mark - Transmission Target
 
 + (MSAnalyticsTransmissionTarget *)transmissionTargetForToken:(NSString *)token {
@@ -273,11 +279,14 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
     }
 
     // Validate flags.
-    MSFlags persistenceFlag = flags & kMSPersistenceFlagsMask;
-    if (persistenceFlag != MSFlagsPersistenceNormal && persistenceFlag != MSFlagsPersistenceCritical) {
-      MSLogWarning([MSAnalytics logTag], @"Invalid flags (%u) received, using normal as a default.", (unsigned int)persistenceFlag);
-      persistenceFlag = MSFlagsPersistenceNormal;
+    MSFlags flag = flags & kMSPersistenceFlagsMask;
+    if (flag != MSFlagsNormal && flag != MSFlagsCritical) {
+      MSLogWarning([MSAnalytics logTag], @"Invalid flags (%u) received, using normal as a default.", (unsigned int)flag);
+      flag = MSFlagsNormal;
     }
+
+    // Change current channel.
+    [self changeChannelWithFlag:flag];
 
     // Create an event log.
     MSEventLog *log = [MSEventLog new];
@@ -304,7 +313,7 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
     log.typedProperties = [properties isEmpty] ? nil : properties;
 
     // Send log to channel.
-    [self sendLog:log flags:persistenceFlag];
+    [self sendLog:log flags:flag];
   }
 }
 
@@ -312,6 +321,9 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
   @synchronized(self) {
     if ([self canBeUsed]) {
       [self.channelUnit pauseWithIdentifyingObject:self];
+      if (self.latencyChannelUnit) {
+        [self.latencyChannelUnit pauseWithIdentifyingObject:self];
+      }
     }
   }
 }
@@ -320,6 +332,9 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
   @synchronized(self) {
     if ([self canBeUsed]) {
       [self.channelUnit resumeWithIdentifyingObject:self];
+      if (self.latencyChannelUnit) {
+        [self.latencyChannelUnit resumeWithIdentifyingObject:self];
+      }
     }
   }
 }
@@ -403,11 +418,17 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
   if (self.oneCollectorChannelUnit) {
     [self.oneCollectorChannelUnit pauseSendingLogsWithToken:token];
   }
+  if (self.latencyOneCollectorChannelUnit) {
+    [self.latencyOneCollectorChannelUnit pauseSendingLogsWithToken:token];
+  }
 }
 
 - (void)resumeTransmissionTargetForToken:(NSString *)token {
   if (self.oneCollectorChannelUnit) {
     [self.oneCollectorChannelUnit resumeSendingLogsWithToken:token];
+  }
+  if (self.latencyOneCollectorChannelUnit) {
+    [self.latencyOneCollectorChannelUnit resumeSendingLogsWithToken:token];
   }
 }
 
@@ -418,6 +439,19 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
   }
   return _oneCollectorChannelUnit;
 }
+- (id<MSChannelUnitProtocol>)latencyOneCollectorChannelUnit {
+  if (!_latencyOneCollectorChannelUnit) {
+    NSString *oneCollectorGroupId = [NSString stringWithFormat:@"%@%@", self.groupId, kMSOneCollectorGroupIdSuffix];
+    self.latencyOneCollectorChannelUnit = [self.channelGroup latencyChannelUnitForGroupId:oneCollectorGroupId];
+  }
+  return _latencyOneCollectorChannelUnit;
+}
+- (id<MSChannelUnitProtocol>)latencyChannelUnit {
+  if (!_latencyChannelUnit) {
+    self.latencyChannelUnit = [self.channelGroup latencyChannelUnitForGroupId:self.groupId];
+  }
+  return _latencyChannelUnit;
+}
 
 + (void)resetSharedInstance {
 
@@ -425,6 +459,41 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
   onceToken = 0;
   sharedInstance = nil;
 }
+
+- (void)setTransmissionInterval:(int) interval {
+  if (interval > kMSDefaultChannelInterval) {
+    self.interval = interval;
+    id<MSChannelUnitProtocol> latencyChannelUnit = [self.channelGroup latencyChannelUnitForGroupId:self.groupId];
+    if (latencyChannelUnit == nil) {
+      MSChannelUnitConfiguration *configuration = [[MSChannelUnitConfiguration alloc] initDefaultConfigurationWithGroupId:[self groupId]];
+      self.channelUnit = [self.channelGroup addChannelUnitWithConfiguration:configuration];
+      [self.channelUnit setIsLatencyChanel:true];
+    }
+    [self.channelGroup changeConfigurationFlushInterval:interval withGroupId:self.groupId];
+    } else {
+    self.interval = kMSDefaultChannelInterval;
+  }
+}
+- (void)changeChannelWithFlag:(MSFlags)flags {
+  if (flags != MSFlagsPersistenceCritical && self.channelUnit.configuration.flushInterval != self.interval && self.interval != kMSDefaultChannelInterval) {
+    id<MSChannelUnitProtocol> latencyChannelUnit = [self.channelGroup latencyChannelUnitForGroupId:self.groupId];
+    NSString *oneCollectorGroupId = [NSString stringWithFormat:@"%@%@", self.groupId, kMSOneCollectorGroupIdSuffix];
+    id<MSChannelUnitProtocol> latencyOneCollectorChannelUnit = [self.channelGroup latencyChannelUnitForGroupId:oneCollectorGroupId];
+    if (latencyChannelUnit != nil & latencyOneCollectorChannelUnit != nil) {
+      self.channelUnit = latencyChannelUnit;
+      [self.channelUnit changeOneCollectorChannel:latencyOneCollectorChannelUnit];
+    }
+  } else if ((flags == MSFlagsPersistenceCritical || self.interval == kMSDefaultChannelInterval) && self.channelUnit.configuration.flushInterval != kMSDefaultChannelInterval) {
+    id<MSChannelUnitProtocol> realtimeChannelUnit= [self.channelGroup channelUnitForGroupId:self.groupId];
+    NSString *oneCollectorGroupId = [NSString stringWithFormat:@"%@%@", self.groupId, kMSOneCollectorGroupIdSuffix];
+    id<MSChannelUnitProtocol> realtimeOneCollectorChannelUnit = [self.channelGroup channelUnitForGroupId:oneCollectorGroupId];
+    if (realtimeChannelUnit != nil & realtimeOneCollectorChannelUnit != nil) {
+      self.channelUnit = realtimeChannelUnit;
+      [self.channelUnit changeOneCollectorChannel:realtimeOneCollectorChannelUnit];
+    }
+  }
+}
+
 
 #pragma mark - MSSessionTracker
 

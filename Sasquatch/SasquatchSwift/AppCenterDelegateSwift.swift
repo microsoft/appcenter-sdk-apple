@@ -149,6 +149,10 @@ class AppCenterDelegateSwift: AppCenterDelegate {
     MSAnalytics.pause()
   }
 
+  func setTransmissionInterval(_ interval: Int32) {
+    MSAnalytics.setTransmissionInterval(interval)
+  }
+
   // MSCrashes section.
   func hasCrashedInLastSession() -> Bool {
     return MSCrashes.hasCrashedInLastSession()

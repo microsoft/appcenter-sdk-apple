@@ -21,6 +21,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic, nullable) id<MSAnalyticsDelegate> delegate;
 
+@property(nonatomic) float interval;
+
 /**
  * Transmission targets.
  */
@@ -35,6 +37,10 @@ NS_ASSUME_NONNULL_BEGIN
  * The channel unit for common schema logs.
  */
 @property(nonatomic) id<MSChannelUnitProtocol> oneCollectorChannelUnit;
+
+@property(nonatomic) id<MSChannelUnitProtocol> latencyOneCollectorChannelUnit;
+
+@property(nonatomic) id<MSChannelUnitProtocol> latencyChannelUnit;
 
 /**
  * Track an event.
