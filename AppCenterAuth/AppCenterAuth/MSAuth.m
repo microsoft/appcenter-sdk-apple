@@ -152,7 +152,7 @@ static dispatch_once_t onceToken;
 + (void)signInWithCompletionHandler:(MSSignInCompletionHandler _Nullable)completionHandler {
   @synchronized([MSAuth sharedInstance]) {
     if ([[MSAuth sharedInstance] canBeUsed] && [[MSAuth sharedInstance] isEnabled]) {
-      [[MSAuth sharedInstance] signInInWithCompletionHandler:completionHandler];
+      [[MSAuth sharedInstance] signInWithCompletionHandler:completionHandler];
     } else {
       [[MSAuth sharedInstance] callCompletionHandler:completionHandler
                                        withErrorCode:MSACAuthErrorServiceDisabled
@@ -165,7 +165,7 @@ static dispatch_once_t onceToken;
   [[MSAuth sharedInstance] signOut];
 }
 
-- (void)signInInWithCompletionHandler:(MSSignInCompletionHandler _Nullable)completionHandler {
+- (void)signInWithCompletionHandler:(MSSignInCompletionHandler _Nullable)completionHandler {
   if (self.signInCompletionHandler) {
     MSLogError([MSAuth logTag], @"signIn already in progress.");
     [self callCompletionHandler:completionHandler

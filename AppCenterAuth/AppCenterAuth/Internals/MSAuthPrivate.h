@@ -96,7 +96,7 @@ typedef void (^MSAcquireTokenCompletionHandler)(MSUserInformation *_Nullable use
 /**
  * Perform sign in with completion handler.
  */
-- (void)signInInWithCompletionHandler:(MSSignInCompletionHandler _Nullable)completionHandler;
+- (void)signInWithCompletionHandler:(MSSignInCompletionHandler _Nullable)completionHandler;
 
 /**
  * Refreshes token for given accountId.

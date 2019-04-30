@@ -698,7 +698,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   OCMStub([authTokenContextMock sharedInstance]).andReturn(authTokenContextMock);
 
   // When
-  [self.sut signInInWithCompletionHandler:^(MSUserInformation *_Nullable __unused userInformation, NSError *_Nullable __unused error){
+  [self.sut signInWithCompletionHandler:^(MSUserInformation *_Nullable __unused userInformation, NSError *_Nullable __unused error){
   }];
   MSAuthTokenInfo *actualAuthTokenInfo = [[[MSAuthTokenContext sharedInstance] authTokenHistory] lastObject];
 
@@ -732,7 +732,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   OCMStub([authTokenContextMock sharedInstance]).andReturn(authTokenContextMock);
 
   // When
-  [self.sut signInInWithCompletionHandler:^(MSUserInformation *_Nullable __unused userInformation, NSError *_Nullable __unused error){
+  [self.sut signInWithCompletionHandler:^(MSUserInformation *_Nullable __unused userInformation, NSError *_Nullable __unused error){
   }];
 
   // Then
