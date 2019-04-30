@@ -1632,6 +1632,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                  }
                                }];
 }
+
 - (void)testReadsFromLocalStorageWhenOnlineIfCreatePendingOperation {
 
   // If

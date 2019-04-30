@@ -144,49 +144,22 @@
 
         // Serialize incoming document into a JSON string.
         NSDictionary *dictionary = [document serializeToDictionary];
-        NSString *jsonDocument;
-        NSError *jsonError;
-        if (![NSJSONSerialization isValidJSONObject:dictionary]) {
-          jsonError =
-              [[NSError alloc] initWithDomain:kMSACDataErrorDomain
-                                         code:MSACDataErrorJSONSerializationFailed
-                                     userInfo:@{NSLocalizedDescriptionKey : @"Dictionary contains values that cannot be serialized."}];
-          MSLogError([MSData logTag], @"Error serializing document for local storage: %@", [jsonError localizedDescription]);
-          MSDataError *dataError = [[MSDataError alloc] initWithErrorCode:MSACDataErrorJSONSerializationFailed
-                                                               innerError:jsonError
-                                                                  message:nil];
-          completionHandler([[MSDocumentWrapper alloc] initWithError:dataError documentId:documentId]);
-          return;
-        }
-        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary options:0 error:&jsonError];
-        if (!error) {
-          jsonDocument = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-        } else {
-          NSString *message = @"Error serializing document for local storage";
-          MSLogError([MSData logTag], message);
-          MSDataError *dataError = [[MSDataError alloc] initWithErrorCode:MSACDataLocalStoreError innerError:nil message:message];
-          completionHandler([[MSDocumentWrapper alloc] initWithError:dataError documentId:documentId]);
-          return;
-        }
-
-        // Create a create/replace document record.
-        MSDocumentWrapper *createdOrUpdatedDocument = [[MSDocumentWrapper alloc] initWithDeserializedValue:document
-                                                                                                 jsonValue:jsonDocument
-                                                                                                 partition:token.partition
-                                                                                                documentId:documentId
-                                                                                                      eTag:cachedDocument.eTag
-                                                                                           lastUpdatedDate:cachedDocument.lastUpdatedDate
-                                                                                          pendingOperation:operation
-                                                                                                     error:nil
-                                                                                           fromDeviceCache:YES];
+        MSDocumentWrapper *documentWrapper = [MSDocumentUtils documentWrapperFromDictionary:dictionary
+                                                                               documentType:documentType
+                                                                                       eTag:cachedDocument.eTag
+                                                                            lastUpdatedDate:cachedDocument.lastUpdatedDate
+                                                                                  partition:token.partition
+                                                                                 documentId:documentId
+                                                                           pendingOperation:operation
+                                                                            fromDeviceCache:YES];
 
         // Update local store and return document.
         [self updateLocalStore:token
             currentCachedDocument:cachedDocument
-                newCachedDocument:createdOrUpdatedDocument
+                newCachedDocument:documentWrapper
                  deviceTimeToLive:deviceTimeToLive
                         operation:operation];
-        completionHandler(createdOrUpdatedDocument);
+        completionHandler(documentWrapper);
       }
     }
   });
