@@ -88,49 +88,6 @@
   XCTAssertFalse([document fromDeviceCache]);
 }
 
-- (void)testDocumentWrapperFromDictionaryWithSystemPropertiesAndPartition {
-
-  // If
-  NSMutableDictionary *dictionary = [NSMutableDictionary new];
-  dictionary[@"id"] = @"document-id";
-  dictionary[@"_etag"] = @"etag";
-  dictionary[@"_ts"] = @0;
-  dictionary[@"PartitionKey"] = @"readonly";
-
-  // When
-  MSDocumentWrapper *document = [MSDocumentUtils documentWrapperFromDictionary:dictionary
-                                                                  documentType:[NSString class]
-                                                               fromDeviceCache:YES];
-
-  // Then
-  XCTAssertNotNil(document);
-  XCTAssertNotNil([document error]);
-  XCTAssertTrue([[document documentId] isEqualToString:@"document-id"]);
-  XCTAssertNil([document deserializedValue]);
-  XCTAssertTrue([[document eTag] isEqualToString:@"etag"]);
-  XCTAssertNotNil([document lastUpdatedDate]);
-  XCTAssertTrue([[document partition] isEqualToString:@"readonly"]);
-  XCTAssertNil([document jsonValue]);
-  XCTAssertTrue([document fromDeviceCache]);
-
-  // If, system property has incorrect type
-  dictionary[@"_ts"] = @"some unexpected timestamp";
-
-  // When
-  document = [MSDocumentUtils documentWrapperFromDictionary:dictionary documentType:[NSString class] fromDeviceCache:NO];
-
-  // Then
-  XCTAssertNotNil(document);
-  XCTAssertNotNil([document error]);
-  XCTAssertNil([document documentId]);
-  XCTAssertNil([document deserializedValue]);
-  XCTAssertNil([document eTag]);
-  XCTAssertNil([document lastUpdatedDate]);
-  XCTAssertNil([document partition]);
-  XCTAssertNil([document jsonValue]);
-  XCTAssertFalse([document fromDeviceCache]);
-}
-
 - (void)testDocumentWrapperFromDictionaryWithDocument {
 
   // If
@@ -139,7 +96,9 @@
   dictionary[@"_etag"] = @"etag";
   dictionary[@"_ts"] = @0;
   dictionary[@"PartitionKey"] = @"readonly";
-  dictionary[@"document"] = @"this should be a dictionary";
+  
+  // Invalid JSON
+  dictionary[@"document"] = @{@"key":[NSDate new]};
 
   // When
   MSDocumentWrapper *document = [MSDocumentUtils documentWrapperFromDictionary:dictionary documentType:[NSString class] fromDeviceCache:NO];

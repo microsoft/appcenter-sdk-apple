@@ -124,7 +124,7 @@ static NSString *const kMSDocumentKey = @"document";
       ![MSDocumentUtils isReferenceDictionaryWithKey:object key:kMSDocumentKey keyType:[NSDictionary class]]) {
 
     // Prepare and return error.
-    NSString *errorMessage = @"Can't deserialize document (missing system properties or partition key)";
+    NSString *errorMessage = @"Can't deserialize document (missing system properties, partition key, or document)";
     MSDataError *dataError = [[MSDataError alloc] initWithErrorCode:MSACDataErrorJSONSerializationFailed
                                                          innerError:nil
                                                             message:errorMessage];
@@ -154,40 +154,15 @@ static NSString *const kMSDocumentKey = @"document";
                                           documentId:(NSString *)documentId
                                     pendingOperation:(nullable NSString *)pendingOperation
                                      fromDeviceCache:(BOOL)fromDeviceCache {
-
-  // Validate dictionary
-  if (![NSJSONSerialization isValidJSONObject:dictionary]) {
-    NSString *errorMessage = @"Dictionary contains values that cannot be processed as JSON.";
-    NSError *jsonError = [[NSError alloc] initWithDomain:kMSACDataErrorDomain
-                                                    code:MSACDataErrorJSONSerializationFailed
-                                                userInfo:@{NSLocalizedDescriptionKey : errorMessage}];
-    MSDataError *dataError = [[MSDataError alloc] initWithErrorCode:MSACDataErrorJSONSerializationFailed
-                                                         innerError:jsonError
-                                                            message:errorMessage];
-    MSLogError([MSData logTag], errorMessage);
-    return [[MSDocumentWrapper alloc] initWithError:dataError documentId:documentId];
+  MSDataError *dataError;
+  id<MSSerializableDocument> deserializedValue;
+  NSString *jsonValue = [self jsonValueForDictionary:dictionary dataError:&dataError];
+  if (jsonValue) {
+    
+    // Deserialize document.
+    deserializedValue = [(id<MSSerializableDocument>)[documentType alloc] initFromDictionary:dictionary];
+    MSLogDebug([MSData logTag], @"Successfully deserialized document: %@ (partition: %@)", documentId, partition);
   }
-
-  // Serialize dictionary intermediate to JSON string.
-  NSError *serializationError;
-  NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary options:0 error:&serializationError];
-  if (serializationError) {
-    NSString *errorMessage = @"Document could not be serialized.";
-    MSDataError *dataError = [[MSDataError alloc] initWithErrorCode:MSACDataErrorJSONSerializationFailed
-                                                         innerError:serializationError
-                                                            message:errorMessage];
-    MSLogError([MSData logTag], errorMessage);
-    return [[MSDocumentWrapper alloc] initWithError:dataError documentId:documentId];
-  }
-
-  // Extract json value.
-  NSString *jsonValue = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-
-  // Deserialize document.
-  id<MSSerializableDocument> deserializedValue = [(id<MSSerializableDocument>)[documentType alloc] initFromDictionary:dictionary];
-  MSLogDebug([MSData logTag], @"Successfully deserialized document: %@ (partition: %@)", documentId, partition);
-
-  // Return document wrapper.
   return [[MSDocumentWrapper alloc] initWithDeserializedValue:deserializedValue
                                                     jsonValue:jsonValue
                                                     partition:partition
@@ -195,8 +170,37 @@ static NSString *const kMSDocumentKey = @"document";
                                                          eTag:eTag
                                               lastUpdatedDate:lastUpdatedDate
                                              pendingOperation:pendingOperation
-                                                        error:nil
+                                                        error:dataError
                                               fromDeviceCache:fromDeviceCache];
+}
+
++ (NSString *)jsonValueForDictionary:(NSDictionary *)dictionary dataError:(MSDataError * __autoreleasing *)dataError {
+  
+  // Validate dictionary
+  if (![NSJSONSerialization isValidJSONObject:dictionary]) {
+    NSString *errorMessage = @"Dictionary contains values that cannot be processed as JSON.";
+    NSError *jsonError = [[NSError alloc] initWithDomain:kMSACDataErrorDomain
+                                                    code:MSACDataErrorJSONSerializationFailed
+                                                userInfo:@{NSLocalizedDescriptionKey : errorMessage}];
+    *dataError = [[MSDataError alloc] initWithErrorCode:MSACDataErrorJSONSerializationFailed
+                                            innerError:jsonError
+                                               message:errorMessage];
+    MSLogError([MSData logTag], errorMessage);
+    return nil;
+  }
+  
+  // Serialize dictionary intermediate to JSON string.
+  NSError *serializationError;
+  NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary options:0 error:&serializationError];
+  if (serializationError) {
+    NSString *errorMessage = @"Document could not be serialized.";
+    *dataError = [[MSDataError alloc] initWithErrorCode:MSACDataErrorJSONSerializationFailed
+                                            innerError:serializationError
+                                               message:errorMessage];
+    MSLogError([MSData logTag], errorMessage);
+    return nil;
+  }
+  return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
 }
 
 + (BOOL)isSerializableDocument:(Class)classType {
