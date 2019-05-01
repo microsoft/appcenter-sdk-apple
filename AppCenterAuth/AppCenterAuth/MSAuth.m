@@ -205,6 +205,8 @@ static dispatch_once_t onceToken;
     }
   };
   if (self.signInShouldWaitForConfig) {
+
+    // At this point there is no cached config so we must wait for the config to be downloaded before signing in.
     MSLogDebug([MSAppCenter logTag], @"Downloading configuration in process. Waiting for it before sign-in.");
   } else {
     [self selectSignInTypeAndSignIn];
