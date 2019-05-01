@@ -180,14 +180,14 @@ static dispatch_once_t onceToken;
   }
   if ([[MS_Reachability reachabilityForInternetConnection] currentReachabilityStatus] == NotReachable) {
     [self callCompletionHandler:completionHandler
-                  withErrorCode:MSACAuthErrorSignInWhenNoConnection
+                  withErrorCode:MSACAuthErrorNoConnection
                         message:@"User sign-in failed. Internet connection is down."];
     return;
   }
   if (self.clientApplication == nil || self.authConfig == nil) {
     [self callCompletionHandler:completionHandler
-                  withErrorCode:MSACAuthErrorSignInBackgroundOrNotConfigured
-                        message:@"signIn is called while it's not configured or not in the foreground."];
+                  withErrorCode:MSACAuthErrorSignInNotConfigured
+                        message:@"'signIn called while not configured."];
     return;
   }
   __weak typeof(self) weakSelf = self;
