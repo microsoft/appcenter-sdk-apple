@@ -65,9 +65,27 @@ typedef void (^MSAcquireTokenCompletionHandler)(MSUserInformation *_Nullable use
 @property(nonatomic, nullable, copy) NSString *homeAccountIdToRefresh;
 
 /**
+ * Indicates that there is a pending configuration download
+ * and sign in, if called, should wait until configuration is downloaded.
+ */
+@property(atomic) BOOL signInShouldWaitForConfig;
+
+/**
  * Rest singleton instance.
  */
 + (void)resetSharedInstance;
+
+/**
+ * Sign-in to get user information.
+ *
+ * @param completionHandler Callback that is invoked after sign-in completed. @c `MSSignInCompletionHandler`.
+ */
+- (void)signInWithCompletionHandler:(MSSignInCompletionHandler _Nullable)completionHandler;
+
+/**
+ * Sign out to clear user information.
+ */
+- (void)signOut;
 
 /**
  * Get a file path of auth config.
@@ -94,14 +112,25 @@ typedef void (^MSAcquireTokenCompletionHandler)(MSUserInformation *_Nullable use
 - (void)configAuthenticationClient;
 
 /**
- * Perform sign in with completion handler.
- */
-- (void)signInWithCompletionHandler:(MSSignInCompletionHandler _Nullable)completionHandler;
-
-/**
  * Refreshes token for given accountId.
  */
 - (void)refreshTokenForAccountId:(NSString *)accountId withNetworkConnected:(BOOL)networkConnected;
+
+/**
+ * Retrieve the account object for the given home account Id from MSAL.
+ *
+ * @param homeAccountId A home account Id.
+ *
+ * @return The account object for the given home account Id.
+ */
+- (MSALAccount *)retrieveAccountWithAccountId:(NSString *)homeAccountId;
+
+/**
+ * Remove the current account object from MSAL.
+ *
+ * @return `YES` if the account is removed successfully, otherwise `NO`.
+ */
+- (BOOL)removeAccount;
 
 /**
  * Acquires token in background with the given account.

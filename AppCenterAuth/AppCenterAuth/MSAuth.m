@@ -108,6 +108,8 @@ static dispatch_once_t onceToken;
     if ([self loadConfigurationFromCache]) {
       [self configAuthenticationClient];
       eTag = [MS_USER_DEFAULTS objectForKey:kMSAuthETagKey];
+    } else {
+      self.signInShouldWaitForConfig = YES;
     }
 
     // Download auth config.
@@ -124,6 +126,7 @@ static dispatch_once_t onceToken;
     [self clearConfigurationCache];
     self.ingestion = nil;
     [self cancelPendingOperationsWithErrorCode:MSACAuthErrorServiceDisabled message:@"Auth is disabled."];
+    self.signInShouldWaitForConfig = NO;
     MSLogInfo([MSAuth logTag], @"Auth service has been disabled.");
   }
 }
@@ -184,7 +187,7 @@ static dispatch_once_t onceToken;
                         message:@"User sign-in failed. Internet connection is down."];
     return;
   }
-  if (self.clientApplication == nil || self.authConfig == nil) {
+  if ((self.clientApplication == nil || self.authConfig == nil) && !self.signInShouldWaitForConfig) {
     [self callCompletionHandler:completionHandler
                   withErrorCode:MSACAuthErrorSignInNotConfigured
                         message:@"'signIn called while not configured."];
@@ -200,6 +203,16 @@ static dispatch_once_t onceToken;
       completionHandler(userInformation, error);
     }
   };
+
+  // At this point if there is no config set / no cached config we must wait for the config to be downloaded before signing in.
+  if (self.signInShouldWaitForConfig) {
+    MSLogDebug([MSAppCenter logTag], @"Downloading configuration in process. Waiting for it before sign-in.");
+  } else {
+    [self selectSignInTypeAndSignIn];
+  }
+}
+
+- (void)selectSignInTypeAndSignIn {
   NSString *accountId = [[MSAuthTokenContext sharedInstance] accountId];
   MSALAccount *account = [self retrieveAccountWithAccountId:accountId];
   if (account) {
@@ -280,37 +293,56 @@ static dispatch_once_t onceToken;
   [self.ingestion sendAsync:nil
                        eTag:eTag
           completionHandler:^(__unused NSString *callId, NSHTTPURLResponse *response, NSData *data, __unused NSError *error) {
-            MSAuthConfig *config = nil;
-            if (response.statusCode == MSHTTPCodesNo304NotModified) {
-              MSLogInfo([MSAuth logTag], @"Auth config hasn't changed.");
-            } else if (response.statusCode == MSHTTPCodesNo200OK) {
-              config = [self deserializeData:data];
-              if ([config isValid]) {
-                NSURL *configUrl = [MSUtility createFileAtPathComponent:[self authConfigFilePath]
-                                                               withData:data
-                                                             atomically:YES
-                                                         forceOverwrite:YES];
+            @synchronized(self) {
+              BOOL continueSignIn = self.signInCompletionHandler && !self.clientApplication;
+              self.signInShouldWaitForConfig = NO;
+              MSAuthConfig *config = nil;
+              if (response.statusCode == MSHTTPCodesNo304NotModified) {
+                MSLogInfo([MSAuth logTag], @"Auth config hasn't changed.");
 
-                // Store eTag only when the configuration file is created successfully.
-                if (configUrl) {
-                  NSString *newETag = [MSHttpIngestion eTagFromResponse:response];
-                  if (newETag) {
-                    [MS_USER_DEFAULTS setObject:newETag forKey:kMSAuthETagKey];
-                  }
-                } else {
-                  MSLogWarning([MSAuth logTag], @"Couldn't create Auth config file.");
+                // Error case, there is no cached config even though the server thinks we have a valid configuration.
+                if (!self.authConfig){
+                  [self callCompletionHandler:self.signInCompletionHandler
+                                withErrorCode:MSACAuthErrorSignInConfigNotValid
+                                      message:@"There was no auth config but the server returned 304 (not modified)."];
                 }
-                @synchronized(self) {
+              } else if (response.statusCode == MSHTTPCodesNo200OK) {
+                config = [self deserializeData:data];
+                if ([config isValid]) {
+                  NSURL *configUrl = [MSUtility createFileAtPathComponent:[self authConfigFilePath]
+                                                                 withData:data
+                                                               atomically:YES
+                                                           forceOverwrite:YES];
+
+                  // Store eTag only when the configuration file is created successfully.
+                  if (configUrl) {
+                    NSString *newETag = [MSHttpIngestion eTagFromResponse:response];
+                    if (newETag) {
+                      [MS_USER_DEFAULTS setObject:newETag forKey:kMSAuthETagKey];
+                    }
+                  } else {
+                    MSLogWarning([MSAuth logTag], @"Couldn't create Auth config file.");
+                  }
                   self.authConfig = config;
 
                   // Reinitialize client application.
                   [self configAuthenticationClient];
+                  if (continueSignIn) {
+                    [self selectSignInTypeAndSignIn];
+                  }
+                } else {
+                  MSLogError([MSAuth logTag], @"Downloaded auth config is not valid.");
+                  [self callCompletionHandler:self.signInCompletionHandler
+                                withErrorCode:MSACAuthErrorSignInConfigNotValid
+                                      message:@"Downloaded auth config is not valid."];
                 }
               } else {
-                MSLogError([MSAuth logTag], @"Downloaded auth config is not valid.");
+                MSLogError([MSAuth logTag], @"Failed to download auth config. Status code received: %ld", (long)response.statusCode);
+                [self callCompletionHandler:self.signInCompletionHandler
+                              withErrorCode:MSACAuthErrorSignInDownloadConfigFailed
+                                    message:[NSString stringWithFormat:@"Failed to download auth config. Status code received: %ld",
+                                                                       (long)response.statusCode]];
               }
-            } else {
-              MSLogError([MSAuth logTag], @"Failed to download auth config. Status code received: %ld", (long)response.statusCode);
             }
           }];
 }

@@ -28,6 +28,8 @@ typedef NS_ENUM(NSInteger, MSACAuthError) {
   MSACAuthErrorPreviousSignInRequestInProgress = 200,
   MSACAuthErrorInterruptedByAnotherOperation = 201,
   MSACAuthErrorSignInNotConfigured = 202,
+  MSACAuthErrorSignInConfigNotValid = 203,
+  MSACAuthErrorSignInDownloadConfigFailed = 204,
 
   // Connection.
   MSACAuthErrorNoConnection = 300
