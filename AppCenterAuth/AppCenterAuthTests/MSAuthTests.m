@@ -1199,7 +1199,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [authTokenContextMock stopMocking];
 }
 
-- (void)testContinuePendingSigninAfterConfigDownload {
+- (void)testContinuePendingSignInAfterConfigDownloaded {
 
   // If
   __block MSSendAsyncCompletionHandler ingestionBlock;
