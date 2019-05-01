@@ -300,11 +300,12 @@ static dispatch_once_t onceToken;
               if (response.statusCode == MSHTTPCodesNo304NotModified) {
                 MSLogInfo([MSAuth logTag], @"Auth config hasn't changed.");
 
-                // At this point, the expectation is that we should not have any pending sign-ins, because
-                // the configuration already exists. If we have a pending sign-in, this will trigger an error.
-                [self callCompletionHandler:self.signInCompletionHandler
-                              withErrorCode:MSACAuthErrorSignInConfigNotValid
-                                    message:@"There was no auth config but the server returned 304 (not modified)."];
+                // Error case, there is no cached config even though the server thinks we have a valid configuration.
+                if (!self.authConfig){
+                  [self callCompletionHandler:self.signInCompletionHandler
+                                withErrorCode:MSACAuthErrorSignInConfigNotValid
+                                      message:@"There was no auth config but the server returned 304 (not modified)."];
+                }
               } else if (response.statusCode == MSHTTPCodesNo200OK) {
                 config = [self deserializeData:data];
                 if ([config isValid]) {
