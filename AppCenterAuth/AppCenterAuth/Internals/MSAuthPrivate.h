@@ -14,6 +14,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class MSALPublicClientApplication;
 
+/**
+ * Completion handler triggered when complete getting a token.
+ *
+ * @param userInformation User information for signed in user.
+ * @param error Error for sign-in failure.
+ */
+typedef void (^MSAcquireTokenCompletionHandler)(MSUserInformation *_Nullable userInformation, NSError *_Nullable error);
+
 @interface MSAuth () <MSServiceInternal, MSAuthTokenContextDelegate>
 
 /**
@@ -44,7 +52,17 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Completion handler for sign-in.
  */
-@property(atomic, nullable) MSSignInCompletionHandler signInCompletionHandler;
+@property(atomic, nullable) MSAcquireTokenCompletionHandler signInCompletionHandler;
+
+/**
+ * Completion handler for refresh completion.
+ */
+@property(atomic, nullable) MSAcquireTokenCompletionHandler refreshCompletionHandler;
+
+/**
+ * The home account id that should be used for refreshing token after coming back online.
+ */
+@property(nonatomic, nullable, copy) NSString *homeAccountIdToRefresh;
 
 /**
  * Rest singleton instance.
@@ -76,16 +94,33 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)configAuthenticationClient;
 
 /**
- * Retrieve an updated token without user interaction.
- *
- * @param account The MSALAccount that is used to retrieve an authentication token.
+ * Perform sign in with completion handler.
  */
-- (void)acquireTokenSilentlyWithMSALAccount:(MSALAccount *)account;
+- (void)signInWithCompletionHandler:(MSSignInCompletionHandler _Nullable)completionHandler;
 
 /**
- * Retrieve an updated token with user interaction.
+ * Refreshes token for given accountId.
  */
-- (void)acquireTokenInteractively;
+- (void)refreshTokenForAccountId:(NSString *)accountId withNetworkConnected:(BOOL)networkConnected;
+
+/**
+ * Acquires token in background with the given account.
+ *
+ * @param account The account that is used for acquiring token.
+ * @param uiFallback The flag for fallback to interactive sign-in when it fails.
+ * @param completionHandlerKeyPath The key path of completion handler to process sign-in or refresh token.
+ */
+- (void)acquireTokenSilentlyWithMSALAccount:(MSALAccount *)account
+                                 uiFallback:(BOOL)uiFallback
+                keyPathForCompletionHandler:(NSString *)completionHandlerKeyPath;
+
+/**
+ * Cancel pending sign-in and refresh token operation.
+ *
+ * @param errorCode The error code that indicates a reason of cancellation.
+ * @param message The message describes a reason of cancellation.
+ */
+- (void)cancelPendingOperationsWithErrorCode:(NSInteger)errorCode message:(NSString *)message;
 
 @end
 

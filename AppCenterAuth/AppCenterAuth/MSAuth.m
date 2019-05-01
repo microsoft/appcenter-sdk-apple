@@ -100,6 +100,9 @@ static dispatch_once_t onceToken;
 #endif
     [[MSAuthTokenContext sharedInstance] addDelegate:self];
 
+    // Listen to network events.
+    [MS_NOTIFICATION_CENTER addObserver:self selector:@selector(networkStateChanged:) name:kMSReachabilityChangedNotification object:nil];
+
     // Read Auth config file.
     NSString *eTag = nil;
     if ([self loadConfigurationFromCache]) {
@@ -115,14 +118,12 @@ static dispatch_once_t onceToken;
     [[MSAppDelegateForwarder sharedInstance] removeDelegate:self.appDelegate];
 #endif
     [[MSAuthTokenContext sharedInstance] removeDelegate:self];
+    [MS_NOTIFICATION_CENTER removeObserver:self];
     [self clearAuthData];
     self.clientApplication = nil;
     [self clearConfigurationCache];
     self.ingestion = nil;
-    NSError *error = [[NSError alloc] initWithDomain:kMSACAuthErrorDomain
-                                                code:MSACAuthErrorServiceDisabled
-                                            userInfo:@{NSLocalizedDescriptionKey : @"Auth is disabled."}];
-    [self completeAcquireTokenRequestForResult:nil withError:error];
+    [self cancelPendingOperationsWithErrorCode:MSACAuthErrorServiceDisabled message:@"Auth is disabled."];
     MSLogInfo([MSAuth logTag], @"Auth service has been disabled.");
   }
 }
@@ -148,29 +149,13 @@ static dispatch_once_t onceToken;
 #endif
 
 + (void)signInWithCompletionHandler:(MSSignInCompletionHandler _Nullable)completionHandler {
-
-  // We allow completion handler to be optional but we need a non nil one to track operation progress internally.
-  if (!completionHandler) {
-    completionHandler = ^(MSUserInformation *_Nullable __unused userInformation, NSError *_Nullable __unused error) {
-    };
-  }
   @synchronized([MSAuth sharedInstance]) {
     if ([[MSAuth sharedInstance] canBeUsed] && [[MSAuth sharedInstance] isEnabled]) {
-      if ([MSAuth sharedInstance].signInCompletionHandler) {
-        MSLogError([MSAuth logTag], @"signIn already in progress.");
-        NSError *error = [[NSError alloc] initWithDomain:kMSACAuthErrorDomain
-                                                    code:MSACAuthErrorPreviousSignInRequestInProgress
-                                                userInfo:@{NSLocalizedDescriptionKey : @"signIn already in progress."}];
-        completionHandler(nil, error);
-        return;
-      }
-      [MSAuth sharedInstance].signInCompletionHandler = completionHandler;
-      [[MSAuth sharedInstance] signIn];
+      [[MSAuth sharedInstance] signInWithCompletionHandler:completionHandler];
     } else {
-      NSError *error = [[NSError alloc] initWithDomain:kMSACAuthErrorDomain
-                                                  code:MSACAuthErrorServiceDisabled
-                                              userInfo:@{NSLocalizedDescriptionKey : @"Auth is disabled."}];
-      completionHandler(nil, error);
+      [[MSAuth sharedInstance] callCompletionHandler:completionHandler
+                                       withErrorCode:MSACAuthErrorServiceDisabled
+                                             message:@"Auth is disabled."];
     }
   }
 }
@@ -179,22 +164,50 @@ static dispatch_once_t onceToken;
   [[MSAuth sharedInstance] signOut];
 }
 
-- (void)signIn {
+- (void)signInWithCompletionHandler:(MSSignInCompletionHandler _Nullable)completionHandler {
+  if (self.signInCompletionHandler) {
+    MSLogError([MSAuth logTag], @"signIn already in progress.");
+    [self callCompletionHandler:completionHandler
+                  withErrorCode:MSACAuthErrorPreviousSignInRequestInProgress
+                        message:@"signIn already in progress."];
+    return;
+  }
+  if (self.refreshCompletionHandler) {
+    [self callCompletionHandler:self.refreshCompletionHandler
+                  withErrorCode:MSACAuthErrorInterruptedByAnotherOperation
+                        message:@"Interrupted by signIn operation."];
+    self.refreshCompletionHandler = nil;
+  }
   if ([[MS_Reachability reachabilityForInternetConnection] currentReachabilityStatus] == NotReachable) {
-    [self completeSignInWithErrorCode:MSACAuthErrorSignInWhenNoConnection andMessage:@"User sign-in failed. Internet connection is down."];
+    [self callCompletionHandler:completionHandler
+                  withErrorCode:MSACAuthErrorSignInWhenNoConnection
+                        message:@"User sign-in failed. Internet connection is down."];
     return;
   }
   if (self.clientApplication == nil || self.authConfig == nil) {
-    [self completeSignInWithErrorCode:MSACAuthErrorSignInBackgroundOrNotConfigured
-                           andMessage:@"signIn is called while it's not configured or not in the foreground."];
+    [self callCompletionHandler:completionHandler
+                  withErrorCode:MSACAuthErrorSignInBackgroundOrNotConfigured
+                        message:@"signIn is called while it's not configured or not in the foreground."];
     return;
   }
+  __weak typeof(self) weakSelf = self;
+  self.signInCompletionHandler = ^(MSUserInformation *_Nullable userInformation, NSError *_Nullable error) {
+    typeof(self) strongSelf = weakSelf;
+    @synchronized(strongSelf) {
+      strongSelf.signInCompletionHandler = nil;
+    }
+    if (completionHandler) {
+      completionHandler(userInformation, error);
+    }
+  };
   NSString *accountId = [[MSAuthTokenContext sharedInstance] accountId];
   MSALAccount *account = [self retrieveAccountWithAccountId:accountId];
   if (account) {
-    [self acquireTokenSilentlyWithMSALAccount:account];
+    [self acquireTokenSilentlyWithMSALAccount:account
+                                   uiFallback:YES
+                  keyPathForCompletionHandler:NSStringFromSelector(@selector(signInCompletionHandler))];
   } else {
-    [self acquireTokenInteractively];
+    [self acquireTokenInteractivelyWithKeyPathForCompletionHandler:NSStringFromSelector(@selector(signInCompletionHandler))];
   }
 }
 
@@ -202,15 +215,21 @@ static dispatch_once_t onceToken;
   [MSAuth sharedInstance].configUrl = configUrl;
 }
 
-- (void)completeSignInWithErrorCode:(NSInteger)errorCode andMessage:(NSString *)errorMessage {
-  if (!self.signInCompletionHandler) {
-    return;
+- (void)callCompletionHandler:(MSAcquireTokenCompletionHandler _Nullable)completionHandler
+                withErrorCode:(NSInteger)errorCode
+                      message:(NSString *)errorMessage {
+  if (completionHandler) {
+    NSError *error = [[NSError alloc] initWithDomain:kMSACAuthErrorDomain
+                                                code:errorCode
+                                            userInfo:@{NSLocalizedDescriptionKey : errorMessage}];
+    completionHandler(nil, error);
   }
-  NSError *error = [[NSError alloc] initWithDomain:kMSACAuthErrorDomain
-                                              code:errorCode
-                                          userInfo:@{NSLocalizedDescriptionKey : errorMessage}];
-  self.signInCompletionHandler(nil, error);
-  self.signInCompletionHandler = nil;
+}
+
+- (void)cancelPendingOperationsWithErrorCode:(NSInteger)errorCode message:(NSString *)message {
+  [self callCompletionHandler:self.signInCompletionHandler withErrorCode:errorCode message:message];
+  [self callCompletionHandler:self.refreshCompletionHandler withErrorCode:errorCode message:message];
+  self.homeAccountIdToRefresh = nil;
 }
 
 - (void)signOut {
@@ -218,6 +237,7 @@ static dispatch_once_t onceToken;
     if (![self canBeUsed]) {
       return;
     }
+    [self cancelPendingOperationsWithErrorCode:MSACAuthErrorInterruptedByAnotherOperation message:@"User canceled sign-in."];
     if ([self clearAuthData]) {
       MSLogInfo([MSAuth logTag], @"User sign-out succeeded.");
     }
@@ -299,7 +319,7 @@ static dispatch_once_t onceToken;
 
   // Init MSAL client application.
   NSError *error;
-  MSALB2CAuthority *auth = [[MSALB2CAuthority alloc] initWithURL:(NSURL * __nonnull)self.authConfig.authorities[0].authorityUrl error:nil];
+  MSALB2CAuthority *auth = [[MSALB2CAuthority alloc] initWithURL:(NSURL * __nonnull) self.authConfig.authorities[0].authorityUrl error:nil];
   MSALPublicClientApplicationConfig *config =
       [[MSALPublicClientApplicationConfig alloc] initWithClientId:(NSString * __nonnull) self.authConfig.clientId
                                                       redirectUri:self.authConfig.redirectUri
@@ -361,65 +381,78 @@ static dispatch_once_t onceToken;
   return YES;
 }
 
-- (void)acquireTokenSilentlyWithMSALAccount:(MSALAccount *)account {
+- (void)acquireTokenSilentlyWithMSALAccount:(MSALAccount *)account
+                                 uiFallback:(BOOL)uiFallback
+                keyPathForCompletionHandler:(NSString *)completionHandlerKeyPath {
   __weak typeof(self) weakSelf = self;
   [self.clientApplication
       acquireTokenSilentForScopes:@[ (NSString * __nonnull) self.authConfig.authScope ]
                           account:account
-                  completionBlock:^(MSALResult *result, NSError *e) {
+                  completionBlock:^(MSALResult *result, NSError *error) {
                     typeof(self) strongSelf = weakSelf;
-                    if (e) {
-                      MSLogWarning([MSAuth logTag],
-                                   @"Silent acquisition of token failed with error: %@. Triggering interactive acquisition", e);
-                      [strongSelf acquireTokenInteractively];
+                    MSAcquireTokenCompletionHandler handler = [strongSelf valueForKey:completionHandlerKeyPath];
+                    if (!handler) {
+                      MSLogDebug([MSAuth logTag], @"Silent acquisition has been interrupted. Ignoring the result.");
+                      return;
+                    }
+                    if (error) {
+                      NSString *errorMessage =
+                          [NSString stringWithFormat:@"Silent acquisition of token failed with error: %@.", error.localizedDescription];
+                      if ([error.domain isEqual:MSALErrorDomain] && error.code == MSALErrorInteractionRequired) {
+                        if (uiFallback) {
+                          MSLogInfo([MSAuth logTag], @"%@ Triggering interactive acquisition.", errorMessage);
+                          [strongSelf acquireTokenInteractivelyWithKeyPathForCompletionHandler:completionHandlerKeyPath];
+                          return;
+                        } else {
+                          MSLogError([MSAuth logTag], @"%@ But interactive acquisition fallback is not allowed here.", errorMessage);
+                        }
+                      } else {
+                        MSLogError([MSAuth logTag], @"%@", errorMessage);
+                      }
+                      [[MSAuthTokenContext sharedInstance] setAuthToken:nil withAccountId:nil expiresOn:nil];
+                      handler(nil, error);
                     } else {
                       MSALAccountId *accountId = (MSALAccountId * __nonnull) result.account.homeAccountId;
                       [[MSAuthTokenContext sharedInstance] setAuthToken:result.idToken
                                                           withAccountId:accountId.identifier
                                                               expiresOn:result.expiresOn];
-                      [strongSelf completeAcquireTokenRequestForResult:result withError:nil];
                       MSLogInfo([MSAuth logTag], @"Silent acquisition of token succeeded.");
+                      MSUserInformation *userInformation = [MSUserInformation new];
+                      userInformation.accountId = (NSString * __nonnull) result.uniqueId;
+                      handler(userInformation, nil);
                     }
                   }];
 }
 
-- (void)acquireTokenInteractively {
+- (void)acquireTokenInteractivelyWithKeyPathForCompletionHandler:(NSString *)completionHandlerKeyPath {
   __weak typeof(self) weakSelf = self;
   [self.clientApplication acquireTokenForScopes:@[ (NSString * __nonnull) self.authConfig.authScope ]
-                                completionBlock:^(MSALResult *result, NSError *e) {
+                                completionBlock:^(MSALResult *result, NSError *error) {
                                   typeof(self) strongSelf = weakSelf;
-                                  if (e) {
+                                  MSAcquireTokenCompletionHandler handler = [strongSelf valueForKey:completionHandlerKeyPath];
+                                  if (!handler) {
+                                    MSLogDebug([MSAuth logTag], @"Sign-in has been interrupted. Ignoring the result.");
+                                    return;
+                                  }
+                                  if (error) {
                                     [[MSAuthTokenContext sharedInstance] setAuthToken:nil withAccountId:nil expiresOn:nil];
-                                    if (e.code == MSALErrorUserCanceled) {
+                                    if ([error.domain isEqual:MSALErrorDomain] && error.code == MSALErrorUserCanceled) {
                                       MSLogWarning([MSAuth logTag], @"User canceled sign-in.");
                                     } else {
-                                      MSLogError([MSAuth logTag], @"User sign-in failed. Error: %@", e);
+                                      MSLogError([MSAuth logTag], @"User sign-in failed. Error: %@", error);
                                     }
+                                    handler(nil, error);
                                   } else {
                                     MSALAccountId *accountId = (MSALAccountId * __nonnull) result.account.homeAccountId;
                                     [[MSAuthTokenContext sharedInstance] setAuthToken:result.idToken
                                                                         withAccountId:accountId.identifier
                                                                             expiresOn:result.expiresOn];
                                     MSLogInfo([MSAuth logTag], @"User sign-in succeeded.");
+                                    MSUserInformation *userInformation = [MSUserInformation new];
+                                    userInformation.accountId = (NSString * __nonnull) result.uniqueId;
+                                    handler(userInformation, nil);
                                   }
-                                  [strongSelf completeAcquireTokenRequestForResult:result withError:e];
                                 }];
-}
-
-- (void)completeAcquireTokenRequestForResult:(MSALResult *)result withError:(NSError *)error {
-  @synchronized(self) {
-    if (!self.signInCompletionHandler) {
-      return;
-    }
-    if (error) {
-      self.signInCompletionHandler(nil, error);
-    } else {
-      MSUserInformation *userInformation = [MSUserInformation new];
-      userInformation.accountId = (NSString * __nonnull) result.uniqueId;
-      self.signInCompletionHandler(userInformation, nil);
-    }
-    self.signInCompletionHandler = nil;
-  }
 }
 
 - (MSALAccount *)retrieveAccountWithAccountId:(NSString *)homeAccountId {
@@ -434,18 +467,59 @@ static dispatch_once_t onceToken;
   return account;
 }
 
-#pragma mark - MSAuthTokenContextDelegate
+- (void)refreshTokenForAccountId:(NSString *)accountId withNetworkConnected:(BOOL)networkConnected {
+  @synchronized(self) {
+    if (self.signInCompletionHandler) {
+      MSLogDebug([MSAuth logTag], @"Failed to refresh token: sign-in already in progress.");
+      return;
+    }
+    if (self.refreshCompletionHandler) {
+      MSLogDebug([MSAuth logTag], @"Token refresh already in progress. Skip this refresh request.");
+      return;
+    }
+    if (!networkConnected) {
+      MSLogDebug([MSAuth logTag], @"Network not connected. The token will be refreshed after coming back online.");
+      self.homeAccountIdToRefresh = accountId;
+      return;
+    }
+    MSALAccount *account = [self retrieveAccountWithAccountId:accountId];
+    if (account) {
+      __weak typeof(self) weakSelf = self;
+      self.refreshCompletionHandler = ^(MSUserInformation *_Nullable __unused userInformation, NSError *_Nullable __unused error) {
+        typeof(self) strongSelf = weakSelf;
+        @synchronized(strongSelf) {
+          strongSelf.refreshCompletionHandler = nil;
+        }
+      };
+      [self acquireTokenSilentlyWithMSALAccount:account
+                                     uiFallback:NO
+                    keyPathForCompletionHandler:NSStringFromSelector(@selector(refreshCompletionHandler))];
+    } else {
 
-- (void)authTokenContext:(MSAuthTokenContext *)authTokenContext refreshAuthTokenForAccountId:(nullable NSString *)accountId {
-  MSALAccount *account = [self retrieveAccountWithAccountId:accountId];
-  if (account) {
-    [self acquireTokenSilentlyWithMSALAccount:account];
-  } else {
-
-    // If account not found, start an anonymous session to avoid deadlock.
-    MSLogWarning([MSAuth logTag],
-                 @"Could not get account for the accountId of the token that needs to be refreshed. Starting anonymous session.");
-    [authTokenContext setAuthToken:nil withAccountId:nil expiresOn:nil];
+      // If account not found, start an anonymous session to avoid deadlock.
+      MSLogWarning([MSAuth logTag],
+                   @"Could not get account for the accountId of the token that needs to be refreshed. Starting anonymous session.");
+      [[MSAuthTokenContext sharedInstance] setAuthToken:nil withAccountId:nil expiresOn:nil];
+    }
   }
 }
+
+#pragma mark - MSAuthTokenContextDelegate
+
+- (void)authTokenContext:(MSAuthTokenContext *)__unused authTokenContext refreshAuthTokenForAccountId:(nullable NSString *)accountId {
+  BOOL networkConnected = [[MS_Reachability reachabilityForInternetConnection] currentReachabilityStatus] != NotReachable;
+  [self refreshTokenForAccountId:(NSString *)accountId withNetworkConnected:networkConnected];
+}
+
+#pragma mark - Reachability
+
+- (void)networkStateChanged:(NSNotificationCenter *)__unused notification {
+  BOOL networkConnected = [[MS_Reachability reachabilityForInternetConnection] currentReachabilityStatus] != NotReachable;
+  if (networkConnected && self.homeAccountIdToRefresh) {
+    NSString *accountId = self.homeAccountIdToRefresh;
+    self.homeAccountIdToRefresh = nil;
+    [self refreshTokenForAccountId:accountId withNetworkConnected:YES];
+  }
+}
+
 @end
