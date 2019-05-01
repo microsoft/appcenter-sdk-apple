@@ -68,6 +68,13 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)resetSharedInstance;
 
 /**
+ * Sign-in to get user information.
+ *
+ * @param completionHandler Callback that is invoked after sign-in completed. @c `MSSignInCompletionHandler`.
+ */
+- (void)signInWithCompletionHandler:(MSSignInCompletionHandler _Nullable)completionHandler;
+
+/**
  * Get a file path of auth config.
  *
  * @return The config file path.
@@ -90,11 +97,6 @@ NS_ASSUME_NONNULL_BEGIN
  * Config MSAL client.
  */
 - (void)configAuthenticationClient;
-
-/**
- * Perform sign in with completion handler.
- */
-- (void)signInInWithCompletionHandler:(MSSignInCompletionHandler _Nullable)completionHandler;
 
 /**
  * Refreshes token for given accountId.

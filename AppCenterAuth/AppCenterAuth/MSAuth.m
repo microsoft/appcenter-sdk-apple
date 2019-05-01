@@ -108,6 +108,8 @@ static dispatch_once_t onceToken;
     if ([self loadConfigurationFromCache]) {
       [self configAuthenticationClient];
       eTag = [MS_USER_DEFAULTS objectForKey:kMSAuthETagKey];
+    } else {
+      self.signInShouldWaitForConfig = YES;
     }
 
     // Download auth config.
@@ -153,7 +155,7 @@ static dispatch_once_t onceToken;
 + (void)signInWithCompletionHandler:(MSSignInCompletionHandler _Nullable)completionHandler {
   @synchronized([MSAuth sharedInstance]) {
     if ([[MSAuth sharedInstance] canBeUsed] && [[MSAuth sharedInstance] isEnabled]) {
-      [[MSAuth sharedInstance] signInInWithCompletionHandler:completionHandler];
+      [[MSAuth sharedInstance] signInWithCompletionHandler:completionHandler];
     } else {
       [[MSAuth sharedInstance] callCompletionHandler:completionHandler
                                        withErrorCode:MSACAuthErrorServiceDisabled
@@ -166,7 +168,7 @@ static dispatch_once_t onceToken;
   [[MSAuth sharedInstance] signOut];
 }
 
-- (void)signInInWithCompletionHandler:(MSSignInCompletionHandler _Nullable)completionHandler {
+- (void)signInWithCompletionHandler:(MSSignInCompletionHandler _Nullable)completionHandler {
   if (self.signInCompletionHandler) {
     MSLogError([MSAuth logTag], @"signIn already in progress.");
     [self callCompletionHandler:completionHandler
@@ -186,14 +188,10 @@ static dispatch_once_t onceToken;
                      andMessage:@"User sign-in failed. Internet connection is down."];
     return;
   }
-  if (self.clientApplication == nil || self.authConfig == nil) {
-    if (self.signInShouldWaitForConfig) {
-      MSLogDebug([MSAppCenter logTag], @"Downloading configuration in process. Waiting for it before sign-in.");
-    } else {
-      [self callCompletionHandler:completionHandler
-                    withErrorCode:MSACAuthErrorSignInBackgroundOrNotConfigured
-                       andMessage:@"signIn is called while it's not configured or not in the foreground."];
-    }
+  if ((self.clientApplication == nil || self.authConfig == nil) && !self.signInShouldWaitForConfig) {
+    [self callCompletionHandler:completionHandler
+                  withErrorCode:MSACAuthErrorSignInBackgroundOrNotConfigured
+                     andMessage:@"signIn is called while it's not configured or not in the foreground."];
     return;
   }
   __weak typeof(self) weakSelf = self;
@@ -206,7 +204,11 @@ static dispatch_once_t onceToken;
       completionHandler(userInformation, error);
     }
   };
-  [self selectSignInTypeAndSignIn];
+  if (self.signInShouldWaitForConfig) {
+    MSLogDebug([MSAppCenter logTag], @"Downloading configuration in process. Waiting for it before sign-in.");
+  } else {
+    [self selectSignInTypeAndSignIn];
+  }
 }
 
 - (void)selectSignInTypeAndSignIn {
@@ -278,7 +280,6 @@ static dispatch_once_t onceToken;
 }
 
 - (void)downloadConfigurationWithETag:(nullable NSString *)eTag {
-  self.signInShouldWaitForConfig = YES;
 
   // Download configuration.
   [self.ingestion sendAsync:nil
