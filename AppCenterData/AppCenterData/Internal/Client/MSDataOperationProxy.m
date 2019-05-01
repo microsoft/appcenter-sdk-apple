@@ -119,7 +119,7 @@
               currentCachedDocument:cachedDocument
                   newCachedDocument:cachedDocument
                    deviceTimeToLive:deviceTimeToLive
-                          operation:operation];
+                          operation:cachedDocument.pendingOperation];
           completionHandler(cachedDocument);
         }
       }
