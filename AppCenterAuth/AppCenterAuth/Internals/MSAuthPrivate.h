@@ -75,6 +75,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)signInWithCompletionHandler:(MSSignInCompletionHandler _Nullable)completionHandler;
 
 /**
+ * Sign out to clear user information.
+ */
+- (void)signOut;
+
+/**
  * Get a file path of auth config.
  *
  * @return The config file path.
