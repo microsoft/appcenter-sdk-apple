@@ -301,7 +301,7 @@ static dispatch_once_t onceToken;
                 MSLogInfo([MSAuth logTag], @"Auth config hasn't changed.");
 
                 // Error case, there is no cached config even though the server thinks we have a valid configuration.
-                if (!self.authConfig){
+                if (!self.authConfig) {
                   [self callCompletionHandler:self.signInCompletionHandler
                                 withErrorCode:MSACAuthErrorSignInConfigNotValid
                                       message:@"There was no auth config but the server returned 304 (not modified)."];
@@ -363,7 +363,7 @@ static dispatch_once_t onceToken;
   config.knownAuthorities = @[ auth ];
   self.clientApplication = [[MSALPublicClientApplication alloc] initWithConfiguration:config error:&error];
   if (error != nil) {
-    MSLogError([MSAuth logTag], @"Failed to initialize client application.");
+    MSLogError([MSAuth logTag], @"Failed to initialize client application: %@", error.localizedDescription);
   }
 }
 
