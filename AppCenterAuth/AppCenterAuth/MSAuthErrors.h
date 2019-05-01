@@ -20,15 +20,15 @@ static NSString *const kMSACAuthErrorDomain = MS_APP_CENTER_BASE_DOMAIN @"Auth.E
  * Error code for Auth.
  */
 typedef NS_ENUM(NSInteger, MSACAuthError) {
-  
+
   // Service.
   MSACAuthErrorServiceDisabled = 100,
-  
+
   // SignIn.
   MSACAuthErrorPreviousSignInRequestInProgress = 200,
   MSACAuthErrorInterruptedByAnotherOperation = 201,
   MSACAuthErrorSignInNotConfigured = 202,
-  
+
   // Connection.
   MSACAuthErrorNoConnection = 300
 };
