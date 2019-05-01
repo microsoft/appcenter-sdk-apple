@@ -1284,6 +1284,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
   // Then
   OCMVerify([authMock cancelPendingOperationsWithErrorCode:MSACAuthErrorServiceDisabled message:OCMOCK_ANY]);
+  [authMock stopMocking];
 }
 
 - (void)testCancelPendingOperationWhenSignOut {
@@ -1298,6 +1299,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
   // Then
   OCMVerify([authMock cancelPendingOperationsWithErrorCode:MSACAuthErrorInterruptedByAnotherOperation message:OCMOCK_ANY]);
+  [authMock stopMocking];
 }
 
 @end
