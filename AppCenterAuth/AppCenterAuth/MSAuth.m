@@ -204,6 +204,9 @@ static dispatch_once_t onceToken;
       completionHandler(userInformation, error);
     }
   };
+  
+  // If user tries to sign in before the configuration is downloaded,
+  // we log this information here and wait until configuration is downloaded to make a sign in.
   if (self.signInShouldWaitForConfig) {
     MSLogDebug([MSAppCenter logTag], @"Downloading configuration in process. Waiting for it before sign-in.");
   } else {
