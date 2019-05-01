@@ -187,7 +187,7 @@ static dispatch_once_t onceToken;
   if (self.clientApplication == nil || self.authConfig == nil) {
     [self callCompletionHandler:completionHandler
                   withErrorCode:MSACAuthErrorSignInNotConfigured
-                        message:@"'signIn' API called while not configured."];
+                        message:@"'signIn called while not configured."];
     return;
   }
   __weak typeof(self) weakSelf = self;
