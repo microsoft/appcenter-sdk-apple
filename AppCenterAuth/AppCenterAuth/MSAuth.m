@@ -125,8 +125,7 @@ static dispatch_once_t onceToken;
     self.clientApplication = nil;
     [self clearConfigurationCache];
     self.ingestion = nil;
-    [self callCompletionHandler:self.signInCompletionHandler withErrorCode:MSACAuthErrorServiceDisabled andMessage:@"Auth is disabled."];
-    [self callCompletionHandler:self.refreshCompletionHandler withErrorCode:MSACAuthErrorServiceDisabled andMessage:@"Auth is disabled."];
+    [self cancelPendingOperationsWithErrorCode:MSACAuthErrorServiceDisabled message:@"Auth is disabled."];
     self.signInShouldWaitForConfig = NO;
     MSLogInfo([MSAuth logTag], @"Auth service has been disabled.");
   }
@@ -245,10 +244,17 @@ static dispatch_once_t onceToken;
     if (![self canBeUsed]) {
       return;
     }
+    [self cancelPendingOperationsWithErrorCode:MSACAuthErrorInterruptedByAnotherOperation message:@"User canceled sign-in."];
     if ([self clearAuthData]) {
       MSLogInfo([MSAuth logTag], @"User sign-out succeeded.");
     }
   }
+}
+
+- (void)cancelPendingOperationsWithErrorCode:(NSInteger)errorCode message:(NSString *)message {
+  [self callCompletionHandler:self.signInCompletionHandler withErrorCode:errorCode andMessage:message];
+  [self callCompletionHandler:self.refreshCompletionHandler withErrorCode:errorCode andMessage:message];
+  self.homeAccountIdToRefresh = nil;
 }
 
 #pragma mark - Private methods
