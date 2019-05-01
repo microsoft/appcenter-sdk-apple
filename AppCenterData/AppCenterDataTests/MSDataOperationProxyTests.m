@@ -392,6 +392,59 @@
                                }];
 }
 
+- (void)testLocalReadWhenCachedDocumentMaintainPendingOperation {
+
+  // If
+  XCTestExpectation *expectation = [self expectationWithDescription:@"Completed with local read."];
+  __block MSDocumentWrapper *cachedDocumentWrapper = [[MSDocumentWrapper alloc] initWithDeserializedValue:[MSDictionaryDocument alloc]
+                                                                                                jsonValue:@""
+                                                                                                partition:@"partition"
+                                                                                               documentId:@"documentId"
+                                                                                                     eTag:@""
+                                                                                          lastUpdatedDate:nil
+                                                                                         pendingOperation:kMSPendingOperationReplace
+                                                                                                    error:nil
+                                                                                          fromDeviceCache:YES];
+  __block MSDocumentWrapper *wrapper;
+  OCMStub([self.documentStoreMock readWithToken:OCMOCK_ANY documentId:OCMOCK_ANY documentType:OCMOCK_ANY]).andReturn(cachedDocumentWrapper);
+  MSTokenResult *token = [MSTokenResult alloc];
+  __block MSTokensResponse *tokensResponse = [[MSTokensResponse alloc] initWithTokens:@[ token ]];
+
+  // Simulate being offline.
+  OCMStub([self.reachability currentReachabilityStatus]).andReturn(NotReachable);
+
+  // When
+  [self.sut performOperation:kMSPendingOperationRead
+      documentId:@"documentId"
+      documentType:[NSString class]
+      document:nil
+      baseOptions:nil
+      cachedTokenBlock:^(MSCachedTokenCompletionHandler _Nonnull handler) {
+        handler(tokensResponse, nil);
+      }
+      remoteDocumentBlock:^(MSDocumentWrapperCompletionHandler _Nonnull __unused handler) {
+      }
+      completionHandler:^(MSDocumentWrapper *_Nonnull document) {
+        wrapper = document;
+        [expectation fulfill];
+      }];
+
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                                 XCTAssertEqual(wrapper.documentId, cachedDocumentWrapper.documentId);
+                                 XCTAssertEqual(wrapper.pendingOperation, kMSPendingOperationReplace);
+                                 XCTAssertTrue(wrapper.fromDeviceCache);
+                                 OCMVerify([self.documentStoreMock upsertWithToken:token
+                                                                   documentWrapper:wrapper
+                                                                         operation:kMSPendingOperationReplace
+                                                                  deviceTimeToLive:kMSDataTimeToLiveDefault]);
+                               }];
+}
+
 - (void)testLocalDeleteWhenCachedDocumentPresent {
 
   // If

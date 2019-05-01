@@ -54,7 +54,7 @@ typedef void (^MSPaginatedDocumentsCompletionHandler)(MSPaginatedDocuments *docu
  *
  * @param tokenExchangeUrl The new URL.
  */
-+ (void)setTokenExchangeUrl:(NSString *)tokenExchangeUrl NS_SWIFT_NAME(setTokenExchangeUrl(_:));
++ (void)setTokenExchangeUrl:(NSString *)tokenExchangeUrl;
 
 /**
  * Read a document.

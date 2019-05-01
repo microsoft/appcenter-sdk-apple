@@ -189,8 +189,8 @@ static dispatch_once_t onceToken;
   }
   if ((self.clientApplication == nil || self.authConfig == nil) && !self.signInShouldWaitForConfig) {
     [self callCompletionHandler:completionHandler
-                  withErrorCode:MSACAuthErrorSignInBackgroundOrNotConfigured
-                        message:@"signIn is called while it's not configured or not in the foreground."];
+                  withErrorCode:MSACAuthErrorSignInNotConfigured
+                        message:@"'signIn called while not configured."];
     return;
   }
   __weak typeof(self) weakSelf = self;
