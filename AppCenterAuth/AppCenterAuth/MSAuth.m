@@ -125,9 +125,7 @@ static dispatch_once_t onceToken;
     self.clientApplication = nil;
     [self clearConfigurationCache];
     self.ingestion = nil;
-    [self callCompletionHandler:self.signInCompletionHandler withErrorCode:MSACAuthErrorServiceDisabled andMessage:@"Auth is disabled."];
-    [self callCompletionHandler:self.refreshCompletionHandler withErrorCode:MSACAuthErrorServiceDisabled andMessage:@"Auth is disabled."];
-    self.signInShouldWaitForConfig = NO;
+    [self cancelPendingOperationsWithErrorCode:MSACAuthErrorServiceDisabled message:@"Auth is disabled."];
     MSLogInfo([MSAuth logTag], @"Auth service has been disabled.");
   }
 }
@@ -159,7 +157,7 @@ static dispatch_once_t onceToken;
     } else {
       [[MSAuth sharedInstance] callCompletionHandler:completionHandler
                                        withErrorCode:MSACAuthErrorServiceDisabled
-                                          andMessage:@"Auth is disabled."];
+                                             message:@"Auth is disabled."];
     }
   }
 }
@@ -173,25 +171,25 @@ static dispatch_once_t onceToken;
     MSLogError([MSAuth logTag], @"signIn already in progress.");
     [self callCompletionHandler:completionHandler
                   withErrorCode:MSACAuthErrorPreviousSignInRequestInProgress
-                     andMessage:@"signIn already in progress."];
+                        message:@"signIn already in progress."];
     return;
   }
   if (self.refreshCompletionHandler) {
     [self callCompletionHandler:self.refreshCompletionHandler
                   withErrorCode:MSACAuthErrorInterruptedByAnotherOperation
-                     andMessage:@"Interrupted by signIn operation."];
+                        message:@"Interrupted by signIn operation."];
     self.refreshCompletionHandler = nil;
   }
   if ([[MS_Reachability reachabilityForInternetConnection] currentReachabilityStatus] == NotReachable) {
     [self callCompletionHandler:completionHandler
                   withErrorCode:MSACAuthErrorNoConnection
-                     andMessage:@"User sign-in failed. Internet connection is down."];
+                        message:@"User sign-in failed. Internet connection is down."];
     return;
   }
   if ((self.clientApplication == nil || self.authConfig == nil) && !self.signInShouldWaitForConfig) {
     [self callCompletionHandler:completionHandler
                   withErrorCode:MSACAuthErrorSignInBackgroundOrNotConfigured
-                     andMessage:@"signIn is called while it's not configured or not in the foreground."];
+                        message:@"signIn is called while it's not configured or not in the foreground."];
     return;
   }
   __weak typeof(self) weakSelf = self;
@@ -204,7 +202,7 @@ static dispatch_once_t onceToken;
       completionHandler(userInformation, error);
     }
   };
-  
+
   // If user tries to sign in before the configuration is downloaded,
   // we log this information here and wait until configuration is downloaded to make a sign in.
   if (self.signInShouldWaitForConfig) {
@@ -230,9 +228,9 @@ static dispatch_once_t onceToken;
   [MSAuth sharedInstance].configUrl = configUrl;
 }
 
-- (void)callCompletionHandler:(MSSignInCompletionHandler _Nullable)completionHandler
+- (void)callCompletionHandler:(MSAcquireTokenCompletionHandler _Nullable)completionHandler
                 withErrorCode:(NSInteger)errorCode
-                   andMessage:(NSString *)errorMessage {
+                      message:(NSString *)errorMessage {
   if (completionHandler) {
     NSError *error = [[NSError alloc] initWithDomain:kMSACAuthErrorDomain
                                                 code:errorCode
@@ -241,11 +239,19 @@ static dispatch_once_t onceToken;
   }
 }
 
+- (void)cancelPendingOperationsWithErrorCode:(NSInteger)errorCode message:(NSString *)message {
+  [self callCompletionHandler:self.signInCompletionHandler withErrorCode:errorCode message:message];
+  [self callCompletionHandler:self.refreshCompletionHandler withErrorCode:errorCode message:message];
+  self.signInShouldWaitForConfig = NO;
+  self.homeAccountIdToRefresh = nil;
+}
+
 - (void)signOut {
   @synchronized(self) {
     if (![self canBeUsed]) {
       return;
     }
+    [self cancelPendingOperationsWithErrorCode:MSACAuthErrorInterruptedByAnotherOperation message:@"User canceled sign-in."];
     if ([self clearAuthData]) {
       MSLogInfo([MSAuth logTag], @"User sign-out succeeded.");
     }
@@ -299,7 +305,7 @@ static dispatch_once_t onceToken;
                 // the configuration already exists. If we have a pending sign-in, this will trigger an error.
                 [self callCompletionHandler:self.signInCompletionHandler
                               withErrorCode:MSACAuthErrorSignInConfigNotValid
-                                 andMessage:@"There was no auth config but the server returned 304 (not modified)."];
+                                    message:@"There was no auth config but the server returned 304 (not modified)."];
               } else if (response.statusCode == MSHTTPCodesNo200OK) {
                 config = [self deserializeData:data];
                 if ([config isValid]) {
@@ -328,13 +334,13 @@ static dispatch_once_t onceToken;
                   MSLogError([MSAuth logTag], @"Downloaded auth config is not valid.");
                   [self callCompletionHandler:self.signInCompletionHandler
                                 withErrorCode:MSACAuthErrorSignInConfigNotValid
-                                   andMessage:@"Downloaded auth config is not valid."];
+                                      message:@"Downloaded auth config is not valid."];
                 }
               } else {
                 MSLogError([MSAuth logTag], @"Failed to download auth config. Status code received: %ld", (long)response.statusCode);
                 [self callCompletionHandler:self.signInCompletionHandler
                               withErrorCode:MSACAuthErrorSignInDownloadConfigFailed
-                                 andMessage:[NSString stringWithFormat:@"Failed to download auth config. Status code received: %ld",
+                                    message:[NSString stringWithFormat:@"Failed to download auth config. Status code received: %ld",
                                                                        (long)response.statusCode]];
               }
             }
@@ -416,7 +422,7 @@ static dispatch_once_t onceToken;
                           account:account
                   completionBlock:^(MSALResult *result, NSError *error) {
                     typeof(self) strongSelf = weakSelf;
-                    MSSignInCompletionHandler handler = [strongSelf valueForKey:completionHandlerKeyPath];
+                    MSAcquireTokenCompletionHandler handler = [strongSelf valueForKey:completionHandlerKeyPath];
                     if (!handler) {
                       MSLogDebug([MSAuth logTag], @"Silent acquisition has been interrupted. Ignoring the result.");
                       return;
@@ -455,7 +461,7 @@ static dispatch_once_t onceToken;
   [self.clientApplication acquireTokenForScopes:@[ (NSString * __nonnull) self.authConfig.authScope ]
                                 completionBlock:^(MSALResult *result, NSError *error) {
                                   typeof(self) strongSelf = weakSelf;
-                                  MSSignInCompletionHandler handler = [strongSelf valueForKey:completionHandlerKeyPath];
+                                  MSAcquireTokenCompletionHandler handler = [strongSelf valueForKey:completionHandlerKeyPath];
                                   if (!handler) {
                                     MSLogDebug([MSAuth logTag], @"Sign-in has been interrupted. Ignoring the result.");
                                     return;

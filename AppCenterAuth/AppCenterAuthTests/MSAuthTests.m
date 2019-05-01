@@ -80,9 +80,9 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
   // If
   [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
-                                       appSecret:kMSTestAppSecret
-                         transmissionTargetToken:nil
-                                 fromApplication:YES];
+                        appSecret:kMSTestAppSecret
+          transmissionTargetToken:nil
+                  fromApplication:YES];
 
   // When
   [self.sut setEnabled:YES];
@@ -109,9 +109,9 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   NSString *previousAuthToken = @"any-token";
   [[MSAuthTokenContext sharedInstance] setAuthToken:@"any-token" withAccountId:nil expiresOn:nil];
   [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
-                                       appSecret:kMSTestAppSecret
-                         transmissionTargetToken:nil
-                                 fromApplication:YES];
+                        appSecret:kMSTestAppSecret
+          transmissionTargetToken:nil
+                  fromApplication:YES];
 
   // When
   [[MSAuthTokenContext sharedInstance] finishInitialize];
@@ -126,9 +126,9 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   NSString *previousAuthToken = @"any-token";
   [[MSAuthTokenContext sharedInstance] setAuthToken:@"any-token" withAccountId:nil expiresOn:nil];
   [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
-                                       appSecret:kMSTestAppSecret
-                         transmissionTargetToken:nil
-                                 fromApplication:YES];
+                        appSecret:kMSTestAppSecret
+          transmissionTargetToken:nil
+                  fromApplication:YES];
 
   // When
   [[MSAuthTokenContext sharedInstance] finishInitialize];
@@ -210,9 +210,9 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   OCMStub([self.utilityMock loadDataForPathComponent:[self.sut authConfigFilePath]]).andReturn(serializedConfig);
   [self.settingsMock setObject:@"eTag" forKey:kMSAuthETagKey];
   [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
-                                       appSecret:kMSTestAppSecret
-                         transmissionTargetToken:nil
-                                 fromApplication:YES];
+                        appSecret:kMSTestAppSecret
+          transmissionTargetToken:nil
+                  fromApplication:YES];
   MSAuthTokenInfo *authTokenInfo = [[MSAuthTokenInfo alloc] initWithAuthToken:fakeToken
                                                                     accountId:fakeAccountId
                                                                     startTime:nil
@@ -665,27 +665,29 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
         [invocation getArgument:&completionBlock atIndex:4];
         completionBlock(msalResultMock, nil);
       });
-  OCMStub([self.clientApplicationMock alloc]).andReturn(self.clientApplicationMock);
-  OCMStub([self.clientApplicationMock initWithConfiguration:OCMOCK_ANY error:[OCMArg anyObjectRef]]).andReturn(self.clientApplicationMock);
-  OCMStub([self.clientApplicationMock accountForHomeAccountId:OCMOCK_ANY error:[OCMArg anyObjectRef]]).andReturn(accountMock);
-  NSData *serializedConfig = [NSJSONSerialization dataWithJSONObject:self.dummyConfigDic options:(NSJSONWritingOptions)0 error:nil];
-  OCMStub([self.utilityMock loadDataForPathComponent:[self.sut authConfigFilePath]]).andReturn(serializedConfig);
-  id authTokenContextMock = OCMPartialMock([MSAuthTokenContext sharedInstance]);
-  OCMStub([authTokenContextMock accountId]).andReturn(expectedHomeAccountId);
-  OCMStub([authTokenContextMock sharedInstance]).andReturn(authTokenContextMock);
-  [self.sut applyEnabledState:YES];
+
+  self.sut.clientApplication = self.clientApplicationMock;
+  self.sut.authConfig = [MSAuthConfig new];
+  self.sut.authConfig.authScope = @"fake";
+  id authMock = OCMPartialMock(self.sut);
+  OCMStub([authMock sharedInstance]).andReturn(authMock);
+  OCMStub([authMock canBeUsed]).andReturn(YES);
 
   // When
-  [self.sut signInWithCompletionHandler:^(MSUserInformation *_Nullable __unused userInformation, NSError *_Nullable __unused error){
-  }];
+  self.sut.signInCompletionHandler = ^(MSUserInformation *_Nullable __unused userInformation, NSError *_Nullable __unused error) {
+  };
+  [self.sut acquireTokenSilentlyWithMSALAccount:accountMock
+                                     uiFallback:NO
+                    keyPathForCompletionHandler:NSStringFromSelector(@selector(signInCompletionHandler))];
   MSAuthTokenInfo *actualAuthTokenInfo = [[[MSAuthTokenContext sharedInstance] authTokenHistory] lastObject];
 
   // Then
   XCTAssertEqualObjects(actualAuthTokenInfo.authToken, expectedAuthToken);
   XCTAssertEqualObjects([MSAuthTokenContext sharedInstance].authToken, expectedAuthToken);
+  XCTAssertEqualObjects([MSAuthTokenContext sharedInstance].accountId, expectedHomeAccountId);
 
   [accountMock stopMocking];
-  [authTokenContextMock stopMocking];
+  [authMock stopMocking];
   [msalResultMock stopMocking];
 }
 
@@ -695,27 +697,33 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   self.sut.clientApplication = self.clientApplicationMock;
   self.sut.authConfig = [MSAuthConfig new];
   self.sut.authConfig.authScope = @"fake";
-  id msalResultMock = OCMPartialMock([MSALResult new]);
-  NSString *expectedAuthToken = @"fakeAuthToken";
-  OCMStub([msalResultMock idToken]).andReturn(expectedAuthToken);
+  MSALAccountId *mockAccountId = OCMPartialMock([MSALAccountId new]);
+  OCMStub(mockAccountId.identifier).andReturn(@"Something");
+  id accountMock = OCMPartialMock([MSALAccount new]);
+  OCMStub([accountMock homeAccountId]).andReturn(mockAccountId);
+  id authMock = OCMPartialMock(self.sut);
+  OCMStub([authMock sharedInstance]).andReturn(authMock);
+  OCMStub([authMock canBeUsed]).andReturn(YES);
   OCMStub([self.clientApplicationMock acquireTokenSilentForScopes:OCMOCK_ANY account:OCMOCK_ANY completionBlock:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         __block MSALCompletionBlock completionBlock;
         [invocation getArgument:&completionBlock atIndex:4];
-        completionBlock(msalResultMock, OCMOCK_ANY);
+        NSError *error = [[NSError alloc] initWithDomain:MSALErrorDomain
+                                                    code:MSALErrorInteractionRequired
+                                                userInfo:@{NSLocalizedDescriptionKey : @"Error"}];
+        completionBlock(nil, error);
       });
-  id authTokenContextMock = OCMPartialMock([MSAuthTokenContext sharedInstance]);
-  NSString *expectedHomeAccountId = @"fakeHomeAccountId";
-  OCMStub([authTokenContextMock accountId]).andReturn(expectedHomeAccountId);
-  OCMStub([authTokenContextMock sharedInstance]).andReturn(authTokenContextMock);
 
   // When
-  [self.sut signInWithCompletionHandler:^(MSUserInformation *_Nullable __unused userInformation, NSError *_Nullable __unused error){
-  }];
+  self.sut.signInCompletionHandler = ^(MSUserInformation *_Nullable __unused userInformation, NSError *_Nullable __unused error) {
+  };
+  [self.sut acquireTokenSilentlyWithMSALAccount:accountMock
+                                     uiFallback:YES
+                    keyPathForCompletionHandler:NSStringFromSelector(@selector(signInCompletionHandler))];
 
   // Then
   OCMVerify([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]);
-  [authTokenContextMock stopMocking];
+  [authMock stopMocking];
 }
 
 - (void)testSignInTriggersInteractiveAuthentication {
@@ -1026,9 +1034,9 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
   // If
   [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
-                                       appSecret:kMSTestAppSecret
-                         transmissionTargetToken:nil
-                                 fromApplication:YES];
+                        appSecret:kMSTestAppSecret
+          transmissionTargetToken:nil
+                  fromApplication:YES];
   [[MSAuthTokenContext sharedInstance] setAuthToken:@"someToken" withAccountId:@"someAccount" expiresOn:nil];
   MSAuthTokenInfo *authTokenInfo = [[MSAuthTokenInfo alloc] initWithAuthToken:@"someToken"
                                                                     accountId:@"someAccountId"
@@ -1230,7 +1238,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   XCTAssertNil(self.signInError);
 }
 
-- (void)testSignInDontWaitForConfigIfConfigCached{
+- (void)testSignInDontWaitForConfigIfConfigCached {
 
   // If
   NSString *accountId = @"94c82516-cbee-44aa-8a6a-19f8d20322be";
@@ -1250,13 +1258,79 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
     self.signInUserInformation = userInformation;
     self.signInError = error;
   };
-  
+
   // When
   [self.sut signInWithCompletionHandler:handler];
-  
+
   // Then
   XCTAssertNil(self.signInError);
   XCTAssertEqualObjects(self.signInUserInformation.accountId, accountId);
+}
+
+- (void)testCancelPendingOperationWithErrorCode {
+
+  // If
+  __weak XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler called."];
+  NSInteger errorCode = 1;
+  NSString *message = @"test";
+  __block NSError *signInError;
+  __block NSError *refreshError;
+  self.sut.signInCompletionHandler = ^(MSUserInformation *_Nullable __unused userInformation, NSError *_Nullable error) {
+    signInError = error;
+  };
+  self.sut.refreshCompletionHandler = ^(MSUserInformation *_Nullable __unused userInformation, NSError *_Nullable error) {
+    refreshError = error;
+
+    // Fulfill expectation here. MSAuth calls signInCompletionHandler and then refreshCompletionHandler.
+    [expectation fulfill];
+  };
+
+  // When
+  [self.sut cancelPendingOperationsWithErrorCode:1 message:@"test"];
+
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *_Nullable error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                                 XCTAssertNotNil(signInError);
+                                 XCTAssertEqual(signInError.domain, kMSACAuthErrorDomain);
+                                 XCTAssertEqual(signInError.code, errorCode);
+                                 XCTAssertEqual(signInError.userInfo[NSLocalizedDescriptionKey], message);
+                                 XCTAssertNotNil(refreshError);
+                                 XCTAssertEqual(refreshError.domain, kMSACAuthErrorDomain);
+                                 XCTAssertEqual(refreshError.code, errorCode);
+                                 XCTAssertEqual(refreshError.userInfo[NSLocalizedDescriptionKey], message);
+                               }];
+}
+
+- (void)testCancelPendingOperationWhenDisabled {
+
+  // If
+  id authMock = OCMPartialMock(self.sut);
+
+  // When
+  [authMock setEnabled:NO];
+
+  // Then
+  OCMVerify([authMock cancelPendingOperationsWithErrorCode:MSACAuthErrorServiceDisabled message:OCMOCK_ANY]);
+  [authMock stopMocking];
+}
+
+- (void)testCancelPendingOperationWhenSignOut {
+
+  // If
+  id authMock = OCMPartialMock(self.sut);
+  OCMStub([authMock sharedInstance]).andReturn(authMock);
+  OCMStub([authMock canBeUsed]).andReturn(YES);
+
+  // When
+  [MSAuth signOut];
+
+  // Then
+  OCMVerify([authMock cancelPendingOperationsWithErrorCode:MSACAuthErrorInterruptedByAnotherOperation message:OCMOCK_ANY]);
+  [authMock stopMocking];
 }
 
 @end
