@@ -80,9 +80,9 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
   // If
   [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
-                                       appSecret:kMSTestAppSecret
-                         transmissionTargetToken:nil
-                                 fromApplication:YES];
+                        appSecret:kMSTestAppSecret
+          transmissionTargetToken:nil
+                  fromApplication:YES];
 
   // When
   [self.sut setEnabled:YES];
@@ -109,9 +109,9 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   NSString *previousAuthToken = @"any-token";
   [[MSAuthTokenContext sharedInstance] setAuthToken:@"any-token" withAccountId:nil expiresOn:nil];
   [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
-                                       appSecret:kMSTestAppSecret
-                         transmissionTargetToken:nil
-                                 fromApplication:YES];
+                        appSecret:kMSTestAppSecret
+          transmissionTargetToken:nil
+                  fromApplication:YES];
 
   // When
   [[MSAuthTokenContext sharedInstance] finishInitialize];
@@ -126,9 +126,9 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   NSString *previousAuthToken = @"any-token";
   [[MSAuthTokenContext sharedInstance] setAuthToken:@"any-token" withAccountId:nil expiresOn:nil];
   [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
-                                       appSecret:kMSTestAppSecret
-                         transmissionTargetToken:nil
-                                 fromApplication:YES];
+                        appSecret:kMSTestAppSecret
+          transmissionTargetToken:nil
+                  fromApplication:YES];
 
   // When
   [[MSAuthTokenContext sharedInstance] finishInitialize];
@@ -210,9 +210,9 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   OCMStub([self.utilityMock loadDataForPathComponent:[self.sut authConfigFilePath]]).andReturn(serializedConfig);
   [self.settingsMock setObject:@"eTag" forKey:kMSAuthETagKey];
   [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
-                                       appSecret:kMSTestAppSecret
-                         transmissionTargetToken:nil
-                                 fromApplication:YES];
+                        appSecret:kMSTestAppSecret
+          transmissionTargetToken:nil
+                  fromApplication:YES];
   MSAuthTokenInfo *authTokenInfo = [[MSAuthTokenInfo alloc] initWithAuthToken:fakeToken
                                                                     accountId:fakeAccountId
                                                                     startTime:nil
@@ -1026,9 +1026,9 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
   // If
   [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
-                                       appSecret:kMSTestAppSecret
-                         transmissionTargetToken:nil
-                                 fromApplication:YES];
+                        appSecret:kMSTestAppSecret
+          transmissionTargetToken:nil
+                  fromApplication:YES];
   [[MSAuthTokenContext sharedInstance] setAuthToken:@"someToken" withAccountId:@"someAccount" expiresOn:nil];
   MSAuthTokenInfo *authTokenInfo = [[MSAuthTokenInfo alloc] initWithAuthToken:@"someToken"
                                                                     accountId:@"someAccountId"
@@ -1230,7 +1230,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   XCTAssertNil(self.signInError);
 }
 
-- (void)testSignInDontWaitForConfigIfConfigCached{
+- (void)testSignInDontWaitForConfigIfConfigCached {
 
   // If
   NSString *accountId = @"94c82516-cbee-44aa-8a6a-19f8d20322be";
@@ -1250,10 +1250,10 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
     self.signInUserInformation = userInformation;
     self.signInError = error;
   };
-  
+
   // When
   [self.sut signInWithCompletionHandler:handler];
-  
+
   // Then
   XCTAssertNil(self.signInError);
   XCTAssertEqualObjects(self.signInUserInformation.accountId, accountId);
