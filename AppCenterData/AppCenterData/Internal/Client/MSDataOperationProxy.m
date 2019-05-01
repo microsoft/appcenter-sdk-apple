@@ -42,7 +42,7 @@
   if (![MSDataOperationProxy isValidOperation:operation]) {
     NSString *message = @"Operation is not supported";
     MSLogError([MSData logTag], message);
-    MSDataError *dataError = [[MSDataError alloc] initWithErrorCode:MSACDataLocalStoreError innerError:nil message:message];
+    MSDataError *dataError = [[MSDataError alloc] initWithErrorCode:MSACDataErrorUnsupportedOperation innerError:nil message:message];
     completionHandler([[MSDocumentWrapper alloc] initWithError:dataError documentId:documentId]);
     return;
   }
@@ -54,7 +54,7 @@
       NSString *message =
           [NSString stringWithFormat:@"Error while retrieving cached token, aborting operation: %@", [error localizedDescription]];
       MSLogError([MSData logTag], @"%@", message);
-      MSDataError *dataError = [[MSDataError alloc] initWithErrorCode:MSACDataLocalStoreError innerError:nil message:message];
+      MSDataError *dataError = [[MSDataError alloc] initWithErrorCode:MSACDataErrorCachedToken innerError:nil message:message];
       completionHandler([[MSDocumentWrapper alloc] initWithError:dataError documentId:documentId]);
       return;
     }
@@ -71,12 +71,21 @@
       remoteDocumentBlock(^(MSDocumentWrapper *_Nonnull remoteDocument) {
         // If a valid remote document was retrieved, update local store
         if (remoteDocument.error == nil) {
-          [self updateLocalStore:token
-              currentCachedDocument:cachedDocument
-                  newCachedDocument:remoteDocument
-                   deviceTimeToLive:deviceTimeToLive
-                          // For online scenarios, the intended pending operation in the local store is nil.
-                          operation:nil];
+
+          // If operation is delete, directly delete the document from the local cache.
+          if ([kMSPendingOperationDelete isEqualToString:(NSString *)operation]) {
+            MSLogInfo([MSData logTag], @"Delete the document from local storage (partition: %@, id: %@)", token.partition,
+                      cachedDocument.documentId);
+            [self.documentStore deleteWithToken:token documentId:cachedDocument.documentId];
+          }
+          // For other online scenarios, the intended pending operation in the local store is nil.
+          else {
+            [self updateLocalStore:token
+                currentCachedDocument:cachedDocument
+                    newCachedDocument:remoteDocument
+                     deviceTimeToLive:deviceTimeToLive
+                            operation:nil];
+          }
         }
         completionHandler(remoteDocument);
       });
@@ -144,49 +153,22 @@
 
         // Serialize incoming document into a JSON string.
         NSDictionary *dictionary = [document serializeToDictionary];
-        NSString *jsonDocument;
-        NSError *jsonError;
-        if (![NSJSONSerialization isValidJSONObject:dictionary]) {
-          jsonError =
-              [[NSError alloc] initWithDomain:kMSACDataErrorDomain
-                                         code:MSACDataErrorJSONSerializationFailed
-                                     userInfo:@{NSLocalizedDescriptionKey : @"Dictionary contains values that cannot be serialized."}];
-          MSLogError([MSData logTag], @"Error serializing document for local storage: %@", [jsonError localizedDescription]);
-          MSDataError *dataError = [[MSDataError alloc] initWithErrorCode:MSACDataErrorJSONSerializationFailed
-                                                               innerError:jsonError
-                                                                  message:nil];
-          completionHandler([[MSDocumentWrapper alloc] initWithError:dataError documentId:documentId]);
-          return;
-        }
-        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary options:0 error:&jsonError];
-        if (!error) {
-          jsonDocument = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-        } else {
-          NSString *message = @"Error serializing document for local storage";
-          MSLogError([MSData logTag], message);
-          MSDataError *dataError = [[MSDataError alloc] initWithErrorCode:MSACDataLocalStoreError innerError:nil message:message];
-          completionHandler([[MSDocumentWrapper alloc] initWithError:dataError documentId:documentId]);
-          return;
-        }
-
-        // Create a create/replace document record.
-        MSDocumentWrapper *createdOrUpdatedDocument = [[MSDocumentWrapper alloc] initWithDeserializedValue:document
-                                                                                                 jsonValue:jsonDocument
-                                                                                                 partition:token.partition
-                                                                                                documentId:documentId
-                                                                                                      eTag:cachedDocument.eTag
-                                                                                           lastUpdatedDate:cachedDocument.lastUpdatedDate
-                                                                                          pendingOperation:operation
-                                                                                                     error:nil
-                                                                                           fromDeviceCache:YES];
+        MSDocumentWrapper *documentWrapper = [MSDocumentUtils documentWrapperFromDictionary:dictionary
+                                                                               documentType:documentType
+                                                                                       eTag:cachedDocument.eTag
+                                                                            lastUpdatedDate:cachedDocument.lastUpdatedDate
+                                                                                  partition:token.partition
+                                                                                 documentId:documentId
+                                                                           pendingOperation:operation
+                                                                            fromDeviceCache:YES];
 
         // Update local store and return document.
         [self updateLocalStore:token
             currentCachedDocument:cachedDocument
-                newCachedDocument:createdOrUpdatedDocument
+                newCachedDocument:documentWrapper
                  deviceTimeToLive:deviceTimeToLive
                         operation:operation];
-        completionHandler(createdOrUpdatedDocument);
+        completionHandler(documentWrapper);
       }
     }
   });

@@ -5,3 +5,4 @@
 
 #import "MSAuth.h"
 #import "MSAuthErrors.h"
+#import "MSUserInformation.h"

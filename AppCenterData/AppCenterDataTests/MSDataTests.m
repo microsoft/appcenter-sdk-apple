@@ -250,7 +250,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   XCTAssertNotNil(actualDocumentWrapper);
   XCTAssertNotNil(actualDocumentWrapper.error);
   XCTAssertEqual(actualDocumentWrapper.error.domain, kMSACDataErrorDomain);
-  XCTAssertEqual(actualDocumentWrapper.error.code, MSACDataInvalidClassCode);
+  XCTAssertEqual(actualDocumentWrapper.error.code, MSACDataErrorInvalidClassCode);
   XCTAssertEqualObjects(actualDocumentWrapper.documentId, kMSDocumentIdTest);
 }
 
@@ -282,7 +282,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   XCTAssertNotNil(actualDocumentWrapper);
   XCTAssertNotNil(actualDocumentWrapper.error);
   XCTAssertEqual(actualDocumentWrapper.error.domain, kMSACDataErrorDomain);
-  XCTAssertEqual(actualDocumentWrapper.error.code, MSACDataInvalidClassCode);
+  XCTAssertEqual(actualDocumentWrapper.error.code, MSACDataErrorInvalidClassCode);
   XCTAssertEqualObjects(actualDocumentWrapper.documentId, kMSDocumentIdTest);
 }
 
@@ -314,7 +314,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   XCTAssertNotNil(actualDocumentWrapper);
   XCTAssertNotNil(actualDocumentWrapper.error);
   XCTAssertEqual(actualDocumentWrapper.error.domain, kMSACDataErrorDomain);
-  XCTAssertEqual(actualDocumentWrapper.error.code, MSACDataInvalidClassCode);
+  XCTAssertEqual(actualDocumentWrapper.error.code, MSACDataErrorInvalidClassCode);
   XCTAssertEqualObjects(actualDocumentWrapper.documentId, kMSDocumentIdTest);
 }
 
@@ -468,6 +468,41 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   XCTAssertEqual(actualDataError.code, MSACDisabledErrorCode);
 }
 
+- (void)testListWhenOffline {
+
+  // Simulate being offline.
+  MS_Reachability *reachabilityMock = OCMPartialMock([MS_Reachability reachabilityForInternetConnection]);
+  OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(NotReachable);
+  self.sut.reachability = reachabilityMock;
+  self.sut.httpClient = OCMProtocolMock(@protocol(MSHttpClientProtocol));
+  OCMReject([self.sut.httpClient sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:OCMOCK_ANY data:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
+
+  // If
+  __block MSPaginatedDocuments *actualPaginatedDocuments;
+  __weak XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler called."];
+
+  // When
+  [MSData listDocumentsWithType:[MSDictionaryDocument class]
+                      partition:kMSPartitionTest
+              completionHandler:^(MSPaginatedDocuments *documents) {
+                actualPaginatedDocuments = documents;
+                [expectation fulfill];
+              }];
+
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *_Nullable error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+  XCTAssertNotNil(actualPaginatedDocuments);
+  XCTAssertNotNil(actualPaginatedDocuments.currentPage.error);
+  XCTAssertNotNil(actualPaginatedDocuments.currentPage.error);
+  XCTAssertEqual(actualPaginatedDocuments.currentPage.error.domain, kMSACDataErrorDomain);
+  XCTAssertEqual(actualPaginatedDocuments.currentPage.error.code, MSACDataErrorHTTPError);
+}
+
 - (void)testListWhenDataModuleDisabled {
 
   // If
@@ -526,7 +561,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   XCTAssertNotNil(actualPaginatedDocuments.currentPage.error);
   XCTAssertNotNil(actualPaginatedDocuments.currentPage.error);
   XCTAssertEqual(actualPaginatedDocuments.currentPage.error.domain, kMSACDataErrorDomain);
-  XCTAssertEqual(actualPaginatedDocuments.currentPage.error.code, MSACDataInvalidClassCode);
+  XCTAssertEqual(actualPaginatedDocuments.currentPage.error.code, MSACDataErrorInvalidClassCode);
 }
 
 - (void)testDefaultHeaderWithPartitionWithDictionaryNotNull {
@@ -964,7 +999,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   // Then
   XCTAssertTrue(completionHandlerCalled);
   XCTAssertNil(actualDataHttpData);
-  XCTAssertEqual(blockError.code, MSACDataDocumentIdError);
+  XCTAssertEqual(blockError.code, MSACDataErrorDocumentIdMissing);
 }
 
 - (void)testCreateWithPartitionGoldenPath {
@@ -1043,7 +1078,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                  }
                                  XCTAssertTrue(completionHandlerCalled);
                                  XCTAssertEqualObjects(actualError.domain, kMSACDataErrorDomain);
-                                 XCTAssertEqual(actualError.code, MSACDataLocalStoreError);
+                                 XCTAssertEqual(actualError.code, MSACDataErrorCachedToken);
                                }];
 }
 
@@ -1271,7 +1306,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                  }
                                  XCTAssertTrue(completionHandlerCalled);
                                  XCTAssertEqualObjects(actualError.domain, kMSACDataErrorDomain);
-                                 XCTAssertEqual(actualError.code, MSACDataLocalStoreError);
+                                 XCTAssertEqual(actualError.code, MSACDataErrorCachedToken);
                                }];
 }
 
@@ -1568,7 +1603,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
              // Then
              XCTAssertNotNil(document.error);
              XCTAssertEqualObjects(document.error.domain, kMSACDataErrorDomain);
-             XCTAssertEqual(document.error.code, MSACDataLocalStoreError);
+             XCTAssertEqual(document.error.code, MSACDataErrorCachedToken);
              [expectation fulfill];
            }];
 
@@ -1632,6 +1667,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                  }
                                }];
 }
+
 - (void)testReadsFromLocalStorageWhenOnlineIfCreatePendingOperation {
 
   // If

@@ -79,6 +79,7 @@ static dispatch_once_t onceToken;
     _dispatchQueue = dispatch_queue_create(kMSDataDispatchQueue, DISPATCH_QUEUE_SERIAL);
     _reachability = [MS_Reachability reachabilityForInternetConnection];
     _dataOperationProxy = [[MSDataOperationProxy alloc] initWithDocumentStore:[MSDBDocumentStore new] reachability:_reachability];
+    _outgoingPendingOperations = [NSMutableSet new];
   }
   return self;
 }
@@ -369,6 +370,11 @@ static dispatch_once_t onceToken;
       dataError = [self generateDisabledError:@"list" documentId:nil];
     } else if (![MSDocumentUtils isSerializableDocument:documentType]) {
       dataError = [self generateInvalidClassError];
+    } else if ([[self reachability] currentReachabilityStatus] == NotReachable) {
+      dataError = [[MSDataError alloc] initWithErrorCode:MSACDataErrorHTTPError
+                                              innerError:nil
+                                                 message:@"Can't list documents while offline."];
+      MSLogError([MSData logTag], @"Not able to list documents while offline: %@", [dataError localizedDescription]);
     }
     if (dataError) {
       completionHandler([[MSPaginatedDocuments alloc] initWithError:dataError partition:partition documentType:documentType]);
@@ -625,7 +631,7 @@ static dispatch_once_t onceToken;
 }
 
 - (MSDataError *)generateInvalidClassError {
-  MSDataError *dataError = [[MSDataError alloc] initWithErrorCode:MSACDataInvalidClassCode
+  MSDataError *dataError = [[MSDataError alloc] initWithErrorCode:MSACDataErrorInvalidClassCode
                                                        innerError:nil
                                                           message:(NSString *)kMSACDataInvalidClassDesc];
   MSLogError([MSData logTag], @"Not able to validate document deserialization precondition: %@.", [dataError localizedDescription]);

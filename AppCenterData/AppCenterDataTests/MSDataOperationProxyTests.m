@@ -72,7 +72,7 @@
                                  XCTAssertEqual(wrapper.documentId, @"documentId");
                                  XCTAssertEqual(wrapper.deserializedValue, nil);
                                  XCTAssertNotNil(wrapper.error);
-                                 XCTAssertEqual(wrapper.error.code, MSACDataLocalStoreError);
+                                 XCTAssertEqual(wrapper.error.code, MSACDataErrorUnsupportedOperation);
                                }];
 }
 
@@ -106,7 +106,7 @@
                                  }
                                  XCTAssertEqual(wrapper.documentId, @"documentId");
                                  XCTAssertEqual(wrapper.deserializedValue, nil);
-                                 XCTAssertEqual(wrapper.error.code, MSACDataLocalStoreError);
+                                 XCTAssertEqual(wrapper.error.code, MSACDataErrorCachedToken);
                                }];
 }
 
@@ -116,14 +116,15 @@
   XCTestExpectation *expectation = [self expectationWithDescription:@"Completed with remote document (default TTL)."];
   __block MSDocumentWrapper *remoteDocumentWrapper = [MSDocumentWrapper alloc];
   __block MSDocumentWrapper *wrapper;
+  NSString *documentId = @"documentId";
   OCMStub([self.documentStoreMock readWithToken:OCMOCK_ANY documentId:OCMOCK_ANY documentType:OCMOCK_ANY])
-      .andReturn([[MSDocumentWrapper alloc] initWithError:self.dummyError documentId:@"documentId"]);
+      .andReturn([[MSDocumentWrapper alloc] initWithError:self.dummyError documentId:documentId]);
   MSTokenResult *token = [MSTokenResult alloc];
   __block MSTokensResponse *tokensResponse = [[MSTokensResponse alloc] initWithTokens:@[ token ]];
 
   // When
   [self.sut performOperation:kMSPendingOperationDelete
-      documentId:@"documentId"
+      documentId:documentId
       documentType:[NSString class]
       document:nil
       baseOptions:nil
@@ -145,10 +146,7 @@
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
                                  XCTAssertEqual(wrapper, remoteDocumentWrapper);
-                                 OCMVerify([self.documentStoreMock upsertWithToken:token
-                                                                   documentWrapper:remoteDocumentWrapper
-                                                                         operation:nil
-                                                                  deviceTimeToLive:kMSDataTimeToLiveDefault]);
+                                 OCMVerify([self.documentStoreMock deleteWithToken:token documentId:documentId]);
                                }];
 }
 
@@ -474,7 +472,7 @@
   dict[@"key"] = @"value";
   [self.sut performOperation:kMSPendingOperationCreate
       documentId:@"documentId"
-      documentType:[NSString class]
+      documentType:[MSDictionaryDocument class]
       document:[[MSDictionaryDocument alloc] initFromDictionary:dict]
       baseOptions:nil
       cachedTokenBlock:^(MSCachedTokenCompletionHandler _Nonnull handler) {
@@ -532,7 +530,7 @@
   dict[@"key"] = @"value";
   [self.sut performOperation:kMSPendingOperationReplace
       documentId:@"documentId"
-      documentType:[NSString class]
+      documentType:[MSDictionaryDocument class]
       document:[[MSDictionaryDocument alloc] initFromDictionary:dict]
       baseOptions:nil
       cachedTokenBlock:^(MSCachedTokenCompletionHandler _Nonnull handler) {
@@ -593,7 +591,7 @@
   dict[@"shouldFail"] = [NSSet set];
   [self.sut performOperation:kMSPendingOperationCreate
       documentId:@"documentId"
-      documentType:[NSString class]
+      documentType:[MSDictionaryDocument class]
       document:[[MSDictionaryDocument alloc] initFromDictionary:dict]
       baseOptions:nil
       cachedTokenBlock:^(MSCachedTokenCompletionHandler _Nonnull handler) {
@@ -613,7 +611,6 @@
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
                                  XCTAssertNotNil(wrapper);
-                                 XCTAssertNotNil(wrapper.error);
                                  XCTAssertNotNil(wrapper.error);
                                  XCTAssertEqual(wrapper.error.domain, expectedErrorDomain);
                                  XCTAssertEqual([wrapper.error innerError].code, expectedErrorCode);
@@ -651,7 +648,7 @@
   dict[@"shouldFail"] = [NSSet set];
   [self.sut performOperation:kMSPendingOperationReplace
       documentId:@"documentId"
-      documentType:[NSString class]
+      documentType:[MSDictionaryDocument class]
       document:[[MSDictionaryDocument alloc] initFromDictionary:dict]
       baseOptions:nil
       cachedTokenBlock:^(MSCachedTokenCompletionHandler _Nonnull handler) {
