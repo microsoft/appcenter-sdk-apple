@@ -1,4 +1,6 @@
-#import "MSACModelConstants.h"
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 #import "MSDevice.h"
 #import "MSDeviceInternal.h"
 #import "MSWrapperSdkInternal.h"

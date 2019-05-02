@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 #import <Foundation/Foundation.h>
 #import <SafariServices/SafariServices.h>
 
@@ -13,6 +16,7 @@
 #import "MSDistributeUtil.h"
 #import "MSDistributionStartSessionLog.h"
 #import "MSErrorDetails.h"
+#import "MSGuidedAccessUtil.h"
 #import "MSKeychainUtil.h"
 #import "MSServiceAbstractProtected.h"
 #import "MSSessionContext.h"
@@ -309,8 +313,9 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                                       @"1. A debugger is attached. "
                                       @"2. You are running the debug configuration. "
                                       @"3. The app is running in a non-adhoc environment. "
-                                      @"Detach the debugger and restart the app and/or run the app with the release configuration "
-                                      @"to enable the feature.");
+                                      @"4. The device is in guided access mode which prevents opening update URLs. "
+                                      @"Detach the debugger and restart the app and/or run the app with the release configuration and/or "
+                                      @"deactivate guided access mode to enable the feature.");
   }
 }
 
@@ -344,7 +349,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                                                          queryStrings:queryStrings];
       __weak typeof(self) weakSelf = self;
       [self.ingestion sendAsync:nil
-              completionHandler:^(__unused NSString *callId, NSUInteger statusCode, NSData *data, __unused NSError *error) {
+              completionHandler:^(__unused NSString *callId, NSHTTPURLResponse *response, NSData *data, __unused NSError *error) {
                 typeof(self) strongSelf = weakSelf;
                 if (!strongSelf) {
                   return;
@@ -362,7 +367,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                 NSError *jsonError = nil;
 
                 // Success.
-                if (statusCode == MSHTTPCodesNo200OK) {
+                if (response.statusCode == MSHTTPCodesNo200OK) {
                   MSReleaseDetails *details = nil;
                   if (data) {
                     id dictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&jsonError];
@@ -396,7 +401,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
                 // Failure.
                 else {
-                  MSLogDebug([MSDistribute logTag], @"Failed to get an update response, status code: %tu", statusCode);
+                  MSLogDebug([MSDistribute logTag], @"Failed to get an update response, status code: %tu", response.statusCode);
                   NSString *jsonString = nil;
                   id dictionary = nil;
 
@@ -420,7 +425,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                   }
 
                   // Check the status code to clean up Distribute data for an unrecoverable error.
-                  if (![MSIngestionUtil isRecoverableError:statusCode]) {
+                  if (![MSHttpUtil isRecoverableError:response.statusCode]) {
 
                     // Deserialize payload to check if it contains error details.
                     MSErrorDetails *details = nil;
@@ -531,30 +536,25 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
 - (void)openUrlInAuthenticationSessionOrSafari:(NSURL *)url {
 
-/*
- * Only iOS 9.x and 10.x will download the update after users click the "Install" button. We need to force-exit the application for other
- * versions or for any versions when the update is mandatory.
- */
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wpartial-availability"
-  Class clazz = [SFSafariViewController class];
-  if (clazz) {
+  /*
+   * Only iOS 9.x and 10.x will download the update after users click the "Install" button. We need to force-exit the application for other
+   * versions or for any versions when the update is mandatory.
+   */
 
-    // iOS 11
-    Class authClazz = NSClassFromString(@"SFAuthenticationSession");
+  // TODO SFAuthenticationSession is deprecated, for iOS 12 use ASWebAuthenticationSession
+  if (@available(iOS 11.0, *)) {
+    Class authClazz = [SFAuthenticationSession class];
     if (authClazz) {
       dispatch_async(dispatch_get_main_queue(), ^{
         [self openURLInAuthenticationSessionWith:url fromClass:authClazz];
       });
-    } else {
-
-      // iOS 9 and 10
-      dispatch_async(dispatch_get_main_queue(), ^{
-        [self openURLInSafariViewControllerWith:url fromClass:clazz];
-      });
     }
+  } else {
+    Class clazz = [SFSafariViewController class];
+    dispatch_async(dispatch_get_main_queue(), ^{
+      [self openURLInSafariViewControllerWith:url fromClass:clazz];
+    });
   }
-#pragma clang diagnostic pop
 }
 
 - (void)openURLInAuthenticationSessionWith:(NSURL *)url fromClass:(Class)sessionClazz {
@@ -731,11 +731,14 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 - (BOOL)checkForUpdatesAllowed {
 
   // Check if we are not in AppStore or TestFlight environments.
-  BOOL environmentOkay = [MSUtility currentAppEnvironment] == MSEnvironmentOther;
+  BOOL compatibleEnvironment = [MSUtility currentAppEnvironment] == MSEnvironmentOther;
+
+  // Check if we are currently in guided access mode. Guided access mode prevents opening update URLs.
+  BOOL guidedAccessModeEnabled = [MSGuidedAccessUtil isGuidedAccessEnabled];
 
   // Check if a debugger is attached.
-  BOOL noDebuggerAttached = ![MSAppCenter isDebuggerAttached];
-  return environmentOkay && noDebuggerAttached;
+  BOOL debuggerAttached = [MSAppCenter isDebuggerAttached];
+  return compatibleEnvironment && !debuggerAttached && !guidedAccessModeEnabled;
 }
 
 - (BOOL)isNewerVersion:(MSReleaseDetails *)details {
@@ -1105,7 +1108,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 }
 
 - (void)applicationWillEnterForeground {
-  if ([self isEnabled] && ![MS_USER_DEFAULTS objectForKey:kMSUpdateTokenRequestIdKey]) {
+  if (self.canBeUsed && self.isEnabled && ![MS_USER_DEFAULTS objectForKey:kMSUpdateTokenRequestIdKey]) {
     [self startUpdate];
   }
 }

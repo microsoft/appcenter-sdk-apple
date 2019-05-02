@@ -1,4 +1,8 @@
-@objc class MSAnalyticsResult : NSObject {
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+@objcMembers
+class MSAnalyticsResult : NSObject {
 
   var sendingEvents = [String: MSEventLog]()
   var succeededEvents = [String: MSEventLog]()

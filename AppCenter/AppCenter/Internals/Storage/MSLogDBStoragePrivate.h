@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 #import "MSEncrypter.h"
 #import "MSLogDBStorage.h"
 
@@ -11,6 +14,11 @@ static NSString *const kMSLogColumnName = @"log";
 static NSString *const kMSTargetTokenColumnName = @"targetToken";
 static NSString *const kMSTargetKeyColumnName = @"targetKey";
 static NSString *const kMSPriorityColumnName = @"priority";
+
+/**
+ * Timestamp in milliseconds.
+ */
+static NSString *const kMSTimestampColumnName = @"timestamp";
 
 @protocol MSDatabaseConnection;
 

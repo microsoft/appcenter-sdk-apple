@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 #import <Foundation/Foundation.h>
 
 static NSString *const kSASCustomizedUpdateAlertKey = @"kSASCustomizedUpdateAlertKey";
@@ -26,13 +29,26 @@ static NSString *const kMSObjCTargetToken = @"5a06bf4972a44a059d59c757e6d0b595-"
 static NSString *const kMSObjCRuntimeTargetToken = @"1aa046cfdc8f49bdbd64190290caf7dd-ba041023-af4d-4432-a87e-eb2431150797-"
                                                    @"7361";
 #endif
+
+static NSString *const kMSPuppetAppSecret = @"65dc3680-7325-4000-a0e7-dbd2276eafd1";
+static NSString *const kMSObjcAppSecret = @"3ccfe7f5-ec01-4de5-883c-f563bbbe147a";
+static NSString *const kMSSwiftAppSecret = @"0dbca56b-b9ae-4d53-856a-7c2856137d85";
 static NSString *const kMSStartTargetKey = @"startTarget";
 static NSString *const kMSStorageMaxSizeKey = @"storageMaxSize";
 static NSNotificationName const kUpdateAnalyticsResultNotification = @"updateAnalyticsResult";
 static NSString *const kMSUserIdKey = @"userId";
+static NSString *const kMSLogUrl = @"logUrl";
+static NSString *const kMSAppSecret = @"appSecret";
+static NSString *const kMSUserIdentity = @"userIdentity";
 
 #ifdef SQLITE_DEFAULT_PAGE_SIZE
 static int const kMSStoragePageSize = SQLITE_DEFAULT_PAGE_SIZE;
 #else
 static int const kMSStoragePageSize = 4096;
 #endif
+
+static NSString *const kMSIntLogUrl = @"https://in-integration.dev.avalanch.es";
+static NSString *const kMSIntConfigUrl = @"https://config-integration.dev.avalanch.es";
+static NSString *const kMSIntTokenExchangeUrl = @"https://token-exchange-mbaas-integration.dev.avalanch.es/v0.1";
+static NSString *const kMSIntApiUrl = @"https://api-gateway-core-integration.dev.avalanch.es/v0.1";
+static NSString *const kMSIntInstallUrl = @"https://install.portal-server-core-integration.dev.avalanch.es";

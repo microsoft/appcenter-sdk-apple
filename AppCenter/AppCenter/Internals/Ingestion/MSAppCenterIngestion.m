@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 #import "MSAppCenterIngestion.h"
 #import "MSAppCenterErrors.h"
 #import "MSAppCenterInternal.h"
@@ -15,16 +18,10 @@ static NSString *const kMSApiPath = @"/logs";
 
 - (id)initWithBaseUrl:(NSString *)baseUrl installId:(NSString *)installId {
   self = [super initWithBaseUrl:baseUrl
-      apiPath:kMSApiPath
-      headers:@{
-        kMSHeaderContentTypeKey : kMSAppCenterContentType,
-        kMSHeaderInstallIDKey : installId
-      }
-      queryStrings:@{
-        kMSAPIVersionKey : kMSAPIVersion
-      }
-      reachability:[MS_Reachability reachabilityForInternetConnection]
-      retryIntervals:@[ @(10), @(5 * 60), @(20 * 60) ]];
+                        apiPath:kMSApiPath
+                        headers:@{kMSHeaderContentTypeKey : kMSAppCenterContentType, kMSHeaderInstallIDKey : installId}
+                   queryStrings:@{kMSAPIVersionKey : kMSAPIVersion}
+                   reachability:[MS_Reachability reachabilityForInternetConnection]];
   return self;
 }
 
@@ -32,7 +29,7 @@ static NSString *const kMSApiPath = @"/logs";
   return self.appSecret != nil;
 }
 
-- (void)sendAsync:(NSObject *)data completionHandler:(MSSendAsyncCompletionHandler)handler {
+- (void)sendAsync:(NSObject *)data authToken:(NSString *)authToken completionHandler:(MSSendAsyncCompletionHandler)handler {
   MSLogContainer *container = (MSLogContainer *)data;
   NSString *batchId = container.batchId;
 
@@ -44,16 +41,16 @@ static NSString *const kMSApiPath = @"/logs";
   // Verify container.
   if (!container || ![container isValid]) {
     NSDictionary *userInfo = @{NSLocalizedDescriptionKey : kMSACLogInvalidContainerErrorDesc};
-    NSError *error = [NSError errorWithDomain:kMSACErrorDomain code:kMSACLogInvalidContainerErrorCode userInfo:userInfo];
+    NSError *error = [NSError errorWithDomain:kMSACErrorDomain code:MSACLogInvalidContainerErrorCode userInfo:userInfo];
     MSLogError([MSAppCenter logTag], @"%@", [error localizedDescription]);
     handler(batchId, 0, nil, error);
     return;
   }
 
-  [super sendAsync:container callId:container.batchId completionHandler:handler];
+  [super sendAsync:container eTag:nil authToken:authToken callId:container.batchId completionHandler:handler];
 }
 
-- (NSURLRequest *)createRequest:(NSObject *)data {
+- (NSURLRequest *)createRequest:(NSObject *)data eTag:(NSString *)__unused eTag authToken:(nullable NSString *)authToken {
   if (!self.appSecret) {
     MSLogError([MSAppCenter logTag], @"AppCenter ingestion is used without app secret.");
     return nil;
@@ -67,6 +64,10 @@ static NSString *const kMSApiPath = @"/logs";
   // Set Header params.
   request.allHTTPHeaderFields = self.httpHeaders;
   [request setValue:self.appSecret forHTTPHeaderField:kMSHeaderAppSecretKey];
+  if ([authToken length] > 0) {
+    NSString *bearerTokenHeader = [NSString stringWithFormat:kMSBearerTokenHeaderFormat, authToken];
+    [request setValue:bearerTokenHeader forHTTPHeaderField:kMSAuthorizationHeaderKey];
+  }
 
   // Set body.
   NSString *jsonString = [container serializeLog];
@@ -94,7 +95,12 @@ static NSString *const kMSApiPath = @"/logs";
 }
 
 - (NSString *)obfuscateHeaderValue:(NSString *)value forKey:(NSString *)key {
-  return [key isEqualToString:kMSHeaderAppSecretKey] ? [MSIngestionUtil hideSecret:value] : value;
+  if ([key isEqualToString:kMSAuthorizationHeaderKey]) {
+    return [MSHttpUtil hideAuthToken:value];
+  } else if ([key isEqualToString:kMSHeaderAppSecretKey]) {
+    return [MSHttpUtil hideSecret:value];
+  }
+  return value;
 }
 
 @end

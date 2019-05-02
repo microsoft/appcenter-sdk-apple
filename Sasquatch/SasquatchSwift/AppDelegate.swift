@@ -1,3 +1,7 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+import CoreLocation
 import MobileCoreServices
 import Photos
 import UIKit
@@ -5,7 +9,9 @@ import UIKit
 import AppCenter
 import AppCenterAnalytics
 import AppCenterCrashes
+import AppCenterData
 import AppCenterDistribute
+import AppCenterAuth
 import AppCenterPush
 import UserNotifications
 
@@ -18,14 +24,15 @@ enum StartupMode: Int {
 }
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDistributeDelegate, MSPushDelegate, UNUserNotificationCenterDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDistributeDelegate, MSPushDelegate, UNUserNotificationCenterDelegate, CLLocationManagerDelegate {
 
   private var notificationPresentationCompletionHandler: Any?
   private var notificationResponseCompletionHandler: Any?
+  private var locationManager : CLLocationManager = CLLocationManager()
 
   var window: UIWindow?
 
-  func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+  func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
     if #available(iOS 10.0, *) {
       UNUserNotificationCenter.current().delegate = self
@@ -59,9 +66,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
       })
     }
 
+    let logUrl = UserDefaults.standard.string(forKey: kMSLogUrl)
+    if logUrl != nil {
+      MSAppCenter.setLogUrl(logUrl)
+    }
+
     // Start App Center SDK.
-    let appSecret = "0dbca56b-b9ae-4d53-856a-7c2856137d85"
-    let services = [MSAnalytics.self, MSCrashes.self, MSDistribute.self, MSPush.self]
+    let services = [MSAnalytics.self, MSCrashes.self, MSData.self, MSDistribute.self, MSAuth.self, MSPush.self]
+    let appSecret = UserDefaults.standard.string(forKey: kMSAppSecret) ?? kMSSwiftAppSecret
     let startTarget = StartupMode(rawValue: UserDefaults.standard.integer(forKey: kMSStartTargetKey))!
     switch startTarget {
     case .APPCENTER:
@@ -79,6 +91,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
     case .SKIP:
       break
     }
+    
+    locationManager.delegate = self
+    locationManager.desiredAccuracy = kCLLocationAccuracyKilometer;
+    locationManager.requestWhenInUseAuthorization()
 
     // Set user id.
     let userId = UserDefaults.standard.string(forKey: kMSUserIdKey)
@@ -116,7 +132,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
     })
 
     setAppCenterDelegate()
-
     return true
   }
 
@@ -142,9 +157,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
    * @return `YES` if the delegate successfully handled the request or `NO` if the attempt to open the URL resource
    * failed.
    */
-  func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey: Any] = [:]) -> Bool {
+  func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
     // Forward the URL.
-    return MSDistribute.open(url)
+    return MSDistribute.open(url) && MSAuth.open(url)
   }
 
   func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
@@ -163,7 +178,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
       completionHandler(.noData)
     }
   }
-
+  
   func applicationWillResignActive(_ application: UIApplication) {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
@@ -233,6 +248,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
     return attachments
   }
 
+  func requestLocation() {
+    if CLLocationManager.locationServicesEnabled() {
+      self.locationManager.requestLocation()
+    }
+  }
+
   // Distribute Delegate
 
   func distribute(_ distribute: MSDistribute!, releaseAvailableWith details: MSReleaseDetails!) -> Bool {
@@ -275,6 +296,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
     MSPush.didReceiveRemoteNotification(response.notification.request.content.userInfo)
   }
 
+  // CLLocationManager Delegate
+  func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+    if status == CLAuthorizationStatus.authorizedWhenInUse {
+      manager.requestLocation()
+    }
+  }
+    
+  func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    let userLocation:CLLocation = locations[0] as CLLocation
+    CLGeocoder().reverseGeocodeLocation(userLocation) { (placemarks, error) in
+      if error == nil {
+        MSAppCenter.setCountryCode(placemarks?.first?.isoCountryCode)
+      }
+    }
+  }
+    
+  func locationManager(_ Manager: CLLocationManager, didFailWithError error: Error) {
+    print("Failed to find user's location: \(error.localizedDescription)")
+  }
+    
   // AppCenter Push Delegate
   func push(_ push: MSPush!, didReceive pushNotification: MSPushNotification!) {
     

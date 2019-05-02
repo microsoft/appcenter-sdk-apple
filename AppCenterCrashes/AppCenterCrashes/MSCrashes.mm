@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 #import "MSAppCenterInternal.h"
 #import "MSAppleErrorLog.h"
 #import "MSChannelUnitConfiguration.h"
@@ -174,7 +177,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   @synchronized([MSCrashes sharedInstance]) {
     if ([[MSCrashes sharedInstance] canBeUsed]) {
       if ([MSUtility currentAppEnvironment] == MSEnvironmentAppStore) {
-        MSLogWarning([MSCrashes logTag], @"GenerateTestCrash was just called in an App Store environment. The call will be ignored");
+        MSLogWarning([MSCrashes logTag], @"GenerateTestCrash was just called in an App Store environment. The call will be ignored.");
       } else {
         if ([MSAppCenter isDebuggerAttached]) {
           MSLogWarning([MSCrashes logTag], @"The debugger is attached. The following crash cannot be detected by the SDK!");
@@ -192,10 +195,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 }
 
 + (void)setUserConfirmationHandler:(_Nullable MSUserConfirmationHandler)userConfirmationHandler {
-
-  // FIXME: Type cast is required at the moment. Need to fix the root cause.
-  MSCrashes *crashes = static_cast<MSCrashes *>([self sharedInstance]);
-  crashes.userConfirmationHandler = userConfirmationHandler;
+  [[MSCrashes sharedInstance] setUserConfirmationHandler:userConfirmationHandler];
 }
 
 + (void)notifyWithUserConfirmation:(MSUserConfirmation)userConfirmation {
@@ -1052,13 +1052,13 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
     // User confirmation is set to MSUserConfirmationAlways.
     MSLogDebug([MSCrashes logTag], @"The flag for user confirmation is set to MSUserConfirmationAlways, continue sending logs");
-    [self notifyWithUserConfirmation:MSUserConfirmationSend];
+    [self handleUserConfirmation:MSUserConfirmationSend];
     return alwaysSend;
   } else if (self.automaticProcessing && !(self.userConfirmationHandler && [self userPromptedForConfirmation])) {
 
     // User confirmation handler doesn't exist or returned NO which means 'want to process'.
     MSLogDebug([MSCrashes logTag], @"The user confirmation handler is not implemented or returned NO, continue sending logs");
-    [self notifyWithUserConfirmation:MSUserConfirmationSend];
+    [self handleUserConfirmation:MSUserConfirmationSend];
   } else if (!self.automaticProcessing) {
     MSLogDebug([MSCrashes logTag], @"Automatic crash processing is disabled and \"AlwaysSend\" is false. Awaiting user confirmation.");
   }
@@ -1095,6 +1095,17 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 }
 
 - (void)notifyWithUserConfirmation:(MSUserConfirmation)userConfirmation {
+
+  // Check if there is no handler set and unprocessedReports are not initialized as NSMutableArray (Init occurs in correct call sequence).
+  if (!self.userConfirmationHandler && !self.unprocessedReports) {
+    MSLogError(MSCrashes.logTag, @"Incorrect usage of notifyWithUserConfirmation: it should only be called from userConfirmationHandler. "
+                                 @"For more information refer to the documentation.");
+    return;
+  }
+  [self handleUserConfirmation:userConfirmation];
+}
+
+- (void)handleUserConfirmation:(MSUserConfirmation)userConfirmation {
   NSArray<MSErrorAttachmentLog *> *attachments;
 
   // Check for user confirmation.

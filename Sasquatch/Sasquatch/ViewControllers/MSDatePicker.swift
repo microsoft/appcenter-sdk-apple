@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import UIKit
 
 class MSDatePicker: NSObject, UITextFieldDelegate {
@@ -38,11 +41,11 @@ class MSDatePicker: NSObject, UITextFieldDelegate {
     return toolbar
   }
 
-  func doneClicked() {
+  @objc func doneClicked() {
     self.textField.resignFirstResponder()
   }
 
-  func datePickerChanged() {
+  @objc func datePickerChanged() {
     var dateFormatter: DateFormatter? = nil
     if dateFormatter == nil {
       dateFormatter = DateFormatter()

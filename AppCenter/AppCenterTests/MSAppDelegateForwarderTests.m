@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 #import <Foundation/Foundation.h>
 
 #import "MSAppDelegateForwarder.h"
@@ -116,9 +119,7 @@
 #if !TARGET_OS_OSX
 - (void)testSwizzleOriginalOpenURLDelegate {
 
-  /*
-   * If
-   */
+  // If
 
   // Mock a custom app delegate.
   id<MSCustomApplicationDelegate> customDelegate = OCMProtocolMock(@protocol(MSCustomApplicationDelegate));

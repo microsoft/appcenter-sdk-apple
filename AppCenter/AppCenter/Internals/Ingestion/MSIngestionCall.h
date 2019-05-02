@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 #import <Foundation/Foundation.h>
 
 #import "MSIngestionProtocol.h"
@@ -20,6 +23,16 @@ NS_ASSUME_NONNULL_BEGIN
  * Data object to be placed in request body.
  */
 @property(nonatomic) NSObject *data;
+
+/**
+ * Entity tag of the request.
+ */
+@property(nonatomic, nullable, copy) NSString *eTag;
+
+/**
+ * Auth token for the request.
+ */
+@property(nonatomic, nullable, copy) NSString *authToken;
 
 /**
  * Unique call ID.
@@ -71,14 +84,14 @@ NS_ASSUME_NONNULL_BEGIN
  * Call completed with error/success.
  *
  * @param ingestion ingestion object.
- * @param statusCode status code.
+ * @param response HTTP response.
  * @param data response data.
  * @param error call error.
  */
 - (void)ingestion:(id<MSIngestionProtocol>)ingestion
-    callCompletedWithStatus:(NSUInteger)statusCode
-                       data:(nullable NSData *)data
-                      error:(NSError *)error;
+    callCompletedWithResponse:(NSHTTPURLResponse *)response
+                         data:(nullable NSData *)data
+                        error:(NSError *)error;
 
 @end
 

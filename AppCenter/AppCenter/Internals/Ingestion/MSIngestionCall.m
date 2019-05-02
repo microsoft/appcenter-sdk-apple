@@ -1,6 +1,9 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+#import "MSIngestionCall.h"
 #import "MSAppCenterErrors.h"
 #import "MSAppCenterInternal.h"
-#import "MSIngestionCall.h"
 
 @implementation MSIngestionCall
 
@@ -69,11 +72,11 @@
 }
 
 - (void)ingestion:(id<MSIngestionProtocol>)ingestion
-    callCompletedWithStatus:(NSUInteger)statusCode
-                       data:(nullable NSData *)data
-                      error:(NSError *)error {
-  BOOL internetIsDown = [MSIngestionUtil isNoInternetConnectionError:error];
-  BOOL couldNotEstablishSecureConnection = [MSIngestionUtil isSSLConnectionError:error];
+    callCompletedWithResponse:(NSHTTPURLResponse *)response
+                         data:(nullable NSData *)data
+                        error:(NSError *)error {
+  BOOL internetIsDown = [MSHttpUtil isNoInternetConnectionError:error];
+  BOOL couldNotEstablishSecureConnection = [MSHttpUtil isSSLConnectionError:error];
 
   if (internetIsDown || couldNotEstablishSecureConnection) {
 
@@ -84,8 +87,8 @@
   }
 
   // Retry.
-  else if ([MSIngestionUtil isRecoverableError:statusCode] && ![self hasReachedMaxRetries]) {
-    [self startRetryTimerWithStatusCode:statusCode];
+  else if ([MSHttpUtil isRecoverableError:response.statusCode] && ![self hasReachedMaxRetries]) {
+    [self startRetryTimerWithStatusCode:response.statusCode];
   }
 
   // Call was a) successful, b) we exhausted retries for a recoverable error or c) have an unrecoverable error.
@@ -93,21 +96,20 @@
 
     // Wrap the status code in an error whenever the call failed.
     // TODO: Handle 2xx codes.
-    if (!error && statusCode != MSHTTPCodesNo200OK) {
+    if (!error && response.statusCode != MSHTTPCodesNo200OK) {
       NSDictionary *userInfo =
-          @{ NSLocalizedDescriptionKey : kMSACConnectionHttpErrorDesc,
-             kMSACConnectionHttpCodeErrorKey : @(statusCode) };
-      error = [NSError errorWithDomain:kMSACErrorDomain code:kMSACConnectionHttpErrorCode userInfo:userInfo];
+          @{NSLocalizedDescriptionKey : kMSACConnectionHttpErrorDesc, kMSACConnectionHttpCodeErrorKey : @(response.statusCode)};
+      error = [NSError errorWithDomain:kMSACErrorDomain code:MSACConnectionHttpErrorCode userInfo:userInfo];
     }
 
     // Check for error.
-    BOOL recoverableError = ([MSIngestionUtil isRecoverableError:statusCode] && [self hasReachedMaxRetries]);
+    BOOL recoverableError = ([MSHttpUtil isRecoverableError:response.statusCode] && [self hasReachedMaxRetries]);
     BOOL fatalError;
     fatalError = recoverableError ? NO : (error && error.code != NSURLErrorCancelled);
 
     // Call completion handler.
     if (self.completionHandler) {
-      self.completionHandler(self.callId, statusCode, data, error);
+      self.completionHandler(self.callId, response, data, error);
     }
 
     // Handle recoverable error.

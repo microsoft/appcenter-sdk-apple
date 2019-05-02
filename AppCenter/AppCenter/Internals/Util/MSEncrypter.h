@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 #import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
@@ -11,6 +14,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSString *_Nullable)encryptString:(NSString *)string;
 
 - (NSString *_Nullable)decryptString:(NSString *)string;
+
+- (NSData *_Nullable)encryptData:(NSData *)data;
+
+- (NSData *_Nullable)decryptData:(NSData *)data;
 
 @end
 

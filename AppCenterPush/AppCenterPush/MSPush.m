@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 #import <Foundation/Foundation.h>
 
 #if TARGET_OS_OSX
@@ -9,9 +12,9 @@
 
 #import "MSAppCenterInternal.h"
 #import "MSAppDelegateForwarder.h"
+#import "MSAuthTokenContext.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitProtocol.h"
-#import "MSPush.h"
 #import "MSPushAppDelegate.h"
 #import "MSPushLog.h"
 #import "MSPushNotificationInternal.h"
@@ -114,6 +117,15 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
 
 #endif
 
+#pragma mark - MSUserIdContextDelegate
+
+- (void)userIdContext:(MSUserIdContext *)__unused userIdContext didUpdateUserId:(NSString *)userId {
+  NSString *pushTokenCopy = self.pushToken;
+  if (pushTokenCopy) {
+    [self sendPushToken:pushTokenCopy userId:userId];
+  }
+}
+
 #pragma mark - MSServiceInternal
 
 + (instancetype)sharedInstance {
@@ -175,6 +187,8 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
                                  object:nil];
 #endif
     [[MSAppDelegateForwarder sharedInstance] addDelegate:self.appDelegate];
+    [[MSAuthTokenContext sharedInstance] addDelegate:self];
+    [[MSUserIdContext sharedInstance] addDelegate:self];
     if (!self.pushToken) {
       [self registerForRemoteNotifications];
     }
@@ -184,6 +198,8 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
     [MS_NOTIFICATION_CENTER removeObserver:self name:NSApplicationDidFinishLaunchingNotification object:nil];
 #endif
     [[MSAppDelegateForwarder sharedInstance] removeDelegate:self.appDelegate];
+    [[MSAuthTokenContext sharedInstance] removeDelegate:self];
+    [[MSUserIdContext sharedInstance] removeDelegate:self];
     MSLogInfo([MSPush logTag], @"Push service has been disabled.");
   }
 }
@@ -203,16 +219,7 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
 #if TARGET_OS_OSX
   [NSApp registerForRemoteNotificationTypes:(NSRemoteNotificationTypeSound | NSRemoteNotificationTypeBadge)];
 #elif TARGET_OS_IOS
-  if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_9_x_Max) {
-    UIUserNotificationType allNotificationTypes =
-        (UIUserNotificationType)(UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge);
-    UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:allNotificationTypes categories:nil];
-    [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
-  } else {
-
-// Ignore the partial availability warning as the compiler doesn't get that we checked for pre-iOS 10 already.
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wpartial-availability"
+  if (@available(iOS 10.0, *)) {
     UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
     UNAuthorizationOptions authOptions =
         (UNAuthorizationOptions)(UNAuthorizationOptionAlert | UNAuthorizationOptionSound | UNAuthorizationOptionBadge);
@@ -228,7 +235,11 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
                                            error.localizedDescription);
                             }
                           }];
-#pragma clang diagnostic pop
+  } else {
+    UIUserNotificationType allNotificationTypes =
+        (UIUserNotificationType)(UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge);
+    UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:allNotificationTypes categories:nil];
+    [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
   }
   [[UIApplication sharedApplication] registerForRemoteNotifications];
 #endif
@@ -246,10 +257,10 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
   return [NSString stringWithString:stringBuffer];
 }
 
-- (void)sendPushToken:(NSString *)token {
+- (void)sendPushToken:(NSString *)token userId:(NSString *)userId {
   MSPushLog *log = [MSPushLog new];
   log.pushToken = token;
-  log.userId = [[MSUserIdContext sharedInstance] userId];
+  log.userId = userId;
   [self.channelUnit enqueueItem:log flags:MSFlagsDefault];
 }
 
@@ -263,7 +274,7 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
   }
   self.pushToken = pushToken;
   [MS_USER_DEFAULTS setObject:pushToken forKey:kMSPushServiceStorageKey];
-  [self sendPushToken:pushToken];
+  [self sendPushToken:pushToken userId:[[MSUserIdContext sharedInstance] userId]];
 }
 
 - (void)didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
@@ -394,6 +405,16 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
       [delegate push:self didReceivePushNotification:pushNotification];
     }
   });
+}
+
+- (void)authTokenContext:(__unused MSAuthTokenContext *)authTokenContext
+    didUpdateUserInformation:(nullable __unused MSUserInformation *)userInfo {
+
+  // Make a copy of push token so that this code is thread safe.
+  NSString *pushTokenCopy = self.pushToken;
+  if (pushTokenCopy) {
+    [self sendPushToken:pushTokenCopy userId:[[MSUserIdContext sharedInstance] userId]];
+  }
 }
 
 @end

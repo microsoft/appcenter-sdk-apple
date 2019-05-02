@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 #import "MSAppDelegateForwarder.h"
 #import "MSCustomApplicationDelegate.h"
 #import "MSUtility+Application.h"
@@ -20,7 +23,7 @@ static dispatch_once_t swizzlingOnceToken;
    * never be called even if added later via swizzling. This is why the application delegate swizzling should happen at the time it is set
    * to the application object.
    */
-  [[self sharedInstance] setEnabledFromPlistForKey:kMSAppDelegateForwarderEnabledKey];
+  [[MSAppDelegateForwarder sharedInstance] setEnabledFromPlistForKey:kMSAppDelegateForwarderEnabledKey];
 }
 
 - (instancetype)init {

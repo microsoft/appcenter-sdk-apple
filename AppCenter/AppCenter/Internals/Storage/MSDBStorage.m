@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 #import <sqlite3.h>
 
 #import "MSAppCenterInternal.h"
@@ -8,21 +11,48 @@
 
 - (instancetype)initWithSchema:(MSDBSchema *)schema version:(NSUInteger)version filename:(NSString *)filename {
   if ((self = [super init])) {
+    BOOL newDatabase = ![MSUtility fileExistsForPathComponent:filename];
     _dbFileURL = [MSUtility createFileAtPathComponent:filename withData:nil atomically:NO forceOverwrite:NO];
     _maxSizeInBytes = kMSDefaultDatabaseSizeInBytes;
 
     // If it is custom SQLite library we need to turn on URI filename capability.
     sqlite3_config(SQLITE_CONFIG_URI, 1);
-
-    // Execute all initialize operation with one database instance.
     int result;
     sqlite3 *db = [MSDBStorage openDatabaseAtFileURL:self.dbFileURL withResult:&result];
     if (db) {
       _pageSize = [MSDBStorage getPageSizeInOpenedDatabase:db];
+      NSUInteger databaseVersion = [MSDBStorage versionInOpenedDatabase:db];
 
-      // Create tables based on schema.
-      NSUInteger tablesCreated = [MSDBStorage createTablesWithSchema:schema inOpenedDatabase:db];
-      BOOL newDatabase = tablesCreated == schema.count;
+      // Create table
+      [MSDBStorage createTablesWithSchema:schema inOpenedDatabase:db];
+      if (newDatabase) {
+        MSLogInfo([MSAppCenter logTag], @"Created \"%@\" database with %lu version.", filename, (unsigned long)version);
+        [self customizeDatabase:db];
+      } else if (databaseVersion < version) {
+        MSLogInfo([MSAppCenter logTag], @"Migrating \"%@\" database from version %lu to %lu.", filename, (unsigned long)databaseVersion,
+                  (unsigned long)version);
+        [self migrateDatabase:db fromVersion:databaseVersion];
+      }
+      [MSDBStorage enableAutoVacuumInOpenedDatabase:db];
+      [MSDBStorage setVersion:version inOpenedDatabase:db];
+      sqlite3_close(db);
+    };
+  }
+  return self;
+}
+
+- (instancetype)initWithVersion:(NSUInteger)version filename:(NSString *)filename {
+  if ((self = [super init])) {
+    BOOL newDatabase = ![MSUtility fileExistsForPathComponent:filename];
+    _dbFileURL = [MSUtility createFileAtPathComponent:filename withData:nil atomically:NO forceOverwrite:NO];
+    _maxSizeInBytes = kMSDefaultDatabaseSizeInBytes;
+
+    // If it is custom SQLite library we need to turn on URI filename capability.
+    sqlite3_config(SQLITE_CONFIG_URI, 1);
+    int result;
+    sqlite3 *db = [MSDBStorage openDatabaseAtFileURL:self.dbFileURL withResult:&result];
+    if (db) {
+      _pageSize = [MSDBStorage getPageSizeInOpenedDatabase:db];
       NSUInteger databaseVersion = [MSDBStorage versionInOpenedDatabase:db];
       if (newDatabase) {
         MSLogInfo([MSAppCenter logTag], @"Created \"%@\" database with %lu version.", filename, (unsigned long)version);
@@ -58,6 +88,73 @@
   return result;
 }
 
+- (BOOL)dropTable:(NSString *)tableName {
+  return [self executeQueryUsingBlock:^int(void *db) {
+           if ([MSDBStorage tableExists:tableName inOpenedDatabase:db]) {
+             NSString *deleteQuery = [NSString stringWithFormat:@"DROP TABLE \"%@\";", tableName];
+             int result = [MSDBStorage executeNonSelectionQuery:deleteQuery inOpenedDatabase:db];
+             if (result == SQLITE_OK) {
+               MSLogVerbose([MSAppCenter logTag], @"Table %@ has been deleted", tableName);
+             } else {
+               MSLogError([MSAppCenter logTag], @"Failed to delete table %@", tableName);
+             }
+             return result;
+           }
+           return SQLITE_OK;
+         }] == SQLITE_OK;
+}
+
+- (void)dropDatabase {
+  BOOL result = [MSUtility deleteFileAtURL:self.dbFileURL];
+  if (result) {
+    MSLogVerbose([MSAppCenter logTag], @"Database %@ has been deleted.", (NSString * _Nonnull) self.dbFileURL.absoluteString);
+  } else {
+    MSLogError([MSAppCenter logTag], @"Failed to delete database.");
+  }
+}
+
+- (BOOL)createTable:(NSString *)tableName columnsSchema:(MSDBColumnsSchema *)columnsSchema {
+  return [self createTable:tableName columnsSchema:columnsSchema uniqueColumnsConstraint:nil];
+}
+
+- (BOOL)createTable:(NSString *)tableName
+              columnsSchema:(MSDBColumnsSchema *)columnsSchema
+    uniqueColumnsConstraint:(NSArray<NSString *> *)uniqueColumns {
+  return [self executeQueryUsingBlock:^int(void *db) {
+           if (![MSDBStorage tableExists:tableName inOpenedDatabase:db]) {
+             NSString *uniqueContraintQuery = @"";
+             if (uniqueColumns.count > 0) {
+               uniqueContraintQuery = [NSString stringWithFormat:@", UNIQUE(%@)", [uniqueColumns componentsJoinedByString:@", "]];
+             }
+             NSString *createQuery =
+                 [NSString stringWithFormat:@"CREATE TABLE \"%@\" (%@%@);", tableName,
+                                            [MSDBStorage columnsQueryFromColumnsSchema:columnsSchema], uniqueContraintQuery];
+             int result = [MSDBStorage executeNonSelectionQuery:createQuery inOpenedDatabase:db];
+             if (result == SQLITE_OK) {
+               MSLogVerbose([MSAppCenter logTag], @"Table %@ has been created", tableName);
+             } else {
+               MSLogError([MSAppCenter logTag], @"Failed to create table %@", tableName);
+             }
+             return result;
+           }
+           return SQLITE_OK;
+         }] == SQLITE_OK;
+}
+
++ (NSString *)columnsQueryFromColumnsSchema:(MSDBColumnsSchema *)columnsSchema {
+  NSMutableArray *columnQueries = [NSMutableArray new];
+
+  // Browse columns.
+  for (NSUInteger i = 0; i < columnsSchema.count; i++) {
+    NSString *columnName = columnsSchema[i].allKeys[0];
+
+    // Compute column query.
+    [columnQueries
+        addObject:[NSString stringWithFormat:@"\"%@\" %@", columnName, [columnsSchema[i][columnName] componentsJoinedByString:@" "]]];
+  }
+  return [columnQueries componentsJoinedByString:@", "];
+}
+
 + (NSUInteger)createTablesWithSchema:(MSDBSchema *)schema inOpenedDatabase:(void *)db {
   NSMutableArray *tableQueries = [NSMutableArray new];
 
@@ -68,21 +165,10 @@
     if ([self tableExists:tableName inOpenedDatabase:db]) {
       continue;
     }
-    NSMutableArray *columnQueries = [NSMutableArray new];
-    NSArray<NSDictionary<NSString *, NSArray<NSString *> *> *> *columns = schema[tableName];
-
-    // Browse columns.
-    for (NSUInteger i = 0; i < columns.count; i++) {
-      NSString *columnName = columns[i].allKeys[0];
-
-      // Compute column query.
-      [columnQueries
-          addObject:[NSString stringWithFormat:@"\"%@\" %@", columnName, [columns[i][columnName] componentsJoinedByString:@" "]]];
-    }
 
     // Compute table query.
-    [tableQueries
-        addObject:[NSString stringWithFormat:@"CREATE TABLE \"%@\" (%@);", tableName, [columnQueries componentsJoinedByString:@", "]]];
+    [tableQueries addObject:[NSString stringWithFormat:@"CREATE TABLE \"%@\" (%@);", tableName,
+                                                       [MSDBStorage columnsQueryFromColumnsSchema:schema[tableName]]]];
   }
 
   // Create the tables.
@@ -127,7 +213,7 @@
 + (void)enableAutoVacuumInOpenedDatabase:(void *)db {
   NSArray<NSArray *> *result = [MSDBStorage executeSelectionQuery:@"PRAGMA auto_vacuum" inOpenedDatabase:db];
   int vacuumMode = 0;
-  if (result.count > 0 && result[0].count > 0){
+  if (result.count > 0 && result[0].count > 0) {
     vacuumMode = [(NSNumber *)result[0][0] intValue];
   }
   BOOL autoVacuumDisabled = vacuumMode != 1;

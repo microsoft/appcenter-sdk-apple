@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import XCTest
 
 extension XCUIElement {
@@ -35,7 +38,7 @@ extension XCUIElement {
   func clearAndTypeText(_ text: String) {
     self.tap()
     if let stringValue = self.value as? String {
-      self.typeText(stringValue.characters.map { _ in XCUIKeyboardKeyDelete }.joined(separator: ""))
+      self.typeText(String(repeating: XCUIKeyboardKey.delete.rawValue, count: stringValue.count))
     }
     self.typeText(text)
   }

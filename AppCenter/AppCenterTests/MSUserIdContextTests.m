@@ -1,7 +1,9 @@
-#import <Foundation/Foundation.h>
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 
 #import "MSMockUserDefaults.h"
 #import "MSTestFrameworks.h"
+#import "MSUserIdContextDelegate.h"
 #import "MSUserIdContextPrivate.h"
 
 @interface MSUserIdContextTests : XCTestCase
@@ -146,6 +148,69 @@
   XCTAssertEqualObjects([MSUserIdContext prefixedUserIdFromUserId:@"alice"], @"c:alice");
   XCTAssertEqualObjects([MSUserIdContext prefixedUserIdFromUserId:@":"], @":");
   XCTAssertNil([MSUserIdContext prefixedUserIdFromUserId:nil]);
+}
+
+- (void)testDelegateCalledOnUserIdChanged {
+
+  // If
+  XCTAssertNil([self.sut currentUserIdInfo].userId);
+  NSString *expectedUserId = @"Robert";
+  id delegateMock = OCMProtocolMock(@protocol(MSUserIdContextDelegate));
+  [self.sut addDelegate:delegateMock];
+  OCMExpect([delegateMock userIdContext:self.sut didUpdateUserId:expectedUserId]);
+
+  // When
+  [[MSUserIdContext sharedInstance] setUserId:expectedUserId];
+
+  // Then
+  XCTAssertEqual([self.sut userId], expectedUserId);
+  OCMVerify([delegateMock userIdContext:self.sut didUpdateUserId:expectedUserId]);
+}
+
+- (void)testDelegateCalledOnUserIdChangedToNil {
+  
+  // If
+  NSString *userId = @"Robert";
+  [[MSUserIdContext sharedInstance] setUserId:userId];
+  id delegateMock = OCMProtocolMock(@protocol(MSUserIdContextDelegate));
+  [self.sut addDelegate:delegateMock];
+  OCMExpect([delegateMock userIdContext:self.sut didUpdateUserId:nil]);
+  
+  // When
+  [[MSUserIdContext sharedInstance] setUserId:nil];
+  
+  // Then
+  XCTAssertEqual([self.sut userId], nil);
+  OCMVerify([delegateMock userIdContext:self.sut didUpdateUserId:nil]);
+}
+
+- (void)testDelegateNotCalledOnUserIdSame {
+
+  // If
+  NSString *expectedUserId = @"Patrick";
+  [[MSUserIdContext sharedInstance] setUserId:expectedUserId];
+  id delegateMock = OCMProtocolMock(@protocol(MSUserIdContextDelegate));
+  [self.sut addDelegate:delegateMock];
+  OCMReject([delegateMock userIdContext:self.sut didUpdateUserId:expectedUserId]);
+
+  // When
+  [[MSUserIdContext sharedInstance] setUserId:expectedUserId];
+
+  // Then
+  OCMVerifyAll(delegateMock);
+}
+
+- (void)testRemoveDelegate {
+
+  // If
+  id delegateMock = OCMProtocolMock(@protocol(MSUserIdContextDelegate));
+  [self.sut addDelegate:delegateMock];
+
+  // When
+  [self.sut removeDelegate:delegateMock];
+
+  // Then
+  XCTAssertEqual([[self.sut delegates] count], 0);
 }
 
 @end

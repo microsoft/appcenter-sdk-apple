@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 #import <Foundation/Foundation.h>
 
 @interface MSHttpTestUtil : NSObject
@@ -13,5 +16,7 @@
 + (void)stubLongTimeOutResponse;
 
 + (void)removeAllStubs;
+
++ (NSHTTPURLResponse *)createMockResponseForStatusCode:(int)statusCode headers:(NSDictionary *)headers;
 
 @end

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 #import "MSAppCenter.h"
 #import "MSAppCenterInternal.h"
 #import "MSAppCenterPrivate.h"
@@ -6,6 +9,7 @@
 #import "MSConstants+Internal.h"
 #import "MSMockUserDefaults.h"
 #import "MSServiceAbstractProtected.h"
+#import "MSSessionContextPrivate.h"
 #import "MSTestFrameworks.h"
 
 @interface MSServiceAbstractImplementation : MSServiceAbstract <MSServiceInternal>
@@ -61,9 +65,12 @@
 @interface MSServiceAbstractTest : XCTestCase
 
 @property(nonatomic) id settingsMock;
+@property(nonatomic) id sessionContextMock;
+@property(nonatomic) id channelGroupMock;
+@property(nonatomic) id channelUnitMock;
 
 /**
- *  System Under test
+ * System Under test.
  */
 @property(nonatomic) MSServiceAbstractImplementation *abstractService;
 
@@ -73,18 +80,34 @@
 
 - (void)setUp {
   [super setUp];
+  [MSAppCenter resetSharedInstance];
 
   // Set up the mocked storage.
   self.settingsMock = [MSMockUserDefaults new];
+
+  // Session context.
+  [MSSessionContext resetSharedInstance];
+  self.sessionContextMock = OCMClassMock([MSSessionContext class]);
+  OCMStub([self.sessionContextMock sharedInstance]).andReturn(self.sessionContextMock);
+
+  // Set up the mock channel.
+  self.channelGroupMock = OCMClassMock([MSChannelGroupDefault class]);
+  self.channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  OCMStub([self.channelGroupMock alloc]).andReturn(self.channelGroupMock);
+  OCMStub([self.channelGroupMock initWithInstallId:OCMOCK_ANY logUrl:OCMOCK_ANY]).andReturn(self.channelGroupMock);
+  OCMStub([self.channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(self.channelUnitMock);
 
   // System Under Test.
   self.abstractService = [MSServiceAbstractImplementation new];
 }
 
 - (void)tearDown {
-  [super tearDown];
-
+  [self.channelGroupMock stopMocking];
   [self.settingsMock stopMocking];
+  [self.sessionContextMock stopMocking];
+  [MSAppCenter resetSharedInstance];
+  [MSSessionContext resetSharedInstance];
+  [super tearDown];
 }
 
 - (void)testIsEnabledTrueByDefault {
@@ -180,7 +203,7 @@
 
   assertThatBool([[MSServiceAbstractImplementation sharedInstance] canBeUsed], isFalse());
 
-  [MSAppCenter start:MS_UUID_STRING withServices:@[ [MSServiceAbstractImplementation class] ]];
+  [MSAppCenter start:MS_UUID_STRING withServices:@ [[MSServiceAbstractImplementation class]]];
 
   assertThatBool([[MSServiceAbstractImplementation sharedInstance] canBeUsed], isTrue());
 }
@@ -192,7 +215,7 @@
   [MSAppCenter resetSharedInstance];
   [self.settingsMock setObject:@NO forKey:kMSAppCenterIsEnabledKey];
   [self.settingsMock setObject:@NO forKey:self.abstractService.isEnabledKey];
-  [MSAppCenter start:MS_UUID_STRING withServices:@[ [MSServiceAbstractImplementation class] ]];
+  [MSAppCenter start:MS_UUID_STRING withServices:@ [[MSServiceAbstractImplementation class]]];
 
   // When
   [[MSServiceAbstractImplementation class] setEnabled:YES];
@@ -207,7 +230,7 @@
   [MSAppCenter resetSharedInstance];
   [self.settingsMock setObject:@YES forKey:kMSAppCenterIsEnabledKey];
   [self.settingsMock setObject:@YES forKey:self.abstractService.isEnabledKey];
-  [MSAppCenter start:MS_UUID_STRING withServices:@[ [MSServiceAbstractImplementation class] ]];
+  [MSAppCenter start:MS_UUID_STRING withServices:@ [[MSServiceAbstractImplementation class]]];
 
   // When
   [[MSServiceAbstractImplementation class] setEnabled:NO];
@@ -222,7 +245,7 @@
   [MSAppCenter resetSharedInstance];
   [self.settingsMock setObject:@YES forKey:kMSAppCenterIsEnabledKey];
   [self.settingsMock setObject:@NO forKey:self.abstractService.isEnabledKey];
-  [MSAppCenter start:MS_UUID_STRING withServices:@[ [MSServiceAbstractImplementation class] ]];
+  [MSAppCenter start:MS_UUID_STRING withServices:@ [[MSServiceAbstractImplementation class]]];
 
   // When
   [[MSServiceAbstractImplementation class] setEnabled:YES];
@@ -236,7 +259,7 @@
   // If
   [self.settingsMock setObject:@YES forKey:kMSAppCenterIsEnabledKey];
   [self.settingsMock setObject:@NO forKey:self.abstractService.isEnabledKey];
-  [MSAppCenter start:MS_UUID_STRING withServices:@[ [MSServiceAbstractImplementation class] ]];
+  [MSAppCenter start:MS_UUID_STRING withServices:@ [[MSServiceAbstractImplementation class]]];
 
   // When
   [MSAppCenter setEnabled:YES];
@@ -250,7 +273,7 @@
   // If
   [self.settingsMock setObject:@YES forKey:kMSAppCenterIsEnabledKey];
   [self.settingsMock setObject:@YES forKey:self.abstractService.isEnabledKey];
-  [MSAppCenter start:MS_UUID_STRING withServices:@[ [MSServiceAbstractImplementation class] ]];
+  [MSAppCenter start:MS_UUID_STRING withServices:@ [[MSServiceAbstractImplementation class]]];
 
   // When
   [MSAppCenter setEnabled:YES];
@@ -262,28 +285,19 @@
 - (void)testLogDeletedOnDisabled {
 
   // If
-  id channelGroup = OCMClassMock([MSChannelGroupDefault class]);
-  id channelUnit = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
-  OCMStub([channelGroup new]).andReturn(channelGroup);
-  OCMStub([channelGroup addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnit);
-  OCMExpect([channelUnit setEnabled:NO andDeleteDataOnDisabled:YES]);
-  self.abstractService.channelGroup = channelGroup;
-  self.abstractService.channelUnit = channelUnit;
+  self.abstractService.channelGroup = self.channelGroupMock;
+  self.abstractService.channelUnit = self.channelUnitMock;
   [self.settingsMock setObject:@YES forKey:self.abstractService.isEnabledKey];
 
   // When
   [self.abstractService setEnabled:NO];
 
   // Then
-
   // Check that log deletion has been triggered.
-  OCMVerify([channelUnit setEnabled:NO andDeleteDataOnDisabled:YES]);
+  OCMVerify([self.channelUnitMock setEnabled:NO andDeleteDataOnDisabled:YES]);
 
   // GroupId from the service must match the groupId used to delete logs.
   XCTAssertTrue(self.abstractService.channelUnitConfiguration.groupId == self.abstractService.groupId);
-
-  // Clear
-  [channelGroup stopMocking];
 }
 
 - (void)testEnableChannelUnitOnStartWithChannelGroup {

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 #import <sqlite3.h>
 
 #import "MSDBStoragePrivate.h"
@@ -92,7 +95,6 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
 
 - (void)testTableExists {
   [self.sut executeQueryUsingBlock:^int(void *db) {
-
     // When
     BOOL tableExists = [MSDBStorage tableExists:kMSTestTableName inOpenedDatabase:db];
 
@@ -115,7 +117,6 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
 
 - (void)testVersion {
   [self.sut executeQueryUsingBlock:^int(void *db) {
-
     // When
     NSUInteger version = [MSDBStorage versionInOpenedDatabase:db];
 
@@ -134,7 +135,6 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
 
   // After re-open.
   [self.sut executeQueryUsingBlock:^int(void *db) {
-
     // When
     NSUInteger version = [MSDBStorage versionInOpenedDatabase:db];
 
@@ -170,88 +170,88 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
 }
 
 - (void)testGetMaxPageCountInOpenedDatabaseReturnsZeroWhenQueryFails {
-  
+
   // If
   // Query returns empty array.
   id dbStorageMock = OCMClassMock([MSDBStorage class]);
   sqlite3 *db = [self.storageTestUtil openDatabase];
   NSMutableArray<NSMutableArray *> *entries = [NSMutableArray<NSMutableArray *> new];
   OCMStub([dbStorageMock executeSelectionQuery:[OCMArg any] inOpenedDatabase:db]).andReturn(entries);
-  
+
   // When
   long counter = [MSDBStorage getMaxPageCountInOpenedDatabase:db];
-  
+
   // Then
   assertThatLong(counter, equalToLong(0));
-  
+
   // If
   // Query returns an array with empty array.
   [entries addObject:[NSMutableArray new]];
   OCMStub([dbStorageMock executeSelectionQuery:[OCMArg any] inOpenedDatabase:db]).andReturn(entries);
-  
+
   // When
   counter = [MSDBStorage getMaxPageCountInOpenedDatabase:db];
-  
+
   // Then
   assertThatLong(counter, equalToLong(0));
 }
 
 - (void)testGetPageCountInOpenedDatabaseReturnsZeroWhenQueryFails {
-  
+
   // If
   // Query returns empty array.
   id dbStorageMock = OCMClassMock([MSDBStorage class]);
   sqlite3 *db = [self.storageTestUtil openDatabase];
   NSMutableArray<NSMutableArray *> *entries = [NSMutableArray<NSMutableArray *> new];
   OCMStub([dbStorageMock executeSelectionQuery:[OCMArg any] inOpenedDatabase:db]).andReturn(entries);
-  
+
   // When
   long counter = [MSDBStorage getPageCountInOpenedDatabase:db];
-  
+
   // Then
   assertThatLong(counter, equalToLong(0));
-  
+
   // If
   // Query returns an array with empty array.
   [entries addObject:[NSMutableArray new]];
   OCMStub([dbStorageMock executeSelectionQuery:[OCMArg any] inOpenedDatabase:db]).andReturn(entries);
-  
+
   // When
   counter = [MSDBStorage getPageCountInOpenedDatabase:db];
-  
+
   // Then
   assertThatLong(counter, equalToLong(0));
 }
 
 - (void)testGetPageSizeInOpenedDatabaseReturnsZeroWhenQueryFails {
-  
+
   // If
   // Query returns empty array.
   id dbStorageMock = OCMClassMock([MSDBStorage class]);
   sqlite3 *db = [self.storageTestUtil openDatabase];
   NSMutableArray<NSMutableArray *> *entries = [NSMutableArray<NSMutableArray *> new];
   OCMStub([dbStorageMock executeSelectionQuery:[OCMArg any] inOpenedDatabase:db]).andReturn(entries);
-  
+
   // When
   long counter = [MSDBStorage getPageSizeInOpenedDatabase:db];
-  
+
   // Then
   assertThatLong(counter, equalToLong(0));
-  
+
   // If
   // Query returns an array with empty array.
   [entries addObject:[NSMutableArray new]];
   OCMStub([dbStorageMock executeSelectionQuery:[OCMArg any] inOpenedDatabase:db]).andReturn(entries);
-  
+
   // When
   counter = [MSDBStorage getPageSizeInOpenedDatabase:db];
-  
+
   // Then
   assertThatLong(counter, equalToLong(0));
 }
 
 - (void)testEnableAutoVacuumInOpenedDatabaseWhenQueryFails {
-  
+
   // If
   // Query returns empty array.
   id dbStorageMock = OCMClassMock([MSDBStorage class]);
@@ -259,23 +259,151 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   NSMutableArray<NSMutableArray *> *entries = [NSMutableArray<NSMutableArray *> new];
   OCMStub([dbStorageMock executeSelectionQuery:[OCMArg any] inOpenedDatabase:db]).andReturn(entries);
   OCMStub([dbStorageMock executeNonSelectionQuery:[OCMArg any] inOpenedDatabase:db]);
-  
+
   // When
   [MSDBStorage enableAutoVacuumInOpenedDatabase:db];
-  
+
   // Then
   OCMVerify([dbStorageMock executeNonSelectionQuery:[OCMArg any] inOpenedDatabase:db]);
-  
+
   // If
   // Query returns an array with empty array.
   [entries addObject:[NSMutableArray new]];
   OCMStub([dbStorageMock executeSelectionQuery:[OCMArg any] inOpenedDatabase:db]).andReturn(entries);
-  
+
   // When
   [MSDBStorage enableAutoVacuumInOpenedDatabase:db];
-  
+
   // Then
   OCMVerify([dbStorageMock executeNonSelectionQuery:[OCMArg any] inOpenedDatabase:db]);
+}
+
+- (void)testCreateTableWhenTableExists {
+
+  // Then
+  XCTAssertTrue([self tableExists:kMSTestTableName]);
+
+  // When
+  BOOL tableExistsOrCreated = [self.sut createTable:kMSTestTableName columnsSchema:self.schema[kMSTestTableName]];
+
+  // Then
+  XCTAssertTrue(tableExistsOrCreated);
+  XCTAssertTrue([self tableExists:kMSTestTableName]);
+}
+
+- (void)testCreateTableWhenTableDoesntExists {
+
+  // If
+  NSString *tableToCreate = @"NewTable";
+
+  // When
+  BOOL tableExistsOrCreated = [self.sut createTable:tableToCreate columnsSchema:self.schema[kMSTestTableName]];
+
+  // Then
+  XCTAssertTrue(tableExistsOrCreated);
+  XCTAssertTrue([self tableExists:tableToCreate]);
+}
+
+- (void)testCreateTableWhenTableExistsWithUniqueColumns {
+
+  // If
+  NSArray<NSString *> *uniqueColumns = @[ kMSTestHungrinessColName, kMSTestMealColName ];
+
+  // Then
+  XCTAssertTrue([self tableExists:kMSTestTableName]);
+
+  // When
+  BOOL tableExistsOrCreated = [self.sut createTable:kMSTestTableName
+                                      columnsSchema:self.schema[kMSTestTableName]
+                            uniqueColumnsConstraint:uniqueColumns];
+
+  // Then
+  XCTAssertTrue(tableExistsOrCreated);
+  XCTAssertTrue([self tableExists:kMSTestTableName]);
+}
+
+- (void)testCreateTableWhenTableDoesntExistWithUniqueColumns {
+
+  // If
+  NSString *tableToCreate = @"NewTable";
+  NSArray<NSString *> *uniqueColumns = @[ kMSTestHungrinessColName, kMSTestMealColName ];
+
+  // When
+  BOOL tableExistsOrCreated = [self.sut createTable:tableToCreate
+                                      columnsSchema:self.schema[kMSTestTableName]
+                            uniqueColumnsConstraint:uniqueColumns];
+
+  // Then
+  XCTAssertTrue(tableExistsOrCreated);
+  XCTAssertTrue([self tableExists:tableToCreate]);
+
+  // If
+  NSString *expectedPerson1 = @"Hungry Guy";
+  NSNumber *expectedHungriness = @(99);
+  NSString *expectedMeal = @"Big burger";
+  NSString *query1 = [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\") "
+                                                @"VALUES ('%@', %@, '%@')",
+                                                tableToCreate, kMSTestPersonColName, kMSTestHungrinessColName, kMSTestMealColName,
+                                                expectedPerson1, expectedHungriness.stringValue, expectedMeal];
+  NSString *expectedPerson2 = @"Second Hungry Guy";
+  NSString *query2 = [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\") "
+                                                @"VALUES ('%@', %@, '%@')",
+                                                tableToCreate, kMSTestPersonColName, kMSTestHungrinessColName, kMSTestMealColName,
+                                                expectedPerson2, expectedHungriness.stringValue, expectedMeal];
+
+  // When
+  int result = [self.sut executeNonSelectionQuery:query1];
+
+  // Then
+  XCTAssertEqual(result, SQLITE_OK);
+
+  // When
+  result = [self.sut executeNonSelectionQuery:query2];
+
+  // Then
+  XCTAssertEqual(result, SQLITE_CONSTRAINT);
+}
+
+- (void)testDropTableWhenTableExists {
+
+  // When
+  BOOL tableDropped = [self.sut dropTable:kMSTestTableName];
+
+  // Then
+  XCTAssertTrue(tableDropped);
+  XCTAssertFalse([self tableExists:kMSTestTableName]);
+}
+
+- (void)testDropDatabase {
+
+  // If
+  NSString *tableName1 = @"shortLivedTabled1";
+  NSString *tableName2 = @"shortLivedTabled2";
+
+  // When
+  XCTAssertTrue([self.sut createTable:tableName1 columnsSchema:self.schema[kMSTestTableName]]);
+  XCTAssertTrue([self tableExists:tableName1]);
+  XCTAssertTrue([self.sut createTable:tableName2 columnsSchema:self.schema[kMSTestTableName]]);
+  XCTAssertTrue([self tableExists:tableName2]);
+  [self.sut dropDatabase];
+
+  // Then
+  XCTAssertFalse([self.sut.dbFileURL checkResourceIsReachableAndReturnError:nil]);
+  XCTAssertFalse([self tableExists:tableName1]);
+  XCTAssertFalse([self tableExists:tableName2]);
+}
+
+- (void)testDroppedTableWhenTableDoesntExists {
+
+  // If
+  NSString *tableToDrop = @"NewTable";
+
+  // When
+  BOOL tableDropped = [self.sut dropTable:tableToDrop];
+
+  // Then
+  XCTAssertTrue(tableDropped);
+  XCTAssertFalse([self tableExists:tableToDrop]);
 }
 
 - (void)testExecuteQuery {
@@ -425,7 +553,6 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   __weak typeof(self) weakSelf = self;
   [weakSelf.sut setMaxStorageSize:shrunkenSizeInBytes
                 completionHandler:^(BOOL success) {
-
                   // Then
                   XCTAssertFalse(success);
                   [expectation fulfill];
@@ -456,7 +583,6 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   // When
   [self.sut setMaxStorageSize:expandedSizeInBytes
             completionHandler:^(BOOL success) {
-
               // Then
               XCTAssertTrue(success);
               [expectation fulfill];
@@ -493,7 +619,6 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   __weak typeof(self) weakSelf = self;
   [weakSelf.sut setMaxStorageSize:shrunkenSizeInBytes
                 completionHandler:^(__unused BOOL success) {
-
                   // Then
                   typeof(self) strongSelf = weakSelf;
                   XCTAssertEqual(initialMaxSize, strongSelf.sut.maxSizeInBytes);
@@ -582,6 +707,13 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
 
 - (NSString *)queryTable:(NSString *)tableName {
   return [self.sut executeSelectionQuery:[NSString stringWithFormat:@"SELECT sql FROM sqlite_master WHERE name='%@'", tableName]][0][0];
+}
+
+- (BOOL)tableExists:(NSString *)tableName {
+  NSArray<NSArray *> *result = [self.sut
+      executeSelectionQuery:[NSString stringWithFormat:@"SELECT COUNT(*) FROM \"sqlite_master\" WHERE \"type\"='table' AND \"name\"='%@';",
+                                                       tableName]];
+  return [(NSNumber *)result[0][0] boolValue];
 }
 
 - (BOOL)autoVacuumIsSetToFull {

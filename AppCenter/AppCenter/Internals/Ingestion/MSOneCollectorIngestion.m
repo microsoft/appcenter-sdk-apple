@@ -1,23 +1,17 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 #import "MSAbstractLogInternal.h"
 #import "MSAppCenterErrors.h"
 #import "MSAppCenterInternal.h"
+#import "MSCSExtensions.h"
 #import "MSCompression.h"
 #import "MSConstants+Internal.h"
-#import "MSCSExtensions.h"
 #import "MSHttpIngestionPrivate.h"
 #import "MSLoggerInternal.h"
 #import "MSOneCollectorIngestionPrivate.h"
 #import "MSProtocolExtension.h"
 #import "MSTicketCache.h"
-
-NSString *const kMSOneCollectorApiKey = @"apikey";
-NSString *const kMSOneCollectorApiPath = @"/OneCollector";
-NSString *const kMSOneCollectorApiVersion = @"1.0";
-NSString *const kMSOneCollectorClientVersionKey = @"Client-Version";
-NSString *const kMSOneCollectorContentType = @"application/x-json-stream; charset=utf-8";
-NSString *const kMSOneCollectorLogSeparator = @"\n";
-NSString *const kMSOneCollectorTicketsKey = @"Tickets";
-NSString *const kMSOneCollectorUploadTimeKey = @"Upload-Time";
 
 @implementation MSOneCollectorIngestion
 
@@ -36,7 +30,7 @@ NSString *const kMSOneCollectorUploadTimeKey = @"Upload-Time";
   return self;
 }
 
-- (void)sendAsync:(NSObject *)data completionHandler:(MSSendAsyncCompletionHandler)handler {
+- (void)sendAsync:(NSObject *)data authToken:(nullable NSString *)authToken completionHandler:(MSSendAsyncCompletionHandler)handler {
   MSLogContainer *container = (MSLogContainer *)data;
   NSString *batchId = container.batchId;
 
@@ -49,15 +43,15 @@ NSString *const kMSOneCollectorUploadTimeKey = @"Upload-Time";
   // Verify container.
   if (!container || ![container isValid]) {
     NSDictionary *userInfo = @{NSLocalizedDescriptionKey : kMSACLogInvalidContainerErrorDesc};
-    NSError *error = [NSError errorWithDomain:kMSACErrorDomain code:kMSACLogInvalidContainerErrorCode userInfo:userInfo];
+    NSError *error = [NSError errorWithDomain:kMSACErrorDomain code:MSACLogInvalidContainerErrorCode userInfo:userInfo];
     MSLogError([MSAppCenter logTag], @"%@", [error localizedDescription]);
     handler(batchId, 0, nil, error);
     return;
   }
-  [super sendAsync:container callId:container.batchId completionHandler:handler];
+  [super sendAsync:container eTag:nil authToken:authToken callId:container.batchId completionHandler:handler];
 }
 
-- (NSURLRequest *)createRequest:(NSObject *)data {
+- (NSURLRequest *)createRequest:(NSObject *)data eTag:(NSString *)__unused eTag authToken:(NSString *)__unused authToken {
   MSLogContainer *container = (MSLogContainer *)data;
   NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:self.sendURL];
 
@@ -139,7 +133,7 @@ NSString *const kMSOneCollectorUploadTimeKey = @"Upload-Time";
   NSArray *tokens = [tokenString componentsSeparatedByString:@","];
   NSMutableArray *obfuscatedTokens = [NSMutableArray new];
   for (NSString *token in tokens) {
-    [obfuscatedTokens addObject:[MSIngestionUtil hideSecret:token]];
+    [obfuscatedTokens addObject:[MSHttpUtil hideSecret:token]];
   }
   return [obfuscatedTokens componentsJoinedByString:@","];
 }

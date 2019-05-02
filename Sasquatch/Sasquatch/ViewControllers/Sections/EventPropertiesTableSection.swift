@@ -1,10 +1,13 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import UIKit
 
 class EventPropertiesTableSection : PropertiesTableSection {
   typealias EventPropertyType = MSAnalyticsTypedPropertyTableViewCell.EventPropertyType
   typealias PropertyState = MSAnalyticsTypedPropertyTableViewCell.PropertyState
-
-  private var typedProperties = [PropertyState]()
+  var currentNumberProperty = 0;
+  var typedProperties = [PropertyState]()
 
   override func loadCell(row: Int) -> UITableViewCell {
     guard let cell: MSAnalyticsTypedPropertyTableViewCell = loadCellFromNib() else {
@@ -21,10 +24,15 @@ class EventPropertiesTableSection : PropertiesTableSection {
   override func getPropertyCount() -> Int {
     return typedProperties.count
   }
+  
+  func getCurrentNumberProperty() -> Int {
+    return self.currentNumberProperty;
+  }
 
   override func addProperty() {
-    let count = getPropertyCount()
+    let count = getCurrentNumberProperty()
     typedProperties.insert(("key\(count)", EventPropertyType.String, "value\(count)"), at: 0)
+    self.currentNumberProperty = self.currentNumberProperty + 1;
   }
 
   override func removeProperty(atRow row: Int) {

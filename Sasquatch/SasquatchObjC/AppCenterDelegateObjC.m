@@ -1,21 +1,30 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 #import "AppCenterDelegateObjC.h"
+#import "Constants.h"
 
 #if GCC_PREPROCESSOR_MACRO_PUPPET
 #import "AppCenter.h"
 #import "AppCenterAnalytics.h"
+#import "AppCenterAuth.h"
 #import "AppCenterCrashes.h"
+#import "AppCenterData.h"
 #import "AppCenterDistribute.h"
 #import "AppCenterPush.h"
 
 // Internal
 #import "MSAnalyticsInternal.h"
 #import "MSAppCenterInternal.h"
+#import "MSAuthPrivate.h"
 
 #else
 @import AppCenter;
 @import AppCenterAnalytics;
 @import AppCenterCrashes;
+@import AppCenterData;
 @import AppCenterDistribute;
+@import AppCenterAuth;
 @import AppCenterPush;
 #endif
 
@@ -25,6 +34,7 @@
 @implementation AppCenterDelegateObjC
 
 #pragma mark - MSAppCenter section.
+
 - (BOOL)isAppCenterEnabled {
   return [MSAppCenter isEnabled];
 }
@@ -41,16 +51,12 @@
 #if GCC_PREPROCESSOR_MACRO_PUPPET
   return [[MSAppCenter sharedInstance] appSecret];
 #else
-  return @"Internal";
+  return kMSObjcAppSecret;
 #endif
 }
 
-- (NSString *)logUrl {
-#if GCC_PREPROCESSOR_MACRO_PUPPET
-  return [[MSAppCenter sharedInstance] logUrl];
-#else
-  return @"Internal";
-#endif
+- (void)setLogUrl:(NSString *)logUrl {
+  [MSAppCenter setLogUrl:logUrl];
 }
 
 - (NSString *)sdkVersion {
@@ -78,6 +84,7 @@
 }
 
 #pragma mark - Modules section.
+
 - (BOOL)isAnalyticsEnabled {
   return [MSAnalytics isEnabled];
 }
@@ -88,6 +95,10 @@
 
 - (BOOL)isDistributeEnabled {
   return [MSDistribute isEnabled];
+}
+
+- (BOOL)isAuthEnabled {
+  return [MSAuth isEnabled];
 }
 
 - (BOOL)isPushEnabled {
@@ -106,11 +117,16 @@
   return [MSDistribute setEnabled:isEnabled];
 }
 
+- (void)setAuthEnabled:(BOOL)isEnabled {
+  return [MSAuth setEnabled:isEnabled];
+}
+
 - (void)setPushEnabled:(BOOL)isEnabled {
   return [MSPush setEnabled:isEnabled];
 }
 
 #pragma mark - MSAnalytics section.
+
 - (void)trackEvent:(NSString *)eventName {
   [MSAnalytics trackEvent:eventName];
 }
@@ -152,6 +168,7 @@
 }
 
 #pragma mark - MSCrashes section.
+
 - (BOOL)hasCrashedInLastSession {
   return [MSCrashes hasCrashedInLastSession];
 }
@@ -196,7 +213,26 @@
   }
 }
 
+#pragma mark - MSAuth section.
+
+- (void)signIn {
+  [MSAuth signInWithCompletionHandler:^(MSUserInformation *_Nullable userInformation, NSError *_Nullable error) {
+    if (!error) {
+      [[NSUserDefaults standardUserDefaults] setBool:true forKey:kMSUserIdentity];
+      NSLog(@"Auth.signIn succeeded, accountId=%@", userInformation.accountId);
+    } else {
+      NSLog(@"Auth.signIn failed, error=%@", error);
+    }
+  }];
+}
+
+- (void)signOut {
+  [MSAuth signOut];
+  [[NSUserDefaults standardUserDefaults] setBool:false forKey:kMSUserIdentity];
+}
+
 #pragma mark - Last crash report section.
+
 - (NSString *)lastCrashReportIncidentIdentifier {
   return [[MSCrashes lastSessionCrashReport] incidentIdentifier];
 }
@@ -283,6 +319,45 @@
 
 - (NSString *)lastCrashReportDeviceCarrierCountry {
   return [[[MSCrashes lastSessionCrashReport] device] carrierCountry];
+}
+
+// MSData section
+- (void)listDocumentsWithPartition:(NSString *)partitionName
+                      documentType:(Class)documentType
+                 completionHandler:(void (^)(MSPaginatedDocuments *))completionHandler {
+  [MSData listDocumentsWithType:documentType partition:partitionName completionHandler:completionHandler];
+}
+
+- (void)createDocumentWithPartition:(NSString *_Nonnull)partitionName
+                         documentId:(NSString *_Nonnull)documentId
+                           document:(MSDictionaryDocument *_Nonnull)document
+                       writeOptions:(MSWriteOptions *_Nonnull)writeOptions
+                  completionHandler:(void (^)(MSDocumentWrapper *))completionHandler {
+  [MSData createDocumentWithID:documentId
+                      document:document
+                     partition:partitionName
+                  writeOptions:writeOptions
+             completionHandler:completionHandler];
+}
+
+- (void)deleteDocumentWithPartition:(NSString *_Nonnull)partitionName documentId:(NSString *_Nonnull)documentId {
+  [MSData deleteDocumentWithID:documentId
+                     partition:partitionName
+             completionHandler:^(MSDocumentWrapper *_Nonnull document) {
+               NSLog(@"Data.delete document with id %@ succeeded", documentId);
+             }];
+}
+
+- (void)replaceDocumentWithPartition:(NSString *_Nonnull)partitionName
+                          documentId:(NSString *_Nonnull)documentId
+                            document:(MSDictionaryDocument *_Nonnull)document
+                        writeOptions:(MSWriteOptions *_Nonnull)writeOptions
+                   completionHandler:(void (^)(MSDocumentWrapper *))completionHandler {
+  [MSData replaceDocumentWithID:documentId
+                       document:document
+                      partition:partitionName
+                   writeOptions:writeOptions
+              completionHandler:completionHandler];
 }
 
 @end

@@ -1,6 +1,11 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+#import "MSAuthTokenContextDelegate.h"
 #import "MSPush.h"
 #import "MSPushDelegate.h"
 #import "MSServiceInternal.h"
+#import "MSUserIdContextDelegate.h"
 
 /**
  * Keys for payload in push notification.
@@ -17,14 +22,14 @@ static NSString *const kMSPushNotificationOldCustomDataKey = @"mobile_center";
 @protocol MSCustomApplicationDelegate;
 
 #if TARGET_OS_OSX
-@interface MSPush () <NSUserNotificationCenterDelegate>
+@interface MSPush () <NSUserNotificationCenterDelegate, MSAuthTokenContextDelegate, MSUserIdContextDelegate>
 #else
-@interface MSPush ()
+@interface MSPush () <MSAuthTokenContextDelegate, MSUserIdContextDelegate>
 #endif
 
 @property(nonatomic) id<MSPushDelegate> delegate;
 
-@property(nonatomic) NSString *pushToken;
+@property(atomic, copy) NSString *pushToken;
 
 #if TARGET_OS_OSX
 @property(nonatomic) id<NSUserNotificationCenterDelegate> originalUserNotificationCenterDelegate;
@@ -45,7 +50,7 @@ static NSString *const kMSPushNotificationOldCustomDataKey = @"mobile_center";
  *
  * @param token The push token converted to NSString.
  */
-- (void)sendPushToken:(NSString *)token;
+- (void)sendPushToken:(NSString *)token userId:(NSString *)userId;
 
 /**
  * Method converts NSData to NSString.

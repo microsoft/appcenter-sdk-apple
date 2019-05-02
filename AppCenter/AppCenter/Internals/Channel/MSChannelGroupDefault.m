@@ -1,12 +1,16 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 #import "MSChannelGroupDefault.h"
 #import "AppCenter+Internal.h"
 #import "MSAppCenterIngestion.h"
+#import "MSAuthTokenContext.h"
 #import "MSChannelGroupDefaultPrivate.h"
 #import "MSChannelUnitConfiguration.h"
-#import "MSChannelUnitDefault.h"
+#import "MSChannelUnitDefaultPrivate.h"
 #import "MSLogDBStorage.h"
 
-static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQueue";
+static char *const kMSLogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQueue";
 
 @implementation MSChannelGroupDefault
 
@@ -19,12 +23,14 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
 
 - (instancetype)initWithIngestion:(nullable MSAppCenterIngestion *)ingestion {
   if ((self = [self init])) {
-    dispatch_queue_t serialQueue = dispatch_queue_create(kMSlogsDispatchQueue, DISPATCH_QUEUE_SERIAL);
+    dispatch_queue_t serialQueue = dispatch_queue_create(kMSLogsDispatchQueue, DISPATCH_QUEUE_SERIAL);
     _logsDispatchQueue = serialQueue;
     _channels = [NSMutableArray<id<MSChannelUnitProtocol>> new];
     _delegates = [NSHashTable weakObjectsHashTable];
-    _ingestion = ingestion;
     _storage = [MSLogDBStorage new];
+    if (ingestion) {
+      _ingestion = ingestion;
+    }
   }
   return self;
 }
@@ -50,6 +56,7 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
                               withBlock:^(id<MSChannelDelegate> channelDelegate) {
                                 [channelDelegate channelGroup:self didAddChannelUnit:channel];
                               }];
+    [[MSAuthTokenContext sharedInstance] addDelegate:channel];
   }
   return channel;
 }

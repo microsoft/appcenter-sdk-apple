@@ -1,6 +1,10 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 #import <Foundation/Foundation.h>
 
 #import "MSAbstractLogInternal.h"
+#import "MSAbstractLogPrivate.h"
 #import "MSDevice.h"
 
 @class MSMetadataExtension;

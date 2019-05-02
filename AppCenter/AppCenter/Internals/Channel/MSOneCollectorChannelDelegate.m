@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 #import "MSAbstractLogInternal.h"
 #import "MSAppCenterInternal.h"
 #import "MSCSData.h"
@@ -16,24 +19,17 @@ static NSString *const kMSBaseErrorMsg = @"Log validation failed.";
 /**
  * Log name regex. alnum characters, no heading or trailing periods, no heading underscores, min length of 4, max length of 100.
  */
-NSString *const kMSLogNameRegex = @"^[a-zA-Z0-9]((\\.(?!(\\.|$)))|[_a-zA-Z0-9]){3,99}$";
 
 @implementation MSOneCollectorChannelDelegate
 
-- (instancetype)init {
-  self = [super init];
-  if (self) {
-    _oneCollectorChannels = [NSMutableDictionary new];
-    _oneCollectorIngestion = [[MSOneCollectorIngestion alloc] initWithBaseUrl:kMSOneCollectorBaseUrl];
-    _epochsAndSeqsByIKey = [NSMutableDictionary new];
-  }
-  return self;
-}
-
-- (instancetype)initWithInstallId:(NSUUID *)installId {
+- (instancetype)initWithInstallId:(NSUUID *)installId baseUrl:(nullable NSString *)baseUrl {
   self = [self init];
   if (self) {
     _installId = installId;
+    _baseUrl = baseUrl ?: kMSOneCollectorBaseUrl;
+    _oneCollectorChannels = [NSMutableDictionary new];
+    _oneCollectorIngestion = [[MSOneCollectorIngestion alloc] initWithBaseUrl:_baseUrl];
+    _epochsAndSeqsByIKey = [NSMutableDictionary new];
   }
   return self;
 }
@@ -189,6 +185,10 @@ NSString *const kMSLogNameRegex = @"^[a-zA-Z0-9]((\\.(?!(\\.|$)))|[_a-zA-Z0-9]){
     return NO;
   }
   return YES;
+}
+
+- (void)setLogUrl:(NSString *)logUrl {
+  self.oneCollectorIngestion.baseURL = logUrl;
 }
 
 @end

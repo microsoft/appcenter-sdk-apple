@@ -1,7 +1,11 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 #import <OHHTTPStubs/OHHTTPStubs.h>
 
-#import "MSConstants+Internal.h"
+#import "MSConstants.h"
 #import "MSHttpTestUtil.h"
+#import "MSTestFrameworks.h"
 
 /*
  * TODO: We need to reduce this response time from UID_MAX to 2.0 because [OHHTTPStubs removeAllStubs] is called before timeout and it
@@ -39,9 +43,10 @@ static NSString *const kMSStubLongResponseTimeOutName = @"httpStub_LongResponseT
 }
 
 + (void)stubLongTimeOutResponse {
-  [OHHTTPStubs stubRequestsPassingTest:^BOOL(__attribute__((unused)) NSURLRequest *request) {
-    return YES;
-  }
+  [OHHTTPStubs
+      stubRequestsPassingTest:^BOOL(__attribute__((unused)) NSURLRequest *request) {
+        return YES;
+      }
       withStubResponse:^OHHTTPStubsResponse *(__attribute__((unused)) NSURLRequest *request) {
         OHHTTPStubsResponse *responseStub = [OHHTTPStubsResponse new];
         responseStub.statusCode = MSHTTPCodesNo200OK;
@@ -51,9 +56,10 @@ static NSString *const kMSStubLongResponseTimeOutName = @"httpStub_LongResponseT
 }
 
 + (void)stubResponseWithCode:(NSInteger)code name:(NSString *)name {
-  [OHHTTPStubs stubRequestsPassingTest:^BOOL(__attribute__((unused)) NSURLRequest *request) {
-    return YES;
-  }
+  [OHHTTPStubs
+      stubRequestsPassingTest:^BOOL(__attribute__((unused)) NSURLRequest *request) {
+        return YES;
+      }
       withStubResponse:^OHHTTPStubsResponse *(__attribute__((unused)) NSURLRequest *request) {
         OHHTTPStubsResponse *responseStub = [OHHTTPStubsResponse new];
         responseStub.statusCode = (int)code;
@@ -63,13 +69,21 @@ static NSString *const kMSStubLongResponseTimeOutName = @"httpStub_LongResponseT
 }
 
 + (void)stubResponseWithError:(NSError *)error name:(NSString *)name {
-  [OHHTTPStubs stubRequestsPassingTest:^BOOL(__attribute__((unused)) NSURLRequest *request) {
-    return YES;
-  }
+  [OHHTTPStubs
+      stubRequestsPassingTest:^BOOL(__attribute__((unused)) NSURLRequest *request) {
+        return YES;
+      }
       withStubResponse:^OHHTTPStubsResponse *(__attribute__((unused)) NSURLRequest *request) {
         return [OHHTTPStubsResponse responseWithError:error];
       }]
       .name = name;
+}
+
++ (NSHTTPURLResponse *)createMockResponseForStatusCode:(int)statusCode headers:(NSDictionary *)headers {
+  NSHTTPURLResponse *mockedResponse = OCMClassMock([NSHTTPURLResponse class]);
+  OCMStub([mockedResponse statusCode]).andReturn(statusCode);
+  OCMStub([mockedResponse allHeaderFields]).andReturn(headers);
+  return mockedResponse;
 }
 
 @end

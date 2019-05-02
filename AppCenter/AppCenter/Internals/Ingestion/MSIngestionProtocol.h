@@ -1,11 +1,17 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 #import <Foundation/Foundation.h>
 
 #import "MSEnable.h"
+#import "MSHttpUtil.h"
 #import "MSIngestionCallDelegate.h"
-#import "MSIngestionUtil.h"
 #import "MS_Reachability.h"
 
 NS_ASSUME_NONNULL_BEGIN
+
+typedef void (^MSSendAsyncCompletionHandler)(NSString *callId, NSHTTPURLResponse *_Nullable response, NSData *_Nullable data,
+                                             NSError *_Nullable error);
 
 @protocol MSIngestionDelegate;
 
@@ -30,9 +36,42 @@ NS_ASSUME_NONNULL_BEGIN
  * Send data.
  *
  * @param data Instance that will be transformed to request body.
+ * @param authToken Auth token to send data with.
+ * @param handler Completion handler.
+ */
+- (void)sendAsync:(nullable NSObject *)data
+            authToken:(nullable NSString *)__unused authToken
+    completionHandler:(MSSendAsyncCompletionHandler)handler;
+
+/**
+ * Send data.
+ *
+ * @param data Instance that will be transformed to request body.
  * @param handler Completion handler.
  */
 - (void)sendAsync:(nullable NSObject *)data completionHandler:(MSSendAsyncCompletionHandler)handler;
+
+/**
+ * Send data.
+ *
+ * @param data Instance that will be transformed to request body.
+ * @param eTag HTTP entity tag.
+ * @param authToken Auth token to send data with.
+ * @param handler Completion handler.
+ */
+- (void)sendAsync:(nullable NSObject *)data
+                 eTag:(nullable NSString *)eTag
+            authToken:(nullable NSString *)authToken
+    completionHandler:(MSSendAsyncCompletionHandler)handler;
+
+/**
+ * Send data.
+ *
+ * @param data Instance that will be transformed to request body.
+ * @param eTag HTTP entity tag.
+ * @param handler Completion handler.
+ */
+- (void)sendAsync:(nullable NSObject *)data eTag:(nullable NSString *)eTag completionHandler:(MSSendAsyncCompletionHandler)handler;
 
 /**
  * Add the given delegate to the ingestion.

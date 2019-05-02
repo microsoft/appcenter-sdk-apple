@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import XCTest
 
 class AppCenterUITests: XCTestCase {
@@ -114,7 +117,7 @@ class AppCenterUITests: XCTestCase {
       
       // Restart application.
       sleep(5)
-      XCUIDevice().press(XCUIDeviceButton.home)
+      XCUIDevice().press(XCUIDevice.Button.home)
       sleep(5)
       app.launch()
       

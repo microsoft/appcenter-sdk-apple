@@ -1,8 +1,9 @@
-#import "MSACModelConstants.h"
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 #import "MSAppExtension.h"
 #import "MSCSData.h"
 #import "MSCSExtensions.h"
-#import "MSCSModelConstants.h"
 #import "MSCommonSchemaLog.h"
 #import "MSConstants.h"
 #import "MSDevice.h"

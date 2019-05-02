@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import Photos
 import UIKit
 
@@ -184,8 +187,9 @@ class MSCrashesViewController: UITableViewController, UIImagePickerControllerDel
     }
   }
   
-  @objc func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-    let referenceUrl = info[UIImagePickerControllerReferenceURL] as? URL
+  func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+    let referenceUrl = info[UIImagePickerController.InfoKey.referenceURL] as? URL
+    
     if referenceUrl != nil {
       UserDefaults.standard.set(referenceUrl, forKey: "fileAttachment")
       tableView.reloadData()
@@ -209,7 +213,7 @@ class MSCrashesViewController: UITableViewController, UIImagePickerControllerDel
     let classList = objc_copyClassList(&count)
     MSCrash.removeAllCrashes()
     for i in 0..<Int(count){
-      let className: AnyClass = classList![i]!
+      let className: AnyClass = classList![i]
       if class_getSuperclass(className) == MSCrash.self && className != MSCrash.self {
         MSCrash.register((className as! MSCrash.Type).init())
       }
@@ -224,4 +228,3 @@ class MSCrashesViewController: UITableViewController, UIImagePickerControllerDel
     return categories[categoryForSection(indexPath.section - 2)]![indexPath.row]
   }
 }
-

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 #import <CommonCrypto/CommonCryptor.h>
 
 #import "MSAppCenterInternal.h"
@@ -73,58 +76,67 @@ static NSString *kMSEncryptionKeyTag = @"kMSEncryptionKeyTag";
 }
 
 - (NSString *_Nullable)encryptString:(NSString *)string {
+  NSData *dataToEncrypt = [string dataUsingEncoding:NSUTF8StringEncoding];
+  return [[self encryptData:dataToEncrypt] base64EncodedStringWithOptions:0];
+}
+
+- (NSData *_Nullable)encryptData:(NSData *)data {
   [self createCryptorContexts:kMSEncryptionKeyTag];
   if (!self.key) {
     MSLogError([MSAppCenter logTag], @"Could not perform encryption. Encryption key is missing.");
     return nil;
   }
-  NSString *result = nil;
-  NSData *dataToEncrypt = [string dataUsingEncoding:NSUTF8StringEncoding];
-  size_t cipherBufferSize = CCCryptorGetOutputLength(self.encryptorObject, dataToEncrypt.length, true);
+  NSData *result = nil;
+  size_t cipherBufferSize = CCCryptorGetOutputLength(self.encryptorObject, data.length, true);
   uint8_t *cipherBuffer = malloc(cipherBufferSize * sizeof(uint8_t));
   size_t numBytesEncrypted = 0;
   CCCryptorStatus status = CCCrypt(kCCEncrypt, kMSEncryptionAlgorithm, kCCOptionPKCS7Padding, [self.key bytes], kMSCipherKeySize, nil,
-                                   [dataToEncrypt bytes], dataToEncrypt.length, cipherBuffer, cipherBufferSize, &numBytesEncrypted);
+                                   [data bytes], data.length, cipherBuffer, cipherBufferSize, &numBytesEncrypted);
   if (status != kCCSuccess) {
     MSLogError([MSAppCenter logTag], @"Error performing encryption.");
   } else {
-    result = [[NSData dataWithBytes:(const void *)cipherBuffer length:(NSUInteger)numBytesEncrypted] base64EncodedStringWithOptions:0];
+    result = [NSData dataWithBytes:(const void *)cipherBuffer length:(NSUInteger)numBytesEncrypted];
   }
   free(cipherBuffer);
   return result;
 }
 
 - (NSString *_Nullable)decryptString:(NSString *)string {
+  NSString *result = nil;
+  NSData *dataToDecrypt = [[NSData alloc] initWithBase64EncodedString:string options:0];
+  if (dataToDecrypt) {
+    NSData *decryptedBytes = [self decryptData:dataToDecrypt];
+    result = [[NSString alloc] initWithData:decryptedBytes encoding:NSUTF8StringEncoding];
+    if (!result) {
+      MSLogWarning([MSAppCenter logTag], @"Converting decrypted NSData to NSString failed.");
+    }
+  } else {
+    MSLogWarning([MSAppCenter logTag], @"Conversion of encrypted string to NSData failed.");
+  }
+  return result;
+}
+
+- (NSData *_Nullable)decryptData:(NSData *)data {
   [self createCryptorContexts:kMSEncryptionKeyTag];
   if (!self.key) {
     MSLogError([MSAppCenter logTag], @"Could not perform decryption. Encryption key is missing.");
     return nil;
   }
-  NSString *result = nil;
-  NSData *dataToDecrypt = [[NSData alloc] initWithBase64EncodedString:string options:0];
-  if (dataToDecrypt) {
-    size_t cipherBufferSize = CCCryptorGetOutputLength(self.decryptorObject, dataToDecrypt.length, true);
-    uint8_t *cipherBuffer = malloc(cipherBufferSize);
-    size_t numBytesDecrypted = 0;
-    CCCryptorStatus status = CCCrypt(kCCDecrypt, kMSEncryptionAlgorithm, kCCOptionPKCS7Padding, [self.key bytes], kMSCipherKeySize, nil,
-                                     [dataToDecrypt bytes], dataToDecrypt.length, cipherBuffer, cipherBufferSize, &numBytesDecrypted);
-    if (status != kCCSuccess) {
-      MSLogError([MSAppCenter logTag], @"Error performing decryption with CCCryptorStatus: %d.", status);
-    } else {
-      NSData *decryptedBytes = [NSData dataWithBytes:cipherBuffer length:numBytesDecrypted];
-      if (decryptedBytes) {
-        result = [[NSString alloc] initWithData:decryptedBytes encoding:NSUTF8StringEncoding];
-        if (!result) {
-          MSLogWarning([MSAppCenter logTag], @"Converting decrypted NSData to NSString failed.");
-        }
-      } else {
-        MSLogWarning([MSAppCenter logTag], @"Could not create NSData object from decrypted bytes.");
-      }
-    }
-    free(cipherBuffer);
+  NSData *result = nil;
+  size_t cipherBufferSize = CCCryptorGetOutputLength(self.decryptorObject, data.length, true);
+  uint8_t *cipherBuffer = malloc(cipherBufferSize);
+  size_t numBytesDecrypted = 0;
+  CCCryptorStatus status = CCCrypt(kCCDecrypt, kMSEncryptionAlgorithm, kCCOptionPKCS7Padding, [self.key bytes], kMSCipherKeySize, nil,
+                                   [data bytes], data.length, cipherBuffer, cipherBufferSize, &numBytesDecrypted);
+  if (status != kCCSuccess) {
+    MSLogError([MSAppCenter logTag], @"Error performing decryption with CCCryptorStatus: %d.", status);
   } else {
-    MSLogWarning([MSAppCenter logTag], @"Conversion of encrypted string to NSData failed.");
+    result = [NSData dataWithBytes:cipherBuffer length:numBytesDecrypted];
+    if (!result) {
+      MSLogWarning([MSAppCenter logTag], @"Could not create NSData object from decrypted bytes.");
+    }
   }
+  free(cipherBuffer);
   return result;
 }
 

@@ -1,0 +1,5 @@
+#include "../../../Config/macOS.xcconfig"
+
+OTHER_LDFLAGS=$(inherited) -framework AppKit -framework WebKit
+
+USER_HEADER_SEARCH_PATHS=$(inherited) $(SRCROOT)/MSAL/**

@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name              = 'AppCenter'
-  s.version           = '1.14.0'
+  s.version           = '2.0.0'
 
   s.summary           = 'Visual Studio App Center is your continuous integration, delivery and learning solution for iOS and macOS apps.'
   s.description       = <<-DESC
@@ -16,10 +16,16 @@ Pod::Spec.new do |s|
                       App Center Crashes will automatically generate a crash log every time your app crashes. The log is first written to the device's storage and when the user starts the app again, the crash report will be sent to App Center. Collecting crashes works for both beta and live apps, i.e. those submitted to the App Store. Crash logs contain valuable information for you to help fix the crash.
 
                       3. App Center Distribute (iOS only):
-                      App Center Distribute will let your users install a new version of the app when you distribute it via the App Center. With a new version of the app available, the SDK will present an update dialog to the users to either download or postpone the new version. Once they choose to update, the SDK will start to update your application. This feature will NOT work if your app is deployed to the app store.
+                      App Center Distribute lets your users install a new version of the app when you distribute it with App Center. With a new version of the app available, the SDK will present an update dialog to the users to either download or postpone the new version. Once they choose to update, the SDK will start to update your application. This feature is automatically disabled on versions of your app deployed to the Apple App Store.
 
                       4. App Center Push (iOS and macOS):
                       App Center Push enables you to send push notifications to users of your app from the App Center portal. You can also segment your user base based on a set of properties and send them targeted notifications.
+
+                      5. App Center Data (iOS only):
+                      The App Center Data service provides functionality enabling developers to persist app data in the cloud in both online and offline scenarios. This enables you to store and manage both user-specific data as well as data shared between users and across platforms.
+
+                      6. App Center Auth (iOS only):
+                      App Center Auth is a cloud-based identity management service that enables you to authenticate users and manage their identities. You can also leverage user identities in other App Center services.
 
                         DESC
 
@@ -83,5 +89,20 @@ Pod::Spec.new do |s|
     ss.ios.vendored_frameworks = "AppCenter-SDK-Apple/iOS/AppCenterPush.framework"
     ss.osx.vendored_frameworks = "AppCenter-SDK-Apple/macOS/AppCenterPush.framework"
  end
+
+  s.subspec 'Data' do |ss|
+    ss.dependency 'AppCenter/Core'
+    ss.frameworks = 'Foundation'
+    ss.ios.frameworks = 'UIKit'
+    ss.ios.vendored_frameworks = "AppCenter-SDK-Apple/iOS/AppCenterData.framework"
+  end
+
+  s.subspec 'Auth' do |ss|
+    ss.dependency 'AppCenter/Core'
+    ss.frameworks = 'Foundation'
+    ss.ios.frameworks = 'UIKit', 'AuthenticationServices', 'WebKit'
+    ss.ios.weak_frameworks = 'SafariServices'
+    ss.ios.vendored_frameworks = "AppCenter-SDK-Apple/iOS/AppCenterAuth.framework"
+  end
 
 end

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import AppCenter;
 import AppCenterAnalytics;
 import AppCenterCrashes;
@@ -11,13 +14,13 @@ class AppCenterDelegateSwift : AppCenterDelegate {
   func isAppCenterEnabled()->Bool { return MSAppCenter.isEnabled(); }
   func setAppCenterEnabled(_ isEnabled : Bool) { MSAppCenter.setEnabled(isEnabled); }
   func installId()->String { return MSAppCenter.installId().uuidString; }
+  #warning("TODO: Uncomment when appSecret is moved from internal to public.")
   func appSecret()->String {
-    // TODO: Uncomment when appSecret is moved from internal to public.
     // return MSAppCenter.sharedInstance().appSecret()
     return "Internal";
   }
+  #warning("TODO: Uncomment when appSecret is moved from internal to public.")
   func logUrl()->String {
-    // TODO: Uncomment when logUrl is moved from internal to public.
     // return MSAppCenter.sharedInstance().logUrl()
     return "Internal";
   }
@@ -34,13 +37,13 @@ class AppCenterDelegateSwift : AppCenterDelegate {
     MSAnalytics.trackEvent(eventName, withProperties : properties);
   }
 
+  #warning("TODO: Uncomment when trackPage is moved from internal to public.")
   func trackPage(_ pageName : String) {
-    // TODO: Uncomment when trackPage is moved from internal to public.
     // MSAnalytics.trackPage(pageName);
   }
 
+  #warning("TODO: Uncomment when trackPage is moved from internal to public.")
   func trackPage(_ pageName : String, withProperties properties : Dictionary<String, String>) {
-    // TODO: Uncomment when trackPage is moved from internal to public.
     // MSAnalytics.trackPage(pageName, withProperties: properties);
   }
 

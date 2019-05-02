@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import UIKit
 
 class MSAnalyticsResultViewController: UITableViewController {
@@ -29,7 +32,7 @@ class MSAnalyticsResultViewController: UITableViewController {
     NotificationCenter.default.removeObserver(self)
   }
   
-  func updateAnalyticsResult(_ notification: Notification) {
+  @objc func updateAnalyticsResult(_ notification: Notification) {
     DispatchQueue.main.async {
       self.updateLabels()
       self.reloadCells()

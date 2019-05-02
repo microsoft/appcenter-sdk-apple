@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 #import <sqlite3.h>
 
 #import "MSAbstractLogInternal.h"
@@ -14,6 +17,15 @@ static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
 
 // 40 KiB (10 pages by 4 KiB).
 static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
+
+static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
+                                         @"\"id\" INTEGER PRIMARY KEY AUTOINCREMENT, "
+                                         @"\"groupId\" TEXT NOT NULL, "
+                                         @"\"log\" TEXT NOT NULL, "
+                                         @"\"targetToken\" TEXT, "
+                                         @"\"targetKey\" TEXT, "
+                                         @"\"priority\" INTEGER, "
+                                         @"\"timestamp\" INTEGER)";
 
 @interface MSLogDBStorageTests : XCTestCase
 
@@ -53,13 +65,16 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   NSMutableArray *expectedLogs = [[self generateAndSaveLogsWithCount:expectedLogsCount + 1
                                                              groupId:kMSTestGroupId
                                                                flags:MSFlagsDefault
-                                              andVerifyLogGeneration:YES] mutableCopy];
+                                              andVerifyLogGeneration:YES
+                                                          andLogDate:[NSDate new]] mutableCopy];
   [expectedLogs removeLastObject];
 
   // When
   BOOL moreLogsAvailable = [self.sut loadLogsWithGroupId:kMSTestGroupId
                                                    limit:expectedLogsCount
                                       excludedTargetKeys:nil
+                                               afterDate:nil
+                                              beforeDate:nil
                                        completionHandler:^(NSArray<id<MSLog>> *_Nonnull logArray, NSString *_Nonnull batchId) {
                                          // Then
                                          assertThat(batchId, notNilValue());
@@ -75,12 +90,15 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   NSArray *expectedLogs = [self generateAndSaveLogsWithCount:expectedLogsCount
                                                      groupId:kMSTestGroupId
                                                        flags:MSFlagsPersistenceNormal
-                                      andVerifyLogGeneration:YES];
+                                      andVerifyLogGeneration:YES
+                                                  andLogDate:[NSDate new]];
 
   // When
   BOOL moreLogsAvailable = [self.sut loadLogsWithGroupId:kMSTestGroupId
                                                    limit:expectedLogsCount
                                       excludedTargetKeys:nil
+                                               afterDate:nil
+                                              beforeDate:nil
                                        completionHandler:^(NSArray<id<MSLog>> *_Nonnull logArray, NSString *_Nonnull batchId) {
                                          // Then
                                          assertThat(batchId, notNilValue());
@@ -100,25 +118,29 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   NSMutableArray *normalLogs = [[self generateAndSaveLogsWithCount:segmentLogCount
                                                            groupId:kMSTestGroupId
                                                              flags:MSFlagsPersistenceNormal
-                                            andVerifyLogGeneration:YES] mutableCopy];
+                                            andVerifyLogGeneration:YES
+                                                        andLogDate:[NSDate new]] mutableCopy];
 
   // Create 2 critical logs.
   expectedLogs = [[expectedLogs arrayByAddingObjectsFromArray:[self generateAndSaveLogsWithCount:segmentLogCount
                                                                                          groupId:kMSTestGroupId
                                                                                            flags:MSFlagsPersistenceCritical
-                                                                          andVerifyLogGeneration:YES]] mutableCopy];
+                                                                          andVerifyLogGeneration:YES
+                                                                                      andLogDate:[NSDate new]]] mutableCopy];
 
   // Create 2 normal logs.
   normalLogs = [[normalLogs arrayByAddingObjectsFromArray:[self generateAndSaveLogsWithCount:segmentLogCount
                                                                                      groupId:kMSTestGroupId
                                                                                        flags:MSFlagsPersistenceNormal
-                                                                      andVerifyLogGeneration:NO]] mutableCopy];
+                                                                      andVerifyLogGeneration:NO
+                                                                                  andLogDate:[NSDate new]]] mutableCopy];
 
   // Create 2 critical logs.
   expectedLogs = [[expectedLogs arrayByAddingObjectsFromArray:[self generateAndSaveLogsWithCount:segmentLogCount
                                                                                          groupId:kMSTestGroupId
                                                                                            flags:MSFlagsPersistenceCritical
-                                                                          andVerifyLogGeneration:NO]] mutableCopy];
+                                                                          andVerifyLogGeneration:NO
+                                                                                      andLogDate:[NSDate new]]] mutableCopy];
 
   // Build expected logs
   expectedLogs = [[expectedLogs arrayByAddingObjectsFromArray:normalLogs] mutableCopy];
@@ -127,6 +149,8 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   BOOL moreLogsAvailable = [self.sut loadLogsWithGroupId:kMSTestGroupId
                                                    limit:expectedLogsCount
                                       excludedTargetKeys:nil
+                                               afterDate:nil
+                                              beforeDate:nil
                                        completionHandler:^(NSArray<id<MSLog>> *_Nonnull logArray, NSString *_Nonnull batchId) {
                                          // Then
                                          assertThat(batchId, notNilValue());
@@ -143,12 +167,15 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   NSArray *expectedLogs = [self generateAndSaveLogsWithCount:expectedLogsCount
                                                      groupId:kMSTestGroupId
                                                        flags:MSFlagsDefault
-                                      andVerifyLogGeneration:YES];
+                                      andVerifyLogGeneration:YES
+                                                  andLogDate:[NSDate new]];
 
   // When
   BOOL moreLogsAvailable = [self.sut loadLogsWithGroupId:kMSTestGroupId
                                                    limit:limit
                                       excludedTargetKeys:nil
+                                               afterDate:nil
+                                              beforeDate:nil
                                        completionHandler:^(NSArray<id<MSLog>> *_Nonnull logArray, NSString *_Nonnull batchId) {
                                          // Then
                                          assertThat(batchId, notNilValue());
@@ -164,7 +191,8 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   __block NSArray *expectedLogs = [[self generateAndSaveLogsWithCount:expectedLogsCount
                                                               groupId:kMSTestGroupId
                                                                 flags:MSFlagsDefault
-                                               andVerifyLogGeneration:YES] mutableCopy];
+                                               andVerifyLogGeneration:YES
+                                                           andLogDate:[NSDate new]] mutableCopy];
   __block NSArray *unexpectedLogs;
   __block NSString *unexpectedBatchId;
 
@@ -172,6 +200,8 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   [self.sut loadLogsWithGroupId:kMSTestGroupId
                           limit:2
              excludedTargetKeys:nil
+                      afterDate:nil
+                     beforeDate:nil
               completionHandler:^(NSArray<id<MSLog>> *_Nonnull logArray, NSString *_Nonnull batchId) {
                 // Those values shouldn't be in the next batch.
                 unexpectedLogs = logArray;
@@ -182,6 +212,8 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   BOOL moreLogsAvailable = [self.sut loadLogsWithGroupId:kMSTestGroupId
                                                    limit:expectedLogsCount
                                       excludedTargetKeys:nil
+                                               afterDate:nil
+                                              beforeDate:nil
                                        completionHandler:^(NSArray<id<MSLog>> *_Nonnull logArray, NSString *_Nonnull batchId) {
                                          // Then
                                          // Logs from previous batch are not expected here.
@@ -232,6 +264,8 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   [self.sut loadLogsWithGroupId:kMSTestGroupId
                           limit:10
              excludedTargetKeys:@[ @"1" ]
+                      afterDate:nil
+                     beforeDate:nil
               completionHandler:^(NSArray<MSLog> *_Nonnull logArray, __unused NSString *batchId) {
                 // Then
                 assertThatInt(logArray.count, equalToInt(2));
@@ -242,6 +276,8 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   [self.sut loadLogsWithGroupId:kMSTestGroupId
                           limit:10
              excludedTargetKeys:@[ @"2" ]
+                      afterDate:nil
+                     beforeDate:nil
               completionHandler:^(NSArray<MSLog> *_Nonnull logArray, __unused NSString *batchId) {
                 // Then
                 assertThatInt(logArray.count, equalToInt(2));
@@ -252,6 +288,8 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   [self.sut loadLogsWithGroupId:kMSTestGroupId
                           limit:10
              excludedTargetKeys:nil
+                      afterDate:nil
+                     beforeDate:nil
               completionHandler:^(NSArray<MSLog> *_Nonnull logArray, __unused NSString *batchId) {
                 // Then
                 assertThatInt(logArray.count, equalToInt(0));
@@ -278,6 +316,8 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   [self.sut loadLogsWithGroupId:kMSTestGroupId
                           limit:20
              excludedTargetKeys:@[ @"testTargetKey1", @"testTargetKey2" ]
+                      afterDate:nil
+                     beforeDate:nil
               completionHandler:^(NSArray<MSLog> *_Nonnull logArray, __unused NSString *batchId) {
                 assertThatInt(logArray.count, equalToInt(5));
               }];
@@ -303,6 +343,8 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   [self.sut loadLogsWithGroupId:kMSTestGroupId
                           limit:10
              excludedTargetKeys:nil
+                      afterDate:nil
+                     beforeDate:nil
               completionHandler:^(NSArray<MSLog> *_Nonnull logArray, __unused NSString *batchId) {
                 int iKeyCount = 0;
                 for (MSCommonSchemaLog *log in logArray) {
@@ -322,7 +364,8 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   __block NSArray *expectedLogs = [[self generateAndSaveLogsWithCount:expectedLogsCount
                                                               groupId:kMSTestGroupId
                                                                 flags:MSFlagsDefault
-                                               andVerifyLogGeneration:YES] mutableCopy];
+                                               andVerifyLogGeneration:YES
+                                                           andLogDate:[NSDate new]] mutableCopy];
   __block NSArray *unexpectedLogs;
   __block NSString *unexpectedBatchId;
 
@@ -330,6 +373,8 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   [self.sut loadLogsWithGroupId:kMSAnotherTestGroupId
                           limit:2
              excludedTargetKeys:nil
+                      afterDate:nil
+                     beforeDate:nil
               completionHandler:^(NSArray<id<MSLog>> *_Nonnull logArray, NSString *_Nonnull batchId) {
                 // Those values shouldn't be in the next batch.
                 unexpectedLogs = logArray;
@@ -340,6 +385,8 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   BOOL moreLogsAvailable = [self.sut loadLogsWithGroupId:kMSTestGroupId
                                                    limit:expectedLogsCount
                                       excludedTargetKeys:nil
+                                               afterDate:nil
+                                              beforeDate:nil
                                        completionHandler:^(NSArray<id<MSLog>> *_Nonnull logArray, NSString *_Nonnull batchId) {
                                          // Then
                                          // Logs from previous batch are not expected here.
@@ -352,6 +399,60 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   XCTAssertFalse(moreLogsAvailable);
 }
 
+- (void)testLoadLogsOnlyOldLogs {
+
+  // If
+  NSDate *date = [NSDate date];
+
+  // When
+  for (int i = 0; i < 20; i++) {
+    MSLogWithProperties *log = [MSLogWithProperties new];
+    log.sid = MS_UUID_STRING;
+    log.timestamp = [[NSCalendar currentCalendar] dateByAddingUnit:NSCalendarUnitDay value:-i toDate:date options:0];
+    [self.sut saveLog:log withGroupId:kMSTestGroupId flags:MSFlagsDefault];
+  }
+
+  // Dates are compared by < not <=, so we need to change date a bit to compare with same shifts
+  date = [[NSCalendar currentCalendar] dateByAddingUnit:NSCalendarUnitSecond value:1 toDate:date options:0];
+
+  // Then
+  [self.sut loadLogsWithGroupId:kMSTestGroupId
+                          limit:20
+             excludedTargetKeys:nil
+                      afterDate:nil
+                     beforeDate:[[NSCalendar currentCalendar] dateByAddingUnit:NSCalendarUnitDay value:-10 toDate:date options:0]
+              completionHandler:^(NSArray<MSLog> *_Nonnull logArray, __unused NSString *batchId) {
+                assertThatInt(logArray.count, equalToInt(10));
+              }];
+}
+
+- (void)testLoadLogsInRange {
+
+  // If
+  NSDate *date = [NSDate date];
+
+  // When
+  for (int i = 0; i < 20; i++) {
+    MSLogWithProperties *log = [MSLogWithProperties new];
+    log.sid = MS_UUID_STRING;
+    log.timestamp = [[NSCalendar currentCalendar] dateByAddingUnit:NSCalendarUnitDay value:-i toDate:date options:0];
+    [self.sut saveLog:log withGroupId:kMSTestGroupId flags:MSFlagsDefault];
+  }
+
+  // Dates are compared by < not <=, so we need to change date a bit to compare with same shifts
+  date = [[NSCalendar currentCalendar] dateByAddingUnit:NSCalendarUnitSecond value:1 toDate:date options:0];
+
+  // Then
+  [self.sut loadLogsWithGroupId:kMSTestGroupId
+                          limit:20
+             excludedTargetKeys:nil
+                      afterDate:[[NSCalendar currentCalendar] dateByAddingUnit:NSCalendarUnitDay value:-5 toDate:date options:0]
+                     beforeDate:[[NSCalendar currentCalendar] dateByAddingUnit:NSCalendarUnitDay value:10 toDate:date options:0]
+              completionHandler:^(NSArray<MSLog> *_Nonnull logArray, __unused NSString *batchId) {
+                assertThatInt(logArray.count, equalToInt(5));
+              }];
+}
+
 - (void)testLoadUnlimitedLogs {
 
   // If
@@ -359,7 +460,8 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   NSArray *expectedLogs = [self generateAndSaveLogsWithCount:expectedLogsCount
                                                      groupId:kMSTestGroupId
                                                        flags:MSFlagsDefault
-                                      andVerifyLogGeneration:YES];
+                                      andVerifyLogGeneration:YES
+                                                  andLogDate:[NSDate new]];
 
   // When
   NSArray *logs = [self.sut logsFromDBWithGroupId:kMSTestGroupId];
@@ -375,7 +477,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   // If
   self.sut = [MSLogDBStorage new];
   //  [self.sut.batches removeAllObjects];
-  [self generateAndSaveLogsWithCount:5 groupId:kMSTestGroupId flags:MSFlagsDefault andVerifyLogGeneration:YES];
+  [self generateAndSaveLogsWithCount:5 groupId:kMSTestGroupId flags:MSFlagsDefault andVerifyLogGeneration:YES andLogDate:[NSDate new]];
 
   // When
   [self.sut deleteLogsWithGroupId:kMSTestGroupId];
@@ -388,8 +490,8 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
 
   // If
   // Generate logs and create one batch by loading logs.
-  [self generateAndSaveLogsWithCount:5 groupId:kMSTestGroupId flags:MSFlagsDefault andVerifyLogGeneration:YES];
-  [self.sut loadLogsWithGroupId:kMSTestGroupId limit:2 excludedTargetKeys:nil completionHandler:nil];
+  [self generateAndSaveLogsWithCount:5 groupId:kMSTestGroupId flags:MSFlagsDefault andVerifyLogGeneration:YES andLogDate:[NSDate new]];
+  [self.sut loadLogsWithGroupId:kMSTestGroupId limit:2 excludedTargetKeys:nil afterDate:nil beforeDate:nil completionHandler:nil];
 
   // When
   [self.sut deleteLogsWithGroupId:kMSTestGroupId];
@@ -402,9 +504,9 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
 
   // If
   // Generate logs and create two batches by loading logs twice.
-  [self generateAndSaveLogsWithCount:5 groupId:kMSTestGroupId flags:MSFlagsDefault andVerifyLogGeneration:YES];
-  [self.sut loadLogsWithGroupId:kMSTestGroupId limit:2 excludedTargetKeys:nil completionHandler:nil];
-  [self.sut loadLogsWithGroupId:kMSTestGroupId limit:2 excludedTargetKeys:nil completionHandler:nil];
+  [self generateAndSaveLogsWithCount:5 groupId:kMSTestGroupId flags:MSFlagsDefault andVerifyLogGeneration:YES andLogDate:[NSDate new]];
+  [self.sut loadLogsWithGroupId:kMSTestGroupId limit:2 excludedTargetKeys:nil afterDate:nil beforeDate:nil completionHandler:nil];
+  [self.sut loadLogsWithGroupId:kMSTestGroupId limit:2 excludedTargetKeys:nil afterDate:nil beforeDate:nil completionHandler:nil];
 
   // When
   [self.sut deleteLogsWithGroupId:kMSTestGroupId];
@@ -418,18 +520,21 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   // If
   // Generate logs and create two batches of different group Ids.
   __block NSString *batchIdToDelete;
-  [self generateAndSaveLogsWithCount:2 groupId:kMSTestGroupId flags:MSFlagsDefault andVerifyLogGeneration:YES];
+  [self generateAndSaveLogsWithCount:2 groupId:kMSTestGroupId flags:MSFlagsDefault andVerifyLogGeneration:YES andLogDate:[NSDate new]];
   NSArray *expectedLogs = [self generateAndSaveLogsWithCount:3
                                                      groupId:kMSAnotherTestGroupId
                                                        flags:MSFlagsDefault
-                                      andVerifyLogGeneration:YES];
+                                      andVerifyLogGeneration:YES
+                                                  andLogDate:[NSDate new]];
   [self.sut loadLogsWithGroupId:kMSTestGroupId
                           limit:2
              excludedTargetKeys:nil
+                      afterDate:nil
+                     beforeDate:nil
               completionHandler:^(__attribute__((unused)) NSArray<MSLog> *_Nonnull logArray, NSString *batchId) {
                 batchIdToDelete = batchId;
               }];
-  [self.sut loadLogsWithGroupId:kMSAnotherTestGroupId limit:2 excludedTargetKeys:nil completionHandler:nil];
+  [self.sut loadLogsWithGroupId:kMSAnotherTestGroupId limit:2 excludedTargetKeys:nil afterDate:nil beforeDate:nil completionHandler:nil];
 
   // When
   [self.sut deleteLogsWithGroupId:kMSTestGroupId];
@@ -449,10 +554,16 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   NSString *condition;
   NSArray *remainingLogs;
   [self.sut.batches removeAllObjects];
-  NSArray *savedLogs = [self generateAndSaveLogsWithCount:5 groupId:kMSTestGroupId flags:MSFlagsDefault andVerifyLogGeneration:YES];
+  NSArray *savedLogs = [self generateAndSaveLogsWithCount:5
+                                                  groupId:kMSTestGroupId
+                                                    flags:MSFlagsDefault
+                                   andVerifyLogGeneration:YES
+                                               andLogDate:[NSDate new]];
   [self.sut loadLogsWithGroupId:kMSTestGroupId
                           limit:2
              excludedTargetKeys:nil
+                      afterDate:nil
+                     beforeDate:nil
               completionHandler:^(NSArray<MSLog> *_Nonnull logArray, NSString *batchId) {
                 batchIdToDelete = batchId;
                 NSPredicate *predicate = [NSPredicate predicateWithFormat:@"NOT (self IN %@)", logArray];
@@ -479,10 +590,16 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   NSString *condition;
   NSArray *remainingLogs;
   [self.sut.batches removeAllObjects];
-  NSArray *savedLogs = [self generateAndSaveLogsWithCount:5 groupId:kMSTestGroupId flags:MSFlagsDefault andVerifyLogGeneration:YES];
+  NSArray *savedLogs = [self generateAndSaveLogsWithCount:5
+                                                  groupId:kMSTestGroupId
+                                                    flags:MSFlagsDefault
+                                   andVerifyLogGeneration:YES
+                                               andLogDate:[NSDate new]];
   [self.sut loadLogsWithGroupId:kMSTestGroupId
                           limit:2
              excludedTargetKeys:nil
+                      afterDate:nil
+                     beforeDate:nil
               completionHandler:^(NSArray<MSLog> *_Nonnull logArray, NSString *batchId) {
                 batchIdToDelete = batchId;
 
@@ -493,7 +610,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   NSArray *logIdsToDelete = self.sut.batches[batchIdToDelete];
 
   // Trigger another batch.
-  [self.sut loadLogsWithGroupId:kMSTestGroupId limit:2 excludedTargetKeys:nil completionHandler:nil];
+  [self.sut loadLogsWithGroupId:kMSTestGroupId limit:2 excludedTargetKeys:nil afterDate:nil beforeDate:nil completionHandler:nil];
 
   // When
   [self.sut deleteLogsWithBatchId:batchIdToDelete groupId:kMSTestGroupId];
@@ -514,14 +631,21 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   NSString *condition;
   NSArray *remainingLogs;
   [self.sut.batches removeAllObjects];
-  NSArray *savedLogs = [self generateAndSaveLogsWithCount:5 groupId:kMSTestGroupId flags:MSFlagsDefault andVerifyLogGeneration:YES];
+  NSArray *savedLogs = [self generateAndSaveLogsWithCount:5
+                                                  groupId:kMSTestGroupId
+                                                    flags:MSFlagsDefault
+                                   andVerifyLogGeneration:YES
+                                               andLogDate:[NSDate new]];
   NSArray *savedLogsFromOtherGroup = [self generateAndSaveLogsWithCount:3
                                                                 groupId:kMSAnotherTestGroupId
                                                                   flags:MSFlagsDefault
-                                                 andVerifyLogGeneration:YES];
+                                                 andVerifyLogGeneration:YES
+                                                             andLogDate:[NSDate new]];
   [self.sut loadLogsWithGroupId:kMSTestGroupId
                           limit:2
              excludedTargetKeys:nil
+                      afterDate:nil
+                     beforeDate:nil
               completionHandler:^(NSArray<MSLog> *_Nonnull logArray, NSString *batchId) {
                 batchIdToDelete = batchId;
 
@@ -535,7 +659,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   NSArray *logIdsToDelete = self.sut.batches[batchIdToDelete];
 
   // Trigger another batch.
-  [self.sut loadLogsWithGroupId:kMSAnotherTestGroupId limit:2 excludedTargetKeys:nil completionHandler:nil];
+  [self.sut loadLogsWithGroupId:kMSAnotherTestGroupId limit:2 excludedTargetKeys:nil afterDate:nil beforeDate:nil completionHandler:nil];
 
   // When
   [self.sut deleteLogsWithBatchId:batchIdToDelete groupId:kMSTestGroupId];
@@ -562,6 +686,8 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   [self.sut loadLogsWithGroupId:kMSTestGroupId
                           limit:1
              excludedTargetKeys:nil
+                      afterDate:nil
+                     beforeDate:nil
               completionHandler:^(NSArray<MSLog> *_Nonnull logArray, __unused NSString *batchId) {
                 id<MSLog> restoredLog = logArray[0];
                 NSString *restoredTargetToken = [[restoredLog transmissionTargetTokens] anyObject];
@@ -584,6 +710,8 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   [self.sut loadLogsWithGroupId:kMSTestGroupId
                           limit:1
              excludedTargetKeys:nil
+                      afterDate:nil
+                     beforeDate:nil
               completionHandler:^(NSArray<MSLog> *_Nonnull logArray, __unused NSString *batchId) {
                 assertThatInt([logArray[0] transmissionTargetTokens].count, equalToInt(0));
               }];
@@ -593,7 +721,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
 
   // If
   [self.sut.batches removeAllObjects];
-  [self generateAndSaveLogsWithCount:5 groupId:kMSTestGroupId flags:MSFlagsDefault andVerifyLogGeneration:YES];
+  [self generateAndSaveLogsWithCount:5 groupId:kMSTestGroupId flags:MSFlagsDefault andVerifyLogGeneration:YES andLogDate:[NSDate new]];
 
   // When
   [self.sut deleteLogsWithBatchId:MS_UUID_STRING groupId:kMSTestGroupId];
@@ -816,8 +944,16 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   [self.sut setMaxStorageSize:maxCapacityInBytes
             completionHandler:^(__unused BOOL success){
             }];
-  [self generateAndSaveLogsWithCount:1 groupId:kMSTestGroupId flags:MSFlagsPersistenceCritical andVerifyLogGeneration:YES];
-  [self generateAndSaveLogsWithCount:2 groupId:kMSTestGroupId flags:MSFlagsPersistenceNormal andVerifyLogGeneration:YES];
+  [self generateAndSaveLogsWithCount:1
+                             groupId:kMSTestGroupId
+                               flags:MSFlagsPersistenceCritical
+              andVerifyLogGeneration:YES
+                          andLogDate:[NSDate new]];
+  [self generateAndSaveLogsWithCount:2
+                             groupId:kMSTestGroupId
+                               flags:MSFlagsPersistenceNormal
+              andVerifyLogGeneration:YES
+                          andLogDate:[NSDate new]];
   id<MSLog> largeLog = [self generateLogWithSize:@(maxCapacityInBytes)];
   sqlite3 *db = [self.storageTestUtil openDatabase];
   NSArray<NSNumber *> *criticalDbIds = [self dbIdsForPriority:MSFlagsPersistenceCritical inOpenedDatabase:db];
@@ -844,6 +980,69 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   XCTAssertTrue([self containsLogWithDbId:[criticalDbIds firstObject]]);
 }
 
+- (void)testUsesMillisecondsInSaveQuery {
+
+  // If
+  id classMock = OCMClassMock([MSDBStorage class]);
+  OCMStub([classMock executeNonSelectionQuery:startsWith(@"INSERT") inOpenedDatabase:[OCMArg anyPointer]]).andReturn(SQLITE_OK);
+  id<MSLog> log = [self generateLogWithSize:@0];
+  long long expectedTimestampMs = (long long)([log.timestamp timeIntervalSince1970] * 1000);
+
+  // When
+  BOOL logSavedSuccessfully = [self.sut saveLog:log withGroupId:kMSAnotherTestGroupId flags:MSFlagsDefault];
+
+  // Then
+  XCTAssertTrue(logSavedSuccessfully);
+  OCMVerify([classMock executeNonSelectionQuery:containsSubstring([NSString stringWithFormat:@"'%lld'", expectedTimestampMs])
+                               inOpenedDatabase:[OCMArg anyPointer]]);
+  [classMock stopMocking];
+}
+
+- (void)testUsesMillisecondsInCountQuery {
+
+  // If
+  id classMock = OCMClassMock([MSDBStorage class]);
+  NSArray *testLogs = @[];
+  OCMStub([classMock executeSelectionQuery:startsWith(@"SELECT")]).andReturn(testLogs);
+  NSDate *testDate = [NSDate new];
+  long long expectedTimestampMs = (long long)([testDate timeIntervalSince1970] * 1000);
+
+  // When
+  [self.sut countLogsBeforeDate:testDate];
+
+  // Then
+  OCMVerify([classMock executeSelectionQuery:containsSubstring([NSString stringWithFormat:@"'%lld'", expectedTimestampMs])
+                            inOpenedDatabase:[OCMArg anyPointer]]);
+  [classMock stopMocking];
+}
+
+- (void)testUsesMillisecondsInLoadQuery {
+
+  // If
+  id classMock = OCMClassMock([MSDBStorage class]);
+  NSArray *testLogs = @[];
+  OCMStub([classMock executeSelectionQuery:startsWith(@"SELECT")]).andReturn(testLogs);
+  NSDate *testAfterDate = [NSDate new];
+  NSDate *testBeforeDate = [NSDate new];
+  long long expectedAfterTimestampMs = (long long)([testAfterDate timeIntervalSince1970] * 1000);
+  long long expectedBeforeTimestampMs = (long long)([testBeforeDate timeIntervalSince1970] * 1000);
+
+  // When
+  [self.sut loadLogsWithGroupId:kMSTestGroupId
+                          limit:1
+             excludedTargetKeys:nil
+                      afterDate:testAfterDate
+                     beforeDate:testBeforeDate
+              completionHandler:nil];
+
+  // Then
+  OCMVerify([classMock executeSelectionQuery:containsSubstring([NSString stringWithFormat:@"'%lld'", expectedAfterTimestampMs])
+                            inOpenedDatabase:[OCMArg anyPointer]]);
+  OCMVerify([classMock executeSelectionQuery:containsSubstring([NSString stringWithFormat:@"'%lld'", expectedBeforeTimestampMs])
+                            inOpenedDatabase:[OCMArg anyPointer]]);
+  [classMock stopMocking];
+}
+
 - (void)testErrorDeletingOldestLog {
 
   // If
@@ -868,20 +1067,14 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   // Then
   NSString *currentTable =
       [self.sut executeSelectionQuery:[NSString stringWithFormat:@"SELECT sql FROM sqlite_master WHERE name='%@'", kMSLogTableName]][0][0];
-  assertThat(currentTable, is(@"CREATE TABLE \"logs\" ("
-                              @"\"id\" INTEGER PRIMARY KEY AUTOINCREMENT, "
-                              @"\"groupId\" TEXT NOT NULL, "
-                              @"\"log\" TEXT NOT NULL, "
-                              @"\"targetToken\" TEXT, "
-                              @"\"targetKey\" TEXT, "
-                              @"\"priority\" INTEGER)"));
+  assertThat(currentTable, is(kMSLatestSchema));
   NSString *priorityIndex =
       [self.sut executeSelectionQuery:[NSString stringWithFormat:@"SELECT sql FROM sqlite_master WHERE name='ix_%@_%@'", kMSLogTableName,
                                                                  kMSPriorityColumnName]][0][0];
   assertThat(priorityIndex, is(@"CREATE INDEX \"ix_logs_priority\" ON \"logs\" (\"priority\")"));
 }
 
-- (void)testMigrationFromSchema0to3 {
+- (void)testMigrationFromSchema0toLatest {
 
   // If
   // Create old version db.
@@ -894,7 +1087,13 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
     ]
   };
   MSDBStorage *storage0 = [[MSDBStorage alloc] initWithSchema:schema0 version:kMSInitialVersion filename:kMSDBFileName];
-  [self generateAndSaveLogsWithCount:10 size:nil groupId:kMSTestGroupId flags:MSFlagsDefault storage:storage0 andVerifyLogGeneration:YES];
+  [self generateAndSaveLogsWithCount:10
+                                size:nil
+                             groupId:kMSTestGroupId
+                               flags:MSFlagsDefault
+                             storage:storage0
+              andVerifyLogGeneration:YES
+                         timestampMs:(long long)([[NSDate new] timeIntervalSince1970] * 1000)];
 
   // When
   self.sut = [MSLogDBStorage new];
@@ -903,20 +1102,14 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   assertThatInt([self loadLogsWhere:nil].count, equalToUnsignedInt(10));
   NSString *currentTable =
       [self.sut executeSelectionQuery:[NSString stringWithFormat:@"SELECT sql FROM sqlite_master WHERE name='%@'", kMSLogTableName]][0][0];
-  assertThat(currentTable, is(@"CREATE TABLE \"logs\" ("
-                              @"\"id\" INTEGER PRIMARY KEY AUTOINCREMENT, "
-                              @"\"groupId\" TEXT NOT NULL, "
-                              @"\"log\" TEXT NOT NULL, "
-                              @"\"targetToken\" TEXT, "
-                              @"\"targetKey\" TEXT, "
-                              @"\"priority\" INTEGER)"));
+  assertThat(currentTable, is(kMSLatestSchema));
   NSString *priorityIndex =
       [self.sut executeSelectionQuery:[NSString stringWithFormat:@"SELECT sql FROM sqlite_master WHERE name='ix_%@_%@'", kMSLogTableName,
                                                                  kMSPriorityColumnName]][0][0];
   assertThat(priorityIndex, is(@"CREATE INDEX \"ix_logs_priority\" ON \"logs\" (\"priority\")"));
 }
 
-- (void)testMigrationFromSchema1to3 {
+- (void)testMigrationFromSchema1toLatest {
 
   // If
   // Create old version db.
@@ -929,7 +1122,13 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
     ]
   };
   MSDBStorage *storage1 = [[MSDBStorage alloc] initWithSchema:schema1 version:kMSTargetTokenVersion filename:kMSDBFileName];
-  [self generateAndSaveLogsWithCount:10 size:nil groupId:kMSTestGroupId flags:MSFlagsDefault storage:storage1 andVerifyLogGeneration:YES];
+  [self generateAndSaveLogsWithCount:10
+                                size:nil
+                             groupId:kMSTestGroupId
+                               flags:MSFlagsDefault
+                             storage:storage1
+              andVerifyLogGeneration:YES
+                         timestampMs:(long long)([[NSDate new] timeIntervalSince1970] * 1000)];
 
   // When
   self.sut = [MSLogDBStorage new];
@@ -938,20 +1137,14 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   assertThatInt([self loadLogsWhere:nil].count, equalToUnsignedInt(10));
   NSString *currentTable =
       [self.sut executeSelectionQuery:[NSString stringWithFormat:@"SELECT sql FROM sqlite_master WHERE name='%@'", kMSLogTableName]][0][0];
-  assertThat(currentTable, is(@"CREATE TABLE \"logs\" ("
-                              @"\"id\" INTEGER PRIMARY KEY AUTOINCREMENT, "
-                              @"\"groupId\" TEXT NOT NULL, "
-                              @"\"log\" TEXT NOT NULL, "
-                              @"\"targetToken\" TEXT, "
-                              @"\"targetKey\" TEXT, "
-                              @"\"priority\" INTEGER)"));
+  assertThat(currentTable, is(kMSLatestSchema));
   NSString *priorityIndex =
       [self.sut executeSelectionQuery:[NSString stringWithFormat:@"SELECT sql FROM sqlite_master WHERE name='ix_%@_%@'", kMSLogTableName,
                                                                  kMSPriorityColumnName]][0][0];
   assertThat(priorityIndex, is(@"CREATE INDEX \"ix_logs_priority\" ON \"logs\" (\"priority\")"));
 }
 
-- (void)testMigrationFromSchema2to3 {
+- (void)testMigrationFromSchema2toLatest {
 
   // If
   // Create old version db.
@@ -964,8 +1157,14 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
       @{kMSTargetKeyColumnName : @[ kMSSQLiteTypeText ]}
     ]
   };
-  MSDBStorage *storage2 = [[MSDBStorage alloc] initWithSchema:schema2 version:kMSTargetTokenVersion filename:kMSDBFileName];
-  [self generateAndSaveLogsWithCount:10 size:nil groupId:kMSTestGroupId flags:MSFlagsDefault storage:storage2 andVerifyLogGeneration:YES];
+  MSDBStorage *storage2 = [[MSDBStorage alloc] initWithSchema:schema2 version:kMSTargetKeyVersion filename:kMSDBFileName];
+  [self generateAndSaveLogsWithCount:10
+                                size:nil
+                             groupId:kMSTestGroupId
+                               flags:MSFlagsDefault
+                             storage:storage2
+              andVerifyLogGeneration:YES
+                         timestampMs:(long long)([[NSDate new] timeIntervalSince1970] * 1000)];
 
   // When
   self.sut = [MSLogDBStorage new];
@@ -974,13 +1173,43 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   assertThatInt([self loadLogsWhere:nil].count, equalToUnsignedInt(10));
   NSString *currentTable =
       [self.sut executeSelectionQuery:[NSString stringWithFormat:@"SELECT sql FROM sqlite_master WHERE name='%@'", kMSLogTableName]][0][0];
-  assertThat(currentTable, is(@"CREATE TABLE \"logs\" ("
-                              @"\"id\" INTEGER PRIMARY KEY AUTOINCREMENT, "
-                              @"\"groupId\" TEXT NOT NULL, "
-                              @"\"log\" TEXT NOT NULL, "
-                              @"\"targetToken\" TEXT, "
-                              @"\"targetKey\" TEXT, "
-                              @"\"priority\" INTEGER)"));
+  assertThat(currentTable, is(kMSLatestSchema));
+  NSString *priorityIndex =
+      [self.sut executeSelectionQuery:[NSString stringWithFormat:@"SELECT sql FROM sqlite_master WHERE name='ix_%@_%@'", kMSLogTableName,
+                                                                 kMSPriorityColumnName]][0][0];
+  assertThat(priorityIndex, is(@"CREATE INDEX \"ix_logs_priority\" ON \"logs\" (\"priority\")"));
+}
+
+- (void)testMigrationFromSchema3toLatest {
+
+  // If
+  // Create old version db.
+  // DO NOT CHANGE. THIS IS ALREADY PUBLISHED SCHEMA.
+  MSDBSchema *schema3 = @{
+    kMSLogTableName : @[
+      @{kMSIdColumnName : @[ kMSSQLiteTypeInteger, kMSSQLiteConstraintPrimaryKey, kMSSQLiteConstraintAutoincrement ]},
+      @{kMSGroupIdColumnName : @[ kMSSQLiteTypeText, kMSSQLiteConstraintNotNull ]},
+      @{kMSLogColumnName : @[ kMSSQLiteTypeText, kMSSQLiteConstraintNotNull ]}, @{kMSTargetTokenColumnName : @[ kMSSQLiteTypeText ]},
+      @{kMSTargetKeyColumnName : @[ kMSSQLiteTypeText ]}, @{kMSPriorityColumnName : @[ kMSSQLiteTypeInteger ]}
+    ]
+  };
+  MSDBStorage *storage3 = [[MSDBStorage alloc] initWithSchema:schema3 version:kMSLogPersistencePriorityVersion filename:kMSDBFileName];
+  [self generateAndSaveLogsWithCount:10
+                                size:nil
+                             groupId:kMSTestGroupId
+                               flags:MSFlagsDefault
+                             storage:storage3
+              andVerifyLogGeneration:YES
+                         timestampMs:(long long)([[NSDate new] timeIntervalSince1970] * 1000)];
+
+  // When
+  self.sut = [MSLogDBStorage new];
+
+  // Then
+  assertThatInt([self loadLogsWhere:nil].count, equalToUnsignedInt(10));
+  NSString *currentTable =
+      [self.sut executeSelectionQuery:[NSString stringWithFormat:@"SELECT sql FROM sqlite_master WHERE name='%@'", kMSLogTableName]][0][0];
+  assertThat(currentTable, is(kMSLatestSchema));
   NSString *priorityIndex =
       [self.sut executeSelectionQuery:[NSString stringWithFormat:@"SELECT sql FROM sqlite_master WHERE name='ix_%@_%@'", kMSLogTableName,
                                                                  kMSPriorityColumnName]][0][0];
@@ -997,22 +1226,37 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
     [log.properties setValue:s forKey:@"s"];
   }
   log.sid = MS_UUID_STRING;
+  log.timestamp = [NSDate date];
   return log;
 }
 
 - (NSArray<id<MSLog>> *)generateAndSaveLogsWithCount:(NSUInteger)count
                                              groupId:(NSString *)groupId
                                                flags:(MSFlags)flags
-                              andVerifyLogGeneration:(BOOL)verify {
-  return [self generateAndSaveLogsWithCount:count size:nil groupId:groupId flags:flags storage:self.sut andVerifyLogGeneration:verify];
+                              andVerifyLogGeneration:(BOOL)verify
+                                          andLogDate:(NSDate *)logDate {
+  return [self generateAndSaveLogsWithCount:count
+                                       size:nil
+                                    groupId:groupId
+                                      flags:flags
+                                    storage:self.sut
+                     andVerifyLogGeneration:verify
+                                timestampMs:(long long)([logDate timeIntervalSince1970] * 1000)];
 }
 
 - (NSArray<id<MSLog>> *)generateAndSaveLogsWithCount:(NSUInteger)count
                                                 size:(NSNumber *)size
                                              groupId:(NSString *)groupId
                                                flags:(MSFlags)flags
-                              andVerifyLogGeneration:(BOOL)verify {
-  return [self generateAndSaveLogsWithCount:count size:size groupId:groupId flags:flags storage:self.sut andVerifyLogGeneration:verify];
+                              andVerifyLogGeneration:(BOOL)verify
+                                          andLogDate:(NSDate *)logDate {
+  return [self generateAndSaveLogsWithCount:count
+                                       size:size
+                                    groupId:groupId
+                                      flags:flags
+                                    storage:self.sut
+                     andVerifyLogGeneration:verify
+                                timestampMs:(long long)([logDate timeIntervalSince1970] * 1000)];
 }
 
 - (NSArray<id<MSLog>> *)generateAndSaveLogsWithCount:(NSUInteger)count
@@ -1020,16 +1264,17 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
                                              groupId:(NSString *)groupId
                                                flags:(MSFlags)flags
                                              storage:(MSDBStorage *)storage
-                              andVerifyLogGeneration:(BOOL)verify {
+                              andVerifyLogGeneration:(BOOL)verify
+                                         timestampMs:(long long)timestampMs {
   NSMutableArray<id<MSLog>> *logs = [NSMutableArray arrayWithCapacity:count];
   NSUInteger trueLogCount;
   for (NSUInteger i = 0; i < count; ++i) {
     id<MSLog> log = [self generateLogWithSize:size];
     NSData *logData = [NSKeyedArchiver archivedDataWithRootObject:log];
     NSString *base64Data = [logData base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
-    NSString *addLogQuery =
-        [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\") VALUES ('%@', '%@', %u)", kMSLogTableName,
-                                   kMSGroupIdColumnName, kMSLogColumnName, kMSPriorityColumnName, groupId, base64Data, (unsigned int)flags];
+    NSString *addLogQuery = [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\", \"%@\") VALUES ('%@', '%@', %u, %lld)",
+                                                       kMSLogTableName, kMSGroupIdColumnName, kMSLogColumnName, kMSPriorityColumnName,
+                                                       kMSTimestampColumnName, groupId, base64Data, (unsigned int)flags, timestampMs];
     [storage executeNonSelectionQuery:addLogQuery];
     [logs addObject:log];
   }
@@ -1037,9 +1282,10 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   if (verify) {
 
     // Check the insertion worked.
-    trueLogCount = [storage countEntriesForTable:kMSLogTableName
-                                       condition:[NSString stringWithFormat:@"\"%@\" = '%@' AND \"%@\" = %u", kMSGroupIdColumnName, groupId,
-                                                                            kMSPriorityColumnName, (unsigned int)flags]];
+    trueLogCount = [storage
+        countEntriesForTable:kMSLogTableName
+                   condition:[NSString stringWithFormat:@"\"%@\" = '%@' AND \"%@\" = %u AND \"%@\" = %lld", kMSGroupIdColumnName, groupId,
+                                                        kMSPriorityColumnName, (unsigned int)flags, kMSTimestampColumnName, timestampMs]];
     assertThatUnsignedInteger(trueLogCount, equalToUnsignedInteger(count));
   }
   return logs;

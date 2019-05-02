@@ -1,6 +1,9 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+#import "MSDistributeIngestion.h"
 #import "MSAppCenter.h"
 #import "MSAppCenterInternal.h"
-#import "MSDistributeIngestion.h"
 #import "MSHttpIngestionPrivate.h"
 #import "MSLoggerInternal.h"
 
@@ -29,15 +32,14 @@ static NSString *const kMSLatestPublicReleaseApiPathFormat = @"/public/sdk/apps/
                              apiPath:apiPath
                              headers:header
                         queryStrings:queryStrings
-                        reachability:[MS_Reachability reachabilityForInternetConnection]
-                      retryIntervals:@[ @(10), @(5 * 60), @(20 * 60) ]])) {
+                        reachability:[MS_Reachability reachabilityForInternetConnection]])) {
     _appSecret = appSecret;
   }
 
   return self;
 }
 
-- (NSURLRequest *)createRequest:(NSObject *)__unused data {
+- (NSURLRequest *)createRequest:(NSObject *)__unused data eTag:(NSString *)__unused eTag authToken:(nullable NSString *)__unused authToken {
   NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:self.sendURL];
 
   // Set method.
@@ -55,7 +57,7 @@ static NSString *const kMSLatestPublicReleaseApiPathFormat = @"/public/sdk/apps/
   // Don't lose time pretty printing headers if not going to be printed.
   if ([MSLogger currentLogLevel] <= MSLogLevelVerbose) {
     NSString *url = [request.URL.absoluteString stringByReplacingOccurrencesOfString:self.appSecret
-                                                                          withString:[MSIngestionUtil hideSecret:self.appSecret]];
+                                                                          withString:[MSHttpUtil hideSecret:self.appSecret]];
     MSLogVerbose([MSAppCenter logTag], @"URL: %@", url);
     MSLogVerbose([MSAppCenter logTag], @"Headers: %@", [super prettyPrintHeaders:request.allHTTPHeaderFields]);
   }
@@ -64,7 +66,7 @@ static NSString *const kMSLatestPublicReleaseApiPathFormat = @"/public/sdk/apps/
 }
 
 - (NSString *)obfuscateHeaderValue:(NSString *)value forKey:(NSString *)key {
-  return [key isEqualToString:kMSHeaderUpdateApiToken] ? [MSIngestionUtil hideSecret:value] : value;
+  return [key isEqualToString:kMSHeaderUpdateApiToken] ? [MSHttpUtil hideSecret:value] : value;
 }
 
 @end

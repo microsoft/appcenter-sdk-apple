@@ -1,6 +1,10 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 #import "MSAppCenter.h"
 #import "MSAppCenterInternal.h"
 #import "MSAppCenterPrivate.h"
+#import "MSChannelGroupDefault.h"
 #import "MSLoggerInternal.h"
 #import "MSTestFrameworks.h"
 
@@ -17,11 +21,15 @@
   [MSLogger setIsUserDefinedLogLevel:NO];
 }
 
-- (void)tearDown {
-  [super tearDown];
-}
-
 - (void)testDefaultLogLevels {
+
+  // If
+  // Mock channels to avoid background activity.
+  id channelGroupMock = OCMClassMock([MSChannelGroupDefault class]);
+  id channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  OCMStub([channelGroupMock alloc]).andReturn(channelGroupMock);
+  OCMStub([channelGroupMock initWithInstallId:OCMOCK_ANY logUrl:OCMOCK_ANY]).andReturn(channelGroupMock);
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
 
   // Check default loglevel before MSAppCenter was started.
   XCTAssertTrue([MSLogger currentLogLevel] == MSLogLevelAssert);
@@ -32,7 +40,11 @@
   [MSAppCenter sharedInstance].sdkConfigured = NO;
   [MSAppCenter start:MS_UUID_STRING withServices:nil];
 
+  // Then
   XCTAssertTrue([MSLogger currentLogLevel] == MSLogLevelWarning);
+
+  // Clear
+  [channelGroupMock stopMocking];
 }
 
 - (void)testSetLoglevels {
@@ -52,7 +64,6 @@
 
   // If
   MSLogMessageProvider messageProvider = ^() {
-
     // Then
     XCTFail(@"Log shouldn't be printed.");
     return @"";
