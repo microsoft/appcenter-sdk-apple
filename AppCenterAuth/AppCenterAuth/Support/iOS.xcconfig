@@ -1,5 +1,3 @@
 #include "../../../Config/iOS.xcconfig"
 
-OTHER_LDFLAGS=$(inherited) -framework UIKit -framework AuthenticationServices -framework WebKit
-
 USER_HEADER_SEARCH_PATHS=$(inherited) $(SRCROOT)/MSAL/**
