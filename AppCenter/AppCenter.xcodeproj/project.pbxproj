@@ -952,6 +952,7 @@
 		043120711EE0BCC4007054C5 /* tvOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = tvOS.xcconfig; sourceTree = "<group>"; };
 		043120DA1EE0BCF9007054C5 /* libAppCenter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAppCenter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		0446DF2B1F3B864600C8E338 /* AppCenter.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppCenter.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		04545DC8227B603D00A49E06 /* AppCenter.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = AppCenter.xcconfig; sourceTree = "<group>"; };
 		045660FA1D99EEEB002F7055 /* MSLogWithPropertiesTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSLogWithPropertiesTests.m; sourceTree = "<group>"; };
 		045BC3161E3FD88600B6C960 /* MSKeychainUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSKeychainUtil.m; sourceTree = "<group>"; };
 		045BC3181E3FD8AC00B6C960 /* MSKeychainUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSKeychainUtil.h; sourceTree = "<group>"; };
@@ -1631,6 +1632,7 @@
 		6E0401821D1CAD810051BCFA /* Support */ = {
 			isa = PBXGroup;
 			children = (
+				04545DC8227B603D00A49E06 /* AppCenter.xcconfig */,
 				6E0401841D1CAD810051BCFA /* AppCenter Debug.xcconfig */,
 				0469D1B11F4DF89A00A43A8E /* AppCenter Release.xcconfig */,
 				049BC8281ECE3A5200FB6719 /* iOS.xcconfig */,

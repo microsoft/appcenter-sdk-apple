@@ -303,6 +303,7 @@
 		0446DF5E1F3B8FBA00C8E338 /* libAppCenter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAppCenter.a; path = "../../../../../Library/Developer/Xcode/DerivedData/MobileCenter-atgozldoovnqvrcmynluxwlivwkq/Build/Products/Debug-appletvsimulator/libAppCenter.a"; sourceTree = "<group>"; };
 		0446DF611F3B95EB00C8E338 /* libAppCenter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAppCenter.a; path = "../../../../../Library/Developer/Xcode/DerivedData/MobileCenter-atgozldoovnqvrcmynluxwlivwkq/Build/Products/Debug/libAppCenter.a"; sourceTree = "<group>"; };
 		0446DF631F3B95F200C8E338 /* libAppCenter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAppCenter.a; path = "../../../../../Library/Developer/Xcode/DerivedData/MobileCenter-atgozldoovnqvrcmynluxwlivwkq/Build/Products/Debug-iphonesimulator/libAppCenter.a"; sourceTree = "<group>"; };
+		04545DBD227B603100A49E06 /* AppCenterAuth.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = AppCenterAuth.xcconfig; sourceTree = "<group>"; };
 		0469D1B21F4DFE4C00A43A8E /* AppCenterAuth Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "AppCenterAuth Release.xcconfig"; sourceTree = "<group>"; };
 		046AEAC61ECA51AF00CBE511 /* AppCenterAuth.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppCenterAuth.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0481A54921FA511C001FA9D8 /* MSAuthConfigIngestion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAuthConfigIngestion.m; sourceTree = "<group>"; };
@@ -641,6 +642,7 @@
 		E85547D01D2D65AF002DF6E2 /* Support */ = {
 			isa = PBXGroup;
 			children = (
+				04545DBD227B603100A49E06 /* AppCenterAuth.xcconfig */,
 				B2812EF21DA3148000307DCE /* AppCenterAuth Debug.xcconfig */,
 				0469D1B21F4DFE4C00A43A8E /* AppCenterAuth Release.xcconfig */,
 				049BC82A1ECE3B9400FB6719 /* iOS.xcconfig */,
