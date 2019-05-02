@@ -20,7 +20,7 @@ The App Center SDK uses a modular architecture so you can use any or all of the 
 
 5. **App Center Data**: The App Center Data service provides functionality enabling developers to persist app data in the cloud in both online and offline scenarios. This enables you to store and manage both user-specific data as well as data shared between users and across platforms. **Not available for macOS*.
 
-6. **App Center Auth**: App Center Auth is a cloud-based identity management service that enables you to authenticate users and manage their identities. You can also leverage user identities in other App Center services. **Not available for macOS*.
+6. **App Center Auth**: App Center Auth is a cloud-based identity management service that enables developers to authenticate application users and manage user identities. The service integrates with other parts of App Center, enabling developers to leverage the user identities to view user data in other services and even send push notifications to users instead of individual devices. **Not available for macOS*.
 
 ## 1. Get started
 
