@@ -1,10 +1,28 @@
 # App Center SDK for iOS and macOS Change Log
 
-## Version 2.0.0 (not yet released)
+## Version 2.0.0
+
+Version 2.0.0 of the App Center SDK includes two new modules: Auth and Data. This version has a **breaking change**, it only supports Xcode 10.0.0+.
+
+### AppCenterAuth
+App Center Auth is a cloud-based identity management service that enables you to authenticate users and manage their identities. You can also leverage user identities in other App Center services. **iOS only, not available for macOS*.
+
+### AppCenterData
+The App Center Data service provides functionality enabling developers to persist app data in the cloud in both online and offline scenarios. This enables you to store and manage both user-specific data as well as data shared between users and across platforms. **iOS only, not available for macOS*.
+
+### AppCenterCrashes
+
+* **[Feature]** After calling `[MSAuth signInWithCompletionHandler:]`, the next crashes are associated with an `accountId` corresponding to the signed in user. This is a different field than the `userId` set by `[MSAppCenter setUserId:]`. Calling `[MSAuth signOut]` stops the `accountId` association for the next crashes. 
+* **[Fix]** Print an error and return immediately when calling `[MSCrashes notifyWithUserConfirmation:]` with confirmation handlers not implemented.
 
 ### AppCenterDistribute
 
 * **[Fix]** Starting the application with "Guided Access" enabled blocks the update flow since in-app update is not possible in this mode.
+
+### AppCenterPush
+
+* **[Feature]** After calling `[MSAuth signInWithCompletionHandler:]`, the push installation is associated to the signed in user with an `accountId` and can be pushed by using the `accountId` audience. This is a different field than the `userId` set by `[MSAppCenter setUserId:]`. The push installation is also updated on calling `[MSAuth signOut]` to stop the association.
+* **[Fix]** Fix updating push installation when setting the user identifier via  `[MSAppCenter setUserId:]`.
 
 ___
 
