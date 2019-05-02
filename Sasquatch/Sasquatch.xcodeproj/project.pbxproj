@@ -199,7 +199,6 @@
 		B2A4CFAD210A6E6900199B4F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84226C1C1E88FEFC00798417 /* Assets.xcassets */; };
 		B2A4CFAE210A6E6900199B4F /* MSAnalyticsPropertyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2E011EF21091EF2003F4A5B /* MSAnalyticsPropertyTableViewCell.xib */; };
 		B2A4CFB0210A6E6900199B4F /* CrashLibIOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F89D79081E93DA3A0094521F /* CrashLibIOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		B2A888A62102A44B001ACFDF /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2A888A52102A44B001ACFDF /* SafariServices.framework */; };
 		B2B36CE21EEF49B700230341 /* MSCustomPropertiesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B36CE11EEF49B700230341 /* MSCustomPropertiesViewController.swift */; };
 		B2B36CE31EEF49C400230341 /* MSCustomPropertiesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B36CE11EEF49B700230341 /* MSCustomPropertiesViewController.swift */; };
 		B2C97B8B2106535500042A03 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B2C97B8A2106535500042A03 /* Assets.xcassets */; };
@@ -856,7 +855,6 @@
 		B2586C88210A485300664A43 /* MSAnalyticsResultViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSAnalyticsResultViewController.swift; sourceTree = "<group>"; };
 		B27D54D2210A5E7E004E82C9 /* SasquatchObjC-Preview.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SasquatchObjC-Preview.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2A4CFB6210A6E6900199B4F /* SasquatchSwift-Preview.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SasquatchSwift-Preview.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		B2A888A52102A44B001ACFDF /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
 		B2A888B52102B1E7001ACFDF /* SasquatchPuppetUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SasquatchPuppetUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2A888B92102B1E7001ACFDF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B2A888EA2102B2C5001ACFDF /* AppCenterUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppCenterUITests.swift; sourceTree = "<group>"; };
@@ -962,7 +960,6 @@
 				04A1DB34223B65EB006A48D6 /* AuthenticationServices.framework in Frameworks */,
 				B20AE48A21028E3C00A1A195 /* libz.tbd in Frameworks */,
 				B20AE48821028E3300A1A195 /* libc++.tbd in Frameworks */,
-				B2A888A62102A44B001ACFDF /* SafariServices.framework in Frameworks */,
 				B20AE39521027D6200A1A195 /* CrashLibIOS.framework in Frameworks */,
 				B20AE4402102820300A1A195 /* libAppCenterPush.a in Frameworks */,
 				F8FE732F210730A8005C6A74 /* CrashReporter.framework in Frameworks */,
@@ -1207,7 +1204,6 @@
 			isa = PBXGroup;
 			children = (
 				04A1DB33223B65EB006A48D6 /* AuthenticationServices.framework */,
-				B2A888A52102A44B001ACFDF /* SafariServices.framework */,
 				B20AE48921028E3C00A1A195 /* libz.tbd */,
 				B20AE48721028E3300A1A195 /* libc++.tbd */,
 				B20AE48521028E2A00A1A195 /* libsqlite3.tbd */,
@@ -1823,6 +1819,10 @@
 					ProjectRef = B20AE3D42102813300A1A195 /* AppCenterAnalytics.xcodeproj */;
 				},
 				{
+					ProductGroup = 995BA60D21EFFA93000E3212 /* Products */;
+					ProjectRef = 995BA60C21EFFA93000E3212 /* AppCenterAuth.xcodeproj */;
+				},
+				{
 					ProductGroup = B20AE3F32102818B00A1A195 /* Products */;
 					ProjectRef = B20AE3F22102818B00A1A195 /* AppCenterCrashes.xcodeproj */;
 				},
@@ -1833,10 +1833,6 @@
 				{
 					ProductGroup = B20AE40E2102819C00A1A195 /* Products */;
 					ProjectRef = B20AE40D2102819C00A1A195 /* AppCenterDistribute.xcodeproj */;
-				},
-				{
-					ProductGroup = 995BA60D21EFFA93000E3212 /* Products */;
-					ProjectRef = 995BA60C21EFFA93000E3212 /* AppCenterAuth.xcodeproj */;
 				},
 				{
 					ProductGroup = B20AE42A210281C400A1A195 /* Products */;
