@@ -72,6 +72,19 @@ extern NSString *MSUtilityStringFormattingCategory;
  */
 + (nullable NSString *)prettyPrintJson:(nullable NSData *)data;
 
+/**
+ * Hide sensitive values included in string.
+ *
+ * @param unObfuscatedString String to obfuscate.
+ * @param pattern Pattern to searching for.
+ * @param aTemplate Template applied to any found pattern.
+ *
+ * @return Obfuscated string or nil if obfuscation failed.
+ */
++ (nullable NSString *)obfuscateString:(nullable NSString *)unObfuscatedString
+                   searchingForPattern:(NSString *)pattern
+                 toReplaceWithTemplate:(NSString *)aTemplate;
+
 @end
 
 NS_ASSUME_NONNULL_END
