@@ -5,9 +5,11 @@
 Version 2.0.0 of the App Center SDK includes two new modules: Auth and Data. This version has a **breaking change**, it only supports Xcode 10.0.0+.
 
 ### AppCenterAuth
+
 App Center Auth is a cloud-based identity management service that enables you to authenticate users and manage their identities. You can also leverage user identities in other App Center services. **iOS only, not available for macOS*.
 
 ### AppCenterData
+
 The App Center Data service provides functionality enabling developers to persist app data in the cloud in both online and offline scenarios. This enables you to store and manage both user-specific data as well as data shared between users and across platforms. **iOS only, not available for macOS*.
 
 ### AppCenterCrashes
