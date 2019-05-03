@@ -7,15 +7,6 @@
 
 @implementation MSTokenResult
 
-static NSString *const kMSDbName = @"dbName";
-static NSString *const kMSStatus = @"status";
-static NSString *const kMSPartition = @"partition";
-static NSString *const kMSDbAccount = @"dbAccount";
-static NSString *const kMSDbCollectionName = @"dbCollectionName";
-static NSString *const kMSExpiresOn = @"expiresOn";
-static NSString *const kMSToken = @"token";
-static NSString *const kMSAccountId = @"accountId";
-
 @synthesize partition = _partition;
 @synthesize dbAccount = _dbAccount;
 @synthesize dbName = _dbName;
@@ -24,6 +15,15 @@ static NSString *const kMSAccountId = @"accountId";
 @synthesize status = _status;
 @synthesize expiresOn = _expiresOn;
 @synthesize accountId = _accountId;
+
+NSString *kMSDbName = @"dbName";
+NSString *kMSStatus = @"status";
+NSString *kMSPartition = @"partition";
+NSString *kMSDbAccount = @"dbAccount";
+NSString *kMSDbCollectionName = @"dbCollectionName";
+NSString *kMSExpiresOn = @"expiresOn";
+NSString *kMSToken = @"token";
+NSString *kMSAccountId = @"accountId";
 
 - (instancetype)initWithPartition:(NSString *)partition
                         dbAccount:(NSString *)dbAccount
