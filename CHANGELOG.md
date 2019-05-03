@@ -1,8 +1,8 @@
 # App Center SDK for iOS and macOS Change Log
 
-## Version 2.0.0
+## Version 2.0.1
 
-Version 2.0.0 of the App Center SDK includes two new modules: Auth and Data. This version has a **breaking change**, it only supports Xcode 10.0.0+.
+Version 2.0.1 of the App Center SDK includes two new modules: Auth and Data. This version has a **breaking change**, it only supports Xcode 10.0.0+.
 
 ### AppCenterAuth
 
