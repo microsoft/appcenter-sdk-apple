@@ -100,8 +100,8 @@ Pod::Spec.new do |s|
   s.subspec 'Auth' do |ss|
     ss.dependency 'AppCenter/Core'
     ss.frameworks = 'Foundation'
-    ss.ios.frameworks = 'UIKit', 'AuthenticationServices', 'WebKit'
-    ss.ios.weak_frameworks = 'SafariServices'
+    ss.ios.frameworks = 'UIKit', 'WebKit'
+    ss.ios.weak_frameworks = 'SafariServices', 'AuthenticationServices'
     ss.ios.vendored_frameworks = "AppCenter-SDK-Apple/iOS/AppCenterAuth.framework"
   end
 
