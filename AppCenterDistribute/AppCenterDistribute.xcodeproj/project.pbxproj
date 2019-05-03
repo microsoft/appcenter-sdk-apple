@@ -157,6 +157,7 @@
 		0420A69B1ECA7C8E00915619 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = ../../iOS/OCMock/OCMock.framework; sourceTree = "<group>"; };
 		04311FF71EE0871D007054C5 /* MSTestFrameworks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSTestFrameworks.h; path = ../../../AppCenter/AppCenterTests/Util/MSTestFrameworks.h; sourceTree = "<group>"; };
 		043E2AB31F4E024300615AD9 /* AppCenterDistribute Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "AppCenterDistribute Release.xcconfig"; sourceTree = "<group>"; };
+		04545DCC227B606600A49E06 /* AppCenterDistribute.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = AppCenterDistribute.xcconfig; sourceTree = "<group>"; };
 		046BE6481F8C1A7900310886 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "Resources/zh-Hans.lproj/AppCenterDistribute.strings"; sourceTree = "<group>"; };
 		046BE6491F8C1A9900310886 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "Resources/zh-Hant.lproj/AppCenterDistribute.strings"; sourceTree = "<group>"; };
 		046BE64A1F8C1AB600310886 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = Resources/ko.lproj/AppCenterDistribute.strings; sourceTree = "<group>"; };
@@ -323,6 +324,7 @@
 		0471B5F31E45466F0022F951 /* Support */ = {
 			isa = PBXGroup;
 			children = (
+				04545DCC227B606600A49E06 /* AppCenterDistribute.xcconfig */,
 				0471B5F41E45466F0022F951 /* AppCenterDistribute Debug.xcconfig */,
 				043E2AB31F4E024300615AD9 /* AppCenterDistribute Release.xcconfig */,
 				049BC8221ECE349200FB6719 /* iOS.xcconfig */,

@@ -235,7 +235,23 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
 
                             // Don't lose time pretty printing if not going to be printed.
                             else if ([MSAppCenter logLevel] <= MSLogLevelVerbose) {
-                              NSString *payload = [MSUtility prettyPrintJson:data];
+                              NSString *contentType = httpResponse.allHeaderFields[kMSHeaderContentTypeKey];
+                              NSString *payload;
+
+                              // Obfuscate payload.
+                              if (data.length > 0) {
+                                if ([contentType hasPrefix:@"application/json"]) {
+                                  payload = [MSUtility obfuscateString:[MSUtility prettyPrintJson:data]
+                                                   searchingForPattern:kMSTokenKeyValuePattern
+                                                 toReplaceWithTemplate:kMSTokenKeyValueObfuscatedTemplate];
+                                } else if ([contentType hasPrefix:@"text/"] || [contentType hasPrefix:@"application/"]) {
+                                  payload = [MSUtility obfuscateString:[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]
+                                                   searchingForPattern:kMSTokenKeyValuePattern
+                                                 toReplaceWithTemplate:kMSTokenKeyValueObfuscatedTemplate];
+                                } else {
+                                  payload = @"<binary>";
+                                }
+                              }
                               MSLogVerbose([MSAppCenter logTag], @"HTTP response received with status code: %tu, payload:\n%@",
                                            httpResponse.statusCode, payload);
                             }

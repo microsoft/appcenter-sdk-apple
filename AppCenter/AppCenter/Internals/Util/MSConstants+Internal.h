@@ -21,6 +21,10 @@ static NSString *const kMSHeaderContentEncoding = @"gzip";
 static NSString *const kMSAuthorizationHeaderKey = @"Authorization";
 static NSString *const kMSRetryHeaderKey = @"x-ms-retry-after-ms";
 
+// Token obfuscation.
+static NSString *const kMSTokenKeyValuePattern = @"\"token\" : \"[^\"]+\"";
+static NSString *const kMSTokenKeyValueObfuscatedTemplate = @"\"token\" : \"***\"";
+
 /**
  * The key for auth token history array stored in keychain.
  */

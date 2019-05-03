@@ -178,6 +178,7 @@
 		0420A6A11ECA7D7200915619 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = ../Vendor/iOS/OCMock/OCMock.framework; sourceTree = "<group>"; };
 		04311FF91EE08772007054C5 /* MSTestFrameworks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSTestFrameworks.h; path = ../../../AppCenter/AppCenterTests/Util/MSTestFrameworks.h; sourceTree = "<group>"; };
 		043E2ABA1F4E033A00615AD9 /* AppCenterPush Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "AppCenterPush Release.xcconfig"; sourceTree = "<group>"; };
+		04545DCD227B607200A49E06 /* AppCenterPush.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = AppCenterPush.xcconfig; sourceTree = "<group>"; };
 		0469640D1F2A558300F9D31F /* libAppCenterPush.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAppCenterPush.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		046964251F2A559C00F9D31F /* AppCenterPush.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppCenterPush.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0469642E1F2A55CF00F9D31F /* macOS.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = macOS.modulemap; sourceTree = "<group>"; };
@@ -417,6 +418,7 @@
 		D3AD5F031E5C7FC9001627AB /* Support */ = {
 			isa = PBXGroup;
 			children = (
+				04545DCD227B607200A49E06 /* AppCenterPush.xcconfig */,
 				D3AD5F051E5C7FFF001627AB /* AppCenterPush Debug.xcconfig */,
 				043E2ABA1F4E033A00615AD9 /* AppCenterPush Release.xcconfig */,
 				049BC81E1ECE333700FB6719 /* iOS.xcconfig */,

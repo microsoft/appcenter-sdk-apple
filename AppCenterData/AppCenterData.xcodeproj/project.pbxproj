@@ -262,6 +262,7 @@
 		041CFFA71ECD0E9A00B4654B /* Tests iOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Tests iOS.xcconfig"; path = "../../Config/Tests iOS.xcconfig"; sourceTree = "<group>"; };
 		0420A6A11ECA7D7200915619 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = ../Vendor/iOS/OCMock/OCMock.framework; sourceTree = "<group>"; };
 		043E2ABA1F4E033A00615AD9 /* AppCenterData Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "AppCenterData Release.xcconfig"; sourceTree = "<group>"; };
+		04545DCB227B605B00A49E06 /* AppCenterData.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = AppCenterData.xcconfig; sourceTree = "<group>"; };
 		0460FD99225544E3004E48EA /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OHHTTPStubs.framework; path = ../Vendor/iOS/OHHTTPStubs/OHHTTPStubs.framework; sourceTree = "<group>"; };
 		0460FD9B225544F6004E48EA /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OHHTTPStubs.framework; path = ../Vendor/macOS/OHHTTPStubs/OHHTTPStubs.framework; sourceTree = "<group>"; };
 		0469640D1F2A558300F9D31F /* libAppCenterData.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAppCenterData.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -588,6 +589,7 @@
 		D3AD5F031E5C7FC9001627AB /* Support */ = {
 			isa = PBXGroup;
 			children = (
+				04545DCB227B605B00A49E06 /* AppCenterData.xcconfig */,
 				D3AD5F051E5C7FFF001627AB /* AppCenterData Debug.xcconfig */,
 				043E2ABA1F4E033A00615AD9 /* AppCenterData Release.xcconfig */,
 				049BC81E1ECE333700FB6719 /* iOS.xcconfig */,
