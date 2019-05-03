@@ -41,7 +41,11 @@
 + (NSString *)hideAuthToken:(NSString *)token {
 
   // Hide token value.
-  NSString *prefix = [[token componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] firstObject];
+  NSArray<NSString *> *tokenArray = [token componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+  if (tokenArray.count == 1) {
+    return @"***";
+  }
+  NSString *prefix = [tokenArray firstObject];
   return [prefix stringByAppendingString:@" ***"];
 }
 
