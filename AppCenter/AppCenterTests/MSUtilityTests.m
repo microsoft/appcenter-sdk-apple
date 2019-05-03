@@ -858,4 +858,24 @@
   XCTAssertEqualObjects(targetId, @"targetId");
 }
 
+- (void)testObfuscateString {
+  // If
+  NSString *pattern = @"\"token\":\"[^\"]+\"";
+  NSString *template = @"\"token\":\"***\"";
+
+  // Then
+  XCTAssertNil([MSUtility obfuscateString:nil searchingForPattern:pattern toReplaceWithTemplate:template]);
+  XCTAssertEqualObjects([MSUtility obfuscateString:@"" searchingForPattern:pattern toReplaceWithTemplate:template], @"");
+  XCTAssertEqualObjects([MSUtility obfuscateString:@"{\"something\":\"else\"}" searchingForPattern:pattern toReplaceWithTemplate:template],
+                        @"{\"something\":\"else\"}");
+
+  // If
+  NSString *unObfuscatedString = @"{\"something\":\"else\",\"token\":\"atoken\"}";
+  NSString *expectedString = [NSString stringWithFormat:@"{\"something\":\"else\",%@}", template];
+
+  // Then
+  XCTAssertEqualObjects([MSUtility obfuscateString:unObfuscatedString searchingForPattern:pattern toReplaceWithTemplate:template],
+                        expectedString);
+}
+
 @end
