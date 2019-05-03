@@ -18,7 +18,6 @@
                                      eTag:(NSString *)eTag
                           lastUpdatedDate:(NSDate *)lastUpdatedDate
                          pendingOperation:(nullable NSString *)pendingOperation
-                                    error:(MSDataError *)error
                           fromDeviceCache:(BOOL)fromDeviceCache {
   if ((self = [super init])) {
     _deserializedValue = deserializedValue;
@@ -27,17 +26,32 @@
     _documentId = documentId;
     _eTag = eTag;
     _lastUpdatedDate = lastUpdatedDate;
-    _error = error;
     _pendingOperation = pendingOperation;
     _fromDeviceCache = fromDeviceCache;
   }
   return self;
 }
 
-- (instancetype)initWithError:(MSDataError *)error documentId:(NSString *)documentId {
+- (instancetype)initWithError:(MSDataError *)error
+                   documentId:(NSString *)documentId
+                    partition:(NSString *)partition {
   if ((self = [super init])) {
     _documentId = documentId;
     _error = error;
+    _partition = partition;
+  }
+  return self;
+}
+
+- (instancetype)initWithError:(MSDataError *)error
+                   documentId:(NSString *)documentId
+                    partition:(NSString *)partition
+                         eTag:(NSString *)eTag {
+  if ((self = [super init])) {
+    _documentId = documentId;
+    _error = error;
+    _partition = partition;
+    _eTag = eTag;
   }
   return self;
 }

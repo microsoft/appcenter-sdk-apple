@@ -65,7 +65,7 @@ static NSString *const kMSDocumentKey = @"document";
     }
     MSLogError([MSData logTag], @"Error deserializing data: %@", [error description]);
     MSDataError *dataError = [[MSDataError alloc] initWithErrorCode:MSACDataErrorJSONSerializationFailed innerError:error message:nil];
-    return [[MSDocumentWrapper alloc] initWithError:dataError documentId:nil];
+    return [[MSDocumentWrapper alloc] initWithError:dataError documentId:nil partition:nil];
   }
 
   // Proceed from the dictionary.
@@ -98,7 +98,7 @@ static NSString *const kMSDocumentKey = @"document";
     }
     MSLogError([MSData logTag], @"Error deserializing data: %@", [error localizedDescription]);
     MSDataError *dataError = [[MSDataError alloc] initWithErrorCode:MSACDataErrorJSONSerializationFailed innerError:error message:nil];
-    return [[MSDocumentWrapper alloc] initWithError:dataError documentId:documentId];
+    return [[MSDocumentWrapper alloc] initWithError:dataError documentId:documentId partition:partition eTag:eTag];
   }
 
   // Proceed from the dictionary.
@@ -129,7 +129,7 @@ static NSString *const kMSDocumentKey = @"document";
                                                          innerError:nil
                                                             message:errorMessage];
     MSLogError([MSData logTag], @"Error deserializing data: %@.", [dataError localizedDescription]);
-    return [[MSDocumentWrapper alloc] initWithError:dataError documentId:nil];
+    return [[MSDocumentWrapper alloc] initWithError:dataError documentId:nil partition:nil];
   }
   NSDictionary *dictionary = (NSDictionary *)object;
   NSString *documentId = dictionary[kMSDocumentIdKey];
@@ -170,7 +170,6 @@ static NSString *const kMSDocumentKey = @"document";
                                                          eTag:eTag
                                               lastUpdatedDate:lastUpdatedDate
                                              pendingOperation:pendingOperation
-                                                        error:dataError
                                               fromDeviceCache:fromDeviceCache];
 }
 
