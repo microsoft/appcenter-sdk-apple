@@ -280,10 +280,7 @@ static dispatch_once_t onceToken;
     // Check precondition.
     if (![self canBeUsed] || ![self isEnabled]) {
       MSDataError *dataError = [self generateDisabledError:@"delete" documentId:documentID];
-      completionHandler([[MSDocumentWrapper alloc]
-                         initWithError:dataError
-                         documentId:documentID
-                         partition:partition]);
+      completionHandler([[MSDocumentWrapper alloc] initWithError:dataError documentId:documentID partition:partition]);
       return;
     }
 
@@ -515,7 +512,9 @@ static dispatch_once_t onceToken;
                                 MSLogError([MSData logTag],
                                            @"Unable to read document %@ with error: %@. Status code %ld when expecting %ld.", documentId,
                                            [actualDataError localizedDescription], (long)response.statusCode, (long)MSHTTPCodesNo200OK);
-                                completionHandler([[MSDocumentWrapper alloc] initWithError:actualDataError documentId:documentId partition:partition]);
+                                completionHandler([[MSDocumentWrapper alloc] initWithError:actualDataError
+                                                                                documentId:documentId
+                                                                                 partition:partition]);
                               }
 
                               // (Try to) deserialize the incoming document.
@@ -571,7 +570,9 @@ static dispatch_once_t onceToken;
                                          @"Unable to create/replace document %@ with error: %@. Status code %ld when expecting %ld or %ld.",
                                          documentId, [actualDataError localizedDescription], (long)response.statusCode,
                                          (long)MSHTTPCodesNo200OK, (long)MSHTTPCodesNo201Created);
-                              completionHandler([[MSDocumentWrapper alloc] initWithError:actualDataError documentId:documentId partition:partition]);
+                              completionHandler([[MSDocumentWrapper alloc] initWithError:actualDataError
+                                                                              documentId:documentId
+                                                                               partition:partition]);
                             }
 
                             // (Try to) deserialize saved document.
@@ -603,7 +604,9 @@ static dispatch_once_t onceToken;
                                            @"Unable to delete document %@ with error: %@. Status code %ld when expecting %ld.", documentId,
                                            [actualDataError localizedDescription], (long)response.statusCode,
                                            (long)MSHTTPCodesNo204NoContent);
-                                completionHandler([[MSDocumentWrapper alloc] initWithError:actualDataError documentId:documentId partition:partition]);
+                                completionHandler([[MSDocumentWrapper alloc] initWithError:actualDataError
+                                                                                documentId:documentId
+                                                                                 partition:partition]);
                               }
 
                               // Return a non-error document wrapper object to confirm the operation.
