@@ -170,7 +170,8 @@ static NSString *const kMSDocumentKey = @"document";
                                                          eTag:eTag
                                               lastUpdatedDate:lastUpdatedDate
                                              pendingOperation:pendingOperation
-                                              fromDeviceCache:fromDeviceCache];
+                                              fromDeviceCache:fromDeviceCache
+                                                        error:dataError];
 }
 
 + (NSString *)jsonValueForDictionary:(NSDictionary *)dictionary dataError:(MSDataError *__autoreleasing *)dataError {

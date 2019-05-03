@@ -217,11 +217,11 @@
   // Then
   XCTAssertNotNil(document);
   XCTAssertNotNil([document error]);
-  XCTAssertEqual([document documentId], @"document-id");
+  XCTAssertEqualObjects([document documentId], @"document-id");
   XCTAssertNil([document deserializedValue]);
-  XCTAssertNil([document eTag]);
+  XCTAssertEqualObjects([document eTag], @"etag");
   XCTAssertNil([document lastUpdatedDate]);
-  XCTAssertNil([document partition]);
+  XCTAssertEqualObjects([document partition], @"partition");
   XCTAssertNil([document jsonValue]);
 }
 

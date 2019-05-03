@@ -19,6 +19,26 @@
                           lastUpdatedDate:(NSDate *)lastUpdatedDate
                          pendingOperation:(nullable NSString *)pendingOperation
                           fromDeviceCache:(BOOL)fromDeviceCache {
+  return [self initWithDeserializedValue:deserializedValue
+                               jsonValue:jsonValue
+                               partition:partition
+                              documentId:documentId
+                                    eTag:eTag
+                         lastUpdatedDate:lastUpdatedDate
+                        pendingOperation:pendingOperation
+                         fromDeviceCache:fromDeviceCache
+                                   error:nil];
+}
+
+- (instancetype)initWithDeserializedValue:(id<MSSerializableDocument>)deserializedValue
+                                jsonValue:(NSString *)jsonValue
+                                partition:(NSString *)partition
+                               documentId:(NSString *)documentId
+                                     eTag:(NSString *)eTag
+                          lastUpdatedDate:(NSDate *)lastUpdatedDate
+                         pendingOperation:(nullable NSString *)pendingOperation
+                          fromDeviceCache:(BOOL)fromDeviceCache
+                                    error:(MSDataError *)error {
   if ((self = [super init])) {
     _deserializedValue = deserializedValue;
     _jsonValue = jsonValue;
@@ -26,6 +46,7 @@
     _documentId = documentId;
     _eTag = eTag;
     _lastUpdatedDate = lastUpdatedDate;
+    _error = error;
     _pendingOperation = pendingOperation;
     _fromDeviceCache = fromDeviceCache;
   }
