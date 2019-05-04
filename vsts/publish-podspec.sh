@@ -97,7 +97,8 @@ if [ "$mode" == "internal" ] || [ "$mode" == "test" ]; then
     sed -i '' "s/https:\/\/github\.com\/microsoft\/AppCenter-SDK-Apple\/releases\/download\/#{s.version}\(\/AppCenter-SDK-Apple-\)\(\#{s.version}\)\(.zip\)/https:\/\/mobilecentersdkdev\.blob\.core\.windows\.net\/sdk\1\2+$BUILD_SOURCEVERSION\3/1" $PODSPEC_FILENAME
 
   fi
-
+  cat < $PODSPEC_FILENAME
+  
   ## 1. Get path of internal podspec local repo
   repo_path="$(pod repo | grep "$repo_name" | grep Path | head -1 | awk -F ": " '{print $2}')"
 
