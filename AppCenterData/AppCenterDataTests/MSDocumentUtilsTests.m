@@ -198,7 +198,7 @@
   XCTAssertNil([document jsonValue]);
 }
 
-- (void)testDocumentWrapperFromDocumentDataDeserializationßError {
+- (void)testDocumentWrapperFromDocumentDataDeserializationError {
 
   // If
   NSData *data = [self jsonFixture:@"invalidTestDocument"];
