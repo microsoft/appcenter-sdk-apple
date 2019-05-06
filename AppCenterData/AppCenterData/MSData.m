@@ -232,8 +232,7 @@ static dispatch_once_t onceToken;
       dataError = [self generateDisabledError:@"read" documentId:documentID];
     } else if (![MSDocumentUtils isSerializableDocument:documentType]) {
       dataError = [self generateInvalidClassError];
-    }
-    else if ([self isDocumentIdInvalid:documentID]) {
+    } else if ([self isDocumentIdInvalid:documentID]) {
       dataError = [self generateInvalidDocumentIdError];
     }
     if (dataError) {
@@ -296,7 +295,6 @@ static dispatch_once_t onceToken;
       completionHandler([[MSDocumentWrapper alloc] initWithError:dataError documentId:documentID]);
       return;
     }
-    
 
     // Perform deletion.
     dispatch_async(self.dispatchQueue, ^{
