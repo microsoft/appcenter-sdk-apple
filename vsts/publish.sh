@@ -59,16 +59,15 @@ echo "Publish version:" $publish_version
 
 # Read publish version for current build
 resp="$(curl -s $INTERNAL_RELEASE_VERSION_BY_BUILDID_PATH/$BUILD_BUILDID.txt)"
-version="$(echo $resp | jq -r '.version')"
 
 # Exit if response doesn't contain an array
-if [ -z $version ] || [ "$version" == "" ] || [ "$version" == "null" ]; then
+if [ -z $resp ] || [ "$resp" == "" ] || [ "$resp" == "null" ]; then
   echo "Cannot retrieve the latest version"
   echo "Response:" $resp
   exit 1
 fi
-echo "Found publish version for the build"
-echo "##vso[task.setvariable variable=SDK_PUBLISH_VERSION]$publish_version"
+echo "Found publish version for the build: $resp"
+echo "##vso[task.setvariable variable=SDK_PUBLISH_VERSION]$resp"
 
 if [ "$mode" == "internal" ]; then
 
