@@ -65,7 +65,7 @@ static NSString *const kMSDocumentKey = @"document";
     }
     MSLogError([MSData logTag], @"Error deserializing data: %@", [error description]);
     MSDataError *dataError = [[MSDataError alloc] initWithErrorCode:MSACDataErrorJSONSerializationFailed innerError:error message:nil];
-    return [[MSDocumentWrapper alloc] initWithError:dataError documentId:nil partition:nil];
+    return [[MSDocumentWrapper alloc] initWithError:dataError documentId:nil partition:nil eTag:nil];
   }
 
   // Proceed from the dictionary.
@@ -129,7 +129,7 @@ static NSString *const kMSDocumentKey = @"document";
                                                          innerError:nil
                                                             message:errorMessage];
     MSLogError([MSData logTag], @"Error deserializing data: %@.", [dataError localizedDescription]);
-    return [[MSDocumentWrapper alloc] initWithError:dataError documentId:nil partition:nil];
+    return [[MSDocumentWrapper alloc] initWithError:dataError documentId:nil partition:nil eTag:nil];
   }
   NSDictionary *dictionary = (NSDictionary *)object;
   NSString *documentId = dictionary[kMSDocumentIdKey];

@@ -32,10 +32,6 @@
   return self;
 }
 
-- (instancetype)initWithError:(MSDataError *)error documentId:(NSString *)documentId partition:(NSString *)partition {
-  return [self initWithError:error documentId:documentId partition:partition eTag:nil];
-}
-
 - (instancetype)initWithError:(MSDataError *)error documentId:(NSString *)documentId partition:(NSString *)partition eTag:(NSString *)eTag {
   if ((self = [super init])) {
     _documentId = documentId;

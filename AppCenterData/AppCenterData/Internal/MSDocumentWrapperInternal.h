@@ -34,17 +34,6 @@
  * @param error Document error.
  * @param documentId Document Id.
  * @param partition Partition key.
- *
- * @return A new `MSDocumentWrapper` instance.
- */
-- (instancetype)initWithError:(MSDataError *)error documentId:(NSString *)documentId partition:(NSString *)partition;
-
-/**
- * Initialize a `MSDocumentWrapper` instance.
- *
- * @param error Document error.
- * @param documentId Document Id.
- * @param partition Partition key.
  * @param eTag Document eTag.
  *
  * @return A new `MSDocumentWrapper` instance.
