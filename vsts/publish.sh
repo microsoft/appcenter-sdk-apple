@@ -57,6 +57,19 @@ REQUEST_UPLOAD_URL_TEMPLATE="$(printf $GITHUB_API_URL_TEMPLATE $GITHUB_UPLOAD_HO
 publish_version="$(grep "VERSION_STRING" $VERSION_FILENAME | head -1 | awk -F "[= ]" '{print $4}')"
 echo "Publish version:" $publish_version
 
+# Read publish version for current build
+resp="$(curl -s $INTERNAL_RELEASE_VERSION_BY_BUILDID_PATH/$BUILD_BUILDID.txt)"
+version="$(echo $resp | jq -r '.version')"
+
+# Exit if response doesn't contain an array
+if [ -z $version ] || [ "$version" == "" ] || [ "$version" == "null" ]; then
+  echo "Cannot retrieve the latest version"
+  echo "Response:" $resp
+  exit 1
+fi
+echo "Found publish version for the build"
+echo "##vso[task.setvariable variable=SDK_PUBLISH_VERSION]$publish_version"
+
 if [ "$mode" == "internal" ]; then
 
   ## Change publish version to internal version

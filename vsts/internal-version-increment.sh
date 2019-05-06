@@ -47,15 +47,16 @@ if [[ "$version" == $publish_version-* ]]; then
   build_number="$(echo $version | awk -F "[-]" '{print $2}')"
   build_number=$(($build_number + 1))
 fi
-
 publish_version=$publish_version-$build_number
 echo "New version:" $publish_version
 echo "##vso[task.setvariable variable=SDK_PUBLISH_VERSION]$publish_version"
+echo $publish_version > $BUILD_BUILDID.txt
 
 ## III. Update version file
 echo {\"version\":\"$publish_version\"} > $AZURE_APPLE_VERSION_FILE
 azure telemetry --disable
 echo "Y" | azure storage blob upload $AZURE_APPLE_VERSION_FILE sdk
+echo "Y" | azure storage blob upload $BUILD_BUILDID.txt sdk -b $AZURE_APPLE_VERSION_BY_BUILDID_FOLDER/$BUILD_BUILDID.txt
 rm $AZURE_APPLE_VERSION_FILE
 
 ## IV. Update version for frameworks
