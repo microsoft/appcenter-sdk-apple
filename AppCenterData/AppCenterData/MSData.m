@@ -62,6 +62,11 @@ static NSString *const kMSDocumentContinuationTokenHeaderKey = @"x-ms-continuati
 static char *const kMSDataDispatchQueue = "com.microsoft.appcenter.DataDispatchQueue";
 
 /**
+ * Document ID validation pattern.
+ */
+static NSString *const kMSDocumentIdValidationPattern = @"^[^/\\\\#\\s?]+\\z";
+
+/**
  * Singleton.
  */
 static MSData *sharedInstance = nil;
@@ -228,6 +233,9 @@ static dispatch_once_t onceToken;
     } else if (![MSDocumentUtils isSerializableDocument:documentType]) {
       dataError = [self generateInvalidClassError];
     }
+    else if ([self isDocumentIdInvalid:documentID]) {
+      dataError = [self generateInvalidDocumentIdError];
+    }
     if (dataError) {
       completionHandler([[MSDocumentWrapper alloc] initWithError:dataError documentId:documentID]);
       return;
@@ -278,11 +286,17 @@ static dispatch_once_t onceToken;
   @synchronized(self) {
 
     // Check precondition.
+    MSDataError *dataError;
     if (![self canBeUsed] || ![self isEnabled]) {
-      MSDataError *dataError = [self generateDisabledError:@"delete" documentId:documentID];
+      dataError = [self generateDisabledError:@"delete" documentId:documentID];
+    } else if ([self isDocumentIdInvalid:documentID]) {
+      dataError = [self generateInvalidDocumentIdError];
+    }
+    if (dataError) {
       completionHandler([[MSDocumentWrapper alloc] initWithError:dataError documentId:documentID]);
       return;
     }
+    
 
     // Perform deletion.
     dispatch_async(self.dispatchQueue, ^{
@@ -323,6 +337,8 @@ static dispatch_once_t onceToken;
       dataError = [self generateDisabledError:@"create or replace" documentId:documentID];
     } else if (![MSDocumentUtils isSerializableDocument:[document class]]) {
       dataError = [self generateInvalidClassError];
+    } else if ([self isDocumentIdInvalid:documentID]) {
+      dataError = [self generateInvalidDocumentIdError];
     }
     if (dataError) {
       completionHandler([[MSDocumentWrapper alloc] initWithError:dataError documentId:documentID]);
@@ -635,6 +651,23 @@ static dispatch_once_t onceToken;
                                                        innerError:nil
                                                           message:(NSString *)kMSACDataInvalidClassDesc];
   MSLogError([MSData logTag], @"Not able to validate document deserialization precondition: %@.", [dataError localizedDescription]);
+  return dataError;
+}
+
+- (BOOL)isDocumentIdInvalid:(NSString *)documentId {
+  if (!documentId) {
+    return YES;
+  }
+  NSRegularExpression *expr = [NSRegularExpression regularExpressionWithPattern:kMSDocumentIdValidationPattern options:0 error:nil];
+  NSUInteger matchCount = [expr numberOfMatchesInString:documentId options:0 range:NSMakeRange(0, documentId.length)];
+  return matchCount == 0;
+}
+
+- (MSDataError *)generateInvalidDocumentIdError {
+  MSDataError *dataError = [[MSDataError alloc] initWithErrorCode:MSACDataErrorDocumentIdInvalid
+                                                       innerError:nil
+                                                          message:(NSString *)kMSACDataErrorDocumentIdInvalidDesc];
+  MSLogError([MSData logTag], @"Document ID is invalid.");
   return dataError;
 }
 
