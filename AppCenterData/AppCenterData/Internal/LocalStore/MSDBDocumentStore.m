@@ -142,7 +142,7 @@ static const NSUInteger kMSSchemaVersion = 1;
 
     // Create error.
     MSDataError *dataError = [[MSDataError alloc] initWithErrorCode:MSACDataErrorDocumentNotFound innerError:nil message:errorMessage];
-    return [[MSDocumentWrapper alloc] initWithError:dataError partition:token.partition documentId:documentId eTag:nil];
+    return [[MSDocumentWrapper alloc] initWithError:dataError partition:token.partition documentId:documentId];
   }
 
   // If the document is expired, return an error and delete it.
@@ -161,7 +161,7 @@ static const NSUInteger kMSSchemaVersion = 1;
       MSDataError *dataError = [[MSDataError alloc] initWithErrorCode:MSACDataErrorLocalDocumentExpired
                                                            innerError:nil
                                                               message:errorMessage];
-      return [[MSDocumentWrapper alloc] initWithError:dataError partition:token.partition documentId:documentId eTag:nil];
+      return [[MSDocumentWrapper alloc] initWithError:dataError partition:token.partition documentId:documentId];
     }
   }
 

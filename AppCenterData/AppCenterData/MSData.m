@@ -229,7 +229,7 @@ static dispatch_once_t onceToken;
       dataError = [self generateInvalidClassError];
     }
     if (dataError) {
-      completionHandler([[MSDocumentWrapper alloc] initWithError:dataError partition:partition documentId:documentID eTag:nil]);
+      completionHandler([[MSDocumentWrapper alloc] initWithError:dataError partition:partition documentId:documentID]);
       return;
     }
 
@@ -280,7 +280,7 @@ static dispatch_once_t onceToken;
     // Check precondition.
     if (![self canBeUsed] || ![self isEnabled]) {
       MSDataError *dataError = [self generateDisabledError:@"delete" documentId:documentID];
-      completionHandler([[MSDocumentWrapper alloc] initWithError:dataError partition:partition documentId:documentID eTag:nil]);
+      completionHandler([[MSDocumentWrapper alloc] initWithError:dataError partition:partition documentId:documentID]);
       return;
     }
 
@@ -325,7 +325,7 @@ static dispatch_once_t onceToken;
       dataError = [self generateInvalidClassError];
     }
     if (dataError) {
-      completionHandler([[MSDocumentWrapper alloc] initWithError:dataError partition:partition documentId:documentID eTag:nil]);
+      completionHandler([[MSDocumentWrapper alloc] initWithError:dataError partition:partition documentId:documentID]);
       return;
     }
 
@@ -514,8 +514,7 @@ static dispatch_once_t onceToken;
                                            [actualDataError localizedDescription], (long)response.statusCode, (long)MSHTTPCodesNo200OK);
                                 completionHandler([[MSDocumentWrapper alloc] initWithError:actualDataError
                                                                                  partition:partition
-                                                                                documentId:documentId
-                                                                                      eTag:nil]);
+                                                                                documentId:documentId]);
                               }
 
                               // (Try to) deserialize the incoming document.
@@ -542,7 +541,7 @@ static dispatch_once_t onceToken;
                                     innerError:nil
                                        message:@"Document dictionary contains values that cannot be serialized."];
     MSLogError([MSData logTag], @"Error serializing data: %@", [serializationDataError localizedDescription]);
-    completionHandler([[MSDocumentWrapper alloc] initWithError:serializationDataError partition:partition documentId:documentId eTag:nil]);
+    completionHandler([[MSDocumentWrapper alloc] initWithError:serializationDataError partition:partition documentId:documentId]);
     return;
   }
   NSError *serializationError;
@@ -552,7 +551,7 @@ static dispatch_once_t onceToken;
                                                                       innerError:serializationError
                                                                          message:@"Can't deserialize data."];
     MSLogError([MSData logTag], @"Error serializing data: %@", [serializationDataError localizedDescription]);
-    completionHandler([[MSDocumentWrapper alloc] initWithError:serializationDataError partition:partition documentId:documentId eTag:nil]);
+    completionHandler([[MSDocumentWrapper alloc] initWithError:serializationDataError partition:partition documentId:documentId]);
     return;
   }
   [self
@@ -573,8 +572,7 @@ static dispatch_once_t onceToken;
                                          (long)MSHTTPCodesNo200OK, (long)MSHTTPCodesNo201Created);
                               completionHandler([[MSDocumentWrapper alloc] initWithError:actualDataError
                                                                                partition:partition
-                                                                              documentId:documentId
-                                                                                    eTag:nil]);
+                                                                              documentId:documentId]);
                             }
 
                             // (Try to) deserialize saved document.
@@ -608,8 +606,7 @@ static dispatch_once_t onceToken;
                                            (long)MSHTTPCodesNo204NoContent);
                                 completionHandler([[MSDocumentWrapper alloc] initWithError:actualDataError
                                                                                  partition:partition
-                                                                                documentId:documentId
-                                                                                      eTag:nil]);
+                                                                                documentId:documentId]);
                               }
 
                               // Return a non-error document wrapper object to confirm the operation.

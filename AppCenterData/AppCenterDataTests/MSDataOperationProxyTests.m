@@ -118,7 +118,7 @@
   __block MSDocumentWrapper *wrapper;
   NSString *documentId = @"documentId";
   OCMStub([self.documentStoreMock readWithToken:OCMOCK_ANY documentId:OCMOCK_ANY documentType:OCMOCK_ANY])
-      .andReturn([[MSDocumentWrapper alloc] initWithError:self.dummyError partition:nil documentId:documentId eTag:nil]);
+      .andReturn([[MSDocumentWrapper alloc] initWithError:self.dummyError partition:nil documentId:documentId]);
   MSTokenResult *token = [MSTokenResult alloc];
   __block MSTokensResponse *tokensResponse = [[MSTokensResponse alloc] initWithTokens:@[ token ]];
 
@@ -157,7 +157,7 @@
   __block MSDocumentWrapper *remoteDocumentWrapper = [MSDocumentWrapper alloc];
   __block MSDocumentWrapper *wrapper;
   OCMStub([self.documentStoreMock readWithToken:OCMOCK_ANY documentId:OCMOCK_ANY documentType:OCMOCK_ANY])
-      .andReturn([[MSDocumentWrapper alloc] initWithError:self.dummyError partition:nil documentId:@"documentId" eTag:nil]);
+      .andReturn([[MSDocumentWrapper alloc] initWithError:self.dummyError partition:nil documentId:@"documentId"]);
   OCMReject([[self.documentStoreMock ignoringNonObjectArgs] upsertWithToken:OCMOCK_ANY
                                                             documentWrapper:OCMOCK_ANY
                                                                   operation:OCMOCK_ANY
@@ -201,7 +201,7 @@
   __block MSDocumentWrapper *remoteDocumentWrapper = [MSDocumentWrapper alloc];
   __block MSDocumentWrapper *wrapper;
   OCMStub([self.documentStoreMock readWithToken:OCMOCK_ANY documentId:OCMOCK_ANY documentType:OCMOCK_ANY])
-      .andReturn([[MSDocumentWrapper alloc] initWithError:self.dummyError partition:nil documentId:@"documentId" eTag:nil]);
+      .andReturn([[MSDocumentWrapper alloc] initWithError:self.dummyError partition:nil documentId:@"documentId"]);
   MSTokenResult *token = [MSTokenResult alloc];
   __block MSTokensResponse *tokensResponse = [[MSTokensResponse alloc] initWithTokens:@[ token ]];
 

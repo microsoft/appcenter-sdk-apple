@@ -109,7 +109,7 @@
   XCTAssertTrue([[document documentId] isEqualToString:@"document-id"]);
   XCTAssertNil([document deserializedValue]);
   XCTAssertTrue([[document eTag] isEqualToString:@"etag"]);
-  XCTAssertNil([document lastUpdatedDate]);
+  XCTAssertNotNil([document lastUpdatedDate]);
   XCTAssertTrue([[document partition] isEqualToString:@"readonly"]);
   XCTAssertNil([document jsonValue]);
   XCTAssertFalse([document fromDeviceCache]);
