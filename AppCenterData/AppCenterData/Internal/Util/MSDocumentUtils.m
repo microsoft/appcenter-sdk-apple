@@ -163,15 +163,18 @@ static NSString *const kMSDocumentKey = @"document";
     deserializedValue = [(id<MSSerializableDocument>)[documentType alloc] initFromDictionary:dictionary];
     MSLogDebug([MSData logTag], @"Successfully deserialized document: %@ (partition: %@)", documentId, partition);
   }
-  return [[MSDocumentWrapper alloc] initWithDeserializedValue:deserializedValue
-                                                    jsonValue:jsonValue
-                                                    partition:partition
-                                                   documentId:documentId
-                                                         eTag:eTag
-                                              lastUpdatedDate:lastUpdatedDate
-                                             pendingOperation:pendingOperation
-                                              fromDeviceCache:fromDeviceCache
-                                                        error:dataError];
+  if (dataError) {
+    return [[MSDocumentWrapper alloc] initWithError:dataError documentId:documentId partition:partition eTag:eTag];
+  } else {
+    return [[MSDocumentWrapper alloc] initWithDeserializedValue:deserializedValue
+                                                      jsonValue:jsonValue
+                                                      partition:partition
+                                                     documentId:documentId
+                                                           eTag:eTag
+                                                lastUpdatedDate:lastUpdatedDate
+                                               pendingOperation:pendingOperation
+                                                fromDeviceCache:fromDeviceCache];
+  }
 }
 
 + (NSString *)jsonValueForDictionary:(NSDictionary *)dictionary dataError:(MSDataError *__autoreleasing *)dataError {
