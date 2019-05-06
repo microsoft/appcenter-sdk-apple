@@ -66,6 +66,17 @@ if [ "$mode" == "internal" ] || [ "$mode" == "test" ]; then
 
   if [ "$mode" == "test" ]; then
 
+    # Read publish version for current build
+    version="$(curl -s $INTERNAL_RELEASE_VERSION_BY_BUILDID_PATH/$BUILD_BUILDID.txt)"
+
+    # Exit if response doesn't contain an array
+    if [ -z $version ] || [ "$version" == "" ] || [ "$version" == "null" ]; then
+      echo "Cannot retrieve the latest version"
+      echo "Response:" $version
+      exit 1
+    fi
+    echo "Found publish version for the build: $version"
+
     # Update podspec change for other platforms
     sed -i '' 's/App\ Center\ Analytics\ (iOS\ and\ macOS)/App\ Center\ Analytics\ (iOS,\ macOS\ and\ tvOS)/g' $PODSPEC_FILENAME
     sed -i '' 's/App\ Center\ Crashes\ (iOS\ and\ macOS)/App\ Center\ Crashes\ (iOS,\ macOS\ and\ tvOS)/g' $PODSPEC_FILENAME
@@ -91,7 +102,7 @@ if [ "$mode" == "internal" ] || [ "$mode" == "test" ]; then
     sed -i '' 's/\(\*\*App\ Center\ Push\*\*\)\(.*\)/\1\2\ **Not available\ for\ tvOS*./g' README.md
 
     # Add build number to podspec version
-    sed -i '' "s/\(s\.version[[:space:]]*=[[:space:]]\)\'.*\'$/\1'$SDK_PUBLISH_VERSION'/1" $PODSPEC_FILENAME
+    sed -i '' "s/\(s\.version[[:space:]]*=[[:space:]]\)\'.*\'$/\1'$version'/1" $PODSPEC_FILENAME
 
     # Change download URL in podspec
     sed -i '' "s/https:\/\/github\.com\/microsoft\/AppCenter-SDK-Apple\/releases\/download\/#{s.version}\(\/AppCenter-SDK-Apple-\)\(\#{s.version}\)\(.zip\)/https:\/\/mobilecentersdkdev\.blob\.core\.windows\.net\/sdk\1\2+$BUILD_SOURCEVERSION\3/1" $PODSPEC_FILENAME

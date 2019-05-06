@@ -58,21 +58,20 @@ publish_version="$(grep "VERSION_STRING" $VERSION_FILENAME | head -1 | awk -F "[
 echo "Publish version:" $publish_version
 
 # Read publish version for current build
-resp="$(curl -s $INTERNAL_RELEASE_VERSION_BY_BUILDID_PATH/$BUILD_BUILDID.txt)"
+version="$(curl -s $INTERNAL_RELEASE_VERSION_BY_BUILDID_PATH/$BUILD_BUILDID.txt)"
 
 # Exit if response doesn't contain an array
-if [ -z $resp ] || [ "$resp" == "" ] || [ "$resp" == "null" ]; then
+if [ -z $version ] || [ "$version" == "" ] || [ "$version" == "null" ]; then
   echo "Cannot retrieve the latest version"
-  echo "Response:" $resp
+  echo "Response:" $version
   exit 1
 fi
-echo "Found publish version for the build: $resp"
-echo "##vso[task.setvariable variable=SDK_PUBLISH_VERSION]$resp"
+echo "Found publish version for the build: $version"
 
 if [ "$mode" == "internal" ]; then
 
   ## Change publish version to internal version
-  publish_version=$SDK_PUBLISH_VERSION
+  publish_version=$version
   echo "Detected internal release. Publish version is updated to " $publish_version
 
 else
