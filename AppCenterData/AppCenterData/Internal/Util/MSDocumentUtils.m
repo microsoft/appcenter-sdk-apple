@@ -65,7 +65,7 @@ static NSString *const kMSDocumentKey = @"document";
     }
     MSLogError([MSData logTag], @"Error deserializing data: %@", [error description]);
     MSDataError *dataError = [[MSDataError alloc] initWithErrorCode:MSACDataErrorJSONSerializationFailed innerError:error message:nil];
-    return [[MSDocumentWrapper alloc] initWithError:dataError documentId:nil partition:nil eTag:nil];
+    return [[MSDocumentWrapper alloc] initWithError:dataError partition:nil documentId:nil eTag:nil];
   }
 
   // Proceed from the dictionary.
@@ -98,7 +98,7 @@ static NSString *const kMSDocumentKey = @"document";
     }
     MSLogError([MSData logTag], @"Error deserializing data: %@", [error localizedDescription]);
     MSDataError *dataError = [[MSDataError alloc] initWithErrorCode:MSACDataErrorJSONSerializationFailed innerError:error message:nil];
-    return [[MSDocumentWrapper alloc] initWithError:dataError documentId:documentId partition:partition eTag:eTag];
+    return [[MSDocumentWrapper alloc] initWithError:dataError partition:partition documentId:documentId eTag:eTag];
   }
 
   // Proceed from the dictionary.
@@ -129,7 +129,7 @@ static NSString *const kMSDocumentKey = @"document";
                                                          innerError:nil
                                                             message:errorMessage];
     MSLogError([MSData logTag], @"Error deserializing data: %@.", [dataError localizedDescription]);
-    return [[MSDocumentWrapper alloc] initWithError:dataError documentId:nil partition:nil eTag:nil];
+    return [[MSDocumentWrapper alloc] initWithError:dataError partition:nil documentId:nil eTag:nil];
   }
   NSDictionary *dictionary = (NSDictionary *)object;
   NSString *documentId = dictionary[kMSDocumentIdKey];
@@ -164,7 +164,7 @@ static NSString *const kMSDocumentKey = @"document";
     MSLogDebug([MSData logTag], @"Successfully deserialized document: %@ (partition: %@)", documentId, partition);
   }
   if (dataError) {
-    return [[MSDocumentWrapper alloc] initWithError:dataError documentId:documentId partition:partition eTag:eTag];
+    return [[MSDocumentWrapper alloc] initWithError:dataError partition:partition documentId:documentId eTag:eTag];
   } else {
     return [[MSDocumentWrapper alloc] initWithDeserializedValue:deserializedValue
                                                       jsonValue:jsonValue

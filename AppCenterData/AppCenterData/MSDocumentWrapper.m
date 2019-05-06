@@ -32,7 +32,7 @@
   return self;
 }
 
-- (instancetype)initWithError:(MSDataError *)error documentId:(NSString *)documentId partition:(NSString *)partition eTag:(NSString *)eTag {
+- (instancetype)initWithError:(MSDataError *)error partition:(NSString *)partition documentId:(NSString *)documentId eTag:(NSString *)eTag {
   if ((self = [super init])) {
     _documentId = documentId;
     _error = error;

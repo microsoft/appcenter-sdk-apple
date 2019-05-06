@@ -32,13 +32,13 @@
  * Initialize a `MSDocumentWrapper` instance.
  *
  * @param error Document error.
- * @param documentId Document Id.
  * @param partition Partition key.
+ * @param documentId Document Id.
  * @param eTag Document eTag.
  *
  * @return A new `MSDocumentWrapper` instance.
  */
-- (instancetype)initWithError:(MSDataError *)error documentId:(NSString *)documentId partition:(NSString *)partition eTag:(NSString *)eTag;
+- (instancetype)initWithError:(MSDataError *)error partition:(NSString *)partition documentId:(NSString *)documentId eTag:(NSString *)eTag;
 
 /**
  * The type of pending operation, if any, that must be synchronized.
