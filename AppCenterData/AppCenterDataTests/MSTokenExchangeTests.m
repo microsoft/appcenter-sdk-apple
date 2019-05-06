@@ -13,6 +13,7 @@
 #import "MSTestFrameworks.h"
 #import "MSTokenExchange.h"
 #import "MSTokenResult.h"
+#import "MSTokenResultPrivate.h"
 #import "MSTokensResponse.h"
 #import "MSUtility+Date.h"
 

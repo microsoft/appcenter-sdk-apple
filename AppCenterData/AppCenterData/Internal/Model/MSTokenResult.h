@@ -7,15 +7,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface MSTokenResult : NSObject
 
-extern NSString *kMSDbName;
-extern NSString *kMSStatus;
-extern NSString *kMSPartition;
-extern NSString *kMSDbAccount;
-extern NSString *kMSDbCollectionName;
-extern NSString *kMSExpiresOn;
-extern NSString *kMSToken;
-extern NSString *kMSAccountId;
-
 /**
  * Partition.
  */

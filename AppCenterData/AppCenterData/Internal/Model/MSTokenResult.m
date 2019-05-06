@@ -4,6 +4,7 @@
 #import "MSTokenResult.h"
 #import "MSDataConstants.h"
 #import "MSDocumentUtils.h"
+#import "MSTokenResultPrivate.h"
 
 @implementation MSTokenResult
 
@@ -15,15 +16,6 @@
 @synthesize status = _status;
 @synthesize expiresOn = _expiresOn;
 @synthesize accountId = _accountId;
-
-NSString *kMSDbName = @"dbName";
-NSString *kMSStatus = @"status";
-NSString *kMSPartition = @"partition";
-NSString *kMSDbAccount = @"dbAccount";
-NSString *kMSDbCollectionName = @"dbCollectionName";
-NSString *kMSExpiresOn = @"expiresOn";
-NSString *kMSToken = @"token";
-NSString *kMSAccountId = @"accountId";
 
 - (instancetype)initWithPartition:(NSString *)partition
                         dbAccount:(NSString *)dbAccount
