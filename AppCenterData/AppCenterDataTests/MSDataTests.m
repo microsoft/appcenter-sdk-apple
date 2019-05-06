@@ -44,7 +44,6 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 static NSString *const kMSTokenTest = @"token";
 static NSString *const kMSPartitionTest = @"user";
 static NSString *const kMSDbAccountTest = @"dbAccount";
-static NSString *const kMSAccountId = @"ceb61029-d032-4e7a-be03-2614cfe2a564";
 static NSString *const kMSDbNameTest = @"dbName";
 static NSString *const kMSDbCollectionNameTest = @"dbCollectionName";
 static NSString *const kMSStatusTest = @"status";
@@ -1962,7 +1961,8 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 #pragma mark Utilities
 
 + (NSString *)fullTestPartitionName {
-  return [NSString stringWithFormat:@"%@-%@", kMSPartitionTest, kMSAccountId];
+  NSString *accountId = @"ceb61029-d032-4e7a-be03-2614cfe2a564";
+  return [NSString stringWithFormat:@"%@-%@", kMSPartitionTest, accountId];
 }
 
 - (MSTokenResult *)mockTokenFetchingWithError:(NSError *_Nullable)error {

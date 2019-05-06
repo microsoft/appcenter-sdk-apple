@@ -246,7 +246,6 @@ static const NSUInteger kMSSchemaVersion = 1;
     NSData *data = [documetnJsonString dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary *documentDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
 
-    // TODO: verify that * 1000 for the expirationTime is valid.
     MSPendingOperation *pendingOperation = [[MSPendingOperation alloc] initWithOperation:row[self.pendingOperationColumnIndex]
                                                                                partition:partition
                                                                               documentId:documentId

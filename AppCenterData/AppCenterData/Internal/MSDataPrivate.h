@@ -68,7 +68,7 @@ static NSString *const kMSDefaultApiUrl = @"https://tokens.appcenter.ms/v0.1";
  * @param documentId The identifier of a document.
  * @param documentWrapper Document wrapper object.
  * @param pendingOperation Pending operation.
- * @param operationExpirationTime oOperation expiration time.
+ * @param operationExpirationTime operation expiration time.
  */
 - (void)synchronizeLocalCacheWithCosmosDbWithToken:(MSTokenResult *)token
                                         documentId:(NSString *)documentId
