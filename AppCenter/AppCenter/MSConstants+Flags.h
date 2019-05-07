@@ -5,10 +5,10 @@
 
 typedef NS_OPTIONS(NSUInteger, MSFlags) {
   MSFlagsNone = (0 << 0),                // => 00000000
-  MSFlagNormal = (1 << 0),               // => 00000001
-  MSFlagCritial = (1 << 1),              // => 00000010
-  MSFlagsPersistenceNormal = MSFlagNormal,
-  MSFlagsPersistenceCritical = MSFlagCritial,
+  MSFlagsNormal = (1 << 0),               // => 00000001
+  MSFlagsCritial = (1 << 1),              // => 00000010
+  MSFlagsPersistenceNormal = MSFlagsNormal,
+  MSFlagsPersistenceCritical = MSFlagsCritial,
   MSFlagsPersistenceNone = MSFlagsNone,
-  MSFlagsDefault = (MSFlagNormal | MSFlagsPersistenceNormal)
+  MSFlagsDefault = MSFlagsNormal
 };
