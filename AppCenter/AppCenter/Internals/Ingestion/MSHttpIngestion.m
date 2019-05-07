@@ -223,46 +223,46 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
     }
 
     // Create a task for the request.
-    NSURLSessionDataTask *task =
-        [self.session dataTaskWithRequest:request
-                        completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-                          @synchronized(self) {
-                            NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-                            if (error) {
-                              MSLogDebug([MSAppCenter logTag], @"HTTP request error with code: %td, domain: %@, description: %@",
-                                         error.code, error.domain, error.localizedDescription);
-                            }
+    NSURLSessionDataTask *task = [self.session
+        dataTaskWithRequest:request
+          completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+            @synchronized(self) {
+              NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+              if (error) {
+                MSLogDebug([MSAppCenter logTag], @"HTTP request error with code: %td, domain: %@, description: %@", error.code,
+                           error.domain, error.localizedDescription);
+              }
 
-                            // Don't lose time pretty printing if not going to be printed.
-                            else if ([MSAppCenter logLevel] <= MSLogLevelVerbose) {
-                              NSString *contentType = httpResponse.allHeaderFields[kMSHeaderContentTypeKey];
-                              NSString *payload;
+              // Don't lose time pretty printing if not going to be printed.
+              else if ([MSAppCenter logLevel] <= MSLogLevelVerbose) {
+                NSString *contentType = httpResponse.allHeaderFields[kMSHeaderContentTypeKey];
+                NSString *payload;
 
-                              // Obfuscate payload.
-                              if (data.length > 0) {
-                                if ([contentType hasPrefix:@"application/json"]) {
-                                  payload = [MSUtility obfuscateString:[MSUtility prettyPrintJson:data]
-                                                   searchingForPattern:kMSTokenKeyValuePattern
-                                                 toReplaceWithTemplate:kMSTokenKeyValueObfuscatedTemplate];
-                                } else if ([contentType hasPrefix:@"text/"] || [contentType hasPrefix:@"application/"]) {
-                                  payload = [MSUtility obfuscateString:[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]
-                                                   searchingForPattern:kMSTokenKeyValuePattern
-                                                 toReplaceWithTemplate:kMSTokenKeyValueObfuscatedTemplate];
-                                } else {
-                                  payload = @"<binary>";
-                                }
-                              }
-                              MSLogVerbose([MSAppCenter logTag], @"HTTP response received with status code: %tu, payload:\n%@",
-                                           httpResponse.statusCode, payload);
-                            }
+                // Obfuscate payload.
+                if (data.length > 0) {
+                  if ([contentType hasPrefix:@"application/json"]) {
+                    payload = [MSUtility obfuscateString:[MSUtility prettyPrintJson:data]
+                                     searchingForPattern:kMSTokenKeyValuePattern
+                                   toReplaceWithTemplate:kMSTokenKeyValueObfuscatedTemplate];
+                  } else if (!contentType.length || [contentType hasPrefix:@"text/"] || [contentType hasPrefix:@"application/"]) {
+                    payload = [MSUtility obfuscateString:[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]
+                                     searchingForPattern:kMSTokenKeyValuePattern
+                                   toReplaceWithTemplate:kMSTokenKeyValueObfuscatedTemplate];
+                  } else {
+                    payload = @"<binary>";
+                  }
+                }
+                MSLogVerbose([MSAppCenter logTag], @"HTTP response received with status code: %tu, payload:\n%@", httpResponse.statusCode,
+                             payload);
+              }
 
-                            // Call handles the completion.
-                            if (call) {
-                              call.submitted = NO;
-                              [call ingestion:self callCompletedWithResponse:httpResponse data:data error:error];
-                            }
-                          }
-                        }];
+              // Call handles the completion.
+              if (call) {
+                call.submitted = NO;
+                [call ingestion:self callCompletedWithResponse:httpResponse data:data error:error];
+              }
+            }
+          }];
 
     // TODO: Set task priority.
     [task resume];

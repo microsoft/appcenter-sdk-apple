@@ -44,7 +44,6 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 static NSString *const kMSTokenTest = @"token";
 static NSString *const kMSPartitionTest = @"user";
 static NSString *const kMSDbAccountTest = @"dbAccount";
-static NSString *const kMSAccountId = @"ceb61029-d032-4e7a-be03-2614cfe2a564";
 static NSString *const kMSDbNameTest = @"dbName";
 static NSString *const kMSDbCollectionNameTest = @"dbCollectionName";
 static NSString *const kMSStatusTest = @"status";
@@ -252,6 +251,75 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   XCTAssertEqual(actualDocumentWrapper.error.domain, kMSACDataErrorDomain);
   XCTAssertEqual(actualDocumentWrapper.error.code, MSACDataErrorInvalidClassCode);
   XCTAssertEqualObjects(actualDocumentWrapper.documentId, kMSDocumentIdTest);
+}
+
+- (void)testFailFastWithInvalidDocumentId {
+
+  // If
+  self.sut.httpClient = OCMProtocolMock(@protocol(MSHttpClientProtocol));
+  OCMReject([self.sut.httpClient sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:OCMOCK_ANY data:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
+  id<MSDocumentStore> localStorageMock = OCMProtocolMock(@protocol(MSDocumentStore));
+  self.sut.dataOperationProxy.documentStore = localStorageMock;
+  MSDictionaryDocument *dictionaryDocument = [MSDictionaryDocument new];
+
+  // Document IDs cannot be null or empty, or contain '#', '/', or '\'. Use a placeholder for nil since that cannot be inserted into the
+  // array.
+  NSArray *invalidDocumentIds = @[
+    @"nil placeholder", @"",      @"#",  @"abc#",  @"#abc",  @"ab#c", @"/", @"abc/", @"/abc", @"ab/c", @"\\", @"abc\\",
+    @"\\abc",           @"ab\\c", @" ",  @"abc ",  @" abc",  @"ab c", @"?", @"abc?", @"?abc", @"ab?c", @"\t", @"abc\t",
+    @"\tabc",           @"ab\tc", @"\n", @"abc\n", @"\nabc", @"ab\nc"
+  ];
+
+  // Then
+  // Only reject read; there is no great way to reject the upsert method since it has a non-object parameter, which does not work great with
+  // OCMock.
+  OCMReject([localStorageMock readWithToken:OCMOCK_ANY documentId:OCMOCK_ANY documentType:OCMOCK_ANY]);
+
+  for (NSString *invalidId in invalidDocumentIds) {
+
+    // If
+    NSString *documentId = invalidId;
+    __weak XCTestExpectation *expectation = [self expectationWithDescription:@"All three completion handlers called."];
+    expectation.expectedFulfillmentCount = 3;
+    if ([invalidId isEqualToString:@"nil placeholder"]) {
+      documentId = nil;
+    }
+
+    // When
+    // Execute each operation that uses a document ID.
+    [MSData createDocumentWithID:documentId
+                        document:dictionaryDocument
+                       partition:kMSDataUserDocumentsPartition
+               completionHandler:^(MSDocumentWrapper *_Nonnull document) {
+                 // Then
+                 XCTAssertNotNil([document error]);
+                 [expectation fulfill];
+               }];
+    [MSData readDocumentWithID:documentId
+                  documentType:[MSDictionaryDocument class]
+                     partition:kMSDataUserDocumentsPartition
+             completionHandler:^(MSDocumentWrapper *_Nonnull document) {
+               // Then
+               XCTAssertNotNil([document error]);
+               [expectation fulfill];
+             }];
+    [MSData replaceDocumentWithID:documentId
+                         document:dictionaryDocument
+                        partition:kMSDataUserDocumentsPartition
+                completionHandler:^(MSDocumentWrapper *_Nonnull document) {
+                  // Then
+                  XCTAssertNotNil([document error]);
+                  [expectation fulfill];
+                }];
+
+    // Then
+    [self waitForExpectationsWithTimeout:1
+                                 handler:^(NSError *_Nullable error) {
+                                   if (error) {
+                                     XCTFail(@"Expectation Failed with error: %@", error);
+                                   }
+                                 }];
+  }
 }
 
 - (void)testCreateWithInvalidDocumentType {
@@ -719,8 +787,8 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
 
   // When
-  NSString *testDocumentUnencoded = @"Test Document";
-  NSString *testDocumentEncoded = @"Test%20Document";
+  NSString *testDocumentUnencoded = @"Test(Document";
+  NSString *testDocumentEncoded = @"Test%28Document";
   NSString *testResult = [MSCosmosDb documentUrlWithTokenResult:tokenResult documentId:testDocumentUnencoded];
 
   // Then
@@ -1962,7 +2030,8 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 #pragma mark Utilities
 
 + (NSString *)fullTestPartitionName {
-  return [NSString stringWithFormat:@"%@-%@", kMSPartitionTest, kMSAccountId];
+  NSString *accountId = @"ceb61029-d032-4e7a-be03-2614cfe2a564";
+  return [NSString stringWithFormat:@"%@-%@", kMSPartitionTest, accountId];
 }
 
 - (MSTokenResult *)mockTokenFetchingWithError:(NSError *_Nullable)error {
