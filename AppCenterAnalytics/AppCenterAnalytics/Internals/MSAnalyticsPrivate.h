@@ -21,6 +21,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic, nullable) id<MSAnalyticsDelegate> delegate;
 
+@property(nonatomic) NSUInteger flushInterval;
+
+@property(nonatomic) MSChannelUnitConfiguration *channelUnitConfiguration;
+
 /**
  * Transmission targets.
  */

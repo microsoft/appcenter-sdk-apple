@@ -60,6 +60,16 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (instancetype)initDefaultConfigurationWithGroupId:(NSString *)groupId;
 
+/**
+ * Initializes a new instance with flushInterval.
+ *
+ * @param groupId The id used by the channel to determine a group of logs.
+ * @param flushInterval The interval after which a new batch will be finished.
+ *
+ * @return a fully configured `MSChannelConfiguration` instance with flushInterval.
+ */
+- (instancetype)initWithGroupId:(NSString *)groupId flushInterval:(float)flushInterval;
+
 @end
 
 NS_ASSUME_NONNULL_END

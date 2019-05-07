@@ -20,8 +20,12 @@
   return self;
 }
 
+- (instancetype)initWithGroupId:(NSString *)groupId flushInterval:(float)flushInterval {
+  return [self initWithGroupId:groupId priority:MSPriorityDefault flushInterval:flushInterval batchSizeLimit:50 pendingBatchesLimit:3];
+}
+
 - (instancetype)initDefaultConfigurationWithGroupId:(NSString *)groupId {
-  return [self initWithGroupId:groupId priority:MSPriorityDefault flushInterval:3.0 batchSizeLimit:50 pendingBatchesLimit:3];
+  return [self initWithGroupId:groupId flushInterval:3.0];
 }
 
 @end

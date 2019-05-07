@@ -199,6 +199,12 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (MSAnalyticsTransmissionTarget *)transmissionTargetForToken:(NSString *)token;
 
+/**
+ * Set the time interval for normal logs
+ *
+ * @param interval The flush interval for logs
+ */
++ (void)setTransmissionInterval:(NSUInteger)interval;
 @end
 
 NS_ASSUME_NONNULL_END
