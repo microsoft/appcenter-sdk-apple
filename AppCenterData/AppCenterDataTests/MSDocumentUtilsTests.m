@@ -3,6 +3,7 @@
 
 #import "MSDataConstants.h"
 #import "MSDataError.h"
+#import "MSDataErrors.h"
 #import "MSDictionaryDocument.h"
 #import "MSDocumentUtils.h"
 #import "MSTestFrameworks.h"
@@ -156,6 +157,36 @@
   XCTAssertNotNil(document);
   XCTAssertNotNil([document error]);
   XCTAssertEqual([document documentId], @"document-id");
+}
+
+- (void)testDocumentWrapperFromDictionaryWithDataError {
+  NSMutableDictionary *documentDictionary = [NSMutableDictionary new];
+  documentDictionary[@"shouldFail"] = [NSSet set];
+  NSMutableDictionary *dictionary = [NSMutableDictionary new];
+  dictionary[@"document"] = documentDictionary;
+
+  // When
+  MSDocumentWrapper *document = [MSDocumentUtils documentWrapperFromDictionary:dictionary
+                                                                  documentType:[NSString class]
+                                                                          eTag:@"etag"
+                                                               lastUpdatedDate:[NSDate date]
+                                                                     partition:@"partition"
+                                                                    documentId:@"docId"
+                                                              pendingOperation:@"pendingOperation"
+                                                               fromDeviceCache:NO];
+
+  // Then
+  XCTAssertNotNil(document);
+  XCTAssertNotNil([document error]);
+  XCTAssertTrue([[document error] isKindOfClass:[MSDataError class]]);
+  XCTAssertNotNil([document error].innerError);
+  XCTAssertEqual([document error].innerError.code, MSACDataErrorJSONSerializationFailed);
+  XCTAssertEqualObjects(document.documentId, @"docId");
+  XCTAssertEqualObjects(document.partition, @"partition");
+  XCTAssertEqualObjects(document.eTag, @"etag");
+  XCTAssertFalse(document.fromDeviceCache);
+  XCTAssertNotNil(document.lastUpdatedDate);
+  XCTAssertEqualObjects(document.documentId, @"docId");
 }
 
 - (void)testDocumentWrapperFromDataNull {
