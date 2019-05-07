@@ -43,7 +43,7 @@
                         eTag:eTag
              lastUpdatedDate:nil
             pendingOperation:nil
-             fromDeviceCache:nil];
+             fromDeviceCache:NO];
 }
 
 - (instancetype)initWithError:(MSDataError *)error
