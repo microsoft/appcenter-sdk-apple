@@ -665,7 +665,7 @@ static dispatch_once_t onceToken;
   MSDataError *dataError = [[MSDataError alloc] initWithErrorCode:MSACDataErrorDocumentIdInvalid
                                                        innerError:nil
                                                           message:(NSString *)kMSACDataErrorDocumentIdInvalidDesc];
-  MSLogError([MSData logTag], @"Document ID is invalid.");
+  MSLogError([MSData logTag], @"%@", kMSACDataErrorDocumentIdInvalidDesc);
   return dataError;
 }
 
