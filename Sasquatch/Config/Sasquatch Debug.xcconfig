@@ -1,5 +1,7 @@
 #include "Sasquatch.xcconfig"
 
+ARCHS[sdk=iphoneos*] = $(PRE_XCODE_10_1_ARCHS) arm64e
+
 ONLY_ACTIVE_ARCH = YES
 GCC_OPTIMIZATION_LEVEL = 0
 MTL_ENABLE_DEBUG_INFO = YES
