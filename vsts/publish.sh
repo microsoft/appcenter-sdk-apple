@@ -60,8 +60,8 @@ echo "Publish version:" $publish_version
 # Read publish version for current build
 version=$(cat $CURRENT_BUILD_VERSION_FILENAME)
 
-# Exit if response doesn't contain an array
-if [ -z $version ] || [ "$version" == "" ] || [ "$version" == "null" ]; then
+# Exit if response doesn't contain a version
+if [ -z $version ] || [ "$version" == "" ]; then
   echo "Cannot retrieve the latest version"
   echo "Response:" $version
   exit 1
