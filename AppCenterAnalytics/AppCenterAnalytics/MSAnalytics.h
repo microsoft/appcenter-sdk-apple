@@ -201,7 +201,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * Set the send time interval for non-critical logs.
- * Must be between 3 seconds and 86400 seconds.
+ * Must be between 3 seconds and 86400 seconds (1 day).
  *
  * @param interval The flush interval for logs.
  */
