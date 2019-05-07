@@ -58,7 +58,7 @@ publish_version="$(grep "VERSION_STRING" $VERSION_FILENAME | head -1 | awk -F "[
 echo "Publish version:" $publish_version
 
 # Read publish version for current build
-version="$(curl -s $INTERNAL_RELEASE_VERSION_BY_BUILDID_PATH/$BUILD_BUILDID.txt)"
+version=$(cat $CURRENT_BUILD_VERSION_FILENAME)
 
 # Exit if response doesn't contain an array
 if [ -z $version ] || [ "$version" == "" ] || [ "$version" == "null" ]; then

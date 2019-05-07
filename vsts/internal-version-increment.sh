@@ -49,13 +49,12 @@ if [[ "$version" == $publish_version-* ]]; then
 fi
 publish_version=$publish_version-$build_number
 echo "New version:" $publish_version
-echo $publish_version > $BUILD_BUILDID.txt
+echo $publish_version > $CURRENT_BUILD_VERSION_FILENAME
 
 ## III. Update version file
 echo {\"version\":\"$publish_version\"} > $AZURE_APPLE_VERSION_FILE
 azure telemetry --disable
 echo "Y" | azure storage blob upload $AZURE_APPLE_VERSION_FILE sdk
-echo "Y" | azure storage blob upload $BUILD_BUILDID.txt sdk -b $AZURE_APPLE_VERSION_BY_BUILDID_FOLDER/$BUILD_BUILDID.txt
 rm $AZURE_APPLE_VERSION_FILE
 
 ## IV. Update version for frameworks
