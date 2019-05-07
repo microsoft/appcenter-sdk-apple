@@ -20,6 +20,7 @@
 #import "MSTypedProperty.h"
 #import "MSUserIdContext.h"
 #import "MSUtility+StringFormatting.h"
+#import "MSAnalyticsConstants.h"
 
 // Service name for initialization.
 static NSString *const kMSServiceName = @"Analytics";
