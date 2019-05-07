@@ -292,7 +292,7 @@ static dispatch_once_t onceToken;
       dataError = [self generateInvalidDocumentIdError];
     }
     if (dataError) {
-        completionHandler([[MSDocumentWrapper alloc] initWithError:dataError partition:partition documentId:documentID]);
+      completionHandler([[MSDocumentWrapper alloc] initWithError:dataError partition:partition documentId:documentID]);
       return;
     }
 
