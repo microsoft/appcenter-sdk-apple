@@ -25,7 +25,7 @@
 }
 
 - (instancetype)initDefaultConfigurationWithGroupId:(NSString *)groupId {
-  return [self initWithGroupId:groupId flushInterval:3.0];
+  return [self initWithGroupId:groupId flushInterval:MSFlushIntervalDefault];
 }
 
 @end

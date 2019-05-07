@@ -6,8 +6,6 @@
 #import "MSAnalyticsTransmissionTargetInternal.h"
 #import "MSAnalyticsTransmissionTargetPrivate.h"
 #import "MSCSExtensions.h"
-#import "MSChannelUnitConfiguration.h"
-#import "MSChannelUnitProtocol.h"
 #import "MSCommonSchemaLog.h"
 #import "MSEventPropertiesInternal.h"
 #import "MSLogger.h"
@@ -15,9 +13,6 @@
 #import "MSProtocolExtension.h"
 #import "MSServiceAbstractInternal.h"
 #import "MSUtility+StringFormatting.h"
-
-// The group Id for Analytics.
-static NSString *const kMSGroupId = @"Analytics";
 
 @implementation MSAnalyticsTransmissionTarget
 
@@ -216,25 +211,4 @@ static MSAnalyticsAuthenticationProvider *_authenticationProvider;
   return self.parentTarget ? self.parentTarget.isEnabled : [MSAnalytics isEnabled];
 }
 
-- (void)setTransmissionInterval:(NSUInteger)interval {
-  if (interval > 24 * 60 * 60 || interval < 3) {
-    MSLogWarning([MSAnalytics logTag],
-                 @"Interval property is in invalid period, it should be greater than 2 second and lower than 1 day's seconds.");
-    return;
-  }
-    
-  @synchronized([MSAnalytics sharedInstance]) {
-    id<MSChannelUnitProtocol> channelUnit = [self.channelGroup channelUnitForGroupId:kMSGroupId];
-    if (channelUnit) {
-      MSChannelUnitConfiguration *configuration = [[MSChannelUnitConfiguration alloc] initWithGroupId:kMSGroupId
-                                                                                        flushInterval:interval];
-      [channelUnit setConfiguration:configuration];
-
-      // Propagate to nested transmission targets.
-      for (NSString *token in self.childTransmissionTargets) {
-        [self.childTransmissionTargets[token] setTransmissionInterval:interval];
-      }
-    }
-  }
-}
 @end

@@ -383,12 +383,11 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
 }
 
 - (void)setTransmissionInterval:(NSUInteger)interval {
-  if (interval > 24 * 60 * 60 || interval < 3) {
+  if (interval > MSFlushIntervalMaximum || interval < MSFlushIntervalMinimum) {
     MSLogWarning([MSAnalytics logTag],
-                 @"Interval property is in invalid period, it should be greater than 2 second and lower than 1 day's seconds.");
+                 @"Interval property is in invalid period, it should be greater than 3 second and lower than 1 day (in seconds).");
     return;
   }
-
   if (self.started) {
     MSLogWarning([MSAnalytics logTag], @"Set transmission interval API must be called before MSAnalytics service starts.");
     return;
@@ -396,11 +395,6 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
 
   self.flushInterval = interval;
   self.channelUnitConfiguration = [[MSChannelUnitConfiguration alloc] initWithGroupId:[self groupId] flushInterval:self.flushInterval];
-
-  // Propagate to transmission targets.
-  for (NSString *token in self.transmissionTargets) {
-    [self.transmissionTargets[token] setTransmissionInterval:interval];
-  }
 }
 
 - (MSAnalyticsTransmissionTarget *)transmissionTargetForToken:(NSString *)transmissionTargetToken {

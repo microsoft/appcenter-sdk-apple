@@ -200,9 +200,10 @@ NS_ASSUME_NONNULL_BEGIN
 + (MSAnalyticsTransmissionTarget *)transmissionTargetForToken:(NSString *)token;
 
 /**
- * Set the time interval for normal logs
+ * Set the send time interval for non-critical logs.
+ * Must be between 3 seconds and 86400 seconds.
  *
- * @param interval The flush interval for logs
+ * @param interval The flush interval for logs.
  */
 + (void)setTransmissionInterval:(NSUInteger)interval;
 @end

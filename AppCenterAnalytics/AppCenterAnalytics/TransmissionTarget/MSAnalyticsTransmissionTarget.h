@@ -142,14 +142,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)resume;
 
-/**
- * Set flush interval for this transmission target.
- *
- * @param interval interval time.
- *
- */
-- (void)setTransmissionInterval:(NSUInteger)interval;
-
 @end
 
 NS_ASSUME_NONNULL_END
