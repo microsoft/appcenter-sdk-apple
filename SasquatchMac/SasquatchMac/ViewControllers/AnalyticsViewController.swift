@@ -35,9 +35,9 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
     var flags: MSFlags {
       switch self {
       case .normal:
-        return [.persistenceNormal]
+        return [.MSFlagNormal]
       case .critical:
-        return [.persistenceCritical]
+        return [.MSFlagCritial]
       case .invalid:
         return MSFlags.init(rawValue: 42)
       default:
