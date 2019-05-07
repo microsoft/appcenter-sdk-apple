@@ -13,6 +13,7 @@
 #import "MSBooleanTypedProperty.h"
 #import "MSChannelGroupDefault.h"
 #import "MSChannelUnitDefault.h"
+#import "MSChannelUnitConfiguration.h"
 #import "MSConstants+Internal.h"
 #import "MSDateTimeTypedProperty.h"
 #import "MSDoubleTypedProperty.h"
@@ -150,6 +151,102 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 
   // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
   [[MSAnalytics sharedInstance].sessionTracker stop];
+}
+
+- (void)testSetTransmissionIntervalApplied {
+  
+  // If
+  NSUInteger testInterval = 5.0;
+  XCTestExpectation *expectation = [self expectationWithDescription:@"Wait for addChannelUnitWithConfiguration to be called with right configuration"];
+  id<MSChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY])
+  .andDo(^(NSInvocation *invocation) {
+    MSChannelUnitConfiguration *channelUnitConfiguration;
+    [invocation getArgument:&channelUnitConfiguration atIndex:2];
+    XCTAssertEqual([channelUnitConfiguration flushInterval], testInterval);
+    [expectation fulfill];
+  });
+  
+  // When
+  [MSAnalytics setTransmissionInterval: testInterval];
+  [[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock
+                                            appSecret:kMSTestAppSecret
+                              transmissionTargetToken:nil
+                                      fromApplication:YES];
+  
+  //Then
+  // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
+  [[MSAnalytics sharedInstance].sessionTracker stop];
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+}
+
+- (void)testSetTransmissionIntervalNotApplied {
+  
+  // If
+  NSUInteger testInterval = 2.0;
+  XCTestExpectation *expectation = [self expectationWithDescription:@"Wait for addChannelUnitWithConfiguration to be called with right configuration"];
+  id<MSChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY])
+  .andDo(^(NSInvocation *invocation) {
+    MSChannelUnitConfiguration *channelUnitConfiguration;
+    [invocation getArgument:&channelUnitConfiguration atIndex:2];
+    XCTAssertEqual([channelUnitConfiguration flushInterval], 3.0);
+    [expectation fulfill];
+  });
+  
+  // When
+  [MSAnalytics setTransmissionInterval: testInterval];
+  [[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock
+                                            appSecret:kMSTestAppSecret
+                              transmissionTargetToken:nil
+                                      fromApplication:YES];
+  
+  //Then
+  // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
+  [[MSAnalytics sharedInstance].sessionTracker stop];
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+}
+
+- (void)testSetTransmissionIntervalNotAppliedIfHigherThanDay {
+  
+  // If
+  NSUInteger testInterval = 25 * 60 * 60;
+  XCTestExpectation *expectation = [self expectationWithDescription:@"Wait for addChannelUnitWithConfiguration to be called with right configuration"];
+  id<MSChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY])
+  .andDo(^(NSInvocation *invocation) {
+    MSChannelUnitConfiguration *channelUnitConfiguration;
+    [invocation getArgument:&channelUnitConfiguration atIndex:2];
+    XCTAssertEqual([channelUnitConfiguration flushInterval], 3.0);
+    [expectation fulfill];
+  });
+  
+  // When
+  [MSAnalytics setTransmissionInterval: testInterval];
+  [[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock
+                                            appSecret:kMSTestAppSecret
+                              transmissionTargetToken:nil
+                                      fromApplication:YES];
+  
+  //Then
+  // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
+  [[MSAnalytics sharedInstance].sessionTracker stop];
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
 }
 
 - (void)testDisablingAnalyticsClearsSessionHistory {
