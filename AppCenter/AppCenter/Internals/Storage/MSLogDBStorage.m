@@ -395,7 +395,7 @@ static const NSUInteger kMSSchemaVersion = 4;
     // Integer type for flags is actually unsigned int, but SQL resolves UNSIGNED INTEGER to INTEGER anyways.
     NSString *migrationQuery =
         [NSString stringWithFormat:@"ALTER TABLE \"%@\" ADD COLUMN \"%@\" %@ DEFAULT %u", kMSLogTableName, kMSPriorityColumnName,
-                                   kMSSQLiteTypeInteger, (unsigned int)MSFlagsPersistenceNormal];
+                                   kMSSQLiteTypeInteger, (unsigned int)MSFlagNormal];
     [MSDBStorage executeNonSelectionQuery:migrationQuery inOpenedDatabase:db];
     [self createPriorityIndex:db];
   }

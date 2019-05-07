@@ -274,9 +274,9 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
 
     // Validate flags.
     MSFlags persistenceFlag = flags & kMSPersistenceFlagsMask;
-    if (persistenceFlag != MSFlagsPersistenceNormal && persistenceFlag != MSFlagsPersistenceCritical) {
+    if (persistenceFlag != MSFlagNormal && persistenceFlag != MSFlagCritial) {
       MSLogWarning([MSAnalytics logTag], @"Invalid flags (%u) received, using normal as a default.", (unsigned int)persistenceFlag);
-      persistenceFlag = MSFlagsPersistenceNormal;
+      persistenceFlag = MSFlagNormal;
     }
 
     // Create an event log.

@@ -71,8 +71,8 @@ static NSString *const kMSTestGroupId = @"GroupId";
   self.logsDispatchQueue = dispatch_queue_create("com.microsoft.appcenter.ChannelGroupQueue", DISPATCH_QUEUE_SERIAL);
   self.configMock = OCMClassMock([MSChannelUnitConfiguration class]);
   self.storageMock = OCMProtocolMock(@protocol(MSStorage));
-  OCMStub([self.storageMock saveLog:OCMOCK_ANY withGroupId:OCMOCK_ANY flags:MSFlagsPersistenceNormal]).andReturn(YES);
-  OCMStub([self.storageMock saveLog:OCMOCK_ANY withGroupId:OCMOCK_ANY flags:MSFlagsPersistenceCritical]).andReturn(YES);
+  OCMStub([self.storageMock saveLog:OCMOCK_ANY withGroupId:OCMOCK_ANY flags:MSFlagNormal]).andReturn(YES);
+  OCMStub([self.storageMock saveLog:OCMOCK_ANY withGroupId:OCMOCK_ANY flags:MSFlagCritial]).andReturn(YES);
   self.ingestionMock = OCMProtocolMock(@protocol(MSIngestionProtocol));
   OCMStub([self.ingestionMock isReadyToSend]).andReturn(YES);
   self.sut = [[MSChannelUnitDefault alloc] initWithIngestion:self.ingestionMock
@@ -357,13 +357,13 @@ static NSString *const kMSTestGroupId = @"GroupId";
   id<MSLog> mockLog = [self getValidMockLog];
 
   // When
-  [self.sut enqueueItem:mockLog flags:MSFlagsPersistenceCritical];
+  [self.sut enqueueItem:mockLog flags:MSFlagCritial];
   [self enqueueChannelEndJobExpectation];
 
   // Then
   [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *error) {
-                                 OCMVerify([self.storageMock saveLog:mockLog withGroupId:OCMOCK_ANY flags:MSFlagsPersistenceCritical]);
+                                 OCMVerify([self.storageMock saveLog:mockLog withGroupId:OCMOCK_ANY flags:MSFlagCritial]);
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
@@ -377,13 +377,13 @@ static NSString *const kMSTestGroupId = @"GroupId";
   id<MSLog> mockLog = [self getValidMockLog];
 
   // When
-  [self.sut enqueueItem:mockLog flags:MSFlagsPersistenceNormal];
+  [self.sut enqueueItem:mockLog flags:MSFlagNormal];
   [self enqueueChannelEndJobExpectation];
 
   // Then
   [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *error) {
-                                 OCMVerify([self.storageMock saveLog:mockLog withGroupId:OCMOCK_ANY flags:MSFlagsPersistenceNormal]);
+                                 OCMVerify([self.storageMock saveLog:mockLog withGroupId:OCMOCK_ANY flags:MSFlagNormal]);
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
@@ -435,7 +435,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
   // When
   for (int i = 0; i < itemsToAdd; ++i) {
-    [self.sut enqueueItem:mockLog flags:MSFlagsPersistenceCritical];
+    [self.sut enqueueItem:mockLog flags:MSFlagCritial];
   }
   [self enqueueChannelEndJobExpectation];
 
@@ -1485,7 +1485,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   OCMStub([userIdContextMock sharedInstance]).andReturn(userIdContextMock);
   OCMStub([userIdContextMock userId]).andReturn(@"SomethingElse");
   self.sut.storage = self.storageMock = OCMProtocolMock(@protocol(MSStorage));
-  OCMStub([self.storageMock saveLog:OCMOCK_ANY withGroupId:OCMOCK_ANY flags:MSFlagsPersistenceNormal])
+  OCMStub([self.storageMock saveLog:OCMOCK_ANY withGroupId:OCMOCK_ANY flags:MSFlagNormal])
       .andDo(^(NSInvocation *invocation) {
         MSAbstractLog *log;
         [invocation getArgument:&log atIndex:2];
