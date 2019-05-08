@@ -9,6 +9,5 @@ typedef NS_OPTIONS(NSUInteger, MSFlags) {
   MSFlagsCritical = (1 << 1),              // => 00000010
   MSFlagsPersistenceNormal DEPRECATED_MSG_ATTRIBUTE("please use MSFlagsNormal") = MSFlagsNormal,
   MSFlagsPersistenceCritical DEPRECATED_MSG_ATTRIBUTE("please use MSFlagsCritical") = MSFlagsCritical,
-  MSFlagsPersistenceNone DEPRECATED_MSG_ATTRIBUTE("please use MSFlagsNone") = MSFlagsNone,
   MSFlagsDefault = MSFlagsNormal
 };
