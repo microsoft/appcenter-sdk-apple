@@ -162,19 +162,22 @@
 - (void)testDocumentWrapperFromDictionaryWithDataError {
 
   // If
+  NSString *eTag = @"etag";
+  NSString *partition = @"partition";
+  NSString *documentId = @"docId";
+  NSString *pendingOperation = @"pendingOperation";
   NSMutableDictionary *documentDictionary = [NSMutableDictionary new];
   documentDictionary[@"shouldFail"] = [NSSet set];
-  NSMutableDictionary *dictionary = [NSMutableDictionary new];
-  dictionary[@"document"] = documentDictionary;
+  NSDictionary *dictionary = @{ @"document": documentDictionary };
 
   // When
   MSDocumentWrapper *document = [MSDocumentUtils documentWrapperFromDictionary:dictionary
                                                                   documentType:[NSString class]
-                                                                          eTag:@"etag"
+                                                                          eTag:eTag
                                                                lastUpdatedDate:[NSDate date]
-                                                                     partition:@"partition"
-                                                                    documentId:@"docId"
-                                                              pendingOperation:@"pendingOperation"
+                                                                     partition:partition
+                                                                    documentId:documentId
+                                                              pendingOperation:pendingOperation
                                                                fromDeviceCache:NO];
 
   // Then
@@ -183,12 +186,11 @@
   XCTAssertTrue([[document error] isKindOfClass:[MSDataError class]]);
   XCTAssertNotNil([document error].innerError);
   XCTAssertEqual([document error].innerError.code, MSACDataErrorJSONSerializationFailed);
-  XCTAssertEqualObjects(document.documentId, @"docId");
-  XCTAssertEqualObjects(document.partition, @"partition");
-  XCTAssertEqualObjects(document.eTag, @"etag");
+  XCTAssertEqualObjects(document.documentId, documentId);
+  XCTAssertEqualObjects(document.partition, partition);
+  XCTAssertEqualObjects(document.eTag, eTag);
   XCTAssertFalse(document.fromDeviceCache);
   XCTAssertNotNil(document.lastUpdatedDate);
-  XCTAssertEqualObjects(document.documentId, @"docId");
 }
 
 - (void)testDocumentWrapperFromDataNull {
