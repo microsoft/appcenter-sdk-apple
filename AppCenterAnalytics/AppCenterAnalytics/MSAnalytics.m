@@ -28,6 +28,9 @@ static NSString *const kMSServiceName = @"Analytics";
 // The group Id for Analytics.
 static NSString *const kMSGroupId = @"Analytics";
 
+// The Id for critical events.
+static NSString *const kMSCriticalId = @"critical";
+
 // Singleton
 static MSAnalytics *sharedInstance = nil;
 static dispatch_once_t onceToken;
@@ -96,6 +99,12 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
     self.defaultTransmissionTarget = [self createTransmissionTargetForToken:token];
   }
 
+  // Add extra channel for critical events.
+  NSString *criticalGroupId = [NSString stringWithFormat:@"%@_%@", kMSGroupId, kMSCriticalId];
+  MSChannelUnitConfiguration *channelUnitConfiguration =
+      [[MSChannelUnitConfiguration alloc] initDefaultConfigurationWithGroupId:criticalGroupId];
+  self.criticalChannelUnit = [self.channelGroup addChannelUnitWithConfiguration:channelUnitConfiguration];
+
   // Set up swizzling for auto page tracking.
   [MSAnalyticsCategory activateCategory];
   MSLogVerbose([MSAnalytics logTag], @"Started Analytics service.");
@@ -122,6 +131,7 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
 
 - (void)applyEnabledState:(BOOL)isEnabled {
   [super applyEnabledState:isEnabled];
+  [self.criticalChannelUnit setEnabled:isEnabled andDeleteDataOnDisabled:YES];
   if (isEnabled) {
     if (self.startedFromApplication) {
       [self resume];
@@ -318,6 +328,7 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
   @synchronized(self) {
     if ([self canBeUsed]) {
       [self.channelUnit pauseWithIdentifyingObject:self];
+      [self.criticalChannelUnit pauseWithIdentifyingObject:self];
     }
   }
 }
@@ -326,6 +337,7 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
   @synchronized(self) {
     if ([self canBeUsed]) {
       [self.channelUnit resumeWithIdentifyingObject:self];
+      [self.criticalChannelUnit resumeWithIdentifyingObject:self];
     }
   }
 }
@@ -377,13 +389,16 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
 - (void)sendLog:(id<MSLog>)log flags:(MSFlags)flags {
 
   // Send log to log manager.
-  [self.channelUnit enqueueItem:log flags:flags];
+  if (flags == MSFlagsPersistenceCritical) {
+    [self.criticalChannelUnit enqueueItem:log flags:flags];
+  } else {
+    [self.channelUnit enqueueItem:log flags:flags];
+  }
 }
 
 - (void)setTransmissionInterval:(NSUInteger)interval {
   if (interval > kMSFlushIntervalMaximum || interval < kMSFlushIntervalMinimum) {
-    MSLogWarning([MSAnalytics logTag],
-                 @"The transmission interval is invalid, it should be between 3 second and 1 day (86400 seconds).");
+    MSLogWarning([MSAnalytics logTag], @"The transmission interval is invalid, it should be between 3 second and 1 day (86400 seconds).");
     return;
   }
   if (self.started) {
@@ -423,11 +438,17 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
   if (self.oneCollectorChannelUnit) {
     [self.oneCollectorChannelUnit pauseSendingLogsWithToken:token];
   }
+  if (self.oneCollectorCriticalChannelUnit) {
+    [self.oneCollectorCriticalChannelUnit pauseSendingLogsWithToken:token];
+  }
 }
 
 - (void)resumeTransmissionTargetForToken:(NSString *)token {
   if (self.oneCollectorChannelUnit) {
     [self.oneCollectorChannelUnit resumeSendingLogsWithToken:token];
+  }
+  if (self.oneCollectorCriticalChannelUnit) {
+    [self.oneCollectorCriticalChannelUnit resumeSendingLogsWithToken:token];
   }
 }
 
@@ -437,6 +458,15 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
     self.oneCollectorChannelUnit = [self.channelGroup channelUnitForGroupId:oneCollectorGroupId];
   }
   return _oneCollectorChannelUnit;
+}
+
+- (id<MSChannelUnitProtocol>)oneCollectorCriticalChannelUnit {
+  if (!_oneCollectorCriticalChannelUnit) {
+    NSString *oneCollectorCriticalGroupId =
+        [NSString stringWithFormat:@"%@_%@%@", self.groupId, kMSCriticalId, kMSOneCollectorGroupIdSuffix];
+    self.oneCollectorCriticalChannelUnit = [self.channelGroup channelUnitForGroupId:oneCollectorCriticalGroupId];
+  }
+  return _oneCollectorCriticalChannelUnit;
 }
 
 + (void)resetSharedInstance {

@@ -39,6 +39,16 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic) id<MSChannelUnitProtocol> oneCollectorChannelUnit;
 
 /**
+ * The channel unit for critical common schema logs.
+ */
+@property(nonatomic) id<MSChannelUnitProtocol> oneCollectorCriticalChannelUnit;
+
+/**
+ * Critical events channel unit.
+ */
+@property(nonatomic) id<MSChannelUnitProtocol> criticalChannelUnit;
+
+/**
  * Track an event.
  *
  * @param eventName  Event name.
