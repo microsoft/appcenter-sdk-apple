@@ -383,11 +383,11 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
 - (void)setTransmissionInterval:(NSUInteger)interval {
   if (interval > kMSFlushIntervalMaximum || interval < kMSFlushIntervalMinimum) {
     MSLogWarning([MSAnalytics logTag],
-                 @"Interval property is in invalid period, it should be greater than 3 second and lower than 1 day (86400 seconds).");
+                 @"The transmission interval is invalid, it should be between 3 second and 1 day (86400 seconds).");
     return;
   }
   if (self.started) {
-    MSLogWarning([MSAnalytics logTag], @"setTransmissionInterval API must be called before MSAnalytics service starts.");
+    MSLogWarning([MSAnalytics logTag], @"The transmission interval should be set before the MSAnalytics service is started.");
     return;
   }
   self.flushInterval = interval;
