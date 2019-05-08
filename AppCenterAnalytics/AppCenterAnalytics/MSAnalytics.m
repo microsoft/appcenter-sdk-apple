@@ -393,7 +393,7 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
     [self.criticalChannelUnit enqueueItem:log flags:flags];
   } else {
     [self.channelUnit enqueueItem:log flags:flags];
-  }
+  [(flags & MSFlagsPersistenceCritical) != 0 ? self.criticalChannelUnit : self.channelUnit enqueueItem:log flags:flags];
 }
 
 - (void)setTransmissionInterval:(NSUInteger)interval {
