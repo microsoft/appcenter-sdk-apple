@@ -53,8 +53,7 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
   private var latencyPicker: MSEnumPicker<Latency>?
   private var priorityPicker: MSEnumPicker<Priority>?
   private var priority = Priority.Default
-
-  private var latency: Int = 3
+  private var latency = Latency.Default
   private var kEventPropertiesSectionIndex: Int = 2
   private var kResultsPageIndex: Int = 2
 
@@ -241,27 +240,16 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
   }
   
   func initLatencyPicker() {
+    let latencyPosition = UserDefaults.standard.integer(forKey: kMSTransmissionIterval)
     self.latencyPicker = MSEnumPicker<Latency>(
     textField: latencyField,
     allValues: Latency.allValues,
     onChange: { index in
-      switch self.latencyField.text {
-       
-      case Latency.Default.rawValue:
-        self.latency = 3
-      case Latency.Min_10.rawValue:
-        self.latency = 10*60
-      case Latency.Hour_1.rawValue:
-        self.latency = 1*60*60
-      case Latency.Hour_8.rawValue:
-        self.latency = 8*60*60
-      case Latency.Day_1.rawValue:
-        self.latency = 1*24*60*60
-      default:
-        break
-      }
-      UserDefaults.standard.setValue(self.latency, forKey: kMSTransmissionIterval)
+      UserDefaults.standard.setValue(index, forKey: kMSTransmissionIterval)
     })
-    latencyField.delegate = self.latencyPicker
+    self.latency = Latency.allValues[latencyPosition]
+    self.latencyField.delegate = self.latencyPicker
+    self.latencyField.text = self.latency.rawValue
+    self.latencyField.tintColor = UIColor.clear
   }
 }

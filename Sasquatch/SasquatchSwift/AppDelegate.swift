@@ -29,6 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
   private var notificationPresentationCompletionHandler: Any?
   private var notificationResponseCompletionHandler: Any?
   private var locationManager : CLLocationManager = CLLocationManager()
+  private var latencyValues: Int[] = [3, 10*60, 1*60*60, 8*60*60, 1*24*60*60]
 
   var window: UIWindow?
 
@@ -75,6 +76,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
     let services = [MSAnalytics.self, MSCrashes.self, MSData.self, MSDistribute.self, MSAuth.self, MSPush.self]
     let appSecret = UserDefaults.standard.string(forKey: kMSAppSecret) ?? kMSSwiftAppSecret
     let startTarget = StartupMode(rawValue: UserDefaults.standard.integer(forKey: kMSStartTargetKey))!
+    let latencyPosition = UserDefaults.standard.integer(forKey: kMSTransmissionIterval) ?? 0;
+    MSAnalytics.setTransmissionInterval(latencyValues[latencyPosition])
     switch startTarget {
     case .APPCENTER:
       MSAppCenter.start(appSecret, withServices: services)
