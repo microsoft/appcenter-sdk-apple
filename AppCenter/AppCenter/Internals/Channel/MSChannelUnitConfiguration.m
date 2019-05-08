@@ -7,7 +7,7 @@
 
 - (instancetype)initWithGroupId:(NSString *)groupId
                        priority:(MSPriority)priority
-                  flushInterval:(float)flushInterval
+                  flushInterval:(NSUInteger)flushInterval
                  batchSizeLimit:(NSUInteger)batchSizeLimit
             pendingBatchesLimit:(NSUInteger)pendingBatchesLimit {
   if ((self = [super init])) {
@@ -20,12 +20,12 @@
   return self;
 }
 
-- (instancetype)initWithGroupId:(NSString *)groupId flushInterval:(float)flushInterval {
+- (instancetype)initWithGroupId:(NSString *)groupId flushInterval:(NSUInteger)flushInterval {
   return [self initWithGroupId:groupId priority:MSPriorityDefault flushInterval:flushInterval batchSizeLimit:50 pendingBatchesLimit:3];
 }
 
 - (instancetype)initDefaultConfigurationWithGroupId:(NSString *)groupId {
-  return [self initWithGroupId:groupId flushInterval:MSFlushIntervalDefault];
+  return [self initWithGroupId:groupId flushInterval:kMSFlushIntervalDefault];
 }
 
 @end

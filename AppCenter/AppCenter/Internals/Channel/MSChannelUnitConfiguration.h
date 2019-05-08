@@ -3,6 +3,7 @@
 
 #import <Foundation/Foundation.h>
 
+#import "MSConstants+Internal.h"
 #import "MSConstants.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -32,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Interval for flushing the queue.
  */
-@property(nonatomic, readonly) float flushInterval;
+@property(nonatomic, readonly) NSUInteger flushInterval;
 
 /**
  * Initializes a new instance based on given settings.
@@ -47,7 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (instancetype)initWithGroupId:(NSString *)groupId
                        priority:(MSPriority)priority
-                  flushInterval:(float)flushInterval
+                  flushInterval:(NSUInteger)flushInterval
                  batchSizeLimit:(NSUInteger)batchSizeLimit
             pendingBatchesLimit:(NSUInteger)pendingBatchesLimit;
 
@@ -68,7 +69,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return a fully configured `MSChannelConfiguration` instance with flushInterval.
  */
-- (instancetype)initWithGroupId:(NSString *)groupId flushInterval:(float)flushInterval;
+- (instancetype)initWithGroupId:(NSString *)groupId flushInterval:(NSUInteger)flushInterval;
 
 @end
 

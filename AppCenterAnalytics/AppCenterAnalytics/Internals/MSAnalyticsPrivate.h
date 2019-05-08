@@ -23,8 +23,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic) NSUInteger flushInterval;
 
-@property(nonatomic) MSChannelUnitConfiguration *channelUnitConfiguration;
-
 /**
  * Transmission targets.
  */

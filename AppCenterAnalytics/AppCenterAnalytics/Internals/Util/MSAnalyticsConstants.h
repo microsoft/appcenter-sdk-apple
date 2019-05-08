@@ -11,9 +11,9 @@ static const int kMSDateTimeMetadataTypeId = 9;
 /**
  * Minimum flush interval for channel.
  */
-static NSUInteger const MSFlushIntervalMinimum = 3.0;
+static NSUInteger const kMSFlushIntervalMinimum = 3.0;
 
 /**
  * Maximum flush interval for channel.
  */
-static NSUInteger const MSFlushIntervalMaximum = 24 * 60 * 60;
+static NSUInteger const kMSFlushIntervalMaximum = 24 * 60 * 60;

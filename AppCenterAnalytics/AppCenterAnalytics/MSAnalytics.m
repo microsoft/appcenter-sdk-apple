@@ -4,6 +4,7 @@
 #import "MSAnalytics.h"
 #import "MSAnalytics+Validation.h"
 #import "MSAnalyticsCategory.h"
+#import "MSAnalyticsConstants.h"
 #import "MSAnalyticsPrivate.h"
 #import "MSAnalyticsTransmissionTargetInternal.h"
 #import "MSChannelGroupProtocol.h"
@@ -20,16 +21,12 @@
 #import "MSTypedProperty.h"
 #import "MSUserIdContext.h"
 #import "MSUtility+StringFormatting.h"
-#import "MSAnalyticsConstants.h"
 
 // Service name for initialization.
 static NSString *const kMSServiceName = @"Analytics";
 
 // The group Id for Analytics.
 static NSString *const kMSGroupId = @"Analytics";
-
-// The default value for logs flush Interval.
-static NSUInteger const kMSDefaultInterval = 3.0;
 
 // Singleton
 static MSAnalytics *sharedInstance = nil;
@@ -55,7 +52,7 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
 
     // Set defaults.
     _autoPageTrackingEnabled = NO;
-    _flushInterval = kMSDefaultInterval;
+    _flushInterval = kMSFlushIntervalDefault;
 
     // Init session tracker.
     _sessionTracker = [[MSSessionTracker alloc] init];
@@ -384,7 +381,7 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
 }
 
 - (void)setTransmissionInterval:(NSUInteger)interval {
-  if (interval > MSFlushIntervalMaximum || interval < MSFlushIntervalMinimum) {
+  if (interval > kMSFlushIntervalMaximum || interval < kMSFlushIntervalMinimum) {
     MSLogWarning([MSAnalytics logTag],
                  @"Interval property is in invalid period, it should be greater than 3 second and lower than 1 day (86400 seconds).");
     return;

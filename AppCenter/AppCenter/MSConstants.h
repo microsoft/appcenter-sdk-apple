@@ -44,11 +44,6 @@ typedef NS_ENUM(NSUInteger, MSLogLevel) {
   MSLogLevelNone = 99
 };
 
-/**
- * Default flush interval for channel.
- */
-static NSUInteger const MSFlushIntervalDefault = 3.0;
-
 typedef NSString * (^MSLogMessageProvider)(void);
 typedef void (^MSLogHandler)(MSLogMessageProvider messageProvider, MSLogLevel logLevel, NSString *tag, const char *file,
                              const char *function, uint line);
