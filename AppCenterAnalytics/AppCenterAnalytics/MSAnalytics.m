@@ -4,6 +4,7 @@
 #import "MSAnalytics.h"
 #import "MSAnalytics+Validation.h"
 #import "MSAnalyticsCategory.h"
+#import "MSAnalyticsConstants.h"
 #import "MSAnalyticsPrivate.h"
 #import "MSAnalyticsTransmissionTargetInternal.h"
 #import "MSChannelGroupProtocol.h"
@@ -24,7 +25,7 @@
 // Service name for initialization.
 static NSString *const kMSServiceName = @"Analytics";
 
-// The group Id for storage.
+// The group Id for Analytics.
 static NSString *const kMSGroupId = @"Analytics";
 
 // Singleton
@@ -51,13 +52,14 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
 
     // Set defaults.
     _autoPageTrackingEnabled = NO;
+    _flushInterval = kMSFlushIntervalDefault;
 
     // Init session tracker.
     _sessionTracker = [[MSSessionTracker alloc] init];
     _sessionTracker.delegate = self;
 
     // Init channel configuration.
-    _channelUnitConfiguration = [[MSChannelUnitConfiguration alloc] initDefaultConfigurationWithGroupId:[self groupId]];
+    _channelUnitConfiguration = [[MSChannelUnitConfiguration alloc] initWithGroupId:[self groupId] flushInterval:self.flushInterval];
 
     // Set up transmission target dictionary.
     _transmissionTargets = [NSMutableDictionary<NSString *, MSAnalyticsTransmissionTarget *> new];
@@ -233,6 +235,10 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
   return [MSAnalytics sharedInstance].autoPageTrackingEnabled;
 }
 
++ (void)setTransmissionInterval:(NSUInteger)interval {
+  [[MSAnalytics sharedInstance] setTransmissionInterval:interval];
+}
+
 #pragma mark - Transmission Target
 
 + (MSAnalyticsTransmissionTarget *)transmissionTargetForToken:(NSString *)token {
@@ -372,6 +378,20 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
 
   // Send log to log manager.
   [self.channelUnit enqueueItem:log flags:flags];
+}
+
+- (void)setTransmissionInterval:(NSUInteger)interval {
+  if (interval > kMSFlushIntervalMaximum || interval < kMSFlushIntervalMinimum) {
+    MSLogWarning([MSAnalytics logTag],
+                 @"The transmission interval is invalid, it should be between 3 second and 1 day (86400 seconds).");
+    return;
+  }
+  if (self.started) {
+    MSLogWarning([MSAnalytics logTag], @"The transmission interval should be set before the MSAnalytics service is started.");
+    return;
+  }
+  self.flushInterval = interval;
+  self.channelUnitConfiguration = [[MSChannelUnitConfiguration alloc] initWithGroupId:[self groupId] flushInterval:self.flushInterval];
 }
 
 - (MSAnalyticsTransmissionTarget *)transmissionTargetForToken:(NSString *)transmissionTargetToken {
