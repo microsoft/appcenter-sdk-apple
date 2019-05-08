@@ -124,7 +124,7 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   // Create 2 critical logs.
   expectedLogs = [[expectedLogs arrayByAddingObjectsFromArray:[self generateAndSaveLogsWithCount:segmentLogCount
                                                                                          groupId:kMSTestGroupId
-                                                                                           flags:MSFlagsCritial
+                                                                                           flags:MSFlagsCritical
                                                                           andVerifyLogGeneration:YES
                                                                                       andLogDate:[NSDate new]]] mutableCopy];
 
@@ -138,7 +138,7 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   // Create 2 critical logs.
   expectedLogs = [[expectedLogs arrayByAddingObjectsFromArray:[self generateAndSaveLogsWithCount:segmentLogCount
                                                                                          groupId:kMSTestGroupId
-                                                                                           flags:MSFlagsCritial
+                                                                                           flags:MSFlagsCritical
                                                                           andVerifyLogGeneration:NO
                                                                                       andLogDate:[NSDate new]]] mutableCopy];
 
@@ -764,11 +764,11 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   MSAbstractLog *aLog = [MSAbstractLog new];
   aLog.sid = MS_UUID_STRING;
   NSString *criticalLogsFilter =
-      [NSString stringWithFormat:@"\"%@\" = '%u'", kMSPriorityColumnName, (unsigned int)MSFlagsCritial];
+      [NSString stringWithFormat:@"\"%@\" = '%u'", kMSPriorityColumnName, (unsigned int)MSFlagsCritical];
   NSString *normalLogsFilter = [NSString stringWithFormat:@"\"%@\" = '%u'", kMSPriorityColumnName, (unsigned int)MSFlagsNormal];
 
   // When
-  [self.sut saveLog:aLog withGroupId:kMSTestGroupId flags:MSFlagsCritial];
+  [self.sut saveLog:aLog withGroupId:kMSTestGroupId flags:MSFlagsCritical];
 
   // Then
   NSArray<id<MSLog>> *criticalLogs = [self loadLogsWhere:criticalLogsFilter];
@@ -784,7 +784,7 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   MSAbstractLog *aLog = [MSAbstractLog new];
   aLog.sid = MS_UUID_STRING;
   NSString *criticalLogsFilter =
-      [NSString stringWithFormat:@"\"%@\" = '%u'", kMSPriorityColumnName, (unsigned int)MSFlagsCritial];
+      [NSString stringWithFormat:@"\"%@\" = '%u'", kMSPriorityColumnName, (unsigned int)MSFlagsCritical];
   NSString *normalLogsFilter = [NSString stringWithFormat:@"\"%@\" = '%u'", kMSPriorityColumnName, (unsigned int)MSFlagsNormal];
 
   // When
@@ -858,7 +858,7 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
             completionHandler:^(__unused BOOL success){
             }];
   MSAbstractLog *additionalLog = [MSAbstractLog new];
-  BOOL logSavedSuccessfully = [self.sut saveLog:additionalLog withGroupId:kMSAnotherTestGroupId flags:MSFlagsCritial];
+  BOOL logSavedSuccessfully = [self.sut saveLog:additionalLog withGroupId:kMSAnotherTestGroupId flags:MSFlagsCritical];
 
   // Then
   XCTAssertTrue([self.storageTestUtil getDataLengthInBytes] <= maxCapacityInBytes);
@@ -876,7 +876,7 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
 
   // If
   long maxCapacityInBytes = kMSTestStorageSizeMinimumUpperLimitInBytes + 4 * 1024;
-  NSArray *addedDbIds = [self fillDatabaseWithLogsOfSizeInBytes:maxCapacityInBytes ofPriority:MSFlagsCritial];
+  NSArray *addedDbIds = [self fillDatabaseWithLogsOfSizeInBytes:maxCapacityInBytes ofPriority:MSFlagsCritical];
 
   // When
   [self.sut setMaxStorageSize:maxCapacityInBytes
@@ -903,7 +903,7 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   // If
   long maxCapacityInBytes = kMSTestStorageSizeMinimumUpperLimitInBytes + 4 * 1024;
   NSDictionary *addedDbIds = [self fillDatabaseWithMixedPriorityLogsOfSizeInBytesAndReturnDbIds:maxCapacityInBytes];
-  NSNumber *oldestCriticalDbId = [((NSArray *)[addedDbIds objectForKey:[NSNumber numberWithInt:MSFlagsCritial]]) firstObject];
+  NSNumber *oldestCriticalDbId = [((NSArray *)[addedDbIds objectForKey:[NSNumber numberWithInt:MSFlagsCritical]]) firstObject];
   NSNumber *oldestNormalDbId = [((NSArray *)[addedDbIds objectForKey:[NSNumber numberWithInt:MSFlagsNormal]]) firstObject];
 
   // When
@@ -934,7 +934,7 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
 }
 
 - (void)testSaveLargeCriticalPriorityLogDoesNotPurgeOldLogs {
-  [self DoNotPurgeOldLogsWhenSavingLargeLogExceedsCapacityWithPriority:MSFlagsCritial];
+  [self DoNotPurgeOldLogsWhenSavingLargeLogExceedsCapacityWithPriority:MSFlagsCritical];
 }
 
 - (void)DoNotPurgeOldLogsWhenSavingLargeLogExceedsCapacityWithPriority:(MSFlags)priority {
@@ -946,7 +946,7 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
             }];
   [self generateAndSaveLogsWithCount:1
                              groupId:kMSTestGroupId
-                               flags:MSFlagsCritial
+                               flags:MSFlagsCritical
               andVerifyLogGeneration:YES
                           andLogDate:[NSDate new]];
   [self generateAndSaveLogsWithCount:2
@@ -956,7 +956,7 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
                           andLogDate:[NSDate new]];
   id<MSLog> largeLog = [self generateLogWithSize:@(maxCapacityInBytes)];
   sqlite3 *db = [self.storageTestUtil openDatabase];
-  NSArray<NSNumber *> *criticalDbIds = [self dbIdsForPriority:MSFlagsCritial inOpenedDatabase:db];
+  NSArray<NSNumber *> *criticalDbIds = [self dbIdsForPriority:MSFlagsCritical inOpenedDatabase:db];
   NSArray<NSNumber *> *normalDbIds = [self dbIdsForPriority:MSFlagsNormal inOpenedDatabase:db];
   sqlite3_close(db);
 
@@ -1396,13 +1396,13 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
     NSString *addLogQuery =
         [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\") VALUES ('%@', '%@', %u)", kMSLogTableName,
                                    kMSGroupIdColumnName, kMSLogColumnName, kMSPriorityColumnName, kMSTestGroupId, base64Data,
-                                   (unsigned int)(count++ % 2 == 0 ? MSFlagsCritial : MSFlagsNormal)];
+                                   (unsigned int)(count++ % 2 == 0 ? MSFlagsCritical : MSFlagsNormal)];
     result = sqlite3_exec(db, [addLogQuery UTF8String], NULL, NULL, NULL);
   } while (result == SQLITE_OK);
 
   // Get DB IDs for logs
   NSMutableDictionary *ids = [NSMutableDictionary new];
-  for (NSNumber *flag in @[ [NSNumber numberWithInt:MSFlagsNormal], [NSNumber numberWithInt:MSFlagsCritial] ]) {
+  for (NSNumber *flag in @[ [NSNumber numberWithInt:MSFlagsNormal], [NSNumber numberWithInt:MSFlagsCritical] ]) {
     NSString *selectLogQuery =
         [NSString stringWithFormat:@"SELECT \"%@\" FROM \"%@\" WHERE \"%@\" = %u ORDER BY \"%@\" ASC", kMSIdColumnName, kMSLogTableName,
                                    kMSPriorityColumnName, (unsigned int)[flag unsignedIntegerValue], kMSIdColumnName];

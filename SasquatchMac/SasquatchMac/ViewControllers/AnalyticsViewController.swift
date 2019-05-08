@@ -37,7 +37,7 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
       case .normal:
         return [.normal]
       case .critical:
-        return [.critial]
+        return [.critical]
       case .invalid:
         return MSFlags.init(rawValue: 42)
       default:

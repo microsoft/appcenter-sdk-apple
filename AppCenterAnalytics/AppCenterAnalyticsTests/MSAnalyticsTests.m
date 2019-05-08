@@ -650,12 +650,12 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
                                       fromApplication:YES];
 
   // When
-  [MSAnalytics trackEvent:expectedName withProperties:nil flags:MSFlagsCritial];
+  [MSAnalytics trackEvent:expectedName withProperties:nil flags:MSFlagsCritical];
 
   // Then
   XCTAssertEqual(actualType, kMSTypeEvent);
   XCTAssertEqual(actualName, expectedName);
-  XCTAssertEqual(actualFlags, MSFlagsCritial);
+  XCTAssertEqual(actualFlags, MSFlagsCritical);
 }
 
 - (void)testTrackEventWithPropertiesWithInvalidFlag {
@@ -746,12 +746,12 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
                                       fromApplication:YES];
 
   // When
-  [MSAnalytics trackEvent:expectedName withTypedProperties:nil flags:MSFlagsCritial];
+  [MSAnalytics trackEvent:expectedName withTypedProperties:nil flags:MSFlagsCritical];
 
   // Then
   XCTAssertEqual(actualType, kMSTypeEvent);
   XCTAssertEqual(actualName, expectedName);
-  XCTAssertEqual(actualFlags, MSFlagsCritial);
+  XCTAssertEqual(actualFlags, MSFlagsCritical);
 }
 
 - (void)testTrackEventWithTypedPropertiesWithInvalidFlag {

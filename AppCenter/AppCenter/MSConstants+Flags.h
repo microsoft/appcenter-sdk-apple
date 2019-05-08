@@ -6,9 +6,9 @@
 typedef NS_OPTIONS(NSUInteger, MSFlags) {
   MSFlagsNone = (0 << 0),                // => 00000000
   MSFlagsNormal = (1 << 0),               // => 00000001
-  MSFlagsCritial = (1 << 1),              // => 00000010
-  MSFlagsPersistenceNormal = MSFlagsNormal,
-  MSFlagsPersistenceCritical = MSFlagsCritial,
-  MSFlagsPersistenceNone = MSFlagsNone,
+  MSFlagsCritical = (1 << 1),              // => 00000010
+  MSFlagsPersistenceNormal DEPRECATED_MSG_ATTRIBUTE("please use MSFlagsNormal") = MSFlagsNormal,
+  MSFlagsPersistenceCritical DEPRECATED_MSG_ATTRIBUTE("please use MSFlagsCritical") = MSFlagsCritical,
+  MSFlagsPersistenceNone DEPRECATED_MSG_ATTRIBUTE("please use MSFlagsNone") = MSFlagsNone,
   MSFlagsDefault = MSFlagsNormal
 };
