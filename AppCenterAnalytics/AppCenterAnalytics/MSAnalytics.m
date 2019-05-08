@@ -387,12 +387,6 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
 }
 
 - (void)sendLog:(id<MSLog>)log flags:(MSFlags)flags {
-
-  // Send log to log manager.
-  if (flags == MSFlagsPersistenceCritical) {
-    [self.criticalChannelUnit enqueueItem:log flags:flags];
-  } else {
-    [self.channelUnit enqueueItem:log flags:flags];
   [(flags & MSFlagsPersistenceCritical) != 0 ? self.criticalChannelUnit : self.channelUnit enqueueItem:log flags:flags];
 }
 
@@ -435,21 +429,13 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
 }
 
 - (void)pauseTransmissionTargetForToken:(NSString *)token {
-  if (self.oneCollectorChannelUnit) {
-    [self.oneCollectorChannelUnit pauseSendingLogsWithToken:token];
-  }
-  if (self.oneCollectorCriticalChannelUnit) {
-    [self.oneCollectorCriticalChannelUnit pauseSendingLogsWithToken:token];
-  }
+  [self.oneCollectorChannelUnit pauseSendingLogsWithToken:token];
+  [self.oneCollectorCriticalChannelUnit pauseSendingLogsWithToken:token];
 }
 
 - (void)resumeTransmissionTargetForToken:(NSString *)token {
-  if (self.oneCollectorChannelUnit) {
-    [self.oneCollectorChannelUnit resumeSendingLogsWithToken:token];
-  }
-  if (self.oneCollectorCriticalChannelUnit) {
-    [self.oneCollectorCriticalChannelUnit resumeSendingLogsWithToken:token];
-  }
+  [self.oneCollectorChannelUnit resumeSendingLogsWithToken:token];
+  [self.oneCollectorCriticalChannelUnit resumeSendingLogsWithToken:token];
 }
 
 - (id<MSChannelUnitProtocol>)oneCollectorChannelUnit {
