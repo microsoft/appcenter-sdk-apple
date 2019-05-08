@@ -249,6 +249,27 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
                                }];
 }
 
+- (void)testSetTransmissionIntervalNotAppliedAfterStart {
+  
+  // If
+  NSUInteger testInterval = 5;
+  id<MSChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+  
+  // When
+  [[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock
+                                            appSecret:kMSTestAppSecret
+                              transmissionTargetToken:nil
+                                      fromApplication:YES];
+  
+  // Make sure that interval is not set after service start.
+  [MSAnalytics setTransmissionInterval:testInterval];
+  
+  // Then
+  // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
+  [[MSAnalytics sharedInstance].sessionTracker stop];
+  XCTAssertNotEqual([MSAnalytics sharedInstance].flushInterval, testInterval);
+}
+
 - (void)testDisablingAnalyticsClearsSessionHistory {
   [[MSAnalytics sharedInstance] startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
                                             appSecret:kMSTestAppSecret
