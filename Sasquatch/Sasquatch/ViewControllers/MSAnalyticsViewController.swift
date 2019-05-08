@@ -26,6 +26,16 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
 
     static let allValues = [Default, Normal, Critical, Invalid]
   }
+  
+  enum Latency: String {
+    case Default = "Default"
+    case Min_10 = "10 Minutes"
+    case Hour_1 = "1 Hour"
+    case Hour_8 = "8 Hour"
+    case Day_1 = "1 Day"
+    
+    static let allValues = [Default, Min_10, Hour_1, Hour_8, Day_1]
+  }
 
   @IBOutlet weak var enabled: UISwitch!
   @IBOutlet weak var eventName: UITextField!
@@ -35,13 +45,16 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
   @IBOutlet weak var priorityField: UITextField!
   @IBOutlet weak var countLabel: UILabel!
   @IBOutlet weak var countSlider: UISlider!
-
+  @IBOutlet weak var latencyField: UITextField!
+  
   var appCenter: AppCenterDelegate!
   var eventPropertiesSection: EventPropertiesTableSection!
   @objc(analyticsResult) var analyticsResult: MSAnalyticsResult? = nil
+  private var latencyPicker: MSEnumPicker<Latency>?
   private var priorityPicker: MSEnumPicker<Priority>?
   private var priority = Priority.Default
 
+  private var latency: Int = 3
   private var kEventPropertiesSectionIndex: Int = 2
   private var kResultsPageIndex: Int = 2
 
@@ -60,6 +73,8 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
     self.priorityField.text = self.priority.rawValue
     self.priorityField.tintColor = UIColor.clear
     self.countLabel.text = "Count: \(Int(countSlider.value))"
+    
+    initLatencyPicker()
     
     // Disable results page.
     #if !ACTIVE_COMPILATION_CONDITION_PUPPET
@@ -223,5 +238,30 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
       return eventPropertiesSection.tableView(tableView, cellForRowAt:indexPath)
     }
     return super.tableView(tableView, cellForRowAt: indexPath)
+  }
+  
+  func initLatencyPicker() {
+    self.latencyPicker = MSEnumPicker<Latency>(
+    textField: latencyField,
+    allValues: Latency.allValues,
+    onChange: { index in
+      switch self.latencyField.text {
+       
+      case Latency.Default.rawValue:
+        self.latency = 3
+      case Latency.Min_10.rawValue:
+        self.latency = 10*60
+      case Latency.Hour_1.rawValue:
+        self.latency = 1*60*60
+      case Latency.Hour_8.rawValue:
+        self.latency = 8*60*60
+      case Latency.Day_1.rawValue:
+        self.latency = 1*24*60*60
+      default:
+        break
+      }
+      UserDefaults.standard.setValue(self.latency, forKey: kMSTransmissionIterval)
+    })
+    latencyField.delegate = self.latencyPicker
   }
 }
