@@ -29,7 +29,7 @@ static NSString *const kMSServiceName = @"Analytics";
 static NSString *const kMSGroupId = @"Analytics";
 
 // The Id for critical events.
-static NSString *const kMSCriticalId = @"critical";
+static NSString *const kMSCriticalChannelPostfix = @"critical";
 
 // Singleton
 static MSAnalytics *sharedInstance = nil;
@@ -100,7 +100,7 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
   }
 
   // Add extra channel for critical events.
-  NSString *criticalGroupId = [NSString stringWithFormat:@"%@_%@", kMSGroupId, kMSCriticalId];
+  NSString *criticalGroupId = [NSString stringWithFormat:@"%@_%@", kMSGroupId, kMSCriticalChannelPostfix];
   MSChannelUnitConfiguration *channelUnitConfiguration =
       [[MSChannelUnitConfiguration alloc] initDefaultConfigurationWithGroupId:criticalGroupId];
   self.criticalChannelUnit = [self.channelGroup addChannelUnitWithConfiguration:channelUnitConfiguration];
@@ -463,7 +463,7 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
 - (id<MSChannelUnitProtocol>)oneCollectorCriticalChannelUnit {
   if (!_oneCollectorCriticalChannelUnit) {
     NSString *oneCollectorCriticalGroupId =
-        [NSString stringWithFormat:@"%@_%@%@", self.groupId, kMSCriticalId, kMSOneCollectorGroupIdSuffix];
+        [NSString stringWithFormat:@"%@_%@%@", self.groupId, kMSCriticalChannelPostfix, kMSOneCollectorGroupIdSuffix];
     self.oneCollectorCriticalChannelUnit = [self.channelGroup channelUnitForGroupId:oneCollectorCriticalGroupId];
   }
   return _oneCollectorCriticalChannelUnit;
