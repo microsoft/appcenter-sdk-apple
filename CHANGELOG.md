@@ -3,7 +3,7 @@
 ## Version 2.0.2 (Under development)
 
 ### AppCenter
-* **[Fix]** Fix popping up Keychain permission dialog on macOS applications even though it doesn't use Keychain.
+* **[Fix]** Remove Keychain permission pop-up on macOS.
 
 ### AppCenterData
 
