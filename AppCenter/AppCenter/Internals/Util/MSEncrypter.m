@@ -8,7 +8,7 @@
 #import "MSKeychainUtil.h"
 #import "MSLogger.h"
 
-static int const kMSEncryptionAlgorithm = kCCAlgorithmAES128;
+static int const kMSEncryptionAlgorithm = kCCAlgorithmAES;
 static int const kMSCipherKeySize = kCCKeySizeAES256;
 static NSString *kMSEncryptionKeyTag = @"kMSEncryptionKeyTag";
 
@@ -123,20 +123,22 @@ static NSString *kMSEncryptionKeyTag = @"kMSEncryptionKeyTag";
     return nil;
   }
   NSData *result = nil;
-  size_t cipherBufferSize = CCCryptorGetOutputLength(self.decryptorObject, data.length, true);
-  uint8_t *cipherBuffer = malloc(cipherBufferSize);
+  size_t clearTextBufferSize = CCCryptorGetOutputLength(self.decryptorObject, data.length, true);
+  uint8_t *clearTextBuffer = malloc(clearTextBufferSize);
   size_t numBytesDecrypted = 0;
+
+  // It's fine to pass the entirety of [data bytes] as the initialization vector since it starts with the IV anyways.
   CCCryptorStatus status = CCCrypt(kCCDecrypt, kMSEncryptionAlgorithm, kCCOptionPKCS7Padding, [self.key bytes], kMSCipherKeySize, nil,
-                                   [data bytes], data.length, cipherBuffer, cipherBufferSize, &numBytesDecrypted);
+                                   nil, data.length, clearTextBuffer, clearTextBufferSize, &numBytesDecrypted);
   if (status != kCCSuccess) {
     MSLogError([MSAppCenter logTag], @"Error performing decryption with CCCryptorStatus: %d.", status);
   } else {
-    result = [NSData dataWithBytes:cipherBuffer length:numBytesDecrypted];
+    result = [NSData dataWithBytes:clearTextBuffer length:numBytesDecrypted];
     if (!result) {
       MSLogWarning([MSAppCenter logTag], @"Could not create NSData object from decrypted bytes.");
     }
   }
-  free(cipherBuffer);
+  free(clearTextBuffer);
   return result;
 }
 
@@ -169,6 +171,16 @@ static NSString *kMSEncryptionKeyTag = @"kMSEncryptionKeyTag";
   NSString *stringKey = [resultKey base64EncodedStringWithOptions:0];
   [MSKeychainUtil storeString:stringKey forKey:keyTag];
   return resultKey;
+}
+
++ (void *)generateInitializationVector {
+  uint8_t *ivBytes = malloc(kCCBlockSizeAES128 * sizeof(uint8_t));
+  memset((void *)ivBytes, 0x0, kCCBlockSizeAES128);
+  OSStatus status = SecRandomCopyBytes(kSecRandomDefault, kCCBlockSizeAES128, ivBytes);
+  if (status != errSecSuccess) {
+    MSLogError([MSAppCenter logTag], @"Error generating initialization vector. Error code: %d", (int)status);
+  }
+  return ivBytes; //TODO free this later
 }
 
 @end

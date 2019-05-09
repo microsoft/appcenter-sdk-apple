@@ -15,6 +15,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (NSData *)generateKeyWithTag:(NSString *)keyTag;
 
+//TODO document
++ (void *)generateInitializationVector;
+
 @end
 
 NS_ASSUME_NONNULL_END
