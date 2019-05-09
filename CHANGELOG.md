@@ -1,10 +1,15 @@
 # App Center SDK for iOS and macOS Change Log
 
 ## Version 2.0.2 (Under development)
-	
-### App Center Data
+
+### AppCenter
+* **[Fix]** Fix popping up Keychain permission dialog on macOS applications even though it doesn't use Keychain.
+
+### AppCenterData
 
 * **[Fix]** Fix an issue where invalid characters in the document ID are accepted at creation time but causing errors while trying to read or delete the document. The characters are `#`, `\`, `/`, `?`, and all whitespaces.
+
+___
 
 ## Version 2.0.1
 
