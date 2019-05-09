@@ -6,8 +6,9 @@
 #import "MSAuthTokenContextPrivate.h"
 #import "MSAuthTokenInfo.h"
 #import "MSAuthTokenValidityInfo.h"
-#import "MSConstants.h"
 #import "MSConstants+Internal.h"
+#import "MSConstants.h"
+#import "MSEncrypter.h"
 #import "MSMockUserDefaults.h"
 #import "MSTestFrameworks.h"
 #import "MSUserInformation.h"
@@ -69,6 +70,11 @@
                   didUpdateUserInformation:[OCMArg checkWithBlock:^BOOL(id obj) {
                     return [((MSUserInformation *)obj).accountId isEqualToString:expectedAccountId];
                   }]]);
+  NSArray<MSAuthTokenInfo *> *history = [self decryptedHistory];
+  XCTAssertNotNil(history);
+  XCTAssertEqual([history count], 1);
+  XCTAssertEqualObjects(history[0].authToken, expectedAuthToken);
+  XCTAssertEqualObjects(history[0].accountId, expectedHomeAccountId);
 }
 
 - (void)testSetAuthTokenWithGap {
@@ -147,6 +153,22 @@
                   didUpdateUserInformation:[OCMArg checkWithBlock:^BOOL(id obj) {
                     return [((MSUserInformation *)obj).accountId isEqualToString:expectedAccountId2];
                   }]]);
+}
+
+- (void)testSetAnonymousAuthTokenInEmptyHistoryDoesNotPersistHistory {
+
+  // If
+  id<MSAuthTokenContextDelegate> delegateMock = OCMProtocolMock(@protocol(MSAuthTokenContextDelegate));
+  [self.sut addDelegate:delegateMock];
+
+  // When
+  for (int i = 0; i < kMSMaxAuthTokenArraySize; i++) {
+    [self.sut setAuthToken:nil withAccountId:nil expiresOn:nil];
+  }
+
+  // Then
+  NSArray<MSAuthTokenInfo *> *history = [self decryptedHistory];
+  XCTAssertNil(history);
 }
 
 - (void)testRemoveDelegate {
@@ -397,7 +419,9 @@
   OCMReject([delegateMock authTokenContext:OCMOCK_ANY refreshAuthTokenForAccountId:OCMOCK_ANY]);
 
   NSArray<MSAuthTokenInfo *> *authTokenHistory = @[ [[MSAuthTokenInfo alloc] initWithAuthToken:expectedAuthToken
-                                                                                              accountId:@"test" startTime:nil expiresOn:nil] ];
+                                                                                     accountId:@"test"
+                                                                                     startTime:nil
+                                                                                     expiresOn:nil] ];
   [self.sut setAuthTokenHistory:authTokenHistory];
   MSAuthTokenValidityInfo *authToken = [[MSAuthTokenValidityInfo alloc] initWithAuthToken:expectedAuthToken
                                                                                 startTime:startDate
@@ -507,6 +531,13 @@
   // Then
   XCTAssertEqual(callCount, 1);
   [sut stopMocking];
+}
+
+- (NSArray<MSAuthTokenInfo *> *)decryptedHistory {
+  NSData *encryptedData = [self.settingsMock objectForKey:kMSAuthTokenHistoryKey];
+  NSData *decryptedData = [self.sut.encrypter decryptData:encryptedData];
+  NSArray<MSAuthTokenInfo *> *history = [NSKeyedUnarchiver unarchiveObjectWithData:decryptedData];
+  return history;
 }
 
 @end
