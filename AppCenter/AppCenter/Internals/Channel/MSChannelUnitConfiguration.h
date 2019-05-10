@@ -67,7 +67,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return a fully configured `MSChannelConfiguration` instance with flushInterval.
  */
-- (instancetype)initWithGroupId:(NSString *)groupId flushInterval:(NSUInteger)flushInterval;
+- (instancetype)initDefaultConfigurationWithGroupId:(NSString *)groupId flushInterval:(NSUInteger)flushInterval;
 
 @end
 

@@ -156,7 +156,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 - (void)testSetTransmissionIntervalApplied {
 
   // If
-  NSUInteger testInterval = 5.0;
+  NSUInteger testInterval = 5;
   XCTestExpectation *expectation =
       [self expectationWithDescription:@"Wait for addChannelUnitWithConfiguration to be called with right configuration"];
   id<MSChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
@@ -188,14 +188,14 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 - (void)testSetTransmissionIntervalNotApplied {
 
   // If
-  NSUInteger testInterval = 2.0;
+  NSUInteger testInterval = 2;
   XCTestExpectation *expectation =
       [self expectationWithDescription:@"Wait for addChannelUnitWithConfiguration to be called with right configuration"];
   id<MSChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
   OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
     MSChannelUnitConfiguration *channelUnitConfiguration;
     [invocation getArgument:&channelUnitConfiguration atIndex:2];
-    XCTAssertEqual([channelUnitConfiguration flushInterval], 3.0);
+    XCTAssertEqual([channelUnitConfiguration flushInterval], 3);
     [expectation fulfill];
   });
 
@@ -227,7 +227,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
     MSChannelUnitConfiguration *channelUnitConfiguration;
     [invocation getArgument:&channelUnitConfiguration atIndex:2];
-    XCTAssertEqual([channelUnitConfiguration flushInterval], 3.0);
+    XCTAssertEqual([channelUnitConfiguration flushInterval], 3);
     [expectation fulfill];
   });
 
@@ -250,20 +250,20 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 }
 
 - (void)testSetTransmissionIntervalNotAppliedAfterStart {
-  
+
   // If
   NSUInteger testInterval = 5;
   id<MSChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
-  
+
   // When
   [[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock
                                             appSecret:kMSTestAppSecret
                               transmissionTargetToken:nil
                                       fromApplication:YES];
-  
+
   // Make sure that interval is not set after service start.
   [MSAnalytics setTransmissionInterval:testInterval];
-  
+
   // Then
   // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
   [[MSAnalytics sharedInstance].sessionTracker stop];

@@ -41,7 +41,8 @@ static NSString *const kMSBaseErrorMsg = @"Log validation failed.";
   if (![self isOneCollectorGroup:groupId]) {
     NSString *oneCollectorGroupId = [NSString stringWithFormat:@"%@%@", channel.configuration.groupId, kMSOneCollectorGroupIdSuffix];
     MSChannelUnitConfiguration *channelUnitConfiguration =
-        [[MSChannelUnitConfiguration alloc] initWithGroupId:oneCollectorGroupId flushInterval:channel.configuration.flushInterval];
+        [[MSChannelUnitConfiguration alloc] initDefaultConfigurationWithGroupId:oneCollectorGroupId
+                                                                  flushInterval:channel.configuration.flushInterval];
     id<MSChannelUnitProtocol> channelUnit = [channelGroup addChannelUnitWithConfiguration:channelUnitConfiguration
                                                                             withIngestion:self.oneCollectorIngestion];
     self.oneCollectorChannels[groupId] = channelUnit;
