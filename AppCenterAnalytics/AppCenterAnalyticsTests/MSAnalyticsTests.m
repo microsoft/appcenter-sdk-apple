@@ -42,6 +42,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 @property(nonatomic) id sessionContextMock;
 @property(nonatomic) id channelGroupMock;
 @property(nonatomic) id channelUnitMock;
+@property(nonatomic) id channelUnitCriticalMock;
 
 @end
 
@@ -82,6 +83,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   // Mock channel.
   self.channelGroupMock = OCMClassMock([MSChannelGroupDefault class]);
   self.channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  self.channelUnitCriticalMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
   OCMStub([self.channelGroupMock alloc]).andReturn(self.channelGroupMock);
   OCMStub([self.channelGroupMock initWithInstallId:OCMOCK_ANY logUrl:OCMOCK_ANY]).andReturn(self.channelGroupMock);
   OCMStub([self.channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(self.channelUnitMock);
@@ -250,20 +252,20 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 }
 
 - (void)testSetTransmissionIntervalNotAppliedAfterStart {
-  
+
   // If
   NSUInteger testInterval = 5;
   id<MSChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
-  
+
   // When
   [[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock
                                             appSecret:kMSTestAppSecret
                               transmissionTargetToken:nil
                                       fromApplication:YES];
-  
+
   // Make sure that interval is not set after service start.
   [MSAnalytics setTransmissionInterval:testInterval];
-  
+
   // Then
   // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
   [[MSAnalytics sharedInstance].sessionTracker stop];
@@ -811,6 +813,27 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   XCTAssertEqual(actualType, kMSTypeEvent);
   XCTAssertEqual(actualName, expectedName);
   XCTAssertEqual(actualFlags, MSFlagsPersistenceNormal);
+}
+
+- (void)testPersistanceFlagsSeparateChannels {
+
+  // If
+  NSString *expectedEvent = @"Having a cup of coffee";
+  [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
+  [[MSAnalytics sharedInstance] startWithChannelGroup:self.channelGroupMock
+                                            appSecret:kMSTestAppSecret
+                              transmissionTargetToken:nil
+                                      fromApplication:YES];
+
+  // When
+  OCMExpect([self.channelUnitCriticalMock enqueueItem:OCMOCK_ANY flags:MSFlagsPersistenceCritical]);
+  [[MSAnalytics sharedInstance] trackEvent:expectedEvent
+                       withTypedProperties:nil
+                     forTransmissionTarget:nil
+                                     flags:MSFlagsPersistenceCritical];
+
+  // Then
+  OCMVerifyAll(self.channelUnitCriticalMock);
 }
 
 - (void)testTrackEventWithTypedPropertiesWithNormalPersistenceFlag {
