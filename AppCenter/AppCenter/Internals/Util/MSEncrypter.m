@@ -4,13 +4,10 @@
 #import <CommonCrypto/CommonCryptor.h>
 
 #import "MSAppCenterInternal.h"
+#import "MSConstants+Internal.h"
 #import "MSEncrypterPrivate.h"
 #import "MSKeychainUtil.h"
 #import "MSLogger.h"
-
-static int const kMSEncryptionAlgorithm = kCCAlgorithmAES;
-static int const kMSCipherKeySize = kCCKeySizeAES256;
-static NSString *kMSEncryptionKeyTag = @"kMSEncryptionKeyTag";
 
 @interface MSEncrypter ()
 
@@ -81,7 +78,7 @@ static NSString *kMSEncryptionKeyTag = @"kMSEncryptionKeyTag";
 }
 
 - (NSData *_Nullable)encryptData:(NSData *)data {
-  [self createCryptorContexts:kMSEncryptionKeyTag];
+  [self createCryptorContexts:kMSEncryptionKeyTagOriginal];
   if (!self.key) {
     MSLogError([MSAppCenter logTag], @"Could not perform encryption. Encryption key is missing.");
     return nil;
@@ -117,7 +114,7 @@ static NSString *kMSEncryptionKeyTag = @"kMSEncryptionKeyTag";
 }
 
 - (NSData *_Nullable)decryptData:(NSData *)data {
-  [self createCryptorContexts:kMSEncryptionKeyTag];
+  [self createCryptorContexts:kMSEncryptionKeyTagOriginal];
   if (!self.key) {
     MSLogError([MSAppCenter logTag], @"Could not perform decryption. Encryption key is missing.");
     return nil;

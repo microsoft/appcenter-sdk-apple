@@ -1,25 +1,13 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+#import "MSConstants+Internal.h"
 #import "MSEncrypterPrivate.h"
 #import "MSMockKeychainUtil.h"
 #import "MSMockUserDefaults.h"
 #import "MSTestFrameworks.h"
 #import "MSUtility+Date.h"
 #import "MSTestFrameworks.h"
-
-NSString * const kMSLegacyKeyTag = @"kMSTestEncryptionKeyTag";
-NSString * const kMSUserDefaultsEncryptionKeyMetadataKey = @"kMSEncryptionKeyMetadata";
-NSString * const kMSEncryptorKeyIdKey = @"keyId";
-NSString * const kMSEncryptorAlgorithmKey = @"algorithm";
-NSString * const kMSEncryptorInitializationVectorKey = @"iv";
-NSString * const kMSEncryptorCipherModeKey = @"cipherMode";
-NSString * const kMSEncryptorKeyLengthKey = @"keyLength";
-NSString * const kMSEncryptorPaddingModeKey = @"paddingMode";
-NSString * const kMSEncryptorCipherTextKey = @"cipherText";
-
-static int const kMSEncryptionAlgorithm = kCCAlgorithmAES;
-static int const kMSCipherKeySize = kCCKeySizeAES256;
 
 @interface MSEncrypterTests : XCTestCase
 
@@ -36,13 +24,13 @@ static int const kMSCipherKeySize = kCCKeySizeAES256;
 
 - (void)tearDown {
   [self.keychainUtilMock stopMocking];
-  [MSEncrypter deleteKeyWithTag:kMSLegacyKeyTag];
+  [MSEncrypter deleteKeyWithTag:kMSEncryptionKeyTagOriginal];
 }
 
 - (void)testEncryption {
 
   // If
-  MSEncrypter *encrypter = [[MSEncrypter alloc] initWitKeyTag:kMSLegacyKeyTag];
+  MSEncrypter *encrypter = [[MSEncrypter alloc] initWitKeyTag:kMSEncryptionKeyTagOriginal];
   NSString *stringToEncrypt = @"Test string";
 
   // When
@@ -61,7 +49,7 @@ static int const kMSCipherKeySize = kCCKeySizeAES256;
 - (void)testKeyIsRestoredFromKeychain {
 
   // If
-  MSEncrypter *encrypter = [[MSEncrypter alloc] initWitKeyTag:kMSLegacyKeyTag];
+  MSEncrypter *encrypter = [[MSEncrypter alloc] initWitKeyTag:kMSEncryptionKeyTagOriginal];
   NSString *stringToEncrypt = @"Test string";
 
   // When
@@ -71,7 +59,7 @@ static int const kMSCipherKeySize = kCCKeySizeAES256;
   XCTAssertNotEqualObjects(encrypted, stringToEncrypt);
 
   // When
-  MSEncrypter *newEncrypter = [[MSEncrypter alloc] initWitKeyTag:kMSLegacyKeyTag];
+  MSEncrypter *newEncrypter = [[MSEncrypter alloc] initWitKeyTag:kMSEncryptionKeyTagOriginal];
   NSString *decrypted = [newEncrypter decryptString:encrypted];
 
   // Then
@@ -81,10 +69,10 @@ static int const kMSCipherKeySize = kCCKeySizeAES256;
 - (void)testKeyIsNull {
 
   // If
-  [MSEncrypter deleteKeyWithTag:kMSLegacyKeyTag];
+  [MSEncrypter deleteKeyWithTag:kMSEncryptionKeyTagOriginal];
   id encrypterMock = OCMClassMock([MSEncrypter class]);
   OCMStub([encrypterMock generateKeyWithTag:[OCMArg any]]).andReturn(nil);
-  MSEncrypter *encrypter = [[MSEncrypter alloc] initWitKeyTag:kMSLegacyKeyTag];
+  MSEncrypter *encrypter = [[MSEncrypter alloc] initWitKeyTag:kMSEncryptionKeyTagOriginal];
   NSString *stringToEncrypt = @"Test string";
 
   // When
@@ -97,7 +85,7 @@ static int const kMSCipherKeySize = kCCKeySizeAES256;
 - (void)testPassingInEmptyString {
 
   // If
-  MSEncrypter *encrypter = [[MSEncrypter alloc] initWitKeyTag:kMSLegacyKeyTag];
+  MSEncrypter *encrypter = [[MSEncrypter alloc] initWitKeyTag:kMSEncryptionKeyTagOriginal];
   NSString *expected = @"";
   NSString *emptyString = @"";
 
@@ -117,45 +105,29 @@ static int const kMSCipherKeySize = kCCKeySizeAES256;
   MSMockUserDefaults *mockUserDefaults = [[MSMockUserDefaults alloc] init];
   NSDate *expiration = [NSDate dateWithTimeIntervalSinceNow:10000000];
   NSString *expirationIso = [MSUtility dateToISO8601:expiration];
-  NSString *currentKeyId = @"keyid1";
-  NSString *keyMetadataString = [NSString stringWithFormat:@"%@:%@", currentKeyId, expirationIso];
-  [mockUserDefaults setObject:keyMetadataString forKey:kMSUserDefaultsEncryptionKeyMetadataKey];
+  NSString *keyId = kMSEncryptionKeyTagAlternate;
+  NSString *keyMetadataString = [NSString stringWithFormat:@"%@:%@", keyId, expirationIso];
+  [mockUserDefaults setObject:keyMetadataString forKey:kMSEncryptionKeyMetadataKey];
 
   // Save key to the Keychain.
   NSString *currentKey = [self generateTestEncryptionKey];
-  [self.keychainUtilMock setObject:currentKey forKey:currentKeyId];
+  [self.keychainUtilMock setObject:currentKey forKey:keyId];
   MSEncrypter *encrypter = [[MSEncrypter alloc] init];
 
   // When
-  NSString *cipherText = [encrypter encryptString:clearText];
+  NSString *encryptedString = [encrypter encryptString:clearText];
 
   // Then
 
   // Extract metadata
-  NSData *cipherTextData = [[NSData alloc] initWithBase64EncodedString:cipherText options:0];
-  uint8_t *ivBuffer = malloc(kMSCipherKeySize * sizeof(uint8_t));
-  [cipherTextData getBytes:ivBuffer length:kCCBlockSizeAES128]
-  NSData *iv = cipherTextData
-  NSString *utf8Cipher = [[NSString alloc] initWithData:cipherTextData encoding:NSUTF8StringEncoding];
-  NSArray *metadata = [utf8Cipher componentsSeparatedByString:@":"];
-  NSString *keyId = metadata[0];
-  NSString *paddingMode = metadata[1];
-  NSString *algorithm = metadata[2];
-  NSString *cipherMode = metadata[3];
-  NSString *keySize = metadata[4];
-
-
-
+  NSData *encryptedData = [[NSData alloc] initWithBase64EncodedString:encryptedString options:0];
+  NSString *utf8Cipher = [[NSString alloc] initWithData:encryptedData encoding:NSUTF8StringEncoding];
+  size_t metadataLength = [utf8Cipher rangeOfString:kMSEncryptionMetadataSeparator].location;
+  NSString *metadata = [utf8Cipher substringToIndex:(metadataLength - 1)];
+  NSString *cipherTextAndIv = [utf8Cipher substringFromIndex:(metadataLength + 1)];
+  NSString *cipherText = [cipherTextAndIv substringFromIndex:kCCBlockSizeAES128];
   XCTAssertNotEqualObjects(cipherText, clearText);
-
-  //1. Assert that cipher text is not equal to clear text
-  //2. check metadata on cipher text
-
-  // When
-  // 1. decrypt cipher text
-
-  // Then
-  // 1. decrypted cipher equals clear
+  XCTAssertEqualObjects(metadata, @"kMSEncryptionKeyTagAlternate/AES/CBC/PKCS7/256");
 }
 
 - (void)testDecryptionWithWrongInitializationVectorFails {

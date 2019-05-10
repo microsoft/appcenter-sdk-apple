@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+#import <CommonCrypto/CommonCryptor.h>
 #import <Foundation/Foundation.h>
 
 // Device manufacturer
@@ -90,3 +91,16 @@ static const NSUInteger kMSPersistenceFlagsMask = 0xFF;
  * Common schema prefix separator used in various field values.
  */
 static NSString *const kMSCommonSchemaPrefixSeparator = @":";
+
+// Encryption constants.
+static int const kMSCipherKeySize = kCCKeySizeAES256;
+static int const kMSEncryptionAlgorithm = kCCAlgorithmAES;
+static NSString * const kMSEncryptionAlgorithmName = @"AES";
+static NSString * const kMSEncryptionCipherMode = @"CBC";
+static int const kMSEncryptionKeyLifetimeInYears = 1;
+static NSString * const kMSEncryptionKeyMetadataKey = @"MSEncryptionKeyMetadata";
+static NSString * const kMSEncryptionKeyTagAlternate = @"kMSEncryptionKeyTagAlternate";
+static NSString * const kMSEncryptionKeyTagOriginal = @"kMSEncryptionKeyTag";
+static NSString * const kMSEncryptionMetadataSeparator = @":";
+
+
