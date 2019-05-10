@@ -818,22 +818,26 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 - (void)testPersistanceFlagsSeparateChannels {
 
   // If
-  NSString *expectedEvent = @"Having a cup of coffee";
+  NSString *expectedCriticalEvent = @"Having a cup of coffee";
+  NSString *expectedEvent = @"Washing a cup after having a coffee";
   [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
   [[MSAnalytics sharedInstance] startWithChannelGroup:self.channelGroupMock
                                             appSecret:kMSTestAppSecret
                               transmissionTargetToken:nil
                                       fromApplication:YES];
+  [MSAnalytics sharedInstance].criticalChannelUnit = self.channelUnitCriticalMock;
+  OCMExpect([self.channelUnitCriticalMock enqueueItem:OCMOCK_ANY flags:MSFlagsPersistenceCritical]);
+  OCMExpect([self.channelUnitMock enqueueItem:OCMOCK_ANY flags:MSFlagsPersistenceNormal]);
 
   // When
-  OCMExpect([self.channelUnitCriticalMock enqueueItem:OCMOCK_ANY flags:MSFlagsPersistenceCritical]);
-  [[MSAnalytics sharedInstance] trackEvent:expectedEvent
+  [[MSAnalytics sharedInstance] trackEvent:expectedCriticalEvent
                        withTypedProperties:nil
                      forTransmissionTarget:nil
                                      flags:MSFlagsPersistenceCritical];
-
+  [[MSAnalytics sharedInstance] trackEvent:expectedEvent withTypedProperties:nil forTransmissionTarget:nil flags:MSFlagsPersistenceNormal];
   // Then
   OCMVerifyAll(self.channelUnitCriticalMock);
+  OCMVerifyAll(self.channelUnitMock);
 }
 
 - (void)testTrackEventWithTypedPropertiesWithNormalPersistenceFlag {
