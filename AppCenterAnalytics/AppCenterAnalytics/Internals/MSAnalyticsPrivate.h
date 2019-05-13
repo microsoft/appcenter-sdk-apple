@@ -10,6 +10,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+// The Id for critical events.
+static NSString *const kMSCriticalChannelPostfix = @"critical";
+
 @interface MSAnalytics () <MSSessionTrackerDelegate>
 
 /**

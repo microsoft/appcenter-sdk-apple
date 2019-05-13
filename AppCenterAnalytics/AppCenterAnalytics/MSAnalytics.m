@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "MSAnalytics.h"
 #import "MSAnalytics+Validation.h"
 #import "MSAnalyticsCategory.h"
 #import "MSAnalyticsConstants.h"
@@ -27,9 +26,6 @@ static NSString *const kMSServiceName = @"Analytics";
 
 // The group Id for Analytics.
 static NSString *const kMSGroupId = @"Analytics";
-
-// The Id for critical events.
-static NSString *const kMSCriticalChannelPostfix = @"critical";
 
 // Singleton
 static MSAnalytics *sharedInstance = nil;
