@@ -20,7 +20,7 @@
 - (void)testInitWithStringDictionaryWhenStringDictionaryHasValues {
 
   // If
-  NSDictionary *stringProperties = @{ @"key1" : @"val1", @"key2" : @"val2" };
+  NSDictionary *stringProperties = @{@"key1" : @"val1", @"key2" : @"val2"};
 
   // When
   MSEventProperties *sut = [[MSEventProperties alloc] initWithStringDictionary:stringProperties];

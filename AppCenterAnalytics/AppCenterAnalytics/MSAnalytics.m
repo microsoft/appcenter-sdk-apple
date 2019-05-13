@@ -57,9 +57,6 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
     _sessionTracker = [[MSSessionTracker alloc] init];
     _sessionTracker.delegate = self;
 
-    // Init channel configuration.
-    _channelUnitConfiguration = [[MSChannelUnitConfiguration alloc] initWithGroupId:[self groupId] flushInterval:self.flushInterval];
-
     // Set up transmission target dictionary.
     _transmissionTargets = [NSMutableDictionary<NSString *, MSAnalyticsTransmissionTarget *> new];
   }
@@ -85,6 +82,10 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
                     appSecret:(nullable NSString *)appSecret
       transmissionTargetToken:(nullable NSString *)token
               fromApplication:(BOOL)fromApplication {
+
+  // Init channel configuration.
+  self.channelUnitConfiguration = [[MSChannelUnitConfiguration alloc] initDefaultConfigurationWithGroupId:[self groupId]
+                                                                                            flushInterval:self.flushInterval];
   [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionTargetToken:token fromApplication:fromApplication];
   if (token) {
 
@@ -387,16 +388,15 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
 }
 
 - (void)setTransmissionInterval:(NSUInteger)interval {
-  if (interval > kMSFlushIntervalMaximum || interval < kMSFlushIntervalMinimum) {
-    MSLogWarning([MSAnalytics logTag], @"The transmission interval is invalid, it should be between 3 second and 1 day (86400 seconds).");
+  if (self.started) {
+    MSLogError([MSAnalytics logTag], @"The transmission interval should be set before the MSAnalytics service is started.");
     return;
   }
-  if (self.started) {
-    MSLogWarning([MSAnalytics logTag], @"The transmission interval should be set before the MSAnalytics service is started.");
+  if (interval > kMSFlushIntervalMaximum || interval < kMSFlushIntervalMinimum) {
+    MSLogError([MSAnalytics logTag], @"The transmission interval is not valid, it should be between 3 second and 1 day (86400 seconds).");
     return;
   }
   self.flushInterval = interval;
-  self.channelUnitConfiguration = [[MSChannelUnitConfiguration alloc] initWithGroupId:[self groupId] flushInterval:self.flushInterval];
 }
 
 - (MSAnalyticsTransmissionTarget *)transmissionTargetForToken:(NSString *)transmissionTargetToken {
