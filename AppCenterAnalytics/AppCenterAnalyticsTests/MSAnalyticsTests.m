@@ -728,7 +728,8 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   __block NSString *actualName;
   __block MSFlags actualFlags;
   NSString *expectedName = @"gotACoffee";
-  OCMStub([[self.channelUnitMock ignoringNonObjectArgs] enqueueItem:[OCMArg isKindOfClass:[MSEventLog class]] flags:(MSFlags)0])
+  OCMReject([[self.channelUnitMock ignoringNonObjectArgs] enqueueItem:[OCMArg isKindOfClass:[MSEventLog class]] flags:(MSFlags)0]);
+  OCMStub([[self.channelUnitCriticalMock ignoringNonObjectArgs] enqueueItem:[OCMArg isKindOfClass:[MSEventLog class]] flags:(MSFlags)0])
       .andDo(^(NSInvocation *invocation) {
         MSEventLog *log;
         [invocation getArgument:&log atIndex:2];
@@ -751,6 +752,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   XCTAssertEqual(actualType, kMSTypeEvent);
   XCTAssertEqual(actualName, expectedName);
   XCTAssertEqual(actualFlags, MSFlagsPersistenceCritical);
+  OCMVerifyAll(self.channelUnitMock);
 }
 
 - (void)testTrackEventWithPropertiesWithInvalidFlag {
