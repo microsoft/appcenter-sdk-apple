@@ -7,7 +7,7 @@
 #import "MSMockUserDefaults.h"
 #import "MSTestFrameworks.h"
 #import "MSUtility+Date.h"
-#import "MSTestFrameworks.h"
+#import "NSData+MSAppCenter.h"
 
 @interface MSEncrypterTests : XCTestCase
 
@@ -24,7 +24,7 @@
 
 - (void)tearDown {
   [self.keychainUtilMock stopMocking];
-  [MSEncrypter deleteKeyWithTag:kMSEncryptionKeyTagOriginal];
+  [MSMockKeychainUtil clear];
 }
 
 - (void)testEncryptWithCurrentKey {
@@ -32,13 +32,13 @@
   // If
   NSString *clearText = @"clear text";
   NSString *keyTag = kMSEncryptionKeyTagAlternate;
-  NSString *expectedMetadata = [NSString stringWithFormat:@"%@/AES/CBC/PKCS7/256", keyTag];
+  NSString *expectedMetadata = [NSString stringWithFormat:@"%@/AES/CBC/PKCS7/32", keyTag];
 
   // Save metadata to user defaults.
   MSMockUserDefaults *mockUserDefaults = [[MSMockUserDefaults alloc] init];
   NSDate *expiration = [NSDate dateWithTimeIntervalSinceNow:10000000];
   NSString *expirationIso = [MSUtility dateToISO8601:expiration];
-  NSString *keyMetadataString = [NSString stringWithFormat:@"%@:%@", keyTag, expirationIso];
+  NSString *keyMetadataString = [NSString stringWithFormat:@"%@/%@", keyTag, expirationIso];
   [mockUserDefaults setObject:keyMetadataString forKey:kMSEncryptionKeyMetadataKey];
 
   // Save key to the Keychain.
@@ -51,15 +51,17 @@
 
   // Then
 
-  // Extract metadata
+  // Extract metadata.
   NSData *encryptedData = [[NSData alloc] initWithBase64EncodedString:encryptedString options:0];
-  NSString *utf8Cipher = [[NSString alloc] initWithData:encryptedData encoding:NSUTF8StringEncoding];
-  size_t metadataLength = [utf8Cipher rangeOfString:kMSEncryptionMetadataSeparator].location;
-  NSString *metadata = [utf8Cipher substringToIndex:(metadataLength - 1)];
-  NSString *ivAndCipherText = [utf8Cipher substringFromIndex:(metadataLength + 1)];
-  NSString *cipherText = [ivAndCipherText substringFromIndex:kCCBlockSizeAES128];
-  XCTAssertNotEqualObjects(cipherText, clearText);
+  size_t metadataLength = [encryptedData locationOfString:kMSEncryptionMetadataSeparator usingEncoding:NSUTF8StringEncoding];
+  NSString *metadata = [encryptedData stringFromRange:NSMakeRange(0, metadataLength) usingEncoding:NSUTF8StringEncoding];
   XCTAssertEqualObjects(metadata, expectedMetadata);
+
+  // Extract cipher text. Add 1 for the delimiter.
+  size_t metadataAndIvLength =  metadataLength + 1 + kCCBlockSizeAES128;
+  NSRange cipherTextRange = NSMakeRange(metadataAndIvLength, [encryptedData length] - metadataAndIvLength);
+  NSString *cipherText = [encryptedData stringFromRange:cipherTextRange usingEncoding:NSUTF8StringEncoding];
+  XCTAssertNotEqualObjects(cipherText, clearText);
 
   // When
   NSString *decryptedString = [encrypter decryptString:encryptedString];
@@ -78,7 +80,7 @@
   MSMockUserDefaults *mockUserDefaults = [[MSMockUserDefaults alloc] init];
   NSDate *expiration = [NSDate dateWithTimeIntervalSinceNow:10000000];
   NSString *expirationIso = [MSUtility dateToISO8601:expiration];
-  NSString *keyMetadataString = [NSString stringWithFormat:@"%@:%@", keyTag, expirationIso];
+  NSString *keyMetadataString = [NSString stringWithFormat:@"%@/%@", keyTag, expirationIso];
   [mockUserDefaults setObject:keyMetadataString forKey:kMSEncryptionKeyMetadataKey];
 
   // Save key to the Keychain.
@@ -142,7 +144,8 @@
   XCTAssertEqualObjects(metadata, expectedMetadata);
 
   // Ensure a new key and expiration were added to the user defaults.
-  NSArray *newKeyAndExpiration = [[mockUserDefaults objectForKey:kMSEncryptionKeyMetadataKey] componentsSeparatedByString:kMSEncryptionMetadataSeparator];
+  NSArray *newKeyAndExpiration =
+      [[mockUserDefaults objectForKey:kMSEncryptionKeyMetadataKey] componentsSeparatedByString:kMSEncryptionMetadataSeparator];
   NSString *newKey = newKeyAndExpiration[0];
   XCTAssertEqualObjects(newKey, kMSEncryptionKeyTagAlternate);
   NSString *expirationIso = newKeyAndExpiration[1];
@@ -165,7 +168,7 @@
   NSString *currentExpirationIso = [MSUtility dateToISO8601:pastDate];
   NSString *currentKeyTag = kMSEncryptionKeyTagOriginal;
   NSString *expectedNewKeyTag = kMSEncryptionKeyTagAlternate;
-  NSString *currentKeyMetadataString = [NSString stringWithFormat:@"%@:%@", currentKeyTag, currentExpirationIso];
+  NSString *currentKeyMetadataString = [NSString stringWithFormat:@"%@/%@", currentKeyTag, currentExpirationIso];
   [mockUserDefaults setObject:currentKeyMetadataString forKey:kMSEncryptionKeyMetadataKey];
   NSString *expectedMetadata = [NSString stringWithFormat:@"%@/AES/CBC/PKCS7/256", expectedNewKeyTag];
 
@@ -200,7 +203,8 @@
   XCTAssertEqualObjects(metadata, expectedMetadata);
 
   // Ensure a new key and expiration were added to the user defaults.
-  NSArray *newKeyTagAndExpiration = [[mockUserDefaults objectForKey:kMSEncryptionKeyMetadataKey] componentsSeparatedByString:kMSEncryptionMetadataSeparator];
+  NSArray *newKeyTagAndExpiration =
+      [[mockUserDefaults objectForKey:kMSEncryptionKeyMetadataKey] componentsSeparatedByString:kMSEncryptionMetadataSeparator];
   NSString *newKeyTag = newKeyTagAndExpiration[0];
   XCTAssertEqualObjects(newKeyTag, expectedNewKey);
   NSString *expirationIso = newKeyTagAndExpiration[1];
@@ -223,7 +227,7 @@
   NSString *oldExpirationIso = [MSUtility dateToISO8601:pastDate];
   NSString *oldKey = kMSEncryptionKeyTagOriginal;
   NSString *expectedNewKey = kMSEncryptionKeyTagAlternate;
-  NSString *keyMetadataString = [NSString stringWithFormat:@"%@:%@", oldKey, oldExpirationIso];
+  NSString *keyMetadataString = [NSString stringWithFormat:@"%@/%@", oldKey, oldExpirationIso];
   [mockUserDefaults setObject:keyMetadataString forKey:kMSEncryptionKeyMetadataKey];
   NSString *expectedMetadata = [NSString stringWithFormat:@"%@/AES/CBC/PKCS7/256", expectedNewKey];
 
@@ -256,7 +260,8 @@
   XCTAssertEqualObjects(metadata, expectedMetadata);
 
   // Ensure a new key and expiration were added to the user defaults.
-  NSArray *newKeyAndExpiration = [[mockUserDefaults objectForKey:kMSEncryptionKeyTagAlternate] componentsSeparatedByString:kMSEncryptionMetadataSeparator];
+  NSArray *newKeyAndExpiration =
+      [[mockUserDefaults objectForKey:kMSEncryptionKeyTagAlternate] componentsSeparatedByString:kMSEncryptionMetadataSeparator];
   NSString *newKey = newKeyAndExpiration[0];
   XCTAssertEqualObjects(newKey, expectedNewKey);
   NSString *expirationIso = newKeyAndExpiration[1];
@@ -322,7 +327,8 @@
   XCTAssertEqualObjects(metadata, expectedMetadata);
 
   // Ensure a new key and expiration were added to the user defaults.
-  NSArray *newKeyAndExpiration = [[mockUserDefaults objectForKey:kMSEncryptionKeyMetadataKey] componentsSeparatedByString:kMSEncryptionMetadataSeparator];
+  NSArray *newKeyAndExpiration =
+      [[mockUserDefaults objectForKey:kMSEncryptionKeyMetadataKey] componentsSeparatedByString:kMSEncryptionMetadataSeparator];
   NSString *newKey = newKeyAndExpiration[0];
   XCTAssertEqualObjects(newKey, kMSEncryptionKeyTagAlternate);
   NSString *expirationIso = newKeyAndExpiration[1];
@@ -333,7 +339,8 @@
   NSString *decryptedString = [encrypter decryptString:encryptedString];
 
   // Then
-  XCTAssertEqualObjects(decryptedString, clearText);}
+  XCTAssertEqualObjects(decryptedString, clearText);
+}
 
 - (void)testDecryptWithExpiredKey {
 
@@ -345,7 +352,7 @@
   NSDate *expiration = [NSDate dateWithTimeIntervalSinceNow:10000000];
   NSString *keyId = kMSEncryptionKeyTagOriginal;
   NSString *expirationIso = [MSUtility dateToISO8601:expiration];
-  NSString *keyMetadataString = [NSString stringWithFormat:@"%@:%@", keyId, expirationIso];
+  NSString *keyMetadataString = [NSString stringWithFormat:@"%@/%@", keyId, expirationIso];
   [mockUserDefaults setObject:keyMetadataString forKey:kMSEncryptionKeyMetadataKey];
 
   // Save key to the Keychain.
@@ -359,7 +366,7 @@
   // Alter the expiration date of the key so that it is now expired.
   NSDate *pastDate = [NSDate dateWithTimeIntervalSinceNow:-1000000];
   NSString *oldExpirationIso = [MSUtility dateToISO8601:pastDate];
-  NSString *alteredKeyMetadataString = [NSString stringWithFormat:@"%@:%@", keyId, oldExpirationIso];
+  NSString *alteredKeyMetadataString = [NSString stringWithFormat:@"%@/%@", keyId, oldExpirationIso];
   [mockUserDefaults setObject:alteredKeyMetadataString forKey:kMSEncryptionKeyMetadataKey];
 
   // When
@@ -380,7 +387,7 @@
   MSMockUserDefaults *mockUserDefaults = [[MSMockUserDefaults alloc] init];
   NSDate *expiration = [NSDate dateWithTimeIntervalSinceNow:10000000];
   NSString *expirationIso = [MSUtility dateToISO8601:expiration];
-  NSString *keyMetadataString = [NSString stringWithFormat:@"%@:%@", keyTag, expirationIso];
+  NSString *keyMetadataString = [NSString stringWithFormat:@"%@/%@", keyTag, expirationIso];
   [mockUserDefaults setObject:keyMetadataString forKey:kMSEncryptionKeyMetadataKey];
 
   // Save key to the Keychain.
@@ -413,10 +420,10 @@
 - (NSString *)generateTestEncryptionKey {
   NSData *resultKey = nil;
   uint8_t *keyBytes = nil;
-  keyBytes = malloc(kMSCipherKeySize * sizeof(uint8_t));
-  memset((void *)keyBytes, 0x0, kMSCipherKeySize);
-  SecRandomCopyBytes(kSecRandomDefault, kMSCipherKeySize, keyBytes);
-  resultKey = [[NSData alloc] initWithBytes:keyBytes length:kMSCipherKeySize];
+  keyBytes = malloc(kMSEncryptionKeySize * sizeof(uint8_t));
+  memset((void *)keyBytes, 0x0, kMSEncryptionKeySize);
+  SecRandomCopyBytes(kSecRandomDefault, kMSEncryptionKeySize, keyBytes);
+  resultKey = [[NSData alloc] initWithBytes:keyBytes length:kMSEncryptionKeySize];
   free(keyBytes);
   return [resultKey base64EncodedStringWithOptions:0];
 }

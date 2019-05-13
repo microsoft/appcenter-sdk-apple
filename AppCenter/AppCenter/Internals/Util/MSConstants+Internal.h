@@ -93,16 +93,15 @@ static const NSUInteger kMSPersistenceFlagsMask = 0xFF;
 static NSString *const kMSCommonSchemaPrefixSeparator = @":";
 
 // Encryption constants.
-static int const kMSCipherKeySize = kCCKeySizeAES256;
 static int const kMSEncryptionAlgorithm = kCCAlgorithmAES;
-static NSString * const kMSEncryptionAlgorithmName = @"AES";
-static NSString * const kMSEncryptionCipherMode = @"CBC";
+static NSString *const kMSEncryptionAlgorithmName = @"AES";
+static NSString *const kMSEncryptionCipherMode = @"CBC";
 
 // One astronomical year.
 static NSTimeInterval const kMSEncryptionKeyLifetimeInSeconds = 365.25 * 24.0 * 60.0 * 60.0;
-static NSString * const kMSEncryptionKeyMetadataKey = @"MSEncryptionKeyMetadata";
-static NSString * const kMSEncryptionKeyTagAlternate = @"kMSEncryptionKeyTagAlternate";
-static NSString * const kMSEncryptionKeyTagOriginal = @"kMSEncryptionKeyTag";
-static NSString * const kMSEncryptionMetadataSeparator = @":";
-
-
+static int const kMSEncryptionKeySize = kCCKeySizeAES256;
+static NSString *const kMSEncryptionKeyMetadataKey = @"MSEncryptionKeyMetadata";
+static NSString *const kMSEncryptionKeyTagAlternate = @"kMSEncryptionKeyTagAlternate";
+static NSString *const kMSEncryptionKeyTagOriginal = @"kMSEncryptionKeyTag";
+static NSString *const kMSEncryptionMetadataSeparator = @":";
+static NSString *const kMSEncryptionPaddingMode = @"PKCS7";

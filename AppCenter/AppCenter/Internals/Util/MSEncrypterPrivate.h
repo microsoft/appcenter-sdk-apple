@@ -7,17 +7,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-
 @interface MSEncrypter ()
-
-- (instancetype)initWitKeyTag:(NSString *)keyTag;
-
-+ (void)deleteKeyWithTag:(NSString *)keyTag;
-
-+ (NSData *)generateKeyWithTag:(NSString *)keyTag;
-
-//TODO document
-+ (void *)generateInitializationVector;
 
 @end
 
