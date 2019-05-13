@@ -27,6 +27,7 @@
 #import "MSStringTypedProperty.h"
 #import "MSTestFrameworks.h"
 
+static NSString *const kMSAnalyticsGroupId = @"Analytics";
 static NSString *const kMSTypeEvent = @"event";
 static NSString *const kMSTypePage = @"page";
 static NSString *const kMSTestAppSecret = @"TestAppSecret";
@@ -84,9 +85,13 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   self.channelGroupMock = OCMClassMock([MSChannelGroupDefault class]);
   self.channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
   self.channelUnitCriticalMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  [MSAnalytics sharedInstance].criticalChannelUnit = self.channelUnitCriticalMock;
   OCMStub([self.channelGroupMock alloc]).andReturn(self.channelGroupMock);
   OCMStub([self.channelGroupMock initWithInstallId:OCMOCK_ANY logUrl:OCMOCK_ANY]).andReturn(self.channelGroupMock);
-  OCMStub([self.channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(self.channelUnitMock);
+  OCMStub([self.channelGroupMock addChannelUnitWithConfiguration:hasProperty(@"groupId", endsWith(kMSCriticalChannelPostfix))])
+      .andReturn(self.channelUnitCriticalMock);
+  OCMStub([self.channelGroupMock addChannelUnitWithConfiguration:hasProperty(@"groupId", equalTo(kMSAnalyticsGroupId))])
+      .andReturn(self.channelUnitMock);
 }
 
 - (void)tearDown {
@@ -825,7 +830,6 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
                                             appSecret:kMSTestAppSecret
                               transmissionTargetToken:nil
                                       fromApplication:YES];
-  [MSAnalytics sharedInstance].criticalChannelUnit = self.channelUnitCriticalMock;
   OCMExpect([self.channelUnitCriticalMock enqueueItem:OCMOCK_ANY flags:MSFlagsPersistenceCritical]);
   OCMExpect([self.channelUnitMock enqueueItem:OCMOCK_ANY flags:MSFlagsPersistenceNormal]);
 
