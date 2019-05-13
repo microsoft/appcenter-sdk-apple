@@ -1,6 +1,4 @@
 #include "./CrashLib.xcconfig"
 
-ARCHS[config=Debug][sdk=iphoneos*] = armv7 armv7s arm64 arm64e
-
 ENABLE_TESTABILITY = YES
 COPY_PHASE_STRIP = NO
