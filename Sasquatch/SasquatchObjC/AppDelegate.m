@@ -42,6 +42,8 @@ typedef enum {
   Day_1 = 24*60*60,
 } Latency;
 
+const int latencyValues[5] = {Default, Min_10, Hour_1, Hour_8, Day_1};
+
 @interface AppDelegate () <
 #if GCC_PREPROCESSOR_MACRO_PUPPET
     MSAnalyticsDelegate,
@@ -116,7 +118,6 @@ typedef enum {
   if (logUrl) {
     [MSAppCenter setLogUrl:logUrl];
   }
-  int latencyValues[5] = {Default, Min_10, Hour_1, Hour_8, Day_1};
   int latencyPosition = [[[NSUserDefaults standardUserDefaults] objectForKey:kMSTransmissionIterval] intValue];
   if (latencyPosition) {
     [MSAnalytics setTransmissionInterval:latencyValues[latencyPosition]];
