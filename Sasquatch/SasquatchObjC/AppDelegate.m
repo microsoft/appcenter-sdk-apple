@@ -34,6 +34,14 @@
 
 enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
 
+typedef enum {
+  Default = 3,
+  Min_10 = 10*60,
+  Hour_1 = 1*60*60,
+  Hour_8 = 8*60*60,
+  Day_1 = 24*60*60,
+} Latency;
+
 @interface AppDelegate () <
 #if GCC_PREPROCESSOR_MACRO_PUPPET
     MSAnalyticsDelegate,
@@ -108,7 +116,7 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
   if (logUrl) {
     [MSAppCenter setLogUrl:logUrl];
   }
-  int latencyValues[5] = {3, 10*60, 1*60*60, 8*60*60, 1*24*60*60};
+  int latencyValues[5] = {Default, Min_10, Hour_1, Hour_8, Day_1};
   int latencyPosition = [[[NSUserDefaults standardUserDefaults] objectForKey:kMSTransmissionIterval] intValue];
   if (latencyPosition) {
     [MSAnalytics setTransmissionInterval:latencyValues[latencyPosition]];
