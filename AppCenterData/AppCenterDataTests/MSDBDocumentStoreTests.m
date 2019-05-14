@@ -203,7 +203,7 @@
   // If
   MSDocumentWrapper *expectedDocumentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestDocument"]
                                                                            documentType:[MSDictionaryDocument class]
-                                                                             paritition:@"readonly"
+                                                                              partition:@"readonly"
                                                                              documentId:@"standalonedocument1"
                                                                         fromDeviceCache:YES];
 
@@ -309,7 +309,7 @@
   int ttl = 1;
   MSDocumentWrapper *expectedDocumentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestDocument"]
                                                                            documentType:[MSDictionaryDocument class]
-                                                                             paritition:@"readonly"
+                                                                              partition:@"readonly"
                                                                              documentId:@"standalonedocument1"
                                                                         fromDeviceCache:YES];
 
@@ -345,7 +345,7 @@
   // If
   MSDocumentWrapper *documentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestDocument"]
                                                                    documentType:[MSDictionaryDocument class]
-                                                                     paritition:@"readonly"
+                                                                      partition:@"readonly"
                                                                      documentId:@"standalonedocument1"
                                                                 fromDeviceCache:YES];
 
@@ -390,7 +390,7 @@
   // If
   MSDocumentWrapper *documentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestDocument"]
                                                                    documentType:[MSDictionaryDocument class]
-                                                                     paritition:@"readonly"
+                                                                      partition:@"readonly"
                                                                      documentId:@"standalonedocument1"
                                                                 fromDeviceCache:YES];
   [self.sut upsertWithToken:self.appToken documentWrapper:documentWrapper operation:@"CREATE" deviceTimeToLive:1];
@@ -417,7 +417,7 @@
   // If
   MSDocumentWrapper *documentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestDocument"]
                                                                    documentType:[MSDictionaryDocument class]
-                                                                     paritition:@"readonly"
+                                                                      partition:@"readonly"
                                                                      documentId:@"standalonedocument1"
                                                                 fromDeviceCache:YES];
   [self.sut createUserStorageWithAccountId:self.userToken.accountId];

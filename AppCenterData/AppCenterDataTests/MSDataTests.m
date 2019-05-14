@@ -1942,13 +1942,13 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   NSData *jsonFixture = [self jsonFixture:@"validTestDocument"];
   MSDocumentWrapper *expectedDocumentWrapper = [MSDocumentUtils documentWrapperFromData:jsonFixture
                                                                            documentType:[MSDictionaryDocument class]
-                                                                             paritition:@"readonly"
+                                                                              partition:@"readonly"
                                                                              documentId:@"standalonedocument1"
                                                                         fromDeviceCache:NO];
 
   MSDocumentWrapper *localDocumentWrapper = OCMPartialMock([MSDocumentUtils documentWrapperFromData:jsonFixture
                                                                                        documentType:[MSDictionaryDocument class]
-                                                                                         paritition:@"readonly"
+                                                                                          partition:@"readonly"
                                                                                          documentId:@"standalonedocument1"
                                                                                     fromDeviceCache:YES]);
 
