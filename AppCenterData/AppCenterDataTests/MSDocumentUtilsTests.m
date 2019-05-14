@@ -222,7 +222,7 @@
 - (void)testDocumentWrapperFromDataDeserializationError {
 
   // If
-  NSData *data = [self jsonFixture:@"invalidTestDocument"];
+  NSData *data = [self jsonFixture:@"invalidTestAppDocument"];
   NSString *partition = @"readonly";
   NSString *documentId = @"standalonedocument1";
   XCTAssertNotNil(data);
@@ -248,7 +248,9 @@
 - (void)testDocumentWrapperFromDocumentDataDeserializationError {
 
   // If
-  NSData *data = [self jsonFixture:@"invalidTestDocument"];
+  NSData *data = [self jsonFixture:@"invalidTestAppDocument"];
+  NSString *partition = @"readonly";
+  NSString *documentId = @"standalonedocument1";
   XCTAssertNotNil(data);
 
   // When
@@ -256,19 +258,19 @@
                                                                     documentType:[NSString class]
                                                                             eTag:@"etag"
                                                                  lastUpdatedDate:[NSDate date]
-                                                                       partition:@"partition"
-                                                                      documentId:@"document-id"
+                                                                       partition:partition
+                                                                      documentId:documentId
                                                                 pendingOperation:nil
                                                                  fromDeviceCache:NO];
 
   // Then
   XCTAssertNotNil(document);
   XCTAssertNotNil([document error]);
-  XCTAssertEqualObjects([document documentId], @"document-id");
+  XCTAssertEqualObjects([document documentId], documentId);
   XCTAssertNil([document deserializedValue]);
   XCTAssertEqualObjects([document eTag], @"etag");
   XCTAssertNil([document lastUpdatedDate]);
-  XCTAssertEqualObjects([document partition], @"partition");
+  XCTAssertEqualObjects([document partition], partition);
   XCTAssertNil([document jsonValue]);
 }
 
@@ -298,7 +300,7 @@
   XCTAssertFalse([document fromDeviceCache]); // An error case does not carry on the fromDeviceCache flag.
 
   // If, data is set to a valid document
-  data = [self jsonFixture:@"validTestDocument"];
+  data = [self jsonFixture:@"validTestAppDocument"];
 
   // When
   document = [MSDocumentUtils documentWrapperFromData:data

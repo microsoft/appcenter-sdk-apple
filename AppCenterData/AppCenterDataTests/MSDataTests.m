@@ -182,7 +182,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
       });
 
   // Mock CosmosDB requests.
-  NSData *testCosmosDbResponse = [self jsonFixture:@"validTestDocument"];
+  NSData *testCosmosDbResponse = [self jsonFixture:@"validTestUserDocument"];
   OCMStub([self.cosmosDbMock performCosmosDbAsyncOperationWithHttpClient:OCMOCK_ANY
                                                              tokenResult:testToken
                                                               documentId:kMSDocumentIdTest
@@ -428,7 +428,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   MSTokenResult *testToken = [self mockTokenFetchingWithError:nil];
 
   // Mock CosmosDB requests.
-  NSData *testCosmosDbResponse = [self jsonFixture:@"validTestDocument"];
+  NSData *testCosmosDbResponse = [self jsonFixture:@"validTestUserDocument"];
   OCMStub([self.cosmosDbMock performCosmosDbAsyncOperationWithHttpClient:OCMOCK_ANY
                                                              tokenResult:testToken
                                                               documentId:kMSDocumentIdTest
@@ -470,7 +470,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                  XCTAssertTrue(completionHandlerCalled);
                                  XCTAssertNotNil(actualDocumentWrapper.deserializedValue);
                                  XCTAssertTrue([[actualDocumentWrapper documentId] isEqualToString:@"standalonedocument1"]);
-                                 XCTAssertTrue([[actualDocumentWrapper partition] isEqualToString:@"readonly"]);
+                                 XCTAssertTrue([[actualDocumentWrapper partition] isEqualToString:@"user-123"]);
                                }];
 }
 
@@ -1080,7 +1080,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   MSTokenResult *testToken = [self mockTokenFetchingWithError:nil];
 
   // Mock CosmosDB requests.
-  NSData *testCosmosDbResponse = [self jsonFixture:@"validTestDocument"];
+  NSData *testCosmosDbResponse = [self jsonFixture:@"validTestUserDocument"];
   OCMStub([self.cosmosDbMock performCosmosDbAsyncOperationWithHttpClient:OCMOCK_ANY
                                                              tokenResult:testToken
                                                               documentId:kMSDocumentIdTest
@@ -1114,7 +1114,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                  XCTAssertTrue(completionHandlerCalled);
                                  XCTAssertNotNil(actualDocumentWrapper.deserializedValue);
                                  XCTAssertTrue([[actualDocumentWrapper documentId] isEqualToString:@"standalonedocument1"]);
-                                 XCTAssertTrue([[actualDocumentWrapper partition] isEqualToString:@"readonly"]);
+                                 XCTAssertTrue([[actualDocumentWrapper partition] isEqualToString:@"user-123"]);
                                }];
 }
 
@@ -1880,7 +1880,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   OCMStub([localStorageMock readWithToken:tokenResult documentId:OCMOCK_ANY documentType:OCMOCK_ANY]).andReturn(expiredDocument);
 
   // Mock CosmosDB requests.
-  NSData *testCosmosDbResponse = [self jsonFixture:@"validTestDocument"];
+  NSData *testCosmosDbResponse = [self jsonFixture:@"validTestUserDocument"];
   OCMStub([self.cosmosDbMock performCosmosDbAsyncOperationWithHttpClient:OCMOCK_ANY
                                                              tokenResult:tokenResult
                                                               documentId:kMSDocumentIdTest
@@ -1896,7 +1896,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
       });
   MSDocumentWrapper *expectedDocumentWrapper = [MSDocumentUtils documentWrapperFromData:testCosmosDbResponse
                                                                            documentType:[MSDictionaryDocument class]
-                                                                              partition:@"readonly"
+                                                                              partition:@"user-123"
                                                                              documentId:@"standalonedocument1"
                                                                         fromDeviceCache:NO];
 
@@ -1939,16 +1939,16 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   // Mock document in local storage.
   id<MSDocumentStore> localStorageMock = OCMProtocolMock(@protocol(MSDocumentStore));
   self.sut.dataOperationProxy.documentStore = localStorageMock;
-  NSData *jsonFixture = [self jsonFixture:@"validTestDocument"];
+  NSData *jsonFixture = [self jsonFixture:@"validTestUserDocument"];
   MSDocumentWrapper *expectedDocumentWrapper = [MSDocumentUtils documentWrapperFromData:jsonFixture
                                                                            documentType:[MSDictionaryDocument class]
-                                                                              partition:@"readonly"
+                                                                              partition:@"user-123"
                                                                              documentId:@"standalonedocument1"
                                                                         fromDeviceCache:NO];
 
   MSDocumentWrapper *localDocumentWrapper = OCMPartialMock([MSDocumentUtils documentWrapperFromData:jsonFixture
                                                                                        documentType:[MSDictionaryDocument class]
-                                                                                          partition:@"readonly"
+                                                                                          partition:@"user-123"
                                                                                          documentId:@"standalonedocument1"
                                                                                     fromDeviceCache:YES]);
 

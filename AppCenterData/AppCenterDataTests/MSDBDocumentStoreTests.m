@@ -201,7 +201,7 @@
 - (void)testUpsertReplacesCorrectlyInAppStorage {
 
   // If
-  MSDocumentWrapper *expectedDocumentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestDocument"]
+  MSDocumentWrapper *expectedDocumentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestAppDocument"]
                                                                            documentType:[MSDictionaryDocument class]
                                                                               partition:@"readonly"
                                                                              documentId:@"standalonedocument1"
@@ -307,7 +307,7 @@
 
   // If
   int ttl = 1;
-  MSDocumentWrapper *expectedDocumentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestDocument"]
+  MSDocumentWrapper *expectedDocumentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestAppDocument"]
                                                                            documentType:[MSDictionaryDocument class]
                                                                               partition:@"readonly"
                                                                              documentId:@"standalonedocument1"
@@ -343,7 +343,7 @@
 - (void)testUpsertAppDocumentWithNoTTL {
 
   // If
-  MSDocumentWrapper *documentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestDocument"]
+  MSDocumentWrapper *documentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestAppDocument"]
                                                                    documentType:[MSDictionaryDocument class]
                                                                       partition:@"readonly"
                                                                      documentId:@"standalonedocument1"
@@ -388,9 +388,9 @@
 - (void)testDeleteExistingAppDocument {
 
   // If
-  MSDocumentWrapper *documentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestDocument"]
+  MSDocumentWrapper *documentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestAppDocument"]
                                                                    documentType:[MSDictionaryDocument class]
-                                                                      partition:@"readonly"
+                                                                      partition:@"user-123"
                                                                      documentId:@"standalonedocument1"
                                                                 fromDeviceCache:YES];
   [self.sut upsertWithToken:self.appToken documentWrapper:documentWrapper operation:@"CREATE" deviceTimeToLive:1];
@@ -415,9 +415,9 @@
 - (void)testDeleteExistingUserDocument {
 
   // If
-  MSDocumentWrapper *documentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestDocument"]
+  MSDocumentWrapper *documentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestUserDocument"]
                                                                    documentType:[MSDictionaryDocument class]
-                                                                      partition:@"readonly"
+                                                                      partition:@"user-123"
                                                                      documentId:@"standalonedocument1"
                                                                 fromDeviceCache:YES];
   [self.sut createUserStorageWithAccountId:self.userToken.accountId];
