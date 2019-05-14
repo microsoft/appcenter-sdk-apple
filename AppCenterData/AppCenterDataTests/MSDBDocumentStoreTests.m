@@ -201,8 +201,10 @@
 - (void)testUpsertReplacesCorrectlyInAppStorage {
 
   // If
-  MSDocumentWrapper *expectedDocumentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestDocument"]
+  MSDocumentWrapper *expectedDocumentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestAppDocument"]
                                                                            documentType:[MSDictionaryDocument class]
+                                                                              partition:kMSDataAppDocumentsPartition
+                                                                             documentId:@"standalonedocument1"
                                                                         fromDeviceCache:YES];
 
   // When
@@ -305,8 +307,10 @@
 
   // If
   int ttl = 1;
-  MSDocumentWrapper *expectedDocumentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestDocument"]
+  MSDocumentWrapper *expectedDocumentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestAppDocument"]
                                                                            documentType:[MSDictionaryDocument class]
+                                                                              partition:kMSDataAppDocumentsPartition
+                                                                             documentId:@"standalonedocument1"
                                                                         fromDeviceCache:YES];
 
   // Mock NSDate to "freeze" time.
@@ -339,8 +343,10 @@
 - (void)testUpsertAppDocumentWithNoTTL {
 
   // If
-  MSDocumentWrapper *documentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestDocument"]
+  MSDocumentWrapper *documentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestAppDocument"]
                                                                    documentType:[MSDictionaryDocument class]
+                                                                      partition:kMSDataAppDocumentsPartition
+                                                                     documentId:@"standalonedocument1"
                                                                 fromDeviceCache:YES];
 
   // When
@@ -382,8 +388,10 @@
 - (void)testDeleteExistingAppDocument {
 
   // If
-  MSDocumentWrapper *documentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestDocument"]
+  MSDocumentWrapper *documentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestAppDocument"]
                                                                    documentType:[MSDictionaryDocument class]
+                                                                      partition:@"user-123"
+                                                                     documentId:@"standalonedocument1"
                                                                 fromDeviceCache:YES];
   [self.sut upsertWithToken:self.appToken documentWrapper:documentWrapper operation:@"CREATE" deviceTimeToLive:1];
   MSDocumentWrapper *expectedDocumentWrapper = [self.sut readWithToken:self.appToken
@@ -407,8 +415,10 @@
 - (void)testDeleteExistingUserDocument {
 
   // If
-  MSDocumentWrapper *documentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestDocument"]
+  MSDocumentWrapper *documentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestUserDocument"]
                                                                    documentType:[MSDictionaryDocument class]
+                                                                      partition:@"user-123"
+                                                                     documentId:@"standalonedocument1"
                                                                 fromDeviceCache:YES];
   [self.sut createUserStorageWithAccountId:self.userToken.accountId];
   [self.sut upsertWithToken:self.userToken documentWrapper:documentWrapper operation:@"CREATE" deviceTimeToLive:1];
