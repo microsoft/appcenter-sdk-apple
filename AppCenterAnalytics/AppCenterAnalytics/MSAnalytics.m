@@ -287,9 +287,9 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
 
     // Validate flags.
     MSFlags persistenceFlag = flags & kMSPersistenceFlagsMask;
-    if (persistenceFlag != MSFlagsPersistenceNormal && persistenceFlag != MSFlagsPersistenceCritical) {
+    if (persistenceFlag != MSFlagsNormal && persistenceFlag != MSFlagsCritical) {
       MSLogWarning([MSAnalytics logTag], @"Invalid flags (%u) received, using normal as a default.", (unsigned int)persistenceFlag);
-      persistenceFlag = MSFlagsPersistenceNormal;
+      persistenceFlag = MSFlagsNormal;
     }
 
     // Create an event log.
@@ -393,7 +393,7 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
     return;
   }
   if (interval > kMSFlushIntervalMaximum || interval < kMSFlushIntervalMinimum) {
-    MSLogError([MSAnalytics logTag], @"The transmission interval is not valid, it should be between 3 second and 1 day (86400 seconds).");
+    MSLogError([MSAnalytics logTag], @"The transmission interval is not valid, it should be between 3 seconds and 1 day (86400 seconds).");
     return;
   }
   self.flushInterval = interval;

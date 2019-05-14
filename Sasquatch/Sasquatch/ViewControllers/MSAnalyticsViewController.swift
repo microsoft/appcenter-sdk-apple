@@ -14,9 +14,9 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
     var flags: MSFlags {
       switch self {
       case .Normal:
-        return [.persistenceNormal]
+        return [.normal]
       case .Critical:
-        return [.persistenceCritical]
+        return [.critical]
       case .Invalid:
         return MSFlags.init(rawValue: 42)
       default:
