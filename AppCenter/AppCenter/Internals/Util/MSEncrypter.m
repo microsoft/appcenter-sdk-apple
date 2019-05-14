@@ -34,28 +34,17 @@
 - (NSData *_Nullable)encryptData:(NSData *)data {
   NSString *keyTag = [self getCurrentKeyTag];
   NSData *key = [self getKeyWithKeyTag:keyTag];
-  NSData *result = nil;
-  void *initializationVector = [[self class] generateInitializationVector];
-
-  // TODO - buffer length and length error handling
-  size_t cipherBufferSize = [data length] * 20;
-  uint8_t *cipherBuffer = malloc(cipherBufferSize * sizeof(uint8_t));
-  size_t numBytesEncrypted = 0;
-  CCCryptorStatus status = CCCrypt(kCCEncrypt, kMSEncryptionAlgorithm, kCCOptionPKCS7Padding, [key bytes], kMSEncryptionKeySize,
-                                   initializationVector, [data bytes], data.length, cipherBuffer, cipherBufferSize, &numBytesEncrypted);
-  if (status != kCCSuccess) {
-    MSLogError([MSAppCenter logTag], @"Error performing encryption.");
-  } else {
+  NSData *initializationVector = [[self class] generateInitializationVector];
+  NSData *result = [[self class] performCryptoOperation:kCCEncrypt input:data initializationVector:initializationVector key:key];
+  if (result) {
     NSData *metadata = [[self class] getMetadataStringWithKeyTag:keyTag];
     NSMutableData *mutableData = [NSMutableData new];
     [mutableData appendData:metadata];
     [mutableData appendBytes:(const void *)[kMSEncryptionMetadataSeparator UTF8String] length:1];
-    [mutableData appendBytes:initializationVector length:kCCBlockSizeAES128];
-    [mutableData appendBytes:cipherBuffer length:numBytesEncrypted];
+    [mutableData appendData:initializationVector];
+    [mutableData appendData:result];
     result = mutableData;
   }
-  free(cipherBuffer);
-  free(initializationVector);
   return result;
 }
 
@@ -82,30 +71,13 @@
   if (!metadata) {
     return nil; //TODO implement legacy code path.
   }
-  NSData *result = nil;
   NSString *keyTag = [metadata componentsSeparatedByString:kMSEncryptionMetadataInternalSeparator][0];
   NSRange ivRange = NSMakeRange(metadataLength + 1, kCCBlockSizeAES128);
   NSRange cipherTextRange = NSMakeRange(metadataLength + 1 + kCCBlockSizeAES128, [data length] - metadataLength - 1 - kCCBlockSizeAES128);
   NSData *initializationVector = [data subdataWithRange:ivRange];
   NSData *cipherText = [data subdataWithRange:cipherTextRange];
   NSData *key = [self getKeyWithKeyTag:keyTag];
-
-  // TODO - buffer length and length error handling
-  size_t clearTextBufferSize = [data length]*20;
-  uint8_t *clearTextBuffer = malloc(clearTextBufferSize * sizeof(uint8_t));
-  size_t numBytesDecrypted = 0;
-  CCCryptorStatus status = CCCrypt(kCCDecrypt, kMSEncryptionAlgorithm, kCCOptionPKCS7Padding, [key bytes], kMSEncryptionKeySize,
-                                   [initializationVector bytes], [cipherText bytes], cipherText.length, clearTextBuffer, clearTextBufferSize, &numBytesDecrypted);
-  if (status != kCCSuccess) {
-    MSLogError([MSAppCenter logTag], @"Error performing decryption with CCCryptorStatus: %d.", status);
-  } else {
-    result = [NSData dataWithBytes:clearTextBuffer length:numBytesDecrypted];
-    if (!result) {
-      MSLogWarning([MSAppCenter logTag], @"Could not create NSData object from decrypted bytes.");
-    }
-  }
-  free(clearTextBuffer);
-  return result;
+  return [[self class] performCryptoOperation:kCCDecrypt input:cipherText initializationVector:initializationVector key:key];
 }
 
 - (NSString *)getCurrentKeyTag {
@@ -162,6 +134,29 @@
   return key;
 }
 
++ (NSData * _Nullable)performCryptoOperation:(CCOperation)operation input:(NSData *)input initializationVector:(NSData *)initializationVector key:(NSData *)key {
+  NSData *result;
+
+  // Create a buffer whose size is at least one block plus 1. This is not needed for decryption, but it works.
+  size_t outputBufferSize = [input length] + kCCBlockSizeAES128 + 1;
+  uint8_t *outputBuffer = malloc(outputBufferSize * sizeof(uint8_t));
+  size_t numBytesNeeded = 0;
+  CCCryptorStatus status = CCCrypt(operation, kMSEncryptionAlgorithm, kCCOptionPKCS7Padding, [key bytes], kMSEncryptionKeySize,
+                                   [initializationVector bytes], [input bytes], input.length, outputBuffer, outputBufferSize, &numBytesNeeded);
+  if (status != kCCSuccess) {
+
+    // Do not print the status; it is a security requirement that specific crypto errors are not printed.
+    MSLogError([MSAppCenter logTag], @"Error performing encryption or decryption.");
+  } else {
+    result = [NSData dataWithBytes:outputBuffer length:numBytesNeeded];
+    if (!result) {
+      MSLogWarning([MSAppCenter logTag], @"Could not create NSData object from encrypted or decrypted bytes.");
+    }
+  }
+  free(outputBuffer);
+  return result;
+}
+
 + (NSData *)generateAndSaveKeyWithTag:(NSString *)keyTag {
   NSData *resultKey = nil;
   uint8_t *keyBytes = nil;
@@ -180,14 +175,14 @@
   return resultKey;
 }
 
-+ (void *_Nonnull)generateInitializationVector {
++ (NSData *)generateInitializationVector {
   uint8_t *ivBytes = malloc(kCCBlockSizeAES128 * sizeof(uint8_t));
   memset((void *)ivBytes, 0x0, kCCBlockSizeAES128);
   OSStatus status = SecRandomCopyBytes(kSecRandomDefault, kCCBlockSizeAES128, ivBytes);
   if (status != errSecSuccess) {
     MSLogError([MSAppCenter logTag], @"Error generating initialization vector. Error code: %d", (int)status);
   }
-  return ivBytes; // TODO free this later
+  return [NSData dataWithBytes:ivBytes length:kCCBlockSizeAES128];
 }
 
 + (NSData *)getMetadataStringWithKeyTag:(NSString *)keyTag {
