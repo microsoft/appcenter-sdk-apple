@@ -42,7 +42,7 @@ enum {
   DAY_1 = 24*60*60,
 };
 
-const int latencyValues[5] = {DEFAULT, MIN_10, HOUR_1, HOUR_8, DAY_1};
+static const int latencyValues[] = {DEFAULT, MIN_10, HOUR_1, HOUR_8, DAY_1};
 
 @interface AppDelegate () <
 #if GCC_PREPROCESSOR_MACRO_PUPPET
