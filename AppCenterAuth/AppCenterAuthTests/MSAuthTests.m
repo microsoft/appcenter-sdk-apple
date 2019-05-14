@@ -23,7 +23,6 @@
 #import "MSConstants.h"
 #import "MSHttpTestUtil.h"
 #import "MSMockUserDefaults.h"
-#import "MSServiceAbstractProtected.h"
 #import "MSTestFrameworks.h"
 #import "MSUserInformation.h"
 #import "MSUtility+File.h"

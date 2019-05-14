@@ -25,6 +25,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, readonly, getter=isAvailable) BOOL available;
 
 /**
+ * Flag indicating if a service is enabled or not.
+ */
+@property(nonatomic, getter=isEnabled) BOOL enabled;
+
+/**
  * Channel group.
  */
 @property(nonatomic) id<MSChannelGroupProtocol> channelGroup;

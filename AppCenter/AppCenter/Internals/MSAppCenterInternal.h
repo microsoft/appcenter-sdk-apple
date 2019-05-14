@@ -42,6 +42,8 @@ static NSString *const kMSDisableAll = @"All";
 
 @property(nonatomic) NSNumber *requestedMaxStorageSizeInBytes;
 
+@property(nonatomic, getter=isEnabled) BOOL enabled;
+
 @property BOOL sdkConfigured;
 
 @property BOOL configuredFromApplication;
@@ -86,24 +88,6 @@ static NSString *const kMSDisableAll = @"All";
  * @return The app secret.
  */
 - (NSString *)appSecret;
-
-/**
- * Enable or disable the SDK as a whole. In addition to AppCenter resources, it will also enable or disable all registered services.
- *
- * @param isEnabled YES to enable, NO to disable.
- *
- * @see isEnabled
- */
-- (void)setEnabled:(BOOL)isEnabled;
-
-/**
- * Check whether the SDK is enabled or not as a whole.
- *
- * @return YES if enabled, NO otherwise.
- *
- * @see setEnabled:
- */
-- (BOOL)isEnabled;
 
 /**
  * Sort the array of services in descending order based on their priority.

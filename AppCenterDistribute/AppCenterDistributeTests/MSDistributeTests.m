@@ -22,7 +22,6 @@
 #import "MSMockKeychainUtil.h"
 #import "MSMockReachability.h"
 #import "MSMockUserDefaults.h"
-#import "MSServiceAbstractProtected.h"
 #import "MSSessionContext.h"
 #import "MSSessionContextPrivate.h"
 #import "MSTestFrameworks.h"

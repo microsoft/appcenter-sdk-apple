@@ -19,7 +19,6 @@
 #import "MSLoggerInternal.h"
 #import "MSMockCrashesDelegate.h"
 #import "MSMockUserDefaults.h"
-#import "MSServiceAbstractProtected.h"
 #import "MSSessionContextPrivate.h"
 #import "MSTestFrameworks.h"
 #import "MSUserIdContextPrivate.h"
