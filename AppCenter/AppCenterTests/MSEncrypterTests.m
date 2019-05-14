@@ -389,7 +389,6 @@
   XCTAssertEqualObjects(decryptedString, clearText);
 }
 
-// TODO use fixtures instead
 - (NSString *)generateTestEncryptionKey {
   NSData *resultKey = nil;
   uint8_t *keyBytes = nil;

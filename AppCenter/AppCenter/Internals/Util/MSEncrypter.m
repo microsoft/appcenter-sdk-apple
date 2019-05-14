@@ -66,17 +66,31 @@
 - (NSData *_Nullable)decryptData:(NSData *)data {
 
   // Extract key from metadata.
-  size_t metadataLength = [data locationOfString:kMSEncryptionMetadataSeparator usingEncoding:NSUTF8StringEncoding];
-  NSString *metadata = [data stringFromRange:NSMakeRange(0, metadataLength) usingEncoding:NSUTF8StringEncoding];
-  if (!metadata) {
-    return nil; //TODO implement legacy code path.
+  size_t metadataLocation = [data locationOfString:kMSEncryptionMetadataSeparator usingEncoding:NSUTF8StringEncoding];
+  NSString *metadata;
+  if (metadataLocation != NSNotFound) {
+    metadata = [data stringFromRange:NSMakeRange(0, metadataLocation) usingEncoding:NSUTF8StringEncoding];
   }
-  NSString *keyTag = [metadata componentsSeparatedByString:kMSEncryptionMetadataInternalSeparator][0];
-  NSRange ivRange = NSMakeRange(metadataLength + 1, kCCBlockSizeAES128);
-  NSRange cipherTextRange = NSMakeRange(metadataLength + 1 + kCCBlockSizeAES128, [data length] - metadataLength - 1 - kCCBlockSizeAES128);
-  NSData *initializationVector = [data subdataWithRange:ivRange];
-  NSData *cipherText = [data subdataWithRange:cipherTextRange];
-  NSData *key = [self getKeyWithKeyTag:keyTag];
+  NSData *key;
+  NSData *initializationVector;
+  NSData *cipherText;
+  if (!metadata) {
+
+    // If there is no metadata, this is old data, so use the old key and an empty initialization vector.
+    key = [self getKeyWithKeyTag:kMSEncryptionKeyTagOriginal];
+    initializationVector = nil;
+    cipherText = data;
+  } else {
+    NSString *keyTag = [metadata componentsSeparatedByString:kMSEncryptionMetadataInternalSeparator][0];
+    NSRange ivRange = NSMakeRange(metadataLocation + 1, kCCBlockSizeAES128);
+
+    // Metadata, separator, and initialization vector.
+    size_t cipherTextPrefixLength = metadataLocation + 1 + kCCBlockSizeAES128;
+    NSRange cipherTextRange = NSMakeRange(cipherTextPrefixLength, [data length] - cipherTextPrefixLength);
+    initializationVector = [data subdataWithRange:ivRange];
+    cipherText = [data subdataWithRange:cipherTextRange];
+    key = [self getKeyWithKeyTag:keyTag];
+  }
   return [[self class] performCryptoOperation:kCCDecrypt input:cipherText initializationVector:initializationVector key:key];
 }
 
