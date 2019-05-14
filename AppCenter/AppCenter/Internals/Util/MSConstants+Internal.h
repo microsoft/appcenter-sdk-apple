@@ -103,5 +103,10 @@ static int const kMSEncryptionKeySize = kCCKeySizeAES256;
 static NSString *const kMSEncryptionKeyMetadataKey = @"MSEncryptionKeyMetadata";
 static NSString *const kMSEncryptionKeyTagAlternate = @"kMSEncryptionKeyTagAlternate";
 static NSString *const kMSEncryptionKeyTagOriginal = @"kMSEncryptionKeyTag";
+
+// This separator is used for key metadata, as well as between metadata that is prepended to the cipher text.
+static NSString *const kMSEncryptionMetadataInternalSeparator = @"/";
+
+// This separator is only used between the metadata and cipher text of the encryption result.
 static NSString *const kMSEncryptionMetadataSeparator = @":";
 static NSString *const kMSEncryptionPaddingMode = @"PKCS7";
