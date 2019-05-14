@@ -8,7 +8,6 @@
 #import "MSEncrypterPrivate.h"
 #import "MSKeychainUtil.h"
 #import "MSLogger.h"
-#import "NSData+MSAppCenter.h"
 
 @interface MSEncrypter ()
 
@@ -65,11 +64,14 @@
 
 - (NSData *_Nullable)decryptData:(NSData *)data {
 
-  // Extract key from metadata.
-  size_t metadataLocation = [data locationOfString:kMSEncryptionMetadataSeparator usingEncoding:NSUTF8StringEncoding];
+  // Separate cipher prefix from cipher.
+  NSRange dataRange = NSMakeRange(0, [data length]);
+  NSData *separatorAsData = [kMSEncryptionMetadataSeparator dataUsingEncoding:NSUTF8StringEncoding];
+  size_t metadataLocation = [data rangeOfData:separatorAsData options:0 range:dataRange].location;
   NSString *metadata;
   if (metadataLocation != NSNotFound) {
-    metadata = [data stringFromRange:NSMakeRange(0, metadataLocation) usingEncoding:NSUTF8StringEncoding];
+    NSData *subdata = [data subdataWithRange:NSMakeRange(0, metadataLocation)];
+    metadata = [[NSString alloc] initWithData:subdata encoding:NSUTF8StringEncoding];
   }
   NSData *key;
   NSData *initializationVector;
@@ -81,6 +83,8 @@
     initializationVector = nil;
     cipherText = data;
   } else {
+
+    // Extract key from metadata.
     NSString *keyTag = [metadata componentsSeparatedByString:kMSEncryptionMetadataInternalSeparator][0];
     NSRange ivRange = NSMakeRange(metadataLocation + 1, kCCBlockSizeAES128);
 

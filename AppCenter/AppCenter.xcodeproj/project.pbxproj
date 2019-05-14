@@ -410,12 +410,6 @@
 		358F9BC920195F3300B9E22C /* MSLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 358F9BC22019531F00B9E22C /* MSLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3592ABA71DC90E3600EF4592 /* MSLoggerInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 3592ABA51DC90E3600EF4592 /* MSLoggerInternal.h */; };
 		3592ABA81DC90E3600EF4592 /* MSLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 3592ABA61DC90E3600EF4592 /* MSLogger.m */; };
-		3597B526228A250E00F8D21F /* NSData+MSAppCenter.h in Headers */ = {isa = PBXBuildFile; fileRef = 3597B524228A249000F8D21F /* NSData+MSAppCenter.h */; };
-		3597B527228A251000F8D21F /* NSData+MSAppCenter.h in Headers */ = {isa = PBXBuildFile; fileRef = 3597B524228A249000F8D21F /* NSData+MSAppCenter.h */; };
-		3597B528228A251000F8D21F /* NSData+MSAppCenter.h in Headers */ = {isa = PBXBuildFile; fileRef = 3597B524228A249000F8D21F /* NSData+MSAppCenter.h */; };
-		3597B529228A251300F8D21F /* NSData+MSAppCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 3597B525228A250800F8D21F /* NSData+MSAppCenter.m */; };
-		3597B52A228A251400F8D21F /* NSData+MSAppCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 3597B525228A250800F8D21F /* NSData+MSAppCenter.m */; };
-		3597B52B228A251500F8D21F /* NSData+MSAppCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 3597B525228A250800F8D21F /* NSData+MSAppCenter.m */; };
 		359C38DD214079D90066C509 /* MSDeviceExtension.h in Headers */ = {isa = PBXBuildFile; fileRef = 359C38DB214079D90066C509 /* MSDeviceExtension.h */; };
 		359C38DE214079D90066C509 /* MSDeviceExtension.h in Headers */ = {isa = PBXBuildFile; fileRef = 359C38DB214079D90066C509 /* MSDeviceExtension.h */; };
 		359C38DF214079D90066C509 /* MSDeviceExtension.h in Headers */ = {isa = PBXBuildFile; fileRef = 359C38DB214079D90066C509 /* MSDeviceExtension.h */; };
@@ -1022,8 +1016,6 @@
 		358F9BC22019531F00B9E22C /* MSLogger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSLogger.h; sourceTree = "<group>"; };
 		3592ABA51DC90E3600EF4592 /* MSLoggerInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSLoggerInternal.h; sourceTree = "<group>"; };
 		3592ABA61DC90E3600EF4592 /* MSLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSLogger.m; sourceTree = "<group>"; };
-		3597B524228A249000F8D21F /* NSData+MSAppCenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSData+MSAppCenter.h"; sourceTree = "<group>"; };
-		3597B525228A250800F8D21F /* NSData+MSAppCenter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSData+MSAppCenter.m"; sourceTree = "<group>"; };
 		359C38DB214079D90066C509 /* MSDeviceExtension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSDeviceExtension.h; sourceTree = "<group>"; };
 		359C38DC214079D90066C509 /* MSDeviceExtension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSDeviceExtension.m; sourceTree = "<group>"; };
 		359D1A53225E6224003ABD4F /* MSDispatchTestUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSDispatchTestUtil.h; sourceTree = "<group>"; };
@@ -1629,8 +1621,6 @@
 				B2CD749C1F22BE270070E7DF /* MSUtility+StringFormatting.m */,
 				38148D8420D07FB70046257E /* MSCompression.h */,
 				38148D8520D07FB70046257E /* MSCompression.m */,
-				3597B524228A249000F8D21F /* NSData+MSAppCenter.h */,
-				3597B525228A250800F8D21F /* NSData+MSAppCenter.m */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -2005,7 +1995,6 @@
 				38BC346F20B8CB0C00119C05 /* MSLogConversion.h in Headers */,
 				0446DF2E1F3B86C500C8E338 /* MSAbstractLogInternal.h in Headers */,
 				3571F64E22454EDF0052406C /* MSHttpClientPrivate.h in Headers */,
-				3597B528228A251000F8D21F /* NSData+MSAppCenter.h in Headers */,
 				80B7EA2420CA9CC100DF524C /* MSEncrypter.h in Headers */,
 				80B7EA2620CA9CC500DF524C /* MSEncrypterPrivate.h in Headers */,
 				805275C420A1ADCF00704115 /* MSOneCollectorChannelDelegate.h in Headers */,
@@ -2141,7 +2130,6 @@
 				E74B14AB20B36B9B002C0183 /* MSLocExtension.h in Headers */,
 				04754F7C1EA98182002CBA46 /* MS_Reachability.h in Headers */,
 				3571F64D22454EDF0052406C /* MSHttpClientPrivate.h in Headers */,
-				3597B527228A251000F8D21F /* NSData+MSAppCenter.h in Headers */,
 				B2CD74A11F22BE270070E7DF /* MSUtility.h in Headers */,
 				04754F7D1EA98182002CBA46 /* MSConstants.h in Headers */,
 				04754F7E1EA98182002CBA46 /* MSDeviceHistoryInfo.h in Headers */,
@@ -2277,7 +2265,6 @@
 				358F9BC920195F3300B9E22C /* MSLogger.h in Headers */,
 				3592ABA71DC90E3600EF4592 /* MSLoggerInternal.h in Headers */,
 				046658B8215AD59D0079DCC7 /* MSLogDBStorageVersion.h in Headers */,
-				3597B526228A250E00F8D21F /* NSData+MSAppCenter.h in Headers */,
 				3571F64C22454EDF0052406C /* MSHttpClientPrivate.h in Headers */,
 				3542741F2016769C00BE766F /* MSChannelUnitProtocol.h in Headers */,
 				35DFC1D52170030C00455589 /* MSLongTypedProperty.h in Headers */,
@@ -2734,7 +2721,6 @@
 				0431208A1EE0BCF9007054C5 /* MSChannelUnitDefault.m in Sources */,
 				9CB67DA622137C16006E20AC /* MSAuthTokenContext.m in Sources */,
 				0431208B1EE0BCF9007054C5 /* MSIngestionCall.m in Sources */,
-				3597B52B228A251500F8D21F /* NSData+MSAppCenter.m in Sources */,
 				E74B149E20B364EE002C0183 /* MSCommonSchemaLog.m in Sources */,
 				0431208D1EE0BCF9007054C5 /* MS_Reachability.m in Sources */,
 				E7D23C6B20B6391700A47D62 /* MSCSExtensions.m in Sources */,
@@ -2943,7 +2929,6 @@
 				04754F601EA98182002CBA46 /* MS_Reachability.m in Sources */,
 				9CB67DA522137C14006E20AC /* MSAuthTokenContext.m in Sources */,
 				E74B14DC20B37043002C0183 /* MSAppExtension.m in Sources */,
-				3597B52A228A251400F8D21F /* NSData+MSAppCenter.m in Sources */,
 				045C85161FE0B4F600089540 /* MSSessionContext.m in Sources */,
 				04754F611EA98182002CBA46 /* MSLogWithProperties.m in Sources */,
 				04754F621EA98182002CBA46 /* MSUserDefaults.m in Sources */,
@@ -3022,7 +3007,6 @@
 				E74B14DB20B37043002C0183 /* MSAppExtension.m in Sources */,
 				9CB67DA422137C12006E20AC /* MSAuthTokenContext.m in Sources */,
 				045C85151FE0B4F500089540 /* MSSessionContext.m in Sources */,
-				3597B529228A251300F8D21F /* NSData+MSAppCenter.m in Sources */,
 				E83283C71D46C62E000B029E /* MS_Reachability.m in Sources */,
 				E8010E6B1D2DD4EF0035196F /* MSLogWithProperties.m in Sources */,
 				E8A8D1EC1D3057A90022931E /* MSUserDefaults.m in Sources */,
