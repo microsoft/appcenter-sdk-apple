@@ -5,7 +5,7 @@
 
 # This script runs clang_format on all .h, .m, and .mm files that have changes from develop branch.
 # Before running this, ensure that your local develop branch is up to date.
-upstream=$(git remote -v | grep "Microsoft/" | awk '{print $1}' | uniq)
+upstream=$(git remote -v | grep -i "microsoft/" | awk '{print $1}' | uniq)
 git fetch $upstream
 i=0
 for modified_file in $(git diff $upstream/develop --diff-filter=ACMR --name-only -- *.h *.m *.mm)

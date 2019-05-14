@@ -222,6 +222,18 @@
   XCTAssertTrue(isEmpty);
 }
 
+- (void)testIsNoWhenEqualsWrongClass {
+
+  // If
+  NSObject *invalidEvent = [NSObject new];
+
+  // When
+  BOOL result = [MSEventProperties isEqual:invalidEvent];
+
+  // Then
+  XCTAssertFalse(result);
+}
+
 - (void)testIsEmptyReturnsFalseWhenContainsProperties {
 
   // If
