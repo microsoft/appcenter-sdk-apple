@@ -203,7 +203,7 @@
   // If
   MSDocumentWrapper *expectedDocumentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestAppDocument"]
                                                                            documentType:[MSDictionaryDocument class]
-                                                                              partition:@"readonly"
+                                                                              partition:kMSDataAppDocumentsPartition
                                                                              documentId:@"standalonedocument1"
                                                                         fromDeviceCache:YES];
 
@@ -309,7 +309,7 @@
   int ttl = 1;
   MSDocumentWrapper *expectedDocumentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestAppDocument"]
                                                                            documentType:[MSDictionaryDocument class]
-                                                                              partition:@"readonly"
+                                                                              partition:kMSDataAppDocumentsPartition
                                                                              documentId:@"standalonedocument1"
                                                                         fromDeviceCache:YES];
 
@@ -345,7 +345,7 @@
   // If
   MSDocumentWrapper *documentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestAppDocument"]
                                                                    documentType:[MSDictionaryDocument class]
-                                                                      partition:@"readonly"
+                                                                      partition:kMSDataAppDocumentsPartition
                                                                      documentId:@"standalonedocument1"
                                                                 fromDeviceCache:YES];
 

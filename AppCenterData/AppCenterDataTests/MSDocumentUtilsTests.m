@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+#import "MSData.h"
 #import "MSDataConstants.h"
 #import "MSDataError.h"
 #import "MSDataErrors.h"
@@ -197,13 +198,12 @@
 
   // If
   NSData *data;
-  NSString *partition = @"readonly";
   NSString *documentId = @"standalonedocument1";
 
   // When
   MSDocumentWrapper *document = [MSDocumentUtils documentWrapperFromData:data
                                                             documentType:[NSString class]
-                                                               partition:partition
+                                                               partition:kMSDataAppDocumentsPartition
                                                               documentId:documentId
                                                          fromDeviceCache:NO];
 
@@ -214,7 +214,7 @@
   XCTAssertNil([document deserializedValue]);
   XCTAssertNil([document eTag]);
   XCTAssertNil([document lastUpdatedDate]);
-  XCTAssertEqualObjects([document partition], partition);
+  XCTAssertEqualObjects([document partition], kMSDataAppDocumentsPartition);
   XCTAssertNil([document jsonValue]);
   XCTAssertFalse([document fromDeviceCache]);
 }
@@ -223,14 +223,13 @@
 
   // If
   NSData *data = [self jsonFixture:@"invalidTestAppDocument"];
-  NSString *partition = @"readonly";
   NSString *documentId = @"standalonedocument1";
   XCTAssertNotNil(data);
 
   // When
   MSDocumentWrapper *document = [MSDocumentUtils documentWrapperFromData:data
                                                             documentType:[NSString class]
-                                                               partition:partition
+                                                               partition:kMSDataAppDocumentsPartition
                                                               documentId:documentId
                                                          fromDeviceCache:NO];
 
@@ -241,7 +240,7 @@
   XCTAssertNil([document deserializedValue]);
   XCTAssertNil([document eTag]);
   XCTAssertNil([document lastUpdatedDate]);
-  XCTAssertEqualObjects([document partition], partition);
+  XCTAssertEqualObjects([document partition], kMSDataAppDocumentsPartition);
   XCTAssertNil([document jsonValue]);
 }
 
@@ -249,7 +248,6 @@
 
   // If
   NSData *data = [self jsonFixture:@"invalidTestAppDocument"];
-  NSString *partition = @"readonly";
   NSString *documentId = @"standalonedocument1";
   XCTAssertNotNil(data);
 
@@ -258,7 +256,7 @@
                                                                     documentType:[NSString class]
                                                                             eTag:@"etag"
                                                                  lastUpdatedDate:[NSDate date]
-                                                                       partition:partition
+                                                                       partition:kMSDataAppDocumentsPartition
                                                                       documentId:documentId
                                                                 pendingOperation:nil
                                                                  fromDeviceCache:NO];
@@ -270,7 +268,7 @@
   XCTAssertNil([document deserializedValue]);
   XCTAssertEqualObjects([document eTag], @"etag");
   XCTAssertNil([document lastUpdatedDate]);
-  XCTAssertEqualObjects([document partition], partition);
+  XCTAssertEqualObjects([document partition], kMSDataAppDocumentsPartition);
   XCTAssertNil([document jsonValue]);
 }
 
@@ -278,13 +276,12 @@
 
   // If
   NSData *data;
-  NSString *partition = @"readonly";
   NSString *documentId = @"standalonedocument1";
 
   // When
   MSDocumentWrapper *document = [MSDocumentUtils documentWrapperFromData:data
                                                             documentType:[NSString class]
-                                                               partition:partition
+                                                               partition:kMSDataAppDocumentsPartition
                                                               documentId:documentId
                                                          fromDeviceCache:YES];
 
@@ -295,7 +292,7 @@
   XCTAssertNil([document deserializedValue]);
   XCTAssertNil([document eTag]);
   XCTAssertNil([document lastUpdatedDate]);
-  XCTAssertEqualObjects([document partition], partition);
+  XCTAssertEqualObjects([document partition], kMSDataAppDocumentsPartition);
   XCTAssertNil([document jsonValue]);
   XCTAssertFalse([document fromDeviceCache]); // An error case does not carry on the fromDeviceCache flag.
 
@@ -305,7 +302,7 @@
   // When
   document = [MSDocumentUtils documentWrapperFromData:data
                                          documentType:[MSDictionaryDocument class]
-                                            partition:partition
+                                            partition:kMSDataAppDocumentsPartition
                                            documentId:documentId
                                       fromDeviceCache:YES];
   NSDictionary *resultDictionary = [[document deserializedValue] serializeToDictionary];
@@ -319,7 +316,7 @@
   XCTAssertTrue([resultDictionary[@"property2"] isEqualToNumber:@123]);
   XCTAssertTrue([[document eTag] isEqualToString:@"etag value"]);
   XCTAssertNotNil([document lastUpdatedDate]);
-  XCTAssertEqualObjects([document partition], partition);
+  XCTAssertEqualObjects([document partition], kMSDataAppDocumentsPartition);
   XCTAssertNotNil([document jsonValue]);
   XCTAssertTrue([document fromDeviceCache]);
 }
