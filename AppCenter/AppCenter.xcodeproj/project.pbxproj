@@ -79,7 +79,6 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		040D76CF224D242A009AFA0C /* MSAuthTokenInfoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A7FBFD722428CD800F0C77A /* MSAuthTokenInfoTests.m */; };
 		041EFD261EE1CA98006DCD56 /* MSAbstractLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 3844FF1C1E8C2716003E9194 /* MSAbstractLog.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		041EFD271EE1CAA1006DCD56 /* MSDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 3844FF1B1E8C2716003E9194 /* MSDevice.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		041EFD281EE1CAA6006DCD56 /* MSDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3844FF1A1E8C2716003E9194 /* MSDevice.m */; };
@@ -358,8 +357,6 @@
 		04F3613F1FE1A95700A5A6D2 /* MSNoAutoAssignSessionIdLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 04F3613C1FE1A92000A5A6D2 /* MSNoAutoAssignSessionIdLog.h */; };
 		04FD126B1E4103CC007ABFE7 /* MSKeychainUtilTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FD126A1E4103CC007ABFE7 /* MSKeychainUtilTests.m */; };
 		266EDC94C8B60B195B13BF40 /* MSCustomPropertiesPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 266ED9D2BA796BA0329F4FC7 /* MSCustomPropertiesPrivate.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		2A7FBFD822428CD800F0C77A /* MSAuthTokenInfoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A7FBFD722428CD800F0C77A /* MSAuthTokenInfoTests.m */; };
-		2A7FBFD922428CD800F0C77A /* MSAuthTokenInfoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A7FBFD722428CD800F0C77A /* MSAuthTokenInfoTests.m */; };
 		2DA0322920F747CAB5668AAA /* MSChannelUnitDefaultPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 2DA030B94CD3D38725671A79 /* MSChannelUnitDefaultPrivate.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		2DA03260F92E20A2704722BA /* MSHttpClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 2DA03260792C64C0290E6E41 /* MSHttpClient.h */; };
 		2DA033F72EB5B6AA6990DA39 /* MSMetadataExtension.h in Headers */ = {isa = PBXBuildFile; fileRef = 2DA038EE68EEE1414A270ADA /* MSMetadataExtension.h */; };
@@ -1003,7 +1000,6 @@
 		04F3613C1FE1A92000A5A6D2 /* MSNoAutoAssignSessionIdLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSNoAutoAssignSessionIdLog.h; sourceTree = "<group>"; };
 		04FD126A1E4103CC007ABFE7 /* MSKeychainUtilTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSKeychainUtilTests.m; sourceTree = "<group>"; };
 		266ED9D2BA796BA0329F4FC7 /* MSCustomPropertiesPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSCustomPropertiesPrivate.h; sourceTree = "<group>"; };
-		2A7FBFD722428CD800F0C77A /* MSAuthTokenInfoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSAuthTokenInfoTests.m; sourceTree = "<group>"; };
 		2DA030746930EE3DCB6A21B3 /* MSMetadataExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSMetadataExtension.m; sourceTree = "<group>"; };
 		2DA030B94CD3D38725671A79 /* MSChannelUnitDefaultPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSChannelUnitDefaultPrivate.h; sourceTree = "<group>"; };
 		2DA03260792C64C0290E6E41 /* MSHttpClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSHttpClient.h; sourceTree = "<group>"; };
@@ -1743,7 +1739,6 @@
 				6E2395831D22EF5F00E543C8 /* Frameworks */,
 				04A140AB1ECE7F6F001CEE94 /* Support */,
 				6E363AEF1D2C84D60079043D /* Util */,
-				2A7FBFD722428CD800F0C77A /* MSAuthTokenInfoTests.m */,
 			);
 			path = AppCenterTests;
 			sourceTree = "<group>";
@@ -2817,7 +2812,6 @@
 				7FB7054D222E596200D93258 /* MSMockReachability.m in Sources */,
 				0446DF1B1F3B864600C8E338 /* MSHttpUtilTests.m in Sources */,
 				0446DF1C1F3B864600C8E338 /* MSMockLog.m in Sources */,
-				040D76CF224D242A009AFA0C /* MSAuthTokenInfoTests.m in Sources */,
 				9CB67DAE22139A0B006E20AC /* MSAuthTokenContextTests.m in Sources */,
 				35DFC23E2170052D00455589 /* MSTypedPropertyTests.m in Sources */,
 				0446DF1D1F3B864600C8E338 /* MSChannelGroupDefaultTests.m in Sources */,
@@ -2883,7 +2877,6 @@
 				7FB7054C222E596100D93258 /* MSMockReachability.m in Sources */,
 				046AEAEB1ECA562A00CBE511 /* MSMockLog.m in Sources */,
 				8087362D20C1DE24004C4157 /* MSEncrypterTests.m in Sources */,
-				2A7FBFD922428CD800F0C77A /* MSAuthTokenInfoTests.m in Sources */,
 				9CB67DAD22139A0B006E20AC /* MSAuthTokenContextTests.m in Sources */,
 				049378421FE4914D000ADBAF /* MSSessionContextTests.m in Sources */,
 				046AEAEC1ECA562A00CBE511 /* MSChannelGroupDefaultTests.m in Sources */,
@@ -3107,7 +3100,6 @@
 				7FB7054B222E595F00D93258 /* MSMockReachability.m in Sources */,
 				6E48A5A71D383893006E8B5F /* MSChannelGroupDefaultTests.m in Sources */,
 				35DFC2372170051900455589 /* MSDoubleTypedPropertyTests.m in Sources */,
-				2A7FBFD822428CD800F0C77A /* MSAuthTokenInfoTests.m in Sources */,
 				9CB67DAC22139A0B006E20AC /* MSAuthTokenContextTests.m in Sources */,
 				58603867BA3B4B1CB87D0E5D /* MSAbstractLogTests.m in Sources */,
 				35DFC2312170044A00455589 /* MSBooleanTypedPropertyTests.m in Sources */,

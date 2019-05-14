@@ -3,6 +3,7 @@
 
 #import "MSDataConstants.h"
 #import "MSDataError.h"
+#import "MSDataErrors.h"
 #import "MSDictionaryDocument.h"
 #import "MSDocumentUtils.h"
 #import "MSTestFrameworks.h"
@@ -158,6 +159,40 @@
   XCTAssertEqual([document documentId], @"document-id");
 }
 
+- (void)testDocumentWrapperFromDictionaryWithDataError {
+
+  // If
+  NSString *eTag = @"etag";
+  NSString *partition = @"partition";
+  NSString *documentId = @"docId";
+  NSString *pendingOperation = @"pendingOperation";
+  NSMutableDictionary *documentDictionary = [NSMutableDictionary new];
+  documentDictionary[@"shouldFail"] = [NSSet set];
+  NSDictionary *dictionary = @{ @"document": documentDictionary };
+
+  // When
+  MSDocumentWrapper *document = [MSDocumentUtils documentWrapperFromDictionary:dictionary
+                                                                  documentType:[NSString class]
+                                                                          eTag:eTag
+                                                               lastUpdatedDate:[NSDate date]
+                                                                     partition:partition
+                                                                    documentId:documentId
+                                                              pendingOperation:pendingOperation
+                                                               fromDeviceCache:NO];
+
+  // Then
+  XCTAssertNotNil(document);
+  XCTAssertNotNil([document error]);
+  XCTAssertTrue([[document error] isKindOfClass:[MSDataError class]]);
+  XCTAssertNotNil([document error].innerError);
+  XCTAssertEqual([document error].innerError.code, MSACDataErrorJSONSerializationFailed);
+  XCTAssertEqualObjects(document.documentId, documentId);
+  XCTAssertEqualObjects(document.partition, partition);
+  XCTAssertEqualObjects(document.eTag, eTag);
+  XCTAssertFalse(document.fromDeviceCache);
+  XCTAssertNotNil(document.lastUpdatedDate);
+}
+
 - (void)testDocumentWrapperFromDataNull {
 
   // If
@@ -198,7 +233,7 @@
   XCTAssertNil([document jsonValue]);
 }
 
-- (void)testDocumentWrapperFromDocumentDataDeserializationßError {
+- (void)testDocumentWrapperFromDocumentDataDeserializationError {
 
   // If
   NSData *data = [self jsonFixture:@"invalidTestDocument"];
@@ -217,11 +252,11 @@
   // Then
   XCTAssertNotNil(document);
   XCTAssertNotNil([document error]);
-  XCTAssertEqual([document documentId], @"document-id");
+  XCTAssertEqualObjects([document documentId], @"document-id");
   XCTAssertNil([document deserializedValue]);
-  XCTAssertNil([document eTag]);
+  XCTAssertEqualObjects([document eTag], @"etag");
   XCTAssertNil([document lastUpdatedDate]);
-  XCTAssertNil([document partition]);
+  XCTAssertEqualObjects([document partition], @"partition");
   XCTAssertNil([document jsonValue]);
 }
 
