@@ -34,7 +34,6 @@
 
 enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
 
-
 @interface AppDelegate () <
 #if GCC_PREPROCESSOR_MACRO_PUPPET
     MSAnalyticsDelegate,
