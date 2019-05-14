@@ -26,6 +26,17 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
 
     static let allValues = [Default, Normal, Critical, Invalid]
   }
+  
+  enum Latency: String {
+    case Default = "Default"
+    case Min_10 = "10 Minutes"
+    case Hour_1 = "1 Hour"
+    case Hour_8 = "8 Hour"
+    case Day_1 = "1 Day"
+    
+    static let allValues = [Default, Min_10, Hour_1, Hour_8, Day_1]
+    static let allTimeValues = [3, 10*60, 1*60*60, 8*60*60, 24*60*60]
+  }
 
   @IBOutlet weak var enabled: UISwitch!
   @IBOutlet weak var eventName: UITextField!
@@ -35,13 +46,15 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
   @IBOutlet weak var priorityField: UITextField!
   @IBOutlet weak var countLabel: UILabel!
   @IBOutlet weak var countSlider: UISlider!
-
+  @IBOutlet weak var latencyField: UITextField!
+  
   var appCenter: AppCenterDelegate!
   var eventPropertiesSection: EventPropertiesTableSection!
   @objc(analyticsResult) var analyticsResult: MSAnalyticsResult? = nil
+  private var latencyPicker: MSEnumPicker<Latency>?
   private var priorityPicker: MSEnumPicker<Priority>?
   private var priority = Priority.Default
-
+  private var latency = Latency.Default
   private var kEventPropertiesSectionIndex: Int = 2
   private var kResultsPageIndex: Int = 2
 
@@ -60,6 +73,8 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
     self.priorityField.text = self.priority.rawValue
     self.priorityField.tintColor = UIColor.clear
     self.countLabel.text = "Count: \(Int(countSlider.value))"
+    
+    initLatencyPicker()
     
     // Disable results page.
     #if !ACTIVE_COMPILATION_CONDITION_PUPPET
@@ -223,5 +238,19 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
       return eventPropertiesSection.tableView(tableView, cellForRowAt:indexPath)
     }
     return super.tableView(tableView, cellForRowAt: indexPath)
+  }
+  
+  func initLatencyPicker() {
+    let latencyPosition = Latency.allTimeValues.index(of: UserDefaults.standard.integer(forKey: kMSTransmissionIterval))
+    self.latencyPicker = MSEnumPicker<Latency>(
+    textField: latencyField,
+    allValues: Latency.allValues,
+    onChange: { index in
+      UserDefaults.standard.setValue(Latency.allTimeValues[index], forKey: kMSTransmissionIterval)
+    })
+    self.latency = Latency.allValues[latencyPosition ?? 0]
+    self.latencyField.delegate = self.latencyPicker
+    self.latencyField.text = self.latency.rawValue
+    self.latencyField.tintColor = UIColor.clear
   }
 }
