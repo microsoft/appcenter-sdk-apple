@@ -10,6 +10,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+// The Id suffix for critical events.
+static NSString *const kMSCriticalChannelSuffix = @"critical";
+
 @interface MSAnalytics () <MSSessionTrackerDelegate>
 
 /**
@@ -37,6 +40,16 @@ NS_ASSUME_NONNULL_BEGIN
  * The channel unit for common schema logs.
  */
 @property(nonatomic) id<MSChannelUnitProtocol> oneCollectorChannelUnit;
+
+/**
+ * The channel unit for critical common schema logs.
+ */
+@property(nonatomic) id<MSChannelUnitProtocol> oneCollectorCriticalChannelUnit;
+
+/**
+ * Critical events channel unit.
+ */
+@property(nonatomic) id<MSChannelUnitProtocol> criticalChannelUnit;
 
 /**
  * Track an event.

@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "MSAnalytics.h"
 #import "MSAnalytics+Validation.h"
 #import "MSAnalyticsCategory.h"
 #import "MSAnalyticsConstants.h"
@@ -97,6 +96,12 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
     self.defaultTransmissionTarget = [self createTransmissionTargetForToken:token];
   }
 
+  // Add extra channel for critical events.
+  NSString *criticalGroupId = [NSString stringWithFormat:@"%@_%@", kMSGroupId, kMSCriticalChannelSuffix];
+  MSChannelUnitConfiguration *channelUnitConfiguration =
+      [[MSChannelUnitConfiguration alloc] initDefaultConfigurationWithGroupId:criticalGroupId];
+  self.criticalChannelUnit = [self.channelGroup addChannelUnitWithConfiguration:channelUnitConfiguration];
+
   // Set up swizzling for auto page tracking.
   [MSAnalyticsCategory activateCategory];
   MSLogVerbose([MSAnalytics logTag], @"Started Analytics service.");
@@ -123,6 +128,7 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
 
 - (void)applyEnabledState:(BOOL)isEnabled {
   [super applyEnabledState:isEnabled];
+  [self.criticalChannelUnit setEnabled:isEnabled andDeleteDataOnDisabled:YES];
   if (isEnabled) {
     if (self.startedFromApplication) {
       [self resume];
@@ -319,6 +325,7 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
   @synchronized(self) {
     if ([self canBeUsed]) {
       [self.channelUnit pauseWithIdentifyingObject:self];
+      [self.criticalChannelUnit pauseWithIdentifyingObject:self];
     }
   }
 }
@@ -327,6 +334,7 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
   @synchronized(self) {
     if ([self canBeUsed]) {
       [self.channelUnit resumeWithIdentifyingObject:self];
+      [self.criticalChannelUnit resumeWithIdentifyingObject:self];
     }
   }
 }
@@ -376,9 +384,7 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
 }
 
 - (void)sendLog:(id<MSLog>)log flags:(MSFlags)flags {
-
-  // Send log to log manager.
-  [self.channelUnit enqueueItem:log flags:flags];
+  [(flags & MSFlagsCritical) != 0 ? self.criticalChannelUnit : self.channelUnit enqueueItem:log flags:flags];
 }
 
 - (void)setTransmissionInterval:(NSUInteger)interval {
@@ -419,15 +425,13 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
 }
 
 - (void)pauseTransmissionTargetForToken:(NSString *)token {
-  if (self.oneCollectorChannelUnit) {
-    [self.oneCollectorChannelUnit pauseSendingLogsWithToken:token];
-  }
+  [self.oneCollectorChannelUnit pauseSendingLogsWithToken:token];
+  [self.oneCollectorCriticalChannelUnit pauseSendingLogsWithToken:token];
 }
 
 - (void)resumeTransmissionTargetForToken:(NSString *)token {
-  if (self.oneCollectorChannelUnit) {
-    [self.oneCollectorChannelUnit resumeSendingLogsWithToken:token];
-  }
+  [self.oneCollectorChannelUnit resumeSendingLogsWithToken:token];
+  [self.oneCollectorCriticalChannelUnit resumeSendingLogsWithToken:token];
 }
 
 - (id<MSChannelUnitProtocol>)oneCollectorChannelUnit {
@@ -436,6 +440,15 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
     self.oneCollectorChannelUnit = [self.channelGroup channelUnitForGroupId:oneCollectorGroupId];
   }
   return _oneCollectorChannelUnit;
+}
+
+- (id<MSChannelUnitProtocol>)oneCollectorCriticalChannelUnit {
+  if (!_oneCollectorCriticalChannelUnit) {
+    NSString *oneCollectorCriticalGroupId =
+        [NSString stringWithFormat:@"%@_%@%@", self.groupId, kMSCriticalChannelSuffix, kMSOneCollectorGroupIdSuffix];
+    self.oneCollectorCriticalChannelUnit = [self.channelGroup channelUnitForGroupId:oneCollectorCriticalGroupId];
+  }
+  return _oneCollectorCriticalChannelUnit;
 }
 
 + (void)resetSharedInstance {
