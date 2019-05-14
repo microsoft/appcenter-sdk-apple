@@ -1,10 +1,20 @@
 # App Center SDK for iOS and macOS Change Log
 
 ## Version 2.0.2 (Under development)
-	
-### App Center Data
+
+### AppCenter
+
+* **[Fix]** Remove Keychain permission pop-up on macOS.
+
+### AppCenterAnalytics
+
+* **[Feature]** Support setting latency of sending events via `[MSAnalytics setTransmissionInterval:]`.
+
+### AppCenterData
 
 * **[Fix]** Fix an issue where invalid characters in the document ID are accepted at creation time but causing errors while trying to read or delete the document. The characters are `#`, `\`, `/`, `?`, and all whitespaces.
+
+___
 
 ## Version 2.0.1
 
@@ -20,7 +30,7 @@ The App Center Data service provides functionality enabling developers to persis
 
 ### AppCenterCrashes
 
-* **[Feature]** After calling `[MSAuth signInWithCompletionHandler:]`, the next crashes are associated with an `accountId` corresponding to the signed in user. This is a different field than the `userId` set by `[MSAppCenter setUserId:]`. Calling `[MSAuth signOut]` stops the `accountId` association for the next crashes. 
+* **[Feature]** After calling `[MSAuth signInWithCompletionHandler:]`, the next crashes are associated with an `accountId` corresponding to the signed in user. This is a different field than the `userId` set by `[MSAppCenter setUserId:]`. Calling `[MSAuth signOut]` stops the `accountId` association for the next crashes.
 * **[Fix]** Print an error and return immediately when calling `[MSCrashes notifyWithUserConfirmation:]` with confirmation handlers not implemented.
 
 ### AppCenterDistribute
@@ -67,7 +77,7 @@ ___
 ### AppCenter
 
 * **[Fix]** Fix a possible deadlock if the SDK is started from a background thread.
-* **[Feature]** Add class method  `+ [MSAppCenter setCountryCode:]` that allows manually setting the country code on platforms where there is no carrier information available. 
+* **[Feature]** Add class method  `+ [MSAppCenter setCountryCode:]` that allows manually setting the country code on platforms where there is no carrier information available.
 
 ___
 

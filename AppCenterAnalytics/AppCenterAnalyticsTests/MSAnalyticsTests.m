@@ -358,6 +358,20 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   OCMVerifyAll(analyticsMock);
 }
 
+- (void)testAnalyticsLogsVerificationIsCalledWithWrongClass {
+
+  // If
+  NSObject *notAnalyticsLog = [NSObject new];
+
+  // When
+  BOOL wrongClass = [MSLogWithNameAndProperties isEqual:notAnalyticsLog];
+  BOOL wrongType = [MSLogWithNameAndProperties isEqual:@"invalid equal test"];
+
+  // Then
+  XCTAssertFalse(wrongClass);
+  XCTAssertFalse(wrongType);
+}
+
 - (void)testTrackEventWithoutProperties {
 
   // If
@@ -1273,6 +1287,21 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 
   // Then
   XCTAssertTrue([MSAnalytics sharedInstance].sessionTracker.started);
+}
+
+- (void)testSessionTrackerStartedWithToken {
+
+  // When
+  [MSAppCenter startFromLibraryWithServices:@ [[MSAnalytics class]]];
+
+  // Then
+  XCTAssertNil([MSAnalytics sharedInstance].defaultTransmissionTarget);
+
+  // When
+  [[MSAnalytics sharedInstance] updateConfigurationWithAppSecret:kMSTestAppSecret transmissionTargetToken:kMSTestTransmissionToken];
+
+  // Then
+  XCTAssertNotNil([MSAnalytics sharedInstance].defaultTransmissionTarget);
 }
 
 - (void)testAutoPageTrackingWhenStartedFromLibrary {

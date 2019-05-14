@@ -1876,7 +1876,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   NSError *expiredError = [NSError errorWithDomain:kMSACDataErrorDomain code:MSACDataErrorLocalDocumentExpired userInfo:nil];
   id<MSDocumentStore> localStorageMock = OCMProtocolMock(@protocol(MSDocumentStore));
   self.sut.dataOperationProxy.documentStore = localStorageMock;
-  MSDocumentWrapper *expiredDocument = [[MSDocumentWrapper alloc] initWithError:expiredError documentId:@"4"];
+  MSDocumentWrapper *expiredDocument = [[MSDocumentWrapper alloc] initWithError:expiredError partition:nil documentId:@"4"];
   OCMStub([localStorageMock readWithToken:tokenResult documentId:OCMOCK_ANY documentType:OCMOCK_ANY]).andReturn(expiredDocument);
 
   // Mock CosmosDB requests.
@@ -2003,7 +2003,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   MSDataError *dataError = [[MSDataError alloc] initWithErrorCode:MSACDataErrorLocalDocumentExpired innerError:nil message:nil];
   id<MSDocumentStore> localStorageMock = OCMProtocolMock(@protocol(MSDocumentStore));
   self.sut.dataOperationProxy.documentStore = localStorageMock;
-  MSDocumentWrapper *expiredDocument = [[MSDocumentWrapper alloc] initWithError:dataError documentId:@"4"];
+  MSDocumentWrapper *expiredDocument = [[MSDocumentWrapper alloc] initWithError:dataError partition:nil documentId:@"4"];
   OCMStub([localStorageMock readWithToken:tokenResult documentId:OCMOCK_ANY documentType:OCMOCK_ANY]).andReturn(expiredDocument);
 
   // When
