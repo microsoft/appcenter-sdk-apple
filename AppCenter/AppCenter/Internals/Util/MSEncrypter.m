@@ -126,7 +126,7 @@
   NSString *expirationIso = [MSUtility dateToISO8601:expiration];
 
   // Format is {keyTag}/{expiration as iso}
-  NSString *keyMetadata = [@[newKeyTag, expirationIso] componentsJoinedByString:kMSEncryptionMetadataInternalSeparator];
+  NSString *keyMetadata = [@[ newKeyTag, expirationIso ] componentsJoinedByString:kMSEncryptionMetadataInternalSeparator];
   [[MSUserDefaults shared] setObject:keyMetadata forKey:kMSEncryptionKeyMetadataKey];
 }
 
@@ -148,15 +148,19 @@
   return key;
 }
 
-+ (NSData * _Nullable)performCryptoOperation:(CCOperation)operation input:(NSData *)input initializationVector:(NSData *)initializationVector key:(NSData *)key {
++ (NSData *_Nullable)performCryptoOperation:(CCOperation)operation
+                                      input:(NSData *)input
+                       initializationVector:(NSData *)initializationVector
+                                        key:(NSData *)key {
   NSData *result;
 
   // Create a buffer whose size is at least one block plus 1. This is not needed for decryption, but it works.
   size_t outputBufferSize = [input length] + kCCBlockSizeAES128 + 1;
   uint8_t *outputBuffer = malloc(outputBufferSize * sizeof(uint8_t));
   size_t numBytesNeeded = 0;
-  CCCryptorStatus status = CCCrypt(operation, kMSEncryptionAlgorithm, kCCOptionPKCS7Padding, [key bytes], kMSEncryptionKeySize,
-                                   [initializationVector bytes], [input bytes], input.length, outputBuffer, outputBufferSize, &numBytesNeeded);
+  CCCryptorStatus status =
+      CCCrypt(operation, kMSEncryptionAlgorithm, kCCOptionPKCS7Padding, [key bytes], kMSEncryptionKeySize, [initializationVector bytes],
+              [input bytes], input.length, outputBuffer, outputBufferSize, &numBytesNeeded);
   if (status != kCCSuccess) {
 
     // Do not print the status; it is a security requirement that specific crypto errors are not printed.
@@ -202,7 +206,7 @@
 + (NSData *)getMetadataStringWithKeyTag:(NSString *)keyTag {
 
   // Format is {key tag}/{algorithm}/{cipher mode}/{padding mode}/{key length}
-  NSArray *metadata = @[keyTag, kMSEncryptionAlgorithmName, kMSEncryptionCipherMode, kMSEncryptionPaddingMode, @(kMSEncryptionKeySize)];
+  NSArray *metadata = @[ keyTag, kMSEncryptionAlgorithmName, kMSEncryptionCipherMode, kMSEncryptionPaddingMode, @(kMSEncryptionKeySize) ];
   NSString *metadataString = [metadata componentsJoinedByString:kMSEncryptionMetadataInternalSeparator];
   return [metadataString dataUsingEncoding:NSUTF8StringEncoding];
 }

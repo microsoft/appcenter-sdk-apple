@@ -58,7 +58,7 @@
   XCTAssertEqualObjects(metadata, expectedMetadata);
 
   // Extract cipher text. Add 1 for the delimiter.
-  size_t metadataAndIvLength =  metadataLength + 1 + kCCBlockSizeAES128;
+  size_t metadataAndIvLength = metadataLength + 1 + kCCBlockSizeAES128;
   NSRange cipherTextRange = NSMakeRange(metadataAndIvLength, [encryptedData length] - metadataAndIvLength);
   NSString *cipherText = [encryptedData stringFromRange:cipherTextRange usingEncoding:NSUTF8StringEncoding];
   XCTAssertNotEqualObjects(cipherText, clearText);
@@ -103,7 +103,7 @@
   XCTAssertEqualObjects(metadata, expectedMetadata);
 
   // Extract cipher text. Add 1 for the delimiter.
-  size_t metadataAndIvLength =  metadataLength + 1 + kCCBlockSizeAES128;
+  size_t metadataAndIvLength = metadataLength + 1 + kCCBlockSizeAES128;
   NSRange cipherTextRange = NSMakeRange(metadataAndIvLength, [encryptedData length] - metadataAndIvLength);
   NSString *cipherText = [encryptedData stringFromRange:cipherTextRange usingEncoding:NSUTF8StringEncoding];
   XCTAssertNotEqualObjects(cipherText, clearText);
@@ -164,7 +164,7 @@
   XCTAssertEqualObjects(metadata, expectedMetadata);
 
   // Extract cipher text. Add 1 for the delimiter.
-  size_t metadataAndIvLength =  metadataLength + 1 + kCCBlockSizeAES128;
+  size_t metadataAndIvLength = metadataLength + 1 + kCCBlockSizeAES128;
   NSRange cipherTextRange = NSMakeRange(metadataAndIvLength, [encryptedData length] - metadataAndIvLength);
   NSString *cipherText = [encryptedData stringFromRange:cipherTextRange usingEncoding:NSUTF8StringEncoding];
   XCTAssertNotEqualObjects(cipherText, clearText);
@@ -223,7 +223,7 @@
   XCTAssertEqualObjects(metadata, expectedMetadata);
 
   // Extract cipher text. Add 1 for the delimiter.
-  size_t metadataAndIvLength =  metadataLength + 1 + kCCBlockSizeAES128;
+  size_t metadataAndIvLength = metadataLength + 1 + kCCBlockSizeAES128;
   NSRange cipherTextRange = NSMakeRange(metadataAndIvLength, [encryptedData length] - metadataAndIvLength);
   NSString *cipherText = [encryptedData stringFromRange:cipherTextRange usingEncoding:NSUTF8StringEncoding];
   XCTAssertNotEqualObjects(cipherText, clearText);
@@ -292,7 +292,7 @@
   XCTAssertEqualObjects(metadata, expectedMetadata);
 
   // Extract cipher text. Add 1 for the delimiter.
-  size_t metadataAndIvLength =  metadataLength + 1 + kCCBlockSizeAES128;
+  size_t metadataAndIvLength = metadataLength + 1 + kCCBlockSizeAES128;
   NSRange cipherTextRange = NSMakeRange(metadataAndIvLength, [encryptedData length] - metadataAndIvLength);
   NSString *cipherText = [encryptedData stringFromRange:cipherTextRange usingEncoding:NSUTF8StringEncoding];
   XCTAssertNotEqualObjects(cipherText, clearText);
@@ -377,7 +377,7 @@
   XCTAssertEqualObjects(metadata, expectedMetadata);
 
   // Extract cipher text. Add 1 for the delimiter.
-  size_t metadataAndIvLength =  metadataLength + 1 + kCCBlockSizeAES128;
+  size_t metadataAndIvLength = metadataLength + 1 + kCCBlockSizeAES128;
   NSRange cipherTextRange = NSMakeRange(metadataAndIvLength, [encryptedData length] - metadataAndIvLength);
   NSString *cipherText = [encryptedData stringFromRange:cipherTextRange usingEncoding:NSUTF8StringEncoding];
   XCTAssertNotEqualObjects(cipherText, clearText);
