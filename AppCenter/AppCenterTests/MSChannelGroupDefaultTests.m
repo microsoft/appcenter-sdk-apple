@@ -30,7 +30,7 @@
 - (void)setUp {
   NSString *groupId = @"AppCenter";
   MSPriority priority = MSPriorityDefault;
-  float flushInterval = 1.0;
+  NSUInteger flushInterval = 3;
   NSUInteger batchSizeLimit = 10;
   NSUInteger pendingBatchesLimit = 3;
   self.ingestionMock = OCMClassMock([MSAppCenterIngestion class]);

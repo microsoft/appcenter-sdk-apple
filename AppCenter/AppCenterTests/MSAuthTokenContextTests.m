@@ -6,8 +6,8 @@
 #import "MSAuthTokenContextPrivate.h"
 #import "MSAuthTokenInfo.h"
 #import "MSAuthTokenValidityInfo.h"
-#import "MSConstants.h"
 #import "MSConstants+Internal.h"
+#import "MSConstants.h"
 #import "MSMockUserDefaults.h"
 #import "MSTestFrameworks.h"
 #import "MSUserInformation.h"
@@ -397,7 +397,9 @@
   OCMReject([delegateMock authTokenContext:OCMOCK_ANY refreshAuthTokenForAccountId:OCMOCK_ANY]);
 
   NSArray<MSAuthTokenInfo *> *authTokenHistory = @[ [[MSAuthTokenInfo alloc] initWithAuthToken:expectedAuthToken
-                                                                                              accountId:@"test" startTime:nil expiresOn:nil] ];
+                                                                                     accountId:@"test"
+                                                                                     startTime:nil
+                                                                                     expiresOn:nil] ];
   [self.sut setAuthTokenHistory:authTokenHistory];
   MSAuthTokenValidityInfo *authToken = [[MSAuthTokenValidityInfo alloc] initWithAuthToken:expectedAuthToken
                                                                                 startTime:startDate

@@ -4,6 +4,7 @@
 #import "MSAnalytics.h"
 #import "MSAnalytics+Validation.h"
 #import "MSAnalyticsCategory.h"
+#import "MSAnalyticsConstants.h"
 #import "MSAnalyticsPrivate.h"
 #import "MSAnalyticsTransmissionTargetInternal.h"
 #import "MSChannelGroupProtocol.h"
@@ -24,7 +25,7 @@
 // Service name for initialization.
 static NSString *const kMSServiceName = @"Analytics";
 
-// The group Id for storage.
+// The group Id for Analytics.
 static NSString *const kMSGroupId = @"Analytics";
 
 // Singleton
@@ -51,13 +52,11 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
 
     // Set defaults.
     _autoPageTrackingEnabled = NO;
+    _flushInterval = kMSFlushIntervalDefault;
 
     // Init session tracker.
     _sessionTracker = [[MSSessionTracker alloc] init];
     _sessionTracker.delegate = self;
-
-    // Init channel configuration.
-    _channelUnitConfiguration = [[MSChannelUnitConfiguration alloc] initDefaultConfigurationWithGroupId:[self groupId]];
 
     // Set up transmission target dictionary.
     _transmissionTargets = [NSMutableDictionary<NSString *, MSAnalyticsTransmissionTarget *> new];
@@ -84,6 +83,10 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
                     appSecret:(nullable NSString *)appSecret
       transmissionTargetToken:(nullable NSString *)token
               fromApplication:(BOOL)fromApplication {
+
+  // Init channel configuration.
+  self.channelUnitConfiguration = [[MSChannelUnitConfiguration alloc] initDefaultConfigurationWithGroupId:[self groupId]
+                                                                                            flushInterval:self.flushInterval];
   [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionTargetToken:token fromApplication:fromApplication];
   if (token) {
 
@@ -233,6 +236,10 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
   return [MSAnalytics sharedInstance].autoPageTrackingEnabled;
 }
 
++ (void)setTransmissionInterval:(NSUInteger)interval {
+  [[MSAnalytics sharedInstance] setTransmissionInterval:interval];
+}
+
 #pragma mark - Transmission Target
 
 + (MSAnalyticsTransmissionTarget *)transmissionTargetForToken:(NSString *)token {
@@ -372,6 +379,18 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
 
   // Send log to log manager.
   [self.channelUnit enqueueItem:log flags:flags];
+}
+
+- (void)setTransmissionInterval:(NSUInteger)interval {
+  if (self.started) {
+    MSLogError([MSAnalytics logTag], @"The transmission interval should be set before the MSAnalytics service is started.");
+    return;
+  }
+  if (interval > kMSFlushIntervalMaximum || interval < kMSFlushIntervalMinimum) {
+    MSLogError([MSAnalytics logTag], @"The transmission interval is not valid, it should be between 3 seconds and 1 day (86400 seconds).");
+    return;
+  }
+  self.flushInterval = interval;
 }
 
 - (MSAnalyticsTransmissionTarget *)transmissionTargetForToken:(NSString *)transmissionTargetToken {
