@@ -226,7 +226,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
     NSURLSessionDataTask *task = [self.session
         dataTaskWithRequest:request
           completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-            @synchronized(self) {
+            @synchronized(@"sendCallAsync") {
               NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
               if (error) {
                 MSLogDebug([MSAppCenter logTag], @"HTTP request error with code: %td, domain: %@, description: %@", error.code,
