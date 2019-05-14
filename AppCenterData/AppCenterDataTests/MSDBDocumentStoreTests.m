@@ -203,6 +203,8 @@
   // If
   MSDocumentWrapper *expectedDocumentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestDocument"]
                                                                            documentType:[MSDictionaryDocument class]
+                                                                             paritition:@"readonly"
+                                                                             documentId:@"standalonedocument1"
                                                                         fromDeviceCache:YES];
 
   // When
@@ -307,6 +309,8 @@
   int ttl = 1;
   MSDocumentWrapper *expectedDocumentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestDocument"]
                                                                            documentType:[MSDictionaryDocument class]
+                                                                             paritition:@"readonly"
+                                                                             documentId:@"standalonedocument1"
                                                                         fromDeviceCache:YES];
 
   // Mock NSDate to "freeze" time.
@@ -341,6 +345,8 @@
   // If
   MSDocumentWrapper *documentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestDocument"]
                                                                    documentType:[MSDictionaryDocument class]
+                                                                     paritition:@"readonly"
+                                                                     documentId:@"standalonedocument1"
                                                                 fromDeviceCache:YES];
 
   // When
@@ -384,6 +390,8 @@
   // If
   MSDocumentWrapper *documentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestDocument"]
                                                                    documentType:[MSDictionaryDocument class]
+                                                                     paritition:@"readonly"
+                                                                     documentId:@"standalonedocument1"
                                                                 fromDeviceCache:YES];
   [self.sut upsertWithToken:self.appToken documentWrapper:documentWrapper operation:@"CREATE" deviceTimeToLive:1];
   MSDocumentWrapper *expectedDocumentWrapper = [self.sut readWithToken:self.appToken
@@ -409,6 +417,8 @@
   // If
   MSDocumentWrapper *documentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestDocument"]
                                                                    documentType:[MSDictionaryDocument class]
+                                                                     paritition:@"readonly"
+                                                                     documentId:@"standalonedocument1"
                                                                 fromDeviceCache:YES];
   [self.sut createUserStorageWithAccountId:self.userToken.accountId];
   [self.sut upsertWithToken:self.userToken documentWrapper:documentWrapper operation:@"CREATE" deviceTimeToLive:1];

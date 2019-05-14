@@ -1896,6 +1896,8 @@ static NSString *const kMSDocumentIdTest = @"documentId";
       });
   MSDocumentWrapper *expectedDocumentWrapper = [MSDocumentUtils documentWrapperFromData:testCosmosDbResponse
                                                                            documentType:[MSDictionaryDocument class]
+                                                                              partition:@"readonly"
+                                                                             documentId:@"standalonedocument1"
                                                                         fromDeviceCache:NO];
 
   // When
@@ -1940,10 +1942,14 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   NSData *jsonFixture = [self jsonFixture:@"validTestDocument"];
   MSDocumentWrapper *expectedDocumentWrapper = [MSDocumentUtils documentWrapperFromData:jsonFixture
                                                                            documentType:[MSDictionaryDocument class]
+                                                                             paritition:@"readonly"
+                                                                             documentId:@"standalonedocument1"
                                                                         fromDeviceCache:NO];
 
   MSDocumentWrapper *localDocumentWrapper = OCMPartialMock([MSDocumentUtils documentWrapperFromData:jsonFixture
                                                                                        documentType:[MSDictionaryDocument class]
+                                                                                         paritition:@"readonly"
+                                                                                         documentId:@"standalonedocument1"
                                                                                     fromDeviceCache:YES]);
 
   OCMStub(localDocumentWrapper.eTag).andReturn(@"some other etag");
