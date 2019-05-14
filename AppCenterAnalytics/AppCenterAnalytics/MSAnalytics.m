@@ -97,7 +97,7 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
   }
 
   // Add extra channel for critical events.
-  NSString *criticalGroupId = [NSString stringWithFormat:@"%@_%@", kMSGroupId, kMSCriticalChannelPostfix];
+  NSString *criticalGroupId = [NSString stringWithFormat:@"%@_%@", kMSGroupId, kMSCriticalChannelSuffix];
   MSChannelUnitConfiguration *channelUnitConfiguration =
       [[MSChannelUnitConfiguration alloc] initDefaultConfigurationWithGroupId:criticalGroupId];
   self.criticalChannelUnit = [self.channelGroup addChannelUnitWithConfiguration:channelUnitConfiguration];
@@ -445,7 +445,7 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
 - (id<MSChannelUnitProtocol>)oneCollectorCriticalChannelUnit {
   if (!_oneCollectorCriticalChannelUnit) {
     NSString *oneCollectorCriticalGroupId =
-        [NSString stringWithFormat:@"%@_%@%@", self.groupId, kMSCriticalChannelPostfix, kMSOneCollectorGroupIdSuffix];
+        [NSString stringWithFormat:@"%@_%@%@", self.groupId, kMSCriticalChannelSuffix, kMSOneCollectorGroupIdSuffix];
     self.oneCollectorCriticalChannelUnit = [self.channelGroup channelUnitForGroupId:oneCollectorCriticalGroupId];
   }
   return _oneCollectorCriticalChannelUnit;

@@ -88,7 +88,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   [MSAnalytics sharedInstance].criticalChannelUnit = self.channelUnitCriticalMock;
   OCMStub([self.channelGroupMock alloc]).andReturn(self.channelGroupMock);
   OCMStub([self.channelGroupMock initWithInstallId:OCMOCK_ANY logUrl:OCMOCK_ANY]).andReturn(self.channelGroupMock);
-  OCMStub([self.channelGroupMock addChannelUnitWithConfiguration:hasProperty(@"groupId", endsWith(kMSCriticalChannelPostfix))])
+  OCMStub([self.channelGroupMock addChannelUnitWithConfiguration:hasProperty(@"groupId", endsWith(kMSCriticalChannelSuffix))])
       .andReturn(self.channelUnitCriticalMock);
   OCMStub([self.channelGroupMock addChannelUnitWithConfiguration:hasProperty(@"groupId", equalTo(kMSAnalyticsGroupId))])
       .andReturn(self.channelUnitMock);
