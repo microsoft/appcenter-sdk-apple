@@ -9,6 +9,8 @@
 #import "MSKeychainUtil.h"
 #import "MSLogger.h"
 
+static NSObject *const classLock;
+
 @interface MSEncrypter ()
 
 @property(nonatomic) NSMutableDictionary *keys;
@@ -31,7 +33,7 @@
 }
 
 - (NSData *_Nullable)encryptData:(NSData *)data {
-  NSString *keyTag = [self getCurrentKeyTag];
+  NSString *keyTag = [[self class] getCurrentKeyTag];
   NSData *key = [self getKeyWithKeyTag:keyTag];
   NSData *initializationVector = [[self class] generateInitializationVector];
   NSData *result = [[self class] performCryptoOperation:kCCEncrypt input:data initializationVector:initializationVector key:key];
@@ -98,34 +100,36 @@
   return [[self class] performCryptoOperation:kCCDecrypt input:cipherText initializationVector:initializationVector key:key];
 }
 
-- (NSString *)getCurrentKeyTag {
-  NSString *keyMetadata = [[MSUserDefaults shared] objectForKey:kMSEncryptionKeyMetadataKey];
-  if (!keyMetadata) {
-    [self rotateToNewKeyTag:kMSEncryptionKeyTagAlternate];
-    return kMSEncryptionKeyTagAlternate;
-  }
++ (NSString *)getCurrentKeyTag {
+  @synchronized(classLock) {
+    NSString *keyMetadata = [[MSUserDefaults shared] objectForKey:kMSEncryptionKeyMetadataKey];
+    if (!keyMetadata) {
+      [self rotateToNewKeyTag:kMSEncryptionKeyTagAlternate];
+      return kMSEncryptionKeyTagAlternate;
+    }
 
-  // Format is {keyTag}/{expiration as iso}
-  NSArray *keyMetadataComponents = [keyMetadata componentsSeparatedByString:kMSEncryptionMetadataInternalSeparator];
-  NSString *keyTag = keyMetadataComponents[0];
-  NSString *expirationIso = keyMetadataComponents[1];
-  NSDate *expiration = [MSUtility dateFromISO8601:expirationIso];
-  BOOL isNotExpired = [[expiration laterDate:[NSDate date]] isEqualToDate:expiration];
-  if (isNotExpired) {
+    // Format is {keyTag}/{expiration as iso}
+    NSArray *keyMetadataComponents = [keyMetadata componentsSeparatedByString:kMSEncryptionMetadataInternalSeparator];
+    NSString *keyTag = keyMetadataComponents[0];
+    NSString *expirationIso = keyMetadataComponents[1];
+    NSDate *expiration = [MSUtility dateFromISO8601:expirationIso];
+    BOOL isNotExpired = [[expiration laterDate:[NSDate date]] isEqualToDate:expiration];
+    if (isNotExpired) {
+      return keyTag;
+    }
+
+    // Key is expired and must be rotated.
+    if ([keyTag isEqualToString:kMSEncryptionKeyTagOriginal]) {
+      keyTag = kMSEncryptionKeyTagAlternate;
+    } else {
+      keyTag = kMSEncryptionKeyTagOriginal;
+    }
+    [self rotateToNewKeyTag:keyTag];
     return keyTag;
   }
-
-  // Key is expired and must be rotated.
-  if ([keyTag isEqualToString:kMSEncryptionKeyTagOriginal]) {
-    keyTag = kMSEncryptionKeyTagAlternate;
-  } else {
-    keyTag = kMSEncryptionKeyTagOriginal;
-  }
-  [self rotateToNewKeyTag:keyTag];
-  return keyTag;
 }
 
-- (void)rotateToNewKeyTag:(NSString *)newKeyTag {
++ (void)rotateToNewKeyTag:(NSString *)newKeyTag {
   NSDate *expiration = [[NSDate date] dateByAddingTimeInterval:kMSEncryptionKeyLifetimeInSeconds];
   NSString *expirationIso = [MSUtility dateToISO8601:expiration];
 
@@ -135,7 +139,12 @@
 }
 
 - (NSData *)getKeyWithKeyTag:(NSString *)keyTag {
-  NSData *key = [self.keys objectForKey:keyTag];
+  NSData *key;
+  @synchronized(self) {
+
+    // Read inside of a synchronized block because NSDictionary is not thread safe.
+    key = [self.keys objectForKey:keyTag];
+  }
 
   // If key is not cached, try loading it from Keychain.
   if (!key) {
@@ -143,11 +152,22 @@
 
     // If key is not saved in Keychain, create one and save it.
     if (!stringKey) {
-      key = [[self class] generateAndSaveKeyWithTag:keyTag];
+      @synchronized(classLock) {
+
+        // Recheck if the key has been written from another thread.
+        stringKey = [MSKeychainUtil stringForKey:keyTag];
+        if (!stringKey) {
+          key = [[self class] generateAndSaveKeyWithTag:keyTag];
+        }
+      }
     } else {
       key = [[NSData alloc] initWithBase64EncodedString:stringKey options:0];
     }
-    [self.keys setObject:key forKey:keyTag];
+    @synchronized(self) {
+
+      // Write inside of a synchronized block because NSDictionary is not thread safe.
+      [self.keys setObject:key forKey:keyTag];
+    }
   }
   return key;
 }
