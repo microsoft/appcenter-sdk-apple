@@ -23,16 +23,6 @@ enum StartupMode: Int {
   case SKIP
 }
 
-enum Latency: UInt {
-  case DEFAULT = 3
-  case MIN_10 = 600
-  case HOUR_1 = 3600
-  case HOUR_8 = 28800
-  case DAY_1 = 86400
-  
-  static let allValues = [DEFAULT, MIN_10, HOUR_1, HOUR_8, DAY_1]
-}
-
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDistributeDelegate, MSPushDelegate, UNUserNotificationCenterDelegate, CLLocationManagerDelegate {
 
@@ -85,8 +75,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
     let services = [MSAnalytics.self, MSCrashes.self, MSData.self, MSDistribute.self, MSAuth.self, MSPush.self]
     let appSecret = UserDefaults.standard.string(forKey: kMSAppSecret) ?? kMSSwiftAppSecret
     let startTarget = StartupMode(rawValue: UserDefaults.standard.integer(forKey: kMSStartTargetKey))!
-    let latencyPosition = UserDefaults.standard.integer(forKey: kMSTransmissionIterval) ?? 0;
-    MSAnalytics.setTransmissionInterval(Latency.allValues[latencyPosition].rawValue)
+    let latencyTimeValue = UserDefaults.standard.integer(forKey: kMSTransmissionIterval);
+    MSAnalytics.setTransmissionInterval(latencyTimeValue)
     switch startTarget {
     case .APPCENTER:
       MSAppCenter.start(appSecret, withServices: services)

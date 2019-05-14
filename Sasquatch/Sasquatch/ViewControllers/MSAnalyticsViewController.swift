@@ -35,6 +35,7 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
     case Day_1 = "1 Day"
     
     static let allValues = [Default, Min_10, Hour_1, Hour_8, Day_1]
+    static let allTimeValues = [3, 10*60, 1*60*60, 8*60*60, 24*60*60]
   }
 
   @IBOutlet weak var enabled: UISwitch!
@@ -240,14 +241,14 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
   }
   
   func initLatencyPicker() {
-    let latencyPosition = UserDefaults.standard.integer(forKey: kMSTransmissionIterval)
+    let latencyPosition = Latency.allTimeValues.index(of: UserDefaults.standard.integer(forKey: kMSTransmissionIterval))
     self.latencyPicker = MSEnumPicker<Latency>(
     textField: latencyField,
     allValues: Latency.allValues,
     onChange: { index in
-      UserDefaults.standard.setValue(index, forKey: kMSTransmissionIterval)
+      UserDefaults.standard.setValue(Latency.allTimeValues[index], forKey: kMSTransmissionIterval)
     })
-    self.latency = Latency.allValues[latencyPosition]
+    self.latency = Latency.allValues[latencyPosition ?? 0]
     self.latencyField.delegate = self.latencyPicker
     self.latencyField.text = self.latency.rawValue
     self.latencyField.tintColor = UIColor.clear

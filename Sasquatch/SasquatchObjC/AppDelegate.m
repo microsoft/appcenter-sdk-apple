@@ -34,15 +34,6 @@
 
 enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
 
-enum {
-  DEFAULT = 3,
-  MIN_10 = 10*60,
-  HOUR_1 = 1*60*60,
-  HOUR_8 = 8*60*60,
-  DAY_1 = 24*60*60,
-};
-
-static const int latencyValues[] = {DEFAULT, MIN_10, HOUR_1, HOUR_8, DAY_1};
 
 @interface AppDelegate () <
 #if GCC_PREPROCESSOR_MACRO_PUPPET
@@ -118,9 +109,9 @@ static const int latencyValues[] = {DEFAULT, MIN_10, HOUR_1, HOUR_8, DAY_1};
   if (logUrl) {
     [MSAppCenter setLogUrl:logUrl];
   }
-  int latencyPosition = [[[NSUserDefaults standardUserDefaults] objectForKey:kMSTransmissionIterval] intValue];
-  if (latencyPosition) {
-    [MSAnalytics setTransmissionInterval:latencyValues[latencyPosition]];
+  int latencyTimeValue = [[[NSUserDefaults standardUserDefaults] objectForKey:kMSTransmissionIterval] intValue];
+  if (latencyTimeValue) {
+    [MSAnalytics setTransmissionInterval:latencyTimeValue];
   }
   // Start App Center SDK.
   NSArray<Class> *services =
