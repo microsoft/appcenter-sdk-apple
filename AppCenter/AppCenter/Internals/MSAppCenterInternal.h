@@ -42,13 +42,25 @@ static NSString *const kMSDisableAll = @"All";
 
 @property(nonatomic) NSNumber *requestedMaxStorageSizeInBytes;
 
+/**
+ * Flag indicating if the SDK is enabled or not as a whole.
+ */
 @property(nonatomic, getter=isEnabled) BOOL enabled;
 
-@property BOOL sdkConfigured;
+/**
+ * Flag indicating if the SDK is configured or not.
+ */
+@property(nonatomic) BOOL sdkConfigured;
 
-@property BOOL configuredFromApplication;
+/**
+ * Flag indicating if the SDK is configured From Application or not.
+ */
+@property(nonatomic) BOOL configuredFromApplication;
 
-@property BOOL enabledStateUpdating;
+/**
+ * Flag indicating if the SDK is enabled state updating or not.
+ */
+@property(nonatomic) BOOL enabledStateUpdating;
 
 @property(nonatomic, copy) void (^maxStorageSizeCompletionHandler)(BOOL);
 

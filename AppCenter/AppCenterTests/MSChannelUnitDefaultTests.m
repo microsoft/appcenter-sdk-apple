@@ -1034,7 +1034,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
-                                 XCTAssertTrue([self.sut paused]);
+                                 XCTAssertTrue([self.sut isPaused]);
                                  OCMVerify([delegateMock channel:self.sut didPauseWithIdentifyingObject:ingestionMock]);
                                }];
 }
@@ -1057,7 +1057,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
-                                 XCTAssertFalse([self.sut paused]);
+                                 XCTAssertFalse([self.sut isPaused]);
                                  OCMVerify([delegateMock channel:self.sut didResumeWithIdentifyingObject:ingestionMock]);
                                }];
 }
@@ -1084,7 +1084,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
-                                 XCTAssertTrue([self.sut paused]);
+                                 XCTAssertTrue([self.sut isPaused]);
                                }];
 }
 
@@ -1111,7 +1111,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
-                                 XCTAssertFalse([self.sut paused]);
+                                 XCTAssertFalse([self.sut isPaused]);
                                }];
 }
 
@@ -1133,13 +1133,13 @@ static NSString *const kMSTestGroupId = @"GroupId";
   }
 
   // Then
-  XCTAssertTrue([self.sut paused]);
+  XCTAssertTrue([self.sut isPaused]);
 
   // When
   [self.sut resumeWithIdentifyingObjectSync:[NSObject new]];
 
   // Then
-  XCTAssertFalse([self.sut paused]);
+  XCTAssertFalse([self.sut isPaused]);
 }
 
 - (void)testResumeWithObjectThatDoesNotExistDoesNotResumeIfCurrentlyPaused {
@@ -1160,7 +1160,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
-                                 XCTAssertTrue([self.sut paused]);
+                                 XCTAssertTrue([self.sut isPaused]);
                                }];
 }
 
@@ -1170,7 +1170,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   [self.sut resumeWithIdentifyingObjectSync:[NSObject new]];
 
   // Then
-  XCTAssertFalse([self.sut paused]);
+  XCTAssertFalse([self.sut isPaused]);
 }
 
 - (void)testResumeTwiceInARowResumesWhenPaused {
@@ -1184,7 +1184,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   [self.sut resumeWithIdentifyingObjectSync:object];
 
   // Then
-  XCTAssertFalse([self.sut paused]);
+  XCTAssertFalse([self.sut isPaused]);
 }
 
 - (void)testResumeOnceResumesWhenPausedTwiceWithSingleObject {
@@ -1198,7 +1198,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   [self.sut resumeWithIdentifyingObjectSync:object];
 
   // Then
-  XCTAssertFalse([self.sut paused]);
+  XCTAssertFalse([self.sut isPaused]);
 }
 
 - (void)testPausedTargetKeysNotAlteredWhenChannelUnitPaused {

@@ -20,7 +20,7 @@ static NSString *kMSEncryptionKeyTag = @"kMSEncryptionKeyTag";
 
 @property(nonatomic) CCCryptorRef decryptorObject;
 
-@property(nonatomic) BOOL cryptorCreated;
+@property(nonatomic, getter=isCryptorCreated) BOOL cryptorCreated;
 
 @end
 

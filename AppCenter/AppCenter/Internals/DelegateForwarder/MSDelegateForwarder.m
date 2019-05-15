@@ -288,10 +288,10 @@ static NSMutableArray<dispatch_block_t> *traceBuffer = nil;
   return _enabled;
 }
 
-- (void)setEnabled:(BOOL)isEnabled {
+- (void)setEnabled:(BOOL)enabled {
   @synchronized(self) {
-    _enabled = isEnabled;
-    if (!isEnabled) {
+    _enabled = enabled;
+    if (!enabled) {
       [self.delegates removeAllObjects];
     }
   }
