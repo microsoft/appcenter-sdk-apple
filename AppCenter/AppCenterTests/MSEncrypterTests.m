@@ -34,7 +34,7 @@
   NSString *expectedMetadata = [NSString stringWithFormat:@"%@/AES/CBC/PKCS7/32", keyTag];
 
   // Save metadata to user defaults.
-  MSMockUserDefaults *mockUserDefaults = [[MSMockUserDefaults alloc] init];
+  MSMockUserDefaults *mockUserDefaults = [MSMockUserDefaults new];
   NSDate *expiration = [NSDate dateWithTimeIntervalSinceNow:10000000];
   NSString *expirationIso = [MSUtility dateToISO8601:expiration];
   NSString *keyMetadataString = [NSString stringWithFormat:@"%@/%@", keyTag, expirationIso];
@@ -43,7 +43,7 @@
   // Save key to the Keychain.
   NSString *currentKey = [self generateTestEncryptionKey];
   [MSMockKeychainUtil storeString:currentKey forKey:keyTag];
-  MSEncrypter *encrypter = [[MSEncrypter alloc] init];
+  MSEncrypter *encrypter = [MSEncrypter new];
 
   // When
   NSString *encryptedString = [encrypter encryptString:clearText];
@@ -78,7 +78,7 @@
   // If
   NSString *clearText = @"clear text";
   NSString *expectedMetadata = [NSString stringWithFormat:@"%@/AES/CBC/PKCS7/32", kMSEncryptionKeyTagAlternate];
-  MSMockUserDefaults *mockUserDefaults = [[MSMockUserDefaults alloc] init];
+  MSMockUserDefaults *mockUserDefaults = [MSMockUserDefaults new];
 
   // Mock NSDate to "freeze" time.
   NSTimeInterval timeSinceReferenceDate = NSDate.timeIntervalSinceReferenceDate;
@@ -92,7 +92,7 @@
   // Save key to the Keychain.
   NSString *currentKey = [self generateTestEncryptionKey];
   [MSMockKeychainUtil storeString:currentKey forKey:kMSEncryptionKeyTagOriginal];
-  MSEncrypter *encrypter = [[MSEncrypter alloc] init];
+  MSEncrypter *encrypter = [MSEncrypter new];
 
   // When
   NSString *encryptedString = [encrypter encryptString:clearText];
@@ -134,7 +134,7 @@
 
   // If
   NSString *clearText = @"clear text";
-  MSMockUserDefaults *mockUserDefaults = [[MSMockUserDefaults alloc] init];
+  MSMockUserDefaults *mockUserDefaults = [MSMockUserDefaults new];
   NSDate *pastDate = [NSDate dateWithTimeIntervalSince1970:0];
   NSString *currentExpirationIso = [MSUtility dateToISO8601:pastDate];
   NSString *currentKeyTag = kMSEncryptionKeyTagOriginal;
@@ -157,7 +157,7 @@
   [MSMockKeychainUtil storeString:currentKey forKey:currentKeyTag];
   NSString *expectedNewKey = [self generateTestEncryptionKey];
   [MSMockKeychainUtil storeString:expectedNewKey forKey:expectedNewKeyTag];
-  MSEncrypter *encrypter = [[MSEncrypter alloc] init];
+  MSEncrypter *encrypter = [MSEncrypter new];
 
   // When
   NSString *encryptedString = [encrypter encryptString:clearText];
@@ -199,7 +199,7 @@
 
   // If
   NSString *clearText = @"clear text";
-  MSMockUserDefaults *mockUserDefaults = [[MSMockUserDefaults alloc] init];
+  MSMockUserDefaults *mockUserDefaults = [MSMockUserDefaults new];
   NSDate *pastDate = [NSDate dateWithTimeIntervalSince1970:0];
   NSString *oldExpirationIso = [MSUtility dateToISO8601:pastDate];
   NSString *oldKey = kMSEncryptionKeyTagOriginal;
@@ -220,7 +220,7 @@
   // Save key to the Keychain.
   NSString *currentKey = [self generateTestEncryptionKey];
   [MSMockKeychainUtil storeString:currentKey forKey:oldKey];
-  MSEncrypter *encrypter = [[MSEncrypter alloc] init];
+  MSEncrypter *encrypter = [MSEncrypter new];
 
   // When
   NSString *encryptedString = [encrypter encryptString:clearText];
@@ -269,7 +269,7 @@
 
   // This cipher text contains no metadata, and no IV was used.
   NSString *cipherText = @"S6uNmq7u0eKGaU2GQPUGMQ==";
-  MSEncrypter *encrypter = [[MSEncrypter alloc] init];
+  MSEncrypter *encrypter = [MSEncrypter new];
 
   // When
   NSString *decryptedString = [encrypter decryptString:cipherText];
@@ -283,7 +283,7 @@
   // If
   NSString *clearText = @"clear text";
   NSString *expectedMetadata = [NSString stringWithFormat:@"%@/AES/CBC/PKCS7/32", kMSEncryptionKeyTagAlternate];
-  MSMockUserDefaults *mockUserDefaults = [[MSMockUserDefaults alloc] init];
+  MSMockUserDefaults *mockUserDefaults = [MSMockUserDefaults new];
 
   // Mock NSDate to "freeze" time.
   NSTimeInterval timeSinceReferenceDate = NSDate.timeIntervalSinceReferenceDate;
@@ -293,7 +293,7 @@
   OCMStub(ClassMethod([nsdateMock date])).andReturn(referenceDate);
   NSDate *expectedExpirationDate = [[NSDate date] dateByAddingTimeInterval:kMSEncryptionKeyLifetimeInSeconds];
   NSString *expectedExpirationDateIso = [MSUtility dateToISO8601:expectedExpirationDate];
-  MSEncrypter *encrypter = [[MSEncrypter alloc] init];
+  MSEncrypter *encrypter = [MSEncrypter new];
 
   // When
   NSString *encryptedString = [encrypter encryptString:clearText];
@@ -335,7 +335,7 @@
 
   // If
   NSString *clearText = @"clear text";
-  MSMockUserDefaults *mockUserDefaults = [[MSMockUserDefaults alloc] init];
+  MSMockUserDefaults *mockUserDefaults = [MSMockUserDefaults new];
 
   // Save metadata to user defaults.
   NSDate *expiration = [NSDate dateWithTimeIntervalSinceNow:10000000];
@@ -347,7 +347,7 @@
   // Save key to the Keychain.
   NSString *currentKey = [self generateTestEncryptionKey];
   [MSMockKeychainUtil storeString:currentKey forKey:keyId];
-  MSEncrypter *encrypter = [[MSEncrypter alloc] init];
+  MSEncrypter *encrypter = [MSEncrypter new];
 
   // When
   NSString *encryptedString = [encrypter encryptString:clearText];
@@ -373,7 +373,7 @@
   NSString *expectedMetadata = [NSString stringWithFormat:@"%@/AES/CBC/PKCS7/32", keyTag];
 
   // Save metadata to user defaults.
-  MSMockUserDefaults *mockUserDefaults = [[MSMockUserDefaults alloc] init];
+  MSMockUserDefaults *mockUserDefaults = [MSMockUserDefaults new];
   NSDate *expiration = [NSDate dateWithTimeIntervalSinceNow:10000000];
   NSString *expirationIso = [MSUtility dateToISO8601:expiration];
   NSString *keyMetadataString = [NSString stringWithFormat:@"%@/%@", keyTag, expirationIso];
@@ -382,7 +382,7 @@
   // Save key to the Keychain.
   NSString *currentKey = [self generateTestEncryptionKey];
   [MSMockKeychainUtil storeString:currentKey forKey:keyTag];
-  MSEncrypter *encrypter = [[MSEncrypter alloc] init];
+  MSEncrypter *encrypter = [MSEncrypter new];
 
   // When
   NSString *encryptedString = [encrypter encryptString:clearText];

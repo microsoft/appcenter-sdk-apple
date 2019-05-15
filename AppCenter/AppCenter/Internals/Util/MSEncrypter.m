@@ -33,12 +33,12 @@ static NSObject *const classLock;
 }
 
 - (NSData *_Nullable)encryptData:(NSData *)data {
-  NSString *keyTag = [[self class] getCurrentKeyTag];
+  NSString *keyTag = [MSEncrypter getCurrentKeyTag];
   NSData *key = [self getKeyWithKeyTag:keyTag];
-  NSData *initializationVector = [[self class] generateInitializationVector];
-  NSData *result = [[self class] performCryptoOperation:kCCEncrypt input:data initializationVector:initializationVector key:key];
+  NSData *initializationVector = [MSEncrypter generateInitializationVector];
+  NSData *result = [MSEncrypter performCryptoOperation:kCCEncrypt input:data initializationVector:initializationVector key:key];
   if (result) {
-    NSData *metadata = [[self class] getMetadataStringWithKeyTag:keyTag];
+    NSData *metadata = [MSEncrypter getMetadataStringWithKeyTag:keyTag];
     NSMutableData *mutableData = [NSMutableData new];
     [mutableData appendData:metadata];
     [mutableData appendBytes:(const void *)[kMSEncryptionMetadataSeparator UTF8String] length:1];
@@ -78,31 +78,30 @@ static NSObject *const classLock;
   NSData *key;
   NSData *initializationVector;
   NSData *cipherText;
-  if (!metadata) {
-
-    // If there is no metadata, this is old data, so use the old key and an empty initialization vector.
-    key = [self getKeyWithKeyTag:kMSEncryptionKeyTagOriginal];
-    initializationVector = nil;
-    cipherText = data;
-  } else {
+  if (metadata) {
 
     // Extract key from metadata.
     NSString *keyTag = [metadata componentsSeparatedByString:kMSEncryptionMetadataInternalSeparator][0];
-    NSRange ivRange = NSMakeRange(metadataLocation + 1, kCCBlockSizeAES128);
 
     // Metadata, separator, and initialization vector.
     size_t cipherTextPrefixLength = metadataLocation + 1 + kCCBlockSizeAES128;
     NSRange cipherTextRange = NSMakeRange(cipherTextPrefixLength, [data length] - cipherTextPrefixLength);
+    NSRange ivRange = NSMakeRange(metadataLocation + 1, kCCBlockSizeAES128);
     initializationVector = [data subdataWithRange:ivRange];
     cipherText = [data subdataWithRange:cipherTextRange];
     key = [self getKeyWithKeyTag:keyTag];
+  } else {
+
+    // If there is no metadata, this is old data, so use the old key and an empty initialization vector.
+    key = [self getKeyWithKeyTag:kMSEncryptionKeyTagOriginal];
+    cipherText = data;
   }
-  return [[self class] performCryptoOperation:kCCDecrypt input:cipherText initializationVector:initializationVector key:key];
+  return [MSEncrypter performCryptoOperation:kCCDecrypt input:cipherText initializationVector:initializationVector key:key];
 }
 
 + (NSString *)getCurrentKeyTag {
   @synchronized(classLock) {
-    NSString *keyMetadata = [[MSUserDefaults shared] objectForKey:kMSEncryptionKeyMetadataKey];
+    NSString *keyMetadata = [MS_USER_DEFAULTS objectForKey:kMSEncryptionKeyMetadataKey];
     if (!keyMetadata) {
       [self rotateToNewKeyTag:kMSEncryptionKeyTagAlternate];
       return kMSEncryptionKeyTagAlternate;
@@ -135,7 +134,7 @@ static NSObject *const classLock;
 
   // Format is {keyTag}/{expiration as iso}.
   NSString *keyMetadata = [@[ newKeyTag, expirationIso ] componentsJoinedByString:kMSEncryptionMetadataInternalSeparator];
-  [[MSUserDefaults shared] setObject:keyMetadata forKey:kMSEncryptionKeyMetadataKey];
+  [MS_USER_DEFAULTS setObject:keyMetadata forKey:kMSEncryptionKeyMetadataKey];
 }
 
 - (NSData *)getKeyWithKeyTag:(NSString *)keyTag {
@@ -157,7 +156,7 @@ static NSObject *const classLock;
         // Recheck if the key has been written from another thread.
         stringKey = [MSKeychainUtil stringForKey:keyTag];
         if (!stringKey) {
-          key = [[self class] generateAndSaveKeyWithTag:keyTag];
+          key = [MSEncrypter generateAndSaveKeyWithTag:keyTag];
         }
       }
     } else {
@@ -192,7 +191,7 @@ static NSObject *const classLock;
   } else {
     result = [NSData dataWithBytes:outputBuffer length:numBytesNeeded];
     if (!result) {
-      MSLogWarning([MSAppCenter logTag], @"Could not create NSData object from encrypted or decrypted bytes.");
+      MSLogError([MSAppCenter logTag], @"Could not create NSData object from encrypted or decrypted bytes.");
     }
   }
   free(outputBuffer);
@@ -203,7 +202,6 @@ static NSObject *const classLock;
   NSData *resultKey = nil;
   uint8_t *keyBytes = nil;
   keyBytes = malloc(kMSEncryptionKeySize * sizeof(uint8_t));
-  memset((void *)keyBytes, 0x0, kMSEncryptionKeySize);
   OSStatus status = SecRandomCopyBytes(kSecRandomDefault, kMSEncryptionKeySize, keyBytes);
   if (status != errSecSuccess) {
     MSLogError([MSAppCenter logTag], @"Error generating encryption key. Error code: %d", (int)status);
@@ -219,7 +217,6 @@ static NSObject *const classLock;
 
 + (NSData *)generateInitializationVector {
   uint8_t *ivBytes = malloc(kCCBlockSizeAES128 * sizeof(uint8_t));
-  memset((void *)ivBytes, 0x0, kCCBlockSizeAES128);
   OSStatus status = SecRandomCopyBytes(kSecRandomDefault, kCCBlockSizeAES128, ivBytes);
   if (status != errSecSuccess) {
     MSLogError([MSAppCenter logTag], @"Error generating initialization vector. Error code: %d", (int)status);
