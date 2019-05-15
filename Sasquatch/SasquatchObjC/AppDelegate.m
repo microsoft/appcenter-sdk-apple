@@ -60,6 +60,7 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
       [(MSAnalyticsViewController *)controller setAnalyticsResult:self.analyticsResult];
     }
   }
+  [MSAppCenter setLogUrl:kMSIntLogUrl];
   [MSAuth setConfigUrl:kMSIntConfigUrl];
   [MSData setTokenExchangeUrl:kMSIntTokenExchangeUrl];
   [MSDistribute setApiUrl:kMSIntApiUrl];
