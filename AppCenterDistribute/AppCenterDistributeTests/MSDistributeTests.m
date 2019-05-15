@@ -1322,8 +1322,7 @@ static NSURL *sfURL;
     session = [SFAuthenticationSession class];
   }
   NSURL *fakeURL = [NSURL URLWithString:@"https://fakeurl.com"];
-  OCMStub([[MSDistribute sharedInstance] openURL:fakeURL]);
-
+  
   // Then
   XCTAssertNil([MSDistribute sharedInstance].authenticationSession);
 
@@ -1777,6 +1776,32 @@ static NSURL *sfURL;
   // Then
   OCMVerify([distributeMock closeApp]);
 
+  // Clear
+  [distributeMock stopMocking];
+  [utilityMock stopMocking];
+}
+
+- (void)testStartDownloadSucceeded {
+
+  // If
+  MSReleaseDetails *details = [MSReleaseDetails new];
+  id distributeMock = OCMPartialMock(self.sut);
+  OCMStub([distributeMock closeApp]).andDo(nil);
+  id utilityMock = OCMClassMock([MSUtility class]);
+  OCMStub(ClassMethod([utilityMock sharedAppOpenUrl:OCMOCK_ANY options:OCMOCK_ANY completionHandler:OCMOCK_ANY]))
+  .andDo(^(NSInvocation *invocation) {
+    void (^handler)(MSOpenURLState);
+    [invocation getArgument:&handler atIndex:4];
+    handler(MSOpenURLStateSucceed);
+  });
+  
+  // When
+  details.mandatoryUpdate = YES;
+  [distributeMock startDownload:details];
+  
+  // Then
+  OCMVerify([distributeMock closeApp]);
+  
   // Clear
   [distributeMock stopMocking];
   [utilityMock stopMocking];
