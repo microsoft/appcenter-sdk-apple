@@ -108,7 +108,7 @@ static NSObject *const classLock;
       return kMSEncryptionKeyTagAlternate;
     }
 
-    // Format is {keyTag}/{expiration as iso}
+    // Format is {keyTag}/{expiration as iso}.
     NSArray *keyMetadataComponents = [keyMetadata componentsSeparatedByString:kMSEncryptionMetadataInternalSeparator];
     NSString *keyTag = keyMetadataComponents[0];
     NSString *expirationIso = keyMetadataComponents[1];
@@ -133,7 +133,7 @@ static NSObject *const classLock;
   NSDate *expiration = [[NSDate date] dateByAddingTimeInterval:kMSEncryptionKeyLifetimeInSeconds];
   NSString *expirationIso = [MSUtility dateToISO8601:expiration];
 
-  // Format is {keyTag}/{expiration as iso}
+  // Format is {keyTag}/{expiration as iso}.
   NSString *keyMetadata = [@[ newKeyTag, expirationIso ] componentsJoinedByString:kMSEncryptionMetadataInternalSeparator];
   [[MSUserDefaults shared] setObject:keyMetadata forKey:kMSEncryptionKeyMetadataKey];
 }
