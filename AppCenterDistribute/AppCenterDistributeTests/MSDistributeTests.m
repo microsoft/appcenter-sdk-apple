@@ -291,10 +291,10 @@ static NSURL *sfURL;
 }
 
 - (void)testInitializationPriority {
-  
+
   // If
   MSDistribute *distribute = [MSDistribute sharedInstance];
-  
+
   // Then
   XCTAssertEqual([distribute initializationPriority], MSInitializationPriorityHigh);
 }
@@ -1296,26 +1296,26 @@ static NSURL *sfURL;
 }
 
 - (void)testRequestInstallInformationNotifiesUserNonCheck {
-  
+
   // If
   id distributeMock = OCMPartialMock(self.sut);
   OCMStub([distributeMock checkForUpdatesAllowed]).andReturn(FALSE);
   id reachabilityMock = OCMClassMock([MS_Reachability class]);
   OCMStub([reachabilityMock reachabilityForInternetConnection]).andReturn(FALSE);
-  
+
   // When
   [distributeMock requestInstallInformationWith:OCMOCK_ANY];
-  
+
   // Then
   // This is only called when checkForUpdatesAllowed returns TRUE.
   OCMReject([reachabilityMock reachabilityForInternetConnection]);
-  
+
   // Clear
   [distributeMock stopMocking];
 }
 
 - (void)testOpenURLInAuthenticationSession {
-  
+
   // If
   id session;
   if (@available(iOS 12, *)) {
@@ -1323,13 +1323,13 @@ static NSURL *sfURL;
   }
   NSURL *fakeURL = [NSURL URLWithString:@"https://fakeurl.com"];
   OCMStub([[MSDistribute sharedInstance] openURL:fakeURL]);
-  
+
   // Then
   XCTAssertNil([MSDistribute sharedInstance].authenticationSession);
-  
+
   // When
   [[MSDistribute sharedInstance] openURLInAuthenticationSessionWith:fakeURL fromClass:session];
-  
+
   // Then
   XCTAssertNotNil([MSDistribute sharedInstance].authenticationSession);
   if (@available(iOS 12, *)) {
@@ -1970,19 +1970,19 @@ static NSURL *sfURL;
 }
 
 - (void)testNotifyUpdateActionSelectedButDisabled {
-    
+
   // If
   id distributeMock = OCMPartialMock(self.sut);
   MSReleaseDetails *details = [MSReleaseDetails new];
   [distributeMock setValue:details forKey:@"releaseDetails"];
   OCMStub([distributeMock isEnabled]).andReturn(FALSE);
-  
+
   // When
   [distributeMock notifyUpdateAction:MSUpdateActionUpdate];
-  
+
   // Then
   OCMVerify([distributeMock showDistributeDisabledAlert]);
-  
+
   // Clear
   [distributeMock stopMocking];
 }
@@ -2477,6 +2477,5 @@ static NSURL *sfURL;
   [notificationCenterMock stopMocking];
   [distributeMock stopMocking];
 }
-                                             
 
 @end
