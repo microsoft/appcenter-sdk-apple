@@ -108,7 +108,7 @@ static NSObject *const classLock;
       return kMSEncryptionKeyTagAlternate;
     }
 
-    // Format is {keyTag}/{expiration as iso}
+    // Format is {keyTag}/{expiration as iso}.
     NSArray *keyMetadataComponents = [keyMetadata componentsSeparatedByString:kMSEncryptionMetadataInternalSeparator];
     NSString *keyTag = keyMetadataComponents[0];
     NSString *expirationIso = keyMetadataComponents[1];
