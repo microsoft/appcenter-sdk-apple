@@ -46,7 +46,7 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
   @IBOutlet weak var priorityField: UITextField!
   @IBOutlet weak var countLabel: UILabel!
   @IBOutlet weak var countSlider: UISlider!
-  @IBOutlet weak var latencyField: UITextField!
+  @IBOutlet weak var transmissionIntervalField: UITextField!
   
   var appCenter: AppCenterDelegate!
   var eventPropertiesSection: EventPropertiesTableSection!
@@ -173,6 +173,10 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
   @IBAction func dismissKeyboard(_ sender: UITextField!) {
     sender.resignFirstResponder()
   }
+  
+  @IBAction func dismissKeybordForTransmissionInterval(_ sender: UITextField) {
+    sender.resignFirstResponder()
+  }
 
   func enablePauseResume(enable: Bool) {
     pause.isEnabled = enable
@@ -241,7 +245,17 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
   }
   
   func initLatencyPicker() {
-    let latencyPosition = Latency.allTimeValues.index(of: UserDefaults.standard.integer(forKey: kMSTransmissionIterval))
+    var transmissionInterval: Int
+    //transmissionInterval = UserDefaults.standard.integer(forKey: kMSTransmissionIterval) ?? 3
+    if isKeyPresentInUDefaults(key: kMSTransmissionIterval) {
+      transmissionInterval = UserDefaults.standard.integer(forKey: kMSTransmissionIterval)
+    } else {
+      transmissionInterval = 3
+    }
+    let (h,m,s) = secondsToHoursMinutesSeconds(seconds: transmissionInterval)
+    let convertInterval = String(format: "%02d:%02d:%02d",h,m,s)
+    transmissionIntervalField.text =  String(transmissionInterval) + "second(s)" + convertInterval
+    /* let latencyPosition = Latency.allTimeValues.index(of: UserDefaults.standard.integer(forKey: kMSTransmissionIterval))
     self.latencyPicker = MSEnumPicker<Latency>(
     textField: latencyField,
     allValues: Latency.allValues,
@@ -251,6 +265,14 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
     self.latency = Latency.allValues[latencyPosition ?? 0]
     self.latencyField.delegate = self.latencyPicker
     self.latencyField.text = self.latency.rawValue
-    self.latencyField.tintColor = UIColor.clear
+    self.latencyField.tintColor = UIColor.clear */
+  }
+  
+  func isKeyPresentInUDefaults(key: String) -> Bool {
+    return Int(UserDefaults.standard.integer(forKey: key)) != nil
+  }
+  
+  func secondsToHoursMinutesSeconds (seconds : Int) -> (Int, Int, Int) {
+    return (seconds / 3600, (seconds % 3600) / 60, (seconds % 3600) % 60)
   }
 }

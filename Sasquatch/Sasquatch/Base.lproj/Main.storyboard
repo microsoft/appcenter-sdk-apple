@@ -158,6 +158,9 @@
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
+                                                    <connections>
+                                                        <action selector="dismissKeybordForTransmissionInterval:" destination="GhP-bn-tCW" eventType="editingDidEndOnExit" id="RH6-41-Lek"/>
+                                                    </connections>
                                                 </textField>
                                             </subviews>
                                         </tableViewCellContentView>
@@ -306,11 +309,11 @@
                         <outlet property="countSlider" destination="opV-1y-mbF" id="s4p-4C-mFn"/>
                         <outlet property="enabled" destination="iyL-fq-Rj1" id="cOA-we-W2F"/>
                         <outlet property="eventName" destination="V6K-6G-Lx1" id="rd3-Yt-TrI"/>
-                        <outlet property="latencyField" destination="OTn-YZ-BpX" id="2YW-hE-LcU"/>
                         <outlet property="pageName" destination="5r1-VS-v0u" id="bt1-Hy-acY"/>
                         <outlet property="pause" destination="bAO-a4-xle" id="ohw-88-WIa"/>
                         <outlet property="priorityField" destination="Zxg-cr-m8c" id="wDG-Bn-2Ek"/>
                         <outlet property="resume" destination="q5k-pD-Ksi" id="AvN-HH-OEO"/>
+                        <outlet property="transmissionIntervalField" destination="OTn-YZ-BpX" id="v0g-C3-IRB"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="a2S-Qu-Fz6" userLabel="First Responder" sceneMemberID="firstResponder"/>
