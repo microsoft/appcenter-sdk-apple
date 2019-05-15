@@ -223,10 +223,12 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
     }
 
     // Create a task for the request.
+    __block NSLock *taskLock = [[NSLock alloc] init];
+    // Create a task for the request.
     NSURLSessionDataTask *task = [self.session
         dataTaskWithRequest:request
           completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-            @synchronized(@"sendCallAsync") {
+              [taskLock lock];
               NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
               if (error) {
                 MSLogDebug([MSAppCenter logTag], @"HTTP request error with code: %td, domain: %@, description: %@", error.code,
@@ -261,7 +263,8 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
                 call.submitted = NO;
                 [call ingestion:self callCompletedWithResponse:httpResponse data:data error:error];
               }
-            }
+              [taskLock unlock];
+              taskLock = nil;
           }];
 
     // TODO: Set task priority.
