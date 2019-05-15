@@ -1,7 +1,7 @@
-[![Coverage Status](https://codecov.io/gh/Microsoft/AppCenter-SDK-Apple/branch/develop/graph/badge.svg?token=6dlCB5riVi)](https://codecov.io/gh/Microsoft/AppCenter-SDK-Apple)
-[![GitHub Release](https://img.shields.io/github/release/Microsoft/AppCenter-SDK-Apple.svg)](https://github.com/Microsoft/AppCenter-SDK-Apple/releases/latest)
+[![Coverage Status](https://codecov.io/gh/microsoft/appcenter-sdk-apple/branch/develop/graph/badge.svg?token=6dlCB5riVi)](https://codecov.io/gh/microsoft/appcenter-sdk-apple)
+[![GitHub Release](https://img.shields.io/github/release/microsoft/appcenter-sdk-apple.svg)](https://github.com/microsoft/appcenter-sdk-apple/releases/latest)
 [![CocoaPods](https://img.shields.io/cocoapods/v/AppCenter.svg)](https://cocoapods.org/pods/AppCenter)
-[![license](https://img.shields.io/badge/license-MIT%20License-00AAAA.svg)](https://github.com/Microsoft/AppCenter-SDK-Apple/blob/master/LICENSE)
+[![license](https://img.shields.io/badge/license-MIT%20License-00AAAA.svg)](https://github.com/microsoft/appcenter-sdk-apple/blob/master/LICENSE)
 
 # Visual Studio App Center SDK for iOS and macOS
 
@@ -49,7 +49,7 @@ You must sign a [Contributor License Agreement](https://cla.microsoft.com/) befo
 App Center Auth has a dependency on [Microsoft Authentication Library](https://github.com/AzureAD/microsoft-authentication-library-for-objc) as a git submodule. Use below command to clone App Center Apple SDK repository or update the repository if you have already cloned it.
 
 ```
-git clone --recursive https://github.com/Microsoft/AppCenter-SDK-Apple
+git clone --recursive https://github.com/microsoft/appcenter-sdk-apple
 ```
 
 ```

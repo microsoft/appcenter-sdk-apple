@@ -535,6 +535,8 @@ static dispatch_once_t onceToken;
                               else {
                                 completionHandler([MSDocumentUtils documentWrapperFromData:data
                                                                               documentType:documentType
+                                                                                 partition:partition
+                                                                                documentId:documentId
                                                                            fromDeviceCache:NO]);
                               }
                             }];
@@ -594,6 +596,8 @@ static dispatch_once_t onceToken;
                               MSLogDebug([MSData logTag], @"Document created/replaced with ID: %@", documentId);
                               completionHandler([MSDocumentUtils documentWrapperFromData:data
                                                                             documentType:[document class]
+                                                                               partition:partition
+                                                                              documentId:documentId
                                                                          fromDeviceCache:NO]);
                             }
                           }];
