@@ -145,8 +145,7 @@ static NSObject *const classLock;
   NSString *stringKey = [MSKeychainUtil stringForKey:keyTag];
   if (stringKey) {
     keyData = [[NSData alloc] initWithBase64EncodedString:stringKey options:0];
-  }
-  else {
+  } else {
 
     // If key is not saved in Keychain, create one and save it. This will only happen at most twice after an app is installed.
     @synchronized(classLock) {
