@@ -136,28 +136,31 @@ static NSObject *const classLock;
   BOOL isOriginalKeyTag = [keyTag isEqualToString:kMSEncryptionKeyTagOriginal];
   keyData = isOriginalKeyTag ? self.originalKeyData : self.alternateKeyData;
 
-  // If key is not cached, try loading it from Keychain.
-  if (!keyData) {
-    NSString *stringKey = [MSKeychainUtil stringForKey:keyTag];
-    if (stringKey) {
-      keyData = [[NSData alloc] initWithBase64EncodedString:stringKey options:0];
+  // Key was found in memory.
+  if (keyData) {
+    return keyData;
+  }
+
+  // If key is not in memory; try loading it from Keychain.
+  NSString *stringKey = [MSKeychainUtil stringForKey:keyTag];
+  if (stringKey) {
+    keyData = [[NSData alloc] initWithBase64EncodedString:stringKey options:0];
+  }
+  else {
+
+    // If key is not saved in Keychain, create one and save it. This will only happen at most twice after an app is installed.
+    @synchronized(classLock) {
+
+      // Recheck if the key has been written from another thread.
+      stringKey = [MSKeychainUtil stringForKey:keyTag];
+      if (!stringKey) {
+        keyData = [MSEncrypter generateAndSaveKeyWithTag:keyTag];
+      }
     }
-    else {
-
-      // If key is not saved in Keychain, create one and save it.
-      @synchronized(classLock) {
-
-        // Recheck if the key has been written from another thread.
-        stringKey = [MSKeychainUtil stringForKey:keyTag];
-        if (!stringKey) {
-          keyData = [MSEncrypter generateAndSaveKeyWithTag:keyTag];
-        }
-      }
-      if (isOriginalKeyTag) {
-        self.originalKeyData = keyData;
-      } else {
-        self.alternateKeyData = keyData;
-      }
+    if (isOriginalKeyTag) {
+      self.originalKeyData = keyData;
+    } else {
+      self.alternateKeyData = keyData;
     }
   }
   return keyData;
