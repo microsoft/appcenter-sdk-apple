@@ -465,8 +465,8 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   [MSAppCenter start:@"AppSecret" withServices:@[ MSMockService.class, MSMockSecondService.class ]];
 
   // Then
-  XCTAssertFalse([[MSMockService sharedInstance] isStarted]);
-  XCTAssertFalse([[MSMockSecondService sharedInstance] isStarted]);
+  XCTAssertFalse([MSMockService sharedInstance].started);
+  XCTAssertFalse([MSMockSecondService sharedInstance].started);
 
   // If
   setenv(disableVariableCstr, [[MSMockService serviceName] UTF8String], 1);
@@ -478,8 +478,8 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   [MSAppCenter start:@"AppSecret" withServices:@[ MSMockService.class, MSMockSecondService.class ]];
 
   // Then
-  XCTAssertFalse([[MSMockService sharedInstance] isStarted]);
-  XCTAssertTrue([[MSMockSecondService sharedInstance] isStarted]);
+  XCTAssertFalse([MSMockService sharedInstance].started);
+  XCTAssertTrue([MSMockSecondService sharedInstance].started);
 
   // If
   NSString *disableList = [NSString stringWithFormat:@"%@,SomeService,%@", [MSMockService serviceName], [MSMockSecondService serviceName]];

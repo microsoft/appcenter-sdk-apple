@@ -40,7 +40,7 @@ static dispatch_once_t onceToken;
  */
 __attribute__((used)) static void importCategories() { [NSString stringWithFormat:@"%@", MSAnalyticsValidationCategory]; }
 
-@synthesize enabledAutoPageTracking = _enabledAutoPageTracking;
+@synthesize autoPageTrackingEnabled = _autoPageTrackingEnabled;
 @synthesize channelUnitConfiguration = _channelUnitConfiguration;
 
 #pragma mark - Service initialization
@@ -49,7 +49,7 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
   if ((self = [super init])) {
 
     // Set defaults.
-    _enabledAutoPageTracking = NO;
+    _autoPageTrackingEnabled = NO;
 
     // Init session tracker.
     _sessionTracker = [[MSSessionTracker alloc] init];
@@ -131,7 +131,7 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
       [self.channelGroup addDelegate:self];
 
       // Report current page while auto page tracking is on.
-      if (self.enabledAutoPageTracking) {
+      if (self.autoPageTrackingEnabled) {
 
         // Track on the main queue to avoid race condition with page swizzling.
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -225,11 +225,11 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
 }
 
 + (void)setAutoPageTrackingEnabled:(BOOL)isEnabled {
-  [MSAnalytics sharedInstance].enabledAutoPageTracking = isEnabled;
+  [MSAnalytics sharedInstance].autoPageTrackingEnabled = isEnabled;
 }
 
 + (BOOL)isAutoPageTrackingEnabled {
-  return [MSAnalytics sharedInstance].enabledAutoPageTracking;
+  return [MSAnalytics sharedInstance].autoPageTrackingEnabled;
 }
 
 #pragma mark - Transmission Target

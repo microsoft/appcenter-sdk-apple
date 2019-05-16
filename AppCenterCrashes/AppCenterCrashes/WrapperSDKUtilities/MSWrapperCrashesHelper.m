@@ -36,7 +36,7 @@
  * Enables or disables automatic crash processing. Setting to 'NO'causes SDK not to send reports immediately, even if ALWAYS_SEND is set.
  */
 + (void)setAutomaticProcessing:(BOOL)automaticProcessing {
-  [[MSCrashes sharedInstance] setAutomaticProcessing:automaticProcessing];
+  [[MSCrashes sharedInstance] setAutomaticProcessingEnabled:automaticProcessing];
 }
 
 /**

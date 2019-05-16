@@ -50,17 +50,17 @@ static NSString *const kMSDisableAll = @"All";
 /**
  * Flag indicating if the SDK is configured or not.
  */
-@property(nonatomic) BOOL sdkConfigured;
+@property(nonatomic, getter=isSdkConfigured) BOOL sdkConfigured;
 
 /**
  * Flag indicating if the SDK is configured From Application or not.
  */
-@property(nonatomic) BOOL configuredFromApplication;
+@property(nonatomic, getter=isConfiguredFromApplication) BOOL configuredFromApplication;
 
 /**
  * Flag indicating if the SDK is enabled state updating or not.
  */
-@property(nonatomic) BOOL enabledStateUpdating;
+@property(nonatomic, getter=isEnabledStateUpdating) BOOL enabledStateUpdating;
 
 @property(nonatomic, copy) void (^maxStorageSizeCompletionHandler)(BOOL);
 

@@ -813,7 +813,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
   // If
   self.sut = OCMPartialMock(self.sut);
-  [self.sut setAutomaticProcessing:NO];
+  [self.sut setAutomaticProcessingEnabled:NO];
   OCMStub([self.sut shouldAlwaysSend]).andReturn(YES);
   __block NSUInteger numInvocations = 0;
   id<MSChannelUnitProtocol> channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
@@ -847,7 +847,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
   // If
   self.sut = OCMPartialMock(self.sut);
-  [self.sut setAutomaticProcessing:NO];
+  [self.sut setAutomaticProcessingEnabled:NO];
   OCMStub([self.sut shouldAlwaysSend]).andReturn(NO);
   __block NSUInteger numInvocations = 0;
   id<MSChannelUnitProtocol> channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
@@ -887,7 +887,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
   // If
   self.sut = OCMPartialMock(self.sut);
-  [self.sut setAutomaticProcessing:NO];
+  [self.sut setAutomaticProcessingEnabled:NO];
   OCMStub([self.sut shouldAlwaysSend]).andReturn(NO);
   __block NSUInteger numInvocations = 0;
   id<MSChannelUnitProtocol> channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
@@ -927,7 +927,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
   // If
   self.sut = OCMPartialMock(self.sut);
-  [self.sut setAutomaticProcessing:NO];
+  [self.sut setAutomaticProcessingEnabled:NO];
   [self.sut applyEnabledState:YES];
   OCMStub([self.sut shouldAlwaysSend]).andReturn(NO);
   __block int numInvocations = 0;
@@ -964,7 +964,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   self.sut = OCMPartialMock(self.sut);
   OCMStub([self.sut startDelayedCrashProcessing]).andDo(nil);
   id<MSChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
-  [self.sut setAutomaticProcessing:NO];
+  [self.sut setAutomaticProcessingEnabled:NO];
   [self startCrashes:self.sut withReports:NO withChannelGroup:channelGroupMock];
 
   // When
@@ -981,7 +981,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
   // If
   self.sut = OCMPartialMock(self.sut);
-  [self.sut setAutomaticProcessing:NO];
+  [self.sut setAutomaticProcessingEnabled:NO];
   MSErrorReport *report = OCMPartialMock([MSErrorReport new]);
   OCMStub([report incidentIdentifier]).andReturn(@"incidentId");
   __block NSUInteger numInvocations = 0;
@@ -1022,7 +1022,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   // If
   self.sut = OCMPartialMock(self.sut);
   id<MSChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
-  [self.sut setAutomaticProcessing:NO];
+  [self.sut setAutomaticProcessingEnabled:NO];
   NSArray *reports = [self startCrashes:self.sut withReports:YES withChannelGroup:channelGroupMock];
 
   // When
@@ -1050,7 +1050,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   // If
   self.sut = OCMPartialMock(self.sut);
   id<MSChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
-  [self.sut setAutomaticProcessing:NO];
+  [self.sut setAutomaticProcessingEnabled:NO];
   NSArray *reports = [self startCrashes:self.sut withReports:YES withChannelGroup:channelGroupMock];
 
   // When

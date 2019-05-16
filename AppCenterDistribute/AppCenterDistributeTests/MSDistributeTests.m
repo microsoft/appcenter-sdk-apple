@@ -1818,7 +1818,7 @@ static NSURL *sfURL;
   // When
   id appCenterMock = OCMClassMock([MSAppCenter class]);
   OCMStub([appCenterMock sharedInstance]).andReturn(appCenterMock);
-  OCMStub([appCenterMock sdkConfigured]).andReturn(YES);
+  OCMStub([appCenterMock isSdkConfigured]).andReturn(YES);
   OCMStub([appCenterMock isConfigured]).andReturn(YES);
   [distributeMock startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
                               appSecret:kMSTestAppSecret

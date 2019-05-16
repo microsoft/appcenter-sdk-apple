@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property(nonatomic) MSSessionTracker *sessionTracker;
 
-@property(atomic, getter=isEnabledAutoPageTracking) BOOL enabledAutoPageTracking;
+@property(atomic, getter=isAutoPageTrackingEnabled) BOOL autoPageTrackingEnabled;
 
 @property(nonatomic, nullable) id<MSAnalyticsDelegate> delegate;
 
