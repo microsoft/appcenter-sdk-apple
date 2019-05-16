@@ -46,7 +46,6 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
   @IBOutlet weak var priorityField: UITextField!
   @IBOutlet weak var countLabel: UILabel!
   @IBOutlet weak var countSlider: UISlider!
-  @IBOutlet weak var transmissionIntervalField: UITextField!
   @IBOutlet weak var transmissionIntervalLabel: UILabel!
   
   var appCenter: AppCenterDelegate!
@@ -75,7 +74,7 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
     self.priorityField.tintColor = UIColor.clear
     self.countLabel.text = "Count: \(Int(countSlider.value))"
     
-    initLatencyPicker()
+    initTransmissionIntervalLabel()
     
     // Disable results page.
     #if !ACTIVE_COMPILATION_CONDITION_PUPPET
@@ -205,6 +204,8 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
     tableView.deselectRow(at: indexPath, animated: true)
     if indexPath.section == kEventPropertiesSectionIndex && eventPropertiesSection.isInsertRow(indexPath) {
       self.tableView(tableView, commit: .insert, forRowAt: indexPath)
+    } else if (indexPath.section == 0 && indexPath.row == 3){
+      present(initTransmissionAlert(tableView), animated: true)
     }
   }
 
@@ -245,35 +246,42 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
     return super.tableView(tableView, cellForRowAt: indexPath)
   }
   
-  func initLatencyPicker() {
-    transmissionIntervalField.inputAccessoryView = self.toolBarForKeyboard()
+  func initTransmissionIntervalLabel() {
     let interval = UserDefaults.standard.integer(forKey: kMSTransmissionIterval) != 0 ? UserDefaults.standard.integer(forKey: kMSTransmissionIterval) : 3
-    transmissionIntervalField.text = String(interval)
     updateIntervalLabel(transmissionInterval: interval)
-  }
-  
-  func secondsToHoursMinutesSeconds(seconds : Int) -> (Int, Int, Int) {
-    return (seconds / 3600, (seconds % 3600) / 60, (seconds % 3600) % 60)
-  }
-  
-  func toolBarForKeyboard() -> UIToolbar {
-    let toolbar = UIToolbar()
-    toolbar.sizeToFit()
-    let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-    let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(self.doneClicked))
-    toolbar.items = [flexibleSpace, doneButton]
-    return toolbar
-  }
-  
-  @objc func doneClicked() {
-    updateIntervalLabel(transmissionInterval: Int(transmissionIntervalField.text!))
-    UserDefaults.standard.setValue(Int(transmissionIntervalField.text!), forKey: kMSTransmissionIterval)
-    dismissKeyboard(self.transmissionIntervalField)
   }
   
   func updateIntervalLabel(transmissionInterval: Int?) {
     let (h, m, s) = secondsToHoursMinutesSeconds(seconds: transmissionInterval ?? 3)
-    let convertInterval = String(format: "%02d:%02d:%02d",h ,m ,s)
-    transmissionIntervalLabel.text = "sec " + "(" + convertInterval + ")"
+    let convertInterval = String(format: "%02d:%02d:%02d", h, m, s)
+    transmissionIntervalLabel.text = convertInterval
+  }
+  
+  func initTransmissionAlert(_ tableView: UITableView) -> UIAlertController {
+    let alert = UIAlertController(title: "Transmission Interval", message: nil, preferredStyle: .alert)
+    let confirmAction = UIAlertAction(title: "OK", style: .default, handler: {(_ action:UIAlertAction) -> Void in
+      let result = alert.textFields?[0].text
+      var timeResult: Int = Int(result!) ?? 3
+        if timeResult > 86400 {
+          timeResult = 86400
+        } else if timeResult < 3{
+          timeResult = 3
+        }
+      UserDefaults.standard.setValue(timeResult, forKey: kMSTransmissionIterval)
+      self.updateIntervalLabel(transmissionInterval: timeResult)
+      tableView.reloadData()
+    })
+    let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+    alert.addAction(confirmAction)
+    alert.addAction(cancelAction)
+    alert.addTextField(configurationHandler: {(_ textField: UITextField) -> Void in
+      textField.text = String(UserDefaults.standard.integer(forKey: kMSTransmissionIterval))
+      textField.keyboardType = UIKeyboardType.numberPad
+    })
+    return alert
+  }
+  
+  func secondsToHoursMinutesSeconds(seconds : Int) -> (Int, Int, Int) {
+    return (seconds / 3600, (seconds % 3600) / 60, (seconds % 3600) % 60)
   }
 }
