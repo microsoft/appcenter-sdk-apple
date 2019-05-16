@@ -213,7 +213,9 @@ static NSObject *const classLock;
   if (status != errSecSuccess) {
     MSLogError([MSAppCenter logTag], @"Error generating initialization vector. Error code: %d", (int)status);
   }
-  return [NSData dataWithBytes:ivBytes length:kCCBlockSizeAES128];
+  NSData *initializationVector = [NSData dataWithBytes:ivBytes length:kCCBlockSizeAES128];
+  free(ivBytes);
+  return initializationVector;
 }
 
 + (NSData *)getMetadataStringWithKeyTag:(NSString *)keyTag {
