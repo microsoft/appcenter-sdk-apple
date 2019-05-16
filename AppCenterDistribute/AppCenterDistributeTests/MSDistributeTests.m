@@ -1299,15 +1299,15 @@ static NSURL *sfURL;
 
   // If
   id distributeMock = OCMPartialMock(self.sut);
-  OCMStub([distributeMock checkForUpdatesAllowed]).andReturn(FALSE);
+  OCMStub([distributeMock checkForUpdatesAllowed]).andReturn(NO);
   id reachabilityMock = OCMClassMock([MS_Reachability class]);
-  OCMStub([reachabilityMock reachabilityForInternetConnection]).andReturn(FALSE);
+  OCMStub([reachabilityMock reachabilityForInternetConnection]).andReturn(NO);
 
   // When
   [distributeMock requestInstallInformationWith:OCMOCK_ANY];
 
   // Then
-  // This is only called when checkForUpdatesAllowed returns TRUE.
+  // This is only called when checkForUpdatesAllowed returns YES.
   OCMReject([reachabilityMock reachabilityForInternetConnection]);
 
   // Clear
@@ -2000,7 +2000,7 @@ static NSURL *sfURL;
   id distributeMock = OCMPartialMock(self.sut);
   MSReleaseDetails *details = [MSReleaseDetails new];
   [distributeMock setValue:details forKey:@"releaseDetails"];
-  OCMStub([distributeMock isEnabled]).andReturn(FALSE);
+  OCMStub([distributeMock isEnabled]).andReturn(NO);
 
   // When
   [distributeMock notifyUpdateAction:MSUpdateActionUpdate];
