@@ -393,7 +393,9 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
     return;
   }
   if (interval > kMSFlushIntervalMaximum || interval < kMSFlushIntervalMinimum) {
-    MSLogError([MSAnalytics logTag], @"The transmission interval is not valid.");
+    MSLogError(
+        [MSAnalytics logTag], @"The transmission interval is not valid, it should be between %u second(s) and %u second(s) (%u day(s)).",
+        (unsigned int)kMSFlushIntervalMinimum, (unsigned int)kMSFlushIntervalMaximum, (unsigned int)(kMSFlushIntervalMaximum / 86400));
     return;
   }
   self.flushInterval = interval;
