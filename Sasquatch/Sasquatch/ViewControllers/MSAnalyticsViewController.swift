@@ -173,10 +173,6 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
   @IBAction func dismissKeyboard(_ sender: UITextField!) {
     sender.resignFirstResponder()
   }
-  
-   @IBAction func dismissKeybordForTransmissionInterval(_ sender: UITextField) {
-    sender.resignFirstResponder()
-  }
 
   func enablePauseResume(enable: Bool) {
     pause.isEnabled = enable
@@ -247,14 +243,20 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
   }
   
   func initTransmissionIntervalLabel() {
-    let interval = UserDefaults.standard.integer(forKey: kMSTransmissionIterval) != 0 ? UserDefaults.standard.integer(forKey: kMSTransmissionIterval) : 3
+    if UserDefaults.standard.integer(forKey: kMSTransmissionIterval) == 0 {
+      UserDefaults.standard.setValue(3, forKey: kMSTransmissionIterval)
+    }
+    let interval = UserDefaults.standard.integer(forKey: kMSTransmissionIterval)
     updateIntervalLabel(transmissionInterval: interval)
   }
   
-  func updateIntervalLabel(transmissionInterval: Int?) {
-    let (h, m, s) = secondsToHoursMinutesSeconds(seconds: transmissionInterval ?? 3)
-    let convertInterval = String(format: "%02d:%02d:%02d", h, m, s)
-    transmissionIntervalLabel.text = convertInterval
+  func updateIntervalLabel(transmissionInterval: Int) {
+    let formattedInterval = TimeInterval(transmissionInterval)
+    let formatter = DateComponentsFormatter()
+    formatter.unitsStyle = .positional
+    formatter.allowedUnits = [ .hour, .minute, .second]
+    formatter.zeroFormattingBehavior = [ .pad]
+    transmissionIntervalLabel.text = formatter.string(from: formattedInterval)
   }
   
   func initTransmissionAlert(_ tableView: UITableView) -> UIAlertController {
@@ -264,7 +266,7 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
       var timeResult: Int = Int(result!) ?? 3
         if timeResult > 86400 {
           timeResult = 86400
-        } else if timeResult < 3{
+        } else if timeResult < 3 {
           timeResult = 3
         }
       UserDefaults.standard.setValue(timeResult, forKey: kMSTransmissionIterval)
@@ -279,9 +281,5 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
       textField.keyboardType = UIKeyboardType.numberPad
     })
     return alert
-  }
-  
-  func secondsToHoursMinutesSeconds(seconds : Int) -> (Int, Int, Int) {
-    return (seconds / 3600, (seconds % 3600) / 60, (seconds % 3600) % 60)
   }
 }
