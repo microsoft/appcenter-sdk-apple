@@ -13,18 +13,12 @@ static NSObject *const classLock;
 
 @interface MSEncrypter ()
 
-@property(nonatomic) NSMutableDictionary *keys;
+@property(atomic) NSData *originalKeyData;
+@property(atomic) NSData *alternateKeyData;
 
 @end
 
 @implementation MSEncrypter
-
-- (instancetype)init {
-  if ((self = [super init])) {
-    _keys = [NSMutableDictionary new];
-  }
-  return self;
-}
 
 - (NSString *_Nullable)encryptString:(NSString *)string {
   NSData *dataToEncrypt = [string dataUsingEncoding:NSUTF8StringEncoding];
@@ -138,37 +132,35 @@ static NSObject *const classLock;
 }
 
 - (NSData *)getKeyWithKeyTag:(NSString *)keyTag {
-  NSData *key;
-  @synchronized(self) {
-
-    // Read inside of a synchronized block because NSDictionary is not thread safe.
-    key = [self.keys objectForKey:keyTag];
-  }
+  NSData *keyData;
+  BOOL isOriginalKeyTag = [keyTag isEqualToString:kMSEncryptionKeyTagOriginal];
+  keyData = isOriginalKeyTag ? self.originalKeyData : self.alternateKeyData;
 
   // If key is not cached, try loading it from Keychain.
-  if (!key) {
+  if (!keyData) {
     NSString *stringKey = [MSKeychainUtil stringForKey:keyTag];
+    if (stringKey) {
+      keyData = [[NSData alloc] initWithBase64EncodedString:stringKey options:0];
+    }
+    else {
 
-    // If key is not saved in Keychain, create one and save it.
-    if (!stringKey) {
+      // If key is not saved in Keychain, create one and save it.
       @synchronized(classLock) {
 
         // Recheck if the key has been written from another thread.
         stringKey = [MSKeychainUtil stringForKey:keyTag];
         if (!stringKey) {
-          key = [MSEncrypter generateAndSaveKeyWithTag:keyTag];
+          keyData = [MSEncrypter generateAndSaveKeyWithTag:keyTag];
         }
       }
-    } else {
-      key = [[NSData alloc] initWithBase64EncodedString:stringKey options:0];
-    }
-    @synchronized(self) {
-
-      // Write inside of a synchronized block because NSDictionary is not thread safe.
-      [self.keys setObject:key forKey:keyTag];
+      if (isOriginalKeyTag) {
+        self.originalKeyData = keyData;
+      } else {
+        self.alternateKeyData = keyData;
+      }
     }
   }
-  return key;
+  return keyData;
 }
 
 + (NSData *_Nullable)performCryptoOperation:(CCOperation)operation
