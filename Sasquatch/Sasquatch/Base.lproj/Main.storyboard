@@ -152,25 +152,27 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <textField opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" text="0" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OTn-YZ-BpX" userLabel="Latency Field">
-                                                    <rect key="frame" x="175" y="0.5" width="112" height="44"/>
+                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="0" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OTn-YZ-BpX" userLabel="Latency Field">
+                                                    <rect key="frame" x="272.5" y="11.5" width="15" height="21"/>
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="numberPad"/>
+                                                    <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                                     <connections>
                                                         <action selector="dismissKeybordForTransmissionInterval:" destination="GhP-bn-tCW" eventType="editingDidEndOnExit" id="RH6-41-Lek"/>
                                                     </connections>
                                                 </textField>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="TrInterval" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qeS-UU-c0R">
-                                                    <rect key="frame" x="296" y="1.5" width="63" height="42"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TrInterval" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qeS-UU-c0R">
+                                                    <rect key="frame" x="295.5" y="11.5" width="71.5" height="20.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="OTn-YZ-BpX" firstAttribute="centerY" secondItem="cXL-rD-Rwc" secondAttribute="centerY" id="16L-il-can"/>
                                                 <constraint firstItem="OTn-YZ-BpX" firstAttribute="trailing" secondItem="qeS-UU-c0R" secondAttribute="leading" constant="-8" id="1ZU-ex-50n"/>
                                                 <constraint firstAttribute="trailing" secondItem="qeS-UU-c0R" secondAttribute="trailing" constant="8" id="BF9-m5-8Vx"/>
+                                                <constraint firstItem="qeS-UU-c0R" firstAttribute="centerY" secondItem="cXL-rD-Rwc" secondAttribute="centerY" id="dvO-4c-40O"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -991,7 +993,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iXu-ht-std">
-                                                    <rect key="frame" x="253" y="6.5" width="51" height="31"/>
+                                                    <rect key="frame" x="308" y="6.5" width="51" height="31"/>
                                                     <connections>
                                                         <action selector="authSwitchStateUpdated:" destination="9Ck-4D-Ozb" eventType="valueChanged" id="fIO-he-FfA"/>
                                                     </connections>
@@ -1014,7 +1016,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lTr-Ec-UOq">
-                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                                     <state key="normal" title="Sign In"/>
                                                     <connections>
                                                         <action selector="authSignIn:" destination="9Ck-4D-Ozb" eventType="touchUpInside" id="Z9W-UE-hRG"/>
@@ -1037,7 +1039,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="H76-iq-A1A">
-                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                                     <state key="normal" title="Sign Out"/>
                                                     <connections>
                                                         <action selector="authSignOut:" destination="9Ck-4D-Ozb" eventType="touchUpInside" id="0vh-px-tw5"/>
@@ -1070,7 +1072,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="a34-Sx-8Yt" userLabel="Push Switch">
-                                                    <rect key="frame" x="253" y="5.5" width="51" height="31"/>
+                                                    <rect key="frame" x="308" y="5.5" width="51" height="31"/>
                                                     <connections>
                                                         <action selector="pushSwitchStateUpdated:" destination="9Ck-4D-Ozb" eventType="valueChanged" id="N8W-3Z-oiY"/>
                                                     </connections>
@@ -1103,7 +1105,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Noo-Uo-Lot">
-                                                    <rect key="frame" x="253" y="6.5" width="51" height="31"/>
+                                                    <rect key="frame" x="308" y="6.5" width="51" height="31"/>
                                                     <connections>
                                                         <action selector="logFilterSwitchChanged:" destination="9Ck-4D-Ozb" eventType="valueChanged" id="rse-He-4UQ"/>
                                                     </connections>

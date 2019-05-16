@@ -272,8 +272,8 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
   }
   
   func updateIntervalLabel(transmissionInterval: Int?) {
-    let (h,m,s) = secondsToHoursMinutesSeconds(seconds: transmissionInterval ?? 3)
-    let convertInterval = String(format: "%02d:%02d:%02d",h,m,s)
-    transmissionIntervalLabel.text = "sec" + "(" + convertInterval + ")"
+    let (h, m, s) = secondsToHoursMinutesSeconds(seconds: transmissionInterval ?? 3)
+    let convertInterval = String(format: "%02d:%02d:%02d",h ,m ,s)
+    transmissionIntervalLabel.text = "sec " + "(" + convertInterval + ")"
   }
 }
