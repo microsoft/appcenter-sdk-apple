@@ -375,6 +375,7 @@ static NSUInteger const kMSFlushIntervalMinimum = 3;
   if (self.itemsCount >= self.configuration.batchSizeLimit) {
     [self flushQueue];
   } else if (self.itemsCount > 0 && !self.paused) {
+
     // Only start timer if channel is not paused. Otherwise, logs will stack.
     [self startTimer];
   }
@@ -427,10 +428,10 @@ static NSUInteger const kMSFlushIntervalMinimum = 3;
   if (flushInterval > kMSFlushIntervalMinimum) {
     NSDate *date = [NSDate date];
     NSDate *latestLogTime = [self.storage getOldestLogTime:self.configuration.groupId];
-    NSUInteger diff = (NSUInteger)[date timeIntervalSinceDate:latestLogTime];
-    flushInterval = flushInterval - diff;
+    flushInterval -= (NSUInteger)[date timeIntervalSinceDate:latestLogTime];
+    return MAX(flushInterval, kMSFlushIntervalMinimum);
   }
-  return MAX(flushInterval, kMSFlushIntervalMinimum);
+  return flushInterval;
 }
 
 - (void)resetTimer {
