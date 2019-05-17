@@ -200,7 +200,7 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
     tableView.deselectRow(at: indexPath, animated: true)
     if indexPath.section == kEventPropertiesSectionIndex && eventPropertiesSection.isInsertRow(indexPath) {
       self.tableView(tableView, commit: .insert, forRowAt: indexPath)
-    } else if (indexPath.section == 0 && indexPath.row == 3){
+    } else if indexPath.section == 0 && indexPath.row == 3 {
       present(initTransmissionAlert(tableView), animated: true)
     }
   }
@@ -243,9 +243,6 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
   }
   
   func initTransmissionIntervalLabel() {
-    if UserDefaults.standard.integer(forKey: kMSTransmissionIterval) == 0 {
-      UserDefaults.standard.setValue(3, forKey: kMSTransmissionIterval)
-    }
     let interval = UserDefaults.standard.integer(forKey: kMSTransmissionIterval)
     updateIntervalLabel(transmissionInterval: interval)
   }
@@ -263,12 +260,7 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
     let alert = UIAlertController(title: "Transmission Interval", message: nil, preferredStyle: .alert)
     let confirmAction = UIAlertAction(title: "OK", style: .default, handler: {(_ action:UIAlertAction) -> Void in
       let result = alert.textFields?[0].text
-      var timeResult: Int = Int(result!) ?? 3
-        if timeResult > 86400 {
-          timeResult = 86400
-        } else if timeResult < 3 {
-          timeResult = 3
-        }
+      let timeResult: Int = Int(result!) ?? 0
       UserDefaults.standard.setValue(timeResult, forKey: kMSTransmissionIterval)
       self.updateIntervalLabel(transmissionInterval: timeResult)
       tableView.reloadData()
