@@ -46,7 +46,7 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
   @IBOutlet weak var priorityField: UITextField!
   @IBOutlet weak var countLabel: UILabel!
   @IBOutlet weak var countSlider: UISlider!
-  @IBOutlet weak var latencyField: UITextField!
+  @IBOutlet weak var transmissionIntervalLabel: UILabel!
   
   var appCenter: AppCenterDelegate!
   var eventPropertiesSection: EventPropertiesTableSection!
@@ -74,7 +74,7 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
     self.priorityField.tintColor = UIColor.clear
     self.countLabel.text = "Count: \(Int(countSlider.value))"
     
-    initLatencyPicker()
+    initTransmissionIntervalLabel()
     
     // Disable results page.
     #if !ACTIVE_COMPILATION_CONDITION_PUPPET
@@ -200,6 +200,8 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
     tableView.deselectRow(at: indexPath, animated: true)
     if indexPath.section == kEventPropertiesSectionIndex && eventPropertiesSection.isInsertRow(indexPath) {
       self.tableView(tableView, commit: .insert, forRowAt: indexPath)
+    } else if indexPath.section == 0 && indexPath.row == 3 {
+      present(initTransmissionAlert(tableView), animated: true)
     }
   }
 
@@ -240,17 +242,36 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
     return super.tableView(tableView, cellForRowAt: indexPath)
   }
   
-  func initLatencyPicker() {
-    let latencyPosition = Latency.allTimeValues.index(of: UserDefaults.standard.integer(forKey: kMSTransmissionIterval))
-    self.latencyPicker = MSEnumPicker<Latency>(
-    textField: latencyField,
-    allValues: Latency.allValues,
-    onChange: { index in
-      UserDefaults.standard.setValue(Latency.allTimeValues[index], forKey: kMSTransmissionIterval)
+  func initTransmissionIntervalLabel() {
+    let interval = UserDefaults.standard.integer(forKey: kMSTransmissionIterval)
+    updateIntervalLabel(transmissionInterval: interval)
+  }
+  
+  func updateIntervalLabel(transmissionInterval: Int) {
+    let formattedInterval = TimeInterval(transmissionInterval)
+    let formatter = DateComponentsFormatter()
+    formatter.unitsStyle = .positional
+    formatter.allowedUnits = [ .hour, .minute, .second]
+    formatter.zeroFormattingBehavior = [ .pad]
+    transmissionIntervalLabel.text = formatter.string(from: formattedInterval)
+  }
+  
+  func initTransmissionAlert(_ tableView: UITableView) -> UIAlertController {
+    let alert = UIAlertController(title: "Transmission Interval", message: nil, preferredStyle: .alert)
+    let confirmAction = UIAlertAction(title: "OK", style: .default, handler: {(_ action:UIAlertAction) -> Void in
+      let result = alert.textFields?[0].text
+      let timeResult: Int = Int(result!) ?? 0
+      UserDefaults.standard.setValue(timeResult, forKey: kMSTransmissionIterval)
+      self.updateIntervalLabel(transmissionInterval: timeResult)
+      tableView.reloadData()
     })
-    self.latency = Latency.allValues[latencyPosition ?? 0]
-    self.latencyField.delegate = self.latencyPicker
-    self.latencyField.text = self.latency.rawValue
-    self.latencyField.tintColor = UIColor.clear
+    let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+    alert.addAction(confirmAction)
+    alert.addAction(cancelAction)
+    alert.addTextField(configurationHandler: {(_ textField: UITextField) -> Void in
+      textField.text = String(UserDefaults.standard.integer(forKey: kMSTransmissionIterval))
+      textField.keyboardType = UIKeyboardType.numberPad
+    })
+    return alert
   }
 }
