@@ -118,8 +118,8 @@
 		267464FA222F28A300EC1FF3 /* MSBaseOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464EA222F28A300EC1FF3 /* MSBaseOptions.m */; };
 		267464FB222F28A300EC1FF3 /* MSReadOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464EB222F28A300EC1FF3 /* MSReadOptions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		267464FC222F28A300EC1FF3 /* MSWriteOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464EC222F28A300EC1FF3 /* MSWriteOptions.m */; };
-		26F4B0EA2267DFC9006381D0 /* invalidTestDocument.json in Resources */ = {isa = PBXBuildFile; fileRef = 26F4B0E92267DF99006381D0 /* invalidTestDocument.json */; };
-		26F4B0EB2267DFCC006381D0 /* invalidTestDocument.json in Resources */ = {isa = PBXBuildFile; fileRef = 26F4B0E92267DF99006381D0 /* invalidTestDocument.json */; };
+		26F4B0EA2267DFC9006381D0 /* invalidTestAppDocument.json in Resources */ = {isa = PBXBuildFile; fileRef = 26F4B0E92267DF99006381D0 /* invalidTestAppDocument.json */; };
+		26F4B0EB2267DFCC006381D0 /* invalidTestAppDocument.json in Resources */ = {isa = PBXBuildFile; fileRef = 26F4B0E92267DF99006381D0 /* invalidTestAppDocument.json */; };
 		26F4B0ED226A477A006381D0 /* MSDataSerializationHelpers.h in Headers */ = {isa = PBXBuildFile; fileRef = 26F4B0EC226A477A006381D0 /* MSDataSerializationHelpers.h */; };
 		26F4B0EF226A478F006381D0 /* MSDataSerializationHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 26F4B0EE226A478F006381D0 /* MSDataSerializationHelpers.m */; };
 		2ACE56002245277000FCD5DF /* MSDocumentUtilsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ACE55FF2245277000FCD5DF /* MSDocumentUtilsTests.m */; };
@@ -149,8 +149,8 @@
 		87FD963F7BF9C9E07DE16D82 /* MSCosmosDbPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 87FA7FB5BC7302D0062016E1 /* MSCosmosDbPrivate.h */; };
 		8F1E76E922652B9D00A6D39F /* MSDataOperationProxyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F1E76E822652B9D00A6D39F /* MSDataOperationProxyTests.m */; };
 		8F1E76EA22652B9D00A6D39F /* MSDataOperationProxyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F1E76E822652B9D00A6D39F /* MSDataOperationProxyTests.m */; };
-		8F1FF9522255C1350083471E /* validTestDocument.json in Resources */ = {isa = PBXBuildFile; fileRef = 8F1FF9512255C12F0083471E /* validTestDocument.json */; };
-		8F1FF9532255C1360083471E /* validTestDocument.json in Resources */ = {isa = PBXBuildFile; fileRef = 8F1FF9512255C12F0083471E /* validTestDocument.json */; };
+		8F1FF9522255C1350083471E /* validTestAppDocument.json in Resources */ = {isa = PBXBuildFile; fileRef = 8F1FF9512255C12F0083471E /* validTestAppDocument.json */; };
+		8F1FF9532255C1360083471E /* validTestAppDocument.json in Resources */ = {isa = PBXBuildFile; fileRef = 8F1FF9512255C12F0083471E /* validTestAppDocument.json */; };
 		8F4548E02256D2450021B0BF /* MSDictionaryDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = 8F4548DF2256D2450021B0BF /* MSDictionaryDocument.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8F4548E12256D2450021B0BF /* MSDictionaryDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = 8F4548DF2256D2450021B0BF /* MSDictionaryDocument.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8F4548E32256D3160021B0BF /* MSDictionaryDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F4548E22256D3160021B0BF /* MSDictionaryDocument.m */; };
@@ -171,6 +171,8 @@
 		8FCF9FE1225D4D870049B326 /* MSTokenResultPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 8FCF9FDF225D4D870049B326 /* MSTokenResultPrivate.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		9919248E225BCD070064E699 /* MSDocumentStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 9919248D225BCD060064E699 /* MSDocumentStore.h */; };
 		9919248F225BCD0F0064E699 /* MSDocumentStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 9919248D225BCD060064E699 /* MSDocumentStore.h */; };
+		9CE865A5228B6615003CCE0E /* validTestUserDocument.json in Resources */ = {isa = PBXBuildFile; fileRef = 9CE865A4228B6615003CCE0E /* validTestUserDocument.json */; };
+		9CE865A6228B6615003CCE0E /* validTestUserDocument.json in Resources */ = {isa = PBXBuildFile; fileRef = 9CE865A4228B6615003CCE0E /* validTestUserDocument.json */; };
 		D3AD5EC51E5C4F6A001627AB /* libAppCenterData.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D33A94511E5B11BB003966DB /* libAppCenterData.a */; };
 		D3AD5F0C1E5C819A001627AB /* AppCenter+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5F0B1E5C819A001627AB /* AppCenter+Internal.h */; };
 		D3AD5F0D1E5C844B001627AB /* MSServiceAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5EFE1E5C7DAE001627AB /* MSServiceAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -301,7 +303,7 @@
 		267464EA222F28A300EC1FF3 /* MSBaseOptions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSBaseOptions.m; sourceTree = "<group>"; };
 		267464EB222F28A300EC1FF3 /* MSReadOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSReadOptions.h; sourceTree = "<group>"; };
 		267464EC222F28A300EC1FF3 /* MSWriteOptions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSWriteOptions.m; sourceTree = "<group>"; };
-		26F4B0E92267DF99006381D0 /* invalidTestDocument.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = invalidTestDocument.json; sourceTree = "<group>"; };
+		26F4B0E92267DF99006381D0 /* invalidTestAppDocument.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = invalidTestAppDocument.json; sourceTree = "<group>"; };
 		26F4B0EC226A477A006381D0 /* MSDataSerializationHelpers.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSDataSerializationHelpers.h; sourceTree = "<group>"; };
 		26F4B0EE226A478F006381D0 /* MSDataSerializationHelpers.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSDataSerializationHelpers.m; sourceTree = "<group>"; };
 		2ACE55FF2245277000FCD5DF /* MSDocumentUtilsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSDocumentUtilsTests.m; sourceTree = "<group>"; };
@@ -319,7 +321,7 @@
 		7FE685B7227546AE00C2F4BA /* MSDataErrorInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSDataErrorInternal.h; sourceTree = "<group>"; };
 		87FA7FB5BC7302D0062016E1 /* MSCosmosDbPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSCosmosDbPrivate.h; sourceTree = "<group>"; };
 		8F1E76E822652B9D00A6D39F /* MSDataOperationProxyTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSDataOperationProxyTests.m; sourceTree = "<group>"; };
-		8F1FF9512255C12F0083471E /* validTestDocument.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = validTestDocument.json; sourceTree = "<group>"; };
+		8F1FF9512255C12F0083471E /* validTestAppDocument.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = validTestAppDocument.json; sourceTree = "<group>"; };
 		8F4548DF2256D2450021B0BF /* MSDictionaryDocument.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSDictionaryDocument.h; sourceTree = "<group>"; };
 		8F4548E22256D3160021B0BF /* MSDictionaryDocument.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSDictionaryDocument.m; sourceTree = "<group>"; };
 		8F4548E52256D5470021B0BF /* NSObject+MSTestFixture.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSObject+MSTestFixture.h"; sourceTree = "<group>"; };
@@ -333,6 +335,7 @@
 		8F534A16226039F400D18129 /* MSDataOperationProxy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSDataOperationProxy.m; sourceTree = "<group>"; };
 		8FCF9FDF225D4D870049B326 /* MSTokenResultPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSTokenResultPrivate.h; sourceTree = "<group>"; };
 		9919248D225BCD060064E699 /* MSDocumentStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDocumentStore.h; sourceTree = "<group>"; };
+		9CE865A4228B6615003CCE0E /* validTestUserDocument.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = validTestUserDocument.json; sourceTree = "<group>"; };
 		D33A94511E5B11BB003966DB /* libAppCenterData.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAppCenterData.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D33A94541E5B11BB003966DB /* AppCenterData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppCenterData.h; sourceTree = "<group>"; };
 		D3AD5EC01E5C4F6A001627AB /* AppCenterData.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppCenterData.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -492,8 +495,9 @@
 		8F5227DB2253DE1F004F37FE /* Fixtures */ = {
 			isa = PBXGroup;
 			children = (
-				26F4B0E92267DF99006381D0 /* invalidTestDocument.json */,
-				8F1FF9512255C12F0083471E /* validTestDocument.json */,
+				26F4B0E92267DF99006381D0 /* invalidTestAppDocument.json */,
+				8F1FF9512255C12F0083471E /* validTestAppDocument.json */,
+				9CE865A4228B6615003CCE0E /* validTestUserDocument.json */,
 				8F5227EC2253F0C7004F37FE /* zeroDocumentsPage.json */,
 				8F5227DC2253DE84004F37FE /* oneDocumentPage.json */,
 			);
@@ -886,9 +890,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8F1FF9532255C1360083471E /* validTestDocument.json in Resources */,
+				9CE865A6228B6615003CCE0E /* validTestUserDocument.json in Resources */,
+				8F1FF9532255C1360083471E /* validTestAppDocument.json in Resources */,
 				8F5227DE2253DE89004F37FE /* oneDocumentPage.json in Resources */,
-				26F4B0EB2267DFCC006381D0 /* invalidTestDocument.json in Resources */,
+				26F4B0EB2267DFCC006381D0 /* invalidTestAppDocument.json in Resources */,
 				8F5227EE2253F0C8004F37FE /* zeroDocumentsPage.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -897,9 +902,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8F1FF9522255C1350083471E /* validTestDocument.json in Resources */,
+				9CE865A5228B6615003CCE0E /* validTestUserDocument.json in Resources */,
+				8F1FF9522255C1350083471E /* validTestAppDocument.json in Resources */,
 				8F5227DD2253DE88004F37FE /* oneDocumentPage.json in Resources */,
-				26F4B0EA2267DFC9006381D0 /* invalidTestDocument.json in Resources */,
+				26F4B0EA2267DFC9006381D0 /* invalidTestAppDocument.json in Resources */,
 				8F5227ED2253F0C8004F37FE /* zeroDocumentsPage.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

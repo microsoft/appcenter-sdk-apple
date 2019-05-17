@@ -4,6 +4,7 @@
 
 ### AppCenter
 * **[Fix]** Remove Keychain permission pop-up on macOS.
+* **[Fix]** Improve encryption security.
 
 ### AppCenterData
 
@@ -356,7 +357,7 @@ This version contains a bug fix and improvements.
 
 ### AppCenterDistribute
 
-* **[Improvement]** Add Portuguese to supported languages, see [this folder](https://github.com/Microsoft/AppCenter-SDK-Apple/tree/develop/AppCenterDistribute/AppCenterDistribute/Resources) for a list of supported languages.
+* **[Improvement]** Add Portuguese to supported languages, see [this folder](https://github.com/microsoft/appcenter-sdk-apple/tree/develop/AppCenterDistribute/AppCenterDistribute/Resources) for a list of supported languages.
 * **[Improvement]** Users with app versions that still use Mobile Center can directly upgrade to versions that use this version of App Center, without the need to reinstall.
 
 ___

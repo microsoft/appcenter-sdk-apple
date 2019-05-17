@@ -47,6 +47,8 @@ static NSString *const kMSDocumentKey = @"document";
 
 + (MSDocumentWrapper *)documentWrapperFromData:(nullable NSData *)data
                                   documentType:(Class)documentType
+                                     partition:(NSString *)partition
+                                    documentId:(NSString *)documentId
                                fromDeviceCache:(BOOL)fromDeviceCache {
 
   // Deserialize data.
@@ -65,7 +67,7 @@ static NSString *const kMSDocumentKey = @"document";
     }
     MSLogError([MSData logTag], @"Error deserializing data: %@", [error description]);
     MSDataError *dataError = [[MSDataError alloc] initWithErrorCode:MSACDataErrorJSONSerializationFailed innerError:error message:nil];
-    return [[MSDocumentWrapper alloc] initWithError:dataError partition:nil documentId:nil];
+    return [[MSDocumentWrapper alloc] initWithError:dataError partition:partition documentId:documentId];
   }
 
   // Proceed from the dictionary.
