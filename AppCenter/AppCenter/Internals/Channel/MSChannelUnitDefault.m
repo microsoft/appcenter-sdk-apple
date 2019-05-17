@@ -395,13 +395,13 @@ static NSUInteger const kMSFlushIntervalMinimum = 3;
   // Create new timer.
   self.timerSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, self.logsDispatchQueue);
   NSUInteger flushInterval = [self resolveFlushInterval];
-  
+
   /**
    * Cast (NSEC_PER_SEC * flushInterval) to (int64_t) silence warning. The compiler otherwise complains that we're using
    * a float param (flushInterval) and implicitly downcast to int64_t.
    */
-  dispatch_source_set_timer(self.timerSource, dispatch_walltime(NULL, (int64_t)(NSEC_PER_SEC * flushInterval)),
-                            1ull * NSEC_PER_SEC, 1ull * NSEC_PER_SEC);
+  dispatch_source_set_timer(self.timerSource, dispatch_walltime(NULL, (int64_t)(NSEC_PER_SEC * flushInterval)), 1ull * NSEC_PER_SEC,
+                            1ull * NSEC_PER_SEC);
   __weak typeof(self) weakSelf = self;
   dispatch_source_set_event_handler(self.timerSource, ^{
     typeof(self) strongSelf = weakSelf;
@@ -422,9 +422,9 @@ static NSUInteger const kMSFlushIntervalMinimum = 3;
  * It is needed to avoid situations when the logs not being sent to server cause time interval is too big
  * for a typical user session.
  */
-- (NSUInteger)resolveFlushInterval{
+- (NSUInteger)resolveFlushInterval {
   NSUInteger flushInterval = self.configuration.flushInterval;
-  if (flushInterval > kMSFlushIntervalMinimum){
+  if (flushInterval > kMSFlushIntervalMinimum) {
     NSDate *date = [NSDate date];
     NSDate *latestLogTime = [self.storage getOldestLogTime:self.configuration.groupId];
     NSUInteger diff = (NSUInteger)[date timeIntervalSinceDate:latestLogTime];

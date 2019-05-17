@@ -763,8 +763,7 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   // If
   MSAbstractLog *aLog = [MSAbstractLog new];
   aLog.sid = MS_UUID_STRING;
-  NSString *criticalLogsFilter =
-      [NSString stringWithFormat:@"\"%@\" = '%u'", kMSPriorityColumnName, (unsigned int)MSFlagsCritical];
+  NSString *criticalLogsFilter = [NSString stringWithFormat:@"\"%@\" = '%u'", kMSPriorityColumnName, (unsigned int)MSFlagsCritical];
   NSString *normalLogsFilter = [NSString stringWithFormat:@"\"%@\" = '%u'", kMSPriorityColumnName, (unsigned int)MSFlagsNormal];
 
   // When
@@ -783,8 +782,7 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   // If
   MSAbstractLog *aLog = [MSAbstractLog new];
   aLog.sid = MS_UUID_STRING;
-  NSString *criticalLogsFilter =
-      [NSString stringWithFormat:@"\"%@\" = '%u'", kMSPriorityColumnName, (unsigned int)MSFlagsCritical];
+  NSString *criticalLogsFilter = [NSString stringWithFormat:@"\"%@\" = '%u'", kMSPriorityColumnName, (unsigned int)MSFlagsCritical];
   NSString *normalLogsFilter = [NSString stringWithFormat:@"\"%@\" = '%u'", kMSPriorityColumnName, (unsigned int)MSFlagsNormal];
 
   // When
@@ -801,11 +799,11 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
 - (void)testGetOldestLogTime {
   // If
   NSDate *defaultTime = [NSDate dateWithTimeIntervalSince1970:0];
-  
+
   // Then
   NSDate *defaultTimestampResult = [self.sut getOldestLogTime:kMSTestGroupId];
   XCTAssertEqual(defaultTime.timeIntervalSince1970, defaultTimestampResult.timeIntervalSince1970);
-  
+
   // If
   NSDate *firstDate = [NSDate dateWithTimeIntervalSince1970:20];
   MSAbstractLog *aLog = [MSAbstractLog new];
@@ -816,12 +814,12 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   NSDate *thirdDate = [NSDate dateWithTimeIntervalSince1970:12];
   MSAbstractLog *aLog3 = [MSAbstractLog new];
   aLog3.timestamp = thirdDate;
-  
+
   // When
   [self.sut saveLog:aLog withGroupId:kMSTestGroupId flags:MSFlagsNormal];
   [self.sut saveLog:aLog2 withGroupId:kMSTestGroupId flags:MSFlagsNormal];
   [self.sut saveLog:aLog3 withGroupId:kMSTestGroupId flags:MSFlagsNormal];
-  
+
   // Then
   NSDate *oldestLogTimestamp = [self.sut getOldestLogTime:kMSTestGroupId];
   XCTAssertEqual(secondDate.timeIntervalSince1970, oldestLogTimestamp.timeIntervalSince1970);
@@ -973,16 +971,8 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   [self.sut setMaxStorageSize:maxCapacityInBytes
             completionHandler:^(__unused BOOL success){
             }];
-  [self generateAndSaveLogsWithCount:1
-                             groupId:kMSTestGroupId
-                               flags:MSFlagsCritical
-              andVerifyLogGeneration:YES
-                          andLogDate:[NSDate new]];
-  [self generateAndSaveLogsWithCount:2
-                             groupId:kMSTestGroupId
-                               flags:MSFlagsNormal
-              andVerifyLogGeneration:YES
-                          andLogDate:[NSDate new]];
+  [self generateAndSaveLogsWithCount:1 groupId:kMSTestGroupId flags:MSFlagsCritical andVerifyLogGeneration:YES andLogDate:[NSDate new]];
+  [self generateAndSaveLogsWithCount:2 groupId:kMSTestGroupId flags:MSFlagsNormal andVerifyLogGeneration:YES andLogDate:[NSDate new]];
   id<MSLog> largeLog = [self generateLogWithSize:@(maxCapacityInBytes)];
   sqlite3 *db = [self.storageTestUtil openDatabase];
   NSArray<NSNumber *> *criticalDbIds = [self dbIdsForPriority:MSFlagsCritical inOpenedDatabase:db];

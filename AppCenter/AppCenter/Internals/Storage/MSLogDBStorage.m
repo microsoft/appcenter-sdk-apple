@@ -254,12 +254,12 @@ static const NSUInteger kMSSchemaVersion = 4;
 #pragma mark - DB selection
 
 - (NSDate *)getOldestLogTime:(NSString *)groupId {
-  NSMutableString *query = [NSMutableString stringWithFormat:@"SELECT MIN(\"%@\") FROM \"%@\" WHERE \"%@\" = '%@'",
-                            kMSTimestampColumnName, kMSLogTableName, kMSGroupIdColumnName, groupId];
+  NSMutableString *query = [NSMutableString stringWithFormat:@"SELECT MIN(\"%@\") FROM \"%@\" WHERE \"%@\" = '%@'", kMSTimestampColumnName,
+                                                             kMSLogTableName, kMSGroupIdColumnName, groupId];
   NSArray<NSArray *> *entries = [self executeSelectionQuery:query];
   NSTimeInterval timestamp = 0;
-  if (entries.count > 0 && entries[0].count > 0 && entries[0][0] != [NSNull null]){
-    NSNumber *logTimestamp = (NSNumber*) entries[0][0];
+  if (entries.count > 0 && entries[0].count > 0 && entries[0][0] != [NSNull null]) {
+    NSNumber *logTimestamp = (NSNumber *)entries[0][0];
     timestamp = [logTimestamp longLongValue] / 1000;
     NSDate *result = [NSDate dateWithTimeIntervalSince1970:timestamp];
     return result;
@@ -407,9 +407,8 @@ static const NSUInteger kMSSchemaVersion = 4;
   if (version < kMSLogPersistencePriorityVersion) {
 
     // Integer type for flags is actually unsigned int, but SQL resolves UNSIGNED INTEGER to INTEGER anyways.
-    NSString *migrationQuery =
-        [NSString stringWithFormat:@"ALTER TABLE \"%@\" ADD COLUMN \"%@\" %@ DEFAULT %u", kMSLogTableName, kMSPriorityColumnName,
-                                   kMSSQLiteTypeInteger, (unsigned int)MSFlagsNormal];
+    NSString *migrationQuery = [NSString stringWithFormat:@"ALTER TABLE \"%@\" ADD COLUMN \"%@\" %@ DEFAULT %u", kMSLogTableName,
+                                                          kMSPriorityColumnName, kMSSQLiteTypeInteger, (unsigned int)MSFlagsNormal];
     [MSDBStorage executeNonSelectionQuery:migrationQuery inOpenedDatabase:db];
     [self createPriorityIndex:db];
   }

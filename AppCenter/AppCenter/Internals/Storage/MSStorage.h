@@ -106,8 +106,7 @@ typedef void (^MSLoadDataCompletionHandler)(NSArray<id<MSLog>> *_Nullable logArr
  * @param groupId The group of the storage for logs.
  * @return The time of the oldest.
  */
--(NSDate*)getOldestLogTime:(NSString *)groupId;
-
+- (NSDate *)getOldestLogTime:(NSString *)groupId;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -4,9 +4,9 @@
 #import <Foundation/Foundation.h>
 
 typedef NS_OPTIONS(NSUInteger, MSFlags) {
-  MSFlagsNone = (0 << 0),                // => 00000000
-  MSFlagsNormal = (1 << 0),               // => 00000001
-  MSFlagsCritical = (1 << 1),              // => 00000010
+  MSFlagsNone = (0 << 0),     // => 00000000
+  MSFlagsNormal = (1 << 0),   // => 00000001
+  MSFlagsCritical = (1 << 1), // => 00000010
   MSFlagsPersistenceNormal DEPRECATED_MSG_ATTRIBUTE("please use MSFlagsNormal") = MSFlagsNormal,
   MSFlagsPersistenceCritical DEPRECATED_MSG_ATTRIBUTE("please use MSFlagsCritical") = MSFlagsCritical,
   MSFlagsDefault = MSFlagsNormal
