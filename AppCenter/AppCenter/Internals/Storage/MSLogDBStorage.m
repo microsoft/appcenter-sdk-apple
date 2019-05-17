@@ -253,6 +253,37 @@ static const NSUInteger kMSSchemaVersion = 4;
 
 #pragma mark - DB selection
 
+- (NSDate *)getOldestLogTime:(NSString *)groupId {
+  NSMutableString *query = [NSMutableString stringWithFormat:@"SELECT MIN(\"%@\") FROM \"%@\" WHERE \"%@\" = '%@'",
+                            @"timestamp", kMSLogTableName, kMSGroupIdColumnName, groupId];
+  NSArray<NSArray *> *entries = [self executeSelectionQuery:query];
+  
+  // Get logs from DB.
+  for (NSMutableArray *row in entries) {
+    NSNumber *dbId = row[self.idColumnIndex];
+    NSData *logData = [[NSData alloc] initWithBase64EncodedString:row[self.logColumnIndex]
+                                                          options:NSDataBase64DecodingIgnoreUnknownCharacters];
+    id<MSLog> log;
+    NSException *exception;
+    
+    // Deserialize the log.
+    @try {
+      log = [NSKeyedUnarchiver unarchiveObjectWithData:logData];
+    } @catch (NSException *e) {
+      exception = e;
+    }
+    if (!log || exception) {
+      
+      // The archived log is not valid.
+      MSLogError([MSAppCenter logTag], @"Deserialization failed for log with Id %@: %@", dbId,
+                 exception ? exception.reason : @"The log deserialized to NULL.");
+      continue;
+    }
+    return log.timestamp;
+  }
+  return nil;
+}
+
 - (NSArray<id<MSLog>> *)logsFromDBWithGroupId:(NSString *)groupId {
 
   // Get log entries for the given group Id.

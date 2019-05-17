@@ -370,7 +370,6 @@
   if (self.itemsCount >= self.configuration.batchSizeLimit) {
     [self flushQueue];
   } else if (self.itemsCount > 0 && !self.paused) {
-
     // Only start timer if channel is not paused. Otherwise, logs will stack.
     [self startTimer];
   }
@@ -392,10 +391,24 @@
   self.timerSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, self.logsDispatchQueue);
 
   /**
-   * Cast (NSEC_PER_SEC * self.configuration.flushInterval) to (int64_t) silence warning. The compiler otherwise complains that we're using
+   * If we have flushInterval bigger than 3 seconds, we should subtract the time passed from latest log added to Persistance.
+   * It is needed to avoid situations when logs not being send to server cause time interval is too big for a user session.
+   * Like nobody would like to have the app being opened for a 1 day.
+   */
+  NSUInteger flushInterval = self.configuration.flushInterval;
+  //todo
+//  if (flushInterval > 3){
+    NSDate *date = [NSDate date];
+    NSDate *latestLogTime = [self.storage getOldestLogTime:self.configuration.groupId];
+    NSUInteger diff = (NSUInteger)[date timeIntervalSinceDate:latestLogTime];
+    flushInterval = flushInterval - diff;
+//  }
+  
+  /**
+   * Cast (NSEC_PER_SEC * flushInterval) to (int64_t) silence warning. The compiler otherwise complains that we're using
    * a float param (flushInterval) and implicitly downcast to int64_t.
    */
-  dispatch_source_set_timer(self.timerSource, dispatch_walltime(NULL, (int64_t)(NSEC_PER_SEC * self.configuration.flushInterval)),
+  dispatch_source_set_timer(self.timerSource, dispatch_walltime(NULL, (int64_t)(NSEC_PER_SEC * flushInterval)),
                             1ull * NSEC_PER_SEC, 1ull * NSEC_PER_SEC);
   __weak typeof(self) weakSelf = self;
   dispatch_source_set_event_handler(self.timerSource, ^{
