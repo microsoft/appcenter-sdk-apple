@@ -255,33 +255,16 @@ static const NSUInteger kMSSchemaVersion = 4;
 
 - (NSDate *)getOldestLogTime:(NSString *)groupId {
   NSMutableString *query = [NSMutableString stringWithFormat:@"SELECT MIN(\"%@\") FROM \"%@\" WHERE \"%@\" = '%@'",
-                            @"timestamp", kMSLogTableName, kMSGroupIdColumnName, groupId];
+                            kMSTimestampColumnName, kMSLogTableName, kMSGroupIdColumnName, groupId];
   NSArray<NSArray *> *entries = [self executeSelectionQuery:query];
-  
-  // Get logs from DB.
-  for (NSMutableArray *row in entries) {
-    NSNumber *dbId = row[self.idColumnIndex];
-    NSData *logData = [[NSData alloc] initWithBase64EncodedString:row[self.logColumnIndex]
-                                                          options:NSDataBase64DecodingIgnoreUnknownCharacters];
-    id<MSLog> log;
-    NSException *exception;
-    
-    // Deserialize the log.
-    @try {
-      log = [NSKeyedUnarchiver unarchiveObjectWithData:logData];
-    } @catch (NSException *e) {
-      exception = e;
-    }
-    if (!log || exception) {
-      
-      // The archived log is not valid.
-      MSLogError([MSAppCenter logTag], @"Deserialization failed for log with Id %@: %@", dbId,
-                 exception ? exception.reason : @"The log deserialized to NULL.");
-      continue;
-    }
-    return log.timestamp;
+  NSTimeInterval timestamp = 0;
+  if (entries.count > 0 && entries[0].count > 0 && entries[0][0] != [NSNull null]){
+    NSNumber *logTimestamp = (NSNumber*) entries[0][0];
+    timestamp = [logTimestamp longLongValue] / 1000;
+    NSDate *result = [NSDate dateWithTimeIntervalSince1970:timestamp];
+    return result;
   }
-  return nil;
+  return [NSDate dateWithTimeIntervalSince1970:timestamp];
 }
 
 - (NSArray<id<MSLog>> *)logsFromDBWithGroupId:(NSString *)groupId {

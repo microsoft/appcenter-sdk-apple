@@ -15,6 +15,11 @@
 #import "MSStorage.h"
 #import "MSUtility+StringFormatting.h"
 
+/**
+ * Minimum flush interval for channel.
+ */
+static NSUInteger const kMSFlushIntervalMinimum = 3;
+
 @implementation MSChannelUnitDefault
 
 @synthesize configuration = _configuration;
@@ -389,20 +394,7 @@
 
   // Create new timer.
   self.timerSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, self.logsDispatchQueue);
-
-  /**
-   * If we have flushInterval bigger than 3 seconds, we should subtract the time passed from latest log added to Persistance.
-   * It is needed to avoid situations when logs not being send to server cause time interval is too big for a user session.
-   * Like nobody would like to have the app being opened for a 1 day.
-   */
-  NSUInteger flushInterval = self.configuration.flushInterval;
-  //todo
-//  if (flushInterval > 3){
-    NSDate *date = [NSDate date];
-    NSDate *latestLogTime = [self.storage getOldestLogTime:self.configuration.groupId];
-    NSUInteger diff = (NSUInteger)[date timeIntervalSinceDate:latestLogTime];
-    flushInterval = flushInterval - diff;
-//  }
+  NSUInteger flushInterval = [self resolveFlushInterval];
   
   /**
    * Cast (NSEC_PER_SEC * flushInterval) to (int64_t) silence warning. The compiler otherwise complains that we're using
@@ -423,6 +415,22 @@
     }
   });
   dispatch_resume(self.timerSource);
+}
+
+/**
+ * If we have flushInterval bigger than 3 seconds, we should subtract an oldest log's timestamp from it.
+ * It is needed to avoid situations when the logs not being sent to server cause time interval is too big
+ * for a typical user session.
+ */
+- (NSUInteger)resolveFlushInterval{
+  NSUInteger flushInterval = self.configuration.flushInterval;
+  if (flushInterval > kMSFlushIntervalMinimum){
+    NSDate *date = [NSDate date];
+    NSDate *latestLogTime = [self.storage getOldestLogTime:self.configuration.groupId];
+    NSUInteger diff = (NSUInteger)[date timeIntervalSinceDate:latestLogTime];
+    flushInterval = flushInterval - diff;
+  }
+  return MAX(flushInterval, kMSFlushIntervalMinimum);
 }
 
 - (void)resetTimer {
