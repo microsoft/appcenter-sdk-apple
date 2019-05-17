@@ -7,6 +7,8 @@
 #import "MSDBStoragePrivate.h"
 #import "MSUtility+File.h"
 
+void errorLogCallback(void *pArg, int iErrCode, const char *zMsg);
+
 @implementation MSDBStorage
 
 - (instancetype)initWithSchema:(MSDBSchema *)schema version:(NSUInteger)version filename:(NSString *)filename {
@@ -15,8 +17,7 @@
     _dbFileURL = [MSUtility createFileAtPathComponent:filename withData:nil atomically:NO forceOverwrite:NO];
     _maxSizeInBytes = kMSDefaultDatabaseSizeInBytes;
 
-    // If it is custom SQLite library we need to turn on URI filename capability.
-    sqlite3_config(SQLITE_CONFIG_URI, 1);
+    [self configSqliteDB];
     int result;
     sqlite3 *db = [MSDBStorage openDatabaseAtFileURL:self.dbFileURL withResult:&result];
     if (db) {
@@ -47,8 +48,7 @@
     _dbFileURL = [MSUtility createFileAtPathComponent:filename withData:nil atomically:NO forceOverwrite:NO];
     _maxSizeInBytes = kMSDefaultDatabaseSizeInBytes;
 
-    // If it is custom SQLite library we need to turn on URI filename capability.
-    sqlite3_config(SQLITE_CONFIG_URI, 1);
+    [self configSqliteDB];
     int result;
     sqlite3 *db = [MSDBStorage openDatabaseAtFileURL:self.dbFileURL withResult:&result];
     if (db) {
@@ -315,6 +315,20 @@
 }
 
 - (void)migrateDatabase:(void *)__unused db fromVersion:(NSUInteger)__unused version {
+}
+
+- (void)configSqliteDB {
+
+  // If it is custom SQLite library we need to turn on URI filename capability.
+  char *pData = NULL;
+  sqlite3_config(SQLITE_CONFIG_LOG, errorLogCallback, pData);
+  sqlite3_config(SQLITE_CONFIG_URI, 1);
+}
+
+void errorLogCallback(void *pArg, int iErrCode, const char *zMsg) {
+  (void)pArg;
+  (void)iErrCode;
+  (void)zMsg;
 }
 
 - (void)setMaxStorageSize:(long)sizeInBytes completionHandler:(nullable void (^)(BOOL))completionHandler {
