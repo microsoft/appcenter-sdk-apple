@@ -16,9 +16,9 @@
 #import "MSUtility+StringFormatting.h"
 
 /**
- * Timestamp of the oldest log that was added.
+ * Key for the start timestamp.
  */
-static NSString *kMSStartTimer = @"MSChannelStartTimer";
+static NSString *kMSStartTimestampPrefix = @"MSChannelStartTimer";
 
 @implementation MSChannelUnitDefault
 
@@ -245,8 +245,6 @@ static NSString *kMSStartTimer = @"MSChannelStartTimer";
               BOOL succeeded = response.statusCode == MSHTTPCodesNo200OK;
               if (succeeded) {
                 MSLogDebug([MSAppCenter logTag], @"Log(s) sent with success, batch Id:%@.", ingestionBatchId);
-                // Update current timestamp
-                [MS_USER_DEFAULTS setObject:[NSDate date] forKey:[self getStartTimeKey]];
 
                 // Notify delegates.
                 [self enumerateDelegatesForSelector:@selector(channel:didSucceedSendingLog:)
@@ -415,6 +413,9 @@ static NSString *kMSStartTimer = @"MSChannelStartTimer";
         [strongSelf flushQueue];
       }
       [strongSelf resetTimer];
+
+      // Update current timestamp.
+      [MS_USER_DEFAULTS removeObjectForKey:[self startTimeKey]];
     }
   });
   dispatch_resume(self.timerSource);
@@ -429,18 +430,19 @@ static NSString *kMSStartTimer = @"MSChannelStartTimer";
   NSUInteger flushInterval = self.configuration.flushInterval;
   if (flushInterval > kMSFlushIntervalDefault) {
     NSDate *date = [NSDate date];
-    NSDate *oldestLogTime = [MS_USER_DEFAULTS objectForKey:[self getStartTimeKey]];
-    if (!oldestLogTime) {
-      [MS_USER_DEFAULTS setObject:date forKey:[self getStartTimeKey]];
+    NSDate *startTime = [MS_USER_DEFAULTS objectForKey:[self startTimeKey]];
+    if (startTime == nil) {
+      [MS_USER_DEFAULTS setObject:date forKey:[self startTimeKey]];
+    } else {
+      flushInterval -= (NSUInteger)[date timeIntervalSinceDate:startTime];
     }
-    flushInterval -= (NSUInteger)[date timeIntervalSinceDate:oldestLogTime];
-    return MIN(self.configuration.flushInterval, MAX(flushInterval, kMSFlushIntervalDefault));
+    return MAX(flushInterval, kMSFlushIntervalDefault);
   }
   return flushInterval;
 }
 
-- (NSString *)getStartTimeKey {
-  return [NSString stringWithFormat:@"%@:%@", kMSStartTimer, self.configuration.groupId];
+- (NSString *)startTimeKey {
+  return [NSString stringWithFormat:@"%@:%@", kMSStartTimestampPrefix, self.configuration.groupId];
 }
 
 - (void)resetTimer {
@@ -474,7 +476,7 @@ static NSString *kMSStartTimer = @"MSChannelStartTimer";
       self.itemsCount = 0;
       self.availableBatchFromStorage = NO;
       self.pendingBatchQueueFull = NO;
-      [MS_USER_DEFAULTS removeObjectForKey:[self getStartTimeKey]];
+      [MS_USER_DEFAULTS removeObjectForKey:[self startTimeKey]];
 
       // Prevent further logs from being persisted.
       self.discardLogs = YES;

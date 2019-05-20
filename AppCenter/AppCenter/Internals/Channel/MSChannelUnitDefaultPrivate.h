@@ -49,7 +49,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * @return Key for User Defaults file where an oldest log timestamp for this channel is stored.
  */
-- (NSString *)getStartTimeKey;
+- (NSString *)startTimeKey;
 
 @end
 
