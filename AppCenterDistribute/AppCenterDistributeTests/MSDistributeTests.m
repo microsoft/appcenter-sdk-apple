@@ -622,6 +622,9 @@ static NSURL *sfURL;
 
   // Mock Bundle.
   NSString *appName = @"Test App";
+  NSString *kMSDisServiceName = @"AppCenterDistribute";
+  NSString *kMSAppServiceName = @"AppCenter";
+  NSInteger logLevel = 7;
   OCMStub([self.bundleMock objectForInfoDictionaryKey:@"CFBundleDisplayName"]).andReturn(appName);
 
   // Init mandatory release.
@@ -641,6 +644,14 @@ static NSURL *sfURL;
   NSString *message = [NSString stringWithFormat:MSDistributeLocalizedString(@"MSDistributeAppUpdateAvailableMandatoryUpdateMessage"),
                                                  appName, details.shortVersion, details.version];
 #pragma clang diagnostic pop
+    
+    id distributeMock = OCMClassMock([MSDistribute class]);
+    OCMStub([distributeMock isNewerVersion:OCMOCK_ANY]).andReturn(YES);
+    OCMStub([distributeMock logTag]).andReturn(kMSDisServiceName);
+    id appCenterMock = OCMClassMock([MSAppCenter class]);
+    OCMStub([appCenterMock isDebuggerAttached]).andReturn(NO);
+    OCMStub([appCenterMock logTag]).andReturn(kMSAppServiceName);
+    OCMStub([appCenterMock logLevel]).andReturn(logLevel);
 
   // Mock reachability.
   id reachabilityMock = OCMClassMock([MS_Reachability class]);
