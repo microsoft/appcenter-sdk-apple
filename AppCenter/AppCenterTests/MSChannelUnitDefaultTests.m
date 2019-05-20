@@ -129,6 +129,35 @@ static NSString *const kMSTestGroupId = @"GroupId";
   [dateMock stopMocking];
 }
 
+- (void)testResolveFlushIntervalTimestampLaterThanNow {
+
+  // If
+  __block NSDate *date;
+  id dateMock = OCMClassMock([NSDate class]);
+  NSUInteger flushInterval = 2000;
+
+  // Configure channel.
+  self.sut.configuration = [[MSChannelUnitConfiguration alloc] initWithGroupId:kMSTestGroupId
+                                                                      priority:MSPriorityDefault
+                                                                 flushInterval:flushInterval
+                                                                batchSizeLimit:50
+                                                           pendingBatchesLimit:1];
+  OCMStub(ClassMethod([dateMock date])).andDo(^(NSInvocation *invocation) {
+    date = [[NSDate alloc] initWithTimeIntervalSince1970:1000];
+    [invocation setReturnValue:&date];
+  });
+  [MS_USER_DEFAULTS setObject:[[NSDate alloc] initWithTimeIntervalSince1970:2000] forKey:self.sut.startTimeKey];
+
+  // When
+  NSUInteger resultFlushInterval = [self.sut resolveFlushInterval];
+
+  // Then
+  XCTAssertEqual(resultFlushInterval, flushInterval);
+
+  // Clear
+  [dateMock stopMocking];
+}
+
 - (void)testResolveFlushIntervalNow {
 
   // If
