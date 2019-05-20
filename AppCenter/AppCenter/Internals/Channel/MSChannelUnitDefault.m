@@ -16,9 +16,9 @@
 #import "MSUtility+StringFormatting.h"
 
 /**
- * Minimum flush interval for channel.
+ * Timestamp of the oldest log that was added.
  */
-static NSUInteger const kMSFlushIntervalMinimum = 3;
+static NSString *kMSStartTimer = @"MSChannelStartTimer";
 
 @implementation MSChannelUnitDefault
 
@@ -245,6 +245,8 @@ static NSUInteger const kMSFlushIntervalMinimum = 3;
               BOOL succeeded = response.statusCode == MSHTTPCodesNo200OK;
               if (succeeded) {
                 MSLogDebug([MSAppCenter logTag], @"Log(s) sent with success, batch Id:%@.", ingestionBatchId);
+                // Update current timestamp
+                [MS_USER_DEFAULTS setObject:[NSDate date] forKey:[self getStartTimeKey]];
 
                 // Notify delegates.
                 [self enumerateDelegatesForSelector:@selector(channel:didSucceedSendingLog:)
@@ -425,13 +427,20 @@ static NSUInteger const kMSFlushIntervalMinimum = 3;
  */
 - (NSUInteger)resolveFlushInterval {
   NSUInteger flushInterval = self.configuration.flushInterval;
-  if (flushInterval > kMSFlushIntervalMinimum) {
+  if (flushInterval > kMSFlushIntervalDefault) {
     NSDate *date = [NSDate date];
-    NSDate *latestLogTime = [self.storage getOldestLogTime:self.configuration.groupId];
-    flushInterval -= (NSUInteger)[date timeIntervalSinceDate:latestLogTime];
-    return MAX(flushInterval, kMSFlushIntervalMinimum);
+    NSDate *oldestLogTime = [MS_USER_DEFAULTS objectForKey:[self getStartTimeKey]];
+    if (!oldestLogTime) {
+      [MS_USER_DEFAULTS setObject:date forKey:[self getStartTimeKey]];
+    }
+    flushInterval -= (NSUInteger)[date timeIntervalSinceDate:oldestLogTime];
+    return MIN(self.configuration.flushInterval, MAX(flushInterval, kMSFlushIntervalDefault));
   }
   return flushInterval;
+}
+
+- (NSString *)getStartTimeKey {
+  return [NSString stringWithFormat:@"%@:%@", kMSStartTimer, self.configuration.groupId];
 }
 
 - (void)resetTimer {
@@ -465,6 +474,7 @@ static NSUInteger const kMSFlushIntervalMinimum = 3;
       self.itemsCount = 0;
       self.availableBatchFromStorage = NO;
       self.pendingBatchQueueFull = NO;
+      [MS_USER_DEFAULTS removeObjectForKey:[self getStartTimeKey]];
 
       // Prevent further logs from being persisted.
       self.discardLogs = YES;

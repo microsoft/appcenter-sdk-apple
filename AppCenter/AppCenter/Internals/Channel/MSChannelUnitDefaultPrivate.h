@@ -39,6 +39,18 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)resumeWithIdentifyingObjectSync:(id<NSObject>)identifyingObject;
 
+/**
+ * If we have flushInterval bigger than 3 seconds, we should subtract an oldest log's timestamp from it.
+ * It is needed to avoid situations when the logs not being sent to server cause time interval is too big
+ * for a typical user session.
+ */
+- (NSUInteger)resolveFlushInterval;
+
+/**
+ * @return Key for User Defaults file where an oldest log timestamp for this channel is stored.
+ */
+- (NSString *)getStartTimeKey;
+
 @end
 
 NS_ASSUME_NONNULL_END

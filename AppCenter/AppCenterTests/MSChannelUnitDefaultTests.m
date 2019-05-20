@@ -79,6 +79,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                                      storage:self.storageMock
                                                configuration:self.configMock
                                            logsDispatchQueue:self.logsDispatchQueue];
+  [MS_USER_DEFAULTS removeObjectForKey:[self.sut getStartTimeKey]];
 
   // Auth token context.
   [MSAuthTokenContext resetSharedInstance];
@@ -89,6 +90,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
 - (void)tearDown {
   [MSDispatchTestUtil awaitAndSuspendDispatchQueue:self.logsDispatchQueue];
+  [MS_USER_DEFAULTS removeObjectForKey:[self.sut getStartTimeKey]];
 
   // Stop mocks.
   [self.configMock stopMocking];
@@ -98,6 +100,117 @@ static NSString *const kMSTestGroupId = @"GroupId";
 }
 
 #pragma mark - Tests
+
+- (void)testResolveFlushIntervalTimestampNotSet {
+  // If
+  __block NSDate *date;
+  id dateMock = OCMClassMock([NSDate class]);
+  NSUInteger flushInterval = 2000;
+
+  // Configure channel.
+  self.sut.configuration = [[MSChannelUnitConfiguration alloc] initWithGroupId:kMSTestGroupId
+                                                                      priority:MSPriorityDefault
+                                                                 flushInterval:flushInterval
+                                                                batchSizeLimit:50
+                                                           pendingBatchesLimit:1];
+  OCMStub(ClassMethod([dateMock date])).andDo(^(NSInvocation *invocation) {
+    date = [[NSDate alloc] initWithTimeIntervalSince1970:1000];
+    [invocation setReturnValue:&date];
+  });
+
+  // When
+  NSUInteger resultFlushInterval = [self.sut resolveFlushInterval];
+
+  // Then
+  XCTAssertEqual(resultFlushInterval, flushInterval);
+
+  // Clear
+  [dateMock stopMocking];
+}
+
+- (void)testResolveFlushIntervalTimestampLaterThanNow {
+  // If
+  __block NSDate *date;
+  id dateMock = OCMClassMock([NSDate class]);
+  NSUInteger flushInterval = 2000;
+
+  // Configure channel.
+  self.sut.configuration = [[MSChannelUnitConfiguration alloc] initWithGroupId:kMSTestGroupId
+                                                                      priority:MSPriorityDefault
+                                                                 flushInterval:flushInterval
+                                                                batchSizeLimit:50
+                                                           pendingBatchesLimit:1];
+  OCMStub(ClassMethod([dateMock date])).andDo(^(NSInvocation *invocation) {
+    date = [[NSDate alloc] initWithTimeIntervalSince1970:1000];
+    [invocation setReturnValue:&date];
+  });
+  [MS_USER_DEFAULTS setObject:[[NSDate alloc] initWithTimeIntervalSince1970:2000] forKey:self.sut.getStartTimeKey];
+
+  // When
+  NSUInteger resultFlushInterval = [self.sut resolveFlushInterval];
+
+  // Then
+  XCTAssertEqual(resultFlushInterval, flushInterval);
+
+  // Clear
+  [dateMock stopMocking];
+}
+
+- (void)testResolveFlushIntervalNow {
+
+  // If
+  __block NSDate *date;
+  id dateMock = OCMClassMock([NSDate class]);
+
+  // Configure channel.
+  self.sut.configuration = [[MSChannelUnitConfiguration alloc] initWithGroupId:kMSTestGroupId
+                                                                      priority:MSPriorityDefault
+                                                                 flushInterval:2000
+                                                                batchSizeLimit:50
+                                                           pendingBatchesLimit:1];
+  OCMStub(ClassMethod([dateMock date])).andDo(^(NSInvocation *invocation) {
+    date = [[NSDate alloc] initWithTimeIntervalSince1970:4000];
+    [invocation setReturnValue:&date];
+  });
+  [MS_USER_DEFAULTS setObject:[[NSDate alloc] initWithTimeIntervalSince1970:2000] forKey:self.sut.getStartTimeKey];
+
+  // When
+  NSUInteger resultFlushInterval = [self.sut resolveFlushInterval];
+
+  // Then
+  XCTAssertEqual(resultFlushInterval, kMSFlushIntervalDefault);
+
+  // Clear
+  [dateMock stopMocking];
+}
+
+- (void)testResolveFlushInterval {
+
+  // If
+  __block NSDate *date;
+  id dateMock = OCMClassMock([NSDate class]);
+
+  // Configure channel.
+  self.sut.configuration = [[MSChannelUnitConfiguration alloc] initWithGroupId:kMSTestGroupId
+                                                                      priority:MSPriorityDefault
+                                                                 flushInterval:2000
+                                                                batchSizeLimit:50
+                                                           pendingBatchesLimit:1];
+  OCMStub(ClassMethod([dateMock date])).andDo(^(NSInvocation *invocation) {
+    date = [[NSDate alloc] initWithTimeIntervalSince1970:1000];
+    [invocation setReturnValue:&date];
+  });
+  [MS_USER_DEFAULTS setObject:[[NSDate alloc] initWithTimeIntervalSince1970:500] forKey:self.sut.getStartTimeKey];
+
+  // When
+  NSUInteger resultFlushInterval = [self.sut resolveFlushInterval];
+
+  // Then
+  XCTAssertEqual(resultFlushInterval, 1500);
+
+  // Clear
+  [dateMock stopMocking];
+}
 
 - (void)testNewInstanceWasInitialisedCorrectly {
   assertThat(self.sut, notNilValue());

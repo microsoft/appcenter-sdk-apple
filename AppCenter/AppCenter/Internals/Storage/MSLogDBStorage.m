@@ -253,20 +253,6 @@ static const NSUInteger kMSSchemaVersion = 4;
 
 #pragma mark - DB selection
 
-- (NSDate *)getOldestLogTime:(NSString *)groupId {
-  NSMutableString *query = [NSMutableString stringWithFormat:@"SELECT MIN(\"%@\") FROM \"%@\" WHERE \"%@\" = '%@'", kMSTimestampColumnName,
-                                                             kMSLogTableName, kMSGroupIdColumnName, groupId];
-  NSArray<NSArray *> *entries = [self executeSelectionQuery:query];
-  NSTimeInterval timestamp = 0;
-  if (entries.count > 0 && entries[0].count > 0 && entries[0][0] != [NSNull null]) {
-    NSNumber *logTimestamp = (NSNumber *)entries[0][0];
-    timestamp = [logTimestamp longLongValue] / 1000;
-    NSDate *result = [NSDate dateWithTimeIntervalSince1970:timestamp];
-    return result;
-  }
-  return [NSDate dateWithTimeIntervalSince1970:timestamp];
-}
-
 - (NSArray<id<MSLog>> *)logsFromDBWithGroupId:(NSString *)groupId {
 
   // Get log entries for the given group Id.

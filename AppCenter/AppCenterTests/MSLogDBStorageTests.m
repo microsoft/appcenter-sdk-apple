@@ -796,35 +796,6 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   XCTAssertEqual(criticalLogs.count, 0);
 }
 
-- (void)testGetOldestLogTime {
-  // If
-  NSDate *defaultTime = [NSDate dateWithTimeIntervalSince1970:0];
-
-  // Then
-  NSDate *defaultTimestampResult = [self.sut getOldestLogTime:kMSTestGroupId];
-  XCTAssertEqual(defaultTime.timeIntervalSince1970, defaultTimestampResult.timeIntervalSince1970);
-
-  // If
-  NSDate *firstDate = [NSDate dateWithTimeIntervalSince1970:20];
-  MSAbstractLog *aLog = [MSAbstractLog new];
-  aLog.timestamp = firstDate;
-  NSDate *secondDate = [NSDate dateWithTimeIntervalSince1970:5];
-  MSAbstractLog *aLog2 = [MSAbstractLog new];
-  aLog2.timestamp = secondDate;
-  NSDate *thirdDate = [NSDate dateWithTimeIntervalSince1970:12];
-  MSAbstractLog *aLog3 = [MSAbstractLog new];
-  aLog3.timestamp = thirdDate;
-
-  // When
-  [self.sut saveLog:aLog withGroupId:kMSTestGroupId flags:MSFlagsNormal];
-  [self.sut saveLog:aLog2 withGroupId:kMSTestGroupId flags:MSFlagsNormal];
-  [self.sut saveLog:aLog3 withGroupId:kMSTestGroupId flags:MSFlagsNormal];
-
-  // Then
-  NSDate *oldestLogTimestamp = [self.sut getOldestLogTime:kMSTestGroupId];
-  XCTAssertEqual(secondDate.timeIntervalSince1970, oldestLogTimestamp.timeIntervalSince1970);
-}
-
 - (void)testAddLogsDoesNotExceedCapacity {
 
   // If
