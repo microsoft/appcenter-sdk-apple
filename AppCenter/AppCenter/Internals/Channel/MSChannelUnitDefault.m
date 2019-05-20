@@ -433,7 +433,9 @@ static NSString *kMSStartTimestampPrefix = @"MSChannelStartTimer";
     NSDate *startTime = [MS_USER_DEFAULTS objectForKey:[self startTimeKey]];
     if (startTime == nil) {
       [MS_USER_DEFAULTS setObject:date forKey:[self startTimeKey]];
-    } else if ([date compare:startTime] == NSOrderedDescending){
+    } else if ([date compare:startTime] == NSOrderedAscending) {
+      [MS_USER_DEFAULTS removeObjectForKey:[self startTimeKey]];
+    } else {
       flushInterval -= (NSUInteger)[date timeIntervalSinceDate:startTime];
     }
     return MAX(flushInterval, kMSFlushIntervalDefault);
