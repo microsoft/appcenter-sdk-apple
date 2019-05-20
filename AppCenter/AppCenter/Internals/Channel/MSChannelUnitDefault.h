@@ -93,7 +93,7 @@ NS_ASSUME_NONNULL_BEGIN
  * A boolean value set to YES if logs are discarded (not persisted) or NO otherwise. Logs are discarded when the related service is disabled
  * or an unrecoverable error happened.
  */
-@property(nonatomic, getter=isDiscardLogs) BOOL discardLogs;
+@property(nonatomic) BOOL discardLogs;
 
 @end
 
