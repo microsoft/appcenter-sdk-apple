@@ -102,6 +102,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
 #pragma mark - Tests
 
 - (void)testResolveFlushIntervalTimestampNotSet {
+  
   // If
   __block NSDate *date;
   id dateMock = OCMClassMock([NSDate class]);
@@ -129,6 +130,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
 }
 
 - (void)testResolveFlushIntervalTimestampLaterThanNow {
+  
   // If
   __block NSDate *date;
   id dateMock = OCMClassMock([NSDate class]);

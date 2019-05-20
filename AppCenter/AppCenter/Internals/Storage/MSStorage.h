@@ -99,6 +99,7 @@ typedef void (^MSLoadDataCompletionHandler)(NSArray<id<MSLog>> *_Nullable logArr
  *
  */
 - (void)setMaxStorageSize:(long)sizeInBytes completionHandler:(nullable void (^)(BOOL))completionHandler;
+
 @end
 
 NS_ASSUME_NONNULL_END
