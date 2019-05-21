@@ -7,8 +7,6 @@
 #import "MSDBStoragePrivate.h"
 #import "MSUtility+File.h"
 
-void errorLogCallback(void *pArg, int iErrCode, const char *zMsg);
-
 @implementation MSDBStorage
 
 - (instancetype)initWithSchema:(MSDBSchema *)schema version:(NSUInteger)version filename:(NSString *)filename {
@@ -17,7 +15,6 @@ void errorLogCallback(void *pArg, int iErrCode, const char *zMsg);
     _dbFileURL = [MSUtility createFileAtPathComponent:filename withData:nil atomically:NO forceOverwrite:NO];
     _maxSizeInBytes = kMSDefaultDatabaseSizeInBytes;
 
-    [self configSqliteDB];
     int result;
     sqlite3 *db = [MSDBStorage openDatabaseAtFileURL:self.dbFileURL withResult:&result];
     if (db) {
@@ -48,7 +45,6 @@ void errorLogCallback(void *pArg, int iErrCode, const char *zMsg);
     _dbFileURL = [MSUtility createFileAtPathComponent:filename withData:nil atomically:NO forceOverwrite:NO];
     _maxSizeInBytes = kMSDefaultDatabaseSizeInBytes;
 
-    [self configSqliteDB];
     int result;
     sqlite3 *db = [MSDBStorage openDatabaseAtFileURL:self.dbFileURL withResult:&result];
     if (db) {
@@ -317,20 +313,6 @@ void errorLogCallback(void *pArg, int iErrCode, const char *zMsg);
 - (void)migrateDatabase:(void *)__unused db fromVersion:(NSUInteger)__unused version {
 }
 
-- (void)configSqliteDB {
-
-  // If it is custom SQLite library we need to turn on URI filename capability.
-  char *pData = NULL;
-  sqlite3_config(SQLITE_CONFIG_LOG, errorLogCallback, pData);
-  sqlite3_config(SQLITE_CONFIG_URI, 1);
-}
-
-void errorLogCallback(void *pArg, int iErrCode, const char *zMsg) {
-  (void)pArg;
-  (void)iErrCode;
-  (void)zMsg;
-}
-
 - (void)setMaxStorageSize:(long)sizeInBytes completionHandler:(nullable void (^)(BOOL))completionHandler {
   int result;
   BOOL success;
@@ -410,6 +392,13 @@ void errorLogCallback(void *pArg, int iErrCode, const char *zMsg) {
 + (int)setMaxPageCount:(long)maxPageCount inOpenedDatabase:(void *)db {
   NSString *statement = [NSString stringWithFormat:@"PRAGMA max_page_count = %ld;", maxPageCount];
   return [MSDBStorage executeNonSelectionQuery:statement inOpenedDatabase:db];
+}
+
++ (void)load {
+
+  // If it is custom SQLite library we need to turn on URI filename capability.
+  // Need to configure SQLite at load time to invoke configuration only once
+  sqlite3_config(SQLITE_CONFIG_URI, 1);
 }
 
 @end
