@@ -706,7 +706,8 @@ static NSURL *sfURL;
                                  OCMVerify([self.alertControllerMock addPreferredActionWithTitle:OCMOCK_ANY handler:OCMOCK_ANY]);
                                  OCMVerifyAll(self.alertControllerMock);
                                }];
-
+  [distributeMock stopMocking];
+  [appCenterMock stopMocking];
   [reachabilityMock stopMocking];
 }
 
