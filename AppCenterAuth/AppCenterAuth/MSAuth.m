@@ -16,7 +16,6 @@
 #import "MSAuthTokenContext.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSConstants+Internal.h"
-#import "MSServiceAbstractProtected.h"
 #import "MSUserInformation.h"
 #import "MSUtility+File.h"
 

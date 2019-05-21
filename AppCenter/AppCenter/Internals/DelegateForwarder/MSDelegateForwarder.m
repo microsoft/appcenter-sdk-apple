@@ -284,7 +284,7 @@ static NSMutableArray<dispatch_block_t> *traceBuffer = nil;
   }
 }
 
-- (BOOL)enabled {
+- (BOOL)isEnabled {
   return _enabled;
 }
 

@@ -81,13 +81,13 @@ NS_ASSUME_NONNULL_BEGIN
  * Enable/disable does resume/pause the channel as needed under the hood. When a channel is disabled with data deletion it deletes persisted
  * logs and discards incoming logs.
  */
-@property(nonatomic) BOOL enabled;
+@property(nonatomic, getter=isEnabled) BOOL enabled;
 
 /**
  * A boolean value set to YES if the channel is paused or NO otherwise. A paused channel doesn't forward logs to the ingestion. A paused
  * state doesn't impact the current enabled state.
  */
-@property(nonatomic) BOOL paused;
+@property(nonatomic, getter=isPaused) BOOL paused;
 
 /**
  * A boolean value set to YES if logs are discarded (not persisted) or NO otherwise. Logs are discarded when the related service is disabled

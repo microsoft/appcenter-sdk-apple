@@ -22,7 +22,6 @@
 #import "MSMockKeychainUtil.h"
 #import "MSMockReachability.h"
 #import "MSMockUserDefaults.h"
-#import "MSServiceAbstractProtected.h"
 #import "MSSessionContext.h"
 #import "MSSessionContextPrivate.h"
 #import "MSTestFrameworks.h"
@@ -1322,7 +1321,7 @@ static NSURL *sfURL;
     session = [SFAuthenticationSession class];
   }
   NSURL *fakeURL = [NSURL URLWithString:@"https://fakeurl.com"];
-  
+
   // Then
   XCTAssertNil([MSDistribute sharedInstance].authenticationSession);
 
@@ -1789,19 +1788,19 @@ static NSURL *sfURL;
   OCMStub([distributeMock closeApp]).andDo(nil);
   id utilityMock = OCMClassMock([MSUtility class]);
   OCMStub(ClassMethod([utilityMock sharedAppOpenUrl:OCMOCK_ANY options:OCMOCK_ANY completionHandler:OCMOCK_ANY]))
-  .andDo(^(NSInvocation *invocation) {
-    void (^handler)(MSOpenURLState);
-    [invocation getArgument:&handler atIndex:4];
-    handler(MSOpenURLStateSucceed);
-  });
-  
+      .andDo(^(NSInvocation *invocation) {
+        void (^handler)(MSOpenURLState);
+        [invocation getArgument:&handler atIndex:4];
+        handler(MSOpenURLStateSucceed);
+      });
+
   // When
   details.mandatoryUpdate = YES;
   [distributeMock startDownload:details];
-  
+
   // Then
   OCMVerify([distributeMock closeApp]);
-  
+
   // Clear
   [distributeMock stopMocking];
   [utilityMock stopMocking];
@@ -1895,7 +1894,7 @@ static NSURL *sfURL;
   // When
   id appCenterMock = OCMClassMock([MSAppCenter class]);
   OCMStub([appCenterMock sharedInstance]).andReturn(appCenterMock);
-  OCMStub([appCenterMock sdkConfigured]).andReturn(YES);
+  OCMStub([appCenterMock isSdkConfigured]).andReturn(YES);
   OCMStub([appCenterMock isConfigured]).andReturn(YES);
   [distributeMock startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
                               appSecret:kMSTestAppSecret

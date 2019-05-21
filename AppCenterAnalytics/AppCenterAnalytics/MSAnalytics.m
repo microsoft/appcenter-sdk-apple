@@ -14,7 +14,6 @@
 #import "MSEventProperties.h"
 #import "MSEventPropertiesInternal.h"
 #import "MSPageLog.h"
-#import "MSServiceAbstractProtected.h"
 #import "MSSessionContext.h"
 #import "MSStringTypedProperty.h"
 #import "MSTypedProperty.h"

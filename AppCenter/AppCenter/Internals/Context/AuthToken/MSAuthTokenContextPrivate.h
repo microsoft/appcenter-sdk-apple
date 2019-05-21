@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * YES if the current token should be reset.
  */
-@property BOOL resetAuthTokenRequired;
+@property(nonatomic, getter=isResetAuthTokenRequired) BOOL resetAuthTokenRequired;
 
 /*
  * Encrypter for target tokens.

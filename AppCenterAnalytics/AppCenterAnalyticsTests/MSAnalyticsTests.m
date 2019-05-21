@@ -1384,7 +1384,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   // If
   id appCenterMock = OCMClassMock([MSAppCenter class]);
   OCMStub([appCenterMock sharedInstance]).andReturn(appCenterMock);
-  OCMStub([appCenterMock sdkConfigured]).andReturn(YES);
+  OCMStub([appCenterMock isSdkConfigured]).andReturn(YES);
   [[MSAnalytics sharedInstance] startWithChannelGroup:self.channelGroupMock
                                             appSecret:kMSTestAppSecret
                               transmissionTargetToken:nil
@@ -1403,7 +1403,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   // If
   id appCenterMock = OCMClassMock([MSAppCenter class]);
   OCMStub([appCenterMock sharedInstance]).andReturn(appCenterMock);
-  OCMStub([appCenterMock sdkConfigured]).andReturn(YES);
+  OCMStub([appCenterMock isSdkConfigured]).andReturn(YES);
   [[MSAnalytics sharedInstance] startWithChannelGroup:self.channelGroupMock
                                             appSecret:kMSTestAppSecret
                               transmissionTargetToken:nil
@@ -1422,7 +1422,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   // If
   id appCenterMock = OCMClassMock([MSAppCenter class]);
   OCMStub([appCenterMock sharedInstance]).andReturn(appCenterMock);
-  OCMStub([appCenterMock sdkConfigured]).andReturn(YES);
+  OCMStub([appCenterMock isSdkConfigured]).andReturn(YES);
   OCMStub(ClassMethod([appCenterMock isEnabled])).andReturn(YES);
   [[MSAnalytics sharedInstance] startWithChannelGroup:self.channelGroupMock
                                             appSecret:kMSTestAppSecret
@@ -1447,7 +1447,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   // If
   id appCenterMock = OCMClassMock([MSAppCenter class]);
   OCMStub([appCenterMock sharedInstance]).andReturn(appCenterMock);
-  OCMStub([appCenterMock sdkConfigured]).andReturn(YES);
+  OCMStub([appCenterMock isSdkConfigured]).andReturn(YES);
   OCMStub(ClassMethod([appCenterMock isEnabled])).andReturn(YES);
   id<MSChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
   id<MSChannelUnitProtocol> oneCollectorChannelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
@@ -1466,7 +1466,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   // If
   id appCenterMock = OCMClassMock([MSAppCenter class]);
   OCMStub([appCenterMock sharedInstance]).andReturn(appCenterMock);
-  OCMStub([appCenterMock sdkConfigured]).andReturn(YES);
+  OCMStub([appCenterMock isSdkConfigured]).andReturn(YES);
   OCMStub(ClassMethod([appCenterMock isEnabled])).andReturn(YES);
   id<MSChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
   id<MSChannelUnitProtocol> oneCollectorChannelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));

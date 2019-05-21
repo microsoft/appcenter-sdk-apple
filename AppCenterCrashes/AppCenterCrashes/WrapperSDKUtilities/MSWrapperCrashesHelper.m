@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "MSCrashesInternal.h"
 #import "MSWrapperCrashesHelper.h"
+#import "MSCrashesInternal.h"
 
 @interface MSWrapperCrashesHelper ()
 
@@ -36,7 +36,7 @@
  * Enables or disables automatic crash processing. Setting to 'NO'causes SDK not to send reports immediately, even if ALWAYS_SEND is set.
  */
 + (void)setAutomaticProcessing:(BOOL)automaticProcessing {
-  [[MSCrashes sharedInstance] setAutomaticProcessing:automaticProcessing];
+  [[MSCrashes sharedInstance] setAutomaticProcessingEnabled:automaticProcessing];
 }
 
 /**

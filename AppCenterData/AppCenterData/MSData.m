@@ -24,7 +24,6 @@
 #import "MSPaginatedDocumentsInternal.h"
 #import "MSPendingOperation.h"
 #import "MSReadOptions.h"
-#import "MSServiceAbstractProtected.h"
 #import "MSTokenExchange.h"
 #import "MSTokensResponse.h"
 #import "MSUserInformation.h"
