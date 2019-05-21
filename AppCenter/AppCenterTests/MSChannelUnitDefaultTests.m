@@ -212,7 +212,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   NSUInteger resultFlushInterval = [self.sut resolveFlushInterval];
 
   // Then
-  XCTAssertEqual(resultFlushInterval, kMSFlushIntervalDefault);
+  XCTAssertEqual(resultFlushInterval, 0);
 
   // Clear
   [dateMock stopMocking];

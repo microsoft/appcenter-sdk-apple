@@ -372,8 +372,9 @@ static NSString *const kMSStartTimestampPrefix = @"MSChannelStartTimer";
 - (void)checkPendingLogs {
 
   // Skip checking pending logs if the channel is paused.
-  if (self.paused)
+  if (self.paused) {
     return;
+  }
 
   // If the interval is default and we reached batchSizeLimit flush logs now.
   if (self.configuration.flushInterval == kMSFlushIntervalDefault && self.itemsCount >= self.configuration.batchSizeLimit) {
@@ -463,7 +464,6 @@ static NSString *const kMSStartTimestampPrefix = @"MSChannelStartTimer";
     else {
       flushInterval -= (NSUInteger)[now timeIntervalSinceDate:startTime];
     }
-    return MAX(flushInterval, kMSFlushIntervalDefault);
   }
   return flushInterval;
 }
