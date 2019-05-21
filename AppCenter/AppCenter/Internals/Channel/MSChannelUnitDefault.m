@@ -425,7 +425,7 @@ static NSString *const kMSStartTimestampPrefix = @"MSChannelStartTimer";
       }
       [strongSelf resetTimer];
 
-      // Remove current timestamp.
+      // Remove the current timestamp. All pending logs will be sent in flushQueue call.
       [MS_USER_DEFAULTS removeObjectForKey:[self startTimeKey]];
     }
   });
@@ -457,6 +457,7 @@ static NSString *const kMSStartTimestampPrefix = @"MSChannelStartTimer";
 
     // If the interval is over.
     else if ([now compare:[startTime dateByAddingTimeInterval:flushInterval]] == NSOrderedDescending) {
+      [MS_USER_DEFAULTS removeObjectForKey:[self startTimeKey]];
       return 0;
     }
 
