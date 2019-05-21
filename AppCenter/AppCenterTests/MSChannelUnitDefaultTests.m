@@ -18,6 +18,7 @@
 #import "MSHttpIngestion.h"
 #import "MSHttpTestUtil.h"
 #import "MSLogContainer.h"
+#import "MSMockUserDefaults.h"
 #import "MSServiceCommon.h"
 #import "MSStorage.h"
 #import "MSTestFrameworks.h"
@@ -38,6 +39,8 @@ static NSString *const kMSTestGroupId = @"GroupId";
 @end
 
 @interface MSChannelUnitDefaultTests : XCTestCase
+
+@property(nonatomic) MSMockUserDefaults *settingsMock;
 
 @property(nonatomic) MSChannelUnitDefault *sut;
 
@@ -79,7 +82,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                                      storage:self.storageMock
                                                configuration:self.configMock
                                            logsDispatchQueue:self.logsDispatchQueue];
-  [MS_USER_DEFAULTS removeObjectForKey:[self.sut startTimeKey]];
+  self.settingsMock = [MSMockUserDefaults new];
 
   // Auth token context.
   [MSAuthTokenContext resetSharedInstance];
@@ -90,10 +93,10 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
 - (void)tearDown {
   [MSDispatchTestUtil awaitAndSuspendDispatchQueue:self.logsDispatchQueue];
-  [MS_USER_DEFAULTS removeObjectForKey:[self.sut startTimeKey]];
 
   // Stop mocks.
   [self.configMock stopMocking];
+  [self.settingsMock stopMocking];
   [self.authTokenContextMock stopMocking];
   [MSAuthTokenContext resetSharedInstance];
   [super tearDown];
@@ -146,7 +149,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
     date = [[NSDate alloc] initWithTimeIntervalSince1970:1000];
     [invocation setReturnValue:&date];
   });
-  [MS_USER_DEFAULTS setObject:[[NSDate alloc] initWithTimeIntervalSince1970:2000] forKey:self.sut.startTimeKey];
+  [self.settingsMock setObject:[[NSDate alloc] initWithTimeIntervalSince1970:2000] forKey:self.sut.startTimeKey];
 
   // When
   NSUInteger resultFlushInterval = [self.sut resolveFlushInterval];
@@ -174,7 +177,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
     date = [[NSDate alloc] initWithTimeIntervalSince1970:4000];
     [invocation setReturnValue:&date];
   });
-  [MS_USER_DEFAULTS setObject:[[NSDate alloc] initWithTimeIntervalSince1970:2000] forKey:self.sut.startTimeKey];
+  [self.settingsMock setObject:[[NSDate alloc] initWithTimeIntervalSince1970:2000] forKey:self.sut.startTimeKey];
 
   // When
   NSUInteger resultFlushInterval = [self.sut resolveFlushInterval];
@@ -202,7 +205,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
     date = [[NSDate alloc] initWithTimeIntervalSince1970:1000];
     [invocation setReturnValue:&date];
   });
-  [MS_USER_DEFAULTS setObject:[[NSDate alloc] initWithTimeIntervalSince1970:500] forKey:self.sut.startTimeKey];
+  [self.settingsMock setObject:[[NSDate alloc] initWithTimeIntervalSince1970:500] forKey:self.sut.startTimeKey];
 
   // When
   NSUInteger resultFlushInterval = [self.sut resolveFlushInterval];

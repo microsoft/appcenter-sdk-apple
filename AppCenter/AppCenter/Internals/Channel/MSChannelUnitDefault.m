@@ -18,7 +18,7 @@
 /**
  * Key for the start timestamp.
  */
-static NSString *kMSStartTimestampPrefix = @"MSChannelStartTimer";
+static NSString *const kMSStartTimestampPrefix = @"MSChannelStartTimer";
 
 @implementation MSChannelUnitDefault
 
@@ -414,7 +414,7 @@ static NSString *kMSStartTimestampPrefix = @"MSChannelStartTimer";
       }
       [strongSelf resetTimer];
 
-      // Update current timestamp.
+      // Remove current timestamp.
       [MS_USER_DEFAULTS removeObjectForKey:[self startTimeKey]];
     }
   });
@@ -433,7 +433,9 @@ static NSString *kMSStartTimestampPrefix = @"MSChannelStartTimer";
     NSDate *startTime = [MS_USER_DEFAULTS objectForKey:[self startTimeKey]];
     if (startTime == nil) {
       [MS_USER_DEFAULTS setObject:date forKey:[self startTimeKey]];
-    } else if ([date compare:startTime] == NSOrderedAscending) {
+    }
+    // If a user has incorrect timestamp that is greater than current time ingore it and clear.
+    else if ([date compare:startTime] == NSOrderedAscending) {
       [MS_USER_DEFAULTS removeObjectForKey:[self startTimeKey]];
     } else {
       flushInterval -= (NSUInteger)[date timeIntervalSinceDate:startTime];
