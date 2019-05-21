@@ -51,6 +51,13 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (NSString *)startTimeKey;
 
+/**
+ * Start timer to send logs.
+ *
+ * @param flushInterval delay in seconds.
+ */
+- (void)startTimer:(NSUInteger)flushInterval;
+
 @end
 
 NS_ASSUME_NONNULL_END

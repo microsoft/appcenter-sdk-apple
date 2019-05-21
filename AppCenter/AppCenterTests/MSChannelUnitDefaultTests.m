@@ -104,6 +104,80 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
 #pragma mark - Tests
 
+- (void)testLogsFlushedImmediatelyWhenIntervalIsOver {
+
+  // If
+  [self initChannelEndJobExpectation];
+  __block NSDate *date;
+  id dateMock = OCMClassMock([NSDate class]);
+  self.sut.itemsCount = 5;
+
+  // Configure channel.
+  self.sut.configuration = [[MSChannelUnitConfiguration alloc] initWithGroupId:kMSTestGroupId
+                                                                      priority:MSPriorityDefault
+                                                                 flushInterval:600
+                                                                batchSizeLimit:1
+                                                           pendingBatchesLimit:3];
+  OCMStub(ClassMethod([dateMock date])).andDo(^(NSInvocation *invocation) {
+    date = [[NSDate alloc] initWithTimeIntervalSince1970:3000];
+    [invocation setReturnValue:&date];
+  });
+  [self.settingsMock setObject:[[NSDate alloc] initWithTimeIntervalSince1970:500] forKey:self.sut.startTimeKey];
+  id channelUnitMock = OCMPartialMock(self.sut);
+  OCMReject([channelUnitMock startTimer:OCMOCK_ANY]);
+
+  // When
+  // Trigger checkPendingLogs
+  [self.sut enqueueItem:[self getValidMockLog] flags:MSFlagsDefault];
+  [self enqueueChannelEndJobExpectation];
+
+  // Then
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
+                               handler:^(NSError *error) {
+                                 assertThatUnsignedLong(self.sut.itemsCount, equalToInt(0));
+                                 OCMVerify([self.sut flushQueue]);
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+
+  // Clear
+  [dateMock stopMocking];
+  [channelUnitMock stopMocking];
+}
+
+- (void)testLogsNotFlushedImmediatelyWhenIntervalIsCustom {
+
+  // If
+  [self initChannelEndJobExpectation];
+  NSUInteger batchSizeLimit = 4;
+  int itemsToAdd = 8;
+  NSUInteger flushInterval = 600;
+
+  // Configure channel.
+  self.sut.configuration = [[MSChannelUnitConfiguration alloc] initWithGroupId:kMSTestGroupId
+                                                                      priority:MSPriorityDefault
+                                                                 flushInterval:flushInterval
+                                                                batchSizeLimit:batchSizeLimit
+                                                           pendingBatchesLimit:3];
+
+  // When
+  for (NSUInteger i = 0; i < itemsToAdd; i++) {
+    [self.sut enqueueItem:[self getValidMockLog] flags:MSFlagsDefault];
+  }
+  [self enqueueChannelEndJobExpectation];
+
+  // Then
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
+                               handler:^(NSError *error) {
+                                 OCMVerify([self.sut startTimer:OCMOCK_ANY]);
+                                 assertThatUnsignedLong(self.sut.itemsCount, equalToInt(itemsToAdd));
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+}
+
 - (void)testResolveFlushIntervalTimestampNotSet {
 
   // If
