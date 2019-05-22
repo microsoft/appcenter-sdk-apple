@@ -108,7 +108,6 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
   // If
   [self initChannelEndJobExpectation];
-  __block NSDate *date;
   id dateMock = OCMClassMock([NSDate class]);
   self.sut.itemsCount = 5;
 
@@ -118,11 +117,9 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                                                  flushInterval:600
                                                                 batchSizeLimit:1
                                                            pendingBatchesLimit:3];
-  OCMStub(ClassMethod([dateMock date])).andDo(^(NSInvocation *invocation) {
-    date = [[NSDate alloc] initWithTimeIntervalSince1970:3000];
-    [invocation setReturnValue:&date];
-  });
-  [self.settingsMock setObject:[[NSDate alloc] initWithTimeIntervalSince1970:500] forKey:self.sut.startTimeKey];
+  NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:3000];
+  OCMStub([dateMock date]).andReturn(date);
+  [self.settingsMock setObject:[[NSDate alloc] initWithTimeIntervalSince1970:500] forKey:self.sut.oldestPendingLogTimestampKey];
   id channelUnitMock = OCMPartialMock(self.sut);
   OCMReject([channelUnitMock startTimer:OCMOCK_ANY]);
 
@@ -181,7 +178,6 @@ static NSString *const kMSTestGroupId = @"GroupId";
 - (void)testResolveFlushIntervalTimestampNotSet {
 
   // If
-  __block NSDate *date;
   id dateMock = OCMClassMock([NSDate class]);
   NSUInteger flushInterval = 2000;
 
@@ -191,10 +187,8 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                                                  flushInterval:flushInterval
                                                                 batchSizeLimit:50
                                                            pendingBatchesLimit:1];
-  OCMStub(ClassMethod([dateMock date])).andDo(^(NSInvocation *invocation) {
-    date = [[NSDate alloc] initWithTimeIntervalSince1970:1000];
-    [invocation setReturnValue:&date];
-  });
+  NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:1000];
+  OCMStub([dateMock date]).andReturn(date);
 
   // When
   NSUInteger resultFlushInterval = [self.sut resolveFlushInterval];
@@ -209,7 +203,6 @@ static NSString *const kMSTestGroupId = @"GroupId";
 - (void)testResolveFlushIntervalTimeIsOut {
 
   // If
-  __block NSDate *date;
   id dateMock = OCMClassMock([NSDate class]);
   NSUInteger flushInterval = 2000;
 
@@ -219,11 +212,9 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                                                  flushInterval:flushInterval
                                                                 batchSizeLimit:50
                                                            pendingBatchesLimit:1];
-  OCMStub(ClassMethod([dateMock date])).andDo(^(NSInvocation *invocation) {
-    date = [[NSDate alloc] initWithTimeIntervalSince1970:3000];
-    [invocation setReturnValue:&date];
-  });
-  [self.settingsMock setObject:[[NSDate alloc] initWithTimeIntervalSince1970:500] forKey:self.sut.startTimeKey];
+  NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:3000];
+  OCMStub([dateMock date]).andReturn(date);
+  [self.settingsMock setObject:[[NSDate alloc] initWithTimeIntervalSince1970:500] forKey:self.sut.oldestPendingLogTimestampKey];
 
   // When
   NSUInteger resultFlushInterval = [self.sut resolveFlushInterval];
@@ -238,7 +229,6 @@ static NSString *const kMSTestGroupId = @"GroupId";
 - (void)testResolveFlushIntervalTimestampLaterThanNow {
 
   // If
-  __block NSDate *date;
   id dateMock = OCMClassMock([NSDate class]);
   NSUInteger flushInterval = 2000;
 
@@ -248,11 +238,9 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                                                  flushInterval:flushInterval
                                                                 batchSizeLimit:50
                                                            pendingBatchesLimit:1];
-  OCMStub(ClassMethod([dateMock date])).andDo(^(NSInvocation *invocation) {
-    date = [[NSDate alloc] initWithTimeIntervalSince1970:1000];
-    [invocation setReturnValue:&date];
-  });
-  [self.settingsMock setObject:[[NSDate alloc] initWithTimeIntervalSince1970:2000] forKey:self.sut.startTimeKey];
+  NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:1000];
+  OCMStub([dateMock date]).andReturn(date);
+  [self.settingsMock setObject:[[NSDate alloc] initWithTimeIntervalSince1970:2000] forKey:self.sut.oldestPendingLogTimestampKey];
 
   // When
   NSUInteger resultFlushInterval = [self.sut resolveFlushInterval];
@@ -267,7 +255,6 @@ static NSString *const kMSTestGroupId = @"GroupId";
 - (void)testResolveFlushIntervalNow {
 
   // If
-  __block NSDate *date;
   id dateMock = OCMClassMock([NSDate class]);
 
   // Configure channel.
@@ -276,11 +263,9 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                                                  flushInterval:2000
                                                                 batchSizeLimit:50
                                                            pendingBatchesLimit:1];
-  OCMStub(ClassMethod([dateMock date])).andDo(^(NSInvocation *invocation) {
-    date = [[NSDate alloc] initWithTimeIntervalSince1970:4000];
-    [invocation setReturnValue:&date];
-  });
-  [self.settingsMock setObject:[[NSDate alloc] initWithTimeIntervalSince1970:2000] forKey:self.sut.startTimeKey];
+  NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:4000];
+  OCMStub([dateMock date]).andReturn(date);
+  [self.settingsMock setObject:[[NSDate alloc] initWithTimeIntervalSince1970:2000] forKey:self.sut.oldestPendingLogTimestampKey];
 
   // When
   NSUInteger resultFlushInterval = [self.sut resolveFlushInterval];
@@ -295,7 +280,6 @@ static NSString *const kMSTestGroupId = @"GroupId";
 - (void)testResolveFlushInterval {
 
   // If
-  __block NSDate *date;
   id dateMock = OCMClassMock([NSDate class]);
 
   // Configure channel.
@@ -304,11 +288,9 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                                                  flushInterval:2000
                                                                 batchSizeLimit:50
                                                            pendingBatchesLimit:1];
-  OCMStub(ClassMethod([dateMock date])).andDo(^(NSInvocation *invocation) {
-    date = [[NSDate alloc] initWithTimeIntervalSince1970:1000];
-    [invocation setReturnValue:&date];
-  });
-  [self.settingsMock setObject:[[NSDate alloc] initWithTimeIntervalSince1970:500] forKey:self.sut.startTimeKey];
+  NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:1000];
+  OCMStub([dateMock date]).andReturn(date);
+  [self.settingsMock setObject:[[NSDate alloc] initWithTimeIntervalSince1970:500] forKey:self.sut.oldestPendingLogTimestampKey];
 
   // When
   NSUInteger resultFlushInterval = [self.sut resolveFlushInterval];
