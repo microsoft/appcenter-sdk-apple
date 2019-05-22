@@ -22,7 +22,6 @@
 #import "MSPaginatedDocuments.h"
 #import "MSPendingOperation.h"
 #import "MSServiceAbstract.h"
-#import "MSServiceAbstractProtected.h"
 #import "MSTestFrameworks.h"
 #import "MSTokenExchange.h"
 #import "MSTokenResult.h"

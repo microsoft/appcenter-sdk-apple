@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * The flag that indicates whether the authority is default or not.
  */
-@property(nonatomic) BOOL defaultAuthority;
+@property(nonatomic, getter=isDefaultAuthority) BOOL defaultAuthority;
 
 /**
  * The authority URL of user flow.

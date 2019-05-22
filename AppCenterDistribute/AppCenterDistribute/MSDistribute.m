@@ -18,7 +18,6 @@
 #import "MSErrorDetails.h"
 #import "MSGuidedAccessUtil.h"
 #import "MSKeychainUtil.h"
-#import "MSServiceAbstractProtected.h"
 #import "MSSessionContext.h"
 
 /**

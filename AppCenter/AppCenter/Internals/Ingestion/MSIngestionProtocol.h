@@ -25,7 +25,7 @@ typedef void (^MSSendAsyncCompletionHandler)(NSString *callId, NSHTTPURLResponse
 /**
  * A boolean value set to YES if the ingestion is paused or NO otherwise.
  */
-@property(nonatomic) BOOL paused;
+@property(nonatomic, getter=isPaused) BOOL paused;
 
 /**
  * The indicator of readiness to send data.

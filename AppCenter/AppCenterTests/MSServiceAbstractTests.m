@@ -8,7 +8,6 @@
 #import "MSChannelUnitConfiguration.h"
 #import "MSConstants+Internal.h"
 #import "MSMockUserDefaults.h"
-#import "MSServiceAbstractProtected.h"
 #import "MSSessionContextPrivate.h"
 #import "MSTestFrameworks.h"
 
