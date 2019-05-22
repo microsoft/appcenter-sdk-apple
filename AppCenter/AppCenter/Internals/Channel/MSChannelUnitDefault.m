@@ -380,7 +380,7 @@ static NSString *const kMSStartTimestampPrefix = @"MSChannelStartTimer";
   if (self.configuration.flushInterval == kMSFlushIntervalDefault && self.itemsCount >= self.configuration.batchSizeLimit) {
     [self flushQueue];
   } else if (self.itemsCount > 0) {
-    NSInteger flushInterval = [self resolveFlushInterval];
+    NSUInteger flushInterval = [self resolveFlushInterval];
     if (flushInterval == 0) {
 
       // If the interval is over, send all logs without any additional timers.
