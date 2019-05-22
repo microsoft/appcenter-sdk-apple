@@ -36,11 +36,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)flushQueue;
 
 /**
- * Check any enqueued logs to send it to ingestion.
- */
-- (void)checkPendingLogs;
-
-/**
  * Hash table of channel delegate.
  */
 @property(nonatomic) NSHashTable<id<MSChannelDelegate>> *delegates;
