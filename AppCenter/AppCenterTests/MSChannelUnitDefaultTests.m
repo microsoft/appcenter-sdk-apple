@@ -104,6 +104,103 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
 #pragma mark - Tests
 
+- (void)testCustomFlushIntervalSending200Logs {
+
+  // If
+  [self initChannelEndJobExpectation];
+  NSUInteger flushInterval = 600;
+  NSUInteger batchSizeLimit = 50;
+  __block int currentBatchId = 1;
+  id dateMock = OCMClassMock([NSDate class]);
+  NSDate *date = [NSDate dateWithTimeIntervalSince1970:0];
+  NSDate *date2 = [NSDate dateWithTimeIntervalSince1970:flushInterval + 100];
+  __block id responseMock = [MSHttpTestUtil createMockResponseForStatusCode:200 headers:nil];
+  __block MSSendAsyncCompletionHandler ingestionBlock;
+
+  // Requests counter.
+  __block int sendCount = 0;
+  OCMStub([self.ingestionMock sendAsync:OCMOCK_ANY authToken:OCMOCK_ANY completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+    // Get ingestion block for later call.
+    [invocation retainArguments];
+    [invocation getArgument:&ingestionBlock atIndex:4];
+    sendCount++;
+  });
+
+  // Stub the storage load.
+  NSArray<id<MSLog>> *logs = [self getValidMockLogArrayForDate:date andCount:50];
+  OCMStub([self.storageMock loadLogsWithGroupId:kMSTestGroupId
+                                          limit:batchSizeLimit
+                             excludedTargetKeys:OCMOCK_ANY
+                                      afterDate:OCMOCK_ANY
+                                     beforeDate:OCMOCK_ANY
+                              completionHandler:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        MSLoadDataCompletionHandler loadCallback;
+
+        // Get ingestion block for later call.
+        [invocation getArgument:&loadCallback atIndex:7];
+
+        // Mock load with incrementing batchId.
+        loadCallback(logs, [@(currentBatchId++) stringValue]);
+
+        // Return YES and exit the method.
+        BOOL enabled = YES;
+        [invocation setReturnValue:&enabled];
+      });
+
+  // Configure channel and set custom flushInterval.
+  self.sut.configuration = [[MSChannelUnitConfiguration alloc] initWithGroupId:kMSTestGroupId
+                                                                      priority:MSPriorityDefault
+                                                                 flushInterval:flushInterval
+                                                                batchSizeLimit:50
+                                                           pendingBatchesLimit:3];
+
+  // When
+  self.sut.itemsCount = 200;
+
+  // Timestamp saved with time == 0.
+  [self.settingsMock setObject:date forKey:self.sut.oldestPendingLogTimestampKey];
+
+  // Change time. Simulate time has passed.
+  OCMStub([dateMock date]).andReturn(date2);
+
+  // Trigger checkPengingLogs. Should flush 3 batches now.
+  [self.sut checkPendingLogs];
+
+  // Try to release one batch.
+  dispatch_async(self.logsDispatchQueue, ^{
+    // Check 3 batches sent.
+    assertThatInt(sendCount, equalToInt(3));
+    XCTAssertNotNil(ingestionBlock);
+    if (ingestionBlock) {
+
+      // Release 1 batch.
+      ingestionBlock([@(1) stringValue], responseMock, nil, nil);
+    }
+
+    // Then
+    dispatch_async(self.logsDispatchQueue, ^{
+      // Check 4th batch sent.
+      assertThatInt(sendCount, equalToInt(4));
+
+      [self enqueueChannelEndJobExpectation];
+    });
+  });
+
+  // Then
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
+                               handler:^(NSError *error) {
+                                 assertThatUnsignedLong(self.sut.itemsCount, equalToInt(0));
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+
+  // Clear
+  [dateMock stopMocking];
+  [responseMock stopMocking];
+}
+
 - (void)testLogsFlushedImmediatelyWhenIntervalIsOver {
 
   // If
