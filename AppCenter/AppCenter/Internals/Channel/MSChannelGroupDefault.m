@@ -49,6 +49,8 @@ static char *const kMSLogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
                                             logsDispatchQueue:self.logsDispatchQueue];
     [channel addDelegate:self];
     dispatch_async(self.logsDispatchQueue, ^{
+
+      // Schedule sending any pending log.
       [channel checkPendingLogs];
     });
     [self.channels addObject:channel];
