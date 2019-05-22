@@ -103,7 +103,7 @@ static NSString *const kMSStartTimestampPrefix = @"MSChannelStartTimer";
 - (void)authTokenContext:(MSAuthTokenContext *)__unused authTokenContext didSetAuthToken:(nullable NSString *)__unused authToken {
   dispatch_async(self.logsDispatchQueue, ^{
     MSLogInfo([MSAppCenter logTag], @"New auth token received, flushing queue.");
-    [self flushQueue];
+    [self checkPendingLogs];
   });
 }
 
@@ -556,7 +556,7 @@ static NSString *const kMSStartTimestampPrefix = @"MSChannelStartTimer";
   if ([self.pausedIdentifyingObjects count] == 0) {
     MSLogDebug([MSAppCenter logTag], @"Resume channel %@.", self.configuration.groupId);
     self.paused = NO;
-    [self flushQueue];
+    [self checkPendingLogs];
   }
   [self enumerateDelegatesForSelector:@selector(channel:didResumeWithIdentifyingObject:)
                             withBlock:^(id<MSChannelDelegate> delegate) {

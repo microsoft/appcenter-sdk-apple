@@ -49,7 +49,7 @@ static char *const kMSLogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
                                             logsDispatchQueue:self.logsDispatchQueue];
     [channel addDelegate:self];
     dispatch_async(self.logsDispatchQueue, ^{
-      [channel flushQueue];
+      [channel checkPendingLogs];
     });
     [self.channels addObject:channel];
     [self enumerateDelegatesForSelector:@selector(channelGroup:didAddChannelUnit:)
