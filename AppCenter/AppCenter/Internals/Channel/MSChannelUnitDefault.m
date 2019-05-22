@@ -440,14 +440,9 @@ static NSString *const kMSStartTimestampPrefix = @"MSChannelStartTimer";
     NSDate *now = [NSDate date];
     NSDate *oldestPendingLogTimestamp = [MS_USER_DEFAULTS objectForKey:[self oldestPendingLogTimestampKey]];
 
-    // The timer isn't started, so start it and store the current time.
-    if (oldestPendingLogTimestamp == nil) {
+    // The timer isn't started or has invalid value (start time in the future), so start it and store the current time.
+    if (oldestPendingLogTimestamp == nil || [now compare:oldestPendingLogTimestamp] == NSOrderedAscending) {
       [MS_USER_DEFAULTS setObject:now forKey:[self oldestPendingLogTimestampKey]];
-    }
-
-    // Handle invalid values (start time in the future).
-    else if ([now compare:oldestPendingLogTimestamp] == NSOrderedAscending) {
-      [MS_USER_DEFAULTS removeObjectForKey:[self oldestPendingLogTimestampKey]];
     }
 
     // If the interval is over.
