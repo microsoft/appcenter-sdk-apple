@@ -79,7 +79,7 @@ static NSString *const kMSGetTokenPath = @"/data/tokens";
 
             // Token store returned non-200 response code.
             if (response.statusCode != MSHTTPCodesNo200OK) {
-              MSLogError([MSData logTag], @"The token store returned %ld", (long)response.statusCode);
+              MSLogWarning([MSData logTag], @"The token store returned %ld", (long)response.statusCode);
               completionHandler([[MSTokensResponse alloc] initWithTokens:nil],
                                 [[NSError alloc] initWithDomain:kMSACDataErrorDomain
                                                            code:MSACDataErrorHTTPError

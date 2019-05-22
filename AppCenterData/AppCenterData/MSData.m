@@ -786,8 +786,8 @@ static dispatch_once_t onceToken;
                                       reachability:self.reachability
                                  completionHandler:^(MSTokensResponse *_Nonnull tokenResponses, NSError *_Nonnull error) {
                                    if (error) {
-                                     MSLogError([MSData logTag], @"Cannot read from local storage because there is no "
-                                                                 @"account ID cached and failed to retrieve token.");
+                                     MSLogWarning([MSData logTag], @"Cannot read from local storage because there is no "
+                                                                   @"account ID cached and failed to retrieve token.");
                                      return;
                                    }
 
