@@ -30,7 +30,7 @@ static const NSUInteger kMSSchemaVersion = 4;
       @{kMSTimestampColumnName : @[ kMSSQLiteTypeInteger ]}
     ]
   };
-  self = [super initWithSchema:schema version:kMSSchemaVersion filename:kMSDBFileName];
+  self = [self initWithSchema:schema version:kMSSchemaVersion filename:kMSDBFileName];
   if (self) {
     NSDictionary *columnIndexes = [MSDBStorage columnsIndexes:schema];
     _idColumnIndex = ((NSNumber *)columnIndexes[kMSLogTableName][kMSIdColumnName]).unsignedIntegerValue;
