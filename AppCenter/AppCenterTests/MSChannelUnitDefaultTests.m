@@ -1299,7 +1299,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   [tokenValidityArray addObject:token1];
   [tokenValidityArray addObject:token2];
   [tokenValidityArray addObject:token3];
-  NSArray<id<MSLog>> *logsForToken1 = [self getValidMockLogArrayForDate:date1 andCount:0];
+  NSArray<id<MSLog>> *logsForToken1 = [self getValidMockLogArrayForDate:date1 andCount:3];
   NSArray<id<MSLog>> *logsForToken2 = [self getValidMockLogArrayForDate:date2 andCount:0];
   NSArray<id<MSLog>> *logsForToken3 = [self getValidMockLogArrayForDate:date3 andCount:5];
   NSString *batchId = @"batchId";

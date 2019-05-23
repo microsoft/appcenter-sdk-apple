@@ -5,6 +5,7 @@
 ### AppCenter
 * **[Fix]** Remove Keychain permission pop-up on macOS.
 * **[Fix]** Improve encryption security.
+* **[Fix]** Fix the case when logs could be sent only on the next launch after changing signed in user or after pause/resume of the module.
 
 ### AppCenterData
 
