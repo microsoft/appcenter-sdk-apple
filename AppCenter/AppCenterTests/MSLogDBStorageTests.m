@@ -763,8 +763,7 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   // If
   MSAbstractLog *aLog = [MSAbstractLog new];
   aLog.sid = MS_UUID_STRING;
-  NSString *criticalLogsFilter =
-      [NSString stringWithFormat:@"\"%@\" = '%u'", kMSPriorityColumnName, (unsigned int)MSFlagsCritical];
+  NSString *criticalLogsFilter = [NSString stringWithFormat:@"\"%@\" = '%u'", kMSPriorityColumnName, (unsigned int)MSFlagsCritical];
   NSString *normalLogsFilter = [NSString stringWithFormat:@"\"%@\" = '%u'", kMSPriorityColumnName, (unsigned int)MSFlagsNormal];
 
   // When
@@ -783,8 +782,7 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   // If
   MSAbstractLog *aLog = [MSAbstractLog new];
   aLog.sid = MS_UUID_STRING;
-  NSString *criticalLogsFilter =
-      [NSString stringWithFormat:@"\"%@\" = '%u'", kMSPriorityColumnName, (unsigned int)MSFlagsCritical];
+  NSString *criticalLogsFilter = [NSString stringWithFormat:@"\"%@\" = '%u'", kMSPriorityColumnName, (unsigned int)MSFlagsCritical];
   NSString *normalLogsFilter = [NSString stringWithFormat:@"\"%@\" = '%u'", kMSPriorityColumnName, (unsigned int)MSFlagsNormal];
 
   // When
@@ -944,16 +942,8 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   [self.sut setMaxStorageSize:maxCapacityInBytes
             completionHandler:^(__unused BOOL success){
             }];
-  [self generateAndSaveLogsWithCount:1
-                             groupId:kMSTestGroupId
-                               flags:MSFlagsCritical
-              andVerifyLogGeneration:YES
-                          andLogDate:[NSDate new]];
-  [self generateAndSaveLogsWithCount:2
-                             groupId:kMSTestGroupId
-                               flags:MSFlagsNormal
-              andVerifyLogGeneration:YES
-                          andLogDate:[NSDate new]];
+  [self generateAndSaveLogsWithCount:1 groupId:kMSTestGroupId flags:MSFlagsCritical andVerifyLogGeneration:YES andLogDate:[NSDate new]];
+  [self generateAndSaveLogsWithCount:2 groupId:kMSTestGroupId flags:MSFlagsNormal andVerifyLogGeneration:YES andLogDate:[NSDate new]];
   id<MSLog> largeLog = [self generateLogWithSize:@(maxCapacityInBytes)];
   sqlite3 *db = [self.storageTestUtil openDatabase];
   NSArray<NSNumber *> *criticalDbIds = [self dbIdsForPriority:MSFlagsCritical inOpenedDatabase:db];

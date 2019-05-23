@@ -9,6 +9,7 @@
 #import "MSChannelGroupDefaultPrivate.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitDefault.h"
+#import "MSChannelUnitDefaultPrivate.h"
 #import "MSDispatchTestUtil.h"
 #import "MSIngestionProtocol.h"
 #import "MSMockLog.h"
@@ -195,7 +196,7 @@
   // Then
   OCMVerify([channelUnitMock addDelegate:(id<MSChannelDelegate>)self.sut]);
   [self waitForLogsDispatchQueue];
-  OCMVerify([channelUnitMock flushQueue]);
+  OCMVerify([channelUnitMock checkPendingLogs]);
 
   // Clear
   [channelUnitMock stopMocking];

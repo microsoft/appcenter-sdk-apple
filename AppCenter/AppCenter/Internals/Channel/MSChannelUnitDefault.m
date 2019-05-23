@@ -15,6 +15,11 @@
 #import "MSStorage.h"
 #import "MSUtility+StringFormatting.h"
 
+/**
+ * Key for the start timestamp.
+ */
+static NSString *const kMSStartTimestampPrefix = @"MSChannelStartTimer";
+
 @implementation MSChannelUnitDefault
 
 @synthesize configuration = _configuration;
@@ -98,7 +103,7 @@
 - (void)authTokenContext:(MSAuthTokenContext *)__unused authTokenContext didSetAuthToken:(nullable NSString *)__unused authToken {
   dispatch_async(self.logsDispatchQueue, ^{
     MSLogInfo([MSAppCenter logTag], @"New auth token received, flushing queue.");
-    [self flushQueue];
+    [self checkPendingLogs];
   });
 }
 
@@ -366,19 +371,31 @@
 
 - (void)checkPendingLogs {
 
-  // Flush now if current batch is full or delay to later.
-  if (self.itemsCount >= self.configuration.batchSizeLimit) {
-    [self flushQueue];
-  } else if (self.itemsCount > 0 && !self.paused) {
+  // Skip checking pending logs if the channel is paused.
+  if (self.paused) {
+    return;
+  }
 
-    // Only start timer if channel is not paused. Otherwise, logs will stack.
-    [self startTimer];
+  // If the interval is default and we reached batchSizeLimit flush logs now.
+  if (self.configuration.flushInterval == kMSFlushIntervalDefault && self.itemsCount >= self.configuration.batchSizeLimit) {
+    [self flushQueue];
+  } else if (self.itemsCount > 0) {
+    NSUInteger flushInterval = [self resolveFlushInterval];
+    if (flushInterval == 0) {
+
+      // If the interval is over, send all logs without any additional timers.
+      [self flushQueue];
+    } else {
+
+      // Postpone sending logs.
+      [self startTimer:flushInterval];
+    }
   }
 }
 
 #pragma mark - Timer
 
-- (void)startTimer {
+- (void)startTimer:(NSUInteger)flushInterval {
 
   // Don't start timer while disabled.
   if (!self.enabled) {
@@ -392,11 +409,11 @@
   self.timerSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, self.logsDispatchQueue);
 
   /**
-   * Cast (NSEC_PER_SEC * self.configuration.flushInterval) to (int64_t) silence warning. The compiler otherwise complains that we're using
+   * Cast (NSEC_PER_SEC * flushInterval) to (int64_t) silence warning. The compiler otherwise complains that we're using
    * a float param (flushInterval) and implicitly downcast to int64_t.
    */
-  dispatch_source_set_timer(self.timerSource, dispatch_walltime(NULL, (int64_t)(NSEC_PER_SEC * self.configuration.flushInterval)),
-                            1ull * NSEC_PER_SEC, 1ull * NSEC_PER_SEC);
+  dispatch_source_set_timer(self.timerSource, dispatch_walltime(NULL, (int64_t)(NSEC_PER_SEC * flushInterval)), 1ull * NSEC_PER_SEC,
+                            1ull * NSEC_PER_SEC);
   __weak typeof(self) weakSelf = self;
   dispatch_source_set_event_handler(self.timerSource, ^{
     typeof(self) strongSelf = weakSelf;
@@ -407,9 +424,43 @@
         [strongSelf flushQueue];
       }
       [strongSelf resetTimer];
+
+      // Remove the current timestamp. All pending logs will be sent in flushQueue call.
+      [MS_USER_DEFAULTS removeObjectForKey:[self oldestPendingLogTimestampKey]];
     }
   });
   dispatch_resume(self.timerSource);
+}
+
+- (NSUInteger)resolveFlushInterval {
+  NSUInteger flushInterval = self.configuration.flushInterval;
+
+  // If the interval is custom.
+  if (flushInterval > kMSFlushIntervalDefault) {
+    NSDate *now = [NSDate date];
+    NSDate *oldestPendingLogTimestamp = [MS_USER_DEFAULTS objectForKey:[self oldestPendingLogTimestampKey]];
+
+    // The timer isn't started or has invalid value (start time in the future), so start it and store the current time.
+    if (oldestPendingLogTimestamp == nil || [now compare:oldestPendingLogTimestamp] == NSOrderedAscending) {
+      [MS_USER_DEFAULTS setObject:now forKey:[self oldestPendingLogTimestampKey]];
+    }
+
+    // If the interval is over.
+    else if ([now compare:[oldestPendingLogTimestamp dateByAddingTimeInterval:flushInterval]] == NSOrderedDescending) {
+      [MS_USER_DEFAULTS removeObjectForKey:[self oldestPendingLogTimestampKey]];
+      return 0;
+    }
+
+    // We still have to wait for the rest of the interval.
+    else {
+      flushInterval -= (NSUInteger)[now timeIntervalSinceDate:oldestPendingLogTimestamp];
+    }
+  }
+  return flushInterval;
+}
+
+- (NSString *)oldestPendingLogTimestampKey {
+  return [NSString stringWithFormat:@"%@:%@", kMSStartTimestampPrefix, self.configuration.groupId];
 }
 
 - (void)resetTimer {
@@ -443,6 +494,7 @@
       self.itemsCount = 0;
       self.availableBatchFromStorage = NO;
       self.pendingBatchQueueFull = NO;
+      [MS_USER_DEFAULTS removeObjectForKey:[self oldestPendingLogTimestampKey]];
 
       // Prevent further logs from being persisted.
       self.discardLogs = YES;
@@ -494,7 +546,7 @@
   if ([self.pausedIdentifyingObjects count] == 0) {
     MSLogDebug([MSAppCenter logTag], @"Resume channel %@.", self.configuration.groupId);
     self.paused = NO;
-    [self flushQueue];
+    [self checkPendingLogs];
   }
   [self enumerateDelegatesForSelector:@selector(channel:didResumeWithIdentifyingObject:)
                             withBlock:^(id<MSChannelDelegate> delegate) {
