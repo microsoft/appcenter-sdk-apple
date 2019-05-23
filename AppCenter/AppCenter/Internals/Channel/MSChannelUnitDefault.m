@@ -304,7 +304,7 @@
 
                         // No logs available with given params.
                         else if (tokenIndex == 0 && tokenArray[tokenIndex].endTime != nil &&
-                            [self.storage countLogsBeforeDate:tokenArray[tokenIndex].endTime] == 0) {
+                                 [self.storage countLogsBeforeDate:tokenArray[tokenIndex].endTime] == 0) {
 
                           // Delete token from history if we don't have logs fitting it in DB.
                           [[MSAuthTokenContext sharedInstance] removeAuthToken:tokenInfo.authToken];
