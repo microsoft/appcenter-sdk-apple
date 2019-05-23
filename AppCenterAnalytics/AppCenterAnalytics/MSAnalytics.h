@@ -207,6 +207,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param interval The flush interval for logs.
  */
 + (void)setTransmissionInterval:(NSUInteger)interval;
+
 @end
 
 NS_ASSUME_NONNULL_END

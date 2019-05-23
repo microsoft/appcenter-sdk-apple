@@ -384,7 +384,11 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
 }
 
 - (void)sendLog:(id<MSLog>)log flags:(MSFlags)flags {
-  [(flags & MSFlagsCritical) != 0 ? self.criticalChannelUnit : self.channelUnit enqueueItem:log flags:flags];
+  if ((flags & MSFlagsCritical) != 0) {
+    [self.criticalChannelUnit enqueueItem:log flags:flags];
+  } else {
+    [self.channelUnit enqueueItem:log flags:flags];
+  }
 }
 
 - (void)setTransmissionInterval:(NSUInteger)interval {
