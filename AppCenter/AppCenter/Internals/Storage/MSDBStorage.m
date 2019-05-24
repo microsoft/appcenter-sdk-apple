@@ -7,16 +7,41 @@
 #import "MSDBStoragePrivate.h"
 #import "MSUtility+File.h"
 
+static dispatch_once_t sqliteConfigurationResultOnceToken;
+static int sqliteConfigurationResult = SQLITE_ERROR;
+
 @implementation MSDBStorage
 
++ (void)load {
+
+  /*
+   * Configure SQLite at load time to invoke configuration only once and before opening a DB.
+   * If it is custom SQLite library we need to turn on URI filename capability.
+   */
+  sqliteConfigurationResult = [self configureSQLite];
+}
+
 - (instancetype)initWithSchema:(MSDBSchema *)schema version:(NSUInteger)version filename:(NSString *)filename {
+
+  // Log SQLite configuration result only once at init time because log level won't be set at load time.
+  dispatch_once(&sqliteConfigurationResultOnceToken, ^{
+    if (sqliteConfigurationResult == SQLITE_OK) {
+      MSLogDebug([MSAppCenter logTag], @"SQLite global configuration successfully updated.");
+    } else {
+      NSString *errorString;
+      if (@available(macOS 10.10, *)) {
+        errorString = [NSString stringWithUTF8String:sqlite3_errstr(sqliteConfigurationResult)];
+      } else {
+        errorString = @(sqliteConfigurationResult).stringValue;
+      }
+      MSLogError([MSAppCenter logTag], @"Failed to update SQLite global configuration. Error: %@.", errorString);
+    }
+  });
   if ((self = [super init])) {
     BOOL newDatabase = ![MSUtility fileExistsForPathComponent:filename];
     _dbFileURL = [MSUtility createFileAtPathComponent:filename withData:nil atomically:NO forceOverwrite:NO];
     _maxSizeInBytes = kMSDefaultDatabaseSizeInBytes;
 
-    // If it is custom SQLite library we need to turn on URI filename capability.
-    sqlite3_config(SQLITE_CONFIG_URI, 1);
     int result;
     sqlite3 *db = [MSDBStorage openDatabaseAtFileURL:self.dbFileURL withResult:&result];
     if (db) {
@@ -24,7 +49,9 @@
       NSUInteger databaseVersion = [MSDBStorage versionInOpenedDatabase:db];
 
       // Create table
-      [MSDBStorage createTablesWithSchema:schema inOpenedDatabase:db];
+      if (schema) {
+        [MSDBStorage createTablesWithSchema:schema inOpenedDatabase:db];
+      }
       if (newDatabase) {
         MSLogInfo([MSAppCenter logTag], @"Created \"%@\" database with %lu version.", filename, (unsigned long)version);
         [self customizeDatabase:db];
@@ -42,32 +69,7 @@
 }
 
 - (instancetype)initWithVersion:(NSUInteger)version filename:(NSString *)filename {
-  if ((self = [super init])) {
-    BOOL newDatabase = ![MSUtility fileExistsForPathComponent:filename];
-    _dbFileURL = [MSUtility createFileAtPathComponent:filename withData:nil atomically:NO forceOverwrite:NO];
-    _maxSizeInBytes = kMSDefaultDatabaseSizeInBytes;
-
-    // If it is custom SQLite library we need to turn on URI filename capability.
-    sqlite3_config(SQLITE_CONFIG_URI, 1);
-    int result;
-    sqlite3 *db = [MSDBStorage openDatabaseAtFileURL:self.dbFileURL withResult:&result];
-    if (db) {
-      _pageSize = [MSDBStorage getPageSizeInOpenedDatabase:db];
-      NSUInteger databaseVersion = [MSDBStorage versionInOpenedDatabase:db];
-      if (newDatabase) {
-        MSLogInfo([MSAppCenter logTag], @"Created \"%@\" database with %lu version.", filename, (unsigned long)version);
-        [self customizeDatabase:db];
-      } else if (databaseVersion < version) {
-        MSLogInfo([MSAppCenter logTag], @"Migrate \"%@\" database from %lu to %lu version.", filename, (unsigned long)databaseVersion,
-                  (unsigned long)version);
-        [self migrateDatabase:db fromVersion:databaseVersion];
-      }
-      [MSDBStorage enableAutoVacuumInOpenedDatabase:db];
-      [MSDBStorage setVersion:version inOpenedDatabase:db];
-      sqlite3_close(db);
-    };
-  }
-  return self;
+  return (self = [self initWithSchema:nil version:version filename:filename]);
 }
 
 - (int)executeQueryUsingBlock:(MSDBStorageQueryBlock)callback {
@@ -248,10 +250,9 @@
   char *errMsg = NULL;
   int result = sqlite3_exec(db, [query UTF8String], NULL, NULL, &errMsg);
   if (result == SQLITE_FULL) {
-    MSLogDebug([MSAppCenter logTag], @"Query failed with error: %d - %@", result, [[NSString alloc] initWithUTF8String:errMsg]);
+    MSLogDebug([MSAppCenter logTag], @"Query failed with error: %d - %@", result, [NSString stringWithUTF8String:errMsg]);
   } else if (result != SQLITE_OK) {
-    MSLogError([MSAppCenter logTag], @"Query \"%@\" failed with error: %d - %@", query, result,
-               [[NSString alloc] initWithUTF8String:errMsg]);
+    MSLogError([MSAppCenter logTag], @"Query \"%@\" failed with error: %d - %@", query, result, [NSString stringWithUTF8String:errMsg]);
   }
   if (errMsg) {
     sqlite3_free(errMsg);
@@ -306,7 +307,7 @@
     sqlite3_finalize(statement);
   } else {
     MSLogError([MSAppCenter logTag], @"Query \"%@\" failed with error: %d - %@", query, result,
-               [[NSString alloc] initWithUTF8String:sqlite3_errmsg(db)]);
+               [NSString stringWithUTF8String:sqlite3_errmsg(db)]);
   }
   return entries;
 }
@@ -396,6 +397,10 @@
 + (int)setMaxPageCount:(long)maxPageCount inOpenedDatabase:(void *)db {
   NSString *statement = [NSString stringWithFormat:@"PRAGMA max_page_count = %ld;", maxPageCount];
   return [MSDBStorage executeNonSelectionQuery:statement inOpenedDatabase:db];
+}
+
++ (int)configureSQLite {
+  return sqlite3_config(SQLITE_CONFIG_URI, 1);
 }
 
 @end
