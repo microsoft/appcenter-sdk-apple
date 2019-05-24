@@ -40,7 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * If we have flushInterval bigger than 3 seconds, we should subtract an oldest log's timestamp from it.
- * It requires to avoid situations when the logs are not being sent to server because time interval is too big
+ * It is required to avoid situations when the logs are not being sent to server because time interval is too big
  * for a typical user session.
  *
  * @return Remaining interval to trigger flush.
@@ -48,7 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSUInteger)resolveFlushInterval;
 
 /**
- * Get a key for NSUserDefaults where an oldest pending log timestamp is stored for the channel.
+ * Get a key for NSUserDefaults where the oldest pending log timestamp is stored for the channel.
  *
  * @return A key for the oldest pending log timestamp.
  */
