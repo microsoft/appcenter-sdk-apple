@@ -1297,7 +1297,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
     [[MSAuthTokenValidityInfo alloc] initWithAuthToken:@"token3" startTime:date3 endTime:date4]
   ];
 
-  // Configure channel.
+  // Configure storage mock.
   NSString *batchId = @"batchId";
   __block NSDate *dateAfter;
   __block NSDate *dateBefore;
