@@ -39,11 +39,11 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
 @interface MSChannelUnitDefaultTests : XCTestCase
 
+@property(nonatomic) MSChannelUnitConfiguration *configuration;
 @property(nonatomic) MSChannelUnitDefault *sut;
 
 @property(nonatomic) dispatch_queue_t logsDispatchQueue;
 
-@property(nonatomic) id configMock;
 @property(nonatomic) id storageMock;
 @property(nonatomic) id ingestionMock;
 @property(nonatomic) id authTokenContextMock;
@@ -69,7 +69,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
    * we can't clear pending actions from it after the test. It can cause usages of stopped mocks.
    */
   self.logsDispatchQueue = dispatch_queue_create("com.microsoft.appcenter.ChannelGroupQueue", DISPATCH_QUEUE_SERIAL);
-  self.configMock = OCMClassMock([MSChannelUnitConfiguration class]);
+  self.configuration = [[MSChannelUnitConfiguration alloc] initDefaultConfigurationWithGroupId:kMSTestGroupId];
   self.storageMock = OCMProtocolMock(@protocol(MSStorage));
   OCMStub([self.storageMock saveLog:OCMOCK_ANY withGroupId:OCMOCK_ANY flags:MSFlagsPersistenceNormal]).andReturn(YES);
   OCMStub([self.storageMock saveLog:OCMOCK_ANY withGroupId:OCMOCK_ANY flags:MSFlagsPersistenceCritical]).andReturn(YES);
@@ -77,7 +77,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   OCMStub([self.ingestionMock isReadyToSend]).andReturn(YES);
   self.sut = [[MSChannelUnitDefault alloc] initWithIngestion:self.ingestionMock
                                                      storage:self.storageMock
-                                               configuration:self.configMock
+                                               configuration:self.configuration
                                            logsDispatchQueue:self.logsDispatchQueue];
 
   // Auth token context.
@@ -91,7 +91,6 @@ static NSString *const kMSTestGroupId = @"GroupId";
   [MSDispatchTestUtil awaitAndSuspendDispatchQueue:self.logsDispatchQueue];
 
   // Stop mocks.
-  [self.configMock stopMocking];
   [self.authTokenContextMock stopMocking];
   [MSAuthTokenContext resetSharedInstance];
   [super tearDown];
@@ -101,7 +100,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
 - (void)testNewInstanceWasInitialisedCorrectly {
   assertThat(self.sut, notNilValue());
-  assertThat(self.sut.configuration, equalTo(self.configMock));
+  assertThat(self.sut.configuration, equalTo(self.configuration));
   assertThat(self.sut.ingestion, equalTo(self.ingestionMock));
   assertThat(self.sut.storage, equalTo(self.storageMock));
   assertThatUnsignedLong(self.sut.itemsCount, equalToInt(0));
@@ -1292,24 +1291,17 @@ static NSString *const kMSTestGroupId = @"GroupId";
   NSDate *date2 = [NSDate dateWithTimeIntervalSince1970:60];
   NSDate *date3 = [NSDate dateWithTimeIntervalSince1970:120];
   NSDate *date4 = [NSDate dateWithTimeIntervalSince1970:180];
-  NSMutableArray<MSAuthTokenValidityInfo *> *tokenValidityArray = [NSMutableArray<MSAuthTokenValidityInfo *> new];
-  MSAuthTokenValidityInfo *token1 = [[MSAuthTokenValidityInfo alloc] initWithAuthToken:@"token1" startTime:date1 endTime:date2];
-  MSAuthTokenValidityInfo *token2 = [[MSAuthTokenValidityInfo alloc] initWithAuthToken:@"token2" startTime:date2 endTime:date3];
-  MSAuthTokenValidityInfo *token3 = [[MSAuthTokenValidityInfo alloc] initWithAuthToken:@"token3" startTime:date3 endTime:date4];
-  [tokenValidityArray addObject:token1];
-  [tokenValidityArray addObject:token2];
-  [tokenValidityArray addObject:token3];
-  NSArray<id<MSLog>> *logsForToken1 = [self getValidMockLogArrayForDate:date1 andCount:3];
-  NSArray<id<MSLog>> *logsForToken2 = [self getValidMockLogArrayForDate:date2 andCount:0];
-  NSArray<id<MSLog>> *logsForToken3 = [self getValidMockLogArrayForDate:date3 andCount:5];
+  NSArray<MSAuthTokenValidityInfo *> *tokenValidityArray = @[
+    [[MSAuthTokenValidityInfo alloc] initWithAuthToken:@"token1" startTime:date1 endTime:date2],
+    [[MSAuthTokenValidityInfo alloc] initWithAuthToken:@"token2" startTime:date2 endTime:date3],
+    [[MSAuthTokenValidityInfo alloc] initWithAuthToken:@"token3" startTime:date3 endTime:date4]
+  ];
+
+  // Configure channel.
   NSString *batchId = @"batchId";
   __block NSDate *dateAfter;
   __block NSDate *dateBefore;
   __block MSLoadDataCompletionHandler completionHandler;
-
-  // Stub sendLogArray part - we don't need this in this test.
-  id sutMock = OCMPartialMock(self.sut);
-  OCMStub([[sutMock ignoringNonObjectArgs] sendLogContainer:OCMOCK_ANY withAuthTokenFromArray:OCMOCK_ANY atIndex:0]).andDo(nil);
   OCMStub([self.storageMock loadLogsWithGroupId:self.sut.configuration.groupId
                                           limit:self.sut.configuration.batchSizeLimit
                              excludedTargetKeys:OCMOCK_ANY
@@ -1317,29 +1309,29 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                      beforeDate:OCMOCK_ANY
                               completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
-        [invocation getArgument:&dateAfter atIndex:(5)];
-        [invocation getArgument:&dateBefore atIndex:(6)];
+        [invocation getArgument:&dateAfter atIndex:5];
+        [invocation getArgument:&dateBefore atIndex:6];
         [invocation getArgument:&completionHandler atIndex:7];
         if ([dateAfter isEqualToDate:date1] && [dateBefore isEqualToDate:date2]) {
-          completionHandler(logsForToken1, batchId);
+          completionHandler([self getValidMockLogArrayForDate:date1 andCount:3], batchId);
           return;
         }
         if ([dateAfter isEqualToDate:date2] && [dateBefore isEqualToDate:date3]) {
-          completionHandler(logsForToken2, batchId);
+          completionHandler([self getValidMockLogArrayForDate:date2 andCount:0], batchId);
           return;
         }
         if ([dateAfter isEqualToDate:date3] && [dateBefore isEqualToDate:date4]) {
-          completionHandler(logsForToken3, batchId);
+          completionHandler([self getValidMockLogArrayForDate:date3 andCount:5], batchId);
           return;
         }
       });
 
   // When
-  [sutMock flushQueueForTokenArray:tokenValidityArray withTokenIndex:0];
+  [self.sut flushQueueForTokenArray:tokenValidityArray withTokenIndex:0];
 
   // Then
-  OCMVerify([sutMock sendLogContainer:OCMOCK_ANY withAuthTokenFromArray:tokenValidityArray atIndex:2]);
-  [sutMock stopMocking];
+  OCMVerify([self.ingestionMock sendAsync:OCMOCK_ANY authToken:@"token1" completionHandler:OCMOCK_ANY]);
+  OCMVerify([self.ingestionMock sendAsync:OCMOCK_ANY authToken:@"token3" completionHandler:OCMOCK_ANY]);
 }
 
 - (void)testLogsStoredWhenTargetKeyIsPaused {
@@ -1377,7 +1369,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   NSString *token = [NSString stringWithFormat:@"%@-secret", targetKey];
   id channelUnitMock = OCMPartialMock(self.sut);
   [self.sut pauseSendingLogsWithToken:token];
-  OCMStub([self.storageMock countLogs]).andReturn(10);
+  OCMStub([self.storageMock countLogs]).andReturn(60);
 
   // When
   [self.sut resumeSendingLogsWithToken:token];
@@ -1394,7 +1386,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                  OCMVerify([channelUnitMock checkPendingLogs]);
 
                                  // The count should be 0 since the logs were sent and not in pending state anymore.
-                                 XCTAssertTrue(self.sut.itemsCount == 0);
+                                 XCTAssertEqual(self.sut.itemsCount, 0);
                                }];
   [channelUnitMock stopMocking];
 }
