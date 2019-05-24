@@ -61,7 +61,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
     ]
   };
   id result;
-    
+
   // When
   self.sut = [[MSDBStorage alloc] initWithSchema:testSchema version:0 filename:kMSTestDBFileName];
   result = [self queryTable:testTableName];
@@ -94,12 +94,12 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
 }
 
 - (void)testSqliteConfigurationErrorAfterInit {
-    
-    // when
-    int configResult = [MSDBStorage configureSQLite];
-    
-    // Then
-    assertThatInt(configResult, equalToInt(SQLITE_MISUSE));
+
+  // when
+  int configResult = [MSDBStorage configureSQLite];
+
+  // Then
+  assertThatInt(configResult, equalToInt(SQLITE_MISUSE));
 }
 
 - (void)testTableExists {

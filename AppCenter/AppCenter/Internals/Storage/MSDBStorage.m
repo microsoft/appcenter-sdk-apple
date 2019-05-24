@@ -28,8 +28,13 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
     if (sqliteConfigurationResult == SQLITE_OK) {
       MSLogDebug([MSAppCenter logTag], @"SQLite global configuration successfully updated.");
     } else {
-      MSLogError([MSAppCenter logTag], @"Failed to update SQLite global configuration. Error: %@.",
-                 [NSString stringWithUTF8String:sqlite3_errstr(sqliteConfigurationResult)]);
+      NSString *errorString;
+      if (@available(macOS 10.10, *)) {
+        errorString = [NSString stringWithUTF8String:sqlite3_errstr(sqliteConfigurationResult)];
+      } else {
+        errorString = @(sqliteConfigurationResult).stringValue;
+      }
+      MSLogError([MSAppCenter logTag], @"Failed to update SQLite global configuration. Error: %@.", errorString);
     }
   });
   if ((self = [super init])) {
