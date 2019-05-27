@@ -168,7 +168,7 @@
   NSString *pendingOperation = @"pendingOperation";
   NSMutableDictionary *documentDictionary = [NSMutableDictionary new];
   documentDictionary[@"shouldFail"] = [NSSet set];
-  NSDictionary *dictionary = @{ @"document": documentDictionary };
+  NSDictionary *dictionary = @{@"document" : documentDictionary};
 
   // When
   MSDocumentWrapper *document = [MSDocumentUtils documentWrapperFromDictionary:dictionary

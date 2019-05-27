@@ -221,7 +221,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
     if (!request) {
       return;
     }
-      
+
     // Create a task for the request.
     NSURLSessionDataTask *task = [self.session
         dataTaskWithRequest:request
