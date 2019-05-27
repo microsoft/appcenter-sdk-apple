@@ -371,29 +371,57 @@ static NSString *const kMSStartTimestampPrefix = @"MSChannelStartTimer";
 
 - (void)checkPendingLogs {
 
-  // Skip checking pending logs if the channel is paused.
-  if (self.paused) {
-    return;
-  }
-
   // If the interval is default and we reached batchSizeLimit flush logs now.
-  if (self.configuration.flushInterval == kMSFlushIntervalDefault && self.itemsCount >= self.configuration.batchSizeLimit) {
+  if (!self.paused && self.configuration.flushInterval == kMSFlushIntervalDefault && self.itemsCount >= self.configuration.batchSizeLimit) {
     [self flushQueue];
   } else if (self.itemsCount > 0) {
     NSUInteger flushInterval = [self resolveFlushInterval];
+
+    // Skip sending logs if the channel is paused.
+    if (self.paused) {
+      return;
+    }
+
+    // If the interval is over, send all logs without any additional timers.
     if (flushInterval == 0) {
-
-      // If the interval is over, send all logs without any additional timers.
       [self flushQueue];
-    } else {
+    }
 
-      // Postpone sending logs.
+    // Postpone sending logs.
+    else {
       [self startTimer:flushInterval];
     }
   }
 }
 
 #pragma mark - Timer
+
+- (NSUInteger)resolveFlushInterval {
+  NSUInteger flushInterval = self.configuration.flushInterval;
+
+  // If the interval is custom.
+  if (flushInterval > kMSFlushIntervalDefault) {
+    NSDate *now = [NSDate date];
+    NSDate *oldestPendingLogTimestamp = [MS_USER_DEFAULTS objectForKey:[self oldestPendingLogTimestampKey]];
+
+    // The timer isn't started or has invalid value (start time in the future), so start it and store the current time.
+    if (oldestPendingLogTimestamp == nil || [now compare:oldestPendingLogTimestamp] == NSOrderedAscending) {
+      [MS_USER_DEFAULTS setObject:now forKey:[self oldestPendingLogTimestampKey]];
+    }
+
+    // If the interval is over.
+    else if ([now compare:[oldestPendingLogTimestamp dateByAddingTimeInterval:flushInterval]] == NSOrderedDescending) {
+      [MS_USER_DEFAULTS removeObjectForKey:[self oldestPendingLogTimestampKey]];
+      return 0;
+    }
+
+    // We still have to wait for the rest of the interval.
+    else {
+      flushInterval -= (NSUInteger)[now timeIntervalSinceDate:oldestPendingLogTimestamp];
+    }
+  }
+  return flushInterval;
+}
 
 - (void)startTimer:(NSUInteger)flushInterval {
 
@@ -430,33 +458,6 @@ static NSString *const kMSStartTimestampPrefix = @"MSChannelStartTimer";
     }
   });
   dispatch_resume(self.timerSource);
-}
-
-- (NSUInteger)resolveFlushInterval {
-  NSUInteger flushInterval = self.configuration.flushInterval;
-
-  // If the interval is custom.
-  if (flushInterval > kMSFlushIntervalDefault) {
-    NSDate *now = [NSDate date];
-    NSDate *oldestPendingLogTimestamp = [MS_USER_DEFAULTS objectForKey:[self oldestPendingLogTimestampKey]];
-
-    // The timer isn't started or has invalid value (start time in the future), so start it and store the current time.
-    if (oldestPendingLogTimestamp == nil || [now compare:oldestPendingLogTimestamp] == NSOrderedAscending) {
-      [MS_USER_DEFAULTS setObject:now forKey:[self oldestPendingLogTimestampKey]];
-    }
-
-    // If the interval is over.
-    else if ([now compare:[oldestPendingLogTimestamp dateByAddingTimeInterval:flushInterval]] == NSOrderedDescending) {
-      [MS_USER_DEFAULTS removeObjectForKey:[self oldestPendingLogTimestampKey]];
-      return 0;
-    }
-
-    // We still have to wait for the rest of the interval.
-    else {
-      flushInterval -= (NSUInteger)[now timeIntervalSinceDate:oldestPendingLogTimestamp];
-    }
-  }
-  return flushInterval;
 }
 
 - (NSString *)oldestPendingLogTimestampKey {
