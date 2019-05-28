@@ -95,7 +95,6 @@ static NSString *const kMSTestGroupId = @"GroupId";
   [MSDispatchTestUtil awaitAndSuspendDispatchQueue:self.logsDispatchQueue];
 
   // Stop mocks.
-  [self.configMock stopMocking];
   [self.settingsMock stopMocking];
   [self.authTokenContextMock stopMocking];
   [MSAuthTokenContext resetSharedInstance];
