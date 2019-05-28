@@ -1153,7 +1153,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     log.userId = [[MSUserIdContext sharedInstance] userIdAt:log.timestamp];
 
     // Then, enqueue crash log.
-    [self.channelUnit enqueueItem:log flags:MSFlagsPersistenceCritical];
+    [self.channelUnit enqueueItem:log flags:MSFlagsCritical];
 
     // Send error attachments.
     [self sendErrorAttachments:attachments withIncidentIdentifier:report.incidentIdentifier];

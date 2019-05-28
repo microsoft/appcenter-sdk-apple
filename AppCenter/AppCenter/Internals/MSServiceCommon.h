@@ -62,7 +62,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * The channel configuration for this service.
  */
-@property(nonatomic, readonly) MSChannelUnitConfiguration *channelUnitConfiguration;
+@property(nonatomic) MSChannelUnitConfiguration *channelUnitConfiguration;
 
 @required
 
