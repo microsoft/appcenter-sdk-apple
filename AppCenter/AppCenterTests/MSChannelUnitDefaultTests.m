@@ -131,7 +131,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *error) {
                                  NSDate *resultDate = [self.settingsMock objectForKey:self.sut.oldestPendingLogTimestampKey];
-                                 XCTAssertEqual(date, resultDate);
+                                 XCTAssertTrue([date isEqualToDate:resultDate]);
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }

@@ -396,33 +396,6 @@ static NSString *const kMSStartTimestampPrefix = @"MSChannelStartTimer";
 
 #pragma mark - Timer
 
-- (NSUInteger)resolveFlushInterval {
-  NSUInteger flushInterval = self.configuration.flushInterval;
-
-  // If the interval is custom.
-  if (flushInterval > kMSFlushIntervalDefault) {
-    NSDate *now = [NSDate date];
-    NSDate *oldestPendingLogTimestamp = [MS_USER_DEFAULTS objectForKey:[self oldestPendingLogTimestampKey]];
-
-    // The timer isn't started or has invalid value (start time in the future), so start it and store the current time.
-    if (oldestPendingLogTimestamp == nil || [now compare:oldestPendingLogTimestamp] == NSOrderedAscending) {
-      [MS_USER_DEFAULTS setObject:now forKey:[self oldestPendingLogTimestampKey]];
-    }
-
-    // If the interval is over.
-    else if ([now compare:[oldestPendingLogTimestamp dateByAddingTimeInterval:flushInterval]] == NSOrderedDescending) {
-      [MS_USER_DEFAULTS removeObjectForKey:[self oldestPendingLogTimestampKey]];
-      return 0;
-    }
-
-    // We still have to wait for the rest of the interval.
-    else {
-      flushInterval -= (NSUInteger)[now timeIntervalSinceDate:oldestPendingLogTimestamp];
-    }
-  }
-  return flushInterval;
-}
-
 - (void)startTimer:(NSUInteger)flushInterval {
 
   // Don't start timer while disabled.
@@ -458,6 +431,33 @@ static NSString *const kMSStartTimestampPrefix = @"MSChannelStartTimer";
     }
   });
   dispatch_resume(self.timerSource);
+}
+
+- (NSUInteger)resolveFlushInterval {
+  NSUInteger flushInterval = self.configuration.flushInterval;
+
+  // If the interval is custom.
+  if (flushInterval > kMSFlushIntervalDefault) {
+    NSDate *now = [NSDate date];
+    NSDate *oldestPendingLogTimestamp = [MS_USER_DEFAULTS objectForKey:[self oldestPendingLogTimestampKey]];
+
+    // The timer isn't started or has invalid value (start time in the future), so start it and store the current time.
+    if (oldestPendingLogTimestamp == nil || [now compare:oldestPendingLogTimestamp] == NSOrderedAscending) {
+      [MS_USER_DEFAULTS setObject:now forKey:[self oldestPendingLogTimestampKey]];
+    }
+
+    // If the interval is over.
+    else if ([now compare:[oldestPendingLogTimestamp dateByAddingTimeInterval:flushInterval]] == NSOrderedDescending) {
+      [MS_USER_DEFAULTS removeObjectForKey:[self oldestPendingLogTimestampKey]];
+      return 0;
+    }
+
+    // We still have to wait for the rest of the interval.
+    else {
+      flushInterval -= (NSUInteger)[now timeIntervalSinceDate:oldestPendingLogTimestamp];
+    }
+  }
+  return flushInterval;
 }
 
 - (NSString *)oldestPendingLogTimestampKey {
