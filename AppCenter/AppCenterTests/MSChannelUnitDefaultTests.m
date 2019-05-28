@@ -104,6 +104,43 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
 #pragma mark - Tests
 
+- (void)testPendingLogsStoresStartTimeWhenPaused {
+
+  // If
+  [self initChannelEndJobExpectation];
+  id dateMock = OCMClassMock([NSDate class]);
+  NSObject *object = [NSObject new];
+  NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:3000];
+  OCMStub([dateMock date]).andReturn(date);
+
+  // Configure channel with custom interval.
+  self.sut.configuration = [[MSChannelUnitConfiguration alloc] initWithGroupId:kMSTestGroupId
+                                                                      priority:MSPriorityDefault
+                                                                 flushInterval:60
+                                                                batchSizeLimit:50
+                                                           pendingBatchesLimit:3];
+
+  // When
+  [self.sut pauseWithIdentifyingObjectSync:object];
+
+  // Trigger checkPengingLogs. Should save timestamp now.
+  [self.sut enqueueItem:[self getValidMockLog] flags:MSFlagsDefault];
+  [self enqueueChannelEndJobExpectation];
+
+  // Then
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
+                               handler:^(NSError *error) {
+                                 NSDate *resultDate = [self.settingsMock objectForKey:self.sut.oldestPendingLogTimestampKey];
+                                 XCTAssertTrue([date isEqualToDate:resultDate]);
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+
+  // Clear
+  [dateMock stopMocking];
+}
+
 - (void)testCustomFlushIntervalSending200Logs {
 
   // If

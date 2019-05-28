@@ -371,23 +371,24 @@ static NSString *const kMSStartTimestampPrefix = @"MSChannelStartTimer";
 
 - (void)checkPendingLogs {
 
-  // Skip checking pending logs if the channel is paused.
-  if (self.paused) {
-    return;
-  }
-
   // If the interval is default and we reached batchSizeLimit flush logs now.
-  if (self.configuration.flushInterval == kMSFlushIntervalDefault && self.itemsCount >= self.configuration.batchSizeLimit) {
+  if (!self.paused && self.configuration.flushInterval == kMSFlushIntervalDefault && self.itemsCount >= self.configuration.batchSizeLimit) {
     [self flushQueue];
   } else if (self.itemsCount > 0) {
     NSUInteger flushInterval = [self resolveFlushInterval];
+
+    // Skip sending logs if the channel is paused.
+    if (self.paused) {
+      return;
+    }
+
+    // If the interval is over, send all logs without any additional timers.
     if (flushInterval == 0) {
-
-      // If the interval is over, send all logs without any additional timers.
       [self flushQueue];
-    } else {
+    }
 
-      // Postpone sending logs.
+    // Postpone sending logs.
+    else {
       [self startTimer:flushInterval];
     }
   }
