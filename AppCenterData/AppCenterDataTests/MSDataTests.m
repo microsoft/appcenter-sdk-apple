@@ -167,18 +167,23 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   // If
   MSTokenResult *testToken = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
   MSTokensResponse *testTokensResponse = [[MSTokensResponse alloc] initWithTokens:@[ testToken ]];
+  __block BOOL tokenExchangeCalled = NO;
   OCMStub([self.tokenExchangeMock performDbTokenAsyncOperationWithHttpClient:OCMOCK_ANY
                                                             tokenExchangeUrl:OCMOCK_ANY
                                                                    appSecret:OCMOCK_ANY
-                                                                   partition:kMSPartitionTest
-                                                         includeExpiredToken:YES
+                                                                   partition:OCMOCK_ANY
+                                                         includeExpiredToken:NO
                                                                 reachability:OCMOCK_ANY
                                                            completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
+        tokenExchangeCalled = YES;
         MSGetTokenAsyncCompletionHandler getTokenCallback;
         [invocation getArgument:&getTokenCallback atIndex:8];
         getTokenCallback(testTokensResponse, nil);
       });
+
+  // Set the auth context flag.
+  [self.settingsMock setValue:@YES forKey:kMSAuthContextAvailabilityKey];
 
   // Mock CosmosDB requests.
   NSData *testCosmosDbResponse = [self jsonFixture:@"validTestUserDocument"];
@@ -218,7 +223,58 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   [self.sut processPendingOperations];
 
   // Then
+  XCTAssertTrue(tokenExchangeCalled);
   XCTAssertEqual([self.sut.outgoingPendingOperations count], 0);
+}
+
+- (void)testPendingOperationsWontCallTokenExchangeWhenLoggedOut {
+
+  // If
+  __block BOOL tokenExchangeCalled = NO;
+  OCMStub([self.tokenExchangeMock performDbTokenAsyncOperationWithHttpClient:OCMOCK_ANY
+                                                            tokenExchangeUrl:OCMOCK_ANY
+                                                                   appSecret:OCMOCK_ANY
+                                                                   partition:OCMOCK_ANY
+                                                         includeExpiredToken:NO
+                                                                reachability:OCMOCK_ANY
+                                                           completionHandler:OCMOCK_ANY])
+      .andDo(^(__unused NSInvocation *invocation) {
+        tokenExchangeCalled = YES;
+      });
+
+  // Clear the auth context flag.
+  [self.settingsMock removeObjectForKey:kMSAuthContextAvailabilityKey];
+
+  // When
+  [self.sut processPendingOperations];
+
+  // Then
+  XCTAssertFalse(tokenExchangeCalled);
+}
+
+- (void)testPendingOperationsCallsTokenExchangeWhenLoggedIn {
+
+  // If
+  __block BOOL tokenExchangeCalled = NO;
+  OCMStub([self.tokenExchangeMock performDbTokenAsyncOperationWithHttpClient:OCMOCK_ANY
+                                                            tokenExchangeUrl:OCMOCK_ANY
+                                                                   appSecret:OCMOCK_ANY
+                                                                   partition:kMSPartitionTest
+                                                         includeExpiredToken:NO
+                                                                reachability:OCMOCK_ANY
+                                                           completionHandler:OCMOCK_ANY])
+      .andDo(^(__unused NSInvocation *invocation) {
+        tokenExchangeCalled = YES;
+      });
+
+  // Set the auth context flag.
+  [self.settingsMock setValue:@YES forKey:kMSAuthContextAvailabilityKey];
+
+  // When
+  [self.sut processPendingOperations];
+
+  // Then
+  XCTAssertTrue(tokenExchangeCalled);
 }
 
 - (void)testReadWithInvalidDocumentType {
