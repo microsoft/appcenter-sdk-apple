@@ -17,9 +17,9 @@ NS_ASSUME_NONNULL_BEGIN
  * @param eventName  Event name.
  * @param properties The typed event properties.
  * @param transmissionTarget  The transmission target to associate to this event.
- * @param flags      Optional flags. Events tracked with the MSFlagsPersistenceCritical flag will take precedence over all other events in
+ * @param flags      Optional flags. Events tracked with the MSFlagsCritical flag will take precedence over all other events in
  * storage. An event tracked with this option will only be dropped if storage must make room for a newer event that is also marked with the
- * MSFlagsPersistenceCritical flag.
+ * MSFlagsCritical flag.
  */
 + (void)trackEvent:(NSString *)eventName
       withTypedProperties:(nullable MSEventProperties *)properties

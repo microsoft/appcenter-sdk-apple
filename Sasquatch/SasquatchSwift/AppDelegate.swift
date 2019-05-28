@@ -75,6 +75,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
     let services = [MSAnalytics.self, MSCrashes.self, MSData.self, MSDistribute.self, MSAuth.self, MSPush.self]
     let appSecret = UserDefaults.standard.string(forKey: kMSAppSecret) ?? kMSSwiftAppSecret
     let startTarget = StartupMode(rawValue: UserDefaults.standard.integer(forKey: kMSStartTargetKey))!
+    let latencyTimeValue = UserDefaults.standard.integer(forKey: kMSTransmissionIterval);
+    MSAnalytics.setTransmissionInterval(UInt(latencyTimeValue));
     switch startTarget {
     case .APPCENTER:
       MSAppCenter.start(appSecret, withServices: services)

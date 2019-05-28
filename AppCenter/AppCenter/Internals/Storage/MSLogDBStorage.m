@@ -30,7 +30,7 @@ static const NSUInteger kMSSchemaVersion = 4;
       @{kMSTimestampColumnName : @[ kMSSQLiteTypeInteger ]}
     ]
   };
-  self = [super initWithSchema:schema version:kMSSchemaVersion filename:kMSDBFileName];
+  self = [self initWithSchema:schema version:kMSSchemaVersion filename:kMSDBFileName];
   if (self) {
     NSDictionary *columnIndexes = [MSDBStorage columnsIndexes:schema];
     _idColumnIndex = ((NSNumber *)columnIndexes[kMSLogTableName][kMSIdColumnName]).unsignedIntegerValue;
@@ -393,9 +393,8 @@ static const NSUInteger kMSSchemaVersion = 4;
   if (version < kMSLogPersistencePriorityVersion) {
 
     // Integer type for flags is actually unsigned int, but SQL resolves UNSIGNED INTEGER to INTEGER anyways.
-    NSString *migrationQuery =
-        [NSString stringWithFormat:@"ALTER TABLE \"%@\" ADD COLUMN \"%@\" %@ DEFAULT %u", kMSLogTableName, kMSPriorityColumnName,
-                                   kMSSQLiteTypeInteger, (unsigned int)MSFlagsPersistenceNormal];
+    NSString *migrationQuery = [NSString stringWithFormat:@"ALTER TABLE \"%@\" ADD COLUMN \"%@\" %@ DEFAULT %u", kMSLogTableName,
+                                                          kMSPriorityColumnName, kMSSQLiteTypeInteger, (unsigned int)MSFlagsNormal];
     [MSDBStorage executeNonSelectionQuery:migrationQuery inOpenedDatabase:db];
     [self createPriorityIndex:db];
   }

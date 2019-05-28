@@ -90,3 +90,8 @@ static const NSUInteger kMSPersistenceFlagsMask = 0xFF;
  * Common schema prefix separator used in various field values.
  */
 static NSString *const kMSCommonSchemaPrefixSeparator = @":";
+
+/**
+ * Default flush interval for channel.
+ */
+static NSUInteger const kMSFlushIntervalDefault = 3;

@@ -50,7 +50,7 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-
+  [MSAppCenter setLogLevel:MSLogLevelVerbose];
 #if GCC_PREPROCESSOR_MACRO_PUPPET
   self.analyticsResult = [MSAnalyticsResult new];
   [MSAnalytics setDelegate:self];
@@ -76,7 +76,6 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
 #pragma clang diagnostic pop
   [MSPush setDelegate:self];
   [MSDistribute setDelegate:self];
-  [MSAppCenter setLogLevel:MSLogLevelVerbose];
 
   // Set max storage size.
   NSNumber *storageMaxSize = [[NSUserDefaults standardUserDefaults] objectForKey:kMSStorageMaxSizeKey];
@@ -109,7 +108,10 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
   if (logUrl) {
     [MSAppCenter setLogUrl:logUrl];
   }
-
+  int latencyTimeValue = [[[NSUserDefaults standardUserDefaults] objectForKey:kMSTransmissionIterval] intValue];
+  if (latencyTimeValue) {
+    [MSAnalytics setTransmissionInterval:latencyTimeValue];
+  }
   // Start App Center SDK.
   NSArray<Class> *services =
       @ [[MSAnalytics class], [MSCrashes class], [MSData class], [MSDistribute class], [MSAuth class], [MSPush class]];

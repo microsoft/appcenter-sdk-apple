@@ -56,6 +56,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)resumeSendingLogsWithToken:(NSString *)token;
 
+/**
+ * Check for enqueued logs to send to ingestion.
+ */
+- (void)checkPendingLogs;
+
 @end
 
 NS_ASSUME_NONNULL_END

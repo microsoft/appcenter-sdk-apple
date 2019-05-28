@@ -3,6 +3,7 @@
 
 #import <Foundation/Foundation.h>
 
+#import "MSAuthTokenContextDelegate.h"
 #import "MSChannelUnitProtocol.h"
 #import "MSIngestionDelegate.h"
 
@@ -13,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol MSIngestionProtocol;
 @protocol MSStorage;
 
-@interface MSChannelUnitDefault : NSObject <MSChannelUnitProtocol, MSIngestionDelegate>
+@interface MSChannelUnitDefault : NSObject <MSChannelUnitProtocol, MSIngestionDelegate, MSAuthTokenContextDelegate>
 
 /**
  * Initializes a new `MSChannelUnitDefault` instance.
@@ -29,11 +30,6 @@ NS_ASSUME_NONNULL_BEGIN
                           storage:(id<MSStorage>)storage
                     configuration:(MSChannelUnitConfiguration *)configuration
                 logsDispatchQueue:(dispatch_queue_t)logsDispatchQueue;
-
-/**
- * Flush pending logs.
- */
-- (void)flushQueue;
 
 /**
  * Hash table of channel delegate.
