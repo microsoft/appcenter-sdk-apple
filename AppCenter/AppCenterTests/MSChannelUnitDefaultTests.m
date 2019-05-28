@@ -1624,21 +1624,26 @@ static NSString *const kMSTestGroupId = @"GroupId";
 - (void)testFlushQueueIteratesThroughArrayRecursively {
 
   // If
-  NSDate *date1 = [NSDate dateWithTimeIntervalSince1970:1];
-  NSDate *date2 = [NSDate dateWithTimeIntervalSince1970:60];
-  NSDate *date3 = [NSDate dateWithTimeIntervalSince1970:120];
-  NSDate *date4 = [NSDate dateWithTimeIntervalSince1970:180];
-  NSArray<MSAuthTokenValidityInfo *> *tokenValidityArray = @[
-    [[MSAuthTokenValidityInfo alloc] initWithAuthToken:@"token1" startTime:date1 endTime:date2],
-    [[MSAuthTokenValidityInfo alloc] initWithAuthToken:@"token2" startTime:date2 endTime:date3],
-    [[MSAuthTokenValidityInfo alloc] initWithAuthToken:@"token3" startTime:date3 endTime:date4]
-  ];
+  NSArray<NSNumber *> *datesValues = @[ @1, @60, @120, @180, @240 ];
+  NSArray<NSNumber *> *logsCount = @[ @0, @3, @0, @5 ];
+
+  // Fill the values.
+  NSMutableArray<NSDate *> *dates = [NSMutableArray<NSDate *> new];
+  for (NSUInteger i = 0; i < datesValues.count; i++) {
+    [dates addObject:[NSDate dateWithTimeIntervalSince1970:[datesValues[i] doubleValue]]];
+  }
+  NSMutableArray<MSAuthTokenValidityInfo *> *tokenValidityArray = [NSMutableArray<MSAuthTokenValidityInfo *> new];
+  for (NSUInteger i = 0; i < dates.count - 1; i++) {
+    NSString *token = [NSString stringWithFormat:@"token%tu", i];
+    [tokenValidityArray addObject:[[MSAuthTokenValidityInfo alloc] initWithAuthToken:token startTime:dates[i] endTime:dates[i+1]]];
+  }
 
   // Configure storage mock.
   NSString *batchId = @"batchId";
   __block NSDate *dateAfter;
   __block NSDate *dateBefore;
   __block MSLoadDataCompletionHandler completionHandler;
+  OCMStub([self.storageMock countLogsBeforeDate:dates[1]]).andReturn(0);
   OCMStub([self.storageMock loadLogsWithGroupId:self.sut.configuration.groupId
                                           limit:self.sut.configuration.batchSizeLimit
                              excludedTargetKeys:OCMOCK_ANY
@@ -1649,26 +1654,23 @@ static NSString *const kMSTestGroupId = @"GroupId";
         [invocation getArgument:&dateAfter atIndex:5];
         [invocation getArgument:&dateBefore atIndex:6];
         [invocation getArgument:&completionHandler atIndex:7];
-        if ([dateAfter isEqualToDate:date1] && [dateBefore isEqualToDate:date2]) {
-          completionHandler([self getValidMockLogArrayForDate:date1 andCount:3], batchId);
-          return;
-        }
-        if ([dateAfter isEqualToDate:date2] && [dateBefore isEqualToDate:date3]) {
-          completionHandler([self getValidMockLogArrayForDate:date2 andCount:0], batchId);
-          return;
-        }
-        if ([dateAfter isEqualToDate:date3] && [dateBefore isEqualToDate:date4]) {
-          completionHandler([self getValidMockLogArrayForDate:date3 andCount:5], batchId);
-          return;
+        for (NSUInteger i = 0; i < tokenValidityArray.count; i++) {
+          if ([dateAfter isEqualToDate:dates[i]] && [dateBefore isEqualToDate:dates[i + 1]]) {
+            completionHandler([self getValidMockLogArrayForDate:dates[i] andCount:[logsCount[i] unsignedIntegerValue]], batchId);
+            return;
+          }
         }
       });
 
   // When
+  OCMReject([self.authTokenContextMock removeAuthToken:isNot(equalTo(@"token0"))]);
   [self.sut flushQueueForTokenArray:tokenValidityArray withTokenIndex:0];
 
   // Then
+  OCMVerify([self.authTokenContextMock removeAuthToken:@"token0"]);
   OCMVerify([self.ingestionMock sendAsync:OCMOCK_ANY authToken:@"token1" completionHandler:OCMOCK_ANY]);
   OCMVerify([self.ingestionMock sendAsync:OCMOCK_ANY authToken:@"token3" completionHandler:OCMOCK_ANY]);
+  OCMVerifyAll(self.authTokenContextMock);
 }
 
 - (void)testLogsStoredWhenTargetKeyIsPaused {
