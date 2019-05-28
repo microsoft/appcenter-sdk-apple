@@ -46,7 +46,7 @@ static NSString *const kMSDocumentDbAuthorizationHeaderFormat = @"type=master&ve
 /**
  * Url character set to skip(utf8 encoding).
  */
-static NSString *const kMSUrlCharactersToEscape = @"!*'();:@&=+$,/?%#[] ";
+static NSString *const kMSUrlCharactersToEscape = @"!*'();:@&=+$,/?%#[]\" ";
 
 /**
  * RFC1123 locale.
@@ -127,7 +127,8 @@ static NSString *const kMSHeaderMsDate = @"x-ms-date";
 + (NSString *)documentUrlWithTokenResult:(MSTokenResult *)tokenResult documentId:(NSString *_Nullable)documentId {
   NSString *documentResourceIdPrefix = [MSCosmosDb documentBaseUrlWithDatabaseName:tokenResult.dbName
                                                                     collectionName:tokenResult.dbCollectionName
-                                                                        documentId:documentId];
+                                                                        documentId:[MSCosmosDb encodeUrl:(NSString *)documentId]];
+
   return [MSCosmosDb documentDbEndpointWithDbAccount:tokenResult.dbAccount documentResourceId:documentResourceIdPrefix];
 }
 
