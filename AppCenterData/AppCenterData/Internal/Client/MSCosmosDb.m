@@ -128,7 +128,6 @@ static NSString *const kMSHeaderMsDate = @"x-ms-date";
   NSString *documentResourceIdPrefix = [MSCosmosDb documentBaseUrlWithDatabaseName:tokenResult.dbName
                                                                     collectionName:tokenResult.dbCollectionName
                                                                         documentId:documentId];
-
   return [MSCosmosDb documentDbEndpointWithDbAccount:tokenResult.dbAccount documentResourceId:documentResourceIdPrefix];
 }
 
