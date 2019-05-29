@@ -280,8 +280,8 @@ static NSString *const kMSStartTimestampPrefix = @"MSChannelStartTimer";
                 self.pendingBatchQueueFull = NO;
 
                 // Try to flush again if batch queue is not full anymore.
-                if (succeeded && self.availableBatchFromStorage) {
-                  [self flushQueueForTokenArray:tokenArray withTokenIndex:tokenIndex];
+                if (succeeded) {
+                  [self flushNextBatchFromQueueForTokenArray:tokenArray withTokenIndex:tokenIndex];
                 }
               }
             });
@@ -317,16 +317,21 @@ static NSString *const kMSStartTimestampPrefix = @"MSChannelStartTimer";
                       }];
 
   // Flush again if there is another batch to send.
-  if (!self.pendingBatchQueueFull) {
+  [self flushNextBatchFromQueueForTokenArray:tokenArray withTokenIndex:tokenIndex];
+}
 
-    // Check if there are more logs for this token, if not - move to the next one.
-    if (self.availableBatchFromStorage) {
-      [self flushQueueForTokenArray:tokenArray withTokenIndex:tokenIndex];
-    } else if (tokenIndex + 1 < tokenArray.count) {
+- (void)flushNextBatchFromQueueForTokenArray:(NSArray<MSAuthTokenValidityInfo *> *)tokenArray withTokenIndex:(NSUInteger)tokenIndex {
+  if (self.pendingBatchQueueFull) {
+    return;
+  }
 
-      // Iterate to next token in array.
-      [self flushQueueForTokenArray:tokenArray withTokenIndex:tokenIndex + 1];
-    }
+  // Check if there are more logs for this token, if not - move to the next one.
+  if (self.availableBatchFromStorage) {
+    [self flushQueueForTokenArray:tokenArray withTokenIndex:tokenIndex];
+  } else if (tokenIndex + 1 < tokenArray.count) {
+
+    // Iterate to next token in array.
+    [self flushQueueForTokenArray:tokenArray withTokenIndex:tokenIndex + 1];
   }
 }
 
