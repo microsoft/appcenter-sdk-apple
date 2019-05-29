@@ -743,6 +743,7 @@ static dispatch_once_t onceToken;
     [MSTokenExchange removeAllCachedTokens];
     [self.dataOperationProxy.documentStore resetDatabase];
     [self.outgoingPendingOperations removeAllObjects];
+    [MS_USER_DEFAULTS removeObjectForKey:kMSAuthContextAvailabilityKey];
   }
 }
 
