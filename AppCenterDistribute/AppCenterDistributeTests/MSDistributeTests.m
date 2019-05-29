@@ -649,6 +649,8 @@ static NSURL *sfURL;
   NSString *message = [NSString stringWithFormat:MSDistributeLocalizedString(@"MSDistributeAppUpdateAvailableMandatoryUpdateMessage"),
                                                  appName, details.shortVersion, details.version];
 #pragma clang diagnostic pop
+  id appCenterMock = OCMClassMock([MSAppCenter class]);
+  OCMStub([appCenterMock isDebuggerAttached]).andReturn(YES);
 
   // Mock reachability.
   id reachabilityMock = OCMClassMock([MS_Reachability class]);
@@ -660,6 +662,7 @@ static NSURL *sfURL;
 
   // Persist release to be picked up.
   [MS_USER_DEFAULTS setObject:[details serializeToDictionary] forKey:kMSMandatoryReleaseKey];
+  [self.sut handleUpdate:details];
 
   // When
   [self.sut checkLatestRelease:@"whateverToken" distributionGroupId:@"whateverGroupId" releaseHash:@"whateverReleaseHash"];
@@ -703,7 +706,7 @@ static NSURL *sfURL;
                                  OCMVerify([self.alertControllerMock addPreferredActionWithTitle:OCMOCK_ANY handler:OCMOCK_ANY]);
                                  OCMVerifyAll(self.alertControllerMock);
                                }];
-
+  [appCenterMock stopMocking];
   [reachabilityMock stopMocking];
 }
 
@@ -727,6 +730,9 @@ static NSURL *sfURL;
     [invocation setReturnValue:&test];
   });
 
+  id appCenterMock = OCMClassMock([MSAppCenter class]);
+  OCMStub([appCenterMock isDebuggerAttached]).andReturn(YES);
+
   // When
   [self.sut checkLatestRelease:@"whateverToken" distributionGroupId:@"whateverGroupId" releaseHash:@"whateverReleaseHash"];
   dispatch_async(dispatch_get_main_queue(), ^{
@@ -761,6 +767,7 @@ static NSURL *sfURL;
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
                                }];
+  [appCenterMock stopMocking];
   [reachabilityMock stopMocking];
 }
 
