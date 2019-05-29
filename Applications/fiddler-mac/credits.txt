@@ -1,0 +1,24 @@
+Find the online version of this document here: https://fiddler2.com/r/?credits
+
+Fiddler depends on the work of a number of other companies and individuals:
+
+Some of Fiddler's icons were generously provided by the FatCow.com free icon set, licensed under Creative Commons. http://www.fatcow.com/free-icons
+Fiddler is installed using the excellent freeware NSIS Installer. http://nsis.sourceforge.net/Main_Page 
+Fiddler's HexView inspector uses an early fork of what is now the HexEditor control http://sourceforge.net/projects/hexbox/ Copyright (c) 2011 Bernhard Elbl - Licensed under the MIT License. http://www.opensource.org/licenses/mit-license.php
+Fiddler's JSON parsing support is based on a sample Copyright (c)2008 Patrick van Bergen - Licensed under the MIT License.
+Fiddler's JavaScript formatting code is based on a sample ©2012 Jonathan Wood - Licensed under the Microsoft Public License. http://www.microsoft.com/opensource/licenses.mspx
+Fiddler uses the commercial Xceed Libraries for compressing SAZ files and compressing/decompressing web traffic. http://xceed.com/
+The Quantum Whale Editor.NET component is used for the SyntaxView Inspector and FiddlerScript Editors.  http://www.qwhale.net/products/editor.htm
+
+dwebp.exe is Copyright (c)2010, Google Inc. and supplied under the following license:
+    Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+        -Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+        -Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+        -Neither the name of Google nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+
+        THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+        FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
+        BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT 
+        LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+zopfli.exe is Copyright (c)2011, Google Inc. and supplied under the Apache License: http://www.apache.org/licenses/LICENSE-2.0

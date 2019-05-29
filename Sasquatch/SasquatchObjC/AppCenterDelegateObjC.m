@@ -333,6 +333,10 @@
                            document:(MSDictionaryDocument *_Nonnull)document
                        writeOptions:(MSWriteOptions *_Nonnull)writeOptions
                   completionHandler:(void (^)(MSDocumentWrapper *))completionHandler {
+//  NSMutableDictionary *dict = [NSMutableDictionary new];
+//  [dict setObject:@(1) forKey:@"someint"];
+//  [dict setObject:[NSDate new] forKey:@"soemdate"];
+//  MSDictionaryDocument *dictDoc = [[MSDictionaryDocument alloc] initFromDictionary:dict];
   [MSData createDocumentWithID:documentId
                       document:document
                      partition:partitionName

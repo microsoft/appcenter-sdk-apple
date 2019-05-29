@@ -1,0 +1,16 @@
+Enabled: Yes
+Server: 127.0.0.1
+Port: 8888
+Authenticated Proxy Enabled: 0
+Enabled: No
+Server: 0
+Port: 0
+Authenticated Proxy Enabled: 0
+Enabled: Yes
+Server: 127.0.0.1
+Port: 8888
+Authenticated Proxy Enabled: 0
+Enabled: No
+Server: 0
+Port: 0
+Authenticated Proxy Enabled: 0

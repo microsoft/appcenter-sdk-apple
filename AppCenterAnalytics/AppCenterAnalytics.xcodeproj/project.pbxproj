@@ -357,7 +357,6 @@
 		0446DF5E1F3B8FBA00C8E338 /* libAppCenter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAppCenter.a; path = "../../../../../Library/Developer/Xcode/DerivedData/MobileCenter-atgozldoovnqvrcmynluxwlivwkq/Build/Products/Debug-appletvsimulator/libAppCenter.a"; sourceTree = "<group>"; };
 		0446DF611F3B95EB00C8E338 /* libAppCenter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAppCenter.a; path = "../../../../../Library/Developer/Xcode/DerivedData/MobileCenter-atgozldoovnqvrcmynluxwlivwkq/Build/Products/Debug/libAppCenter.a"; sourceTree = "<group>"; };
 		0446DF631F3B95F200C8E338 /* libAppCenter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAppCenter.a; path = "../../../../../Library/Developer/Xcode/DerivedData/MobileCenter-atgozldoovnqvrcmynluxwlivwkq/Build/Products/Debug-iphonesimulator/libAppCenter.a"; sourceTree = "<group>"; };
-		04545DC9227B604700A49E06 /* AppCenterAnalytics.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = AppCenterAnalytics.xcconfig; sourceTree = "<group>"; };
 		0469D1B21F4DFE4C00A43A8E /* AppCenterAnalytics Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "AppCenterAnalytics Release.xcconfig"; sourceTree = "<group>"; };
 		046AEAC61ECA51AF00CBE511 /* AppCenterAnalytics.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppCenterAnalytics.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0484DD201F39096E0092B777 /* OCHamcrest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrest.framework; path = ../../Vendor/tvOS/OCHamcrest/OCHamcrest.framework; sourceTree = "<group>"; };
@@ -713,7 +712,6 @@
 		E85547D01D2D65AF002DF6E2 /* Support */ = {
 			isa = PBXGroup;
 			children = (
-				04545DC9227B604700A49E06 /* AppCenterAnalytics.xcconfig */,
 				B2812EF21DA3148000307DCE /* AppCenterAnalytics Debug.xcconfig */,
 				0469D1B21F4DFE4C00A43A8E /* AppCenterAnalytics Release.xcconfig */,
 				049BC82A1ECE3B9400FB6719 /* iOS.xcconfig */,
@@ -943,7 +941,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0485AF821EAA79E300C10CAF /* Build configuration list for PBXNativeTarget "AppCenterAnalyticsMacOS" */;
 			buildPhases = (
-				F8B8EAD621105B84004BCECB /* Verify no buildSettings */,
 				0485AF681EAA79E300C10CAF /* Sources */,
 				0485AF701EAA79E300C10CAF /* Frameworks */,
 				0485AF711EAA79E300C10CAF /* CopyFiles */,
@@ -1010,6 +1007,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = E85547B71D2D6253002DF6E2;
@@ -1146,21 +1144,6 @@
 			showEnvVarsInLog = 0;
 		};
 		F8B8EAD421105B77004BCECB /* Verify no buildSettings */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Verify no buildSettings";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift\" ${PROJECT_NAME}.xcodeproj/project.pbxproj";
-			showEnvVarsInLog = 0;
-		};
-		F8B8EAD621105B84004BCECB /* Verify no buildSettings */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1462,6 +1445,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B2812EF21DA3148000307DCE /* AppCenterAnalytics Debug.xcconfig */;
 			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
 			};
 			name = Debug;
 		};
@@ -1469,6 +1453,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0469D1B21F4DFE4C00A43A8E /* AppCenterAnalytics Release.xcconfig */;
 			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
 			};
 			name = Release;
 		};

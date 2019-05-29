@@ -1,4 +1,5 @@
-#include "./Version.xcconfig"
+BUILD_NUMBER = 1
+VERSION_STRING = 2.0.0
 
 // :Mark: Architectures
 MS_WATCH_ARCHS = armv7k arm64_32
