@@ -63,7 +63,7 @@ static char *const kMSDataDispatchQueue = "com.microsoft.appcenter.DataDispatchQ
 /**
  * Document ID validation pattern.
  */
-static NSString *const kMSDocumentIdValidationPattern = @"^[^/\\\\#\?]+\\z";
+static NSString *const kMSDocumentIdValidationPattern = @"^[^/\\\\#\\s?]+\\z";
 
 /**
  * Singleton.
