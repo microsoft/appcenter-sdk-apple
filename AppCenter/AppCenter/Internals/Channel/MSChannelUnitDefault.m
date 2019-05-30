@@ -280,8 +280,8 @@ static NSString *const kMSStartTimestampPrefix = @"MSChannelStartTimer";
                 self.pendingBatchQueueFull = NO;
 
                 // Try to flush again if batch queue is not full anymore.
-                if (succeeded && self.availableBatchFromStorage) {
-                  [self flushQueueForTokenArray:tokenArray withTokenIndex:tokenIndex];
+                if (succeeded) {
+                  [self flushNextBatchFromQueueForTokenArray:tokenArray withTokenIndex:tokenIndex];
                 }
               }
             });
@@ -305,28 +305,33 @@ static NSString *const kMSStartTimestampPrefix = @"MSChannelStartTimer";
                         if (logArray.count > 0) {
                           MSLogContainer *container = [[MSLogContainer alloc] initWithBatchId:batchId andLogs:logArray];
                           [self sendLogContainer:container withAuthTokenFromArray:tokenArray atIndex:tokenIndex];
-                        } else {
+                        }
 
-                          // No logs available with given params.
-                          if (tokenIndex == 0 && tokenArray[tokenIndex].endTime != nil &&
-                              [self.storage countLogsBeforeDate:tokenArray[tokenIndex].endTime] == 0) {
+                        // No logs available with given params.
+                        else if (tokenIndex == 0 && tokenArray[tokenIndex].endTime != nil &&
+                                 [self.storage countLogsBeforeDate:tokenArray[tokenIndex].endTime] == 0) {
 
-                            // Delete token from history if we don't have logs fitting it in DB.
-                            [[MSAuthTokenContext sharedInstance] removeAuthToken:tokenInfo.authToken];
-                          }
-
-                          // Check to determine if the next index is within bounds.
-                          if (tokenIndex + 1 < tokenArray.count) {
-
-                            // Iterate to next token in array.
-                            [self flushQueueForTokenArray:tokenArray withTokenIndex:tokenIndex + 1];
-                          }
+                          // Delete token from history if we don't have logs fitting it in DB.
+                          [[MSAuthTokenContext sharedInstance] removeAuthToken:tokenInfo.authToken];
                         }
                       }];
 
   // Flush again if there is another batch to send.
-  if (self.availableBatchFromStorage && !self.pendingBatchQueueFull) {
+  [self flushNextBatchFromQueueForTokenArray:tokenArray withTokenIndex:tokenIndex];
+}
+
+- (void)flushNextBatchFromQueueForTokenArray:(NSArray<MSAuthTokenValidityInfo *> *)tokenArray withTokenIndex:(NSUInteger)tokenIndex {
+  if (self.pendingBatchQueueFull) {
+    return;
+  }
+
+  // Check if there are more logs for this token, if not - move to the next one.
+  if (self.availableBatchFromStorage) {
     [self flushQueueForTokenArray:tokenArray withTokenIndex:tokenIndex];
+  } else if (tokenIndex + 1 < tokenArray.count) {
+
+    // Iterate to next token in array.
+    [self flushQueueForTokenArray:tokenArray withTokenIndex:tokenIndex + 1];
   }
 }
 

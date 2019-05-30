@@ -11,6 +11,10 @@
 
 * **[Feature]** Support setting latency of sending events via `[MSAnalytics setTransmissionInterval:]`.
 
+### AppCenterAuth
+
+* **[Fix]** Fix changing signing status may cause logs (e.g., events) to be delayed.
+
 ### AppCenterData
 
 * **[Fix]** Fix an issue where invalid characters in the document ID are accepted at creation time but causing errors while trying to read or delete the document. The characters are `#`, `\`, `/`, `?`, and all whitespaces.
