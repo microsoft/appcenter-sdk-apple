@@ -743,7 +743,6 @@ static dispatch_once_t onceToken;
     [MSTokenExchange removeAllCachedTokens];
     [self.dataOperationProxy.documentStore resetDatabase];
     [self.outgoingPendingOperations removeAllObjects];
-    [MS_USER_DEFAULTS removeObjectForKey:kMSAuthContextAvailabilityKey];
   }
 }
 
@@ -754,18 +753,12 @@ static dispatch_once_t onceToken;
   // If user logs in.
   if (userInfomation && userInfomation) {
     [self.dataOperationProxy.documentStore createUserStorageWithAccountId:userInfomation.accountId];
-
-    // Persist Auth context availability flag.
-    [MS_USER_DEFAULTS setObject:@YES forKey:kMSAuthContextAvailabilityKey];
   } else {
     // If user logs out.
     [MSTokenExchange removeAllCachedTokens];
 
     // Delete all the data (user and read-only).
     [self.dataOperationProxy.documentStore resetDatabase];
-
-    // Clean Auth context availability flag.
-    [MS_USER_DEFAULTS removeObjectForKey:kMSAuthContextAvailabilityKey];
   }
 }
 
@@ -785,8 +778,7 @@ static dispatch_once_t onceToken;
 - (void)processPendingOperations {
 
   // Only process pending operations when auth context is available.
-  NSNumber *authContextFlag = [MS_USER_DEFAULTS objectForKey:kMSAuthContextAvailabilityKey];
-  if (!authContextFlag.boolValue) {
+  if ([[MSAuthTokenContext sharedInstance] authToken] == nil) {
     return;
   }
 

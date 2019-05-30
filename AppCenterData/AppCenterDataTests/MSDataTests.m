@@ -3,6 +3,7 @@
 
 #import "AppCenter+Internal.h"
 #import "MSAppCenter.h"
+#import "MSAuthTokenContext.h"
 #import "MSChannelGroupProtocol.h"
 #import "MSConstants+Internal.h"
 #import "MSCosmosDb.h"
@@ -70,6 +71,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   [self.tokenExchangeMock stopMocking];
   [self.cosmosDbMock stopMocking];
   [MS_NOTIFICATION_CENTER removeObserver:self.sut name:kMSReachabilityChangedNotification object:nil];
+  [[MSAuthTokenContext sharedInstance] setAuthToken:nil withAccountId:nil expiresOn:nil];
 }
 
 - (nullable NSMutableDictionary *)prepareMutableDictionary {
@@ -182,8 +184,8 @@ static NSString *const kMSDocumentIdTest = @"documentId";
         getTokenCallback(testTokensResponse, nil);
       });
 
-  // Set the auth context flag.
-  [self.settingsMock setValue:@YES forKey:kMSAuthContextAvailabilityKey];
+  // Set the auth context.
+  [[MSAuthTokenContext sharedInstance] setAuthToken:@"token1" withAccountId:@"account1" expiresOn:nil];
 
   // Mock CosmosDB requests.
   NSData *testCosmosDbResponse = [self jsonFixture:@"validTestUserDocument"];
@@ -242,8 +244,8 @@ static NSString *const kMSDocumentIdTest = @"documentId";
         tokenExchangeCalled = YES;
       });
 
-  // Clear the auth context flag.
-  [self.settingsMock removeObjectForKey:kMSAuthContextAvailabilityKey];
+  // Clear the auth context.
+  [[MSAuthTokenContext sharedInstance] removeAuthToken:@"token1"];
 
   // When
   [self.sut processPendingOperations];
@@ -267,8 +269,8 @@ static NSString *const kMSDocumentIdTest = @"documentId";
         tokenExchangeCalled = YES;
       });
 
-  // Set the auth context flag.
-  [self.settingsMock setValue:@YES forKey:kMSAuthContextAvailabilityKey];
+  // Set the auth context.
+  [[MSAuthTokenContext sharedInstance] setAuthToken:@"token1" withAccountId:@"account1" expiresOn:nil];
 
   // When
   [self.sut processPendingOperations];
