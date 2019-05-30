@@ -6,11 +6,14 @@
 
 * **[Fix]** Remove Keychain permission pop-up on macOS.
 * **[Fix]** Improve encryption security.
-* **[Fix]** Fix the case when logs could be sent only on the next launch after changing signed in user or after pause/resume of the module.
 
 ### AppCenterAnalytics
 
 * **[Feature]** Support setting latency of sending events via `[MSAnalytics setTransmissionInterval:]`.
+
+### AppCenterAuth
+
+* **[Fix]** Fix changing signing status may cause logs (e.g., events) to be delayed.
 
 ### AppCenterData
 
