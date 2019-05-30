@@ -701,6 +701,25 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   XCTAssertTrue([testResult containsString:kMSDbCollectionNameTest]);
 }
 
+- (void)testDocumentUrlWithTokenResultDocumentIdEncoding {
+
+  // If
+  MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
+  NSString *documentId = @"docIdWith\"doubleQuote";
+  NSString *encodedDocumentId = @"docIdWith%22doubleQuote";
+
+  // When
+  NSString *testResult = [MSCosmosDb documentUrlWithTokenResult:tokenResult documentId:documentId];
+
+  // Then
+  XCTAssertNotNil(testResult);
+  XCTAssertFalse([testResult containsString:documentId]);
+  XCTAssertTrue([testResult containsString:kMSDbAccountTest]);
+  XCTAssertTrue([testResult containsString:kMSDbNameTest]);
+  XCTAssertTrue([testResult containsString:kMSDbCollectionNameTest]);
+  XCTAssertTrue([testResult containsString:encodedDocumentId]);
+}
+
 - (void)testGetCosmosDbErrorWithNilEverything {
 
   // If
