@@ -371,6 +371,106 @@
   XCTAssertEqual(expirationTime, kMSDataTimeToLiveInfinite);
 }
 
+- (void)testUpsertWontChangeLastUpdatedDate {
+
+  // If
+  long lastUpdateDateLong = (long)[[NSDate date] timeIntervalSince1970];
+  NSDate *lastUpdateDate = [NSDate dateWithTimeIntervalSince1970:lastUpdateDateLong];
+  MSDocumentWrapper *documentWrapper = [[MSDocumentWrapper alloc] initWithDeserializedValue:[MSDictionaryDocument alloc]
+                                                                                  jsonValue:@"{\"key\" : \"value\"}"
+                                                                                  partition:kMSDataAppDocumentsPartition
+                                                                                 documentId:@"documentId"
+                                                                                       eTag:@"myEtag"
+                                                                            lastUpdatedDate:lastUpdateDate
+                                                                           pendingOperation:kMSPendingOperationCreate
+                                                                            fromDeviceCache:YES];
+  // When
+  BOOL result = [self.sut upsertWithToken:self.appToken
+                          documentWrapper:documentWrapper
+                                operation:documentWrapper.pendingOperation
+                         deviceTimeToLive:kMSDataTimeToLiveInfinite];
+  MSDocumentWrapper *expectedDocumentWrapper = [self.sut readWithToken:self.appToken
+                                                            documentId:documentWrapper.documentId
+                                                          documentType:[MSDictionaryDocument class]];
+
+  // Then
+  XCTAssertTrue(result);
+  XCTAssertNil(expectedDocumentWrapper.error);
+  XCTAssertTrue(documentWrapper.fromDeviceCache);
+  XCTAssertNotNil(expectedDocumentWrapper.deserializedValue);
+  XCTAssertNotNil(expectedDocumentWrapper.jsonValue);
+  XCTAssertEqualObjects(expectedDocumentWrapper.documentId, documentWrapper.documentId);
+  XCTAssertEqualObjects(expectedDocumentWrapper.partition, documentWrapper.partition);
+  XCTAssertEqualObjects(expectedDocumentWrapper.eTag, documentWrapper.eTag);
+  XCTAssertEqualObjects(expectedDocumentWrapper.lastUpdatedDate, documentWrapper.lastUpdatedDate);
+}
+
+- (void)testUpsertWithNilLastUpdatedDate {
+
+  // If
+  MSDocumentWrapper *documentWrapper = [[MSDocumentWrapper alloc] initWithDeserializedValue:[MSDictionaryDocument alloc]
+                                                                                  jsonValue:@"{\"key\" : \"value\"}"
+                                                                                  partition:kMSDataAppDocumentsPartition
+                                                                                 documentId:@"documentId"
+                                                                                       eTag:@"myEtag"
+                                                                            lastUpdatedDate:nil
+                                                                           pendingOperation:kMSPendingOperationCreate
+                                                                            fromDeviceCache:YES];
+  // When
+  BOOL result = [self.sut upsertWithToken:self.appToken
+                          documentWrapper:documentWrapper
+                                operation:documentWrapper.pendingOperation
+                         deviceTimeToLive:kMSDataTimeToLiveInfinite];
+  MSDocumentWrapper *expectedDocumentWrapper = [self.sut readWithToken:self.appToken
+                                                            documentId:documentWrapper.documentId
+                                                          documentType:[MSDictionaryDocument class]];
+
+  // Then
+  XCTAssertTrue(result);
+  XCTAssertNil(expectedDocumentWrapper.error);
+  XCTAssertTrue(documentWrapper.fromDeviceCache);
+  XCTAssertNotNil(expectedDocumentWrapper.deserializedValue);
+  XCTAssertNotNil(expectedDocumentWrapper.jsonValue);
+  XCTAssertEqualObjects(expectedDocumentWrapper.documentId, documentWrapper.documentId);
+  XCTAssertEqualObjects(expectedDocumentWrapper.partition, documentWrapper.partition);
+  XCTAssertEqualObjects(expectedDocumentWrapper.eTag, documentWrapper.eTag);
+  XCTAssertNil(expectedDocumentWrapper.lastUpdatedDate);
+}
+
+- (void)testUpsertWithNilEtag {
+
+  // If
+  long lastUpdateDateLong = (long)[[NSDate date] timeIntervalSince1970];
+  NSDate *lastUpdateDate = [NSDate dateWithTimeIntervalSince1970:lastUpdateDateLong];
+  MSDocumentWrapper *documentWrapper = [[MSDocumentWrapper alloc] initWithDeserializedValue:[MSDictionaryDocument alloc]
+                                                                                  jsonValue:@"{\"key\" : \"value\"}"
+                                                                                  partition:kMSDataAppDocumentsPartition
+                                                                                 documentId:@"documentId"
+                                                                                       eTag:nil
+                                                                            lastUpdatedDate:lastUpdateDate
+                                                                           pendingOperation:kMSPendingOperationCreate
+                                                                            fromDeviceCache:YES];
+  // When
+  BOOL result = [self.sut upsertWithToken:self.appToken
+                          documentWrapper:documentWrapper
+                                operation:documentWrapper.pendingOperation
+                         deviceTimeToLive:kMSDataTimeToLiveInfinite];
+  MSDocumentWrapper *expectedDocumentWrapper = [self.sut readWithToken:self.appToken
+                                                            documentId:documentWrapper.documentId
+                                                          documentType:[MSDictionaryDocument class]];
+
+  // Then
+  XCTAssertTrue(result);
+  XCTAssertNil(expectedDocumentWrapper.error);
+  XCTAssertTrue(documentWrapper.fromDeviceCache);
+  XCTAssertNotNil(expectedDocumentWrapper.deserializedValue);
+  XCTAssertNotNil(expectedDocumentWrapper.jsonValue);
+  XCTAssertEqualObjects(expectedDocumentWrapper.documentId, documentWrapper.documentId);
+  XCTAssertEqualObjects(expectedDocumentWrapper.partition, documentWrapper.partition);
+  XCTAssertNil(expectedDocumentWrapper.eTag);
+  XCTAssertEqualObjects(expectedDocumentWrapper.lastUpdatedDate, documentWrapper.lastUpdatedDate);
+}
+
 - (void)testDeleteAppDocumentForNonExistentDocument {
 
   // If, When
