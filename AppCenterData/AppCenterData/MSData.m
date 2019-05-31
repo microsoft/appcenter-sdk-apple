@@ -776,6 +776,13 @@ static dispatch_once_t onceToken;
 }
 
 - (void)processPendingOperations {
+
+  // Only process pending operations when auth context is available.
+  if ([[MSAuthTokenContext sharedInstance] authToken] == nil) {
+    return;
+  }
+
+  // Process pending operations.
   @synchronized(self) {
     [MSTokenExchange
         performDbTokenAsyncOperationWithHttpClient:(id<MSHttpClientProtocol>)self.httpClient
@@ -786,8 +793,8 @@ static dispatch_once_t onceToken;
                                       reachability:self.reachability
                                  completionHandler:^(MSTokensResponse *_Nonnull tokenResponses, NSError *_Nonnull error) {
                                    if (error) {
-                                     MSLogError([MSData logTag], @"Cannot read from local storage because there is no "
-                                                                 @"account ID cached and failed to retrieve token.");
+                                     MSLogWarning([MSData logTag], @"Cannot read from local storage because there is no "
+                                                                   @"account ID cached and failed to retrieve token.");
                                      return;
                                    }
 
