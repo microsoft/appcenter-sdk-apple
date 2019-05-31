@@ -3,6 +3,7 @@
 
 #import "AppCenter+Internal.h"
 #import "MSAppCenter.h"
+#import "MSAuthTokenContext.h"
 #import "MSChannelGroupProtocol.h"
 #import "MSConstants+Internal.h"
 #import "MSCosmosDb.h"
@@ -70,6 +71,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   [self.tokenExchangeMock stopMocking];
   [self.cosmosDbMock stopMocking];
   [MS_NOTIFICATION_CENTER removeObserver:self.sut name:kMSReachabilityChangedNotification object:nil];
+  [[MSAuthTokenContext sharedInstance] setAuthToken:nil withAccountId:nil expiresOn:nil];
 }
 
 - (nullable NSMutableDictionary *)prepareMutableDictionary {
@@ -167,18 +169,23 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   // If
   MSTokenResult *testToken = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
   MSTokensResponse *testTokensResponse = [[MSTokensResponse alloc] initWithTokens:@[ testToken ]];
+  __block BOOL tokenExchangeCalled = NO;
   OCMStub([self.tokenExchangeMock performDbTokenAsyncOperationWithHttpClient:OCMOCK_ANY
                                                             tokenExchangeUrl:OCMOCK_ANY
                                                                    appSecret:OCMOCK_ANY
-                                                                   partition:kMSPartitionTest
-                                                         includeExpiredToken:YES
+                                                                   partition:OCMOCK_ANY
+                                                         includeExpiredToken:NO
                                                                 reachability:OCMOCK_ANY
                                                            completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
+        tokenExchangeCalled = YES;
         MSGetTokenAsyncCompletionHandler getTokenCallback;
         [invocation getArgument:&getTokenCallback atIndex:8];
         getTokenCallback(testTokensResponse, nil);
       });
+
+  // Set the auth context.
+  [[MSAuthTokenContext sharedInstance] setAuthToken:@"token1" withAccountId:@"account1" expiresOn:nil];
 
   // Mock CosmosDB requests.
   NSData *testCosmosDbResponse = [self jsonFixture:@"validTestUserDocument"];
@@ -218,7 +225,58 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   [self.sut processPendingOperations];
 
   // Then
+  XCTAssertTrue(tokenExchangeCalled);
   XCTAssertEqual([self.sut.outgoingPendingOperations count], 0);
+}
+
+- (void)testPendingOperationsWontCallTokenExchangeWhenLoggedOut {
+
+  // If
+  __block BOOL tokenExchangeCalled = NO;
+  OCMStub([self.tokenExchangeMock performDbTokenAsyncOperationWithHttpClient:OCMOCK_ANY
+                                                            tokenExchangeUrl:OCMOCK_ANY
+                                                                   appSecret:OCMOCK_ANY
+                                                                   partition:OCMOCK_ANY
+                                                         includeExpiredToken:NO
+                                                                reachability:OCMOCK_ANY
+                                                           completionHandler:OCMOCK_ANY])
+      .andDo(^(__unused NSInvocation *invocation) {
+        tokenExchangeCalled = YES;
+      });
+
+  // Clear the auth context.
+  [[MSAuthTokenContext sharedInstance] removeAuthToken:@"token1"];
+
+  // When
+  [self.sut processPendingOperations];
+
+  // Then
+  XCTAssertFalse(tokenExchangeCalled);
+}
+
+- (void)testPendingOperationsCallsTokenExchangeWhenLoggedIn {
+
+  // If
+  __block BOOL tokenExchangeCalled = NO;
+  OCMStub([self.tokenExchangeMock performDbTokenAsyncOperationWithHttpClient:OCMOCK_ANY
+                                                            tokenExchangeUrl:OCMOCK_ANY
+                                                                   appSecret:OCMOCK_ANY
+                                                                   partition:kMSPartitionTest
+                                                         includeExpiredToken:NO
+                                                                reachability:OCMOCK_ANY
+                                                           completionHandler:OCMOCK_ANY])
+      .andDo(^(__unused NSInvocation *invocation) {
+        tokenExchangeCalled = YES;
+      });
+
+  // Set the auth context.
+  [[MSAuthTokenContext sharedInstance] setAuthToken:@"token1" withAccountId:@"account1" expiresOn:nil];
+
+  // When
+  [self.sut processPendingOperations];
+
+  // Then
+  XCTAssertTrue(tokenExchangeCalled);
 }
 
 - (void)testReadWithInvalidDocumentType {
