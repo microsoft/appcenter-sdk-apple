@@ -48,12 +48,12 @@ static NSUInteger const kMSAccountIdLengthInHomeAccount = 36;
   sharedInstance = nil;
 }
 
-- (void)setAuthToken:(nullable NSString *)authToken withAccountId:(nullable NSString *)accountId expiresOn:(nullable NSDate *)expiresOn {
+- (void)setAuthToken:(nullable NSString *)authToken withIdToken:(nullable NSString *)idToken withAccountId:(nullable NSString *)accountId expiresOn:(nullable NSDate *)expiresOn {
   NSArray *synchronizedDelegates;
   BOOL isNewUser = NO;
   @synchronized(self) {
 
-    // If a nil authToken is passed with non-nil paarmeters, reset them.
+    // If a nil authToken is passed with non-nil parameters, reset them.
     if (!authToken) {
       accountId = nil;
       expiresOn = nil;
@@ -80,6 +80,7 @@ static NSUInteger const kMSAccountIdLengthInHomeAccount = 36;
 
         // If it's not the same account treat the gap as anonymous.
         MSAuthTokenInfo *newAuthToken = [[MSAuthTokenInfo alloc] initWithAuthToken:nil
+                                                                           idToken:nil
                                                                          accountId:nil
                                                                          startTime:lastEntry.expiresOn
                                                                          expiresOn:newTokenStartDate];
@@ -93,6 +94,7 @@ static NSUInteger const kMSAccountIdLengthInHomeAccount = 36;
      */
     if (authToken || [authTokenHistory count] > 0) {
       MSAuthTokenInfo *newAuthToken = [[MSAuthTokenInfo alloc] initWithAuthToken:authToken
+                                                                         idToken:idToken
                                                                        accountId:accountId
                                                                        startTime:newTokenStartDate
                                                                        expiresOn:expiresOn];
@@ -121,7 +123,7 @@ static NSUInteger const kMSAccountIdLengthInHomeAccount = 36;
         if ([accountId length] > kMSAccountIdLengthInHomeAccount) {
           accountId = [accountId substringToIndex:kMSAccountIdLengthInHomeAccount];
         }
-        userInfo = [[MSUserInformation alloc] initWithAccountId:(NSString *)accountId];
+        userInfo = [[MSUserInformation alloc] initWithAccountId:(NSString *)accountId accessToken:(NSString *)authToken idToken:(NSString *)idToken];
       }
       [delegate authTokenContext:self didUpdateUserInformation:userInfo];
     }
@@ -259,7 +261,7 @@ static NSUInteger const kMSAccountIdLengthInHomeAccount = 36;
     return;
   }
   self.resetAuthTokenRequired = NO;
-  [self setAuthToken:nil withAccountId:nil expiresOn:nil];
+  [self setAuthToken:nil withIdToken:nil withAccountId:nil expiresOn:nil];
 }
 
 - (void)preventResetAuthTokenAfterStart {
