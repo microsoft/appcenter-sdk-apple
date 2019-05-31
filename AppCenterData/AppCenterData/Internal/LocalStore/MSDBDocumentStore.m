@@ -79,7 +79,7 @@ static const NSUInteger kMSSchemaVersion = 1;
   NSTimeInterval now = NSDate.timeIntervalSinceReferenceDate + NSTimeIntervalSince1970;
   NSString *tableName = [MSDBDocumentStore tableNameForPartition:token.partition];
 
-  // If operation or etag is nil, pass NULL value, else use the atcual value in this format '<ACTUAL_VALUE>' (note the single quotes).
+  // If operation or etag is nil, pass NULL value, else use the actual value in this format '<ACTUAL_VALUE>' (note the single quotes).
   NSString *normalizedOperationString = operation != nil ? [NSString stringWithFormat:@"'%@'", operation] : @"NULL";
   NSString *normalizedEtagString = documentWrapper.eTag != nil ? [NSString stringWithFormat:@"'%@'", documentWrapper.eTag] : @"NULL";
   NSString *insertQuery = [NSString
