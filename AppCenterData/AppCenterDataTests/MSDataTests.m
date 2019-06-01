@@ -36,6 +36,7 @@
 @property(nonatomic) id settingsMock;
 @property(nonatomic) id tokenExchangeMock;
 @property(nonatomic) id cosmosDbMock;
+@property(nonatomic) id reachabilityMock;
 @end
 
 @implementation MSDataTests
@@ -53,6 +54,12 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 - (void)setUp {
   [super setUp];
   self.settingsMock = [MSMockUserDefaults new];
+  __block NetworkStatus currentNetworkStatus = ReachableViaWiFi;
+  self.reachabilityMock = OCMClassMock([MS_Reachability class]);
+  OCMStub([self.reachabilityMock reachabilityForInternetConnection]).andReturn(self.reachabilityMock);
+  OCMStub([self.reachabilityMock currentReachabilityStatus]).andDo(^(NSInvocation *invocation) {
+    [invocation setReturnValue:&currentNetworkStatus];
+  });
   self.sut = [MSData sharedInstance];
   self.tokenExchangeMock = OCMClassMock([MSTokenExchange class]);
   self.cosmosDbMock = OCMClassMock([MSCosmosDb class]);
@@ -2151,5 +2158,88 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                      statusCode:statusCode
                                     HTTPVersion:nil
                                    headerFields:nil];
+}
+
+- (void)testRemoteOperationDelegateMethodIsCalled {
+  
+  // Mock remote operation delegate
+  id<MSRemoteOperationDelegate> delegateMock = OCMProtocolMock(@protocol(MSRemoteOperationDelegate));
+  //OCMStub([delegateMock data:OCMOCK_ANY didCompletePendingOperation:OCMOCK_ANY forDocument:OCMOCK_ANY withError:OCMOCK_ANY]);
+  [self.sut setRemoteOperationDelegate:delegateMock];
+  
+  // Simulate being offline.
+  //  __block NetworkStatus currentNetworkStatus = NotReachable;
+  //  [[NSNotificationCenter defaultCenter] postNotificationName:kMSReachabilityChangedNotification
+  //                                                      object:self.reachabilityMock];
+  
+  // Mock cached token result.
+  MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
+  MSTokensResponse *testTokensResponse = [[MSTokensResponse alloc] initWithTokens:@[ tokenResult ]];
+  OCMStub([self.tokenExchangeMock performDbTokenAsyncOperationWithHttpClient:OCMOCK_ANY
+                                                            tokenExchangeUrl:OCMOCK_ANY
+                                                                   appSecret:OCMOCK_ANY
+                                                                   partition:kMSPartitionTest
+                                                         includeExpiredToken:YES
+                                                                reachability:self.reachabilityMock
+                                                           completionHandler:OCMOCK_ANY])
+  .andDo(^(NSInvocation *invocation) {
+    MSGetTokenAsyncCompletionHandler getTokenCallback;
+    [invocation getArgument:&getTokenCallback atIndex:8];
+    getTokenCallback(testTokensResponse, nil);
+  });
+  
+  OCMStub([self.tokenExchangeMock retrieveCachedTokenForPartition:kMSPartitionTest includeExpiredToken:NO]).andReturn(tokenResult);
+  
+  // Mock local storage.
+  id<MSDocumentStore> localStorageMock = OCMProtocolMock(@protocol(MSDocumentStore));
+  self.sut.dataOperationProxy.documentStore = localStorageMock;
+  NSData *jsonFixture = [self jsonFixture:@"validTestUserDocument"];
+  NSString *documentId = @"standalonedocument1";
+  MSDocumentWrapper *localStorageDocument = OCMPartialMock([MSDocumentUtils documentWrapperFromData:jsonFixture
+                                                                                       documentType:[MSDictionaryDocument class]
+                                                                                          partition:kMSPartitionTest documentId:documentId
+                                                                                    fromDeviceCache:NO]);
+  OCMStub([localStorageMock readWithToken:tokenResult documentId:OCMOCK_ANY documentType:OCMOCK_ANY]).andReturn(localStorageDocument);
+  
+  // Mock CosmosDB requests.
+  OCMStub([self.cosmosDbMock performCosmosDbAsyncOperationWithHttpClient:OCMOCK_ANY
+                                                             tokenResult:tokenResult
+                                                              documentId:documentId
+                                                              httpMethod:kMSHttpMethodPost
+                                                                document:OCMOCK_ANY
+                                                       additionalHeaders:OCMOCK_ANY
+                                                       additionalUrlPath:OCMOCK_ANY
+                                                       completionHandler:OCMOCK_ANY])
+  .andDo(^(NSInvocation *invocation) {
+    MSHttpRequestCompletionHandler cosmosdbOperationCallback;
+    [invocation getArgument:&cosmosdbOperationCallback atIndex:9];
+    cosmosdbOperationCallback(jsonFixture, [self generateResponseWithStatusCode:MSHTTPCodesNo200OK], nil);
+  });
+  
+  // Mock pending operation.
+  NSError *error;
+  NSDictionary *document = [NSJSONSerialization JSONObjectWithData:jsonFixture options:0 error:&error];
+  MSPendingOperation *mockPendingOperation =
+  [[MSPendingOperation alloc] initWithOperation:kMSPendingOperationCreate
+                                      partition:kMSPartitionTest
+                                     documentId:documentId
+                                       document:document
+                                           etag:@"1234"
+                                 expirationTime:[[NSDate dateWithTimeIntervalSinceNow:1000000] timeIntervalSince1970]];
+  OCMStub([localStorageMock pendingOperationsWithToken:OCMOCK_ANY]).andReturn(@[ mockPendingOperation ]);
+  
+  // Simulate being online.
+  //  currentNetworkStatus = ReachableViaWiFi;
+  //  [[NSNotificationCenter defaultCenter] postNotificationName:kMSReachabilityChangedNotification
+  //                                                      object:self.reachabilityMock];
+  
+  [self.sut processPendingOperations];
+  
+  // Then
+  id<MSRemoteOperationDelegate> strongDelegate = [MSData sharedInstance].remoteOperationDelegate;
+  XCTAssertNotNil(strongDelegate);
+  XCTAssertEqual(strongDelegate, delegateMock);
+  
+  OCMVerify([delegateMock data:self.sut didCompletePendingOperation:kMSPendingOperationCreate forDocument:localStorageDocument withError:nil]);
 }
 @end

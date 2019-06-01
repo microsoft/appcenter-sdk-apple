@@ -4,6 +4,7 @@
 #import "MSAuthTokenContextDelegate.h"
 #import "MSServiceInternal.h"
 #import "MS_Reachability.h"
+#import "MSRemoteOperationDelegate.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -28,6 +29,11 @@ static NSString *const kMSDefaultApiUrl = @"https://tokens.appcenter.ms/v0.1";
  * Set of outgoing pending operation ids.
  */
 @property(nonatomic, copy) NSMutableSet<NSString *> *outgoingPendingOperations;
+
+/**
+ * Remote operation delegate.
+ */
+@property (nonatomic, weak) id<MSRemoteOperationDelegate> remoteOperationDelegate;
 
 /**
  * Retrieve a paginated list of the documents in a partition.

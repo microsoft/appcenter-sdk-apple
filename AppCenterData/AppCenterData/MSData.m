@@ -94,6 +94,15 @@ static dispatch_once_t onceToken;
   [[MSData sharedInstance] setTokenExchangeUrl:(NSURL *)[NSURL URLWithString:tokenExchangeUrl]];
 }
 
+/**
+ * Set a delegate which will be invoked on network status change to notify pending operations execution status.
+ */
++ (void)setRemoteOperationDelegate:(nullable id<MSRemoteOperationDelegate>)delegate {
+  @synchronized(self) {
+    [[MSData sharedInstance] setRemoteOperationDelegate:delegate];
+  }
+}
+
 + (void)readDocumentWithID:(NSString *)documentID
               documentType:(Class)documentType
                  partition:(NSString *)partition
@@ -885,14 +894,15 @@ static dispatch_once_t onceToken;
                                    documentWrapper:(MSDocumentWrapper *)documentWrapper
                                   pendingOperation:(NSString *)pendingOperation
                            operationExpirationTime:(NSInteger)operationExpirationTime {
-
+  
   // Check if expired.
   BOOL isExpired = [MSPendingOperation isExpiredWithExpirationTime:operationExpirationTime];
   BOOL shouldDeleteLocalCache = YES;
-
+  MSDocumentWrapper* document = documentWrapper;
+  
   // Create and Replace operations.
   if (!documentWrapper.error && ![pendingOperation isEqualToString:kMSPendingOperationDelete]) {
-
+    
     // If not expired, update the local cache. otherwise, remove from the local cache.
     // The operation is passes as nil in order to clear the value in `pending_operation` column.
     if (!isExpired) {
@@ -905,15 +915,23 @@ static dispatch_once_t onceToken;
   } else if (documentWrapper.error.code == MSHTTPCodesNo404NotFound || documentWrapper.error.code == MSHTTPCodesNo409Conflict) {
     MSLogError([MSData logTag], @"Failed to call Cosmos with operation: %@. Remote operation failed with error code: %ld", pendingOperation,
                (long)documentWrapper.error);
+    document = nil;
   } else if (documentWrapper.error) {
     shouldDeleteLocalCache = NO;
     MSLogError([MSData logTag], @"Failed to call Cosmos with operation:%@ API: %@", pendingOperation,
                [documentWrapper.error localizedDescription]);
+    document = nil;
   }
-
+  
   // Delete the document form the local cache.
   if (shouldDeleteLocalCache) {
     [self.dataOperationProxy.documentStore deleteWithToken:token documentId:documentId];
+  }
+  
+  //If the Remote operation is set
+  id<MSRemoteOperationDelegate> strongDelegate = self.remoteOperationDelegate;
+  if(strongDelegate){
+    [strongDelegate data:self didCompletePendingOperation:pendingOperation forDocument:document withError:documentWrapper.error];
   }
 }
 
