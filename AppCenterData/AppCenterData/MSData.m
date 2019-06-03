@@ -752,7 +752,7 @@ static dispatch_once_t onceToken;
 
   // If user logs in.
   if (userInfomation && userInfomation) {
-    [self.dataOperationProxy.documentStore createUserStorageWithAccountId:userInfomation.accountId];
+    [self.dataOperationProxy.documentStore createUserStorageWithAccountId:(NSString *)userInfomation.accountId];
   } else {
     // If user logs out.
     [MSTokenExchange removeAllCachedTokens];
