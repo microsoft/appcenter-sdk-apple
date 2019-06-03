@@ -21,7 +21,10 @@ NS_ASSUME_NONNULL_BEGIN
  * @param document Document that was synched. Nil if error encountered
  * @param error Error details or nil when the sync was successful
  */
-- (void)data:(MSData *)data didCompletePendingOperation:(NSString *)operation forDocument:(MSDocumentWrapper *_Nullable)document withError:(MSDataError *_Nullable)error;
+- (void)data:(MSData *)data
+    didCompletePendingOperation:(NSString *)operation
+                    forDocument:(MSDocumentWrapper *_Nullable)document
+                      withError:(MSDataError *_Nullable)error;
 
 @end
 
