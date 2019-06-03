@@ -10,18 +10,18 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * The account identifier for the user.
  */
-@property(nonatomic, copy) NSString *accountId;
+@property(nullable, nonatomic, copy) NSString *accountId;
 
 /**
  * The access token for the user. This is a JWT that can be used with the Microsoft Graph API (https://developer.microsoft.com/en-us/graph).
  * It can also be decoded and parsed to obtain information about the current user.
  */
-@property(nonatomic, copy) NSString *accessToken;
+@property(nullable, nonatomic, copy) NSString *accessToken;
 
 /**
  * The ID token for the user.
  */
-@property(nonatomic, copy) NSString *idToken;
+@property(nullable, nonatomic, copy) NSString *idToken;
 
 /**
  * Create user with account identifier.
