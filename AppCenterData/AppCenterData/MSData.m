@@ -94,9 +94,6 @@ static dispatch_once_t onceToken;
   [[MSData sharedInstance] setTokenExchangeUrl:(NSURL *)[NSURL URLWithString:tokenExchangeUrl]];
 }
 
-/**
- * Set a delegate which will be invoked on network status change to notify pending operations execution status.
- */
 + (void)setRemoteOperationDelegate:(nullable id<MSRemoteOperationDelegate>)delegate {
   @synchronized(self) {
     [[MSData sharedInstance] setRemoteOperationDelegate:delegate];
