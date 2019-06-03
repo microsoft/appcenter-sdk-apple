@@ -32,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A new instance.
  */
-- (instancetype)initWithAccountId:(NSString *)accountId accessToken:(NSString *)accessToken idToken:(NSString *)idToken;
+- (instancetype)initWithAccountId:(nullable NSString *)accountId accessToken:(nullable NSString *)accessToken idToken:(nullable NSString *)idToken;
 
 @end
 
