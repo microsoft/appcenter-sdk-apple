@@ -925,9 +925,11 @@ static dispatch_once_t onceToken;
   }
 
   // If the Remote operation is set
-  id<MSRemoteOperationDelegate> strongDelegate = self.remoteOperationDelegate;
-  if (strongDelegate) {
-    [strongDelegate data:self didCompletePendingOperation:pendingOperation forDocument:document withError:documentWrapper.error];
+  @synchronized(self) {
+    id<MSRemoteOperationDelegate> strongDelegate = self.remoteOperationDelegate;
+    if (strongDelegate) {
+      [strongDelegate data:self didCompletePendingOperation:pendingOperation forDocument:document withError:documentWrapper.error];
+    }
   }
 }
 
