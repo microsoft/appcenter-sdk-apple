@@ -448,7 +448,10 @@ static dispatch_once_t onceToken;
                                                           withAccountId:accountId.identifier
                                                               expiresOn:result.expiresOn];
                       MSLogInfo([MSAuth logTag], @"Silent acquisition of token succeeded.");
-                      MSUserInformation *userInformation = [[MSUserInformation alloc] initWithAccountId:(NSString * __nonnull) result.uniqueId accessToken:result.accessToken idToken:result.idToken];
+                      MSUserInformation *userInformation =
+                          [[MSUserInformation alloc] initWithAccountId:(NSString * __nonnull) result.uniqueId
+                                                           accessToken:result.accessToken
+                                                               idToken:result.idToken];
                       handler(userInformation, nil);
                     }
                   }];
@@ -478,7 +481,10 @@ static dispatch_once_t onceToken;
                                                                         withAccountId:accountId.identifier
                                                                             expiresOn:result.expiresOn];
                                     MSLogInfo([MSAuth logTag], @"User sign-in succeeded.");
-                                    MSUserInformation *userInformation = [[MSUserInformation alloc] initWithAccountId:(NSString * __nonnull) result.uniqueId accessToken:result.accessToken idToken:result.idToken];
+                                    MSUserInformation *userInformation =
+                                        [[MSUserInformation alloc] initWithAccountId:(NSString * __nonnull) result.uniqueId
+                                                                         accessToken:result.accessToken
+                                                                             idToken:result.idToken];
                                     handler(userInformation, nil);
                                   }
                                 }];

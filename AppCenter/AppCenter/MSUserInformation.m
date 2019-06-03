@@ -5,7 +5,7 @@
 
 @implementation MSUserInformation
 
-- (instancetype)initWithAccountId:(NSString *)accountId accessToken:(NSString *)accessToken idToken:(NSString *)idToken{
+- (instancetype)initWithAccountId:(NSString *)accountId accessToken:(NSString *)accessToken idToken:(NSString *)idToken {
   if ((self = [super init])) {
     _accountId = accountId;
     _accessToken = accessToken;
