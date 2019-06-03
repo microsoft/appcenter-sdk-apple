@@ -21,11 +21,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, nullable, copy, readonly) NSString *authToken;
 
 /**
- * ID token string.
- */
-@property(nonatomic, nullable, copy, readonly) NSString *idToken;
-
-/**
  * Time and date from which the token began to act.
  * It can be nil if it applies to all logs before endTime.
  */
@@ -48,7 +43,6 @@ NS_ASSUME_NONNULL_BEGIN
  * @return Token info instance.
  */
 - (instancetype)initWithAuthToken:(nullable NSString *)authToken
-                        idToken:(nullable NSString *)idToken
                         accountId:(nullable NSString *)accountId
                         startTime:(nullable NSDate *)startTime
                         expiresOn:(nullable NSDate *)expiresOn;

@@ -37,12 +37,11 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Set current auth token and account id.
  *
- * @param authToken The auth/access token to store.
- * @param idToken The ID token to store.
- * @param accountId The account id to store.
+ * @param authToken token to be added to the storage.
+ * @param accountId account id to be added to the storage.
  * @param expiresOn expiration date of a token.
  */
-- (void)setAuthToken:(nullable NSString *)authToken withIdToken:(nullable NSString *)idToken withAccountId:(nullable NSString *)accountId expiresOn:(nullable NSDate *)expiresOn;
+- (void)setAuthToken:(nullable NSString *)authToken withAccountId:(nullable NSString *)accountId expiresOn:(nullable NSDate *)expiresOn;
 
 /**
  * Returns current auth token.

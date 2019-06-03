@@ -6,21 +6,18 @@
 
 static NSString *const kMSAuthTokenKey = @"authTokenKey";
 static NSString *const kMSAccountIdKey = @"accountIdKey";
-static NSString *const kMSIdTokenKey = @"idTokenKey";
 static NSString *const kMSStartTimeKey = @"startTimeKey";
 static NSString *const kMSExpiresOnKey = @"expiresOnKey";
 
 @implementation MSAuthTokenInfo
 
 - (instancetype)initWithAuthToken:(nullable NSString *)authToken
-                          idToken:(nullable NSString *)idToken
                         accountId:(nullable NSString *)accountId
                         startTime:(nullable NSDate *)startTime
                         expiresOn:(nullable NSDate *)expiresOn {
   self = [super init];
   if (self) {
     _authToken = authToken;
-    _idToken = idToken;
     _accountId = accountId;
     _startTime = startTime;
     _expiresOn = expiresOn;
@@ -34,7 +31,6 @@ static NSString *const kMSExpiresOnKey = @"expiresOnKey";
   self = [super init];
   if (self) {
     _authToken = [coder decodeObjectForKey:kMSAuthTokenKey];
-    _idToken   = [coder decodeObjectForKey:kMSIdTokenKey];
     _accountId = [coder decodeObjectForKey:kMSAccountIdKey];
     _startTime = [coder decodeObjectForKey:kMSStartTimeKey];
     _expiresOn = [coder decodeObjectForKey:kMSExpiresOnKey];
@@ -44,7 +40,6 @@ static NSString *const kMSExpiresOnKey = @"expiresOnKey";
 
 - (void)encodeWithCoder:(NSCoder *)coder {
   [coder encodeObject:self.authToken forKey:kMSAuthTokenKey];
-  [coder encodeObject:self.idToken forKey:kMSIdTokenKey];
   [coder encodeObject:self.accountId forKey:kMSAccountIdKey];
   [coder encodeObject:self.startTime forKey:kMSStartTimeKey];
   [coder encodeObject:self.expiresOn forKey:kMSExpiresOnKey];
