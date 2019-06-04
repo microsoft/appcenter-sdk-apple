@@ -11,7 +11,6 @@
 #import "MSEncrypter.h"
 #import "MSMockUserDefaults.h"
 #import "MSTestFrameworks.h"
-#import "MSUserInformation.h"
 #import "MSUtility+File.h"
 
 @interface MSAuthTokenValidityInfo (Test)

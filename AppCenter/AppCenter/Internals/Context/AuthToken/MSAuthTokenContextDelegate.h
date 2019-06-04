@@ -6,7 +6,6 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @class MSAuthTokenContext;
-@class MSUserInformation;
 
 @protocol MSAuthTokenContextDelegate <NSObject>
 

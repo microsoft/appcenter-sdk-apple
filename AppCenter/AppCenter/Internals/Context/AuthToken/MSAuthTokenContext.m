@@ -9,7 +9,6 @@
 #import "MSAuthTokenValidityInfo.h"
 #import "MSConstants+Internal.h"
 #import "MSEncrypter.h"
-#import "MSUserInformation.h"
 
 /**
  * Singleton.
