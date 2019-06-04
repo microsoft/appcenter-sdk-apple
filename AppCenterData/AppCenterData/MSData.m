@@ -94,6 +94,12 @@ static dispatch_once_t onceToken;
   [[MSData sharedInstance] setTokenExchangeUrl:(NSURL *)[NSURL URLWithString:tokenExchangeUrl]];
 }
 
++ (void)setRemoteOperationDelegate:(nullable id<MSRemoteOperationDelegate>)delegate {
+  @synchronized(self) {
+    [[MSData sharedInstance] setRemoteOperationDelegate:delegate];
+  }
+}
+
 + (void)readDocumentWithID:(NSString *)documentID
               documentType:(Class)documentType
                  partition:(NSString *)partition
@@ -889,6 +895,7 @@ static dispatch_once_t onceToken;
   // Check if expired.
   BOOL isExpired = [MSPendingOperation isExpiredWithExpirationTime:operationExpirationTime];
   BOOL shouldDeleteLocalCache = YES;
+  MSDocumentWrapper *document = nil;
 
   // Create and Replace operations.
   if (!documentWrapper.error && ![pendingOperation isEqualToString:kMSPendingOperationDelete]) {
@@ -902,11 +909,12 @@ static dispatch_once_t onceToken;
                                               expirationTime:operationExpirationTime];
       shouldDeleteLocalCache = NO;
     }
+    document = documentWrapper;
   } else if (documentWrapper.error.code == MSHTTPCodesNo404NotFound || documentWrapper.error.code == MSHTTPCodesNo409Conflict) {
     MSLogError([MSData logTag], @"Failed to call Cosmos with operation: %@. Remote operation failed with error code: %ld", pendingOperation,
                (long)documentWrapper.error);
+    document = nil;
   } else if (documentWrapper.error) {
-    shouldDeleteLocalCache = NO;
     MSLogError([MSData logTag], @"Failed to call Cosmos with operation:%@ API: %@", pendingOperation,
                [documentWrapper.error localizedDescription]);
   }
@@ -914,6 +922,15 @@ static dispatch_once_t onceToken;
   // Delete the document form the local cache.
   if (shouldDeleteLocalCache) {
     [self.dataOperationProxy.documentStore deleteWithToken:token documentId:documentId];
+  }
+
+  // If the Remote operation is set
+  id<MSRemoteOperationDelegate> strongDelegate;
+  @synchronized(self) {
+    strongDelegate = self.remoteOperationDelegate;
+  }
+  if (strongDelegate) {
+    [strongDelegate data:self didCompletePendingOperation:pendingOperation forDocument:document withError:documentWrapper.error];
   }
 }
 

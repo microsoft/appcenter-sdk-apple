@@ -38,7 +38,8 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
 #if GCC_PREPROCESSOR_MACRO_PUPPET
     MSAnalyticsDelegate,
 #endif
-    MSCrashesDelegate, MSDistributeDelegate, MSPushDelegate, UNUserNotificationCenterDelegate, CLLocationManagerDelegate>
+    MSCrashesDelegate, MSDistributeDelegate, MSPushDelegate, MSRemoteOperationDelegate, UNUserNotificationCenterDelegate,
+    CLLocationManagerDelegate>
 
 @property(nonatomic) MSAnalyticsResult *analyticsResult;
 @property(nonatomic) API_AVAILABLE(ios(10.0)) void (^notificationPresentationCompletionHandler)(UNNotificationPresentationOptions options);
@@ -76,6 +77,7 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
 #pragma clang diagnostic pop
   [MSPush setDelegate:self];
   [MSDistribute setDelegate:self];
+  [MSData setRemoteOperationDelegate:self];
 
   // Set max storage size.
   NSNumber *storageMaxSize = [[NSUserDefaults standardUserDefaults] objectForKey:kMSStorageMaxSizeKey];
@@ -254,6 +256,21 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
   [NSNotificationCenter.defaultCenter postNotificationName:kUpdateAnalyticsResultNotification object:self.analyticsResult];
 }
 #endif
+
+#pragma mark - MSRemoteOperationDelegate
+
+- (void)data:(MSData *)data
+    didCompletePendingOperation:(NSString *)operation
+                    forDocument:(MSDocumentWrapper *_Nullable)document
+                      withError:(MSDataError *_Nullable)error {
+  NSLog(@"Operation processed: %@ ", operation);
+  if (document) {
+    NSLog(@"Document: Partition : %@, document id : %@, eTag : %@ ", document.partition, document.documentId, document.eTag);
+  }
+  if (error) {
+    NSLog(@"Error: %@ ", error);
+  }
+}
 
 #pragma mark - MSCrashesDelegate
 
