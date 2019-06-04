@@ -67,6 +67,8 @@
 		046964491F2A5B4D00F9D31F /* AppCenter+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5F0B1E5C819A001627AB /* AppCenter+Internal.h */; };
 		0469644E1F2A5D2800F9D31F /* AppCenterData.h in Headers */ = {isa = PBXBuildFile; fileRef = D33A94541E5B11BB003966DB /* AppCenterData.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0469644F1F2A5D4A00F9D31F /* MSDataTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D3AD5EC21E5C4F6A001627AB /* MSDataTests.m */; };
+		048BF75722A6F4110099FF73 /* MSRemoteOperationDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 4AE2E97E229F26DC004BF371 /* MSRemoteOperationDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		048BF75822A6F4270099FF73 /* MSRemoteOperationDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 4AE2E97E229F26DC004BF371 /* MSRemoteOperationDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0496A67B1F3128CE005AE1DB /* MSDataTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D3AD5EC21E5C4F6A001627AB /* MSDataTests.m */; };
 		049BC84E224EDAEE00AE7FBB /* MSBaseOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464DF222F28A200EC1FF3 /* MSBaseOptions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		049BC84F224EDAF300AE7FBB /* MSBaseOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464EA222F28A300EC1FF3 /* MSBaseOptions.m */; };
@@ -718,6 +720,7 @@
 				E820F1A4222767C5009EFA5D /* MSTokenExchange.h in Headers */,
 				049BC850224EDAF600AE7FBB /* MSData.h in Headers */,
 				E8593A19222B91C90001F87E /* MSCosmosDb.h in Headers */,
+				048BF75822A6F4270099FF73 /* MSRemoteOperationDelegate.h in Headers */,
 				E8B79376225EB13700CB3D1D /* MSPendingOperation.h in Headers */,
 				04A0820D1F74BBCF00DC776D /* MSService.h in Headers */,
 				35F515A9225BC6B0001BFFA2 /* MSDocumentWrapperInternal.h in Headers */,
@@ -758,6 +761,7 @@
 				D3AD5F0D1E5C844B001627AB /* MSServiceAbstract.h in Headers */,
 				267464F1222F28A300EC1FF3 /* MSWriteOptions.h in Headers */,
 				267464FB222F28A300EC1FF3 /* MSReadOptions.h in Headers */,
+				048BF75722A6F4110099FF73 /* MSRemoteOperationDelegate.h in Headers */,
 				D3AD5F0C1E5C819A001627AB /* AppCenter+Internal.h in Headers */,
 				E8B79375225EB13600CB3D1D /* MSPendingOperation.h in Headers */,
 				E824A5482225FDAC005B69B5 /* MSDataInternal.h in Headers */,
