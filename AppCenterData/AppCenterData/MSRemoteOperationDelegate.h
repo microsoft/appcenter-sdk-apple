@@ -14,12 +14,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * A callback that is called when the device network status gets changed from offine to online mode.
- * The Data operations are then performed against the cosmosDB
+ * The Data operations are then performed against the cosmosDB.
  *
- * @param data The instance of MSData.
+ * @param data The instance of `MSData`.
  * @param operation Operation ran.
- * @param document Document that was synched. Nil if error encountered
- * @param error Error details or nil when the sync was successful
+ * @param document Document that was synchronized. `nil` if error encountered
+ * @param error Error details or `nil` when the synchronization was successful
  */
 - (void)data:(MSData *)data
     didCompletePendingOperation:(NSString *)operation
