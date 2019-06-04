@@ -121,7 +121,7 @@ static NSUInteger const kMSAccountIdLengthInHomeAccount = 36;
         if ([accountId length] > kMSAccountIdLengthInHomeAccount) {
           accountId = [accountId substringToIndex:kMSAccountIdLengthInHomeAccount];
         }
-        userInfo = [[MSUserInformation alloc] initWithAccountId:(NSString *)accountId];
+        userInfo = [[MSUserInformation alloc] initWithAccountId:accountId accessToken:nil idToken:nil];
       }
       [delegate authTokenContext:self didUpdateUserInformation:userInfo];
     }
