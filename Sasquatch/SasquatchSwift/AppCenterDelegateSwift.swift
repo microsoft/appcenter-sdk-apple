@@ -198,7 +198,7 @@ class AppCenterDelegateSwift: AppCenterDelegate {
   }
 
   // MSAuth section.
-  func signIn() {
+  func signIn( completionHandler: @escaping (_ signInInformation:MSUserInformation) -> Void) {
     MSAuth.signIn { userInformation, error in
       if error == nil {
         UserDefaults.standard.set(true, forKey: kMSUserIdentity)

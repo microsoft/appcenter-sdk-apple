@@ -36,6 +36,8 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
   @IBOutlet weak var setLogUrlButton: UIButton!
   @IBOutlet weak var setAppSecretButton: UIButton!
   @IBOutlet weak var overrideCountryCodeButton: UIButton!
+  @IBOutlet weak var authInfoTVCell: UITableViewCell!
+  @IBOutlet weak var authInfoLabel: UILabel!
 
   var appCenter: AppCenterDelegate!
   private var startupModePicker: MSEnumPicker<StartupMode>?
@@ -43,7 +45,9 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
   private var dbFileDescriptor: CInt = 0
   private var dbFileSource: DispatchSourceProtocol?  
   let startUpModeForCurrentSession: NSInteger = (UserDefaults.standard.object(forKey: kMSStartTargetKey) ?? 0) as! NSInteger
-
+  private var isUserSignedIn = false
+  var userInformation: MSUserInformation = MSUserInformation()
+  
   deinit {
     self.dbFileSource?.cancel()
     close(self.dbFileDescriptor)
@@ -103,6 +107,16 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
 
     // Make sure the UITabBarController does not cut off the last cell.
     self.edgesForExtendedLayout = []
+    
+    if (isUserSignedIn) {
+      authInfoTVCell.isUserInteractionEnabled = true
+      authInfoLabel.text = "User authenticated"
+      authInfoLabel.isEnabled = true
+    } else {
+      authInfoTVCell.isUserInteractionEnabled = false
+      authInfoLabel.text = "User is no authenticated"
+       authInfoLabel.isEnabled = false
+    }
   }
 
   override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
