@@ -107,16 +107,6 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
 
     // Make sure the UITabBarController does not cut off the last cell.
     self.edgesForExtendedLayout = []
-    
-    if (isUserSignedIn) {
-      authInfoTVCell.isUserInteractionEnabled = true
-      authInfoLabel.text = "User authenticated"
-      authInfoLabel.isEnabled = true
-    } else {
-      authInfoTVCell.isUserInteractionEnabled = false
-      authInfoLabel.text = "User is no authenticated"
-       authInfoLabel.isEnabled = false
-    }
   }
 
   override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
@@ -130,17 +120,32 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
   }
 
   @IBAction func authSignIn(_ sender: UIButton) {
-    appCenter.signIn()
+    appCenter.signIn { (userInformation, error) in
+      self.userInformation = userInformation
+      self.isUserSignedIn = userInformation.accountId != ""
+    }
+    updateViewState()
   }
 
   @IBAction func authSignOut(_ sender: UIButton) {
     appCenter.signOut()
+    self.isUserSignedIn = false
+    updateViewState()
   }
   
   func updateViewState() {
     self.appCenterEnabledSwitch.isOn = appCenter.isAppCenterEnabled()
     self.pushEnabledSwitch.isOn = appCenter.isPushEnabled()
     self.authSwitch.isOn = appCenter.isAuthEnabled()
+    if (isUserSignedIn) {
+      authInfoTVCell.isUserInteractionEnabled = true
+      authInfoLabel.text = "User authenticated"
+      authInfoLabel.isEnabled = true
+    } else {
+      authInfoTVCell.isUserInteractionEnabled = false
+      authInfoLabel.text = "User is no authenticated"
+      authInfoLabel.isEnabled = false
+    }
     #if ACTIVE_COMPILATION_CONDITION_PUPPET
     self.logFilterSwitch.isOn = MSEventFilter.isEnabled()
     #else
@@ -278,6 +283,9 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     if let destination = segue.destination as? AppCenterProtocol {
       destination.appCenter = appCenter
+    }
+    if let destination = segue.destination as? MSAuthInfoViewController {
+      destination.userInformation = self.userInformation
     }
   }
 }
