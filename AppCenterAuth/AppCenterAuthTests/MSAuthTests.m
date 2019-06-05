@@ -21,8 +21,10 @@
 #import "MSChannelGroupProtocol.h"
 #import "MSChannelUnitProtocol.h"
 #import "MSConstants.h"
+#import "MSConstants+Internal.h"
 #import "MSHttpTestUtil.h"
 #import "MSMockUserDefaults.h"
+#import "MSServiceAbstractInternal.h"
 #import "MSTestFrameworks.h"
 #import "MSUserInformation.h"
 #import "MSUtility+File.h"
@@ -34,6 +36,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 @property(nonatomic) MSAuth *sut;
 @property(nonatomic) MSMockUserDefaults *settingsMock;
 @property(nonatomic) NSDictionary *dummyConfigDic;
+@property(nonatomic) id bundleMock;
 @property(nonatomic) id utilityMock;
 @property(nonatomic) id ingestionMock;
 @property(nonatomic) id clientApplicationMock;
@@ -48,6 +51,9 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 - (void)setUp {
   [super setUp];
   self.settingsMock = [MSMockUserDefaults new];
+  self.bundleMock = OCMClassMock([NSBundle class]);
+  OCMStub([self.bundleMock mainBundle]).andReturn(self.bundleMock);
+  OCMStub([self.bundleMock bundleIdentifier]).andReturn(@"com.test.app");
   self.utilityMock = OCMClassMock([MSUtility class]);
   self.dummyConfigDic = @{
     @"identity_scope" : @"scope",
@@ -70,6 +76,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [MSAuth resetSharedInstance];
   [MSAuthTokenContext resetSharedInstance];
   [self.settingsMock stopMocking];
+  [self.bundleMock stopMocking];
   [self.utilityMock stopMocking];
   [self.ingestionMock stopMocking];
   [self.clientApplicationMock stopMocking];
@@ -1348,6 +1355,22 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   // Then
   OCMVerify([authMock cancelPendingOperationsWithErrorCode:MSACAuthErrorInterruptedByAnotherOperation message:OCMOCK_ANY]);
   [authMock stopMocking];
+}
+
+- (void)testUpdateURLWithUnregisteredScheme {
+  
+  // If
+  NSArray *bundleArray = @[ @{ kMSCFBundleTypeRole : kMSURLTypeRoleEditor, kMSCFBundleURLSchemes : @[ @"bad scheme format" ] } ];
+  OCMStub([self.bundleMock objectForInfoDictionaryKey:kMSCFBundleURLTypes]).andReturn(bundleArray);
+  
+  // When
+  [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
+                        appSecret:kMSTestAppSecret
+          transmissionTargetToken:nil
+                  fromApplication:YES];
+  
+  // Then
+  XCTAssertFalse(self.sut.started);
 }
 
 @end

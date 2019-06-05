@@ -158,8 +158,8 @@ static NSURL *sfURL;
 
   // If
   XCTestExpectation *openURLCalledExpectation = [self expectationWithDescription:@"openURL Called."];
-  NSArray *bundleArray = @[ @{@"CFBundleURLSchemes" : @[ [NSString stringWithFormat:@"appcenter-%@", kMSTestAppSecret] ]} ];
-  OCMStub([self.bundleMock objectForInfoDictionaryKey:@"CFBundleURLTypes"]).andReturn(bundleArray);
+  NSArray *bundleArray = @[ @{kMSCFBundleURLSchemes : @[ [NSString stringWithFormat:@"appcenter-%@", kMSTestAppSecret] ]} ];
+  OCMStub([self.bundleMock objectForInfoDictionaryKey:kMSCFBundleURLTypes]).andReturn(bundleArray);
   OCMStub([self.bundleMock objectForInfoDictionaryKey:@"MSAppName"]).andReturn(@"Something");
   id distributeMock = OCMPartialMock(self.sut);
   OCMStub([distributeMock openURLInSafariViewControllerWith:OCMOCK_ANY fromClass:OCMOCK_ANY]).andDo(nil);
@@ -254,8 +254,8 @@ static NSURL *sfURL;
 
   // If
   NSString *testUrl = @"https://example.com";
-  NSArray *bundleArray = @[ @{@"CFBundleURLSchemes" : @[ [NSString stringWithFormat:@"appcenter-%@", kMSTestAppSecret] ]} ];
-  OCMStub([self.bundleMock objectForInfoDictionaryKey:@"CFBundleURLTypes"]).andReturn(bundleArray);
+  NSArray *bundleArray = @[ @{kMSCFBundleURLSchemes : @[ [NSString stringWithFormat:@"appcenter-%@", kMSTestAppSecret] ]} ];
+  OCMStub([self.bundleMock objectForInfoDictionaryKey:kMSCFBundleURLTypes]).andReturn(bundleArray);
 
   // When
   [MSDistribute setInstallUrl:testUrl];
@@ -270,8 +270,8 @@ static NSURL *sfURL;
 - (void)testDefaultInstallUrlWorks {
 
   // If
-  NSArray *bundleArray = @[ @{@"CFBundleURLSchemes" : @[ [NSString stringWithFormat:@"appcenter-%@", kMSTestAppSecret] ]} ];
-  OCMStub([self.bundleMock objectForInfoDictionaryKey:@"CFBundleURLTypes"]).andReturn(bundleArray);
+  NSArray *bundleArray = @[ @{kMSCFBundleURLSchemes : @[ [NSString stringWithFormat:@"appcenter-%@", kMSTestAppSecret] ]} ];
+  OCMStub([self.bundleMock objectForInfoDictionaryKey:kMSCFBundleURLTypes]).andReturn(bundleArray);
 
   // When
   NSString *installURL = [self.sut installUrl];
@@ -1844,8 +1844,8 @@ static NSURL *sfURL;
 - (void)testUpdateURLWithUnregisteredScheme {
 
   // If
-  NSArray *bundleArray = @[ @{@"CFBundleURLSchemes" : @[ @"appcenter-IAMSUPERSECRET" ]} ];
-  OCMStub([self.bundleMock objectForInfoDictionaryKey:@"CFBundleURLTypes"]).andReturn(bundleArray);
+  NSArray *bundleArray = @[ @{kMSCFBundleURLSchemes : @[ @"appcenter-IAMSUPERSECRET" ]} ];
+  OCMStub([self.bundleMock objectForInfoDictionaryKey:kMSCFBundleURLTypes]).andReturn(bundleArray);
 
   // When
   NSURL *url = [self.sut buildTokenRequestURLWithAppSecret:kMSTestAppSecret releaseHash:kMSTestReleaseHash isTesterApp:false];
