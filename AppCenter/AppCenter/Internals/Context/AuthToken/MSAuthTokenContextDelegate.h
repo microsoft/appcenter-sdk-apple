@@ -6,7 +6,6 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @class MSAuthTokenContext;
-@class MSUserInformation;
 
 @protocol MSAuthTokenContextDelegate <NSObject>
 
@@ -24,15 +23,15 @@ NS_ASSUME_NONNULL_BEGIN
  * A callback that is called when a new user signs in.
  *
  * @param authTokenContext The auth token context.
- * @param userInformation The new user information. `nil` if a user signed out.
+ * @param accountId The new account ID. `nil` if a user signed out.
  */
-- (void)authTokenContext:(MSAuthTokenContext *)authTokenContext didUpdateUserInformation:(nullable MSUserInformation *)userInformation;
+- (void)authTokenContext:(MSAuthTokenContext *)authTokenContext didUpdateAccountId:(nullable NSString *)accountId;
 
 /**
  * A callback that is called when a token needs to be refreshed.
  *
  * @param authTokenContext The auth token context.
- * @param accountId The accountId of the auth token that expires soon and needs to be refreshed.
+ * @param accountId The account ID of the auth token that expires soon and needs to be refreshed.
  */
 - (void)authTokenContext:(MSAuthTokenContext *)authTokenContext refreshAuthTokenForAccountId:(nullable NSString *)accountId;
 

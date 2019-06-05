@@ -11,7 +11,6 @@
 #import "MSEncrypter.h"
 #import "MSMockUserDefaults.h"
 #import "MSTestFrameworks.h"
-#import "MSUserInformation.h"
 #import "MSUtility+File.h"
 
 @interface MSAuthTokenValidityInfo (Test)
@@ -67,9 +66,9 @@
   XCTAssertEqualObjects([self.sut authToken], expectedAuthToken);
   XCTAssertEqualObjects([self.sut accountId], expectedHomeAccountId);
   OCMVerify([delegateMock authTokenContext:self.sut
-                  didUpdateUserInformation:[OCMArg checkWithBlock:^BOOL(id obj) {
-                    return [((MSUserInformation *)obj).accountId isEqualToString:expectedAccountId];
-                  }]]);
+                        didUpdateAccountId:[OCMArg checkWithBlock:^BOOL(id obj) {
+                          return [(NSString *)obj isEqualToString:expectedAccountId];
+                        }]]);
   NSArray<MSAuthTokenInfo *> *history = [self decryptedHistory];
   XCTAssertNotNil(history);
   XCTAssertEqual([history count], 1);
@@ -112,9 +111,9 @@
 
   // Then
   OCMVerify([delegateMock authTokenContext:self.sut
-                  didUpdateUserInformation:[OCMArg checkWithBlock:^BOOL(id obj) {
-                    return [((MSUserInformation *)obj).accountId isEqualToString:expectedAccountId];
-                  }]]);
+                        didUpdateAccountId:[OCMArg checkWithBlock:^BOOL(id obj) {
+                          return [(NSString *)obj isEqualToString:expectedAccountId];
+                        }]]);
 
   OCMVerify([delegateMock authTokenContext:self.sut didUpdateAuthToken:expectedAuthToken]);
 
@@ -123,7 +122,7 @@
 
   // Then
   OCMVerify([delegateMock authTokenContext:self.sut didUpdateAuthToken:expectedAuthToken]);
-  OCMReject([delegateMock authTokenContext:self.sut didUpdateUserInformation:OCMOCK_ANY]);
+  OCMReject([delegateMock authTokenContext:self.sut didUpdateAccountId:OCMOCK_ANY]);
 }
 
 - (void)testSetAuthTokenDoesTriggerNewUserOnNewAccount {
@@ -141,18 +140,18 @@
 
   // Then
   OCMVerify([delegateMock authTokenContext:self.sut
-                  didUpdateUserInformation:[OCMArg checkWithBlock:^BOOL(id obj) {
-                    return [((MSUserInformation *)obj).accountId isEqualToString:expectedAccountId];
-                  }]]);
+                        didUpdateAccountId:[OCMArg checkWithBlock:^BOOL(id obj) {
+                          return [(NSString *)obj isEqualToString:expectedAccountId];
+                        }]]);
 
   // When
   [self.sut setAuthToken:expectedAuthToken2 withAccountId:expectedAccountId2 expiresOn:nil];
 
   // Then
   OCMVerify([delegateMock authTokenContext:self.sut
-                  didUpdateUserInformation:[OCMArg checkWithBlock:^BOOL(id obj) {
-                    return [((MSUserInformation *)obj).accountId isEqualToString:expectedAccountId2];
-                  }]]);
+                        didUpdateAccountId:[OCMArg checkWithBlock:^BOOL(id obj) {
+                          return [(NSString *)obj isEqualToString:expectedAccountId];
+                        }]]);
 }
 
 - (void)testSetAnonymousAuthTokenInEmptyHistoryDoesNotPersistHistory {
@@ -178,7 +177,7 @@
   [self.sut addDelegate:delegateMock];
 
   // Then
-  OCMReject([delegateMock authTokenContext:self.sut didUpdateUserInformation:OCMOCK_ANY]);
+  OCMReject([delegateMock authTokenContext:self.sut didUpdateAccountId:OCMOCK_ANY]);
 
   // When
   [self.sut removeDelegate:delegateMock];

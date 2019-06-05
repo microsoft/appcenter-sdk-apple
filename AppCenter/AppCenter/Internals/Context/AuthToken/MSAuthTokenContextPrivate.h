@@ -9,11 +9,6 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MSAuthTokenContext ()
 
 /**
- * Cached authorization token.
- */
-@property(nullable, atomic, copy) NSString *authTokenCache;
-
-/**
  * Collection of channel delegates.
  */
 @property(nonatomic) NSHashTable<id<MSAuthTokenContextDelegate>> *delegates;
