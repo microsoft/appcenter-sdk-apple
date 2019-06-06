@@ -199,15 +199,16 @@ class AppCenterDelegateSwift: AppCenterDelegate {
 
   // MSAuth section.
   func signIn(_ completionHandler: @escaping (_ signInInformation:MSUserInformation, _ error:Eroor) -> Void) {
-    completionHandler = userInformation, error in
-    if error == nil {
-      UserDefaults.standard.set(true, forKey: kMSUserIdentity)
-      print("Auth.signIn succeeded, accountId=\(userInformation!.accountId)")
+    MSAuth.signIn { userInformation, error in
+      if error == nil {
+        UserDefaults.standard.set(true, forKey: kMSUserIdentity)
+        print("Auth.signIn succeeded, accountId=\(userInformation!.accountId)")
+      }
+      else {
+        print("Auth.signIn failed, error=\(String(describing: error))")
+      }
+      completionHandler(signInInformation, error)
     }
-    else {
-      print("Auth.signIn failed, error=\(String(describing: error))")
-    }
-    MSAuth.signIn(completionHandler)
   }
 
   func signOut() {
