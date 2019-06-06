@@ -36,7 +36,7 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
   @IBOutlet weak var setLogUrlButton: UIButton!
   @IBOutlet weak var setAppSecretButton: UIButton!
   @IBOutlet weak var overrideCountryCodeButton: UIButton!
-  @IBOutlet weak var authInfoTVCell: UITableViewCell!
+  @IBOutlet weak var authInfoCell: UITableViewCell!
   @IBOutlet weak var authInfoLabel: UILabel!
 
   var appCenter: AppCenterDelegate!
@@ -45,8 +45,7 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
   private var dbFileDescriptor: CInt = 0
   private var dbFileSource: DispatchSourceProtocol?  
   let startUpModeForCurrentSession: NSInteger = (UserDefaults.standard.object(forKey: kMSStartTargetKey) ?? 0) as! NSInteger
-  private var isUserSignedIn = false
-  var userInformation: MSUserInformation = MSUserInformation()
+  var userInformation: MSUserInformation?
   
   deinit {
     self.dbFileSource?.cancel()
@@ -122,14 +121,15 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
   @IBAction func authSignIn(_ sender: UIButton) {
     appCenter.signIn { (userInformation, error) in
       self.userInformation = userInformation
-      self.isUserSignedIn = userInformation.accountId != ""
+      DispatchQueue.main.async {
+        self.updateViewState()
+      }
     }
-    updateViewState()
   }
 
   @IBAction func authSignOut(_ sender: UIButton) {
     appCenter.signOut()
-    self.isUserSignedIn = false
+    self.userInformation = nil
     updateViewState()
   }
   
@@ -137,12 +137,12 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     self.appCenterEnabledSwitch.isOn = appCenter.isAppCenterEnabled()
     self.pushEnabledSwitch.isOn = appCenter.isPushEnabled()
     self.authSwitch.isOn = appCenter.isAuthEnabled()
-    if (isUserSignedIn) {
-      authInfoTVCell.isUserInteractionEnabled = true
+    if (self.userInformation != nil) {
+      authInfoCell.isUserInteractionEnabled = true
       authInfoLabel.text = "User authenticated"
       authInfoLabel.isEnabled = true
     } else {
-      authInfoTVCell.isUserInteractionEnabled = false
+      authInfoCell.isUserInteractionEnabled = false
       authInfoLabel.text = "User is no authenticated"
       authInfoLabel.isEnabled = false
     }

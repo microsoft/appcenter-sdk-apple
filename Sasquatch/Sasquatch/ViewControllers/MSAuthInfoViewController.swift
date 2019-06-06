@@ -9,7 +9,6 @@ class MSAuthInfoViewController: UITableViewController {
   @IBOutlet weak var accessToken: UILabel!
   @IBOutlet weak var idToken: UILabel!
   
-  
   var userInformation: MSUserInformation?
   
   override func viewDidLoad() {
@@ -23,7 +22,7 @@ class MSAuthInfoViewController: UITableViewController {
     var idTokenDecoded: String = "None"
     do {
       let jsonDataAccess = try JSONSerialization.data(withJSONObject: decode(jwtToken: userInformation?.accessToken ?? "None"), options: .prettyPrinted)
-      let jsonDataId = try JSONSerialization.data(withJSONObject: decode(jwtToken: userInformation?.accountId ?? "None"), options: .prettyPrinted)
+      let jsonDataId = try JSONSerialization.data(withJSONObject: decode(jwtToken: userInformation?.idToken ?? "None"), options: .prettyPrinted)
       
       accessTokenDecoded = String.init(data: jsonDataAccess, encoding: .utf8) ?? "None"
       idTokenDecoded = String.init(data: jsonDataId, encoding: .utf8) ?? "None"

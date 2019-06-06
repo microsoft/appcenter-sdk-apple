@@ -60,7 +60,7 @@ import AppCenterData
   func showCustomConfirmationAlert()
 
   // MSAuth section.
-  func signIn()
+  func signIn(_ completionHandler: @escaping (_ signInInformation:MSUserInformation, _ error:Error) -> Void)
   func signOut()
   
   // Last crash report section.
