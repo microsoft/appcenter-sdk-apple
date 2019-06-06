@@ -100,7 +100,7 @@ static NSString *const kMSStartTimestampPrefix = @"MSChannelStartTimer";
 
 #pragma mark - MSAuthTokenContextDelegate
 
-- (void)authTokenContext:(MSAuthTokenContext *)__unused authTokenContext didSetAuthToken:(nullable NSString *)__unused authToken {
+- (void)authTokenContext:(MSAuthTokenContext *)__unused authTokenContext didUpdateAuthToken:(nullable NSString *)__unused authToken {
   dispatch_async(self.logsDispatchQueue, ^{
     MSLogInfo([MSAppCenter logTag], @"New auth token received, flushing queue.");
     [self checkPendingLogs];

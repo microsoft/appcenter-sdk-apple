@@ -9,7 +9,6 @@
 #import "MSAuthTokenValidityInfo.h"
 #import "MSConstants+Internal.h"
 #import "MSEncrypter.h"
-#import "MSUserInformation.h"
 
 /**
  * Singleton.
@@ -115,15 +114,13 @@ static NSUInteger const kMSAccountIdLengthInHomeAccount = 36;
     if ([delegate respondsToSelector:@selector(authTokenContext:didUpdateAuthToken:)]) {
       [delegate authTokenContext:self didUpdateAuthToken:authToken];
     }
-    if (isNewUser && [delegate respondsToSelector:@selector(authTokenContext:didUpdateUserInformation:)]) {
-      MSUserInformation *userInfo = nil;
+    if (isNewUser && [delegate respondsToSelector:@selector(authTokenContext:didUpdateAccountId:)]) {
       if (accountId) {
         if ([accountId length] > kMSAccountIdLengthInHomeAccount) {
           accountId = [accountId substringToIndex:kMSAccountIdLengthInHomeAccount];
         }
-        userInfo = [[MSUserInformation alloc] initWithAccountId:accountId accessToken:nil idToken:nil];
       }
-      [delegate authTokenContext:self didUpdateUserInformation:userInfo];
+      [delegate authTokenContext:self didUpdateAccountId:accountId];
     }
   }
 }

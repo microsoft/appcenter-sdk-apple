@@ -973,7 +973,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
   // Then
   OCMVerify([mockDelegate authTokenContext:OCMOCK_ANY didUpdateAuthToken:nil]);
-  OCMVerify([mockDelegate authTokenContext:OCMOCK_ANY didUpdateUserInformation:nil]);
+  OCMVerify([mockDelegate authTokenContext:OCMOCK_ANY didUpdateAccountId:nil]);
   [authMock stopMocking];
 }
 

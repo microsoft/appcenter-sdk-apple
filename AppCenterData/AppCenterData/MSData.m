@@ -26,7 +26,6 @@
 #import "MSReadOptions.h"
 #import "MSTokenExchange.h"
 #import "MSTokensResponse.h"
-#import "MSUserInformation.h"
 #import "MSWriteOptions.h"
 #import "MS_Reachability.h"
 
@@ -754,11 +753,11 @@ static dispatch_once_t onceToken;
 
 #pragma mark - MSAuthTokenContextDelegate
 
-- (void)authTokenContext:(MSAuthTokenContext *)__unused authTokenContext didUpdateUserInformation:(MSUserInformation *)userInfomation {
+- (void)authTokenContext:(MSAuthTokenContext *)__unused authTokenContext didUpdateAccountId:(NSString *)accountId {
 
   // If user logs in.
-  if (userInfomation && userInfomation) {
-    [self.dataOperationProxy.documentStore createUserStorageWithAccountId:(NSString *)userInfomation.accountId];
+  if (accountId) {
+    [self.dataOperationProxy.documentStore createUserStorageWithAccountId:accountId];
   } else {
     // If user logs out.
     [MSTokenExchange removeAllCachedTokens];
