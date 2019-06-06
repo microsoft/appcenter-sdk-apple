@@ -15,6 +15,16 @@ NS_ASSUME_NONNULL_BEGIN
 @class MSALPublicClientApplication;
 
 /**
+ * Custom URL Scheme format for MSAL.
+ */
+static NSString *const kMSMSALCustomSchemeFormat = @"msal%@";
+
+/**
+ * The URL Type Role for URL scheme.
+ */
+static NSString *const kMSURLTypeRoleEditor = @"Editor";
+
+/**
  * Completion handler triggered when complete getting a token.
  *
  * @param userInformation User information for signed in user.
@@ -86,6 +96,15 @@ typedef void (^MSAcquireTokenCompletionHandler)(MSUserInformation *_Nullable use
  * Sign out to clear user information.
  */
 - (void)signOut;
+
+/**
+ * Validate URL Scheme is registered.
+ *
+ * @param urlScheme Expected URL Scheme for the service.
+ *
+ * @return `YES` if URL Scheme is registered and valid, otherwise `NO`.
+ */
+- (BOOL)checkURLSchemeRegistered:(NSString *)urlScheme;
 
 /**
  * Get a file path of auth config.
