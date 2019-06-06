@@ -48,7 +48,7 @@ class MSAuthInfoViewController: UITableViewController {
   
   func decode(jwtToken jwt: String) -> [String: Any] {
     let segments = jwt.components(separatedBy: ".")
-    return decodeJWTPart(segments[1]) ?? [:]
+    return segments.count > 1 ? decodeJWTPart(segments[1]) ?? [:] : [:]
   }
   
   func base64UrlDecode(_ value: String) -> Data? {
