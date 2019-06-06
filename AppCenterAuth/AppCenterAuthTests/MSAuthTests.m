@@ -20,8 +20,8 @@
 #import "MSAuthTokenValidityInfo.h"
 #import "MSChannelGroupProtocol.h"
 #import "MSChannelUnitProtocol.h"
-#import "MSConstants.h"
 #import "MSConstants+Internal.h"
+#import "MSConstants.h"
 #import "MSHttpTestUtil.h"
 #import "MSMockUserDefaults.h"
 #import "MSServiceAbstractInternal.h"
@@ -85,6 +85,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 - (void)testApplyEnabledStateWorks {
 
   // If
+  [self mockURLScheme:nil];
   [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
                         appSecret:kMSTestAppSecret
           transmissionTargetToken:nil
@@ -112,6 +113,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 - (void)testTokenIsPersistedOnStart {
 
   // If
+  [self mockURLScheme:nil];
   NSString *previousAuthToken = @"any-token";
   [[MSAuthTokenContext sharedInstance] setAuthToken:@"any-token" withAccountId:nil expiresOn:nil];
   [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
@@ -129,6 +131,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 - (void)testTokenIsPersistedOnSeparateStart {
 
   // If
+  [self mockURLScheme:nil];
   NSString *previousAuthToken = @"any-token";
   [[MSAuthTokenContext sharedInstance] setAuthToken:@"any-token" withAccountId:nil expiresOn:nil];
   [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
@@ -210,6 +213,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 - (void)testCleanUpOnDisabling {
 
   // If
+  [self mockURLScheme:nil];
   NSString *fakeAccountId = @"some-account-id";
   NSString *fakeToken = @"some-token";
   NSData *serializedConfig = [NSJSONSerialization dataWithJSONObject:self.dummyConfigDic options:(NSJSONWritingOptions)0 error:nil];
@@ -1051,6 +1055,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 - (void)testSignOutClearsAuthTokenAndAccountId {
 
   // If
+  [self mockURLScheme:nil];
   [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
                         appSecret:kMSTestAppSecret
           transmissionTargetToken:nil
@@ -1127,6 +1132,9 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
 - (void)testDefaultConfigUrl {
 
+  // If
+  [self mockURLScheme:nil];
+
   // When
   [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
                         appSecret:kMSTestAppSecret
@@ -1140,6 +1148,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 - (void)testConfigURLIsPassedToIngestionWhenSetBeforeServiceStart {
 
   // If
+  [self mockURLScheme:nil];
   NSString *baseConfigUrl = @"https://baseconfigurl.com";
 
   // When
@@ -1156,6 +1165,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 - (void)testRefreshNeededTriggersRefresh {
 
   // If
+  [self mockURLScheme:nil];
   NSString *fakeAccountId = @"accountId";
   NSString *fakeAuthToken = @"authToken";
   id authMock = OCMPartialMock(self.sut);
@@ -1357,20 +1367,27 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [authMock stopMocking];
 }
 
-- (void)testUpdateURLWithUnregisteredScheme {
-  
+- (void)testInvalidURLSchemeDoesNotStartAuth {
+
   // If
-  NSArray *bundleArray = @[ @{ kMSCFBundleTypeRole : kMSURLTypeRoleEditor, kMSCFBundleURLSchemes : @[ @"bad scheme format" ] } ];
-  OCMStub([self.bundleMock objectForInfoDictionaryKey:kMSCFBundleURLTypes]).andReturn(bundleArray);
-  
+  [self mockURLScheme:@"Invalid URL scheme"];
+
   // When
   [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
                         appSecret:kMSTestAppSecret
           transmissionTargetToken:nil
                   fromApplication:YES];
-  
+
   // Then
   XCTAssertFalse(self.sut.started);
+}
+
+- (void)mockURLScheme:(NSString *)urlScheme {
+  if (!urlScheme) {
+    urlScheme = [NSString stringWithFormat:kMSMSALCustomSchemeFormat, kMSTestAppSecret];
+  }
+  NSArray *bundleArray = @[ @{kMSCFBundleTypeRole : kMSURLTypeRoleEditor, kMSCFBundleURLSchemes : @[ urlScheme ]} ];
+  OCMStub([self.bundleMock objectForInfoDictionaryKey:kMSCFBundleURLTypes]).andReturn(bundleArray);
 }
 
 @end
