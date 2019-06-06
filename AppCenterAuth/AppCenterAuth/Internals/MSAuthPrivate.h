@@ -98,6 +98,15 @@ typedef void (^MSAcquireTokenCompletionHandler)(MSUserInformation *_Nullable use
 - (void)signOut;
 
 /**
+ * Validate URL Scheme is registered.
+ *
+ * @param urlScheme Expected URL Scheme for the service.
+ *
+ * @return `YES` if URL Scheme is registered and valid, otherwise `NO`.
+ */
+- (BOOL)checkURLSchemeRegistered:(NSString *)urlScheme;
+
+/**
  * Get a file path of auth config.
  *
  * @return The config file path.

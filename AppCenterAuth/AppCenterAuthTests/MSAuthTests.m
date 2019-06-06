@@ -1382,6 +1382,44 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   XCTAssertFalse(self.sut.started);
 }
 
+- (void)testCheckValidURLSchemeRegistered {
+
+  // If
+  [self mockURLScheme:nil];
+
+  // When
+  BOOL valid = [self.sut checkURLSchemeRegistered:[NSString stringWithFormat:kMSMSALCustomSchemeFormat, kMSTestAppSecret]];
+
+  // Then
+  XCTAssertTrue(valid);
+}
+
+- (void)testCheckInvalidAppSecretForURLSchemeRegistered {
+
+  // If
+  [self mockURLScheme:nil];
+
+  // When
+  BOOL valid = [self.sut checkURLSchemeRegistered:[NSString stringWithFormat:kMSMSALCustomSchemeFormat, MS_UUID_STRING]];
+
+  // Then
+  XCTAssertFalse(valid);
+}
+
+- (void)testCheckInvalidTypeRoleForURLSchemeRegistered {
+
+  // If
+  NSString *validURLScheme = @"Valid URL Scheme";
+  NSArray *bundleArray = @[ @{kMSCFBundleTypeRole : @"None", kMSCFBundleURLSchemes : @[ validURLScheme ]} ];
+  OCMStub([self.bundleMock objectForInfoDictionaryKey:kMSCFBundleURLTypes]).andReturn(bundleArray);
+
+  // When
+  BOOL valid = [self.sut checkURLSchemeRegistered:validURLScheme];
+
+  // Then
+  XCTAssertFalse(valid);
+}
+
 - (void)mockURLScheme:(NSString *)urlScheme {
   if (!urlScheme) {
     urlScheme = [NSString stringWithFormat:kMSMSALCustomSchemeFormat, kMSTestAppSecret];
