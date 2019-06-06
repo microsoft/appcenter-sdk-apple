@@ -515,6 +515,10 @@ static dispatch_once_t onceToken;
       self.homeAccountIdToRefresh = accountId;
       return;
     }
+    if (!self.clientApplication) {
+      MSLogWarning([MSAuth logTag], @"MSAL client is not configured yet.");
+      return;
+    }
     MSALAccount *account = [self retrieveAccountWithAccountId:accountId];
     if (account) {
       __weak typeof(self) weakSelf = self;
