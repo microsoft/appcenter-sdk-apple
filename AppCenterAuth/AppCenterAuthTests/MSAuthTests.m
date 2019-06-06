@@ -1420,6 +1420,18 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   XCTAssertFalse(valid);
 }
 
+- (void)testCheckNoURLSchemeRegistered {
+
+  // If
+  OCMStub([self.bundleMock objectForInfoDictionaryKey:kMSCFBundleURLTypes]).andReturn(nil);
+
+  // When
+  BOOL valid = [self.sut checkURLSchemeRegistered:@"Valid URL Scheme"];
+
+  // Then
+  XCTAssertFalse(valid);
+}
+
 - (void)mockURLScheme:(NSString *)urlScheme {
   if (!urlScheme) {
     urlScheme = [NSString stringWithFormat:kMSMSALCustomSchemeFormat, kMSTestAppSecret];
