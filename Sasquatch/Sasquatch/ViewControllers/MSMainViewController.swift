@@ -139,11 +139,11 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     self.authSwitch.isOn = appCenter.isAuthEnabled()
     if (self.userInformation != nil) {
       authInfoCell.isUserInteractionEnabled = true
-      authInfoLabel.text = "User authenticated"
+      authInfoLabel.text = "User is authenticated"
       authInfoLabel.isEnabled = true
     } else {
       authInfoCell.isUserInteractionEnabled = false
-      authInfoLabel.text = "User is no authenticated"
+      authInfoLabel.text = "User is not authenticated"
       authInfoLabel.isEnabled = false
     }
     #if ACTIVE_COMPILATION_CONDITION_PUPPET

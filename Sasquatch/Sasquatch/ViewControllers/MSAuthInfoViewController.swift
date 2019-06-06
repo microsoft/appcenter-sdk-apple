@@ -26,9 +26,8 @@ class MSAuthInfoViewController: UITableViewController {
       
       accessTokenDecoded = String.init(data: jsonDataAccess, encoding: .utf8) ?? "None"
       idTokenDecoded = String.init(data: jsonDataId, encoding: .utf8) ?? "None"
-      
     } catch {
-      print(error.localizedDescription)
+      NSLog(error.localizedDescription)
     }
     accountId.text = "Account ID:\n" + (userInformation?.accountId ?? "None")
     accessToken.text = "Access Token:\n" + accessTokenDecoded
@@ -41,8 +40,8 @@ class MSAuthInfoViewController: UITableViewController {
   
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     if segue.destination is MSMainViewController {
-      let vc = segue.destination as? MSMainViewController
-      userInformation = vc?.userInformation
+      let viewController = segue.destination as? MSMainViewController
+      userInformation = viewController?.userInformation
     }
   }
   
