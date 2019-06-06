@@ -23,7 +23,6 @@ class MSAuthInfoViewController: UITableViewController {
     do {
       let jsonDataAccess = try JSONSerialization.data(withJSONObject: decode(jwtToken: userInformation?.accessToken ?? "None"), options: .prettyPrinted)
       let jsonDataId = try JSONSerialization.data(withJSONObject: decode(jwtToken: userInformation?.idToken ?? "None"), options: .prettyPrinted)
-      
       accessTokenDecoded = String.init(data: jsonDataAccess, encoding: .utf8) ?? "None"
       idTokenDecoded = String.init(data: jsonDataId, encoding: .utf8) ?? "None"
     } catch {
@@ -54,7 +53,6 @@ class MSAuthInfoViewController: UITableViewController {
     var base64 = value
       .replacingOccurrences(of: "-", with: "+")
       .replacingOccurrences(of: "_", with: "/")
-    
     let length = Double(base64.lengthOfBytes(using: String.Encoding.utf8))
     let requiredLength = 4 * ceil(length / 4.0)
     let paddingLength = requiredLength - length
@@ -70,7 +68,6 @@ class MSAuthInfoViewController: UITableViewController {
       let json = try? JSONSerialization.jsonObject(with: bodyData, options: []), let payload = json as? [String: Any] else {
         return nil
     }
-    
     return payload
   }
   
