@@ -4,6 +4,7 @@
 #if !ACTIVE_COMPILATION_CONDITION_PUPPET
 import AppCenter
 import AppCenterAnalytics
+import AppCenterAuth
 import AppCenterData
 #endif
 
