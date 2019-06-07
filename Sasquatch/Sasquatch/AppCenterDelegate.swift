@@ -92,4 +92,5 @@ import AppCenterData
   func createDocumentWithPartition(_ partitionName: String, documentId: String, document: MSDictionaryDocument, writeOptions: MSWriteOptions, completionHandler: @escaping (_ document:MSDocumentWrapper) -> Void)
   func replaceDocumentWithPartition(_ partitionName: String, documentId: String, document: MSDictionaryDocument, writeOptions: MSWriteOptions, completionHandler: @escaping (_ document:MSDocumentWrapper) -> Void)
   func deleteDocumentWithPartition(_ partitionName: String, documentId: String)
+  func readDocumentWithPartition(_ partitionName: String, documentId: String, documentType: AnyClass, completionHandler: @escaping (_ document:MSDocumentWrapper) -> Void)
 }

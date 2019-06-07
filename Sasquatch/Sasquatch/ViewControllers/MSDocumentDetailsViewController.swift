@@ -3,8 +3,9 @@
 
 import UIKit
 
-class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, AppCenterProtocol {
   var documentType: String?
+  var appCenter: AppCenterDelegate!
   
   enum TimeToLiveMode: String {
     case Default = "Default"
@@ -27,6 +28,7 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
   
   @IBOutlet weak var timeToLiveBoard: UILabel!
   @IBOutlet weak var backButton: UIButton!
+  @IBOutlet weak var refreshButton: UIButton!
   @IBOutlet weak var docIdField: UITextField!
   @IBOutlet weak var tableView: UITableView!
   @IBOutlet weak var timeToLiveField: UITextField!
@@ -72,6 +74,19 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
     self.presentingViewController?.dismiss(animated: true, completion: nil)
   }
 
+  @IBAction func refreshButtonClicked(_ sender: Any) {
+    var partition = documentContent?.partition ?? ""
+    if (partition.contains("user")) {
+        partition = "user"
+    }
+    self.appCenter.readDocumentWithPartition(partition, documentId: documentContent?.documentId ?? "", documentType: MSDictionaryDocument.self, completionHandler: { (document) in
+        self.documentContent = document
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+    })
+  }
+    
   func numberOfSections(in tableView: UITableView) -> Int {
     if documentType != userType {
       return 1
