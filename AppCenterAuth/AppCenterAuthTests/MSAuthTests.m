@@ -1194,9 +1194,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   OCMStub([authMock retrieveAccountWithAccountId:fakeAccountId]).andReturn(nil);
   self.sut.authConfig = [MSAuthConfig new];
   self.sut.authConfig.authScope = @"fake";
-  OCMStub([authMock configAuthenticationClient]).andDo(^(NSInvocation *__unused invocation) {
-    self.sut.clientApplication = self.clientApplicationMock;
-  });
+  self.sut.clientApplication = self.clientApplicationMock;
   OCMReject([self.sut.clientApplication acquireTokenSilentForScopes:OCMOCK_ANY account:OCMOCK_ANY completionBlock:OCMOCK_ANY]);
   id authTokenContextMock = OCMPartialMock([MSAuthTokenContext sharedInstance]);
   OCMStub([authTokenContextMock sharedInstance]).andReturn(authTokenContextMock);
@@ -1206,6 +1204,80 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
   // Then
   OCMVerify([authTokenContextMock setAuthToken:nil withAccountId:nil expiresOn:nil]);
+
+  // Clear
+  [authMock stopMocking];
+  [authTokenContextMock stopMocking];
+  self.sut.clientApplication = nil;
+}
+
+- (void)testRefreshWithExpiredTokenWhileMsalNotConfigured {
+
+  // If
+  NSString *fakeAccountId = @"accountId";
+  NSString *fakeAuthToken = @"authToken";
+  id authMock = OCMPartialMock(self.sut);
+  [[MSAuthTokenContext sharedInstance] addDelegate:authMock];
+  [[MSAuthTokenContext sharedInstance] setAuthToken:fakeAuthToken withAccountId:fakeAccountId expiresOn:nil];
+  MSAuthTokenValidityInfo *fakeValidityInfo = OCMClassMock([MSAuthTokenValidityInfo class]);
+  OCMStub([fakeValidityInfo expiresSoon]).andReturn(YES);
+  OCMStub([fakeValidityInfo authToken]).andReturn(fakeAuthToken);
+  OCMStub([authMock sharedInstance]).andReturn(authMock);
+  OCMStub([authMock canBeUsed]).andReturn(YES);
+  self.sut.authConfig = [MSAuthConfig new];
+  self.sut.authConfig.authScope = @"fake";
+  id authTokenContextMock = OCMPartialMock([MSAuthTokenContext sharedInstance]);
+  OCMStub([authTokenContextMock sharedInstance]).andReturn(authTokenContextMock);
+
+  // If MSAL client not configured yet.
+  self.sut.clientApplication = nil;
+
+  // Shouldn't call MSAL client while it is not configured.
+  OCMReject([self.sut.clientApplication accountForHomeAccountId:OCMOCK_ANY error:[OCMArg anyObjectRef]]);
+
+  // When
+  [[MSAuthTokenContext sharedInstance] checkIfTokenNeedsToBeRefreshed:fakeValidityInfo];
+
+  // Then
+  [authMock stopMocking];
+  [authTokenContextMock stopMocking];
+}
+
+- (void)testRefreshRetriedAfterMsalConfigured {
+
+  // If
+  NSString *fakeAccountId = @"accountId";
+  NSString *fakeAuthToken = @"authToken";
+  id authMock = OCMPartialMock(self.sut);
+  [[MSAuthTokenContext sharedInstance] addDelegate:authMock];
+  [[MSAuthTokenContext sharedInstance] setAuthToken:fakeAuthToken withAccountId:fakeAccountId expiresOn:nil];
+  MSAuthTokenValidityInfo *fakeValidityInfo = OCMClassMock([MSAuthTokenValidityInfo class]);
+  OCMStub([fakeValidityInfo expiresSoon]).andReturn(YES);
+  OCMStub([fakeValidityInfo authToken]).andReturn(fakeAuthToken);
+  OCMStub([authMock sharedInstance]).andReturn(authMock);
+  OCMStub([authMock canBeUsed]).andReturn(YES);
+  self.sut.authConfig = [MSAuthConfig new];
+  self.sut.authConfig.authScope = @"fake";
+  id authTokenContextMock = OCMPartialMock([MSAuthTokenContext sharedInstance]);
+  OCMStub([authTokenContextMock sharedInstance]).andReturn(authTokenContextMock);
+  __block int count = 0;
+  OCMStub([self.clientApplicationMock accountForHomeAccountId:OCMOCK_ANY error:[OCMArg anyObjectRef]])
+      .andDo(^(NSInvocation *__unused invocation) {
+        count++;
+      });
+
+  // If MSAL client not configured yet.
+  self.sut.clientApplication = nil;
+
+  // When
+  [[MSAuthTokenContext sharedInstance] checkIfTokenNeedsToBeRefreshed:fakeValidityInfo];
+
+  // MSAL client configured.
+  self.sut.clientApplication = self.clientApplicationMock;
+  [[MSAuthTokenContext sharedInstance] checkIfTokenNeedsToBeRefreshed:fakeValidityInfo];
+
+  // Then
+  assertThatInt(count, equalToInt(1));
   [authMock stopMocking];
   [authTokenContextMock stopMocking];
 }
