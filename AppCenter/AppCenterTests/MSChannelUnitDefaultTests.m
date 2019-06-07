@@ -295,7 +295,10 @@ static NSString *const kMSTestGroupId = @"GroupId";
   for (NSUInteger i = 0; i < itemsToAdd; i++) {
     [self.sut enqueueItem:[self getValidMockLog] flags:MSFlagsDefault];
   }
-  [self enqueueChannelEndJobExpectation];
+  // Then
+  dispatch_async(self.logsDispatchQueue, ^{
+    [self enqueueChannelEndJobExpectation];
+  });
 
   // Then
   [self waitForExpectationsWithTimeout:kMSTestTimeout
