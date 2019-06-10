@@ -15,6 +15,7 @@
 
 * **[Feature]** Expose the ID Token and Access Token JWTs in the `MSUserInformation` object passed to the sign in callback.
 * **[Fix]** Fix changing signing status may cause logs (e.g., events) to be delayed.
+* **[Fix]** Fix rare condition where a user is prompted again for their credentials instead of refreshing the token silently.
 
 ### AppCenterData
 

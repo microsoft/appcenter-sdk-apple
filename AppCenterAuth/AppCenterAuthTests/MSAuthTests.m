@@ -301,10 +301,10 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
     [invocation retainArguments];
     [invocation getArgument:&ingestionBlock atIndex:4];
   });
-  OCMReject([self.utilityMock createFileAtPathComponent:[self.sut authConfigFilePath]
-                                               withData:OCMOCK_ANY
-                                             atomically:OCMOCK_ANY
-                                         forceOverwrite:OCMOCK_ANY]);
+  OCMReject([[self.utilityMock ignoringNonObjectArgs] createFileAtPathComponent:[self.sut authConfigFilePath]
+                                                                       withData:OCMOCK_ANY
+                                                                     atomically:NO
+                                                                 forceOverwrite:NO]);
   OCMReject([self.settingsMock setObject:OCMOCK_ANY forKey:kMSAuthETagKey]);
 
   // When
@@ -323,10 +323,10 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
     [invocation retainArguments];
     [invocation getArgument:&ingestionBlock atIndex:4];
   });
-  OCMReject([self.utilityMock createFileAtPathComponent:[self.sut authConfigFilePath]
-                                               withData:OCMOCK_ANY
-                                             atomically:OCMOCK_ANY
-                                         forceOverwrite:OCMOCK_ANY]);
+  OCMReject([[self.utilityMock ignoringNonObjectArgs] createFileAtPathComponent:[self.sut authConfigFilePath]
+                                                                       withData:OCMOCK_ANY
+                                                                     atomically:NO
+                                                                 forceOverwrite:NO]);
   OCMReject([self.settingsMock setObject:OCMOCK_ANY forKey:kMSAuthETagKey]);
 
   // When
@@ -1154,7 +1154,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   id authMock = OCMPartialMock(self.sut);
   [[MSAuthTokenContext sharedInstance] addDelegate:authMock];
   [[MSAuthTokenContext sharedInstance] setAuthToken:fakeAuthToken withAccountId:fakeAccountId expiresOn:nil];
-  MSAuthTokenValidityInfo *fakeValidityInfo = OCMClassMock([MSAuthTokenValidityInfo class]);
+  id fakeValidityInfo = OCMClassMock([MSAuthTokenValidityInfo class]);
   OCMStub([fakeValidityInfo expiresSoon]).andReturn(YES);
   OCMStub([fakeValidityInfo authToken]).andReturn(fakeAuthToken);
   OCMStub([authMock loadConfigurationFromCache]).andReturn(YES);
@@ -1165,7 +1165,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   OCMStub([authMock configAuthenticationClient]).andDo(^(NSInvocation *__unused invocation) {
     self.sut.clientApplication = self.clientApplicationMock;
   });
-  MSALAccount *accountMock = OCMClassMock([MSALAccount class]);
+  id accountMock = OCMClassMock([MSALAccount class]);
   OCMStub([authMock retrieveAccountWithAccountId:fakeAccountId]).andReturn(accountMock);
 
   // When
@@ -1177,7 +1177,11 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
   // Then
   OCMVerify([self.clientApplicationMock acquireTokenSilentForScopes:OCMOCK_ANY account:OCMOCK_ANY completionBlock:OCMOCK_ANY]);
+
+  // Clear
+  [fakeValidityInfo stopMocking];
   [authMock stopMocking];
+  [accountMock stopMocking];
 }
 
 - (void)testRefreshNeededWithNilAccountTriggersAnonymous {
@@ -1188,7 +1192,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   id authMock = OCMPartialMock(self.sut);
   [[MSAuthTokenContext sharedInstance] addDelegate:authMock];
   [[MSAuthTokenContext sharedInstance] setAuthToken:fakeAuthToken withAccountId:fakeAccountId expiresOn:nil];
-  MSAuthTokenValidityInfo *fakeValidityInfo = OCMClassMock([MSAuthTokenValidityInfo class]);
+  id fakeValidityInfo = OCMClassMock([MSAuthTokenValidityInfo class]);
   OCMStub([authMock loadConfigurationFromCache]).andReturn(YES);
   OCMStub([fakeValidityInfo expiresSoon]).andReturn(YES);
   OCMStub([fakeValidityInfo authToken]).andReturn(fakeAuthToken);
@@ -1205,7 +1209,6 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   OCMStub([authTokenContextMock sharedInstance]).andReturn(authTokenContextMock);
 
   // When
-  OCMExpect([authTokenContextMock setAuthToken:nil withAccountId:nil expiresOn:nil]);
   [authMock startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
                         appSecret:kMSTestAppSecret
           transmissionTargetToken:nil
@@ -1213,9 +1216,10 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [[MSAuthTokenContext sharedInstance] checkIfTokenNeedsToBeRefreshed:fakeValidityInfo];
 
   // Then
-  OCMVerifyAll(authTokenContextMock);
+  OCMVerify([authTokenContextMock setAuthToken:nil withAccountId:nil expiresOn:nil]);
 
   // Clear
+  [fakeValidityInfo stopMocking];
   [authMock stopMocking];
   [authTokenContextMock stopMocking];
 }
@@ -1228,7 +1232,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   id authMock = OCMPartialMock(self.sut);
   [[MSAuthTokenContext sharedInstance] addDelegate:authMock];
   [[MSAuthTokenContext sharedInstance] setAuthToken:fakeAuthToken withAccountId:fakeAccountId expiresOn:nil];
-  MSAuthTokenValidityInfo *fakeValidityInfo = OCMClassMock([MSAuthTokenValidityInfo class]);
+  id fakeValidityInfo = OCMClassMock([MSAuthTokenValidityInfo class]);
   OCMStub([fakeValidityInfo expiresSoon]).andReturn(YES);
   OCMStub([fakeValidityInfo authToken]).andReturn(fakeAuthToken);
   OCMStub([authMock sharedInstance]).andReturn(authMock);
@@ -1249,6 +1253,9 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
   // Then
   OCMVerifyAll(authMock);
+
+  // Clear
+  [fakeValidityInfo stopMocking];
   [authMock stopMocking];
   [authTokenContextMock stopMocking];
 }
@@ -1261,7 +1268,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   id authMock = OCMPartialMock(self.sut);
   [[MSAuthTokenContext sharedInstance] addDelegate:authMock];
   [[MSAuthTokenContext sharedInstance] setAuthToken:fakeAuthToken withAccountId:fakeAccountId expiresOn:nil];
-  MSAuthTokenValidityInfo *fakeValidityInfo = OCMClassMock([MSAuthTokenValidityInfo class]);
+  id fakeValidityInfo = OCMClassMock([MSAuthTokenValidityInfo class]);
   OCMStub([fakeValidityInfo expiresSoon]).andReturn(YES);
   OCMStub([fakeValidityInfo authToken]).andReturn(fakeAuthToken);
   OCMStub([authMock sharedInstance]).andReturn(authMock);
@@ -1288,6 +1295,9 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
   // Then
   assertThatInt(count, equalToInt(1));
+
+  // Clear
+  [fakeValidityInfo stopMocking];
   [authMock stopMocking];
   [authTokenContextMock stopMocking];
 }
