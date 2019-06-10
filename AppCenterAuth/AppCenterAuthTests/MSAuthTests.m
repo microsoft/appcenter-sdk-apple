@@ -1152,10 +1152,12 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   NSString *fakeAccountId = @"accountId";
   NSString *fakeAuthToken = @"authToken";
   id authMock = OCMPartialMock(self.sut);
+  [[MSAuthTokenContext sharedInstance] addDelegate:authMock];
   [[MSAuthTokenContext sharedInstance] setAuthToken:fakeAuthToken withAccountId:fakeAccountId expiresOn:nil];
   MSAuthTokenValidityInfo *fakeValidityInfo = OCMClassMock([MSAuthTokenValidityInfo class]);
   OCMStub([fakeValidityInfo expiresSoon]).andReturn(YES);
   OCMStub([fakeValidityInfo authToken]).andReturn(fakeAuthToken);
+  OCMStub([authMock loadConfigurationFromCache]).andReturn(YES);
   OCMStub([authMock sharedInstance]).andReturn(authMock);
   OCMStub([authMock canBeUsed]).andReturn(YES);
   self.sut.authConfig = [MSAuthConfig new];
@@ -1166,6 +1168,13 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   MSALAccount *accountMock = OCMClassMock([MSALAccount class]);
   OCMStub([authMock retrieveAccountWithAccountId:fakeAccountId]).andReturn(accountMock);
 
+  // OCMVerify turned out to be unreliable in this case.
+  __block int count = 0;
+  OCMStub([self.clientApplicationMock acquireTokenSilentForScopes:OCMOCK_ANY account:OCMOCK_ANY completionBlock:OCMOCK_ANY])
+      .andDo(^(NSInvocation *__unused invocation) {
+        count++;
+      });
+
   // When
   [authMock startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
                         appSecret:kMSTestAppSecret
@@ -1174,7 +1183,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [[MSAuthTokenContext sharedInstance] checkIfTokenNeedsToBeRefreshed:fakeValidityInfo];
 
   // Then
-  OCMVerify([self.sut.clientApplication acquireTokenSilentForScopes:OCMOCK_ANY account:OCMOCK_ANY completionBlock:OCMOCK_ANY]);
+  assertThatInt(count, equalToInt(1));
   [authMock stopMocking];
 }
 
@@ -1187,6 +1196,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [[MSAuthTokenContext sharedInstance] addDelegate:authMock];
   [[MSAuthTokenContext sharedInstance] setAuthToken:fakeAuthToken withAccountId:fakeAccountId expiresOn:nil];
   MSAuthTokenValidityInfo *fakeValidityInfo = OCMClassMock([MSAuthTokenValidityInfo class]);
+  OCMStub([authMock loadConfigurationFromCache]).andReturn(YES);
   OCMStub([fakeValidityInfo expiresSoon]).andReturn(YES);
   OCMStub([fakeValidityInfo authToken]).andReturn(fakeAuthToken);
   OCMStub([authMock sharedInstance]).andReturn(authMock);
@@ -1194,12 +1204,18 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   OCMStub([authMock retrieveAccountWithAccountId:fakeAccountId]).andReturn(nil);
   self.sut.authConfig = [MSAuthConfig new];
   self.sut.authConfig.authScope = @"fake";
-  self.sut.clientApplication = self.clientApplicationMock;
+  OCMStub([authMock configAuthenticationClient]).andDo(^(NSInvocation *__unused invocation) {
+    self.sut.clientApplication = self.clientApplicationMock;
+  });
   OCMReject([self.sut.clientApplication acquireTokenSilentForScopes:OCMOCK_ANY account:OCMOCK_ANY completionBlock:OCMOCK_ANY]);
   id authTokenContextMock = OCMPartialMock([MSAuthTokenContext sharedInstance]);
   OCMStub([authTokenContextMock sharedInstance]).andReturn(authTokenContextMock);
 
   // When
+  [authMock startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
+                        appSecret:kMSTestAppSecret
+          transmissionTargetToken:nil
+                  fromApplication:YES];
   [[MSAuthTokenContext sharedInstance] checkIfTokenNeedsToBeRefreshed:fakeValidityInfo];
 
   // Then
@@ -1208,7 +1224,6 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   // Clear
   [authMock stopMocking];
   [authTokenContextMock stopMocking];
-  self.sut.clientApplication = nil;
 }
 
 - (void)testRefreshWithExpiredTokenWhileMsalNotConfigured {
