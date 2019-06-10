@@ -1205,6 +1205,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   OCMStub([authTokenContextMock sharedInstance]).andReturn(authTokenContextMock);
 
   // When
+  OCMExpect([authTokenContextMock setAuthToken:nil withAccountId:nil expiresOn:nil]);
   [authMock startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
                         appSecret:kMSTestAppSecret
           transmissionTargetToken:nil
@@ -1212,7 +1213,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [[MSAuthTokenContext sharedInstance] checkIfTokenNeedsToBeRefreshed:fakeValidityInfo];
 
   // Then
-  OCMVerify([authTokenContextMock setAuthToken:nil withAccountId:nil expiresOn:nil]);
+  OCMVerifyAll(authTokenContextMock);
 
   // Clear
   [authMock stopMocking];
