@@ -215,7 +215,7 @@
 
 #pragma mark - MSAuth section.
 
-- (void)signIn {
+- (void)signIn:(void (^)(MSUserInformation *_Nullable, NSError *))completionHandler {
   [MSAuth signInWithCompletionHandler:^(MSUserInformation *_Nullable userInformation, NSError *_Nullable error) {
     if (!error) {
       [[NSUserDefaults standardUserDefaults] setBool:true forKey:kMSUserIdentity];
@@ -223,6 +223,7 @@
     } else {
       NSLog(@"Auth.signIn failed, error=%@", error);
     }
+    completionHandler(userInformation, error);
   }];
 }
 

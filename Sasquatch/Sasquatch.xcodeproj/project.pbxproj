@@ -270,6 +270,11 @@
 		F8AA9F4B21650C04009104E3 /* SimplePropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AA9F4821650C04009104E3 /* SimplePropertiesTableSection.swift */; };
 		F8AA9F4C21650C04009104E3 /* SimplePropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AA9F4821650C04009104E3 /* SimplePropertiesTableSection.swift */; };
 		F8AA9F4D21650C04009104E3 /* SimplePropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AA9F4821650C04009104E3 /* SimplePropertiesTableSection.swift */; };
+		F8F077A522A6A27B007B4B31 /* MSAuthInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8F077A422A6A27B007B4B31 /* MSAuthInfoViewController.swift */; };
+		F8F077A622A6A27B007B4B31 /* MSAuthInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8F077A422A6A27B007B4B31 /* MSAuthInfoViewController.swift */; };
+		F8F077A722A6A27B007B4B31 /* MSAuthInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8F077A422A6A27B007B4B31 /* MSAuthInfoViewController.swift */; };
+		F8F077A822A6A27B007B4B31 /* MSAuthInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8F077A422A6A27B007B4B31 /* MSAuthInfoViewController.swift */; };
+		F8F077A922A6A27B007B4B31 /* MSAuthInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8F077A422A6A27B007B4B31 /* MSAuthInfoViewController.swift */; };
 		F8FE732F210730A8005C6A74 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8FE732E210730A8005C6A74 /* CrashReporter.framework */; };
 		F8FE7330210730EE005C6A74 /* AppCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B20AE41A2102819C00A1A195 /* AppCenterDistributeResources.bundle */; };
 		F8FE73312107568A005C6A74 /* DistributeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A888ED2102B2C5001ACFDF /* DistributeUITests.swift */; };
@@ -911,6 +916,7 @@
 		F8B224862113163D0052350E /* Sasquatch Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Sasquatch Debug.xcconfig"; sourceTree = "<group>"; };
 		F8B8EB15211070BE004BCECB /* Sasquatch.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Sasquatch.xcconfig; sourceTree = "<group>"; };
 		F8B8EB9421107890004BCECB /* Puppet.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Puppet.xcconfig; sourceTree = "<group>"; };
+		F8F077A422A6A27B007B4B31 /* MSAuthInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSAuthInfoViewController.swift; sourceTree = "<group>"; };
 		F8FE732E210730A8005C6A74 /* CrashReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CrashReporter.framework; path = ../Vendor/iOS/PLCrashReporter/CrashReporter.framework; sourceTree = "<group>"; };
 		F8FE734221075803005C6A74 /* AnalyticsUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalyticsUITests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1177,6 +1183,7 @@
 				F8AA9F3C2164FD1C009104E3 /* MSDatePicker.swift */,
 				4AFBF2CC224C71FF002DB884 /* MSDataViewController.swift */,
 				4AFBF312224CB053002DB884 /* MSDocumentDetailsViewController.swift */,
+				F8F077A422A6A27B007B4B31 /* MSAuthInfoViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -2388,6 +2395,7 @@
 				84226C4E1E88FF4A00798417 /* AppDelegate.m in Sources */,
 				807DB553212164E000F35E03 /* MSSignInViewController.swift in Sources */,
 				B2B36CE21EEF49B700230341 /* MSCustomPropertiesViewController.swift in Sources */,
+				F8F077A622A6A27B007B4B31 /* MSAuthInfoViewController.swift in Sources */,
 				84226C4B1E88FF4A00798417 /* main.m in Sources */,
 				359171F720F7F80800F3DDE6 /* PropertiesTableSection.swift in Sources */,
 				84A0FF6C1E8A87E1000E7A28 /* MSDistributeViewController.swift in Sources */,
@@ -2423,6 +2431,7 @@
 				35FBE78220FD095200F7B05C /* MSTransmissionTargets.swift in Sources */,
 				B2586C8A210A485300664A43 /* MSAnalyticsResultViewController.swift in Sources */,
 				4AFBF316224CB053002DB884 /* MSDocumentDetailsViewController.swift in Sources */,
+				F8F077A822A6A27B007B4B31 /* MSAuthInfoViewController.swift in Sources */,
 				845178ED1E8A8B0D004A0A6F /* MSMainViewController.swift in Sources */,
 				359171F820F7F80800F3DDE6 /* PropertiesTableSection.swift in Sources */,
 				84226D3F1E8939B700798417 /* AppCenterDelegateSwift.swift in Sources */,
@@ -2463,6 +2472,7 @@
 				B20AE38A21027D6200A1A195 /* MSTransmissionTargetsViewController.swift in Sources */,
 				B20AE38B21027D6200A1A195 /* MSCrashesViewController.swift in Sources */,
 				B20AE38C21027D6200A1A195 /* MSAnalyticsChildTransmissionTargetTableViewController.swift in Sources */,
+				F8F077A922A6A27B007B4B31 /* MSAuthInfoViewController.swift in Sources */,
 				B26D4DEC2122041A00AB4E28 /* MSSignInViewController.swift in Sources */,
 				B20AE38D21027D6200A1A195 /* AppDelegate.m in Sources */,
 				B20AE38E21027D6200A1A195 /* MSCustomPropertiesViewController.swift in Sources */,
@@ -2503,6 +2513,7 @@
 				B27D54B5210A5E7E004E82C9 /* AppDelegate.m in Sources */,
 				807DB552212164E000F35E03 /* MSSignInViewController.swift in Sources */,
 				B27D54B6210A5E7E004E82C9 /* MSCustomPropertiesViewController.swift in Sources */,
+				F8F077A522A6A27B007B4B31 /* MSAuthInfoViewController.swift in Sources */,
 				B27D54B7210A5E7E004E82C9 /* main.m in Sources */,
 				B27D54B8210A5E7E004E82C9 /* PropertiesTableSection.swift in Sources */,
 				B27D54B9210A5E7E004E82C9 /* MSDistributeViewController.swift in Sources */,
@@ -2538,6 +2549,7 @@
 				B2A4CF96210A6E6900199B4F /* MSTransmissionTargets.swift in Sources */,
 				B2A4CF97210A6E6900199B4F /* MSAnalyticsResultViewController.swift in Sources */,
 				4AFBF315224CB053002DB884 /* MSDocumentDetailsViewController.swift in Sources */,
+				F8F077A722A6A27B007B4B31 /* MSAuthInfoViewController.swift in Sources */,
 				B2A4CF98210A6E6900199B4F /* MSMainViewController.swift in Sources */,
 				B2A4CF99210A6E6900199B4F /* PropertiesTableSection.swift in Sources */,
 				B2A4CF9A210A6E6900199B4F /* AppCenterDelegateSwift.swift in Sources */,

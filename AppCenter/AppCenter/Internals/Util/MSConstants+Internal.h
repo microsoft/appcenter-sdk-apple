@@ -25,6 +25,11 @@ static NSString *const kMSRetryHeaderKey = @"x-ms-retry-after-ms";
 static NSString *const kMSTokenKeyValuePattern = @"\"token\" : \"[^\"]+\"";
 static NSString *const kMSTokenKeyValueObfuscatedTemplate = @"\"token\" : \"***\"";
 
+// Info.plist key names.
+static NSString *const kMSCFBundleURLTypes = @"CFBundleURLTypes";
+static NSString *const kMSCFBundleURLSchemes = @"CFBundleURLSchemes";
+static NSString *const kMSCFBundleTypeRole = @"CFBundleTypeRole";
+
 /**
  * The key for auth token history array stored in keychain.
  */

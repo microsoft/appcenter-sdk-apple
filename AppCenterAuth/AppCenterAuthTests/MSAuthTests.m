@@ -20,9 +20,11 @@
 #import "MSAuthTokenValidityInfo.h"
 #import "MSChannelGroupProtocol.h"
 #import "MSChannelUnitProtocol.h"
+#import "MSConstants+Internal.h"
 #import "MSConstants.h"
 #import "MSHttpTestUtil.h"
 #import "MSMockUserDefaults.h"
+#import "MSServiceAbstractInternal.h"
 #import "MSTestFrameworks.h"
 #import "MSUserInformation.h"
 #import "MSUtility+File.h"
@@ -34,6 +36,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 @property(nonatomic) MSAuth *sut;
 @property(nonatomic) MSMockUserDefaults *settingsMock;
 @property(nonatomic) NSDictionary *dummyConfigDic;
+@property(nonatomic) id bundleMock;
 @property(nonatomic) id utilityMock;
 @property(nonatomic) id ingestionMock;
 @property(nonatomic) id clientApplicationMock;
@@ -48,6 +51,9 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 - (void)setUp {
   [super setUp];
   self.settingsMock = [MSMockUserDefaults new];
+  self.bundleMock = OCMClassMock([NSBundle class]);
+  OCMStub([self.bundleMock mainBundle]).andReturn(self.bundleMock);
+  OCMStub([self.bundleMock bundleIdentifier]).andReturn(@"com.test.app");
   self.utilityMock = OCMClassMock([MSUtility class]);
   self.dummyConfigDic = @{
     @"identity_scope" : @"scope",
@@ -70,6 +76,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [MSAuth resetSharedInstance];
   [MSAuthTokenContext resetSharedInstance];
   [self.settingsMock stopMocking];
+  [self.bundleMock stopMocking];
   [self.utilityMock stopMocking];
   [self.ingestionMock stopMocking];
   [self.clientApplicationMock stopMocking];
@@ -78,6 +85,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 - (void)testApplyEnabledStateWorks {
 
   // If
+  [self mockURLScheme:nil];
   [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
                         appSecret:kMSTestAppSecret
           transmissionTargetToken:nil
@@ -105,6 +113,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 - (void)testTokenIsPersistedOnStart {
 
   // If
+  [self mockURLScheme:nil];
   NSString *previousAuthToken = @"any-token";
   [[MSAuthTokenContext sharedInstance] setAuthToken:@"any-token" withAccountId:nil expiresOn:nil];
   [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
@@ -122,6 +131,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 - (void)testTokenIsPersistedOnSeparateStart {
 
   // If
+  [self mockURLScheme:nil];
   NSString *previousAuthToken = @"any-token";
   [[MSAuthTokenContext sharedInstance] setAuthToken:@"any-token" withAccountId:nil expiresOn:nil];
   [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
@@ -203,6 +213,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 - (void)testCleanUpOnDisabling {
 
   // If
+  [self mockURLScheme:nil];
   NSString *fakeAccountId = @"some-account-id";
   NSString *fakeToken = @"some-token";
   NSData *serializedConfig = [NSJSONSerialization dataWithJSONObject:self.dummyConfigDic options:(NSJSONWritingOptions)0 error:nil];
@@ -1044,6 +1055,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 - (void)testSignOutClearsAuthTokenAndAccountId {
 
   // If
+  [self mockURLScheme:nil];
   [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
                         appSecret:kMSTestAppSecret
           transmissionTargetToken:nil
@@ -1120,6 +1132,9 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
 - (void)testDefaultConfigUrl {
 
+  // If
+  [self mockURLScheme:nil];
+
   // When
   [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
                         appSecret:kMSTestAppSecret
@@ -1133,6 +1148,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 - (void)testConfigURLIsPassedToIngestionWhenSetBeforeServiceStart {
 
   // If
+  [self mockURLScheme:nil];
   NSString *baseConfigUrl = @"https://baseconfigurl.com";
 
   // When
@@ -1149,6 +1165,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 - (void)testRefreshNeededTriggersRefresh {
 
   // If
+  [self mockURLScheme:nil];
   NSString *fakeAccountId = @"accountId";
   NSString *fakeAuthToken = @"authToken";
   id authMock = OCMPartialMock(self.sut);
@@ -1440,6 +1457,79 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   // Then
   OCMVerify([authMock cancelPendingOperationsWithErrorCode:MSACAuthErrorInterruptedByAnotherOperation message:OCMOCK_ANY]);
   [authMock stopMocking];
+}
+
+- (void)testInvalidURLSchemeDoesNotStartAuth {
+
+  // If
+  [self mockURLScheme:@"Invalid URL scheme"];
+
+  // When
+  [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
+                        appSecret:kMSTestAppSecret
+          transmissionTargetToken:nil
+                  fromApplication:YES];
+
+  // Then
+  XCTAssertFalse(self.sut.started);
+}
+
+- (void)testCheckValidURLSchemeRegistered {
+
+  // If
+  [self mockURLScheme:nil];
+
+  // When
+  BOOL valid = [self.sut checkURLSchemeRegistered:[NSString stringWithFormat:kMSMSALCustomSchemeFormat, kMSTestAppSecret]];
+
+  // Then
+  XCTAssertTrue(valid);
+}
+
+- (void)testCheckInvalidAppSecretForURLSchemeRegistered {
+
+  // If
+  [self mockURLScheme:nil];
+
+  // When
+  BOOL valid = [self.sut checkURLSchemeRegistered:[NSString stringWithFormat:kMSMSALCustomSchemeFormat, MS_UUID_STRING]];
+
+  // Then
+  XCTAssertFalse(valid);
+}
+
+- (void)testCheckInvalidTypeRoleForURLSchemeRegistered {
+
+  // If
+  NSString *validURLScheme = @"Valid URL Scheme";
+  NSArray *bundleArray = @[ @{kMSCFBundleTypeRole : @"None", kMSCFBundleURLSchemes : @[ validURLScheme ]} ];
+  OCMStub([self.bundleMock objectForInfoDictionaryKey:kMSCFBundleURLTypes]).andReturn(bundleArray);
+
+  // When
+  BOOL valid = [self.sut checkURLSchemeRegistered:validURLScheme];
+
+  // Then
+  XCTAssertFalse(valid);
+}
+
+- (void)testCheckNoURLSchemeRegistered {
+
+  // If
+  OCMStub([self.bundleMock objectForInfoDictionaryKey:kMSCFBundleURLTypes]).andReturn(nil);
+
+  // When
+  BOOL valid = [self.sut checkURLSchemeRegistered:@"Valid URL Scheme"];
+
+  // Then
+  XCTAssertFalse(valid);
+}
+
+- (void)mockURLScheme:(NSString *)urlScheme {
+  if (!urlScheme) {
+    urlScheme = [NSString stringWithFormat:kMSMSALCustomSchemeFormat, kMSTestAppSecret];
+  }
+  NSArray *bundleArray = @[ @{kMSCFBundleTypeRole : kMSURLTypeRoleEditor, kMSCFBundleURLSchemes : @[ urlScheme ]} ];
+  OCMStub([self.bundleMock objectForInfoDictionaryKey:kMSCFBundleURLTypes]).andReturn(bundleArray);
 }
 
 @end
