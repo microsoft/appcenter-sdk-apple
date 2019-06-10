@@ -1206,21 +1206,20 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   // If
   NSString *fakeAccountId = @"accountId";
   NSString *fakeAuthToken = @"authToken";
-  id authMock = OCMPartialMock(self.sut);
-  [[MSAuthTokenContext sharedInstance] addDelegate:authMock];
-  [[MSAuthTokenContext sharedInstance] setAuthToken:fakeAuthToken withAccountId:fakeAccountId expiresOn:nil];
+  [self mockURLScheme:nil];
   id fakeValidityInfo = OCMClassMock([MSAuthTokenValidityInfo class]);
-  OCMStub([authMock loadConfigurationFromCache]).andReturn(YES);
   OCMStub([fakeValidityInfo expiresSoon]).andReturn(YES);
   OCMStub([fakeValidityInfo authToken]).andReturn(fakeAuthToken);
+  id authMock = OCMPartialMock(self.sut);
+  OCMStub([authMock loadConfigurationFromCache]).andReturn(YES);
+  OCMStub([authMock configAuthenticationClient]).andDo(^(NSInvocation *__unused invocation) {
+    self.sut.clientApplication = self.clientApplicationMock;
+  });
   OCMStub([authMock sharedInstance]).andReturn(authMock);
   OCMStub([authMock canBeUsed]).andReturn(YES);
   OCMStub([authMock retrieveAccountWithAccountId:fakeAccountId]).andReturn(nil);
   self.sut.authConfig = [MSAuthConfig new];
   self.sut.authConfig.authScope = @"fake";
-  OCMStub([authMock configAuthenticationClient]).andDo(^(NSInvocation *__unused invocation) {
-    self.sut.clientApplication = self.clientApplicationMock;
-  });
   OCMReject([self.sut.clientApplication acquireTokenSilentForScopes:OCMOCK_ANY account:OCMOCK_ANY completionBlock:OCMOCK_ANY]);
   id authTokenContextMock = OCMPartialMock([MSAuthTokenContext sharedInstance]);
   OCMStub([authTokenContextMock sharedInstance]).andReturn(authTokenContextMock);
@@ -1230,7 +1229,8 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
                         appSecret:kMSTestAppSecret
           transmissionTargetToken:nil
                   fromApplication:YES];
-  [[MSAuthTokenContext sharedInstance] checkIfTokenNeedsToBeRefreshed:fakeValidityInfo];
+  [authTokenContextMock setAuthToken:fakeAuthToken withAccountId:fakeAccountId expiresOn:nil];
+  [authTokenContextMock checkIfTokenNeedsToBeRefreshed:fakeValidityInfo];
 
   // Then
   OCMVerify([authTokenContextMock setAuthToken:nil withAccountId:nil expiresOn:nil]);
