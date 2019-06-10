@@ -277,38 +277,35 @@ static NSString *const kMSTestGroupId = @"GroupId";
 }
 
 - (void)testLogsNotFlushedImmediatelyWhenIntervalIsCustom {
-
+  
   // If
   [self initChannelEndJobExpectation];
-  id channelmock = OCMPartialMock(self.sut);
   NSUInteger batchSizeLimit = 4;
   int itemsToAdd = 8;
   NSUInteger flushInterval = 600;
-
-  // Configure channel.
   self.sut.configuration = [[MSChannelUnitConfiguration alloc] initWithGroupId:kMSTestGroupId
                                                                       priority:MSPriorityDefault
                                                                  flushInterval:flushInterval
                                                                 batchSizeLimit:batchSizeLimit
                                                            pendingBatchesLimit:3];
-
+  
   // When
-  for (NSUInteger i = 0; i < itemsToAdd; i++) {
-    [channelmock enqueueItem:[self getValidMockLog] flags:MSFlagsDefault];
-  }
-  // Then
-  [self enqueueChannelEndJobExpectation];
-
+  dispatch_async(self.logsDispatchQueue, ^{
+    for (NSUInteger i = 0; i < itemsToAdd; i++) {
+      [self.sut enqueueItem:[self getValidMockLog] flags:MSFlagsDefault];
+    }
+    [self enqueueChannelEndJobExpectation];
+  });
+  
   // Then
   [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *error) {
-                                 OCMVerify([channelmock startTimer:OCMOCK_ANY]);
+                                 OCMVerify([self.sut startTimer:OCMOCK_ANY]);
                                  assertThatUnsignedLong(self.sut.itemsCount, equalToInt(itemsToAdd));
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
                                }];
-  [channelmock stopMocking];
 }
 
 - (void)testResolveFlushIntervalTimestampNotSet {
