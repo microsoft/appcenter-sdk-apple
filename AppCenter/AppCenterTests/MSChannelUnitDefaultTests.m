@@ -280,6 +280,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
   // If
   [self initChannelEndJobExpectation];
+  id channelmock = OCMPartialMock(self.sut);
   NSUInteger batchSizeLimit = 4;
   int itemsToAdd = 8;
   NSUInteger flushInterval = 600;
@@ -293,15 +294,15 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
   // When
   for (NSUInteger i = 0; i < itemsToAdd; i++) {
-    [self.sut enqueueItem:[self getValidMockLog] flags:MSFlagsDefault];
+    [channelmock enqueueItem:[channelmock getValidMockLog] flags:MSFlagsDefault];
   }
   // Then
-  [self enqueueChannelEndJobExpectation];
+  [channelmock enqueueChannelEndJobExpectation];
 
   // Then
-  [self waitForExpectationsWithTimeout:kMSTestTimeout
+  [channelmock waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *error) {
-                                 // OCMVerify([self.sut startTimer:OCMOCK_ANY]);
+                                 OCMVerify([channelmock startTimer:OCMOCK_ANY]);
                                  assertThatUnsignedLong(self.sut.itemsCount, equalToInt(itemsToAdd));
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
