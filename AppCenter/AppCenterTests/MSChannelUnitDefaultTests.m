@@ -308,6 +308,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
                                }];
+  [channelmock stopMocking];
 }
 
 - (void)testResolveFlushIntervalTimestampNotSet {
