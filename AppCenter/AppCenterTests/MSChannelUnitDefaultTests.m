@@ -294,13 +294,13 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
   // When
   for (NSUInteger i = 0; i < itemsToAdd; i++) {
-    [channelmock enqueueItem:[channelmock getValidMockLog] flags:MSFlagsDefault];
+    [channelmock enqueueItem:[self getValidMockLog] flags:MSFlagsDefault];
   }
   // Then
-  [channelmock enqueueChannelEndJobExpectation];
+  [self enqueueChannelEndJobExpectation];
 
   // Then
-  [channelmock waitForExpectationsWithTimeout:kMSTestTimeout
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *error) {
                                  OCMVerify([channelmock startTimer:OCMOCK_ANY]);
                                  assertThatUnsignedLong(self.sut.itemsCount, equalToInt(itemsToAdd));
