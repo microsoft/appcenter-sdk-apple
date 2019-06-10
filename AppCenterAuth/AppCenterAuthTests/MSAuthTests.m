@@ -1241,12 +1241,13 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   self.sut.clientApplication = nil;
 
   // Shouldn't call MSAL client while it is not configured.
-  OCMReject([self.sut.clientApplication accountForHomeAccountId:OCMOCK_ANY error:[OCMArg anyObjectRef]]);
+  OCMReject([authMock retrieveAccountWithAccountId:OCMOCK_ANY]);
 
   // When
   [[MSAuthTokenContext sharedInstance] checkIfTokenNeedsToBeRefreshed:fakeValidityInfo];
 
   // Then
+  OCMVerifyAll(authMock);
   [authMock stopMocking];
   [authTokenContextMock stopMocking];
 }
