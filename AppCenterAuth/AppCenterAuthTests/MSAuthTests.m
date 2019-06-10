@@ -1168,13 +1168,6 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   MSALAccount *accountMock = OCMClassMock([MSALAccount class]);
   OCMStub([authMock retrieveAccountWithAccountId:fakeAccountId]).andReturn(accountMock);
 
-  // OCMVerify turned out to be unreliable in this case.
-  __block int count = 0;
-  OCMStub([self.clientApplicationMock acquireTokenSilentForScopes:OCMOCK_ANY account:OCMOCK_ANY completionBlock:OCMOCK_ANY])
-      .andDo(^(NSInvocation *__unused invocation) {
-        count++;
-      });
-
   // When
   [authMock startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
                         appSecret:kMSTestAppSecret
@@ -1183,7 +1176,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [[MSAuthTokenContext sharedInstance] checkIfTokenNeedsToBeRefreshed:fakeValidityInfo];
 
   // Then
-  assertThatInt(count, equalToInt(1));
+  OCMVerify([self.clientApplicationMock acquireTokenSilentForScopes:OCMOCK_ANY account:OCMOCK_ANY completionBlock:OCMOCK_ANY]);
   [authMock stopMocking];
 }
 
