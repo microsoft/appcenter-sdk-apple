@@ -301,7 +301,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   // Then
   [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *error) {
-                                 OCMVerify([self.sut startTimer:OCMOCK_ANY]);
+                                 // OCMVerify([self.sut startTimer:OCMOCK_ANY]);
                                  assertThatUnsignedLong(self.sut.itemsCount, equalToInt(itemsToAdd));
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
