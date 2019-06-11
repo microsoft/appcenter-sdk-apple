@@ -19,7 +19,7 @@
 
   [MSAppCenter setLogLevel:MSLogLevelVerbose];
   [MSAppCenter setLogUrl:@"https://in-integration.dev.avalanch.es"];
-  [MSAppCenter start:@"68065a02-edbb-4fc3-a323-3b8ca2beae80" withServices:@[ [MSAnalytics class], [MSCrashes class] ]];
+  [MSAppCenter start:@"fa62b7af-6082-4e23-b1b9-4b6f05a2e0a1" withServices:@[ [MSAnalytics class], [MSCrashes class] ]];
   [self crashes];
   [self setAppCenterCenterDelegate];
   return YES;
