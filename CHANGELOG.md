@@ -10,6 +10,11 @@
 ### AppCenterAnalytics
 
 * **[Feature]** Support setting latency of sending events via `[MSAnalytics setTransmissionInterval:]`.
+* **[Feature]** Support tvOS.
+
+### AppCenterCrashes
+
+* **[Feature]** Support tvOS.
 
 ### AppCenterAuth
 
