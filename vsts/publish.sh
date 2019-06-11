@@ -80,8 +80,6 @@ else
   prerelease=$(echo "$ARTIFACT_PATH"/*.zip | rev | cut -d/ -f1 | rev)
   zip_filename="$(echo $FRAMEWORKS_ZIP_FILENAME | cut -d. -f1)"
   commit_hash="$(echo $prerelease | sed 's/'$zip_filename'-[[:digit:]]\{1,\}.[[:digit:]]\{1,\}.[[:digit:]]\{1,\}-[[:digit:]]\{1,\}+\(.\{40\}\)\.zip.*/\1/1')"
-
-  ### Once we support tvOS, we just need to rename the file.
   mv $prerelease $FRAMEWORKS_ZIP_FILENAME
 
   ## 1. Extract change log
