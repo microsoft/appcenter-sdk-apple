@@ -81,13 +81,8 @@ else
   zip_filename="$(echo $FRAMEWORKS_ZIP_FILENAME | cut -d. -f1)"
   commit_hash="$(echo $prerelease | sed 's/'$zip_filename'-[[:digit:]]\{1,\}.[[:digit:]]\{1,\}.[[:digit:]]\{1,\}-[[:digit:]]\{1,\}+\(.\{40\}\)\.zip.*/\1/1')"
 
-  ### Temporarily remove tvOS framework from binary
-  unzip $ARTIFACT_PATH/$prerelease
-  rm -rf $FRAMEWORKS_ZIP_FOLDER/tvOS
-  zip -r $FRAMEWORKS_ZIP_FILENAME $FRAMEWORKS_ZIP_FOLDER/
-
-### Once we support tvOS, we just need to rename the file.
-#  mv $prerelease $FRAMEWORKS_ZIP_FILENAME
+  ### Once we support tvOS, we just need to rename the file.
+  mv $prerelease $FRAMEWORKS_ZIP_FILENAME
 
   ## 1. Extract change log
   change_log_found=false
