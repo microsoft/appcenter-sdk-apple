@@ -1,20 +1,21 @@
-# App Center SDK for iOS and macOS Change Log
+# App Center SDK for iOS, macOS and tvOS Change Log
 
 ## Version 2.1.0 (Under development)
 
 ### AppCenter
 
+* **[Feature]** Now supports tvOS.
 * **[Fix]** Remove Keychain permission pop-up on macOS.
 * **[Fix]** Improve encryption security.
 
 ### AppCenterAnalytics
 
 * **[Feature]** Support setting latency of sending events via `[MSAnalytics setTransmissionInterval:]`.
-* **[Feature]** Support tvOS.
+* **[Feature]** Now supports tvOS.
 
 ### AppCenterCrashes
 
-* **[Feature]** Support tvOS.
+* **[Feature]** Now supports tvOS.
 
 ### AppCenterAuth
 
