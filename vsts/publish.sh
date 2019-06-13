@@ -179,6 +179,7 @@ fi
 
 ## V. Upload binary
 echo "Upload binaries"
+azure telemetry --disable
 if [ "$mode" == "internal" ]; then
 
   # Determine the filename for the release
