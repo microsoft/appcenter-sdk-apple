@@ -184,7 +184,6 @@
 
   // Retrieve a cached token.
   cachedTokenBlock(^(MSTokensResponse *_Nullable tokensResponse, NSError *_Nullable error) {
-    
     // Handle error.
     if (error) {
       NSString *message =
