@@ -84,6 +84,18 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
+        
+        if (partition == "user") {
+            let index = MSDataViewController.UserDocuments.firstIndex(where: {$0.documentId == self.documentId} )
+            if (index != nil) {
+                MSDataViewController.UserDocuments[index!] = self.documentContent ?? MSDataViewController.UserDocuments[index!]
+            }
+        } else {
+            let index = MSDataViewController.AppDocuments.firstIndex(where: {$0.documentId == self.documentId} )
+            if (index != nil) {
+                MSDataViewController.AppDocuments[index!] = self.documentContent ?? MSDataViewController.AppDocuments[index!]
+            }
+        }
     })
   }
     
