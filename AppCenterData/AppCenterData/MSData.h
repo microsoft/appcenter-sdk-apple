@@ -111,6 +111,19 @@ NS_SWIFT_NAME(read(withDocumentID:documentType:partition:readOptions:completionH
             completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler;
 
 /**
+ * Retrieve a paginated list of the documents in a partition.
+ *
+ * @param documentType The object type of the documents in the partition. Must conform to MSSerializableDocument protocol.
+ * @param partition The CosmosDB partition key.
+ * @param readOptions Options for reading and storing the document.
+ * @param completionHandler Callback to accept documents.
+ */
++ (void)listDocumentsWithType:(Class)documentType
+                    partition:(NSString *)partition
+                  readOptions:(MSReadOptions *_Nullable)readOptions
+            completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler;
+
+/**
  * Create a document in CosmosDB.
  *
  * @param documentID The CosmosDB document ID.

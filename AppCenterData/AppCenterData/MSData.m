@@ -127,6 +127,18 @@ static dispatch_once_t onceToken;
             completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler {
   [[MSData sharedInstance] listDocumentsWithType:documentType
                                        partition:partition
+                                     readOptions:nil
+                               continuationToken:nil
+                               completionHandler:completionHandler];
+}
+
++ (void)listDocumentsWithType:(Class)documentType
+                    partition:(NSString *)partition
+                  readOptions:(MSReadOptions *_Nullable)readOptions
+            completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler {
+  [[MSData sharedInstance] listDocumentsWithType:documentType
+                                       partition:partition
+                                     readOptions:readOptions
                                continuationToken:nil
                                completionHandler:completionHandler];
 }
@@ -197,10 +209,12 @@ static dispatch_once_t onceToken;
 
 + (void)listDocumentsWithType:(Class)documentType
                     partition:(NSString *)partition
+                  readOptions:(MSReadOptions *_Nullable)readOptions
             continuationToken:(NSString *_Nullable)continuationToken
             completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler {
   [[MSData sharedInstance] listDocumentsWithType:documentType
                                        partition:partition
+                                     readOptions:readOptions
                                continuationToken:continuationToken
                                completionHandler:completionHandler];
 }
@@ -377,6 +391,7 @@ static dispatch_once_t onceToken;
 
 - (void)listDocumentsWithType:(Class)documentType
                     partition:(NSString *)partition
+                  readOptions:(MSReadOptions *_Nullable)readOptions
             continuationToken:(nullable NSString *)continuationToken
             completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler {
 
@@ -388,11 +403,6 @@ static dispatch_once_t onceToken;
       dataError = [self generateDisabledError:@"list" documentId:nil];
     } else if (![MSDocumentUtils isSerializableDocument:documentType]) {
       dataError = [self generateInvalidClassError];
-    } else if ([[self reachability] currentReachabilityStatus] == NotReachable) {
-      dataError = [[MSDataError alloc] initWithErrorCode:MSACDataErrorHTTPError
-                                              innerError:nil
-                                                 message:@"Can't list documents while offline."];
-      MSLogError([MSData logTag], @"Not able to list documents while offline: %@", [dataError localizedDescription]);
     }
     if (dataError) {
       completionHandler([[MSPaginatedDocuments alloc] initWithError:dataError partition:partition documentType:documentType]);
@@ -407,69 +417,25 @@ static dispatch_once_t onceToken;
 
     // Perform the operation.
     dispatch_async(self.dispatchQueue, ^{
-      [self performCosmosDbOperationWithPartition:partition
-                                       documentId:nil
-                                       httpMethod:kMSHttpMethodGet
-                                         document:nil
-                                additionalHeaders:additionalHeaders
-                                additionalUrlPath:nil
-                                completionHandler:^(NSData *_Nullable data, NSHTTPURLResponse *_Nullable response,
-                                                    NSError *_Nullable cosmosDbError) {
-                                  // If not OK.
-                                  if (response.statusCode != MSHTTPCodesNo200OK) {
-                                    MSDataError *actualDataError = [MSCosmosDb cosmosDbErrorWithResponse:response
-                                                                                         underlyingError:cosmosDbError];
-                                    MSLogError([MSData logTag],
-                                               @"Unable to list documents for partition %@: %@. Status code %ld when expecting %ld.",
-                                               partition, [actualDataError localizedDescription], (long)response.statusCode,
-                                               (long)MSHTTPCodesNo200OK);
-                                    MSPaginatedDocuments *documents = [[MSPaginatedDocuments alloc] initWithError:actualDataError
-                                                                                                        partition:partition
-                                                                                                     documentType:documentType];
-                                    completionHandler(documents);
-                                    return;
-                                  }
-
-                                  // Deserialize the list payload and try to get the array of documents.
-                                  NSError *deserializeError;
-                                  id jsonPayload = [NSJSONSerialization JSONObjectWithData:(NSData *)data
-                                                                                   options:0
-                                                                                     error:&deserializeError];
-                                  MSDataError *deserializeDataError = nil;
-                                  if (!deserializeError && ![MSDocumentUtils isReferenceDictionaryWithKey:jsonPayload
-                                                                                                      key:kMSDocumentsKey
-                                                                                                  keyType:[NSArray class]]) {
-                                    deserializeDataError = [[MSDataError alloc] initWithErrorCode:MSACDataErrorJSONSerializationFailed
-                                                                                       innerError:deserializeError
-                                                                                          message:@"Can't deserialize documents"];
-                                  }
-                                  if (deserializeDataError) {
-                                    MSPaginatedDocuments *documents = [[MSPaginatedDocuments alloc] initWithError:deserializeDataError
-                                                                                                        partition:partition
-                                                                                                     documentType:documentType];
-                                    completionHandler(documents);
-                                    return;
-                                  }
-
-                                  // Parse the documents.
-                                  NSMutableArray<MSDocumentWrapper *> *items = [NSMutableArray new];
-                                  for (id document in jsonPayload[kMSDocumentsKey]) {
-
-                                    // Deserialize document.
-                                    [items addObject:[MSDocumentUtils documentWrapperFromDictionary:document
-                                                                                       documentType:documentType
-                                                                                    fromDeviceCache:NO]];
-                                  }
-
-                                  // Instantiate the first page and return it.
-                                  MSPage *page = [[MSPage alloc] initWithItems:items];
-                                  MSPaginatedDocuments *documents = [[MSPaginatedDocuments alloc]
-                                           initWithPage:page
-                                              partition:partition
-                                           documentType:documentType
-                                      continuationToken:[response allHeaderFields][kMSDocumentContinuationTokenHeaderKey]];
-                                  completionHandler(documents);
-                                }];
+      [self.dataOperationProxy performListOnDocumentType:documentType
+          partition:partition
+          baseOptions:readOptions
+          cachedTokenBlock:^(MSCachedTokenCompletionHandler handler) {
+            [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:(id<MSHttpClientProtocol>)self.httpClient
+                                                       tokenExchangeUrl:self.tokenExchangeUrl
+                                                              appSecret:self.appSecret
+                                                              partition:partition
+                                                    includeExpiredToken:YES
+                                                           reachability:self.reachability
+                                                      completionHandler:handler];
+          }
+          remoteDocumentBlock:^(MSPaginatedDocumentsCompletionHandler handler) {
+            [self listFromCosmosDbWithPartition:partition
+                                   documentType:documentType
+                              additionalHeaders:additionalHeaders
+                              completionHandler:handler];
+          }
+          completionHandler:completionHandler];
     });
   }
 }
@@ -605,6 +571,73 @@ static dispatch_once_t onceToken;
                                                                          fromDeviceCache:NO]);
                             }
                           }];
+}
+
+- (void)listFromCosmosDbWithPartition:(NSString *)partition
+                         documentType:(Class)documentType
+                    additionalHeaders:(NSDictionary *_Nullable)additionalHeaders
+                    completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler {
+  [self performCosmosDbOperationWithPartition:partition
+                                   documentId:nil
+                                   httpMethod:kMSHttpMethodGet
+                                     document:nil
+                            additionalHeaders:additionalHeaders
+                            additionalUrlPath:nil
+                            completionHandler:^(NSData *_Nullable data, NSHTTPURLResponse *_Nullable response,
+                                                NSError *_Nullable cosmosDbError) {
+                              // If not OK.
+                              if (response.statusCode != MSHTTPCodesNo200OK) {
+                                MSDataError *actualDataError = [MSCosmosDb cosmosDbErrorWithResponse:response
+                                                                                     underlyingError:cosmosDbError];
+                                MSLogError([MSData logTag],
+                                           @"Unable to list documents for partition %@: %@. Status code %ld when expecting %ld.", partition,
+                                           [actualDataError localizedDescription], (long)response.statusCode, (long)MSHTTPCodesNo200OK);
+                                MSPaginatedDocuments *documents = [[MSPaginatedDocuments alloc] initWithError:actualDataError
+                                                                                                    partition:partition
+                                                                                                 documentType:documentType];
+                                completionHandler(documents);
+                                return;
+                              }
+
+                              // Deserialize the list payload and try to get the array of documents.
+                              NSError *deserializeError;
+                              id jsonPayload = [NSJSONSerialization JSONObjectWithData:(NSData *)data options:0 error:&deserializeError];
+                              MSDataError *deserializeDataError = nil;
+                              if (!deserializeError && ![MSDocumentUtils isReferenceDictionaryWithKey:jsonPayload
+                                                                                                  key:kMSDocumentsKey
+                                                                                              keyType:[NSArray class]]) {
+                                deserializeDataError = [[MSDataError alloc] initWithErrorCode:MSACDataErrorJSONSerializationFailed
+                                                                                   innerError:deserializeError
+                                                                                      message:@"Can't deserialize documents"];
+                              }
+                              if (deserializeDataError) {
+                                MSPaginatedDocuments *documents = [[MSPaginatedDocuments alloc] initWithError:deserializeDataError
+                                                                                                    partition:partition
+                                                                                                 documentType:documentType];
+                                completionHandler(documents);
+                                return;
+                              }
+
+                              // Parse the documents.
+                              NSMutableArray<MSDocumentWrapper *> *items = [NSMutableArray new];
+                              for (id document in jsonPayload[kMSDocumentsKey]) {
+
+                                // Deserialize document.
+                                [items addObject:[MSDocumentUtils documentWrapperFromDictionary:document
+                                                                                   documentType:documentType
+                                                                                fromDeviceCache:NO]];
+                              }
+
+                              // Instantiate the first page and return it.
+                              MSPage *page = [[MSPage alloc] initWithItems:items];
+                              MSPaginatedDocuments *documents = [[MSPaginatedDocuments alloc]
+                                       initWithPage:page
+                                          partition:partition
+                                       documentType:documentType
+                                   deviceTimeToLive:0
+                                  continuationToken:[response allHeaderFields][kMSDocumentContinuationTokenHeaderKey]];
+                              completionHandler(documents);
+                            }];
 }
 
 - (void)deleteFromCosmosDbWithPartition:(NSString *)partition

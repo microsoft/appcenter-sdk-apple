@@ -4,6 +4,7 @@
 #import <Foundation/Foundation.h>
 
 @class MSDocumentWrapper;
+@class MSPaginatedDocuments;
 @class MSPendingOperation;
 @class MSReadOptions;
 @class MSTokenResult;
@@ -86,6 +87,45 @@ NS_ASSUME_NONNULL_BEGIN
  * @return A document object. The error property will be set of the document cannot be found or if it was found but expired.
  */
 - (MSDocumentWrapper *)readWithToken:(MSTokenResult *)token documentId:(NSString *)documentId documentType:(Class)documentType;
+
+/**
+ * List all the documents from the store and return it if it did not expired.
+ *
+ * @param token CosmosDB token.
+ * @param partition The CosmosDB partition key.
+ * @param documentType The document type to list.
+ * @param baseOptions Options for listing and storing the documents.
+ *
+ * @return A MSPaginatedDocuments object. List of documents found in the local store for a particular partition.
+ */
+- (MSPaginatedDocuments *)listWithToken:(MSTokenResult *)token
+                              partition:(NSString *)partition
+                           documentType:(Class)documentType
+                            baseOptions:(MSBaseOptions *_Nullable)baseOptions;
+
+/**
+ * Checks if there are any pending operations to be processed.
+ *
+ * @param partition The CosmosDB partition key.
+ *
+ * @return true if the partition has pending operations, else returns false.
+ */
+- (BOOL)hasPendingOperationsForPartition:(NSString *)partition;
+
+/**
+ * Update the local store given a current/new cached document.
+ *
+ * @param token The CosmosDB token.
+ * @param currentCachedDocument The current cached document.
+ * @param newCachedDocument The new document that should be cached.
+ * @param deviceTimeToLive The device time to live for the new cached document.
+ * @param operation The operation being intended (nil - read, CREATE, UPDATE, DELETE).
+ */
+- (void)updateDocumentWithToken:(MSTokenResult *)token
+          currentCachedDocument:(MSDocumentWrapper *)currentCachedDocument
+              newCachedDocument:(MSDocumentWrapper *)newCachedDocument
+               deviceTimeToLive:(NSInteger)deviceTimeToLive
+                      operation:(NSString *_Nullable)operation;
 
 /**
  * Get all pending operations.

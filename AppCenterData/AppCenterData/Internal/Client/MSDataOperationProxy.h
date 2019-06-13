@@ -61,6 +61,24 @@ typedef void (^MSCachedTokenCompletionHandler)(MSTokensResponse *_Nullable token
      remoteDocumentBlock:(void (^)(MSDocumentWrapperCompletionHandler))remoteDocumentBlock
        completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler;
 
+/**
+ * Performs list for a given partition
+ * using a combination of the local store and/or CosmosDB remote calls.
+ *
+ * @param documentType The documents type.
+ * @param partition The partition of the documents.
+ * @param baseOptions The base options from which to get the device time to live (if specified).
+ * @param cachedTokenBlock A block returning the cached token.
+ * @param remoteDocumentBlock A block returning the remote document.
+ * @param completionHandler The completion handler called ultimately.
+ */
+- (void)performListOnDocumentType:(Class)documentType
+                        partition:(NSString *)partition
+                      baseOptions:(MSBaseOptions *_Nullable)baseOptions
+                 cachedTokenBlock:(void (^)(MSCachedTokenCompletionHandler))cachedTokenBlock
+              remoteDocumentBlock:(void (^)(MSPaginatedDocumentsCompletionHandler))remoteDocumentBlock
+                completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler;
+
 @end
 
 NS_ASSUME_NONNULL_END
