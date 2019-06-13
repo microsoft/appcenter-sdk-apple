@@ -196,6 +196,9 @@ static const NSUInteger kMSSchemaVersion = 1;
                            documentType:(Class)documentType
                             baseOptions:(MSBaseOptions *_Nullable)baseOptions {
 
+  // Final list of documents.
+  NSMutableArray<MSDocumentWrapper *> *localListItems = [NSMutableArray new];
+  
   // Get effective device time to live.
   NSInteger deviceTimeToLive = baseOptions ? baseOptions.deviceTimeToLive : kMSDataTimeToLiveDefault;
 
@@ -210,13 +213,17 @@ static const NSUInteger kMSSchemaVersion = 1;
     NSString *errorMessage = [NSString stringWithFormat:@"Unable to find any document in local store for partition '%@'", token.partition];
     MSLogWarning([MSData logTag], @"%@", errorMessage);
 
-    // Create error.
-    MSDataError *dataError = [[MSDataError alloc] initWithErrorCode:MSACDataErrorDocumentNotFound innerError:nil message:errorMessage];
-    return [[MSPaginatedDocuments alloc] initWithError:dataError partition:partition documentType:documentType];
+    // return an empty list
+    MSPaginatedDocuments *documents =
+        [[MSPaginatedDocuments alloc] initWithPage:[[MSPage alloc] initWithItems:localListItems]
+                                                                       partition:partition
+                                                                    documentType:documentType
+                                                                deviceTimeToLive:baseOptions.deviceTimeToLive
+                                                               continuationToken:nil];
+    return documents;
   }
 
   // Parse the documents.
-  NSMutableArray<MSDocumentWrapper *> *localListItems = [NSMutableArray new];
   for (id documentRow in listResult) {
 
     // If an expired document is found exclude it from the list and delete in from the local store.
