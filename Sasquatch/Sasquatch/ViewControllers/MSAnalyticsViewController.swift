@@ -14,9 +14,9 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
     var flags: MSFlags {
       switch self {
       case .Normal:
-        return [.persistenceNormal]
+        return [.normal]
       case .Critical:
-        return [.persistenceCritical]
+        return [.critical]
       case .Invalid:
         return MSFlags.init(rawValue: 42)
       default:
@@ -25,6 +25,17 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
     }
 
     static let allValues = [Default, Normal, Critical, Invalid]
+  }
+  
+  enum Latency: String {
+    case Default = "Default"
+    case Min_10 = "10 Minutes"
+    case Hour_1 = "1 Hour"
+    case Hour_8 = "8 Hour"
+    case Day_1 = "1 Day"
+    
+    static let allValues = [Default, Min_10, Hour_1, Hour_8, Day_1]
+    static let allTimeValues = [3, 10*60, 1*60*60, 8*60*60, 24*60*60]
   }
 
   @IBOutlet weak var enabled: UISwitch!
@@ -35,13 +46,15 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
   @IBOutlet weak var priorityField: UITextField!
   @IBOutlet weak var countLabel: UILabel!
   @IBOutlet weak var countSlider: UISlider!
-
+  @IBOutlet weak var transmissionIntervalLabel: UILabel!
+  
   var appCenter: AppCenterDelegate!
   var eventPropertiesSection: EventPropertiesTableSection!
   @objc(analyticsResult) var analyticsResult: MSAnalyticsResult? = nil
+  private var latencyPicker: MSEnumPicker<Latency>?
   private var priorityPicker: MSEnumPicker<Priority>?
   private var priority = Priority.Default
-
+  private var latency = Latency.Default
   private var kEventPropertiesSectionIndex: Int = 2
   private var kResultsPageIndex: Int = 2
 
@@ -60,6 +73,8 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
     self.priorityField.text = self.priority.rawValue
     self.priorityField.tintColor = UIColor.clear
     self.countLabel.text = "Count: \(Int(countSlider.value))"
+    
+    initTransmissionIntervalLabel()
     
     // Disable results page.
     #if !ACTIVE_COMPILATION_CONDITION_PUPPET
@@ -185,6 +200,8 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
     tableView.deselectRow(at: indexPath, animated: true)
     if indexPath.section == kEventPropertiesSectionIndex && eventPropertiesSection.isInsertRow(indexPath) {
       self.tableView(tableView, commit: .insert, forRowAt: indexPath)
+    } else if indexPath.section == 0 && indexPath.row == 3 {
+      present(initTransmissionAlert(tableView), animated: true)
     }
   }
 
@@ -223,5 +240,38 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
       return eventPropertiesSection.tableView(tableView, cellForRowAt:indexPath)
     }
     return super.tableView(tableView, cellForRowAt: indexPath)
+  }
+  
+  func initTransmissionIntervalLabel() {
+    let interval = UserDefaults.standard.integer(forKey: kMSTransmissionIterval)
+    updateIntervalLabel(transmissionInterval: interval)
+  }
+  
+  func updateIntervalLabel(transmissionInterval: Int) {
+    let formattedInterval = TimeInterval(transmissionInterval)
+    let formatter = DateComponentsFormatter()
+    formatter.unitsStyle = .positional
+    formatter.allowedUnits = [ .hour, .minute, .second]
+    formatter.zeroFormattingBehavior = [ .pad]
+    transmissionIntervalLabel.text = formatter.string(from: formattedInterval)
+  }
+  
+  func initTransmissionAlert(_ tableView: UITableView) -> UIAlertController {
+    let alert = UIAlertController(title: "Transmission Interval", message: nil, preferredStyle: .alert)
+    let confirmAction = UIAlertAction(title: "OK", style: .default, handler: {(_ action:UIAlertAction) -> Void in
+      let result = alert.textFields?[0].text
+      let timeResult: Int = Int(result!) ?? 0
+      UserDefaults.standard.setValue(timeResult, forKey: kMSTransmissionIterval)
+      self.updateIntervalLabel(transmissionInterval: timeResult)
+      tableView.reloadData()
+    })
+    let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+    alert.addAction(confirmAction)
+    alert.addAction(cancelAction)
+    alert.addTextField(configurationHandler: {(_ textField: UITextField) -> Void in
+      textField.text = String(UserDefaults.standard.integer(forKey: kMSTransmissionIterval))
+      textField.keyboardType = UIKeyboardType.numberPad
+    })
+    return alert
   }
 }

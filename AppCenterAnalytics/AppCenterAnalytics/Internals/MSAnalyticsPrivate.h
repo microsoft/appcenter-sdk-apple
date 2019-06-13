@@ -10,6 +10,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+// The Id suffix for critical events.
+static NSString *const kMSCriticalChannelSuffix = @"critical";
+
 @interface MSAnalytics () <MSSessionTrackerDelegate>
 
 /**
@@ -17,9 +20,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property(nonatomic) MSSessionTracker *sessionTracker;
 
-@property(atomic) BOOL autoPageTrackingEnabled;
+@property(atomic, getter=isAutoPageTrackingEnabled) BOOL autoPageTrackingEnabled;
 
 @property(nonatomic, nullable) id<MSAnalyticsDelegate> delegate;
+
+@property(nonatomic) NSUInteger flushInterval;
 
 /**
  * Transmission targets.
@@ -37,14 +42,24 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic) id<MSChannelUnitProtocol> oneCollectorChannelUnit;
 
 /**
+ * The channel unit for critical common schema logs.
+ */
+@property(nonatomic) id<MSChannelUnitProtocol> oneCollectorCriticalChannelUnit;
+
+/**
+ * Critical events channel unit.
+ */
+@property(nonatomic) id<MSChannelUnitProtocol> criticalChannelUnit;
+
+/**
  * Track an event.
  *
  * @param eventName  Event name.
  * @param properties Dictionary of properties.
  * @param transmissionTarget Transmission target to associate with the event.
- * @param flags      Optional flags. Events tracked with the MSFlagsPersistenceCritical flag will take precedence over all other events in
+ * @param flags      Optional flags. Events tracked with the MSFlagsCritical flag will take precedence over all other events in
  * storage. An event tracked with this option will only be dropped if storage must make room for a newer event that is also marked with the
- * MSFlagsPersistenceCritical flag.
+ * MSFlagsCritical flag.
  */
 - (void)trackEvent:(NSString *)eventName
            withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties
@@ -57,9 +72,9 @@ NS_ASSUME_NONNULL_BEGIN
  * @param eventName  Event name.
  * @param properties Typed properties.
  * @param transmissionTarget Transmission target to associate with the event.
- * @param flags      Optional flags. Events tracked with the MSFlagsPersistenceCritical flag will take precedence over all other events in
+ * @param flags      Optional flags. Events tracked with the MSFlagsCritical flag will take precedence over all other events in
  * storage. An event tracked with this option will only be dropped if storage must make room for a newer event that is also marked with the
- * MSFlagsPersistenceCritical flag.
+ * MSFlagsCritical flag.
  */
 - (void)trackEvent:(NSString *)eventName
       withTypedProperties:(nullable MSEventProperties *)properties

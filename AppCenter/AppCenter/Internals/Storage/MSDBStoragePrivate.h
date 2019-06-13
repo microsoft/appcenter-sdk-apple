@@ -128,6 +128,15 @@ static const long kMSDefaultDatabaseSizeInBytes = 10 * 1024 * 1024;
  */
 + (long)getMaxPageCountInOpenedDatabase:(void *)db;
 
+/**
+ * Set global SQLite configuration.
+ *
+ * @return `SQLITE_OK` if SQLite configured successfully, otherwise an error code.
+ *
+ * @discussion SQLite global configuration must be set before any database is opened.
+ */
++ (int)configureSQLite;
+
 @end
 
 NS_ASSUME_NONNULL_END

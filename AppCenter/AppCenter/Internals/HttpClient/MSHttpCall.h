@@ -51,7 +51,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Indicates if the call is currently being sent or awaiting a response.
  */
-@property(atomic) BOOL inProgress;
+@property(atomic, getter=isInProgress) BOOL inProgress;
 
 /**
  * Initialize a call with specified retry intervals.

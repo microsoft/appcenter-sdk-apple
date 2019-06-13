@@ -24,10 +24,8 @@
 #import "MSPaginatedDocumentsInternal.h"
 #import "MSPendingOperation.h"
 #import "MSReadOptions.h"
-#import "MSServiceAbstractProtected.h"
 #import "MSTokenExchange.h"
 #import "MSTokensResponse.h"
-#import "MSUserInformation.h"
 #import "MSWriteOptions.h"
 #import "MS_Reachability.h"
 
@@ -62,6 +60,11 @@ static NSString *const kMSDocumentContinuationTokenHeaderKey = @"x-ms-continuati
 static char *const kMSDataDispatchQueue = "com.microsoft.appcenter.DataDispatchQueue";
 
 /**
+ * Document ID validation pattern.
+ */
+static NSString *const kMSDocumentIdValidationPattern = @"^[^/\\\\#\\s?]+\\z";
+
+/**
  * Singleton.
  */
 static MSData *sharedInstance = nil;
@@ -88,6 +91,12 @@ static dispatch_once_t onceToken;
 
 + (void)setTokenExchangeUrl:(NSString *)tokenExchangeUrl {
   [[MSData sharedInstance] setTokenExchangeUrl:(NSURL *)[NSURL URLWithString:tokenExchangeUrl]];
+}
+
++ (void)setRemoteOperationDelegate:(nullable id<MSRemoteOperationDelegate>)delegate {
+  @synchronized(self) {
+    [[MSData sharedInstance] setRemoteOperationDelegate:delegate];
+  }
 }
 
 + (void)readDocumentWithID:(NSString *)documentID
@@ -227,9 +236,11 @@ static dispatch_once_t onceToken;
       dataError = [self generateDisabledError:@"read" documentId:documentID];
     } else if (![MSDocumentUtils isSerializableDocument:documentType]) {
       dataError = [self generateInvalidClassError];
+    } else if ([self isDocumentIdInvalid:documentID]) {
+      dataError = [self generateInvalidDocumentIdError];
     }
     if (dataError) {
-      completionHandler([[MSDocumentWrapper alloc] initWithError:dataError documentId:documentID]);
+      completionHandler([[MSDocumentWrapper alloc] initWithError:dataError partition:partition documentId:documentID]);
       return;
     }
 
@@ -278,9 +289,14 @@ static dispatch_once_t onceToken;
   @synchronized(self) {
 
     // Check precondition.
+    MSDataError *dataError;
     if (![self canBeUsed] || ![self isEnabled]) {
-      MSDataError *dataError = [self generateDisabledError:@"delete" documentId:documentID];
-      completionHandler([[MSDocumentWrapper alloc] initWithError:dataError documentId:documentID]);
+      dataError = [self generateDisabledError:@"delete" documentId:documentID];
+    } else if ([self isDocumentIdInvalid:documentID]) {
+      dataError = [self generateInvalidDocumentIdError];
+    }
+    if (dataError) {
+      completionHandler([[MSDocumentWrapper alloc] initWithError:dataError partition:partition documentId:documentID]);
       return;
     }
 
@@ -323,9 +339,11 @@ static dispatch_once_t onceToken;
       dataError = [self generateDisabledError:@"create or replace" documentId:documentID];
     } else if (![MSDocumentUtils isSerializableDocument:[document class]]) {
       dataError = [self generateInvalidClassError];
+    } else if ([self isDocumentIdInvalid:documentID]) {
+      dataError = [self generateInvalidDocumentIdError];
     }
     if (dataError) {
-      completionHandler([[MSDocumentWrapper alloc] initWithError:dataError documentId:documentID]);
+      completionHandler([[MSDocumentWrapper alloc] initWithError:dataError partition:partition documentId:documentID]);
       return;
     }
 
@@ -512,13 +530,17 @@ static dispatch_once_t onceToken;
                                 MSLogError([MSData logTag],
                                            @"Unable to read document %@ with error: %@. Status code %ld when expecting %ld.", documentId,
                                            [actualDataError localizedDescription], (long)response.statusCode, (long)MSHTTPCodesNo200OK);
-                                completionHandler([[MSDocumentWrapper alloc] initWithError:actualDataError documentId:documentId]);
+                                completionHandler([[MSDocumentWrapper alloc] initWithError:actualDataError
+                                                                                 partition:partition
+                                                                                documentId:documentId]);
                               }
 
                               // (Try to) deserialize the incoming document.
                               else {
                                 completionHandler([MSDocumentUtils documentWrapperFromData:data
                                                                               documentType:documentType
+                                                                                 partition:partition
+                                                                                documentId:documentId
                                                                            fromDeviceCache:NO]);
                               }
                             }];
@@ -539,7 +561,7 @@ static dispatch_once_t onceToken;
                                     innerError:nil
                                        message:@"Document dictionary contains values that cannot be serialized."];
     MSLogError([MSData logTag], @"Error serializing data: %@", [serializationDataError localizedDescription]);
-    completionHandler([[MSDocumentWrapper alloc] initWithError:serializationDataError documentId:documentId]);
+    completionHandler([[MSDocumentWrapper alloc] initWithError:serializationDataError partition:partition documentId:documentId]);
     return;
   }
   NSError *serializationError;
@@ -549,7 +571,7 @@ static dispatch_once_t onceToken;
                                                                       innerError:serializationError
                                                                          message:@"Can't deserialize data."];
     MSLogError([MSData logTag], @"Error serializing data: %@", [serializationDataError localizedDescription]);
-    completionHandler([[MSDocumentWrapper alloc] initWithError:serializationDataError documentId:documentId]);
+    completionHandler([[MSDocumentWrapper alloc] initWithError:serializationDataError partition:partition documentId:documentId]);
     return;
   }
   [self
@@ -568,7 +590,9 @@ static dispatch_once_t onceToken;
                                          @"Unable to create/replace document %@ with error: %@. Status code %ld when expecting %ld or %ld.",
                                          documentId, [actualDataError localizedDescription], (long)response.statusCode,
                                          (long)MSHTTPCodesNo200OK, (long)MSHTTPCodesNo201Created);
-                              completionHandler([[MSDocumentWrapper alloc] initWithError:actualDataError documentId:documentId]);
+                              completionHandler([[MSDocumentWrapper alloc] initWithError:actualDataError
+                                                                               partition:partition
+                                                                              documentId:documentId]);
                             }
 
                             // (Try to) deserialize saved document.
@@ -576,6 +600,8 @@ static dispatch_once_t onceToken;
                               MSLogDebug([MSData logTag], @"Document created/replaced with ID: %@", documentId);
                               completionHandler([MSDocumentUtils documentWrapperFromData:data
                                                                             documentType:[document class]
+                                                                               partition:partition
+                                                                              documentId:documentId
                                                                          fromDeviceCache:NO]);
                             }
                           }];
@@ -600,7 +626,9 @@ static dispatch_once_t onceToken;
                                            @"Unable to delete document %@ with error: %@. Status code %ld when expecting %ld.", documentId,
                                            [actualDataError localizedDescription], (long)response.statusCode,
                                            (long)MSHTTPCodesNo204NoContent);
-                                completionHandler([[MSDocumentWrapper alloc] initWithError:actualDataError documentId:documentId]);
+                                completionHandler([[MSDocumentWrapper alloc] initWithError:actualDataError
+                                                                                 partition:partition
+                                                                                documentId:documentId]);
                               }
 
                               // Return a non-error document wrapper object to confirm the operation.
@@ -613,7 +641,6 @@ static dispatch_once_t onceToken;
                                                                                                   eTag:nil
                                                                                        lastUpdatedDate:nil
                                                                                       pendingOperation:nil
-                                                                                                 error:nil
                                                                                        fromDeviceCache:NO]);
                               }
                             }];
@@ -635,6 +662,23 @@ static dispatch_once_t onceToken;
                                                        innerError:nil
                                                           message:(NSString *)kMSACDataInvalidClassDesc];
   MSLogError([MSData logTag], @"Not able to validate document deserialization precondition: %@.", [dataError localizedDescription]);
+  return dataError;
+}
+
+- (BOOL)isDocumentIdInvalid:(NSString *)documentId {
+  if (!documentId) {
+    return YES;
+  }
+  NSRegularExpression *expr = [NSRegularExpression regularExpressionWithPattern:kMSDocumentIdValidationPattern options:0 error:nil];
+  NSUInteger matchCount = [expr numberOfMatchesInString:documentId options:0 range:NSMakeRange(0, documentId.length)];
+  return matchCount == 0;
+}
+
+- (MSDataError *)generateInvalidDocumentIdError {
+  MSDataError *dataError = [[MSDataError alloc] initWithErrorCode:MSACDataErrorDocumentIdInvalid
+                                                       innerError:nil
+                                                          message:(NSString *)kMSACDataErrorDocumentIdInvalidDesc];
+  MSLogError([MSData logTag], @"%@", kMSACDataErrorDocumentIdInvalidDesc);
   return dataError;
 }
 
@@ -709,11 +753,11 @@ static dispatch_once_t onceToken;
 
 #pragma mark - MSAuthTokenContextDelegate
 
-- (void)authTokenContext:(MSAuthTokenContext *)__unused authTokenContext didUpdateUserInformation:(MSUserInformation *)userInfomation {
+- (void)authTokenContext:(MSAuthTokenContext *)__unused authTokenContext didUpdateAccountId:(NSString *)accountId {
 
   // If user logs in.
-  if (userInfomation && userInfomation) {
-    [self.dataOperationProxy.documentStore createUserStorageWithAccountId:userInfomation.accountId];
+  if (accountId) {
+    [self.dataOperationProxy.documentStore createUserStorageWithAccountId:accountId];
   } else {
     // If user logs out.
     [MSTokenExchange removeAllCachedTokens];
@@ -737,6 +781,13 @@ static dispatch_once_t onceToken;
 }
 
 - (void)processPendingOperations {
+
+  // Only process pending operations when auth context is available.
+  if ([[MSAuthTokenContext sharedInstance] authToken] == nil) {
+    return;
+  }
+
+  // Process pending operations.
   @synchronized(self) {
     [MSTokenExchange
         performDbTokenAsyncOperationWithHttpClient:(id<MSHttpClientProtocol>)self.httpClient
@@ -747,8 +798,8 @@ static dispatch_once_t onceToken;
                                       reachability:self.reachability
                                  completionHandler:^(MSTokensResponse *_Nonnull tokenResponses, NSError *_Nonnull error) {
                                    if (error) {
-                                     MSLogError([MSData logTag], @"Cannot read from local storage because there is no "
-                                                                 @"account ID cached and failed to retrieve token.");
+                                     MSLogWarning([MSData logTag], @"Cannot read from local storage because there is no "
+                                                                   @"account ID cached and failed to retrieve token.");
                                      return;
                                    }
 
@@ -843,6 +894,7 @@ static dispatch_once_t onceToken;
   // Check if expired.
   BOOL isExpired = [MSPendingOperation isExpiredWithExpirationTime:operationExpirationTime];
   BOOL shouldDeleteLocalCache = YES;
+  MSDocumentWrapper *document = nil;
 
   // Create and Replace operations.
   if (!documentWrapper.error && ![pendingOperation isEqualToString:kMSPendingOperationDelete]) {
@@ -856,11 +908,12 @@ static dispatch_once_t onceToken;
                                               expirationTime:operationExpirationTime];
       shouldDeleteLocalCache = NO;
     }
+    document = documentWrapper;
   } else if (documentWrapper.error.code == MSHTTPCodesNo404NotFound || documentWrapper.error.code == MSHTTPCodesNo409Conflict) {
     MSLogError([MSData logTag], @"Failed to call Cosmos with operation: %@. Remote operation failed with error code: %ld", pendingOperation,
                (long)documentWrapper.error);
+    document = nil;
   } else if (documentWrapper.error) {
-    shouldDeleteLocalCache = NO;
     MSLogError([MSData logTag], @"Failed to call Cosmos with operation:%@ API: %@", pendingOperation,
                [documentWrapper.error localizedDescription]);
   }
@@ -868,6 +921,15 @@ static dispatch_once_t onceToken;
   // Delete the document form the local cache.
   if (shouldDeleteLocalCache) {
     [self.dataOperationProxy.documentStore deleteWithToken:token documentId:documentId];
+  }
+
+  // If the Remote operation is set
+  id<MSRemoteOperationDelegate> strongDelegate;
+  @synchronized(self) {
+    strongDelegate = self.remoteOperationDelegate;
+  }
+  if (strongDelegate) {
+    [strongDelegate data:self didCompletePendingOperation:pendingOperation forDocument:document withError:documentWrapper.error];
   }
 }
 

@@ -93,6 +93,15 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   assertThat(result2, is(expectedResult2));
 }
 
+- (void)testSqliteConfigurationErrorAfterInit {
+
+  // when
+  int configResult = [MSDBStorage configureSQLite];
+
+  // Then
+  assertThatInt(configResult, equalToInt(SQLITE_MISUSE));
+}
+
 - (void)testTableExists {
   [self.sut executeQueryUsingBlock:^int(void *db) {
     // When

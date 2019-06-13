@@ -25,12 +25,16 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param data Data from which to create the document wrapper.
  * @param documentType The type of document to instantiate.
+ * @param partition The partition of the document.
+ * @param documentId The DocumentId.
  * @param fromDeviceCache Flag indicating if the document wrapper was retrieved remotely or not.
  *
  * @return Document wrapper (valid or in an error state).
  */
 + (MSDocumentWrapper *)documentWrapperFromData:(nullable NSData *)data
                                   documentType:(Class)documentType
+                                     partition:(NSString *)partition
+                                    documentId:(NSString *)documentId
                                fromDeviceCache:(BOOL)fromDeviceCache;
 
 /**

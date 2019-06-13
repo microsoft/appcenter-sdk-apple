@@ -7,16 +7,6 @@
 #import "MSTokenResultPrivate.h"
 #import "MSTokensResponse.h"
 
-// FIXME: use actual constants instead of redefining them here.
-static NSString *const kMSPartition = @"partition";
-static NSString *const kMSToken = @"token";
-static NSString *const kMSStatus = @"status";
-static NSString *const kMSDbName = @"dbName";
-static NSString *const kMSDbAccount = @"dbAccount";
-static NSString *const kMSDbCollectionName = @"dbCollectionName";
-static NSString *const kMSExpiresOn = @"expiresOn";
-static NSString *const kMSAccountId = @"accountId";
-
 static NSString *const partitionName = @"TestAppSecret";
 static NSString *const token = @"mockToken";
 static NSString *const status = @"Success";

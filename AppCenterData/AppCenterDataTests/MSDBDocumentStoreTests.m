@@ -201,8 +201,10 @@
 - (void)testUpsertReplacesCorrectlyInAppStorage {
 
   // If
-  MSDocumentWrapper *expectedDocumentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestDocument"]
+  MSDocumentWrapper *expectedDocumentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestAppDocument"]
                                                                            documentType:[MSDictionaryDocument class]
+                                                                              partition:kMSDataAppDocumentsPartition
+                                                                             documentId:@"standalonedocument1"
                                                                         fromDeviceCache:YES];
 
   // When
@@ -305,8 +307,10 @@
 
   // If
   int ttl = 1;
-  MSDocumentWrapper *expectedDocumentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestDocument"]
+  MSDocumentWrapper *expectedDocumentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestAppDocument"]
                                                                            documentType:[MSDictionaryDocument class]
+                                                                              partition:kMSDataAppDocumentsPartition
+                                                                             documentId:@"standalonedocument1"
                                                                         fromDeviceCache:YES];
 
   // Mock NSDate to "freeze" time.
@@ -339,8 +343,10 @@
 - (void)testUpsertAppDocumentWithNoTTL {
 
   // If
-  MSDocumentWrapper *documentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestDocument"]
+  MSDocumentWrapper *documentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestAppDocument"]
                                                                    documentType:[MSDictionaryDocument class]
+                                                                      partition:kMSDataAppDocumentsPartition
+                                                                     documentId:@"standalonedocument1"
                                                                 fromDeviceCache:YES];
 
   // When
@@ -365,6 +371,106 @@
   XCTAssertEqual(expirationTime, kMSDataTimeToLiveInfinite);
 }
 
+- (void)testUpsertWontChangeLastUpdatedDate {
+
+  // If
+  long lastUpdateDateLong = (long)[[NSDate date] timeIntervalSince1970];
+  NSDate *lastUpdateDate = [NSDate dateWithTimeIntervalSince1970:lastUpdateDateLong];
+  MSDocumentWrapper *documentWrapper = [[MSDocumentWrapper alloc] initWithDeserializedValue:[MSDictionaryDocument alloc]
+                                                                                  jsonValue:@"{\"key\" : \"value\"}"
+                                                                                  partition:kMSDataAppDocumentsPartition
+                                                                                 documentId:@"documentId"
+                                                                                       eTag:@"myEtag"
+                                                                            lastUpdatedDate:lastUpdateDate
+                                                                           pendingOperation:kMSPendingOperationCreate
+                                                                            fromDeviceCache:YES];
+  // When
+  BOOL result = [self.sut upsertWithToken:self.appToken
+                          documentWrapper:documentWrapper
+                                operation:documentWrapper.pendingOperation
+                         deviceTimeToLive:kMSDataTimeToLiveInfinite];
+  MSDocumentWrapper *expectedDocumentWrapper = [self.sut readWithToken:self.appToken
+                                                            documentId:documentWrapper.documentId
+                                                          documentType:[MSDictionaryDocument class]];
+
+  // Then
+  XCTAssertTrue(result);
+  XCTAssertNil(expectedDocumentWrapper.error);
+  XCTAssertTrue(documentWrapper.fromDeviceCache);
+  XCTAssertNotNil(expectedDocumentWrapper.deserializedValue);
+  XCTAssertNotNil(expectedDocumentWrapper.jsonValue);
+  XCTAssertEqualObjects(expectedDocumentWrapper.documentId, documentWrapper.documentId);
+  XCTAssertEqualObjects(expectedDocumentWrapper.partition, documentWrapper.partition);
+  XCTAssertEqualObjects(expectedDocumentWrapper.eTag, documentWrapper.eTag);
+  XCTAssertEqualObjects(expectedDocumentWrapper.lastUpdatedDate, documentWrapper.lastUpdatedDate);
+}
+
+- (void)testUpsertWithNilLastUpdatedDate {
+
+  // If
+  MSDocumentWrapper *documentWrapper = [[MSDocumentWrapper alloc] initWithDeserializedValue:[MSDictionaryDocument alloc]
+                                                                                  jsonValue:@"{\"key\" : \"value\"}"
+                                                                                  partition:kMSDataAppDocumentsPartition
+                                                                                 documentId:@"documentId"
+                                                                                       eTag:@"myEtag"
+                                                                            lastUpdatedDate:nil
+                                                                           pendingOperation:kMSPendingOperationCreate
+                                                                            fromDeviceCache:YES];
+  // When
+  BOOL result = [self.sut upsertWithToken:self.appToken
+                          documentWrapper:documentWrapper
+                                operation:documentWrapper.pendingOperation
+                         deviceTimeToLive:kMSDataTimeToLiveInfinite];
+  MSDocumentWrapper *expectedDocumentWrapper = [self.sut readWithToken:self.appToken
+                                                            documentId:documentWrapper.documentId
+                                                          documentType:[MSDictionaryDocument class]];
+
+  // Then
+  XCTAssertTrue(result);
+  XCTAssertNil(expectedDocumentWrapper.error);
+  XCTAssertTrue(documentWrapper.fromDeviceCache);
+  XCTAssertNotNil(expectedDocumentWrapper.deserializedValue);
+  XCTAssertNotNil(expectedDocumentWrapper.jsonValue);
+  XCTAssertEqualObjects(expectedDocumentWrapper.documentId, documentWrapper.documentId);
+  XCTAssertEqualObjects(expectedDocumentWrapper.partition, documentWrapper.partition);
+  XCTAssertEqualObjects(expectedDocumentWrapper.eTag, documentWrapper.eTag);
+  XCTAssertNil(expectedDocumentWrapper.lastUpdatedDate);
+}
+
+- (void)testUpsertWithNilEtag {
+
+  // If
+  long lastUpdateDateLong = (long)[[NSDate date] timeIntervalSince1970];
+  NSDate *lastUpdateDate = [NSDate dateWithTimeIntervalSince1970:lastUpdateDateLong];
+  MSDocumentWrapper *documentWrapper = [[MSDocumentWrapper alloc] initWithDeserializedValue:[MSDictionaryDocument alloc]
+                                                                                  jsonValue:@"{\"key\" : \"value\"}"
+                                                                                  partition:kMSDataAppDocumentsPartition
+                                                                                 documentId:@"documentId"
+                                                                                       eTag:nil
+                                                                            lastUpdatedDate:lastUpdateDate
+                                                                           pendingOperation:kMSPendingOperationCreate
+                                                                            fromDeviceCache:YES];
+  // When
+  BOOL result = [self.sut upsertWithToken:self.appToken
+                          documentWrapper:documentWrapper
+                                operation:documentWrapper.pendingOperation
+                         deviceTimeToLive:kMSDataTimeToLiveInfinite];
+  MSDocumentWrapper *expectedDocumentWrapper = [self.sut readWithToken:self.appToken
+                                                            documentId:documentWrapper.documentId
+                                                          documentType:[MSDictionaryDocument class]];
+
+  // Then
+  XCTAssertTrue(result);
+  XCTAssertNil(expectedDocumentWrapper.error);
+  XCTAssertTrue(documentWrapper.fromDeviceCache);
+  XCTAssertNotNil(expectedDocumentWrapper.deserializedValue);
+  XCTAssertNotNil(expectedDocumentWrapper.jsonValue);
+  XCTAssertEqualObjects(expectedDocumentWrapper.documentId, documentWrapper.documentId);
+  XCTAssertEqualObjects(expectedDocumentWrapper.partition, documentWrapper.partition);
+  XCTAssertNil(expectedDocumentWrapper.eTag);
+  XCTAssertEqualObjects(expectedDocumentWrapper.lastUpdatedDate, documentWrapper.lastUpdatedDate);
+}
+
 - (void)testDeleteAppDocumentForNonExistentDocument {
 
   // If, When
@@ -382,8 +488,10 @@
 - (void)testDeleteExistingAppDocument {
 
   // If
-  MSDocumentWrapper *documentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestDocument"]
+  MSDocumentWrapper *documentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestAppDocument"]
                                                                    documentType:[MSDictionaryDocument class]
+                                                                      partition:@"user-123"
+                                                                     documentId:@"standalonedocument1"
                                                                 fromDeviceCache:YES];
   [self.sut upsertWithToken:self.appToken documentWrapper:documentWrapper operation:@"CREATE" deviceTimeToLive:1];
   MSDocumentWrapper *expectedDocumentWrapper = [self.sut readWithToken:self.appToken
@@ -407,8 +515,10 @@
 - (void)testDeleteExistingUserDocument {
 
   // If
-  MSDocumentWrapper *documentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestDocument"]
+  MSDocumentWrapper *documentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestUserDocument"]
                                                                    documentType:[MSDictionaryDocument class]
+                                                                      partition:@"user-123"
+                                                                     documentId:@"standalonedocument1"
                                                                 fromDeviceCache:YES];
   [self.sut createUserStorageWithAccountId:self.userToken.accountId];
   [self.sut upsertWithToken:self.userToken documentWrapper:documentWrapper operation:@"CREATE" deviceTimeToLive:1];

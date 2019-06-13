@@ -1,21 +1,20 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "MSAuthTokenContextDelegate.h"
 #import "MSChannelUnitDefault.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MSChannelUnitDefault () <MSAuthTokenContextDelegate>
+@interface MSChannelUnitDefault ()
 
 @property(nonatomic) NSHashTable *pausedIdentifyingObjects;
 
 @property(nonatomic) NSMutableSet<NSString *> *pausedTargetKeys;
 
 /**
- * Check any enqueued logs to send it to ingestion.
+ * Flush pending logs.
  */
-- (void)checkPendingLogs;
+- (void)flushQueue;
 
 /**
  * Synchronously pause operations, logs will be stored but not sent.
@@ -38,6 +37,29 @@ NS_ASSUME_NONNULL_BEGIN
  * @see pauseWithIdentifyingObject:
  */
 - (void)resumeWithIdentifyingObjectSync:(id<NSObject>)identifyingObject;
+
+/**
+ * If we have flushInterval bigger than 3 seconds, we should subtract an oldest log's timestamp from it.
+ * It is required to avoid situations when the logs are not being sent to server because time interval is too big
+ * for a typical user session.
+ *
+ * @return Remaining interval to trigger flush.
+ */
+- (NSUInteger)resolveFlushInterval;
+
+/**
+ * Get a key for NSUserDefaults where the oldest pending log timestamp is stored for the channel.
+ *
+ * @return A key for the oldest pending log timestamp.
+ */
+- (NSString *)oldestPendingLogTimestampKey;
+
+/**
+ * Start timer to send logs.
+ *
+ * @param flushInterval delay in seconds.
+ */
+- (void)startTimer:(NSUInteger)flushInterval;
 
 @end
 

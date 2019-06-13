@@ -15,7 +15,6 @@
  * @param eTag Document eTag.
  * @param lastUpdatedDate Last updated date of the document.
  * @param pendingOperation The name of the pending operation, or nil.
- * @param error An error.
  * @param fromDeviceCache Flag indicating if the document wrapper was retrieved remotely or not.
  *
  * @return A new `MSDocumentWrapper` instance.
@@ -27,18 +26,51 @@
                                      eTag:(NSString *)eTag
                           lastUpdatedDate:(NSDate *)lastUpdatedDate
                          pendingOperation:(NSString *)pendingOperation
-                                    error:(MSDataError *)error
                           fromDeviceCache:(BOOL)fromDeviceCache;
 
 /**
  * Initialize a `MSDocumentWrapper` instance.
  *
  * @param error Document error.
+ * @param partition Partition key.
  * @param documentId Document Id.
  *
  * @return A new `MSDocumentWrapper` instance.
  */
-- (instancetype)initWithError:(MSDataError *)error documentId:(NSString *)documentId;
+- (instancetype)initWithError:(MSDataError *)error partition:(NSString *)partition documentId:(NSString *)documentId;
+
+/**
+ * Initialize a `MSDocumentWrapper` instance.
+ *
+ * @param error Document error.
+ * @param partition Partition key.
+ * @param documentId Document Id.
+ * @param eTag Document eTag.
+ *
+ * @return A new `MSDocumentWrapper` instance.
+ */
+- (instancetype)initWithError:(MSDataError *)error partition:(NSString *)partition documentId:(NSString *)documentId eTag:(NSString *)eTag;
+
+/**
+ * Initialize a `MSDocumentWrapper` instance.
+ *
+ * @param error Document error.
+ * @param partition Partition key.
+ * @param documentId Document Id.
+ * @param eTag Document eTag.
+ * @param lastUpdatedDate Last updated date of the document.
+ * @param pendingOperation The name of the pending operation, or nil.
+ * @param fromDeviceCache Flag indicating if the document wrapper was retrieved remotely or not.
+ *
+ * @return A new `MSDocumentWrapper` instance.
+ */
+- (instancetype)initWithError:(MSDataError *)error
+                    partition:(NSString *)partition
+                   documentId:(NSString *)documentId
+                         eTag:(NSString *)eTag
+              lastUpdatedDate:(NSDate *)lastUpdatedDate
+             pendingOperation:(NSString *)pendingOperation
+              fromDeviceCache:(BOOL)fromDeviceCache;
 
 /**
  * The type of pending operation, if any, that must be synchronized.

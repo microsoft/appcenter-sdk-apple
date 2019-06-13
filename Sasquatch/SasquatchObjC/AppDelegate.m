@@ -38,7 +38,8 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
 #if GCC_PREPROCESSOR_MACRO_PUPPET
     MSAnalyticsDelegate,
 #endif
-    MSCrashesDelegate, MSDistributeDelegate, MSPushDelegate, UNUserNotificationCenterDelegate, CLLocationManagerDelegate>
+    MSCrashesDelegate, MSDistributeDelegate, MSPushDelegate, MSRemoteOperationDelegate, UNUserNotificationCenterDelegate,
+    CLLocationManagerDelegate>
 
 @property(nonatomic) MSAnalyticsResult *analyticsResult;
 @property(nonatomic) API_AVAILABLE(ios(10.0)) void (^notificationPresentationCompletionHandler)(UNNotificationPresentationOptions options);
@@ -50,7 +51,7 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-
+  [MSAppCenter setLogLevel:MSLogLevelVerbose];
 #if GCC_PREPROCESSOR_MACRO_PUPPET
   self.analyticsResult = [MSAnalyticsResult new];
   [MSAnalytics setDelegate:self];
@@ -60,6 +61,7 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
       [(MSAnalyticsViewController *)controller setAnalyticsResult:self.analyticsResult];
     }
   }
+  [MSAppCenter setLogUrl:kMSIntLogUrl];
   [MSAuth setConfigUrl:kMSIntConfigUrl];
   [MSData setTokenExchangeUrl:kMSIntTokenExchangeUrl];
   [MSDistribute setApiUrl:kMSIntApiUrl];
@@ -75,7 +77,7 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
 #pragma clang diagnostic pop
   [MSPush setDelegate:self];
   [MSDistribute setDelegate:self];
-  [MSAppCenter setLogLevel:MSLogLevelVerbose];
+  [MSData setRemoteOperationDelegate:self];
 
   // Set max storage size.
   NSNumber *storageMaxSize = [[NSUserDefaults standardUserDefaults] objectForKey:kMSStorageMaxSizeKey];
@@ -108,7 +110,10 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
   if (logUrl) {
     [MSAppCenter setLogUrl:logUrl];
   }
-
+  int latencyTimeValue = [[[NSUserDefaults standardUserDefaults] objectForKey:kMSTransmissionIterval] intValue];
+  if (latencyTimeValue) {
+    [MSAnalytics setTransmissionInterval:latencyTimeValue];
+  }
   // Start App Center SDK.
   NSArray<Class> *services =
       @ [[MSAnalytics class], [MSCrashes class], [MSData class], [MSDistribute class], [MSAuth class], [MSPush class]];
@@ -251,6 +256,21 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
   [NSNotificationCenter.defaultCenter postNotificationName:kUpdateAnalyticsResultNotification object:self.analyticsResult];
 }
 #endif
+
+#pragma mark - MSRemoteOperationDelegate
+
+- (void)data:(MSData *)data
+    didCompletePendingOperation:(NSString *)operation
+                    forDocument:(MSDocumentWrapper *_Nullable)document
+                      withError:(MSDataError *_Nullable)error {
+  NSLog(@"Operation processed: %@ ", operation);
+  if (document) {
+    NSLog(@"Document: Partition : %@, document id : %@, eTag : %@ ", document.partition, document.documentId, document.eTag);
+  }
+  if (error) {
+    NSLog(@"Error: %@ ", error);
+  }
+}
 
 #pragma mark - MSCrashesDelegate
 

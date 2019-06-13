@@ -7,7 +7,7 @@
 #import "MSAuthTokenContext.h"
 #import "MSChannelGroupDefaultPrivate.h"
 #import "MSChannelUnitConfiguration.h"
-#import "MSChannelUnitDefaultPrivate.h"
+#import "MSChannelUnitDefault.h"
 #import "MSLogDBStorage.h"
 
 static char *const kMSLogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQueue";
@@ -49,7 +49,8 @@ static char *const kMSLogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
                                             logsDispatchQueue:self.logsDispatchQueue];
     [channel addDelegate:self];
     dispatch_async(self.logsDispatchQueue, ^{
-      [channel flushQueue];
+      // Schedule sending any pending log.
+      [channel checkPendingLogs];
     });
     [self.channels addObject:channel];
     [self enumerateDelegatesForSelector:@selector(channelGroup:didAddChannelUnit:)

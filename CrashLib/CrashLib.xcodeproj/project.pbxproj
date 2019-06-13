@@ -109,6 +109,7 @@
 		80F991581F0265C60040FAD7 /* MSFramelessDWARF_x86_64.s in Sources */ = {isa = PBXBuildFile; fileRef = B24187B91DD2A7F900D820D8 /* MSFramelessDWARF_x86_64.s */; };
 		80F991591F0265C60040FAD7 /* MSFramelessDWARF_arm64.s in Sources */ = {isa = PBXBuildFile; fileRef = B241879F1DD2A7F900D820D8 /* MSFramelessDWARF_arm64.s */; };
 		80F9915B1F02671A0040FAD7 /* CrashLib.h in Headers */ = {isa = PBXBuildFile; fileRef = B24187B61DD2A7F900D820D8 /* CrashLib.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9CD0C47C228A27EE00B14FCA /* CrashLib Release iOS.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 9CD0C47B228A27EE00B14FCA /* CrashLib Release iOS.xcconfig */; };
 		B24187BC1DD2A7F900D820D8 /* MSCrash.h in Headers */ = {isa = PBXBuildFile; fileRef = B24187891DD2A7F900D820D8 /* MSCrash.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B24187BD1DD2A7F900D820D8 /* MSCrashReleasedObject.h in Headers */ = {isa = PBXBuildFile; fileRef = B241878A1DD2A7F900D820D8 /* MSCrashReleasedObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B24187BE1DD2A7F900D820D8 /* MSFramelessDWARF_arm32.S in Sources */ = {isa = PBXBuildFile; fileRef = B241878B1DD2A7F900D820D8 /* MSFramelessDWARF_arm32.S */; };
@@ -165,6 +166,7 @@
 /* Begin PBXFileReference section */
 		8065B5781F4C3FF4004FF622 /* CrashLibMac.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CrashLibMac.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		80F991211F0265070040FAD7 /* CrashLibTV.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CrashLibTV.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9CD0C47B228A27EE00B14FCA /* CrashLib Release iOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "CrashLib Release iOS.xcconfig"; sourceTree = "<group>"; };
 		B21A71DB1DD2A38C0044BB1C /* CrashLibIOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CrashLibIOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B21A71DF1DD2A38C0044BB1C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B24187891DD2A7F900D820D8 /* MSCrash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSCrash.h; sourceTree = "<group>"; };
@@ -338,6 +340,7 @@
 				C2B2102121B691F100F116BD /* CrashLib.xcconfig */,
 				DF1F8F7D2269D7AB002B0B9B /* CrashLib Debug.xcconfig */,
 				DF31CF972272FD0100A39F1B /* CrashLib Release.xcconfig */,
+				9CD0C47B228A27EE00B14FCA /* CrashLib Release iOS.xcconfig */,
 			);
 			path = Config;
 			sourceTree = "<group>";
@@ -560,6 +563,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9CD0C47C228A27EE00B14FCA /* CrashLib Release iOS.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -792,7 +796,7 @@
 		};
 		B21A71E51DD2A38C0044BB1C /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C2B2102321B6A9FF00F116BD /* iOS.xcconfig */;
+			baseConfigurationReference = 9CD0C47B228A27EE00B14FCA /* CrashLib Release iOS.xcconfig */;
 			buildSettings = {
 				INFOPLIST_FILE = CrashLib/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.CrashLibIOS;

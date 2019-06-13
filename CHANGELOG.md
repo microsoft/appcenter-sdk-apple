@@ -1,5 +1,29 @@
 # App Center SDK for iOS and macOS Change Log
 
+## Version 2.1.0
+
+### AppCenter
+
+* **[Fix]** Remove Keychain permission pop-up on macOS.
+* **[Fix]** Improve encryption security.
+
+### AppCenterAnalytics
+
+* **[Feature]** Support setting latency of sending events via `[MSAnalytics setTransmissionInterval:]`.
+
+### AppCenterAuth
+
+* **[Feature]** Expose the ID Token and Access Token JWTs in the `MSUserInformation` object passed to the sign in callback.
+* **[Fix]** Fix changing signing status may cause logs (e.g., events) to be delayed.
+* **[Fix]** Validate custom URL scheme before starting Auth and log an error message when it is invalid.
+* **[Fix]** Fix rare condition where a user is prompted again for their credentials instead of refreshing the token silently.
+
+### AppCenterData
+
+* **[Fix]** Fix an issue where invalid characters in the document ID are accepted at creation time but causing errors while trying to read or delete the document. The characters are `#`, `\`, `/`, `?`, and all whitespaces.
+
+___
+
 ## Version 2.0.1
 
 Version 2.0.1 of the App Center SDK includes two new modules: Auth and Data. This version has a **breaking change**, it only supports Xcode 10.0.0+.
@@ -14,7 +38,7 @@ The App Center Data service provides functionality enabling developers to persis
 
 ### AppCenterCrashes
 
-* **[Feature]** After calling `[MSAuth signInWithCompletionHandler:]`, the next crashes are associated with an `accountId` corresponding to the signed in user. This is a different field than the `userId` set by `[MSAppCenter setUserId:]`. Calling `[MSAuth signOut]` stops the `accountId` association for the next crashes. 
+* **[Feature]** After calling `[MSAuth signInWithCompletionHandler:]`, the next crashes are associated with an `accountId` corresponding to the signed in user. This is a different field than the `userId` set by `[MSAppCenter setUserId:]`. Calling `[MSAuth signOut]` stops the `accountId` association for the next crashes.
 * **[Fix]** Print an error and return immediately when calling `[MSCrashes notifyWithUserConfirmation:]` with confirmation handlers not implemented.
 
 ### AppCenterDistribute
@@ -61,7 +85,7 @@ ___
 ### AppCenter
 
 * **[Fix]** Fix a possible deadlock if the SDK is started from a background thread.
-* **[Feature]** Add class method  `+ [MSAppCenter setCountryCode:]` that allows manually setting the country code on platforms where there is no carrier information available. 
+* **[Feature]** Add class method  `+ [MSAppCenter setCountryCode:]` that allows manually setting the country code on platforms where there is no carrier information available.
 
 ___
 
@@ -345,7 +369,7 @@ This version contains a bug fix and improvements.
 
 ### AppCenterDistribute
 
-* **[Improvement]** Add Portuguese to supported languages, see [this folder](https://github.com/Microsoft/AppCenter-SDK-Apple/tree/develop/AppCenterDistribute/AppCenterDistribute/Resources) for a list of supported languages.
+* **[Improvement]** Add Portuguese to supported languages, see [this folder](https://github.com/microsoft/appcenter-sdk-apple/tree/develop/AppCenterDistribute/AppCenterDistribute/Resources) for a list of supported languages.
 * **[Improvement]** Users with app versions that still use Mobile Center can directly upgrade to versions that use this version of App Center, without the need to reinstall.
 
 ___

@@ -42,7 +42,7 @@ static NSString *const kMSSQLiteConstraintAutoincrement = @"AUTOINCREMENT";
  *
  * @return An instance of a database.
  */
-- (instancetype)initWithSchema:(MSDBSchema *)schema version:(NSUInteger)version filename:(NSString *)filename;
+- (instancetype)initWithSchema:(nullable MSDBSchema *)schema version:(NSUInteger)version filename:(NSString *)filename;
 
 /**
  * Initialize this database with a version and a filename for its creation.

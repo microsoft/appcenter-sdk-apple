@@ -242,11 +242,11 @@
   NSString *expectedAppLocale = @"fr_DE";
   OCMStub([bundleMock mainBundle]).andReturn(bundleMock);
   OCMStub([bundleMock preferredLocalizations]).andReturn(@[ expectedAppLocale ]);
-  MSFlags expectedFlags = MSFlagsPersistenceNormal;
+  MSFlags expectedFlags = MSFlagsNormal;
   NSString *prefixedUserId = [NSString stringWithFormat:@"c:%@", self.sut.userId];
 
   // When
-  NSArray<MSCommonSchemaLog *> *csLogs = [self.sut toCommonSchemaLogsWithFlags:MSFlagsPersistenceNormal];
+  NSArray<MSCommonSchemaLog *> *csLogs = [self.sut toCommonSchemaLogsWithFlags:MSFlagsNormal];
 
   // Then
   XCTAssertEqual(csLogs.count, expectedTokens.count);

@@ -79,15 +79,16 @@ static const NSUInteger kMSSchemaVersion = 1;
   NSTimeInterval now = NSDate.timeIntervalSinceReferenceDate + NSTimeIntervalSince1970;
   NSString *tableName = [MSDBDocumentStore tableNameForPartition:token.partition];
 
-  // If operation is nil, pass NULL value, else use the operation name in this format '<OPERATION_NAME>' (note the single quotes).
+  // If operation or etag is nil, pass NULL value, else use the actual value in this format '<ACTUAL_VALUE>' (note the single quotes).
   NSString *normalizedOperationString = operation != nil ? [NSString stringWithFormat:@"'%@'", operation] : @"NULL";
+  NSString *normalizedEtagString = documentWrapper.eTag != nil ? [NSString stringWithFormat:@"'%@'", documentWrapper.eTag] : @"NULL";
   NSString *insertQuery = [NSString
       stringWithFormat:@"REPLACE INTO \"%@\" (\"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\") "
-                       @"VALUES ('%@', '%@', '%@', '%@', %ld, '%ld', '%ld', %@)",
+                       @"VALUES ('%@', '%@', '%@', %@, %ld, '%ld', '%ld', %@)",
                        tableName, kMSPartitionColumnName, kMSDocumentIdColumnName, kMSDocumentColumnName, kMSETagColumnName,
                        kMSExpirationTimeColumnName, kMSDownloadTimeColumnName, kMSOperationTimeColumnName, kMSPendingOperationColumnName,
-                       token.partition, documentWrapper.documentId, documentWrapper.jsonValue, documentWrapper.eTag, (long)expirationTime,
-                       (long)[documentWrapper.lastUpdatedDate timeIntervalSince1970], (long)now, normalizedOperationString];
+                       token.partition, documentWrapper.documentId, documentWrapper.jsonValue, normalizedEtagString, (long)expirationTime,
+                       (long)now, (long)[documentWrapper.lastUpdatedDate timeIntervalSince1970], normalizedOperationString];
   int result = [self.dbStorage executeNonSelectionQuery:insertQuery];
   if (result != SQLITE_OK) {
     MSLogError([MSData logTag], @"Unable to update or replace local document, SQLite error code: %ld", (long)result);
@@ -142,7 +143,7 @@ static const NSUInteger kMSSchemaVersion = 1;
 
     // Create error.
     MSDataError *dataError = [[MSDataError alloc] initWithErrorCode:MSACDataErrorDocumentNotFound innerError:nil message:errorMessage];
-    return [[MSDocumentWrapper alloc] initWithError:dataError documentId:documentId];
+    return [[MSDocumentWrapper alloc] initWithError:dataError partition:token.partition documentId:documentId];
   }
 
   // If the document is expired, return an error and delete it.
@@ -161,22 +162,27 @@ static const NSUInteger kMSSchemaVersion = 1;
       MSDataError *dataError = [[MSDataError alloc] initWithErrorCode:MSACDataErrorLocalDocumentExpired
                                                            innerError:nil
                                                               message:errorMessage];
-      return [[MSDocumentWrapper alloc] initWithError:dataError documentId:documentId];
+      return [[MSDocumentWrapper alloc] initWithError:dataError partition:token.partition documentId:documentId];
     }
   }
 
   // Deserialize.
   NSString *jsonString = result[0][self.documentColumnIndex];
   NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
-  long lastUpdatedDate = [(NSNumber *)result[0][self.operationTimeColumnIndex] longValue];
+  long lastUpdatedDateValue = [(NSNumber *)result[0][self.operationTimeColumnIndex] longValue];
+  NSDate *lastUpdatedDate = lastUpdatedDateValue > 0 ? [NSDate dateWithTimeIntervalSince1970:lastUpdatedDateValue] : nil;
 
   // If operation is NSNull, change it to nil.
   NSString *nullableOperation = result[0][self.pendingOperationColumnIndex];
   NSString *pendingOperation = [nullableOperation isEqual:[NSNull null]] ? nil : nullableOperation;
+
+  // If Etag is NSNull, change it to nil.
+  NSString *nullableEtag = result[0][self.eTagColumnIndex];
+  NSString *etag = [nullableEtag isEqual:[NSNull null]] ? nil : nullableEtag;
   return [MSDocumentUtils documentWrapperFromDocumentData:jsonData
                                              documentType:documentType
-                                                     eTag:result[0][self.eTagColumnIndex]
-                                          lastUpdatedDate:[NSDate dateWithTimeIntervalSince1970:lastUpdatedDate]
+                                                     eTag:etag
+                                          lastUpdatedDate:lastUpdatedDate
                                                 partition:token.partition
                                                documentId:documentId
                                          pendingOperation:pendingOperation
@@ -246,7 +252,6 @@ static const NSUInteger kMSSchemaVersion = 1;
     NSData *data = [documetnJsonString dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary *documentDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
 
-    // TODO: verify that * 1000 for the expirationTime is valid.
     MSPendingOperation *pendingOperation = [[MSPendingOperation alloc] initWithOperation:row[self.pendingOperationColumnIndex]
                                                                                partition:partition
                                                                               documentId:documentId

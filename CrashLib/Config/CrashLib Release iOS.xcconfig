@@ -1,0 +1,3 @@
+#include "../../Config/iOS.xcconfig"
+
+ARCHS[sdk=iphoneos*] = $(PRE_XCODE_10_1_ARCHS)

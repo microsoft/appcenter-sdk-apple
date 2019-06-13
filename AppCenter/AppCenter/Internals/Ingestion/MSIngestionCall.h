@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Whether the request to send data has been submitted or not.
  */
-@property(nonatomic) BOOL submitted;
+@property(nonatomic, getter=isSubmitted) BOOL submitted;
 
 /**
  * Data object to be placed in request body.

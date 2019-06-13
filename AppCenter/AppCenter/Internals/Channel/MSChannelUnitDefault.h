@@ -3,6 +3,7 @@
 
 #import <Foundation/Foundation.h>
 
+#import "MSAuthTokenContextDelegate.h"
 #import "MSChannelUnitProtocol.h"
 #import "MSIngestionDelegate.h"
 
@@ -13,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol MSIngestionProtocol;
 @protocol MSStorage;
 
-@interface MSChannelUnitDefault : NSObject <MSChannelUnitProtocol, MSIngestionDelegate>
+@interface MSChannelUnitDefault : NSObject <MSChannelUnitProtocol, MSIngestionDelegate, MSAuthTokenContextDelegate>
 
 /**
  * Initializes a new `MSChannelUnitDefault` instance.
@@ -29,11 +30,6 @@ NS_ASSUME_NONNULL_BEGIN
                           storage:(id<MSStorage>)storage
                     configuration:(MSChannelUnitConfiguration *)configuration
                 logsDispatchQueue:(dispatch_queue_t)logsDispatchQueue;
-
-/**
- * Flush pending logs.
- */
-- (void)flushQueue;
 
 /**
  * Hash table of channel delegate.
@@ -81,13 +77,13 @@ NS_ASSUME_NONNULL_BEGIN
  * Enable/disable does resume/pause the channel as needed under the hood. When a channel is disabled with data deletion it deletes persisted
  * logs and discards incoming logs.
  */
-@property(nonatomic) BOOL enabled;
+@property(nonatomic, getter=isEnabled) BOOL enabled;
 
 /**
  * A boolean value set to YES if the channel is paused or NO otherwise. A paused channel doesn't forward logs to the ingestion. A paused
  * state doesn't impact the current enabled state.
  */
-@property(nonatomic) BOOL paused;
+@property(nonatomic, getter=isPaused) BOOL paused;
 
 /**
  * A boolean value set to YES if logs are discarded (not persisted) or NO otherwise. Logs are discarded when the related service is disabled

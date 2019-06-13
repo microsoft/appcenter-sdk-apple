@@ -22,7 +22,6 @@
 #import "MSMockKeychainUtil.h"
 #import "MSMockReachability.h"
 #import "MSMockUserDefaults.h"
-#import "MSServiceAbstractProtected.h"
 #import "MSSessionContext.h"
 #import "MSSessionContextPrivate.h"
 #import "MSTestFrameworks.h"
@@ -159,8 +158,8 @@ static NSURL *sfURL;
 
   // If
   XCTestExpectation *openURLCalledExpectation = [self expectationWithDescription:@"openURL Called."];
-  NSArray *bundleArray = @[ @{@"CFBundleURLSchemes" : @[ [NSString stringWithFormat:@"appcenter-%@", kMSTestAppSecret] ]} ];
-  OCMStub([self.bundleMock objectForInfoDictionaryKey:@"CFBundleURLTypes"]).andReturn(bundleArray);
+  NSArray *bundleArray = @[ @{kMSCFBundleURLSchemes : @[ [NSString stringWithFormat:@"appcenter-%@", kMSTestAppSecret] ]} ];
+  OCMStub([self.bundleMock objectForInfoDictionaryKey:kMSCFBundleURLTypes]).andReturn(bundleArray);
   OCMStub([self.bundleMock objectForInfoDictionaryKey:@"MSAppName"]).andReturn(@"Something");
   id distributeMock = OCMPartialMock(self.sut);
   OCMStub([distributeMock openURLInSafariViewControllerWith:OCMOCK_ANY fromClass:OCMOCK_ANY]).andDo(nil);
@@ -255,8 +254,8 @@ static NSURL *sfURL;
 
   // If
   NSString *testUrl = @"https://example.com";
-  NSArray *bundleArray = @[ @{@"CFBundleURLSchemes" : @[ [NSString stringWithFormat:@"appcenter-%@", kMSTestAppSecret] ]} ];
-  OCMStub([self.bundleMock objectForInfoDictionaryKey:@"CFBundleURLTypes"]).andReturn(bundleArray);
+  NSArray *bundleArray = @[ @{kMSCFBundleURLSchemes : @[ [NSString stringWithFormat:@"appcenter-%@", kMSTestAppSecret] ]} ];
+  OCMStub([self.bundleMock objectForInfoDictionaryKey:kMSCFBundleURLTypes]).andReturn(bundleArray);
 
   // When
   [MSDistribute setInstallUrl:testUrl];
@@ -271,8 +270,8 @@ static NSURL *sfURL;
 - (void)testDefaultInstallUrlWorks {
 
   // If
-  NSArray *bundleArray = @[ @{@"CFBundleURLSchemes" : @[ [NSString stringWithFormat:@"appcenter-%@", kMSTestAppSecret] ]} ];
-  OCMStub([self.bundleMock objectForInfoDictionaryKey:@"CFBundleURLTypes"]).andReturn(bundleArray);
+  NSArray *bundleArray = @[ @{kMSCFBundleURLSchemes : @[ [NSString stringWithFormat:@"appcenter-%@", kMSTestAppSecret] ]} ];
+  OCMStub([self.bundleMock objectForInfoDictionaryKey:kMSCFBundleURLTypes]).andReturn(bundleArray);
 
   // When
   NSString *installURL = [self.sut installUrl];
@@ -288,6 +287,15 @@ static NSURL *sfURL;
   // Then
   XCTAssertNotNil([self.sut apiUrl]);
   XCTAssertTrue([[self.sut apiUrl] isEqualToString:kMSDefaultApiUrl]);
+}
+
+- (void)testInitializationPriority {
+
+  // If
+  MSDistribute *distribute = [MSDistribute sharedInstance];
+
+  // Then
+  XCTAssertEqual([distribute initializationPriority], MSInitializationPriorityHigh);
 }
 
 - (void)testHandleInvalidUpdate {
@@ -641,6 +649,8 @@ static NSURL *sfURL;
   NSString *message = [NSString stringWithFormat:MSDistributeLocalizedString(@"MSDistributeAppUpdateAvailableMandatoryUpdateMessage"),
                                                  appName, details.shortVersion, details.version];
 #pragma clang diagnostic pop
+  id appCenterMock = OCMClassMock([MSAppCenter class]);
+  OCMStub([appCenterMock isDebuggerAttached]).andReturn(YES);
 
   // Mock reachability.
   id reachabilityMock = OCMClassMock([MS_Reachability class]);
@@ -652,6 +662,7 @@ static NSURL *sfURL;
 
   // Persist release to be picked up.
   [MS_USER_DEFAULTS setObject:[details serializeToDictionary] forKey:kMSMandatoryReleaseKey];
+  [self.sut handleUpdate:details];
 
   // When
   [self.sut checkLatestRelease:@"whateverToken" distributionGroupId:@"whateverGroupId" releaseHash:@"whateverReleaseHash"];
@@ -695,7 +706,7 @@ static NSURL *sfURL;
                                  OCMVerify([self.alertControllerMock addPreferredActionWithTitle:OCMOCK_ANY handler:OCMOCK_ANY]);
                                  OCMVerifyAll(self.alertControllerMock);
                                }];
-
+  [appCenterMock stopMocking];
   [reachabilityMock stopMocking];
 }
 
@@ -719,6 +730,9 @@ static NSURL *sfURL;
     [invocation setReturnValue:&test];
   });
 
+  id appCenterMock = OCMClassMock([MSAppCenter class]);
+  OCMStub([appCenterMock isDebuggerAttached]).andReturn(YES);
+
   // When
   [self.sut checkLatestRelease:@"whateverToken" distributionGroupId:@"whateverGroupId" releaseHash:@"whateverReleaseHash"];
   dispatch_async(dispatch_get_main_queue(), ^{
@@ -753,6 +767,7 @@ static NSURL *sfURL;
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
                                }];
+  [appCenterMock stopMocking];
   [reachabilityMock stopMocking];
 }
 
@@ -1286,6 +1301,47 @@ static NSURL *sfURL;
   [guidedAccessMock stopMocking];
 }
 
+- (void)testRequestInstallInformationNotifiesUserNonCheck {
+
+  // If
+  id distributeMock = OCMPartialMock(self.sut);
+  OCMStub([distributeMock checkForUpdatesAllowed]).andReturn(NO);
+  id reachabilityMock = OCMClassMock([MS_Reachability class]);
+  OCMStub([reachabilityMock reachabilityForInternetConnection]).andReturn(NO);
+
+  // When
+  [distributeMock requestInstallInformationWith:OCMOCK_ANY];
+
+  // Then
+  // This is only called when checkForUpdatesAllowed returns YES.
+  OCMReject([reachabilityMock reachabilityForInternetConnection]);
+
+  // Clear
+  [distributeMock stopMocking];
+}
+
+- (void)testOpenURLInAuthenticationSession {
+
+  // If
+  id session;
+  if (@available(iOS 12, *)) {
+    session = [SFAuthenticationSession class];
+  }
+  NSURL *fakeURL = [NSURL URLWithString:@"https://fakeurl.com"];
+
+  // Then
+  XCTAssertNil([MSDistribute sharedInstance].authenticationSession);
+
+  // When
+  [[MSDistribute sharedInstance] openURLInAuthenticationSessionWith:fakeURL fromClass:session];
+
+  // Then
+  XCTAssertNotNil([MSDistribute sharedInstance].authenticationSession);
+  if (@available(iOS 12, *)) {
+    XCTAssert([[MSDistribute sharedInstance].authenticationSession isKindOfClass:[SFAuthenticationSession class]]);
+  }
+}
+
 - (void)testCheckForUpdatesDebuggerAttached {
 
   // When
@@ -1731,6 +1787,32 @@ static NSURL *sfURL;
   [utilityMock stopMocking];
 }
 
+- (void)testStartDownloadSucceeded {
+
+  // If
+  MSReleaseDetails *details = [MSReleaseDetails new];
+  id distributeMock = OCMPartialMock(self.sut);
+  OCMStub([distributeMock closeApp]).andDo(nil);
+  id utilityMock = OCMClassMock([MSUtility class]);
+  OCMStub(ClassMethod([utilityMock sharedAppOpenUrl:OCMOCK_ANY options:OCMOCK_ANY completionHandler:OCMOCK_ANY]))
+      .andDo(^(NSInvocation *invocation) {
+        void (^handler)(MSOpenURLState);
+        [invocation getArgument:&handler atIndex:4];
+        handler(MSOpenURLStateSucceed);
+      });
+
+  // When
+  details.mandatoryUpdate = YES;
+  [distributeMock startDownload:details];
+
+  // Then
+  OCMVerify([distributeMock closeApp]);
+
+  // Clear
+  [distributeMock stopMocking];
+  [utilityMock stopMocking];
+}
+
 - (void)testStartDownloadFailed {
 
   // If
@@ -1762,8 +1844,8 @@ static NSURL *sfURL;
 - (void)testUpdateURLWithUnregisteredScheme {
 
   // If
-  NSArray *bundleArray = @[ @{@"CFBundleURLSchemes" : @[ @"appcenter-IAMSUPERSECRET" ]} ];
-  OCMStub([self.bundleMock objectForInfoDictionaryKey:@"CFBundleURLTypes"]).andReturn(bundleArray);
+  NSArray *bundleArray = @[ @{kMSCFBundleURLSchemes : @[ @"appcenter-IAMSUPERSECRET" ]} ];
+  OCMStub([self.bundleMock objectForInfoDictionaryKey:kMSCFBundleURLTypes]).andReturn(bundleArray);
 
   // When
   NSURL *url = [self.sut buildTokenRequestURLWithAppSecret:kMSTestAppSecret releaseHash:kMSTestReleaseHash isTesterApp:false];
@@ -1819,7 +1901,7 @@ static NSURL *sfURL;
   // When
   id appCenterMock = OCMClassMock([MSAppCenter class]);
   OCMStub([appCenterMock sharedInstance]).andReturn(appCenterMock);
-  OCMStub([appCenterMock sdkConfigured]).andReturn(YES);
+  OCMStub([appCenterMock isSdkConfigured]).andReturn(YES);
   OCMStub([appCenterMock isConfigured]).andReturn(YES);
   [distributeMock startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
                               appSecret:kMSTestAppSecret
@@ -1913,6 +1995,24 @@ static NSURL *sfURL;
 
   // Then
   OCMVerify([distributeMock storeDownloadedReleaseDetails:details]);
+
+  // Clear
+  [distributeMock stopMocking];
+}
+
+- (void)testNotifyUpdateActionSelectedButDisabled {
+
+  // If
+  id distributeMock = OCMPartialMock(self.sut);
+  MSReleaseDetails *details = [MSReleaseDetails new];
+  [distributeMock setValue:details forKey:@"releaseDetails"];
+  OCMStub([distributeMock isEnabled]).andReturn(NO);
+
+  // When
+  [distributeMock notifyUpdateAction:MSUpdateActionUpdate];
+
+  // Then
+  OCMVerify([distributeMock showDistributeDisabledAlert]);
 
   // Clear
   [distributeMock stopMocking];

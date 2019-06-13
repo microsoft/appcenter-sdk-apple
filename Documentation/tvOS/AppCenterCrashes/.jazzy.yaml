@@ -5,7 +5,7 @@ sdk: appletvsimulator
 theme: ../../Themes/apple
 
 module: AppCenterCrashes
-module_version: 2.0.1
+module_version: 2.1.0
 author: Microsoft Corp
 author_url: http://www.microsoft.com
 
@@ -21,8 +21,8 @@ framework_root: ../../../AppCenter-SDK-Apple/tvOS/
 exclude: [../../../AppCenter-SDK-Apple/tvOS/AppCenterCrashes.framework/Headers/MSService.h, ../../../AppCenter-SDK-Apple/tvOS/AppCenterCrashes.framework/Headers/MSServiceAbstract.h]
 
 root_url: https://docs.microsoft.com/appcenter/sdk/ios
-github_url: https://github.com/Microsoft/AppCenter-SDK-Apple
-github_file_prefix: "https://github.com/Microsoft/AppCenter-SDK-Apple"
+github_url: https://github.com/microsoft/appcenter-sdk-apple
+github_file_prefix: "https://github.com/microsoft/appcenter-sdk-apple"
 
 skip_undocumented: true
 

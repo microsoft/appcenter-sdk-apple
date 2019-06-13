@@ -5,6 +5,7 @@
 
 static NSString *const kSASCustomizedUpdateAlertKey = @"kSASCustomizedUpdateAlertKey";
 static NSString *const kMSChildTransmissionTargetTokenKey = @"kMSChildTransmissionTargetToken";
+static NSString *const kMSTransmissionIterval = @"kMSTransmissionIterval";
 static NSString *const kMSTargetToken1 = @"602c2d529a824339bef93a7b9a035e6a-"
                                          @"a0189496-cc3a-41c6-9214-"
                                          @"b479e5f44912-6819";

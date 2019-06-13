@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import <Foundation/Foundation.h>
-
+#import "MSConstants+Internal.h"
 #import "MSConstants.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -32,14 +31,14 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Interval for flushing the queue.
  */
-@property(nonatomic, readonly) float flushInterval;
+@property(nonatomic, readonly) NSUInteger flushInterval;
 
 /**
  * Initializes a new instance based on given settings.
  *
  * @param groupId The id used by the channel to determine a group of logs.
  * @param priority The priority of logs being sent by the channel.
- * @param flushInterval The interval after which a new batch will be finished.
+ * @param flushInterval The interval in seconds after which a new batch will be finished. Must be between 3 and 86400 (1 day).
  * @param batchSizeLimit The maximum number of logs after which a new batch will be finished.
  * @param pendingBatchesLimit The maximum number of batches that have currently been forwarded to another component.
  *
@@ -47,7 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (instancetype)initWithGroupId:(NSString *)groupId
                        priority:(MSPriority)priority
-                  flushInterval:(float)flushInterval
+                  flushInterval:(NSUInteger)flushInterval
                  batchSizeLimit:(NSUInteger)batchSizeLimit
             pendingBatchesLimit:(NSUInteger)pendingBatchesLimit;
 
@@ -59,6 +58,16 @@ NS_ASSUME_NONNULL_BEGIN
  * @return a fully configured `MSChannelConfiguration` instance with default settings.
  */
 - (instancetype)initDefaultConfigurationWithGroupId:(NSString *)groupId;
+
+/**
+ * Initializes a new instance with flushInterval.
+ *
+ * @param groupId The id used by the channel to determine a group of logs.
+ * @param flushInterval The interval in seconds after which a new batch will be finished. Must be between 3 and 86400 (1 day).
+ *
+ * @return a fully configured `MSChannelConfiguration` instance with flushInterval.
+ */
+- (instancetype)initDefaultConfigurationWithGroupId:(NSString *)groupId flushInterval:(NSUInteger)flushInterval;
 
 @end
 

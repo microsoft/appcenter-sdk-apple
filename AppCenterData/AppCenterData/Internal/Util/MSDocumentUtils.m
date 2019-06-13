@@ -47,6 +47,8 @@ static NSString *const kMSDocumentKey = @"document";
 
 + (MSDocumentWrapper *)documentWrapperFromData:(nullable NSData *)data
                                   documentType:(Class)documentType
+                                     partition:(NSString *)partition
+                                    documentId:(NSString *)documentId
                                fromDeviceCache:(BOOL)fromDeviceCache {
 
   // Deserialize data.
@@ -65,7 +67,7 @@ static NSString *const kMSDocumentKey = @"document";
     }
     MSLogError([MSData logTag], @"Error deserializing data: %@", [error description]);
     MSDataError *dataError = [[MSDataError alloc] initWithErrorCode:MSACDataErrorJSONSerializationFailed innerError:error message:nil];
-    return [[MSDocumentWrapper alloc] initWithError:dataError documentId:nil];
+    return [[MSDocumentWrapper alloc] initWithError:dataError partition:partition documentId:documentId];
   }
 
   // Proceed from the dictionary.
@@ -98,7 +100,7 @@ static NSString *const kMSDocumentKey = @"document";
     }
     MSLogError([MSData logTag], @"Error deserializing data: %@", [error localizedDescription]);
     MSDataError *dataError = [[MSDataError alloc] initWithErrorCode:MSACDataErrorJSONSerializationFailed innerError:error message:nil];
-    return [[MSDocumentWrapper alloc] initWithError:dataError documentId:documentId];
+    return [[MSDocumentWrapper alloc] initWithError:dataError partition:partition documentId:documentId eTag:eTag];
   }
 
   // Proceed from the dictionary.
@@ -129,7 +131,7 @@ static NSString *const kMSDocumentKey = @"document";
                                                          innerError:nil
                                                             message:errorMessage];
     MSLogError([MSData logTag], @"Error deserializing data: %@.", [dataError localizedDescription]);
-    return [[MSDocumentWrapper alloc] initWithError:dataError documentId:nil];
+    return [[MSDocumentWrapper alloc] initWithError:dataError partition:nil documentId:nil];
   }
   NSDictionary *dictionary = (NSDictionary *)object;
   NSString *documentId = dictionary[kMSDocumentIdKey];
@@ -163,15 +165,24 @@ static NSString *const kMSDocumentKey = @"document";
     deserializedValue = [(id<MSSerializableDocument>)[documentType alloc] initFromDictionary:dictionary];
     MSLogDebug([MSData logTag], @"Successfully deserialized document: %@ (partition: %@)", documentId, partition);
   }
-  return [[MSDocumentWrapper alloc] initWithDeserializedValue:deserializedValue
-                                                    jsonValue:jsonValue
-                                                    partition:partition
-                                                   documentId:documentId
-                                                         eTag:eTag
-                                              lastUpdatedDate:lastUpdatedDate
-                                             pendingOperation:pendingOperation
-                                                        error:dataError
-                                              fromDeviceCache:fromDeviceCache];
+  if (dataError) {
+    return [[MSDocumentWrapper alloc] initWithError:dataError
+                                          partition:partition
+                                         documentId:documentId
+                                               eTag:eTag
+                                    lastUpdatedDate:lastUpdatedDate
+                                   pendingOperation:pendingOperation
+                                    fromDeviceCache:fromDeviceCache];
+  } else {
+    return [[MSDocumentWrapper alloc] initWithDeserializedValue:deserializedValue
+                                                      jsonValue:jsonValue
+                                                      partition:partition
+                                                     documentId:documentId
+                                                           eTag:eTag
+                                                lastUpdatedDate:lastUpdatedDate
+                                               pendingOperation:pendingOperation
+                                                fromDeviceCache:fromDeviceCache];
+  }
 }
 
 + (NSString *)jsonValueForDictionary:(NSDictionary *)dictionary dataError:(MSDataError *__autoreleasing *)dataError {

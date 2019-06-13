@@ -4,17 +4,9 @@
 #import "MSTokenResult.h"
 #import "MSDataConstants.h"
 #import "MSDocumentUtils.h"
+#import "MSTokenResultPrivate.h"
 
 @implementation MSTokenResult
-
-static NSString *const kMSDbName = @"dbName";
-static NSString *const kMSStatus = @"status";
-static NSString *const kMSPartition = @"partition";
-static NSString *const kMSDbAccount = @"dbAccount";
-static NSString *const kMSDbCollectionName = @"dbCollectionName";
-static NSString *const kMSExpiresOn = @"expiresOn";
-static NSString *const kMSToken = @"token";
-static NSString *const kMSAccountId = @"accountId";
 
 @synthesize partition = _partition;
 @synthesize dbAccount = _dbAccount;

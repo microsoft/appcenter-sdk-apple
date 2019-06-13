@@ -35,7 +35,7 @@
     kMSCSName : @"1DS",
     kMSCSTime : abstractDummies[kMSTimestamp],
     kMSCSIKey : @"o:60cd0b94-6060-11e8-9c2d-fa7ae01bbebc",
-    kMSCSFlags : @(MSFlagsPersistenceNormal),
+    kMSCSFlags : @(MSFlagsNormal),
     kMSCSExt : [self extWithDummyValues],
     kMSCSData : [self dataWithDummyValues]
   } mutableCopy];
@@ -57,7 +57,7 @@
   [expectedSerializedLog setObject:@"1DS" forKey:kMSCSName];
   [expectedSerializedLog setObject:[MSUtility dateToISO8601:self.csLogDummyValues[kMSCSTime]] forKey:kMSCSTime];
   [expectedSerializedLog setObject:@"o:60cd0b94-6060-11e8-9c2d-fa7ae01bbebc" forKey:kMSCSIKey];
-  [expectedSerializedLog setObject:@(MSFlagsPersistenceNormal) forKey:kMSCSFlags];
+  [expectedSerializedLog setObject:@(MSFlagsNormal) forKey:kMSCSFlags];
   [expectedSerializedLog setObject:[self.csLogDummyValues[kMSCSExt] serializeToDictionary] forKey:kMSCSExt];
   [expectedSerializedLog setObject:[self.csLogDummyValues[kMSCSData] serializeToDictionary] forKey:kMSCSData];
 

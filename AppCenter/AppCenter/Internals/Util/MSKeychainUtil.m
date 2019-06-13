@@ -17,39 +17,6 @@ static NSString *AppCenterKeychainServiceName(NSString *suffix) {
   return serviceName;
 }
 
-+ (BOOL)storeArray:(NSArray *)array forKey:(NSString *)key {
-  return [MSKeychainUtil storeArray:array forKey:key withServiceName:AppCenterKeychainServiceName(kMSServiceSuffix)];
-}
-
-+ (BOOL)storeArray:(NSArray *)array forKey:(NSString *)key withServiceName:(NSString *)serviceName {
-  NSMutableDictionary *attributes = [MSKeychainUtil generateItem:key withServiceName:serviceName];
-  attributes[(__bridge id)kSecValueData] = [NSKeyedArchiver archivedDataWithRootObject:array];
-  OSStatus status = [self addSecItem:attributes];
-
-  // Delete item if already exists.
-  if (status == errSecDuplicateItem) {
-    [self deleteSecItem:attributes];
-    status = [self addSecItem:attributes];
-  }
-  return status == noErr;
-}
-
-+ (nullable NSArray *)arrayForKey:(NSString *)key {
-  return [MSKeychainUtil arrayForKey:key withServiceName:AppCenterKeychainServiceName(kMSServiceSuffix)];
-}
-
-+ (nullable NSArray *)arrayForKey:(NSString *)key withServiceName:(NSString *)serviceName {
-  NSMutableDictionary *query = [MSKeychainUtil generateItem:key withServiceName:serviceName];
-  query[(__bridge id)kSecReturnData] = (__bridge id)kCFBooleanTrue;
-  query[(__bridge id)kSecMatchLimit] = (__bridge id)kSecMatchLimitOne;
-  CFTypeRef result = nil;
-  OSStatus status = [self secItemCopyMatchingQuery:query result:&result];
-  if (status == noErr) {
-    return [NSKeyedUnarchiver unarchiveObjectWithData:(__bridge_transfer NSData *)result];
-  }
-  return nil;
-}
-
 + (BOOL)storeString:(NSString *)string forKey:(NSString *)key withServiceName:(NSString *)serviceName {
   NSMutableDictionary *attributes = [MSKeychainUtil generateItem:key withServiceName:serviceName];
   attributes[(__bridge id)kSecValueData] = [string dataUsingEncoding:NSUTF8StringEncoding];

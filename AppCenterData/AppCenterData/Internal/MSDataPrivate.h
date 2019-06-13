@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 #import "MSAuthTokenContextDelegate.h"
+#import "MSRemoteOperationDelegate.h"
 #import "MSServiceInternal.h"
 #import "MS_Reachability.h"
 
@@ -28,6 +29,11 @@ static NSString *const kMSDefaultApiUrl = @"https://tokens.appcenter.ms/v0.1";
  * Set of outgoing pending operation ids.
  */
 @property(nonatomic, copy) NSMutableSet<NSString *> *outgoingPendingOperations;
+
+/**
+ * Remote operation delegate.
+ */
+@property(nonatomic, weak) id<MSRemoteOperationDelegate> remoteOperationDelegate;
 
 /**
  * Retrieve a paginated list of the documents in a partition.
@@ -68,7 +74,7 @@ static NSString *const kMSDefaultApiUrl = @"https://tokens.appcenter.ms/v0.1";
  * @param documentId The identifier of a document.
  * @param documentWrapper Document wrapper object.
  * @param pendingOperation Pending operation.
- * @param operationExpirationTime oOperation expiration time.
+ * @param operationExpirationTime operation expiration time.
  */
 - (void)synchronizeLocalCacheWithCosmosDbWithToken:(MSTokenResult *)token
                                         documentId:(NSString *)documentId

@@ -43,7 +43,7 @@
     NSString *message = @"Operation is not supported";
     MSLogError([MSData logTag], message);
     MSDataError *dataError = [[MSDataError alloc] initWithErrorCode:MSACDataErrorUnsupportedOperation innerError:nil message:message];
-    completionHandler([[MSDocumentWrapper alloc] initWithError:dataError documentId:documentId]);
+    completionHandler([[MSDocumentWrapper alloc] initWithError:dataError partition:nil documentId:documentId]);
     return;
   }
 
@@ -55,7 +55,7 @@
           [NSString stringWithFormat:@"Error while retrieving cached token, aborting operation: %@", [error localizedDescription]];
       MSLogError([MSData logTag], @"%@", message);
       MSDataError *dataError = [[MSDataError alloc] initWithErrorCode:MSACDataErrorCachedToken innerError:nil message:message];
-      completionHandler([[MSDocumentWrapper alloc] initWithError:dataError documentId:documentId]);
+      completionHandler([[MSDocumentWrapper alloc] initWithError:dataError partition:nil documentId:documentId]);
       return;
     }
 
@@ -108,7 +108,7 @@
           NSString *message = @"Document pending deletion in local storage";
           MSLogError([MSData logTag], message);
           MSDataError *dataError = [[MSDataError alloc] initWithErrorCode:MSACDataErrorDocumentNotFound innerError:nil message:message];
-          completionHandler([[MSDocumentWrapper alloc] initWithError:dataError documentId:documentId]);
+          completionHandler([[MSDocumentWrapper alloc] initWithError:dataError partition:nil documentId:documentId]);
         }
 
         // Cached document is valid.
@@ -135,7 +135,6 @@
                                                                                              eTag:cachedDocument.eTag
                                                                                   lastUpdatedDate:cachedDocument.lastUpdatedDate
                                                                                  pendingOperation:operation
-                                                                                            error:nil
                                                                                   fromDeviceCache:YES];
 
         // Update local store and return document.

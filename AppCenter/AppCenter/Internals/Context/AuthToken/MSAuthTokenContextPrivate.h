@@ -4,8 +4,24 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @class MSAuthTokenInfo;
+@class MSEncrypter;
 
 @interface MSAuthTokenContext ()
+
+/**
+ * Collection of channel delegates.
+ */
+@property(nonatomic) NSHashTable<id<MSAuthTokenContextDelegate>> *delegates;
+
+/**
+ * YES if the current token should be reset.
+ */
+@property(nonatomic, getter=isResetAuthTokenRequired) BOOL resetAuthTokenRequired;
+
+/*
+ * Encrypter for target tokens.
+ */
+@property(nonatomic) MSEncrypter *encrypter;
 
 /**
  * Private field used to get and set auth tokens history array.

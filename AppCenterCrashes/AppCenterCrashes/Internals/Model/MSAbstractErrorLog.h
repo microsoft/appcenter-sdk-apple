@@ -48,7 +48,7 @@
 /**
  * If YES, this error report is an application crash.
  */
-@property(nonatomic) BOOL fatal;
+@property(nonatomic, getter=isFatal) BOOL fatal;
 
 /**
  * Timestamp when the app was launched.

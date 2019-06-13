@@ -103,7 +103,7 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
 }
 
 + (BOOL)isConfigured {
-  return [[MSAppCenter sharedInstance] sdkConfigured] && [[MSAppCenter sharedInstance] configuredFromApplication];
+  return [MSAppCenter sharedInstance].sdkConfigured && [MSAppCenter sharedInstance].configuredFromApplication;
 }
 
 + (void)setLogUrl:(NSString *)logUrl {

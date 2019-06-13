@@ -17,7 +17,6 @@
 #import "MSErrorAttachmentLogInternal.h"
 #import "MSErrorLogFormatter.h"
 #import "MSHandledErrorLog.h"
-#import "MSServiceAbstractProtected.h"
 #import "MSSessionContext.h"
 #import "MSUserIdContext.h"
 #import "MSUtility+File.h"
@@ -246,7 +245,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
     _didCrashInLastSession = NO;
     _delayedProcessingSemaphore = dispatch_semaphore_create(0);
-    _automaticProcessing = YES;
+    _automaticProcessingEnabled = YES;
     _shouldReleaseProcessingSemaphore = YES;
 #if !TARGET_OS_TV
     _enableMachExceptionHandler = YES;
@@ -649,7 +648,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
    * automatic processing is disabled. Though it sounds counterintuitive, this is important because there are scenarios in some wrappers
    * (i.e. RN) where the application state is not ready by the time crash processing needs to happen.
    */
-  if (self.automaticProcessing && ([MSUtility applicationState] == MSApplicationStateBackground)) {
+  if (self.automaticProcessingEnabled && ([MSUtility applicationState] == MSApplicationStateBackground)) {
     MSLogWarning([MSCrashes logTag], @"Crashes will not be processed because the application is in the background.");
     return;
   }
@@ -716,8 +715,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     MSPLCrashReport *report = foundCrashReports[fileURL];
     MSErrorReport *errorReport = foundErrorReports[fileURL];
     MSAppleErrorLog *log = [MSErrorLogFormatter errorLogFromCrashReport:report];
-    if (!self.automaticProcessing || [self shouldProcessErrorReport:errorReport]) {
-      if (!self.automaticProcessing) {
+    if (!self.automaticProcessingEnabled || [self shouldProcessErrorReport:errorReport]) {
+      if (!self.automaticProcessingEnabled) {
         MSLogDebug([MSCrashes logTag], @"Automatic crash processing is disabled, storing the crash report for later processing: %@",
                    report.debugDescription);
       } else {
@@ -740,7 +739,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   }
 
   // Send reports or await user confirmation if automatic processing is enabled.
-  if (self.automaticProcessing) {
+  if (self.automaticProcessingEnabled) {
     [self sendCrashReportsOrAwaitUserConfirmation];
   }
 }
@@ -1054,12 +1053,12 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     MSLogDebug([MSCrashes logTag], @"The flag for user confirmation is set to MSUserConfirmationAlways, continue sending logs");
     [self handleUserConfirmation:MSUserConfirmationSend];
     return alwaysSend;
-  } else if (self.automaticProcessing && !(self.userConfirmationHandler && [self userPromptedForConfirmation])) {
+  } else if (self.automaticProcessingEnabled && !(self.userConfirmationHandler && [self userPromptedForConfirmation])) {
 
     // User confirmation handler doesn't exist or returned NO which means 'want to process'.
     MSLogDebug([MSCrashes logTag], @"The user confirmation handler is not implemented or returned NO, continue sending logs");
     [self handleUserConfirmation:MSUserConfirmationSend];
-  } else if (!self.automaticProcessing) {
+  } else if (!self.automaticProcessingEnabled) {
     MSLogDebug([MSCrashes logTag], @"Automatic crash processing is disabled and \"AlwaysSend\" is false. Awaiting user confirmation.");
   }
   return alwaysSend;
@@ -1154,7 +1153,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     log.userId = [[MSUserIdContext sharedInstance] userIdAt:log.timestamp];
 
     // Then, enqueue crash log.
-    [self.channelUnit enqueueItem:log flags:MSFlagsPersistenceCritical];
+    [self.channelUnit enqueueItem:log flags:MSFlagsCritical];
 
     // Send error attachments.
     [self sendErrorAttachments:attachments withIncidentIdentifier:report.incidentIdentifier];

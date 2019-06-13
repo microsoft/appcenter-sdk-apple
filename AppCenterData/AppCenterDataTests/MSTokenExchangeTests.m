@@ -13,16 +13,9 @@
 #import "MSTestFrameworks.h"
 #import "MSTokenExchange.h"
 #import "MSTokenResult.h"
+#import "MSTokenResultPrivate.h"
 #import "MSTokensResponse.h"
 #import "MSUtility+Date.h"
-
-static NSString *const kMSPartition = @"partition";
-static NSString *const kMSToken = @"token";
-static NSString *const kMSStatus = @"status";
-static NSString *const kMSDbName = @"dbName";
-static NSString *const kMSDbAccount = @"dbAccount";
-static NSString *const kMSDbCollectionName = @"dbCollectionName";
-static NSString *const kMSExpiresOn = @"expiresOn";
 
 static NSString *const kMSExpiredDate = @"1999-09-19T11:11:11.111Z";
 static NSString *const kMSNotExpiredDate = @"2999-09-19T11:11:11.111Z";

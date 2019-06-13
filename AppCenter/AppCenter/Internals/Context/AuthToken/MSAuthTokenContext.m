@@ -9,7 +9,6 @@
 #import "MSAuthTokenValidityInfo.h"
 #import "MSConstants+Internal.h"
 #import "MSEncrypter.h"
-#import "MSUserInformation.h"
 
 /**
  * Singleton.
@@ -21,30 +20,6 @@ static dispatch_once_t onceToken;
  * Length of accountId in home accountId.
  */
 static NSUInteger const kMSAccountIdLengthInHomeAccount = 36;
-
-@interface MSAuthTokenContext ()
-
-/**
- * Cached authorization token.
- */
-@property(nullable, atomic, copy) NSString *authTokenCache;
-
-/**
- * Collection of channel delegates.
- */
-@property(nonatomic) NSHashTable<id<MSAuthTokenContextDelegate>> *delegates;
-
-/**
- * YES if the current token should be reset.
- */
-@property BOOL resetAuthTokenRequired;
-
-/*
- * Encrypter for target tokens.
- */
-@property(nonatomic) MSEncrypter *encrypter;
-
-@end
 
 @implementation MSAuthTokenContext
 
@@ -110,11 +85,18 @@ static NSUInteger const kMSAccountIdLengthInHomeAccount = 36;
         [authTokenHistory addObject:newAuthToken];
       }
     }
-    MSAuthTokenInfo *newAuthToken = [[MSAuthTokenInfo alloc] initWithAuthToken:authToken
-                                                                     accountId:accountId
-                                                                     startTime:newTokenStartDate
-                                                                     expiresOn:expiresOn];
-    [authTokenHistory addObject:newAuthToken];
+
+    /*
+     * If authToken is nil and there is no tokens in the history, keep the history empty to save history size as well as not popping up
+     * a Keychain access dialog to end users.
+     */
+    if (authToken || [authTokenHistory count] > 0) {
+      MSAuthTokenInfo *newAuthToken = [[MSAuthTokenInfo alloc] initWithAuthToken:authToken
+                                                                       accountId:accountId
+                                                                       startTime:newTokenStartDate
+                                                                       expiresOn:expiresOn];
+      [authTokenHistory addObject:newAuthToken];
+    }
 
     // Cap array size at max available size const (deleting from beginning).
     if ([authTokenHistory count] > kMSMaxAuthTokenArraySize) {
@@ -132,15 +114,13 @@ static NSUInteger const kMSAccountIdLengthInHomeAccount = 36;
     if ([delegate respondsToSelector:@selector(authTokenContext:didUpdateAuthToken:)]) {
       [delegate authTokenContext:self didUpdateAuthToken:authToken];
     }
-    if (isNewUser && [delegate respondsToSelector:@selector(authTokenContext:didUpdateUserInformation:)]) {
-      MSUserInformation *userInfo = nil;
+    if (isNewUser && [delegate respondsToSelector:@selector(authTokenContext:didUpdateAccountId:)]) {
       if (accountId) {
         if ([accountId length] > kMSAccountIdLengthInHomeAccount) {
           accountId = [accountId substringToIndex:kMSAccountIdLengthInHomeAccount];
         }
-        userInfo = [[MSUserInformation alloc] initWithAccountId:(NSString *)accountId];
       }
-      [delegate authTokenContext:self didUpdateUserInformation:userInfo];
+      [delegate authTokenContext:self didUpdateAccountId:accountId];
     }
   }
 }
@@ -235,11 +215,11 @@ static NSUInteger const kMSAccountIdLengthInHomeAccount = 36;
 }
 
 - (void)setAuthTokenHistory:(nullable NSArray<MSAuthTokenInfo *> *)authTokenHistory {
-  self.authTokenHistoryArray = authTokenHistory;
-  NSData *decryptedData = authTokenHistory ? [NSKeyedArchiver archivedDataWithRootObject:(id)authTokenHistory] : nil;
+  NSData *decryptedData = [authTokenHistory count] > 0 ? [NSKeyedArchiver archivedDataWithRootObject:(id)authTokenHistory] : nil;
   NSData *encryptedData = decryptedData ? [self.encrypter encryptData:decryptedData] : nil;
-  [MS_USER_DEFAULTS setObject:encryptedData forKey:kMSAuthTokenHistoryKey];
   if (encryptedData) {
+    self.authTokenHistoryArray = authTokenHistory;
+    [MS_USER_DEFAULTS setObject:encryptedData forKey:kMSAuthTokenHistoryKey];
     MSLogDebug([MSAppCenter logTag], @"Saved new history state.");
   } else {
     MSLogWarning([MSAppCenter logTag], @"Failed to save new history state.");
