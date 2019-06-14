@@ -16,7 +16,6 @@ class AppDelegate : UIResponder, UIApplicationDelegate, MSCrashesDelegate {
 
     // Override point for customization after application launch.
     MSAppCenter.setLogLevel(MSLogLevel.verbose);
-    MSAppCenter.setLogUrl("https://in-integration.dev.avalanch.es")
     MSAppCenter.start("e57f6975-9167-4b3b-b450-bbb87b717b82", withServices : [MSAnalytics.self, MSCrashes.self]);
 
     // Crashes Delegate.
