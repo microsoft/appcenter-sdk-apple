@@ -34,7 +34,6 @@
   [MSUtility deleteItemForPathComponent:kMSDBDocumentFileName];
 
   // Init properties.
-  // _documentStoreMock = OCMClassMock([MSDBDocumentStore class]);
   MSDBStorage *dbStorage = [[MSDBStorage alloc] initWithVersion:0 filename:kMSDBDocumentFileName];
   _documentStoreMock = OCMPartialMock([[MSDBDocumentStore alloc] initWithDbStorage:dbStorage]);
   _reachability = OCMPartialMock([MS_Reachability reachabilityForInternetConnection]);

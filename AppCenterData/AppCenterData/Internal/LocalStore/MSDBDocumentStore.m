@@ -198,7 +198,7 @@ static const NSUInteger kMSSchemaVersion = 1;
 
   // Final list of documents.
   NSMutableArray<MSDocumentWrapper *> *localListItems = [NSMutableArray new];
-  
+
   // Get effective device time to live.
   NSInteger deviceTimeToLive = baseOptions ? baseOptions.deviceTimeToLive : kMSDataTimeToLiveDefault;
 
@@ -214,8 +214,7 @@ static const NSUInteger kMSSchemaVersion = 1;
     MSLogWarning([MSData logTag], @"%@", errorMessage);
 
     // return an empty list
-    MSPaginatedDocuments *documents =
-        [[MSPaginatedDocuments alloc] initWithPage:[[MSPage alloc] initWithItems:localListItems]
+    MSPaginatedDocuments *documents = [[MSPaginatedDocuments alloc] initWithPage:[[MSPage alloc] initWithItems:localListItems]
                                                                        partition:partition
                                                                     documentType:documentType
                                                                 deviceTimeToLive:baseOptions.deviceTimeToLive
