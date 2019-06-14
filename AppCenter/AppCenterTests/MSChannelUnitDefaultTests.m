@@ -283,7 +283,6 @@ static NSString *const kMSTestGroupId = @"GroupId";
   NSUInteger batchSizeLimit = 4;
   int itemsToAdd = 8;
   id channelUnitMock = OCMPartialMock(self.sut);
-  OCMReject([channelUnitMock startTimer:OCMOCK_ANY]);
   
   // Configure channel.
   self.sut.configuration = [[MSChannelUnitConfiguration alloc] initWithGroupId:kMSTestGroupId
@@ -301,7 +300,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   // Then
   [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *error) {
-                                 OCMVerify([self.sut flushQueue]);
+                                 OCMVerify([[channelUnitMock ignoringNonObjectArgs] startTimer:0]);
                                  assertThatUnsignedLong(self.sut.itemsCount, equalToInt(itemsToAdd));
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
