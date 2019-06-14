@@ -307,6 +307,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                  }
                                }];
   
+  // Clear
   [channelUnitMock stopMocking];
 }
 
