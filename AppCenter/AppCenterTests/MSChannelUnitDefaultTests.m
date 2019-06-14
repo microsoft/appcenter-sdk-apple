@@ -229,6 +229,8 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                  assertThatUnsignedLong(self.sut.itemsCount, equalToInt(0));
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
+ //                                  TODO uncomment
+ //                                  assertThatUnsignedLong(self.sut.itemsCount, equalToInt(itemsToAdd));
                                  }
                                }];
 
