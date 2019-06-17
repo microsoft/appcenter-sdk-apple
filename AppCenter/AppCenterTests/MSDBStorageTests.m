@@ -126,15 +126,18 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
 
 - (void)testVersion {
   [self.sut executeQueryUsingBlock:^int(void *db) {
+    
+    int result = 0;
+    
     // When
-    NSUInteger version = [MSDBStorage versionInOpenedDatabase:db];
+    NSUInteger version = [MSDBStorage versionInOpenedDatabase:db result:&result];
 
     // Then
     assertThatUnsignedInteger(version, equalToUnsignedInt(0));
 
     // When
     [MSDBStorage setVersion:1 inOpenedDatabase:db];
-    version = [MSDBStorage versionInOpenedDatabase:db];
+    version = [MSDBStorage versionInOpenedDatabase:db result:&result];
 
     // Then
     assertThatUnsignedInteger(version, equalToUnsignedInt(1));
@@ -145,7 +148,8 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   // After re-open.
   [self.sut executeQueryUsingBlock:^int(void *db) {
     // When
-    NSUInteger version = [MSDBStorage versionInOpenedDatabase:db];
+    int result = 0;
+    NSUInteger version = [MSDBStorage versionInOpenedDatabase:db result:&result];
 
     // Then
     assertThatUnsignedInteger(version, equalToUnsignedInt(1));
