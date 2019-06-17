@@ -15,7 +15,7 @@ static const long kMSDefaultDatabaseSizeInBytes = 10 * 1024 * 1024;
 /**
  * Database file name.
  */
-@property(nonatomic, readonly, nullable) NSURL *dbFileURL;
+@property(nonatomic, nullable) NSURL *dbFileURL;
 
 /**
  * Maximum size of the database.
@@ -25,7 +25,7 @@ static const long kMSDefaultDatabaseSizeInBytes = 10 * 1024 * 1024;
 /**
  * Page size for database.
  */
-@property(nonatomic, readonly) long pageSize;
+@property(nonatomic) long pageSize;
 
 /**
  * Called after the database is created. Override to customize the database.

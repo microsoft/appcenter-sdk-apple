@@ -38,38 +38,59 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
     }
   });
   if ((self = [super init])) {
-    BOOL newDatabase = ![MSUtility fileExistsForPathComponent:filename];
-    _dbFileURL = [MSUtility createFileAtPathComponent:filename withData:nil atomically:NO forceOverwrite:NO];
-    _maxSizeInBytes = kMSDefaultDatabaseSizeInBytes;
-
-    int result;
-    sqlite3 *db = [MSDBStorage openDatabaseAtFileURL:self.dbFileURL withResult:&result];
-    if (db) {
-      _pageSize = [MSDBStorage getPageSizeInOpenedDatabase:db];
-      NSUInteger databaseVersion = [MSDBStorage versionInOpenedDatabase:db result:&result];
-
-      // Create table.
-      if (schema) {
-        [MSDBStorage createTablesWithSchema:schema inOpenedDatabase:db];
-      }
-      if (newDatabase) {
-        MSLogInfo([MSAppCenter logTag], @"Created \"%@\" database with %lu version.", filename, (unsigned long)version);
-        [self customizeDatabase:db];
-      } else if (databaseVersion < version) {
-        MSLogInfo([MSAppCenter logTag], @"Migrating \"%@\" database from version %lu to %lu.", filename, (unsigned long)databaseVersion,
-                  (unsigned long)version);
-        [self migrateDatabase:db fromVersion:databaseVersion];
-      }
-      [MSDBStorage enableAutoVacuumInOpenedDatabase:db];
-      [MSDBStorage setVersion:version inOpenedDatabase:db];
-      sqlite3_close(db);
-    };
+    int result = [self initializeDatabaseWithSchema:schema version:version filename:filename];
+    if (result == SQLITE_CORRUPT || result == SQLITE_NOTADB) {
+      [self dropDatabase];
+      result = [self initializeDatabaseWithSchema:schema version:version filename:filename];
+    }
+    if (result != SQLITE_OK) {
+      MSLogError([MSAppCenter logTag], @"Failed to initialize database.");
+    }
   }
   return self;
 }
 
 - (instancetype)initWithVersion:(NSUInteger)version filename:(NSString *)filename {
   return (self = [self initWithSchema:nil version:version filename:filename]);
+}
+
+- (int)initializeDatabaseWithSchema:(MSDBSchema *)schema version:(NSUInteger)version filename:(NSString *)filename {
+  BOOL newDatabase = ![MSUtility fileExistsForPathComponent:filename];
+  self.dbFileURL = [MSUtility createFileAtPathComponent:filename withData:nil atomically:NO forceOverwrite:NO];
+  self.maxSizeInBytes = kMSDefaultDatabaseSizeInBytes;
+
+  int result;
+  sqlite3 *db = [MSDBStorage openDatabaseAtFileURL:self.dbFileURL withResult:&result];
+  if (!db) {
+    return result;
+  }
+  self.pageSize = [MSDBStorage getPageSizeInOpenedDatabase:db];
+  NSUInteger databaseVersion = [MSDBStorage versionInOpenedDatabase:db result:&result];
+  if (result != SQLITE_OK) {
+    sqlite3_close(db);
+    return result;
+  }
+
+  // Create table.
+  if (schema) {
+    result = [MSDBStorage createTablesWithSchema:schema inOpenedDatabase:db];
+    if (result != SQLITE_OK) {
+      sqlite3_close(db);
+      return result;
+    }
+  }
+  if (newDatabase) {
+    MSLogInfo([MSAppCenter logTag], @"Created \"%@\" database with %lu version.", filename, (unsigned long)version);
+    [self customizeDatabase:db];
+  } else if (databaseVersion < version) {
+    MSLogInfo([MSAppCenter logTag], @"Migrating \"%@\" database from version %lu to %lu.", filename, (unsigned long)databaseVersion,
+              (unsigned long)version);
+    [self migrateDatabase:db fromVersion:databaseVersion];
+  }
+  [MSDBStorage enableAutoVacuumInOpenedDatabase:db];
+  [MSDBStorage setVersion:version inOpenedDatabase:db];
+  sqlite3_close(db);
+  return result;
 }
 
 - (int)executeQueryUsingBlock:(MSDBStorageQueryBlock)callback {
