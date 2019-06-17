@@ -184,6 +184,7 @@
 
   // Retrieve a cached token.
   cachedTokenBlock(^(MSTokensResponse *_Nullable tokensResponse, NSError *_Nullable error) {
+
     // Handle error.
     if (error) {
       NSString *message =
@@ -211,7 +212,7 @@
       return;
     }
 
-    // Execute remote operation online and does not have any pending operations.
+    // Execute remote operation while online and there are no pending operations.
     if ([self shouldAttemptRemoteOperationForPartition:partition]) {
       MSLogInfo([MSData logTag], @"Performing remote operation");
       remoteDocumentBlock(^(MSPaginatedDocuments *_Nonnull remoteDocuments) {
@@ -256,7 +257,7 @@
  */
 - (BOOL)shouldAttemptRemoteOperationForPartition:(NSString *)partition {
   return [self.reachability currentReachabilityStatus] != NotReachable &&
-         [self.documentStore hasPendingOperationsForPartition:partition] == false;
+         ![self.documentStore hasPendingOperationsForPartition:partition];
 }
 
 @end

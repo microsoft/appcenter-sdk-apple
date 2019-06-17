@@ -213,7 +213,7 @@ static const NSUInteger kMSSchemaVersion = 1;
     NSString *errorMessage = [NSString stringWithFormat:@"Unable to find any document in local store for partition '%@'", token.partition];
     MSLogWarning([MSData logTag], @"%@", errorMessage);
 
-    // return an empty list
+    // Return an empty list.
     MSPaginatedDocuments *documents = [[MSPaginatedDocuments alloc] initWithPage:[[MSPage alloc] initWithItems:localListItems]
                                                                        partition:partition
                                                                     documentType:documentType
@@ -225,7 +225,7 @@ static const NSUInteger kMSSchemaVersion = 1;
   // Parse the documents.
   for (id documentRow in listResult) {
 
-    // If an expired document is found exclude it from the list and delete in from the local store.
+    // If an expired document is found exclude it from the list and delete it from the local store.
     long expirationTime = [(NSNumber *)(documentRow[self.expirationTimeColumnIndex]) longValue];
     NSString *documentId = documentRow[self.documentIdColumnIndex];
     if (expirationTime != kMSDataTimeToLiveInfinite) {
