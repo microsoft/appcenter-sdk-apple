@@ -58,7 +58,15 @@ publish_version="$(grep "VERSION_STRING" $VERSION_FILENAME | head -1 | awk -F "[
 echo "Publish version:" $publish_version
 
 # Read publish version for current build
-version=$(cat $ARTIFACT_PATH/version/$CURRENT_BUILD_VERSION_FILENAME)
+if [ "$mode" == "internal" ]; then
+
+  version=$(cat $CURRENT_BUILD_VERSION_FILENAME)
+
+else
+
+  version=$(cat $ARTIFACT_PATH/version/$CURRENT_BUILD_VERSION_FILENAME)
+
+fi
 
 # Exit if response doesn't contain a version
 if [ -z $version ] || [ "$version" == "" ]; then
@@ -77,7 +85,7 @@ if [ "$mode" == "internal" ]; then
 else
 
   ## 0. Get artifact filename and commit hash from build
-  prerelease=$(echo "$ARTIFACT_PATH"/zip/s/*.zip | rev | cut -d/ -f1 | rev)
+  prerelease=$(echo $ARTIFACT_PATH/zip/s/*.zip | rev | cut -d/ -f1 | rev)
   zip_filename="$(echo $FRAMEWORKS_ZIP_FILENAME | cut -d. -f1)"
   commit_hash="$(echo $prerelease | sed 's/'$zip_filename'-[[:digit:]]\{1,\}.[[:digit:]]\{1,\}.[[:digit:]]\{1,\}-[[:digit:]]\{1,\}+\(.\{40\}\)\.zip.*/\1/1')"
 
