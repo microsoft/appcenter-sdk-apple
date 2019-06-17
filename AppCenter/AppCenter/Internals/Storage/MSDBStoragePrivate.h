@@ -89,7 +89,7 @@ static const long kMSDefaultDatabaseSizeInBytes = 10 * 1024 * 1024;
  *
  * @param db Database handle.
  */
-+ (NSUInteger)versionInOpenedDatabase:(void *)db;
++ (NSUInteger)versionInOpenedDatabase:(void *)db error:(int *)error;
 
 /**
  * Set current database version.
@@ -117,6 +117,8 @@ static const long kMSDefaultDatabaseSizeInBytes = 10 * 1024 * 1024;
  *
  * @return The selected entries.
  */
++ (NSArray<NSArray *> *)executeSelectionQuery:(NSString *)query error:(int *)error inOpenedDatabase:(void *)db;
+
 + (NSArray<NSArray *> *)executeSelectionQuery:(NSString *)query inOpenedDatabase:(void *)db;
 
 /**

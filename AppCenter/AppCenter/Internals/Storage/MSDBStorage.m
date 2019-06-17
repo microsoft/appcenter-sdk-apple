@@ -46,8 +46,11 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
     sqlite3 *db = [MSDBStorage openDatabaseAtFileURL:self.dbFileURL withResult:&result];
     if (db) {
       _pageSize = [MSDBStorage getPageSizeInOpenedDatabase:db];
-      NSUInteger databaseVersion = [MSDBStorage versionInOpenedDatabase:db];
-
+      int error;
+      NSUInteger databaseVersion = [MSDBStorage versionInOpenedDatabase:db error:&error];
+      if (error == SQLITE_NOTADB){
+        [self dropDatabase];
+      }
       // Create table
       if (schema) {
         [MSDBStorage createTablesWithSchema:schema inOpenedDatabase:db];
@@ -82,7 +85,8 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
   // The value is stored as part of the database connection and must be reset every time the database is opened.
   long maxPageCount = self.maxSizeInBytes / self.pageSize;
   result = [MSDBStorage setMaxPageCount:maxPageCount inOpenedDatabase:db];
-  if (result != SQLITE_OK) {
+  if () {}
+  else if (result != SQLITE_OK) {
     MSLogError([MSAppCenter logTag], @"Failed to open database with specified maximum size constraint.");
   }
   result = callback(db);
@@ -202,8 +206,8 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
   return result.count > 0 && result[0].count > 0 ? [(NSNumber *)result[0][0] boolValue] : NO;
 }
 
-+ (NSUInteger)versionInOpenedDatabase:(void *)db {
-  NSArray<NSArray *> *result = [MSDBStorage executeSelectionQuery:@"PRAGMA user_version" inOpenedDatabase:db];
++ (NSUInteger)versionInOpenedDatabase:(void *)db error:(int *)error{
+  NSArray<NSArray *> *result = [MSDBStorage executeSelectionQuery:@"PRAGMA user_version" error:error inOpenedDatabase:db];
   return result.count > 0 && result[0].count > 0 ? [(NSNumber *)result[0][0] unsignedIntegerValue] : 0;
 }
 
@@ -269,7 +273,15 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
   return entries ?: [NSArray<NSArray *> new];
 }
 
-+ (NSArray<NSArray *> *)executeSelectionQuery:(NSString *)query inOpenedDatabase:(void *)db {
++ (NSArray<NSArray *> *)executeSelectionQuery:(NSString *)query
+                             inOpenedDatabase:(void *)db {
+  int error = 0;
+  [self executeSelectionQuery:query error:&error inOpenedDatabase:db];
+}
+
++ (NSArray<NSArray *> *)executeSelectionQuery:(NSString *)query
+                                        error:(int *)error
+                             inOpenedDatabase:(void *)db {
   NSMutableArray<NSMutableArray *> *entries = [NSMutableArray<NSMutableArray *> new];
   sqlite3_stmt *statement = NULL;
   int result = sqlite3_prepare_v2(db, [query UTF8String], -1, &statement, NULL);
@@ -306,6 +318,7 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
     }
     sqlite3_finalize(statement);
   } else {
+    error = result;
     MSLogError([MSAppCenter logTag], @"Query \"%@\" failed with error: %d - %@", query, result,
                [NSString stringWithUTF8String:sqlite3_errmsg(db)]);
   }
