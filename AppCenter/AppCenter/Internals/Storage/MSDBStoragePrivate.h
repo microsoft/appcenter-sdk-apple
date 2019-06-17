@@ -88,8 +88,9 @@ static const long kMSDefaultDatabaseSizeInBytes = 10 * 1024 * 1024;
  * Get current database version.
  *
  * @param db Database handle.
+ * @param result `SQLITE_OK` or an error code.
  */
-+ (NSUInteger)versionInOpenedDatabase:(void *)db error:(int *)error;
++ (NSUInteger)versionInOpenedDatabase:(void *)db result:(int *)result;
 
 /**
  * Set current database version.
@@ -117,8 +118,6 @@ static const long kMSDefaultDatabaseSizeInBytes = 10 * 1024 * 1024;
  *
  * @return The selected entries.
  */
-+ (NSArray<NSArray *> *)executeSelectionQuery:(NSString *)query error:(int *)error inOpenedDatabase:(void *)db;
-
 + (NSArray<NSArray *> *)executeSelectionQuery:(NSString *)query inOpenedDatabase:(void *)db;
 
 /**
