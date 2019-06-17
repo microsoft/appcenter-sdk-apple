@@ -6,6 +6,10 @@
 #import "MSDBStoragePrivate.h"
 #import "MSStorageTestUtil.h"
 #import "MSTestFrameworks.h"
+#import "MSUtility+Date.h"
+#import "MSUtility+File.h"
+
+#define DOCUMENTS [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject]
 
 static NSString *const kMSTestTableName = @"table";
 static NSString *const kMSTestPositionColName = @"position";
@@ -696,6 +700,30 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
 
   // When
   self.sut = [[MSDBStorage alloc] initWithSchema:self.schema version:0 filename:kMSTestDBFileName];
+}
+
+- (void)testDatabaseThatFileWasCorrupted {
+
+  // If
+  const char *validFileHeader = "SQLite format 3";
+  NSURL *fileURL = [MSUtility fullURLForPathComponent:kMSTestDBFileName];
+  NSData *data = [NSData dataWithContentsOfURL:fileURL];
+  
+  // Check that database file is valid.
+  XCTAssertEqual(strcmp((const char *)data.bytes, validFileHeader), 0);
+  
+  // Corrupt the file.
+  NSMutableData *mutabledata = [[NSData dataWithContentsOfURL:fileURL] mutableCopy];
+  *((unsigned int *)mutabledata.mutableBytes) = 0xDEADBEEF;
+  [mutabledata writeToURL:fileURL atomically:YES];
+  
+  // When
+  self.sut = [[MSDBStorage alloc] initWithSchema:self.schema version:0 filename:kMSTestDBFileName];
+
+  // Then
+  // The database should be recreated.
+  data = [NSData dataWithContentsOfURL:fileURL];
+  XCTAssertEqual(strcmp((const char *)data.bytes, validFileHeader), 0);
 }
 
 #pragma mark - Private
