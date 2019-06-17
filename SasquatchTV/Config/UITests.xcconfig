@@ -1,2 +1,1 @@
 LD_RUNPATH_SEARCH_PATHS = $(inherited) @loader_path/Frameworks
-SWIFT_VERSION = 4.0
