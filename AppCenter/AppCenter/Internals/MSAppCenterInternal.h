@@ -24,6 +24,16 @@ static NSString *const kMSDisableVariable = @"APP_CENTER_DISABLE";
  */
 static NSString *const kMSDisableAll = @"All";
 
+/**
+ * Name of the environment variable to check to see if we're running in App Center Test.
+ */
+static NSString *const kMSRunningInAppCenter = @"RUNNING_IN_APP_CENTER";
+
+/**
+ * A string value for environment variables denoting `true`.
+ */
+static NSString *const kMSTrue_Environment_String = @"1";
+
 @interface MSAppCenter ()
 
 @property(nonatomic) id<MSChannelGroupProtocol> channelGroup;

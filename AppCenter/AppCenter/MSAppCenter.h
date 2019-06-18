@@ -78,6 +78,13 @@
 + (BOOL)isConfigured;
 
 /**
+ * Check whether app is running in App Center Test.
+ *
+ * @return true if running in App Center Test, false otherwise.
+ */
++ (BOOL)isRunningInAppCenterTest;
+
+/**
  * Change the base URL (schema + authority + port only) used to communicate with the backend.
  *
  * @param logUrl Base URL to use for backend communication.
