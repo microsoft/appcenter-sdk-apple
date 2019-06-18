@@ -1,5 +1,13 @@
 # App Center SDK for iOS and macOS Change Log
 
+## Version 2.2.0 (Under development)
+
+### AppCenter
+
+* **[Fix]** Add recovery logic for corrupted database.
+
+___
+
 ## Version 2.1.0
 
 ### AppCenter
