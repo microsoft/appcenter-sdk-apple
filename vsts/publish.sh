@@ -58,7 +58,15 @@ publish_version="$(grep "VERSION_STRING" $VERSION_FILENAME | head -1 | awk -F "[
 echo "Publish version:" $publish_version
 
 # Read publish version for current build
-version=$(cat $CURRENT_BUILD_VERSION_FILENAME)
+if [ "$mode" == "internal" ]; then
+
+  version=$(cat $CURRENT_BUILD_VERSION_FILENAME)
+
+else
+
+  version=$(cat $ARTIFACT_PATH/version/$CURRENT_BUILD_VERSION_FILENAME)
+
+fi
 
 # Exit if response doesn't contain a version
 if [ -z $version ] || [ "$version" == "" ]; then
@@ -77,12 +85,12 @@ if [ "$mode" == "internal" ]; then
 else
 
   ## 0. Get artifact filename and commit hash from build
-  prerelease=$(echo "$ARTIFACT_PATH"/*.zip | rev | cut -d/ -f1 | rev)
+  prerelease=$(echo $ARTIFACT_PATH/zip/s/*.zip | rev | cut -d/ -f1 | rev)
   zip_filename="$(echo $FRAMEWORKS_ZIP_FILENAME | cut -d. -f1)"
   commit_hash="$(echo $prerelease | sed 's/'$zip_filename'-[[:digit:]]\{1,\}.[[:digit:]]\{1,\}.[[:digit:]]\{1,\}-[[:digit:]]\{1,\}+\(.\{40\}\)\.zip.*/\1/1')"
 
   ### Temporarily remove tvOS framework from binary
-  unzip $ARTIFACT_PATH/$prerelease
+  unzip $ARTIFACT_PATH/zip/s/$prerelease
   rm -rf $FRAMEWORKS_ZIP_FOLDER/tvOS
   zip -r $FRAMEWORKS_ZIP_FILENAME $FRAMEWORKS_ZIP_FOLDER/
 
@@ -103,7 +111,9 @@ else
 
       # Append the line
       else
-        change_log="$change_log\n${line//\"/\\\"}"
+        line="${line//\"/\\\"}"
+        line="${line//\\/\\\\}"
+        change_log="$change_log\n${line}"
       fi
 
     # If it didn't find changelog for the version
@@ -111,7 +121,9 @@ else
 
       # If it is the first line of change log for the version
       if [[ "$line" =~ "## Version $publish_version" ]]; then
-        change_log="${line//\"/\\\"}"
+        line="${line//\"/\\\"}"
+        line="${line//\\/\\\\}"
+        change_log="${line}"
         change_log_found=true
       fi
     fi

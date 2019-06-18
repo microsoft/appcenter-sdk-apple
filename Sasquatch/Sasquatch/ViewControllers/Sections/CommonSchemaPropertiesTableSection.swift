@@ -94,7 +94,9 @@ class CommonSchemaPropertiesTableSection : SimplePropertiesTableSection {
       target.propertyConfigurator.setAppLocale(sender.text!)
       break
     case .UserId:
-      target.propertyConfigurator.setUserId(sender.text!)
+      let text = sender.text ?? ""
+      let userId = !text.isEmpty ? text : nil
+      target.propertyConfigurator.setUserId(userId)
       break
     }
     sender.resignFirstResponder()
