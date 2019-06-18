@@ -194,7 +194,7 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
   for (NSString *tableName in schema) {
 
     // Optimization, don't even compute the query if the table already exists.
-    if ([self tableExists:tableName result:&result inOpenedDatabase:db]) {
+    if ([self tableExists:tableName inOpenedDatabase:db result:&result ]) {
       if (result != SQLITE_OK) {
         return result;
       }
@@ -229,18 +229,18 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
 }
 
 + (BOOL)tableExists:(NSString *)tableName inOpenedDatabase:(void *)db {
-  return [MSDBStorage tableExists:tableName result:nil inOpenedDatabase:db];
+  return [MSDBStorage tableExists:tableName inOpenedDatabase:db result:nil];
 }
 
-+ (BOOL)tableExists:(NSString *)tableName result:(int *)result inOpenedDatabase:(void *)db {
++ (BOOL)tableExists:(NSString *)tableName inOpenedDatabase:(void *)db result:(int *)result {
   NSString *query =
       [NSString stringWithFormat:@"SELECT COUNT(*) FROM \"sqlite_master\" WHERE \"type\"='table' AND \"name\"='%@';", tableName];
-  NSArray<NSArray *> *entries = [MSDBStorage executeSelectionQuery:query result:result inOpenedDatabase:db];
+  NSArray<NSArray *> *entries = [MSDBStorage executeSelectionQuery:query inOpenedDatabase:db result:result];
   return entries.count > 0 && entries[0].count > 0 ? [(NSNumber *)entries[0][0] boolValue] : NO;
 }
 
 + (NSUInteger)versionInOpenedDatabase:(void *)db result:(int *)result {
-  NSArray<NSArray *> *entries = [MSDBStorage executeSelectionQuery:@"PRAGMA user_version" result:result inOpenedDatabase:db];
+  NSArray<NSArray *> *entries = [MSDBStorage executeSelectionQuery:@"PRAGMA user_version" inOpenedDatabase:db result:result];
   return entries.count > 0 && entries[0].count > 0 ? [(NSNumber *)entries[0][0] unsignedIntegerValue] : 0;
 }
 
@@ -310,12 +310,12 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
 
 + (NSArray<NSArray *> *)executeSelectionQuery:(NSString *)query
                              inOpenedDatabase:(void *)db {
-  return [self executeSelectionQuery:query result:nil inOpenedDatabase:db];
+  return [self executeSelectionQuery:query inOpenedDatabase:db result:nil];
 }
 
 + (NSArray<NSArray *> *)executeSelectionQuery:(NSString *)query
-                                       result:(int *)result
-                             inOpenedDatabase:(void *)db {
+                             inOpenedDatabase:(void *)db
+                                       result:(int *)result{
   NSMutableArray<NSMutableArray *> *entries = [NSMutableArray<NSMutableArray *> new];
   sqlite3_stmt *statement = NULL;
   int prepareResult = sqlite3_prepare_v2(db, [query UTF8String], -1, &statement, NULL);

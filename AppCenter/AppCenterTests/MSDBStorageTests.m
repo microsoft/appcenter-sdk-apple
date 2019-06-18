@@ -130,7 +130,6 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
 
 - (void)testVersion {
   [self.sut executeQueryUsingBlock:^int(void *db) {
-    
     int result = 0;
     
     // When
