@@ -184,7 +184,6 @@
 
   // Retrieve a cached token.
   cachedTokenBlock(^(MSTokensResponse *_Nullable tokensResponse, NSError *_Nullable error) {
-
     // Handle error.
     if (error) {
       NSString *message =
@@ -208,7 +207,7 @@
                                                                        documentType:documentType
                                                                         baseOptions:baseOptions];
 
-      if ([self.reachability currentReachabilityStatus] == ReachableViaWiFi && [[cachedDocumentsList currentPage] items].count == 0) {
+      if ([self.reachability currentReachabilityStatus] != NotReachable && [[cachedDocumentsList currentPage] items].count == 0) {
         MSLogInfo([MSData logTag], @"Performing remote operation, since the local list if empty");
         remoteDocumentBlock(^(MSPaginatedDocuments *_Nonnull remoteDocuments) {
           completionHandler(remoteDocuments);
@@ -263,8 +262,7 @@
  * @return YES if a remote operation should be attempted; NO otherwise.
  */
 - (BOOL)shouldAttemptRemoteOperationForPartition:(NSString *)partition {
-  return [self.reachability currentReachabilityStatus] != NotReachable &&
-         ![self.documentStore hasPendingOperationsForPartition:partition];
+  return [self.reachability currentReachabilityStatus] != NotReachable && ![self.documentStore hasPendingOperationsForPartition:partition];
 }
 
 @end
