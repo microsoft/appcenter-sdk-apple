@@ -725,6 +725,81 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   XCTAssertEqual(strcmp((const char *)data.bytes, validFileHeader), 0);
 }
 
+- (void)testInitWithSchemaResultSqliteNotOk {
+  
+  // If
+  id mockMSDBStorage = OCMClassMock([MSDBStorage class]);
+  OCMStub([mockMSDBStorage versionInOpenedDatabase:[OCMArg anyPointer] result:[OCMArg anyPointer]])
+  .andDo(^(NSInvocation *invocation) {
+    int *result;
+    [invocation getArgument:&result atIndex:3];
+    *result = SQLITE_ERROR;
+  });
+  OCMReject([mockMSDBStorage createTablesWithSchema:OCMOCK_ANY inOpenedDatabase:[OCMArg anyPointer]]);
+
+  // When
+  self.sut = [[MSDBStorage alloc] initWithSchema:self.schema version:0 filename:kMSTestDBFileName];
+  
+  // Then
+  OCMVerifyAll(mockMSDBStorage);
+  
+  //Clear
+  [mockMSDBStorage stopMocking];
+}
+
+-(void)testInitializeDatabaseWithSchemadatabaseNil{
+  
+  // If
+  id mockMSDBStorage = OCMClassMock([MSDBStorage class]);
+  sqlite3 *db = NULL;
+  OCMStub([mockMSDBStorage openDatabaseAtFileURL:OCMOCK_ANY withResult:[OCMArg anyPointer]])._andReturn(NULL);
+  
+  // When
+  self.sut = [[MSDBStorage alloc] initWithSchema:self.schema version:0 filename:kMSTestDBFileName];
+  
+  // Then
+  OCMVerify([mockMSDBStorage getPageCountInOpenedDatabase:[OCMArg anyPointer]]);
+  
+  //Clear
+  [mockMSDBStorage stopMocking];
+}
+
+-(void)testSetMaxStorageSizeDataBaseNil{
+  
+  // If
+  sqlite3 *db = NULL;
+  id mockMSDBStorage = OCMClassMock([MSDBStorage class]);
+  OCMStub([mockMSDBStorage openDatabaseAtFileURL:OCMOCK_ANY withResult:[OCMArg anyPointer]])._andReturn(NULL);
+  
+  // When
+  int res = [self.sut executeQueryUsingBlock:nil];
+  self.sut = [[MSDBStorage alloc] initWithSchema:self.schema version:0 filename:kMSTestDBFileName];
+  
+  // Then
+  OCMVerify([mockMSDBStorage getPageCountInOpenedDatabase:[OCMArg anyPointer]]);
+  
+  // Clear
+  [mockMSDBStorage stopMocking];
+}
+
+-(void)testsetMaxPageCountRetuenError {
+  
+  // If
+  id mockMSDBStorage = OCMClassMock([MSDBStorage class]);
+  OCMStub([mockMSDBStorage executeNonSelectionQuery:OCMOCK_ANY inOpenedDatabase:[OCMArg anyPointer]])._andReturn(@(SQLITE_ERROR));
+  long bytesOfData = [self.storageTestUtil getDataLengthInBytes];
+  
+  // When
+  self.sut = [[MSDBStorage alloc] initWithSchema:self.schema version:0 filename:kMSTestDBFileName];
+  int res = [self.sut executeQueryUsingBlock:nil];
+  
+  // Then
+  XCTAssertEqual(SQLITE_ERROR, res);
+  
+  //Clear
+  [mockMSDBStorage stopMocking];
+}
+
 #pragma mark - Private
 
 - (NSArray *)addGuysToTheTableWithCount:(short)guysCount {

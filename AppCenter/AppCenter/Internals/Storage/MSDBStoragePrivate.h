@@ -50,6 +50,20 @@ static const long kMSDefaultDatabaseSizeInBytes = 10 * 1024 * 1024;
 - (int)executeQueryUsingBlock:(MSDBStorageQueryBlock)block;
 
 /**
+ * Open database at file url.
+ * @param fileURL Database file url.
+ * @param result Result.
+ */
++ (sqlite3 *)openDatabaseAtFileURL:(NSURL *)fileURL withResult:(int *)result;
+
+/**
+ * Create table with schema.
+ * @param schema Database schema.
+ * @param db Database handle.
+ */
++ (int)createTablesWithSchema:(MSDBSchema *)schema inOpenedDatabase:(void *)db;
+
+/**
  * Query the number of pages (i.e.: SQLite "page_count") of the database.
  *
  * @param db Database handle.
