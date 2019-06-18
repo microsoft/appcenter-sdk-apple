@@ -413,7 +413,6 @@ static const NSUInteger kMSSchemaVersion = 1;
   // If column is NSNull, change it to nil.
   NSString *nullableColumn = column;
   NSString *fColumn = [nullableColumn isEqual:[NSNull null]] ? nil : nullableColumn;
-
   return fColumn;
 }
 
