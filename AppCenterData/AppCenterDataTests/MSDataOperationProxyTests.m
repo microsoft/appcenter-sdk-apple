@@ -30,9 +30,6 @@
 - (void)setUp {
   [super setUp];
 
-  // Delete existing database.
-  [MSUtility deleteItemForPathComponent:kMSDBDocumentFileName];
-
   // Init properties.
   MSDBStorage *dbStorage = [[MSDBStorage alloc] initWithVersion:0 filename:kMSDBDocumentFileName];
   _documentStoreMock = OCMPartialMock([[MSDBDocumentStore alloc] initWithDbStorage:dbStorage]);
