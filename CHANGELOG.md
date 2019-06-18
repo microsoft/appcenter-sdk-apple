@@ -16,7 +16,7 @@
 
 ___
 
-## Version 2.1.0 (Under development)
+## Version 2.1.0
 
 ### AppCenter
 

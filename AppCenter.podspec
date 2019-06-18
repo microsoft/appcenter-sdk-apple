@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name              = 'AppCenter'
-  s.version           = '2.0.1'
+  s.version           = '2.1.0'
 
   s.summary           = 'Visual Studio App Center is your continuous integration, delivery and learning solution for iOS and macOS apps.'
   s.description       = <<-DESC
