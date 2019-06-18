@@ -59,13 +59,9 @@ echo "Publish version:" $publish_version
 
 # Read publish version for current build
 if [ "$mode" == "internal" ]; then
-
   version=$(cat $CURRENT_BUILD_VERSION_FILENAME)
-
 else
-
   version=$(cat $ARTIFACT_PATH/version/$CURRENT_BUILD_VERSION_FILENAME)
-
 fi
 
 # Exit if response doesn't contain a version
@@ -81,16 +77,15 @@ if [ "$mode" == "internal" ]; then
   ## Change publish version to internal version
   publish_version=$version
   echo "Detected internal release. Publish version is updated to " $publish_version
-
 else
 
   ## 0. Get artifact filename and commit hash from build
-  prerelease=$(echo $ARTIFACT_PATH/zip/s/*.zip | rev | cut -d/ -f1 | rev)
+  prerelease=$(echo $ARTIFACT_PATH/zip/*.zip | rev | cut -d/ -f1 | rev)
   zip_filename="$(echo $FRAMEWORKS_ZIP_FILENAME | cut -d. -f1)"
   commit_hash="$(echo $prerelease | sed 's/'$zip_filename'-[[:digit:]]\{1,\}.[[:digit:]]\{1,\}.[[:digit:]]\{1,\}-[[:digit:]]\{1,\}+\(.\{40\}\)\.zip.*/\1/1')"
 
   ### Temporarily remove tvOS framework from binary
-  unzip $ARTIFACT_PATH/zip/s/$prerelease
+  unzip $ARTIFACT_PATH/zip/$prerelease
   rm -rf $FRAMEWORKS_ZIP_FOLDER/tvOS
   zip -r $FRAMEWORKS_ZIP_FILENAME $FRAMEWORKS_ZIP_FOLDER/
 
@@ -186,7 +181,6 @@ else
   else
     echo "A release has been created with ID ($id)"
   fi
-
 fi
 
 ## V. Upload binary
@@ -199,29 +193,18 @@ if [ "$mode" == "internal" ]; then
 
   # Replace the latest binary in Azure Storage
   echo "Y" | azure storage blob upload $FRAMEWORKS_ZIP_FILENAME sdk --verbose
-
-  # Upload binary to Azure Storage
-  mv $FRAMEWORKS_ZIP_FILENAME $filename
-  resp="$(echo "N" | azure storage blob upload ${filename} sdk | grep overwrite)"
-  if [ "$resp" ]; then
-    echo "${filename} already exists"
-    exit 1
-  fi
-
 else
 
   # Determine the filename for the release
   filename=$(echo $FRAMEWORKS_ZIP_FILENAME | sed 's/.zip/-'${publish_version}'.zip/g')
+fi
 
-  # Upload binary to Azure Storage
-  mv $FRAMEWORKS_ZIP_FILENAME $filename
-  resp="$(echo "N" | azure storage blob upload ${filename} sdk | grep overwrite)"
-  if [ "$resp" ]; then
-    echo "${filename} already exists"
-    exit 1
-  fi
+# Upload binary to Azure Storage
+mv $FRAMEWORKS_ZIP_FILENAME $filename
+echo "Y" | azure storage blob upload ${filename} sdk
 
-  # Upload binary to GitHub for external release
+# Upload binary to GitHub for external release
+if [ "$mode" == "external"]; then
   upload_url="$(echo $REQUEST_UPLOAD_URL_TEMPLATE | sed 's/{id}/'$id'/g')"
   url="$(echo $upload_url | sed 's/{filename}/'${filename}'/g')"
   resp="$(curl -s -X POST -H 'Content-Type: application/zip' --data-binary @$filename $url)"
@@ -234,7 +217,6 @@ else
     echo "Response:" $resp
     exit 1
   fi
-
 fi
 
 echo $filename "Uploaded successfully"

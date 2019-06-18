@@ -31,31 +31,43 @@ fi
 ## II. Get the latest version
 echo "Get the latest version to determine a build number"
 publish_version="$(grep "VERSION_STRING" $VERSION_FILENAME | head -1 | awk -F "[= ]" '{print $4}')"
-build_number=0
-resp="$(curl -s $INTERNAL_RELEASE_VERSION_FILENAME)"
-version="$(echo $resp | jq -r '.version')"
+echo "Getting the latest build number for the version: $publish_version"
+zip_filename="$(echo $FRAMEWORKS_ZIP_FILENAME | cut -d. -f1)"
+azure telemetry --disable
 
-# Exit if response doesn't contain an array
-if [ -z $version ] || [ "$version" == "" ] || [ "$version" == "null" ]; then
+# Get all filenames for the version
+resp="$(echo "Y" | azure storage blob list sdk -p $zip_filename-$publish_version --json)"
+
+# Exit if response contains an error
+if [ -z "$resp" ] || [ "$resp" == "" ] || [ "$resp" == "null" ]; then
   echo "Cannot retrieve the latest version"
-  echo "Response:" $resp
   exit 1
 fi
 
-# Determine the next version
-if [[ "$version" == $publish_version-* ]]; then
-  build_number="$(echo $version | awk -F "[-]" '{print $2}')"
-  build_number=$(($build_number + 1))
-fi
-publish_version=$publish_version-$build_number
-echo "New version:" $publish_version
-echo $publish_version > $CURRENT_BUILD_VERSION_FILENAME
+# Get the latest build number from an array of filenames
+previous_filenames="$(echo $resp | jq '[ .[] | .name]')"
+latest_build_number=-1
+for previous_filename in $previous_filenames
+do
+  build_number="$(echo $previous_filename | awk -F "[-+]" '{print $5}')"
+  if [ "$build_number" ] && [ $build_number -gt $latest_build_number ]; then
+    latest_build_number=$build_number
+  fi
+done
 
-## III. Update version file
-echo {\"version\":\"$publish_version\"} > $AZURE_APPLE_VERSION_FILE
-azure telemetry --disable
-echo "Y" | azure storage blob upload $AZURE_APPLE_VERSION_FILE sdk
-rm $AZURE_APPLE_VERSION_FILE
+# Increment the build number
+latest_build_number=$(($latest_build_number + 1))
+publish_version=$publish_version-$latest_build_number
+echo "New version:" $publish_version
+
+## III. Upload placeholder for the version to avoid conflicts with ongoing merge builds
+placeholder=$(echo $FRAMEWORKS_ZIP_FILENAME | sed 's/.zip/-'${publish_version}'+'$BUILD_SOURCEVERSION'.zip/g')
+touch $placeholder
+resp="$(echo "N" | azure storage blob upload ${placeholder} sdk | grep overwrite)"
+if [ "$resp" ]; then
+    echo "${placeholder} already exists"
+    exit 1
+fi
 
 ## IV. Update version for frameworks
 
