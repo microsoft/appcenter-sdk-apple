@@ -194,7 +194,7 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
   for (NSString *tableName in schema) {
 
     // Optimization, don't even compute the query if the table already exists.
-    if ([self tableExists:tableName inOpenedDatabase:db result:&result ]) {
+    if ([self tableExists:tableName inOpenedDatabase:db result:&result]) {
       if (result != SQLITE_OK) {
         return result;
       }
@@ -308,14 +308,11 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
   return entries ?: [NSArray<NSArray *> new];
 }
 
-+ (NSArray<NSArray *> *)executeSelectionQuery:(NSString *)query
-                             inOpenedDatabase:(void *)db {
++ (NSArray<NSArray *> *)executeSelectionQuery:(NSString *)query inOpenedDatabase:(void *)db {
   return [self executeSelectionQuery:query inOpenedDatabase:db result:nil];
 }
 
-+ (NSArray<NSArray *> *)executeSelectionQuery:(NSString *)query
-                             inOpenedDatabase:(void *)db
-                                       result:(int *)result{
++ (NSArray<NSArray *> *)executeSelectionQuery:(NSString *)query inOpenedDatabase:(void *)db result:(int *)result {
   NSMutableArray<NSMutableArray *> *entries = [NSMutableArray<NSMutableArray *> new];
   sqlite3_stmt *statement = NULL;
   int prepareResult = sqlite3_prepare_v2(db, [query UTF8String], -1, &statement, NULL);

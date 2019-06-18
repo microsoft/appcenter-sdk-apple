@@ -131,7 +131,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
 - (void)testVersion {
   [self.sut executeQueryUsingBlock:^int(void *db) {
     int result = 0;
-    
+
     // When
     NSUInteger version = [MSDBStorage versionInOpenedDatabase:db result:&result];
 
@@ -707,17 +707,17 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   const char *validFileHeader = "SQLite format 3";
   NSURL *fileURL = [MSUtility fullURLForPathComponent:kMSTestDBFileName];
   NSData *data = [NSData dataWithContentsOfURL:fileURL];
-  
+
   // Check that database file is valid.
   XCTAssertEqual(strcmp((const char *)data.bytes, validFileHeader), 0);
-  
+
   // Corrupt the file.
   NSMutableData *mutabledata = [[NSData dataWithContentsOfURL:fileURL] mutableCopy];
   *((unsigned int *)mutabledata.mutableBytes) = 0xDEADBEEF;
   [mutabledata writeToURL:fileURL atomically:YES];
-  
+
   // When
-  self.sut = [[MSDBStorage alloc] initWithSchema:self.schema version:0 filename:kMSTestDBFileName];
+  self.sut = [[MSDBStorage alloc] initWithSchema:self.schema version:1 filename:kMSTestDBFileName];
 
   // Then
   // The database should be recreated.
@@ -725,12 +725,11 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   XCTAssertEqual(strcmp((const char *)data.bytes, validFileHeader), 0);
 }
 
-- (void)testInitWithSchemaResultSqliteNotOk {
-  
+- (void)testInitWithSchemaResultIsNotOk {
+
   // If
   id mockMSDBStorage = OCMClassMock([MSDBStorage class]);
-  OCMStub([mockMSDBStorage versionInOpenedDatabase:[OCMArg anyPointer] result:[OCMArg anyPointer]])
-  .andDo(^(NSInvocation *invocation) {
+  OCMStub([mockMSDBStorage versionInOpenedDatabase:[OCMArg anyPointer] result:[OCMArg anyPointer]]).andDo(^(NSInvocation *invocation) {
     int *result;
     [invocation getArgument:&result atIndex:3];
     *result = SQLITE_ERROR;
@@ -738,65 +737,31 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   OCMReject([mockMSDBStorage createTablesWithSchema:OCMOCK_ANY inOpenedDatabase:[OCMArg anyPointer]]);
 
   // When
-  self.sut = [[MSDBStorage alloc] initWithSchema:self.schema version:0 filename:kMSTestDBFileName];
-  
+  self.sut = [[MSDBStorage alloc] initWithSchema:self.schema version:1 filename:kMSTestDBFileName];
+
   // Then
   OCMVerifyAll(mockMSDBStorage);
-  
-  //Clear
-  [mockMSDBStorage stopMocking];
-}
 
--(void)testInitializeDatabaseWithSchemadatabaseNil{
-  
-  // If
-  id mockMSDBStorage = OCMClassMock([MSDBStorage class]);
-  sqlite3 *db = NULL;
-  OCMStub([mockMSDBStorage openDatabaseAtFileURL:OCMOCK_ANY withResult:[OCMArg anyPointer]])._andReturn(NULL);
-  
-  // When
-  self.sut = [[MSDBStorage alloc] initWithSchema:self.schema version:0 filename:kMSTestDBFileName];
-  
-  // Then
-  OCMVerify([mockMSDBStorage getPageCountInOpenedDatabase:[OCMArg anyPointer]]);
-  
-  //Clear
-  [mockMSDBStorage stopMocking];
-}
-
--(void)testSetMaxStorageSizeDataBaseNil{
-  
-  // If
-  sqlite3 *db = NULL;
-  id mockMSDBStorage = OCMClassMock([MSDBStorage class]);
-  OCMStub([mockMSDBStorage openDatabaseAtFileURL:OCMOCK_ANY withResult:[OCMArg anyPointer]])._andReturn(NULL);
-  
-  // When
-  int res = [self.sut executeQueryUsingBlock:nil];
-  self.sut = [[MSDBStorage alloc] initWithSchema:self.schema version:0 filename:kMSTestDBFileName];
-  
-  // Then
-  OCMVerify([mockMSDBStorage getPageCountInOpenedDatabase:[OCMArg anyPointer]]);
-  
   // Clear
   [mockMSDBStorage stopMocking];
 }
 
--(void)testsetMaxPageCountRetuenError {
-  
+- (void)testSetMaxPageCountReturnError {
+
   // If
   id mockMSDBStorage = OCMClassMock([MSDBStorage class]);
-  OCMStub([mockMSDBStorage executeNonSelectionQuery:OCMOCK_ANY inOpenedDatabase:[OCMArg anyPointer]])._andReturn(@(SQLITE_ERROR));
-  long bytesOfData = [self.storageTestUtil getDataLengthInBytes];
-  
+  OCMStub([mockMSDBStorage executeNonSelectionQuery:OCMOCK_ANY inOpenedDatabase:[OCMArg anyPointer]]).andReturn(SQLITE_CORRUPT);
+
   // When
-  self.sut = [[MSDBStorage alloc] initWithSchema:self.schema version:0 filename:kMSTestDBFileName];
-  int res = [self.sut executeQueryUsingBlock:nil];
-  
+  self.sut = [[MSDBStorage alloc] initWithSchema:self.schema version:1 filename:kMSTestDBFileName];
+  int result = [self.sut executeQueryUsingBlock:^int(void *_Nonnull __unused db) {
+    return SQLITE_OK;
+  }];
+
   // Then
-  XCTAssertEqual(SQLITE_ERROR, res);
-  
-  //Clear
+  XCTAssertEqual(SQLITE_CORRUPT, result);
+
+  // Clear
   [mockMSDBStorage stopMocking];
 }
 
