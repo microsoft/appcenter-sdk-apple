@@ -37,7 +37,7 @@
   return [self initWithPage:[[MSPage alloc] initWithError:error]
                   partition:partition
                documentType:documentType
-           deviceTimeToLive:0
+           deviceTimeToLive:kMSDataTimeToLiveNoCache
           continuationToken:nil];
 }
 

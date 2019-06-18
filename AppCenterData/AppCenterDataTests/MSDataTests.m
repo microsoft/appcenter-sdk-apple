@@ -662,7 +662,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
               }];
 
   // Then
-  [self waitForExpectationsWithTimeout:3
+  [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *_Nullable error) {
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
@@ -693,7 +693,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
               }];
 
   // Then
-  [self waitForExpectationsWithTimeout:8
+  [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *_Nullable error) {
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
@@ -737,7 +737,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
               }];
 
   // Then
-  [self waitForExpectationsWithTimeout:3
+  [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *_Nullable error) {
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
@@ -798,7 +798,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
               }];
 
   // Then
-  [self waitForExpectationsWithTimeout:3
+  [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *_Nullable error) {
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
@@ -873,7 +873,73 @@ static NSString *const kMSDocumentIdTest = @"documentId";
               }];
 
   // Then
-  [self waitForExpectationsWithTimeout:3
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *_Nullable error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+}
+
+- (void)testListFromRemoteIfAllLocalExpiredAndOnline {
+
+  // If
+  __weak XCTestExpectation *expectation = [self expectationWithDescription:@""];
+  id httpClient = OCMClassMock([MSHttpClient class]);
+  OCMStub([httpClient new]).andReturn(httpClient);
+  self.sut.httpClient = httpClient;
+
+  // Simulate being online.
+  MS_Reachability *reachabilityMock = OCMPartialMock([MS_Reachability reachabilityForInternetConnection]);
+  OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(ReachableViaWiFi);
+  self.sut.dataOperationProxy.reachability = reachabilityMock;
+
+  // Mock cached token result.
+  MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
+  OCMStub([self.tokenExchangeMock retrieveCachedTokenForPartition:kMSPartitionTest includeExpiredToken:YES]).andReturn(tokenResult);
+  OCMStub([self.tokenExchangeMock retrieveCachedTokenForPartition:kMSPartitionTest includeExpiredToken:NO]).andReturn(tokenResult);
+
+  // Mock local storage.
+  id<MSDocumentStore> localStorageMock = OCMProtocolMock(@protocol(MSDocumentStore));
+  self.sut.dataOperationProxy.documentStore = localStorageMock;
+  OCMStub([localStorageMock hasPendingOperationsForPartition:kMSPartitionTest]).andReturn(true);
+
+  // Returns an empty list
+  NSMutableArray<MSDocumentWrapper *> *localListItems = [NSMutableArray new];
+  MSPage *page = [[MSPage alloc] initWithItems:localListItems];
+  MSPaginatedDocuments *localDocumentList = [[MSPaginatedDocuments alloc] initWithPage:page
+                                                                             partition:kMSPartitionTest
+                                                                          documentType:[MSDictionaryDocument class]
+                                                                      deviceTimeToLive:kMSDataTimeToLiveDefault
+                                                                     continuationToken:nil];
+
+  OCMStub([localStorageMock listWithToken:tokenResult partition:OCMOCK_ANY documentType:OCMOCK_ANY baseOptions:OCMOCK_ANY])
+      .andReturn(localDocumentList);
+
+  // Mock CosmosDB requests.
+  NSData *jsonFixture = [self jsonFixture:@"oneDocumentPage"];
+  OCMStub([httpClient sendAsync:OCMOCK_ANY method:@"GET" headers:OCMOCK_ANY data:nil completionHandler:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        [invocation retainArguments];
+        MSHttpRequestCompletionHandler completionHandler;
+        [invocation getArgument:&completionHandler atIndex:6];
+        completionHandler(jsonFixture, [MSHttpTestUtil createMockResponseForStatusCode:200 headers:nil], nil);
+      });
+
+  // When
+  [MSData listDocumentsWithType:[MSDictionaryDocument class]
+                      partition:kMSPartitionTest
+              completionHandler:^(MSPaginatedDocuments *_Nonnull documents) {
+                // Then
+                XCTAssertNil(documents.currentPage.error);
+                XCTAssertNotNil([[documents currentPage] items]);
+                XCTAssertEqual([[documents currentPage] items].count, 1);
+                XCTAssertFalse([[documents currentPage] items].firstObject.fromDeviceCache);
+                [expectation fulfill];
+              }];
+
+  // Then
+  [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *_Nullable error) {
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);

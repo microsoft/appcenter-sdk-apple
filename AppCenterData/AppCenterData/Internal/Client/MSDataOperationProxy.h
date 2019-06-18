@@ -72,12 +72,12 @@ typedef void (^MSCachedTokenCompletionHandler)(MSTokensResponse *_Nullable token
  * @param remoteDocumentBlock A block returning the remote document.
  * @param completionHandler The completion handler called ultimately.
  */
-- (void)performListOnDocumentType:(Class)documentType
-                        partition:(NSString *)partition
-                      baseOptions:(MSBaseOptions *_Nullable)baseOptions
-                 cachedTokenBlock:(void (^)(MSCachedTokenCompletionHandler))cachedTokenBlock
-              remoteDocumentBlock:(void (^)(MSPaginatedDocumentsCompletionHandler))remoteDocumentBlock
-                completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler;
+- (void)performListDocumentsWithType:(Class)documentType
+                           partition:(NSString *)partition
+                         baseOptions:(MSBaseOptions *_Nullable)baseOptions
+                    cachedTokenBlock:(void (^)(MSCachedTokenCompletionHandler))cachedTokenBlock
+                 remoteDocumentBlock:(void (^)(MSPaginatedDocumentsCompletionHandler))remoteDocumentBlock
+                   completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler;
 
 @end
 

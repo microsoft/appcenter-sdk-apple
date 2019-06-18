@@ -175,12 +175,12 @@
   });
 }
 
-- (void)performListOnDocumentType:(Class)documentType
-                        partition:(NSString *)partition
-                      baseOptions:(MSBaseOptions *_Nullable)baseOptions
-                 cachedTokenBlock:(void (^)(MSCachedTokenCompletionHandler))cachedTokenBlock
-              remoteDocumentBlock:(void (^)(MSPaginatedDocumentsCompletionHandler))remoteDocumentBlock
-                completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler {
+- (void)performListDocumentsWithType:(Class)documentType
+                           partition:(NSString *)partition
+                         baseOptions:(MSBaseOptions *_Nullable)baseOptions
+                    cachedTokenBlock:(void (^)(MSCachedTokenCompletionHandler))cachedTokenBlock
+                 remoteDocumentBlock:(void (^)(MSPaginatedDocumentsCompletionHandler))remoteDocumentBlock
+                   completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler {
 
   // Retrieve a cached token.
   cachedTokenBlock(^(MSTokensResponse *_Nullable tokensResponse, NSError *_Nullable error) {
@@ -207,12 +207,19 @@
                                                                        documentType:documentType
                                                                         baseOptions:baseOptions];
 
+      if ([self.reachability currentReachabilityStatus] == ReachableViaWiFi && [[cachedDocumentsList currentPage] items].count == 0) {
+        MSLogInfo([MSData logTag], @"Performing remote operation, since the local list if empty");
+        remoteDocumentBlock(^(MSPaginatedDocuments *_Nonnull remoteDocuments) {
+          completionHandler(remoteDocuments);
+        });
+        return;
+      }
       completionHandler(cachedDocumentsList);
       return;
     }
 
     // Execute remote operation online and does not have any pending operations.
-    if ([self shouldAttemptRemoteOperationForPartition:partition]) {
+    else if ([self shouldAttemptRemoteOperationForPartition:partition]) {
       MSLogInfo([MSData logTag], @"Performing remote operation");
       remoteDocumentBlock(^(MSPaginatedDocuments *_Nonnull remoteDocuments) {
         completionHandler(remoteDocuments);
