@@ -1,5 +1,11 @@
 # App Center SDK for iOS and macOS Change Log
 
+## Version 2.2.0 (Under development)
+
+### App Center
+
+* **[Feature]** Add `AppCenter.isRunningInAppCenterTestCloud` to provide method to check if the application is running in Test Cloud.
+
 ## Version 2.1.0
 
 ### AppCenter
