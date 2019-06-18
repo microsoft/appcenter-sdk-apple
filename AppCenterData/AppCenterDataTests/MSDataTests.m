@@ -721,7 +721,6 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   self.sut.dataOperationProxy.documentStore = localStorageMock;
   MSDocumentWrapper *expiredDocument = [[MSDocumentWrapper alloc] initWithError:dataError partition:nil documentId:@"4"];
   OCMStub([localStorageMock readWithToken:tokenResult documentId:OCMOCK_ANY documentType:OCMOCK_ANY]).andReturn(expiredDocument);
-
   MSPaginatedDocuments *expectedDocuments = [MSPaginatedDocuments new];
   OCMStub([localStorageMock listWithToken:tokenResult partition:OCMOCK_ANY documentType:OCMOCK_ANY baseOptions:OCMOCK_ANY])
       .andReturn(expectedDocuments);
@@ -843,14 +842,11 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                                                           documentType:[MSDictionaryDocument class]
                                                                       deviceTimeToLive:kMSDataTimeToLiveDefault
                                                                      continuationToken:nil];
-
   OCMStub(localDocumentWrapper.eTag).andReturn(@"some other etag");
-
   OCMStub([localStorageMock listWithToken:tokenResult partition:OCMOCK_ANY documentType:OCMOCK_ANY baseOptions:OCMOCK_ANY])
       .andReturn(localDocumentList);
 
   // Mock CosmosDB requests.
-
   OCMStub([httpClient sendAsync:OCMOCK_ANY method:@"GET" headers:OCMOCK_ANY data:nil completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         [invocation retainArguments];

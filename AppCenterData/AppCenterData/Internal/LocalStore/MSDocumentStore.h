@@ -89,7 +89,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (MSDocumentWrapper *)readWithToken:(MSTokenResult *)token documentId:(NSString *)documentId documentType:(Class)documentType;
 
 /**
- * List all the documents from the store and return it if it did not expired.
+ * List all the documents from the store and return the list if not expired.
  *
  * @param token CosmosDB token.
  * @param partition The CosmosDB partition key.

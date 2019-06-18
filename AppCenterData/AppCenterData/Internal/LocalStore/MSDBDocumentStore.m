@@ -210,7 +210,7 @@ static const NSUInteger kMSSchemaVersion = 1;
   // Parse the documents.
   for (id documentRow in listResult) {
 
-    // If an expired document is found exclude it from the list and delete in from the local store.
+    // If an expired document is found exclude it from the list and delete it from the local store.
     long expirationTime = [(NSNumber *)(documentRow[self.expirationTimeColumnIndex]) longValue];
     NSString *documentId = documentRow[self.documentIdColumnIndex];
     if (expirationTime != kMSDataTimeToLiveInfinite) {

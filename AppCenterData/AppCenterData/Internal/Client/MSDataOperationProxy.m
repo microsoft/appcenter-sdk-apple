@@ -184,6 +184,7 @@
 
   // Retrieve a cached token.
   cachedTokenBlock(^(MSTokensResponse *_Nullable tokensResponse, NSError *_Nullable error) {
+
     // Handle error.
     if (error) {
       NSString *message =
@@ -263,7 +264,7 @@
  */
 - (BOOL)shouldAttemptRemoteOperationForPartition:(NSString *)partition {
   return [self.reachability currentReachabilityStatus] != NotReachable &&
-         [self.documentStore hasPendingOperationsForPartition:partition] == false;
+         ![self.documentStore hasPendingOperationsForPartition:partition];
 }
 
 @end
