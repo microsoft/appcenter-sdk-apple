@@ -82,7 +82,7 @@
  *
  * @return true if running in App Center Test, false otherwise.
  */
-+ (BOOL)isRunningInAppCenterTest;
++ (BOOL)isRunningInAppCenterTestCloud;
 
 /**
  * Change the base URL (schema + authority + port only) used to communicate with the backend.
