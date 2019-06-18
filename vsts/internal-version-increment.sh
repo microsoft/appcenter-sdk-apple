@@ -59,6 +59,7 @@ done
 latest_build_number=$(($latest_build_number + 1))
 publish_version=$publish_version-$latest_build_number
 echo "New version:" $publish_version
+echo $publish_version > $CURRENT_BUILD_VERSION_FILENAME
 
 ## III. Upload placeholder for the version to avoid conflicts with ongoing merge builds
 placeholder=$(echo $FRAMEWORKS_ZIP_FILENAME | sed 's/.zip/-'${publish_version}'+'$BUILD_SOURCEVERSION'.zip/g')
