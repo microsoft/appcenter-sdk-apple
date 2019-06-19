@@ -69,10 +69,10 @@ typedef void (^MSCachedTokenCompletionHandler)(MSTokensResponse *_Nullable token
  * @param partition The partition of the documents.
  * @param baseOptions The base options from which to get the device time to live (if specified).
  * @param cachedTokenBlock A block returning the cached token.
- * @param remoteDocumentBlock A block returning the remote document.
+ * @param remoteDocumentBlock A block returning the remote documents.
  * @param completionHandler The completion handler called ultimately.
  */
-- (void)performListDocumentsWithType:(Class)documentType
+- (void)listDocumentsWithType:(Class)documentType
                            partition:(NSString *)partition
                          baseOptions:(MSBaseOptions *_Nullable)baseOptions
                     cachedTokenBlock:(void (^)(MSCachedTokenCompletionHandler))cachedTokenBlock

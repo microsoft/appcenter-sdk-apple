@@ -175,7 +175,7 @@
   });
 }
 
-- (void)performListDocumentsWithType:(Class)documentType
+- (void)listDocumentsWithType:(Class)documentType
                            partition:(NSString *)partition
                          baseOptions:(MSBaseOptions *_Nullable)baseOptions
                     cachedTokenBlock:(void (^)(MSCachedTokenCompletionHandler))cachedTokenBlock
@@ -206,9 +206,8 @@
                                                                           partition:partition
                                                                        documentType:documentType
                                                                         baseOptions:baseOptions];
-
       if ([self.reachability currentReachabilityStatus] != NotReachable && [[cachedDocumentsList currentPage] items].count == 0) {
-        MSLogInfo([MSData logTag], @"Performing remote operation, since the local list if empty");
+        MSLogInfo([MSData logTag], @"Performing remote operation, since the local list is empty");
         remoteDocumentBlock(^(MSPaginatedDocuments *_Nonnull remoteDocuments) {
           // Update local store with the remote list of documents
           [self.documentStore updateDocumentsWithToken:token remoteDocuments:remoteDocuments baseOptions:baseOptions];

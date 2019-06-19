@@ -417,7 +417,7 @@ static dispatch_once_t onceToken;
 
     // Perform the operation.
     dispatch_async(self.dispatchQueue, ^{
-      [self.dataOperationProxy performListDocumentsWithType:documentType
+      [self.dataOperationProxy listDocumentsWithType:documentType
           partition:partition
           baseOptions:readOptions
           cachedTokenBlock:^(MSCachedTokenCompletionHandler handler) {

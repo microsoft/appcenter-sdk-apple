@@ -635,7 +635,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 - (void)testListReturnsFromLocalStorageWhenOffline {
 
   // If
-  __weak XCTestExpectation *expectation = [self expectationWithDescription:@""];
+  __weak XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler called and local list is called."];
 
   // Simulate being offline.
   MS_Reachability *reachabilityMock = OCMPartialMock([MS_Reachability reachabilityForInternetConnection]);
@@ -673,7 +673,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 - (void)testListErrorIfNoTokenResultCachedAndOffline {
 
   // If
-  __weak XCTestExpectation *expectation = [self expectationWithDescription:@""];
+  __weak XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler called and throws an error for not finding a token."];
 
   // Simulate being offline.
   MS_Reachability *reachabilityMock = OCMPartialMock([MS_Reachability reachabilityForInternetConnection]);
@@ -704,7 +704,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 - (void)testListReturnsEmptyListIfDocumentExpiredAndOffline {
 
   // If
-  __weak XCTestExpectation *expectation = [self expectationWithDescription:@""];
+  __weak XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler called and returns an empty list."];
 
   // Mock cached token result.
   MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
@@ -747,7 +747,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 - (void)testListFromLocalStorageIfNoTokenResultCachedAndHasPendingOperationAndOnline {
 
   // If
-  __weak XCTestExpectation *expectation = [self expectationWithDescription:@""];
+  __weak XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler called and gets the local documents list."];
 
   // Simulate being online.
   MS_Reachability *reachabilityMock = OCMPartialMock([MS_Reachability reachabilityForInternetConnection]);
@@ -808,7 +808,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 - (void)testListFromRemoteIfNotExpiredAndOnlineWithNoPendingOperation {
 
   // If
-  __weak XCTestExpectation *expectation = [self expectationWithDescription:@""];
+  __weak XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler called and gets the remote list of documents."];
   id httpClient = OCMClassMock([MSHttpClient class]);
   OCMStub([httpClient new]).andReturn(httpClient);
   self.sut.httpClient = httpClient;
@@ -880,7 +880,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 - (void)testListFromRemoteIfAllLocalExpiredAndOnline {
 
   // If
-  __weak XCTestExpectation *expectation = [self expectationWithDescription:@""];
+  __weak XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler called and gets the remote list of documents."];
   id httpClient = OCMClassMock([MSHttpClient class]);
   OCMStub([httpClient new]).andReturn(httpClient);
   self.sut.httpClient = httpClient;
