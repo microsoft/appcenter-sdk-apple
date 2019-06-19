@@ -74,6 +74,7 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
   if (schema) {
     result = [MSDBStorage createTablesWithSchema:schema inOpenedDatabase:db];
     if (result != SQLITE_OK) {
+      MSLogError([MSAppCenter logTag], @"Failed to create tables with schema with error \"%d\".", result);
       sqlite3_close(db);
       return result;
     }
@@ -111,7 +112,7 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
 
   // Log a warning if max page count can't be set.
   if (result != SQLITE_OK) {
-    MSLogWarning([MSAppCenter logTag], @"Failed to open database with specified maximum size constraint.");
+    MSLogError([MSAppCenter logTag], @"Failed to open database with specified maximum size constraint.");
   }
   result = callback(db);
   sqlite3_close(db);
