@@ -46,6 +46,7 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
   private var dbFileSource: DispatchSourceProtocol?  
   let startUpModeForCurrentSession: NSInteger = (UserDefaults.standard.object(forKey: kMSStartTargetKey) ?? 0) as! NSInteger
   var userInformation: MSUserInformation?
+  var userDefaultStatus: Bool = true
   
   deinit {
     self.dbFileSource?.cancel()
@@ -120,6 +121,7 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
 
   @IBAction func authSignIn(_ sender: UIButton) {
     appCenter.signIn { (userInformation, error) in
+      self.userDefaultStatus = false
       self.userInformation = userInformation
       DispatchQueue.main.async {
         self.updateViewState()
@@ -129,6 +131,7 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
 
   @IBAction func authSignOut(_ sender: UIButton) {
     appCenter.signOut()
+    self.userDefaultStatus = false
     self.userInformation = nil
     updateViewState()
   }
@@ -137,7 +140,11 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     self.appCenterEnabledSwitch.isOn = appCenter.isAppCenterEnabled()
     self.pushEnabledSwitch.isOn = appCenter.isPushEnabled()
     self.authSwitch.isOn = appCenter.isAuthEnabled()
-    if (self.userInformation == nil) {
+    if (self.userDefaultStatus) {
+      authInfoCell.isUserInteractionEnabled = false
+      authInfoLabel.text = "Authentication status unknown"
+      authInfoLabel.isEnabled = false
+    } else if (self.userInformation == nil) {
       authInfoCell.isUserInteractionEnabled = false
       authInfoLabel.text = "User is not authenticated"
       authInfoLabel.isEnabled = false
