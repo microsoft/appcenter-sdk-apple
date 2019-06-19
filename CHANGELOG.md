@@ -4,7 +4,7 @@
 
 ### AppCenter
 
-* **[Fix]** Add recovery logic for corrupted database.
+* **[Fix]** Drop and recreate the database when it is corrupted.
 
 ___
 

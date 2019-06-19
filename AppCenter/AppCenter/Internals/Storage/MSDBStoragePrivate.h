@@ -51,8 +51,11 @@ static const long kMSDefaultDatabaseSizeInBytes = 10 * 1024 * 1024;
 
 /**
  * Create table with schema.
+ *
  * @param schema Database schema.
  * @param db Database handle.
+ *
+ * @return result `SQLITE_OK` or an error code.
  */
 + (int)createTablesWithSchema:(MSDBSchema *)schema inOpenedDatabase:(void *)db;
 

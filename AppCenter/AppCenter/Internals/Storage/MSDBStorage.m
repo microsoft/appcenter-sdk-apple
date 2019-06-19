@@ -38,10 +38,10 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
     }
   });
   if ((self = [super init])) {
-    int result = [self initializeDatabaseWithSchema:schema version:version filename:filename];
+    int result = [self configureDatabaseWithSchema:schema version:version filename:filename];
     if (result == SQLITE_CORRUPT || result == SQLITE_NOTADB) {
       [self dropDatabase];
-      result = [self initializeDatabaseWithSchema:schema version:version filename:filename];
+      result = [self configureDatabaseWithSchema:schema version:version filename:filename];
     }
     if (result != SQLITE_OK) {
       MSLogError([MSAppCenter logTag], @"Failed to initialize database.");
@@ -54,14 +54,13 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
   return (self = [self initWithSchema:nil version:version filename:filename]);
 }
 
-- (int)initializeDatabaseWithSchema:(MSDBSchema *)schema version:(NSUInteger)version filename:(NSString *)filename {
+- (int)configureDatabaseWithSchema:(MSDBSchema *)schema version:(NSUInteger)version filename:(NSString *)filename {
   BOOL newDatabase = ![MSUtility fileExistsForPathComponent:filename];
   self.dbFileURL = [MSUtility createFileAtPathComponent:filename withData:nil atomically:NO forceOverwrite:NO];
   self.maxSizeInBytes = kMSDefaultDatabaseSizeInBytes;
-
   int result;
   sqlite3 *db = [MSDBStorage openDatabaseAtFileURL:self.dbFileURL withResult:&result];
-  if (!db) {
+  if (result != SQLITE_OK) {
     return result;
   }
   self.pageSize = [MSDBStorage getPageSizeInOpenedDatabase:db];

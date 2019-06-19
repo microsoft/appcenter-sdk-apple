@@ -725,7 +725,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   XCTAssertEqual(strcmp((const char *)data.bytes, validFileHeader), 0);
 }
 
-- (void)testInitWithSchemaResultIsNotOk {
+- (void)testInitWithSchemaWithErrorResult {
 
   // If
   id mockMSDBStorage = OCMClassMock([MSDBStorage class]);
