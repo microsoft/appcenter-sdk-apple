@@ -408,6 +408,22 @@ static const NSUInteger kMSSchemaVersion = 1;
   }
 }
 
+- (void)updateDocumentsWithToken:(MSTokenResult *)token
+                 remoteDocuments:(MSPaginatedDocuments *)documentList
+                     baseOptions:(MSBaseOptions *_Nullable)baseOptions {
+
+  // Get effective device time to live.
+  NSInteger deviceTimeToLive = baseOptions ? baseOptions.deviceTimeToLive : kMSDataTimeToLiveDefault;
+
+  // Parse the documents.
+  NSArray<MSDocumentWrapper *> *remoteListItems = [[documentList currentPage] items];
+  for (MSDocumentWrapper *document in remoteListItems) {
+    MSLogInfo([MSData logTag], @"Updating/inserting document into local storage (partition: %@, id: %@)", document.partition,
+              document.documentId);
+    [self upsertWithToken:token documentWrapper:document operation:kMSPendingOperationRead deviceTimeToLive:deviceTimeToLive];
+  }
+}
+
 - (NSString *)checkForNSNull:(NSString *)column {
 
   // If column is NSNull, change it to nil.

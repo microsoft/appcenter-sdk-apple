@@ -210,6 +210,8 @@
       if ([self.reachability currentReachabilityStatus] != NotReachable && [[cachedDocumentsList currentPage] items].count == 0) {
         MSLogInfo([MSData logTag], @"Performing remote operation, since the local list if empty");
         remoteDocumentBlock(^(MSPaginatedDocuments *_Nonnull remoteDocuments) {
+          // Update local store with the remote list of documents
+          [self.documentStore updateDocumentsWithToken:token remoteDocuments:remoteDocuments baseOptions:baseOptions];
           completionHandler(remoteDocuments);
         });
         return;
@@ -222,6 +224,8 @@
     else if ([self shouldAttemptRemoteOperationForPartition:partition]) {
       MSLogInfo([MSData logTag], @"Performing remote operation");
       remoteDocumentBlock(^(MSPaginatedDocuments *_Nonnull remoteDocuments) {
+        // Update local store with the remote list of documents
+        [self.documentStore updateDocumentsWithToken:token remoteDocuments:remoteDocuments baseOptions:baseOptions];
         completionHandler(remoteDocuments);
         return;
       });

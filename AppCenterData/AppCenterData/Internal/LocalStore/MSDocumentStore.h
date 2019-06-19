@@ -128,6 +128,17 @@ NS_ASSUME_NONNULL_BEGIN
                       operation:(NSString *_Nullable)operation;
 
 /**
+ * Update the local store given a list of remote documents.
+ *
+ * @param token The CosmosDB token.
+ * @param documentList The remote list of documents that should be cached.
+ * @param baseOptions Options for storing the remote list of documents.
+ */
+- (void)updateDocumentsWithToken:(MSTokenResult *)token
+                 remoteDocuments:(MSPaginatedDocuments *)documentList
+                     baseOptions:(MSBaseOptions *_Nullable)baseOptions;
+
+/**
  * Get all pending operations.
  *
  * @param token CosmosDB token.
