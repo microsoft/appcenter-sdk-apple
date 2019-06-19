@@ -114,9 +114,9 @@ else
   resp="$(pod spec lint --verbose $PODSPEC_FILENAME)"
   echo $resp
 
-  # Check error from the response
-  error="$(echo $resp | grep -i 'error\|fatal\|exception')"
-  if [ "$error" ]; then
+  # Check success message in the response
+  error="$(echo $resp | grep -i 'passed validation')"
+  if [ -z "$error" ]; then
     echo "Cannot publish to CocoaPods due to spec validation failure"
     exit 1
   fi
