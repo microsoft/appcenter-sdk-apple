@@ -36,6 +36,8 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
   @IBOutlet weak var setLogUrlButton: UIButton!
   @IBOutlet weak var setAppSecretButton: UIButton!
   @IBOutlet weak var overrideCountryCodeButton: UIButton!
+  @IBOutlet weak var authInfoCell: UITableViewCell!
+  @IBOutlet weak var authInfoLabel: UILabel!
 
   var appCenter: AppCenterDelegate!
   private var startupModePicker: MSEnumPicker<StartupMode>?
@@ -43,7 +45,9 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
   private var dbFileDescriptor: CInt = 0
   private var dbFileSource: DispatchSourceProtocol?  
   let startUpModeForCurrentSession: NSInteger = (UserDefaults.standard.object(forKey: kMSStartTargetKey) ?? 0) as! NSInteger
-
+  var userInformation: MSUserInformation?
+  var userDefaultStatus: Bool = true
+  
   deinit {
     self.dbFileSource?.cancel()
     close(self.dbFileDescriptor)
@@ -116,17 +120,39 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
   }
 
   @IBAction func authSignIn(_ sender: UIButton) {
-    appCenter.signIn()
+    appCenter.signIn { (userInformation, error) in
+      self.userDefaultStatus = false
+      self.userInformation = userInformation
+      DispatchQueue.main.async {
+        self.updateViewState()
+      }
+    }
   }
 
   @IBAction func authSignOut(_ sender: UIButton) {
     appCenter.signOut()
+    self.userDefaultStatus = false
+    self.userInformation = nil
+    updateViewState()
   }
   
   func updateViewState() {
     self.appCenterEnabledSwitch.isOn = appCenter.isAppCenterEnabled()
     self.pushEnabledSwitch.isOn = appCenter.isPushEnabled()
     self.authSwitch.isOn = appCenter.isAuthEnabled()
+    if (self.userDefaultStatus) {
+      authInfoCell.isUserInteractionEnabled = false
+      authInfoLabel.text = "Authentication status unknown"
+      authInfoLabel.isEnabled = false
+    } else if (self.userInformation == nil) {
+      authInfoCell.isUserInteractionEnabled = false
+      authInfoLabel.text = "User is not authenticated"
+      authInfoLabel.isEnabled = false
+    } else {
+      authInfoCell.isUserInteractionEnabled = true
+      authInfoLabel.text = "User is authenticated"
+      authInfoLabel.isEnabled = true
+    }
     #if ACTIVE_COMPILATION_CONDITION_PUPPET
     self.logFilterSwitch.isOn = MSEventFilter.isEnabled()
     #else
@@ -264,6 +290,9 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     if let destination = segue.destination as? AppCenterProtocol {
       destination.appCenter = appCenter
+    }
+    if let destination = segue.destination as? MSAuthInfoViewController {
+      destination.userInformation = self.userInformation
     }
   }
 }

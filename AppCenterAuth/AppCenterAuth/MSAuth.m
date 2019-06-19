@@ -72,9 +72,13 @@ static dispatch_once_t onceToken;
                     appSecret:(nullable NSString *)appSecret
       transmissionTargetToken:(nullable NSString *)token
               fromApplication:(BOOL)fromApplication {
-  [[MSAuthTokenContext sharedInstance] preventResetAuthTokenAfterStart];
-  [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionTargetToken:token fromApplication:fromApplication];
-  MSLogVerbose([MSAuth logTag], @"Started Auth service.");
+  if ([self checkURLSchemeRegistered:[NSString stringWithFormat:kMSMSALCustomSchemeFormat, appSecret]]) {
+    [[MSAuthTokenContext sharedInstance] preventResetAuthTokenAfterStart];
+    [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionTargetToken:token fromApplication:fromApplication];
+    MSLogVerbose([MSAuth logTag], @"Started Auth service.");
+  } else {
+    MSLogError([MSAuth logTag], @"Failed to start Auth service: Custom URL Scheme for Auth not found.");
+  }
 }
 
 + (NSString *)logTag {
@@ -257,6 +261,22 @@ static dispatch_once_t onceToken;
 }
 
 #pragma mark - Private methods
+
+- (BOOL)checkURLSchemeRegistered:(NSString *)urlScheme {
+  NSArray *schemes;
+  NSString *typeRole;
+  NSArray *types = [MS_APP_MAIN_BUNDLE objectForInfoDictionaryKey:kMSCFBundleURLTypes];
+  for (NSDictionary *urlType in types) {
+    schemes = urlType[kMSCFBundleURLSchemes];
+    typeRole = urlType[kMSCFBundleTypeRole];
+    for (NSString *scheme in schemes) {
+      if ([scheme isEqualToString:urlScheme] && [typeRole isEqualToString:kMSURLTypeRoleEditor]) {
+        return YES;
+      }
+    }
+  }
+  return NO;
+}
 
 - (NSString *)authConfigFilePath {
   return [NSString stringWithFormat:@"%@/%@", kMSAuthPathComponent, kMSAuthConfigFilename];
@@ -513,6 +533,10 @@ static dispatch_once_t onceToken;
     if (!networkConnected) {
       MSLogDebug([MSAuth logTag], @"Network not connected. The token will be refreshed after coming back online.");
       self.homeAccountIdToRefresh = accountId;
+      return;
+    }
+    if (!self.clientApplication) {
+      MSLogWarning([MSAuth logTag], @"MSAL client is not configured yet. The token will be refreshed on the next re-try.");
       return;
     }
     MSALAccount *account = [self retrieveAccountWithAccountId:accountId];

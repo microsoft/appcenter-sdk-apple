@@ -58,7 +58,11 @@ publish_version="$(grep "VERSION_STRING" $VERSION_FILENAME | head -1 | awk -F "[
 echo "Publish version:" $publish_version
 
 # Read publish version for current build
-version=$(cat $CURRENT_BUILD_VERSION_FILENAME)
+if [ "$mode" == "internal" ]; then
+  version=$(cat $CURRENT_BUILD_VERSION_FILENAME)
+else
+  version=$(cat $ARTIFACT_PATH/version/$CURRENT_BUILD_VERSION_FILENAME)
+fi
 
 # Exit if response doesn't contain a version
 if [ -z $version ] || [ "$version" == "" ]; then
@@ -73,21 +77,15 @@ if [ "$mode" == "internal" ]; then
   ## Change publish version to internal version
   publish_version=$version
   echo "Detected internal release. Publish version is updated to " $publish_version
-
 else
 
   ## 0. Get artifact filename and commit hash from build
-  prerelease=$(echo "$ARTIFACT_PATH"/*.zip | rev | cut -d/ -f1 | rev)
+  prerelease=$(echo $ARTIFACT_PATH/zip/*.zip | rev | cut -d/ -f1 | rev)
   zip_filename="$(echo $FRAMEWORKS_ZIP_FILENAME | cut -d. -f1)"
   commit_hash="$(echo $prerelease | sed 's/'$zip_filename'-[[:digit:]]\{1,\}.[[:digit:]]\{1,\}.[[:digit:]]\{1,\}-[[:digit:]]\{1,\}+\(.\{40\}\)\.zip.*/\1/1')"
 
-  ### Temporarily remove tvOS framework from binary
-  unzip $ARTIFACT_PATH/$prerelease
-  rm -rf $FRAMEWORKS_ZIP_FOLDER/tvOS
-  zip -r $FRAMEWORKS_ZIP_FILENAME $FRAMEWORKS_ZIP_FOLDER/
-
-### Once we support tvOS, we just need to rename the file.
-#  mv $prerelease $FRAMEWORKS_ZIP_FILENAME
+  # Rename zip archive to $FRAMEWORKS_ZIP_FILENAME
+  mv $ARTIFACT_PATH/zip/$prerelease $FRAMEWORKS_ZIP_FILENAME
 
   ## 1. Extract change log
   change_log_found=false
@@ -103,7 +101,9 @@ else
 
       # Append the line
       else
-        change_log="$change_log\n${line//\"/\\\"}"
+        line="${line//\"/\\\"}"
+        line="${line//\\/\\\\}"
+        change_log="$change_log\n${line}"
       fi
 
     # If it didn't find changelog for the version
@@ -111,7 +111,9 @@ else
 
       # If it is the first line of change log for the version
       if [[ "$line" =~ "## Version $publish_version" ]]; then
-        change_log="${line//\"/\\\"}"
+        line="${line//\"/\\\"}"
+        line="${line//\\/\\\\}"
+        change_log="${line}"
         change_log_found=true
       fi
     fi
@@ -174,41 +176,30 @@ else
   else
     echo "A release has been created with ID ($id)"
   fi
-
 fi
 
 ## V. Upload binary
 echo "Upload binaries"
+azure telemetry --disable
 if [ "$mode" == "internal" ]; then
 
   # Determine the filename for the release
   filename=$(echo $FRAMEWORKS_ZIP_FILENAME | sed 's/.zip/-'${publish_version}'+'$BUILD_SOURCEVERSION'.zip/g')
 
   # Replace the latest binary in Azure Storage
-  echo "Y" | azure storage blob upload $FRAMEWORKS_ZIP_FILENAME sdk
-
-  # Upload binary to Azure Storage
-  mv $FRAMEWORKS_ZIP_FILENAME $filename
-  resp="$(echo "N" | azure storage blob upload ${filename} sdk | grep overwrite)"
-  if [ "$resp" ]; then
-    echo "${filename} already exists"
-    exit 1
-  fi
-
+  echo "Y" | azure storage blob upload $FRAMEWORKS_ZIP_FILENAME sdk --verbose
 else
 
   # Determine the filename for the release
   filename=$(echo $FRAMEWORKS_ZIP_FILENAME | sed 's/.zip/-'${publish_version}'.zip/g')
+fi
 
-  # Upload binary to Azure Storage
-  mv $FRAMEWORKS_ZIP_FILENAME $filename
-  resp="$(echo "N" | azure storage blob upload ${filename} sdk | grep overwrite)"
-  if [ "$resp" ]; then
-    echo "${filename} already exists"
-    exit 1
-  fi
+# Upload binary to Azure Storage
+mv $FRAMEWORKS_ZIP_FILENAME $filename
+echo "Y" | azure storage blob upload ${filename} sdk
 
-  # Upload binary to GitHub for external release
+# Upload binary to GitHub for external release
+if [ "$mode" == "external"]; then
   upload_url="$(echo $REQUEST_UPLOAD_URL_TEMPLATE | sed 's/{id}/'$id'/g')"
   url="$(echo $upload_url | sed 's/{filename}/'${filename}'/g')"
   resp="$(curl -s -X POST -H 'Content-Type: application/zip' --data-binary @$filename $url)"
@@ -221,7 +212,6 @@ else
     echo "Response:" $resp
     exit 1
   fi
-
 fi
 
 echo $filename "Uploaded successfully"

@@ -465,9 +465,9 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
 - (BOOL)checkURLSchemeRegistered:(NSString *)urlScheme {
   NSArray *schemes;
-  NSArray *types = [MS_APP_MAIN_BUNDLE objectForInfoDictionaryKey:@"CFBundleURLTypes"];
+  NSArray *types = [MS_APP_MAIN_BUNDLE objectForInfoDictionaryKey:kMSCFBundleURLTypes];
   for (NSDictionary *urlType in types) {
-    schemes = urlType[@"CFBundleURLSchemes"];
+    schemes = urlType[kMSCFBundleURLSchemes];
     for (NSString *scheme in schemes) {
       if ([scheme isEqualToString:urlScheme]) {
         return YES;

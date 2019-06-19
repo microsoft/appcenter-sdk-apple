@@ -15,9 +15,11 @@
 #import "MSEventFilter.h"
 #import "MSEventPropertiesInternal.h"
 #import "MSPaginatedDocuments.h"
+#import "MSUserInformation.h"
 #import "MSWriteOptions.h"
 #else
 @import AppCenter;
 @import AppCenterAnalytics;
 @import AppCenterData;
+@import AppCenterAuth;
 #endif
