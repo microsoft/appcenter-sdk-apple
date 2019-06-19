@@ -76,8 +76,8 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
 
   @IBAction func refreshButtonClicked(_ sender: Any) {
     var partition = documentContent?.partition ?? ""
-    if (partition.contains("user")) {
-        partition = "user"
+    if (partition.contains(appCenter.kMSDataUserDocumentsPartition)) {
+        partition = appCenter.kMSDataUserDocumentsPartition
     }
     self.appCenter.readDocumentWithPartition(partition, documentId: documentContent?.documentId ?? "", documentType: MSDictionaryDocument.self, completionHandler: { (document) in
         self.documentContent = document
@@ -85,18 +85,19 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
             self.tableView.reloadData()
         }
         
-        if (partition == "user") {
-            let index = MSDataViewController.UserDocuments.firstIndex(where: {$0.documentId == self.documentId} )
-            if (index != nil) {
-                MSDataViewController.UserDocuments[index!] = self.documentContent ?? MSDataViewController.UserDocuments[index!]
-            }
+        if (partition == self.appCenter.kMSDataUserDocumentsPartition) {
+            self.updateDocumentList(list: &MSDataViewController.UserDocuments, documentContent: document)
         } else {
-            let index = MSDataViewController.AppDocuments.firstIndex(where: {$0.documentId == self.documentId} )
-            if (index != nil) {
-                MSDataViewController.AppDocuments[index!] = self.documentContent ?? MSDataViewController.AppDocuments[index!]
-            }
+            self.updateDocumentList(list: &MSDataViewController.AppDocuments, documentContent: document)
         }
     })
+  }
+    
+  func updateDocumentList(list: inout [MSDocumentWrapper], documentContent: MSDocumentWrapper) {
+    let index = list.firstIndex(where: {$0.documentId == documentContent.documentId} )
+    if (index != nil ) {
+      list[index!] = documentContent
+    }
   }
     
   func numberOfSections(in tableView: UITableView) -> Int {

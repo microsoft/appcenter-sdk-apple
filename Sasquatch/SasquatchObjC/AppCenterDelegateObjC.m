@@ -367,4 +367,8 @@
   [MSData readDocumentWithID:documentId documentType:documentType partition:partitionName completionHandler:completionHandler];
 }
 
+- (NSString *)kMSDataUserDocumentsPartition {
+  return @"user";
+}
+
 @end
