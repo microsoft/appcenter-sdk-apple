@@ -45,7 +45,7 @@ class AnalyticsViewController : UIViewController, UITableViewDataSource, AppCent
     table?.reloadData();
   }
 
-  func switchAnalyticsStatus(_ : Any) {
+  @objc func switchAnalyticsStatus(_ : Any) {
     appCenter.setAnalyticsEnabled(serviceStatus?.selectedSegmentIndex == 0);
     serviceStatus?.selectedSegmentIndex = appCenter.isAnalyticsEnabled() ? 0 : 1;
   }
