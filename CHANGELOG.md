@@ -1,4 +1,20 @@
-# App Center SDK for iOS and macOS Change Log
+# App Center SDK for iOS, macOS and tvOS Change Log
+
+## Version 2.2.0 (Under development)
+
+### AppCenter
+
+* **[Feature]** Now supports tvOS.
+
+### AppCenterAnalytics
+
+* **[Feature]** Now supports tvOS.
+
+### AppCenterCrashes
+
+* **[Feature]** Now supports tvOS.
+
+___
 
 ## Version 2.1.0
 

@@ -77,30 +77,6 @@ if [ "$mode" == "internal" ] || [ "$mode" == "test" ]; then
     fi
     echo "Found publish version for the build: $version"
 
-    # Update podspec change for other platforms
-    sed -i '' 's/App\ Center\ Analytics\ (iOS\ and\ macOS)/App\ Center\ Analytics\ (iOS,\ macOS\ and\ tvOS)/g' $PODSPEC_FILENAME
-    sed -i '' 's/App\ Center\ Crashes\ (iOS\ and\ macOS)/App\ Center\ Crashes\ (iOS,\ macOS\ and\ tvOS)/g' $PODSPEC_FILENAME
-    sed -i '' '40 i\
-      \ \ s.tvos.deployment_target = '\''10.0'\''\
-      ' $PODSPEC_FILENAME
-    sed -i '' '52 i\
-      \ \ \ \ ss.tvos.frameworks = '\''UIKit'\''\
-      ' $PODSPEC_FILENAME
-    sed -i '' '55 i\
-      \ \ \ \ ss.tvos.vendored_frameworks = '\"'AppCenter-SDK-Apple/tvOS/AppCenter.framework'\"'\
-      ' $PODSPEC_FILENAME
-    sed -i '' '64 i\
-      \ \ \ \ ss.tvos.frameworks = '\''UIKit'\''\
-      ' $PODSPEC_FILENAME
-    sed -i '' '67 i\
-      \ \ \ \ ss.tvos.vendored_frameworks = '\"'AppCenter-SDK-Apple/tvOS/AppCenterAnalytics.framework'\"'\
-      ' $PODSPEC_FILENAME
-    sed -i '' '76 i\
-      \ \ \ \ ss.tvos.vendored_frameworks = '\"'AppCenter-SDK-Apple/tvOS/AppCenterCrashes.framework'\"'\
-      ' $PODSPEC_FILENAME
-    sed -i '' 's/Not\ available\ for\ macOS/Not\ available\ for\ macOS\ and\ tvOS/g' README.md
-    sed -i '' 's/\(\*\*App\ Center\ Push\*\*\)\(.*\)/\1\2\ **Not available\ for\ tvOS*./g' README.md
-
     # Add build number to podspec version
     sed -i '' "s/\(s\.version[[:space:]]*=[[:space:]]\)\'.*\'$/\1'$version'/1" $PODSPEC_FILENAME
 
