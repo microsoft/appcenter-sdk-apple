@@ -1,6 +1,6 @@
 # App Center SDK for iOS and macOS Change Log
 
-## Version 2.2.0
+## Version 2.2.0 (Under development)
 
 ### AppCenterData
 
