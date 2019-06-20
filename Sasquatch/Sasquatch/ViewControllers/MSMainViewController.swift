@@ -38,6 +38,7 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
   @IBOutlet weak var overrideCountryCodeButton: UIButton!
   @IBOutlet weak var authInfoCell: UITableViewCell!
   @IBOutlet weak var authInfoLabel: UILabel!
+  @IBOutlet weak var clearCrashUserConfirmationButton: UIButton!
 
   var appCenter: AppCenterDelegate!
   private var startupModePicker: MSEnumPicker<StartupMode>?
@@ -181,6 +182,10 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
   @IBAction func overrideCountryCode(_ sender: UIButton) {
     let appDelegate: AppDelegate? = UIApplication.shared.delegate as? AppDelegate
     appDelegate?.requestLocation()
+  }
+
+  @IBAction func clearCrashUserConfirmation(_ sender: UIButton) {
+   UserDefaults.standard.removeObject(forKey: kMSUserConfirmationKey)
   }
 
   @IBAction func logFilterSwitchChanged(_ sender: UISwitch) {

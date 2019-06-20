@@ -41,6 +41,7 @@ static NSString *const kMSUserIdKey = @"userId";
 static NSString *const kMSLogUrl = @"logUrl";
 static NSString *const kMSAppSecret = @"appSecret";
 static NSString *const kMSUserIdentity = @"userIdentity";
+static NSString *const kMSUserConfirmationKey = @"MSUserConfirmation";
 
 #ifdef SQLITE_DEFAULT_PAGE_SIZE
 static int const kMSStoragePageSize = SQLITE_DEFAULT_PAGE_SIZE;

@@ -1286,6 +1286,24 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="88S-X5-7Nh">
+                                        <rect key="frame" x="0.0" y="1412.5" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="88S-X5-7Nh" id="phR-gY-BqC">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WUg-SA-npz">
+                                                    <rect key="frame" x="86" y="7" width="203" height="30"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <state key="normal" title="Clear crash user confirmation"/>
+                                                    <connections>
+                                                        <action selector="clearCrashUserConfirmation:" destination="9Ck-4D-Ozb" eventType="touchUpInside" id="QaU-xI-9f7"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                             <tableViewSection headerTitle="Data" id="6Vf-WW-jGy">
@@ -1329,6 +1347,7 @@
                         <outlet property="authInfoCell" destination="dRI-LI-6Sl" id="Tl5-QH-UWJ"/>
                         <outlet property="authInfoLabel" destination="Qym-oN-3dV" id="ljN-W8-7cS"/>
                         <outlet property="authSwitch" destination="iXu-ht-std" id="Sea-q6-3hw"/>
+                        <outlet property="clearCrashUserConfirmationButton" destination="WUg-SA-npz" id="hJw-aC-Puf"/>
                         <outlet property="deviceIdLabel" destination="eS2-cR-m6j" id="UsE-g6-FF0"/>
                         <outlet property="installId" destination="NtN-Tm-B6i" id="99C-gY-7Q8"/>
                         <outlet property="logFilterSwitch" destination="Noo-Uo-Lot" id="joI-f2-5vY"/>
