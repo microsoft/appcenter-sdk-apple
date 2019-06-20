@@ -5,6 +5,7 @@
 ### AppCenter
 
 * **[Feature]** Now supports tvOS.
+* **[Fix]** Drop and recreate the database when it is corrupted.
 
 ### AppCenterAnalytics
 

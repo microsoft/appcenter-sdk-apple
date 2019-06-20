@@ -15,7 +15,7 @@ static const long kMSDefaultDatabaseSizeInBytes = 10 * 1024 * 1024;
 /**
  * Database file name.
  */
-@property(nonatomic, readonly, nullable) NSURL *dbFileURL;
+@property(nonatomic, nullable) NSURL *dbFileURL;
 
 /**
  * Maximum size of the database.
@@ -25,7 +25,7 @@ static const long kMSDefaultDatabaseSizeInBytes = 10 * 1024 * 1024;
 /**
  * Page size for database.
  */
-@property(nonatomic, readonly) long pageSize;
+@property(nonatomic) long pageSize;
 
 /**
  * Called after the database is created. Override to customize the database.
@@ -48,6 +48,16 @@ static const long kMSDefaultDatabaseSizeInBytes = 10 * 1024 * 1024;
  * @param block Actions to perform in query.
  */
 - (int)executeQueryUsingBlock:(MSDBStorageQueryBlock)block;
+
+/**
+ * Create table with schema.
+ *
+ * @param schema Database schema.
+ * @param db Database handle.
+ *
+ * @return result `SQLITE_OK` or an error code.
+ */
++ (int)createTablesWithSchema:(MSDBSchema *)schema inOpenedDatabase:(void *)db;
 
 /**
  * Query the number of pages (i.e.: SQLite "page_count") of the database.
@@ -88,8 +98,9 @@ static const long kMSDefaultDatabaseSizeInBytes = 10 * 1024 * 1024;
  * Get current database version.
  *
  * @param db Database handle.
+ * @param result `SQLITE_OK` or an error code.
  */
-+ (NSUInteger)versionInOpenedDatabase:(void *)db;
++ (NSUInteger)versionInOpenedDatabase:(void *)db result:(int *)result;
 
 /**
  * Set current database version.
