@@ -176,11 +176,11 @@
 }
 
 - (void)listDocumentsWithType:(Class)documentType
-                           partition:(NSString *)partition
-                         baseOptions:(MSBaseOptions *_Nullable)baseOptions
-                    cachedTokenBlock:(void (^)(MSCachedTokenCompletionHandler))cachedTokenBlock
-                 remoteDocumentBlock:(void (^)(MSPaginatedDocumentsCompletionHandler))remoteDocumentBlock
-                   completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler {
+                    partition:(NSString *)partition
+                  baseOptions:(MSBaseOptions *_Nullable)baseOptions
+             cachedTokenBlock:(void (^)(MSCachedTokenCompletionHandler))cachedTokenBlock
+          remoteDocumentBlock:(void (^)(MSPaginatedDocumentsCompletionHandler))remoteDocumentBlock
+            completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler {
 
   // Retrieve a cached token.
   cachedTokenBlock(^(MSTokensResponse *_Nullable tokensResponse, NSError *_Nullable error) {
@@ -208,11 +208,10 @@
                                                                         baseOptions:baseOptions];
       if ([self.reachability currentReachabilityStatus] != NotReachable && [[cachedDocumentsList currentPage] items].count == 0) {
         MSLogInfo([MSData logTag], @"Performing remote operation, since the local list is empty");
-        remoteDocumentBlock(^(MSPaginatedDocuments *_Nonnull remoteDocuments) {
-          // Update local store with the remote list of documents
-          [self.documentStore updateDocumentsWithToken:token remoteDocuments:remoteDocuments baseOptions:baseOptions];
-          completionHandler(remoteDocuments);
-        });
+        [self performRemoteOperationWithToken:token
+                                  baseOptions:baseOptions
+                          remoteDocumentBlock:remoteDocumentBlock
+                            completionHandler:completionHandler];
         return;
       }
       completionHandler(cachedDocumentsList);
@@ -222,18 +221,29 @@
     // Execute remote operation online and does not have any pending operations.
     else if ([self shouldAttemptRemoteOperationForPartition:partition]) {
       MSLogInfo([MSData logTag], @"Performing remote operation");
-      remoteDocumentBlock(^(MSPaginatedDocuments *_Nonnull remoteDocuments) {
-        // Update local store with the remote list of documents
-        [self.documentStore updateDocumentsWithToken:token remoteDocuments:remoteDocuments baseOptions:baseOptions];
-        completionHandler(remoteDocuments);
-        return;
-      });
+      [self performRemoteOperationWithToken:token
+                                baseOptions:baseOptions
+                        remoteDocumentBlock:remoteDocumentBlock
+                          completionHandler:completionHandler];
+      return;
     }
   });
 }
 
 #pragma mark Utilities
 
+- (void)performRemoteOperationWithToken:(MSTokenResult *)token
+                            baseOptions:(MSBaseOptions *_Nullable)baseOptions
+                    remoteDocumentBlock:(void (^)(MSPaginatedDocumentsCompletionHandler))remoteDocumentBlock
+                      completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler
+
+{
+  remoteDocumentBlock(^(MSPaginatedDocuments *_Nonnull remoteDocuments) {
+    // Update local store with the remote list of documents
+    [self.documentStore updateDocumentsWithToken:token remoteDocuments:remoteDocuments baseOptions:baseOptions];
+    completionHandler(remoteDocuments);
+  });
+}
 /**
  * Validate an operation.
  *

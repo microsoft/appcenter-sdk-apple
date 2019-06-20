@@ -606,7 +606,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   self.sut.dataOperationProxy.reachability = reachabilityMock;
 
   // Mock cached token result.
-  MSTokenResult *tokenResult = [self mockTokenFetchingWithError:nil];
+  [self mockTokenFetchingWithError:nil];
 
   // If
   __block MSPaginatedDocuments *actualPaginatedDocuments;
@@ -673,7 +673,8 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 - (void)testListErrorIfNoTokenResultCachedAndOffline {
 
   // If
-  __weak XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler called and throws an error for not finding a token."];
+  __weak XCTestExpectation *expectation =
+      [self expectationWithDescription:@"Completion handler called and throws an error for not finding a token."];
 
   // Simulate being offline.
   MS_Reachability *reachabilityMock = OCMPartialMock([MS_Reachability reachabilityForInternetConnection]);
@@ -808,7 +809,8 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 - (void)testListFromRemoteIfNotExpiredAndOnlineWithNoPendingOperation {
 
   // If
-  __weak XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler called and gets the remote list of documents."];
+  __weak XCTestExpectation *expectation =
+      [self expectationWithDescription:@"Completion handler called and gets the remote list of documents."];
   id httpClient = OCMClassMock([MSHttpClient class]);
   OCMStub([httpClient new]).andReturn(httpClient);
   self.sut.httpClient = httpClient;
@@ -875,12 +877,14 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
                                }];
+  [httpClient stopMocking];
 }
 
 - (void)testListFromRemoteIfAllLocalExpiredAndOnline {
 
   // If
-  __weak XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler called and gets the remote list of documents."];
+  __weak XCTestExpectation *expectation =
+      [self expectationWithDescription:@"Completion handler called and gets the remote list of documents."];
   id httpClient = OCMClassMock([MSHttpClient class]);
   OCMStub([httpClient new]).andReturn(httpClient);
   self.sut.httpClient = httpClient;
@@ -941,6 +945,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
                                }];
+  [httpClient stopMocking];
 }
 
 - (void)testListWhenDataModuleDisabled {

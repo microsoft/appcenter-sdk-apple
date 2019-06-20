@@ -215,7 +215,7 @@ static const NSUInteger kMSSchemaVersion = 1;
     NSString *documentId = documentRow[self.documentIdColumnIndex];
     if (expirationTime != kMSDataTimeToLiveInfinite) {
       NSDate *expirationDate = [NSDate dateWithTimeIntervalSince1970:expirationTime];
-      if (expirationDate && [expirationDate laterDate:currentDate] == currentDate) {
+      if (expirationDate && [[expirationDate laterDate:currentDate] isEqualToDate:currentDate]) {
         NSString *warningMessage =
             [NSString stringWithFormat:@"Local document for partition '%@' and document ID '%@' expired at %@, discarding it",
                                        token.partition, documentId, expirationDate];
@@ -420,7 +420,11 @@ static const NSUInteger kMSSchemaVersion = 1;
   for (MSDocumentWrapper *document in remoteListItems) {
     MSLogInfo([MSData logTag], @"Updating/inserting document into local storage (partition: %@, id: %@)", document.partition,
               document.documentId);
-    [self upsertWithToken:token documentWrapper:document operation:kMSPendingOperationRead deviceTimeToLive:deviceTimeToLive];
+
+    // cache only valid documents
+    if (document.error == nil) {
+      [self upsertWithToken:token documentWrapper:document operation:kMSPendingOperationRead deviceTimeToLive:deviceTimeToLive];
+    }
   }
 }
 

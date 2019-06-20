@@ -609,13 +609,13 @@ static dispatch_once_t onceToken;
                                 deserializeDataError = [[MSDataError alloc] initWithErrorCode:MSACDataErrorJSONSerializationFailed
                                                                                    innerError:deserializeError
                                                                                       message:@"Can't deserialize documents"];
-                              }
-                              if (deserializeDataError) {
-                                MSPaginatedDocuments *documents = [[MSPaginatedDocuments alloc] initWithError:deserializeDataError
-                                                                                                    partition:partition
-                                                                                                 documentType:documentType];
-                                completionHandler(documents);
-                                return;
+                                if (deserializeDataError) {
+                                  MSPaginatedDocuments *documents = [[MSPaginatedDocuments alloc] initWithError:deserializeDataError
+                                                                                                      partition:partition
+                                                                                                   documentType:documentType];
+                                  completionHandler(documents);
+                                  return;
+                                }
                               }
 
                               // Parse the documents.

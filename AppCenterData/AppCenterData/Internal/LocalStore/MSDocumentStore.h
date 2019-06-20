@@ -119,7 +119,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param currentCachedDocument The current cached document.
  * @param newCachedDocument The new document that should be cached.
  * @param deviceTimeToLive The device time to live for the new cached document.
- * @param operation The operation being intended (nil - read, CREATE, UPDATE, DELETE).
+ * @param operation The operation being intended (nil - READ, CREATE, UPDATE, DELETE).
  */
 - (void)updateDocumentWithToken:(MSTokenResult *)token
           currentCachedDocument:(MSDocumentWrapper *)currentCachedDocument
