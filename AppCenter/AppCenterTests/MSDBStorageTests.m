@@ -6,6 +6,10 @@
 #import "MSDBStoragePrivate.h"
 #import "MSStorageTestUtil.h"
 #import "MSTestFrameworks.h"
+#import "MSUtility+Date.h"
+#import "MSUtility+File.h"
+
+#define DOCUMENTS [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject]
 
 static NSString *const kMSTestTableName = @"table";
 static NSString *const kMSTestPositionColName = @"position";
@@ -126,15 +130,17 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
 
 - (void)testVersion {
   [self.sut executeQueryUsingBlock:^int(void *db) {
+    int result = 0;
+
     // When
-    NSUInteger version = [MSDBStorage versionInOpenedDatabase:db];
+    NSUInteger version = [MSDBStorage versionInOpenedDatabase:db result:&result];
 
     // Then
     assertThatUnsignedInteger(version, equalToUnsignedInt(0));
 
     // When
     [MSDBStorage setVersion:1 inOpenedDatabase:db];
-    version = [MSDBStorage versionInOpenedDatabase:db];
+    version = [MSDBStorage versionInOpenedDatabase:db result:&result];
 
     // Then
     assertThatUnsignedInteger(version, equalToUnsignedInt(1));
@@ -145,7 +151,8 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   // After re-open.
   [self.sut executeQueryUsingBlock:^int(void *db) {
     // When
-    NSUInteger version = [MSDBStorage versionInOpenedDatabase:db];
+    int result = 0;
+    NSUInteger version = [MSDBStorage versionInOpenedDatabase:db result:&result];
 
     // Then
     assertThatUnsignedInteger(version, equalToUnsignedInt(1));
@@ -692,6 +699,70 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
 
   // When
   self.sut = [[MSDBStorage alloc] initWithSchema:self.schema version:0 filename:kMSTestDBFileName];
+}
+
+- (void)testDatabaseThatFileWasCorrupted {
+
+  // If
+  const char *validFileHeader = "SQLite format 3";
+  NSURL *fileURL = [MSUtility fullURLForPathComponent:kMSTestDBFileName];
+  NSData *data = [NSData dataWithContentsOfURL:fileURL];
+
+  // Check that database file is valid.
+  XCTAssertEqual(strcmp((const char *)data.bytes, validFileHeader), 0);
+
+  // Corrupt the file.
+  NSMutableData *mutabledata = [[NSData dataWithContentsOfURL:fileURL] mutableCopy];
+  *((unsigned int *)mutabledata.mutableBytes) = 0xDEADBEEF;
+  [mutabledata writeToURL:fileURL atomically:YES];
+
+  // When
+  self.sut = [[MSDBStorage alloc] initWithSchema:self.schema version:1 filename:kMSTestDBFileName];
+
+  // Then
+  // The database should be recreated.
+  data = [NSData dataWithContentsOfURL:fileURL];
+  XCTAssertEqual(strcmp((const char *)data.bytes, validFileHeader), 0);
+}
+
+- (void)testInitWithSchemaWithErrorResult {
+
+  // If
+  id mockMSDBStorage = OCMClassMock([MSDBStorage class]);
+  OCMStub([mockMSDBStorage versionInOpenedDatabase:[OCMArg anyPointer] result:[OCMArg anyPointer]]).andDo(^(NSInvocation *invocation) {
+    int *result;
+    [invocation getArgument:&result atIndex:3];
+    *result = SQLITE_ERROR;
+  });
+  OCMReject([mockMSDBStorage createTablesWithSchema:OCMOCK_ANY inOpenedDatabase:[OCMArg anyPointer]]);
+
+  // When
+  self.sut = [[MSDBStorage alloc] initWithSchema:self.schema version:1 filename:kMSTestDBFileName];
+
+  // Then
+  OCMVerifyAll(mockMSDBStorage);
+
+  // Clear
+  [mockMSDBStorage stopMocking];
+}
+
+- (void)testSetMaxPageCountReturnError {
+
+  // If
+  id mockMSDBStorage = OCMClassMock([MSDBStorage class]);
+  OCMStub([mockMSDBStorage executeNonSelectionQuery:OCMOCK_ANY inOpenedDatabase:[OCMArg anyPointer]]).andReturn(SQLITE_CORRUPT);
+
+  // When
+  self.sut = [[MSDBStorage alloc] initWithSchema:self.schema version:1 filename:kMSTestDBFileName];
+  int result = [self.sut executeQueryUsingBlock:^int(void *_Nonnull __unused db) {
+    return SQLITE_OK;
+  }];
+
+  // Then
+  XCTAssertEqual(SQLITE_CORRUPT, result);
+
+  // Clear
+  [mockMSDBStorage stopMocking];
 }
 
 #pragma mark - Private
