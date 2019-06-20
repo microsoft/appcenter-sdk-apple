@@ -39,7 +39,8 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate, NSTextVie
 
   @IBOutlet weak var setLogURLButton: NSButton!
   @IBOutlet weak var setAppSecretButton: NSButton!
-  
+  @IBOutlet var clearCrashUserConfirmationButton: NSButton!
+
   private var dbFileDescriptor: CInt = 0
   private var dbFileSource: DispatchSourceProtocol?
 
@@ -221,6 +222,10 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate, NSTextVie
       break
     }
     appSecretLabel?.stringValue = (UserDefaults.standard.object(forKey: kMSAppSecret) ?? appCenter.appSecret()) as! String
+  }
+
+  @IBAction func clearCrashUserConfirmation(_ sender: Any) {
+    UserDefaults.standard.removeObject(forKey: kMSUserConfirmationKey)
   }
 
   private func prodLogUrl() -> String {
