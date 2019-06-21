@@ -175,10 +175,10 @@ static const NSUInteger kMSSchemaVersion = 1;
   NSDate *lastUpdatedDate = lastUpdatedDateValue > 0 ? [NSDate dateWithTimeIntervalSince1970:lastUpdatedDateValue] : nil;
 
   // If operation is NSNull, change it to nil.
-  NSString *pendingOperation = [self checkForNSNull:result[0][self.pendingOperationColumnIndex]];
+  NSString *pendingOperation = [self safeGetValue:result[0][self.pendingOperationColumnIndex]];
 
   // If Etag is NSNull, change it to nil.
-  NSString *etag = [self checkForNSNull:result[0][self.eTagColumnIndex]];
+  NSString *etag = [self safeGetValue:result[0][self.eTagColumnIndex]];
   return [MSDocumentUtils documentWrapperFromDocumentData:jsonData
                                              documentType:documentType
                                                      eTag:etag
@@ -240,10 +240,10 @@ static const NSUInteger kMSSchemaVersion = 1;
         NSDate *lastUpdatedDate = lastUpdatedDateValue > 0 ? [NSDate dateWithTimeIntervalSince1970:lastUpdatedDateValue] : nil;
 
         // If operation is NSNull, change it to nil.
-        NSString *pendingOperation = [self checkForNSNull:documentRow[self.pendingOperationColumnIndex]];
+        NSString *pendingOperation = [self safeGetValue:documentRow[self.pendingOperationColumnIndex]];
 
         // If Etag is NSNull, change it to nil.
-        NSString *etag = [self checkForNSNull:documentRow[self.eTagColumnIndex]];
+        NSString *etag = [self safeGetValue:documentRow[self.eTagColumnIndex]];
         MSDocumentWrapper *cachedDocument = [MSDocumentUtils documentWrapperFromDocumentData:jsonData
                                                                                 documentType:documentType
                                                                                         eTag:etag
@@ -428,7 +428,7 @@ static const NSUInteger kMSSchemaVersion = 1;
   }
 }
 
-- (NSString *)checkForNSNull:(NSString *)column {
+- (NSString *)safeGetValue:(NSString *)column {
 
   // If column is NSNull, change it to nil.
   NSString *nullableColumn = column;
