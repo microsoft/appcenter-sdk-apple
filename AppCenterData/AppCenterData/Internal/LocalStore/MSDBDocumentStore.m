@@ -226,11 +226,9 @@ static const NSUInteger kMSSchemaVersion = 1;
       } else if ([kMSPendingOperationDelete isEqualToString:documentRow[self.pendingOperationColumnIndex]]) {
 
         // Ignore document, if the pending operation is found to be Delete.
-        NSString *warningMessage = [NSString
-            stringWithFormat:
-                @"Local document pending deletion in local storage for partition '%@' and document ID '%@', excluding from the list",
-                token.partition, documentId];
-        MSLogError([MSData logTag], @"%@", warningMessage);
+        MSLogError([MSData logTag],
+                   @"Local document pending deletion in local storage for partition '%@' and document ID '%@', excluding from the list",
+                   token.partition, documentId);
       } else {
 
         // Deserialize document.
@@ -266,9 +264,7 @@ static const NSUInteger kMSSchemaVersion = 1;
 
   // Return an empty list if no documents were found.
   if (localListItems.count == 0) {
-    NSString *warningMessage =
-        [NSString stringWithFormat:@"Unable to find any document in local store for partition '%@'", token.partition];
-    MSLogWarning([MSData logTag], @"%@", warningMessage);
+    MSLogWarning([MSData logTag], @"Unable to find any document in local store for partition '%@'", token.partition);
 
     // return an empty list
     MSPaginatedDocuments *documents = [[MSPaginatedDocuments alloc] initWithPage:[[MSPage alloc] initWithItems:localListItems]

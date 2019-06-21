@@ -96,7 +96,9 @@ NS_ASSUME_NONNULL_BEGIN
  * @param documentType The document type to list.
  * @param baseOptions Options for listing and storing the documents.
  *
- * @return A MSPaginatedDocuments object. List of documents found in the local store for a particular partition.
+ * @return List of documents found in the local store for a particular partition.
+ *         If an expired document is found, the local document is deleted
+ *         If a DELETE pending operation is found on a document, that document is ignored
  */
 - (MSPaginatedDocuments *)listWithToken:(MSTokenResult *)token
                               partition:(NSString *)partition
