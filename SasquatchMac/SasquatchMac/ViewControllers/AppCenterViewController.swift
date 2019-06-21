@@ -226,6 +226,16 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate, NSTextVie
 
   @IBAction func clearCrashUserConfirmation(_ sender: Any) {
     UserDefaults.standard.removeObject(forKey: kMSUserConfirmationKey)
+    let alert: NSAlert = NSAlert()
+    alert.messageText = "Crash user confirmation has been reset!"
+    alert.addButton(withTitle: "OK")
+    alert.alertStyle = NSWarningAlertStyle
+    switch(alert.runModal()) {
+    case NSAlertThirdButtonReturn:
+        break
+    default:
+        break
+    }
   }
 
   private func prodLogUrl() -> String {
