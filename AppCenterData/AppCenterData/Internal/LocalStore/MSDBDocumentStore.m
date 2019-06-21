@@ -221,11 +221,11 @@ static const NSUInteger kMSSchemaVersion = 1;
                                        token.partition, documentId, expirationDate];
         MSLogWarning([MSData logTag], @"%@", warningMessage);
 
-        // Delete the local document when found to be expired
+        // Delete the local document when found to be expired.
         [self deleteWithToken:token documentId:documentId];
       } else if ([kMSPendingOperationDelete isEqualToString:documentRow[self.pendingOperationColumnIndex]]) {
 
-        // Ignore document, if the pending operation is found to be Delete
+        // Ignore document, if the pending operation is found to be Delete.
         NSString *warningMessage = [NSString
             stringWithFormat:
                 @"Local document pending deletion in local storage for partition '%@' and document ID '%@', excluding from the list",
@@ -367,11 +367,10 @@ static const NSUInteger kMSSchemaVersion = 1;
   NSString *tableName = [MSDBDocumentStore tableNameForPartition:partition];
   NSString *selectionQuery =
       [NSString stringWithFormat:@"SELECT count(*) FROM \"%@\" WHERE \"%@\" IS NOT NULL", tableName, kMSPendingOperationColumnName];
-
   NSArray<NSArray<NSNumber *> *> *result = [self.dbStorage executeSelectionQuery:selectionQuery];
   NSUInteger count = (result.count > 0) ? result[0][0].unsignedIntegerValue : 0;
 
-  // If empty list
+  // If empty list.
   return count != 0;
 }
 
@@ -421,7 +420,7 @@ static const NSUInteger kMSSchemaVersion = 1;
     MSLogInfo([MSData logTag], @"Updating/inserting document into local storage (partition: %@, id: %@)", document.partition,
               document.documentId);
 
-    // cache only valid documents
+    // cache only valid documents.
     if (document.error == nil) {
       [self upsertWithToken:token documentWrapper:document operation:kMSPendingOperationRead deviceTimeToLive:deviceTimeToLive];
     }

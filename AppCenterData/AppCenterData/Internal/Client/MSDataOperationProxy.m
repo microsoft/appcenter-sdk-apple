@@ -200,7 +200,7 @@
     // Extract first token.
     MSTokenResult *token = tokensResponse.tokens.firstObject;
 
-    // Retrieve from cache when offline and when there are pending operations
+    // Retrieve from cache when offline and when there are pending operations.
     if (![self shouldAttemptRemoteOperationForPartition:partition]) {
       MSPaginatedDocuments *cachedDocumentsList = [self.documentStore listWithToken:token
                                                                           partition:partition
@@ -239,7 +239,7 @@
 
 {
   remoteDocumentBlock(^(MSPaginatedDocuments *_Nonnull remoteDocuments) {
-    // Update local store with the remote list of documents
+    // Update local store with the remote list of documents.
     [self.documentStore updateDocumentsWithToken:token remoteDocuments:remoteDocuments baseOptions:baseOptions];
     completionHandler(remoteDocuments);
   });
