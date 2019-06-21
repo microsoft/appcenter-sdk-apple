@@ -17,6 +17,14 @@
 
 ___
 
+## Version 2.2.0 (Under development)
+
+### AppCenterData
+
+* **[Feature]** Add support for offline list of documents.
+
+___
+
 ## Version 2.1.0
 
 ### AppCenter
