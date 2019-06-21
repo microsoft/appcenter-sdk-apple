@@ -366,7 +366,7 @@ static const NSUInteger kMSSchemaVersion = 1;
 - (BOOL)hasPendingOperationsForPartition:(NSString *)partition {
   NSString *tableName = [MSDBDocumentStore tableNameForPartition:partition];
   NSString *selectionQuery =
-      [NSString stringWithFormat:@"SELECT count(*) FROM \"%@\" WHERE \"%@\" IS NOT NULL", tableName, kMSPendingOperationColumnName];
+      [NSString stringWithFormat:@"SELECT COUNT(*) FROM \"%@\" WHERE \"%@\" IS NOT NULL", tableName, kMSPendingOperationColumnName];
   NSArray<NSArray<NSNumber *> *> *result = [self.dbStorage executeSelectionQuery:selectionQuery];
   NSUInteger count = (result.count > 0) ? result[0][0].unsignedIntegerValue : 0;
 
