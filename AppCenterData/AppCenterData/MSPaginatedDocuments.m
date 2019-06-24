@@ -19,17 +19,20 @@
 @synthesize partition = _partition;
 @synthesize documentType = _documentType;
 @synthesize reachability = _reachability;
+@synthesize deviceTimeToLive = _deviceTimeToLive;
 
 - (instancetype)initWithPage:(MSPage *)page
                    partition:(NSString *)partition
                 documentType:(Class)documentType
                 reachability:(MS_Reachability *)reachability
+            deviceTimeToLive:(NSInteger)deviceTimeToLive
            continuationToken:(NSString *_Nullable)continuationToken {
   if ((self = [super init])) {
     _currentPage = page;
     _partition = partition;
     _documentType = documentType;
     _reachability = reachability;
+    _deviceTimeToLive = deviceTimeToLive;
     _continuationToken = continuationToken;
   }
   return self;
@@ -40,6 +43,7 @@
                   partition:partition
                documentType:documentType
                reachability:self.reachability
+           deviceTimeToLive:kMSDataTimeToLiveNoCache
           continuationToken:nil];
 }
 
@@ -58,6 +62,7 @@
   if ([self hasNextPageWithError:&error] && !error) {
     [MSData listDocumentsWithType:self.documentType
                         partition:self.partition
+                      readOptions:[[MSReadOptions alloc] initWithDeviceTimeToLive:self.deviceTimeToLive]
                 continuationToken:self.continuationToken
                 completionHandler:^(MSPaginatedDocuments *documents) {
                   // Update current page and continuation token.
