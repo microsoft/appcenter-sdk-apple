@@ -5,6 +5,7 @@
 
 #import "MSBaseOptions.h"
 #import "MSDBDocumentStore.h"
+#import "MSDBDocumentStorePrivate.h"
 #import "MSDataConstants.h"
 #import "MSDataErrorInternal.h"
 #import "MSDataErrors.h"
@@ -13,6 +14,7 @@
 #import "MSDocumentWrapperInternal.h"
 #import "MSTestFrameworks.h"
 #import "MSTokenResult.h"
+#import "MSUtility+File.h"
 
 @interface MSDataOperationProxyTests : XCTestCase
 
@@ -29,7 +31,8 @@
   [super setUp];
 
   // Init properties.
-  _documentStoreMock = OCMClassMock([MSDBDocumentStore class]);
+  MSDBStorage *dbStorage = [[MSDBStorage alloc] initWithVersion:0 filename:kMSDBDocumentFileName];
+  _documentStoreMock = OCMPartialMock([[MSDBDocumentStore alloc] initWithDbStorage:dbStorage]);
   _reachability = OCMPartialMock([MS_Reachability reachabilityForInternetConnection]);
   _sut = [[MSDataOperationProxy alloc] initWithDocumentStore:_documentStoreMock reachability:self.reachability];
   _dummyError = [[MSDataError alloc] initWithErrorCode:-1 innerError:nil message:@"Some dummy error"];
@@ -40,6 +43,9 @@
 
   [self.documentStoreMock stopMocking];
   [self.reachability stopMocking];
+
+  // Delete existing database.
+  [MSUtility deleteItemForPathComponent:kMSDBDocumentFileName];
 }
 
 - (void)testInvalidOperation {
