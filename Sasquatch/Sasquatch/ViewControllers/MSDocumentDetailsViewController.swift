@@ -76,8 +76,8 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
 
   @IBAction func refreshButtonClicked(_ sender: Any) {
     var partition = documentContent?.partition ?? ""
-    if (partition.contains(appCenter.kMSDataUserDocumentsPartition)) {
-        partition = appCenter.kMSDataUserDocumentsPartition
+    if (partition.contains(kMSDataUserPartition)) {
+        partition = kMSDataUserPartition
     }
     self.appCenter.readDocumentWithPartition(partition, documentId: documentContent?.documentId ?? "", documentType: MSDictionaryDocument.self, completionHandler: { (document) in
         self.documentContent = document
@@ -85,7 +85,7 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
             self.tableView.reloadData()
         }
         
-        if (partition == self.appCenter.kMSDataUserDocumentsPartition) {
+        if (partition == kMSDataUserPartition) {
             self.updateDocumentList(list: &MSDataViewController.UserDocuments, documentContent: document)
         } else {
             self.updateDocumentList(list: &MSDataViewController.AppDocuments, documentContent: document)

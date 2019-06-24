@@ -329,8 +329,4 @@ class AppCenterDelegateSwift: AppCenterDelegate {
     MSData.read(withDocumentID: documentId, documentType: documentType, partition: partitionName, completionHandler: completionHandler)
   }
     
-  var kMSDataUserDocumentsPartition: String {
-    get { return "user" }
-  }
-    
   }
