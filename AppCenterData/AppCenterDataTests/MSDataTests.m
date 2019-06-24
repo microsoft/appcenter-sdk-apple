@@ -20,7 +20,9 @@
 #import "MSHttpClient.h"
 #import "MSHttpTestUtil.h"
 #import "MSMockUserDefaults.h"
+#import "MSPageInternal.h"
 #import "MSPaginatedDocuments.h"
+#import "MSPaginatedDocumentsInternal.h"
 #import "MSPendingOperation.h"
 #import "MSServiceAbstract.h"
 #import "MSTestFrameworks.h"
@@ -601,6 +603,10 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   self.sut.reachability = reachabilityMock;
   self.sut.httpClient = OCMProtocolMock(@protocol(MSHttpClientProtocol));
   OCMReject([self.sut.httpClient sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:OCMOCK_ANY data:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
+  self.sut.dataOperationProxy.reachability = reachabilityMock;
+
+  // Mock cached token result.
+  [self mockTokenFetchingWithError:nil];
 
   // If
   __block MSPaginatedDocuments *actualPaginatedDocuments;
@@ -622,10 +628,324 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                  }
                                }];
   XCTAssertNotNil(actualPaginatedDocuments);
-  XCTAssertNotNil(actualPaginatedDocuments.currentPage.error);
-  XCTAssertNotNil(actualPaginatedDocuments.currentPage.error);
-  XCTAssertEqual(actualPaginatedDocuments.currentPage.error.domain, kMSACDataErrorDomain);
-  XCTAssertEqual(actualPaginatedDocuments.currentPage.error.code, MSACDataErrorHTTPError);
+  XCTAssertNil(actualPaginatedDocuments.currentPage.error);
+  XCTAssertEqual([[actualPaginatedDocuments currentPage] items].count, 0);
+}
+
+- (void)testListReturnsFromLocalStorageWhenOffline {
+
+  // If
+  __weak XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler called and local list is called."];
+
+  // Simulate being offline.
+  MS_Reachability *reachabilityMock = OCMPartialMock([MS_Reachability reachabilityForInternetConnection]);
+  OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(NotReachable);
+  self.sut.dataOperationProxy.reachability = reachabilityMock;
+
+  // Mock cached token result.
+  MSTokenResult *tokenResult = [self mockTokenFetchingWithError:nil];
+
+  // Mock local storage.
+  id<MSDocumentStore> localStorageMock = OCMProtocolMock(@protocol(MSDocumentStore));
+  self.sut.dataOperationProxy.documentStore = localStorageMock;
+  MSPaginatedDocuments *expectedDocuments = [MSPaginatedDocuments new];
+  OCMStub([localStorageMock listWithToken:tokenResult partition:OCMOCK_ANY documentType:OCMOCK_ANY baseOptions:OCMOCK_ANY])
+      .andReturn(expectedDocuments);
+
+  // When
+  [MSData listDocumentsWithType:[MSDictionaryDocument class]
+                      partition:kMSPartitionTest
+              completionHandler:^(MSPaginatedDocuments *_Nonnull documents) {
+                // Then
+                XCTAssertEqualObjects(expectedDocuments, documents);
+                [expectation fulfill];
+              }];
+
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *_Nullable error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+}
+
+- (void)testListErrorIfNoTokenResultCachedAndOffline {
+
+  // If
+  __weak XCTestExpectation *expectation =
+      [self expectationWithDescription:@"Completion handler called and throws an error for not finding a token."];
+
+  // Simulate being offline.
+  MS_Reachability *reachabilityMock = OCMPartialMock([MS_Reachability reachabilityForInternetConnection]);
+  OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(NotReachable);
+  self.sut.dataOperationProxy.reachability = reachabilityMock;
+
+  // When
+  [MSData listDocumentsWithType:[MSDictionaryDocument class]
+                      partition:kMSPartitionTest
+              completionHandler:^(MSPaginatedDocuments *_Nonnull documents) {
+                // Then
+                XCTAssertNotNil(documents);
+                XCTAssertNil([[documents currentPage] items]);
+                XCTAssertNotNil(documents.currentPage.error);
+                XCTAssertEqual(documents.currentPage.error.domain, kMSACDataErrorDomain);
+                [expectation fulfill];
+              }];
+
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *_Nullable error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+}
+
+- (void)testListReturnsEmptyListIfDocumentExpiredAndOffline {
+
+  // If
+  __weak XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler called and returns an empty list."];
+
+  // Mock cached token result.
+  MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
+  OCMStub([self.tokenExchangeMock retrieveCachedTokenForPartition:kMSPartitionTest includeExpiredToken:YES]).andReturn(tokenResult);
+
+  // Simulate being offline.
+  MS_Reachability *reachabilityMock = OCMPartialMock([MS_Reachability reachabilityForInternetConnection]);
+  OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(NotReachable);
+  self.sut.dataOperationProxy.reachability = reachabilityMock;
+
+  // Mock expired document in local storage.
+  MSDataError *dataError = [[MSDataError alloc] initWithErrorCode:MSACDataErrorLocalDocumentExpired innerError:nil message:nil];
+  id<MSDocumentStore> localStorageMock = OCMProtocolMock(@protocol(MSDocumentStore));
+  self.sut.dataOperationProxy.documentStore = localStorageMock;
+  MSDocumentWrapper *expiredDocument = [[MSDocumentWrapper alloc] initWithError:dataError partition:nil documentId:@"4"];
+  OCMStub([localStorageMock readWithToken:tokenResult documentId:OCMOCK_ANY documentType:OCMOCK_ANY]).andReturn(expiredDocument);
+  MSPaginatedDocuments *expectedDocuments = [MSPaginatedDocuments new];
+  OCMStub([localStorageMock listWithToken:tokenResult partition:OCMOCK_ANY documentType:OCMOCK_ANY baseOptions:OCMOCK_ANY])
+      .andReturn(expectedDocuments);
+
+  // When
+  [MSData listDocumentsWithType:[MSDictionaryDocument class]
+                      partition:kMSPartitionTest
+              completionHandler:^(MSPaginatedDocuments *_Nonnull documents) {
+                // Then
+                XCTAssertNotNil(documents);
+                XCTAssertNil([[documents currentPage] items]);
+                [expectation fulfill];
+              }];
+
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *_Nullable error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+}
+
+- (void)testListFromLocalStorageIfNoTokenResultCachedAndHasPendingOperationAndOnline {
+
+  // If
+  __weak XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler called and gets the local documents list."];
+
+  // Simulate being online.
+  MS_Reachability *reachabilityMock = OCMPartialMock([MS_Reachability reachabilityForInternetConnection]);
+  OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(ReachableViaWiFi);
+  self.sut.dataOperationProxy.reachability = reachabilityMock;
+
+  // Mock tokens fetching but don't mock local cache.
+  MSTokenResult *testToken = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
+  MSTokensResponse *testTokensResponse = [[MSTokensResponse alloc] initWithTokens:@[ testToken ]];
+  OCMStub([self.tokenExchangeMock performDbTokenAsyncOperationWithHttpClient:OCMOCK_ANY
+                                                            tokenExchangeUrl:OCMOCK_ANY
+                                                                   appSecret:OCMOCK_ANY
+                                                                   partition:kMSPartitionTest
+                                                         includeExpiredToken:YES
+                                                                reachability:OCMOCK_ANY
+                                                           completionHandler:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        MSGetTokenAsyncCompletionHandler getTokenCallback;
+        [invocation getArgument:&getTokenCallback atIndex:8];
+        getTokenCallback(testTokensResponse, nil);
+      });
+
+  // Mock local storage.
+  id<MSDocumentStore> localStorageMock = OCMProtocolMock(@protocol(MSDocumentStore));
+  self.sut.dataOperationProxy.documentStore = localStorageMock;
+  MSDocumentWrapper *expectedDocument = [MSDocumentWrapper new];
+  expectedDocument.pendingOperation = kMSPendingOperationDelete;
+  NSMutableArray<MSDocumentWrapper *> *localListItems = [NSMutableArray new];
+  [localListItems addObject:expectedDocument];
+  MSPage *page = [[MSPage alloc] initWithItems:localListItems];
+  MSPaginatedDocuments *expectedDocumentList = [[MSPaginatedDocuments alloc] initWithPage:page
+                                                                                partition:kMSPartitionTest
+                                                                             documentType:[MSDictionaryDocument class]
+                                                                         deviceTimeToLive:kMSDataTimeToLiveDefault
+                                                                        continuationToken:nil];
+  OCMStub([localStorageMock hasPendingOperationsForPartition:kMSPartitionTest]).andReturn(true);
+  OCMStub([localStorageMock listWithToken:testToken partition:OCMOCK_ANY documentType:OCMOCK_ANY baseOptions:OCMOCK_ANY])
+      .andReturn(expectedDocumentList);
+
+  // When
+  [MSData listDocumentsWithType:[MSDictionaryDocument class]
+                      partition:kMSPartitionTest
+              completionHandler:^(MSPaginatedDocuments *_Nonnull documents) {
+                // Then
+                XCTAssertEqualObjects(expectedDocumentList, documents);
+                [expectation fulfill];
+              }];
+
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *_Nullable error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+}
+
+- (void)testListFromRemoteIfNotExpiredAndOnlineWithNoPendingOperation {
+
+  // If
+  __weak XCTestExpectation *expectation =
+      [self expectationWithDescription:@"Completion handler called and gets the remote list of documents."];
+  id httpClient = OCMClassMock([MSHttpClient class]);
+  OCMStub([httpClient new]).andReturn(httpClient);
+  self.sut.httpClient = httpClient;
+
+  // Mock cached token result.
+  MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
+  OCMStub([self.tokenExchangeMock retrieveCachedTokenForPartition:kMSPartitionTest includeExpiredToken:YES]).andReturn(tokenResult);
+  OCMStub([self.tokenExchangeMock retrieveCachedTokenForPartition:kMSPartitionTest includeExpiredToken:NO]).andReturn(tokenResult);
+
+  // Mock document in local storage.
+  id<MSDocumentStore> localStorageMock = OCMProtocolMock(@protocol(MSDocumentStore));
+  self.sut.dataOperationProxy.documentStore = localStorageMock;
+
+  MSDocumentWrapper *expectedDocumentWrapper = [MSDocumentUtils documentWrapperFromData:[self jsonFixture:@"validTestUserDocument"]
+                                                                           documentType:[MSDictionaryDocument class]
+                                                                              partition:@"user-123"
+                                                                             documentId:@"standalonedocument1"
+                                                                        fromDeviceCache:NO];
+
+  NSData *jsonFixture = [self jsonFixture:@"oneDocumentPage"];
+  MSDocumentWrapper *localDocumentWrapper = OCMPartialMock([MSDocumentUtils documentWrapperFromData:jsonFixture
+                                                                                       documentType:[MSDictionaryDocument class]
+                                                                                          partition:@"user-123"
+                                                                                         documentId:@"standalonedocument1"
+                                                                                    fromDeviceCache:YES]);
+  NSMutableArray<MSDocumentWrapper *> *localListItems = [NSMutableArray new];
+  [localListItems addObject:localDocumentWrapper];
+  MSPage *page = [[MSPage alloc] initWithItems:localListItems];
+  MSPaginatedDocuments *localDocumentList = [[MSPaginatedDocuments alloc] initWithPage:page
+                                                                             partition:kMSPartitionTest
+                                                                          documentType:[MSDictionaryDocument class]
+                                                                      deviceTimeToLive:kMSDataTimeToLiveDefault
+                                                                     continuationToken:nil];
+  OCMStub(localDocumentWrapper.eTag).andReturn(@"some other etag");
+  OCMStub([localStorageMock listWithToken:tokenResult partition:OCMOCK_ANY documentType:OCMOCK_ANY baseOptions:OCMOCK_ANY])
+      .andReturn(localDocumentList);
+
+  // Mock CosmosDB requests.
+  OCMStub([httpClient sendAsync:OCMOCK_ANY method:@"GET" headers:OCMOCK_ANY data:nil completionHandler:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        [invocation retainArguments];
+        MSHttpRequestCompletionHandler completionHandler;
+        [invocation getArgument:&completionHandler atIndex:6];
+        completionHandler(jsonFixture, [MSHttpTestUtil createMockResponseForStatusCode:200 headers:nil], nil);
+      });
+
+  // When
+  [MSData listDocumentsWithType:[MSDictionaryDocument class]
+                      partition:kMSPartitionTest
+              completionHandler:^(MSPaginatedDocuments *_Nonnull documents) {
+                // Then
+                XCTAssertNil(documents.currentPage.error);
+                XCTAssertNotNil([[documents currentPage] items]);
+                XCTAssertEqual([[documents currentPage] items].count, 1);
+                XCTAssertEqualObjects(expectedDocumentWrapper.eTag, [[documents currentPage] items].firstObject.eTag);
+                XCTAssertFalse([[documents currentPage] items].firstObject.fromDeviceCache);
+                [expectation fulfill];
+              }];
+
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *_Nullable error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+  [httpClient stopMocking];
+}
+
+- (void)testListFromRemoteIfAllLocalExpiredAndOnline {
+
+  // If
+  __weak XCTestExpectation *expectation =
+      [self expectationWithDescription:@"Completion handler called and gets the remote list of documents."];
+  id httpClient = OCMClassMock([MSHttpClient class]);
+  OCMStub([httpClient new]).andReturn(httpClient);
+  self.sut.httpClient = httpClient;
+
+  // Simulate being online.
+  MS_Reachability *reachabilityMock = OCMPartialMock([MS_Reachability reachabilityForInternetConnection]);
+  OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(ReachableViaWiFi);
+  self.sut.dataOperationProxy.reachability = reachabilityMock;
+
+  // Mock cached token result.
+  MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
+  OCMStub([self.tokenExchangeMock retrieveCachedTokenForPartition:kMSPartitionTest includeExpiredToken:YES]).andReturn(tokenResult);
+  OCMStub([self.tokenExchangeMock retrieveCachedTokenForPartition:kMSPartitionTest includeExpiredToken:NO]).andReturn(tokenResult);
+
+  // Mock local storage.
+  id<MSDocumentStore> localStorageMock = OCMProtocolMock(@protocol(MSDocumentStore));
+  self.sut.dataOperationProxy.documentStore = localStorageMock;
+  OCMStub([localStorageMock hasPendingOperationsForPartition:kMSPartitionTest]).andReturn(true);
+
+  // Returns an empty list
+  NSMutableArray<MSDocumentWrapper *> *localListItems = [NSMutableArray new];
+  MSPage *page = [[MSPage alloc] initWithItems:localListItems];
+  MSPaginatedDocuments *localDocumentList = [[MSPaginatedDocuments alloc] initWithPage:page
+                                                                             partition:kMSPartitionTest
+                                                                          documentType:[MSDictionaryDocument class]
+                                                                      deviceTimeToLive:kMSDataTimeToLiveDefault
+                                                                     continuationToken:nil];
+
+  OCMStub([localStorageMock listWithToken:tokenResult partition:OCMOCK_ANY documentType:OCMOCK_ANY baseOptions:OCMOCK_ANY])
+      .andReturn(localDocumentList);
+
+  // Mock CosmosDB requests.
+  NSData *jsonFixture = [self jsonFixture:@"oneDocumentPage"];
+  OCMStub([httpClient sendAsync:OCMOCK_ANY method:@"GET" headers:OCMOCK_ANY data:nil completionHandler:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        [invocation retainArguments];
+        MSHttpRequestCompletionHandler completionHandler;
+        [invocation getArgument:&completionHandler atIndex:6];
+        completionHandler(jsonFixture, [MSHttpTestUtil createMockResponseForStatusCode:200 headers:nil], nil);
+      });
+
+  // When
+  [MSData listDocumentsWithType:[MSDictionaryDocument class]
+                      partition:kMSPartitionTest
+              completionHandler:^(MSPaginatedDocuments *_Nonnull documents) {
+                // Then
+                XCTAssertNil(documents.currentPage.error);
+                XCTAssertNotNil([[documents currentPage] items]);
+                XCTAssertEqual([[documents currentPage] items].count, 1);
+                XCTAssertFalse([[documents currentPage] items].firstObject.fromDeviceCache);
+                [expectation fulfill];
+              }];
+
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *_Nullable error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+  [httpClient stopMocking];
 }
 
 - (void)testListWhenDataModuleDisabled {
@@ -1549,9 +1869,12 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   id httpClient = OCMClassMock([MSHttpClient class]);
   OCMStub([httpClient new]).andReturn(httpClient);
   self.sut.httpClient = httpClient;
-  id msTokenEchange = OCMClassMock([MSTokenExchange class]);
-  OCMStub([msTokenEchange retrieveCachedTokenForPartition:[OCMArg any] includeExpiredToken:NO])
-      .andReturn([[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]]);
+
+  // Mock cached token result.
+  MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
+  OCMStub([self.tokenExchangeMock retrieveCachedTokenForPartition:kMSPartitionTest includeExpiredToken:YES]).andReturn(tokenResult);
+  OCMStub([self.tokenExchangeMock retrieveCachedTokenForPartition:kMSPartitionTest includeExpiredToken:NO]).andReturn(tokenResult);
+
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@"List single document"];
 
   OCMStub([httpClient sendAsync:OCMOCK_ANY method:@"GET" headers:OCMOCK_ANY data:nil completionHandler:OCMOCK_ANY])
@@ -1567,6 +1890,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   __block MSPaginatedDocuments *testDocuments;
   [self.sut listDocumentsWithType:[MSDictionaryDocument class]
                         partition:@"user"
+                      readOptions:nil
                 continuationToken:nil
                 completionHandler:^(MSPaginatedDocuments *_Nonnull documents) {
                   testDocuments = documents;
@@ -1619,9 +1943,12 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   id httpClient = OCMClassMock([MSHttpClient class]);
   OCMStub([httpClient new]).andReturn(httpClient);
   self.sut.httpClient = httpClient;
-  id msTokenEchange = OCMClassMock([MSTokenExchange class]);
+
+  // Mock cached token result.
   MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
-  OCMStub([msTokenEchange retrieveCachedTokenForPartition:[OCMArg any] includeExpiredToken:NO]).andReturn(tokenResult);
+  OCMStub([self.tokenExchangeMock retrieveCachedTokenForPartition:kMSPartitionTest includeExpiredToken:YES]).andReturn(tokenResult);
+  OCMStub([self.tokenExchangeMock retrieveCachedTokenForPartition:kMSPartitionTest includeExpiredToken:NO]).andReturn(tokenResult);
+
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@"List first page"];
   NSMutableDictionary *continuationHeaders = [NSMutableDictionary new];
   continuationHeaders[@"x-ms-continuation"] = @"continuation token";
@@ -1654,6 +1981,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   __block MSPaginatedDocuments *testDocuments;
   [self.sut listDocumentsWithType:[MSDictionaryDocument class]
                         partition:@"user"
+                      readOptions:nil
                 continuationToken:nil
                 completionHandler:^(MSPaginatedDocuments *_Nonnull documents) {
                   testDocuments = documents;
