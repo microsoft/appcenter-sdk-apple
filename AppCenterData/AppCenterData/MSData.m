@@ -467,6 +467,7 @@ static dispatch_once_t onceToken;
                                            initWithPage:page
                                               partition:partition
                                            documentType:documentType
+                                           reachability:self.reachability
                                       continuationToken:[response allHeaderFields][kMSDocumentContinuationTokenHeaderKey]];
                                   completionHandler(documents);
                                 }];

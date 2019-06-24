@@ -4,6 +4,8 @@
 #import "MSPaginatedDocuments.h"
 #import "MSCosmosDb.h"
 #import "MSData.h"
+#import "MSDataErrorInternal.h"
+#import "MSDataErrors.h"
 #import "MSDataInternal.h"
 #import "MSPageInternal.h"
 #import "MSPaginatedDocumentsInternal.h"
@@ -16,30 +18,44 @@
 @synthesize continuationToken = _continuationToken;
 @synthesize partition = _partition;
 @synthesize documentType = _documentType;
+@synthesize reachability = _reachability;
 
 - (instancetype)initWithPage:(MSPage *)page
                    partition:(NSString *)partition
                 documentType:(Class)documentType
+                reachability:(MS_Reachability *)reachability
            continuationToken:(NSString *_Nullable)continuationToken {
   if ((self = [super init])) {
     _currentPage = page;
     _partition = partition;
     _documentType = documentType;
+    _reachability = reachability;
     _continuationToken = continuationToken;
   }
   return self;
 }
 
 - (instancetype)initWithError:(MSDataError *)error partition:(NSString *)partition documentType:(Class)documentType {
-  return [self initWithPage:[[MSPage alloc] initWithError:error] partition:partition documentType:documentType continuationToken:nil];
+  return [self initWithPage:[[MSPage alloc] initWithError:error]
+                  partition:partition
+               documentType:documentType
+               reachability:self.reachability
+          continuationToken:nil];
 }
 
-- (BOOL)hasNextPage {
+- (BOOL)hasNextPageWithError:(MSDataError *__autoreleasing *)error {
+  if ([self.reachability currentReachabilityStatus] == NotReachable) {
+    *error = [[MSDataError alloc] initWithErrorCode:MSACDataErrorNextDocumentPageUnavailable
+                                         innerError:nil
+                                            message:(NSString *)kMSACDataErrorNextDocumentPageUnavailable];
+    return NO;
+  }
   return [self.continuationToken length] != 0;
 }
 
 - (void)nextPageWithCompletionHandler:(void (^)(MSPage *page))completionHandler {
-  if ([self hasNextPage]) {
+  NSError *error;
+  if ([self hasNextPageWithError:&error] && !error) {
     [MSData listDocumentsWithType:self.documentType
                         partition:self.partition
                 continuationToken:self.continuationToken

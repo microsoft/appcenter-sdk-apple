@@ -1579,7 +1579,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
       XCTFail(@"Expectation Failed with error: %@", error);
     } else {
       XCTAssertNotNil(testDocuments);
-      XCTAssertFalse([testDocuments hasNextPage]);
+      XCTAssertFalse([testDocuments hasNextPageWithError:nil]);
       XCTAssertEqual([[testDocuments currentPage] items].count, 1);
       MSDocumentWrapper *documentWrapper = [[testDocuments currentPage] items][0];
       XCTAssertTrue([[documentWrapper documentId] isEqualToString:@"doc1"]);
@@ -1667,7 +1667,8 @@ static NSString *const kMSDocumentIdTest = @"documentId";
     } else {
       XCTAssertNotNil(testDocuments);
       XCTAssertEqual([[testDocuments currentPage] items].count, 1);
-      XCTAssertTrue([testDocuments hasNextPage]);
+      
+      XCTAssertTrue([testDocuments hasNextPageWithError:nil]);
     }
   };
   [self waitForExpectationsWithTimeout:3 handler:handler];
@@ -1681,7 +1682,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
     if (error) {
       XCTFail(@"Expectation Failed with error: %@", error);
     } else {
-      XCTAssertFalse([testDocuments hasNextPage]);
+      XCTAssertFalse([testDocuments hasNextPageWithError:nil]);
       XCTAssertEqual([[testDocuments currentPage] items].count, 0);
       XCTAssertEqual([testPage items].count, 0);
       XCTAssertEqualObjects(testPage, [testDocuments currentPage]);

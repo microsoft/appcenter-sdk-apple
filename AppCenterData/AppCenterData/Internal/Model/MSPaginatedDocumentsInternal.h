@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 // Read-only.
 @property(nonatomic, copy, readonly) NSString *partition;
 @property(nonatomic, readonly) Class documentType;
+@property(nonatomic) MS_Reachability *reachability;
 
 // Read-write (to implement pagination).
 @property(nonatomic) MSPage *currentPage;
@@ -30,6 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithPage:(MSPage *)page
                    partition:(NSString *)partition
                 documentType:(Class)documentType
+                reachability:(MS_Reachability *)reachability
            continuationToken:(NSString *_Nullable)continuationToken;
 
 /**
