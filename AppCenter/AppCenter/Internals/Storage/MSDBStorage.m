@@ -38,38 +38,59 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
     }
   });
   if ((self = [super init])) {
-    BOOL newDatabase = ![MSUtility fileExistsForPathComponent:filename];
-    _dbFileURL = [MSUtility createFileAtPathComponent:filename withData:nil atomically:NO forceOverwrite:NO];
-    _maxSizeInBytes = kMSDefaultDatabaseSizeInBytes;
-
-    int result;
-    sqlite3 *db = [MSDBStorage openDatabaseAtFileURL:self.dbFileURL withResult:&result];
-    if (db) {
-      _pageSize = [MSDBStorage getPageSizeInOpenedDatabase:db];
-      NSUInteger databaseVersion = [MSDBStorage versionInOpenedDatabase:db];
-
-      // Create table
-      if (schema) {
-        [MSDBStorage createTablesWithSchema:schema inOpenedDatabase:db];
-      }
-      if (newDatabase) {
-        MSLogInfo([MSAppCenter logTag], @"Created \"%@\" database with %lu version.", filename, (unsigned long)version);
-        [self customizeDatabase:db];
-      } else if (databaseVersion < version) {
-        MSLogInfo([MSAppCenter logTag], @"Migrating \"%@\" database from version %lu to %lu.", filename, (unsigned long)databaseVersion,
-                  (unsigned long)version);
-        [self migrateDatabase:db fromVersion:databaseVersion];
-      }
-      [MSDBStorage enableAutoVacuumInOpenedDatabase:db];
-      [MSDBStorage setVersion:version inOpenedDatabase:db];
-      sqlite3_close(db);
-    };
+    int result = [self configureDatabaseWithSchema:schema version:version filename:filename];
+    if (result == SQLITE_CORRUPT || result == SQLITE_NOTADB) {
+      [self dropDatabase];
+      result = [self configureDatabaseWithSchema:schema version:version filename:filename];
+    }
+    if (result != SQLITE_OK) {
+      MSLogError([MSAppCenter logTag], @"Failed to initialize database.");
+    }
   }
   return self;
 }
 
 - (instancetype)initWithVersion:(NSUInteger)version filename:(NSString *)filename {
   return (self = [self initWithSchema:nil version:version filename:filename]);
+}
+
+- (int)configureDatabaseWithSchema:(MSDBSchema *)schema version:(NSUInteger)version filename:(NSString *)filename {
+  BOOL newDatabase = ![MSUtility fileExistsForPathComponent:filename];
+  self.dbFileURL = [MSUtility createFileAtPathComponent:filename withData:nil atomically:NO forceOverwrite:NO];
+  self.maxSizeInBytes = kMSDefaultDatabaseSizeInBytes;
+  int result;
+  sqlite3 *db = [MSDBStorage openDatabaseAtFileURL:self.dbFileURL withResult:&result];
+  if (result != SQLITE_OK) {
+    return result;
+  }
+  self.pageSize = [MSDBStorage getPageSizeInOpenedDatabase:db];
+  NSUInteger databaseVersion = [MSDBStorage versionInOpenedDatabase:db result:&result];
+  if (result != SQLITE_OK) {
+    sqlite3_close(db);
+    return result;
+  }
+
+  // Create table.
+  if (schema) {
+    result = [MSDBStorage createTablesWithSchema:schema inOpenedDatabase:db];
+    if (result != SQLITE_OK) {
+      MSLogError([MSAppCenter logTag], @"Failed to create tables with schema with error \"%d\".", result);
+      sqlite3_close(db);
+      return result;
+    }
+  }
+  if (newDatabase) {
+    MSLogInfo([MSAppCenter logTag], @"Created \"%@\" database with %lu version.", filename, (unsigned long)version);
+    [self customizeDatabase:db];
+  } else if (databaseVersion < version) {
+    MSLogInfo([MSAppCenter logTag], @"Migrating \"%@\" database from version %lu to %lu.", filename, (unsigned long)databaseVersion,
+              (unsigned long)version);
+    [self migrateDatabase:db fromVersion:databaseVersion];
+  }
+  [MSDBStorage enableAutoVacuumInOpenedDatabase:db];
+  [MSDBStorage setVersion:version inOpenedDatabase:db];
+  sqlite3_close(db);
+  return result;
 }
 
 - (int)executeQueryUsingBlock:(MSDBStorageQueryBlock)callback {
@@ -82,6 +103,14 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
   // The value is stored as part of the database connection and must be reset every time the database is opened.
   long maxPageCount = self.maxSizeInBytes / self.pageSize;
   result = [MSDBStorage setMaxPageCount:maxPageCount inOpenedDatabase:db];
+
+  // Do not proceed with the query if the database is corrupted.
+  if (result == SQLITE_CORRUPT || result == SQLITE_NOTADB) {
+    sqlite3_close(db);
+    return result;
+  }
+
+  // Log a warning if max page count can't be set.
   if (result != SQLITE_OK) {
     MSLogError([MSAppCenter logTag], @"Failed to open database with specified maximum size constraint.");
   }
@@ -157,14 +186,18 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
   return [columnQueries componentsJoinedByString:@", "];
 }
 
-+ (NSUInteger)createTablesWithSchema:(MSDBSchema *)schema inOpenedDatabase:(void *)db {
++ (int)createTablesWithSchema:(MSDBSchema *)schema inOpenedDatabase:(void *)db {
+  int result = SQLITE_OK;
   NSMutableArray *tableQueries = [NSMutableArray new];
 
   // Browse tables.
   for (NSString *tableName in schema) {
 
     // Optimization, don't even compute the query if the table already exists.
-    if ([self tableExists:tableName inOpenedDatabase:db]) {
+    if ([self tableExists:tableName inOpenedDatabase:db result:&result]) {
+      if (result != SQLITE_OK) {
+        return result;
+      }
       continue;
     }
 
@@ -176,9 +209,9 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
   // Create the tables.
   if (tableQueries.count > 0) {
     NSString *createTablesQuery = [tableQueries componentsJoinedByString:@"; "];
-    [self executeNonSelectionQuery:createTablesQuery inOpenedDatabase:db];
+    result = [self executeNonSelectionQuery:createTablesQuery inOpenedDatabase:db];
   }
-  return tableQueries.count;
+  return result;
 }
 
 + (NSDictionary *)columnsIndexes:(MSDBSchema *)schema {
@@ -196,15 +229,19 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
 }
 
 + (BOOL)tableExists:(NSString *)tableName inOpenedDatabase:(void *)db {
-  NSString *query =
-      [NSString stringWithFormat:@"SELECT COUNT(*) FROM \"sqlite_master\" WHERE \"type\"='table' AND \"name\"='%@';", tableName];
-  NSArray<NSArray *> *result = [MSDBStorage executeSelectionQuery:query inOpenedDatabase:db];
-  return result.count > 0 && result[0].count > 0 ? [(NSNumber *)result[0][0] boolValue] : NO;
+  return [MSDBStorage tableExists:tableName inOpenedDatabase:db result:nil];
 }
 
-+ (NSUInteger)versionInOpenedDatabase:(void *)db {
-  NSArray<NSArray *> *result = [MSDBStorage executeSelectionQuery:@"PRAGMA user_version" inOpenedDatabase:db];
-  return result.count > 0 && result[0].count > 0 ? [(NSNumber *)result[0][0] unsignedIntegerValue] : 0;
++ (BOOL)tableExists:(NSString *)tableName inOpenedDatabase:(void *)db result:(int *)result {
+  NSString *query =
+      [NSString stringWithFormat:@"SELECT COUNT(*) FROM \"sqlite_master\" WHERE \"type\"='table' AND \"name\"='%@';", tableName];
+  NSArray<NSArray *> *entries = [MSDBStorage executeSelectionQuery:query inOpenedDatabase:db result:result];
+  return entries.count > 0 && entries[0].count > 0 ? [(NSNumber *)entries[0][0] boolValue] : NO;
+}
+
++ (NSUInteger)versionInOpenedDatabase:(void *)db result:(int *)result {
+  NSArray<NSArray *> *entries = [MSDBStorage executeSelectionQuery:@"PRAGMA user_version" inOpenedDatabase:db result:result];
+  return entries.count > 0 && entries[0].count > 0 ? [(NSNumber *)entries[0][0] unsignedIntegerValue] : 0;
 }
 
 + (void)setVersion:(NSUInteger)version inOpenedDatabase:(void *)db {
@@ -249,7 +286,9 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
 + (int)executeNonSelectionQuery:(NSString *)query inOpenedDatabase:(void *)db {
   char *errMsg = NULL;
   int result = sqlite3_exec(db, [query UTF8String], NULL, NULL, &errMsg);
-  if (result == SQLITE_FULL) {
+  if (result == SQLITE_CORRUPT || result == SQLITE_NOTADB) {
+    MSLogError([MSAppCenter logTag], @"A database file is corrupted: %d - %@", result, [NSString stringWithUTF8String:errMsg]);
+  } else if (result == SQLITE_FULL) {
     MSLogDebug([MSAppCenter logTag], @"Query failed with error: %d - %@", result, [NSString stringWithUTF8String:errMsg]);
   } else if (result != SQLITE_OK) {
     MSLogError([MSAppCenter logTag], @"Query \"%@\" failed with error: %d - %@", query, result, [NSString stringWithUTF8String:errMsg]);
@@ -270,10 +309,17 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
 }
 
 + (NSArray<NSArray *> *)executeSelectionQuery:(NSString *)query inOpenedDatabase:(void *)db {
+  return [self executeSelectionQuery:query inOpenedDatabase:db result:nil];
+}
+
++ (NSArray<NSArray *> *)executeSelectionQuery:(NSString *)query inOpenedDatabase:(void *)db result:(int *)result {
   NSMutableArray<NSMutableArray *> *entries = [NSMutableArray<NSMutableArray *> new];
   sqlite3_stmt *statement = NULL;
-  int result = sqlite3_prepare_v2(db, [query UTF8String], -1, &statement, NULL);
-  if (result == SQLITE_OK) {
+  int prepareResult = sqlite3_prepare_v2(db, [query UTF8String], -1, &statement, NULL);
+  if (result != nil) {
+    *result = prepareResult;
+  }
+  if (prepareResult == SQLITE_OK) {
 
     // Loop on rows.
     while (sqlite3_step(statement) == SQLITE_ROW) {
@@ -306,7 +352,7 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
     }
     sqlite3_finalize(statement);
   } else {
-    MSLogError([MSAppCenter logTag], @"Query \"%@\" failed with error: %d - %@", query, result,
+    MSLogError([MSAppCenter logTag], @"Query \"%@\" failed with error: %d - %@", query, prepareResult,
                [NSString stringWithUTF8String:sqlite3_errmsg(db)]);
   }
   return entries;

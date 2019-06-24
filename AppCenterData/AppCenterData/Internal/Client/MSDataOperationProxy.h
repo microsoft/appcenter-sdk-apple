@@ -42,7 +42,7 @@ typedef void (^MSCachedTokenCompletionHandler)(MSTokensResponse *_Nullable token
  * Perform an operation for a given partition/document
  * using a combination of the local store and/or CosmosDB remote calls.
  *
- * @param operation The operation (nil - read, CREATE, UPDATE, DELETE). Values are matching the pending operation column in the documents
+ * @param operation The operation (nil - READ, CREATE, UPDATE, DELETE). Values are matching the pending operation column in the documents
  * store.
  * @param documentId The document identifier.
  * @param documentType The document type.
@@ -60,6 +60,24 @@ typedef void (^MSCachedTokenCompletionHandler)(MSTokensResponse *_Nullable token
         cachedTokenBlock:(void (^)(MSCachedTokenCompletionHandler))cachedTokenBlock
      remoteDocumentBlock:(void (^)(MSDocumentWrapperCompletionHandler))remoteDocumentBlock
        completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler;
+
+/**
+ * Performs list for a given partition
+ * using a combination of the local store and/or CosmosDB remote calls.
+ *
+ * @param documentType The documents type.
+ * @param partition The partition of the documents.
+ * @param baseOptions The base options from which to get the device time to live (if specified).
+ * @param cachedTokenBlock A block returning the cached token.
+ * @param remoteDocumentBlock A block returning the remote documents.
+ * @param completionHandler The completion handler called ultimately.
+ */
+- (void)listDocumentsWithType:(Class)documentType
+                    partition:(NSString *)partition
+                  baseOptions:(MSBaseOptions *_Nullable)baseOptions
+             cachedTokenBlock:(void (^)(MSCachedTokenCompletionHandler))cachedTokenBlock
+          remoteDocumentBlock:(void (^)(MSPaginatedDocumentsCompletionHandler))remoteDocumentBlock
+            completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler;
 
 @end
 
