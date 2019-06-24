@@ -51,7 +51,7 @@
   if (self.reachability && [self.reachability currentReachabilityStatus] == NotReachable) {
     *error = [[MSDataError alloc] initWithErrorCode:MSACDataErrorNextDocumentPageUnavailable
                                          innerError:nil
-                                            message:(NSString *)kMSACDataErrorNextDocumentPageUnavailable];
+                                            message:(NSString *)kMSACDataErrorNextDocumentPageUnavailableDesc];
     return NO;
   }
   return [self.continuationToken length] != 0;
