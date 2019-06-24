@@ -41,11 +41,13 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param documentType The object type of the documents in the partition. Must conform to MSSerializableDocument protocol.
  * @param partition The CosmosDB partition key.
+ * @param readOptions Options for reading and storing the document.
  * @param continuationToken The continuation token for the page to retrieve (if any).
  * @param completionHandler Callback to accept documents.
  */
 + (void)listDocumentsWithType:(Class)documentType
                     partition:(NSString *)partition
+                  readOptions:(MSReadOptions *_Nullable)readOptions
             continuationToken:(NSString *_Nullable)continuationToken
             completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler;
 

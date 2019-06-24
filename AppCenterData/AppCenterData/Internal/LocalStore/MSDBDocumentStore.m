@@ -16,6 +16,8 @@
 #import "MSDocumentUtils.h"
 #import "MSDocumentWrapper.h"
 #import "MSDocumentWrapperInternal.h"
+#import "MSPageInternal.h"
+#import "MSPaginatedDocumentsInternal.h"
 #import "MSPendingOperation.h"
 #import "MSTokenResult.h"
 #import "MSUtility+Date.h"
@@ -173,12 +175,10 @@ static const NSUInteger kMSSchemaVersion = 1;
   NSDate *lastUpdatedDate = lastUpdatedDateValue > 0 ? [NSDate dateWithTimeIntervalSince1970:lastUpdatedDateValue] : nil;
 
   // If operation is NSNull, change it to nil.
-  NSString *nullableOperation = result[0][self.pendingOperationColumnIndex];
-  NSString *pendingOperation = [nullableOperation isEqual:[NSNull null]] ? nil : nullableOperation;
+  NSString *pendingOperation = [self safeGetValue:result[0][self.pendingOperationColumnIndex]];
 
   // If Etag is NSNull, change it to nil.
-  NSString *nullableEtag = result[0][self.eTagColumnIndex];
-  NSString *etag = [nullableEtag isEqual:[NSNull null]] ? nil : nullableEtag;
+  NSString *etag = [self safeGetValue:result[0][self.eTagColumnIndex]];
   return [MSDocumentUtils documentWrapperFromDocumentData:jsonData
                                              documentType:documentType
                                                      eTag:etag
@@ -187,6 +187,102 @@ static const NSUInteger kMSSchemaVersion = 1;
                                                documentId:documentId
                                          pendingOperation:pendingOperation
                                           fromDeviceCache:YES];
+}
+
+- (MSPaginatedDocuments *)listWithToken:(MSTokenResult *)token
+                              partition:(NSString *)partition
+                           documentType:(Class)documentType
+                            baseOptions:(MSBaseOptions *_Nullable)baseOptions {
+
+  // Final list of documents.
+  NSMutableArray<MSDocumentWrapper *> *localListItems = [NSMutableArray new];
+
+  // Get effective device time to live.
+  NSInteger deviceTimeToLive = baseOptions ? baseOptions.deviceTimeToLive : kMSDataTimeToLiveDefault;
+
+  // Execute the query.
+  NSString *tableName = [MSDBDocumentStore tableNameForPartition:token.partition];
+  NSString *selectionQuery =
+      [NSString stringWithFormat:@"SELECT * FROM \"%@\" WHERE \"%@\" = \"%@\"", tableName, kMSPartitionColumnName, token.partition];
+  NSArray *listResult = [self.dbStorage executeSelectionQuery:selectionQuery];
+  NSDate *currentDate = [NSDate date];
+
+  // Parse the documents.
+  for (id documentRow in listResult) {
+
+    // If an expired document is found exclude it from the list and delete it from the local store.
+    long expirationTime = [(NSNumber *)(documentRow[self.expirationTimeColumnIndex]) longValue];
+    NSString *documentId = documentRow[self.documentIdColumnIndex];
+    if (expirationTime != kMSDataTimeToLiveInfinite) {
+      NSDate *expirationDate = [NSDate dateWithTimeIntervalSince1970:expirationTime];
+      if (expirationDate && [[expirationDate laterDate:currentDate] isEqualToDate:currentDate]) {
+        NSString *warningMessage =
+            [NSString stringWithFormat:@"Local document for partition '%@' and document ID '%@' expired at %@, discarding it",
+                                       token.partition, documentId, expirationDate];
+        MSLogWarning([MSData logTag], @"%@", warningMessage);
+
+        // Delete the local document when found to be expired.
+        [self deleteWithToken:token documentId:documentId];
+      } else if ([kMSPendingOperationDelete isEqualToString:documentRow[self.pendingOperationColumnIndex]]) {
+
+        // Ignore document, if the pending operation is found to be Delete.
+        MSLogError([MSData logTag],
+                   @"Local document pending deletion in local storage for partition '%@' and document ID '%@', excluding from the list",
+                   token.partition, documentId);
+      } else {
+
+        // Deserialize document.
+        NSString *jsonString = documentRow[self.documentColumnIndex];
+        NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+        long lastUpdatedDateValue = [(NSNumber *)documentRow[self.operationTimeColumnIndex] longValue];
+        NSDate *lastUpdatedDate = lastUpdatedDateValue > 0 ? [NSDate dateWithTimeIntervalSince1970:lastUpdatedDateValue] : nil;
+
+        // If operation is NSNull, change it to nil.
+        NSString *pendingOperation = [self safeGetValue:documentRow[self.pendingOperationColumnIndex]];
+
+        // If Etag is NSNull, change it to nil.
+        NSString *etag = [self safeGetValue:documentRow[self.eTagColumnIndex]];
+        MSDocumentWrapper *cachedDocument = [MSDocumentUtils documentWrapperFromDocumentData:jsonData
+                                                                                documentType:documentType
+                                                                                        eTag:etag
+                                                                             lastUpdatedDate:lastUpdatedDate
+                                                                                   partition:token.partition
+                                                                                  documentId:documentId
+                                                                            pendingOperation:pendingOperation
+                                                                             fromDeviceCache:YES];
+        [localListItems addObject:cachedDocument];
+
+        // Push back cached document expiration time.
+        [self updateDocumentWithToken:token
+                currentCachedDocument:cachedDocument
+                    newCachedDocument:cachedDocument
+                     deviceTimeToLive:deviceTimeToLive
+                            operation:cachedDocument.pendingOperation];
+      }
+    }
+  }
+
+  // Return an empty list if no documents were found.
+  if (localListItems.count == 0) {
+    MSLogWarning([MSData logTag], @"Unable to find any document in local store for partition '%@'", token.partition);
+
+    // return an empty list
+    MSPaginatedDocuments *documents = [[MSPaginatedDocuments alloc] initWithPage:[[MSPage alloc] initWithItems:localListItems]
+                                                                       partition:partition
+                                                                    documentType:documentType
+                                                                deviceTimeToLive:baseOptions.deviceTimeToLive
+                                                               continuationToken:nil];
+    return documents;
+  }
+
+  // Instantiate the paginated documents and return it.
+  MSPage *page = [[MSPage alloc] initWithItems:localListItems];
+  MSPaginatedDocuments *documents = [[MSPaginatedDocuments alloc] initWithPage:page
+                                                                     partition:partition
+                                                                  documentType:documentType
+                                                              deviceTimeToLive:baseOptions.deviceTimeToLive
+                                                             continuationToken:nil];
+  return documents;
 }
 
 - (void)resetDatabase {
@@ -261,6 +357,78 @@ static const NSUInteger kMSSchemaVersion = 1;
     [pendingDocuments addObject:pendingOperation];
   }
   return pendingDocuments;
+}
+
+- (BOOL)hasPendingOperationsForPartition:(NSString *)partition {
+  NSString *tableName = [MSDBDocumentStore tableNameForPartition:partition];
+  NSString *selectionQuery =
+      [NSString stringWithFormat:@"SELECT COUNT(*) FROM \"%@\" WHERE \"%@\" IS NOT NULL", tableName, kMSPendingOperationColumnName];
+  NSArray<NSArray<NSNumber *> *> *result = [self.dbStorage executeSelectionQuery:selectionQuery];
+  NSUInteger count = (result.count > 0) ? result[0][0].unsignedIntegerValue : 0;
+
+  // If empty list.
+  return count != 0;
+}
+
+- (void)updateDocumentWithToken:(MSTokenResult *)token
+          currentCachedDocument:(MSDocumentWrapper *)currentCachedDocument
+              newCachedDocument:(MSDocumentWrapper *)newCachedDocument
+               deviceTimeToLive:(NSInteger)deviceTimeToLive
+                      operation:(NSString *_Nullable)operation {
+
+  // If the device time to live does not allow it, remove document from local storage (whether it is here or not).
+  if (deviceTimeToLive == kMSDataTimeToLiveNoCache) {
+    MSLogInfo([MSData logTag], @"Removing document from local storage (partition: %@, id: %@)", token.partition,
+              currentCachedDocument.documentId);
+    [self deleteWithToken:token documentId:currentCachedDocument.documentId];
+  }
+
+  /*
+   * If the cached document has a create or replace pending operation, and no eTags, and if the current operation is a
+   * deletion, delete the document from the store.
+   */
+  else if (([kMSPendingOperationCreate isEqualToString:currentCachedDocument.pendingOperation] ||
+            [kMSPendingOperationReplace isEqualToString:currentCachedDocument.pendingOperation]) &&
+           !currentCachedDocument.eTag && operation && [kMSPendingOperationDelete isEqualToString:(NSString *)operation]) {
+    MSLogInfo([MSData logTag], @"Removing never-synced document from local storage (partition: %@, id: %@)", token.partition,
+              currentCachedDocument.documentId);
+    [self deleteWithToken:token documentId:currentCachedDocument.documentId];
+  }
+
+  // Update document storage.
+  else {
+    MSLogInfo([MSData logTag], @"Updating/inserting document into local storage (partition: %@, id: %@, operation: %@)", token.partition,
+              currentCachedDocument.documentId, operation);
+    [self upsertWithToken:token documentWrapper:newCachedDocument operation:operation deviceTimeToLive:deviceTimeToLive];
+  }
+}
+
+- (void)updateDocumentsWithToken:(MSTokenResult *)token
+                 remoteDocuments:(MSPaginatedDocuments *)documentList
+                     baseOptions:(MSBaseOptions *_Nullable)baseOptions {
+
+  // Get effective device time to live.
+  NSInteger deviceTimeToLive = baseOptions ? baseOptions.deviceTimeToLive : kMSDataTimeToLiveDefault;
+
+  // Parse the documents.
+  NSArray<MSDocumentWrapper *> *remoteListItems = [[documentList currentPage] items];
+  for (MSDocumentWrapper *document in remoteListItems) {
+    MSLogInfo([MSData logTag], @"Updating/inserting document into local storage (partition: %@, id: %@)", document.partition,
+              document.documentId);
+
+    // cache only valid documents.
+    if (document.error == nil) {
+      [self upsertWithToken:token documentWrapper:document operation:kMSPendingOperationRead deviceTimeToLive:deviceTimeToLive];
+    }
+  }
+}
+
+- (NSString *)safeGetValue:(NSString *)column {
+
+  // If column is NSNull, change it to nil.
+  NSString *nullableColumn = column;
+  NSString *fColumn = [nullableColumn isEqual:[NSNull null]] ? nil : nullableColumn;
+  return fColumn;
 }
 
 @end
