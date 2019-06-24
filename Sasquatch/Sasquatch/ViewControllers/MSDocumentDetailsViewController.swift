@@ -79,18 +79,20 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
     if (partition.contains(kMSDataUserPartition)) {
         partition = kMSDataUserPartition
     }
-    self.appCenter.readDocumentWithPartition(partition, documentId: documentContent?.documentId ?? "", documentType: MSDictionaryDocument.self, completionHandler: { (document) in
-        self.documentContent = document
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
-        }
-        
-        if (partition == kMSDataUserPartition) {
-            self.updateDocumentList(list: &MSDataViewController.UserDocuments, documentContent: document)
-        } else {
-            self.updateDocumentList(list: &MSDataViewController.AppDocuments, documentContent: document)
-        }
-    })
+    if (documentContent != nil) {
+        self.appCenter.readDocumentWithPartition(partition, documentId: documentContent!.documentId, documentType: MSDictionaryDocument.self, completionHandler: { (document) in
+            self.documentContent = document
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+            
+            if (partition == kMSDataUserPartition) {
+                self.updateDocumentList(list: &MSDataViewController.UserDocuments, documentContent: document)
+            } else {
+                self.updateDocumentList(list: &MSDataViewController.AppDocuments, documentContent: document)
+            }
+        })
+    }
   }
     
   func updateDocumentList(list: inout [MSDocumentWrapper], documentContent: MSDocumentWrapper) {
