@@ -782,7 +782,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   MSPaginatedDocuments *expectedDocumentList = [[MSPaginatedDocuments alloc] initWithPage:page
                                                                                 partition:kMSPartitionTest
                                                                              documentType:[MSDictionaryDocument class]
-                                                                             reachability:nil
+                                                                             reachability:self.sut.reachability
                                                                          deviceTimeToLive:kMSDataTimeToLiveDefault
                                                                         continuationToken:nil];
   OCMStub([localStorageMock hasPendingOperationsForPartition:kMSPartitionTest]).andReturn(true);

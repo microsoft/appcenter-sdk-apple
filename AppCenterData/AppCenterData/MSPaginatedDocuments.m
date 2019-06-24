@@ -48,7 +48,7 @@
 }
 
 - (BOOL)hasNextPageWithError:(MSDataError *__autoreleasing *)error {
-  if ([self.reachability currentReachabilityStatus] == NotReachable) {
+  if (self.reachability && [self.reachability currentReachabilityStatus] == NotReachable) {
     *error = [[MSDataError alloc] initWithErrorCode:MSACDataErrorNextDocumentPageUnavailable
                                          innerError:nil
                                             message:(NSString *)kMSACDataErrorNextDocumentPageUnavailable];
