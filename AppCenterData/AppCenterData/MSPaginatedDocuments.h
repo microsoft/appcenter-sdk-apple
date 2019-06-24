@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return True if there is another page of documents, false otherwise.
  */
-- (BOOL)hasNextPageWithError:(MSDataError *__autoreleasing*)error;
+- (BOOL)hasNextPageWithError:(MSDataError *__autoreleasing *)error;
 
 /**
  * Return the current page.

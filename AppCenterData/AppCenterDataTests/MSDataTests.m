@@ -21,6 +21,7 @@
 #import "MSHttpTestUtil.h"
 #import "MSMockUserDefaults.h"
 #import "MSPaginatedDocuments.h"
+#import "MSPaginatedDocumentsInternal.h"
 #import "MSPendingOperation.h"
 #import "MSServiceAbstract.h"
 #import "MSTestFrameworks.h"
@@ -1690,6 +1691,53 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   };
   [self waitForExpectationsWithTimeout:3 handler:handler];
   [httpClient stopMocking];
+}
+
+- (void)testPaginatedDocHasNextOnline {
+
+  // If
+  MSPage *page = [[MSPage alloc] init];
+  MSDataError *error;
+  MS_Reachability *reachabilityMock = OCMPartialMock([MS_Reachability reachabilityForInternetConnection]);
+  self.sut.dataOperationProxy.reachability = reachabilityMock;
+  MSPaginatedDocuments *paginatedDoc = [[MSPaginatedDocuments alloc] initWithPage:page
+                                                                        partition:@"user"
+                                                                     documentType:[MSDictionaryDocument class]
+                                                                     reachability:reachabilityMock
+                                                                continuationToken:@"myToken"];
+
+  // When
+  BOOL res = [paginatedDoc hasNextPageWithError:&error];
+
+  // Then
+  XCTAssertTrue(res);
+  XCTAssertNil(error);
+}
+
+- (void)testPaginatedDocHasNextOffline {
+
+  // If
+  MSPage *page = [[MSPage alloc] init];
+  MSDataError *error;
+
+  // Simulate being offline.
+  MS_Reachability *reachabilityMock = OCMPartialMock([MS_Reachability reachabilityForInternetConnection]);
+  self.sut.dataOperationProxy.reachability = reachabilityMock;
+  OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(NotReachable);
+
+  MSPaginatedDocuments *paginatedDoc = [[MSPaginatedDocuments alloc] initWithPage:page
+                                                                        partition:@"user"
+                                                                     documentType:[MSDictionaryDocument class]
+                                                                     reachability:reachabilityMock
+                                                                continuationToken:@"myToken"];
+  // When
+  error = nil;
+  BOOL res = [paginatedDoc hasNextPageWithError:&error];
+
+  // Then
+  XCTAssertFalse(res);
+  XCTAssertNotNil(error);
+  XCTAssertEqual(error.code, MSACDataErrorNextDocumentPageUnavailable);
 }
 
 - (void)testReturnsUserDocumentFromLocalStorageWhenOffline {
