@@ -58,8 +58,8 @@
 }
 
 - (void)nextPageWithCompletionHandler:(void (^)(MSPage *page))completionHandler {
-  NSError *error;
-  if ([self hasNextPageWithError:&error] && !error) {
+  MSDataError *nextPageError;
+  if ([self hasNextPageWithError:&nextPageError]) {
     [MSData listDocumentsWithType:self.documentType
                         partition:self.partition
                       readOptions:[[MSReadOptions alloc] initWithDeviceTimeToLive:self.deviceTimeToLive]
@@ -72,6 +72,8 @@
                   // Notify completion handler.
                   completionHandler(documents.currentPage);
                 }];
+  } else if (nextPageError) {
+    completionHandler([[MSPage alloc] initWithError:nextPageError]);
   } else {
     completionHandler(nil);
   }
