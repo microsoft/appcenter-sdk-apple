@@ -1998,7 +1998,6 @@ static NSString *const kMSDocumentIdTest = @"documentId";
     } else {
       XCTAssertNotNil(testDocuments);
       XCTAssertEqual([[testDocuments currentPage] items].count, 1);
-
       XCTAssertTrue([testDocuments hasNextPageWithError:nil]);
     }
   };
@@ -2055,7 +2054,6 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   MS_Reachability *reachabilityMock = OCMPartialMock([MS_Reachability reachabilityForInternetConnection]);
   self.sut.dataOperationProxy.reachability = reachabilityMock;
   OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(NotReachable);
-
   MSPaginatedDocuments *paginatedDoc = [[MSPaginatedDocuments alloc] initWithPage:page
                                                                         partition:@"user"
                                                                      documentType:[MSDictionaryDocument class]
