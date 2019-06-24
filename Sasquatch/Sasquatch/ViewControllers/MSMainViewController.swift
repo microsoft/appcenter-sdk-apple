@@ -189,7 +189,7 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
                                             message: nil,
                                             preferredStyle:.alert)
     let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-    let clearAction = UIAlertAction(title: "Clear", style: .default, handler: {
+    let clearAction = UIAlertAction(title: "OK", style: .default, handler: {
       (_ action : UIAlertAction) -> Void in
       UserDefaults.standard.removeObject(forKey: kMSUserConfirmationKey)
     })
