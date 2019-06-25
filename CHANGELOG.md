@@ -15,14 +15,10 @@
 
 * **[Feature]** Now supports tvOS.
 
-___
-
-## Version 2.2.0 (Under development)
-
 ### AppCenterData
 
 * **[Feature]** Add support for offline list of documents.
-
+* **[Feature]** Change the default offline persistence from 1 day to infinite.
 ___
 
 ## Version 2.1.0
