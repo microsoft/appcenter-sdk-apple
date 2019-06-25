@@ -6,7 +6,7 @@
 @interface MSBaseOptions : NSObject
 
 /**
- * Device document time-to-live in seconds. Default is infinite.
+ * Device document time-to-live in seconds.
  */
 @property NSInteger deviceTimeToLive;
 
