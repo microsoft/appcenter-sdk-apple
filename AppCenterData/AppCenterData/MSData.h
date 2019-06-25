@@ -44,7 +44,7 @@ static int const kMSDataTimeToLiveNoCache = 0;
 /**
  * Default expiration on cache.
  */
-static int const kMSDataTimeToLiveDefault = 60 * 60 * 24;
+static int const kMSDataTimeToLiveDefault = kMSDataTimeToLiveInfinite;
 
 @interface MSData : MSServiceAbstract
 
