@@ -192,7 +192,8 @@
       MSDataError *dataError = [[MSDataError alloc] initWithErrorCode:MSACDataErrorCachedToken innerError:nil message:message];
       MSPaginatedDocuments *documents = [[MSPaginatedDocuments alloc] initWithError:dataError
                                                                           partition:partition
-                                                                       documentType:documentType];
+                                                                       documentType:documentType
+                                                                  continuationToken:nil];
       completionHandler(documents);
       return;
     }

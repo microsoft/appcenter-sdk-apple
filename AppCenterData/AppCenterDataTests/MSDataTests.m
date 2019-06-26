@@ -628,7 +628,8 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                  }
                                }];
   XCTAssertNotNil(actualPaginatedDocuments);
-  XCTAssertNil(actualPaginatedDocuments.currentPage.error);
+  XCTAssertNotNil(actualPaginatedDocuments.currentPage.error);
+  XCTAssertEqual(actualPaginatedDocuments.currentPage.error.code, MSACDataErrorNextDocumentPageUnavailable);
   XCTAssertEqual([[actualPaginatedDocuments currentPage] items].count, 0);
 }
 
@@ -1906,7 +1907,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
       XCTFail(@"Expectation Failed with error: %@", error);
     } else {
       XCTAssertNotNil(testDocuments);
-      XCTAssertFalse([testDocuments hasNextPageWithError:nil]);
+      XCTAssertFalse([testDocuments hasNextPage]);
       XCTAssertEqual([[testDocuments currentPage] items].count, 1);
       MSDocumentWrapper *documentWrapper = [[testDocuments currentPage] items][0];
       XCTAssertTrue([[documentWrapper documentId] isEqualToString:@"doc1"]);
@@ -1998,7 +1999,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
     } else {
       XCTAssertNotNil(testDocuments);
       XCTAssertEqual([[testDocuments currentPage] items].count, 1);
-      XCTAssertTrue([testDocuments hasNextPageWithError:nil]);
+      XCTAssertTrue([testDocuments hasNextPage]);
     }
   };
   [self waitForExpectationsWithTimeout:3 handler:handler];
@@ -2012,7 +2013,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
     if (error) {
       XCTFail(@"Expectation Failed with error: %@", error);
     } else {
-      XCTAssertFalse([testDocuments hasNextPageWithError:nil]);
+      XCTAssertFalse([testDocuments hasNextPage]);
       XCTAssertEqual([[testDocuments currentPage] items].count, 0);
       XCTAssertEqual([testPage items].count, 0);
       XCTAssertEqualObjects(testPage, [testDocuments currentPage]);
@@ -2020,54 +2021,6 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   };
   [self waitForExpectationsWithTimeout:3 handler:handler];
   [httpClient stopMocking];
-}
-
-- (void)testPaginatedDocHasNextOnline {
-
-  // If
-  MSPage *page = [[MSPage alloc] init];
-  MSDataError *error;
-  MS_Reachability *reachabilityMock = OCMPartialMock([MS_Reachability reachabilityForInternetConnection]);
-  self.sut.dataOperationProxy.reachability = reachabilityMock;
-  MSPaginatedDocuments *paginatedDoc = [[MSPaginatedDocuments alloc] initWithPage:page
-                                                                        partition:@"user"
-                                                                     documentType:[MSDictionaryDocument class]
-                                                                     reachability:reachabilityMock
-                                                                 deviceTimeToLive:kMSDataTimeToLiveDefault
-                                                                continuationToken:@"myToken"];
-
-  // When
-  BOOL res = [paginatedDoc hasNextPageWithError:&error];
-
-  // Then
-  XCTAssertTrue(res);
-  XCTAssertNil(error);
-}
-
-- (void)testPaginatedDocHasNextOffline {
-
-  // If
-  MSPage *page = [[MSPage alloc] init];
-  MSDataError *error;
-
-  // Simulate being offline.
-  MS_Reachability *reachabilityMock = OCMPartialMock([MS_Reachability reachabilityForInternetConnection]);
-  self.sut.dataOperationProxy.reachability = reachabilityMock;
-  OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(NotReachable);
-  MSPaginatedDocuments *paginatedDoc = [[MSPaginatedDocuments alloc] initWithPage:page
-                                                                        partition:@"user"
-                                                                     documentType:[MSDictionaryDocument class]
-                                                                     reachability:reachabilityMock
-                                                                 deviceTimeToLive:kMSDataTimeToLiveDefault
-                                                                continuationToken:@"myToken"];
-  // When
-  error = nil;
-  BOOL res = [paginatedDoc hasNextPageWithError:&error];
-
-  // Then
-  XCTAssertFalse(res);
-  XCTAssertNotNil(error);
-  XCTAssertEqual(error.code, MSACDataErrorNextDocumentPageUnavailable);
 }
 
 - (void)testReturnsUserDocumentFromLocalStorageWhenOffline {

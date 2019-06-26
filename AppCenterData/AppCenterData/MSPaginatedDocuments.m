@@ -38,28 +38,24 @@
   return self;
 }
 
-- (instancetype)initWithError:(MSDataError *)error partition:(NSString *)partition documentType:(Class)documentType {
+- (instancetype)initWithError:(MSDataError *)error
+                    partition:(NSString *)partition
+                 documentType:(Class)documentType
+            continuationToken:(NSString *_Nullable)continuationToken {
   return [self initWithPage:[[MSPage alloc] initWithError:error]
                   partition:partition
                documentType:documentType
                reachability:self.reachability
            deviceTimeToLive:kMSDataTimeToLiveNoCache
-          continuationToken:nil];
+          continuationToken:continuationToken];
 }
 
-- (BOOL)hasNextPageWithError:(MSDataError *__autoreleasing *)error {
-  if (self.reachability && [self.reachability currentReachabilityStatus] == NotReachable) {
-    *error = [[MSDataError alloc] initWithErrorCode:MSACDataErrorNextDocumentPageUnavailable
-                                         innerError:nil
-                                            message:(NSString *)kMSACDataErrorNextDocumentPageUnavailableDesc];
-    return NO;
-  }
+- (BOOL)hasNextPage {
   return [self.continuationToken length] != 0;
 }
 
 - (void)nextPageWithCompletionHandler:(void (^)(MSPage *page))completionHandler {
-  MSDataError *nextPageError;
-  if ([self hasNextPageWithError:&nextPageError]) {
+  if ([self hasNextPage]) {
     [MSData listDocumentsWithType:self.documentType
                         partition:self.partition
                       readOptions:[[MSReadOptions alloc] initWithDeviceTimeToLive:self.deviceTimeToLive]
@@ -72,8 +68,6 @@
                   // Notify completion handler.
                   completionHandler(documents.currentPage);
                 }];
-  } else if (nextPageError) {
-    completionHandler([[MSPage alloc] initWithError:nextPageError]);
   } else {
     completionHandler(nil);
   }

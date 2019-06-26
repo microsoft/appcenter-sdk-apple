@@ -403,9 +403,18 @@ static dispatch_once_t onceToken;
       dataError = [self generateDisabledError:@"list" documentId:nil];
     } else if (![MSDocumentUtils isSerializableDocument:documentType]) {
       dataError = [self generateInvalidClassError];
+    } else if ([self.reachability currentReachabilityStatus] == NotReachable) {
+
+      // If offline, return an error.
+      dataError = [[MSDataError alloc] initWithErrorCode:MSACDataErrorNextDocumentPageUnavailable
+                                              innerError:nil
+                                                 message:(NSString *)kMSACDataErrorNextDocumentPageUnavailableDesc];
     }
     if (dataError) {
-      completionHandler([[MSPaginatedDocuments alloc] initWithError:dataError partition:partition documentType:documentType]);
+      completionHandler([[MSPaginatedDocuments alloc] initWithError:dataError
+                                                          partition:partition
+                                                       documentType:documentType
+                                                  continuationToken:continuationToken]);
       return;
     }
 
@@ -594,7 +603,8 @@ static dispatch_once_t onceToken;
                                            [actualDataError localizedDescription], (long)response.statusCode, (long)MSHTTPCodesNo200OK);
                                 MSPaginatedDocuments *documents = [[MSPaginatedDocuments alloc] initWithError:actualDataError
                                                                                                     partition:partition
-                                                                                                 documentType:documentType];
+                                                                                                 documentType:documentType
+                                                                                            continuationToken:nil];
                                 completionHandler(documents);
                                 return;
                               }
@@ -612,7 +622,8 @@ static dispatch_once_t onceToken;
                                 if (deserializeDataError) {
                                   MSPaginatedDocuments *documents = [[MSPaginatedDocuments alloc] initWithError:deserializeDataError
                                                                                                       partition:partition
-                                                                                                   documentType:documentType];
+                                                                                                   documentType:documentType
+                                                                                              continuationToken:nil];
                                   completionHandler(documents);
                                   return;
                                 }

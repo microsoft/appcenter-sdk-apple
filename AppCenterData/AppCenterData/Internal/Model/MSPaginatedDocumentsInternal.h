@@ -44,10 +44,15 @@ NS_ASSUME_NONNULL_BEGIN
  * @param error Error to initialize with.
  * @param partition The partition for the documents.
  * @param documentType The type of the documents in the partition.
+ * @param continuationToken The continuation token, if any.
  *
  * @return The paginated documents.
  */
-- (instancetype)initWithError:(MSDataError *)error partition:(NSString *)partition documentType:(Class)documentType;
+- (instancetype)initWithError:(MSDataError *)error
+                    partition:(NSString *)partition
+                 documentType:(Class)documentType
+            continuationToken:(NSString *_Nullable)continuationToken;
+;
 
 @end
 
