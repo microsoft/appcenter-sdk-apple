@@ -403,9 +403,10 @@ static dispatch_once_t onceToken;
       dataError = [self generateDisabledError:@"list" documentId:nil];
     } else if (![MSDocumentUtils isSerializableDocument:documentType]) {
       dataError = [self generateInvalidClassError];
-    } else if ([self.reachability currentReachabilityStatus] == NotReachable) {
+    } else if (continuationToken && [self.reachability currentReachabilityStatus] == NotReachable) {
 
-      // If offline, return an error.
+      // For offline scenario, if continuation token is provided, then return an error since next page can't be retrieved.
+      // Otherwise, (if continuationToken is nil), return the first page.
       dataError = [[MSDataError alloc] initWithErrorCode:MSACDataErrorNextDocumentPageUnavailable
                                               innerError:nil
                                                  message:(NSString *)kMSACDataErrorNextDocumentPageUnavailableDesc];
