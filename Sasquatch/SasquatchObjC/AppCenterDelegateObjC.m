@@ -361,4 +361,11 @@
               completionHandler:completionHandler];
 }
 
+- (void)readDocumentWithPartition:(NSString *_Nonnull)partitionName
+                       documentId:(NSString *_Nonnull)documentId
+                     documentType:(Class)documentType
+                completionHandler:(void (^)(MSDocumentWrapper *))completionHandler {
+  [MSData readDocumentWithID:documentId documentType:documentType partition:partitionName completionHandler:completionHandler];
+}
+
 @end

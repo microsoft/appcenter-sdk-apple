@@ -324,4 +324,9 @@ class AppCenterDelegateSwift: AppCenterDelegate {
       print("Data.delete document with id \(documentId) succeeded")
     })
   }
-}
+    
+  func readDocumentWithPartition(_ partitionName: String, documentId: String, documentType: AnyClass, completionHandler: @escaping (_ document:MSDocumentWrapper) -> Void) {
+    MSData.read(withDocumentID: documentId, documentType: documentType, partition: partitionName, completionHandler: completionHandler)
+  }
+    
+  }
