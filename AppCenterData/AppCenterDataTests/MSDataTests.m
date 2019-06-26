@@ -1906,7 +1906,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
       XCTFail(@"Expectation Failed with error: %@", error);
     } else {
       XCTAssertNotNil(testDocuments);
-      XCTAssertFalse([testDocuments hasNextPageWithError:nil]);
+      XCTAssertFalse([testDocuments hasNextPage]);
       XCTAssertEqual([[testDocuments currentPage] items].count, 1);
       MSDocumentWrapper *documentWrapper = [[testDocuments currentPage] items][0];
       XCTAssertTrue([[documentWrapper documentId] isEqualToString:@"doc1"]);
@@ -1998,7 +1998,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
     } else {
       XCTAssertNotNil(testDocuments);
       XCTAssertEqual([[testDocuments currentPage] items].count, 1);
-      XCTAssertTrue([testDocuments hasNextPageWithError:nil]);
+      XCTAssertTrue([testDocuments hasNextPage]);
     }
   };
   [self waitForExpectationsWithTimeout:3 handler:handler];
@@ -2012,7 +2012,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
     if (error) {
       XCTFail(@"Expectation Failed with error: %@", error);
     } else {
-      XCTAssertFalse([testDocuments hasNextPageWithError:nil]);
+      XCTAssertFalse([testDocuments hasNextPage]);
       XCTAssertEqual([[testDocuments currentPage] items].count, 0);
       XCTAssertEqual([testPage items].count, 0);
       XCTAssertEqualObjects(testPage, [testDocuments currentPage]);
@@ -2022,54 +2022,99 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   [httpClient stopMocking];
 }
 
-- (void)testPaginatedDocHasNextOnline {
+- (void)testListPaginationOffline {
 
   // If
-  MSPage *page = [[MSPage alloc] init];
-  MSDataError *error;
+  id httpClient = OCMClassMock([MSHttpClient class]);
+  OCMStub([httpClient new]).andReturn(httpClient);
+  self.sut.httpClient = httpClient;
+
   MS_Reachability *reachabilityMock = OCMPartialMock([MS_Reachability reachabilityForInternetConnection]);
   self.sut.dataOperationProxy.reachability = reachabilityMock;
-  MSPaginatedDocuments *paginatedDoc = [[MSPaginatedDocuments alloc] initWithPage:page
-                                                                        partition:@"user"
-                                                                     documentType:[MSDictionaryDocument class]
-                                                                     reachability:reachabilityMock
-                                                                 deviceTimeToLive:kMSDataTimeToLiveDefault
-                                                                continuationToken:@"myToken"];
+  self.sut.reachability = reachabilityMock;
 
+  // Mock cached token result.
+  MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
+  OCMStub([self.tokenExchangeMock retrieveCachedTokenForPartition:kMSPartitionTest includeExpiredToken:YES]).andReturn(tokenResult);
+  OCMStub([self.tokenExchangeMock retrieveCachedTokenForPartition:kMSPartitionTest includeExpiredToken:NO]).andReturn(tokenResult);
+
+  __weak XCTestExpectation *expectation = [self expectationWithDescription:@"List first page"];
+  NSMutableDictionary *continuationHeaders = [NSMutableDictionary new];
+  continuationHeaders[@"x-ms-continuation"] = @"continuation token";
+
+  // First page
+  NSDictionary *firstPageHeaders = [MSCosmosDb defaultHeaderWithPartition:tokenResult.partition dbToken:kMSTokenTest additionalHeaders:nil];
+  OCMStub([httpClient sendAsync:OCMOCK_ANY method:@"GET" headers:firstPageHeaders data:nil completionHandler:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        [invocation retainArguments];
+        MSHttpRequestCompletionHandler completionHandler;
+        [invocation getArgument:&completionHandler atIndex:6];
+        NSData *payload = [self jsonFixture:@"oneDocumentPage"];
+        completionHandler(payload, [MSHttpTestUtil createMockResponseForStatusCode:200 headers:continuationHeaders], nil);
+      });
+
+  // Second page
+  NSDictionary *secondPageHeaders = [MSCosmosDb defaultHeaderWithPartition:tokenResult.partition
+                                                                   dbToken:kMSTokenTest
+                                                         additionalHeaders:continuationHeaders];
   // When
-  BOOL res = [paginatedDoc hasNextPageWithError:&error];
+  __block MSPaginatedDocuments *testDocuments;
+  [self.sut listDocumentsWithType:[MSDictionaryDocument class]
+                        partition:@"user"
+                      readOptions:nil
+                continuationToken:nil
+                completionHandler:^(MSPaginatedDocuments *_Nonnull documents) {
+                  testDocuments = documents;
+                  [expectation fulfill];
+                }];
 
   // Then
-  XCTAssertTrue(res);
-  XCTAssertNil(error);
-}
+  id handler = ^(NSError *_Nullable error) {
+    if (error) {
+      XCTFail(@"Expectation Failed with error: %@", error);
+    } else {
+      XCTAssertNotNil(testDocuments);
+      XCTAssertEqual([[testDocuments currentPage] items].count, 1);
+      XCTAssertTrue([testDocuments hasNextPage]);
+    }
+  };
 
-- (void)testPaginatedDocHasNextOffline {
+  OCMStub([httpClient sendAsync:OCMOCK_ANY method:@"GET" headers:secondPageHeaders data:nil completionHandler:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        [invocation retainArguments];
+        MSHttpRequestCompletionHandler completionHandler;
+        [invocation getArgument:&completionHandler atIndex:6];
+        NSData *payload = [self jsonFixture:@"oneDocumentPage"];
+        completionHandler(payload, [MSHttpTestUtil createMockResponseForStatusCode:200 headers:nil], nil);
+      });
 
-  // If
-  MSPage *page = [[MSPage alloc] init];
-  MSDataError *error;
+  [self waitForExpectationsWithTimeout:3 handler:handler];
+  expectation = [self expectationWithDescription:@"List second page"];
+  __block MSPage *testPage;
 
   // Simulate being offline.
-  MS_Reachability *reachabilityMock = OCMPartialMock([MS_Reachability reachabilityForInternetConnection]);
-  self.sut.dataOperationProxy.reachability = reachabilityMock;
   OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(NotReachable);
-  MSPaginatedDocuments *paginatedDoc = [[MSPaginatedDocuments alloc] initWithPage:page
-                                                                        partition:@"user"
-                                                                     documentType:[MSDictionaryDocument class]
-                                                                     reachability:reachabilityMock
-                                                                 deviceTimeToLive:kMSDataTimeToLiveDefault
-                                                                continuationToken:@"myToken"];
-  // When
-  error = nil;
-  BOOL res = [paginatedDoc hasNextPageWithError:&error];
 
-  // Then
-  XCTAssertFalse(res);
-  XCTAssertNotNil(error);
-  XCTAssertEqual(error.code, MSACDataErrorNextDocumentPageUnavailable);
+  [testDocuments nextPageWithCompletionHandler:^(MSPage *page) {
+    testPage = page;
+    [expectation fulfill];
+  }];
+  handler = ^(NSError *_Nullable error) {
+    if (error) {
+      XCTFail(@"Expectation Failed with error: %@", error);
+    } else {
+      XCTAssertTrue([testDocuments hasNextPage]);
+      XCTAssertNotNil(testDocuments.continuationToken);
+      XCTAssertNotNil(testPage);
+      XCTAssertNotNil(testPage.error);
+      XCTAssertEqual(testPage.error.code, MSACDataErrorNextDocumentPageUnavailable);
+      XCTAssertEqual([testPage items].count, 0);
+      XCTAssertEqualObjects(testPage, [testDocuments currentPage]);
+    }
+  };
+  [self waitForExpectationsWithTimeout:3 handler:handler];
+  [httpClient stopMocking];
 }
-
 - (void)testReturnsUserDocumentFromLocalStorageWhenOffline {
 
   // If
