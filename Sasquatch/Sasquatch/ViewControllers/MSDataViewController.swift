@@ -89,7 +89,7 @@ class MSDataViewController: UIViewController, UITableViewDelegate, UITableViewDa
   }
   
   func loadMore() {
-    if (!loadMoreStatus && self.allDocuments.hasNextPage()) {
+    if (!loadMoreStatus && self.allDocuments.hasNextPageWithError(nil)){
       self.loadMoreStatus = true
       DispatchQueue.global().async() {
         self.allDocuments.nextPage(completionHandler: { page in

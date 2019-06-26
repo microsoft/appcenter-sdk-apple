@@ -13,9 +13,11 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Boolean indicating if an extra page is available.
  *
+ * @param error Error indicating an error in retrieving the next page.
+ *
  * @return True if there is another page of documents, false otherwise.
  */
-- (BOOL)hasNextPage;
+- (BOOL)hasNextPageWithError:(MSDataError *__autoreleasing *)error;
 
 /**
  * Return the current page.
