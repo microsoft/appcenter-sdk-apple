@@ -234,8 +234,6 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate, NSTextVie
     case NSAlertFirstButtonReturn:
         UserDefaults.standard.removeObject(forKey: kMSUserConfirmationKey)
         break
-    case NSAlertSecondButtonReturn:
-        break
     default:
         break
     }
