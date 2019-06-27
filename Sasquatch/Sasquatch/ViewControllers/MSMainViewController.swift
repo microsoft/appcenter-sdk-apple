@@ -32,13 +32,14 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
   @IBOutlet weak var deviceIdLabel: UILabel!
   @IBOutlet weak var storageMaxSizeField: UITextField!
   @IBOutlet weak var storageFileSizeLabel: UILabel!
-  @IBOutlet weak var userIdField: UITextField!
   @IBOutlet weak var setLogUrlButton: UIButton!
   @IBOutlet weak var setAppSecretButton: UIButton!
   @IBOutlet weak var overrideCountryCodeButton: UIButton!
   @IBOutlet weak var authInfoCell: UITableViewCell!
   @IBOutlet weak var authInfoLabel: UILabel!
-
+  @IBOutlet weak var userId: UILabel!
+  @IBOutlet weak var setUserIdButton: UIButton!
+  
   var appCenter: AppCenterDelegate!
   private var startupModePicker: MSEnumPicker<StartupMode>?
   private var eventFilterStarted = false
@@ -102,7 +103,7 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     self.logUrl.text = UserDefaults.standard.string(forKey: kMSLogUrl) ?? defaultLogUrl()
     self.sdkVersion.text = appCenter.sdkVersion()
     self.deviceIdLabel.text = UIDevice.current.identifierForVendor?.uuidString
-    self.userIdField.text = UserDefaults.standard.string(forKey: kMSUserIdKey)
+    self.userId.text = self.showUserId()
     self.setAppSecretButton.isEnabled = StartupMode.allValues[startUpModeForCurrentSession] == StartupMode.OneCollector ? false : true
 
     // Make sure the UITabBarController does not cut off the last cell.
@@ -193,12 +194,32 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     updateViewState()
     #endif
   }
-
-  @IBAction func userIdChanged(_ sender: UITextField) {
-    let text = sender.text ?? ""
-    let userId = !text.isEmpty ? text : nil
-    UserDefaults.standard.set(userId, forKey: kMSUserIdKey)
-    appCenter.setUserId(userId)
+  
+  @IBAction func userIdSetting(_ sender: UIButton) {
+    let alertController = UIAlertController(title: "User Id",
+                                            message: nil,
+                                            preferredStyle:.alert)
+    alertController.addTextField { (userIdTextField) in
+        userIdTextField.text = UserDefaults.standard.string(forKey: kMSUserIdKey)
+    }
+    let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+    let saveAction = UIAlertAction(title: "Save", style: .default, handler: {
+        (_ action : UIAlertAction) -> Void in
+        let text = alertController.textFields?[0].text ?? ""
+        UserDefaults.standard.set(text, forKey: kMSUserIdKey)
+        self.appCenter.setUserId(text)
+        self.userId.text = self.showUserId()
+    })
+    let resetAction = UIAlertAction(title: "Reset", style: .destructive, handler: {
+        (_ action : UIAlertAction) -> Void in
+        UserDefaults.standard.removeObject(forKey: kMSUserIdKey)
+        self.appCenter.setUserId(nil)
+        self.userId.text = self.showUserId()
+    })
+    alertController.addAction(cancelAction)
+    alertController.addAction(saveAction)
+    alertController.addAction(resetAction)
+    self.present(alertController, animated: true, completion: nil)
   }
   
   @IBAction func logUrlSetting(_ sender: UIButton) {
@@ -285,6 +306,14 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     #else
     return acProdLogUrl
     #endif
+  }
+    
+  func showUserId () -> String {
+    let userId = UserDefaults.standard.string(forKey: kMSUserIdKey) ?? "Unset";
+    if (userId.isEmpty) {
+        return "Empty string";
+    }
+    return userId;
   }
 
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
