@@ -4,6 +4,8 @@
 #import "MSPaginatedDocuments.h"
 #import "MSCosmosDb.h"
 #import "MSData.h"
+#import "MSDataErrorInternal.h"
+#import "MSDataErrors.h"
 #import "MSDataInternal.h"
 #import "MSPageInternal.h"
 #import "MSPaginatedDocumentsInternal.h"
@@ -16,29 +18,36 @@
 @synthesize continuationToken = _continuationToken;
 @synthesize partition = _partition;
 @synthesize documentType = _documentType;
+@synthesize reachability = _reachability;
 @synthesize deviceTimeToLive = _deviceTimeToLive;
 
 - (instancetype)initWithPage:(MSPage *)page
                    partition:(NSString *)partition
                 documentType:(Class)documentType
+                reachability:(MS_Reachability *)reachability
             deviceTimeToLive:(NSInteger)deviceTimeToLive
            continuationToken:(NSString *_Nullable)continuationToken {
   if ((self = [super init])) {
     _currentPage = page;
     _partition = partition;
     _documentType = documentType;
+    _reachability = reachability;
     _deviceTimeToLive = deviceTimeToLive;
     _continuationToken = continuationToken;
   }
   return self;
 }
 
-- (instancetype)initWithError:(MSDataError *)error partition:(NSString *)partition documentType:(Class)documentType {
+- (instancetype)initWithError:(MSDataError *)error
+                    partition:(NSString *)partition
+                 documentType:(Class)documentType
+            continuationToken:(NSString *_Nullable)continuationToken {
   return [self initWithPage:[[MSPage alloc] initWithError:error]
                   partition:partition
                documentType:documentType
+               reachability:self.reachability
            deviceTimeToLive:kMSDataTimeToLiveNoCache
-          continuationToken:nil];
+          continuationToken:continuationToken];
 }
 
 - (BOOL)hasNextPage {

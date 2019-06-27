@@ -27,6 +27,7 @@ typedef NS_ENUM(NSInteger, MSACDataError) { // System framework errors.
   MSACDataErrorInvalidTokenExchangeResponse = 205,
   MSACDataErrorUnsupportedOperation = 206,
   MSACDataErrorDocumentIdInvalid = 207,
+  MSACDataErrorNextDocumentPageUnavailable = 208,
 
   // Network errors
   MSACDataErrorHTTPError = 300,
@@ -38,5 +39,6 @@ static NSString const *kMSACDataInvalidClassDesc = @"Provided class does not con
 static NSString const *kMSACDataCosmosDbErrorResponseDesc = @"Unexpected error while talking to CosmosDB.";
 static NSString const *kMSACDocumentCreationDesc = @"Can't create document.";
 static NSString const *kMSACDataErrorDocumentIdInvalidDesc = @"Invalid document ID.";
+static NSString const *kMSACDataErrorNextDocumentPageUnavailableDesc = @"Can't retrieve the next page when the device is offline.";
 
 NS_ASSUME_NONNULL_END

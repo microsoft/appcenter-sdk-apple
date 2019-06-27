@@ -2024,6 +2024,13 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gre-4d-hRb">
+                                <rect key="frame" x="161" y="28" width="53" height="30"/>
+                                <state key="normal" title="Refresh"/>
+                                <connections>
+                                    <action selector="refreshButtonClicked:" destination="9ke-7b-bu5" eventType="touchUpInside" id="hMG-2q-NZR"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -2037,11 +2044,13 @@
                             <constraint firstAttribute="trailingMargin" secondItem="D2H-84-ETu" secondAttribute="trailing" id="TRV-in-RgM"/>
                             <constraint firstItem="D2H-84-ETu" firstAttribute="top" secondItem="WKj-8A-ehW" secondAttribute="bottom" constant="8" symbolic="YES" id="XRO-Kd-rhV"/>
                             <constraint firstItem="L8D-Ro-9cJ" firstAttribute="top" secondItem="D2H-84-ETu" secondAttribute="bottom" constant="8" id="b1E-ld-ZN2"/>
+                            <constraint firstItem="Gre-4d-hRb" firstAttribute="top" secondItem="vOD-0m-eoC" secondAttribute="bottom" constant="8" id="byP-5Y-g0U"/>
                             <constraint firstAttribute="trailing" secondItem="8MC-dd-LWy" secondAttribute="trailing" constant="20" symbolic="YES" id="c65-Iw-l7D"/>
                             <constraint firstItem="D2H-84-ETu" firstAttribute="leading" secondItem="5co-9x-n9J" secondAttribute="trailing" constant="8" symbolic="YES" id="d4V-Kn-KCJ"/>
                             <constraint firstItem="L8D-Ro-9cJ" firstAttribute="leading" secondItem="VUd-Wu-QNs" secondAttribute="leadingMargin" id="f8c-U1-NTv"/>
                             <constraint firstItem="8MC-dd-LWy" firstAttribute="top" secondItem="vOD-0m-eoC" secondAttribute="bottom" constant="8" symbolic="YES" id="hPc-Nk-5m5"/>
                             <constraint firstItem="usS-eK-aCf" firstAttribute="leading" secondItem="WKj-8A-ehW" secondAttribute="leading" id="nDS-9a-ZsM"/>
+                            <constraint firstItem="Gre-4d-hRb" firstAttribute="centerX" secondItem="VUd-Wu-QNs" secondAttribute="centerX" id="o3m-Wl-W9h"/>
                             <constraint firstItem="WKj-8A-ehW" firstAttribute="top" secondItem="vOD-0m-eoC" secondAttribute="bottom" constant="8" symbolic="YES" id="sEP-9l-rEp"/>
                             <constraint firstItem="usS-eK-aCf" firstAttribute="leading" secondItem="5co-9x-n9J" secondAttribute="leading" id="xmG-RD-ZCr"/>
                         </constraints>
@@ -2052,6 +2061,7 @@
                         <outlet property="DocIdField" destination="D2H-84-ETu" id="CpO-r0-eqo"/>
                         <outlet property="backButton" destination="WKj-8A-ehW" id="MGO-pd-fvn"/>
                         <outlet property="docIdField" destination="D2H-84-ETu" id="DGz-1t-LBy"/>
+                        <outlet property="refreshButton" destination="Gre-4d-hRb" id="lxe-jS-vep"/>
                         <outlet property="saveBtn" destination="8MC-dd-LWy" id="r2x-7d-Cs9"/>
                         <outlet property="tableView" destination="usS-eK-aCf" id="uCi-dy-DRy"/>
                         <outlet property="timeToLiveBoard" destination="5jk-6L-A0y" id="d6b-WL-C7N"/>
