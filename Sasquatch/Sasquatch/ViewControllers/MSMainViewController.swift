@@ -311,7 +311,7 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
   func showUserId () -> String {
     let userId = UserDefaults.standard.string(forKey: kMSUserIdKey) ?? "Unset";
     if (userId.isEmpty) {
-        return "Empty";
+        return "Empty string";
     }
     return userId;
   }
