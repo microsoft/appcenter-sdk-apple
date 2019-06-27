@@ -270,6 +270,7 @@ static const NSUInteger kMSSchemaVersion = 1;
     MSPaginatedDocuments *documents = [[MSPaginatedDocuments alloc] initWithPage:[[MSPage alloc] initWithItems:localListItems]
                                                                        partition:partition
                                                                     documentType:documentType
+                                                                    reachability:[MS_Reachability reachabilityForInternetConnection]
                                                                 deviceTimeToLive:baseOptions.deviceTimeToLive
                                                                continuationToken:nil];
     return documents;
@@ -280,6 +281,7 @@ static const NSUInteger kMSSchemaVersion = 1;
   MSPaginatedDocuments *documents = [[MSPaginatedDocuments alloc] initWithPage:page
                                                                      partition:partition
                                                                   documentType:documentType
+                                                                  reachability:[MS_Reachability reachabilityForInternetConnection]
                                                               deviceTimeToLive:baseOptions.deviceTimeToLive
                                                              continuationToken:nil];
   return documents;
