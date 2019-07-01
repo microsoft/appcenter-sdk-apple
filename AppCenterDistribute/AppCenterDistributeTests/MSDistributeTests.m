@@ -1328,18 +1328,41 @@ static NSURL *sfURL;
     session = [SFAuthenticationSession class];
   }
   NSURL *fakeURL = [NSURL URLWithString:@"https://fakeurl.com"];
+  id notificationCenterMock = OCMPartialMock([NSNotificationCenter new]);
+  OCMStub([notificationCenterMock defaultCenter]).andReturn(notificationCenterMock);
+  id appCenterMock = OCMClassMock([MSAppCenter class]);
+  OCMStub([appCenterMock sharedInstance]).andReturn(appCenterMock);
+  OCMStub([appCenterMock isSdkConfigured]).andReturn(YES);
+  OCMStub([appCenterMock isConfigured]).andReturn(YES);
+
+  // Recreate service.
+  self.sut = [MSDistribute new];
+  self.sut.distributeInfoTracker = self.distributeInfoTrackerMock;
+  [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
+                              appSecret:kMSTestAppSecret
+                transmissionTargetToken:nil
+                        fromApplication:YES];
 
   // Then
-  XCTAssertNil([MSDistribute sharedInstance].authenticationSession);
+  XCTAssertNil(self.sut.authenticationSession);
 
   // When
-  [[MSDistribute sharedInstance] openURLInAuthenticationSessionWith:fakeURL fromClass:session];
+  [self.sut openURLInAuthenticationSessionWith:fakeURL fromClass:session];
 
   // Then
-  XCTAssertNotNil([MSDistribute sharedInstance].authenticationSession);
+  XCTAssertNotNil(self.sut.authenticationSession);
   if (@available(iOS 12, *)) {
-    XCTAssert([[MSDistribute sharedInstance].authenticationSession isKindOfClass:[SFAuthenticationSession class]]);
+    XCTAssert([self.sut.authenticationSession isKindOfClass:[SFAuthenticationSession class]]);
   }
+
+  // When
+  [notificationCenterMock postNotificationName:UIApplicationDidEnterBackgroundNotification object:nil];
+
+  // Then
+  XCTAssertNil(self.sut.authenticationSession);
+
+  // Clear
+  [notificationCenterMock stopMocking];
 }
 
 - (void)testCheckForUpdatesDebuggerAttached {
