@@ -798,14 +798,11 @@
                             </textField>
                             <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="VA4-N7-8nZ">
                                 <rect key="frame" x="100" y="407" width="331" height="22"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="iZb-js-xpE">
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="iZb-js-xpE">
                                     <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
-                                <connections>
-                                    <action selector="userIdChangedWithSender:" target="O3Z-WH-pbf" id="RSI-qE-veH"/>
-                                </connections>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="UAF-Zh-FC1">
                                 <rect key="frame" x="18" y="385" width="84" height="17"/>
@@ -977,6 +974,16 @@
                                     <action selector="setAppSecret:" target="O3Z-WH-pbf" id="PD0-ug-7We"/>
                                 </connections>
                             </button>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="UBE-Oe-Jat">
+                                <rect key="frame" x="18" y="184" width="109" height="32"/>
+                                <buttonCell key="cell" type="push" title="Set User ID" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="hgq-Wn-3XA">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="setUserID:" target="O3Z-WH-pbf" id="qfK-Tl-Pze"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <constraints>
                             <constraint firstItem="N1B-nD-gUu" firstAttribute="leading" secondItem="M7z-d7-GnN" secondAttribute="leading" id="1aT-zh-uRs"/>
@@ -1015,6 +1022,7 @@
                             <constraint firstItem="Ih6-MC-nUR" firstAttribute="leading" secondItem="mid-Fe-HHm" secondAttribute="trailing" constant="8" symbolic="YES" id="WhF-yN-VuX"/>
                             <constraint firstItem="rm3-tN-rQO" firstAttribute="leading" secondItem="EJZ-Wn-7Tz" secondAttribute="trailing" constant="40" id="XqK-v9-hlP"/>
                             <constraint firstItem="ufS-r3-0uH" firstAttribute="baseline" secondItem="SFI-Qh-n2D" secondAttribute="firstBaseline" id="Xv0-rp-0hp"/>
+                            <constraint firstItem="UBE-Oe-Jat" firstAttribute="centerX" secondItem="SFI-Qh-n2D" secondAttribute="centerX" constant="-324.5" id="ZW9-42-GIw"/>
                             <constraint firstItem="Ih6-MC-nUR" firstAttribute="trailing" secondItem="XCk-4w-Cy6" secondAttribute="trailing" id="ZWN-7Z-q11"/>
                             <constraint firstItem="M7z-d7-GnN" firstAttribute="baseline" secondItem="4qO-Fe-RWA" secondAttribute="baseline" id="Znb-re-3Uz"/>
                             <constraint firstItem="6ga-1T-9ly" firstAttribute="leading" secondItem="FL1-7e-JUq" secondAttribute="leading" id="bu7-ct-veh"/>
@@ -1031,9 +1039,11 @@
                             <constraint firstItem="RsK-dO-vcR" firstAttribute="centerY" secondItem="AaW-HC-ZSx" secondAttribute="centerY" id="iro-dK-HVr"/>
                             <constraint firstItem="ktO-VZ-RCE" firstAttribute="leading" secondItem="6ga-1T-9ly" secondAttribute="trailing" constant="8" symbolic="YES" id="jNC-Mz-5nM"/>
                             <constraint firstItem="AJ3-cu-c5f" firstAttribute="top" secondItem="XCk-4w-Cy6" secondAttribute="top" id="mgL-JG-yDT"/>
+                            <constraint firstItem="UBE-Oe-Jat" firstAttribute="centerX" secondItem="AaW-HC-ZSx" secondAttribute="centerX" id="moo-9X-h4o"/>
                             <constraint firstItem="N1B-nD-gUu" firstAttribute="top" secondItem="7dF-GM-Y0D" secondAttribute="bottom" constant="15" id="q5N-fu-vVB"/>
                             <constraint firstItem="XCk-4w-Cy6" firstAttribute="leading" secondItem="AJ3-cu-c5f" secondAttribute="trailing" constant="8" symbolic="YES" id="r2R-fX-dsd"/>
                             <constraint firstItem="4qO-Fe-RWA" firstAttribute="top" secondItem="7dF-GM-Y0D" secondAttribute="bottom" constant="44" id="r9L-ct-Q3c"/>
+                            <constraint firstItem="UBE-Oe-Jat" firstAttribute="top" secondItem="AaW-HC-ZSx" secondAttribute="bottom" constant="12" symbolic="YES" id="rHS-14-Afb"/>
                             <constraint firstItem="SFI-Qh-n2D" firstAttribute="top" secondItem="M7z-d7-GnN" secondAttribute="bottom" constant="9" id="sAg-X6-eMv"/>
                             <constraint firstItem="EJZ-Wn-7Tz" firstAttribute="firstBaseline" secondItem="9qE-Q3-fww" secondAttribute="firstBaseline" id="sWK-cr-cDK"/>
                             <constraint firstItem="6ga-1T-9ly" firstAttribute="top" secondItem="ktO-VZ-RCE" secondAttribute="top" id="tVE-lE-QaQ"/>
@@ -1058,6 +1068,7 @@
                         <outlet property="setAppSecretButton" destination="RsK-dO-vcR" id="dir-Oj-riF"/>
                         <outlet property="setEnabledButton" destination="rUG-7Y-zgX" id="GbW-bg-fMF"/>
                         <outlet property="setLogURLButton" destination="AaW-HC-ZSx" id="8f8-Cx-KMz"/>
+                        <outlet property="setUserIDButton" destination="UBE-Oe-Jat" id="9e3-zV-xE7"/>
                         <outlet property="signInButton" destination="rm3-tN-rQO" id="IYi-Aw-fbA"/>
                         <outlet property="signOutButton" destination="9qE-Q3-fww" id="ueX-Zo-hgU"/>
                         <outlet property="startupModeField" destination="QHt-Sf-WnZ" id="CqZ-68-n7c"/>
