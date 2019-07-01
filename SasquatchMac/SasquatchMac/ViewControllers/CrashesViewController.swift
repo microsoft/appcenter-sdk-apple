@@ -12,6 +12,7 @@ class CrashesViewController : NSViewController, NSTableViewDataSource, NSTableVi
   @IBOutlet weak var fileAttachmentLabel: NSTextField!
   @IBOutlet var textAttachmentView: NSTextView!
   @IBOutlet weak var breadCrumbsButton : NSButton?
+  @IBOutlet var clearCrashUserConfirmationButton: NSButton!
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -44,6 +45,21 @@ class CrashesViewController : NSViewController, NSTableViewDataSource, NSTableVi
   @IBAction func setEnabled(sender : NSButton) {
     appCenter.setCrashesEnabled(sender.state == 1)
     sender.state = appCenter.isCrashesEnabled() ? 1 : 0
+  }
+
+  @IBAction func clearCrashUserConfirmation(_ sender: Any) {
+    let alert: NSAlert = NSAlert()
+    alert.messageText = "Clear crash user confirmation?"
+    alert.addButton(withTitle: "OK")
+    alert.addButton(withTitle: "Cancel")
+    alert.alertStyle = NSWarningAlertStyle
+    switch(alert.runModal()) {
+    case NSAlertFirstButtonReturn:
+        UserDefaults.standard.removeObject(forKey: kMSUserConfirmationKey)
+        break
+    default:
+        break
+    }
   }
   
   @IBAction func browseFileAttachment(_ sender: Any) {
