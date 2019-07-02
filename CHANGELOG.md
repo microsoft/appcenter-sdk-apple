@@ -29,7 +29,7 @@ ___
 
 ### App Center
 
-* **[Feature]** Add `AppCenter.isRunningInAppCenterTestCloud` to provide method to check if the application is running in Test Cloud.
+* **[Feature]** Add `isRunningInAppCenterTestCloud` in `MSAppCenter` to provide method to check if the application is running in Test Cloud.
 
 ## Version 2.1.0
 
