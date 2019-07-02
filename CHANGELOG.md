@@ -27,7 +27,7 @@ ___
 
 ## Version 2.2.0 (Under development)
 
-### App Center
+### AppCenter
 
 * **[Feature]** Add `isRunningInAppCenterTestCloud` in `MSAppCenter` to provide method to check if the application is running in Test Cloud.
 
