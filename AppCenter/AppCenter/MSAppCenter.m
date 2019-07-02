@@ -109,7 +109,7 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
 + (BOOL)isRunningInAppCenterTestCloud {
     NSDictionary *environmentVariables = [[NSProcessInfo processInfo] environment];
     NSString *runningInAppCenter = environmentVariables[kMSRunningInAppCenter];
-    if (runningInAppCenter == kMSTrue_Environment_String) {
+    if ([runningInAppCenter isEqualToString:kMSTrueEnvironmentString]) {
         return YES;
     }
     return NO;

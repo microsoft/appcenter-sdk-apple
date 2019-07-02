@@ -78,9 +78,9 @@
 + (BOOL)isConfigured;
 
 /**
- * Check whether app is running in App Center Test.
+ * Check whether app is running in App Center Test Cloud.
  *
- * @return true if running in App Center Test, false otherwise.
+ * @return true if running in App Center Test Cloud, false otherwise.
  */
 + (BOOL)isRunningInAppCenterTestCloud;
 

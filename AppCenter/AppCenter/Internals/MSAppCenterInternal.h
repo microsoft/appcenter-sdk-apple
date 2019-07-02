@@ -32,7 +32,7 @@ static NSString *const kMSRunningInAppCenter = @"RUNNING_IN_APP_CENTER";
 /**
  * A string value for environment variables denoting `true`.
  */
-static NSString *const kMSTrue_Environment_String = @"1";
+static NSString *const kMSTrueEnvironmentString = @"1";
 
 @interface MSAppCenter ()
 
