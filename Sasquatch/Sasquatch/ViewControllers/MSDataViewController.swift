@@ -89,7 +89,7 @@ class MSDataViewController: UIViewController, UITableViewDelegate, UITableViewDa
   }
   
   func loadMore() {
-    if (!loadMoreStatus && self.allDocuments.hasNextPage()) {
+    if (!loadMoreStatus && self.allDocuments.hasNextPage()){
       self.loadMoreStatus = true
       DispatchQueue.global().async() {
         self.allDocuments.nextPage(completionHandler: { page in
@@ -242,6 +242,7 @@ class MSDataViewController: UIViewController, UITableViewDelegate, UITableViewDa
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     let documentDetailsController = segue.destination as! MSDocumentDetailsViewController
     if segue.identifier == "ShowDocumentDetails" {
+        documentDetailsController.appCenter = appCenter
       if(sender as? String == "") {
         documentDetailsController.documentType = DocumentType.User.rawValue
       } else {
