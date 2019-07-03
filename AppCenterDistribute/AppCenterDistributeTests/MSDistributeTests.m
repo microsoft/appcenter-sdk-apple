@@ -1362,6 +1362,7 @@ static NSURL *sfURL;
   XCTAssertNil(self.sut.authenticationSession);
 
   // Clear
+  [appCenterMock stopMocking];
   [notificationCenterMock stopMocking];
 }
 
