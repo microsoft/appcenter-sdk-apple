@@ -241,8 +241,6 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate, NSTextVie
       UserDefaults.standard.set(text, forKey: kMSUserIdKey)
       appCenter.setUserId(text)
       break
-    case NSAlertThirdButtonReturn:
-      break
     default:
       break
     }
@@ -257,7 +255,7 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate, NSTextVie
     return startUpModeForCurrentSession == StartupMode.OneCollector.rawValue ? "" : (UserDefaults.standard.object(forKey: kMSAppSecret) ?? appCenter.appSecret()) as! String
   }
 
-  func showUserId () -> String {
+  func showUserId() -> String {
     let userId = UserDefaults.standard.string(forKey: kMSUserIdKey) ?? "Unset"
     if (userId.isEmpty) {
       return "Empty string"
