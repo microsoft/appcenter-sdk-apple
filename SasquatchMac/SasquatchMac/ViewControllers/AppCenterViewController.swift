@@ -39,6 +39,7 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate, NSTextVie
 
   @IBOutlet weak var setLogURLButton: NSButton!
   @IBOutlet weak var setAppSecretButton: NSButton!
+  @IBOutlet weak var setUserIDButton: NSButton!
   
   private var dbFileDescriptor: CInt = 0
   private var dbFileSource: DispatchSourceProtocol?
@@ -59,7 +60,7 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate, NSTextVie
     installIdLabel?.stringValue = appCenter.installId()
     appSecretLabel?.stringValue = UserDefaults.standard.string(forKey: kMSAppSecret) ?? appCenter.appSecret()
     logURLLabel?.stringValue = (UserDefaults.standard.object(forKey: kMSLogUrl) ?? prodLogUrl()) as! String
-    userIdLabel?.stringValue = UserDefaults.standard.string(forKey: kMSUserIdKey) ?? ""
+    userIdLabel?.stringValue = showUserId()
     setEnabledButton?.state = appCenter.isAppCenterEnabled() ? NSControlStateValueOn : NSControlStateValueOff
   
     deviceIdField?.stringValue = AppCenterViewController.getDeviceIdentifier()!
@@ -92,13 +93,6 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate, NSTextVie
   @IBAction func setEnabled(sender : NSButton) {
     appCenter.setAppCenterEnabled(sender.state == NSControlStateValueOn)
     sender.state = appCenter.isAppCenterEnabled() ? NSControlStateValueOn : NSControlStateValueOff
-  }
-
-  @IBAction func userIdChanged(sender: NSTextField) {
-    let text = sender.stringValue
-    let userId = !text.isEmpty ? text : nil
-    UserDefaults.standard.set(userId, forKey: kMSUserIdKey)
-    appCenter.setUserId(userId)
   }
 
   @IBAction func overrideCountryCode(_ sender: NSButton) {
@@ -223,11 +217,49 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate, NSTextVie
     appSecretLabel?.stringValue = (UserDefaults.standard.object(forKey: kMSAppSecret) ?? appCenter.appSecret()) as! String
   }
 
+  @IBAction func setUserID(_ sender: NSButton) {
+    let alert: NSAlert = NSAlert()
+    alert.messageText = "User ID"
+    alert.addButton(withTitle: "Reset")
+    alert.addButton(withTitle: "Save")
+    alert.addButton(withTitle: "Cancel")
+    let scrollView: NSScrollView = NSScrollView(frame: NSRect(x: 0, y: 0, width: 300, height: 40))
+    let textView: NSTextView = NSTextView(frame: NSRect(x: 0, y: 0, width: 290, height: 40))
+    textView.string = UserDefaults.standard.string(forKey: kMSUserIdKey) ?? ""
+    scrollView.documentView = textView
+    scrollView.hasVerticalScroller = true
+    scrollView.contentView.scroll(NSPoint(x: 0, y: textView.frame.size.height))
+    alert.accessoryView = scrollView
+    alert.alertStyle = NSWarningAlertStyle
+    switch(alert.runModal()) {
+    case NSAlertFirstButtonReturn:
+      UserDefaults.standard.removeObject(forKey: kMSUserIdKey)
+      appCenter.setUserId(nil)
+      break
+    case NSAlertSecondButtonReturn:
+      let text = textView.string ?? ""
+      UserDefaults.standard.set(text, forKey: kMSUserIdKey)
+      appCenter.setUserId(text)
+      break
+    default:
+      break
+    }
+    userIdLabel?.stringValue = showUserId()
+  }
+
   private func prodLogUrl() -> String {
     return startUpModeForCurrentSession == StartupMode.OneCollector.rawValue ? ocProdLogUrl : acProdLogUrl
   }
   
   private func prodAppSecret() -> String {
     return startUpModeForCurrentSession == StartupMode.OneCollector.rawValue ? "" : (UserDefaults.standard.object(forKey: kMSAppSecret) ?? appCenter.appSecret()) as! String
+  }
+
+  func showUserId() -> String {
+    let userId = UserDefaults.standard.string(forKey: kMSUserIdKey) ?? "Unset"
+    if (userId.isEmpty) {
+      return "Empty string"
+    }
+    return userId
   }
 }
