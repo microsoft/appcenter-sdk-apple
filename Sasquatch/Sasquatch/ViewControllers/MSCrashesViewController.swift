@@ -48,7 +48,7 @@ class MSCrashesViewController: UITableViewController, UIImagePickerControllerDel
     if isFirst {
       return 1
     } else if isSecond {
-      return 3
+      return 4
     } else {
       return categories[categoryForSection(section - 2)]!.count
     }
@@ -115,6 +115,9 @@ class MSCrashesViewController: UITableViewController, UIImagePickerControllerDel
             })
           }
         }
+      } else if (indexPath.row == 3) {
+        cell.textLabel?.text = "Clear crash user confirmation"
+        cell.detailTextLabel?.text = ""
       }
     } else {
       let crash = crashByIndexPath(indexPath)
@@ -163,6 +166,18 @@ class MSCrashesViewController: UITableViewController, UIImagePickerControllerDel
             self.present(picker, animated: true)
           }
         })
+      } else if indexPath.row == 3 {
+        let alertController = UIAlertController(title: "Clear crash user confirmation?",
+                                                message: nil,
+                                                preferredStyle:.alert)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let clearAction = UIAlertAction(title: "OK", style: .default, handler: {
+            (_ action : UIAlertAction) -> Void in
+            UserDefaults.standard.removeObject(forKey: kMSUserConfirmationKey)
+        })
+        alertController.addAction(cancelAction)
+        alertController.addAction(clearAction)
+        self.present(alertController, animated: true, completion: nil)
       }
     } else {
       
