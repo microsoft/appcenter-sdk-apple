@@ -81,6 +81,10 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                                selector:@selector(applicationWillEnterForeground)
                                    name:UIApplicationWillEnterForegroundNotification
                                  object:nil];
+    [MS_NOTIFICATION_CENTER addObserver:self
+                               selector:@selector(applicationDidEnterBackground)
+                                   name:UIApplicationDidEnterBackgroundNotification
+                                 object:nil];
 
     // Init the distribute info tracker.
     _distributeInfoTracker = [[MSDistributeInfoTracker alloc] init];
@@ -577,9 +581,14 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     SEL initSelector = NSSelectorFromString(@"initWithURL:callbackURLScheme:completionHandler:");
 
     // The completion block that we need to invoke.
+    __weak typeof(self) weakSelf = self;
     typedef void (^MSCompletionBlockForAuthSession)(NSURL *callbackUrl, NSError *error);
     MSCompletionBlockForAuthSession authCompletionBlock = ^(NSURL *callbackUrl, NSError *error) {
-      self.authenticationSession = nil;
+      typeof(self) strongSelf = weakSelf;
+      if (!strongSelf) {
+        return;
+      }
+      strongSelf.authenticationSession = nil;
       if (error != nil) {
         MSLogDebug([MSDistribute logTag], @"Called %@ with error: %@", callbackUrl, error.localizedDescription);
       }
@@ -589,7 +598,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
         MSLogError([MSDistribute logTag], @"Authentication session was cancelled by user or failed.");
       }
       if (callbackUrl) {
-        [self openURL:callbackUrl];
+        [strongSelf openURL:callbackUrl];
       }
     };
 
@@ -609,7 +618,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     typedef BOOL (*MSStartSFAuthenticationSession)(id, SEL);
     MSStartSFAuthenticationSession startMethodCall;
     startMethodCall = (MSStartSFAuthenticationSession)[session methodForSelector:startSelector];
-    BOOL success = startMethodCall(session, @selector(start));
+    BOOL success = startMethodCall(session, startSelector);
     if (success) {
       MSLogDebug([MSDistribute logTag], @"Authentication Session Started, showing confirmation dialog");
     }
@@ -1110,6 +1119,10 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   if (self.canBeUsed && self.isEnabled && ![MS_USER_DEFAULTS objectForKey:kMSUpdateTokenRequestIdKey]) {
     [self startUpdate];
   }
+}
+
+- (void)applicationDidEnterBackground {
+  self.authenticationSession = nil;
 }
 
 - (void)dealloc {
