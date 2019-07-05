@@ -20,6 +20,11 @@
 * **[Feature]** Add support for offline list of documents.
 * **[Feature]** Change the default time-to-live (TTL) from 1 day to infinite (never expire).
 * **[Feature]** Add `readOptions` parameter to the `list` API.
+
+### AppCenterDistribute
+
+* **[Fix]** Fix crash when an application was minimized on trying to reinstall after setup failure. 
+
 ___
 
 ## Version 2.2.0 (Under development)
