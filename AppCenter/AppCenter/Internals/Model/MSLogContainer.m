@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 #import "MSAppCenterInternal.h"
+#import "MSLog.h"
 #import "MSLogger.h"
 #import "MSLogContainer.h"
 #import "MSSerializableObject.h"
