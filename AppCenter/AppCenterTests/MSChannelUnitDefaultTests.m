@@ -109,7 +109,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   [self initChannelEndJobExpectation];
   id dateMock = OCMClassMock([NSDate class]);
   NSObject *object = [NSObject new];
-  NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:3000];
+  __block NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:3000];
   OCMStub([dateMock date]).andReturn(date);
 
   // Configure channel with custom interval.
