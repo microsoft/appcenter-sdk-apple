@@ -42,7 +42,11 @@ static NSString *const kMSDocumentKey = @"document";
 #pragma mark Interface
 
 + (NSDictionary *)documentPayloadWithDocumentId:(NSString *)documentId partition:(NSString *)partition document:(NSDictionary *)document {
-  return @{kMSDocument : document, kMSPartitionKey : partition, kMSIdKey : documentId};
+  if (document) {
+    return @{kMSDocument : document, kMSPartitionKey : partition, kMSIdKey : documentId};
+  } else {
+    return @{kMSDocument : [NSNull null], kMSPartitionKey : partition, kMSIdKey : documentId};
+  }
 }
 
 + (MSDocumentWrapper *)documentWrapperFromData:(nullable NSData *)data
@@ -122,11 +126,10 @@ static NSString *const kMSDocumentKey = @"document";
   if (![MSDocumentUtils isReferenceDictionaryWithKey:object key:kMSDocumentIdKey keyType:[NSString class]] ||
       ![MSDocumentUtils isReferenceDictionaryWithKey:object key:kMSDocumentTimestampKey keyType:[NSNumber class]] ||
       ![MSDocumentUtils isReferenceDictionaryWithKey:object key:kMSDocumentEtagKey keyType:[NSString class]] ||
-      ![MSDocumentUtils isReferenceDictionaryWithKey:object key:kMSPartitionKey keyType:[NSString class]] ||
-      ![MSDocumentUtils isReferenceDictionaryWithKey:object key:kMSDocumentKey keyType:[NSDictionary class]]) {
+      ![MSDocumentUtils isReferenceDictionaryWithKey:object key:kMSPartitionKey keyType:[NSString class]]) {
 
     // Prepare and return error.
-    NSString *errorMessage = @"Can't deserialize document (missing system properties, partition key, or document)";
+    NSString *errorMessage = @"Can't deserialize document (missing system properties or partition key)";
     MSDataError *dataError = [[MSDataError alloc] initWithErrorCode:MSACDataErrorJSONSerializationFailed
                                                          innerError:nil
                                                             message:errorMessage];
@@ -158,7 +161,10 @@ static NSString *const kMSDocumentKey = @"document";
                                      fromDeviceCache:(BOOL)fromDeviceCache {
   MSDataError *dataError;
   id<MSSerializableDocument> deserializedValue;
-  NSString *jsonValue = [self jsonValueForDictionary:dictionary dataError:&dataError];
+  NSString *jsonValue;
+  if (dictionary && ![[NSNull null] isEqual:dictionary]) {
+    jsonValue = [self jsonValueForDictionary:dictionary dataError:&dataError];
+  }
   if (jsonValue) {
 
     // Deserialize document.
