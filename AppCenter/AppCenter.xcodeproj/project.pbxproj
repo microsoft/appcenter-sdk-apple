@@ -1477,6 +1477,7 @@
 			children = (
 				3844FF1B1E8C2716003E9194 /* MSDevice.h */,
 				3844FF1A1E8C2716003E9194 /* MSDevice.m */,
+				6E3E2C9D1D35701000B1EE50 /* MSLog.h */,
 				3844FF191E8C2716003E9194 /* MSLogWithProperties.h */,
 				3844FF1C1E8C2716003E9194 /* MSAbstractLog.h */,
 				B2CD74551F22BB710070E7DF /* MSWrapperSdk.h */,
@@ -1530,6 +1531,8 @@
 				6E0401551D1C9AAA0051BCFA /* MSAppCenter.h */,
 				6E0401561D1C9AAA0051BCFA /* MSAppCenter.m */,
 				3889932E1E29829700C27B36 /* MSAppCenterErrors.h */,
+				3542741A2012AF0500BE766F /* MSChannelGroupProtocol.h */,
+				354274162012AE4000BE766F /* MSChannelProtocol.h */,
 				6E04013F1D1C99AC0051BCFA /* MSConstants.h */,
 				04B525B82194D44E00FA37FD /* MSConstants+Flags.h */,
 				F803BBF11E8E3677004B1E7A /* MSCustomProperties.h */,
@@ -1658,7 +1661,6 @@
 				F803BBFA1E8E39AB004B1E7A /* MSCustomPropertiesLog.h */,
 				F803BBF81E8E3989004B1E7A /* MSCustomPropertiesLog.m */,
 				B2C3C1831DB83A3E00CB83F7 /* MSDeviceInternal.h */,
-				6E3E2C9D1D35701000B1EE50 /* MSLog.h */,
 				6E171B581D234717000DC480 /* MSLogContainer.h */,
 				6E171B591D234717000DC480 /* MSLogContainer.m */,
 				E8010E671D2DD4EF0035196F /* MSLogWithProperties.m */,
@@ -1908,8 +1910,6 @@
 				E79750E620A4F41400E3EAE8 /* MSOneCollectorChannelDelegatePrivate.h */,
 				805275C020A1A5F400704115 /* MSOneCollectorChannelDelegate.m */,
 				354274192012AEFC00BE766F /* MSChannelUnitProtocol.h */,
-				3542741A2012AF0500BE766F /* MSChannelGroupProtocol.h */,
-				354274162012AE4000BE766F /* MSChannelProtocol.h */,
 				3814A8E120BF5E790093AF45 /* MSCSEpochAndSeq.h */,
 				3814A8E520BF5FA00093AF45 /* MSCSEpochAndSeq.m */,
 			);
