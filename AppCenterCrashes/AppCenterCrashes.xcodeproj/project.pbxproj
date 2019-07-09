@@ -633,7 +633,7 @@
 		B2DCB1351DAC03C400120F87 /* MSCrashesDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSCrashesDelegate.h; sourceTree = "<group>"; };
 		B2F120D41D6546740060DED7 /* MSErrorAttachmentLogTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSErrorAttachmentLogTests.m; sourceTree = "<group>"; };
 		B2F120D61D65469D0060DED7 /* MSErrorReportTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSErrorReportTests.m; sourceTree = "<group>"; };
-		B2F120DE1D657CF10060DED7 /* MSErrorReport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSErrorReport.h; path = Internals/Model/MSErrorReport.h; sourceTree = "<group>"; };
+		B2F120DE1D657CF10060DED7 /* MSErrorReport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSErrorReport.h; sourceTree = "<group>"; };
 		B2F120DF1D657CF10060DED7 /* MSErrorReport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSErrorReport.m; sourceTree = "<group>"; };
 		B2F120E61D657F4F0060DED7 /* MSErrorReportPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSErrorReportPrivate.h; sourceTree = "<group>"; };
 		B2F375071D41AD5100F07032 /* MSErrorLogFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSErrorLogFormatter.h; sourceTree = "<group>"; };
@@ -943,7 +943,6 @@
 				6E04014F1D1C9A4F0051BCFA /* MSCrashes.h */,
 				6E0401501D1C9A4F0051BCFA /* MSCrashes.mm */,
 				B2DCB1351DAC03C400120F87 /* MSCrashesDelegate.h */,
-				B2F120DE1D657CF10060DED7 /* MSErrorReport.h */,
 				380609CC1FA2848D00211C22 /* WrapperSDKUtilities */,
 				6E0401511D1C9A4F0051BCFA /* Internals */,
 				D38024001E7125F500466558 /* Model */,
@@ -1057,7 +1056,6 @@
 				6E7D5C6A1D3E9332009EC9AC /* MSAppleErrorLog.m */,
 				922446821F621D4500E4034A /* MSHandledErrorLog.h */,
 				922446831F621F3A00E4034A /* MSHandledErrorLog.m */,
-				B2F120DF1D657CF10060DED7 /* MSErrorReport.m */,
 				B2F120E61D657F4F0060DED7 /* MSErrorReportPrivate.h */,
 				6E7D5C711D3E9381009EC9AC /* MSThread.h */,
 				6E7D5C721D3E9381009EC9AC /* MSThread.m */,
@@ -1127,6 +1125,8 @@
 				8024743A1EAE077800AEC284 /* MSErrorAttachmentLog.m */,
 				3858A2171E93F37E00535A69 /* MSErrorAttachmentLog+Utility.h */,
 				3858A2191E93F3B400535A69 /* MSErrorAttachmentLog+Utility.m */,
+				B2F120DE1D657CF10060DED7 /* MSErrorReport.h */,
+				B2F120DF1D657CF10060DED7 /* MSErrorReport.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";

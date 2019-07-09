@@ -7,6 +7,7 @@
 #import "MSDataErrors.h"
 #import "MSDictionaryDocument.h"
 #import "MSDocumentUtils.h"
+#import "MSDocumentWrapperInternal.h"
 #import "MSTestFrameworks.h"
 #import "MSUtility+Date.h"
 #import "NSObject+MSTestFixture.h"
@@ -160,6 +161,58 @@
   XCTAssertEqual([document documentId], @"document-id");
 }
 
+- (void)testDocumentWrapperFromDictionaryWithNull {
+
+  // If
+  NSMutableDictionary *wrapperDictionary = [NSMutableDictionary new];
+  wrapperDictionary[@"id"] = @"document-id";
+  wrapperDictionary[@"_ts"] = @0;
+  wrapperDictionary[@"_etag"] = @"etag";
+  wrapperDictionary[@"PartitionKey"] = @"readonly";
+  wrapperDictionary[@"document"] = nil;
+
+  // When
+  MSDocumentWrapper *wrapper = [MSDocumentUtils documentWrapperFromDictionary:wrapperDictionary
+                                                                 documentType:[NSString class]
+                                                              fromDeviceCache:NO];
+
+  // Then
+  XCTAssertNotNil(wrapper);
+  XCTAssertNil([wrapper error]);
+  XCTAssertNil([wrapper jsonValue]);
+  XCTAssertNil([wrapper deserializedValue]);
+  XCTAssertNotNil([wrapper partition]);
+  XCTAssertNotNil([wrapper documentId]);
+  XCTAssertNotNil([wrapper eTag]);
+  XCTAssertNotNil([wrapper lastUpdatedDate]);
+}
+
+- (void)testDocumentWrapperFromDictionaryWithNSNull {
+
+  // If
+  NSMutableDictionary *wrapperDictionary = [NSMutableDictionary new];
+  wrapperDictionary[@"id"] = @"document-id";
+  wrapperDictionary[@"_ts"] = @0;
+  wrapperDictionary[@"_etag"] = @"etag";
+  wrapperDictionary[@"PartitionKey"] = @"readonly";
+  wrapperDictionary[@"document"] = [NSNull null];
+
+  // When
+  MSDocumentWrapper *wrapper = [MSDocumentUtils documentWrapperFromDictionary:wrapperDictionary
+                                                                 documentType:[NSString class]
+                                                              fromDeviceCache:NO];
+
+  // Then
+  XCTAssertNotNil(wrapper);
+  XCTAssertNil([wrapper error]);
+  XCTAssertNil([wrapper jsonValue]);
+  XCTAssertNil([wrapper deserializedValue]);
+  XCTAssertNotNil([wrapper partition]);
+  XCTAssertNotNil([wrapper documentId]);
+  XCTAssertNotNil([wrapper eTag]);
+  XCTAssertNotNil([wrapper lastUpdatedDate]);
+}
+
 - (void)testDocumentWrapperFromDictionaryWithDataError {
 
   // If
@@ -214,6 +267,32 @@
   XCTAssertNil([document deserializedValue]);
   XCTAssertNil([document eTag]);
   XCTAssertNil([document lastUpdatedDate]);
+  XCTAssertEqualObjects([document partition], kMSDataAppDocumentsPartition);
+  XCTAssertNil([document jsonValue]);
+  XCTAssertFalse([document fromDeviceCache]);
+}
+
+- (void)testDocumentWrapperFromDataNullDocument {
+
+  // If
+  NSData *data = [self jsonFixture:@"nullTestAppDocument"];
+  NSString *documentId = @"nullDoc";
+  XCTAssertNotNil(data);
+
+  // When
+  MSDocumentWrapper *document = [MSDocumentUtils documentWrapperFromData:data
+                                                            documentType:[NSString class]
+                                                               partition:kMSDataAppDocumentsPartition
+                                                              documentId:documentId
+                                                         fromDeviceCache:NO];
+
+  // Then
+  XCTAssertNotNil(document);
+  XCTAssertNil([document error]);
+  XCTAssertEqualObjects([document documentId], documentId);
+  XCTAssertNil([document deserializedValue]);
+  XCTAssertNotNil([document eTag]);
+  XCTAssertNotNil([document lastUpdatedDate]);
   XCTAssertEqualObjects([document partition], kMSDataAppDocumentsPartition);
   XCTAssertNil([document jsonValue]);
   XCTAssertFalse([document fromDeviceCache]);
@@ -319,6 +398,17 @@
   XCTAssertEqualObjects([document partition], kMSDataAppDocumentsPartition);
   XCTAssertNotNil([document jsonValue]);
   XCTAssertTrue([document fromDeviceCache]);
+}
+
+- (void)testDocumentPayloadWithDocumentIdNull {
+
+  // If
+  NSDictionary *payload = [MSDocumentUtils documentPayloadWithDocumentId:@"nullDoc" partition:@"partition" document:nil];
+
+  // Then
+  NSData *data = [NSJSONSerialization dataWithJSONObject:payload options:0 error:nil];
+  NSString *dataString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+  XCTAssertTrue([dataString containsString:@"\"document\":null"]);
 }
 
 - (void)testIsSerializableDocument {

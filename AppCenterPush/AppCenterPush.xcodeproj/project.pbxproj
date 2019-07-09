@@ -187,9 +187,9 @@
 		046964371F2A56DF00F9D31F /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = ../Vendor/macOS/OCMock/OCMock.framework; sourceTree = "<group>"; };
 		0469643B1F2A570000F9D31F /* OCHamcrest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrest.framework; path = ../Vendor/macOS/OCHamcrest/OCHamcrest.framework; sourceTree = "<group>"; };
 		0469643F1F2A572800F9D31F /* libAppCenter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAppCenter.a; path = ../AppCenter/build/Debug/libAppCenter.a; sourceTree = "<group>"; };
-		047919B21EBA3AC5004834A6 /* MSPushNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSPushNotification.h; path = Model/MSPushNotification.h; sourceTree = "<group>"; };
+		047919B21EBA3AC5004834A6 /* MSPushNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSPushNotification.h; sourceTree = "<group>"; };
 		047919B41EBA3B1B004834A6 /* MSPushDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSPushDelegate.h; sourceTree = "<group>"; };
-		047919B61EBA42F0004834A6 /* MSPushNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSPushNotification.m; path = Model/MSPushNotification.m; sourceTree = "<group>"; };
+		047919B61EBA42F0004834A6 /* MSPushNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSPushNotification.m; sourceTree = "<group>"; };
 		047919B81EBA4C44004834A6 /* MSPushNotificationInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSPushNotificationInternal.h; path = Model/MSPushNotificationInternal.h; sourceTree = "<group>"; };
 		04849D781E9E913A0093ECA6 /* MSPushLogTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSPushLogTests.m; sourceTree = "<group>"; };
 		049BC81E1ECE333700FB6719 /* iOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = iOS.xcconfig; sourceTree = "<group>"; };
@@ -330,6 +330,15 @@
 			name = iOS;
 			sourceTree = "<group>";
 		};
+		242A6C5C22D3F30F00CB02C7 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				047919B21EBA3AC5004834A6 /* MSPushNotification.h */,
+				047919B61EBA42F0004834A6 /* MSPushNotification.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		3862825F21826BFF0023DCCC /* DelegateForwarder */ = {
 			isa = PBXGroup;
 			children = (
@@ -372,6 +381,7 @@
 				D3AD5F011E5C7F68001627AB /* MSPush.m */,
 				047919B41EBA3B1B004834A6 /* MSPushDelegate.h */,
 				D3AD5F071E5C8136001627AB /* Internal */,
+				242A6C5C22D3F30F00CB02C7 /* Model */,
 				D3AD5F031E5C7FC9001627AB /* Support */,
 			);
 			path = AppCenterPush;
@@ -459,9 +469,7 @@
 			children = (
 				D3AD5F6A1E5D7464001627AB /* MSPushLog.h */,
 				D3AD5F6B1E5D7464001627AB /* MSPushLog.m */,
-				047919B21EBA3AC5004834A6 /* MSPushNotification.h */,
 				047919B81EBA4C44004834A6 /* MSPushNotificationInternal.h */,
-				047919B61EBA42F0004834A6 /* MSPushNotification.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
