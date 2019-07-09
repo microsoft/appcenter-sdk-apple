@@ -515,10 +515,10 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 }
 
 - (void)testIsRunningInAppCenterTestCloudWithEnvironmentVariable {
-    const char *isRunningVariableCstr = [kMSRunningInAppCenter UTF8String];
-    const char *isRunningCstr = [kMSTrueEnvironmentString UTF8String];
 
     // If
+    const char *isRunningVariableCstr = [kMSRunningInAppCenter UTF8String];
+    const char *isRunningCstr = [kMSTrueEnvironmentString UTF8String];
     setenv(isRunningVariableCstr, isRunningCstr, 1);
 
     // Then
