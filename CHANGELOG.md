@@ -5,6 +5,7 @@
 ### AppCenter
 
 * **[Feature]** Now supports tvOS.
+* **[Feature]** Add `isRunningInAppCenterTestCloud` in `MSAppCenter` to provide method to check if the application is running in Test Cloud.
 * **[Fix]** Drop and recreate the database when it is corrupted.
 
 ### AppCenterAnalytics
@@ -26,12 +27,6 @@
 * **[Fix]** Fix crash when an application was minimized on trying to reinstall after setup failure. 
 
 ___
-
-## Version 2.2.0 (Under development)
-
-### AppCenter
-
-* **[Feature]** Add `isRunningInAppCenterTestCloud` in `MSAppCenter` to provide method to check if the application is running in Test Cloud.
 
 ## Version 2.1.0
 
