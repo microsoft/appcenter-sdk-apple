@@ -178,12 +178,16 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
           guard (documentContent?.error) != nil else {
             cell.textLabel?.numberOfLines = 0;
             cell.textLabel?.lineBreakMode = NSLineBreakMode.byWordWrapping;
-            let dictionary = documentContent?.deserializedValue.serializeToDictionary() ?? [:]
-            do {
-              let jsonData = try String(data: JSONSerialization.data(withJSONObject: dictionary, options: .prettyPrinted), encoding: String.Encoding.utf8)
-              cellText = "Document content: \(jsonData ?? "unknown")"
-            } catch {
-              cellText = "Document content could not be deserialized."
+            if (documentContent != nil && documentContent?.deserializedValue != nil) {
+                let dictionary = documentContent!.deserializedValue.serializeToDictionary()
+                do {
+                    let jsonData = try String(data: JSONSerialization.data(withJSONObject: dictionary, options: .prettyPrinted), encoding: String.Encoding.utf8)
+                    cellText = "Document content: \(jsonData ?? "unknown")"
+                } catch {
+                    cellText = "Document content could not be deserialized."
+                }
+            } else {
+                cellText = "Document content: null"
             }
             break
           }
