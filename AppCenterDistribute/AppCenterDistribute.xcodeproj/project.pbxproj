@@ -339,9 +339,7 @@
 			children = (
 				BA6820A043C816916AF34A04 /* MSErrorDetails.h */,
 				BA6826E3C58372A269A6B43A /* MSErrorDetails.m */,
-				048BB2FC1E60A40D009D92C2 /* MSReleaseDetails.h */,
 				047D137E1EAFF87500D699BA /* MSReleaseDetailsPrivate.h */,
-				048BB2FD1E60A40D009D92C2 /* MSReleaseDetails.m */,
 				048BB2FF1E60A40D009D92C2 /* MSDistributionGroup.h */,
 				048BB3001E60A40D009D92C2 /* MSDistributionGroup.m */,
 				9E4ADB15203D37FB00172256 /* MSDistributionStartSessionLog.m */,
@@ -417,6 +415,7 @@
 				0471B8981E4547480022F951 /* MSDistribute.m */,
 				046EF5881EAEB524002F6436 /* MSDistributeDelegate.h */,
 				04690E841E4E39850056B916 /* Internals */,
+				242A6C5B22D3F15600CB02C7 /* Model */,
 				0471B5F31E45466F0022F951 /* Support */,
 			);
 			path = AppCenterDistribute;
@@ -455,6 +454,15 @@
 				F8BEA3BD1FBB08A900D4DE37 /* OHHTTPStubs */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		242A6C5B22D3F15600CB02C7 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				048BB2FC1E60A40D009D92C2 /* MSReleaseDetails.h */,
+				048BB2FD1E60A40D009D92C2 /* MSReleaseDetails.m */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		380304321E7B007E006A55FB /* OCMock */ = {

@@ -1,27 +1,29 @@
 # App Center SDK for iOS, macOS and tvOS Change Log
 
-## Version 2.2.0 (Under development)
+## Version 2.2.0
 
-### AppCenter
+### App Center
 
 * **[Feature]** Now supports tvOS.
+* **[Feature]** Add `isRunningInAppCenterTestCloud` in `MSAppCenter` to provide method to check if the application is running in Test Cloud.
 * **[Fix]** Drop and recreate the database when it is corrupted.
 
-### AppCenterAnalytics
+### App Center Analytics
 
 * **[Feature]** Now supports tvOS.
 
-### AppCenterCrashes
+### App Center Crashes
 
 * **[Feature]** Now supports tvOS.
 
-### AppCenterData
+### App Center Data
 
 * **[Feature]** Add support for offline list of documents.
 * **[Feature]** Change the default time-to-live (TTL) from 1 day to infinite (never expire).
 * **[Feature]** Add `readOptions` parameter to the `list` API.
+* **[Feature]** Serialize `nil` and `NSNull` document values.
 
-### AppCenterDistribute
+### App Center Distribute
 
 * **[Fix]** Fix crash when an application was minimized on trying to reinstall after setup failure. 
 
@@ -29,23 +31,23 @@ ___
 
 ## Version 2.1.0
 
-### AppCenter
+### App Center
 
 * **[Fix]** Remove Keychain permission pop-up on macOS.
 * **[Fix]** Improve encryption security.
 
-### AppCenterAnalytics
+### App Center Analytics
 
 * **[Feature]** Support setting latency of sending events via `[MSAnalytics setTransmissionInterval:]`.
 
-### AppCenterAuth
+### App Center Auth
 
 * **[Feature]** Expose the ID Token and Access Token JWTs in the `MSUserInformation` object passed to the sign in callback.
 * **[Fix]** Fix changing signing status may cause logs (e.g., events) to be delayed.
 * **[Fix]** Validate custom URL scheme before starting Auth and log an error message when it is invalid.
 * **[Fix]** Fix rare condition where a user is prompted again for their credentials instead of refreshing the token silently.
 
-### AppCenterData
+### App Center Data
 
 * **[Fix]** Fix an issue where invalid characters in the document ID are accepted at creation time but causing errors while trying to read or delete the document. The characters are `#`, `\`, `/`, `?`, and all whitespaces.
 
@@ -55,24 +57,24 @@ ___
 
 Version 2.0.1 of the App Center SDK includes two new modules: Auth and Data. This version has a **breaking change**, it only supports Xcode 10.0.0+.
 
-### AppCenterAuth
+### App Center Auth
 
 App Center Auth is a cloud-based identity management service that enables you to authenticate users and manage their identities. You can also leverage user identities in other App Center services. **iOS only, not available for macOS*.
 
-### AppCenterData
+### App Center Data
 
 The App Center Data service provides functionality enabling developers to persist app data in the cloud in both online and offline scenarios. This enables you to store and manage both user-specific data as well as data shared between users and across platforms. **iOS only, not available for macOS*.
 
-### AppCenterCrashes
+### App Center Crashes
 
 * **[Feature]** After calling `[MSAuth signInWithCompletionHandler:]`, the next crashes are associated with an `accountId` corresponding to the signed in user. This is a different field than the `userId` set by `[MSAppCenter setUserId:]`. Calling `[MSAuth signOut]` stops the `accountId` association for the next crashes.
 * **[Fix]** Print an error and return immediately when calling `[MSCrashes notifyWithUserConfirmation:]` with confirmation handlers not implemented.
 
-### AppCenterDistribute
+### App Center Distribute
 
 * **[Fix]** Starting the application with "Guided Access" enabled blocks the update flow since in-app update is not possible in this mode.
 
-### AppCenterPush
+### App Center Push
 
 * **[Feature]** After calling `[MSAuth signInWithCompletionHandler:]`, the push installation is associated to the signed in user with an `accountId` and can be pushed by using the `accountId` audience. This is a different field than the `userId` set by `[MSAppCenter setUserId:]`. The push installation is also updated on calling `[MSAuth signOut]` to stop the association.
 * **[Fix]** Fix updating push installation when setting the user identifier via  `[MSAppCenter setUserId:]`.
@@ -81,15 +83,15 @@ ___
 
 ## Version 1.14.0
 
-### AppCenter
+### App Center
 
 * **[Fix]** Fix a crash in case decrypting a value failed.
 
-### AppCenterAnalytics
+### App Center Analytics
 
 * **[Feature]** Preparation work for a future change in transmission protocol and endpoint for Analytics data on macOS. There is no impact on your current workflow when using App Center.
 
-### AppCenterPush
+### App Center Push
 
 * **[Fix]** Fix crash on invoking an optional push callback when it isn't implemented in the push delegate.
 
@@ -97,11 +99,11 @@ ___
 
 ## Version 1.13.2
 
-### AppCenter
+### App Center
 
 * **[Fix]** Fix a crash if database query failed.
 
-### AppCenterDistribute
+### App Center Distribute
 
 * **[Fix]** Fix a race condition crash on upgrading the application to newer version.
 
@@ -109,7 +111,7 @@ ___
 
 ## Version 1.13.1
 
-### AppCenter
+### App Center
 
 * **[Fix]** Fix a possible deadlock if the SDK is started from a background thread.
 * **[Feature]** Add class method  `+ [MSAppCenter setCountryCode:]` that allows manually setting the country code on platforms where there is no carrier information available.
@@ -118,11 +120,11 @@ ___
 
 ## Version 1.13.0
 
-### AppCenter
+### App Center
 
 * **[Fix]** Fix issue where the SDK source could not be built in a directory that contains escaped characters (applies to all modules).
 
-### AppCenterAnalytics
+### App Center Analytics
 
 * **[Feature]** Preparation work for a future change in transmission protocol and endpoint for Analytics data. There is no impact on your current workflow when using App Center.
 
@@ -130,7 +132,7 @@ ___
 
 ## Version 1.12.0
 
-### AppCenter
+### App Center
 
 * **[Feature]** Allow users to set userId that applies to crashes, error and push logs. This feature adds an API, but is not yet supported on the App Center backend.
 * **[Fix]** Do not delete old logs when trying to add a log larger than the maximum storage capacity.
@@ -140,19 +142,19 @@ ___
 * **[Fix]** Fix a keychain permission issue on macOS applications.
 * **[Feature]** Add preview support for arm64e CPU architecture.
 
-### AppCenterAnalytics
+### App Center Analytics
 
 * **[Feature]** Add preview support for arm64e CPU architecture.
 
-### AppCenterCrashes
+### App Center Crashes
 
 * **[Feature]** Add preview support for arm64e CPU architecture by using PLCrashReporter 1.2.3-rc1. PLCrashReporter 1.2.3-rc1 is a fork of the official repository and can be found at [https://github.com/Microsoft/PLCrashReporter](https://github.com/Microsoft/PLCrashReporter). It is maintained by the [App Center](https://appcenter.ms) team and based on PLCrashReporter 1.2.1 (commit [fda23306](https://github.com/Microsoft/PLCrashReporter/tree/fda233062b5586f5d01cc527af643168665226c0)) with additional fixes and changes.
 
-### AppCenterDistribute
+### App Center Distribute
 
 * **[Feature]** Add preview support for arm64e CPU architecture.
 
-### AppCenterPush
+### App Center Push
 
 * **[Feature]** Add preview support for arm64e CPU architecture.
 
@@ -160,18 +162,18 @@ ___
 
 ## Version 1.11.0
 
-### AppCenter
+### App Center
 
 * **[Fix]** Fix an issue where concurrent modification of custom properties was not thread safe.
 * **[Fix]** Fix validating and discarding Not a Number (NaN) and infinite double values for custom properties.
 * **[Fix]** Use standard SQL syntax to avoid affecting users with custom SQLite libraries.
 * **[Fix]** Get database page size dynamically to support custom values.
 
-### AppCenterAnalytics
+### App Center Analytics
 
 * **[Feature]** Add new trackEvent APIs that take priority (normal or critical) of event logs. Events tracked with critical flag will take precedence over all other logs except crash logs (when AppCenterCrashes is enabled), and only be dropped if storage is full and must make room for newer critical events or crashes logs.
 
-### AppCenterCrashes
+### App Center Crashes
 
 * **[Fix]** Do not force crash macOS application on uncaught exception. If you need this behavior you can set the special flag yourself:
 
@@ -179,7 +181,7 @@ ___
     [[NSUserDefaults standardUserDefaults] registerDefaults:@{ @"NSApplicationCrashOnExceptions" : @YES }];
     ```
 
-### AppCenterPush
+### App Center Push
 
 * **[Fix]** Fix `push:didReceivePushNotification:` callback not triggered on notification tapped or received in foreground when a `UNUserNotificationCenterDelegate` is set.  If you have implemented this delegate please remove any call to the `MSPush#didReceiveRemoteNotification:` method as it's now handled by the new [User Notification Center Delegate Forwarder](https://docs.microsoft.com/appcenter/sdk/push/ios).
 
@@ -189,7 +191,7 @@ ___
 
 This version contains a bug fix for macOS.
 
-### AppCenterCrashes
+### App Center Crashes
 
 * **[Fix]** Fix a regression that was introduced in 1.10.0 on macOS. It caused crash reports to contain an incomplete list of loaded binary images.
 
@@ -197,23 +199,23 @@ ___
 
 ## Version 1.10.0
 
-### AppCenter
+### App Center
 
 * **[Fix]** Add missing network request error logging.
 * **[Feature]** Add a `setMaxStorageSize` API which allows setting a maximum size limit on the local SQLite storage.
 
-### AppCenterAnalytics
+### App Center Analytics
 
 * **[Feature]** Add `pause`/`resume` APIs which pause/resume sending Analytics logs to App Center.
 * **[Feature]** Adding support for typed properties. Note that these APIs still convert properties back to strings on the App Center backend. More work is needed to store and display typed properties in the App Center portal. Using the new APIs now will enable future scenarios, but for now the behavior will be the same as it is for current event properties.
 * **[Feature]** Preparation work for a future change in transmission protocol and endpoint for Analytics data. There is no impact on your current workflow when using App Center.
 * **[Fix]** Fix an bug where nested custom properties for an event would not pass validation.
 
-### AppCenterCrashes
+### App Center Crashes
 
 * **[Fix]** Fix the list of binary images in crash reports for arm64e-based devices.
 
-### AppCenterDistribute
+### App Center Distribute
 
 * **[Fix]** Fix translation of closing a dialog in Portuguese.
 
@@ -223,15 +225,15 @@ ___
 
 This version contains bug fixes and a feature.
 
-### AppCenter
+### App Center
 
 * **[Fix]** Fix a potential deadlock that can freeze the application launch causing the iOS watchdog to kill the application.
 
-### AppCenterCrashes
+### App Center Crashes
 
 * **[Fix]** The above deadlock was mostly impacting the Crashes module.
 
-### AppCenterAnalytics
+### App Center Analytics
 
 * **[Feature]** Preparation work for a future change in transmission protocol and endpoint for Analytics data. There is no impact on your current workflow when using App Center.
 
@@ -241,12 +243,12 @@ ___
 
 This version contains bug fixes and a feature.
 
-### AppCenterDistribute
+### App Center Distribute
 
 * **[Fix]** Fix in-app update occasional initialization failure caused by deletion of update token/group id on HTTP status code '0'.
 * **[Fix]** Fix Chinese translation of "side-loading".
 
-### AppCenterAnalytics
+### App Center Analytics
 
 * **[Feature]** Preparation work for a future change in transmission protocol and endpoint for Analytics data. There is no impact on your current workflow when using App Center.
 
@@ -256,7 +258,7 @@ ___
 
 This version contains a bug fix.
 
-### AppCenter
+### App Center
 
 * **[Fix]** Fix duplicate symbol errors discovered when using Xamarin wrapper SDK.
 
@@ -266,11 +268,11 @@ ___
 
 This version contains a new feature and an improvement.
 
-### AppCenter
+### App Center
 
 * **[Improvement]** Gzip is used over HTTPS when request size is larger than 1.4KB.
 
-### AppCenterAnalytics
+### App Center Analytics
 
 * **[Feature]** Preparation work for a future change in transmission protocol and endpoint for Analytics data. There is no impact on your current workflow when using App Center.
 
@@ -280,7 +282,7 @@ ___
 
 This version contains bug fixes. 
 
-### AppCenterCrashes
+### App Center Crashes
 
 * **[Fix]** Fix an issue in breadcrumbs feature when events are being tracked on the main thread just before a crash.
 * **[Fix]** Fix an issue with cached logs for breadcrumbs feature which are sometimes not sent during app start.
@@ -291,15 +293,15 @@ ___
 
 This version contains an improvement and bug fixes. Any macOS app with unsent logs prior to the update will discard these logs.
 
-### AppCenter
+### App Center
 
 * **[Fix]** Fix non app store macOS apps were sharing the same DB. 
 
-### AppCenterAnalytics
+### App Center Analytics
 
 * **[Improvement]** Analytics now allows a maximum of 20 properties by event, each property key and value length can be up to 125 characters long.
 
-### AppCenterCrashes
+### App Center Crashes
 
 * **[Fix]** Fix enabling uncaught exception handler when a wrapper SDK is in use. 
 
@@ -309,7 +311,7 @@ ___
 
 This version contains a new feature.
 
-### AppCenterDistribute
+### App Center Distribute
 
 * **[Feature]** Add Session statistics for distribution group.
 
@@ -319,7 +321,7 @@ ___
 
 This version contains a new feature.
 
-### AppCenterDistribute
+### App Center Distribute
 
 * **[Feature]** Add reporting of downloads for in-app update.
 * **[Improvement]** Add distribution group to all logs that are sent.
@@ -330,11 +332,11 @@ ___
 
 This version has a **breaking change** as the SDK now requires iOS 9 or later. It also contains a bug fix and an improvement.
 
-### AppCenter
+### App Center
 
 * **[Improvement]** Successful configuration of the SDK creates a success message in the console with log level INFO instead of ASSERT. Errors during configuration will still show up in the console with the log level ASSERT.
 
-### AppCenterCrashes
+### App Center Crashes
 
 * **[Fix]** Fix an issue where crashes were not reported reliably in some cases when used in Xamarin apps or when apps would take a long time to launch.
 
@@ -344,16 +346,16 @@ ___
 
 This version has a **breaking change** with bug fixes and improvements.
 
-### AppCenter
+### App Center
 
 * **[Fix]** Fix an issue that enables internal services even if App Center was disabled in previous sessions.
 * **[Fix]** Fix an issue not to delete pending logs after maximum retries.
 
-### AppCenterCrashes
+### App Center Crashes
 
 * **[Improvement]** Improve session tracking to get appropriate session information for crashes if an application also uses Analytics.
 
-### AppCenterPush
+### App Center Push
 
 * **[Fix]** Fix "Missing Push Notification Entitlement" warning message after uploading an application to TestFlight and publishing to App Store.
 * **[Improvement]** In previous versions, it was required to add code to `application:didReceiveRemoteNotification:fetchCompletionHandler` callback in your application delegate if you or 3rd party libraries already implemented this callback. This is no longer necessary.
@@ -389,12 +391,12 @@ ___
 
 This version contains a bug fix and improvements.
 
-### AppCenter
+### App Center
 
 * **[Fix]** Fix a locale issue that doesn't properly report system locale if an application doesn't support current language.
 * **[Improvement]** Change log level to make HTTP failures more visible, and add more logs.
 
-### AppCenterDistribute
+### App Center Distribute
 
 * **[Improvement]** Add Portuguese to supported languages, see [this folder](https://github.com/microsoft/appcenter-sdk-apple/tree/develop/AppCenterDistribute/AppCenterDistribute/Resources) for a list of supported languages.
 * **[Improvement]** Users with app versions that still use Mobile Center can directly upgrade to versions that use this version of App Center, without the need to reinstall.
@@ -405,7 +407,7 @@ ___
 
 This version contains a bug fix that is specifically for the App Center SDK for React Native.
 
-### AppCenterCrashes
+### App Center Crashes
 
 * **[Fix]** Fix an issue that impacted the App Center SDK for React Native.
 
@@ -414,24 +416,24 @@ This version contains a bug fix that is specifically for the App Center SDK for 
 ### General Availability (GA) Announcement.
 This version contains **breaking changes** due to the renaming from Mobile Center to App Center. In the unlikely event there was data on the device not sent prior to the update, that data will be discarded. This version introduces macOS support (preview).
 
-### AppCenter
+### App Center
 
 * **[Feature]** Now supports macOS (preview).
 * **[Fix]** Don't send startService log while SDK is disabled.
 
-### AppCenterAnalytics
+### App Center Analytics
 
 * **[Feature]** Now supports macOS (preview).
 
-### AppCenterCrashes
+### App Center Crashes
 
 * **[Feature]** Now supports macOS (preview).
 
-### AppCenterPush
+### App Center Push
 
 * **[Feature]** Now supports macOS (preview).
 
-### AppCenterDistribute
+### App Center Distribute
 
 * **[Fix]** Fix a bug where unrecoverable HTTP error wouldn't popup the reinstall app dialog after an app restart.
 * **[Improvement]** Adding missing translations.
