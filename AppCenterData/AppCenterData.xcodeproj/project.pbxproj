@@ -120,6 +120,8 @@
 		267464FA222F28A300EC1FF3 /* MSBaseOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464EA222F28A300EC1FF3 /* MSBaseOptions.m */; };
 		267464FB222F28A300EC1FF3 /* MSReadOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464EB222F28A300EC1FF3 /* MSReadOptions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		267464FC222F28A300EC1FF3 /* MSWriteOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464EC222F28A300EC1FF3 /* MSWriteOptions.m */; };
+		26BCA8D222D3F5200094C31D /* nullTestAppDocument.json in Resources */ = {isa = PBXBuildFile; fileRef = 26BCA8D122D3F5020094C31D /* nullTestAppDocument.json */; };
+		26BCA8D322D3F5210094C31D /* nullTestAppDocument.json in Resources */ = {isa = PBXBuildFile; fileRef = 26BCA8D122D3F5020094C31D /* nullTestAppDocument.json */; };
 		26F4B0EA2267DFC9006381D0 /* invalidTestAppDocument.json in Resources */ = {isa = PBXBuildFile; fileRef = 26F4B0E92267DF99006381D0 /* invalidTestAppDocument.json */; };
 		26F4B0EB2267DFCC006381D0 /* invalidTestAppDocument.json in Resources */ = {isa = PBXBuildFile; fileRef = 26F4B0E92267DF99006381D0 /* invalidTestAppDocument.json */; };
 		2ACE56002245277000FCD5DF /* MSDocumentUtilsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ACE55FF2245277000FCD5DF /* MSDocumentUtilsTests.m */; };
@@ -305,6 +307,7 @@
 		267464EA222F28A300EC1FF3 /* MSBaseOptions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSBaseOptions.m; sourceTree = "<group>"; };
 		267464EB222F28A300EC1FF3 /* MSReadOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSReadOptions.h; sourceTree = "<group>"; };
 		267464EC222F28A300EC1FF3 /* MSWriteOptions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSWriteOptions.m; sourceTree = "<group>"; };
+		26BCA8D122D3F5020094C31D /* nullTestAppDocument.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = nullTestAppDocument.json; sourceTree = "<group>"; };
 		26F4B0E92267DF99006381D0 /* invalidTestAppDocument.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = invalidTestAppDocument.json; sourceTree = "<group>"; };
 		2ACE55FF2245277000FCD5DF /* MSDocumentUtilsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSDocumentUtilsTests.m; sourceTree = "<group>"; };
 		2ACE56092245340A00FCD5DF /* MSBaseOptionsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSBaseOptionsTests.m; sourceTree = "<group>"; };
@@ -498,6 +501,7 @@
 			children = (
 				26F4B0E92267DF99006381D0 /* invalidTestAppDocument.json */,
 				8F1FF9512255C12F0083471E /* validTestAppDocument.json */,
+				26BCA8D122D3F5020094C31D /* nullTestAppDocument.json */,
 				9CE865A4228B6615003CCE0E /* validTestUserDocument.json */,
 				8F5227EC2253F0C7004F37FE /* zeroDocumentsPage.json */,
 				8F5227DC2253DE84004F37FE /* oneDocumentPage.json */,
@@ -894,6 +898,7 @@
 				9CE865A6228B6615003CCE0E /* validTestUserDocument.json in Resources */,
 				8F1FF9532255C1360083471E /* validTestAppDocument.json in Resources */,
 				8F5227DE2253DE89004F37FE /* oneDocumentPage.json in Resources */,
+				26BCA8D322D3F5210094C31D /* nullTestAppDocument.json in Resources */,
 				26F4B0EB2267DFCC006381D0 /* invalidTestAppDocument.json in Resources */,
 				8F5227EE2253F0C8004F37FE /* zeroDocumentsPage.json in Resources */,
 			);
@@ -906,6 +911,7 @@
 				9CE865A5228B6615003CCE0E /* validTestUserDocument.json in Resources */,
 				8F1FF9522255C1350083471E /* validTestAppDocument.json in Resources */,
 				8F5227DD2253DE88004F37FE /* oneDocumentPage.json in Resources */,
+				26BCA8D222D3F5200094C31D /* nullTestAppDocument.json in Resources */,
 				26F4B0EA2267DFC9006381D0 /* invalidTestAppDocument.json in Resources */,
 				8F5227ED2253F0C8004F37FE /* zeroDocumentsPage.json in Resources */,
 			);

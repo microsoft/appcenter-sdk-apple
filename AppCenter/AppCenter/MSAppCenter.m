@@ -106,6 +106,15 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
   return [MSAppCenter sharedInstance].sdkConfigured && [MSAppCenter sharedInstance].configuredFromApplication;
 }
 
++ (BOOL)isRunningInAppCenterTestCloud {
+    NSDictionary *environmentVariables = [[NSProcessInfo processInfo] environment];
+    NSString *runningInAppCenter = environmentVariables[kMSRunningInAppCenter];
+    if ([runningInAppCenter isEqualToString:kMSTrueEnvironmentString]) {
+        return YES;
+    }
+    return NO;
+}
+
 + (void)setLogUrl:(NSString *)logUrl {
   [[MSAppCenter sharedInstance] setLogUrl:logUrl];
 }
