@@ -120,6 +120,35 @@
   XCTAssertTrue(retrievedDocumentWrapper.fromDeviceCache);
 }
 
+- (void)testListWithExpiredAppDocument {
+    
+    // If
+    NSString *documentId = @"12829";
+    NSString *eTag = @"398";
+    NSString *jsonString = @"{\"key\": \"value\"}";
+    NSString *pendingOperation = kMSPendingOperationReplace;
+    [self addJsonStringToTable:jsonString
+                          eTag:eTag
+                     partition:self.appToken.partition
+                    documentId:documentId
+              pendingOperation:pendingOperation
+                expirationTime:0];
+    
+    // When
+    MSPaginatedDocuments *paginated = [self.sut listWithToken:self.appToken
+                                                       partition:self.appToken.partition
+                                                    documentType:[MSDictionaryDocument class]
+                                                     baseOptions:nil];
+    
+    // Then
+    XCTAssertNotNil(paginated);
+    XCTAssertNotNil(paginated.currentPage);
+    XCTAssertNil(paginated.currentPage.error);
+    XCTAssertNotNil(paginated.currentPage.items);
+    XCTAssertEqual(0, paginated.currentPage.items.count);
+    OCMVerify([self.sut deleteWithToken:self.appToken documentId:documentId]);
+}
+
 - (void)testReadAppDocumentFromLocalDatabase {
 
   // If
