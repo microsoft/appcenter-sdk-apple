@@ -12,6 +12,8 @@
 #import "MSDocumentUtils.h"
 #import "MSDocumentWrapperInternal.h"
 #import "MSLogger.h"
+#import "MSPageInternal.h"
+#import "MSPaginatedDocumentsInternal.h"
 #import "MSTokenExchange.h"
 #import "MSTokensResponse.h"
 
@@ -80,11 +82,11 @@
           }
           // For other online scenarios, the intended pending operation in the local store is nil.
           else {
-            [self updateLocalStore:token
-                currentCachedDocument:cachedDocument
-                    newCachedDocument:remoteDocument
-                     deviceTimeToLive:deviceTimeToLive
-                            operation:nil];
+            [self.documentStore updateDocumentWithToken:token
+                                  currentCachedDocument:cachedDocument
+                                      newCachedDocument:remoteDocument
+                                       deviceTimeToLive:deviceTimeToLive
+                                              operation:nil];
           }
         }
         completionHandler(remoteDocument);
@@ -115,11 +117,11 @@
         else {
 
           // Push back cached document expiration time then return it.
-          [self updateLocalStore:token
-              currentCachedDocument:cachedDocument
-                  newCachedDocument:cachedDocument
-                   deviceTimeToLive:deviceTimeToLive
-                          operation:cachedDocument.pendingOperation];
+          [self.documentStore updateDocumentWithToken:token
+                                currentCachedDocument:cachedDocument
+                                    newCachedDocument:cachedDocument
+                                     deviceTimeToLive:deviceTimeToLive
+                                            operation:cachedDocument.pendingOperation];
           completionHandler(cachedDocument);
         }
       }
@@ -138,11 +140,11 @@
                                                                                   fromDeviceCache:YES];
 
         // Update local store and return document.
-        [self updateLocalStore:token
-            currentCachedDocument:cachedDocument
-                newCachedDocument:deletedDocument
-                 deviceTimeToLive:deviceTimeToLive
-                        operation:operation];
+        [self.documentStore updateDocumentWithToken:token
+                              currentCachedDocument:cachedDocument
+                                  newCachedDocument:deletedDocument
+                                   deviceTimeToLive:deviceTimeToLive
+                                          operation:operation];
         completionHandler(deletedDocument);
       }
 
@@ -162,19 +164,87 @@
                                                                             fromDeviceCache:YES];
 
         // Update local store and return document.
-        [self updateLocalStore:token
-            currentCachedDocument:cachedDocument
-                newCachedDocument:documentWrapper
-                 deviceTimeToLive:deviceTimeToLive
-                        operation:operation];
+        [self.documentStore updateDocumentWithToken:token
+                              currentCachedDocument:cachedDocument
+                                  newCachedDocument:documentWrapper
+                                   deviceTimeToLive:deviceTimeToLive
+                                          operation:operation];
         completionHandler(documentWrapper);
       }
     }
   });
 }
 
+- (void)listDocumentsWithType:(Class)documentType
+                    partition:(NSString *)partition
+                  baseOptions:(MSBaseOptions *_Nullable)baseOptions
+             cachedTokenBlock:(void (^)(MSCachedTokenCompletionHandler))cachedTokenBlock
+          remoteDocumentBlock:(void (^)(MSPaginatedDocumentsCompletionHandler))remoteDocumentBlock
+            completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler {
+
+  // Retrieve a cached token.
+  cachedTokenBlock(^(MSTokensResponse *_Nullable tokensResponse, NSError *_Nullable error) {
+    // Handle error.
+    if (error) {
+      NSString *message =
+          [NSString stringWithFormat:@"Error while retrieving cached token, aborting operation: %@", [error localizedDescription]];
+      MSLogError([MSData logTag], @"%@", message);
+      MSDataError *dataError = [[MSDataError alloc] initWithErrorCode:MSACDataErrorCachedToken innerError:nil message:message];
+      MSPaginatedDocuments *documents = [[MSPaginatedDocuments alloc] initWithError:dataError
+                                                                          partition:partition
+                                                                       documentType:documentType
+                                                                  continuationToken:nil];
+      completionHandler(documents);
+      return;
+    }
+
+    // Extract first token.
+    MSTokenResult *token = tokensResponse.tokens.firstObject;
+
+    // Retrieve from cache when offline and when there are pending operations.
+    if (![self shouldAttemptRemoteOperationForPartition:partition]) {
+      MSPaginatedDocuments *cachedDocumentsList = [self.documentStore listWithToken:token
+                                                                          partition:partition
+                                                                       documentType:documentType
+                                                                        baseOptions:baseOptions];
+      if ([self.reachability currentReachabilityStatus] != NotReachable && [[cachedDocumentsList currentPage] items].count == 0) {
+        MSLogInfo([MSData logTag], @"Performing remote operation, since the local list is empty");
+        [self performRemoteOperationWithToken:token
+                                  baseOptions:baseOptions
+                          remoteDocumentBlock:remoteDocumentBlock
+                            completionHandler:completionHandler];
+        return;
+      }
+      completionHandler(cachedDocumentsList);
+      return;
+    }
+
+    // Execute remote operation online and does not have any pending operations.
+    else if ([self shouldAttemptRemoteOperationForPartition:partition]) {
+      MSLogInfo([MSData logTag], @"Performing remote operation");
+      [self performRemoteOperationWithToken:token
+                                baseOptions:baseOptions
+                        remoteDocumentBlock:remoteDocumentBlock
+                          completionHandler:completionHandler];
+      return;
+    }
+  });
+}
+
 #pragma mark Utilities
 
+- (void)performRemoteOperationWithToken:(MSTokenResult *)token
+                            baseOptions:(MSBaseOptions *_Nullable)baseOptions
+                    remoteDocumentBlock:(void (^)(MSPaginatedDocumentsCompletionHandler))remoteDocumentBlock
+                      completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler
+
+{
+  remoteDocumentBlock(^(MSPaginatedDocuments *_Nonnull remoteDocuments) {
+    // Update local store with the remote list of documents.
+    [self.documentStore updateDocumentsWithToken:token remoteDocuments:remoteDocuments baseOptions:baseOptions];
+    completionHandler(remoteDocuments);
+  });
+}
 /**
  * Validate an operation.
  *
@@ -199,45 +269,14 @@
 }
 
 /**
- * Update the local store given a current/new cached document.
+ * Returns a flag indicating if a remote operation should be attempted.
  *
- * @param token The CosmosDB token.
- * @param currentCachedDocument The current cached document.
- * @param newCachedDocument The new document that should be cached.
- * @param deviceTimeToLive The device time to live for the new cached document.
- * @param operation The operation being intended (nil - read, CREATE, UPDATE, DELETE).
+ * @param partition The partition under which to check for pending operations.
+ *
+ * @return YES if a remote operation should be attempted; NO otherwise.
  */
-- (void)updateLocalStore:(MSTokenResult *)token
-    currentCachedDocument:(MSDocumentWrapper *)currentCachedDocument
-        newCachedDocument:(MSDocumentWrapper *)newCachedDocument
-         deviceTimeToLive:(NSInteger)deviceTimeToLive
-                operation:(NSString *_Nullable)operation {
-
-  // If the device time to live does not allow it, remove document from local storage (whether it is here or not).
-  if (deviceTimeToLive == kMSDataTimeToLiveNoCache) {
-    MSLogInfo([MSData logTag], @"Removing document from local storage (partition: %@, id: %@)", token.partition,
-              currentCachedDocument.documentId);
-    [self.documentStore deleteWithToken:token documentId:currentCachedDocument.documentId];
-  }
-
-  /*
-   * If the cached document has a create or replace pending operation, and no eTags, and if the current operation is a
-   * deletion, delete the document from the store.
-   */
-  else if (([kMSPendingOperationCreate isEqualToString:currentCachedDocument.pendingOperation] ||
-            [kMSPendingOperationReplace isEqualToString:currentCachedDocument.pendingOperation]) &&
-           !currentCachedDocument.eTag && operation && [kMSPendingOperationDelete isEqualToString:(NSString *)operation]) {
-    MSLogInfo([MSData logTag], @"Removing never-synced document from local storage (partition: %@, id: %@)", token.partition,
-              currentCachedDocument.documentId);
-    [self.documentStore deleteWithToken:token documentId:currentCachedDocument.documentId];
-  }
-
-  // Update document storage.
-  else {
-    MSLogInfo([MSData logTag], @"Updating/inserting document into local storage (partition: %@, id: %@, operation: %@)", token.partition,
-              currentCachedDocument.documentId, operation);
-    [self.documentStore upsertWithToken:token documentWrapper:newCachedDocument operation:operation deviceTimeToLive:deviceTimeToLive];
-  }
+- (BOOL)shouldAttemptRemoteOperationForPartition:(NSString *)partition {
+  return [self.reachability currentReachabilityStatus] != NotReachable && ![self.documentStore hasPendingOperationsForPartition:partition];
 }
 
 @end

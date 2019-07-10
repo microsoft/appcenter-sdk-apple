@@ -12,6 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 // Read-only.
 @property(nonatomic, copy, readonly) NSString *partition;
 @property(nonatomic, readonly) Class documentType;
+@property(nonatomic) MS_Reachability *reachability;
+@property(nonatomic, readonly) NSInteger deviceTimeToLive;
 
 // Read-write (to implement pagination).
 @property(nonatomic) MSPage *currentPage;
@@ -23,6 +25,8 @@ NS_ASSUME_NONNULL_BEGIN
  * @param page Page to instantiate documents with.
  * @param partition The partition for the documents.
  * @param documentType The type of the documents in the partition.
+ * @param reachability The reachability module.
+ * @param deviceTimeToLive Device document time to live in seconds.
  * @param continuationToken The continuation token, if any.
  *
  * @return The paginated documents.
@@ -30,6 +34,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithPage:(MSPage *)page
                    partition:(NSString *)partition
                 documentType:(Class)documentType
+                reachability:(MS_Reachability *)reachability
+            deviceTimeToLive:(NSInteger)deviceTimeToLive
            continuationToken:(NSString *_Nullable)continuationToken;
 
 /**
@@ -38,10 +44,15 @@ NS_ASSUME_NONNULL_BEGIN
  * @param error Error to initialize with.
  * @param partition The partition for the documents.
  * @param documentType The type of the documents in the partition.
+ * @param continuationToken The continuation token, if any.
  *
  * @return The paginated documents.
  */
-- (instancetype)initWithError:(MSDataError *)error partition:(NSString *)partition documentType:(Class)documentType;
+- (instancetype)initWithError:(MSDataError *)error
+                    partition:(NSString *)partition
+                 documentType:(Class)documentType
+            continuationToken:(NSString *_Nullable)continuationToken;
+;
 
 @end
 

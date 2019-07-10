@@ -3,8 +3,9 @@
 
 import UIKit
 
-class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, AppCenterProtocol {
   var documentType: String?
+  var appCenter: AppCenterDelegate!
   
   enum TimeToLiveMode: String {
     case Default = "Default"
@@ -27,6 +28,7 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
   
   @IBOutlet weak var timeToLiveBoard: UILabel!
   @IBOutlet weak var backButton: UIButton!
+  @IBOutlet weak var refreshButton: UIButton!
   @IBOutlet weak var docIdField: UITextField!
   @IBOutlet weak var tableView: UITableView!
   @IBOutlet weak var timeToLiveField: UITextField!
@@ -72,6 +74,34 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
     self.presentingViewController?.dismiss(animated: true, completion: nil)
   }
 
+  @IBAction func refreshButtonClicked(_ sender: Any) {
+    var partition = documentContent?.partition ?? ""
+    if (partition.contains(kMSDataUserPartition)) {
+        partition = kMSDataUserPartition
+    }
+    if (documentContent != nil) {
+        self.appCenter.readDocumentWithPartition(partition, documentId: documentContent!.documentId, documentType: MSDictionaryDocument.self, completionHandler: { (document) in
+            self.documentContent = document
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+            
+            if (partition == kMSDataUserPartition) {
+                self.updateDocumentList(list: &MSDataViewController.UserDocuments, documentContent: document)
+            } else {
+                self.updateDocumentList(list: &MSDataViewController.AppDocuments, documentContent: document)
+            }
+        })
+    }
+  }
+    
+  func updateDocumentList(list: inout [MSDocumentWrapper], documentContent: MSDocumentWrapper) {
+    let index = list.firstIndex(where: {$0.documentId == documentContent.documentId} )
+    if (index != nil ) {
+      list[index!] = documentContent
+    }
+  }
+    
   func numberOfSections(in tableView: UITableView) -> Int {
     if documentType != userType {
       return 1
@@ -148,12 +178,16 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
           guard (documentContent?.error) != nil else {
             cell.textLabel?.numberOfLines = 0;
             cell.textLabel?.lineBreakMode = NSLineBreakMode.byWordWrapping;
-            let dictionary = documentContent?.deserializedValue.serializeToDictionary() ?? [:]
-            do {
-              let jsonData = try String(data: JSONSerialization.data(withJSONObject: dictionary, options: .prettyPrinted), encoding: String.Encoding.utf8)
-              cellText = "Document content: \(jsonData ?? "unknown")"
-            } catch {
-              cellText = "Document content could not be deserialized."
+            if (documentContent != nil && documentContent?.deserializedValue != nil) {
+                let dictionary = documentContent!.deserializedValue.serializeToDictionary()
+                do {
+                    let jsonData = try String(data: JSONSerialization.data(withJSONObject: dictionary, options: .prettyPrinted), encoding: String.Encoding.utf8)
+                    cellText = "Document content: \(jsonData ?? "unknown")"
+                } catch {
+                    cellText = "Document content could not be deserialized."
+                }
+            } else {
+                cellText = "Document content: null"
             }
             break
           }

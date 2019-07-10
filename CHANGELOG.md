@@ -1,4 +1,33 @@
-# App Center SDK for iOS and macOS Change Log
+# App Center SDK for iOS, macOS and tvOS Change Log
+
+## Version 2.2.0
+
+### AppCenter
+
+* **[Feature]** Now supports tvOS.
+* **[Feature]** Add `isRunningInAppCenterTestCloud` in `MSAppCenter` to provide method to check if the application is running in Test Cloud.
+* **[Fix]** Drop and recreate the database when it is corrupted.
+
+### AppCenterAnalytics
+
+* **[Feature]** Now supports tvOS.
+
+### AppCenterCrashes
+
+* **[Feature]** Now supports tvOS.
+
+### AppCenterData
+
+* **[Feature]** Add support for offline list of documents.
+* **[Feature]** Change the default time-to-live (TTL) from 1 day to infinite (never expire).
+* **[Feature]** Add `readOptions` parameter to the `list` API.
+* **[Feature]** Serialize `nil` and `NSNull` document values.
+
+### AppCenterDistribute
+
+* **[Fix]** Fix crash when an application was minimized on trying to reinstall after setup failure. 
+
+___
 
 ## Version 2.1.0
 

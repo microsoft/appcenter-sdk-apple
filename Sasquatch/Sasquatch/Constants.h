@@ -41,6 +41,7 @@ static NSString *const kMSUserIdKey = @"userId";
 static NSString *const kMSLogUrl = @"logUrl";
 static NSString *const kMSAppSecret = @"appSecret";
 static NSString *const kMSUserIdentity = @"userIdentity";
+static NSString *const kMSUserConfirmationKey = @"MSUserConfirmation";
 
 #ifdef SQLITE_DEFAULT_PAGE_SIZE
 static int const kMSStoragePageSize = SQLITE_DEFAULT_PAGE_SIZE;
@@ -53,3 +54,5 @@ static NSString *const kMSIntConfigUrl = @"https://config-integration.dev.avalan
 static NSString *const kMSIntTokenExchangeUrl = @"https://token-exchange-mbaas-integration.dev.avalanch.es/v0.1";
 static NSString *const kMSIntApiUrl = @"https://api-gateway-core-integration.dev.avalanch.es/v0.1";
 static NSString *const kMSIntInstallUrl = @"https://install.portal-server-core-integration.dev.avalanch.es";
+
+static NSString *const kMSDataUserPartition = @"user";

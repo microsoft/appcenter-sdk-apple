@@ -44,7 +44,7 @@ static int const kMSDataTimeToLiveNoCache = 0;
 /**
  * Default expiration on cache.
  */
-static int const kMSDataTimeToLiveDefault = 60 * 60 * 24;
+static int const kMSDataTimeToLiveDefault = kMSDataTimeToLiveInfinite;
 
 @interface MSData : MSServiceAbstract
 
@@ -108,6 +108,19 @@ NS_SWIFT_NAME(read(withDocumentID:documentType:partition:readOptions:completionH
  */
 + (void)listDocumentsWithType:(Class)documentType
                     partition:(NSString *)partition
+            completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler;
+
+/**
+ * Retrieve a paginated list of the documents in a partition.
+ *
+ * @param documentType The object type of the documents in the partition. Must conform to MSSerializableDocument protocol.
+ * @param partition The CosmosDB partition key.
+ * @param readOptions Options for reading and storing the document.
+ * @param completionHandler Callback to accept documents.
+ */
++ (void)listDocumentsWithType:(Class)documentType
+                    partition:(NSString *)partition
+                  readOptions:(MSReadOptions *_Nullable)readOptions
             completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler;
 
 /**

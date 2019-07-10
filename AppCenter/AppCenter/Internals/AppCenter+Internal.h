@@ -15,7 +15,7 @@
 #import "Channel/MSChannelDelegate.h"
 
 // Model
+#import "MSLog.h"
 #import "Model/MSAbstractLogInternal.h"
-#import "Model/MSLog.h"
 #import "Model/MSLogContainer.h"
 #import "Model/Util/MSUserDefaults.h"
