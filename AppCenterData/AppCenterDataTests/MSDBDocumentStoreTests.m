@@ -76,7 +76,6 @@
   NSString *eTag = @"398";
   NSString *jsonString = @"{\"key\": \"value\"}";
   NSString *pendingOperation = kMSPendingOperationReplace;
-
   [self addJsonStringToTable:jsonString
                         eTag:eTag
                    partition:self.appToken.partition
@@ -108,10 +107,8 @@
   XCTAssertNil(paginated.currentPage.error);
   XCTAssertNotNil(paginated.currentPage.items);
   XCTAssertEqual(1, paginated.currentPage.items.count);
-
   MSDocumentWrapper *retrievedDocumentWrapper = (MSDocumentWrapper *)paginated.currentPage.items[0];
   NSDictionary *retrievedContentDictionary = ((MSDictionaryDocument *)(paginated.currentPage.items[0].deserializedValue)).dictionary;
-
   XCTAssertTrue(retrievedDocumentWrapper.fromDeviceCache);
   XCTAssertEqualObjects(retrievedContentDictionary[@"key"], @"value");
   XCTAssertEqualObjects(retrievedDocumentWrapper.partition, self.appToken.partition);
