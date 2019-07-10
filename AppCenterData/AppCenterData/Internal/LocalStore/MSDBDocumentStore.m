@@ -231,7 +231,7 @@ static const NSUInteger kMSSchemaVersion = 1;
       // Delete the local document when found to be expired.
       [self deleteWithToken:token documentId:documentId];
     } else {
-        
+
       // Deserialize document.
       NSString *jsonString = documentRow[self.documentColumnIndex];
       NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
