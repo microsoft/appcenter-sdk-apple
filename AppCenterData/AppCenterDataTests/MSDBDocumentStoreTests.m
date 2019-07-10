@@ -11,6 +11,7 @@
 #import "MSDictionaryDocument.h"
 #import "MSDocumentUtils.h"
 #import "MSDocumentWrapperInternal.h"
+#import "MSPaginatedDocuments.h"
 #import "MSPendingOperation.h"
 #import "MSReadOptions.h"
 #import "MSTestFrameworks.h"
@@ -66,6 +67,83 @@
 
   // Delete existing database.
   [MSUtility deleteItemForPathComponent:kMSDBDocumentFileName];
+}
+
+- (void)testListAppDocumentsInfiniteTTL {
+
+  // If
+  NSString *documentId = @"12829";
+  NSString *eTag = @"398";
+  NSString *jsonString = @"{\"key\": \"value\"}";
+  NSString *pendingOperation = kMSPendingOperationReplace;
+  [self addJsonStringToTable:jsonString
+                        eTag:eTag
+                   partition:self.appToken.partition
+                  documentId:documentId
+            pendingOperation:pendingOperation
+              expirationTime:kMSDataTimeToLiveInfinite
+              documentNumber:@0];
+
+  // deleted document shouldn't be returned by list
+  NSString *pendingDeleteOperation = kMSPendingOperationDelete;
+  NSString *documentId2 = @"deleted-doc";
+  [self addJsonStringToTable:jsonString
+                        eTag:eTag
+                   partition:self.appToken.partition
+                  documentId:documentId2
+            pendingOperation:pendingDeleteOperation
+              expirationTime:kMSDataTimeToLiveInfinite
+              documentNumber:@1];
+
+  // When
+  MSPaginatedDocuments *paginated = [self.sut listWithToken:self.appToken
+                                                  partition:self.appToken.partition
+                                               documentType:[MSDictionaryDocument class]
+                                                baseOptions:nil];
+
+  // Then
+  XCTAssertNotNil(paginated);
+  XCTAssertNotNil(paginated.currentPage);
+  XCTAssertNil(paginated.currentPage.error);
+  XCTAssertNotNil(paginated.currentPage.items);
+  XCTAssertEqual(1, paginated.currentPage.items.count);
+  MSDocumentWrapper *retrievedDocumentWrapper = (MSDocumentWrapper *)paginated.currentPage.items[0];
+  NSDictionary *retrievedContentDictionary = ((MSDictionaryDocument *)(paginated.currentPage.items[0].deserializedValue)).dictionary;
+  XCTAssertTrue(retrievedDocumentWrapper.fromDeviceCache);
+  XCTAssertEqualObjects(retrievedContentDictionary[@"key"], @"value");
+  XCTAssertEqualObjects(retrievedDocumentWrapper.partition, self.appToken.partition);
+  XCTAssertEqualObjects(retrievedDocumentWrapper.documentId, documentId);
+  XCTAssertEqualObjects(retrievedDocumentWrapper.pendingOperation, pendingOperation);
+  XCTAssertTrue(retrievedDocumentWrapper.fromDeviceCache);
+}
+
+- (void)testListWithExpiredAppDocument {
+    
+    // If
+    NSString *documentId = @"12829";
+    NSString *eTag = @"398";
+    NSString *jsonString = @"{\"key\": \"value\"}";
+    NSString *pendingOperation = kMSPendingOperationReplace;
+    [self addJsonStringToTable:jsonString
+                          eTag:eTag
+                     partition:self.appToken.partition
+                    documentId:documentId
+              pendingOperation:pendingOperation
+                expirationTime:0];
+    
+    // When
+    MSPaginatedDocuments *paginated = [self.sut listWithToken:self.appToken
+                                                       partition:self.appToken.partition
+                                                    documentType:[MSDictionaryDocument class]
+                                                     baseOptions:nil];
+    
+    // Then
+    XCTAssertNotNil(paginated);
+    XCTAssertNotNil(paginated.currentPage);
+    XCTAssertNil(paginated.currentPage.error);
+    XCTAssertNotNil(paginated.currentPage.items);
+    XCTAssertEqual(0, paginated.currentPage.items.count);
+    OCMVerify([self.sut deleteWithToken:self.appToken documentId:documentId]);
 }
 
 - (void)testReadAppDocumentFromLocalDatabase {
@@ -623,14 +701,31 @@
                   documentId:(NSString *)documentId
             pendingOperation:(NSString *)pendingOperation
               expirationTime:(long)expirationTime {
+  [self addJsonStringToTable:jsonString
+                        eTag:eTag
+                   partition:partition
+                  documentId:documentId
+            pendingOperation:pendingOperation
+              expirationTime:expirationTime
+              documentNumber:@0];
+}
+
+- (void)addJsonStringToTable:(NSString *)jsonString
+                        eTag:(NSString *)eTag
+                   partition:(NSString *)partition
+                  documentId:(NSString *)documentId
+            pendingOperation:(NSString *)pendingOperation
+              expirationTime:(long)expirationTime
+              documentNumber:(NSNumber *)documentNumber {
   sqlite3 *db = [self openDatabase:kMSDBDocumentFileName];
   long operationTimeString = NSTimeIntervalSince1970;
-  NSString *insertQuery = [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\") "
-                                                     @"VALUES ('%@', '%@', '%@', '%@', '%@', %ld, '%ld', '%@')",
-                                                     kMSAppDocumentTableName, kMSIdColumnName, kMSPartitionColumnName, kMSETagColumnName,
-                                                     kMSDocumentColumnName, kMSDocumentIdColumnName, kMSExpirationTimeColumnName,
-                                                     kMSOperationTimeColumnName, kMSPendingOperationColumnName, @0, partition, eTag,
-                                                     jsonString, documentId, (long)expirationTime, operationTimeString, pendingOperation];
+  NSString *insertQuery =
+      [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\") "
+                                 @"VALUES ('%@', '%@', '%@', '%@', '%@', %ld, '%ld', '%@')",
+                                 kMSAppDocumentTableName, kMSIdColumnName, kMSPartitionColumnName, kMSETagColumnName, kMSDocumentColumnName,
+                                 kMSDocumentIdColumnName, kMSExpirationTimeColumnName, kMSOperationTimeColumnName,
+                                 kMSPendingOperationColumnName, documentNumber, partition, eTag, jsonString, documentId,
+                                 (long)expirationTime, operationTimeString, pendingOperation];
   char *error;
   sqlite3_exec(db, [insertQuery UTF8String], NULL, NULL, &error);
   sqlite3_close(db);
