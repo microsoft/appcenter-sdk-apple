@@ -610,26 +610,36 @@ static NSString *const kMSStartTimestampPrefix = @"MSChannelStartTimer";
 #pragma mark - Helper
 
 - (void)enumerateDelegatesForSelector:(SEL)selector withBlock:(void (^)(id<MSChannelDelegate> delegate))block {
+  NSArray *synchronizedDelegates;
   @synchronized(self.delegates) {
-    for (id<MSChannelDelegate> delegate in self.delegates) {
-      if ([delegate respondsToSelector:selector]) {
-        block(delegate);
-      }
+
+    // Don't execute the block while locking; it might be locking too and deadlock ourselves.
+    synchronizedDelegates = [self.delegates allObjects];
+  }
+  for (id<MSChannelDelegate> delegate in synchronizedDelegates) {
+    if ([delegate respondsToSelector:selector]) {
+      block(delegate);
     }
   }
 }
 
 - (void)notifyFailureBeforeSendingForItem:(id<MSLog>)item withError:(NSError *)error {
+  NSArray *synchronizedDelegates;
   @synchronized(self.delegates) {
-    for (id<MSChannelDelegate> delegate in self.delegates) {
 
-      // Call willSendLog before didFailSendingLog
-      if ([delegate respondsToSelector:@selector(channel:willSendLog:)])
-        [delegate channel:self willSendLog:item];
+    // Don't execute the block while locking; it might be locking too and deadlock ourselves.
+    synchronizedDelegates = [self.delegates allObjects];
+  }
+  for (id<MSChannelDelegate> delegate in synchronizedDelegates) {
 
-      // Call didFailSendingLog
-      if ([delegate respondsToSelector:@selector(channel:didFailSendingLog:withError:)])
-        [delegate channel:self didFailSendingLog:item withError:error];
+    // Call willSendLog before didFailSendingLog
+    if ([delegate respondsToSelector:@selector(channel:willSendLog:)]) {
+      [delegate channel:self willSendLog:item];
+    }
+
+    // Call didFailSendingLog
+    if ([delegate respondsToSelector:@selector(channel:didFailSendingLog:withError:)]) {
+      [delegate channel:self didFailSendingLog:item withError:error];
     }
   }
 }

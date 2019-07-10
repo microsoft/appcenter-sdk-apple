@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 #import <Foundation/Foundation.h>
+#import <objc/objc-sync.h>
 
 #import "MSAbstractLogInternal.h"
 #import "MSAppCenter.h"
@@ -538,6 +539,62 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                  XCTAssertNil(actualAuthToken);
                                }];
   [responseMock stopMocking];
+}
+
+- (void)testDelegateDeadlock {
+
+  // If
+  NSObject *lock = [NSObject new], *syncCallback = [NSObject new], *syncBackground = [NSObject new];
+  [self initChannelEndJobExpectation];
+  id<MSLog> mockLog1 = [self getValidMockLog];
+  id<MSLog> mockLog2 = [self getValidMockLog];
+  id delegateMock = OCMProtocolMock(@protocol(MSChannelDelegate));
+  OCMStub([delegateMock channel:self.sut didPrepareLog:OCMOCK_ANY internalId:OCMOCK_ANY flags:MSFlagsDefault])
+      .andDo(^(__unused NSInvocation *invocation) {
+        // Notify that didPrepareLog has been called.
+        objc_sync_exit(syncCallback);
+
+        // Do something with syncronization.
+        @synchronized(lock) {
+        }
+      });
+  [self.sut addDelegate:delegateMock];
+
+  // When
+  objc_sync_enter(syncCallback);
+  objc_sync_enter(syncBackground);
+  dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    @synchronized(lock) {
+
+      // Notify that backround task has been called.
+      objc_sync_exit(syncBackground);
+
+      // Wait when callback will be called from main thread.
+      @synchronized(syncCallback) {
+      }
+
+      // Enqueue item from background thread.
+      [self.sut enqueueItem:mockLog2 flags:MSFlagsNormal];
+    }
+    [self enqueueChannelEndJobExpectation];
+  });
+
+  // Make sure that backround task is started.
+  @synchronized(syncBackground) {
+  }
+
+  // Enqueue item from main thread.
+  [self.sut enqueueItem:mockLog1 flags:MSFlagsNormal];
+
+  // Then
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
+                               handler:^(NSError *error) {
+                                 OCMVerify([self.storageMock saveLog:mockLog1 withGroupId:OCMOCK_ANY flags:MSFlagsNormal]);
+                                 OCMVerify([self.storageMock saveLog:mockLog2 withGroupId:OCMOCK_ANY flags:MSFlagsNormal]);
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
 }
 
 - (void)testLogsSentWithFailure {
