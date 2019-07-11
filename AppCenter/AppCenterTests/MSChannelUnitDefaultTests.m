@@ -546,8 +546,8 @@ static NSString *const kMSTestGroupId = @"GroupId";
   // If
   NSObject *lock = [NSObject new], *syncCallback = [NSObject new], *syncBackground = [NSObject new];
   [self initChannelEndJobExpectation];
-  id<MSLog> mockLog1 = [self getValidMockLog];
-  id<MSLog> mockLog2 = [self getValidMockLog];
+  __block id<MSLog> mockLog1 = [self getValidMockLog];
+  __block id<MSLog> mockLog2 = [self getValidMockLog];
   id delegateMock = OCMProtocolMock(@protocol(MSChannelDelegate));
   OCMStub([delegateMock channel:self.sut didPrepareLog:OCMOCK_ANY internalId:OCMOCK_ANY flags:MSFlagsDefault])
       .andDo(^(__unused NSInvocation *invocation) {
