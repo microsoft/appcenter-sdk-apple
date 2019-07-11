@@ -577,7 +577,6 @@ static NSString *const kMSTestGroupId = @"GroupId";
       // Enqueue item from background thread.
       [self.sut enqueueItem:mockLog2 flags:MSFlagsNormal];
     }
-    [self enqueueChannelEndJobExpectation];
   });
 
   // Make sure that backround task is started.
@@ -586,9 +585,10 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
   // Enqueue item from main thread.
   [self.sut enqueueItem:mockLog1 flags:MSFlagsNormal];
+  [self enqueueChannelEndJobExpectation];
 
   // Then
-  [self waitForExpectationsWithTimeout:3.0
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *error) {
                                  OCMVerify([self.storageMock saveLog:mockLog1 withGroupId:OCMOCK_ANY flags:MSFlagsNormal]);
                                  OCMVerify([self.storageMock saveLog:mockLog2 withGroupId:OCMOCK_ANY flags:MSFlagsNormal]);
