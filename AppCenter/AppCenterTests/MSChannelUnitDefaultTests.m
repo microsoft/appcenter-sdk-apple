@@ -588,7 +588,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   [self.sut enqueueItem:mockLog1 flags:MSFlagsNormal];
 
   // Then
-  [self waitForExpectationsWithTimeout:kMSTestTimeout
+  [self waitForExpectationsWithTimeout:3.0
                                handler:^(NSError *error) {
                                  OCMVerify([self.storageMock saveLog:mockLog1 withGroupId:OCMOCK_ANY flags:MSFlagsNormal]);
                                  OCMVerify([self.storageMock saveLog:mockLog2 withGroupId:OCMOCK_ANY flags:MSFlagsNormal]);
