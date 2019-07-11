@@ -212,53 +212,53 @@ static const NSUInteger kMSSchemaVersion = 1;
 
     // If an expired document is found exclude it from the list and delete it from the local store.
     long expirationTime = [(NSNumber *)(documentRow[self.expirationTimeColumnIndex]) longValue];
+    NSDate *expirationDate = [NSDate dateWithTimeIntervalSince1970:expirationTime];
     NSString *documentId = documentRow[self.documentIdColumnIndex];
-    if (expirationTime != kMSDataTimeToLiveInfinite) {
-      NSDate *expirationDate = [NSDate dateWithTimeIntervalSince1970:expirationTime];
-      if (expirationDate && [[expirationDate laterDate:currentDate] isEqualToDate:currentDate]) {
-        NSString *warningMessage =
-            [NSString stringWithFormat:@"Local document for partition '%@' and document ID '%@' expired at %@, discarding it",
-                                       token.partition, documentId, expirationDate];
-        MSLogWarning([MSData logTag], @"%@", warningMessage);
 
-        // Delete the local document when found to be expired.
-        [self deleteWithToken:token documentId:documentId];
-      } else if ([kMSPendingOperationDelete isEqualToString:documentRow[self.pendingOperationColumnIndex]]) {
+    if ([kMSPendingOperationDelete isEqualToString:documentRow[self.pendingOperationColumnIndex]]) {
 
-        // Ignore document, if the pending operation is found to be Delete.
-        MSLogError([MSData logTag],
-                   @"Local document pending deletion in local storage for partition '%@' and document ID '%@', excluding from the list",
-                   token.partition, documentId);
-      } else {
+      // Ignore document if the pending operation is found to be Delete.
+      MSLogError([MSData logTag],
+                 @"Local document pending deletion in local storage for partition '%@' and document ID '%@', excluding from the list",
+                 token.partition, documentId);
+    } else if (expirationTime != kMSDataTimeToLiveInfinite && expirationDate &&
+               [[expirationDate laterDate:currentDate] isEqualToDate:currentDate]) {
+      NSString *warningMessage =
+          [NSString stringWithFormat:@"Local document for partition '%@' and document ID '%@' expired at %@, discarding it",
+                                     token.partition, documentId, expirationDate];
+      MSLogWarning([MSData logTag], @"%@", warningMessage);
 
-        // Deserialize document.
-        NSString *jsonString = documentRow[self.documentColumnIndex];
-        NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
-        long lastUpdatedDateValue = [(NSNumber *)documentRow[self.operationTimeColumnIndex] longValue];
-        NSDate *lastUpdatedDate = lastUpdatedDateValue > 0 ? [NSDate dateWithTimeIntervalSince1970:lastUpdatedDateValue] : nil;
+      // Delete the local document when found to be expired.
+      [self deleteWithToken:token documentId:documentId];
+    } else {
 
-        // If operation is NSNull, change it to nil.
-        NSString *pendingOperation = [self safeGetValue:documentRow[self.pendingOperationColumnIndex]];
+      // Deserialize document.
+      NSString *jsonString = documentRow[self.documentColumnIndex];
+      NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+      long lastUpdatedDateValue = [(NSNumber *)documentRow[self.operationTimeColumnIndex] longValue];
+      NSDate *lastUpdatedDate = lastUpdatedDateValue > 0 ? [NSDate dateWithTimeIntervalSince1970:lastUpdatedDateValue] : nil;
 
-        // If Etag is NSNull, change it to nil.
-        NSString *etag = [self safeGetValue:documentRow[self.eTagColumnIndex]];
-        MSDocumentWrapper *cachedDocument = [MSDocumentUtils documentWrapperFromDocumentData:jsonData
-                                                                                documentType:documentType
-                                                                                        eTag:etag
-                                                                             lastUpdatedDate:lastUpdatedDate
-                                                                                   partition:token.partition
-                                                                                  documentId:documentId
-                                                                            pendingOperation:pendingOperation
-                                                                             fromDeviceCache:YES];
-        [localListItems addObject:cachedDocument];
+      // If operation is NSNull, change it to nil.
+      NSString *pendingOperation = [self safeGetValue:documentRow[self.pendingOperationColumnIndex]];
 
-        // Push back cached document expiration time.
-        [self updateDocumentWithToken:token
-                currentCachedDocument:cachedDocument
-                    newCachedDocument:cachedDocument
-                     deviceTimeToLive:deviceTimeToLive
-                            operation:cachedDocument.pendingOperation];
-      }
+      // If Etag is NSNull, change it to nil.
+      NSString *etag = [self safeGetValue:documentRow[self.eTagColumnIndex]];
+      MSDocumentWrapper *cachedDocument = [MSDocumentUtils documentWrapperFromDocumentData:jsonData
+                                                                              documentType:documentType
+                                                                                      eTag:etag
+                                                                           lastUpdatedDate:lastUpdatedDate
+                                                                                 partition:token.partition
+                                                                                documentId:documentId
+                                                                          pendingOperation:pendingOperation
+                                                                           fromDeviceCache:YES];
+      [localListItems addObject:cachedDocument];
+
+      // Push back cached document expiration time.
+      [self updateDocumentWithToken:token
+              currentCachedDocument:cachedDocument
+                  newCachedDocument:cachedDocument
+                   deviceTimeToLive:deviceTimeToLive
+                          operation:cachedDocument.pendingOperation];
     }
   }
 

@@ -202,7 +202,7 @@
     MSTokenResult *token = tokensResponse.tokens.firstObject;
 
     // Retrieve from cache when offline and when there are pending operations.
-    if (![self shouldAttemptRemoteOperationForPartition:partition]) {
+    if (![self shouldAttemptRemoteOperationForPartition:[token partition]]) {
       MSPaginatedDocuments *cachedDocumentsList = [self.documentStore listWithToken:token
                                                                           partition:partition
                                                                        documentType:documentType
@@ -220,7 +220,7 @@
     }
 
     // Execute remote operation online and does not have any pending operations.
-    else if ([self shouldAttemptRemoteOperationForPartition:partition]) {
+    else {
       MSLogInfo([MSData logTag], @"Performing remote operation");
       [self performRemoteOperationWithToken:token
                                 baseOptions:baseOptions

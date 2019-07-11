@@ -785,7 +785,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                                                              reachability:self.sut.reachability
                                                                          deviceTimeToLive:kMSDataTimeToLiveDefault
                                                                         continuationToken:nil];
-  OCMStub([localStorageMock hasPendingOperationsForPartition:kMSPartitionTest]).andReturn(true);
+  OCMStub([localStorageMock hasPendingOperationsForPartition:[testToken partition]]).andReturn(true);
   OCMStub([localStorageMock listWithToken:testToken partition:OCMOCK_ANY documentType:OCMOCK_ANY baseOptions:OCMOCK_ANY])
       .andReturn(expectedDocumentList);
 
