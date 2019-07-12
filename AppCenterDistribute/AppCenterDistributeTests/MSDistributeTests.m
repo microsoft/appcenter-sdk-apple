@@ -34,6 +34,7 @@ static NSString *const kMSTestUpdateToken = @"UPDATETOKEN";
 static NSString *const kMSTestDistributionGroupId = @"DISTRIBUTIONGROUPID";
 static NSString *const kMSTestDownloadedDistributionGroupId = @"DOWNLOADEDDISTRIBUTIONGROUPID";
 static NSString *const kMSDistributeServiceName = @"Distribute";
+static NSString *const kMSUpdateTokenApiPathFormat = @"/apps/%@/update-setup";
 
 // Mocked SFSafariViewController for url validation.
 @interface SFSafariViewControllerMock : UIViewController
@@ -2531,6 +2532,43 @@ static NSURL *sfURL;
   // Clear
   [notificationCenterMock stopMocking];
   [distributeMock stopMocking];
+}
+
+-(void)testHideAppSecret {
+  
+  // If
+  NSString *scheme = [NSString stringWithFormat:kMSDefaultCustomSchemeFormat, kMSTestAppSecret];
+  NSString *requestId = @"FIRST-REQUEST";
+  NSString *updateSetupFailureMessage = @"in-app updates setup failed";
+  NSString *urlPath = [NSString stringWithFormat:kMSUpdateTokenApiPathFormat, kMSTestAppSecret];
+  NSURLComponents *components = [NSURLComponents componentsWithString:urlPath];
+  id authClass = nil;
+  id distributeMock = OCMPartialMock(self.sut);
+  id appCenterMock = OCMClassMock([MSAppCenter class]);
+  id mockLog = OCMClassMock([MSLogger class]);
+  OCMReject([distributeMock checkLatestRelease:OCMOCK_ANY distributionGroupId:OCMOCK_ANY releaseHash:OCMOCK_ANY]);
+  OCMStub([distributeMock sharedInstance]).andReturn(distributeMock);
+  OCMStub([appCenterMock isConfigured]).andReturn(YES);
+  [distributeMock startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
+                              appSecret:kMSTestAppSecret
+                transmissionTargetToken:nil
+                        fromApplication:YES];
+  
+  // When
+  NSMutableArray *items = [NSMutableArray array];
+  components.queryItems = items;
+  
+  // Then
+  [distributeMock openURLInAuthenticationSessionWith:components.URL fromClass:authClass];
+  OCMReject([[mockLog ignoringNonObjectArgs] logMessage:OCMOCK_ANY
+                                                  level:OCMOCK_ANY
+                                                    tag:containsSubstring(kMSTestAppSecret)
+                                                   file:0
+                                               function:0
+                                                   line:0]);
+ 
+  // Clear
+  [mockLog stopMocking];
 }
 
 @end
