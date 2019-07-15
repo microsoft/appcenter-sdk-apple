@@ -2537,35 +2537,36 @@ static NSURL *sfURL;
 -(void)testHideAppSecret {
   
   // If
-  NSString *urlPath = [NSString stringWithFormat:kMSUpdateTokenApiPathFormat, kMSTestAppSecret];
-  NSURLComponents *components = [NSURLComponents componentsWithString:urlPath];
   id authClass = nil;
+  id mockLogger = OCMClassMock([MSLogger class]);
   id distributeMock = OCMPartialMock(self.sut);
   id appCenterMock = OCMClassMock([MSAppCenter class]);
-  id mockLog = OCMClassMock([MSLogger class]);
   OCMReject([distributeMock checkLatestRelease:OCMOCK_ANY distributionGroupId:OCMOCK_ANY releaseHash:OCMOCK_ANY]);
   OCMStub([distributeMock sharedInstance]).andReturn(distributeMock);
   OCMStub([appCenterMock isConfigured]).andReturn(YES);
+  OCMReject([[mockLogger ignoringNonObjectArgs] logMessage:[OCMArg checkWithBlock:^BOOL(MSLogMessageProvider messageProvider) {
+    return [messageProvider() containsString:kMSTestAppSecret];
+  }]
+                                                     level:0
+                                                       tag:OCMOCK_ANY
+                                                      file:[OCMArg anyPointer]
+                                                  function:[OCMArg anyPointer]
+                                                      line:0]);
+  
+  // When
   [distributeMock startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
                               appSecret:kMSTestAppSecret
                 transmissionTargetToken:nil
                         fromApplication:YES];
-  
-  // When
-  NSMutableArray *items = [NSMutableArray array];
-  components.queryItems = items;
-  OCMReject([[mockLog ignoringNonObjectArgs] logMessage:OCMOCK_ANY
-                                                  level:0
-                                                    tag:containsSubstring(kMSTestAppSecret)
-                                                   file:0
-                                               function:0
-                                                   line:0]);
+  NSString *urlPath = [NSString stringWithFormat:kMSUpdateTokenApiPathFormat, kMSTestAppSecret];
+  NSURLComponents *components = [NSURLComponents componentsWithString:urlPath];
+  [distributeMock openURLInAuthenticationSessionWith:components.URL fromClass:authClass];
   
   // Then
-  [distributeMock openURLInAuthenticationSessionWith:components.URL fromClass:authClass];
- 
+  OCMVerifyAll(mockLogger);
+  
   // Clear
-  [mockLog stopMocking];
+  [mockLogger stopMocking];
   [appCenterMock stopMocking];
   [distributeMock stopMocking];
 }
