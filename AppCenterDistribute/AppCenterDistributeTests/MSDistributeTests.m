@@ -2537,9 +2537,6 @@ static NSURL *sfURL;
 -(void)testHideAppSecret {
   
   // If
-  NSString *scheme = [NSString stringWithFormat:kMSDefaultCustomSchemeFormat, kMSTestAppSecret];
-  NSString *requestId = @"FIRST-REQUEST";
-  NSString *updateSetupFailureMessage = @"in-app updates setup failed";
   NSString *urlPath = [NSString stringWithFormat:kMSUpdateTokenApiPathFormat, kMSTestAppSecret];
   NSURLComponents *components = [NSURLComponents componentsWithString:urlPath];
   id authClass = nil;
@@ -2557,18 +2554,20 @@ static NSURL *sfURL;
   // When
   NSMutableArray *items = [NSMutableArray array];
   components.queryItems = items;
-  
-  // Then
-  [distributeMock openURLInAuthenticationSessionWith:components.URL fromClass:authClass];
   OCMReject([[mockLog ignoringNonObjectArgs] logMessage:OCMOCK_ANY
-                                                  level:OCMOCK_ANY
+                                                  level:0
                                                     tag:containsSubstring(kMSTestAppSecret)
                                                    file:0
                                                function:0
                                                    line:0]);
+  
+  // Then
+  [distributeMock openURLInAuthenticationSessionWith:components.URL fromClass:authClass];
  
   // Clear
   [mockLog stopMocking];
+  [appCenterMock stopMocking];
+  [distributeMock stopMocking];
 }
 
 @end
