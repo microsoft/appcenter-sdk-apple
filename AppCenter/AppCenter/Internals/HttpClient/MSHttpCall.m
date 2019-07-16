@@ -63,7 +63,7 @@
     // Create queue.
     self.timerSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, DISPATCH_TARGET_QUEUE_DEFAULT);
     uint32_t millisecondsDelta = retryAfter ? [retryAfter unsignedIntValue] : [self delayForRetryCount:self.retryCount];
-    MSLogWarning([MSAppCenter logTag], @"Call attempt #%tu failed with status code: %tu, it will be retried in %d ms.", self.retryCount,
+    MSLogWarning([MSAppCenter logTag], @"Call attempt #%d failed with status code: %tu, it will be retried in %d ms.", self.retryCount,
                  statusCode, millisecondsDelta);
     uint64_t nanosecondsDelta = NSEC_PER_MSEC * millisecondsDelta;
     self.retryCount++;
