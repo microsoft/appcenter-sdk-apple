@@ -1,5 +1,11 @@
 # App Center SDK for iOS, macOS and tvOS Change Log
 
+## Version 2.2.1
+
+### App Center Distribute
+
+* **[Fix]** Fix the logging appSecret in verbose logs.
+
 ## Version 2.2.0
 
 ### App Center
