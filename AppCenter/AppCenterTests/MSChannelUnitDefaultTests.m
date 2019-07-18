@@ -544,13 +544,14 @@ static NSString *const kMSTestGroupId = @"GroupId";
 - (void)testDelegateDeadlock {
 
   // If
-  NSObject *lock = [NSObject new], *syncCallback = [NSObject new], *syncBackground = [NSObject new];
+  __block NSObject *lock = [NSObject new], *syncCallback = [NSObject new], *syncBackground = [NSObject new];
   [self initChannelEndJobExpectation];
-  id<MSLog> mockLog1 = [self getValidMockLog];
-  id<MSLog> mockLog2 = [self getValidMockLog];
+  __block id<MSLog> mockLog1 = [self getValidMockLog];
+  __block id<MSLog> mockLog2 = [self getValidMockLog];
   id delegateMock = OCMProtocolMock(@protocol(MSChannelDelegate));
   OCMStub([delegateMock channel:self.sut didPrepareLog:OCMOCK_ANY internalId:OCMOCK_ANY flags:MSFlagsDefault])
       .andDo(^(__unused NSInvocation *invocation) {
+        
         // Notify that didPrepareLog has been called.
         objc_sync_exit(syncCallback);
 
@@ -576,7 +577,6 @@ static NSString *const kMSTestGroupId = @"GroupId";
       // Enqueue item from background thread.
       [self.sut enqueueItem:mockLog2 flags:MSFlagsNormal];
     }
-    [self enqueueChannelEndJobExpectation];
   });
 
   // Make sure that backround task is started.
@@ -585,6 +585,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
   // Enqueue item from main thread.
   [self.sut enqueueItem:mockLog1 flags:MSFlagsNormal];
+  [self enqueueChannelEndJobExpectation];
 
   // Then
   [self waitForExpectationsWithTimeout:kMSTestTimeout
