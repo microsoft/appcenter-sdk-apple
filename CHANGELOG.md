@@ -4,7 +4,7 @@
 
 ### App Center Distribute
 
-* **[Fix]** Fix the logging appSecret in verbose logs.
+* **[Fix]** Obfuscate app secret value that appears as URI part in verbose logs for in-app updates.
 
 ## Version 2.2.0
 
