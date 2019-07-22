@@ -1,5 +1,11 @@
 # App Center SDK for iOS, macOS and tvOS Change Log
 
+## Version 2.2.1
+
+### App Center Distribute
+
+* **[Fix]** Obfuscate app secret value that appears as URI part in verbose logs for in-app updates.
+
 ## Version 2.2.0
 
 ### App Center
