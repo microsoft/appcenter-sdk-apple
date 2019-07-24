@@ -47,7 +47,17 @@ NSString *MSUtilityApplicationCategory;
 
 #if TARGET_OS_OSX
 + (MSApplicationState)sharedAppState {
-  return [[MSUtility sharedApp] isHidden] ? MSApplicationStateBackground : MSApplicationStateActive;
+  __block BOOL isHidden;
+
+  if ([NSThread isMainThread]) {
+    isHidden = [[MSUtility sharedApp] isHidden];
+  } else {
+    dispatch_sync(dispatch_get_main_queue(), ^{
+      isHidden =  [[MSUtility sharedApp] isHidden];
+    });
+  }
+
+  return isHidden ? MSApplicationStateBackground : MSApplicationStateActive;
 }
 #else
 + (UIApplicationState)sharedAppState {
