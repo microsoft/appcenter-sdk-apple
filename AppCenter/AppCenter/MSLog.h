@@ -15,7 +15,7 @@
 /**
  * Log timestamp.
  */
-@property(nonatomic) NSDate *timestamp;
+@property(nonatomic, strong) NSDate *timestamp;
 
 /**
  * A session identifier is used to correlate logs together. A session is an abstract concept in the API and is not necessarily an analytics
@@ -36,13 +36,13 @@
 /**
  * Device properties associated to this log.
  */
-@property(nonatomic) MSDevice *device;
+@property(nonatomic, strong) MSDevice *device;
 
 /**
  * Transient object tag. For example, a log can be tagged with a transmission target. We do this currently to prevent properties being
  * applied retroactively to previous logs by comparing their tags.
  */
-@property(nonatomic) NSObject *tag;
+@property(nonatomic, strong) NSObject *tag;
 
 /**
  * Checks if the object's values are valid.
