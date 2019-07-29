@@ -1230,7 +1230,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 #endif
 
 - (void)testMemoryPressureSourceSetUpAndClearedInExtension {
-  
+
   // If
   id bundleMock = OCMClassMock([NSBundle class]);
   OCMStub([bundleMock mainBundle]).andReturn(bundleMock);
@@ -1238,13 +1238,13 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
   // When
   [self.sut applyEnabledState:YES];
-  
+
   // Then
   XCTAssertNotNil(self.sut.memoryPressureSource);
-  
+
   // When
   [self.sut applyEnabledState:NO];
-  
+
   // Then
   XCTAssertNil(self.sut.memoryPressureSource);
   [bundleMock stopMocking];
