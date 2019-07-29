@@ -43,6 +43,8 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
 @property(nonatomic) dispatch_group_t bufferFileGroup;
 
+@property dispatch_source_t memoryPressureSource;
+
 @end
 
 @interface MSCrashesTests : XCTestCase <MSCrashesDelegate>
@@ -1201,6 +1203,35 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
                                }];
 
   [settings stopMocking];
+}
+
+#if !TARGET_OS_OSX
+- (void)testObserverRemoved {
+
+  // When
+  [self.sut applyEnabledState:YES];
+
+  // Then
+  OCMVerify([MS_NOTIFICATION_CENTER removeObserver:self.sut]);
+}
+
+- (void)testObserverAddedNotOsxNotExtension {
+
+  // When
+  [self.sut applyEnabledState:YES];
+
+  // Then
+  OCMVerify([MS_NOTIFICATION_CENTER addObserver:self.sut
+                                       selector:@selector(didReceiveMemoryWarning:)
+                                           name:UIApplicationDidReceiveMemoryWarningNotification
+                                         object:nil]);
+}
+
+#endif
+
+- (void)testMemoryWarningHandlerSetUpExtension {
+  
+  // TODO
 }
 
 #pragma mark Helper
