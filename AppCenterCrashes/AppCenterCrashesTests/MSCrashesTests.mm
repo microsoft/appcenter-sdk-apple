@@ -1206,14 +1206,6 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 }
 
 #if !TARGET_OS_OSX
-- (void)testObserverRemoved {
-
-  // When
-  [self.sut applyEnabledState:YES];
-
-  // Then
-  OCMVerify([MS_NOTIFICATION_CENTER removeObserver:self.sut]);
-}
 
 - (void)testObserverAddedNotOsxNotExtension {
 
@@ -1222,7 +1214,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
   // Then
   OCMVerify([MS_NOTIFICATION_CENTER addObserver:self.sut
-                                       selector:@selector(didReceiveMemoryWarning:)
+                                       selector:[OCMArg anySelector]
                                            name:UIApplicationDidReceiveMemoryWarningNotification
                                          object:nil]);
 }
@@ -1232,9 +1224,11 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 - (void)testMemoryPressureSourceSetUpAndClearedInExtension {
 
   // If
+#if !TARGET_OS_OSX
   id bundleMock = OCMClassMock([NSBundle class]);
   OCMStub([bundleMock mainBundle]).andReturn(bundleMock);
   OCMStub([bundleMock executablePath]).andReturn(@"/Application/Executable/Path.appex/42");
+#endif
 
   // When
   [self.sut applyEnabledState:YES];
@@ -1247,7 +1241,11 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
   // Then
   XCTAssertNil(self.sut.memoryPressureSource);
+
+  // Clear
+#if !TARGET_OS_OSX
   [bundleMock stopMocking];
+#endif
 }
 
 #pragma mark Helper
