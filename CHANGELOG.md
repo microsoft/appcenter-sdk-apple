@@ -2,6 +2,10 @@
 
 ## Version 2.2.1
 
+### App Center
+
+* **[Feature]** Add the ability for Mac apps to specify the name of their directory in Application Support.
+
 ### App Center Distribute
 
 * **[Fix]** Obfuscate app secret value that appears as URI part in verbose logs for in-app updates.
