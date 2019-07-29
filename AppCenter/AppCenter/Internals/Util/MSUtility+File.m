@@ -17,6 +17,11 @@ NSString *MSUtilityFileCategory;
  */
 static NSString *const kMSAppCenterBundleIdentifier = @"com.microsoft.appcenter";
 
+/**
+ * Info.plist key to use instead of app bundle ID for Application Support directory
+ */
+static NSString *const kMSAppCenterAppSupportDirectoryName = @"MSAppCenterAppSupportDirectoryName";
+
 @implementation MSUtility (File)
 
 + (NSURL *)createFileAtPathComponent:(NSString *)filePathComponent
@@ -162,9 +167,13 @@ static NSString *const kMSAppCenterBundleIdentifier = @"com.microsoft.appcenter"
 
 #if TARGET_OS_OSX
 
-    // Use the application's bundle identifier for macOS to make sure to use separate directories for each app.
-    NSString *bundleIdentifier = [NSString stringWithFormat:@"%@/", [MS_APP_MAIN_BUNDLE bundleIdentifier]];
-    dirURL = [[baseDirUrl URLByAppendingPathComponent:bundleIdentifier] URLByAppendingPathComponent:kMSAppCenterBundleIdentifier];
+    NSString *dirName = [MS_APP_MAIN_BUNDLE objectForInfoDictionaryKey:kMSAppCenterAppSupportDirectoryName];
+    if (dirName == nil) {
+        // Use the application's bundle identifier for macOS to make sure to use separate directories for each app.
+        dirName = [NSString stringWithFormat:@"%@/", [MS_APP_MAIN_BUNDLE bundleIdentifier]];
+    }
+
+    dirURL = [[baseDirUrl URLByAppendingPathComponent:dirName] URLByAppendingPathComponent:kMSAppCenterBundleIdentifier];
 #else
     dirURL = [baseDirUrl URLByAppendingPathComponent:kMSAppCenterBundleIdentifier];
 #endif
