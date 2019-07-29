@@ -1229,9 +1229,25 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
 #endif
 
-- (void)testMemoryWarningHandlerSetUpExtension {
+- (void)testMemoryPressureSourceSetUpAndClearedInExtension {
   
-  // TODO
+  // If
+  id bundleMock = OCMClassMock([NSBundle class]);
+  OCMStub([bundleMock mainBundle]).andReturn(bundleMock);
+  OCMStub([bundleMock executablePath]).andReturn(@"/Application/Executable/Path.appex/42");
+
+  // When
+  [self.sut applyEnabledState:YES];
+  
+  // Then
+  XCTAssertNotNil(self.sut.memoryPressureSource);
+  
+  // When
+  [self.sut applyEnabledState:NO];
+  
+  // Then
+  XCTAssertNil(self.sut.memoryPressureSource);
+  [bundleMock stopMocking];
 }
 
 #pragma mark Helper
