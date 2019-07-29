@@ -376,7 +376,9 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     }
   } else {
     if (self.memoryPressureSource) {
-      dispatch_cancel(self.memoryPressureSource);
+      if (@available(macOS 10.10, *)) {
+        dispatch_cancel(self.memoryPressureSource);
+      }
       self.memoryPressureSource = nil;
     }
 
