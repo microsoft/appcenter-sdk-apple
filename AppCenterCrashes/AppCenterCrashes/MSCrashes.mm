@@ -652,7 +652,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
    * FIXME: There is no life cycle for app extensions yet so force start crash processing until then.
    * Note that macOS cannot access the application state from a background thread, so crash processing will start without this check.
    *
-   * Also force start crash processing when automatic processing is disabled. Though it sounds counterintuitive, his is important because
+   * Also force start crash processing when automatic processing is disabled. Though it sounds counterintuitive, this is important because
    * there are scenarios in some wrappers (i.e. ReactNative) where the application state is not ready by the time crash processing needs to
    * happen.
    */
