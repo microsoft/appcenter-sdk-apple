@@ -62,7 +62,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 /**
  * Key for a low memory warning in the last session.
  */
-static NSString *const kMSAppDidReceiveLowMemory = @"MSAppDidReceiveLowMemory";
+static NSString *const kMSAppDidReceiveMemoryWarning = @"MSAppDidReceiveMemoryWarning";
 
 std::array<MSCrashesBufferedLog, ms_crashes_log_buffer_size> msCrashesLogBuffer;
 
@@ -139,6 +139,15 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 @property BOOL didCrashInLastSession;
 
 /**
+ * Indicates if the app did receive a low memory warning in the last session.
+ * It may happen that low memory warning where send but couldn't be logged, since iOS killed the app before updating the flag in the filesystem did complete.
+ * This property may be true in case of low memory kills, but it doesn't have to be! Apps can also be killed without the app ever receiving a low memory warning.
+ * Also the app could have received a low memory warning, but the reason for being killed was actually different.
+ *
+ * @warning This property only has a correct value, once the sdk has been properly initialized!
+ */
+@property BOOL didReceiveMemoryWarningInLastSession;
+/**
  * Indicates if the delayedProcessingSemaphore will need to be released anymore. Useful for preventing overflows.
  */
 @property BOOL shouldReleaseProcessingSemaphore;
@@ -207,6 +216,10 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
 + (BOOL)hasCrashedInLastSession {
   return [[MSCrashes sharedInstance] didCrashInLastSession];
+}
+
++ (BOOL)hadMemoryWarningInLastSession {
+  return [[MSCrashes sharedInstance] didReceiveMemoryWarningInLastSession];
 }
 
 + (void)setUserConfirmationHandler:(_Nullable MSUserConfirmationHandler)userConfirmationHandler {
@@ -340,6 +353,11 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     }
 #endif
 
+    // Read and reset the memory warning state.
+    NSNumber *didReceiveMemoryWarning = [MS_USER_DEFAULTS objectForKey:kMSAppDidReceiveMemoryWarning];
+    self.didReceiveMemoryWarningInLastSession = didReceiveMemoryWarning.boolValue;
+    [MS_USER_DEFAULTS removeObjectForKey:kMSAppDidReceiveMemoryWarning];
+
     /*
      * PLCrashReporter keeps collecting crash reports even when the SDK is disabled, delete them only if current state is disabled.
      */
@@ -453,7 +471,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 #pragma mark - Application life cycle
 
 - (void)didReceiveMemoryWarning:(NSNotification *)__unused notification {
-  [MS_USER_DEFAULTS setObject:@YES forKey:kMSAppDidReceiveLowMemory];
+  [MS_USER_DEFAULTS setObject:@YES forKey:kMSAppDidReceiveMemoryWarning];
 }
 
 #pragma mark - Channel Delegate
