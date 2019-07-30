@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "MSCrashOOM.h"
+#import "MSCrashOutOfMemory.h"
 #include <algorithm>
 
-@implementation MSCrashOOM
+@implementation MSCrashOutOfMemory
 
 - (NSString *)category {
   return @"Memory";
@@ -21,11 +21,10 @@
 }
 
 - (void)crash {
-  int arrSize = 128 * 1024 * 1024;
+  int blockSize = 128 * 1024 * 1024;
   while (true) {
-    volatile auto newArr = new char[arrSize];
-    std::fill(newArr, newArr + arrSize, 42);
-    NSLog(@"Allocated %d bytes", arrSize);
+    malloc(blockSize);
+    NSLog(@"Allocated %d bytes", blockSize);
   }
 }
 

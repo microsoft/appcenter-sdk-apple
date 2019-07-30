@@ -3,6 +3,6 @@
 
 #import "MSCrash.h"
 
-@interface MSCrashOOM : MSCrash
+@interface MSCrashOutOfMemory : MSCrash
 
 @end
