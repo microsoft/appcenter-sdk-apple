@@ -53,6 +53,11 @@ static NSString *const kMSTargetTokenFileExtension = @"targettoken";
 
 static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
+/**
+ * Delay in nanoseconds before processing crashes.
+ */
+static int64_t kMSCrashProcessingDelay = 1 * NSEC_PER_SEC;
+
 std::array<MSCrashesBufferedLog, ms_crashes_log_buffer_size> msCrashesLogBuffer;
 
 /**
@@ -103,7 +108,7 @@ static void plcr_post_crash_callback(__unused siginfo_t *info, __unused ucontext
 static PLCrashReporterCallbacks plCrashCallbacks = {.version = 0, .context = nullptr, .handleSignal = plcr_post_crash_callback};
 
 /**
- * C++ Exception Handler
+ * C++ Exception Handler.
  */
 __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionInfo *info) {
 
@@ -627,7 +632,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
    */
 
   // This must be performed asynchronously to prevent a deadlock with 'unprocessedCrashReports'.
-  dispatch_time_t delay = dispatch_time(DISPATCH_TIME_NOW, (1 * NSEC_PER_SEC));
+  dispatch_time_t delay = dispatch_time(DISPATCH_TIME_NOW, kMSCrashProcessingDelay);
   dispatch_after(delay, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
     [self startCrashProcessing];
 
@@ -644,11 +649,14 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 - (void)startCrashProcessing {
 
   /*
-   * FIXME: There is no life cycle for app extensions yet so force start crash processing until then. Also force start crash processing when
-   * automatic processing is disabled. Though it sounds counterintuitive, this is important because there are scenarios in some wrappers
-   * (i.e. RN) where the application state is not ready by the time crash processing needs to happen.
+   * FIXME: There is no life cycle for app extensions yet so force start crash processing until then.
+   * Note that macOS cannot access the application state from a background thread, so crash processing will start without this check.
+   *
+   * Also force start crash processing when automatic processing is disabled. Though it sounds counterintuitive, his is important because
+   * there are scenarios in some wrappers (i.e. ReactNative) where the application state is not ready by the time crash processing needs to
+   * happen.
    */
-  if (self.automaticProcessingEnabled && ([MSUtility applicationState] == MSApplicationStateBackground)) {
+  if (self.automaticProcessingEnabled && [MSUtility applicationState] == MSApplicationStateBackground) {
     MSLogWarning([MSCrashes logTag], @"Crashes will not be processed because the application is in the background.");
     return;
   }

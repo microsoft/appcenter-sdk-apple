@@ -62,7 +62,8 @@ static NSString *const kMSPastSessionsKey = @"pastSessionsKey";
     self.started = YES;
 
     // Request a new session id depending on the application state.
-    if ([MSUtility applicationState] == MSApplicationStateInactive || [MSUtility applicationState] == MSApplicationStateActive) {
+    MSApplicationState state = [MSUtility applicationState];
+    if (state == MSApplicationStateInactive || state == MSApplicationStateActive) {
       [self renewSessionId];
     }
 
