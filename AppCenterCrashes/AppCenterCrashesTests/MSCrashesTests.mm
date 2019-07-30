@@ -1209,14 +1209,19 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
 - (void)testObserverAddedNotOsxNotExtension {
 
+  // If
+  id defaultCenterMock = OCMClassMock([NSNotificationCenter class]);
+  OCMStub([NSNotificationCenter defaultCenter]).andReturn(defaultCenterMock);
+
   // When
   [self.sut applyEnabledState:YES];
 
   // Then
-  OCMVerify([MS_NOTIFICATION_CENTER addObserver:self.sut
-                                       selector:[OCMArg anySelector]
-                                           name:UIApplicationDidReceiveMemoryWarningNotification
-                                         object:nil]);
+  OCMVerify([defaultCenterMock addObserver:self.sut
+                                  selector:[OCMArg anySelector]
+                                      name:UIApplicationDidReceiveMemoryWarningNotification
+                                    object:nil]);
+  [defaultCenterMock stopMocking];
 }
 
 #endif
