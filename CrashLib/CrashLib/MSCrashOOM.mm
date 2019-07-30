@@ -16,8 +16,8 @@
 
 - (NSString *)desc {
   return @""
-  "Execute an infinite loop with excessive memory allocation, which "
-  "causes a OS to terminate app.";
+          "Execute an infinite loop with excessive memory allocation, which "
+          "causes a OS to terminate app.";
 }
 
 - (void)crash {
