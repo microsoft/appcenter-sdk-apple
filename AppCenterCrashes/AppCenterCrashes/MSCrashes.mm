@@ -139,11 +139,9 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 @property BOOL didCrashInLastSession;
 
 /**
- * Indicates if the app did receive a low memory warning in the last session.
- * It may happen that low memory warning where send but couldn't be logged, since iOS killed the app before updating the flag in the
- * filesystem did complete. This property may be true in case of low memory kills, but it doesn't have to be! Apps can also be killed
- * without the app ever receiving a low memory warning. Also the app could have received a low memory warning, but the reason for being
- * killed was actually different.
+ * Indicates that the app received a low memory warning in the last session.
+ * It is possible that a low memory warning was sent but couldn't be logged if iOS killed the app before updating the flag in
+ * the filesystem. Apps can also be killed without receiving a low memory warning, or receive the warning, but crash for another reason.
  *
  * @warning This property only has a correct value, once the sdk has been properly initialized!
  */
