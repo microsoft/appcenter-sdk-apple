@@ -48,7 +48,7 @@ class MSCrashesViewController: UITableViewController, UIImagePickerControllerDel
     if isFirst {
       return 1
     } else if isSecond {
-      return 4
+      return 5
     } else {
       return categories[categoryForSection(section - 2)]!.count
     }
@@ -118,6 +118,9 @@ class MSCrashesViewController: UITableViewController, UIImagePickerControllerDel
       } else if (indexPath.row == 3) {
         cell.textLabel?.text = "Clear crash user confirmation"
         cell.detailTextLabel?.text = ""
+      } else if (indexPath.row == 4) {
+        cell.textLabel?.text = "Memory warning status (last session)"
+        cell.detailTextLabel?.text = appCenter.hasReceivedMemoryWarningInLastSession() ? "YES" : "NO"
       }
     } else {
       let crash = crashByIndexPath(indexPath)
@@ -178,7 +181,7 @@ class MSCrashesViewController: UITableViewController, UIImagePickerControllerDel
         alertController.addAction(cancelAction)
         alertController.addAction(clearAction)
         self.present(alertController, animated: true, completion: nil)
-      }
+      } 
     } else {
       
       // Crash cell.

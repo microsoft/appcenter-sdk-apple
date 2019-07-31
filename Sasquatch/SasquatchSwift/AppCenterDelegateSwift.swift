@@ -153,7 +153,11 @@ class AppCenterDelegateSwift: AppCenterDelegate {
   func hasCrashedInLastSession() -> Bool {
     return MSCrashes.hasCrashedInLastSession()
   }
-
+  
+  func hasReceivedMemoryWarningInLastSession() -> Bool {
+    return MSCrashes.hasReceivedMemoryWarningInLastSession()
+  }
+  
   func generateTestCrash() {
     MSCrashes.generateTestCrash()
   }
