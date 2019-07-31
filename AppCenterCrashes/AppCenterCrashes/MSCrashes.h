@@ -94,7 +94,7 @@ typedef NS_ENUM(NSUInteger, MSUserConfirmation) {
  *
  * @return Returns YES is the app received memory warning in the last session.
  */
-+ (BOOL)hadMemoryWarningInLastSession;
++ (BOOL)hasReceivedMemoryWarningInLastSession;
 
 /**
  * Provides details about the crash that occurred in the last app session

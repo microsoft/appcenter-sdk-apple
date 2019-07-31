@@ -219,7 +219,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   return [[MSCrashes sharedInstance] didCrashInLastSession];
 }
 
-+ (BOOL)hadMemoryWarningInLastSession {
++ (BOOL)hasReceivedMemoryWarningInLastSession {
   return [[MSCrashes sharedInstance] didReceiveMemoryWarningInLastSession];
 }
 
