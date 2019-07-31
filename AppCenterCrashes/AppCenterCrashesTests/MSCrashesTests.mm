@@ -1207,11 +1207,11 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
 #if !TARGET_OS_OSX
 
-- (void)testObserverAddedNotOsxNotExtension {
+- (void)testObserverAddedNotExtension {
 
   // If
   id defaultCenterMock = OCMClassMock([NSNotificationCenter class]);
-  OCMStub([NSNotificationCenter defaultCenter]).andReturn(defaultCenterMock);
+  OCMStub([defaultCenterMock defaultCenter]).andReturn(defaultCenterMock);
 
   // When
   [self.sut applyEnabledState:YES];
@@ -1226,7 +1226,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
 #endif
 
-- (void)testMemoryPressureSourceSetUpAndClearedInExtension {
+- (void)testMemoryPressureSourceSetUpAndClearedInExtensionAndMacOS {
 
   // If
 #if !TARGET_OS_OSX
