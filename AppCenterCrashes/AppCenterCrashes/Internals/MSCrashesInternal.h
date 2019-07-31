@@ -6,6 +6,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ * Key for a low memory warning in the last session.
+ */
+static NSString *const kMSAppDidReceiveMemoryWarningKey = @"MSAppDidReceiveMemoryWarning";
+
 @class MSException;
 @class MSErrorAttachmentLog;
 
@@ -72,6 +77,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param properties dictionary of properties.
  */
 + (void)trackModelException:(MSException *)exception withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties;
+
 @end
 
 NS_ASSUME_NONNULL_END

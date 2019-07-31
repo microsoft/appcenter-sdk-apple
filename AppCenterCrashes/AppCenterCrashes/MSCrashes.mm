@@ -59,11 +59,6 @@ static NSString *const kMSTargetTokenFileExtension = @"targettoken";
 
 static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
-/**
- * Key for a low memory warning in the last session.
- */
-static NSString *const kMSAppDidReceiveMemoryWarning = @"MSAppDidReceiveMemoryWarning";
-
 std::array<MSCrashesBufferedLog, ms_crashes_log_buffer_size> msCrashesLogBuffer;
 
 /**
@@ -272,6 +267,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     _analyzerInProgressFilePathComponent = [NSString stringWithFormat:@"%@/%@", [MSCrashesUtil crashesDir], kMSAnalyzerFilename];
 
     _didCrashInLastSession = NO;
+    _didReceiveMemoryWarningInLastSession = NO;
     _delayedProcessingSemaphore = dispatch_semaphore_create(0);
     _automaticProcessingEnabled = YES;
     _shouldReleaseProcessingSemaphore = YES;
@@ -352,11 +348,6 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     }
 #endif
 
-    // Read and reset the memory warning state.
-    NSNumber *didReceiveMemoryWarning = [MS_USER_DEFAULTS objectForKey:kMSAppDidReceiveMemoryWarning];
-    self.didReceiveMemoryWarningInLastSession = didReceiveMemoryWarning.boolValue;
-    [MS_USER_DEFAULTS removeObjectForKey:kMSAppDidReceiveMemoryWarning];
-
     /*
      * PLCrashReporter keeps collecting crash reports even when the SDK is disabled, delete them only if current state is disabled.
      */
@@ -367,6 +358,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     // Get pending crashes from PLCrashReporter and persist them in the intermediate format.
     if ([self.plCrashReporter hasPendingCrashReport]) {
       self.didCrashInLastSession = YES;
+      MSLogDebug([MSCrashes logTag], @"The application crashed in the last session.");
       [self handleLatestCrashReport];
     }
 
@@ -406,6 +398,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     [self.plCrashReporter purgePendingCrashReport];
     [self clearUnprocessedReports];
     [self clearContextHistoryAndKeepCurrentSession];
+    [MS_USER_DEFAULTS removeObjectForKey:kMSAppDidReceiveMemoryWarningKey];
     MSLogInfo([MSCrashes logTag], @"Crashes service has been disabled.");
   }
 }
@@ -432,6 +425,16 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionTargetToken:token fromApplication:fromApplication];
   [self.channelGroup addDelegate:self];
   [self processLogBufferAfterCrash];
+  if (self.isEnabled) {
+
+    // Read and reset the memory warning state.
+    NSNumber *didReceiveMemoryWarning = [MS_USER_DEFAULTS objectForKey:kMSAppDidReceiveMemoryWarningKey];
+    self.didReceiveMemoryWarningInLastSession = didReceiveMemoryWarning.boolValue;
+    if (self.didReceiveMemoryWarningInLastSession) {
+      MSLogDebug([MSCrashes logTag], @"The application received a low memory warning in the last session.");
+    }
+    [MS_USER_DEFAULTS removeObjectForKey:kMSAppDidReceiveMemoryWarningKey];
+  }
   MSLogVerbose([MSCrashes logTag], @"Started crash service.");
 }
 
@@ -470,7 +473,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 #pragma mark - Application life cycle
 
 - (void)didReceiveMemoryWarning:(NSNotification *)__unused notification {
-  [MS_USER_DEFAULTS setObject:@YES forKey:kMSAppDidReceiveMemoryWarning];
+  MSLogDebug([MSCrashes logTag], @"The application received a low memory warning.");
+  [MS_USER_DEFAULTS setObject:@YES forKey:kMSAppDidReceiveMemoryWarningKey];
 }
 
 #pragma mark - Channel Delegate
