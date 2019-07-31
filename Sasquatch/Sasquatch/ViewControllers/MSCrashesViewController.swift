@@ -181,7 +181,7 @@ class MSCrashesViewController: UITableViewController, UIImagePickerControllerDel
         alertController.addAction(cancelAction)
         alertController.addAction(clearAction)
         self.present(alertController, animated: true, completion: nil)
-      } 
+      }
     } else {
       
       // Crash cell.
