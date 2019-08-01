@@ -53,6 +53,7 @@ import AppCenterData
   
   // MSCrashes section.
   func hasCrashedInLastSession() -> Bool
+  func hasReceivedMemoryWarningInLastSession() -> Bool
   func generateTestCrash()
   
   // MSDistribute section.
