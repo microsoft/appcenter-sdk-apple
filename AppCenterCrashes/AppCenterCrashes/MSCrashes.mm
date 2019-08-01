@@ -425,16 +425,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionTargetToken:token fromApplication:fromApplication];
   [self.channelGroup addDelegate:self];
   [self processLogBufferAfterCrash];
-  if (self.isEnabled) {
-
-    // Read and reset the memory warning state.
-    NSNumber *didReceiveMemoryWarning = [MS_USER_DEFAULTS objectForKey:kMSAppDidReceiveMemoryWarningKey];
-    self.didReceiveMemoryWarningInLastSession = didReceiveMemoryWarning.boolValue;
-    if (self.didReceiveMemoryWarningInLastSession) {
-      MSLogDebug([MSCrashes logTag], @"The application received a low memory warning in the last session.");
-    }
-    [MS_USER_DEFAULTS removeObjectForKey:kMSAppDidReceiveMemoryWarningKey];
-  }
+  [self processMemoryWarningInLastSession];
   MSLogVerbose([MSCrashes logTag], @"Started crash service.");
 }
 
@@ -867,6 +858,22 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
       [[NSData data] writeToURL:fileURL atomically:NO];
     }
   }
+}
+
+- (void)processMemoryWarningInLastSession {
+  if (!self.isEnabled) {
+    return;
+  }
+
+  // Read and reset the memory warning state.
+  NSNumber *didReceiveMemoryWarning = [MS_USER_DEFAULTS objectForKey:kMSAppDidReceiveMemoryWarningKey];
+  self.didReceiveMemoryWarningInLastSession = didReceiveMemoryWarning.boolValue;
+  if (self.didReceiveMemoryWarningInLastSession) {
+    MSLogDebug([MSCrashes logTag], @"The application received a low memory warning in the last session.");
+  }
+
+  // Clean the flag.
+  [MS_USER_DEFAULTS removeObjectForKey:kMSAppDidReceiveMemoryWarningKey];
 }
 
 /**
