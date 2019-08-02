@@ -1,10 +1,16 @@
 # App Center SDK for iOS, macOS and tvOS Change Log
 
-## Version 2.2.1
+## Version 2.2.1 (Under development)
+
+### App Center Crashes
+
+* **[Feature]** Catch "low memory warning" and provide the API to check if it has happened in last session: `MSCrashes.hasReceivedMemoryWarningInLastSession()`.
 
 ### App Center Distribute
 
 * **[Fix]** Obfuscate app secret value that appears as URI part in verbose logs for in-app updates.
+
+___
 
 ## Version 2.2.0
 
