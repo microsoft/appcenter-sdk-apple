@@ -161,6 +161,8 @@
 		B24187EC1DD2A7F900D820D8 /* MSFramelessDWARF_x86_64.s in Sources */ = {isa = PBXBuildFile; fileRef = B24187B91DD2A7F900D820D8 /* MSFramelessDWARF_x86_64.s */; };
 		B24187ED1DD2A7F900D820D8 /* MSCrashFramelessDWARF.h in Headers */ = {isa = PBXBuildFile; fileRef = B24187BA1DD2A7F900D820D8 /* MSCrashFramelessDWARF.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B24187EE1DD2A7F900D820D8 /* MSCrashFramelessDWARF.m in Sources */ = {isa = PBXBuildFile; fileRef = B24187BB1DD2A7F900D820D8 /* MSCrashFramelessDWARF.m */; };
+		C942E7BE22F0655500F91A4B /* MSCrashOutOfMemory.mm in Sources */ = {isa = PBXBuildFile; fileRef = C942E7BD22F0655500F91A4B /* MSCrashOutOfMemory.mm */; };
+		C942E7C022F0657500F91A4B /* MSCrashOutOfMemory.h in Headers */ = {isa = PBXBuildFile; fileRef = C942E7BF22F0657500F91A4B /* MSCrashOutOfMemory.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -224,6 +226,8 @@
 		C2B2102321B6A9FF00F116BD /* iOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = iOS.xcconfig; path = ../../Config/iOS.xcconfig; sourceTree = "<group>"; };
 		C2B2102421B6A9FF00F116BD /* macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = macOS.xcconfig; path = ../../Config/macOS.xcconfig; sourceTree = "<group>"; };
 		C2B2102721B6A9FF00F116BD /* tvOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = tvOS.xcconfig; path = ../../Config/tvOS.xcconfig; sourceTree = "<group>"; };
+		C942E7BD22F0655500F91A4B /* MSCrashOutOfMemory.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = MSCrashOutOfMemory.mm; sourceTree = "<group>"; };
+		C942E7BF22F0657500F91A4B /* MSCrashOutOfMemory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSCrashOutOfMemory.h; sourceTree = "<group>"; };
 		DF1F8F7D2269D7AB002B0B9B /* CrashLib Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "CrashLib Debug.xcconfig"; sourceTree = "<group>"; };
 		DF31CF972272FD0100A39F1B /* CrashLib Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "CrashLib Release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -327,6 +331,8 @@
 				B241879F1DD2A7F900D820D8 /* MSFramelessDWARF_arm64.s */,
 				B24187A21DD2A7F900D820D8 /* CrashLib-Bridging-Header.h */,
 				B21A71DF1DD2A38C0044BB1C /* Info.plist */,
+				C942E7BD22F0655500F91A4B /* MSCrashOutOfMemory.mm */,
+				C942E7BF22F0657500F91A4B /* MSCrashOutOfMemory.h */,
 			);
 			path = CrashLib;
 			sourceTree = "<group>";
@@ -425,6 +431,7 @@
 				B24187DA1DD2A7F900D820D8 /* MSCrashObjCException.h in Headers */,
 				B24187DE1DD2A7F900D820D8 /* MSCrashROPage.h in Headers */,
 				B24187E81DD2A7F900D820D8 /* MSCrashUndefInst.h in Headers */,
+				C942E7C022F0657500F91A4B /* MSCrashOutOfMemory.h in Headers */,
 				B24187C01DD2A7F900D820D8 /* MSCrashAbort.h in Headers */,
 				B24187EB1DD2A7F900D820D8 /* MSCrashAsyncSafeThread.h in Headers */,
 				B24187DC1DD2A7F900D820D8 /* MSCrashSmashStackBottom.h in Headers */,
@@ -705,6 +712,7 @@
 				B24187EC1DD2A7F900D820D8 /* MSFramelessDWARF_x86_64.s in Sources */,
 				B24187D61DD2A7F900D820D8 /* MSCrashReleasedObject.m in Sources */,
 				B24187D81DD2A7F900D820D8 /* MSCrashCorruptMalloc.m in Sources */,
+				C942E7BE22F0655500F91A4B /* MSCrashOutOfMemory.mm in Sources */,
 				B24187CA1DD2A7F900D820D8 /* MSCrash.m in Sources */,
 				B24187BE1DD2A7F900D820D8 /* MSFramelessDWARF_arm32.S in Sources */,
 				B24187DF1DD2A7F900D820D8 /* MSCrashSwift.swift in Sources */,
