@@ -21,10 +21,15 @@
 }
 
 - (void)crash {
-  int blockSize = 128 * 1024 * 1024;
+  const size_t blockSize = 128 * 1024 * 1024;
+  size_t allocated = 0;
+  NSMutableArray *buffers = [NSMutableArray new];
   while (true) {
-    malloc(blockSize);
-    NSLog(@"Allocated %d bytes", blockSize);
+    void *buffer = malloc(blockSize);
+    memset(buffer, 42, blockSize);
+    [buffers addObject:[NSValue valueWithPointer:buffer]];
+    allocated += blockSize;
+    NSLog(@"Allocated %zu MB", allocated / (1024 * 1024));
   }
 }
 
