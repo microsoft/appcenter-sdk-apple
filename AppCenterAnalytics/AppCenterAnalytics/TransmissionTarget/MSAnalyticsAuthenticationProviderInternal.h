@@ -7,7 +7,7 @@
 
 @interface MSAnalyticsAuthenticationProvider ()
 
-@property(nonatomic, assign) signed char isAlreadyAcquiringToken;
+@property(nonatomic) signed char isAlreadyAcquiringToken;
 
 @property(nonatomic, strong) NSDate *expiryDate;
 
