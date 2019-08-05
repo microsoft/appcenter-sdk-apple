@@ -138,7 +138,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
  * It is possible that a low memory warning was sent but couldn't be logged if iOS killed the app before updating the flag in
  * the filesystem. Apps can also be killed without receiving a low memory warning, or receive the warning, but crash for another reason.
  *
- * @warning This property only has a correct value, once the sdk has been properly initialized!
+ * @warning This property only has an updated value once the SDK has been properly initialized!
  */
 @property BOOL didReceiveMemoryWarningInLastSession;
 /**
@@ -464,7 +464,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 #pragma mark - Application life cycle
 
 - (void)didReceiveMemoryWarning:(NSNotification *)__unused notification {
-  MSLogDebug([MSCrashes logTag], @"The application received a low memory warning.");
+  MSLogDebug([MSCrashes logTag], @"The application received a low memory warning in the last session.");
   [MS_USER_DEFAULTS setObject:@YES forKey:kMSAppDidReceiveMemoryWarningKey];
 }
 
