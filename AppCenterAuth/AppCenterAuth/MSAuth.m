@@ -6,6 +6,7 @@
 #import "MSALAuthority.h"
 #import "MSALB2CAuthority.h"
 #import "MSALError.h"
+#import "MSALLoggerConfig.h"
 #import "MSALResult.h"
 #import "MSAppCenterInternal.h"
 #import "MSAuthConfig.h"
@@ -49,6 +50,7 @@ static dispatch_once_t onceToken;
 #endif
     _configUrl = kMSAuthDefaultBaseURL;
     [MSUtility createDirectoryForPathComponent:kMSAuthPathComponent];
+    [self enableMSALLogging];
   }
   return self;
 }
@@ -261,6 +263,23 @@ static dispatch_once_t onceToken;
 }
 
 #pragma mark - Private methods
+
+- (void)enableMSALLogging {
+  MSALGlobalConfig.loggerConfig.logLevel = MSALLogLevelVerbose;
+  [MSALGlobalConfig.loggerConfig setLogCallback:^(MSALLogLevel level, NSString *message, BOOL containsPII) {
+    if (!containsPII) {
+      if (level == MSALLogLevelVerbose) {
+        MSLogVerbose([MSAuth logTag], @"%@", message);
+      } else if (level == MSALLogLevelInfo) {
+        MSLogInfo([MSAuth logTag], @"%@", message);
+      } else if (level == MSALLogLevelWarning) {
+        MSLogWarning([MSAuth logTag], @"%@", message);
+      } else if (level == MSALLogLevelError) {
+        MSLogError([MSAuth logTag], @"%@", message);
+      }
+    }
+  }];
+}
 
 - (BOOL)checkURLSchemeRegistered:(NSString *)urlScheme {
   NSArray *schemes;
