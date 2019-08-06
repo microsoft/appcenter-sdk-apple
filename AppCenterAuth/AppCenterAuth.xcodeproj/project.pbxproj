@@ -565,6 +565,15 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		4AD92A3322F95AA100AAF977 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				048BF76322A724030099FF73 /* MSUserInformation.h */,
+				048BF76422A724030099FF73 /* MSUserInformation.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		6E0684361D35A39300A8CC6C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -635,9 +644,8 @@
 				E85547C31D2D6253002DF6E2 /* MSAuth.h */,
 				E85547C51D2D6253002DF6E2 /* MSAuth.m */,
 				049BC835224E8AD900AE7FBB /* MSAuthErrors.h */,
-				048BF76322A724030099FF73 /* MSUserInformation.h */,
-				048BF76422A724030099FF73 /* MSUserInformation.m */,
 				995BA5D621EFF01F000E3212 /* Internals */,
+				4AD92A3322F95AA100AAF977 /* Model */,
 				E85547D01D2D65AF002DF6E2 /* Support */,
 			);
 			path = AppCenterAuth;
