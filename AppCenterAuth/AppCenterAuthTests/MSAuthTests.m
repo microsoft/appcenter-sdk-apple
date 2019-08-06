@@ -7,6 +7,7 @@
 #import "MSALAccountId.h"
 #import "MSALAuthority.h"
 #import "MSALError.h"
+#import "MSALLoggerConfig.h"
 #import "MSALPublicClientApplication.h"
 #import "MSALResult.h"
 #import "MSAuthConfigIngestion.h"
@@ -64,7 +65,14 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
       @{@"type" : @"RandomType", @"default" : @NO, @"authority_url" : @"https://contoso.com/auth/path2"}
     ]
   };
+
+  // Resetting Auth will reset MSAL loggerConfig which will throw an exception. Fixing it by mocking MSAL loggerConfig.
+  id globalConfigMock = OCMClassMock([MSALGlobalConfig class]);
+  id loggerConfigMock = OCMClassMock([MSALLoggerConfig class]);
+  OCMStub(ClassMethod([globalConfigMock loggerConfig])).andReturn(loggerConfigMock);
   self.sut = [MSAuth sharedInstance];
+  [globalConfigMock stopMocking];
+  [loggerConfigMock stopMocking];
   self.ingestionMock = OCMClassMock([MSAuthConfigIngestion class]);
   OCMStub([self.ingestionMock alloc]).andReturn(self.ingestionMock);
   OCMStub([self.ingestionMock initWithBaseUrl:OCMOCK_ANY appSecret:OCMOCK_ANY]).andReturn(self.ingestionMock);
