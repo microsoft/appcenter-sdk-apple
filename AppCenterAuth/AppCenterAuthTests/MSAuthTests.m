@@ -67,12 +67,10 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   };
 
   // Resetting Auth will reset MSAL loggerConfig which will throw an exception. Fixing it by mocking MSAL loggerConfig.
-  id globalConfigMock = OCMClassMock([MSALGlobalConfig class]);
-  id loggerConfigMock = OCMClassMock([MSALLoggerConfig class]);
-  OCMStub(ClassMethod([globalConfigMock loggerConfig])).andReturn(loggerConfigMock);
+  id msalGlobalConfigMock = OCMClassMock([MSALGlobalConfig class]);
+  OCMStub(ClassMethod([msalGlobalConfigMock loggerConfig])).andReturn(OCMClassMock([MSALLoggerConfig class]));
   self.sut = [MSAuth sharedInstance];
-  [globalConfigMock stopMocking];
-  [loggerConfigMock stopMocking];
+  [msalGlobalConfigMock stopMocking];
   self.ingestionMock = OCMClassMock([MSAuthConfigIngestion class]);
   OCMStub([self.ingestionMock alloc]).andReturn(self.ingestionMock);
   OCMStub([self.ingestionMock initWithBaseUrl:OCMOCK_ANY appSecret:OCMOCK_ANY]).andReturn(self.ingestionMock);
@@ -88,6 +86,19 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [self.utilityMock stopMocking];
   [self.ingestionMock stopMocking];
   [self.clientApplicationMock stopMocking];
+}
+
+- (void)testMSALLoggingEnabledByDefault {
+
+  // If
+  [MSAuth resetSharedInstance];
+
+  // When
+  [MSAuth sharedInstance];
+
+  // Then
+  XCTAssertEqual(MSALGlobalConfig.loggerConfig.logLevel, MSALLogLevelVerbose);
+  XCTAssertNotNil(MSALGlobalConfig.loggerConfig.callback);
 }
 
 - (void)testApplyEnabledStateWorks {
