@@ -1101,7 +1101,7 @@
 		6E171B591D234717000DC480 /* MSLogContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSLogContainer.m; sourceTree = "<group>"; };
 		6E2395781D22EF4F00E543C8 /* AppCenter.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppCenter.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E23957C1D22EF4F00E543C8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		6E3E2C9D1D35701000B1EE50 /* MSLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSLog.h; sourceTree = "<group>"; };
+		6E3E2C9D1D35701000B1EE50 /* MSLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSLog.h; path = Model/MSLog.h; sourceTree = "<group>"; };
 		6E3E2CC01D3596AE00B1EE50 /* MSDeviceLogTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDeviceLogTests.m; sourceTree = "<group>"; };
 		6E48A5A31D3831FE006E8B5F /* MSChannelUnitConfigurationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSChannelUnitConfigurationTests.m; sourceTree = "<group>"; };
 		6E48A5A61D383893006E8B5F /* MSChannelGroupDefaultTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSChannelGroupDefaultTests.m; sourceTree = "<group>"; };
