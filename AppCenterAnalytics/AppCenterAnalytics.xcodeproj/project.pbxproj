@@ -595,6 +595,8 @@
 		242A6C5D22D3F57500CB02C7 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				266ED289BE3D9562F1F61348 /* MSEventProperties.h */,
+				266EDBD8487DA42DAB601DD9 /* MSEventProperties.m */,
 				6E3E2CC51D359D5E00B1EE50 /* MSEventLog.h */,
 				6E3E2CC61D359D5E00B1EE50 /* MSEventLog.m */,
 				F834E37020AC8E25003CB54D /* MSLogWithNameAndProperties.h */,
@@ -688,8 +690,6 @@
 				E85547CC1D2D63EF002DF6E2 /* AppCenterAnalytics.h */,
 				E85547C31D2D6253002DF6E2 /* MSAnalytics.h */,
 				E85547C51D2D6253002DF6E2 /* MSAnalytics.m */,
-				266ED289BE3D9562F1F61348 /* MSEventProperties.h */,
-				266EDBD8487DA42DAB601DD9 /* MSEventProperties.m */,
 				E85547CD1D2D64B0002DF6E2 /* Internals */,
 				242A6C5D22D3F57500CB02C7 /* Model */,
 				E85547D01D2D65AF002DF6E2 /* Support */,
