@@ -8,7 +8,7 @@
 /**
  * Device document time-to-live in seconds.
  */
-@property NSInteger deviceTimeToLive;
+@property(assign) NSInteger deviceTimeToLive;
 
 /**
  * Initialize a BaseOptions object with the default value.

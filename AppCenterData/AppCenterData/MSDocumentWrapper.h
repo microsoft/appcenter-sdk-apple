@@ -48,6 +48,6 @@
  *
  * Note: The flag is always set to NO if the document is in an error state.
  */
-@property(nonatomic, readonly) BOOL fromDeviceCache;
+@property(nonatomic, readonly, assign) BOOL fromDeviceCache;
 
 @end

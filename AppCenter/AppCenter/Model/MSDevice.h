@@ -55,7 +55,7 @@
 /*
  * The offset in minutes from UTC for the device time zone, including daylight savings time.
  */
-@property(nonatomic, readonly) NSNumber *timeZoneOffset;
+@property(nonatomic, readonly, strong) NSNumber *timeZoneOffset;
 
 /*
  * Screen size of the device in pixels (example: 640x480).
