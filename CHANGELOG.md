@@ -1,6 +1,10 @@
 # App Center SDK for iOS, macOS and tvOS Change Log
 
-## Version 2.2.1
+## Version 2.2.1 (Under development)
+
+### App Center Auth
+
+* **[Feature]** App Center Auth logging now includes MSAL logs.
 
 ### App Center Distribute
 
