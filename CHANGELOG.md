@@ -1,6 +1,6 @@
 # App Center SDK for iOS, macOS and tvOS Change Log
 
-## Version 2.2.1 (Under development)
+## Version 2.3.0 (Under development)
 
 ### App Center Auth
 
