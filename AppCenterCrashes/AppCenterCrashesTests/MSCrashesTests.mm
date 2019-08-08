@@ -40,8 +40,11 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 - (void)shouldAlwaysSend;
 - (void)emptyLogBufferFiles;
 - (void)handleUserConfirmation:(MSUserConfirmation)userConfirmation;
+- (void)didReceiveMemoryWarning:(NSNotification *)notification;
 
 @property(nonatomic) dispatch_group_t bufferFileGroup;
+
+@property dispatch_source_t memoryPressureSource;
 
 @end
 
@@ -1200,6 +1203,95 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
                                  XCTAssertEqualObjects(actualUserId, expectedUserId);
                                }];
 
+  [settings stopMocking];
+}
+
+#if !TARGET_OS_OSX
+
+- (void)testMemoryWarningObserverNotExtension {
+
+  // If
+  id defaultCenterMock = OCMClassMock([NSNotificationCenter class]);
+  OCMStub([defaultCenterMock defaultCenter]).andReturn(defaultCenterMock);
+
+  // When
+  [self.sut applyEnabledState:YES];
+
+  // Then
+  OCMVerify([defaultCenterMock addObserver:self.sut
+                                  selector:[OCMArg anySelector]
+                                      name:UIApplicationDidReceiveMemoryWarningNotification
+                                    object:nil]);
+
+  // When
+  [self.sut applyEnabledState:NO];
+
+  // Then
+  OCMVerify([defaultCenterMock removeObserver:self.sut]);
+
+  // Clear
+  [defaultCenterMock stopMocking];
+}
+
+#endif
+
+- (void)testMemoryPressureSourceInExtensionAndMacOS {
+
+  // If
+#if !TARGET_OS_OSX
+  id bundleMock = OCMClassMock([NSBundle class]);
+  OCMStub([bundleMock mainBundle]).andReturn(bundleMock);
+  OCMStub([bundleMock executablePath]).andReturn(@"/Application/Executable/Path.appex/42");
+#endif
+
+  // When
+  [self.sut applyEnabledState:YES];
+
+  // Then
+  XCTAssertNotNil(self.sut.memoryPressureSource);
+
+  // When
+  [self.sut applyEnabledState:NO];
+
+  // Then
+  XCTAssertNil(self.sut.memoryPressureSource);
+
+  // Clear
+#if !TARGET_OS_OSX
+  [bundleMock stopMocking];
+#endif
+}
+
+- (void)testDidReceiveMemoryWarning {
+
+  // If
+  id crashes = OCMPartialMock(self.sut);
+  OCMStub([crashes startDelayedCrashProcessing]).andDo(nil);
+  OCMStub([crashes sharedInstance]).andReturn(crashes);
+  id<MSChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+  MSMockUserDefaults *settings = [MSMockUserDefaults new];
+
+  // Then
+  XCTAssertFalse([MSCrashes hasReceivedMemoryWarningInLastSession]);
+
+  // When
+  [crashes didReceiveMemoryWarning:nil];
+
+  // Then
+  XCTAssertFalse([MSCrashes hasReceivedMemoryWarningInLastSession]);
+  XCTAssertTrue(((NSNumber *)[settings objectForKey:kMSAppDidReceiveMemoryWarningKey]).boolValue);
+
+  // When
+  [crashes startWithChannelGroup:channelGroupMock
+                       appSecret:kMSTestAppSecret
+         transmissionTargetToken:nil
+                 fromApplication:YES];
+
+  // Then
+  XCTAssertTrue([MSCrashes hasReceivedMemoryWarningInLastSession]);
+  XCTAssertFalse(((NSNumber *)[settings objectForKey:kMSAppDidReceiveMemoryWarningKey]).boolValue);
+
+  // Clear
   [settings stopMocking];
 }
 
