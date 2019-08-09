@@ -49,10 +49,10 @@ NSString *MSUtilityApplicationCategory;
 + (MSApplicationState)sharedAppState {
 
   // UI API (isHidden) cannot be called from a background thread.
-  if (![NSThread isMainThread]) {
-    return MSApplicationStateUnknown;
+  if ([NSThread isMainThread]) {
+    return [[MSUtility sharedApp] isHidden] ? MSApplicationStateBackground : MSApplicationStateActive;
   }
-  return [[MSUtility sharedApp] isHidden] ? MSApplicationStateBackground : MSApplicationStateActive;
+  return MSApplicationStateUnknown;
 }
 #else
 + (UIApplicationState)sharedAppState {
