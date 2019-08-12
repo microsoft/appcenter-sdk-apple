@@ -6,9 +6,16 @@
 
 * **[Feature]** App Center Auth logging now includes MSAL logs.
 
+### App Center Crashes
+
+* **[Feature]** Catch "low memory warning" and provide the API to check if it has happened in last session: `MSCrashes.hasReceivedMemoryWarningInLastSession()`.
+* **[Fix]** Fix main thread checker's warning during crash processing on macOS.
+
 ### App Center Distribute
 
 * **[Fix]** Obfuscate app secret value that appears as URI part in verbose logs for in-app updates.
+
+___
 
 ## Version 2.2.0
 

@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Property configurator.
  */
-@property(nonatomic, readonly) MSPropertyConfigurator *propertyConfigurator;
+@property(nonatomic, readonly, strong) MSPropertyConfigurator *propertyConfigurator;
 
 + (void)addAuthenticationProvider:(MSAnalyticsAuthenticationProvider *)authenticationProvider
     NS_SWIFT_NAME(addAuthenticationProvider(authenticationProvider:));
