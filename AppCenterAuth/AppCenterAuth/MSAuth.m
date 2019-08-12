@@ -3,6 +3,7 @@
 
 #import "MSALAccount.h"
 #import "MSALAccountId.h"
+#import "MSALTenantProfile.h"
 #import "MSALAuthority.h"
 #import "MSALB2CAuthority.h"
 #import "MSALError.h"
@@ -486,12 +487,12 @@ static dispatch_once_t onceToken;
                       [[MSAuthTokenContext sharedInstance] setAuthToken:nil withAccountId:nil expiresOn:nil];
                       handler(nil, error);
                     } else {
-                      MSALAccountId *accountId = (MSALAccountId * __nonnull) result.account.homeAccountId;
+                      NSString *accountId = result.account.identifier;
                       [[MSAuthTokenContext sharedInstance] setAuthToken:result.idToken
-                                                          withAccountId:accountId.identifier
+                                                          withAccountId:accountId
                                                               expiresOn:result.expiresOn];
                       MSLogInfo([MSAuth logTag], @"Silent acquisition of token succeeded.");
-                      MSUserInformation *userInformation = [[MSUserInformation alloc] initWithAccountId:result.uniqueId
+                      MSUserInformation *userInformation = [[MSUserInformation alloc] initWithAccountId:result.tenantProfile.tenantId
                                                                                             accessToken:result.accessToken
                                                                                                 idToken:result.idToken];
                       handler(userInformation, nil);
@@ -518,27 +519,27 @@ static dispatch_once_t onceToken;
                                     }
                                     handler(nil, error);
                                   } else {
-                                    MSALAccountId *accountId = (MSALAccountId * __nonnull) result.account.homeAccountId;
+                                    NSString *accountId = result.account.identifier;
                                     [[MSAuthTokenContext sharedInstance] setAuthToken:result.idToken
-                                                                        withAccountId:accountId.identifier
+                                                                        withAccountId:accountId
                                                                             expiresOn:result.expiresOn];
                                     MSLogInfo([MSAuth logTag], @"User sign-in succeeded.");
-                                    MSUserInformation *userInformation = [[MSUserInformation alloc] initWithAccountId:result.uniqueId
+                                    MSUserInformation *userInformation = [[MSUserInformation alloc] initWithAccountId:result.tenantProfile.tenantId
                                                                                                           accessToken:result.accessToken
-                                                                                                              idToken:result.idToken];
+                                                                                                        idToken:result.idToken];
                                     handler(userInformation, nil);
                                   }
                                 }];
 }
 
-- (MSALAccount *)retrieveAccountWithAccountId:(NSString *)homeAccountId {
-  if (!homeAccountId) {
+- (MSALAccount *)retrieveAccountWithAccountId:(NSString *)accountId {
+  if (!accountId) {
     return nil;
   }
   NSError *error;
-  MSALAccount *account = [self.clientApplication accountForHomeAccountId:homeAccountId error:&error];
+  MSALAccount *account = [self.clientApplication accountForIdentifier:accountId error:&error];
   if (error) {
-    MSLogWarning([MSAuth logTag], @"Could not get MSALAccount for homeAccountId. Error: %@", error);
+    MSLogWarning([MSAuth logTag], @"Could not get an MSALAccount object for account identifier:%@. Error: %@", accountId, error);
   }
   return account;
 }

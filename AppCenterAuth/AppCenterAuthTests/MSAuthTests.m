@@ -247,9 +247,9 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [[MSAuthTokenContext sharedInstance] setAuthTokenHistory:authTokenHistory];
   [[MSAuthTokenContext sharedInstance] setAuthToken:fakeToken withAccountId:fakeAccountId expiresOn:nil];
   [self.sut setEnabled:YES];
-  id accountMock = OCMPartialMock([MSALAccount new]);
+  id accountMock = OCMClassMock(MSALAccount.class);
   self.sut.clientApplication = self.clientApplicationMock;
-  OCMStub([self.clientApplicationMock accountForHomeAccountId:OCMOCK_ANY error:[OCMArg anyObjectRef]]).andReturn(accountMock);
+  OCMStub([self.clientApplicationMock accountForIdentifier:OCMOCK_ANY error:[OCMArg anyObjectRef]]).andReturn(accountMock);
 
   // When
   [self.sut setEnabled:NO];
@@ -683,12 +683,10 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 - (void)testSilentSignInSavesAuthTokenAndHomeAccountId {
 
   // If
-  NSString *expectedHomeAccountId = @"fakeHomeAccountId";
+  NSString *expectedAccountId = @"fakeAccountId";
   NSString *expectedAuthToken = @"fakeAuthToken";
-  MSALAccountId *mockAccountId = OCMPartialMock([MSALAccountId new]);
-  OCMStub(mockAccountId.identifier).andReturn(expectedHomeAccountId);
-  id accountMock = OCMPartialMock([MSALAccount new]);
-  OCMStub([accountMock homeAccountId]).andReturn(mockAccountId);
+  id accountMock = OCMClassMock(MSALAccount.class);
+  OCMStub([accountMock identifier]).andReturn(expectedAccountId);
   id msalResultMock = OCMPartialMock([MSALResult new]);
   OCMStub([msalResultMock account]).andReturn(accountMock);
   OCMStub([msalResultMock idToken]).andReturn(expectedAuthToken);
@@ -717,7 +715,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   // Then
   XCTAssertEqualObjects(actualAuthTokenInfo.authToken, expectedAuthToken);
   XCTAssertEqualObjects([MSAuthTokenContext sharedInstance].authToken, expectedAuthToken);
-  XCTAssertEqualObjects([MSAuthTokenContext sharedInstance].accountId, expectedHomeAccountId);
+  XCTAssertEqualObjects([MSAuthTokenContext sharedInstance].accountId, expectedAccountId);
 
   [accountMock stopMocking];
   [authMock stopMocking];
@@ -730,10 +728,8 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   self.sut.clientApplication = self.clientApplicationMock;
   self.sut.authConfig = [MSAuthConfig new];
   self.sut.authConfig.authScope = @"fake";
-  MSALAccountId *mockAccountId = OCMPartialMock([MSALAccountId new]);
-  OCMStub(mockAccountId.identifier).andReturn(@"Something");
-  id accountMock = OCMPartialMock([MSALAccount new]);
-  OCMStub([accountMock homeAccountId]).andReturn(mockAccountId);
+  id accountMock = OCMClassMock(MSALAccount.class);
+  OCMStub([accountMock identifier]).andReturn(@"Something");
   id authMock = OCMPartialMock(self.sut);
   OCMStub([authMock sharedInstance]).andReturn(authMock);
   OCMStub([authMock canBeUsed]).andReturn(YES);
@@ -783,11 +779,9 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 - (void)testSignInTriggersSilentAuthentication {
 
   // If
-  MSALAccountId *mockAccountId = OCMPartialMock([MSALAccountId new]);
-  NSString *fakeAccountId = @"fakeHomeAccountId";
-  OCMStub(mockAccountId.identifier).andReturn(fakeAccountId);
-  id accountMock = OCMPartialMock([MSALAccount new]);
-  OCMStub([accountMock homeAccountId]).andReturn(fakeAccountId);
+  NSString *fakeAccountId = @"fakeAccountId";
+  id accountMock = OCMClassMock(MSALAccount.class);
+  OCMStub([accountMock identifier]).andReturn(fakeAccountId);
   NSData *serializedConfig = [NSJSONSerialization dataWithJSONObject:self.dummyConfigDic options:(NSJSONWritingOptions)0 error:nil];
   OCMStub([self.utilityMock loadDataForPathComponent:[self.sut authConfigFilePath]]).andReturn(serializedConfig);
   [self.sut applyEnabledState:YES];
@@ -797,7 +791,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
    * `accountForHomeAccountId:error:` takes a double pointer (NSError * _Nullable __autoreleasing * _Nullable) so we need to pass in
    * `[OCMArg anyObjectRef]`. Passing in `OCMOCK_ANY` or `nil` will cause the OCMStub to not work.
    */
-  OCMStub([self.clientApplicationMock accountForHomeAccountId:fakeAccountId error:[OCMArg anyObjectRef]]).andReturn(accountMock);
+  OCMStub([self.clientApplicationMock accountForIdentifier:fakeAccountId error:[OCMArg anyObjectRef]]).andReturn(accountMock);
   self.sut.clientApplication = self.clientApplicationMock;
   self.sut.authConfig = [MSAuthConfig new];
   self.sut.authConfig.authScope = @"fake";
@@ -1008,9 +1002,9 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   // If
   NSString *accountId = @"someAccount";
   [[MSAuthTokenContext sharedInstance] setAuthToken:@"someToken" withAccountId:accountId expiresOn:nil];
-  id accountMock = OCMPartialMock([MSALAccount new]);
+  id accountMock = OCMClassMock(MSALAccount.class);
   self.sut.clientApplication = self.clientApplicationMock;
-  OCMStub([self.clientApplicationMock accountForHomeAccountId:accountId error:[OCMArg anyObjectRef]]).andReturn(accountMock);
+  OCMStub([self.clientApplicationMock accountForIdentifier:accountId error:[OCMArg anyObjectRef]]).andReturn(accountMock);
   id authMock = OCMPartialMock(self.sut);
   OCMStub([authMock sharedInstance]).andReturn(authMock);
   OCMStub([authMock canBeUsed]).andReturn(YES);
@@ -1197,7 +1191,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   OCMStub([authMock configAuthenticationClient]).andDo(^(NSInvocation *__unused invocation) {
     self.sut.clientApplication = self.clientApplicationMock;
   });
-  id accountMock = OCMClassMock([MSALAccount class]);
+  id accountMock = OCMClassMock(MSALAccount.class);
   OCMStub([authMock retrieveAccountWithAccountId:fakeAccountId]).andReturn(accountMock);
 
   // When
