@@ -50,7 +50,6 @@ static dispatch_once_t onceToken;
 #endif
     _configUrl = kMSAuthDefaultBaseURL;
     [MSUtility createDirectoryForPathComponent:kMSAuthPathComponent];
-    [self enableMSALLogging];
   }
   return self;
 }
@@ -75,6 +74,28 @@ static dispatch_once_t onceToken;
       transmissionTargetToken:(nullable NSString *)token
               fromApplication:(BOOL)fromApplication {
   if ([self checkURLSchemeRegistered:[NSString stringWithFormat:kMSMSALCustomSchemeFormat, appSecret]]) {
+
+    // Setup MSAL Logging.
+    MSALGlobalConfig.loggerConfig.logLevel = MSALLogLevelVerbose;
+    @try {
+      [MSALGlobalConfig.loggerConfig setLogCallback:^(MSALLogLevel level, NSString *message, BOOL containsPII) {
+        if (!containsPII) {
+          if (level == MSALLogLevelVerbose) {
+            MSLogVerbose([MSAuth logTag], @"%@", message);
+          } else if (level == MSALLogLevelInfo) {
+            MSLogInfo([MSAuth logTag], @"%@", message);
+          } else if (level == MSALLogLevelWarning) {
+            MSLogWarning([MSAuth logTag], @"%@", message);
+          } else if (level == MSALLogLevelError) {
+            MSLogError([MSAuth logTag], @"%@", message);
+          }
+        }
+      }];
+    } @catch (NSString *exception) {
+      MSLogWarning([MSAuth logTag], @"Enabling MSAL logging failed with exception: %@", exception);
+    }
+
+    // Start the service.
     [[MSAuthTokenContext sharedInstance] preventResetAuthTokenAfterStart];
     [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionTargetToken:token fromApplication:fromApplication];
     MSLogVerbose([MSAuth logTag], @"Started Auth service.");
@@ -263,23 +284,6 @@ static dispatch_once_t onceToken;
 }
 
 #pragma mark - Private methods
-
-- (void)enableMSALLogging {
-  MSALGlobalConfig.loggerConfig.logLevel = MSALLogLevelVerbose;
-  [MSALGlobalConfig.loggerConfig setLogCallback:^(MSALLogLevel level, NSString *message, BOOL containsPII) {
-    if (!containsPII) {
-      if (level == MSALLogLevelVerbose) {
-        MSLogVerbose([MSAuth logTag], @"%@", message);
-      } else if (level == MSALLogLevelInfo) {
-        MSLogInfo([MSAuth logTag], @"%@", message);
-      } else if (level == MSALLogLevelWarning) {
-        MSLogWarning([MSAuth logTag], @"%@", message);
-      } else if (level == MSALLogLevelError) {
-        MSLogError([MSAuth logTag], @"%@", message);
-      }
-    }
-  }];
-}
 
 - (BOOL)checkURLSchemeRegistered:(NSString *)urlScheme {
   NSArray *schemes;

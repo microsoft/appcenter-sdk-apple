@@ -16,12 +16,7 @@
 
   // If
   MSAuthAppDelegate *appDelegate = [[MSAuthAppDelegate alloc] init];
-
-  // Resetting Auth will reset MSAL loggerConfig which will throw an exception. Fixing it by mocking MSAL loggerConfig.
-  id msalGlobalConfigMock = OCMClassMock([MSALGlobalConfig class]);
-  OCMStub(ClassMethod([msalGlobalConfigMock loggerConfig])).andReturn(OCMClassMock([MSALLoggerConfig class]));
   id authMock = OCMPartialMock([MSAuth sharedInstance]);
-  [msalGlobalConfigMock stopMocking];
   __block int count = 0;
   OCMStub([authMock openURL:OCMOCK_ANY options:OCMOCK_ANY]).andDo(^(__unused NSInvocation *invocation) {
     count++;

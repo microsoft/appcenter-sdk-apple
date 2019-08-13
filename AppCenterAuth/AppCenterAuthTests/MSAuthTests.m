@@ -66,11 +66,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
     ]
   };
 
-  // Resetting Auth will reset MSAL loggerConfig which will throw an exception. Fixing it by mocking MSAL loggerConfig.
-  id msalGlobalConfigMock = OCMClassMock([MSALGlobalConfig class]);
-  OCMStub(ClassMethod([msalGlobalConfigMock loggerConfig])).andReturn(OCMClassMock([MSALLoggerConfig class]));
   self.sut = [MSAuth sharedInstance];
-  [msalGlobalConfigMock stopMocking];
   self.ingestionMock = OCMClassMock([MSAuthConfigIngestion class]);
   OCMStub([self.ingestionMock alloc]).andReturn(self.ingestionMock);
   OCMStub([self.ingestionMock initWithBaseUrl:OCMOCK_ANY appSecret:OCMOCK_ANY]).andReturn(self.ingestionMock);
