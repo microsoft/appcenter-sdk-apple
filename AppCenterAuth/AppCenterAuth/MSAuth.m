@@ -3,11 +3,11 @@
 
 #import "MSALAccount.h"
 #import "MSALAccountId.h"
-#import "MSALTenantProfile.h"
 #import "MSALAuthority.h"
 #import "MSALB2CAuthority.h"
 #import "MSALError.h"
 #import "MSALResult.h"
+#import "MSALTenantProfile.h"
 #import "MSAppCenterInternal.h"
 #import "MSAuthConfig.h"
 #import "MSAuthConfigIngestion.h"
@@ -465,9 +465,7 @@ static dispatch_once_t onceToken;
                       handler(nil, error);
                     } else {
                       NSString *accountId = result.account.identifier;
-                      [[MSAuthTokenContext sharedInstance] setAuthToken:result.idToken
-                                                          withAccountId:accountId
-                                                              expiresOn:result.expiresOn];
+                      [[MSAuthTokenContext sharedInstance] setAuthToken:result.idToken withAccountId:accountId expiresOn:result.expiresOn];
                       MSLogInfo([MSAuth logTag], @"Silent acquisition of token succeeded.");
                       MSUserInformation *userInformation = [[MSUserInformation alloc] initWithAccountId:result.tenantProfile.tenantId
                                                                                             accessToken:result.accessToken
@@ -479,34 +477,33 @@ static dispatch_once_t onceToken;
 
 - (void)acquireTokenInteractivelyWithKeyPathForCompletionHandler:(NSString *)completionHandlerKeyPath {
   __weak typeof(self) weakSelf = self;
-  [self.clientApplication acquireTokenForScopes:@[ (NSString * __nonnull) self.authConfig.authScope ]
-                                completionBlock:^(MSALResult *result, NSError *error) {
-                                  typeof(self) strongSelf = weakSelf;
-                                  MSAcquireTokenCompletionHandler handler = [strongSelf valueForKey:completionHandlerKeyPath];
-                                  if (!handler) {
-                                    MSLogDebug([MSAuth logTag], @"Sign-in has been interrupted. Ignoring the result.");
-                                    return;
-                                  }
-                                  if (error) {
-                                    [[MSAuthTokenContext sharedInstance] setAuthToken:nil withAccountId:nil expiresOn:nil];
-                                    if ([error.domain isEqual:MSALErrorDomain] && error.code == MSALErrorUserCanceled) {
-                                      MSLogWarning([MSAuth logTag], @"User canceled sign-in.");
-                                    } else {
-                                      MSLogError([MSAuth logTag], @"User sign-in failed. Error: %@", error);
-                                    }
-                                    handler(nil, error);
-                                  } else {
-                                    NSString *accountId = result.account.identifier;
-                                    [[MSAuthTokenContext sharedInstance] setAuthToken:result.idToken
-                                                                        withAccountId:accountId
-                                                                            expiresOn:result.expiresOn];
-                                    MSLogInfo([MSAuth logTag], @"User sign-in succeeded.");
-                                    MSUserInformation *userInformation = [[MSUserInformation alloc] initWithAccountId:result.tenantProfile.tenantId
-                                                                                                          accessToken:result.accessToken
-                                                                                                        idToken:result.idToken];
-                                    handler(userInformation, nil);
-                                  }
-                                }];
+  [self.clientApplication
+      acquireTokenForScopes:@[ (NSString * __nonnull) self.authConfig.authScope ]
+            completionBlock:^(MSALResult *result, NSError *error) {
+              typeof(self) strongSelf = weakSelf;
+              MSAcquireTokenCompletionHandler handler = [strongSelf valueForKey:completionHandlerKeyPath];
+              if (!handler) {
+                MSLogDebug([MSAuth logTag], @"Sign-in has been interrupted. Ignoring the result.");
+                return;
+              }
+              if (error) {
+                [[MSAuthTokenContext sharedInstance] setAuthToken:nil withAccountId:nil expiresOn:nil];
+                if ([error.domain isEqual:MSALErrorDomain] && error.code == MSALErrorUserCanceled) {
+                  MSLogWarning([MSAuth logTag], @"User canceled sign-in.");
+                } else {
+                  MSLogError([MSAuth logTag], @"User sign-in failed. Error: %@", error);
+                }
+                handler(nil, error);
+              } else {
+                NSString *accountId = result.account.identifier;
+                [[MSAuthTokenContext sharedInstance] setAuthToken:result.idToken withAccountId:accountId expiresOn:result.expiresOn];
+                MSLogInfo([MSAuth logTag], @"User sign-in succeeded.");
+                MSUserInformation *userInformation = [[MSUserInformation alloc] initWithAccountId:result.tenantProfile.tenantId
+                                                                                      accessToken:result.accessToken
+                                                                                          idToken:result.idToken];
+                handler(userInformation, nil);
+              }
+            }];
 }
 
 - (MSALAccount *)retrieveAccountWithAccountId:(NSString *)accountId {
