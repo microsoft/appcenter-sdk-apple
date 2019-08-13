@@ -2,6 +2,10 @@
 
 ## Version 2.3.0 (Under development)
 
+### App Center Auth
+
+* **[Feature]** App Center Auth logging now includes MSAL logs.
+
 ### App Center Crashes
 
 * **[Feature]** Catch "low memory warning" and provide the API to check if it has happened in last session: `MSCrashes.hasReceivedMemoryWarningInLastSession()`.

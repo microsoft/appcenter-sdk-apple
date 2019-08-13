@@ -7,6 +7,7 @@
 #import "MSALAccountId.h"
 #import "MSALAuthority.h"
 #import "MSALError.h"
+#import "MSALLoggerConfig.h"
 #import "MSALPublicClientApplication.h"
 #import "MSALResult.h"
 #import "MSAuthConfigIngestion.h"
@@ -64,6 +65,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
       @{@"type" : @"RandomType", @"default" : @NO, @"authority_url" : @"https://contoso.com/auth/path2"}
     ]
   };
+
   self.sut = [MSAuth sharedInstance];
   self.ingestionMock = OCMClassMock([MSAuthConfigIngestion class]);
   OCMStub([self.ingestionMock alloc]).andReturn(self.ingestionMock);
@@ -80,6 +82,19 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [self.utilityMock stopMocking];
   [self.ingestionMock stopMocking];
   [self.clientApplicationMock stopMocking];
+}
+
+- (void)testMSALLoggingEnabledByDefault {
+
+  // If
+  [MSAuth resetSharedInstance];
+
+  // When
+  [MSAuth sharedInstance];
+
+  // Then
+  XCTAssertEqual(MSALGlobalConfig.loggerConfig.logLevel, MSALLogLevelVerbose);
+  XCTAssertNotNil(MSALGlobalConfig.loggerConfig.callback);
 }
 
 - (void)testApplyEnabledStateWorks {
