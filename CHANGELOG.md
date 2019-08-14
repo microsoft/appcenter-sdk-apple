@@ -11,6 +11,10 @@
 
 * **[Fix]** Obfuscate app secret value that appears as URI part in verbose logs for in-app updates.
 
+### App Center Auth
+
+* **[Feature]** Updated the Microsoft Authentication Library dependency to v0.5.0.
+
 ___
 
 ## Version 2.2.0
