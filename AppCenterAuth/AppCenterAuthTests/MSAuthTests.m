@@ -248,7 +248,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [[MSAuthTokenContext sharedInstance] setAuthTokenHistory:authTokenHistory];
   [[MSAuthTokenContext sharedInstance] setAuthToken:fakeToken withAccountId:fakeAccountId expiresOn:nil];
   [self.sut setEnabled:YES];
-  id accountMock = OCMClassMock(MSALAccount.class);
+  id accountMock = OCMClassMock([MSALAccount class]);
   self.sut.clientApplication = self.clientApplicationMock;
   OCMStub([self.clientApplicationMock accountForIdentifier:OCMOCK_ANY error:[OCMArg anyObjectRef]]).andReturn(accountMock);
 
@@ -263,6 +263,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   OCMVerify([self.utilityMock deleteItemForPathComponent:[self.sut authConfigFilePath]]);
   XCTAssertNil([self.settingsMock objectForKey:kMSAuthETagKey]);
   OCMVerify([self.clientApplicationMock removeAccount:OCMOCK_ANY error:[OCMArg anyObjectRef]]);
+  [accountMock stopMocking];
 }
 
 - (void)testCacheNewConfigWhenNoConfig {
@@ -484,12 +485,12 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   NSString *idToken = @"idToken";
   NSString *accessToken = @"accessToken";
   NSString *accountId = @"94c82516-cbee-44aa-8a6a-19f8d20322be";
-  id tenantProfile = OCMClassMock(MSALTenantProfile.class);
-  OCMStub([tenantProfile identifier]).andReturn(accountId);
+  id tenantProfileMock = OCMClassMock([MSALTenantProfile class]);
+  OCMStub([tenantProfileMock identifier]).andReturn(accountId);
   id msalResultMock = OCMPartialMock([MSALResult new]);
   OCMStub([msalResultMock idToken]).andReturn(idToken);
   OCMStub([msalResultMock accessToken]).andReturn(accessToken);
-  OCMStub([msalResultMock tenantProfile]).andReturn(tenantProfile);
+  OCMStub([msalResultMock tenantProfileMock]).andReturn(tenantProfileMock);
   NSData *serializedConfig = [NSJSONSerialization dataWithJSONObject:self.dummyConfigDic options:(NSJSONWritingOptions)0 error:nil];
   OCMStub([self.utilityMock loadDataForPathComponent:[self.sut authConfigFilePath]]).andReturn(serializedConfig);
   OCMStub([self.clientApplicationMock alloc]).andReturn(self.clientApplicationMock);
@@ -518,6 +519,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   XCTAssertEqualObjects(idToken, self.signInUserInformation.idToken);
   XCTAssertEqualObjects(accessToken, self.signInUserInformation.accessToken);
   XCTAssertNil(self.signInError);
+  [tenantProfileMock stopMocking];
 }
 
 - (void)testSignInDoesNotAcquireTokenWhenDisabled {
@@ -625,12 +627,12 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   NSString *idToken = @"idToken";
   NSString *accessToken = @"accessToken";
   NSString *accountId = @"94c82516-cbee-44aa-8a6a-19f8d20322be";
-  id tenantProfile = OCMClassMock(MSALTenantProfile.class);
-  OCMStub([tenantProfile identifier]).andReturn(accountId);
+  id tenantProfileMock = OCMClassMock([MSALTenantProfile class]);
+  OCMStub([tenantProfileMock identifier]).andReturn(accountId);
   id msalResultMock = OCMPartialMock([MSALResult new]);
   OCMStub([msalResultMock idToken]).andReturn(idToken);
   OCMStub([msalResultMock accessToken]).andReturn(accessToken);
-  OCMStub([msalResultMock tenantProfile]).andReturn(tenantProfile);
+  OCMStub([msalResultMock tenantProfileMock]).andReturn(tenantProfileMock);
   self.sut.clientApplication = self.clientApplicationMock;
   id authMock = OCMPartialMock(self.sut);
   OCMStub([authMock sharedInstance]).andReturn(authMock);
@@ -683,6 +685,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   XCTAssertEqualObjects(accessToken, self.signInUserInformation.accessToken);
   XCTAssertNil(self.signInError);
   [authMock stopMocking];
+  [tenantProfileMock stopMocking];
 }
 
 - (void)testSilentSignInSavesAuthTokenAndAccountId {
@@ -690,7 +693,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   // If
   NSString *expectedAccountId = @"fakeAccountId";
   NSString *expectedAuthToken = @"fakeAuthToken";
-  id accountMock = OCMClassMock(MSALAccount.class);
+  id accountMock = OCMClassMock([MSALAccount class]);
   OCMStub([accountMock identifier]).andReturn(expectedAccountId);
   id msalResultMock = OCMPartialMock([MSALResult new]);
   OCMStub([msalResultMock account]).andReturn(accountMock);
@@ -733,7 +736,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   self.sut.clientApplication = self.clientApplicationMock;
   self.sut.authConfig = [MSAuthConfig new];
   self.sut.authConfig.authScope = @"fake";
-  id accountMock = OCMClassMock(MSALAccount.class);
+  id accountMock = OCMClassMock([MSALAccount class]);
   OCMStub([accountMock identifier]).andReturn(@"Something");
   id authMock = OCMPartialMock(self.sut);
   OCMStub([authMock sharedInstance]).andReturn(authMock);
@@ -758,6 +761,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   // Then
   OCMVerify([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]);
   [authMock stopMocking];
+  [accountMock stopMocking];
 }
 
 - (void)testSignInTriggersInteractiveAuthentication {
@@ -785,7 +789,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
   // If
   NSString *fakeAccountId = @"fakeAccountId";
-  id accountMock = OCMClassMock(MSALAccount.class);
+  id accountMock = OCMClassMock([MSALAccount class]);
   OCMStub([accountMock identifier]).andReturn(fakeAccountId);
   NSData *serializedConfig = [NSJSONSerialization dataWithJSONObject:self.dummyConfigDic options:(NSJSONWritingOptions)0 error:nil];
   OCMStub([self.utilityMock loadDataForPathComponent:[self.sut authConfigFilePath]]).andReturn(serializedConfig);
@@ -809,6 +813,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
   // Then
   OCMVerify([self.clientApplicationMock acquireTokenSilentForScopes:OCMOCK_ANY account:OCMOCK_ANY completionBlock:OCMOCK_ANY]);
+  [accountMock stopMocking];
 }
 
 - (void)testSignInAlreadyInProgress {
@@ -817,12 +822,12 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   NSString *idToken = @"idToken";
   NSString *accessToken = @"accessToken";
   NSString *accountId = @"94c82516-cbee-44aa-8a6a-19f8d20322be";
-  id tenantProfile = OCMClassMock(MSALTenantProfile.class);
-  OCMStub([tenantProfile identifier]).andReturn(accountId);
+  id tenantProfileMock = OCMClassMock([MSALTenantProfile class]);
+  OCMStub([tenantProfileMock identifier]).andReturn(accountId);
   id msalResultMock = OCMPartialMock([MSALResult new]);
   OCMStub([msalResultMock idToken]).andReturn(idToken);
   OCMStub([msalResultMock accessToken]).andReturn(accessToken);
-  OCMStub([msalResultMock tenantProfile]).andReturn(tenantProfile);
+  OCMStub([msalResultMock tenantProfileMock]).andReturn(tenantProfileMock);
   NSData *serializedConfig = [NSJSONSerialization dataWithJSONObject:self.dummyConfigDic options:(NSJSONWritingOptions)0 error:nil];
   OCMStub([self.utilityMock loadDataForPathComponent:[self.sut authConfigFilePath]]).andReturn(serializedConfig);
   OCMStub([self.clientApplicationMock alloc]).andReturn(self.clientApplicationMock);
@@ -866,6 +871,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   XCTAssertEqualObjects(accessToken, self.signInUserInformation.accessToken);
   XCTAssertEqualObjects(accountId, self.signInUserInformation.accountId);
   XCTAssertNil(self.signInError);
+  [tenantProfileMock stopMocking];
 }
 
 - (void)testSignInError {
@@ -951,11 +957,11 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   // If
   NSString *idToken = @"idToken";
   NSString *accountId = @"94c82516-cbee-44aa-8a6a-19f8d20322be";
-  id tenantProfile = OCMClassMock(MSALTenantProfile.class);
-  OCMStub([tenantProfile identifier]).andReturn(accountId);
+  id tenantProfileMock = OCMClassMock([MSALTenantProfile class]);
+  OCMStub([tenantProfileMock identifier]).andReturn(accountId);
   id msalResultMock = OCMPartialMock([MSALResult new]);
   OCMStub([msalResultMock idToken]).andReturn(idToken);
-  OCMStub([msalResultMock tenantProfile]).andReturn(tenantProfile);
+  OCMStub([msalResultMock tenantProfileMock]).andReturn(tenantProfileMock);
   self.sut.clientApplication = self.clientApplicationMock;
   self.sut.authConfig = [MSAuthConfig new];
   self.sut.authConfig.authScope = @"fake";
@@ -985,6 +991,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   XCTAssertEqual(MSACAuthErrorServiceDisabled, self.signInError.code);
   XCTAssertNotNil(self.signInError.userInfo[NSLocalizedDescriptionKey]);
   [authMock stopMocking];
+  [tenantProfileMock stopMocking];
 }
 
 - (void)testSignOutInvokesDelegatesWithNilToken {
@@ -1011,7 +1018,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   // If
   NSString *accountId = @"someAccount";
   [[MSAuthTokenContext sharedInstance] setAuthToken:@"someToken" withAccountId:accountId expiresOn:nil];
-  id accountMock = OCMClassMock(MSALAccount.class);
+  id accountMock = OCMClassMock([MSALAccount class]);
   self.sut.clientApplication = self.clientApplicationMock;
   OCMStub([self.clientApplicationMock accountForIdentifier:accountId error:[OCMArg anyObjectRef]]).andReturn(accountMock);
   id authMock = OCMPartialMock(self.sut);
@@ -1025,6 +1032,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   OCMVerify([authMock removeAccount]);
   OCMVerify([self.clientApplicationMock removeAccount:OCMOCK_ANY error:[OCMArg anyObjectRef]]);
   [authMock stopMocking];
+  [accountMock stopMocking];
 }
 
 - (void)testSignOutShouldNotRemoveAccountFromMSALIfNotConfigured {
@@ -1200,7 +1208,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   OCMStub([authMock configAuthenticationClient]).andDo(^(NSInvocation *__unused invocation) {
     self.sut.clientApplication = self.clientApplicationMock;
   });
-  id accountMock = OCMClassMock(MSALAccount.class);
+  id accountMock = OCMClassMock([MSALAccount class]);
   OCMStub([authMock retrieveAccountWithAccountId:fakeAccountId]).andReturn(accountMock);
 
   // When
@@ -1353,10 +1361,10 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
     [invocation retainArguments];
     [invocation getArgument:&ingestionBlock atIndex:4];
   });
-  id tenantProfile = OCMClassMock(MSALTenantProfile.class);
-  OCMStub([tenantProfile identifier]).andReturn(expectedAccountId);
+  id tenantProfileMock = OCMClassMock([MSALTenantProfile class]);
+  OCMStub([tenantProfileMock identifier]).andReturn(expectedAccountId);
   id msalResultMock = OCMPartialMock([MSALResult new]);
-  OCMStub([msalResultMock tenantProfile]).andReturn(tenantProfile);
+  OCMStub([msalResultMock tenantProfileMock]).andReturn(tenantProfileMock);
   OCMStub([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
     __block MSALCompletionBlock completionBlock;
     [invocation getArgument:&completionBlock atIndex:3];
@@ -1376,6 +1384,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   // Then
   XCTAssertEqualObjects(self.signInUserInformation.accountId, expectedAccountId);
   XCTAssertNil(self.signInError);
+  [tenantProfileMock stopMocking];
 }
 
 - (void)testSignInDontWaitForConfigIfConfigCached {
@@ -1384,10 +1393,10 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   NSString *accountId = @"94c82516-cbee-44aa-8a6a-19f8d20322be";
   NSString *idToken = @"idToken";
   NSString *accessToken = @"accessToken";
-  id tenantProfile = OCMClassMock(MSALTenantProfile.class);
-  OCMStub([tenantProfile identifier]).andReturn(accountId);
+  id tenantProfileMock = OCMClassMock([MSALTenantProfile class]);
+  OCMStub([tenantProfileMock identifier]).andReturn(accountId);
   id msalResultMock = OCMPartialMock([MSALResult new]);
-  OCMStub([msalResultMock tenantProfile]).andReturn(tenantProfile);
+  OCMStub([msalResultMock tenantProfileMock]).andReturn(tenantProfileMock);
   OCMStub([msalResultMock idToken]).andReturn(idToken);
   OCMStub([msalResultMock accessToken]).andReturn(accessToken);
   NSData *serializedConfig = [NSJSONSerialization dataWithJSONObject:self.dummyConfigDic options:(NSJSONWritingOptions)0 error:nil];
@@ -1413,6 +1422,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   XCTAssertEqualObjects(self.signInUserInformation.accountId, accountId);
   XCTAssertEqualObjects(self.signInUserInformation.idToken, idToken);
   XCTAssertEqualObjects(self.signInUserInformation.accessToken, accessToken);
+  [tenantProfileMock stopMocking];
 }
 
 - (void)testCancelPendingOperationWithErrorCode {
