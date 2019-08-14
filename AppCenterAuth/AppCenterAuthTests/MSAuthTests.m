@@ -685,7 +685,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [authMock stopMocking];
 }
 
-- (void)testSilentSignInSavesAuthTokenAndHomeAccountId {
+- (void)testSilentSignInSavesAuthTokenAndAccountId {
 
   // If
   NSString *expectedAccountId = @"fakeAccountId";
@@ -793,7 +793,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [[MSAuthTokenContext sharedInstance] setAuthToken:@"token" withAccountId:fakeAccountId expiresOn:nil];
 
   /*
-   * `accountForHomeAccountId:error:` takes a double pointer (NSError * _Nullable __autoreleasing * _Nullable) so we need to pass in
+   * `accountForIdentifier:error:` takes a double pointer (NSError * _Nullable __autoreleasing * _Nullable) so we need to pass in
    * `[OCMArg anyObjectRef]`. Passing in `OCMOCK_ANY` or `nil` will cause the OCMStub to not work.
    */
   OCMStub([self.clientApplicationMock accountForIdentifier:fakeAccountId error:[OCMArg anyObjectRef]]).andReturn(accountMock);

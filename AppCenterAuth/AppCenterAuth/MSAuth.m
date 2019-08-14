@@ -269,7 +269,7 @@ static dispatch_once_t onceToken;
 - (void)cancelPendingOperationsWithErrorCode:(NSInteger)errorCode message:(NSString *)message {
   [self callCompletionHandler:self.signInCompletionHandler withErrorCode:errorCode message:message];
   [self callCompletionHandler:self.refreshCompletionHandler withErrorCode:errorCode message:message];
-  self.homeAccountIdToRefresh = nil;
+  self.accountIdToRefresh = nil;
 }
 
 - (void)signOut {
@@ -553,7 +553,7 @@ static dispatch_once_t onceToken;
     }
     if (!networkConnected) {
       MSLogDebug([MSAuth logTag], @"Network not connected. The token will be refreshed after coming back online.");
-      self.homeAccountIdToRefresh = accountId;
+      self.accountIdToRefresh = accountId;
       return;
     }
     if (!self.clientApplication) {
@@ -593,9 +593,9 @@ static dispatch_once_t onceToken;
 
 - (void)networkStateChanged:(NSNotificationCenter *)__unused notification {
   BOOL networkConnected = [[MS_Reachability reachabilityForInternetConnection] currentReachabilityStatus] != NotReachable;
-  if (networkConnected && self.homeAccountIdToRefresh) {
-    NSString *accountId = self.homeAccountIdToRefresh;
-    self.homeAccountIdToRefresh = nil;
+  if (networkConnected && self.accountIdToRefresh) {
+    NSString *accountId = self.accountIdToRefresh;
+    self.accountIdToRefresh = nil;
     [self refreshTokenForAccountId:accountId withNetworkConnected:YES];
   }
 }
