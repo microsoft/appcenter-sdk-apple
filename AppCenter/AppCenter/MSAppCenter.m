@@ -91,6 +91,9 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
 }
 
 + (void)startService:(Class)service {
+  if (!service) {
+    return;
+  }
   [[MSAppCenter sharedInstance] startServices:@[ service ]
                                 withAppSecret:[[MSAppCenter sharedInstance] appSecret]
                       transmissionTargetToken:[[MSAppCenter sharedInstance] defaultTransmissionTargetToken]
