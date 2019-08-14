@@ -490,7 +490,7 @@ static dispatch_once_t onceToken;
                       NSString *accountId = result.account.identifier;
                       [[MSAuthTokenContext sharedInstance] setAuthToken:result.idToken withAccountId:accountId expiresOn:result.expiresOn];
                       MSLogInfo([MSAuth logTag], @"Silent acquisition of token succeeded.");
-                      MSUserInformation *userInformation = [[MSUserInformation alloc] initWithAccountId:result.tenantProfile.tenantId
+                      MSUserInformation *userInformation = [[MSUserInformation alloc] initWithAccountId:result.tenantProfile.identifier
                                                                                             accessToken:result.accessToken
                                                                                                 idToken:result.idToken];
                       handler(userInformation, nil);
@@ -521,7 +521,7 @@ static dispatch_once_t onceToken;
                 NSString *accountId = result.account.identifier;
                 [[MSAuthTokenContext sharedInstance] setAuthToken:result.idToken withAccountId:accountId expiresOn:result.expiresOn];
                 MSLogInfo([MSAuth logTag], @"User sign-in succeeded.");
-                MSUserInformation *userInformation = [[MSUserInformation alloc] initWithAccountId:result.tenantProfile.tenantId
+                MSUserInformation *userInformation = [[MSUserInformation alloc] initWithAccountId:result.tenantProfile.identifier
                                                                                       accessToken:result.accessToken
                                                                                           idToken:result.idToken];
                 handler(userInformation, nil);
