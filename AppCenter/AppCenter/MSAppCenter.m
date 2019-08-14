@@ -91,11 +91,10 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
 }
 
 + (void)startService:(Class)service {
-  [[MSAppCenter sharedInstance] startService:service
-                               withAppSecret:[[MSAppCenter sharedInstance] appSecret]
-                     transmissionTargetToken:[[MSAppCenter sharedInstance] defaultTransmissionTargetToken]
-                                  andSendLog:YES
-                             fromApplication:YES];
+  [[MSAppCenter sharedInstance] startServices:@[ service ]
+                                withAppSecret:[[MSAppCenter sharedInstance] appSecret]
+                      transmissionTargetToken:[[MSAppCenter sharedInstance] defaultTransmissionTargetToken]
+                              fromApplication:YES];
 }
 
 + (void)startFromLibraryWithServices:(NSArray<Class> *)services {
@@ -107,12 +106,12 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
 }
 
 + (BOOL)isRunningInAppCenterTestCloud {
-    NSDictionary *environmentVariables = [[NSProcessInfo processInfo] environment];
-    NSString *runningInAppCenter = environmentVariables[kMSRunningInAppCenter];
-    if ([runningInAppCenter isEqualToString:kMSTrueEnvironmentString]) {
-        return YES;
-    }
-    return NO;
+  NSDictionary *environmentVariables = [[NSProcessInfo processInfo] environment];
+  NSString *runningInAppCenter = environmentVariables[kMSRunningInAppCenter];
+  if ([runningInAppCenter isEqualToString:kMSTrueEnvironmentString]) {
+    return YES;
+  }
+  return NO;
 }
 
 + (void)setLogUrl:(NSString *)logUrl {
@@ -300,29 +299,38 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
   NSString *transmissionTargetToken = [MSUtility transmissionTargetTokenFrom:secretString];
   BOOL configured = [self configureWithAppSecret:appSecret transmissionTargetToken:transmissionTargetToken fromApplication:fromApplication];
   if (configured && services) {
-    NSArray *sortedServices = [self sortServices:services];
-    MSLogVerbose([MSAppCenter logTag], @"Start services %@ from %@", [sortedServices componentsJoinedByString:@", "],
-                 (fromApplication ? @"an application" : @"a library"));
-    NSMutableArray<NSString *> *servicesNames = [NSMutableArray arrayWithCapacity:sortedServices.count];
-    for (Class service in sortedServices) {
-      if ([self startService:service
-                        withAppSecret:appSecret
-              transmissionTargetToken:transmissionTargetToken
-                           andSendLog:NO
-                      fromApplication:fromApplication]) {
-        [servicesNames addObject:[service serviceName]];
-      }
-    }
+    [self startServices:services withAppSecret:appSecret transmissionTargetToken:transmissionTargetToken fromApplication:fromApplication];
+  }
+}
 
-    // Finish auth token context initialization.
-    [[MSAuthTokenContext sharedInstance] finishInitialize];
-    if ([servicesNames count] > 0) {
-      if (fromApplication) {
-        [self sendStartServiceLog:servicesNames];
-      }
-    } else {
-      MSLogDebug([MSAppCenter logTag], @"No services have been started.");
+- (void)startServices:(NSArray<Class> *)services
+              withAppSecret:(NSString *)appSecret
+    transmissionTargetToken:(NSString *)transmissionTargetToken
+            fromApplication:(BOOL)fromApplication {
+  if (!self.sdkConfigured || !services) {
+    return;
+  }
+  NSArray *sortedServices = [self sortServices:services];
+  MSLogVerbose([MSAppCenter logTag], @"Start services %@ from %@", [sortedServices componentsJoinedByString:@", "],
+               (fromApplication ? @"an application" : @"a library"));
+  NSMutableArray<NSString *> *servicesNames = [NSMutableArray arrayWithCapacity:sortedServices.count];
+  for (Class service in sortedServices) {
+    if ([self startService:service
+                      withAppSecret:appSecret
+            transmissionTargetToken:transmissionTargetToken
+                    fromApplication:fromApplication]) {
+      [servicesNames addObject:[service serviceName]];
     }
+  }
+
+  // Finish auth token context initialization.
+  [[MSAuthTokenContext sharedInstance] finishInitialize];
+  if ([servicesNames count] > 0) {
+    if (fromApplication) {
+      [self sendStartServiceLog:servicesNames];
+    }
+  } else {
+    MSLogDebug([MSAppCenter logTag], @"No services have been started.");
   }
 }
 
@@ -360,11 +368,10 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
 - (BOOL)startService:(Class)clazz
               withAppSecret:(NSString *)appSecret
     transmissionTargetToken:(NSString *)transmissionTargetToken
-                 andSendLog:(BOOL)sendLog
             fromApplication:(BOOL)fromApplication {
   @synchronized(self) {
 
-    // Check if clazz is valid class
+    // Check if clazz is valid class.
     if (![clazz conformsToProtocol:@protocol(MSServiceCommon)]) {
       MSLogError([MSAppCenter logTag], @"Cannot start service %@. Provided value is nil or invalid.", clazz);
       return NO;
@@ -389,7 +396,7 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
       return NO;
     }
 
-    // Check if service should be disabled
+    // Check if service should be disabled.
     if ([self shouldDisable:[clazz serviceName]]) {
       MSLogDebug([MSAppCenter logTag], @"Environment variable to disable service has been set; not starting service %@", clazz);
       return NO;
@@ -414,11 +421,6 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
       }
     } else if (fromApplication) {
       [service updateConfigurationWithAppSecret:appSecret transmissionTargetToken:transmissionTargetToken];
-    }
-
-    // Send start service log.
-    if (sendLog && fromApplication) {
-      [self sendStartServiceLog:@[ [clazz serviceName] ]];
     }
 
     // Service started.
