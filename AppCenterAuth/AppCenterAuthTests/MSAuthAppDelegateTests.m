@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+#import "MSALLoggerConfig.h"
 #import "MSAuthAppDelegate.h"
 #import "MSAuthPrivate.h"
 #import "MSTestFrameworks.h"
@@ -35,6 +36,7 @@
   // Then
   OCMVerify([authMock openURL:url options:options]);
   XCTAssertEqual(count, 2);
+  [MSAuth resetSharedInstance];
 }
 
 @end
