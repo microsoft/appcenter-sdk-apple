@@ -5,6 +5,7 @@
 ### App Center Auth
 
 * **[Feature]** App Center Auth logging now includes MSAL logs.
+* **[Fix]** Fix token storage initialization if services are started via `[MSAppCenter startService:]` method.
 
 ### App Center Crashes
 
