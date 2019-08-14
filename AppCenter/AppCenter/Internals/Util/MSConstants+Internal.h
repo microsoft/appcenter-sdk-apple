@@ -22,8 +22,12 @@ static NSString *const kMSAuthorizationHeaderKey = @"Authorization";
 static NSString *const kMSRetryHeaderKey = @"x-ms-retry-after-ms";
 
 // Token obfuscation.
-static NSString *const kMSTokenKeyValuePattern = @"\"token\" : \"[^\"]+\"";
+static NSString *const kMSTokenKeyValuePattern = @"\"token\"\\s*:\\s*\"[^\"]+\"";
 static NSString *const kMSTokenKeyValueObfuscatedTemplate = @"\"token\" : \"***\"";
+
+// Redirect URI obfuscation.
+static NSString *const kMSRedirectUriPattern = @"\"redirect_uri\"\\s*:\\s*\"[^\"]+\"";
+static NSString *const kMSRedirectUriObfuscatedTemplate = @"\"redirect_uri\" : \"***\"";
 
 // Info.plist key names.
 static NSString *const kMSCFBundleURLTypes = @"CFBundleURLTypes";
