@@ -1,11 +1,18 @@
 # App Center SDK for iOS, macOS and tvOS Change Log
 
+## Version 2.3.1 (Under development)
+
+### App Center Auth
+
+* **[Fix]** Fix token storage initialization if services are started via `[MSAppCenter startService:]` method.
+
+___
+
 ## Version 2.3.0
 
 ### App Center Auth
 
 * **[Feature]** App Center Auth logging now includes MSAL logs.
-* **[Fix]** Fix token storage initialization if services are started via `[MSAppCenter startService:]` method.
 
 ### App Center Crashes
 
