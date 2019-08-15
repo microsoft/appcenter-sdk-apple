@@ -1101,7 +1101,7 @@
 		6E171B591D234717000DC480 /* MSLogContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSLogContainer.m; sourceTree = "<group>"; };
 		6E2395781D22EF4F00E543C8 /* AppCenter.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppCenter.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E23957C1D22EF4F00E543C8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		6E3E2C9D1D35701000B1EE50 /* MSLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSLog.h; sourceTree = "<group>"; };
+		6E3E2C9D1D35701000B1EE50 /* MSLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSLog.h; path = Model/MSLog.h; sourceTree = "<group>"; };
 		6E3E2CC01D3596AE00B1EE50 /* MSDeviceLogTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDeviceLogTests.m; sourceTree = "<group>"; };
 		6E48A5A31D3831FE006E8B5F /* MSChannelUnitConfigurationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSChannelUnitConfigurationTests.m; sourceTree = "<group>"; };
 		6E48A5A61D383893006E8B5F /* MSChannelGroupDefaultTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSChannelGroupDefaultTests.m; sourceTree = "<group>"; };
@@ -1475,6 +1475,8 @@
 		3844FF161E8C261D003E9194 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				F803BBF11E8E3677004B1E7A /* MSCustomProperties.h */,
+				F803BBF21E8E3677004B1E7A /* MSCustomProperties.m */,
 				3844FF1B1E8C2716003E9194 /* MSDevice.h */,
 				3844FF1A1E8C2716003E9194 /* MSDevice.m */,
 				6E3E2C9D1D35701000B1EE50 /* MSLog.h */,
@@ -1535,8 +1537,6 @@
 				354274162012AE4000BE766F /* MSChannelProtocol.h */,
 				6E04013F1D1C99AC0051BCFA /* MSConstants.h */,
 				04B525B82194D44E00FA37FD /* MSConstants+Flags.h */,
-				F803BBF11E8E3677004B1E7A /* MSCustomProperties.h */,
-				F803BBF21E8E3677004B1E7A /* MSCustomProperties.m */,
 				3542742220167DA400BE766F /* MSEnable.h */,
 				358F9BC22019531F00B9E22C /* MSLogger.h */,
 				3592ABA61DC90E3600EF4592 /* MSLogger.m */,

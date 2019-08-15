@@ -8,6 +8,6 @@
 /**
  * The dictionary.
  */
-@property(readonly) NSDictionary *dictionary;
+@property(readonly, strong) NSDictionary *dictionary;
 
 @end

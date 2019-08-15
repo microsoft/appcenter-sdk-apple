@@ -173,6 +173,10 @@
   return [MSCrashes hasCrashedInLastSession];
 }
 
+- (BOOL)hasReceivedMemoryWarningInLastSession {
+  return [MSCrashes hasReceivedMemoryWarningInLastSession];
+}
+
 - (void)generateTestCrash {
   return [MSCrashes generateTestCrash];
 }

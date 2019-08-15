@@ -34,6 +34,7 @@ static NSString *const kMSTestUpdateToken = @"UPDATETOKEN";
 static NSString *const kMSTestDistributionGroupId = @"DISTRIBUTIONGROUPID";
 static NSString *const kMSTestDownloadedDistributionGroupId = @"DOWNLOADEDDISTRIBUTIONGROUPID";
 static NSString *const kMSDistributeServiceName = @"Distribute";
+static NSString *const kMSUpdateTokenApiPathFormat = @"/apps/%@/update-setup";
 
 // Mocked SFSafariViewController for url validation.
 @interface SFSafariViewControllerMock : UIViewController
@@ -2530,6 +2531,43 @@ static NSURL *sfURL;
 
   // Clear
   [notificationCenterMock stopMocking];
+  [distributeMock stopMocking];
+}
+
+-(void)testHideAppSecret {
+  
+  // If
+  id authClass = nil;
+  id mockLogger = OCMClassMock([MSLogger class]);
+  id distributeMock = OCMPartialMock(self.sut);
+  id appCenterMock = OCMClassMock([MSAppCenter class]);
+  OCMReject([distributeMock checkLatestRelease:OCMOCK_ANY distributionGroupId:OCMOCK_ANY releaseHash:OCMOCK_ANY]);
+  OCMStub([distributeMock sharedInstance]).andReturn(distributeMock);
+  OCMStub([appCenterMock isConfigured]).andReturn(YES);
+  OCMReject([[mockLogger ignoringNonObjectArgs] logMessage:[OCMArg checkWithBlock:^BOOL(MSLogMessageProvider messageProvider) {
+    return [messageProvider() containsString:kMSTestAppSecret];
+  }]
+                                                     level:0
+                                                       tag:OCMOCK_ANY
+                                                      file:[OCMArg anyPointer]
+                                                  function:[OCMArg anyPointer]
+                                                      line:0]);
+  
+  // When
+  [distributeMock startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
+                              appSecret:kMSTestAppSecret
+                transmissionTargetToken:nil
+                        fromApplication:YES];
+  NSString *urlPath = [NSString stringWithFormat:kMSUpdateTokenApiPathFormat, kMSTestAppSecret];
+  NSURLComponents *components = [NSURLComponents componentsWithString:urlPath];
+  [distributeMock openURLInAuthenticationSessionWith:components.URL fromClass:authClass];
+  
+  // Then
+  OCMVerifyAll(mockLogger);
+  
+  // Clear
+  [mockLogger stopMocking];
+  [appCenterMock stopMocking];
   [distributeMock stopMocking];
 }
 

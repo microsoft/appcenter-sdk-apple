@@ -10,11 +10,11 @@
 /**
  * Error (or null).
  */
-@property(readonly) MSDataError *error;
+@property(readonly, strong) MSDataError *error;
 
 /**
  * Array of documents in the current page (or null).
  */
-@property(readonly) NSArray<MSDocumentWrapper *> *items;
+@property(readonly, strong) NSArray<MSDocumentWrapper *> *items;
 
 @end

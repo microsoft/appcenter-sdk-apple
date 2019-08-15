@@ -1,6 +1,12 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+#import <Foundation/Foundation.h>
+
+#if !TARGET_OS_OSX
+#import <UIKit/UIKit.h>
+#endif
+
 #import "MSAppCenterInternal.h"
 #import "MSAppleErrorLog.h"
 #import "MSChannelUnitConfiguration.h"
@@ -53,6 +59,11 @@ static NSString *const kMSTargetTokenFileExtension = @"targettoken";
 
 static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
+/**
+ * Delay in nanoseconds before processing crashes.
+ */
+static int64_t kMSCrashProcessingDelay = 1 * NSEC_PER_SEC;
+
 std::array<MSCrashesBufferedLog, ms_crashes_log_buffer_size> msCrashesLogBuffer;
 
 /**
@@ -103,7 +114,7 @@ static void plcr_post_crash_callback(__unused siginfo_t *info, __unused ucontext
 static PLCrashReporterCallbacks plCrashCallbacks = {.version = 0, .context = nullptr, .handleSignal = plcr_post_crash_callback};
 
 /**
- * C++ Exception Handler
+ * C++ Exception Handler.
  */
 __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionInfo *info) {
 
@@ -127,6 +138,14 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
  */
 @property BOOL didCrashInLastSession;
 
+/**
+ * Indicates that the app received a low memory warning in the last session.
+ * It is possible that a low memory warning was sent but couldn't be logged if iOS killed the app before updating the flag in
+ * the filesystem. Apps can also be killed without receiving a low memory warning, or receive the warning, but crash for another reason.
+ *
+ * @warning This property only has an updated value once the SDK has been properly initialized!
+ */
+@property BOOL didReceiveMemoryWarningInLastSession;
 /**
  * Indicates if the delayedProcessingSemaphore will need to be released anymore. Useful for preventing overflows.
  */
@@ -162,6 +181,11 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
  */
 @property(nonatomic, readonly) MSEncrypter *targetTokenEncrypter;
 
+/**
+ * A dispatch source that monitors the memory pressure of the system.
+ */
+@property dispatch_source_t memoryPressureSource;
+
 @end
 
 @implementation MSCrashes
@@ -191,6 +215,10 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
 + (BOOL)hasCrashedInLastSession {
   return [[MSCrashes sharedInstance] didCrashInLastSession];
+}
+
++ (BOOL)hasReceivedMemoryWarningInLastSession {
+  return [[MSCrashes sharedInstance] didReceiveMemoryWarningInLastSession];
 }
 
 + (void)setUserConfirmationHandler:(_Nullable MSUserConfirmationHandler)userConfirmationHandler {
@@ -244,6 +272,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     _analyzerInProgressFilePathComponent = [NSString stringWithFormat:@"%@/%@", [MSCrashesUtil crashesDir], kMSAnalyzerFilename];
 
     _didCrashInLastSession = NO;
+    _didReceiveMemoryWarningInLastSession = NO;
     _delayedProcessingSemaphore = dispatch_semaphore_create(0);
     _automaticProcessingEnabled = YES;
     _shouldReleaseProcessingSemaphore = YES;
@@ -273,6 +302,12 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 - (void)applyEnabledState:(BOOL)isEnabled {
   [super applyEnabledState:isEnabled];
 
+#if !TARGET_OS_OSX
+
+  // Remove all notification handlers.
+  [MS_NOTIFICATION_CENTER removeObserver:self];
+#endif
+
   // Enabling.
   if (isEnabled) {
     id<MSCrashHandlerSetupDelegate> crashSetupDelegate = [MSWrapperCrashesHelper getCrashHandlerSetupDelegate];
@@ -296,6 +331,28 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
       [crashSetupDelegate didSetUpCrashHandlers];
     }
 
+    // Set up memory warning handler.
+#if !TARGET_OS_OSX
+    if (MS_IS_APP_EXTENSION) {
+#endif
+      self.memoryPressureSource =
+          dispatch_source_create(DISPATCH_SOURCE_TYPE_MEMORYPRESSURE, 0, DISPATCH_MEMORYPRESSURE_WARN | DISPATCH_MEMORYPRESSURE_CRITICAL,
+                                 dispatch_get_main_queue());
+      __weak typeof(self) weakSelf = self;
+      dispatch_source_set_event_handler(self.memoryPressureSource, ^{
+        typeof(self) strongSelf = weakSelf;
+        [strongSelf didReceiveMemoryWarning:nil];
+      });
+      dispatch_resume(self.memoryPressureSource);
+#if !TARGET_OS_OSX
+    } else {
+      [MS_NOTIFICATION_CENTER addObserver:self
+                                 selector:@selector(didReceiveMemoryWarning:)
+                                     name:UIApplicationDidReceiveMemoryWarningNotification
+                                   object:nil];
+    }
+#endif
+
     /*
      * PLCrashReporter keeps collecting crash reports even when the SDK is disabled, delete them only if current state is disabled.
      */
@@ -306,6 +363,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     // Get pending crashes from PLCrashReporter and persist them in the intermediate format.
     if ([self.plCrashReporter hasPendingCrashReport]) {
       self.didCrashInLastSession = YES;
+      MSLogDebug([MSCrashes logTag], @"The application crashed in the last session.");
       [self handleLatestCrashReport];
     }
 
@@ -331,6 +389,10 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
       MSLogInfo([MSCrashes logTag], @"Crashes service has been enabled.");
     }
   } else {
+    if (self.memoryPressureSource) {
+      dispatch_source_cancel(self.memoryPressureSource);
+      self.memoryPressureSource = nil;
+    }
 
     // Don't set PLCrashReporter to nil!
     MSLogDebug([MSCrashes logTag], @"Cleaning up all crash files.");
@@ -341,6 +403,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     [self.plCrashReporter purgePendingCrashReport];
     [self clearUnprocessedReports];
     [self clearContextHistoryAndKeepCurrentSession];
+    [MS_USER_DEFAULTS removeObjectForKey:kMSAppDidReceiveMemoryWarningKey];
     MSLogInfo([MSCrashes logTag], @"Crashes service has been disabled.");
   }
 }
@@ -367,6 +430,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionTargetToken:token fromApplication:fromApplication];
   [self.channelGroup addDelegate:self];
   [self processLogBufferAfterCrash];
+  [self processMemoryWarningInLastSession];
   MSLogVerbose([MSCrashes logTag], @"Started crash service.");
 }
 
@@ -400,6 +464,13 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   [[MSDeviceTracker sharedInstance] clearDevices];
   [[MSSessionContext sharedInstance] clearSessionHistoryAndKeepCurrentSession:YES];
   [[MSUserIdContext sharedInstance] clearUserIdHistory];
+}
+
+#pragma mark - Application life cycle
+
+- (void)didReceiveMemoryWarning:(NSNotification *)__unused notification {
+  MSLogDebug([MSCrashes logTag], @"The application received a low memory warning in the last session.");
+  [MS_USER_DEFAULTS setObject:@YES forKey:kMSAppDidReceiveMemoryWarningKey];
 }
 
 #pragma mark - Channel Delegate
@@ -627,7 +698,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
    */
 
   // This must be performed asynchronously to prevent a deadlock with 'unprocessedCrashReports'.
-  dispatch_time_t delay = dispatch_time(DISPATCH_TIME_NOW, (1 * NSEC_PER_SEC));
+  dispatch_time_t delay = dispatch_time(DISPATCH_TIME_NOW, kMSCrashProcessingDelay);
   dispatch_after(delay, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
     [self startCrashProcessing];
 
@@ -644,11 +715,14 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 - (void)startCrashProcessing {
 
   /*
-   * FIXME: There is no life cycle for app extensions yet so force start crash processing until then. Also force start crash processing when
-   * automatic processing is disabled. Though it sounds counterintuitive, this is important because there are scenarios in some wrappers
-   * (i.e. RN) where the application state is not ready by the time crash processing needs to happen.
+   * FIXME: There is no life cycle for app extensions yet so force start crash processing until then.
+   * Note that macOS cannot access the application state from a background thread, so crash processing will start without this check.
+   *
+   * Also force start crash processing when automatic processing is disabled. Though it sounds counterintuitive, this is important because
+   * there are scenarios in some wrappers (i.e. ReactNative) where the application state is not ready by the time crash processing needs to
+   * happen.
    */
-  if (self.automaticProcessingEnabled && ([MSUtility applicationState] == MSApplicationStateBackground)) {
+  if (self.automaticProcessingEnabled && [MSUtility applicationState] == MSApplicationStateBackground) {
     MSLogWarning([MSCrashes logTag], @"Crashes will not be processed because the application is in the background.");
     return;
   }
@@ -792,6 +866,22 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
       [[NSData data] writeToURL:fileURL atomically:NO];
     }
   }
+}
+
+- (void)processMemoryWarningInLastSession {
+  if (!self.isEnabled) {
+    return;
+  }
+
+  // Read and reset the memory warning state.
+  NSNumber *didReceiveMemoryWarning = [MS_USER_DEFAULTS objectForKey:kMSAppDidReceiveMemoryWarningKey];
+  self.didReceiveMemoryWarningInLastSession = didReceiveMemoryWarning.boolValue;
+  if (self.didReceiveMemoryWarningInLastSession) {
+    MSLogDebug([MSCrashes logTag], @"The application received a low memory warning in the last session.");
+  }
+
+  // Clean the flag.
+  [MS_USER_DEFAULTS removeObjectForKey:kMSAppDidReceiveMemoryWarningKey];
 }
 
 /**
@@ -1083,7 +1173,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
  */
 - (BOOL)shouldAlwaysSend {
   NSNumber *flag = [MS_USER_DEFAULTS objectForKey:kMSUserConfirmationKey];
-  return flag && [flag boolValue];
+  return flag.boolValue;
 }
 
 /**
@@ -1129,7 +1219,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
      * Always send logs. Set the flag YES to bypass user confirmation next time.
      * Continue crash processing afterwards.
      */
-    [MS_USER_DEFAULTS setObject:[[NSNumber alloc] initWithBool:YES] forKey:kMSUserConfirmationKey];
+    [MS_USER_DEFAULTS setObject:@YES forKey:kMSUserConfirmationKey];
   }
 
   // Process crashes logs.
