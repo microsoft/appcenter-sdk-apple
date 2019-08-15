@@ -101,9 +101,7 @@ else
 
       # Append the line
       else
-        line="${line//\"/\\\"}"
-        line="${line//\\/\\\\}"
-        change_log="$change_log\n${line}"
+        change_log=$change_log$'\n'$line
       fi
 
     # If it didn't find changelog for the version
@@ -111,8 +109,6 @@ else
 
       # If it is the first line of change log for the version
       if [[ "$line" =~ "## Version $publish_version" ]]; then
-        line="${line//\"/\\\"}"
-        line="${line//\\/\\\\}"
         change_log="${line}"
         change_log_found=true
       fi
@@ -166,7 +162,7 @@ else
       draft: true,
       prerelease: true
     }')"
-  resp="$(curl -s -X POST $REQUEST_RELEASE_URL -d \'$body\')"
+  resp="$(curl -s -X POST $REQUEST_RELEASE_URL -d "$body")"
   id="$(echo $resp | jq -r '.id')"
 
   # Exit if response doesn't contain "id" key
