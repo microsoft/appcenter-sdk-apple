@@ -12,6 +12,7 @@
 #import "MSIngestionDelegate.h"
 #import "MSMockLog.h"
 #import "MSTestFrameworks.h"
+#import "MSLoggerInternal.h"
 
 static NSTimeInterval const kMSTestTimeout = 5.0;
 static NSString *const kMSBaseUrl = @"https://test.com";
@@ -650,6 +651,33 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
   MSLogContainer *logContainer = [[MSLogContainer alloc] initWithBatchId:batchId andLogs:(NSArray<id<MSLog>> *)@[ log1, log2 ]];
   return logContainer;
+}
+
+- (void)testHideSecretsInResponse {
+  
+  // If
+  id mockLogger = OCMClassMock([MSLogger class]);
+  id mockHttpIngestion = OCMClassMock([MSHttpIngestion class]);
+  OCMStub([mockLogger currentLogLevel]).andReturn(MSLogLevelVerbose);
+  MSIngestionCall *mockedCall = OCMClassMock([MSIngestionCall class]);
+  OCMStub([[mockLogger ignoringNonObjectArgs] logMessage:[OCMArg checkWithBlock:^BOOL(MSLogMessageProvider messageProvider) {
+    return [messageProvider() containsString:kMSRedirectUriObfuscatedTemplate];
+  }]
+                                                     level:0
+                                                       tag:OCMOCK_ANY
+                                                      file:[OCMArg anyPointer]
+                                                  function:[OCMArg anyPointer]
+                                                      line:0]);
+  
+  // When
+  [mockHttpIngestion sendCallAsync:mockedCall];
+  
+  // Then
+  OCMVerifyAll(mockLogger);
+  
+  // Clear
+  [mockLogger stopMocking];
+  [mockHttpIngestion stopMocking];
 }
 
 @end
