@@ -653,27 +653,43 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   return logContainer;
 }
 
-- (void)testHideSecretsInResponse {
+- (void)testHideSecretInResponse {
   
   // If
   id mockLogger = OCMClassMock([MSLogger class]);
   id mockHttpIngestion = OCMClassMock([MSHttpIngestion class]);
   OCMStub([mockLogger currentLogLevel]).andReturn(MSLogLevelVerbose);
-  MSIngestionCall *mockedCall = OCMClassMock([MSIngestionCall class]);
-  OCMStub([[mockLogger ignoringNonObjectArgs] logMessage:[OCMArg checkWithBlock:^BOOL(MSLogMessageProvider messageProvider) {
-    return [messageProvider() containsString:kMSRedirectUriObfuscatedTemplate];
+  OCMReject([[mockLogger ignoringNonObjectArgs] logMessage:[OCMArg checkWithBlock:^BOOL(MSLogMessageProvider messageProvider) {
+    NSString *logMessage = messageProvider();
+    return [logMessage containsString:kMSTestAppSecret];
   }]
                                                      level:0
                                                        tag:OCMOCK_ANY
                                                       file:[OCMArg anyPointer]
                                                   function:[OCMArg anyPointer]
                                                       line:0]);
+  NSData *data = [[NSString stringWithFormat:@"{\"redirect_uri\":\"%@\",\"token\":\"%@\"}", kMSTestAppSecret, kMSTestAppSecret] dataUsingEncoding:NSUTF8StringEncoding];
+  int code = MSHTTPCodesNo200OK;
+  NSDictionary *headers = @{@"Content-Type" : @"application/json", @"App-Secret" : kMSTestAppSecret, @"Install-ID" : MS_UUID_STRING};
+  MSLogContainer *container = [self createLogContainerWithId:@"1"];
+  XCTestExpectation *requestCompletedExpectation = [self expectationWithDescription:@"Request completed."];
   
   // When
-  [mockHttpIngestion sendCallAsync:mockedCall];
+  [MSHttpTestUtil stubResponseWithData:data statusCode:code headers:headers name:NSStringFromSelector(_cmd)];
+  [self.sut sendAsync:container
+            authToken:nil
+    completionHandler:^(__unused NSString *batchId, __unused NSHTTPURLResponse *response, __unused NSData *responseData, __unused NSError *error) {
+      [requestCompletedExpectation fulfill];
+    }];
   
   // Then
-  OCMVerifyAll(mockLogger);
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
+                               handler:^(NSError *error) {
+                                 OCMVerifyAll(mockLogger);
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
   
   // Clear
   [mockLogger stopMocking];
