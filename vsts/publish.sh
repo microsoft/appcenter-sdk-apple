@@ -101,9 +101,7 @@ else
 
       # Append the line
       else
-        line="${line//\"/\\\"}"
-        line="${line//\\/\\\\}"
-        change_log="$change_log\n${line}"
+        change_log=$change_log$'\n'$line
       fi
 
     # If it didn't find changelog for the version
@@ -111,8 +109,6 @@ else
 
       # If it is the first line of change log for the version
       if [[ "$line" =~ "## Version $publish_version" ]]; then
-        line="${line//\"/\\\"}"
-        line="${line//\\/\\\\}"
         change_log="${line}"
         change_log_found=true
       fi
@@ -158,14 +154,15 @@ else
 
   ## 4. Create a release
   echo "Create a release for the tag ($publish_version)"
-  resp="$(curl -s -X POST $REQUEST_RELEASE_URL -d '{
-      "tag_name": "'${publish_version}'",
-      "target_commitish": "master",
-      "name": "'${publish_version}'",
-      "body": "'"$change_log"'",
-      "draft": true,
-      "prerelease": true
+  body="$(jq -n --arg publish_version "$publish_version" --arg change_log "$change_log" '{
+      tag_name: $publish_version,
+      target_commitish: "master",
+      name: $publish_version,
+      body: $change_log,
+      draft: true,
+      prerelease: true
     }')"
+  resp="$(curl -s -X POST $REQUEST_RELEASE_URL -d "$body")"
   id="$(echo $resp | jq -r '.id')"
 
   # Exit if response doesn't contain "id" key
