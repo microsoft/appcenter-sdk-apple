@@ -10,9 +10,9 @@
 #import "MSHttpTestUtil.h"
 #import "MSIngestionCall.h"
 #import "MSIngestionDelegate.h"
+#import "MSLoggerInternal.h"
 #import "MSMockLog.h"
 #import "MSTestFrameworks.h"
-#import "MSLoggerInternal.h"
 
 static NSTimeInterval const kMSTestTimeout = 5.0;
 static NSString *const kMSBaseUrl = @"https://test.com";
@@ -654,33 +654,35 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 }
 
 - (void)testHideSecretInResponse {
-  
+
   // If
   id mockLogger = OCMClassMock([MSLogger class]);
   id mockHttpIngestion = OCMClassMock([MSHttpIngestion class]);
   OCMStub([mockLogger currentLogLevel]).andReturn(MSLogLevelVerbose);
   OCMReject([[mockLogger ignoringNonObjectArgs] logMessage:[OCMArg checkWithBlock:^BOOL(MSLogMessageProvider messageProvider) {
-    NSString *logMessage = messageProvider();
-    return [logMessage containsString:kMSTestAppSecret];
-  }]
+                                                  NSString *logMessage = messageProvider();
+                                                  return [logMessage containsString:kMSTestAppSecret];
+                                                }]
                                                      level:0
                                                        tag:OCMOCK_ANY
                                                       file:[OCMArg anyPointer]
                                                   function:[OCMArg anyPointer]
                                                       line:0]);
-  NSData *data = [[NSString stringWithFormat:@"{\"redirect_uri\":\"%@\",\"token\":\"%@\"}", kMSTestAppSecret, kMSTestAppSecret] dataUsingEncoding:NSUTF8StringEncoding];
+  NSData *data = [[NSString stringWithFormat:@"{\"redirect_uri\":\"%@\",\"token\":\"%@\"}", kMSTestAppSecret, kMSTestAppSecret]
+      dataUsingEncoding:NSUTF8StringEncoding];
   NSDictionary *headers = @{@"Content-Type" : @"application/json", @"App-Secret" : kMSTestAppSecret, @"Install-ID" : MS_UUID_STRING};
   MSLogContainer *container = [self createLogContainerWithId:@"1"];
   XCTestExpectation *requestCompletedExpectation = [self expectationWithDescription:@"Request completed."];
-  
+
   // When
   [MSHttpTestUtil stubResponseWithData:data statusCode:MSHTTPCodesNo200OK headers:headers name:NSStringFromSelector(_cmd)];
   [self.sut sendAsync:container
-            authToken:nil
-    completionHandler:^(__unused NSString *batchId, __unused NSHTTPURLResponse *response, __unused NSData *responseData, __unused NSError *error) {
-      [requestCompletedExpectation fulfill];
-    }];
-  
+              authToken:nil
+      completionHandler:^(__unused NSString *batchId, __unused NSHTTPURLResponse *response, __unused NSData *responseData,
+                          __unused NSError *error) {
+        [requestCompletedExpectation fulfill];
+      }];
+
   // Then
   [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *error) {
@@ -689,7 +691,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
                                }];
-  
+
   // Clear
   [mockLogger stopMocking];
   [mockHttpIngestion stopMocking];

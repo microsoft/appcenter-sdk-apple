@@ -70,13 +70,13 @@ static NSString *const kMSStubLongResponseTimeOutName = @"httpStub_LongResponseT
 
 + (void)stubResponseWithData:(NSData *)data statusCode:(int)code headers:(NSDictionary *)headers name:(NSString *)name {
   [OHHTTPStubs
-   stubRequestsPassingTest:^BOOL(__unused NSURLRequest *request) {
-     return YES;
-   }
-   withStubResponse:^OHHTTPStubsResponse *(__unused NSURLRequest *request) {
-     return [OHHTTPStubsResponse responseWithData:data statusCode:code headers:headers];
-   }]
-  .name = name;
+      stubRequestsPassingTest:^BOOL(__unused NSURLRequest *request) {
+        return YES;
+      }
+      withStubResponse:^OHHTTPStubsResponse *(__unused NSURLRequest *request) {
+        return [OHHTTPStubsResponse responseWithData:data statusCode:code headers:headers];
+      }]
+      .name = name;
 }
 
 + (void)stubResponseWithError:(NSError *)error name:(NSString *)name {
