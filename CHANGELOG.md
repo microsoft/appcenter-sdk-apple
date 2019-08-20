@@ -5,6 +5,7 @@
 ### App Center Auth
 
 * **[Fix]** Fix token storage initialization if services are started via `[MSAppCenter startService:]` method.
+* **[Fix]** Redirect URIs are now hidden in logs.
 
 ___
 
