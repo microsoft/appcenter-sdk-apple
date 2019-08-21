@@ -745,8 +745,148 @@
 		C2751A5A223FCBAB0040BFEB /* MSAuthTokenInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = C2751A56223FCBAB0040BFEB /* MSAuthTokenInfo.m */; };
 		C2751A5B223FCBAB0040BFEB /* MSAuthTokenInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = C2751A56223FCBAB0040BFEB /* MSAuthTokenInfo.m */; };
 		C2751A5C223FCBAB0040BFEB /* MSAuthTokenInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = C2751A56223FCBAB0040BFEB /* MSAuthTokenInfo.m */; };
-		C9A92027230C08B60068070D /* libAppCenter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 043120DA1EE0BCF9007054C5 /* libAppCenter.a */; };
-		C9A92028230C08BE0068070D /* libAppCenter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04754FAB1EA98182002CBA46 /* libAppCenter.a */; };
+		C9A92057230C5C150068070D /* libAppCenter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 043120DA1EE0BCF9007054C5 /* libAppCenter.a */; };
+		C9A92058230C5C1C0068070D /* libAppCenter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04754FAB1EA98182002CBA46 /* libAppCenter.a */; };
+		C9A920E6230C61820068070D /* MSAppCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E0401561D1C9AAA0051BCFA /* MSAppCenter.m */; };
+		C9A920E7230C61820068070D /* MSLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 3592ABA61DC90E3600EF4592 /* MSLogger.m */; };
+		C9A920E8230C61820068070D /* MSServiceAbstract.m in Sources */ = {isa = PBXBuildFile; fileRef = D38024051E7126F500466558 /* MSServiceAbstract.m */; };
+		C9A920E9230C61820068070D /* MSWrapperLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D0B7521DDFABFD003EACCD /* MSWrapperLogger.m */; };
+		C9A920EA230C61820068070D /* MSAppDelegateForwarder.m in Sources */ = {isa = PBXBuildFile; fileRef = 38C4471F1ECE5352002E1B11 /* MSAppDelegateForwarder.m */; };
+		C9A920EB230C61820068070D /* MSDelegateForwarder.m in Sources */ = {isa = PBXBuildFile; fileRef = 38032086217E85A90089772A /* MSDelegateForwarder.m */; };
+		C9A920EC230C61820068070D /* MSChannelGroupDefault.m in Sources */ = {isa = PBXBuildFile; fileRef = E84B8E2D1D2351DB006FD231 /* MSChannelGroupDefault.m */; };
+		C9A920ED230C61820068070D /* MSChannelUnitConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EF628F31D371B1600CAFF64 /* MSChannelUnitConfiguration.m */; };
+		C9A920EE230C61820068070D /* MSChannelUnitDefault.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E0684621D36BC8D00A8CC6C /* MSChannelUnitDefault.m */; };
+		C9A920EF230C61820068070D /* MSOneCollectorChannelDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 805275C020A1A5F400704115 /* MSOneCollectorChannelDelegate.m */; };
+		C9A920F0230C61820068070D /* MSCSEpochAndSeq.m in Sources */ = {isa = PBXBuildFile; fileRef = 3814A8E520BF5FA00093AF45 /* MSCSEpochAndSeq.m */; };
+		C9A920F1230C61820068070D /* MSAuthTokenContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CB67DA322137936006E20AC /* MSAuthTokenContext.m */; };
+		C9A920F2230C61820068070D /* MSAuthTokenInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = C2751A56223FCBAB0040BFEB /* MSAuthTokenInfo.m */; };
+		C9A920F3230C61820068070D /* MSAuthTokenValidityInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 87F7AB21BD187EFD83F7F15E /* MSAuthTokenValidityInfo.m */; };
+		C9A920F4230C61820068070D /* MSDeviceHistoryInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = B2FD53611E56501B0050F909 /* MSDeviceHistoryInfo.m */; };
+		C9A920F5230C61820068070D /* MSDeviceTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 04754F3C1EA980FD002CBA46 /* MSDeviceTracker.m */; };
+		C9A920F6230C61820068070D /* MSSessionContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 045C85131FE0B31600089540 /* MSSessionContext.m */; };
+		C9A920F7230C61820068070D /* MSSessionHistoryInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 047EBB9B1FE30842009BB1C8 /* MSSessionHistoryInfo.m */; };
+		C9A920F8230C61820068070D /* MSUserIdContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 047FEE1021A48CC200ED77CD /* MSUserIdContext.m */; };
+		C9A920F9230C61820068070D /* MSUserIdHistoryInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 047FEE1321A48CC200ED77CD /* MSUserIdHistoryInfo.m */; };
+		C9A920FA230C61820068070D /* MSHttpUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 3571F659224962180052406C /* MSHttpUtil.m */; };
+		C9A920FB230C61820068070D /* MSHttpClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA0350241FEC3A6A4919BFE /* MSHttpClient.m */; };
+		C9A920FC230C61820068070D /* MSHttpCall.m in Sources */ = {isa = PBXBuildFile; fileRef = 3571F65322457FCC0052406C /* MSHttpCall.m */; };
+		C9A920FD230C61820068070D /* MSTicketCache.m in Sources */ = {isa = PBXBuildFile; fileRef = B23507B32118D22800F98D4F /* MSTicketCache.m */; };
+		C9A920FE230C61820068070D /* MSIngestionCall.m in Sources */ = {isa = PBXBuildFile; fileRef = E80EB1061D50273700C9003F /* MSIngestionCall.m */; };
+		C9A920FF230C61820068070D /* MSHttpIngestion.m in Sources */ = {isa = PBXBuildFile; fileRef = E84B8E341D235226006FD231 /* MSHttpIngestion.m */; };
+		C9A92100230C61820068070D /* MSAppCenterIngestion.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6822A89D38F04D8D95CE83 /* MSAppCenterIngestion.m */; };
+		C9A92101230C61820068070D /* MSOneCollectorIngestion.m in Sources */ = {isa = PBXBuildFile; fileRef = B2B7D50A20C5E562001D31B8 /* MSOneCollectorIngestion.m */; };
+		C9A92102230C61820068070D /* MSAppExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = E74B14D820B37042002C0183 /* MSAppExtension.m */; };
+		C9A92103230C61820068070D /* MSCommonSchemaLog.m in Sources */ = {isa = PBXBuildFile; fileRef = E74B149820B364EE002C0183 /* MSCommonSchemaLog.m */; };
+		C9A92104230C61820068070D /* MSCSData.m in Sources */ = {isa = PBXBuildFile; fileRef = E7D23C5520B4E38B00A47D62 /* MSCSData.m */; };
+		C9A92105230C61820068070D /* MSCSExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = E7D23C6520B6391700A47D62 /* MSCSExtensions.m */; };
+		C9A92106230C61820068070D /* MSDeviceExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 359C38DC214079D90066C509 /* MSDeviceExtension.m */; };
+		C9A92107230C61820068070D /* MSLocExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = E74B14A920B36B9B002C0183 /* MSLocExtension.m */; };
+		C9A92108230C61820068070D /* MSMetadataExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA030746930EE3DCB6A21B3 /* MSMetadataExtension.m */; };
+		C9A92109230C61820068070D /* MSNetExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = E74B14D120B36EC5002C0183 /* MSNetExtension.m */; };
+		C9A9210A230C61820068070D /* MSOSExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = E74B14D920B37042002C0183 /* MSOSExtension.m */; };
+		C9A9210B230C61820068070D /* MSProtocolExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = E74B14C920B36DF1002C0183 /* MSProtocolExtension.m */; };
+		C9A9210C230C61820068070D /* MSSDKExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = E74B14E920B3711F002C0183 /* MSSDKExtension.m */; };
+		C9A9210D230C61820068070D /* MSUserExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = E74B14A120B36AAB002C0183 /* MSUserExtension.m */; };
+		C9A9210E230C61820068070D /* MSAbstractLog.m in Sources */ = {isa = PBXBuildFile; fileRef = E88EBBEB1D2C612E007E7785 /* MSAbstractLog.m */; };
+		C9A9210F230C61820068070D /* MSCustomPropertiesLog.m in Sources */ = {isa = PBXBuildFile; fileRef = F803BBF81E8E3989004B1E7A /* MSCustomPropertiesLog.m */; };
+		C9A92110230C61820068070D /* MSLogContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E171B591D234717000DC480 /* MSLogContainer.m */; };
+		C9A92111230C61820068070D /* MSLogWithProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = E8010E671D2DD4EF0035196F /* MSLogWithProperties.m */; };
+		C9A92112230C61820068070D /* MSStartServiceLog.m in Sources */ = {isa = PBXBuildFile; fileRef = D38023E61E6EFC7C00466558 /* MSStartServiceLog.m */; };
+		C9A92113230C61820068070D /* MSBooleanTypedProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = 35DFC1C22170030C00455589 /* MSBooleanTypedProperty.m */; };
+		C9A92114230C61820068070D /* MSDateTimeTypedProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = 35DFC1C42170030C00455589 /* MSDateTimeTypedProperty.m */; };
+		C9A92115230C61820068070D /* MSDoubleTypedProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = 35DFC1C62170030C00455589 /* MSDoubleTypedProperty.m */; };
+		C9A92116230C61820068070D /* MSLongTypedProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = 35DFC1C82170030C00455589 /* MSLongTypedProperty.m */; };
+		C9A92117230C61820068070D /* MSStringTypedProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = 35DFC1BE2170030C00455589 /* MSStringTypedProperty.m */; };
+		C9A92118230C61820068070D /* MSTypedProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = 35DFC1C32170030C00455589 /* MSTypedProperty.m */; };
+		C9A92119230C61820068070D /* MSDBStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 3849BA7B1EF3145A0072E3E0 /* MSDBStorage.m */; };
+		C9A9211A230C61820068070D /* MSUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = E8A8D1EA1D3057A90022931E /* MSUserDefaults.m */; };
+		C9A9211B230C61820068070D /* MSLogDBStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CD74841F22BD910070E7DF /* MSLogDBStorage.m */; };
+		C9A9211C230C61820068070D /* MSOrderedDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = B29D883C21E925A400EAF084 /* MSOrderedDictionary.m */; };
+		C9A9211D230C61820068070D /* MSEncrypter.m in Sources */ = {isa = PBXBuildFile; fileRef = 8087362820C134AC004C4157 /* MSEncrypter.m */; };
+		C9A9211E230C61820068070D /* MSHistoryInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 047FEE0721A4884600ED77CD /* MSHistoryInfo.m */; };
+		C9A9211F230C61820068070D /* MSKeychainUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 045BC3161E3FD88600B6C960 /* MSKeychainUtil.m */; };
+		C9A92120230C61820068070D /* MSUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CD74911F22BE270070E7DF /* MSUtility.m */; };
+		C9A92121230C61820068070D /* MSUtility+Application.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CD74931F22BE270070E7DF /* MSUtility+Application.m */; };
+		C9A92122230C61820068070D /* MSUtility+Date.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CD74961F22BE270070E7DF /* MSUtility+Date.m */; };
+		C9A92123230C61820068070D /* MSUtility+Environment.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CD74981F22BE270070E7DF /* MSUtility+Environment.m */; };
+		C9A92124230C61820068070D /* MSUtility+File.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CD749A1F22BE270070E7DF /* MSUtility+File.m */; };
+		C9A92125230C61820068070D /* MSUtility+PropertyValidation.m in Sources */ = {isa = PBXBuildFile; fileRef = B28E41D42076ECFE00CC6AD8 /* MSUtility+PropertyValidation.m */; };
+		C9A92126230C61820068070D /* MSUtility+StringFormatting.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CD749C1F22BE270070E7DF /* MSUtility+StringFormatting.m */; };
+		C9A92127230C61820068070D /* MSCompression.m in Sources */ = {isa = PBXBuildFile; fileRef = 38148D8520D07FB70046257E /* MSCompression.m */; };
+		C9A92128230C61820068070D /* MS_Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = E83283C51D46C62E000B029E /* MS_Reachability.m */; };
+		C9A92129230C61820068070D /* MSCustomProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = F803BBF21E8E3677004B1E7A /* MSCustomProperties.m */; };
+		C9A9212A230C61820068070D /* MSDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3844FF1A1E8C2716003E9194 /* MSDevice.m */; };
+		C9A9212B230C61820068070D /* MSWrapperSdk.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CD74561F22BB710070E7DF /* MSWrapperSdk.m */; };
+		C9A9212C230C61830068070D /* MSAppCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E0401561D1C9AAA0051BCFA /* MSAppCenter.m */; };
+		C9A9212D230C61830068070D /* MSLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 3592ABA61DC90E3600EF4592 /* MSLogger.m */; };
+		C9A9212E230C61830068070D /* MSServiceAbstract.m in Sources */ = {isa = PBXBuildFile; fileRef = D38024051E7126F500466558 /* MSServiceAbstract.m */; };
+		C9A9212F230C61830068070D /* MSWrapperLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D0B7521DDFABFD003EACCD /* MSWrapperLogger.m */; };
+		C9A92130230C61830068070D /* MSAppDelegateForwarder.m in Sources */ = {isa = PBXBuildFile; fileRef = 38C4471F1ECE5352002E1B11 /* MSAppDelegateForwarder.m */; };
+		C9A92131230C61830068070D /* MSDelegateForwarder.m in Sources */ = {isa = PBXBuildFile; fileRef = 38032086217E85A90089772A /* MSDelegateForwarder.m */; };
+		C9A92132230C61830068070D /* MSChannelGroupDefault.m in Sources */ = {isa = PBXBuildFile; fileRef = E84B8E2D1D2351DB006FD231 /* MSChannelGroupDefault.m */; };
+		C9A92133230C61830068070D /* MSChannelUnitConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EF628F31D371B1600CAFF64 /* MSChannelUnitConfiguration.m */; };
+		C9A92134230C61830068070D /* MSChannelUnitDefault.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E0684621D36BC8D00A8CC6C /* MSChannelUnitDefault.m */; };
+		C9A92135230C61830068070D /* MSOneCollectorChannelDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 805275C020A1A5F400704115 /* MSOneCollectorChannelDelegate.m */; };
+		C9A92136230C61830068070D /* MSCSEpochAndSeq.m in Sources */ = {isa = PBXBuildFile; fileRef = 3814A8E520BF5FA00093AF45 /* MSCSEpochAndSeq.m */; };
+		C9A92137230C61830068070D /* MSAuthTokenContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CB67DA322137936006E20AC /* MSAuthTokenContext.m */; };
+		C9A92138230C61830068070D /* MSAuthTokenInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = C2751A56223FCBAB0040BFEB /* MSAuthTokenInfo.m */; };
+		C9A92139230C61830068070D /* MSAuthTokenValidityInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 87F7AB21BD187EFD83F7F15E /* MSAuthTokenValidityInfo.m */; };
+		C9A9213A230C61830068070D /* MSDeviceHistoryInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = B2FD53611E56501B0050F909 /* MSDeviceHistoryInfo.m */; };
+		C9A9213B230C61830068070D /* MSDeviceTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 04754F3C1EA980FD002CBA46 /* MSDeviceTracker.m */; };
+		C9A9213C230C61830068070D /* MSSessionContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 045C85131FE0B31600089540 /* MSSessionContext.m */; };
+		C9A9213D230C61830068070D /* MSSessionHistoryInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 047EBB9B1FE30842009BB1C8 /* MSSessionHistoryInfo.m */; };
+		C9A9213E230C61830068070D /* MSUserIdContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 047FEE1021A48CC200ED77CD /* MSUserIdContext.m */; };
+		C9A9213F230C61830068070D /* MSUserIdHistoryInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 047FEE1321A48CC200ED77CD /* MSUserIdHistoryInfo.m */; };
+		C9A92140230C61830068070D /* MSHttpUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 3571F659224962180052406C /* MSHttpUtil.m */; };
+		C9A92141230C61830068070D /* MSHttpClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA0350241FEC3A6A4919BFE /* MSHttpClient.m */; };
+		C9A92142230C61830068070D /* MSHttpCall.m in Sources */ = {isa = PBXBuildFile; fileRef = 3571F65322457FCC0052406C /* MSHttpCall.m */; };
+		C9A92143230C61830068070D /* MSTicketCache.m in Sources */ = {isa = PBXBuildFile; fileRef = B23507B32118D22800F98D4F /* MSTicketCache.m */; };
+		C9A92144230C61830068070D /* MSIngestionCall.m in Sources */ = {isa = PBXBuildFile; fileRef = E80EB1061D50273700C9003F /* MSIngestionCall.m */; };
+		C9A92145230C61830068070D /* MSHttpIngestion.m in Sources */ = {isa = PBXBuildFile; fileRef = E84B8E341D235226006FD231 /* MSHttpIngestion.m */; };
+		C9A92146230C61830068070D /* MSAppCenterIngestion.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6822A89D38F04D8D95CE83 /* MSAppCenterIngestion.m */; };
+		C9A92147230C61830068070D /* MSOneCollectorIngestion.m in Sources */ = {isa = PBXBuildFile; fileRef = B2B7D50A20C5E562001D31B8 /* MSOneCollectorIngestion.m */; };
+		C9A92148230C61830068070D /* MSAppExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = E74B14D820B37042002C0183 /* MSAppExtension.m */; };
+		C9A92149230C61830068070D /* MSCommonSchemaLog.m in Sources */ = {isa = PBXBuildFile; fileRef = E74B149820B364EE002C0183 /* MSCommonSchemaLog.m */; };
+		C9A9214A230C61830068070D /* MSCSData.m in Sources */ = {isa = PBXBuildFile; fileRef = E7D23C5520B4E38B00A47D62 /* MSCSData.m */; };
+		C9A9214B230C61830068070D /* MSCSExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = E7D23C6520B6391700A47D62 /* MSCSExtensions.m */; };
+		C9A9214C230C61830068070D /* MSDeviceExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 359C38DC214079D90066C509 /* MSDeviceExtension.m */; };
+		C9A9214D230C61830068070D /* MSLocExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = E74B14A920B36B9B002C0183 /* MSLocExtension.m */; };
+		C9A9214E230C61830068070D /* MSMetadataExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA030746930EE3DCB6A21B3 /* MSMetadataExtension.m */; };
+		C9A9214F230C61830068070D /* MSNetExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = E74B14D120B36EC5002C0183 /* MSNetExtension.m */; };
+		C9A92150230C61830068070D /* MSOSExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = E74B14D920B37042002C0183 /* MSOSExtension.m */; };
+		C9A92151230C61830068070D /* MSProtocolExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = E74B14C920B36DF1002C0183 /* MSProtocolExtension.m */; };
+		C9A92152230C61830068070D /* MSSDKExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = E74B14E920B3711F002C0183 /* MSSDKExtension.m */; };
+		C9A92153230C61830068070D /* MSUserExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = E74B14A120B36AAB002C0183 /* MSUserExtension.m */; };
+		C9A92154230C61830068070D /* MSAbstractLog.m in Sources */ = {isa = PBXBuildFile; fileRef = E88EBBEB1D2C612E007E7785 /* MSAbstractLog.m */; };
+		C9A92155230C61830068070D /* MSCustomPropertiesLog.m in Sources */ = {isa = PBXBuildFile; fileRef = F803BBF81E8E3989004B1E7A /* MSCustomPropertiesLog.m */; };
+		C9A92156230C61830068070D /* MSLogContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E171B591D234717000DC480 /* MSLogContainer.m */; };
+		C9A92157230C61830068070D /* MSLogWithProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = E8010E671D2DD4EF0035196F /* MSLogWithProperties.m */; };
+		C9A92158230C61830068070D /* MSStartServiceLog.m in Sources */ = {isa = PBXBuildFile; fileRef = D38023E61E6EFC7C00466558 /* MSStartServiceLog.m */; };
+		C9A92159230C61830068070D /* MSBooleanTypedProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = 35DFC1C22170030C00455589 /* MSBooleanTypedProperty.m */; };
+		C9A9215A230C61830068070D /* MSDateTimeTypedProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = 35DFC1C42170030C00455589 /* MSDateTimeTypedProperty.m */; };
+		C9A9215B230C61830068070D /* MSDoubleTypedProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = 35DFC1C62170030C00455589 /* MSDoubleTypedProperty.m */; };
+		C9A9215C230C61830068070D /* MSLongTypedProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = 35DFC1C82170030C00455589 /* MSLongTypedProperty.m */; };
+		C9A9215D230C61830068070D /* MSStringTypedProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = 35DFC1BE2170030C00455589 /* MSStringTypedProperty.m */; };
+		C9A9215E230C61830068070D /* MSTypedProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = 35DFC1C32170030C00455589 /* MSTypedProperty.m */; };
+		C9A9215F230C61830068070D /* MSDBStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 3849BA7B1EF3145A0072E3E0 /* MSDBStorage.m */; };
+		C9A92160230C61830068070D /* MSUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = E8A8D1EA1D3057A90022931E /* MSUserDefaults.m */; };
+		C9A92161230C61830068070D /* MSLogDBStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CD74841F22BD910070E7DF /* MSLogDBStorage.m */; };
+		C9A92162230C61830068070D /* MSOrderedDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = B29D883C21E925A400EAF084 /* MSOrderedDictionary.m */; };
+		C9A92163230C61830068070D /* MSEncrypter.m in Sources */ = {isa = PBXBuildFile; fileRef = 8087362820C134AC004C4157 /* MSEncrypter.m */; };
+		C9A92164230C61830068070D /* MSHistoryInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 047FEE0721A4884600ED77CD /* MSHistoryInfo.m */; };
+		C9A92165230C61830068070D /* MSKeychainUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 045BC3161E3FD88600B6C960 /* MSKeychainUtil.m */; };
+		C9A92166230C61830068070D /* MSUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CD74911F22BE270070E7DF /* MSUtility.m */; };
+		C9A92167230C61830068070D /* MSUtility+Application.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CD74931F22BE270070E7DF /* MSUtility+Application.m */; };
+		C9A92168230C61830068070D /* MSUtility+Date.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CD74961F22BE270070E7DF /* MSUtility+Date.m */; };
+		C9A92169230C61830068070D /* MSUtility+Environment.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CD74981F22BE270070E7DF /* MSUtility+Environment.m */; };
+		C9A9216A230C61830068070D /* MSUtility+File.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CD749A1F22BE270070E7DF /* MSUtility+File.m */; };
+		C9A9216B230C61830068070D /* MSUtility+PropertyValidation.m in Sources */ = {isa = PBXBuildFile; fileRef = B28E41D42076ECFE00CC6AD8 /* MSUtility+PropertyValidation.m */; };
+		C9A9216C230C61830068070D /* MSUtility+StringFormatting.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CD749C1F22BE270070E7DF /* MSUtility+StringFormatting.m */; };
+		C9A9216D230C61830068070D /* MSCompression.m in Sources */ = {isa = PBXBuildFile; fileRef = 38148D8520D07FB70046257E /* MSCompression.m */; };
+		C9A9216E230C61830068070D /* MS_Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = E83283C51D46C62E000B029E /* MS_Reachability.m */; };
+		C9A9216F230C61830068070D /* MSCustomProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = F803BBF21E8E3677004B1E7A /* MSCustomProperties.m */; };
+		C9A92170230C61830068070D /* MSDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3844FF1A1E8C2716003E9194 /* MSDevice.m */; };
+		C9A92171230C61830068070D /* MSWrapperSdk.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CD74561F22BB710070E7DF /* MSWrapperSdk.m */; };
 		D36136831E7BB338004AE043 /* MSStoragePerformanceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D36136821E7BB338004AE043 /* MSStoragePerformanceTests.m */; };
 		D377A30D1E83A05900B2C97A /* MSMockUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = D377A30C1E83A05900B2C97A /* MSMockUserDefaults.m */; };
 		D38023E81E6EFC7C00466558 /* MSStartServiceLog.m in Sources */ = {isa = PBXBuildFile; fileRef = D38023E61E6EFC7C00466558 /* MSStartServiceLog.m */; };
@@ -1756,7 +1896,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C9A92028230C08BE0068070D /* libAppCenter.a in Frameworks */,
+				C9A92058230C5C1C0068070D /* libAppCenter.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1764,7 +1904,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C9A92027230C08B60068070D /* libAppCenter.a in Frameworks */,
+				C9A92057230C5C150068070D /* libAppCenter.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4135,6 +4275,76 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9A92103230C61820068070D /* MSCommonSchemaLog.m in Sources */,
+				C9A920FC230C61820068070D /* MSHttpCall.m in Sources */,
+				C9A92118230C61820068070D /* MSTypedProperty.m in Sources */,
+				C9A92101230C61820068070D /* MSOneCollectorIngestion.m in Sources */,
+				C9A92126230C61820068070D /* MSUtility+StringFormatting.m in Sources */,
+				C9A92114230C61820068070D /* MSDateTimeTypedProperty.m in Sources */,
+				C9A920ED230C61820068070D /* MSChannelUnitConfiguration.m in Sources */,
+				C9A9211E230C61820068070D /* MSHistoryInfo.m in Sources */,
+				C9A920EA230C61820068070D /* MSAppDelegateForwarder.m in Sources */,
+				C9A92123230C61820068070D /* MSUtility+Environment.m in Sources */,
+				C9A920EE230C61820068070D /* MSChannelUnitDefault.m in Sources */,
+				C9A920E8230C61820068070D /* MSServiceAbstract.m in Sources */,
+				C9A92109230C61820068070D /* MSNetExtension.m in Sources */,
+				C9A9211C230C61820068070D /* MSOrderedDictionary.m in Sources */,
+				C9A92108230C61820068070D /* MSMetadataExtension.m in Sources */,
+				C9A92112230C61820068070D /* MSStartServiceLog.m in Sources */,
+				C9A920F2230C61820068070D /* MSAuthTokenInfo.m in Sources */,
+				C9A920FA230C61820068070D /* MSHttpUtil.m in Sources */,
+				C9A92113230C61820068070D /* MSBooleanTypedProperty.m in Sources */,
+				C9A920E9230C61820068070D /* MSWrapperLogger.m in Sources */,
+				C9A920EF230C61820068070D /* MSOneCollectorChannelDelegate.m in Sources */,
+				C9A920FB230C61820068070D /* MSHttpClient.m in Sources */,
+				C9A920FD230C61820068070D /* MSTicketCache.m in Sources */,
+				C9A920F7230C61820068070D /* MSSessionHistoryInfo.m in Sources */,
+				C9A920EB230C61820068070D /* MSDelegateForwarder.m in Sources */,
+				C9A9210B230C61820068070D /* MSProtocolExtension.m in Sources */,
+				C9A920F5230C61820068070D /* MSDeviceTracker.m in Sources */,
+				C9A9211F230C61820068070D /* MSKeychainUtil.m in Sources */,
+				C9A920EC230C61820068070D /* MSChannelGroupDefault.m in Sources */,
+				C9A9210F230C61820068070D /* MSCustomPropertiesLog.m in Sources */,
+				C9A92105230C61820068070D /* MSCSExtensions.m in Sources */,
+				C9A92129230C61820068070D /* MSCustomProperties.m in Sources */,
+				C9A92121230C61820068070D /* MSUtility+Application.m in Sources */,
+				C9A920F3230C61820068070D /* MSAuthTokenValidityInfo.m in Sources */,
+				C9A92117230C61820068070D /* MSStringTypedProperty.m in Sources */,
+				C9A92111230C61820068070D /* MSLogWithProperties.m in Sources */,
+				C9A920F0230C61820068070D /* MSCSEpochAndSeq.m in Sources */,
+				C9A92128230C61820068070D /* MS_Reachability.m in Sources */,
+				C9A92102230C61820068070D /* MSAppExtension.m in Sources */,
+				C9A92122230C61820068070D /* MSUtility+Date.m in Sources */,
+				C9A92119230C61820068070D /* MSDBStorage.m in Sources */,
+				C9A92110230C61820068070D /* MSLogContainer.m in Sources */,
+				C9A92124230C61820068070D /* MSUtility+File.m in Sources */,
+				C9A92125230C61820068070D /* MSUtility+PropertyValidation.m in Sources */,
+				C9A92127230C61820068070D /* MSCompression.m in Sources */,
+				C9A9210D230C61820068070D /* MSUserExtension.m in Sources */,
+				C9A9210E230C61820068070D /* MSAbstractLog.m in Sources */,
+				C9A920F6230C61820068070D /* MSSessionContext.m in Sources */,
+				C9A92106230C61820068070D /* MSDeviceExtension.m in Sources */,
+				C9A920F4230C61820068070D /* MSDeviceHistoryInfo.m in Sources */,
+				C9A920E6230C61820068070D /* MSAppCenter.m in Sources */,
+				C9A9211A230C61820068070D /* MSUserDefaults.m in Sources */,
+				C9A9210C230C61820068070D /* MSSDKExtension.m in Sources */,
+				C9A920FE230C61820068070D /* MSIngestionCall.m in Sources */,
+				C9A920E7230C61820068070D /* MSLogger.m in Sources */,
+				C9A9211D230C61820068070D /* MSEncrypter.m in Sources */,
+				C9A9212B230C61820068070D /* MSWrapperSdk.m in Sources */,
+				C9A920F1230C61820068070D /* MSAuthTokenContext.m in Sources */,
+				C9A9211B230C61820068070D /* MSLogDBStorage.m in Sources */,
+				C9A92115230C61820068070D /* MSDoubleTypedProperty.m in Sources */,
+				C9A92116230C61820068070D /* MSLongTypedProperty.m in Sources */,
+				C9A920F9230C61820068070D /* MSUserIdHistoryInfo.m in Sources */,
+				C9A92120230C61820068070D /* MSUtility.m in Sources */,
+				C9A920FF230C61820068070D /* MSHttpIngestion.m in Sources */,
+				C9A92100230C61820068070D /* MSAppCenterIngestion.m in Sources */,
+				C9A920F8230C61820068070D /* MSUserIdContext.m in Sources */,
+				C9A92107230C61820068070D /* MSLocExtension.m in Sources */,
+				C9A92104230C61820068070D /* MSCSData.m in Sources */,
+				C9A9210A230C61820068070D /* MSOSExtension.m in Sources */,
+				C9A9212A230C61820068070D /* MSDevice.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4142,6 +4352,76 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9A92149230C61830068070D /* MSCommonSchemaLog.m in Sources */,
+				C9A92142230C61830068070D /* MSHttpCall.m in Sources */,
+				C9A9215E230C61830068070D /* MSTypedProperty.m in Sources */,
+				C9A92147230C61830068070D /* MSOneCollectorIngestion.m in Sources */,
+				C9A9216C230C61830068070D /* MSUtility+StringFormatting.m in Sources */,
+				C9A9215A230C61830068070D /* MSDateTimeTypedProperty.m in Sources */,
+				C9A92133230C61830068070D /* MSChannelUnitConfiguration.m in Sources */,
+				C9A92164230C61830068070D /* MSHistoryInfo.m in Sources */,
+				C9A92130230C61830068070D /* MSAppDelegateForwarder.m in Sources */,
+				C9A92169230C61830068070D /* MSUtility+Environment.m in Sources */,
+				C9A92134230C61830068070D /* MSChannelUnitDefault.m in Sources */,
+				C9A9212E230C61830068070D /* MSServiceAbstract.m in Sources */,
+				C9A9214F230C61830068070D /* MSNetExtension.m in Sources */,
+				C9A92162230C61830068070D /* MSOrderedDictionary.m in Sources */,
+				C9A9214E230C61830068070D /* MSMetadataExtension.m in Sources */,
+				C9A92158230C61830068070D /* MSStartServiceLog.m in Sources */,
+				C9A92138230C61830068070D /* MSAuthTokenInfo.m in Sources */,
+				C9A92140230C61830068070D /* MSHttpUtil.m in Sources */,
+				C9A92159230C61830068070D /* MSBooleanTypedProperty.m in Sources */,
+				C9A9212F230C61830068070D /* MSWrapperLogger.m in Sources */,
+				C9A92135230C61830068070D /* MSOneCollectorChannelDelegate.m in Sources */,
+				C9A92141230C61830068070D /* MSHttpClient.m in Sources */,
+				C9A92143230C61830068070D /* MSTicketCache.m in Sources */,
+				C9A9213D230C61830068070D /* MSSessionHistoryInfo.m in Sources */,
+				C9A92131230C61830068070D /* MSDelegateForwarder.m in Sources */,
+				C9A92151230C61830068070D /* MSProtocolExtension.m in Sources */,
+				C9A9213B230C61830068070D /* MSDeviceTracker.m in Sources */,
+				C9A92165230C61830068070D /* MSKeychainUtil.m in Sources */,
+				C9A92132230C61830068070D /* MSChannelGroupDefault.m in Sources */,
+				C9A92155230C61830068070D /* MSCustomPropertiesLog.m in Sources */,
+				C9A9214B230C61830068070D /* MSCSExtensions.m in Sources */,
+				C9A9216F230C61830068070D /* MSCustomProperties.m in Sources */,
+				C9A92167230C61830068070D /* MSUtility+Application.m in Sources */,
+				C9A92139230C61830068070D /* MSAuthTokenValidityInfo.m in Sources */,
+				C9A9215D230C61830068070D /* MSStringTypedProperty.m in Sources */,
+				C9A92157230C61830068070D /* MSLogWithProperties.m in Sources */,
+				C9A92136230C61830068070D /* MSCSEpochAndSeq.m in Sources */,
+				C9A9216E230C61830068070D /* MS_Reachability.m in Sources */,
+				C9A92148230C61830068070D /* MSAppExtension.m in Sources */,
+				C9A92168230C61830068070D /* MSUtility+Date.m in Sources */,
+				C9A9215F230C61830068070D /* MSDBStorage.m in Sources */,
+				C9A92156230C61830068070D /* MSLogContainer.m in Sources */,
+				C9A9216A230C61830068070D /* MSUtility+File.m in Sources */,
+				C9A9216B230C61830068070D /* MSUtility+PropertyValidation.m in Sources */,
+				C9A9216D230C61830068070D /* MSCompression.m in Sources */,
+				C9A92153230C61830068070D /* MSUserExtension.m in Sources */,
+				C9A92154230C61830068070D /* MSAbstractLog.m in Sources */,
+				C9A9213C230C61830068070D /* MSSessionContext.m in Sources */,
+				C9A9214C230C61830068070D /* MSDeviceExtension.m in Sources */,
+				C9A9213A230C61830068070D /* MSDeviceHistoryInfo.m in Sources */,
+				C9A9212C230C61830068070D /* MSAppCenter.m in Sources */,
+				C9A92160230C61830068070D /* MSUserDefaults.m in Sources */,
+				C9A92152230C61830068070D /* MSSDKExtension.m in Sources */,
+				C9A92144230C61830068070D /* MSIngestionCall.m in Sources */,
+				C9A9212D230C61830068070D /* MSLogger.m in Sources */,
+				C9A92163230C61830068070D /* MSEncrypter.m in Sources */,
+				C9A92171230C61830068070D /* MSWrapperSdk.m in Sources */,
+				C9A92137230C61830068070D /* MSAuthTokenContext.m in Sources */,
+				C9A92161230C61830068070D /* MSLogDBStorage.m in Sources */,
+				C9A9215B230C61830068070D /* MSDoubleTypedProperty.m in Sources */,
+				C9A9215C230C61830068070D /* MSLongTypedProperty.m in Sources */,
+				C9A9213F230C61830068070D /* MSUserIdHistoryInfo.m in Sources */,
+				C9A92166230C61830068070D /* MSUtility.m in Sources */,
+				C9A92145230C61830068070D /* MSHttpIngestion.m in Sources */,
+				C9A92146230C61830068070D /* MSAppCenterIngestion.m in Sources */,
+				C9A9213E230C61830068070D /* MSUserIdContext.m in Sources */,
+				C9A9214D230C61830068070D /* MSLocExtension.m in Sources */,
+				C9A9214A230C61830068070D /* MSCSData.m in Sources */,
+				C9A92150230C61830068070D /* MSOSExtension.m in Sources */,
+				C9A92170230C61830068070D /* MSDevice.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
