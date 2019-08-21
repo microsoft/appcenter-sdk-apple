@@ -546,6 +546,9 @@
 		C9EBAAC0230D3A1D00A20F0F /* MSErrorReport.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F120DF1D657CF10060DED7 /* MSErrorReport.m */; };
 		C9EBAB05230D3EC300A20F0F /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC99A141D41517B0016C325 /* CrashReporter.framework */; };
 		C9EBAB06230D3EEB00A20F0F /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04EBBEAE1F01C0B50006B8AE /* CrashReporter.framework */; };
+		C9EBAB2D230D735E00A20F0F /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9EBAB2C230D735E00A20F0F /* AppCenter.framework */; };
+		C9EBAB2F230D736A00A20F0F /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9EBAB2E230D736A00A20F0F /* AppCenter.framework */; };
+		C9EBAB31230D736F00A20F0F /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9EBAB30230D736F00A20F0F /* AppCenter.framework */; };
 		F82E4C75217F1FD700EDAB34 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = F82E4C74217F1FD600EDAB34 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		F82E4C76217F1FD700EDAB34 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = F82E4C74217F1FD600EDAB34 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		F82E4C77217F1FD700EDAB34 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = F82E4C74217F1FD600EDAB34 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-w"; }; };
@@ -805,6 +808,9 @@
 		C9A91F4A230BFD930068070D /* AppCenterCrashes.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AppCenterCrashes.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9A91F5B230BFDB40068070D /* AppCenterCrashes.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AppCenterCrashes.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9A91F66230BFDB70068070D /* AppCenterCrashes.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AppCenterCrashes.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9EBAB2C230D735E00A20F0F /* AppCenter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AppCenter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9EBAB2E230D736A00A20F0F /* AppCenter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AppCenter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9EBAB30230D736F00A20F0F /* AppCenter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AppCenter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F82E4C74217F1FD600EDAB34 /* sqlite3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = sqlite3.c; path = ../../Vendor/SQLite3/sqlite3.c; sourceTree = "<group>"; };
 		F851DAEC1E81867D00525570 /* MSCrashesCXXExceptionTests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MSCrashesCXXExceptionTests.mm; sourceTree = "<group>"; };
 		F859D0F41E549B45008B2D8E /* live_report_bad_ptr.plcrash */ = {isa = PBXFileReference; lastKnownFileType = file; path = live_report_bad_ptr.plcrash; sourceTree = "<group>"; };
@@ -891,6 +897,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9EBAB2D230D735E00A20F0F /* AppCenter.framework in Frameworks */,
 				C9EBAB05230D3EC300A20F0F /* CrashReporter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -899,6 +906,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9EBAB2F230D736A00A20F0F /* AppCenter.framework in Frameworks */,
 				C9EBAB06230D3EEB00A20F0F /* CrashReporter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -907,6 +915,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9EBAB31230D736F00A20F0F /* AppCenter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1318,6 +1327,9 @@
 		C9A91F68230BFDFD0068070D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C9EBAB30230D736F00A20F0F /* AppCenter.framework */,
+				C9EBAB2E230D736A00A20F0F /* AppCenter.framework */,
+				C9EBAB2C230D735E00A20F0F /* AppCenter.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

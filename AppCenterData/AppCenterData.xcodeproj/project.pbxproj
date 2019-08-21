@@ -287,6 +287,8 @@
 		C9EBAAE0230D3A7F00A20F0F /* MSCosmosDb.m in Sources */ = {isa = PBXBuildFile; fileRef = E8593A15222B91B20001F87E /* MSCosmosDb.m */; };
 		C9EBAAE1230D3A7F00A20F0F /* MSDataOperationProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F534A16226039F400D18129 /* MSDataOperationProxy.m */; };
 		C9EBAAE2230D3A7F00A20F0F /* MSTokenExchange.m in Sources */ = {isa = PBXBuildFile; fileRef = E86B95D92224B6310062E552 /* MSTokenExchange.m */; };
+		C9EBAB33230D739800A20F0F /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9EBAB32230D739800A20F0F /* AppCenter.framework */; };
+		C9EBAB35230D739D00A20F0F /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9EBAB34230D739D00A20F0F /* AppCenter.framework */; };
 		D3AD5EC51E5C4F6A001627AB /* libAppCenterData.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D33A94511E5B11BB003966DB /* libAppCenterData.a */; };
 		D3AD5F0C1E5C819A001627AB /* AppCenter+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5F0B1E5C819A001627AB /* AppCenter+Internal.h */; };
 		D3AD5F0D1E5C844B001627AB /* MSServiceAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5EFE1E5C7DAE001627AB /* MSServiceAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -452,6 +454,8 @@
 		9CE865A4228B6615003CCE0E /* validTestUserDocument.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = validTestUserDocument.json; sourceTree = "<group>"; };
 		C9A91F71230BFF610068070D /* AppCenterData.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AppCenterData.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9A91F82230BFF670068070D /* AppCenterData.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AppCenterData.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9EBAB32230D739800A20F0F /* AppCenter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AppCenter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9EBAB34230D739D00A20F0F /* AppCenter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AppCenter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D33A94511E5B11BB003966DB /* libAppCenterData.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAppCenterData.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D33A94541E5B11BB003966DB /* AppCenterData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppCenterData.h; sourceTree = "<group>"; };
 		D3AD5EC01E5C4F6A001627AB /* AppCenterData.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppCenterData.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -506,6 +510,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9EBAB33230D739800A20F0F /* AppCenter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -513,6 +518,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9EBAB35230D739D00A20F0F /* AppCenter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -640,6 +646,8 @@
 		C9A91F84230BFFAE0068070D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C9EBAB34230D739D00A20F0F /* AppCenter.framework */,
+				C9EBAB32230D739800A20F0F /* AppCenter.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

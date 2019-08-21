@@ -141,6 +141,8 @@
 		C9EBAAFA230D3AC200A20F0F /* MSPushLog.m in Sources */ = {isa = PBXBuildFile; fileRef = D3AD5F6B1E5D7464001627AB /* MSPushLog.m */; };
 		C9EBAAFB230D3AC200A20F0F /* MSPushNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 047919B61EBA42F0004834A6 /* MSPushNotification.m */; };
 		C9EBAB09230D3FB300A20F0F /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D38023C01E6DE01700466558 /* UserNotifications.framework */; };
+		C9EBAB39230D73B300A20F0F /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9EBAB38230D73B300A20F0F /* AppCenter.framework */; };
+		C9EBAB3B230D73B700A20F0F /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9EBAB3A230D73B700A20F0F /* AppCenter.framework */; };
 		D38023C11E6DE01700466558 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D38023C01E6DE01700466558 /* UserNotifications.framework */; };
 		D39B04E41E66FBD50048E397 /* MSPushTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = D39B04E31E66FBD50048E397 /* MSPushTestUtil.m */; };
 		D3AD5EC51E5C4F6A001627AB /* libAppCenterPush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D33A94511E5B11BB003966DB /* libAppCenterPush.a */; };
@@ -246,6 +248,8 @@
 		C25680CD223126A80063B3F7 /* MSMockPushDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSMockPushDelegate.m; sourceTree = "<group>"; };
 		C9A91F9B230C004A0068070D /* AppCenterPush.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AppCenterPush.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9A91FAC230C00540068070D /* AppCenterPush.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AppCenterPush.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9EBAB38230D73B300A20F0F /* AppCenter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AppCenter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9EBAB3A230D73B700A20F0F /* AppCenter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AppCenter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D33A94511E5B11BB003966DB /* libAppCenterPush.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAppCenterPush.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D33A94541E5B11BB003966DB /* AppCenterPush.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppCenterPush.h; sourceTree = "<group>"; };
 		D38023C01E6DE01700466558 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
@@ -293,6 +297,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9EBAB39230D73B300A20F0F /* AppCenter.framework in Frameworks */,
 				C9EBAB09230D3FB300A20F0F /* UserNotifications.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -301,6 +306,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9EBAB3B230D73B700A20F0F /* AppCenter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -409,6 +415,8 @@
 		C9A91FAE230C007B0068070D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C9EBAB3A230D73B700A20F0F /* AppCenter.framework */,
+				C9EBAB38230D73B300A20F0F /* AppCenter.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

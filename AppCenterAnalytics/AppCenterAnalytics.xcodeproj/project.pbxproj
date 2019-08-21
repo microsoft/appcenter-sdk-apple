@@ -368,6 +368,9 @@
 		C9EBAA88230D39CA00A20F0F /* MSAnalyticsAuthenticationProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = B2E2ECB82114DAB800C688C0 /* MSAnalyticsAuthenticationProvider.m */; };
 		C9EBAA89230D39CA00A20F0F /* MSAnalyticsTransmissionTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 35134330205704C100E6DC7D /* MSAnalyticsTransmissionTarget.m */; };
 		C9EBAA8A230D39CA00A20F0F /* MSPropertyConfigurator.m in Sources */ = {isa = PBXBuildFile; fileRef = E758FA7C20FFDEE700011793 /* MSPropertyConfigurator.m */; };
+		C9EBAB19230D724700A20F0F /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9EBAB18230D724700A20F0F /* AppCenter.framework */; settings = {ATTRIBUTES = (Required, ); }; };
+		C9EBAB29230D72F300A20F0F /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9EBAB28230D72F300A20F0F /* AppCenter.framework */; };
+		C9EBAB2B230D72F900A20F0F /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9EBAB2A230D72F900A20F0F /* AppCenter.framework */; };
 		E758FA7D20FFDEE700011793 /* MSPropertyConfigurator.h in Headers */ = {isa = PBXBuildFile; fileRef = E758FA7B20FFDEE700011793 /* MSPropertyConfigurator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E758FA7E20FFDEE700011793 /* MSPropertyConfigurator.h in Headers */ = {isa = PBXBuildFile; fileRef = E758FA7B20FFDEE700011793 /* MSPropertyConfigurator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E758FA7F20FFDEE700011793 /* MSPropertyConfigurator.h in Headers */ = {isa = PBXBuildFile; fileRef = E758FA7B20FFDEE700011793 /* MSPropertyConfigurator.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -548,6 +551,9 @@
 		C9A91F34230BFB8A0068070D /* AppCenterAnalytics.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AppCenterAnalytics.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9A91F3F230BFB970068070D /* AppCenterAnalytics.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AppCenterAnalytics.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9CA69D92306CAF700EE82AA /* AppCenterAnalytics.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AppCenterAnalytics.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9EBAB18230D724700A20F0F /* AppCenter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AppCenter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9EBAB28230D72F300A20F0F /* AppCenter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AppCenter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9EBAB2A230D72F900A20F0F /* AppCenter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AppCenter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E758FA7B20FFDEE700011793 /* MSPropertyConfigurator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSPropertyConfigurator.h; sourceTree = "<group>"; };
 		E758FA7C20FFDEE700011793 /* MSPropertyConfigurator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSPropertyConfigurator.m; sourceTree = "<group>"; };
 		E758FA8320FFE0E200011793 /* MSPropertyConfiguratorPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSPropertyConfiguratorPrivate.h; sourceTree = "<group>"; };
@@ -617,6 +623,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9EBAB29230D72F300A20F0F /* AppCenter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -624,6 +631,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9EBAB2B230D72F900A20F0F /* AppCenter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -631,6 +639,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9EBAB19230D724700A20F0F /* AppCenter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -822,6 +831,9 @@
 		C9A91F41230BFBE40068070D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C9EBAB2A230D72F900A20F0F /* AppCenter.framework */,
+				C9EBAB28230D72F300A20F0F /* AppCenter.framework */,
+				C9EBAB18230D724700A20F0F /* AppCenter.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

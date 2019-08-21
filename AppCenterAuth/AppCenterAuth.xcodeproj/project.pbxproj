@@ -165,6 +165,8 @@
 		C9EBAB02230D3D5200A20F0F /* AuthenticationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04E0F31F223B246B0080C968 /* AuthenticationServices.framework */; };
 		C9EBAB03230D3D5D00A20F0F /* libMSAL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04E97611226A50BF007E6DD1 /* libMSAL.a */; };
 		C9EBAB04230D3D6500A20F0F /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 049BC848224ED7C100AE7FBB /* WebKit.framework */; };
+		C9EBAB1B230D72D900A20F0F /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9EBAB1A230D72D900A20F0F /* AppCenter.framework */; };
+		C9EBAB27230D72E200A20F0F /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9EBAB26230D72E200A20F0F /* AppCenter.framework */; };
 		E85547C61D2D6253002DF6E2 /* MSAuth.m in Sources */ = {isa = PBXBuildFile; fileRef = E85547C51D2D6253002DF6E2 /* MSAuth.m */; };
 		E85547DA1D2D6723002DF6E2 /* libAppCenterAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E85547C01D2D6253002DF6E2 /* libAppCenterAuth.a */; };
 		E85547F71D2D6A7D002DF6E2 /* AppCenterAuth.h in Headers */ = {isa = PBXBuildFile; fileRef = E85547CC1D2D63EF002DF6E2 /* AppCenterAuth.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -411,6 +413,8 @@
 		B2B25646220B370200716D6A /* MSAuthAppDelegateTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSAuthAppDelegateTests.m; sourceTree = "<group>"; };
 		C934BFE5230BF74100083490 /* AppCenterAuth.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AppCenterAuth.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9A91F28230BF9590068070D /* AppCenterAuth.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AppCenterAuth.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9EBAB1A230D72D900A20F0F /* AppCenter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AppCenter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9EBAB26230D72E200A20F0F /* AppCenter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AppCenter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E85547C01D2D6253002DF6E2 /* libAppCenterAuth.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAppCenterAuth.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		E85547C31D2D6253002DF6E2 /* MSAuth.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSAuth.h; sourceTree = "<group>"; };
 		E85547C51D2D6253002DF6E2 /* MSAuth.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MSAuth.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
@@ -449,6 +453,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9EBAB1B230D72D900A20F0F /* AppCenter.framework in Frameworks */,
 				C9EBAB02230D3D5200A20F0F /* AuthenticationServices.framework in Frameworks */,
 				C9EBAB01230D3D4A00A20F0F /* WebKit.framework in Frameworks */,
 				C9EBAB00230D3D3900A20F0F /* libMSAL.a in Frameworks */,
@@ -459,6 +464,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9EBAB27230D72E200A20F0F /* AppCenter.framework in Frameworks */,
 				C9EBAB04230D3D6500A20F0F /* WebKit.framework in Frameworks */,
 				C9EBAB03230D3D5D00A20F0F /* libMSAL.a in Frameworks */,
 			);
@@ -577,6 +583,8 @@
 		04E0F31E223B246A0080C968 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C9EBAB26230D72E200A20F0F /* AppCenter.framework */,
+				C9EBAB1A230D72D900A20F0F /* AppCenter.framework */,
 				049BC848224ED7C100AE7FBB /* WebKit.framework */,
 				049BC84A224ED7C900AE7FBB /* WebKit.framework */,
 				04E0F31F223B246B0080C968 /* AuthenticationServices.framework */,
