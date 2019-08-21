@@ -253,6 +253,40 @@
 		C9EBAA28230D37A600A20F0F /* MSDataPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5F081E5C8156001627AB /* MSDataPrivate.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		C9EBAA29230D37AD00A20F0F /* MSDocumentWrapperInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 35F515A7225BC6B0001BFFA2 /* MSDocumentWrapperInternal.h */; };
 		C9EBAA2A230D37AE00A20F0F /* MSDocumentWrapperInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 35F515A7225BC6B0001BFFA2 /* MSDocumentWrapperInternal.h */; };
+		C9EBAAC1230D3A7E00A20F0F /* MSBaseOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464EA222F28A300EC1FF3 /* MSBaseOptions.m */; };
+		C9EBAAC2230D3A7E00A20F0F /* MSDataError.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464DE222F28A200EC1FF3 /* MSDataError.m */; };
+		C9EBAAC3230D3A7E00A20F0F /* MSData.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464E3222F28A300EC1FF3 /* MSData.m */; };
+		C9EBAAC4230D3A7E00A20F0F /* MSDictionaryDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F4548E22256D3160021B0BF /* MSDictionaryDocument.m */; };
+		C9EBAAC5230D3A7E00A20F0F /* MSDocumentWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464E4222F28A300EC1FF3 /* MSDocumentWrapper.m */; };
+		C9EBAAC6230D3A7E00A20F0F /* MSPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464E5222F28A300EC1FF3 /* MSPage.m */; };
+		C9EBAAC7230D3A7E00A20F0F /* MSPaginatedDocuments.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464E8222F28A300EC1FF3 /* MSPaginatedDocuments.m */; };
+		C9EBAAC8230D3A7E00A20F0F /* MSReadOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464E7222F28A300EC1FF3 /* MSReadOptions.m */; };
+		C9EBAAC9230D3A7E00A20F0F /* MSWriteOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464EC222F28A300EC1FF3 /* MSWriteOptions.m */; };
+		C9EBAACA230D3A7E00A20F0F /* MSDBDocumentStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A193733225129B700459E1E /* MSDBDocumentStore.m */; };
+		C9EBAACB230D3A7E00A20F0F /* MSDocumentUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E83D121D22378143002B6585 /* MSDocumentUtils.m */; };
+		C9EBAACC230D3A7E00A20F0F /* MSPendingOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = E8B79370225E9E0C00CB3D1D /* MSPendingOperation.m */; };
+		C9EBAACD230D3A7E00A20F0F /* MSTokenResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 2600123D22273E94007F4D3A /* MSTokenResult.m */; };
+		C9EBAACE230D3A7E00A20F0F /* MSTokensResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 2600123E22273E94007F4D3A /* MSTokensResponse.m */; };
+		C9EBAACF230D3A7E00A20F0F /* MSCosmosDb.m in Sources */ = {isa = PBXBuildFile; fileRef = E8593A15222B91B20001F87E /* MSCosmosDb.m */; };
+		C9EBAAD0230D3A7E00A20F0F /* MSDataOperationProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F534A16226039F400D18129 /* MSDataOperationProxy.m */; };
+		C9EBAAD1230D3A7E00A20F0F /* MSTokenExchange.m in Sources */ = {isa = PBXBuildFile; fileRef = E86B95D92224B6310062E552 /* MSTokenExchange.m */; };
+		C9EBAAD2230D3A7F00A20F0F /* MSBaseOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464EA222F28A300EC1FF3 /* MSBaseOptions.m */; };
+		C9EBAAD3230D3A7F00A20F0F /* MSDataError.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464DE222F28A200EC1FF3 /* MSDataError.m */; };
+		C9EBAAD4230D3A7F00A20F0F /* MSData.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464E3222F28A300EC1FF3 /* MSData.m */; };
+		C9EBAAD5230D3A7F00A20F0F /* MSDictionaryDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F4548E22256D3160021B0BF /* MSDictionaryDocument.m */; };
+		C9EBAAD6230D3A7F00A20F0F /* MSDocumentWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464E4222F28A300EC1FF3 /* MSDocumentWrapper.m */; };
+		C9EBAAD7230D3A7F00A20F0F /* MSPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464E5222F28A300EC1FF3 /* MSPage.m */; };
+		C9EBAAD8230D3A7F00A20F0F /* MSPaginatedDocuments.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464E8222F28A300EC1FF3 /* MSPaginatedDocuments.m */; };
+		C9EBAAD9230D3A7F00A20F0F /* MSReadOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464E7222F28A300EC1FF3 /* MSReadOptions.m */; };
+		C9EBAADA230D3A7F00A20F0F /* MSWriteOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464EC222F28A300EC1FF3 /* MSWriteOptions.m */; };
+		C9EBAADB230D3A7F00A20F0F /* MSDBDocumentStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A193733225129B700459E1E /* MSDBDocumentStore.m */; };
+		C9EBAADC230D3A7F00A20F0F /* MSDocumentUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E83D121D22378143002B6585 /* MSDocumentUtils.m */; };
+		C9EBAADD230D3A7F00A20F0F /* MSPendingOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = E8B79370225E9E0C00CB3D1D /* MSPendingOperation.m */; };
+		C9EBAADE230D3A7F00A20F0F /* MSTokenResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 2600123D22273E94007F4D3A /* MSTokenResult.m */; };
+		C9EBAADF230D3A7F00A20F0F /* MSTokensResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 2600123E22273E94007F4D3A /* MSTokensResponse.m */; };
+		C9EBAAE0230D3A7F00A20F0F /* MSCosmosDb.m in Sources */ = {isa = PBXBuildFile; fileRef = E8593A15222B91B20001F87E /* MSCosmosDb.m */; };
+		C9EBAAE1230D3A7F00A20F0F /* MSDataOperationProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F534A16226039F400D18129 /* MSDataOperationProxy.m */; };
+		C9EBAAE2230D3A7F00A20F0F /* MSTokenExchange.m in Sources */ = {isa = PBXBuildFile; fileRef = E86B95D92224B6310062E552 /* MSTokenExchange.m */; };
 		D3AD5EC51E5C4F6A001627AB /* libAppCenterData.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D33A94511E5B11BB003966DB /* libAppCenterData.a */; };
 		D3AD5F0C1E5C819A001627AB /* AppCenter+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5F0B1E5C819A001627AB /* AppCenter+Internal.h */; };
 		D3AD5F0D1E5C844B001627AB /* MSServiceAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5EFE1E5C7DAE001627AB /* MSServiceAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1321,6 +1355,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9EBAAD1230D3A7E00A20F0F /* MSTokenExchange.m in Sources */,
+				C9EBAACD230D3A7E00A20F0F /* MSTokenResult.m in Sources */,
+				C9EBAACB230D3A7E00A20F0F /* MSDocumentUtils.m in Sources */,
+				C9EBAACC230D3A7E00A20F0F /* MSPendingOperation.m in Sources */,
+				C9EBAACA230D3A7E00A20F0F /* MSDBDocumentStore.m in Sources */,
+				C9EBAAC5230D3A7E00A20F0F /* MSDocumentWrapper.m in Sources */,
+				C9EBAAC3230D3A7E00A20F0F /* MSData.m in Sources */,
+				C9EBAAC8230D3A7E00A20F0F /* MSReadOptions.m in Sources */,
+				C9EBAAC2230D3A7E00A20F0F /* MSDataError.m in Sources */,
+				C9EBAAC4230D3A7E00A20F0F /* MSDictionaryDocument.m in Sources */,
+				C9EBAAC6230D3A7E00A20F0F /* MSPage.m in Sources */,
+				C9EBAACE230D3A7E00A20F0F /* MSTokensResponse.m in Sources */,
+				C9EBAAC9230D3A7E00A20F0F /* MSWriteOptions.m in Sources */,
+				C9EBAACF230D3A7E00A20F0F /* MSCosmosDb.m in Sources */,
+				C9EBAAC7230D3A7E00A20F0F /* MSPaginatedDocuments.m in Sources */,
+				C9EBAAD0230D3A7E00A20F0F /* MSDataOperationProxy.m in Sources */,
+				C9EBAAC1230D3A7E00A20F0F /* MSBaseOptions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1328,6 +1379,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9EBAAE2230D3A7F00A20F0F /* MSTokenExchange.m in Sources */,
+				C9EBAADE230D3A7F00A20F0F /* MSTokenResult.m in Sources */,
+				C9EBAADC230D3A7F00A20F0F /* MSDocumentUtils.m in Sources */,
+				C9EBAADD230D3A7F00A20F0F /* MSPendingOperation.m in Sources */,
+				C9EBAADB230D3A7F00A20F0F /* MSDBDocumentStore.m in Sources */,
+				C9EBAAD6230D3A7F00A20F0F /* MSDocumentWrapper.m in Sources */,
+				C9EBAAD4230D3A7F00A20F0F /* MSData.m in Sources */,
+				C9EBAAD9230D3A7F00A20F0F /* MSReadOptions.m in Sources */,
+				C9EBAAD3230D3A7F00A20F0F /* MSDataError.m in Sources */,
+				C9EBAAD5230D3A7F00A20F0F /* MSDictionaryDocument.m in Sources */,
+				C9EBAAD7230D3A7F00A20F0F /* MSPage.m in Sources */,
+				C9EBAADF230D3A7F00A20F0F /* MSTokensResponse.m in Sources */,
+				C9EBAADA230D3A7F00A20F0F /* MSWriteOptions.m in Sources */,
+				C9EBAAE0230D3A7F00A20F0F /* MSCosmosDb.m in Sources */,
+				C9EBAAD8230D3A7F00A20F0F /* MSPaginatedDocuments.m in Sources */,
+				C9EBAAE1230D3A7F00A20F0F /* MSDataOperationProxy.m in Sources */,
+				C9EBAAD2230D3A7F00A20F0F /* MSBaseOptions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
