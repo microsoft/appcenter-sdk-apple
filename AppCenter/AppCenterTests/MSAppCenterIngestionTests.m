@@ -657,7 +657,6 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
   // If
   id mockLogger = OCMClassMock([MSLogger class]);
-  id mockHttpIngestion = OCMClassMock([MSHttpIngestion class]);
   OCMStub([mockLogger currentLogLevel]).andReturn(MSLogLevelVerbose);
   OCMReject([[mockLogger ignoringNonObjectArgs] logMessage:[OCMArg checkWithBlock:^BOOL(MSLogMessageProvider messageProvider) {
                                                   NSString *logMessage = messageProvider();
@@ -694,7 +693,6 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
   // Clear
   [mockLogger stopMocking];
-  [mockHttpIngestion stopMocking];
 }
 
 @end
