@@ -1531,7 +1531,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F8936C53230C1867006A330F /* Static iOS.xcconfig */;
 			buildSettings = {
-				INFOPLIST_FILE = AppCenterData/Support/Info.plist;
 			};
 			name = Debug;
 		};
@@ -1539,7 +1538,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F8936C53230C1867006A330F /* Static iOS.xcconfig */;
 			buildSettings = {
-				INFOPLIST_FILE = AppCenterData/Support/Info.plist;
 			};
 			name = Release;
 		};
@@ -1547,7 +1545,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F8936C54230C1872006A330F /* Static macOS.xcconfig */;
 			buildSettings = {
-				INFOPLIST_FILE = AppCenterData/Support/Info.plist;
 			};
 			name = Debug;
 		};
@@ -1555,7 +1552,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F8936C54230C1872006A330F /* Static macOS.xcconfig */;
 			buildSettings = {
-				INFOPLIST_FILE = AppCenterData/Support/Info.plist;
 			};
 			name = Release;
 		};
