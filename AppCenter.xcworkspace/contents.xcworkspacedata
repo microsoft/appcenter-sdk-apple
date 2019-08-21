@@ -5,16 +5,7 @@
       location = "group:Config"
       name = "Config">
       <FileRef
-         location = "group:Static Framework Shared.xcconfig">
-      </FileRef>
-      <FileRef
-         location = "group:Static iOS.xcconfig">
-      </FileRef>
-      <FileRef
-         location = "group:Static macOS.xcconfig">
-      </FileRef>
-      <FileRef
-         location = "group:Static tvOS.xcconfig">
+         location = "group:Static Framework.xcconfig">
       </FileRef>
       <FileRef
          location = "group:App.xcconfig">
