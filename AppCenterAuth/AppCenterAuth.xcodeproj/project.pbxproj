@@ -288,6 +288,20 @@
 			remoteGlobalIDString = E85547E41D2D681F002DF6E2;
 			remoteInfo = "Fat Framework";
 		};
+		C9EBAAFC230D3BE000A20F0F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 04E975EA226A50BF007E6DD1 /* MSAL.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 04A6B57A226921890035C7C2;
+			remoteInfo = "MSAL (iOS Static Library)";
+		};
+		C9EBAAFE230D3BEE00A20F0F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 04E975EA226A50BF007E6DD1 /* MSAL.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 04A6B59B2269286F0035C7C2;
+			remoteInfo = "MSAL (Mac Static Library)";
+		};
 		E85547DB1D2D6723002DF6E2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E85547B81D2D6253002DF6E2 /* Project object */;
@@ -880,6 +894,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				C9EBAAFD230D3BE000A20F0F /* PBXTargetDependency */,
 			);
 			name = AppCenterAuthStaticIOS;
 			productName = AppCenterAuthStaticIOS;
@@ -898,6 +913,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				C9EBAAFF230D3BEE00A20F0F /* PBXTargetDependency */,
 			);
 			name = AppCenterAuthStaticMacOS;
 			productName = AppCenterAuthStaticIOS;
@@ -1316,6 +1332,16 @@
 			isa = PBXTargetDependency;
 			target = E85547E41D2D681F002DF6E2 /* AppCenterAuthIOSFramework */;
 			targetProxy = 386352E31D51047400D0D450 /* PBXContainerItemProxy */;
+		};
+		C9EBAAFD230D3BE000A20F0F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "MSAL (iOS Static Library)";
+			targetProxy = C9EBAAFC230D3BE000A20F0F /* PBXContainerItemProxy */;
+		};
+		C9EBAAFF230D3BEE00A20F0F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "MSAL (Mac Static Library)";
+			targetProxy = C9EBAAFE230D3BEE00A20F0F /* PBXContainerItemProxy */;
 		};
 		E85547DC1D2D6723002DF6E2 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
