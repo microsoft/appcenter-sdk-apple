@@ -104,6 +104,32 @@
 		38D3B01F1FF3D2A900E5FAF2 /* MSAppDelegateForwarderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 38D3B01D1FF3D2A400E5FAF2 /* MSAppDelegateForwarderTests.m */; };
 		C25680CE223126A80063B3F7 /* MSMockPushDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C25680CD223126A80063B3F7 /* MSMockPushDelegate.m */; };
 		C25680CF223126A80063B3F7 /* MSMockPushDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C25680CD223126A80063B3F7 /* MSMockPushDelegate.m */; };
+		C9EBAA42230D38D600A20F0F /* MSService.h in Headers */ = {isa = PBXBuildFile; fileRef = 04A0820B1F74BBCA00DC776D /* MSService.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C9EBAA43230D38D600A20F0F /* MSServiceAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5EFE1E5C7DAE001627AB /* MSServiceAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C9EBAA44230D38D600A20F0F /* AppCenterPush.h in Headers */ = {isa = PBXBuildFile; fileRef = D33A94541E5B11BB003966DB /* AppCenterPush.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C9EBAA45230D38D600A20F0F /* MSPush.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5F001E5C7F56001627AB /* MSPush.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C9EBAA46230D38D600A20F0F /* MSPushDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 047919B41EBA3B1B004834A6 /* MSPushDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C9EBAA47230D38D600A20F0F /* MSPushNotification.h in Headers */ = {isa = PBXBuildFile; fileRef = 047919B21EBA3AC5004834A6 /* MSPushNotification.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C9EBAA48230D38D700A20F0F /* MSService.h in Headers */ = {isa = PBXBuildFile; fileRef = 04A0820B1F74BBCA00DC776D /* MSService.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C9EBAA49230D38D700A20F0F /* MSServiceAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5EFE1E5C7DAE001627AB /* MSServiceAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C9EBAA4A230D38D700A20F0F /* AppCenterPush.h in Headers */ = {isa = PBXBuildFile; fileRef = D33A94541E5B11BB003966DB /* AppCenterPush.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C9EBAA4B230D38D700A20F0F /* MSPush.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5F001E5C7F56001627AB /* MSPush.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C9EBAA4C230D38D700A20F0F /* MSPushDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 047919B41EBA3B1B004834A6 /* MSPushDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C9EBAA4D230D38D700A20F0F /* MSPushNotification.h in Headers */ = {isa = PBXBuildFile; fileRef = 047919B21EBA3AC5004834A6 /* MSPushNotification.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C9EBAA4E230D38F000A20F0F /* AppCenter+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5F0B1E5C819A001627AB /* AppCenter+Internal.h */; };
+		C9EBAA4F230D38F000A20F0F /* MSCustomPushApplicationDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 38437AD51FF3FF47006964AE /* MSCustomPushApplicationDelegate.h */; };
+		C9EBAA50230D38F000A20F0F /* MSPushAppDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 38C65D7B21826C400004FB44 /* MSPushAppDelegate.h */; };
+		C9EBAA51230D38F000A20F0F /* MSUserNotificationCenterDelegateForwarder.h in Headers */ = {isa = PBXBuildFile; fileRef = 38C65D8021826CC80004FB44 /* MSUserNotificationCenterDelegateForwarder.h */; };
+		C9EBAA52230D38F000A20F0F /* MSPushLog.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5F6A1E5D7464001627AB /* MSPushLog.h */; };
+		C9EBAA53230D38F000A20F0F /* MSPushNotificationInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 047919B81EBA4C44004834A6 /* MSPushNotificationInternal.h */; };
+		C9EBAA54230D38F100A20F0F /* AppCenter+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5F0B1E5C819A001627AB /* AppCenter+Internal.h */; };
+		C9EBAA55230D38F100A20F0F /* MSCustomPushApplicationDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 38437AD51FF3FF47006964AE /* MSCustomPushApplicationDelegate.h */; };
+		C9EBAA56230D38F100A20F0F /* MSPushAppDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 38C65D7B21826C400004FB44 /* MSPushAppDelegate.h */; };
+		C9EBAA57230D38F100A20F0F /* MSUserNotificationCenterDelegateForwarder.h in Headers */ = {isa = PBXBuildFile; fileRef = 38C65D8021826CC80004FB44 /* MSUserNotificationCenterDelegateForwarder.h */; };
+		C9EBAA58230D38F100A20F0F /* MSPushLog.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5F6A1E5D7464001627AB /* MSPushLog.h */; };
+		C9EBAA59230D38F100A20F0F /* MSPushNotificationInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 047919B81EBA4C44004834A6 /* MSPushNotificationInternal.h */; };
+		C9EBAA5A230D38F500A20F0F /* MSPushPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5F081E5C8156001627AB /* MSPushPrivate.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		C9EBAA5B230D38F500A20F0F /* MSPushPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5F081E5C8156001627AB /* MSPushPrivate.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		D38023C11E6DE01700466558 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D38023C01E6DE01700466558 /* UserNotifications.framework */; };
 		D39B04E41E66FBD50048E397 /* MSPushTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = D39B04E31E66FBD50048E397 /* MSPushTestUtil.m */; };
 		D3AD5EC51E5C4F6A001627AB /* libAppCenterPush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D33A94511E5B11BB003966DB /* libAppCenterPush.a */; };
@@ -539,6 +565,19 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9EBAA46230D38D600A20F0F /* MSPushDelegate.h in Headers */,
+				C9EBAA4E230D38F000A20F0F /* AppCenter+Internal.h in Headers */,
+				C9EBAA53230D38F000A20F0F /* MSPushNotificationInternal.h in Headers */,
+				C9EBAA44230D38D600A20F0F /* AppCenterPush.h in Headers */,
+				C9EBAA51230D38F000A20F0F /* MSUserNotificationCenterDelegateForwarder.h in Headers */,
+				C9EBAA4F230D38F000A20F0F /* MSCustomPushApplicationDelegate.h in Headers */,
+				C9EBAA43230D38D600A20F0F /* MSServiceAbstract.h in Headers */,
+				C9EBAA52230D38F000A20F0F /* MSPushLog.h in Headers */,
+				C9EBAA50230D38F000A20F0F /* MSPushAppDelegate.h in Headers */,
+				C9EBAA45230D38D600A20F0F /* MSPush.h in Headers */,
+				C9EBAA42230D38D600A20F0F /* MSService.h in Headers */,
+				C9EBAA47230D38D600A20F0F /* MSPushNotification.h in Headers */,
+				C9EBAA5A230D38F500A20F0F /* MSPushPrivate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -546,6 +585,19 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9EBAA4C230D38D700A20F0F /* MSPushDelegate.h in Headers */,
+				C9EBAA54230D38F100A20F0F /* AppCenter+Internal.h in Headers */,
+				C9EBAA59230D38F100A20F0F /* MSPushNotificationInternal.h in Headers */,
+				C9EBAA4A230D38D700A20F0F /* AppCenterPush.h in Headers */,
+				C9EBAA57230D38F100A20F0F /* MSUserNotificationCenterDelegateForwarder.h in Headers */,
+				C9EBAA55230D38F100A20F0F /* MSCustomPushApplicationDelegate.h in Headers */,
+				C9EBAA49230D38D700A20F0F /* MSServiceAbstract.h in Headers */,
+				C9EBAA58230D38F100A20F0F /* MSPushLog.h in Headers */,
+				C9EBAA56230D38F100A20F0F /* MSPushAppDelegate.h in Headers */,
+				C9EBAA4B230D38D700A20F0F /* MSPush.h in Headers */,
+				C9EBAA48230D38D700A20F0F /* MSService.h in Headers */,
+				C9EBAA4D230D38D700A20F0F /* MSPushNotification.h in Headers */,
+				C9EBAA5B230D38F500A20F0F /* MSPushPrivate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
