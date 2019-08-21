@@ -1,2 +1,4 @@
 #include "tvOS.xcconfig"
 #include "../../../Config/Static Framework.xcconfig"
+
+FRAMEWORK_SEARCH_PATHS = $(PROJECT_DIR)/../Vendor/tvOS/**

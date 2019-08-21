@@ -545,7 +545,6 @@
 		C9EBAABF230D3A1D00A20F0F /* MSErrorAttachmentLog+Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = 3858A2191E93F3B400535A69 /* MSErrorAttachmentLog+Utility.m */; };
 		C9EBAAC0230D3A1D00A20F0F /* MSErrorReport.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F120DF1D657CF10060DED7 /* MSErrorReport.m */; };
 		C9EBAB05230D3EC300A20F0F /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC99A141D41517B0016C325 /* CrashReporter.framework */; };
-		C9EBAB06230D3EEB00A20F0F /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04EBBEAE1F01C0B50006B8AE /* CrashReporter.framework */; };
 		C9EBAB2D230D735E00A20F0F /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9EBAB2C230D735E00A20F0F /* AppCenter.framework */; };
 		C9EBAB2F230D736A00A20F0F /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9EBAB2E230D736A00A20F0F /* AppCenter.framework */; };
 		C9EBAB31230D736F00A20F0F /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9EBAB30230D736F00A20F0F /* AppCenter.framework */; };
@@ -570,6 +569,9 @@
 		F859D1131E549B45008B2D8E /* live_report_swift_crash.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = F859D1021E549B45008B2D8E /* live_report_swift_crash.plcrash */; };
 		F859D1141E549B45008B2D8E /* live_report_undefined_instr.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = F859D1031E549B45008B2D8E /* live_report_undefined_instr.plcrash */; };
 		F859D1151E549B45008B2D8E /* live_report_write_readonly.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = F859D1041E549B45008B2D8E /* live_report_write_readonly.plcrash */; };
+		F8DD752B230D80E700B095B6 /* CrashReporter.framework in Sources */ = {isa = PBXBuildFile; fileRef = 6EC99A141D41517B0016C325 /* CrashReporter.framework */; };
+		F8DD752D230D89F800B095B6 /* libCrashReporter-MacOSX-Static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 049327B11ECA19FD00D0187A /* libCrashReporter-MacOSX-Static.a */; };
+		F8DD752E230D8A0900B095B6 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04EBBEAE1F01C0B50006B8AE /* CrashReporter.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -907,8 +909,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F8DD752E230D8A0900B095B6 /* CrashReporter.framework in Frameworks */,
 				C9EBAB2F230D736A00A20F0F /* AppCenter.framework in Frameworks */,
-				C9EBAB06230D3EEB00A20F0F /* CrashReporter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -916,6 +918,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F8DD752D230D89F800B095B6 /* libCrashReporter-MacOSX-Static.a in Frameworks */,
 				C9EBAB31230D736F00A20F0F /* AppCenter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1232,8 +1235,8 @@
 				04545DCA227B605200A49E06 /* AppCenterCrashes.xcconfig */,
 				6E37297F1D1DE93800F1E4AE /* AppCenterCrashes Debug.xcconfig */,
 				0469D1B31F4E013C00A43A8E /* AppCenterCrashes Release.xcconfig */,
-				049BC8251ECE36D400FB6719 /* iOS.xcconfig */,
 				04ED31F21EAAD6070033BAAE /* iOS.modulemap */,
+				049BC8251ECE36D400FB6719 /* iOS.xcconfig */,
 				049BC8261ECE370100FB6719 /* macOS.xcconfig */,
 				04ED31F51EAAD6070033BAAE /* macOS.modulemap */,
 				04EBBEEF1F01C1420006B8AE /* tvOS.xcconfig */,
@@ -2287,6 +2290,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F8DD752B230D80E700B095B6 /* CrashReporter.framework in Sources */,
 				C9EBAA9C230D3A1B00A20F0F /* MSErrorReport.m in Sources */,
 				C9EBAA93230D3A1B00A20F0F /* MSAbstractErrorLog.m in Sources */,
 				C9EBAA8D230D3A1B00A20F0F /* MSWrapperExceptionManager.m in Sources */,
