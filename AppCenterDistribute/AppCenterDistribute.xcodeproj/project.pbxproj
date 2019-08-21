@@ -99,6 +99,29 @@
 		B2C070C51E5E6A200076D6A9 /* AppCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B2C070B81E5E68540076D6A9 /* AppCenterDistributeResources.bundle */; };
 		BA682AC831677E0806CA2359 /* MSErrorDetails.h in Headers */ = {isa = PBXBuildFile; fileRef = BA6820A043C816916AF34A04 /* MSErrorDetails.h */; };
 		BA682C81BA750CA5FCB63A51 /* MSErrorDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6826E3C58372A269A6B43A /* MSErrorDetails.m */; };
+		C9EBAA2B230D37ED00A20F0F /* MSService.h in Headers */ = {isa = PBXBuildFile; fileRef = 04A082091F74BBB100DC776D /* MSService.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C9EBAA2C230D37ED00A20F0F /* MSServiceAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = 0471B93B1E4557620022F951 /* MSServiceAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C9EBAA2D230D37ED00A20F0F /* MSIngestionProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 040AF0321E52859F005C1174 /* MSIngestionProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C9EBAA2E230D37FD00A20F0F /* AppCenterDistribute.h in Headers */ = {isa = PBXBuildFile; fileRef = 04FD4A1F1E451E12009B4468 /* AppCenterDistribute.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C9EBAA2F230D37FD00A20F0F /* MSDistribute.h in Headers */ = {isa = PBXBuildFile; fileRef = 0471B89A1E4547750022F951 /* MSDistribute.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C9EBAA30230D37FD00A20F0F /* MSDistributeDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 046EF5881EAEB524002F6436 /* MSDistributeDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C9EBAA31230D380C00A20F0F /* MSErrorDetails.h in Headers */ = {isa = PBXBuildFile; fileRef = BA6820A043C816916AF34A04 /* MSErrorDetails.h */; };
+		C9EBAA32230D380C00A20F0F /* MSDistributionGroup.h in Headers */ = {isa = PBXBuildFile; fileRef = 048BB2FF1E60A40D009D92C2 /* MSDistributionGroup.h */; };
+		C9EBAA33230D380C00A20F0F /* MSDistributionStartSessionLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E4ADB17203D383D00172256 /* MSDistributionStartSessionLog.h */; };
+		C9EBAA34230D382200A20F0F /* MSReleaseDetailsPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 047D137E1EAFF87500D699BA /* MSReleaseDetailsPrivate.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		C9EBAA35230D384900A20F0F /* MSDistributeIngestion.h in Headers */ = {isa = PBXBuildFile; fileRef = 048BB3011E60A40D009D92C2 /* MSDistributeIngestion.h */; };
+		C9EBAA36230D384900A20F0F /* MSSemVerPreReleaseId.h in Headers */ = {isa = PBXBuildFile; fileRef = 38A6835B1E774D9F00A63BC8 /* MSSemVerPreReleaseId.h */; };
+		C9EBAA37230D384900A20F0F /* MSSemVer.h in Headers */ = {isa = PBXBuildFile; fileRef = 38A6835D1E774D9F00A63BC8 /* MSSemVer.h */; };
+		C9EBAA38230D384900A20F0F /* MSBasicMachOParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 388B559A1E64B3FD00E4F1D7 /* MSBasicMachOParser.h */; };
+		C9EBAA39230D384900A20F0F /* MSDistributeUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = B2C070A31E5E62330076D6A9 /* MSDistributeUtil.h */; };
+		C9EBAA3A230D384900A20F0F /* MSGuidedAccessUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = 389A3DB8226138B200741755 /* MSGuidedAccessUtil.h */; };
+		C9EBAA3B230D384C00A20F0F /* MSBasicMachOParserPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 807432C31EE20731003295BA /* MSBasicMachOParserPrivate.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		C9EBAA3C230D385400A20F0F /* MSDistributeInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = B25895A91E4E9BA100123632 /* MSDistributeInternal.h */; };
+		C9EBAA3D230D385400A20F0F /* MSDistributeAppDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 383A2FE31EBA308700817742 /* MSDistributeAppDelegate.h */; };
+		C9EBAA3E230D385400A20F0F /* MSDistributeDataMigration.h in Headers */ = {isa = PBXBuildFile; fileRef = 384135BD1FD99B5400FC7836 /* MSDistributeDataMigration.h */; };
+		C9EBAA3F230D385700A20F0F /* MSDistributePrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 38C9C56B1E565BF600B0FA0D /* MSDistributePrivate.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		C9EBAA40230D387400A20F0F /* MSReleaseDetails.h in Headers */ = {isa = PBXBuildFile; fileRef = 048BB2FC1E60A40D009D92C2 /* MSReleaseDetails.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C9EBAA41230D388200A20F0F /* MSAlertController.h in Headers */ = {isa = PBXBuildFile; fileRef = 046FDBD11E5682FA00AF9DD1 /* MSAlertController.h */; };
 		F82E4C83217F217F00EDAB34 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = F82E4C82217F217F00EDAB34 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		F8BEA3CA1FBB0A6E00D4DE37 /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8BEA3C81FBB0A5900D4DE37 /* OHHTTPStubs.framework */; };
 		F8BEA3CF1FBB0BE400D4DE37 /* MSHttpTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = F8BEA3CB1FBB0BDE00D4DE37 /* MSHttpTestUtil.m */; };
@@ -618,6 +641,29 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9EBAA39230D384900A20F0F /* MSDistributeUtil.h in Headers */,
+				C9EBAA32230D380C00A20F0F /* MSDistributionGroup.h in Headers */,
+				C9EBAA34230D382200A20F0F /* MSReleaseDetailsPrivate.h in Headers */,
+				C9EBAA3B230D384C00A20F0F /* MSBasicMachOParserPrivate.h in Headers */,
+				C9EBAA3F230D385700A20F0F /* MSDistributePrivate.h in Headers */,
+				C9EBAA31230D380C00A20F0F /* MSErrorDetails.h in Headers */,
+				C9EBAA33230D380C00A20F0F /* MSDistributionStartSessionLog.h in Headers */,
+				C9EBAA2E230D37FD00A20F0F /* AppCenterDistribute.h in Headers */,
+				C9EBAA2D230D37ED00A20F0F /* MSIngestionProtocol.h in Headers */,
+				C9EBAA3E230D385400A20F0F /* MSDistributeDataMigration.h in Headers */,
+				C9EBAA2F230D37FD00A20F0F /* MSDistribute.h in Headers */,
+				C9EBAA41230D388200A20F0F /* MSAlertController.h in Headers */,
+				C9EBAA37230D384900A20F0F /* MSSemVer.h in Headers */,
+				C9EBAA3C230D385400A20F0F /* MSDistributeInternal.h in Headers */,
+				C9EBAA36230D384900A20F0F /* MSSemVerPreReleaseId.h in Headers */,
+				C9EBAA35230D384900A20F0F /* MSDistributeIngestion.h in Headers */,
+				C9EBAA2C230D37ED00A20F0F /* MSServiceAbstract.h in Headers */,
+				C9EBAA3A230D384900A20F0F /* MSGuidedAccessUtil.h in Headers */,
+				C9EBAA30230D37FD00A20F0F /* MSDistributeDelegate.h in Headers */,
+				C9EBAA3D230D385400A20F0F /* MSDistributeAppDelegate.h in Headers */,
+				C9EBAA2B230D37ED00A20F0F /* MSService.h in Headers */,
+				C9EBAA38230D384900A20F0F /* MSBasicMachOParser.h in Headers */,
+				C9EBAA40230D387400A20F0F /* MSReleaseDetails.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
