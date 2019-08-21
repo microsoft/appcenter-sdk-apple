@@ -2566,6 +2566,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F8936C50230C1764006A330F /* Static iOS.xcconfig */;
 			buildSettings = {
+				INFOPLIST_FILE = AppCenterCrashes/Support/Info.plist;
 			};
 			name = Debug;
 		};
@@ -2573,6 +2574,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F8936C50230C1764006A330F /* Static iOS.xcconfig */;
 			buildSettings = {
+				INFOPLIST_FILE = AppCenterCrashes/Support/Info.plist;
 			};
 			name = Release;
 		};
@@ -2580,6 +2582,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F8936C52230C179F006A330F /* Static tvOS.xcconfig */;
 			buildSettings = {
+				INFOPLIST_FILE = AppCenterCrashes/Support/Info.plist;
 			};
 			name = Debug;
 		};
@@ -2587,6 +2590,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F8936C52230C179F006A330F /* Static tvOS.xcconfig */;
 			buildSettings = {
+				INFOPLIST_FILE = AppCenterCrashes/Support/Info.plist;
 			};
 			name = Release;
 		};
@@ -2594,6 +2598,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F8936C51230C1794006A330F /* Static macOS.xcconfig */;
 			buildSettings = {
+				INFOPLIST_FILE = AppCenterCrashes/Support/Info.plist;
 			};
 			name = Debug;
 		};
@@ -2601,6 +2606,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F8936C51230C1794006A330F /* Static macOS.xcconfig */;
 			buildSettings = {
+				INFOPLIST_FILE = AppCenterCrashes/Support/Info.plist;
 			};
 			name = Release;
 		};

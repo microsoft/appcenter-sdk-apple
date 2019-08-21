@@ -1117,6 +1117,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F8936C55230C18C2006A330F /* Static iOS.xcconfig */;
 			buildSettings = {
+				INFOPLIST_FILE = AppCenterDistribute/Support/Info.plist;
 			};
 			name = Debug;
 		};
@@ -1124,6 +1125,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F8936C55230C18C2006A330F /* Static iOS.xcconfig */;
 			buildSettings = {
+				INFOPLIST_FILE = AppCenterDistribute/Support/Info.plist;
 			};
 			name = Release;
 		};
