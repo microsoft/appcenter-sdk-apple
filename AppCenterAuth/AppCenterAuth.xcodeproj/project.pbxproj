@@ -149,6 +149,17 @@
 		C9A9207D230C5DCE0068070D /* MSAuthPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 995BA5DB21EFF414000E3212 /* MSAuthPrivate.h */; };
 		C9A9207E230C5DCF0068070D /* MSAuthPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 995BA5DB21EFF414000E3212 /* MSAuthPrivate.h */; };
 		C9A9207F230C5DD50068070D /* MSAuthAppDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = B2B25641220B365A00716D6A /* MSAuthAppDelegate.h */; };
+		C9EBAA5C230D397500A20F0F /* MSAuthAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B2B25640220B365A00716D6A /* MSAuthAppDelegate.m */; };
+		C9EBAA5D230D398800A20F0F /* MSAuth.m in Sources */ = {isa = PBXBuildFile; fileRef = E85547C51D2D6253002DF6E2 /* MSAuth.m */; };
+		C9EBAA5E230D398800A20F0F /* MSAuthConfigIngestion.m in Sources */ = {isa = PBXBuildFile; fileRef = 0481A54921FA511C001FA9D8 /* MSAuthConfigIngestion.m */; };
+		C9EBAA5F230D398800A20F0F /* MSAuthConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 38F796CB21F93E33007E7C15 /* MSAuthConfig.m */; };
+		C9EBAA60230D398800A20F0F /* MSAuthority.m in Sources */ = {isa = PBXBuildFile; fileRef = 38F796D121F93ED6007E7C15 /* MSAuthority.m */; };
+		C9EBAA61230D398800A20F0F /* MSUserInformation.m in Sources */ = {isa = PBXBuildFile; fileRef = 048BF76422A724030099FF73 /* MSUserInformation.m */; };
+		C9EBAA62230D398900A20F0F /* MSAuth.m in Sources */ = {isa = PBXBuildFile; fileRef = E85547C51D2D6253002DF6E2 /* MSAuth.m */; };
+		C9EBAA63230D398900A20F0F /* MSAuthConfigIngestion.m in Sources */ = {isa = PBXBuildFile; fileRef = 0481A54921FA511C001FA9D8 /* MSAuthConfigIngestion.m */; };
+		C9EBAA64230D398900A20F0F /* MSAuthConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 38F796CB21F93E33007E7C15 /* MSAuthConfig.m */; };
+		C9EBAA65230D398900A20F0F /* MSAuthority.m in Sources */ = {isa = PBXBuildFile; fileRef = 38F796D121F93ED6007E7C15 /* MSAuthority.m */; };
+		C9EBAA66230D398900A20F0F /* MSUserInformation.m in Sources */ = {isa = PBXBuildFile; fileRef = 048BF76422A724030099FF73 /* MSUserInformation.m */; };
 		E85547C61D2D6253002DF6E2 /* MSAuth.m in Sources */ = {isa = PBXBuildFile; fileRef = E85547C51D2D6253002DF6E2 /* MSAuth.m */; };
 		E85547DA1D2D6723002DF6E2 /* libAppCenterAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E85547C01D2D6253002DF6E2 /* libAppCenterAuth.a */; };
 		E85547F71D2D6A7D002DF6E2 /* AppCenterAuth.h in Headers */ = {isa = PBXBuildFile; fileRef = E85547CC1D2D63EF002DF6E2 /* AppCenterAuth.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1228,6 +1239,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9EBAA5C230D397500A20F0F /* MSAuthAppDelegate.m in Sources */,
+				C9EBAA60230D398800A20F0F /* MSAuthority.m in Sources */,
+				C9EBAA5F230D398800A20F0F /* MSAuthConfig.m in Sources */,
+				C9EBAA61230D398800A20F0F /* MSUserInformation.m in Sources */,
+				C9EBAA5D230D398800A20F0F /* MSAuth.m in Sources */,
+				C9EBAA5E230D398800A20F0F /* MSAuthConfigIngestion.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1235,6 +1252,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9EBAA63230D398900A20F0F /* MSAuthConfigIngestion.m in Sources */,
+				C9EBAA65230D398900A20F0F /* MSAuthority.m in Sources */,
+				C9EBAA66230D398900A20F0F /* MSUserInformation.m in Sources */,
+				C9EBAA62230D398900A20F0F /* MSAuth.m in Sources */,
+				C9EBAA64230D398900A20F0F /* MSAuthConfig.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
