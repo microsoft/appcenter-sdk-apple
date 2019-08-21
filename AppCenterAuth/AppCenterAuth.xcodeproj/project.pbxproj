@@ -122,8 +122,6 @@
 		B2B25642220B365A00716D6A /* MSAuthAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B2B25640220B365A00716D6A /* MSAuthAppDelegate.m */; };
 		B2B25644220B365A00716D6A /* MSAuthAppDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = B2B25641220B365A00716D6A /* MSAuthAppDelegate.h */; };
 		B2B25647220B370200716D6A /* MSAuthAppDelegateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2B25646220B370200716D6A /* MSAuthAppDelegateTests.m */; };
-		C9A92063230C5CD40068070D /* libAppCenterAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E85547C01D2D6253002DF6E2 /* libAppCenterAuth.a */; };
-		C9A92064230C5D210068070D /* libAppCenterAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0485AF851EAA79E300C10CAF /* libAppCenterAuth.a */; };
 		C9A92065230C5D6A0068070D /* MSAppCenterErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = 04B1C8CB2252AF2300CBD876 /* MSAppCenterErrors.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C9A92066230C5D6A0068070D /* MSService.h in Headers */ = {isa = PBXBuildFile; fileRef = 04A082051F74BB8600DC776D /* MSService.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C9A92067230C5D6A0068070D /* MSServiceAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C77041D6CC39400D68CC1 /* MSServiceAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -421,7 +419,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C9A92063230C5CD40068070D /* libAppCenterAuth.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -429,7 +426,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C9A92064230C5D210068070D /* libAppCenterAuth.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

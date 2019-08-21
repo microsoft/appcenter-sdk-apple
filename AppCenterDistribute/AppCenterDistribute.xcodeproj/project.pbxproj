@@ -99,7 +99,6 @@
 		B2C070C51E5E6A200076D6A9 /* AppCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B2C070B81E5E68540076D6A9 /* AppCenterDistributeResources.bundle */; };
 		BA682AC831677E0806CA2359 /* MSErrorDetails.h in Headers */ = {isa = PBXBuildFile; fileRef = BA6820A043C816916AF34A04 /* MSErrorDetails.h */; };
 		BA682C81BA750CA5FCB63A51 /* MSErrorDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6826E3C58372A269A6B43A /* MSErrorDetails.m */; };
-		C9A91F95230C000B0068070D /* libAppCenterDistribute.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04FD4A1C1E451E12009B4468 /* libAppCenterDistribute.a */; };
 		F82E4C83217F217F00EDAB34 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = F82E4C82217F217F00EDAB34 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		F8BEA3CA1FBB0A6E00D4DE37 /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8BEA3C81FBB0A5900D4DE37 /* OHHTTPStubs.framework */; };
 		F8BEA3CF1FBB0BE400D4DE37 /* MSHttpTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = F8BEA3CB1FBB0BDE00D4DE37 /* MSHttpTestUtil.m */; };
@@ -280,7 +279,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C9A91F95230C000B0068070D /* libAppCenterDistribute.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

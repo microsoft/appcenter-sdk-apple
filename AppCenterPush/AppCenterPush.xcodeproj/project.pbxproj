@@ -104,8 +104,6 @@
 		38D3B01F1FF3D2A900E5FAF2 /* MSAppDelegateForwarderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 38D3B01D1FF3D2A400E5FAF2 /* MSAppDelegateForwarderTests.m */; };
 		C25680CE223126A80063B3F7 /* MSMockPushDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C25680CD223126A80063B3F7 /* MSMockPushDelegate.m */; };
 		C25680CF223126A80063B3F7 /* MSMockPushDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C25680CD223126A80063B3F7 /* MSMockPushDelegate.m */; };
-		C9A91FAF230C007B0068070D /* libAppCenterPush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D33A94511E5B11BB003966DB /* libAppCenterPush.a */; };
-		C9A91FB0230C007F0068070D /* libAppCenterPush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0469640D1F2A558300F9D31F /* libAppCenterPush.a */; };
 		D38023C11E6DE01700466558 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D38023C01E6DE01700466558 /* UserNotifications.framework */; };
 		D39B04E41E66FBD50048E397 /* MSPushTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = D39B04E31E66FBD50048E397 /* MSPushTestUtil.m */; };
 		D3AD5EC51E5C4F6A001627AB /* libAppCenterPush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D33A94511E5B11BB003966DB /* libAppCenterPush.a */; };
@@ -258,7 +256,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C9A91FAF230C007B0068070D /* libAppCenterPush.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -266,7 +263,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C9A91FB0230C007F0068070D /* libAppCenterPush.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

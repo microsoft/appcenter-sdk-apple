@@ -332,9 +332,6 @@
 		C9A920E0230C5EEF0068070D /* MSAnalyticsAuthenticationProviderInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = B2350985211A69AA00F98D4F /* MSAnalyticsAuthenticationProviderInternal.h */; };
 		C9A920E1230C5EF00068070D /* MSAnalyticsAuthenticationProviderInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = B2350985211A69AA00F98D4F /* MSAnalyticsAuthenticationProviderInternal.h */; };
 		C9A920E2230C5EF00068070D /* MSAnalyticsAuthenticationProviderInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = B2350985211A69AA00F98D4F /* MSAnalyticsAuthenticationProviderInternal.h */; };
-		C9A920E3230C5F240068070D /* libAppCenterAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E85547C01D2D6253002DF6E2 /* libAppCenterAnalytics.a */; };
-		C9A920E4230C5F330068070D /* libAppCenterAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0431216C1EE0C20A007054C5 /* libAppCenterAnalytics.a */; };
-		C9A920E5230C5F3A0068070D /* libAppCenterAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0485AF851EAA79E300C10CAF /* libAppCenterAnalytics.a */; };
 		E758FA7D20FFDEE700011793 /* MSPropertyConfigurator.h in Headers */ = {isa = PBXBuildFile; fileRef = E758FA7B20FFDEE700011793 /* MSPropertyConfigurator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E758FA7E20FFDEE700011793 /* MSPropertyConfigurator.h in Headers */ = {isa = PBXBuildFile; fileRef = E758FA7B20FFDEE700011793 /* MSPropertyConfigurator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E758FA7F20FFDEE700011793 /* MSPropertyConfigurator.h in Headers */ = {isa = PBXBuildFile; fileRef = E758FA7B20FFDEE700011793 /* MSPropertyConfigurator.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -584,7 +581,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C9A920E4230C5F330068070D /* libAppCenterAnalytics.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -592,7 +588,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C9A920E5230C5F3A0068070D /* libAppCenterAnalytics.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -600,7 +595,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C9A920E3230C5F240068070D /* libAppCenterAnalytics.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

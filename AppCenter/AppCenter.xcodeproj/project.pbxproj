@@ -745,8 +745,6 @@
 		C2751A5A223FCBAB0040BFEB /* MSAuthTokenInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = C2751A56223FCBAB0040BFEB /* MSAuthTokenInfo.m */; };
 		C2751A5B223FCBAB0040BFEB /* MSAuthTokenInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = C2751A56223FCBAB0040BFEB /* MSAuthTokenInfo.m */; };
 		C2751A5C223FCBAB0040BFEB /* MSAuthTokenInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = C2751A56223FCBAB0040BFEB /* MSAuthTokenInfo.m */; };
-		C9A92057230C5C150068070D /* libAppCenter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 043120DA1EE0BCF9007054C5 /* libAppCenter.a */; };
-		C9A92058230C5C1C0068070D /* libAppCenter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04754FAB1EA98182002CBA46 /* libAppCenter.a */; };
 		C9A920E6230C61820068070D /* MSAppCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E0401561D1C9AAA0051BCFA /* MSAppCenter.m */; };
 		C9A920E7230C61820068070D /* MSLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 3592ABA61DC90E3600EF4592 /* MSLogger.m */; };
 		C9A920E8230C61820068070D /* MSServiceAbstract.m in Sources */ = {isa = PBXBuildFile; fileRef = D38024051E7126F500466558 /* MSServiceAbstract.m */; };
@@ -1896,7 +1894,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C9A92058230C5C1C0068070D /* libAppCenter.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1904,7 +1901,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C9A92057230C5C150068070D /* libAppCenter.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

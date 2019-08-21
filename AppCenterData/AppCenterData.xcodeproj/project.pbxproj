@@ -177,8 +177,6 @@
 		9919248F225BCD0F0064E699 /* MSDocumentStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 9919248D225BCD060064E699 /* MSDocumentStore.h */; };
 		9CE865A5228B6615003CCE0E /* validTestUserDocument.json in Resources */ = {isa = PBXBuildFile; fileRef = 9CE865A4228B6615003CCE0E /* validTestUserDocument.json */; };
 		9CE865A6228B6615003CCE0E /* validTestUserDocument.json in Resources */ = {isa = PBXBuildFile; fileRef = 9CE865A4228B6615003CCE0E /* validTestUserDocument.json */; };
-		C9A91F85230BFFAE0068070D /* libAppCenterData.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D33A94511E5B11BB003966DB /* libAppCenterData.a */; };
-		C9A91F86230BFFB30068070D /* libAppCenterData.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0469640D1F2A558300F9D31F /* libAppCenterData.a */; };
 		D3AD5EC51E5C4F6A001627AB /* libAppCenterData.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D33A94511E5B11BB003966DB /* libAppCenterData.a */; };
 		D3AD5F0C1E5C819A001627AB /* AppCenter+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5F0B1E5C819A001627AB /* AppCenter+Internal.h */; };
 		D3AD5F0D1E5C844B001627AB /* MSServiceAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5EFE1E5C7DAE001627AB /* MSServiceAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -398,7 +396,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C9A91F85230BFFAE0068070D /* libAppCenterData.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -406,7 +403,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C9A91F86230BFFB30068070D /* libAppCenterData.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

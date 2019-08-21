@@ -385,9 +385,6 @@
 		B2FF130C1DD12F61003DC677 /* MSAppleErrorLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2FF130B1DD12F61003DC677 /* MSAppleErrorLogTests.m */; };
 		BA682CFA6F4C5A8841507CF7 /* MSMockCrashesDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BA68266A68B7F21A86A093B0 /* MSMockCrashesDelegate.m */; };
 		C2A4A26F1EE76B970080FD22 /* libCrashReporter-MacOSX-Static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 049327B11ECA19FD00D0187A /* libCrashReporter-MacOSX-Static.a */; };
-		C9A91F69230BFDFD0068070D /* libAppCenterCrashes.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E0401331D1C98690051BCFA /* libAppCenterCrashes.a */; };
-		C9A91F6A230BFE030068070D /* libAppCenterCrashes.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04EBBEE81F01C0C90006B8AE /* libAppCenterCrashes.a */; };
-		C9A91F6B230BFE090068070D /* libAppCenterCrashes.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0485AFD31EAA887500C10CAF /* libAppCenterCrashes.a */; };
 		F82E4C75217F1FD700EDAB34 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = F82E4C74217F1FD600EDAB34 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		F82E4C76217F1FD700EDAB34 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = F82E4C74217F1FD600EDAB34 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		F82E4C77217F1FD700EDAB34 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = F82E4C74217F1FD600EDAB34 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-w"; }; };
@@ -733,7 +730,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C9A91F69230BFDFD0068070D /* libAppCenterCrashes.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -741,7 +737,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C9A91F6A230BFE030068070D /* libAppCenterCrashes.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -749,7 +744,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C9A91F6B230BFE090068070D /* libAppCenterCrashes.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
