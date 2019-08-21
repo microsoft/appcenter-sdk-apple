@@ -167,6 +167,8 @@
 		C9EBAB04230D3D6500A20F0F /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 049BC848224ED7C100AE7FBB /* WebKit.framework */; };
 		C9EBAB1B230D72D900A20F0F /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9EBAB1A230D72D900A20F0F /* AppCenter.framework */; };
 		C9EBAB27230D72E200A20F0F /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9EBAB26230D72E200A20F0F /* AppCenter.framework */; };
+		C9EBAB3C230D799900A20F0F /* MSAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04E975FB226A50BF007E6DD1 /* MSAL.framework */; };
+		C9EBAB3D230D79A400A20F0F /* MSAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04E975FF226A50BF007E6DD1 /* MSAL.framework */; };
 		E85547C61D2D6253002DF6E2 /* MSAuth.m in Sources */ = {isa = PBXBuildFile; fileRef = E85547C51D2D6253002DF6E2 /* MSAuth.m */; };
 		E85547DA1D2D6723002DF6E2 /* libAppCenterAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E85547C01D2D6253002DF6E2 /* libAppCenterAuth.a */; };
 		E85547F71D2D6A7D002DF6E2 /* AppCenterAuth.h in Headers */ = {isa = PBXBuildFile; fileRef = E85547CC1D2D63EF002DF6E2 /* AppCenterAuth.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -453,10 +455,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C9EBAB1B230D72D900A20F0F /* AppCenter.framework in Frameworks */,
+				C9EBAB3C230D799900A20F0F /* MSAL.framework in Frameworks */,
 				C9EBAB02230D3D5200A20F0F /* AuthenticationServices.framework in Frameworks */,
 				C9EBAB01230D3D4A00A20F0F /* WebKit.framework in Frameworks */,
 				C9EBAB00230D3D3900A20F0F /* libMSAL.a in Frameworks */,
+				C9EBAB1B230D72D900A20F0F /* AppCenter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -464,6 +467,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9EBAB3D230D79A400A20F0F /* MSAL.framework in Frameworks */,
 				C9EBAB27230D72E200A20F0F /* AppCenter.framework in Frameworks */,
 				C9EBAB04230D3D6500A20F0F /* WebKit.framework in Frameworks */,
 				C9EBAB03230D3D5D00A20F0F /* libMSAL.a in Frameworks */,
