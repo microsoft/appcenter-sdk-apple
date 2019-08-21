@@ -1,0 +1,2 @@
+#include "./tvOS.xcconfig"
+#include "./Static Framework Shared.xcconfig"

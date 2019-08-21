@@ -1,0 +1,2 @@
+#include "./macOS.xcconfig"
+#include "./Static Framework Shared.xcconfig"

@@ -122,7 +122,8 @@
 		B2B25642220B365A00716D6A /* MSAuthAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B2B25640220B365A00716D6A /* MSAuthAppDelegate.m */; };
 		B2B25644220B365A00716D6A /* MSAuthAppDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = B2B25641220B365A00716D6A /* MSAuthAppDelegate.h */; };
 		B2B25647220B370200716D6A /* MSAuthAppDelegateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2B25646220B370200716D6A /* MSAuthAppDelegateTests.m */; };
-		C9CA69C62306CAE300EE82AA /* appcenterauth.h in Headers */ = {isa = PBXBuildFile; fileRef = C9CA69C42306CAE300EE82AA /* appcenterauth.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C9A91F13230BF9440068070D /* libAppCenterAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E85547C01D2D6253002DF6E2 /* libAppCenterAuth.a */; };
+		C9A91F2A230BF9710068070D /* libAppCenterAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0485AF851EAA79E300C10CAF /* libAppCenterAuth.a */; };
 		E85547C61D2D6253002DF6E2 /* MSAuth.m in Sources */ = {isa = PBXBuildFile; fileRef = E85547C51D2D6253002DF6E2 /* MSAuth.m */; };
 		E85547DA1D2D6723002DF6E2 /* libAppCenterAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E85547C01D2D6253002DF6E2 /* libAppCenterAuth.a */; };
 		E85547F71D2D6A7D002DF6E2 /* AppCenterAuth.h in Headers */ = {isa = PBXBuildFile; fileRef = E85547CC1D2D63EF002DF6E2 /* AppCenterAuth.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -353,9 +354,8 @@
 		B2B25640220B365A00716D6A /* MSAuthAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAuthAppDelegate.m; sourceTree = "<group>"; };
 		B2B25641220B365A00716D6A /* MSAuthAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAuthAppDelegate.h; sourceTree = "<group>"; };
 		B2B25646220B370200716D6A /* MSAuthAppDelegateTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSAuthAppDelegateTests.m; sourceTree = "<group>"; };
-		C9CA69C22306CAE300EE82AA /* appcenterauth.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = appcenterauth.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		C9CA69C42306CAE300EE82AA /* appcenterauth.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = appcenterauth.h; sourceTree = "<group>"; };
-		C9CA69C52306CAE300EE82AA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C934BFE5230BF74100083490 /* AppCenterAuthStaticIOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AppCenterAuthStaticIOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9A91F28230BF9590068070D /* AppCenterAuthStaticMacOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AppCenterAuthStaticMacOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E85547C01D2D6253002DF6E2 /* libAppCenterAuth.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAppCenterAuth.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		E85547C31D2D6253002DF6E2 /* MSAuth.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSAuth.h; sourceTree = "<group>"; };
 		E85547C51D2D6253002DF6E2 /* MSAuth.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MSAuth.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
@@ -388,10 +388,19 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		C9CA69BF2306CAE300EE82AA /* Frameworks */ = {
+		C934BFE2230BF74000083490 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9A91F13230BF9440068070D /* libAppCenterAuth.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C9A91F22230BF9590068070D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C9A91F2A230BF9710068070D /* libAppCenterAuth.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -623,15 +632,6 @@
 			path = Internals;
 			sourceTree = "<group>";
 		};
-		C9CA69C32306CAE300EE82AA /* appcenterauth */ = {
-			isa = PBXGroup;
-			children = (
-				C9CA69C42306CAE300EE82AA /* appcenterauth.h */,
-				C9CA69C52306CAE300EE82AA /* Info.plist */,
-			);
-			path = appcenterauth;
-			sourceTree = "<group>";
-		};
 		E85547B71D2D6253002DF6E2 = {
 			isa = PBXGroup;
 			children = (
@@ -641,7 +641,6 @@
 				E85547C21D2D6253002DF6E2 /* AppCenterAuth */,
 				E85547D61D2D6723002DF6E2 /* AppCenterAuthTests */,
 				04E96C40226A50A6007E6DD1 /* MSAL */,
-				C9CA69C32306CAE300EE82AA /* appcenterauth */,
 				E85547C11D2D6253002DF6E2 /* Products */,
 				04E0F31E223B246A0080C968 /* Frameworks */,
 			);
@@ -654,7 +653,8 @@
 				E85547D51D2D6723002DF6E2 /* AppCenterAuth.xctest */,
 				0485AF851EAA79E300C10CAF /* libAppCenterAuth.a */,
 				046AEAC61ECA51AF00CBE511 /* AppCenterAuth.xctest */,
-				C9CA69C22306CAE300EE82AA /* appcenterauth.framework */,
+				C934BFE5230BF74100083490 /* AppCenterAuthStaticIOS.framework */,
+				C9A91F28230BF9590068070D /* AppCenterAuthStaticMacOS.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -726,11 +726,17 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		C9CA69BD2306CAE300EE82AA /* Headers */ = {
+		C934BFE0230BF74000083490 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C9CA69C62306CAE300EE82AA /* appcenterauth.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C9A91F1F230BF9590068070D /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -797,22 +803,40 @@
 			productReference = 0485AF851EAA79E300C10CAF /* libAppCenterAuth.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		C9CA69C12306CAE300EE82AA /* appcenterauth */ = {
+		C934BFE4230BF74000083490 /* AppCenterAuthStaticIOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C9CA69D32306CAE300EE82AA /* Build configuration list for PBXNativeTarget "appcenterauth" */;
+			buildConfigurationList = C934BFEA230BF74100083490 /* Build configuration list for PBXNativeTarget "AppCenterAuthStaticIOS" */;
 			buildPhases = (
-				C9CA69BD2306CAE300EE82AA /* Headers */,
-				C9CA69BE2306CAE300EE82AA /* Sources */,
-				C9CA69BF2306CAE300EE82AA /* Frameworks */,
-				C9CA69C02306CAE300EE82AA /* Resources */,
+				C934BFE0230BF74000083490 /* Headers */,
+				C934BFE1230BF74000083490 /* Sources */,
+				C934BFE2230BF74000083490 /* Frameworks */,
+				C934BFE3230BF74000083490 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = appcenterauth;
-			productName = appcenterauth;
-			productReference = C9CA69C22306CAE300EE82AA /* appcenterauth.framework */;
+			name = AppCenterAuthStaticIOS;
+			productName = AppCenterAuthStaticIOS;
+			productReference = C934BFE5230BF74100083490 /* AppCenterAuthStaticIOS.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		C9A91F1E230BF9590068070D /* AppCenterAuthStaticMacOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C9A91F25230BF9590068070D /* Build configuration list for PBXNativeTarget "AppCenterAuthStaticMacOS" */;
+			buildPhases = (
+				C9A91F1F230BF9590068070D /* Headers */,
+				C9A91F21230BF9590068070D /* Sources */,
+				C9A91F22230BF9590068070D /* Frameworks */,
+				C9A91F24230BF9590068070D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AppCenterAuthStaticMacOS;
+			productName = AppCenterAuthStaticIOS;
+			productReference = C9A91F28230BF9590068070D /* AppCenterAuthStaticMacOS.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		E85547BF1D2D6253002DF6E2 /* AppCenterAuthIOS */ = {
@@ -864,8 +888,12 @@
 				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = Microsoft;
 				TargetAttributes = {
-					C9CA69C12306CAE300EE82AA = {
+					C934BFE4230BF74000083490 = {
 						CreatedOnToolsVersion = 10.2.1;
+						DevelopmentTeam = 5Z97G9NZQ6;
+						ProvisioningStyle = Automatic;
+					};
+					C9A91F1E230BF9590068070D = {
 						DevelopmentTeam = 5Z97G9NZQ6;
 						ProvisioningStyle = Automatic;
 					};
@@ -899,7 +927,8 @@
 				0485AFEF1EAAADAC00C10CAF /* AppCenterAuthMacOSFramework */,
 				046AEAB21ECA51AF00CBE511 /* AppCenterAuthMacOSTests */,
 				04FD11551EF2F818000C5A5C /* AppCenterAuthMacOSDoc */,
-				C9CA69C12306CAE300EE82AA /* appcenterauth */,
+				C934BFE4230BF74000083490 /* AppCenterAuthStaticIOS */,
+				C9A91F1E230BF9590068070D /* AppCenterAuthStaticMacOS */,
 			);
 		};
 /* End PBXProject section */
@@ -999,7 +1028,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		C9CA69C02306CAE300EE82AA /* Resources */ = {
+		C934BFE3230BF74000083490 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C9A91F24230BF9590068070D /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1134,7 +1170,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		C9CA69BE2306CAE300EE82AA /* Sources */ = {
+		C934BFE1230BF74000083490 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C9A91F21230BF9590068070D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1262,8 +1305,9 @@
 			};
 			name = Release;
 		};
-		C9CA69C72306CAE300EE82AA /* Debug */ = {
+		C934BFEB230BF74100083490 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC82A1ECE3B9400FB6719 /* iOS.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1320,7 +1364,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = appcenterauth/Info.plist;
+				INFOPLIST_FILE = AppCenterAuthStaticIOS/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -1337,8 +1381,9 @@
 			};
 			name = Debug;
 		};
-		C9CA69C82306CAE300EE82AA /* Release */ = {
+		C934BFEC230BF74100083490 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC82A1ECE3B9400FB6719 /* iOS.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1389,7 +1434,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = appcenterauth/Info.plist;
+				INFOPLIST_FILE = AppCenterAuthStaticIOS/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -1398,6 +1443,154 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenterauth;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		C9A91F26230BF9590068070D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC82B1ECE3B9A00FB6719 /* macOS.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 5Z97G9NZQ6;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "AppCenterAuthStaticIOS copy-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenterauth;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		C9A91F27230BF9590068070D /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC82B1ECE3B9A00FB6719 /* macOS.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 5Z97G9NZQ6;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "AppCenterAuthStaticIOS copy-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenterauth;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -1515,11 +1708,20 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C9CA69D32306CAE300EE82AA /* Build configuration list for PBXNativeTarget "appcenterauth" */ = {
+		C934BFEA230BF74100083490 /* Build configuration list for PBXNativeTarget "AppCenterAuthStaticIOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				C9CA69C72306CAE300EE82AA /* Debug */,
-				C9CA69C82306CAE300EE82AA /* Release */,
+				C934BFEB230BF74100083490 /* Debug */,
+				C934BFEC230BF74100083490 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C9A91F25230BF9590068070D /* Build configuration list for PBXNativeTarget "AppCenterAuthStaticMacOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C9A91F26230BF9590068070D /* Debug */,
+				C9A91F27230BF9590068070D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
