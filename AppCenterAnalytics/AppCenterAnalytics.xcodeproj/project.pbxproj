@@ -233,6 +233,7 @@
 		C27452D620AE0EF100B64B68 /* MSAnalytics+Validation.h in Headers */ = {isa = PBXBuildFile; fileRef = C27452D520AE0EF100B64B68 /* MSAnalytics+Validation.h */; };
 		C27452D720AE0EF100B64B68 /* MSAnalytics+Validation.h in Headers */ = {isa = PBXBuildFile; fileRef = C27452D520AE0EF100B64B68 /* MSAnalytics+Validation.h */; };
 		C27452D820AE0EF100B64B68 /* MSAnalytics+Validation.h in Headers */ = {isa = PBXBuildFile; fileRef = C27452D520AE0EF100B64B68 /* MSAnalytics+Validation.h */; };
+		C9CA69DD2306CAF700EE82AA /* appcenteranalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = C9CA69DB2306CAF700EE82AA /* appcenteranalytics.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E758FA7D20FFDEE700011793 /* MSPropertyConfigurator.h in Headers */ = {isa = PBXBuildFile; fileRef = E758FA7B20FFDEE700011793 /* MSPropertyConfigurator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E758FA7E20FFDEE700011793 /* MSPropertyConfigurator.h in Headers */ = {isa = PBXBuildFile; fileRef = E758FA7B20FFDEE700011793 /* MSPropertyConfigurator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E758FA7F20FFDEE700011793 /* MSPropertyConfigurator.h in Headers */ = {isa = PBXBuildFile; fileRef = E758FA7B20FFDEE700011793 /* MSPropertyConfigurator.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -410,6 +411,9 @@
 		B2E2ECB82114DAB800C688C0 /* MSAnalyticsAuthenticationProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSAnalyticsAuthenticationProvider.m; sourceTree = "<group>"; };
 		C27452D120AE0DAC00B64B68 /* MSAnalytics+Validation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "MSAnalytics+Validation.m"; sourceTree = "<group>"; };
 		C27452D520AE0EF100B64B68 /* MSAnalytics+Validation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MSAnalytics+Validation.h"; sourceTree = "<group>"; };
+		C9CA69D92306CAF700EE82AA /* appcenteranalytics.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = appcenteranalytics.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9CA69DB2306CAF700EE82AA /* appcenteranalytics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = appcenteranalytics.h; sourceTree = "<group>"; };
+		C9CA69DC2306CAF700EE82AA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E758FA7B20FFDEE700011793 /* MSPropertyConfigurator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSPropertyConfigurator.h; sourceTree = "<group>"; };
 		E758FA7C20FFDEE700011793 /* MSPropertyConfigurator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSPropertyConfigurator.m; sourceTree = "<group>"; };
 		E758FA8320FFE0E200011793 /* MSPropertyConfiguratorPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSPropertyConfiguratorPrivate.h; sourceTree = "<group>"; };
@@ -466,6 +470,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		0485AF701EAA79E300C10CAF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C9CA69D62306CAF700EE82AA /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -657,6 +668,15 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		C9CA69DA2306CAF700EE82AA /* appcenteranalytics */ = {
+			isa = PBXGroup;
+			children = (
+				C9CA69DB2306CAF700EE82AA /* appcenteranalytics.h */,
+				C9CA69DC2306CAF700EE82AA /* Info.plist */,
+			);
+			path = appcenteranalytics;
+			sourceTree = "<group>";
+		};
 		E85547B71D2D6253002DF6E2 = {
 			isa = PBXGroup;
 			children = (
@@ -667,6 +687,7 @@
 				387C77041D6CC39400D68CC1 /* MSServiceAbstract.h */,
 				E85547C21D2D6253002DF6E2 /* AppCenterAnalytics */,
 				E85547D61D2D6723002DF6E2 /* AppCenterAnalyticsTests */,
+				C9CA69DA2306CAF700EE82AA /* appcenteranalytics */,
 				E85547C11D2D6253002DF6E2 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -680,6 +701,7 @@
 				046AEAC61ECA51AF00CBE511 /* AppCenterAnalytics.xctest */,
 				0431216C1EE0C20A007054C5 /* libAppCenterAnalytics.a */,
 				0446DF541F3B8E6300C8E338 /* AppCenterAnalytics.xctest */,
+				C9CA69D92306CAF700EE82AA /* appcenteranalytics.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -849,6 +871,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C9CA69D42306CAF700EE82AA /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C9CA69DD2306CAF700EE82AA /* appcenteranalytics.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E85547F61D2D6A73002DF6E2 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -966,6 +996,24 @@
 			productReference = 0485AF851EAA79E300C10CAF /* libAppCenterAnalytics.a */;
 			productType = "com.apple.product-type.library.static";
 		};
+		C9CA69D82306CAF700EE82AA /* appcenteranalytics */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C9CA69E02306CAF700EE82AA /* Build configuration list for PBXNativeTarget "appcenteranalytics" */;
+			buildPhases = (
+				C9CA69D42306CAF700EE82AA /* Headers */,
+				C9CA69D52306CAF700EE82AA /* Sources */,
+				C9CA69D62306CAF700EE82AA /* Frameworks */,
+				C9CA69D72306CAF700EE82AA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = appcenteranalytics;
+			productName = appcenteranalytics;
+			productReference = C9CA69D92306CAF700EE82AA /* appcenteranalytics.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 		E85547BF1D2D6253002DF6E2 /* AppCenterAnalyticsIOS */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = E85547C91D2D6253002DF6E2 /* Build configuration list for PBXNativeTarget "AppCenterAnalyticsIOS" */;
@@ -1012,12 +1060,20 @@
 				CLASSPREFIX = MS;
 				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = Microsoft;
+				TargetAttributes = {
+					C9CA69D82306CAF700EE82AA = {
+						CreatedOnToolsVersion = 10.2.1;
+						DevelopmentTeam = 5Z97G9NZQ6;
+						ProvisioningStyle = Automatic;
+					};
+				};
 			};
 			buildConfigurationList = E85547BB1D2D6253002DF6E2 /* Build configuration list for PBXProject "AppCenterAnalytics" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = E85547B71D2D6253002DF6E2;
@@ -1037,6 +1093,7 @@
 				0431216D1EE0C213007054C5 /* AppCenterAnalyticsTVOSFramework */,
 				0446DF3D1F3B8E6300C8E338 /* AppCenterAnalyticsTVOSTests */,
 				04FD11701EF2FE43000C5A5C /* AppCenterAnalyticsTVOSDoc */,
+				C9CA69D82306CAF700EE82AA /* appcenteranalytics */,
 			);
 		};
 /* End PBXProject section */
@@ -1050,6 +1107,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		046AEAC21ECA51AF00CBE511 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C9CA69D72306CAF700EE82AA /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1279,6 +1343,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C9CA69D52306CAF700EE82AA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E85547BC1D2D6253002DF6E2 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1466,6 +1537,150 @@
 			};
 			name = Release;
 		};
+		C9CA69DE2306CAF700EE82AA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 5Z97G9NZQ6;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = appcenteranalytics/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenteranalytics;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		C9CA69DF2306CAF700EE82AA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 5Z97G9NZQ6;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = appcenteranalytics/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenteranalytics;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
 		E85547C71D2D6253002DF6E2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B2812EF21DA3148000307DCE /* AppCenterAnalytics Debug.xcconfig */;
@@ -1607,6 +1822,15 @@
 			buildConfigurations = (
 				04FD11751EF2FE43000C5A5C /* Debug */,
 				04FD11761EF2FE43000C5A5C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C9CA69E02306CAF700EE82AA /* Build configuration list for PBXNativeTarget "appcenteranalytics" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C9CA69DE2306CAF700EE82AA /* Debug */,
+				C9CA69DF2306CAF700EE82AA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
