@@ -580,6 +580,7 @@
 		F8936C4D230C16AD006A330F /* Static iOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Static iOS.xcconfig"; sourceTree = "<group>"; };
 		F8936C4E230C16BA006A330F /* Static macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Static macOS.xcconfig"; sourceTree = "<group>"; };
 		F8936C4F230C16C3006A330F /* Static tvOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Static tvOS.xcconfig"; sourceTree = "<group>"; };
+		F8D68481230D7D74000A7CED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -906,6 +907,7 @@
 		E85547D01D2D65AF002DF6E2 /* Support */ = {
 			isa = PBXGroup;
 			children = (
+				F8D68481230D7D74000A7CED /* Info.plist */,
 				04545DC9227B604700A49E06 /* AppCenterAnalytics.xcconfig */,
 				B2812EF21DA3148000307DCE /* AppCenterAnalytics Debug.xcconfig */,
 				0469D1B21F4DFE4C00A43A8E /* AppCenterAnalytics Release.xcconfig */,

@@ -484,6 +484,7 @@
 		F82E4C84217F218D00EDAB34 /* sqlite3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = sqlite3.c; path = ../Vendor/SQLite3/sqlite3.c; sourceTree = "<group>"; };
 		F8936C53230C1867006A330F /* Static iOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Static iOS.xcconfig"; sourceTree = "<group>"; };
 		F8936C54230C1872006A330F /* Static macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Static macOS.xcconfig"; sourceTree = "<group>"; };
+		F8D68482230D7D8E000A7CED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -743,6 +744,7 @@
 		D3AD5F031E5C7FC9001627AB /* Support */ = {
 			isa = PBXGroup;
 			children = (
+				F8D68482230D7D8E000A7CED /* Info.plist */,
 				04545DCB227B605B00A49E06 /* AppCenterData.xcconfig */,
 				D3AD5F051E5C7FFF001627AB /* AppCenterData Debug.xcconfig */,
 				043E2ABA1F4E033A00615AD9 /* AppCenterData Release.xcconfig */,

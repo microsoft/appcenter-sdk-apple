@@ -174,6 +174,13 @@
 			remoteGlobalIDString = B2C070B71E5E68540076D6A9;
 			remoteInfo = AppCenterDistributeResources;
 		};
+		F8DD7524230D7E7A00B095B6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 04FD4A141E451E12009B4468 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B2C070B71E5E68540076D6A9;
+			remoteInfo = AppCenterDistributeResources;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -288,6 +295,7 @@
 		F8BEA3C81FBB0A5900D4DE37 /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OHHTTPStubs.framework; sourceTree = "<group>"; };
 		F8BEA3CB1FBB0BDE00D4DE37 /* MSHttpTestUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSHttpTestUtil.m; path = ../../../AppCenter/AppCenterTests/Util/MSHttpTestUtil.m; sourceTree = "<group>"; };
 		F8BEA3CC1FBB0BDE00D4DE37 /* MSHttpTestUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSHttpTestUtil.h; path = ../../../AppCenter/AppCenterTests/Util/MSHttpTestUtil.h; sourceTree = "<group>"; };
+		F8D6848E230D7DE9000A7CED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -376,6 +384,7 @@
 		0471B5F31E45466F0022F951 /* Support */ = {
 			isa = PBXGroup;
 			children = (
+				F8D6848E230D7DE9000A7CED /* Info.plist */,
 				04545DCC227B606600A49E06 /* AppCenterDistribute.xcconfig */,
 				0471B5F41E45466F0022F951 /* AppCenterDistribute Debug.xcconfig */,
 				043E2AB31F4E024300615AD9 /* AppCenterDistribute Release.xcconfig */,
@@ -759,6 +768,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				F8DD7525230D7E7A00B095B6 /* PBXTargetDependency */,
 			);
 			name = AppCenterDistributeStaticIOS;
 			productName = AppCenterDistributeStaticIOS;
@@ -1004,6 +1014,11 @@
 			isa = PBXTargetDependency;
 			target = B2C070B71E5E68540076D6A9 /* AppCenterDistributeResources */;
 			targetProxy = B2C070C21E5E69E70076D6A9 /* PBXContainerItemProxy */;
+		};
+		F8DD7525230D7E7A00B095B6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B2C070B71E5E68540076D6A9 /* AppCenterDistributeResources */;
+			targetProxy = F8DD7524230D7E7A00B095B6 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
