@@ -332,6 +332,42 @@
 		C9A920E0230C5EEF0068070D /* MSAnalyticsAuthenticationProviderInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = B2350985211A69AA00F98D4F /* MSAnalyticsAuthenticationProviderInternal.h */; };
 		C9A920E1230C5EF00068070D /* MSAnalyticsAuthenticationProviderInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = B2350985211A69AA00F98D4F /* MSAnalyticsAuthenticationProviderInternal.h */; };
 		C9A920E2230C5EF00068070D /* MSAnalyticsAuthenticationProviderInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = B2350985211A69AA00F98D4F /* MSAnalyticsAuthenticationProviderInternal.h */; };
+		C9EBAA67230D39C900A20F0F /* MSAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = E85547C51D2D6253002DF6E2 /* MSAnalytics.m */; };
+		C9EBAA68230D39C900A20F0F /* MSAnalytics+Validation.m in Sources */ = {isa = PBXBuildFile; fileRef = C27452D120AE0DAC00B64B68 /* MSAnalytics+Validation.m */; };
+		C9EBAA69230D39C900A20F0F /* MSPageLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E3E2CC81D359D5E00B1EE50 /* MSPageLog.m */; };
+		C9EBAA6A230D39C900A20F0F /* MSStartSessionLog.m in Sources */ = {isa = PBXBuildFile; fileRef = E8E48FA11D51670100A8C1B0 /* MSStartSessionLog.m */; };
+		C9EBAA6B230D39C900A20F0F /* MSSessionTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = E8E48F9D1D515C3900A8C1B0 /* MSSessionTracker.m */; };
+		C9EBAA6C230D39C900A20F0F /* MSAnalyticsCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 0485AF8E1EAA852A00C10CAF /* MSAnalyticsCategory.m */; };
+		C9EBAA6D230D39C900A20F0F /* MSEventProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 266EDBD8487DA42DAB601DD9 /* MSEventProperties.m */; };
+		C9EBAA6E230D39C900A20F0F /* MSEventLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E3E2CC61D359D5E00B1EE50 /* MSEventLog.m */; };
+		C9EBAA6F230D39C900A20F0F /* MSLogWithNameAndProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = F834E37120AC8E25003CB54D /* MSLogWithNameAndProperties.m */; };
+		C9EBAA70230D39C900A20F0F /* MSAnalyticsAuthenticationProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = B2E2ECB82114DAB800C688C0 /* MSAnalyticsAuthenticationProvider.m */; };
+		C9EBAA71230D39C900A20F0F /* MSAnalyticsTransmissionTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 35134330205704C100E6DC7D /* MSAnalyticsTransmissionTarget.m */; };
+		C9EBAA72230D39C900A20F0F /* MSPropertyConfigurator.m in Sources */ = {isa = PBXBuildFile; fileRef = E758FA7C20FFDEE700011793 /* MSPropertyConfigurator.m */; };
+		C9EBAA73230D39CA00A20F0F /* MSAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = E85547C51D2D6253002DF6E2 /* MSAnalytics.m */; };
+		C9EBAA74230D39CA00A20F0F /* MSAnalytics+Validation.m in Sources */ = {isa = PBXBuildFile; fileRef = C27452D120AE0DAC00B64B68 /* MSAnalytics+Validation.m */; };
+		C9EBAA75230D39CA00A20F0F /* MSPageLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E3E2CC81D359D5E00B1EE50 /* MSPageLog.m */; };
+		C9EBAA76230D39CA00A20F0F /* MSStartSessionLog.m in Sources */ = {isa = PBXBuildFile; fileRef = E8E48FA11D51670100A8C1B0 /* MSStartSessionLog.m */; };
+		C9EBAA77230D39CA00A20F0F /* MSSessionTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = E8E48F9D1D515C3900A8C1B0 /* MSSessionTracker.m */; };
+		C9EBAA78230D39CA00A20F0F /* MSAnalyticsCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 0485AF8E1EAA852A00C10CAF /* MSAnalyticsCategory.m */; };
+		C9EBAA79230D39CA00A20F0F /* MSEventProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 266EDBD8487DA42DAB601DD9 /* MSEventProperties.m */; };
+		C9EBAA7A230D39CA00A20F0F /* MSEventLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E3E2CC61D359D5E00B1EE50 /* MSEventLog.m */; };
+		C9EBAA7B230D39CA00A20F0F /* MSLogWithNameAndProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = F834E37120AC8E25003CB54D /* MSLogWithNameAndProperties.m */; };
+		C9EBAA7C230D39CA00A20F0F /* MSAnalyticsAuthenticationProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = B2E2ECB82114DAB800C688C0 /* MSAnalyticsAuthenticationProvider.m */; };
+		C9EBAA7D230D39CA00A20F0F /* MSAnalyticsTransmissionTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 35134330205704C100E6DC7D /* MSAnalyticsTransmissionTarget.m */; };
+		C9EBAA7E230D39CA00A20F0F /* MSPropertyConfigurator.m in Sources */ = {isa = PBXBuildFile; fileRef = E758FA7C20FFDEE700011793 /* MSPropertyConfigurator.m */; };
+		C9EBAA7F230D39CA00A20F0F /* MSAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = E85547C51D2D6253002DF6E2 /* MSAnalytics.m */; };
+		C9EBAA80230D39CA00A20F0F /* MSAnalytics+Validation.m in Sources */ = {isa = PBXBuildFile; fileRef = C27452D120AE0DAC00B64B68 /* MSAnalytics+Validation.m */; };
+		C9EBAA81230D39CA00A20F0F /* MSPageLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E3E2CC81D359D5E00B1EE50 /* MSPageLog.m */; };
+		C9EBAA82230D39CA00A20F0F /* MSStartSessionLog.m in Sources */ = {isa = PBXBuildFile; fileRef = E8E48FA11D51670100A8C1B0 /* MSStartSessionLog.m */; };
+		C9EBAA83230D39CA00A20F0F /* MSSessionTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = E8E48F9D1D515C3900A8C1B0 /* MSSessionTracker.m */; };
+		C9EBAA84230D39CA00A20F0F /* MSAnalyticsCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 0485AF8E1EAA852A00C10CAF /* MSAnalyticsCategory.m */; };
+		C9EBAA85230D39CA00A20F0F /* MSEventProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 266EDBD8487DA42DAB601DD9 /* MSEventProperties.m */; };
+		C9EBAA86230D39CA00A20F0F /* MSEventLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E3E2CC61D359D5E00B1EE50 /* MSEventLog.m */; };
+		C9EBAA87230D39CA00A20F0F /* MSLogWithNameAndProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = F834E37120AC8E25003CB54D /* MSLogWithNameAndProperties.m */; };
+		C9EBAA88230D39CA00A20F0F /* MSAnalyticsAuthenticationProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = B2E2ECB82114DAB800C688C0 /* MSAnalyticsAuthenticationProvider.m */; };
+		C9EBAA89230D39CA00A20F0F /* MSAnalyticsTransmissionTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 35134330205704C100E6DC7D /* MSAnalyticsTransmissionTarget.m */; };
+		C9EBAA8A230D39CA00A20F0F /* MSPropertyConfigurator.m in Sources */ = {isa = PBXBuildFile; fileRef = E758FA7C20FFDEE700011793 /* MSPropertyConfigurator.m */; };
 		E758FA7D20FFDEE700011793 /* MSPropertyConfigurator.h in Headers */ = {isa = PBXBuildFile; fileRef = E758FA7B20FFDEE700011793 /* MSPropertyConfigurator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E758FA7E20FFDEE700011793 /* MSPropertyConfigurator.h in Headers */ = {isa = PBXBuildFile; fileRef = E758FA7B20FFDEE700011793 /* MSPropertyConfigurator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E758FA7F20FFDEE700011793 /* MSPropertyConfigurator.h in Headers */ = {isa = PBXBuildFile; fileRef = E758FA7B20FFDEE700011793 /* MSPropertyConfigurator.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1637,6 +1673,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9EBAA73230D39CA00A20F0F /* MSAnalytics.m in Sources */,
+				C9EBAA75230D39CA00A20F0F /* MSPageLog.m in Sources */,
+				C9EBAA76230D39CA00A20F0F /* MSStartSessionLog.m in Sources */,
+				C9EBAA7E230D39CA00A20F0F /* MSPropertyConfigurator.m in Sources */,
+				C9EBAA7D230D39CA00A20F0F /* MSAnalyticsTransmissionTarget.m in Sources */,
+				C9EBAA7C230D39CA00A20F0F /* MSAnalyticsAuthenticationProvider.m in Sources */,
+				C9EBAA7A230D39CA00A20F0F /* MSEventLog.m in Sources */,
+				C9EBAA79230D39CA00A20F0F /* MSEventProperties.m in Sources */,
+				C9EBAA7B230D39CA00A20F0F /* MSLogWithNameAndProperties.m in Sources */,
+				C9EBAA77230D39CA00A20F0F /* MSSessionTracker.m in Sources */,
+				C9EBAA78230D39CA00A20F0F /* MSAnalyticsCategory.m in Sources */,
+				C9EBAA74230D39CA00A20F0F /* MSAnalytics+Validation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1644,6 +1692,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9EBAA7F230D39CA00A20F0F /* MSAnalytics.m in Sources */,
+				C9EBAA81230D39CA00A20F0F /* MSPageLog.m in Sources */,
+				C9EBAA82230D39CA00A20F0F /* MSStartSessionLog.m in Sources */,
+				C9EBAA8A230D39CA00A20F0F /* MSPropertyConfigurator.m in Sources */,
+				C9EBAA89230D39CA00A20F0F /* MSAnalyticsTransmissionTarget.m in Sources */,
+				C9EBAA88230D39CA00A20F0F /* MSAnalyticsAuthenticationProvider.m in Sources */,
+				C9EBAA86230D39CA00A20F0F /* MSEventLog.m in Sources */,
+				C9EBAA85230D39CA00A20F0F /* MSEventProperties.m in Sources */,
+				C9EBAA87230D39CA00A20F0F /* MSLogWithNameAndProperties.m in Sources */,
+				C9EBAA83230D39CA00A20F0F /* MSSessionTracker.m in Sources */,
+				C9EBAA84230D39CA00A20F0F /* MSAnalyticsCategory.m in Sources */,
+				C9EBAA80230D39CA00A20F0F /* MSAnalytics+Validation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1651,6 +1711,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9EBAA67230D39C900A20F0F /* MSAnalytics.m in Sources */,
+				C9EBAA69230D39C900A20F0F /* MSPageLog.m in Sources */,
+				C9EBAA6A230D39C900A20F0F /* MSStartSessionLog.m in Sources */,
+				C9EBAA72230D39C900A20F0F /* MSPropertyConfigurator.m in Sources */,
+				C9EBAA71230D39C900A20F0F /* MSAnalyticsTransmissionTarget.m in Sources */,
+				C9EBAA70230D39C900A20F0F /* MSAnalyticsAuthenticationProvider.m in Sources */,
+				C9EBAA6E230D39C900A20F0F /* MSEventLog.m in Sources */,
+				C9EBAA6D230D39C900A20F0F /* MSEventProperties.m in Sources */,
+				C9EBAA6F230D39C900A20F0F /* MSLogWithNameAndProperties.m in Sources */,
+				C9EBAA6B230D39C900A20F0F /* MSSessionTracker.m in Sources */,
+				C9EBAA6C230D39C900A20F0F /* MSAnalyticsCategory.m in Sources */,
+				C9EBAA68230D39C900A20F0F /* MSAnalytics+Validation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
