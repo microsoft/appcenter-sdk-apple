@@ -659,8 +659,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   id mockLogger = OCMClassMock([MSLogger class]);
   OCMStub([mockLogger currentLogLevel]).andReturn(MSLogLevelVerbose);
   OCMReject([[mockLogger ignoringNonObjectArgs] logMessage:[OCMArg checkWithBlock:^BOOL(MSLogMessageProvider messageProvider) {
-                                                  NSString *logMessage = messageProvider();
-                                                  return [logMessage containsString:kMSTestAppSecret];
+                                                  return [messageProvider() containsString:kMSTestAppSecret];
                                                 }]
                                                      level:0
                                                        tag:OCMOCK_ANY
@@ -669,12 +668,11 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
                                                       line:0]);
   NSData *data = [[NSString stringWithFormat:@"{\"redirect_uri\":\"%@\",\"token\":\"%@\"}", kMSTestAppSecret, kMSTestAppSecret]
       dataUsingEncoding:NSUTF8StringEncoding];
-  NSDictionary *headers = @{@"Content-Type" : @"application/json", @"App-Secret" : kMSTestAppSecret, @"Install-ID" : MS_UUID_STRING};
   MSLogContainer *container = [self createLogContainerWithId:@"1"];
   XCTestExpectation *requestCompletedExpectation = [self expectationWithDescription:@"Request completed."];
 
   // When
-  [MSHttpTestUtil stubResponseWithData:data statusCode:MSHTTPCodesNo200OK headers:headers name:NSStringFromSelector(_cmd)];
+  [MSHttpTestUtil stubResponseWithData:data statusCode:MSHTTPCodesNo200OK headers:self.sut.httpHeaders name:NSStringFromSelector(_cmd)];
   [self.sut sendAsync:container
               authToken:nil
       completionHandler:^(__unused NSString *batchId, __unused NSHTTPURLResponse *response, __unused NSData *responseData,
