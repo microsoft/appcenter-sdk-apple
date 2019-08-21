@@ -1,14 +1,21 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
-//! Project version number for appcenter.
-FOUNDATION_EXPORT double appcenterVersionNumber;
-
-//! Project version string for appcenter.
-FOUNDATION_EXPORT const unsigned char appcenterVersionString[];
-
-// In this header, you should import all the public headers of your framework using statements like #import <appcenter/PublicHeader.h>
-
-
+#import "MSAbstractLog.h"
+#import "MSAppCenter.h"
+#import "MSAppCenterErrors.h"
+#import "MSChannelGroupProtocol.h"
+#import "MSChannelProtocol.h"
+#import "MSConstants.h"
+#import "MSCustomProperties.h"
+#import "MSDevice.h"
+#import "MSEnable.h"
+#import "MSLog.h"
+#import "MSLogWithProperties.h"
+#import "MSLogger.h"
+#import "MSService.h"
+#import "MSServiceAbstract.h"
+#import "MSWrapperLogger.h"
+#import "MSWrapperSdk.h"
