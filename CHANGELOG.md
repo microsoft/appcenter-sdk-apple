@@ -6,6 +6,10 @@
 
 * **[Fix]** Fix token storage initialization if services are started via `[MSAppCenter startService:]` method.
 
+### App Center Analytics
+
+* **[Fix]** Fix crash invocking swizzled `ms_viewWillAppear` method.
+
 ___
 
 ## Version 2.3.0

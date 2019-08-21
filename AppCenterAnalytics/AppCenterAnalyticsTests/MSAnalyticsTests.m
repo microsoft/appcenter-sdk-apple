@@ -1599,4 +1599,21 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   [appCenterMock stopMocking];
 }
 
+- (void)testViewWillAppearSwizzling {
+  
+  // If
+  id analyticsMock = OCMPartialMock([MSAnalytics sharedInstance]);
+  UIViewController *viewController = [[UIViewController alloc] init];
+  
+  // When
+  [MSAnalyticsCategory activateCategory];
+  [viewController viewWillAppear:NO];
+  
+  // Then
+  OCMVerify([analyticsMock isAutoPageTrackingEnabled]);
+  
+  // Clear
+  [analyticsMock stopMocking];
+}
+
 @end
