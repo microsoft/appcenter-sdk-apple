@@ -1599,6 +1599,9 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   [appCenterMock stopMocking];
 }
 
+#if TARGET_OS_IOS
+
+// TODO: Modify for testing each platform when page tracking will be supported on each platform.
 - (void)testViewWillAppearSwizzling {
   
   // If
@@ -1615,5 +1618,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   // Clear
   [analyticsMock stopMocking];
 }
+
+#endif
 
 @end
