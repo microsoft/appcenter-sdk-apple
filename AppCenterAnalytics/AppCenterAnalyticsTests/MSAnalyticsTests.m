@@ -1051,6 +1051,9 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   XCTAssertEqual([MSAnalytics serviceName], kMSAnalyticsServiceName);
 }
 
+#if TARGET_OS_IOS
+
+// TODO: Modify for testing each platform when page tracking will be supported on each platform.
 - (void)testViewWillAppearSwizzlingWithAnalyticsAvailable {
 
   // If
@@ -1142,6 +1145,8 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   // Then
   OCMVerifyAll(analyticsMock);
 }
+
+#endif
 
 - (void)testStartWithTransmissionTargetAndAppSecretUsesTransmissionTarget {
 
