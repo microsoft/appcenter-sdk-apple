@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "C9A91FB5230C01140068070D"
+               BlueprintIdentifier = "C9A91FFE230C05D70068070D"
                BuildableName = "AppCenter.framework"
-               BlueprintName = "AppCenterStaticIOS"
+               BlueprintName = "AppCenter macOS Framework"
                ReferencedContainer = "container:AppCenter.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -28,7 +28,26 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "046AEACF1ECA562A00CBE511"
+               BuildableName = "AppCenter.xctest"
+               BlueprintName = "AppCenter macOS Tests"
+               ReferencedContainer = "container:AppCenter.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "C9A91FFE230C05D70068070D"
+            BuildableName = "AppCenter.framework"
+            BlueprintName = "AppCenter macOS Framework"
+            ReferencedContainer = "container:AppCenter.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
@@ -45,9 +64,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "C9A91FB5230C01140068070D"
+            BlueprintIdentifier = "C9A91FFE230C05D70068070D"
             BuildableName = "AppCenter.framework"
-            BlueprintName = "AppCenterStaticIOS"
+            BlueprintName = "AppCenter macOS Framework"
             ReferencedContainer = "container:AppCenter.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -63,9 +82,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "C9A91FB5230C01140068070D"
+            BlueprintIdentifier = "C9A91FFE230C05D70068070D"
             BuildableName = "AppCenter.framework"
-            BlueprintName = "AppCenterStaticIOS"
+            BlueprintName = "AppCenter macOS Framework"
             ReferencedContainer = "container:AppCenter.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

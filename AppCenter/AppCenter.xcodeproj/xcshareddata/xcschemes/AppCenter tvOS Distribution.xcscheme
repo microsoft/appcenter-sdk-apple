@@ -14,23 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "043120721EE0BCF9007054C5"
-               BuildableName = "libAppCenter.a"
-               BlueprintName = "AppCenterTVOS"
-               ReferencedContainer = "container:AppCenter.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "NO"
-            buildForProfiling = "NO"
-            buildForArchiving = "NO"
-            buildForAnalyzing = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0446DEFE1F3B864600C8E338"
-               BuildableName = "AppCenter.xctest"
-               BlueprintName = "AppCenterTVOSTests"
+               BlueprintIdentifier = "043121491EE0BFC7007054C5"
+               BuildableName = "AppCenter tvOS Distribution"
+               BlueprintName = "AppCenter tvOS Distribution"
                ReferencedContainer = "container:AppCenter.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -40,29 +26,9 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      codeCoverageEnabled = "YES"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0446DEFE1F3B864600C8E338"
-               BuildableName = "AppCenter.xctest"
-               BlueprintName = "AppCenterTVOSTests"
-               ReferencedContainer = "container:AppCenter.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "043120721EE0BCF9007054C5"
-            BuildableName = "libAppCenter.a"
-            BlueprintName = "AppCenterTVOS"
-            ReferencedContainer = "container:AppCenter.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
@@ -79,9 +45,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "043120721EE0BCF9007054C5"
-            BuildableName = "libAppCenter.a"
-            BlueprintName = "AppCenterTVOS"
+            BlueprintIdentifier = "043121491EE0BFC7007054C5"
+            BuildableName = "AppCenter tvOS Distribution"
+            BlueprintName = "AppCenter tvOS Distribution"
             ReferencedContainer = "container:AppCenter.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -97,9 +63,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "043120721EE0BCF9007054C5"
-            BuildableName = "libAppCenter.a"
-            BlueprintName = "AppCenterTVOS"
+            BlueprintIdentifier = "043121491EE0BFC7007054C5"
+            BuildableName = "AppCenter tvOS Distribution"
+            BlueprintName = "AppCenter tvOS Distribution"
             ReferencedContainer = "container:AppCenter.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

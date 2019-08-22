@@ -1,3 +1,6 @@
 #include "../../../Config/macOS.xcconfig"
+#include "../../../Config/Static Framework.xcconfig"
+
+MODULEMAP_FILE = $(SRCROOT)/AppCenter/Support/macOS.modulemap
 
 OTHER_LDFLAGS = $(inherited) -framework AppKit -lsqlite3 -lz

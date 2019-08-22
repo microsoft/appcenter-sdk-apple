@@ -189,7 +189,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "6E2395771D22EF4F00E543C8"
                BuildableName = "AppCenter.xctest"
-               BlueprintName = "AppCenterIOSTests"
+               BlueprintName = "AppCenter iOS Tests"
                ReferencedContainer = "container:AppCenter/AppCenter.xcodeproj">
             </BuildableReference>
          </TestableReference>

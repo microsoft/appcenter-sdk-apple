@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "04FD11671EF2FE1D000C5A5C"
-               BuildableName = "AppCenterTVOSDoc"
-               BlueprintName = "AppCenterTVOSDoc"
+               BuildableName = "AppCenter tvOS Documentation"
+               BlueprintName = "AppCenter tvOS Documentation"
                ReferencedContainer = "container:AppCenter/AppCenter.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -62,8 +62,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "04FD11671EF2FE1D000C5A5C"
-            BuildableName = "AppCenterTVOSDoc"
-            BlueprintName = "AppCenterTVOSDoc"
+            BuildableName = "AppCenter tvOS Documentation"
+            BlueprintName = "AppCenter tvOS Documentation"
             ReferencedContainer = "container:AppCenter/AppCenter.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -84,8 +84,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "04FD11671EF2FE1D000C5A5C"
-            BuildableName = "AppCenterTVOSDoc"
-            BlueprintName = "AppCenterTVOSDoc"
+            BuildableName = "AppCenter tvOS Documentation"
+            BlueprintName = "AppCenter tvOS Documentation"
             ReferencedContainer = "container:AppCenter/AppCenter.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -102,8 +102,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "04FD11671EF2FE1D000C5A5C"
-            BuildableName = "AppCenterTVOSDoc"
-            BlueprintName = "AppCenterTVOSDoc"
+            BuildableName = "AppCenter tvOS Documentation"
+            BlueprintName = "AppCenter tvOS Documentation"
             ReferencedContainer = "container:AppCenter/AppCenter.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

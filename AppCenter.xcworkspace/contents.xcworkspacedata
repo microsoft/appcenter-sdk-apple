@@ -5,43 +5,43 @@
       location = "group:Config"
       name = "Config">
       <FileRef
-         location = "group:Static Framework.xcconfig">
-      </FileRef>
-      <FileRef
          location = "group:App.xcconfig">
-      </FileRef>
-      <FileRef
-         location = "group:Global Release.xcconfig">
       </FileRef>
       <FileRef
          location = "group:Global Debug.xcconfig">
       </FileRef>
       <FileRef
-         location = "group:macOS.xcconfig">
-      </FileRef>
-      <FileRef
-         location = "group:tvOS.xcconfig">
-      </FileRef>
-      <FileRef
-         location = "group:Tests macOS.xcconfig">
+         location = "group:Global Release.xcconfig">
       </FileRef>
       <FileRef
          location = "group:Global.xcconfig">
       </FileRef>
       <FileRef
-         location = "group:Tests tvOS.xcconfig">
-      </FileRef>
-      <FileRef
-         location = "group:Version.xcconfig">
-      </FileRef>
-      <FileRef
          location = "group:iOS.xcconfig">
+      </FileRef>
+      <FileRef
+         location = "group:macOS.xcconfig">
+      </FileRef>
+      <FileRef
+         location = "group:Static Framework.xcconfig">
+      </FileRef>
+      <FileRef
+         location = "group:Tests iOS.xcconfig">
+      </FileRef>
+      <FileRef
+         location = "group:Tests macOS.xcconfig">
+      </FileRef>
+      <FileRef
+         location = "group:Tests tvOS.xcconfig">
       </FileRef>
       <FileRef
          location = "group:Tests.xcconfig">
       </FileRef>
       <FileRef
-         location = "group:Tests iOS.xcconfig">
+         location = "group:tvOS.xcconfig">
+      </FileRef>
+      <FileRef
+         location = "group:Version.xcconfig">
       </FileRef>
    </Group>
    <FileRef

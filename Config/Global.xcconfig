@@ -13,7 +13,6 @@ COPY_PHASE_STRIP = NO
 
 // :Mark: Packaging
 PRODUCT_NAME = $(PROJECT_NAME)
-PUBLIC_HEADERS_FOLDER_PATH = include/$(PRODUCT_NAME)
 
 // :Mark: Language configurations
 CLANG_ENABLE_MODULES = YES

@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "6E6BFC311D234FAE00DF7617"
-               BuildableName = "AppCenterIOSDoc"
-               BlueprintName = "AppCenterIOSDoc"
+               BuildableName = "AppCenter iOS Documentation"
+               BlueprintName = "AppCenter iOS Documentation"
                ReferencedContainer = "container:AppCenter/AppCenter.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -118,8 +118,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "6E6BFC311D234FAE00DF7617"
-            BuildableName = "AppCenterIOSDoc"
-            BlueprintName = "AppCenterIOSDoc"
+            BuildableName = "AppCenter iOS Documentation"
+            BlueprintName = "AppCenter iOS Documentation"
             ReferencedContainer = "container:AppCenter/AppCenter.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -140,8 +140,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "6E6BFC311D234FAE00DF7617"
-            BuildableName = "AppCenterIOSDoc"
-            BlueprintName = "AppCenterIOSDoc"
+            BuildableName = "AppCenter iOS Documentation"
+            BlueprintName = "AppCenter iOS Documentation"
             ReferencedContainer = "container:AppCenter/AppCenter.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -158,8 +158,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "6E6BFC311D234FAE00DF7617"
-            BuildableName = "AppCenterIOSDoc"
-            BlueprintName = "AppCenterIOSDoc"
+            BuildableName = "AppCenter iOS Documentation"
+            BlueprintName = "AppCenter iOS Documentation"
             ReferencedContainer = "container:AppCenter/AppCenter.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

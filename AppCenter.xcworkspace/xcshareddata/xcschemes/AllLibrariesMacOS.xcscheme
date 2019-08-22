@@ -100,7 +100,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "046AEACF1ECA562A00CBE511"
                BuildableName = "AppCenter.xctest"
-               BlueprintName = "AppCenterMacOSTests"
+               BlueprintName = "AppCenter macOS Tests"
                ReferencedContainer = "container:AppCenter/AppCenter.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -189,7 +189,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "046AEACF1ECA562A00CBE511"
                BuildableName = "AppCenter.xctest"
-               BlueprintName = "AppCenterMacOSTests"
+               BlueprintName = "AppCenter macOS Tests"
                ReferencedContainer = "container:AppCenter/AppCenter.xcodeproj">
             </BuildableReference>
          </TestableReference>

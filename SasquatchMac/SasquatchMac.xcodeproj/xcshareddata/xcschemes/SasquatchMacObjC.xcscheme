@@ -29,8 +29,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "0485AFE61EAA937000C10CAF"
-               BuildableName = "AppCenterMacOSFramework"
-               BlueprintName = "AppCenterMacOSFramework"
+               BuildableName = "AppCenter macOS Distribution"
+               BlueprintName = "AppCenter macOS Distribution"
                ReferencedContainer = "container:../AppCenter/AppCenter.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>

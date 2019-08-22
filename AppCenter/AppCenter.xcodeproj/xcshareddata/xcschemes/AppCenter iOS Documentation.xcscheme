@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6E0401021D1C98220051BCFA"
-               BuildableName = "libAppCenter.a"
-               BlueprintName = "AppCenterIOS"
+               BlueprintIdentifier = "6E6BFC311D234FAE00DF7617"
+               BuildableName = "AppCenter iOS Documentation"
+               BlueprintName = "AppCenter iOS Documentation"
                ReferencedContainer = "container:AppCenter.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -26,29 +26,9 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      codeCoverageEnabled = "YES"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6E2395771D22EF4F00E543C8"
-               BuildableName = "AppCenter.xctest"
-               BlueprintName = "AppCenterIOSTests"
-               ReferencedContainer = "container:AppCenter.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "6E0401021D1C98220051BCFA"
-            BuildableName = "libAppCenter.a"
-            BlueprintName = "AppCenterIOS"
-            ReferencedContainer = "container:AppCenter.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
@@ -65,9 +45,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "6E0401021D1C98220051BCFA"
-            BuildableName = "libAppCenter.a"
-            BlueprintName = "AppCenterIOS"
+            BlueprintIdentifier = "6E6BFC311D234FAE00DF7617"
+            BuildableName = "AppCenter iOS Documentation"
+            BlueprintName = "AppCenter iOS Documentation"
             ReferencedContainer = "container:AppCenter.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -83,9 +63,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "6E0401021D1C98220051BCFA"
-            BuildableName = "libAppCenter.a"
-            BlueprintName = "AppCenterIOS"
+            BlueprintIdentifier = "6E6BFC311D234FAE00DF7617"
+            BuildableName = "AppCenter iOS Documentation"
+            BlueprintName = "AppCenter iOS Documentation"
             ReferencedContainer = "container:AppCenter.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

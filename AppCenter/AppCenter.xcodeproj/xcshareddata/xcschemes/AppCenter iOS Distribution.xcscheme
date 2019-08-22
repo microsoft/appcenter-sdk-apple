@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "04FD11671EF2FE1D000C5A5C"
-               BuildableName = "AppCenterTVOSDoc"
-               BlueprintName = "AppCenterTVOSDoc"
+               BlueprintIdentifier = "6E04017D1D1CAC710051BCFA"
+               BuildableName = "AppCenter iOS Distribution"
+               BlueprintName = "AppCenter iOS Distribution"
                ReferencedContainer = "container:AppCenter.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -45,9 +45,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "04FD11671EF2FE1D000C5A5C"
-            BuildableName = "AppCenterTVOSDoc"
-            BlueprintName = "AppCenterTVOSDoc"
+            BlueprintIdentifier = "6E04017D1D1CAC710051BCFA"
+            BuildableName = "AppCenter iOS Distribution"
+            BlueprintName = "AppCenter iOS Distribution"
             ReferencedContainer = "container:AppCenter.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -63,9 +63,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "04FD11671EF2FE1D000C5A5C"
-            BuildableName = "AppCenterTVOSDoc"
-            BlueprintName = "AppCenterTVOSDoc"
+            BlueprintIdentifier = "6E04017D1D1CAC710051BCFA"
+            BuildableName = "AppCenter iOS Distribution"
+            BlueprintName = "AppCenter iOS Distribution"
             ReferencedContainer = "container:AppCenter.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
