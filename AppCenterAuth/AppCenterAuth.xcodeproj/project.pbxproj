@@ -7,50 +7,50 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
-		0485AFEF1EAAADAC00C10CAF /* AppCenterAuthMacOSFramework */ = {
+		0485AFEF1EAAADAC00C10CAF /* AppCenterAuth macOS Distribution */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 0485AFF11EAAADAC00C10CAF /* Build configuration list for PBXAggregateTarget "AppCenterAuthMacOSFramework" */;
+			buildConfigurationList = 0485AFF11EAAADAC00C10CAF /* Build configuration list for PBXAggregateTarget "AppCenterAuth macOS Distribution" */;
 			buildPhases = (
-				0485AFF01EAAADAC00C10CAF /* Build framework */,
+				0485AFF01EAAADAC00C10CAF /* Build Universal Framework */,
 			);
 			dependencies = (
 			);
-			name = AppCenterAuthMacOSFramework;
+			name = "AppCenterAuth macOS Distribution";
 			productName = "Fat Framework";
 		};
-		04FD11551EF2F818000C5A5C /* AppCenterAuthMacOSDoc */ = {
+		04FD11551EF2F818000C5A5C /* AppCenterAuth macOS Documentation */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 04FD11591EF2F818000C5A5C /* Build configuration list for PBXAggregateTarget "AppCenterAuthMacOSDoc" */;
+			buildConfigurationList = 04FD11591EF2F818000C5A5C /* Build configuration list for PBXAggregateTarget "AppCenterAuth macOS Documentation" */;
 			buildPhases = (
-				04FD11581EF2F818000C5A5C /* Build docs */,
+				04FD11581EF2F818000C5A5C /* Build Documentation */,
 			);
 			dependencies = (
 				04FD115D1EF2F849000C5A5C /* PBXTargetDependency */,
 			);
-			name = AppCenterAuthMacOSDoc;
+			name = "AppCenterAuth macOS Documentation";
 			productName = "Jazzy Docs";
 		};
-		E85547E41D2D681F002DF6E2 /* AppCenterAuthIOSFramework */ = {
+		E85547E41D2D681F002DF6E2 /* AppCenterAuth iOS Distribution */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = E85547E51D2D681F002DF6E2 /* Build configuration list for PBXAggregateTarget "AppCenterAuthIOSFramework" */;
+			buildConfigurationList = E85547E51D2D681F002DF6E2 /* Build configuration list for PBXAggregateTarget "AppCenterAuth iOS Distribution" */;
 			buildPhases = (
-				E85547E81D2D6827002DF6E2 /* Build framework */,
+				E85547E81D2D6827002DF6E2 /* Build Universal Framework */,
 			);
 			dependencies = (
 			);
-			name = AppCenterAuthIOSFramework;
+			name = "AppCenterAuth iOS Distribution";
 			productName = "Fat Framework";
 		};
-		E85547E91D2D68C5002DF6E2 /* AppCenterAuthIOSDoc */ = {
+		E85547E91D2D68C5002DF6E2 /* AppCenterAuth iOS Documentation */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = E85547EA1D2D68C5002DF6E2 /* Build configuration list for PBXAggregateTarget "AppCenterAuthIOSDoc" */;
+			buildConfigurationList = E85547EA1D2D68C5002DF6E2 /* Build configuration list for PBXAggregateTarget "AppCenterAuth iOS Documentation" */;
 			buildPhases = (
-				E85547ED1D2D68CF002DF6E2 /* Build docs */,
+				E85547ED1D2D68CF002DF6E2 /* Build Documentation */,
 			);
 			dependencies = (
 				386352E41D51047400D0D450 /* PBXTargetDependency */,
 			);
-			name = AppCenterAuthIOSDoc;
+			name = "AppCenterAuth iOS Documentation";
 			productName = "Jazzy Docs";
 		};
 /* End PBXAggregateTarget section */
@@ -58,70 +58,32 @@
 /* Begin PBXBuildFile section */
 		0420A6871ECA7A4B00915619 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0420A6861ECA7A4B00915619 /* OCMock.framework */; };
 		0420A6931ECA7B1100915619 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0420A6921ECA7B1100915619 /* OCMock.framework */; };
-		0446DF621F3B95EB00C8E338 /* libAppCenter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0446DF611F3B95EB00C8E338 /* libAppCenter.a */; };
-		0446DF641F3B95F200C8E338 /* libAppCenter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0446DF631F3B95F200C8E338 /* libAppCenter.a */; };
-		046AEACB1ECA554600CBE511 /* libAppCenterAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0485AF851EAA79E300C10CAF /* libAppCenterAuth.a */; };
 		04774644220112450045504A /* MSAuthAuthorityTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A0D73FD2200CD540085FDE3 /* MSAuthAuthorityTest.m */; };
 		04774645220112480045504A /* MSAuthConfigTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A0D74022200EB400085FDE3 /* MSAuthConfigTest.m */; };
-		0481A54B21FA511C001FA9D8 /* MSAuthConfigIngestion.m in Sources */ = {isa = PBXBuildFile; fileRef = 0481A54921FA511C001FA9D8 /* MSAuthConfigIngestion.m */; };
-		0481A54C21FA511C001FA9D8 /* MSAuthConfigIngestion.h in Headers */ = {isa = PBXBuildFile; fileRef = 0481A54A21FA511C001FA9D8 /* MSAuthConfigIngestion.h */; };
-		0481A54D21FA51D4001FA9D8 /* MSAuthConfigIngestion.h in Headers */ = {isa = PBXBuildFile; fileRef = 0481A54A21FA511C001FA9D8 /* MSAuthConfigIngestion.h */; };
-		0481A54E21FA51D7001FA9D8 /* MSAuthConfigIngestion.m in Sources */ = {isa = PBXBuildFile; fileRef = 0481A54921FA511C001FA9D8 /* MSAuthConfigIngestion.m */; };
-		0485AF6A1EAA79E300C10CAF /* MSAuth.m in Sources */ = {isa = PBXBuildFile; fileRef = E85547C51D2D6253002DF6E2 /* MSAuth.m */; };
-		0485AF781EAA79E300C10CAF /* AppCenterAuth.h in Headers */ = {isa = PBXBuildFile; fileRef = E85547CC1D2D63EF002DF6E2 /* AppCenterAuth.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0485AF7E1EAA79E300C10CAF /* MSAuth.h in Headers */ = {isa = PBXBuildFile; fileRef = E85547C31D2D6253002DF6E2 /* MSAuth.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		048BF76522A724040099FF73 /* MSUserInformation.m in Sources */ = {isa = PBXBuildFile; fileRef = 048BF76422A724030099FF73 /* MSUserInformation.m */; };
-		048BF76622A724040099FF73 /* MSUserInformation.m in Sources */ = {isa = PBXBuildFile; fileRef = 048BF76422A724030099FF73 /* MSUserInformation.m */; };
-		048BF76722A724750099FF73 /* MSUserInformation.h in Headers */ = {isa = PBXBuildFile; fileRef = 048BF76322A724030099FF73 /* MSUserInformation.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		048BF76822A724760099FF73 /* MSUserInformation.h in Headers */ = {isa = PBXBuildFile; fileRef = 048BF76322A724030099FF73 /* MSUserInformation.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		049BC836224E8AD900AE7FBB /* MSAuthErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = 049BC835224E8AD900AE7FBB /* MSAuthErrors.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		049BC837224E8AE100AE7FBB /* MSAuthErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = 049BC835224E8AD900AE7FBB /* MSAuthErrors.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		049BC849224ED7C100AE7FBB /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 049BC848224ED7C100AE7FBB /* WebKit.framework */; };
-		049BC84B224ED7C900AE7FBB /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 049BC84A224ED7C900AE7FBB /* WebKit.framework */; };
 		049BC84C224ED9D600AE7FBB /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 049BC848224ED7C100AE7FBB /* WebKit.framework */; };
 		049BC84D224ED9E500AE7FBB /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 049BC84A224ED7C900AE7FBB /* WebKit.framework */; };
-		04A082061F74BB8600DC776D /* MSService.h in Headers */ = {isa = PBXBuildFile; fileRef = 04A082051F74BB8600DC776D /* MSService.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		04B1C8CC2252AF2300CBD876 /* MSAppCenterErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = 04B1C8CB2252AF2300CBD876 /* MSAppCenterErrors.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		04B1C8CD2252AF2300CBD876 /* MSAppCenterErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = 04B1C8CB2252AF2300CBD876 /* MSAppCenterErrors.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		04BED7181ECB64FB00E20975 /* OCHamcrest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04BED7161ECB64CE00E20975 /* OCHamcrest.framework */; };
 		04C802E9220399A30039E9BC /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04C802E72203999E0039E9BC /* OHHTTPStubs.framework */; };
 		04C802EA220399A80039E9BC /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04C802E5220399860039E9BC /* OHHTTPStubs.framework */; };
-		04E0F320223B246B0080C968 /* AuthenticationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04E0F31F223B246B0080C968 /* AuthenticationServices.framework */; };
-		04E97629226A5426007E6DD1 /* libMSAL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04E9760F226A50BF007E6DD1 /* libMSAL.a */; };
-		04E9762A226A542F007E6DD1 /* libMSAL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04E97611226A50BF007E6DD1 /* libMSAL.a */; };
 		1A0D73FE2200CD540085FDE3 /* MSAuthAuthorityTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A0D73FD2200CD540085FDE3 /* MSAuthAuthorityTest.m */; };
 		1A0D74032200EB400085FDE3 /* MSAuthConfigTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A0D74022200EB400085FDE3 /* MSAuthConfigTest.m */; };
 		1A15692421F11B09001E9452 /* MSAuthTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A15692321F11B09001E9452 /* MSAuthTests.m */; };
 		1A15692521F11B09001E9452 /* MSAuthTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A15692321F11B09001E9452 /* MSAuthTests.m */; };
-		3568A7EF201A9BBB00F3B860 /* MSService.h in Headers */ = {isa = PBXBuildFile; fileRef = 04A082051F74BB8600DC776D /* MSService.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		3568A7F0201A9BBB00F3B860 /* MSServiceAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C77041D6CC39400D68CC1 /* MSServiceAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		35BCB33B22382EA100E948A4 /* MSAuthConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 35BCB33A22382E6A00E948A4 /* MSAuthConstants.h */; };
-		35BCB33C22382EA300E948A4 /* MSAuthConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 35BCB33A22382E6A00E948A4 /* MSAuthConstants.h */; };
 		3847ABE622028E3D008BC281 /* MSHttpTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 3847ABE522028E3D008BC281 /* MSHttpTestUtil.m */; };
 		3847ABE722028E3D008BC281 /* MSHttpTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 3847ABE522028E3D008BC281 /* MSHttpTestUtil.m */; };
-		387C77051D6CC39400D68CC1 /* MSServiceAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C77041D6CC39400D68CC1 /* MSServiceAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38D4204D22012E65006ECF44 /* MSMockUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 38D4204722012E1E006ECF44 /* MSMockUserDefaults.m */; };
 		38D4204E22012E66006ECF44 /* MSMockUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 38D4204722012E1E006ECF44 /* MSMockUserDefaults.m */; };
 		38EB8A6522038CE8005DBF5D /* MSAuthConfigIngestionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 38EB8A6422038CE8005DBF5D /* MSAuthConfigIngestionTests.m */; };
 		38EB8A6622038CE8005DBF5D /* MSAuthConfigIngestionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 38EB8A6422038CE8005DBF5D /* MSAuthConfigIngestionTests.m */; };
-		38F796CC21F93E33007E7C15 /* MSAuthConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 38F796CA21F93E33007E7C15 /* MSAuthConfig.h */; };
-		38F796CD21F93E33007E7C15 /* MSAuthConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 38F796CA21F93E33007E7C15 /* MSAuthConfig.h */; };
-		38F796CE21F93E33007E7C15 /* MSAuthConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 38F796CB21F93E33007E7C15 /* MSAuthConfig.m */; };
-		38F796CF21F93E33007E7C15 /* MSAuthConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 38F796CB21F93E33007E7C15 /* MSAuthConfig.m */; };
-		38F796D221F93ED6007E7C15 /* MSAuthority.h in Headers */ = {isa = PBXBuildFile; fileRef = 38F796D021F93ED6007E7C15 /* MSAuthority.h */; };
-		38F796D321F93ED6007E7C15 /* MSAuthority.h in Headers */ = {isa = PBXBuildFile; fileRef = 38F796D021F93ED6007E7C15 /* MSAuthority.h */; };
-		38F796D421F93ED6007E7C15 /* MSAuthority.m in Sources */ = {isa = PBXBuildFile; fileRef = 38F796D121F93ED6007E7C15 /* MSAuthority.m */; };
-		38F796D521F93ED6007E7C15 /* MSAuthority.m in Sources */ = {isa = PBXBuildFile; fileRef = 38F796D121F93ED6007E7C15 /* MSAuthority.m */; };
 		6E0684381D35A3B900A8CC6C /* OCHamcrestIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E0684371D35A3B900A8CC6C /* OCHamcrestIOS.framework */; };
-		995BA5D321EFEF6D000E3212 /* AppCenter+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 995BA5D221EFEF6D000E3212 /* AppCenter+Internal.h */; };
-		995BA5D421EFEF6D000E3212 /* AppCenter+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 995BA5D221EFEF6D000E3212 /* AppCenter+Internal.h */; };
-		995BA5DC21EFF414000E3212 /* MSAuthPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 995BA5DB21EFF414000E3212 /* MSAuthPrivate.h */; };
-		995BA5DD21EFF414000E3212 /* MSAuthPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 995BA5DB21EFF414000E3212 /* MSAuthPrivate.h */; };
 		9CFD2EC6221CCE33006C5FBD /* MSMockKeychainUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CFD2EC4221CCE33006C5FBD /* MSMockKeychainUtil.m */; };
 		9CFD2EC7221CCE33006C5FBD /* MSMockKeychainUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CFD2EC4221CCE33006C5FBD /* MSMockKeychainUtil.m */; };
-		B2B25642220B365A00716D6A /* MSAuthAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B2B25640220B365A00716D6A /* MSAuthAppDelegate.m */; };
-		B2B25644220B365A00716D6A /* MSAuthAppDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = B2B25641220B365A00716D6A /* MSAuthAppDelegate.h */; };
 		B2B25647220B370200716D6A /* MSAuthAppDelegateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2B25646220B370200716D6A /* MSAuthAppDelegateTests.m */; };
+		C25D647E230EF8A600EA6F85 /* AppCenterAuth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C934BFE5230BF74100083490 /* AppCenterAuth.framework */; };
+		C25D6480230EF8C100EA6F85 /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C25D647F230EF8C100EA6F85 /* AppCenter.framework */; };
+		C25D6487230EF93F00EA6F85 /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C25D6486230EF93F00EA6F85 /* AppCenter.framework */; };
+		C25D6488230EFA7300EA6F85 /* AppCenterAuth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A91F28230BF9590068070D /* AppCenterAuth.framework */; };
+		C25D648A230EFA7900EA6F85 /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C25D6489230EFA7900EA6F85 /* AppCenter.framework */; };
 		C9A92065230C5D6A0068070D /* MSAppCenterErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = 04B1C8CB2252AF2300CBD876 /* MSAppCenterErrors.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C9A92066230C5D6A0068070D /* MSService.h in Headers */ = {isa = PBXBuildFile; fileRef = 04A082051F74BB8600DC776D /* MSService.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C9A92067230C5D6A0068070D /* MSServiceAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C77041D6CC39400D68CC1 /* MSServiceAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -165,26 +127,14 @@
 		C9EBAB02230D3D5200A20F0F /* AuthenticationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04E0F31F223B246B0080C968 /* AuthenticationServices.framework */; };
 		C9EBAB03230D3D5D00A20F0F /* libMSAL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04E97611226A50BF007E6DD1 /* libMSAL.a */; };
 		C9EBAB04230D3D6500A20F0F /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 049BC848224ED7C100AE7FBB /* WebKit.framework */; };
-		C9EBAB1B230D72D900A20F0F /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9EBAB1A230D72D900A20F0F /* AppCenter.framework */; };
 		C9EBAB27230D72E200A20F0F /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9EBAB26230D72E200A20F0F /* AppCenter.framework */; };
 		C9EBAB3C230D799900A20F0F /* MSAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04E975FB226A50BF007E6DD1 /* MSAL.framework */; };
 		C9EBAB3D230D79A400A20F0F /* MSAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04E975FF226A50BF007E6DD1 /* MSAL.framework */; };
-		E85547C61D2D6253002DF6E2 /* MSAuth.m in Sources */ = {isa = PBXBuildFile; fileRef = E85547C51D2D6253002DF6E2 /* MSAuth.m */; };
-		E85547DA1D2D6723002DF6E2 /* libAppCenterAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E85547C01D2D6253002DF6E2 /* libAppCenterAuth.a */; };
-		E85547F71D2D6A7D002DF6E2 /* AppCenterAuth.h in Headers */ = {isa = PBXBuildFile; fileRef = E85547CC1D2D63EF002DF6E2 /* AppCenterAuth.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E85547F81D2D6A7D002DF6E2 /* MSAuth.h in Headers */ = {isa = PBXBuildFile; fileRef = E85547C31D2D6253002DF6E2 /* MSAuth.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F82E4C71217F1FA600EDAB34 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = F82E4C70217F1FA600EDAB34 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		F82E4C72217F1FA600EDAB34 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = F82E4C70217F1FA600EDAB34 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		046AEACD1ECA55BC00CBE511 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E85547B81D2D6253002DF6E2 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 0485AF671EAA79E300C10CAF;
-			remoteInfo = AppCenterAuthMacOS;
-		};
 		04E975FA226A50BF007E6DD1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 04E975EA226A50BF007E6DD1 /* MSAL.xcodeproj */;
@@ -269,20 +219,6 @@
 			remoteGlobalIDString = 04A6B59C2269286F0035C7C2;
 			remoteInfo = "MSAL (Mac Static Library)";
 		};
-		04E97612226A50D8007E6DD1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 04E975EA226A50BF007E6DD1 /* MSAL.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 04A6B57A226921890035C7C2;
-			remoteInfo = "MSAL (iOS Static Library)";
-		};
-		04E97614226A50DF007E6DD1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 04E975EA226A50BF007E6DD1 /* MSAL.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 04A6B59B2269286F0035C7C2;
-			remoteInfo = "MSAL (Mac Static Library)";
-		};
 		04FD115C1EF2F849000C5A5C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E85547B81D2D6253002DF6E2 /* Project object */;
@@ -296,6 +232,20 @@
 			proxyType = 1;
 			remoteGlobalIDString = E85547E41D2D681F002DF6E2;
 			remoteInfo = "Fat Framework";
+		};
+		C25D647C230EF89F00EA6F85 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E85547B81D2D6253002DF6E2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C934BFE4230BF74000083490;
+			remoteInfo = "AppCenterAuth iOS Framework";
+		};
+		C25D6481230EF91600EA6F85 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E85547B81D2D6253002DF6E2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C9A91F1E230BF9590068070D;
+			remoteInfo = "AppCenterAuth macOS Framework";
 		};
 		C9EBAAFC230D3BE000A20F0F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -311,53 +261,7 @@
 			remoteGlobalIDString = 04A6B59B2269286F0035C7C2;
 			remoteInfo = "MSAL (Mac Static Library)";
 		};
-		E85547DB1D2D6723002DF6E2 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E85547B81D2D6253002DF6E2 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = E85547BF1D2D6253002DF6E2;
-			remoteInfo = AppCenterAuthIOS;
-		};
 /* End PBXContainerItemProxy section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		0485AF711EAA79E300C10CAF /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 12;
-			dstPath = "include/$(PRODUCT_NAME)";
-			dstSubfolderSpec = 16;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		048C07D321F162FD00769A85 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		048C07D521F1633E00769A85 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E85547BE1D2D6253002DF6E2 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 12;
-			dstPath = "include/$(PRODUCT_NAME)";
-			dstSubfolderSpec = 16;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		041CFF8B1ECCFF6700B4654B /* Tests iOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Tests iOS.xcconfig"; path = "../../Config/Tests iOS.xcconfig"; sourceTree = "<group>"; };
@@ -371,7 +275,6 @@
 		046AEAC61ECA51AF00CBE511 /* AppCenterAuth.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppCenterAuth.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0481A54921FA511C001FA9D8 /* MSAuthConfigIngestion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAuthConfigIngestion.m; sourceTree = "<group>"; };
 		0481A54A21FA511C001FA9D8 /* MSAuthConfigIngestion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAuthConfigIngestion.h; sourceTree = "<group>"; };
-		0485AF851EAA79E300C10CAF /* libAppCenterAuth.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAppCenterAuth.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		048BF76322A724030099FF73 /* MSUserInformation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSUserInformation.h; sourceTree = "<group>"; };
 		048BF76422A724030099FF73 /* MSUserInformation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSUserInformation.m; sourceTree = "<group>"; };
 		049BC82A1ECE3B9400FB6719 /* iOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = iOS.xcconfig; sourceTree = "<group>"; };
@@ -413,19 +316,20 @@
 		B2B25640220B365A00716D6A /* MSAuthAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAuthAppDelegate.m; sourceTree = "<group>"; };
 		B2B25641220B365A00716D6A /* MSAuthAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAuthAppDelegate.h; sourceTree = "<group>"; };
 		B2B25646220B370200716D6A /* MSAuthAppDelegateTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSAuthAppDelegateTests.m; sourceTree = "<group>"; };
+		C25D647F230EF8C100EA6F85 /* AppCenter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AppCenter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C25D6483230EF92300EA6F85 /* AppCenter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AppCenter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C25D6486230EF93F00EA6F85 /* AppCenter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AppCenter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C25D6489230EFA7900EA6F85 /* AppCenter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AppCenter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C934BFE5230BF74100083490 /* AppCenterAuth.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AppCenterAuth.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9A91F28230BF9590068070D /* AppCenterAuth.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AppCenterAuth.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9EBAB1A230D72D900A20F0F /* AppCenter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AppCenter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9EBAB26230D72E200A20F0F /* AppCenter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AppCenter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		E85547C01D2D6253002DF6E2 /* libAppCenterAuth.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAppCenterAuth.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		E85547C31D2D6253002DF6E2 /* MSAuth.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSAuth.h; sourceTree = "<group>"; };
 		E85547C51D2D6253002DF6E2 /* MSAuth.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MSAuth.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		E85547CC1D2D63EF002DF6E2 /* AppCenterAuth.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppCenterAuth.h; sourceTree = "<group>"; };
 		E85547D51D2D6723002DF6E2 /* AppCenterAuth.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppCenterAuth.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E85547D91D2D6723002DF6E2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F82E4C70217F1FA600EDAB34 /* sqlite3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = sqlite3.c; path = ../../Vendor/SQLite3/sqlite3.c; sourceTree = "<group>"; };
-		F8936C4B230C1646006A330F /* Static iOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Static iOS.xcconfig"; sourceTree = "<group>"; };
-		F8936C4C230C1650006A330F /* Static macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Static macOS.xcconfig"; sourceTree = "<group>"; };
 		F8D68483230D7DAD000A7CED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -434,21 +338,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C25D648A230EFA7900EA6F85 /* AppCenter.framework in Frameworks */,
+				C25D6488230EFA7300EA6F85 /* AppCenterAuth.framework in Frameworks */,
 				049BC84C224ED9D600AE7FBB /* WebKit.framework in Frameworks */,
-				0446DF621F3B95EB00C8E338 /* libAppCenter.a in Frameworks */,
-				046AEACB1ECA554600CBE511 /* libAppCenterAuth.a in Frameworks */,
 				04C802E9220399A30039E9BC /* OHHTTPStubs.framework in Frameworks */,
 				04BED7181ECB64FB00E20975 /* OCHamcrest.framework in Frameworks */,
 				0420A6871ECA7A4B00915619 /* OCMock.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		0485AF701EAA79E300C10CAF /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				04E9762A226A542F007E6DD1 /* libMSAL.a in Frameworks */,
-				049BC849224ED7C100AE7FBB /* WebKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -456,11 +351,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C25D6487230EF93F00EA6F85 /* AppCenter.framework in Frameworks */,
 				C9EBAB3C230D799900A20F0F /* MSAL.framework in Frameworks */,
 				C9EBAB02230D3D5200A20F0F /* AuthenticationServices.framework in Frameworks */,
 				C9EBAB01230D3D4A00A20F0F /* WebKit.framework in Frameworks */,
 				C9EBAB00230D3D3900A20F0F /* libMSAL.a in Frameworks */,
-				C9EBAB1B230D72D900A20F0F /* AppCenter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -475,23 +370,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		E85547BD1D2D6253002DF6E2 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				04E97629226A5426007E6DD1 /* libMSAL.a in Frameworks */,
-				049BC84B224ED7C900AE7FBB /* WebKit.framework in Frameworks */,
-				04E0F320223B246B0080C968 /* AuthenticationServices.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		E85547D21D2D6723002DF6E2 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C25D6480230EF8C100EA6F85 /* AppCenter.framework in Frameworks */,
+				C25D647E230EF8A600EA6F85 /* AppCenterAuth.framework in Frameworks */,
 				049BC84D224ED9E500AE7FBB /* WebKit.framework in Frameworks */,
-				0446DF641F3B95F200C8E338 /* libAppCenter.a in Frameworks */,
-				E85547DA1D2D6723002DF6E2 /* libAppCenterAuth.a in Frameworks */,
 				04C802EA220399A80039E9BC /* OHHTTPStubs.framework in Frameworks */,
 				6E0684381D35A3B900A8CC6C /* OCHamcrestIOS.framework in Frameworks */,
 				0420A6931ECA7B1100915619 /* OCMock.framework in Frameworks */,
@@ -588,6 +473,10 @@
 		04E0F31E223B246A0080C968 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C25D6489230EFA7900EA6F85 /* AppCenter.framework */,
+				C25D6486230EF93F00EA6F85 /* AppCenter.framework */,
+				C25D6483230EF92300EA6F85 /* AppCenter.framework */,
+				C25D647F230EF8C100EA6F85 /* AppCenter.framework */,
 				C9EBAB26230D72E200A20F0F /* AppCenter.framework */,
 				C9EBAB1A230D72D900A20F0F /* AppCenter.framework */,
 				049BC848224ED7C100AE7FBB /* WebKit.framework */,
@@ -722,9 +611,7 @@
 		E85547C11D2D6253002DF6E2 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				E85547C01D2D6253002DF6E2 /* libAppCenterAuth.a */,
 				E85547D51D2D6723002DF6E2 /* AppCenterAuth.xctest */,
-				0485AF851EAA79E300C10CAF /* libAppCenterAuth.a */,
 				046AEAC61ECA51AF00CBE511 /* AppCenterAuth.xctest */,
 				C934BFE5230BF74100083490 /* AppCenterAuth.framework */,
 				C9A91F28230BF9590068070D /* AppCenterAuth.framework */,
@@ -757,8 +644,6 @@
 				04ED31EB1EAAD3390033BAAE /* iOS.modulemap */,
 				049BC82B1ECE3B9A00FB6719 /* macOS.xcconfig */,
 				04ED31E91EAAD32B0033BAAE /* macOS.modulemap */,
-				F8936C4B230C1646006A330F /* Static iOS.xcconfig */,
-				F8936C4C230C1650006A330F /* Static macOS.xcconfig */,
 			);
 			path = Support;
 			sourceTree = "<group>";
@@ -782,26 +667,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		0485AF721EAA79E300C10CAF /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				048BF76822A724760099FF73 /* MSUserInformation.h in Headers */,
-				995BA5DD21EFF414000E3212 /* MSAuthPrivate.h in Headers */,
-				995BA5D421EFEF6D000E3212 /* AppCenter+Internal.h in Headers */,
-				35BCB33C22382EA300E948A4 /* MSAuthConstants.h in Headers */,
-				3568A7EF201A9BBB00F3B860 /* MSService.h in Headers */,
-				049BC837224E8AE100AE7FBB /* MSAuthErrors.h in Headers */,
-				38F796CD21F93E33007E7C15 /* MSAuthConfig.h in Headers */,
-				0481A54D21FA51D4001FA9D8 /* MSAuthConfigIngestion.h in Headers */,
-				04B1C8CD2252AF2300CBD876 /* MSAppCenterErrors.h in Headers */,
-				3568A7F0201A9BBB00F3B860 /* MSServiceAbstract.h in Headers */,
-				0485AF781EAA79E300C10CAF /* AppCenterAuth.h in Headers */,
-				38F796D321F93ED6007E7C15 /* MSAuthority.h in Headers */,
-				0485AF7E1EAA79E300C10CAF /* MSAuth.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		C934BFE0230BF74000083490 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -843,142 +708,79 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		E85547F61D2D6A73002DF6E2 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				04B1C8CC2252AF2300CBD876 /* MSAppCenterErrors.h in Headers */,
-				995BA5DC21EFF414000E3212 /* MSAuthPrivate.h in Headers */,
-				048BF76722A724750099FF73 /* MSUserInformation.h in Headers */,
-				995BA5D321EFEF6D000E3212 /* AppCenter+Internal.h in Headers */,
-				35BCB33B22382EA100E948A4 /* MSAuthConstants.h in Headers */,
-				B2B25644220B365A00716D6A /* MSAuthAppDelegate.h in Headers */,
-				04A082061F74BB8600DC776D /* MSService.h in Headers */,
-				049BC836224E8AD900AE7FBB /* MSAuthErrors.h in Headers */,
-				38F796CC21F93E33007E7C15 /* MSAuthConfig.h in Headers */,
-				387C77051D6CC39400D68CC1 /* MSServiceAbstract.h in Headers */,
-				0481A54C21FA511C001FA9D8 /* MSAuthConfigIngestion.h in Headers */,
-				E85547F71D2D6A7D002DF6E2 /* AppCenterAuth.h in Headers */,
-				38F796D221F93ED6007E7C15 /* MSAuthority.h in Headers */,
-				E85547F81D2D6A7D002DF6E2 /* MSAuth.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		046AEAB21ECA51AF00CBE511 /* AppCenterAuthMacOSTests */ = {
+		046AEAB21ECA51AF00CBE511 /* AppCenterAuth macOS Tests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 046AEAC31ECA51AF00CBE511 /* Build configuration list for PBXNativeTarget "AppCenterAuthMacOSTests" */;
+			buildConfigurationList = 046AEAC31ECA51AF00CBE511 /* Build configuration list for PBXNativeTarget "AppCenterAuth macOS Tests" */;
 			buildPhases = (
 				046AEAB51ECA51AF00CBE511 /* Sources */,
 				046AEABD1ECA51AF00CBE511 /* Frameworks */,
 				046AEAC21ECA51AF00CBE511 /* Resources */,
-				048C07D521F1633E00769A85 /* CopyFiles */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				046AEACE1ECA55BC00CBE511 /* PBXTargetDependency */,
+				C25D6482230EF91600EA6F85 /* PBXTargetDependency */,
 			);
-			name = AppCenterAuthMacOSTests;
+			name = "AppCenterAuth macOS Tests";
 			productName = AppCenterAuthTests;
 			productReference = 046AEAC61ECA51AF00CBE511 /* AppCenterAuth.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		0485AF671EAA79E300C10CAF /* AppCenterAuthMacOS */ = {
+		C934BFE4230BF74000083490 /* AppCenterAuth iOS Framework */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 0485AF821EAA79E300C10CAF /* Build configuration list for PBXNativeTarget "AppCenterAuthMacOS" */;
+			buildConfigurationList = C934BFEA230BF74100083490 /* Build configuration list for PBXNativeTarget "AppCenterAuth iOS Framework" */;
 			buildPhases = (
-				F8B8EAD621105B84004BCECB /* Verify no buildSettings */,
-				0485AF681EAA79E300C10CAF /* Sources */,
-				0485AF701EAA79E300C10CAF /* Frameworks */,
-				0485AF711EAA79E300C10CAF /* CopyFiles */,
-				0485AF721EAA79E300C10CAF /* Headers */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				04E97615226A50DF007E6DD1 /* PBXTargetDependency */,
-			);
-			name = AppCenterAuthMacOS;
-			productName = AppCenterAuth;
-			productReference = 0485AF851EAA79E300C10CAF /* libAppCenterAuth.a */;
-			productType = "com.apple.product-type.library.static";
-		};
-		C934BFE4230BF74000083490 /* AppCenterAuthStaticIOS */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = C934BFEA230BF74100083490 /* Build configuration list for PBXNativeTarget "AppCenterAuthStaticIOS" */;
-			buildPhases = (
+				C25D647A230EF69000EA6F85 /* Verify No Build Settings */,
 				C934BFE0230BF74000083490 /* Headers */,
 				C934BFE1230BF74000083490 /* Sources */,
 				C934BFE2230BF74000083490 /* Frameworks */,
-				C934BFE3230BF74000083490 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				C9EBAAFD230D3BE000A20F0F /* PBXTargetDependency */,
 			);
-			name = AppCenterAuthStaticIOS;
+			name = "AppCenterAuth iOS Framework";
 			productName = AppCenterAuthStaticIOS;
 			productReference = C934BFE5230BF74100083490 /* AppCenterAuth.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		C9A91F1E230BF9590068070D /* AppCenterAuthStaticMacOS */ = {
+		C9A91F1E230BF9590068070D /* AppCenterAuth macOS Framework */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C9A91F25230BF9590068070D /* Build configuration list for PBXNativeTarget "AppCenterAuthStaticMacOS" */;
+			buildConfigurationList = C9A91F25230BF9590068070D /* Build configuration list for PBXNativeTarget "AppCenterAuth macOS Framework" */;
 			buildPhases = (
+				C25D647B230EF69E00EA6F85 /* Verify No Build Settings */,
 				C9A91F1F230BF9590068070D /* Headers */,
 				C9A91F21230BF9590068070D /* Sources */,
 				C9A91F22230BF9590068070D /* Frameworks */,
-				C9A91F24230BF9590068070D /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				C9EBAAFF230D3BEE00A20F0F /* PBXTargetDependency */,
 			);
-			name = AppCenterAuthStaticMacOS;
+			name = "AppCenterAuth macOS Framework";
 			productName = AppCenterAuthStaticIOS;
 			productReference = C9A91F28230BF9590068070D /* AppCenterAuth.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		E85547BF1D2D6253002DF6E2 /* AppCenterAuthIOS */ = {
+		E85547D41D2D6723002DF6E2 /* AppCenterAuth iOS Tests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = E85547C91D2D6253002DF6E2 /* Build configuration list for PBXNativeTarget "AppCenterAuthIOS" */;
-			buildPhases = (
-				F8B8EAD421105B77004BCECB /* Verify no buildSettings */,
-				E85547BC1D2D6253002DF6E2 /* Sources */,
-				E85547BD1D2D6253002DF6E2 /* Frameworks */,
-				E85547BE1D2D6253002DF6E2 /* CopyFiles */,
-				E85547F61D2D6A73002DF6E2 /* Headers */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				04E97613226A50D8007E6DD1 /* PBXTargetDependency */,
-			);
-			name = AppCenterAuthIOS;
-			productName = AppCenterAuth;
-			productReference = E85547C01D2D6253002DF6E2 /* libAppCenterAuth.a */;
-			productType = "com.apple.product-type.library.static";
-		};
-		E85547D41D2D6723002DF6E2 /* AppCenterAuthIOSTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = E85547DD1D2D6723002DF6E2 /* Build configuration list for PBXNativeTarget "AppCenterAuthIOSTests" */;
+			buildConfigurationList = E85547DD1D2D6723002DF6E2 /* Build configuration list for PBXNativeTarget "AppCenterAuth iOS Tests" */;
 			buildPhases = (
 				E85547D11D2D6723002DF6E2 /* Sources */,
 				E85547D21D2D6723002DF6E2 /* Frameworks */,
 				E85547D31D2D6723002DF6E2 /* Resources */,
-				048C07D321F162FD00769A85 /* CopyFiles */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				E85547DC1D2D6723002DF6E2 /* PBXTargetDependency */,
+				C25D647D230EF89F00EA6F85 /* PBXTargetDependency */,
 			);
-			name = AppCenterAuthIOSTests;
+			name = "AppCenterAuth iOS Tests";
 			productName = AppCenterAuthTests;
 			productReference = E85547D51D2D6723002DF6E2 /* AppCenterAuth.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -995,11 +797,11 @@
 				TargetAttributes = {
 					C934BFE4230BF74000083490 = {
 						CreatedOnToolsVersion = 10.2.1;
-						DevelopmentTeam = 5Z97G9NZQ6;
+						DevelopmentTeam = KYJ84ZC369;
 						ProvisioningStyle = Automatic;
 					};
 					C9A91F1E230BF9590068070D = {
-						DevelopmentTeam = 5Z97G9NZQ6;
+						DevelopmentTeam = KYJ84ZC369;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -1024,16 +826,14 @@
 			);
 			projectRoot = "";
 			targets = (
-				E85547BF1D2D6253002DF6E2 /* AppCenterAuthIOS */,
-				E85547E41D2D681F002DF6E2 /* AppCenterAuthIOSFramework */,
-				E85547D41D2D6723002DF6E2 /* AppCenterAuthIOSTests */,
-				E85547E91D2D68C5002DF6E2 /* AppCenterAuthIOSDoc */,
-				0485AF671EAA79E300C10CAF /* AppCenterAuthMacOS */,
-				0485AFEF1EAAADAC00C10CAF /* AppCenterAuthMacOSFramework */,
-				046AEAB21ECA51AF00CBE511 /* AppCenterAuthMacOSTests */,
-				04FD11551EF2F818000C5A5C /* AppCenterAuthMacOSDoc */,
-				C934BFE4230BF74000083490 /* AppCenterAuthStaticIOS */,
-				C9A91F1E230BF9590068070D /* AppCenterAuthStaticMacOS */,
+				C934BFE4230BF74000083490 /* AppCenterAuth iOS Framework */,
+				E85547D41D2D6723002DF6E2 /* AppCenterAuth iOS Tests */,
+				E85547E41D2D681F002DF6E2 /* AppCenterAuth iOS Distribution */,
+				E85547E91D2D68C5002DF6E2 /* AppCenterAuth iOS Documentation */,
+				C9A91F1E230BF9590068070D /* AppCenterAuth macOS Framework */,
+				046AEAB21ECA51AF00CBE511 /* AppCenterAuth macOS Tests */,
+				0485AFEF1EAAADAC00C10CAF /* AppCenterAuth macOS Distribution */,
+				04FD11551EF2F818000C5A5C /* AppCenterAuth macOS Documentation */,
 			);
 		};
 /* End PBXProject section */
@@ -1133,20 +933,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		C934BFE3230BF74000083490 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		C9A91F24230BF9590068070D /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		E85547D31D2D6723002DF6E2 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1157,72 +943,47 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0485AFF01EAAADAC00C10CAF /* Build framework */ = {
+		0485AFF01EAAADAC00C10CAF /* Build Universal Framework */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Build framework";
+			name = "Build Universal Framework";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "cd \"${SRCROOT}/../Scripts/AppCenterAuth\"\n./build-appcenterauth-macos-framework.sh";
 		};
-		04FD11581EF2F818000C5A5C /* Build docs */ = {
+		04FD11581EF2F818000C5A5C /* Build Documentation */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Build docs";
+			name = "Build Documentation";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd \"${SRCROOT}/../Scripts\"\n./build-docs.sh macOS AppCenterAuth\n";
+			shellScript = "cd \"${SRCROOT}/../Scripts\"\n./build-docs.sh macOS\n";
 			showEnvVarsInLog = 0;
 		};
-		E85547E81D2D6827002DF6E2 /* Build framework */ = {
+		C25D647A230EF69000EA6F85 /* Verify No Build Settings */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
-			);
-			name = "Build framework";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "cd \"${SRCROOT}/../Scripts/AppCenterAuth\"\n./build-appcenterauth-ios-framework.sh\n";
-		};
-		E85547ED1D2D68CF002DF6E2 /* Build docs */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
+			inputFileListPaths = (
 			);
 			inputPaths = (
 			);
-			name = "Build docs";
-			outputPaths = (
+			name = "Verify No Build Settings";
+			outputFileListPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "cd \"${SRCROOT}/../Scripts\"\n./build-docs.sh iOS AppCenterAuth\n";
-			showEnvVarsInLog = 0;
-		};
-		F8B8EAD421105B77004BCECB /* Verify no buildSettings */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Verify no buildSettings";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1230,19 +991,52 @@
 			shellScript = "\"${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift\" ${PROJECT_NAME}.xcodeproj/project.pbxproj\n";
 			showEnvVarsInLog = 0;
 		};
-		F8B8EAD621105B84004BCECB /* Verify no buildSettings */ = {
+		C25D647B230EF69E00EA6F85 /* Verify No Build Settings */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Verify No Build Settings";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift\" ${PROJECT_NAME}.xcodeproj/project.pbxproj\n";
+			showEnvVarsInLog = 0;
+		};
+		E85547E81D2D6827002DF6E2 /* Build Universal Framework */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Verify no buildSettings";
+			name = "Build Universal Framework";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift\" ${PROJECT_NAME}.xcodeproj/project.pbxproj";
+			shellScript = "cd \"${SRCROOT}/../Scripts/AppCenterAuth\"\n./build-appcenterauth-ios-framework.sh\n";
+		};
+		E85547ED1D2D68CF002DF6E2 /* Build Documentation */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Build Documentation";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cd \"${SRCROOT}/../Scripts\"\n./build-docs.sh iOS\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1260,18 +1054,6 @@
 				38D4204E22012E66006ECF44 /* MSMockUserDefaults.m in Sources */,
 				04774644220112450045504A /* MSAuthAuthorityTest.m in Sources */,
 				3847ABE722028E3D008BC281 /* MSHttpTestUtil.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		0485AF681EAA79E300C10CAF /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				0485AF6A1EAA79E300C10CAF /* MSAuth.m in Sources */,
-				38F796D521F93ED6007E7C15 /* MSAuthority.m in Sources */,
-				048BF76622A724040099FF73 /* MSUserInformation.m in Sources */,
-				0481A54E21FA51D7001FA9D8 /* MSAuthConfigIngestion.m in Sources */,
-				38F796CF21F93E33007E7C15 /* MSAuthConfig.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1300,19 +1082,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		E85547BC1D2D6253002DF6E2 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				E85547C61D2D6253002DF6E2 /* MSAuth.m in Sources */,
-				0481A54B21FA511C001FA9D8 /* MSAuthConfigIngestion.m in Sources */,
-				38F796D421F93ED6007E7C15 /* MSAuthority.m in Sources */,
-				048BF76522A724040099FF73 /* MSUserInformation.m in Sources */,
-				B2B25642220B365A00716D6A /* MSAuthAppDelegate.m in Sources */,
-				38F796CE21F93E33007E7C15 /* MSAuthConfig.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		E85547D11D2D6723002DF6E2 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1332,30 +1101,25 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		046AEACE1ECA55BC00CBE511 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 0485AF671EAA79E300C10CAF /* AppCenterAuthMacOS */;
-			targetProxy = 046AEACD1ECA55BC00CBE511 /* PBXContainerItemProxy */;
-		};
-		04E97613226A50D8007E6DD1 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "MSAL (iOS Static Library)";
-			targetProxy = 04E97612226A50D8007E6DD1 /* PBXContainerItemProxy */;
-		};
-		04E97615226A50DF007E6DD1 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "MSAL (Mac Static Library)";
-			targetProxy = 04E97614226A50DF007E6DD1 /* PBXContainerItemProxy */;
-		};
 		04FD115D1EF2F849000C5A5C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 0485AFEF1EAAADAC00C10CAF /* AppCenterAuthMacOSFramework */;
+			target = 0485AFEF1EAAADAC00C10CAF /* AppCenterAuth macOS Distribution */;
 			targetProxy = 04FD115C1EF2F849000C5A5C /* PBXContainerItemProxy */;
 		};
 		386352E41D51047400D0D450 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = E85547E41D2D681F002DF6E2 /* AppCenterAuthIOSFramework */;
+			target = E85547E41D2D681F002DF6E2 /* AppCenterAuth iOS Distribution */;
 			targetProxy = 386352E31D51047400D0D450 /* PBXContainerItemProxy */;
+		};
+		C25D647D230EF89F00EA6F85 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C934BFE4230BF74000083490 /* AppCenterAuth iOS Framework */;
+			targetProxy = C25D647C230EF89F00EA6F85 /* PBXContainerItemProxy */;
+		};
+		C25D6482230EF91600EA6F85 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C9A91F1E230BF9590068070D /* AppCenterAuth macOS Framework */;
+			targetProxy = C25D6481230EF91600EA6F85 /* PBXContainerItemProxy */;
 		};
 		C9EBAAFD230D3BE000A20F0F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1366,11 +1130,6 @@
 			isa = PBXTargetDependency;
 			name = "MSAL (Mac Static Library)";
 			targetProxy = C9EBAAFE230D3BEE00A20F0F /* PBXContainerItemProxy */;
-		};
-		E85547DC1D2D6723002DF6E2 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = E85547BF1D2D6253002DF6E2 /* AppCenterAuthIOS */;
-			targetProxy = E85547DB1D2D6723002DF6E2 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1385,20 +1144,6 @@
 		046AEAC51ECA51AF00CBE511 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC82C1ECE3CF000FB6719 /* Tests macOS.xcconfig */;
-			buildSettings = {
-			};
-			name = Release;
-		};
-		0485AF831EAA79E300C10CAF /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 049BC82B1ECE3B9A00FB6719 /* macOS.xcconfig */;
-			buildSettings = {
-			};
-			name = Debug;
-		};
-		0485AF841EAA79E300C10CAF /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 049BC82B1ECE3B9A00FB6719 /* macOS.xcconfig */;
 			buildSettings = {
 			};
 			name = Release;
@@ -1433,29 +1178,33 @@
 		};
 		C934BFEB230BF74100083490 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F8936C4B230C1646006A330F /* Static iOS.xcconfig */;
+			baseConfigurationReference = 049BC82A1ECE3B9400FB6719 /* iOS.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = KYJ84ZC369;
 			};
 			name = Debug;
 		};
 		C934BFEC230BF74100083490 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F8936C4B230C1646006A330F /* Static iOS.xcconfig */;
+			baseConfigurationReference = 049BC82A1ECE3B9400FB6719 /* iOS.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = KYJ84ZC369;
 			};
 			name = Release;
 		};
 		C9A91F26230BF9590068070D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F8936C4C230C1650006A330F /* Static macOS.xcconfig */;
+			baseConfigurationReference = 049BC82B1ECE3B9A00FB6719 /* macOS.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = KYJ84ZC369;
 			};
 			name = Debug;
 		};
 		C9A91F27230BF9590068070D /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F8936C4C230C1650006A330F /* Static macOS.xcconfig */;
+			baseConfigurationReference = 049BC82B1ECE3B9A00FB6719 /* macOS.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = KYJ84ZC369;
 			};
 			name = Release;
 		};
@@ -1469,20 +1218,6 @@
 		E85547C81D2D6253002DF6E2 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0469D1B21F4DFE4C00A43A8E /* AppCenterAuth Release.xcconfig */;
-			buildSettings = {
-			};
-			name = Release;
-		};
-		E85547CA1D2D6253002DF6E2 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 049BC82A1ECE3B9400FB6719 /* iOS.xcconfig */;
-			buildSettings = {
-			};
-			name = Debug;
-		};
-		E85547CB1D2D6253002DF6E2 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 049BC82A1ECE3B9400FB6719 /* iOS.xcconfig */;
 			buildSettings = {
 			};
 			name = Release;
@@ -1532,7 +1267,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		046AEAC31ECA51AF00CBE511 /* Build configuration list for PBXNativeTarget "AppCenterAuthMacOSTests" */ = {
+		046AEAC31ECA51AF00CBE511 /* Build configuration list for PBXNativeTarget "AppCenterAuth macOS Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				046AEAC41ECA51AF00CBE511 /* Debug */,
@@ -1541,16 +1276,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		0485AF821EAA79E300C10CAF /* Build configuration list for PBXNativeTarget "AppCenterAuthMacOS" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				0485AF831EAA79E300C10CAF /* Debug */,
-				0485AF841EAA79E300C10CAF /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		0485AFF11EAAADAC00C10CAF /* Build configuration list for PBXAggregateTarget "AppCenterAuthMacOSFramework" */ = {
+		0485AFF11EAAADAC00C10CAF /* Build configuration list for PBXAggregateTarget "AppCenterAuth macOS Distribution" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0485AFF21EAAADAC00C10CAF /* Debug */,
@@ -1559,7 +1285,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		04FD11591EF2F818000C5A5C /* Build configuration list for PBXAggregateTarget "AppCenterAuthMacOSDoc" */ = {
+		04FD11591EF2F818000C5A5C /* Build configuration list for PBXAggregateTarget "AppCenterAuth macOS Documentation" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				04FD115A1EF2F818000C5A5C /* Debug */,
@@ -1568,7 +1294,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C934BFEA230BF74100083490 /* Build configuration list for PBXNativeTarget "AppCenterAuthStaticIOS" */ = {
+		C934BFEA230BF74100083490 /* Build configuration list for PBXNativeTarget "AppCenterAuth iOS Framework" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C934BFEB230BF74100083490 /* Debug */,
@@ -1577,7 +1303,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C9A91F25230BF9590068070D /* Build configuration list for PBXNativeTarget "AppCenterAuthStaticMacOS" */ = {
+		C9A91F25230BF9590068070D /* Build configuration list for PBXNativeTarget "AppCenterAuth macOS Framework" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C9A91F26230BF9590068070D /* Debug */,
@@ -1595,16 +1321,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E85547C91D2D6253002DF6E2 /* Build configuration list for PBXNativeTarget "AppCenterAuthIOS" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				E85547CA1D2D6253002DF6E2 /* Debug */,
-				E85547CB1D2D6253002DF6E2 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		E85547DD1D2D6723002DF6E2 /* Build configuration list for PBXNativeTarget "AppCenterAuthIOSTests" */ = {
+		E85547DD1D2D6723002DF6E2 /* Build configuration list for PBXNativeTarget "AppCenterAuth iOS Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E85547DE1D2D6723002DF6E2 /* Debug */,
@@ -1613,7 +1330,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E85547E51D2D681F002DF6E2 /* Build configuration list for PBXAggregateTarget "AppCenterAuthIOSFramework" */ = {
+		E85547E51D2D681F002DF6E2 /* Build configuration list for PBXAggregateTarget "AppCenterAuth iOS Distribution" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E85547E61D2D681F002DF6E2 /* Debug */,
@@ -1622,7 +1339,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E85547EA1D2D68C5002DF6E2 /* Build configuration list for PBXAggregateTarget "AppCenterAuthIOSDoc" */ = {
+		E85547EA1D2D68C5002DF6E2 /* Build configuration list for PBXAggregateTarget "AppCenterAuth iOS Documentation" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E85547EB1D2D68C5002DF6E2 /* Debug */,

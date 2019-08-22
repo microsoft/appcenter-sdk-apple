@@ -43,8 +43,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "6E6BFC361D23504F00DF7617"
-               BuildableName = "AppCenterCrashesIOSDoc"
-               BlueprintName = "AppCenterCrashesIOSDoc"
+               BuildableName = "AppCenterCrashes iOS Documentation"
+               BlueprintName = "AppCenterCrashes iOS Documentation"
                ReferencedContainer = "container:AppCenterCrashes/AppCenterCrashes.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -71,8 +71,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E85547E91D2D68C5002DF6E2"
-               BuildableName = "AppCenterAuthIOSDoc"
-               BlueprintName = "AppCenterAuthIOSDoc"
+               BuildableName = "AppCenterAuth iOS Documentation"
+               BlueprintName = "AppCenterAuth iOS Documentation"
                ReferencedContainer = "container:AppCenterAuth/AppCenterAuth.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>

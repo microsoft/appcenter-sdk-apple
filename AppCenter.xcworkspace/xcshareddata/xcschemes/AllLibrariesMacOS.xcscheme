@@ -128,7 +128,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "049327611ECA170D00D0187A"
                BuildableName = "AppCenterCrashes.xctest"
-               BlueprintName = "AppCenterCrashesMacOSTests"
+               BlueprintName = "AppCenterCrashes macOS Tests"
                ReferencedContainer = "container:AppCenterCrashes/AppCenterCrashes.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -156,7 +156,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "046AEAB21ECA51AF00CBE511"
                BuildableName = "AppCenterAuth.xctest"
-               BlueprintName = "AppCenterAuthMacOSTests"
+               BlueprintName = "AppCenterAuth macOS Tests"
                ReferencedContainer = "container:AppCenterAuth/AppCenterAuth.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -209,7 +209,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "049327611ECA170D00D0187A"
                BuildableName = "AppCenterCrashes.xctest"
-               BlueprintName = "AppCenterCrashesMacOSTests"
+               BlueprintName = "AppCenterCrashes macOS Tests"
                ReferencedContainer = "container:AppCenterCrashes/AppCenterCrashes.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -229,7 +229,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "046AEAB21ECA51AF00CBE511"
                BuildableName = "AppCenterAuth.xctest"
-               BlueprintName = "AppCenterAuthMacOSTests"
+               BlueprintName = "AppCenterAuth macOS Tests"
                ReferencedContainer = "container:AppCenterAuth/AppCenterAuth.xcodeproj">
             </BuildableReference>
          </TestableReference>

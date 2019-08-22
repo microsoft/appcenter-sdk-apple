@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1010"
+   LastUpgradeVersion = "1030"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0485AF9F1EAA887500C10CAF"
-               BuildableName = "libAppCenterCrashes.a"
-               BlueprintName = "AppCenterCrashesMacOS"
+               BlueprintIdentifier = "C9A91F49230BFD930068070D"
+               BuildableName = "AppCenterCrashes.framework"
+               BlueprintName = "AppCenterCrashes iOS Framework"
                ReferencedContainer = "container:AppCenterCrashes.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -26,16 +26,15 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      codeCoverageEnabled = "YES"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
          <TestableReference
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "049327611ECA170D00D0187A"
+               BlueprintIdentifier = "6E171AE01D22F781000DC480"
                BuildableName = "AppCenterCrashes.xctest"
-               BlueprintName = "AppCenterCrashesMacOSTests"
+               BlueprintName = "AppCenterCrashes iOS Tests"
                ReferencedContainer = "container:AppCenterCrashes.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -43,9 +42,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "0485AF9F1EAA887500C10CAF"
-            BuildableName = "libAppCenterCrashes.a"
-            BlueprintName = "AppCenterCrashesMacOS"
+            BlueprintIdentifier = "C9A91F49230BFD930068070D"
+            BuildableName = "AppCenterCrashes.framework"
+            BlueprintName = "AppCenterCrashes iOS Framework"
             ReferencedContainer = "container:AppCenterCrashes.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -65,9 +64,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "0485AF9F1EAA887500C10CAF"
-            BuildableName = "libAppCenterCrashes.a"
-            BlueprintName = "AppCenterCrashesMacOS"
+            BlueprintIdentifier = "C9A91F49230BFD930068070D"
+            BuildableName = "AppCenterCrashes.framework"
+            BlueprintName = "AppCenterCrashes iOS Framework"
             ReferencedContainer = "container:AppCenterCrashes.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -83,9 +82,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "0485AF9F1EAA887500C10CAF"
-            BuildableName = "libAppCenterCrashes.a"
-            BlueprintName = "AppCenterCrashesMacOS"
+            BlueprintIdentifier = "C9A91F49230BFD930068070D"
+            BuildableName = "AppCenterCrashes.framework"
+            BlueprintName = "AppCenterCrashes iOS Framework"
             ReferencedContainer = "container:AppCenterCrashes.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

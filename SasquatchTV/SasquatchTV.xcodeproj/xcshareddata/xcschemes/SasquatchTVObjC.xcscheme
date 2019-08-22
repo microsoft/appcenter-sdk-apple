@@ -57,8 +57,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "04EBBEE91F01C0E10006B8AE"
-               BuildableName = "AppCenterCrashesTVOSFramework"
-               BlueprintName = "AppCenterCrashesTVOSFramework"
+               BuildableName = "AppCenterCrashes tvOS Distribution"
+               BlueprintName = "AppCenterCrashes tvOS Distribution"
                ReferencedContainer = "container:../AppCenterCrashes/AppCenterCrashes.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>

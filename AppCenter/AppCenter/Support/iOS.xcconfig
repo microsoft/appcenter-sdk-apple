@@ -1,6 +1,6 @@
 #include "../../../Config/iOS.xcconfig"
 #include "../../../Config/Static Framework.xcconfig"
 
-MODULEMAP_FILE = $(SRCROOT)/AppCenter/Support/iOS.modulemap
+MODULEMAP_FILE = $(SRCROOT)/$(PROJECT_NAME)/Support/iOS.modulemap
 
 OTHER_LDFLAGS = $(inherited) -framework CoreTelephony -framework UIKit -lsqlite3 -lz

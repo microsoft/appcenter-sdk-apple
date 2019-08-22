@@ -1,3 +1,6 @@
 #include "../../../Config/tvOS.xcconfig"
+#include "../../../Config/Static Framework.xcconfig"
+
+MODULEMAP_FILE = $(SRCROOT)/$(PROJECT_NAME)/Support/tvOS.modulemap
 
 OTHER_CFLAGS = $(inherited) -iframework "$(SRCROOT)/../Vendor/tvOS/PLCrashReporter"

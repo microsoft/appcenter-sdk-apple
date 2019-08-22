@@ -83,7 +83,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "0446DF651F3B977100C8E338"
                BuildableName = "AppCenterCrashes.xctest"
-               BlueprintName = "AppCenterCrashesTVOSTests"
+               BlueprintName = "AppCenterCrashes tvOS Tests"
                ReferencedContainer = "container:AppCenterCrashes/AppCenterCrashes.xcodeproj">
             </BuildableReference>
          </TestableReference>

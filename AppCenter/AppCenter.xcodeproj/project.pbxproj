@@ -2369,7 +2369,6 @@
 				C9A91FB1230C01140068070D /* Headers */,
 				C9A91FB2230C01140068070D /* Sources */,
 				C9A91FB3230C01140068070D /* Frameworks */,
-				C9A91FB4230C01140068070D /* Resources */,
 			);
 			buildRules = (
 			);
@@ -2388,7 +2387,6 @@
 				C9A91FFF230C05D70068070D /* Headers */,
 				C9A92000230C05D70068070D /* Sources */,
 				C9A92001230C05D70068070D /* Frameworks */,
-				C9A92003230C05D70068070D /* Resources */,
 			);
 			buildRules = (
 			);
@@ -2407,7 +2405,6 @@
 				C9A9201C230C07A50068070D /* Headers */,
 				C9A9201D230C07A50068070D /* Sources */,
 				C9A9201E230C07A50068070D /* Frameworks */,
-				C9A92020230C07A50068070D /* Resources */,
 			);
 			buildRules = (
 			);
@@ -2430,15 +2427,15 @@
 				TargetAttributes = {
 					C9A91FB5230C01140068070D = {
 						CreatedOnToolsVersion = 10.2.1;
-						DevelopmentTeam = 5Z97G9NZQ6;
+						DevelopmentTeam = KYJ84ZC369;
 						ProvisioningStyle = Automatic;
 					};
 					C9A91FFE230C05D70068070D = {
-						DevelopmentTeam = 5Z97G9NZQ6;
+						DevelopmentTeam = KYJ84ZC369;
 						ProvisioningStyle = Automatic;
 					};
 					C9A9201B230C07A50068070D = {
-						DevelopmentTeam = 5Z97G9NZQ6;
+						DevelopmentTeam = KYJ84ZC369;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -2488,27 +2485,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		6E2395761D22EF4F00E543C8 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		C9A91FB4230C01140068070D /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		C9A92003230C05D70068070D /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		C9A92020230C07A50068070D /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -3272,6 +3248,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC8281ECE3A5200FB6719 /* iOS.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = KYJ84ZC369;
 			};
 			name = Debug;
 		};
@@ -3279,6 +3256,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC8281ECE3A5200FB6719 /* iOS.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = KYJ84ZC369;
 			};
 			name = Release;
 		};
@@ -3286,6 +3264,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC8291ECE3A5A00FB6719 /* macOS.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = KYJ84ZC369;
 			};
 			name = Debug;
 		};
@@ -3293,6 +3272,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC8291ECE3A5A00FB6719 /* macOS.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = KYJ84ZC369;
 			};
 			name = Release;
 		};
@@ -3300,6 +3280,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 043120711EE0BCC4007054C5 /* tvOS.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = KYJ84ZC369;
 			};
 			name = Debug;
 		};
@@ -3307,6 +3288,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 043120711EE0BCC4007054C5 /* tvOS.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = KYJ84ZC369;
 			};
 			name = Release;
 		};

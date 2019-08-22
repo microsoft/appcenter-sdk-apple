@@ -113,6 +113,16 @@
          </FileRef>
       </Group>
       <Group
+         location = "group:/Users/ivan.matkov/Projects/AppCenter/AppCenter-SDK-Apple/Scripts/AppCenterAuth"
+         name = "AppCenterAuth">
+         <FileRef
+            location = "group:build-appcenterauth-ios-framework.sh">
+         </FileRef>
+         <FileRef
+            location = "group:build-appcenterauth-macos-framework.sh">
+         </FileRef>
+      </Group>
+      <Group
          location = "group:AppCenterCrashes"
          name = "AppCenterCrashes">
          <FileRef
@@ -140,16 +150,6 @@
          name = "AppCenterDistribute">
          <FileRef
             location = "group:build-appcenterdistribute-ios-framework.sh">
-         </FileRef>
-      </Group>
-      <Group
-         location = "group:AppCenterAuth"
-         name = "AppCenterAuth">
-         <FileRef
-            location = "group:build-appcenterauth-ios-framework.sh">
-         </FileRef>
-         <FileRef
-            location = "group:build-appcenterauth-macos-framework.sh">
          </FileRef>
       </Group>
       <Group
@@ -192,10 +192,10 @@
       location = "group:AppCenter/AppCenter.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:AppCenterAuth/AppCenterAuth.xcodeproj">
+      location = "group:AppCenterAnalytics/AppCenterAnalytics.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:AppCenterAnalytics/AppCenterAnalytics.xcodeproj">
+      location = "group:AppCenterAuth/AppCenterAuth.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:AppCenterCrashes/AppCenterCrashes.xcodeproj">
