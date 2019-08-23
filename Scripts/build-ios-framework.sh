@@ -13,7 +13,7 @@ fi
 
 # Sets the target folders and the final framework product.
 TARGET_NAME="${PROJECT_NAME} iOS Framework"
-RESOURCE_BUNDLE="${PROJECT_NAME} Resources"
+RESOURCE_BUNDLE="${PROJECT_NAME}Resources"
 
 echo "Building ${TARGET_NAME}."
 
@@ -23,8 +23,8 @@ PRODUCTS_DIR="${SRCROOT}/../AppCenter-SDK-Apple/iOS"
 
 # Working dir will be deleted after the framework creation.
 WORK_DIR=build
-DEVICE_DIR="${WORK_DIR}/Release-iphoneos"
-SIMULATOR_DIR="${WORK_DIR}/Release-iphonesimulator"
+DEVICE_DIR="${WORK_DIR}/Release-iphoneos/${PROJECT_NAME}"
+SIMULATOR_DIR="${WORK_DIR}/Release-iphonesimulator/${PROJECT_NAME}"
 
 # Make sure we're inside $SRCROOT.
 cd "${SRCROOT}"

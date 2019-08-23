@@ -14,7 +14,7 @@ PRODUCTS_DIR=${SRCROOT}/../AppCenter-SDK-Apple/macOS
 
 # Working dir will be deleted after the framework creation.
 WORK_DIR=build
-DEVICE_DIR="${WORK_DIR}/Release"
+DEVICE_DIR="${WORK_DIR}/Release/${PROJECT_NAME}"
 
 # Make sure we're inside $SRCROOT.
 cd "${SRCROOT}"

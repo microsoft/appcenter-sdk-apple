@@ -15,6 +15,10 @@ COPY_PHASE_STRIP = NO
 // :Mark: Packaging
 PRODUCT_NAME = $(PROJECT_NAME)
 
+// It must be changed to avoid conflicts in framework search paths.
+TARGET_BUILD_DIR = $(TARGET_BUILD_DIR)/$(PROJECT_NAME)
+BUILT_PRODUCTS_DIR = $(BUILT_PRODUCTS_DIR)/$(PROJECT_NAME)
+
 // :Mark: Language configurations
 CLANG_ENABLE_MODULES = YES
 CLANG_ENABLE_OBJC_ARC = YES

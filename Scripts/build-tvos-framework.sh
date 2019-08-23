@@ -14,8 +14,8 @@ PRODUCTS_DIR=${SRCROOT}/../AppCenter-SDK-Apple/tvOS
 
 # Working dir will be deleted after the framework creation.
 WORK_DIR=build
-DEVICE_DIR="${WORK_DIR}/Release-appletvos"
-SIMULATOR_DIR="${WORK_DIR}/Release-appletvsimulator"
+DEVICE_DIR="${WORK_DIR}/Release-appletvos/${PROJECT_NAME}"
+SIMULATOR_DIR="${WORK_DIR}/Release-appletvsimulator/${PROJECT_NAME}"
 
 # Make sure we're inside $SRCROOT.
 cd "${SRCROOT}"
