@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "04FD115E1EF2FA04000C5A5C"
-               BuildableName = "AppCenterCrashesMacOSDoc"
-               BlueprintName = "AppCenterCrashesMacOSDoc"
+               BlueprintIdentifier = "04EBBEF11F01C7100006B8AE"
+               BuildableName = "AppCenterCrashes tvOS Documentation"
+               BlueprintName = "AppCenterCrashes tvOS Documentation"
                ReferencedContainer = "container:AppCenterCrashes.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -45,9 +45,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "04FD115E1EF2FA04000C5A5C"
-            BuildableName = "AppCenterCrashesMacOSDoc"
-            BlueprintName = "AppCenterCrashesMacOSDoc"
+            BlueprintIdentifier = "04EBBEF11F01C7100006B8AE"
+            BuildableName = "AppCenterCrashes tvOS Documentation"
+            BlueprintName = "AppCenterCrashes tvOS Documentation"
             ReferencedContainer = "container:AppCenterCrashes.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -63,9 +63,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "04FD115E1EF2FA04000C5A5C"
-            BuildableName = "AppCenterCrashesMacOSDoc"
-            BlueprintName = "AppCenterCrashesMacOSDoc"
+            BlueprintIdentifier = "04EBBEF11F01C7100006B8AE"
+            BuildableName = "AppCenterCrashes tvOS Documentation"
+            BlueprintName = "AppCenterCrashes tvOS Documentation"
             ReferencedContainer = "container:AppCenterCrashes.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

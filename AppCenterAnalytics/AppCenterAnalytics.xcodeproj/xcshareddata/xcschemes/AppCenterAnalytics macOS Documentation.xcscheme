@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0431216D1EE0C213007054C5"
-               BuildableName = "AppCenterAnalyticsTVOSFramework"
-               BlueprintName = "AppCenterAnalyticsTVOSFramework"
+               BlueprintIdentifier = "04FD11551EF2F818000C5A5C"
+               BuildableName = "AppCenterAnalytics macOS Documentation"
+               BlueprintName = "AppCenterAnalytics macOS Documentation"
                ReferencedContainer = "container:AppCenterAnalytics.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -45,9 +45,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "0431216D1EE0C213007054C5"
-            BuildableName = "AppCenterAnalyticsTVOSFramework"
-            BlueprintName = "AppCenterAnalyticsTVOSFramework"
+            BlueprintIdentifier = "04FD11551EF2F818000C5A5C"
+            BuildableName = "AppCenterAnalytics macOS Documentation"
+            BlueprintName = "AppCenterAnalytics macOS Documentation"
             ReferencedContainer = "container:AppCenterAnalytics.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -63,9 +63,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "0431216D1EE0C213007054C5"
-            BuildableName = "AppCenterAnalyticsTVOSFramework"
-            BlueprintName = "AppCenterAnalyticsTVOSFramework"
+            BlueprintIdentifier = "04FD11551EF2F818000C5A5C"
+            BuildableName = "AppCenterAnalytics macOS Documentation"
+            BlueprintName = "AppCenterAnalytics macOS Documentation"
             ReferencedContainer = "container:AppCenterAnalytics.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

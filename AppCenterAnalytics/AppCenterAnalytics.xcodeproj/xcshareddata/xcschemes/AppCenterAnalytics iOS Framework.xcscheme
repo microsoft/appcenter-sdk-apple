@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "C9A91F2B230BFB8A0068070D"
+               BlueprintIdentifier = "C9CA69D82306CAF700EE82AA"
                BuildableName = "AppCenterAnalytics.framework"
-               BlueprintName = "AppCenterAnalyticsStaticTVOS"
+               BlueprintName = "AppCenterAnalytics iOS Framework"
                ReferencedContainer = "container:AppCenterAnalytics.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -45,9 +45,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "C9A91F2B230BFB8A0068070D"
+            BlueprintIdentifier = "C9CA69D82306CAF700EE82AA"
             BuildableName = "AppCenterAnalytics.framework"
-            BlueprintName = "AppCenterAnalyticsStaticTVOS"
+            BlueprintName = "AppCenterAnalytics iOS Framework"
             ReferencedContainer = "container:AppCenterAnalytics.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -63,9 +63,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "C9A91F2B230BFB8A0068070D"
+            BlueprintIdentifier = "C9CA69D82306CAF700EE82AA"
             BuildableName = "AppCenterAnalytics.framework"
-            BlueprintName = "AppCenterAnalyticsStaticTVOS"
+            BlueprintName = "AppCenterAnalytics iOS Framework"
             ReferencedContainer = "container:AppCenterAnalytics.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

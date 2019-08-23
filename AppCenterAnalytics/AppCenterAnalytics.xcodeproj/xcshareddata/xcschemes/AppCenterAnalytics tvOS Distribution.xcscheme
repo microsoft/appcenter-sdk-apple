@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1030"
+   LastUpgradeVersion = "1010"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "C9A91F36230BFB970068070D"
-               BuildableName = "AppCenterAnalytics.framework"
-               BlueprintName = "AppCenterAnalyticsStaticMacOS"
+               BlueprintIdentifier = "0431216D1EE0C213007054C5"
+               BuildableName = "AppCenterAnalytics tvOS Distribution"
+               BlueprintName = "AppCenterAnalytics tvOS Distribution"
                ReferencedContainer = "container:AppCenterAnalytics.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -45,9 +45,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "C9A91F36230BFB970068070D"
-            BuildableName = "AppCenterAnalytics.framework"
-            BlueprintName = "AppCenterAnalyticsStaticMacOS"
+            BlueprintIdentifier = "0431216D1EE0C213007054C5"
+            BuildableName = "AppCenterAnalytics tvOS Distribution"
+            BlueprintName = "AppCenterAnalytics tvOS Distribution"
             ReferencedContainer = "container:AppCenterAnalytics.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -63,9 +63,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "C9A91F36230BFB970068070D"
-            BuildableName = "AppCenterAnalytics.framework"
-            BlueprintName = "AppCenterAnalyticsStaticMacOS"
+            BlueprintIdentifier = "0431216D1EE0C213007054C5"
+            BuildableName = "AppCenterAnalytics tvOS Distribution"
+            BlueprintName = "AppCenterAnalytics tvOS Distribution"
             ReferencedContainer = "container:AppCenterAnalytics.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

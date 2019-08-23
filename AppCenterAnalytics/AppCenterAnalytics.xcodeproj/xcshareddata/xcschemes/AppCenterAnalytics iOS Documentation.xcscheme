@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1030"
+   LastUpgradeVersion = "1010"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "C9CA69D82306CAF700EE82AA"
-               BuildableName = "AppCenterAnalytics.framework"
-               BlueprintName = "AppCenterAnalyticsStaticIOS"
+               BlueprintIdentifier = "E85547E91D2D68C5002DF6E2"
+               BuildableName = "AppCenterAnalytics iOS Documentation"
+               BlueprintName = "AppCenterAnalytics iOS Documentation"
                ReferencedContainer = "container:AppCenterAnalytics.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -45,9 +45,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "C9CA69D82306CAF700EE82AA"
-            BuildableName = "AppCenterAnalytics.framework"
-            BlueprintName = "AppCenterAnalyticsStaticIOS"
+            BlueprintIdentifier = "E85547E91D2D68C5002DF6E2"
+            BuildableName = "AppCenterAnalytics iOS Documentation"
+            BlueprintName = "AppCenterAnalytics iOS Documentation"
             ReferencedContainer = "container:AppCenterAnalytics.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -63,9 +63,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "C9CA69D82306CAF700EE82AA"
-            BuildableName = "AppCenterAnalytics.framework"
-            BlueprintName = "AppCenterAnalyticsStaticIOS"
+            BlueprintIdentifier = "E85547E91D2D68C5002DF6E2"
+            BuildableName = "AppCenterAnalytics iOS Documentation"
+            BlueprintName = "AppCenterAnalytics iOS Documentation"
             ReferencedContainer = "container:AppCenterAnalytics.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

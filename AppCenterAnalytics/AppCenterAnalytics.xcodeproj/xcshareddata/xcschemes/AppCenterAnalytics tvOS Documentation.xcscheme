@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "E85547E91D2D68C5002DF6E2"
-               BuildableName = "AppCenterAuthIOSDoc"
-               BlueprintName = "AppCenterAuthIOSDoc"
-               ReferencedContainer = "container:AppCenterAuth.xcodeproj">
+               BlueprintIdentifier = "04FD11701EF2FE43000C5A5C"
+               BuildableName = "AppCenterAnalytics tvOS Documentation"
+               BlueprintName = "AppCenterAnalytics tvOS Documentation"
+               ReferencedContainer = "container:AppCenterAnalytics.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -45,10 +45,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "E85547E91D2D68C5002DF6E2"
-            BuildableName = "AppCenterAuthIOSDoc"
-            BlueprintName = "AppCenterAuthIOSDoc"
-            ReferencedContainer = "container:AppCenterAuth.xcodeproj">
+            BlueprintIdentifier = "04FD11701EF2FE43000C5A5C"
+            BuildableName = "AppCenterAnalytics tvOS Documentation"
+            BlueprintName = "AppCenterAnalytics tvOS Documentation"
+            ReferencedContainer = "container:AppCenterAnalytics.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -63,10 +63,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "E85547E91D2D68C5002DF6E2"
-            BuildableName = "AppCenterAuthIOSDoc"
-            BlueprintName = "AppCenterAuthIOSDoc"
-            ReferencedContainer = "container:AppCenterAuth.xcodeproj">
+            BlueprintIdentifier = "04FD11701EF2FE43000C5A5C"
+            BuildableName = "AppCenterAnalytics tvOS Documentation"
+            BlueprintName = "AppCenterAnalytics tvOS Documentation"
+            ReferencedContainer = "container:AppCenterAnalytics.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6E6BFC361D23504F00DF7617"
-               BuildableName = "AppCenterCrashesIOSDoc"
-               BlueprintName = "AppCenterCrashesIOSDoc"
-               ReferencedContainer = "container:AppCenterCrashes.xcodeproj">
+               BlueprintIdentifier = "0485AFEF1EAAADAC00C10CAF"
+               BuildableName = "AppCenterAnalytics macOS Distribution"
+               BlueprintName = "AppCenterAnalytics macOS Distribution"
+               ReferencedContainer = "container:AppCenterAnalytics.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -45,10 +45,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "6E6BFC361D23504F00DF7617"
-            BuildableName = "AppCenterCrashesIOSDoc"
-            BlueprintName = "AppCenterCrashesIOSDoc"
-            ReferencedContainer = "container:AppCenterCrashes.xcodeproj">
+            BlueprintIdentifier = "0485AFEF1EAAADAC00C10CAF"
+            BuildableName = "AppCenterAnalytics macOS Distribution"
+            BlueprintName = "AppCenterAnalytics macOS Distribution"
+            ReferencedContainer = "container:AppCenterAnalytics.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -63,10 +63,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "6E6BFC361D23504F00DF7617"
-            BuildableName = "AppCenterCrashesIOSDoc"
-            BlueprintName = "AppCenterCrashesIOSDoc"
-            ReferencedContainer = "container:AppCenterCrashes.xcodeproj">
+            BlueprintIdentifier = "0485AFEF1EAAADAC00C10CAF"
+            BuildableName = "AppCenterAnalytics macOS Distribution"
+            BlueprintName = "AppCenterAnalytics macOS Distribution"
+            ReferencedContainer = "container:AppCenterAnalytics.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

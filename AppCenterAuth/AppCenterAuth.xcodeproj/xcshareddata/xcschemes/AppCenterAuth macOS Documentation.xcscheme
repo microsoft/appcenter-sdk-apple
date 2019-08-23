@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0485AFEF1EAAADAC00C10CAF"
-               BuildableName = "AppCenterAnalyticsMacOSFramework"
-               BlueprintName = "AppCenterAnalyticsMacOSFramework"
-               ReferencedContainer = "container:AppCenterAnalytics.xcodeproj">
+               BlueprintIdentifier = "04FD11551EF2F818000C5A5C"
+               BuildableName = "AppCenterAuth macOS Documentation"
+               BlueprintName = "AppCenterAuth macOS Documentation"
+               ReferencedContainer = "container:AppCenterAuth.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -45,10 +45,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "0485AFEF1EAAADAC00C10CAF"
-            BuildableName = "AppCenterAnalyticsMacOSFramework"
-            BlueprintName = "AppCenterAnalyticsMacOSFramework"
-            ReferencedContainer = "container:AppCenterAnalytics.xcodeproj">
+            BlueprintIdentifier = "04FD11551EF2F818000C5A5C"
+            BuildableName = "AppCenterAuth macOS Documentation"
+            BlueprintName = "AppCenterAuth macOS Documentation"
+            ReferencedContainer = "container:AppCenterAuth.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -63,10 +63,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "0485AFEF1EAAADAC00C10CAF"
-            BuildableName = "AppCenterAnalyticsMacOSFramework"
-            BlueprintName = "AppCenterAnalyticsMacOSFramework"
-            ReferencedContainer = "container:AppCenterAnalytics.xcodeproj">
+            BlueprintIdentifier = "04FD11551EF2F818000C5A5C"
+            BuildableName = "AppCenterAuth macOS Documentation"
+            BlueprintName = "AppCenterAuth macOS Documentation"
+            ReferencedContainer = "container:AppCenterAuth.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>
