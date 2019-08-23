@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "043120721EE0BCF9007054C5"
-               BuildableName = "libAppCenter.a"
-               BlueprintName = "AppCenterTVOS"
+               BlueprintIdentifier = "C9A9201B230C07A50068070D"
+               BuildableName = "AppCenter.framework"
+               BlueprintName = "AppCenter tvOS Framework"
                ReferencedContainer = "container:AppCenter/AppCenter.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -28,9 +28,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0431214E1EE0C20A007054C5"
-               BuildableName = "libAppCenterAnalytics.a"
-               BlueprintName = "AppCenterAnalyticsTVOS"
+               BlueprintIdentifier = "C9A91F2B230BFB8A0068070D"
+               BuildableName = "AppCenterAnalytics.framework"
+               BlueprintName = "AppCenterAnalytics tvOS Framework"
                ReferencedContainer = "container:AppCenterAnalytics/AppCenterAnalytics.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -42,9 +42,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "04EBBEB01F01C0C90006B8AE"
-               BuildableName = "libAppCenterCrashes.a"
-               BlueprintName = "AppCenterCrashesTVOS"
+               BlueprintIdentifier = "C9A91F52230BFDB40068070D"
+               BuildableName = "AppCenterCrashes.framework"
+               BlueprintName = "AppCenterCrashes tvOS Framework"
                ReferencedContainer = "container:AppCenterCrashes/AppCenterCrashes.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -110,15 +110,6 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "043120721EE0BCF9007054C5"
-            BuildableName = "libAppCenter.a"
-            BlueprintName = "AppCenterTVOS"
-            ReferencedContainer = "container:AppCenter/AppCenter.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -128,15 +119,6 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "043120721EE0BCF9007054C5"
-            BuildableName = "libAppCenter.a"
-            BlueprintName = "AppCenterTVOS"
-            ReferencedContainer = "container:AppCenter/AppCenter.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">
