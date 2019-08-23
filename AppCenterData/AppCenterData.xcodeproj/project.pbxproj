@@ -1196,24 +1196,28 @@
 		};
 		C9A91F76230BFF610068070D /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC81E1ECE333700FB6719 /* iOS.xcconfig */;
 			buildSettings = {
 			};
 			name = Debug;
 		};
 		C9A91F77230BFF610068070D /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC81E1ECE333700FB6719 /* iOS.xcconfig */;
 			buildSettings = {
 			};
 			name = Release;
 		};
 		C9A91F80230BFF670068070D /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0469642F1F2A55CF00F9D31F /* macOS.xcconfig */;
 			buildSettings = {
 			};
 			name = Debug;
 		};
 		C9A91F81230BFF670068070D /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0469642F1F2A55CF00F9D31F /* macOS.xcconfig */;
 			buildSettings = {
 			};
 			name = Release;
