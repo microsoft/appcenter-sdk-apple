@@ -28,7 +28,26 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "6E171AE01D22F781000DC480"
+               BuildableName = "AppCenterCrashes.xctest"
+               BlueprintName = "AppCenterCrashes iOS Tests"
+               ReferencedContainer = "container:AppCenterCrashes.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "C9A91F49230BFD930068070D"
+            BuildableName = "AppCenterCrashes.framework"
+            BlueprintName = "AppCenterCrashes iOS Framework"
+            ReferencedContainer = "container:AppCenterCrashes.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
