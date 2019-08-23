@@ -28,7 +28,26 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "046AEAB21ECA51AF00CBE511"
+               BuildableName = "AppCenterAnalytics.xctest"
+               BlueprintName = "AppCenterAnalytics macOS Tests"
+               ReferencedContainer = "container:AppCenterAnalytics.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "C9A91F36230BFB970068070D"
+            BuildableName = "AppCenterAnalytics.framework"
+            BlueprintName = "AppCenterAnalytics macOS Framework"
+            ReferencedContainer = "container:AppCenterAnalytics.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
