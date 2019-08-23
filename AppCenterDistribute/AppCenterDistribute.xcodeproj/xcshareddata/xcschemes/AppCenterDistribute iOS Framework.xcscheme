@@ -28,7 +28,26 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "04FD4A301E453531009B4468"
+               BuildableName = "AppCenterDistribute.xctest"
+               BlueprintName = "AppCenterDistribute iOS Tests"
+               ReferencedContainer = "container:AppCenterDistribute.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "C9A91F8B230BFFFF0068070D"
+            BuildableName = "AppCenterDistribute.framework"
+            BlueprintName = "AppCenterDistribute iOS Framework"
+            ReferencedContainer = "container:AppCenterDistribute.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
