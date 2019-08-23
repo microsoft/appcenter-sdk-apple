@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D3AD5F221E5C9562001627AB"
-               BuildableName = "AppCenterDataIOSFramework"
-               BlueprintName = "AppCenterDataIOSFramework"
+               BuildableName = "AppCenterData iOS Distribution"
+               BlueprintName = "AppCenterData iOS Distribution"
                ReferencedContainer = "container:AppCenterData.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -46,8 +46,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D3AD5F221E5C9562001627AB"
-            BuildableName = "AppCenterDataIOSFramework"
-            BlueprintName = "AppCenterDataIOSFramework"
+            BuildableName = "AppCenterData iOS Distribution"
+            BlueprintName = "AppCenterData iOS Distribution"
             ReferencedContainer = "container:AppCenterData.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -64,8 +64,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D3AD5F221E5C9562001627AB"
-            BuildableName = "AppCenterDataIOSFramework"
-            BlueprintName = "AppCenterDataIOSFramework"
+            BuildableName = "AppCenterData iOS Distribution"
+            BlueprintName = "AppCenterData iOS Distribution"
             ReferencedContainer = "container:AppCenterData.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

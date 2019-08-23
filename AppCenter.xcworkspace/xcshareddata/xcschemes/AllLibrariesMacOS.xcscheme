@@ -142,7 +142,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "046964131F2A559C00F9D31F"
                BuildableName = "AppCenterPush.xctest"
-               BlueprintName = "AppCenterPushMacOSTests"
+               BlueprintName = "AppCenterPush macOS Tests"
                ReferencedContainer = "container:AppCenterPush/AppCenterPush.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -170,7 +170,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "046964131F2A559C00F9D31F"
                BuildableName = "AppCenterData.xctest"
-               BlueprintName = "AppCenterDataMacOSTests"
+               BlueprintName = "AppCenterData macOS Tests"
                ReferencedContainer = "container:AppCenterData/AppCenterData.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -219,7 +219,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "046964131F2A559C00F9D31F"
                BuildableName = "AppCenterPush.xctest"
-               BlueprintName = "AppCenterPushMacOSTests"
+               BlueprintName = "AppCenterPush macOS Tests"
                ReferencedContainer = "container:AppCenterPush/AppCenterPush.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -239,7 +239,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "046964131F2A559C00F9D31F"
                BuildableName = "AppCenterData.xctest"
-               BlueprintName = "AppCenterDataMacOSTests"
+               BlueprintName = "AppCenterData macOS Tests"
                ReferencedContainer = "container:AppCenterData/AppCenterData.xcodeproj">
             </BuildableReference>
          </TestableReference>

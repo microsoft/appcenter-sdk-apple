@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D3AD5F221E5C9562001627AB"
-               BuildableName = "AppCenterPushIOSFramework"
-               BlueprintName = "AppCenterPushIOSFramework"
+               BuildableName = "AppCenterPush iOS Distribution"
+               BlueprintName = "AppCenterPush iOS Distribution"
                ReferencedContainer = "container:AppCenterPush.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -46,8 +46,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D3AD5F221E5C9562001627AB"
-            BuildableName = "AppCenterPushIOSFramework"
-            BlueprintName = "AppCenterPushIOSFramework"
+            BuildableName = "AppCenterPush iOS Distribution"
+            BlueprintName = "AppCenterPush iOS Distribution"
             ReferencedContainer = "container:AppCenterPush.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -64,8 +64,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D3AD5F221E5C9562001627AB"
-            BuildableName = "AppCenterPushIOSFramework"
-            BlueprintName = "AppCenterPushIOSFramework"
+            BuildableName = "AppCenterPush iOS Distribution"
+            BlueprintName = "AppCenterPush iOS Distribution"
             ReferencedContainer = "container:AppCenterPush.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

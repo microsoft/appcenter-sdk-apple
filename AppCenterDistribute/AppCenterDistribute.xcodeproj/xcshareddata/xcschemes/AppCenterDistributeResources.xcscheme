@@ -16,7 +16,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "B2C070B71E5E68540076D6A9"
                BuildableName = "AppCenterDistributeResources.bundle"
-               BlueprintName = "AppCenterDistributeResources"
+               BlueprintName = "AppCenterDistribute Resources"
                ReferencedContainer = "container:AppCenterDistribute.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -47,7 +47,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "B2C070B71E5E68540076D6A9"
             BuildableName = "AppCenterDistributeResources.bundle"
-            BlueprintName = "AppCenterDistributeResources"
+            BlueprintName = "AppCenterDistribute Resources"
             ReferencedContainer = "container:AppCenterDistribute.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

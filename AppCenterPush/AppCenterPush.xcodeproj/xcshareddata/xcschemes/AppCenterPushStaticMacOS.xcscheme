@@ -16,7 +16,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "C9A91FA3230C00540068070D"
                BuildableName = "AppCenterPush.framework"
-               BlueprintName = "AppCenterPushStaticMacOS"
+               BlueprintName = "AppCenterPush macOS Framework"
                ReferencedContainer = "container:AppCenterPush.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -47,7 +47,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "C9A91FA3230C00540068070D"
             BuildableName = "AppCenterPush.framework"
-            BlueprintName = "AppCenterPushStaticMacOS"
+            BlueprintName = "AppCenterPush macOS Framework"
             ReferencedContainer = "container:AppCenterPush.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -65,7 +65,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "C9A91FA3230C00540068070D"
             BuildableName = "AppCenterPush.framework"
-            BlueprintName = "AppCenterPushStaticMacOS"
+            BlueprintName = "AppCenterPush macOS Framework"
             ReferencedContainer = "container:AppCenterPush.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

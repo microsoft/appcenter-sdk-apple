@@ -7,98 +7,58 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
-		04FD4A281E451E90009B4468 /* AppCenterDistributeIOSFramework */ = {
+		04FD4A281E451E90009B4468 /* AppCenterDistribute iOS Distribution */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 04FD4A291E451E90009B4468 /* Build configuration list for PBXAggregateTarget "AppCenterDistributeIOSFramework" */;
+			buildConfigurationList = 04FD4A291E451E90009B4468 /* Build configuration list for PBXAggregateTarget "AppCenterDistribute iOS Distribution" */;
 			buildPhases = (
-				04FD4A2C1E453159009B4468 /* Build framework */,
+				04FD4A2C1E453159009B4468 /* Build Universal Framework */,
 			);
 			dependencies = (
 				B2C070C31E5E69E70076D6A9 /* PBXTargetDependency */,
 			);
-			name = AppCenterDistributeIOSFramework;
+			name = "AppCenterDistribute iOS Distribution";
 			productName = "Fat Framework";
 		};
-		04FD4A3C1E453640009B4468 /* AppCenterDistributeIOSDoc */ = {
+		04FD4A3C1E453640009B4468 /* AppCenterDistribute iOS Documentation */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 04FD4A3D1E453640009B4468 /* Build configuration list for PBXAggregateTarget "AppCenterDistributeIOSDoc" */;
+			buildConfigurationList = 04FD4A3D1E453640009B4468 /* Build configuration list for PBXAggregateTarget "AppCenterDistribute iOS Documentation" */;
 			buildPhases = (
-				04FD4A401E4536B0009B4468 /* Build docs */,
+				04FD4A401E4536B0009B4468 /* Build Documentation */,
 			);
 			dependencies = (
 				0471B9361E4556570022F951 /* PBXTargetDependency */,
 			);
-			name = AppCenterDistributeIOSDoc;
+			name = "AppCenterDistribute iOS Documentation";
 			productName = "Jazzy Docs";
 		};
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		040AF0121E523AC2005C1174 /* release_details.json in Resources */ = {isa = PBXBuildFile; fileRef = 040AF0111E523AC2005C1174 /* release_details.json */; };
 		040AF0251E523B80005C1174 /* MSReleaseDetailsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 040AF0231E523B80005C1174 /* MSReleaseDetailsTests.m */; };
 		040AF02A1E52748D005C1174 /* MSDistributeIngestionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 040AF0291E52748D005C1174 /* MSDistributeIngestionTests.m */; };
-		040AF0331E52859F005C1174 /* MSIngestionProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 040AF0321E52859F005C1174 /* MSIngestionProtocol.h */; };
 		0415974B1E9D639D00EC6BDA /* MSDistributionGroupTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0415974A1E9D639D00EC6BDA /* MSDistributionGroupTests.m */; };
 		0420A69C1ECA7C8E00915619 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0420A69B1ECA7C8E00915619 /* OCMock.framework */; };
-		046EF5891EAEB524002F6436 /* MSDistributeDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 046EF5881EAEB524002F6436 /* MSDistributeDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		046FDBD31E5682FA00AF9DD1 /* MSAlertController.h in Headers */ = {isa = PBXBuildFile; fileRef = 046FDBD11E5682FA00AF9DD1 /* MSAlertController.h */; };
-		046FDBD41E5682FA00AF9DD1 /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 046FDBD21E5682FA00AF9DD1 /* MSAlertController.m */; };
-		0471B5E41E4544000022F951 /* libAppCenterDistribute.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04FD4A1C1E451E12009B4468 /* libAppCenterDistribute.a */; };
-		0471B8991E4547480022F951 /* MSDistribute.m in Sources */ = {isa = PBXBuildFile; fileRef = 0471B8981E4547480022F951 /* MSDistribute.m */; };
-		0471B9331E4555F20022F951 /* AppCenterDistribute.h in Headers */ = {isa = PBXBuildFile; fileRef = 04FD4A1F1E451E12009B4468 /* AppCenterDistribute.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0471B9341E45560C0022F951 /* MSDistribute.h in Headers */ = {isa = PBXBuildFile; fileRef = 0471B89A1E4547750022F951 /* MSDistribute.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0471B93C1E4557620022F951 /* MSServiceAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = 0471B93B1E4557620022F951 /* MSServiceAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		047D137F1EAFF87500D699BA /* MSReleaseDetailsPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 047D137E1EAFF87500D699BA /* MSReleaseDetailsPrivate.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		048BB3031E60A40D009D92C2 /* MSReleaseDetails.h in Headers */ = {isa = PBXBuildFile; fileRef = 048BB2FC1E60A40D009D92C2 /* MSReleaseDetails.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		048BB3041E60A40D009D92C2 /* MSReleaseDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = 048BB2FD1E60A40D009D92C2 /* MSReleaseDetails.m */; };
-		048BB3051E60A40D009D92C2 /* MSDistributionGroup.h in Headers */ = {isa = PBXBuildFile; fileRef = 048BB2FF1E60A40D009D92C2 /* MSDistributionGroup.h */; };
-		048BB3061E60A40D009D92C2 /* MSDistributionGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 048BB3001E60A40D009D92C2 /* MSDistributionGroup.m */; };
-		048BB3071E60A40D009D92C2 /* MSDistributeIngestion.h in Headers */ = {isa = PBXBuildFile; fileRef = 048BB3011E60A40D009D92C2 /* MSDistributeIngestion.h */; };
-		048BB3081E60A40D009D92C2 /* MSDistributeIngestion.m in Sources */ = {isa = PBXBuildFile; fileRef = 048BB3021E60A40D009D92C2 /* MSDistributeIngestion.m */; };
-		04A0820A1F74BBB100DC776D /* MSService.h in Headers */ = {isa = PBXBuildFile; fileRef = 04A082091F74BBB100DC776D /* MSService.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		04A140C91ECE89BD001CEE94 /* MSMockUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A140C61ECE89B2001CEE94 /* MSMockUserDefaults.m */; };
-		04B45C5B21E9119800FE6746 /* MSBasicMachOParserPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 807432C31EE20731003295BA /* MSBasicMachOParserPrivate.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		04DC2EC91E78A3B4003F23B5 /* error_details.json in Resources */ = {isa = PBXBuildFile; fileRef = 04DC2EC81E78A3B4003F23B5 /* error_details.json */; };
 		04DC2ECB1E78A3E3003F23B5 /* MSErrorDetailsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DC2ECA1E78A3E3003F23B5 /* MSErrorDetailsTests.m */; };
 		04FD4A341E453531009B4468 /* MSDistributeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FD4A331E453531009B4468 /* MSDistributeTests.m */; };
-		04FD4A4B1E453930009B4468 /* libAppCenter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04FD4A4A1E453930009B4468 /* libAppCenter.a */; };
-		383A2FE41EBA308700817742 /* MSDistributeAppDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 383A2FE31EBA308700817742 /* MSDistributeAppDelegate.h */; };
-		383A2FE61EBA30B300817742 /* MSDistributeAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 383A2FE51EBA30B300817742 /* MSDistributeAppDelegate.m */; };
-		384135BE1FD99B5400FC7836 /* MSDistributeDataMigration.h in Headers */ = {isa = PBXBuildFile; fileRef = 384135BD1FD99B5400FC7836 /* MSDistributeDataMigration.h */; };
-		384135C01FD99EB400FC7836 /* MSDistributeDataMigration.m in Sources */ = {isa = PBXBuildFile; fileRef = 384135BF1FD99EB400FC7836 /* MSDistributeDataMigration.m */; };
 		387CC631210A9D9C002BA068 /* MSMockKeychainUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 387CC630210A9D9C002BA068 /* MSMockKeychainUtil.m */; };
-		388B559B1E64B3FD00E4F1D7 /* MSBasicMachOParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 388B55991E64B3FD00E4F1D7 /* MSBasicMachOParser.m */; };
-		388B559C1E64B3FD00E4F1D7 /* MSBasicMachOParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 388B559A1E64B3FD00E4F1D7 /* MSBasicMachOParser.h */; };
 		389638A41E79F59D007C3809 /* MSDistributeTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 389638A31E79F59D007C3809 /* MSDistributeTestUtil.m */; };
-		389A3DBA226138B200741755 /* MSGuidedAccessUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = 389A3DB8226138B200741755 /* MSGuidedAccessUtil.h */; };
-		389A3DBB226138B200741755 /* MSGuidedAccessUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 389A3DB9226138B200741755 /* MSGuidedAccessUtil.m */; };
-		38A6835E1E774D9F00A63BC8 /* MSSemVerPreReleaseId.m in Sources */ = {isa = PBXBuildFile; fileRef = 38A6835A1E774D9F00A63BC8 /* MSSemVerPreReleaseId.m */; };
-		38A6835F1E774D9F00A63BC8 /* MSSemVerPreReleaseId.h in Headers */ = {isa = PBXBuildFile; fileRef = 38A6835B1E774D9F00A63BC8 /* MSSemVerPreReleaseId.h */; };
-		38A683601E774D9F00A63BC8 /* MSSemVer.m in Sources */ = {isa = PBXBuildFile; fileRef = 38A6835C1E774D9F00A63BC8 /* MSSemVer.m */; };
-		38A683611E774D9F00A63BC8 /* MSSemVer.h in Headers */ = {isa = PBXBuildFile; fileRef = 38A6835D1E774D9F00A63BC8 /* MSSemVer.h */; };
 		38A683641E774DCE00A63BC8 /* MSSemVerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 38A683621E774DCE00A63BC8 /* MSSemVerTests.m */; };
 		38A683651E774DCE00A63BC8 /* MSSemVerPreReleaseIdTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 38A683631E774DCE00A63BC8 /* MSSemVerPreReleaseIdTest.m */; };
-		38C9C56C1E565BF600B0FA0D /* MSDistributePrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 38C9C56B1E565BF600B0FA0D /* MSDistributePrivate.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		38D25E391E7B0AAC00033FC4 /* OCHamcrestIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 380304421E7B007E006A55FB /* OCHamcrestIOS.framework */; };
 		38E3FB1F1FD8A2A500779293 /* MSDistributeDataMigrationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 386A69EF1FD88A9B0057B316 /* MSDistributeDataMigrationTests.m */; };
-		586032CABA2AC5DAA00BAB53 /* MSDistributeInfoTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 586031A5F44AF875F6226F45 /* MSDistributeInfoTracker.m */; };
-		5860330D3F7DC07BC2E141A2 /* MSDistributeInfoTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = 5860311B1C15B2BE9ED430A1 /* MSDistributeInfoTracker.h */; };
 		58603D3986EEE50CBFAFD4BC /* MSDistributeInfoTrackerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 586030B2AAEEE6A568D37CE9 /* MSDistributeInfoTrackerTests.m */; };
 		7FB7054E222E59A000D93258 /* MSMockReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FB70539222E574200D93258 /* MSMockReachability.m */; };
 		80324E301F4DC81F005F4E11 /* MSDistributeAppDelegateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 80324E2F1F4DC81E005F4E11 /* MSDistributeAppDelegateTests.m */; };
 		848860451E6EC32B003A9B96 /* MSBasicMachOParserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 848860441E6EC32B003A9B96 /* MSBasicMachOParserTests.m */; };
-		9E4ADB16203D37FB00172256 /* MSDistributionStartSessionLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E4ADB15203D37FB00172256 /* MSDistributionStartSessionLog.m */; };
 		9E8E3A39203E68B4001A23FD /* MSDistributionStartSessionLogTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E8E3A38203E68B4001A23FD /* MSDistributionStartSessionLogTest.m */; };
 		B20DE7B71E5F97330023075C /* MSDistributeUtilTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B20DE7B61E5F97330023075C /* MSDistributeUtilTests.m */; };
-		B25895AA1E4E9FD400123632 /* MSDistributeInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = B25895A91E4E9BA100123632 /* MSDistributeInternal.h */; };
 		B270108D1E5FA2E4008552EF /* release_details.json in Resources */ = {isa = PBXBuildFile; fileRef = 040AF0111E523AC2005C1174 /* release_details.json */; };
-		B2C070A51E5E62330076D6A9 /* MSDistributeUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = B2C070A31E5E62330076D6A9 /* MSDistributeUtil.h */; };
-		B2C070A61E5E62330076D6A9 /* MSDistributeUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = B2C070A41E5E62330076D6A9 /* MSDistributeUtil.m */; };
 		B2C070C01E5E69AD0076D6A9 /* AppCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B2C070B81E5E68540076D6A9 /* AppCenterDistributeResources.bundle */; };
 		B2C070C11E5E69D00076D6A9 /* AppCenterDistribute.strings in Resources */ = {isa = PBXBuildFile; fileRef = B29CE3471E5E5F9A00CEB04D /* AppCenterDistribute.strings */; };
-		B2C070C51E5E6A200076D6A9 /* AppCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B2C070B81E5E68540076D6A9 /* AppCenterDistributeResources.bundle */; };
-		BA682AC831677E0806CA2359 /* MSErrorDetails.h in Headers */ = {isa = PBXBuildFile; fileRef = BA6820A043C816916AF34A04 /* MSErrorDetails.h */; };
-		BA682C81BA750CA5FCB63A51 /* MSErrorDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6826E3C58372A269A6B43A /* MSErrorDetails.m */; };
+		C2200611230FDF6D00848D5B /* AppCenterDistribute.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A91F8C230BFFFF0068070D /* AppCenterDistribute.framework */; };
+		C2200613230FDF7000848D5B /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2200612230FDF7000848D5B /* AppCenter.framework */; };
 		C9EBAA2B230D37ED00A20F0F /* MSService.h in Headers */ = {isa = PBXBuildFile; fileRef = 04A082091F74BBB100DC776D /* MSService.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C9EBAA2C230D37ED00A20F0F /* MSServiceAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = 0471B93B1E4557620022F951 /* MSServiceAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C9EBAA2D230D37ED00A20F0F /* MSIngestionProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 040AF0321E52859F005C1174 /* MSIngestionProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -153,26 +113,19 @@
 			remoteGlobalIDString = 04FD4A281E451E90009B4468;
 			remoteInfo = "Fat Framework";
 		};
-		04FD4A371E453531009B4468 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 04FD4A141E451E12009B4468 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 04FD4A1B1E451E12009B4468;
-			remoteInfo = AppCenterDistributeIOS;
-		};
-		B2C070BE1E5E697C0076D6A9 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 04FD4A141E451E12009B4468 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = B2C070B71E5E68540076D6A9;
-			remoteInfo = AppCenterDistributeResources;
-		};
 		B2C070C21E5E69E70076D6A9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 04FD4A141E451E12009B4468 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = B2C070B71E5E68540076D6A9;
 			remoteInfo = AppCenterDistributeResources;
+		};
+		C220060F230FDF6800848D5B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 04FD4A141E451E12009B4468 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C9A91F8B230BFFFF0068070D;
+			remoteInfo = "AppCenterDistribute iOS Framework";
 		};
 		F8DD7524230D7E7A00B095B6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -182,18 +135,6 @@
 			remoteInfo = AppCenterDistributeResources;
 		};
 /* End PBXContainerItemProxy section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		04FD4A1A1E451E12009B4468 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 12;
-			dstPath = "include/$(PRODUCT_NAME)";
-			dstSubfolderSpec = 16;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		040AF0111E523AC2005C1174 /* release_details.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = release_details.json; sourceTree = "<group>"; };
@@ -237,7 +178,6 @@
 		04A140C61ECE89B2001CEE94 /* MSMockUserDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSMockUserDefaults.m; path = ../../../AppCenter/AppCenterTests/Util/MSMockUserDefaults.m; sourceTree = "<group>"; };
 		04DC2EC81E78A3B4003F23B5 /* error_details.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = error_details.json; sourceTree = "<group>"; };
 		04DC2ECA1E78A3E3003F23B5 /* MSErrorDetailsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSErrorDetailsTests.m; sourceTree = "<group>"; };
-		04FD4A1C1E451E12009B4468 /* libAppCenterDistribute.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAppCenterDistribute.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		04FD4A1F1E451E12009B4468 /* AppCenterDistribute.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppCenterDistribute.h; sourceTree = "<group>"; };
 		04FD4A311E453531009B4468 /* AppCenterDistribute.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppCenterDistribute.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		04FD4A331E453531009B4468 /* MSDistributeTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSDistributeTests.m; sourceTree = "<group>"; };
@@ -286,11 +226,11 @@
 		B2C070BA1E5E68540076D6A9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BA6820A043C816916AF34A04 /* MSErrorDetails.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSErrorDetails.h; sourceTree = "<group>"; };
 		BA6826E3C58372A269A6B43A /* MSErrorDetails.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSErrorDetails.m; sourceTree = "<group>"; };
+		C2200612230FDF7000848D5B /* AppCenter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AppCenter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9A91F8C230BFFFF0068070D /* AppCenterDistribute.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AppCenterDistribute.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9EBAB36230D73A800A20F0F /* AppCenter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AppCenter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F82E4C82217F217F00EDAB34 /* sqlite3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = sqlite3.c; path = ../../Vendor/SQLite3/sqlite3.c; sourceTree = "<group>"; };
 		F8646E651F349C6D006080AC /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = Resources/ru.lproj/AppCenterDistribute.strings; sourceTree = "<group>"; };
-		F8936C55230C18C2006A330F /* Static iOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Static iOS.xcconfig"; sourceTree = "<group>"; };
 		F8B8EAE621106436004BCECB /* Resources.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Resources.xcconfig; sourceTree = "<group>"; };
 		F8BEA3C81FBB0A5900D4DE37 /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OHHTTPStubs.framework; sourceTree = "<group>"; };
 		F8BEA3CB1FBB0BDE00D4DE37 /* MSHttpTestUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSHttpTestUtil.m; path = ../../../AppCenter/AppCenterTests/Util/MSHttpTestUtil.m; sourceTree = "<group>"; };
@@ -299,19 +239,12 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		04FD4A191E451E12009B4468 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		04FD4A2E1E453531009B4468 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				04FD4A4B1E453930009B4468 /* libAppCenter.a in Frameworks */,
-				0471B5E41E4544000022F951 /* libAppCenterDistribute.a in Frameworks */,
+				C2200613230FDF7000848D5B /* AppCenter.framework in Frameworks */,
+				C2200611230FDF6D00848D5B /* AppCenterDistribute.framework in Frameworks */,
 				38D25E391E7B0AAC00033FC4 /* OCHamcrestIOS.framework in Frameworks */,
 				0420A69C1ECA7C8E00915619 /* OCMock.framework in Frameworks */,
 				F8BEA3CA1FBB0A6E00D4DE37 /* OHHTTPStubs.framework in Frameworks */,
@@ -391,7 +324,6 @@
 				049BC8221ECE349200FB6719 /* iOS.xcconfig */,
 				049BC8271ECE387A00FB6719 /* iOS.modulemap */,
 				F8B8EAE621106436004BCECB /* Resources.xcconfig */,
-				F8936C55230C18C2006A330F /* Static iOS.xcconfig */,
 			);
 			path = Support;
 			sourceTree = "<group>";
@@ -463,7 +395,6 @@
 		04FD4A1D1E451E12009B4468 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				04FD4A1C1E451E12009B4468 /* libAppCenterDistribute.a */,
 				04FD4A311E453531009B4468 /* AppCenterDistribute.xctest */,
 				B2C070B81E5E68540076D6A9 /* AppCenterDistributeResources.bundle */,
 				C9A91F8C230BFFFF0068070D /* AppCenterDistribute.framework */,
@@ -612,6 +543,7 @@
 		C9A91F94230C000B0068070D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C2200612230FDF7000848D5B /* AppCenter.framework */,
 				C9EBAB36230D73A800A20F0F /* AppCenter.framework */,
 			);
 			name = Frameworks;
@@ -637,36 +569,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		0471B9321E4555EA0022F951 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				0471B9331E4555F20022F951 /* AppCenterDistribute.h in Headers */,
-				048BB3051E60A40D009D92C2 /* MSDistributionGroup.h in Headers */,
-				38A683611E774D9F00A63BC8 /* MSSemVer.h in Headers */,
-				38C9C56C1E565BF600B0FA0D /* MSDistributePrivate.h in Headers */,
-				B25895AA1E4E9FD400123632 /* MSDistributeInternal.h in Headers */,
-				0471B93C1E4557620022F951 /* MSServiceAbstract.h in Headers */,
-				B2C070A51E5E62330076D6A9 /* MSDistributeUtil.h in Headers */,
-				048BB3071E60A40D009D92C2 /* MSDistributeIngestion.h in Headers */,
-				046FDBD31E5682FA00AF9DD1 /* MSAlertController.h in Headers */,
-				384135BE1FD99B5400FC7836 /* MSDistributeDataMigration.h in Headers */,
-				0471B9341E45560C0022F951 /* MSDistribute.h in Headers */,
-				040AF0331E52859F005C1174 /* MSIngestionProtocol.h in Headers */,
-				389A3DBA226138B200741755 /* MSGuidedAccessUtil.h in Headers */,
-				048BB3031E60A40D009D92C2 /* MSReleaseDetails.h in Headers */,
-				383A2FE41EBA308700817742 /* MSDistributeAppDelegate.h in Headers */,
-				38A6835F1E774D9F00A63BC8 /* MSSemVerPreReleaseId.h in Headers */,
-				388B559C1E64B3FD00E4F1D7 /* MSBasicMachOParser.h in Headers */,
-				047D137F1EAFF87500D699BA /* MSReleaseDetailsPrivate.h in Headers */,
-				046EF5891EAEB524002F6436 /* MSDistributeDelegate.h in Headers */,
-				04A0820A1F74BBB100DC776D /* MSService.h in Headers */,
-				BA682AC831677E0806CA2359 /* MSErrorDetails.h in Headers */,
-				5860330D3F7DC07BC2E141A2 /* MSDistributeInfoTracker.h in Headers */,
-				04B45C5B21E9119800FE6746 /* MSBasicMachOParserPrivate.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		C9A91F87230BFFFF0068070D /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -700,30 +602,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		04FD4A1B1E451E12009B4468 /* AppCenterDistributeIOS */ = {
+		04FD4A301E453531009B4468 /* AppCenterDistribute iOS Tests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 04FD4A251E451E12009B4468 /* Build configuration list for PBXNativeTarget "AppCenterDistributeIOS" */;
-			buildPhases = (
-				F8B8EAE021105BD3004BCECB /* Verify no buildSettings */,
-				04FD4A181E451E12009B4468 /* Sources */,
-				04FD4A191E451E12009B4468 /* Frameworks */,
-				04FD4A1A1E451E12009B4468 /* CopyFiles */,
-				0471B9321E4555EA0022F951 /* Headers */,
-				B2C070C41E5E6A160076D6A9 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				B2C070BF1E5E697C0076D6A9 /* PBXTargetDependency */,
-			);
-			name = AppCenterDistributeIOS;
-			productName = AppCenterDistribute;
-			productReference = 04FD4A1C1E451E12009B4468 /* libAppCenterDistribute.a */;
-			productType = "com.apple.product-type.library.static";
-		};
-		04FD4A301E453531009B4468 /* AppCenterDistributeIOSTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 04FD4A391E453531009B4468 /* Build configuration list for PBXNativeTarget "AppCenterDistributeIOSTests" */;
+			buildConfigurationList = 04FD4A391E453531009B4468 /* Build configuration list for PBXNativeTarget "AppCenterDistribute iOS Tests" */;
 			buildPhases = (
 				04FD4A2D1E453531009B4468 /* Sources */,
 				04FD4A2E1E453531009B4468 /* Frameworks */,
@@ -732,16 +613,16 @@
 			buildRules = (
 			);
 			dependencies = (
-				04FD4A381E453531009B4468 /* PBXTargetDependency */,
+				C2200610230FDF6800848D5B /* PBXTargetDependency */,
 			);
-			name = AppCenterDistributeIOSTests;
+			name = "AppCenterDistribute iOS Tests";
 			productName = AppCenterDistributeTests;
 			productReference = 04FD4A311E453531009B4468 /* AppCenterDistribute.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		B2C070B71E5E68540076D6A9 /* AppCenterDistributeResources */ = {
+		B2C070B71E5E68540076D6A9 /* AppCenterDistribute Resources */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = B2C070BB1E5E68540076D6A9 /* Build configuration list for PBXNativeTarget "AppCenterDistributeResources" */;
+			buildConfigurationList = B2C070BB1E5E68540076D6A9 /* Build configuration list for PBXNativeTarget "AppCenterDistribute Resources" */;
 			buildPhases = (
 				B2C070B41E5E68540076D6A9 /* Sources */,
 				B2C070B51E5E68540076D6A9 /* Frameworks */,
@@ -751,15 +632,16 @@
 			);
 			dependencies = (
 			);
-			name = AppCenterDistributeResources;
+			name = "AppCenterDistribute Resources";
 			productName = AppCenterDistributeResources;
 			productReference = B2C070B81E5E68540076D6A9 /* AppCenterDistributeResources.bundle */;
 			productType = "com.apple.product-type.bundle";
 		};
-		C9A91F8B230BFFFF0068070D /* AppCenterDistributeStaticIOS */ = {
+		C9A91F8B230BFFFF0068070D /* AppCenterDistribute iOS Framework */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C9A91F93230BFFFF0068070D /* Build configuration list for PBXNativeTarget "AppCenterDistributeStaticIOS" */;
+			buildConfigurationList = C9A91F93230BFFFF0068070D /* Build configuration list for PBXNativeTarget "AppCenterDistribute iOS Framework" */;
 			buildPhases = (
+				C2200602230FDEA100848D5B /* Verify No Build Settings */,
 				C9A91F87230BFFFF0068070D /* Headers */,
 				C9A91F88230BFFFF0068070D /* Sources */,
 				C9A91F89230BFFFF0068070D /* Frameworks */,
@@ -770,7 +652,7 @@
 			dependencies = (
 				F8DD7525230D7E7A00B095B6 /* PBXTargetDependency */,
 			);
-			name = AppCenterDistributeStaticIOS;
+			name = "AppCenterDistribute iOS Framework";
 			productName = AppCenterDistributeStaticIOS;
 			productReference = C9A91F8C230BFFFF0068070D /* AppCenterDistribute.framework */;
 			productType = "com.apple.product-type.framework";
@@ -818,12 +700,11 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				04FD4A1B1E451E12009B4468 /* AppCenterDistributeIOS */,
-				04FD4A281E451E90009B4468 /* AppCenterDistributeIOSFramework */,
-				04FD4A301E453531009B4468 /* AppCenterDistributeIOSTests */,
-				04FD4A3C1E453640009B4468 /* AppCenterDistributeIOSDoc */,
-				B2C070B71E5E68540076D6A9 /* AppCenterDistributeResources */,
-				C9A91F8B230BFFFF0068070D /* AppCenterDistributeStaticIOS */,
+				C9A91F8B230BFFFF0068070D /* AppCenterDistribute iOS Framework */,
+				04FD4A301E453531009B4468 /* AppCenterDistribute iOS Tests */,
+				04FD4A281E451E90009B4468 /* AppCenterDistribute iOS Distribution */,
+				04FD4A3C1E453640009B4468 /* AppCenterDistribute iOS Documentation */,
+				B2C070B71E5E68540076D6A9 /* AppCenterDistribute Resources */,
 			);
 		};
 /* End PBXProject section */
@@ -847,15 +728,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		B2C070C41E5E6A160076D6A9 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				B2C070C51E5E6A200076D6A9 /* AppCenterDistributeResources.bundle in Resources */,
-				040AF0121E523AC2005C1174 /* release_details.json in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		C9A91F8A230BFFFF0068070D /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -868,43 +740,47 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		04FD4A2C1E453159009B4468 /* Build framework */ = {
+		04FD4A2C1E453159009B4468 /* Build Universal Framework */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Build framework";
+			name = "Build Universal Framework";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd \"${SRCROOT}/../Scripts/AppCenterDistribute\"\n./build-appcenterdistribute-ios-framework.sh";
+			shellScript = "cd \"${SRCROOT}/../Scripts/AppCenterDistribute\"\n./build-appcenterdistribute-ios-framework.sh\n";
 		};
-		04FD4A401E4536B0009B4468 /* Build docs */ = {
+		04FD4A401E4536B0009B4468 /* Build Documentation */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Build docs";
+			name = "Build Documentation";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd \"${SRCROOT}/../Scripts\"\n./build-docs.sh iOS AppCenterDistribute\n";
+			shellScript = "cd \"${SRCROOT}/../Scripts\"\n./build-docs.sh iOS\n";
 			showEnvVarsInLog = 0;
 		};
-		F8B8EAE021105BD3004BCECB /* Verify no buildSettings */ = {
+		C2200602230FDEA100848D5B /* Verify No Build Settings */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
+			inputFileListPaths = (
+			);
 			inputPaths = (
 			);
-			name = "Verify no buildSettings";
+			name = "Verify No Build Settings";
+			outputFileListPaths = (
+			);
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -915,28 +791,6 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		04FD4A181E451E12009B4468 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				38A6835E1E774D9F00A63BC8 /* MSSemVerPreReleaseId.m in Sources */,
-				384135C01FD99EB400FC7836 /* MSDistributeDataMigration.m in Sources */,
-				9E4ADB16203D37FB00172256 /* MSDistributionStartSessionLog.m in Sources */,
-				B2C070A61E5E62330076D6A9 /* MSDistributeUtil.m in Sources */,
-				048BB3041E60A40D009D92C2 /* MSReleaseDetails.m in Sources */,
-				048BB3061E60A40D009D92C2 /* MSDistributionGroup.m in Sources */,
-				388B559B1E64B3FD00E4F1D7 /* MSBasicMachOParser.m in Sources */,
-				389A3DBB226138B200741755 /* MSGuidedAccessUtil.m in Sources */,
-				0471B8991E4547480022F951 /* MSDistribute.m in Sources */,
-				38A683601E774D9F00A63BC8 /* MSSemVer.m in Sources */,
-				046FDBD41E5682FA00AF9DD1 /* MSAlertController.m in Sources */,
-				383A2FE61EBA30B300817742 /* MSDistributeAppDelegate.m in Sources */,
-				048BB3081E60A40D009D92C2 /* MSDistributeIngestion.m in Sources */,
-				BA682C81BA750CA5FCB63A51 /* MSErrorDetails.m in Sources */,
-				586032CABA2AC5DAA00BAB53 /* MSDistributeInfoTracker.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		04FD4A2D1E453531009B4468 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -997,27 +851,22 @@
 /* Begin PBXTargetDependency section */
 		0471B9361E4556570022F951 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 04FD4A281E451E90009B4468 /* AppCenterDistributeIOSFramework */;
+			target = 04FD4A281E451E90009B4468 /* AppCenterDistribute iOS Distribution */;
 			targetProxy = 0471B9351E4556570022F951 /* PBXContainerItemProxy */;
-		};
-		04FD4A381E453531009B4468 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 04FD4A1B1E451E12009B4468 /* AppCenterDistributeIOS */;
-			targetProxy = 04FD4A371E453531009B4468 /* PBXContainerItemProxy */;
-		};
-		B2C070BF1E5E697C0076D6A9 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = B2C070B71E5E68540076D6A9 /* AppCenterDistributeResources */;
-			targetProxy = B2C070BE1E5E697C0076D6A9 /* PBXContainerItemProxy */;
 		};
 		B2C070C31E5E69E70076D6A9 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = B2C070B71E5E68540076D6A9 /* AppCenterDistributeResources */;
+			target = B2C070B71E5E68540076D6A9 /* AppCenterDistribute Resources */;
 			targetProxy = B2C070C21E5E69E70076D6A9 /* PBXContainerItemProxy */;
+		};
+		C2200610230FDF6800848D5B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C9A91F8B230BFFFF0068070D /* AppCenterDistribute iOS Framework */;
+			targetProxy = C220060F230FDF6800848D5B /* PBXContainerItemProxy */;
 		};
 		F8DD7525230D7E7A00B095B6 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = B2C070B71E5E68540076D6A9 /* AppCenterDistributeResources */;
+			target = B2C070B71E5E68540076D6A9 /* AppCenterDistribute Resources */;
 			targetProxy = F8DD7524230D7E7A00B095B6 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -1058,20 +907,6 @@
 		04FD4A241E451E12009B4468 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 043E2AB31F4E024300615AD9 /* AppCenterDistribute Release.xcconfig */;
-			buildSettings = {
-			};
-			name = Release;
-		};
-		04FD4A261E451E12009B4468 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 049BC8221ECE349200FB6719 /* iOS.xcconfig */;
-			buildSettings = {
-			};
-			name = Debug;
-		};
-		04FD4A271E451E12009B4468 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 049BC8221ECE349200FB6719 /* iOS.xcconfig */;
 			buildSettings = {
 			};
 			name = Release;
@@ -1134,14 +969,12 @@
 		};
 		C9A91F91230BFFFF0068070D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F8936C55230C18C2006A330F /* Static iOS.xcconfig */;
 			buildSettings = {
 			};
 			name = Debug;
 		};
 		C9A91F92230BFFFF0068070D /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F8936C55230C18C2006A330F /* Static iOS.xcconfig */;
 			buildSettings = {
 			};
 			name = Release;
@@ -1158,16 +991,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		04FD4A251E451E12009B4468 /* Build configuration list for PBXNativeTarget "AppCenterDistributeIOS" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				04FD4A261E451E12009B4468 /* Debug */,
-				04FD4A271E451E12009B4468 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		04FD4A291E451E90009B4468 /* Build configuration list for PBXAggregateTarget "AppCenterDistributeIOSFramework" */ = {
+		04FD4A291E451E90009B4468 /* Build configuration list for PBXAggregateTarget "AppCenterDistribute iOS Distribution" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				04FD4A2A1E451E90009B4468 /* Debug */,
@@ -1176,7 +1000,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		04FD4A391E453531009B4468 /* Build configuration list for PBXNativeTarget "AppCenterDistributeIOSTests" */ = {
+		04FD4A391E453531009B4468 /* Build configuration list for PBXNativeTarget "AppCenterDistribute iOS Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				04FD4A3A1E453531009B4468 /* Debug */,
@@ -1185,7 +1009,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		04FD4A3D1E453640009B4468 /* Build configuration list for PBXAggregateTarget "AppCenterDistributeIOSDoc" */ = {
+		04FD4A3D1E453640009B4468 /* Build configuration list for PBXAggregateTarget "AppCenterDistribute iOS Documentation" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				04FD4A3E1E453640009B4468 /* Debug */,
@@ -1194,7 +1018,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		B2C070BB1E5E68540076D6A9 /* Build configuration list for PBXNativeTarget "AppCenterDistributeResources" */ = {
+		B2C070BB1E5E68540076D6A9 /* Build configuration list for PBXNativeTarget "AppCenterDistribute Resources" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				B2C070BC1E5E68540076D6A9 /* Debug */,
@@ -1203,7 +1027,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C9A91F93230BFFFF0068070D /* Build configuration list for PBXNativeTarget "AppCenterDistributeStaticIOS" */ = {
+		C9A91F93230BFFFF0068070D /* Build configuration list for PBXNativeTarget "AppCenterDistribute iOS Framework" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C9A91F91230BFFFF0068070D /* Debug */,

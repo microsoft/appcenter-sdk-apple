@@ -35,7 +35,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D3AD5EBF1E5C4F6A001627AB"
                BuildableName = "AppCenterPush.xctest"
-               BlueprintName = "AppCenterPushIOSTests"
+               BlueprintName = "AppCenterPush iOS Tests"
                ReferencedContainer = "container:AppCenterPush.xcodeproj">
             </BuildableReference>
          </TestableReference>

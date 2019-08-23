@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D3AD5F271E5C9633001627AB"
-               BuildableName = "AppCenterDataIOSDoc"
-               BlueprintName = "AppCenterDataIOSDoc"
+               BuildableName = "AppCenterData iOS Documentation"
+               BlueprintName = "AppCenterData iOS Documentation"
                ReferencedContainer = "container:AppCenterData.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -46,8 +46,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D3AD5F271E5C9633001627AB"
-            BuildableName = "AppCenterDataIOSDoc"
-            BlueprintName = "AppCenterDataIOSDoc"
+            BuildableName = "AppCenterData iOS Documentation"
+            BlueprintName = "AppCenterData iOS Documentation"
             ReferencedContainer = "container:AppCenterData.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -64,8 +64,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D3AD5F271E5C9633001627AB"
-            BuildableName = "AppCenterDataIOSDoc"
-            BlueprintName = "AppCenterDataIOSDoc"
+            BuildableName = "AppCenterData iOS Documentation"
+            BlueprintName = "AppCenterData iOS Documentation"
             ReferencedContainer = "container:AppCenterData.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

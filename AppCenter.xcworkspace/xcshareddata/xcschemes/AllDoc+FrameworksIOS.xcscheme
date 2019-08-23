@@ -57,8 +57,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "04FD4A3C1E453640009B4468"
-               BuildableName = "AppCenterDistributeIOSDoc"
-               BlueprintName = "AppCenterDistributeIOSDoc"
+               BuildableName = "AppCenterDistribute iOS Documentation"
+               BlueprintName = "AppCenterDistribute iOS Documentation"
                ReferencedContainer = "container:AppCenterDistribute/AppCenterDistribute.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -85,8 +85,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D3AD5F271E5C9633001627AB"
-               BuildableName = "AppCenterPushIOSDoc"
-               BlueprintName = "AppCenterPushIOSDoc"
+               BuildableName = "AppCenterPush iOS Documentation"
+               BlueprintName = "AppCenterPush iOS Documentation"
                ReferencedContainer = "container:AppCenterPush/AppCenterPush.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -99,8 +99,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D3AD5F271E5C9633001627AB"
-               BuildableName = "AppCenterDataIOSDoc"
-               BlueprintName = "AppCenterDataIOSDoc"
+               BuildableName = "AppCenterData iOS Documentation"
+               BlueprintName = "AppCenterData iOS Documentation"
                ReferencedContainer = "container:AppCenterData/AppCenterData.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>

@@ -35,7 +35,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "046964131F2A559C00F9D31F"
                BuildableName = "AppCenterData.xctest"
-               BlueprintName = "AppCenterDataMacOSTests"
+               BlueprintName = "AppCenterData macOS Tests"
                ReferencedContainer = "container:AppCenterData.xcodeproj">
             </BuildableReference>
          </TestableReference>

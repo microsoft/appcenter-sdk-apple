@@ -1,5 +1,8 @@
 #!/bin/sh
 
-source $(dirname "$0")/../build-ios-framework.sh AppCenterData
+# Copyright (c) Microsoft Corporation. All rights reserved.
+# Licensed under the MIT License.
 
-rm -r "${WRK_DIR}"
+source $(dirname "$0")/../build-ios-framework.sh
+
+rm -r "${WORK_DIR}"

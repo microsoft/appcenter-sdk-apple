@@ -16,7 +16,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "C9A91F8B230BFFFF0068070D"
                BuildableName = "AppCenterDistribute.framework"
-               BlueprintName = "AppCenterDistributeStaticIOS"
+               BlueprintName = "AppCenterDistribute iOS Framework"
                ReferencedContainer = "container:AppCenterDistribute.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -47,7 +47,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "C9A91F8B230BFFFF0068070D"
             BuildableName = "AppCenterDistribute.framework"
-            BlueprintName = "AppCenterDistributeStaticIOS"
+            BlueprintName = "AppCenterDistribute iOS Framework"
             ReferencedContainer = "container:AppCenterDistribute.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -65,7 +65,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "C9A91F8B230BFFFF0068070D"
             BuildableName = "AppCenterDistribute.framework"
-            BlueprintName = "AppCenterDistributeStaticIOS"
+            BlueprintName = "AppCenterDistribute iOS Framework"
             ReferencedContainer = "container:AppCenterDistribute.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
