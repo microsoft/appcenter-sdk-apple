@@ -1,6 +1,4 @@
 #include "../../../Config/macOS.xcconfig"
 #include "../../../Config/Static Framework.xcconfig"
 
-MODULEMAP_FILE = $(SRCROOT)/$(PROJECT_NAME)/Support/macOS.modulemap
-
 OTHER_LDFLAGS=$(inherited) -framework AppKit

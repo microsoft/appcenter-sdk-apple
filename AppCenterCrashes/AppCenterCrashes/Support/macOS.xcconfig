@@ -1,7 +1,5 @@
 #include "../../../Config/macOS.xcconfig"
 #include "../../../Config/Static Framework.xcconfig"
 
-MODULEMAP_FILE = $(SRCROOT)/$(PROJECT_NAME)/Support/macOS.modulemap
-
 HEADER_SEARCH_PATHS = "$(SRCROOT)/../Vendor/macOS"/**
 LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../Vendor/macOS"/**
