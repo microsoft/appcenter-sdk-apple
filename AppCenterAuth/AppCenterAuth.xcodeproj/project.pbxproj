@@ -128,8 +128,6 @@
 		C9EBAB03230D3D5D00A20F0F /* libMSAL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04E97611226A50BF007E6DD1 /* libMSAL.a */; };
 		C9EBAB04230D3D6500A20F0F /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 049BC848224ED7C100AE7FBB /* WebKit.framework */; };
 		C9EBAB27230D72E200A20F0F /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9EBAB26230D72E200A20F0F /* AppCenter.framework */; };
-		C9EBAB3C230D799900A20F0F /* MSAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04E975FB226A50BF007E6DD1 /* MSAL.framework */; };
-		C9EBAB3D230D79A400A20F0F /* MSAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04E975FF226A50BF007E6DD1 /* MSAL.framework */; };
 		F82E4C71217F1FA600EDAB34 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = F82E4C70217F1FA600EDAB34 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		F82E4C72217F1FA600EDAB34 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = F82E4C70217F1FA600EDAB34 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 /* End PBXBuildFile section */
@@ -352,7 +350,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				C25D6487230EF93F00EA6F85 /* AppCenter.framework in Frameworks */,
-				C9EBAB3C230D799900A20F0F /* MSAL.framework in Frameworks */,
 				C9EBAB02230D3D5200A20F0F /* AuthenticationServices.framework in Frameworks */,
 				C9EBAB01230D3D4A00A20F0F /* WebKit.framework in Frameworks */,
 				C9EBAB00230D3D3900A20F0F /* libMSAL.a in Frameworks */,
@@ -363,7 +360,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C9EBAB3D230D79A400A20F0F /* MSAL.framework in Frameworks */,
 				C9EBAB27230D72E200A20F0F /* AppCenter.framework in Frameworks */,
 				C9EBAB04230D3D6500A20F0F /* WebKit.framework in Frameworks */,
 				C9EBAB03230D3D5D00A20F0F /* libMSAL.a in Frameworks */,

@@ -43,8 +43,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "0431216D1EE0C213007054C5"
-               BuildableName = "AppCenterAnalyticsTVOSFramework"
-               BlueprintName = "AppCenterAnalyticsTVOSFramework"
+               BuildableName = "AppCenterAnalytics tvOS Distribution"
+               BlueprintName = "AppCenterAnalytics tvOS Distribution"
                ReferencedContainer = "container:../AppCenterAnalytics/AppCenterAnalytics.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>

@@ -43,8 +43,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "0485AFEF1EAAADAC00C10CAF"
-               BuildableName = "AppCenterAnalyticsMacOSFramework"
-               BlueprintName = "AppCenterAnalyticsMacOSFramework"
+               BuildableName = "AppCenterAnalytics macOS Distribution"
+               BlueprintName = "AppCenterAnalytics macOS Distribution"
                ReferencedContainer = "container:../AppCenterAnalytics/AppCenterAnalytics.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -71,8 +71,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "0469640E1F2A558F00F9D31F"
-               BuildableName = "AppCenterPushMacOSFramework"
-               BlueprintName = "AppCenterPushMacOSFramework"
+               BuildableName = "AppCenterPush macOS Distribution"
+               BlueprintName = "AppCenterPush macOS Distribution"
                ReferencedContainer = "container:../AppCenterPush/AppCenterPush.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
