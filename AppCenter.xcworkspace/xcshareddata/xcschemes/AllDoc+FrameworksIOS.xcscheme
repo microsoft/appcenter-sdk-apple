@@ -29,8 +29,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E85547E91D2D68C5002DF6E2"
-               BuildableName = "AppCenterAnalyticsIOSDoc"
-               BlueprintName = "AppCenterAnalyticsIOSDoc"
+               BuildableName = "AppCenterAnalytics iOS Documentation"
+               BlueprintName = "AppCenterAnalytics iOS Documentation"
                ReferencedContainer = "container:AppCenterAnalytics/AppCenterAnalytics.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
