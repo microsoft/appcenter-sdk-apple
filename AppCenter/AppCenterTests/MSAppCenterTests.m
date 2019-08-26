@@ -628,7 +628,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 - (void)testStartServiceLogIsSentAfterStartService {
 
   // If
-  [MSAppCenter start:MS_UUID_STRING withServices:nil];
+  [MSAppCenter configureWithAppSecret:MS_UUID_STRING];
   id channelUnit = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
   OCMStub([channelUnit enqueueItem:[OCMArg isKindOfClass:[MSStartServiceLog class]] flags:MSFlagsDefault]).andDo(nil);
   [MSAppCenter sharedInstance].channelUnit = channelUnit;
@@ -637,6 +637,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   [MSAppCenter startService:MSMockService.class];
 
   // Then
+  OCMVerify([self.authTokenContextMock finishInitialize]);
   OCMVerify([channelUnit enqueueItem:[OCMArg isKindOfClass:[MSStartServiceLog class]] flags:MSFlagsDefault]);
 }
 
