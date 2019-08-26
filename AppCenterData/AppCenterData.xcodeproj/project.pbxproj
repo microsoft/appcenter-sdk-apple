@@ -153,26 +153,26 @@
 		C9EBAA0E230D36B200A20F0F /* MSTokenResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 2600123B22273E94007F4D3A /* MSTokenResult.h */; };
 		C9EBAA0F230D36B200A20F0F /* MSTokensResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 2600123C22273E94007F4D3A /* MSTokensResponse.h */; };
 		C9EBAA10230D36B200A20F0F /* MSPaginatedDocumentsInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 8F5227EF22542556004F37FE /* MSPaginatedDocumentsInternal.h */; };
-		C9EBAA11230D36BA00A20F0F /* MSTokenResultPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 8FCF9FDF225D4D870049B326 /* MSTokenResultPrivate.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		C9EBAA12230D36BB00A20F0F /* MSTokenResultPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 8FCF9FDF225D4D870049B326 /* MSTokenResultPrivate.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		C9EBAA11230D36BA00A20F0F /* MSTokenResultPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 8FCF9FDF225D4D870049B326 /* MSTokenResultPrivate.h */; };
+		C9EBAA12230D36BB00A20F0F /* MSTokenResultPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 8FCF9FDF225D4D870049B326 /* MSTokenResultPrivate.h */; };
 		C9EBAA13230D36E700A20F0F /* MSPageInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 7FE685B62275432200C2F4BA /* MSPageInternal.h */; };
 		C9EBAA14230D36E700A20F0F /* MSDataErrorInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 7FE685B7227546AE00C2F4BA /* MSDataErrorInternal.h */; };
 		C9EBAA15230D36E800A20F0F /* MSPageInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 7FE685B62275432200C2F4BA /* MSPageInternal.h */; };
 		C9EBAA16230D36E800A20F0F /* MSDataErrorInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 7FE685B7227546AE00C2F4BA /* MSDataErrorInternal.h */; };
 		C9EBAA1B230D378300A20F0F /* MSCosmosDb.h in Headers */ = {isa = PBXBuildFile; fileRef = E8593A14222B91B20001F87E /* MSCosmosDb.h */; };
-		C9EBAA1C230D378300A20F0F /* MSCosmosDbPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 87FA7FB5BC7302D0062016E1 /* MSCosmosDbPrivate.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		C9EBAA1C230D378300A20F0F /* MSCosmosDbPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 87FA7FB5BC7302D0062016E1 /* MSCosmosDbPrivate.h */; };
 		C9EBAA1D230D378300A20F0F /* MSDataOperationProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = 8F534A0F2260320200D18129 /* MSDataOperationProxy.h */; };
 		C9EBAA1E230D378300A20F0F /* MSTokenExchange.h in Headers */ = {isa = PBXBuildFile; fileRef = E86B95D72224B5F60062E552 /* MSTokenExchange.h */; };
 		C9EBAA1F230D378400A20F0F /* MSCosmosDb.h in Headers */ = {isa = PBXBuildFile; fileRef = E8593A14222B91B20001F87E /* MSCosmosDb.h */; };
-		C9EBAA20230D378400A20F0F /* MSCosmosDbPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 87FA7FB5BC7302D0062016E1 /* MSCosmosDbPrivate.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		C9EBAA20230D378400A20F0F /* MSCosmosDbPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 87FA7FB5BC7302D0062016E1 /* MSCosmosDbPrivate.h */; };
 		C9EBAA21230D378400A20F0F /* MSDataOperationProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = 8F534A0F2260320200D18129 /* MSDataOperationProxy.h */; };
 		C9EBAA22230D378400A20F0F /* MSTokenExchange.h in Headers */ = {isa = PBXBuildFile; fileRef = E86B95D72224B5F60062E552 /* MSTokenExchange.h */; };
 		C9EBAA23230D379C00A20F0F /* AppCenter+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5F0B1E5C819A001627AB /* AppCenter+Internal.h */; };
 		C9EBAA24230D379E00A20F0F /* AppCenter+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5F0B1E5C819A001627AB /* AppCenter+Internal.h */; };
 		C9EBAA25230D37A100A20F0F /* MSDataInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = E824A5472225FDAC005B69B5 /* MSDataInternal.h */; };
 		C9EBAA26230D37A200A20F0F /* MSDataInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = E824A5472225FDAC005B69B5 /* MSDataInternal.h */; };
-		C9EBAA27230D37A500A20F0F /* MSDataPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5F081E5C8156001627AB /* MSDataPrivate.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		C9EBAA28230D37A600A20F0F /* MSDataPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5F081E5C8156001627AB /* MSDataPrivate.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		C9EBAA27230D37A500A20F0F /* MSDataPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5F081E5C8156001627AB /* MSDataPrivate.h */; };
+		C9EBAA28230D37A600A20F0F /* MSDataPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5F081E5C8156001627AB /* MSDataPrivate.h */; };
 		C9EBAA29230D37AD00A20F0F /* MSDocumentWrapperInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 35F515A7225BC6B0001BFFA2 /* MSDocumentWrapperInternal.h */; };
 		C9EBAA2A230D37AE00A20F0F /* MSDocumentWrapperInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 35F515A7225BC6B0001BFFA2 /* MSDocumentWrapperInternal.h */; };
 		C9EBAAC1230D3A7E00A20F0F /* MSBaseOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464EA222F28A300EC1FF3 /* MSBaseOptions.m */; };
@@ -709,7 +709,6 @@
 				C9EBA9E2230D367B00A20F0F /* AppCenterData.h in Headers */,
 				C9EBAA00230D36B200A20F0F /* MSDBDocumentStorePrivate.h in Headers */,
 				C9EBAA1D230D378300A20F0F /* MSDataOperationProxy.h in Headers */,
-				C9EBAA1C230D378300A20F0F /* MSCosmosDbPrivate.h in Headers */,
 				C9EBA9ED230D367B00A20F0F /* MSSerializableDocument.h in Headers */,
 				C9EBA9E7230D367B00A20F0F /* MSDictionaryDocument.h in Headers */,
 				C9EBA9E0230D367B00A20F0F /* MSService.h in Headers */,
@@ -724,8 +723,11 @@
 				C9EBAA25230D37A100A20F0F /* MSDataInternal.h in Headers */,
 				C9EBAA01230D36B200A20F0F /* MSDocumentStore.h in Headers */,
 				C9EBA9EA230D367B00A20F0F /* MSPaginatedDocuments.h in Headers */,
+				C9EBAA27230D37A500A20F0F /* MSDataPrivate.h in Headers */,
+				C9EBAA1C230D378300A20F0F /* MSCosmosDbPrivate.h in Headers */,
 				C9EBA9E4230D367B00A20F0F /* MSDataError.h in Headers */,
 				C9EBA9E3230D367B00A20F0F /* MSBaseOptions.h in Headers */,
+				C9EBAA11230D36BA00A20F0F /* MSTokenResultPrivate.h in Headers */,
 				C9EBAA29230D37AD00A20F0F /* MSDocumentWrapperInternal.h in Headers */,
 				C9EBA9EE230D367B00A20F0F /* MSWriteOptions.h in Headers */,
 				C9EBAA03230D36B200A20F0F /* MSDataConstants.h in Headers */,
@@ -736,10 +738,8 @@
 				C9EBA9E5230D367B00A20F0F /* MSData.h in Headers */,
 				C9EBAA02230D36B200A20F0F /* MSDocumentUtils.h in Headers */,
 				C9EBAA1B230D378300A20F0F /* MSCosmosDb.h in Headers */,
-				C9EBAA11230D36BA00A20F0F /* MSTokenResultPrivate.h in Headers */,
 				C9EBAA07230D36B200A20F0F /* MSPaginatedDocumentsInternal.h in Headers */,
 				C9EBAA05230D36B200A20F0F /* MSTokenResult.h in Headers */,
-				C9EBAA27230D37A500A20F0F /* MSDataPrivate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -752,7 +752,6 @@
 				C9EBA9F2230D367C00A20F0F /* AppCenterData.h in Headers */,
 				C9EBAA09230D36B200A20F0F /* MSDBDocumentStorePrivate.h in Headers */,
 				C9EBAA21230D378400A20F0F /* MSDataOperationProxy.h in Headers */,
-				C9EBAA20230D378400A20F0F /* MSCosmosDbPrivate.h in Headers */,
 				C9EBA9FD230D367C00A20F0F /* MSSerializableDocument.h in Headers */,
 				C9EBA9F7230D367C00A20F0F /* MSDictionaryDocument.h in Headers */,
 				C9EBA9F0230D367C00A20F0F /* MSService.h in Headers */,
@@ -766,6 +765,9 @@
 				C9EBAA15230D36E800A20F0F /* MSPageInternal.h in Headers */,
 				C9EBAA26230D37A200A20F0F /* MSDataInternal.h in Headers */,
 				C9EBAA0A230D36B200A20F0F /* MSDocumentStore.h in Headers */,
+				C9EBAA20230D378400A20F0F /* MSCosmosDbPrivate.h in Headers */,
+				C9EBAA12230D36BB00A20F0F /* MSTokenResultPrivate.h in Headers */,
+				C9EBAA28230D37A600A20F0F /* MSDataPrivate.h in Headers */,
 				C9EBA9FA230D367C00A20F0F /* MSPaginatedDocuments.h in Headers */,
 				C9EBA9F4230D367C00A20F0F /* MSDataError.h in Headers */,
 				C9EBA9F3230D367C00A20F0F /* MSBaseOptions.h in Headers */,
@@ -779,10 +781,8 @@
 				C9EBA9F5230D367C00A20F0F /* MSData.h in Headers */,
 				C9EBAA0B230D36B200A20F0F /* MSDocumentUtils.h in Headers */,
 				C9EBAA1F230D378400A20F0F /* MSCosmosDb.h in Headers */,
-				C9EBAA12230D36BB00A20F0F /* MSTokenResultPrivate.h in Headers */,
 				C9EBAA10230D36B200A20F0F /* MSPaginatedDocumentsInternal.h in Headers */,
 				C9EBAA0E230D36B200A20F0F /* MSTokenResult.h in Headers */,
-				C9EBAA28230D37A600A20F0F /* MSDataPrivate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

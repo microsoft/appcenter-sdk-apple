@@ -102,8 +102,8 @@
 		C9EBAA57230D38F100A20F0F /* MSUserNotificationCenterDelegateForwarder.h in Headers */ = {isa = PBXBuildFile; fileRef = 38C65D8021826CC80004FB44 /* MSUserNotificationCenterDelegateForwarder.h */; };
 		C9EBAA58230D38F100A20F0F /* MSPushLog.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5F6A1E5D7464001627AB /* MSPushLog.h */; };
 		C9EBAA59230D38F100A20F0F /* MSPushNotificationInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 047919B81EBA4C44004834A6 /* MSPushNotificationInternal.h */; };
-		C9EBAA5A230D38F500A20F0F /* MSPushPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5F081E5C8156001627AB /* MSPushPrivate.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		C9EBAA5B230D38F500A20F0F /* MSPushPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5F081E5C8156001627AB /* MSPushPrivate.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		C9EBAA5A230D38F500A20F0F /* MSPushPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5F081E5C8156001627AB /* MSPushPrivate.h */; };
+		C9EBAA5B230D38F500A20F0F /* MSPushPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5F081E5C8156001627AB /* MSPushPrivate.h */; };
 		C9EBAAF2230D3AC100A20F0F /* MSPush.m in Sources */ = {isa = PBXBuildFile; fileRef = D3AD5F011E5C7F68001627AB /* MSPush.m */; };
 		C9EBAAF3230D3AC100A20F0F /* MSPushAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 38C65D7A21826C400004FB44 /* MSPushAppDelegate.m */; };
 		C9EBAAF4230D3AC100A20F0F /* MSUserNotificationCenterDelegateForwarder.m in Sources */ = {isa = PBXBuildFile; fileRef = 38C65D8121826CC80004FB44 /* MSUserNotificationCenterDelegateForwarder.m */; };
@@ -497,12 +497,12 @@
 				C9EBAA51230D38F000A20F0F /* MSUserNotificationCenterDelegateForwarder.h in Headers */,
 				C9EBAA4F230D38F000A20F0F /* MSCustomPushApplicationDelegate.h in Headers */,
 				C9EBAA43230D38D600A20F0F /* MSServiceAbstract.h in Headers */,
+				C9EBAA5A230D38F500A20F0F /* MSPushPrivate.h in Headers */,
 				C9EBAA52230D38F000A20F0F /* MSPushLog.h in Headers */,
 				C9EBAA50230D38F000A20F0F /* MSPushAppDelegate.h in Headers */,
 				C9EBAA45230D38D600A20F0F /* MSPush.h in Headers */,
 				C9EBAA42230D38D600A20F0F /* MSService.h in Headers */,
 				C9EBAA47230D38D600A20F0F /* MSPushNotification.h in Headers */,
-				C9EBAA5A230D38F500A20F0F /* MSPushPrivate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -517,12 +517,12 @@
 				C9EBAA57230D38F100A20F0F /* MSUserNotificationCenterDelegateForwarder.h in Headers */,
 				C9EBAA55230D38F100A20F0F /* MSCustomPushApplicationDelegate.h in Headers */,
 				C9EBAA49230D38D700A20F0F /* MSServiceAbstract.h in Headers */,
+				C9EBAA5B230D38F500A20F0F /* MSPushPrivate.h in Headers */,
 				C9EBAA58230D38F100A20F0F /* MSPushLog.h in Headers */,
 				C9EBAA56230D38F100A20F0F /* MSPushAppDelegate.h in Headers */,
 				C9EBAA4B230D38D700A20F0F /* MSPush.h in Headers */,
 				C9EBAA48230D38D700A20F0F /* MSService.h in Headers */,
 				C9EBAA4D230D38D700A20F0F /* MSPushNotification.h in Headers */,
-				C9EBAA5B230D38F500A20F0F /* MSPushPrivate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
