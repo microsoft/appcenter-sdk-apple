@@ -1018,7 +1018,6 @@
 						ProvisioningStyle = Automatic;
 					};
 					C9CA69D82306CAF700EE82AA = {
-						CreatedOnToolsVersion = 10.2.1;
 						DevelopmentTeam = 5Z97G9NZQ6;
 						ProvisioningStyle = Automatic;
 					};
