@@ -2,6 +2,7 @@
 
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License.
+set -e
 
 # Sets the target folders and the final framework product.
 TARGET_NAME="${PROJECT_NAME} tvOS Framework"
@@ -14,8 +15,8 @@ PRODUCTS_DIR=${SRCROOT}/../AppCenter-SDK-Apple/tvOS
 
 # Working dir will be deleted after the framework creation.
 WORK_DIR=build
-DEVICE_DIR="${WORK_DIR}/Release-appletvos/${PROJECT_NAME}"
-SIMULATOR_DIR="${WORK_DIR}/Release-appletvsimulator/${PROJECT_NAME}"
+DEVICE_DIR="${WORK_DIR}/Release-appletvos/"
+SIMULATOR_DIR="${WORK_DIR}/Release-appletvsimulator/"
 
 # Make sure we're inside $SRCROOT.
 cd "${SRCROOT}"

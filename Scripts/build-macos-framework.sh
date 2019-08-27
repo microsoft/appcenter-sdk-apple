@@ -2,6 +2,7 @@
 
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License.
+set -e
 
 # Sets the target folders and the final framework product.
 TARGET_NAME="${PROJECT_NAME} macOS Framework"
@@ -14,7 +15,7 @@ PRODUCTS_DIR=${SRCROOT}/../AppCenter-SDK-Apple/macOS
 
 # Working dir will be deleted after the framework creation.
 WORK_DIR=build
-DEVICE_DIR="${WORK_DIR}/Release/${PROJECT_NAME}"
+DEVICE_DIR="${WORK_DIR}/Release/"
 
 # Make sure we're inside $SRCROOT.
 cd "${SRCROOT}"
