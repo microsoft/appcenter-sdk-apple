@@ -218,7 +218,6 @@
 		B2FF130C1DD12F61003DC677 /* MSAppleErrorLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2FF130B1DD12F61003DC677 /* MSAppleErrorLogTests.m */; };
 		BA682CFA6F4C5A8841507CF7 /* MSMockCrashesDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BA68266A68B7F21A86A093B0 /* MSMockCrashesDelegate.m */; };
 		C2614464230FE9A200D65EBF /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC99A141D41517B0016C325 /* CrashReporter.framework */; };
-		C2A4A26F1EE76B970080FD22 /* libCrashReporter-MacOSX-Static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 049327B11ECA19FD00D0187A /* libCrashReporter-MacOSX-Static.a */; };
 		C2B25A27230F040400511D49 /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2B25A26230F040400511D49 /* AppCenter.framework */; };
 		C2B25A28230F040400511D49 /* AppCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A91F4A230BFD930068070D /* AppCenterCrashes.framework */; };
 		C2B25A2C230F079800511D49 /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2B25A2B230F079800511D49 /* AppCenter.framework */; };
@@ -663,7 +662,6 @@
 				C2B25A30230F07B000511D49 /* AppCenterCrashes.framework in Frameworks */,
 				04BED7231ECB65E100E20975 /* OCHamcrest.framework in Frameworks */,
 				0420A6961ECA7BF500915619 /* OCMock.framework in Frameworks */,
-				C2A4A26F1EE76B970080FD22 /* libCrashReporter-MacOSX-Static.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
