@@ -17,6 +17,7 @@
 #import "MSDocumentStore.h"
 #import "MSDocumentUtils.h"
 #import "MSDocumentWrapperInternal.h"
+#import "MSDocumentMetadataInternal.h"
 #import "MSHttpClient.h"
 #import "MSHttpTestUtil.h"
 #import "MSMockUserDefaults.h"
@@ -2581,13 +2582,14 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // Set the auth context.
   [[MSAuthTokenContext sharedInstance] setAuthToken:@"token1" withAccountId:@"account1" expiresOn:nil];
-  __weak XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler called."];
+  XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler called."];
 
   // Mock remote operation delegate
-  __block MSDocumentWrapper *returnedStorageDocument = nil;
+  __block MSDocumentMetadata *returnedStorageDocument;
   id<MSRemoteOperationDelegate> delegateMock = OCMProtocolMock(@protocol(MSRemoteOperationDelegate));
-  OCMStub([delegateMock data:OCMOCK_ANY didCompletePendingOperation:OCMOCK_ANY forDocument:OCMOCK_ANY withError:OCMOCK_ANY])
+  OCMStub([delegateMock data:OCMOCK_ANY didCompleteRemoteOperation:OCMOCK_ANY forDocumentMetadata:OCMOCK_ANY withError:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
+        [invocation retainArguments];
         [invocation getArgument:&returnedStorageDocument atIndex:4];
         [expectation fulfill];
       });
@@ -2663,11 +2665,10 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                  id<MSRemoteOperationDelegate> strongDelegate = [MSData sharedInstance].remoteOperationDelegate;
                                  XCTAssertNotNil(strongDelegate);
                                  XCTAssertEqual(strongDelegate, delegateMock);
-
                                  OCMVerify([delegateMock data:self.sut
-                                     didCompletePendingOperation:kMSPendingOperationCreate
-                                                     forDocument:returnedStorageDocument
-                                                       withError:nil]);
+                                     didCompleteRemoteOperation:kMSPendingOperationCreate
+                                                    forDocumentMetadata:returnedStorageDocument
+                                                      withError:nil]);
                                }];
 }
 @end

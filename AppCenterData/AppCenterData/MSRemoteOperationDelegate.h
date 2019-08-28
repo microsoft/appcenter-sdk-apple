@@ -5,7 +5,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class MSDocumentWrapper;
+@class MSDocumentMetadata;
 @class MSDataError;
 
 @protocol MSRemoteOperationDelegate <NSObject>
@@ -18,13 +18,13 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param data The instance of `MSData`.
  * @param operation Operation ran.
- * @param document Document that was synchronized. `nil` if error encountered
+ * @param documentMeatadata Document metadata that was synchronized. `nil` if error encountered
  * @param error Error details or `nil` when the synchronization was successful
  */
 - (void)data:(MSData *)data
-    didCompletePendingOperation:(NSString *)operation
-                    forDocument:(MSDocumentWrapper *_Nullable)document
-                      withError:(MSDataError *_Nullable)error;
+    didCompleteRemoteOperation:(NSString *)operation
+           forDocumentMetadata:(MSDocumentMetadata *_Nullable)documentMeatadata
+                     withError:(MSDataError *_Nullable)error;
 
 @end
 

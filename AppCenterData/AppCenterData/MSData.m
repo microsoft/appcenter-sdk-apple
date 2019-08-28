@@ -15,6 +15,8 @@
 #import "MSDataInternal.h"
 #import "MSDataPrivate.h"
 #import "MSDictionaryDocument.h"
+#import "MSDocumentMetadata.h"
+#import "MSDocumentMetadataInternal.h"
 #import "MSDocumentStore.h"
 #import "MSDocumentUtils.h"
 #import "MSDocumentWrapperInternal.h"
@@ -940,7 +942,7 @@ static dispatch_once_t onceToken;
   // Check if expired.
   BOOL isExpired = [MSPendingOperation isExpiredWithExpirationTime:operationExpirationTime];
   BOOL shouldDeleteLocalCache = YES;
-  MSDocumentWrapper *document = nil;
+  MSDocumentMetadata *documentMetadata = nil;
 
   // Create and Replace operations.
   if (!documentWrapper.error && ![pendingOperation isEqualToString:kMSPendingOperationDelete]) {
@@ -954,11 +956,14 @@ static dispatch_once_t onceToken;
                                               expirationTime:operationExpirationTime];
       shouldDeleteLocalCache = NO;
     }
-    document = documentWrapper;
+
+    documentMetadata = [[MSDocumentMetadata alloc] initWithPartition:documentWrapper.partition
+                                                          documentId:documentWrapper.documentId
+                                                                eTag:documentWrapper.eTag];
   } else if (documentWrapper.error.code == MSHTTPCodesNo404NotFound || documentWrapper.error.code == MSHTTPCodesNo409Conflict) {
     MSLogError([MSData logTag], @"Failed to call Cosmos with operation: %@. Remote operation failed with error code: %ld", pendingOperation,
                (long)documentWrapper.error);
-    document = nil;
+    // documentMetadata1 = nil;
   } else if (documentWrapper.error) {
     MSLogError([MSData logTag], @"Failed to call Cosmos with operation:%@ API: %@", pendingOperation,
                [documentWrapper.error localizedDescription]);
@@ -969,13 +974,18 @@ static dispatch_once_t onceToken;
     [self.dataOperationProxy.documentStore deleteWithToken:token documentId:documentId];
   }
 
+//    [self.remoteOperationDelegate data:self didCompleteRemoteOperation:pendingOperation forDocumentMetadata:documentMetadata withError:documentWrapper.error];
+  
+  
+  //self.remoteOperationDelegate
   // If the Remote operation is set
   id<MSRemoteOperationDelegate> strongDelegate;
   @synchronized(self) {
     strongDelegate = self.remoteOperationDelegate;
-  }
-  if (strongDelegate) {
-    [strongDelegate data:self didCompletePendingOperation:pendingOperation forDocument:document withError:documentWrapper.error];
+    
+    if (strongDelegate) {
+      [strongDelegate data:self didCompleteRemoteOperation:pendingOperation forDocumentMetadata:documentMetadata withError:documentWrapper.error];
+    }
   }
 }
 
