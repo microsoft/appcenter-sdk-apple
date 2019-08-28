@@ -792,6 +792,7 @@
 				ORGANIZATIONNAME = Microsoft;
 				TargetAttributes = {
 					C934BFE4230BF74000083490 = {
+						CreatedOnToolsVersion = 10.2.1;
 						DevelopmentTeam = KYJ84ZC369;
 						ProvisioningStyle = Automatic;
 					};
