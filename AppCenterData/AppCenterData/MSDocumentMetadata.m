@@ -5,9 +5,7 @@
 
 @implementation MSDocumentMetadata
 
-- (instancetype)initWithPartition:(NSString *)partition
-                       documentId:(NSString *)documentId
-                             eTag:(NSString *)eTag {
+- (instancetype)initWithPartition:(NSString *)partition documentId:(NSString *)documentId eTag:(NSString *)eTag {
   if ((self = [super init])) {
     _documentId = documentId;
     _partition = partition;

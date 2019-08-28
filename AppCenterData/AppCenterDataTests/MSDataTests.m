@@ -14,10 +14,10 @@
 #import "MSDataPrivate.h"
 #import "MSDictionaryDocument.h"
 #import "MSDispatchTestUtil.h"
+#import "MSDocumentMetadataInternal.h"
 #import "MSDocumentStore.h"
 #import "MSDocumentUtils.h"
 #import "MSDocumentWrapperInternal.h"
-#import "MSDocumentMetadataInternal.h"
 #import "MSHttpClient.h"
 #import "MSHttpTestUtil.h"
 #import "MSMockUserDefaults.h"
@@ -2667,7 +2667,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                  XCTAssertEqual(strongDelegate, delegateMock);
                                  OCMVerify([delegateMock data:self.sut
                                      didCompleteRemoteOperation:kMSPendingOperationCreate
-                                                    forDocumentMetadata:returnedStorageDocument
+                                            forDocumentMetadata:returnedStorageDocument
                                                       withError:nil]);
                                }];
 }

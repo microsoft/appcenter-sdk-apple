@@ -974,17 +974,15 @@ static dispatch_once_t onceToken;
     [self.dataOperationProxy.documentStore deleteWithToken:token documentId:documentId];
   }
 
-//    [self.remoteOperationDelegate data:self didCompleteRemoteOperation:pendingOperation forDocumentMetadata:documentMetadata withError:documentWrapper.error];
-  
-  
-  //self.remoteOperationDelegate
   // If the Remote operation is set
   id<MSRemoteOperationDelegate> strongDelegate;
   @synchronized(self) {
     strongDelegate = self.remoteOperationDelegate;
-    
     if (strongDelegate) {
-      [strongDelegate data:self didCompleteRemoteOperation:pendingOperation forDocumentMetadata:documentMetadata withError:documentWrapper.error];
+      [strongDelegate data:self
+          didCompleteRemoteOperation:pendingOperation
+                 forDocumentMetadata:documentMetadata
+                           withError:documentWrapper.error];
     }
   }
 }

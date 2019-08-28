@@ -14,7 +14,5 @@
  *
  * @return A new `MSDocumentWrapper` instance.
  */
-- (instancetype)initWithPartition:(NSString *)partition
-                       documentId:(NSString *)documentId
-                             eTag:(NSString *)eTag;
+- (instancetype)initWithPartition:(NSString *)partition documentId:(NSString *)documentId eTag:(NSString *)eTag;
 @end
