@@ -453,7 +453,37 @@
 			remoteGlobalIDString = C9A91F5D230BFDB70068070D;
 			remoteInfo = "AppCenterCrashes macOS Framework";
 		};
+		F8CD32A8231577F5009A1406 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6E04012B1D1C98690051BCFA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C9A91F52230BFDB40068070D;
+			remoteInfo = "AppCenterCrashes tvOS Framework";
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		F8E638F52316C9D700269396 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 16;
+			files = (
+				F8E638F62316CA0000269396 /* CrashReporter.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F8E638F72316CA7F00269396 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 16;
+			files = (
+				F8E638F82316CA8D00269396 /* CrashReporter.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		041CFF911ECD00DC00B4654B /* Tests iOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Tests iOS.xcconfig"; path = "../../Config/Tests iOS.xcconfig"; sourceTree = "<group>"; };
@@ -1346,6 +1376,7 @@
 				C9A91F45230BFD930068070D /* Headers */,
 				C9A91F46230BFD930068070D /* Sources */,
 				C9A91F47230BFD930068070D /* Frameworks */,
+				F8E638F52316C9D700269396 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -1364,6 +1395,7 @@
 				C9A91F53230BFDB40068070D /* Headers */,
 				C9A91F55230BFDB40068070D /* Sources */,
 				C9A91F56230BFDB40068070D /* Frameworks */,
+				F8E638F72316CA7F00269396 /* CopyFiles */,
 			);
 			buildRules = (
 			);
