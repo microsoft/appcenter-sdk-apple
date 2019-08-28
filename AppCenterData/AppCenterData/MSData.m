@@ -963,7 +963,6 @@ static dispatch_once_t onceToken;
   } else if (documentWrapper.error.code == MSHTTPCodesNo404NotFound || documentWrapper.error.code == MSHTTPCodesNo409Conflict) {
     MSLogError([MSData logTag], @"Failed to call Cosmos with operation: %@. Remote operation failed with error code: %ld", pendingOperation,
                (long)documentWrapper.error);
-    // documentMetadata1 = nil;
   } else if (documentWrapper.error) {
     MSLogError([MSData logTag], @"Failed to call Cosmos with operation:%@ API: %@", pendingOperation,
                [documentWrapper.error localizedDescription]);
