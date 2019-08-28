@@ -207,8 +207,8 @@
 		E8DADEF222286D2100587E15 /* MSTokensResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 2600123E22273E94007F4D3A /* MSTokensResponse.m */; };
 		E8DADEF322286D2300587E15 /* MSTokensResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 2600123C22273E94007F4D3A /* MSTokensResponse.h */; };
 		E8DADEF422286D2500587E15 /* MSTokenResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 2600123D22273E94007F4D3A /* MSTokenResult.m */; };
-		E8EFA3A82315EC03002E1E1F /* MSDocumentMetadata.h in Headers */ = {isa = PBXBuildFile; fileRef = E8EFA3A62315EC03002E1E1F /* MSDocumentMetadata.h */; };
-		E8EFA3A92315EC03002E1E1F /* MSDocumentMetadata.h in Headers */ = {isa = PBXBuildFile; fileRef = E8EFA3A62315EC03002E1E1F /* MSDocumentMetadata.h */; };
+		E8EFA3A82315EC03002E1E1F /* MSDocumentMetadata.h in Headers */ = {isa = PBXBuildFile; fileRef = E8EFA3A62315EC03002E1E1F /* MSDocumentMetadata.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E8EFA3A92315EC03002E1E1F /* MSDocumentMetadata.h in Headers */ = {isa = PBXBuildFile; fileRef = E8EFA3A62315EC03002E1E1F /* MSDocumentMetadata.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E8EFA3AA2315EC03002E1E1F /* MSDocumentMetadata.m in Sources */ = {isa = PBXBuildFile; fileRef = E8EFA3A72315EC03002E1E1F /* MSDocumentMetadata.m */; };
 		E8EFA3AB2315EC03002E1E1F /* MSDocumentMetadata.m in Sources */ = {isa = PBXBuildFile; fileRef = E8EFA3A72315EC03002E1E1F /* MSDocumentMetadata.m */; };
 		E8EFA3AD2315F100002E1E1F /* MSDocumentMetadataInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = E8EFA3AC2315F100002E1E1F /* MSDocumentMetadataInternal.h */; };
