@@ -8,7 +8,7 @@
 
 ### App Center Analytics
 
-* **[Fix]** Fix crash invocking swizzled `ms_viewWillAppear` method.
+* **[Fix]** Fix crash involving SDK's `ms_viewWillAppear` method.
 
 ___
 
