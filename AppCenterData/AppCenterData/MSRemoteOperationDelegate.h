@@ -18,12 +18,12 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param data The instance of `MSData`.
  * @param operation Operation ran.
- * @param documentMeatadata Document metadata that was synchronized. `nil` if error encountered
+ * @param documentMetadata Document metadata that was synchronized. `nil` if error encountered
  * @param error Error details or `nil` when the synchronization was successful
  */
 - (void)data:(MSData *)data
     didCompleteRemoteOperation:(NSString *)operation
-           forDocumentMetadata:(MSDocumentMetadata *_Nullable)documentMeatadata
+           forDocumentMetadata:(MSDocumentMetadata *_Nullable)documentMetadata
                      withError:(MSDataError *_Nullable)error;
 
 @end
