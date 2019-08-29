@@ -3248,7 +3248,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC8281ECE3A5200FB6719 /* iOS.xcconfig */;
 			buildSettings = {
-				DEVELOPMENT_TEAM = KYJ84ZC369;
 			};
 			name = Debug;
 		};
@@ -3256,7 +3255,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC8281ECE3A5200FB6719 /* iOS.xcconfig */;
 			buildSettings = {
-				DEVELOPMENT_TEAM = KYJ84ZC369;
 			};
 			name = Release;
 		};
@@ -3264,7 +3262,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC8291ECE3A5A00FB6719 /* macOS.xcconfig */;
 			buildSettings = {
-				DEVELOPMENT_TEAM = KYJ84ZC369;
 			};
 			name = Debug;
 		};
@@ -3272,7 +3269,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC8291ECE3A5A00FB6719 /* macOS.xcconfig */;
 			buildSettings = {
-				DEVELOPMENT_TEAM = KYJ84ZC369;
 			};
 			name = Release;
 		};
@@ -3280,7 +3276,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 043120711EE0BCC4007054C5 /* tvOS.xcconfig */;
 			buildSettings = {
-				DEVELOPMENT_TEAM = KYJ84ZC369;
 			};
 			name = Debug;
 		};
@@ -3288,7 +3283,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 043120711EE0BCC4007054C5 /* tvOS.xcconfig */;
 			buildSettings = {
-				DEVELOPMENT_TEAM = KYJ84ZC369;
 			};
 			name = Release;
 		};
