@@ -611,15 +611,6 @@
 				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = Microsoft;
 				TargetAttributes = {
-					0469640E1F2A558F00F9D31F = {
-						DevelopmentTeam = "\"5Z97G9NZQ6\"";
-					};
-					046964131F2A559C00F9D31F = {
-						DevelopmentTeam = "\"5Z97G9NZQ6\"";
-					};
-					046964271F2A55A600F9D31F = {
-						DevelopmentTeam = "\"5Z97G9NZQ6\"";
-					};
 					C9A91F9A230C004A0068070D = {
 						CreatedOnToolsVersion = 10.2.1;
 						DevelopmentTeam = 5Z97G9NZQ6;
@@ -628,15 +619,6 @@
 					C9A91FA3230C00540068070D = {
 						DevelopmentTeam = 5Z97G9NZQ6;
 						ProvisioningStyle = Automatic;
-					};
-					D3AD5EBF1E5C4F6A001627AB = {
-						DevelopmentTeam = "\"5Z97G9NZQ6\"";
-					};
-					D3AD5F221E5C9562001627AB = {
-						DevelopmentTeam = "\"5Z97G9NZQ6\"";
-					};
-					D3AD5F271E5C9633001627AB = {
-						DevelopmentTeam = "\"5Z97G9NZQ6\"";
 					};
 				};
 			};
@@ -910,7 +892,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC81E1ECE333700FB6719 /* iOS.xcconfig */;
 			buildSettings = {
-				DEVELOPMENT_TEAM = 5Z97G9NZQ6;
 			};
 			name = Debug;
 		};
@@ -918,7 +899,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC81E1ECE333700FB6719 /* iOS.xcconfig */;
 			buildSettings = {
-				DEVELOPMENT_TEAM = 5Z97G9NZQ6;
 			};
 			name = Release;
 		};
@@ -926,7 +906,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0469642F1F2A55CF00F9D31F /* macOS.xcconfig */;
 			buildSettings = {
-				DEVELOPMENT_TEAM = 5Z97G9NZQ6;
 			};
 			name = Debug;
 		};
@@ -934,7 +913,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0469642F1F2A55CF00F9D31F /* macOS.xcconfig */;
 			buildSettings = {
-				DEVELOPMENT_TEAM = 5Z97G9NZQ6;
 			};
 			name = Release;
 		};
