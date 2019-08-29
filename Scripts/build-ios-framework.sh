@@ -62,7 +62,8 @@ if [ -z "$MS_ARM64E_XCODE_PATH" ] || [ ! -d "$MS_ARM64E_XCODE_PATH" ]; then
 else
 
   # Grep the output of `lipo -archs` if it contains "arm64e". If it does, don't build for arm64e again.
-# DOES_CONTAIN_ARM64E=`env DEVELOPER_DIR="$MS_ARM64E_XCODE_PATH" /usr/bin/lipo -archs "${LIB_IPHONEOS_FINAL}" | grep arm64e`
+env DEVELOPER_DIR="$MS_ARM64E_XCODE_PATH" lipo -archs "${LIB_IPHONEOS_FINAL}" | grep arm64e
+ xcrun xcscontrol --configure-integration-timeout 4000
 #if [ ! -z "${DOES_CONTAIN_ARM64E}" ]; then
 #echo "The binary already contains an arm64e slice."
 #else
@@ -74,7 +75,7 @@ else
     mv "${DEVICE_DIR}/${PROJECT_NAME}.framework/${PROJECT_NAME}" "${DEVICE_TEMP_DIR}/${PROJECT_NAME}"
 
     # Build with the Xcode version that supports arm64e.
-    env DEVELOPER_DIR="${MS_ARM64E_XCODE_PATH}" /usr/bin/xcodebuild -verbose ARCHS="arm64e" -project "${PROJECT_NAME}.xcodeproj" -configuration "Release" -target "${TARGET_NAME}" 
+    env DEVELOPER_DIR="${MS_ARM64E_XCODE_PATH}" /usr/bin/xcodebuild -verbose ARCHS="arm64e" -project "${PROJECT_NAME}.xcodeproj" -configuration "Release" -target "${TARGET_NAME}"
 
     # Lipo the binaries that were built with various Xcode versions.
     env DEVELOPER_DIR="${MS_ARM64E_XCODE_PATH}" lipo -create "${DEVICE_TEMP_DIR}/${PROJECT_NAME}" "${DEVICE_DIR}/${PROJECT_NAME}.framework/${PROJECT_NAME}" -output "${PRODUCTS_DIR}/${PROJECT_NAME}.framework/${PROJECT_NAME}"
