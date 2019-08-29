@@ -74,7 +74,7 @@ else
     mv "${DEVICE_DIR}/${PROJECT_NAME}.framework/${PROJECT_NAME}" "${DEVICE_TEMP_DIR}/${PROJECT_NAME}"
 
     # Build with the Xcode version that supports arm64e.
-    env DEVELOPER_DIR="${MS_ARM64E_XCODE_PATH}" /usr/bin/xcodebuild ARCHS="arm64e" -project "${PROJECT_NAME}.xcodeproj" -configuration "Release" -target "${TARGET_NAME}"
+    env DEVELOPER_DIR="${MS_ARM64E_XCODE_PATH}" /usr/bin/xcodebuild ARCHS="arm64e" -project "${PROJECT_NAME}.xcodeproj" -configuration "Release" -target "${TARGET_NAME}" --verbose
 
     # Lipo the binaries that were built with various Xcode versions.
     env DEVELOPER_DIR="${MS_ARM64E_XCODE_PATH}" lipo -create "${DEVICE_TEMP_DIR}/${PROJECT_NAME}" "${DEVICE_DIR}/${PROJECT_NAME}.framework/${PROJECT_NAME}" -output "${PRODUCTS_DIR}/${PROJECT_NAME}.framework/${PROJECT_NAME}"
