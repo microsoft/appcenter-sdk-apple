@@ -667,6 +667,18 @@
 				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = Microsoft;
 				TargetAttributes = {
+					04FD4A281E451E90009B4468 = {
+						DevelopmentTeam = "\"5Z97G9NZQ6\"";
+					};
+					04FD4A301E453531009B4468 = {
+						DevelopmentTeam = "\"5Z97G9NZQ6\"";
+					};
+					04FD4A3C1E453640009B4468 = {
+						DevelopmentTeam = "\"5Z97G9NZQ6\"";
+					};
+					B2C070B71E5E68540076D6A9 = {
+						DevelopmentTeam = "\"5Z97G9NZQ6\"";
+					};
 					C9A91F8B230BFFFF0068070D = {
 						CreatedOnToolsVersion = 10.2.1;
 						DevelopmentTeam = 5Z97G9NZQ6;
@@ -971,6 +983,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC8221ECE349200FB6719 /* iOS.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = 5Z97G9NZQ6;
 			};
 			name = Debug;
 		};
@@ -978,6 +991,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC8221ECE349200FB6719 /* iOS.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = 5Z97G9NZQ6;
 			};
 			name = Release;
 		};
