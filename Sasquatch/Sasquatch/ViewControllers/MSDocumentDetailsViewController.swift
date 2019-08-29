@@ -96,7 +96,7 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
   }
 
   @IBAction func saveButtonClicked(_ sender: Any) {
-      let text = timeToLiveField.text ?? ""
+      let text = self.timeToLiveField.text ?? documentTimeToLive
       UserDefaults.standard.set(text, forKey: kMSTimeToLive)
       self.timeToLiveField.text = text
   }
