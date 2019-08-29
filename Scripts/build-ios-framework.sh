@@ -54,7 +54,7 @@ if [ -d "${SRCROOT}/${DEVICE_DIR}/${RESOURCE_BUNDLE}.bundle" ]; then
   cp -R "${SRCROOT}/${DEVICE_DIR}/${RESOURCE_BUNDLE}.bundle" "${PRODUCTS_DIR}" || true
 fi
 
-LIB_IPHONEOS_FINAL="${DEVICE_DIR}/lib${PROJECT_NAME}.a"
+LIB_IPHONEOS_FINAL="${DEVICE_DIR}/${PROJECT_NAME}.framework/${PROJECT_NAME}"
 
 # Create the arm64e slice in Xcode 10.1 and lipo it with the device binary that was created with oldest supported Xcode version.
 if [ -z "$MS_ARM64E_XCODE_PATH" ] || [ ! -d "$MS_ARM64E_XCODE_PATH" ]; then
