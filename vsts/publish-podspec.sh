@@ -90,7 +90,7 @@ if [ "$mode" == "internal" ] || [ "$mode" == "test" ]; then
   repo_path="$(pod repo | grep "$repo_name" | grep Path | head -1 | awk -F ": " '{print $2}')"
 
   ## 2. Update podspec to the internal podspec local repo
-  resp="$(pod repo push $repo_name $PODSPEC_FILENAME --verbose)"
+  resp="$(pod repo push $repo_name $PODSPEC_FILENAME)"
 
   echo $resp
 
