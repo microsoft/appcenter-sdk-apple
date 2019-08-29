@@ -14,7 +14,6 @@
 				0469640F1F2A558F00F9D31F /* Build Universal Framework */,
 			);
 			dependencies = (
-				F88809FB2317CD1700F45FD4 /* PBXTargetDependency */,
 			);
 			name = "AppCenterPush macOS Distribution";
 			productName = "Fat Framework";
@@ -38,7 +37,6 @@
 				D3AD5F261E5C9588001627AB /* Build Universal Framework */,
 			);
 			dependencies = (
-				F88809F92317CD0F00F45FD4 /* PBXTargetDependency */,
 			);
 			name = "AppCenterPush iOS Distribution";
 			productName = "Fat Framework";
@@ -153,20 +151,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = D3AD5F221E5C9562001627AB;
 			remoteInfo = "Fat Framework";
-		};
-		F88809F82317CD0F00F45FD4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D33A94491E5B11BB003966DB /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = C9A91F9A230C004A0068070D;
-			remoteInfo = "AppCenterPush iOS Framework";
-		};
-		F88809FA2317CD1700F45FD4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D33A94491E5B11BB003966DB /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = C9A91FA3230C00540068070D;
-			remoteInfo = "AppCenterPush macOS Framework";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -858,16 +842,6 @@
 			isa = PBXTargetDependency;
 			target = D3AD5F221E5C9562001627AB /* AppCenterPush iOS Distribution */;
 			targetProxy = D3AD5F3C1E5D6809001627AB /* PBXContainerItemProxy */;
-		};
-		F88809F92317CD0F00F45FD4 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = C9A91F9A230C004A0068070D /* AppCenterPush iOS Framework */;
-			targetProxy = F88809F82317CD0F00F45FD4 /* PBXContainerItemProxy */;
-		};
-		F88809FB2317CD1700F45FD4 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = C9A91FA3230C00540068070D /* AppCenterPush macOS Framework */;
-			targetProxy = F88809FA2317CD1700F45FD4 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

@@ -14,7 +14,6 @@
 				0485AFF01EAAADAC00C10CAF /* Build Universal Framework */,
 			);
 			dependencies = (
-				F88809EB2317CCBA00F45FD4 /* PBXTargetDependency */,
 			);
 			name = "AppCenterAuth macOS Distribution";
 			productName = "Fat Framework";
@@ -38,7 +37,6 @@
 				E85547E81D2D6827002DF6E2 /* Build Universal Framework */,
 			);
 			dependencies = (
-				F88809DF2317CCB100F45FD4 /* PBXTargetDependency */,
 			);
 			name = "AppCenterAuth iOS Distribution";
 			productName = "Fat Framework";
@@ -260,20 +258,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 04A6B59B2269286F0035C7C2;
 			remoteInfo = "MSAL (Mac Static Library)";
-		};
-		F88809DE2317CCB100F45FD4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E85547B81D2D6253002DF6E2 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = C934BFE4230BF74000083490;
-			remoteInfo = "AppCenterAuth iOS Framework";
-		};
-		F88809EA2317CCBA00F45FD4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E85547B81D2D6253002DF6E2 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = C9A91F1E230BF9590068070D;
-			remoteInfo = "AppCenterAuth macOS Framework";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -1142,16 +1126,6 @@
 			isa = PBXTargetDependency;
 			name = "MSAL (Mac Static Library)";
 			targetProxy = C9EBAAFE230D3BEE00A20F0F /* PBXContainerItemProxy */;
-		};
-		F88809DF2317CCB100F45FD4 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = C934BFE4230BF74000083490 /* AppCenterAuth iOS Framework */;
-			targetProxy = F88809DE2317CCB100F45FD4 /* PBXContainerItemProxy */;
-		};
-		F88809EB2317CCBA00F45FD4 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = C9A91F1E230BF9590068070D /* AppCenterAuth macOS Framework */;
-			targetProxy = F88809EA2317CCBA00F45FD4 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

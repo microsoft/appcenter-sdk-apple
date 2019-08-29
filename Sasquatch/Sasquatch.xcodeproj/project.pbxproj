@@ -603,15 +603,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		04CCE79021F7A4F3000AD84C /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		04CCE79221F7A505000AD84C /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1445,7 +1436,6 @@
 				84226C451E88FF4A00798417 /* Resources */,
 				F89D790B1E93DA3B0094521F /* Embed Frameworks */,
 				D36AD6EE1E94FF6B003D34E7 /* Embed Watch Content */,
-				04CCE79021F7A4F3000AD84C /* CopyFiles */,
 			);
 			buildRules = (
 			);
