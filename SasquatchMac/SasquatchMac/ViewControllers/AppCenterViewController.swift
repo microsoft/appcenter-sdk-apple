@@ -52,7 +52,7 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate, NSTextVie
 
   override func viewWillAppear() {
     setEnabledButton?.state = appCenter.isAppCenterEnabled() ? NSControlStateValueOn : NSControlStateValueOff
-    setAppSecretButton?.isEnabled = startUpModeForCurrentSession == StartupMode.AppCenter.rawValue || startUpModeForCurrentSession == StartupMode.Both.rawValue ? true : false
+    setAppSecretButton?.isEnabled = startUpModeForCurrentSession == StartupMode.AppCenter.rawValue || startUpModeForCurrentSession == StartupMode.Both.rawValue
   }
 
   override func viewDidLoad() {

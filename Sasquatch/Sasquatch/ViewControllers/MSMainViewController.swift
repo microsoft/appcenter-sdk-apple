@@ -104,7 +104,7 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     self.sdkVersion.text = appCenter.sdkVersion()
     self.deviceIdLabel.text = UIDevice.current.identifierForVendor?.uuidString
     self.userId.text = self.showUserId()
-    self.setAppSecretButton.isEnabled = StartupMode.allValues[startUpModeForCurrentSession] == StartupMode.AppCenter || StartupMode.allValues[startUpModeForCurrentSession] == StartupMode.Both ? true : false
+    self.setAppSecretButton.isEnabled = StartupMode.allValues[startUpModeForCurrentSession] == StartupMode.AppCenter || StartupMode.allValues[startUpModeForCurrentSession] == StartupMode.Both
 
     // Make sure the UITabBarController does not cut off the last cell.
     self.edgesForExtendedLayout = []
