@@ -62,11 +62,11 @@ if [ -z "$MS_ARM64E_XCODE_PATH" ] || [ ! -d "$MS_ARM64E_XCODE_PATH" ]; then
 else
 
   # Grep the output of `lipo -archs` if it contains "arm64e". If it does, don't build for arm64e again.
-  DOES_CONTAIN_ARM64E=`env DEVELOPER_DIR="$MS_ARM64E_XCODE_PATH" /usr/bin/lipo -archs "${LIB_IPHONEOS_FINAL}" | grep arm64e`
-  if [ ! -z "${DOES_CONTAIN_ARM64E}" ]; then
-    echo "The binary already contains an arm64e slice."
-  else
-    echo "Building the arm64e slice."
+# DOES_CONTAIN_ARM64E=`env DEVELOPER_DIR="$MS_ARM64E_XCODE_PATH" /usr/bin/lipo -archs "${LIB_IPHONEOS_FINAL}" | grep arm64e`
+#if [ ! -z "${DOES_CONTAIN_ARM64E}" ]; then
+#echo "The binary already contains an arm64e slice."
+#else
+# echo "Building the arm64e slice."
 
     # Move binary that was create with old Xcode to temp location.
     DEVICE_TEMP_DIR="${DEVICE_DIR}/temp"
