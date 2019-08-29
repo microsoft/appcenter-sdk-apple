@@ -70,7 +70,7 @@ else
 
     # Move binary that was create with old Xcode to temp location.
     DEVICE_TEMP_DIR="${DEVICE_DIR}/temp"
-    mkdir -p "${LIB_IPHONEOS_TEMP_DIR}"
+    mkdir -p "${DEVICE_TEMP_DIR}"
     mv "${DEVICE_DIR}/${PROJECT_NAME}.framework/${PROJECT_NAME}" "${DEVICE_TEMP_DIR}/${PROJECT_NAME}"
 
     # Build with the Xcode version that supports arm64e.
