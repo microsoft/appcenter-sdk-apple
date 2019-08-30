@@ -113,7 +113,7 @@
          </FileRef>
       </Group>
       <Group
-         location = "group:/Users/ivan.matkov/Projects/AppCenter/AppCenter-SDK-Apple/Scripts/AppCenterAuth"
+         location = "group:AppCenterAuth"
          name = "AppCenterAuth">
          <FileRef
             location = "group:build-appcenterauth-ios-framework.sh">
