@@ -217,7 +217,6 @@
 		B2F120D71D65469D0060DED7 /* MSErrorReportTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F120D61D65469D0060DED7 /* MSErrorReportTests.m */; };
 		B2FF130C1DD12F61003DC677 /* MSAppleErrorLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2FF130B1DD12F61003DC677 /* MSAppleErrorLogTests.m */; };
 		BA682CFA6F4C5A8841507CF7 /* MSMockCrashesDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BA68266A68B7F21A86A093B0 /* MSMockCrashesDelegate.m */; };
-		C2614464230FE9A200D65EBF /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC99A141D41517B0016C325 /* CrashReporter.framework */; };
 		C2B25A27230F040400511D49 /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2B25A26230F040400511D49 /* AppCenter.framework */; };
 		C2B25A28230F040400511D49 /* AppCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A91F4A230BFD930068070D /* AppCenterCrashes.framework */; };
 		C2B25A2C230F079800511D49 /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2B25A2B230F079800511D49 /* AppCenter.framework */; };
@@ -386,6 +385,8 @@
 		C9EBAB2D230D735E00A20F0F /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9EBAB2C230D735E00A20F0F /* AppCenter.framework */; };
 		C9EBAB2F230D736A00A20F0F /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9EBAB2E230D736A00A20F0F /* AppCenter.framework */; };
 		C9EBAB31230D736F00A20F0F /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9EBAB30230D736F00A20F0F /* AppCenter.framework */; };
+		DFEB98292318FAF400AE88C1 /* libCrashReporter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DFEB98282318FAF400AE88C1 /* libCrashReporter.a */; };
+		DFEB98332318FF5500AE88C1 /* libCrashReporter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DFEB98262318F90400AE88C1 /* libCrashReporter.a */; };
 		F82E4C75217F1FD700EDAB34 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = F82E4C74217F1FD600EDAB34 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		F82E4C76217F1FD700EDAB34 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = F82E4C74217F1FD600EDAB34 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		F82E4C77217F1FD700EDAB34 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = F82E4C74217F1FD600EDAB34 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-w"; }; };
@@ -475,34 +476,11 @@
 		0484DD5F1F3910EF0092B777 /* Tests tvOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Tests tvOS.xcconfig"; path = "../../Config/Tests tvOS.xcconfig"; sourceTree = "<group>"; };
 		049327961ECA170D00D0187A /* AppCenterCrashes.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppCenterCrashes.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		049327B11ECA19FD00D0187A /* libCrashReporter-MacOSX-Static.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libCrashReporter-MacOSX-Static.a"; sourceTree = "<group>"; };
-		049327CF1ECA1BA100D0187A /* CrashReporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrashReporter.h; sourceTree = "<group>"; };
-		049327D01ECA1BA100D0187A /* PLCrashFeatureConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashFeatureConfig.h; sourceTree = "<group>"; };
-		049327D11ECA1BA100D0187A /* PLCrashMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashMacros.h; sourceTree = "<group>"; };
-		049327D21ECA1BA100D0187A /* PLCrashNamespace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashNamespace.h; sourceTree = "<group>"; };
-		049327D31ECA1BA100D0187A /* PLCrashReport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReport.h; sourceTree = "<group>"; };
-		049327D41ECA1BA100D0187A /* PLCrashReportApplicationInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReportApplicationInfo.h; sourceTree = "<group>"; };
-		049327D51ECA1BA100D0187A /* PLCrashReportBinaryImageInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReportBinaryImageInfo.h; sourceTree = "<group>"; };
-		049327D61ECA1BA100D0187A /* PLCrashReporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReporter.h; sourceTree = "<group>"; };
-		049327D71ECA1BA100D0187A /* PLCrashReporterConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReporterConfig.h; sourceTree = "<group>"; };
-		049327D81ECA1BA100D0187A /* PLCrashReportExceptionInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReportExceptionInfo.h; sourceTree = "<group>"; };
-		049327D91ECA1BA100D0187A /* PLCrashReportFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReportFormatter.h; sourceTree = "<group>"; };
-		049327DA1ECA1BA100D0187A /* PLCrashReportMachExceptionInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReportMachExceptionInfo.h; sourceTree = "<group>"; };
-		049327DB1ECA1BA100D0187A /* PLCrashReportMachineInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReportMachineInfo.h; sourceTree = "<group>"; };
-		049327DC1ECA1BA100D0187A /* PLCrashReportProcessInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReportProcessInfo.h; sourceTree = "<group>"; };
-		049327DD1ECA1BA100D0187A /* PLCrashReportProcessorInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReportProcessorInfo.h; sourceTree = "<group>"; };
-		049327DE1ECA1BA100D0187A /* PLCrashReportRegisterInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReportRegisterInfo.h; sourceTree = "<group>"; };
-		049327DF1ECA1BA100D0187A /* PLCrashReportSignalInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReportSignalInfo.h; sourceTree = "<group>"; };
-		049327E01ECA1BA100D0187A /* PLCrashReportStackFrameInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReportStackFrameInfo.h; sourceTree = "<group>"; };
-		049327E11ECA1BA100D0187A /* PLCrashReportSymbolInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReportSymbolInfo.h; sourceTree = "<group>"; };
-		049327E21ECA1BA100D0187A /* PLCrashReportSystemInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReportSystemInfo.h; sourceTree = "<group>"; };
-		049327E31ECA1BA100D0187A /* PLCrashReportTextFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReportTextFormatter.h; sourceTree = "<group>"; };
-		049327E41ECA1BA100D0187A /* PLCrashReportThreadInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReportThreadInfo.h; sourceTree = "<group>"; };
 		049553051EF19F9F0097E071 /* MSCrashesUtilPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSCrashesUtilPrivate.h; sourceTree = "<group>"; };
 		049BC8251ECE36D400FB6719 /* iOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = iOS.xcconfig; sourceTree = "<group>"; };
 		049BC8261ECE370100FB6719 /* macOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
 		04A082011F74BB6100DC776D /* MSService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSService.h; path = ../AppCenter/AppCenter/MSService.h; sourceTree = "<group>"; };
 		04BED7211ECB65DD00E20975 /* OCHamcrest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrest.framework; path = ../../Vendor/macOS/OCHamcrest/OCHamcrest.framework; sourceTree = "<group>"; };
-		04EBBEAE1F01C0B50006B8AE /* CrashReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CrashReporter.framework; path = ../Vendor/tvOS/PLCrashReporter/CrashReporter.framework; sourceTree = "<group>"; };
 		04EBBEEE1F01C1420006B8AE /* tvOS.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = tvOS.modulemap; sourceTree = "<group>"; };
 		04EBBEEF1F01C1420006B8AE /* tvOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = tvOS.xcconfig; sourceTree = "<group>"; };
 		04ED31F21EAAD6070033BAAE /* iOS.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = iOS.modulemap; sourceTree = "<group>"; };
@@ -558,7 +536,6 @@
 		6E7D5C831D3EC0F7009EC9AC /* MSThreadTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSThreadTests.m; sourceTree = "<group>"; };
 		6E7D5C861D3EC332009EC9AC /* MSStackFrameTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSStackFrameTests.m; sourceTree = "<group>"; };
 		6E7D5C891D3EC504009EC9AC /* MSExceptionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSExceptionTests.m; sourceTree = "<group>"; };
-		6EC99A141D41517B0016C325 /* CrashReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CrashReporter.framework; path = ../Vendor/iOS/PLCrashReporter/CrashReporter.framework; sourceTree = "<group>"; };
 		6EC99A2D1D4166C50016C325 /* MSCrashesTests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; lineEnding = 0; path = MSCrashesTests.mm; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		6EC99A301D416CCF0016C325 /* live_report_empty.plcrash */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = live_report_empty.plcrash; sourceTree = "<group>"; };
 		6EC99A311D416CCF0016C325 /* live_report_exception.plcrash */ = {isa = PBXFileReference; lastKnownFileType = file; path = live_report_exception.plcrash; sourceTree = "<group>"; };
@@ -619,6 +596,76 @@
 		C9EBAB2C230D735E00A20F0F /* AppCenter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AppCenter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9EBAB2E230D736A00A20F0F /* AppCenter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AppCenter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9EBAB30230D736F00A20F0F /* AppCenter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AppCenter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DFEB97C62318F0BA00AE88C1 /* PLCrashNamespace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashNamespace.h; sourceTree = "<group>"; };
+		DFEB97C72318F0BA00AE88C1 /* PLCrashAsyncSignalInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashAsyncSignalInfo.h; sourceTree = "<group>"; };
+		DFEB97C82318F0BA00AE88C1 /* PLCrashFeatureConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashFeatureConfig.h; sourceTree = "<group>"; };
+		DFEB97C92318F0BA00AE88C1 /* PLCrashReporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReporter.h; sourceTree = "<group>"; };
+		DFEB97CA2318F0BA00AE88C1 /* PLCrashReportRegisterInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReportRegisterInfo.h; sourceTree = "<group>"; };
+		DFEB97CB2318F0BA00AE88C1 /* PLCrashReportBinaryImageInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReportBinaryImageInfo.h; sourceTree = "<group>"; };
+		DFEB97CC2318F0BA00AE88C1 /* PLCrashReport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReport.h; sourceTree = "<group>"; };
+		DFEB97CD2318F0BA00AE88C1 /* PLCrashMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashMacros.h; sourceTree = "<group>"; };
+		DFEB97CE2318F0BA00AE88C1 /* PLCrashReporterConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReporterConfig.h; sourceTree = "<group>"; };
+		DFEB97CF2318F0BA00AE88C1 /* PLCrashReportMachExceptionInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReportMachExceptionInfo.h; sourceTree = "<group>"; };
+		DFEB97D02318F0BA00AE88C1 /* PLCrashReportThreadInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReportThreadInfo.h; sourceTree = "<group>"; };
+		DFEB97D12318F0BA00AE88C1 /* PLCrashReportStackFrameInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReportStackFrameInfo.h; sourceTree = "<group>"; };
+		DFEB97D22318F0BA00AE88C1 /* PLCrashReportSystemInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReportSystemInfo.h; sourceTree = "<group>"; };
+		DFEB97D32318F0BA00AE88C1 /* PLCrashReportExceptionInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReportExceptionInfo.h; sourceTree = "<group>"; };
+		DFEB97D42318F0BA00AE88C1 /* PLCrashReportProcessorInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReportProcessorInfo.h; sourceTree = "<group>"; };
+		DFEB97D52318F0BA00AE88C1 /* CrashReporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrashReporter.h; sourceTree = "<group>"; };
+		DFEB97D62318F0BA00AE88C1 /* PLCrashReportSignalInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReportSignalInfo.h; sourceTree = "<group>"; };
+		DFEB97D72318F0BA00AE88C1 /* PLCrashReportApplicationInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReportApplicationInfo.h; sourceTree = "<group>"; };
+		DFEB97D82318F0BA00AE88C1 /* PLCrashReportMachineInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReportMachineInfo.h; sourceTree = "<group>"; };
+		DFEB97D92318F0BA00AE88C1 /* PLCrashReportTextFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReportTextFormatter.h; sourceTree = "<group>"; };
+		DFEB97DA2318F0BA00AE88C1 /* PLCrashReportFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReportFormatter.h; sourceTree = "<group>"; };
+		DFEB97DB2318F0BA00AE88C1 /* PLCrashReportProcessInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReportProcessInfo.h; sourceTree = "<group>"; };
+		DFEB97DC2318F0BA00AE88C1 /* PLCrashReportSymbolInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReportSymbolInfo.h; sourceTree = "<group>"; };
+		DFEB97F82318F42700AE88C1 /* PLCrashNamespace.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashNamespace.h; sourceTree = "<group>"; };
+		DFEB97F92318F42700AE88C1 /* PLCrashFeatureConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashFeatureConfig.h; sourceTree = "<group>"; };
+		DFEB97FA2318F42700AE88C1 /* PLCrashReporter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReporter.h; sourceTree = "<group>"; };
+		DFEB97FB2318F42700AE88C1 /* PLCrashReportRegisterInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportRegisterInfo.h; sourceTree = "<group>"; };
+		DFEB97FC2318F42700AE88C1 /* PLCrashReportBinaryImageInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportBinaryImageInfo.h; sourceTree = "<group>"; };
+		DFEB97FD2318F42700AE88C1 /* PLCrashReport.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReport.h; sourceTree = "<group>"; };
+		DFEB97FE2318F42700AE88C1 /* PLCrashMacros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashMacros.h; sourceTree = "<group>"; };
+		DFEB97FF2318F42700AE88C1 /* PLCrashReporterConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReporterConfig.h; sourceTree = "<group>"; };
+		DFEB98002318F42700AE88C1 /* PLCrashReportMachExceptionInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportMachExceptionInfo.h; sourceTree = "<group>"; };
+		DFEB98012318F42700AE88C1 /* PLCrashReportThreadInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportThreadInfo.h; sourceTree = "<group>"; };
+		DFEB98022318F42700AE88C1 /* PLCrashReportStackFrameInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportStackFrameInfo.h; sourceTree = "<group>"; };
+		DFEB98032318F42700AE88C1 /* PLCrashReportSystemInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportSystemInfo.h; sourceTree = "<group>"; };
+		DFEB98042318F42700AE88C1 /* PLCrashReportExceptionInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportExceptionInfo.h; sourceTree = "<group>"; };
+		DFEB98052318F42700AE88C1 /* PLCrashReportProcessorInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportProcessorInfo.h; sourceTree = "<group>"; };
+		DFEB98062318F42700AE88C1 /* CrashReporter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CrashReporter.h; sourceTree = "<group>"; };
+		DFEB98072318F42700AE88C1 /* PLCrashReportSignalInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportSignalInfo.h; sourceTree = "<group>"; };
+		DFEB98082318F42700AE88C1 /* PLCrashReportApplicationInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportApplicationInfo.h; sourceTree = "<group>"; };
+		DFEB98092318F42700AE88C1 /* PLCrashReportMachineInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportMachineInfo.h; sourceTree = "<group>"; };
+		DFEB980A2318F42700AE88C1 /* PLCrashReportTextFormatter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportTextFormatter.h; sourceTree = "<group>"; };
+		DFEB980B2318F42700AE88C1 /* PLCrashReportFormatter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportFormatter.h; sourceTree = "<group>"; };
+		DFEB980C2318F42700AE88C1 /* PLCrashReportProcessInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportProcessInfo.h; sourceTree = "<group>"; };
+		DFEB980D2318F42700AE88C1 /* PLCrashReportSymbolInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportSymbolInfo.h; sourceTree = "<group>"; };
+		DFEB980F2318F56B00AE88C1 /* PLCrashNamespace.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashNamespace.h; sourceTree = "<group>"; };
+		DFEB98102318F56B00AE88C1 /* PLCrashAsyncSignalInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashAsyncSignalInfo.h; sourceTree = "<group>"; };
+		DFEB98112318F56B00AE88C1 /* PLCrashFeatureConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashFeatureConfig.h; sourceTree = "<group>"; };
+		DFEB98122318F56B00AE88C1 /* PLCrashReporter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReporter.h; sourceTree = "<group>"; };
+		DFEB98132318F56B00AE88C1 /* PLCrashReportRegisterInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportRegisterInfo.h; sourceTree = "<group>"; };
+		DFEB98142318F56B00AE88C1 /* PLCrashReportBinaryImageInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportBinaryImageInfo.h; sourceTree = "<group>"; };
+		DFEB98152318F56B00AE88C1 /* PLCrashReport.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReport.h; sourceTree = "<group>"; };
+		DFEB98162318F56B00AE88C1 /* PLCrashMacros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashMacros.h; sourceTree = "<group>"; };
+		DFEB98172318F56B00AE88C1 /* PLCrashReporterConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReporterConfig.h; sourceTree = "<group>"; };
+		DFEB98182318F56B00AE88C1 /* PLCrashReportMachExceptionInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportMachExceptionInfo.h; sourceTree = "<group>"; };
+		DFEB98192318F56B00AE88C1 /* PLCrashReportThreadInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportThreadInfo.h; sourceTree = "<group>"; };
+		DFEB981A2318F56B00AE88C1 /* PLCrashReportStackFrameInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportStackFrameInfo.h; sourceTree = "<group>"; };
+		DFEB981B2318F56B00AE88C1 /* PLCrashReportSystemInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportSystemInfo.h; sourceTree = "<group>"; };
+		DFEB981C2318F56B00AE88C1 /* PLCrashReportExceptionInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportExceptionInfo.h; sourceTree = "<group>"; };
+		DFEB981D2318F56B00AE88C1 /* PLCrashReportProcessorInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportProcessorInfo.h; sourceTree = "<group>"; };
+		DFEB981E2318F56B00AE88C1 /* CrashReporter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CrashReporter.h; sourceTree = "<group>"; };
+		DFEB981F2318F56B00AE88C1 /* PLCrashReportSignalInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportSignalInfo.h; sourceTree = "<group>"; };
+		DFEB98202318F56B00AE88C1 /* PLCrashReportApplicationInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportApplicationInfo.h; sourceTree = "<group>"; };
+		DFEB98212318F56B00AE88C1 /* PLCrashReportMachineInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportMachineInfo.h; sourceTree = "<group>"; };
+		DFEB98222318F56B00AE88C1 /* PLCrashReportTextFormatter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportTextFormatter.h; sourceTree = "<group>"; };
+		DFEB98232318F56B00AE88C1 /* PLCrashReportFormatter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportFormatter.h; sourceTree = "<group>"; };
+		DFEB98242318F56B00AE88C1 /* PLCrashReportProcessInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportProcessInfo.h; sourceTree = "<group>"; };
+		DFEB98252318F56B00AE88C1 /* PLCrashReportSymbolInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportSymbolInfo.h; sourceTree = "<group>"; };
+		DFEB98262318F90400AE88C1 /* libCrashReporter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libCrashReporter.a; sourceTree = "<group>"; };
+		DFEB98282318FAF400AE88C1 /* libCrashReporter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libCrashReporter.a; sourceTree = "<group>"; };
 		F82E4C74217F1FD600EDAB34 /* sqlite3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = sqlite3.c; path = ../../Vendor/SQLite3/sqlite3.c; sourceTree = "<group>"; };
 		F851DAEC1E81867D00525570 /* MSCrashesCXXExceptionTests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MSCrashesCXXExceptionTests.mm; sourceTree = "<group>"; };
 		F859D0F41E549B45008B2D8E /* live_report_bad_ptr.plcrash */ = {isa = PBXFileReference; lastKnownFileType = file; path = live_report_bad_ptr.plcrash; sourceTree = "<group>"; };
@@ -679,8 +726,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DFEB98332318FF5500AE88C1 /* libCrashReporter.a in Frameworks */,
 				C9EBAB2D230D735E00A20F0F /* AppCenter.framework in Frameworks */,
-				C2614464230FE9A200D65EBF /* CrashReporter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -688,6 +735,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DFEB98292318FAF400AE88C1 /* libCrashReporter.a in Frameworks */,
 				C9EBAB2F230D736A00A20F0F /* AppCenter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -739,40 +787,11 @@
 		049327981ECA19FD00D0187A /* PLCrashReporter */ = {
 			isa = PBXGroup;
 			children = (
-				049327991ECA19FD00D0187A /* CrashReporter */,
+				DFEB97F72318F42700AE88C1 /* CrashReporter */,
 				049327B11ECA19FD00D0187A /* libCrashReporter-MacOSX-Static.a */,
 			);
 			name = PLCrashReporter;
 			path = ../Vendor/macOS/PLCrashReporter;
-			sourceTree = "<group>";
-		};
-		049327991ECA19FD00D0187A /* CrashReporter */ = {
-			isa = PBXGroup;
-			children = (
-				049327CF1ECA1BA100D0187A /* CrashReporter.h */,
-				049327D01ECA1BA100D0187A /* PLCrashFeatureConfig.h */,
-				049327D11ECA1BA100D0187A /* PLCrashMacros.h */,
-				049327D21ECA1BA100D0187A /* PLCrashNamespace.h */,
-				049327D31ECA1BA100D0187A /* PLCrashReport.h */,
-				049327D41ECA1BA100D0187A /* PLCrashReportApplicationInfo.h */,
-				049327D51ECA1BA100D0187A /* PLCrashReportBinaryImageInfo.h */,
-				049327D61ECA1BA100D0187A /* PLCrashReporter.h */,
-				049327D71ECA1BA100D0187A /* PLCrashReporterConfig.h */,
-				049327D81ECA1BA100D0187A /* PLCrashReportExceptionInfo.h */,
-				049327D91ECA1BA100D0187A /* PLCrashReportFormatter.h */,
-				049327DA1ECA1BA100D0187A /* PLCrashReportMachExceptionInfo.h */,
-				049327DB1ECA1BA100D0187A /* PLCrashReportMachineInfo.h */,
-				049327DC1ECA1BA100D0187A /* PLCrashReportProcessInfo.h */,
-				049327DD1ECA1BA100D0187A /* PLCrashReportProcessorInfo.h */,
-				049327DE1ECA1BA100D0187A /* PLCrashReportRegisterInfo.h */,
-				049327DF1ECA1BA100D0187A /* PLCrashReportSignalInfo.h */,
-				049327E01ECA1BA100D0187A /* PLCrashReportStackFrameInfo.h */,
-				049327E11ECA1BA100D0187A /* PLCrashReportSymbolInfo.h */,
-				049327E21ECA1BA100D0187A /* PLCrashReportSystemInfo.h */,
-				049327E31ECA1BA100D0187A /* PLCrashReportTextFormatter.h */,
-				049327E41ECA1BA100D0187A /* PLCrashReportThreadInfo.h */,
-			);
-			path = CrashReporter;
 			sourceTree = "<group>";
 		};
 		04A140B31ECE8249001CEE94 /* Model */ = {
@@ -849,7 +868,7 @@
 		04EBBEAB1F01C0980006B8AE /* tvOS */ = {
 			isa = PBXGroup;
 			children = (
-				04EBBEAE1F01C0B50006B8AE /* CrashReporter.framework */,
+				DFEB97C32318F0BA00AE88C1 /* PLCrashReporter */,
 			);
 			name = tvOS;
 			sourceTree = "<group>";
@@ -865,7 +884,7 @@
 		04EBBEAD1F01C0A50006B8AE /* iOS */ = {
 			isa = PBXGroup;
 			children = (
-				6EC99A141D41517B0016C325 /* CrashReporter.framework */,
+				DFEB978F2318F09A00AE88C1 /* PLCrashReporter */,
 			);
 			name = iOS;
 			sourceTree = "<group>";
@@ -1125,6 +1144,115 @@
 				B2F120DF1D657CF10060DED7 /* MSErrorReport.m */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		DFEB978F2318F09A00AE88C1 /* PLCrashReporter */ = {
+			isa = PBXGroup;
+			children = (
+				DFEB980E2318F56B00AE88C1 /* CrashReporter */,
+				DFEB98262318F90400AE88C1 /* libCrashReporter.a */,
+			);
+			name = PLCrashReporter;
+			path = ../Vendor/iOS/PLCrashReporter;
+			sourceTree = "<group>";
+		};
+		DFEB97C32318F0BA00AE88C1 /* PLCrashReporter */ = {
+			isa = PBXGroup;
+			children = (
+				DFEB97C52318F0BA00AE88C1 /* CrashReporter */,
+				DFEB98282318FAF400AE88C1 /* libCrashReporter.a */,
+			);
+			name = PLCrashReporter;
+			path = ../Vendor/tvOS/PLCrashReporter;
+			sourceTree = "<group>";
+		};
+		DFEB97C52318F0BA00AE88C1 /* CrashReporter */ = {
+			isa = PBXGroup;
+			children = (
+				DFEB97C62318F0BA00AE88C1 /* PLCrashNamespace.h */,
+				DFEB97C72318F0BA00AE88C1 /* PLCrashAsyncSignalInfo.h */,
+				DFEB97C82318F0BA00AE88C1 /* PLCrashFeatureConfig.h */,
+				DFEB97C92318F0BA00AE88C1 /* PLCrashReporter.h */,
+				DFEB97CA2318F0BA00AE88C1 /* PLCrashReportRegisterInfo.h */,
+				DFEB97CB2318F0BA00AE88C1 /* PLCrashReportBinaryImageInfo.h */,
+				DFEB97CC2318F0BA00AE88C1 /* PLCrashReport.h */,
+				DFEB97CD2318F0BA00AE88C1 /* PLCrashMacros.h */,
+				DFEB97CE2318F0BA00AE88C1 /* PLCrashReporterConfig.h */,
+				DFEB97CF2318F0BA00AE88C1 /* PLCrashReportMachExceptionInfo.h */,
+				DFEB97D02318F0BA00AE88C1 /* PLCrashReportThreadInfo.h */,
+				DFEB97D12318F0BA00AE88C1 /* PLCrashReportStackFrameInfo.h */,
+				DFEB97D22318F0BA00AE88C1 /* PLCrashReportSystemInfo.h */,
+				DFEB97D32318F0BA00AE88C1 /* PLCrashReportExceptionInfo.h */,
+				DFEB97D42318F0BA00AE88C1 /* PLCrashReportProcessorInfo.h */,
+				DFEB97D52318F0BA00AE88C1 /* CrashReporter.h */,
+				DFEB97D62318F0BA00AE88C1 /* PLCrashReportSignalInfo.h */,
+				DFEB97D72318F0BA00AE88C1 /* PLCrashReportApplicationInfo.h */,
+				DFEB97D82318F0BA00AE88C1 /* PLCrashReportMachineInfo.h */,
+				DFEB97D92318F0BA00AE88C1 /* PLCrashReportTextFormatter.h */,
+				DFEB97DA2318F0BA00AE88C1 /* PLCrashReportFormatter.h */,
+				DFEB97DB2318F0BA00AE88C1 /* PLCrashReportProcessInfo.h */,
+				DFEB97DC2318F0BA00AE88C1 /* PLCrashReportSymbolInfo.h */,
+			);
+			path = CrashReporter;
+			sourceTree = "<group>";
+		};
+		DFEB97F72318F42700AE88C1 /* CrashReporter */ = {
+			isa = PBXGroup;
+			children = (
+				DFEB97F82318F42700AE88C1 /* PLCrashNamespace.h */,
+				DFEB97F92318F42700AE88C1 /* PLCrashFeatureConfig.h */,
+				DFEB97FA2318F42700AE88C1 /* PLCrashReporter.h */,
+				DFEB97FB2318F42700AE88C1 /* PLCrashReportRegisterInfo.h */,
+				DFEB97FC2318F42700AE88C1 /* PLCrashReportBinaryImageInfo.h */,
+				DFEB97FD2318F42700AE88C1 /* PLCrashReport.h */,
+				DFEB97FE2318F42700AE88C1 /* PLCrashMacros.h */,
+				DFEB97FF2318F42700AE88C1 /* PLCrashReporterConfig.h */,
+				DFEB98002318F42700AE88C1 /* PLCrashReportMachExceptionInfo.h */,
+				DFEB98012318F42700AE88C1 /* PLCrashReportThreadInfo.h */,
+				DFEB98022318F42700AE88C1 /* PLCrashReportStackFrameInfo.h */,
+				DFEB98032318F42700AE88C1 /* PLCrashReportSystemInfo.h */,
+				DFEB98042318F42700AE88C1 /* PLCrashReportExceptionInfo.h */,
+				DFEB98052318F42700AE88C1 /* PLCrashReportProcessorInfo.h */,
+				DFEB98062318F42700AE88C1 /* CrashReporter.h */,
+				DFEB98072318F42700AE88C1 /* PLCrashReportSignalInfo.h */,
+				DFEB98082318F42700AE88C1 /* PLCrashReportApplicationInfo.h */,
+				DFEB98092318F42700AE88C1 /* PLCrashReportMachineInfo.h */,
+				DFEB980A2318F42700AE88C1 /* PLCrashReportTextFormatter.h */,
+				DFEB980B2318F42700AE88C1 /* PLCrashReportFormatter.h */,
+				DFEB980C2318F42700AE88C1 /* PLCrashReportProcessInfo.h */,
+				DFEB980D2318F42700AE88C1 /* PLCrashReportSymbolInfo.h */,
+			);
+			path = CrashReporter;
+			sourceTree = "<group>";
+		};
+		DFEB980E2318F56B00AE88C1 /* CrashReporter */ = {
+			isa = PBXGroup;
+			children = (
+				DFEB980F2318F56B00AE88C1 /* PLCrashNamespace.h */,
+				DFEB98102318F56B00AE88C1 /* PLCrashAsyncSignalInfo.h */,
+				DFEB98112318F56B00AE88C1 /* PLCrashFeatureConfig.h */,
+				DFEB98122318F56B00AE88C1 /* PLCrashReporter.h */,
+				DFEB98132318F56B00AE88C1 /* PLCrashReportRegisterInfo.h */,
+				DFEB98142318F56B00AE88C1 /* PLCrashReportBinaryImageInfo.h */,
+				DFEB98152318F56B00AE88C1 /* PLCrashReport.h */,
+				DFEB98162318F56B00AE88C1 /* PLCrashMacros.h */,
+				DFEB98172318F56B00AE88C1 /* PLCrashReporterConfig.h */,
+				DFEB98182318F56B00AE88C1 /* PLCrashReportMachExceptionInfo.h */,
+				DFEB98192318F56B00AE88C1 /* PLCrashReportThreadInfo.h */,
+				DFEB981A2318F56B00AE88C1 /* PLCrashReportStackFrameInfo.h */,
+				DFEB981B2318F56B00AE88C1 /* PLCrashReportSystemInfo.h */,
+				DFEB981C2318F56B00AE88C1 /* PLCrashReportExceptionInfo.h */,
+				DFEB981D2318F56B00AE88C1 /* PLCrashReportProcessorInfo.h */,
+				DFEB981E2318F56B00AE88C1 /* CrashReporter.h */,
+				DFEB981F2318F56B00AE88C1 /* PLCrashReportSignalInfo.h */,
+				DFEB98202318F56B00AE88C1 /* PLCrashReportApplicationInfo.h */,
+				DFEB98212318F56B00AE88C1 /* PLCrashReportMachineInfo.h */,
+				DFEB98222318F56B00AE88C1 /* PLCrashReportTextFormatter.h */,
+				DFEB98232318F56B00AE88C1 /* PLCrashReportFormatter.h */,
+				DFEB98242318F56B00AE88C1 /* PLCrashReportProcessInfo.h */,
+				DFEB98252318F56B00AE88C1 /* PLCrashReportSymbolInfo.h */,
+			);
+			path = CrashReporter;
 			sourceTree = "<group>";
 		};
 		F859D0F31E549B45008B2D8E /* CrashProbe */ = {
