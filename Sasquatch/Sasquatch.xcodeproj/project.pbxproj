@@ -275,7 +275,6 @@
 		F8F077A722A6A27B007B4B31 /* MSAuthInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8F077A422A6A27B007B4B31 /* MSAuthInfoViewController.swift */; };
 		F8F077A822A6A27B007B4B31 /* MSAuthInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8F077A422A6A27B007B4B31 /* MSAuthInfoViewController.swift */; };
 		F8F077A922A6A27B007B4B31 /* MSAuthInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8F077A422A6A27B007B4B31 /* MSAuthInfoViewController.swift */; };
-		F8FE732F210730A8005C6A74 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8FE732E210730A8005C6A74 /* CrashReporter.framework */; };
 		F8FE7330210730EE005C6A74 /* AppCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B20AE41A2102819C00A1A195 /* AppCenterDistributeResources.bundle */; };
 		F8FE73312107568A005C6A74 /* DistributeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A888ED2102B2C5001ACFDF /* DistributeUITests.swift */; };
 		F8FE73322107568A005C6A74 /* DistributeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A888ED2102B2C5001ACFDF /* DistributeUITests.swift */; };
@@ -859,7 +858,6 @@
 		F8B8EB15211070BE004BCECB /* Sasquatch.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Sasquatch.xcconfig; sourceTree = "<group>"; };
 		F8B8EB9421107890004BCECB /* Puppet.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Puppet.xcconfig; sourceTree = "<group>"; };
 		F8F077A422A6A27B007B4B31 /* MSAuthInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSAuthInfoViewController.swift; sourceTree = "<group>"; };
-		F8FE732E210730A8005C6A74 /* CrashReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CrashReporter.framework; path = ../Vendor/iOS/PLCrashReporter/CrashReporter.framework; sourceTree = "<group>"; };
 		F8FE734221075803005C6A74 /* AnalyticsUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalyticsUITests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -916,7 +914,6 @@
 				B20AE48A21028E3C00A1A195 /* libz.tbd in Frameworks */,
 				B20AE48821028E3300A1A195 /* libc++.tbd in Frameworks */,
 				B20AE39521027D6200A1A195 /* CrashLibIOS.framework in Frameworks */,
-				F8FE732F210730A8005C6A74 /* CrashReporter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1382,7 +1379,6 @@
 			isa = PBXGroup;
 			children = (
 				F8669FB72195B6A2003933A8 /* sqlite3.c */,
-				F8FE732E210730A8005C6A74 /* CrashReporter.framework */,
 			);
 			name = Vendor;
 			sourceTree = "<group>";
