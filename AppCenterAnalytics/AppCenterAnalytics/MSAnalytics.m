@@ -101,8 +101,9 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
       [[MSChannelUnitConfiguration alloc] initDefaultConfigurationWithGroupId:criticalGroupId];
   self.criticalChannelUnit = [self.channelGroup addChannelUnitWithConfiguration:channelUnitConfiguration];
 
+  // TODO: Uncomment when auto page tracking will be supported.
   // Set up swizzling for auto page tracking.
-  [MSAnalyticsCategory activateCategory];
+  // [MSAnalyticsCategory activateCategory];
   MSLogVerbose([MSAnalytics logTag], @"Started Analytics service.");
 }
 

@@ -214,6 +214,12 @@
 		D3D0CFE91E640ABD003015AF /* OCHamcrestIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3D0CFE81E640ABD003015AF /* OCHamcrestIOS.framework */; };
 		F82E4C85217F218D00EDAB34 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = F82E4C84217F218D00EDAB34 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		F82E4C86217F218D00EDAB34 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = F82E4C84217F218D00EDAB34 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		F8AF2F39231970D400F1C0EE /* MSDocumentMetadata.m in Sources */ = {isa = PBXBuildFile; fileRef = F8AF2F37231970D300F1C0EE /* MSDocumentMetadata.m */; };
+		F8AF2F3A231970D400F1C0EE /* MSDocumentMetadata.h in Headers */ = {isa = PBXBuildFile; fileRef = F8AF2F38231970D300F1C0EE /* MSDocumentMetadata.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F8AF2F3B231970D700F1C0EE /* MSDocumentMetadata.m in Sources */ = {isa = PBXBuildFile; fileRef = F8AF2F37231970D300F1C0EE /* MSDocumentMetadata.m */; };
+		F8AF2F3D231970DF00F1C0EE /* MSDocumentMetadataInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = F8AF2F3C231970DF00F1C0EE /* MSDocumentMetadataInternal.h */; };
+		F8AF2F3E231970F300F1C0EE /* MSDocumentMetadataInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = F8AF2F3C231970DF00F1C0EE /* MSDocumentMetadataInternal.h */; };
+		F8AF2F3F231970FC00F1C0EE /* MSDocumentMetadata.h in Headers */ = {isa = PBXBuildFile; fileRef = F8AF2F38231970D300F1C0EE /* MSDocumentMetadata.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -353,6 +359,9 @@
 		E8FE51A5221C8C6E005FB52B /* MSTestFrameworks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSTestFrameworks.h; path = ../../AppCenter/AppCenterTests/Util/MSTestFrameworks.h; sourceTree = "<group>"; };
 		E8FE51E9221CBF87005FB52B /* MSSerializableDocument.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSSerializableDocument.h; sourceTree = "<group>"; };
 		F82E4C84217F218D00EDAB34 /* sqlite3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = sqlite3.c; path = ../Vendor/SQLite3/sqlite3.c; sourceTree = "<group>"; };
+		F8AF2F37231970D300F1C0EE /* MSDocumentMetadata.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDocumentMetadata.m; sourceTree = "<group>"; };
+		F8AF2F38231970D300F1C0EE /* MSDocumentMetadata.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDocumentMetadata.h; sourceTree = "<group>"; };
+		F8AF2F3C231970DF00F1C0EE /* MSDocumentMetadataInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDocumentMetadataInternal.h; sourceTree = "<group>"; };
 		F8D68482230D7D8E000A7CED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -537,6 +546,8 @@
 		D33A94531E5B11BB003966DB /* AppCenterData */ = {
 			isa = PBXGroup;
 			children = (
+				F8AF2F38231970D300F1C0EE /* MSDocumentMetadata.h */,
+				F8AF2F37231970D300F1C0EE /* MSDocumentMetadata.m */,
 				D33A94541E5B11BB003966DB /* AppCenterData.h */,
 				267464DF222F28A200EC1FF3 /* MSBaseOptions.h */,
 				267464EA222F28A300EC1FF3 /* MSBaseOptions.m */,
@@ -621,6 +632,7 @@
 				D3AD5F0B1E5C819A001627AB /* AppCenter+Internal.h */,
 				E824A5472225FDAC005B69B5 /* MSDataInternal.h */,
 				D3AD5F081E5C8156001627AB /* MSDataPrivate.h */,
+				F8AF2F3C231970DF00F1C0EE /* MSDocumentMetadataInternal.h */,
 				35F515A7225BC6B0001BFFA2 /* MSDocumentWrapperInternal.h */,
 			);
 			path = Internal;
@@ -718,6 +730,7 @@
 				C9EBAA1E230D378300A20F0F /* MSTokenExchange.h in Headers */,
 				C9EBA9FF230D36B200A20F0F /* MSDBDocumentStore.h in Headers */,
 				C9EBA9E6230D367B00A20F0F /* MSDataErrors.h in Headers */,
+				F8AF2F3A231970D400F1C0EE /* MSDocumentMetadata.h in Headers */,
 				C9EBA9E8230D367B00A20F0F /* MSDocumentWrapper.h in Headers */,
 				C9EBAA13230D36E700A20F0F /* MSPageInternal.h in Headers */,
 				C9EBAA25230D37A100A20F0F /* MSDataInternal.h in Headers */,
@@ -740,6 +753,7 @@
 				C9EBAA1B230D378300A20F0F /* MSCosmosDb.h in Headers */,
 				C9EBAA07230D36B200A20F0F /* MSPaginatedDocumentsInternal.h in Headers */,
 				C9EBAA05230D36B200A20F0F /* MSTokenResult.h in Headers */,
+				F8AF2F3D231970DF00F1C0EE /* MSDocumentMetadataInternal.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -749,6 +763,7 @@
 			files = (
 				C9EBA9F1230D367C00A20F0F /* MSServiceAbstract.h in Headers */,
 				C9EBA9FB230D367C00A20F0F /* MSReadOptions.h in Headers */,
+				F8AF2F3F231970FC00F1C0EE /* MSDocumentMetadata.h in Headers */,
 				C9EBA9F2230D367C00A20F0F /* AppCenterData.h in Headers */,
 				C9EBAA09230D36B200A20F0F /* MSDBDocumentStorePrivate.h in Headers */,
 				C9EBAA21230D378400A20F0F /* MSDataOperationProxy.h in Headers */,
@@ -757,6 +772,7 @@
 				C9EBA9F0230D367C00A20F0F /* MSService.h in Headers */,
 				C9EBA9FC230D367C00A20F0F /* MSRemoteOperationDelegate.h in Headers */,
 				C9EBA9F9230D367C00A20F0F /* MSPage.h in Headers */,
+				F8AF2F3E231970F300F1C0EE /* MSDocumentMetadataInternal.h in Headers */,
 				C9EBAA24230D379E00A20F0F /* AppCenter+Internal.h in Headers */,
 				C9EBAA22230D378400A20F0F /* MSTokenExchange.h in Headers */,
 				C9EBAA08230D36B200A20F0F /* MSDBDocumentStore.h in Headers */,
@@ -1078,6 +1094,7 @@
 				C9EBAAC7230D3A7E00A20F0F /* MSPaginatedDocuments.m in Sources */,
 				C9EBAAD0230D3A7E00A20F0F /* MSDataOperationProxy.m in Sources */,
 				C9EBAAC1230D3A7E00A20F0F /* MSBaseOptions.m in Sources */,
+				F8AF2F39231970D400F1C0EE /* MSDocumentMetadata.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1102,6 +1119,7 @@
 				C9EBAAD8230D3A7F00A20F0F /* MSPaginatedDocuments.m in Sources */,
 				C9EBAAE1230D3A7F00A20F0F /* MSDataOperationProxy.m in Sources */,
 				C9EBAAD2230D3A7F00A20F0F /* MSBaseOptions.m in Sources */,
+				F8AF2F3B231970D700F1C0EE /* MSDocumentMetadata.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
