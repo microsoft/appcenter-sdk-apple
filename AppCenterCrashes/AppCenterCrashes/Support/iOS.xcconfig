@@ -1,5 +1,4 @@
 #include "../../../Config/iOS.xcconfig"
-#include "../../../Config/Static Framework.xcconfig"
 
 HEADER_SEARCH_PATHS = "$(SRCROOT)/../Vendor/iOS"/**
 LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../Vendor/iOS"/**
