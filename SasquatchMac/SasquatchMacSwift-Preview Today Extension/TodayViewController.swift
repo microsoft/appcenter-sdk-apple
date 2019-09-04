@@ -9,7 +9,7 @@ import AppCenterCrashes
 class TodayViewController: NSViewController, NCWidgetProviding {
     
     @IBOutlet weak var extensionLabel: NSTextField!
-    var didStartAppCenter = false;
+    var didStartAppCenter = false
     
     override var nibName: NSNib.Name? {
         return NSNib.Name("TodayViewController")
@@ -18,16 +18,16 @@ class TodayViewController: NSViewController, NCWidgetProviding {
     override func viewDidLoad() {
         super.viewDidLoad()
         extensionLabel.stringValue = "Run #\(UUID().uuidString)"
-        if (!didStartAppCenter){
-            MSAppCenter.setLogLevel(.verbose);
+        if (!didStartAppCenter) {
+            MSAppCenter.setLogLevel(.verbose)
             MSAppCenter.start("aca58ea0-d791-4409-989d-2efec0283800", withServices: [MSCrashes.self])
-            didStartAppCenter = true;
+            didStartAppCenter = true
         }
     }
     
     @IBAction func crashMe(_ sender: Any) {
-        let buf: UnsafeMutablePointer<UInt>? = nil;
-        buf![1] = 1;
+        let buf: UnsafeMutablePointer<UInt>? = nil
+        buf![1] = 1
     }
     
     func widgetPerformUpdate(completionHandler: (@escaping (NCUpdateResult) -> Void)) {
