@@ -1647,6 +1647,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C9E7E4D1231E99E9007D96DC /* Build configuration list for PBXNativeTarget "SasquatchSwift-Preview Today Extension" */;
 			buildPhases = (
+				C9FA992323200B9E007E276C /* Verify No Build Settings */,
 				C9E7E47E231E99E9007D96DC /* Sources */,
 				C9E7E47F231E99E9007D96DC /* Frameworks */,
 				C9E7E480231E99E9007D96DC /* Resources */,
@@ -1664,6 +1665,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C9E7E533231E9A5E007D96DC /* Build configuration list for PBXNativeTarget "SasquatchSwift Today Extension" */;
 			buildPhases = (
+				C9FA996423200BC4007E276C /* Verify No Build Settings */,
 				C9E7E4E1231E9A5D007D96DC /* Sources */,
 				C9E7E4E2231E9A5D007D96DC /* Frameworks */,
 				C9E7E4E3231E9A5D007D96DC /* Resources */,
@@ -2353,6 +2355,44 @@
 			inputPaths = (
 			);
 			name = "Verify No Build Settings";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift\" ${PROJECT_NAME}.xcodeproj/project.pbxproj\n";
+			showEnvVarsInLog = 0;
+		};
+		C9FA992323200B9E007E276C /* Verify No Build Settings */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Verify No Build Settings";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift\" ${PROJECT_NAME}.xcodeproj/project.pbxproj\n";
+			showEnvVarsInLog = 0;
+		};
+		C9FA996423200BC4007E276C /* Verify No Build Settings */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Verify No Build Settings";
+			outputFileListPaths = (
+			);
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
