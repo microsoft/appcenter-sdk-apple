@@ -1,4 +1,3 @@
 #include "../../../Config/iOS.xcconfig"
-#include "../../../Config/Static Framework.xcconfig"
 
 OTHER_LDFLAGS=$(inherited) -framework UIKit  -weak_framework UserNotifications

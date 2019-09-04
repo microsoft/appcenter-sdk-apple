@@ -1,7 +1,11 @@
+#include "./Target config.xcconfig"
+
 SDK_NAME = appcenter.macos
 SDKROOT = macosx
 ARCHS = x86_64
 VALID_ARCHS = $(ARCHS) i386
 SKIP_INSTALL = YES
+
+TARGETED_DEVICE_FAMILY = 1, 2
 
 APPCENTER_BUILD_PLATFORM = macOS

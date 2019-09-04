@@ -1,3 +1,5 @@
+#include "./Target config.xcconfig"
+
 SDK_NAME = appcenter.tvos
 SDKROOT = appletvos
 ARCHS = arm64
