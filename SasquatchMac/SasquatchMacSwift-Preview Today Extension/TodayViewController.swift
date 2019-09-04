@@ -8,11 +8,12 @@ import AppCenterCrashes
 class TodayViewController: NSViewController, NCWidgetProviding {
     
     @IBOutlet weak var extensionLabel: NSTextField!
+    var didStartAppCenter = false;
     
     override var nibName: NSNib.Name? {
         return NSNib.Name("TodayViewController")
     }
-    var didStartAppCenter = false;
+    
     override func viewDidLoad() {
         
         super.viewDidLoad()
