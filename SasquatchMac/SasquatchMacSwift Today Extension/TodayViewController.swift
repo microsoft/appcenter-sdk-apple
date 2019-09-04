@@ -6,6 +6,7 @@ import NotificationCenter
 import AppCenter
 import AppCenterCrashes
 class TodayViewController: NSViewController, NCWidgetProviding {
+  
     @IBOutlet weak var extensionLabel: NSTextField!
     
     override var nibName: NSNib.Name? {
