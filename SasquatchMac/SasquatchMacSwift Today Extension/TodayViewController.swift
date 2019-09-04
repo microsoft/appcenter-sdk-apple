@@ -18,19 +18,17 @@ class TodayViewController: NSViewController, NCWidgetProviding {
         extensionLabel.stringValue = "Run #\(UUID().uuidString)"
         if (!didStartAppCenter){
             MSAppCenter.setLogLevel(.verbose);
-            MSAppCenter.start("3ccfe7f5-ec01-4de5-883c-f563bbbe147a", withServices: [MSCrashes.self])
+            MSAppCenter.start("aca58ea0-d791-4409-989d-2efec0283800", withServices: [MSCrashes.self])
             didStartAppCenter = true;
         }
-        // Do any additional setup after loading the view from its nib.
     }
+    
     @IBAction func crashMe(_ sender: Any) {
         let buf: UnsafeMutablePointer<UInt>? = nil;
         buf![1] = 1;
     }
+    
     func widgetPerformUpdate(completionHandler: (@escaping (NCUpdateResult) -> Void)) {
-        // Update your data and prepare for a snapshot. Call completion handler when you are done
-        // with NoData if nothing has changed or NewData if there is new data since the last
-        // time we called you
         completionHandler(.noData)
     }
 }
