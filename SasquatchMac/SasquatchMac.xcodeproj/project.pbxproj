@@ -627,7 +627,7 @@
 		D3C31C041E8E757300B288CE /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1030;
+				LastSwiftUpdateCheck = 0820;
 				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = Microsoft;
 				TargetAttributes = {
@@ -660,7 +660,7 @@
 						};
 					};
 					F8EE645A231E6F8E0007A52E = {
-						CreatedOnToolsVersion = 10.3;
+						CreatedOnToolsVersion = 10.2.1;
 						DevelopmentTeam = 5Z97G9NZQ6;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
@@ -670,7 +670,7 @@
 						};
 					};
 					F8EE6478231E71060007A52E = {
-						CreatedOnToolsVersion = 10.3;
+						CreatedOnToolsVersion = 10.2.1;
 						DevelopmentTeam = 5Z97G9NZQ6;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
