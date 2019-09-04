@@ -3,22 +3,32 @@
 
 import UIKit
 import NotificationCenter
+import AppCenter
+import AppCenterCrashes
 
 class TodayViewController: UIViewController, NCWidgetProviding {
-        
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
-    }
-        
-    func widgetPerformUpdate(completionHandler: (@escaping (NCUpdateResult) -> Void)) {
-        // Perform any setup necessary in order to update the view.
-        
-        // If an error is encountered, use NCUpdateResult.Failed
-        // If there's no update required, use NCUpdateResult.NoData
-        // If there's an update, use NCUpdateResult.NewData
-        
-        completionHandler(NCUpdateResult.newData)
-    }
+  
+  @IBOutlet weak var extensionLabel: UILabel!
+  
+  var didStartAppCenter = false;
+  override func viewDidLoad() {
     
+    super.viewDidLoad()
+    extensionLabel.text = "Run #\(UUID().uuidString)"
+    if (!didStartAppCenter){
+      MSAppCenter.setLogLevel(.verbose);
+      MSAppCenter.start("238d7788-8e63-478f-a747-33444bdadbda", withServices: [MSCrashes.self])
+      didStartAppCenter = true;
+    }
+  }
+  
+  @IBAction func crashMe(_ sender: Any) {
+    let buf: UnsafeMutablePointer<UInt>? = nil;
+    buf![1] = 1;
+  }
+
+  func widgetPerformUpdate(completionHandler: (@escaping (NCUpdateResult) -> Void)) {
+    completionHandler(NCUpdateResult.newData)
+  }
+  
 }
