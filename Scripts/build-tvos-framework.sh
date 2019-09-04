@@ -22,11 +22,11 @@ SIMULATOR_DIR="${WORK_DIR}/Release-appletvsimulator/"
 cd "${SRCROOT}"
 
 # Cleaning previous build.
-xcodebuild -project "${PROJECT_NAME}.xcodeproj" -configuration "Release" -target "${TARGET_NAME}" CLANG_ENABLE_MODULE_DEBUGGING=NO clean
+xcodebuild -project "${PROJECT_NAME}.xcodeproj" -configuration "Release" -target "${TARGET_NAME}" clean
 
 # Building both architectures.
-xcodebuild -project "${PROJECT_NAME}.xcodeproj" -configuration "Release" -target "${TARGET_NAME}" -sdk appletvos CLANG_ENABLE_MODULE_DEBUGGING=NO 
-xcodebuild -project "${PROJECT_NAME}.xcodeproj" -configuration "Release" -target "${TARGET_NAME}" -sdk appletvsimulator CLANG_ENABLE_MODULE_DEBUGGING=NO 
+xcodebuild -project "${PROJECT_NAME}.xcodeproj" -configuration "Release" -target "${TARGET_NAME}" -sdk appletvos 
+xcodebuild -project "${PROJECT_NAME}.xcodeproj" -configuration "Release" -target "${TARGET_NAME}" -sdk appletvsimulator 
 
 # Cleaning the previous build.
 if [ -d "${PRODUCTS_DIR}/${PROJECT_NAME}.framework" ]; then

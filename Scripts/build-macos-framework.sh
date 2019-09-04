@@ -21,10 +21,10 @@ DEVICE_DIR="${WORK_DIR}/Release/"
 cd "${SRCROOT}"
 
 # Cleaning previous build.
-xcodebuild -project "${PROJECT_NAME}.xcodeproj" -configuration "Release" -target "${TARGET_NAME}" CLANG_ENABLE_MODULE_DEBUGGING=NO clean
+xcodebuild -project "${PROJECT_NAME}.xcodeproj" -configuration "Release" -target "${TARGET_NAME}" clean
 
 # Building both architectures.
-xcodebuild -project "${PROJECT_NAME}.xcodeproj" -configuration "Release" -target "${TARGET_NAME}" CLANG_ENABLE_MODULE_DEBUGGING=NO 
+xcodebuild -project "${PROJECT_NAME}.xcodeproj" -configuration "Release" -target "${TARGET_NAME}"  
 
 # Cleaning the previous build.
 if [ -d "${PRODUCTS_DIR}/${PROJECT_NAME}.framework" ]; then
