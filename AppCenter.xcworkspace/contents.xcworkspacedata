@@ -23,6 +23,9 @@
          location = "group:macOS.xcconfig">
       </FileRef>
       <FileRef
+         location = "group:Static Framework.xcconfig">
+      </FileRef>
+      <FileRef
          location = "group:Tests iOS.xcconfig">
       </FileRef>
       <FileRef
