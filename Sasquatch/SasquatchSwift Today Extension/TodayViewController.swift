@@ -28,7 +28,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
   }
   
   func widgetPerformUpdate(completionHandler: (@escaping (NCUpdateResult) -> Void)) {
-      completionHandler(NCUpdateResult.newData)
+    completionHandler(NCUpdateResult.newData)
   }
     
 }
