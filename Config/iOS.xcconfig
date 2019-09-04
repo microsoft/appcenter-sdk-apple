@@ -1,5 +1,3 @@
-#include "./Target config.xcconfig"
-
 SDK_NAME = appcenter.ios
 SDKROOT = iphoneos
 TARGETED_DEVICE_FAMILY = 1, 2
