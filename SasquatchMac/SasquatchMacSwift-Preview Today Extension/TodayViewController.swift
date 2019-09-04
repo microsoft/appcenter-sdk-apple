@@ -15,7 +15,6 @@ class TodayViewController: NSViewController, NCWidgetProviding {
     }
     
     override func viewDidLoad() {
-        
         super.viewDidLoad()
         extensionLabel.stringValue = "Run #\(UUID().uuidString)"
         if (!didStartAppCenter){
