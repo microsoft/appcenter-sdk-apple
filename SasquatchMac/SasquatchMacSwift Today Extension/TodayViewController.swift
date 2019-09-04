@@ -5,6 +5,7 @@ import Cocoa
 import NotificationCenter
 import AppCenter
 import AppCenterCrashes
+
 class TodayViewController: NSViewController, NCWidgetProviding {
   
     @IBOutlet weak var extensionLabel: NSTextField!
