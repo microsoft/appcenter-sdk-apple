@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6E04017D1D1CAC710051BCFA"
-               BuildableName = "AppCenter iOS Distribution"
-               BlueprintName = "AppCenter iOS Distribution"
-               ReferencedContainer = "container:AppCenter.xcodeproj">
+               BlueprintIdentifier = "0485AFEF1EAAADAC00C10CAF"
+               BuildableName = "AppCenterAnalytics macOS Fat Framework"
+               BlueprintName = "AppCenterAnalytics macOS Fat Framework"
+               ReferencedContainer = "container:AppCenterAnalytics.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -45,10 +45,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "6E04017D1D1CAC710051BCFA"
-            BuildableName = "AppCenter iOS Distribution"
-            BlueprintName = "AppCenter iOS Distribution"
-            ReferencedContainer = "container:AppCenter.xcodeproj">
+            BlueprintIdentifier = "0485AFEF1EAAADAC00C10CAF"
+            BuildableName = "AppCenterAnalytics macOS Fat Framework"
+            BlueprintName = "AppCenterAnalytics macOS Fat Framework"
+            ReferencedContainer = "container:AppCenterAnalytics.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -63,10 +63,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "6E04017D1D1CAC710051BCFA"
-            BuildableName = "AppCenter iOS Distribution"
-            BlueprintName = "AppCenter iOS Distribution"
-            ReferencedContainer = "container:AppCenter.xcodeproj">
+            BlueprintIdentifier = "0485AFEF1EAAADAC00C10CAF"
+            BuildableName = "AppCenterAnalytics macOS Fat Framework"
+            BlueprintName = "AppCenterAnalytics macOS Fat Framework"
+            ReferencedContainer = "container:AppCenterAnalytics.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

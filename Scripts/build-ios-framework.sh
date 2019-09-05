@@ -31,11 +31,11 @@ SIMULATOR_DIR="${WORK_DIR}/Release-iphonesimulator/"
 cd "${SRCROOT}"
 
 # Cleaning previous build.
-xcodebuild -project "${PROJECT_NAME}.xcodeproj" -configuration "Release" -target "${TARGET_NAME}" CLANG_ENABLE_MODULE_DEBUGGING=NO  clean 
+xcodebuild -project "${PROJECT_NAME}.xcodeproj" -configuration "Release" -target "${TARGET_NAME}" clean 
 
 # Building both architectures.
-xcodebuild -project "${PROJECT_NAME}.xcodeproj" -configuration "Release" -target "${TARGET_NAME}" -sdk iphoneos CLANG_ENABLE_MODULE_DEBUGGING=NO 
-xcodebuild -project "${PROJECT_NAME}.xcodeproj" -configuration "Release" -target "${TARGET_NAME}" -sdk iphonesimulator CLANG_ENABLE_MODULE_DEBUGGING=NO 
+xcodebuild -project "${PROJECT_NAME}.xcodeproj" -configuration "Release" -target "${TARGET_NAME}" -sdk iphoneos
+xcodebuild -project "${PROJECT_NAME}.xcodeproj" -configuration "Release" -target "${TARGET_NAME}" -sdk iphonesimulator
 
 # Cleaning the previous build.
 if [ -d "${PRODUCTS_DIR}/${PROJECT_NAME}.framework" ]; then
@@ -77,7 +77,7 @@ else
     mv "${DEVICE_DIR}/${PROJECT_NAME}.framework/${PROJECT_NAME}" "${DEVICE_TEMP_DIR}/${PROJECT_NAME}"
 
     # Build with the Xcode version that supports arm64e.
-    env DEVELOPER_DIR="${MS_ARM64E_XCODE_PATH}" /usr/bin/xcodebuild ARCHS="arm64e" -project "${PROJECT_NAME}.xcodeproj" -configuration "Release" -target "${TARGET_NAME}" CLANG_ENABLE_MODULE_DEBUGGING=NO 
+    env DEVELOPER_DIR="${MS_ARM64E_XCODE_PATH}" /usr/bin/xcodebuild ARCHS="arm64e" -project "${PROJECT_NAME}.xcodeproj" -configuration "Release" -target "${TARGET_NAME}" 
 
     # Lipo the binaries that were built with various Xcode versions.
     env DEVELOPER_DIR="${MS_ARM64E_XCODE_PATH}" lipo -create "${DEVICE_TEMP_DIR}/${PROJECT_NAME}" "${DEVICE_DIR}/${PROJECT_NAME}.framework/${PROJECT_NAME}" -output "${PRODUCTS_DIR}/${PROJECT_NAME}.framework/${PROJECT_NAME}"
