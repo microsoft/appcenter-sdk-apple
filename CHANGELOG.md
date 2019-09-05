@@ -79,6 +79,7 @@ ___
 ### App Center Data
 
 * **[Fix]** Fix an issue where invalid characters in the document ID are accepted at creation time but causing errors while trying to read or delete the document. The characters are `#`, `\`, `/`, `?`, and all whitespaces.
+* **[Feature]** Added `setRemoteOperationDelegate` method to set a delegate to be notified of a pending operation being executed when the client device goes from offline to online.
 
 ___
 
