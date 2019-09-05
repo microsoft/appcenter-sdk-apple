@@ -95,6 +95,14 @@
 		D3C31C671E8E763600B288CE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D3C31C661E8E763600B288CE /* Assets.xcassets */; };
 		D3C31C801E8E7BD200B288CE /* SasquatchMac.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D3C31C151E8E757300B288CE /* SasquatchMac.storyboard */; };
 		D3C31C811E8E7BEE00B288CE /* SasquatchMac.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D3C31C151E8E757300B288CE /* SasquatchMac.storyboard */; };
+		F8B8DCC12321205100BF7DAA /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8EE645F231E6F8E0007A52E /* TodayViewController.swift */; };
+		F8B8DCC22321205400BF7DAA /* TodayViewController.xib in Sources */ = {isa = PBXBuildFile; fileRef = F8EE6461231E6F8E0007A52E /* TodayViewController.xib */; };
+		F8B8DCC42321210600BF7DAA /* CrashLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B8DCC32321210600BF7DAA /* CrashLoader.swift */; };
+		F8B8DCC52321210600BF7DAA /* CrashLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B8DCC32321210600BF7DAA /* CrashLoader.swift */; };
+		F8B8DCCA232121C800BF7DAA /* CrashLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B8DCC32321210600BF7DAA /* CrashLoader.swift */; };
+		F8B8DCCB232121C900BF7DAA /* CrashLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B8DCC32321210600BF7DAA /* CrashLoader.swift */; };
+		F8B8DCCC232121D200BF7DAA /* CrashLibMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8065B5BA1F4C4169004FF622 /* CrashLibMac.framework */; };
+		F8B8DCCD232121D900BF7DAA /* CrashLibMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8065B5BA1F4C4169004FF622 /* CrashLibMac.framework */; };
 		F8B8EC731FD853E800445BD4 /* CustomPropertiesViewControler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B8EC721FD853E800445BD4 /* CustomPropertiesViewControler.swift */; };
 		F8B8EC741FD853E800445BD4 /* CustomPropertiesViewControler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B8EC721FD853E800445BD4 /* CustomPropertiesViewControler.swift */; };
 		F8EE645D231E6F8E0007A52E /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8EE645C231E6F8E0007A52E /* NotificationCenter.framework */; };
@@ -104,8 +112,6 @@
 		F8EE6470231E6FF50007A52E /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04ED31D41EAAC7510033BAAE /* AppCenter.framework */; };
 		F8EE6471231E6FF50007A52E /* AppCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 042319CC1EAAD720008FACA0 /* AppCenterCrashes.framework */; };
 		F8EE647A231E71060007A52E /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8EE645C231E6F8E0007A52E /* NotificationCenter.framework */; };
-		F8EE647D231E71060007A52E /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8EE647C231E71060007A52E /* TodayViewController.swift */; };
-		F8EE6480231E71060007A52E /* TodayViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F8EE647E231E71060007A52E /* TodayViewController.xib */; };
 		F8EE6484231E71060007A52E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F8EE6482231E71060007A52E /* InfoPlist.strings */; };
 		F8EE6488231E71060007A52E /* SasquatchMacSwift-Preview Today Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = F8EE6479231E71060007A52E /* SasquatchMacSwift-Preview Today Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		F8EE648D231E711D0007A52E /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04ED31D41EAAC7510033BAAE /* AppCenter.framework */; };
@@ -240,6 +246,7 @@
 		D3C31C6B1E8E763600B288CE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F84BA0B721133A740020F13B /* Sasquatch Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Sasquatch Debug.xcconfig"; sourceTree = "<group>"; };
 		F84BA0B821133A740020F13B /* Sasquatch.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Sasquatch.xcconfig; sourceTree = "<group>"; };
+		F8B8DCC32321210600BF7DAA /* CrashLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrashLoader.swift; sourceTree = "<group>"; };
 		F8B8EC721FD853E800445BD4 /* CustomPropertiesViewControler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPropertiesViewControler.swift; sourceTree = "<group>"; };
 		F8EE645B231E6F8E0007A52E /* SasquatchMacSwift Today Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "SasquatchMacSwift Today Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F8EE645C231E6F8E0007A52E /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
@@ -249,8 +256,6 @@
 		F8EE6466231E6F8E0007A52E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		F8EE6468231E6F8E0007A52E /* SasquatchMacSwift_Today_Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SasquatchMacSwift_Today_Extension.entitlements; sourceTree = "<group>"; };
 		F8EE6479231E71060007A52E /* SasquatchMacSwift-Preview Today Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "SasquatchMacSwift-Preview Today Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
-		F8EE647C231E71060007A52E /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
-		F8EE647F231E71060007A52E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/TodayViewController.xib; sourceTree = "<group>"; };
 		F8EE6481231E71060007A52E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F8EE6483231E71060007A52E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		F8EE6485231E71060007A52E /* SasquatchMacSwift_Preview_Today_Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SasquatchMacSwift_Preview_Today_Extension.entitlements; sourceTree = "<group>"; };
@@ -309,6 +314,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F8B8DCCC232121D200BF7DAA /* CrashLibMac.framework in Frameworks */,
 				F8EE6470231E6FF50007A52E /* AppCenter.framework in Frameworks */,
 				F8EE6471231E6FF50007A52E /* AppCenterCrashes.framework in Frameworks */,
 				F8EE645D231E6F8E0007A52E /* NotificationCenter.framework in Frameworks */,
@@ -319,6 +325,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F8B8DCCD232121D900BF7DAA /* CrashLibMac.framework in Frameworks */,
 				F8EE648D231E711D0007A52E /* AppCenter.framework in Frameworks */,
 				F8EE648E231E711E0007A52E /* AppCenterCrashes.framework in Frameworks */,
 				F8EE647A231E71060007A52E /* NotificationCenter.framework in Frameworks */,
@@ -405,6 +412,7 @@
 		D3C31C611E8E763600B288CE /* SasquatchMacSwift */ = {
 			isa = PBXGroup;
 			children = (
+				F8B8DCC32321210600BF7DAA /* CrashLoader.swift */,
 				046964571F2A721100F9D31F /* SasquatchMacSwift.entitlements */,
 				D3C31C621E8E763600B288CE /* AppDelegate.swift */,
 				5C9BBC801EC4829200CA77A3 /* AppCenterDelegateSwift.swift */,
@@ -491,8 +499,6 @@
 		F8EE647B231E71060007A52E /* SasquatchMacSwift-Preview Today Extension */ = {
 			isa = PBXGroup;
 			children = (
-				F8EE647C231E71060007A52E /* TodayViewController.swift */,
-				F8EE647E231E71060007A52E /* TodayViewController.xib */,
 				F8EE6481231E71060007A52E /* Info.plist */,
 				F8EE6482231E71060007A52E /* InfoPlist.strings */,
 				F8EE6485231E71060007A52E /* SasquatchMacSwift_Preview_Today_Extension.entitlements */,
@@ -755,7 +761,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F8EE6480231E71060007A52E /* TodayViewController.xib in Resources */,
 				F8EE6484231E71060007A52E /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -942,6 +947,7 @@
 				B2A4CFE1210A77D400199B4F /* AnalyticsViewController.swift in Sources */,
 				4A0A708922044A37007565A6 /* TransmissionViewController.swift in Sources */,
 				B2A4CFE2210A77D400199B4F /* AppCenterDelegate.swift in Sources */,
+				F8B8DCC52321210600BF7DAA /* CrashLoader.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -985,6 +991,7 @@
 				5C6F9BB61EB8EEFC009E52D8 /* AnalyticsViewController.swift in Sources */,
 				4A0A708822044A37007565A6 /* TransmissionViewController.swift in Sources */,
 				042496871EC3CE3500502B62 /* AppCenterDelegate.swift in Sources */,
+				F8B8DCC42321210600BF7DAA /* CrashLoader.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -992,6 +999,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F8B8DCCB232121C900BF7DAA /* CrashLoader.swift in Sources */,
 				F8EE6490231E71CD0007A52E /* TodayViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1000,7 +1008,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F8EE647D231E71060007A52E /* TodayViewController.swift in Sources */,
+				F8B8DCC12321205100BF7DAA /* TodayViewController.swift in Sources */,
+				F8B8DCC22321205400BF7DAA /* TodayViewController.xib in Sources */,
+				F8B8DCCA232121C800BF7DAA /* CrashLoader.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1042,14 +1052,6 @@
 				F8EE6466231E6F8E0007A52E /* en */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		F8EE647E231E71060007A52E /* TodayViewController.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				F8EE647F231E71060007A52E /* Base */,
-			);
-			name = TodayViewController.xib;
 			sourceTree = "<group>";
 		};
 		F8EE6482231E71060007A52E /* InfoPlist.strings */ = {

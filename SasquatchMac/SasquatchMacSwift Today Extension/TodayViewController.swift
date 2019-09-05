@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import Cocoa
-import NotificationCenter
 import AppCenter
 import AppCenterCrashes
+import Cocoa
+import NotificationCenter
 
 class TodayViewController: NSViewController, NCWidgetProviding {
   
+    @IBOutlet weak var popupButton: NSPopUpButton!
     @IBOutlet weak var extensionLabel: NSTextField!
-    var didStartAppCenter = false
+    var crashes = [MSCrash]()
     
     override var nibName: NSNib.Name? {
         return NSNib.Name("TodayViewController")
@@ -17,17 +18,20 @@ class TodayViewController: NSViewController, NCWidgetProviding {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        extensionLabel.stringValue = "Run #\(UUID().uuidString)"
-        if (!didStartAppCenter) {
-            MSAppCenter.setLogLevel(.verbose)
-            MSAppCenter.start("aca58ea0-d791-4409-989d-2efec0283800", withServices: [MSCrashes.self])
-            didStartAppCenter = true
+        let dateString = DateFormatter.localizedString(from: Date.init(), dateStyle: DateFormatter.Style.medium, timeStyle: DateFormatter.Style.medium)
+        extensionLabel.stringValue = "Run #\(dateString)"
+        MSAppCenter.setLogLevel(.verbose)
+        MSAppCenter.start("aca58ea0-d791-4409-989d-2efec0283800", withServices: [MSCrashes.self])
+        crashes = CrashLoader.loadAllCrashes(withCategories: false) as! [MSCrash]
+        popupButton.menu?.removeAllItems()
+        for (index, crash) in crashes.enumerated() {
+            popupButton.menu?.addItem(NSMenuItem(title: crash.title, action: nil, keyEquivalent: "\(index)"))
         }
     }
     
     @IBAction func crashMe(_ sender: Any) {
-        let buf: UnsafeMutablePointer<UInt>? = nil
-        buf![1] = 1
+        let selectedCrashIndex = popupButton.indexOfSelectedItem
+        crashes[selectedCrashIndex].crash()
     }
     
     func widgetPerformUpdate(completionHandler: (@escaping (NCUpdateResult) -> Void)) {
