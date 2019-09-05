@@ -174,6 +174,15 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
 }
 #endif
 
++ (void)setAuthProvider:(MSAuthProvider *)authProvider {
+  MSAuthTokenContext *authTokenContext = [MSAuthTokenContext sharedInstance];
+  if (authProvider != nil) {
+    MSLogInfo(MSAppCenter.logTag, @"Setting up auth token refresh listener.");
+    [authTokenContext preventResetAuthTokenAfterStart];
+    [authTokenContext ]
+  }
+}
+
 /**
  * Check if the debugger is attached
  *

@@ -4,6 +4,7 @@
 #import <Foundation/Foundation.h>
 
 #import "MSConstants.h"
+#import "MSAuthProvider.h"
 
 @class MSWrapperSdk;
 
@@ -219,5 +220,7 @@
  * @param countryCode The two-letter ISO country code. @see https://www.iso.org/obp/ui/#search for more information.
  */
 + (void)setCountryCode:(NSString *)countryCode;
+
++ (void)setAuthProvider:(MSAuthProvider *)authProvider;
 
 @end

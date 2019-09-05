@@ -8,7 +8,7 @@
 
 - (void)authenticationProvider:(MSAuthProvider *)authProvider
                                 acquireTokenWithCompletionHandler:(MSAuthProviderCompletionBlock)completionHandler {
-    
+  completionHandler(@"");
 }
 
 @end
