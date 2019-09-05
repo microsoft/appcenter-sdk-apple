@@ -103,6 +103,8 @@
 		F8B8DCCB232121C900BF7DAA /* CrashLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B8DCC32321210600BF7DAA /* CrashLoader.swift */; };
 		F8B8DCCC232121D200BF7DAA /* CrashLibMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8065B5BA1F4C4169004FF622 /* CrashLibMac.framework */; };
 		F8B8DCCD232121D900BF7DAA /* CrashLibMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8065B5BA1F4C4169004FF622 /* CrashLibMac.framework */; };
+		F8B8DCCE2321815900BF7DAA /* CrashLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B8DCC32321210600BF7DAA /* CrashLoader.swift */; };
+		F8B8DCCF2321815A00BF7DAA /* CrashLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B8DCC32321210600BF7DAA /* CrashLoader.swift */; };
 		F8B8EC731FD853E800445BD4 /* CustomPropertiesViewControler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B8EC721FD853E800445BD4 /* CustomPropertiesViewControler.swift */; };
 		F8B8EC741FD853E800445BD4 /* CustomPropertiesViewControler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B8EC721FD853E800445BD4 /* CustomPropertiesViewControler.swift */; };
 		F8EE645D231E6F8E0007A52E /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8EE645C231E6F8E0007A52E /* NotificationCenter.framework */; };
@@ -915,6 +917,7 @@
 				B2A4CFBB210A716E00199B4F /* EventFilterViewController.swift in Sources */,
 				4A0A708722044A37007565A6 /* TransmissionViewController.swift in Sources */,
 				B2A4CFBC210A716E00199B4F /* MSEventFilter.m in Sources */,
+				F8B8DCCF2321815A00BF7DAA /* CrashLoader.swift in Sources */,
 				B2A4CFBD210A716E00199B4F /* CustomPropertiesViewControler.swift in Sources */,
 				B2A4CFBE210A716E00199B4F /* CrashesViewController.swift in Sources */,
 				B2A4CFBF210A716E00199B4F /* AppCenterDelegate.swift in Sources */,
@@ -959,6 +962,7 @@
 				353332F820126200009B0946 /* EventFilterViewController.swift in Sources */,
 				4A0A708622044A37007565A6 /* TransmissionViewController.swift in Sources */,
 				358F9BCC2019639100B9E22C /* MSEventFilter.m in Sources */,
+				F8B8DCCE2321815900BF7DAA /* CrashLoader.swift in Sources */,
 				F8B8EC731FD853E800445BD4 /* CustomPropertiesViewControler.swift in Sources */,
 				5C6F9BB81EB8F2E9009E52D8 /* CrashesViewController.swift in Sources */,
 				042496851EC3CE2F00502B62 /* AppCenterDelegate.swift in Sources */,
