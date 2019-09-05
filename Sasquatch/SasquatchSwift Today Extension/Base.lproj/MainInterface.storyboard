@@ -52,6 +52,8 @@
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="320" height="140"/>
                     <connections>
+                        <outlet property="crashCollection" destination="fPJ-8Z-rDw" id="eoQ-25-QlI"/>
+                        <outlet property="crashPickerView" destination="fPJ-8Z-rDw" id="LJO-Oh-HIG"/>
                         <outlet property="extensionLabel" destination="h1u-He-ubZ" id="s4o-kL-S0z"/>
                     </connections>
                 </viewController>
