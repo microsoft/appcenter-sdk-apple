@@ -12,10 +12,9 @@ class TodayViewController: UIViewController, NCWidgetProviding {
   
   var didStartAppCenter = false;
   override func viewDidLoad() {
-    
     super.viewDidLoad()
     extensionLabel.text = "Run #\(UUID().uuidString)"
-    if (!didStartAppCenter){
+    if (!didStartAppCenter) {
       MSAppCenter.setLogLevel(.verbose);
       MSAppCenter.start("238d7788-8e63-478f-a747-33444bdadbda", withServices: [MSCrashes.self])
       didStartAppCenter = true;
@@ -30,5 +29,4 @@ class TodayViewController: UIViewController, NCWidgetProviding {
   func widgetPerformUpdate(completionHandler: (@escaping (NCUpdateResult) -> Void)) {
     completionHandler(NCUpdateResult.newData)
   }
-    
 }
