@@ -41,11 +41,11 @@ static NSString *const EXPIRATION = @"exp";
     }
 }
 
-- (NSString*)getSubject {
+- (NSString *)getSubject {
     return self.subject;
 }
 
-- (NSDate*)getExpirationDate {
+- (NSDate *)getExpirationDate {
     return self.expirationDate;
 }
 
