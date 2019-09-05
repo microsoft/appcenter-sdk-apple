@@ -7,15 +7,15 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
-		0485AFEF1EAAADAC00C10CAF /* AppCenterAuth macOS Distribution */ = {
+		0485AFEF1EAAADAC00C10CAF /* AppCenterAuth macOS Fat Framework */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 0485AFF11EAAADAC00C10CAF /* Build configuration list for PBXAggregateTarget "AppCenterAuth macOS Distribution" */;
+			buildConfigurationList = 0485AFF11EAAADAC00C10CAF /* Build configuration list for PBXAggregateTarget "AppCenterAuth macOS Fat Framework" */;
 			buildPhases = (
 				0485AFF01EAAADAC00C10CAF /* Build Universal Framework */,
 			);
 			dependencies = (
 			);
-			name = "AppCenterAuth macOS Distribution";
+			name = "AppCenterAuth macOS Fat Framework";
 			productName = "Fat Framework";
 		};
 		04FD11551EF2F818000C5A5C /* AppCenterAuth macOS Documentation */ = {
@@ -30,15 +30,15 @@
 			name = "AppCenterAuth macOS Documentation";
 			productName = "Jazzy Docs";
 		};
-		E85547E41D2D681F002DF6E2 /* AppCenterAuth iOS Distribution */ = {
+		E85547E41D2D681F002DF6E2 /* AppCenterAuth iOS Fat Framework */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = E85547E51D2D681F002DF6E2 /* Build configuration list for PBXAggregateTarget "AppCenterAuth iOS Distribution" */;
+			buildConfigurationList = E85547E51D2D681F002DF6E2 /* Build configuration list for PBXAggregateTarget "AppCenterAuth iOS Fat Framework" */;
 			buildPhases = (
 				E85547E81D2D6827002DF6E2 /* Build Universal Framework */,
 			);
 			dependencies = (
 			);
-			name = "AppCenterAuth iOS Distribution";
+			name = "AppCenterAuth iOS Fat Framework";
 			productName = "Fat Framework";
 		};
 		E85547E91D2D68C5002DF6E2 /* AppCenterAuth iOS Documentation */ = {
@@ -824,11 +824,11 @@
 			targets = (
 				C934BFE4230BF74000083490 /* AppCenterAuth iOS Framework */,
 				E85547D41D2D6723002DF6E2 /* AppCenterAuth iOS Tests */,
-				E85547E41D2D681F002DF6E2 /* AppCenterAuth iOS Distribution */,
+				E85547E41D2D681F002DF6E2 /* AppCenterAuth iOS Fat Framework */,
 				E85547E91D2D68C5002DF6E2 /* AppCenterAuth iOS Documentation */,
 				C9A91F1E230BF9590068070D /* AppCenterAuth macOS Framework */,
 				046AEAB21ECA51AF00CBE511 /* AppCenterAuth macOS Tests */,
-				0485AFEF1EAAADAC00C10CAF /* AppCenterAuth macOS Distribution */,
+				0485AFEF1EAAADAC00C10CAF /* AppCenterAuth macOS Fat Framework */,
 				04FD11551EF2F818000C5A5C /* AppCenterAuth macOS Documentation */,
 			);
 		};
@@ -1099,12 +1099,12 @@
 /* Begin PBXTargetDependency section */
 		04FD115D1EF2F849000C5A5C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 0485AFEF1EAAADAC00C10CAF /* AppCenterAuth macOS Distribution */;
+			target = 0485AFEF1EAAADAC00C10CAF /* AppCenterAuth macOS Fat Framework */;
 			targetProxy = 04FD115C1EF2F849000C5A5C /* PBXContainerItemProxy */;
 		};
 		386352E41D51047400D0D450 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = E85547E41D2D681F002DF6E2 /* AppCenterAuth iOS Distribution */;
+			target = E85547E41D2D681F002DF6E2 /* AppCenterAuth iOS Fat Framework */;
 			targetProxy = 386352E31D51047400D0D450 /* PBXContainerItemProxy */;
 		};
 		C25D647D230EF89F00EA6F85 /* PBXTargetDependency */ = {
@@ -1268,7 +1268,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		0485AFF11EAAADAC00C10CAF /* Build configuration list for PBXAggregateTarget "AppCenterAuth macOS Distribution" */ = {
+		0485AFF11EAAADAC00C10CAF /* Build configuration list for PBXAggregateTarget "AppCenterAuth macOS Fat Framework" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0485AFF21EAAADAC00C10CAF /* Debug */,
@@ -1322,7 +1322,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E85547E51D2D681F002DF6E2 /* Build configuration list for PBXAggregateTarget "AppCenterAuth iOS Distribution" */ = {
+		E85547E51D2D681F002DF6E2 /* Build configuration list for PBXAggregateTarget "AppCenterAuth iOS Fat Framework" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E85547E61D2D681F002DF6E2 /* Debug */,

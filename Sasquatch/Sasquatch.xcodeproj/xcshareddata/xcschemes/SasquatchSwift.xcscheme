@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D3AD5F221E5C9562001627AB"
-               BuildableName = "AppCenterPush iOS Distribution"
-               BlueprintName = "AppCenterPush iOS Distribution"
+               BuildableName = "AppCenterPush iOS Fat Framework"
+               BlueprintName = "AppCenterPush iOS Fat Framework"
                ReferencedContainer = "container:../AppCenterPush/AppCenterPush.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -29,8 +29,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "6E04017D1D1CAC710051BCFA"
-               BuildableName = "AppCenter iOS Distribution"
-               BlueprintName = "AppCenter iOS Distribution"
+               BuildableName = "AppCenter iOS Fat Framework"
+               BlueprintName = "AppCenter iOS Fat Framework"
                ReferencedContainer = "container:../AppCenter/AppCenter.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -43,8 +43,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E85547E41D2D681F002DF6E2"
-               BuildableName = "AppCenterAnalytics iOS Distribution"
-               BlueprintName = "AppCenterAnalytics iOS Distribution"
+               BuildableName = "AppCenterAnalytics iOS Fat Framework"
+               BlueprintName = "AppCenterAnalytics iOS Fat Framework"
                ReferencedContainer = "container:../AppCenterAnalytics/AppCenterAnalytics.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -57,8 +57,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "6E3729771D1DE83200F1E4AE"
-               BuildableName = "AppCenterCrashes iOS Distribution"
-               BlueprintName = "AppCenterCrashes iOS Distribution"
+               BuildableName = "AppCenterCrashes iOS Fat Framework"
+               BlueprintName = "AppCenterCrashes iOS Fat Framework"
                ReferencedContainer = "container:../AppCenterCrashes/AppCenterCrashes.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -71,8 +71,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D3AD5F221E5C9562001627AB"
-               BuildableName = "AppCenterData iOS Distribution"
-               BlueprintName = "AppCenterData iOS Distribution"
+               BuildableName = "AppCenterData iOS Fat Framework"
+               BlueprintName = "AppCenterData iOS Fat Framework"
                ReferencedContainer = "container:../AppCenterData/AppCenterData.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -85,8 +85,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "04FD4A281E451E90009B4468"
-               BuildableName = "AppCenterDistribute iOS Distribution"
-               BlueprintName = "AppCenterDistribute iOS Distribution"
+               BuildableName = "AppCenterDistribute iOS Fat Framework"
+               BlueprintName = "AppCenterDistribute iOS Fat Framework"
                ReferencedContainer = "container:../AppCenterDistribute/AppCenterDistribute.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -99,8 +99,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E85547E41D2D681F002DF6E2"
-               BuildableName = "AppCenterAuth iOS Distribution"
-               BlueprintName = "AppCenterAuth iOS Distribution"
+               BuildableName = "AppCenterAuth iOS Fat Framework"
+               BlueprintName = "AppCenterAuth iOS Fat Framework"
                ReferencedContainer = "container:../AppCenterAuth/AppCenterAuth.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
