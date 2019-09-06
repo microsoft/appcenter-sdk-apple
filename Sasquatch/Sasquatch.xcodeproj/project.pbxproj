@@ -223,11 +223,11 @@
 		C2614462230FE88A00D65EBF /* AppCenterDistribute.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2614450230FE86400D65EBF /* AppCenterDistribute.framework */; };
 		C2614463230FE88A00D65EBF /* AppCenterPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C261445A230FE86400D65EBF /* AppCenterPush.framework */; };
 		C9E7E484231E99E9007D96DC /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9E7E483231E99E9007D96DC /* NotificationCenter.framework */; };
-		C9E7E48E231E99E9007D96DC /* SasquatchSwift-Preview Today Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C9E7E482231E99E9007D96DC /* SasquatchSwift-Preview Today Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		C9E7E48E231E99E9007D96DC /* SasquatchSwift-Preview Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C9E7E482231E99E9007D96DC /* SasquatchSwift-Preview Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C9E7E4E6231E9A5D007D96DC /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9E7E483231E99E9007D96DC /* NotificationCenter.framework */; };
 		C9E7E4E9231E9A5E007D96DC /* ExtenstionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E7E4E8231E9A5E007D96DC /* ExtenstionViewController.swift */; };
 		C9E7E4EC231E9A5E007D96DC /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C9E7E4EA231E9A5E007D96DC /* MainInterface.storyboard */; };
-		C9E7E4F0231E9A5E007D96DC /* SasquatchSwift Today Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C9E7E4E5231E9A5D007D96DC /* SasquatchSwift Today Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		C9E7E4F0231E9A5E007D96DC /* SasquatchSwift Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C9E7E4E5231E9A5D007D96DC /* SasquatchSwift Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C9FA99BA232111CB007E276C /* ExtenstionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E7E4E8231E9A5E007D96DC /* ExtenstionViewController.swift */; };
 		C9FA9A3C23224DE1007E276C /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C9E7E4EA231E9A5E007D96DC /* MainInterface.storyboard */; };
 		D31EF92D1E9517B600450162 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D31EF92B1E9517B600450162 /* Interface.storyboard */; };
@@ -681,7 +681,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				C9E7E48E231E99E9007D96DC /* SasquatchSwift-Preview Today Extension.appex in Embed App Extensions */,
+				C9E7E48E231E99E9007D96DC /* SasquatchSwift-Preview Extension.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -692,7 +692,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				C9E7E4F0231E9A5E007D96DC /* SasquatchSwift Today Extension.appex in Embed App Extensions */,
+				C9E7E4F0231E9A5E007D96DC /* SasquatchSwift Extension.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -860,10 +860,10 @@
 		B2E011F021091EF2003F4A5B /* MSAnalyticsPropertyTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MSAnalyticsPropertyTableViewCell.swift; path = Cells/MSAnalyticsPropertyTableViewCell.swift; sourceTree = "<group>"; };
 		C25DAE2522280A590073B86A /* AppCenterData.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AppCenterData.xcodeproj; path = ../AppCenterData/AppCenterData.xcodeproj; sourceTree = "<group>"; };
 		C25DAE3B22280B150073B86A /* AppCenterData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenterData.framework; path = "../AppCenter-SDK-Apple/iOS/AppCenterData.framework"; sourceTree = "<group>"; };
-		C9E7E482231E99E9007D96DC /* SasquatchSwift-Preview Today Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "SasquatchSwift-Preview Today Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9E7E482231E99E9007D96DC /* SasquatchSwift-Preview Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "SasquatchSwift-Preview Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9E7E483231E99E9007D96DC /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		C9E7E48B231E99E9007D96DC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C9E7E4E5231E9A5D007D96DC /* SasquatchSwift Today Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "SasquatchSwift Today Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9E7E4E5231E9A5D007D96DC /* SasquatchSwift Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "SasquatchSwift Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9E7E4E8231E9A5E007D96DC /* ExtenstionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtenstionViewController.swift; sourceTree = "<group>"; };
 		C9E7E4EB231E9A5E007D96DC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		C9E7E4ED231E9A5E007D96DC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -1118,8 +1118,8 @@
 				B2A888B52102B1E7001ACFDF /* SasquatchPuppetUITests.xctest */,
 				B27D54D2210A5E7E004E82C9 /* SasquatchObjC-Preview.app */,
 				B2A4CFB6210A6E6900199B4F /* SasquatchSwift-Preview.app */,
-				C9E7E482231E99E9007D96DC /* SasquatchSwift-Preview Today Extension.appex */,
-				C9E7E4E5231E9A5D007D96DC /* SasquatchSwift Today Extension.appex */,
+				C9E7E482231E99E9007D96DC /* SasquatchSwift-Preview Extension.appex */,
+				C9E7E4E5231E9A5D007D96DC /* SasquatchSwift Extension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1639,9 +1639,9 @@
 			productReference = B2A888B52102B1E7001ACFDF /* SasquatchPuppetUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
-		C9E7E481231E99E9007D96DC /* SasquatchSwift-Preview Today Extension */ = {
+		C9E7E481231E99E9007D96DC /* SasquatchSwift-Preview Extension */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C9E7E4D1231E99E9007D96DC /* Build configuration list for PBXNativeTarget "SasquatchSwift-Preview Today Extension" */;
+			buildConfigurationList = C9E7E4D1231E99E9007D96DC /* Build configuration list for PBXNativeTarget "SasquatchSwift-Preview Extension" */;
 			buildPhases = (
 				C9FA992323200B9E007E276C /* Verify No Build Settings */,
 				C9E7E47E231E99E9007D96DC /* Sources */,
@@ -1652,14 +1652,14 @@
 			);
 			dependencies = (
 			);
-			name = "SasquatchSwift-Preview Today Extension";
+			name = "SasquatchSwift-Preview Extension";
 			productName = "SasquatchSwift-Preview Today Extension";
-			productReference = C9E7E482231E99E9007D96DC /* SasquatchSwift-Preview Today Extension.appex */;
+			productReference = C9E7E482231E99E9007D96DC /* SasquatchSwift-Preview Extension.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
-		C9E7E4E4231E9A5D007D96DC /* SasquatchSwift Today Extension */ = {
+		C9E7E4E4231E9A5D007D96DC /* SasquatchSwift Extension */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C9E7E533231E9A5E007D96DC /* Build configuration list for PBXNativeTarget "SasquatchSwift Today Extension" */;
+			buildConfigurationList = C9E7E533231E9A5E007D96DC /* Build configuration list for PBXNativeTarget "SasquatchSwift Extension" */;
 			buildPhases = (
 				C9FA996423200BC4007E276C /* Verify No Build Settings */,
 				C9E7E4E1231E9A5D007D96DC /* Sources */,
@@ -1670,9 +1670,9 @@
 			);
 			dependencies = (
 			);
-			name = "SasquatchSwift Today Extension";
+			name = "SasquatchSwift Extension";
 			productName = "SasquatchSwift Today Extension";
-			productReference = C9E7E4E5231E9A5D007D96DC /* SasquatchSwift Today Extension.appex */;
+			productReference = C9E7E4E5231E9A5D007D96DC /* SasquatchSwift Extension.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 		D31EF9281E9517B500450162 /* SasquatchWatchObjC */ = {
@@ -1933,8 +1933,8 @@
 				5CE258861EA5F62400DA8FB9 /* SasquatchObjCUITests */,
 				B20AE37C21027D6200A1A195 /* SasquatchPuppet */,
 				B2A888B42102B1E7001ACFDF /* SasquatchPuppetUITests */,
-				C9E7E481231E99E9007D96DC /* SasquatchSwift-Preview Today Extension */,
-				C9E7E4E4231E9A5D007D96DC /* SasquatchSwift Today Extension */,
+				C9E7E481231E99E9007D96DC /* SasquatchSwift-Preview Extension */,
+				C9E7E4E4231E9A5D007D96DC /* SasquatchSwift Extension */,
 			);
 		};
 /* End PBXProject section */
@@ -2804,12 +2804,12 @@
 		};
 		C9E7E48D231E99E9007D96DC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = C9E7E481231E99E9007D96DC /* SasquatchSwift-Preview Today Extension */;
+			target = C9E7E481231E99E9007D96DC /* SasquatchSwift-Preview Extension */;
 			targetProxy = C9E7E48C231E99E9007D96DC /* PBXContainerItemProxy */;
 		};
 		C9E7E4EF231E9A5E007D96DC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = C9E7E4E4231E9A5D007D96DC /* SasquatchSwift Today Extension */;
+			target = C9E7E4E4231E9A5D007D96DC /* SasquatchSwift Extension */;
 			targetProxy = C9E7E4EE231E9A5E007D96DC /* PBXContainerItemProxy */;
 		};
 		D31EF9381E9517B600450162 /* PBXTargetDependency */ = {
@@ -3115,7 +3115,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5Z97G9NZQ6;
-				INFOPLIST_FILE = "SasquatchSwift-Preview Today Extension/Info.plist";
+				INFOPLIST_FILE = "SasquatchSwift-Preview-Extension/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.microsoft.appcenter.sasquatchswift.SasquatchSwift-Preview-Today-Extension";
 			};
 			name = Debug;
@@ -3126,7 +3126,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5Z97G9NZQ6;
-				INFOPLIST_FILE = "SasquatchSwift-Preview Today Extension/Info.plist";
+				INFOPLIST_FILE = "SasquatchSwift-Preview-Extension/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.microsoft.appcenter.sasquatchswift.SasquatchSwift-Preview-Today-Extension";
 			};
 			name = Release;
@@ -3137,7 +3137,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5Z97G9NZQ6;
-				INFOPLIST_FILE = "SasquatchSwift Today Extension/Info.plist";
+				INFOPLIST_FILE = "SasquatchSwift-Extension/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.microsoft.appcenter.sasquatchswift.SasquatchSwift-Today-Extension";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -3149,7 +3149,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5Z97G9NZQ6;
-				INFOPLIST_FILE = "SasquatchSwift Today Extension/Info.plist";
+				INFOPLIST_FILE = "SasquatchSwift-Extension/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.microsoft.appcenter.sasquatchswift.SasquatchSwift-Today-Extension";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -3319,7 +3319,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C9E7E4D1231E99E9007D96DC /* Build configuration list for PBXNativeTarget "SasquatchSwift-Preview Today Extension" */ = {
+		C9E7E4D1231E99E9007D96DC /* Build configuration list for PBXNativeTarget "SasquatchSwift-Preview Extension" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C9E7E48F231E99E9007D96DC /* Debug */,
@@ -3328,7 +3328,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C9E7E533231E9A5E007D96DC /* Build configuration list for PBXNativeTarget "SasquatchSwift Today Extension" */ = {
+		C9E7E533231E9A5E007D96DC /* Build configuration list for PBXNativeTarget "SasquatchSwift Extension" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C9E7E4F1231E9A5E007D96DC /* Debug */,
