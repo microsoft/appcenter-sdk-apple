@@ -6,7 +6,7 @@ import NotificationCenter
 import AppCenter
 import AppCenterCrashes
 
-class TodayViewController: UIViewController, NCWidgetProviding, UIPickerViewDataSource, UIPickerViewDelegate {
+class ExtensionViewController: UIViewController, NCWidgetProviding, UIPickerViewDataSource, UIPickerViewDelegate {
   
   @IBOutlet weak var extensionLabel: UILabel!
   @IBOutlet weak var crashPickerView: UIPickerView!
@@ -45,7 +45,7 @@ class TodayViewController: UIViewController, NCWidgetProviding, UIPickerViewData
     var count = UInt32(0)
     let classList = objc_copyClassList(&count)
     MSCrash.removeAllCrashes()
-    for i in 0..<Int(count) {
+    for i in 0 .. < Int(count) {
       let className: AnyClass = classList![i]
       if class_getSuperclass(className) == MSCrash.self && className != MSCrash.self {
         MSCrash.register((className as! MSCrash.Type).init())

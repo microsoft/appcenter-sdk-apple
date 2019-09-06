@@ -10,12 +10,12 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Today View Controller-->
+        <!--Extension View Controller-->
         <scene sceneID="cwh-vc-ff4">
             <objects>
-                <viewController id="M4Y-Lb-cyx" customClass="TodayViewController" customModule="SasquatchSwift_Today_Extension" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="M4Y-Lb-cyx" customClass="ExtensionViewController" customModule="SasquatchSwift_Preview_Today_Extension" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="cVh-v9-Aeq">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="140"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="228"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Run #000000" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h1u-He-ubZ">
@@ -24,11 +24,11 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <pickerView contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fPJ-8Z-rDw">
-                                <rect key="frame" x="0.0" y="37" width="320" height="80"/>
+                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fPJ-8Z-rDw">
+                                <rect key="frame" x="8" y="36.5" width="304" height="162"/>
                             </pickerView>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bTT-fp-KuH">
-                                <rect key="frame" x="0.0" y="110" width="320" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bTT-fp-KuH">
+                                <rect key="frame" x="8" y="198.5" width="304" height="30"/>
                                 <state key="normal" title="Crash me!"/>
                                 <connections>
                                     <action selector="crashMe:" destination="M4Y-Lb-cyx" eventType="touchUpInside" id="HLl-Fj-aky"/>
@@ -39,8 +39,9 @@
                         <constraints>
                             <constraint firstItem="SNz-to-QQI" firstAttribute="trailing" secondItem="h1u-He-ubZ" secondAttribute="trailing" constant="8" id="5M4-sI-foc"/>
                             <constraint firstItem="h1u-He-ubZ" firstAttribute="top" secondItem="SNz-to-QQI" secondAttribute="top" constant="8" id="ASG-ng-K7A"/>
+                            <constraint firstItem="fPJ-8Z-rDw" firstAttribute="trailing" secondItem="SNz-to-QQI" secondAttribute="trailing" constant="-8" id="G4t-eq-ntc"/>
                             <constraint firstItem="fPJ-8Z-rDw" firstAttribute="top" secondItem="h1u-He-ubZ" secondAttribute="bottom" constant="8" id="Io4-4g-WQR"/>
-                            <constraint firstItem="fPJ-8Z-rDw" firstAttribute="leading" secondItem="SNz-to-QQI" secondAttribute="leading" id="ZGY-Oi-T0y"/>
+                            <constraint firstItem="fPJ-8Z-rDw" firstAttribute="leading" secondItem="SNz-to-QQI" secondAttribute="leading" constant="8" id="ZGY-Oi-T0y"/>
                             <constraint firstItem="bTT-fp-KuH" firstAttribute="trailing" secondItem="fPJ-8Z-rDw" secondAttribute="trailing" id="gft-Mv-CQT"/>
                             <constraint firstItem="bTT-fp-KuH" firstAttribute="top" secondItem="fPJ-8Z-rDw" secondAttribute="bottom" id="iUY-on-BU9"/>
                             <constraint firstItem="h1u-He-ubZ" firstAttribute="leading" secondItem="SNz-to-QQI" secondAttribute="leading" constant="8" id="mp1-3s-Or3"/>
@@ -50,7 +51,7 @@
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                    <size key="freeformSize" width="320" height="140"/>
+                    <size key="freeformSize" width="320" height="228"/>
                     <connections>
                         <outlet property="crashCollection" destination="fPJ-8Z-rDw" id="eoQ-25-QlI"/>
                         <outlet property="crashPickerView" destination="fPJ-8Z-rDw" id="LJO-Oh-HIG"/>
