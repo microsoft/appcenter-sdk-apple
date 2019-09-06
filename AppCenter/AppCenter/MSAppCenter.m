@@ -12,12 +12,14 @@
 #import "MSChannelGroupDefaultPrivate.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSDeviceTrackerPrivate.h"
+#import "MSJwtClaims.h"
 #import "MSLoggerInternal.h"
 #import "MSOneCollectorChannelDelegate.h"
 #import "MSSessionContext.h"
 #import "MSStartServiceLog.h"
 #import "MSUserIdContext.h"
 #import "MSUtility+StringFormatting.h"
+#import "MSAuthTokenValidityInfo.h"
 
 #if !TARGET_OS_TV
 #import "MSCustomPropertiesInternal.h"
@@ -176,11 +178,40 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
 
 + (void)setAuthProvider:(MSAuthProvider *)authProvider {
   MSAuthTokenContext *authTokenContext = [MSAuthTokenContext sharedInstance];
+  
   if (authProvider != nil) {
     MSLogInfo(MSAppCenter.logTag, @"Setting up auth token refresh listener.");
     [authTokenContext preventResetAuthTokenAfterStart];
-    [authTokenContext ]
+    NSString *currentAuthToken = [authTokenContext authToken];
+    MSJwtClaims *currentClaims = [MSJwtClaims parse:currentAuthToken];
+    
+    MSAuthTokenValidityInfo *authToken = [[MSAuthTokenValidityInfo alloc] initWithAuthToken:currentAuthToken
+                                                                       startTime:[NSDate new] // Fix date
+                                                                         endTime:[currentClaims getExpirationDate]];
+    
+    [authTokenContext checkIfTokenNeedsToBeRefreshed:authToken];
+    [authTokenContext addDelegate:(id<MSAuthTokenContextDelegate>)self];
+    [authProvider authenticationProvider:authProvider acquireTokenWithCompletionHandler:^(NSString *jwt){
+      MSLogInfo(MSAppCenter.logTag, @"");
+      MSJwtClaims *claims = [MSJwtClaims parse:jwt];
+      if (claims != nil) {
+        MSLogDebug(MSAppCenter.logTag, @"Token has been refreshed.");
+        [authTokenContext setAuthToken:jwt withAccountId:[claims getSubject] expiresOn:[claims getExpirationDate]];
+      } else {
+        [authTokenContext setAuthToken:nil withAccountId:nil expiresOn:nil];
+      }
+    }];
+    // TODO add listener
   }
+  else if (false) { // TODO fix condition
+    MSLogInfo(MSAppCenter.logTag, @"Removing auth token refresh listener.");
+    // TODO Remove listener
+    [authTokenContext setAuthToken:nil withAccountId:nil expiresOn:nil];
+  }
+}
+
++ (NSString *)acquireTokenCompletionHandler {
+  return @"";
 }
 
 /**
