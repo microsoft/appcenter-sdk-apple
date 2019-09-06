@@ -225,10 +225,10 @@
 		C9E7E484231E99E9007D96DC /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9E7E483231E99E9007D96DC /* NotificationCenter.framework */; };
 		C9E7E48E231E99E9007D96DC /* SasquatchSwift-Preview Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C9E7E482231E99E9007D96DC /* SasquatchSwift-Preview Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C9E7E4E6231E9A5D007D96DC /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9E7E483231E99E9007D96DC /* NotificationCenter.framework */; };
-		C9E7E4E9231E9A5E007D96DC /* ExtenstionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E7E4E8231E9A5E007D96DC /* ExtenstionViewController.swift */; };
+		C9E7E4E9231E9A5E007D96DC /* ExtensionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E7E4E8231E9A5E007D96DC /* ExtensionViewController.swift */; };
 		C9E7E4EC231E9A5E007D96DC /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C9E7E4EA231E9A5E007D96DC /* MainInterface.storyboard */; };
 		C9E7E4F0231E9A5E007D96DC /* SasquatchSwift Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C9E7E4E5231E9A5D007D96DC /* SasquatchSwift Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		C9FA99BA232111CB007E276C /* ExtenstionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E7E4E8231E9A5E007D96DC /* ExtenstionViewController.swift */; };
+		C9FA99BA232111CB007E276C /* ExtensionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E7E4E8231E9A5E007D96DC /* ExtensionViewController.swift */; };
 		C9FA9A3C23224DE1007E276C /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C9E7E4EA231E9A5E007D96DC /* MainInterface.storyboard */; };
 		D31EF92D1E9517B600450162 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D31EF92B1E9517B600450162 /* Interface.storyboard */; };
 		D31EF92F1E9517B600450162 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D31EF92E1E9517B600450162 /* Assets.xcassets */; };
@@ -284,6 +284,8 @@
 		F8E69C612322AC3A006209D2 /* AppCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C261443A230FE86400D65EBF /* AppCenterCrashes.framework */; };
 		F8E69C632322AD0E006209D2 /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8E69C622322AD0E006209D2 /* CrashLibIOS.framework */; };
 		F8E69C652322AD16006209D2 /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8E69C642322AD16006209D2 /* CrashLibIOS.framework */; };
+		F8E69CCC2322C546006209D2 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C9E7E4ED231E9A5E007D96DC /* Info.plist */; };
+		F8E69CCD2322C546006209D2 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C9E7E4ED231E9A5E007D96DC /* Info.plist */; };
 		F8F077A522A6A27B007B4B31 /* MSAuthInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8F077A422A6A27B007B4B31 /* MSAuthInfoViewController.swift */; };
 		F8F077A622A6A27B007B4B31 /* MSAuthInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8F077A422A6A27B007B4B31 /* MSAuthInfoViewController.swift */; };
 		F8F077A722A6A27B007B4B31 /* MSAuthInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8F077A422A6A27B007B4B31 /* MSAuthInfoViewController.swift */; };
@@ -868,9 +870,8 @@
 		C25DAE3B22280B150073B86A /* AppCenterData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenterData.framework; path = "../AppCenter-SDK-Apple/iOS/AppCenterData.framework"; sourceTree = "<group>"; };
 		C9E7E482231E99E9007D96DC /* SasquatchSwift-Preview Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "SasquatchSwift-Preview Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9E7E483231E99E9007D96DC /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
-		C9E7E48B231E99E9007D96DC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C9E7E4E5231E9A5D007D96DC /* SasquatchSwift Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "SasquatchSwift Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
-		C9E7E4E8231E9A5E007D96DC /* ExtenstionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtenstionViewController.swift; sourceTree = "<group>"; };
+		C9E7E4E8231E9A5E007D96DC /* ExtensionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionViewController.swift; sourceTree = "<group>"; };
 		C9E7E4EB231E9A5E007D96DC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		C9E7E4ED231E9A5E007D96DC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D31EF9291E9517B500450162 /* SasquatchWatchObjC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SasquatchWatchObjC.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1109,7 +1110,6 @@
 				D31EF9641E9517C600450162 /* SasquatchWatchSwift Extension */,
 				B2C97B5A21064A5300042A03 /* SasquatchPuppet */,
 				5CD700E61EA4B74600FC5D12 /* SasquatchUITests */,
-				C9E7E485231E99E9007D96DC /* SasquatchSwift-Preview-Extension */,
 				C9E7E4E7231E9A5E007D96DC /* SasquatchSwift-Extension */,
 				84226C131E88FEFC00798417 /* Products */,
 				F8FE732D21073042005C6A74 /* Vendor */,
@@ -1382,18 +1382,10 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		C9E7E485231E99E9007D96DC /* SasquatchSwift-Preview-Extension */ = {
-			isa = PBXGroup;
-			children = (
-				C9E7E48B231E99E9007D96DC /* Info.plist */,
-			);
-			path = "SasquatchSwift-Preview-Extension";
-			sourceTree = "<group>";
-		};
 		C9E7E4E7231E9A5E007D96DC /* SasquatchSwift-Extension */ = {
 			isa = PBXGroup;
 			children = (
-				C9E7E4E8231E9A5E007D96DC /* ExtenstionViewController.swift */,
+				C9E7E4E8231E9A5E007D96DC /* ExtensionViewController.swift */,
 				C9E7E4EA231E9A5E007D96DC /* MainInterface.storyboard */,
 				C9E7E4ED231E9A5E007D96DC /* Info.plist */,
 			);
@@ -2295,6 +2287,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F8E69CCC2322C546006209D2 /* Info.plist in Resources */,
 				C9FA9A3C23224DE1007E276C /* MainInterface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2303,6 +2296,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F8E69CCD2322C546006209D2 /* Info.plist in Resources */,
 				C9E7E4EC231E9A5E007D96DC /* MainInterface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2763,7 +2757,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C9FA99BA232111CB007E276C /* ExtenstionViewController.swift in Sources */,
+				C9FA99BA232111CB007E276C /* ExtensionViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2771,7 +2765,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C9E7E4E9231E9A5E007D96DC /* ExtenstionViewController.swift in Sources */,
+				C9E7E4E9231E9A5E007D96DC /* ExtensionViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3131,7 +3125,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5Z97G9NZQ6;
-				INFOPLIST_FILE = "SasquatchSwift-Preview-Extension/Info.plist";
+				INFOPLIST_FILE = "SasquatchSwift-Extension/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.microsoft.appcenter.sasquatchswift.SasquatchSwift-Preview-Extension";
 			};
 			name = Debug;
@@ -3141,7 +3135,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = "SasquatchSwift-Preview-Extension/Info.plist";
+				INFOPLIST_FILE = "SasquatchSwift-Extension/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.microsoft.appcenter.sasquatchswift.SasquatchSwift-Preview-Extension";
 			};
 			name = Release;

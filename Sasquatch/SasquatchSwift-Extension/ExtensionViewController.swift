@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import UIKit
-import NotificationCenter
 import AppCenter
 import AppCenterCrashes
+import NotificationCenter
+import UIKit
 
 class ExtensionViewController: UIViewController, NCWidgetProviding {
   @IBOutlet weak var crashLabel: UILabel!
