@@ -1,3 +1,4 @@
 #include "../../../Config/macOS.xcconfig"
+#include "../../../Config/Target config.xcconfig"
 
 USER_HEADER_SEARCH_PATHS=$(inherited) $(SRCROOT)/MSAL/**

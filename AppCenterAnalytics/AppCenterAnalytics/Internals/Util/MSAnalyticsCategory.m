@@ -2,18 +2,43 @@
 // Licensed under the MIT License.
 
 #import <objc/runtime.h>
+#if TARGET_OS_OSX
+#import <AppKit/AppKit.h>
+#define MSViewController NSViewController
+#else
+#import <UIKit/UIKit.h>
+#define MSViewController UIViewController
+#endif
 
 #import "MSAnalyticsCategory.h"
 #import "MSAnalyticsInternal.h"
 
 static NSString *const kMSViewControllerSuffix = @"ViewController";
 static NSString *MSMissedPageViewName;
+static IMP viewWillAppearOriginalImp;
 
+/**
+ * Should track page.
+ *
+ * @param viewController The current view controller.
+ *
+ * @return YES if should track page, NO otherwise.
+ */
+static BOOL ms_shouldTrackPageView(MSViewController *viewController) {
+
+  // For container view controllers, auto page tracking is disabled(to avoid noise).
+  NSSet *viewControllerSet = [NSSet setWithArray:@[
 #if TARGET_OS_OSX
-@implementation NSViewController (PageViewLogging)
+    @"NSTabViewController", @"NSSplitViewController", @"NSPageController"
 #else
-@implementation UIViewController (PageViewLogging)
+    @"UINavigationController", @"UITabBarController", @"UISplitViewController", @"UIInputWindowController", @"UIPageViewController"
 #endif
+  ]];
+  NSString *className = NSStringFromClass([viewController class]);
+  return ![viewControllerSet containsObject:className];
+}
+
+@implementation MSViewController (PageViewLogging)
 
 + (void)swizzleViewWillAppear {
   static dispatch_once_t onceToken;
@@ -28,22 +53,24 @@ static NSString *MSMissedPageViewName;
 #endif
 
     SEL swizzledSelector = @selector(ms_viewWillAppear:);
-
     Method originalMethod = class_getInstanceMethod(class, originalSelector);
-    Method swizzledMethod = class_getInstanceMethod(class, swizzledSelector);
-
-    method_exchangeImplementations(originalMethod, swizzledMethod);
+    IMP swizzledImp = class_getMethodImplementation(class, swizzledSelector);
+    viewWillAppearOriginalImp = method_setImplementation(originalMethod, swizzledImp);
   });
 }
 
 #pragma mark - Method Swizzling
 
 - (void)ms_viewWillAppear:(BOOL)animated {
-  [self ms_viewWillAppear:animated];
+
+  // Forward to the original implementation.
+  ((void (*)(id, SEL, BOOL))viewWillAppearOriginalImp)(self, _cmd, animated);
+
   if ([MSAnalytics isAutoPageTrackingEnabled]) {
 
-    if (!ms_shouldTrackPageView(self))
+    if (!ms_shouldTrackPageView(self)) {
       return;
+    }
 
     // By default, use class name for the page name.
     NSString *pageViewName = NSStringFromClass([self class]);
@@ -75,33 +102,10 @@ static NSString *MSMissedPageViewName;
 
 @end
 
-#if TARGET_OS_OSX
-BOOL ms_shouldTrackPageView(NSViewController *viewController) {
-#else
-BOOL ms_shouldTrackPageView(UIViewController *viewController) {
-#endif
-
-  // For container view controllers, auto page tracking is disabled(to avoid noise).
-  NSSet *viewControllerSet = [NSSet setWithArray:@[
-#if TARGET_OS_OSX
-    @"NSTabViewController", @"NSSplitViewController", @"NSPageController"
-#else
-    @"UINavigationController", @"UITabBarController", @"UISplitViewController", @"UIInputWindowController", @"UIPageViewController"
-#endif
-  ]];
-  NSString *className = NSStringFromClass([viewController class]);
-
-  return ![viewControllerSet containsObject:className];
-}
-
 @implementation MSAnalyticsCategory
 
 + (void)activateCategory {
-#if TARGET_OS_OSX
-  [NSViewController swizzleViewWillAppear];
-#else
-  [UIViewController swizzleViewWillAppear];
-#endif
+  [MSViewController swizzleViewWillAppear];
 }
 
 + (NSString *)missedPageViewName {

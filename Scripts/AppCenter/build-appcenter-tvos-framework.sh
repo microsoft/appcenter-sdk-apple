@@ -3,9 +3,9 @@
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License.
 
-source $(dirname "$0")/../build-tvos-framework.sh AppCenter
+source $(dirname "$0")/../build-tvos-framework.sh
 
-rm -r "${WRK_DIR}"
+rm -r "${WORK_DIR}"
 
 # Copy license and readme
 cp -f "${SRCROOT}/../LICENSE" "${PRODUCTS_DIR}"

@@ -7,6 +7,10 @@
 * **[Fix]** Fix token storage initialization if services are started via `[MSAppCenter startService:]` method.
 * **[Fix]** Redirect URIs are now hidden in logs.
 
+### App Center Analytics
+
+* **[Fix]** Fix crash involving SDK's `ms_viewWillAppear` method.
+
 ___
 
 ## Version 2.3.0
@@ -76,6 +80,7 @@ ___
 ### App Center Data
 
 * **[Fix]** Fix an issue where invalid characters in the document ID are accepted at creation time but causing errors while trying to read or delete the document. The characters are `#`, `\`, `/`, `?`, and all whitespaces.
+* **[Feature]** Added `setRemoteOperationDelegate` method to set a delegate to be notified of a pending operation being executed when the client device goes from offline to online.
 
 ___
 

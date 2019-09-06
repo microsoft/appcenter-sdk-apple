@@ -1960,6 +1960,7 @@
                                 <rect key="frame" x="321" y="28" width="34" height="30"/>
                                 <state key="normal" title="Save"/>
                                 <connections>
+                                    <action selector="saveButtonClicked:" destination="9ke-7b-bu5" eventType="touchDown" id="cIn-Yo-HDU"/>
                                     <segue destination="mBP-hT-jaF" kind="unwind" identifier="SaveDocument" unwindAction="saveDocument:" id="biX-Kg-YLj"/>
                                 </connections>
                             </button>
