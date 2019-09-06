@@ -11,43 +11,41 @@ class TodayViewController: UIViewController, NCWidgetProviding, UIPickerViewData
   @IBOutlet weak var extensionLabel: UILabel!
   @IBOutlet weak var crashPickerView: UIPickerView!
  
-  var didStartAppCenter = false;
+  var didStartAppCenter = false
   var crashes = MSCrash.allCrashes() as! [MSCrash]
   
   func numberOfComponents(in pickerView: UIPickerView) -> Int {
-    return 1;
+    return 1
   }
   
   func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-    return crashes.count;
+    return crashes.count
   }
   
   override func viewDidLoad() {
     
     super.viewDidLoad()
     pokeAllCrashes()
-    
     var crashes = MSCrash.allCrashes() as! [MSCrash]
-
-    crashPickerView.reloadComponent(0);
-    
-    extensionLabel.text = "Run #\(UUID().uuidString)"
+    crashPickerView.reloadComponent(0)
+    let dateString = DateFormatter.localizedString(from: Date.init(), dateStyle: DateFormatter.Style.medium, timeStyle: DateFormatter.Style.medium)
+    extensionLabel.text = "Run #\(dateString)"
     if (!didStartAppCenter) {
-      MSAppCenter.setLogLevel(.verbose);
+      MSAppCenter.setLogLevel(.verbose)
       MSAppCenter.start("238d7788-8e63-478f-a747-33444bdadbda", withServices: [MSCrashes.self])
-      didStartAppCenter = true;
+      didStartAppCenter = true
     }
   }
   
   func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-    return String(crashes[row]);
+    return String(crashes[row])
   }
   
   private func pokeAllCrashes() {
     var count = UInt32(0)
     let classList = objc_copyClassList(&count)
     MSCrash.removeAllCrashes()
-    for i in 0..<Int(count){
+    for i in 0..<Int(count) {
       let className: AnyClass = classList![i]
       if class_getSuperclass(className) == MSCrash.self && className != MSCrash.self {
         MSCrash.register((className as! MSCrash.Type).init())
@@ -56,8 +54,8 @@ class TodayViewController: UIViewController, NCWidgetProviding, UIPickerViewData
   }
   
   @IBAction func crashMe(_ sender: Any) {
-    let buf: UnsafeMutablePointer<UInt>? = nil;
-    buf![1] = 1;
+    let crash = crashes[crashPickerView.selectedRow(inComponent: 0)]
+    crash.crash()
   }
   
   func widgetPerformUpdate(completionHandler: (@escaping (NCUpdateResult) -> Void)) {
