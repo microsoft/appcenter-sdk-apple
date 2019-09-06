@@ -107,6 +107,7 @@
 		F8B8DCCF2321815A00BF7DAA /* CrashLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B8DCC32321210600BF7DAA /* CrashLoader.swift */; };
 		F8B8EC731FD853E800445BD4 /* CustomPropertiesViewControler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B8EC721FD853E800445BD4 /* CustomPropertiesViewControler.swift */; };
 		F8B8EC741FD853E800445BD4 /* CustomPropertiesViewControler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B8EC721FD853E800445BD4 /* CustomPropertiesViewControler.swift */; };
+		F8E69C842322C308006209D2 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F8EE6465231E6F8E0007A52E /* InfoPlist.strings */; };
 		F8EE645D231E6F8E0007A52E /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8EE645C231E6F8E0007A52E /* NotificationCenter.framework */; };
 		F8EE6463231E6F8E0007A52E /* TodayViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F8EE6461231E6F8E0007A52E /* TodayViewController.xib */; };
 		F8EE6467231E6F8E0007A52E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F8EE6465231E6F8E0007A52E /* InfoPlist.strings */; };
@@ -258,7 +259,6 @@
 		F8EE6466231E6F8E0007A52E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		F8EE6468231E6F8E0007A52E /* SasquatchMacSwift_Today_Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SasquatchMacSwift_Today_Extension.entitlements; sourceTree = "<group>"; };
 		F8EE6479231E71060007A52E /* SasquatchMacSwift-Preview-Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "SasquatchMacSwift-Preview-Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
-		F8EE6481231E71060007A52E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F8EE6483231E71060007A52E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		F8EE6485231E71060007A52E /* SasquatchMacSwift_Preview_Today_Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SasquatchMacSwift_Preview_Today_Extension.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -501,7 +501,6 @@
 		F8EE647B231E71060007A52E /* SasquatchMacSwift-Preview-Extension */ = {
 			isa = PBXGroup;
 			children = (
-				F8EE6481231E71060007A52E /* Info.plist */,
 				F8EE6482231E71060007A52E /* InfoPlist.strings */,
 				F8EE6485231E71060007A52E /* SasquatchMacSwift_Preview_Today_Extension.entitlements */,
 			);
@@ -764,6 +763,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F8EE6484231E71060007A52E /* InfoPlist.strings in Resources */,
+				F8E69C842322C308006209D2 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1224,7 +1224,7 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5Z97G9NZQ6;
-				INFOPLIST_FILE = "SasquatchMacSwift-Preview-Extension/Info.plist";
+				INFOPLIST_FILE = "SasquatchMacSwift-Extension/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.akvelon.appcenter.sasquatchswift.mac.SasquatchMacSwift-Preview-Extension";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1238,7 +1238,7 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5Z97G9NZQ6;
-				INFOPLIST_FILE = "SasquatchMacSwift-Preview-Extension/Info.plist";
+				INFOPLIST_FILE = "SasquatchMacSwift-Extension/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.akvelon.appcenter.sasquatchswift.mac.SasquatchMacSwift-Preview-Extension";
 			};
 			name = Release;
