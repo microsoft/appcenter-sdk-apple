@@ -13,22 +13,35 @@
         <!--Extension View Controller-->
         <scene sceneID="cwh-vc-ff4">
             <objects>
-                <viewController id="M4Y-Lb-cyx" customClass="ExtensionViewController" customModule="SasquatchSwift_Preview_Today_Extension" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="M4Y-Lb-cyx" customClass="ExtensionViewController" customModule="SasquatchSwift_Extension" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="cVh-v9-Aeq">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="228"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Run #000000" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h1u-He-ubZ">
-                                <rect key="frame" x="8" y="8" width="304" height="20.5"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Run #000000" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h1u-He-ubZ">
+                                <rect key="frame" x="8" y="8" width="304" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="3rp-lB-1uW"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fPJ-8Z-rDw">
-                                <rect key="frame" x="8" y="36.5" width="304" height="162"/>
-                            </pickerView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bTT-fp-KuH">
-                                <rect key="frame" x="8" y="198.5" width="304" height="30"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ShS-NW-ibQ">
+                                <rect key="frame" x="8" y="37" width="304" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nPG-7f-OzZ">
+                                <rect key="frame" x="8" y="50" width="304" height="148"/>
+                                <state key="normal" title="Next crash"/>
+                                <connections>
+                                    <action selector="onNext:" destination="M4Y-Lb-cyx" eventType="touchUpInside" id="WNO-3p-uFq"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bTT-fp-KuH">
+                                <rect key="frame" x="8" y="190" width="304" height="30"/>
                                 <state key="normal" title="Crash me!"/>
                                 <connections>
                                     <action selector="crashMe:" destination="M4Y-Lb-cyx" eventType="touchUpInside" id="HLl-Fj-aky"/>
@@ -37,15 +50,19 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="SNz-to-QQI" firstAttribute="trailing" secondItem="bTT-fp-KuH" secondAttribute="trailing" constant="8" id="19T-Fc-FlG"/>
                             <constraint firstItem="SNz-to-QQI" firstAttribute="trailing" secondItem="h1u-He-ubZ" secondAttribute="trailing" constant="8" id="5M4-sI-foc"/>
+                            <constraint firstItem="SNz-to-QQI" firstAttribute="trailing" secondItem="nPG-7f-OzZ" secondAttribute="trailing" constant="8" id="8Ql-GK-2Ve"/>
                             <constraint firstItem="h1u-He-ubZ" firstAttribute="top" secondItem="SNz-to-QQI" secondAttribute="top" constant="8" id="ASG-ng-K7A"/>
-                            <constraint firstItem="fPJ-8Z-rDw" firstAttribute="trailing" secondItem="SNz-to-QQI" secondAttribute="trailing" constant="-8" id="G4t-eq-ntc"/>
-                            <constraint firstItem="fPJ-8Z-rDw" firstAttribute="top" secondItem="h1u-He-ubZ" secondAttribute="bottom" constant="8" id="Io4-4g-WQR"/>
-                            <constraint firstItem="fPJ-8Z-rDw" firstAttribute="leading" secondItem="SNz-to-QQI" secondAttribute="leading" constant="8" id="ZGY-Oi-T0y"/>
-                            <constraint firstItem="bTT-fp-KuH" firstAttribute="trailing" secondItem="fPJ-8Z-rDw" secondAttribute="trailing" id="gft-Mv-CQT"/>
-                            <constraint firstItem="bTT-fp-KuH" firstAttribute="top" secondItem="fPJ-8Z-rDw" secondAttribute="bottom" id="iUY-on-BU9"/>
+                            <constraint firstItem="nPG-7f-OzZ" firstAttribute="bottom" secondItem="bTT-fp-KuH" secondAttribute="top" constant="8" id="FqV-LB-gey"/>
+                            <constraint firstItem="SNz-to-QQI" firstAttribute="trailing" secondItem="ShS-NW-ibQ" secondAttribute="trailing" constant="8" id="I1k-6b-XMe"/>
+                            <constraint firstItem="bTT-fp-KuH" firstAttribute="leading" secondItem="SNz-to-QQI" secondAttribute="leading" constant="8" id="Jpo-bJ-UYc"/>
+                            <constraint firstItem="nPG-7f-OzZ" firstAttribute="leading" secondItem="SNz-to-QQI" secondAttribute="leading" constant="8" id="QMH-Fl-ALQ"/>
+                            <constraint firstItem="ShS-NW-ibQ" firstAttribute="bottom" secondItem="nPG-7f-OzZ" secondAttribute="top" constant="8" id="SX0-N6-oi9"/>
+                            <constraint firstItem="ShS-NW-ibQ" firstAttribute="top" secondItem="h1u-He-ubZ" secondAttribute="bottom" constant="8" id="VzA-H1-6Nd"/>
                             <constraint firstItem="h1u-He-ubZ" firstAttribute="leading" secondItem="SNz-to-QQI" secondAttribute="leading" constant="8" id="mp1-3s-Or3"/>
-                            <constraint firstItem="bTT-fp-KuH" firstAttribute="leading" secondItem="fPJ-8Z-rDw" secondAttribute="leading" id="xBz-IP-s29"/>
+                            <constraint firstItem="bTT-fp-KuH" firstAttribute="bottom" secondItem="SNz-to-QQI" secondAttribute="bottom" constant="-8" id="n77-ze-a8g"/>
+                            <constraint firstItem="ShS-NW-ibQ" firstAttribute="leading" secondItem="SNz-to-QQI" secondAttribute="leading" constant="8" id="whx-3z-wRM"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="SNz-to-QQI"/>
                     </view>
@@ -53,8 +70,7 @@
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="320" height="228"/>
                     <connections>
-                        <outlet property="crashCollection" destination="fPJ-8Z-rDw" id="eoQ-25-QlI"/>
-                        <outlet property="crashPickerView" destination="fPJ-8Z-rDw" id="LJO-Oh-HIG"/>
+                        <outlet property="crashLabel" destination="ShS-NW-ibQ" id="lua-KP-vIl"/>
                         <outlet property="extensionLabel" destination="h1u-He-ubZ" id="s4o-kL-S0z"/>
                     </connections>
                 </viewController>
