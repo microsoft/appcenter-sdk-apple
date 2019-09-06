@@ -59,8 +59,6 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
 
 @synthesize logUrl = _logUrl;
 
-@property(nonatomic) (^MSAuthProviderCompletionBlock)(NSString *);
-
 + (instancetype)sharedInstance {
   dispatch_once(&onceToken, ^{
     if (sharedInstance == nil) {
@@ -181,7 +179,7 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
 + (void)setAuthProvider:(MSAuthProvider *)authProvider {
   MSAuthTokenContext *authTokenContext = [MSAuthTokenContext sharedInstance];
   if (authProvider != nil) {
-    
+
     // Set up and call completion handler
     [MSAppCenter sharedInstance].authProviderCompletionBlock = ^(NSString *jwt) {
       MSJwtClaims *claims = [MSJwtClaims parse:jwt];
@@ -193,7 +191,7 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
       }
     };
     MSLogInfo(MSAppCenter.logTag, @"Setting up auth token refresh listener.");
-    
+
     [authTokenContext preventResetAuthTokenAfterStart];
     NSString *currentAuthToken = [authTokenContext authToken];
     MSJwtClaims *currentClaims = [MSJwtClaims parse:currentAuthToken];
@@ -202,9 +200,10 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
                                                                                     endTime:[currentClaims getExpirationDate]];
     [authTokenContext checkIfTokenNeedsToBeRefreshed:authToken];
     [authTokenContext addDelegate:(id<MSAuthTokenContextDelegate>)self];
-    
+
     // TODO: do we need to force this to be a strong delegate?
-    [authProvider.delegate authProvider:authProvider acquireTokenWithCompletionHandler:[MSAppCenter sharedInstance].authProviderCompletionBlock];
+    [authProvider.delegate authProvider:authProvider
+        acquireTokenWithCompletionHandler:[MSAppCenter sharedInstance].authProviderCompletionBlock];
   } else if ([MSAppCenter sharedInstance].authProviderCompletionBlock != nil) {
     MSLogInfo(MSAppCenter.logTag, @"Removing auth token refresh listener.");
     [authTokenContext removeDelegate:(id<MSAuthTokenContextDelegate>)self];

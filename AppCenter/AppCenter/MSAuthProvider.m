@@ -4,10 +4,15 @@
 #import "MSAuthProvider.h"
 #import <Foundation/Foundation.h>
 
-@implementation MSAuthProvider
+@interface MSAuthProvider ()
 
-- (void)authProvider:(MSAuthProvider *)authProvider
-    acquireTokenWithCompletionHandler:(MSAuthProviderCompletionBlock)completionHandler {
-}
+///**
+// * Completion block that will be used to get an updated authentication token.
+// */
+//@property(nonatomic, copy) MSAuthProviderCompletionBlock completionHandler;
+
+@end
+
+@implementation MSAuthProvider
 
 @end

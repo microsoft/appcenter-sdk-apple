@@ -12,7 +12,6 @@ typedef void (^MSAuthProviderCompletionBlock)(NSString *jwt);
 
 @protocol MSAuthProviderDelegate <NSObject>
 
-- (void)authProvider:(MSAuthProvider *)authProvider
-    acquireTokenWithCompletionHandler:(MSAuthProviderCompletionBlock)completionHandler;
+- (void)authProvider:(MSAuthProvider *)authProvider acquireTokenWithCompletionHandler:(MSAuthProviderCompletionBlock)completionHandler;
 
 @end
