@@ -278,6 +278,12 @@
 		F8AA9F4B21650C04009104E3 /* SimplePropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AA9F4821650C04009104E3 /* SimplePropertiesTableSection.swift */; };
 		F8AA9F4C21650C04009104E3 /* SimplePropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AA9F4821650C04009104E3 /* SimplePropertiesTableSection.swift */; };
 		F8AA9F4D21650C04009104E3 /* SimplePropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AA9F4821650C04009104E3 /* SimplePropertiesTableSection.swift */; };
+		F8E69C2A2322AC25006209D2 /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C261440A230FE86400D65EBF /* AppCenter.framework */; };
+		F8E69C5F2322AC2B006209D2 /* AppCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C261443A230FE86400D65EBF /* AppCenterCrashes.framework */; };
+		F8E69C602322AC35006209D2 /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C261440A230FE86400D65EBF /* AppCenter.framework */; };
+		F8E69C612322AC3A006209D2 /* AppCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C261443A230FE86400D65EBF /* AppCenterCrashes.framework */; };
+		F8E69C632322AD0E006209D2 /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8E69C622322AD0E006209D2 /* CrashLibIOS.framework */; };
+		F8E69C652322AD16006209D2 /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8E69C642322AD16006209D2 /* CrashLibIOS.framework */; };
 		F8F077A522A6A27B007B4B31 /* MSAuthInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8F077A422A6A27B007B4B31 /* MSAuthInfoViewController.swift */; };
 		F8F077A622A6A27B007B4B31 /* MSAuthInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8F077A422A6A27B007B4B31 /* MSAuthInfoViewController.swift */; };
 		F8F077A722A6A27B007B4B31 /* MSAuthInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8F077A422A6A27B007B4B31 /* MSAuthInfoViewController.swift */; };
@@ -566,14 +572,14 @@
 			containerPortal = 84226C0A1E88FEFC00798417 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = C9E7E481231E99E9007D96DC;
-			remoteInfo = "SasquatchSwift-Preview Today Extension";
+			remoteInfo = "SasquatchSwift-Preview-Extension";
 		};
 		C9E7E4EE231E9A5E007D96DC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 84226C0A1E88FEFC00798417 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = C9E7E4E4231E9A5D007D96DC;
-			remoteInfo = "SasquatchSwift Today Extension";
+			remoteInfo = "SasquatchSwift-Extension";
 		};
 		D31EF9371E9517B600450162 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -908,6 +914,8 @@
 		F8B224862113163D0052350E /* Sasquatch Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Sasquatch Debug.xcconfig"; sourceTree = "<group>"; };
 		F8B8EB15211070BE004BCECB /* Sasquatch.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Sasquatch.xcconfig; sourceTree = "<group>"; };
 		F8B8EB9421107890004BCECB /* Puppet.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Puppet.xcconfig; sourceTree = "<group>"; };
+		F8E69C622322AD0E006209D2 /* CrashLibIOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CrashLibIOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F8E69C642322AD16006209D2 /* CrashLibIOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CrashLibIOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F8F077A422A6A27B007B4B31 /* MSAuthInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSAuthInfoViewController.swift; sourceTree = "<group>"; };
 		F8FE734221075803005C6A74 /* AnalyticsUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalyticsUITests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1009,6 +1017,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F8E69C632322AD0E006209D2 /* CrashLibIOS.framework in Frameworks */,
+				F8E69C5F2322AC2B006209D2 /* AppCenterCrashes.framework in Frameworks */,
+				F8E69C2A2322AC25006209D2 /* AppCenter.framework in Frameworks */,
 				C9E7E484231E99E9007D96DC /* NotificationCenter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1017,6 +1028,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F8E69C652322AD16006209D2 /* CrashLibIOS.framework in Frameworks */,
+				F8E69C612322AC3A006209D2 /* AppCenterCrashes.framework in Frameworks */,
+				F8E69C602322AC35006209D2 /* AppCenter.framework in Frameworks */,
 				C9E7E4E6231E9A5D007D96DC /* NotificationCenter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1220,6 +1234,8 @@
 		84226D0F1E8921DE00798417 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F8E69C642322AD16006209D2 /* CrashLibIOS.framework */,
+				F8E69C622322AD0E006209D2 /* CrashLibIOS.framework */,
 				04A1DB33223B65EB006A48D6 /* AuthenticationServices.framework */,
 				B20AE48921028E3C00A1A195 /* libz.tbd */,
 				B20AE48721028E3300A1A195 /* libc++.tbd */,
@@ -1653,7 +1669,7 @@
 			dependencies = (
 			);
 			name = "SasquatchSwift-Preview Extension";
-			productName = "SasquatchSwift-Preview Today Extension";
+			productName = "SasquatchSwift-Preview-Extension";
 			productReference = C9E7E482231E99E9007D96DC /* SasquatchSwift-Preview Extension.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
@@ -1671,7 +1687,7 @@
 			dependencies = (
 			);
 			name = "SasquatchSwift Extension";
-			productName = "SasquatchSwift Today Extension";
+			productName = "SasquatchSwift-Extension";
 			productReference = C9E7E4E5231E9A5D007D96DC /* SasquatchSwift Extension.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
@@ -3116,7 +3132,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5Z97G9NZQ6;
 				INFOPLIST_FILE = "SasquatchSwift-Preview-Extension/Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.microsoft.appcenter.sasquatchswift.SasquatchSwift-Preview-Today-Extension";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.microsoft.appcenter.sasquatchswift.SasquatchSwift-Preview-Extension";
 			};
 			name = Debug;
 		};
@@ -3126,7 +3142,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = "SasquatchSwift-Preview-Extension/Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.microsoft.appcenter.sasquatchswift.SasquatchSwift-Preview-Today-Extension";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.microsoft.appcenter.sasquatchswift.SasquatchSwift-Preview-Extension";
 			};
 			name = Release;
 		};
@@ -3136,7 +3152,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = "SasquatchSwift-Extension/Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.microsoft.appcenter.sasquatchswift.SasquatchSwift-Today-Extension";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.microsoft.appcenter.sasquatchswift.SasquatchSwift-Extension";
 			};
 			name = Debug;
 		};
@@ -3147,7 +3163,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5Z97G9NZQ6;
 				INFOPLIST_FILE = "SasquatchSwift-Extension/Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.microsoft.appcenter.sasquatchswift.SasquatchSwift-Today-Extension";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.microsoft.appcenter.sasquatchswift.SasquatchSwift-Extension";
 			};
 			name = Release;
 		};
