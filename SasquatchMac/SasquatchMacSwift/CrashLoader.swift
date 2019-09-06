@@ -9,7 +9,7 @@ class CrashLoader {
         pokeAllCrashes()
         var sortedCrashes = MSCrash.allCrashes() as! [MSCrash]
         sortedCrashes = sortedCrashes.sorted { (crash1, crash2) -> Bool in
-            if crash1.category == crash2.category{
+            if crash1.category == crash2.category {
                 return crash1.title > crash2.title
             } else {
                 return crash1.category < crash2.category
@@ -37,7 +37,7 @@ class CrashLoader {
         var count = UInt32(0)
         let classList = objc_copyClassList(&count)
         MSCrash.removeAllCrashes()
-        for i in 0..<Int(count){
+        for i in 0..<Int(count) {
             let className: AnyClass = classList![i]!
             if class_getSuperclass(className) == MSCrash.self && className != MSCrash.self{
                 MSCrash.register((className as! MSCrash.Type).init())
