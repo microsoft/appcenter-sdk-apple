@@ -1,11 +1,12 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+#import <Foundation/Foundation.h>
+
+#import "MSAuthProviderDelegate.h"
+
 @interface MSAuthProvider : NSObject
 
-typedef void(^MSAuthProviderCompletionBlock)(NSString *jwt);
-
-- (void)authenticationProvider:(MSAuthProvider *)authProvider
-                                acquireTokenWithCompletionHandler:(MSAuthProviderCompletionBlock)completionHandler;
+@property(nonatomic, readonly, weak) id<MSAuthProviderDelegate> delegate;
 
 @end

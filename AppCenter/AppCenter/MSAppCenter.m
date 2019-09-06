@@ -8,6 +8,7 @@
 #import "MSAppCenterPrivate.h"
 #import "MSAppDelegateForwarder.h"
 #import "MSAuthTokenContext.h"
+#import "MSAuthTokenValidityInfo.h"
 #import "MSChannelGroupDefault.h"
 #import "MSChannelGroupDefaultPrivate.h"
 #import "MSChannelUnitConfiguration.h"
@@ -19,7 +20,6 @@
 #import "MSStartServiceLog.h"
 #import "MSUserIdContext.h"
 #import "MSUtility+StringFormatting.h"
-#import "MSAuthTokenValidityInfo.h"
 
 #if !TARGET_OS_TV
 #import "MSCustomPropertiesInternal.h"
@@ -58,6 +58,8 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
 @synthesize installId = _installId;
 
 @synthesize logUrl = _logUrl;
+
+@property(nonatomic) (^MSAuthProviderCompletionBlock)(NSString *);
 
 + (instancetype)sharedInstance {
   dispatch_once(&onceToken, ^{
@@ -178,21 +180,10 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
 
 + (void)setAuthProvider:(MSAuthProvider *)authProvider {
   MSAuthTokenContext *authTokenContext = [MSAuthTokenContext sharedInstance];
-  
   if (authProvider != nil) {
-    MSLogInfo(MSAppCenter.logTag, @"Setting up auth token refresh listener.");
-    [authTokenContext preventResetAuthTokenAfterStart];
-    NSString *currentAuthToken = [authTokenContext authToken];
-    MSJwtClaims *currentClaims = [MSJwtClaims parse:currentAuthToken];
     
-    MSAuthTokenValidityInfo *authToken = [[MSAuthTokenValidityInfo alloc] initWithAuthToken:currentAuthToken
-                                                                       startTime:[NSDate new] // Fix date
-                                                                         endTime:[currentClaims getExpirationDate]];
-    
-    [authTokenContext checkIfTokenNeedsToBeRefreshed:authToken];
-    [authTokenContext addDelegate:(id<MSAuthTokenContextDelegate>)self];
-    [authProvider authenticationProvider:authProvider acquireTokenWithCompletionHandler:^(NSString *jwt){
-      MSLogInfo(MSAppCenter.logTag, @"");
+    // Set up and call completion handler
+    [MSAppCenter sharedInstance].authProviderCompletionBlock = ^(NSString *jwt) {
       MSJwtClaims *claims = [MSJwtClaims parse:jwt];
       if (claims != nil) {
         MSLogDebug(MSAppCenter.logTag, @"Token has been refreshed.");
@@ -200,12 +191,23 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
       } else {
         [authTokenContext setAuthToken:nil withAccountId:nil expiresOn:nil];
       }
-    }];
-    // TODO add listener
-  }
-  else if (false) { // TODO fix condition
+    };
+    MSLogInfo(MSAppCenter.logTag, @"Setting up auth token refresh listener.");
+    
+    [authTokenContext preventResetAuthTokenAfterStart];
+    NSString *currentAuthToken = [authTokenContext authToken];
+    MSJwtClaims *currentClaims = [MSJwtClaims parse:currentAuthToken];
+    MSAuthTokenValidityInfo *authToken = [[MSAuthTokenValidityInfo alloc] initWithAuthToken:currentAuthToken
+                                                                                  startTime:nil
+                                                                                    endTime:[currentClaims getExpirationDate]];
+    [authTokenContext checkIfTokenNeedsToBeRefreshed:authToken];
+    [authTokenContext addDelegate:(id<MSAuthTokenContextDelegate>)self];
+    
+    // TODO: do we need to force this to be a strong delegate?
+    [authProvider.delegate authProvider:authProvider acquireTokenWithCompletionHandler:[MSAppCenter sharedInstance].authProviderCompletionBlock];
+  } else if ([MSAppCenter sharedInstance].authProviderCompletionBlock != nil) {
     MSLogInfo(MSAppCenter.logTag, @"Removing auth token refresh listener.");
-    // TODO Remove listener
+    [authTokenContext removeDelegate:(id<MSAuthTokenContextDelegate>)self];
     [authTokenContext setAuthToken:nil withAccountId:nil expiresOn:nil];
   }
 }

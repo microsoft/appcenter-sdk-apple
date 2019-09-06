@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import <Foundation/Foundation.h>
-#import "MSAppCenterInternal.h"
 #import "MSJwtClaims.h"
+#import "MSAppCenterInternal.h"
 #import "MSLogger.h"
+#import <Foundation/Foundation.h>
 
 static NSString *const JWT_PARTS_SEPARATOR_REGEX = @"\\.";
 static NSString *const SUBJECT = @"sub";
@@ -12,8 +12,7 @@ static NSString *const EXPIRATION = @"exp";
 
 @implementation MSJwtClaims
 
-- (instancetype)initWithClaims:(NSString *)subject
-              expirationDate:(NSDate *)expirationDate {
+- (instancetype)initWithClaims:(NSString *)subject expirationDate:(NSDate *)expirationDate {
   self = [super init];
   if (self) {
     _subject = subject;
@@ -34,8 +33,7 @@ static NSString *const EXPIRATION = @"exp";
     NSData *claimsPartData = [[NSData alloc] initWithBase64EncodedString:base64ClaimsPart options:0];
     NSDictionary *claims = [NSJSONSerialization JSONObjectWithData:claimsPartData options:0 error:&error];
     return [[MSJwtClaims alloc] initWithClaims:[claims objectForKey:SUBJECT] expirationDate:[claims objectForKey:EXPIRATION]];
-  }
-  @catch (NSException *e) {
+  } @catch (NSException *e) {
     MSLogError(MSAppCenter.logTag, @"Failed to parse JWT: %@", e);
     return nil;
   }

@@ -3,8 +3,8 @@
 
 #import <Foundation/Foundation.h>
 
-#import "MSConstants.h"
 #import "MSAuthProvider.h"
+#import "MSConstants.h"
 
 @class MSWrapperSdk;
 
