@@ -3125,7 +3125,6 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 5Z97G9NZQ6;
 				INFOPLIST_FILE = "SasquatchSwift-Preview-Extension/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.microsoft.appcenter.sasquatchswift.SasquatchSwift-Preview-Today-Extension";
 			};
@@ -3136,10 +3135,8 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 5Z97G9NZQ6;
 				INFOPLIST_FILE = "SasquatchSwift-Extension/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.microsoft.appcenter.sasquatchswift.SasquatchSwift-Today-Extension";
-				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
 		};
@@ -3151,7 +3148,6 @@
 				DEVELOPMENT_TEAM = 5Z97G9NZQ6;
 				INFOPLIST_FILE = "SasquatchSwift-Extension/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.microsoft.appcenter.sasquatchswift.SasquatchSwift-Today-Extension";
-				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
 		};
