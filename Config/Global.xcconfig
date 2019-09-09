@@ -13,7 +13,6 @@ COPY_PHASE_STRIP = NO
 
 // :Mark: Packaging
 PRODUCT_NAME = $(PROJECT_NAME)
-PUBLIC_HEADERS_FOLDER_PATH = include/$(PRODUCT_NAME)
 
 // :Mark: Language configurations
 CLANG_ENABLE_MODULES = YES
@@ -27,7 +26,7 @@ ALWAYS_SEARCH_USER_PATHS = NO
 USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../AppCenter/AppCenter"/**
 
 // :Mark: Code signing
-CODE_SIGN_IDENTITY = 
+CODE_SIGN_IDENTITY =
 
 // :Mark: Linking
 DEAD_CODE_STRIPPING = NO
