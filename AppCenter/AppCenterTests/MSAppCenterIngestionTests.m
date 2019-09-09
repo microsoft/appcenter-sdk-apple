@@ -13,6 +13,7 @@
 #import "MSLoggerInternal.h"
 #import "MSMockLog.h"
 #import "MSTestFrameworks.h"
+#import "MSUtility+StringFormatting.h"
 
 static NSTimeInterval const kMSTestTimeout = 5.0;
 static NSString *const kMSBaseUrl = @"https://test.com";
@@ -656,16 +657,12 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 - (void)testHideSecretInResponse {
 
   // If
+  id mockUtility = OCMClassMock([MSUtility class]);
   id mockLogger = OCMClassMock([MSLogger class]);
   OCMStub([mockLogger currentLogLevel]).andReturn(MSLogLevelVerbose);
-  OCMReject([[mockLogger ignoringNonObjectArgs] logMessage:[OCMArg checkWithBlock:^BOOL(MSLogMessageProvider messageProvider) {
-                                                  return [messageProvider() containsString:kMSTestAppSecret];
-                                                }]
-                                                     level:0
-                                                       tag:OCMOCK_ANY
-                                                      file:[OCMArg anyPointer]
-                                                  function:[OCMArg anyPointer]
-                                                      line:0]);
+  OCMStub(ClassMethod([mockUtility obfuscateString:OCMOCK_ANY
+                               searchingForPattern:kMSRedirectUriPattern
+                             toReplaceWithTemplate:kMSRedirectUriObfuscatedTemplate]));
   NSData *data = [[NSString stringWithFormat:@"{\"redirect_uri\":\"%@\",\"token\":\"%@\"}", kMSTestAppSecret, kMSTestAppSecret]
       dataUsingEncoding:NSUTF8StringEncoding];
   MSLogContainer *container = [self createLogContainerWithId:@"1"];
@@ -683,13 +680,16 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   // Then
   [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *error) {
-                                 OCMVerifyAll(mockLogger);
+                                 OCMVerify(ClassMethod([mockUtility obfuscateString:OCMOCK_ANY
+                                                                searchingForPattern:kMSRedirectUriPattern
+                                                              toReplaceWithTemplate:kMSRedirectUriObfuscatedTemplate]));
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
                                }];
 
   // Clear
+  [mockUtility stopMocking];
   [mockLogger stopMocking];
 }
 

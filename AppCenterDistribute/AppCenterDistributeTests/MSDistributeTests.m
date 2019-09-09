@@ -1340,9 +1340,9 @@ static NSURL *sfURL;
   self.sut = [MSDistribute new];
   self.sut.distributeInfoTracker = self.distributeInfoTrackerMock;
   [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
-                              appSecret:kMSTestAppSecret
-                transmissionTargetToken:nil
-                        fromApplication:YES];
+                        appSecret:kMSTestAppSecret
+          transmissionTargetToken:nil
+                  fromApplication:YES];
 
   // Then
   XCTAssertNil(self.sut.authenticationSession);
@@ -2534,25 +2534,21 @@ static NSURL *sfURL;
   [distributeMock stopMocking];
 }
 
--(void)testHideAppSecret {
-  
+- (void)testHideAppSecret {
+
   // If
   id authClass = nil;
+  id mockUtility = OCMClassMock([MSUtility class]);
   id mockLogger = OCMClassMock([MSLogger class]);
   id distributeMock = OCMPartialMock(self.sut);
   id appCenterMock = OCMClassMock([MSAppCenter class]);
   OCMReject([distributeMock checkLatestRelease:OCMOCK_ANY distributionGroupId:OCMOCK_ANY releaseHash:OCMOCK_ANY]);
+  OCMStub(ClassMethod([mockUtility obfuscateString:OCMOCK_ANY
+                               searchingForPattern:kMSRedirectUriPattern
+                             toReplaceWithTemplate:kMSRedirectUriObfuscatedTemplate]));
   OCMStub([distributeMock sharedInstance]).andReturn(distributeMock);
   OCMStub([appCenterMock isConfigured]).andReturn(YES);
-  OCMReject([[mockLogger ignoringNonObjectArgs] logMessage:[OCMArg checkWithBlock:^BOOL(MSLogMessageProvider messageProvider) {
-    return [messageProvider() containsString:kMSTestAppSecret];
-  }]
-                                                     level:0
-                                                       tag:OCMOCK_ANY
-                                                      file:[OCMArg anyPointer]
-                                                  function:[OCMArg anyPointer]
-                                                      line:0]);
-  
+
   // When
   [distributeMock startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
                               appSecret:kMSTestAppSecret
@@ -2561,11 +2557,14 @@ static NSURL *sfURL;
   NSString *urlPath = [NSString stringWithFormat:kMSUpdateTokenApiPathFormat, kMSTestAppSecret];
   NSURLComponents *components = [NSURLComponents componentsWithString:urlPath];
   [distributeMock openURLInAuthenticationSessionWith:components.URL fromClass:authClass];
-  
+
   // Then
-  OCMVerifyAll(mockLogger);
-  
+  OCMVerify(ClassMethod([mockUtility obfuscateString:OCMOCK_ANY
+                                 searchingForPattern:kMSRedirectUriPattern
+                               toReplaceWithTemplate:kMSRedirectUriObfuscatedTemplate]));
+
   // Clear
+  [mockUtility stopMocking];
   [mockLogger stopMocking];
   [appCenterMock stopMocking];
   [distributeMock stopMocking];
