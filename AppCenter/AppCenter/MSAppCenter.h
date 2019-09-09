@@ -2,8 +2,7 @@
 // Licensed under the MIT License.
 
 #import <Foundation/Foundation.h>
-
-#import "MSAuthProvider.h"
+#import "MSAuthTokenDelegate.h"
 #import "MSConstants.h"
 
 @class MSWrapperSdk;

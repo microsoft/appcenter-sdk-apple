@@ -21,6 +21,7 @@
 #import "MSStartServiceLog.h"
 #import "MSUserIdContext.h"
 #import "MSUtility+StringFormatting.h"
+#import "MSAuthTokenContextDelegate.h"
 
 #if !TARGET_OS_TV
 #import "MSCustomPropertiesInternal.h"
@@ -178,11 +179,14 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
 #endif
 
 + (void)setAuthTokenDelegate:(id<MSAuthTokenDelegate>)authTokenDelegate {
-  MSAuthTokenContext *authTokenContext = [MSAuthTokenContext sharedInstance];
-  if (authTokenDelegate != nil) {
+  [[MSAppCenter sharedInstance] setAuthTokenDelegate:authTokenDelegate];
+}
 
-    // Set up and call completion handler
-    [MSAppCenter sharedInstance].authProviderCompletionBlock = ^(NSString *jwt) {
+- (void)setAuthTokenDelegate:(id<MSAuthTokenDelegate>)authTokenDelegate {
+  MSAuthTokenContext *authTokenContext = [MSAuthTokenContext sharedInstance];
+
+  if (authTokenDelegate != nil) {
+    self.authTokenContextDelegateWrapper = [[MSAuthTokenContextDelegateWrapper alloc] initWithAuthTokenDelegate:authTokenDelegate authTokenCompletionHandler:^(NSString *jwt) {
       MSJwtClaims *claims = [MSJwtClaims parse:jwt];
       if (claims != nil) {
         MSLogDebug(MSAppCenter.logTag, @"Token has been refreshed.");
@@ -190,7 +194,7 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
       } else {
         [authTokenContext setAuthToken:nil withAccountId:nil expiresOn:nil];
       }
-    };
+    } ];
     MSLogInfo(MSAppCenter.logTag, @"Setting up auth token refresh listener.");
 
     [authTokenContext preventResetAuthTokenAfterStart];
@@ -200,14 +204,10 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
                                                                                   startTime:nil
                                                                                     endTime:[currentClaims getExpirationDate]];
     [authTokenContext checkIfTokenNeedsToBeRefreshed:authToken];
-    [authTokenContext addDelegate:(id<MSAuthTokenContextDelegate>)self];
-
-    // TODO: do we need to force this to be a strong delegate?
-    [authTokenDelegate appCenter:self
-        acquireAuthTokenWithCompletionHandler:[MSAppCenter sharedInstance].authProviderCompletionBlock];
-  } else if ([MSAppCenter sharedInstance].authProviderCompletionBlock != nil) {
+    [authTokenContext addDelegate:self.authTokenContextDelegateWrapper];
+  } else if (self.authTokenContextDelegateWrapper != nil) {
     MSLogInfo(MSAppCenter.logTag, @"Removing auth token refresh listener.");
-    [authTokenContext removeDelegate:(id<MSAuthTokenContextDelegate>)self];
+    [authTokenContext removeDelegate:self.authTokenContextDelegateWrapper];
     [authTokenContext setAuthToken:nil withAccountId:nil expiresOn:nil];
   }
 }

@@ -7,6 +7,7 @@
 #import "MSAppCenter.h"
 #import "MSChannelGroupProtocol.h"
 #import "MSServiceInternal.h"
+#import "MSAuthTokenContextDelegateWrapper.h"
 
 /*
  * Persisted storage keys.
@@ -51,6 +52,8 @@ static NSString *const kMSTrueEnvironmentString = @"1";
 @property(nonatomic, readonly) NSUUID *installId;
 
 @property(nonatomic) NSNumber *requestedMaxStorageSizeInBytes;
+
+@property(nonatomic) MSAuthTokenContextDelegateWrapper *authTokenContextDelegateWrapper;
 
 /**
  * Flag indicating if the SDK is enabled or not as a whole.

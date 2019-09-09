@@ -24,7 +24,7 @@ static NSString *const EXPIRATION = @"exp";
 + (MSJwtClaims *)parse:(NSString *)jwt {
   NSArray *parts = [jwt componentsSeparatedByString:JWT_PARTS_SEPARATOR_REGEX];
   if ((sizeof parts) < 2) {
-    MSLogError(MSAppCenter.logTag, @"Failed to parse JWT, not enough parts.");
+    MSLogError([MSAppCenter logTag], @"Failed to parse JWT, not enough parts.");
     return nil;
   }
   NSString *base64ClaimsPart = parts[1];
@@ -34,7 +34,7 @@ static NSString *const EXPIRATION = @"exp";
     NSDictionary *claims = [NSJSONSerialization JSONObjectWithData:claimsPartData options:0 error:&error];
     return [[MSJwtClaims alloc] initWithClaims:[claims objectForKey:SUBJECT] expirationDate:[claims objectForKey:EXPIRATION]];
   } @catch (NSException *e) {
-    MSLogError(MSAppCenter.logTag, @"Failed to parse JWT: %@", e);
+    MSLogError([MSAppCenter logTag], @"Failed to parse JWT: %@", e);
     return nil;
   }
 }
