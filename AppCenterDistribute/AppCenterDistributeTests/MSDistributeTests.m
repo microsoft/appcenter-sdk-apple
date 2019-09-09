@@ -2538,16 +2538,20 @@ static NSURL *sfURL;
 
   // If
   id authClass = nil;
-  id mockUtility = OCMClassMock([MSUtility class]);
   id mockLogger = OCMClassMock([MSLogger class]);
   id distributeMock = OCMPartialMock(self.sut);
   id appCenterMock = OCMClassMock([MSAppCenter class]);
   OCMReject([distributeMock checkLatestRelease:OCMOCK_ANY distributionGroupId:OCMOCK_ANY releaseHash:OCMOCK_ANY]);
-  OCMStub(ClassMethod([mockUtility obfuscateString:OCMOCK_ANY
-                               searchingForPattern:kMSRedirectUriPattern
-                             toReplaceWithTemplate:kMSRedirectUriObfuscatedTemplate]));
   OCMStub([distributeMock sharedInstance]).andReturn(distributeMock);
   OCMStub([appCenterMock isConfigured]).andReturn(YES);
+  OCMReject([[mockLogger ignoringNonObjectArgs] logMessage:[OCMArg checkWithBlock:^BOOL(MSLogMessageProvider messageProvider) {
+                                                  return [messageProvider() containsString:kMSTestAppSecret];
+                                                }]
+                                                     level:0
+                                                       tag:OCMOCK_ANY
+                                                      file:[OCMArg anyPointer]
+                                                  function:[OCMArg anyPointer]
+                                                      line:0]);
 
   // When
   [distributeMock startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
@@ -2559,12 +2563,9 @@ static NSURL *sfURL;
   [distributeMock openURLInAuthenticationSessionWith:components.URL fromClass:authClass];
 
   // Then
-  OCMVerify(ClassMethod([mockUtility obfuscateString:OCMOCK_ANY
-                                 searchingForPattern:kMSRedirectUriPattern
-                               toReplaceWithTemplate:kMSRedirectUriObfuscatedTemplate]));
+  OCMVerifyAll(mockLogger);
 
   // Clear
-  [mockUtility stopMocking];
   [mockLogger stopMocking];
   [appCenterMock stopMocking];
   [distributeMock stopMocking];
