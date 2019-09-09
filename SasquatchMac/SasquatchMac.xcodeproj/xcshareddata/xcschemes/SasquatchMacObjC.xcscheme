@@ -29,8 +29,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "0485AFE61EAA937000C10CAF"
-               BuildableName = "AppCenterMacOSFramework"
-               BlueprintName = "AppCenterMacOSFramework"
+               BuildableName = "AppCenter macOS Fat Framework"
+               BlueprintName = "AppCenter macOS Fat Framework"
                ReferencedContainer = "container:../AppCenter/AppCenter.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -43,8 +43,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "0485AFEF1EAAADAC00C10CAF"
-               BuildableName = "AppCenterAnalyticsMacOSFramework"
-               BlueprintName = "AppCenterAnalyticsMacOSFramework"
+               BuildableName = "AppCenterAnalytics macOS Fat Framework"
+               BlueprintName = "AppCenterAnalytics macOS Fat Framework"
                ReferencedContainer = "container:../AppCenterAnalytics/AppCenterAnalytics.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -57,8 +57,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "0485AFF91EAAB27E00C10CAF"
-               BuildableName = "AppCenterCrashesMacOSFramework"
-               BlueprintName = "AppCenterCrashesMacOSFramework"
+               BuildableName = "AppCenterCrashes macOS Fat Framework"
+               BlueprintName = "AppCenterCrashes macOS Fat Framework"
                ReferencedContainer = "container:../AppCenterCrashes/AppCenterCrashes.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -71,8 +71,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "0469640E1F2A558F00F9D31F"
-               BuildableName = "AppCenterPushMacOSFramework"
-               BlueprintName = "AppCenterPushMacOSFramework"
+               BuildableName = "AppCenterPush macOS Fat Framework"
+               BlueprintName = "AppCenterPush macOS Fat Framework"
                ReferencedContainer = "container:../AppCenterPush/AppCenterPush.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>

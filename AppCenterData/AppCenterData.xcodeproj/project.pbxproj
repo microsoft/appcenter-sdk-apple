@@ -7,50 +7,50 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
-		0469640E1F2A558F00F9D31F /* AppCenterDataMacOSFramework */ = {
+		0469640E1F2A558F00F9D31F /* AppCenterData macOS Fat Framework */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 046964101F2A558F00F9D31F /* Build configuration list for PBXAggregateTarget "AppCenterDataMacOSFramework" */;
+			buildConfigurationList = 046964101F2A558F00F9D31F /* Build configuration list for PBXAggregateTarget "AppCenterData macOS Fat Framework" */;
 			buildPhases = (
-				0469640F1F2A558F00F9D31F /* Build framework */,
+				0469640F1F2A558F00F9D31F /* Build Universal Framework */,
 			);
 			dependencies = (
 			);
-			name = AppCenterDataMacOSFramework;
+			name = "AppCenterData macOS Fat Framework";
 			productName = "Fat Framework";
 		};
-		046964271F2A55A600F9D31F /* AppCenterDataMacOSDoc */ = {
+		046964271F2A55A600F9D31F /* AppCenterData macOS Documentation */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 0469642B1F2A55A600F9D31F /* Build configuration list for PBXAggregateTarget "AppCenterDataMacOSDoc" */;
+			buildConfigurationList = 0469642B1F2A55A600F9D31F /* Build configuration list for PBXAggregateTarget "AppCenterData macOS Documentation" */;
 			buildPhases = (
-				0469642A1F2A55A600F9D31F /* Build docs */,
+				0469642A1F2A55A600F9D31F /* Build Documentation */,
 			);
 			dependencies = (
 				046964321F2A569B00F9D31F /* PBXTargetDependency */,
 			);
-			name = AppCenterDataMacOSDoc;
+			name = "AppCenterData macOS Documentation";
 			productName = "Jazzy Docs";
 		};
-		D3AD5F221E5C9562001627AB /* AppCenterDataIOSFramework */ = {
+		D3AD5F221E5C9562001627AB /* AppCenterData iOS Fat Framework */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = D3AD5F251E5C9562001627AB /* Build configuration list for PBXAggregateTarget "AppCenterDataIOSFramework" */;
+			buildConfigurationList = D3AD5F251E5C9562001627AB /* Build configuration list for PBXAggregateTarget "AppCenterData iOS Fat Framework" */;
 			buildPhases = (
-				D3AD5F261E5C9588001627AB /* Build framework */,
+				D3AD5F261E5C9588001627AB /* Build Universal Framework */,
 			);
 			dependencies = (
 			);
-			name = AppCenterDataIOSFramework;
+			name = "AppCenterData iOS Fat Framework";
 			productName = "Fat Framework";
 		};
-		D3AD5F271E5C9633001627AB /* AppCenterDataIOSDoc */ = {
+		D3AD5F271E5C9633001627AB /* AppCenterData iOS Documentation */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = D3AD5F281E5C9633001627AB /* Build configuration list for PBXAggregateTarget "AppCenterDataIOSDoc" */;
+			buildConfigurationList = D3AD5F281E5C9633001627AB /* Build configuration list for PBXAggregateTarget "AppCenterData iOS Documentation" */;
 			buildPhases = (
-				D3AD5F2B1E5C9636001627AB /* Build docs */,
+				D3AD5F2B1E5C9636001627AB /* Build Documentation */,
 			);
 			dependencies = (
 				D3AD5F3D1E5D6809001627AB /* PBXTargetDependency */,
 			);
-			name = AppCenterDataIOSDoc;
+			name = "AppCenterData iOS Documentation";
 			productName = "Jazzy Docs";
 		};
 /* End PBXAggregateTarget section */
@@ -61,65 +61,14 @@
 		0460FD9C225544F6004E48EA /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0460FD9B225544F6004E48EA /* OHHTTPStubs.framework */; };
 		0469643A1F2A56F400F9D31F /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 046964371F2A56DF00F9D31F /* OCMock.framework */; };
 		0469643D1F2A570500F9D31F /* OCHamcrest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0469643B1F2A570000F9D31F /* OCHamcrest.framework */; };
-		046964401F2A572800F9D31F /* libAppCenter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0469643F1F2A572800F9D31F /* libAppCenter.a */; };
-		046964411F2A5AA300F9D31F /* libAppCenterData.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0469640D1F2A558300F9D31F /* libAppCenterData.a */; };
-		046964421F2A5B2E00F9D31F /* MSServiceAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5EFE1E5C7DAE001627AB /* MSServiceAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		046964491F2A5B4D00F9D31F /* AppCenter+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5F0B1E5C819A001627AB /* AppCenter+Internal.h */; };
-		0469644E1F2A5D2800F9D31F /* AppCenterData.h in Headers */ = {isa = PBXBuildFile; fileRef = D33A94541E5B11BB003966DB /* AppCenterData.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0469644F1F2A5D4A00F9D31F /* MSDataTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D3AD5EC21E5C4F6A001627AB /* MSDataTests.m */; };
-		048BF75722A6F4110099FF73 /* MSRemoteOperationDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 4AE2E97E229F26DC004BF371 /* MSRemoteOperationDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		048BF75822A6F4270099FF73 /* MSRemoteOperationDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 4AE2E97E229F26DC004BF371 /* MSRemoteOperationDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0496A67B1F3128CE005AE1DB /* MSDataTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D3AD5EC21E5C4F6A001627AB /* MSDataTests.m */; };
-		049BC84E224EDAEE00AE7FBB /* MSBaseOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464DF222F28A200EC1FF3 /* MSBaseOptions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		049BC84F224EDAF300AE7FBB /* MSBaseOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464EA222F28A300EC1FF3 /* MSBaseOptions.m */; };
-		049BC850224EDAF600AE7FBB /* MSData.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464E2222F28A300EC1FF3 /* MSData.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		049BC851224EDAFC00AE7FBB /* MSData.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464E3222F28A300EC1FF3 /* MSData.m */; };
-		049BC852224EDAFF00AE7FBB /* MSDataError.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464E6222F28A300EC1FF3 /* MSDataError.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		049BC853224EDB0400AE7FBB /* MSDataError.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464DE222F28A200EC1FF3 /* MSDataError.m */; };
-		049BC854224EDB0700AE7FBB /* MSDocumentWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464E9222F28A300EC1FF3 /* MSDocumentWrapper.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		049BC855224EDB0C00AE7FBB /* MSDocumentWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464E4222F28A300EC1FF3 /* MSDocumentWrapper.m */; };
-		049BC856224EDB1100AE7FBB /* MSPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464E5222F28A300EC1FF3 /* MSPage.m */; };
-		049BC857224EDB1100AE7FBB /* MSPaginatedDocuments.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464E8222F28A300EC1FF3 /* MSPaginatedDocuments.m */; };
-		049BC858224EDB1100AE7FBB /* MSReadOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464E7222F28A300EC1FF3 /* MSReadOptions.m */; };
-		049BC859224EDB1100AE7FBB /* MSWriteOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464EC222F28A300EC1FF3 /* MSWriteOptions.m */; };
-		049BC85A224EDB1900AE7FBB /* MSPaginatedDocuments.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464E0222F28A300EC1FF3 /* MSPaginatedDocuments.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		049BC85B224EDB1D00AE7FBB /* MSPage.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464DD222F28A200EC1FF3 /* MSPage.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		049BC85C224EDB2200AE7FBB /* MSReadOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464EB222F28A300EC1FF3 /* MSReadOptions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		049BC85D224EDB2700AE7FBB /* MSWriteOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464E1222F28A300EC1FF3 /* MSWriteOptions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		049BC85E224EDBB700AE7FBB /* MSCosmosDb.m in Sources */ = {isa = PBXBuildFile; fileRef = E8593A15222B91B20001F87E /* MSCosmosDb.m */; };
-		049BC85F224EDBC900AE7FBB /* MSDocumentUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = E83D121C22378143002B6585 /* MSDocumentUtils.h */; };
-		049BC860224EDBCD00AE7FBB /* MSDocumentUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E83D121D22378143002B6585 /* MSDocumentUtils.m */; };
-		049BC861224EDBE100AE7FBB /* MSDataConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = E83D122022378296002B6585 /* MSDataConstants.h */; };
-		049BC862224EDBE200AE7FBB /* MSDataConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = E83D122022378296002B6585 /* MSDataConstants.h */; };
-		04A0820C1F74BBCA00DC776D /* MSService.h in Headers */ = {isa = PBXBuildFile; fileRef = 04A0820B1F74BBCA00DC776D /* MSService.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		04A0820D1F74BBCF00DC776D /* MSService.h in Headers */ = {isa = PBXBuildFile; fileRef = 04A0820B1F74BBCA00DC776D /* MSService.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		04B1C8C92252AF0A00CBD876 /* MSAppCenterErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = 04B1C8C82252AF0900CBD876 /* MSAppCenterErrors.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		04B1C8CA2252AF0A00CBD876 /* MSAppCenterErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = 04B1C8C82252AF0900CBD876 /* MSAppCenterErrors.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		04B61DCB2248F518008D0102 /* MSTokenExchangeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B61DCA2248F518008D0102 /* MSTokenExchangeTests.m */; };
 		04B61DCC2248F518008D0102 /* MSTokenExchangeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B61DCA2248F518008D0102 /* MSTokenExchangeTests.m */; };
 		04B61DCF2248F7DB008D0102 /* MSMockKeychainUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B61DCD2248F7DA008D0102 /* MSMockKeychainUtil.m */; };
 		04B61DD02248F7DB008D0102 /* MSMockKeychainUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B61DCD2248F7DA008D0102 /* MSMockKeychainUtil.m */; };
 		04B61DD32248F8CD008D0102 /* MSMockUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B61DD22248F8CD008D0102 /* MSMockUserDefaults.m */; };
 		04B61DD42248F8CD008D0102 /* MSMockUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B61DD22248F8CD008D0102 /* MSMockUserDefaults.m */; };
-		2600123F22273E94007F4D3A /* MSTokenResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 2600123B22273E94007F4D3A /* MSTokenResult.h */; };
-		2600124022273E94007F4D3A /* MSTokensResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 2600123C22273E94007F4D3A /* MSTokensResponse.h */; };
-		2600124222273E94007F4D3A /* MSTokensResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 2600123E22273E94007F4D3A /* MSTokensResponse.m */; };
-		267464ED222F28A300EC1FF3 /* MSPage.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464DD222F28A200EC1FF3 /* MSPage.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		267464EE222F28A300EC1FF3 /* MSDataError.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464DE222F28A200EC1FF3 /* MSDataError.m */; };
-		267464EF222F28A300EC1FF3 /* MSBaseOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464DF222F28A200EC1FF3 /* MSBaseOptions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		267464F0222F28A300EC1FF3 /* MSPaginatedDocuments.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464E0222F28A300EC1FF3 /* MSPaginatedDocuments.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		267464F1222F28A300EC1FF3 /* MSWriteOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464E1222F28A300EC1FF3 /* MSWriteOptions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		267464F2222F28A300EC1FF3 /* MSData.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464E2222F28A300EC1FF3 /* MSData.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		267464F3222F28A300EC1FF3 /* MSData.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464E3222F28A300EC1FF3 /* MSData.m */; };
-		267464F4222F28A300EC1FF3 /* MSDocumentWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464E4222F28A300EC1FF3 /* MSDocumentWrapper.m */; };
-		267464F5222F28A300EC1FF3 /* MSPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464E5222F28A300EC1FF3 /* MSPage.m */; };
-		267464F6222F28A300EC1FF3 /* MSDataError.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464E6222F28A300EC1FF3 /* MSDataError.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		267464F7222F28A300EC1FF3 /* MSReadOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464E7222F28A300EC1FF3 /* MSReadOptions.m */; };
-		267464F8222F28A300EC1FF3 /* MSPaginatedDocuments.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464E8222F28A300EC1FF3 /* MSPaginatedDocuments.m */; };
-		267464F9222F28A300EC1FF3 /* MSDocumentWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464E9222F28A300EC1FF3 /* MSDocumentWrapper.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		267464FA222F28A300EC1FF3 /* MSBaseOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464EA222F28A300EC1FF3 /* MSBaseOptions.m */; };
-		267464FB222F28A300EC1FF3 /* MSReadOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464EB222F28A300EC1FF3 /* MSReadOptions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		267464FC222F28A300EC1FF3 /* MSWriteOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464EC222F28A300EC1FF3 /* MSWriteOptions.m */; };
 		26BCA8D222D3F5200094C31D /* nullTestAppDocument.json in Resources */ = {isa = PBXBuildFile; fileRef = 26BCA8D122D3F5020094C31D /* nullTestAppDocument.json */; };
 		26BCA8D322D3F5210094C31D /* nullTestAppDocument.json in Resources */ = {isa = PBXBuildFile; fileRef = 26BCA8D122D3F5020094C31D /* nullTestAppDocument.json */; };
 		26F4B0EA2267DFC9006381D0 /* invalidTestAppDocument.json in Resources */ = {isa = PBXBuildFile; fileRef = 26F4B0E92267DF99006381D0 /* invalidTestAppDocument.json */; };
@@ -132,90 +81,145 @@
 		2ACE562222453BE600FCD5DF /* MSDataErrorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ACE562022453BE600FCD5DF /* MSDataErrorTests.m */; };
 		350D453A22568DFD00982E20 /* MSHttpTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F5227E22253E22F004F37FE /* MSHttpTestUtil.m */; };
 		350D453B22568DFE00982E20 /* MSHttpTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F5227E22253E22F004F37FE /* MSHttpTestUtil.m */; };
-		350D453C22568E5600982E20 /* MSTokenResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 2600123D22273E94007F4D3A /* MSTokenResult.m */; };
 		359D1A5A225E678B003ABD4F /* MSDispatchTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 359D1A59225E678B003ABD4F /* MSDispatchTestUtil.m */; };
 		359D1A5B225E678B003ABD4F /* MSDispatchTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 359D1A59225E678B003ABD4F /* MSDispatchTestUtil.m */; };
-		35F515A8225BC6B0001BFFA2 /* MSDocumentWrapperInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 35F515A7225BC6B0001BFFA2 /* MSDocumentWrapperInternal.h */; };
-		35F515A9225BC6B0001BFFA2 /* MSDocumentWrapperInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 35F515A7225BC6B0001BFFA2 /* MSDocumentWrapperInternal.h */; };
-		4A193736225129B700459E1E /* MSDBDocumentStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A193733225129B700459E1E /* MSDBDocumentStore.m */; };
-		4A193737225129B700459E1E /* MSDBDocumentStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A193734225129B700459E1E /* MSDBDocumentStore.h */; };
-		4A193738225129B700459E1E /* MSDBDocumentStorePrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A193735225129B700459E1E /* MSDBDocumentStorePrivate.h */; };
-		4A193739225129C200459E1E /* MSDBDocumentStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A193734225129B700459E1E /* MSDBDocumentStore.h */; };
-		4A19373A225129C400459E1E /* MSDBDocumentStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A193733225129B700459E1E /* MSDBDocumentStore.m */; };
-		4A19373B225129C600459E1E /* MSDBDocumentStorePrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A193735225129B700459E1E /* MSDBDocumentStorePrivate.h */; };
 		4A9C4402223B2405008548A7 /* MSTokenTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A9C4400223B23E3008548A7 /* MSTokenTests.m */; };
 		4A9C4403223B2408008548A7 /* MSTokenTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A9C4400223B23E3008548A7 /* MSTokenTests.m */; };
 		4ACEAC9E225418B600976AEA /* MSDBDocumentStoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ACEAC9D225418B600976AEA /* MSDBDocumentStoreTests.m */; };
 		4ACEAC9F225418B600976AEA /* MSDBDocumentStoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ACEAC9D225418B600976AEA /* MSDBDocumentStoreTests.m */; };
-		4AE2E97F229F26DC004BF371 /* MSRemoteOperationDelegate.h in Sources */ = {isa = PBXBuildFile; fileRef = 4AE2E97E229F26DC004BF371 /* MSRemoteOperationDelegate.h */; };
-		4AE2E980229F26DC004BF371 /* MSRemoteOperationDelegate.h in Sources */ = {isa = PBXBuildFile; fileRef = 4AE2E97E229F26DC004BF371 /* MSRemoteOperationDelegate.h */; };
-		87FC45D718C70D5B72340A1C /* MSCosmosDbPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 87FA7FB5BC7302D0062016E1 /* MSCosmosDbPrivate.h */; };
-		87FD963F7BF9C9E07DE16D82 /* MSCosmosDbPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 87FA7FB5BC7302D0062016E1 /* MSCosmosDbPrivate.h */; };
 		8F1E76E922652B9D00A6D39F /* MSDataOperationProxyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F1E76E822652B9D00A6D39F /* MSDataOperationProxyTests.m */; };
 		8F1E76EA22652B9D00A6D39F /* MSDataOperationProxyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F1E76E822652B9D00A6D39F /* MSDataOperationProxyTests.m */; };
 		8F1FF9522255C1350083471E /* validTestAppDocument.json in Resources */ = {isa = PBXBuildFile; fileRef = 8F1FF9512255C12F0083471E /* validTestAppDocument.json */; };
 		8F1FF9532255C1360083471E /* validTestAppDocument.json in Resources */ = {isa = PBXBuildFile; fileRef = 8F1FF9512255C12F0083471E /* validTestAppDocument.json */; };
-		8F4548E02256D2450021B0BF /* MSDictionaryDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = 8F4548DF2256D2450021B0BF /* MSDictionaryDocument.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		8F4548E12256D2450021B0BF /* MSDictionaryDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = 8F4548DF2256D2450021B0BF /* MSDictionaryDocument.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		8F4548E32256D3160021B0BF /* MSDictionaryDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F4548E22256D3160021B0BF /* MSDictionaryDocument.m */; };
-		8F4548E42256D3160021B0BF /* MSDictionaryDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F4548E22256D3160021B0BF /* MSDictionaryDocument.m */; };
 		8F4548E72256D5470021B0BF /* NSObject+MSTestFixture.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F4548E62256D5470021B0BF /* NSObject+MSTestFixture.m */; };
 		8F4548E82256D5470021B0BF /* NSObject+MSTestFixture.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F4548E62256D5470021B0BF /* NSObject+MSTestFixture.m */; };
 		8F5227DD2253DE88004F37FE /* oneDocumentPage.json in Resources */ = {isa = PBXBuildFile; fileRef = 8F5227DC2253DE84004F37FE /* oneDocumentPage.json */; };
 		8F5227DE2253DE89004F37FE /* oneDocumentPage.json in Resources */ = {isa = PBXBuildFile; fileRef = 8F5227DC2253DE84004F37FE /* oneDocumentPage.json */; };
 		8F5227ED2253F0C8004F37FE /* zeroDocumentsPage.json in Resources */ = {isa = PBXBuildFile; fileRef = 8F5227EC2253F0C7004F37FE /* zeroDocumentsPage.json */; };
 		8F5227EE2253F0C8004F37FE /* zeroDocumentsPage.json in Resources */ = {isa = PBXBuildFile; fileRef = 8F5227EC2253F0C7004F37FE /* zeroDocumentsPage.json */; };
-		8F5227F02254255D004F37FE /* MSPaginatedDocumentsInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 8F5227EF22542556004F37FE /* MSPaginatedDocumentsInternal.h */; };
-		8F5227F12254255F004F37FE /* MSPaginatedDocumentsInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 8F5227EF22542556004F37FE /* MSPaginatedDocumentsInternal.h */; };
-		8F534A102260321100D18129 /* MSDataOperationProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = 8F534A0F2260320200D18129 /* MSDataOperationProxy.h */; };
-		8F534A112260321200D18129 /* MSDataOperationProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = 8F534A0F2260320200D18129 /* MSDataOperationProxy.h */; };
-		8F534A17226039F400D18129 /* MSDataOperationProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F534A16226039F400D18129 /* MSDataOperationProxy.m */; };
-		8F534A1822603A0000D18129 /* MSDataOperationProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F534A16226039F400D18129 /* MSDataOperationProxy.m */; };
-		8FCF9FE0225D4D870049B326 /* MSTokenResultPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 8FCF9FDF225D4D870049B326 /* MSTokenResultPrivate.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		8FCF9FE1225D4D870049B326 /* MSTokenResultPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 8FCF9FDF225D4D870049B326 /* MSTokenResultPrivate.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		9919248E225BCD070064E699 /* MSDocumentStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 9919248D225BCD060064E699 /* MSDocumentStore.h */; };
-		9919248F225BCD0F0064E699 /* MSDocumentStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 9919248D225BCD060064E699 /* MSDocumentStore.h */; };
 		9CE865A5228B6615003CCE0E /* validTestUserDocument.json in Resources */ = {isa = PBXBuildFile; fileRef = 9CE865A4228B6615003CCE0E /* validTestUserDocument.json */; };
 		9CE865A6228B6615003CCE0E /* validTestUserDocument.json in Resources */ = {isa = PBXBuildFile; fileRef = 9CE865A4228B6615003CCE0E /* validTestUserDocument.json */; };
-		D3AD5EC51E5C4F6A001627AB /* libAppCenterData.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D33A94511E5B11BB003966DB /* libAppCenterData.a */; };
-		D3AD5F0C1E5C819A001627AB /* AppCenter+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5F0B1E5C819A001627AB /* AppCenter+Internal.h */; };
-		D3AD5F0D1E5C844B001627AB /* MSServiceAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5EFE1E5C7DAE001627AB /* MSServiceAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D3AD5F0F1E5C845B001627AB /* AppCenterData.h in Headers */ = {isa = PBXBuildFile; fileRef = D33A94541E5B11BB003966DB /* AppCenterData.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D3AD5F121E5C847B001627AB /* MSDataPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5F081E5C8156001627AB /* MSDataPrivate.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		D3AD5FDA1E5DDF72001627AB /* libAppCenter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D3AD5FD91E5DDF72001627AB /* libAppCenter.a */; };
+		C2200609230FDF3100848D5B /* AppCenterData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A91F71230BFF610068070D /* AppCenterData.framework */; };
+		C220060B230FDF3A00848D5B /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C220060A230FDF3A00848D5B /* AppCenter.framework */; };
+		C220060C230FDF4300848D5B /* AppCenterData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A91F82230BFF670068070D /* AppCenterData.framework */; };
+		C220060E230FDF4700848D5B /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C220060D230FDF4700848D5B /* AppCenter.framework */; };
+		C9EBA9DF230D367B00A20F0F /* MSAppCenterErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = 04B1C8C82252AF0900CBD876 /* MSAppCenterErrors.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C9EBA9E0230D367B00A20F0F /* MSService.h in Headers */ = {isa = PBXBuildFile; fileRef = 04A0820B1F74BBCA00DC776D /* MSService.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C9EBA9E1230D367B00A20F0F /* MSServiceAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5EFE1E5C7DAE001627AB /* MSServiceAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C9EBA9E2230D367B00A20F0F /* AppCenterData.h in Headers */ = {isa = PBXBuildFile; fileRef = D33A94541E5B11BB003966DB /* AppCenterData.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C9EBA9E3230D367B00A20F0F /* MSBaseOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464DF222F28A200EC1FF3 /* MSBaseOptions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C9EBA9E4230D367B00A20F0F /* MSDataError.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464E6222F28A300EC1FF3 /* MSDataError.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C9EBA9E5230D367B00A20F0F /* MSData.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464E2222F28A300EC1FF3 /* MSData.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C9EBA9E6230D367B00A20F0F /* MSDataErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = E80BE8902242215E004DD008 /* MSDataErrors.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C9EBA9E7230D367B00A20F0F /* MSDictionaryDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = 8F4548DF2256D2450021B0BF /* MSDictionaryDocument.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C9EBA9E8230D367B00A20F0F /* MSDocumentWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464E9222F28A300EC1FF3 /* MSDocumentWrapper.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C9EBA9E9230D367B00A20F0F /* MSPage.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464DD222F28A200EC1FF3 /* MSPage.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C9EBA9EA230D367B00A20F0F /* MSPaginatedDocuments.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464E0222F28A300EC1FF3 /* MSPaginatedDocuments.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C9EBA9EB230D367B00A20F0F /* MSReadOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464EB222F28A300EC1FF3 /* MSReadOptions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C9EBA9EC230D367B00A20F0F /* MSRemoteOperationDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 4AE2E97E229F26DC004BF371 /* MSRemoteOperationDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C9EBA9ED230D367B00A20F0F /* MSSerializableDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = E8FE51E9221CBF87005FB52B /* MSSerializableDocument.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C9EBA9EE230D367B00A20F0F /* MSWriteOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464E1222F28A300EC1FF3 /* MSWriteOptions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C9EBA9EF230D367C00A20F0F /* MSAppCenterErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = 04B1C8C82252AF0900CBD876 /* MSAppCenterErrors.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C9EBA9F0230D367C00A20F0F /* MSService.h in Headers */ = {isa = PBXBuildFile; fileRef = 04A0820B1F74BBCA00DC776D /* MSService.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C9EBA9F1230D367C00A20F0F /* MSServiceAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5EFE1E5C7DAE001627AB /* MSServiceAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C9EBA9F2230D367C00A20F0F /* AppCenterData.h in Headers */ = {isa = PBXBuildFile; fileRef = D33A94541E5B11BB003966DB /* AppCenterData.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C9EBA9F3230D367C00A20F0F /* MSBaseOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464DF222F28A200EC1FF3 /* MSBaseOptions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C9EBA9F4230D367C00A20F0F /* MSDataError.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464E6222F28A300EC1FF3 /* MSDataError.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C9EBA9F5230D367C00A20F0F /* MSData.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464E2222F28A300EC1FF3 /* MSData.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C9EBA9F6230D367C00A20F0F /* MSDataErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = E80BE8902242215E004DD008 /* MSDataErrors.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C9EBA9F7230D367C00A20F0F /* MSDictionaryDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = 8F4548DF2256D2450021B0BF /* MSDictionaryDocument.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C9EBA9F8230D367C00A20F0F /* MSDocumentWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464E9222F28A300EC1FF3 /* MSDocumentWrapper.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C9EBA9F9230D367C00A20F0F /* MSPage.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464DD222F28A200EC1FF3 /* MSPage.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C9EBA9FA230D367C00A20F0F /* MSPaginatedDocuments.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464E0222F28A300EC1FF3 /* MSPaginatedDocuments.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C9EBA9FB230D367C00A20F0F /* MSReadOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464EB222F28A300EC1FF3 /* MSReadOptions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C9EBA9FC230D367C00A20F0F /* MSRemoteOperationDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 4AE2E97E229F26DC004BF371 /* MSRemoteOperationDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C9EBA9FD230D367C00A20F0F /* MSSerializableDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = E8FE51E9221CBF87005FB52B /* MSSerializableDocument.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C9EBA9FE230D367C00A20F0F /* MSWriteOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464E1222F28A300EC1FF3 /* MSWriteOptions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C9EBA9FF230D36B200A20F0F /* MSDBDocumentStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A193734225129B700459E1E /* MSDBDocumentStore.h */; };
+		C9EBAA00230D36B200A20F0F /* MSDBDocumentStorePrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A193735225129B700459E1E /* MSDBDocumentStorePrivate.h */; };
+		C9EBAA01230D36B200A20F0F /* MSDocumentStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 9919248D225BCD060064E699 /* MSDocumentStore.h */; };
+		C9EBAA02230D36B200A20F0F /* MSDocumentUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = E83D121C22378143002B6585 /* MSDocumentUtils.h */; };
+		C9EBAA03230D36B200A20F0F /* MSDataConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = E83D122022378296002B6585 /* MSDataConstants.h */; };
+		C9EBAA04230D36B200A20F0F /* MSPendingOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = E8B7936F225E9E0C00CB3D1D /* MSPendingOperation.h */; };
+		C9EBAA05230D36B200A20F0F /* MSTokenResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 2600123B22273E94007F4D3A /* MSTokenResult.h */; };
+		C9EBAA06230D36B200A20F0F /* MSTokensResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 2600123C22273E94007F4D3A /* MSTokensResponse.h */; };
+		C9EBAA07230D36B200A20F0F /* MSPaginatedDocumentsInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 8F5227EF22542556004F37FE /* MSPaginatedDocumentsInternal.h */; };
+		C9EBAA08230D36B200A20F0F /* MSDBDocumentStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A193734225129B700459E1E /* MSDBDocumentStore.h */; };
+		C9EBAA09230D36B200A20F0F /* MSDBDocumentStorePrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A193735225129B700459E1E /* MSDBDocumentStorePrivate.h */; };
+		C9EBAA0A230D36B200A20F0F /* MSDocumentStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 9919248D225BCD060064E699 /* MSDocumentStore.h */; };
+		C9EBAA0B230D36B200A20F0F /* MSDocumentUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = E83D121C22378143002B6585 /* MSDocumentUtils.h */; };
+		C9EBAA0C230D36B200A20F0F /* MSDataConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = E83D122022378296002B6585 /* MSDataConstants.h */; };
+		C9EBAA0D230D36B200A20F0F /* MSPendingOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = E8B7936F225E9E0C00CB3D1D /* MSPendingOperation.h */; };
+		C9EBAA0E230D36B200A20F0F /* MSTokenResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 2600123B22273E94007F4D3A /* MSTokenResult.h */; };
+		C9EBAA0F230D36B200A20F0F /* MSTokensResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 2600123C22273E94007F4D3A /* MSTokensResponse.h */; };
+		C9EBAA10230D36B200A20F0F /* MSPaginatedDocumentsInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 8F5227EF22542556004F37FE /* MSPaginatedDocumentsInternal.h */; };
+		C9EBAA11230D36BA00A20F0F /* MSTokenResultPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 8FCF9FDF225D4D870049B326 /* MSTokenResultPrivate.h */; };
+		C9EBAA12230D36BB00A20F0F /* MSTokenResultPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 8FCF9FDF225D4D870049B326 /* MSTokenResultPrivate.h */; };
+		C9EBAA13230D36E700A20F0F /* MSPageInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 7FE685B62275432200C2F4BA /* MSPageInternal.h */; };
+		C9EBAA14230D36E700A20F0F /* MSDataErrorInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 7FE685B7227546AE00C2F4BA /* MSDataErrorInternal.h */; };
+		C9EBAA15230D36E800A20F0F /* MSPageInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 7FE685B62275432200C2F4BA /* MSPageInternal.h */; };
+		C9EBAA16230D36E800A20F0F /* MSDataErrorInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 7FE685B7227546AE00C2F4BA /* MSDataErrorInternal.h */; };
+		C9EBAA1B230D378300A20F0F /* MSCosmosDb.h in Headers */ = {isa = PBXBuildFile; fileRef = E8593A14222B91B20001F87E /* MSCosmosDb.h */; };
+		C9EBAA1C230D378300A20F0F /* MSCosmosDbPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 87FA7FB5BC7302D0062016E1 /* MSCosmosDbPrivate.h */; };
+		C9EBAA1D230D378300A20F0F /* MSDataOperationProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = 8F534A0F2260320200D18129 /* MSDataOperationProxy.h */; };
+		C9EBAA1E230D378300A20F0F /* MSTokenExchange.h in Headers */ = {isa = PBXBuildFile; fileRef = E86B95D72224B5F60062E552 /* MSTokenExchange.h */; };
+		C9EBAA1F230D378400A20F0F /* MSCosmosDb.h in Headers */ = {isa = PBXBuildFile; fileRef = E8593A14222B91B20001F87E /* MSCosmosDb.h */; };
+		C9EBAA20230D378400A20F0F /* MSCosmosDbPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 87FA7FB5BC7302D0062016E1 /* MSCosmosDbPrivate.h */; };
+		C9EBAA21230D378400A20F0F /* MSDataOperationProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = 8F534A0F2260320200D18129 /* MSDataOperationProxy.h */; };
+		C9EBAA22230D378400A20F0F /* MSTokenExchange.h in Headers */ = {isa = PBXBuildFile; fileRef = E86B95D72224B5F60062E552 /* MSTokenExchange.h */; };
+		C9EBAA23230D379C00A20F0F /* AppCenter+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5F0B1E5C819A001627AB /* AppCenter+Internal.h */; };
+		C9EBAA24230D379E00A20F0F /* AppCenter+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5F0B1E5C819A001627AB /* AppCenter+Internal.h */; };
+		C9EBAA25230D37A100A20F0F /* MSDataInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = E824A5472225FDAC005B69B5 /* MSDataInternal.h */; };
+		C9EBAA26230D37A200A20F0F /* MSDataInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = E824A5472225FDAC005B69B5 /* MSDataInternal.h */; };
+		C9EBAA27230D37A500A20F0F /* MSDataPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5F081E5C8156001627AB /* MSDataPrivate.h */; };
+		C9EBAA28230D37A600A20F0F /* MSDataPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5F081E5C8156001627AB /* MSDataPrivate.h */; };
+		C9EBAA29230D37AD00A20F0F /* MSDocumentWrapperInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 35F515A7225BC6B0001BFFA2 /* MSDocumentWrapperInternal.h */; };
+		C9EBAA2A230D37AE00A20F0F /* MSDocumentWrapperInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 35F515A7225BC6B0001BFFA2 /* MSDocumentWrapperInternal.h */; };
+		C9EBAAC1230D3A7E00A20F0F /* MSBaseOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464EA222F28A300EC1FF3 /* MSBaseOptions.m */; };
+		C9EBAAC2230D3A7E00A20F0F /* MSDataError.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464DE222F28A200EC1FF3 /* MSDataError.m */; };
+		C9EBAAC3230D3A7E00A20F0F /* MSData.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464E3222F28A300EC1FF3 /* MSData.m */; };
+		C9EBAAC4230D3A7E00A20F0F /* MSDictionaryDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F4548E22256D3160021B0BF /* MSDictionaryDocument.m */; };
+		C9EBAAC5230D3A7E00A20F0F /* MSDocumentWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464E4222F28A300EC1FF3 /* MSDocumentWrapper.m */; };
+		C9EBAAC6230D3A7E00A20F0F /* MSPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464E5222F28A300EC1FF3 /* MSPage.m */; };
+		C9EBAAC7230D3A7E00A20F0F /* MSPaginatedDocuments.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464E8222F28A300EC1FF3 /* MSPaginatedDocuments.m */; };
+		C9EBAAC8230D3A7E00A20F0F /* MSReadOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464E7222F28A300EC1FF3 /* MSReadOptions.m */; };
+		C9EBAAC9230D3A7E00A20F0F /* MSWriteOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464EC222F28A300EC1FF3 /* MSWriteOptions.m */; };
+		C9EBAACA230D3A7E00A20F0F /* MSDBDocumentStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A193733225129B700459E1E /* MSDBDocumentStore.m */; };
+		C9EBAACB230D3A7E00A20F0F /* MSDocumentUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E83D121D22378143002B6585 /* MSDocumentUtils.m */; };
+		C9EBAACC230D3A7E00A20F0F /* MSPendingOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = E8B79370225E9E0C00CB3D1D /* MSPendingOperation.m */; };
+		C9EBAACD230D3A7E00A20F0F /* MSTokenResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 2600123D22273E94007F4D3A /* MSTokenResult.m */; };
+		C9EBAACE230D3A7E00A20F0F /* MSTokensResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 2600123E22273E94007F4D3A /* MSTokensResponse.m */; };
+		C9EBAACF230D3A7E00A20F0F /* MSCosmosDb.m in Sources */ = {isa = PBXBuildFile; fileRef = E8593A15222B91B20001F87E /* MSCosmosDb.m */; };
+		C9EBAAD0230D3A7E00A20F0F /* MSDataOperationProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F534A16226039F400D18129 /* MSDataOperationProxy.m */; };
+		C9EBAAD1230D3A7E00A20F0F /* MSTokenExchange.m in Sources */ = {isa = PBXBuildFile; fileRef = E86B95D92224B6310062E552 /* MSTokenExchange.m */; };
+		C9EBAAD2230D3A7F00A20F0F /* MSBaseOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464EA222F28A300EC1FF3 /* MSBaseOptions.m */; };
+		C9EBAAD3230D3A7F00A20F0F /* MSDataError.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464DE222F28A200EC1FF3 /* MSDataError.m */; };
+		C9EBAAD4230D3A7F00A20F0F /* MSData.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464E3222F28A300EC1FF3 /* MSData.m */; };
+		C9EBAAD5230D3A7F00A20F0F /* MSDictionaryDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F4548E22256D3160021B0BF /* MSDictionaryDocument.m */; };
+		C9EBAAD6230D3A7F00A20F0F /* MSDocumentWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464E4222F28A300EC1FF3 /* MSDocumentWrapper.m */; };
+		C9EBAAD7230D3A7F00A20F0F /* MSPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464E5222F28A300EC1FF3 /* MSPage.m */; };
+		C9EBAAD8230D3A7F00A20F0F /* MSPaginatedDocuments.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464E8222F28A300EC1FF3 /* MSPaginatedDocuments.m */; };
+		C9EBAAD9230D3A7F00A20F0F /* MSReadOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464E7222F28A300EC1FF3 /* MSReadOptions.m */; };
+		C9EBAADA230D3A7F00A20F0F /* MSWriteOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 267464EC222F28A300EC1FF3 /* MSWriteOptions.m */; };
+		C9EBAADB230D3A7F00A20F0F /* MSDBDocumentStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A193733225129B700459E1E /* MSDBDocumentStore.m */; };
+		C9EBAADC230D3A7F00A20F0F /* MSDocumentUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E83D121D22378143002B6585 /* MSDocumentUtils.m */; };
+		C9EBAADD230D3A7F00A20F0F /* MSPendingOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = E8B79370225E9E0C00CB3D1D /* MSPendingOperation.m */; };
+		C9EBAADE230D3A7F00A20F0F /* MSTokenResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 2600123D22273E94007F4D3A /* MSTokenResult.m */; };
+		C9EBAADF230D3A7F00A20F0F /* MSTokensResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 2600123E22273E94007F4D3A /* MSTokensResponse.m */; };
+		C9EBAAE0230D3A7F00A20F0F /* MSCosmosDb.m in Sources */ = {isa = PBXBuildFile; fileRef = E8593A15222B91B20001F87E /* MSCosmosDb.m */; };
+		C9EBAAE1230D3A7F00A20F0F /* MSDataOperationProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F534A16226039F400D18129 /* MSDataOperationProxy.m */; };
+		C9EBAAE2230D3A7F00A20F0F /* MSTokenExchange.m in Sources */ = {isa = PBXBuildFile; fileRef = E86B95D92224B6310062E552 /* MSTokenExchange.m */; };
+		C9EBAB33230D739800A20F0F /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9EBAB32230D739800A20F0F /* AppCenter.framework */; };
+		C9EBAB35230D739D00A20F0F /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9EBAB34230D739D00A20F0F /* AppCenter.framework */; };
 		D3D0CFE91E640ABD003015AF /* OCHamcrestIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3D0CFE81E640ABD003015AF /* OCHamcrestIOS.framework */; };
-		E80BE8912242215E004DD008 /* MSDataErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = E80BE8902242215E004DD008 /* MSDataErrors.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E80BE8922242215E004DD008 /* MSDataErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = E80BE8902242215E004DD008 /* MSDataErrors.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E820F1A1222767B8009EFA5D /* MSSerializableDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = E8FE51E9221CBF87005FB52B /* MSSerializableDocument.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E820F1A4222767C5009EFA5D /* MSTokenExchange.h in Headers */ = {isa = PBXBuildFile; fileRef = E86B95D72224B5F60062E552 /* MSTokenExchange.h */; };
-		E820F1A5222767C8009EFA5D /* MSTokenExchange.m in Sources */ = {isa = PBXBuildFile; fileRef = E86B95D92224B6310062E552 /* MSTokenExchange.m */; };
-		E824A5482225FDAC005B69B5 /* MSDataInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = E824A5472225FDAC005B69B5 /* MSDataInternal.h */; };
-		E824A549222600C3005B69B5 /* MSDataPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5F081E5C8156001627AB /* MSDataPrivate.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		E824A54A222600C6005B69B5 /* MSDataInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = E824A5472225FDAC005B69B5 /* MSDataInternal.h */; };
-		E83D121E22378143002B6585 /* MSDocumentUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = E83D121C22378143002B6585 /* MSDocumentUtils.h */; };
-		E83D121F22378143002B6585 /* MSDocumentUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E83D121D22378143002B6585 /* MSDocumentUtils.m */; };
-		E8593A16222B91B20001F87E /* MSCosmosDb.h in Headers */ = {isa = PBXBuildFile; fileRef = E8593A14222B91B20001F87E /* MSCosmosDb.h */; };
-		E8593A17222B91B20001F87E /* MSCosmosDb.m in Sources */ = {isa = PBXBuildFile; fileRef = E8593A15222B91B20001F87E /* MSCosmosDb.m */; };
-		E8593A19222B91C90001F87E /* MSCosmosDb.h in Headers */ = {isa = PBXBuildFile; fileRef = E8593A14222B91B20001F87E /* MSCosmosDb.h */; };
-		E86B95D82224B5F60062E552 /* MSTokenExchange.h in Headers */ = {isa = PBXBuildFile; fileRef = E86B95D72224B5F60062E552 /* MSTokenExchange.h */; };
-		E86B95DA2224B6310062E552 /* MSTokenExchange.m in Sources */ = {isa = PBXBuildFile; fileRef = E86B95D92224B6310062E552 /* MSTokenExchange.m */; };
-		E8B79372225E9E0D00CB3D1D /* MSPendingOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = E8B79370225E9E0C00CB3D1D /* MSPendingOperation.m */; };
-		E8B79373225EA0A000CB3D1D /* MSPendingOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = E8B79370225E9E0C00CB3D1D /* MSPendingOperation.m */; };
-		E8B79375225EB13600CB3D1D /* MSPendingOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = E8B7936F225E9E0C00CB3D1D /* MSPendingOperation.h */; };
-		E8B79376225EB13700CB3D1D /* MSPendingOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = E8B7936F225E9E0C00CB3D1D /* MSPendingOperation.h */; };
-		E8DADEF122286D1A00587E15 /* MSTokenResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 2600123B22273E94007F4D3A /* MSTokenResult.h */; };
-		E8DADEF222286D2100587E15 /* MSTokensResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 2600123E22273E94007F4D3A /* MSTokensResponse.m */; };
-		E8DADEF322286D2300587E15 /* MSTokensResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 2600123C22273E94007F4D3A /* MSTokensResponse.h */; };
-		E8DADEF422286D2500587E15 /* MSTokenResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 2600123D22273E94007F4D3A /* MSTokenResult.m */; };
-		E8EFA3A82315EC03002E1E1F /* MSDocumentMetadata.h in Headers */ = {isa = PBXBuildFile; fileRef = E8EFA3A62315EC03002E1E1F /* MSDocumentMetadata.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E8EFA3A92315EC03002E1E1F /* MSDocumentMetadata.h in Headers */ = {isa = PBXBuildFile; fileRef = E8EFA3A62315EC03002E1E1F /* MSDocumentMetadata.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E8EFA3AA2315EC03002E1E1F /* MSDocumentMetadata.m in Sources */ = {isa = PBXBuildFile; fileRef = E8EFA3A72315EC03002E1E1F /* MSDocumentMetadata.m */; };
-		E8EFA3AB2315EC03002E1E1F /* MSDocumentMetadata.m in Sources */ = {isa = PBXBuildFile; fileRef = E8EFA3A72315EC03002E1E1F /* MSDocumentMetadata.m */; };
-		E8EFA3AD2315F100002E1E1F /* MSDocumentMetadataInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = E8EFA3AC2315F100002E1E1F /* MSDocumentMetadataInternal.h */; };
-		E8EFA3AE2315F100002E1E1F /* MSDocumentMetadataInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = E8EFA3AC2315F100002E1E1F /* MSDocumentMetadataInternal.h */; };
-		E8FE51EA221CBF87005FB52B /* MSSerializableDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = E8FE51E9221CBF87005FB52B /* MSSerializableDocument.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F82E4C85217F218D00EDAB34 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = F82E4C84217F218D00EDAB34 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		F82E4C86217F218D00EDAB34 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = F82E4C84217F218D00EDAB34 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		F8AF2F39231970D400F1C0EE /* MSDocumentMetadata.m in Sources */ = {isa = PBXBuildFile; fileRef = F8AF2F37231970D300F1C0EE /* MSDocumentMetadata.m */; };
+		F8AF2F3A231970D400F1C0EE /* MSDocumentMetadata.h in Headers */ = {isa = PBXBuildFile; fileRef = F8AF2F38231970D300F1C0EE /* MSDocumentMetadata.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F8AF2F3B231970D700F1C0EE /* MSDocumentMetadata.m in Sources */ = {isa = PBXBuildFile; fileRef = F8AF2F37231970D300F1C0EE /* MSDocumentMetadata.m */; };
+		F8AF2F3D231970DF00F1C0EE /* MSDocumentMetadataInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = F8AF2F3C231970DF00F1C0EE /* MSDocumentMetadataInternal.h */; };
+		F8AF2F3E231970F300F1C0EE /* MSDocumentMetadataInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = F8AF2F3C231970DF00F1C0EE /* MSDocumentMetadataInternal.h */; };
+		F8AF2F3F231970FC00F1C0EE /* MSDocumentMetadata.h in Headers */ = {isa = PBXBuildFile; fileRef = F8AF2F38231970D300F1C0EE /* MSDocumentMetadata.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -226,19 +230,19 @@
 			remoteGlobalIDString = 0469640E1F2A558F00F9D31F;
 			remoteInfo = "Fat Framework";
 		};
-		046964331F2A56A400F9D31F /* PBXContainerItemProxy */ = {
+		C2200605230FDF2100848D5B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D33A94491E5B11BB003966DB /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 046963F41F2A558300F9D31F;
-			remoteInfo = AppCenterDataMacOS;
+			remoteGlobalIDString = C9A91F70230BFF610068070D;
+			remoteInfo = "AppCenterData iOS Framework";
 		};
-		D3AD5EC61E5C4F6A001627AB /* PBXContainerItemProxy */ = {
+		C2200607230FDF2500848D5B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D33A94491E5B11BB003966DB /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = D33A94501E5B11BB003966DB;
-			remoteInfo = AppCenterDataIOS;
+			remoteGlobalIDString = C9A91F79230BFF670068070D;
+			remoteInfo = "AppCenterData macOS Framework";
 		};
 		D3AD5F3C1E5D6809001627AB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -249,27 +253,6 @@
 		};
 /* End PBXContainerItemProxy section */
 
-/* Begin PBXCopyFilesBuildPhase section */
-		046963FC1F2A558300F9D31F /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "include/$(PRODUCT_NAME)";
-			dstSubfolderSpec = 16;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D33A944F1E5B11BB003966DB /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "include/$(PRODUCT_NAME)";
-			dstSubfolderSpec = 16;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
 		041CFFA71ECD0E9A00B4654B /* Tests iOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Tests iOS.xcconfig"; path = "../../Config/Tests iOS.xcconfig"; sourceTree = "<group>"; };
 		0420A6A11ECA7D7200915619 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = ../Vendor/iOS/OCMock/OCMock.framework; sourceTree = "<group>"; };
@@ -277,7 +260,6 @@
 		04545DCB227B605B00A49E06 /* AppCenterData.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = AppCenterData.xcconfig; sourceTree = "<group>"; };
 		0460FD99225544E3004E48EA /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OHHTTPStubs.framework; path = ../Vendor/iOS/OHHTTPStubs/OHHTTPStubs.framework; sourceTree = "<group>"; };
 		0460FD9B225544F6004E48EA /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OHHTTPStubs.framework; path = ../Vendor/macOS/OHHTTPStubs/OHHTTPStubs.framework; sourceTree = "<group>"; };
-		0469640D1F2A558300F9D31F /* libAppCenterData.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAppCenterData.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		046964251F2A559C00F9D31F /* AppCenterData.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppCenterData.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0469642E1F2A55CF00F9D31F /* macOS.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = macOS.modulemap; sourceTree = "<group>"; };
 		0469642F1F2A55CF00F9D31F /* macOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
@@ -346,7 +328,12 @@
 		8FCF9FDF225D4D870049B326 /* MSTokenResultPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSTokenResultPrivate.h; sourceTree = "<group>"; };
 		9919248D225BCD060064E699 /* MSDocumentStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDocumentStore.h; sourceTree = "<group>"; };
 		9CE865A4228B6615003CCE0E /* validTestUserDocument.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = validTestUserDocument.json; sourceTree = "<group>"; };
-		D33A94511E5B11BB003966DB /* libAppCenterData.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAppCenterData.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		C220060A230FDF3A00848D5B /* AppCenter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AppCenter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C220060D230FDF4700848D5B /* AppCenter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AppCenter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9A91F71230BFF610068070D /* AppCenterData.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AppCenterData.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9A91F82230BFF670068070D /* AppCenterData.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AppCenterData.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9EBAB32230D739800A20F0F /* AppCenter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AppCenter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9EBAB34230D739D00A20F0F /* AppCenter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AppCenter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D33A94541E5B11BB003966DB /* AppCenterData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppCenterData.h; sourceTree = "<group>"; };
 		D3AD5EC01E5C4F6A001627AB /* AppCenterData.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppCenterData.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3AD5EC21E5C4F6A001627AB /* MSDataTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSDataTests.m; sourceTree = "<group>"; };
@@ -369,38 +356,41 @@
 		E86B95D92224B6310062E552 /* MSTokenExchange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSTokenExchange.m; path = AppCenterData/Internal/Client/MSTokenExchange.m; sourceTree = SOURCE_ROOT; };
 		E8B7936F225E9E0C00CB3D1D /* MSPendingOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSPendingOperation.h; sourceTree = "<group>"; };
 		E8B79370225E9E0C00CB3D1D /* MSPendingOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSPendingOperation.m; sourceTree = "<group>"; };
-		E8EFA3A62315EC03002E1E1F /* MSDocumentMetadata.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDocumentMetadata.h; sourceTree = "<group>"; };
-		E8EFA3A72315EC03002E1E1F /* MSDocumentMetadata.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDocumentMetadata.m; sourceTree = "<group>"; };
-		E8EFA3AC2315F100002E1E1F /* MSDocumentMetadataInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDocumentMetadataInternal.h; sourceTree = "<group>"; };
 		E8FE51A5221C8C6E005FB52B /* MSTestFrameworks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSTestFrameworks.h; path = ../../AppCenter/AppCenterTests/Util/MSTestFrameworks.h; sourceTree = "<group>"; };
 		E8FE51E9221CBF87005FB52B /* MSSerializableDocument.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSSerializableDocument.h; sourceTree = "<group>"; };
 		F82E4C84217F218D00EDAB34 /* sqlite3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = sqlite3.c; path = ../Vendor/SQLite3/sqlite3.c; sourceTree = "<group>"; };
+		F8AF2F37231970D300F1C0EE /* MSDocumentMetadata.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDocumentMetadata.m; sourceTree = "<group>"; };
+		F8AF2F38231970D300F1C0EE /* MSDocumentMetadata.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDocumentMetadata.h; sourceTree = "<group>"; };
+		F8AF2F3C231970DF00F1C0EE /* MSDocumentMetadataInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDocumentMetadataInternal.h; sourceTree = "<group>"; };
+		F8D68482230D7D8E000A7CED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		046963FA1F2A558300F9D31F /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		0469641A1F2A559C00F9D31F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				046964401F2A572800F9D31F /* libAppCenter.a in Frameworks */,
+				C220060E230FDF4700848D5B /* AppCenter.framework in Frameworks */,
+				C220060C230FDF4300848D5B /* AppCenterData.framework in Frameworks */,
 				0469643A1F2A56F400F9D31F /* OCMock.framework in Frameworks */,
 				0460FD9C225544F6004E48EA /* OHHTTPStubs.framework in Frameworks */,
 				0469643D1F2A570500F9D31F /* OCHamcrest.framework in Frameworks */,
-				046964411F2A5AA300F9D31F /* libAppCenterData.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D33A944E1E5B11BB003966DB /* Frameworks */ = {
+		C9A91F6E230BFF610068070D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9EBAB33230D739800A20F0F /* AppCenter.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C9A91F7D230BFF670068070D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C9EBAB35230D739D00A20F0F /* AppCenter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -408,8 +398,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D3AD5FDA1E5DDF72001627AB /* libAppCenter.a in Frameworks */,
-				D3AD5EC51E5C4F6A001627AB /* libAppCenterData.a in Frameworks */,
+				C220060B230FDF3A00848D5B /* AppCenter.framework in Frameworks */,
+				C2200609230FDF3100848D5B /* AppCenterData.framework in Frameworks */,
 				0460FD9A225544E3004E48EA /* OHHTTPStubs.framework in Frameworks */,
 				D3D0CFE91E640ABD003015AF /* OCHamcrestIOS.framework in Frameworks */,
 				0420A6A21ECA7D7200915619 /* OCMock.framework in Frameworks */,
@@ -518,6 +508,17 @@
 			path = Fixtures;
 			sourceTree = "<group>";
 		};
+		C9A91F84230BFFAE0068070D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C220060D230FDF4700848D5B /* AppCenter.framework */,
+				C220060A230FDF3A00848D5B /* AppCenter.framework */,
+				C9EBAB34230D739D00A20F0F /* AppCenter.framework */,
+				C9EBAB32230D739800A20F0F /* AppCenter.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		D33A94481E5B11BB003966DB = {
 			isa = PBXGroup;
 			children = (
@@ -527,16 +528,17 @@
 				D33A94531E5B11BB003966DB /* AppCenterData */,
 				D3AD5EC11E5C4F6A001627AB /* AppCenterDataTests */,
 				D33A94521E5B11BB003966DB /* Products */,
+				C9A91F84230BFFAE0068070D /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
 		D33A94521E5B11BB003966DB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D33A94511E5B11BB003966DB /* libAppCenterData.a */,
 				D3AD5EC01E5C4F6A001627AB /* AppCenterData.xctest */,
-				0469640D1F2A558300F9D31F /* libAppCenterData.a */,
 				046964251F2A559C00F9D31F /* AppCenterData.xctest */,
+				C9A91F71230BFF610068070D /* AppCenterData.framework */,
+				C9A91F82230BFF670068070D /* AppCenterData.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -544,6 +546,8 @@
 		D33A94531E5B11BB003966DB /* AppCenterData */ = {
 			isa = PBXGroup;
 			children = (
+				F8AF2F38231970D300F1C0EE /* MSDocumentMetadata.h */,
+				F8AF2F37231970D300F1C0EE /* MSDocumentMetadata.m */,
 				D33A94541E5B11BB003966DB /* AppCenterData.h */,
 				267464DF222F28A200EC1FF3 /* MSBaseOptions.h */,
 				267464EA222F28A300EC1FF3 /* MSBaseOptions.m */,
@@ -554,8 +558,6 @@
 				E80BE8902242215E004DD008 /* MSDataErrors.h */,
 				8F4548DF2256D2450021B0BF /* MSDictionaryDocument.h */,
 				8F4548E22256D3160021B0BF /* MSDictionaryDocument.m */,
-				E8EFA3A62315EC03002E1E1F /* MSDocumentMetadata.h */,
-				E8EFA3A72315EC03002E1E1F /* MSDocumentMetadata.m */,
 				267464E9222F28A300EC1FF3 /* MSDocumentWrapper.h */,
 				267464E4222F28A300EC1FF3 /* MSDocumentWrapper.m */,
 				267464DD222F28A200EC1FF3 /* MSPage.h */,
@@ -608,6 +610,7 @@
 		D3AD5F031E5C7FC9001627AB /* Support */ = {
 			isa = PBXGroup;
 			children = (
+				F8D68482230D7D8E000A7CED /* Info.plist */,
 				04545DCB227B605B00A49E06 /* AppCenterData.xcconfig */,
 				D3AD5F051E5C7FFF001627AB /* AppCenterData Debug.xcconfig */,
 				043E2ABA1F4E033A00615AD9 /* AppCenterData Release.xcconfig */,
@@ -629,7 +632,7 @@
 				D3AD5F0B1E5C819A001627AB /* AppCenter+Internal.h */,
 				E824A5472225FDAC005B69B5 /* MSDataInternal.h */,
 				D3AD5F081E5C8156001627AB /* MSDataPrivate.h */,
-				E8EFA3AC2315F100002E1E1F /* MSDocumentMetadataInternal.h */,
+				F8AF2F3C231970DF00F1C0EE /* MSDocumentMetadataInternal.h */,
 				35F515A7225BC6B0001BFFA2 /* MSDocumentWrapperInternal.h */,
 			);
 			path = Internal;
@@ -709,117 +712,102 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		046963FD1F2A558300F9D31F /* Headers */ = {
+		C9A91F6C230BFF610068070D /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				046964421F2A5B2E00F9D31F /* MSServiceAbstract.h in Headers */,
-				E8DADEF322286D2300587E15 /* MSTokensResponse.h in Headers */,
-				E824A54A222600C6005B69B5 /* MSDataInternal.h in Headers */,
-				046964491F2A5B4D00F9D31F /* AppCenter+Internal.h in Headers */,
-				049BC852224EDAFF00AE7FBB /* MSDataError.h in Headers */,
-				8F4548E12256D2450021B0BF /* MSDictionaryDocument.h in Headers */,
-				4A193739225129C200459E1E /* MSDBDocumentStore.h in Headers */,
-				049BC85B224EDB1D00AE7FBB /* MSPage.h in Headers */,
-				049BC85C224EDB2200AE7FBB /* MSReadOptions.h in Headers */,
-				04B1C8CA2252AF0A00CBD876 /* MSAppCenterErrors.h in Headers */,
-				049BC854224EDB0700AE7FBB /* MSDocumentWrapper.h in Headers */,
-				0469644E1F2A5D2800F9D31F /* AppCenterData.h in Headers */,
-				8FCF9FE1225D4D870049B326 /* MSTokenResultPrivate.h in Headers */,
-				E820F1A1222767B8009EFA5D /* MSSerializableDocument.h in Headers */,
-				E820F1A4222767C5009EFA5D /* MSTokenExchange.h in Headers */,
-				049BC850224EDAF600AE7FBB /* MSData.h in Headers */,
-				E8593A19222B91C90001F87E /* MSCosmosDb.h in Headers */,
-				048BF75822A6F4270099FF73 /* MSRemoteOperationDelegate.h in Headers */,
-				E8B79376225EB13700CB3D1D /* MSPendingOperation.h in Headers */,
-				04A0820D1F74BBCF00DC776D /* MSService.h in Headers */,
-				35F515A9225BC6B0001BFFA2 /* MSDocumentWrapperInternal.h in Headers */,
-				E8EFA3A92315EC03002E1E1F /* MSDocumentMetadata.h in Headers */,
-				049BC862224EDBE200AE7FBB /* MSDataConstants.h in Headers */,
-				E824A549222600C3005B69B5 /* MSDataPrivate.h in Headers */,
-				4A19373B225129C600459E1E /* MSDBDocumentStorePrivate.h in Headers */,
-				049BC85A224EDB1900AE7FBB /* MSPaginatedDocuments.h in Headers */,
-				049BC84E224EDAEE00AE7FBB /* MSBaseOptions.h in Headers */,
-				E8EFA3AE2315F100002E1E1F /* MSDocumentMetadataInternal.h in Headers */,
-				8F5227F12254255F004F37FE /* MSPaginatedDocumentsInternal.h in Headers */,
-				8F534A112260321200D18129 /* MSDataOperationProxy.h in Headers */,
-				E8DADEF122286D1A00587E15 /* MSTokenResult.h in Headers */,
-				E80BE8922242215E004DD008 /* MSDataErrors.h in Headers */,
-				049BC85D224EDB2700AE7FBB /* MSWriteOptions.h in Headers */,
-				87FC45D718C70D5B72340A1C /* MSCosmosDbPrivate.h in Headers */,
-				049BC85F224EDBC900AE7FBB /* MSDocumentUtils.h in Headers */,
-				9919248F225BCD0F0064E699 /* MSDocumentStore.h in Headers */,
+				C9EBA9E1230D367B00A20F0F /* MSServiceAbstract.h in Headers */,
+				C9EBA9EB230D367B00A20F0F /* MSReadOptions.h in Headers */,
+				C9EBA9E2230D367B00A20F0F /* AppCenterData.h in Headers */,
+				C9EBAA00230D36B200A20F0F /* MSDBDocumentStorePrivate.h in Headers */,
+				C9EBAA1D230D378300A20F0F /* MSDataOperationProxy.h in Headers */,
+				C9EBA9ED230D367B00A20F0F /* MSSerializableDocument.h in Headers */,
+				C9EBA9E7230D367B00A20F0F /* MSDictionaryDocument.h in Headers */,
+				C9EBA9E0230D367B00A20F0F /* MSService.h in Headers */,
+				C9EBA9EC230D367B00A20F0F /* MSRemoteOperationDelegate.h in Headers */,
+				C9EBA9E9230D367B00A20F0F /* MSPage.h in Headers */,
+				C9EBAA23230D379C00A20F0F /* AppCenter+Internal.h in Headers */,
+				C9EBAA1E230D378300A20F0F /* MSTokenExchange.h in Headers */,
+				C9EBA9FF230D36B200A20F0F /* MSDBDocumentStore.h in Headers */,
+				C9EBA9E6230D367B00A20F0F /* MSDataErrors.h in Headers */,
+				F8AF2F3A231970D400F1C0EE /* MSDocumentMetadata.h in Headers */,
+				C9EBA9E8230D367B00A20F0F /* MSDocumentWrapper.h in Headers */,
+				C9EBAA13230D36E700A20F0F /* MSPageInternal.h in Headers */,
+				C9EBAA25230D37A100A20F0F /* MSDataInternal.h in Headers */,
+				C9EBAA01230D36B200A20F0F /* MSDocumentStore.h in Headers */,
+				C9EBA9EA230D367B00A20F0F /* MSPaginatedDocuments.h in Headers */,
+				C9EBAA27230D37A500A20F0F /* MSDataPrivate.h in Headers */,
+				C9EBAA1C230D378300A20F0F /* MSCosmosDbPrivate.h in Headers */,
+				C9EBA9E4230D367B00A20F0F /* MSDataError.h in Headers */,
+				C9EBA9E3230D367B00A20F0F /* MSBaseOptions.h in Headers */,
+				C9EBAA11230D36BA00A20F0F /* MSTokenResultPrivate.h in Headers */,
+				C9EBAA29230D37AD00A20F0F /* MSDocumentWrapperInternal.h in Headers */,
+				C9EBA9EE230D367B00A20F0F /* MSWriteOptions.h in Headers */,
+				C9EBAA03230D36B200A20F0F /* MSDataConstants.h in Headers */,
+				C9EBAA04230D36B200A20F0F /* MSPendingOperation.h in Headers */,
+				C9EBAA14230D36E700A20F0F /* MSDataErrorInternal.h in Headers */,
+				C9EBAA06230D36B200A20F0F /* MSTokensResponse.h in Headers */,
+				C9EBA9DF230D367B00A20F0F /* MSAppCenterErrors.h in Headers */,
+				C9EBA9E5230D367B00A20F0F /* MSData.h in Headers */,
+				C9EBAA02230D36B200A20F0F /* MSDocumentUtils.h in Headers */,
+				C9EBAA1B230D378300A20F0F /* MSCosmosDb.h in Headers */,
+				C9EBAA07230D36B200A20F0F /* MSPaginatedDocumentsInternal.h in Headers */,
+				C9EBAA05230D36B200A20F0F /* MSTokenResult.h in Headers */,
+				F8AF2F3D231970DF00F1C0EE /* MSDocumentMetadataInternal.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D3AD5F061E5C80E6001627AB /* Headers */ = {
+		C9A91F7A230BFF670068070D /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				267464EF222F28A300EC1FF3 /* MSBaseOptions.h in Headers */,
-				267464ED222F28A300EC1FF3 /* MSPage.h in Headers */,
-				E8FE51EA221CBF87005FB52B /* MSSerializableDocument.h in Headers */,
-				D3AD5F0F1E5C845B001627AB /* AppCenterData.h in Headers */,
-				267464F9222F28A300EC1FF3 /* MSDocumentWrapper.h in Headers */,
-				8F4548E02256D2450021B0BF /* MSDictionaryDocument.h in Headers */,
-				4A193737225129B700459E1E /* MSDBDocumentStore.h in Headers */,
-				267464F6222F28A300EC1FF3 /* MSDataError.h in Headers */,
-				267464F2222F28A300EC1FF3 /* MSData.h in Headers */,
-				267464F0222F28A300EC1FF3 /* MSPaginatedDocuments.h in Headers */,
-				04B1C8C92252AF0A00CBD876 /* MSAppCenterErrors.h in Headers */,
-				2600123F22273E94007F4D3A /* MSTokenResult.h in Headers */,
-				8FCF9FE0225D4D870049B326 /* MSTokenResultPrivate.h in Headers */,
-				D3AD5F0D1E5C844B001627AB /* MSServiceAbstract.h in Headers */,
-				267464F1222F28A300EC1FF3 /* MSWriteOptions.h in Headers */,
-				267464FB222F28A300EC1FF3 /* MSReadOptions.h in Headers */,
-				048BF75722A6F4110099FF73 /* MSRemoteOperationDelegate.h in Headers */,
-				D3AD5F0C1E5C819A001627AB /* AppCenter+Internal.h in Headers */,
-				E8B79375225EB13600CB3D1D /* MSPendingOperation.h in Headers */,
-				E824A5482225FDAC005B69B5 /* MSDataInternal.h in Headers */,
-				35F515A8225BC6B0001BFFA2 /* MSDocumentWrapperInternal.h in Headers */,
-				E8EFA3A82315EC03002E1E1F /* MSDocumentMetadata.h in Headers */,
-				2600124022273E94007F4D3A /* MSTokensResponse.h in Headers */,
-				049BC861224EDBE100AE7FBB /* MSDataConstants.h in Headers */,
-				E83D121E22378143002B6585 /* MSDocumentUtils.h in Headers */,
-				4A193738225129B700459E1E /* MSDBDocumentStorePrivate.h in Headers */,
-				D3AD5F121E5C847B001627AB /* MSDataPrivate.h in Headers */,
-				E8EFA3AD2315F100002E1E1F /* MSDocumentMetadataInternal.h in Headers */,
-				8F5227F02254255D004F37FE /* MSPaginatedDocumentsInternal.h in Headers */,
-				8F534A102260321100D18129 /* MSDataOperationProxy.h in Headers */,
-				E8593A16222B91B20001F87E /* MSCosmosDb.h in Headers */,
-				E80BE8912242215E004DD008 /* MSDataErrors.h in Headers */,
-				04A0820C1F74BBCA00DC776D /* MSService.h in Headers */,
-				E86B95D82224B5F60062E552 /* MSTokenExchange.h in Headers */,
-				87FD963F7BF9C9E07DE16D82 /* MSCosmosDbPrivate.h in Headers */,
-				9919248E225BCD070064E699 /* MSDocumentStore.h in Headers */,
+				C9EBA9F1230D367C00A20F0F /* MSServiceAbstract.h in Headers */,
+				C9EBA9FB230D367C00A20F0F /* MSReadOptions.h in Headers */,
+				F8AF2F3F231970FC00F1C0EE /* MSDocumentMetadata.h in Headers */,
+				C9EBA9F2230D367C00A20F0F /* AppCenterData.h in Headers */,
+				C9EBAA09230D36B200A20F0F /* MSDBDocumentStorePrivate.h in Headers */,
+				C9EBAA21230D378400A20F0F /* MSDataOperationProxy.h in Headers */,
+				C9EBA9FD230D367C00A20F0F /* MSSerializableDocument.h in Headers */,
+				C9EBA9F7230D367C00A20F0F /* MSDictionaryDocument.h in Headers */,
+				C9EBA9F0230D367C00A20F0F /* MSService.h in Headers */,
+				C9EBA9FC230D367C00A20F0F /* MSRemoteOperationDelegate.h in Headers */,
+				C9EBA9F9230D367C00A20F0F /* MSPage.h in Headers */,
+				F8AF2F3E231970F300F1C0EE /* MSDocumentMetadataInternal.h in Headers */,
+				C9EBAA24230D379E00A20F0F /* AppCenter+Internal.h in Headers */,
+				C9EBAA22230D378400A20F0F /* MSTokenExchange.h in Headers */,
+				C9EBAA08230D36B200A20F0F /* MSDBDocumentStore.h in Headers */,
+				C9EBA9F6230D367C00A20F0F /* MSDataErrors.h in Headers */,
+				C9EBA9F8230D367C00A20F0F /* MSDocumentWrapper.h in Headers */,
+				C9EBAA15230D36E800A20F0F /* MSPageInternal.h in Headers */,
+				C9EBAA26230D37A200A20F0F /* MSDataInternal.h in Headers */,
+				C9EBAA0A230D36B200A20F0F /* MSDocumentStore.h in Headers */,
+				C9EBAA20230D378400A20F0F /* MSCosmosDbPrivate.h in Headers */,
+				C9EBAA12230D36BB00A20F0F /* MSTokenResultPrivate.h in Headers */,
+				C9EBAA28230D37A600A20F0F /* MSDataPrivate.h in Headers */,
+				C9EBA9FA230D367C00A20F0F /* MSPaginatedDocuments.h in Headers */,
+				C9EBA9F4230D367C00A20F0F /* MSDataError.h in Headers */,
+				C9EBA9F3230D367C00A20F0F /* MSBaseOptions.h in Headers */,
+				C9EBAA2A230D37AE00A20F0F /* MSDocumentWrapperInternal.h in Headers */,
+				C9EBA9FE230D367C00A20F0F /* MSWriteOptions.h in Headers */,
+				C9EBAA0C230D36B200A20F0F /* MSDataConstants.h in Headers */,
+				C9EBAA0D230D36B200A20F0F /* MSPendingOperation.h in Headers */,
+				C9EBAA16230D36E800A20F0F /* MSDataErrorInternal.h in Headers */,
+				C9EBAA0F230D36B200A20F0F /* MSTokensResponse.h in Headers */,
+				C9EBA9EF230D367C00A20F0F /* MSAppCenterErrors.h in Headers */,
+				C9EBA9F5230D367C00A20F0F /* MSData.h in Headers */,
+				C9EBAA0B230D36B200A20F0F /* MSDocumentUtils.h in Headers */,
+				C9EBAA1F230D378400A20F0F /* MSCosmosDb.h in Headers */,
+				C9EBAA10230D36B200A20F0F /* MSPaginatedDocumentsInternal.h in Headers */,
+				C9EBAA0E230D36B200A20F0F /* MSTokenResult.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		046963F41F2A558300F9D31F /* AppCenterDataMacOS */ = {
+		046964131F2A559C00F9D31F /* AppCenterData macOS Tests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 0469640A1F2A558300F9D31F /* Build configuration list for PBXNativeTarget "AppCenterDataMacOS" */;
-			buildPhases = (
-				F8B8EAE421105C1D004BCECB /* Verify no buildSettings */,
-				046963F51F2A558300F9D31F /* Sources */,
-				046963FA1F2A558300F9D31F /* Frameworks */,
-				046963FC1F2A558300F9D31F /* CopyFiles */,
-				046963FD1F2A558300F9D31F /* Headers */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = AppCenterDataMacOS;
-			productName = AppCenterData;
-			productReference = 0469640D1F2A558300F9D31F /* libAppCenterData.a */;
-			productType = "com.apple.product-type.library.static";
-		};
-		046964131F2A559C00F9D31F /* AppCenterDataMacOSTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 046964221F2A559C00F9D31F /* Build configuration list for PBXNativeTarget "AppCenterDataMacOSTests" */;
+			buildConfigurationList = 046964221F2A559C00F9D31F /* Build configuration list for PBXNativeTarget "AppCenterData macOS Tests" */;
 			buildPhases = (
 				046964161F2A559C00F9D31F /* Sources */,
 				0469641A1F2A559C00F9D31F /* Frameworks */,
@@ -828,35 +816,52 @@
 			buildRules = (
 			);
 			dependencies = (
-				046964341F2A56A400F9D31F /* PBXTargetDependency */,
+				C2200608230FDF2500848D5B /* PBXTargetDependency */,
 			);
-			name = AppCenterDataMacOSTests;
+			name = "AppCenterData macOS Tests";
 			productName = AppCenterDataTests;
 			productReference = 046964251F2A559C00F9D31F /* AppCenterData.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		D33A94501E5B11BB003966DB /* AppCenterDataIOS */ = {
+		C9A91F70230BFF610068070D /* AppCenterData iOS Framework */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D33A945A1E5B11BB003966DB /* Build configuration list for PBXNativeTarget "AppCenterDataIOS" */;
+			buildConfigurationList = C9A91F78230BFF610068070D /* Build configuration list for PBXNativeTarget "AppCenterData iOS Framework" */;
 			buildPhases = (
-				F8B8EAE221105C11004BCECB /* Verify no buildSettings */,
-				D33A944D1E5B11BB003966DB /* Sources */,
-				D33A944E1E5B11BB003966DB /* Frameworks */,
-				D33A944F1E5B11BB003966DB /* CopyFiles */,
-				D3AD5F061E5C80E6001627AB /* Headers */,
+				C2200600230FDE8400848D5B /* Verify No Build Settings */,
+				C9A91F6C230BFF610068070D /* Headers */,
+				C9A91F6D230BFF610068070D /* Sources */,
+				C9A91F6E230BFF610068070D /* Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = AppCenterDataIOS;
-			productName = AppCenterData;
-			productReference = D33A94511E5B11BB003966DB /* libAppCenterData.a */;
-			productType = "com.apple.product-type.library.static";
+			name = "AppCenterData iOS Framework";
+			productName = AppCenterStaticIOS;
+			productReference = C9A91F71230BFF610068070D /* AppCenterData.framework */;
+			productType = "com.apple.product-type.framework";
 		};
-		D3AD5EBF1E5C4F6A001627AB /* AppCenterDataIOSTests */ = {
+		C9A91F79230BFF670068070D /* AppCenterData macOS Framework */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D3AD5EC81E5C4F6A001627AB /* Build configuration list for PBXNativeTarget "AppCenterDataIOSTests" */;
+			buildConfigurationList = C9A91F7F230BFF670068070D /* Build configuration list for PBXNativeTarget "AppCenterData macOS Framework" */;
+			buildPhases = (
+				C2200601230FDE8E00848D5B /* Verify No Build Settings */,
+				C9A91F7A230BFF670068070D /* Headers */,
+				C9A91F7C230BFF670068070D /* Sources */,
+				C9A91F7D230BFF670068070D /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "AppCenterData macOS Framework";
+			productName = AppCenterStaticIOS;
+			productReference = C9A91F82230BFF670068070D /* AppCenterData.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		D3AD5EBF1E5C4F6A001627AB /* AppCenterData iOS Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D3AD5EC81E5C4F6A001627AB /* Build configuration list for PBXNativeTarget "AppCenterData iOS Tests" */;
 			buildPhases = (
 				D3AD5EBC1E5C4F6A001627AB /* Sources */,
 				D3AD5EBD1E5C4F6A001627AB /* Frameworks */,
@@ -865,9 +870,9 @@
 			buildRules = (
 			);
 			dependencies = (
-				D3AD5EC71E5C4F6A001627AB /* PBXTargetDependency */,
+				C2200606230FDF2100848D5B /* PBXTargetDependency */,
 			);
-			name = AppCenterDataIOSTests;
+			name = "AppCenterData iOS Tests";
 			productName = AppCenterDataTests;
 			productReference = D3AD5EC01E5C4F6A001627AB /* AppCenterData.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -881,12 +886,24 @@
 				CLASSPREFIX = MS;
 				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = Microsoft;
+				TargetAttributes = {
+					C9A91F70230BFF610068070D = {
+						CreatedOnToolsVersion = 10.2.1;
+						DevelopmentTeam = 5Z97G9NZQ6;
+						ProvisioningStyle = Automatic;
+					};
+					C9A91F79230BFF670068070D = {
+						DevelopmentTeam = 5Z97G9NZQ6;
+						ProvisioningStyle = Automatic;
+					};
+				};
 			};
 			buildConfigurationList = D33A944C1E5B11BB003966DB /* Build configuration list for PBXProject "AppCenterData" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = D33A94481E5B11BB003966DB;
@@ -894,14 +911,14 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				D33A94501E5B11BB003966DB /* AppCenterDataIOS */,
-				D3AD5F221E5C9562001627AB /* AppCenterDataIOSFramework */,
-				D3AD5EBF1E5C4F6A001627AB /* AppCenterDataIOSTests */,
-				D3AD5F271E5C9633001627AB /* AppCenterDataIOSDoc */,
-				046963F41F2A558300F9D31F /* AppCenterDataMacOS */,
-				0469640E1F2A558F00F9D31F /* AppCenterDataMacOSFramework */,
-				046964131F2A559C00F9D31F /* AppCenterDataMacOSTests */,
-				046964271F2A55A600F9D31F /* AppCenterDataMacOSDoc */,
+				C9A91F70230BFF610068070D /* AppCenterData iOS Framework */,
+				D3AD5EBF1E5C4F6A001627AB /* AppCenterData iOS Tests */,
+				D3AD5F221E5C9562001627AB /* AppCenterData iOS Fat Framework */,
+				D3AD5F271E5C9633001627AB /* AppCenterData iOS Documentation */,
+				C9A91F79230BFF670068070D /* AppCenterData macOS Framework */,
+				046964131F2A559C00F9D31F /* AppCenterData macOS Tests */,
+				0469640E1F2A558F00F9D31F /* AppCenterData macOS Fat Framework */,
+				046964271F2A55A600F9D31F /* AppCenterData macOS Documentation */,
 			);
 		};
 /* End PBXProject section */
@@ -936,72 +953,47 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0469640F1F2A558F00F9D31F /* Build framework */ = {
+		0469640F1F2A558F00F9D31F /* Build Universal Framework */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Build framework";
+			name = "Build Universal Framework";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "cd \"${SRCROOT}/../Scripts/AppCenterData\"\n./build-appcenterdata-macos-framework.sh\n";
 		};
-		0469642A1F2A55A600F9D31F /* Build docs */ = {
+		0469642A1F2A55A600F9D31F /* Build Documentation */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Build docs";
+			name = "Build Documentation";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd \"${SRCROOT}/../Scripts\"\n./build-docs.sh macOS AppCenterData\n";
+			shellScript = "cd \"${SRCROOT}/../Scripts\"\n./build-docs.sh macOS\n";
 			showEnvVarsInLog = 0;
 		};
-		D3AD5F261E5C9588001627AB /* Build framework */ = {
+		C2200600230FDE8400848D5B /* Verify No Build Settings */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
-			);
-			name = "Build framework";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "cd \"${SRCROOT}/../Scripts/AppCenterData\"\n./build-appcenterdata-ios-framework.sh\n";
-		};
-		D3AD5F2B1E5C9636001627AB /* Build docs */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
+			inputFileListPaths = (
 			);
 			inputPaths = (
 			);
-			name = "Build docs";
-			outputPaths = (
+			name = "Verify No Build Settings";
+			outputFileListPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "cd \"${SRCROOT}/../Scripts\"\n./build-docs.sh iOS AppCenterData\n";
-			showEnvVarsInLog = 0;
-		};
-		F8B8EAE221105C11004BCECB /* Verify no buildSettings */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Verify no buildSettings";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1009,50 +1001,57 @@
 			shellScript = "\"${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift\" ${PROJECT_NAME}.xcodeproj/project.pbxproj\n";
 			showEnvVarsInLog = 0;
 		};
-		F8B8EAE421105C1D004BCECB /* Verify no buildSettings */ = {
+		C2200601230FDE8E00848D5B /* Verify No Build Settings */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Verify No Build Settings";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift\" ${PROJECT_NAME}.xcodeproj/project.pbxproj\n";
+			showEnvVarsInLog = 0;
+		};
+		D3AD5F261E5C9588001627AB /* Build Universal Framework */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Verify no buildSettings";
+			name = "Build Universal Framework";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift\" ${PROJECT_NAME}.xcodeproj/project.pbxproj";
+			shellScript = "cd \"${SRCROOT}/../Scripts/AppCenterData\"\n./build-appcenterdata-ios-framework.sh\n";
+		};
+		D3AD5F2B1E5C9636001627AB /* Build Documentation */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Build Documentation";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cd \"${SRCROOT}/../Scripts\"\n./build-docs.sh iOS\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		046963F51F2A558300F9D31F /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				8F4548E42256D3160021B0BF /* MSDictionaryDocument.m in Sources */,
-				049BC857224EDB1100AE7FBB /* MSPaginatedDocuments.m in Sources */,
-				E8DADEF422286D2500587E15 /* MSTokenResult.m in Sources */,
-				049BC851224EDAFC00AE7FBB /* MSData.m in Sources */,
-				049BC856224EDB1100AE7FBB /* MSPage.m in Sources */,
-				E8B79373225EA0A000CB3D1D /* MSPendingOperation.m in Sources */,
-				E820F1A5222767C8009EFA5D /* MSTokenExchange.m in Sources */,
-				049BC853224EDB0400AE7FBB /* MSDataError.m in Sources */,
-				E8EFA3AB2315EC03002E1E1F /* MSDocumentMetadata.m in Sources */,
-				049BC858224EDB1100AE7FBB /* MSReadOptions.m in Sources */,
-				049BC859224EDB1100AE7FBB /* MSWriteOptions.m in Sources */,
-				4AE2E980229F26DC004BF371 /* MSRemoteOperationDelegate.h in Sources */,
-				4A19373A225129C400459E1E /* MSDBDocumentStore.m in Sources */,
-				049BC85E224EDBB700AE7FBB /* MSCosmosDb.m in Sources */,
-				049BC84F224EDAF300AE7FBB /* MSBaseOptions.m in Sources */,
-				049BC855224EDB0C00AE7FBB /* MSDocumentWrapper.m in Sources */,
-				E8DADEF222286D2100587E15 /* MSTokensResponse.m in Sources */,
-				049BC860224EDBCD00AE7FBB /* MSDocumentUtils.m in Sources */,
-				8F534A1822603A0000D18129 /* MSDataOperationProxy.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		046964161F2A559C00F9D31F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1074,29 +1073,53 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D33A944D1E5B11BB003966DB /* Sources */ = {
+		C9A91F6D230BFF610068070D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E86B95DA2224B6310062E552 /* MSTokenExchange.m in Sources */,
-				267464FC222F28A300EC1FF3 /* MSWriteOptions.m in Sources */,
-				350D453C22568E5600982E20 /* MSTokenResult.m in Sources */,
-				267464FA222F28A300EC1FF3 /* MSBaseOptions.m in Sources */,
-				2600124222273E94007F4D3A /* MSTokensResponse.m in Sources */,
-				E8B79372225E9E0D00CB3D1D /* MSPendingOperation.m in Sources */,
-				4AE2E97F229F26DC004BF371 /* MSRemoteOperationDelegate.h in Sources */,
-				267464F5222F28A300EC1FF3 /* MSPage.m in Sources */,
-				E8EFA3AA2315EC03002E1E1F /* MSDocumentMetadata.m in Sources */,
-				8F4548E32256D3160021B0BF /* MSDictionaryDocument.m in Sources */,
-				267464F3222F28A300EC1FF3 /* MSData.m in Sources */,
-				267464F7222F28A300EC1FF3 /* MSReadOptions.m in Sources */,
-				E8593A17222B91B20001F87E /* MSCosmosDb.m in Sources */,
-				E83D121F22378143002B6585 /* MSDocumentUtils.m in Sources */,
-				267464F4222F28A300EC1FF3 /* MSDocumentWrapper.m in Sources */,
-				267464F8222F28A300EC1FF3 /* MSPaginatedDocuments.m in Sources */,
-				267464EE222F28A300EC1FF3 /* MSDataError.m in Sources */,
-				4A193736225129B700459E1E /* MSDBDocumentStore.m in Sources */,
-				8F534A17226039F400D18129 /* MSDataOperationProxy.m in Sources */,
+				C9EBAAD1230D3A7E00A20F0F /* MSTokenExchange.m in Sources */,
+				C9EBAACD230D3A7E00A20F0F /* MSTokenResult.m in Sources */,
+				C9EBAACB230D3A7E00A20F0F /* MSDocumentUtils.m in Sources */,
+				C9EBAACC230D3A7E00A20F0F /* MSPendingOperation.m in Sources */,
+				C9EBAACA230D3A7E00A20F0F /* MSDBDocumentStore.m in Sources */,
+				C9EBAAC5230D3A7E00A20F0F /* MSDocumentWrapper.m in Sources */,
+				C9EBAAC3230D3A7E00A20F0F /* MSData.m in Sources */,
+				C9EBAAC8230D3A7E00A20F0F /* MSReadOptions.m in Sources */,
+				C9EBAAC2230D3A7E00A20F0F /* MSDataError.m in Sources */,
+				C9EBAAC4230D3A7E00A20F0F /* MSDictionaryDocument.m in Sources */,
+				C9EBAAC6230D3A7E00A20F0F /* MSPage.m in Sources */,
+				C9EBAACE230D3A7E00A20F0F /* MSTokensResponse.m in Sources */,
+				C9EBAAC9230D3A7E00A20F0F /* MSWriteOptions.m in Sources */,
+				C9EBAACF230D3A7E00A20F0F /* MSCosmosDb.m in Sources */,
+				C9EBAAC7230D3A7E00A20F0F /* MSPaginatedDocuments.m in Sources */,
+				C9EBAAD0230D3A7E00A20F0F /* MSDataOperationProxy.m in Sources */,
+				C9EBAAC1230D3A7E00A20F0F /* MSBaseOptions.m in Sources */,
+				F8AF2F39231970D400F1C0EE /* MSDocumentMetadata.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C9A91F7C230BFF670068070D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C9EBAAE2230D3A7F00A20F0F /* MSTokenExchange.m in Sources */,
+				C9EBAADE230D3A7F00A20F0F /* MSTokenResult.m in Sources */,
+				C9EBAADC230D3A7F00A20F0F /* MSDocumentUtils.m in Sources */,
+				C9EBAADD230D3A7F00A20F0F /* MSPendingOperation.m in Sources */,
+				C9EBAADB230D3A7F00A20F0F /* MSDBDocumentStore.m in Sources */,
+				C9EBAAD6230D3A7F00A20F0F /* MSDocumentWrapper.m in Sources */,
+				C9EBAAD4230D3A7F00A20F0F /* MSData.m in Sources */,
+				C9EBAAD9230D3A7F00A20F0F /* MSReadOptions.m in Sources */,
+				C9EBAAD3230D3A7F00A20F0F /* MSDataError.m in Sources */,
+				C9EBAAD5230D3A7F00A20F0F /* MSDictionaryDocument.m in Sources */,
+				C9EBAAD7230D3A7F00A20F0F /* MSPage.m in Sources */,
+				C9EBAADF230D3A7F00A20F0F /* MSTokensResponse.m in Sources */,
+				C9EBAADA230D3A7F00A20F0F /* MSWriteOptions.m in Sources */,
+				C9EBAAE0230D3A7F00A20F0F /* MSCosmosDb.m in Sources */,
+				C9EBAAD8230D3A7F00A20F0F /* MSPaginatedDocuments.m in Sources */,
+				C9EBAAE1230D3A7F00A20F0F /* MSDataOperationProxy.m in Sources */,
+				C9EBAAD2230D3A7F00A20F0F /* MSBaseOptions.m in Sources */,
+				F8AF2F3B231970D700F1C0EE /* MSDocumentMetadata.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1126,41 +1149,27 @@
 /* Begin PBXTargetDependency section */
 		046964321F2A569B00F9D31F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 0469640E1F2A558F00F9D31F /* AppCenterDataMacOSFramework */;
+			target = 0469640E1F2A558F00F9D31F /* AppCenterData macOS Fat Framework */;
 			targetProxy = 046964311F2A569B00F9D31F /* PBXContainerItemProxy */;
 		};
-		046964341F2A56A400F9D31F /* PBXTargetDependency */ = {
+		C2200606230FDF2100848D5B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 046963F41F2A558300F9D31F /* AppCenterDataMacOS */;
-			targetProxy = 046964331F2A56A400F9D31F /* PBXContainerItemProxy */;
+			target = C9A91F70230BFF610068070D /* AppCenterData iOS Framework */;
+			targetProxy = C2200605230FDF2100848D5B /* PBXContainerItemProxy */;
 		};
-		D3AD5EC71E5C4F6A001627AB /* PBXTargetDependency */ = {
+		C2200608230FDF2500848D5B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = D33A94501E5B11BB003966DB /* AppCenterDataIOS */;
-			targetProxy = D3AD5EC61E5C4F6A001627AB /* PBXContainerItemProxy */;
+			target = C9A91F79230BFF670068070D /* AppCenterData macOS Framework */;
+			targetProxy = C2200607230FDF2500848D5B /* PBXContainerItemProxy */;
 		};
 		D3AD5F3D1E5D6809001627AB /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = D3AD5F221E5C9562001627AB /* AppCenterDataIOSFramework */;
+			target = D3AD5F221E5C9562001627AB /* AppCenterData iOS Fat Framework */;
 			targetProxy = D3AD5F3C1E5D6809001627AB /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		0469640B1F2A558300F9D31F /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0469642F1F2A55CF00F9D31F /* macOS.xcconfig */;
-			buildSettings = {
-			};
-			name = Debug;
-		};
-		0469640C1F2A558300F9D31F /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0469642F1F2A55CF00F9D31F /* macOS.xcconfig */;
-			buildSettings = {
-			};
-			name = Release;
-		};
 		046964111F2A558F00F9D31F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0469642F1F2A55CF00F9D31F /* macOS.xcconfig */;
@@ -1203,32 +1212,44 @@
 			};
 			name = Release;
 		};
+		C9A91F76230BFF610068070D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC81E1ECE333700FB6719 /* iOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		C9A91F77230BFF610068070D /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC81E1ECE333700FB6719 /* iOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		C9A91F80230BFF670068070D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0469642F1F2A55CF00F9D31F /* macOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		C9A91F81230BFF670068070D /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0469642F1F2A55CF00F9D31F /* macOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Release;
+		};
 		D33A94581E5B11BB003966DB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D3AD5F051E5C7FFF001627AB /* AppCenterData Debug.xcconfig */;
 			buildSettings = {
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.data;
 			};
 			name = Debug;
 		};
 		D33A94591E5B11BB003966DB /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 043E2ABA1F4E033A00615AD9 /* AppCenterData Release.xcconfig */;
-			buildSettings = {
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.data;
-			};
-			name = Release;
-		};
-		D33A945B1E5B11BB003966DB /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 049BC81E1ECE333700FB6719 /* iOS.xcconfig */;
-			buildSettings = {
-			};
-			name = Debug;
-		};
-		D33A945C1E5B11BB003966DB /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 049BC81E1ECE333700FB6719 /* iOS.xcconfig */;
 			buildSettings = {
 			};
 			name = Release;
@@ -1278,16 +1299,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		0469640A1F2A558300F9D31F /* Build configuration list for PBXNativeTarget "AppCenterDataMacOS" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				0469640B1F2A558300F9D31F /* Debug */,
-				0469640C1F2A558300F9D31F /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		046964101F2A558F00F9D31F /* Build configuration list for PBXAggregateTarget "AppCenterDataMacOSFramework" */ = {
+		046964101F2A558F00F9D31F /* Build configuration list for PBXAggregateTarget "AppCenterData macOS Fat Framework" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				046964111F2A558F00F9D31F /* Debug */,
@@ -1296,7 +1308,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		046964221F2A559C00F9D31F /* Build configuration list for PBXNativeTarget "AppCenterDataMacOSTests" */ = {
+		046964221F2A559C00F9D31F /* Build configuration list for PBXNativeTarget "AppCenterData macOS Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				046964231F2A559C00F9D31F /* Debug */,
@@ -1305,11 +1317,29 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		0469642B1F2A55A600F9D31F /* Build configuration list for PBXAggregateTarget "AppCenterDataMacOSDoc" */ = {
+		0469642B1F2A55A600F9D31F /* Build configuration list for PBXAggregateTarget "AppCenterData macOS Documentation" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0469642C1F2A55A600F9D31F /* Debug */,
 				0469642D1F2A55A600F9D31F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C9A91F78230BFF610068070D /* Build configuration list for PBXNativeTarget "AppCenterData iOS Framework" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C9A91F76230BFF610068070D /* Debug */,
+				C9A91F77230BFF610068070D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C9A91F7F230BFF670068070D /* Build configuration list for PBXNativeTarget "AppCenterData macOS Framework" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C9A91F80230BFF670068070D /* Debug */,
+				C9A91F81230BFF670068070D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1323,16 +1353,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D33A945A1E5B11BB003966DB /* Build configuration list for PBXNativeTarget "AppCenterDataIOS" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				D33A945B1E5B11BB003966DB /* Debug */,
-				D33A945C1E5B11BB003966DB /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		D3AD5EC81E5C4F6A001627AB /* Build configuration list for PBXNativeTarget "AppCenterDataIOSTests" */ = {
+		D3AD5EC81E5C4F6A001627AB /* Build configuration list for PBXNativeTarget "AppCenterData iOS Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D3AD5EC91E5C4F6A001627AB /* Debug */,
@@ -1341,7 +1362,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D3AD5F251E5C9562001627AB /* Build configuration list for PBXAggregateTarget "AppCenterDataIOSFramework" */ = {
+		D3AD5F251E5C9562001627AB /* Build configuration list for PBXAggregateTarget "AppCenterData iOS Fat Framework" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D3AD5F231E5C9562001627AB /* Debug */,
@@ -1350,7 +1371,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D3AD5F281E5C9633001627AB /* Build configuration list for PBXAggregateTarget "AppCenterDataIOSDoc" */ = {
+		D3AD5F281E5C9633001627AB /* Build configuration list for PBXAggregateTarget "AppCenterData iOS Documentation" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D3AD5F291E5C9633001627AB /* Debug */,
