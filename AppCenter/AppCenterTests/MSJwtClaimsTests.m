@@ -22,9 +22,9 @@ static NSString *const kMSJwtFormat = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.%@"
 
   MSJwtClaims *claim = [MSJwtClaims parse:combinedJwt];
 
-  XCTAssertNonNull(claim);
-  XCTAssertEquals([claim getSubject], userId);
-  XCTAssertEquals([claim getExpirationDate], [[NSDate alloc] initWithTimeIntervalSince1970:expiration]);
+  XCTAssertNotNil(claim);
+  XCTAssertEqual([claim getSubject], userId);
+  XCTAssertEqual([claim getExpirationDate], [[NSDate alloc] initWithTimeIntervalSince1970:expiration]);
 }
 
 - (void)testExpirationClaimMissing {
@@ -37,7 +37,7 @@ static NSString *const kMSJwtFormat = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.%@"
 
   MSJwtClaims *claim = [MSJwtClaims parse:combinedJwt];
 
-  XCTAssertNull(claim);
+  XCTAssertNil(claim);
 }
 
 - (void)testSubjectClaimMissing {
@@ -50,7 +50,7 @@ static NSString *const kMSJwtFormat = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.%@"
 
   MSJwtClaims *claim = [MSJwtClaims parse:combinedJwt];
 
-  XCTAssertNull(claim);
+  XCTAssertNil(claim);
 }
 
 - (void)testExpirationClaimInvalid {
@@ -64,7 +64,7 @@ static NSString *const kMSJwtFormat = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.%@"
 
   MSJwtClaims *claim = [MSJwtClaims parse:combinedJwt];
 
-  XCTAssertNull(claim);
+  XCTAssertNil(claim);
 }
 
 - (void)testInvalidBase64Token {
@@ -72,14 +72,14 @@ static NSString *const kMSJwtFormat = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.%@"
   NSString *combinedJwt = [NSString stringWithFormat:kMSJwtFormat, invalidJwt];
   MSJwtClaims *claim = [MSJwtClaims parse:combinedJwt];
 
-  XCTAssertNull(claim);
+  XCTAssertNil(claim);
 }
 
 - (void)testMissingParts {
   NSString *invalidJwt = @"invalidjwt";
   MSJwtClaims *claim = [MSJwtClaims parse:invalidJwt];
 
-  XCTAssertNull(claim);
+  XCTAssertNil(claim);
 }
 
 @end
