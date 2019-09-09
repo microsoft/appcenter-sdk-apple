@@ -8,6 +8,7 @@
 #import "MSAppCenterPrivate.h"
 #import "MSAppDelegateForwarder.h"
 #import "MSAuthTokenContext.h"
+#import "MSAuthTokenDelegate.h"
 #import "MSAuthTokenValidityInfo.h"
 #import "MSChannelGroupDefault.h"
 #import "MSChannelGroupDefaultPrivate.h"
@@ -176,9 +177,9 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
 }
 #endif
 
-+ (void)setAuthProvider:(MSAuthProvider *)authProvider {
++ (void)setAuthTokenDelegate:(id<MSAuthTokenDelegate>)authTokenDelegate {
   MSAuthTokenContext *authTokenContext = [MSAuthTokenContext sharedInstance];
-  if (authProvider != nil) {
+  if (authTokenDelegate != nil) {
 
     // Set up and call completion handler
     [MSAppCenter sharedInstance].authProviderCompletionBlock = ^(NSString *jwt) {
@@ -202,8 +203,8 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
     [authTokenContext addDelegate:(id<MSAuthTokenContextDelegate>)self];
 
     // TODO: do we need to force this to be a strong delegate?
-    [authProvider.delegate authProvider:authProvider
-        acquireTokenWithCompletionHandler:[MSAppCenter sharedInstance].authProviderCompletionBlock];
+    [authTokenDelegate appCenter:self
+        acquireAuthTokenWithCompletionHandler:[MSAppCenter sharedInstance].authProviderCompletionBlock];
   } else if ([MSAppCenter sharedInstance].authProviderCompletionBlock != nil) {
     MSLogInfo(MSAppCenter.logTag, @"Removing auth token refresh listener.");
     [authTokenContext removeDelegate:(id<MSAuthTokenContextDelegate>)self];

@@ -221,6 +221,6 @@
  */
 + (void)setCountryCode:(NSString *)countryCode;
 
-+ (void)setAuthProvider:(MSAuthProvider *)authProvider;
++ (void)setAuthTokenDelegate:(id<MSAuthTokenDelegate>)authTokenDelegate;
 
 @end
