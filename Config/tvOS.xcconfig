@@ -1,4 +1,4 @@
-SDK_NAME = appcenter.tvos
+APPCENTER_SDK_NAME = appcenter.tvos
 SDKROOT = appletvos
 ARCHS = arm64
 ARCHS[sdk=appletvsimulator*] = $(MS_SIM_ARCHS)
