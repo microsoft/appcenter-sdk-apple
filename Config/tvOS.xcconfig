@@ -1,9 +1,10 @@
-SDK_NAME = appcenter.tvos
+APPCENTER_SDK_NAME = appcenter.tvos
 SDKROOT = appletvos
 ARCHS = arm64
 ARCHS[sdk=appletvsimulator*] = $(MS_SIM_ARCHS)
 VALID_ARCHS = $(ARCHS)
 VALID_ARCHS[sdk=appletvsimulator*] = $(MS_SIM_ARCHS)
 SKIP_INSTALL = YES
+TARGETED_DEVICE_FAMILY = 3
 
 APPCENTER_BUILD_PLATFORM = tvOS
