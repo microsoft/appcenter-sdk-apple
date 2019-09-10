@@ -6,7 +6,7 @@
 #import "MSLogger.h"
 #import <Foundation/Foundation.h>
 
-static NSString *const JWT_PARTS_SEPARATOR_REGEX = @"\\.";
+static NSString *const JWT_PARTS_SEPARATOR = @".";
 static NSString *const SUBJECT = @"sub";
 static NSString *const EXPIRATION = @"exp";
 
@@ -22,8 +22,8 @@ static NSString *const EXPIRATION = @"exp";
 }
 
 + (MSJwtClaims *)parse:(NSString *)jwt {
-  NSArray *parts = [jwt componentsSeparatedByString:JWT_PARTS_SEPARATOR_REGEX];
-  if ((sizeof parts) < 2) {
+  NSArray *parts = [jwt componentsSeparatedByString:JWT_PARTS_SEPARATOR];
+  if ([parts count] < 2) {
     MSLogError([MSAppCenter logTag], @"Failed to parse JWT, not enough parts.");
     return nil;
   }
@@ -32,7 +32,12 @@ static NSString *const EXPIRATION = @"exp";
     NSError *error;
     NSData *claimsPartData = [[NSData alloc] initWithBase64EncodedString:base64ClaimsPart options:0];
     NSDictionary *claims = [NSJSONSerialization JSONObjectWithData:claimsPartData options:0 error:&error];
-    return [[MSJwtClaims alloc] initWithSubject:[claims objectForKey:SUBJECT] expirationDate:[claims objectForKey:EXPIRATION]];
+    if ([claims objectForKey:EXPIRATION] == nil || [claims objectForKey:SUBJECT] == nil) {
+      MSLogError([MSAppCenter logTag], @"Deserialized claims is missing `sub` or `exp`");
+      return nil;
+    }
+    int expirationTimeIntervalSince1970 = [[claims objectForKey:EXPIRATION] intValue];
+    return [[MSJwtClaims alloc] initWithSubject:[claims objectForKey:SUBJECT] expirationDate:[[NSDate alloc] initWithTimeIntervalSince1970:expirationTimeIntervalSince1970]];
   } @catch (NSException *e) {
     MSLogError([MSAppCenter logTag], @"Failed to parse JWT: %@", e);
     return nil;

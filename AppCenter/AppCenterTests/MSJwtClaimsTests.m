@@ -17,6 +17,7 @@ static NSString *const kMSJwtFormat = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.%@"
   // If
   NSString *userId = @"some_user_id";
   int expiration = 1426420800;
+  NSDate *expirationAsDate = [[NSDate alloc] initWithTimeIntervalSince1970:expiration];
   NSString *jsonClaims = [NSString stringWithFormat:@"{\"sub\":\"%@\",\"exp\":\"%i\"}", userId, expiration];
   NSData *nsdata = [jsonClaims dataUsingEncoding:NSUTF8StringEncoding];
   NSString *base64Encoded = [nsdata base64EncodedStringWithOptions:0];
@@ -27,8 +28,8 @@ static NSString *const kMSJwtFormat = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.%@"
 
   // Then
   XCTAssertNotNil(claim);
-  XCTAssertEqual([claim getSubject], userId);
-  XCTAssertEqual([claim getExpirationDate], [[NSDate alloc] initWithTimeIntervalSince1970:expiration]);
+  XCTAssertEqualObjects([claim getSubject], userId);
+  XCTAssertEqualObjects([claim getExpirationDate], expirationAsDate);
 }
 
 - (void)testExpirationClaimMissing {
