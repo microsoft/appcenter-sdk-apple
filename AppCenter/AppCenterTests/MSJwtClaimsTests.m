@@ -13,7 +13,7 @@
 static NSString *const kMSJwtFormat = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.%@";
 
 - (void)testGetValidJwt {
-  
+
   // If
   NSString *userId = @"some_user_id";
   int expiration = 1426420800;
@@ -32,7 +32,7 @@ static NSString *const kMSJwtFormat = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.%@"
 }
 
 - (void)testExpirationClaimMissing {
-  
+
   // If
   NSString *userId = @"some_user_id";
   NSString *jsonClaims = [NSString stringWithFormat:@"{\"sub\":\"%@\"}", userId];
@@ -48,7 +48,7 @@ static NSString *const kMSJwtFormat = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.%@"
 }
 
 - (void)testSubjectClaimMissing {
-  
+
   // If
   int expiration = 1426420800;
   NSString *jsonClaims = [NSString stringWithFormat:@"{\"exp\":\"%i\"}", expiration];
@@ -64,7 +64,7 @@ static NSString *const kMSJwtFormat = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.%@"
 }
 
 - (void)testExpirationClaimInvalid {
-  
+
   // If
   NSString *userId = @"some_user_id";
   NSString *expiration = @"invalid expiration";
@@ -85,7 +85,7 @@ static NSString *const kMSJwtFormat = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.%@"
   // If
   NSString *invalidTokenPart = @"invalidTokenPart";
   NSString *combinedJwt = [NSString stringWithFormat:kMSJwtFormat, invalidTokenPart];
-  
+
   // When
   MSJwtClaims *claim = [MSJwtClaims parse:combinedJwt];
 
@@ -94,10 +94,10 @@ static NSString *const kMSJwtFormat = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.%@"
 }
 
 - (void)testMissingParts {
-  
+
   // If
   NSString *invalidJwt = @"invalidjwt";
-  
+
   // When
   MSJwtClaims *claim = [MSJwtClaims parse:invalidJwt];
 

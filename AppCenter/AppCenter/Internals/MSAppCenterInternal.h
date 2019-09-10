@@ -5,9 +5,9 @@
 
 #import "AppCenter+Internal.h"
 #import "MSAppCenter.h"
+#import "MSAuthTokenContextDelegateWrapper.h"
 #import "MSChannelGroupProtocol.h"
 #import "MSServiceInternal.h"
-#import "MSAuthTokenContextDelegateWrapper.h"
 
 /*
  * Persisted storage keys.

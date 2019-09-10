@@ -4,15 +4,16 @@
 #import <Foundation/Foundation.h>
 @class MSAppCenter;
 
-/**
- * Completion handler that returns the authentication token.
- */
 typedef void (^MSAuthTokenCompletionHandler)(NSString *jwt);
 
 @protocol MSAuthTokenDelegate <NSObject>
-@optional
 
-- (void)appCenter:(MSAppCenter *)appCenter
-    acquireAuthTokenWithCompletionHandler:(MSAuthTokenCompletionHandler)completionHandler;
+/**
+ * Acquire the auth token and then execute the completion handler.
+ *
+ * @param appCenter The AppCenter instance from which the method is called.
+ * @param completionHandler The code to be executed upon acquiring the token.
+ */
+- (void)appCenter:(MSAppCenter *)appCenter acquireAuthTokenWithCompletionHandler:(MSAuthTokenCompletionHandler)completionHandler;
 
 @end

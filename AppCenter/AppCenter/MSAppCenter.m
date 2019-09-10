@@ -8,6 +8,7 @@
 #import "MSAppCenterPrivate.h"
 #import "MSAppDelegateForwarder.h"
 #import "MSAuthTokenContext.h"
+#import "MSAuthTokenContextDelegate.h"
 #import "MSAuthTokenDelegate.h"
 #import "MSAuthTokenValidityInfo.h"
 #import "MSChannelGroupDefault.h"
@@ -21,7 +22,6 @@
 #import "MSStartServiceLog.h"
 #import "MSUserIdContext.h"
 #import "MSUtility+StringFormatting.h"
-#import "MSAuthTokenContextDelegate.h"
 
 #if !TARGET_OS_TV
 #import "MSCustomPropertiesInternal.h"
@@ -184,19 +184,19 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
 
 - (void)setAuthTokenDelegate:(id<MSAuthTokenDelegate>)authTokenDelegate {
   MSAuthTokenContext *authTokenContext = [MSAuthTokenContext sharedInstance];
-
   if (authTokenDelegate != nil) {
-    self.authTokenContextDelegateWrapper = [[MSAuthTokenContextDelegateWrapper alloc] initWithAuthTokenDelegate:authTokenDelegate authTokenCompletionHandler:^(NSString *jwt) {
-      MSJwtClaims *claims = [MSJwtClaims parse:jwt];
-      if (claims != nil) {
-        MSLogDebug(MSAppCenter.logTag, @"Token has been refreshed.");
-        [authTokenContext setAuthToken:jwt withAccountId:[claims getSubject] expiresOn:[claims getExpirationDate]];
-      } else {
-        [authTokenContext setAuthToken:nil withAccountId:nil expiresOn:nil];
-      }
-    } ];
+    self.authTokenContextDelegateWrapper = [[MSAuthTokenContextDelegateWrapper alloc]
+         initWithAuthTokenDelegate:authTokenDelegate
+        authTokenCompletionHandler:^(NSString *jwt) {
+          MSJwtClaims *claims = [MSJwtClaims parse:jwt];
+          if (claims != nil) {
+            MSLogDebug(MSAppCenter.logTag, @"Token has been refreshed.");
+            [authTokenContext setAuthToken:jwt withAccountId:[claims getSubject] expiresOn:[claims getExpirationDate]];
+          } else {
+            [authTokenContext setAuthToken:nil withAccountId:nil expiresOn:nil];
+          }
+        }];
     MSLogInfo(MSAppCenter.logTag, @"Setting up auth token refresh listener.");
-
     [authTokenContext preventResetAuthTokenAfterStart];
     NSString *currentAuthToken = [authTokenContext authToken];
     MSJwtClaims *currentClaims = [MSJwtClaims parse:currentAuthToken];
@@ -206,6 +206,8 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
     [authTokenContext checkIfTokenNeedsToBeRefreshed:authToken];
     [authTokenContext addDelegate:self.authTokenContextDelegateWrapper];
   } else if (self.authTokenContextDelegateWrapper != nil) {
+    
+    // The token delegate has been set previously but is now null.
     MSLogInfo(MSAppCenter.logTag, @"Removing auth token refresh listener.");
     [authTokenContext removeDelegate:self.authTokenContextDelegateWrapper];
     [authTokenContext setAuthToken:nil withAccountId:nil expiresOn:nil];
