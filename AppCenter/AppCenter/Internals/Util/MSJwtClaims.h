@@ -46,6 +46,6 @@
  *
  * @return MSJwtClaims instance.
  */
-- (instancetype)initWithClaims:(NSString *)subject expirationDate:(NSDate *)expirationDate;
+- (instancetype)initWithSubject:(NSString *)subject expirationDate:(NSDate *)expirationDate;
 
 @end

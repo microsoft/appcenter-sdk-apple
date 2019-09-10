@@ -12,7 +12,7 @@ static NSString *const EXPIRATION = @"exp";
 
 @implementation MSJwtClaims
 
-- (instancetype)initWithClaims:(NSString *)subject expirationDate:(NSDate *)expirationDate {
+- (instancetype)initWithSubject:(NSString *)subject expirationDate:(NSDate *)expirationDate {
   self = [super init];
   if (self) {
     _subject = subject;
@@ -32,7 +32,7 @@ static NSString *const EXPIRATION = @"exp";
     NSError *error;
     NSData *claimsPartData = [[NSData alloc] initWithBase64EncodedString:base64ClaimsPart options:0];
     NSDictionary *claims = [NSJSONSerialization JSONObjectWithData:claimsPartData options:0 error:&error];
-    return [[MSJwtClaims alloc] initWithClaims:[claims objectForKey:SUBJECT] expirationDate:[claims objectForKey:EXPIRATION]];
+    return [[MSJwtClaims alloc] initWithSubject:[claims objectForKey:SUBJECT] expirationDate:[claims objectForKey:EXPIRATION]];
   } @catch (NSException *e) {
     MSLogError([MSAppCenter logTag], @"Failed to parse JWT: %@", e);
     return nil;

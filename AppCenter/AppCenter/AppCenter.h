@@ -6,8 +6,6 @@
 #import "MSAbstractLog.h"
 #import "MSAppCenter.h"
 #import "MSAppCenterErrors.h"
-#import "MSAuthProvider.h"
-#import "MSAuthProviderDelegate.h"
 #import "MSChannelGroupProtocol.h"
 #import "MSChannelProtocol.h"
 #import "MSConstants.h"

@@ -77,8 +77,6 @@ static NSString *const kMSTrueEnvironmentString = @"1";
 
 @property(nonatomic, copy) void (^maxStorageSizeCompletionHandler)(BOOL);
 
-@property(nonatomic, copy) void (^authProviderCompletionBlock)(NSString *);
-
 @property BOOL setMaxStorageSizeHasBeenCalled;
 
 /**
