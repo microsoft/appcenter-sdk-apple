@@ -6,8 +6,9 @@ import AppCenterCrashes
 import Cocoa
 import NotificationCenter
 
-class TodayViewController: NSViewController, NCWidgetProviding {
+class TodayViewController: NSViewController, NCWidgetProviding, MSCrashesDelegate {
   
+    @IBOutlet weak var addAttachments: NSButton!
     @IBOutlet weak var popupButton: NSPopUpButton!
     @IBOutlet weak var extensionLabel: NSTextField!
     var crashes = [MSCrash]()
@@ -23,6 +24,7 @@ class TodayViewController: NSViewController, NCWidgetProviding {
         MSAppCenter.setLogLevel(.verbose)
         MSAppCenter.start("aca58ea0-d791-4409-989d-2efec0283800", withServices: [MSCrashes.self])
         crashes = CrashLoader.loadAllCrashes(withCategories: false) as! [MSCrash]
+        MSCrashes.setDelegate(self)
         popupButton.menu?.removeAllItems()
         for (index, crash) in crashes.enumerated() {
             popupButton.menu?.addItem(NSMenuItem(title: crash.title, action: nil, keyEquivalent: "\(index)"))
@@ -36,5 +38,14 @@ class TodayViewController: NSViewController, NCWidgetProviding {
     
     func widgetPerformUpdate(completionHandler: (@escaping (NCUpdateResult) -> Void)) {
         completionHandler(.noData)
+    }
+    
+    func attachments(with crashes: MSCrashes, for errorReport: MSErrorReport) -> [MSErrorAttachmentLog] {
+        if (addAttachments.state == NSOnState) {
+            let attachment1 = MSErrorAttachmentLog.attachment(withText: "Hello world!", filename: "hello.txt")
+            let attachment2 = MSErrorAttachmentLog.attachment(withBinary: "Fake image".data(using: String.Encoding.utf8), filename: nil, contentType: "image/jpeg")
+            return [attachment1!, attachment2!]
+        }
+        return [];
     }
 }
