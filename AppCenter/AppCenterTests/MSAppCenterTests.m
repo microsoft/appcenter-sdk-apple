@@ -33,6 +33,22 @@ static NSString *const kMSInstallIdStringExample = @"F18499DA-5C3D-4F05-B4E8-D8C
 // NSUUID can return this nullified InstallId while creating a UUID from a nil string, we want to avoid this.
 static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-000000000000";
 
+static NSString *const kMSJwtFormat = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.%@";
+
+@interface MSJwtHelper : NSObject
++ (NSString *)createJwtWithUserId:(NSString *)userId
+                            expiration:(int)expiration;
+@end
+@implementation MSJwtHelper
++ (NSString *)createJwtWithUserId:(NSString *)userId expiration:(int)expiration {
+  NSString *jsonClaims = [NSString stringWithFormat:@"{\"sub\":\"%@\",\"exp\":\"%i\"}", userId, expiration];
+  NSData *nsdata = [jsonClaims dataUsingEncoding:NSUTF8StringEncoding];
+  NSString *base64Encoded = [nsdata base64EncodedStringWithOptions:0];
+  NSString *combinedJwt = [NSString stringWithFormat:kMSJwtFormat, base64Encoded];
+  return combinedJwt;
+}
+@end
+
 @interface MSAppCenterTest : XCTestCase
 
 @property(nonatomic) MSAppCenter *sut;
@@ -973,6 +989,67 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 
   // Then
   XCTAssertNil([[MSUserIdContext sharedInstance] userIdAt:[NSDate dateWithTimeIntervalSince1970:5000]]);
+}
+
+- (void)testSetAuthTokenDelegateValidToken {
+  
+  // If
+  NSString *userId = @"some_user_id";
+  int expiration = 1426420800;
+  NSString *jwt = [MSJwtHelper createJwtWithUserId:userId expiration:expiration];
+  NSDate *validDate = [[NSDate alloc] initWithTimeIntervalSince1970:expiration];
+  [self.authTokenContextMock setAuthToken:jwt withAccountId:userId expiresOn:validDate];
+  
+  // When
+  [MSAppCenter setAuthTokenDelegate:(id<MSAuthTokenDelegate>)^(NSString *newJwt) {
+    MSLogInfo([MSAppCenter logTag], newJwt);
+  }];
+  
+  // Then
+  // Verify the delegate is created but not called
+  // Verify the authTokenContext is unchanged
+}
+
+- (void)testSetAuthTokenDelegateExpiredToken {
+  
+  // If
+  // Create a delegate
+  // Create expired auth token in authTokenContext
+  
+  // When
+  [MSAppCenter setAuthTokenDelegate:<#(id<MSAuthTokenDelegate>)#>]
+  
+  // Then
+  // Verify the delegate is created and called with new JWT
+  // verify the authTokenContext is updated
+}
+
+- (void)testSetAuthTokenDelegateInvalidClaims {
+  
+  // If
+  // Create an expired authTokenContext
+  // Create a delegate
+  
+  // When
+  // mock to return an invalid MSAuthTokenContextDelegateWrapper
+  [MSAppCenter setAuthTokenDelegate:<#(id<MSAuthTokenDelegate>)#>]
+  
+  // Then
+  // verify authTokenContext set to nil
+}
+
+- (void)testSetAuthTokenDelegateWrapperRemoved {
+  
+  // If
+  // Make "authTokenContextDelegateWrapper" exist
+  
+  
+  // When
+  [MSAppCenter setAuthTokenDelegate:nil];
+  
+  // Then
+  // Delegate should be removed
+  // Auth token should be nil
 }
 
 @end

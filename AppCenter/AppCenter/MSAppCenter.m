@@ -214,10 +214,6 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
   }
 }
 
-+ (NSString *)acquireTokenCompletionHandler {
-  return @"";
-}
-
 /**
  * Check if the debugger is attached
  *
