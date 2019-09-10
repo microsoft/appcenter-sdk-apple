@@ -222,6 +222,10 @@
 		C2614461230FE88A00D65EBF /* AppCenterData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2614448230FE86400D65EBF /* AppCenterData.framework */; };
 		C2614462230FE88A00D65EBF /* AppCenterDistribute.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2614450230FE86400D65EBF /* AppCenterDistribute.framework */; };
 		C2614463230FE88A00D65EBF /* AppCenterPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C261445A230FE86400D65EBF /* AppCenterPush.framework */; };
+		C90789BE2327CEB200999F08 /* AppCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84226D301E89301B00798417 /* AppCenterCrashes.framework */; };
+		C90789BF2327CEB200999F08 /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84226D2E1E89301A00798417 /* AppCenter.framework */; };
+		C90789C02327DF7600999F08 /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84226D2E1E89301A00798417 /* AppCenter.framework */; };
+		C90789C12327DF7600999F08 /* AppCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84226D301E89301B00798417 /* AppCenterCrashes.framework */; };
 		C9E7E484231E99E9007D96DC /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9E7E483231E99E9007D96DC /* NotificationCenter.framework */; };
 		C9E7E48E231E99E9007D96DC /* SasquatchSwift-Preview Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C9E7E482231E99E9007D96DC /* SasquatchSwift-Preview Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C9E7E4E6231E9A5D007D96DC /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9E7E483231E99E9007D96DC /* NotificationCenter.framework */; };
@@ -278,10 +282,6 @@
 		F8AA9F4B21650C04009104E3 /* SimplePropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AA9F4821650C04009104E3 /* SimplePropertiesTableSection.swift */; };
 		F8AA9F4C21650C04009104E3 /* SimplePropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AA9F4821650C04009104E3 /* SimplePropertiesTableSection.swift */; };
 		F8AA9F4D21650C04009104E3 /* SimplePropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AA9F4821650C04009104E3 /* SimplePropertiesTableSection.swift */; };
-		F8E69C2A2322AC25006209D2 /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C261440A230FE86400D65EBF /* AppCenter.framework */; };
-		F8E69C5F2322AC2B006209D2 /* AppCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C261443A230FE86400D65EBF /* AppCenterCrashes.framework */; };
-		F8E69C602322AC35006209D2 /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C261440A230FE86400D65EBF /* AppCenter.framework */; };
-		F8E69C612322AC3A006209D2 /* AppCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C261443A230FE86400D65EBF /* AppCenterCrashes.framework */; };
 		F8E69C632322AD0E006209D2 /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8E69C622322AD0E006209D2 /* CrashLibIOS.framework */; };
 		F8E69C652322AD16006209D2 /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8E69C642322AD16006209D2 /* CrashLibIOS.framework */; };
 		F8F077A522A6A27B007B4B31 /* MSAuthInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8F077A422A6A27B007B4B31 /* MSAuthInfoViewController.swift */; };
@@ -1017,8 +1017,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				F8E69C632322AD0E006209D2 /* CrashLibIOS.framework in Frameworks */,
-				F8E69C5F2322AC2B006209D2 /* AppCenterCrashes.framework in Frameworks */,
-				F8E69C2A2322AC25006209D2 /* AppCenter.framework in Frameworks */,
+				C90789C02327DF7600999F08 /* AppCenter.framework in Frameworks */,
+				C90789C12327DF7600999F08 /* AppCenterCrashes.framework in Frameworks */,
 				C9E7E484231E99E9007D96DC /* NotificationCenter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1028,8 +1028,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				F8E69C652322AD16006209D2 /* CrashLibIOS.framework in Frameworks */,
-				F8E69C612322AC3A006209D2 /* AppCenterCrashes.framework in Frameworks */,
-				F8E69C602322AC35006209D2 /* AppCenter.framework in Frameworks */,
+				C90789BF2327CEB200999F08 /* AppCenter.framework in Frameworks */,
+				C90789BE2327CEB200999F08 /* AppCenterCrashes.framework in Frameworks */,
 				C9E7E4E6231E9A5D007D96DC /* NotificationCenter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
