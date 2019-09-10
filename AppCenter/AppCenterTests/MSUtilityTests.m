@@ -859,6 +859,7 @@
 }
 
 - (void)testObfuscateString {
+
   // If
   NSString *pattern = @"\"token\":\"[^\"]+\"";
   NSString *template = @"\"token\":\"***\"";
@@ -876,6 +877,21 @@
   // Then
   XCTAssertEqualObjects([MSUtility obfuscateString:unObfuscatedString searchingForPattern:pattern toReplaceWithTemplate:template],
                         expectedString);
+}
+
+- (void)testObfuscateRedirectUri {
+
+  // If
+  NSString *payload = @"{\"redirect_uri\": \"abc\"}";
+
+  // When
+  NSString *obfuscatedString = [MSUtility obfuscateString:payload
+                                      searchingForPattern:kMSRedirectUriPattern
+                                    toReplaceWithTemplate:kMSRedirectUriObfuscatedTemplate];
+
+  // Then
+  XCTAssertTrue([obfuscatedString rangeOfString:@"abc"].location == NSNotFound);
+  XCTAssertFalse([obfuscatedString rangeOfString:kMSRedirectUriObfuscatedTemplate].location == NSNotFound);
 }
 
 @end
