@@ -11,6 +11,9 @@
 
 * **[Fix]** Fix crash involving SDK's `ms_viewWillAppear` method.
 
+### App Center Data
+
+* **[Breaking]** Rename the callback delegate method in `MSRemoteOperationDelegate` to `data:didCompleteRemoteOperation:forDocumentMetadata:withError:(MSDataError *_Nullable)error;`.
 ___
 
 ## Version 2.3.0
