@@ -178,6 +178,25 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
 }
 #endif
 
++ (void)setAuthToken:(NSString *)authToken {
+  [[MSAppCenter sharedInstance] setAuthToken:authToken];
+}
+
+- (void)setAuthToken:(NSString *)authToken {
+  MSAuthTokenContext *authTokenContext = [MSAuthTokenContext sharedInstance];
+  MSJwtClaims *claims = nil;
+  if (authToken != nil) {
+    claims = [MSJwtClaims parse:authToken];
+  }
+  if (claims != nil) {
+    MSLogDebug(MSAppCenter.logTag, @"Authentication token has been refreshed.");
+    [authTokenContext setAuthToken:authToken withAccountId:[claims getSubject] expiresOn:[claims getExpirationDate]];
+  } else {
+    MSLogDebug(MSAppCenter.logTag, @"Removing authentication token (sign out).");
+    [authTokenContext setAuthToken:nil withAccountId:nil expiresOn:nil];
+  }
+}
+
 + (void)setAuthTokenDelegate:(id<MSAuthTokenDelegate>)authTokenDelegate {
   [[MSAppCenter sharedInstance] setAuthTokenDelegate:authTokenDelegate];
 }
