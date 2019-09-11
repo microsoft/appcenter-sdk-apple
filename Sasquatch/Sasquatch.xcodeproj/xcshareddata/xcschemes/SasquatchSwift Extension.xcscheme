@@ -67,16 +67,26 @@
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES"
       launchAutomaticallySubstyle = "2">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
+      <RemoteRunnable
+         runnableDebuggingMode = "2"
+         BundleIdentifier = "com.apple.springboard">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "84226C7F1E8908C900798417"
-            BuildableName = "SasquatchSwift.app"
-            BlueprintName = "SasquatchSwift"
+            BlueprintIdentifier = "C9E7E4E4231E9A5D007D96DC"
+            BuildableName = "SasquatchSwift Extension.appex"
+            BlueprintName = "SasquatchSwift Extension"
             ReferencedContainer = "container:Sasquatch.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </RemoteRunnable>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "C9E7E4E4231E9A5D007D96DC"
+            BuildableName = "SasquatchSwift Extension.appex"
+            BlueprintName = "SasquatchSwift Extension"
+            ReferencedContainer = "container:Sasquatch.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
