@@ -14,7 +14,7 @@
  * Create a delegate wrapper which will call the delegates for both MSAuthTokenContextDelegate and MSAuthTokenDelegate.
  *
  * @param authTokenDelegate The Auth token delegate to call when refreshing tokens.
- * @param authTokenCompletionHandler The complation handler to call after getting refresh tokens.
+ * @param authTokenCompletionHandler The completion handler to call after getting refresh tokens.
  *
  * @return The MSAuthTokenContextDelegateWrapper instance.
  */
