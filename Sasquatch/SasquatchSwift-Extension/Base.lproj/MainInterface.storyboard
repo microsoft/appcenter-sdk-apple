@@ -28,21 +28,23 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ShS-NW-ibQ">
-                                <rect key="frame" x="8" y="37" width="304" height="21"/>
+                                <rect key="frame" x="8" y="37" width="304" height="145"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nPG-7f-OzZ">
-                                <rect key="frame" x="8" y="50" width="304" height="148"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nPG-7f-OzZ">
+                                <rect key="frame" x="8" y="190" width="148" height="30"/>
                                 <state key="normal" title="Next crash"/>
                                 <connections>
                                     <action selector="onNext:" destination="M4Y-Lb-cyx" eventType="touchUpInside" id="WNO-3p-uFq"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bTT-fp-KuH">
-                                <rect key="frame" x="8" y="190" width="304" height="30"/>
-                                <state key="normal" title="Crash me!"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bTT-fp-KuH">
+                                <rect key="frame" x="164" y="190" width="148" height="30"/>
+                                <state key="normal" title="Crash me!">
+                                    <color key="titleColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
                                 <connections>
                                     <action selector="crashMe:" destination="M4Y-Lb-cyx" eventType="touchUpInside" id="HLl-Fj-aky"/>
                                 </connections>
@@ -50,18 +52,20 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="SNz-to-QQI" firstAttribute="trailing" secondItem="bTT-fp-KuH" secondAttribute="trailing" constant="8" id="19T-Fc-FlG"/>
+                            <constraint firstItem="bTT-fp-KuH" firstAttribute="leading" secondItem="nPG-7f-OzZ" secondAttribute="trailing" constant="8" id="0Uy-1a-cXr"/>
                             <constraint firstItem="SNz-to-QQI" firstAttribute="trailing" secondItem="h1u-He-ubZ" secondAttribute="trailing" constant="8" id="5M4-sI-foc"/>
-                            <constraint firstItem="SNz-to-QQI" firstAttribute="trailing" secondItem="nPG-7f-OzZ" secondAttribute="trailing" constant="8" id="8Ql-GK-2Ve"/>
                             <constraint firstItem="h1u-He-ubZ" firstAttribute="top" secondItem="SNz-to-QQI" secondAttribute="top" constant="8" id="ASG-ng-K7A"/>
-                            <constraint firstItem="nPG-7f-OzZ" firstAttribute="bottom" secondItem="bTT-fp-KuH" secondAttribute="top" constant="8" id="FqV-LB-gey"/>
+                            <constraint firstItem="h1u-He-ubZ" firstAttribute="leading" secondItem="ShS-NW-ibQ" secondAttribute="leading" id="Egc-mO-3Ts"/>
                             <constraint firstItem="SNz-to-QQI" firstAttribute="trailing" secondItem="ShS-NW-ibQ" secondAttribute="trailing" constant="8" id="I1k-6b-XMe"/>
-                            <constraint firstItem="bTT-fp-KuH" firstAttribute="leading" secondItem="SNz-to-QQI" secondAttribute="leading" constant="8" id="Jpo-bJ-UYc"/>
-                            <constraint firstItem="nPG-7f-OzZ" firstAttribute="leading" secondItem="SNz-to-QQI" secondAttribute="leading" constant="8" id="QMH-Fl-ALQ"/>
-                            <constraint firstItem="ShS-NW-ibQ" firstAttribute="bottom" secondItem="nPG-7f-OzZ" secondAttribute="top" constant="8" id="SX0-N6-oi9"/>
+                            <constraint firstItem="h1u-He-ubZ" firstAttribute="trailing" secondItem="bTT-fp-KuH" secondAttribute="trailing" id="KBn-kx-zcV"/>
+                            <constraint firstItem="SNz-to-QQI" firstAttribute="bottom" secondItem="bTT-fp-KuH" secondAttribute="bottom" constant="8" id="Kd1-gR-rZD"/>
+                            <constraint firstItem="nPG-7f-OzZ" firstAttribute="bottom" secondItem="SNz-to-QQI" secondAttribute="bottom" constant="-8" id="P4K-4L-O2N"/>
+                            <constraint firstItem="nPG-7f-OzZ" firstAttribute="top" secondItem="ShS-NW-ibQ" secondAttribute="bottom" constant="8" id="Qtm-go-iPZ"/>
                             <constraint firstItem="ShS-NW-ibQ" firstAttribute="top" secondItem="h1u-He-ubZ" secondAttribute="bottom" constant="8" id="VzA-H1-6Nd"/>
+                            <constraint firstItem="nPG-7f-OzZ" firstAttribute="width" secondItem="bTT-fp-KuH" secondAttribute="width" id="b1x-Vb-TFC"/>
+                            <constraint firstItem="bTT-fp-KuH" firstAttribute="top" secondItem="ShS-NW-ibQ" secondAttribute="bottom" constant="8" id="fjM-AT-Xdi"/>
+                            <constraint firstItem="nPG-7f-OzZ" firstAttribute="leading" secondItem="h1u-He-ubZ" secondAttribute="leading" id="loa-Af-VQ5"/>
                             <constraint firstItem="h1u-He-ubZ" firstAttribute="leading" secondItem="SNz-to-QQI" secondAttribute="leading" constant="8" id="mp1-3s-Or3"/>
-                            <constraint firstItem="bTT-fp-KuH" firstAttribute="bottom" secondItem="SNz-to-QQI" secondAttribute="bottom" constant="-8" id="n77-ze-a8g"/>
                             <constraint firstItem="ShS-NW-ibQ" firstAttribute="leading" secondItem="SNz-to-QQI" secondAttribute="leading" constant="8" id="whx-3z-wRM"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="SNz-to-QQI"/>
