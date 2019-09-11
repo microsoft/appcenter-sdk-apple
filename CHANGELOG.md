@@ -13,7 +13,7 @@
 
 ### App Center Data
 
-* **[Breaking change]** Rename the callback delegate method in `MSRemoteOperationDelegate` to `data:didCompleteRemoteOperation:forDocumentMetadata:withError:(MSDataError *_Nullable)error;`.
+* **[Breaking change]** Rename delegate method `data:didCompletePendingOperation:forDocument:withError:` from `MSRemoteOperationDelegate` to `data:didCompleteRemoteOperation:forDocumentMetadata:withError:`.
 ___
 
 ## Version 2.3.0
