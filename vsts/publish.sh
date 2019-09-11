@@ -80,7 +80,7 @@ if [ "$mode" == "internal" ]; then
 else
 
   ## 0. Get artifact filename and commit hash from build
-  prerelease=$(echo $ARTIFACT_PATH/AppCenter.framework/*.zip | rev | cut -d/ -f1 | rev)
+  prerelease=$(echo $ARTIFACT_PATH/Carthage/*.zip | rev | cut -d/ -f1 | rev)
   zip_filename="$(echo $FRAMEWORKS_ZIP_FILENAME | cut -d. -f1)"
   commit_hash="$(echo $prerelease | sed 's/'$zip_filename'-[[:digit:]]\{1,\}.[[:digit:]]\{1,\}.[[:digit:]]\{1,\}-[[:digit:]]\{1,\}+\(.\{40\}\)\.zip.*/\1/1')"
 
