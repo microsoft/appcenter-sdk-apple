@@ -78,7 +78,9 @@ static NSString *const kMSJwtFormat = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.%@"
   MSJwtClaims *claim = [MSJwtClaims parse:combinedJwt];
 
   // Then
-  XCTAssertNil(claim);
+  XCTAssertNotNil(claim);
+  XCTAssertEqualObjects([claim getSubject], userId);
+  XCTAssertEqualObjects([claim getExpirationDate], [[NSDate alloc] initWithTimeIntervalSince1970:0]);
 }
 
 - (void)testInvalidBase64Token {

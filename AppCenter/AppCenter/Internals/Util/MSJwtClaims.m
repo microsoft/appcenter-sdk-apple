@@ -6,9 +6,9 @@
 #import "MSLogger.h"
 #import <Foundation/Foundation.h>
 
-static NSString *const JWT_PARTS_SEPARATOR = @".";
-static NSString *const SUBJECT = @"sub";
-static NSString *const EXPIRATION = @"exp";
+static NSString *const kMSJwtPartsSeparator = @".";
+static NSString *const kMSSubjectClaim = @"sub";
+static NSString *const kMSExpirationClaim = @"exp";
 
 @implementation MSJwtClaims
 
@@ -22,7 +22,7 @@ static NSString *const EXPIRATION = @"exp";
 }
 
 + (MSJwtClaims *)parse:(NSString *)jwt {
-  NSArray *parts = [jwt componentsSeparatedByString:JWT_PARTS_SEPARATOR];
+  NSArray *parts = [jwt componentsSeparatedByString:kMSJwtPartsSeparator];
   if ([parts count] < 2) {
     MSLogError([MSAppCenter logTag], @"Failed to parse JWT, not enough parts.");
     return nil;
@@ -32,12 +32,16 @@ static NSString *const EXPIRATION = @"exp";
     NSError *error;
     NSData *claimsPartData = [[NSData alloc] initWithBase64EncodedString:base64ClaimsPart options:0];
     NSDictionary *claims = [NSJSONSerialization JSONObjectWithData:claimsPartData options:0 error:&error];
-    if ([claims objectForKey:EXPIRATION] == nil || [claims objectForKey:SUBJECT] == nil) {
+    if ([claims objectForKey:kMSExpirationClaim] == nil || [claims objectForKey:kMSSubjectClaim] == nil) {
       MSLogError([MSAppCenter logTag], @"Deserialized claims is missing `sub` or `exp`");
       return nil;
     }
-    int expirationTimeIntervalSince1970 = [[claims objectForKey:EXPIRATION] intValue];
-    return [[MSJwtClaims alloc] initWithSubject:[claims objectForKey:SUBJECT] expirationDate:[[NSDate alloc] initWithTimeIntervalSince1970:expirationTimeIntervalSince1970]];
+    
+    // We will treat invalid expiration times as an interval of 0 because there is not an easy way to determine the
+    // type of of the value being returned from the dictionary.
+    int expirationTimeIntervalSince1970 = [[claims objectForKey:kMSExpirationClaim] intValue];
+    return [[MSJwtClaims alloc] initWithSubject:[claims objectForKey:kMSSubjectClaim]
+        expirationDate:[[NSDate alloc] initWithTimeIntervalSince1970:expirationTimeIntervalSince1970]];
   } @catch (NSException *e) {
     MSLogError([MSAppCenter logTag], @"Failed to parse JWT: %@", e);
     return nil;

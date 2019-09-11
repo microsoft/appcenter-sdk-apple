@@ -198,12 +198,6 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
         }];
     MSLogInfo(MSAppCenter.logTag, @"Setting up auth token refresh listener.");
     [authTokenContext preventResetAuthTokenAfterStart];
-    NSString *currentAuthToken = [authTokenContext authToken];
-    MSJwtClaims *currentClaims = [MSJwtClaims parse:currentAuthToken];
-    MSAuthTokenValidityInfo *authToken = [[MSAuthTokenValidityInfo alloc] initWithAuthToken:currentAuthToken
-                                                                                  startTime:nil
-                                                                                    endTime:[currentClaims getExpirationDate]];
-    [authTokenContext checkIfTokenNeedsToBeRefreshed:authToken];
     [authTokenContext addDelegate:self.authTokenContextDelegateWrapper];
   } else if (self.authTokenContextDelegateWrapper != nil) {
     

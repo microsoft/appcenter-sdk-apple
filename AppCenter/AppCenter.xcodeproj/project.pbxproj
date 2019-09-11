@@ -234,6 +234,9 @@
 		9237B60C2244407000C273D8 /* MSHttpClientTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9237B60B2244407000C273D8 /* MSHttpClientTests.m */; };
 		9237B60D2244407000C273D8 /* MSHttpClientTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9237B60B2244407000C273D8 /* MSHttpClientTests.m */; };
 		9237B60E2244407000C273D8 /* MSHttpClientTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9237B60B2244407000C273D8 /* MSHttpClientTests.m */; };
+		99D2C02E232870AD0084B376 /* MSByoiTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 99D2C02D232870AD0084B376 /* MSByoiTests.m */; };
+		99D2C02F232870AD0084B376 /* MSByoiTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 99D2C02D232870AD0084B376 /* MSByoiTests.m */; };
+		99D2C030232870AD0084B376 /* MSByoiTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 99D2C02D232870AD0084B376 /* MSByoiTests.m */; };
 		99F58F1C2326F60100D36A34 /* MSAuthTokenDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 99F58F172326F60100D36A34 /* MSAuthTokenDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		99F58F1D2326F60100D36A34 /* MSAuthTokenDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 99F58F172326F60100D36A34 /* MSAuthTokenDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		99F58F1E2326F60100D36A34 /* MSAuthTokenDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 99F58F172326F60100D36A34 /* MSAuthTokenDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1106,6 +1109,7 @@
 		87F7AB21BD187EFD83F7F15E /* MSAuthTokenValidityInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAuthTokenValidityInfo.m; sourceTree = "<group>"; };
 		87F7B696F92E973BB1FCD190 /* MSAuthTokenValidityInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAuthTokenValidityInfo.h; sourceTree = "<group>"; };
 		9237B60B2244407000C273D8 /* MSHttpClientTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSHttpClientTests.m; sourceTree = "<group>"; };
+		99D2C02D232870AD0084B376 /* MSByoiTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSByoiTests.m; sourceTree = "<group>"; };
 		99F58F172326F60100D36A34 /* MSAuthTokenDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAuthTokenDelegate.h; sourceTree = "<group>"; };
 		99F58F222326F62500D36A34 /* MSJwtClaims.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSJwtClaims.h; sourceTree = "<group>"; };
 		99F58F232326F62500D36A34 /* MSJwtClaims.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSJwtClaims.m; sourceTree = "<group>"; };
@@ -1682,6 +1686,7 @@
 				384959D41D491D4F008F6B3A /* MSAppCenterTests.m */,
 				38641B041EB0F40800B2CE73 /* MSAppDelegateForwarderTests.m */,
 				9CB67DAB22139A0B006E20AC /* MSAuthTokenContextTests.m */,
+				99D2C02D232870AD0084B376 /* MSByoiTests.m */,
 				6E48A5A61D383893006E8B5F /* MSChannelGroupDefaultTests.m */,
 				6E48A5A31D3831FE006E8B5F /* MSChannelUnitConfigurationTests.m */,
 				6EB1F40D1D2443B7005F9F99 /* MSChannelUnitDefaultTests.m */,
@@ -2731,6 +2736,7 @@
 				0446DF151F3B864600C8E338 /* MSKeychainUtilTests.m in Sources */,
 				0446DF161F3B864600C8E338 /* MSStartServiceLogTests.m in Sources */,
 				0446DF171F3B864600C8E338 /* MSServiceAbstractTests.m in Sources */,
+				99D2C030232870AD0084B376 /* MSByoiTests.m in Sources */,
 				0446DF181F3B864600C8E338 /* MSChannelUnitConfigurationTests.m in Sources */,
 				F82E4C6F217F159A00EDAB34 /* sqlite3.c in Sources */,
 				B26D4DBC211B5BE300AB4E28 /* MSMockCommonSchemaLog.m in Sources */,
@@ -2797,6 +2803,7 @@
 				38AE131220C1B54000FAB2AD /* MSModelTestsUtililty.m in Sources */,
 				04A140861ECE60C6001CEE94 /* MSUtilityTests.m in Sources */,
 				046AEAE91ECA562A00CBE511 /* MSHttpUtilTests.m in Sources */,
+				99D2C02F232870AD0084B376 /* MSByoiTests.m in Sources */,
 				04A1408A1ECE63C7001CEE94 /* MSLogContainerTests.m in Sources */,
 				049BC8431ECE524D00FB6719 /* MSDeviceTrackerTests.m in Sources */,
 				384A92622188BE400099BE70 /* MSDelegateForwarderTestUtil.m in Sources */,
@@ -2863,6 +2870,7 @@
 				B24F3F171D93A3FF00827213 /* MSLoggerTests.m in Sources */,
 				35DFC23B2170052600455589 /* MSStringTypedPropertyTests.m in Sources */,
 				F803BC381E8E6927004B1E7A /* MSCustomPropertiesTests.m in Sources */,
+				99D2C02E232870AD0084B376 /* MSByoiTests.m in Sources */,
 				04B7BBEF1E5FAD4D001A0CE1 /* MSHttpUtilTests.m in Sources */,
 				E88D17061D35B6B500A5EA57 /* MSMockLog.m in Sources */,
 				049378411FE4914B000ADBAF /* MSSessionContextTests.m in Sources */,

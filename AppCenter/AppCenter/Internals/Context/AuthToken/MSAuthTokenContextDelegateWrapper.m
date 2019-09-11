@@ -4,6 +4,7 @@
 #import "MSAuthTokenContextDelegateWrapper.h"
 #import "MSAppCenterInternal.h"
 #import <Foundation/Foundation.h>
+
 @class MSAuthTokenContextDelegate;
 
 @implementation MSAuthTokenContextDelegateWrapper
