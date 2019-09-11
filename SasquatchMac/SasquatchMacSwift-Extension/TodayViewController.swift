@@ -22,9 +22,9 @@ class TodayViewController: NSViewController, NCWidgetProviding, MSCrashesDelegat
         let dateString = DateFormatter.localizedString(from: Date.init(), dateStyle: DateFormatter.Style.medium, timeStyle: DateFormatter.Style.medium)
         extensionLabel.stringValue = "Run #\(dateString)"
         MSAppCenter.setLogLevel(.verbose)
+        MSCrashes.setDelegate(self)
         MSAppCenter.start("aca58ea0-d791-4409-989d-2efec0283800", withServices: [MSCrashes.self])
         crashes = CrashLoader.loadAllCrashes(withCategories: false) as! [MSCrash]
-        MSCrashes.setDelegate(self)
         popupButton.menu?.removeAllItems()
         for (index, crash) in crashes.enumerated() {
             popupButton.menu?.addItem(NSMenuItem(title: crash.title, action: nil, keyEquivalent: "\(index)"))
