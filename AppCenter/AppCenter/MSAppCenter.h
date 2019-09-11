@@ -221,6 +221,13 @@
 + (void)setCountryCode:(NSString *)countryCode;
 
 /**
+ * Set auth token.
+ *
+ * @param authToken The auth token.
+ */
++ (void)setAuthToken:(NSString *)authToken;
+
+/**
  * Set auth token delegate for when a token gets refreshed.
  *
  * @param authTokenDelegate The delegate to be executed when the token gets refreshed.
