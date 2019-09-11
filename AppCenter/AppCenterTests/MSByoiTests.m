@@ -7,6 +7,7 @@
 #import "MSAppCenterPrivate.h"
 #import "MSAuthTokenContext.h"
 #import "MSAuthTokenContextPrivate.h"
+#import "MSAuthTokenContextDelegateWrapper.h"
 #import "MSTestFrameworks.h"
 #import "MSAuthTokenValidityInfo.h"
 
@@ -62,12 +63,38 @@ static NSString *const kMSJwtFormat = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.%@"
 - (void)testSetAuthTokenDelegateValidToken {
   
   // If
+  // Valid Token
+  NSString *userId = @"original_user_id";
+  NSString *currentJwt = [MSJwtHelper createJwtWithUserId:userId expiration:86400];
+  MSAuthTokenValidityInfo *validityInfo = [[MSAuthTokenValidityInfo alloc] initWithAuthToken:currentJwt startTime:nil endTime:[[NSDate alloc] initWithTimeIntervalSinceNow:86400]];
+  
+  [MSAppCenter setAuthToken:currentJwt];
+  
+  // Stub delegate mock.
+  id delegateMock = OCMProtocolMock(@protocol(MSAuthTokenDelegate));
+  __block int numCalls = 0;
+  OCMStub([delegateMock appCenter:OCMOCK_ANY acquireAuthTokenWithCompletionHandler:OCMOCK_ANY]).andDo(^(__unused NSInvocation *invocation) {
+    numCalls++;
+  });
+  
+  // When
+  [MSAppCenter setAuthTokenDelegate:delegateMock];
+  [self.authTokenContextMock checkIfTokenNeedsToBeRefreshed:validityInfo];
+  
+  
+  // Then
+  XCTAssertEqual(0, numCalls);
+}
+
+- (void)testSetAuthTokenDelegateExpiredToken {
+  
+  // If
   XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler invoked."];
   
   // Expired Token
   NSString *userId = @"original_user_id";
-  NSString *currentJwt = [MSJwtHelper createJwtWithUserId:userId expiration:86400];
-  MSAuthTokenValidityInfo *validityInfo = [[MSAuthTokenValidityInfo alloc] initWithAuthToken:currentJwt startTime:nil endTime:[[NSDate alloc] initWithTimeIntervalSinceNow:86400]];
+  NSString *currentJwt = [MSJwtHelper createJwtWithUserId:userId expiration:0];
+  MSAuthTokenValidityInfo *validityInfo = [[MSAuthTokenValidityInfo alloc] initWithAuthToken:currentJwt startTime:nil endTime:[[NSDate alloc] initWithTimeIntervalSince1970:0]];
   
   [MSAppCenter setAuthToken:currentJwt];
   
@@ -82,48 +109,6 @@ static NSString *const kMSJwtFormat = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.%@"
     void (^completionBlock)(NSString *token);
     [invocation getArgument:&completionBlock atIndex:3];
     completionBlock(newJwt);
-    [expectation fulfill];
-  });
-  
-  // When
-  [MSAppCenter setAuthTokenDelegate:delegateMock];
-  [self.authTokenContextMock checkIfTokenNeedsToBeRefreshed:validityInfo];
-  
-  // Then
-  [self waitForExpectationsWithTimeout:1
-                               handler:^(NSError *_Nullable error) {
-                                 if (error) {
-                                   XCTFail(@"Expectation Failed with error: %@", error);
-                                 }
-                                 OCMReject([self.authTokenContextMock setAuthToken:OCMOCK_ANY
-                                                                     withAccountId:OCMOCK_ANY
-                                                                         expiresOn:OCMOCK_ANY]);
-                               }];
-}
-
-- (void)testSetAuthTokenDelegateExpiredToken {
-  
-  // If
-  XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler invoked."];
-  
-  // Expired Token
-  NSString *userId = @"original_user_id";
-  NSString *jwt = [MSJwtHelper createJwtWithUserId:userId expiration:0];
-  MSAuthTokenValidityInfo *validityInfo = [[MSAuthTokenValidityInfo alloc] initWithAuthToken:jwt startTime:nil endTime:[[NSDate alloc] initWithTimeIntervalSince1970:0]];
-  
-  [MSAppCenter setAuthToken:jwt];
-  
-  // Set up JWT
-  userId = @"newer_user_id";
-  int expiration = [[NSDate new] dateByAddingTimeInterval:86400];
-  jwt = [MSJwtHelper createJwtWithUserId:userId expiration:expiration];
-  
-  // Stub delegate mock.
-  id delegateMock = OCMProtocolMock(@protocol(MSAuthTokenDelegate));
-  OCMStub([delegateMock appCenter:OCMOCK_ANY acquireAuthTokenWithCompletionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
-    void (^completionBlock)(NSString *token);
-    [invocation getArgument:&completionBlock atIndex:3];
-    completionBlock(jwt);
   });
   OCMStub([self.authTokenContextMock setAuthToken:OCMOCK_ANY
                                     withAccountId:OCMOCK_ANY
@@ -141,7 +126,7 @@ static NSString *const kMSJwtFormat = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.%@"
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
-                                 OCMVerify([self.authTokenContextMock setAuthToken:jwt
+                                 OCMVerify([self.authTokenContextMock setAuthToken:newJwt
                                                                      withAccountId:OCMOCK_ANY
                                                                          expiresOn:[[NSDate alloc] initWithTimeIntervalSince1970:expiration]]);
                                }];
@@ -150,29 +135,69 @@ static NSString *const kMSJwtFormat = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.%@"
 - (void)testSetAuthTokenDelegateInvalidClaims {
   
   // If
-  // Create an expired authTokenContext
-  // Create a delegate
+  XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler invoked."];
+  
+  // Expired Token
+  NSString *userId = @"original_user_id";
+  NSString *currentJwt = [MSJwtHelper createJwtWithUserId:userId expiration:0];
+  MSAuthTokenValidityInfo *validityInfo = [[MSAuthTokenValidityInfo alloc] initWithAuthToken:currentJwt startTime:nil endTime:[[NSDate alloc] initWithTimeIntervalSince1970:0]];
+  
+  [MSAppCenter setAuthToken:currentJwt];
+  
+  // Set up JWT
+  userId = @"some_user_id";
+  NSString *jsonClaims = [NSString stringWithFormat:@"{\"sub\":\"%@\"}", userId];
+  NSData *nsdata = [jsonClaims dataUsingEncoding:NSUTF8StringEncoding];
+  NSString *base64Encoded = [nsdata base64EncodedStringWithOptions:0];
+  NSString *newJwt = [NSString stringWithFormat:kMSJwtFormat, base64Encoded];
+  
+  // Stub delegate mock.
+  id delegateMock = OCMProtocolMock(@protocol(MSAuthTokenDelegate));
+  OCMStub([delegateMock appCenter:OCMOCK_ANY acquireAuthTokenWithCompletionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+    void (^completionBlock)(NSString *token);
+    [invocation getArgument:&completionBlock atIndex:3];
+    completionBlock(newJwt);
+  });
+  OCMStub([self.authTokenContextMock setAuthToken:OCMOCK_ANY
+                                    withAccountId:OCMOCK_ANY
+                                        expiresOn:OCMOCK_ANY]).andDo(^(__unused NSInvocation *invocation) {
+    [expectation fulfill];
+  });
   
   // When
-  // mock to return an invalid MSAuthTokenContextDelegateWrapper
-  //[MSAppCenter setAuthTokenDelegate:<#(id<MSAuthTokenDelegate>)#>]
+  [MSAppCenter setAuthTokenDelegate:delegateMock];
+  [self.authTokenContextMock checkIfTokenNeedsToBeRefreshed:validityInfo];
   
   // Then
-  // verify authTokenContext set to nil
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *_Nullable error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                                 OCMVerify([self.authTokenContextMock setAuthToken:nil
+                                                                     withAccountId:nil
+                                                                         expiresOn:nil]);
+                               }];
 }
 
 - (void)testSetAuthTokenDelegateWrapperRemoved {
   
   // If
-  // Make "authTokenContextDelegateWrapper" exist
+  id delegateMock = OCMProtocolMock(@protocol(MSAuthTokenDelegate));
+  OCMStub([delegateMock appCenter:OCMOCK_ANY acquireAuthTokenWithCompletionHandler:OCMOCK_ANY]);
   
+  // Make "authTokenContextDelegateWrapper" exist
+  [MSAppCenter setAuthTokenDelegate:delegateMock];
+  
+  // Then
+  XCTAssertEqual(1, [[self.authTokenContextMock delegates] count]);
   
   // When
   [MSAppCenter setAuthTokenDelegate:nil];
   
   // Then
-  // Delegate should be removed
-  // Auth token should be nil
+  XCTAssertEqual(0, [[self.authTokenContextMock delegates] count]);
+  OCMVerify([self.authTokenContextMock setAuthToken:nil withAccountId:nil expiresOn:nil]);
 }
 
 @end
