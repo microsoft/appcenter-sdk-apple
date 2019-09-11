@@ -6,9 +6,11 @@ import AppCenterCrashes
 import NotificationCenter
 import UIKit
 
-class ExtensionViewController: UIViewController, NCWidgetProviding {
+class ExtensionViewController: UIViewController, NCWidgetProviding, MSCrashesDelegate {
   @IBOutlet weak var crashLabel: UILabel!
   @IBOutlet weak var extensionLabel: UILabel!
+  @IBOutlet weak var attachementsSwitch: UISwitch!
+
   var selectedCrash = 0
   var crashes = MSCrash.allCrashes() as! [MSCrash]
   
@@ -21,6 +23,16 @@ class ExtensionViewController: UIViewController, NCWidgetProviding {
     extensionLabel.text = "Run #\(dateString)"
     MSAppCenter.setLogLevel(.verbose)
     MSAppCenter.start("238d7788-8e63-478f-a747-33444bdadbda", withServices: [MSCrashes.self])
+    MSCrashes.setDelegate(self)
+  }
+  
+  func attachments(with crashes: MSCrashes, for errorReport: MSErrorReport) -> [MSErrorAttachmentLog] {
+    if (attachementsSwitch.isOn) {
+      let attachment1 = MSErrorAttachmentLog.attachment(withText: "Hello world!", filename: "hello.txt")
+      let attachment2 = MSErrorAttachmentLog.attachment(withBinary: "Fake image".data(using: String.Encoding.utf8), filename: nil, contentType: "image/jpeg")
+      return [attachment1!, attachment2!]
+    }
+    return [];
   }
   
   @IBAction func onNext(_ sender: Any) {
