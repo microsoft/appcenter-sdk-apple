@@ -209,7 +209,7 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
         authTokenCompletionHandler:^(NSString *jwt) {
           MSJwtClaims *claims = [MSJwtClaims parse:jwt];
           if (claims != nil) {
-            MSLogDebug(MSAppCenter.logTag, @"Token has been refreshed.");
+            MSLogDebug(MSAppCenter.logTag, @"The auth token has been refreshed.");
             [authTokenContext setAuthToken:jwt withAccountId:[claims getSubject] expiresOn:[claims getExpirationDate]];
           } else {
             [authTokenContext setAuthToken:nil withAccountId:nil expiresOn:nil];
