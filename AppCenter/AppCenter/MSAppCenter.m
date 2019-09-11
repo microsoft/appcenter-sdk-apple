@@ -219,7 +219,7 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
     [authTokenContext preventResetAuthTokenAfterStart];
     [authTokenContext addDelegate:self.authTokenContextDelegateWrapper];
   } else if (self.authTokenContextDelegateWrapper != nil) {
-    
+
     // The token delegate has been set previously but is now null.
     MSLogInfo(MSAppCenter.logTag, @"Removing auth token refresh listener.");
     [authTokenContext removeDelegate:self.authTokenContextDelegateWrapper];

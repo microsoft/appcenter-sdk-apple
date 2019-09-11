@@ -36,12 +36,12 @@ static NSString *const kMSExpirationClaim = @"exp";
       MSLogError([MSAppCenter logTag], @"Deserialized claims is missing `sub` or `exp`");
       return nil;
     }
-    
+
     // We will treat invalid expiration times as an interval of 0 because there is not an easy way to determine the
     // type of of the value being returned from the dictionary.
     int expirationTimeIntervalSince1970 = [[claims objectForKey:kMSExpirationClaim] intValue];
     return [[MSJwtClaims alloc] initWithSubject:[claims objectForKey:kMSSubjectClaim]
-        expirationDate:[[NSDate alloc] initWithTimeIntervalSince1970:expirationTimeIntervalSince1970]];
+                                 expirationDate:[[NSDate alloc] initWithTimeIntervalSince1970:expirationTimeIntervalSince1970]];
   } @catch (NSException *e) {
     MSLogError([MSAppCenter logTag], @"Failed to parse JWT: %@", e);
     return nil;
