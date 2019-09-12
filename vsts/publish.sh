@@ -182,6 +182,7 @@ if [ "$mode" == "internal" ]; then
 
   # Determine the filename for the release
   filename=$(echo $FRAMEWORKS_ZIP_FILENAME | sed 's/.zip/-'${publish_version}'+'$BUILD_SOURCEVERSION'.zip/g')
+  carthage_filename=$(echo 'AppCenter' | sed 's/.zip/-'${publish_version}'.zip/g')
 
   # Replace the latest binary in Azure Storage
   echo "Y" | azure storage blob upload $FRAMEWORKS_ZIP_FILENAME sdk --verbose
@@ -196,10 +197,10 @@ mv $FRAMEWORKS_ZIP_FILENAME $filename
 echo "Y" | azure storage blob upload ${filename} sdk
 
 # Upload binary to GitHub for external release
-if [ "$mode" == "external" ]; then
+uploadToGithub() {
   upload_url="$(echo $REQUEST_UPLOAD_URL_TEMPLATE | sed 's/{id}/'$id'/g')"
-  url="$(echo $upload_url | sed 's/{filename}/'${filename}'/g')"
-  resp="$(curl -s -X POST -H 'Content-Type: application/zip' --data-binary @$filename $url)"
+  url="$(echo $upload_url | sed 's/{filename}/'$1'/g')"
+  resp="$(curl -s -X POST -H 'Content-Type: application/zip' --data-binary @$1 $url)"
   id="$(echo $resp | jq -r '.id')"
 
   # Log error if response doesn't contain "id" key
@@ -209,6 +210,11 @@ if [ "$mode" == "external" ]; then
     echo "Response:" $resp
     exit 1
   fi
+}
+
+if [ "$mode" == "external" ]; then
+  uploadToGithub $filename
+  uploadToGithub $carthage_filename
 fi
 
 echo $filename "Uploaded successfully"
