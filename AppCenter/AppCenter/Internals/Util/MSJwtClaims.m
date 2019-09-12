@@ -48,12 +48,4 @@ static NSString *const kMSExpirationClaim = @"exp";
   }
 }
 
-- (NSString *)getSubject {
-  return self.subject;
-}
-
-- (NSDate *)getExpirationDate {
-  return self.expirationDate;
-}
-
 @end

@@ -190,7 +190,7 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
   }
   if (claims != nil) {
     MSLogDebug(MSAppCenter.logTag, @"Authentication token has been refreshed.");
-    [authTokenContext setAuthToken:authToken withAccountId:[claims getSubject] expiresOn:[claims getExpirationDate]];
+    [authTokenContext setAuthToken:authToken withAccountId:claims.subject expiresOn:claims.expirationDate];
   } else {
     MSLogDebug(MSAppCenter.logTag, @"Removing authentication token (sign out).");
     [authTokenContext setAuthToken:nil withAccountId:nil expiresOn:nil];
@@ -210,7 +210,7 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
           MSJwtClaims *claims = [MSJwtClaims parse:jwt];
           if (claims != nil) {
             MSLogDebug(MSAppCenter.logTag, @"The auth token has been refreshed.");
-            [authTokenContext setAuthToken:jwt withAccountId:[claims getSubject] expiresOn:[claims getExpirationDate]];
+            [authTokenContext setAuthToken:jwt withAccountId:claims.subject expiresOn:claims.expirationDate];
           } else {
             [authTokenContext setAuthToken:nil withAccountId:nil expiresOn:nil];
           }

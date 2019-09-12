@@ -25,20 +25,6 @@
 + (MSJwtClaims *)parse:(NSString *)jwt;
 
 /**
- * Returns the subject.
- *
- * @return NSString The subject.
- */
-- (NSString *)getSubject;
-
-/**
- * Returns the expiration date.
- *
- * @return NSDate The expiration date.
- */
-- (NSDate *)getExpirationDate;
-
-/**
  * Initializes the MSJwtClaims with the subject and expiration
  *
  * @param subject The JWT subject.

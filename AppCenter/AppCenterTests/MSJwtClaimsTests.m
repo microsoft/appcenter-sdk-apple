@@ -28,8 +28,8 @@ static NSString *const kMSJwtFormat = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.%@"
 
   // Then
   XCTAssertNotNil(claim);
-  XCTAssertEqualObjects([claim getSubject], userId);
-  XCTAssertEqualObjects([claim getExpirationDate], expirationAsDate);
+  XCTAssertEqualObjects(claim.subject, userId);
+  XCTAssertEqualObjects(claim.expirationDate, expirationAsDate);
 }
 
 - (void)testExpirationClaimMissing {
@@ -79,8 +79,8 @@ static NSString *const kMSJwtFormat = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.%@"
 
   // Then
   XCTAssertNotNil(claim);
-  XCTAssertEqualObjects([claim getSubject], userId);
-  XCTAssertEqualObjects([claim getExpirationDate], [[NSDate alloc] initWithTimeIntervalSince1970:0]);
+  XCTAssertEqualObjects(claim.subject, userId);
+  XCTAssertEqualObjects(claim.expirationDate, [[NSDate alloc] initWithTimeIntervalSince1970:0]);
 }
 
 - (void)testInvalidBase64Token {
