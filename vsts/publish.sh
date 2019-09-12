@@ -45,7 +45,6 @@ REPOSITORY="$(echo $BUILD_BUILDURI | awk -F "[:]" '{print $2}' | awk -F "[/]" '{
 GITHUB_API_URL_TEMPLATE="https://%s.github.com/repos/%s/%s?access_token=%s%s"
 GITHUB_API_HOST="api"
 GITHUB_UPLOAD_HOST="uploads"
-CARTHAGE_ZIP_FILENAME="AppCenter.framework.zip"
 
 ## III. GitHub API endpoints
 REQUEST_URL_REF_TAG="$(printf $GITHUB_API_URL_TEMPLATE $GITHUB_API_HOST $REPOSITORY 'git/refs/tags' $github_access_token)"
@@ -195,7 +194,6 @@ else
   # Determine the filename for the release
   filename=$(echo $FRAMEWORKS_ZIP_FILENAME | sed 's/.zip/-'${publish_version}'.zip/g')
 fi
-carthage_filename=$(echo $CARTHAGE_ZIP_FILENAME | sed 's/.zip/-'${publish_version}'.zip/g')
 
 # Upload binary to Azure Storage
 mv $FRAMEWORKS_ZIP_FILENAME $filename
@@ -221,6 +219,6 @@ uploadToGithub() {
 
 if [ "$mode" == "external" ]; then
   uploadToGithub $filename
-  uploadToGithub $carthage_filename
+  uploadToGithub $CARTHAGE_ZIP_FILENAME
 fi
 
