@@ -223,3 +223,4 @@ if [ "$mode" == "external" ]; then
 fi
 
 echo $filename "Uploaded successfully"
+echo $carthage_filename "Uploaded successfully"
