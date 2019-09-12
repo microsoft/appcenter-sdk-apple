@@ -187,7 +187,6 @@ if [ "$mode" == "internal" ]; then
 
   # Determine the filename for the release
   filename=$(echo $FRAMEWORKS_ZIP_FILENAME | sed 's/.zip/-'${publish_version}'+'$BUILD_SOURCEVERSION'.zip/g')
-  carthage_filename=$(echo $CARTHAGE_ZIP_FILENAME | sed 's/.zip/-'${publish_version}'.zip/g')
 
   # Replace the latest binary in Azure Storage
   echo "Y" | azure storage blob upload $FRAMEWORKS_ZIP_FILENAME sdk --verbose
@@ -195,8 +194,8 @@ else
 
   # Determine the filename for the release
   filename=$(echo $FRAMEWORKS_ZIP_FILENAME | sed 's/.zip/-'${publish_version}'.zip/g')
-  carthage_filename = $(echo $CARTHAGE_ZIP_FILENAME | sed 's/.zip/-'${publish_version}'.zip/g')
 fi
+carthage_filename=$(echo $CARTHAGE_ZIP_FILENAME | sed 's/.zip/-'${publish_version}'.zip/g')
 
 # Upload binary to Azure Storage
 mv $FRAMEWORKS_ZIP_FILENAME $filename
