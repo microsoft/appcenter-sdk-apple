@@ -92,7 +92,6 @@
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="320" height="228"/>
                     <connections>
-                        <outlet property="attachementsLabel" destination="p6h-dZ-r9M" id="KLo-nr-8Tc"/>
                         <outlet property="attachementsSwitch" destination="aAu-b4-RUb" id="ltp-M5-dc5"/>
                         <outlet property="crashLabel" destination="ShS-NW-ibQ" id="lua-KP-vIl"/>
                         <outlet property="extensionLabel" destination="h1u-He-ubZ" id="s4o-kL-S0z"/>
