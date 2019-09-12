@@ -214,6 +214,8 @@ uploadToGithub() {
     echo "Request URL:" $url
     echo "Response:" $resp
     exit 1
+  else
+    echo $1 "Uploaded successfully"
   fi
 }
 
