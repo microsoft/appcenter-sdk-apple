@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+#import <Foundation/Foundation.h>
 #import "MSAuthTokenDelegate.h"
 #import "MSConstants.h"
-#import <Foundation/Foundation.h>
 
 @class MSWrapperSdk;
 
