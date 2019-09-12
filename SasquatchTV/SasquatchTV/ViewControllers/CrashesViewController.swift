@@ -32,7 +32,7 @@ class CrashesViewController: UITableViewController, AppCenterProtocol {
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     if segue.identifier == "crash-detail"{
       if let selectedRow = tableView.indexPathForSelectedRow{
-        let crash = categories[categoryForSection(selectedRow.section - 2)]![selectedRow.row]
+        let crash = categories[categoryForSection(selectedRow.section)]![selectedRow.row]
         (segue.destination as! CrashesDetailViewController).crash = crash;
       }
     }
@@ -50,7 +50,7 @@ class CrashesViewController: UITableViewController, AppCenterProtocol {
     } else if (isSecond) {
       return 1
     } else {
-      return categories[categoryForSection(section - 2)]!.count
+      return categories[categoryForSection(section)]!.count
     }
   }
 
@@ -62,7 +62,7 @@ class CrashesViewController: UITableViewController, AppCenterProtocol {
     } else if (isSecond) {
       return "Breadcrumbs"
     } else {
-      return categoryForSection(section - 2)
+      return categoryForSection(section)
     }
   }
 
@@ -76,7 +76,7 @@ class CrashesViewController: UITableViewController, AppCenterProtocol {
     } else if isSecond {
       cell.textLabel?.text = "Breadcrumbs"
     } else {
-      let crash = categories[categoryForSection(indexPath.section - 2)]![indexPath.row]
+      let crash = categories[categoryForSection(indexPath.section)]![indexPath.row]
       cell.textLabel?.text = crash.title;
     }
     return cell;
@@ -109,7 +109,9 @@ class CrashesViewController: UITableViewController, AppCenterProtocol {
     }
   }
 
-  private func categoryForSection(_ section: Int) -> String{
-    return categories.keys.sorted()[section]
+  private func categoryForSection(_ section: Int) -> String {
+    
+    // Skip 2 for Enabled and Breadcumb rows.
+    return categories.keys.sorted()[section - 2]
   }
 }
