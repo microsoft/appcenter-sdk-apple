@@ -22,8 +22,8 @@ class ExtensionViewController: UIViewController, NCWidgetProviding, MSCrashesDel
     let dateString = DateFormatter.localizedString(from: Date.init(), dateStyle: DateFormatter.Style.medium, timeStyle: DateFormatter.Style.medium)
     extensionLabel.text = "Run #\(dateString)"
     MSAppCenter.setLogLevel(.verbose)
-    MSAppCenter.start("238d7788-8e63-478f-a747-33444bdadbda", withServices: [MSCrashes.self])
     MSCrashes.setDelegate(self)
+    MSAppCenter.start("238d7788-8e63-478f-a747-33444bdadbda", withServices: [MSCrashes.self])
   }
   
   func attachments(with crashes: MSCrashes, for errorReport: MSErrorReport) -> [MSErrorAttachmentLog] {
