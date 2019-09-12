@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "MSJwtClaims.h"
-#import "MSAppCenterInternal.h"
-#import "MSLogger.h"
 #import <Foundation/Foundation.h>
+#import "MSAppCenterInternal.h"
+#import "MSJwtClaims.h"
+#import "MSLogger.h"
 
 static NSString *const kMSJwtPartsSeparator = @".";
 static NSString *const kMSSubjectClaim = @"sub";
