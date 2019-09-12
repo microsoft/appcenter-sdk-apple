@@ -32,7 +32,7 @@ class CrashesViewController: UITableViewController, AppCenterProtocol {
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     if segue.identifier == "crash-detail"{
       if let selectedRow = tableView.indexPathForSelectedRow{
-        let crash = categories[categoryForSection(selectedRow.section)]![selectedRow.row]
+        let crash = categories[categoryForSection(selectedRow.section - 2)]![selectedRow.row]
         (segue.destination as! CrashesDetailViewController).crash = crash;
       }
     }
