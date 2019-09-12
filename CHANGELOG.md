@@ -1,6 +1,6 @@
 # App Center SDK for iOS, macOS and tvOS Change Log
 
-## Version 2.3.1 (Under development)
+## Version 2.4.0 (Under development)
 
 ### App Center Auth
 
@@ -11,6 +11,9 @@
 
 * **[Fix]** Fix crash involving SDK's `ms_viewWillAppear` method.
 
+### App Center Data
+
+* **[Breaking change]** Rename delegate method `data:didCompletePendingOperation:forDocument:withError:` from `MSRemoteOperationDelegate` to `data:didCompleteRemoteOperation:forDocumentMetadata:withError:`.
 ___
 
 ## Version 2.3.0
