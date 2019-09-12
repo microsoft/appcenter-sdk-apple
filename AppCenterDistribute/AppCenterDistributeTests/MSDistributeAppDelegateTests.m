@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+#import <AppCenterDistribute/AppCenterDistribute.h>
 #import "MSDistributeAppDelegate.h"
 #import "MSDistributePrivate.h"
 #import "MSTestFrameworks.h"
