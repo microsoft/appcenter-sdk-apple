@@ -81,11 +81,15 @@ else
 
   ## 0. Get artifact filename and commit hash from build
   prerelease=$(echo $ARTIFACT_PATH/zip/*.zip | rev | cut -d/ -f1 | rev)
+  carthage_prerelease=$(echo $ARTIFACT_PATH/Carthage/*.zip | rev | cut -d/ -f1 | rev)
   zip_filename="$(echo $FRAMEWORKS_ZIP_FILENAME | cut -d. -f1)"
   commit_hash="$(echo $prerelease | sed 's/'$zip_filename'-[[:digit:]]\{1,\}.[[:digit:]]\{1,\}.[[:digit:]]\{1,\}-[[:digit:]]\{1,\}+\(.\{40\}\)\.zip.*/\1/1')"
 
   # Rename zip archive to $FRAMEWORKS_ZIP_FILENAME
   mv $ARTIFACT_PATH/zip/$prerelease $FRAMEWORKS_ZIP_FILENAME
+
+  # Rename Carthage zip archive to $CARTHAGE_ZIP_FILENAME
+  mv $ARTIFACT_PATH/Carthage/$carthage_prerelease $CARTHAGE_ZIP_FILENAME
 
   ## 1. Extract change log
   change_log_found=false
@@ -190,16 +194,17 @@ else
   # Determine the filename for the release
   filename=$(echo $FRAMEWORKS_ZIP_FILENAME | sed 's/.zip/-'${publish_version}'.zip/g')
 fi
+carthage_filename=$(echo $CARTHAGE_ZIP_FILENAME | sed 's/.framework.zip/-'${publish_version}'.framework.zip/g')
 
 # Upload binary to Azure Storage
 mv $FRAMEWORKS_ZIP_FILENAME $filename
 echo "Y" | azure storage blob upload ${filename} sdk
 
 # Upload binary to GitHub for external release
-if [ "$mode" == "external" ]; then
+uploadToGithub() {
   upload_url="$(echo $REQUEST_UPLOAD_URL_TEMPLATE | sed 's/{id}/'$id'/g')"
-  url="$(echo $upload_url | sed 's/{filename}/'${filename}'/g')"
-  resp="$(curl -s -X POST -H 'Content-Type: application/zip' --data-binary @$filename $url)"
+  url="$(echo $upload_url | sed 's/{filename}/'$1'/g')"
+  resp="$(curl -s -X POST -H 'Content-Type: application/zip' --data-binary @$1 $url)"
   id="$(echo $resp | jq -r '.id')"
 
   # Log error if response doesn't contain "id" key
@@ -208,7 +213,13 @@ if [ "$mode" == "external" ]; then
     echo "Request URL:" $url
     echo "Response:" $resp
     exit 1
+  else
+    echo $1 "Uploaded successfully"
   fi
+}
+
+if [ "$mode" == "external" ]; then
+  uploadToGithub $filename
+  uploadToGithub $carthage_filename
 fi
 
-echo $filename "Uploaded successfully"
