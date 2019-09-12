@@ -152,7 +152,6 @@ static NSString *const kMSJwtFormat = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.%@"
       [[MSAuthTokenValidityInfo alloc] initWithAuthToken:currentJwt startTime:nil endTime:[[NSDate alloc] initWithTimeIntervalSince1970:0]];
   [MSAppCenter setAuthToken:currentJwt];
 
-  // Set up invalid JWT (missing exp claim)
   NSString *newJwt = [MSJwtHelper createJwtWithMissingExpClaim];
 
   // Stub delegate mock.
