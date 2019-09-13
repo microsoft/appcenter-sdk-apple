@@ -82,7 +82,6 @@
 		84A0FF6C1E8A87E1000E7A28 /* MSDistributeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A0FF6B1E8A87E1000E7A28 /* MSDistributeViewController.swift */; };
 		84A0FF6D1E8A87E1000E7A28 /* MSDistributeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A0FF6B1E8A87E1000E7A28 /* MSDistributeViewController.swift */; };
 		84D63FF91E8BAA90004C9F86 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 845964A91E8A7E6600BABA51 /* Main.storyboard */; };
-		995BA64221EFFBFD000E3212 /* libAppCenterAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 995BA61C21EFFA93000E3212 /* libAppCenterAuth.a */; };
 		B203FF4C20E57A5B002AD536 /* MSAnalyticsChildTransmissionTargetTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B203FF4B20E57A5B002AD536 /* MSAnalyticsChildTransmissionTargetTableViewController.swift */; };
 		B203FF4D20E5922C002AD536 /* MSAnalyticsChildTransmissionTargetTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B203FF4B20E57A5B002AD536 /* MSAnalyticsChildTransmissionTargetTableViewController.swift */; };
 		B20AE38021027D6200A1A195 /* EventPropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 352A3E7320F801A900D09CF0 /* EventPropertiesTableSection.swift */; };
@@ -107,11 +106,6 @@
 		B20AE39F21027D6200A1A195 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F809D5021FC6DA2B005E0F83 /* LaunchScreen.storyboard */; };
 		B20AE3A121027D6200A1A195 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 845964A91E8A7E6600BABA51 /* Main.storyboard */; };
 		B20AE3A521027D6200A1A195 /* CrashLibIOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F89D79081E93DA3A0094521F /* CrashLibIOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		B20AE43C210281EB00A1A195 /* libAppCenter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B20AE3C92102812300A1A195 /* libAppCenter.a */; };
-		B20AE43D210281F300A1A195 /* libAppCenterAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B20AE3E42102813300A1A195 /* libAppCenterAnalytics.a */; };
-		B20AE43E210281F800A1A195 /* libAppCenterCrashes.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B20AE4022102818B00A1A195 /* libAppCenterCrashes.a */; };
-		B20AE43F210281FF00A1A195 /* libAppCenterDistribute.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B20AE4162102819C00A1A195 /* libAppCenterDistribute.a */; };
-		B20AE4402102820300A1A195 /* libAppCenterPush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B20AE435210281C400A1A195 /* libAppCenterPush.a */; };
 		B20AE48821028E3300A1A195 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B20AE48721028E3300A1A195 /* libc++.tbd */; };
 		B20AE48A21028E3C00A1A195 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B20AE48921028E3C00A1A195 /* libz.tbd */; };
 		B23DF4FF2109382200F1CAD7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84226C1C1E88FEFC00798417 /* Assets.xcassets */; };
@@ -217,11 +211,17 @@
 		B2E011FD21091F0A003F4A5B /* MSAnalyticsTransmissionTargetSelectorViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2E011EE21091EF1003F4A5B /* MSAnalyticsTransmissionTargetSelectorViewCell.xib */; };
 		B2E011FE21091F0E003F4A5B /* MSCustomPropertyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E011ED21091EF1003F4A5B /* MSCustomPropertyTableViewCell.swift */; };
 		B2E011FF21091F0F003F4A5B /* MSCustomPropertyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E011ED21091EF1003F4A5B /* MSCustomPropertyTableViewCell.swift */; };
-		C25DAE3A22280A800073B86A /* libAppCenterData.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C25DAE3122280A590073B86A /* libAppCenterData.a */; };
 		C25DAE3C22280B150073B86A /* AppCenterData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C25DAE3B22280B150073B86A /* AppCenterData.framework */; };
 		C25DAE3D22280B150073B86A /* AppCenterData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C25DAE3B22280B150073B86A /* AppCenterData.framework */; };
 		C25DAE3E22280B150073B86A /* AppCenterData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C25DAE3B22280B150073B86A /* AppCenterData.framework */; };
 		C25DAE3F22280B150073B86A /* AppCenterData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C25DAE3B22280B150073B86A /* AppCenterData.framework */; };
+		C261445D230FE88A00D65EBF /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C261440A230FE86400D65EBF /* AppCenter.framework */; };
+		C261445E230FE88A00D65EBF /* AppCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C261441C230FE86400D65EBF /* AppCenterAnalytics.framework */; };
+		C261445F230FE88A00D65EBF /* AppCenterAuth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C261442A230FE86400D65EBF /* AppCenterAuth.framework */; };
+		C2614460230FE88A00D65EBF /* AppCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C261443A230FE86400D65EBF /* AppCenterCrashes.framework */; };
+		C2614461230FE88A00D65EBF /* AppCenterData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2614448230FE86400D65EBF /* AppCenterData.framework */; };
+		C2614462230FE88A00D65EBF /* AppCenterDistribute.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2614450230FE86400D65EBF /* AppCenterDistribute.framework */; };
+		C2614463230FE88A00D65EBF /* AppCenterPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C261445A230FE86400D65EBF /* AppCenterPush.framework */; };
 		D31EF92D1E9517B600450162 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D31EF92B1E9517B600450162 /* Interface.storyboard */; };
 		D31EF92F1E9517B600450162 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D31EF92E1E9517B600450162 /* Assets.xcassets */; };
 		D31EF9361E9517B600450162 /* SasquatchWatchObjC Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = D31EF9351E9517B600450162 /* SasquatchWatchObjC Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -275,7 +275,6 @@
 		F8F077A722A6A27B007B4B31 /* MSAuthInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8F077A422A6A27B007B4B31 /* MSAuthInfoViewController.swift */; };
 		F8F077A822A6A27B007B4B31 /* MSAuthInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8F077A422A6A27B007B4B31 /* MSAuthInfoViewController.swift */; };
 		F8F077A922A6A27B007B4B31 /* MSAuthInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8F077A422A6A27B007B4B31 /* MSAuthInfoViewController.swift */; };
-		F8FE732F210730A8005C6A74 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8FE732E210730A8005C6A74 /* CrashReporter.framework */; };
 		F8FE7330210730EE005C6A74 /* AppCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B20AE41A2102819C00A1A195 /* AppCenterDistributeResources.bundle */; };
 		F8FE73312107568A005C6A74 /* DistributeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A888ED2102B2C5001ACFDF /* DistributeUITests.swift */; };
 		F8FE73322107568A005C6A74 /* DistributeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A888ED2102B2C5001ACFDF /* DistributeUITests.swift */; };
@@ -309,26 +308,12 @@
 			remoteGlobalIDString = 84226C461E88FF4A00798417;
 			remoteInfo = SasquatchObjC;
 		};
-		995BA61B21EFFA93000E3212 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 995BA60C21EFFA93000E3212 /* AppCenterAuth.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = E85547C01D2D6253002DF6E2;
-			remoteInfo = AppCenterAuthIOS;
-		};
 		995BA61D21EFFA93000E3212 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 995BA60C21EFFA93000E3212 /* AppCenterAuth.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = E85547D51D2D6723002DF6E2;
 			remoteInfo = AppCenterAuthIOSTests;
-		};
-		995BA61F21EFFA93000E3212 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 995BA60C21EFFA93000E3212 /* AppCenterAuth.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 0485AF851EAA79E300C10CAF;
-			remoteInfo = AppCenterAuthMacOS;
 		};
 		995BA62121EFFA93000E3212 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -337,33 +322,12 @@
 			remoteGlobalIDString = 046AEAC61ECA51AF00CBE511;
 			remoteInfo = AppCenterAuthMacOSTests;
 		};
-		995BA64321EFFC13000E3212 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 995BA60C21EFFA93000E3212 /* AppCenterAuth.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = E85547BF1D2D6253002DF6E2;
-			remoteInfo = AppCenterAuthIOS;
-		};
-		B20AE3C82102812300A1A195 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B20AE3B92102812300A1A195 /* AppCenter.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 6E0401031D1C98220051BCFA;
-			remoteInfo = AppCenterIOS;
-		};
 		B20AE3CA2102812300A1A195 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = B20AE3B92102812300A1A195 /* AppCenter.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 6E2395781D22EF4F00E543C8;
 			remoteInfo = AppCenterIOSTests;
-		};
-		B20AE3CC2102812300A1A195 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B20AE3B92102812300A1A195 /* AppCenter.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 04754FAB1EA98182002CBA46;
-			remoteInfo = AppCenterMacOS;
 		};
 		B20AE3CE2102812300A1A195 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -372,26 +336,12 @@
 			remoteGlobalIDString = 046AEAF61ECA562A00CBE511;
 			remoteInfo = AppCenterMacOSTests;
 		};
-		B20AE3D02102812300A1A195 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B20AE3B92102812300A1A195 /* AppCenter.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 043120DA1EE0BCF9007054C5;
-			remoteInfo = AppCenterTVOS;
-		};
 		B20AE3D22102812300A1A195 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = B20AE3B92102812300A1A195 /* AppCenter.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 0446DF2B1F3B864600C8E338;
 			remoteInfo = AppCenterTVOSTests;
-		};
-		B20AE3E32102813300A1A195 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B20AE3D42102813300A1A195 /* AppCenterAnalytics.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = E85547C01D2D6253002DF6E2;
-			remoteInfo = AppCenterAnalyticsIOS;
 		};
 		B20AE3E52102813300A1A195 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -400,26 +350,12 @@
 			remoteGlobalIDString = E85547D51D2D6723002DF6E2;
 			remoteInfo = AppCenterAnalyticsIOSTests;
 		};
-		B20AE3E72102813300A1A195 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B20AE3D42102813300A1A195 /* AppCenterAnalytics.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 0485AF851EAA79E300C10CAF;
-			remoteInfo = AppCenterAnalyticsMacOS;
-		};
 		B20AE3E92102813300A1A195 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = B20AE3D42102813300A1A195 /* AppCenterAnalytics.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 046AEAC61ECA51AF00CBE511;
 			remoteInfo = AppCenterAnalyticsMacOSTests;
-		};
-		B20AE3EB2102813300A1A195 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B20AE3D42102813300A1A195 /* AppCenterAnalytics.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 0431216C1EE0C20A007054C5;
-			remoteInfo = AppCenterAnalyticsTVOS;
 		};
 		B20AE3ED2102813300A1A195 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -428,26 +364,12 @@
 			remoteGlobalIDString = 0446DF541F3B8E6300C8E338;
 			remoteInfo = AppCenterAnalyticsTVOSTests;
 		};
-		B20AE4012102818B00A1A195 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B20AE3F22102818B00A1A195 /* AppCenterCrashes.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 6E0401331D1C98690051BCFA;
-			remoteInfo = AppCenterCrashesIOS;
-		};
 		B20AE4032102818B00A1A195 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = B20AE3F22102818B00A1A195 /* AppCenterCrashes.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 6E171AE11D22F781000DC480;
 			remoteInfo = AppCenterCrashesIOSTests;
-		};
-		B20AE4052102818B00A1A195 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B20AE3F22102818B00A1A195 /* AppCenterCrashes.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 0485AFD31EAA887500C10CAF;
-			remoteInfo = AppCenterCrashesMacOS;
 		};
 		B20AE4072102818B00A1A195 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -456,26 +378,12 @@
 			remoteGlobalIDString = 049327961ECA170D00D0187A;
 			remoteInfo = AppCenterCrashesMacOSTests;
 		};
-		B20AE4092102818B00A1A195 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B20AE3F22102818B00A1A195 /* AppCenterCrashes.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 04EBBEE81F01C0C90006B8AE;
-			remoteInfo = AppCenterCrashesTVOS;
-		};
 		B20AE40B2102818B00A1A195 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = B20AE3F22102818B00A1A195 /* AppCenterCrashes.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 0446DF9D1F3B977100C8E338;
 			remoteInfo = AppCenterCrashesTVOSTests;
-		};
-		B20AE4152102819C00A1A195 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B20AE40D2102819C00A1A195 /* AppCenterDistribute.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 04FD4A1C1E451E12009B4468;
-			remoteInfo = AppCenterDistributeIOS;
 		};
 		B20AE4172102819C00A1A195 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -491,13 +399,6 @@
 			remoteGlobalIDString = B2C070B81E5E68540076D6A9;
 			remoteInfo = AppCenterDistributeResources;
 		};
-		B20AE434210281C400A1A195 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B20AE429210281C400A1A195 /* AppCenterPush.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = D33A94511E5B11BB003966DB;
-			remoteInfo = AppCenterPushIOS;
-		};
 		B20AE436210281C400A1A195 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = B20AE429210281C400A1A195 /* AppCenterPush.xcodeproj */;
@@ -505,54 +406,12 @@
 			remoteGlobalIDString = D3AD5EC01E5C4F6A001627AB;
 			remoteInfo = AppCenterPushIOSTests;
 		};
-		B20AE438210281C400A1A195 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B20AE429210281C400A1A195 /* AppCenterPush.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 0469640D1F2A558300F9D31F;
-			remoteInfo = AppCenterPushMacOS;
-		};
 		B20AE43A210281C400A1A195 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = B20AE429210281C400A1A195 /* AppCenterPush.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 046964251F2A559C00F9D31F;
 			remoteInfo = AppCenterPushMacOSTests;
-		};
-		B20AE4412102820D00A1A195 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B20AE3B92102812300A1A195 /* AppCenter.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 6E0401021D1C98220051BCFA;
-			remoteInfo = AppCenterIOS;
-		};
-		B20AE4432102821400A1A195 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B20AE3D42102813300A1A195 /* AppCenterAnalytics.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = E85547BF1D2D6253002DF6E2;
-			remoteInfo = AppCenterAnalyticsIOS;
-		};
-		B20AE4452102821D00A1A195 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B20AE3F22102818B00A1A195 /* AppCenterCrashes.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 6E0401321D1C98690051BCFA;
-			remoteInfo = AppCenterCrashesIOS;
-		};
-		B20AE4472102822500A1A195 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B20AE40D2102819C00A1A195 /* AppCenterDistribute.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 04FD4A1B1E451E12009B4468;
-			remoteInfo = AppCenterDistributeIOS;
-		};
-		B20AE4492102822C00A1A195 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B20AE429210281C400A1A195 /* AppCenterPush.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = D33A94501E5B11BB003966DB;
-			remoteInfo = AppCenterPushIOS;
 		};
 		B2A888A32102A407001ACFDF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -568,26 +427,12 @@
 			remoteGlobalIDString = B20AE37C21027D6200A1A195;
 			remoteInfo = SasquatchPuppet;
 		};
-		C25DAE3022280A590073B86A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C25DAE2522280A590073B86A /* AppCenterData.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = D33A94511E5B11BB003966DB;
-			remoteInfo = AppCenterDataIOS;
-		};
 		C25DAE3222280A590073B86A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C25DAE2522280A590073B86A /* AppCenterData.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = D3AD5EC01E5C4F6A001627AB;
 			remoteInfo = AppCenterDataIOSTests;
-		};
-		C25DAE3422280A590073B86A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C25DAE2522280A590073B86A /* AppCenterData.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 0469640D1F2A558300F9D31F;
-			remoteInfo = AppCenterDataMacOS;
 		};
 		C25DAE3622280A590073B86A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -596,12 +441,117 @@
 			remoteGlobalIDString = 046964251F2A559C00F9D31F;
 			remoteInfo = AppCenterDataMacOSTests;
 		};
-		C25DAE3822280A6F0073B86A /* PBXContainerItemProxy */ = {
+		C2614409230FE86400D65EBF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B20AE3B92102812300A1A195 /* AppCenter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C9A91FB6230C01140068070D;
+			remoteInfo = "AppCenter iOS Framework";
+		};
+		C261440B230FE86400D65EBF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B20AE3B92102812300A1A195 /* AppCenter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C9A92007230C05D70068070D;
+			remoteInfo = "AppCenter macOS Framework";
+		};
+		C261440D230FE86400D65EBF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B20AE3B92102812300A1A195 /* AppCenter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C9A92024230C07A50068070D;
+			remoteInfo = "AppCenter tvOS Framework";
+		};
+		C261441B230FE86400D65EBF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B20AE3D42102813300A1A195 /* AppCenterAnalytics.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C9CA69D92306CAF700EE82AA;
+			remoteInfo = "AppCenterAnalytics iOS Framework";
+		};
+		C261441D230FE86400D65EBF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B20AE3D42102813300A1A195 /* AppCenterAnalytics.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C9A91F3F230BFB970068070D;
+			remoteInfo = "AppCenterAnalytics macOS Framework";
+		};
+		C261441F230FE86400D65EBF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B20AE3D42102813300A1A195 /* AppCenterAnalytics.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C9A91F34230BFB8A0068070D;
+			remoteInfo = "AppCenterAnalytics tvOS Framework";
+		};
+		C2614429230FE86400D65EBF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 995BA60C21EFFA93000E3212 /* AppCenterAuth.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C934BFE5230BF74100083490;
+			remoteInfo = "AppCenterAuth iOS Framework";
+		};
+		C261442B230FE86400D65EBF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 995BA60C21EFFA93000E3212 /* AppCenterAuth.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C9A91F28230BF9590068070D;
+			remoteInfo = "AppCenterAuth macOS Framework";
+		};
+		C2614439230FE86400D65EBF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B20AE3F22102818B00A1A195 /* AppCenterCrashes.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C9A91F4A230BFD930068070D;
+			remoteInfo = "AppCenterCrashes iOS Framework";
+		};
+		C261443B230FE86400D65EBF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B20AE3F22102818B00A1A195 /* AppCenterCrashes.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C9A91F66230BFDB70068070D;
+			remoteInfo = "AppCenterCrashes macOS Framework";
+		};
+		C261443D230FE86400D65EBF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B20AE3F22102818B00A1A195 /* AppCenterCrashes.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C9A91F5B230BFDB40068070D;
+			remoteInfo = "AppCenterCrashes tvOS Framework";
+		};
+		C2614447230FE86400D65EBF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C25DAE2522280A590073B86A /* AppCenterData.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = D33A94501E5B11BB003966DB;
-			remoteInfo = AppCenterDataIOS;
+			proxyType = 2;
+			remoteGlobalIDString = C9A91F71230BFF610068070D;
+			remoteInfo = "AppCenterData iOS Framework";
+		};
+		C2614449230FE86400D65EBF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C25DAE2522280A590073B86A /* AppCenterData.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C9A91F82230BFF670068070D;
+			remoteInfo = "AppCenterData macOS Framework";
+		};
+		C261444F230FE86400D65EBF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B20AE40D2102819C00A1A195 /* AppCenterDistribute.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C9A91F8C230BFFFF0068070D;
+			remoteInfo = "AppCenterDistribute iOS Framework";
+		};
+		C2614459230FE86400D65EBF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B20AE429210281C400A1A195 /* AppCenterPush.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C9A91F9B230C004A0068070D;
+			remoteInfo = "AppCenterPush iOS Framework";
+		};
+		C261445B230FE86400D65EBF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B20AE429210281C400A1A195 /* AppCenterPush.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C9A91FAC230C00540068070D;
+			remoteInfo = "AppCenterPush macOS Framework";
 		};
 		D31EF9371E9517B600450162 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -644,15 +594,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		04CCE78E21F7A4E4000AD84C /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		04CCE79021F7A4F3000AD84C /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
@@ -917,7 +858,6 @@
 		F8B8EB15211070BE004BCECB /* Sasquatch.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Sasquatch.xcconfig; sourceTree = "<group>"; };
 		F8B8EB9421107890004BCECB /* Puppet.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Puppet.xcconfig; sourceTree = "<group>"; };
 		F8F077A422A6A27B007B4B31 /* MSAuthInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSAuthInfoViewController.swift; sourceTree = "<group>"; };
-		F8FE732E210730A8005C6A74 /* CrashReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CrashReporter.framework; path = ../Vendor/iOS/PLCrashReporter/CrashReporter.framework; sourceTree = "<group>"; };
 		F8FE734221075803005C6A74 /* AnalyticsUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalyticsUITests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -963,18 +903,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C261445D230FE88A00D65EBF /* AppCenter.framework in Frameworks */,
+				C261445E230FE88A00D65EBF /* AppCenterAnalytics.framework in Frameworks */,
+				C261445F230FE88A00D65EBF /* AppCenterAuth.framework in Frameworks */,
+				C2614460230FE88A00D65EBF /* AppCenterCrashes.framework in Frameworks */,
+				C2614461230FE88A00D65EBF /* AppCenterData.framework in Frameworks */,
+				C2614462230FE88A00D65EBF /* AppCenterDistribute.framework in Frameworks */,
+				C2614463230FE88A00D65EBF /* AppCenterPush.framework in Frameworks */,
 				04A1DB34223B65EB006A48D6 /* AuthenticationServices.framework in Frameworks */,
 				B20AE48A21028E3C00A1A195 /* libz.tbd in Frameworks */,
 				B20AE48821028E3300A1A195 /* libc++.tbd in Frameworks */,
 				B20AE39521027D6200A1A195 /* CrashLibIOS.framework in Frameworks */,
-				B20AE4402102820300A1A195 /* libAppCenterPush.a in Frameworks */,
-				F8FE732F210730A8005C6A74 /* CrashReporter.framework in Frameworks */,
-				C25DAE3A22280A800073B86A /* libAppCenterData.a in Frameworks */,
-				995BA64221EFFBFD000E3212 /* libAppCenterAuth.a in Frameworks */,
-				B20AE43F210281FF00A1A195 /* libAppCenterDistribute.a in Frameworks */,
-				B20AE43E210281F800A1A195 /* libAppCenterCrashes.a in Frameworks */,
-				B20AE43D210281F300A1A195 /* libAppCenterAnalytics.a in Frameworks */,
-				B20AE43C210281EB00A1A195 /* libAppCenter.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1239,9 +1178,9 @@
 		995BA60D21EFFA93000E3212 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				995BA61C21EFFA93000E3212 /* libAppCenterAuth.a */,
+				C261442A230FE86400D65EBF /* AppCenterAuth.framework */,
 				995BA61E21EFFA93000E3212 /* AppCenterAuth.xctest */,
-				995BA62021EFFA93000E3212 /* libAppCenterAuth.a */,
+				C261442C230FE86400D65EBF /* AppCenterAuth.framework */,
 				995BA62221EFFA93000E3212 /* AppCenterAuth.xctest */,
 			);
 			name = Products;
@@ -1250,11 +1189,11 @@
 		B20AE3BA2102812300A1A195 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				B20AE3C92102812300A1A195 /* libAppCenter.a */,
+				C261440A230FE86400D65EBF /* AppCenter.framework */,
 				B20AE3CB2102812300A1A195 /* AppCenter.xctest */,
-				B20AE3CD2102812300A1A195 /* libAppCenter.a */,
+				C261440C230FE86400D65EBF /* AppCenter.framework */,
 				B20AE3CF2102812300A1A195 /* AppCenter.xctest */,
-				B20AE3D12102812300A1A195 /* libAppCenter.a */,
+				C261440E230FE86400D65EBF /* AppCenter.framework */,
 				B20AE3D32102812300A1A195 /* AppCenter.xctest */,
 			);
 			name = Products;
@@ -1263,11 +1202,11 @@
 		B20AE3D52102813300A1A195 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				B20AE3E42102813300A1A195 /* libAppCenterAnalytics.a */,
+				C261441C230FE86400D65EBF /* AppCenterAnalytics.framework */,
 				B20AE3E62102813300A1A195 /* AppCenterAnalytics.xctest */,
-				B20AE3E82102813300A1A195 /* libAppCenterAnalytics.a */,
+				C261441E230FE86400D65EBF /* AppCenterAnalytics.framework */,
 				B20AE3EA2102813300A1A195 /* AppCenterAnalytics.xctest */,
-				B20AE3EC2102813300A1A195 /* libAppCenterAnalytics.a */,
+				C2614420230FE86400D65EBF /* AppCenterAnalytics.framework */,
 				B20AE3EE2102813300A1A195 /* AppCenterAnalytics.xctest */,
 			);
 			name = Products;
@@ -1290,11 +1229,11 @@
 		B20AE3F32102818B00A1A195 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				B20AE4022102818B00A1A195 /* libAppCenterCrashes.a */,
+				C261443A230FE86400D65EBF /* AppCenterCrashes.framework */,
 				B20AE4042102818B00A1A195 /* AppCenterCrashes.xctest */,
-				B20AE4062102818B00A1A195 /* libAppCenterCrashes.a */,
+				C261443C230FE86400D65EBF /* AppCenterCrashes.framework */,
 				B20AE4082102818B00A1A195 /* AppCenterCrashes.xctest */,
-				B20AE40A2102818B00A1A195 /* libAppCenterCrashes.a */,
+				C261443E230FE86400D65EBF /* AppCenterCrashes.framework */,
 				B20AE40C2102818B00A1A195 /* AppCenterCrashes.xctest */,
 			);
 			name = Products;
@@ -1303,7 +1242,7 @@
 		B20AE40E2102819C00A1A195 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				B20AE4162102819C00A1A195 /* libAppCenterDistribute.a */,
+				C2614450230FE86400D65EBF /* AppCenterDistribute.framework */,
 				B20AE4182102819C00A1A195 /* AppCenterDistribute.xctest */,
 				B20AE41A2102819C00A1A195 /* AppCenterDistributeResources.bundle */,
 			);
@@ -1313,9 +1252,9 @@
 		B20AE42A210281C400A1A195 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				B20AE435210281C400A1A195 /* libAppCenterPush.a */,
+				C261445A230FE86400D65EBF /* AppCenterPush.framework */,
 				B20AE437210281C400A1A195 /* AppCenterPush.xctest */,
-				B20AE439210281C400A1A195 /* libAppCenterPush.a */,
+				C261445C230FE86400D65EBF /* AppCenterPush.framework */,
 				B20AE43B210281C400A1A195 /* AppCenterPush.xctest */,
 			);
 			name = Products;
@@ -1347,9 +1286,9 @@
 		C25DAE2622280A590073B86A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C25DAE3122280A590073B86A /* libAppCenterData.a */,
+				C2614448230FE86400D65EBF /* AppCenterData.framework */,
 				C25DAE3322280A590073B86A /* AppCenterData.xctest */,
-				C25DAE3522280A590073B86A /* libAppCenterData.a */,
+				C261444A230FE86400D65EBF /* AppCenterData.framework */,
 				C25DAE3722280A590073B86A /* AppCenterData.xctest */,
 			);
 			name = Products;
@@ -1440,7 +1379,6 @@
 			isa = PBXGroup;
 			children = (
 				F8669FB72195B6A2003933A8 /* sqlite3.c */,
-				F8FE732E210730A8005C6A74 /* CrashReporter.framework */,
 			);
 			name = Vendor;
 			sourceTree = "<group>";
@@ -1487,13 +1425,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 84226C711E88FF4A00798417 /* Build configuration list for PBXNativeTarget "SasquatchObjC" */;
 			buildPhases = (
-				F84923E92111C2AD00E14DBE /* Verify no buildSettings */,
+				F84923E92111C2AD00E14DBE /* Verify No Build Settings */,
+				F83D7A802317C4FF00E7E8F4 /* Remove the wrong framework */,
 				84226C431E88FF4A00798417 /* Sources */,
 				84226C441E88FF4A00798417 /* Frameworks */,
 				84226C451E88FF4A00798417 /* Resources */,
 				F89D790B1E93DA3B0094521F /* Embed Frameworks */,
 				D36AD6EE1E94FF6B003D34E7 /* Embed Watch Content */,
-				04CCE79021F7A4F3000AD84C /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -1509,7 +1447,8 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 84226CA51E8908CA00798417 /* Build configuration list for PBXNativeTarget "SasquatchSwift" */;
 			buildPhases = (
-				F84923EB2111C2C800E14DBE /* Verify no buildSettings */,
+				F84923EB2111C2C800E14DBE /* Verify No Build Settings */,
+				F83D7AC12317C51900E7E8F4 /* Remove the wrong framework */,
 				84226C7C1E8908C900798417 /* Sources */,
 				84226C7D1E8908C900798417 /* Frameworks */,
 				84226C7E1E8908C900798417 /* Resources */,
@@ -1531,7 +1470,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B20AE3A821027D6200A1A195 /* Build configuration list for PBXNativeTarget "SasquatchPuppet" */;
 			buildPhases = (
-				F84923BB21119AE100E14DBE /* Verify no buildSettings */,
+				F84923BB21119AE100E14DBE /* Verify No Build Settings */,
 				B20AE37F21027D6200A1A195 /* Sources */,
 				B20AE39421027D6200A1A195 /* Frameworks */,
 				B20AE39B21027D6200A1A195 /* Resources */,
@@ -1541,13 +1480,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				B20AE4422102820D00A1A195 /* PBXTargetDependency */,
-				B20AE4442102821400A1A195 /* PBXTargetDependency */,
-				B20AE4462102821D00A1A195 /* PBXTargetDependency */,
-				C25DAE3922280A6F0073B86A /* PBXTargetDependency */,
-				B20AE4482102822500A1A195 /* PBXTargetDependency */,
-				995BA64421EFFC13000E3212 /* PBXTargetDependency */,
-				B20AE44A2102822C00A1A195 /* PBXTargetDependency */,
 				B2A888A42102A407001ACFDF /* PBXTargetDependency */,
 			);
 			name = SasquatchPuppet;
@@ -1559,7 +1491,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B27D54CF210A5E7E004E82C9 /* Build configuration list for PBXNativeTarget "SasquatchObjC-Preview" */;
 			buildPhases = (
-				F84923E72111C28C00E14DBE /* Verify no buildSettings */,
+				F84923E72111C28C00E14DBE /* Verify No Build Settings */,
 				B27D54A3210A5E7E004E82C9 /* Sources */,
 				B27D54BB210A5E7E004E82C9 /* Frameworks */,
 				B27D54C2210A5E7E004E82C9 /* Resources */,
@@ -1579,7 +1511,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B2A4CFB3210A6E6900199B4F /* Build configuration list for PBXNativeTarget "SasquatchSwift-Preview" */;
 			buildPhases = (
-				F84923EA2111C2C100E14DBE /* Verify no buildSettings */,
+				F84923EA2111C2C100E14DBE /* Verify No Build Settings */,
 				B2A4CF88210A6E6900199B4F /* Sources */,
 				B2A4CF9F210A6E6900199B4F /* Frameworks */,
 				B2A4CFA6210A6E6900199B4F /* Resources */,
@@ -1617,7 +1549,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D31EF94F1E9517B600450162 /* Build configuration list for PBXNativeTarget "SasquatchWatchObjC" */;
 			buildPhases = (
-				8099A54F21121501008E1466 /* Verify no build settings */,
+				8099A54F21121501008E1466 /* Verify No Build Settings */,
 				D31EF9271E9517B500450162 /* Resources */,
 				D31EF94E1E9517B600450162 /* Embed App Extensions */,
 			);
@@ -1652,7 +1584,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D31EF9771E9517C600450162 /* Build configuration list for PBXNativeTarget "SasquatchWatchSwift" */;
 			buildPhases = (
-				8099A5D62112198F008E1466 /* Verify no build settings */,
+				8099A5D62112198F008E1466 /* Verify No Build Settings */,
 				D31EF9521E9517C500450162 /* Resources */,
 				D31EF9761E9517C600450162 /* Embed App Extensions */,
 			);
@@ -1797,6 +1729,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 				cs,
@@ -1865,25 +1798,11 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		995BA61C21EFFA93000E3212 /* libAppCenterAuth.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libAppCenterAuth.a;
-			remoteRef = 995BA61B21EFFA93000E3212 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		995BA61E21EFFA93000E3212 /* AppCenterAuth.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = AppCenterAuth.xctest;
 			remoteRef = 995BA61D21EFFA93000E3212 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		995BA62021EFFA93000E3212 /* libAppCenterAuth.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libAppCenterAuth.a;
-			remoteRef = 995BA61F21EFFA93000E3212 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		995BA62221EFFA93000E3212 /* AppCenterAuth.xctest */ = {
@@ -1893,25 +1812,11 @@
 			remoteRef = 995BA62121EFFA93000E3212 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		B20AE3C92102812300A1A195 /* libAppCenter.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libAppCenter.a;
-			remoteRef = B20AE3C82102812300A1A195 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		B20AE3CB2102812300A1A195 /* AppCenter.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = AppCenter.xctest;
 			remoteRef = B20AE3CA2102812300A1A195 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		B20AE3CD2102812300A1A195 /* libAppCenter.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libAppCenter.a;
-			remoteRef = B20AE3CC2102812300A1A195 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		B20AE3CF2102812300A1A195 /* AppCenter.xctest */ = {
@@ -1921,25 +1826,11 @@
 			remoteRef = B20AE3CE2102812300A1A195 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		B20AE3D12102812300A1A195 /* libAppCenter.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libAppCenter.a;
-			remoteRef = B20AE3D02102812300A1A195 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		B20AE3D32102812300A1A195 /* AppCenter.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = AppCenter.xctest;
 			remoteRef = B20AE3D22102812300A1A195 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		B20AE3E42102813300A1A195 /* libAppCenterAnalytics.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libAppCenterAnalytics.a;
-			remoteRef = B20AE3E32102813300A1A195 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		B20AE3E62102813300A1A195 /* AppCenterAnalytics.xctest */ = {
@@ -1949,25 +1840,11 @@
 			remoteRef = B20AE3E52102813300A1A195 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		B20AE3E82102813300A1A195 /* libAppCenterAnalytics.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libAppCenterAnalytics.a;
-			remoteRef = B20AE3E72102813300A1A195 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		B20AE3EA2102813300A1A195 /* AppCenterAnalytics.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = AppCenterAnalytics.xctest;
 			remoteRef = B20AE3E92102813300A1A195 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		B20AE3EC2102813300A1A195 /* libAppCenterAnalytics.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libAppCenterAnalytics.a;
-			remoteRef = B20AE3EB2102813300A1A195 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		B20AE3EE2102813300A1A195 /* AppCenterAnalytics.xctest */ = {
@@ -1977,25 +1854,11 @@
 			remoteRef = B20AE3ED2102813300A1A195 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		B20AE4022102818B00A1A195 /* libAppCenterCrashes.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libAppCenterCrashes.a;
-			remoteRef = B20AE4012102818B00A1A195 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		B20AE4042102818B00A1A195 /* AppCenterCrashes.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = AppCenterCrashes.xctest;
 			remoteRef = B20AE4032102818B00A1A195 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		B20AE4062102818B00A1A195 /* libAppCenterCrashes.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libAppCenterCrashes.a;
-			remoteRef = B20AE4052102818B00A1A195 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		B20AE4082102818B00A1A195 /* AppCenterCrashes.xctest */ = {
@@ -2005,25 +1868,11 @@
 			remoteRef = B20AE4072102818B00A1A195 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		B20AE40A2102818B00A1A195 /* libAppCenterCrashes.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libAppCenterCrashes.a;
-			remoteRef = B20AE4092102818B00A1A195 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		B20AE40C2102818B00A1A195 /* AppCenterCrashes.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = AppCenterCrashes.xctest;
 			remoteRef = B20AE40B2102818B00A1A195 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		B20AE4162102819C00A1A195 /* libAppCenterDistribute.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libAppCenterDistribute.a;
-			remoteRef = B20AE4152102819C00A1A195 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		B20AE4182102819C00A1A195 /* AppCenterDistribute.xctest */ = {
@@ -2040,25 +1889,11 @@
 			remoteRef = B20AE4192102819C00A1A195 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		B20AE435210281C400A1A195 /* libAppCenterPush.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libAppCenterPush.a;
-			remoteRef = B20AE434210281C400A1A195 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		B20AE437210281C400A1A195 /* AppCenterPush.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = AppCenterPush.xctest;
 			remoteRef = B20AE436210281C400A1A195 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		B20AE439210281C400A1A195 /* libAppCenterPush.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libAppCenterPush.a;
-			remoteRef = B20AE438210281C400A1A195 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		B20AE43B210281C400A1A195 /* AppCenterPush.xctest */ = {
@@ -2068,13 +1903,6 @@
 			remoteRef = B20AE43A210281C400A1A195 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		C25DAE3122280A590073B86A /* libAppCenterData.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libAppCenterData.a;
-			remoteRef = C25DAE3022280A590073B86A /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		C25DAE3322280A590073B86A /* AppCenterData.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
@@ -2082,18 +1910,123 @@
 			remoteRef = C25DAE3222280A590073B86A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		C25DAE3522280A590073B86A /* libAppCenterData.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libAppCenterData.a;
-			remoteRef = C25DAE3422280A590073B86A /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		C25DAE3722280A590073B86A /* AppCenterData.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = AppCenterData.xctest;
 			remoteRef = C25DAE3622280A590073B86A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C261440A230FE86400D65EBF /* AppCenter.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = AppCenter.framework;
+			remoteRef = C2614409230FE86400D65EBF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C261440C230FE86400D65EBF /* AppCenter.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = AppCenter.framework;
+			remoteRef = C261440B230FE86400D65EBF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C261440E230FE86400D65EBF /* AppCenter.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = AppCenter.framework;
+			remoteRef = C261440D230FE86400D65EBF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C261441C230FE86400D65EBF /* AppCenterAnalytics.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = AppCenterAnalytics.framework;
+			remoteRef = C261441B230FE86400D65EBF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C261441E230FE86400D65EBF /* AppCenterAnalytics.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = AppCenterAnalytics.framework;
+			remoteRef = C261441D230FE86400D65EBF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C2614420230FE86400D65EBF /* AppCenterAnalytics.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = AppCenterAnalytics.framework;
+			remoteRef = C261441F230FE86400D65EBF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C261442A230FE86400D65EBF /* AppCenterAuth.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = AppCenterAuth.framework;
+			remoteRef = C2614429230FE86400D65EBF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C261442C230FE86400D65EBF /* AppCenterAuth.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = AppCenterAuth.framework;
+			remoteRef = C261442B230FE86400D65EBF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C261443A230FE86400D65EBF /* AppCenterCrashes.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = AppCenterCrashes.framework;
+			remoteRef = C2614439230FE86400D65EBF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C261443C230FE86400D65EBF /* AppCenterCrashes.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = AppCenterCrashes.framework;
+			remoteRef = C261443B230FE86400D65EBF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C261443E230FE86400D65EBF /* AppCenterCrashes.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = AppCenterCrashes.framework;
+			remoteRef = C261443D230FE86400D65EBF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C2614448230FE86400D65EBF /* AppCenterData.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = AppCenterData.framework;
+			remoteRef = C2614447230FE86400D65EBF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C261444A230FE86400D65EBF /* AppCenterData.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = AppCenterData.framework;
+			remoteRef = C2614449230FE86400D65EBF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C2614450230FE86400D65EBF /* AppCenterDistribute.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = AppCenterDistribute.framework;
+			remoteRef = C261444F230FE86400D65EBF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C261445A230FE86400D65EBF /* AppCenterPush.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = AppCenterPush.framework;
+			remoteRef = C2614459230FE86400D65EBF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C261445C230FE86400D65EBF /* AppCenterPush.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = AppCenterPush.framework;
+			remoteRef = C261445B230FE86400D65EBF /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -2237,14 +2170,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		8099A54F21121501008E1466 /* Verify no build settings */ = {
+		8099A54F21121501008E1466 /* Verify No Build Settings */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Verify no build settings";
+			name = "Verify No Build Settings";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2252,14 +2185,14 @@
 			shellScript = "\"${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift\" ${PROJECT_NAME}.xcodeproj/project.pbxproj\n";
 			showEnvVarsInLog = 0;
 		};
-		8099A5D62112198F008E1466 /* Verify no build settings */ = {
+		8099A5D62112198F008E1466 /* Verify No Build Settings */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Verify no build settings";
+			name = "Verify No Build Settings";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2267,14 +2200,52 @@
 			shellScript = "\"${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift\" ${PROJECT_NAME}.xcodeproj/project.pbxproj\n";
 			showEnvVarsInLog = 0;
 		};
-		F84923BB21119AE100E14DBE /* Verify no buildSettings */ = {
+		F83D7A802317C4FF00E7E8F4 /* Remove the wrong framework */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Remove the wrong framework";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# We test the app on the fat fake framework produced by our script. \n# In order for linker to not pick up the simple static framework\n# (which it does by default), we need to remove it.\nrm -rf \"${BUILT_PRODUCTS_DIR}\"/AppCenter*.framework\n";
+			showEnvVarsInLog = 0;
+		};
+		F83D7AC12317C51900E7E8F4 /* Remove the wrong framework */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Remove the wrong framework";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# We test the app on the fat fake framework produced by our script. \n# In order for linker to not pick up the simple static framework\n# (which it does by default), we need to remove it.\nrm -rf \"${BUILT_PRODUCTS_DIR}\"/AppCenter*.framework\n";
+			showEnvVarsInLog = 0;
+		};
+		F84923BB21119AE100E14DBE /* Verify No Build Settings */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Verify no buildSettings";
+			name = "Verify No Build Settings";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2282,14 +2253,14 @@
 			shellScript = "\"${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift\" ${PROJECT_NAME}.xcodeproj/project.pbxproj\n";
 			showEnvVarsInLog = 0;
 		};
-		F84923E72111C28C00E14DBE /* Verify no buildSettings */ = {
+		F84923E72111C28C00E14DBE /* Verify No Build Settings */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Verify no buildSettings";
+			name = "Verify No Build Settings";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2297,14 +2268,14 @@
 			shellScript = "\"${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift\" ${PROJECT_NAME}.xcodeproj/project.pbxproj";
 			showEnvVarsInLog = 0;
 		};
-		F84923E92111C2AD00E14DBE /* Verify no buildSettings */ = {
+		F84923E92111C2AD00E14DBE /* Verify No Build Settings */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Verify no buildSettings";
+			name = "Verify No Build Settings";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2312,14 +2283,14 @@
 			shellScript = "\"${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift\" ${PROJECT_NAME}.xcodeproj/project.pbxproj\n";
 			showEnvVarsInLog = 0;
 		};
-		F84923EA2111C2C100E14DBE /* Verify no buildSettings */ = {
+		F84923EA2111C2C100E14DBE /* Verify No Build Settings */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Verify no buildSettings";
+			name = "Verify No Build Settings";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2327,14 +2298,14 @@
 			shellScript = "\"${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift\" ${PROJECT_NAME}.xcodeproj/project.pbxproj";
 			showEnvVarsInLog = 0;
 		};
-		F84923EB2111C2C800E14DBE /* Verify no buildSettings */ = {
+		F84923EB2111C2C800E14DBE /* Verify No Build Settings */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Verify no buildSettings";
+			name = "Verify No Build Settings";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2609,36 +2580,6 @@
 			target = 84226C461E88FF4A00798417 /* SasquatchObjC */;
 			targetProxy = 5CE2588C1EA5F62400DA8FB9 /* PBXContainerItemProxy */;
 		};
-		995BA64421EFFC13000E3212 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = AppCenterAuthIOS;
-			targetProxy = 995BA64321EFFC13000E3212 /* PBXContainerItemProxy */;
-		};
-		B20AE4422102820D00A1A195 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = AppCenterIOS;
-			targetProxy = B20AE4412102820D00A1A195 /* PBXContainerItemProxy */;
-		};
-		B20AE4442102821400A1A195 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = AppCenterAnalyticsIOS;
-			targetProxy = B20AE4432102821400A1A195 /* PBXContainerItemProxy */;
-		};
-		B20AE4462102821D00A1A195 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = AppCenterCrashesIOS;
-			targetProxy = B20AE4452102821D00A1A195 /* PBXContainerItemProxy */;
-		};
-		B20AE4482102822500A1A195 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = AppCenterDistributeIOS;
-			targetProxy = B20AE4472102822500A1A195 /* PBXContainerItemProxy */;
-		};
-		B20AE44A2102822C00A1A195 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = AppCenterPushIOS;
-			targetProxy = B20AE4492102822C00A1A195 /* PBXContainerItemProxy */;
-		};
 		B2A888A42102A407001ACFDF /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = AppCenterDistributeResources;
@@ -2648,11 +2589,6 @@
 			isa = PBXTargetDependency;
 			target = B20AE37C21027D6200A1A195 /* SasquatchPuppet */;
 			targetProxy = B2A888BA2102B1E7001ACFDF /* PBXContainerItemProxy */;
-		};
-		C25DAE3922280A6F0073B86A /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = AppCenterDataIOS;
-			targetProxy = C25DAE3822280A6F0073B86A /* PBXContainerItemProxy */;
 		};
 		D31EF9381E9517B600450162 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

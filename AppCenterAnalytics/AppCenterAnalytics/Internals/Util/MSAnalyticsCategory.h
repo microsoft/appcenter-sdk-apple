@@ -3,12 +3,6 @@
 
 #import <Foundation/Foundation.h>
 
-#if TARGET_OS_OSX
-#import <AppKit/AppKit.h>
-#else
-#import <UIKit/UIKit.h>
-#endif
-
 NS_ASSUME_NONNULL_BEGIN
 
 @interface MSAnalyticsCategory : NSObject
@@ -26,18 +20,5 @@ NS_ASSUME_NONNULL_BEGIN
 + (nullable NSString *)missedPageViewName;
 
 @end
-
-/**
- * Should track page
- *
- * @param viewController The current view controller
- *
- * @return YES if should track page, NO otherwise
- */
-#if TARGET_OS_OSX
-BOOL ms_shouldTrackPageView(NSViewController *viewController);
-#else
-BOOL ms_shouldTrackPageView(UIViewController *viewController);
-#endif
 
 NS_ASSUME_NONNULL_END

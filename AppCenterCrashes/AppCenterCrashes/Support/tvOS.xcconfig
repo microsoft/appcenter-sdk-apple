@@ -1,3 +1,5 @@
 #include "../../../Config/tvOS.xcconfig"
+#include "../../../Config/Target config.xcconfig"
 
-OTHER_CFLAGS = $(inherited) -iframework "$(SRCROOT)/../Vendor/tvOS/PLCrashReporter"
+HEADER_SEARCH_PATHS = "$(SRCROOT)/../Vendor/tvOS"/**
+LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../Vendor/tvOS"/**

@@ -39,6 +39,7 @@ static NSString *const kMSStorageMaxSizeKey = @"storageMaxSize";
 static NSNotificationName const kUpdateAnalyticsResultNotification = @"updateAnalyticsResult";
 static NSString *const kMSUserIdKey = @"userId";
 static NSString *const kMSLogUrl = @"logUrl";
+static NSString *const kMSTimeToLive = @"timeToLive";
 static NSString *const kMSAppSecret = @"appSecret";
 static NSString *const kMSUserIdentity = @"userIdentity";
 static NSString *const kMSUserConfirmationKey = @"MSUserConfirmation";
