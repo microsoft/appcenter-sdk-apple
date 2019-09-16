@@ -18,7 +18,7 @@
 /**
  * Parses the JWT.
  *
- * @param jwt The jwt string.
+ * @param jwt The JWT string.
  *
  * @return MSJwtCLaims instance if the string is a valid JWT.
  */
