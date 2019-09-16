@@ -33,7 +33,7 @@
  * Initializes the MSJwtClaims with the subject and expiration
  *
  * @param subject The JWT subject.
- * @param expirationDate the JWT expiration date.
+ * @param expiration the JWT expiration date expressed as seconds since 1970.
  *
  * @return MSJwtClaims instance.
  */

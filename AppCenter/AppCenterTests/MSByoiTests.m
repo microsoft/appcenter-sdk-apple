@@ -41,7 +41,6 @@ static NSString *const kMSJwtFormat = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.%@"
 
 @interface MSByoiTests : XCTestCase
 
-@property(nonatomic) MSAppCenter *sut;
 @property(nonatomic) id authTokenContextMock;
 
 @end
@@ -58,7 +57,6 @@ static NSString *const kMSJwtFormat = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.%@"
 
   // System Under Test.
   [MSAppCenter resetSharedInstance];
-  self.sut = [[MSAppCenter alloc] init];
 }
 
 - (void)tearDown {

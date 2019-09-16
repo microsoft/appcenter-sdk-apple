@@ -10,7 +10,7 @@
 
 @implementation MSJwtClaimsTests
 
-static NSString *const kMSJwtFormat = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.%@";
+static NSString *const kMSJwtFormat = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.%@.blah";
 
 - (void)testGetValidJwt {
 
@@ -30,7 +30,16 @@ static NSString *const kMSJwtFormat = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.%@"
   // Then
   XCTAssertNotNil(claim);
   XCTAssertEqualObjects(claim.subject, userId);
-  XCTAssertEqualObjects(claim.expirationDate, expirationAsDate);
+  XCTAssertEqualObjects(claim.expiration, expirationAsDate);
+}
+
+- (void)testNilJwt {
+  
+  // When
+  MSJwtClaims *claims = [MSJwtClaims parse:nil];
+  
+  // Then
+  XCTAssertNil(claims);
 }
 
 - (void)testExpirationClaimMissing {
@@ -43,10 +52,10 @@ static NSString *const kMSJwtFormat = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.%@"
   NSString *combinedJwt = [NSString stringWithFormat:kMSJwtFormat, base64Encoded];
 
   // When
-  MSJwtClaims *claim = [MSJwtClaims parse:combinedJwt];
+  MSJwtClaims *claims = [MSJwtClaims parse:combinedJwt];
 
   // Then
-  XCTAssertNil(claim);
+  XCTAssertNil(claims);
 }
 
 - (void)testSubjectClaimMissing {
@@ -76,12 +85,12 @@ static NSString *const kMSJwtFormat = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.%@"
   NSString *combinedJwt = [NSString stringWithFormat:kMSJwtFormat, base64Encoded];
 
   // When
-  MSJwtClaims *claim = [MSJwtClaims parse:combinedJwt];
+  MSJwtClaims *claims = [MSJwtClaims parse:combinedJwt];
 
   // Then
-  XCTAssertNotNil(claim);
-  XCTAssertEqualObjects(claim.subject, userId);
-  XCTAssertEqualObjects(claim.expirationDate, [[NSDate alloc] initWithTimeIntervalSince1970:0]);
+  XCTAssertNotNil(claims);
+  XCTAssertEqualObjects(claims.subject, userId);
+  XCTAssertEqualObjects(claims.expiration, [[NSDate alloc] initWithTimeIntervalSince1970:0]);
 }
 
 - (void)testInvalidBase64Token {
@@ -91,10 +100,10 @@ static NSString *const kMSJwtFormat = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.%@"
   NSString *combinedJwt = [NSString stringWithFormat:kMSJwtFormat, invalidTokenPart];
 
   // When
-  MSJwtClaims *claim = [MSJwtClaims parse:combinedJwt];
+  MSJwtClaims *claims = [MSJwtClaims parse:combinedJwt];
 
   // Then
-  XCTAssertNil(claim);
+  XCTAssertNil(claims);
 }
 
 - (void)testMissingParts {
@@ -103,10 +112,10 @@ static NSString *const kMSJwtFormat = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.%@"
   NSString *invalidJwt = @"invalidjwt";
 
   // When
-  MSJwtClaims *claim = [MSJwtClaims parse:invalidJwt];
+  MSJwtClaims *claims = [MSJwtClaims parse:invalidJwt];
 
   // Then
-  XCTAssertNil(claim);
+  XCTAssertNil(claims);
 }
 
 @end

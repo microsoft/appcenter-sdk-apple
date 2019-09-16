@@ -22,7 +22,11 @@ static NSString *const kMSExpirationClaim = @"exp";
   return self;
 }
 
-+ (MSJwtClaims *)parse:(NSString *)jwt {
++ (MSJwtClaims *)parse:(NSString *_Nullable)jwt {
+  if (jwt == nil) {
+    MSLogError([MSAppCenter logTag], @"Failed to parse JWT, token is nil.");
+    return nil;
+  }
   NSArray *parts = [jwt componentsSeparatedByString:kMSJwtPartsSeparator];
   if ([parts count] < 3) {
     MSLogError([MSAppCenter logTag], @"Failed to parse JWT, not enough parts.");
@@ -34,7 +38,7 @@ static NSString *const kMSExpirationClaim = @"exp";
     NSData *claimsPartData = [[NSData alloc] initWithBase64EncodedString:base64ClaimsPart options:0];
     NSDictionary *claims = [NSJSONSerialization JSONObjectWithData:claimsPartData options:0 error:&error];
     if ([claims objectForKey:kMSExpirationClaim] == nil || [claims objectForKey:kMSSubjectClaim] == nil) {
-      MSLogError([MSAppCenter logTag], @"Deserialized claims is missing `sub` or `exp`");
+      MSLogError([MSAppCenter logTag], @"Deserialized claims is missing `sub` or `exp`.");
       return nil;
     }
 
