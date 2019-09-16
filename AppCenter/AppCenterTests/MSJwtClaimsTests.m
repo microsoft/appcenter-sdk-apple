@@ -10,7 +10,7 @@
 
 @implementation MSJwtClaimsTests
 
-static NSString *const kMSJwtFormat = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.%@.blah";
+static NSString *const kMSJwtFormat = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.%@";
 
 - (void)testGetValidJwt {
 

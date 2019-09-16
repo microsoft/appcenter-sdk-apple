@@ -28,7 +28,7 @@ static NSString *const kMSExpirationClaim = @"exp";
     return nil;
   }
   NSArray *parts = [jwt componentsSeparatedByString:kMSJwtPartsSeparator];
-  if ([parts count] < 3) {
+  if ([parts count] < 2) {
     MSLogError([MSAppCenter logTag], @"Failed to parse JWT, not enough parts.");
     return nil;
   }
