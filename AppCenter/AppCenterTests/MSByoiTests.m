@@ -79,17 +79,13 @@ static NSString *const kMSJwtFormat = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.%@"
 
   // Stub delegate mock.
   id delegateMock = OCMProtocolMock(@protocol(MSAuthTokenDelegate));
-  __block int numCalls = 0;
-  OCMStub([delegateMock appCenter:OCMOCK_ANY acquireAuthTokenWithCompletionHandler:OCMOCK_ANY]).andDo(^(__unused NSInvocation *invocation) {
-    numCalls++;
-  });
+  OCMReject([delegateMock appCenter:OCMOCK_ANY acquireAuthTokenWithCompletionHandler:OCMOCK_ANY]);
 
   // When
   [MSAppCenter setAuthTokenDelegate:delegateMock];
   [self.authTokenContextMock checkIfTokenNeedsToBeRefreshed:validityInfo];
-
-  // Then
-  XCTAssertEqual(0, numCalls);
+  
+  // Then - nothing, we just need to make sure the method wasn't called
 }
 
 - (void)testSetAuthTokenDelegateExpiredToken {
