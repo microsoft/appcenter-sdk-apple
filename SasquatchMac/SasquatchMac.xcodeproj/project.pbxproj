@@ -1222,7 +1222,7 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Manual;
 				INFOPLIST_FILE = "SasquatchMacSwift-Extension/Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.akvelon.appcenter.sasquatchswift.mac.SasquatchMacSwift-Extension";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.microsoft.appcenter.sasquatchswift.mac.SasquatchMacSwift-Extension";
 				PROVISIONING_PROFILE = "cb0c0f7a-d8d1-4b90-9aac-98b0acad5847";
 				PROVISIONING_PROFILE_SPECIFIER = "AppCenter SDK SasquatchSwift Mac Debug";
 			};
@@ -1235,7 +1235,7 @@
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				INFOPLIST_FILE = "SasquatchMacSwift-Extension/Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.akvelon.appcenter.sasquatchswift.mac.SasquatchMacSwift-Extension";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.microsoft.appcenter.sasquatchswift.mac.SasquatchMacSwift-Extension";
 				PROVISIONING_PROFILE = "18941b56-5e23-45ca-86df-da36fdbcc922";
 				PROVISIONING_PROFILE_SPECIFIER = "AppCenter SDK SasquatchSwift Mac Release In-house";
 			};
