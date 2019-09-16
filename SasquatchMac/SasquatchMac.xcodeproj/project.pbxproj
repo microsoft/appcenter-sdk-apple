@@ -668,7 +668,7 @@
 					};
 					F8EE645A231E6F8E0007A52E = {
 						CreatedOnToolsVersion = 10.2.1;
-						DevelopmentTeam = 5Z97G9NZQ6;
+						DevelopmentTeam = KYJ84ZC369;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Sandbox = {
@@ -678,8 +678,8 @@
 					};
 					F8EE6478231E71060007A52E = {
 						CreatedOnToolsVersion = 10.2.1;
-						DevelopmentTeam = 5Z97G9NZQ6;
-						ProvisioningStyle = Automatic;
+						DevelopmentTeam = KYJ84ZC369;
+						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.Sandbox = {
 								enabled = 1;
@@ -1101,6 +1101,7 @@
 				CODE_SIGN_ENTITLEMENTS = SasquatchMacSwift/SasquatchMacSwift.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = KYJ84ZC369;
 				INFOPLIST_FILE = "$(SRCROOT)/SasquatchMacSwift/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchswift.mac;
 				PROVISIONING_PROFILE = "cb0c0f7a-d8d1-4b90-9aac-98b0acad5847";
@@ -1194,11 +1195,12 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "SasquatchMacSwift-Extension/SasquatchMacSwift_Today_Extension.entitlements";
 				CODE_SIGN_IDENTITY = "Mac Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = KYJ84ZC369;
 				INFOPLIST_FILE = "SasquatchMacSwift-Extension/Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.microsoft.appcenter.sasquatchswift.mac.SasquatchMacSwift-Extension";
-				PROVISIONING_PROFILE = "cb0c0f7a-d8d1-4b90-9aac-98b0acad5847";
-				PROVISIONING_PROFILE_SPECIFIER = "AppCenter SDK SasquatchSwift Mac Debug";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchswift.mac.extension;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
@@ -1206,12 +1208,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "SasquatchMacSwift-Extension/SasquatchMacSwift_Today_Extension.entitlements";
-				CODE_SIGN_IDENTITY = "Developer ID Application";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = KYJ84ZC369;
 				INFOPLIST_FILE = "SasquatchMacSwift-Extension/Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.microsoft.appcenter.sasquatchswift.mac.SasquatchMacSwift-Extension";
-				PROVISIONING_PROFILE = "18941b56-5e23-45ca-86df-da36fdbcc922";
-				PROVISIONING_PROFILE_SPECIFIER = "AppCenter SDK SasquatchSwift Mac Release In-house";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchswift.mac.extension;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};
@@ -1221,10 +1224,11 @@
 				CODE_SIGN_ENTITLEMENTS = "SasquatchMacSwift-Preview-Extension/SasquatchMacSwift_Preview_Today_Extension.entitlements";
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = KYJ84ZC369;
 				INFOPLIST_FILE = "SasquatchMacSwift-Extension/Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.microsoft.appcenter.sasquatchswift.mac.SasquatchMacSwift-Extension";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchswift.mac.extension;
 				PROVISIONING_PROFILE = "cb0c0f7a-d8d1-4b90-9aac-98b0acad5847";
-				PROVISIONING_PROFILE_SPECIFIER = "AppCenter SDK SasquatchSwift Mac Debug";
+				PROVISIONING_PROFILE_SPECIFIER = "AppCenter SDK SasquatchSwift Mac Ext Debug";
 			};
 			name = Debug;
 		};
@@ -1234,10 +1238,11 @@
 				CODE_SIGN_ENTITLEMENTS = "SasquatchMacSwift-Preview-Extension/SasquatchMacSwift_Preview_Today_Extension.entitlements";
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = KYJ84ZC369;
 				INFOPLIST_FILE = "SasquatchMacSwift-Extension/Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.microsoft.appcenter.sasquatchswift.mac.SasquatchMacSwift-Extension";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchswift.mac.extension;
 				PROVISIONING_PROFILE = "18941b56-5e23-45ca-86df-da36fdbcc922";
-				PROVISIONING_PROFILE_SPECIFIER = "AppCenter SDK SasquatchSwift Mac Release In-house";
+				PROVISIONING_PROFILE_SPECIFIER = "AppCenter SDK SasquatchSwift Mac Ext In-house";
 			};
 			name = Release;
 		};
