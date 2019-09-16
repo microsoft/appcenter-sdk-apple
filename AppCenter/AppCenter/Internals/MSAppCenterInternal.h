@@ -53,6 +53,10 @@ static NSString *const kMSTrueEnvironmentString = @"1";
 
 @property(nonatomic) NSNumber *requestedMaxStorageSizeInBytes;
 
+/**
+ * A delegate which conforms to MSAuthToken delegate so we can execute multiple different types of
+ * delegates when refreshing/updating tokens.
+ */
 @property(nonatomic) MSAuthTokenContextDelegateWrapper *authTokenContextDelegateWrapper;
 
 /**

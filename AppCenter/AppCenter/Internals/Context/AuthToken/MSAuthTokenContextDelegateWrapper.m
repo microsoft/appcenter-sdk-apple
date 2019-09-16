@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+#import <Foundation/Foundation.h>
+
 #import "MSAuthTokenContextDelegateWrapper.h"
 #import "MSAppCenterInternal.h"
-#import <Foundation/Foundation.h>
 
 @class MSAuthTokenContextDelegate;
 
 @implementation MSAuthTokenContextDelegateWrapper
 
 @synthesize delegate = _delegate;
-
 @synthesize authTokenCompletionHandler = _authTokenCompletionHandler;
 
 - (instancetype)initWithAuthTokenDelegate:(id<MSAuthTokenDelegate>)authTokenDelegate

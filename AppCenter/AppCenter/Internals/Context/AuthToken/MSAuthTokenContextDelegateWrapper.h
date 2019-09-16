@@ -5,7 +5,7 @@
 #import "MSAuthTokenDelegate.h"
 
 /**
- * MSAuthTokenContext:addDelegate takes a MSAuthTokenContextDelegate, but our new MSAuthTokenDelegate has a different form, 
+ * addDelegate: in MSAuthTokenContext takes a MSAuthTokenContextDelegate, but our new MSAuthTokenDelegate has a different form,
  * so we need to create a wrapper which conforms to MSAuthTokenContextDelegate.
  */
 @interface MSAuthTokenContextDelegateWrapper : NSObject <MSAuthTokenContextDelegate>

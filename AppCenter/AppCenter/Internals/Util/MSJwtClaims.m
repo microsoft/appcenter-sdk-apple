@@ -2,8 +2,9 @@
 // Licensed under the MIT License.
 
 #import <Foundation/Foundation.h>
-#import "MSAppCenterInternal.h"
+
 #import "MSJwtClaims.h"
+#import "MSAppCenterInternal.h"
 #import "MSLogger.h"
 
 static NSString *const kMSJwtPartsSeparator = @".";
@@ -12,18 +13,18 @@ static NSString *const kMSExpirationClaim = @"exp";
 
 @implementation MSJwtClaims
 
-- (instancetype)initWithSubject:(NSString *)subject expirationDate:(NSDate *)expirationDate {
+- (instancetype)initWithSubject:(NSString *)subject expiration:(NSDate *)expiration {
   self = [super init];
   if (self) {
     _subject = subject;
-    _expirationDate = expirationDate;
+    _expiration = expiration;
   }
   return self;
 }
 
 + (MSJwtClaims *)parse:(NSString *)jwt {
   NSArray *parts = [jwt componentsSeparatedByString:kMSJwtPartsSeparator];
-  if ([parts count] < 2) {
+  if ([parts count] < 3) {
     MSLogError([MSAppCenter logTag], @"Failed to parse JWT, not enough parts.");
     return nil;
   }
@@ -37,11 +38,13 @@ static NSString *const kMSExpirationClaim = @"exp";
       return nil;
     }
 
-    // We will treat invalid expiration times as an interval of 0 because there is not an easy way to determine the
-    // type of of the value being returned from the dictionary.
+    /*
+     * We will treat invalid expiration times as an interval of 0 because there is not an easy way to determine the
+     * type of of the value being returned from the dictionary.
+     */
     int expirationTimeIntervalSince1970 = [[claims objectForKey:kMSExpirationClaim] intValue];
     return [[MSJwtClaims alloc] initWithSubject:[claims objectForKey:kMSSubjectClaim]
-                                 expirationDate:[[NSDate alloc] initWithTimeIntervalSince1970:expirationTimeIntervalSince1970]];
+                                 expiration:[[NSDate alloc] initWithTimeIntervalSince1970:expirationTimeIntervalSince1970]];
   } @catch (NSException *e) {
     MSLogError([MSAppCenter logTag], @"Failed to parse JWT: %@", e);
     return nil;
