@@ -455,7 +455,8 @@ static dispatch_once_t onceToken;
   }
   return YES;
 }
-
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 - (void)acquireTokenSilentlyWithMSALAccount:(MSALAccount *)account
                                  uiFallback:(BOOL)uiFallback
                 keyPathForCompletionHandler:(NSString *)completionHandlerKeyPath {
@@ -497,7 +498,10 @@ static dispatch_once_t onceToken;
                     }
                   }];
 }
+#pragma GCC diagnostic pop
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 - (void)acquireTokenInteractivelyWithKeyPathForCompletionHandler:(NSString *)completionHandlerKeyPath {
   __weak typeof(self) weakSelf = self;
   [self.clientApplication
@@ -528,6 +532,7 @@ static dispatch_once_t onceToken;
               }
             }];
 }
+#pragma GCC diagnostic pop
 
 - (MSALAccount *)retrieveAccountWithAccountId:(NSString *)accountId {
   if (!accountId) {
