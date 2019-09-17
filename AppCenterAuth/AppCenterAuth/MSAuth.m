@@ -455,12 +455,15 @@ static dispatch_once_t onceToken;
   }
   return YES;
 }
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
 - (void)acquireTokenSilentlyWithMSALAccount:(MSALAccount *)account
                                  uiFallback:(BOOL)uiFallback
                 keyPathForCompletionHandler:(NSString *)completionHandlerKeyPath {
   __weak typeof(self) weakSelf = self;
+
+// FIXME This is a workaround for initial iOS 13 support.
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
   [self.clientApplication
       acquireTokenSilentForScopes:@[ (NSString * __nonnull) self.authConfig.authScope ]
                           account:account
@@ -497,15 +500,20 @@ static dispatch_once_t onceToken;
                       handler(userInformation, nil);
                     }
                   }];
+#pragma clang diagnostic pop
 }
-#pragma GCC diagnostic pop
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 - (void)acquireTokenInteractivelyWithKeyPathForCompletionHandler:(NSString *)completionHandlerKeyPath {
   __weak typeof(self) weakSelf = self;
+
+// FIXME This is a workaround for initial iOS 13 support.
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
   [self.clientApplication
       acquireTokenForScopes:@[ (NSString * __nonnull) self.authConfig.authScope ]
+                  loginHint:nil
+                 promptType:MSALPromptTypeSelectAccount
+       extraQueryParameters:nil
             completionBlock:^(MSALResult *result, NSError *error) {
               typeof(self) strongSelf = weakSelf;
               MSAcquireTokenCompletionHandler handler = [strongSelf valueForKey:completionHandlerKeyPath];
@@ -531,8 +539,8 @@ static dispatch_once_t onceToken;
                 handler(userInformation, nil);
               }
             }];
+#pragma clang diagnostic pop
 }
-#pragma GCC diagnostic pop
 
 - (MSALAccount *)retrieveAccountWithAccountId:(NSString *)accountId {
   if (!accountId) {
