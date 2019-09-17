@@ -13,7 +13,7 @@
 
 ### App Center Crashes
 
-* **[Fix]** Fix `MSCrashesDelegate` callback methods not being called on main thread
+* **[Fix]** Fix `MSCrashesDelegate` callback methods not being called on the main thread.
 
 ### App Center Data
 
