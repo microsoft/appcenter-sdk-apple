@@ -15,6 +15,8 @@
 
 + (void)stubLongTimeOutResponse;
 
++ (void)stubResponseWithData:(NSData *)data statusCode:(int)code headers:(NSDictionary *)headers name:(NSString *)name;
+
 + (void)removeAllStubs;
 
 + (NSHTTPURLResponse *)createMockResponseForStatusCode:(int)statusCode headers:(NSDictionary *)headers;

@@ -176,10 +176,16 @@
             payload = [MSUtility obfuscateString:[MSUtility prettyPrintJson:data]
                              searchingForPattern:kMSTokenKeyValuePattern
                            toReplaceWithTemplate:kMSTokenKeyValueObfuscatedTemplate];
+            payload = [MSUtility obfuscateString:payload
+                             searchingForPattern:kMSRedirectUriPattern
+                           toReplaceWithTemplate:kMSRedirectUriObfuscatedTemplate];
           } else if (!contentType.length || [contentType hasPrefix:@"text/"] || [contentType hasPrefix:@"application/"]) {
             payload = [MSUtility obfuscateString:[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]
                              searchingForPattern:kMSTokenKeyValuePattern
                            toReplaceWithTemplate:kMSTokenKeyValueObfuscatedTemplate];
+            payload = [MSUtility obfuscateString:payload
+                             searchingForPattern:kMSRedirectUriPattern
+                           toReplaceWithTemplate:kMSRedirectUriObfuscatedTemplate];
           } else {
             payload = @"<binary>";
           }
