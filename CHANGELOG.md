@@ -6,6 +6,7 @@
 
 * **[Fix]** Fix token storage initialization if services are started via `[MSAppCenter startService:]` method.
 * **[Fix]** Redirect URIs are now hidden in logs.
+* **[Fix]** Fix interactive sign in on iOS 13.
 
 ### App Center Analytics
 
