@@ -1,4 +1,4 @@
 #include "../../../Config/iOS.xcconfig"
-#include "../../../Config/Static Framework.xcconfig"
+#include "../../../Config/Target config.xcconfig"
 
 USER_HEADER_SEARCH_PATHS=$(inherited) $(SRCROOT)/MSAL/**

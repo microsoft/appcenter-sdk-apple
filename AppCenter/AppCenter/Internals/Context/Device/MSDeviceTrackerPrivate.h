@@ -1,6 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+#ifndef MS_DEVICE_TRACKER_PRIVATE_H
+#define MS_DEVICE_TRACKER_PRIVATE_H
+
 #if TARGET_OS_IOS
 #import <CoreTelephony/CTCarrier.h>
 #import <CoreTelephony/CTTelephonyNetworkInfo.h>
@@ -194,3 +197,5 @@ static NSString *const kMSPastDevicesKey = @"pastDevicesKey";
 - (MSDevice *)deviceForTimestamp:(NSDate *)timestamp;
 
 @end
+
+#endif

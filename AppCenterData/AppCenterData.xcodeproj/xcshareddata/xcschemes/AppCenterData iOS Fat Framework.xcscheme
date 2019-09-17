@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0431216D1EE0C213007054C5"
-               BuildableName = "AppCenterAnalytics tvOS Distribution"
-               BlueprintName = "AppCenterAnalytics tvOS Distribution"
-               ReferencedContainer = "container:AppCenterAnalytics.xcodeproj">
+               BlueprintIdentifier = "D3AD5F221E5C9562001627AB"
+               BuildableName = "AppCenterData iOS Fat Framework"
+               BlueprintName = "AppCenterData iOS Fat Framework"
+               ReferencedContainer = "container:AppCenterData.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -45,10 +45,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "0431216D1EE0C213007054C5"
-            BuildableName = "AppCenterAnalytics tvOS Distribution"
-            BlueprintName = "AppCenterAnalytics tvOS Distribution"
-            ReferencedContainer = "container:AppCenterAnalytics.xcodeproj">
+            BlueprintIdentifier = "D3AD5F221E5C9562001627AB"
+            BuildableName = "AppCenterData iOS Fat Framework"
+            BlueprintName = "AppCenterData iOS Fat Framework"
+            ReferencedContainer = "container:AppCenterData.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -63,10 +63,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "0431216D1EE0C213007054C5"
-            BuildableName = "AppCenterAnalytics tvOS Distribution"
-            BlueprintName = "AppCenterAnalytics tvOS Distribution"
-            ReferencedContainer = "container:AppCenterAnalytics.xcodeproj">
+            BlueprintIdentifier = "D3AD5F221E5C9562001627AB"
+            BuildableName = "AppCenterData iOS Fat Framework"
+            BlueprintName = "AppCenterData iOS Fat Framework"
+            ReferencedContainer = "container:AppCenterData.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

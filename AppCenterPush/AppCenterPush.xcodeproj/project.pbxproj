@@ -7,15 +7,15 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
-		0469640E1F2A558F00F9D31F /* AppCenterPush macOS Distribution */ = {
+		0469640E1F2A558F00F9D31F /* AppCenterPush macOS Fat Framework */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 046964101F2A558F00F9D31F /* Build configuration list for PBXAggregateTarget "AppCenterPush macOS Distribution" */;
+			buildConfigurationList = 046964101F2A558F00F9D31F /* Build configuration list for PBXAggregateTarget "AppCenterPush macOS Fat Framework" */;
 			buildPhases = (
 				0469640F1F2A558F00F9D31F /* Build Universal Framework */,
 			);
 			dependencies = (
 			);
-			name = "AppCenterPush macOS Distribution";
+			name = "AppCenterPush macOS Fat Framework";
 			productName = "Fat Framework";
 		};
 		046964271F2A55A600F9D31F /* AppCenterPush macOS Documentation */ = {
@@ -30,15 +30,15 @@
 			name = "AppCenterPush macOS Documentation";
 			productName = "Jazzy Docs";
 		};
-		D3AD5F221E5C9562001627AB /* AppCenterPush iOS Distribution */ = {
+		D3AD5F221E5C9562001627AB /* AppCenterPush iOS Fat Framework */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = D3AD5F251E5C9562001627AB /* Build configuration list for PBXAggregateTarget "AppCenterPush iOS Distribution" */;
+			buildConfigurationList = D3AD5F251E5C9562001627AB /* Build configuration list for PBXAggregateTarget "AppCenterPush iOS Fat Framework" */;
 			buildPhases = (
 				D3AD5F261E5C9588001627AB /* Build Universal Framework */,
 			);
 			dependencies = (
 			);
-			name = "AppCenterPush iOS Distribution";
+			name = "AppCenterPush iOS Fat Framework";
 			productName = "Fat Framework";
 		};
 		D3AD5F271E5C9633001627AB /* AppCenterPush iOS Documentation */ = {
@@ -637,11 +637,11 @@
 			targets = (
 				C9A91F9A230C004A0068070D /* AppCenterPush iOS Framework */,
 				D3AD5EBF1E5C4F6A001627AB /* AppCenterPush iOS Tests */,
-				D3AD5F221E5C9562001627AB /* AppCenterPush iOS Distribution */,
+				D3AD5F221E5C9562001627AB /* AppCenterPush iOS Fat Framework */,
 				D3AD5F271E5C9633001627AB /* AppCenterPush iOS Documentation */,
 				C9A91FA3230C00540068070D /* AppCenterPush macOS Framework */,
 				046964131F2A559C00F9D31F /* AppCenterPush macOS Tests */,
-				0469640E1F2A558F00F9D31F /* AppCenterPush macOS Distribution */,
+				0469640E1F2A558F00F9D31F /* AppCenterPush macOS Fat Framework */,
 				046964271F2A55A600F9D31F /* AppCenterPush macOS Documentation */,
 			);
 		};
@@ -825,7 +825,7 @@
 /* Begin PBXTargetDependency section */
 		046964321F2A569B00F9D31F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 0469640E1F2A558F00F9D31F /* AppCenterPush macOS Distribution */;
+			target = 0469640E1F2A558F00F9D31F /* AppCenterPush macOS Fat Framework */;
 			targetProxy = 046964311F2A569B00F9D31F /* PBXContainerItemProxy */;
 		};
 		C2200615230FDF7600848D5B /* PBXTargetDependency */ = {
@@ -840,7 +840,7 @@
 		};
 		D3AD5F3D1E5D6809001627AB /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = D3AD5F221E5C9562001627AB /* AppCenterPush iOS Distribution */;
+			target = D3AD5F221E5C9562001627AB /* AppCenterPush iOS Fat Framework */;
 			targetProxy = D3AD5F3C1E5D6809001627AB /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -975,7 +975,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		046964101F2A558F00F9D31F /* Build configuration list for PBXAggregateTarget "AppCenterPush macOS Distribution" */ = {
+		046964101F2A558F00F9D31F /* Build configuration list for PBXAggregateTarget "AppCenterPush macOS Fat Framework" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				046964111F2A558F00F9D31F /* Debug */,
@@ -1038,7 +1038,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D3AD5F251E5C9562001627AB /* Build configuration list for PBXAggregateTarget "AppCenterPush iOS Distribution" */ = {
+		D3AD5F251E5C9562001627AB /* Build configuration list for PBXAggregateTarget "AppCenterPush iOS Fat Framework" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D3AD5F231E5C9562001627AB /* Debug */,

@@ -1,6 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+#ifndef MS_DEVICE_INTERNAL_H
+#define MS_DEVICE_INTERNAL_H
+
 #import <Foundation/Foundation.h>
 
 #import "MSAbstractLogInternal.h"
@@ -107,3 +110,5 @@ static NSString *const kMSAppNamespace = @"appNamespace";
 @property(nonatomic, copy) NSString *appNamespace;
 
 @end
+
+#endif

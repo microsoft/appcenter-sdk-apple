@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0485AFE61EAA937000C10CAF"
-               BuildableName = "AppCenter macOS Distribution"
-               BlueprintName = "AppCenter macOS Distribution"
+               BlueprintIdentifier = "043121491EE0BFC7007054C5"
+               BuildableName = "AppCenter tvOS Fat Framework"
+               BlueprintName = "AppCenter tvOS Fat Framework"
                ReferencedContainer = "container:AppCenter.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -45,9 +45,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "0485AFE61EAA937000C10CAF"
-            BuildableName = "AppCenter macOS Distribution"
-            BlueprintName = "AppCenter macOS Distribution"
+            BlueprintIdentifier = "043121491EE0BFC7007054C5"
+            BuildableName = "AppCenter tvOS Fat Framework"
+            BlueprintName = "AppCenter tvOS Fat Framework"
             ReferencedContainer = "container:AppCenter.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -63,9 +63,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "0485AFE61EAA937000C10CAF"
-            BuildableName = "AppCenter macOS Distribution"
-            BlueprintName = "AppCenter macOS Distribution"
+            BlueprintIdentifier = "043121491EE0BFC7007054C5"
+            BuildableName = "AppCenter tvOS Fat Framework"
+            BlueprintName = "AppCenter tvOS Fat Framework"
             ReferencedContainer = "container:AppCenter.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

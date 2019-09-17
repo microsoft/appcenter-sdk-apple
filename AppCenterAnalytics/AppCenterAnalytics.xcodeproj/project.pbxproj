@@ -7,26 +7,26 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
-		0431216D1EE0C213007054C5 /* AppCenterAnalytics tvOS Distribution */ = {
+		0431216D1EE0C213007054C5 /* AppCenterAnalytics tvOS Fat Framework */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 0431216F1EE0C213007054C5 /* Build configuration list for PBXAggregateTarget "AppCenterAnalytics tvOS Distribution" */;
+			buildConfigurationList = 0431216F1EE0C213007054C5 /* Build configuration list for PBXAggregateTarget "AppCenterAnalytics tvOS Fat Framework" */;
 			buildPhases = (
 				0431216E1EE0C213007054C5 /* Build Universal Framework */,
 			);
 			dependencies = (
 			);
-			name = "AppCenterAnalytics tvOS Distribution";
+			name = "AppCenterAnalytics tvOS Fat Framework";
 			productName = "Fat Framework";
 		};
-		0485AFEF1EAAADAC00C10CAF /* AppCenterAnalytics macOS Distribution */ = {
+		0485AFEF1EAAADAC00C10CAF /* AppCenterAnalytics macOS Fat Framework */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 0485AFF11EAAADAC00C10CAF /* Build configuration list for PBXAggregateTarget "AppCenterAnalytics macOS Distribution" */;
+			buildConfigurationList = 0485AFF11EAAADAC00C10CAF /* Build configuration list for PBXAggregateTarget "AppCenterAnalytics macOS Fat Framework" */;
 			buildPhases = (
 				0485AFF01EAAADAC00C10CAF /* Build Universal Framework */,
 			);
 			dependencies = (
 			);
-			name = "AppCenterAnalytics macOS Distribution";
+			name = "AppCenterAnalytics macOS Fat Framework";
 			productName = "Fat Framework";
 		};
 		04FD11551EF2F818000C5A5C /* AppCenterAnalytics macOS Documentation */ = {
@@ -53,15 +53,15 @@
 			name = "AppCenterAnalytics tvOS Documentation";
 			productName = "Jazzy Docs";
 		};
-		E85547E41D2D681F002DF6E2 /* AppCenterAnalytics iOS Distribution */ = {
+		E85547E41D2D681F002DF6E2 /* AppCenterAnalytics iOS Fat Framework */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = E85547E51D2D681F002DF6E2 /* Build configuration list for PBXAggregateTarget "AppCenterAnalytics iOS Distribution" */;
+			buildConfigurationList = E85547E51D2D681F002DF6E2 /* Build configuration list for PBXAggregateTarget "AppCenterAnalytics iOS Fat Framework" */;
 			buildPhases = (
 				E85547E81D2D6827002DF6E2 /* Build Universal Framework */,
 			);
 			dependencies = (
 			);
-			name = "AppCenterAnalytics iOS Distribution";
+			name = "AppCenterAnalytics iOS Fat Framework";
 			productName = "Fat Framework";
 		};
 		E85547E91D2D68C5002DF6E2 /* AppCenterAnalytics iOS Documentation */ = {
@@ -1039,15 +1039,15 @@
 			targets = (
 				C9CA69D82306CAF700EE82AA /* AppCenterAnalytics iOS Framework */,
 				E85547D41D2D6723002DF6E2 /* AppCenterAnalytics iOS Tests */,
-				E85547E41D2D681F002DF6E2 /* AppCenterAnalytics iOS Distribution */,
+				E85547E41D2D681F002DF6E2 /* AppCenterAnalytics iOS Fat Framework */,
 				E85547E91D2D68C5002DF6E2 /* AppCenterAnalytics iOS Documentation */,
 				C9A91F36230BFB970068070D /* AppCenterAnalytics macOS Framework */,
 				046AEAB21ECA51AF00CBE511 /* AppCenterAnalytics macOS Tests */,
-				0485AFEF1EAAADAC00C10CAF /* AppCenterAnalytics macOS Distribution */,
+				0485AFEF1EAAADAC00C10CAF /* AppCenterAnalytics macOS Fat Framework */,
 				04FD11551EF2F818000C5A5C /* AppCenterAnalytics macOS Documentation */,
 				C9A91F2B230BFB8A0068070D /* AppCenterAnalytics tvOS Framework */,
 				0446DF3D1F3B8E6300C8E338 /* AppCenterAnalytics tvOS Tests */,
-				0431216D1EE0C213007054C5 /* AppCenterAnalytics tvOS Distribution */,
+				0431216D1EE0C213007054C5 /* AppCenterAnalytics tvOS Fat Framework */,
 				04FD11701EF2FE43000C5A5C /* AppCenterAnalytics tvOS Documentation */,
 			);
 		};
@@ -1354,17 +1354,17 @@
 /* Begin PBXTargetDependency section */
 		04FD115D1EF2F849000C5A5C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 0485AFEF1EAAADAC00C10CAF /* AppCenterAnalytics macOS Distribution */;
+			target = 0485AFEF1EAAADAC00C10CAF /* AppCenterAnalytics macOS Fat Framework */;
 			targetProxy = 04FD115C1EF2F849000C5A5C /* PBXContainerItemProxy */;
 		};
 		04FD11781EF2FE5B000C5A5C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 0431216D1EE0C213007054C5 /* AppCenterAnalytics tvOS Distribution */;
+			target = 0431216D1EE0C213007054C5 /* AppCenterAnalytics tvOS Fat Framework */;
 			targetProxy = 04FD11771EF2FE5B000C5A5C /* PBXContainerItemProxy */;
 		};
 		386352E41D51047400D0D450 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = E85547E41D2D681F002DF6E2 /* AppCenterAnalytics iOS Distribution */;
+			target = E85547E41D2D681F002DF6E2 /* AppCenterAnalytics iOS Fat Framework */;
 			targetProxy = 386352E31D51047400D0D450 /* PBXContainerItemProxy */;
 		};
 		C2D73CDB230FC7BE00390198 /* PBXTargetDependency */ = {
@@ -1570,7 +1570,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		0431216F1EE0C213007054C5 /* Build configuration list for PBXAggregateTarget "AppCenterAnalytics tvOS Distribution" */ = {
+		0431216F1EE0C213007054C5 /* Build configuration list for PBXAggregateTarget "AppCenterAnalytics tvOS Fat Framework" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				043121701EE0C213007054C5 /* Debug */,
@@ -1597,7 +1597,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		0485AFF11EAAADAC00C10CAF /* Build configuration list for PBXAggregateTarget "AppCenterAnalytics macOS Distribution" */ = {
+		0485AFF11EAAADAC00C10CAF /* Build configuration list for PBXAggregateTarget "AppCenterAnalytics macOS Fat Framework" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0485AFF21EAAADAC00C10CAF /* Debug */,
@@ -1669,7 +1669,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E85547E51D2D681F002DF6E2 /* Build configuration list for PBXAggregateTarget "AppCenterAnalytics iOS Distribution" */ = {
+		E85547E51D2D681F002DF6E2 /* Build configuration list for PBXAggregateTarget "AppCenterAnalytics iOS Fat Framework" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E85547E61D2D681F002DF6E2 /* Debug */,

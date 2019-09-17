@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0469640E1F2A558F00F9D31F"
-               BuildableName = "AppCenterPush macOS Distribution"
-               BlueprintName = "AppCenterPush macOS Distribution"
-               ReferencedContainer = "container:AppCenterPush.xcodeproj">
+               BlueprintIdentifier = "6E04017D1D1CAC710051BCFA"
+               BuildableName = "AppCenter iOS Fat Framework"
+               BlueprintName = "AppCenter iOS Fat Framework"
+               ReferencedContainer = "container:AppCenter.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -45,10 +45,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "0469640E1F2A558F00F9D31F"
-            BuildableName = "AppCenterPush macOS Distribution"
-            BlueprintName = "AppCenterPush macOS Distribution"
-            ReferencedContainer = "container:AppCenterPush.xcodeproj">
+            BlueprintIdentifier = "6E04017D1D1CAC710051BCFA"
+            BuildableName = "AppCenter iOS Fat Framework"
+            BlueprintName = "AppCenter iOS Fat Framework"
+            ReferencedContainer = "container:AppCenter.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -63,10 +63,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "0469640E1F2A558F00F9D31F"
-            BuildableName = "AppCenterPush macOS Distribution"
-            BlueprintName = "AppCenterPush macOS Distribution"
-            ReferencedContainer = "container:AppCenterPush.xcodeproj">
+            BlueprintIdentifier = "6E04017D1D1CAC710051BCFA"
+            BuildableName = "AppCenter iOS Fat Framework"
+            BlueprintName = "AppCenter iOS Fat Framework"
+            ReferencedContainer = "container:AppCenter.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

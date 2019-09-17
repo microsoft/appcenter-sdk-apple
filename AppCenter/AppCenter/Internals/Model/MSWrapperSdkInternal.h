@@ -1,6 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+#ifndef MS_WRAPPER_SDK_INTERNAL_H
+#define MS_WRAPPER_SDK_INTERNAL_H
+
 #import <Foundation/Foundation.h>
 
 #import "MSAbstractLogInternal.h"
@@ -47,3 +50,5 @@ static NSString *const kMSLiveUpdatePackageHash = @"liveUpdatePackageHash";
 @property(nonatomic, copy) NSString *liveUpdatePackageHash;
 
 @end
+
+#endif

@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "6E3729771D1DE83200F1E4AE"
-               BuildableName = "AppCenterCrashes iOS Distribution"
-               BlueprintName = "AppCenterCrashes iOS Distribution"
+               BuildableName = "AppCenterCrashes iOS Fat Framework"
+               BlueprintName = "AppCenterCrashes iOS Fat Framework"
                ReferencedContainer = "container:AppCenterCrashes.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -46,8 +46,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "6E3729771D1DE83200F1E4AE"
-            BuildableName = "AppCenterCrashes iOS Distribution"
-            BlueprintName = "AppCenterCrashes iOS Distribution"
+            BuildableName = "AppCenterCrashes iOS Fat Framework"
+            BlueprintName = "AppCenterCrashes iOS Fat Framework"
             ReferencedContainer = "container:AppCenterCrashes.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -64,8 +64,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "6E3729771D1DE83200F1E4AE"
-            BuildableName = "AppCenterCrashes iOS Distribution"
-            BlueprintName = "AppCenterCrashes iOS Distribution"
+            BuildableName = "AppCenterCrashes iOS Fat Framework"
+            BlueprintName = "AppCenterCrashes iOS Fat Framework"
             ReferencedContainer = "container:AppCenterCrashes.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
