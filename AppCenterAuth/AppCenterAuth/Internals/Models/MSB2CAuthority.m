@@ -8,8 +8,6 @@
 
 static NSString *const kMSType = @"type";
 
-static NSString *const kMSDefault = @"default";
-
 static NSString *const kMSAuthorityUrl = @"authority_url";
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary {

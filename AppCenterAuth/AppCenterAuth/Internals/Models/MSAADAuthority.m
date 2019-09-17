@@ -8,8 +8,6 @@
 
 static NSString *const kMSAudienceType = @"type";
 
-static NSString *const kMSDefault = @"default";
-
 static NSString *const kMSAuthorityUrl = @"authority_url";
 
 static NSString *const kMSAudience = @"audience";
@@ -35,9 +33,9 @@ static NSString *const kMSCommonAudience = @"AzureADandPersonalMicrosoftAccount"
         NSString *tenantId = (NSString * _Nonnull)audience[kMSTenantId];
         NSString *audienceType = (NSString * _Nonnull)audience[kMSAudienceType];
         NSString *authorityUrlPath = @"common";
-        if (audienceType == kMSSingleTenantAudience) {
+        if ([audienceType isEqualToString:kMSSingleTenantAudience]) {
           authorityUrlPath = tenantId;
-        } else if (audienceType == kMSMultiTenantAudience) {
+        } else if ([audienceType isEqualToString:kMSMultiTenantAudience]) {
           authorityUrlPath = @"organizations";
         }
         NSString *authorityUrl = [NSString stringWithFormat:@"%@%@", kMSAuthorityCommonUrl, authorityUrlPath];
