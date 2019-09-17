@@ -85,7 +85,8 @@ static NSString *const kMSJwtFormat = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.%@"
   [MSAppCenter setAuthTokenDelegate:delegateMock];
   [self.authTokenContextMock checkIfTokenNeedsToBeRefreshed:validityInfo];
   
-  // Then - nothing, we just need to make sure the method wasn't called
+  // Then
+  OCMVerifyAll(delegateMock);
 }
 
 - (void)testSetAuthTokenDelegateExpiredToken {

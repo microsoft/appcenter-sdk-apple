@@ -22,7 +22,7 @@ static NSString *const kMSExpirationClaim = @"exp";
   return self;
 }
 
-+ (MSJwtClaims *)parse:(NSString *_Nullable)jwt {
++ (MSJwtClaims *)parse:(NSString *)jwt {
   if (jwt == nil) {
     MSLogError([MSAppCenter logTag], @"Failed to parse JWT, token is nil.");
     return nil;
