@@ -1,0 +1,4 @@
+/* Display name and description for this extension. */
+"CFBundleDisplayName" = "SasquatchMacSwift-Preview Today Extension";
+"com.apple.notificationcenter.widget.description" = "Extension test app for Sasquatch Swift Preview.";
+
