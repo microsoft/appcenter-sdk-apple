@@ -13,26 +13,24 @@ static NSString *const kMSRedirectUri = @"redirect_uri";
 
 static NSString *const kMSAuthorities = @"authorities";
 
-static NSString *const kMSAuthorityTypeB2C = @"B2C";
-
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary {
   if (!dictionary) {
     return nil;
   }
   if ((self = [super init])) {
     if (dictionary[kMSAuthScope]) {
-      self.authScope = (NSString * _Nonnull) dictionary[kMSAuthScope];
+      self.authScope = (NSString * _Nonnull)dictionary[kMSAuthScope];
     }
     if (dictionary[kMSClientId]) {
-      self.clientId = (NSString * _Nonnull) dictionary[kMSClientId];
+      self.clientId = (NSString * _Nonnull)dictionary[kMSClientId];
     }
     if (dictionary[kMSRedirectUri]) {
-      self.redirectUri = (NSString * _Nonnull) dictionary[kMSRedirectUri];
+      self.redirectUri = (NSString * _Nonnull)dictionary[kMSRedirectUri];
     }
     if (dictionary[kMSAuthorities]) {
       NSMutableArray *array = [NSMutableArray new];
       for (NSDictionary *authorityDic in dictionary[kMSAuthorities]) {
-        [array addObject:[[MSAuthority alloc] initWithDictionary:authorityDic]];
+        [array addObject:[MSAuthority authorityWithDictionary:authorityDic]];
       }
       self.authorities = array;
     }
@@ -47,10 +45,10 @@ static NSString *const kMSAuthorityTypeB2C = @"B2C";
 - (BOOL)areAuthoritiesValid {
   BOOL foundDefault = NO;
   for (MSAuthority *authority in self.authorities) {
-    if (![authority isValid]) {
+    if ([authority isValid]) {
       return NO;
     }
-    if (authority.defaultAuthority && [authority.type isEqualToString:kMSAuthorityTypeB2C]) {
+    if (authority.defaultAuthority) {
       foundDefault = YES;
     }
   }

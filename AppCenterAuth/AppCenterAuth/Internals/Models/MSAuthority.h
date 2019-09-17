@@ -38,6 +38,13 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (BOOL)isValid;
 
+/**
+ * @param dictionary A dictionary that contains the key/value pairs for an authority.
+ *
+ * @return A new instance of Authority based on type.
+ */
++ (MSAuthority *)authorityWithDictionary:(NSDictionary *)dictionary;
+
 @end
 
 NS_ASSUME_NONNULL_END

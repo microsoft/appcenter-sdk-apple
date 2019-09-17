@@ -76,6 +76,14 @@
 		38EB8A6522038CE8005DBF5D /* MSAuthConfigIngestionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 38EB8A6422038CE8005DBF5D /* MSAuthConfigIngestionTests.m */; };
 		38EB8A6622038CE8005DBF5D /* MSAuthConfigIngestionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 38EB8A6422038CE8005DBF5D /* MSAuthConfigIngestionTests.m */; };
 		6E0684381D35A3B900A8CC6C /* OCHamcrestIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E0684371D35A3B900A8CC6C /* OCHamcrestIOS.framework */; };
+		7DC124E2232FFD4200F07FCB /* MSAADAuthority.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DC124E1232FFD4200F07FCB /* MSAADAuthority.m */; };
+		7DC124E3232FFD4200F07FCB /* MSAADAuthority.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DC124E1232FFD4200F07FCB /* MSAADAuthority.m */; };
+		7DC124EF232FFD5D00F07FCB /* MSAADAuthority.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC124EE232FFD5D00F07FCB /* MSAADAuthority.h */; };
+		7DC124F0232FFD5D00F07FCB /* MSAADAuthority.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC124EE232FFD5D00F07FCB /* MSAADAuthority.h */; };
+		7DC124F2232FFD7D00F07FCB /* MSB2CAuthority.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC124F1232FFD7D00F07FCB /* MSB2CAuthority.h */; };
+		7DC124F3232FFD7D00F07FCB /* MSB2CAuthority.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC124F1232FFD7D00F07FCB /* MSB2CAuthority.h */; };
+		7DC124F5232FFD9700F07FCB /* MSB2CAuthority.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DC124F4232FFD9700F07FCB /* MSB2CAuthority.m */; };
+		7DC124F6232FFD9700F07FCB /* MSB2CAuthority.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DC124F4232FFD9700F07FCB /* MSB2CAuthority.m */; };
 		9CFD2EC6221CCE33006C5FBD /* MSMockKeychainUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CFD2EC4221CCE33006C5FBD /* MSMockKeychainUtil.m */; };
 		9CFD2EC7221CCE33006C5FBD /* MSMockKeychainUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CFD2EC4221CCE33006C5FBD /* MSMockKeychainUtil.m */; };
 		B2B25647220B370200716D6A /* MSAuthAppDelegateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2B25646220B370200716D6A /* MSAuthAppDelegateTests.m */; };
@@ -306,6 +314,10 @@
 		38F796D021F93ED6007E7C15 /* MSAuthority.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSAuthority.h; sourceTree = "<group>"; };
 		38F796D121F93ED6007E7C15 /* MSAuthority.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSAuthority.m; sourceTree = "<group>"; };
 		6E0684371D35A3B900A8CC6C /* OCHamcrestIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrestIOS.framework; path = ../../Vendor/iOS/OCHamcrest/OCHamcrestIOS.framework; sourceTree = "<group>"; };
+		7DC124E1232FFD4200F07FCB /* MSAADAuthority.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSAADAuthority.m; sourceTree = "<group>"; };
+		7DC124EE232FFD5D00F07FCB /* MSAADAuthority.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSAADAuthority.h; sourceTree = "<group>"; };
+		7DC124F1232FFD7D00F07FCB /* MSB2CAuthority.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSB2CAuthority.h; sourceTree = "<group>"; };
+		7DC124F4232FFD9700F07FCB /* MSB2CAuthority.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSB2CAuthority.m; sourceTree = "<group>"; };
 		995BA5D221EFEF6D000E3212 /* AppCenter+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "AppCenter+Internal.h"; path = "../../../AppCenter/AppCenter/Internals/AppCenter+Internal.h"; sourceTree = "<group>"; };
 		995BA5DB21EFF414000E3212 /* MSAuthPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSAuthPrivate.h; sourceTree = "<group>"; };
 		9CFD2EC4221CCE33006C5FBD /* MSMockKeychainUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSMockKeychainUtil.m; sourceTree = "<group>"; };
@@ -539,6 +551,10 @@
 				38F796CB21F93E33007E7C15 /* MSAuthConfig.m */,
 				38F796D021F93ED6007E7C15 /* MSAuthority.h */,
 				38F796D121F93ED6007E7C15 /* MSAuthority.m */,
+				7DC124E1232FFD4200F07FCB /* MSAADAuthority.m */,
+				7DC124EE232FFD5D00F07FCB /* MSAADAuthority.h */,
+				7DC124F1232FFD7D00F07FCB /* MSB2CAuthority.h */,
+				7DC124F4232FFD9700F07FCB /* MSB2CAuthority.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -673,9 +689,11 @@
 				C9A92074230C5DC80068070D /* MSAuthConfigIngestion.h in Headers */,
 				C9A9206B230C5D6A0068070D /* MSUserInformation.h in Headers */,
 				C9A92076230C5DC80068070D /* MSAuthority.h in Headers */,
+				7DC124F2232FFD7D00F07FCB /* MSB2CAuthority.h in Headers */,
 				C9A92066230C5D6A0068070D /* MSService.h in Headers */,
 				C9A92077230C5DC80068070D /* MSAuthConstants.h in Headers */,
 				C9A92073230C5DC80068070D /* AppCenter+Internal.h in Headers */,
+				7DC124EF232FFD5D00F07FCB /* MSAADAuthority.h in Headers */,
 				C9A9206A230C5D6A0068070D /* MSAuthErrors.h in Headers */,
 				C9A92065230C5D6A0068070D /* MSAppCenterErrors.h in Headers */,
 				C9A92075230C5DC80068070D /* MSAuthConfig.h in Headers */,
@@ -699,8 +717,10 @@
 				C9A92071230C5D6A0068070D /* MSAuthErrors.h in Headers */,
 				C9A9206C230C5D6A0068070D /* MSAppCenterErrors.h in Headers */,
 				C9A9207A230C5DC80068070D /* MSAuthConfig.h in Headers */,
+				7DC124F0232FFD5D00F07FCB /* MSAADAuthority.h in Headers */,
 				C9A9207E230C5DCF0068070D /* MSAuthPrivate.h in Headers */,
 				C9A92070230C5D6A0068070D /* MSAuth.h in Headers */,
+				7DC124F3232FFD7D00F07FCB /* MSB2CAuthority.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1060,8 +1080,10 @@
 				C9EBAA5C230D397500A20F0F /* MSAuthAppDelegate.m in Sources */,
 				C9EBAA60230D398800A20F0F /* MSAuthority.m in Sources */,
 				C9EBAA5F230D398800A20F0F /* MSAuthConfig.m in Sources */,
+				7DC124F5232FFD9700F07FCB /* MSB2CAuthority.m in Sources */,
 				C9EBAA61230D398800A20F0F /* MSUserInformation.m in Sources */,
 				C9EBAA5D230D398800A20F0F /* MSAuth.m in Sources */,
+				7DC124E2232FFD4200F07FCB /* MSAADAuthority.m in Sources */,
 				C9EBAA5E230D398800A20F0F /* MSAuthConfigIngestion.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1074,6 +1096,8 @@
 				C9EBAA65230D398900A20F0F /* MSAuthority.m in Sources */,
 				C9EBAA66230D398900A20F0F /* MSUserInformation.m in Sources */,
 				C9EBAA62230D398900A20F0F /* MSAuth.m in Sources */,
+				7DC124E3232FFD4200F07FCB /* MSAADAuthority.m in Sources */,
+				7DC124F6232FFD9700F07FCB /* MSB2CAuthority.m in Sources */,
 				C9EBAA64230D398900A20F0F /* MSAuthConfig.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
