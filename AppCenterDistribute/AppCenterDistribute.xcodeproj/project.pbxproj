@@ -7,16 +7,16 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
-		04FD4A281E451E90009B4468 /* AppCenterDistribute iOS Distribution */ = {
+		04FD4A281E451E90009B4468 /* AppCenterDistribute iOS Fat Framework */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 04FD4A291E451E90009B4468 /* Build configuration list for PBXAggregateTarget "AppCenterDistribute iOS Distribution" */;
+			buildConfigurationList = 04FD4A291E451E90009B4468 /* Build configuration list for PBXAggregateTarget "AppCenterDistribute iOS Fat Framework" */;
 			buildPhases = (
 				04FD4A2C1E453159009B4468 /* Build Universal Framework */,
 			);
 			dependencies = (
 				B2C070C31E5E69E70076D6A9 /* PBXTargetDependency */,
 			);
-			name = "AppCenterDistribute iOS Distribution";
+			name = "AppCenterDistribute iOS Fat Framework";
 			productName = "Fat Framework";
 		};
 		04FD4A3C1E453640009B4468 /* AppCenterDistribute iOS Documentation */ = {
@@ -61,7 +61,7 @@
 		C2200613230FDF7000848D5B /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2200612230FDF7000848D5B /* AppCenter.framework */; };
 		C9EBAA2B230D37ED00A20F0F /* MSService.h in Headers */ = {isa = PBXBuildFile; fileRef = 04A082091F74BBB100DC776D /* MSService.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C9EBAA2C230D37ED00A20F0F /* MSServiceAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = 0471B93B1E4557620022F951 /* MSServiceAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C9EBAA2D230D37ED00A20F0F /* MSIngestionProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 040AF0321E52859F005C1174 /* MSIngestionProtocol.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		C9EBAA2D230D37ED00A20F0F /* MSIngestionProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 040AF0321E52859F005C1174 /* MSIngestionProtocol.h */; };
 		C9EBAA2E230D37FD00A20F0F /* AppCenterDistribute.h in Headers */ = {isa = PBXBuildFile; fileRef = 04FD4A1F1E451E12009B4468 /* AppCenterDistribute.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C9EBAA2F230D37FD00A20F0F /* MSDistribute.h in Headers */ = {isa = PBXBuildFile; fileRef = 0471B89A1E4547750022F951 /* MSDistribute.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C9EBAA30230D37FD00A20F0F /* MSDistributeDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 046EF5881EAEB524002F6436 /* MSDistributeDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -79,7 +79,7 @@
 		C9EBAA3C230D385400A20F0F /* MSDistributeInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = B25895A91E4E9BA100123632 /* MSDistributeInternal.h */; };
 		C9EBAA3D230D385400A20F0F /* MSDistributeAppDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 383A2FE31EBA308700817742 /* MSDistributeAppDelegate.h */; };
 		C9EBAA3E230D385400A20F0F /* MSDistributeDataMigration.h in Headers */ = {isa = PBXBuildFile; fileRef = 384135BD1FD99B5400FC7836 /* MSDistributeDataMigration.h */; };
-		C9EBAA3F230D385700A20F0F /* MSDistributePrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 38C9C56B1E565BF600B0FA0D /* MSDistributePrivate.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		C9EBAA3F230D385700A20F0F /* MSDistributePrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 38C9C56B1E565BF600B0FA0D /* MSDistributePrivate.h */; };
 		C9EBAA40230D387400A20F0F /* MSReleaseDetails.h in Headers */ = {isa = PBXBuildFile; fileRef = 048BB2FC1E60A40D009D92C2 /* MSReleaseDetails.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C9EBAA41230D388200A20F0F /* MSAlertController.h in Headers */ = {isa = PBXBuildFile; fileRef = 046FDBD11E5682FA00AF9DD1 /* MSAlertController.h */; };
 		C9EBAAE3230D3A9B00A20F0F /* MSDistribute.m in Sources */ = {isa = PBXBuildFile; fileRef = 0471B8981E4547480022F951 /* MSDistribute.m */; };
@@ -97,8 +97,6 @@
 		C9EBAAEF230D3A9B00A20F0F /* MSDistributeInfoTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 586031A5F44AF875F6226F45 /* MSDistributeInfoTracker.m */; };
 		C9EBAAF0230D3A9B00A20F0F /* MSReleaseDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = 048BB2FD1E60A40D009D92C2 /* MSReleaseDetails.m */; };
 		C9EBAAF1230D3AB200A20F0F /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 046FDBD21E5682FA00AF9DD1 /* MSAlertController.m */; };
-		C9EBAB07230D3F9200A20F0F /* release_details.json in Resources */ = {isa = PBXBuildFile; fileRef = 040AF0111E523AC2005C1174 /* release_details.json */; };
-		C9EBAB08230D3F9200A20F0F /* AppCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B2C070B81E5E68540076D6A9 /* AppCenterDistributeResources.bundle */; };
 		C9EBAB37230D73A800A20F0F /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9EBAB36230D73A800A20F0F /* AppCenter.framework */; };
 		F82E4C83217F217F00EDAB34 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = F82E4C82217F217F00EDAB34 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		F8BEA3CA1FBB0A6E00D4DE37 /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8BEA3C81FBB0A5900D4DE37 /* OHHTTPStubs.framework */; };
@@ -579,8 +577,6 @@
 				C9EBAA2E230D37FD00A20F0F /* AppCenterDistribute.h in Headers */,
 				C9EBAA31230D380C00A20F0F /* MSErrorDetails.h in Headers */,
 				C9EBAA33230D380C00A20F0F /* MSDistributionStartSessionLog.h in Headers */,
-				C9EBAA2D230D37ED00A20F0F /* MSIngestionProtocol.h in Headers */,
-				C9EBAA3F230D385700A20F0F /* MSDistributePrivate.h in Headers */,
 				C9EBAA3E230D385400A20F0F /* MSDistributeDataMigration.h in Headers */,
 				C9EBAA34230D382200A20F0F /* MSReleaseDetailsPrivate.h in Headers */,
 				C9EBAA3B230D384C00A20F0F /* MSBasicMachOParserPrivate.h in Headers */,
@@ -596,6 +592,8 @@
 				C9EBAA2B230D37ED00A20F0F /* MSService.h in Headers */,
 				C9EBAA38230D384900A20F0F /* MSBasicMachOParser.h in Headers */,
 				C9EBAA40230D387400A20F0F /* MSReleaseDetails.h in Headers */,
+				C9EBAA2D230D37ED00A20F0F /* MSIngestionProtocol.h in Headers */,
+				C9EBAA3F230D385700A20F0F /* MSDistributePrivate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -702,7 +700,7 @@
 			targets = (
 				C9A91F8B230BFFFF0068070D /* AppCenterDistribute iOS Framework */,
 				04FD4A301E453531009B4468 /* AppCenterDistribute iOS Tests */,
-				04FD4A281E451E90009B4468 /* AppCenterDistribute iOS Distribution */,
+				04FD4A281E451E90009B4468 /* AppCenterDistribute iOS Fat Framework */,
 				04FD4A3C1E453640009B4468 /* AppCenterDistribute iOS Documentation */,
 				B2C070B71E5E68540076D6A9 /* AppCenterDistribute Resources */,
 			);
@@ -732,8 +730,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C9EBAB07230D3F9200A20F0F /* release_details.json in Resources */,
-				C9EBAB08230D3F9200A20F0F /* AppCenterDistributeResources.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -851,7 +847,7 @@
 /* Begin PBXTargetDependency section */
 		0471B9361E4556570022F951 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 04FD4A281E451E90009B4468 /* AppCenterDistribute iOS Distribution */;
+			target = 04FD4A281E451E90009B4468 /* AppCenterDistribute iOS Fat Framework */;
 			targetProxy = 0471B9351E4556570022F951 /* PBXContainerItemProxy */;
 		};
 		B2C070C31E5E69E70076D6A9 /* PBXTargetDependency */ = {
@@ -993,7 +989,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		04FD4A291E451E90009B4468 /* Build configuration list for PBXAggregateTarget "AppCenterDistribute iOS Distribution" */ = {
+		04FD4A291E451E90009B4468 /* Build configuration list for PBXAggregateTarget "AppCenterDistribute iOS Fat Framework" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				04FD4A2A1E451E90009B4468 /* Debug */,

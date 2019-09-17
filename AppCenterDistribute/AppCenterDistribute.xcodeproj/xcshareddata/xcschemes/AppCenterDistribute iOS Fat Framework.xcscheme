@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0485AFEF1EAAADAC00C10CAF"
-               BuildableName = "AppCenterAuth macOS Distribution"
-               BlueprintName = "AppCenterAuth macOS Distribution"
-               ReferencedContainer = "container:AppCenterAuth.xcodeproj">
+               BlueprintIdentifier = "04FD4A281E451E90009B4468"
+               BuildableName = "AppCenterDistribute iOS Fat Framework"
+               BlueprintName = "AppCenterDistribute iOS Fat Framework"
+               ReferencedContainer = "container:AppCenterDistribute.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -45,10 +45,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "0485AFEF1EAAADAC00C10CAF"
-            BuildableName = "AppCenterAuth macOS Distribution"
-            BlueprintName = "AppCenterAuth macOS Distribution"
-            ReferencedContainer = "container:AppCenterAuth.xcodeproj">
+            BlueprintIdentifier = "04FD4A281E451E90009B4468"
+            BuildableName = "AppCenterDistribute iOS Fat Framework"
+            BlueprintName = "AppCenterDistribute iOS Fat Framework"
+            ReferencedContainer = "container:AppCenterDistribute.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -63,10 +63,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "0485AFEF1EAAADAC00C10CAF"
-            BuildableName = "AppCenterAuth macOS Distribution"
-            BlueprintName = "AppCenterAuth macOS Distribution"
-            ReferencedContainer = "container:AppCenterAuth.xcodeproj">
+            BlueprintIdentifier = "04FD4A281E451E90009B4468"
+            BuildableName = "AppCenterDistribute iOS Fat Framework"
+            BlueprintName = "AppCenterDistribute iOS Fat Framework"
+            ReferencedContainer = "container:AppCenterDistribute.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "E85547E41D2D681F002DF6E2"
-               BuildableName = "AppCenterAuth iOS Distribution"
-               BlueprintName = "AppCenterAuth iOS Distribution"
-               ReferencedContainer = "container:AppCenterAuth.xcodeproj">
+               BlueprintIdentifier = "0431216D1EE0C213007054C5"
+               BuildableName = "AppCenterAnalytics tvOS Fat Framework"
+               BlueprintName = "AppCenterAnalytics tvOS Fat Framework"
+               ReferencedContainer = "container:AppCenterAnalytics.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -45,10 +45,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "E85547E41D2D681F002DF6E2"
-            BuildableName = "AppCenterAuth iOS Distribution"
-            BlueprintName = "AppCenterAuth iOS Distribution"
-            ReferencedContainer = "container:AppCenterAuth.xcodeproj">
+            BlueprintIdentifier = "0431216D1EE0C213007054C5"
+            BuildableName = "AppCenterAnalytics tvOS Fat Framework"
+            BlueprintName = "AppCenterAnalytics tvOS Fat Framework"
+            ReferencedContainer = "container:AppCenterAnalytics.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -63,10 +63,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "E85547E41D2D681F002DF6E2"
-            BuildableName = "AppCenterAuth iOS Distribution"
-            BlueprintName = "AppCenterAuth iOS Distribution"
-            ReferencedContainer = "container:AppCenterAuth.xcodeproj">
+            BlueprintIdentifier = "0431216D1EE0C213007054C5"
+            BuildableName = "AppCenterAnalytics tvOS Fat Framework"
+            BlueprintName = "AppCenterAnalytics tvOS Fat Framework"
+            ReferencedContainer = "container:AppCenterAnalytics.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

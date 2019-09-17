@@ -1,4 +1,4 @@
-SDK_NAME = appcenter.macos
+APPCENTER_SDK_NAME = appcenter.macos
 SDKROOT = macosx
 ARCHS = x86_64
 VALID_ARCHS = $(ARCHS) i386
