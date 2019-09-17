@@ -22,7 +22,7 @@ static NSString *const kMSJwtFormat = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.%@"
 @implementation MSJwtHelper
 
 + (NSString *)createJwtWithUserId:(NSString *)userId expiration:(int)expiration {
-  NSString *jsonClaims = [NSString stringWithFormat:@"{\"sub\":\"%@\",\"exp\":\"%i\"}", userId, expiration];
+  NSString *jsonClaims = [NSString stringWithFormat:@"{\"sub\":\"%@\",\"exp\":%i}", userId, expiration];
   NSData *nsdata = [jsonClaims dataUsingEncoding:NSUTF8StringEncoding];
   NSString *base64Encoded = [nsdata base64EncodedStringWithOptions:0];
   NSString *combinedJwt = [NSString stringWithFormat:kMSJwtFormat, base64Encoded];
