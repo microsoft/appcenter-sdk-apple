@@ -14,7 +14,6 @@
 		0459924821F0050B00BD3F82 /* AppCenterAuth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0459920E21F0042300BD3F82 /* AppCenterAuth.framework */; };
 		046790421E8DA7D80033FDEC /* AppCenterPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 046790411E8DA7D80033FDEC /* AppCenterPush.framework */; };
 		046790431E8DA7E90033FDEC /* AppCenterPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 046790411E8DA7D80033FDEC /* AppCenterPush.framework */; };
-		047D13721EAFBDBE00D699BA /* AppCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 047D13711EAFBDBE00D699BA /* AppCenterDistributeResources.bundle */; };
 		048933631F8D395A00C38A87 /* Sasquatch.strings in Resources */ = {isa = PBXBuildFile; fileRef = 041A4BAF1F8C28A3009E1B6C /* Sasquatch.strings */; };
 		04A1DB34223B65EB006A48D6 /* AuthenticationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04A1DB33223B65EB006A48D6 /* AuthenticationServices.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		352A3E7420F801A900D09CF0 /* EventPropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 352A3E7320F801A900D09CF0 /* EventPropertiesTableSection.swift */; };
@@ -119,7 +118,6 @@
 		B2586C8A210A485300664A43 /* MSAnalyticsResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2586C88210A485300664A43 /* MSAnalyticsResultViewController.swift */; };
 		B2586C8B210A485300664A43 /* MSAnalyticsResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2586C88210A485300664A43 /* MSAnalyticsResultViewController.swift */; };
 		B26D4DEC2122041A00AB4E28 /* MSSignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807DB551212164E000F35E03 /* MSSignInViewController.swift */; };
-		B27424851EF2193E00F591E5 /* AppCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 047D13711EAFBDBE00D699BA /* AppCenterDistributeResources.bundle */; };
 		B27D54A4210A5E7E004E82C9 /* EventPropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 352A3E7320F801A900D09CF0 /* EventPropertiesTableSection.swift */; };
 		B27D54A5210A5E7E004E82C9 /* MSTransmissionTargets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FBE78020FD095200F7B05C /* MSTransmissionTargets.swift */; };
 		B27D54A7210A5E7E004E82C9 /* MSAnalyticsResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2586C84210A47A800664A43 /* MSAnalyticsResult.swift */; };
@@ -282,6 +280,8 @@
 		F8AA9F4B21650C04009104E3 /* SimplePropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AA9F4821650C04009104E3 /* SimplePropertiesTableSection.swift */; };
 		F8AA9F4C21650C04009104E3 /* SimplePropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AA9F4821650C04009104E3 /* SimplePropertiesTableSection.swift */; };
 		F8AA9F4D21650C04009104E3 /* SimplePropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AA9F4821650C04009104E3 /* SimplePropertiesTableSection.swift */; };
+		F8CD73672331039D00792709 /* AppCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = F8CD73662331039D00792709 /* AppCenterDistributeResources.bundle */; };
+		F8CD73682331064B00792709 /* AppCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = F8CD73662331039D00792709 /* AppCenterDistributeResources.bundle */; };
 		F8E69C632322AD0E006209D2 /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8E69C622322AD0E006209D2 /* CrashLibIOS.framework */; };
 		F8E69C652322AD16006209D2 /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8E69C642322AD16006209D2 /* CrashLibIOS.framework */; };
 		F8F077A522A6A27B007B4B31 /* MSAuthInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8F077A422A6A27B007B4B31 /* MSAuthInfoViewController.swift */; };
@@ -914,6 +914,7 @@
 		F8B224862113163D0052350E /* Sasquatch Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Sasquatch Debug.xcconfig"; sourceTree = "<group>"; };
 		F8B8EB15211070BE004BCECB /* Sasquatch.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Sasquatch.xcconfig; sourceTree = "<group>"; };
 		F8B8EB9421107890004BCECB /* Puppet.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Puppet.xcconfig; sourceTree = "<group>"; };
+		F8CD73662331039D00792709 /* AppCenterDistributeResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = AppCenterDistributeResources.bundle; path = "../AppCenter-SDK-Apple/iOS/AppCenterDistribute.framework/AppCenterDistributeResources.bundle"; sourceTree = "<group>"; };
 		F8E69C622322AD0E006209D2 /* CrashLibIOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CrashLibIOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F8E69C642322AD16006209D2 /* CrashLibIOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CrashLibIOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F8F077A422A6A27B007B4B31 /* MSAuthInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSAuthInfoViewController.swift; sourceTree = "<group>"; };
@@ -1098,6 +1099,7 @@
 		84226C091E88FEFC00798417 = {
 			isa = PBXGroup;
 			children = (
+				F8CD73662331039D00792709 /* AppCenterDistributeResources.bundle */,
 				B20AE3F12102816B00A1A195 /* AppCenter */,
 				F849241D2111C48A00E14DBE /* Config */,
 				84226C141E88FEFC00798417 /* Sasquatch */,
@@ -2200,9 +2202,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F8CD73682331064B00792709 /* AppCenterDistributeResources.bundle in Resources */,
 				041A4BB11F8C28A3009E1B6C /* Sasquatch.strings in Resources */,
 				84226C561E88FF4A00798417 /* Assets.xcassets in Resources */,
-				047D13721EAFBDBE00D699BA /* AppCenterDistributeResources.bundle in Resources */,
 				F809D5041FC6DA2B005E0F83 /* LaunchScreen.storyboard in Resources */,
 				F8AA9F382164F9A6009104E3 /* MSAnalyticsTypedPropertyTableViewCell.xib in Resources */,
 				B2E011F321091EF2003F4A5B /* MSAnalyticsTransmissionTargetSelectorViewCell.xib in Resources */,
@@ -2216,8 +2218,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F8CD73672331039D00792709 /* AppCenterDistributeResources.bundle in Resources */,
 				048933631F8D395A00C38A87 /* Sasquatch.strings in Resources */,
-				B27424851EF2193E00F591E5 /* AppCenterDistributeResources.bundle in Resources */,
 				84226C8A1E8908CA00798417 /* Assets.xcassets in Resources */,
 				B2E011FC21091F09003F4A5B /* MSAnalyticsTransmissionTargetSelectorViewCell.xib in Resources */,
 				F8AA9F3A2164F9A9009104E3 /* MSAnalyticsTypedPropertyTableViewCell.xib in Resources */,
