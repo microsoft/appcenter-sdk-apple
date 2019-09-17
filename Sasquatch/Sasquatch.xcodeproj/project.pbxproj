@@ -1833,7 +1833,7 @@
 					C9E7E481231E99E9007D96DC = {
 						CreatedOnToolsVersion = 10.2.1;
 						DevelopmentTeam = 5Z97G9NZQ6;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 					C9E7E4E4231E9A5D007D96DC = {
 						CreatedOnToolsVersion = 10.2.1;
@@ -3122,10 +3122,11 @@
 			baseConfigurationReference = C237A695232BACB50081153F /* Sasquatch Extension.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 5Z97G9NZQ6;
 				INFOPLIST_FILE = "SasquatchSwift-Extension/Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.microsoft.appcenter.sasquatchswift.SasquatchSwift-Preview-Extension";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchswift.extension;
+				PROVISIONING_PROFILE_SPECIFIER = "AppCenter SDK SasquatchSwift Ext Debug";
 			};
 			name = Debug;
 		};
@@ -3133,9 +3134,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = 5Z97G9NZQ6;
 				INFOPLIST_FILE = "SasquatchSwift-Extension/Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.microsoft.appcenter.sasquatchswift.SasquatchSwift-Preview-Extension";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchswift.extension;
+				PROVISIONING_PROFILE_SPECIFIER = "AppCenter SDK SasquatchSwift Ext Release In-house";
 			};
 			name = Release;
 		};
@@ -3146,7 +3149,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = "SasquatchSwift-Extension/Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.microsoft.appcenter.sasquatchswift.SasquatchSwift-Extension";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchswift.extension;
 			};
 			name = Debug;
 		};
@@ -3157,7 +3160,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5Z97G9NZQ6;
 				INFOPLIST_FILE = "SasquatchSwift-Extension/Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.microsoft.appcenter.sasquatchswift.SasquatchSwift-Extension";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchswift.extension;
 			};
 			name = Release;
 		};
