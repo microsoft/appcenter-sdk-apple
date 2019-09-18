@@ -44,6 +44,10 @@ class AppCenterDelegateSwift: AppCenterDelegate {
   func appSecret() -> String {
     return kMSSwiftAppSecret
   }
+  
+  func aadAppSecret() -> String {
+    return kMSSwiftObjcAADAppSecret
+  }
 
   func setLogUrl(_ logUrl: String?) {
     MSAppCenter.setLogUrl(logUrl);
