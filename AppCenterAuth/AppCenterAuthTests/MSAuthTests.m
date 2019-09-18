@@ -495,11 +495,16 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   OCMStub([self.utilityMock loadDataForPathComponent:[self.sut authConfigFilePath]]).andReturn(serializedConfig);
   OCMStub([self.clientApplicationMock alloc]).andReturn(self.clientApplicationMock);
   OCMStub([self.clientApplicationMock initWithConfiguration:OCMOCK_ANY error:[OCMArg anyObjectRef]]).andReturn(self.clientApplicationMock);
-  OCMStub([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
-    __block MSALCompletionBlock completionBlock;
-    [invocation getArgument:&completionBlock atIndex:3];
-    completionBlock(msalResultMock, nil);
-  });
+  OCMStub([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY
+                                                  loginHint:nil
+                                                 promptType:MSALPromptTypeSelectAccount
+                                       extraQueryParameters:nil
+                                            completionBlock:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        __block MSALCompletionBlock completionBlock;
+        [invocation getArgument:&completionBlock atIndex:6];
+        completionBlock(msalResultMock, nil);
+      });
   [self.sut applyEnabledState:YES];
   MSSignInCompletionHandler handler = ^(MSUserInformation *_Nullable userInformation, NSError *_Nullable error) {
     self.signInUserInformation = userInformation;
@@ -511,7 +516,11 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   MSAuthTokenInfo *actualAuthTokenInfo = [[[MSAuthTokenContext sharedInstance] authTokenHistory] lastObject];
 
   // Then
-  OCMVerify([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]);
+  OCMVerify([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY
+                                                    loginHint:nil
+                                                   promptType:MSALPromptTypeSelectAccount
+                                         extraQueryParameters:nil
+                                              completionBlock:OCMOCK_ANY]);
   XCTAssertEqualObjects(idToken, [MSAuthTokenContext sharedInstance].authToken);
   XCTAssertEqualObjects(idToken, actualAuthTokenInfo.authToken);
   XCTAssertNotNil(self.signInUserInformation);
@@ -526,10 +535,19 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
   // If
   self.sut.clientApplication = self.clientApplicationMock;
-  OCMStub([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]).andDo(nil);
+  OCMStub([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY
+                                                  loginHint:nil
+                                                 promptType:MSALPromptTypeSelectAccount
+                                       extraQueryParameters:nil
+                                            completionBlock:OCMOCK_ANY])
+      .andDo(nil);
 
   // When
-  OCMReject([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]);
+  OCMReject([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY
+                                                    loginHint:nil
+                                                   promptType:MSALPromptTypeSelectAccount
+                                         extraQueryParameters:nil
+                                              completionBlock:OCMOCK_ANY]);
   MSSignInCompletionHandler handler = ^(MSUserInformation *_Nullable userInformation, NSError *_Nullable error) {
     self.signInUserInformation = userInformation;
     self.signInError = error;
@@ -551,7 +569,12 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   OCMStub([reachability currentReachabilityStatus]).andReturn(NotReachable);
   id reachabilityMock = OCMClassMock([MS_Reachability class]);
   OCMStub(ClassMethod([reachabilityMock reachabilityForInternetConnection])).andReturn(reachability);
-  OCMStub([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]).andDo(nil);
+  OCMStub([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY
+                                                  loginHint:nil
+                                                 promptType:MSALPromptTypeSelectAccount
+                                       extraQueryParameters:nil
+                                            completionBlock:OCMOCK_ANY])
+      .andDo(nil);
   id authMock = OCMPartialMock(self.sut);
   OCMStub([authMock sharedInstance]).andReturn(authMock);
   OCMStub([authMock canBeUsed]).andReturn(YES);
@@ -658,11 +681,16 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   id configMock = OCMPartialMock([MSAuthConfig new]);
   OCMStub([configMock authScope]).andReturn(@"fake");
   OCMStub([authMock authConfig]).andReturn(configMock);
-  OCMStub([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
-    __block MSALCompletionBlock completionBlock;
-    [invocation getArgument:&completionBlock atIndex:3];
-    self.msalCompletionBlock = completionBlock;
-  });
+  OCMStub([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY
+                                                  loginHint:nil
+                                                 promptType:MSALPromptTypeSelectAccount
+                                       extraQueryParameters:nil
+                                            completionBlock:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        __block MSALCompletionBlock completionBlock;
+        [invocation getArgument:&completionBlock atIndex:6];
+        self.msalCompletionBlock = completionBlock;
+      });
 
   // When
   MSSignInCompletionHandler handler2 = ^(MSUserInformation *_Nullable userInformation, NSError *_Nullable error) {
@@ -676,7 +704,11 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   MSAuthTokenInfo *actualAuthTokenInfo = [[[MSAuthTokenContext sharedInstance] authTokenHistory] lastObject];
 
   // Then
-  OCMVerify([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]);
+  OCMVerify([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY
+                                                    loginHint:nil
+                                                   promptType:MSALPromptTypeSelectAccount
+                                         extraQueryParameters:nil
+                                              completionBlock:OCMOCK_ANY]);
   XCTAssertEqualObjects(idToken, [MSAuthTokenContext sharedInstance].authToken);
   XCTAssertEqualObjects(idToken, actualAuthTokenInfo.authToken);
   XCTAssertNotNil(self.signInUserInformation);
@@ -759,7 +791,11 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
                     keyPathForCompletionHandler:NSStringFromSelector(@selector(signInCompletionHandler))];
 
   // Then
-  OCMVerify([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]);
+  OCMVerify([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY
+                                                    loginHint:nil
+                                                   promptType:MSALPromptTypeSelectAccount
+                                         extraQueryParameters:nil
+                                              completionBlock:OCMOCK_ANY]);
   [authMock stopMocking];
   [accountMock stopMocking];
 }
@@ -781,7 +817,11 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [self.sut signInWithCompletionHandler:nil];
 
   // Then
-  OCMVerify([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]);
+  OCMVerify([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY
+                                                    loginHint:nil
+                                                   promptType:MSALPromptTypeSelectAccount
+                                         extraQueryParameters:nil
+                                              completionBlock:OCMOCK_ANY]);
   [authMock stopMocking];
 }
 
@@ -806,7 +846,11 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   self.sut.authConfig.authScope = @"fake";
 
   // Then
-  OCMReject([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]);
+  OCMReject([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY
+                                                    loginHint:nil
+                                                   promptType:MSALPromptTypeSelectAccount
+                                         extraQueryParameters:nil
+                                              completionBlock:OCMOCK_ANY]);
 
   // When
   [self.sut signInWithCompletionHandler:nil];
@@ -832,11 +876,16 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   OCMStub([self.utilityMock loadDataForPathComponent:[self.sut authConfigFilePath]]).andReturn(serializedConfig);
   OCMStub([self.clientApplicationMock alloc]).andReturn(self.clientApplicationMock);
   OCMStub([self.clientApplicationMock initWithConfiguration:OCMOCK_ANY error:[OCMArg anyObjectRef]]).andReturn(self.clientApplicationMock);
-  OCMStub([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
-    __block MSALCompletionBlock completionBlock;
-    [invocation getArgument:&completionBlock atIndex:3];
-    self.msalCompletionBlock = completionBlock;
-  });
+  OCMStub([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY
+                                                  loginHint:nil
+                                                 promptType:MSALPromptTypeSelectAccount
+                                       extraQueryParameters:nil
+                                            completionBlock:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        __block MSALCompletionBlock completionBlock;
+        [invocation getArgument:&completionBlock atIndex:6];
+        self.msalCompletionBlock = completionBlock;
+      });
   [self.sut applyEnabledState:YES];
 
   // When we make a first call
@@ -864,7 +913,11 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   MSAuthTokenInfo *actualAuthTokenInfo = [[[MSAuthTokenContext sharedInstance] authTokenHistory] lastObject];
 
   // Then
-  OCMVerify([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]);
+  OCMVerify([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY
+                                                    loginHint:nil
+                                                   promptType:MSALPromptTypeSelectAccount
+                                         extraQueryParameters:nil
+                                              completionBlock:OCMOCK_ANY]);
   XCTAssertEqualObjects(idToken, [MSAuthTokenContext sharedInstance].authToken);
   XCTAssertEqualObjects(idToken, actualAuthTokenInfo.authToken);
   XCTAssertEqualObjects(idToken, self.signInUserInformation.idToken);
@@ -888,11 +941,16 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   id authMock = OCMPartialMock(self.sut);
   OCMStub([authMock sharedInstance]).andReturn(authMock);
   OCMStub([authMock canBeUsed]).andReturn(YES);
-  OCMStub([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
-    __block MSALCompletionBlock completionBlock;
-    [invocation getArgument:&completionBlock atIndex:3];
-    completionBlock(nil, signInError);
-  });
+  OCMStub([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY
+                                                  loginHint:nil
+                                                 promptType:MSALPromptTypeSelectAccount
+                                       extraQueryParameters:nil
+                                            completionBlock:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        __block MSALCompletionBlock completionBlock;
+        [invocation getArgument:&completionBlock atIndex:6];
+        completionBlock(nil, signInError);
+      });
 
   // When
   MSSignInCompletionHandler handler = ^(MSUserInformation *_Nullable userInformation, NSError *_Nullable error) {
@@ -902,7 +960,11 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [self.sut signInWithCompletionHandler:handler];
 
   // Then
-  OCMVerify([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]);
+  OCMVerify([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY
+                                                    loginHint:nil
+                                                   promptType:MSALPromptTypeSelectAccount
+                                         extraQueryParameters:nil
+                                              completionBlock:OCMOCK_ANY]);
   OCMVerify([authTokenContextMock setAuthToken:nil withAccountId:nil expiresOn:nil]);
   XCTAssertNil(self.signInUserInformation);
   XCTAssertNotNil(self.signInError);
@@ -927,11 +989,16 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   id authMock = OCMPartialMock(self.sut);
   OCMStub([authMock sharedInstance]).andReturn(authMock);
   OCMStub([authMock canBeUsed]).andReturn(YES);
-  OCMStub([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
-    __block MSALCompletionBlock completionBlock;
-    [invocation getArgument:&completionBlock atIndex:3];
-    completionBlock(nil, signInError);
-  });
+  OCMStub([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY
+                                                  loginHint:nil
+                                                 promptType:MSALPromptTypeSelectAccount
+                                       extraQueryParameters:nil
+                                            completionBlock:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        __block MSALCompletionBlock completionBlock;
+        [invocation getArgument:&completionBlock atIndex:6];
+        completionBlock(nil, signInError);
+      });
 
   // When
   MSSignInCompletionHandler handler = ^(MSUserInformation *_Nullable userInformation, NSError *_Nullable error) {
@@ -941,7 +1008,11 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [self.sut signInWithCompletionHandler:handler];
 
   // Then
-  OCMVerify([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]);
+  OCMVerify([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY
+                                                    loginHint:nil
+                                                   promptType:MSALPromptTypeSelectAccount
+                                         extraQueryParameters:nil
+                                              completionBlock:OCMOCK_ANY]);
   OCMVerify([authTokenContextMock setAuthToken:nil withAccountId:nil expiresOn:nil]);
   XCTAssertNil(self.signInUserInformation);
   XCTAssertNotNil(self.signInError);
@@ -968,11 +1039,16 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   id authMock = OCMPartialMock(self.sut);
   OCMStub([authMock sharedInstance]).andReturn(authMock);
   OCMStub([authMock canBeUsed]).andReturn(YES);
-  OCMStub([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
-    __block MSALCompletionBlock completionBlock;
-    [invocation getArgument:&completionBlock atIndex:3];
-    self.msalCompletionBlock = completionBlock;
-  });
+  OCMStub([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY
+                                                  loginHint:nil
+                                                 promptType:MSALPromptTypeSelectAccount
+                                       extraQueryParameters:nil
+                                            completionBlock:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        __block MSALCompletionBlock completionBlock;
+        [invocation getArgument:&completionBlock atIndex:6];
+        self.msalCompletionBlock = completionBlock;
+      });
 
   // When
   MSSignInCompletionHandler handler = ^(MSUserInformation *_Nullable userInformation, NSError *_Nullable error) {
@@ -984,7 +1060,11 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   self.msalCompletionBlock(msalResultMock, nil);
 
   // Then
-  OCMVerify([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]);
+  OCMVerify([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY
+                                                    loginHint:nil
+                                                   promptType:MSALPromptTypeSelectAccount
+                                         extraQueryParameters:nil
+                                              completionBlock:OCMOCK_ANY]);
   XCTAssertNil(self.signInUserInformation);
   XCTAssertNotNil(self.signInError);
   XCTAssertEqualObjects(kMSACAuthErrorDomain, self.signInError.domain);
@@ -1365,11 +1445,16 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   OCMStub([tenantProfileMock identifier]).andReturn(expectedAccountId);
   id msalResultMock = OCMPartialMock([MSALResult new]);
   OCMStub([msalResultMock tenantProfile]).andReturn(tenantProfileMock);
-  OCMStub([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
-    __block MSALCompletionBlock completionBlock;
-    [invocation getArgument:&completionBlock atIndex:3];
-    completionBlock(msalResultMock, nil);
-  });
+  OCMStub([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY
+                                                  loginHint:nil
+                                                 promptType:MSALPromptTypeSelectAccount
+                                       extraQueryParameters:nil
+                                            completionBlock:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        __block MSALCompletionBlock completionBlock;
+        [invocation getArgument:&completionBlock atIndex:6];
+        completionBlock(msalResultMock, nil);
+      });
   OCMStub([self.clientApplicationMock alloc]).andReturn(self.clientApplicationMock);
   OCMStub([self.clientApplicationMock initWithConfiguration:OCMOCK_ANY error:[OCMArg anyObjectRef]]).andReturn(self.clientApplicationMock);
   self.sut.ingestion = self.ingestionMock;
@@ -1403,11 +1488,16 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   OCMStub([self.utilityMock loadDataForPathComponent:[self.sut authConfigFilePath]]).andReturn(serializedConfig);
   OCMStub([self.clientApplicationMock alloc]).andReturn(self.clientApplicationMock);
   OCMStub([self.clientApplicationMock initWithConfiguration:OCMOCK_ANY error:[OCMArg anyObjectRef]]).andReturn(self.clientApplicationMock);
-  OCMStub([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
-    __block MSALCompletionBlock completionBlock;
-    [invocation getArgument:&completionBlock atIndex:3];
-    completionBlock(msalResultMock, nil);
-  });
+  OCMStub([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY
+                                                  loginHint:nil
+                                                 promptType:MSALPromptTypeSelectAccount
+                                       extraQueryParameters:nil
+                                            completionBlock:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        __block MSALCompletionBlock completionBlock;
+        [invocation getArgument:&completionBlock atIndex:6];
+        completionBlock(msalResultMock, nil);
+      });
   [self.sut applyEnabledState:YES];
   MSSignInCompletionHandler handler = ^(MSUserInformation *_Nullable userInformation, NSError *_Nullable error) {
     self.signInUserInformation = userInformation;
