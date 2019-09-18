@@ -5,31 +5,31 @@
 
 @implementation MSAuthConfig
 
-static NSString *const kMSAuthScope = @"identity_scope";
+static NSString *const kMSAuthScopeKey = @"identity_scope";
 
-static NSString *const kMSClientId = @"client_id";
+static NSString *const kMSClientIdKey = @"client_id";
 
-static NSString *const kMSRedirectUri = @"redirect_uri";
+static NSString *const kMSRedirectUriKey = @"redirect_uri";
 
-static NSString *const kMSAuthorities = @"authorities";
+static NSString *const kMSAuthoritiesKey = @"authorities";
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary {
   if (!dictionary) {
     return nil;
   }
   if ((self = [super init])) {
-    if (dictionary[kMSAuthScope]) {
-      self.authScope = (NSString * _Nonnull)dictionary[kMSAuthScope];
+    if (dictionary[kMSAuthScopeKey]) {
+      self.authScope = (NSString * _Nonnull)dictionary[kMSAuthScopeKey];
     }
-    if (dictionary[kMSClientId]) {
-      self.clientId = (NSString * _Nonnull)dictionary[kMSClientId];
+    if (dictionary[kMSClientIdKey]) {
+      self.clientId = (NSString * _Nonnull)dictionary[kMSClientIdKey];
     }
-    if (dictionary[kMSRedirectUri]) {
-      self.redirectUri = (NSString * _Nonnull)dictionary[kMSRedirectUri];
+    if (dictionary[kMSRedirectUriKey]) {
+      self.redirectUri = (NSString * _Nonnull)dictionary[kMSRedirectUriKey];
     }
-    if (dictionary[kMSAuthorities]) {
+    if (dictionary[kMSAuthoritiesKey]) {
       NSMutableArray *array = [NSMutableArray new];
-      for (NSDictionary *authorityDic in dictionary[kMSAuthorities]) {
+      for (NSDictionary *authorityDic in dictionary[kMSAuthoritiesKey]) {
         [array addObject:[MSAuthority authorityWithDictionary:authorityDic]];
       }
       self.authorities = array;

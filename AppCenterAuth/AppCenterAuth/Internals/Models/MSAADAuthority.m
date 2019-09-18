@@ -5,13 +5,11 @@
 
 @implementation MSAADAuthority
 
-static NSString *const kMSAudienceType = @"type";
+static NSString *const kMSTypeKey = @"type";
 
-static NSString *const kMSAuthorityUrl = @"authority_url";
+static NSString *const kMSAudienceKey = @"audience";
 
-static NSString *const kMSAudience = @"audience";
-
-static NSString *const kMSTenantId = @"tenant_id";
+static NSString *const kMSTenantIdKey = @"tenant_id";
 
 static NSString *const kMSAuthorityCommonUrl = @"https://login.microsoftonline.com/";
 
@@ -26,17 +24,18 @@ static NSString *const kMSAuthorityTypeAAD = @"AAD";
 static NSString *const kMSCommon = @"common";
 
 static NSString *const kMSorganizations = @"organizations";
+
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary {
   if (!dictionary) {
     return nil;
   }
   if ((self = [super initWithDictionary:dictionary])) {
-    if (dictionary[kMSAudience]) {
-      if ([(NSDictionary *)dictionary[kMSAudience] isKindOfClass:[NSDictionary class]]) {
-        NSDictionary *audience = (NSDictionary *)dictionary[kMSAudience];
-        NSString *tenantId = (NSString * _Nonnull)audience[kMSTenantId];
-        NSString *audienceType = (NSString * _Nonnull)audience[kMSAudienceType];
-        NSString *authorityUrlPath = @"common";
+    if (dictionary[kMSAudienceKey]) {
+      if ([(NSDictionary *)dictionary[kMSAudienceKey] isKindOfClass:[NSDictionary class]]) {
+        NSDictionary *audience = (NSDictionary *)dictionary[kMSAudienceKey];
+        NSString *tenantId = (NSString * _Nonnull)audience[kMSTenantIdKey];
+        NSString *audienceType = (NSString * _Nonnull)audience[kMSTypeKey];
+        NSString *authorityUrlPath = kMSCommon;
         if ([audienceType isEqualToString:kMSSingleTenantAudience]) {
           authorityUrlPath = tenantId;
         } else if ([audienceType isEqualToString:kMSMultiTenantAudience]) {
