@@ -8,6 +8,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface MSAADAuthority : MSAuthority
+
 @end
 
 NS_ASSUME_NONNULL_END
