@@ -2,8 +2,7 @@
 // Licensed under the MIT License.
 
 #import "MSAADAuthority.h"
-
-@implementation MSAADAuthority
+#import "MSAuthConstants.h"
 
 static NSString *const kMSTypeKey = @"type";
 
@@ -20,6 +19,8 @@ static NSString *const kMSMultiTenantAudience = @"AzureADMultipleOrgs";
 static NSString *const kMSCommonEndpoint = @"common";
 
 static NSString *const kMSOrganizationsEndpoint = @"organizations";
+
+@implementation MSAADAuthority
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary {
   if (!dictionary) {
