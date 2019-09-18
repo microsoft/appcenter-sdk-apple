@@ -45,8 +45,12 @@ class AppCenterDelegateSwift: AppCenterDelegate {
     return kMSSwiftAppSecret
   }
   
-  func aadAppSecret() -> String {
+  func appSecretAAD() -> String {
     return kMSSwiftObjcAADAppSecret
+  }
+  
+  func appSecretB2C() -> String {
+    return kMSSwiftAppSecret
   }
 
   func setLogUrl(_ logUrl: String?) {

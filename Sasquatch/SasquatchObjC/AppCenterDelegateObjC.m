@@ -55,11 +55,19 @@
 #endif
 }
 
--(NSString *)appSecretAAD {
+- (NSString *)appSecretAAD {
 #if GCC_PREPROCESSOR_MACRO_PUPPET
   return kMSPuppetAADAppSecret;
 #else
   return kMSSwiftObjcAADAppSecret;
+#endif
+}
+
+- (NSString *)appSecretB2C {
+#if GCC_PREPROCESSOR_MACRO_PUPPET
+  return kMSPuppetAppSecret;
+#else
+  return kMSObjcAppSecret;
 #endif
 }
 
@@ -80,7 +88,7 @@
 }
 
 - (void)startAnalyticsFromLibrary {
-  [MSAppCenter startFromLibraryWithServices:@ [[MSAnalytics class]]];
+  [MSAppCenter startFromLibraryWithServices:@[ [MSAnalytics class] ]];
 }
 
 - (void)setUserId:(NSString *)userId {
