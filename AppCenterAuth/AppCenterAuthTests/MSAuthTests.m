@@ -64,10 +64,11 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
     @"authorities" : @[
       @{@"type" : @"B2C", @"default" : @YES, @"authority_url" : @"https://contoso.com/auth/path1"},
       @{@"type" : @"RandomType", @"default" : @NO, @"authority_url" : @"https://contoso.com/auth/path2"},
-      @{ @"type" : @"AAD",
-         @"default" : @NO,
-         @"audience" : @{@"type" : @"AzureADMyOrg", @"tenant_id" : @"00000000-0000-0000-0000-0000-00000000"}
-         },
+      @{
+        @"type" : @"AAD",
+        @"default" : @NO,
+        @"audience" : @{@"type" : @"AzureADMyOrg", @"tenant_id" : @"00000000-0000-0000-0000-0000-00000000"}
+      },
     ]
   };
 

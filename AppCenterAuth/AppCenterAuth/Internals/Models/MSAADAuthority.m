@@ -17,8 +17,6 @@ static NSString *const kMSSingleTenantAudience = @"AzureADMyOrg";
 
 static NSString *const kMSMultiTenantAudience = @"AzureADMultipleOrgs";
 
-static NSString *const kMSAuthorityTypeAAD = @"AAD";
-
 static NSString *const kMSCommonEndpoint = @"common";
 
 static NSString *const kMSOrganizationsEndpoint = @"organizations";
@@ -31,8 +29,8 @@ static NSString *const kMSOrganizationsEndpoint = @"organizations";
     if (dictionary[kMSAudienceKey]) {
       if ([(NSDictionary *)dictionary[kMSAudienceKey] isKindOfClass:[NSDictionary class]]) {
         NSDictionary *audience = (NSDictionary *)dictionary[kMSAudienceKey];
-        NSString *tenantId = (NSString * _Nonnull)audience[kMSTenantIdKey];
-        NSString *audienceType = (NSString * _Nonnull)audience[kMSTypeKey];
+        NSString *tenantId = (NSString * _Nonnull) audience[kMSTenantIdKey];
+        NSString *audienceType = (NSString * _Nonnull) audience[kMSTypeKey];
         NSString *authorityUrlPath = kMSCommonEndpoint;
         if ([audienceType isEqualToString:kMSSingleTenantAudience]) {
           authorityUrlPath = tenantId;

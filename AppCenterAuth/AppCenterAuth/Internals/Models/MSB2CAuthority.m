@@ -2,10 +2,9 @@
 // Licensed under the MIT License.
 
 #import "MSB2CAuthority.h"
+#import "MSAuthConstants.h"
 
 @implementation MSB2CAuthority
-
-static NSString *const kMSAuthorityTypeB2C = @"B2C";
 
 - (BOOL)isValidType {
   return [self.type isEqualToString:kMSAuthorityTypeB2C];

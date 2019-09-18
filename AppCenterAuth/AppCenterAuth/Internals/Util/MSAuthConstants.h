@@ -26,3 +26,12 @@ static NSString *const kMSAuthConfigFilename = @"config.json";
  */
 static NSString *const kMSAuthETagKey = @"MSAuthETagKey";
 
+/**
+ * The AAD authority type string.
+ */
+static NSString *const kMSAuthorityTypeAAD = @"AAD";
+
+/**
+ * The AAD B2C authority type string.
+ */
+static NSString *const kMSAuthorityTypeB2C = @"B2C";

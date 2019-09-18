@@ -29,7 +29,7 @@
 - (void)testB2CAuthorityInitWithDictionary {
 
   // If
-  NSMutableDictionary *dic = [@{ @"type" : @"B2C", @"default" : @YES, @"authority_url" : @"https://contoso.com/auth/path" } mutableCopy];
+  NSMutableDictionary *dic = [@{@"type" : @"B2C", @"default" : @YES, @"authority_url" : @"https://contoso.com/auth/path"} mutableCopy];
 
   // When
   MSAuthority *authority = [[MSAuthority alloc] initWithDictionary:dic];
@@ -80,10 +80,8 @@
 - (void)testAADAuthorityInitWithDictionary {
 
   // If
-  NSMutableDictionary *dic = [
-      @{ @"type" : @"AAD",
-         @"default" : @YES,
-         @"audience" : @{@"tenant_id" : @"tenantId", @"type" : @"AzureADMyOrg"} } mutableCopy];
+  NSMutableDictionary *dic =
+      [@{@"type" : @"AAD", @"default" : @YES, @"audience" : @{@"tenant_id" : @"tenantId", @"type" : @"AzureADMyOrg"}} mutableCopy];
 
   // When
   MSAuthority *authority = [[MSAADAuthority alloc] initWithDictionary:dic];

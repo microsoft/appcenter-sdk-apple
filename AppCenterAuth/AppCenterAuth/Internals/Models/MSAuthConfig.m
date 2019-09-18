@@ -19,13 +19,13 @@ static NSString *const kMSAuthoritiesKey = @"authorities";
   }
   if ((self = [super init])) {
     if (dictionary[kMSAuthScopeKey]) {
-      self.authScope = (NSString * _Nonnull)dictionary[kMSAuthScopeKey];
+      self.authScope = (NSString * _Nonnull) dictionary[kMSAuthScopeKey];
     }
     if (dictionary[kMSClientIdKey]) {
-      self.clientId = (NSString * _Nonnull)dictionary[kMSClientIdKey];
+      self.clientId = (NSString * _Nonnull) dictionary[kMSClientIdKey];
     }
     if (dictionary[kMSRedirectUriKey]) {
-      self.redirectUri = (NSString * _Nonnull)dictionary[kMSRedirectUriKey];
+      self.redirectUri = (NSString * _Nonnull) dictionary[kMSRedirectUriKey];
     }
     if (dictionary[kMSAuthoritiesKey]) {
       NSMutableArray *array = [NSMutableArray new];
@@ -45,7 +45,7 @@ static NSString *const kMSAuthoritiesKey = @"authorities";
 - (BOOL)areAuthoritiesValid {
   BOOL foundDefault = NO;
   for (MSAuthority *authority in self.authorities) {
-    if (![authority isValid]){
+    if (![authority isValid]) {
       return NO;
     }
     if (authority.defaultAuthority && [authority isValidType]) {

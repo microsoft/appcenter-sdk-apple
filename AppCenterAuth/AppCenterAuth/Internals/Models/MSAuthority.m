@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "MSAADAuthority.h"
 #import "MSAuthority.h"
+#import "MSAADAuthority.h"
+#import "MSAuthConstants.h"
 #import "MSB2CAuthority.h"
 
 @implementation MSAuthority
@@ -19,14 +20,14 @@ static NSString *const kMSAuthorityUrlKey = @"authority_url";
   }
   if ((self = [super init])) {
     if (dictionary[kMSTypeKey]) {
-      self.type = (NSString * _Nonnull)dictionary[kMSTypeKey];
+      self.type = (NSString * _Nonnull) dictionary[kMSTypeKey];
     }
     if (dictionary[kMSDefaultKey]) {
       self.defaultAuthority = [(NSNumber *)dictionary[kMSDefaultKey] boolValue];
     }
     if (dictionary[kMSAuthorityUrlKey]) {
       if (![(NSObject *)dictionary[kMSAuthorityUrlKey] isKindOfClass:[NSNull class]]) {
-        NSString *_Nonnull authorityUrl = (NSString * _Nonnull)dictionary[kMSAuthorityUrlKey];
+        NSString *_Nonnull authorityUrl = (NSString * _Nonnull) dictionary[kMSAuthorityUrlKey];
         self.authorityUrl = (NSURL * _Nonnull)[NSURL URLWithString:authorityUrl];
       }
     }
@@ -46,15 +47,15 @@ static NSString *const kMSAuthorityUrlKey = @"authority_url";
   if (!dictionary || !dictionary[kMSTypeKey]) {
     return nil;
   }
-  NSString *authorityType = (NSString * _Nonnull)dictionary[kMSTypeKey];
+  NSString *authorityType = (NSString * _Nonnull) dictionary[kMSTypeKey];
 
-  if ([authorityType isEqualToString:@"B2C"]) {
+  if ([authorityType isEqualToString:kMSAuthorityTypeB2C]) {
     return [[MSB2CAuthority alloc] initWithDictionary:dictionary];
-  } else if ([authorityType isEqualToString:@"AAD"]) {
+  } else if ([authorityType isEqualToString:kMSAuthorityTypeAAD]) {
     return [[MSAADAuthority alloc] initWithDictionary:dictionary];
   }
 
-  /* return default authority which is neither B2C nor AAD*/
+  /* Return default authority which is neither B2C nor AAD. */
   return [[MSAuthority alloc] initWithDictionary:dictionary];
 }
 
