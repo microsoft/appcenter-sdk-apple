@@ -7,6 +7,10 @@ help() {
   echo "Usage: $0 {internal|external|test} -a <podspec-repo-user-account> -t <podspec-repo-access-token> -r <podspec-repo-name>"
 }
 
+checkError() {
+  echo "$(echo $1 | grep 'ERROR\|FATAL')"
+}
+
 ## I. Check parameter
 if [ -z $1 ] || ( [ "$1" != "internal" ] && [ "$1" != "external" ] && [ "$1" != "test" ] ); then
   help
@@ -52,7 +56,7 @@ else
   resp="$(pod repo add $repo_name https://$user_account:$access_token@github.com/$GITHUB_ORG_NAME/$repo_name.git)"
 fi
 
-error="$(echo $resp | grep -i 'error\|fatal\|exception')"
+error=$(checkError $resp)
 if [ "$error" ]; then
   echo "Couldn't add private spec repo for $mode"
   exit 1
@@ -95,7 +99,7 @@ if [ "$mode" == "internal" ] || [ "$mode" == "test" ]; then
   echo $resp
 
   # Check error from the response
-  error="$(echo $resp | grep -i 'error\|fatal\|exception')"
+  error=$(checkError $resp)
   if [ "$error" ]; then
     echo "Cannot publish to internal repo"
     exit 1
@@ -126,7 +130,7 @@ else
   echo $resp
 
   # Check error from the response
-  error="$(echo $resp | grep -i 'error\|fatal\|exception')"
+  error=$(checkError $resp)
   if [ "$error" ]; then
     echo "Cannot publish to CocoaPods"
     exit 1
