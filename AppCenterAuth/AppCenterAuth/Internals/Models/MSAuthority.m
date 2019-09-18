@@ -4,13 +4,14 @@
 #import "MSAuthority.h"
 #import "MSB2CAuthority.h"
 #import "MSAADAuthority.h"
-#import "../Util/MSAuthConstants.h"
 
 @implementation MSAuthority
 
 static NSString *const kMSType = @"type";
 
 static NSString *const kMSDefault = @"default";
+
+static NSString *const kMSAuthorityUrl = @"authority_url";
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary {
   if (!dictionary) {
@@ -23,6 +24,12 @@ static NSString *const kMSDefault = @"default";
     if (dictionary[kMSDefault]) {
       self.defaultAuthority = [(NSNumber *)dictionary[kMSDefault] boolValue];
     }
+    if (dictionary[kMSAuthorityUrl]) {
+      if (![(NSObject *)dictionary[kMSAuthorityUrl] isKindOfClass:[NSNull class]]) {
+        NSString *_Nonnull authorityUrl = (NSString * _Nonnull)dictionary[kMSAuthorityUrl];
+        self.authorityUrl = (NSURL * _Nonnull)[NSURL URLWithString:authorityUrl];
+      }
+    }
   }
   return self;
 }
@@ -31,18 +38,24 @@ static NSString *const kMSDefault = @"default";
   return self.type && self.authorityUrl;
 }
 
+- (BOOL)isValidType {
+  return NO;
+}
+
 + (MSAuthority *)authorityWithDictionary:(NSDictionary *)dictionary {
   if (!dictionary || !dictionary[kMSType]) {
     return nil;
   }
   NSString *authorityType = (NSString * _Nonnull)dictionary[kMSType];
 
-  if ([authorityType isEqualToString:kMSAuthorityTypeB2C]) {
+  if ([authorityType isEqualToString:@"B2C"]) {
     return [[MSB2CAuthority alloc] initWithDictionary:dictionary];
-  } else if ([authorityType isEqualToString:kMSAuthorityTypeAAD]) {
+  } else if ([authorityType isEqualToString:@"AAD"]) {
     return [[MSAADAuthority alloc] initWithDictionary:dictionary];
   }
-  return nil;
+
+  /* return default authority which is neither B2C nor AAD*/
+  return [[MSAuthority alloc] initWithDictionary:dictionary];
 }
 
 @end

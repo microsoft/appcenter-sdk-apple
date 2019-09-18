@@ -3,8 +3,10 @@
 
 #import <Foundation/Foundation.h>
 
+#import "MSAADAuthority.h"
 #import "MSAbstractLogInternal.h"
 #import "MSAuthority.h"
+#import "MSB2CAuthority.h"
 #import "MSTestFrameworks.h"
 
 @interface MSAuthAuthorityTests : XCTestCase
@@ -24,10 +26,10 @@
   XCTAssertNil(authority);
 }
 
-- (void)testAuthorityInitWithDictionary {
+- (void)testB2CAuthorityInitWithDictionary {
 
   // If
-  NSMutableDictionary *dic = [@{@"type" : @"B2C", @"default" : @YES, @"authority_url" : @"https://contoso.com/auth/path"} mutableCopy];
+  NSMutableDictionary *dic = [@{ @"type" : @"B2C", @"default" : @YES, @"authority_url" : @"https://contoso.com/auth/path" } mutableCopy];
 
   // When
   MSAuthority *authority = [[MSAuthority alloc] initWithDictionary:dic];
@@ -47,10 +49,10 @@
   XCTAssertEqual([dic[@"default"] boolValue], authority.defaultAuthority);
 }
 
-- (void)testAuthorityIsValid {
+- (void)testB2CAuthorityIsValid {
 
   // If
-  MSAuthority *auth = [MSAuthority new];
+  MSAuthority *auth = [MSB2CAuthority new];
 
   // Then
   XCTAssertFalse([auth isValid]);
@@ -75,4 +77,57 @@
   XCTAssertTrue([auth isValid]);
 }
 
+- (void)testAADAuthorityInitWithDictionary {
+
+  // If
+  NSMutableDictionary *dic = [
+      @{ @"type" : @"AAD",
+         @"default" : @YES,
+         @"audience" : @{@"tenant_id" : @"tenantId", @"type" : @"AzureADMyOrg"} } mutableCopy];
+
+  // When
+  MSAuthority *authority = [[MSAADAuthority alloc] initWithDictionary:dic];
+
+  // Then
+  XCTAssertEqualObjects(dic[@"type"], authority.type);
+  XCTAssertEqual([dic[@"default"] boolValue], authority.defaultAuthority);
+  XCTAssertEqualObjects([NSURL URLWithString:@"https://login.microsoftonline.com/tenantId"], authority.authorityUrl);
+
+  // If
+  dic[@"default"] = @NO;
+
+  // When
+  authority = [[MSAADAuthority alloc] initWithDictionary:dic];
+
+  // Then
+  XCTAssertEqual([dic[@"default"] boolValue], authority.defaultAuthority);
+}
+
+- (void)testAADAuthorityIsValid {
+
+  // If
+  MSAuthority *auth = [MSAADAuthority new];
+
+  // Then
+  XCTAssertFalse([auth isValid]);
+
+  // When
+  auth.type = @"AAD";
+
+  // Then
+  XCTAssertFalse([auth isValid]);
+
+  // When
+  auth.defaultAuthority = YES;
+
+  // Then
+  XCTAssertFalse([auth isValid]);
+
+  // When
+  NSURL *URL = [NSURL URLWithString:@"http://login.microsoftonline.com/tenantId"];
+  auth.authorityUrl = URL;
+
+  // Then
+  XCTAssertTrue([auth isValid]);
+}
 @end

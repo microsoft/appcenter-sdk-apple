@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 
 #import <Foundation/Foundation.h>
-#import <MSAuthority.h>
+
+#import "MSAuthority.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MSAADAuthority : MSAuthority {
-}
+@interface MSAADAuthority : MSAuthority
 @end
 
 NS_ASSUME_NONNULL_END

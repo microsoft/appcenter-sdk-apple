@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 #import "MSAADAuthority.h"
-#import "../Util/MSAuthConstants.h"
 
 @implementation MSAADAuthority
 
@@ -22,11 +21,16 @@ static NSString *const kMSMultiTenantAudience = @"AzureADMultipleOrgs";
 
 static NSString *const kMSCommonAudience = @"AzureADandPersonalMicrosoftAccount";
 
+static NSString *const kMSAuthorityTypeAAD = @"AAD";
+
+static NSString *const kMSCommon = @"common";
+
+static NSString *const kMSorganizations = @"organizations";
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary {
   if (!dictionary) {
     return nil;
   }
-  if((self = [super initWithDictionary:dictionary])){
+  if ((self = [super initWithDictionary:dictionary])) {
     if (dictionary[kMSAudience]) {
       if ([(NSDictionary *)dictionary[kMSAudience] isKindOfClass:[NSDictionary class]]) {
         NSDictionary *audience = (NSDictionary *)dictionary[kMSAudience];
@@ -36,21 +40,18 @@ static NSString *const kMSCommonAudience = @"AzureADandPersonalMicrosoftAccount"
         if ([audienceType isEqualToString:kMSSingleTenantAudience]) {
           authorityUrlPath = tenantId;
         } else if ([audienceType isEqualToString:kMSMultiTenantAudience]) {
-          authorityUrlPath = @"organizations";
+          authorityUrlPath = kMSorganizations;
         }
         NSString *authorityUrl = [NSString stringWithFormat:@"%@%@", kMSAuthorityCommonUrl, authorityUrlPath];
         self.authorityUrl = (NSURL * _Nonnull)[NSURL URLWithString:authorityUrl];
       }
     }
   }
-  if (![self isValid]) {
-    return nil;
-  }
   return self;
 }
 
-- (BOOL)isValid {
-  return [super isValid] && [self.type isEqualToString:kMSAuthorityTypeAAD];
+- (BOOL)isValidType {
+  return [self.type isEqualToString:kMSAuthorityTypeAAD];
 }
 
 @end

@@ -39,6 +39,13 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)isValid;
 
 /**
+ * Checks if authoritiy types.
+ *
+ * @return YES, if the authority types are valid.
+ */
+- (BOOL)isValidType;
+
+/**
  * @param dictionary A dictionary that contains the key/value pairs for an authority.
  *
  * @return A new instance of Authority based on type.

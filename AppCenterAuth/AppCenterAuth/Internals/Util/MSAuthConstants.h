@@ -25,13 +25,3 @@ static NSString *const kMSAuthConfigFilename = @"config.json";
  * The eTag key to store the eTag of current configuration.
  */
 static NSString *const kMSAuthETagKey = @"MSAuthETagKey";
-
-/**
- * B2C authority type
- */
-static NSString *const kMSAuthorityTypeB2C = @"B2C";
-
-/**
- * AAD authority type
- */
-static NSString *const kMSAuthorityTypeAAD = @"AAD";

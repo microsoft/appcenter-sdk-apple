@@ -45,10 +45,10 @@ static NSString *const kMSAuthorities = @"authorities";
 - (BOOL)areAuthoritiesValid {
   BOOL foundDefault = NO;
   for (MSAuthority *authority in self.authorities) {
-    if ([authority isValid]) {
+    if (![authority isValid]){
       return NO;
     }
-    if (authority.defaultAuthority) {
+    if (authority.defaultAuthority && [authority isValidType]) {
       foundDefault = YES;
     }
   }
