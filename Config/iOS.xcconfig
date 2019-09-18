@@ -1,4 +1,4 @@
-SDK_NAME = appcenter.ios
+APPCENTER_SDK_NAME = appcenter.ios
 SDKROOT = iphoneos
 TARGETED_DEVICE_FAMILY = 1, 2
 PRE_XCODE_10_1_ARCHS = armv7 armv7s arm64

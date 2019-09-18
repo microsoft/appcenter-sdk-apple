@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+#import "MSDistribute.h"
 #import "MSDistributeIngestion.h"
 #import "MSDistributePrivate.h"
 #import "MSHttpIngestionPrivate.h"
