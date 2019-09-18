@@ -72,7 +72,7 @@ typedef void (^MSAcquireTokenCompletionHandler)(MSUserInformation *_Nullable use
 /**
  * The home account id that should be used for refreshing token after coming back online.
  */
-@property(nonatomic, nullable, copy) NSString *homeAccountIdToRefresh;
+@property(nonatomic, nullable, copy) NSString *accountIdToRefresh;
 
 /**
  * Indicates that there is a pending configuration download
