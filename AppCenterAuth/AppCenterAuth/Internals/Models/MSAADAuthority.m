@@ -17,13 +17,11 @@ static NSString *const kMSSingleTenantAudience = @"AzureADMyOrg";
 
 static NSString *const kMSMultiTenantAudience = @"AzureADMultipleOrgs";
 
-static NSString *const kMSCommonAudience = @"AzureADandPersonalMicrosoftAccount";
-
 static NSString *const kMSAuthorityTypeAAD = @"AAD";
 
-static NSString *const kMSCommon = @"common";
+static NSString *const kMSCommonEndpoint = @"common";
 
-static NSString *const kMSorganizations = @"organizations";
+static NSString *const kMSOrganizationsEndpoint = @"organizations";
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary {
   if (!dictionary) {
@@ -35,11 +33,11 @@ static NSString *const kMSorganizations = @"organizations";
         NSDictionary *audience = (NSDictionary *)dictionary[kMSAudienceKey];
         NSString *tenantId = (NSString * _Nonnull)audience[kMSTenantIdKey];
         NSString *audienceType = (NSString * _Nonnull)audience[kMSTypeKey];
-        NSString *authorityUrlPath = kMSCommon;
+        NSString *authorityUrlPath = kMSCommonEndpoint;
         if ([audienceType isEqualToString:kMSSingleTenantAudience]) {
           authorityUrlPath = tenantId;
         } else if ([audienceType isEqualToString:kMSMultiTenantAudience]) {
-          authorityUrlPath = kMSorganizations;
+          authorityUrlPath = kMSOrganizationsEndpoint;
         }
         NSString *authorityUrl = [NSString stringWithFormat:@"%@%@", kMSAuthorityCommonUrl, authorityUrlPath];
         self.authorityUrl = (NSURL * _Nonnull)[NSURL URLWithString:authorityUrl];

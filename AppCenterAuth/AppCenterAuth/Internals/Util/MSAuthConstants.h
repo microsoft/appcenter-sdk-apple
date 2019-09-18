@@ -25,3 +25,4 @@ static NSString *const kMSAuthConfigFilename = @"config.json";
  * The eTag key to store the eTag of current configuration.
  */
 static NSString *const kMSAuthETagKey = @"MSAuthETagKey";
+
