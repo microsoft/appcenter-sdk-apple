@@ -32,6 +32,11 @@ static NSString *const kMSAuthETagKey = @"MSAuthETagKey";
 static NSString *const kMSAuthorityTypeAAD = @"AAD";
 
 /**
- * The AAD B2C authority type string.
+ * The B2C authority type string.
  */
 static NSString *const kMSAuthorityTypeB2C = @"B2C";
+
+/**
+ * The provider type key.
+ */
+static NSString *const kMSTypeKey = @"type";

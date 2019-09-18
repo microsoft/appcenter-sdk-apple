@@ -8,8 +8,6 @@
 
 @implementation MSAuthority
 
-static NSString *const kMSTypeKey = @"type";
-
 static NSString *const kMSDefaultKey = @"default";
 
 static NSString *const kMSAuthorityUrlKey = @"authority_url";
@@ -42,21 +40,4 @@ static NSString *const kMSAuthorityUrlKey = @"authority_url";
 - (BOOL)isValidType {
   return NO;
 }
-
-+ (MSAuthority *)authorityWithDictionary:(NSDictionary *)dictionary {
-  if (!dictionary || !dictionary[kMSTypeKey]) {
-    return nil;
-  }
-  NSString *authorityType = (NSString * _Nonnull) dictionary[kMSTypeKey];
-
-  if ([authorityType isEqualToString:kMSAuthorityTypeB2C]) {
-    return [[MSB2CAuthority alloc] initWithDictionary:dictionary];
-  } else if ([authorityType isEqualToString:kMSAuthorityTypeAAD]) {
-    return [[MSAADAuthority alloc] initWithDictionary:dictionary];
-  }
-
-  /* Return default authority which is neither B2C nor AAD. */
-  return [[MSAuthority alloc] initWithDictionary:dictionary];
-}
-
 @end

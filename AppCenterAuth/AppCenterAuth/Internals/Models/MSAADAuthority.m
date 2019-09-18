@@ -4,8 +4,6 @@
 #import "MSAADAuthority.h"
 #import "MSAuthConstants.h"
 
-static NSString *const kMSTypeKey = @"type";
-
 static NSString *const kMSAudienceKey = @"audience";
 
 static NSString *const kMSTenantIdKey = @"tenant_id";
