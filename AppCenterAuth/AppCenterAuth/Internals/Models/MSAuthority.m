@@ -2,9 +2,7 @@
 // Licensed under the MIT License.
 
 #import "MSAuthority.h"
-#import "MSAADAuthority.h"
 #import "MSAuthConstants.h"
-#import "MSB2CAuthority.h"
 
 @implementation MSAuthority
 
@@ -25,8 +23,7 @@ static NSString *const kMSAuthorityUrlKey = @"authority_url";
     }
     if (dictionary[kMSAuthorityUrlKey]) {
       if (![(NSObject *)dictionary[kMSAuthorityUrlKey] isKindOfClass:[NSNull class]]) {
-        NSString *_Nonnull authorityUrl = (NSString * _Nonnull) dictionary[kMSAuthorityUrlKey];
-        self.authorityUrl = (NSURL * _Nonnull)[NSURL URLWithString:authorityUrl];
+        self.authorityUrl = (NSString * _Nonnull) dictionary[kMSAuthorityUrlKey];
       }
     }
   }

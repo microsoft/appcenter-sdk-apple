@@ -36,8 +36,7 @@ static NSString *const kMSOrganizationsEndpoint = @"organizations";
         } else if ([audienceType isEqualToString:kMSMultiTenantAudience]) {
           authorityUrlPath = kMSOrganizationsEndpoint;
         }
-        NSString *authorityUrl = [NSString stringWithFormat:@"%@%@", kMSAuthorityCommonUrl, authorityUrlPath];
-        self.authorityUrl = (NSURL * _Nonnull)[NSURL URLWithString:authorityUrl];
+        self.authorityUrl = [NSString stringWithFormat:@"%@%@", kMSAuthorityCommonUrl, authorityUrlPath];
       }
     }
   }

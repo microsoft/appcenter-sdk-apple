@@ -56,16 +56,16 @@
     XCTAssertEqual([authority[@"default"] boolValue], ((MSAuthority *)config.authorities[i]).defaultAuthority);
   }
   NSDictionary *b2cAuthority = dic[@"authorities"][0];
-  XCTAssertEqualObjects([NSURL URLWithString:b2cAuthority[@"authority_url"]], config.authorities[0].authorityUrl);
+  XCTAssertEqualObjects(b2cAuthority[@"authority_url"], config.authorities[0].authorityUrl);
   NSDictionary *aadAuthority = dic[@"authorities"][1];
   NSString *aadAuthorityTenantId = aadAuthority[@"audience"][@"tenant_id"];
-  NSURL *aadAuthorityUrl = [NSURL URLWithString:[@"https://login.microsoftonline.com/" stringByAppendingString:aadAuthorityTenantId]];
+  NSString *aadAuthorityUrl = [@"https://login.microsoftonline.com/" stringByAppendingString:aadAuthorityTenantId];
   XCTAssertEqualObjects(aadAuthorityUrl, config.authorities[1].authorityUrl);
   NSDictionary *randomAuthority = dic[@"authorities"][2];
-  XCTAssertEqualObjects([NSURL URLWithString:randomAuthority[@"authority_url"]], config.authorities[2].authorityUrl);
+  XCTAssertEqualObjects(randomAuthority[@"authority_url"], config.authorities[2].authorityUrl);
 }
 
-- (void)testConfigIsValid {
+- (void)testInvalidConfig {
 
   // If
   MSAuthConfig *config = [MSAuthConfig new];
@@ -90,47 +90,63 @@
 
   // Then
   XCTAssertFalse([config isValid]);
+}
 
+- (void)testValidB2CConfig {
+  
+  // If
+  MSAuthConfig *config = [MSAuthConfig new];
+  config.authScope = @"scope";
+  config.clientId = @"clientId";
+  config.redirectUri = @"redirectUri";
+  
   // When
   MSAuthority *b2cAuth = [MSB2CAuthority new];
   NSArray<MSAuthority *> *auths = [NSArray arrayWithObject:b2cAuth];
   config.authorities = auths;
-
+  
   // Then
   XCTAssertFalse([config isValid]);
-
+  
   // When
   b2cAuth.type = @"B2C";
   b2cAuth.defaultAuthority = true;
-  NSURL *URL = [NSURL URLWithString:@"https://contoso.com/auth/path"];
-  b2cAuth.authorityUrl = URL;
-
+  b2cAuth.authorityUrl = @"https://contoso.com/auth/path";
+  
   // Then
   XCTAssertTrue([config isValid]);
-
+  
   // When
   b2cAuth.type = @"notB2C";
-
+  
   // Then
   XCTAssertFalse([config isValid]);
+}
 
+- (void)testValidAADConfig {
+  
+  // If
+  MSAuthConfig *config = [MSAuthConfig new];
+  config.authScope = @"scope";
+  config.clientId = @"clientId";
+  config.redirectUri = @"redirectUri";
+  
   // When
   MSAuthority *aadAuth = [MSAADAuthority new];
-  auths = [NSArray arrayWithObject:aadAuth];
+  NSArray<MSAuthority *> *auths = [NSArray arrayWithObject:aadAuth];
   config.authorities = auths;
-
+  
   // Then
   XCTAssertFalse([config isValid]);
-
+  
   // When
   aadAuth.type = @"AAD";
   aadAuth.defaultAuthority = true;
-  URL = [NSURL URLWithString:@"https://contoso.com/auth/path"];
-  aadAuth.authorityUrl = URL;
-
+  aadAuth.authorityUrl = @"https://contoso.com/auth/path";
+  
   // Then
   XCTAssertTrue([config isValid]);
-
+  
   // When
   aadAuth.type = @"notAAD";
   XCTAssertFalse([config isValid]);
@@ -146,8 +162,7 @@
   MSAuthority *auth1 = [MSAuthority new];
   auth1.type = @"RandomType";
   auth1.defaultAuthority = NO;
-  NSURL *URL1 = [NSURL URLWithString:@"https://contoso.com/auth/path"];
-  auth1.authorityUrl = URL1;
+  auth1.authorityUrl = @"https://contoso.com/auth/path";
   NSArray<MSAuthority *> *auths1 = [NSArray arrayWithObject:auth1];
   config.authorities = auths1;
 
@@ -158,8 +173,7 @@
   MSAuthority *authB2C = [MSB2CAuthority new];
   authB2C.type = @"B2C";
   authB2C.defaultAuthority = YES;
-  NSURL *URLB2C = [NSURL URLWithString:@"https://contoso.com/auth/path"];
-  authB2C.authorityUrl = URLB2C;
+  authB2C.authorityUrl = @"https://contoso.com/auth/path";
 
   NSArray<MSAuthority *> *auths = [NSArray arrayWithObjects:auth1, authB2C, nil];
   config.authorities = auths;

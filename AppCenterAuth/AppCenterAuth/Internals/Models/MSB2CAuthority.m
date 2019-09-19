@@ -10,8 +10,4 @@
   return [self.type isEqualToString:kMSAuthorityTypeB2C];
 }
 
-- (BOOL)areAuthoritiesValid {
-  return [self.defaultAuthority]
-}
-
 @end

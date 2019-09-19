@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * The authority URL of user flow.
  */
-@property(nonatomic, copy) NSURL *authorityUrl;
+@property(nonatomic, copy) NSString *authorityUrl;
 
 /**
  * Initialize an object from dictionary.
