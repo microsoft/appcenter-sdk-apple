@@ -264,8 +264,9 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     })
     let b2cAction = UIAlertAction(title:"B2C Secret", style: .default, handler: {
       (_ action : UIAlertAction) -> Void in
-      UserDefaults.standard.removeObject(forKey: kMSAppSecret)
-      self.appSecret.text = self.appCenter.appSecretB2C();
+      let text = self.appCenter.appSecretB2C();
+      UserDefaults.standard.set(text, forKey: kMSAppSecret)
+      self.appSecret.text = text
     })
     let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
     let saveAction = UIAlertAction(title: "Save", style: .default, handler: {
