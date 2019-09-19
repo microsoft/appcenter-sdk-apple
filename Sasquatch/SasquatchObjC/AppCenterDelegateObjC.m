@@ -88,7 +88,7 @@
 }
 
 - (void)startAnalyticsFromLibrary {
-  [MSAppCenter startFromLibraryWithServices:@[[MSAnalytics class]]];
+  [MSAppCenter startFromLibraryWithServices:@ [[MSAnalytics class]]];
 }
 
 - (void)setUserId:(NSString *)userId {
