@@ -7,6 +7,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+static NSString *const kMSAuthorityTypeAAD = @"AAD";
+
 @interface MSAADAuthority : MSAuthority
 
 @end

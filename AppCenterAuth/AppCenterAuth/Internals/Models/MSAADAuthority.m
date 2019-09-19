@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 #import "MSAADAuthority.h"
-#import "MSAuthConstants.h"
 
 static NSString *const kMSAudienceKey = @"audience";
 

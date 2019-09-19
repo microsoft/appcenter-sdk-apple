@@ -3,7 +3,7 @@
 
 #import "MSAADAuthority.h"
 #import "MSAuthConfig.h"
-#import "MSAuthConstants.h"
+#import "MSAuthority.h"
 #import "MSB2CAuthority.h"
 
 @implementation MSAuthConfig
