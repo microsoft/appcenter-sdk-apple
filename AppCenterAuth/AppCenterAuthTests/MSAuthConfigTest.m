@@ -65,72 +65,88 @@
   XCTAssertEqualObjects([NSURL URLWithString:randomAuthority[@"authority_url"]], config.authorities[2].authorityUrl);
 }
 
-- (void)testConfigIsValid {
-
+- (void)testInvalidConfig {
+  
   // If
   MSAuthConfig *config = [MSAuthConfig new];
-
+  
   // Then
   XCTAssertFalse([config isValid]);
-
+  
   // When
   config.authScope = @"scope";
-
+  
   // Then
   XCTAssertFalse([config isValid]);
-
+  
   // When
   config.clientId = @"clientId";
-
+  
   // Then
   XCTAssertFalse([config isValid]);
-
+  
   // When
   config.redirectUri = @"redirectUri";
-
+  
   // Then
   XCTAssertFalse([config isValid]);
+}
 
+- (void)testValidB2CConfig {
+  
+  // If
+  MSAuthConfig *config = [MSAuthConfig new];
+  config.authScope = @"scope";
+  config.clientId = @"clientId";
+  config.redirectUri = @"redirectUri";
+  
   // When
   MSAuthority *b2cAuth = [MSB2CAuthority new];
   NSArray<MSAuthority *> *auths = [NSArray arrayWithObject:b2cAuth];
   config.authorities = auths;
-
+  
   // Then
   XCTAssertFalse([config isValid]);
-
+  
   // When
   b2cAuth.type = @"B2C";
   b2cAuth.defaultAuthority = true;
-  NSURL *URL = [NSURL URLWithString:@"https://contoso.com/auth/path"];
-  b2cAuth.authorityUrl = URL;
-
+  b2cAuth.authorityUrl = [NSURL URLWithString:@"https://contoso.com/auth/path"];
+  
   // Then
   XCTAssertTrue([config isValid]);
-
+  
   // When
   b2cAuth.type = @"notB2C";
-
+  
   // Then
   XCTAssertFalse([config isValid]);
+}
 
+- (void)testValidAADConfig {
+  
+  // If
+  MSAuthConfig *config = [MSAuthConfig new];
+  config.authScope = @"scope";
+  config.clientId = @"clientId";
+  config.redirectUri = @"redirectUri";
+  
   // When
   MSAuthority *aadAuth = [MSAADAuthority new];
-  auths = [NSArray arrayWithObject:aadAuth];
+  NSArray<MSAuthority *> *auths = [NSArray arrayWithObject:aadAuth];
   config.authorities = auths;
-
+  
   // Then
   XCTAssertFalse([config isValid]);
-
+  
   // When
   aadAuth.type = @"AAD";
   aadAuth.defaultAuthority = true;
-  URL = [NSURL URLWithString:@"https://contoso.com/auth/path"];
-  aadAuth.authorityUrl = URL;
-
+  aadAuth.authorityUrl = [NSURL URLWithString:@"https://contoso.com/auth/path"];
+  
   // Then
   XCTAssertTrue([config isValid]);
-
+  
   // When
   aadAuth.type = @"notAAD";
   XCTAssertFalse([config isValid]);
