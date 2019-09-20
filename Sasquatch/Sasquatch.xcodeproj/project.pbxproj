@@ -34,6 +34,8 @@
 		35CAA2292143229300A8BED2 /* MSTableViewCellExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35CAA1F92143229300A8BED2 /* MSTableViewCellExtension.swift */; };
 		35FBE78120FD095200F7B05C /* MSTransmissionTargets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FBE78020FD095200F7B05C /* MSTransmissionTargets.swift */; };
 		35FBE78220FD095200F7B05C /* MSTransmissionTargets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FBE78020FD095200F7B05C /* MSTransmissionTargets.swift */; };
+		3816DB9E23345BE90024F533 /* CrashLibIOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3816DB9423345BA40024F533 /* CrashLibIOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		3816DBA123345D870024F533 /* CrashLibIOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3816DB9423345BA40024F533 /* CrashLibIOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4AFBF2CD224C71FF002DB884 /* MSDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFBF2CC224C71FF002DB884 /* MSDataViewController.swift */; };
 		4AFBF2CE224C71FF002DB884 /* MSDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFBF2CC224C71FF002DB884 /* MSDataViewController.swift */; };
 		4AFBF2CF224C71FF002DB884 /* MSDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFBF2CC224C71FF002DB884 /* MSDataViewController.swift */; };
@@ -156,7 +158,6 @@
 		B27D54C8210A5E7E004E82C9 /* MSAnalyticsPropertyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2E011EF21091EF2003F4A5B /* MSAnalyticsPropertyTableViewCell.xib */; };
 		B27D54C9210A5E7E004E82C9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 845964A91E8A7E6600BABA51 /* Main.storyboard */; };
 		B27D54CA210A5E7E004E82C9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84226C1C1E88FEFC00798417 /* Assets.xcassets */; };
-		B27D54CC210A5E7E004E82C9 /* CrashLibIOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F89D79081E93DA3A0094521F /* CrashLibIOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B2A4CF89210A6E6900199B4F /* MSAnalyticsChildTransmissionTargetTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B203FF4B20E57A5B002AD536 /* MSAnalyticsChildTransmissionTargetTableViewController.swift */; };
 		B2A4CF8A210A6E6900199B4F /* AppCenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849A3E711E8A9922008711CB /* AppCenterProtocol.swift */; };
 		B2A4CF8B210A6E6900199B4F /* MSCrashesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A0FF651E8A87B4000E7A28 /* MSCrashesViewController.swift */; };
@@ -192,7 +193,6 @@
 		B2A4CFAC210A6E6900199B4F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 845964A91E8A7E6600BABA51 /* Main.storyboard */; };
 		B2A4CFAD210A6E6900199B4F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84226C1C1E88FEFC00798417 /* Assets.xcassets */; };
 		B2A4CFAE210A6E6900199B4F /* MSAnalyticsPropertyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2E011EF21091EF2003F4A5B /* MSAnalyticsPropertyTableViewCell.xib */; };
-		B2A4CFB0210A6E6900199B4F /* CrashLibIOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F89D79081E93DA3A0094521F /* CrashLibIOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B2B36CE21EEF49B700230341 /* MSCustomPropertiesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B36CE11EEF49B700230341 /* MSCustomPropertiesViewController.swift */; };
 		B2B36CE31EEF49C400230341 /* MSCustomPropertiesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B36CE11EEF49B700230341 /* MSCustomPropertiesViewController.swift */; };
 		B2C97B8B2106535500042A03 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B2C97B8A2106535500042A03 /* Assets.xcassets */; };
@@ -294,6 +294,41 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		3816DB9323345BA40024F533 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3816DB4D23345BA40024F533 /* CrashLib.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = B21A71DB1DD2A38C0044BB1C;
+			remoteInfo = CrashLibIOS;
+		};
+		3816DB9523345BA40024F533 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3816DB4D23345BA40024F533 /* CrashLib.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 80F991211F0265070040FAD7;
+			remoteInfo = CrashLibTV;
+		};
+		3816DB9723345BA40024F533 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3816DB4D23345BA40024F533 /* CrashLib.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8065B5781F4C3FF4004FF622;
+			remoteInfo = CrashLibMac;
+		};
+		3816DB9C23345BE40024F533 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3816DB4D23345BA40024F533 /* CrashLib.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = B21A71DA1DD2A38C0044BB1C;
+			remoteInfo = CrashLibIOS;
+		};
+		3816DB9F23345D780024F533 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3816DB4D23345BA40024F533 /* CrashLib.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = B21A71DA1DD2A38C0044BB1C;
+			remoteInfo = CrashLibIOS;
+		};
 		5CD700EA1EA4B74600FC5D12 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 84226C0A1E88FEFC00798417 /* Project object */;
@@ -637,7 +672,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				B27D54CC210A5E7E004E82C9 /* CrashLibIOS.framework in Embed Frameworks */,
+				3816DBA123345D870024F533 /* CrashLibIOS.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -648,7 +683,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				B2A4CFB0210A6E6900199B4F /* CrashLibIOS.framework in Embed Frameworks */,
+				3816DB9E23345BE90024F533 /* CrashLibIOS.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -751,6 +786,7 @@
 		359171F920F8001A00F3DDE6 /* TargetPropertiesTableSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetPropertiesTableSection.swift; sourceTree = "<group>"; };
 		35CAA1F92143229300A8BED2 /* MSTableViewCellExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSTableViewCellExtension.swift; sourceTree = "<group>"; };
 		35FBE78020FD095200F7B05C /* MSTransmissionTargets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSTransmissionTargets.swift; sourceTree = "<group>"; };
+		3816DB4D23345BA40024F533 /* CrashLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CrashLib.xcodeproj; path = ../CrashLib/CrashLib.xcodeproj; sourceTree = "<group>"; };
 		384929201FACF5DA003F8736 /* SasquatchWatchObjC Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "SasquatchWatchObjC Extension.entitlements"; sourceTree = SOURCE_ROOT; };
 		384929211FACF5F3003F8736 /* SasquatchWatchSwift Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "SasquatchWatchSwift Extension.entitlements"; sourceTree = SOURCE_ROOT; };
 		4AFBF2CC224C71FF002DB884 /* MSDataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSDataViewController.swift; sourceTree = "<group>"; };
@@ -1001,6 +1037,24 @@
 			path = Sections;
 			sourceTree = "<group>";
 		};
+		3816DB4E23345BA40024F533 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3816DB9423345BA40024F533 /* CrashLibIOS.framework */,
+				3816DB9623345BA40024F533 /* CrashLibTV.framework */,
+				3816DB9823345BA40024F533 /* CrashLibMac.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		3816DB9923345BB10024F533 /* CrashLib */ = {
+			isa = PBXGroup;
+			children = (
+				3816DB4D23345BA40024F533 /* CrashLib.xcodeproj */,
+			);
+			name = CrashLib;
+			sourceTree = "<group>";
+		};
 		5CD700E61EA4B74600FC5D12 /* SasquatchUITests */ = {
 			isa = PBXGroup;
 			children = (
@@ -1017,6 +1071,7 @@
 		84226C091E88FEFC00798417 = {
 			isa = PBXGroup;
 			children = (
+				3816DB9923345BB10024F533 /* CrashLib */,
 				B20AE3F12102816B00A1A195 /* AppCenter */,
 				F849241D2111C48A00E14DBE /* Config */,
 				84226C141E88FEFC00798417 /* Sasquatch */,
@@ -1501,6 +1556,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				3816DBA023345D780024F533 /* PBXTargetDependency */,
 			);
 			name = "SasquatchObjC-Preview";
 			productName = SasquatchObjC;
@@ -1521,6 +1577,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				3816DB9D23345BE40024F533 /* PBXTargetDependency */,
 			);
 			name = "SasquatchSwift-Preview";
 			productName = SasquatchSwift;
@@ -1778,6 +1835,10 @@
 					ProductGroup = B20AE42A210281C400A1A195 /* Products */;
 					ProjectRef = B20AE429210281C400A1A195 /* AppCenterPush.xcodeproj */;
 				},
+				{
+					ProductGroup = 3816DB4E23345BA40024F533 /* Products */;
+					ProjectRef = 3816DB4D23345BA40024F533 /* CrashLib.xcodeproj */;
+				},
 			);
 			projectRoot = "";
 			targets = (
@@ -1798,6 +1859,27 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		3816DB9423345BA40024F533 /* CrashLibIOS.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = CrashLibIOS.framework;
+			remoteRef = 3816DB9323345BA40024F533 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		3816DB9623345BA40024F533 /* CrashLibTV.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = CrashLibTV.framework;
+			remoteRef = 3816DB9523345BA40024F533 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		3816DB9823345BA40024F533 /* CrashLibMac.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = CrashLibMac.framework;
+			remoteRef = 3816DB9723345BA40024F533 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		995BA61E21EFFA93000E3212 /* AppCenterAuth.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
@@ -2570,6 +2652,16 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		3816DB9D23345BE40024F533 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = CrashLibIOS;
+			targetProxy = 3816DB9C23345BE40024F533 /* PBXContainerItemProxy */;
+		};
+		3816DBA023345D780024F533 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = CrashLibIOS;
+			targetProxy = 3816DB9F23345D780024F533 /* PBXContainerItemProxy */;
+		};
 		5CD700EB1EA4B74600FC5D12 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 84226C7F1E8908C900798417 /* SasquatchSwift */;
