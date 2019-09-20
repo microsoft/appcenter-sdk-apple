@@ -23,6 +23,8 @@ import AppCenterData
   func appSecret() -> String
   func appSecretAAD() -> String
   func appSecretB2C() -> String
+  func appSecretFirebase() -> String
+  func appSecretAuth0() -> String
   func sdkVersion() -> String
   func isDebuggerAttached() -> Bool
   func startAnalyticsFromLibrary()

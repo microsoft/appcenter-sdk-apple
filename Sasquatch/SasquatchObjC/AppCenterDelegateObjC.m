@@ -71,6 +71,22 @@
 #endif
 }
 
+- (NSString *)appSecretFirebase {
+#if GCC_PREPROCESSOR_MACRO_PUPPET
+  return kMSPuppetFirebaseAppSecret;
+#else
+  return @"firebase blah";
+#endif
+}
+
+- (NSString *)appSecretAuth0 {
+#if GCC_PREPROCESSOR_MACRO_PUPPET
+  return kMSPuppetAuth0AppSecret;
+#else
+  return @"auth0 blah";
+#endif
+}
+
 - (void)setLogUrl:(NSString *)logUrl {
   [MSAppCenter setLogUrl:logUrl];
 }

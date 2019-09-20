@@ -268,6 +268,18 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
       UserDefaults.standard.set(text, forKey: kMSAppSecret)
       self.appSecret.text = text
     })
+    let firebaseAction = UIAlertAction(title:"Firebase Secret", style: .default, handler: {
+      (_ action : UIAlertAction) -> Void in
+      let text = self.appCenter.appSecretFirebase();
+      UserDefaults.standard.set(text, forKey: kMSAppSecret)
+      self.appSecret.text = text
+    })
+    let auth0Action = UIAlertAction(title:"Auth0 Secret", style: .default, handler: {
+      (_ action : UIAlertAction) -> Void in
+      let text = self.appCenter.appSecretAuth0();
+      UserDefaults.standard.set(text, forKey: kMSAppSecret)
+      self.appSecret.text = text
+    })
     let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
     let saveAction = UIAlertAction(title: "Save", style: .default, handler: {
       (_ action : UIAlertAction) -> Void in
@@ -284,6 +296,8 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     alertController.addAction(saveAction)
     alertController.addAction(aadAction)
     alertController.addAction(b2cAction)
+    alertController.addAction(firebaseAction)
+    alertController.addAction(auth0Action)
     alertController.addAction(resetAction)
     self.present(alertController, animated: true, completion: nil)
   }
