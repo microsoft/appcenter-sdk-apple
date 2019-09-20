@@ -99,6 +99,58 @@
 		F8B8EC741FD853E800445BD4 /* CustomPropertiesViewControler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B8EC721FD853E800445BD4 /* CustomPropertiesViewControler.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		C22AA71E2334F5AB003D6D05 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2AB5BA72334F48800654274 /* CrashLib.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8065B5771F4C3FF4004FF622;
+			remoteInfo = CrashLibMac;
+		};
+		C2AB5BAD2334F48800654274 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2AB5BA72334F48800654274 /* CrashLib.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = B21A71DB1DD2A38C0044BB1C;
+			remoteInfo = CrashLibIOS;
+		};
+		C2AB5BAF2334F48800654274 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2AB5BA72334F48800654274 /* CrashLib.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 80F991211F0265070040FAD7;
+			remoteInfo = CrashLibTV;
+		};
+		C2AB5BB12334F48800654274 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2AB5BA72334F48800654274 /* CrashLib.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8065B5781F4C3FF4004FF622;
+			remoteInfo = CrashLibMac;
+		};
+		C2AB5BB32334F49B00654274 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2AB5BA72334F48800654274 /* CrashLib.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8065B5771F4C3FF4004FF622;
+			remoteInfo = CrashLibMac;
+		};
+		C2AB5BB52334F4A100654274 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2AB5BA72334F48800654274 /* CrashLib.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8065B5771F4C3FF4004FF622;
+			remoteInfo = CrashLibMac;
+		};
+		C2AB5BB72334F4AB00654274 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2AB5BA72334F48800654274 /* CrashLib.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8065B5771F4C3FF4004FF622;
+			remoteInfo = CrashLibMac;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
 		8065B5B61F4C40FC004FF622 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -174,6 +226,7 @@
 		B2A4CFD4210A716E00199B4F /* SasquatchMacObjC-Preview.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SasquatchMacObjC-Preview.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2A4CFF1210A77D400199B4F /* SasquatchMacSwift-Preview.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SasquatchMacSwift-Preview.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2CD74CF1F22C3150070E7DF /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		C2AB5BA72334F48800654274 /* CrashLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CrashLib.xcodeproj; path = ../../CrashLib/CrashLib.xcodeproj; sourceTree = "<group>"; };
 		D3C31C161E8E757300B288CE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/SasquatchMac.storyboard; sourceTree = "<group>"; };
 		D3C31C221E8E75B300B288CE /* SasquatchMacObjC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SasquatchMacObjC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3C31C241E8E75B300B288CE /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -251,9 +304,28 @@
 			path = EventFilter;
 			sourceTree = "<group>";
 		};
+		C2AB5BA52334F2EA00654274 /* CrashLib */ = {
+			isa = PBXGroup;
+			children = (
+				C2AB5BA72334F48800654274 /* CrashLib.xcodeproj */,
+			);
+			path = CrashLib;
+			sourceTree = "<group>";
+		};
+		C2AB5BA82334F48800654274 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C2AB5BAE2334F48800654274 /* CrashLibIOS.framework */,
+				C2AB5BB02334F48800654274 /* CrashLibTV.framework */,
+				C2AB5BB22334F48800654274 /* CrashLibMac.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		D3C31C031E8E757300B288CE = {
 			isa = PBXGroup;
 			children = (
+				C2AB5BA52334F2EA00654274 /* CrashLib */,
 				F84BA0B621133A740020F13B /* Config */,
 				D3C31C0E1E8E757300B288CE /* SasquatchMac */,
 				D3C31C231E8E75B300B288CE /* SasquatchMacObjC */,
@@ -401,6 +473,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				C2AB5BB62334F4A100654274 /* PBXTargetDependency */,
 			);
 			name = "SasquatchMacObjC-Preview";
 			productName = SasquatchMacObjC;
@@ -420,6 +493,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				C22AA71F2334F5AB003D6D05 /* PBXTargetDependency */,
 			);
 			name = "SasquatchMacSwift-Preview";
 			productName = SasquatchMacSwift;
@@ -431,6 +505,7 @@
 			buildConfigurationList = D3C31C331E8E75B300B288CE /* Build configuration list for PBXNativeTarget "SasquatchMacObjC" */;
 			buildPhases = (
 				F849248B2112FDE900E14DBE /* Verify no buildSettings */,
+				F845068B2317D7E600A959D6 /* Remove the wrong framework */,
 				D3C31C1E1E8E75B300B288CE /* Sources */,
 				D3C31C1F1E8E75B300B288CE /* Frameworks */,
 				D3C31C201E8E75B300B288CE /* Resources */,
@@ -439,6 +514,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				C2AB5BB42334F49B00654274 /* PBXTargetDependency */,
 			);
 			name = SasquatchMacObjC;
 			productName = SasquatchMacObjC;
@@ -454,10 +530,12 @@
 				D3C31C5D1E8E763600B288CE /* Frameworks */,
 				D3C31C5E1E8E763600B288CE /* Resources */,
 				8065B5B91F4C4121004FF622 /* Embed Frameworks */,
+				F845068C2317D7FC00A959D6 /* Remove the wrong framework */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				C2AB5BB82334F4AB00654274 /* PBXTargetDependency */,
 			);
 			name = SasquatchMacSwift;
 			productName = SasquatchMacSwift;
@@ -515,6 +593,12 @@
 			mainGroup = D3C31C031E8E757300B288CE;
 			productRefGroup = D3C31C0D1E8E757300B288CE /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = C2AB5BA82334F48800654274 /* Products */;
+					ProjectRef = C2AB5BA72334F48800654274 /* CrashLib.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				D3C31C211E8E75B300B288CE /* SasquatchMacObjC */,
@@ -524,6 +608,30 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		C2AB5BAE2334F48800654274 /* CrashLibIOS.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = CrashLibIOS.framework;
+			remoteRef = C2AB5BAD2334F48800654274 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C2AB5BB02334F48800654274 /* CrashLibTV.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = CrashLibTV.framework;
+			remoteRef = C2AB5BAF2334F48800654274 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C2AB5BB22334F48800654274 /* CrashLibMac.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = CrashLibMac.framework;
+			remoteRef = C2AB5BB12334F48800654274 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		B2A4CFCC210A716E00199B4F /* Resources */ = {
@@ -565,6 +673,44 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		F845068B2317D7E600A959D6 /* Remove the wrong framework */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Remove the wrong framework";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# We test the app on the fat fake framework produced by our script. \n# In order for linker to not pick up the simple static framework\n# (which it does by default), we need to remove it.\nrm -rf \"${BUILT_PRODUCTS_DIR}\"/AppCenter*.framework\n";
+			showEnvVarsInLog = 0;
+		};
+		F845068C2317D7FC00A959D6 /* Remove the wrong framework */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Remove the wrong framework";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# We test the app on the fat fake framework produced by our script. \n# In order for linker to not pick up the simple static framework\n# (which it does by default), we need to remove it.\nrm -rf \"${BUILT_PRODUCTS_DIR}\"/AppCenter*.framework\n";
+			showEnvVarsInLog = 0;
+		};
 		F849248B2112FDE900E14DBE /* Verify no buildSettings */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -715,6 +861,29 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		C22AA71F2334F5AB003D6D05 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = CrashLibMac;
+			targetProxy = C22AA71E2334F5AB003D6D05 /* PBXContainerItemProxy */;
+		};
+		C2AB5BB42334F49B00654274 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = CrashLibMac;
+			targetProxy = C2AB5BB32334F49B00654274 /* PBXContainerItemProxy */;
+		};
+		C2AB5BB62334F4A100654274 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = CrashLibMac;
+			targetProxy = C2AB5BB52334F4A100654274 /* PBXContainerItemProxy */;
+		};
+		C2AB5BB82334F4AB00654274 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = CrashLibMac;
+			targetProxy = C2AB5BB72334F4AB00654274 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		D3C31C151E8E757300B288CE /* SasquatchMac.storyboard */ = {

@@ -37,7 +37,7 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
     super.viewDidLoad()
     docIdField.placeholder = "Please input a user document id"
     docIdField.text = documentId
-    timeToLiveField.text = documentTimeToLive
+    self.timeToLiveField.text = UserDefaults.standard.string(forKey: kMSTimeToLive) ?? documentTimeToLive
     self.tableView.delegate = self
     self.tableView.dataSource = self
     self.tableView.setEditing(true, animated: false)
@@ -94,7 +94,13 @@ class MSDocumentDetailsViewController: UIViewController, UITableViewDelegate, UI
         })
     }
   }
-    
+
+  @IBAction func saveButtonClicked(_ sender: Any) {
+      let text = self.timeToLiveField.text ?? documentTimeToLive
+      UserDefaults.standard.set(text, forKey: kMSTimeToLive)
+      self.timeToLiveField.text = text
+  }
+
   func updateDocumentList(list: inout [MSDocumentWrapper], documentContent: MSDocumentWrapper) {
     let index = list.firstIndex(where: {$0.documentId == documentContent.documentId} )
     if (index != nil ) {

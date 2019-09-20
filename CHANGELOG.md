@@ -1,5 +1,24 @@
 # App Center SDK for iOS, macOS and tvOS Change Log
 
+## Version 2.4.0
+
+### App Center Auth
+
+* **[Fix]** Fix token storage initialization if services are started via `[MSAppCenter startService:]` method.
+* **[Fix]** Redirect URIs are now hidden in logs.
+* **[Fix]** Fix interactive sign in on iOS 13. Temporary fix, will be revisited in the future.
+* **[Feature]** Updated the Microsoft Authentication Library dependency to v0.7.0.
+
+### App Center Analytics
+
+* **[Fix]** Fix crash involving SDK's `ms_viewWillAppear` method.
+
+### App Center Data
+
+* **[Breaking change]** Rename delegate method `data:didCompletePendingOperation:forDocument:withError:` from `MSRemoteOperationDelegate` to `data:didCompleteRemoteOperation:forDocumentMetadata:withError:`.
+
+___
+
 ## Version 2.3.0
 
 ### App Center Auth
@@ -67,6 +86,7 @@ ___
 ### App Center Data
 
 * **[Fix]** Fix an issue where invalid characters in the document ID are accepted at creation time but causing errors while trying to read or delete the document. The characters are `#`, `\`, `/`, `?`, and all whitespaces.
+* **[Feature]** Added `setRemoteOperationDelegate` method to set a delegate to be notified of a pending operation being executed when the client device goes from offline to online.
 
 ___
 
