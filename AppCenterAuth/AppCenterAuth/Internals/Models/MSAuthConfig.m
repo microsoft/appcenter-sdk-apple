@@ -44,10 +44,11 @@ static NSString *const kMSAuthoritiesKey = @"authorities";
           authority = [[MSB2CAuthority alloc] initWithDictionary:authorityDic];
         } else if ([authorityType isEqualToString:kMSAuthorityTypeAAD]) {
           authority = [[MSAADAuthority alloc] initWithDictionary:authorityDic];
+        } else {
+          
+          /* Return default authority which is neither B2C nor AAD. */
+          authority = [[MSAuthority alloc] initWithDictionary:authorityDic];
         }
-        
-        /* Return default authority which is neither B2C nor AAD. */
-        authority = [[MSAuthority alloc] initWithDictionary:authorityDic];
         [array addObject:authority];
       }
       self.authorities = array;
