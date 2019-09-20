@@ -112,20 +112,6 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "B21A71DA1DD2A38C0044BB1C"
-               BuildableName = "CrashLibIOS.framework"
-               BlueprintName = "CrashLibIOS"
-               ReferencedContainer = "container:../CrashLib/CrashLib.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "84226C461E88FF4A00798417"
                BuildableName = "SasquatchObjC.app"
                BlueprintName = "SasquatchObjC"

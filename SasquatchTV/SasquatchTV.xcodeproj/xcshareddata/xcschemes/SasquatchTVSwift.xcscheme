@@ -14,20 +14,6 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "80F991201F0265070040FAD7"
-               BuildableName = "CrashLibTV.framework"
-               BlueprintName = "CrashLibTV"
-               ReferencedContainer = "container:../CrashLib/CrashLib.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "043121491EE0BFC7007054C5"
                BuildableName = "AppCenter tvOS Fat Framework"
                BlueprintName = "AppCenter tvOS Fat Framework"

@@ -462,6 +462,27 @@
 			remoteGlobalIDString = B20AE37C21027D6200A1A195;
 			remoteInfo = SasquatchPuppet;
 		};
+		C2226FC32334EA5400E82CE8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3816DB4D23345BA40024F533 /* CrashLib.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = B21A71DA1DD2A38C0044BB1C;
+			remoteInfo = CrashLibIOS;
+		};
+		C2226FC62334EA9300E82CE8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3816DB4D23345BA40024F533 /* CrashLib.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = B21A71DA1DD2A38C0044BB1C;
+			remoteInfo = CrashLibIOS;
+		};
+		C2226FC82334EAA600E82CE8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3816DB4D23345BA40024F533 /* CrashLib.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = B21A71DA1DD2A38C0044BB1C;
+			remoteInfo = CrashLibIOS;
+		};
 		C25DAE3222280A590073B86A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C25DAE2522280A590073B86A /* AppCenterData.xcodeproj */;
@@ -1491,6 +1512,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				C2226FC42334EA5400E82CE8 /* PBXTargetDependency */,
 				D31EF9491E9517B600450162 /* PBXTargetDependency */,
 			);
 			name = SasquatchObjC;
@@ -1514,6 +1536,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				C2226FC72334EA9300E82CE8 /* PBXTargetDependency */,
 				D31EF9711E9517C600450162 /* PBXTargetDependency */,
 			);
 			name = SasquatchSwift;
@@ -1535,6 +1558,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				C2226FC92334EAA600E82CE8 /* PBXTargetDependency */,
 				B2A888A42102A407001ACFDF /* PBXTargetDependency */,
 			);
 			name = SasquatchPuppet;
@@ -2681,6 +2705,21 @@
 			isa = PBXTargetDependency;
 			target = B20AE37C21027D6200A1A195 /* SasquatchPuppet */;
 			targetProxy = B2A888BA2102B1E7001ACFDF /* PBXContainerItemProxy */;
+		};
+		C2226FC42334EA5400E82CE8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = CrashLibIOS;
+			targetProxy = C2226FC32334EA5400E82CE8 /* PBXContainerItemProxy */;
+		};
+		C2226FC72334EA9300E82CE8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = CrashLibIOS;
+			targetProxy = C2226FC62334EA9300E82CE8 /* PBXContainerItemProxy */;
+		};
+		C2226FC92334EAA600E82CE8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = CrashLibIOS;
+			targetProxy = C2226FC82334EAA600E82CE8 /* PBXContainerItemProxy */;
 		};
 		D31EF9381E9517B600450162 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

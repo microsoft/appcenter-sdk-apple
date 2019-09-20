@@ -14,20 +14,6 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "8065B5771F4C3FF4004FF622"
-               BuildableName = "CrashLibMac.framework"
-               BlueprintName = "CrashLibMac"
-               ReferencedContainer = "container:../CrashLib/CrashLib.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "0485AFE61EAA937000C10CAF"
                BuildableName = "AppCenter macOS Fat Framework"
                BlueprintName = "AppCenter macOS Fat Framework"
