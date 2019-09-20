@@ -483,6 +483,55 @@
 			remoteGlobalIDString = B21A71DA1DD2A38C0044BB1C;
 			remoteInfo = CrashLibIOS;
 		};
+		C225C4822335098900639D04 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B20AE3B92102812300A1A195 /* AppCenter.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = C9A91FB5230C01140068070D;
+			remoteInfo = "AppCenter iOS Framework";
+		};
+		C225C4842335098900639D04 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B20AE3D42102813300A1A195 /* AppCenterAnalytics.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = C9CA69D82306CAF700EE82AA;
+			remoteInfo = "AppCenterAnalytics iOS Framework";
+		};
+		C225C4862335098900639D04 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B20AE3F22102818B00A1A195 /* AppCenterCrashes.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = C9A91F49230BFD930068070D;
+			remoteInfo = "AppCenterCrashes iOS Framework";
+		};
+		C225C4882335098900639D04 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C25DAE2522280A590073B86A /* AppCenterData.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = C9A91F70230BFF610068070D;
+			remoteInfo = "AppCenterData iOS Framework";
+		};
+		C225C48A2335098900639D04 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B20AE40D2102819C00A1A195 /* AppCenterDistribute.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = C9A91F8B230BFFFF0068070D;
+			remoteInfo = "AppCenterDistribute iOS Framework";
+		};
+		C225C48C2335098900639D04 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 995BA60C21EFFA93000E3212 /* AppCenterAuth.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = C934BFE4230BF74000083490;
+			remoteInfo = "AppCenterAuth iOS Framework";
+		};
+		C225C48E2335098900639D04 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B20AE429210281C400A1A195 /* AppCenterPush.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = C9A91F9A230C004A0068070D;
+			remoteInfo = "AppCenterPush iOS Framework";
+		};
 		C25DAE3222280A590073B86A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C25DAE2522280A590073B86A /* AppCenterData.xcodeproj */;
@@ -1558,6 +1607,13 @@
 			buildRules = (
 			);
 			dependencies = (
+				C225C4832335098900639D04 /* PBXTargetDependency */,
+				C225C4852335098900639D04 /* PBXTargetDependency */,
+				C225C4872335098900639D04 /* PBXTargetDependency */,
+				C225C4892335098900639D04 /* PBXTargetDependency */,
+				C225C48B2335098900639D04 /* PBXTargetDependency */,
+				C225C48D2335098900639D04 /* PBXTargetDependency */,
+				C225C48F2335098900639D04 /* PBXTargetDependency */,
 				C2226FC92334EAA600E82CE8 /* PBXTargetDependency */,
 				B2A888A42102A407001ACFDF /* PBXTargetDependency */,
 			);
@@ -2720,6 +2776,41 @@
 			isa = PBXTargetDependency;
 			name = CrashLibIOS;
 			targetProxy = C2226FC82334EAA600E82CE8 /* PBXContainerItemProxy */;
+		};
+		C225C4832335098900639D04 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "AppCenter iOS Framework";
+			targetProxy = C225C4822335098900639D04 /* PBXContainerItemProxy */;
+		};
+		C225C4852335098900639D04 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "AppCenterAnalytics iOS Framework";
+			targetProxy = C225C4842335098900639D04 /* PBXContainerItemProxy */;
+		};
+		C225C4872335098900639D04 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "AppCenterCrashes iOS Framework";
+			targetProxy = C225C4862335098900639D04 /* PBXContainerItemProxy */;
+		};
+		C225C4892335098900639D04 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "AppCenterData iOS Framework";
+			targetProxy = C225C4882335098900639D04 /* PBXContainerItemProxy */;
+		};
+		C225C48B2335098900639D04 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "AppCenterDistribute iOS Framework";
+			targetProxy = C225C48A2335098900639D04 /* PBXContainerItemProxy */;
+		};
+		C225C48D2335098900639D04 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "AppCenterAuth iOS Framework";
+			targetProxy = C225C48C2335098900639D04 /* PBXContainerItemProxy */;
+		};
+		C225C48F2335098900639D04 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "AppCenterPush iOS Framework";
+			targetProxy = C225C48E2335098900639D04 /* PBXContainerItemProxy */;
 		};
 		D31EF9381E9517B600450162 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
