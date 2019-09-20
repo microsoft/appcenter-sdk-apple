@@ -2,29 +2,29 @@
 // Licensed under the MIT License.
 
 #import "MSAuthority.h"
+#import "MSAADAuthority.h"
+#import "MSB2CAuthority.h"
 
 @implementation MSAuthority
 
-static NSString *const kMSType = @"type";
+static NSString *const kMSDefaultKey = @"default";
 
-static NSString *const kMSDefault = @"default";
-
-static NSString *const kMSAuthorityUrl = @"authority_url";
+static NSString *const kMSAuthorityUrlKey = @"authority_url";
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary {
   if (!dictionary) {
     return nil;
   }
   if ((self = [super init])) {
-    if (dictionary[kMSType]) {
-      self.type = (NSString * _Nonnull) dictionary[kMSType];
+    if (dictionary[kMSTypeKey]) {
+      self.type = (NSString * _Nonnull) dictionary[kMSTypeKey];
     }
-    if (dictionary[kMSDefault]) {
-      self.defaultAuthority = [(NSNumber *)dictionary[kMSDefault] boolValue];
+    if (dictionary[kMSDefaultKey]) {
+      self.defaultAuthority = [(NSNumber *)dictionary[kMSDefaultKey] boolValue];
     }
-    if (dictionary[kMSAuthorityUrl]) {
-      if (![(NSObject *)dictionary[kMSAuthorityUrl] isKindOfClass:[NSNull class]]) {
-        NSString *_Nonnull authorityUrl = (NSString * _Nonnull) dictionary[kMSAuthorityUrl];
+    if (dictionary[kMSAuthorityUrlKey]) {
+      if (![(NSObject *)dictionary[kMSAuthorityUrlKey] isKindOfClass:[NSNull class]]) {
+        NSString *_Nonnull authorityUrl = (NSString * _Nonnull) dictionary[kMSAuthorityUrlKey];
         self.authorityUrl = (NSURL * _Nonnull)[NSURL URLWithString:authorityUrl];
       }
     }
@@ -36,4 +36,7 @@ static NSString *const kMSAuthorityUrl = @"authority_url";
   return self.type && self.authorityUrl;
 }
 
+- (BOOL)isValidType {
+  return NO;
+}
 @end
