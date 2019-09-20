@@ -110,6 +110,55 @@
 			remoteGlobalIDString = D322EFD71E8E97C800A8EDA5;
 			remoteInfo = SasquatchTVSwift;
 		};
+		C22AA7282334F5DC003D6D05 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C22AA7222334F5DC003D6D05 /* CrashLib.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = B21A71DB1DD2A38C0044BB1C;
+			remoteInfo = CrashLibIOS;
+		};
+		C22AA72A2334F5DC003D6D05 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C22AA7222334F5DC003D6D05 /* CrashLib.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 80F991211F0265070040FAD7;
+			remoteInfo = CrashLibTV;
+		};
+		C22AA72C2334F5DC003D6D05 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C22AA7222334F5DC003D6D05 /* CrashLib.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8065B5781F4C3FF4004FF622;
+			remoteInfo = CrashLibMac;
+		};
+		C22AA72E2334F5EC003D6D05 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C22AA7222334F5DC003D6D05 /* CrashLib.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 80F991201F0265070040FAD7;
+			remoteInfo = CrashLibTV;
+		};
+		C22AA7302334F5F2003D6D05 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C22AA7222334F5DC003D6D05 /* CrashLib.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 80F991201F0265070040FAD7;
+			remoteInfo = CrashLibTV;
+		};
+		C22AA7322334F5F7003D6D05 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C22AA7222334F5DC003D6D05 /* CrashLib.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 80F991201F0265070040FAD7;
+			remoteInfo = CrashLibTV;
+		};
+		C22AA7342334F5FD003D6D05 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C22AA7222334F5DC003D6D05 /* CrashLib.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 80F991201F0265070040FAD7;
+			remoteInfo = CrashLibTV;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -190,6 +239,7 @@
 		B2181B7D1F268AAD00D2EEAE /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		B25AE838210A79FB00CC07A9 /* SasquatchTVObjC-Preview.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SasquatchTVObjC-Preview.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B25AE856210A7B8A00CC07A9 /* SasquatchTVSwift-Preview.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SasquatchTVSwift-Preview.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C22AA7222334F5DC003D6D05 /* CrashLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CrashLib.xcodeproj; path = ../../CrashLib/CrashLib.xcodeproj; sourceTree = "<group>"; };
 		D322EFCA1E8E97A100A8EDA5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/SasquatchTV.storyboard; sourceTree = "<group>"; };
 		D322EFD81E8E97C800A8EDA5 /* SasquatchTVSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SasquatchTVSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D322EFDA1E8E97C800A8EDA5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -312,9 +362,28 @@
 			name = MSAlertController;
 			sourceTree = "<group>";
 		};
+		C22AA7232334F5DC003D6D05 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C22AA7292334F5DC003D6D05 /* CrashLibIOS.framework */,
+				C22AA72B2334F5DC003D6D05 /* CrashLibTV.framework */,
+				C22AA72D2334F5DC003D6D05 /* CrashLibMac.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C2AB5BA62334F2F000654274 /* CrashLib */ = {
+			isa = PBXGroup;
+			children = (
+				C22AA7222334F5DC003D6D05 /* CrashLib.xcodeproj */,
+			);
+			path = CrashLib;
+			sourceTree = "<group>";
+		};
 		D322EFB91E8E97A100A8EDA5 = {
 			isa = PBXGroup;
 			children = (
+				C2AB5BA62334F2F000654274 /* CrashLib */,
 				F84BA0BE211340540020F13B /* Config */,
 				D322EFC41E8E97A100A8EDA5 /* SasquatchTV */,
 				D322EFEC1E8E97DF00A8EDA5 /* SasquatchTVObjC */,
@@ -498,6 +567,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				C22AA7312334F5F2003D6D05 /* PBXTargetDependency */,
 			);
 			name = "SasquatchTVObjC-Preview";
 			productName = SasquatchTVObjC;
@@ -517,6 +587,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				C22AA7352334F5FD003D6D05 /* PBXTargetDependency */,
 			);
 			name = "SasquatchTVSwift-Preview";
 			productName = SasquatchTVSwift;
@@ -537,6 +608,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				C22AA7332334F5F7003D6D05 /* PBXTargetDependency */,
 			);
 			name = SasquatchTVSwift;
 			productName = SasquatchTVSwift;
@@ -557,6 +629,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				C22AA72F2334F5EC003D6D05 /* PBXTargetDependency */,
 			);
 			name = SasquatchTVObjC;
 			productName = SasquatchTVObjC;
@@ -617,6 +690,12 @@
 			mainGroup = D322EFB91E8E97A100A8EDA5;
 			productRefGroup = D322EFC31E8E97A100A8EDA5 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = C22AA7232334F5DC003D6D05 /* Products */;
+					ProjectRef = C22AA7222334F5DC003D6D05 /* CrashLib.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				D322EFEA1E8E97DF00A8EDA5 /* SasquatchTVObjC */,
@@ -628,6 +707,30 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		C22AA7292334F5DC003D6D05 /* CrashLibIOS.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = CrashLibIOS.framework;
+			remoteRef = C22AA7282334F5DC003D6D05 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C22AA72B2334F5DC003D6D05 /* CrashLibTV.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = CrashLibTV.framework;
+			remoteRef = C22AA72A2334F5DC003D6D05 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C22AA72D2334F5DC003D6D05 /* CrashLibMac.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = CrashLibMac.framework;
+			remoteRef = C22AA72C2334F5DC003D6D05 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		5C2CC6EB1EE6BE5400E2BDA4 /* Resources */ = {
@@ -896,6 +999,26 @@
 			isa = PBXTargetDependency;
 			target = D322EFD71E8E97C800A8EDA5 /* SasquatchTVSwift */;
 			targetProxy = 5C2CC7001EE6BEE000E2BDA4 /* PBXContainerItemProxy */;
+		};
+		C22AA72F2334F5EC003D6D05 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = CrashLibTV;
+			targetProxy = C22AA72E2334F5EC003D6D05 /* PBXContainerItemProxy */;
+		};
+		C22AA7312334F5F2003D6D05 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = CrashLibTV;
+			targetProxy = C22AA7302334F5F2003D6D05 /* PBXContainerItemProxy */;
+		};
+		C22AA7332334F5F7003D6D05 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = CrashLibTV;
+			targetProxy = C22AA7322334F5F7003D6D05 /* PBXContainerItemProxy */;
+		};
+		C22AA7352334F5FD003D6D05 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = CrashLibTV;
+			targetProxy = C22AA7342334F5FD003D6D05 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
