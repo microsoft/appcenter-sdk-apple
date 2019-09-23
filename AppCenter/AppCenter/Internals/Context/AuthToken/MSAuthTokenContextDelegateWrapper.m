@@ -3,8 +3,8 @@
 
 #import <Foundation/Foundation.h>
 
-#import "MSAuthTokenContextDelegateWrapper.h"
 #import "MSAppCenterInternal.h"
+#import "MSAuthTokenContextDelegateWrapper.h"
 
 @class MSAuthTokenContextDelegate;
 

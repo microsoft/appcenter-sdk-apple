@@ -34,10 +34,10 @@ static NSString *const kMSJwtFormat = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.%@"
 }
 
 - (void)testNilJwt {
-  
+
   // When
   MSJwtClaims *claims = [MSJwtClaims parse:nil];
-  
+
   // Then
   XCTAssertNil(claims);
 }

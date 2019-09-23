@@ -3,8 +3,8 @@
 
 #import <Foundation/Foundation.h>
 
-#import "MSJwtClaims.h"
 #import "MSAppCenterInternal.h"
+#import "MSJwtClaims.h"
 #import "MSLogger.h"
 
 static NSString *const kMSJwtPartsSeparator = @".";
@@ -49,8 +49,9 @@ static NSString *const kMSExpirationClaim = @"exp";
     MSLogError([MSAppCenter logTag], @"Failed to parse JWT, `exp` claim in incorrect format.");
     return nil;
   }
-  return [[MSJwtClaims alloc] initWithSubject:[claims objectForKey:kMSSubjectClaim]
-                                   expiration:[[NSDate alloc] initWithTimeIntervalSince1970:[((NSNumber *)expirationTimeIntervalSince1970) intValue]]];
+  return [[MSJwtClaims alloc]
+      initWithSubject:[claims objectForKey:kMSSubjectClaim]
+           expiration:[[NSDate alloc] initWithTimeIntervalSince1970:[((NSNumber *)expirationTimeIntervalSince1970) intValue]]];
 }
 
 @end
