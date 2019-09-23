@@ -6,7 +6,7 @@
 
 * **[Fix]** Fix token storage initialization if services are started via `[MSAppCenter startService:]` method.
 * **[Fix]** Redirect URIs are now hidden in logs.
-* **[Fix]** Fix interactive sign in on iOS 13.
+* **[Fix]** Fix interactive sign in on iOS 13. Temporary fix, will be revisited in the future.
 * **[Feature]** Updated the Microsoft Authentication Library dependency to v0.7.0.
 
 ### App Center Analytics
@@ -20,6 +20,7 @@
 ### App Center Data
 
 * **[Breaking change]** Rename delegate method `data:didCompletePendingOperation:forDocument:withError:` from `MSRemoteOperationDelegate` to `data:didCompleteRemoteOperation:forDocumentMetadata:withError:`.
+
 ___
 
 ## Version 2.3.0
@@ -36,6 +37,7 @@ ___
 ### App Center Distribute
 
 * **[Fix]** Obfuscate app secret value that appears as URI part in verbose logs for in-app updates.
+
 ___
 
 ## Version 2.2.0
