@@ -115,14 +115,15 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
     [MSAnalytics setTransmissionInterval:latencyTimeValue];
   }
   // Start App Center SDK.
-  NSArray<Class> *services =
-      @ [[MSAnalytics class], [MSCrashes class], [MSData class], [MSDistribute class], [MSAuth class], [MSPush class]];
+  NSArray *services =
+      [@ [[MSAnalytics class], [MSCrashes class], [MSData class], [MSDistribute class], [MSAuth class], [MSPush class]] mutableCopy];
   NSInteger startTarget = [[NSUserDefaults standardUserDefaults] integerForKey:kMSStartTargetKey];
 #if GCC_PREPROCESSOR_MACRO_PUPPET
   NSString *appSecret = [[NSUserDefaults standardUserDefaults] objectForKey:kMSAppSecret] ?: kMSPuppetAppSecret;
 #else
   NSString *appSecret = [[NSUserDefaults standardUserDefaults] objectForKey:kMSAppSecret] ?: kMSObjcAppSecret;
 #endif
+  services = [self setUpAuthForAppSecret:appSecret withServices:(NSArray<Class> *)services];
   switch (startTarget) {
   case APPCENTER:
     [MSAppCenter start:appSecret withServices:services];
@@ -180,6 +181,20 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
 }
 
 #pragma mark - Private
+
+- (NSArray *)setUpAuthForAppSecret:(NSString *)appSecret withServices:(NSArray<Class> *)services {
+  if ([appSecret isEqualToString:kMSPuppetAuth0AppSecret]) {
+    // Initialize auth0
+  } else if ([appSecret isEqualToString:kMSPuppetFirebaseAppSecret]) {
+    // Initialize Firebase
+  } else {
+    return services;
+  }
+  NSMutableArray *modifiedServices = [services mutableCopy];
+  [modifiedServices removeObject:[MSAuth class]];
+  // Set a delegate for 3rd party providers.
+  return modifiedServices;
+}
 
 - (void)setUpCrashes {
   if ([MSCrashes hasCrashedInLastSession]) {
