@@ -1,5 +1,13 @@
 # App Center SDK for iOS, macOS and tvOS Change Log
 
+## Version 2.5.0 (Under development)
+
+### App Center Crashes
+
+* **[Feature]** iOS and macOS extensions support.
+
+___
+
 ## Version 2.4.0
 
 ### App Center Auth
@@ -12,10 +20,6 @@
 ### App Center Analytics
 
 * **[Fix]** Fix crash involving SDK's `ms_viewWillAppear` method.
-
-### App Center Crashes
-
-* **[Feature]** iOS and macOS extensions support.
 
 ### App Center Data
 
