@@ -44,13 +44,21 @@ class AppCenterDelegateSwift: AppCenterDelegate {
   func appSecret() -> String {
     return kMSSwiftAppSecret
   }
-  
+
   func appSecretAAD() -> String {
     return kMSSwiftObjcAADAppSecret
   }
-  
+
   func appSecretB2C() -> String {
     return kMSSwiftAppSecret
+  }
+
+  func appSecretAuth0() -> String {
+    return kMSSwiftObjcAuth0AppSecret
+  }
+
+  func appSecretFirebase() -> String {
+    return kMSSwiftObjcFirebaseAppSecret
   }
 
   func setLogUrl(_ logUrl: String?) {

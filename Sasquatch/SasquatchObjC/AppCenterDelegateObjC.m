@@ -75,7 +75,7 @@
 #if GCC_PREPROCESSOR_MACRO_PUPPET
   return kMSPuppetFirebaseAppSecret;
 #else
-  return @"firebase blah";
+  return kMSSwiftObjcFirebaseAppSecret;
 #endif
 }
 
@@ -83,7 +83,7 @@
 #if GCC_PREPROCESSOR_MACRO_PUPPET
   return kMSPuppetAuth0AppSecret;
 #else
-  return @"auth0 blah";
+  return kMSSwiftObjcAuth0AppSecret;
 #endif
 }
 
