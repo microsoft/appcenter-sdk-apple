@@ -151,7 +151,7 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
   }
 
   // Set delegates.
-  [self crashes];
+  [self setUpCrashes];
   [self setAppCenterDelegate];
   return YES;
 }
@@ -181,7 +181,7 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
 
 #pragma mark - Private
 
-- (void)crashes {
+- (void)setUpCrashes {
   if ([MSCrashes hasCrashedInLastSession]) {
     MSErrorReport *errorReport = [MSCrashes lastSessionCrashReport];
     NSLog(@"We crashed with Signal: %@", errorReport.signal);
