@@ -15,7 +15,7 @@
 
 ### App Center Crashes
 
-* **[Fix]** Fix `MSCrashesDelegate` callback methods not being called on the main thread.
+* **[Behavior Change]** `MSCrashesDelegate` callback methods are now invoked on the main thread (`willSendErrorReport`,  `didSucceedSendingErrorReport`, and `didFailSendingErrorReport`).
 
 ### App Center Data
 
