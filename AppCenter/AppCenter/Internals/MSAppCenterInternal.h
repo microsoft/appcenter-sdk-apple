@@ -5,6 +5,7 @@
 
 #import "AppCenter+Internal.h"
 #import "MSAppCenter.h"
+#import "MSAuthTokenContextDelegateWrapper.h"
 #import "MSChannelGroupProtocol.h"
 #import "MSServiceInternal.h"
 
@@ -51,6 +52,12 @@ static NSString *const kMSTrueEnvironmentString = @"1";
 @property(nonatomic, readonly) NSUUID *installId;
 
 @property(nonatomic) NSNumber *requestedMaxStorageSizeInBytes;
+
+/**
+ * A delegate which conforms to MSAuthToken delegate so we can execute multiple different types of
+ * delegates when refreshing/updating tokens.
+ */
+@property(nonatomic) MSAuthTokenContextDelegateWrapper *authTokenContextDelegateWrapper;
 
 /**
  * Flag indicating if the SDK is enabled or not as a whole.

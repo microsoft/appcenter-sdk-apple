@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import <Foundation/Foundation.h>
-
+#import "MSAuthTokenDelegate.h"
 #import "MSConstants.h"
+#import <Foundation/Foundation.h>
 
 @class MSWrapperSdk;
 
@@ -219,5 +219,19 @@
  * @param countryCode The two-letter ISO country code. @see https://www.iso.org/obp/ui/#search for more information.
  */
 + (void)setCountryCode:(NSString *)countryCode;
+
+/**
+ * Set auth token.
+ *
+ * @param authToken The auth token.
+ */
++ (void)setAuthToken:(NSString *)authToken;
+
+/**
+ * Set auth token delegate for when a token gets refreshed.
+ *
+ * @param authTokenDelegate The delegate to be executed when the token gets refreshed.
+ */
++ (void)setAuthTokenDelegate:(id<MSAuthTokenDelegate>)authTokenDelegate;
 
 @end
