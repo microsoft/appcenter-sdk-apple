@@ -44,10 +44,6 @@
 		5CD6257A1ECDA4280053DC6C /* AppCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CD625791ECDA4280053DC6C /* AppCenterViewController.swift */; };
 		803CFF381F6A87180072B9BA /* PushViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803CFF371F6A87180072B9BA /* PushViewController.swift */; };
 		803CFF391F6A87180072B9BA /* PushViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803CFF371F6A87180072B9BA /* PushViewController.swift */; };
-		8065B5BB1F4C4169004FF622 /* CrashLibMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8065B5BA1F4C4169004FF622 /* CrashLibMac.framework */; };
-		8065B5BC1F4C4169004FF622 /* CrashLibMac.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8065B5BA1F4C4169004FF622 /* CrashLibMac.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		8065B5BD1F4C6778004FF622 /* CrashLibMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8065B5BA1F4C4169004FF622 /* CrashLibMac.framework */; };
-		8065B5BE1F4C6778004FF622 /* CrashLibMac.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8065B5BA1F4C4169004FF622 /* CrashLibMac.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B2A4CFBA210A716E00199B4F /* AppCenterProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042496841EC3CE2F00502B62 /* AppCenterProvider.swift */; };
 		B2A4CFBB210A716E00199B4F /* EventFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353332F620126200009B0946 /* EventFilterViewController.swift */; };
 		B2A4CFBC210A716E00199B4F /* MSEventFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 358F9BCA2019639100B9E22C /* MSEventFilter.m */; };
@@ -64,10 +60,8 @@
 		B2A4CFC8210A716E00199B4F /* AppCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04ED31D31EAAC7510033BAAE /* AppCenterAnalytics.framework */; };
 		B2A4CFC9210A716E00199B4F /* AppCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 042319CC1EAAD720008FACA0 /* AppCenterCrashes.framework */; };
 		B2A4CFCA210A716E00199B4F /* AppCenterPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 046964551F2A607D00F9D31F /* AppCenterPush.framework */; };
-		B2A4CFCB210A716E00199B4F /* CrashLibMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8065B5BA1F4C4169004FF622 /* CrashLibMac.framework */; };
 		B2A4CFCD210A716E00199B4F /* SasquatchMac.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D3C31C151E8E757300B288CE /* SasquatchMac.storyboard */; };
 		B2A4CFCE210A716E00199B4F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D3C31C2D1E8E75B300B288CE /* Assets.xcassets */; };
-		B2A4CFD0210A716E00199B4F /* CrashLibMac.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8065B5BA1F4C4169004FF622 /* CrashLibMac.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B2A4CFD8210A77D400199B4F /* AppCenterDelegateSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9BBC801EC4829200CA77A3 /* AppCenterDelegateSwift.swift */; };
 		B2A4CFD9210A77D400199B4F /* MSEventFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 358F9BCA2019639100B9E22C /* MSEventFilter.m */; };
 		B2A4CFDA210A77D400199B4F /* AppCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CD625791ECDA4280053DC6C /* AppCenterViewController.swift */; };
@@ -83,11 +77,19 @@
 		B2A4CFE5210A77D400199B4F /* AppCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04ED31D31EAAC7510033BAAE /* AppCenterAnalytics.framework */; };
 		B2A4CFE6210A77D400199B4F /* AppCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 042319CC1EAAD720008FACA0 /* AppCenterCrashes.framework */; };
 		B2A4CFE7210A77D400199B4F /* AppCenterPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 046964551F2A607D00F9D31F /* AppCenterPush.framework */; };
-		B2A4CFE8210A77D400199B4F /* CrashLibMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8065B5BA1F4C4169004FF622 /* CrashLibMac.framework */; };
 		B2A4CFEA210A77D400199B4F /* SasquatchMac.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D3C31C151E8E757300B288CE /* SasquatchMac.storyboard */; };
 		B2A4CFEB210A77D400199B4F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D3C31C661E8E763600B288CE /* Assets.xcassets */; };
-		B2A4CFED210A77D400199B4F /* CrashLibMac.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8065B5BA1F4C4169004FF622 /* CrashLibMac.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C2A4A2691EE7684A0080FD22 /* AppCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CD625791ECDA4280053DC6C /* AppCenterViewController.swift */; };
+		C2F1575C2338E5E800798480 /* CrashLibMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156BA2338C27700798480 /* CrashLibMac.framework */; };
+		C2F1575D2338E5E800798480 /* CrashLibMac.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156BA2338C27700798480 /* CrashLibMac.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C2F157612338E64000798480 /* CrashLibMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156BA2338C27700798480 /* CrashLibMac.framework */; };
+		C2F157622338E64000798480 /* CrashLibMac.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156BA2338C27700798480 /* CrashLibMac.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C2F157662338E6A800798480 /* CrashLibMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156BA2338C27700798480 /* CrashLibMac.framework */; };
+		C2F157672338E6A800798480 /* CrashLibMac.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156BA2338C27700798480 /* CrashLibMac.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C2F1576B2338E6AD00798480 /* CrashLibMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156BA2338C27700798480 /* CrashLibMac.framework */; };
+		C2F1576C2338E6AD00798480 /* CrashLibMac.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156BA2338C27700798480 /* CrashLibMac.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C2F157702338E6B500798480 /* CrashLibMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156BA2338C27700798480 /* CrashLibMac.framework */; };
+		C2F157712338E6BB00798480 /* CrashLibMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156BA2338C27700798480 /* CrashLibMac.framework */; };
 		D3C31C261E8E75B300B288CE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D3C31C251E8E75B300B288CE /* AppDelegate.m */; };
 		D3C31C291E8E75B300B288CE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D3C31C281E8E75B300B288CE /* main.m */; };
 		D3C31C2E1E8E75B300B288CE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D3C31C2D1E8E75B300B288CE /* Assets.xcassets */; };
@@ -101,8 +103,6 @@
 		F8B8DCC52321210600BF7DAA /* CrashLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B8DCC32321210600BF7DAA /* CrashLoader.swift */; };
 		F8B8DCCA232121C800BF7DAA /* CrashLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B8DCC32321210600BF7DAA /* CrashLoader.swift */; };
 		F8B8DCCB232121C900BF7DAA /* CrashLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B8DCC32321210600BF7DAA /* CrashLoader.swift */; };
-		F8B8DCCC232121D200BF7DAA /* CrashLibMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8065B5BA1F4C4169004FF622 /* CrashLibMac.framework */; };
-		F8B8DCCD232121D900BF7DAA /* CrashLibMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8065B5BA1F4C4169004FF622 /* CrashLibMac.framework */; };
 		F8B8DCCE2321815900BF7DAA /* CrashLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B8DCC32321210600BF7DAA /* CrashLoader.swift */; };
 		F8B8DCCF2321815A00BF7DAA /* CrashLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B8DCC32321210600BF7DAA /* CrashLoader.swift */; };
 		F8B8EC731FD853E800445BD4 /* CustomPropertiesViewControler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B8EC721FD853E800445BD4 /* CustomPropertiesViewControler.swift */; };
@@ -122,6 +122,97 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		C2F156B52338C27700798480 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2F156AF2338C27700798480 /* CrashLib.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = B21A71DB1DD2A38C0044BB1C;
+			remoteInfo = CrashLibIOS;
+		};
+		C2F156B72338C27700798480 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2F156AF2338C27700798480 /* CrashLib.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 80F991211F0265070040FAD7;
+			remoteInfo = CrashLibTV;
+		};
+		C2F156B92338C27700798480 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2F156AF2338C27700798480 /* CrashLib.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8065B5781F4C3FF4004FF622;
+			remoteInfo = CrashLibMac;
+		};
+		C2F157502338E58200798480 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2F156AF2338C27700798480 /* CrashLib.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8065B5771F4C3FF4004FF622;
+			remoteInfo = CrashLibMac;
+		};
+		C2F157522338E58700798480 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2F156AF2338C27700798480 /* CrashLib.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8065B5771F4C3FF4004FF622;
+			remoteInfo = CrashLibMac;
+		};
+		C2F157542338E59800798480 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2F156AF2338C27700798480 /* CrashLib.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8065B5771F4C3FF4004FF622;
+			remoteInfo = CrashLibMac;
+		};
+		C2F157562338E5A300798480 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2F156AF2338C27700798480 /* CrashLib.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8065B5771F4C3FF4004FF622;
+			remoteInfo = CrashLibMac;
+		};
+		C2F157582338E5D300798480 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2F156AF2338C27700798480 /* CrashLib.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8065B5771F4C3FF4004FF622;
+			remoteInfo = CrashLibMac;
+		};
+		C2F1575A2338E5D900798480 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2F156AF2338C27700798480 /* CrashLib.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8065B5771F4C3FF4004FF622;
+			remoteInfo = CrashLibMac;
+		};
+		C2F1575E2338E5E800798480 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2F156AF2338C27700798480 /* CrashLib.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8065B5771F4C3FF4004FF622;
+			remoteInfo = CrashLibMac;
+		};
+		C2F157632338E64000798480 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2F156AF2338C27700798480 /* CrashLib.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8065B5771F4C3FF4004FF622;
+			remoteInfo = CrashLibMac;
+		};
+		C2F157682338E6A800798480 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2F156AF2338C27700798480 /* CrashLib.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8065B5771F4C3FF4004FF622;
+			remoteInfo = CrashLibMac;
+		};
+		C2F1576D2338E6AD00798480 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2F156AF2338C27700798480 /* CrashLib.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8065B5771F4C3FF4004FF622;
+			remoteInfo = CrashLibMac;
+		};
 		F8EE6469231E6F8E0007A52E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D3C31C041E8E757300B288CE /* Project object */;
@@ -139,46 +230,46 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		8065B5B61F4C40FC004FF622 /* Embed Frameworks */ = {
+		C2F157602338E5E800798480 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				8065B5BE1F4C6778004FF622 /* CrashLibMac.framework in Embed Frameworks */,
+				C2F1575D2338E5E800798480 /* CrashLibMac.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		8065B5B91F4C4121004FF622 /* Embed Frameworks */ = {
+		C2F157652338E64000798480 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				8065B5BC1F4C4169004FF622 /* CrashLibMac.framework in Embed Frameworks */,
+				C2F157622338E64000798480 /* CrashLibMac.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		B2A4CFCF210A716E00199B4F /* Embed Frameworks */ = {
+		C2F1576A2338E6A800798480 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				B2A4CFD0210A716E00199B4F /* CrashLibMac.framework in Embed Frameworks */,
+				C2F157672338E6A800798480 /* CrashLibMac.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		B2A4CFEC210A77D400199B4F /* Embed Frameworks */ = {
+		C2F1576F2338E6AD00798480 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				B2A4CFED210A77D400199B4F /* CrashLibMac.framework in Embed Frameworks */,
+				C2F1576C2338E6AD00798480 /* CrashLibMac.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -230,11 +321,11 @@
 		5CA0000921EDB16D00127624 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		5CD625791ECDA4280053DC6C /* AppCenterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppCenterViewController.swift; sourceTree = "<group>"; };
 		803CFF371F6A87180072B9BA /* PushViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushViewController.swift; sourceTree = "<group>"; };
-		8065B5BA1F4C4169004FF622 /* CrashLibMac.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CrashLibMac.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		80A3A89A1F0BF30100FBE3B6 /* SasquatchMac-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SasquatchMac-Bridging-Header.h"; sourceTree = "<group>"; };
 		B2A4CFD4210A716E00199B4F /* SasquatchMacObjC-Preview.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SasquatchMacObjC-Preview.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2A4CFF1210A77D400199B4F /* SasquatchMacSwift-Preview.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SasquatchMacSwift-Preview.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2CD74CF1F22C3150070E7DF /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		C2F156AF2338C27700798480 /* CrashLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CrashLib.xcodeproj; path = ../../CrashLib/CrashLib.xcodeproj; sourceTree = "<group>"; };
 		D3C31C161E8E757300B288CE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/SasquatchMac.storyboard; sourceTree = "<group>"; };
 		D3C31C221E8E75B300B288CE /* SasquatchMacObjC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SasquatchMacObjC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3C31C241E8E75B300B288CE /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -271,7 +362,7 @@
 				B2A4CFC8210A716E00199B4F /* AppCenterAnalytics.framework in Frameworks */,
 				B2A4CFC9210A716E00199B4F /* AppCenterCrashes.framework in Frameworks */,
 				B2A4CFCA210A716E00199B4F /* AppCenterPush.framework in Frameworks */,
-				B2A4CFCB210A716E00199B4F /* CrashLibMac.framework in Frameworks */,
+				C2F157662338E6A800798480 /* CrashLibMac.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -283,7 +374,7 @@
 				B2A4CFE5210A77D400199B4F /* AppCenterAnalytics.framework in Frameworks */,
 				B2A4CFE6210A77D400199B4F /* AppCenterCrashes.framework in Frameworks */,
 				B2A4CFE7210A77D400199B4F /* AppCenterPush.framework in Frameworks */,
-				B2A4CFE8210A77D400199B4F /* CrashLibMac.framework in Frameworks */,
+				C2F1575C2338E5E800798480 /* CrashLibMac.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -295,7 +386,7 @@
 				04ED31E61EAAD1B30033BAAE /* AppCenterAnalytics.framework in Frameworks */,
 				042319CD1EAAD720008FACA0 /* AppCenterCrashes.framework in Frameworks */,
 				046964561F2A607D00F9D31F /* AppCenterPush.framework in Frameworks */,
-				8065B5BD1F4C6778004FF622 /* CrashLibMac.framework in Frameworks */,
+				C2F157612338E64000798480 /* CrashLibMac.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -307,7 +398,7 @@
 				042319CE1EAAD73F008FACA0 /* AppCenterAnalytics.framework in Frameworks */,
 				042319CF1EAAD73F008FACA0 /* AppCenterCrashes.framework in Frameworks */,
 				046964581F2A74E600F9D31F /* AppCenterPush.framework in Frameworks */,
-				8065B5BB1F4C4169004FF622 /* CrashLibMac.framework in Frameworks */,
+				C2F1576B2338E6AD00798480 /* CrashLibMac.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -315,9 +406,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F8B8DCCC232121D200BF7DAA /* CrashLibMac.framework in Frameworks */,
 				F8EE6470231E6FF50007A52E /* AppCenter.framework in Frameworks */,
 				F8EE6471231E6FF50007A52E /* AppCenterCrashes.framework in Frameworks */,
+				C2F157702338E6B500798480 /* CrashLibMac.framework in Frameworks */,
 				F8EE645D231E6F8E0007A52E /* NotificationCenter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -326,9 +417,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F8B8DCCD232121D900BF7DAA /* CrashLibMac.framework in Frameworks */,
 				F8EE648D231E711D0007A52E /* AppCenter.framework in Frameworks */,
 				F8EE648E231E711E0007A52E /* AppCenterCrashes.framework in Frameworks */,
+				C2F157712338E6BB00798480 /* CrashLibMac.framework in Frameworks */,
 				F8EE647A231E71060007A52E /* NotificationCenter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -345,9 +436,29 @@
 			path = EventFilter;
 			sourceTree = "<group>";
 		};
+		C2F156A22338C23700798480 /* CrashLib */ = {
+			isa = PBXGroup;
+			children = (
+				C2F156AF2338C27700798480 /* CrashLib.xcodeproj */,
+			);
+			name = CrashLib;
+			path = Cra;
+			sourceTree = "<group>";
+		};
+		C2F156B02338C27700798480 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C2F156B62338C27700798480 /* CrashLibIOS.framework */,
+				C2F156B82338C27700798480 /* CrashLibTV.framework */,
+				C2F156BA2338C27700798480 /* CrashLibMac.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		D3C31C031E8E757300B288CE = {
 			isa = PBXGroup;
 			children = (
+				C2F156A22338C23700798480 /* CrashLib */,
 				F84BA0B621133A740020F13B /* Config */,
 				D3C31C0E1E8E757300B288CE /* SasquatchMac */,
 				D3C31C231E8E75B300B288CE /* SasquatchMacObjC */,
@@ -466,7 +577,6 @@
 			isa = PBXGroup;
 			children = (
 				B2CD74CF1F22C3150070E7DF /* libsqlite3.tbd */,
-				8065B5BA1F4C4169004FF622 /* CrashLibMac.framework */,
 				046964551F2A607D00F9D31F /* AppCenterPush.framework */,
 				042319CC1EAAD720008FACA0 /* AppCenterCrashes.framework */,
 				04ED31D31EAAC7510033BAAE /* AppCenterAnalytics.framework */,
@@ -517,11 +627,13 @@
 				B2A4CFB9210A716E00199B4F /* Sources */,
 				B2A4CFC6210A716E00199B4F /* Frameworks */,
 				B2A4CFCC210A716E00199B4F /* Resources */,
-				B2A4CFCF210A716E00199B4F /* Embed Frameworks */,
+				C2F1576A2338E6A800798480 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				C2F157532338E58700798480 /* PBXTargetDependency */,
+				C2F157692338E6A800798480 /* PBXTargetDependency */,
 			);
 			name = "SasquatchMacObjC-Preview";
 			productName = SasquatchMacObjC;
@@ -536,13 +648,15 @@
 				B2A4CFD7210A77D400199B4F /* Sources */,
 				B2A4CFE3210A77D400199B4F /* Frameworks */,
 				B2A4CFE9210A77D400199B4F /* Resources */,
-				B2A4CFEC210A77D400199B4F /* Embed Frameworks */,
 				F8EE648C231E71060007A52E /* Embed App Extensions */,
+				C2F157602338E5E800798480 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				C2F157572338E5A300798480 /* PBXTargetDependency */,
 				F8EE6487231E71060007A52E /* PBXTargetDependency */,
+				C2F1575F2338E5E800798480 /* PBXTargetDependency */,
 			);
 			name = "SasquatchMacSwift-Preview";
 			productName = SasquatchMacSwift;
@@ -558,11 +672,13 @@
 				D3C31C1E1E8E75B300B288CE /* Sources */,
 				D3C31C1F1E8E75B300B288CE /* Frameworks */,
 				D3C31C201E8E75B300B288CE /* Resources */,
-				8065B5B61F4C40FC004FF622 /* Embed Frameworks */,
+				C2F157652338E64000798480 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				C2F157512338E58200798480 /* PBXTargetDependency */,
+				C2F157642338E64000798480 /* PBXTargetDependency */,
 			);
 			name = SasquatchMacObjC;
 			productName = SasquatchMacObjC;
@@ -578,13 +694,15 @@
 				F845068C2317D7FC00A959D6 /* Remove the wrong framework */,
 				D3C31C5D1E8E763600B288CE /* Frameworks */,
 				D3C31C5E1E8E763600B288CE /* Resources */,
-				8065B5B91F4C4121004FF622 /* Embed Frameworks */,
 				F8EE646F231E6F8F0007A52E /* Embed App Extensions */,
+				C2F1576F2338E6AD00798480 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				C2F157552338E59800798480 /* PBXTargetDependency */,
 				F8EE646A231E6F8E0007A52E /* PBXTargetDependency */,
+				C2F1576E2338E6AD00798480 /* PBXTargetDependency */,
 			);
 			name = SasquatchMacSwift;
 			productName = SasquatchMacSwift;
@@ -603,6 +721,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				C2F157592338E5D300798480 /* PBXTargetDependency */,
 			);
 			name = "SasquatchMacSwift-Extension";
 			productName = "SasquatchMacSwift-Extension";
@@ -621,6 +740,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				C2F1575B2338E5D900798480 /* PBXTargetDependency */,
 			);
 			name = "SasquatchMacSwift-Preview-Extension";
 			productName = "SasquatchMacSwift-Preview-Extension";
@@ -699,6 +819,12 @@
 			mainGroup = D3C31C031E8E757300B288CE;
 			productRefGroup = D3C31C0D1E8E757300B288CE /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = C2F156B02338C27700798480 /* Products */;
+					ProjectRef = C2F156AF2338C27700798480 /* CrashLib.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				D3C31C211E8E75B300B288CE /* SasquatchMacObjC */,
@@ -710,6 +836,30 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		C2F156B62338C27700798480 /* CrashLibIOS.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = CrashLibIOS.framework;
+			remoteRef = C2F156B52338C27700798480 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C2F156B82338C27700798480 /* CrashLibTV.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = CrashLibTV.framework;
+			remoteRef = C2F156B72338C27700798480 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C2F156BA2338C27700798480 /* CrashLibMac.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = CrashLibMac.framework;
+			remoteRef = C2F156B92338C27700798480 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		B2A4CFCC210A716E00199B4F /* Resources */ = {
@@ -762,7 +912,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F8EE6484231E71060007A52E /* InfoPlist.strings in Resources */,
-				F8E69C842322C308006209D2 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1020,6 +1169,56 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		C2F157512338E58200798480 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = CrashLibMac;
+			targetProxy = C2F157502338E58200798480 /* PBXContainerItemProxy */;
+		};
+		C2F157532338E58700798480 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = CrashLibMac;
+			targetProxy = C2F157522338E58700798480 /* PBXContainerItemProxy */;
+		};
+		C2F157552338E59800798480 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = CrashLibMac;
+			targetProxy = C2F157542338E59800798480 /* PBXContainerItemProxy */;
+		};
+		C2F157572338E5A300798480 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = CrashLibMac;
+			targetProxy = C2F157562338E5A300798480 /* PBXContainerItemProxy */;
+		};
+		C2F157592338E5D300798480 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = CrashLibMac;
+			targetProxy = C2F157582338E5D300798480 /* PBXContainerItemProxy */;
+		};
+		C2F1575B2338E5D900798480 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = CrashLibMac;
+			targetProxy = C2F1575A2338E5D900798480 /* PBXContainerItemProxy */;
+		};
+		C2F1575F2338E5E800798480 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = CrashLibMac;
+			targetProxy = C2F1575E2338E5E800798480 /* PBXContainerItemProxy */;
+		};
+		C2F157642338E64000798480 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = CrashLibMac;
+			targetProxy = C2F157632338E64000798480 /* PBXContainerItemProxy */;
+		};
+		C2F157692338E6A800798480 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = CrashLibMac;
+			targetProxy = C2F157682338E6A800798480 /* PBXContainerItemProxy */;
+		};
+		C2F1576E2338E6AD00798480 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = CrashLibMac;
+			targetProxy = C2F1576D2338E6AD00798480 /* PBXContainerItemProxy */;
+		};
 		F8EE646A231E6F8E0007A52E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = F8EE645A231E6F8E0007A52E /* SasquatchMacSwift-Extension */;
