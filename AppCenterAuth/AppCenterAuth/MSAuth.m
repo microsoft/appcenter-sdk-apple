@@ -8,6 +8,7 @@
 #import "MSALError.h"
 #import "MSALLoggerConfig.h"
 #import "MSALResult.h"
+#import "MSALTenantProfile.h"
 #import "MSAppCenterInternal.h"
 #import "MSAuthConfig.h"
 #import "MSAuthConfigIngestion.h"
@@ -268,7 +269,7 @@ static dispatch_once_t onceToken;
 - (void)cancelPendingOperationsWithErrorCode:(NSInteger)errorCode message:(NSString *)message {
   [self callCompletionHandler:self.signInCompletionHandler withErrorCode:errorCode message:message];
   [self callCompletionHandler:self.refreshCompletionHandler withErrorCode:errorCode message:message];
-  self.homeAccountIdToRefresh = nil;
+  self.accountIdToRefresh = nil;
 }
 
 - (void)signOut {
@@ -459,6 +460,10 @@ static dispatch_once_t onceToken;
                                  uiFallback:(BOOL)uiFallback
                 keyPathForCompletionHandler:(NSString *)completionHandlerKeyPath {
   __weak typeof(self) weakSelf = self;
+
+// FIXME This is a workaround for initial iOS 13 support.
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
   [self.clientApplication
       acquireTokenSilentForScopes:@[ (NSString * __nonnull) self.authConfig.authScope ]
                           account:account
@@ -486,59 +491,65 @@ static dispatch_once_t onceToken;
                       [[MSAuthTokenContext sharedInstance] setAuthToken:nil withAccountId:nil expiresOn:nil];
                       handler(nil, error);
                     } else {
-                      MSALAccountId *accountId = (MSALAccountId * __nonnull) result.account.homeAccountId;
-                      [[MSAuthTokenContext sharedInstance] setAuthToken:result.idToken
-                                                          withAccountId:accountId.identifier
-                                                              expiresOn:result.expiresOn];
+                      NSString *accountId = result.account.identifier;
+                      [[MSAuthTokenContext sharedInstance] setAuthToken:result.idToken withAccountId:accountId expiresOn:result.expiresOn];
                       MSLogInfo([MSAuth logTag], @"Silent acquisition of token succeeded.");
-                      MSUserInformation *userInformation = [[MSUserInformation alloc] initWithAccountId:result.uniqueId
+                      MSUserInformation *userInformation = [[MSUserInformation alloc] initWithAccountId:result.tenantProfile.identifier
                                                                                             accessToken:result.accessToken
                                                                                                 idToken:result.idToken];
                       handler(userInformation, nil);
                     }
                   }];
+#pragma clang diagnostic pop
 }
 
 - (void)acquireTokenInteractivelyWithKeyPathForCompletionHandler:(NSString *)completionHandlerKeyPath {
   __weak typeof(self) weakSelf = self;
-  [self.clientApplication acquireTokenForScopes:@[ (NSString * __nonnull) self.authConfig.authScope ]
-                                completionBlock:^(MSALResult *result, NSError *error) {
-                                  typeof(self) strongSelf = weakSelf;
-                                  MSAcquireTokenCompletionHandler handler = [strongSelf valueForKey:completionHandlerKeyPath];
-                                  if (!handler) {
-                                    MSLogDebug([MSAuth logTag], @"Sign-in has been interrupted. Ignoring the result.");
-                                    return;
-                                  }
-                                  if (error) {
-                                    [[MSAuthTokenContext sharedInstance] setAuthToken:nil withAccountId:nil expiresOn:nil];
-                                    if ([error.domain isEqual:MSALErrorDomain] && error.code == MSALErrorUserCanceled) {
-                                      MSLogWarning([MSAuth logTag], @"User canceled sign-in.");
-                                    } else {
-                                      MSLogError([MSAuth logTag], @"User sign-in failed. Error: %@", error);
-                                    }
-                                    handler(nil, error);
-                                  } else {
-                                    MSALAccountId *accountId = (MSALAccountId * __nonnull) result.account.homeAccountId;
-                                    [[MSAuthTokenContext sharedInstance] setAuthToken:result.idToken
-                                                                        withAccountId:accountId.identifier
-                                                                            expiresOn:result.expiresOn];
-                                    MSLogInfo([MSAuth logTag], @"User sign-in succeeded.");
-                                    MSUserInformation *userInformation = [[MSUserInformation alloc] initWithAccountId:result.uniqueId
-                                                                                                          accessToken:result.accessToken
-                                                                                                              idToken:result.idToken];
-                                    handler(userInformation, nil);
-                                  }
-                                }];
+
+// FIXME This is a workaround for initial iOS 13 support.
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+  [self.clientApplication
+      acquireTokenForScopes:@[ (NSString * __nonnull) self.authConfig.authScope ]
+                  loginHint:nil
+                 promptType:MSALPromptTypeSelectAccount
+       extraQueryParameters:nil
+            completionBlock:^(MSALResult *result, NSError *error) {
+              typeof(self) strongSelf = weakSelf;
+              MSAcquireTokenCompletionHandler handler = [strongSelf valueForKey:completionHandlerKeyPath];
+              if (!handler) {
+                MSLogDebug([MSAuth logTag], @"Sign-in has been interrupted. Ignoring the result.");
+                return;
+              }
+              if (error) {
+                [[MSAuthTokenContext sharedInstance] setAuthToken:nil withAccountId:nil expiresOn:nil];
+                if ([error.domain isEqual:MSALErrorDomain] && error.code == MSALErrorUserCanceled) {
+                  MSLogWarning([MSAuth logTag], @"User canceled sign-in.");
+                } else {
+                  MSLogError([MSAuth logTag], @"User sign-in failed. Error: %@", error);
+                }
+                handler(nil, error);
+              } else {
+                NSString *accountId = result.account.identifier;
+                [[MSAuthTokenContext sharedInstance] setAuthToken:result.idToken withAccountId:accountId expiresOn:result.expiresOn];
+                MSLogInfo([MSAuth logTag], @"User sign-in succeeded.");
+                MSUserInformation *userInformation = [[MSUserInformation alloc] initWithAccountId:result.tenantProfile.identifier
+                                                                                      accessToken:result.accessToken
+                                                                                          idToken:result.idToken];
+                handler(userInformation, nil);
+              }
+            }];
+#pragma clang diagnostic pop
 }
 
-- (MSALAccount *)retrieveAccountWithAccountId:(NSString *)homeAccountId {
-  if (!homeAccountId) {
+- (MSALAccount *)retrieveAccountWithAccountId:(NSString *)accountId {
+  if (!accountId) {
     return nil;
   }
   NSError *error;
-  MSALAccount *account = [self.clientApplication accountForHomeAccountId:homeAccountId error:&error];
+  MSALAccount *account = [self.clientApplication accountForIdentifier:accountId error:&error];
   if (error) {
-    MSLogWarning([MSAuth logTag], @"Could not get MSALAccount for homeAccountId. Error: %@", error);
+    MSLogWarning([MSAuth logTag], @"Could not get an MSALAccount object for account identifier:%@. Error: %@", accountId, error);
   }
   return account;
 }
@@ -555,7 +566,7 @@ static dispatch_once_t onceToken;
     }
     if (!networkConnected) {
       MSLogDebug([MSAuth logTag], @"Network not connected. The token will be refreshed after coming back online.");
-      self.homeAccountIdToRefresh = accountId;
+      self.accountIdToRefresh = accountId;
       return;
     }
     if (!self.clientApplication) {
@@ -595,9 +606,9 @@ static dispatch_once_t onceToken;
 
 - (void)networkStateChanged:(NSNotificationCenter *)__unused notification {
   BOOL networkConnected = [[MS_Reachability reachabilityForInternetConnection] currentReachabilityStatus] != NotReachable;
-  if (networkConnected && self.homeAccountIdToRefresh) {
-    NSString *accountId = self.homeAccountIdToRefresh;
-    self.homeAccountIdToRefresh = nil;
+  if (networkConnected && self.accountIdToRefresh) {
+    NSString *accountId = self.accountIdToRefresh;
+    self.accountIdToRefresh = nil;
     [self refreshTokenForAccountId:accountId withNetworkConnected:YES];
   }
 }

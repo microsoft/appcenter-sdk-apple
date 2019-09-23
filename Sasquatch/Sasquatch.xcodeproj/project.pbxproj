@@ -14,6 +14,7 @@
 		0459924821F0050B00BD3F82 /* AppCenterAuth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0459920E21F0042300BD3F82 /* AppCenterAuth.framework */; };
 		046790421E8DA7D80033FDEC /* AppCenterPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 046790411E8DA7D80033FDEC /* AppCenterPush.framework */; };
 		046790431E8DA7E90033FDEC /* AppCenterPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 046790411E8DA7D80033FDEC /* AppCenterPush.framework */; };
+		047D13721EAFBDBE00D699BA /* AppCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 047D13711EAFBDBE00D699BA /* AppCenterDistributeResources.bundle */; };
 		048933631F8D395A00C38A87 /* Sasquatch.strings in Resources */ = {isa = PBXBuildFile; fileRef = 041A4BAF1F8C28A3009E1B6C /* Sasquatch.strings */; };
 		04A1DB34223B65EB006A48D6 /* AuthenticationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04A1DB33223B65EB006A48D6 /* AuthenticationServices.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		352A3E7420F801A900D09CF0 /* EventPropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 352A3E7320F801A900D09CF0 /* EventPropertiesTableSection.swift */; };
@@ -33,6 +34,8 @@
 		35CAA2292143229300A8BED2 /* MSTableViewCellExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35CAA1F92143229300A8BED2 /* MSTableViewCellExtension.swift */; };
 		35FBE78120FD095200F7B05C /* MSTransmissionTargets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FBE78020FD095200F7B05C /* MSTransmissionTargets.swift */; };
 		35FBE78220FD095200F7B05C /* MSTransmissionTargets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FBE78020FD095200F7B05C /* MSTransmissionTargets.swift */; };
+		3816DB9E23345BE90024F533 /* CrashLibIOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3816DB9423345BA40024F533 /* CrashLibIOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		3816DBA123345D870024F533 /* CrashLibIOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3816DB9423345BA40024F533 /* CrashLibIOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4AFBF2CD224C71FF002DB884 /* MSDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFBF2CC224C71FF002DB884 /* MSDataViewController.swift */; };
 		4AFBF2CE224C71FF002DB884 /* MSDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFBF2CC224C71FF002DB884 /* MSDataViewController.swift */; };
 		4AFBF2CF224C71FF002DB884 /* MSDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFBF2CC224C71FF002DB884 /* MSDataViewController.swift */; };
@@ -118,6 +121,7 @@
 		B2586C8A210A485300664A43 /* MSAnalyticsResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2586C88210A485300664A43 /* MSAnalyticsResultViewController.swift */; };
 		B2586C8B210A485300664A43 /* MSAnalyticsResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2586C88210A485300664A43 /* MSAnalyticsResultViewController.swift */; };
 		B26D4DEC2122041A00AB4E28 /* MSSignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807DB551212164E000F35E03 /* MSSignInViewController.swift */; };
+		B27424851EF2193E00F591E5 /* AppCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 047D13711EAFBDBE00D699BA /* AppCenterDistributeResources.bundle */; };
 		B27D54A4210A5E7E004E82C9 /* EventPropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 352A3E7320F801A900D09CF0 /* EventPropertiesTableSection.swift */; };
 		B27D54A5210A5E7E004E82C9 /* MSTransmissionTargets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FBE78020FD095200F7B05C /* MSTransmissionTargets.swift */; };
 		B27D54A7210A5E7E004E82C9 /* MSAnalyticsResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2586C84210A47A800664A43 /* MSAnalyticsResult.swift */; };
@@ -154,7 +158,6 @@
 		B27D54C8210A5E7E004E82C9 /* MSAnalyticsPropertyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2E011EF21091EF2003F4A5B /* MSAnalyticsPropertyTableViewCell.xib */; };
 		B27D54C9210A5E7E004E82C9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 845964A91E8A7E6600BABA51 /* Main.storyboard */; };
 		B27D54CA210A5E7E004E82C9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84226C1C1E88FEFC00798417 /* Assets.xcassets */; };
-		B27D54CC210A5E7E004E82C9 /* CrashLibIOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F89D79081E93DA3A0094521F /* CrashLibIOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B2A4CF89210A6E6900199B4F /* MSAnalyticsChildTransmissionTargetTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B203FF4B20E57A5B002AD536 /* MSAnalyticsChildTransmissionTargetTableViewController.swift */; };
 		B2A4CF8A210A6E6900199B4F /* AppCenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849A3E711E8A9922008711CB /* AppCenterProtocol.swift */; };
 		B2A4CF8B210A6E6900199B4F /* MSCrashesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A0FF651E8A87B4000E7A28 /* MSCrashesViewController.swift */; };
@@ -190,7 +193,6 @@
 		B2A4CFAC210A6E6900199B4F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 845964A91E8A7E6600BABA51 /* Main.storyboard */; };
 		B2A4CFAD210A6E6900199B4F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84226C1C1E88FEFC00798417 /* Assets.xcassets */; };
 		B2A4CFAE210A6E6900199B4F /* MSAnalyticsPropertyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2E011EF21091EF2003F4A5B /* MSAnalyticsPropertyTableViewCell.xib */; };
-		B2A4CFB0210A6E6900199B4F /* CrashLibIOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F89D79081E93DA3A0094521F /* CrashLibIOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B2B36CE21EEF49B700230341 /* MSCustomPropertiesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B36CE11EEF49B700230341 /* MSCustomPropertiesViewController.swift */; };
 		B2B36CE31EEF49C400230341 /* MSCustomPropertiesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B36CE11EEF49B700230341 /* MSCustomPropertiesViewController.swift */; };
 		B2C97B8B2106535500042A03 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B2C97B8A2106535500042A03 /* Assets.xcassets */; };
@@ -220,18 +222,6 @@
 		C2614461230FE88A00D65EBF /* AppCenterData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2614448230FE86400D65EBF /* AppCenterData.framework */; };
 		C2614462230FE88A00D65EBF /* AppCenterDistribute.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2614450230FE86400D65EBF /* AppCenterDistribute.framework */; };
 		C2614463230FE88A00D65EBF /* AppCenterPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C261445A230FE86400D65EBF /* AppCenterPush.framework */; };
-		C90789BE2327CEB200999F08 /* AppCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84226D301E89301B00798417 /* AppCenterCrashes.framework */; };
-		C90789BF2327CEB200999F08 /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84226D2E1E89301A00798417 /* AppCenter.framework */; };
-		C90789C02327DF7600999F08 /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84226D2E1E89301A00798417 /* AppCenter.framework */; };
-		C90789C12327DF7600999F08 /* AppCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84226D301E89301B00798417 /* AppCenterCrashes.framework */; };
-		C9E7E484231E99E9007D96DC /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9E7E483231E99E9007D96DC /* NotificationCenter.framework */; };
-		C9E7E48E231E99E9007D96DC /* SasquatchSwift-Preview Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C9E7E482231E99E9007D96DC /* SasquatchSwift-Preview Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		C9E7E4E6231E9A5D007D96DC /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9E7E483231E99E9007D96DC /* NotificationCenter.framework */; };
-		C9E7E4E9231E9A5E007D96DC /* ExtensionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E7E4E8231E9A5E007D96DC /* ExtensionViewController.swift */; };
-		C9E7E4EC231E9A5E007D96DC /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C9E7E4EA231E9A5E007D96DC /* MainInterface.storyboard */; };
-		C9E7E4F0231E9A5E007D96DC /* SasquatchSwift Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C9E7E4E5231E9A5D007D96DC /* SasquatchSwift Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		C9FA99BA232111CB007E276C /* ExtensionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E7E4E8231E9A5E007D96DC /* ExtensionViewController.swift */; };
-		C9FA9A3C23224DE1007E276C /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C9E7E4EA231E9A5E007D96DC /* MainInterface.storyboard */; };
 		D31EF92D1E9517B600450162 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D31EF92B1E9517B600450162 /* Interface.storyboard */; };
 		D31EF92F1E9517B600450162 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D31EF92E1E9517B600450162 /* Assets.xcassets */; };
 		D31EF9361E9517B600450162 /* SasquatchWatchObjC Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = D31EF9351E9517B600450162 /* SasquatchWatchObjC Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -280,10 +270,6 @@
 		F8AA9F4B21650C04009104E3 /* SimplePropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AA9F4821650C04009104E3 /* SimplePropertiesTableSection.swift */; };
 		F8AA9F4C21650C04009104E3 /* SimplePropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AA9F4821650C04009104E3 /* SimplePropertiesTableSection.swift */; };
 		F8AA9F4D21650C04009104E3 /* SimplePropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AA9F4821650C04009104E3 /* SimplePropertiesTableSection.swift */; };
-		F8E69C632322AD0E006209D2 /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8E69C622322AD0E006209D2 /* CrashLibIOS.framework */; };
-		F8E69C652322AD16006209D2 /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8E69C642322AD16006209D2 /* CrashLibIOS.framework */; };
-		F8EE93542331212D0023C682 /* AppCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = F8EE93532331212D0023C682 /* AppCenterDistributeResources.bundle */; };
-		F8EE9355233121480023C682 /* AppCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = F8EE93532331212D0023C682 /* AppCenterDistributeResources.bundle */; };
 		F8F077A522A6A27B007B4B31 /* MSAuthInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8F077A422A6A27B007B4B31 /* MSAuthInfoViewController.swift */; };
 		F8F077A622A6A27B007B4B31 /* MSAuthInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8F077A422A6A27B007B4B31 /* MSAuthInfoViewController.swift */; };
 		F8F077A722A6A27B007B4B31 /* MSAuthInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8F077A422A6A27B007B4B31 /* MSAuthInfoViewController.swift */; };
@@ -308,6 +294,41 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		3816DB9323345BA40024F533 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3816DB4D23345BA40024F533 /* CrashLib.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = B21A71DB1DD2A38C0044BB1C;
+			remoteInfo = CrashLibIOS;
+		};
+		3816DB9523345BA40024F533 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3816DB4D23345BA40024F533 /* CrashLib.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 80F991211F0265070040FAD7;
+			remoteInfo = CrashLibTV;
+		};
+		3816DB9723345BA40024F533 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3816DB4D23345BA40024F533 /* CrashLib.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8065B5781F4C3FF4004FF622;
+			remoteInfo = CrashLibMac;
+		};
+		3816DB9C23345BE40024F533 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3816DB4D23345BA40024F533 /* CrashLib.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = B21A71DA1DD2A38C0044BB1C;
+			remoteInfo = CrashLibIOS;
+		};
+		3816DB9F23345D780024F533 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3816DB4D23345BA40024F533 /* CrashLib.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = B21A71DA1DD2A38C0044BB1C;
+			remoteInfo = CrashLibIOS;
+		};
 		5CD700EA1EA4B74600FC5D12 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 84226C0A1E88FEFC00798417 /* Project object */;
@@ -441,6 +462,76 @@
 			remoteGlobalIDString = B20AE37C21027D6200A1A195;
 			remoteInfo = SasquatchPuppet;
 		};
+		C2226FC32334EA5400E82CE8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3816DB4D23345BA40024F533 /* CrashLib.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = B21A71DA1DD2A38C0044BB1C;
+			remoteInfo = CrashLibIOS;
+		};
+		C2226FC62334EA9300E82CE8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3816DB4D23345BA40024F533 /* CrashLib.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = B21A71DA1DD2A38C0044BB1C;
+			remoteInfo = CrashLibIOS;
+		};
+		C2226FC82334EAA600E82CE8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3816DB4D23345BA40024F533 /* CrashLib.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = B21A71DA1DD2A38C0044BB1C;
+			remoteInfo = CrashLibIOS;
+		};
+		C225C4822335098900639D04 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B20AE3B92102812300A1A195 /* AppCenter.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = C9A91FB5230C01140068070D;
+			remoteInfo = "AppCenter iOS Framework";
+		};
+		C225C4842335098900639D04 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B20AE3D42102813300A1A195 /* AppCenterAnalytics.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = C9CA69D82306CAF700EE82AA;
+			remoteInfo = "AppCenterAnalytics iOS Framework";
+		};
+		C225C4862335098900639D04 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B20AE3F22102818B00A1A195 /* AppCenterCrashes.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = C9A91F49230BFD930068070D;
+			remoteInfo = "AppCenterCrashes iOS Framework";
+		};
+		C225C4882335098900639D04 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C25DAE2522280A590073B86A /* AppCenterData.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = C9A91F70230BFF610068070D;
+			remoteInfo = "AppCenterData iOS Framework";
+		};
+		C225C48A2335098900639D04 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B20AE40D2102819C00A1A195 /* AppCenterDistribute.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = C9A91F8B230BFFFF0068070D;
+			remoteInfo = "AppCenterDistribute iOS Framework";
+		};
+		C225C48C2335098900639D04 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 995BA60C21EFFA93000E3212 /* AppCenterAuth.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = C934BFE4230BF74000083490;
+			remoteInfo = "AppCenterAuth iOS Framework";
+		};
+		C225C48E2335098900639D04 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B20AE429210281C400A1A195 /* AppCenterPush.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = C9A91F9A230C004A0068070D;
+			remoteInfo = "AppCenterPush iOS Framework";
+		};
 		C25DAE3222280A590073B86A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C25DAE2522280A590073B86A /* AppCenterData.xcodeproj */;
@@ -567,20 +658,6 @@
 			remoteGlobalIDString = C9A91FAC230C00540068070D;
 			remoteInfo = "AppCenterPush macOS Framework";
 		};
-		C9E7E48C231E99E9007D96DC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 84226C0A1E88FEFC00798417 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = C9E7E481231E99E9007D96DC;
-			remoteInfo = "SasquatchSwift-Preview-Extension";
-		};
-		C9E7E4EE231E9A5E007D96DC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 84226C0A1E88FEFC00798417 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = C9E7E4E4231E9A5D007D96DC;
-			remoteInfo = "SasquatchSwift-Extension";
-		};
 		D31EF9371E9517B600450162 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 84226C0A1E88FEFC00798417 /* Project object */;
@@ -665,7 +742,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				B27D54CC210A5E7E004E82C9 /* CrashLibIOS.framework in Embed Frameworks */,
+				3816DBA123345D870024F533 /* CrashLibIOS.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -676,31 +753,9 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				B2A4CFB0210A6E6900199B4F /* CrashLibIOS.framework in Embed Frameworks */,
+				3816DB9E23345BE90024F533 /* CrashLibIOS.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		C9E7E4D2231E99E9007D96DC /* Embed App Extensions */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 13;
-			files = (
-				C9E7E48E231E99E9007D96DC /* SasquatchSwift-Preview Extension.appex in Embed App Extensions */,
-			);
-			name = "Embed App Extensions";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		C9E7E534231E9A5E007D96DC /* Embed App Extensions */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 13;
-			files = (
-				C9E7E4F0231E9A5E007D96DC /* SasquatchSwift Extension.appex in Embed App Extensions */,
-			);
-			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		D31EF94E1E9517B600450162 /* Embed App Extensions */ = {
@@ -801,6 +856,7 @@
 		359171F920F8001A00F3DDE6 /* TargetPropertiesTableSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetPropertiesTableSection.swift; sourceTree = "<group>"; };
 		35CAA1F92143229300A8BED2 /* MSTableViewCellExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSTableViewCellExtension.swift; sourceTree = "<group>"; };
 		35FBE78020FD095200F7B05C /* MSTransmissionTargets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSTransmissionTargets.swift; sourceTree = "<group>"; };
+		3816DB4D23345BA40024F533 /* CrashLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CrashLib.xcodeproj; path = ../CrashLib/CrashLib.xcodeproj; sourceTree = "<group>"; };
 		384929201FACF5DA003F8736 /* SasquatchWatchObjC Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "SasquatchWatchObjC Extension.entitlements"; sourceTree = SOURCE_ROOT; };
 		384929211FACF5F3003F8736 /* SasquatchWatchSwift Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "SasquatchWatchSwift Extension.entitlements"; sourceTree = SOURCE_ROOT; };
 		4AFBF2CC224C71FF002DB884 /* MSDataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSDataViewController.swift; sourceTree = "<group>"; };
@@ -864,15 +920,8 @@
 		B2E011EE21091EF1003F4A5B /* MSAnalyticsTransmissionTargetSelectorViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MSAnalyticsTransmissionTargetSelectorViewCell.xib; path = Cells/MSAnalyticsTransmissionTargetSelectorViewCell.xib; sourceTree = "<group>"; };
 		B2E011EF21091EF2003F4A5B /* MSAnalyticsPropertyTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MSAnalyticsPropertyTableViewCell.xib; path = Cells/MSAnalyticsPropertyTableViewCell.xib; sourceTree = "<group>"; };
 		B2E011F021091EF2003F4A5B /* MSAnalyticsPropertyTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MSAnalyticsPropertyTableViewCell.swift; path = Cells/MSAnalyticsPropertyTableViewCell.swift; sourceTree = "<group>"; };
-		C237A695232BACB50081153F /* Sasquatch Extension.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Sasquatch Extension.xcconfig"; sourceTree = "<group>"; };
 		C25DAE2522280A590073B86A /* AppCenterData.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AppCenterData.xcodeproj; path = ../AppCenterData/AppCenterData.xcodeproj; sourceTree = "<group>"; };
 		C25DAE3B22280B150073B86A /* AppCenterData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenterData.framework; path = "../AppCenter-SDK-Apple/iOS/AppCenterData.framework"; sourceTree = "<group>"; };
-		C9E7E482231E99E9007D96DC /* SasquatchSwift-Preview Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "SasquatchSwift-Preview Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
-		C9E7E483231E99E9007D96DC /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
-		C9E7E4E5231E9A5D007D96DC /* SasquatchSwift Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "SasquatchSwift Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
-		C9E7E4E8231E9A5E007D96DC /* ExtensionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionViewController.swift; sourceTree = "<group>"; };
-		C9E7E4EB231E9A5E007D96DC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
-		C9E7E4ED231E9A5E007D96DC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D31EF9291E9517B500450162 /* SasquatchWatchObjC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SasquatchWatchObjC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D31EF92C1E9517B600450162 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
 		D31EF92E1E9517B600450162 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -914,9 +963,6 @@
 		F8B224862113163D0052350E /* Sasquatch Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Sasquatch Debug.xcconfig"; sourceTree = "<group>"; };
 		F8B8EB15211070BE004BCECB /* Sasquatch.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Sasquatch.xcconfig; sourceTree = "<group>"; };
 		F8B8EB9421107890004BCECB /* Puppet.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Puppet.xcconfig; sourceTree = "<group>"; };
-		F8E69C622322AD0E006209D2 /* CrashLibIOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CrashLibIOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		F8E69C642322AD16006209D2 /* CrashLibIOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CrashLibIOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		F8EE93532331212D0023C682 /* AppCenterDistributeResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = AppCenterDistributeResources.bundle; path = "../AppCenter-SDK-Apple/iOS/AppCenterDistributeResources.bundle"; sourceTree = "<group>"; };
 		F8F077A422A6A27B007B4B31 /* MSAuthInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSAuthInfoViewController.swift; sourceTree = "<group>"; };
 		F8FE734221075803005C6A74 /* AnalyticsUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalyticsUITests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1014,28 +1060,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		C9E7E47F231E99E9007D96DC /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				F8E69C632322AD0E006209D2 /* CrashLibIOS.framework in Frameworks */,
-				C90789C02327DF7600999F08 /* AppCenter.framework in Frameworks */,
-				C90789C12327DF7600999F08 /* AppCenterCrashes.framework in Frameworks */,
-				C9E7E484231E99E9007D96DC /* NotificationCenter.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		C9E7E4E2231E9A5D007D96DC /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				F8E69C652322AD16006209D2 /* CrashLibIOS.framework in Frameworks */,
-				C90789BF2327CEB200999F08 /* AppCenter.framework in Frameworks */,
-				C90789BE2327CEB200999F08 /* AppCenterCrashes.framework in Frameworks */,
-				C9E7E4E6231E9A5D007D96DC /* NotificationCenter.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		D31EF9321E9517B600450162 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -1083,6 +1107,24 @@
 			path = Sections;
 			sourceTree = "<group>";
 		};
+		3816DB4E23345BA40024F533 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3816DB9423345BA40024F533 /* CrashLibIOS.framework */,
+				3816DB9623345BA40024F533 /* CrashLibTV.framework */,
+				3816DB9823345BA40024F533 /* CrashLibMac.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		3816DB9923345BB10024F533 /* CrashLib */ = {
+			isa = PBXGroup;
+			children = (
+				3816DB4D23345BA40024F533 /* CrashLib.xcodeproj */,
+			);
+			name = CrashLib;
+			sourceTree = "<group>";
+		};
 		5CD700E61EA4B74600FC5D12 /* SasquatchUITests */ = {
 			isa = PBXGroup;
 			children = (
@@ -1099,7 +1141,7 @@
 		84226C091E88FEFC00798417 = {
 			isa = PBXGroup;
 			children = (
-				F8EE93532331212D0023C682 /* AppCenterDistributeResources.bundle */,
+				3816DB9923345BB10024F533 /* CrashLib */,
 				B20AE3F12102816B00A1A195 /* AppCenter */,
 				F849241D2111C48A00E14DBE /* Config */,
 				84226C141E88FEFC00798417 /* Sasquatch */,
@@ -1111,7 +1153,6 @@
 				D31EF9641E9517C600450162 /* SasquatchWatchSwift Extension */,
 				B2C97B5A21064A5300042A03 /* SasquatchPuppet */,
 				5CD700E61EA4B74600FC5D12 /* SasquatchUITests */,
-				C9E7E4E7231E9A5E007D96DC /* SasquatchSwift-Extension */,
 				84226C131E88FEFC00798417 /* Products */,
 				F8FE732D21073042005C6A74 /* Vendor */,
 				84226D0F1E8921DE00798417 /* Frameworks */,
@@ -1133,8 +1174,6 @@
 				B2A888B52102B1E7001ACFDF /* SasquatchPuppetUITests.xctest */,
 				B27D54D2210A5E7E004E82C9 /* SasquatchObjC-Preview.app */,
 				B2A4CFB6210A6E6900199B4F /* SasquatchSwift-Preview.app */,
-				C9E7E482231E99E9007D96DC /* SasquatchSwift-Preview Extension.appex */,
-				C9E7E4E5231E9A5D007D96DC /* SasquatchSwift Extension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1235,8 +1274,6 @@
 		84226D0F1E8921DE00798417 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				F8E69C642322AD16006209D2 /* CrashLibIOS.framework */,
-				F8E69C622322AD0E006209D2 /* CrashLibIOS.framework */,
 				04A1DB33223B65EB006A48D6 /* AuthenticationServices.framework */,
 				B20AE48921028E3C00A1A195 /* libz.tbd */,
 				B20AE48721028E3300A1A195 /* libc++.tbd */,
@@ -1250,7 +1287,6 @@
 				C25DAE3B22280B150073B86A /* AppCenterData.framework */,
 				84226D311E89301B00798417 /* AppCenterDistribute.framework */,
 				0459920E21F0042300BD3F82 /* AppCenterAuth.framework */,
-				C9E7E483231E99E9007D96DC /* NotificationCenter.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1383,16 +1419,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		C9E7E4E7231E9A5E007D96DC /* SasquatchSwift-Extension */ = {
-			isa = PBXGroup;
-			children = (
-				C9E7E4E8231E9A5E007D96DC /* ExtensionViewController.swift */,
-				C9E7E4EA231E9A5E007D96DC /* MainInterface.storyboard */,
-				C9E7E4ED231E9A5E007D96DC /* Info.plist */,
-			);
-			path = "SasquatchSwift-Extension";
-			sourceTree = "<group>";
-		};
 		D31EF92A1E9517B600450162 /* SasquatchWatchObjC */ = {
 			isa = PBXGroup;
 			children = (
@@ -1466,7 +1492,6 @@
 				F84BA0D6211342620020F13B /* Puppet UITests.xcconfig */,
 				F8B8EB9421107890004BCECB /* Puppet.xcconfig */,
 				F8B224862113163D0052350E /* Sasquatch Debug.xcconfig */,
-				C237A695232BACB50081153F /* Sasquatch Extension.xcconfig */,
 				F8B8EB15211070BE004BCECB /* Sasquatch.xcconfig */,
 				F84BA102211342620020F13B /* UITests.xcconfig */,
 				F849248A2112FA3400E14DBE /* Watch Extension.xcconfig */,
@@ -1536,6 +1561,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				C2226FC42334EA5400E82CE8 /* PBXTargetDependency */,
 				D31EF9491E9517B600450162 /* PBXTargetDependency */,
 			);
 			name = SasquatchObjC;
@@ -1555,13 +1581,12 @@
 				F89D790E1E93DA500094521F /* Embed Frameworks */,
 				D36AD7171E94FF98003D34E7 /* Embed Watch Content */,
 				04CCE79421F7A511000AD84C /* CopyFiles */,
-				C9E7E534231E9A5E007D96DC /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				C2226FC72334EA9300E82CE8 /* PBXTargetDependency */,
 				D31EF9711E9517C600450162 /* PBXTargetDependency */,
-				C9E7E4EF231E9A5E007D96DC /* PBXTargetDependency */,
 			);
 			name = SasquatchSwift;
 			productName = SasquatchSwift;
@@ -1582,6 +1607,14 @@
 			buildRules = (
 			);
 			dependencies = (
+				C225C4832335098900639D04 /* PBXTargetDependency */,
+				C225C4852335098900639D04 /* PBXTargetDependency */,
+				C225C4872335098900639D04 /* PBXTargetDependency */,
+				C225C4892335098900639D04 /* PBXTargetDependency */,
+				C225C48B2335098900639D04 /* PBXTargetDependency */,
+				C225C48D2335098900639D04 /* PBXTargetDependency */,
+				C225C48F2335098900639D04 /* PBXTargetDependency */,
+				C2226FC92334EAA600E82CE8 /* PBXTargetDependency */,
 				B2A888A42102A407001ACFDF /* PBXTargetDependency */,
 			);
 			name = SasquatchPuppet;
@@ -1603,6 +1636,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				3816DBA023345D780024F533 /* PBXTargetDependency */,
 			);
 			name = "SasquatchObjC-Preview";
 			productName = SasquatchObjC;
@@ -1619,12 +1653,11 @@
 				B2A4CFA6210A6E6900199B4F /* Resources */,
 				B2A4CFAF210A6E6900199B4F /* Embed Frameworks */,
 				04CCE79221F7A505000AD84C /* CopyFiles */,
-				C9E7E4D2231E99E9007D96DC /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				C9E7E48D231E99E9007D96DC /* PBXTargetDependency */,
+				3816DB9D23345BE40024F533 /* PBXTargetDependency */,
 			);
 			name = "SasquatchSwift-Preview";
 			productName = SasquatchSwift;
@@ -1648,42 +1681,6 @@
 			productName = SasquatchPuppetUITests;
 			productReference = B2A888B52102B1E7001ACFDF /* SasquatchPuppetUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
-		};
-		C9E7E481231E99E9007D96DC /* SasquatchSwift-Preview Extension */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = C9E7E4D1231E99E9007D96DC /* Build configuration list for PBXNativeTarget "SasquatchSwift-Preview Extension" */;
-			buildPhases = (
-				C9FA992323200B9E007E276C /* Verify No Build Settings */,
-				C9E7E47E231E99E9007D96DC /* Sources */,
-				C9E7E47F231E99E9007D96DC /* Frameworks */,
-				C9E7E480231E99E9007D96DC /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "SasquatchSwift-Preview Extension";
-			productName = "SasquatchSwift-Preview-Extension";
-			productReference = C9E7E482231E99E9007D96DC /* SasquatchSwift-Preview Extension.appex */;
-			productType = "com.apple.product-type.app-extension";
-		};
-		C9E7E4E4231E9A5D007D96DC /* SasquatchSwift Extension */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = C9E7E533231E9A5E007D96DC /* Build configuration list for PBXNativeTarget "SasquatchSwift Extension" */;
-			buildPhases = (
-				C9FA996423200BC4007E276C /* Verify No Build Settings */,
-				C9E7E4E1231E9A5D007D96DC /* Sources */,
-				C9E7E4E2231E9A5D007D96DC /* Frameworks */,
-				C9E7E4E3231E9A5D007D96DC /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "SasquatchSwift Extension";
-			productName = "SasquatchSwift-Extension";
-			productReference = C9E7E4E5231E9A5D007D96DC /* SasquatchSwift Extension.appex */;
-			productType = "com.apple.product-type.app-extension";
 		};
 		D31EF9281E9517B500450162 /* SasquatchWatchObjC */ = {
 			isa = PBXNativeTarget;
@@ -1761,7 +1758,7 @@
 		84226C0A1E88FEFC00798417 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1010;
+				LastSwiftUpdateCheck = 0940;
 				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = "Microsoft Corp.";
 				TargetAttributes = {
@@ -1831,16 +1828,6 @@
 						LastSwiftMigration = 0940;
 						ProvisioningStyle = Automatic;
 						TestTargetID = B20AE37C21027D6200A1A195;
-					};
-					C9E7E481231E99E9007D96DC = {
-						CreatedOnToolsVersion = 10.2.1;
-						DevelopmentTeam = 5Z97G9NZQ6;
-						ProvisioningStyle = Manual;
-					};
-					C9E7E4E4231E9A5D007D96DC = {
-						CreatedOnToolsVersion = 10.2.1;
-						DevelopmentTeam = 5Z97G9NZQ6;
-						ProvisioningStyle = Automatic;
 					};
 					D31EF9281E9517B500450162 = {
 						CreatedOnToolsVersion = 8.3;
@@ -1928,6 +1915,10 @@
 					ProductGroup = B20AE42A210281C400A1A195 /* Products */;
 					ProjectRef = B20AE429210281C400A1A195 /* AppCenterPush.xcodeproj */;
 				},
+				{
+					ProductGroup = 3816DB4E23345BA40024F533 /* Products */;
+					ProjectRef = 3816DB4D23345BA40024F533 /* CrashLib.xcodeproj */;
+				},
 			);
 			projectRoot = "";
 			targets = (
@@ -1936,9 +1927,7 @@
 				D31EF9281E9517B500450162 /* SasquatchWatchObjC */,
 				D31EF9341E9517B600450162 /* SasquatchWatchObjC Extension */,
 				B2A4CF85210A6E6900199B4F /* SasquatchSwift-Preview */,
-				C9E7E481231E99E9007D96DC /* SasquatchSwift-Preview Extension */,
 				84226C7F1E8908C900798417 /* SasquatchSwift */,
-				C9E7E4E4231E9A5D007D96DC /* SasquatchSwift Extension */,
 				D31EF9531E9517C500450162 /* SasquatchWatchSwift */,
 				D31EF95F1E9517C600450162 /* SasquatchWatchSwift Extension */,
 				5CD700E41EA4B74500FC5D12 /* SasquatchSwiftUITests */,
@@ -1950,6 +1939,27 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		3816DB9423345BA40024F533 /* CrashLibIOS.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = CrashLibIOS.framework;
+			remoteRef = 3816DB9323345BA40024F533 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		3816DB9623345BA40024F533 /* CrashLibTV.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = CrashLibTV.framework;
+			remoteRef = 3816DB9523345BA40024F533 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		3816DB9823345BA40024F533 /* CrashLibMac.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = CrashLibMac.framework;
+			remoteRef = 3816DB9723345BA40024F533 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		995BA61E21EFFA93000E3212 /* AppCenterAuth.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
@@ -2202,9 +2212,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F8EE9355233121480023C682 /* AppCenterDistributeResources.bundle in Resources */,
 				041A4BB11F8C28A3009E1B6C /* Sasquatch.strings in Resources */,
 				84226C561E88FF4A00798417 /* Assets.xcassets in Resources */,
+				047D13721EAFBDBE00D699BA /* AppCenterDistributeResources.bundle in Resources */,
 				F809D5041FC6DA2B005E0F83 /* LaunchScreen.storyboard in Resources */,
 				F8AA9F382164F9A6009104E3 /* MSAnalyticsTypedPropertyTableViewCell.xib in Resources */,
 				B2E011F321091EF2003F4A5B /* MSAnalyticsTransmissionTargetSelectorViewCell.xib in Resources */,
@@ -2218,8 +2228,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F8EE93542331212D0023C682 /* AppCenterDistributeResources.bundle in Resources */,
 				048933631F8D395A00C38A87 /* Sasquatch.strings in Resources */,
+				B27424851EF2193E00F591E5 /* AppCenterDistributeResources.bundle in Resources */,
 				84226C8A1E8908CA00798417 /* Assets.xcassets in Resources */,
 				B2E011FC21091F09003F4A5B /* MSAnalyticsTransmissionTargetSelectorViewCell.xib in Resources */,
 				F8AA9F3A2164F9A9009104E3 /* MSAnalyticsTypedPropertyTableViewCell.xib in Resources */,
@@ -2285,22 +2295,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		C9E7E480231E99E9007D96DC /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				C9FA9A3C23224DE1007E276C /* MainInterface.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		C9E7E4E3231E9A5D007D96DC /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				C9E7E4EC231E9A5E007D96DC /* MainInterface.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		D31EF9271E9517B500450162 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2361,44 +2355,6 @@
 			inputPaths = (
 			);
 			name = "Verify No Build Settings";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift\" ${PROJECT_NAME}.xcodeproj/project.pbxproj\n";
-			showEnvVarsInLog = 0;
-		};
-		C9FA992323200B9E007E276C /* Verify No Build Settings */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Verify No Build Settings";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift\" ${PROJECT_NAME}.xcodeproj/project.pbxproj\n";
-			showEnvVarsInLog = 0;
-		};
-		C9FA996423200BC4007E276C /* Verify No Build Settings */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Verify No Build Settings";
-			outputFileListPaths = (
-			);
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2753,22 +2709,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		C9E7E47E231E99E9007D96DC /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				C9FA99BA232111CB007E276C /* ExtensionViewController.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		C9E7E4E1231E9A5D007D96DC /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				C9E7E4E9231E9A5E007D96DC /* ExtensionViewController.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		D31EF9311E9517B600450162 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2792,6 +2732,16 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		3816DB9D23345BE40024F533 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = CrashLibIOS;
+			targetProxy = 3816DB9C23345BE40024F533 /* PBXContainerItemProxy */;
+		};
+		3816DBA023345D780024F533 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = CrashLibIOS;
+			targetProxy = 3816DB9F23345D780024F533 /* PBXContainerItemProxy */;
+		};
 		5CD700EB1EA4B74600FC5D12 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 84226C7F1E8908C900798417 /* SasquatchSwift */;
@@ -2812,15 +2762,55 @@
 			target = B20AE37C21027D6200A1A195 /* SasquatchPuppet */;
 			targetProxy = B2A888BA2102B1E7001ACFDF /* PBXContainerItemProxy */;
 		};
-		C9E7E48D231E99E9007D96DC /* PBXTargetDependency */ = {
+		C2226FC42334EA5400E82CE8 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = C9E7E481231E99E9007D96DC /* SasquatchSwift-Preview Extension */;
-			targetProxy = C9E7E48C231E99E9007D96DC /* PBXContainerItemProxy */;
+			name = CrashLibIOS;
+			targetProxy = C2226FC32334EA5400E82CE8 /* PBXContainerItemProxy */;
 		};
-		C9E7E4EF231E9A5E007D96DC /* PBXTargetDependency */ = {
+		C2226FC72334EA9300E82CE8 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = C9E7E4E4231E9A5D007D96DC /* SasquatchSwift Extension */;
-			targetProxy = C9E7E4EE231E9A5E007D96DC /* PBXContainerItemProxy */;
+			name = CrashLibIOS;
+			targetProxy = C2226FC62334EA9300E82CE8 /* PBXContainerItemProxy */;
+		};
+		C2226FC92334EAA600E82CE8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = CrashLibIOS;
+			targetProxy = C2226FC82334EAA600E82CE8 /* PBXContainerItemProxy */;
+		};
+		C225C4832335098900639D04 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "AppCenter iOS Framework";
+			targetProxy = C225C4822335098900639D04 /* PBXContainerItemProxy */;
+		};
+		C225C4852335098900639D04 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "AppCenterAnalytics iOS Framework";
+			targetProxy = C225C4842335098900639D04 /* PBXContainerItemProxy */;
+		};
+		C225C4872335098900639D04 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "AppCenterCrashes iOS Framework";
+			targetProxy = C225C4862335098900639D04 /* PBXContainerItemProxy */;
+		};
+		C225C4892335098900639D04 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "AppCenterData iOS Framework";
+			targetProxy = C225C4882335098900639D04 /* PBXContainerItemProxy */;
+		};
+		C225C48B2335098900639D04 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "AppCenterDistribute iOS Framework";
+			targetProxy = C225C48A2335098900639D04 /* PBXContainerItemProxy */;
+		};
+		C225C48D2335098900639D04 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "AppCenterAuth iOS Framework";
+			targetProxy = C225C48C2335098900639D04 /* PBXContainerItemProxy */;
+		};
+		C225C48F2335098900639D04 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "AppCenterPush iOS Framework";
+			targetProxy = C225C48E2335098900639D04 /* PBXContainerItemProxy */;
 		};
 		D31EF9381E9517B600450162 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -2872,14 +2862,6 @@
 				845964AA1E8A7E6600BABA51 /* Base */,
 			);
 			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		C9E7E4EA231E9A5E007D96DC /* MainInterface.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				C9E7E4EB231E9A5E007D96DC /* Base */,
-			);
-			name = MainInterface.storyboard;
 			sourceTree = "<group>";
 		};
 		D31EF92B1E9517B600450162 /* Interface.storyboard */ = {
@@ -3119,53 +3101,6 @@
 			};
 			name = Release;
 		};
-		C9E7E48F231E99E9007D96DC /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = C237A695232BACB50081153F /* Sasquatch Extension.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = 5Z97G9NZQ6;
-				INFOPLIST_FILE = "SasquatchSwift-Extension/Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchswift.extension;
-				PROVISIONING_PROFILE_SPECIFIER = "AppCenter SDK SasquatchSwift Ext Debug";
-			};
-			name = Debug;
-		};
-		C9E7E490231E99E9007D96DC /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = 5Z97G9NZQ6;
-				INFOPLIST_FILE = "SasquatchSwift-Extension/Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchswift.extension;
-				PROVISIONING_PROFILE_SPECIFIER = "AppCenter SDK SasquatchSwift Ext Release In-house";
-			};
-			name = Release;
-		};
-		C9E7E4F1231E9A5E007D96DC /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = C237A695232BACB50081153F /* Sasquatch Extension.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = "SasquatchSwift-Extension/Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchswift.extension;
-			};
-			name = Debug;
-		};
-		C9E7E4F2231E9A5E007D96DC /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 5Z97G9NZQ6;
-				INFOPLIST_FILE = "SasquatchSwift-Extension/Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchswift.extension;
-			};
-			name = Release;
-		};
 		D31EF94C1E9517B600450162 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F849248A2112FA3400E14DBE /* Watch Extension.xcconfig */;
@@ -3326,24 +3261,6 @@
 			buildConfigurations = (
 				B2A888BC2102B1E7001ACFDF /* Debug */,
 				B2A888BD2102B1E7001ACFDF /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		C9E7E4D1231E99E9007D96DC /* Build configuration list for PBXNativeTarget "SasquatchSwift-Preview Extension" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				C9E7E48F231E99E9007D96DC /* Debug */,
-				C9E7E490231E99E9007D96DC /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		C9E7E533231E9A5E007D96DC /* Build configuration list for PBXNativeTarget "SasquatchSwift Extension" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				C9E7E4F1231E9A5E007D96DC /* Debug */,
-				C9E7E4F2231E9A5E007D96DC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

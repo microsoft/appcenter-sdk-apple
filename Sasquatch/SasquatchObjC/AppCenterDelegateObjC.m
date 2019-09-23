@@ -55,6 +55,22 @@
 #endif
 }
 
+- (NSString *)appSecretAAD {
+#if GCC_PREPROCESSOR_MACRO_PUPPET
+  return kMSPuppetAADAppSecret;
+#else
+  return kMSSwiftObjcAADAppSecret;
+#endif
+}
+
+- (NSString *)appSecretB2C {
+#if GCC_PREPROCESSOR_MACRO_PUPPET
+  return kMSPuppetAppSecret;
+#else
+  return kMSObjcAppSecret;
+#endif
+}
+
 - (void)setLogUrl:(NSString *)logUrl {
   [MSAppCenter setLogUrl:logUrl];
 }

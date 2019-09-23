@@ -193,8 +193,11 @@ else
 
   # Determine the filename for the release
   filename=$(echo $FRAMEWORKS_ZIP_FILENAME | sed 's/.zip/-'${publish_version}'.zip/g')
+  carthage_filename=$(echo $CARTHAGE_ZIP_FILENAME | sed 's/.carthage.framework.zip/-'${publish_version}'.carthage.framework.zip/g')
+
+  # Rename Carthage ZIP with publish_version.
+  mv $CARTHAGE_ZIP_FILENAME $carthage_filename
 fi
-carthage_filename=$(echo $CARTHAGE_ZIP_FILENAME | sed 's/.framework.zip/-'${publish_version}'.framework.zip/g')
 
 # Upload binary to Azure Storage
 mv $FRAMEWORKS_ZIP_FILENAME $filename
