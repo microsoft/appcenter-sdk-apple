@@ -184,15 +184,15 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
 
 - (NSArray *)setUpAuthForAppSecret:(NSString *)appSecret withServices:(NSArray<Class> *)services {
   if ([appSecret isEqualToString:kMSPuppetAuth0AppSecret]) {
-    // Initialize auth0
+    self.authProvider = (AuthProviderProtocol *)[Auth0Provider new];
   } else if ([appSecret isEqualToString:kMSPuppetFirebaseAppSecret]) {
-    // Initialize Firebase
+    self.authProvider = (AuthProviderProtocol *)[FirebaseProvider new];
   } else {
     return services;
   }
   NSMutableArray *modifiedServices = [services mutableCopy];
   [modifiedServices removeObject:[MSAuth class]];
-  // Set a delegate for 3rd party providers.
+  [MSAppCenter setAuthTokenDelegate:(id<MSAuthTokenDelegate>)self.authProvider];
   return modifiedServices;
 }
 
