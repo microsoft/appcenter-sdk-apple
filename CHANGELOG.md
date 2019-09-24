@@ -1,5 +1,13 @@
 # App Center SDK for iOS, macOS and tvOS Change Log
 
+## Version 2.4.1 (Under development)
+
+### App Center Crashes
+
+* **[Feature]** iOS extensions support.
+
+___
+
 ## Version 2.4.0
 
 ### App Center Auth
