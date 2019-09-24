@@ -8,6 +8,16 @@
 
 /* Begin PBXBuildFile section */
 		041A4BB11F8C28A3009E1B6C /* Sasquatch.strings in Resources */ = {isa = PBXBuildFile; fileRef = 041A4BAF1F8C28A3009E1B6C /* Sasquatch.strings */; };
+		04238DF92339964C00D674C9 /* Auth0Provider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04238DF82339964C00D674C9 /* Auth0Provider.swift */; };
+		04238DFA2339964C00D674C9 /* Auth0Provider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04238DF82339964C00D674C9 /* Auth0Provider.swift */; };
+		04238DFB2339964C00D674C9 /* Auth0Provider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04238DF82339964C00D674C9 /* Auth0Provider.swift */; };
+		04238DFC2339964C00D674C9 /* Auth0Provider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04238DF82339964C00D674C9 /* Auth0Provider.swift */; };
+		04238DFD2339964C00D674C9 /* Auth0Provider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04238DF82339964C00D674C9 /* Auth0Provider.swift */; };
+		04238E3A23399B7700D674C9 /* FirebaseProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04238E3923399B7700D674C9 /* FirebaseProvider.swift */; };
+		04238E3B23399B7700D674C9 /* FirebaseProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04238E3923399B7700D674C9 /* FirebaseProvider.swift */; };
+		04238E3C23399B7700D674C9 /* FirebaseProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04238E3923399B7700D674C9 /* FirebaseProvider.swift */; };
+		04238E3D23399B7700D674C9 /* FirebaseProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04238E3923399B7700D674C9 /* FirebaseProvider.swift */; };
+		04238E3E23399B7700D674C9 /* FirebaseProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04238E3923399B7700D674C9 /* FirebaseProvider.swift */; };
 		0459920F21F0042300BD3F82 /* AppCenterAuth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0459920E21F0042300BD3F82 /* AppCenterAuth.framework */; };
 		0459924621F0050900BD3F82 /* AppCenterAuth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0459920E21F0042300BD3F82 /* AppCenterAuth.framework */; };
 		0459924721F0050B00BD3F82 /* AppCenterAuth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0459920E21F0042300BD3F82 /* AppCenterAuth.framework */; };
@@ -17,6 +27,11 @@
 		047D13721EAFBDBE00D699BA /* AppCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 047D13711EAFBDBE00D699BA /* AppCenterDistributeResources.bundle */; };
 		048933631F8D395A00C38A87 /* Sasquatch.strings in Resources */ = {isa = PBXBuildFile; fileRef = 041A4BAF1F8C28A3009E1B6C /* Sasquatch.strings */; };
 		04A1DB34223B65EB006A48D6 /* AuthenticationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04A1DB33223B65EB006A48D6 /* AuthenticationServices.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		04E2835F23399485000FBACB /* AuthProviderDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E2835E23399485000FBACB /* AuthProviderDelegate.swift */; };
+		04E2836023399485000FBACB /* AuthProviderDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E2835E23399485000FBACB /* AuthProviderDelegate.swift */; };
+		04E2836123399485000FBACB /* AuthProviderDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E2835E23399485000FBACB /* AuthProviderDelegate.swift */; };
+		04E2836223399485000FBACB /* AuthProviderDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E2835E23399485000FBACB /* AuthProviderDelegate.swift */; };
+		04E2836323399485000FBACB /* AuthProviderDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E2835E23399485000FBACB /* AuthProviderDelegate.swift */; };
 		352A3E7420F801A900D09CF0 /* EventPropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 352A3E7320F801A900D09CF0 /* EventPropertiesTableSection.swift */; };
 		352A3E7520F80C8600D09CF0 /* EventPropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 352A3E7320F801A900D09CF0 /* EventPropertiesTableSection.swift */; };
 		35396A7820F95A9C00A091E0 /* MSTransmissionTargetsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35396A7720F95A9C00A091E0 /* MSTransmissionTargetsViewController.swift */; };
@@ -841,6 +856,8 @@
 		041A4BBC1F8C2A84009E1B6C /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Sasquatch.strings"; sourceTree = "<group>"; };
 		041A4BBD1F8C2A8B009E1B6C /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Sasquatch.strings"; sourceTree = "<group>"; };
 		041E2BEE1FB6465000793316 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
+		04238DF82339964C00D674C9 /* Auth0Provider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Auth0Provider.swift; sourceTree = "<group>"; };
+		04238E3923399B7700D674C9 /* FirebaseProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseProvider.swift; sourceTree = "<group>"; };
 		0459920E21F0042300BD3F82 /* AppCenterAuth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenterAuth.framework; path = "../AppCenter-SDK-Apple/iOS/AppCenterAuth.framework"; sourceTree = "<group>"; };
 		046790411E8DA7D80033FDEC /* AppCenterPush.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenterPush.framework; path = "../AppCenter-SDK-Apple/iOS/AppCenterPush.framework"; sourceTree = "<group>"; };
 		046790441E8DA8D50033FDEC /* SasquatchSwift.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SasquatchSwift.entitlements; sourceTree = "<group>"; };
@@ -848,6 +865,7 @@
 		047D13711EAFBDBE00D699BA /* AppCenterDistributeResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = AppCenterDistributeResources.bundle; path = "../AppCenter-SDK-Apple/iOS/AppCenterDistributeResources.bundle"; sourceTree = "<group>"; };
 		0482105C1FD0B611006824F7 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/Sasquatch.strings; sourceTree = "<group>"; };
 		04A1DB33223B65EB006A48D6 /* AuthenticationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AuthenticationServices.framework; path = System/Library/Frameworks/AuthenticationServices.framework; sourceTree = SDKROOT; };
+		04E2835E23399485000FBACB /* AuthProviderDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthProviderDelegate.swift; sourceTree = "<group>"; };
 		352A3E7320F801A900D09CF0 /* EventPropertiesTableSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventPropertiesTableSection.swift; sourceTree = "<group>"; };
 		35396A7720F95A9C00A091E0 /* MSTransmissionTargetsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSTransmissionTargetsViewController.swift; sourceTree = "<group>"; };
 		354273DE20126A3E00BE766F /* MSEventFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSEventFilter.m; sourceTree = "<group>"; };
@@ -1086,6 +1104,16 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		04E2830F23398DEC000FBACB /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				04E2835E23399485000FBACB /* AuthProviderDelegate.swift */,
+				04238DF82339964C00D674C9 /* Auth0Provider.swift */,
+				04238E3923399B7700D674C9 /* FirebaseProvider.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
 		354273DD20126A3E00BE766F /* EventFilter */ = {
 			isa = PBXGroup;
 			children = (
@@ -1181,6 +1209,7 @@
 		84226C141E88FEFC00798417 /* Sasquatch */ = {
 			isa = PBXGroup;
 			children = (
+				04E2830F23398DEC000FBACB /* Auth */,
 				354273DD20126A3E00BE766F /* EventFilter */,
 				84226D3A1E8937FF00798417 /* AppCenterDelegate.swift */,
 				849A3E711E8A9922008711CB /* AppCenterProtocol.swift */,
@@ -2527,11 +2556,14 @@
 				B203FF4C20E57A5B002AD536 /* MSAnalyticsChildTransmissionTargetTableViewController.swift in Sources */,
 				84226C4E1E88FF4A00798417 /* AppDelegate.m in Sources */,
 				807DB553212164E000F35E03 /* MSSignInViewController.swift in Sources */,
+				04238E3B23399B7700D674C9 /* FirebaseProvider.swift in Sources */,
 				B2B36CE21EEF49B700230341 /* MSCustomPropertiesViewController.swift in Sources */,
 				F8F077A622A6A27B007B4B31 /* MSAuthInfoViewController.swift in Sources */,
 				84226C4B1E88FF4A00798417 /* main.m in Sources */,
 				359171F720F7F80800F3DDE6 /* PropertiesTableSection.swift in Sources */,
 				84A0FF6C1E8A87E1000E7A28 /* MSDistributeViewController.swift in Sources */,
+				04E2836023399485000FBACB /* AuthProviderDelegate.swift in Sources */,
+				04238DFA2339964C00D674C9 /* Auth0Provider.swift in Sources */,
 				80B3CADB211B2686007C332E /* MSAuthenticationViewController.swift in Sources */,
 				F8AA9F342164F994009104E3 /* MSAnalyticsTypedPropertyTableViewCell.swift in Sources */,
 				F8A502272149339100872B3B /* MSEnumPicker.swift in Sources */,
@@ -2549,6 +2581,7 @@
 				B203FF4D20E5922C002AD536 /* MSAnalyticsChildTransmissionTargetTableViewController.swift in Sources */,
 				849A3E731E8A9922008711CB /* AppCenterProtocol.swift in Sources */,
 				84A0FF671E8A87B4000E7A28 /* MSCrashesViewController.swift in Sources */,
+				04E2836223399485000FBACB /* AuthProviderDelegate.swift in Sources */,
 				F8AA9F362164F994009104E3 /* MSAnalyticsTypedPropertyTableViewCell.swift in Sources */,
 				352A3E7520F80C8600D09CF0 /* EventPropertiesTableSection.swift in Sources */,
 				35CAA2272143229300A8BED2 /* MSTableViewCellExtension.swift in Sources */,
@@ -2563,6 +2596,7 @@
 				B2B36CE31EEF49C400230341 /* MSCustomPropertiesViewController.swift in Sources */,
 				35FBE78220FD095200F7B05C /* MSTransmissionTargets.swift in Sources */,
 				B2586C8A210A485300664A43 /* MSAnalyticsResultViewController.swift in Sources */,
+				04238E3D23399B7700D674C9 /* FirebaseProvider.swift in Sources */,
 				4AFBF316224CB053002DB884 /* MSDocumentDetailsViewController.swift in Sources */,
 				F8F077A822A6A27B007B4B31 /* MSAuthInfoViewController.swift in Sources */,
 				845178ED1E8A8B0D004A0A6F /* MSMainViewController.swift in Sources */,
@@ -2574,6 +2608,7 @@
 				84A0FF6D1E8A87E1000E7A28 /* MSDistributeViewController.swift in Sources */,
 				F8AA9F402164FD1C009104E3 /* MSDatePicker.swift in Sources */,
 				F8A502292149339100872B3B /* MSEnumPicker.swift in Sources */,
+				04238DFC2339964C00D674C9 /* Auth0Provider.swift in Sources */,
 				84226C831E8908CA00798417 /* AppDelegate.swift in Sources */,
 				F8AA9F4C21650C04009104E3 /* SimplePropertiesTableSection.swift in Sources */,
 			);
@@ -2584,6 +2619,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F8AA9F412164FD1C009104E3 /* MSDatePicker.swift in Sources */,
+				04238E3E23399B7700D674C9 /* FirebaseProvider.swift in Sources */,
 				80901844211B3FF400DB0E48 /* MSAuthenticationViewController.swift in Sources */,
 				B20AE38021027D6200A1A195 /* EventPropertiesTableSection.swift in Sources */,
 				B2E011F721091EF6003F4A5B /* MSAnalyticsPropertyTableViewCell.swift in Sources */,
@@ -2598,6 +2634,7 @@
 				4AFBF2D1224C71FF002DB884 /* MSDataViewController.swift in Sources */,
 				F8AA9F4D21650C04009104E3 /* SimplePropertiesTableSection.swift in Sources */,
 				B20AE38721027D6200A1A195 /* MSMainViewController.swift in Sources */,
+				04E2836323399485000FBACB /* AuthProviderDelegate.swift in Sources */,
 				B20AE38821027D6200A1A195 /* MSAnalyticsViewController.swift in Sources */,
 				B2E011FF21091F0F003F4A5B /* MSCustomPropertyTableViewCell.swift in Sources */,
 				B2586C83210A478500664A43 /* CommonSchemaPropertiesTableSection.swift in Sources */,
@@ -2609,6 +2646,7 @@
 				B26D4DEC2122041A00AB4E28 /* MSSignInViewController.swift in Sources */,
 				B20AE38D21027D6200A1A195 /* AppDelegate.m in Sources */,
 				B20AE38E21027D6200A1A195 /* MSCustomPropertiesViewController.swift in Sources */,
+				04238DFD2339964C00D674C9 /* Auth0Provider.swift in Sources */,
 				B20AE38F21027D6200A1A195 /* main.m in Sources */,
 				B20AE39021027D6200A1A195 /* PropertiesTableSection.swift in Sources */,
 				B20AE39221027D6200A1A195 /* MSDistributeViewController.swift in Sources */,
@@ -2645,11 +2683,14 @@
 				B27D54B4210A5E7E004E82C9 /* MSAnalyticsChildTransmissionTargetTableViewController.swift in Sources */,
 				B27D54B5210A5E7E004E82C9 /* AppDelegate.m in Sources */,
 				807DB552212164E000F35E03 /* MSSignInViewController.swift in Sources */,
+				04238E3A23399B7700D674C9 /* FirebaseProvider.swift in Sources */,
 				B27D54B6210A5E7E004E82C9 /* MSCustomPropertiesViewController.swift in Sources */,
 				F8F077A522A6A27B007B4B31 /* MSAuthInfoViewController.swift in Sources */,
 				B27D54B7210A5E7E004E82C9 /* main.m in Sources */,
 				B27D54B8210A5E7E004E82C9 /* PropertiesTableSection.swift in Sources */,
 				B27D54B9210A5E7E004E82C9 /* MSDistributeViewController.swift in Sources */,
+				04E2835F23399485000FBACB /* AuthProviderDelegate.swift in Sources */,
+				04238DF92339964C00D674C9 /* Auth0Provider.swift in Sources */,
 				80B3CADA211B2686007C332E /* MSAuthenticationViewController.swift in Sources */,
 				F8AA9F332164F994009104E3 /* MSAnalyticsTypedPropertyTableViewCell.swift in Sources */,
 				F8A502262149339100872B3B /* MSEnumPicker.swift in Sources */,
@@ -2667,6 +2708,7 @@
 				B2A4CF89210A6E6900199B4F /* MSAnalyticsChildTransmissionTargetTableViewController.swift in Sources */,
 				B2A4CF8A210A6E6900199B4F /* AppCenterProtocol.swift in Sources */,
 				B2A4CF8B210A6E6900199B4F /* MSCrashesViewController.swift in Sources */,
+				04E2836123399485000FBACB /* AuthProviderDelegate.swift in Sources */,
 				F8AA9F352164F994009104E3 /* MSAnalyticsTypedPropertyTableViewCell.swift in Sources */,
 				B2A4CF8C210A6E6900199B4F /* EventPropertiesTableSection.swift in Sources */,
 				35CAA2252143229300A8BED2 /* MSTableViewCellExtension.swift in Sources */,
@@ -2681,6 +2723,7 @@
 				B2A4CF95210A6E6900199B4F /* MSCustomPropertiesViewController.swift in Sources */,
 				B2A4CF96210A6E6900199B4F /* MSTransmissionTargets.swift in Sources */,
 				B2A4CF97210A6E6900199B4F /* MSAnalyticsResultViewController.swift in Sources */,
+				04238E3C23399B7700D674C9 /* FirebaseProvider.swift in Sources */,
 				4AFBF315224CB053002DB884 /* MSDocumentDetailsViewController.swift in Sources */,
 				F8F077A722A6A27B007B4B31 /* MSAuthInfoViewController.swift in Sources */,
 				B2A4CF98210A6E6900199B4F /* MSMainViewController.swift in Sources */,
@@ -2692,6 +2735,7 @@
 				B2A4CF9D210A6E6900199B4F /* MSDistributeViewController.swift in Sources */,
 				F8AA9F3F2164FD1C009104E3 /* MSDatePicker.swift in Sources */,
 				F8A502282149339100872B3B /* MSEnumPicker.swift in Sources */,
+				04238DFB2339964C00D674C9 /* Auth0Provider.swift in Sources */,
 				B2A4CF9E210A6E6900199B4F /* AppDelegate.swift in Sources */,
 				F8AA9F4B21650C04009104E3 /* SimplePropertiesTableSection.swift in Sources */,
 			);
