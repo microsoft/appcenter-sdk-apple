@@ -92,7 +92,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 - (void)testApplyEnabledStateWorks {
 
   // If
-  self.sut.httpClientNoRetrier= OCMProtocolMock(@protocol(MSHttpClientProtocol));
+  self.sut.httpClientNoRetrier = OCMProtocolMock(@protocol(MSHttpClientProtocol));
   __block int enabledCount = 0;
   OCMStub([self.sut.httpClientNoRetrier setEnabled:YES]).andDo(^(__unused NSInvocation *invocation) {
     enabledCount++;
@@ -139,7 +139,11 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // If
   self.sut.httpClientWithRetrier = OCMProtocolMock(@protocol(MSHttpClientProtocol));
-  OCMReject([self.sut.httpClientWithRetrier sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:OCMOCK_ANY data:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
+  OCMReject([self.sut.httpClientWithRetrier sendAsync:OCMOCK_ANY
+                                               method:OCMOCK_ANY
+                                              headers:OCMOCK_ANY
+                                                 data:OCMOCK_ANY
+                                    completionHandler:OCMOCK_ANY]);
   __block MSDocumentWrapper *actualDocumentWrapper;
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler called."];
 
@@ -286,7 +290,11 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // If
   self.sut.httpClientWithRetrier = OCMProtocolMock(@protocol(MSHttpClientProtocol));
-  OCMReject([self.sut.httpClientWithRetrier sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:OCMOCK_ANY data:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
+  OCMReject([self.sut.httpClientWithRetrier sendAsync:OCMOCK_ANY
+                                               method:OCMOCK_ANY
+                                              headers:OCMOCK_ANY
+                                                 data:OCMOCK_ANY
+                                    completionHandler:OCMOCK_ANY]);
   __block MSDocumentWrapper *actualDocumentWrapper;
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler called."];
 
@@ -317,7 +325,11 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // If
   self.sut.httpClientWithRetrier = OCMProtocolMock(@protocol(MSHttpClientProtocol));
-  OCMReject([self.sut.httpClientWithRetrier sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:OCMOCK_ANY data:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
+  OCMReject([self.sut.httpClientWithRetrier sendAsync:OCMOCK_ANY
+                                               method:OCMOCK_ANY
+                                              headers:OCMOCK_ANY
+                                                 data:OCMOCK_ANY
+                                    completionHandler:OCMOCK_ANY]);
   id<MSDocumentStore> localStorageMock = OCMProtocolMock(@protocol(MSDocumentStore));
   self.sut.dataOperationProxy.documentStore = localStorageMock;
   MSDictionaryDocument *dictionaryDocument = [MSDictionaryDocument new];
@@ -386,7 +398,11 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // If
   self.sut.httpClientWithRetrier = OCMProtocolMock(@protocol(MSHttpClientProtocol));
-  OCMReject([self.sut.httpClientWithRetrier sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:OCMOCK_ANY data:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
+  OCMReject([self.sut.httpClientWithRetrier sendAsync:OCMOCK_ANY
+                                               method:OCMOCK_ANY
+                                              headers:OCMOCK_ANY
+                                                 data:OCMOCK_ANY
+                                    completionHandler:OCMOCK_ANY]);
   __block MSDocumentWrapper *actualDocumentWrapper;
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler called."];
 
@@ -418,7 +434,11 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // If
   self.sut.httpClientWithRetrier = OCMProtocolMock(@protocol(MSHttpClientProtocol));
-  OCMReject([self.sut.httpClientWithRetrier sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:OCMOCK_ANY data:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
+  OCMReject([self.sut.httpClientWithRetrier sendAsync:OCMOCK_ANY
+                                               method:OCMOCK_ANY
+                                              headers:OCMOCK_ANY
+                                                 data:OCMOCK_ANY
+                                    completionHandler:OCMOCK_ANY]);
   __block MSDocumentWrapper *actualDocumentWrapper;
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler called."];
 
@@ -450,7 +470,11 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // If
   self.sut.httpClientWithRetrier = OCMProtocolMock(@protocol(MSHttpClientProtocol));
-  OCMReject([self.sut.httpClientWithRetrier sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:OCMOCK_ANY data:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
+  OCMReject([self.sut.httpClientWithRetrier sendAsync:OCMOCK_ANY
+                                               method:OCMOCK_ANY
+                                              headers:OCMOCK_ANY
+                                                 data:OCMOCK_ANY
+                                    completionHandler:OCMOCK_ANY]);
   __block MSDocumentWrapper *actualDocumentWrapper;
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler called."];
 
@@ -538,7 +562,11 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // If
   self.sut.httpClientWithRetrier = OCMProtocolMock(@protocol(MSHttpClientProtocol));
-  OCMReject([self.sut.httpClientWithRetrier sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:OCMOCK_ANY data:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
+  OCMReject([self.sut.httpClientWithRetrier sendAsync:OCMOCK_ANY
+                                               method:OCMOCK_ANY
+                                              headers:OCMOCK_ANY
+                                                 data:OCMOCK_ANY
+                                    completionHandler:OCMOCK_ANY]);
   __block MSDocumentWrapper *actualDocumentWrapper;
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler called."];
 
@@ -570,7 +598,11 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // If
   self.sut.httpClientWithRetrier = OCMProtocolMock(@protocol(MSHttpClientProtocol));
-  OCMReject([self.sut.httpClientWithRetrier sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:OCMOCK_ANY data:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
+  OCMReject([self.sut.httpClientWithRetrier sendAsync:OCMOCK_ANY
+                                               method:OCMOCK_ANY
+                                              headers:OCMOCK_ANY
+                                                 data:OCMOCK_ANY
+                                    completionHandler:OCMOCK_ANY]);
   __block MSDataError *actualDataError;
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler called."];
 
@@ -603,7 +635,11 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(NotReachable);
   self.sut.reachability = reachabilityMock;
   self.sut.httpClientWithRetrier = OCMProtocolMock(@protocol(MSHttpClientProtocol));
-  OCMReject([self.sut.httpClientWithRetrier sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:OCMOCK_ANY data:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
+  OCMReject([self.sut.httpClientWithRetrier sendAsync:OCMOCK_ANY
+                                               method:OCMOCK_ANY
+                                              headers:OCMOCK_ANY
+                                                 data:OCMOCK_ANY
+                                    completionHandler:OCMOCK_ANY]);
   self.sut.dataOperationProxy.reachability = reachabilityMock;
 
   // Mock cached token result.
@@ -956,7 +992,11 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // If
   self.sut.httpClientWithRetrier = OCMProtocolMock(@protocol(MSHttpClientProtocol));
-  OCMReject([self.sut.httpClientWithRetrier sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:OCMOCK_ANY data:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
+  OCMReject([self.sut.httpClientWithRetrier sendAsync:OCMOCK_ANY
+                                               method:OCMOCK_ANY
+                                              headers:OCMOCK_ANY
+                                                 data:OCMOCK_ANY
+                                    completionHandler:OCMOCK_ANY]);
   __block MSPaginatedDocuments *actualPaginatedDocuments;
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler called."];
 
@@ -987,7 +1027,11 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // If
   self.sut.httpClientWithRetrier = OCMProtocolMock(@protocol(MSHttpClientProtocol));
-  OCMReject([self.sut.httpClientWithRetrier sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:OCMOCK_ANY data:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
+  OCMReject([self.sut.httpClientWithRetrier sendAsync:OCMOCK_ANY
+                                               method:OCMOCK_ANY
+                                              headers:OCMOCK_ANY
+                                                 data:OCMOCK_ANY
+                                    completionHandler:OCMOCK_ANY]);
   __block MSPaginatedDocuments *actualPaginatedDocuments;
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler called."];
 

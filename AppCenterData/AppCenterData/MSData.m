@@ -792,7 +792,6 @@ static dispatch_once_t onceToken;
   [super applyEnabledState:isEnabled];
   [self.httpClientNoRetrier setEnabled:isEnabled];
   [self.httpClientWithRetrier setEnabled:isEnabled];
-  
   if (isEnabled) {
     [[MSAuthTokenContext sharedInstance] addDelegate:self];
     [self enabledNotifications];
