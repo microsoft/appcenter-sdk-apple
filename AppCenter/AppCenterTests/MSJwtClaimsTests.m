@@ -92,6 +92,7 @@ static NSString *const kMSJwtFormat = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.%@"
 }
 
 - (void)testInvalidDataWithRightNumberOfParts {
+
   // If
   NSString *combinedJwt = @"this.is.invalid";
 
