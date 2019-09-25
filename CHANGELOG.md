@@ -15,7 +15,7 @@
 
 ### App Center Crashes
 
-* **[Behavior Change]** `MSCrashesDelegate` callback methods are now invoked on the main thread (`willSendErrorReport`,  `didSucceedSendingErrorReport`, and `didFailSendingErrorReport`).
+* **[Behavior change]** `MSCrashesDelegate` callback methods are now invoked on the main thread (`crashes:willSendErrorReport:`,  `crashes:didSucceedSendingErrorReport:`, and `crashes:didFailSendingErrorReport:withError:`).
 
 ### App Center Data
 
