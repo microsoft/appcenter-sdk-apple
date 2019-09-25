@@ -34,10 +34,10 @@ static NSString *const kMSJwtFormat = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.%@"
 }
 
 - (void)testNilJwt {
-  
+
   // When
   MSJwtClaims *claims = [MSJwtClaims parse:nil];
-  
+
   // Then
   XCTAssertNil(claims);
 }
@@ -91,17 +91,57 @@ static NSString *const kMSJwtFormat = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.%@"
   XCTAssertNil(claims);
 }
 
-- (void)testInvalidBase64Token {
+- (void)testUnpaddedBase64Data {
 
   // If
-  NSString *invalidTokenPart = @"invalidTokenPart";
-  NSString *combinedJwt = [NSString stringWithFormat:kMSJwtFormat, invalidTokenPart];
+  // These values are hard-coded into the JWT below.
+  NSDate *expirationAsDate = [[NSDate alloc] initWithTimeIntervalSince1970:2000000000];
+  NSString *subject = @"thesubject";
+  NSString *jwt = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0aGVzdWJqZWN0IiwiZXhwIjoyMDAwMDAwMDAwfQ.CoPAl7CUGLXBkCHe4_D2ko_q-0gWSC_"
+                  @"x6le5gZCtVJs";
+
+  // When
+  MSJwtClaims *claims = [MSJwtClaims parse:jwt];
+
+  // Then
+  XCTAssertNotNil(claims);
+  XCTAssertEqualObjects(claims.subject, subject);
+  XCTAssertEqualObjects(claims.expiration, expirationAsDate);
+}
+
+- (void)testExpOverMaxInt {
+
+  // If
+  long expiration = 190000000000;
+  NSString *userId = @"some_user_id";
+  NSDate *expirationAsDate = [[NSDate alloc] initWithTimeIntervalSince1970:expiration];
+  NSString *jsonClaims = [NSString stringWithFormat:@"{\"sub\":\"%@\",\"exp\":%li}", userId, expiration];
+  NSData *nsdata = [jsonClaims dataUsingEncoding:NSUTF8StringEncoding];
+  NSString *base64Encoded = [nsdata base64EncodedStringWithOptions:0];
+  NSString *combinedJwt = [NSString stringWithFormat:kMSJwtFormat, base64Encoded];
 
   // When
   MSJwtClaims *claims = [MSJwtClaims parse:combinedJwt];
 
   // Then
-  XCTAssertNil(claims);
+  XCTAssertNotNil(claims);
+  XCTAssertEqualObjects(claims.subject, userId);
+  XCTAssertEqualObjects(claims.expiration, expirationAsDate);
+}
+
+- (void)testInvalidJwtWithDifferentDataLengths {
+  for (unsigned int i = 0; i < 5; ++i) {
+
+    // If
+    NSString *dataSection = [@"" stringByPaddingToLength:i withString:@"a" startingAtIndex:0];
+    NSString *combinedJwt = [NSString stringWithFormat:kMSJwtFormat, dataSection];
+
+    // When
+    MSJwtClaims *claims = [MSJwtClaims parse:combinedJwt];
+
+    // Then
+    XCTAssertNil(claims);
+  }
 }
 
 - (void)testMissingParts {
