@@ -24,6 +24,7 @@ ___
 ### App Center Data
 
 * **[Breaking change]** Rename delegate method `data:didCompletePendingOperation:forDocument:withError:` from `MSRemoteOperationDelegate` to `data:didCompleteRemoteOperation:forDocumentMetadata:withError:`.
+* **[Fix]** Reduced retries on Data-related operations to fail fast and avoid the perception of calls "hanging".
 
 ___
 
