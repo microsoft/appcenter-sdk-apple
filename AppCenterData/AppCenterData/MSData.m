@@ -268,7 +268,7 @@ static dispatch_once_t onceToken;
           document:nil
           baseOptions:readOptions
           cachedTokenBlock:^(MSCachedTokenCompletionHandler handler) {
-            [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:(id<MSHttpClientProtocol>)self.httpClient
+            [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:(id<MSHttpClientProtocol>)self.httpClientNoRetrier
                                                        tokenExchangeUrl:self.tokenExchangeUrl
                                                               appSecret:self.appSecret
                                                               partition:partition
@@ -324,7 +324,7 @@ static dispatch_once_t onceToken;
           document:nil
           baseOptions:writeOptions
           cachedTokenBlock:^(MSCachedTokenCompletionHandler handler) {
-            [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:(id<MSHttpClientProtocol>)self.httpClient
+            [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:(id<MSHttpClientProtocol>)self.httpClientNoRetrier
                                                        tokenExchangeUrl:self.tokenExchangeUrl
                                                               appSecret:self.appSecret
                                                               partition:partition
@@ -371,7 +371,7 @@ static dispatch_once_t onceToken;
           document:document
           baseOptions:writeOptions
           cachedTokenBlock:^(MSCachedTokenCompletionHandler handler) {
-            [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:(id<MSHttpClientProtocol>)self.httpClient
+            [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:(id<MSHttpClientProtocol>)self.httpClientWithRetrier
                                                        tokenExchangeUrl:self.tokenExchangeUrl
                                                               appSecret:self.appSecret
                                                               partition:partition
@@ -433,7 +433,7 @@ static dispatch_once_t onceToken;
           partition:partition
           baseOptions:readOptions
           cachedTokenBlock:^(MSCachedTokenCompletionHandler handler) {
-            [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:(id<MSHttpClientProtocol>)self.httpClient
+            [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:(id<MSHttpClientProtocol>)self.httpClientNoRetrier
                                                        tokenExchangeUrl:self.tokenExchangeUrl
                                                               appSecret:self.appSecret
                                                               partition:partition
@@ -457,12 +457,13 @@ static dispatch_once_t onceToken;
 - (void)performCosmosDbOperationWithPartition:(NSString *)partition
                                    documentId:(NSString *_Nullable)documentId
                                    httpMethod:(NSString *)httpMethod
+                                   httpClient:(id<MSHttpClientProtocol>)httpClient
                                      document:(id<MSSerializableDocument> _Nullable)document
                             additionalHeaders:(NSDictionary *_Nullable)additionalHeaders
                             additionalUrlPath:(NSString *_Nullable)additionalUrlPath
                             completionHandler:(MSHttpRequestCompletionHandler)completionHandler {
   [MSTokenExchange
-      performDbTokenAsyncOperationWithHttpClient:(id<MSHttpClientProtocol>)self.httpClient
+      performDbTokenAsyncOperationWithHttpClient:httpClient
                                 tokenExchangeUrl:self.tokenExchangeUrl
                                        appSecret:self.appSecret
                                        partition:partition
@@ -473,8 +474,7 @@ static dispatch_once_t onceToken;
                                    completionHandler(nil, nil, error);
                                    return;
                                  }
-
-                                 [MSCosmosDb performCosmosDbAsyncOperationWithHttpClient:(MSHttpClient * _Nonnull) self.httpClient
+                                 [MSCosmosDb performCosmosDbAsyncOperationWithHttpClient:httpClient
                                                                              tokenResult:(MSTokenResult *)tokensResponse.tokens.firstObject
                                                                               documentId:documentId
                                                                               httpMethod:httpMethod
@@ -496,6 +496,7 @@ static dispatch_once_t onceToken;
   [self performCosmosDbOperationWithPartition:partition
                                    documentId:documentId
                                    httpMethod:kMSHttpMethodGet
+                                   httpClient:self.httpClientNoRetrier
                                      document:nil
                             additionalHeaders:nil
                             additionalUrlPath:documentId
@@ -556,6 +557,7 @@ static dispatch_once_t onceToken;
       performCosmosDbOperationWithPartition:partition
                                  documentId:documentId
                                  httpMethod:kMSHttpMethodPost
+                                 httpClient:self.httpClientWithRetrier
                                    document:(id<MSSerializableDocument>)document
                           additionalHeaders:additionalHeaders
                           additionalUrlPath:nil
@@ -592,6 +594,7 @@ static dispatch_once_t onceToken;
   [self performCosmosDbOperationWithPartition:partition
                                    documentId:nil
                                    httpMethod:kMSHttpMethodGet
+                                   httpClient:self.httpClientNoRetrier
                                      document:nil
                             additionalHeaders:additionalHeaders
                             additionalUrlPath:nil
@@ -661,6 +664,7 @@ static dispatch_once_t onceToken;
   [self performCosmosDbOperationWithPartition:partition
                                    documentId:documentId
                                    httpMethod:kMSHttpMethodDelete
+                                   httpClient:self.httpClientWithRetrier
                                      document:nil
                             additionalHeaders:nil
                             additionalUrlPath:documentId
@@ -755,7 +759,8 @@ static dispatch_once_t onceToken;
   [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionTargetToken:token fromApplication:fromApplication];
   if (appSecret) {
     // CosmosDb doesn't accept compressed payload. Therefore, it needs to be disabled.
-    self.httpClient = [[MSHttpClient alloc] initWithCompressionEnabled:NO];
+    self.httpClientWithRetrier = [[MSHttpClient alloc] initWithCompressionEnabled:NO];
+    self.httpClientNoRetrier = [[MSHttpClient alloc] initNoRetriesWithCompressionEnabled:NO];
   }
   MSLogVerbose([MSData logTag], @"Started Data service.");
 }
@@ -785,7 +790,9 @@ static dispatch_once_t onceToken;
 
 - (void)applyEnabledState:(BOOL)isEnabled {
   [super applyEnabledState:isEnabled];
-  [self.httpClient setEnabled:isEnabled];
+  [self.httpClientNoRetrier setEnabled:isEnabled];
+  [self.httpClientWithRetrier setEnabled:isEnabled];
+  
   if (isEnabled) {
     [[MSAuthTokenContext sharedInstance] addDelegate:self];
     [self enabledNotifications];
@@ -838,7 +845,7 @@ static dispatch_once_t onceToken;
   // Process pending operations.
   @synchronized(self) {
     [MSTokenExchange
-        performDbTokenAsyncOperationWithHttpClient:(id<MSHttpClientProtocol>)self.httpClient
+        performDbTokenAsyncOperationWithHttpClient:(id<MSHttpClientProtocol>)self.httpClientNoRetrier
                                   tokenExchangeUrl:self.tokenExchangeUrl
                                          appSecret:self.appSecret
                                          partition:kMSDataUserDocumentsPartition
