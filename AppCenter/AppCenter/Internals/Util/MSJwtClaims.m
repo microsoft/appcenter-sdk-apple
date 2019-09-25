@@ -39,7 +39,7 @@ static NSString *const kMSExpirationClaim = @"exp";
    * Learn more here: https://tools.ietf.org/html/rfc4648#section-4.
    */
   if ((base64ClaimsPart.length % 4) == 1) {
-    MSLogError([MSAppCenter logTag], @"Failed to parse JWT, base64 data is not a valid length.");
+    MSLogError([MSAppCenter logTag], @"Failed to parse JWT; invalid base64 data length.");
     return nil;
   }
   unsigned long targetLength = base64ClaimsPart.length + (4 - base64ClaimsPart.length % 4) % 4;
