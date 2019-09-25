@@ -84,7 +84,7 @@ static NSString *const kMSJwtFormat = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.%@"
   // When
   [MSAppCenter setAuthTokenDelegate:delegateMock];
   [self.authTokenContextMock checkIfTokenNeedsToBeRefreshed:validityInfo];
-  
+
   // Then
   OCMVerifyAll(delegateMock);
 }

@@ -34,10 +34,10 @@ static NSString *const kMSJwtFormat = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.%@"
 }
 
 - (void)testNilJwt {
-  
+
   // When
   MSJwtClaims *claims = [MSJwtClaims parse:nil];
-  
+
   // Then
   XCTAssertNil(claims);
 }
@@ -108,7 +108,8 @@ static NSString *const kMSJwtFormat = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.%@"
   // These values are hard-coded into the JWT below.
   NSDate *expirationAsDate = [[NSDate alloc] initWithTimeIntervalSince1970:2000000000];
   NSString *subject = @"thesubject";
-  NSString *jwt = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0aGVzdWJqZWN0IiwiZXhwIjoyMDAwMDAwMDAwfQ.CoPAl7CUGLXBkCHe4_D2ko_q-0gWSC_x6le5gZCtVJs";
+  NSString *jwt = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0aGVzdWJqZWN0IiwiZXhwIjoyMDAwMDAwMDAwfQ.CoPAl7CUGLXBkCHe4_D2ko_q-0gWSC_"
+                  @"x6le5gZCtVJs";
 
   // When
   MSJwtClaims *claims = [MSJwtClaims parse:jwt];

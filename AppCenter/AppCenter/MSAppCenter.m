@@ -202,11 +202,10 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
   MSAuthTokenContext *authTokenContext = [MSAuthTokenContext sharedInstance];
   @synchronized(self.authTokenContextDelegateWrapper) {
     if (authTokenDelegate != nil) {
-      self.authTokenContextDelegateWrapper = [[MSAuthTokenContextDelegateWrapper alloc]
-           initWithAuthTokenDelegate:authTokenDelegate
-          authTokenCompletionHandler:^(NSString *jwt) {
-            [[MSAppCenter sharedInstance] setAuthToken:jwt];
-          }];
+      self.authTokenContextDelegateWrapper = [[MSAuthTokenContextDelegateWrapper alloc] initWithAuthTokenDelegate:authTokenDelegate
+                                                                                       authTokenCompletionHandler:^(NSString *jwt) {
+                                                                                         [[MSAppCenter sharedInstance] setAuthToken:jwt];
+                                                                                       }];
       MSLogInfo(MSAppCenter.logTag, @"Setting up auth token refresh listener.");
       [authTokenContext preventResetAuthTokenAfterStart];
       [authTokenContext addDelegate:self.authTokenContextDelegateWrapper];
