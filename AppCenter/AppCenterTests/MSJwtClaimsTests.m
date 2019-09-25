@@ -153,6 +153,20 @@ static NSString *const kMSJwtFormat = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.%@"
   XCTAssertNil(claims);
 }
 
+- (void)testJwtWithDataLength1 {
+
+  // If
+  NSString *invalidTokenPart = @"a.b.c";
+  NSString *combinedJwt = [NSString stringWithFormat:kMSJwtFormat, invalidTokenPart];
+
+  // When
+  MSJwtClaims *claims = [MSJwtClaims parse:combinedJwt];
+
+  // Then
+  XCTAssertNil(claims);
+}
+
+
 - (void)testMissingParts {
 
   // If
