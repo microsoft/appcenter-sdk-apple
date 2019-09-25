@@ -371,7 +371,7 @@ static dispatch_once_t onceToken;
           document:document
           baseOptions:writeOptions
           cachedTokenBlock:^(MSCachedTokenCompletionHandler handler) {
-            [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:(id<MSHttpClientProtocol>)self.httpClientWithRetrier
+            [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:(id<MSHttpClientProtocol>)self.httpClientNoRetrier
                                                        tokenExchangeUrl:self.tokenExchangeUrl
                                                               appSecret:self.appSecret
                                                               partition:partition
@@ -383,6 +383,7 @@ static dispatch_once_t onceToken;
             [self upsertFromCosmosDbWithPartition:partition
                                        documentId:documentID
                                          document:document
+                                       httpClient:self.httpClientNoRetrier
                                 additionalHeaders:additionalHeaders
                                 completionHandler:handler];
           }
@@ -528,6 +529,7 @@ static dispatch_once_t onceToken;
 - (void)upsertFromCosmosDbWithPartition:(NSString *)partition
                              documentId:(NSString *)documentId
                                document:(id<MSSerializableDocument>)document
+                             httpClient:(id<MSHttpClientProtocol>)httpClient
                       additionalHeaders:(NSDictionary *)additionalHeaders
                       completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
   // Perform the operation.
@@ -557,7 +559,7 @@ static dispatch_once_t onceToken;
       performCosmosDbOperationWithPartition:partition
                                  documentId:documentId
                                  httpMethod:kMSHttpMethodPost
-                                 httpClient:self.httpClientWithRetrier
+                                 httpClient:httpClient
                                    document:(id<MSSerializableDocument>)document
                           additionalHeaders:additionalHeaders
                           additionalUrlPath:nil
@@ -897,6 +899,7 @@ static dispatch_once_t onceToken;
                                              upsertFromCosmosDbWithPartition:kMSDataUserDocumentsPartition
                                                                   documentId:operation.documentId
                                                                     document:dictionaryDocument
+                                                                  httpClient:self.httpClientWithRetrier
                                                            additionalHeaders:additionalHeader
                                                            completionHandler:^(MSDocumentWrapper *_Nonnull documentWrapper) {
                                                              [self
