@@ -10,6 +10,10 @@ ___
 
 ## Version 2.4.0
 
+### App Center
+
+* **[Feature]** App Center now supports Carthage integration.
+
 ### App Center Auth
 
 * **[Fix]** Fix token storage initialization if services are started via `[MSAppCenter startService:]` method.
