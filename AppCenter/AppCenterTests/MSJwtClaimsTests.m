@@ -91,17 +91,6 @@ static NSString *const kMSJwtFormat = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.%@"
   XCTAssertNil(claims);
 }
 
-- (void)testInvalidDataWithRightNumberOfParts {
-  // If
-  NSString *combinedJwt = @"this.is.invalid";
-
-  // When
-  MSJwtClaims *claims = [MSJwtClaims parse:combinedJwt];
-
-  // Then
-  XCTAssertNil(claims);
-}
-
 - (void)testUnpaddedBase64Data {
 
   // If
@@ -140,32 +129,20 @@ static NSString *const kMSJwtFormat = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.%@"
   XCTAssertEqualObjects(claims.expiration, expirationAsDate);
 }
 
-- (void)testInvalidBase64Token {
+- (void)testInvalidJwtWithDifferentDataLengths {
+  for (unsigned int i = 0; i < 5; ++i) {
 
-  // If
-  NSString *invalidTokenPart = @"invalidTokenPart";
-  NSString *combinedJwt = [NSString stringWithFormat:kMSJwtFormat, invalidTokenPart];
+    // If
+    NSString *dataSection = [@"" stringByPaddingToLength:i withString:@"a" startingAtIndex:0];
+    NSString *combinedJwt = [NSString stringWithFormat:kMSJwtFormat, dataSection];
 
-  // When
-  MSJwtClaims *claims = [MSJwtClaims parse:combinedJwt];
+    // When
+    MSJwtClaims *claims = [MSJwtClaims parse:combinedJwt];
 
-  // Then
-  XCTAssertNil(claims);
+    // Then
+    XCTAssertNil(claims);
+  }
 }
-
-- (void)testJwtWithDataLength1 {
-
-  // If
-  NSString *invalidTokenPart = @"a.b.c";
-  NSString *combinedJwt = [NSString stringWithFormat:kMSJwtFormat, invalidTokenPart];
-
-  // When
-  MSJwtClaims *claims = [MSJwtClaims parse:combinedJwt];
-
-  // Then
-  XCTAssertNil(claims);
-}
-
 
 - (void)testMissingParts {
 
