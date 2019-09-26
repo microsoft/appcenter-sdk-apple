@@ -39,6 +39,7 @@ static dispatch_once_t onceToken;
 @implementation MSAuth
 
 @synthesize channelUnitConfiguration = _channelUnitConfiguration;
+@synthesize clientApplication = _clientApplication;
 
 #pragma mark - Service initialization
 
@@ -593,6 +594,17 @@ static dispatch_once_t onceToken;
       [[MSAuthTokenContext sharedInstance] setAuthToken:nil withAccountId:nil expiresOn:nil];
     }
   }
+}
+
+- (void)setClientApplication:(MSALPublicClientApplication *)clientApplication {
+  _clientApplication = clientApplication;
+  if (clientApplication) {
+    [[MSAuthTokenContext sharedInstance] clearLastRefreshedCache];
+  }
+}
+
+- (MSALPublicClientApplication *)clientApplication {
+  return _clientApplication;
 }
 
 #pragma mark - MSAuthTokenContextDelegate

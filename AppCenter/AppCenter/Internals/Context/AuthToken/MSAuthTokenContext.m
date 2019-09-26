@@ -130,7 +130,7 @@ static NSUInteger const kMSAccountIdLengthInHomeAccount = 36;
     [self.delegates addObject:delegate];
 
     // Reset the last refreshed auth token so the new delegate can access it, even if a refresh was already attempted.
-    self.lastRefreshedToken = nil;
+    [self clearLastRefreshedCache];
   }
 }
 
@@ -259,6 +259,13 @@ static NSUInteger const kMSAccountIdLengthInHomeAccount = 36;
     }
   }
 }
+
+- (void)clearLastRefreshedCache {
+  @synchronized (self) {
+    self.lastRefreshedToken = nil;
+  }
+}
+
 
 - (void)finishInitialize {
   if (!self.resetAuthTokenRequired) {
