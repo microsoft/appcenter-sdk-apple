@@ -23,7 +23,7 @@ class TodayViewController: NSViewController, NCWidgetProviding, MSCrashesDelegat
         extensionLabel.stringValue = "Run #\(dateString)"
         MSAppCenter.setLogLevel(.verbose)
         MSCrashes.setDelegate(self)
-        MSAppCenter.start("aca58ea0-d791-4409-989d-2efec0283800", withServices: [MSCrashes.self])
+        MSAppCenter.start("0b559191-f276-4e9d-9b70-4dadd5886c4e", withServices: [MSCrashes.self])
         crashes = CrashLoader.loadAllCrashes(withCategories: false) as! [MSCrash]
         popupButton.menu?.removeAllItems()
         for (index, crash) in crashes.enumerated() {
