@@ -245,7 +245,7 @@ static NSUInteger const kMSAccountIdLengthInHomeAccount = 36;
 
     // If the same token has already been refreshed, return to avoid multiple invocations on the same token.
     if ([tokenValidityInfo.authToken isEqual:self.lastRefreshedToken]) {
-      //return;
+      // return;
     }
     self.lastRefreshedToken = lastEntry.authToken;
 
