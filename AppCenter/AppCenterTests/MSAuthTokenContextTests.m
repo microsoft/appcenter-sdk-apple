@@ -583,6 +583,37 @@
   [sut stopMocking];
 }
 
+- (void)testClearLastRefreshedTokenCache {
+  // If
+  NSString *expectedAuthToken = @"authToken1";
+  NSString *expectedAccountId = @"account1";
+  NSDate *startDate = [NSDate dateWithTimeIntervalSinceNow:-((60.0f * 60.0f * 24.0f) * 2)];
+  NSDate *expiresDate = [NSDate dateWithTimeIntervalSinceNow:+500];
+  MSAuthTokenValidityInfo *authToken = [[MSAuthTokenValidityInfo alloc] initWithAuthToken:expectedAuthToken
+                                                                                startTime:startDate
+                                                                                  endTime:expiresDate];
+  [self.sut setAuthToken:expectedAuthToken withAccountId:expectedAccountId expiresOn:expiresDate];
+  id<MSAuthTokenContextDelegate> delegateMock = OCMProtocolMock(@protocol(MSAuthTokenContextDelegate));
+  [self.sut addDelegate:delegateMock];
+  __block int callCount = 0;
+  OCMStub([delegateMock authTokenContext:OCMOCK_ANY refreshAuthTokenForAccountId:expectedAccountId]).andDo(^(__unused NSInvocation *invocation) {
+    ++callCount;
+  });
+
+  // When
+  [self.sut checkIfTokenNeedsToBeRefreshed:authToken];
+
+  // Then
+  XCTAssertEqual(callCount, 1);
+
+  // When
+  [self.sut clearLastRefreshedCache];
+  [self.sut checkIfTokenNeedsToBeRefreshed:authToken];
+
+  // Then
+  XCTAssertEqual(callCount, 2);
+}
+
 - (NSArray<MSAuthTokenInfo *> *)decryptedHistory {
   NSData *encryptedData = [self.settingsMock objectForKey:kMSAuthTokenHistoryKey];
   NSData *decryptedData = [self.sut.encrypter decryptData:encryptedData];
