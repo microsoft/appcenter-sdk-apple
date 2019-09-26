@@ -35,8 +35,8 @@ static NSString *const kMSExpirationClaim = @"exp";
   NSString *base64ClaimsPart = parts[1];
 
   /*
-   * NSData's base64 parser expects the length to be padded with '=' to indicate the size of the last "chunk" (which can be 2, 3, or 4 bytes).
-   * Learn more here: https://tools.ietf.org/html/rfc4648#section-4.
+   * NSData's base64 parser expects the length to be padded with '=' to indicate the size of the last "chunk" (which can be 2, 3, or 4
+   * bytes). Learn more here: https://tools.ietf.org/html/rfc4648#section-4.
    */
   if ((base64ClaimsPart.length % 4) == 1) {
     MSLogError([MSAppCenter logTag], @"Failed to parse JWT; invalid base64 data length.");
