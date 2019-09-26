@@ -572,6 +572,7 @@ static dispatch_once_t onceToken;
     }
     if (!self.clientApplication) {
       MSLogWarning([MSAuth logTag], @"MSAL client is not configured yet. The token will be refreshed on the next re-try.");
+      [[MSAuthTokenContext sharedInstance] clearLastRefreshedCache];
       return;
     }
     MSALAccount *account = [self retrieveAccountWithAccountId:accountId];
@@ -594,17 +595,6 @@ static dispatch_once_t onceToken;
       [[MSAuthTokenContext sharedInstance] setAuthToken:nil withAccountId:nil expiresOn:nil];
     }
   }
-}
-
-- (void)setClientApplication:(MSALPublicClientApplication *)clientApplication {
-  _clientApplication = clientApplication;
-  if (clientApplication) {
-    [[MSAuthTokenContext sharedInstance] clearLastRefreshedCache];
-  }
-}
-
-- (MSALPublicClientApplication *)clientApplication {
-  return _clientApplication;
 }
 
 #pragma mark - MSAuthTokenContextDelegate
