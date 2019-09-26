@@ -23,6 +23,17 @@
 		047D13721EAFBDBE00D699BA /* AppCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 047D13711EAFBDBE00D699BA /* AppCenterDistributeResources.bundle */; };
 		048933631F8D395A00C38A87 /* Sasquatch.strings in Resources */ = {isa = PBXBuildFile; fileRef = 041A4BAF1F8C28A3009E1B6C /* Sasquatch.strings */; };
 		04A1DB34223B65EB006A48D6 /* AuthenticationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04A1DB33223B65EB006A48D6 /* AuthenticationServices.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		04C5164F233C122C001C9011 /* Auth0.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04C5164E233C122C001C9011 /* Auth0.framework */; };
+		04C51650233C122C001C9011 /* Auth0.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04C5164E233C122C001C9011 /* Auth0.framework */; };
+		04C51651233C122C001C9011 /* Auth0.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04C5164E233C122C001C9011 /* Auth0.framework */; };
+		04C51653233C14D1001C9011 /* Auth0.plist in Resources */ = {isa = PBXBuildFile; fileRef = 04C51652233C14D1001C9011 /* Auth0.plist */; };
+		04C51654233C14D1001C9011 /* Auth0.plist in Resources */ = {isa = PBXBuildFile; fileRef = 04C51652233C14D1001C9011 /* Auth0.plist */; };
+		04C51655233C14D1001C9011 /* Auth0.plist in Resources */ = {isa = PBXBuildFile; fileRef = 04C51652233C14D1001C9011 /* Auth0.plist */; };
+		04C5166A233C35CC001C9011 /* Auth0.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 04C5164E233C122C001C9011 /* Auth0.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		04C5166E233C3644001C9011 /* SimpleKeychain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04C5166D233C3644001C9011 /* SimpleKeychain.framework */; };
+		04C5166F233C3644001C9011 /* SimpleKeychain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04C5166D233C3644001C9011 /* SimpleKeychain.framework */; };
+		04C51670233C3644001C9011 /* SimpleKeychain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04C5166D233C3644001C9011 /* SimpleKeychain.framework */; };
+		04C51671233C366B001C9011 /* SimpleKeychain.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 04C5166D233C3644001C9011 /* SimpleKeychain.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		04E2836123399485000FBACB /* AuthProviderDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E2835E23399485000FBACB /* AuthProviderDelegate.swift */; };
 		04E2836223399485000FBACB /* AuthProviderDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E2835E23399485000FBACB /* AuthProviderDelegate.swift */; };
 		04E2836323399485000FBACB /* AuthProviderDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E2835E23399485000FBACB /* AuthProviderDelegate.swift */; };
@@ -704,6 +715,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				04C51671233C366B001C9011 /* SimpleKeychain.framework in CopyFiles */,
+				04C5166A233C35CC001C9011 /* Auth0.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -859,6 +872,9 @@
 		047D13711EAFBDBE00D699BA /* AppCenterDistributeResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = AppCenterDistributeResources.bundle; path = "../AppCenter-SDK-Apple/iOS/AppCenterDistributeResources.bundle"; sourceTree = "<group>"; };
 		0482105C1FD0B611006824F7 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/Sasquatch.strings; sourceTree = "<group>"; };
 		04A1DB33223B65EB006A48D6 /* AuthenticationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AuthenticationServices.framework; path = System/Library/Frameworks/AuthenticationServices.framework; sourceTree = SDKROOT; };
+		04C5164E233C122C001C9011 /* Auth0.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Auth0.framework; path = ../Vendor/iOS/Auth0/Auth0.framework; sourceTree = "<group>"; };
+		04C51652233C14D1001C9011 /* Auth0.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Auth0.plist; sourceTree = "<group>"; };
+		04C5166D233C3644001C9011 /* SimpleKeychain.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SimpleKeychain.framework; path = ../Vendor/iOS/Auth0/SimpleKeychain.framework; sourceTree = "<group>"; };
 		04E2835E23399485000FBACB /* AuthProviderDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthProviderDelegate.swift; sourceTree = "<group>"; };
 		352A3E7320F801A900D09CF0 /* EventPropertiesTableSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventPropertiesTableSection.swift; sourceTree = "<group>"; };
 		35396A7720F95A9C00A091E0 /* MSTransmissionTargetsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSTransmissionTargetsViewController.swift; sourceTree = "<group>"; };
@@ -1010,8 +1026,10 @@
 				84226D321E89301B00798417 /* AppCenter.framework in Frameworks */,
 				0459924821F0050B00BD3F82 /* AppCenterAuth.framework in Frameworks */,
 				84226D331E89301B00798417 /* AppCenterAnalytics.framework in Frameworks */,
+				04C5166F233C3644001C9011 /* SimpleKeychain.framework in Frameworks */,
 				84226D341E89301B00798417 /* AppCenterCrashes.framework in Frameworks */,
 				C25DAE3F22280B150073B86A /* AppCenterData.framework in Frameworks */,
+				04C51650233C122C001C9011 /* Auth0.framework in Frameworks */,
 				84226D351E89301B00798417 /* AppCenterDistribute.framework in Frameworks */,
 				046790431E8DA7E90033FDEC /* AppCenterPush.framework in Frameworks */,
 			);
@@ -1030,7 +1048,9 @@
 				C2614463230FE88A00D65EBF /* AppCenterPush.framework in Frameworks */,
 				04A1DB34223B65EB006A48D6 /* AuthenticationServices.framework in Frameworks */,
 				B20AE48A21028E3C00A1A195 /* libz.tbd in Frameworks */,
+				04C51651233C122C001C9011 /* Auth0.framework in Frameworks */,
 				B20AE48821028E3300A1A195 /* libc++.tbd in Frameworks */,
+				04C51670233C3644001C9011 /* SimpleKeychain.framework in Frameworks */,
 				B20AE39521027D6200A1A195 /* CrashLibIOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1058,8 +1078,10 @@
 				B2A4CFA1210A6E6900199B4F /* AppCenter.framework in Frameworks */,
 				0459924721F0050B00BD3F82 /* AppCenterAuth.framework in Frameworks */,
 				B2A4CFA2210A6E6900199B4F /* AppCenterAnalytics.framework in Frameworks */,
+				04C5166E233C3644001C9011 /* SimpleKeychain.framework in Frameworks */,
 				B2A4CFA3210A6E6900199B4F /* AppCenterCrashes.framework in Frameworks */,
 				C25DAE3E22280B150073B86A /* AppCenterData.framework in Frameworks */,
+				04C5164F233C122C001C9011 /* Auth0.framework in Frameworks */,
 				B2A4CFA4210A6E6900199B4F /* AppCenterDistribute.framework in Frameworks */,
 				B2A4CFA5210A6E6900199B4F /* AppCenterPush.framework in Frameworks */,
 			);
@@ -1101,6 +1123,7 @@
 		04E2830F23398DEC000FBACB /* Auth */ = {
 			isa = PBXGroup;
 			children = (
+				04C51652233C14D1001C9011 /* Auth0.plist */,
 				04E2835E23399485000FBACB /* AuthProviderDelegate.swift */,
 				04238DF82339964C00D674C9 /* Auth0Provider.swift */,
 				04238E3923399B7700D674C9 /* FirebaseProvider.swift */,
@@ -1526,6 +1549,8 @@
 		F8FE732D21073042005C6A74 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				04C5164E233C122C001C9011 /* Auth0.framework */,
+				04C5166D233C3644001C9011 /* SimpleKeychain.framework */,
 				F8669FB72195B6A2003933A8 /* sqlite3.c */,
 			);
 			name = Vendor;
@@ -2256,6 +2281,7 @@
 				84226C8A1E8908CA00798417 /* Assets.xcassets in Resources */,
 				B2E011FC21091F09003F4A5B /* MSAnalyticsTransmissionTargetSelectorViewCell.xib in Resources */,
 				F8AA9F3A2164F9A9009104E3 /* MSAnalyticsTypedPropertyTableViewCell.xib in Resources */,
+				04C51654233C14D1001C9011 /* Auth0.plist in Resources */,
 				F809D5051FC6DD80005E0F83 /* LaunchScreen.storyboard in Resources */,
 				84D63FF91E8BAA90004C9F86 /* Main.storyboard in Resources */,
 				35ABB5D320FEAD8F002E6841 /* Assets.xcassets in Resources */,
@@ -2272,6 +2298,7 @@
 				B20AE39F21027D6200A1A195 /* LaunchScreen.storyboard in Resources */,
 				F8FE7330210730EE005C6A74 /* AppCenterDistributeResources.bundle in Resources */,
 				F8AA9F3B2164F9AA009104E3 /* MSAnalyticsTypedPropertyTableViewCell.xib in Resources */,
+				04C51655233C14D1001C9011 /* Auth0.plist in Resources */,
 				B20AE3A121027D6200A1A195 /* Main.storyboard in Resources */,
 				B2E011FD21091F0A003F4A5B /* MSAnalyticsTransmissionTargetSelectorViewCell.xib in Resources */,
 				B2E011F921091F00003F4A5B /* MSAnalyticsPropertyTableViewCell.xib in Resources */,
@@ -2304,6 +2331,7 @@
 				B2A4CFA9210A6E6900199B4F /* Assets.xcassets in Resources */,
 				B2A4CFAA210A6E6900199B4F /* MSAnalyticsTransmissionTargetSelectorViewCell.xib in Resources */,
 				F8AA9F392164F9A8009104E3 /* MSAnalyticsTypedPropertyTableViewCell.xib in Resources */,
+				04C51653233C14D1001C9011 /* Auth0.plist in Resources */,
 				B2A4CFAB210A6E6900199B4F /* LaunchScreen.storyboard in Resources */,
 				B2A4CFAC210A6E6900199B4F /* Main.storyboard in Resources */,
 				B2A4CFAD210A6E6900199B4F /* Assets.xcassets in Resources */,

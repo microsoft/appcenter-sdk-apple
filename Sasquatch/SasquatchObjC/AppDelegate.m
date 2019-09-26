@@ -32,6 +32,8 @@
 @import AppCenterPush;
 #endif
 
+@import Auth0;
+
 enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
 
 @interface AppDelegate () <
@@ -179,6 +181,14 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
 
 - (void)applicationWillTerminate:(UIApplication *)application {
 }
+
+#if GCC_PREPROCESSOR_MACRO_PUPPET
+- (BOOL)application:(UIApplication *)app
+            openURL:(nonnull NSURL *)url
+            options:(nonnull NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options {
+  return [A0WebAuth resumeAuthWithURL:url options:options];
+}
+#endif
 
 #pragma mark - Private
 
