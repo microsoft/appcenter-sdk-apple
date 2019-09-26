@@ -15,13 +15,22 @@
 - (instancetype)init;
 
 /**
- * Creates an instance of MSHttpClient.
+ * Creates an instance of MSHttpClient with default retry logic.
  *
  * @param compressionEnabled Enable or disable payload compression.
  *
  * @return A new instance of MSHttpClient.
  */
 - (instancetype)initWithCompressionEnabled:(BOOL)compressionEnabled;
+
+/**
+ * Creates an instance of MSHttpClient with no retry logic.
+ *
+ * @param compressionEnabled Enable or disable payload compression.
+ *
+ * @return A new instance of MSHttpClient.
+ */
+- (instancetype)initNoRetriesWithCompressionEnabled:(BOOL)compressionEnabled;
 
 /**
  * Creates an instance of MSHttpClient.
