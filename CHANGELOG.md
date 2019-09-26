@@ -6,6 +6,9 @@
 
 * **[Feature]** iOS extensions support.
 
+### App Center Data
+
+* **[Fix]** Reduce retries on Data-related operations to fail fast and avoid the perception of calls "hanging".
 ___
 
 ## Version 2.4.0
