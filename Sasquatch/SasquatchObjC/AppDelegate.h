@@ -3,13 +3,18 @@
 
 #import <UIKit/UIKit.h>
 
-@class AuthProviderProtocol;
+NS_ASSUME_NONNULL_BEGIN
+
+@protocol AuthProviderDelegate;
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property(strong, nonatomic) UIWindow *window;
-@property(nonatomic) AuthProviderProtocol *authProvider;
+
+@property(nonatomic, nullable) id<AuthProviderDelegate> authProvider;
 
 - (void)requestLocation;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -4,7 +4,7 @@
 import Foundation
 import AppCenter
 
-protocol AuthProviderDelegate : MSAuthTokenDelegate {
-  func signIn() -> Void;
+@objc protocol AuthProviderDelegate : MSAuthTokenDelegate {
+  func signIn(_ completionHandler: @escaping (MSUserInformation?, Error?) -> Void) -> Void;
   func signOut() -> Void;
 }

@@ -194,9 +194,9 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
 
 - (NSArray *)setUpAuthForAppSecret:(NSString *)appSecret withServices:(NSArray<Class> *)services {
   if ([appSecret isEqualToString:kMSPuppetAuth0AppSecret]) {
-    self.authProvider = (AuthProviderProtocol *)[Auth0Provider new];
+    self.authProvider = [Auth0Provider new];
   } else if ([appSecret isEqualToString:kMSPuppetFirebaseAppSecret]) {
-    self.authProvider = (AuthProviderProtocol *)[FirebaseProvider new];
+    self.authProvider = [FirebaseProvider new];
   } else {
     return services;
   }

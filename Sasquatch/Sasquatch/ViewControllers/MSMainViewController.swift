@@ -121,22 +121,31 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
   }
 
   @IBAction func authSignIn(_ sender: UIButton) {
-    appCenter.signIn { (userInformation, error) in
+    let block: (MSUserInformation?, Error?) -> Void = { (userInformation, error) in
       self.userDefaultStatus = false
       self.userInformation = userInformation
       DispatchQueue.main.async {
         self.updateViewState()
       }
     }
+    if let authProvider = (UIApplication.shared.delegate as! AppDelegate).authProvider {
+      authProvider.signIn(block)
+    } else {
+      appCenter.signIn(block)
+    }
   }
 
   @IBAction func authSignOut(_ sender: UIButton) {
-    appCenter.signOut()
+    if let authProvider = (UIApplication.shared.delegate as! AppDelegate).authProvider {
+      authProvider.signOut()
+    } else {
+      appCenter.signOut()
+    }
     self.userDefaultStatus = false
     self.userInformation = nil
     updateViewState()
   }
-  
+
   func updateViewState() {
     self.appCenterEnabledSwitch.isOn = appCenter.isAppCenterEnabled()
     self.pushEnabledSwitch.isOn = appCenter.isPushEnabled()

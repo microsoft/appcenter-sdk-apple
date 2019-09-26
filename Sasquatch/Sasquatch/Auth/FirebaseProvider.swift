@@ -4,7 +4,8 @@
 import Foundation
 
 class FirebaseProvider : NSObject, AuthProviderDelegate {
-  func signIn() {
+  func signIn(_ completionHandler: @escaping (MSUserInformation?, Error?) -> Void) {
+
   }
 
   func signOut() {
