@@ -92,11 +92,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)preventResetAuthTokenAfterStart;
 
-/**
- * Manually forces the last refresh token to be nil. This will effectively force refresh on the next attempt.
- */
-- (void)clearLastRefreshedCache;
-
 @end
 
 NS_ASSUME_NONNULL_END

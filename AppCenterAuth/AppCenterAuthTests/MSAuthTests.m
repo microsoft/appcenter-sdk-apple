@@ -1383,7 +1383,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [authTokenContextMock stopMocking];
 }
 
-- (void)testRefreshRetriedAfterMsalConfigured {
+- (void)testSignOutIfRefreshWithNoMsalConfiguration {
 
   // If
   NSString *fakeAccountId = @"accountId";
@@ -1400,24 +1400,17 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   self.sut.authConfig.authScope = @"fake";
   id authTokenContextMock = OCMPartialMock([MSAuthTokenContext sharedInstance]);
   OCMStub([authTokenContextMock sharedInstance]).andReturn(authTokenContextMock);
-  __block int count = 0;
-  OCMStub([self.clientApplicationMock accountForIdentifier:OCMOCK_ANY error:[OCMArg anyObjectRef]])
-      .andDo(^(NSInvocation *__unused invocation) {
-        count++;
-      });
 
   // If MSAL client not configured yet.
   self.sut.clientApplication = nil;
 
   // When
   [[MSAuthTokenContext sharedInstance] checkIfTokenNeedsToBeRefreshed:fakeValidityInfo];
-
-  // MSAL client configured.
-  self.sut.clientApplication = self.clientApplicationMock;
-  [[MSAuthTokenContext sharedInstance] checkIfTokenNeedsToBeRefreshed:fakeValidityInfo];
+  MSAuthTokenInfo *actualAuthTokenInfo = [[[MSAuthTokenContext sharedInstance] authTokenHistory] lastObject];
 
   // Then
-  assertThatInt(count, equalToInt(1));
+  XCTAssertNil(actualAuthTokenInfo.authToken);
+  XCTAssertNil(actualAuthTokenInfo.accountId);
 
   // Clear
   [fakeValidityInfo stopMocking];

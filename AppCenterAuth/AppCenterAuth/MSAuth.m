@@ -571,8 +571,8 @@ static dispatch_once_t onceToken;
       return;
     }
     if (!self.clientApplication) {
-      MSLogWarning([MSAuth logTag], @"MSAL client is not configured yet. The token will be refreshed on the next re-try.");
-      [[MSAuthTokenContext sharedInstance] clearLastRefreshedCache];
+      MSLogWarning([MSAuth logTag], @"MSAL client is not configured. Signing out.");
+      [self signOut];
       return;
     }
     MSALAccount *account = [self retrieveAccountWithAccountId:accountId];

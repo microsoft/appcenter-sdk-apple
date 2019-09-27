@@ -52,7 +52,7 @@ static NSUInteger const kMSAccountIdLengthInHomeAccount = 36;
   BOOL isNewUser = NO;
   @synchronized(self) {
 
-    // If a nil authToken is passed with non-nil paarmeters, reset them.
+    // If a nil authToken is passed with non-nil parameters, reset them.
     if (!authToken) {
       accountId = nil;
       expiresOn = nil;
@@ -128,9 +128,6 @@ static NSUInteger const kMSAccountIdLengthInHomeAccount = 36;
 - (void)addDelegate:(id<MSAuthTokenContextDelegate>)delegate {
   @synchronized(self) {
     [self.delegates addObject:delegate];
-
-    // Reset the last refreshed auth token so the new delegate can access it, even if a refresh was already attempted.
-    [self clearLastRefreshedCache];
   }
 }
 
@@ -259,13 +256,6 @@ static NSUInteger const kMSAccountIdLengthInHomeAccount = 36;
     }
   }
 }
-
-- (void)clearLastRefreshedCache {
-  @synchronized (self) {
-    self.lastRefreshedToken = nil;
-  }
-}
-
 
 - (void)finishInitialize {
   if (!self.resetAuthTokenRequired) {
