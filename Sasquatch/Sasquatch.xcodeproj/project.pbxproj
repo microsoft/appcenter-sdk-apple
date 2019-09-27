@@ -34,6 +34,10 @@
 		04C5166F233C3644001C9011 /* SimpleKeychain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04C5166D233C3644001C9011 /* SimpleKeychain.framework */; };
 		04C51670233C3644001C9011 /* SimpleKeychain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04C5166D233C3644001C9011 /* SimpleKeychain.framework */; };
 		04C51671233C366B001C9011 /* SimpleKeychain.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 04C5166D233C3644001C9011 /* SimpleKeychain.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		04D58D9E233E78A90059E848 /* Auth0.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 04C5164E233C122C001C9011 /* Auth0.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		04D58D9F233E78A90059E848 /* SimpleKeychain.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 04C5166D233C3644001C9011 /* SimpleKeychain.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		04D58DDB233E78B40059E848 /* Auth0.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 04C5164E233C122C001C9011 /* Auth0.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		04D58DDC233E78B40059E848 /* SimpleKeychain.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 04C5166D233C3644001C9011 /* SimpleKeychain.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		04E2836123399485000FBACB /* AuthProviderDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E2835E23399485000FBACB /* AuthProviderDelegate.swift */; };
 		04E2836223399485000FBACB /* AuthProviderDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E2835E23399485000FBACB /* AuthProviderDelegate.swift */; };
 		04E2836323399485000FBACB /* AuthProviderDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E2835E23399485000FBACB /* AuthProviderDelegate.swift */; };
@@ -735,6 +739,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				04D58DDB233E78B40059E848 /* Auth0.framework in CopyFiles */,
+				04D58DDC233E78B40059E848 /* SimpleKeychain.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -744,6 +750,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				04D58D9E233E78A90059E848 /* Auth0.framework in CopyFiles */,
+				04D58D9F233E78A90059E848 /* SimpleKeychain.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
