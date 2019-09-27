@@ -184,7 +184,10 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
 
 - (void)setAuthToken:(NSString *)authToken {
   MSAuthTokenContext *authTokenContext = [MSAuthTokenContext sharedInstance];
-  MSJwtClaims *claims = [MSJwtClaims parse:authToken];
+  MSJwtClaims *claims = nil;
+  if (authToken != nil) {
+    [MSJwtClaims parse:authToken];
+  }
   if (claims != nil) {
     [authTokenContext setAuthToken:authToken withAccountId:claims.subject expiresOn:claims.expiration];
     MSLogDebug(MSAppCenter.logTag, @"Authentication token has been refreshed.");
