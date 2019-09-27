@@ -62,11 +62,7 @@ static NSString *const kMSExpirationClaim = @"exp";
   }
   return [[MSJwtClaims alloc]
       initWithSubject:[claims objectForKey:kMSSubjectClaim]
-<<<<<<< HEAD
-           expiration:[[NSDate alloc] initWithTimeIntervalSince1970:[((NSNumber *)expirationTimeIntervalSince1970) intValue]]];
-=======
            expiration:[[NSDate alloc] initWithTimeIntervalSince1970:[((NSNumber *)expirationTimeIntervalSince1970) longValue]]];
->>>>>>> feature/byoi
 }
 
 @end
