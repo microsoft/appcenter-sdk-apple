@@ -33,6 +33,17 @@ static NSString *const kMSExpirationClaim = @"exp";
     return nil;
   }
   NSString *base64ClaimsPart = parts[1];
+
+  /*
+   * NSData's base64 parser expects the length to be padded with '=' to indicate the size of the last "chunk" (which can be 2, 3, or 4 bytes).
+   * Learn more here: https://tools.ietf.org/html/rfc4648#section-4.
+   */
+  if ((base64ClaimsPart.length % 4) == 1) {
+    MSLogError([MSAppCenter logTag], @"Failed to parse JWT; invalid base64 data length.");
+    return nil;
+  }
+  unsigned long targetLength = base64ClaimsPart.length + (4 - base64ClaimsPart.length % 4) % 4;
+  base64ClaimsPart = [base64ClaimsPart stringByPaddingToLength:targetLength withString:@"=" startingAtIndex:0];
   NSError *error;
   NSData *claimsPartData = [[NSData alloc] initWithBase64EncodedString:base64ClaimsPart options:0];
   NSDictionary *claims = [NSJSONSerialization JSONObjectWithData:claimsPartData options:0 error:&error];
@@ -51,7 +62,11 @@ static NSString *const kMSExpirationClaim = @"exp";
   }
   return [[MSJwtClaims alloc]
       initWithSubject:[claims objectForKey:kMSSubjectClaim]
+<<<<<<< HEAD
            expiration:[[NSDate alloc] initWithTimeIntervalSince1970:[((NSNumber *)expirationTimeIntervalSince1970) intValue]]];
+=======
+           expiration:[[NSDate alloc] initWithTimeIntervalSince1970:[((NSNumber *)expirationTimeIntervalSince1970) longValue]]];
+>>>>>>> feature/byoi
 }
 
 @end
