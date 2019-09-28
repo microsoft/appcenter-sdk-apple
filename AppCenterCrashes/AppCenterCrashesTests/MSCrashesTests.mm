@@ -154,15 +154,85 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   XCTAssertEqual(strongDelegate, delegateMock);
 }
 
-- (void)testDelegateMethodsAreCalled {
 
+- (void)testdidFailSendingErrorReportIsCalled {
+  
   // If
   id<MSCrashesDelegate> delegateMock = OCMProtocolMock(@protocol(MSCrashesDelegate));
+  XCTestExpectation *expectation = [self expectationWithDescription:@"didFailSendingErrorReportCalled"];
   MSAppleErrorLog *errorLog = OCMClassMock([MSAppleErrorLog class]);
   MSErrorReport *errorReport = OCMClassMock([MSErrorReport class]);
   id errorLogFormatterMock = OCMClassMock([MSErrorLogFormatter class]);
   OCMStub(ClassMethod([errorLogFormatterMock errorReportFromLog:errorLog])).andReturn(errorReport);
+  OCMStub([delegateMock crashes:self.sut didFailSendingErrorReport:errorReport withError:nil]).andDo(^(__unused NSInvocation *invocation) {
+    [expectation fulfill];
+  });
+  
+  // When
+  [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
+                        appSecret:kMSTestAppSecret
+          transmissionTargetToken:nil
+                  fromApplication:YES];
+  [self.sut setDelegate:delegateMock];
+  id<MSChannelProtocol> channel = [MSCrashes sharedInstance].channelUnit;
+  id<MSLog> log = errorLog;
+  [self.sut channel:channel didFailSendingLog:log withError:nil];
+  
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *_Nullable error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+}
 
+
+- (void)testdidSucceedSendingErrorReportIsCalled {
+  
+  // If
+  id<MSCrashesDelegate> delegateMock = OCMProtocolMock(@protocol(MSCrashesDelegate));
+  XCTestExpectation *expectation = [self expectationWithDescription:@"didSucceedSendingErrorReportCalled"];
+  MSAppleErrorLog *errorLog = OCMClassMock([MSAppleErrorLog class]);
+  MSErrorReport *errorReport = OCMClassMock([MSErrorReport class]);
+  id errorLogFormatterMock = OCMClassMock([MSErrorLogFormatter class]);
+  OCMStub(ClassMethod([errorLogFormatterMock errorReportFromLog:errorLog])).andReturn(errorReport);
+  OCMStub([delegateMock crashes:self.sut didSucceedSendingErrorReport:errorReport]).andDo(^(__unused NSInvocation *invocation) {
+    [expectation fulfill];
+  });
+  
+  // When
+  [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
+                        appSecret:kMSTestAppSecret
+          transmissionTargetToken:nil
+                  fromApplication:YES];
+  [self.sut setDelegate:delegateMock];
+  id<MSChannelProtocol> channel = [MSCrashes sharedInstance].channelUnit;
+  id<MSLog> log = errorLog;
+  [self.sut channel:channel didSucceedSendingLog:log];
+  
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *_Nullable error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+}
+
+- (void)testWillSendErrorReportIsCalled {
+
+  // If
+  id<MSCrashesDelegate> delegateMock = OCMProtocolMock(@protocol(MSCrashesDelegate));
+  XCTestExpectation *expectation = [self expectationWithDescription:@"willSendErrorReportCalled"];
+  MSAppleErrorLog *errorLog = OCMClassMock([MSAppleErrorLog class]);
+  MSErrorReport *errorReport = OCMClassMock([MSErrorReport class]);
+  id errorLogFormatterMock = OCMClassMock([MSErrorLogFormatter class]);
+  OCMStub(ClassMethod([errorLogFormatterMock errorReportFromLog:errorLog])).andReturn(errorReport);
+  OCMStub([delegateMock crashes:self.sut willSendErrorReport:errorReport]).andDo(^(__unused NSInvocation *invocation) {
+    [expectation fulfill];
+  });
+    
   // When
   [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
                         appSecret:kMSTestAppSecret
@@ -172,13 +242,14 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   id<MSChannelProtocol> channel = [MSCrashes sharedInstance].channelUnit;
   id<MSLog> log = errorLog;
   [self.sut channel:channel willSendLog:log];
-  [self.sut channel:channel didSucceedSendingLog:log];
-  [self.sut channel:channel didFailSendingLog:log withError:nil];
 
   // Then
-  OCMVerify([delegateMock crashes:self.sut willSendErrorReport:errorReport]);
-  OCMVerify([delegateMock crashes:self.sut didSucceedSendingErrorReport:errorReport]);
-  OCMVerify([delegateMock crashes:self.sut didFailSendingErrorReport:errorReport withError:nil]);
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *_Nullable error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
 }
 
 - (void)testCrashHandlerSetupDelegateMethodsAreCalled {
