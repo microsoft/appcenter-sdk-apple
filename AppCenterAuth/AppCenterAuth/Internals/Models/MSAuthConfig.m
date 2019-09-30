@@ -22,30 +22,29 @@ static NSString *const kMSAuthoritiesKey = @"authorities";
   }
   if ((self = [super init])) {
     if (dictionary[kMSAuthScopeKey]) {
-      self.authScope = (NSString * _Nonnull) dictionary[kMSAuthScopeKey];
+      self.authScope = (NSString * _Nonnull)dictionary[kMSAuthScopeKey];
     }
     if (dictionary[kMSClientIdKey]) {
-      self.clientId = (NSString * _Nonnull) dictionary[kMSClientIdKey];
+      self.clientId = (NSString * _Nonnull)dictionary[kMSClientIdKey];
     }
     if (dictionary[kMSRedirectUriKey]) {
-      self.redirectUri = (NSString * _Nonnull) dictionary[kMSRedirectUriKey];
+      self.redirectUri = (NSString * _Nonnull)dictionary[kMSRedirectUriKey];
     }
     if (dictionary[kMSAuthoritiesKey]) {
       NSMutableArray *array = [NSMutableArray new];
       for (NSDictionary *authorityDic in dictionary[kMSAuthoritiesKey]) {
         MSAuthority *authority = nil;
         if (!authorityDic || !authorityDic[kMSTypeKey]) {
-          [array addObject:authority];
           continue;
         }
-        NSString *authorityType = (NSString * _Nonnull) authorityDic[kMSTypeKey];
-        
+        NSString *authorityType = (NSString * _Nonnull)authorityDic[kMSTypeKey];
+
         if ([authorityType isEqualToString:kMSAuthorityTypeB2C]) {
           authority = [[MSB2CAuthority alloc] initWithDictionary:authorityDic];
         } else if ([authorityType isEqualToString:kMSAuthorityTypeAAD]) {
           authority = [[MSAADAuthority alloc] initWithDictionary:authorityDic];
         } else {
-          
+
           /* Return default authority which is neither B2C nor AAD. */
           authority = [[MSAuthority alloc] initWithDictionary:authorityDic];
         }
