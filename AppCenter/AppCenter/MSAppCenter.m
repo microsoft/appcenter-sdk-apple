@@ -186,14 +186,14 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
   MSAuthTokenContext *authTokenContext = [MSAuthTokenContext sharedInstance];
   MSJwtClaims *claims = nil;
   if (authToken != nil) {
-    [MSJwtClaims parse:authToken];
+    claims = [MSJwtClaims parse:authToken];
   }
-  if (claims != nil) {
-    [authTokenContext setAuthToken:authToken withAccountId:claims.subject expiresOn:claims.expiration];
-    MSLogDebug(MSAppCenter.logTag, @"Authentication token has been refreshed.");
-  } else {
+  if (claims == nil) {
     [authTokenContext setAuthToken:nil withAccountId:nil expiresOn:nil];
     MSLogDebug(MSAppCenter.logTag, @"Removed authentication token.");
+  } else {
+    [authTokenContext setAuthToken:authToken withAccountId:claims.subject expiresOn:claims.expiration];
+    MSLogDebug(MSAppCenter.logTag, @"Authentication token has been refreshed.");
   }
 }
 
