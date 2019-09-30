@@ -16,7 +16,7 @@ class CrashesViewController : NSViewController, NSTableViewDataSource, NSTableVi
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    loadAllCrashes()
+    crashes = CrashLoader.loadAllCrashes()
     crashesTableView.dataSource = self
     crashesTableView.delegate = self
     textAttachmentView.delegate = self
@@ -127,41 +127,6 @@ class CrashesViewController : NSViewController, NSTableViewDataSource, NSTableVi
   
   private func isHeader(row: Int) -> Bool {
     return crashes[row] is String
-  }
-
-  private func loadAllCrashes() {
-    pokeAllCrashes()
-    var sortedCrashes = MSCrash.allCrashes() as! [MSCrash]
-    sortedCrashes = sortedCrashes.sorted { (crash1, crash2) -> Bool in
-      if crash1.category == crash2.category{
-        return crash1.title > crash2.title
-      } else {
-        return crash1.category < crash2.category
-      }
-    }
-    if sortedCrashes.count > 0 {
-      var currentCategory = sortedCrashes[0].category!
-      crashes.append(currentCategory as Any)
-      for crash in sortedCrashes {
-        if currentCategory != crash.category {
-          currentCategory = crash.category
-          crashes.append(currentCategory as Any)
-        }
-        crashes.append(crash as Any)
-      }
-    }
-  }
-
-  private func pokeAllCrashes() {
-    var count = UInt32(0)
-    let classList = objc_copyClassList(&count)
-    MSCrash.removeAllCrashes()
-    for i in 0..<Int(count){
-      let className: AnyClass = classList![i]!
-      if class_getSuperclass(className) == MSCrash.self && className != MSCrash.self{
-        MSCrash.register((className as! MSCrash.Type).init())
-      }
-    }
   }
   
   private func fileAttachmentDescription(url: URL?) -> String {
