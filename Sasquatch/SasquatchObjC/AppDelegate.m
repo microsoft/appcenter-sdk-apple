@@ -185,7 +185,9 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
 - (BOOL)application:(UIApplication *)app
             openURL:(nonnull NSURL *)url
             options:(nonnull NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options {
-  return [A0WebAuth resumeAuthWithURL:url options:options];
+  NSString *sourceApplication = options[UIApplicationOpenURLOptionsSourceApplicationKey];
+  return [A0WebAuth resumeAuthWithURL:url options:options] || [[FUIAuth defaultAuthUI] handleOpenURL:url
+                                                                                   sourceApplication:sourceApplication];
 }
 #endif
 
