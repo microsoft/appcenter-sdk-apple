@@ -28,6 +28,10 @@ ___
 
 * **[Fix]** Fix crash involving SDK's `ms_viewWillAppear` method.
 
+### App Center Crashes
+
+* **[Behavior change]** `MSCrashesDelegate` callback methods are now invoked on the main thread (`crashes:willSendErrorReport:`,  `crashes:didSucceedSendingErrorReport:`, and `crashes:didFailSendingErrorReport:withError:`).
+
 ### App Center Data
 
 * **[Breaking change]** Rename delegate method `data:didCompletePendingOperation:forDocument:withError:` from `MSRemoteOperationDelegate` to `data:didCompleteRemoteOperation:forDocumentMetadata:withError:`.
