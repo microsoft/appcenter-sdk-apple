@@ -279,13 +279,13 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     })
     let firebaseAction = UIAlertAction(title:"Firebase Secret", style: .default, handler: {
       (_ action : UIAlertAction) -> Void in
-      let text = self.appCenter.appSecretFirebase();
+      let text = self.appCenter.appSecretFirebase()
       UserDefaults.standard.set(text, forKey: kMSAppSecret)
       self.appSecret.text = text
     })
     let auth0Action = UIAlertAction(title:"Auth0 Secret", style: .default, handler: {
       (_ action : UIAlertAction) -> Void in
-      let text = self.appCenter.appSecretAuth0();
+      let text = self.appCenter.appSecretAuth0()
       UserDefaults.standard.set(text, forKey: kMSAppSecret)
       self.appSecret.text = text
     })
