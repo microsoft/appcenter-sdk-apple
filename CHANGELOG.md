@@ -9,6 +9,10 @@
 ### App Center Data
 
 * **[Fix]** Reduce retries on Data-related operations to fail fast and avoid the perception of calls "hanging".
+
+### App Center Auth
+
+* **[Feature]** Add support for Azure Active Directory (AAD) type authentication. Users with AAD apps on Azure can authenticate using one of three audiences viz. AzureADMyOrg (Single Tenant), AzureADMultipleOrgs (Multi Tenant) and AzureADandPersonalMicrosoftAccount (Multi Tenant and Personal Microsoft accounts).
 ___
 
 ## Version 2.4.0
