@@ -81,15 +81,6 @@
   XCTAssertTrue([auth isValid]);
 }
 
-- (void)testAADAuthorityInitWithNilDictionary {
-  
-  // When
-  MSAADAuthority *config = [[MSAADAuthority alloc] initWithDictionary:(_Nonnull id)nil];
-  
-  // Then
-  XCTAssertNil(config);
-}
-
 - (void)testAADAuthorityInitWithDictionary {
 
   // If
