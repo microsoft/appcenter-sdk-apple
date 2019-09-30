@@ -22,6 +22,10 @@
 
 // Internal ones
 #import "MSAnalyticsInternal.h"
+
+// Third-party dependency
+@import Auth0;
+
 #else
 @import AppCenter;
 @import AppCenterAnalytics;
@@ -31,8 +35,6 @@
 @import AppCenterAuth;
 @import AppCenterPush;
 #endif
-
-@import Auth0;
 
 enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
 
@@ -121,10 +123,10 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
   NSInteger startTarget = [[NSUserDefaults standardUserDefaults] integerForKey:kMSStartTargetKey];
 #if GCC_PREPROCESSOR_MACRO_PUPPET
   NSString *appSecret = [[NSUserDefaults standardUserDefaults] objectForKey:kMSAppSecret] ?: kMSPuppetAppSecret;
+  services = [self setUpAuthForAppSecret:appSecret withServices:(NSArray<Class> *)services];
 #else
   NSString *appSecret = [[NSUserDefaults standardUserDefaults] objectForKey:kMSAppSecret] ?: kMSObjcAppSecret;
 #endif
-  services = [self setUpAuthForAppSecret:appSecret withServices:(NSArray<Class> *)services];
   switch (startTarget) {
   case APPCENTER:
     [MSAppCenter start:appSecret withServices:services];
@@ -193,6 +195,7 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
 
 #pragma mark - Private
 
+#if GCC_PREPROCESSOR_MACRO_PUPPET
 - (NSArray *)setUpAuthForAppSecret:(NSString *)appSecret withServices:(NSArray<Class> *)services {
   if ([appSecret isEqualToString:kMSPuppetAuth0AppSecret]) {
     self.authProvider = [Auth0Provider new];
@@ -206,6 +209,7 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
   [MSAppCenter setAuthTokenDelegate:(id<MSAuthTokenDelegate>)self.authProvider];
   return modifiedServices;
 }
+#endif
 
 - (void)setUpCrashes {
   if ([MSCrashes hasCrashedInLastSession]) {

@@ -57,6 +57,8 @@
 		04A950382342B6C500F49AEE /* GoogleUtilities.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 04DFF6B4233EB2440003CFA8 /* GoogleUtilities.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		04A950392342B6C500F49AEE /* GTMSessionFetcher.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 04DFF6AF233EB1C70003CFA8 /* GTMSessionFetcher.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		04A9503A2342B6C500F49AEE /* nanopb.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 04DFF6B9233EB2910003CFA8 /* nanopb.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		04A950882342BFE200F49AEE /* AuthProviderDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E2835E23399485000FBACB /* AuthProviderDelegate.swift */; };
+		04A950C42342BFE200F49AEE /* AuthProviderDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E2835E23399485000FBACB /* AuthProviderDelegate.swift */; };
 		04C5164F233C122C001C9011 /* Auth0.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04C5164E233C122C001C9011 /* Auth0.framework */; };
 		04C51650233C122C001C9011 /* Auth0.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04C5164E233C122C001C9011 /* Auth0.framework */; };
 		04C51651233C122C001C9011 /* Auth0.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04C5164E233C122C001C9011 /* Auth0.framework */; };
@@ -3100,6 +3102,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F8AA9F3E2164FD1C009104E3 /* MSDatePicker.swift in Sources */,
+				04A950C42342BFE200F49AEE /* AuthProviderDelegate.swift in Sources */,
 				352A3E7420F801A900D09CF0 /* EventPropertiesTableSection.swift in Sources */,
 				35FBE78120FD095200F7B05C /* MSTransmissionTargets.swift in Sources */,
 				B2586C85210A47A800664A43 /* MSAnalyticsResult.swift in Sources */,
@@ -3224,6 +3227,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F8AA9F3D2164FD1C009104E3 /* MSDatePicker.swift in Sources */,
+				04A950882342BFE200F49AEE /* AuthProviderDelegate.swift in Sources */,
 				B27D54A4210A5E7E004E82C9 /* EventPropertiesTableSection.swift in Sources */,
 				B27D54A5210A5E7E004E82C9 /* MSTransmissionTargets.swift in Sources */,
 				B27D54A7210A5E7E004E82C9 /* MSAnalyticsResult.swift in Sources */,
