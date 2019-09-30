@@ -1,4 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
+
+  // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
 #import <Foundation/Foundation.h>
@@ -108,6 +109,17 @@
 
   // Then
   XCTAssertFalse([config isValid]);
+
+  // when
+  MSAuthority *auth = [MSAuthority new];
+  auth.type = @"randomType";
+  auth.defaultAuthority = @YES;
+  auth.authorityUrl = (NSURL * _Nonnull)[NSURL URLWithString:@"https://contoso.com/auth"];
+  NSArray<MSAuthority *> *auths = [NSArray arrayWithObject:auth];
+  config.authorities = auths;
+
+  // then
+  XCTAssertFalse([config isValid]);
 }
 
 - (void)testValidB2CConfig {
@@ -203,3 +215,4 @@
 }
 
 @end
+d
