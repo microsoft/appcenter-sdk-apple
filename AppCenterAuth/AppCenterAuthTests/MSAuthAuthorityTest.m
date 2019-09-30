@@ -21,15 +21,19 @@
 
   // When
   MSAuthority *authority = [[MSAuthority alloc] initWithDictionary:(_Nonnull id)nil];
+  MSAADAuthority *aadAuthority = [[MSAADAuthority alloc] initWithDictionary:(_Nonnull id)nil];
+  MSB2CAuthority *b2cAuthority = [[MSB2CAuthority alloc] initWithDictionary:(_Nonnull id)nil];
 
   // Then
   XCTAssertNil(authority);
+  XCTAssertNil(aadAuthority);
+  XCTAssertNil(b2cAuthority);
 }
 
 - (void)testB2CAuthorityInitWithDictionary {
 
   // If
-  NSMutableDictionary *dic = [@{@"type" : @"B2C", @"default" : @YES, @"authority_url" : @"https://contoso.com/auth/path"} mutableCopy];
+  NSMutableDictionary *dic = [@{ @"type" : @"B2C", @"default" : @YES, @"authority_url" : @"https://contoso.com/auth/path" } mutableCopy];
 
   // When
   MSAuthority *authority = [[MSAuthority alloc] initWithDictionary:dic];
@@ -85,7 +89,6 @@
   // Then
   XCTAssertNil(config);
 }
-
 
 - (void)testAADAuthorityInitWithDictionary {
 
