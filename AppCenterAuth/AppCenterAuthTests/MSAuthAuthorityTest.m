@@ -77,6 +77,16 @@
   XCTAssertTrue([auth isValid]);
 }
 
+- (void)testAADAuthorityInitWithNilDictionary {
+  
+  // When
+  MSAADAuthority *config = [[MSAADAuthority alloc] initWithDictionary:(_Nonnull id)nil];
+  
+  // Then
+  XCTAssertNil(config);
+}
+
+
 - (void)testAADAuthorityInitWithDictionary {
 
   // If
@@ -90,6 +100,13 @@
   XCTAssertEqualObjects(dic[@"type"], authority.type);
   XCTAssertEqual([dic[@"default"] boolValue], authority.defaultAuthority);
   XCTAssertEqualObjects([NSURL URLWithString:@"https://login.microsoftonline.com/tenantId"], authority.authorityUrl);
+
+  // When
+  dic[@"audience"] = @{@"tenant_id" : @"tenantId", @"type" : @"AzureADMultipleOrgs"};
+  authority = [[MSAADAuthority alloc] initWithDictionary:dic];
+  
+  // Then
+  XCTAssertEqualObjects([NSURL URLWithString:@"https://login.microsoftonline.com/organizations"], authority.authorityUrl);
 
   // If
   dic[@"default"] = @NO;
