@@ -22,6 +22,8 @@
 		046790431E8DA7E90033FDEC /* AppCenterPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 046790411E8DA7D80033FDEC /* AppCenterPush.framework */; };
 		048933631F8D395A00C38A87 /* Sasquatch.strings in Resources */ = {isa = PBXBuildFile; fileRef = 041A4BAF1F8C28A3009E1B6C /* Sasquatch.strings */; };
 		04A1DB34223B65EB006A48D6 /* AuthenticationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04A1DB33223B65EB006A48D6 /* AuthenticationServices.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		04A950882342BFE200F49AEE /* AuthProviderDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E2835E23399485000FBACB /* AuthProviderDelegate.swift */; };
+		04A950C42342BFE200F49AEE /* AuthProviderDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E2835E23399485000FBACB /* AuthProviderDelegate.swift */; };
 		04C5164F233C122C001C9011 /* Auth0.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04C5164E233C122C001C9011 /* Auth0.framework */; };
 		04C51650233C122C001C9011 /* Auth0.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04C5164E233C122C001C9011 /* Auth0.framework */; };
 		04C51651233C122C001C9011 /* Auth0.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04C5164E233C122C001C9011 /* Auth0.framework */; };
@@ -1271,7 +1273,6 @@
 				04C51651233C122C001C9011 /* Auth0.framework in Frameworks */,
 				B20AE48821028E3300A1A195 /* libc++.tbd in Frameworks */,
 				04C51670233C3644001C9011 /* SimpleKeychain.framework in Frameworks */,
-				B20AE39521027D6200A1A195 /* CrashLibIOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2957,6 +2958,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F8AA9F3E2164FD1C009104E3 /* MSDatePicker.swift in Sources */,
+				04A950C42342BFE200F49AEE /* AuthProviderDelegate.swift in Sources */,
 				352A3E7420F801A900D09CF0 /* EventPropertiesTableSection.swift in Sources */,
 				35FBE78120FD095200F7B05C /* MSTransmissionTargets.swift in Sources */,
 				B2586C85210A47A800664A43 /* MSAnalyticsResult.swift in Sources */,
@@ -3081,6 +3083,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F8AA9F3D2164FD1C009104E3 /* MSDatePicker.swift in Sources */,
+				04A950882342BFE200F49AEE /* AuthProviderDelegate.swift in Sources */,
 				B27D54A4210A5E7E004E82C9 /* EventPropertiesTableSection.swift in Sources */,
 				B27D54A5210A5E7E004E82C9 /* MSTransmissionTargets.swift in Sources */,
 				B27D54A7210A5E7E004E82C9 /* MSAnalyticsResult.swift in Sources */,
