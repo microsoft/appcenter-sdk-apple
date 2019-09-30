@@ -591,7 +591,9 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     if ([logObject isKindOfClass:[MSAppleErrorLog class]]) {
       MSAppleErrorLog *appleErrorLog = static_cast<MSAppleErrorLog *>(log);
       MSErrorReport *report = [MSErrorLogFormatter errorReportFromLog:appleErrorLog];
-      [delegate crashes:self willSendErrorReport:report];
+      dispatch_async(dispatch_get_main_queue(), ^{
+        [delegate crashes:self willSendErrorReport:report];
+      });
     }
   }
 }
@@ -603,7 +605,9 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     if ([logObject isKindOfClass:[MSAppleErrorLog class]]) {
       MSAppleErrorLog *appleErrorLog = static_cast<MSAppleErrorLog *>(log);
       MSErrorReport *report = [MSErrorLogFormatter errorReportFromLog:appleErrorLog];
-      [delegate crashes:self didSucceedSendingErrorReport:report];
+      dispatch_async(dispatch_get_main_queue(), ^{
+        [delegate crashes:self didSucceedSendingErrorReport:report];
+      });
     }
   }
 }
@@ -615,7 +619,9 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     if ([logObject isKindOfClass:[MSAppleErrorLog class]]) {
       MSAppleErrorLog *appleErrorLog = static_cast<MSAppleErrorLog *>(log);
       MSErrorReport *report = [MSErrorLogFormatter errorReportFromLog:appleErrorLog];
-      [delegate crashes:self didFailSendingErrorReport:report withError:error];
+      dispatch_async(dispatch_get_main_queue(), ^{
+        [delegate crashes:self didFailSendingErrorReport:report withError:error];
+      });
     }
   }
 }

@@ -1,6 +1,21 @@
 # App Center SDK for iOS, macOS and tvOS Change Log
 
+## Version 2.4.1 (Under development)
+
+### App Center Crashes
+
+* **[Feature]** iOS extensions support.
+
+### App Center Data
+
+* **[Fix]** Reduce retries on Data-related operations to fail fast and avoid the perception of calls "hanging".
+___
+
 ## Version 2.4.0
+
+### App Center
+
+* **[Feature]** App Center now supports Carthage integration.
 
 ### App Center Auth
 
@@ -12,6 +27,10 @@
 ### App Center Analytics
 
 * **[Fix]** Fix crash involving SDK's `ms_viewWillAppear` method.
+
+### App Center Crashes
+
+* **[Behavior change]** `MSCrashesDelegate` callback methods are now invoked on the main thread (`crashes:willSendErrorReport:`,  `crashes:didSucceedSendingErrorReport:`, and `crashes:didFailSendingErrorReport:withError:`).
 
 ### App Center Data
 
