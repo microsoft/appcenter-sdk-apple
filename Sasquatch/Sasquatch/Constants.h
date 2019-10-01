@@ -63,3 +63,7 @@ static NSString *const kMSIntApiUrl = @"https://api-gateway-core-integration.dev
 static NSString *const kMSIntInstallUrl = @"https://install.portal-server-core-integration.dev.avalanch.es";
 
 static NSString *const kMSDataUserPartition = @"user";
+
+static NSString *const kMSSasquatchErrorDomain = @"com.microsoft.microsoft.sasquatch";
+
+NS_ENUM(NSInteger){MSFirebaseAuthUserNotFoundErrorCode = 1000};

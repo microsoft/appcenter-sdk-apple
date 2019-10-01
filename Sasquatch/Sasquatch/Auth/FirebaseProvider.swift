@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import Foundation
+import FBSDKCoreKit
 import FirebaseCore
 import FirebaseAuthUI
 import FirebaseFacebookAuthUI
@@ -31,7 +32,7 @@ class FirebaseProvider : NSObject, AuthProviderDelegate, FUIAuthDelegate {
 
   func signIn(_ completionHandler: @escaping (MSUserInformation?, Error?) -> Void) {
     if self.completionHandler != nil {
-      NSLog("SignIn in progress")
+      NSLog("SignIn in progress.")
       return
     }
     self.completionHandler = completionHandler
@@ -47,37 +48,58 @@ class FirebaseProvider : NSObject, AuthProviderDelegate, FUIAuthDelegate {
   func signOut() {
     do {
       try self.authUI?.signOut()
-      MSAppCenter.setAuthToken(nil)
     } catch {
-      NSLog("SignOut failed")
+      NSLog("SignOut failed.")
     }
   }
 
   func appCenter(_ appCenter: MSAppCenter!, acquireAuthTokenWithCompletionHandler completionHandler: MSAuthTokenCompletionHandler!) {
-    signIn { (userInformation, error) in
-      completionHandler(userInformation?.idToken)
+    let user = Auth.auth().currentUser;
+    if (user == nil) {
+      NSLog("Failed to refresh Firebase token as the user is signed out.")
+      completionHandler(nil)
+    } else {
+      user?.getIDToken(completion: { (token, error) in
+        if error == nil {
+          NSLog("Refreshed Firebase token.")
+          completionHandler(token)
+        } else {
+          NSLog("Failed to refresh Firebase token.")
+          completionHandler(nil)
+        }
+      })
     }
   }
 
   func authUI(_ authUI: FUIAuth, didSignInWith user: User?, error: Error?) {
     if self.completionHandler == nil {
-      NSLog("Coulnd't find associated completionHandler for current signIn request")
+      NSLog("Coulnd't find associated completionHandler for current sign-in request")
       return
     }
     let completionHandler = self.completionHandler
     self.completionHandler = nil
-    if error == nil {
+    if error != nil {
+      NSLog("Failed to sign-in Firebase.")
+      completionHandler!(nil, error)
+    } else if user != nil {
       user?.getIDToken(completion: { (token, error) in
         if error == nil {
+          NSLog("Received Firebase token.")
           let userInformation = MSUserInformation()
           userInformation.idToken = token
+          userInformation.accessToken = AccessToken.current!.tokenString
           completionHandler!(userInformation, nil)
         } else {
+          NSLog("Failed to get a token for the user.")
           completionHandler!(nil, error)
         }
       })
     } else {
-      completionHandler!(nil, error)
+      NSLog("Failed to get Firebase user.")
+      completionHandler!(nil, NSError.init(
+          domain: kMSSasquatchErrorDomain,
+            code: MSFirebaseAuthUserNotFoundErrorCode,
+        userInfo: [NSLocalizedDescriptionKey : "Failed to get Firebase user."]))
     }
   }
 }
