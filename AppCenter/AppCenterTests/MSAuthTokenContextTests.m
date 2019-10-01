@@ -491,7 +491,7 @@
   NSString *expectedAuthToken = @"authToken1";
   NSString *expectedAccountId = @"account1";
   NSDate *startDate = [NSDate dateWithTimeIntervalSinceNow:-((60.0f * 60.0f * 24.0f) * 2)];
-  NSDate *expiresDate = [NSDate dateWithTimeIntervalSinceNow:+500];
+  NSDate *expiresDate = [NSDate dateWithTimeIntervalSinceNow:500];
   id<MSAuthTokenContextDelegate> delegateMock = OCMProtocolMock(@protocol(MSAuthTokenContextDelegate));
   __block int count = 0;
   OCMStub([delegateMock authTokenContext:OCMOCK_ANY didUpdateAccountId:expectedAccountId]).andDo(^(NSInvocation *__unused invocation) {
