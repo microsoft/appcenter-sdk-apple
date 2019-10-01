@@ -22,6 +22,10 @@
 
 // Internal ones
 #import "MSAnalyticsInternal.h"
+
+// Third-party dependency
+@import Auth0;
+
 #else
 @import AppCenter;
 @import AppCenterAnalytics;
@@ -115,11 +119,11 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
     [MSAnalytics setTransmissionInterval:latencyTimeValue];
   }
   // Start App Center SDK.
-  NSArray<Class> *services =
-      @ [[MSAnalytics class], [MSCrashes class], [MSData class], [MSDistribute class], [MSAuth class], [MSPush class]];
+  NSArray *services = @ [[MSAnalytics class], [MSCrashes class], [MSData class], [MSDistribute class], [MSAuth class], [MSPush class]];
   NSInteger startTarget = [[NSUserDefaults standardUserDefaults] integerForKey:kMSStartTargetKey];
 #if GCC_PREPROCESSOR_MACRO_PUPPET
   NSString *appSecret = [[NSUserDefaults standardUserDefaults] objectForKey:kMSAppSecret] ?: kMSPuppetAppSecret;
+  services = [self setUpAuthForAppSecret:appSecret withServices:(NSArray<Class> *)services];
 #else
   NSString *appSecret = [[NSUserDefaults standardUserDefaults] objectForKey:kMSAppSecret] ?: kMSObjcAppSecret;
 #endif
@@ -151,7 +155,7 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
   }
 
   // Set delegates.
-  [self crashes];
+  [self setUpCrashes];
   [self setAppCenterDelegate];
   return YES;
 }
@@ -179,9 +183,33 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
 - (void)applicationWillTerminate:(UIApplication *)application {
 }
 
+#if GCC_PREPROCESSOR_MACRO_PUPPET
+- (BOOL)application:(UIApplication *)app
+            openURL:(nonnull NSURL *)url
+            options:(nonnull NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options {
+  return [A0WebAuth resumeAuthWithURL:url options:options];
+}
+#endif
+
 #pragma mark - Private
 
-- (void)crashes {
+#if GCC_PREPROCESSOR_MACRO_PUPPET
+- (NSArray *)setUpAuthForAppSecret:(NSString *)appSecret withServices:(NSArray<Class> *)services {
+  if ([appSecret isEqualToString:kMSPuppetAuth0AppSecret]) {
+    self.authProvider = [Auth0Provider new];
+  } else if ([appSecret isEqualToString:kMSPuppetFirebaseAppSecret]) {
+    self.authProvider = [FirebaseProvider new];
+  } else {
+    return services;
+  }
+  NSMutableArray *modifiedServices = [services mutableCopy];
+  [modifiedServices removeObject:[MSAuth class]];
+  [MSAppCenter setAuthTokenDelegate:(id<MSAuthTokenDelegate>)self.authProvider];
+  return modifiedServices;
+}
+#endif
+
+- (void)setUpCrashes {
   if ([MSCrashes hasCrashedInLastSession]) {
     MSErrorReport *errorReport = [MSCrashes lastSessionCrashReport];
     NSLog(@"We crashed with Signal: %@", errorReport.signal);
