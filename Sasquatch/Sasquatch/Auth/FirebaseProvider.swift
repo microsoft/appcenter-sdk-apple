@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import Foundation
-import FBSDKCoreKit
 import FirebaseCore
 import FirebaseAuthUI
 import FirebaseFacebookAuthUI
@@ -87,7 +86,6 @@ class FirebaseProvider : NSObject, AuthProviderDelegate, FUIAuthDelegate {
           NSLog("Received Firebase token.")
           let userInformation = MSUserInformation()
           userInformation.idToken = token
-          userInformation.accessToken = AccessToken.current!.tokenString
           completionHandler!(userInformation, nil)
         } else {
           NSLog("Failed to get a token for the user.")
