@@ -28,7 +28,6 @@ class Auth0Provider : NSObject, AuthProviderDelegate {
 
   func signOut() {
     self.credentialsManager.clear()
-    MSAppCenter.setAuthToken(nil)
   }
 
   func appCenter(_ appCenter: MSAppCenter!, acquireAuthTokenWithCompletionHandler completionHandler: MSAuthTokenCompletionHandler!) {

@@ -138,6 +138,7 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
 
   @IBAction func authSignOut(_ sender: UIButton) {
     if let authProvider = (UIApplication.shared.delegate as! AppDelegate).authProvider {
+      self.appCenter.setAuthToken(nil)
       authProvider.signOut()
     } else {
       appCenter.signOut()
