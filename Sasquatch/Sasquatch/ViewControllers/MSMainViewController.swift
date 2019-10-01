@@ -124,6 +124,7 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     let block: (MSUserInformation?, Error?) -> Void = { (userInformation, error) in
       self.userDefaultStatus = false
       self.userInformation = userInformation
+      self.appCenter.setAuthToken(userInformation?.idToken)
       DispatchQueue.main.async {
         self.updateViewState()
       }

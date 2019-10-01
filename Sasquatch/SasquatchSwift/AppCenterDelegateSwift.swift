@@ -85,6 +85,10 @@ class AppCenterDelegateSwift: AppCenterDelegate {
     MSAppCenter.setCountryCode(countryCode);
   }
 
+  func setAuthToken(_ authToken: String?) {
+    MSAppCenter.setAuthToken(authToken)
+  }
+
   // Modules section.
   func isAnalyticsEnabled() -> Bool {
     return MSAnalytics.isEnabled()
