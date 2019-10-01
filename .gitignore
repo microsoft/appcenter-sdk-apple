@@ -73,3 +73,7 @@ iOSInjectionProject/
 
 Localization/*.zip
 Localization/Unzip/
+
+# Test app dependencies
+Vendor/iOS/Auth0/
+Vendor/iOS/Firebase/

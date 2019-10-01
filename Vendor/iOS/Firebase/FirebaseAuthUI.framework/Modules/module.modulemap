@@ -1,6 +1,0 @@
-framework module FirebaseAuthUI {
-  umbrella header "FirebaseAuthUI.h"
-
-  export *
-  module * { export * }
-}
