@@ -31,6 +31,7 @@ import AppCenterData
   func setUserId(_ userId: String?)
   func setLogUrl(_ logUrl: String?)
   func setCountryCode(_ countryCode: String?)
+  func setAuthToken(_ authToken: String?)
   
   // Modules section.
   func isAnalyticsEnabled() -> Bool

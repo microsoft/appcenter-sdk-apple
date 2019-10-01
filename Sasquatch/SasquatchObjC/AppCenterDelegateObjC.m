@@ -115,6 +115,10 @@
   [MSAppCenter setCountryCode:countryCode];
 }
 
+- (void)setAuthToken:(NSString *)authToken {
+  [MSAppCenter setAuthToken:authToken];
+}
+
 #pragma mark - Modules section.
 
 - (BOOL)isAnalyticsEnabled {
