@@ -43,6 +43,16 @@
       codeCoverageEnabled = "YES"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "046AEAB21ECA51AF00CBE511"
+               BuildableName = "AppCenterAuth.xctest"
+               BlueprintName = "AppCenterAuth macOS Tests"
+               ReferencedContainer = "container:AppCenterAuth.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
