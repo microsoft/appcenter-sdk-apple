@@ -2261,7 +2261,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 84226CA51E8908CA00798417 /* Build configuration list for PBXNativeTarget "SasquatchSwift" */;
 			buildPhases = (
-				04EB2285234401F000CD8DC7 /* Download dependencies */,
 				F84923EB2111C2C800E14DBE /* Verify No Build Settings */,
 				F83D7AC12317C51900E7E8F4 /* Remove the wrong framework */,
 				84226C7C1E8908C900798417 /* Sources */,
@@ -2288,7 +2287,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B20AE3A821027D6200A1A195 /* Build configuration list for PBXNativeTarget "SasquatchPuppet" */;
 			buildPhases = (
-				04EB22842343F9E300CD8DC7 /* Download dependencies */,
 				F84923BB21119AE100E14DBE /* Verify No Build Settings */,
 				B20AE37F21027D6200A1A195 /* Sources */,
 				B20AE39421027D6200A1A195 /* Frameworks */,
@@ -2340,7 +2338,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B2A4CFB3210A6E6900199B4F /* Build configuration list for PBXNativeTarget "SasquatchSwift-Preview" */;
 			buildPhases = (
-				04EB22862344021700CD8DC7 /* Download dependencies */,
 				F84923EA2111C2C100E14DBE /* Verify No Build Settings */,
 				B2A4CF88210A6E6900199B4F /* Sources */,
 				B2A4CF9F210A6E6900199B4F /* Frameworks */,
@@ -3206,63 +3203,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		04EB22842343F9E300CD8DC7 /* Download dependencies */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Download dependencies";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/../Scripts/restore-dependencies.sh\" ${SRCROOT}/../Vendor/iOS\n";
-			showEnvVarsInLog = 0;
-		};
-		04EB2285234401F000CD8DC7 /* Download dependencies */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Download dependencies";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/../Scripts/restore-dependencies.sh\" ${SRCROOT}/../Vendor/iOS\n";
-			showEnvVarsInLog = 0;
-		};
-		04EB22862344021700CD8DC7 /* Download dependencies */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Download dependencies";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/../Scripts/restore-dependencies.sh\" ${SRCROOT}/../Vendor/iOS\n";
-			showEnvVarsInLog = 0;
-		};
 		8099A54F21121501008E1466 /* Verify No Build Settings */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
