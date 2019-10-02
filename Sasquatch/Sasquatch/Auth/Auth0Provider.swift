@@ -31,8 +31,16 @@ class Auth0Provider : NSObject, AuthProviderDelegate {
   }
 
   func appCenter(_ appCenter: MSAppCenter!, acquireAuthTokenWithCompletionHandler completionHandler: MSAuthTokenCompletionHandler!) {
-    signIn { (userInformation, error) in
-      completionHandler(userInformation?.idToken)
+    self.credentialsManager.credentials { error, credentials in
+      if error == nil, let credentials = credentials {
+        NSLog("Refreshed Auth0 token.")
+        self.credentialsManager.store(credentials: credentials)
+        completionHandler(credentials.idToken)
+      } else {
+        NSLog("Failed to refresh Auth0 token.")
+        completionHandler(nil)
+        return
+      }
     }
   }
 }
