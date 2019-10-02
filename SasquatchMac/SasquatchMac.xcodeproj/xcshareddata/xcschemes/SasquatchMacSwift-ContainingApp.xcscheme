@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
    LastUpgradeVersion = "1010"
-   wasCreatedForAppExtension = "YES"
-   version = "2.0">
+   version = "1.3">
    <BuildAction
       parallelizeBuildables = "NO"
       buildImplicitDependencies = "NO">
@@ -15,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6E04017D1D1CAC710051BCFA"
-               BuildableName = "AppCenter iOS Fat Framework"
-               BlueprintName = "AppCenter iOS Fat Framework"
+               BlueprintIdentifier = "0485AFE61EAA937000C10CAF"
+               BuildableName = "AppCenter macOS Fat Framework"
+               BlueprintName = "AppCenter macOS Fat Framework"
                ReferencedContainer = "container:../AppCenter/AppCenter.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -29,23 +28,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "E85547E41D2D681F002DF6E2"
-               BuildableName = "AppCenterAuth iOS Fat Framework"
-               BlueprintName = "AppCenterAuth iOS Fat Framework"
-               ReferencedContainer = "container:../AppCenterAuth/AppCenterAuth.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "E85547E41D2D681F002DF6E2"
-               BuildableName = "AppCenterAnalytics iOS Fat Framework"
-               BlueprintName = "AppCenterAnalytics iOS Fat Framework"
+               BlueprintIdentifier = "0485AFEF1EAAADAC00C10CAF"
+               BuildableName = "AppCenterAnalytics macOS Fat Framework"
+               BlueprintName = "AppCenterAnalytics macOS Fat Framework"
                ReferencedContainer = "container:../AppCenterAnalytics/AppCenterAnalytics.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -57,10 +42,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D3AD5F221E5C9562001627AB"
-               BuildableName = "AppCenterData iOS Fat Framework"
-               BlueprintName = "AppCenterData iOS Fat Framework"
-               ReferencedContainer = "container:../AppCenterData/AppCenterData.xcodeproj">
+               BlueprintIdentifier = "0485AFEF1EAAADAC00C10CAF"
+               BuildableName = "AppCenterAuth macOS Fat Framework"
+               BlueprintName = "AppCenterAuth macOS Fat Framework"
+               ReferencedContainer = "container:../AppCenterAuth/AppCenterAuth.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -71,23 +56,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "04FD4A281E451E90009B4468"
-               BuildableName = "AppCenterDistribute iOS Fat Framework"
-               BlueprintName = "AppCenterDistribute iOS Fat Framework"
-               ReferencedContainer = "container:../AppCenterDistribute/AppCenterDistribute.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6E3729771D1DE83200F1E4AE"
-               BuildableName = "AppCenterCrashes iOS Fat Framework"
-               BlueprintName = "AppCenterCrashes iOS Fat Framework"
+               BlueprintIdentifier = "0485AFF91EAAB27E00C10CAF"
+               BuildableName = "AppCenterCrashes macOS Fat Framework"
+               BlueprintName = "AppCenterCrashes macOS Fat Framework"
                ReferencedContainer = "container:../AppCenterCrashes/AppCenterCrashes.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -99,9 +70,23 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D3AD5F221E5C9562001627AB"
-               BuildableName = "AppCenterPush iOS Fat Framework"
-               BlueprintName = "AppCenterPush iOS Fat Framework"
+               BlueprintIdentifier = "0469640E1F2A558F00F9D31F"
+               BuildableName = "AppCenterData macOS Fat Framework"
+               BlueprintName = "AppCenterData macOS Fat Framework"
+               ReferencedContainer = "container:../AppCenterData/AppCenterData.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "0469640E1F2A558F00F9D31F"
+               BuildableName = "AppCenterPush macOS Fat Framework"
+               BlueprintName = "AppCenterPush macOS Fat Framework"
                ReferencedContainer = "container:../AppCenterPush/AppCenterPush.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -113,24 +98,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "84226C7F1E8908C900798417"
-               BuildableName = "SasquatchSwift.app"
-               BlueprintName = "SasquatchSwift"
-               ReferencedContainer = "container:Sasquatch.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "C9E7E4E4231E9A5D007D96DC"
-               BuildableName = "SasquatchSwift Extension.appex"
-               BlueprintName = "SasquatchSwift Extension"
-               ReferencedContainer = "container:Sasquatch.xcodeproj">
+               BlueprintIdentifier = "C9057462233B6FFB00F69C92"
+               BuildableName = "SasquatchMacSwift-ContainingApp.app"
+               BlueprintName = "SasquatchMacSwift-ContainingApp"
+               ReferencedContainer = "container:SasquatchMac.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -145,10 +116,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "C9E7E4E4231E9A5D007D96DC"
-            BuildableName = "SasquatchSwift Extension.appex"
-            BlueprintName = "SasquatchSwift Extension"
-            ReferencedContainer = "container:Sasquatch.xcodeproj">
+            BlueprintIdentifier = "C9057462233B6FFB00F69C92"
+            BuildableName = "SasquatchMacSwift-ContainingApp.app"
+            BlueprintName = "SasquatchMacSwift-ContainingApp"
+            ReferencedContainer = "container:SasquatchMac.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -156,35 +127,24 @@
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"
-      selectedDebuggerIdentifier = ""
-      selectedLauncherIdentifier = "Xcode.IDEFoundation.Launcher.PosixSpawn"
+      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
+      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
-      allowLocationSimulation = "YES"
-      launchAutomaticallySubstyle = "2">
-      <RemoteRunnable
-         runnableDebuggingMode = "2"
-         BundleIdentifier = "com.apple.springboard">
+      allowLocationSimulation = "YES">
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "C9E7E4E4231E9A5D007D96DC"
-            BuildableName = "SasquatchSwift Extension.appex"
-            BlueprintName = "SasquatchSwift Extension"
-            ReferencedContainer = "container:Sasquatch.xcodeproj">
+            BlueprintIdentifier = "C9057462233B6FFB00F69C92"
+            BuildableName = "SasquatchMacSwift-ContainingApp.app"
+            BlueprintName = "SasquatchMacSwift-ContainingApp"
+            ReferencedContainer = "container:SasquatchMac.xcodeproj">
          </BuildableReference>
-      </RemoteRunnable>
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "C9E7E4E4231E9A5D007D96DC"
-            BuildableName = "SasquatchSwift Extension.appex"
-            BlueprintName = "SasquatchSwift Extension"
-            ReferencedContainer = "container:Sasquatch.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
+      </BuildableProductRunnable>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -193,16 +153,15 @@
       shouldUseLaunchSchemeArgsEnv = "YES"
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
-      debugDocumentVersioning = "YES"
-      launchAutomaticallySubstyle = "2">
+      debugDocumentVersioning = "YES">
       <BuildableProductRunnable
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "84226C7F1E8908C900798417"
-            BuildableName = "SasquatchSwift.app"
-            BlueprintName = "SasquatchSwift"
-            ReferencedContainer = "container:Sasquatch.xcodeproj">
+            BlueprintIdentifier = "C9057462233B6FFB00F69C92"
+            BuildableName = "SasquatchMacSwift-ContainingApp.app"
+            BlueprintName = "SasquatchMacSwift-ContainingApp"
+            ReferencedContainer = "container:SasquatchMac.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
