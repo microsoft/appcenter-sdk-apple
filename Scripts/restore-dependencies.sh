@@ -11,7 +11,7 @@ if [ -d "Auth0" ] && [ -d "Firebase" ]; then
 else
   rm -rf Auth0
   rm -rf Firebase
-  wget https://mobilecentersdkdev.blob.core.windows.net/sdk-dependencies/$filename
+  curl https://mobilecentersdkdev.blob.core.windows.net/sdk-dependencies/$filename > $filename
   unzip $filename
   rm $filename
 fi
