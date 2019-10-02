@@ -36,7 +36,7 @@ To contribute to the SDK, please
 * install [Jazzy](https://github.com/realm/jazzy) to be able to generate documentation.
 * install `clang-format` for code formatting via [Homebrew](https://brew.sh) using the command `brew install clang-format`.
 
-To run test applications, please
+Before running test applications, please
 
 * run a script `./test-app-dependencioes.sh` in the root of the repository.
 
