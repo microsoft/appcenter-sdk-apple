@@ -23,12 +23,15 @@ import AppCenterData
   func appSecret() -> String
   func appSecretAAD() -> String
   func appSecretB2C() -> String
+  func appSecretFirebase() -> String
+  func appSecretAuth0() -> String
   func sdkVersion() -> String
   func isDebuggerAttached() -> Bool
   func startAnalyticsFromLibrary()
   func setUserId(_ userId: String?)
   func setLogUrl(_ logUrl: String?)
   func setCountryCode(_ countryCode: String?)
+  func setAuthToken(_ authToken: String?)
   
   // Modules section.
   func isAnalyticsEnabled() -> Bool

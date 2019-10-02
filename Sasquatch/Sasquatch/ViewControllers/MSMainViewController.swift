@@ -121,22 +121,33 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
   }
 
   @IBAction func authSignIn(_ sender: UIButton) {
-    appCenter.signIn { (userInformation, error) in
+    let block: (MSUserInformation?, Error?) -> Void = { (userInformation, error) in
       self.userDefaultStatus = false
       self.userInformation = userInformation
+      self.appCenter.setAuthToken(userInformation?.idToken)
       DispatchQueue.main.async {
         self.updateViewState()
       }
     }
+    if let authProvider = (UIApplication.shared.delegate as! AppDelegate).authProvider {
+      authProvider.signIn(block)
+    } else {
+      appCenter.signIn(block)
+    }
   }
 
   @IBAction func authSignOut(_ sender: UIButton) {
-    appCenter.signOut()
+    if let authProvider = (UIApplication.shared.delegate as! AppDelegate).authProvider {
+      self.appCenter.setAuthToken(nil)
+      authProvider.signOut()
+    } else {
+      appCenter.signOut()
+    }
     self.userDefaultStatus = false
     self.userInformation = nil
     updateViewState()
   }
-  
+
   func updateViewState() {
     self.appCenterEnabledSwitch.isOn = appCenter.isAppCenterEnabled()
     self.pushEnabledSwitch.isOn = appCenter.isPushEnabled()
@@ -268,6 +279,18 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
       UserDefaults.standard.set(text, forKey: kMSAppSecret)
       self.appSecret.text = text
     })
+    let firebaseAction = UIAlertAction(title:"Firebase Secret", style: .default, handler: {
+      (_ action : UIAlertAction) -> Void in
+      let text = self.appCenter.appSecretFirebase()
+      UserDefaults.standard.set(text, forKey: kMSAppSecret)
+      self.appSecret.text = text
+    })
+    let auth0Action = UIAlertAction(title:"Auth0 Secret", style: .default, handler: {
+      (_ action : UIAlertAction) -> Void in
+      let text = self.appCenter.appSecretAuth0()
+      UserDefaults.standard.set(text, forKey: kMSAppSecret)
+      self.appSecret.text = text
+    })
     let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
     let saveAction = UIAlertAction(title: "Save", style: .default, handler: {
       (_ action : UIAlertAction) -> Void in
@@ -284,6 +307,8 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     alertController.addAction(saveAction)
     alertController.addAction(aadAction)
     alertController.addAction(b2cAction)
+    alertController.addAction(firebaseAction)
+    alertController.addAction(auth0Action)
     alertController.addAction(resetAction)
     self.present(alertController, animated: true, completion: nil)
   }

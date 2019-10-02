@@ -71,6 +71,22 @@
 #endif
 }
 
+- (NSString *)appSecretFirebase {
+#if GCC_PREPROCESSOR_MACRO_PUPPET
+  return kMSPuppetFirebaseAppSecret;
+#else
+  return kMSSwiftObjcFirebaseAppSecret;
+#endif
+}
+
+- (NSString *)appSecretAuth0 {
+#if GCC_PREPROCESSOR_MACRO_PUPPET
+  return kMSPuppetAuth0AppSecret;
+#else
+  return kMSSwiftObjcAuth0AppSecret;
+#endif
+}
+
 - (void)setLogUrl:(NSString *)logUrl {
   [MSAppCenter setLogUrl:logUrl];
 }
@@ -97,6 +113,10 @@
 
 - (void)setCountryCode:(NSString *)countryCode {
   [MSAppCenter setCountryCode:countryCode];
+}
+
+- (void)setAuthToken:(NSString *)authToken {
+  [MSAppCenter setAuthToken:authToken];
 }
 
 #pragma mark - Modules section.

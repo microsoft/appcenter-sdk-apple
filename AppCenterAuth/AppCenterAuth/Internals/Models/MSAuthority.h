@@ -5,6 +5,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+static NSString *const kMSTypeKey = @"type";
+
 @interface MSAuthority : NSObject
 
 /**
@@ -37,6 +39,13 @@ NS_ASSUME_NONNULL_BEGIN
  * @return YES, if the object is valid.
  */
 - (BOOL)isValid;
+
+/**
+ * Checks if authoritiy types.
+ *
+ * @return YES, if the authority types are valid.
+ */
+- (BOOL)isValidType;
 
 @end
 

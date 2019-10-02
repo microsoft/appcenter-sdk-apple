@@ -13,6 +13,7 @@ import AppCenterData
 import AppCenterDistribute
 import AppCenterAuth
 import AppCenterPush
+import Auth0
 import UserNotifications
 
 enum StartupMode: Int {
@@ -31,6 +32,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
   private var locationManager : CLLocationManager = CLLocationManager()
 
   var window: UIWindow?
+  var authProvider: AuthProviderDelegate?
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
@@ -72,11 +74,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
     }
 
     // Start App Center SDK.
-    let services = [MSAnalytics.self, MSCrashes.self, MSData.self, MSDistribute.self, MSAuth.self, MSPush.self]
+    var services = [MSAnalytics.self, MSCrashes.self, MSData.self, MSDistribute.self, MSAuth.self, MSPush.self]
     let appSecret = UserDefaults.standard.string(forKey: kMSAppSecret) ?? kMSSwiftAppSecret
     let startTarget = StartupMode(rawValue: UserDefaults.standard.integer(forKey: kMSStartTargetKey))!
-    let latencyTimeValue = UserDefaults.standard.integer(forKey: kMSTransmissionIterval);
-    MSAnalytics.setTransmissionInterval(UInt(latencyTimeValue));
+    let latencyTimeValue = UserDefaults.standard.integer(forKey: kMSTransmissionIterval)
+    MSAnalytics.setTransmissionInterval(UInt(latencyTimeValue))
+    services = setUpAuth(for: appSecret, with: services) as! [MSServiceAbstract.Type]
     switch startTarget {
     case .APPCENTER:
       MSAppCenter.start(appSecret, withServices: services)
@@ -147,6 +150,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
     }
   }
 
+  private func setUpAuth(for appSecret: String?, with services: [AnyClass]) -> [AnyClass] {
+    if appSecret == kMSSwiftObjcAuth0AppSecret {
+      authProvider = Auth0Provider()
+    } else if appSecret == kMSSwiftObjcFirebaseAppSecret {
+      authProvider = FirebaseProvider()
+    } else {
+      return services;
+    }
+    var modifiedServices = services
+    modifiedServices.removeAll {
+      $0 as AnyClass == MSAuth.self as AnyClass
+    }
+    MSAppCenter.setAuthTokenDelegate(authProvider)
+    return modifiedServices
+  }
+
   /**
    * (iOS 9+) Asks the delegate to open a resource specified by a URL, and provides a dictionary of launch options.
    *
@@ -161,7 +180,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
    */
   func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
     // Forward the URL.
-    return MSDistribute.open(url) || MSAuth.open(url, options: options);
+    return MSDistribute.open(url) || MSAuth.open(url, options: options) || Auth0.resumeAuth(url, options:options);
   }
 
   func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
