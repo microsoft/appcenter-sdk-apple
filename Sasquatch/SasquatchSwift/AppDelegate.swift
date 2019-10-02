@@ -14,6 +14,7 @@ import AppCenterDistribute
 import AppCenterAuth
 import AppCenterPush
 import Auth0
+import FirebaseAuthUI
 import UserNotifications
 
 enum StartupMode: Int {
@@ -180,7 +181,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
    */
   func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
     // Forward the URL.
-    return MSDistribute.open(url) || MSAuth.open(url, options: options) || Auth0.resumeAuth(url, options:options);
+    let sourceApplication = options[UIApplication.OpenURLOptionsKey.sourceApplication] as! String?
+    return MSDistribute.open(url) || MSAuth.open(url, options: options) || Auth0.resumeAuth(url, options:options) || (FUIAuth.defaultAuthUI()?.handleOpen(url, sourceApplication: sourceApplication) ?? false)
   }
 
   func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {

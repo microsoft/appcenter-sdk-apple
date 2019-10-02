@@ -21,7 +21,54 @@
 		046790421E8DA7D80033FDEC /* AppCenterPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 046790411E8DA7D80033FDEC /* AppCenterPush.framework */; };
 		046790431E8DA7E90033FDEC /* AppCenterPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 046790411E8DA7D80033FDEC /* AppCenterPush.framework */; };
 		048933631F8D395A00C38A87 /* Sasquatch.strings in Resources */ = {isa = PBXBuildFile; fileRef = 041A4BAF1F8C28A3009E1B6C /* Sasquatch.strings */; };
+		048C22232345109C00316020 /* FBSDKCoreKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04A950182342984C00F49AEE /* FBSDKCoreKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		048C22242345109C00316020 /* FBSDKLoginKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04A950192342984C00F49AEE /* FBSDKLoginKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		048C22252345109C00316020 /* FirebaseCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04DFF6BE233EC78C0003CFA8 /* FirebaseCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		048C22262345109C00316020 /* FirebaseAuth.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04DFF6A0233EA91E0003CFA8 /* FirebaseAuth.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		048C22272345109C00316020 /* FirebaseAuthUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04DFF661233EA8350003CFA8 /* FirebaseAuthUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		048C22282345109C00316020 /* FirebaseFacebookAuthUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04A950132342866C00F49AEE /* FirebaseFacebookAuthUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		048C22292345109C00316020 /* GoogleUtilities.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04DFF6B4233EB2440003CFA8 /* GoogleUtilities.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		048C222A2345109C00316020 /* GTMSessionFetcher.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04DFF6AF233EB1C70003CFA8 /* GTMSessionFetcher.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		048C222B2345109C00316020 /* nanopb.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04DFF6B9233EB2910003CFA8 /* nanopb.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		048C222C2345109C00316020 /* Auth0.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04C5164E233C122C001C9011 /* Auth0.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		048C222D2345109C00316020 /* SimpleKeychain.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04C5166D233C3644001C9011 /* SimpleKeychain.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		048C22692345148000316020 /* FBSDKCoreKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04A950182342984C00F49AEE /* FBSDKCoreKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		048C226A2345148000316020 /* FBSDKLoginKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04A950192342984C00F49AEE /* FBSDKLoginKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		048C226B2345148000316020 /* FirebaseCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04DFF6BE233EC78C0003CFA8 /* FirebaseCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		048C226C2345148000316020 /* FirebaseAuth.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04DFF6A0233EA91E0003CFA8 /* FirebaseAuth.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		048C226D2345148000316020 /* FirebaseAuthUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04DFF661233EA8350003CFA8 /* FirebaseAuthUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		048C226E2345148000316020 /* FirebaseFacebookAuthUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04A950132342866C00F49AEE /* FirebaseFacebookAuthUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		048C226F2345148000316020 /* GoogleUtilities.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04DFF6B4233EB2440003CFA8 /* GoogleUtilities.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		048C22702345148000316020 /* GTMSessionFetcher.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04DFF6AF233EB1C70003CFA8 /* GTMSessionFetcher.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		048C22712345148000316020 /* nanopb.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04DFF6B9233EB2910003CFA8 /* nanopb.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		048C22722345148000316020 /* Auth0.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04C5164E233C122C001C9011 /* Auth0.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		048C22732345148000316020 /* SimpleKeychain.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04C5166D233C3644001C9011 /* SimpleKeychain.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		048C22742345149000316020 /* FBSDKCoreKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04A950182342984C00F49AEE /* FBSDKCoreKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		048C22752345149000316020 /* FBSDKLoginKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04A950192342984C00F49AEE /* FBSDKLoginKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		048C22762345149000316020 /* FirebaseCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04DFF6BE233EC78C0003CFA8 /* FirebaseCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		048C22772345149000316020 /* FirebaseAuth.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04DFF6A0233EA91E0003CFA8 /* FirebaseAuth.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		048C22782345149000316020 /* FirebaseAuthUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04DFF661233EA8350003CFA8 /* FirebaseAuthUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		048C22792345149000316020 /* FirebaseFacebookAuthUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04A950132342866C00F49AEE /* FirebaseFacebookAuthUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		048C227A2345149000316020 /* GoogleUtilities.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04DFF6B4233EB2440003CFA8 /* GoogleUtilities.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		048C227B2345149000316020 /* GTMSessionFetcher.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04DFF6AF233EB1C70003CFA8 /* GTMSessionFetcher.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		048C227C2345149100316020 /* nanopb.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04DFF6B9233EB2910003CFA8 /* nanopb.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		048C227D2345149100316020 /* Auth0.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04C5164E233C122C001C9011 /* Auth0.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		048C227E2345149100316020 /* SimpleKeychain.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04C5166D233C3644001C9011 /* SimpleKeychain.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		04A1DB34223B65EB006A48D6 /* AuthenticationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04A1DB33223B65EB006A48D6 /* AuthenticationServices.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		04A950142342866C00F49AEE /* FirebaseFacebookAuthUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04A950132342866C00F49AEE /* FirebaseFacebookAuthUI.framework */; };
+		04A950152342866C00F49AEE /* FirebaseFacebookAuthUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04A950132342866C00F49AEE /* FirebaseFacebookAuthUI.framework */; };
+		04A950162342866C00F49AEE /* FirebaseFacebookAuthUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04A950132342866C00F49AEE /* FirebaseFacebookAuthUI.framework */; };
+		04A9501A2342984C00F49AEE /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04A950182342984C00F49AEE /* FBSDKCoreKit.framework */; };
+		04A9501B2342984C00F49AEE /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04A950182342984C00F49AEE /* FBSDKCoreKit.framework */; };
+		04A9501C2342984C00F49AEE /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04A950182342984C00F49AEE /* FBSDKCoreKit.framework */; };
+		04A9501D2342984C00F49AEE /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04A950192342984C00F49AEE /* FBSDKLoginKit.framework */; };
+		04A9501E2342984C00F49AEE /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04A950192342984C00F49AEE /* FBSDKLoginKit.framework */; };
+		04A9501F2342984C00F49AEE /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04A950192342984C00F49AEE /* FBSDKLoginKit.framework */; };
+		04A9502323429B1600F49AEE /* FirebaseAuthUI.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 04A9502223429B1600F49AEE /* FirebaseAuthUI.bundle */; };
+		04A9502423429B1600F49AEE /* FirebaseAuthUI.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 04A9502223429B1600F49AEE /* FirebaseAuthUI.bundle */; };
+		04A9502523429B1600F49AEE /* FirebaseAuthUI.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 04A9502223429B1600F49AEE /* FirebaseAuthUI.bundle */; };
+		04A950272342B62F00F49AEE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 04A950262342B62F00F49AEE /* GoogleService-Info.plist */; };
+		04A950282342B62F00F49AEE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 04A950262342B62F00F49AEE /* GoogleService-Info.plist */; };
 		04A950882342BFE200F49AEE /* AuthProviderDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E2835E23399485000FBACB /* AuthProviderDelegate.swift */; };
 		04A950C42342BFE200F49AEE /* AuthProviderDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E2835E23399485000FBACB /* AuthProviderDelegate.swift */; };
 		04C5164F233C122C001C9011 /* Auth0.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04C5164E233C122C001C9011 /* Auth0.framework */; };
@@ -30,15 +77,28 @@
 		04C51653233C14D1001C9011 /* Auth0.plist in Resources */ = {isa = PBXBuildFile; fileRef = 04C51652233C14D1001C9011 /* Auth0.plist */; };
 		04C51654233C14D1001C9011 /* Auth0.plist in Resources */ = {isa = PBXBuildFile; fileRef = 04C51652233C14D1001C9011 /* Auth0.plist */; };
 		04C51655233C14D1001C9011 /* Auth0.plist in Resources */ = {isa = PBXBuildFile; fileRef = 04C51652233C14D1001C9011 /* Auth0.plist */; };
-		04C5166A233C35CC001C9011 /* Auth0.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 04C5164E233C122C001C9011 /* Auth0.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		04C5166E233C3644001C9011 /* SimpleKeychain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04C5166D233C3644001C9011 /* SimpleKeychain.framework */; };
 		04C5166F233C3644001C9011 /* SimpleKeychain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04C5166D233C3644001C9011 /* SimpleKeychain.framework */; };
 		04C51670233C3644001C9011 /* SimpleKeychain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04C5166D233C3644001C9011 /* SimpleKeychain.framework */; };
-		04C51671233C366B001C9011 /* SimpleKeychain.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 04C5166D233C3644001C9011 /* SimpleKeychain.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		04D58D9E233E78A90059E848 /* Auth0.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 04C5164E233C122C001C9011 /* Auth0.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		04D58D9F233E78A90059E848 /* SimpleKeychain.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 04C5166D233C3644001C9011 /* SimpleKeychain.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		04D58DDB233E78B40059E848 /* Auth0.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 04C5164E233C122C001C9011 /* Auth0.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		04D58DDC233E78B40059E848 /* SimpleKeychain.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 04C5166D233C3644001C9011 /* SimpleKeychain.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		04DFF69D233EA8350003CFA8 /* FirebaseAuthUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04DFF661233EA8350003CFA8 /* FirebaseAuthUI.framework */; };
+		04DFF69E233EA8350003CFA8 /* FirebaseAuthUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04DFF661233EA8350003CFA8 /* FirebaseAuthUI.framework */; };
+		04DFF69F233EA8350003CFA8 /* FirebaseAuthUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04DFF661233EA8350003CFA8 /* FirebaseAuthUI.framework */; };
+		04DFF6A1233EA91E0003CFA8 /* FirebaseAuth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04DFF6A0233EA91E0003CFA8 /* FirebaseAuth.framework */; };
+		04DFF6A2233EA91E0003CFA8 /* FirebaseAuth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04DFF6A0233EA91E0003CFA8 /* FirebaseAuth.framework */; };
+		04DFF6A3233EA91E0003CFA8 /* FirebaseAuth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04DFF6A0233EA91E0003CFA8 /* FirebaseAuth.framework */; };
+		04DFF6AB233EAD7C0003CFA8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 04DFF6A8233EAD7C0003CFA8 /* GoogleService-Info.plist */; };
+		04DFF6B0233EB1C70003CFA8 /* GTMSessionFetcher.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04DFF6AF233EB1C70003CFA8 /* GTMSessionFetcher.framework */; };
+		04DFF6B1233EB1C70003CFA8 /* GTMSessionFetcher.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04DFF6AF233EB1C70003CFA8 /* GTMSessionFetcher.framework */; };
+		04DFF6B2233EB1C70003CFA8 /* GTMSessionFetcher.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04DFF6AF233EB1C70003CFA8 /* GTMSessionFetcher.framework */; };
+		04DFF6B5233EB2440003CFA8 /* GoogleUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04DFF6B4233EB2440003CFA8 /* GoogleUtilities.framework */; };
+		04DFF6B6233EB2440003CFA8 /* GoogleUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04DFF6B4233EB2440003CFA8 /* GoogleUtilities.framework */; };
+		04DFF6B7233EB2440003CFA8 /* GoogleUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04DFF6B4233EB2440003CFA8 /* GoogleUtilities.framework */; };
+		04DFF6BA233EB2910003CFA8 /* nanopb.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04DFF6B9233EB2910003CFA8 /* nanopb.framework */; };
+		04DFF6BB233EB2910003CFA8 /* nanopb.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04DFF6B9233EB2910003CFA8 /* nanopb.framework */; };
+		04DFF6BC233EB2910003CFA8 /* nanopb.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04DFF6B9233EB2910003CFA8 /* nanopb.framework */; };
+		04DFF6BF233EC78D0003CFA8 /* FirebaseCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04DFF6BE233EC78C0003CFA8 /* FirebaseCore.framework */; };
+		04DFF6C0233EC78D0003CFA8 /* FirebaseCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04DFF6BE233EC78C0003CFA8 /* FirebaseCore.framework */; };
+		04DFF6C1233EC78D0003CFA8 /* FirebaseCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04DFF6BE233EC78C0003CFA8 /* FirebaseCore.framework */; };
 		04E2836123399485000FBACB /* AuthProviderDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E2835E23399485000FBACB /* AuthProviderDelegate.swift */; };
 		04E2836223399485000FBACB /* AuthProviderDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E2835E23399485000FBACB /* AuthProviderDelegate.swift */; };
 		04E2836323399485000FBACB /* AuthProviderDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E2835E23399485000FBACB /* AuthProviderDelegate.swift */; };
@@ -1001,17 +1061,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		04CCE78C21F7A138000AD84C /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				04C51671233C366B001C9011 /* SimpleKeychain.framework in CopyFiles */,
-				04C5166A233C35CC001C9011 /* Auth0.framework in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		04CCE78E21F7A4E4000AD84C /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1021,34 +1070,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		04CCE79221F7A505000AD84C /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				04D58DDB233E78B40059E848 /* Auth0.framework in CopyFiles */,
-				04D58DDC233E78B40059E848 /* SimpleKeychain.framework in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		04CCE79421F7A511000AD84C /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				04D58D9E233E78A90059E848 /* Auth0.framework in CopyFiles */,
-				04D58D9F233E78A90059E848 /* SimpleKeychain.framework in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		B20AE3A421027D6200A1A195 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				048C22232345109C00316020 /* FBSDKCoreKit.framework in Embed Frameworks */,
+				048C22242345109C00316020 /* FBSDKLoginKit.framework in Embed Frameworks */,
+				048C22252345109C00316020 /* FirebaseCore.framework in Embed Frameworks */,
+				048C22262345109C00316020 /* FirebaseAuth.framework in Embed Frameworks */,
+				048C22272345109C00316020 /* FirebaseAuthUI.framework in Embed Frameworks */,
+				048C22282345109C00316020 /* FirebaseFacebookAuthUI.framework in Embed Frameworks */,
+				048C22292345109C00316020 /* GoogleUtilities.framework in Embed Frameworks */,
+				048C222A2345109C00316020 /* GTMSessionFetcher.framework in Embed Frameworks */,
+				048C222B2345109C00316020 /* nanopb.framework in Embed Frameworks */,
+				048C222C2345109C00316020 /* Auth0.framework in Embed Frameworks */,
+				048C222D2345109C00316020 /* SimpleKeychain.framework in Embed Frameworks */,
 				C2F156D22338C2FC00798480 /* CrashLibIOS.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -1071,6 +1109,17 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				048C22742345149000316020 /* FBSDKCoreKit.framework in Embed Frameworks */,
+				048C22752345149000316020 /* FBSDKLoginKit.framework in Embed Frameworks */,
+				048C22762345149000316020 /* FirebaseCore.framework in Embed Frameworks */,
+				048C22772345149000316020 /* FirebaseAuth.framework in Embed Frameworks */,
+				048C22782345149000316020 /* FirebaseAuthUI.framework in Embed Frameworks */,
+				048C22792345149000316020 /* FirebaseFacebookAuthUI.framework in Embed Frameworks */,
+				048C227A2345149000316020 /* GoogleUtilities.framework in Embed Frameworks */,
+				048C227B2345149000316020 /* GTMSessionFetcher.framework in Embed Frameworks */,
+				048C227C2345149100316020 /* nanopb.framework in Embed Frameworks */,
+				048C227D2345149100316020 /* Auth0.framework in Embed Frameworks */,
+				048C227E2345149100316020 /* SimpleKeychain.framework in Embed Frameworks */,
 				C2F156E72338C32C00798480 /* CrashLibIOS.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -1274,6 +1323,17 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				048C22692345148000316020 /* FBSDKCoreKit.framework in Embed Frameworks */,
+				048C226A2345148000316020 /* FBSDKLoginKit.framework in Embed Frameworks */,
+				048C226B2345148000316020 /* FirebaseCore.framework in Embed Frameworks */,
+				048C226C2345148000316020 /* FirebaseAuth.framework in Embed Frameworks */,
+				048C226D2345148000316020 /* FirebaseAuthUI.framework in Embed Frameworks */,
+				048C226E2345148000316020 /* FirebaseFacebookAuthUI.framework in Embed Frameworks */,
+				048C226F2345148000316020 /* GoogleUtilities.framework in Embed Frameworks */,
+				048C22702345148000316020 /* GTMSessionFetcher.framework in Embed Frameworks */,
+				048C22712345148000316020 /* nanopb.framework in Embed Frameworks */,
+				048C22722345148000316020 /* Auth0.framework in Embed Frameworks */,
+				048C22732345148000316020 /* SimpleKeychain.framework in Embed Frameworks */,
 				C2F156E22338C31E00798480 /* CrashLibIOS.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -1304,9 +1364,21 @@
 		046790451E8DA8DD0033FDEC /* SasquatchObjC.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SasquatchObjC.entitlements; sourceTree = "<group>"; };
 		0482105C1FD0B611006824F7 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/Sasquatch.strings; sourceTree = "<group>"; };
 		04A1DB33223B65EB006A48D6 /* AuthenticationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AuthenticationServices.framework; path = System/Library/Frameworks/AuthenticationServices.framework; sourceTree = SDKROOT; };
+		04A950132342866C00F49AEE /* FirebaseFacebookAuthUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseFacebookAuthUI.framework; path = ../Vendor/iOS/Firebase/FirebaseFacebookAuthUI.framework; sourceTree = "<group>"; };
+		04A950182342984C00F49AEE /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = ../Vendor/iOS/Firebase/FBSDKCoreKit.framework; sourceTree = "<group>"; };
+		04A950192342984C00F49AEE /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = ../Vendor/iOS/Firebase/FBSDKLoginKit.framework; sourceTree = "<group>"; };
+		04A9502223429B1600F49AEE /* FirebaseAuthUI.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = FirebaseAuthUI.bundle; path = ../Vendor/iOS/Firebase/FirebaseFacebookAuthUI.framework/FirebaseAuthUI.bundle; sourceTree = "<group>"; };
+		04A950262342B62F00F49AEE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		04C5164E233C122C001C9011 /* Auth0.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Auth0.framework; path = ../Vendor/iOS/Auth0/Auth0.framework; sourceTree = "<group>"; };
 		04C51652233C14D1001C9011 /* Auth0.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Auth0.plist; sourceTree = "<group>"; };
 		04C5166D233C3644001C9011 /* SimpleKeychain.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SimpleKeychain.framework; path = ../Vendor/iOS/Auth0/SimpleKeychain.framework; sourceTree = "<group>"; };
+		04DFF661233EA8350003CFA8 /* FirebaseAuthUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseAuthUI.framework; path = ../Vendor/iOS/Firebase/FirebaseAuthUI.framework; sourceTree = "<group>"; };
+		04DFF6A0233EA91E0003CFA8 /* FirebaseAuth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseAuth.framework; path = ../Vendor/iOS/Firebase/FirebaseAuth.framework; sourceTree = "<group>"; };
+		04DFF6A8233EAD7C0003CFA8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		04DFF6AF233EB1C70003CFA8 /* GTMSessionFetcher.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GTMSessionFetcher.framework; path = ../Vendor/iOS/Firebase/GTMSessionFetcher.framework; sourceTree = "<group>"; };
+		04DFF6B4233EB2440003CFA8 /* GoogleUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleUtilities.framework; path = ../Vendor/iOS/Firebase/GoogleUtilities.framework; sourceTree = "<group>"; };
+		04DFF6B9233EB2910003CFA8 /* nanopb.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = nanopb.framework; path = ../Vendor/iOS/Firebase/nanopb.framework; sourceTree = "<group>"; };
+		04DFF6BE233EC78C0003CFA8 /* FirebaseCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseCore.framework; path = ../Vendor/iOS/Firebase/FirebaseCore.framework; sourceTree = "<group>"; };
 		04E2835E23399485000FBACB /* AuthProviderDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthProviderDelegate.swift; sourceTree = "<group>"; };
 		352A3E7320F801A900D09CF0 /* EventPropertiesTableSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventPropertiesTableSection.swift; sourceTree = "<group>"; };
 		35396A7720F95A9C00A091E0 /* MSTransmissionTargetsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSTransmissionTargetsViewController.swift; sourceTree = "<group>"; };
@@ -1465,13 +1537,22 @@
 			files = (
 				84226D321E89301B00798417 /* AppCenter.framework in Frameworks */,
 				0459924821F0050B00BD3F82 /* AppCenterAuth.framework in Frameworks */,
+				04A9501E2342984C00F49AEE /* FBSDKLoginKit.framework in Frameworks */,
+				04DFF69E233EA8350003CFA8 /* FirebaseAuthUI.framework in Frameworks */,
+				04DFF6B6233EB2440003CFA8 /* GoogleUtilities.framework in Frameworks */,
 				84226D331E89301B00798417 /* AppCenterAnalytics.framework in Frameworks */,
 				04C5166F233C3644001C9011 /* SimpleKeychain.framework in Frameworks */,
 				84226D341E89301B00798417 /* AppCenterCrashes.framework in Frameworks */,
 				C25DAE3F22280B150073B86A /* AppCenterData.framework in Frameworks */,
+				04A9501B2342984C00F49AEE /* FBSDKCoreKit.framework in Frameworks */,
+				04A950152342866C00F49AEE /* FirebaseFacebookAuthUI.framework in Frameworks */,
 				04C51650233C122C001C9011 /* Auth0.framework in Frameworks */,
+				04DFF6C0233EC78D0003CFA8 /* FirebaseCore.framework in Frameworks */,
+				04DFF6BB233EB2910003CFA8 /* nanopb.framework in Frameworks */,
 				84226D351E89301B00798417 /* AppCenterDistribute.framework in Frameworks */,
+				04DFF6A2233EA91E0003CFA8 /* FirebaseAuth.framework in Frameworks */,
 				046790431E8DA7E90033FDEC /* AppCenterPush.framework in Frameworks */,
+				04DFF6B1233EB1C70003CFA8 /* GTMSessionFetcher.framework in Frameworks */,
 				C2F156E12338C31E00798480 /* CrashLibIOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1480,7 +1561,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04DFF6BC233EB2910003CFA8 /* nanopb.framework in Frameworks */,
+				04DFF6B7233EB2440003CFA8 /* GoogleUtilities.framework in Frameworks */,
+				04A950162342866C00F49AEE /* FirebaseFacebookAuthUI.framework in Frameworks */,
+				04A9501C2342984C00F49AEE /* FBSDKCoreKit.framework in Frameworks */,
 				C261445D230FE88A00D65EBF /* AppCenter.framework in Frameworks */,
+				04A9501F2342984C00F49AEE /* FBSDKLoginKit.framework in Frameworks */,
+				04DFF69F233EA8350003CFA8 /* FirebaseAuthUI.framework in Frameworks */,
 				C261445E230FE88A00D65EBF /* AppCenterAnalytics.framework in Frameworks */,
 				C261445F230FE88A00D65EBF /* AppCenterAuth.framework in Frameworks */,
 				C2614460230FE88A00D65EBF /* AppCenterCrashes.framework in Frameworks */,
@@ -1489,8 +1576,11 @@
 				C2614463230FE88A00D65EBF /* AppCenterPush.framework in Frameworks */,
 				04A1DB34223B65EB006A48D6 /* AuthenticationServices.framework in Frameworks */,
 				C2F156D12338C2FC00798480 /* CrashLibIOS.framework in Frameworks */,
+				04DFF6B2233EB1C70003CFA8 /* GTMSessionFetcher.framework in Frameworks */,
 				B20AE48A21028E3C00A1A195 /* libz.tbd in Frameworks */,
 				04C51651233C122C001C9011 /* Auth0.framework in Frameworks */,
+				04DFF6C1233EC78D0003CFA8 /* FirebaseCore.framework in Frameworks */,
+				04DFF6A3233EA91E0003CFA8 /* FirebaseAuth.framework in Frameworks */,
 				B20AE48821028E3300A1A195 /* libc++.tbd in Frameworks */,
 				04C51670233C3644001C9011 /* SimpleKeychain.framework in Frameworks */,
 			);
@@ -1517,13 +1607,22 @@
 			files = (
 				B2A4CFA1210A6E6900199B4F /* AppCenter.framework in Frameworks */,
 				0459924721F0050B00BD3F82 /* AppCenterAuth.framework in Frameworks */,
+				04A9501D2342984C00F49AEE /* FBSDKLoginKit.framework in Frameworks */,
+				04DFF69D233EA8350003CFA8 /* FirebaseAuthUI.framework in Frameworks */,
+				04DFF6B5233EB2440003CFA8 /* GoogleUtilities.framework in Frameworks */,
 				B2A4CFA2210A6E6900199B4F /* AppCenterAnalytics.framework in Frameworks */,
 				04C5166E233C3644001C9011 /* SimpleKeychain.framework in Frameworks */,
 				B2A4CFA3210A6E6900199B4F /* AppCenterCrashes.framework in Frameworks */,
 				C25DAE3E22280B150073B86A /* AppCenterData.framework in Frameworks */,
+				04A9501A2342984C00F49AEE /* FBSDKCoreKit.framework in Frameworks */,
+				04A950142342866C00F49AEE /* FirebaseFacebookAuthUI.framework in Frameworks */,
 				04C5164F233C122C001C9011 /* Auth0.framework in Frameworks */,
+				04DFF6BF233EC78D0003CFA8 /* FirebaseCore.framework in Frameworks */,
+				04DFF6BA233EB2910003CFA8 /* nanopb.framework in Frameworks */,
 				B2A4CFA4210A6E6900199B4F /* AppCenterDistribute.framework in Frameworks */,
+				04DFF6A1233EA91E0003CFA8 /* FirebaseAuth.framework in Frameworks */,
 				B2A4CFA5210A6E6900199B4F /* AppCenterPush.framework in Frameworks */,
+				04DFF6B0233EB1C70003CFA8 /* GTMSessionFetcher.framework in Frameworks */,
 				C2F156E62338C32C00798480 /* CrashLibIOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1626,6 +1725,7 @@
 			isa = PBXGroup;
 			children = (
 				E8BABE9E224416FC0001B7E0 /* Info.plist */,
+				04DFF6A8233EAD7C0003CFA8 /* GoogleService-Info.plist */,
 				B2C97B8A2106535500042A03 /* Assets.xcassets */,
 			);
 			name = "Supporting Files";
@@ -1839,6 +1939,7 @@
 			isa = PBXGroup;
 			children = (
 				84226C891E8908CA00798417 /* Assets.xcassets */,
+				04A950262342B62F00F49AEE /* GoogleService-Info.plist */,
 				84226C8E1E8908CA00798417 /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -2077,6 +2178,16 @@
 		F8FE732D21073042005C6A74 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				04A9502223429B1600F49AEE /* FirebaseAuthUI.bundle */,
+				04A950182342984C00F49AEE /* FBSDKCoreKit.framework */,
+				04A950192342984C00F49AEE /* FBSDKLoginKit.framework */,
+				04DFF6BE233EC78C0003CFA8 /* FirebaseCore.framework */,
+				04DFF6A0233EA91E0003CFA8 /* FirebaseAuth.framework */,
+				04DFF661233EA8350003CFA8 /* FirebaseAuthUI.framework */,
+				04A950132342866C00F49AEE /* FirebaseFacebookAuthUI.framework */,
+				04DFF6B4233EB2440003CFA8 /* GoogleUtilities.framework */,
+				04DFF6AF233EB1C70003CFA8 /* GTMSessionFetcher.framework */,
+				04DFF6B9233EB2910003CFA8 /* nanopb.framework */,
 				04C5164E233C122C001C9011 /* Auth0.framework */,
 				04C5166D233C3644001C9011 /* SimpleKeychain.framework */,
 				F8669FB72195B6A2003933A8 /* sqlite3.c */,
@@ -2150,6 +2261,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 84226CA51E8908CA00798417 /* Build configuration list for PBXNativeTarget "SasquatchSwift" */;
 			buildPhases = (
+				04EB2285234401F000CD8DC7 /* Download dependencies */,
 				F84923EB2111C2C800E14DBE /* Verify No Build Settings */,
 				F83D7AC12317C51900E7E8F4 /* Remove the wrong framework */,
 				84226C7C1E8908C900798417 /* Sources */,
@@ -2157,7 +2269,6 @@
 				84226C7E1E8908C900798417 /* Resources */,
 				F89D790E1E93DA500094521F /* Embed Frameworks */,
 				D36AD7171E94FF98003D34E7 /* Embed Watch Content */,
-				04CCE79421F7A511000AD84C /* CopyFiles */,
 				C9E7E534231E9A5E007D96DC /* Embed App Extensions */,
 			);
 			buildRules = (
@@ -2177,12 +2288,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B20AE3A821027D6200A1A195 /* Build configuration list for PBXNativeTarget "SasquatchPuppet" */;
 			buildPhases = (
+				04EB22842343F9E300CD8DC7 /* Download dependencies */,
 				F84923BB21119AE100E14DBE /* Verify No Build Settings */,
 				B20AE37F21027D6200A1A195 /* Sources */,
 				B20AE39421027D6200A1A195 /* Frameworks */,
 				B20AE39B21027D6200A1A195 /* Resources */,
 				B20AE3A421027D6200A1A195 /* Embed Frameworks */,
-				04CCE78C21F7A138000AD84C /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -2229,12 +2340,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B2A4CFB3210A6E6900199B4F /* Build configuration list for PBXNativeTarget "SasquatchSwift-Preview" */;
 			buildPhases = (
+				04EB22862344021700CD8DC7 /* Download dependencies */,
 				F84923EA2111C2C100E14DBE /* Verify No Build Settings */,
 				B2A4CF88210A6E6900199B4F /* Sources */,
 				B2A4CF9F210A6E6900199B4F /* Frameworks */,
 				B2A4CFA6210A6E6900199B4F /* Resources */,
 				B2A4CFAF210A6E6900199B4F /* Embed Frameworks */,
-				04CCE79221F7A505000AD84C /* CopyFiles */,
 				C9E7E4D2231E99E9007D96DC /* Embed App Extensions */,
 			);
 			buildRules = (
@@ -2942,7 +3053,9 @@
 				84226C8A1E8908CA00798417 /* Assets.xcassets in Resources */,
 				B2E011FC21091F09003F4A5B /* MSAnalyticsTransmissionTargetSelectorViewCell.xib in Resources */,
 				F8AA9F3A2164F9A9009104E3 /* MSAnalyticsTypedPropertyTableViewCell.xib in Resources */,
+				04A950282342B62F00F49AEE /* GoogleService-Info.plist in Resources */,
 				04C51654233C14D1001C9011 /* Auth0.plist in Resources */,
+				04A9502423429B1600F49AEE /* FirebaseAuthUI.bundle in Resources */,
 				F809D5051FC6DD80005E0F83 /* LaunchScreen.storyboard in Resources */,
 				84D63FF91E8BAA90004C9F86 /* Main.storyboard in Resources */,
 				35ABB5D320FEAD8F002E6841 /* Assets.xcassets in Resources */,
@@ -2960,8 +3073,10 @@
 				F8FE7330210730EE005C6A74 /* AppCenterDistributeResources.bundle in Resources */,
 				F8AA9F3B2164F9AA009104E3 /* MSAnalyticsTypedPropertyTableViewCell.xib in Resources */,
 				04C51655233C14D1001C9011 /* Auth0.plist in Resources */,
+				04A9502523429B1600F49AEE /* FirebaseAuthUI.bundle in Resources */,
 				B20AE3A121027D6200A1A195 /* Main.storyboard in Resources */,
 				B2E011FD21091F0A003F4A5B /* MSAnalyticsTransmissionTargetSelectorViewCell.xib in Resources */,
+				04DFF6AB233EAD7C0003CFA8 /* GoogleService-Info.plist in Resources */,
 				B2E011F921091F00003F4A5B /* MSAnalyticsPropertyTableViewCell.xib in Resources */,
 				B2C97B8B2106535500042A03 /* Assets.xcassets in Resources */,
 			);
@@ -2988,11 +3103,13 @@
 			files = (
 				B2A4CFA7210A6E6900199B4F /* Sasquatch.strings in Resources */,
 				B2A4CFA9210A6E6900199B4F /* Assets.xcassets in Resources */,
+				04A9502323429B1600F49AEE /* FirebaseAuthUI.bundle in Resources */,
 				B2A4CFAA210A6E6900199B4F /* MSAnalyticsTransmissionTargetSelectorViewCell.xib in Resources */,
 				F8AA9F392164F9A8009104E3 /* MSAnalyticsTypedPropertyTableViewCell.xib in Resources */,
 				04C51653233C14D1001C9011 /* Auth0.plist in Resources */,
 				B2A4CFAB210A6E6900199B4F /* LaunchScreen.storyboard in Resources */,
 				B2A4CFAC210A6E6900199B4F /* Main.storyboard in Resources */,
+				04A950272342B62F00F49AEE /* GoogleService-Info.plist in Resources */,
 				B2A4CFAD210A6E6900199B4F /* Assets.xcassets in Resources */,
 				B2A4CFAE210A6E6900199B4F /* MSAnalyticsPropertyTableViewCell.xib in Resources */,
 			);
@@ -3089,6 +3206,63 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		04EB22842343F9E300CD8DC7 /* Download dependencies */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Download dependencies";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/../Scripts/restore-dependencies.sh\" ${SRCROOT}/../Vendor/iOS\n";
+			showEnvVarsInLog = 0;
+		};
+		04EB2285234401F000CD8DC7 /* Download dependencies */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Download dependencies";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/../Scripts/restore-dependencies.sh\" ${SRCROOT}/../Vendor/iOS\n";
+			showEnvVarsInLog = 0;
+		};
+		04EB22862344021700CD8DC7 /* Download dependencies */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Download dependencies";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/../Scripts/restore-dependencies.sh\" ${SRCROOT}/../Vendor/iOS\n";
+			showEnvVarsInLog = 0;
+		};
 		8099A54F21121501008E1466 /* Verify No Build Settings */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -3301,7 +3475,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift\" ${PROJECT_NAME}.xcodeproj/project.pbxproj";
+			shellScript = "\"${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift\" ${PROJECT_NAME}.xcodeproj/project.pbxproj\n";
 			showEnvVarsInLog = 0;
 		};
 		F84923EB2111C2C800E14DBE /* Verify No Build Settings */ = {

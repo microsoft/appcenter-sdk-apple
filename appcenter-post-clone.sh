@@ -8,3 +8,7 @@ curl -O https://mobilecentersdkdev.blob.core.windows.net/sdk/AppCenter-SDK-Apple
 
 # Unzip files to framework location
 unzip AppCenter-SDK-Apple.zip
+
+# Update GoogleServices-Info.plist
+echo $GOOGLE_SERVICE_INFO_PLIST | base64 -D > $APPCENTER_SOURCE_DIRECTORY/Sasquatch/SasquatchPuppet/GoogleService-Info.plist
+echo $GOOGLE_SERVICE_INFO_PLIST | base64 -D > $APPCENTER_SOURCE_DIRECTORY/Sasquatch/SasquatchSwift/GoogleService-Info.plist
