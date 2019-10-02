@@ -39,6 +39,7 @@ static dispatch_once_t onceToken;
 @implementation MSAuth
 
 @synthesize channelUnitConfiguration = _channelUnitConfiguration;
+@synthesize clientApplication = _clientApplication;
 
 #pragma mark - Service initialization
 
@@ -567,7 +568,8 @@ static dispatch_once_t onceToken;
       return;
     }
     if (!self.clientApplication) {
-      MSLogWarning([MSAuth logTag], @"MSAL client is not configured yet. The token will be refreshed on the next re-try.");
+      MSLogWarning([MSAuth logTag], @"MSAL client is not configured. Signing out.");
+      [self signOut];
       return;
     }
     MSALAccount *account = [self retrieveAccountWithAccountId:accountId];

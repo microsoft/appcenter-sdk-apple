@@ -52,7 +52,7 @@ static NSUInteger const kMSAccountIdLengthInHomeAccount = 36;
   BOOL isNewUser = NO;
   @synchronized(self) {
 
-    // If a nil authToken is passed with non-nil paarmeters, reset them.
+    // If a nil authToken is passed with non-nil parameters, reset them.
     if (!authToken) {
       accountId = nil;
       expiresOn = nil;
@@ -240,11 +240,17 @@ static NSUInteger const kMSAccountIdLengthInHomeAccount = 36;
       return;
     }
 
+    // If the same token has already been refreshed, return to avoid multiple invocations on the same token.
+    if ([tokenValidityInfo.authToken isEqual:self.lastRefreshedToken]) {
+      return;
+    }
+    self.lastRefreshedToken = lastEntry.authToken;
+
     // Don't invoke the delegate while locking; it might be locking too and deadlock ourselves.
     synchronizedDelegates = [self.delegates allObjects];
   }
+  MSLogInfo([MSAppCenter logTag], @"The token needs to be refreshed.");
   for (id<MSAuthTokenContextDelegate> delegate in synchronizedDelegates) {
-    MSLogInfo([MSAppCenter logTag], @"The token needs to be refreshed.");
     if ([delegate respondsToSelector:@selector(authTokenContext:refreshAuthTokenForAccountId:)]) {
       [delegate authTokenContext:self refreshAuthTokenForAccountId:lastEntry.accountId];
     }

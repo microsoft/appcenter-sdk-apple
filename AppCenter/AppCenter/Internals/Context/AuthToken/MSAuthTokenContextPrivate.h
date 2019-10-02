@@ -29,6 +29,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nullable, nonatomic) NSArray<MSAuthTokenInfo *> *authTokenHistoryArray;
 
 /**
+ The most recently refreshed token. Saved to avoid duplicate refresh invocations on the same token.
+ */
+@property(nullable, copy) NSString *lastRefreshedToken;
+
+/**
  * Reset singleton instance.
  */
 + (void)resetSharedInstance;
