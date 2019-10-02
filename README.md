@@ -36,6 +36,10 @@ To contribute to the SDK, please
 * install [Jazzy](https://github.com/realm/jazzy) to be able to generate documentation.
 * install `clang-format` for code formatting via [Homebrew](https://brew.sh) using the command `brew install clang-format`.
 
+Before running test applications, please
+
+* run a script `./test-app-dependencioes.sh` in the root of the repository.
+
 ### 2.1 Code of Conduct
 
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.

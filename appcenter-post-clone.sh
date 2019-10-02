@@ -12,3 +12,6 @@ unzip AppCenter-SDK-Apple.zip
 # Update GoogleServices-Info.plist
 echo $GOOGLE_SERVICE_INFO_PLIST | base64 -D > $APPCENTER_SOURCE_DIRECTORY/Sasquatch/SasquatchPuppet/GoogleService-Info.plist
 echo $GOOGLE_SERVICE_INFO_PLIST | base64 -D > $APPCENTER_SOURCE_DIRECTORY/Sasquatch/SasquatchSwift/GoogleService-Info.plist
+
+# Download dependencies
+./test-app-dependencies.sh
