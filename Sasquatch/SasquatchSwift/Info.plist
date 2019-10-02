@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>FacebookDisplayName</key>
+	<string>Identity app</string>
+	<key>FacebookAppID</key>
+	<string>281304699204815</string>
 	<key>AppCenterUserNotificationCenterDelegateForwarderEnabled</key>
 	<false/>
 	<key>NSPhotoLibraryUsageDescription</key>
@@ -24,6 +28,12 @@
 	<string>${VERSION_STRING}</string>
 	<key>CFBundleURLTypes</key>
 	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fb281304699204815</string>
+			</array>
+		</dict>
 		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>None</string>
