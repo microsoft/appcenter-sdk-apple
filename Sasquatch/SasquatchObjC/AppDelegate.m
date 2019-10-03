@@ -9,6 +9,7 @@
 #import "AppCenterDelegateObjC.h"
 #import "AppDelegate.h"
 #import "Constants.h"
+#import "MSFirebaseProvider.h"
 #import "Sasquatch-Swift.h"
 
 #if GCC_PREPROCESSOR_MACRO_PUPPET
@@ -200,6 +201,8 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
   if ([appSecret isEqualToString:kMSPuppetAuth0AppSecret]) {
     self.authProvider = [Auth0Provider new];
   } else if ([appSecret isEqualToString:kMSPuppetFirebaseAppSecret]) {
+
+    // If you want to test Objective-C code for Firebase, instantiate `MSFirebaseProvider` instead of `FirebaseProvider`.
     self.authProvider = [FirebaseProvider new];
   } else {
     return services;

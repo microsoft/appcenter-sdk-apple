@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0406392C23465CA200AFBD3F /* MSFirebaseProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 0406392A23465CA200AFBD3F /* MSFirebaseProvider.m */; };
+		0406392D23465CA200AFBD3F /* MSFirebaseProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 0406392A23465CA200AFBD3F /* MSFirebaseProvider.m */; };
+		0406392E23465CA200AFBD3F /* MSFirebaseProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 0406392A23465CA200AFBD3F /* MSFirebaseProvider.m */; };
 		041A4BB11F8C28A3009E1B6C /* Sasquatch.strings in Resources */ = {isa = PBXBuildFile; fileRef = 041A4BAF1F8C28A3009E1B6C /* Sasquatch.strings */; };
 		04238DFB2339964C00D674C9 /* Auth0Provider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04238DF82339964C00D674C9 /* Auth0Provider.swift */; };
 		04238DFC2339964C00D674C9 /* Auth0Provider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04238DF82339964C00D674C9 /* Auth0Provider.swift */; };
@@ -1342,6 +1345,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0406392A23465CA200AFBD3F /* MSFirebaseProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSFirebaseProvider.m; sourceTree = "<group>"; };
+		0406392B23465CA200AFBD3F /* MSFirebaseProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSFirebaseProvider.h; sourceTree = "<group>"; };
 		041A4BB01F8C28A3009E1B6C /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Sasquatch.strings; sourceTree = "<group>"; };
 		041A4BB21F8C29E7009E1B6C /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/Sasquatch.strings; sourceTree = "<group>"; };
 		041A4BB31F8C2A33009E1B6C /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Sasquatch.strings; sourceTree = "<group>"; };
@@ -1738,6 +1743,8 @@
 				04E2835E23399485000FBACB /* AuthProviderDelegate.swift */,
 				04238DF82339964C00D674C9 /* Auth0Provider.swift */,
 				04238E3923399B7700D674C9 /* FirebaseProvider.swift */,
+				0406392B23465CA200AFBD3F /* MSFirebaseProvider.h */,
+				0406392A23465CA200AFBD3F /* MSFirebaseProvider.m */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -3505,6 +3512,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4AFBF2D0224C71FF002DB884 /* MSDataViewController.swift in Sources */,
+				0406392D23465CA200AFBD3F /* MSFirebaseProvider.m in Sources */,
 				B203FF4D20E5922C002AD536 /* MSAnalyticsChildTransmissionTargetTableViewController.swift in Sources */,
 				849A3E731E8A9922008711CB /* AppCenterProtocol.swift in Sources */,
 				84A0FF671E8A87B4000E7A28 /* MSCrashesViewController.swift in Sources */,
@@ -3546,6 +3554,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F8AA9F412164FD1C009104E3 /* MSDatePicker.swift in Sources */,
+				0406392E23465CA200AFBD3F /* MSFirebaseProvider.m in Sources */,
 				04238E3E23399B7700D674C9 /* FirebaseProvider.swift in Sources */,
 				80901844211B3FF400DB0E48 /* MSAuthenticationViewController.swift in Sources */,
 				B20AE38021027D6200A1A195 /* EventPropertiesTableSection.swift in Sources */,
@@ -3630,6 +3639,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4AFBF2CF224C71FF002DB884 /* MSDataViewController.swift in Sources */,
+				0406392C23465CA200AFBD3F /* MSFirebaseProvider.m in Sources */,
 				B2A4CF89210A6E6900199B4F /* MSAnalyticsChildTransmissionTargetTableViewController.swift in Sources */,
 				B2A4CF8A210A6E6900199B4F /* AppCenterProtocol.swift in Sources */,
 				B2A4CF8B210A6E6900199B4F /* MSCrashesViewController.swift in Sources */,

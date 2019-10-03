@@ -70,7 +70,7 @@ class FirebaseProvider : NSObject, AuthProviderDelegate, FUIAuthDelegate {
     }
   }
 
-  func authUI(_ authUI: FUIAuth, didSignInWith user: User?, error: Error?) {
+  func authUI(_ authUI: FUIAuth, didSignInWith authDataResult: AuthDataResult?, error: Error?) {
     if self.completionHandler == nil {
       NSLog("Coulnd't find associated completionHandler for current sign-in request")
       return
@@ -80,8 +80,8 @@ class FirebaseProvider : NSObject, AuthProviderDelegate, FUIAuthDelegate {
     if error != nil {
       NSLog("Failed to sign-in Firebase.")
       completionHandler!(nil, error)
-    } else if user != nil {
-      user?.getIDToken(completion: { (token, error) in
+    } else if authDataResult != nil {
+      authDataResult?.user.getIDToken(completion: { (token, error) in
         if error == nil {
           NSLog("Received Firebase token.")
           let userInformation = MSUserInformation()
