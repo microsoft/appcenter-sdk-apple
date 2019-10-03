@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0406392C23465CA200AFBD3F /* MSFirebaseProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 0406392A23465CA200AFBD3F /* MSFirebaseProvider.m */; };
-		0406392D23465CA200AFBD3F /* MSFirebaseProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 0406392A23465CA200AFBD3F /* MSFirebaseProvider.m */; };
 		0406392E23465CA200AFBD3F /* MSFirebaseProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 0406392A23465CA200AFBD3F /* MSFirebaseProvider.m */; };
 		041A4BB11F8C28A3009E1B6C /* Sasquatch.strings in Resources */ = {isa = PBXBuildFile; fileRef = 041A4BAF1F8C28A3009E1B6C /* Sasquatch.strings */; };
 		04238DFB2339964C00D674C9 /* Auth0Provider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04238DF82339964C00D674C9 /* Auth0Provider.swift */; };
@@ -3512,7 +3510,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				4AFBF2D0224C71FF002DB884 /* MSDataViewController.swift in Sources */,
-				0406392D23465CA200AFBD3F /* MSFirebaseProvider.m in Sources */,
 				B203FF4D20E5922C002AD536 /* MSAnalyticsChildTransmissionTargetTableViewController.swift in Sources */,
 				849A3E731E8A9922008711CB /* AppCenterProtocol.swift in Sources */,
 				84A0FF671E8A87B4000E7A28 /* MSCrashesViewController.swift in Sources */,
@@ -3639,7 +3636,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				4AFBF2CF224C71FF002DB884 /* MSDataViewController.swift in Sources */,
-				0406392C23465CA200AFBD3F /* MSFirebaseProvider.m in Sources */,
 				B2A4CF89210A6E6900199B4F /* MSAnalyticsChildTransmissionTargetTableViewController.swift in Sources */,
 				B2A4CF8A210A6E6900199B4F /* AppCenterProtocol.swift in Sources */,
 				B2A4CF8B210A6E6900199B4F /* MSCrashesViewController.swift in Sources */,
