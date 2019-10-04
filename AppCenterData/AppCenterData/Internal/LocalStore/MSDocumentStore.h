@@ -108,11 +108,11 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Checks if there are any pending operations to be processed.
  *
- * @param partition The CosmosDB partition key.
+ * @param token The token to get CosmosDB partition key.
  *
  * @return true if the partition has pending operations, else returns false.
  */
-- (BOOL)hasPendingOperationsForPartition:(NSString *)partition;
+- (BOOL)hasPendingOperationsForToken:(MSTokenResult *)token;
 
 /**
  * Update the local store given a current/new cached document.

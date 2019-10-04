@@ -80,13 +80,13 @@ static NSString *const kMSPendingOperationColumnName = @"pending_operation";
 + (MSDBColumnsSchema *)columnsSchema;
 
 /**
- * Return the table for a given partition.
+ * Return the table for a given token.
  *
- * @param partition The partition.
+ * @param token The token.
  *
  * @return The table name.
  */
-+ (NSString *)tableNameForPartition:(NSString *)partition;
++ (NSString *)tableNameForToken:(MSTokenResult *)token;
 
 @end
 
