@@ -314,8 +314,6 @@ static const NSUInteger kMSSchemaVersion = 1;
     return kMSAppDocumentTableName;
   } else {
     return [NSString stringWithFormat:kMSUserDocumentTableNameFormat, token.accountId];
-      // [partition componentsSeparatedByString:@"-"][0]];
-      // substringFromIndex:kMSDataAppDocumentsUserPartitionPrefix.length]
   }
 }
 
