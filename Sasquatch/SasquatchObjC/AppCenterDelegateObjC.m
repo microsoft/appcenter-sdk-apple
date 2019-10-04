@@ -258,7 +258,6 @@
 - (void)signIn:(void (^)(MSUserInformation *_Nullable, NSError *))completionHandler {
   [MSAuth signInWithCompletionHandler:^(MSUserInformation *_Nullable userInformation, NSError *_Nullable error) {
     if (!error) {
-      [[NSUserDefaults standardUserDefaults] setBool:true forKey:kMSUserIdentity];
       NSLog(@"Auth.signIn succeeded, accountId=%@", userInformation.accountId);
     } else {
       NSLog(@"Auth.signIn failed, error=%@", error);
@@ -269,7 +268,6 @@
 
 - (void)signOut {
   [MSAuth signOut];
-  [[NSUserDefaults standardUserDefaults] setBool:false forKey:kMSUserIdentity];
 }
 
 #pragma mark - Last crash report section.

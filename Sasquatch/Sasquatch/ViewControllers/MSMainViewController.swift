@@ -125,6 +125,9 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
       self.userDefaultStatus = false
       self.userInformation = userInformation
       self.appCenter.setAuthToken(userInformation?.idToken)
+      if error == nil {
+        UserDefaults.standard.set(true, forKey: kMSUserIdentity)
+      }
       DispatchQueue.main.async {
         self.updateViewState()
       }
@@ -143,6 +146,7 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     } else {
       appCenter.signOut()
     }
+    UserDefaults.standard.set(false, forKey: kMSUserIdentity)
     self.userDefaultStatus = false
     self.userInformation = nil
     updateViewState()

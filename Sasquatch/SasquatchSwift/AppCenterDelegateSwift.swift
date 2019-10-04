@@ -225,7 +225,6 @@ class AppCenterDelegateSwift: AppCenterDelegate {
   func signIn(_ completionHandler: @escaping (_ signInInformation:MSUserInformation?, _ error:Error?) -> Void) {
     MSAuth.signIn { userInformation, error in
       if error == nil {
-        UserDefaults.standard.set(true, forKey: kMSUserIdentity)
         print("Auth.signIn succeeded, accountId=\(userInformation?.accountId ?? "nil")")
       }
       else {
@@ -237,7 +236,6 @@ class AppCenterDelegateSwift: AppCenterDelegate {
 
   func signOut() {
     MSAuth.signOut()
-    UserDefaults.standard.set(false, forKey: kMSUserIdentity)
   }
 
   // Last crash report section.
