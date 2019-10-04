@@ -79,7 +79,7 @@ static const NSUInteger kMSSchemaVersion = 1;
 
   // This is the same as [[NSDate date] timeIntervalSince1970] - but saves us from allocating an NSDate.
   NSTimeInterval now = NSDate.timeIntervalSinceReferenceDate + NSTimeIntervalSince1970;
-  NSString *tableName = [MSDBDocumentStore tableNameForPartition:token.partition];
+  NSString *tableName = [MSDBDocumentStore tableNameForToken:token];
 
   // If operation or etag is nil, pass NULL value, else use the actual value in this format '<ACTUAL_VALUE>' (note the single quotes).
   NSString *normalizedOperationString = operation != nil ? [NSString stringWithFormat:@"'%@'", operation] : @"NULL";
@@ -115,7 +115,7 @@ static const NSUInteger kMSSchemaVersion = 1;
 }
 
 - (BOOL)deleteWithToken:(MSTokenResult *)token documentId:(NSString *)documentId {
-  NSString *tableName = [MSDBDocumentStore tableNameForPartition:token.partition];
+  NSString *tableName = [MSDBDocumentStore tableNameForToken:token];
   NSString *deleteQuery = [NSString stringWithFormat:@"DELETE FROM \"%@\" WHERE \"%@\" = '%@' AND \"%@\" = '%@'", tableName,
                                                      kMSPartitionColumnName, token.partition, kMSDocumentIdColumnName, documentId];
   int result = [self.dbStorage executeNonSelectionQuery:deleteQuery];
@@ -132,7 +132,7 @@ static const NSUInteger kMSSchemaVersion = 1;
 
 - (MSDocumentWrapper *)readWithToken:(MSTokenResult *)token documentId:(NSString *)documentId documentType:(Class)documentType {
   // Execute the query.
-  NSString *tableName = [MSDBDocumentStore tableNameForPartition:token.partition];
+  NSString *tableName = [MSDBDocumentStore tableNameForToken:token];
   NSString *selectionQuery = [NSString stringWithFormat:@"SELECT * FROM \"%@\" WHERE \"%@\" = \"%@\" AND \"%@\" = \"%@\"", tableName,
                                                         kMSPartitionColumnName, token.partition, kMSDocumentIdColumnName, documentId];
   NSArray *result = [self.dbStorage executeSelectionQuery:selectionQuery];
@@ -201,7 +201,7 @@ static const NSUInteger kMSSchemaVersion = 1;
   NSInteger deviceTimeToLive = baseOptions ? baseOptions.deviceTimeToLive : kMSDataTimeToLiveDefault;
 
   // Execute the query.
-  NSString *tableName = [MSDBDocumentStore tableNameForPartition:token.partition];
+  NSString *tableName = [MSDBDocumentStore tableNameForToken:token];
   NSString *selectionQuery =
       [NSString stringWithFormat:@"SELECT * FROM \"%@\" WHERE \"%@\" = \"%@\"", tableName, kMSPartitionColumnName, token.partition];
   NSArray *listResult = [self.dbStorage executeSelectionQuery:selectionQuery];
@@ -309,18 +309,18 @@ static const NSUInteger kMSSchemaVersion = 1;
   // clang-format on
 }
 
-+ (NSString *)tableNameForPartition:(NSString *)partition {
-  if ([partition isEqualToString:kMSDataAppDocumentsPartition]) {
++ (NSString *)tableNameForToken:(MSTokenResult *)token {
+  if ([token.partition isEqualToString:kMSDataAppDocumentsPartition]) {
     return kMSAppDocumentTableName;
-  } else if ([partition rangeOfString:kMSDataAppDocumentsUserPartitionPrefix options:NSAnchoredSearch].location == 0) {
-    return [NSString
-        stringWithFormat:kMSUserDocumentTableNameFormat, [partition substringFromIndex:kMSDataAppDocumentsUserPartitionPrefix.length]];
+  } else {
+    return [NSString stringWithFormat:kMSUserDocumentTableNameFormat, token.accountId];
+      // [partition componentsSeparatedByString:@"-"][0]];
+      // substringFromIndex:kMSDataAppDocumentsUserPartitionPrefix.length]
   }
-  return nil;
 }
 
 - (NSArray<MSPendingOperation *> *)pendingOperationsWithToken:(MSTokenResult *)token {
-  NSString *tableName = [MSDBDocumentStore tableNameForPartition:token.partition];
+  NSString *tableName = [MSDBDocumentStore tableNameForToken:token];
   NSString *selectionQuery =
       [NSString stringWithFormat:@"SELECT * FROM \"%@\" WHERE \"%@\" IS NOT NULL", tableName, kMSPendingOperationColumnName];
   NSArray *result = [self.dbStorage executeSelectionQuery:selectionQuery];
@@ -361,8 +361,8 @@ static const NSUInteger kMSSchemaVersion = 1;
   return pendingDocuments;
 }
 
-- (BOOL)hasPendingOperationsForPartition:(NSString *)partition {
-  NSString *tableName = [MSDBDocumentStore tableNameForPartition:partition];
+- (BOOL)hasPendingOperationsForToken:(MSTokenResult *)token {
+  NSString *tableName = [MSDBDocumentStore tableNameForToken:token];
   NSString *selectionQuery =
       [NSString stringWithFormat:@"SELECT COUNT(*) FROM \"%@\" WHERE \"%@\" IS NOT NULL", tableName, kMSPendingOperationColumnName];
   NSArray<NSArray<NSNumber *> *> *result = [self.dbStorage executeSelectionQuery:selectionQuery];

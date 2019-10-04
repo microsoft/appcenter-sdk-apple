@@ -202,7 +202,7 @@
     MSTokenResult *token = tokensResponse.tokens.firstObject;
 
     // Retrieve from cache when offline and when there are pending operations.
-    if (![self shouldAttemptRemoteOperationForPartition:[token partition]]) {
+    if (![self shouldAttemptRemoteOperationForToken:token]) {
       MSPaginatedDocuments *cachedDocumentsList = [self.documentStore listWithToken:token
                                                                           partition:partition
                                                                        documentType:documentType
@@ -271,12 +271,12 @@
 /**
  * Returns a flag indicating if a remote operation should be attempted.
  *
- * @param partition The partition under which to check for pending operations.
+ * @param token The token which account id is to be used to check for pending operations.
  *
  * @return YES if a remote operation should be attempted; NO otherwise.
  */
-- (BOOL)shouldAttemptRemoteOperationForPartition:(NSString *)partition {
-  return [self.reachability currentReachabilityStatus] != NotReachable && ![self.documentStore hasPendingOperationsForPartition:partition];
+- (BOOL)shouldAttemptRemoteOperationForToken:(MSTokenResult *)token {
+  return [self.reachability currentReachabilityStatus] != NotReachable && ![self.documentStore hasPendingOperationsForToken:token];
 }
 
 @end
