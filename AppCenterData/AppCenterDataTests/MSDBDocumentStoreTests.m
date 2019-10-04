@@ -306,7 +306,7 @@
 
   // Then
   // Ensure that there is exactly one entry in the cache with the given document ID and partition name.
-  NSString *tableName = [MSDBDocumentStore tableNameForPartition:self.appToken.partition];
+  NSString *tableName = [MSDBDocumentStore tableNameForToken:self.appToken];
   NSArray<NSArray *> *result = [self.dbStorage
       executeSelectionQuery:[NSString stringWithFormat:@"SELECT * FROM \"%@\" WHERE \"%@\" = \"%@\" AND \"%@\" = \"%@\"", tableName,
                                                        kMSDocumentIdColumnName, expectedDocumentWrapper.documentId, kMSPartitionColumnName,
@@ -750,7 +750,7 @@
 }
 
 - (long)expirationTimeWithToken:(MSTokenResult *)token documentId:(NSString *)documentId {
-  NSString *tableName = [MSDBDocumentStore tableNameForPartition:token.partition];
+  NSString *tableName = [MSDBDocumentStore tableNameForToken:token];
   NSArray<NSArray *> *result = [self.dbStorage
       executeSelectionQuery:[NSString stringWithFormat:@"SELECT \"%@\" FROM \"%@\" WHERE \"%@\" = \"%@\" AND \"%@\" = \"%@\"",
                                                        kMSExpirationTimeColumnName, tableName, kMSDocumentIdColumnName, documentId,
