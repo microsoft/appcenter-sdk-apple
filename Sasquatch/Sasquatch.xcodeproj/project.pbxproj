@@ -24,8 +24,6 @@
 		048933631F8D395A00C38A87 /* Sasquatch.strings in Resources */ = {isa = PBXBuildFile; fileRef = 041A4BAF1F8C28A3009E1B6C /* Sasquatch.strings */; };
 		048C22232345109C00316020 /* FBSDKCoreKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04A950182342984C00F49AEE /* FBSDKCoreKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		048C22242345109C00316020 /* FBSDKLoginKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04A950192342984C00F49AEE /* FBSDKLoginKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		048C22252345109C00316020 /* FirebaseCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04DFF6BE233EC78C0003CFA8 /* FirebaseCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		048C22262345109C00316020 /* FirebaseAuth.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04DFF6A0233EA91E0003CFA8 /* FirebaseAuth.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		048C22272345109C00316020 /* FirebaseAuthUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04DFF661233EA8350003CFA8 /* FirebaseAuthUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		048C22282345109C00316020 /* FirebaseFacebookAuthUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04A950132342866C00F49AEE /* FirebaseFacebookAuthUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		048C22292345109C00316020 /* GoogleUtilities.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04DFF6B4233EB2440003CFA8 /* GoogleUtilities.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -35,8 +33,6 @@
 		048C222D2345109C00316020 /* SimpleKeychain.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04C5166D233C3644001C9011 /* SimpleKeychain.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		048C22692345148000316020 /* FBSDKCoreKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04A950182342984C00F49AEE /* FBSDKCoreKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		048C226A2345148000316020 /* FBSDKLoginKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04A950192342984C00F49AEE /* FBSDKLoginKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		048C226B2345148000316020 /* FirebaseCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04DFF6BE233EC78C0003CFA8 /* FirebaseCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		048C226C2345148000316020 /* FirebaseAuth.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04DFF6A0233EA91E0003CFA8 /* FirebaseAuth.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		048C226D2345148000316020 /* FirebaseAuthUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04DFF661233EA8350003CFA8 /* FirebaseAuthUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		048C226E2345148000316020 /* FirebaseFacebookAuthUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04A950132342866C00F49AEE /* FirebaseFacebookAuthUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		048C226F2345148000316020 /* GoogleUtilities.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04DFF6B4233EB2440003CFA8 /* GoogleUtilities.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -46,8 +42,6 @@
 		048C22732345148000316020 /* SimpleKeychain.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04C5166D233C3644001C9011 /* SimpleKeychain.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		048C22742345149000316020 /* FBSDKCoreKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04A950182342984C00F49AEE /* FBSDKCoreKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		048C22752345149000316020 /* FBSDKLoginKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04A950192342984C00F49AEE /* FBSDKLoginKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		048C22762345149000316020 /* FirebaseCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04DFF6BE233EC78C0003CFA8 /* FirebaseCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		048C22772345149000316020 /* FirebaseAuth.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04DFF6A0233EA91E0003CFA8 /* FirebaseAuth.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		048C22782345149000316020 /* FirebaseAuthUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04DFF661233EA8350003CFA8 /* FirebaseAuthUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		048C22792345149000316020 /* FirebaseFacebookAuthUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04A950132342866C00F49AEE /* FirebaseFacebookAuthUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		048C227A2345149000316020 /* GoogleUtilities.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04DFF6B4233EB2440003CFA8 /* GoogleUtilities.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -1079,8 +1073,6 @@
 			files = (
 				048C22232345109C00316020 /* FBSDKCoreKit.framework in Embed Frameworks */,
 				048C22242345109C00316020 /* FBSDKLoginKit.framework in Embed Frameworks */,
-				048C22252345109C00316020 /* FirebaseCore.framework in Embed Frameworks */,
-				048C22262345109C00316020 /* FirebaseAuth.framework in Embed Frameworks */,
 				048C22272345109C00316020 /* FirebaseAuthUI.framework in Embed Frameworks */,
 				048C22282345109C00316020 /* FirebaseFacebookAuthUI.framework in Embed Frameworks */,
 				048C22292345109C00316020 /* GoogleUtilities.framework in Embed Frameworks */,
@@ -1112,8 +1104,6 @@
 			files = (
 				048C22742345149000316020 /* FBSDKCoreKit.framework in Embed Frameworks */,
 				048C22752345149000316020 /* FBSDKLoginKit.framework in Embed Frameworks */,
-				048C22762345149000316020 /* FirebaseCore.framework in Embed Frameworks */,
-				048C22772345149000316020 /* FirebaseAuth.framework in Embed Frameworks */,
 				048C22782345149000316020 /* FirebaseAuthUI.framework in Embed Frameworks */,
 				048C22792345149000316020 /* FirebaseFacebookAuthUI.framework in Embed Frameworks */,
 				048C227A2345149000316020 /* GoogleUtilities.framework in Embed Frameworks */,
@@ -1326,8 +1316,6 @@
 			files = (
 				048C22692345148000316020 /* FBSDKCoreKit.framework in Embed Frameworks */,
 				048C226A2345148000316020 /* FBSDKLoginKit.framework in Embed Frameworks */,
-				048C226B2345148000316020 /* FirebaseCore.framework in Embed Frameworks */,
-				048C226C2345148000316020 /* FirebaseAuth.framework in Embed Frameworks */,
 				048C226D2345148000316020 /* FirebaseAuthUI.framework in Embed Frameworks */,
 				048C226E2345148000316020 /* FirebaseFacebookAuthUI.framework in Embed Frameworks */,
 				048C226F2345148000316020 /* GoogleUtilities.framework in Embed Frameworks */,
