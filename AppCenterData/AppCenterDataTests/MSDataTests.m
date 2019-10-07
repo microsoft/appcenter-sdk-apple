@@ -822,7 +822,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                                                              reachability:self.sut.reachability
                                                                          deviceTimeToLive:kMSDataTimeToLiveDefault
                                                                         continuationToken:nil];
-  OCMStub([localStorageMock hasPendingOperationsForPartition:[testToken partition]]).andReturn(true);
+  OCMStub([localStorageMock hasPendingOperationsForToken:testToken]).andReturn(true);
   OCMStub([localStorageMock listWithToken:testToken partition:OCMOCK_ANY documentType:OCMOCK_ANY baseOptions:OCMOCK_ANY])
       .andReturn(expectedDocumentList);
 
@@ -941,7 +941,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   // Mock local storage.
   id<MSDocumentStore> localStorageMock = OCMProtocolMock(@protocol(MSDocumentStore));
   self.sut.dataOperationProxy.documentStore = localStorageMock;
-  OCMStub([localStorageMock hasPendingOperationsForPartition:kMSPartitionTest]).andReturn(true);
+  OCMStub([localStorageMock hasPendingOperationsForToken:tokenResult]).andReturn(true);
 
   // Returns an empty list
   NSMutableArray<MSDocumentWrapper *> *localListItems = [NSMutableArray new];
