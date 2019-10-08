@@ -8,6 +8,7 @@
 #import "MSCSExtensions.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitProtocol.h"
+#import "MSCommonSchemaLog.h"
 #import "MSConstants+Internal.h"
 #import "MSOneCollectorChannelDelegatePrivate.h"
 #import "MSOneCollectorIngestion.h"

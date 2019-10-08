@@ -481,7 +481,7 @@
 		F8936CB5230C24D9006A330F /* MSChannelGroupProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 3542741A2012AF0500BE766F /* MSChannelGroupProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F8936CB6230C24D9006A330F /* MSChannelProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 354274162012AE4000BE766F /* MSChannelProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F8936CB7230C24D9006A330F /* MSConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E04013F1D1C99AC0051BCFA /* MSConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F8936CB8230C24D9006A330F /* MSConstants+Flags.h in Headers */ = {isa = PBXBuildFile; fileRef = 04B525B82194D44E00FA37FD /* MSConstants+Flags.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		F8936CB8230C24D9006A330F /* MSConstants+Flags.h in Headers */ = {isa = PBXBuildFile; fileRef = 04B525B82194D44E00FA37FD /* MSConstants+Flags.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F8936CB9230C24D9006A330F /* MSEnable.h in Headers */ = {isa = PBXBuildFile; fileRef = 3542742220167DA400BE766F /* MSEnable.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F8936CBA230C24D9006A330F /* MSLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 358F9BC22019531F00B9E22C /* MSLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F8936CBB230C24D9006A330F /* MSService.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401451D1C99AC0051BCFA /* MSService.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1911,6 +1911,7 @@
 			files = (
 				F8936CDA230C25A3006A330F /* MSAbstractLog.h in Headers */,
 				F8936D29230C2804006A330F /* MSServiceCommon.h in Headers */,
+				F8936CB8230C24D9006A330F /* MSConstants+Flags.h in Headers */,
 				F8936D37230C2804006A330F /* MSAuthTokenContext.h in Headers */,
 				F8936CB7230C24D9006A330F /* MSConstants.h in Headers */,
 				F8936D4A230C2804006A330F /* MSHttpIngestion.h in Headers */,
@@ -1927,7 +1928,6 @@
 				F8936D4F230C2804006A330F /* MSCSData.h in Headers */,
 				F8936D4B230C2804006A330F /* MSAppCenterIngestion.h in Headers */,
 				F8936CED230C2603006A330F /* MSOneCollectorChannelDelegatePrivate.h in Headers */,
-				F8936CB8230C24D9006A330F /* MSConstants+Flags.h in Headers */,
 				F8936D5D230C2804006A330F /* MSModel.h in Headers */,
 				F8936D76230C2804006A330F /* MSUtility+Environment.h in Headers */,
 				F8936D30230C2804006A330F /* MSChannelGroupDefault.h in Headers */,

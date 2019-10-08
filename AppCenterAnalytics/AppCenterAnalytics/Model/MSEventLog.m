@@ -7,6 +7,7 @@
 #import "MSBooleanTypedProperty.h"
 #import "MSCSData.h"
 #import "MSCSExtensions.h"
+#import "MSCommonSchemaLog.h"
 #import "MSConstants+Internal.h"
 #import "MSDateTimeTypedProperty.h"
 #import "MSDoubleTypedProperty.h"

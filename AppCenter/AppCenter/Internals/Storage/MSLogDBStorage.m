@@ -4,6 +4,7 @@
 #import <sqlite3.h>
 
 #import "MSAppCenterInternal.h"
+#import "MSCommonSchemaLog.h"
 #import "MSConstants+Internal.h"
 #import "MSDBStoragePrivate.h"
 #import "MSLogDBStoragePrivate.h"

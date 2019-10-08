@@ -4,7 +4,7 @@
 #import <Foundation/Foundation.h>
 
 /**
- *  Protocol declaring service logic.
+ * Protocol declaring service logic.
  */
 @protocol MSService <NSObject>
 

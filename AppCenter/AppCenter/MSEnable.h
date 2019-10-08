@@ -1,9 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#ifndef MS_ENABLE_H
-#define MS_ENABLE_H
-
 #import <Foundation/Foundation.h>
 
 /**
@@ -22,5 +19,3 @@
 - (void)setEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:(BOOL)deleteData;
 
 @end
-
-#endif

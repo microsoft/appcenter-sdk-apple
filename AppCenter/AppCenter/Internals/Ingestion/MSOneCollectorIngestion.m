@@ -5,6 +5,7 @@
 #import "MSAppCenterErrors.h"
 #import "MSAppCenterInternal.h"
 #import "MSCSExtensions.h"
+#import "MSCommonSchemaLog.h"
 #import "MSCompression.h"
 #import "MSConstants+Internal.h"
 #import "MSHttpIngestionPrivate.h"

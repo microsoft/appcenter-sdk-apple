@@ -2,11 +2,12 @@
 // Licensed under the MIT License.
 
 #import "MSAbstractLog.h"
-#import "MSCommonSchemaLog.h"
 #import "MSConstants.h"
 #import "MSLog.h"
 #import "MSLogConversion.h"
 #import "MSSerializableObject.h"
+
+@class MSCommonSchemaLog;
 
 @interface MSAbstractLog () <MSLog, MSSerializableObject, MSLogConversion>
 
