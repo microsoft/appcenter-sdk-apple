@@ -4,7 +4,10 @@
 
 ### App Center Auth
 
-* **[Feature]** Add authentication support for Azure Active Directory (AAD) applications. Users can now connect an [AAD tenant and AAD single tenant (AzureADMyOrg), multi-tenant (AzureADMultipleOrgs) and multi-tenant and personal Microsoft account (AzureADandPersonalMicrosoftAccount)](https://docs.microsoft.com/en-us/azure/active-directory/develop/single-and-multi-tenant-apps) applications.
+* **[Feature]** Add authentication support for Azure Active Directory (AAD) applications. Users can now connect an AAD tenant with [AAD single-tenant or multi-tenant apps](https://docs.microsoft.com/azure/active-directory/develop/single-and-multi-tenant-apps) with the following audiences:
+  - Accounts in this directory only.
+  - Accounts in any Azure AD directory.
+  - Accounts in any Azure AD directory and personal Microsoft accounts.
 
 ### App Center Crashes
 
