@@ -103,9 +103,6 @@
 		C220060B230FDF3A00848D5B /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C220060A230FDF3A00848D5B /* AppCenter.framework */; };
 		C220060C230FDF4300848D5B /* AppCenterData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A91F82230BFF670068070D /* AppCenterData.framework */; };
 		C220060E230FDF4700848D5B /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C220060D230FDF4700848D5B /* AppCenter.framework */; };
-		C9EBA9DF230D367B00A20F0F /* MSAppCenterErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = 04B1C8C82252AF0900CBD876 /* MSAppCenterErrors.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C9EBA9E0230D367B00A20F0F /* MSService.h in Headers */ = {isa = PBXBuildFile; fileRef = 04A0820B1F74BBCA00DC776D /* MSService.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C9EBA9E1230D367B00A20F0F /* MSServiceAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5EFE1E5C7DAE001627AB /* MSServiceAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C9EBA9E2230D367B00A20F0F /* AppCenterData.h in Headers */ = {isa = PBXBuildFile; fileRef = D33A94541E5B11BB003966DB /* AppCenterData.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C9EBA9E3230D367B00A20F0F /* MSBaseOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464DF222F28A200EC1FF3 /* MSBaseOptions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C9EBA9E4230D367B00A20F0F /* MSDataError.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464E6222F28A300EC1FF3 /* MSDataError.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -119,9 +116,6 @@
 		C9EBA9EC230D367B00A20F0F /* MSRemoteOperationDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 4AE2E97E229F26DC004BF371 /* MSRemoteOperationDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C9EBA9ED230D367B00A20F0F /* MSSerializableDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = E8FE51E9221CBF87005FB52B /* MSSerializableDocument.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C9EBA9EE230D367B00A20F0F /* MSWriteOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464E1222F28A300EC1FF3 /* MSWriteOptions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C9EBA9EF230D367C00A20F0F /* MSAppCenterErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = 04B1C8C82252AF0900CBD876 /* MSAppCenterErrors.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C9EBA9F0230D367C00A20F0F /* MSService.h in Headers */ = {isa = PBXBuildFile; fileRef = 04A0820B1F74BBCA00DC776D /* MSService.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C9EBA9F1230D367C00A20F0F /* MSServiceAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5EFE1E5C7DAE001627AB /* MSServiceAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C9EBA9F2230D367C00A20F0F /* AppCenterData.h in Headers */ = {isa = PBXBuildFile; fileRef = D33A94541E5B11BB003966DB /* AppCenterData.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C9EBA9F3230D367C00A20F0F /* MSBaseOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464DF222F28A200EC1FF3 /* MSBaseOptions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C9EBA9F4230D367C00A20F0F /* MSDataError.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464E6222F28A300EC1FF3 /* MSDataError.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -167,8 +161,6 @@
 		C9EBAA20230D378400A20F0F /* MSCosmosDbPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 87FA7FB5BC7302D0062016E1 /* MSCosmosDbPrivate.h */; };
 		C9EBAA21230D378400A20F0F /* MSDataOperationProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = 8F534A0F2260320200D18129 /* MSDataOperationProxy.h */; };
 		C9EBAA22230D378400A20F0F /* MSTokenExchange.h in Headers */ = {isa = PBXBuildFile; fileRef = E86B95D72224B5F60062E552 /* MSTokenExchange.h */; };
-		C9EBAA23230D379C00A20F0F /* AppCenter+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5F0B1E5C819A001627AB /* AppCenter+Internal.h */; };
-		C9EBAA24230D379E00A20F0F /* AppCenter+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5F0B1E5C819A001627AB /* AppCenter+Internal.h */; };
 		C9EBAA25230D37A100A20F0F /* MSDataInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = E824A5472225FDAC005B69B5 /* MSDataInternal.h */; };
 		C9EBAA26230D37A200A20F0F /* MSDataInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = E824A5472225FDAC005B69B5 /* MSDataInternal.h */; };
 		C9EBAA27230D37A500A20F0F /* MSDataPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5F081E5C8156001627AB /* MSDataPrivate.h */; };
@@ -268,8 +260,6 @@
 		0469643B1F2A570000F9D31F /* OCHamcrest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrest.framework; path = ../Vendor/macOS/OCHamcrest/OCHamcrest.framework; sourceTree = "<group>"; };
 		0469643F1F2A572800F9D31F /* libAppCenter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAppCenter.a; path = ../AppCenter/build/Debug/libAppCenter.a; sourceTree = "<group>"; };
 		049BC81E1ECE333700FB6719 /* iOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = iOS.xcconfig; sourceTree = "<group>"; };
-		04A0820B1F74BBCA00DC776D /* MSService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSService.h; path = ../AppCenter/AppCenter/MSService.h; sourceTree = "<group>"; };
-		04B1C8C82252AF0900CBD876 /* MSAppCenterErrors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSAppCenterErrors.h; path = ../AppCenter/AppCenter/MSAppCenterErrors.h; sourceTree = "<group>"; };
 		04B61DCA2248F518008D0102 /* MSTokenExchangeTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSTokenExchangeTests.m; sourceTree = "<group>"; };
 		04B61DCD2248F7DA008D0102 /* MSMockKeychainUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSMockKeychainUtil.m; path = ../../AppCenter/AppCenterTests/Util/MSMockKeychainUtil.m; sourceTree = "<group>"; };
 		04B61DCE2248F7DB008D0102 /* MSMockKeychainUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSMockKeychainUtil.h; path = ../../AppCenter/AppCenterTests/Util/MSMockKeychainUtil.h; sourceTree = "<group>"; };
@@ -338,10 +328,8 @@
 		D3AD5EC01E5C4F6A001627AB /* AppCenterData.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppCenterData.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3AD5EC21E5C4F6A001627AB /* MSDataTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSDataTests.m; sourceTree = "<group>"; };
 		D3AD5EC41E5C4F6A001627AB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D3AD5EFE1E5C7DAE001627AB /* MSServiceAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSServiceAbstract.h; path = ../AppCenter/AppCenter/MSServiceAbstract.h; sourceTree = "<group>"; };
 		D3AD5F051E5C7FFF001627AB /* AppCenterData Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "AppCenterData Debug.xcconfig"; sourceTree = "<group>"; };
 		D3AD5F081E5C8156001627AB /* MSDataPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSDataPrivate.h; sourceTree = "<group>"; };
-		D3AD5F0B1E5C819A001627AB /* AppCenter+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "AppCenter+Internal.h"; path = "../../../AppCenter/AppCenter/Internals/AppCenter+Internal.h"; sourceTree = "<group>"; };
 		D3AD5F3E1E5D69B0001627AB /* iOS.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = iOS.modulemap; sourceTree = "<group>"; };
 		D3AD5FD91E5DDF72001627AB /* libAppCenter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAppCenter.a; path = "../AppCenter/build/Debug-iphoneos/libAppCenter.a"; sourceTree = "<group>"; };
 		D3D0CFE81E640ABD003015AF /* OCHamcrestIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrestIOS.framework; path = ../Vendor/iOS/OCHamcrest/OCHamcrestIOS.framework; sourceTree = "<group>"; };
@@ -522,9 +510,6 @@
 		D33A94481E5B11BB003966DB = {
 			isa = PBXGroup;
 			children = (
-				04B1C8C82252AF0900CBD876 /* MSAppCenterErrors.h */,
-				04A0820B1F74BBCA00DC776D /* MSService.h */,
-				D3AD5EFE1E5C7DAE001627AB /* MSServiceAbstract.h */,
 				D33A94531E5B11BB003966DB /* AppCenterData */,
 				D3AD5EC11E5C4F6A001627AB /* AppCenterDataTests */,
 				D33A94521E5B11BB003966DB /* Products */,
@@ -546,9 +531,9 @@
 		D33A94531E5B11BB003966DB /* AppCenterData */ = {
 			isa = PBXGroup;
 			children = (
+				D33A94541E5B11BB003966DB /* AppCenterData.h */,
 				F8AF2F38231970D300F1C0EE /* MSDocumentMetadata.h */,
 				F8AF2F37231970D300F1C0EE /* MSDocumentMetadata.m */,
-				D33A94541E5B11BB003966DB /* AppCenterData.h */,
 				267464DF222F28A200EC1FF3 /* MSBaseOptions.h */,
 				267464EA222F28A300EC1FF3 /* MSBaseOptions.m */,
 				267464E6222F28A300EC1FF3 /* MSDataError.h */,
@@ -629,7 +614,6 @@
 				E83D121B223780E9002B6585 /* Util */,
 				E8DADEF0222864C800587E15 /* Model */,
 				E86B95D62224B54E0062E552 /* Client */,
-				D3AD5F0B1E5C819A001627AB /* AppCenter+Internal.h */,
 				E824A5472225FDAC005B69B5 /* MSDataInternal.h */,
 				D3AD5F081E5C8156001627AB /* MSDataPrivate.h */,
 				F8AF2F3C231970DF00F1C0EE /* MSDocumentMetadataInternal.h */,
@@ -716,17 +700,14 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C9EBA9E1230D367B00A20F0F /* MSServiceAbstract.h in Headers */,
 				C9EBA9EB230D367B00A20F0F /* MSReadOptions.h in Headers */,
 				C9EBA9E2230D367B00A20F0F /* AppCenterData.h in Headers */,
 				C9EBAA00230D36B200A20F0F /* MSDBDocumentStorePrivate.h in Headers */,
 				C9EBAA1D230D378300A20F0F /* MSDataOperationProxy.h in Headers */,
 				C9EBA9ED230D367B00A20F0F /* MSSerializableDocument.h in Headers */,
 				C9EBA9E7230D367B00A20F0F /* MSDictionaryDocument.h in Headers */,
-				C9EBA9E0230D367B00A20F0F /* MSService.h in Headers */,
 				C9EBA9EC230D367B00A20F0F /* MSRemoteOperationDelegate.h in Headers */,
 				C9EBA9E9230D367B00A20F0F /* MSPage.h in Headers */,
-				C9EBAA23230D379C00A20F0F /* AppCenter+Internal.h in Headers */,
 				C9EBAA1E230D378300A20F0F /* MSTokenExchange.h in Headers */,
 				C9EBA9FF230D36B200A20F0F /* MSDBDocumentStore.h in Headers */,
 				C9EBA9E6230D367B00A20F0F /* MSDataErrors.h in Headers */,
@@ -747,7 +728,6 @@
 				C9EBAA04230D36B200A20F0F /* MSPendingOperation.h in Headers */,
 				C9EBAA14230D36E700A20F0F /* MSDataErrorInternal.h in Headers */,
 				C9EBAA06230D36B200A20F0F /* MSTokensResponse.h in Headers */,
-				C9EBA9DF230D367B00A20F0F /* MSAppCenterErrors.h in Headers */,
 				C9EBA9E5230D367B00A20F0F /* MSData.h in Headers */,
 				C9EBAA02230D36B200A20F0F /* MSDocumentUtils.h in Headers */,
 				C9EBAA1B230D378300A20F0F /* MSCosmosDb.h in Headers */,
@@ -761,7 +741,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C9EBA9F1230D367C00A20F0F /* MSServiceAbstract.h in Headers */,
 				C9EBA9FB230D367C00A20F0F /* MSReadOptions.h in Headers */,
 				F8AF2F3F231970FC00F1C0EE /* MSDocumentMetadata.h in Headers */,
 				C9EBA9F2230D367C00A20F0F /* AppCenterData.h in Headers */,
@@ -769,11 +748,9 @@
 				C9EBAA21230D378400A20F0F /* MSDataOperationProxy.h in Headers */,
 				C9EBA9FD230D367C00A20F0F /* MSSerializableDocument.h in Headers */,
 				C9EBA9F7230D367C00A20F0F /* MSDictionaryDocument.h in Headers */,
-				C9EBA9F0230D367C00A20F0F /* MSService.h in Headers */,
 				C9EBA9FC230D367C00A20F0F /* MSRemoteOperationDelegate.h in Headers */,
 				C9EBA9F9230D367C00A20F0F /* MSPage.h in Headers */,
 				F8AF2F3E231970F300F1C0EE /* MSDocumentMetadataInternal.h in Headers */,
-				C9EBAA24230D379E00A20F0F /* AppCenter+Internal.h in Headers */,
 				C9EBAA22230D378400A20F0F /* MSTokenExchange.h in Headers */,
 				C9EBAA08230D36B200A20F0F /* MSDBDocumentStore.h in Headers */,
 				C9EBA9F6230D367C00A20F0F /* MSDataErrors.h in Headers */,
@@ -793,7 +770,6 @@
 				C9EBAA0D230D36B200A20F0F /* MSPendingOperation.h in Headers */,
 				C9EBAA16230D36E800A20F0F /* MSDataErrorInternal.h in Headers */,
 				C9EBAA0F230D36B200A20F0F /* MSTokensResponse.h in Headers */,
-				C9EBA9EF230D367C00A20F0F /* MSAppCenterErrors.h in Headers */,
 				C9EBA9F5230D367C00A20F0F /* MSData.h in Headers */,
 				C9EBAA0B230D36B200A20F0F /* MSDocumentUtils.h in Headers */,
 				C9EBAA1F230D378400A20F0F /* MSCosmosDb.h in Headers */,
