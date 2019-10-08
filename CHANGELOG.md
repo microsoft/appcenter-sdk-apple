@@ -2,6 +2,10 @@
 
 ## Version 2.4.1 (Under development)
 
+### App Center
+
+* **[Fix]** Fix compatibility with projects that don't use clang modules.
+
 ### App Center Auth
 
 * **[Feature]** Add authentication support for Azure Active Directory (AAD) applications. Users can now connect an AAD tenant with [AAD single-tenant or multi-tenant apps](https://docs.microsoft.com/azure/active-directory/develop/single-and-multi-tenant-apps) with the following audiences:
