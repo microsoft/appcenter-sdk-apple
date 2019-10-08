@@ -367,9 +367,6 @@
 		C9EBAABE230D3A1D00A20F0F /* MSErrorAttachmentLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 8024743A1EAE077800AEC284 /* MSErrorAttachmentLog.m */; };
 		C9EBAABF230D3A1D00A20F0F /* MSErrorAttachmentLog+Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = 3858A2191E93F3B400535A69 /* MSErrorAttachmentLog+Utility.m */; };
 		C9EBAAC0230D3A1D00A20F0F /* MSErrorReport.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F120DF1D657CF10060DED7 /* MSErrorReport.m */; };
-		C9EBAB2D230D735E00A20F0F /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9EBAB2C230D735E00A20F0F /* AppCenter.framework */; };
-		C9EBAB2F230D736A00A20F0F /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9EBAB2E230D736A00A20F0F /* AppCenter.framework */; };
-		C9EBAB31230D736F00A20F0F /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9EBAB30230D736F00A20F0F /* AppCenter.framework */; };
 		DFEB98292318FAF400AE88C1 /* libCrashReporter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DFEB98282318FAF400AE88C1 /* libCrashReporter.a */; };
 		DFEB98332318FF5500AE88C1 /* libCrashReporter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DFEB98262318F90400AE88C1 /* libCrashReporter.a */; };
 		F82E4C75217F1FD700EDAB34 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = F82E4C74217F1FD600EDAB34 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-w"; }; };
@@ -707,7 +704,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				DFEB98332318FF5500AE88C1 /* libCrashReporter.a in Frameworks */,
-				C9EBAB2D230D735E00A20F0F /* AppCenter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -716,7 +712,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				DFEB98292318FAF400AE88C1 /* libCrashReporter.a in Frameworks */,
-				C9EBAB2F230D736A00A20F0F /* AppCenter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -725,7 +720,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F8DD752D230D89F800B095B6 /* libCrashReporter-MacOSX-Static.a in Frameworks */,
-				C9EBAB31230D736F00A20F0F /* AppCenter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

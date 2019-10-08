@@ -89,7 +89,6 @@
 		B2B25647220B370200716D6A /* MSAuthAppDelegateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2B25646220B370200716D6A /* MSAuthAppDelegateTests.m */; };
 		C25D647E230EF8A600EA6F85 /* AppCenterAuth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C934BFE5230BF74100083490 /* AppCenterAuth.framework */; };
 		C25D6480230EF8C100EA6F85 /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C25D647F230EF8C100EA6F85 /* AppCenter.framework */; };
-		C25D6487230EF93F00EA6F85 /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C25D6486230EF93F00EA6F85 /* AppCenter.framework */; };
 		C25D6488230EFA7300EA6F85 /* AppCenterAuth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A91F28230BF9590068070D /* AppCenterAuth.framework */; };
 		C25D648A230EFA7900EA6F85 /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C25D6489230EFA7900EA6F85 /* AppCenter.framework */; };
 		C9A92068230C5D6A0068070D /* AppCenterAuth.h in Headers */ = {isa = PBXBuildFile; fileRef = E85547CC1D2D63EF002DF6E2 /* AppCenterAuth.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -127,7 +126,6 @@
 		C9EBAB02230D3D5200A20F0F /* AuthenticationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04E0F31F223B246B0080C968 /* AuthenticationServices.framework */; };
 		C9EBAB03230D3D5D00A20F0F /* libMSAL (macOS Static Library).a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04E97611226A50BF007E6DD1 /* libMSAL (macOS Static Library).a */; };
 		C9EBAB04230D3D6500A20F0F /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 049BC848224ED7C100AE7FBB /* WebKit.framework */; };
-		C9EBAB27230D72E200A20F0F /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9EBAB26230D72E200A20F0F /* AppCenter.framework */; };
 		F82E4C71217F1FA600EDAB34 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = F82E4C70217F1FA600EDAB34 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		F82E4C72217F1FA600EDAB34 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = F82E4C70217F1FA600EDAB34 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 /* End PBXBuildFile section */
@@ -356,7 +354,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C25D6487230EF93F00EA6F85 /* AppCenter.framework in Frameworks */,
 				C9EBAB02230D3D5200A20F0F /* AuthenticationServices.framework in Frameworks */,
 				C9EBAB01230D3D4A00A20F0F /* WebKit.framework in Frameworks */,
 				C9EBAB00230D3D3900A20F0F /* libMSAL (iOS Static Library).a in Frameworks */,
@@ -367,7 +364,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C9EBAB27230D72E200A20F0F /* AppCenter.framework in Frameworks */,
 				C9EBAB04230D3D6500A20F0F /* WebKit.framework in Frameworks */,
 				C9EBAB03230D3D5D00A20F0F /* libMSAL (macOS Static Library).a in Frameworks */,
 			);

@@ -14,20 +14,6 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "C9A91FB5230C01140068070D"
-               BuildableName = "AppCenter.framework"
-               BlueprintName = "AppCenter iOS Framework"
-               ReferencedContainer = "container:../AppCenter/AppCenter.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "C9CA69D82306CAF700EE82AA"
                BuildableName = "AppCenterAnalytics.framework"
                BlueprintName = "AppCenterAnalytics iOS Framework"
