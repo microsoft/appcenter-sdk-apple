@@ -2,6 +2,10 @@
 
 ## Version 2.4.1 (Under development)
 
+### App Center
+
+* **[Feature]** Add bring your own identity management provider support for [Auth0](https://auth0.com) and [Firebase](https://firebase.google.com/docs/auth). Developers can now connect their Auth0 and Firebase Authentication tenants and projects respectively with App Center, and use the signed-in user’s identity to partition user data and send push notifications.
+
 ### App Center Auth
 
 * **[Feature]** Add authentication support for Azure Active Directory (AAD) applications. Users can now connect an [AAD tenant and AAD single tenant (AzureADMyOrg), multi-tenant (AzureADMultipleOrgs) and multi-tenant and personal Microsoft account (AzureADandPersonalMicrosoftAccount)](https://docs.microsoft.com/en-us/azure/active-directory/develop/single-and-multi-tenant-apps) applications.
