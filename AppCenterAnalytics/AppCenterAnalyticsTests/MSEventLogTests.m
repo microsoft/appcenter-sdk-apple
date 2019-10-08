@@ -4,6 +4,7 @@
 #import "MSAbstractLogInternal.h"
 #import "MSAnalyticsConstants.h"
 #import "MSAppExtension.h"
+#import "MSCommonSchemaLog.h"
 #import "MSCSData.h"
 #import "MSCSExtensions.h"
 #import "MSDeviceInternal.h"

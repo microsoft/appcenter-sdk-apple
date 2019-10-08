@@ -14,6 +14,7 @@
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitDefault.h"
 #import "MSChannelUnitDefaultPrivate.h"
+#import "MSCommonSchemaLog.h"
 #import "MSDevice.h"
 #import "MSDispatchTestUtil.h"
 #import "MSHttpIngestion.h"

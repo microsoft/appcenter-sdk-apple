@@ -16,6 +16,8 @@
 @class MSNetExtension;
 @class MSSDKExtension;
 @class MSDeviceExtension;
+@class MSCSExtensions;
+@class MSCSData;
 
 @interface MSModelTestsUtililty : NSObject
 

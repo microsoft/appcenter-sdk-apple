@@ -11,6 +11,7 @@
 #import "MSBooleanTypedProperty.h"
 #import "MSCSExtensions.h"
 #import "MSChannelUnitDefault.h"
+#import "MSCommonSchemaLog.h"
 #import "MSDateTimeTypedProperty.h"
 #import "MSDoubleTypedProperty.h"
 #import "MSEventLog.h"

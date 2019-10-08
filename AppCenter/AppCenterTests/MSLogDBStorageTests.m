@@ -4,6 +4,7 @@
 #import <sqlite3.h>
 
 #import "MSAbstractLogInternal.h"
+#import "MSCommonSchemaLog.h"
 #import "MSDBStoragePrivate.h"
 #import "MSLogDBStoragePrivate.h"
 #import "MSLogDBStorageVersion.h"

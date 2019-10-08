@@ -6,6 +6,7 @@
 #import "MSChannelGroupDefault.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitDefault.h"
+#import "MSCommonSchemaLog.h"
 #import "MSCrashHandlerSetupDelegate.h"
 #import "MSCrashesInternal.h"
 #import "MSCrashesPrivate.h"
