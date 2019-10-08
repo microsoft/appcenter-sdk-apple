@@ -2262,6 +2262,7 @@
 				F89D790E1E93DA500094521F /* Embed Frameworks */,
 				D36AD7171E94FF98003D34E7 /* Embed Watch Content */,
 				C9E7E534231E9A5E007D96DC /* Embed App Extensions */,
+				3862D23D234C2684007684EF /* Remove Dynamic Frameworks Extra Archs */,
 			);
 			buildRules = (
 			);
@@ -2285,6 +2286,7 @@
 				B20AE39421027D6200A1A195 /* Frameworks */,
 				B20AE39B21027D6200A1A195 /* Resources */,
 				B20AE3A421027D6200A1A195 /* Embed Frameworks */,
+				3862D200234C2064007684EF /* Remove Dynamic Frameworks Extra Archs */,
 			);
 			buildRules = (
 			);
@@ -2337,6 +2339,7 @@
 				B2A4CFA6210A6E6900199B4F /* Resources */,
 				B2A4CFAF210A6E6900199B4F /* Embed Frameworks */,
 				C9E7E4D2231E99E9007D96DC /* Embed App Extensions */,
+				3862D23C234C266F007684EF /* Remove Dynamic Frameworks Extra Archs */,
 			);
 			buildRules = (
 			);
@@ -3196,6 +3199,60 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		3862D200234C2064007684EF /* Remove Dynamic Frameworks Extra Archs */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Remove Dynamic Frameworks Extra Archs";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/bash;
+			shellScript = "cd \"${SRCROOT}/../Scripts/\"\n./remove-frameworks-extra-archs.sh\n";
+		};
+		3862D23C234C266F007684EF /* Remove Dynamic Frameworks Extra Archs */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Remove Dynamic Frameworks Extra Archs";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/bash;
+			shellScript = "cd \"${SRCROOT}/../Scripts/\"\n./remove-frameworks-extra-archs.sh\n";
+		};
+		3862D23D234C2684007684EF /* Remove Dynamic Frameworks Extra Archs */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Remove Dynamic Frameworks Extra Archs";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/bash;
+			shellScript = "cd \"${SRCROOT}/../Scripts/\"\n./remove-frameworks-extra-archs.sh\n";
+		};
 		8099A54F21121501008E1466 /* Verify No Build Settings */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;

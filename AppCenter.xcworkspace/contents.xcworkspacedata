@@ -81,6 +81,9 @@
          location = "group:build-tvos-framework.sh">
       </FileRef>
       <FileRef
+         location = "group:remove-frameworks-extra-archs.sh">
+      </FileRef>
+      <FileRef
          location = "group:VerifyNoBuildSettings.swift">
       </FileRef>
       <Group
