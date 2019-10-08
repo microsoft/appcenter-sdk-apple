@@ -3,10 +3,10 @@
 
 #import <Foundation/Foundation.h>
 
-#if __has_include(<AppCenter/MSAppCenterErrors.h>)
-#import <AppCenter/MSAppCenterErrors.h>
-#else
+#if __has_include("MSAppCenterErrors.h")
 #import "MSAppCenterErrors.h"
+#else
+#import <AppCenter/MSAppCenterErrors.h>
 #endif
 
 NS_ASSUME_NONNULL_BEGIN

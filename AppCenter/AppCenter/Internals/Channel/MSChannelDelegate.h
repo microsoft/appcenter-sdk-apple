@@ -3,7 +3,11 @@
 
 #import <Foundation/Foundation.h>
 
+#if __has_include("MSConstants+Flags.h")
 #import "MSConstants+Flags.h"
+#else
+#import <AppCenter/MSConstants+Flags.h>
+#endif
 
 @protocol MSChannelUnitProtocol;
 @protocol MSChannelGroupProtocol;

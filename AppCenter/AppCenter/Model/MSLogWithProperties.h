@@ -3,10 +3,10 @@
 
 #import <Foundation/Foundation.h>
 
-#if __has_include(<AppCenter/MSAbstractLog.h>)
-#import <AppCenter/MSAbstractLog.h>
-#else
+#if __has_include("MSAbstractLog.h")
 #import "MSAbstractLog.h"
+#else
+#import <AppCenter/MSAbstractLog.h>
 #endif
 
 @interface MSLogWithProperties : MSAbstractLog

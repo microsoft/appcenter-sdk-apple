@@ -3,10 +3,10 @@
 
 #import <Foundation/Foundation.h>
 
-#if __has_include(<AppCenter/MSConstants+Flags.h>)
-#import <AppCenter/MSConstants+Flags.h>
-#else
+#if __has_include("MSConstants+Flags.h")
 #import "MSConstants+Flags.h"
+#else
+#import <AppCenter/MSConstants+Flags.h>
 #endif
 #import "MSAnalyticsAuthenticationProvider.h"
 #import "MSPropertyConfigurator.h"

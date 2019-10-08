@@ -3,10 +3,10 @@
 
 #import <Foundation/Foundation.h>
 
-#if __has_include(<AppCenter/MSLogWithProperties.h>)
-#import <AppCenter/MSLogWithProperties.h>
-#else
+#if __has_include("MSLogWithProperties.h")
 #import "MSLogWithProperties.h"
+#else
+#import <AppCenter/MSLogWithProperties.h>
 #endif
 
 @interface MSLogWithNameAndProperties : MSLogWithProperties

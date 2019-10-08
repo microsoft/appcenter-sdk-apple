@@ -7,10 +7,10 @@
 #import <UIKit/UIApplication.h>
 #endif
 
-#if __has_include(<AppCenter/MSServiceAbstract.h>)
-#import <AppCenter/MSServiceAbstract.h>
-#else
+#if __has_include("MSServiceAbstract.h")
 #import "MSServiceAbstract.h"
+#else
+#import <AppCenter/MSServiceAbstract.h>
 #endif
 #import "MSAuthErrors.h"
 
