@@ -1,0 +1,4 @@
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited) GCC_PREPROCESSOR_MACRO_SASQUATCH_OBJC
+
+// For verifying projects with disabled modules.
+CLANG_ENABLE_MODULES = NO

@@ -212,6 +212,8 @@
 		C2614461230FE88A00D65EBF /* AppCenterData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2614448230FE86400D65EBF /* AppCenterData.framework */; };
 		C2614462230FE88A00D65EBF /* AppCenterDistribute.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2614450230FE86400D65EBF /* AppCenterDistribute.framework */; };
 		C2614463230FE88A00D65EBF /* AppCenterPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C261445A230FE86400D65EBF /* AppCenterPush.framework */; };
+		C27AD55D234C961C00A2576F /* Sasquatch ObjC.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = C27AD55C234C961C00A2576F /* Sasquatch ObjC.xcconfig */; };
+		C27AD55E234C961C00A2576F /* Sasquatch ObjC.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = C27AD55C234C961C00A2576F /* Sasquatch ObjC.xcconfig */; };
 		C2F156D12338C2FC00798480 /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156AA2338C26A00798480 /* CrashLibIOS.framework */; };
 		C2F156D22338C2FC00798480 /* CrashLibIOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156AA2338C26A00798480 /* CrashLibIOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C2F156D52338C30400798480 /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156AA2338C26A00798480 /* CrashLibIOS.framework */; };
@@ -1344,6 +1346,7 @@
 		C237A695232BACB50081153F /* Sasquatch Extension.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Sasquatch Extension.xcconfig"; sourceTree = "<group>"; };
 		C25DAE2522280A590073B86A /* AppCenterData.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AppCenterData.xcodeproj; path = ../AppCenterData/AppCenterData.xcodeproj; sourceTree = "<group>"; };
 		C25DAE3B22280B150073B86A /* AppCenterData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenterData.framework; path = "../AppCenter-SDK-Apple/iOS/AppCenterData.framework"; sourceTree = "<group>"; };
+		C27AD55C234C961C00A2576F /* Sasquatch ObjC.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Sasquatch ObjC.xcconfig"; sourceTree = "<group>"; };
 		C2F156A32338C26A00798480 /* CrashLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CrashLib.xcodeproj; path = ../CrashLib/CrashLib.xcodeproj; sourceTree = "<group>"; };
 		C905752D233B76DF00F69C92 /* SasquatchSwift-ContainingApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SasquatchSwift-ContainingApp.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9057571233B772500F69C92 /* SasquatchSwift-Preview-ContainingApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SasquatchSwift-Preview-ContainingApp.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -2010,6 +2013,7 @@
 				F8B8EB9421107890004BCECB /* Puppet.xcconfig */,
 				F8B224862113163D0052350E /* Sasquatch Debug.xcconfig */,
 				C237A695232BACB50081153F /* Sasquatch Extension.xcconfig */,
+				C27AD55C234C961C00A2576F /* Sasquatch ObjC.xcconfig */,
 				F8B8EB15211070BE004BCECB /* Sasquatch.xcconfig */,
 				F84BA102211342620020F13B /* UITests.xcconfig */,
 				F849248A2112FA3400E14DBE /* Watch Extension.xcconfig */,
@@ -2868,6 +2872,7 @@
 				84226C561E88FF4A00798417 /* Assets.xcassets in Resources */,
 				F809D5041FC6DA2B005E0F83 /* LaunchScreen.storyboard in Resources */,
 				F8AA9F382164F9A6009104E3 /* MSAnalyticsTypedPropertyTableViewCell.xib in Resources */,
+				C27AD55E234C961C00A2576F /* Sasquatch ObjC.xcconfig in Resources */,
 				B2E011F321091EF2003F4A5B /* MSAnalyticsTransmissionTargetSelectorViewCell.xib in Resources */,
 				B2E011F421091EF2003F4A5B /* MSAnalyticsPropertyTableViewCell.xib in Resources */,
 				845964AB1E8A7E6600BABA51 /* Main.storyboard in Resources */,
@@ -2916,6 +2921,7 @@
 				B27D54C6210A5E7E004E82C9 /* LaunchScreen.storyboard in Resources */,
 				F8AA9F062164F91B009104E3 /* MSAnalyticsTypedPropertyTableViewCell.xib in Resources */,
 				B27D54C7210A5E7E004E82C9 /* MSAnalyticsTransmissionTargetSelectorViewCell.xib in Resources */,
+				C27AD55D234C961C00A2576F /* Sasquatch ObjC.xcconfig in Resources */,
 				B27D54C8210A5E7E004E82C9 /* MSAnalyticsPropertyTableViewCell.xib in Resources */,
 				B27D54C9210A5E7E004E82C9 /* Main.storyboard in Resources */,
 				B27D54CA210A5E7E004E82C9 /* Assets.xcassets in Resources */,
@@ -3950,6 +3956,7 @@
 		};
 		84226C721E88FF4A00798417 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C27AD55C234C961C00A2576F /* Sasquatch ObjC.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = SasquatchObjC/SasquatchObjC.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -3963,6 +3970,7 @@
 		};
 		84226C731E88FF4A00798417 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C27AD55C234C961C00A2576F /* Sasquatch ObjC.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = SasquatchObjC/SasquatchObjC.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -4030,6 +4038,7 @@
 		};
 		B27D54D0210A5E7E004E82C9 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C27AD55C234C961C00A2576F /* Sasquatch ObjC.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = SasquatchObjC/SasquatchObjC.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -4044,6 +4053,7 @@
 		};
 		B27D54D1210A5E7E004E82C9 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C27AD55C234C961C00A2576F /* Sasquatch ObjC.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = SasquatchObjC/SasquatchObjC.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
