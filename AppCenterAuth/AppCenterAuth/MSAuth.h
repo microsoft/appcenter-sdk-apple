@@ -1,12 +1,18 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+#import <Foundation/Foundation.h>
+
 #if TARGET_OS_IOS
 #import <UIKit/UIApplication.h>
 #endif
 
-#import "MSAuthErrors.h"
+#if __has_include(<AppCenter/MSServiceAbstract.h>)
+#import <AppCenter/MSServiceAbstract.h>
+#else
 #import "MSServiceAbstract.h"
+#endif
+#import "MSAuthErrors.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

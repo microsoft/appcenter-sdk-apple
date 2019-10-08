@@ -3,8 +3,12 @@
 
 #import <Foundation/Foundation.h>
 
-#import "MSAnalyticsAuthenticationProvider.h"
+#if __has_include(<AppCenter/MSConstants+Flags.h>)
+#import <AppCenter/MSConstants+Flags.h>
+#else
 #import "MSConstants+Flags.h"
+#endif
+#import "MSAnalyticsAuthenticationProvider.h"
 #import "MSPropertyConfigurator.h"
 
 @class MSEventProperties;

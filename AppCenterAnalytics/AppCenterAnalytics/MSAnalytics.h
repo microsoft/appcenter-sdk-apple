@@ -1,8 +1,12 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "MSAnalyticsTransmissionTarget.h"
+#if __has_include(<AppCenter/MSServiceAbstract.h>)
+#import <AppCenter/MSServiceAbstract.h>
+#else
 #import "MSServiceAbstract.h"
+#endif
+#import "MSAnalyticsTransmissionTarget.h"
 
 @class MSEventProperties;
 
