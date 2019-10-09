@@ -6,11 +6,6 @@
 #import <Photos/Photos.h>
 #import <UserNotifications/UserNotifications.h>
 
-#import "AppCenterDelegateObjC.h"
-#import "AppDelegate.h"
-#import "Constants.h"
-#import "Sasquatch-Swift.h"
-
 #if GCC_PREPROCESSOR_MACRO_PUPPET
 #import "AppCenter.h"
 #import "AppCenterAnalytics.h"
@@ -22,6 +17,15 @@
 
 // Internal ones
 #import "MSAnalyticsInternal.h"
+
+#elif GCC_PREPROCESSOR_MACRO_SASQUATCH_OBJC
+#import <AppCenter/AppCenter.h>
+#import <AppCenterAnalytics/AppCenterAnalytics.h>
+#import <AppCenterAuth/AppCenterAuth.h>
+#import <AppCenterCrashes/AppCenterCrashes.h>
+#import <AppCenterData/AppCenterData.h>
+#import <AppCenterDistribute/AppCenterDistribute.h>
+#import <AppCenterPush/AppCenterPush.h>
 #else
 @import AppCenter;
 @import AppCenterAnalytics;
@@ -31,6 +35,10 @@
 @import AppCenterAuth;
 @import AppCenterPush;
 #endif
+
+#import "AppCenterDelegateObjC.h"
+#import "AppDelegate.h"
+#import "Constants.h"
 
 enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
 
