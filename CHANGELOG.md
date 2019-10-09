@@ -2,6 +2,10 @@
 
 ## Version 2.4.1 (Under development)
 
+### App Center
+
+* **[Fix]** Fix header issues with projects not using clang modules.
+
 ### App Center Crashes
 
 * **[Feature]** iOS extensions support.
