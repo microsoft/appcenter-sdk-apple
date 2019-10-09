@@ -4,7 +4,7 @@
 
 ### App Center
 
-* **[Fix]** Fix compatibility with projects that don't use clang modules.
+* **[Fix]** Fix header issues with projects not using clang modules.
 
 ### App Center Auth
 
