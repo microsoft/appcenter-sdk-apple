@@ -986,7 +986,7 @@ static dispatch_once_t onceToken;
   id<MSRemoteOperationDelegate> strongDelegate;
   @synchronized(self) {
     strongDelegate = self.remoteOperationDelegate;
-    if (strongDelegate) {
+    if (strongDelegate && [strongDelegate respondsToSelector:@selector(data:didCompleteRemoteOperation:forDocumentMetadata:withError:)]) {
       [strongDelegate data:self
           didCompleteRemoteOperation:pendingOperation
                  forDocumentMetadata:documentMetadata
