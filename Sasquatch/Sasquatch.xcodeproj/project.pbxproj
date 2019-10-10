@@ -149,7 +149,7 @@
 		84226D3C1E8938D100798417 /* AppCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226D3A1E8937FF00798417 /* AppCenterDelegate.swift */; };
 		84226D3D1E8938D200798417 /* AppCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226D3A1E8937FF00798417 /* AppCenterDelegate.swift */; };
 		84226D3F1E8939B700798417 /* AppCenterDelegateSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226D3E1E8939B700798417 /* AppCenterDelegateSwift.swift */; };
-		84226D421E8953F100798417 /* AppCenterDelegateObjC.m in Sources */ = {isa = PBXBuildFile; fileRef = 84226D411E8953F100798417 /* AppCenterDelegateObjC.m */; };
+		84226D421E8953F100798417 /* AppCenterDelegateObjC.mm in Sources */ = {isa = PBXBuildFile; fileRef = 84226D411E8953F100798417 /* AppCenterDelegateObjC.mm */; };
 		845178ED1E8A8B0D004A0A6F /* MSMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845964AC1E8A7E9700BABA51 /* MSMainViewController.swift */; };
 		845964AB1E8A7E6600BABA51 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 845964A91E8A7E6600BABA51 /* Main.storyboard */; };
 		845964AD1E8A7E9700BABA51 /* MSMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845964AC1E8A7E9700BABA51 /* MSMainViewController.swift */; };
@@ -171,7 +171,7 @@
 		B20AE38621027D6200A1A195 /* AppCenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849A3E711E8A9922008711CB /* AppCenterProtocol.swift */; };
 		B20AE38721027D6200A1A195 /* MSMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845964AC1E8A7E9700BABA51 /* MSMainViewController.swift */; };
 		B20AE38821027D6200A1A195 /* MSAnalyticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A0FF681E8A87C9000E7A28 /* MSAnalyticsViewController.swift */; };
-		B20AE38921027D6200A1A195 /* AppCenterDelegateObjC.m in Sources */ = {isa = PBXBuildFile; fileRef = 84226D411E8953F100798417 /* AppCenterDelegateObjC.m */; };
+		B20AE38921027D6200A1A195 /* AppCenterDelegateObjC.mm in Sources */ = {isa = PBXBuildFile; fileRef = 84226D411E8953F100798417 /* AppCenterDelegateObjC.mm */; };
 		B20AE38A21027D6200A1A195 /* MSTransmissionTargetsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35396A7720F95A9C00A091E0 /* MSTransmissionTargetsViewController.swift */; };
 		B20AE38B21027D6200A1A195 /* MSCrashesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A0FF651E8A87B4000E7A28 /* MSCrashesViewController.swift */; };
 		B20AE38C21027D6200A1A195 /* MSAnalyticsChildTransmissionTargetTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B203FF4B20E57A5B002AD536 /* MSAnalyticsChildTransmissionTargetTableViewController.swift */; };
@@ -207,7 +207,7 @@
 		B27D54AC210A5E7E004E82C9 /* MSAnalyticsResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2586C88210A485300664A43 /* MSAnalyticsResultViewController.swift */; };
 		B27D54AD210A5E7E004E82C9 /* MSAnalyticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A0FF681E8A87C9000E7A28 /* MSAnalyticsViewController.swift */; };
 		B27D54AE210A5E7E004E82C9 /* MSAnalyticsTransmissionTargetSelectorViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E011EC21091EF1003F4A5B /* MSAnalyticsTransmissionTargetSelectorViewCell.swift */; };
-		B27D54AF210A5E7E004E82C9 /* AppCenterDelegateObjC.m in Sources */ = {isa = PBXBuildFile; fileRef = 84226D411E8953F100798417 /* AppCenterDelegateObjC.m */; };
+		B27D54AF210A5E7E004E82C9 /* AppCenterDelegateObjC.mm in Sources */ = {isa = PBXBuildFile; fileRef = 84226D411E8953F100798417 /* AppCenterDelegateObjC.mm */; };
 		B27D54B0210A5E7E004E82C9 /* CommonSchemaPropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2586C80210A478500664A43 /* CommonSchemaPropertiesTableSection.swift */; };
 		B27D54B1210A5E7E004E82C9 /* MSCustomPropertyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E011ED21091EF1003F4A5B /* MSCustomPropertyTableViewCell.swift */; };
 		B27D54B2210A5E7E004E82C9 /* MSTransmissionTargetsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35396A7720F95A9C00A091E0 /* MSTransmissionTargetsViewController.swift */; };
@@ -282,6 +282,8 @@
 		B2E011FD21091F0A003F4A5B /* MSAnalyticsTransmissionTargetSelectorViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2E011EE21091EF1003F4A5B /* MSAnalyticsTransmissionTargetSelectorViewCell.xib */; };
 		B2E011FE21091F0E003F4A5B /* MSCustomPropertyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E011ED21091EF1003F4A5B /* MSCustomPropertyTableViewCell.swift */; };
 		B2E011FF21091F0F003F4A5B /* MSCustomPropertyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E011ED21091EF1003F4A5B /* MSCustomPropertyTableViewCell.swift */; };
+		C21B6FC1234CD92C00ACCEF7 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C21B6FC0234CD92C00ACCEF7 /* CoreServices.framework */; };
+		C21B6FC2234CD93700ACCEF7 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C21B6FC0234CD92C00ACCEF7 /* CoreServices.framework */; };
 		C25DAE3C22280B150073B86A /* AppCenterData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C25DAE3B22280B150073B86A /* AppCenterData.framework */; };
 		C25DAE3D22280B150073B86A /* AppCenterData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C25DAE3B22280B150073B86A /* AppCenterData.framework */; };
 		C25DAE3E22280B150073B86A /* AppCenterData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C25DAE3B22280B150073B86A /* AppCenterData.framework */; };
@@ -293,6 +295,8 @@
 		C2614461230FE88A00D65EBF /* AppCenterData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2614448230FE86400D65EBF /* AppCenterData.framework */; };
 		C2614462230FE88A00D65EBF /* AppCenterDistribute.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2614450230FE86400D65EBF /* AppCenterDistribute.framework */; };
 		C2614463230FE88A00D65EBF /* AppCenterPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C261445A230FE86400D65EBF /* AppCenterPush.framework */; };
+		C27AD55D234C961C00A2576F /* Sasquatch ObjC.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = C27AD55C234C961C00A2576F /* Sasquatch ObjC.xcconfig */; };
+		C27AD55E234C961C00A2576F /* Sasquatch ObjC.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = C27AD55C234C961C00A2576F /* Sasquatch ObjC.xcconfig */; };
 		C2F156D12338C2FC00798480 /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156AA2338C26A00798480 /* CrashLibIOS.framework */; };
 		C2F156D22338C2FC00798480 /* CrashLibIOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156AA2338C26A00798480 /* CrashLibIOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C2F156D52338C30400798480 /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156AA2338C26A00798480 /* CrashLibIOS.framework */; };
@@ -313,110 +317,12 @@
 		C2F156F62338C34500798480 /* CrashLibIOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156AA2338C26A00798480 /* CrashLibIOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C2F156F92338C34B00798480 /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156AA2338C26A00798480 /* CrashLibIOS.framework */; };
 		C2F156FA2338C34B00798480 /* CrashLibIOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156AA2338C26A00798480 /* CrashLibIOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		C90574F1233B76DF00F69C92 /* MSDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFBF2CC224C71FF002DB884 /* MSDataViewController.swift */; };
-		C90574F2233B76DF00F69C92 /* MSAnalyticsChildTransmissionTargetTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B203FF4B20E57A5B002AD536 /* MSAnalyticsChildTransmissionTargetTableViewController.swift */; };
-		C90574F3233B76DF00F69C92 /* AppCenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849A3E711E8A9922008711CB /* AppCenterProtocol.swift */; };
-		C90574F4233B76DF00F69C92 /* MSCrashesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A0FF651E8A87B4000E7A28 /* MSCrashesViewController.swift */; };
-		C90574F5233B76DF00F69C92 /* MSAnalyticsTypedPropertyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AA9F322164F994009104E3 /* MSAnalyticsTypedPropertyTableViewCell.swift */; };
-		C90574F6233B76DF00F69C92 /* EventPropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 352A3E7320F801A900D09CF0 /* EventPropertiesTableSection.swift */; };
-		C90574F7233B76DF00F69C92 /* MSTableViewCellExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35CAA1F92143229300A8BED2 /* MSTableViewCellExtension.swift */; };
-		C90574F8233B76DF00F69C92 /* MSAnalyticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A0FF681E8A87C9000E7A28 /* MSAnalyticsViewController.swift */; };
-		C90574F9233B76DF00F69C92 /* MSSignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807DB551212164E000F35E03 /* MSSignInViewController.swift */; };
-		C90574FA233B76DF00F69C92 /* MSTransmissionTargetsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35396A7720F95A9C00A091E0 /* MSTransmissionTargetsViewController.swift */; };
-		C90574FB233B76DF00F69C92 /* MSAnalyticsTransmissionTargetSelectorViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E011EC21091EF1003F4A5B /* MSAnalyticsTransmissionTargetSelectorViewCell.swift */; };
-		C90574FC233B76DF00F69C92 /* AppCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226D3A1E8937FF00798417 /* AppCenterDelegate.swift */; };
-		C90574FD233B76DF00F69C92 /* MSCustomPropertyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E011ED21091EF1003F4A5B /* MSCustomPropertyTableViewCell.swift */; };
-		C90574FE233B76DF00F69C92 /* MSAnalyticsPropertyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E011F021091EF2003F4A5B /* MSAnalyticsPropertyTableViewCell.swift */; };
-		C90574FF233B76DF00F69C92 /* CommonSchemaPropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2586C80210A478500664A43 /* CommonSchemaPropertiesTableSection.swift */; };
-		C9057500233B76DF00F69C92 /* MSCustomPropertiesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B36CE11EEF49B700230341 /* MSCustomPropertiesViewController.swift */; };
-		C9057501233B76DF00F69C92 /* MSTransmissionTargets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FBE78020FD095200F7B05C /* MSTransmissionTargets.swift */; };
-		C9057502233B76DF00F69C92 /* MSAnalyticsResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2586C88210A485300664A43 /* MSAnalyticsResultViewController.swift */; };
-		C9057503233B76DF00F69C92 /* MSDocumentDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFBF312224CB053002DB884 /* MSDocumentDetailsViewController.swift */; };
-		C9057504233B76DF00F69C92 /* MSAuthInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8F077A422A6A27B007B4B31 /* MSAuthInfoViewController.swift */; };
-		C9057505233B76DF00F69C92 /* MSMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845964AC1E8A7E9700BABA51 /* MSMainViewController.swift */; };
-		C9057506233B76DF00F69C92 /* PropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359171F620F7F80800F3DDE6 /* PropertiesTableSection.swift */; };
-		C9057507233B76DF00F69C92 /* AppCenterDelegateSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226D3E1E8939B700798417 /* AppCenterDelegateSwift.swift */; };
-		C9057508233B76DF00F69C92 /* TargetPropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359171F920F8001A00F3DDE6 /* TargetPropertiesTableSection.swift */; };
-		C9057509233B76DF00F69C92 /* MSAuthenticationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80B3CAD9211B2686007C332E /* MSAuthenticationViewController.swift */; };
-		C905750A233B76DF00F69C92 /* MSAnalyticsResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2586C84210A47A800664A43 /* MSAnalyticsResult.swift */; };
-		C905750B233B76DF00F69C92 /* MSDistributeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A0FF6B1E8A87E1000E7A28 /* MSDistributeViewController.swift */; };
-		C905750C233B76DF00F69C92 /* MSDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AA9F3C2164FD1C009104E3 /* MSDatePicker.swift */; };
-		C905750D233B76DF00F69C92 /* MSEnumPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8A502252149339100872B3B /* MSEnumPicker.swift */; };
-		C905750E233B76DF00F69C92 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226C821E8908CA00798417 /* AppDelegate.swift */; };
-		C905750F233B76DF00F69C92 /* SimplePropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AA9F4821650C04009104E3 /* SimplePropertiesTableSection.swift */; };
-		C9057511233B76DF00F69C92 /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84226D2E1E89301A00798417 /* AppCenter.framework */; };
-		C9057512233B76DF00F69C92 /* AppCenterAuth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0459920E21F0042300BD3F82 /* AppCenterAuth.framework */; };
-		C9057513233B76DF00F69C92 /* AppCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84226D2F1E89301B00798417 /* AppCenterAnalytics.framework */; };
-		C9057514233B76DF00F69C92 /* AppCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84226D301E89301B00798417 /* AppCenterCrashes.framework */; };
-		C9057515233B76DF00F69C92 /* AppCenterData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C25DAE3B22280B150073B86A /* AppCenterData.framework */; };
-		C9057516233B76DF00F69C92 /* AppCenterDistribute.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84226D311E89301B00798417 /* AppCenterDistribute.framework */; };
-		C9057517233B76DF00F69C92 /* AppCenterPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 046790411E8DA7D80033FDEC /* AppCenterPush.framework */; };
-		C9057518233B76DF00F69C92 /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156AA2338C26A00798480 /* CrashLibIOS.framework */; };
-		C905751A233B76DF00F69C92 /* AppCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = F8EE93532331212D0023C682 /* AppCenterDistributeResources.bundle */; };
-		C905751B233B76DF00F69C92 /* Sasquatch.strings in Resources */ = {isa = PBXBuildFile; fileRef = 041A4BAF1F8C28A3009E1B6C /* Sasquatch.strings */; };
-		C905751C233B76DF00F69C92 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84226C891E8908CA00798417 /* Assets.xcassets */; };
-		C905751D233B76DF00F69C92 /* MSAnalyticsTransmissionTargetSelectorViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2E011EE21091EF1003F4A5B /* MSAnalyticsTransmissionTargetSelectorViewCell.xib */; };
-		C905751E233B76DF00F69C92 /* MSAnalyticsTypedPropertyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F8AA9F052164F91B009104E3 /* MSAnalyticsTypedPropertyTableViewCell.xib */; };
-		C905751F233B76DF00F69C92 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F809D5021FC6DA2B005E0F83 /* LaunchScreen.storyboard */; };
-		C9057520233B76DF00F69C92 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 845964A91E8A7E6600BABA51 /* Main.storyboard */; };
-		C9057521233B76DF00F69C92 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84226C1C1E88FEFC00798417 /* Assets.xcassets */; };
-		C9057522233B76DF00F69C92 /* MSAnalyticsPropertyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2E011EF21091EF2003F4A5B /* MSAnalyticsPropertyTableViewCell.xib */; };
-		C9057524233B76DF00F69C92 /* CrashLibIOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156AA2338C26A00798480 /* CrashLibIOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		C9057526233B76DF00F69C92 /* SasquatchWatchSwift.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = D31EF9541E9517C500450162 /* SasquatchWatchSwift.app */; };
-		C9057529233B76DF00F69C92 /* SasquatchSwift Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C9E7E4E5231E9A5D007D96DC /* SasquatchSwift Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		C9057538233B772500F69C92 /* MSDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFBF2CC224C71FF002DB884 /* MSDataViewController.swift */; };
-		C9057539233B772500F69C92 /* MSAnalyticsChildTransmissionTargetTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B203FF4B20E57A5B002AD536 /* MSAnalyticsChildTransmissionTargetTableViewController.swift */; };
-		C905753A233B772500F69C92 /* AppCenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849A3E711E8A9922008711CB /* AppCenterProtocol.swift */; };
-		C905753B233B772500F69C92 /* MSCrashesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A0FF651E8A87B4000E7A28 /* MSCrashesViewController.swift */; };
-		C905753C233B772500F69C92 /* MSAnalyticsTypedPropertyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AA9F322164F994009104E3 /* MSAnalyticsTypedPropertyTableViewCell.swift */; };
-		C905753D233B772500F69C92 /* EventPropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 352A3E7320F801A900D09CF0 /* EventPropertiesTableSection.swift */; };
-		C905753E233B772500F69C92 /* MSTableViewCellExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35CAA1F92143229300A8BED2 /* MSTableViewCellExtension.swift */; };
-		C905753F233B772500F69C92 /* MSAnalyticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A0FF681E8A87C9000E7A28 /* MSAnalyticsViewController.swift */; };
-		C9057540233B772500F69C92 /* MSSignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807DB551212164E000F35E03 /* MSSignInViewController.swift */; };
-		C9057541233B772500F69C92 /* MSTransmissionTargetsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35396A7720F95A9C00A091E0 /* MSTransmissionTargetsViewController.swift */; };
-		C9057542233B772500F69C92 /* MSAnalyticsTransmissionTargetSelectorViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E011EC21091EF1003F4A5B /* MSAnalyticsTransmissionTargetSelectorViewCell.swift */; };
-		C9057543233B772500F69C92 /* AppCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226D3A1E8937FF00798417 /* AppCenterDelegate.swift */; };
-		C9057544233B772500F69C92 /* MSCustomPropertyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E011ED21091EF1003F4A5B /* MSCustomPropertyTableViewCell.swift */; };
-		C9057545233B772500F69C92 /* MSAnalyticsPropertyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E011F021091EF2003F4A5B /* MSAnalyticsPropertyTableViewCell.swift */; };
-		C9057546233B772500F69C92 /* CommonSchemaPropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2586C80210A478500664A43 /* CommonSchemaPropertiesTableSection.swift */; };
-		C9057547233B772500F69C92 /* MSCustomPropertiesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B36CE11EEF49B700230341 /* MSCustomPropertiesViewController.swift */; };
-		C9057548233B772500F69C92 /* MSTransmissionTargets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FBE78020FD095200F7B05C /* MSTransmissionTargets.swift */; };
-		C9057549233B772500F69C92 /* MSAnalyticsResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2586C88210A485300664A43 /* MSAnalyticsResultViewController.swift */; };
-		C905754A233B772500F69C92 /* MSDocumentDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFBF312224CB053002DB884 /* MSDocumentDetailsViewController.swift */; };
-		C905754B233B772500F69C92 /* MSAuthInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8F077A422A6A27B007B4B31 /* MSAuthInfoViewController.swift */; };
-		C905754C233B772500F69C92 /* MSMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845964AC1E8A7E9700BABA51 /* MSMainViewController.swift */; };
-		C905754D233B772500F69C92 /* PropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359171F620F7F80800F3DDE6 /* PropertiesTableSection.swift */; };
-		C905754E233B772500F69C92 /* AppCenterDelegateSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226D3E1E8939B700798417 /* AppCenterDelegateSwift.swift */; };
-		C905754F233B772500F69C92 /* TargetPropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359171F920F8001A00F3DDE6 /* TargetPropertiesTableSection.swift */; };
-		C9057550233B772500F69C92 /* MSAuthenticationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80B3CAD9211B2686007C332E /* MSAuthenticationViewController.swift */; };
-		C9057551233B772500F69C92 /* MSAnalyticsResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2586C84210A47A800664A43 /* MSAnalyticsResult.swift */; };
-		C9057552233B772500F69C92 /* MSDistributeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A0FF6B1E8A87E1000E7A28 /* MSDistributeViewController.swift */; };
-		C9057553233B772500F69C92 /* MSDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AA9F3C2164FD1C009104E3 /* MSDatePicker.swift */; };
-		C9057554233B772500F69C92 /* MSEnumPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8A502252149339100872B3B /* MSEnumPicker.swift */; };
-		C9057555233B772500F69C92 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226C821E8908CA00798417 /* AppDelegate.swift */; };
-		C9057556233B772500F69C92 /* SimplePropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AA9F4821650C04009104E3 /* SimplePropertiesTableSection.swift */; };
-		C9057558233B772500F69C92 /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84226D2E1E89301A00798417 /* AppCenter.framework */; };
-		C9057559233B772500F69C92 /* AppCenterAuth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0459920E21F0042300BD3F82 /* AppCenterAuth.framework */; };
-		C905755A233B772500F69C92 /* AppCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84226D2F1E89301B00798417 /* AppCenterAnalytics.framework */; };
-		C905755B233B772500F69C92 /* AppCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84226D301E89301B00798417 /* AppCenterCrashes.framework */; };
-		C905755C233B772500F69C92 /* AppCenterData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C25DAE3B22280B150073B86A /* AppCenterData.framework */; };
-		C905755D233B772500F69C92 /* AppCenterDistribute.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84226D311E89301B00798417 /* AppCenterDistribute.framework */; };
-		C905755E233B772500F69C92 /* AppCenterPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 046790411E8DA7D80033FDEC /* AppCenterPush.framework */; };
-		C905755F233B772500F69C92 /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156AA2338C26A00798480 /* CrashLibIOS.framework */; };
-		C9057561233B772500F69C92 /* Sasquatch.strings in Resources */ = {isa = PBXBuildFile; fileRef = 041A4BAF1F8C28A3009E1B6C /* Sasquatch.strings */; };
-		C9057562233B772500F69C92 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84226C891E8908CA00798417 /* Assets.xcassets */; };
-		C9057563233B772500F69C92 /* MSAnalyticsTransmissionTargetSelectorViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2E011EE21091EF1003F4A5B /* MSAnalyticsTransmissionTargetSelectorViewCell.xib */; };
-		C9057564233B772500F69C92 /* MSAnalyticsTypedPropertyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F8AA9F052164F91B009104E3 /* MSAnalyticsTypedPropertyTableViewCell.xib */; };
-		C9057565233B772500F69C92 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F809D5021FC6DA2B005E0F83 /* LaunchScreen.storyboard */; };
-		C9057566233B772500F69C92 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 845964A91E8A7E6600BABA51 /* Main.storyboard */; };
-		C9057567233B772500F69C92 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84226C1C1E88FEFC00798417 /* Assets.xcassets */; };
-		C9057568233B772500F69C92 /* MSAnalyticsPropertyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2E011EF21091EF2003F4A5B /* MSAnalyticsPropertyTableViewCell.xib */; };
-		C905756A233B772500F69C92 /* CrashLibIOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156AA2338C26A00798480 /* CrashLibIOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		C905756D233B772500F69C92 /* SasquatchSwift-Preview Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C9E7E482231E99E9007D96DC /* SasquatchSwift-Preview Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C90789BE2327CEB200999F08 /* AppCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84226D301E89301B00798417 /* AppCenterCrashes.framework */; };
 		C90789BF2327CEB200999F08 /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84226D2E1E89301A00798417 /* AppCenter.framework */; };
 		C90789C02327DF7600999F08 /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84226D2E1E89301A00798417 /* AppCenter.framework */; };
 		C90789C12327DF7600999F08 /* AppCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84226D301E89301B00798417 /* AppCenterCrashes.framework */; };
+		C914CF7323473A9C007A613C /* SasquatchSwift-Preview Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C9E7E482231E99E9007D96DC /* SasquatchSwift-Preview Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		C914CFAF23473AD2007A613C /* SasquatchSwift Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C9E7E4E5231E9A5D007D96DC /* SasquatchSwift Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C9E7E484231E99E9007D96DC /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9E7E483231E99E9007D96DC /* NotificationCenter.framework */; };
 		C9E7E4E6231E9A5D007D96DC /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9E7E483231E99E9007D96DC /* NotificationCenter.framework */; };
 		C9E7E4E9231E9A5E007D96DC /* ExtensionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E7E4E8231E9A5E007D96DC /* ExtensionViewController.swift */; };
@@ -962,55 +868,6 @@
 			remoteGlobalIDString = B21A71DA1DD2A38C0044BB1C;
 			remoteInfo = CrashLibIOS;
 		};
-		C90574E7233B76DF00F69C92 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C2F156A32338C26A00798480 /* CrashLib.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = B21A71DA1DD2A38C0044BB1C;
-			remoteInfo = CrashLibIOS;
-		};
-		C90574E9233B76DF00F69C92 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 84226C0A1E88FEFC00798417 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = D31EF9531E9517C500450162;
-			remoteInfo = SasquatchWatchSwift;
-		};
-		C90574EB233B76DF00F69C92 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 84226C0A1E88FEFC00798417 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = C9E7E4E4231E9A5D007D96DC;
-			remoteInfo = "SasquatchSwift-Extension";
-		};
-		C90574ED233B76DF00F69C92 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C2F156A32338C26A00798480 /* CrashLib.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = B21A71DA1DD2A38C0044BB1C;
-			remoteInfo = CrashLibIOS;
-		};
-		C9057531233B772500F69C92 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C2F156A32338C26A00798480 /* CrashLib.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = B21A71DA1DD2A38C0044BB1C;
-			remoteInfo = CrashLibIOS;
-		};
-		C9057533233B772500F69C92 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 84226C0A1E88FEFC00798417 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = C9E7E481231E99E9007D96DC;
-			remoteInfo = "SasquatchSwift-Preview-Extension";
-		};
-		C9057535233B772500F69C92 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C2F156A32338C26A00798480 /* CrashLib.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = B21A71DA1DD2A38C0044BB1C;
-			remoteInfo = CrashLibIOS;
-		};
 		C9E7E48C231E99E9007D96DC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 84226C0A1E88FEFC00798417 /* Project object */;
@@ -1160,85 +1017,13 @@
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		C9057523233B76DF00F69C92 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				C9057524233B76DF00F69C92 /* CrashLibIOS.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		C9057525233B76DF00F69C92 /* Embed Watch Content */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
-			dstSubfolderSpec = 16;
-			files = (
-				C9057526233B76DF00F69C92 /* SasquatchWatchSwift.app in Embed Watch Content */,
-			);
-			name = "Embed Watch Content";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		C9057527233B76DF00F69C92 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		C9057528233B76DF00F69C92 /* Embed App Extensions */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 13;
-			files = (
-				C9057529233B76DF00F69C92 /* SasquatchSwift Extension.appex in Embed App Extensions */,
-			);
-			name = "Embed App Extensions";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		C9057569233B772500F69C92 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				C905756A233B772500F69C92 /* CrashLibIOS.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		C905756B233B772500F69C92 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		C905756C233B772500F69C92 /* Embed App Extensions */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 13;
-			files = (
-				C905756D233B772500F69C92 /* SasquatchSwift-Preview Extension.appex in Embed App Extensions */,
-			);
-			name = "Embed App Extensions";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		C9E7E4D2231E99E9007D96DC /* Embed App Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				C914CF7323473A9C007A613C /* SasquatchSwift-Preview Extension.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1249,6 +1034,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				C914CFAF23473AD2007A613C /* SasquatchSwift Extension.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1406,7 +1192,7 @@
 		84226D3A1E8937FF00798417 /* AppCenterDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppCenterDelegate.swift; sourceTree = "<group>"; };
 		84226D3E1E8939B700798417 /* AppCenterDelegateSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppCenterDelegateSwift.swift; sourceTree = "<group>"; };
 		84226D401E89538D00798417 /* AppCenterDelegateObjC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppCenterDelegateObjC.h; sourceTree = "<group>"; };
-		84226D411E8953F100798417 /* AppCenterDelegateObjC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppCenterDelegateObjC.m; sourceTree = "<group>"; };
+		84226D411E8953F100798417 /* AppCenterDelegateObjC.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AppCenterDelegateObjC.mm; sourceTree = "<group>"; };
 		845964AA1E8A7E6600BABA51 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		845964AC1E8A7E9700BABA51 /* MSMainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSMainViewController.swift; sourceTree = "<group>"; };
 		849A3E711E8A9922008711CB /* AppCenterProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppCenterProtocol.swift; sourceTree = "<group>"; };
@@ -1442,12 +1228,12 @@
 		B2E011EE21091EF1003F4A5B /* MSAnalyticsTransmissionTargetSelectorViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MSAnalyticsTransmissionTargetSelectorViewCell.xib; path = Cells/MSAnalyticsTransmissionTargetSelectorViewCell.xib; sourceTree = "<group>"; };
 		B2E011EF21091EF2003F4A5B /* MSAnalyticsPropertyTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MSAnalyticsPropertyTableViewCell.xib; path = Cells/MSAnalyticsPropertyTableViewCell.xib; sourceTree = "<group>"; };
 		B2E011F021091EF2003F4A5B /* MSAnalyticsPropertyTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MSAnalyticsPropertyTableViewCell.swift; path = Cells/MSAnalyticsPropertyTableViewCell.swift; sourceTree = "<group>"; };
+		C21B6FC0234CD92C00ACCEF7 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
 		C237A695232BACB50081153F /* Sasquatch Extension.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Sasquatch Extension.xcconfig"; sourceTree = "<group>"; };
 		C25DAE2522280A590073B86A /* AppCenterData.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AppCenterData.xcodeproj; path = ../AppCenterData/AppCenterData.xcodeproj; sourceTree = "<group>"; };
 		C25DAE3B22280B150073B86A /* AppCenterData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenterData.framework; path = "../AppCenter-SDK-Apple/iOS/AppCenterData.framework"; sourceTree = "<group>"; };
+		C27AD55C234C961C00A2576F /* Sasquatch ObjC.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Sasquatch ObjC.xcconfig"; sourceTree = "<group>"; };
 		C2F156A32338C26A00798480 /* CrashLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CrashLib.xcodeproj; path = ../CrashLib/CrashLib.xcodeproj; sourceTree = "<group>"; };
-		C905752D233B76DF00F69C92 /* SasquatchSwift-ContainingApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SasquatchSwift-ContainingApp.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		C9057571233B772500F69C92 /* SasquatchSwift-Preview-ContainingApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SasquatchSwift-Preview-ContainingApp.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9E7E482231E99E9007D96DC /* SasquatchSwift-Preview Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "SasquatchSwift-Preview Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9E7E483231E99E9007D96DC /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		C9E7E4E5231E9A5D007D96DC /* SasquatchSwift Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "SasquatchSwift Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1511,6 +1297,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C21B6FC2234CD93700ACCEF7 /* CoreServices.framework in Frameworks */,
 				84226D361E89302900798417 /* AppCenter.framework in Frameworks */,
 				84226D371E89302900798417 /* AppCenterAnalytics.framework in Frameworks */,
 				84226D381E89302900798417 /* AppCenterCrashes.framework in Frameworks */,
@@ -1581,6 +1368,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C21B6FC1234CD92C00ACCEF7 /* CoreServices.framework in Frameworks */,
 				B27D54BD210A5E7E004E82C9 /* AppCenter.framework in Frameworks */,
 				0459924621F0050900BD3F82 /* AppCenterAuth.framework in Frameworks */,
 				B27D54BE210A5E7E004E82C9 /* AppCenterAnalytics.framework in Frameworks */,
@@ -1638,36 +1426,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				C2F156EF2338C33600798480 /* CrashLibIOS.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		C9057510233B76DF00F69C92 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				C9057511233B76DF00F69C92 /* AppCenter.framework in Frameworks */,
-				C9057512233B76DF00F69C92 /* AppCenterAuth.framework in Frameworks */,
-				C9057513233B76DF00F69C92 /* AppCenterAnalytics.framework in Frameworks */,
-				C9057514233B76DF00F69C92 /* AppCenterCrashes.framework in Frameworks */,
-				C9057515233B76DF00F69C92 /* AppCenterData.framework in Frameworks */,
-				C9057516233B76DF00F69C92 /* AppCenterDistribute.framework in Frameworks */,
-				C9057517233B76DF00F69C92 /* AppCenterPush.framework in Frameworks */,
-				C9057518233B76DF00F69C92 /* CrashLibIOS.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		C9057557233B772500F69C92 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				C9057558233B772500F69C92 /* AppCenter.framework in Frameworks */,
-				C9057559233B772500F69C92 /* AppCenterAuth.framework in Frameworks */,
-				C905755A233B772500F69C92 /* AppCenterAnalytics.framework in Frameworks */,
-				C905755B233B772500F69C92 /* AppCenterCrashes.framework in Frameworks */,
-				C905755C233B772500F69C92 /* AppCenterData.framework in Frameworks */,
-				C905755D233B772500F69C92 /* AppCenterDistribute.framework in Frameworks */,
-				C905755E233B772500F69C92 /* AppCenterPush.framework in Frameworks */,
-				C905755F233B772500F69C92 /* CrashLibIOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1808,8 +1566,6 @@
 				B2A4CFB6210A6E6900199B4F /* SasquatchSwift-Preview.app */,
 				C9E7E482231E99E9007D96DC /* SasquatchSwift-Preview Extension.appex */,
 				C9E7E4E5231E9A5D007D96DC /* SasquatchSwift Extension.appex */,
-				C905752D233B76DF00F69C92 /* SasquatchSwift-ContainingApp.app */,
-				C9057571233B772500F69C92 /* SasquatchSwift-Preview-ContainingApp.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1835,7 +1591,7 @@
 			isa = PBXGroup;
 			children = (
 				84226D401E89538D00798417 /* AppCenterDelegateObjC.h */,
-				84226D411E8953F100798417 /* AppCenterDelegateObjC.m */,
+				84226D411E8953F100798417 /* AppCenterDelegateObjC.mm */,
 				046790451E8DA8DD0033FDEC /* SasquatchObjC.entitlements */,
 				84226C4C1E88FF4A00798417 /* AppDelegate.h */,
 				84226C4D1E88FF4A00798417 /* AppDelegate.m */,
@@ -1911,6 +1667,7 @@
 		84226D0F1E8921DE00798417 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C21B6FC0234CD92C00ACCEF7 /* CoreServices.framework */,
 				84226D2E1E89301A00798417 /* AppCenter.framework */,
 				84226D2F1E89301B00798417 /* AppCenterAnalytics.framework */,
 				0459920E21F0042300BD3F82 /* AppCenterAuth.framework */,
@@ -2160,6 +1917,7 @@
 				F8B8EB9421107890004BCECB /* Puppet.xcconfig */,
 				F8B224862113163D0052350E /* Sasquatch Debug.xcconfig */,
 				C237A695232BACB50081153F /* Sasquatch Extension.xcconfig */,
+				C27AD55C234C961C00A2576F /* Sasquatch ObjC.xcconfig */,
 				F8B8EB15211070BE004BCECB /* Sasquatch.xcconfig */,
 				F84BA102211342620020F13B /* UITests.xcconfig */,
 				F849248A2112FA3400E14DBE /* Watch Extension.xcconfig */,
@@ -2371,57 +2129,6 @@
 			productReference = B2A888B52102B1E7001ACFDF /* SasquatchPuppetUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
-		C90574E5233B76DF00F69C92 /* SasquatchSwift-ContainingApp */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = C905752A233B76DF00F69C92 /* Build configuration list for PBXNativeTarget "SasquatchSwift-ContainingApp" */;
-			buildPhases = (
-				C90574EE233B76DF00F69C92 /* Verify No Build Settings */,
-				C90574EF233B76DF00F69C92 /* Remove the wrong framework */,
-				C90574F0233B76DF00F69C92 /* Sources */,
-				C9057510233B76DF00F69C92 /* Frameworks */,
-				C9057519233B76DF00F69C92 /* Resources */,
-				C9057523233B76DF00F69C92 /* Embed Frameworks */,
-				C9057525233B76DF00F69C92 /* Embed Watch Content */,
-				C9057527233B76DF00F69C92 /* CopyFiles */,
-				C9057528233B76DF00F69C92 /* Embed App Extensions */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				C90574E6233B76DF00F69C92 /* PBXTargetDependency */,
-				C90574E8233B76DF00F69C92 /* PBXTargetDependency */,
-				C90574EA233B76DF00F69C92 /* PBXTargetDependency */,
-				C90574EC233B76DF00F69C92 /* PBXTargetDependency */,
-			);
-			name = "SasquatchSwift-ContainingApp";
-			productName = SasquatchSwift;
-			productReference = C905752D233B76DF00F69C92 /* SasquatchSwift-ContainingApp.app */;
-			productType = "com.apple.product-type.application";
-		};
-		C905752F233B772500F69C92 /* SasquatchSwift-Preview-ContainingApp */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = C905756E233B772500F69C92 /* Build configuration list for PBXNativeTarget "SasquatchSwift-Preview-ContainingApp" */;
-			buildPhases = (
-				C9057536233B772500F69C92 /* Verify No Build Settings */,
-				C9057537233B772500F69C92 /* Sources */,
-				C9057557233B772500F69C92 /* Frameworks */,
-				C9057560233B772500F69C92 /* Resources */,
-				C9057569233B772500F69C92 /* Embed Frameworks */,
-				C905756B233B772500F69C92 /* CopyFiles */,
-				C905756C233B772500F69C92 /* Embed App Extensions */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				C9057530233B772500F69C92 /* PBXTargetDependency */,
-				C9057532233B772500F69C92 /* PBXTargetDependency */,
-				C9057534233B772500F69C92 /* PBXTargetDependency */,
-			);
-			name = "SasquatchSwift-Preview-ContainingApp";
-			productName = SasquatchSwift;
-			productReference = C9057571233B772500F69C92 /* SasquatchSwift-Preview-ContainingApp.app */;
-			productType = "com.apple.product-type.application";
-		};
 		C9E7E481231E99E9007D96DC /* SasquatchSwift-Preview Extension */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = C9E7E4D1231E99E9007D96DC /* Build configuration list for PBXNativeTarget "SasquatchSwift-Preview Extension" */;
@@ -2621,13 +2328,6 @@
 						ProvisioningStyle = Automatic;
 						TestTargetID = B20AE37C21027D6200A1A195;
 					};
-					C90574E5233B76DF00F69C92 = {
-						ProvisioningStyle = Automatic;
-					};
-					C905752F233B772500F69C92 = {
-						DevelopmentTeam = 5Z97G9NZQ6;
-						ProvisioningStyle = Manual;
-					};
 					C9E7E481231E99E9007D96DC = {
 						CreatedOnToolsVersion = 10.2.1;
 						DevelopmentTeam = 5Z97G9NZQ6;
@@ -2736,10 +2436,8 @@
 				D31EF9281E9517B500450162 /* SasquatchWatchObjC */,
 				D31EF9341E9517B600450162 /* SasquatchWatchObjC Extension */,
 				B2A4CF85210A6E6900199B4F /* SasquatchSwift-Preview */,
-				C905752F233B772500F69C92 /* SasquatchSwift-Preview-ContainingApp */,
 				C9E7E481231E99E9007D96DC /* SasquatchSwift-Preview Extension */,
 				84226C7F1E8908C900798417 /* SasquatchSwift */,
-				C90574E5233B76DF00F69C92 /* SasquatchSwift-ContainingApp */,
 				C9E7E4E4231E9A5D007D96DC /* SasquatchSwift Extension */,
 				D31EF9531E9517C500450162 /* SasquatchWatchSwift */,
 				D31EF95F1E9517C600450162 /* SasquatchWatchSwift Extension */,
@@ -3030,6 +2728,7 @@
 				84226C561E88FF4A00798417 /* Assets.xcassets in Resources */,
 				F809D5041FC6DA2B005E0F83 /* LaunchScreen.storyboard in Resources */,
 				F8AA9F382164F9A6009104E3 /* MSAnalyticsTypedPropertyTableViewCell.xib in Resources */,
+				C27AD55E234C961C00A2576F /* Sasquatch ObjC.xcconfig in Resources */,
 				B2E011F321091EF2003F4A5B /* MSAnalyticsTransmissionTargetSelectorViewCell.xib in Resources */,
 				B2E011F421091EF2003F4A5B /* MSAnalyticsPropertyTableViewCell.xib in Resources */,
 				845964AB1E8A7E6600BABA51 /* Main.storyboard in Resources */,
@@ -3084,6 +2783,7 @@
 				B27D54C6210A5E7E004E82C9 /* LaunchScreen.storyboard in Resources */,
 				F8AA9F062164F91B009104E3 /* MSAnalyticsTypedPropertyTableViewCell.xib in Resources */,
 				B27D54C7210A5E7E004E82C9 /* MSAnalyticsTransmissionTargetSelectorViewCell.xib in Resources */,
+				C27AD55D234C961C00A2576F /* Sasquatch ObjC.xcconfig in Resources */,
 				B27D54C8210A5E7E004E82C9 /* MSAnalyticsPropertyTableViewCell.xib in Resources */,
 				B27D54C9210A5E7E004E82C9 /* Main.storyboard in Resources */,
 				B27D54CA210A5E7E004E82C9 /* Assets.xcassets in Resources */,
@@ -3112,37 +2812,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		C9057519233B76DF00F69C92 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				C905751A233B76DF00F69C92 /* AppCenterDistributeResources.bundle in Resources */,
-				C905751B233B76DF00F69C92 /* Sasquatch.strings in Resources */,
-				C905751C233B76DF00F69C92 /* Assets.xcassets in Resources */,
-				C905751D233B76DF00F69C92 /* MSAnalyticsTransmissionTargetSelectorViewCell.xib in Resources */,
-				C905751E233B76DF00F69C92 /* MSAnalyticsTypedPropertyTableViewCell.xib in Resources */,
-				C905751F233B76DF00F69C92 /* LaunchScreen.storyboard in Resources */,
-				C9057520233B76DF00F69C92 /* Main.storyboard in Resources */,
-				C9057521233B76DF00F69C92 /* Assets.xcassets in Resources */,
-				C9057522233B76DF00F69C92 /* MSAnalyticsPropertyTableViewCell.xib in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		C9057560233B772500F69C92 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				C9057561233B772500F69C92 /* Sasquatch.strings in Resources */,
-				C9057562233B772500F69C92 /* Assets.xcassets in Resources */,
-				C9057563233B772500F69C92 /* MSAnalyticsTransmissionTargetSelectorViewCell.xib in Resources */,
-				C9057564233B772500F69C92 /* MSAnalyticsTypedPropertyTableViewCell.xib in Resources */,
-				C9057565233B772500F69C92 /* LaunchScreen.storyboard in Resources */,
-				C9057566233B772500F69C92 /* Main.storyboard in Resources */,
-				C9057567233B772500F69C92 /* Assets.xcassets in Resources */,
-				C9057568233B772500F69C92 /* MSAnalyticsPropertyTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3281,55 +2950,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift\" ${PROJECT_NAME}.xcodeproj/project.pbxproj\n";
-			showEnvVarsInLog = 0;
-		};
-		C90574EE233B76DF00F69C92 /* Verify No Build Settings */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Verify No Build Settings";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift\" ${PROJECT_NAME}.xcodeproj/project.pbxproj\n";
-			showEnvVarsInLog = 0;
-		};
-		C90574EF233B76DF00F69C92 /* Remove the wrong framework */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Remove the wrong framework";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# We test the app on the fat fake framework produced by our script. \n# In order for linker to not pick up the simple static framework\n# (which it does by default), we need to remove it.\nrm -rf \"${BUILT_PRODUCTS_DIR}\"/AppCenter*.framework\n";
-			showEnvVarsInLog = 0;
-		};
-		C9057536233B772500F69C92 /* Verify No Build Settings */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Verify No Build Settings";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift\" ${PROJECT_NAME}.xcodeproj/project.pbxproj";
 			showEnvVarsInLog = 0;
 		};
 		C9FA992323200B9E007E276C /* Verify No Build Settings */ = {
@@ -3528,7 +3148,7 @@
 				84A0FF691E8A87C9000E7A28 /* MSAnalyticsViewController.swift in Sources */,
 				F8AA9F4A21650C04009104E3 /* SimplePropertiesTableSection.swift in Sources */,
 				B2E011F121091EF2003F4A5B /* MSAnalyticsTransmissionTargetSelectorViewCell.swift in Sources */,
-				84226D421E8953F100798417 /* AppCenterDelegateObjC.m in Sources */,
+				84226D421E8953F100798417 /* AppCenterDelegateObjC.mm in Sources */,
 				B2586C81210A478500664A43 /* CommonSchemaPropertiesTableSection.swift in Sources */,
 				B2E011F221091EF2003F4A5B /* MSCustomPropertyTableViewCell.swift in Sources */,
 				35396A7820F95A9C00A091E0 /* MSTransmissionTargetsViewController.swift in Sources */,
@@ -3616,7 +3236,7 @@
 				B20AE38821027D6200A1A195 /* MSAnalyticsViewController.swift in Sources */,
 				B2E011FF21091F0F003F4A5B /* MSCustomPropertyTableViewCell.swift in Sources */,
 				B2586C83210A478500664A43 /* CommonSchemaPropertiesTableSection.swift in Sources */,
-				B20AE38921027D6200A1A195 /* AppCenterDelegateObjC.m in Sources */,
+				B20AE38921027D6200A1A195 /* AppCenterDelegateObjC.mm in Sources */,
 				B20AE38A21027D6200A1A195 /* MSTransmissionTargetsViewController.swift in Sources */,
 				B20AE38B21027D6200A1A195 /* MSCrashesViewController.swift in Sources */,
 				B20AE38C21027D6200A1A195 /* MSAnalyticsChildTransmissionTargetTableViewController.swift in Sources */,
@@ -3654,7 +3274,7 @@
 				B27D54AD210A5E7E004E82C9 /* MSAnalyticsViewController.swift in Sources */,
 				F8AA9F4921650C04009104E3 /* SimplePropertiesTableSection.swift in Sources */,
 				B27D54AE210A5E7E004E82C9 /* MSAnalyticsTransmissionTargetSelectorViewCell.swift in Sources */,
-				B27D54AF210A5E7E004E82C9 /* AppCenterDelegateObjC.m in Sources */,
+				B27D54AF210A5E7E004E82C9 /* AppCenterDelegateObjC.mm in Sources */,
 				B27D54B0210A5E7E004E82C9 /* CommonSchemaPropertiesTableSection.swift in Sources */,
 				B27D54B1210A5E7E004E82C9 /* MSCustomPropertyTableViewCell.swift in Sources */,
 				B27D54B2210A5E7E004E82C9 /* MSTransmissionTargetsViewController.swift in Sources */,
@@ -3726,82 +3346,6 @@
 				F8FE733B210756DC005C6A74 /* AppCenterUITests.swift in Sources */,
 				F8FE733C210756DC005C6A74 /* CrashesUITests.swift in Sources */,
 				F8FE733E210756DC005C6A74 /* Helpers.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		C90574F0233B76DF00F69C92 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				C90574F1233B76DF00F69C92 /* MSDataViewController.swift in Sources */,
-				C90574F2233B76DF00F69C92 /* MSAnalyticsChildTransmissionTargetTableViewController.swift in Sources */,
-				C90574F3233B76DF00F69C92 /* AppCenterProtocol.swift in Sources */,
-				C90574F4233B76DF00F69C92 /* MSCrashesViewController.swift in Sources */,
-				C90574F5233B76DF00F69C92 /* MSAnalyticsTypedPropertyTableViewCell.swift in Sources */,
-				C90574F6233B76DF00F69C92 /* EventPropertiesTableSection.swift in Sources */,
-				C90574F7233B76DF00F69C92 /* MSTableViewCellExtension.swift in Sources */,
-				C90574F8233B76DF00F69C92 /* MSAnalyticsViewController.swift in Sources */,
-				C90574F9233B76DF00F69C92 /* MSSignInViewController.swift in Sources */,
-				C90574FA233B76DF00F69C92 /* MSTransmissionTargetsViewController.swift in Sources */,
-				C90574FB233B76DF00F69C92 /* MSAnalyticsTransmissionTargetSelectorViewCell.swift in Sources */,
-				C90574FC233B76DF00F69C92 /* AppCenterDelegate.swift in Sources */,
-				C90574FD233B76DF00F69C92 /* MSCustomPropertyTableViewCell.swift in Sources */,
-				C90574FE233B76DF00F69C92 /* MSAnalyticsPropertyTableViewCell.swift in Sources */,
-				C90574FF233B76DF00F69C92 /* CommonSchemaPropertiesTableSection.swift in Sources */,
-				C9057500233B76DF00F69C92 /* MSCustomPropertiesViewController.swift in Sources */,
-				C9057501233B76DF00F69C92 /* MSTransmissionTargets.swift in Sources */,
-				C9057502233B76DF00F69C92 /* MSAnalyticsResultViewController.swift in Sources */,
-				C9057503233B76DF00F69C92 /* MSDocumentDetailsViewController.swift in Sources */,
-				C9057504233B76DF00F69C92 /* MSAuthInfoViewController.swift in Sources */,
-				C9057505233B76DF00F69C92 /* MSMainViewController.swift in Sources */,
-				C9057506233B76DF00F69C92 /* PropertiesTableSection.swift in Sources */,
-				C9057507233B76DF00F69C92 /* AppCenterDelegateSwift.swift in Sources */,
-				C9057508233B76DF00F69C92 /* TargetPropertiesTableSection.swift in Sources */,
-				C9057509233B76DF00F69C92 /* MSAuthenticationViewController.swift in Sources */,
-				C905750A233B76DF00F69C92 /* MSAnalyticsResult.swift in Sources */,
-				C905750B233B76DF00F69C92 /* MSDistributeViewController.swift in Sources */,
-				C905750C233B76DF00F69C92 /* MSDatePicker.swift in Sources */,
-				C905750D233B76DF00F69C92 /* MSEnumPicker.swift in Sources */,
-				C905750E233B76DF00F69C92 /* AppDelegate.swift in Sources */,
-				C905750F233B76DF00F69C92 /* SimplePropertiesTableSection.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		C9057537233B772500F69C92 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				C9057538233B772500F69C92 /* MSDataViewController.swift in Sources */,
-				C9057539233B772500F69C92 /* MSAnalyticsChildTransmissionTargetTableViewController.swift in Sources */,
-				C905753A233B772500F69C92 /* AppCenterProtocol.swift in Sources */,
-				C905753B233B772500F69C92 /* MSCrashesViewController.swift in Sources */,
-				C905753C233B772500F69C92 /* MSAnalyticsTypedPropertyTableViewCell.swift in Sources */,
-				C905753D233B772500F69C92 /* EventPropertiesTableSection.swift in Sources */,
-				C905753E233B772500F69C92 /* MSTableViewCellExtension.swift in Sources */,
-				C905753F233B772500F69C92 /* MSAnalyticsViewController.swift in Sources */,
-				C9057540233B772500F69C92 /* MSSignInViewController.swift in Sources */,
-				C9057541233B772500F69C92 /* MSTransmissionTargetsViewController.swift in Sources */,
-				C9057542233B772500F69C92 /* MSAnalyticsTransmissionTargetSelectorViewCell.swift in Sources */,
-				C9057543233B772500F69C92 /* AppCenterDelegate.swift in Sources */,
-				C9057544233B772500F69C92 /* MSCustomPropertyTableViewCell.swift in Sources */,
-				C9057545233B772500F69C92 /* MSAnalyticsPropertyTableViewCell.swift in Sources */,
-				C9057546233B772500F69C92 /* CommonSchemaPropertiesTableSection.swift in Sources */,
-				C9057547233B772500F69C92 /* MSCustomPropertiesViewController.swift in Sources */,
-				C9057548233B772500F69C92 /* MSTransmissionTargets.swift in Sources */,
-				C9057549233B772500F69C92 /* MSAnalyticsResultViewController.swift in Sources */,
-				C905754A233B772500F69C92 /* MSDocumentDetailsViewController.swift in Sources */,
-				C905754B233B772500F69C92 /* MSAuthInfoViewController.swift in Sources */,
-				C905754C233B772500F69C92 /* MSMainViewController.swift in Sources */,
-				C905754D233B772500F69C92 /* PropertiesTableSection.swift in Sources */,
-				C905754E233B772500F69C92 /* AppCenterDelegateSwift.swift in Sources */,
-				C905754F233B772500F69C92 /* TargetPropertiesTableSection.swift in Sources */,
-				C9057550233B772500F69C92 /* MSAuthenticationViewController.swift in Sources */,
-				C9057551233B772500F69C92 /* MSAnalyticsResult.swift in Sources */,
-				C9057552233B772500F69C92 /* MSDistributeViewController.swift in Sources */,
-				C9057553233B772500F69C92 /* MSDatePicker.swift in Sources */,
-				C9057554233B772500F69C92 /* MSEnumPicker.swift in Sources */,
-				C9057555233B772500F69C92 /* AppDelegate.swift in Sources */,
-				C9057556233B772500F69C92 /* SimplePropertiesTableSection.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3999,41 +3543,6 @@
 			name = CrashLibIOS;
 			targetProxy = C2F156FB2338C34B00798480 /* PBXContainerItemProxy */;
 		};
-		C90574E6233B76DF00F69C92 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = CrashLibIOS;
-			targetProxy = C90574E7233B76DF00F69C92 /* PBXContainerItemProxy */;
-		};
-		C90574E8233B76DF00F69C92 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = D31EF9531E9517C500450162 /* SasquatchWatchSwift */;
-			targetProxy = C90574E9233B76DF00F69C92 /* PBXContainerItemProxy */;
-		};
-		C90574EA233B76DF00F69C92 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = C9E7E4E4231E9A5D007D96DC /* SasquatchSwift Extension */;
-			targetProxy = C90574EB233B76DF00F69C92 /* PBXContainerItemProxy */;
-		};
-		C90574EC233B76DF00F69C92 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = CrashLibIOS;
-			targetProxy = C90574ED233B76DF00F69C92 /* PBXContainerItemProxy */;
-		};
-		C9057530233B772500F69C92 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = CrashLibIOS;
-			targetProxy = C9057531233B772500F69C92 /* PBXContainerItemProxy */;
-		};
-		C9057532233B772500F69C92 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = C9E7E481231E99E9007D96DC /* SasquatchSwift-Preview Extension */;
-			targetProxy = C9057533233B772500F69C92 /* PBXContainerItemProxy */;
-		};
-		C9057534233B772500F69C92 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = CrashLibIOS;
-			targetProxy = C9057535233B772500F69C92 /* PBXContainerItemProxy */;
-		};
 		C9E7E48D231E99E9007D96DC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = C9E7E481231E99E9007D96DC /* SasquatchSwift-Preview Extension */;
@@ -4187,6 +3696,7 @@
 		};
 		84226C721E88FF4A00798417 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C27AD55C234C961C00A2576F /* Sasquatch ObjC.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = SasquatchObjC/SasquatchObjC.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -4200,6 +3710,7 @@
 		};
 		84226C731E88FF4A00798417 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C27AD55C234C961C00A2576F /* Sasquatch ObjC.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = SasquatchObjC/SasquatchObjC.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -4267,6 +3778,7 @@
 		};
 		B27D54D0210A5E7E004E82C9 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C27AD55C234C961C00A2576F /* Sasquatch ObjC.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = SasquatchObjC/SasquatchObjC.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -4281,6 +3793,7 @@
 		};
 		B27D54D1210A5E7E004E82C9 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C27AD55C234C961C00A2576F /* Sasquatch ObjC.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = SasquatchObjC/SasquatchObjC.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
@@ -4338,60 +3851,6 @@
 				INFOPLIST_FILE = SasquatchUITests/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.SasquatchPuppetUITests;
 				TEST_TARGET_NAME = SasquatchPuppet;
-			};
-			name = Release;
-		};
-		C905752B233B76DF00F69C92 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = SasquatchSwift/SasquatchSwift.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
-				INFOPLIST_FILE = "$(SRCROOT)/SasquatchSwift/Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchswift;
-				PROVISIONING_PROFILE_SPECIFIER = "";
-			};
-			name = Debug;
-		};
-		C905752C233B76DF00F69C92 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = SasquatchSwift/SasquatchSwift.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
-				INFOPLIST_FILE = "$(SRCROOT)/SasquatchSwift/Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchswift;
-				PROVISIONING_PROFILE_SPECIFIER = "";
-			};
-			name = Release;
-		};
-		C905756F233B772500F69C92 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = SasquatchSwift/SasquatchSwift.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = 5Z97G9NZQ6;
-				INFOPLIST_FILE = "$(SRCROOT)/SasquatchSwift/Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchswift;
-				PROVISIONING_PROFILE = "13aa81a6-41a9-436b-bf26-b9910cfbee17";
-				PROVISIONING_PROFILE_SPECIFIER = "AppCenter SDK Sasquatch Swift Debug";
-			};
-			name = Debug;
-		};
-		C9057570233B772500F69C92 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = SasquatchSwift/SasquatchSwift.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = 5Z97G9NZQ6;
-				INFOPLIST_FILE = "$(SRCROOT)/SasquatchSwift/Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchswift;
-				PROVISIONING_PROFILE = "a4aa0a1a-5369-411d-9c93-1493db2dc33e";
-				PROVISIONING_PROFILE_SPECIFIER = "AppCenter SDK SasquatchSwift Release In-house";
 			};
 			name = Release;
 		};
@@ -4602,24 +4061,6 @@
 			buildConfigurations = (
 				B2A888BC2102B1E7001ACFDF /* Debug */,
 				B2A888BD2102B1E7001ACFDF /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		C905752A233B76DF00F69C92 /* Build configuration list for PBXNativeTarget "SasquatchSwift-ContainingApp" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				C905752B233B76DF00F69C92 /* Debug */,
-				C905752C233B76DF00F69C92 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		C905756E233B772500F69C92 /* Build configuration list for PBXNativeTarget "SasquatchSwift-Preview-ContainingApp" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				C905756F233B772500F69C92 /* Debug */,
-				C9057570233B772500F69C92 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
