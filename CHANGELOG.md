@@ -8,7 +8,7 @@
 
 ### App Center Crashes
 
-* **[Feature]** iOS extensions support.
+* **[Feature]** iOS and macOS extensions support.
 
 ### App Center Data
 
