@@ -5,7 +5,6 @@
 ### App Center
 
 * **[Fix]** Fix header issues with projects not using clang modules.
-* **[Fix]** Fix an issue where delegate method `data:didCompletePendingOperation:forDocument:withError:` would throw and exception if not implemented.
 
 ### App Center Crashes
 
@@ -14,6 +13,7 @@
 ### App Center Data
 
 * **[Fix]** Reduce retries on Data-related operations to fail fast and avoid the perception of calls "hanging".
+* **[Fix]** Fix an issue where delegate method `data:didCompletePendingOperation:forDocument:withError:` would throw and exception if not implemented.
 
 ___
 
