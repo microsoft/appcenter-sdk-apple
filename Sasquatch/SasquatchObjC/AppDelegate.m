@@ -268,12 +268,13 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
 #pragma mark - MSRemoteOperationDelegate
 
 - (void)data:(MSData *)data
-    didCompletePendingOperation:(NSString *)operation
-                    forDocument:(MSDocumentWrapper *_Nullable)document
-                      withError:(MSDataError *_Nullable)error {
+    didCompleteRemoteOperation:(NSString *)operation
+           forDocumentMetadata:(MSDocumentMetadata *_Nullable)documentMetadata
+                     withError:(MSDataError *_Nullable)error {
   NSLog(@"Operation processed: %@ ", operation);
-  if (document) {
-    NSLog(@"Document: Partition : %@, document id : %@, eTag : %@ ", document.partition, document.documentId, document.eTag);
+  if (documentMetadata) {
+    NSLog(@"Document: Partition : %@, document id : %@, eTag : %@ ", documentMetadata.partition, documentMetadata.documentId,
+          documentMetadata.eTag);
   }
   if (error) {
     NSLog(@"Error: %@ ", error);
