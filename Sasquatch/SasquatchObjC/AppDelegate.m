@@ -42,6 +42,7 @@
 @import AppCenterPush;
 #endif
 
+#import "Sasquatch-Swift.h"
 #import "AppCenterDelegateObjC.h"
 #import "AppDelegate.h"
 #import "Constants.h"
