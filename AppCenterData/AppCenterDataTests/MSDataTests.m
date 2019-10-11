@@ -2737,10 +2737,10 @@ static NSString *const kMSDocumentIdTest = @"documentId";
     
     [self.sut setRemoteOperationDelegate:delegateMock];
     
-    //test that delegate accepts the right selector
+    // Check that the delegate accepts the right selector.
     assertThatBool([delegateMock respondsToSelector:expectedSelector], isTrue());
     
-    //test that delegate accepts the incorrect selector
+    // Check that the delegate rejects the incorrect selector.
     assertThatBool([delegateMock respondsToSelector:unexpectedSelector], isFalse());
     
     // Mock cached token result.
