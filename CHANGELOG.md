@@ -5,6 +5,7 @@
 ### App Center
 
 * **[Fix]** Fix header issues with projects not using clang modules.
+* **[Fix]** Fix an issue where delegate method `data:didCompletePendingOperation:forDocument:withError:` would throw and exception if not implemented.
 
 ### App Center Crashes
 
