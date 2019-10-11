@@ -42,6 +42,11 @@
 @import AppCenterPush;
 #endif
 
+// We need to import all frameworks that used in swift header
+// to avoid missing declarations with modules disabled.
+#import <WebKit/WebKit.h>
+#import <FirebaseAuthUI/FUIAuth.h>
+
 #import "Sasquatch-Swift.h"
 #import "AppCenterDelegateObjC.h"
 #import "AppDelegate.h"

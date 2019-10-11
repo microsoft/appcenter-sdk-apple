@@ -1,11 +1,12 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "MSFirebaseProvider.h"
-#import <Foundation/Foundation.h>
-
+@import FirebaseAuthUI;
 @import FirebaseCore;
 @import FirebaseFacebookAuthUI;
+
+#import "Sasquatch-Swift.h"
+#import "MSFirebaseProvider.h"
 
 @implementation MSFirebaseProvider
 

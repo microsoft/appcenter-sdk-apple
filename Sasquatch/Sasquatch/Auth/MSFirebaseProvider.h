@@ -1,9 +1,12 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "Sasquatch-Swift.h"
+#import <Foundation/Foundation.h>
 
-@import FirebaseAuthUI;
+@protocol AuthProviderDelegate;
+@protocol FUIAuthDelegate;
+@class MSUserInformation;
+@class FUIAuth;
 
 typedef void (^MSCompletionHandler)(MSUserInformation *userInformation, NSError *error);
 
