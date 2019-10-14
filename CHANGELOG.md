@@ -1,6 +1,6 @@
 # App Center SDK for iOS, macOS and tvOS Change Log
 
-## Version 2.4.1 (Under development)
+## Version 2.5.0
 
 ### App Center
 
@@ -13,6 +13,7 @@
 ### App Center Data
 
 * **[Fix]** Reduce retries on Data-related operations to fail fast and avoid the perception of calls "hanging".
+* **[Fix]** Fix an issue where the optional delegate method `data:didCompletePendingOperation:forDocument:withError:` would throw an exception if not implemented (when using `MSData.setRemoteOperationDelegate`).
 
 ___
 
