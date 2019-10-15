@@ -324,8 +324,6 @@
 		F8EE6464231E6F8E0007A52E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F8EE6466231E6F8E0007A52E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		F8EE6468231E6F8E0007A52E /* SasquatchMacSwift_Today_Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SasquatchMacSwift_Today_Extension.entitlements; sourceTree = "<group>"; };
-		F8EE6483231E71060007A52E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		F8EE6485231E71060007A52E /* SasquatchMacSwift_Preview_Today_Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SasquatchMacSwift_Preview_Today_Extension.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -428,7 +426,6 @@
 				D3C31C231E8E75B300B288CE /* SasquatchMacObjC */,
 				D3C31C611E8E763600B288CE /* SasquatchMacSwift */,
 				F8EE645E231E6F8E0007A52E /* SasquatchMacSwift-Extension */,
-				F8EE647B231E71060007A52E /* SasquatchMacSwift-Preview-Extension */,
 				D3C31C0D1E8E757300B288CE /* Products */,
 				D3C31C731E8E782900B288CE /* Frameworks */,
 			);
@@ -568,15 +565,6 @@
 				F8EE6468231E6F8E0007A52E /* SasquatchMacSwift_Today_Extension.entitlements */,
 			);
 			path = "SasquatchMacSwift-Extension";
-			sourceTree = "<group>";
-		};
-		F8EE647B231E71060007A52E /* SasquatchMacSwift-Preview-Extension */ = {
-			isa = PBXGroup;
-			children = (
-				F8EE6482231E71060007A52E /* InfoPlist.strings */,
-				F8EE6485231E71060007A52E /* SasquatchMacSwift_Preview_Today_Extension.entitlements */,
-			);
-			path = "SasquatchMacSwift-Preview-Extension";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
