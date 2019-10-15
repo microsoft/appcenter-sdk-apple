@@ -1,6 +1,27 @@
 # App Center SDK for iOS, macOS and tvOS Change Log
 
+## Version 2.5.0
+
+### App Center
+
+* **[Fix]** Fix header issues with projects not using clang modules.
+
+### App Center Crashes
+
+* **[Feature]** iOS and macOS extensions support.
+
+### App Center Data
+
+* **[Fix]** Reduce retries on Data-related operations to fail fast and avoid the perception of calls "hanging".
+* **[Fix]** Fix an issue where the optional delegate method `data:didCompletePendingOperation:forDocument:withError:` would throw an exception if not implemented (when using `MSData.setRemoteOperationDelegate`).
+
+___
+
 ## Version 2.4.0
+
+### App Center
+
+* **[Feature]** App Center now supports Carthage integration.
 
 ### App Center Auth
 
@@ -12,6 +33,10 @@
 ### App Center Analytics
 
 * **[Fix]** Fix crash involving SDK's `ms_viewWillAppear` method.
+
+### App Center Crashes
+
+* **[Behavior change]** `MSCrashesDelegate` callback methods are now invoked on the main thread (`crashes:willSendErrorReport:`,  `crashes:didSucceedSendingErrorReport:`, and `crashes:didFailSendingErrorReport:withError:`).
 
 ### App Center Data
 
