@@ -385,8 +385,8 @@
 		C9EBAB2D230D735E00A20F0F /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9EBAB2C230D735E00A20F0F /* AppCenter.framework */; };
 		C9EBAB2F230D736A00A20F0F /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9EBAB2E230D736A00A20F0F /* AppCenter.framework */; };
 		C9EBAB31230D736F00A20F0F /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9EBAB30230D736F00A20F0F /* AppCenter.framework */; };
-		DFEB98292318FAF400AE88C1 /* libCrashReporter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DFEB98282318FAF400AE88C1 /* libCrashReporter.a */; };
-		DFEB98332318FF5500AE88C1 /* libCrashReporter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DFEB98262318F90400AE88C1 /* libCrashReporter.a */; };
+		DFEB98292318FAF400AE88C1 /* libCrashReporter-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DFEB98282318FAF400AE88C1 /* libCrashReporter-tvOS.a */; };
+		DFEB98332318FF5500AE88C1 /* libCrashReporter-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DFEB98262318F90400AE88C1 /* libCrashReporter-iOS.a */; };
 		F82E4C75217F1FD700EDAB34 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = F82E4C74217F1FD600EDAB34 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		F82E4C76217F1FD700EDAB34 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = F82E4C74217F1FD600EDAB34 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		F82E4C77217F1FD700EDAB34 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = F82E4C74217F1FD600EDAB34 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-w"; }; };
@@ -664,8 +664,8 @@
 		DFEB98232318F56B00AE88C1 /* PLCrashReportFormatter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportFormatter.h; sourceTree = "<group>"; };
 		DFEB98242318F56B00AE88C1 /* PLCrashReportProcessInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportProcessInfo.h; sourceTree = "<group>"; };
 		DFEB98252318F56B00AE88C1 /* PLCrashReportSymbolInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportSymbolInfo.h; sourceTree = "<group>"; };
-		DFEB98262318F90400AE88C1 /* libCrashReporter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libCrashReporter.a; sourceTree = "<group>"; };
-		DFEB98282318FAF400AE88C1 /* libCrashReporter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libCrashReporter.a; sourceTree = "<group>"; };
+		DFEB98262318F90400AE88C1 /* libCrashReporter-iOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libCrashReporter-iOS.a"; sourceTree = "<group>"; };
+		DFEB98282318FAF400AE88C1 /* libCrashReporter-tvOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libCrashReporter-tvOS.a"; sourceTree = "<group>"; };
 		F82E4C74217F1FD600EDAB34 /* sqlite3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = sqlite3.c; path = ../../Vendor/SQLite3/sqlite3.c; sourceTree = "<group>"; };
 		F851DAEC1E81867D00525570 /* MSCrashesCXXExceptionTests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MSCrashesCXXExceptionTests.mm; sourceTree = "<group>"; };
 		F859D0F41E549B45008B2D8E /* live_report_bad_ptr.plcrash */ = {isa = PBXFileReference; lastKnownFileType = file; path = live_report_bad_ptr.plcrash; sourceTree = "<group>"; };
@@ -726,7 +726,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DFEB98332318FF5500AE88C1 /* libCrashReporter.a in Frameworks */,
+				DFEB98332318FF5500AE88C1 /* libCrashReporter-iOS.a in Frameworks */,
 				C9EBAB2D230D735E00A20F0F /* AppCenter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -735,7 +735,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DFEB98292318FAF400AE88C1 /* libCrashReporter.a in Frameworks */,
+				DFEB98292318FAF400AE88C1 /* libCrashReporter-tvOS.a in Frameworks */,
 				C9EBAB2F230D736A00A20F0F /* AppCenter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -787,7 +787,7 @@
 		049327981ECA19FD00D0187A /* PLCrashReporter */ = {
 			isa = PBXGroup;
 			children = (
-				DFEB97F72318F42700AE88C1 /* CrashReporter */,
+				DFEB97F72318F42700AE88C1 /* include */,
 				049327B11ECA19FD00D0187A /* libCrashReporter-MacOSX-Static.a */,
 			);
 			name = PLCrashReporter;
@@ -1149,8 +1149,8 @@
 		DFEB978F2318F09A00AE88C1 /* PLCrashReporter */ = {
 			isa = PBXGroup;
 			children = (
-				DFEB980E2318F56B00AE88C1 /* CrashReporter */,
-				DFEB98262318F90400AE88C1 /* libCrashReporter.a */,
+				DFEB980E2318F56B00AE88C1 /* include */,
+				DFEB98262318F90400AE88C1 /* libCrashReporter-iOS.a */,
 			);
 			name = PLCrashReporter;
 			path = ../Vendor/iOS/PLCrashReporter;
@@ -1159,14 +1159,14 @@
 		DFEB97C32318F0BA00AE88C1 /* PLCrashReporter */ = {
 			isa = PBXGroup;
 			children = (
-				DFEB97C52318F0BA00AE88C1 /* CrashReporter */,
-				DFEB98282318FAF400AE88C1 /* libCrashReporter.a */,
+				DFEB97C52318F0BA00AE88C1 /* include */,
+				DFEB98282318FAF400AE88C1 /* libCrashReporter-tvOS.a */,
 			);
 			name = PLCrashReporter;
 			path = ../Vendor/tvOS/PLCrashReporter;
 			sourceTree = "<group>";
 		};
-		DFEB97C52318F0BA00AE88C1 /* CrashReporter */ = {
+		DFEB97C52318F0BA00AE88C1 /* include */ = {
 			isa = PBXGroup;
 			children = (
 				DFEB97C62318F0BA00AE88C1 /* PLCrashNamespace.h */,
@@ -1193,10 +1193,10 @@
 				DFEB97DB2318F0BA00AE88C1 /* PLCrashReportProcessInfo.h */,
 				DFEB97DC2318F0BA00AE88C1 /* PLCrashReportSymbolInfo.h */,
 			);
-			path = CrashReporter;
+			path = include;
 			sourceTree = "<group>";
 		};
-		DFEB97F72318F42700AE88C1 /* CrashReporter */ = {
+		DFEB97F72318F42700AE88C1 /* include */ = {
 			isa = PBXGroup;
 			children = (
 				DFEB97F82318F42700AE88C1 /* PLCrashNamespace.h */,
@@ -1222,10 +1222,10 @@
 				DFEB980C2318F42700AE88C1 /* PLCrashReportProcessInfo.h */,
 				DFEB980D2318F42700AE88C1 /* PLCrashReportSymbolInfo.h */,
 			);
-			path = CrashReporter;
+			path = include;
 			sourceTree = "<group>";
 		};
-		DFEB980E2318F56B00AE88C1 /* CrashReporter */ = {
+		DFEB980E2318F56B00AE88C1 /* include */ = {
 			isa = PBXGroup;
 			children = (
 				DFEB980F2318F56B00AE88C1 /* PLCrashNamespace.h */,
@@ -1252,7 +1252,7 @@
 				DFEB98242318F56B00AE88C1 /* PLCrashReportProcessInfo.h */,
 				DFEB98252318F56B00AE88C1 /* PLCrashReportSymbolInfo.h */,
 			);
-			path = CrashReporter;
+			path = include;
 			sourceTree = "<group>";
 		};
 		F859D0F31E549B45008B2D8E /* CrashProbe */ = {
