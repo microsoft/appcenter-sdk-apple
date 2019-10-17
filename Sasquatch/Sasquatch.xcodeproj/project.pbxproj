@@ -33,6 +33,7 @@
 		35CAA2292143229300A8BED2 /* MSTableViewCellExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35CAA1F92143229300A8BED2 /* MSTableViewCellExtension.swift */; };
 		35FBE78120FD095200F7B05C /* MSTransmissionTargets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FBE78020FD095200F7B05C /* MSTransmissionTargets.swift */; };
 		35FBE78220FD095200F7B05C /* MSTransmissionTargets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FBE78020FD095200F7B05C /* MSTransmissionTargets.swift */; };
+		38C9DDAE2356374D00B9E686 /* AppCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = F8EE93532331212D0023C682 /* AppCenterDistributeResources.bundle */; };
 		4AFBF2CD224C71FF002DB884 /* MSDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFBF2CC224C71FF002DB884 /* MSDataViewController.swift */; };
 		4AFBF2CE224C71FF002DB884 /* MSDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFBF2CC224C71FF002DB884 /* MSDataViewController.swift */; };
 		4AFBF2CF224C71FF002DB884 /* MSDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFBF2CC224C71FF002DB884 /* MSDataViewController.swift */; };
@@ -242,6 +243,9 @@
 		C90789C12327DF7600999F08 /* AppCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84226D301E89301B00798417 /* AppCenterCrashes.framework */; };
 		C914CF7323473A9C007A613C /* SasquatchSwift-Preview Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C9E7E482231E99E9007D96DC /* SasquatchSwift-Preview Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C914CFAF23473AD2007A613C /* SasquatchSwift Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C9E7E4E5231E9A5D007D96DC /* SasquatchSwift Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		C9273B6323562222008B4B28 /* AppCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = F8EE93532331212D0023C682 /* AppCenterDistributeResources.bundle */; };
+		C9273BAE23572FB6008B4B28 /* CrashLibIOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156AA2338C26A00798480 /* CrashLibIOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C9273BB023572FCF008B4B28 /* CrashLibIOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156AA2338C26A00798480 /* CrashLibIOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C9E7E484231E99E9007D96DC /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9E7E483231E99E9007D96DC /* NotificationCenter.framework */; };
 		C9E7E4E6231E9A5D007D96DC /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9E7E483231E99E9007D96DC /* NotificationCenter.framework */; };
 		C9E7E4E9231E9A5E007D96DC /* ExtensionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E7E4E8231E9A5E007D96DC /* ExtensionViewController.swift */; };
@@ -941,6 +945,28 @@
 			dstSubfolderSpec = 10;
 			files = (
 				C2F156F02338C33600798480 /* CrashLibIOS.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C9273BAD23572F62008B4B28 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				C9273BAE23572FB6008B4B28 /* CrashLibIOS.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C9273BAF23572FC0008B4B28 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				C9273BB023572FCF008B4B28 /* CrashLibIOS.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1975,6 +2001,7 @@
 				C9E7E47E231E99E9007D96DC /* Sources */,
 				C9E7E47F231E99E9007D96DC /* Frameworks */,
 				C9E7E480231E99E9007D96DC /* Resources */,
+				C9273BAD23572F62008B4B28 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1994,6 +2021,7 @@
 				C9E7E4E1231E9A5D007D96DC /* Sources */,
 				C9E7E4E2231E9A5D007D96DC /* Frameworks */,
 				C9E7E4E3231E9A5D007D96DC /* Resources */,
+				C9273BAF23572FC0008B4B28 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -2610,6 +2638,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9273B6323562222008B4B28 /* AppCenterDistributeResources.bundle in Resources */,
 				B27D54C3210A5E7E004E82C9 /* Sasquatch.strings in Resources */,
 				B27D54C4210A5E7E004E82C9 /* Assets.xcassets in Resources */,
 				B27D54C6210A5E7E004E82C9 /* LaunchScreen.storyboard in Resources */,
@@ -2628,6 +2657,7 @@
 			files = (
 				B2A4CFA7210A6E6900199B4F /* Sasquatch.strings in Resources */,
 				B2A4CFA9210A6E6900199B4F /* Assets.xcassets in Resources */,
+				38C9DDAE2356374D00B9E686 /* AppCenterDistributeResources.bundle in Resources */,
 				B2A4CFAA210A6E6900199B4F /* MSAnalyticsTransmissionTargetSelectorViewCell.xib in Resources */,
 				F8AA9F392164F9A8009104E3 /* MSAnalyticsTypedPropertyTableViewCell.xib in Resources */,
 				B2A4CFAB210A6E6900199B4F /* LaunchScreen.storyboard in Resources */,
