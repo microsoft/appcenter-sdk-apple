@@ -154,9 +154,8 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   XCTAssertEqual(strongDelegate, delegateMock);
 }
 
-
 - (void)testdidFailSendingErrorReportIsCalled {
-  
+
   // If
   id<MSCrashesDelegate> delegateMock = OCMProtocolMock(@protocol(MSCrashesDelegate));
   XCTestExpectation *expectation = [self expectationWithDescription:@"didFailSendingErrorReportCalled"];
@@ -167,7 +166,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   OCMStub([delegateMock crashes:self.sut didFailSendingErrorReport:errorReport withError:nil]).andDo(^(__unused NSInvocation *invocation) {
     [expectation fulfill];
   });
-  
+
   // When
   [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
                         appSecret:kMSTestAppSecret
@@ -177,7 +176,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   id<MSChannelProtocol> channel = [MSCrashes sharedInstance].channelUnit;
   id<MSLog> log = errorLog;
   [self.sut channel:channel didFailSendingLog:log withError:nil];
-  
+
   // Then
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *_Nullable error) {
@@ -187,9 +186,8 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
                                }];
 }
 
-
 - (void)testdidSucceedSendingErrorReportIsCalled {
-  
+
   // If
   id<MSCrashesDelegate> delegateMock = OCMProtocolMock(@protocol(MSCrashesDelegate));
   XCTestExpectation *expectation = [self expectationWithDescription:@"didSucceedSendingErrorReportCalled"];
@@ -200,7 +198,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   OCMStub([delegateMock crashes:self.sut didSucceedSendingErrorReport:errorReport]).andDo(^(__unused NSInvocation *invocation) {
     [expectation fulfill];
   });
-  
+
   // When
   [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
                         appSecret:kMSTestAppSecret
@@ -210,7 +208,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   id<MSChannelProtocol> channel = [MSCrashes sharedInstance].channelUnit;
   id<MSLog> log = errorLog;
   [self.sut channel:channel didSucceedSendingLog:log];
-  
+
   // Then
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *_Nullable error) {
@@ -232,7 +230,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   OCMStub([delegateMock crashes:self.sut willSendErrorReport:errorReport]).andDo(^(__unused NSInvocation *invocation) {
     [expectation fulfill];
   });
-    
+
   // When
   [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
                         appSecret:kMSTestAppSecret
@@ -750,7 +748,8 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 - (void)testWarningMessageAboutTooManyErrorAttachments {
 
   NSString *expectedMessage =
-      [NSString stringWithFormat:@"A limit of %u attachments per error report might be enforced by server.", kMaxAttachmentsPerCrashReport];
+      [NSString stringWithFormat:@"A limit of %u attachments per error report / exception might be enforced by server.",
+                                 kMaxAttachmentsPerCrashReport];
   __block bool warningMessageHasBeenPrinted = false;
 
 #pragma clang diagnostic push
@@ -784,7 +783,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   XCTAssertTrue(warningMessageHasBeenPrinted);
 }
 
-- (void)testTrackModelExceptionWithoutProperties {
+- (void)testTrackModelExceptionWitExceptionOnly {
 
   // If
   __block NSString *type;
@@ -820,7 +819,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   expectedException.message = @"Oh this is wrong...";
   expectedException.stackTrace = @"mock stacktrace";
   expectedException.type = @"Some.Exception";
-  [MSCrashes trackModelException:expectedException];
+  [MSCrashes trackModelException:expectedException withProperties:nil withAttachments:nil];
 
   // Then
   assertThat(type, is(kMSTypeHandledError));
@@ -829,7 +828,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   assertThat(exception, is(expectedException));
 }
 
-- (void)testTrackModelExceptionWithProperties {
+- (void)testTrackModelExceptionWithExceptionAndProperties {
 
   // If
   __block NSString *type;
@@ -868,7 +867,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   expectedException.stackTrace = @"mock stacktrace";
   expectedException.type = @"Some.Exception";
   NSDictionary *expectedProperties = @{@"milk" : @"yes", @"cookie" : @"of course"};
-  [MSCrashes trackModelException:expectedException withProperties:expectedProperties];
+  [MSCrashes trackModelException:expectedException withProperties:expectedProperties withAttachments:nil];
 
   // Then
   assertThat(type, is(kMSTypeHandledError));
@@ -876,6 +875,136 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   assertThat(errorId, notNilValue());
   assertThat(exception, is(expectedException));
   assertThat(properties, is(expectedProperties));
+}
+
+- (void)testTrackModelExceptionWitExceptionAndAttachments {
+
+  // If
+  __block NSString *type;
+  __block NSString *userId;
+  __block NSString *errorId;
+  __block MSException *exception;
+  __block NSMutableArray<MSErrorAttachmentLog *> *errorAttachmentLogs = [NSMutableArray new];
+  NSString *expectedUserId = @"alice";
+  id<MSChannelUnitProtocol> channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  id<MSChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:[OCMArg checkWithBlock:^BOOL(MSChannelUnitConfiguration *configuration) {
+                              return [configuration.groupId isEqualToString:@"Crashes"];
+                            }]])
+      .andReturn(channelUnitMock);
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(OCMProtocolMock(@protocol(MSChannelUnitProtocol)));
+  OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSHandledErrorLog class]] flags:MSFlagsDefault])
+      .andDo(^(NSInvocation *invocation) {
+        MSHandledErrorLog *log;
+        [invocation getArgument:&log atIndex:2];
+        type = log.type;
+        userId = log.userId;
+        errorId = log.errorId;
+        exception = log.exception;
+      });
+  OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSErrorAttachmentLog class]] flags:MSFlagsDefault])
+      .andDo(^(NSInvocation *invocation) {
+        MSErrorAttachmentLog *log;
+        [invocation getArgument:&log atIndex:2];
+        [errorAttachmentLogs addObject:log];
+      });
+  [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
+  [MSAppCenter setUserId:expectedUserId];
+  [[MSCrashes sharedInstance] startWithChannelGroup:channelGroupMock
+                                          appSecret:kMSTestAppSecret
+                            transmissionTargetToken:nil
+                                    fromApplication:YES];
+  NSData *expectedData = [@"<file><request>Please attach me</request><reason>I am a nice "
+                          @"data.</reason></file>" dataUsingEncoding:NSUTF8StringEncoding];
+  MSErrorAttachmentLog *errorAttachmentLog1 = [[MSErrorAttachmentLog alloc] initWithFilename:@"text.txt"
+                                                                              attachmentText:@"Please attach me, I am a nice text."];
+  MSErrorAttachmentLog *errorAttachmentLog2 = [[MSErrorAttachmentLog alloc] initWithFilename:@"binary.xml"
+                                                                            attachmentBinary:expectedData
+                                                                                 contentType:@"text/xml"];
+  NSArray<MSErrorAttachmentLog *> *attachments = @[ errorAttachmentLog1, errorAttachmentLog2 ];
+
+  // When
+  MSException *expectedException = [MSException new];
+  expectedException.message = @"Oh this is wrong...";
+  expectedException.stackTrace = @"mock stacktrace";
+  expectedException.type = @"Some.Exception";
+  [MSCrashes trackModelException:expectedException withProperties:nil withAttachments:attachments];
+
+  // Then
+  XCTAssertEqual(type, kMSTypeHandledError);
+  XCTAssertEqual(userId, expectedUserId);
+  XCTAssertNotNil(errorId, );
+  XCTAssertEqualObjects(exception, expectedException);
+  XCTAssertEqual([errorAttachmentLogs count], [attachments count]);
+  XCTAssertEqualObjects(errorAttachmentLogs[0], errorAttachmentLog1);
+  XCTAssertEqualObjects(errorAttachmentLogs[1], errorAttachmentLog2);
+}
+
+- (void)testTrackModelExceptionWithAllParameters {
+
+  // If
+  __block NSString *type;
+  __block NSString *userId;
+  __block NSString *errorId;
+  __block MSException *exception;
+  __block NSDictionary<NSString *, NSString *> *properties;
+  __block NSMutableArray<MSErrorAttachmentLog *> *errorAttachmentLogs = [NSMutableArray new];
+  NSString *expectedUserId = @"alice";
+  id<MSChannelUnitProtocol> channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  id<MSChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:[OCMArg checkWithBlock:^BOOL(MSChannelUnitConfiguration *configuration) {
+                              return [configuration.groupId isEqualToString:@"Crashes"];
+                            }]])
+      .andReturn(channelUnitMock);
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(OCMProtocolMock(@protocol(MSChannelUnitProtocol)));
+  OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSHandledErrorLog class]] flags:MSFlagsDefault])
+      .andDo(^(NSInvocation *invocation) {
+        MSHandledErrorLog *log;
+        [invocation getArgument:&log atIndex:2];
+        type = log.type;
+        userId = log.userId;
+        errorId = log.errorId;
+        exception = log.exception;
+        properties = log.properties;
+      });
+  OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSErrorAttachmentLog class]] flags:MSFlagsDefault])
+      .andDo(^(NSInvocation *invocation) {
+        MSErrorAttachmentLog *log;
+        [invocation getArgument:&log atIndex:2];
+        [errorAttachmentLogs addObject:log];
+      });
+  [MSAppCenter setUserId:expectedUserId];
+  [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
+  [[MSCrashes sharedInstance] startWithChannelGroup:channelGroupMock
+                                          appSecret:kMSTestAppSecret
+                            transmissionTargetToken:nil
+                                    fromApplication:YES];
+  NSData *expectedData = [@"<file><request>Please attach me</request><reason>I am a nice "
+                          @"data.</reason></file>" dataUsingEncoding:NSUTF8StringEncoding];
+  MSErrorAttachmentLog *errorAttachmentLog1 = [[MSErrorAttachmentLog alloc] initWithFilename:@"text.txt"
+                                                                              attachmentText:@"Please attach me, I am a nice text."];
+  MSErrorAttachmentLog *errorAttachmentLog2 = [[MSErrorAttachmentLog alloc] initWithFilename:@"binary.xml"
+                                                                            attachmentBinary:expectedData
+                                                                                 contentType:@"text/xml"];
+  NSArray<MSErrorAttachmentLog *> *attachments = @[ errorAttachmentLog1, errorAttachmentLog2 ];
+
+  // When
+  MSException *expectedException = [MSException new];
+  expectedException.message = @"Oh this is wrong...";
+  expectedException.stackTrace = @"mock stacktrace";
+  expectedException.type = @"Some.Exception";
+  NSDictionary *expectedProperties = @{@"milk" : @"yes", @"cookie" : @"of course"};
+  [MSCrashes trackModelException:expectedException withProperties:expectedProperties withAttachments:attachments];
+
+  // Then
+  XCTAssertEqual(type, kMSTypeHandledError);
+  XCTAssertEqual(userId, expectedUserId);
+  XCTAssertNotNil(errorId);
+  XCTAssertEqualObjects(exception, expectedException);
+  XCTAssertEqualObjects(properties, expectedProperties);
+  XCTAssertEqual([errorAttachmentLogs count], [attachments count]);
+  XCTAssertEqualObjects(errorAttachmentLogs[0], errorAttachmentLog1);
+  XCTAssertEqualObjects(errorAttachmentLogs[1], errorAttachmentLog2);
 }
 
 #pragma mark - Automatic Processing Tests
@@ -1353,10 +1482,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   XCTAssertTrue(((NSNumber *)[settings objectForKey:kMSAppDidReceiveMemoryWarningKey]).boolValue);
 
   // When
-  [crashes startWithChannelGroup:channelGroupMock
-                       appSecret:kMSTestAppSecret
-         transmissionTargetToken:nil
-                 fromApplication:YES];
+  [crashes startWithChannelGroup:channelGroupMock appSecret:kMSTestAppSecret transmissionTargetToken:nil fromApplication:YES];
 
   // Then
   XCTAssertTrue([MSCrashes hasReceivedMemoryWarningInLastSession]);
