@@ -877,7 +877,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   assertThat(properties, is(expectedProperties));
 }
 
-- (void)testTrackModelExceptionWitExceptionAndAttachments {
+- (void)testTrackModelExceptionWithExceptionAndAttachments {
 
   // If
   __block NSString *type;
