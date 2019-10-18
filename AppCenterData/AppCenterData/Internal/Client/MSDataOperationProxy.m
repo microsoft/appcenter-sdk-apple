@@ -69,6 +69,36 @@
 
     // Execute remote operation if needed.
     if ([self shouldAttemptRemoteOperationForDocument:cachedDocument]) {
+
+      // Create document wrapper for current document.
+      if (operation != kMSPendingOperationRead) {
+        NSDictionary *pendingDocdictionary = [document serializeToDictionary];
+        if (deviceTimeToLive == kMSDataTimeToLiveNoCache) {
+          pendingDocdictionary = nil;
+        }
+        MSDocumentWrapper *pendingDocumentWrapper =
+                      [MSDocumentUtils documentWrapperFromDictionary:pendingDocdictionary
+                                                        documentType:documentType
+                                                                eTag:cachedDocument.eTag
+                                                     lastUpdatedDate:cachedDocument.lastUpdatedDate
+                                                           partition:token.partition
+                                                          documentId:documentId
+                                                    pendingOperation:operation
+                                                     fromDeviceCache:YES];
+
+        // if the operation is delete we dont want the document in the table to get cleaned up yet
+        if ([operation isEqualToString:kMSPendingOperationDelete]) {
+          pendingDocumentWrapper = cachedDocument;
+          pendingDocumentWrapper.pendingOperation = operation;
+        }
+
+        // Store the operation in DB and mark as pening.
+        [self.documentStore upsertWithToken:token
+                            documentWrapper:pendingDocumentWrapper
+                                  operation:operation
+                           deviceTimeToLive:deviceTimeToLive];
+      }
+
       MSLogInfo([MSData logTag], @"Performing remote operation");
       remoteDocumentBlock(^(MSDocumentWrapper *_Nonnull remoteDocument) {
         // If a valid remote document was retrieved, update local store
