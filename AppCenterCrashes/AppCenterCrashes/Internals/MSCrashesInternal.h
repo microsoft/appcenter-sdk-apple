@@ -66,17 +66,12 @@ static NSString *const kMSAppDidReceiveMemoryWarningKey = @"MSAppDidReceiveMemor
  * This API is not public and is used by wrapper SDKs.
  *
  * @param exception model form exception.
- */
-+ (void)trackModelException:(MSException *)exception;
-
-/*
- * Track handled exception directly as model form.
- * This API is not public and is used by wrapper SDKs.
- *
- * @param exception model form exception.
  * @param properties dictionary of properties.
+ * @param attachments a list of attachments.
  */
-+ (void)trackModelException:(MSException *)exception withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties;
++ (void)trackModelException:(MSException *)exception
+             withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties
+            withAttachments:(nullable NSArray<MSErrorAttachmentLog *> *)attachments;
 
 @end
 
