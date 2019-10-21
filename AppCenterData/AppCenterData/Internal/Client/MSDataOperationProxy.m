@@ -76,15 +76,14 @@
         if (deviceTimeToLive == kMSDataTimeToLiveNoCache) {
           pendingDocdictionary = nil;
         }
-        MSDocumentWrapper *pendingDocumentWrapper =
-                      [MSDocumentUtils documentWrapperFromDictionary:pendingDocdictionary
-                                                        documentType:documentType
-                                                                eTag:cachedDocument.eTag
-                                                     lastUpdatedDate:cachedDocument.lastUpdatedDate
-                                                           partition:token.partition
-                                                          documentId:documentId
-                                                    pendingOperation:operation
-                                                     fromDeviceCache:YES];
+        MSDocumentWrapper *pendingDocumentWrapper = [MSDocumentUtils documentWrapperFromDictionary:pendingDocdictionary
+                                                                                      documentType:documentType
+                                                                                              eTag:cachedDocument.eTag
+                                                                                   lastUpdatedDate:cachedDocument.lastUpdatedDate
+                                                                                         partition:token.partition
+                                                                                        documentId:documentId
+                                                                                  pendingOperation:operation
+                                                                                   fromDeviceCache:YES];
 
         // if the operation is delete we dont want the document in the table to get cleaned up yet
         if ([operation isEqualToString:kMSPendingOperationDelete]) {
@@ -92,7 +91,7 @@
           pendingDocumentWrapper.pendingOperation = operation;
         }
 
-        // Store the operation in DB and mark as pening.
+        // Store the operation in DB and mark as pending.
         [self.documentStore upsertWithToken:token
                             documentWrapper:pendingDocumentWrapper
                                   operation:operation
