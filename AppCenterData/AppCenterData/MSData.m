@@ -95,9 +95,9 @@ static dispatch_once_t onceToken;
   [[MSData sharedInstance] setTokenExchangeUrl:(NSURL *)[NSURL URLWithString:tokenExchangeUrl]];
 }
 
-+ (void)setRemoteOperationDelegate:(nullable id<MSRemoteOperationDelegate>)delegate {
++ (void)setDelegate:(nullable id<MSDataDelegate>)delegate {
   @synchronized(self) {
-    [[MSData sharedInstance] setRemoteOperationDelegate:delegate];
+    [[MSData sharedInstance] setDelegate:delegate];
   }
 }
 
@@ -983,9 +983,9 @@ static dispatch_once_t onceToken;
   }
 
   // If the Remote operation is set
-  id<MSRemoteOperationDelegate> strongDelegate;
+  id<MSDataDelegate> strongDelegate;
   @synchronized(self) {
-    strongDelegate = self.remoteOperationDelegate;
+    strongDelegate = self.delegate;
     if ([strongDelegate respondsToSelector:@selector(data:didCompleteRemoteOperation:forDocumentMetadata:withError:)]) {
       [strongDelegate data:self
           didCompleteRemoteOperation:pendingOperation

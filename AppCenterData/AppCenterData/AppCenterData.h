@@ -13,5 +13,5 @@
 #import "MSPage.h"
 #import "MSPaginatedDocuments.h"
 #import "MSReadOptions.h"
-#import "MSRemoteOperationDelegate.h"
+#import "MSDataDelegate.h"
 #import "MSWriteOptions.h"

@@ -2628,9 +2628,9 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   [[MSAuthTokenContext sharedInstance] setAuthToken:@"token1" withAccountId:@"account1" expiresOn:nil];
   XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler called."];
 
-  // Mock remote operation delegate
+  // Mock data delegate
   __block MSDocumentMetadata *returnedStorageDocument;
-  id<MSRemoteOperationDelegate> delegateMock = OCMProtocolMock(@protocol(MSRemoteOperationDelegate));
+  id<MSDataDelegate> delegateMock = OCMProtocolMock(@protocol(MSDataDelegate));
   OCMStub([delegateMock data:OCMOCK_ANY didCompleteRemoteOperation:OCMOCK_ANY forDocumentMetadata:OCMOCK_ANY withError:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         [invocation retainArguments];
@@ -2638,7 +2638,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
         [expectation fulfill];
       });
 
-  [self.sut setRemoteOperationDelegate:delegateMock];
+  [self.sut setDelegate:delegateMock];
 
   // Mock cached token result.
   MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
@@ -2706,7 +2706,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                  if (wError) {
                                    XCTFail(@"Expectation Failed with error: %@", wError);
                                  }
-                                 id<MSRemoteOperationDelegate> strongDelegate = [MSData sharedInstance].remoteOperationDelegate;
+                                 id<MSDataDelegate> strongDelegate = [MSData sharedInstance].delegate;
                                  XCTAssertNotNil(strongDelegate);
                                  XCTAssertEqual(strongDelegate, delegateMock);
                                  OCMVerify([delegateMock data:self.sut
@@ -2727,7 +2727,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
     // Mock inccorect operation delegate
     __block MSDocumentMetadata *returnedStorageDocument;
     
-    id<MSRemoteOperationDelegate> delegateMock = OCMProtocolMock(@protocol(MSRemoteOperationDelegate));
+    id<MSDataDelegate> delegateMock = OCMProtocolMock(@protocol(MSDataDelegate));
     OCMStub([delegateMock data:OCMOCK_ANY didCompleteRemoteOperation:OCMOCK_ANY forDocumentMetadata:OCMOCK_ANY withError:OCMOCK_ANY])
     .andDo(^(NSInvocation *invocation) {
         [invocation retainArguments];
@@ -2735,7 +2735,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
         [expectation fulfill];
     });
     
-    [self.sut setRemoteOperationDelegate:delegateMock];
+    [self.sut setDelegate:delegateMock];
     
     // Check that the delegate accepts the right selector.
     assertThatBool([delegateMock respondsToSelector:expectedSelector], isTrue());
@@ -2809,7 +2809,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                      if (wError) {
                                          XCTFail(@"Expectation Failed with error: %@", wError);
                                      }
-                                     id<MSRemoteOperationDelegate> strongDelegate = [MSData sharedInstance].remoteOperationDelegate;
+                                     id<MSDataDelegate> strongDelegate = [MSData sharedInstance].delegate;
                                      XCTAssertNotNil(strongDelegate);
                                      XCTAssertEqual(strongDelegate, delegateMock);
                                      OCMVerify([delegateMock data:self.sut
