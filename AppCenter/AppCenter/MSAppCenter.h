@@ -4,6 +4,7 @@
 #import <Foundation/Foundation.h>
 
 #import "MSConstants.h"
+#import "MSServiceNotificationDelegate.h"
 
 @class MSWrapperSdk;
 
@@ -219,5 +220,11 @@
  * @param countryCode The two-letter ISO country code. @see https://www.iso.org/obp/ui/#search for more information.
  */
 + (void)setCountryCode:(NSString *)countryCode;
+
+- (void)addServiceNotificationDelegate:(id<MSServiceNotificationDelegate>)delegate;
+
+- (void)removeServiceNotificationDelegate:(id<MSServiceNotificationDelegate>)delegate;
+
+- (void)receiveServiceNotification:(NSDictionary<NSString *, NSString *> *)notificationData;
 
 @end

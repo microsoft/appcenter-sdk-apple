@@ -207,6 +207,8 @@
 		38FDFF6A2109409900E17269 /* MSMockKeychainUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 38FDFF692109409900E17269 /* MSMockKeychainUtil.m */; };
 		38FDFF6B2109409900E17269 /* MSMockKeychainUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 38FDFF692109409900E17269 /* MSMockKeychainUtil.m */; };
 		38FDFF6C2109409900E17269 /* MSMockKeychainUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 38FDFF692109409900E17269 /* MSMockKeychainUtil.m */; };
+		3A0E02F1235E66DB009DC8FC /* MSServiceNotificationDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 3A0E02EF235E5C06009DC8FC /* MSServiceNotificationDelegate.h */; };
+		3A0E02F2235E66DC009DC8FC /* MSServiceNotificationDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 3A0E02EF235E5C06009DC8FC /* MSServiceNotificationDelegate.h */; };
 		58603633B718B7A2702C23CB /* MSAbstractLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 58603EA088552D6FBB8EBE6C /* MSAbstractLogTests.m */; };
 		58603867BA3B4B1CB87D0E5D /* MSAbstractLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 58603EA088552D6FBB8EBE6C /* MSAbstractLogTests.m */; };
 		5C7877921EA0CFF3002263CC /* MSLogDBStorageTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C7877911EA0CFF3002263CC /* MSLogDBStorageTests.m */; };
@@ -1047,6 +1049,7 @@
 		38F1944D1DADB93100D3E0FE /* MSHttpIngestionPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSHttpIngestionPrivate.h; sourceTree = "<group>"; };
 		38FDFF682109409900E17269 /* MSMockKeychainUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSMockKeychainUtil.h; sourceTree = "<group>"; };
 		38FDFF692109409900E17269 /* MSMockKeychainUtil.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSMockKeychainUtil.m; sourceTree = "<group>"; };
+		3A0E02EF235E5C06009DC8FC /* MSServiceNotificationDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSServiceNotificationDelegate.h; sourceTree = "<group>"; };
 		431E34A1224CD4FC007A8890 /* MSAuthTokenContextPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSAuthTokenContextPrivate.h; sourceTree = "<group>"; };
 		58603EA088552D6FBB8EBE6C /* MSAbstractLogTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAbstractLogTests.m; sourceTree = "<group>"; };
 		5C7877911EA0CFF3002263CC /* MSLogDBStorageTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSLogDBStorageTests.m; sourceTree = "<group>"; };
@@ -1542,6 +1545,7 @@
 				E84B8E231D234EC1006FD231 /* Storage */,
 				6E0401481D1C99AC0051BCFA /* Util */,
 				E83283C21D46C62E000B029E /* Vendor */,
+				3A0E02EF235E5C06009DC8FC /* MSServiceNotificationDelegate.h */,
 			);
 			path = Internals;
 			sourceTree = "<group>";
@@ -1931,6 +1935,7 @@
 				F8936D5D230C2804006A330F /* MSModel.h in Headers */,
 				F8936D76230C2804006A330F /* MSUtility+Environment.h in Headers */,
 				F8936D30230C2804006A330F /* MSChannelGroupDefault.h in Headers */,
+				3A0E02F1235E66DB009DC8FC /* MSServiceNotificationDelegate.h in Headers */,
 				F8936D4E230C2804006A330F /* MSCommonSchemaLog.h in Headers */,
 				F8936D45230C2804006A330F /* MSTicketCache.h in Headers */,
 				F8936D68230C2804006A330F /* MSTypedProperty.h in Headers */,
@@ -2064,6 +2069,7 @@
 				F8936DCE230C2805006A330F /* MSUtility+Environment.h in Headers */,
 				F8936D88230C2805006A330F /* MSChannelGroupDefault.h in Headers */,
 				F8936DA6230C2805006A330F /* MSCommonSchemaLog.h in Headers */,
+				3A0E02F2235E66DC009DC8FC /* MSServiceNotificationDelegate.h in Headers */,
 				F8936D9D230C2805006A330F /* MSTicketCache.h in Headers */,
 				F8936DC0230C2805006A330F /* MSTypedProperty.h in Headers */,
 				F8936DC3230C2805006A330F /* MSUserDefaults.h in Headers */,
