@@ -72,11 +72,11 @@
 
       // Create document wrapper for current document.
       if (operation != kMSPendingOperationRead) {
-        NSDictionary *pendingDocdictionary = [document serializeToDictionary];
+        NSDictionary *pendingDocDictionary = [document serializeToDictionary];
         if (deviceTimeToLive == kMSDataTimeToLiveNoCache) {
-          pendingDocdictionary = nil;
+          pendingDocDictionary = nil;
         }
-        MSDocumentWrapper *pendingDocumentWrapper = [MSDocumentUtils documentWrapperFromDictionary:pendingDocdictionary
+        MSDocumentWrapper *pendingDocumentWrapper = [MSDocumentUtils documentWrapperFromDictionary:pendingDocDictionary
                                                                                       documentType:documentType
                                                                                               eTag:cachedDocument.eTag
                                                                                    lastUpdatedDate:cachedDocument.lastUpdatedDate
@@ -85,7 +85,7 @@
                                                                                   pendingOperation:operation
                                                                                    fromDeviceCache:YES];
 
-        // if the operation is delete we dont want the document in the table to get cleaned up yet
+        // If the operation is delete we don't want the document in the table to get cleaned up yet
         if ([operation isEqualToString:kMSPendingOperationDelete]) {
           pendingDocumentWrapper = cachedDocument;
           pendingDocumentWrapper.pendingOperation = operation;
