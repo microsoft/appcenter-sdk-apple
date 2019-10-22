@@ -2,6 +2,10 @@
 
 ## Version 2.5.1 (Under development)
 
+### App Center
+
+* **[Fix]** Fix warnings in Xcode 11 when SDK is installed via CocoaPods.
+
 ___
 
 ## Version 2.5.0

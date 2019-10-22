@@ -72,6 +72,7 @@
 		384A92662188C65C0099BE70 /* MSDelegateForwarderTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 384A92652188C65C0099BE70 /* MSDelegateForwarderTestUtil.m */; };
 		384A92672188C65C0099BE70 /* MSDelegateForwarderTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 384A92652188C65C0099BE70 /* MSDelegateForwarderTestUtil.m */; };
 		38D3B01F1FF3D2A900E5FAF2 /* MSAppDelegateForwarderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 38D3B01D1FF3D2A400E5FAF2 /* MSAppDelegateForwarderTests.m */; };
+		C203273D2350B51A00EA65A5 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D38023C01E6DE01700466558 /* UserNotifications.framework */; };
 		C2200618230FDF8200848D5B /* AppCenterPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A91F9B230C004A0068070D /* AppCenterPush.framework */; };
 		C220061A230FDF8500848D5B /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2200619230FDF8500848D5B /* AppCenter.framework */; };
 		C220061B230FDF9200848D5B /* AppCenterPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A91FAC230C00540068070D /* AppCenterPush.framework */; };
@@ -250,6 +251,7 @@
 			files = (
 				C220061A230FDF8500848D5B /* AppCenter.framework in Frameworks */,
 				C2200618230FDF8200848D5B /* AppCenterPush.framework in Frameworks */,
+				C203273D2350B51A00EA65A5 /* UserNotifications.framework in Frameworks */,
 				D3D0CFE91E640ABD003015AF /* OCHamcrestIOS.framework in Frameworks */,
 				0420A6A21ECA7D7200915619 /* OCMock.framework in Frameworks */,
 			);
