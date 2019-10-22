@@ -85,7 +85,7 @@
                                                                                   pendingOperation:operation
                                                                                    fromDeviceCache:YES];
 
-        // If the operation is delete we don't want the document in the table to get cleaned up yet
+        // If the operation is delete we don't want the document in the table to get cleaned up yet.
         if ([operation isEqualToString:kMSPendingOperationDelete]) {
           pendingDocumentWrapper = cachedDocument;
           pendingDocumentWrapper.pendingOperation = operation;
