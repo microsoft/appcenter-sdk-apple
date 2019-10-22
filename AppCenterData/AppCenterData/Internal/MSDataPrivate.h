@@ -4,6 +4,7 @@
 #import "MSAuthTokenContextDelegate.h"
 #import "MSDataDelegate.h"
 #import "MSServiceInternal.h"
+#import "MSServiceNotificationDelegate.h"
 #import "MS_Reachability.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -13,7 +14,12 @@ NS_ASSUME_NONNULL_BEGIN
  */
 static NSString *const kMSDefaultApiUrl = @"https://tokens.appcenter.ms/v0.1";
 
-@interface MSData () <MSAuthTokenContextDelegate>
+/**
+ * Key for payload in service notification
+ */
+static NSString *const kMSServiceNotificationDocumentChangeKey = @"documentsChange";
+
+@interface MSData () <MSAuthTokenContextDelegate, MSServiceNotificationDelegate>
 
 /**
  * Method to reset the singleton when running unit tests only. So calling sharedInstance returns a fresh instance.
@@ -90,6 +96,11 @@ static NSString *const kMSDefaultApiUrl = @"https://tokens.appcenter.ms/v0.1";
  * Process pending operations and sync with CosmosDb.
  */
 - (void)processPendingOperations;
+
+/**
+ * MSServiceNotificationDelegate.
+ */
+- (void)appCenter:(MSAppCenter *)appCenter didReceiveServiceNotification:(NSDictionary<NSString *, NSString *> *)notificationData;
 
 @end
 

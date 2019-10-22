@@ -5,6 +5,7 @@
 ### App Center Data
 
 * **[Breaking change]** Renamed delegate from `MSRemoteOperationDelegate` to `MSDataDelegate` and setter method from `MSData.setRemoteOperationDelegate` to `MSData.setDelegate`.
+* **[Feature]** Add optional delegate method `data:didReceiveDocumentChangeNotification:documentChanges` to `MSDataDelegate` to subscribe to document change notifications.
 
 ___
 
