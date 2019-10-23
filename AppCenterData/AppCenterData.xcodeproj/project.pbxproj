@@ -116,7 +116,7 @@
 		C9EBA9E9230D367B00A20F0F /* MSPage.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464DD222F28A200EC1FF3 /* MSPage.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C9EBA9EA230D367B00A20F0F /* MSPaginatedDocuments.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464E0222F28A300EC1FF3 /* MSPaginatedDocuments.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C9EBA9EB230D367B00A20F0F /* MSReadOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464EB222F28A300EC1FF3 /* MSReadOptions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C9EBA9EC230D367B00A20F0F /* MSRemoteOperationDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 4AE2E97E229F26DC004BF371 /* MSRemoteOperationDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C9EBA9EC230D367B00A20F0F /* MSDataDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 4AE2E97E229F26DC004BF371 /* MSDataDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C9EBA9ED230D367B00A20F0F /* MSSerializableDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = E8FE51E9221CBF87005FB52B /* MSSerializableDocument.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C9EBA9EE230D367B00A20F0F /* MSWriteOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464E1222F28A300EC1FF3 /* MSWriteOptions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C9EBA9EF230D367C00A20F0F /* MSAppCenterErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = 04B1C8C82252AF0900CBD876 /* MSAppCenterErrors.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -132,7 +132,7 @@
 		C9EBA9F9230D367C00A20F0F /* MSPage.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464DD222F28A200EC1FF3 /* MSPage.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C9EBA9FA230D367C00A20F0F /* MSPaginatedDocuments.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464E0222F28A300EC1FF3 /* MSPaginatedDocuments.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C9EBA9FB230D367C00A20F0F /* MSReadOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464EB222F28A300EC1FF3 /* MSReadOptions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C9EBA9FC230D367C00A20F0F /* MSRemoteOperationDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 4AE2E97E229F26DC004BF371 /* MSRemoteOperationDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C9EBA9FC230D367C00A20F0F /* MSDataDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 4AE2E97E229F26DC004BF371 /* MSDataDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C9EBA9FD230D367C00A20F0F /* MSSerializableDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = E8FE51E9221CBF87005FB52B /* MSSerializableDocument.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C9EBA9FE230D367C00A20F0F /* MSWriteOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 267464E1222F28A300EC1FF3 /* MSWriteOptions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C9EBA9FF230D36B200A20F0F /* MSDBDocumentStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A193734225129B700459E1E /* MSDBDocumentStore.h */; };
@@ -308,7 +308,7 @@
 		4A193735225129B700459E1E /* MSDBDocumentStorePrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDBDocumentStorePrivate.h; sourceTree = "<group>"; };
 		4A9C4400223B23E3008548A7 /* MSTokenTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSTokenTests.m; sourceTree = "<group>"; };
 		4ACEAC9D225418B600976AEA /* MSDBDocumentStoreTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSDBDocumentStoreTests.m; sourceTree = "<group>"; };
-		4AE2E97E229F26DC004BF371 /* MSRemoteOperationDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSRemoteOperationDelegate.h; sourceTree = "<group>"; };
+		4AE2E97E229F26DC004BF371 /* MSDataDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSDataDelegate.h; sourceTree = "<group>"; };
 		7FE685B62275432200C2F4BA /* MSPageInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSPageInternal.h; sourceTree = "<group>"; };
 		7FE685B7227546AE00C2F4BA /* MSDataErrorInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSDataErrorInternal.h; sourceTree = "<group>"; };
 		87FA7FB5BC7302D0062016E1 /* MSCosmosDbPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSCosmosDbPrivate.h; sourceTree = "<group>"; };
@@ -566,7 +566,7 @@
 				267464E8222F28A300EC1FF3 /* MSPaginatedDocuments.m */,
 				267464EB222F28A300EC1FF3 /* MSReadOptions.h */,
 				267464E7222F28A300EC1FF3 /* MSReadOptions.m */,
-				4AE2E97E229F26DC004BF371 /* MSRemoteOperationDelegate.h */,
+				4AE2E97E229F26DC004BF371 /* MSDataDelegate.h */,
 				E8FE51E9221CBF87005FB52B /* MSSerializableDocument.h */,
 				267464E1222F28A300EC1FF3 /* MSWriteOptions.h */,
 				267464EC222F28A300EC1FF3 /* MSWriteOptions.m */,
@@ -724,7 +724,7 @@
 				C9EBA9ED230D367B00A20F0F /* MSSerializableDocument.h in Headers */,
 				C9EBA9E7230D367B00A20F0F /* MSDictionaryDocument.h in Headers */,
 				C9EBA9E0230D367B00A20F0F /* MSService.h in Headers */,
-				C9EBA9EC230D367B00A20F0F /* MSRemoteOperationDelegate.h in Headers */,
+				C9EBA9EC230D367B00A20F0F /* MSDataDelegate.h in Headers */,
 				C9EBA9E9230D367B00A20F0F /* MSPage.h in Headers */,
 				C9EBAA23230D379C00A20F0F /* AppCenter+Internal.h in Headers */,
 				C9EBAA1E230D378300A20F0F /* MSTokenExchange.h in Headers */,
@@ -770,7 +770,7 @@
 				C9EBA9FD230D367C00A20F0F /* MSSerializableDocument.h in Headers */,
 				C9EBA9F7230D367C00A20F0F /* MSDictionaryDocument.h in Headers */,
 				C9EBA9F0230D367C00A20F0F /* MSService.h in Headers */,
-				C9EBA9FC230D367C00A20F0F /* MSRemoteOperationDelegate.h in Headers */,
+				C9EBA9FC230D367C00A20F0F /* MSDataDelegate.h in Headers */,
 				C9EBA9F9230D367C00A20F0F /* MSPage.h in Headers */,
 				F8AF2F3E231970F300F1C0EE /* MSDocumentMetadataInternal.h in Headers */,
 				C9EBAA24230D379E00A20F0F /* AppCenter+Internal.h in Headers */,

@@ -5,6 +5,7 @@
 
 #import "MSBaseOptions.h"
 #import "MSData.h"
+#import "MSDataDelegate.h"
 #import "MSDataError.h"
 #import "MSDataErrors.h"
 #import "MSDictionaryDocument.h"
@@ -13,5 +14,4 @@
 #import "MSPage.h"
 #import "MSPaginatedDocuments.h"
 #import "MSReadOptions.h"
-#import "MSRemoteOperationDelegate.h"
 #import "MSWriteOptions.h"

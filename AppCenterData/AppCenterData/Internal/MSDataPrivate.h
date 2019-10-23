@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 #import "MSAuthTokenContextDelegate.h"
-#import "MSRemoteOperationDelegate.h"
+#import "MSDataDelegate.h"
 #import "MSServiceInternal.h"
 #import "MS_Reachability.h"
 
@@ -31,9 +31,9 @@ static NSString *const kMSDefaultApiUrl = @"https://tokens.appcenter.ms/v0.1";
 @property(nonatomic, copy) NSMutableSet<NSString *> *outgoingPendingOperations;
 
 /**
- * Remote operation delegate.
+ * Data delegate.
  */
-@property(nonatomic, weak) id<MSRemoteOperationDelegate> remoteOperationDelegate;
+@property(nonatomic, weak) id<MSDataDelegate> delegate;
 
 /**
  * Retrieve a paginated list of the documents in a partition.

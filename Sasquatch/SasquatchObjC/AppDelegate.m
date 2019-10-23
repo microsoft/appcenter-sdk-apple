@@ -46,8 +46,7 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
 #if GCC_PREPROCESSOR_MACRO_PUPPET
     MSAnalyticsDelegate,
 #endif
-    MSCrashesDelegate, MSDistributeDelegate, MSPushDelegate, MSRemoteOperationDelegate, UNUserNotificationCenterDelegate,
-    CLLocationManagerDelegate>
+    MSCrashesDelegate, MSDistributeDelegate, MSPushDelegate, MSDataDelegate, UNUserNotificationCenterDelegate, CLLocationManagerDelegate>
 
 @property(nonatomic) MSAnalyticsResult *analyticsResult;
 @property(nonatomic) API_AVAILABLE(ios(10.0)) void (^notificationPresentationCompletionHandler)(UNNotificationPresentationOptions options);
@@ -85,7 +84,7 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
 #pragma clang diagnostic pop
   [MSPush setDelegate:self];
   [MSDistribute setDelegate:self];
-  [MSData setRemoteOperationDelegate:self];
+  [MSData setDelegate:self];
 
   // Set max storage size.
   NSNumber *storageMaxSize = [[NSUserDefaults standardUserDefaults] objectForKey:kMSStorageMaxSizeKey];
