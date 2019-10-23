@@ -7,6 +7,7 @@
 #import "MSAppCenter.h"
 #import "MSChannelGroupProtocol.h"
 #import "MSServiceInternal.h"
+#import "MSServiceNotificationDelegate.h"
 
 /*
  * Persisted storage keys.

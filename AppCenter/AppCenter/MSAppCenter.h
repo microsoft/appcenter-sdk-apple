@@ -4,7 +4,6 @@
 #import <Foundation/Foundation.h>
 
 #import "MSConstants.h"
-#import "MSServiceNotificationDelegate.h"
 
 @class MSWrapperSdk;
 

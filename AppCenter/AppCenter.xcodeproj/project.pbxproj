@@ -1537,6 +1537,7 @@
 				387C757F1D6270A300D68CC1 /* MSServiceAbstractInternal.h */,
 				387C758D1D64DF2500D68CC1 /* MSServiceCommon.h */,
 				6E0401471D1C99AC0051BCFA /* MSServiceInternal.h */,
+				3A0E02EF235E5C06009DC8FC /* MSServiceNotificationDelegate.h */,
 				38C4471C1ECE5352002E1B11 /* DelegateForwarder */,
 				E84B8E241D234EC7006FD231 /* Channel */,
 				047FEE0E21A48BDE00ED77CD /* Context */,
@@ -1546,7 +1547,6 @@
 				E84B8E231D234EC1006FD231 /* Storage */,
 				6E0401481D1C99AC0051BCFA /* Util */,
 				E83283C21D46C62E000B029E /* Vendor */,
-				3A0E02EF235E5C06009DC8FC /* MSServiceNotificationDelegate.h */,
 			);
 			path = Internals;
 			sourceTree = "<group>";
