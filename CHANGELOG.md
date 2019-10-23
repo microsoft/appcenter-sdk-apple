@@ -4,7 +4,7 @@
 
 ### App Center Data
 
-* **[Breaking change]** Renamed delegate from `MSRemoteOperationDelegate` to `MSDataDelegate` and implementation method from `MSData.setRemoteOperationDelegate` to `MSData.setDelegate`.
+* **[Breaking change]** Renamed delegate from `MSRemoteOperationDelegate` to `MSDataDelegate` and setter method from `MSData.setRemoteOperationDelegate` to `MSData.setDelegate`.
 
 ___
 
