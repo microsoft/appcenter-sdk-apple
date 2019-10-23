@@ -118,4 +118,22 @@ static NSString *const kMSTrueEnvironmentString = @"1";
  */
 - (NSArray *)sortServices:(NSArray<Class> *)services;
 
+/**
+ * Adds the delegate to the collection.
+ * @param delegate The delegate that needs to be called when a service notification is received.
+ */
+- (void)addServiceNotificationDelegate:(id<MSServiceNotificationDelegate>)delegate;
+
+/**
+ * Removes the delegate to the collection.
+ * @param delegate The delegate that needs to be called when a service notification is received.
+ */
+- (void)removeServiceNotificationDelegate:(id<MSServiceNotificationDelegate>)delegate;
+
+/**
+ * Invokes the delegates in the collection with notification data.
+ * @param notificationData The received service notification data.
+ */
+- (void)receiveServiceNotification:(NSDictionary<NSString *, NSString *> *)notificationData;
+
 @end

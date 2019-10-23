@@ -221,10 +221,4 @@
  */
 + (void)setCountryCode:(NSString *)countryCode;
 
-- (void)addServiceNotificationDelegate:(id<MSServiceNotificationDelegate>)delegate;
-
-- (void)removeServiceNotificationDelegate:(id<MSServiceNotificationDelegate>)delegate;
-
-- (void)receiveServiceNotification:(NSDictionary<NSString *, NSString *> *)notificationData;
-
 @end
