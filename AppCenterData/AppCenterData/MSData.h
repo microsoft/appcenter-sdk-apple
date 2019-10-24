@@ -10,7 +10,7 @@
 @class MSReadOptions;
 @class MSWriteOptions;
 
-@protocol MSRemoteOperationDelegate;
+@protocol MSDataDelegate;
 
 /**
  * App Data service.
@@ -59,12 +59,14 @@ typedef void (^MSPaginatedDocumentsCompletionHandler)(MSPaginatedDocuments *docu
 + (void)setTokenExchangeUrl:(NSString *)tokenExchangeUrl;
 
 /**
- * Set the remote operation delegate which gets called when the device is back online
- * and the pending operations are processed.
+ * Set the delegate.
+ * Defines the class that implements the optional protocol `MSDataDelegate`.
  *
- * @param delegate A remote operation delegate.
+ * @param delegate The delegate.
+ *
+ * @see MSDataDelegate
  */
-+ (void)setRemoteOperationDelegate:(nullable id<MSRemoteOperationDelegate>)delegate;
++ (void)setDelegate:(nullable id<MSDataDelegate>)delegate;
 
 /**
  * Read a document.

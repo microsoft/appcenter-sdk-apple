@@ -8,7 +8,7 @@ NS_ASSUME_NONNULL_BEGIN
 @class MSDocumentMetadata;
 @class MSDataError;
 
-@protocol MSRemoteOperationDelegate <NSObject>
+@protocol MSDataDelegate <NSObject>
 
 @optional
 

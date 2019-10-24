@@ -2628,9 +2628,9 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   [[MSAuthTokenContext sharedInstance] setAuthToken:@"token1" withAccountId:@"account1" expiresOn:nil];
   XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler called."];
 
-  // Mock remote operation delegate
+  // Mock data delegate
   __block MSDocumentMetadata *returnedStorageDocument;
-  id<MSRemoteOperationDelegate> delegateMock = OCMProtocolMock(@protocol(MSRemoteOperationDelegate));
+  id<MSDataDelegate> delegateMock = OCMProtocolMock(@protocol(MSDataDelegate));
   OCMStub([delegateMock data:OCMOCK_ANY didCompleteRemoteOperation:OCMOCK_ANY forDocumentMetadata:OCMOCK_ANY withError:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         [invocation retainArguments];
@@ -2638,7 +2638,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
         [expectation fulfill];
       });
 
-  [self.sut setRemoteOperationDelegate:delegateMock];
+  [self.sut setDelegate:delegateMock];
 
   // Mock cached token result.
   MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
@@ -2706,7 +2706,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                  if (wError) {
                                    XCTFail(@"Expectation Failed with error: %@", wError);
                                  }
-                                 id<MSRemoteOperationDelegate> strongDelegate = [MSData sharedInstance].remoteOperationDelegate;
+                                 id<MSDataDelegate> strongDelegate = [MSData sharedInstance].delegate;
                                  XCTAssertNotNil(strongDelegate);
                                  XCTAssertEqual(strongDelegate, delegateMock);
                                  OCMVerify([delegateMock data:self.sut
@@ -2717,106 +2717,106 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 }
 
 - (void)testRemoteOperationDelegateMethodIsCalledWithNoExistenceOfImplementation {
-    
-    // Set the auth context.
-    [[MSAuthTokenContext sharedInstance] setAuthToken:@"token1" withAccountId:@"account1" expiresOn:nil];
-    XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler called."];
-    SEL expectedSelector = @selector(data:didCompleteRemoteOperation:forDocumentMetadata:withError:);
-    SEL unexpectedSelector = @selector(selector);
-    
-    // Mock inccorect operation delegate
-    __block MSDocumentMetadata *returnedStorageDocument;
-    
-    id<MSRemoteOperationDelegate> delegateMock = OCMProtocolMock(@protocol(MSRemoteOperationDelegate));
-    OCMStub([delegateMock data:OCMOCK_ANY didCompleteRemoteOperation:OCMOCK_ANY forDocumentMetadata:OCMOCK_ANY withError:OCMOCK_ANY])
-    .andDo(^(NSInvocation *invocation) {
+
+  // Set the auth context.
+  [[MSAuthTokenContext sharedInstance] setAuthToken:@"token1" withAccountId:@"account1" expiresOn:nil];
+  XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler called."];
+  SEL expectedSelector = @selector(data:didCompleteRemoteOperation:forDocumentMetadata:withError:);
+  SEL unexpectedSelector = @selector(selector);
+
+  // Mock inccorect operation delegate
+  __block MSDocumentMetadata *returnedStorageDocument;
+
+  id<MSDataDelegate> delegateMock = OCMProtocolMock(@protocol(MSDataDelegate));
+  OCMStub([delegateMock data:OCMOCK_ANY didCompleteRemoteOperation:OCMOCK_ANY forDocumentMetadata:OCMOCK_ANY withError:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
         [invocation retainArguments];
         [invocation getArgument:&returnedStorageDocument atIndex:4];
         [expectation fulfill];
-    });
-    
-    [self.sut setRemoteOperationDelegate:delegateMock];
-    
-    // Check that the delegate accepts the right selector.
-    assertThatBool([delegateMock respondsToSelector:expectedSelector], isTrue());
-    
-    // Check that the delegate rejects the incorrect selector.
-    assertThatBool([delegateMock respondsToSelector:unexpectedSelector], isFalse());
-    
-    // Mock cached token result.
-    MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
-    MSTokensResponse *testTokensResponse = [[MSTokensResponse alloc] initWithTokens:@[ tokenResult ]];
-    OCMStub([self.tokenExchangeMock performDbTokenAsyncOperationWithHttpClient:OCMOCK_ANY
-                                                              tokenExchangeUrl:OCMOCK_ANY
-                                                                     appSecret:OCMOCK_ANY
-                                                                     partition:kMSPartitionTest
-                                                           includeExpiredToken:YES
-                                                                  reachability:OCMOCK_ANY
-                                                             completionHandler:OCMOCK_ANY])
-    .andDo(^(NSInvocation *invocation) {
+      });
+
+  [self.sut setDelegate:delegateMock];
+
+  // Check that the delegate accepts the right selector.
+  assertThatBool([delegateMock respondsToSelector:expectedSelector], isTrue());
+
+  // Check that the delegate rejects the incorrect selector.
+  assertThatBool([delegateMock respondsToSelector:unexpectedSelector], isFalse());
+
+  // Mock cached token result.
+  MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:[self prepareMutableDictionary]];
+  MSTokensResponse *testTokensResponse = [[MSTokensResponse alloc] initWithTokens:@[ tokenResult ]];
+  OCMStub([self.tokenExchangeMock performDbTokenAsyncOperationWithHttpClient:OCMOCK_ANY
+                                                            tokenExchangeUrl:OCMOCK_ANY
+                                                                   appSecret:OCMOCK_ANY
+                                                                   partition:kMSPartitionTest
+                                                         includeExpiredToken:YES
+                                                                reachability:OCMOCK_ANY
+                                                           completionHandler:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
         MSGetTokenAsyncCompletionHandler getTokenCallback;
         [invocation getArgument:&getTokenCallback atIndex:8];
         getTokenCallback(testTokensResponse, nil);
-    });
-    
-    OCMStub([self.tokenExchangeMock retrieveCachedTokenForPartition:kMSPartitionTest includeExpiredToken:NO]).andReturn(tokenResult);
-    
-    // Mock local storage.
-    id<MSDocumentStore> localStorageMock = OCMProtocolMock(@protocol(MSDocumentStore));
-    self.sut.dataOperationProxy.documentStore = localStorageMock;
-    NSData *jsonFixture = [self jsonFixture:@"validTestUserDocument"];
-    NSString *documentId = @"standalonedocument1";
-    MSDocumentWrapper *localStorageDocument = OCMPartialMock([MSDocumentUtils documentWrapperFromData:jsonFixture
-                                                                                         documentType:[MSDictionaryDocument class]
-                                                                                            partition:kMSPartitionTest
-                                                                                           documentId:documentId
-                                                                                      fromDeviceCache:NO]);
-    OCMStub([localStorageMock readWithToken:tokenResult documentId:OCMOCK_ANY documentType:OCMOCK_ANY]).andReturn(localStorageDocument);
-    
-    // Mock CosmosDB requests.
-    OCMStub([self.cosmosDbMock performCosmosDbAsyncOperationWithHttpClient:OCMOCK_ANY
-                                                               tokenResult:tokenResult
-                                                                documentId:documentId
-                                                                httpMethod:kMSHttpMethodPost
-                                                                  document:OCMOCK_ANY
-                                                         additionalHeaders:OCMOCK_ANY
-                                                         additionalUrlPath:OCMOCK_ANY
-                                                         completionHandler:OCMOCK_ANY])
-    .andDo(^(NSInvocation *invocation) {
+      });
+
+  OCMStub([self.tokenExchangeMock retrieveCachedTokenForPartition:kMSPartitionTest includeExpiredToken:NO]).andReturn(tokenResult);
+
+  // Mock local storage.
+  id<MSDocumentStore> localStorageMock = OCMProtocolMock(@protocol(MSDocumentStore));
+  self.sut.dataOperationProxy.documentStore = localStorageMock;
+  NSData *jsonFixture = [self jsonFixture:@"validTestUserDocument"];
+  NSString *documentId = @"standalonedocument1";
+  MSDocumentWrapper *localStorageDocument = OCMPartialMock([MSDocumentUtils documentWrapperFromData:jsonFixture
+                                                                                       documentType:[MSDictionaryDocument class]
+                                                                                          partition:kMSPartitionTest
+                                                                                         documentId:documentId
+                                                                                    fromDeviceCache:NO]);
+  OCMStub([localStorageMock readWithToken:tokenResult documentId:OCMOCK_ANY documentType:OCMOCK_ANY]).andReturn(localStorageDocument);
+
+  // Mock CosmosDB requests.
+  OCMStub([self.cosmosDbMock performCosmosDbAsyncOperationWithHttpClient:OCMOCK_ANY
+                                                             tokenResult:tokenResult
+                                                              documentId:documentId
+                                                              httpMethod:kMSHttpMethodPost
+                                                                document:OCMOCK_ANY
+                                                       additionalHeaders:OCMOCK_ANY
+                                                       additionalUrlPath:OCMOCK_ANY
+                                                       completionHandler:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
         MSHttpRequestCompletionHandler cosmosdbOperationCallback;
         [invocation getArgument:&cosmosdbOperationCallback atIndex:9];
         cosmosdbOperationCallback(jsonFixture, [self generateResponseWithStatusCode:MSHTTPCodesNo200OK], nil);
-    });
-    
-    // Mock pending operation.
-    NSError *error;
-    NSDictionary *document = [NSJSONSerialization JSONObjectWithData:jsonFixture options:0 error:&error];
-    MSPendingOperation *mockPendingOperation =
-    [[MSPendingOperation alloc] initWithOperation:kMSPendingOperationCreate
-                                        partition:kMSPartitionTest
-                                       documentId:documentId
-                                         document:document
-                                             etag:@"1234"
-                                   expirationTime:[[NSDate dateWithTimeIntervalSinceNow:1000000] timeIntervalSince1970]];
-    OCMStub([localStorageMock pendingOperationsWithToken:OCMOCK_ANY]).andReturn(@[ mockPendingOperation ]);
-    
-    // When
-    [self.sut processPendingOperations];
-    
-    // Then
-    [self waitForExpectationsWithTimeout:1
-                                 handler:^(NSError *_Nullable wError) {
-                                     if (wError) {
-                                         XCTFail(@"Expectation Failed with error: %@", wError);
-                                     }
-                                     id<MSRemoteOperationDelegate> strongDelegate = [MSData sharedInstance].remoteOperationDelegate;
-                                     XCTAssertNotNil(strongDelegate);
-                                     XCTAssertEqual(strongDelegate, delegateMock);
-                                     OCMVerify([delegateMock data:self.sut
-                                       didCompleteRemoteOperation:kMSPendingOperationCreate
-                                              forDocumentMetadata:returnedStorageDocument
-                                                        withError:nil]);
-                                 }];
+      });
+
+  // Mock pending operation.
+  NSError *error;
+  NSDictionary *document = [NSJSONSerialization JSONObjectWithData:jsonFixture options:0 error:&error];
+  MSPendingOperation *mockPendingOperation =
+      [[MSPendingOperation alloc] initWithOperation:kMSPendingOperationCreate
+                                          partition:kMSPartitionTest
+                                         documentId:documentId
+                                           document:document
+                                               etag:@"1234"
+                                     expirationTime:[[NSDate dateWithTimeIntervalSinceNow:1000000] timeIntervalSince1970]];
+  OCMStub([localStorageMock pendingOperationsWithToken:OCMOCK_ANY]).andReturn(@[ mockPendingOperation ]);
+
+  // When
+  [self.sut processPendingOperations];
+
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *_Nullable wError) {
+                                 if (wError) {
+                                   XCTFail(@"Expectation Failed with error: %@", wError);
+                                 }
+                                 id<MSDataDelegate> strongDelegate = [MSData sharedInstance].delegate;
+                                 XCTAssertNotNil(strongDelegate);
+                                 XCTAssertEqual(strongDelegate, delegateMock);
+                                 OCMVerify([delegateMock data:self.sut
+                                     didCompleteRemoteOperation:kMSPendingOperationCreate
+                                            forDocumentMetadata:returnedStorageDocument
+                                                      withError:nil]);
+                               }];
 }
 
 @end
