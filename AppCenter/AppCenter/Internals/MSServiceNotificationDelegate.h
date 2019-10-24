@@ -4,6 +4,7 @@
 #import <Foundation/Foundation.h>
 
 @class MSAppCenter;
+
 @protocol MSServiceNotificationDelegate <NSObject>
 
 /**
