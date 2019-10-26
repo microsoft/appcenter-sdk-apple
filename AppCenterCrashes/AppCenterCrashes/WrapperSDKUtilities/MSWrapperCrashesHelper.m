@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "MSWrapperCrashesHelper.h"
 #import "MSCrashesInternal.h"
+#import "MSErrorReportPrivate.h"
+#import "MSWrapperCrashesHelper.h"
 
 @interface MSWrapperCrashesHelper ()
 
@@ -58,6 +59,20 @@
  */
 + (void)sendErrorAttachments:(NSArray<MSErrorAttachmentLog *> *)errorAttachments withIncidentIdentifier:(NSString *)incidentIdentifier {
   [[MSCrashes sharedInstance] sendErrorAttachments:errorAttachments withIncidentIdentifier:incidentIdentifier];
+}
+
+/**
+ * Track handled exception directly as model form with user-defined custom properties.
+ * This API is used by wrapper SDKs.
+ */
++ (NSString *)trackModelException:(MSException *)exception
+                   withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties
+                  withAttachments:(nullable NSArray<MSErrorAttachmentLog *> *)attachments {
+  return [[MSCrashes sharedInstance] trackModelException:exception withProperties:properties withAttachments:attachments];
+}
+
++ (MSErrorReport *)buildHandledErrorReportWithId:(NSString *)errorId {
+  return [[MSCrashes sharedInstance] buildHandledErrorReportWithId:errorId];
 }
 
 @end
