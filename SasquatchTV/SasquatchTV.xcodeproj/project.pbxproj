@@ -648,13 +648,13 @@
 				TargetAttributes = {
 					5C2CC6EC1EE6BE5400E2BDA4 = {
 						CreatedOnToolsVersion = 8.3.2;
-						DevelopmentTeam = 5Z97G9NZQ6;
+						DevelopmentTeam = UBF8T346G9;
 						ProvisioningStyle = Automatic;
 						TestTargetID = D322EFEA1E8E97DF00A8EDA5;
 					};
 					5C2CC6FA1EE6BEE000E2BDA4 = {
 						CreatedOnToolsVersion = 8.3.2;
-						DevelopmentTeam = 5Z97G9NZQ6;
+						DevelopmentTeam = UBF8T346G9;
 						ProvisioningStyle = Automatic;
 						TestTargetID = D322EFD71E8E97C800A8EDA5;
 					};
@@ -668,12 +668,12 @@
 					};
 					D322EFD71E8E97C800A8EDA5 = {
 						CreatedOnToolsVersion = 8.3.2;
-						DevelopmentTeam = 5Z97G9NZQ6;
+						DevelopmentTeam = UBF8T346G9;
 						ProvisioningStyle = Automatic;
 					};
 					D322EFEA1E8E97DF00A8EDA5 = {
 						CreatedOnToolsVersion = 8.3.2;
-						DevelopmentTeam = 5Z97G9NZQ6;
+						DevelopmentTeam = UBF8T346G9;
 						LastSwiftMigration = 0830;
 						ProvisioningStyle = Automatic;
 					};
@@ -1038,6 +1038,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F84BA103211343B70020F13B /* UITests.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = UBF8T346G9;
 				INFOPLIST_FILE = SasquatchTVUITests/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.SasquatchTVObjCUITests;
 				TEST_TARGET_NAME = SasquatchTVObjC;
@@ -1048,6 +1049,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F84BA103211343B70020F13B /* UITests.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = UBF8T346G9;
 				INFOPLIST_FILE = SasquatchTVUITests/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.SasquatchTVObjCUITests;
 				TEST_TARGET_NAME = SasquatchTVObjC;
@@ -1058,6 +1060,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F84BA103211343B70020F13B /* UITests.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = UBF8T346G9;
 				INFOPLIST_FILE = SasquatchTVUITests/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.SasquatchTVSwiftUITests;
 				TEST_TARGET_NAME = SasquatchTVSwift;
@@ -1068,6 +1071,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F84BA103211343B70020F13B /* UITests.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = UBF8T346G9;
 				INFOPLIST_FILE = SasquatchTVUITests/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.SasquatchTVSwiftUITests;
 				TEST_TARGET_NAME = SasquatchTVSwift;
@@ -1080,7 +1084,7 @@
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				INFOPLIST_FILE = "$(SRCROOT)/SasquatchTVObjC/Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchobjc.tv;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.tvos.sasquatch.objc;
 				PROVISIONING_PROFILE = "da9156c4-535c-4f0f-8739-c27cf24d0c0f";
 				PROVISIONING_PROFILE_SPECIFIER = "AppCenter SDK SasquatchObjC tvOS Debug";
 			};
@@ -1093,7 +1097,7 @@
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				INFOPLIST_FILE = "$(SRCROOT)/SasquatchTVObjC/Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchobjc.tv;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.tvos.sasquatch.objc;
 				PROVISIONING_PROFILE = "d1a7ae61-73b6-47da-bbe1-84654ca9ea33";
 				PROVISIONING_PROFILE_SPECIFIER = "AppCenter SDK SasquatchObjC tvOS Release In-house";
 			};
@@ -1105,7 +1109,7 @@
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = "$(SRCROOT)/SasquatchTVSwift/Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchswift.tv;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.tvos.sasquatch.swift;
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
@@ -1117,7 +1121,7 @@
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = "$(SRCROOT)/SasquatchTVSwift/Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchswift.tv;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.tvos.sasquatch.swift;
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
@@ -1144,8 +1148,9 @@
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = UBF8T346G9;
 				INFOPLIST_FILE = SasquatchTVSwift/Info.plist;
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchswift.tv;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.tvos.sasquatch.swift;
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
@@ -1156,8 +1161,9 @@
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = UBF8T346G9;
 				INFOPLIST_FILE = SasquatchTVSwift/Info.plist;
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchswift.tv;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.tvos.sasquatch.swift;
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
@@ -1168,8 +1174,9 @@
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = UBF8T346G9;
 				INFOPLIST_FILE = SasquatchTVObjC/Info.plist;
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchobjc.tv;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.tvos.sasquatch.objc;
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
@@ -1180,8 +1187,9 @@
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = UBF8T346G9;
 				INFOPLIST_FILE = SasquatchTVObjC/Info.plist;
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchobjc.tv;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.tvos.sasquatch.objc;
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
