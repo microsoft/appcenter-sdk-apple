@@ -43,7 +43,7 @@ static NSString *const kMSTypeHandledError = @"handledError";
 }
 
 - (void)testTrackModelExceptionWitExceptionOnly {
-  
+
   // If
   __block NSString *type;
   __block NSString *userId;
