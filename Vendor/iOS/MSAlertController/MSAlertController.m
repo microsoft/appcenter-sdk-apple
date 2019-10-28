@@ -3,6 +3,7 @@
 
 #import <UIKit/UIScreen.h>
 #import <UIKit/UIWindow.h>
+#import <UIKit/UIScene.h>
 
 #import "MSAlertController.h"
 
@@ -43,10 +44,38 @@ static dispatch_queue_t alertsQueue;
   UIViewController *emptyViewController = [UIViewController new];
   [emptyViewController.view setBackgroundColor:[UIColor clearColor]];
 
-  window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-  window.rootViewController = emptyViewController;
-  window.backgroundColor = [UIColor clearColor];
-  window.windowLevel = UIWindowLevelAlert + 1;
+  if ([self resolveUiWindow]){
+    window.rootViewController = emptyViewController;
+    window.backgroundColor = [UIColor clearColor];
+    window.windowLevel = UIWindowLevelAlert + 1;
+  }
+}
+
++ (BOOL)resolveUiWindow {
+  if (@available(iOS 13.0, *)) {
+    UIWindowScene *mainScene = nil;
+    NSSet<UIScene *> *scenes = [UIApplication sharedApplication].connectedScenes;
+
+    // There may be a situation where none of the scenes is active.
+    UIWindowScene *fallbackScene = nil;
+    for (UIScene *scene in scenes) {
+      if (scene.activationState != UISceneActivationStateUnattached) {
+        fallbackScene = (UIWindowScene*) scene;
+      }
+      if (scene.activationState == UISceneActivationStateForegroundActive) {
+        mainScene = (UIWindowScene*) scene;
+        break;
+      }
+    }
+    if (mainScene != nil) {
+      window = [[UIWindow alloc] initWithWindowScene:mainScene];
+    } else {
+      window = [[UIWindow alloc] initWithWindowScene:fallbackScene];
+    }
+  } else {
+    window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+  }
+  return window != nil;
 }
 
 + (instancetype)alertControllerWithTitle:(NSString *)title message:(NSString *)message {
