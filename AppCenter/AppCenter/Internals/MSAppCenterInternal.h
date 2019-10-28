@@ -135,6 +135,6 @@ static NSString *const kMSTrueEnvironmentString = @"1";
  * Invokes the delegates in the collection with notification data.
  * @param notificationData The received service notification data.
  */
-- (void)receiveServiceNotification:(NSDictionary<NSString *, NSString *> *)notificationData;
+- (void)forwardServiceNotification:(NSDictionary<NSString *, NSString *> *)notificationData;
 
 @end

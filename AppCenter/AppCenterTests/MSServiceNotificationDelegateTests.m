@@ -8,12 +8,22 @@
 
 @interface MSServiceNotificationDelegateTests : XCTestCase
 
+@property(nonatomic) id appCenterMock;
+
 @end
 
 @implementation MSServiceNotificationDelegateTests
 
-- (void)testNoRegisteredDelegate {
-  id appCenterMock = OCMPartialMock([MSAppCenter sharedInstance]);
+- (void)setUp {
+    [super setUp];
+    _appCenterMock = OCMPartialMock([MSAppCenter sharedInstance]);
+}
+
+- (void)tearDown {
+    [super tearDown];
+}
+
+- (void)testServiceNotificationNoRegisteredDelegate {
   // creating delegates
   id delegate = OCMProtocolMock(@protocol(MSServiceNotificationDelegate));
 
@@ -21,14 +31,13 @@
   NSDictionary<NSString *, NSString *> *data = @{@"key" : @"value"};
 
   // When
-  [appCenterMock receiveServiceNotification:data];
+  [appCenterMock forwardServiceNotification:data];
 
   // Then
   OCMReject([delegate appCenter:[MSAppCenter sharedInstance] didReceiveServiceNotification:data]);
 }
 
-- (void)testAddDelegate {
-  id appCenterMock = OCMPartialMock([MSAppCenter sharedInstance]);
+- (void)testServiceNotificationAddDelegate {
   // creating delegates
   id delegate1 = OCMProtocolMock(@protocol(MSServiceNotificationDelegate));
   id delegate2 = OCMProtocolMock(@protocol(MSServiceNotificationDelegate));
@@ -41,15 +50,14 @@
   NSDictionary<NSString *, NSString *> *data = @{@"key" : @"value"};
 
   // When
-  [appCenterMock receiveServiceNotification:data];
+  [appCenterMock forwardServiceNotification:data];
 
   // Then
   OCMVerify([delegate1 appCenter:[MSAppCenter sharedInstance] didReceiveServiceNotification:data]);
   OCMVerify([delegate2 appCenter:[MSAppCenter sharedInstance] didReceiveServiceNotification:data]);
 }
 
-- (void)testRemoveAllDelegate {
-  id appCenterMock = OCMPartialMock([MSAppCenter sharedInstance]);
+- (void)testServiceNotificationRemoveAllDelegate {
   // creating delegates
   id delegate1 = OCMProtocolMock(@protocol(MSServiceNotificationDelegate));
   id delegate2 = OCMProtocolMock(@protocol(MSServiceNotificationDelegate));
@@ -66,15 +74,14 @@
   NSDictionary<NSString *, NSString *> *data = @{@"key" : @"value"};
 
   // When
-  [appCenterMock receiveServiceNotification:data];
+  [appCenterMock forwardServiceNotification:data];
 
   // Then
   OCMReject([delegate1 appCenter:[MSAppCenter sharedInstance] didReceiveServiceNotification:data]);
   OCMReject([delegate2 appCenter:[MSAppCenter sharedInstance] didReceiveServiceNotification:data]);
 }
 
-- (void)testRemoveSomeDelegate {
-  id appCenterMock = OCMPartialMock([MSAppCenter sharedInstance]);
+- (void)testServiceNotificationRemoveSomeDelegate {
   // creating delegates
   id delegate1 = OCMProtocolMock(@protocol(MSServiceNotificationDelegate));
   id delegate2 = OCMProtocolMock(@protocol(MSServiceNotificationDelegate));
@@ -90,16 +97,14 @@
   NSDictionary<NSString *, NSString *> *data = @{@"key" : @"value"};
 
   // When
-  [appCenterMock receiveServiceNotification:data];
+  [appCenterMock forwardServiceNotification:data];
 
   // Then
   OCMVerify([delegate1 appCenter:[MSAppCenter sharedInstance] didReceiveServiceNotification:data]);
   OCMReject([delegate2 appCenter:[MSAppCenter sharedInstance] didReceiveServiceNotification:data]);
 }
 
-- (void)testRemoveDelegateThatDoesnotExist {
-
-  id appCenterMock = OCMPartialMock([MSAppCenter sharedInstance]);
+- (void)testServiceNotificationRemoveDelegateThatDoesnotExist {
   // creating delegates
   id delegate = OCMProtocolMock(@protocol(MSServiceNotificationDelegate));
 
@@ -110,7 +115,7 @@
   NSDictionary<NSString *, NSString *> *data = @{@"key" : @"value"};
 
   // When
-  [appCenterMock receiveServiceNotification:data];
+  [appCenterMock forwardServiceNotification:data];
 
   // Then
   OCMReject([delegate appCenter:[MSAppCenter sharedInstance] didReceiveServiceNotification:data]);

@@ -728,28 +728,29 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
 }
 
 - (void)addServiceNotificationDelegate:(id<MSServiceNotificationDelegate>)delegate {
-    @synchronized(self) {
-        [self.serviceNotificationDelegates addObject:delegate];
-    }
+  @synchronized(self) {
+    [self.serviceNotificationDelegates addObject:delegate];
+  }
 }
 
 - (void)removeServiceNotificationDelegate:(id<MSServiceNotificationDelegate>)delegate {
-    @synchronized(self) {
-        [self.serviceNotificationDelegates removeObject:delegate];
-    }
+  @synchronized(self) {
+    [self.serviceNotificationDelegates removeObject:delegate];
+  }
 }
 
-- (void)receiveServiceNotification:(NSDictionary<NSString *, NSString *> *)notificationData {
-    NSArray *synchronizedDelegates;
-    @synchronized(self) {
-        // Don't invoke the delegate while locking; it might be locking too and deadlock ourselves.
-        synchronizedDelegates = [self.serviceNotificationDelegates allObjects];
+- (void)forwardServiceNotification:(NSDictionary<NSString *, NSString *> *)notificationData {
+  NSArray *synchronizedDelegates;
+  @synchronized(self) {
+
+    // Don't invoke the delegate while locking; it might be locking too and deadlock ourselves.
+    synchronizedDelegates = [self.serviceNotificationDelegates allObjects];
+  }
+  for (id<MSServiceNotificationDelegate> delegate in synchronizedDelegates) {
+    if ([delegate respondsToSelector:@selector(appCenter:didReceiveServiceNotification:)]) {
+      [delegate appCenter:self didReceiveServiceNotification:notificationData];
     }
-    for (id<MSServiceNotificationDelegate> delegate in synchronizedDelegates) {
-        if ([delegate respondsToSelector:@selector(appCenter:didReceiveServiceNotification:)]) {
-            [delegate appCenter:self didReceiveServiceNotification:notificationData];
-        }
-    }
+  }
 }
 
 @end
