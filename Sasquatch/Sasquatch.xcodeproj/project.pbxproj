@@ -2129,19 +2129,19 @@
 				TargetAttributes = {
 					5CD700E41EA4B74500FC5D12 = {
 						CreatedOnToolsVersion = 8.3.1;
-						DevelopmentTeam = 5Z97G9NZQ6;
+						DevelopmentTeam = UBF8T346G9;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 84226C7F1E8908C900798417;
 					};
 					5CE258861EA5F62400DA8FB9 = {
 						CreatedOnToolsVersion = 8.3.1;
-						DevelopmentTeam = 5Z97G9NZQ6;
+						DevelopmentTeam = UBF8T346G9;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 84226C461E88FF4A00798417;
 					};
 					84226C461E88FF4A00798417 = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = 5Z97G9NZQ6;
+						DevelopmentTeam = UBF8T346G9;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
@@ -2154,7 +2154,7 @@
 					};
 					84226C7F1E8908C900798417 = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = 5Z97G9NZQ6;
+						DevelopmentTeam = UBF8T346G9;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
@@ -2166,7 +2166,7 @@
 						};
 					};
 					B20AE37C21027D6200A1A195 = {
-						DevelopmentTeam = 5Z97G9NZQ6;
+						DevelopmentTeam = UBF8T346G9;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Keychain = {
@@ -2189,7 +2189,7 @@
 					};
 					B2A888B42102B1E7001ACFDF = {
 						CreatedOnToolsVersion = 9.4.1;
-						DevelopmentTeam = 5Z97G9NZQ6;
+						DevelopmentTeam = UBF8T346G9;
 						LastSwiftMigration = 0940;
 						ProvisioningStyle = Automatic;
 						TestTargetID = B20AE37C21027D6200A1A195;
@@ -2201,17 +2201,17 @@
 					};
 					C9E7E4E4231E9A5D007D96DC = {
 						CreatedOnToolsVersion = 10.2.1;
-						DevelopmentTeam = 5Z97G9NZQ6;
+						DevelopmentTeam = UBF8T346G9;
 						ProvisioningStyle = Automatic;
 					};
 					D31EF9281E9517B500450162 = {
 						CreatedOnToolsVersion = 8.3;
-						DevelopmentTeam = 5Z97G9NZQ6;
+						DevelopmentTeam = UBF8T346G9;
 						ProvisioningStyle = Automatic;
 					};
 					D31EF9341E9517B600450162 = {
 						CreatedOnToolsVersion = 8.3;
-						DevelopmentTeam = 5Z97G9NZQ6;
+						DevelopmentTeam = UBF8T346G9;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Push = {
@@ -2221,12 +2221,12 @@
 					};
 					D31EF9531E9517C500450162 = {
 						CreatedOnToolsVersion = 8.3;
-						DevelopmentTeam = 5Z97G9NZQ6;
+						DevelopmentTeam = UBF8T346G9;
 						ProvisioningStyle = Automatic;
 					};
 					D31EF95F1E9517C600450162 = {
 						CreatedOnToolsVersion = 8.3;
-						DevelopmentTeam = 5Z97G9NZQ6;
+						DevelopmentTeam = UBF8T346G9;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Push = {
@@ -3437,6 +3437,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F84BA102211342620020F13B /* UITests.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = UBF8T346G9;
 				INFOPLIST_FILE = SasquatchUITests/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.SasquatchSwiftUITests;
 				TEST_TARGET_NAME = SasquatchSwift;
@@ -3447,6 +3448,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F84BA102211342620020F13B /* UITests.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = UBF8T346G9;
 				INFOPLIST_FILE = SasquatchUITests/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.SasquatchSwiftUITests;
 				TEST_TARGET_NAME = SasquatchSwift;
@@ -3457,6 +3459,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F84BA102211342620020F13B /* UITests.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = UBF8T346G9;
 				INFOPLIST_FILE = SasquatchUITests/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.SasquatchObjCUITests;
 				TEST_TARGET_NAME = SasquatchObjC;
@@ -3467,6 +3470,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F84BA102211342620020F13B /* UITests.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = UBF8T346G9;
 				INFOPLIST_FILE = SasquatchUITests/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.SasquatchObjCUITests;
 				TEST_TARGET_NAME = SasquatchObjC;
@@ -3494,9 +3498,9 @@
 				CODE_SIGN_ENTITLEMENTS = SasquatchObjC/SasquatchObjC.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = UBF8T346G9;
 				INFOPLIST_FILE = SasquatchObjC/Info.plist;
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchobjc;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.ios.sasquatch.objc;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
@@ -3508,9 +3512,9 @@
 				CODE_SIGN_ENTITLEMENTS = SasquatchObjC/SasquatchObjC.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = UBF8T346G9;
 				INFOPLIST_FILE = SasquatchObjC/Info.plist;
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchobjc;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.ios.sasquatch.objc;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
@@ -3521,9 +3525,9 @@
 				CODE_SIGN_ENTITLEMENTS = SasquatchSwift/SasquatchSwift.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = UBF8T346G9;
 				INFOPLIST_FILE = SasquatchSwift/Info.plist;
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchswift;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.ios.sasquatch.swift;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
@@ -3534,9 +3538,9 @@
 				CODE_SIGN_ENTITLEMENTS = SasquatchSwift/SasquatchSwift.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = UBF8T346G9;
 				INFOPLIST_FILE = SasquatchSwift/Info.plist;
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchswift;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.ios.sasquatch.swift;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
@@ -3548,9 +3552,9 @@
 				CODE_SIGN_ENTITLEMENTS = SasquatchObjC/SasquatchObjC.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = UBF8T346G9;
 				INFOPLIST_FILE = "$(SRCROOT)/SasquatchPuppet/Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchpuppet;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.ios.puppet;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
@@ -3562,9 +3566,9 @@
 				CODE_SIGN_ENTITLEMENTS = SasquatchObjC/SasquatchObjC.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = UBF8T346G9;
 				INFOPLIST_FILE = "$(SRCROOT)/SasquatchPuppet/Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchpuppet;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.ios.puppet;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
@@ -3578,7 +3582,7 @@
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 5Z97G9NZQ6;
 				INFOPLIST_FILE = "$(SRCROOT)/SasquatchObjC/Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchobjc;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.ios.sasquatch.objc;
 				PROVISIONING_PROFILE = "c90ca77a-13f2-4e01-b886-639926a829f5";
 				PROVISIONING_PROFILE_SPECIFIER = "AppCenter SDK SasquatchObjC Debug";
 			};
@@ -3593,7 +3597,7 @@
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 5Z97G9NZQ6;
 				INFOPLIST_FILE = "$(SRCROOT)/SasquatchObjC/Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchobjc;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.ios.sasquatch.objc;
 				PROVISIONING_PROFILE = "b75f99a6-e2eb-48bb-8830-591610bc6b30";
 				PROVISIONING_PROFILE_SPECIFIER = "AppCenter SDK SasquatchObjC Release In-house";
 			};
@@ -3607,7 +3611,7 @@
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 5Z97G9NZQ6;
 				INFOPLIST_FILE = "$(SRCROOT)/SasquatchSwift/Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchswift;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.ios.sasquatch.swift;
 				PROVISIONING_PROFILE = "13aa81a6-41a9-436b-bf26-b9910cfbee17";
 				PROVISIONING_PROFILE_SPECIFIER = "AppCenter SDK Sasquatch Swift Debug";
 			};
@@ -3621,7 +3625,7 @@
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 5Z97G9NZQ6;
 				INFOPLIST_FILE = "$(SRCROOT)/SasquatchSwift/Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchswift;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.ios.sasquatch.swift;
 				PROVISIONING_PROFILE = "a4aa0a1a-5369-411d-9c93-1493db2dc33e";
 				PROVISIONING_PROFILE_SPECIFIER = "AppCenter SDK SasquatchSwift Release In-house";
 			};
@@ -3631,6 +3635,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F84BA0D6211342620020F13B /* Puppet UITests.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = UBF8T346G9;
 				INFOPLIST_FILE = SasquatchUITests/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.SasquatchPuppetUITests;
 				TEST_TARGET_NAME = SasquatchPuppet;
@@ -3641,6 +3646,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F84BA0D6211342620020F13B /* Puppet UITests.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = UBF8T346G9;
 				INFOPLIST_FILE = SasquatchUITests/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.SasquatchPuppetUITests;
 				TEST_TARGET_NAME = SasquatchPuppet;
@@ -3655,7 +3661,7 @@
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 5Z97G9NZQ6;
 				INFOPLIST_FILE = "SasquatchSwift-Extension/Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchswift.extension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.ios.sasquatch.swift.extension;
 				PROVISIONING_PROFILE_SPECIFIER = "AppCenter SDK SasquatchSwift Ext Debug";
 			};
 			name = Debug;
@@ -3667,7 +3673,7 @@
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 5Z97G9NZQ6;
 				INFOPLIST_FILE = "SasquatchSwift-Extension/Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchswift.extension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.ios.sasquatch.swift.extension;
 				PROVISIONING_PROFILE_SPECIFIER = "AppCenter SDK SasquatchSwift Ext Release In-house";
 			};
 			name = Release;
@@ -3678,8 +3684,9 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = UBF8T346G9;
 				INFOPLIST_FILE = "SasquatchSwift-Extension/Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchswift.extension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.ios.sasquatch.swift.extension;
 			};
 			name = Debug;
 		};
@@ -3688,9 +3695,9 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 5Z97G9NZQ6;
+				DEVELOPMENT_TEAM = UBF8T346G9;
 				INFOPLIST_FILE = "SasquatchSwift-Extension/Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchswift.extension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.ios.sasquatch.swift.extension;
 			};
 			name = Release;
 		};
@@ -3699,8 +3706,9 @@
 			baseConfigurationReference = F849248A2112FA3400E14DBE /* Watch Extension.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "SasquatchWatchObjC Extension.entitlements";
+				DEVELOPMENT_TEAM = UBF8T346G9;
 				INFOPLIST_FILE = "SasquatchWatchObjC Extension/Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchobjc.watchkitapp.watchkitextension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.watchos.sasquatch.objc.extension;
 			};
 			name = Debug;
 		};
@@ -3709,8 +3717,9 @@
 			baseConfigurationReference = F849248A2112FA3400E14DBE /* Watch Extension.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "SasquatchWatchObjC Extension.entitlements";
+				DEVELOPMENT_TEAM = UBF8T346G9;
 				INFOPLIST_FILE = "SasquatchWatchObjC Extension/Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchobjc.watchkitapp.watchkitextension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.watchos.sasquatch.objc.extension;
 			};
 			name = Release;
 		};
@@ -3718,9 +3727,13 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F84924542111C83000E14DBE /* Watch.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = UBF8T346G9;
 				IBSC_MODULE = SasquatchWatchObjC_Extension;
 				INFOPLIST_FILE = SasquatchWatchObjC/Info.plist;
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchobjc.watchkitapp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.watchos.sasquatch.objc;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
@@ -3728,9 +3741,13 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F84924542111C83000E14DBE /* Watch.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = UBF8T346G9;
 				IBSC_MODULE = SasquatchWatchObjC_Extension;
 				INFOPLIST_FILE = SasquatchWatchObjC/Info.plist;
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchobjc.watchkitapp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.watchos.sasquatch.objc;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};
@@ -3739,8 +3756,9 @@
 			baseConfigurationReference = F849248A2112FA3400E14DBE /* Watch Extension.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "SasquatchWatchSwift Extension.entitlements";
+				DEVELOPMENT_TEAM = UBF8T346G9;
 				INFOPLIST_FILE = "SasquatchWatchSwift Extension/Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchswift.watchkitapp.watchkitextension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.watchos.sasquatch.swift.extension;
 			};
 			name = Debug;
 		};
@@ -3749,8 +3767,9 @@
 			baseConfigurationReference = F849248A2112FA3400E14DBE /* Watch Extension.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "SasquatchWatchSwift Extension.entitlements";
+				DEVELOPMENT_TEAM = UBF8T346G9;
 				INFOPLIST_FILE = "SasquatchWatchSwift Extension/Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchswift.watchkitapp.watchkitextension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.watchos.sasquatch.swift.extension;
 			};
 			name = Release;
 		};
@@ -3758,9 +3777,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F84924542111C83000E14DBE /* Watch.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = UBF8T346G9;
 				IBSC_MODULE = SasquatchWatchSwift_Extension;
 				INFOPLIST_FILE = SasquatchWatchSwift/Info.plist;
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchswift.watchkitapp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.watchos.sasquatch.swift;
 			};
 			name = Debug;
 		};
@@ -3768,9 +3788,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F84924542111C83000E14DBE /* Watch.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = UBF8T346G9;
 				IBSC_MODULE = SasquatchWatchSwift_Extension;
 				INFOPLIST_FILE = SasquatchWatchSwift/Info.plist;
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchswift.watchkitapp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.watchos.sasquatch.swift;
 			};
 			name = Release;
 		};
