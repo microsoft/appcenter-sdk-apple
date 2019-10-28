@@ -98,7 +98,7 @@ static NSString *const kMSTypeHandledError = @"handledError";
                             }]])
       .andReturn(channelUnitMock);
   OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(OCMProtocolMock(@protocol(MSChannelUnitProtocol)));
-  OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSAbstractLog class]] flags:MSFlagsDefault])
+  OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSLogWithProperties class]] flags:MSFlagsDefault])
       .andDo(^(NSInvocation *invocation) {
         MSHandledErrorLog *log;
         [invocation getArgument:&log atIndex:2];
@@ -108,8 +108,8 @@ static NSString *const kMSTypeHandledError = @"handledError";
         exception = log.exception;
         properties = log.properties;
       });
-  [MSAppCenter setUserId:expectedUserId];
   [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
+  [MSAppCenter setUserId:expectedUserId];
   [[MSCrashes sharedInstance] startWithChannelGroup:channelGroupMock
                                           appSecret:kMSTestAppSecret
                             transmissionTargetToken:nil
@@ -186,8 +186,8 @@ static NSString *const kMSTypeHandledError = @"handledError";
 
   // Then
   XCTAssertEqual(type, kMSTypeHandledError);
-  XCTAssertEqual(userId, expectedUserId);
-  XCTAssertNotNil(errorId, );
+  XCTAssertEqualObjects(userId, expectedUserId);
+  XCTAssertNotNil(errorId);
   XCTAssertEqualObjects(exception, expectedException);
   XCTAssertEqual([errorAttachmentLogs count], [attachments count]);
   XCTAssertEqualObjects(errorAttachmentLogs[0], errorAttachmentLog1);
@@ -227,8 +227,8 @@ static NSString *const kMSTypeHandledError = @"handledError";
         [invocation getArgument:&log atIndex:2];
         [errorAttachmentLogs addObject:log];
       });
-  [MSAppCenter setUserId:expectedUserId];
   [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
+  [MSAppCenter setUserId:expectedUserId];
   [[MSCrashes sharedInstance] startWithChannelGroup:channelGroupMock
                                           appSecret:kMSTestAppSecret
                             transmissionTargetToken:nil
@@ -252,7 +252,7 @@ static NSString *const kMSTypeHandledError = @"handledError";
 
   // Then
   XCTAssertEqual(type, kMSTypeHandledError);
-  XCTAssertEqual(userId, expectedUserId);
+  XCTAssertEqualObjects(userId, expectedUserId);
   XCTAssertNotNil(errorId);
   XCTAssertEqualObjects(exception, expectedException);
   XCTAssertEqualObjects(properties, expectedProperties);

@@ -1312,8 +1312,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
                                          signal:nil
                                   exceptionName:nil
                                 exceptionReason:nil
-                                   appStartTime:[NSDate date]
-                                   appErrorTime:self.appStartTime
+                                   appStartTime:self.appStartTime
+                                   appErrorTime:[NSDate date]
                                          device:[[MSDeviceTracker sharedInstance] device]
                            appProcessIdentifier:0];
 }
