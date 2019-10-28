@@ -5,8 +5,8 @@
 #import "MSChannelGroupProtocol.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitProtocol.h"
-#import "MSCrashHandlerSetupDelegate.h"
 #import "MSCrashesInternal.h"
+#import "MSCrashesPrivate.h"
 #import "MSCrashesTestUtil.h"
 #import "MSCrashesUtil.h"
 #import "MSErrorAttachmentLog.h"
@@ -24,6 +24,11 @@ static NSString *const kMSTypeHandledError = @"handledError";
 
 @implementation MSWrapperCrashesHelperTests
 
+- (void)tearDown {
+  [super tearDown];
+  [MSCrashes resetSharedInstance];
+}
+
 - (void)testSettingAndGettingDelegateWorks {
 
   // If
@@ -38,7 +43,7 @@ static NSString *const kMSTypeHandledError = @"handledError";
 }
 
 - (void)testTrackModelExceptionWitExceptionOnly {
-
+  
   // If
   __block NSString *type;
   __block NSString *userId;
