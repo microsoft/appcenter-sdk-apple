@@ -326,6 +326,13 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
   NSObject *title, *message, *customData, *alert;
   NSDictionary *aps = userInfo[kMSPushNotificationApsKey];
 
+  customData = userInfo[kMSPushNotificationServiceDataKey];
+  customData = ([customData isKindOfClass:[NSDictionary<NSString *, NSString *> class]]) ? customData : nil;
+  if (customData) {
+    [[MSAppCenter sharedInstance] forwardServiceNotification:(NSDictionary<NSString *, NSString *> *)customData];
+    return YES;
+  }
+
   // The notification is not for App Center if customData is nil. Ignore the notification.
   customData = userInfo[kMSPushNotificationCustomDataKey] ?: userInfo[kMSPushNotificationOldCustomDataKey];
   customData = ([customData isKindOfClass:[NSDictionary<NSString *, NSString *> class]]) ? customData : nil;

@@ -9,6 +9,7 @@
 #import <UserNotifications/UserNotifications.h>
 #endif
 
+#import "MSAppCenterInternal.h"
 #import "MSAuthTokenContext.h"
 #import "MSChannelGroupProtocol.h"
 #import "MSChannelUnitProtocol.h"
@@ -20,6 +21,7 @@
 #import "MSPushNotification.h"
 #import "MSPushPrivate.h"
 #import "MSPushTestUtil.h"
+#import "MSServiceNotificationDelegate.h"
 #import "MSTestFrameworks.h"
 #import "MSUserIdContextPrivate.h"
 
@@ -30,6 +32,7 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
 
 @property(nonatomic) MSPush *sut;
 @property(nonatomic) id settingsMock;
+@property(nonatomic) MSAppCenter *appCenterMock;
 
 @end
 
@@ -68,6 +71,7 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   [MSUserIdContext resetSharedInstance];
   self.settingsMock = [MSMockUserDefaults new];
   self.sut = [MSPush new];
+  self.appCenterMock = [[MSAppCenter alloc] init];
 
 // Mock UNUserNotificationCenter since it not supported during tests.
 #if TARGET_OS_IOS
@@ -863,6 +867,37 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   // Then
   OCMVerify([pushMock sendPushToken:OCMOCK_ANY userId:expectedValue]);
   [pushMock stopMocking];
+}
+
+- (void)testServiceNotificationPushAppDelegateCallback {
+
+  // notification custom data
+  NSDictionary<NSString *, NSString *> *data = @{@"key" : @"value"};
+
+  // Service Notification key
+  NSDictionary *userInfo = @{kMSPushNotificationServiceDataKey : data};
+
+  // When
+  BOOL result = [MSPush didReceiveRemoteNotification:userInfo];
+
+  // Then
+  XCTAssertTrue(result);
+  OCMVerify([self.appCenterMock forwardServiceNotification:OCMOCK_ANY]);
+}
+
+- (void)testNonServiceNotificationPushAppDelegateCallback {
+
+  // notification custom data
+  NSDictionary<NSString *, NSString *> *data = @{@"key" : @"value"};
+  // NonService Notification key
+  NSDictionary *userInfo = @{@"testr" : data};
+
+  // When
+  BOOL result = [MSPush didReceiveRemoteNotification:userInfo];
+
+  // Then
+  XCTAssertFalse(result);
+  OCMReject([self.appCenterMock forwardServiceNotification:OCMOCK_ANY]);
 }
 
 @end

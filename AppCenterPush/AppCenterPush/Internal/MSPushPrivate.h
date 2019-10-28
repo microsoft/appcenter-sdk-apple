@@ -15,6 +15,7 @@ static NSString *const kMSPushNotificationAlertKey = @"alert";
 static NSString *const kMSPushNotificationTitleKey = @"title";
 static NSString *const kMSPushNotificationMessageKey = @"body";
 static NSString *const kMSPushNotificationCustomDataKey = @"appCenter";
+static NSString *const kMSPushNotificationServiceDataKey = @"appCenterService";
 
 // TODO remove this one as soon as the push backend removes it.
 static NSString *const kMSPushNotificationOldCustomDataKey = @"mobile_center";
