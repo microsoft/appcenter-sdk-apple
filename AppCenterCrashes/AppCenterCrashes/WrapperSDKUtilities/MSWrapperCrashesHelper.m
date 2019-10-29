@@ -72,7 +72,7 @@
 }
 
 + (MSErrorReport *)buildHandledErrorReportWithErrorID:(NSString *)errorID {
-  return [[MSCrashes sharedInstance] buildHandledErrorReportWithId:errorID];
+  return [[MSCrashes sharedInstance] buildHandledErrorReportWithErrorID:errorID];
 }
 
 @end
