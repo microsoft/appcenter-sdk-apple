@@ -1306,8 +1306,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   }
 }
 
-- (MSErrorReport *)buildHandledErrorReportWithId:(NSString *)errorId {
-  return [[MSErrorReport alloc] initWithErrorId:errorId
+- (MSErrorReport *)buildHandledErrorReportWithErrorID:(NSString *)errorID {
+  return [[MSErrorReport alloc] initWithErrorId:errorID
                                     reporterKey:nil
                                          signal:nil
                                   exceptionName:nil

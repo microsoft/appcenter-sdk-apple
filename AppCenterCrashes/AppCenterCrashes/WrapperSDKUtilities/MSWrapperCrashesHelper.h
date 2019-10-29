@@ -79,11 +79,11 @@ NS_ASSUME_NONNULL_BEGIN
  * Get a generic error report representation for an handled exception.
  * This API is used by wrapper SDKs.
  *
- * @param errorId handled error ID.
+ * @param errorID handled error ID.
  *
  * @return an error report.
  */
-+ (MSErrorReport *)buildHandledErrorReportWithId:(NSString *)errorId;
++ (MSErrorReport *)buildHandledErrorReportWithErrorID:(NSString *)errorID;
 
 @end
 

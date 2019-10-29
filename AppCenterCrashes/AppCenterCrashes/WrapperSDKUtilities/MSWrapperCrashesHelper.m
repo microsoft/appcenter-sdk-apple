@@ -71,8 +71,8 @@
   return [[MSCrashes sharedInstance] trackModelException:exception withProperties:properties withAttachments:attachments];
 }
 
-+ (MSErrorReport *)buildHandledErrorReportWithId:(NSString *)errorId {
-  return [[MSCrashes sharedInstance] buildHandledErrorReportWithId:errorId];
++ (MSErrorReport *)buildHandledErrorReportWithErrorID:(NSString *)errorID {
+  return [[MSCrashes sharedInstance] buildHandledErrorReportWithId:errorID];
 }
 
 @end
