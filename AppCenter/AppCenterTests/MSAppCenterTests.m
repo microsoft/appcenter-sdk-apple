@@ -976,7 +976,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 }
 
 - (void)testServiceNotificationNoRegisteredDelegate {
-  
+
   // If
   // Notification data.
   NSDictionary<NSString *, NSString *> *data = @{@"key" : @"value"};
@@ -990,91 +990,92 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 - (void)testServiceNotificationAddDelegate {
 
   // If
-  // Creating delegates.
-  id delegate1 = OCMProtocolMock(@protocol(MSServiceNotificationDelegate));
-  id delegate2 = OCMProtocolMock(@protocol(MSServiceNotificationDelegate));
-
-  // Registering delegates.
-  [self.sut addServiceNotificationDelegate:delegate1];
-  [self.sut addServiceNotificationDelegate:delegate2];
-
   // Notification data.
   NSDictionary<NSString *, NSString *> *data = @{@"key" : @"value"};
+
+  // Creating delegates.
+  id delegate1Mock = OCMProtocolMock(@protocol(MSServiceNotificationDelegate));
+  id delegate2Mock = OCMProtocolMock(@protocol(MSServiceNotificationDelegate));
+
+  // Registering delegates.
+  [self.sut addServiceNotificationDelegate:delegate1Mock];
+  [self.sut addServiceNotificationDelegate:delegate2Mock];
 
   // When
   [self.sut forwardServiceNotification:data];
 
   // Then
-  OCMVerify([delegate1 appCenter:_sut didReceiveServiceNotification:data]);
-  OCMVerify([delegate2 appCenter:_sut didReceiveServiceNotification:data]);
+  OCMVerify([delegate1Mock appCenter:_sut didReceiveServiceNotification:data]);
+  OCMVerify([delegate2Mock appCenter:_sut didReceiveServiceNotification:data]);
 }
 
 - (void)testServiceNotificationRemoveAllDelegate {
 
   // If
-  // Creating delegates.
-  id delegate1 = OCMProtocolMock(@protocol(MSServiceNotificationDelegate));
-  id delegate2 = OCMProtocolMock(@protocol(MSServiceNotificationDelegate));
-
-  // Registering delegates.
-  [self.sut addServiceNotificationDelegate:delegate1];
-  [self.sut addServiceNotificationDelegate:delegate2];
-
-  // Unregistering delegates.
-  [self.sut removeServiceNotificationDelegate:delegate1];
-  [self.sut removeServiceNotificationDelegate:delegate2];
-
   // Notification data.
   NSDictionary<NSString *, NSString *> *data = @{@"key" : @"value"};
+
+  // Creating delegates.
+  id delegate1Mock = OCMProtocolMock(@protocol(MSServiceNotificationDelegate));
+  id delegate2Mock = OCMProtocolMock(@protocol(MSServiceNotificationDelegate));
+  OCMReject([delegate1Mock appCenter:_sut didReceiveServiceNotification:data]);
+  OCMReject([delegate2Mock appCenter:_sut didReceiveServiceNotification:data]);
+
+  // Registering delegates.
+  [self.sut addServiceNotificationDelegate:delegate1Mock];
+  [self.sut addServiceNotificationDelegate:delegate2Mock];
+
+  // Unregistering delegates.
+  [self.sut removeServiceNotificationDelegate:delegate1Mock];
+  [self.sut removeServiceNotificationDelegate:delegate2Mock];
 
   // When
   [self.sut forwardServiceNotification:data];
 
-  // Then
-  OCMReject([delegate1 appCenter:_sut didReceiveServiceNotification:data]);
-  OCMReject([delegate2 appCenter:_sut didReceiveServiceNotification:data]);
+  // Just checking this doesn't crash.
 }
 
 - (void)testServiceNotificationRemoveSomeDelegate {
 
-  // Creating delegates.
-  id delegate1 = OCMProtocolMock(@protocol(MSServiceNotificationDelegate));
-  id delegate2 = OCMProtocolMock(@protocol(MSServiceNotificationDelegate));
-
-  // Registering delegates.
-  [self.sut addServiceNotificationDelegate:delegate1];
-  [self.sut addServiceNotificationDelegate:delegate2];
-
-  // Unregistering delegates.
-  [self.sut removeServiceNotificationDelegate:delegate2];
-
+  // If
   // Notification data.
   NSDictionary<NSString *, NSString *> *data = @{@"key" : @"value"};
+
+  // Creating delegates.
+  id delegate1Mock = OCMProtocolMock(@protocol(MSServiceNotificationDelegate));
+  id delegate2Mock = OCMProtocolMock(@protocol(MSServiceNotificationDelegate));
+
+  // Registering delegates.
+  [self.sut addServiceNotificationDelegate:delegate1Mock];
+  [self.sut addServiceNotificationDelegate:delegate2Mock];
+
+  // Unregistering delegates.
+  [self.sut removeServiceNotificationDelegate:delegate2Mock];
+  OCMReject([delegate2Mock appCenter:_sut didReceiveServiceNotification:data]);
 
   // When
   [self.sut forwardServiceNotification:data];
 
   // Then
-  OCMVerify([delegate1 appCenter:_sut didReceiveServiceNotification:data]);
-  OCMReject([delegate2 appCenter:_sut didReceiveServiceNotification:data]);
+  OCMVerify([delegate1Mock appCenter:_sut didReceiveServiceNotification:data]);
 }
 
 - (void)testServiceNotificationRemoveDelegateThatDoesnotExist {
 
   // If
+  // Notification data.
+  NSDictionary<NSString *, NSString *> *data = @{@"key" : @"value"};
+
   // Creating delegates.
   id delegate = OCMProtocolMock(@protocol(MSServiceNotificationDelegate));
 
   // Unregistering delegates.
   [self.sut removeServiceNotificationDelegate:delegate];
-
-  // Notification data.
-  NSDictionary<NSString *, NSString *> *data = @{@"key" : @"value"};
+  OCMReject([delegate appCenter:_sut didReceiveServiceNotification:data]);
 
   // When
   [self.sut forwardServiceNotification:data];
 
-  // Then
-  OCMReject([delegate appCenter:_sut didReceiveServiceNotification:data]);
+  // Just checking this doesn't crash.
 }
 @end

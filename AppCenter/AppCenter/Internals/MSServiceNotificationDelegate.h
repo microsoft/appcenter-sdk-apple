@@ -7,6 +7,8 @@
 
 @protocol MSServiceNotificationDelegate <NSObject>
 
+@required
+
 /**
  * A callback that is called when an App Center service notification is received.
  * @param appCenter The app center instance.
