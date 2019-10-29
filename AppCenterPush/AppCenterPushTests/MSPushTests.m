@@ -874,7 +874,7 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   // If
   id pushDelegateMock = OCMProtocolMock(@protocol(MSPushDelegate));
 
-  // notification custom data
+  // Notification custom data
   NSDictionary<NSString *, NSString *> *data = @{@"key" : @"value"};
 
   // Service Notification key
@@ -894,8 +894,9 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   // If
   id pushDelegateMock = OCMProtocolMock(@protocol(MSPushDelegate));
 
-  // notification custom data
+  // Notification custom data
   NSDictionary<NSString *, NSString *> *data = @{@"key" : @"value"};
+    
   // NonService Notification key
   NSDictionary *userInfo = @{@"testr" : data};
 
