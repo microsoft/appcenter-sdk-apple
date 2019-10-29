@@ -240,7 +240,7 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
   if ((self = [super init])) {
     _services = [NSMutableArray new];
     _enabledStateUpdating = NO;
-    _serviceNotificationDelegates = [NSHashTable new];
+    _serviceNotificationDelegates = [NSHashTable weakObjectsHashTable];
   }
   return self;
 }
@@ -747,9 +747,7 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
     synchronizedDelegates = [self.serviceNotificationDelegates allObjects];
   }
   for (id<MSServiceNotificationDelegate> delegate in synchronizedDelegates) {
-    if ([delegate respondsToSelector:@selector(appCenter:didReceiveServiceNotification:)]) {
-      [delegate appCenter:self didReceiveServiceNotification:notificationData];
-    }
+    [delegate appCenter:self didReceiveServiceNotification:notificationData];
   }
 }
 
