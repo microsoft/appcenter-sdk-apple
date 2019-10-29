@@ -871,6 +871,9 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
 
 - (void)testServiceNotificationPushAppDelegateCallback {
 
+  // If
+  id pushDelegateMock = OCMProtocolMock(@protocol(MSPushDelegate));
+
   // notification custom data
   NSDictionary<NSString *, NSString *> *data = @{@"key" : @"value"};
 
@@ -878,6 +881,7 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   NSDictionary *userInfo = @{kMSPushNotificationServiceDataKey : data};
 
   // When
+  OCMReject([pushDelegateMock push:self.sut didReceivePushNotification:OCMOCK_ANY]);
   BOOL result = [MSPush didReceiveRemoteNotification:userInfo];
 
   // Then
@@ -887,17 +891,21 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
 
 - (void)testNonServiceNotificationPushAppDelegateCallback {
 
+  // If
+  id pushDelegateMock = OCMProtocolMock(@protocol(MSPushDelegate));
+
   // notification custom data
   NSDictionary<NSString *, NSString *> *data = @{@"key" : @"value"};
   // NonService Notification key
   NSDictionary *userInfo = @{@"testr" : data};
 
   // When
+  OCMReject([self.appCenterMock forwardServiceNotification:OCMOCK_ANY]);
+  OCMReject([pushDelegateMock push:self.sut didReceivePushNotification:OCMOCK_ANY]);
   BOOL result = [MSPush didReceiveRemoteNotification:userInfo];
 
   // Then
   XCTAssertFalse(result);
-  OCMReject([self.appCenterMock forwardServiceNotification:OCMOCK_ANY]);
 }
 
 @end

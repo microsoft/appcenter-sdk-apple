@@ -326,6 +326,8 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
   NSObject *title, *message, *customData, *alert;
   NSDictionary *aps = userInfo[kMSPushNotificationApsKey];
 
+  // The service notifications are forwarded to the AppCenter where it will be handled.
+  // Returned after forwarding as the push service will not process those notifications.
   customData = userInfo[kMSPushNotificationServiceDataKey];
   customData = ([customData isKindOfClass:[NSDictionary<NSString *, NSString *> class]]) ? customData : nil;
   if (customData) {
