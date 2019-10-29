@@ -207,6 +207,9 @@
 		38FDFF6A2109409900E17269 /* MSMockKeychainUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 38FDFF692109409900E17269 /* MSMockKeychainUtil.m */; };
 		38FDFF6B2109409900E17269 /* MSMockKeychainUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 38FDFF692109409900E17269 /* MSMockKeychainUtil.m */; };
 		38FDFF6C2109409900E17269 /* MSMockKeychainUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 38FDFF692109409900E17269 /* MSMockKeychainUtil.m */; };
+		3A0E02F1235E66DB009DC8FC /* MSServiceNotificationDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 3A0E02EF235E5C06009DC8FC /* MSServiceNotificationDelegate.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		3A0E02F2235E66DC009DC8FC /* MSServiceNotificationDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 3A0E02EF235E5C06009DC8FC /* MSServiceNotificationDelegate.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		3A3F039A2360B5BB009E652E /* MSServiceNotificationDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 3A0E02EF235E5C06009DC8FC /* MSServiceNotificationDelegate.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		58603633B718B7A2702C23CB /* MSAbstractLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 58603EA088552D6FBB8EBE6C /* MSAbstractLogTests.m */; };
 		58603867BA3B4B1CB87D0E5D /* MSAbstractLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 58603EA088552D6FBB8EBE6C /* MSAbstractLogTests.m */; };
 		5C7877921EA0CFF3002263CC /* MSLogDBStorageTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C7877911EA0CFF3002263CC /* MSLogDBStorageTests.m */; };
@@ -1047,6 +1050,7 @@
 		38F1944D1DADB93100D3E0FE /* MSHttpIngestionPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSHttpIngestionPrivate.h; sourceTree = "<group>"; };
 		38FDFF682109409900E17269 /* MSMockKeychainUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSMockKeychainUtil.h; sourceTree = "<group>"; };
 		38FDFF692109409900E17269 /* MSMockKeychainUtil.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSMockKeychainUtil.m; sourceTree = "<group>"; };
+		3A0E02EF235E5C06009DC8FC /* MSServiceNotificationDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSServiceNotificationDelegate.h; sourceTree = "<group>"; };
 		431E34A1224CD4FC007A8890 /* MSAuthTokenContextPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSAuthTokenContextPrivate.h; sourceTree = "<group>"; };
 		58603EA088552D6FBB8EBE6C /* MSAbstractLogTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAbstractLogTests.m; sourceTree = "<group>"; };
 		5C7877911EA0CFF3002263CC /* MSLogDBStorageTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSLogDBStorageTests.m; sourceTree = "<group>"; };
@@ -1533,6 +1537,7 @@
 				387C757F1D6270A300D68CC1 /* MSServiceAbstractInternal.h */,
 				387C758D1D64DF2500D68CC1 /* MSServiceCommon.h */,
 				6E0401471D1C99AC0051BCFA /* MSServiceInternal.h */,
+				3A0E02EF235E5C06009DC8FC /* MSServiceNotificationDelegate.h */,
 				38C4471C1ECE5352002E1B11 /* DelegateForwarder */,
 				E84B8E241D234EC7006FD231 /* Channel */,
 				047FEE0E21A48BDE00ED77CD /* Context */,
@@ -1931,6 +1936,7 @@
 				F8936D5D230C2804006A330F /* MSModel.h in Headers */,
 				F8936D76230C2804006A330F /* MSUtility+Environment.h in Headers */,
 				F8936D30230C2804006A330F /* MSChannelGroupDefault.h in Headers */,
+				3A0E02F1235E66DB009DC8FC /* MSServiceNotificationDelegate.h in Headers */,
 				F8936D4E230C2804006A330F /* MSCommonSchemaLog.h in Headers */,
 				F8936D45230C2804006A330F /* MSTicketCache.h in Headers */,
 				F8936D68230C2804006A330F /* MSTypedProperty.h in Headers */,
@@ -2064,6 +2070,7 @@
 				F8936DCE230C2805006A330F /* MSUtility+Environment.h in Headers */,
 				F8936D88230C2805006A330F /* MSChannelGroupDefault.h in Headers */,
 				F8936DA6230C2805006A330F /* MSCommonSchemaLog.h in Headers */,
+				3A0E02F2235E66DC009DC8FC /* MSServiceNotificationDelegate.h in Headers */,
 				F8936D9D230C2805006A330F /* MSTicketCache.h in Headers */,
 				F8936DC0230C2805006A330F /* MSTypedProperty.h in Headers */,
 				F8936DC3230C2805006A330F /* MSUserDefaults.h in Headers */,
@@ -2197,6 +2204,7 @@
 				F8936E26230C2805006A330F /* MSUtility+Environment.h in Headers */,
 				F8936DE0230C2805006A330F /* MSChannelGroupDefault.h in Headers */,
 				F8936DFE230C2805006A330F /* MSCommonSchemaLog.h in Headers */,
+				3A3F039A2360B5BB009E652E /* MSServiceNotificationDelegate.h in Headers */,
 				F8936DF5230C2805006A330F /* MSTicketCache.h in Headers */,
 				F8936E18230C2805006A330F /* MSTypedProperty.h in Headers */,
 				F8936E1B230C2805006A330F /* MSUserDefaults.h in Headers */,

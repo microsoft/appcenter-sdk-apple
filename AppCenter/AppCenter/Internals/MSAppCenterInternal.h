@@ -7,6 +7,7 @@
 #import "MSAppCenter.h"
 #import "MSChannelGroupProtocol.h"
 #import "MSServiceInternal.h"
+#import "MSServiceNotificationDelegate.h"
 
 /*
  * Persisted storage keys.
@@ -117,5 +118,23 @@ static NSString *const kMSTrueEnvironmentString = @"1";
  * @return The array of services in descending order.
  */
 - (NSArray *)sortServices:(NSArray<Class> *)services;
+
+/**
+ * Adds the delegate to the collection.
+ * @param delegate The delegate that needs to be called when a service notification is received.
+ */
+- (void)addServiceNotificationDelegate:(id<MSServiceNotificationDelegate>)delegate;
+
+/**
+ * Removes the delegate to the collection.
+ * @param delegate The delegate that needs to be called when a service notification is received.
+ */
+- (void)removeServiceNotificationDelegate:(id<MSServiceNotificationDelegate>)delegate;
+
+/**
+ * Invokes the delegates in the collection with notification data.
+ * @param notificationData The received service notification data.
+ */
+- (void)forwardServiceNotification:(NSDictionary<NSString *, NSString *> *)notificationData;
 
 @end

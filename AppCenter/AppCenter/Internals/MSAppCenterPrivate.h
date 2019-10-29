@@ -29,4 +29,9 @@
        transmissionTargetToken:(NSString *)transmissionTargetToken
                fromApplication:(BOOL)fromApplication;
 
+/**
+ * Collection of service notification delegates.
+ */
+@property(nonatomic) NSHashTable<id<MSServiceNotificationDelegate>> *serviceNotificationDelegates;
+
 @end

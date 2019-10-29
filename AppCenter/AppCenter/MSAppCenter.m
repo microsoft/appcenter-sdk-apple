@@ -240,6 +240,7 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
   if ((self = [super init])) {
     _services = [NSMutableArray new];
     _enabledStateUpdating = NO;
+    _serviceNotificationDelegates = [NSHashTable weakObjectsHashTable];
   }
   return self;
 }
@@ -724,6 +725,30 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
     disabledServicesList[i] = service;
   }
   return [disabledServicesList containsObject:serviceName] || [disabledServicesList containsObject:kMSDisableAll];
+}
+
+- (void)addServiceNotificationDelegate:(id<MSServiceNotificationDelegate>)delegate {
+  @synchronized(self) {
+    [self.serviceNotificationDelegates addObject:delegate];
+  }
+}
+
+- (void)removeServiceNotificationDelegate:(id<MSServiceNotificationDelegate>)delegate {
+  @synchronized(self) {
+    [self.serviceNotificationDelegates removeObject:delegate];
+  }
+}
+
+- (void)forwardServiceNotification:(NSDictionary<NSString *, NSString *> *)notificationData {
+  NSArray *synchronizedDelegates;
+  @synchronized(self) {
+
+    // Don't invoke the delegate while locking; it might be locking too and deadlock ourselves.
+    synchronizedDelegates = [self.serviceNotificationDelegates allObjects];
+  }
+  for (id<MSServiceNotificationDelegate> delegate in synchronizedDelegates) {
+    [delegate appCenter:self didReceiveServiceNotification:notificationData];
+  }
 }
 
 @end
