@@ -78,13 +78,16 @@ static NSString *const kMSTypeHandledError = @"handledError";
   expectedException.message = @"Oh this is wrong...";
   expectedException.stackTrace = @"mock stacktrace";
   expectedException.type = @"Some.Exception";
-  [MSWrapperCrashesHelper trackModelException:expectedException withProperties:nil withAttachments:nil];
+  NSString *actualErrorId = [MSWrapperCrashesHelper trackModelException:expectedException withProperties:nil withAttachments:nil];
 
   // Then
   assertThat(type, is(kMSTypeHandledError));
   assertThat(userId, is(expectedUserId));
   assertThat(errorId, notNilValue());
   assertThat(exception, is(expectedException));
+
+  // Verify the errorId returned by trackModelException is the same one that enqueued to the channel.
+  assertThat(actualErrorId, is(errorId));
 }
 
 - (void)testTrackModelExceptionWithExceptionAndProperties {
@@ -126,7 +129,9 @@ static NSString *const kMSTypeHandledError = @"handledError";
   expectedException.stackTrace = @"mock stacktrace";
   expectedException.type = @"Some.Exception";
   NSDictionary *expectedProperties = @{@"milk" : @"yes", @"cookie" : @"of course"};
-  [MSWrapperCrashesHelper trackModelException:expectedException withProperties:expectedProperties withAttachments:nil];
+  NSString *actualErrorId = [MSWrapperCrashesHelper trackModelException:expectedException
+                                                         withProperties:expectedProperties
+                                                        withAttachments:nil];
 
   // Then
   assertThat(type, is(kMSTypeHandledError));
@@ -134,6 +139,9 @@ static NSString *const kMSTypeHandledError = @"handledError";
   assertThat(errorId, notNilValue());
   assertThat(exception, is(expectedException));
   assertThat(properties, is(expectedProperties));
+
+  // Verify the errorId returned by trackModelException is the same one that enqueued to the channel.
+  assertThat(actualErrorId, is(errorId));
 }
 
 - (void)testTrackModelExceptionWithExceptionAndAttachments {
@@ -187,7 +195,7 @@ static NSString *const kMSTypeHandledError = @"handledError";
   expectedException.message = @"Oh this is wrong...";
   expectedException.stackTrace = @"mock stacktrace";
   expectedException.type = @"Some.Exception";
-  [MSWrapperCrashesHelper trackModelException:expectedException withProperties:nil withAttachments:attachments];
+  NSString *actualErrorId = [MSWrapperCrashesHelper trackModelException:expectedException withProperties:nil withAttachments:attachments];
 
   // Then
   XCTAssertEqual(type, kMSTypeHandledError);
@@ -197,6 +205,9 @@ static NSString *const kMSTypeHandledError = @"handledError";
   XCTAssertEqual([errorAttachmentLogs count], [attachments count]);
   XCTAssertEqualObjects(errorAttachmentLogs[0], errorAttachmentLog1);
   XCTAssertEqualObjects(errorAttachmentLogs[1], errorAttachmentLog2);
+
+  // Verify the errorId returned by trackModelException is the same one that enqueued to the channel.
+  XCTAssertEqualObjects(actualErrorId, errorId);
 }
 
 - (void)testTrackModelExceptionWithAllParameters {
@@ -253,7 +264,9 @@ static NSString *const kMSTypeHandledError = @"handledError";
   expectedException.stackTrace = @"mock stacktrace";
   expectedException.type = @"Some.Exception";
   NSDictionary *expectedProperties = @{@"milk" : @"yes", @"cookie" : @"of course"};
-  [MSWrapperCrashesHelper trackModelException:expectedException withProperties:expectedProperties withAttachments:attachments];
+  NSString *actualErrorId = [MSWrapperCrashesHelper trackModelException:expectedException
+                                                         withProperties:expectedProperties
+                                                        withAttachments:attachments];
 
   // Then
   XCTAssertEqual(type, kMSTypeHandledError);
@@ -264,6 +277,9 @@ static NSString *const kMSTypeHandledError = @"handledError";
   XCTAssertEqual([errorAttachmentLogs count], [attachments count]);
   XCTAssertEqualObjects(errorAttachmentLogs[0], errorAttachmentLog1);
   XCTAssertEqualObjects(errorAttachmentLogs[1], errorAttachmentLog2);
+
+  // Verify the errorId returned by trackModelException is the same one that enqueued to the channel.
+  XCTAssertEqualObjects(actualErrorId, errorId);
 }
 
 @end
