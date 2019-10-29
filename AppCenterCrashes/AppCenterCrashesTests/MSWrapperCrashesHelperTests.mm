@@ -42,7 +42,7 @@ static NSString *const kMSTypeHandledError = @"handledError";
   assertThat(delegateMock, equalTo(retrievedDelegate));
 }
 
-- (void)testTrackModelExceptionWitExceptionOnly {
+- (void)testTrackModelExceptionWithExceptionOnly {
 
   // If
   __block NSString *type;
