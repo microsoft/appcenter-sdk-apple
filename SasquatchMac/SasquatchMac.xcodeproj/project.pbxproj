@@ -1142,6 +1142,14 @@
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
+		F8EE6482231E71060007A52E /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F8EE6483231E71060007A52E /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
