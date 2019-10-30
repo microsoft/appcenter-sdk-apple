@@ -2822,6 +2822,8 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 }
 
 - (void)testDocumentChangeDelegateMethodIsCalled {
+
+  // If
   id dataMock = OCMPartialMock(self.sut);
   OCMStub([dataMock sharedInstance]).andReturn(dataMock);
   id dataDelegateMock = OCMProtocolMock(@protocol(MSDataDelegate));
@@ -2831,38 +2833,43 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   });
   [MSData setDelegate:dataDelegateMock];
 
-  NSString *const doc1Op = @"replace";
-  NSString *const doc1Id = @"BHGVGD5";
-  NSString *const doc1Ptn = @"user";
-  NSInteger const doc1Ts = 1000;
-  NSString *const doc2Op = @"create";
-  NSString *const doc2Id = @"HGD5HE3";
-  NSString *const doc2Ptn = @"readonly";
-  NSInteger const doc2Ts = 5000;
+  NSString *const document1Operation = @"replace";
+  NSString *const document1Id = @"BHGVGD5";
+  NSString *const document1Partition = @"user";
+  NSInteger const document1Timestamp = 1000;
+  NSString *const document2Operation = @"create";
+  NSString *const document2Id = @"HGD5HE3";
+  NSString *const document2Partition = @"readonly";
+  NSInteger const document2Timestamp = 5000;
   NSString *const documentChangesJson = [NSString
       stringWithFormat:@"[{\"op\":\"%@\",\"id\":\"%@\",\"ptn\":\"%@\",\"_ts\":%@},{\"op\":\"%@\",\"id\":\"%@\",\"ptn\":\"%@\",\"_ts\":%@}]",
-                       doc1Op, doc1Id, doc1Ptn, [@(doc1Ts) stringValue], doc2Op, doc2Id, doc2Ptn, [@(doc2Ts) stringValue]];
+                       document1Operation, document1Id, document1Partition, [@(document1Timestamp) stringValue], document2Operation,
+                       document2Id, document2Partition, [@(document2Timestamp) stringValue]];
   NSDictionary<NSString *, NSString *> *notificationData = @{kMSServiceNotificationDocumentChangeKey : documentChangesJson};
 
+  // When
   [dataMock appCenter:nil didReceiveServiceNotification:notificationData];
 
+  // Then
   OCMVerify([dataDelegateMock data:self.sut didReceiveDocumentChangeNotification:OCMOCK_ANY]);
   XCTAssertNotNil(documentChanges);
   XCTAssertEqual([documentChanges count], 2);
-  XCTAssertTrue([documentChanges[0].operation isEqualToString:doc1Op]);
-  XCTAssertTrue([documentChanges[0].documentId isEqualToString:doc1Id]);
-  XCTAssertTrue([documentChanges[0].partition isEqualToString:doc1Ptn]);
-  XCTAssertEqual(documentChanges[0].timestamp, doc1Ts);
-  XCTAssertTrue([documentChanges[1].operation isEqualToString:doc2Op]);
-  XCTAssertTrue([documentChanges[1].documentId isEqualToString:doc2Id]);
-  XCTAssertTrue([documentChanges[1].partition isEqualToString:doc2Ptn]);
-  XCTAssertEqual(documentChanges[1].timestamp, doc2Ts);
+  XCTAssertTrue([documentChanges[0].operation isEqualToString:document1Operation]);
+  XCTAssertTrue([documentChanges[0].documentId isEqualToString:document1Id]);
+  XCTAssertTrue([documentChanges[0].partition isEqualToString:document1Partition]);
+  XCTAssertEqual(documentChanges[0].timestamp, document1Timestamp);
+  XCTAssertTrue([documentChanges[1].operation isEqualToString:document2Operation]);
+  XCTAssertTrue([documentChanges[1].documentId isEqualToString:document2Id]);
+  XCTAssertTrue([documentChanges[1].partition isEqualToString:document2Partition]);
+  XCTAssertEqual(documentChanges[1].timestamp, document2Timestamp);
 
-  OCMVerifyAll(dataMock);
+  // Clean up
   [dataMock stopMocking];
 }
 
 - (void)testDocumentChangeDelegateMethodIsNotCalledWithoutDocumentChangeKey {
+
+  // If
   id dataMock = OCMPartialMock(self.sut);
   OCMStub([dataMock sharedInstance]).andReturn(dataMock);
   id dataDelegateMock = OCMProtocolMock(@protocol(MSDataDelegate));
@@ -2872,13 +2879,16 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   NSString *const documentChangesJson = @"[{\"op\":\"replace\",\"id\":\"BHGVGD5\",\"ptn\":\"user\",\"_ts\":1000}]";
   NSDictionary<NSString *, NSString *> *notificationData = @{@"unknown-key" : documentChangesJson};
 
+  // When
   [dataMock appCenter:nil didReceiveServiceNotification:notificationData];
 
-  OCMVerifyAll(dataMock);
+  // Clean up
   [dataMock stopMocking];
 }
 
 - (void)testDocumentChangeDelegateMethodIsNotCalledWithInvalidJson {
+
+  // If
   id dataMock = OCMPartialMock(self.sut);
   OCMStub([dataMock sharedInstance]).andReturn(dataMock);
   id dataDelegateMock = OCMProtocolMock(@protocol(MSDataDelegate));
@@ -2888,13 +2898,16 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   NSString *const documentChangesJson = @"this is not valid document change JSON";
   NSDictionary<NSString *, NSString *> *notificationData = @{kMSServiceNotificationDocumentChangeKey : documentChangesJson};
 
+  // When
   [dataMock appCenter:nil didReceiveServiceNotification:notificationData];
 
-  OCMVerifyAll(dataMock);
+  // Clean up
   [dataMock stopMocking];
 }
 
 - (void)testDocumentChangeDelegateMethodIsNotCalledWithNoChanges {
+
+  // If
   id dataMock = OCMPartialMock(self.sut);
   OCMStub([dataMock sharedInstance]).andReturn(dataMock);
   id dataDelegateMock = OCMProtocolMock(@protocol(MSDataDelegate));
@@ -2904,13 +2917,16 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   NSString *const documentChangesJson = @"[]";
   NSDictionary<NSString *, NSString *> *notificationData = @{kMSServiceNotificationDocumentChangeKey : documentChangesJson};
 
+  // When
   [dataMock appCenter:nil didReceiveServiceNotification:notificationData];
 
-  OCMVerifyAll(dataMock);
+  // Clean up
   [dataMock stopMocking];
 }
 
 - (void)testDocumentChangeDelegateMethodIsNotCalledForDelegateThatDoesNotRespondToSelector {
+
+  // If
   id dataMock = OCMPartialMock(self.sut);
   OCMStub([dataMock sharedInstance]).andReturn(dataMock);
   id dataDelegateMock = OCMPartialMock([MSMockDataDelegate new]);
@@ -2923,22 +2939,26 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   NSString *const documentChangesJson = @"[{\"op\":\"replace\",\"id\":\"BHGVGD5\",\"ptn\":\"user\",\"_ts\":1000}]";
   NSDictionary<NSString *, NSString *> *notificationData = @{kMSServiceNotificationDocumentChangeKey : documentChangesJson};
 
+  // When
   [dataMock appCenter:nil didReceiveServiceNotification:notificationData];
 
-  OCMVerifyAll(dataMock);
+  // Clean up
   [dataMock stopMocking];
 }
 
 - (void)testDocumentChangeWithNoRegisteredDelegate {
+
+  // If
   id dataMock = OCMPartialMock(self.sut);
   OCMStub([dataMock sharedInstance]).andReturn(dataMock);
 
   NSString *const documentChangesJson = @"[{\"op\":\"replace\",\"id\":\"BHGVGD5\",\"ptn\":\"user\",\"_ts\":1000}]";
   NSDictionary<NSString *, NSString *> *notificationData = @{kMSServiceNotificationDocumentChangeKey : documentChangesJson};
 
+  // When
   [dataMock appCenter:nil didReceiveServiceNotification:notificationData];
 
-  OCMVerifyAll(dataMock);
+  // Clean up
   [dataMock stopMocking];
 }
 

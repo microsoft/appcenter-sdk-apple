@@ -838,23 +838,22 @@ static dispatch_once_t onceToken;
                                                                        error:&error];
     if (error) {
       MSLogError([MSData logTag], @"Couldn't parse json data for service notification: %@", error.localizedDescription);
-    } else {
-      NSMutableArray *documentChanges = [NSMutableArray new];
-      for (NSDictionary *dictionary in documentChangePayload) {
-        MSDocumentChange *documentChange = [[MSDocumentChange alloc] initWithDictionary:dictionary];
-        [documentChanges addObject:documentChange];
-      }
-
-      if ([documentChanges count] > 0) {
-        id<MSDataDelegate> strongDelegate;
-        @synchronized(self) {
-          strongDelegate = self.delegate;
-          if (strongDelegate) {
-            if ([strongDelegate respondsToSelector:@selector(data:didReceiveDocumentChangeNotification:)]) {
-              [strongDelegate data:self didReceiveDocumentChangeNotification:documentChanges];
-            }
-          }
-        }
+      return;
+    }
+    NSMutableArray *documentChanges = [NSMutableArray new];
+    for (NSDictionary *dictionary in documentChangePayload) {
+      MSDocumentChange *documentChange = [[MSDocumentChange alloc] initWithDictionary:dictionary];
+      [documentChanges addObject:documentChange];
+    }
+    if ([documentChanges count] == 0) {
+      MSLogDebug([MSData logTag], @"Empty document change notification received.");
+      return;
+    }
+    id<MSDataDelegate> strongDelegate;
+    @synchronized(self) {
+      strongDelegate = self.delegate;
+      if (strongDelegate && [strongDelegate respondsToSelector:@selector(data:didReceiveDocumentChangeNotification:)]) {
+        [strongDelegate data:self didReceiveDocumentChangeNotification:documentChanges];
       }
     }
   }

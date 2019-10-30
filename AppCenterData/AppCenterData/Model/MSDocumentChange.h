@@ -28,7 +28,7 @@
 /**
  * Initialize an object from dictionary.
  *
- * @param dictionary A dictionary that contains key/value paris for a document change.
+ * @param dictionary A dictionary that contains key/value pairs for a document change.
  *
  * @return A new instance.
  */

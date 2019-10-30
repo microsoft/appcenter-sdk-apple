@@ -97,11 +97,6 @@ static NSString *const kMSServiceNotificationDocumentChangeKey = @"documentsChan
  */
 - (void)processPendingOperations;
 
-/**
- * MSServiceNotificationDelegate.
- */
-- (void)appCenter:(MSAppCenter *)appCenter didReceiveServiceNotification:(NSDictionary<NSString *, NSString *> *)notificationData;
-
 @end
 
 NS_ASSUME_NONNULL_END

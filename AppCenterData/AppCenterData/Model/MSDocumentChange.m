@@ -14,7 +14,7 @@ static NSString *const kMSDocumentChangeTimestamp = @"_ts";
   if (!dictionary) {
     return nil;
   }
-  if ((self = [super init]) != nil) {
+  if ((self = [super init])) {
     _documentId = (NSString * _Nonnull) dictionary[kMSDocumentChangeId];
     _partition = (NSString * _Nonnull) dictionary[kMSDocumentChangePartition];
     _operation = (NSString * _Nonnull) dictionary[kMSDocumentChangeOperation];
