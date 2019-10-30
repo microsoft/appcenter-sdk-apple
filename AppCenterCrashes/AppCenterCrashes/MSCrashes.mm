@@ -22,6 +22,7 @@
 #import "MSErrorAttachmentLog.h"
 #import "MSErrorAttachmentLogInternal.h"
 #import "MSErrorLogFormatter.h"
+#import "MSErrorReportPrivate.h"
 #import "MSHandledErrorLog.h"
 #import "MSSessionContext.h"
 #import "MSUserIdContext.h"
@@ -246,20 +247,11 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   [[MSCrashes sharedInstance] setDelegate:delegate];
 }
 
-/**
- * Track handled exception directly as model form with user-defined custom properties.
- * This API is not public and is used by wrapper SDKs.
- */
-+ (void)trackModelException:(MSException *)exception
-             withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties
-            withAttachments:(nullable NSArray<MSErrorAttachmentLog *> *)attachments {
-  [[MSCrashes sharedInstance] trackModelException:exception withProperties:properties withAttachments:attachments];
-}
-
 #pragma mark - Service initialization
 
 - (instancetype)init {
   if ((self = [super init])) {
+    _appStartTime = [NSDate date];
     _crashFiles = [NSMutableArray new];
     _crashesPathComponent = [MSCrashesUtil crashesDir];
     _logBufferPathComponent = [MSCrashesUtil logBufferDir];
@@ -1272,12 +1264,12 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
 #pragma mark - Handled exceptions
 
-- (void)trackModelException:(MSException *)exception
-             withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties
-            withAttachments:(nullable NSArray<MSErrorAttachmentLog *> *)attachments {
+- (NSString *)trackModelException:(MSException *)exception
+                   withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties
+                  withAttachments:(nullable NSArray<MSErrorAttachmentLog *> *)attachments {
   @synchronized(self) {
     if (![self canBeUsed] || ![self isEnabled]) {
-      return;
+      return nil;
     }
 
     // Create an error log.
@@ -1310,7 +1302,19 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
       NSArray<MSErrorAttachmentLog *> *nonNullAttachments = attachments;
       [self sendErrorAttachments:nonNullAttachments withIncidentIdentifier:log.errorId];
     }
+    return log.errorId;
   }
 }
 
+- (MSErrorReport *)buildHandledErrorReportWithErrorID:(NSString *)errorID {
+  return [[MSErrorReport alloc] initWithErrorId:errorID
+                                    reporterKey:nil
+                                         signal:nil
+                                  exceptionName:nil
+                                exceptionReason:nil
+                                   appStartTime:self.appStartTime
+                                   appErrorTime:[NSDate date]
+                                         device:[[MSDeviceTracker sharedInstance] device]
+                           appProcessIdentifier:0];
+}
 @end
