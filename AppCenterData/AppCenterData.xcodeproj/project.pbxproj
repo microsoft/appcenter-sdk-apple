@@ -103,8 +103,6 @@
 		A0350C33235FB17900FDEF20 /* MSDocumentChange.h in Headers */ = {isa = PBXBuildFile; fileRef = A0350C31235FB17900FDEF20 /* MSDocumentChange.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A0350C35235FB23400FDEF20 /* MSDocumentChange.m in Sources */ = {isa = PBXBuildFile; fileRef = A0350C34235FB23400FDEF20 /* MSDocumentChange.m */; };
 		A0350C36235FB23400FDEF20 /* MSDocumentChange.m in Sources */ = {isa = PBXBuildFile; fileRef = A0350C34235FB23400FDEF20 /* MSDocumentChange.m */; };
-		A068E78E23637EF7000A58DC /* MSMockDataDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A068E78D23637EE9000A58DC /* MSMockDataDelegate.m */; };
-		A068E78F23637EF8000A58DC /* MSMockDataDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A068E78D23637EE9000A58DC /* MSMockDataDelegate.m */; };
 		C2200609230FDF3100848D5B /* AppCenterData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A91F71230BFF610068070D /* AppCenterData.framework */; };
 		C220060B230FDF3A00848D5B /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C220060A230FDF3A00848D5B /* AppCenter.framework */; };
 		C220060C230FDF4300848D5B /* AppCenterData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A91F82230BFF670068070D /* AppCenterData.framework */; };
@@ -336,8 +334,6 @@
 		9CE865A4228B6615003CCE0E /* validTestUserDocument.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = validTestUserDocument.json; sourceTree = "<group>"; };
 		A0350C31235FB17900FDEF20 /* MSDocumentChange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDocumentChange.h; sourceTree = "<group>"; };
 		A0350C34235FB23400FDEF20 /* MSDocumentChange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDocumentChange.m; sourceTree = "<group>"; };
-		A068E78D23637EE9000A58DC /* MSMockDataDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSMockDataDelegate.m; sourceTree = "<group>"; };
-		A068E79023637F1B000A58DC /* MSMockDataDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSMockDataDelegate.h; sourceTree = "<group>"; };
 		C220060A230FDF3A00848D5B /* AppCenter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AppCenter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C220060D230FDF4700848D5B /* AppCenter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AppCenter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9A91F71230BFF610068070D /* AppCenterData.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AppCenterData.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -527,15 +523,6 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		A068E78C23637E9E000A58DC /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				A068E78D23637EE9000A58DC /* MSMockDataDelegate.m */,
-				A068E79023637F1B000A58DC /* MSMockDataDelegate.h */,
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
 		C9A91F84230BFFAE0068070D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -629,7 +616,6 @@
 				8F4548E52256D5470021B0BF /* NSObject+MSTestFixture.h */,
 				8F4548E62256D5470021B0BF /* NSObject+MSTestFixture.m */,
 				8F5227DB2253DE1F004F37FE /* Fixtures */,
-				A068E78C23637E9E000A58DC /* Model */,
 				D3AD5F661E5D73F2001627AB /* Frameworks */,
 				04A140C31ECE877A001CEE94 /* Support */,
 				E8FE51A4221C8C41005FB52B /* Util */,
@@ -1101,7 +1087,6 @@
 				2ACE560B2245340A00FCD5DF /* MSBaseOptionsTests.m in Sources */,
 				4A9C4403223B2408008548A7 /* MSTokenTests.m in Sources */,
 				04B61DD02248F7DB008D0102 /* MSMockKeychainUtil.m in Sources */,
-				A068E78E23637EF7000A58DC /* MSMockDataDelegate.m in Sources */,
 				2ACE562222453BE600FCD5DF /* MSDataErrorTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1175,7 +1160,6 @@
 				2ACE560A2245340A00FCD5DF /* MSBaseOptionsTests.m in Sources */,
 				4A9C4402223B2405008548A7 /* MSTokenTests.m in Sources */,
 				04B61DCF2248F7DB008D0102 /* MSMockKeychainUtil.m in Sources */,
-				A068E78F23637EF8000A58DC /* MSMockDataDelegate.m in Sources */,
 				2ACE562122453BE600FCD5DF /* MSDataErrorTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

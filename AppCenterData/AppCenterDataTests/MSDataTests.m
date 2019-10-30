@@ -21,7 +21,6 @@
 #import "MSDocumentWrapperInternal.h"
 #import "MSHttpClient.h"
 #import "MSHttpTestUtil.h"
-#import "MSMockDataDelegate.h"
 #import "MSMockUserDefaults.h"
 #import "MSPageInternal.h"
 #import "MSPaginatedDocuments.h"
@@ -34,6 +33,12 @@
 #import "MSTokensResponse.h"
 #import "MS_Reachability.h"
 #import "NSObject+MSTestFixture.h"
+
+@interface MSMockDataDelegate : NSObject <MSDataDelegate>
+@end
+
+@implementation MSMockDataDelegate
+@end
 
 @interface MSDataTests : XCTestCase
 
