@@ -15,6 +15,7 @@
 #import "MSDataInternal.h"
 #import "MSDataPrivate.h"
 #import "MSDictionaryDocument.h"
+#import "MSDocumentChange.h"
 #import "MSDocumentMetadata.h"
 #import "MSDocumentMetadataInternal.h"
 #import "MSDocumentStore.h"
@@ -796,11 +797,13 @@ static dispatch_once_t onceToken;
   [self.httpClientWithRetrier setEnabled:isEnabled];
   if (isEnabled) {
     [[MSAuthTokenContext sharedInstance] addDelegate:self];
+    [[MSAppCenter sharedInstance] addServiceNotificationDelegate:self];
     [self enabledNotifications];
 
   } else {
     [self disableNotificaitons];
     [[MSAuthTokenContext sharedInstance] removeDelegate:self];
+    [[MSAppCenter sharedInstance] removeServiceNotificationDelegate:self];
     [MSTokenExchange removeAllCachedTokens];
     [self.dataOperationProxy.documentStore resetDatabase];
     [self.outgoingPendingOperations removeAllObjects];
@@ -820,6 +823,39 @@ static dispatch_once_t onceToken;
 
     // Delete all the data (user and read-only).
     [self.dataOperationProxy.documentStore resetDatabase];
+  }
+}
+
+#pragma mark - MSServiceNotificationDelegate
+
+- (void)appCenter:(MSAppCenter *)__unused appCenter didReceiveServiceNotification:(NSDictionary<NSString *, NSString *> *)notificationData {
+  NSString *documentChangePayloadJSON = notificationData[kMSServiceNotificationDocumentChangeKey];
+  if (documentChangePayloadJSON) {
+    NSData *documentChangePayloadData = [documentChangePayloadJSON dataUsingEncoding:NSUTF8StringEncoding];
+    NSError *error = nil;
+    NSArray *documentChangePayload = [NSJSONSerialization JSONObjectWithData:documentChangePayloadData
+                                                                     options:NSJSONReadingMutableContainers
+                                                                       error:&error];
+    if (error) {
+      MSLogError([MSData logTag], @"Couldn't parse json data for service notification: %@", error.localizedDescription);
+      return;
+    }
+    NSMutableArray *documentChanges = [NSMutableArray new];
+    for (NSDictionary *dictionary in documentChangePayload) {
+      MSDocumentChange *documentChange = [[MSDocumentChange alloc] initWithDictionary:dictionary];
+      [documentChanges addObject:documentChange];
+    }
+    if ([documentChanges count] == 0) {
+      MSLogDebug([MSData logTag], @"Empty document change notification received.");
+      return;
+    }
+    id<MSDataDelegate> strongDelegate;
+    @synchronized(self) {
+      strongDelegate = self.delegate;
+      if (strongDelegate && [strongDelegate respondsToSelector:@selector(data:didReceiveDocumentChangeNotification:)]) {
+        [strongDelegate data:self didReceiveDocumentChangeNotification:documentChanges];
+      }
+    }
   }
 }
 

@@ -9,6 +9,7 @@
 #import "MSDataError.h"
 #import "MSDataErrors.h"
 #import "MSDictionaryDocument.h"
+#import "MSDocumentChange.h"
 #import "MSDocumentMetadata.h"
 #import "MSDocumentWrapper.h"
 #import "MSPage.h"

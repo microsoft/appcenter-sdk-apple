@@ -7,6 +7,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class MSDocumentMetadata;
 @class MSDataError;
+@class MSDocumentChange;
 
 @protocol MSDataDelegate <NSObject>
 
@@ -25,6 +26,14 @@ NS_ASSUME_NONNULL_BEGIN
     didCompleteRemoteOperation:(NSString *)operation
            forDocumentMetadata:(MSDocumentMetadata *_Nullable)documentMetadata
                      withError:(MSDataError *_Nullable)error;
+
+/**
+ * A callback method that will be called whenever a document change notification is received.
+ *
+ * @param data The instance of `MSData`.
+ * @param documentChanges The details of the document changes.
+ */
+- (void)data:(MSData *)data didReceiveDocumentChangeNotification:(NSArray<MSDocumentChange *> *)documentChanges;
 
 @end
 
