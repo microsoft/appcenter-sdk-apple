@@ -659,12 +659,12 @@
 						TestTargetID = D322EFD71E8E97C800A8EDA5;
 					};
 					B25AE81A210A79FB00CC07A9 = {
-						DevelopmentTeam = 5Z97G9NZQ6;
+						DevelopmentTeam = 9KBH5RKYEW;
 						ProvisioningStyle = Manual;
 					};
 					B25AE83A210A7B8A00CC07A9 = {
-						DevelopmentTeam = 5Z97G9NZQ6;
-						ProvisioningStyle = Automatic;
+						DevelopmentTeam = 9KBH5RKYEW;
+						ProvisioningStyle = Manual;
 					};
 					D322EFD71E8E97C800A8EDA5 = {
 						CreatedOnToolsVersion = 8.3.2;
@@ -684,6 +684,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -1081,49 +1082,52 @@
 		B25AE836210A79FB00CC07A9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Distribution";
 				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = 9KBH5RKYEW;
 				INFOPLIST_FILE = "$(SRCROOT)/SasquatchTVObjC/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.tvos.sasquatch.objc;
 				PROVISIONING_PROFILE = "da9156c4-535c-4f0f-8739-c27cf24d0c0f";
-				PROVISIONING_PROFILE_SPECIFIER = "AppCenter SDK SasquatchObjC tvOS Debug";
+				PROVISIONING_PROFILE_SPECIFIER = "Sasquatch Objc tvos Dogfood tvos Distribution";
 			};
 			name = Debug;
 		};
 		B25AE837210A79FB00CC07A9 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "Apple Distribution";
 				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = 9KBH5RKYEW;
 				INFOPLIST_FILE = "$(SRCROOT)/SasquatchTVObjC/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.tvos.sasquatch.objc;
 				PROVISIONING_PROFILE = "d1a7ae61-73b6-47da-bbe1-84654ca9ea33";
-				PROVISIONING_PROFILE_SPECIFIER = "AppCenter SDK SasquatchObjC tvOS Release In-house";
+				PROVISIONING_PROFILE_SPECIFIER = "Sasquatch Objc tvos Dogfood tvos Distribution";
 			};
 			name = Release;
 		};
 		B25AE854210A7B8A00CC07A9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "Apple Distribution";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = 9KBH5RKYEW;
 				INFOPLIST_FILE = "$(SRCROOT)/SasquatchTVSwift/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.tvos.sasquatch.swift;
 				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = "Sasquatch TVOS Swift Dogfood Distribution";
 			};
 			name = Debug;
 		};
 		B25AE855210A7B8A00CC07A9 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "Apple Distribution";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = 9KBH5RKYEW;
 				INFOPLIST_FILE = "$(SRCROOT)/SasquatchTVSwift/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.tvos.sasquatch.swift;
 				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = "Sasquatch TVOS Swift Dogfood Distribution";
 			};
 			name = Release;
 		};
@@ -1146,7 +1150,6 @@
 		D322EFE51E8E97C800A8EDA5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = UBF8T346G9;
 				INFOPLIST_FILE = SasquatchTVSwift/Info.plist;
@@ -1159,7 +1162,6 @@
 		D322EFE61E8E97C800A8EDA5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = UBF8T346G9;
 				INFOPLIST_FILE = SasquatchTVSwift/Info.plist;
@@ -1172,7 +1174,6 @@
 		D322EFFD1E8E97DF00A8EDA5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = UBF8T346G9;
 				INFOPLIST_FILE = SasquatchTVObjC/Info.plist;
@@ -1185,7 +1186,6 @@
 		D322EFFE1E8E97DF00A8EDA5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = UBF8T346G9;
 				INFOPLIST_FILE = SasquatchTVObjC/Info.plist;
