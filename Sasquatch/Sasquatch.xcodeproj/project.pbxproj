@@ -3654,7 +3654,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C237A695232BACB50081153F /* Sasquatch Extension.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = UBF8T346G9;
 				INFOPLIST_FILE = "SasquatchSwift-Extension/Info.plist";
@@ -3666,7 +3666,7 @@
 		C9E7E490231E99E9007D96DC /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = UBF8T346G9;
 				INFOPLIST_FILE = "SasquatchSwift-Extension/Info.plist";
