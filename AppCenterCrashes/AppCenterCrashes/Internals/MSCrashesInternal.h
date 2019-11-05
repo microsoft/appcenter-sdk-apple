@@ -61,22 +61,29 @@ static NSString *const kMSAppDidReceiveMemoryWarningKey = @"MSAppDidReceiveMemor
  */
 - (void)configureCrashReporterWithUncaughtExceptionHandlerEnabled:(BOOL)enableUncaughtExceptionHandler;
 
-/*
+/**
  * Track handled exception directly as model form.
- * This API is not public and is used by wrapper SDKs.
- *
- * @param exception model form exception.
- */
-+ (void)trackModelException:(MSException *)exception;
-
-/*
- * Track handled exception directly as model form.
- * This API is not public and is used by wrapper SDKs.
+ * This API is used by wrapper SDKs.
  *
  * @param exception model form exception.
  * @param properties dictionary of properties.
+ * @param attachments a list of attachments.
+ *
+ * @return handled error ID.
  */
-+ (void)trackModelException:(MSException *)exception withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties;
+- (NSString *)trackModelException:(MSException *)exception
+                   withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties
+                  withAttachments:(nullable NSArray<MSErrorAttachmentLog *> *)attachments;
+
+/**
+ * Get a generic error report representation for an handled exception.
+ * This API is used by wrapper SDKs.
+ *
+ * @param errorID handled error ID.
+ *
+ * @return an error report.
+ */
+- (MSErrorReport *)buildHandledErrorReportWithErrorID:(NSString *)errorID;
 
 @end
 

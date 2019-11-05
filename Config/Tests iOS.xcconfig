@@ -1,7 +1,11 @@
 #include "./Tests.xcconfig"
 #include "./iOS.xcconfig"
 
-OTHER_LDFLAGS = $(inherited) -framework UIKit -framework SafariServices -framework WebKit -framework AuthenticationServices -ObjC -lz
+OTHER_LDFLAGS = $(OTHER_LDFLAGS) -framework AuthenticationServices
+OTHER_LDFLAGS = $(OTHER_LDFLAGS) -framework CoreTelephony
+OTHER_LDFLAGS = $(OTHER_LDFLAGS) -framework SafariServices
+OTHER_LDFLAGS = $(OTHER_LDFLAGS) -framework UIKit
+OTHER_LDFLAGS = $(OTHER_LDFLAGS) -framework WebKit
 
 LD_RUNPATH_SEARCH_PATHS = @executable_path/Frameworks @loader_path/Frameworks "$(SRCROOT)/../Vendor/iOS/OCMock" "$(SRCROOT)/../Vendor/iOS/OCHamcrest" "$(SRCROOT)/../Vendor/iOS/OHHTTPStubs"
 

@@ -140,6 +140,11 @@ typedef struct MSCrashesCallbacks {
 @property MSUserConfirmationHandler userConfirmationHandler;
 
 /**
+ * The start time of the application.
+ */
+@property(nonatomic) NSDate *appStartTime;
+
+/**
  * Delete all data in crashes directory.
  */
 - (void)deleteAllFromCrashesDirectory;

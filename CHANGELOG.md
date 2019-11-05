@@ -1,5 +1,13 @@
 # App Center SDK for iOS, macOS and tvOS Change Log
 
+## Version 2.5.1
+
+### App Center
+
+* **[Fix]** Fix warnings in Xcode 11 when SDK is installed via CocoaPods.
+
+___
+
 ## Version 2.5.0
 
 ### App Center
