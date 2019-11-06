@@ -2195,10 +2195,12 @@
 					};
 					C9E7E481231E99E9007D96DC = {
 						CreatedOnToolsVersion = 10.2.1;
+						DevelopmentTeam = 9KBH5RKYEW;
 						ProvisioningStyle = Manual;
 					};
 					C9E7E4E4231E9A5D007D96DC = {
 						CreatedOnToolsVersion = 10.2.1;
+						DevelopmentTeam = 9KBH5RKYEW;
 						ProvisioningStyle = Manual;
 					};
 					D31EF9281E9517B500450162 = {
@@ -3652,24 +3654,24 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C237A695232BACB50081153F /* Sasquatch Extension.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 9KBH5RKYEW;
 				INFOPLIST_FILE = "SasquatchSwift-Extension/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.ios.sasquatch.swift.extension;
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = "Sasquatch ios swift extension Distribution";
 			};
 			name = Debug;
 		};
 		C9E7E490231E99E9007D96DC /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 9KBH5RKYEW;
 				INFOPLIST_FILE = "SasquatchSwift-Extension/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.ios.sasquatch.swift.extension;
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = "Sasquatch ios swift extension Distribution";
 			};
 			name = Release;
 		};
@@ -3677,24 +3679,24 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C237A695232BACB50081153F /* Sasquatch Extension.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 9KBH5RKYEW;
 				INFOPLIST_FILE = "SasquatchSwift-Extension/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.ios.sasquatch.swift.extension;
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = "Sasquatch ios swift extension Distribution";
 			};
 			name = Debug;
 		};
 		C9E7E4F2231E9A5E007D96DC /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 9KBH5RKYEW;
 				INFOPLIST_FILE = "SasquatchSwift-Extension/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.ios.sasquatch.swift.extension;
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = "Sasquatch ios swift extension Distribution";
 			};
 			name = Release;
 		};
@@ -3707,8 +3709,8 @@
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 9KBH5RKYEW;
 				INFOPLIST_FILE = "SasquatchWatchObjC Extension/Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.ios.sasquatch.objc.watch.extension;
-				PROVISIONING_PROFILE_SPECIFIER = "Sasquatch Objc Watch Extension Dogfood Dist";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.ios.sasquatch.objc.watchkit.extension;
+				PROVISIONING_PROFILE_SPECIFIER = "sasquatch ios objc watchkit extension Dist";
 			};
 			name = Debug;
 		};
@@ -3721,8 +3723,8 @@
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 9KBH5RKYEW;
 				INFOPLIST_FILE = "SasquatchWatchObjC Extension/Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.ios.sasquatch.objc.watch.extension;
-				PROVISIONING_PROFILE_SPECIFIER = "Sasquatch Objc Watch Extension Dogfood Dist";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.ios.sasquatch.objc.watchkit.extension;
+				PROVISIONING_PROFILE_SPECIFIER = "sasquatch ios objc watchkit extension Dist";
 			};
 			name = Release;
 		};
@@ -3735,8 +3737,8 @@
 				DEVELOPMENT_TEAM = 9KBH5RKYEW;
 				IBSC_MODULE = SasquatchWatchObjC_Extension;
 				INFOPLIST_FILE = SasquatchWatchObjC/Info.plist;
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.ios.sasquatch.objc;
-				PROVISIONING_PROFILE_SPECIFIER = "Sasquatch Objc Dogfood Distribution";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.ios.sasquatch.objc.watchkit;
+				PROVISIONING_PROFILE_SPECIFIER = "sasquatch objc watchkit extension dogfood Dist";
 			};
 			name = Debug;
 		};
@@ -3749,8 +3751,8 @@
 				DEVELOPMENT_TEAM = 9KBH5RKYEW;
 				IBSC_MODULE = SasquatchWatchObjC_Extension;
 				INFOPLIST_FILE = SasquatchWatchObjC/Info.plist;
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.ios.sasquatch.objc;
-				PROVISIONING_PROFILE_SPECIFIER = "Sasquatch Objc Dogfood Distribution";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.ios.sasquatch.objc.watchkit;
+				PROVISIONING_PROFILE_SPECIFIER = "sasquatch objc watchkit extension dogfood Dist";
 			};
 			name = Release;
 		};
@@ -3763,8 +3765,8 @@
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 9KBH5RKYEW;
 				INFOPLIST_FILE = "SasquatchWatchSwift Extension/Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.ios.sasquatch.swift.watch.extension;
-				PROVISIONING_PROFILE_SPECIFIER = "Sasquatch Swift Watch Extension Dogfood Dist";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.ios.sasquatch.swift.watchkit.extension;
+				PROVISIONING_PROFILE_SPECIFIER = "sasquatch ios swift watchkit extension Dist";
 			};
 			name = Debug;
 		};
@@ -3777,8 +3779,8 @@
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 9KBH5RKYEW;
 				INFOPLIST_FILE = "SasquatchWatchSwift Extension/Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.ios.sasquatch.swift.watch.extension;
-				PROVISIONING_PROFILE_SPECIFIER = "Sasquatch Swift Watch Extension Dogfood Dist";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.ios.sasquatch.swift.watchkit.extension;
+				PROVISIONING_PROFILE_SPECIFIER = "sasquatch ios swift watchkit extension Dist";
 			};
 			name = Release;
 		};
@@ -3791,8 +3793,8 @@
 				DEVELOPMENT_TEAM = 9KBH5RKYEW;
 				IBSC_MODULE = SasquatchWatchSwift_Extension;
 				INFOPLIST_FILE = SasquatchWatchSwift/Info.plist;
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.ios.sasquatch.swift;
-				PROVISIONING_PROFILE_SPECIFIER = "Sasquatch Swift Dogfood Distribution";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.ios.sasquatch.swift.watchkit;
+				PROVISIONING_PROFILE_SPECIFIER = "sasquatch swift watchkit extension dogfood Dist";
 			};
 			name = Debug;
 		};
@@ -3805,8 +3807,8 @@
 				DEVELOPMENT_TEAM = 9KBH5RKYEW;
 				IBSC_MODULE = SasquatchWatchSwift_Extension;
 				INFOPLIST_FILE = SasquatchWatchSwift/Info.plist;
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.ios.sasquatch.swift;
-				PROVISIONING_PROFILE_SPECIFIER = "Sasquatch Swift Dogfood Distribution";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.ios.sasquatch.swift.watchkit;
+				PROVISIONING_PROFILE_SPECIFIER = "sasquatch swift watchkit extension dogfood Dist";
 			};
 			name = Release;
 		};
