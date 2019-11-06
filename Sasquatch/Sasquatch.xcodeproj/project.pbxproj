@@ -3527,7 +3527,7 @@
 				DEVELOPMENT_TEAM = 9KBH5RKYEW;
 				INFOPLIST_FILE = SasquatchSwift/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.ios.sasquatch.swift;
-				PROVISIONING_PROFILE_SPECIFIER = "Sasquatch Swift Dogfood Distribution";
+				PROVISIONING_PROFILE_SPECIFIER = "sasquatch ios swift dogfood Distribution";
 			};
 			name = Debug;
 		};
@@ -3540,7 +3540,7 @@
 				DEVELOPMENT_TEAM = 9KBH5RKYEW;
 				INFOPLIST_FILE = SasquatchSwift/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.ios.sasquatch.swift;
-				PROVISIONING_PROFILE_SPECIFIER = "Sasquatch Swift Dogfood Distribution";
+				PROVISIONING_PROFILE_SPECIFIER = "sasquatch ios swift dogfood Distribution";
 			};
 			name = Release;
 		};
