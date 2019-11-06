@@ -3610,7 +3610,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/SasquatchSwift/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.ios.sasquatch.swift;
 				PROVISIONING_PROFILE = "13aa81a6-41a9-436b-bf26-b9910cfbee17";
-				PROVISIONING_PROFILE_SPECIFIER = "Sasquatch Swift Dogfood Distribution";
+				PROVISIONING_PROFILE_SPECIFIER = "sasquatch ios swift dogfood Distribution";
 			};
 			name = Debug;
 		};
@@ -3624,7 +3624,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/SasquatchSwift/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.ios.sasquatch.swift;
 				PROVISIONING_PROFILE = "a4aa0a1a-5369-411d-9c93-1493db2dc33e";
-				PROVISIONING_PROFILE_SPECIFIER = "Sasquatch Swift Dogfood Distribution";
+				PROVISIONING_PROFILE_SPECIFIER = "sasquatch ios swift dogfood Distribution";
 			};
 			name = Release;
 		};
