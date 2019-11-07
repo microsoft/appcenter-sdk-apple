@@ -713,7 +713,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
       return;
     }
 
-    // Only process and release only once.
+    // Only process and release once.
     static dispatch_once_t delayedProcessingSemaphoreToken;
     dispatch_once(&delayedProcessingSemaphoreToken, ^{
       [self startCrashProcessing];
