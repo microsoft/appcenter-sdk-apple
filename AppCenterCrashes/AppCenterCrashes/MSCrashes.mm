@@ -73,6 +73,11 @@ std::array<MSCrashesBufferedLog, ms_crashes_log_buffer_size> msCrashesLogBuffer;
 static MSCrashes *sharedInstance = nil;
 static dispatch_once_t onceToken;
 
+/**
+ * Delayed processing token.
+ */
+static dispatch_once_t delayedProcessingToken;
+
 #pragma mark - Callbacks Setup
 
 static MSCrashesCallbacks msCrashesCallbacks = {.context = nullptr, .handleSignal = nullptr};
@@ -714,8 +719,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     }
 
     // Only process and release once.
-    static dispatch_once_t delayedProcessingSemaphoreToken;
-    dispatch_once(&delayedProcessingSemaphoreToken, ^{
+    dispatch_once(&delayedProcessingToken, ^{
       [self startCrashProcessing];
       dispatch_semaphore_signal(self.delayedProcessingSemaphore);
     });
@@ -1262,9 +1266,12 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
 + (void)resetSharedInstance {
 
-  // resets the once_token so dispatch_once will run again.
+  // Reset the onceToken so dispatch_once will run again.
   onceToken = 0;
   sharedInstance = nil;
+
+  // Reset delayed processing token.
+  delayedProcessingToken = 0;
 }
 
 #pragma mark - Handled exceptions
