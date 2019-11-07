@@ -463,7 +463,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 #pragma mark - Application life cycle
 
 - (void)applicationWillEnterForeground {
-  if (self.canBeUsed && self.isEnabled && self.crashFiles.count > 0) {
+  if (self.crashFiles.count > 0) {
     [self startDelayedCrashProcessing];
   }
 }
@@ -718,7 +718,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
       return;
     }
 
-    // Only process and release once.
+    // Process and release only once.
     dispatch_once(&delayedProcessingToken, ^{
       [self startCrashProcessing];
       dispatch_semaphore_signal(self.delayedProcessingSemaphore);
@@ -1329,4 +1329,5 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
                                          device:[[MSDeviceTracker sharedInstance] device]
                            appProcessIdentifier:0];
 }
+
 @end
