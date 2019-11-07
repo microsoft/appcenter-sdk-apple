@@ -702,11 +702,11 @@
 				ORGANIZATIONNAME = Microsoft;
 				TargetAttributes = {
 					B2A4CFB8210A716E00199B4F = {
-						DevelopmentTeam = KYJ84ZC369;
+						DevelopmentTeam = UBF8T346G9;
 						ProvisioningStyle = Manual;
 					};
 					B2A4CFD6210A77D400199B4F = {
-						DevelopmentTeam = KYJ84ZC369;
+						DevelopmentTeam = UBF8T346G9;
 						ProvisioningStyle = Manual;
 					};
 					D3C31C211E8E75B300B288CE = {
@@ -1151,10 +1151,11 @@
 				CODE_SIGN_ENTITLEMENTS = SasquatchMacObjC/SasquatchMacObjC.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = UBF8T346G9;
 				INFOPLIST_FILE = "$(SRCROOT)/SasquatchMacObjC/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.macos.sasquatch.objc;
 				PROVISIONING_PROFILE = "2f6d3f51-e725-48b2-b6f3-7cec2f851278";
-				PROVISIONING_PROFILE_SPECIFIER = "AppCenter SDK SasquatchObjC Mac Debug";
+				PROVISIONING_PROFILE_SPECIFIER = "Sasquatch Obj macos Development";
 			};
 			name = Debug;
 		};
@@ -1162,12 +1163,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = SasquatchMacObjC/SasquatchMacObjC.entitlements;
-				CODE_SIGN_IDENTITY = "Developer ID Application";
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = UBF8T346G9;
 				INFOPLIST_FILE = "$(SRCROOT)/SasquatchMacObjC/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.macos.sasquatch.objc;
 				PROVISIONING_PROFILE = "ee3817cc-af76-477c-b3f5-4b7c622f4f7d";
-				PROVISIONING_PROFILE_SPECIFIER = "AppCenter SDK SasquatchObj Mac Release In-house";
+				PROVISIONING_PROFILE_SPECIFIER = "Sasquatch Obj macos Development";
 			};
 			name = Release;
 		};
@@ -1177,11 +1179,11 @@
 				CODE_SIGN_ENTITLEMENTS = SasquatchMacSwift/SasquatchMacSwift.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = KYJ84ZC369;
+				DEVELOPMENT_TEAM = UBF8T346G9;
 				INFOPLIST_FILE = "$(SRCROOT)/SasquatchMacSwift/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.macos.sasquatch.swift;
 				PROVISIONING_PROFILE = "cb0c0f7a-d8d1-4b90-9aac-98b0acad5847";
-				PROVISIONING_PROFILE_SPECIFIER = "AppCenter SDK SasquatchSwift Mac Debug";
+				PROVISIONING_PROFILE_SPECIFIER = "Sasquatch Swift Dogfood Development";
 			};
 			name = Debug;
 		};
@@ -1189,12 +1191,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = SasquatchMacSwift/SasquatchMacSwift.entitlements;
-				CODE_SIGN_IDENTITY = "Developer ID Application";
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = UBF8T346G9;
 				INFOPLIST_FILE = "$(SRCROOT)/SasquatchMacSwift/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.macos.sasquatch.swift;
 				PROVISIONING_PROFILE = "18941b56-5e23-45ca-86df-da36fdbcc922";
-				PROVISIONING_PROFILE_SPECIFIER = "AppCenter SDK SasquatchSwift Mac Release In-house";
+				PROVISIONING_PROFILE_SPECIFIER = "Sasquatch Swift Dogfood Development";
 			};
 			name = Release;
 		};
