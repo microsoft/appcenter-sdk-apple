@@ -7,6 +7,8 @@
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitDefault.h"
 #import "MSCrashHandlerSetupDelegate.h"
+#import "MSCrashReporter.h"
+#import "MSCrashesBufferedLog.hpp"
 #import "MSCrashesInternal.h"
 #import "MSCrashesPrivate.h"
 #import "MSCrashesTestUtil.h"
