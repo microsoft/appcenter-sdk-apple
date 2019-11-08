@@ -153,23 +153,23 @@ static IMP sendEventOriginalImp;
  */
 - (void)ms_reportException:(NSException *)exception {
 
-  // Forward to the original implementation.
-  ((void (*)(id, SEL, NSException *))reportExceptionOriginalImp)(self, _cmd, exception);
-
   // Don't invoke the registered UncaughtExceptionHandler if we are currently debugging this app!
   if (![MSAppCenter isDebuggerAttached] && exception) {
-    // We forward this exception to PLCrashReporters UncaughtExceptionHandler
-    // If the developer has implemented their own exception handler and that one is
-    // invoked before PLCrashReporters exception handler and the developers
-    // exception handler is invoking this method it will not finish it's tasks after this
-    // call but directly jump into PLCrashReporters exception handler.
-    // If we wouldn't do this, this call would lead to an infinite loop.
 
+    /*
+     * We forward this exception to PLCrashReporters UncaughtExceptionHandler.
+     * If the developer has implemented their own exception handler and that one is invoked before PLCrashReporters exception handler and
+     * the developers exception handler is invoking this method it will not finish it's tasks after this call but directly jump into
+     * PLCrashReporters exception handler. If we wouldn't do this, this call would lead to an infinite loop.
+     */
     NSUncaughtExceptionHandler *plcrExceptionHandler = [MSCrashes sharedInstance].exceptionHandler;
     if (plcrExceptionHandler) {
       plcrExceptionHandler(exception);
     }
   }
+
+  // Forward to the original implementation.
+  ((void (*)(id, SEL, NSException *))reportExceptionOriginalImp)(self, _cmd, exception);
 }
 
 /*
