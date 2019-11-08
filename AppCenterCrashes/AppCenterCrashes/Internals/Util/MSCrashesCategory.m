@@ -199,8 +199,8 @@ static IMP sendEventOriginalImp;
 
 + (void)activateCategory {
 #if TARGET_OS_OSX
-  BOOL crashOnExceptions = [[MS_USER_DEFAULTS objectForKey:kMSCrashOnExceptionsKey] boolValue];
-  if (crashOnExceptions) {
+  NSNumber *crashOnExceptions = [MS_USER_DEFAULTS objectForKey:kMSCrashOnExceptionsKey];
+  if ([crashOnExceptions boolValue]) {
     [NSApplication swizzleReportException];
     [NSApplication swizzleSendEvent];
   }
