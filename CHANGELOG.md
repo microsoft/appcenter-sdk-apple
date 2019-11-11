@@ -2,6 +2,10 @@
 
 ## Version 2.5.2 (Under development)
 
+### App Center Crashes
+
+* **[Improvement]**  Report additional details for macOS exceptions thrown on the main thread.
+
 ___
 
 ## Version 2.5.1
