@@ -1,6 +1,10 @@
 # App Center SDK for iOS, macOS and tvOS Change Log
 
-## Version 2.5.1 (Under development)
+## Version 2.5.2 (Under development)
+
+___
+
+## Version 2.5.1
 
 ### App Center
 
