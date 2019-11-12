@@ -2,7 +2,7 @@
 
 ## Version 2.5.2 (Under development)
 
-* **[Fix]** Fix warnings in when make authTokenHistory operations.
+* **[Fix]** Remove confusing warnings about "Failed to retrieve history state or none was found" when it doesn't make sense.
 
 ___
 
