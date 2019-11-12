@@ -137,13 +137,34 @@ static dispatch_queue_t alertsQueue;
       [alertsToBePresented removeObjectAtIndex:0];
     });
     dispatch_async(dispatch_get_main_queue(), ^{
-      [window makeKeyAndVisible];
+      [MSAlertController makeKeyAndVisible];
       [window.rootViewController presentViewController:nextAlert animated:animated completion:nil];
     });
   } else {
     window.hidden = YES;
     alertIsBeingPresented = NO;
   }
+}
+
+#define DISPATCH_SELECTOR(class, selectorName, ...) ({ \
+  SEL selector = NSSelectorFromString(@#selectorName); \
+  IMP impl = [class methodForSelector:selector]; \
+  ((id (*)(id, SEL, ...)) impl)(class, selector, ##__VA_ARGS__); \
+})
+
++ (void)makeKeyAndVisible {
+  if (@available(iOS 13.0, *)) {
+    UIApplication *application = (UIApplication *)DISPATCH_SELECTOR([UIApplication class], sharedApplication);
+    NSSet *scenes = (NSSet *)DISPATCH_SELECTOR(application, connectedScenes);
+    for (NSObject *scene in scenes) {
+      NSInteger activationState = (NSInteger)DISPATCH_SELECTOR(scene, activationState);
+      if (activationState == 0 /* UISceneActivationStateForegroundActive */) {
+        DISPATCH_SELECTOR(window, setWindowScene:, scene);
+        break;
+      }
+    }
+  }
+  [window makeKeyAndVisible];
 }
 
 @end
