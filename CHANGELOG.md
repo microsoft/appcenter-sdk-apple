@@ -2,6 +2,10 @@
 
 ## Version 2.5.2 (Under development)
 
+### App Center Distribute
+
+* **[Fix]** Fix missing alert dialogs on iOS 13 when project uses new scenes API.
+
 ___
 
 ## Version 2.5.1
