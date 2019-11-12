@@ -207,7 +207,7 @@ static NSUInteger const kMSAccountIdLengthInHomeAccount = 36;
   if (history) {
     MSLogDebug([MSAppCenter logTag], @"Retrieved history state.");
   } else {
-    MSLogWarning([MSAppCenter logTag], @"Failed to retrieve history state or none was found.");
+    MSLogInfo([MSAppCenter logTag], @"Failed to retrieve history state or none was found.");
     history = [NSArray<MSAuthTokenInfo *> new];
   }
   self.authTokenHistoryArray = history;
@@ -222,7 +222,7 @@ static NSUInteger const kMSAccountIdLengthInHomeAccount = 36;
     [MS_USER_DEFAULTS setObject:encryptedData forKey:kMSAuthTokenHistoryKey];
     MSLogDebug([MSAppCenter logTag], @"Saved new history state.");
   } else {
-    MSLogWarning([MSAppCenter logTag], @"Failed to save new history state.");
+    MSLogInfo([MSAppCenter logTag], @"Failed to save new history state.");
   }
 }
 
