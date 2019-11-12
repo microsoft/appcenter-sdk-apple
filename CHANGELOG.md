@@ -2,6 +2,8 @@
 
 ## Version 2.5.2 (Under development)
 
+* **[Fix]** Fix warnings in when make authTokenHistory operations.
+
 ___
 
 ## Version 2.5.1
