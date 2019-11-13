@@ -4,7 +4,7 @@
 
 ### App Center Crashes
 
-* **[Fix]** Fix sending crashes if app is launched in background.
+* **[Fix]** Fix sending crashes if an application is launched in background.
 
 ___
 
