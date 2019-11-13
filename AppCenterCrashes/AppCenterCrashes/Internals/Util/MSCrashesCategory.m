@@ -20,7 +20,7 @@ static IMP sendEventOriginalImp;
 /*
  * `NSApplication` subclass to catch additional exceptions
  *
- * On OS X runtime not all uncaught exceptions do end in an custom `NSUncaughtExceptionHandler`.
+ * On OS X runtime, not all uncaught exceptions end in a custom `NSUncaughtExceptionHandler`.
  * In addition "sometimes" exceptions don't even cause the app to crash, depending on where and
  * when they happen.
  *
@@ -80,16 +80,16 @@ static IMP sendEventOriginalImp;
  *     1. To catch all exceptions the `NSExceptionHandlers` mask has to include `NSLogOtherExceptionMask` and
  *        `NSHandleOtherExceptionMask`. But this will result in @catch blocks to be called after the exception
  *        handler processed the exception and likely lets the app crash and create a crash report.
- *        This makes the @catch block basically not working at all.
+ *        This makes the @catch block basically not work at all.
  *
  *     2. If anywhere in the app a custom `NSUncaughtExceptionHandler` will be registered, e.g. in a closed source
- *        library the develop has to use, the complete mechanism will stop working
+ *        library the developer has to use, the complete mechanism will stop working
  *
  *     3. Not clear if this solves all scenarios there can be.
  *
  *     4. Requires to adjust PLCrashReporter not to register its `NSUncaughtExceptionHandler` which is not a good idea,
  *        since it would require the `NSExceptionHandler` would catch *all* exceptions and that would cause
- *        PLCrashReporter to stop all running threads every time an exception occurs even if will be handled right
+ *        PLCrashReporter to stop all running threads every time an exception occurs even if it will be handled right
  *        away, e.g. by a system framework.
  *
  *
@@ -102,7 +102,7 @@ static IMP sendEventOriginalImp;
  *
  *     1. Solves scenarios 2 (by overwriting `reportException:`) and 3 (by overwriting `sendEvent:`)
  *
- *     2. Subclassing approach isn't enforcing the mechanism onto apps and let developers opt-in.
+ *     2. Subclassing approach isn't enforcing the mechanism onto apps and lets developers opt-in.
  *        (Category approach would enforce it and rather be a problem of this soltuion.)
  *
  *     3. Safe. Doesn't use private API.
@@ -159,7 +159,7 @@ static IMP sendEventOriginalImp;
     /*
      * We forward this exception to PLCrashReporters UncaughtExceptionHandler.
      * If the developer has implemented their own exception handler and that one is invoked before PLCrashReporters exception handler and
-     * the developers exception handler is invoking this method it will not finish it's tasks after this call but directly jump into
+     * the developers exception handler is invoking this method it will not finish its tasks after this call but directly jump into
      * PLCrashReporters exception handler. If we wouldn't do this, this call would lead to an infinite loop.
      */
     NSUncaughtExceptionHandler *plcrExceptionHandler = [MSCrashes sharedInstance].exceptionHandler;
