@@ -578,10 +578,6 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 #pragma clang diagnostic ignored "-Wobjc-messaging-id"
     id session = [sessionClazz alloc];
 
-    // Create selector for [instanceOfSFAuthenticationSession initWithURL:
-    // callbackURLScheme: completionHandler:].
-    SEL initSelector = NSSelectorFromString(@"initWithURL:callbackURLScheme:completionHandler:");
-
     // The completion block that we need to invoke.
     __weak typeof(self) weakSelf = self;
     typedef void (^MSCompletionBlockForAuthSession)(NSURL *callbackUrl, NSError *error);
@@ -591,12 +587,10 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
         return;
       }
       strongSelf.authenticationSession = nil;
-      if (error != nil) {
+      if (error) {
         MSLogDebug([MSDistribute logTag], @"Called %@ with error: %@", callbackUrl, error.localizedDescription);
       }
-
-      // This is error.code == SFAuthenticationErrorCanceledLogin which we can't use to retain backward compatibility.
-      if (error.code == 1) {
+      if (error.code == 1 /* SFAuthenticationErrorCanceledLogin */) {
         MSLogError([MSDistribute logTag], @"Authentication session was cancelled by user or failed.");
       }
       if (callbackUrl) {
@@ -605,24 +599,19 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     };
 
     // Initialize the SFAuthenticationSession.
-    typedef void (*MSInitSFAuthenticationSession)(id, SEL, NSURL *, NSString *, MSCompletionBlockForAuthSession);
-    MSInitSFAuthenticationSession initMethodCall;
-    initMethodCall = (MSInitSFAuthenticationSession)[session methodForSelector:initSelector];
-    initMethodCall(session, initSelector, url, callbackUrlScheme, authCompletionBlock);
+    MS_DISPATCH_SELECTOR(session, initWithURL:callbackURLScheme:completionHandler:, url, callbackUrlScheme, authCompletionBlock);
 
     // Retain the session.
     self.authenticationSession = session;
 
-    // Create selector for [instanceOfSFAuthenticationSession start].
-    SEL startSelector = NSSelectorFromString(@"start");
-
     // Call [SFAuthenticationSession start] dynamically.
-    typedef BOOL (*MSStartSFAuthenticationSession)(id, SEL);
-    MSStartSFAuthenticationSession startMethodCall;
-    startMethodCall = (MSStartSFAuthenticationSession)[session methodForSelector:startSelector];
-    BOOL success = startMethodCall(session, startSelector);
-    if (success) {
-      MSLogDebug([MSDistribute logTag], @"Authentication Session Started, showing confirmation dialog");
+    @try {
+      BOOL success = (BOOL)MS_DISPATCH_SELECTOR(session, start);
+      if (success) {
+        MSLogDebug([MSDistribute logTag], @"Authentication session started, showing confirmation dialog.");
+      }
+    } @catch (NSException *exception) {
+      MSLogError([MSDistribute logTag], @"Failed to start authentication session: %@", exception);
     }
 #pragma clang diagnostic pop
   }
