@@ -123,27 +123,7 @@ static IMP sendEventOriginalImp;
  *   http://macdevcenter.com/pub/a/mac/2007/07/31/understanding-exceptions-and-handlers-in-cocoa.html
  *
  */
-@implementation NSApplication (CrashException)
-
-+ (void)swizzleReportException {
-  static dispatch_once_t onceToken;
-  dispatch_once(&onceToken, ^{
-    Class class = [self class];
-    Method originalMethod = class_getInstanceMethod(class, @selector(reportException:));
-    IMP swizzledImp = class_getMethodImplementation(class, @selector(ms_reportException:));
-    reportExceptionOriginalImp = method_setImplementation(originalMethod, swizzledImp);
-  });
-}
-
-+ (void)swizzleSendEvent {
-  static dispatch_once_t onceToken;
-  dispatch_once(&onceToken, ^{
-    Class class = [self class];
-    Method originalMethod = class_getInstanceMethod(class, @selector(reportException:));
-    IMP swizzledImp = class_getMethodImplementation(class, @selector(ms_reportException:));
-    sendEventOriginalImp = method_setImplementation(originalMethod, swizzledImp);
-  });
-}
+@implementation NSApplication (MSAppCenterCrashException)
 
 /*
  * Solution for Scenario 2
@@ -201,10 +181,34 @@ static IMP sendEventOriginalImp;
 #if TARGET_OS_OSX
   NSNumber *crashOnExceptions = [MS_USER_DEFAULTS objectForKey:kMSCrashOnExceptionsKey];
   if ([crashOnExceptions boolValue]) {
-    [NSApplication swizzleReportException];
-    [NSApplication swizzleSendEvent];
+    [MSCrashesCategory swizzleReportException];
+    [MSCrashesCategory swizzleSendEvent];
   }
 #endif
 }
+
+#if TARGET_OS_OSX
+
++ (void)swizzleReportException {
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
+    Class class = [NSApplication class];
+    Method originalMethod = class_getInstanceMethod(class, @selector(reportException:));
+    IMP swizzledImp = class_getMethodImplementation(class, @selector(ms_reportException:));
+    reportExceptionOriginalImp = method_setImplementation(originalMethod, swizzledImp);
+  });
+}
+
++ (void)swizzleSendEvent {
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
+    Class class = [NSApplication class];
+    Method originalMethod = class_getInstanceMethod(class, @selector(reportException:));
+    IMP swizzledImp = class_getMethodImplementation(class, @selector(ms_reportException:));
+    sendEventOriginalImp = method_setImplementation(originalMethod, swizzledImp);
+  });
+}
+
+#endif
 
 @end
