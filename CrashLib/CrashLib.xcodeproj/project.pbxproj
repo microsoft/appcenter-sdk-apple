@@ -161,6 +161,12 @@
 		B24187EC1DD2A7F900D820D8 /* MSFramelessDWARF_x86_64.s in Sources */ = {isa = PBXBuildFile; fileRef = B24187B91DD2A7F900D820D8 /* MSFramelessDWARF_x86_64.s */; };
 		B24187ED1DD2A7F900D820D8 /* MSCrashFramelessDWARF.h in Headers */ = {isa = PBXBuildFile; fileRef = B24187BA1DD2A7F900D820D8 /* MSCrashFramelessDWARF.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B24187EE1DD2A7F900D820D8 /* MSCrashFramelessDWARF.m in Sources */ = {isa = PBXBuildFile; fileRef = B24187BB1DD2A7F900D820D8 /* MSCrashFramelessDWARF.m */; };
+		C2B5D504237D8AD1005DB5A6 /* MSCrashDeadlockItself.h in Headers */ = {isa = PBXBuildFile; fileRef = C2B5D502237D8AD1005DB5A6 /* MSCrashDeadlockItself.h */; };
+		C2B5D505237D8AD1005DB5A6 /* MSCrashDeadlockItself.h in Headers */ = {isa = PBXBuildFile; fileRef = C2B5D502237D8AD1005DB5A6 /* MSCrashDeadlockItself.h */; };
+		C2B5D506237D8AD1005DB5A6 /* MSCrashDeadlockItself.h in Headers */ = {isa = PBXBuildFile; fileRef = C2B5D502237D8AD1005DB5A6 /* MSCrashDeadlockItself.h */; };
+		C2B5D507237D8AD1005DB5A6 /* MSCrashDeadlockItself.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B5D503237D8AD1005DB5A6 /* MSCrashDeadlockItself.m */; };
+		C2B5D508237D8AD1005DB5A6 /* MSCrashDeadlockItself.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B5D503237D8AD1005DB5A6 /* MSCrashDeadlockItself.m */; };
+		C2B5D509237D8AD1005DB5A6 /* MSCrashDeadlockItself.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B5D503237D8AD1005DB5A6 /* MSCrashDeadlockItself.m */; };
 		C942E7BE22F0655500F91A4B /* MSCrashOutOfMemory.mm in Sources */ = {isa = PBXBuildFile; fileRef = C942E7BD22F0655500F91A4B /* MSCrashOutOfMemory.mm */; };
 		C942E7C022F0657500F91A4B /* MSCrashOutOfMemory.h in Headers */ = {isa = PBXBuildFile; fileRef = C942E7BF22F0657500F91A4B /* MSCrashOutOfMemory.h */; };
 /* End PBXBuildFile section */
@@ -226,6 +232,8 @@
 		C2B2102321B6A9FF00F116BD /* iOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = iOS.xcconfig; path = ../../Config/iOS.xcconfig; sourceTree = "<group>"; };
 		C2B2102421B6A9FF00F116BD /* macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = macOS.xcconfig; path = ../../Config/macOS.xcconfig; sourceTree = "<group>"; };
 		C2B2102721B6A9FF00F116BD /* tvOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = tvOS.xcconfig; path = ../../Config/tvOS.xcconfig; sourceTree = "<group>"; };
+		C2B5D502237D8AD1005DB5A6 /* MSCrashDeadlockItself.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSCrashDeadlockItself.h; sourceTree = "<group>"; };
+		C2B5D503237D8AD1005DB5A6 /* MSCrashDeadlockItself.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSCrashDeadlockItself.m; sourceTree = "<group>"; };
 		C942E7BD22F0655500F91A4B /* MSCrashOutOfMemory.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = MSCrashOutOfMemory.mm; sourceTree = "<group>"; };
 		C942E7BF22F0657500F91A4B /* MSCrashOutOfMemory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSCrashOutOfMemory.h; sourceTree = "<group>"; };
 		DF1F8F7D2269D7AB002B0B9B /* CrashLib Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "CrashLib Debug.xcconfig"; sourceTree = "<group>"; };
@@ -294,6 +302,8 @@
 				B24187991DD2A7F900D820D8 /* MSCrashCorruptObjC.m */,
 				B24187B01DD2A7F900D820D8 /* MSCrashCXXException.h */,
 				B24187AF1DD2A7F900D820D8 /* MSCrashCXXException.mm */,
+				C2B5D502237D8AD1005DB5A6 /* MSCrashDeadlockItself.h */,
+				C2B5D503237D8AD1005DB5A6 /* MSCrashDeadlockItself.m */,
 				B24187BA1DD2A7F900D820D8 /* MSCrashFramelessDWARF.h */,
 				B24187BB1DD2A7F900D820D8 /* MSCrashFramelessDWARF.m */,
 				B241878E1DD2A7F900D820D8 /* MSCrashGarbage.h */,
@@ -377,6 +387,7 @@
 				8065B5931F4C4024004FF622 /* MSCrashGarbage.h in Headers */,
 				8065B5831F4C4024004FF622 /* MSCrashAbort.h in Headers */,
 				8065B59F1F4C4024004FF622 /* MSCrashReleasedObject.h in Headers */,
+				C2B5D506237D8AD1005DB5A6 /* MSCrashDeadlockItself.h in Headers */,
 				8065B5951F4C4024004FF622 /* MSCrashNXPage.h in Headers */,
 				8065B5A71F4C4024004FF622 /* MSCrashStackGuard.h in Headers */,
 				8065B5801F4C4024004FF622 /* CrashLib.h in Headers */,
@@ -408,6 +419,7 @@
 				80F9913B1F0265C60040FAD7 /* MSCrashGarbage.h in Headers */,
 				80F9912B1F0265C60040FAD7 /* MSCrashAbort.h in Headers */,
 				80F991471F0265C60040FAD7 /* MSCrashReleasedObject.h in Headers */,
+				C2B5D505237D8AD1005DB5A6 /* MSCrashDeadlockItself.h in Headers */,
 				80F9913D1F0265C60040FAD7 /* MSCrashNXPage.h in Headers */,
 				80F9915B1F02671A0040FAD7 /* CrashLib.h in Headers */,
 				80F9914F1F0265C60040FAD7 /* MSCrashStackGuard.h in Headers */,
@@ -426,6 +438,7 @@
 				B24187BD1DD2A7F900D820D8 /* MSCrashReleasedObject.h in Headers */,
 				B24187C81DD2A7F900D820D8 /* MSCrashPrivInst.h in Headers */,
 				B24187BC1DD2A7F900D820D8 /* MSCrash.h in Headers */,
+				C2B5D504237D8AD1005DB5A6 /* MSCrashDeadlockItself.h in Headers */,
 				B24187E41DD2A7F900D820D8 /* MSCrashSmashStackTop.h in Headers */,
 				B24187BF1DD2A7F900D820D8 /* MSCrashNULL.h in Headers */,
 				B24187DA1DD2A7F900D820D8 /* MSCrashObjCException.h in Headers */,
@@ -658,6 +671,7 @@
 				8065B5AB1F4C4024004FF622 /* MSCrashTrap.m in Sources */,
 				8065B58E1F4C4024004FF622 /* MSCrashNULL.m in Sources */,
 				8065B5A61F4C4024004FF622 /* MSCrashSmashStackTop.m in Sources */,
+				C2B5D509237D8AD1005DB5A6 /* MSCrashDeadlockItself.m in Sources */,
 				8065B5981F4C4024004FF622 /* MSCrashObjCException.m in Sources */,
 				8065B5AE1F4C4024004FF622 /* MSFramelessDWARF_i386.s in Sources */,
 				8065B5901F4C4024004FF622 /* MSCrashNSLog.m in Sources */,
@@ -692,6 +706,7 @@
 				80F991531F0265C60040FAD7 /* MSCrashTrap.m in Sources */,
 				80F991361F0265C60040FAD7 /* MSCrashNULL.m in Sources */,
 				80F9914E1F0265C60040FAD7 /* MSCrashSmashStackTop.m in Sources */,
+				C2B5D508237D8AD1005DB5A6 /* MSCrashDeadlockItself.m in Sources */,
 				80F991401F0265C60040FAD7 /* MSCrashObjCException.m in Sources */,
 				80F991561F0265C60040FAD7 /* MSFramelessDWARF_i386.s in Sources */,
 				80F991381F0265C60040FAD7 /* MSCrashNSLog.m in Sources */,
@@ -734,6 +749,7 @@
 				B24187CB1DD2A7F900D820D8 /* MSCrashTrap.m in Sources */,
 				B24187C71DD2A7F900D820D8 /* MSCrashSmashStackBottom.m in Sources */,
 				B24187D11DD2A7F900D820D8 /* MSCrashObjCMsgSend.m in Sources */,
+				C2B5D507237D8AD1005DB5A6 /* MSCrashDeadlockItself.m in Sources */,
 				B24187EE1DD2A7F900D820D8 /* MSCrashFramelessDWARF.m in Sources */,
 				B24187E01DD2A7F900D820D8 /* MSCrashGarbage.m in Sources */,
 				B24187EA1DD2A7F900D820D8 /* MSCrashUndefInst.m in Sources */,
