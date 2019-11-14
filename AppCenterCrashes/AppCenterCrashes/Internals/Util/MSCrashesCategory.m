@@ -69,7 +69,7 @@ static IMP sendEventOriginalImp;
  *
  *   Benefits:
  *
- *     1. Solves all of the above scenarios
+ *     1. Solves all of the above scenarios.
  *
  *     2. Clean solution using a standard Cocoa System specifically meant for this purpose.
  *
@@ -83,7 +83,7 @@ static IMP sendEventOriginalImp;
  *        This makes the @catch block basically not work at all.
  *
  *     2. If anywhere in the app a custom `NSUncaughtExceptionHandler` will be registered, e.g. in a closed source
- *        library the developer has to use, the complete mechanism will stop working
+ *        library the developer has to use, the complete mechanism will stop working.
  *
  *     3. Not clear if this solves all scenarios there can be.
  *
@@ -100,16 +100,16 @@ static IMP sendEventOriginalImp;
  *
  *   Benefits:
  *
- *     1. Solves scenarios 2 (by overwriting `reportException:`) and 3 (by overwriting `sendEvent:`)
+ *     1. Solves scenarios 2 (by overwriting `reportException:`) and 3 (by overwriting `sendEvent:`).
  *
  *     2. Subclassing approach isn't enforcing the mechanism onto apps and lets developers opt-in.
- *        (Category approach would enforce it and rather be a problem of this soltuion.)
+ *        (Category approach would enforce it and rather be a problem of this solution.)
  *
  *     3. Safe. Doesn't use private API.
  *
  *  Problems:
  *
- *     1. Does not automatically solve scenario 1. Developer would have to put all that code into @try @catch blocks
+ *     1. Does not automatically solve scenario 1. Developer would have to put all that code into @try @catch blocks.
  *
  *     2. Not a clean implementation, rather feels like a workaround.
  *
