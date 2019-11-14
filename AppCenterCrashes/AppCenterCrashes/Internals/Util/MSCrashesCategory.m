@@ -203,8 +203,8 @@ static IMP sendEventOriginalImp;
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
     Class class = [NSApplication class];
-    Method originalMethod = class_getInstanceMethod(class, @selector(reportException:));
-    IMP swizzledImp = class_getMethodImplementation(class, @selector(ms_reportException:));
+    Method originalMethod = class_getInstanceMethod(class, @selector(sendEvent:));
+    IMP swizzledImp = class_getMethodImplementation(class, @selector(ms_sendEvent:));
     sendEventOriginalImp = method_setImplementation(originalMethod, swizzledImp);
   });
 }
