@@ -207,7 +207,14 @@ static NSUInteger const kMSAccountIdLengthInHomeAccount = 36;
   if (history) {
     MSLogDebug([MSAppCenter logTag], @"Retrieved history state.");
   } else {
-    MSLogInfo([MSAppCenter logTag], @"Failed to retrieve history state or none was found.");
+    if (decryptedData) {
+      MSLogWarning([MSAppCenter logTag], @"Failed to unarchive decryptedData.");
+    } else if (encryptedData) {
+      MSLogWarning([MSAppCenter logTag], @"Failed to get decryptedData.");
+    } else {
+      MSLogInfo([MSAppCenter logTag], @"No token history was found.");
+    }
+
     history = [NSArray<MSAuthTokenInfo *> new];
   }
   self.authTokenHistoryArray = history;
@@ -221,8 +228,12 @@ static NSUInteger const kMSAccountIdLengthInHomeAccount = 36;
     self.authTokenHistoryArray = authTokenHistory;
     [MS_USER_DEFAULTS setObject:encryptedData forKey:kMSAuthTokenHistoryKey];
     MSLogDebug([MSAppCenter logTag], @"Saved new history state.");
+  } else if (decryptedData) {
+    MSLogWarning([MSAppCenter logTag], @"Failed to encrypt data.");
+  } else if ([authTokenHistory count] > 0) {
+    MSLogWarning([MSAppCenter logTag], @"Failed to get decrypted data.");
   } else {
-    MSLogInfo([MSAppCenter logTag], @"Failed to save new history state.");
+    MSLogInfo([MSAppCenter logTag], @"No auth token history to be save.");
   }
 }
 
