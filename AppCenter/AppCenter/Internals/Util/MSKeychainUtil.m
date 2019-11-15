@@ -19,6 +19,9 @@ static NSString *AppCenterKeychainServiceName(NSString *suffix) {
 
 + (BOOL)storeString:(NSString *)string forKey:(NSString *)key withServiceName:(NSString *)serviceName {
   NSMutableDictionary *attributes = [MSKeychainUtil generateItem:key withServiceName:serviceName];
+  
+  // By default the keychain is not accessible when the device is locked, this will make it accessible after the first unlock.
+  attributes[(__bridge id)kSecAttrAccessible] = (__bridge id)(kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly);
   attributes[(__bridge id)kSecValueData] = [string dataUsingEncoding:NSUTF8StringEncoding];
   OSStatus status = [self addSecItem:attributes];
 
