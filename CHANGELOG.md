@@ -4,7 +4,7 @@
 
 ### App Center Distribute
 
-* **[Fix]** Fix missing alert dialogs on iOS 13 when project uses new scenes API.
+* **[Fix]** Fix missing alert dialogs in apps that use iOS 13's new UIScenes API.
 
 ___
 
