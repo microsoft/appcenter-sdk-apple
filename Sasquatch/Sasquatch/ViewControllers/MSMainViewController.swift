@@ -312,7 +312,7 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
   }
   
   func defaultLogUrl() -> String {
-    if StartupMode.allValues[startUpModeForCurrentSession] == StartupMode.OneCollector {
+    if StartupMode.allValues[startUpModeForCurrentSession] == StartupMode.OneCollector || StartupMode.allValues[startUpModeForCurrentSession] == StartupMode.None || StartupMode.allValues[startUpModeForCurrentSession] == StartupMode.Skip {
       return ocProdLogUrl;
     }
     #if ACTIVE_COMPILATION_CONDITION_PUPPET
