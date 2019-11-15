@@ -146,19 +146,19 @@ static dispatch_queue_t alertsQueue;
   }
 }
 
-#define DISPATCH_SELECTOR(class, selectorName, ...) ({ \
+#define MS_DISPATCH_SELECTOR(result, class, selectorName, ...) ({ \
   SEL selector = NSSelectorFromString(@#selectorName); \
   IMP impl = [class methodForSelector:selector]; \
-  ((id (*)(id, SEL, ...)) impl)(class, selector, ##__VA_ARGS__); \
+  ((result (*)(id, SEL, ...)) impl)(class, selector, ##__VA_ARGS__); \
 })
 
 + (void)makeKeyAndVisible {
   if (@available(iOS 13.0, *)) {
-    UIApplication *application = (UIApplication *)DISPATCH_SELECTOR([UIApplication class], sharedApplication);
-    NSSet *scenes = (NSSet *)DISPATCH_SELECTOR(application, connectedScenes);
+    UIApplication *application = MS_DISPATCH_SELECTOR(UIApplication *, [UIApplication class], sharedApplication);
+    NSSet *scenes = MS_DISPATCH_SELECTOR(NSSet *, application, connectedScenes);
     NSObject *windowScene = nil;
     for (NSObject *scene in scenes) {
-      NSInteger activationState = (NSInteger)DISPATCH_SELECTOR(scene, activationState);
+      NSInteger activationState = MS_DISPATCH_SELECTOR(NSInteger, scene, activationState);
       if (activationState == 0 /* UISceneActivationStateForegroundActive */) {
         windowScene = scene;
         break;
@@ -167,7 +167,7 @@ static dispatch_queue_t alertsQueue;
     if (!windowScene) {
       windowScene = scenes.anyObject;
     }
-    DISPATCH_SELECTOR(window, setWindowScene:, windowScene);
+    MS_DISPATCH_SELECTOR(void, window, setWindowScene:, windowScene);
   }
   [window makeKeyAndVisible];
 }
