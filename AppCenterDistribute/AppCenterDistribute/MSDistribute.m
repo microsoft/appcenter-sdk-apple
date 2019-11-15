@@ -239,7 +239,12 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   NSString *releaseHash = MSPackageHash();
   if (releaseHash) {
     [self changeDistributionGroupIdAfterAppUpdateIfNeeded:releaseHash];
-    NSString *updateToken = [MSKeychainUtil stringForKey:kMSUpdateTokenKey];
+    OSStatus statusCode;
+    NSString *updateToken = [MSKeychainUtil stringForKey:kMSUpdateTokenKey withStatusCode:&statusCode];
+    if (statusCode == errSecInteractionNotAllowed) {
+      MSLogError([MSDistribute logTag], @"Failed to get update token from keychain. This might occur when the device is locked.");
+      return;
+    }
     NSString *distributionGroupId = [MS_USER_DEFAULTS objectForKey:kMSDistributionGroupIdKey];
     if (updateToken || distributionGroupId) {
       [self checkLatestRelease:updateToken distributionGroupId:distributionGroupId releaseHash:releaseHash];
@@ -561,7 +566,8 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 }
 
 - (void)openURLInAuthenticationSessionWith:(NSURL *)url fromClass:(Class)sessionClazz {
-  NSString *hideUrl = [url.absoluteString stringByReplacingOccurrencesOfString:self.appSecret withString:[MSHttpUtil hideSecret:url.absoluteString]];
+  NSString *hideUrl = [url.absoluteString stringByReplacingOccurrencesOfString:self.appSecret
+                                                                    withString:[MSHttpUtil hideSecret:url.absoluteString]];
   MSLogDebug([MSDistribute logTag], @"Using SFAuthenticationSession to open URL: %@", hideUrl);
   NSString *callbackUrlScheme = [NSString stringWithFormat:kMSDefaultCustomSchemeFormat, self.appSecret];
 

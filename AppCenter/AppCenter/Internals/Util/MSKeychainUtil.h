@@ -36,7 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A string data if exists.
  */
-+ (NSString *_Nullable)stringForKey:(NSString *)key;
++ (NSString *_Nullable)stringForKey:(NSString *)key withStatusCode:(OSStatus *_Nullable)statusCode;
 
 /**
  * Clear all keys and strings.

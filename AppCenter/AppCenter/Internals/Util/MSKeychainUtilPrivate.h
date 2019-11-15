@@ -44,7 +44,7 @@ static NSString *const kMSServiceSuffix = @"AppCenter";
  *
  * @return A string data if exists.
  */
-+ (NSString *_Nullable)stringForKey:(NSString *)key withServiceName:(NSString *)serviceName;
++ (NSString *_Nullable)stringForKey:(NSString *)key withServiceName:(NSString *)serviceName withStatusCode:(OSStatus *_Nullable)statusCode;
 
 /**
  * Deletes items that match a search query.

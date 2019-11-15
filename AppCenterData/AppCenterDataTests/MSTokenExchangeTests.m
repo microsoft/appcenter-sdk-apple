@@ -114,7 +114,7 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
 
                                  // Then
                                  XCTAssertEqualObjects([returnedTokenResult serializeToString],
-                                                       [MSKeychainUtil stringForKey:kMSMockTokenKeyName]);
+                                                       [MSKeychainUtil stringForKey:kMSMockTokenKeyName withStatusCode:nil]);
                                  XCTAssertEqualObjects(actualHeaders[@"Authorization"], @"Bearer fake-token");
                                  XCTAssertEqualObjects(actualHeaders[@"Content-Type"], @"application/json");
                                  XCTAssertEqualObjects(actualHeaders[@"App-Secret"], @"appSecret");
@@ -273,7 +273,7 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
 
                                  // Then
                                  XCTAssertEqualObjects([returnedTokenResult serializeToString],
-                                                       [MSKeychainUtil stringForKey:kMSMockTokenKeyName]);
+                                                       [MSKeychainUtil stringForKey:kMSMockTokenKeyName withStatusCode:nil]);
                                  XCTAssertNil(actualHeaders[@"Authorization"]);
                                  XCTAssertEqualObjects(actualHeaders[@"Content-Type"], @"application/json");
                                  XCTAssertEqualObjects(actualHeaders[@"App-Secret"], @"appSecret");
@@ -574,7 +574,7 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
   [MSTokenExchange saveToken:nil];
 
   // Then
-  XCTAssertNil([MSKeychainUtil stringForKey:kMSMockTokenKeyName]);
+  XCTAssertNil([MSKeychainUtil stringForKey:kMSMockTokenKeyName withStatusCode:nil]);
 }
 
 - (void)testSaveTokenFailsWithoutPartition {
@@ -591,7 +591,7 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
   [MSTokenExchange saveToken:mockResult];
 
   // Then
-  XCTAssertNil([MSKeychainUtil stringForKey:kMSMockTokenKeyName]);
+  XCTAssertNil([MSKeychainUtil stringForKey:kMSMockTokenKeyName withStatusCode:nil]);
 }
 
 - (void)testRemoveAllTokens {
@@ -599,15 +599,15 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
   // If
   [MSKeychainUtil storeString:@"a" forKey:kMSStorageReadOnlyDbTokenKey];
   [MSKeychainUtil storeString:@"a" forKey:kMSStorageUserDbTokenKey];
-  XCTAssertNotNil([MSKeychainUtil stringForKey:kMSStorageReadOnlyDbTokenKey]);
-  XCTAssertNotNil([MSKeychainUtil stringForKey:kMSStorageUserDbTokenKey]);
+  XCTAssertNotNil([MSKeychainUtil stringForKey:kMSStorageReadOnlyDbTokenKey withStatusCode:nil]);
+  XCTAssertNotNil([MSKeychainUtil stringForKey:kMSStorageUserDbTokenKey withStatusCode:nil]);
 
   // When
   [MSTokenExchange removeAllCachedTokens];
 
   // Then
-  XCTAssertNil([MSKeychainUtil stringForKey:kMSStorageReadOnlyDbTokenKey]);
-  XCTAssertNil([MSKeychainUtil stringForKey:kMSStorageUserDbTokenKey]);
+  XCTAssertNil([MSKeychainUtil stringForKey:kMSStorageReadOnlyDbTokenKey withStatusCode:nil]);
+  XCTAssertNil([MSKeychainUtil stringForKey:kMSStorageUserDbTokenKey withStatusCode:nil]);
 }
 
 - (void)testTokenKeyNameForPartitionReturnsReadOnlyKey {

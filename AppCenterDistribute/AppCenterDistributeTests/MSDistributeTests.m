@@ -808,7 +808,7 @@ static NSURL *sfURL;
                                  // Then
                                  OCMVerifyAll(distributeMock);
                                  OCMVerifyAll(ingestionCallMock);
-                                 XCTAssertNil([MSMockKeychainUtil stringForKey:kMSUpdateTokenKey]);
+                                 XCTAssertNil([MSMockKeychainUtil stringForKey:kMSUpdateTokenKey withStatusCode:nil]);
                                  OCMVerify([self.settingsMock removeObjectForKey:kMSSDKHasLaunchedWithDistribute]);
                                  OCMVerify([self.settingsMock removeObjectForKey:kMSUpdateTokenRequestIdKey]);
                                  OCMVerify([self.settingsMock removeObjectForKey:kMSPostponedTimestampKey]);
@@ -870,7 +870,7 @@ static NSURL *sfURL;
                                  // Then
                                  OCMVerifyAll(distributeMock);
                                  OCMVerify([ingestionCallMock startRetryTimerWithStatusCode:500]);
-                                 XCTAssertNotNil([MSKeychainUtil stringForKey:kMSUpdateTokenKey]);
+                                 XCTAssertNotNil([MSKeychainUtil stringForKey:kMSUpdateTokenKey withStatusCode:nil]);
                                  XCTAssertNotNil([self.settingsMock objectForKey:kMSSDKHasLaunchedWithDistribute]);
                                  XCTAssertNotNil([self.settingsMock objectForKey:kMSUpdateTokenRequestIdKey]);
                                  XCTAssertNotNil([self.settingsMock objectForKey:kMSPostponedTimestampKey]);
@@ -1263,7 +1263,7 @@ static NSURL *sfURL;
   XCTAssertNil([self.settingsMock objectForKey:kMSUpdateTokenRequestIdKey]);
   XCTAssertNil([self.settingsMock objectForKey:kMSSDKHasLaunchedWithDistribute]);
   XCTAssertNil([self.settingsMock objectForKey:kMSPostponedTimestampKey]);
-  XCTAssertNil([MSKeychainUtil stringForKey:kMSUpdateTokenKey]);
+  XCTAssertNil([MSKeychainUtil stringForKey:kMSUpdateTokenKey withStatusCode:nil]);
 
   // Clear
   [distributeMock stopMocking];
@@ -2322,6 +2322,56 @@ static NSURL *sfURL;
   // Stop mocking
   [distributeMock stopMocking];
   [utilityMock stopMocking];
+}
+
+- (void)testShouldNotAttemptUpdateIfKeychainIsInaccessible {
+
+  // If
+  id distributeMock = OCMPartialMock(self.sut);
+  id utilityMock = [self mockMSPackageHash];
+  [MSMockKeychainUtil mockStatusCode:errSecInteractionNotAllowed forKey:kMSUpdateTokenKey];
+  [self.settingsMock setObject:kMSTestReleaseHash forKey:kMSDownloadedReleaseHashKey];
+  [self.settingsMock setObject:kMSTestDistributionGroupId forKey:kMSDistributionGroupIdKey];
+  [self.settingsMock setObject:kMSTestDownloadedDistributionGroupId forKey:kMSDownloadedDistributionGroupIdKey];
+
+  // Then
+  OCMReject([distributeMock requestInstallInformationWith:OCMOCK_ANY]);
+  OCMReject([distributeMock checkLatestRelease:OCMOCK_ANY distributionGroupId:OCMOCK_ANY releaseHash:OCMOCK_ANY]);
+
+  // When
+  [distributeMock startUpdate];
+
+  // Stop mocking
+  [distributeMock stopMocking];
+  [utilityMock stopMocking];
+  [MSMockKeychainUtil mockStatusCode:noErr forKey:kMSUpdateTokenKey];
+}
+
+- (void)testShouldStillAttemptUpdateIfKeychainItemNotFound {
+
+  // If
+  id distributeMock = OCMPartialMock(self.sut);
+  id utilityMock = [self mockMSPackageHash];
+  __block BOOL checkLatestReleaseCalled = NO;
+  OCMStub([distributeMock checkLatestRelease:OCMOCK_ANY distributionGroupId:OCMOCK_ANY releaseHash:OCMOCK_ANY])
+      .andDo(^(__attribute((unused)) NSInvocation *invocation) {
+        checkLatestReleaseCalled = YES;
+      });
+  [MSMockKeychainUtil mockStatusCode:errSecItemNotFound forKey:kMSUpdateTokenKey];
+  [self.settingsMock setObject:kMSTestReleaseHash forKey:kMSDownloadedReleaseHashKey];
+  [self.settingsMock setObject:kMSTestDistributionGroupId forKey:kMSDistributionGroupIdKey];
+  [self.settingsMock setObject:kMSTestDownloadedDistributionGroupId forKey:kMSDownloadedDistributionGroupIdKey];
+
+  // When
+  [distributeMock startUpdate];
+
+  // Then
+  XCTAssertTrue(checkLatestReleaseCalled);
+
+  // Stop mocking
+  [distributeMock stopMocking];
+  [utilityMock stopMocking];
+  [MSMockKeychainUtil mockStatusCode:noErr forKey:kMSUpdateTokenKey];
 }
 
 - (void)testShouldChangeDistributionGroupIdIfStoredIdIsNil {

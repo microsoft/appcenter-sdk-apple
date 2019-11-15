@@ -59,7 +59,7 @@
 
   // When
   [MSKeychainUtil storeString:value forKey:key];
-  [MSKeychainUtil stringForKey:key];
+  [MSKeychainUtil stringForKey:key withStatusCode:nil];
   [MSKeychainUtil deleteStringForKey:key];
 
   // Then
