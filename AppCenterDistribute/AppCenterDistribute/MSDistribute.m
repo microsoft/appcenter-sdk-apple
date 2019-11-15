@@ -599,14 +599,14 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     };
 
     // Initialize the SFAuthenticationSession.
-    MS_DISPATCH_SELECTOR(session, initWithURL:callbackURLScheme:completionHandler:, url, callbackUrlScheme, authCompletionBlock);
+    MS_DISPATCH_SELECTOR(id, session, initWithURL:callbackURLScheme:completionHandler:, url, callbackUrlScheme, authCompletionBlock);
 
     // Retain the session.
     self.authenticationSession = session;
 
     // Call [SFAuthenticationSession start] dynamically.
     @try {
-      BOOL success = (BOOL)MS_DISPATCH_SELECTOR(session, start);
+      BOOL success = MS_DISPATCH_SELECTOR(BOOL, session, start);
       if (success) {
         MSLogDebug([MSDistribute logTag], @"Authentication session started, showing confirmation dialog.");
       }
