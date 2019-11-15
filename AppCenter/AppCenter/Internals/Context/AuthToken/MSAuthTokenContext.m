@@ -231,7 +231,6 @@ static NSUInteger const kMSAccountIdLengthInHomeAccount = 36;
     MSLogInfo([MSAppCenter logTag], @"No auth token history to be saved.");
     return;
   }
-
   NSData *decryptedData = [authTokenHistory count] > 0 ? [NSKeyedArchiver archivedDataWithRootObject:(id)authTokenHistory] : nil;
   if (!decryptedData) {
     MSLogWarning([MSAppCenter logTag], @"Failed to get decrypted data.");
