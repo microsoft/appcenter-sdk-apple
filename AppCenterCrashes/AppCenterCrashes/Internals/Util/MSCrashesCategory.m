@@ -14,9 +14,6 @@
  */
 static NSString *const kMSCrashOnExceptionsKey = @"NSApplicationCrashOnExceptions";
 
-static IMP reportExceptionOriginalImp;
-static IMP sendEventOriginalImp;
-
 /*
  * `NSApplication` subclass to catch additional exceptions
  *
@@ -123,15 +120,13 @@ static IMP sendEventOriginalImp;
  *   http://macdevcenter.com/pub/a/mac/2007/07/31/understanding-exceptions-and-handlers-in-cocoa.html
  *
  */
-@implementation NSApplication (MSAppCenterCrashException)
 
-/*
- * Solution for Scenario 2
- *
- * Catch all exceptions that are being logged to the console and forward them to our
- * custom UncaughtExceptionHandler
- */
-- (void)ms_reportException:(NSException *)exception {
+#pragma mark Report Exception
+
+typedef void (* MSReportExceptionImp)(id, SEL, NSException *);
+static MSReportExceptionImp reportExceptionOriginalImp;
+
+static void ms_reportException(id self, SEL _cmd, NSException *exception) {
 
   // Don't invoke the registered UncaughtExceptionHandler if we are currently debugging this app!
   if (![MSAppCenter isDebuggerAttached] && exception) {
@@ -149,29 +144,39 @@ static IMP sendEventOriginalImp;
   }
 
   // Forward to the original implementation.
-  ((void (*)(id, SEL, NSException *))reportExceptionOriginalImp)(self, _cmd, exception);
+  reportExceptionOriginalImp(self, _cmd, exception);
 }
 
-/*
- * Solution for Scenario 3
- *
- * Exceptions that happen inside an IBAction implementation do not trigger a call to
- * [NSApp reportException:] and it does not trigger a registered UncaughtExceptionHandler
- * Hence we need to catch these ourselves, e.g. by overwriting sendEvent: as done right here
- *
- * On 64bit systems the @try @catch block doesn't even cost any performance.
- */
-- (void)ms_sendEvent:(NSEvent *)theEvent {
+static void swizzleReportException() {
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
+    Method originalMethod = class_getInstanceMethod([NSApplication class], @selector(reportException:));
+    reportExceptionOriginalImp = (MSReportExceptionImp)method_setImplementation(originalMethod, (IMP)ms_reportException);
+  });
+}
+
+#pragma mark Send Event
+
+typedef void (* MSSendEventImp)(id, SEL, NSEvent *);
+static MSSendEventImp sendEventOriginalImp;
+
+static void ms_sendEvent(id self, SEL _cmd, NSEvent *event) {
   @try {
 
     // Forward to the original implementation.
-    ((void (*)(id, SEL, NSEvent *))sendEventOriginalImp)(self, _cmd, theEvent);
+    sendEventOriginalImp(self, _cmd, event);
   } @catch (NSException *exception) {
-    [self reportException:exception];
+    ms_reportException(self, @selector(reportException:), exception);
   }
 }
 
-@end
+static void swizzleSendEvent() {
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
+    Method originalMethod = class_getInstanceMethod([NSApplication class], @selector(sendEvent:));
+    sendEventOriginalImp = (MSSendEventImp)method_setImplementation(originalMethod, (IMP)ms_sendEvent);
+  });
+}
 
 #endif
 
@@ -181,34 +186,27 @@ static IMP sendEventOriginalImp;
 #if TARGET_OS_OSX
   NSNumber *crashOnExceptions = [MS_USER_DEFAULTS objectForKey:kMSCrashOnExceptionsKey];
   if ([crashOnExceptions boolValue]) {
-    [MSCrashesCategory swizzleReportException];
-    [MSCrashesCategory swizzleSendEvent];
+
+    /*
+     * Solution for Scenario 2
+     *
+     * Catch all exceptions that are being logged to the console and forward them to our
+     * custom UncaughtExceptionHandler
+     */
+    swizzleReportException();
+
+    /*
+     * Solution for Scenario 3
+     *
+     * Exceptions that happen inside an IBAction implementation do not trigger a call to
+     * [NSApp reportException:] and it does not trigger a registered UncaughtExceptionHandler
+     * Hence we need to catch these ourselves, e.g. by overwriting sendEvent: as done right here
+     *
+     * On 64bit systems the @try @catch block doesn't even cost any performance.
+     */
+    swizzleSendEvent();
   }
 #endif
 }
-
-#if TARGET_OS_OSX
-
-+ (void)swizzleReportException {
-  static dispatch_once_t onceToken;
-  dispatch_once(&onceToken, ^{
-    Class class = [NSApplication class];
-    Method originalMethod = class_getInstanceMethod(class, @selector(reportException:));
-    IMP swizzledImp = class_getMethodImplementation(class, @selector(ms_reportException:));
-    reportExceptionOriginalImp = method_setImplementation(originalMethod, swizzledImp);
-  });
-}
-
-+ (void)swizzleSendEvent {
-  static dispatch_once_t onceToken;
-  dispatch_once(&onceToken, ^{
-    Class class = [NSApplication class];
-    Method originalMethod = class_getInstanceMethod(class, @selector(sendEvent:));
-    IMP swizzledImp = class_getMethodImplementation(class, @selector(ms_sendEvent:));
-    sendEventOriginalImp = method_setImplementation(originalMethod, swizzledImp);
-  });
-}
-
-#endif
 
 @end
