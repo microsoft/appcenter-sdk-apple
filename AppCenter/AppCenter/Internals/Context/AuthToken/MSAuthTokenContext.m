@@ -228,7 +228,7 @@ static NSUInteger const kMSAccountIdLengthInHomeAccount = 36;
   return (NSArray<MSAuthTokenInfo *> *)self.authTokenHistoryArray;
 }
 
-- (NSArray<MsAuthTokenINFO>)getEmptyAuthTokenHistoryArray:() {
+- (NSArray<MSAuthTokenInfo *> *)getEmptyAuthTokenHistoryArray {
   self.authTokenHistoryArray = [NSArray<MSAuthTokenInfo *> new];
   return (NSArray<MSAuthTokenInfo *> *)self.authTokenHistoryArray;
 }
