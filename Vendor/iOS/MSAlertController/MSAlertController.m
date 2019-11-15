@@ -156,13 +156,18 @@ static dispatch_queue_t alertsQueue;
   if (@available(iOS 13.0, *)) {
     UIApplication *application = (UIApplication *)DISPATCH_SELECTOR([UIApplication class], sharedApplication);
     NSSet *scenes = (NSSet *)DISPATCH_SELECTOR(application, connectedScenes);
+    NSObject *windowScene = nil;
     for (NSObject *scene in scenes) {
       NSInteger activationState = (NSInteger)DISPATCH_SELECTOR(scene, activationState);
       if (activationState == 0 /* UISceneActivationStateForegroundActive */) {
-        DISPATCH_SELECTOR(window, setWindowScene:, scene);
+        windowScene = scene;
         break;
       }
     }
+    if (!windowScene) {
+      windowScene = scenes.anyObject;
+    }
+    DISPATCH_SELECTOR(window, setWindowScene:, windowScene);
   }
   [window makeKeyAndVisible];
 }
