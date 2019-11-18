@@ -67,6 +67,36 @@
   OCMVerifyAll(self.keychainUtilMock);
 }
 
+- (void)testKeychainGetStringSetsError {
+
+  // If
+  NSString *key = @"Test Key";
+  OSStatus statusExpected = errSecNoAccessForItem;
+  OCMStub([self.keychainUtilMock secItemCopyMatchingQuery:[OCMArg any] result:[OCMArg anyPointer]]).andReturn(statusExpected);
+
+  // When
+  OSStatus statusReceived;
+  NSString *result = [MSKeychainUtil stringForKey:key withStatusCode:&statusReceived];
+
+  // Then
+  XCTAssertNil(result);
+  XCTAssertEqual(statusReceived, statusExpected);
+}
+
+- (void)testKeychainGetStringAllowsNilErrorArgument {
+
+  // If
+  NSString *key = @"Test Key";
+  OSStatus statusExpected = errSecNoAccessForItem;
+  OCMStub([self.keychainUtilMock secItemCopyMatchingQuery:[OCMArg any] result:[OCMArg anyPointer]]).andReturn(statusExpected);
+
+  // When
+  NSString *result = [MSKeychainUtil stringForKey:key withStatusCode:nil];
+
+  // Then
+  XCTAssertNil(result);
+}
+
 - (void)testStoreStringHandlesDuplicateItemError {
 
   // If
