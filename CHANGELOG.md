@@ -2,7 +2,7 @@
 
 ## Version 2.5.2 (Under development)
 
-* **[Fix]** Remove confusing warnings about "Failed to retrieve history state or none was found" when it doesn't make sense.
+* **[Fix]** Improve log messages for errors when it failed to read/write auth token history.
 
 ___
 
