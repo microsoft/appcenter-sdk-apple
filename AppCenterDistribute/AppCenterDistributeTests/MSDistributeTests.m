@@ -2564,4 +2564,31 @@ static NSURL *sfURL;
   [distributeMock stopMocking];
 }
 
+- (void)testOpenURLInAuthenticationSessionFails API_AVAILABLE(ios(11)) {
+
+  // If
+  NSURL *fakeURL = [NSURL URLWithString:@"https://fakeurl.com"];
+  id appCenterMock = OCMClassMock([MSAppCenter class]);
+  OCMStub([appCenterMock sharedInstance]).andReturn(appCenterMock);
+  OCMStub([appCenterMock isSdkConfigured]).andReturn(YES);
+  OCMStub([appCenterMock isConfigured]).andReturn(YES);
+  SFAuthenticationSession *authenticationSessionMock = OCMPartialMock([SFAuthenticationSession alloc]);
+  OCMStub([SFAuthenticationSession alloc]).andReturn(authenticationSessionMock);
+  OCMStub([authenticationSessionMock start]).andThrow([NSException exceptionWithName:@"" reason:@"" userInfo:nil]);
+  [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
+                        appSecret:kMSTestAppSecret
+          transmissionTargetToken:nil
+                  fromApplication:YES];
+
+  // When
+  [self.sut openURLInAuthenticationSessionWith:fakeURL];
+
+  // Then
+  /* No crash. */
+
+  // Clear
+  [appCenterMock stopMocking];
+  [(id)authenticationSessionMock stopMocking];
+}
+
 @end
