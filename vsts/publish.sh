@@ -208,11 +208,11 @@ uploadToGithub() {
   upload_url="$(echo $REQUEST_UPLOAD_URL_TEMPLATE | sed 's/{id}/'$id'/g')"
   url="$(echo $upload_url | sed 's/{filename}/'$1'/g')"
   resp="$(curl -s -X POST -H 'Content-Type: application/zip' --data-binary @$1 $url)"
-  id="$(echo $resp | jq -r '.id')"
+  upload_id="$(echo $resp | jq -r '.id')"
 
   # Log error if response doesn't contain "id" key
-  if [ -z $id ] || [ "$id" == "" ] || [ "$id" == "null" ]; then
-    echo "Cannot upload" $file
+  if [ -z $upload_id ] || [ "$upload_id" == "" ] || [ "$upload_id" == "null" ]; then
+    echo "Cannot upload" $1
     echo "Request URL:" $url
     echo "Response:" $resp
     exit 1
