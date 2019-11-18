@@ -36,7 +36,8 @@ static NSString *AppCenterKeychainServiceName(NSString *suffix) {
     MSLogVerbose([MSAppCenter logTag], @"Stored a string with key='%@', service='%@' to keychain.", key, serviceName);
     return YES;
   }
-  MSLogWarning([MSAppCenter logTag], @"Failed to store item with key='%@', service='%@' to keychain. OS Status code %i", key, serviceName, status);
+  MSLogWarning([MSAppCenter logTag], @"Failed to store item with key='%@', service='%@' to keychain. OS Status code %i", key, serviceName,
+               status);
   return NO;
 }
 
@@ -53,7 +54,8 @@ static NSString *AppCenterKeychainServiceName(NSString *suffix) {
       MSLogVerbose([MSAppCenter logTag], @"Deleted a string with key='%@', service='%@' from keychain.", key, serviceName);
       return string;
     }
-    MSLogWarning([MSAppCenter logTag], @"Failed to delete item with key='%@', service='%@' from keychain. OS Status code %i", key, serviceName, status);
+    MSLogWarning([MSAppCenter logTag], @"Failed to delete item with key='%@', service='%@' from keychain. OS Status code %i", key,
+                 serviceName, status);
   }
   return nil;
 }
@@ -79,7 +81,8 @@ static NSString *AppCenterKeychainServiceName(NSString *suffix) {
     MSLogVerbose([MSAppCenter logTag], @"Retrieved a string with key='%@', service='%@' from keychain.", key, serviceName);
     return [[NSString alloc] initWithData:(__bridge_transfer NSData *)result encoding:NSUTF8StringEncoding];
   }
-  MSLogWarning([MSAppCenter logTag], @"Failed to retrieve item with key='%@', service='%@' from keychain. OS Status code %i", key, serviceName, *statusCode);
+  MSLogWarning([MSAppCenter logTag], @"Failed to retrieve item with key='%@', service='%@' from keychain. OS Status code %i", key,
+               serviceName, *statusCode);
   return nil;
 }
 
