@@ -312,14 +312,16 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
   }
   
   func defaultLogUrl() -> String {
-    if StartupMode.allValues[startUpModeForCurrentSession] == StartupMode.OneCollector || StartupMode.allValues[startUpModeForCurrentSession] == StartupMode.None || StartupMode.allValues[startUpModeForCurrentSession] == StartupMode.Skip {
-      return ocProdLogUrl;
+    switch StartupMode.allValues[startUpModeForCurrentSession] {
+    case .OneCollector, .None, .Skip:
+      return ocProdLogUrl
+    default:
+      #if ACTIVE_COMPILATION_CONDITION_PUPPET
+      return kMSIntLogUrl
+      #else
+      return acProdLogUrl
+      #endif
     }
-    #if ACTIVE_COMPILATION_CONDITION_PUPPET
-    return kMSIntLogUrl
-    #else
-    return acProdLogUrl
-    #endif
   }
     
   func showUserId () -> String {
