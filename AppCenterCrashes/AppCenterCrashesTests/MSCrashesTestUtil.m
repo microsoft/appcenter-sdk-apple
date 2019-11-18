@@ -30,7 +30,7 @@
     if (progname == NULL) {
       return NO;
     }
-    bundleIdentifier = [NSString stringWithUTF8String: progname];
+    bundleIdentifier = [NSString stringWithUTF8String:progname];
   }
 
   NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
