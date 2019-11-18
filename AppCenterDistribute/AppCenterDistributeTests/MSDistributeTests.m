@@ -1321,13 +1321,9 @@ static NSURL *sfURL;
   [distributeMock stopMocking];
 }
 
-- (void)testOpenURLInAuthenticationSession {
+- (void)testOpenURLInAuthenticationSession API_AVAILABLE(ios(11)) {
 
   // If
-  id session;
-  if (@available(iOS 12, *)) {
-    session = [SFAuthenticationSession class];
-  }
   NSURL *fakeURL = [NSURL URLWithString:@"https://fakeurl.com"];
   id notificationCenterMock = OCMPartialMock([NSNotificationCenter new]);
   OCMStub([notificationCenterMock defaultCenter]).andReturn(notificationCenterMock);
@@ -1348,13 +1344,11 @@ static NSURL *sfURL;
   XCTAssertNil(self.sut.authenticationSession);
 
   // When
-  [self.sut openURLInAuthenticationSessionWith:fakeURL fromClass:session];
+  [self.sut openURLInAuthenticationSessionWith:fakeURL];
 
   // Then
   XCTAssertNotNil(self.sut.authenticationSession);
-  if (@available(iOS 12, *)) {
-    XCTAssert([self.sut.authenticationSession isKindOfClass:[SFAuthenticationSession class]]);
-  }
+  XCTAssert([self.sut.authenticationSession isKindOfClass:[SFAuthenticationSession class]]);
 
   // When
   [notificationCenterMock postNotificationName:UIApplicationDidEnterBackgroundNotification object:nil];
@@ -2537,7 +2531,6 @@ static NSURL *sfURL;
 - (void)testHideAppSecret {
 
   // If
-  id authClass = nil;
   id mockLogger = OCMClassMock([MSLogger class]);
   id distributeMock = OCMPartialMock(self.sut);
   id appCenterMock = OCMClassMock([MSAppCenter class]);
@@ -2560,7 +2553,7 @@ static NSURL *sfURL;
                         fromApplication:YES];
   NSString *urlPath = [NSString stringWithFormat:kMSUpdateTokenApiPathFormat, kMSTestAppSecret];
   NSURLComponents *components = [NSURLComponents componentsWithString:urlPath];
-  [distributeMock openURLInAuthenticationSessionWith:components.URL fromClass:authClass];
+  [distributeMock openURLInAuthenticationSessionWith:components.URL];
 
   // Then
   OCMVerifyAll(mockLogger);

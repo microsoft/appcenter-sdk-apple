@@ -547,12 +547,9 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
   // TODO SFAuthenticationSession is deprecated, for iOS 12 use ASWebAuthenticationSession
   if (@available(iOS 11.0, *)) {
-    Class authClazz = [SFAuthenticationSession class];
-    if (authClazz) {
-      dispatch_async(dispatch_get_main_queue(), ^{
-        [self openURLInAuthenticationSessionWith:url fromClass:authClazz];
-      });
-    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+      [self openURLInAuthenticationSessionWith:url];
+    });
   } else {
     Class clazz = [SFSafariViewController class];
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -561,59 +558,41 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   }
 }
 
-- (void)openURLInAuthenticationSessionWith:(NSURL *)url fromClass:(Class)sessionClazz {
+- (void)openURLInAuthenticationSessionWith:(NSURL *)url API_AVAILABLE(ios(11)) {
   NSString *hideUrl = [url.absoluteString stringByReplacingOccurrencesOfString:self.appSecret withString:[MSHttpUtil hideSecret:url.absoluteString]];
   MSLogDebug([MSDistribute logTag], @"Using SFAuthenticationSession to open URL: %@", hideUrl);
   NSString *callbackUrlScheme = [NSString stringWithFormat:kMSDefaultCustomSchemeFormat, self.appSecret];
 
-  // Check once more if we have the correct class.
-  if (sessionClazz) {
-#pragma clang diagnostic push
-
-// Ignore "Unknown warning group '-Wobjc-messaging-id'" for old XCode
-#pragma clang diagnostic ignored "-Wunknown-pragmas"
-#pragma clang diagnostic ignored "-Wunknown-warning-option"
-
-// Ignore "Messaging unqualified id" for XCode 10
-#pragma clang diagnostic ignored "-Wobjc-messaging-id"
-    id session = [sessionClazz alloc];
-
-    // The completion block that we need to invoke.
-    __weak typeof(self) weakSelf = self;
-    typedef void (^MSCompletionBlockForAuthSession)(NSURL *callbackUrl, NSError *error);
-    MSCompletionBlockForAuthSession authCompletionBlock = ^(NSURL *callbackUrl, NSError *error) {
-      typeof(self) strongSelf = weakSelf;
-      if (!strongSelf) {
-        return;
-      }
-      strongSelf.authenticationSession = nil;
-      if (error) {
-        MSLogDebug([MSDistribute logTag], @"Called %@ with error: %@", callbackUrl, error.localizedDescription);
-      }
-      if (error.code == 1 /* SFAuthenticationErrorCanceledLogin */) {
-        MSLogError([MSDistribute logTag], @"Authentication session was cancelled by user or failed.");
-      }
-      if (callbackUrl) {
-        [strongSelf openURL:callbackUrl];
-      }
-    };
-
-    // Initialize the SFAuthenticationSession.
-    MS_DISPATCH_SELECTOR(id, session, initWithURL:callbackURLScheme:completionHandler:, url, callbackUrlScheme, authCompletionBlock);
-
-    // Retain the session.
-    self.authenticationSession = session;
-
-    // Call [SFAuthenticationSession start] dynamically.
-    @try {
-      BOOL success = MS_DISPATCH_SELECTOR(BOOL, session, start);
-      if (success) {
-        MSLogDebug([MSDistribute logTag], @"Authentication session started, showing confirmation dialog.");
-      }
-    } @catch (NSException *exception) {
-      MSLogError([MSDistribute logTag], @"Failed to start authentication session: %@", exception);
+  // The completion block that we need to invoke.
+  __weak typeof(self) weakSelf = self;
+  typedef void (^MSCompletionBlockForAuthSession)(NSURL *callbackUrl, NSError *error);
+  MSCompletionBlockForAuthSession authCompletionBlock = ^(NSURL *callbackUrl, NSError *error) {
+    typeof(self) strongSelf = weakSelf;
+    if (!strongSelf) {
+      return;
     }
-#pragma clang diagnostic pop
+    strongSelf.authenticationSession = nil;
+    if (error) {
+      MSLogDebug([MSDistribute logTag], @"Called %@ with error: %@", callbackUrl, error.localizedDescription);
+    }
+    if (error.code == SFAuthenticationErrorCanceledLogin) {
+      MSLogError([MSDistribute logTag], @"Authentication session was cancelled by user or failed.");
+    }
+    if (callbackUrl) {
+      [strongSelf openURL:callbackUrl];
+    }
+  };
+  SFAuthenticationSession *session = [[SFAuthenticationSession alloc] initWithURL:url callbackURLScheme:callbackUrlScheme completionHandler:authCompletionBlock];
+
+  // Retain the session.
+  self.authenticationSession = session;
+  @try {
+    BOOL success = [session start];
+    if (success) {
+      MSLogDebug([MSDistribute logTag], @"Authentication session started, showing confirmation dialog.");
+    }
+  } @catch (NSException *exception) {
+    MSLogError([MSDistribute logTag], @"Failed to start authentication session: %@", exception);
   }
 }
 
