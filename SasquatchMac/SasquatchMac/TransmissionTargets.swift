@@ -18,7 +18,7 @@ class TransmissionTargets {
     case skip
   }
     
-  static let defaultTransmissionTargetIsEnabled: Bool = TransmissionTargets.startTarget == StartupMode.oneCollector.rawValue || startTarget == StartupMode.both.rawValue
+  static let defaultTransmissionTargetWasEnabled: Bool = TransmissionTargets.startTarget == StartupMode.oneCollector.rawValue || startTarget == StartupMode.both.rawValue
 
   private init() {
 

@@ -41,14 +41,14 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
   dynamic var child2Properties = [EventProperty]()
 
   private class TransmissionTargetSection: NSObject {
-    static var defaultTransmissionTargetIsEnabled: Bool?
+    static var defaultTransmissionTargetWasEnabled: Bool?
 
     var token: String?
     var isDefault = false
 
     func isTransmissionTargetEnabled() -> Bool {
       if isDefault {
-        return TransmissionTargets.defaultTransmissionTargetIsEnabled
+        return TransmissionTargets.defaultTransmissionTargetWasEnabled
       } else {
         return getTransmissionTarget()?.isEnabled() ?? false
       }
