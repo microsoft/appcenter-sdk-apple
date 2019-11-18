@@ -73,8 +73,8 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     self.startupModeField.tintColor = UIColor.clear
     
     // Make sure it is initialized before changing the startup mode.
-    // Otherwise channelGroup would be nil.
     // Do not initialize too early if we start from library later.
+    // Otherwise channelGroup would be nil.
     if (StartupMode.allValues[startupMode] != .Skip && StartupMode.allValues[startupMode] != .None) {
         _ = MSTransmissionTargets.shared
     }
