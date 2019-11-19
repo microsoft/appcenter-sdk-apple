@@ -60,6 +60,7 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
   [MSAppCenter setLogLevel:MSLogLevelVerbose];
+  NSInteger startTarget = [[NSUserDefaults standardUserDefaults] integerForKey:kMSStartTargetKey];
 #if GCC_PREPROCESSOR_MACRO_PUPPET
   self.analyticsResult = [MSAnalyticsResult new];
   [MSAnalytics setDelegate:self];
@@ -69,7 +70,9 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
       [(MSAnalyticsViewController *)controller setAnalyticsResult:self.analyticsResult];
     }
   }
-  [MSAppCenter setLogUrl:kMSIntLogUrl];
+  if (startTarget == APPCENTER || startTarget == BOTH) {
+    [MSAppCenter setLogUrl:kMSIntLogUrl];
+  }
   [MSAuth setConfigUrl:kMSIntConfigUrl];
   [MSData setTokenExchangeUrl:kMSIntTokenExchangeUrl];
   [MSDistribute setApiUrl:kMSIntApiUrl];
@@ -125,7 +128,6 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
   // Start App Center SDK.
   NSArray<Class> *services =
       @ [[MSAnalytics class], [MSCrashes class], [MSData class], [MSDistribute class], [MSAuth class], [MSPush class]];
-  NSInteger startTarget = [[NSUserDefaults standardUserDefaults] integerForKey:kMSStartTargetKey];
 #if GCC_PREPROCESSOR_MACRO_PUPPET
   NSString *appSecret = [[NSUserDefaults standardUserDefaults] objectForKey:kMSAppSecret] ?: kMSPuppetAppSecret;
 #else
