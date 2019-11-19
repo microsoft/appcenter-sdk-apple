@@ -73,6 +73,11 @@ std::array<MSCrashesBufferedLog, ms_crashes_log_buffer_size> msCrashesLogBuffer;
 static MSCrashes *sharedInstance = nil;
 static dispatch_once_t onceToken;
 
+/**
+ * Delayed processing token.
+ */
+static dispatch_once_t delayedProcessingToken;
+
 #pragma mark - Callbacks Setup
 
 static MSCrashesCallbacks msCrashesCallbacks = {.context = nullptr, .handleSignal = nullptr};
@@ -147,10 +152,6 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
  * @warning This property only has an updated value once the SDK has been properly initialized!
  */
 @property BOOL didReceiveMemoryWarningInLastSession;
-/**
- * Indicates if the delayedProcessingSemaphore will need to be released anymore. Useful for preventing overflows.
- */
-@property BOOL shouldReleaseProcessingSemaphore;
 
 /**
  * Detail information about the last crash.
@@ -261,7 +262,6 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     _didReceiveMemoryWarningInLastSession = NO;
     _delayedProcessingSemaphore = dispatch_semaphore_create(0);
     _automaticProcessingEnabled = YES;
-    _shouldReleaseProcessingSemaphore = YES;
 #if !TARGET_OS_TV
     _enableMachExceptionHandler = YES;
 #endif
@@ -316,6 +316,14 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     if ([crashSetupDelegate respondsToSelector:@selector(didSetUpCrashHandlers)]) {
       [crashSetupDelegate didSetUpCrashHandlers];
     }
+
+    // Set up lifecycle event handler.
+#if !TARGET_OS_OSX
+    [MS_NOTIFICATION_CENTER addObserver:self
+                               selector:@selector(applicationWillEnterForeground)
+                                   name:UIApplicationWillEnterForegroundNotification
+                                 object:nil];
+#endif
 
     // Set up memory warning handler.
 #if !TARGET_OS_OSX
@@ -454,6 +462,12 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
 #pragma mark - Application life cycle
 
+- (void)applicationWillEnterForeground {
+  if (self.crashFiles.count > 0) {
+    [self startDelayedCrashProcessing];
+  }
+}
+
 - (void)didReceiveMemoryWarning:(NSNotification *)__unused notification {
   MSLogDebug([MSCrashes logTag], @"The application received a low memory warning in the last session.");
   [MS_USER_DEFAULTS setObject:@YES forKey:kMSAppDidReceiveMemoryWarningKey];
@@ -567,8 +581,6 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     }
   }
 }
-
-#pragma mark - Channel Delegate
 
 - (void)channel:(id<MSChannelProtocol>)__unused channel willSendLog:(id<MSLog>)log {
   id<MSCrashesDelegate> delegate = self.delegate;
@@ -692,32 +704,29 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   // This must be performed asynchronously to prevent a deadlock with 'unprocessedCrashReports'.
   dispatch_time_t delay = dispatch_time(DISPATCH_TIME_NOW, kMSCrashProcessingDelay);
   dispatch_after(delay, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-    [self startCrashProcessing];
 
-    // Only release once to avoid releasing an unbounded number of times.
-    @synchronized(self) {
-      if (self.shouldReleaseProcessingSemaphore) {
-        dispatch_semaphore_signal(self.delayedProcessingSemaphore);
-        self.shouldReleaseProcessingSemaphore = NO;
-      }
+    /*
+     * FIXME: There is no life cycle for app extensions yet so force start crash processing until then.
+     * Note that macOS cannot access the application state from a background thread, so crash processing will start without this check.
+     *
+     * Also force-start crash processing when automatic processing is disabled. Though it sounds counterintuitive, this is important because
+     * there are scenarios in some wrappers (i.e. ReactNative) where the application state is not ready by the time crash processing needs
+     * to happen.
+     */
+    if (self.automaticProcessingEnabled && [MSUtility applicationState] == MSApplicationStateBackground) {
+      MSLogWarning([MSCrashes logTag], @"Crashes will not be processed because the application is in the background.");
+      return;
     }
+
+    // Process and release only once.
+    dispatch_once(&delayedProcessingToken, ^{
+      [self startCrashProcessing];
+      dispatch_semaphore_signal(self.delayedProcessingSemaphore);
+    });
   });
 }
 
 - (void)startCrashProcessing {
-
-  /*
-   * FIXME: There is no life cycle for app extensions yet so force start crash processing until then.
-   * Note that macOS cannot access the application state from a background thread, so crash processing will start without this check.
-   *
-   * Also force start crash processing when automatic processing is disabled. Though it sounds counterintuitive, this is important because
-   * there are scenarios in some wrappers (i.e. ReactNative) where the application state is not ready by the time crash processing needs to
-   * happen.
-   */
-  if (self.automaticProcessingEnabled && [MSUtility applicationState] == MSApplicationStateBackground) {
-    MSLogWarning([MSCrashes logTag], @"Crashes will not be processed because the application is in the background.");
-    return;
-  }
   MSLogDebug([MSCrashes logTag], @"Start delayed CrashManager processing");
 
   // Was our own exception handler successfully added?
@@ -1257,9 +1266,12 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
 + (void)resetSharedInstance {
 
-  // resets the once_token so dispatch_once will run again.
+  // Reset the onceToken so dispatch_once will run again.
   onceToken = 0;
   sharedInstance = nil;
+
+  // Reset delayed processing token.
+  delayedProcessingToken = 0;
 }
 
 #pragma mark - Handled exceptions
@@ -1317,4 +1329,5 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
                                          device:[[MSDeviceTracker sharedInstance] device]
                            appProcessIdentifier:0];
 }
+
 @end

@@ -54,9 +54,6 @@
       location = "group:codecov.yml">
    </FileRef>
    <FileRef
-      location = "group:ISSUE_TEMPLATE.md">
-   </FileRef>
-   <FileRef
       location = "group:LICENSE">
    </FileRef>
    <FileRef

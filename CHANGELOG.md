@@ -2,6 +2,10 @@
 
 ## Version 2.5.2 (Under development)
 
+### App Center Crashes
+
+* **[Fix]** Fix sending crashes if an application is launched in background.
+
 ___
 
 ## Version 2.5.1
