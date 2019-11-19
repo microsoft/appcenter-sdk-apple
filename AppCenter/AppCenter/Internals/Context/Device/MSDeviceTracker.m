@@ -250,9 +250,13 @@ static MSDeviceTracker *sharedInstance = nil;
 
 - (void)clearDevices {
   @synchronized(self) {
+    // Remember the information about the current device.
+    MSDeviceHistoryInfo *currentDeviceHistory = [[MSDeviceHistoryInfo alloc] initWithTimestamp:[NSDate date]
+                                                                                     andDevice:self.device];
+    NSArray* deviceHistory = [NSArray arrayWithObject:currentDeviceHistory];
 
-    // Clear persistence.
-    [MS_USER_DEFAULTS removeObjectForKey:kMSPastDevicesKey];
+    // Clear persistence, but keep the latest information about the device.
+    [MS_USER_DEFAULTS setObject:[NSKeyedArchiver archivedDataWithRootObject:deviceHistory] forKey:kMSPastDevicesKey];
 
     // Clear cache.
     self.device = nil;
