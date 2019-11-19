@@ -60,6 +60,8 @@ static NSString *const kMSTargetTokenFileExtension = @"targettoken";
 
 static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
+static unsigned int kMaxAttachmentSize = 7 * 1024 * 1024;
+
 /**
  * Delay in nanoseconds before processing crashes.
  */
@@ -939,6 +941,10 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     attachment.errorId = incidentIdentifier;
     if (![MSCrashes validatePropertiesForAttachment:attachment]) {
       MSLogError([MSCrashes logTag], @"Not all required fields are present in MSErrorAttachmentLog.");
+      continue;
+    }
+    if ([attachment data].length > kMaxAttachmentSize) {
+      MSLogError([MSCrashes logTag], @"Discarding attachment with size above %u bytes: size=%tu, fileName=%@.", kMaxAttachmentSize, [attachment data].length, [attachment filename]);
       continue;
     }
     [self.channelUnit enqueueItem:attachment flags:MSFlagsDefault];

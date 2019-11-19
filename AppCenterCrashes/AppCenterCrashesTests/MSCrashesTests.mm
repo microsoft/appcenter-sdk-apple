@@ -387,13 +387,15 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   NSString *validString = @"valid";
   NSData *validData = [validString dataUsingEncoding:NSUTF8StringEncoding];
   NSData *emptyData = [@"" dataUsingEncoding:NSUTF8StringEncoding];
+  NSMutableData *hugeData = [[NSMutableData alloc] initWithLength:7 * 1024 * 1024 + 1];
   NSArray *invalidLogs = @[
     [self attachmentWithAttachmentId:nil attachmentData:validData contentType:validString],
     [self attachmentWithAttachmentId:@"" attachmentData:validData contentType:validString],
     [self attachmentWithAttachmentId:validString attachmentData:nil contentType:validString],
     [self attachmentWithAttachmentId:validString attachmentData:emptyData contentType:validString],
     [self attachmentWithAttachmentId:validString attachmentData:validData contentType:nil],
-    [self attachmentWithAttachmentId:validString attachmentData:validData contentType:@""]
+    [self attachmentWithAttachmentId:validString attachmentData:validData contentType:@""],
+    [self attachmentWithAttachmentId:validString attachmentData:hugeData contentType:validString]
   ];
   id channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
   OCMStub([channelGroupMock addChannelUnitWithConfiguration:[OCMArg checkWithBlock:^BOOL(MSChannelUnitConfiguration *configuration) {
