@@ -2,6 +2,10 @@
 
 ## Version 2.5.2 (Under development)
 
+### App Center Crashes
+
+* **[Fix]** Fix sending crashes if an application is launched in background.
+* **[Fix]** Validate error attachment size to avoid server error or out of memory issues (using the documented limit which is 7MB).
 * **[Fix]** Improve log messages for errors when it failed to read/write auth token history.
 
 ___
