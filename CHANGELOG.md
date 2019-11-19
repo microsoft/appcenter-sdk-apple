@@ -4,6 +4,7 @@
 
 ### App Center Crashes
 
+* **[Fix]** Fix sending crashes if an application is launched in background.
 * **[Fix]** Validate error attachment size to avoid server error or out of memory issues (using the documented limit which is 7MB).
 
 ___
