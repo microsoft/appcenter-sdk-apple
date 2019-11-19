@@ -944,7 +944,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
       continue;
     }
     if ([attachment data].length > kMaxAttachmentSize) {
-      MSLogError([MSCrashes logTag], @"Discarding attachment with size above %u bytes: size=%tu, fileName=%@.", kMaxAttachmentSize, [attachment data].length, [attachment filename]);
+      MSLogError([MSCrashes logTag], @"Discarding attachment with size above %u bytes: size=%tu, fileName=%@.", kMaxAttachmentSize,
+                 [attachment data].length, [attachment filename]);
       continue;
     }
     [self.channelUnit enqueueItem:attachment flags:MSFlagsDefault];
