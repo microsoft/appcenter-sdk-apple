@@ -5,7 +5,7 @@
 ### App Center Crashes
 
 * **[Fix]** Fix sending crashes if an application is launched in background.
-* **[Fix]** Fix sending device info is attached to crashes.
+* **[Fix]** Fix an issue where the information attached to the error contains incorrect information about the device.
 
 ___
 
