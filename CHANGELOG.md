@@ -2,6 +2,9 @@
 
 ## Version 2.5.2 (Under development)
 
+### App Center Distribute
+
+* **[Fix]** Fix an issue where users would sometimes be prompted multiple times to sign in with App Center.
 ___
 
 ## Version 2.5.1
