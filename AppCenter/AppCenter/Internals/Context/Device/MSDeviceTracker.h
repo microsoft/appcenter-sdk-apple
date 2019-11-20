@@ -23,7 +23,7 @@
 + (instancetype)sharedInstance;
 
 /**
- * Clears the device history in memory and in NSUserDefaults as well as the current device.
+ * Clears the device history in memory and in NSUserDefaults keeping the current device.
  */
 - (void)clearDevices;
 
