@@ -217,7 +217,7 @@ static NSUInteger const kMSAccountIdLengthInHomeAccount = 36;
   }
   NSData *decryptedData = [self.encrypter decryptData:encryptedData];
   if (!decryptedData) {
-    MSLogWarning([MSAppCenter logTag], @"Failed to decrypt auth token history.");
+    MSLogError([MSAppCenter logTag], @"Failed to decrypt auth token history.");
     return nil;
   }
   NSArray<MSAuthTokenInfo *> *history = [NSKeyedUnarchiver unarchiveObjectWithData:decryptedData];
