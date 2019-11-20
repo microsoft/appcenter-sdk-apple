@@ -240,7 +240,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   if (releaseHash) {
     [self changeDistributionGroupIdAfterAppUpdateIfNeeded:releaseHash];
     OSStatus statusCode;
-    NSString *updateToken = [MSKeychainUtil stringForKey:kMSUpdateTokenKey withStatusCode:&statusCode];
+    NSString *updateToken = [MSKeychainUtil stringForKey:kMSUpdateTokenKey statusCode:&statusCode];
     if (statusCode == errSecInteractionNotAllowed) {
       MSLogError([MSDistribute logTag], @"Failed to get update token from keychain. This might occur when the device is locked.");
       return;

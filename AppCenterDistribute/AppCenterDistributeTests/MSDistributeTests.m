@@ -808,7 +808,7 @@ static NSURL *sfURL;
                                  // Then
                                  OCMVerifyAll(distributeMock);
                                  OCMVerifyAll(ingestionCallMock);
-                                 XCTAssertNil([MSMockKeychainUtil stringForKey:kMSUpdateTokenKey withStatusCode:nil]);
+                                 XCTAssertNil([MSMockKeychainUtil stringForKey:kMSUpdateTokenKey statusCode:nil]);
                                  OCMVerify([self.settingsMock removeObjectForKey:kMSSDKHasLaunchedWithDistribute]);
                                  OCMVerify([self.settingsMock removeObjectForKey:kMSUpdateTokenRequestIdKey]);
                                  OCMVerify([self.settingsMock removeObjectForKey:kMSPostponedTimestampKey]);
@@ -870,7 +870,7 @@ static NSURL *sfURL;
                                  // Then
                                  OCMVerifyAll(distributeMock);
                                  OCMVerify([ingestionCallMock startRetryTimerWithStatusCode:500]);
-                                 XCTAssertNotNil([MSKeychainUtil stringForKey:kMSUpdateTokenKey withStatusCode:nil]);
+                                 XCTAssertNotNil([MSKeychainUtil stringForKey:kMSUpdateTokenKey statusCode:nil]);
                                  XCTAssertNotNil([self.settingsMock objectForKey:kMSSDKHasLaunchedWithDistribute]);
                                  XCTAssertNotNil([self.settingsMock objectForKey:kMSUpdateTokenRequestIdKey]);
                                  XCTAssertNotNil([self.settingsMock objectForKey:kMSPostponedTimestampKey]);
@@ -1263,7 +1263,7 @@ static NSURL *sfURL;
   XCTAssertNil([self.settingsMock objectForKey:kMSUpdateTokenRequestIdKey]);
   XCTAssertNil([self.settingsMock objectForKey:kMSSDKHasLaunchedWithDistribute]);
   XCTAssertNil([self.settingsMock objectForKey:kMSPostponedTimestampKey]);
-  XCTAssertNil([MSKeychainUtil stringForKey:kMSUpdateTokenKey withStatusCode:nil]);
+  XCTAssertNil([MSKeychainUtil stringForKey:kMSUpdateTokenKey statusCode:nil]);
 
   // Clear
   [distributeMock stopMocking];

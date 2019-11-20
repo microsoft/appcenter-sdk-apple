@@ -35,10 +35,10 @@ static NSString *kMSDefaultServiceName = @"DefaultServiceName";
     OCMStub([_mockKeychainUtil deleteStringForKey:[OCMArg any]]).andCall([self class], @selector(deleteStringForKey:));
     OCMStub([_mockKeychainUtil deleteStringForKey:[OCMArg any] withServiceName:[OCMArg any]])
         .andCall([self class], @selector(deleteStringForKey:withServiceName:));
-    OCMStub([_mockKeychainUtil stringForKey:[OCMArg any] withStatusCode:[OCMArg anyPointer]])
-        .andCall([self class], @selector(stringForKey:withStatusCode:));
-    OCMStub([_mockKeychainUtil stringForKey:[OCMArg any] withServiceName:[OCMArg any] withStatusCode:[OCMArg anyPointer]])
-        .andCall([self class], @selector(stringForKey:withServiceName:withStatusCode:));
+    OCMStub([_mockKeychainUtil stringForKey:[OCMArg any] statusCode:[OCMArg anyPointer]])
+        .andCall([self class], @selector(stringForKey:statusCode:));
+    OCMStub([_mockKeychainUtil stringForKey:[OCMArg any] withServiceName:[OCMArg any] statusCode:[OCMArg anyPointer]])
+        .andCall([self class], @selector(stringForKey:withServiceName:statusCode:));
     OCMStub([_mockKeychainUtil clear]).andCall([self class], @selector(clear));
   }
   return self;
@@ -71,11 +71,11 @@ static NSString *kMSDefaultServiceName = @"DefaultServiceName";
   return value;
 }
 
-+ (NSString *_Nullable)stringForKey:(NSString *)key withStatusCode:(OSStatus *)statusCode {
-  return [self stringForKey:key withServiceName:kMSDefaultServiceName withStatusCode:statusCode];
++ (NSString *_Nullable)stringForKey:(NSString *)key statusCode:(OSStatus *)statusCode {
+  return [self stringForKey:key withServiceName:kMSDefaultServiceName statusCode:statusCode];
 }
 
-+ (NSString *_Nullable)stringForKey:(NSString *)key withServiceName:(NSString *)serviceName withStatusCode:(OSStatus *)statusCode {
++ (NSString *_Nullable)stringForKey:(NSString *)key withServiceName:(NSString *)serviceName statusCode:(OSStatus *)statusCode {
   OSStatus placeholderStatus = noErr;
   if (statusCodes[serviceName] && statusCodes[serviceName][key]) {
     placeholderStatus = [statusCodes[serviceName][key] intValue];

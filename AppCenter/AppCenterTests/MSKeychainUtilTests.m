@@ -60,7 +60,7 @@
 
   // When
   [MSKeychainUtil storeString:value forKey:key];
-  [MSKeychainUtil stringForKey:key withStatusCode:nil];
+  [MSKeychainUtil stringForKey:key statusCode:nil];
   [MSKeychainUtil deleteStringForKey:key];
 
   // Then
@@ -76,7 +76,7 @@
 
   // When
   OSStatus statusReceived;
-  NSString *result = [MSKeychainUtil stringForKey:key withStatusCode:&statusReceived];
+  NSString *result = [MSKeychainUtil stringForKey:key statusCode:&statusReceived];
 
   // Then
   XCTAssertNil(result);
@@ -91,7 +91,7 @@
   OCMStub([self.keychainUtilMock secItemCopyMatchingQuery:[OCMArg any] result:[OCMArg anyPointer]]).andReturn(statusExpected);
 
   // When
-  NSString *result = [MSKeychainUtil stringForKey:key withStatusCode:nil];
+  NSString *result = [MSKeychainUtil stringForKey:key statusCode:nil];
 
   // Then
   XCTAssertNil(result);

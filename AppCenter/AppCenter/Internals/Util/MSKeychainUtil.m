@@ -46,7 +46,7 @@ static NSString *AppCenterKeychainServiceName(NSString *suffix) {
 }
 
 + (NSString *)deleteStringForKey:(NSString *)key withServiceName:(NSString *)serviceName {
-  NSString *string = [MSKeychainUtil stringForKey:key withStatusCode:nil];
+  NSString *string = [MSKeychainUtil stringForKey:key statusCode:nil];
   if (string) {
     NSMutableDictionary *query = [MSKeychainUtil generateItem:key withServiceName:serviceName];
     OSStatus status = [self deleteSecItem:query];
@@ -64,14 +64,13 @@ static NSString *AppCenterKeychainServiceName(NSString *suffix) {
   return [MSKeychainUtil deleteStringForKey:key withServiceName:AppCenterKeychainServiceName(kMSServiceSuffix)];
 }
 
-+ (NSString *)stringForKey:(NSString *)key withServiceName:(NSString *)serviceName withStatusCode:(OSStatus *)statusCode {
++ (NSString *)stringForKey:(NSString *)key withServiceName:(NSString *)serviceName statusCode:(OSStatus *)statusCode {
   NSMutableDictionary *query = [MSKeychainUtil generateItem:key withServiceName:serviceName];
   query[(__bridge id)kSecReturnData] = (__bridge id)kCFBooleanTrue;
   query[(__bridge id)kSecMatchLimit] = (__bridge id)kSecMatchLimitOne;
   CFTypeRef result = nil;
 
-  // Create placeholder to use in case given status code pointer is NULL. Can't put it inside the if statement or it can get deallocated too
-  // early.
+  // Create placeholder to use in case given status code pointer is NULL. Can't put it inside the if statement or it can get deallocated too early.
   OSStatus statusPlaceholder;
   if (!statusCode) {
     statusCode = &statusPlaceholder;
@@ -86,8 +85,8 @@ static NSString *AppCenterKeychainServiceName(NSString *suffix) {
   return nil;
 }
 
-+ (NSString *)stringForKey:(NSString *)key withStatusCode:(OSStatus *)statusCode {
-  return [MSKeychainUtil stringForKey:key withServiceName:AppCenterKeychainServiceName(kMSServiceSuffix) withStatusCode:statusCode];
++ (NSString *)stringForKey:(NSString *)key statusCode:(OSStatus *)statusCode {
+  return [MSKeychainUtil stringForKey:key withServiceName:AppCenterKeychainServiceName(kMSServiceSuffix) statusCode:statusCode];
 }
 
 + (BOOL)clear {

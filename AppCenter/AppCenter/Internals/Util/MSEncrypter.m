@@ -142,7 +142,7 @@ static NSObject *const classLock;
   }
 
   // If key is not in memory; try loading it from Keychain.
-  NSString *stringKey = [MSKeychainUtil stringForKey:keyTag withStatusCode:nil];
+  NSString *stringKey = [MSKeychainUtil stringForKey:keyTag statusCode:nil];
   if (stringKey) {
     keyData = [[NSData alloc] initWithBase64EncodedString:stringKey options:0];
   } else {
@@ -151,7 +151,7 @@ static NSObject *const classLock;
     @synchronized(classLock) {
 
       // Recheck if the key has been written from another thread.
-      stringKey = [MSKeychainUtil stringForKey:keyTag withStatusCode:nil];
+      stringKey = [MSKeychainUtil stringForKey:keyTag statusCode:nil];
       if (!stringKey) {
         keyData = [MSEncrypter generateAndSaveKeyWithTag:keyTag];
       }

@@ -174,7 +174,7 @@ static NSString *const kMSGetTokenPath = @"/data/tokens";
 
 + (MSTokenResult *_Nullable)retrieveCachedTokenForPartition:(NSString *)partition includeExpiredToken:(BOOL)includeExpiredToken {
   if (partition) {
-    NSString *tokenString = [MSKeychainUtil stringForKey:[MSTokenExchange tokenKeyNameForPartition:partition] withStatusCode:nil];
+    NSString *tokenString = [MSKeychainUtil stringForKey:[MSTokenExchange tokenKeyNameForPartition:partition] statusCode:nil];
     if (tokenString) {
       MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithString:tokenString];
       NSDate *currentUTCDate = [NSDate date];
