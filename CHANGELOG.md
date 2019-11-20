@@ -2,6 +2,10 @@
 
 ## Version 2.5.2 (Under development)
 
+### App Center
+
+* **[Fix]** Improve log messages for errors when it failed to read/write auth token history.
+
 ### App Center Crashes
 
 * **[Fix]** Fix sending crashes if an application is launched in background.
