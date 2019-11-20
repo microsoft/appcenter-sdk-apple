@@ -4,3 +4,6 @@
 [submodule "Vendor/OCMock"]
 	path = Vendor/OCMock
 	url = https://github.com/erikdoe/ocmock.git
+[submodule "Vendor/PLCrashReporter"]
+	path = Vendor/PLCrashReporter
+	url = https://github.com/microsoft/plcrashreporter
