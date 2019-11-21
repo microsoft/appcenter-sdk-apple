@@ -13,11 +13,6 @@
 #define MS_CLASS_NAME_WITHOUT_PREFIX [NSStringFromClass([self class]) substringFromIndex:2]
 #define MS_IS_APP_EXTENSION ([[[NSBundle mainBundle] executablePath] rangeOfString:@".appex/"].length > 0)
 #define MS_APP_MAIN_BUNDLE [NSBundle mainBundle]
-#define MS_DISPATCH_SELECTOR(result, class, selectorName, ...) ({ \
-  SEL selector = NSSelectorFromString(@#selectorName); \
-  IMP impl = [class methodForSelector:selector]; \
-  ((result (*)(id, SEL, ...)) impl)(class, selector, ##__VA_ARGS__); \
-})
 
 /**
  * Utility class that is used throughout the SDK.
