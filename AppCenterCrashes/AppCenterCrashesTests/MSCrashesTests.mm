@@ -9,8 +9,8 @@
 #import "MSCrashHandlerSetupDelegate.h"
 #import "MSCrashReporter.h"
 #import "MSCrashesBufferedLog.hpp"
-#import "MSCrashesCategory.h"
 #import "MSCrashesCXXExceptionHandler.h"
+#import "MSCrashesCategory.h"
 #import "MSCrashesInternal.h"
 #import "MSCrashesPrivate.h"
 #import "MSCrashesTestUtil.h"
@@ -443,7 +443,6 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   OCMVerify([self.deviceTrackerMock clearDevices]);
   OCMVerify([self.sessionContextMock clearSessionHistoryAndKeepCurrentSession:YES]);
 }
-
 
 - (void)testProcessCrashesOnEnterForeground {
 

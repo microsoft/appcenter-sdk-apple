@@ -90,15 +90,15 @@ enum StartupMode { appCenter, oneCollector, both, none, skip };
 }
 
 - (void)overrideCountryCode {
-    if ([CLLocationManager locationServicesEnabled]) {
-        [self.locationManager startUpdatingLocation];
-    } else {
-        NSAlert *alert = [[NSAlert alloc] init];
-        alert.messageText = @"Location service is disabled";
-        alert.informativeText = @"Please enable location service on your Mac.";
-        [alert addButtonWithTitle:@"OK"];
-        [alert runModal];
-    }
+  if ([CLLocationManager locationServicesEnabled]) {
+    [self.locationManager startUpdatingLocation];
+  } else {
+    NSAlert *alert = [[NSAlert alloc] init];
+    alert.messageText = @"Location service is disabled";
+    alert.informativeText = @"Please enable location service on your Mac.";
+    [alert addButtonWithTitle:@"OK"];
+    [alert runModal];
+  }
 }
 
 #pragma mark - Private
@@ -153,7 +153,7 @@ enum StartupMode { appCenter, oneCollector, both, none, skip };
              })];
 
   // Enable catching uncaught exceptions thrown on the main thread.
-  [[NSUserDefaults standardUserDefaults] registerDefaults:@{ @"NSApplicationCrashOnExceptions" : @YES }];
+  [[NSUserDefaults standardUserDefaults] registerDefaults:@{@"NSApplicationCrashOnExceptions" : @YES}];
 }
 
 - (void)setupPush {

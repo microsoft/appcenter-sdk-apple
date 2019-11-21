@@ -20,9 +20,7 @@
 #endif
 
 static NSException *lastException;
-static void exceptionHandler(NSException *exception) {
-  lastException = exception;
-}
+static void exceptionHandler(NSException *exception) { lastException = exception; }
 
 @interface MSCrashesCategoryTests : XCTestCase
 

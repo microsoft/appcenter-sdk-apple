@@ -730,7 +730,6 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   // This must be performed asynchronously to prevent a deadlock with 'unprocessedCrashReports'.
   dispatch_time_t delay = dispatch_time(DISPATCH_TIME_NOW, kMSCrashProcessingDelay);
   dispatch_after(delay, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-
     /*
      * FIXME: There is no life cycle for app extensions yet so force start crash processing until then.
      * Note that macOS cannot access the application state from a background thread, so crash processing will start without this check.
