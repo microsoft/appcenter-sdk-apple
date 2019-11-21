@@ -2,6 +2,15 @@
 
 ## Version 2.5.2 (Under development)
 
+### App Center
+
+* **[Fix]** Improve log messages for errors when it failed to read/write auth token history.
+
+### App Center Crashes
+
+* **[Fix]** Fix sending crashes if an application is launched in background.
+* **[Fix]** Validate error attachment size to avoid server error or out of memory issues (using the documented limit which is 7MB).
+
 ### App Center Distribute
 
 * **[Fix]** Fix missing alert dialogs in apps that use iOS 13's new UIScenes API.
