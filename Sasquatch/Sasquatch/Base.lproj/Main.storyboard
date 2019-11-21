@@ -982,6 +982,9 @@
                                                 </label>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iXu-ht-std">
                                                     <rect key="frame" x="308" y="6.5" width="51" height="31"/>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="Auth Enabled"/>
+                                                    </userDefinedRuntimeAttributes>
                                                     <connections>
                                                         <action selector="authSwitchStateUpdated:" destination="9Ck-4D-Ozb" eventType="valueChanged" id="fIO-he-FfA"/>
                                                     </connections>
@@ -1081,6 +1084,9 @@
                                                 </label>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="a34-Sx-8Yt" userLabel="Push Switch">
                                                     <rect key="frame" x="308" y="5.5" width="51" height="31"/>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="Push Enabled"/>
+                                                    </userDefinedRuntimeAttributes>
                                                     <connections>
                                                         <action selector="pushSwitchStateUpdated:" destination="9Ck-4D-Ozb" eventType="valueChanged" id="N8W-3Z-oiY"/>
                                                     </connections>

@@ -9,7 +9,8 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
   var transmissionTargetMapping: [String]?
   var propertyValues: [String: [String]]!
   var collectDeviceIdStates: [String: Bool]!
-
+  
+  static var targetsShared: TransmissionTargets?
   let kDeviceIdRow = 0
   let kAppNameRow = 1
   let kAppVersionRow = 2
@@ -40,16 +41,16 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
   dynamic var child2Properties = [EventProperty]()
 
   private class TransmissionTargetSection: NSObject {
-    static var defaultTransmissionTargetIsEnabled: Bool?
+    static var defaultTransmissionTargetWasEnabled: Bool?
 
     var token: String?
     var isDefault = false
 
     func isTransmissionTargetEnabled() -> Bool {
       if isDefault {
-        return TransmissionTargets.shared.defaultTransmissionTargetIsEnabled
+        return TransmissionTargets.defaultTransmissionTargetWasEnabled
       } else {
-        return getTransmissionTarget()!.isEnabled()
+        return getTransmissionTarget()?.isEnabled() ?? false
       }
     }
 
@@ -63,21 +64,21 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
       if isDefault {
         return nil
       }
-      return TransmissionTargets.shared.transmissionTargets[token!]
+      return targetsShared?.transmissionTargets[token!]
     }
 
     func shouldSendAnalytics() -> Bool {
       if isDefault {
-        return TransmissionTargets.shared.defaultTargetShouldSendAnalyticsEvents()
+        return targetsShared?.defaultTargetShouldSendAnalyticsEvents() ?? false
       }
-      return TransmissionTargets.shared.targetShouldSendAnalyticsEvents(targetToken: token!)
+      return targetsShared?.targetShouldSendAnalyticsEvents(targetToken: token!) ?? false
     }
 
     func setShouldSendAnalytics(enabledState: Bool) {
       if isDefault {
-        TransmissionTargets.shared.setShouldDefaultTargetSendAnalyticsEvents(enabledState: enabledState)
+        targetsShared!.setShouldDefaultTargetSendAnalyticsEvents(enabledState: enabledState)
       } else {
-        TransmissionTargets.shared.setShouldSendAnalyticsEvents(targetToken: token!, enabledState: enabledState)
+        targetsShared!.setShouldSendAnalyticsEvents(targetToken: token!, enabledState: enabledState)
       }
     }
  
@@ -143,6 +144,15 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
 
   override func viewWillAppear() {
     appCenter.startAnalyticsFromLibrary()
+    
+    // We should initialize the targets only after starting from library,
+    // Otherwise channelGroup would be nil.
+    // After that we should reload tables data with actual "enabled" states.
+    TransmissionViewController.targetsShared = TransmissionTargets.shared
+    defaultTable.reloadData()
+    runtimeTable.reloadData()
+    child1Table.reloadData()
+    child2Table.reloadData()
   }
 
   override func viewDidLoad() {
@@ -426,7 +436,7 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
 
     // Update the transmission target.
     let selectedTarget = selectedTransmissionTarget(commonSelector)
-    let target = TransmissionTargets.shared.transmissionTargets[selectedTarget!]!
+    let target = TransmissionViewController.targetsShared!.transmissionTargets[selectedTarget!]!
     target.propertyConfigurator.collectDeviceId()
 
     // Update in memory state for display.
@@ -461,7 +471,7 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
   func propertyValueChanged(sender: NSTextField!) {
     let selectedTarget = selectedTransmissionTarget(commonSelector)
     let propertyIndex = getCellRow(forTextField: sender)
-    let target = TransmissionTargets.shared.transmissionTargets[selectedTarget!]!
+    let target = TransmissionViewController.targetsShared!.transmissionTargets[selectedTarget!]!
     propertyValues[selectedTarget!]![propertyIndex] = sender.stringValue
     let value = sender.stringValue.isEmpty ? nil as String! : sender.stringValue
     switch CommonSchemaPropertyRow(rawValue: propertyIndex - 1)! {
@@ -518,7 +528,7 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
     property.addObserver(self, forKeyPath: #keyPath(EventProperty.dateTime), options: .new, context: nil)
     arrayController.addObject(property)
     let selectedTarget = selectedTransmissionTarget(propertySelector)
-    let target = TransmissionTargets.shared.transmissionTargets[selectedTarget!]!
+    let target = TransmissionViewController.targetsShared!.transmissionTargets[selectedTarget!]!
     setEventPropertyState(property, forTarget: target)
 
     let propertyNoObserver = EventProperty()
@@ -558,7 +568,7 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
       arrayController.removeObject(selectedProperty)
       selectedProperty.removeObserver(self, forKeyPath: #keyPath(EventProperty.type), context: nil)
       let selectedTarget = selectedTransmissionTarget(propertySelector)
-      let target = TransmissionTargets.shared.transmissionTargets[selectedTarget!]!
+      let target = TransmissionViewController.targetsShared!.transmissionTargets[selectedTarget!]!
       target.propertyConfigurator.removeEventProperty(forKey: selectedProperty.key)
     }
   }
@@ -620,7 +630,7 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
       break
     }
     let selectedTarget = transmissionTargetMapping![currentTarget]
-    let target = TransmissionTargets.shared.transmissionTargets[selectedTarget]!
+    let target = TransmissionViewController.targetsShared!.transmissionTargets[selectedTarget]!
     target.propertyConfigurator.removeEventProperty(forKey: key)
     setEventPropertyState(property, forTarget: target)
   }
