@@ -2344,7 +2344,6 @@ static NSURL *sfURL;
   // Stop mocking
   [distributeMock stopMocking];
   [utilityMock stopMocking];
-  [MSMockKeychainUtil mockStatusCode:noErr forKey:kMSUpdateTokenKey];
 }
 
 - (void)testShouldStillAttemptUpdateIfKeychainItemNotFound {
@@ -2371,7 +2370,6 @@ static NSURL *sfURL;
   // Stop mocking
   [distributeMock stopMocking];
   [utilityMock stopMocking];
-  [MSMockKeychainUtil mockStatusCode:noErr forKey:kMSUpdateTokenKey];
 }
 
 - (void)testShouldChangeDistributionGroupIdIfStoredIdIsNil {
