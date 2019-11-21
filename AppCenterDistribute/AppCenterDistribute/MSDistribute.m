@@ -444,6 +444,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                     // If the response payload is MSErrorDetails, consider it as a recoverable error.
                     if (!details || ![kMSErrorCodeNoReleasesForUser isEqualToString:details.code]) {
                       [MSKeychainUtil deleteStringForKey:kMSUpdateTokenKey];
+                      [MS_USER_DEFAULTS removeObjectForKey:kMSSDKHasLaunchedWithDistribute];
                       [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateTokenRequestIdKey];
                       [MS_USER_DEFAULTS removeObjectForKey:kMSPostponedTimestampKey];
                       [MS_USER_DEFAULTS removeObjectForKey:kMSDistributionGroupIdKey];
