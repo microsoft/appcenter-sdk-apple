@@ -2,9 +2,15 @@
 
 ## Version 2.5.2 (Under development)
 
+### App Center
+
+* **[Fix]** Improve log messages for errors when it failed to read/write auth token history.
+
 ### App Center Crashes
 
 * **[Improvement]**  Report additional details for macOS exceptions thrown on the main thread.
+* **[Fix]** Fix sending crashes if an application is launched in background.
+* **[Fix]** Validate error attachment size to avoid server error or out of memory issues (using the documented limit which is 7MB).
 
 ___
 
