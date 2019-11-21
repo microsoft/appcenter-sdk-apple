@@ -15,8 +15,6 @@
 static NSString *const kMSCrashOnExceptionsKey = @"NSApplicationCrashOnExceptions";
 
 /*
- * `NSApplication` subclass to catch additional exceptions
- *
  * On OS X runtime, not all uncaught exceptions end in a custom `NSUncaughtExceptionHandler`.
  * In addition "sometimes" exceptions don't even cause the app to crash, depending on where and
  * when they happen.
@@ -127,21 +125,7 @@ typedef void (* MSReportExceptionImp)(id, SEL, NSException *);
 static MSReportExceptionImp reportExceptionOriginalImp;
 
 static void ms_reportException(id self, SEL _cmd, NSException *exception) {
-
-  // Don't invoke the registered UncaughtExceptionHandler if we are currently debugging this app!
-  if (![MSAppCenter isDebuggerAttached] && exception) {
-
-    /*
-     * We forward this exception to PLCrashReporters UncaughtExceptionHandler.
-     * If the developer has implemented their own exception handler and that one is invoked before PLCrashReporters exception handler and
-     * the developers exception handler is invoking this method it will not finish its tasks after this call but directly jump into
-     * PLCrashReporters exception handler. If we wouldn't do this, this call would lead to an infinite loop.
-     */
-    NSUncaughtExceptionHandler *plcrExceptionHandler = [MSCrashes sharedInstance].exceptionHandler;
-    if (plcrExceptionHandler) {
-      plcrExceptionHandler(exception);
-    }
-  }
+  [MSCrashes applicationDidReportException:exception];
 
   // Forward to the original implementation.
   reportExceptionOriginalImp(self, _cmd, exception);
@@ -199,7 +183,7 @@ static void swizzleSendEvent() {
      * Solution for Scenario 3
      *
      * Exceptions that happen inside an IBAction implementation do not trigger a call to
-     * [NSApp reportException:] and it does not trigger a registered UncaughtExceptionHandler
+     * [NSApplication reportException:] and it does not trigger a registered UncaughtExceptionHandler
      * Hence we need to catch these ourselves, e.g. by overwriting sendEvent: as done right here
      *
      * On 64bit systems the @try @catch block doesn't even cost any performance.
