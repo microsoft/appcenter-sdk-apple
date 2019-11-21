@@ -110,7 +110,7 @@ typedef NS_ENUM(NSUInteger, MSUserConfirmation) {
  * On OS X runtime, not all uncaught exceptions end in a custom `NSUncaughtExceptionHandler`.
  * Forward exception from overrided `[NSApplication reportException:]` to catch additional exceptions.
  */
-+ (void)applicationDidReportException:(NSException *)exception;
++ (void)applicationDidReportException:(NSException *_Nonnull)exception;
 #endif
 
 ///-----------------------------------------------------------------------------

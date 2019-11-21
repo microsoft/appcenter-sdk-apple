@@ -240,10 +240,10 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   return [[MSCrashes sharedInstance] getLastSessionCrashReport];
 }
 
-+ (void)applicationDidReportException:(NSException *)exception {
++ (void)applicationDidReportException:(NSException *_Nonnull)exception {
 
   // Don't invoke the registered UncaughtExceptionHandler if we are currently debugging this app!
-  if (![MSAppCenter isDebuggerAttached] && exception) {
+  if (![MSAppCenter isDebuggerAttached]) {
 
     /*
      * We forward this exception to PLCrashReporters UncaughtExceptionHandler.

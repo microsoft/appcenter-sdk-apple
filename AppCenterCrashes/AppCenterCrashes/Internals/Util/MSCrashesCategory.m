@@ -3,9 +3,17 @@
 
 #import "MSCrashesCategory.h"
 #import "MSAppCenterInternal.h"
+#import "MSCrashesInternal.h"
 #import "MSCrashesPrivate.h"
 #import "MSUtility+Application.h"
 #import <objc/runtime.h>
+
+static NSString *const kMSAppCenterApplicationForwarderEnabledKey = @"AppCenterApplicationForwarderEnabled";
+
+static BOOL isApplicationForwarderEnabled() {
+  NSNumber *forwarderEnabled = [NSBundle.mainBundle objectForInfoDictionaryKey:kMSAppCenterApplicationForwarderEnabledKey];
+  return forwarderEnabled ? [forwarderEnabled boolValue] : YES;
+}
 
 #if TARGET_OS_OSX
 
@@ -13,6 +21,11 @@
  * The flag to allow crashing on uncaught exceptions thrown on the main thread.
  */
 static NSString *const kMSCrashOnExceptionsKey = @"NSApplicationCrashOnExceptions";
+
+static BOOL isCrashOnExceptionsEnabled() {
+  NSNumber *crashOnExceptions = [MS_USER_DEFAULTS objectForKey:kMSCrashOnExceptionsKey];
+  return [crashOnExceptions boolValue];
+}
 
 /*
  * On OS X runtime, not all uncaught exceptions end in a custom `NSUncaughtExceptionHandler`.
@@ -121,7 +134,7 @@ static NSString *const kMSCrashOnExceptionsKey = @"NSApplicationCrashOnException
 
 #pragma mark Report Exception
 
-typedef void (* MSReportExceptionImp)(id, SEL, NSException *);
+typedef void (*MSReportExceptionImp)(id, SEL, NSException *);
 static MSReportExceptionImp reportExceptionOriginalImp;
 
 static void ms_reportException(id self, SEL _cmd, NSException *exception) {
@@ -136,12 +149,13 @@ static void swizzleReportException() {
   dispatch_once(&onceToken, ^{
     Method originalMethod = class_getInstanceMethod([NSApplication class], @selector(reportException:));
     reportExceptionOriginalImp = (MSReportExceptionImp)method_setImplementation(originalMethod, (IMP)ms_reportException);
+    MSLogDebug([MSCrashes logTag], @"Selector 'reportException:' of class 'NSApplication' is swizzled.");
   });
 }
 
 #pragma mark Send Event
 
-typedef void (* MSSendEventImp)(id, SEL, NSEvent *);
+typedef void (*MSSendEventImp)(id, SEL, NSEvent *);
 static MSSendEventImp sendEventOriginalImp;
 
 static void ms_sendEvent(id self, SEL _cmd, NSEvent *event) {
@@ -159,6 +173,7 @@ static void swizzleSendEvent() {
   dispatch_once(&onceToken, ^{
     Method originalMethod = class_getInstanceMethod([NSApplication class], @selector(sendEvent:));
     sendEventOriginalImp = (MSSendEventImp)method_setImplementation(originalMethod, (IMP)ms_sendEvent);
+    MSLogDebug([MSCrashes logTag], @"Selector 'sendEvent:' of class 'NSApplication' is swizzled.");
   });
 }
 
@@ -167,9 +182,16 @@ static void swizzleSendEvent() {
 @implementation MSCrashesCategory
 
 + (void)activateCategory {
+  if (isApplicationForwarderEnabled()) {
+    MSLogDebug([MSCrashes logTag], @"Application forwarder for info.plist key '%@' enabled. It may use swizzling.",
+               kMSAppCenterApplicationForwarderEnabledKey);
+  } else {
+    MSLogDebug([MSCrashes logTag], @"Application forwarder for info.plist key '%@' disabled. It won't use swizzling.",
+               kMSAppCenterApplicationForwarderEnabledKey);
+    return;
+  }
 #if TARGET_OS_OSX
-  NSNumber *crashOnExceptions = [MS_USER_DEFAULTS objectForKey:kMSCrashOnExceptionsKey];
-  if ([crashOnExceptions boolValue]) {
+  if (isCrashOnExceptionsEnabled()) {
 
     /*
      * Solution for Scenario 2
@@ -189,6 +211,11 @@ static void swizzleSendEvent() {
      * On 64bit systems the @try @catch block doesn't even cost any performance.
      */
     swizzleSendEvent();
+  } else {
+    MSLogInfo([MSCrashes logTag],
+              @"Catching uncaught exceptions thrown on the main thread disabled. "
+              @"Set `%@` flag before SDK initialization, to allow crash on uncaught exceptions and the SDK can report them.",
+              kMSCrashOnExceptionsKey);
   }
 #endif
 }
