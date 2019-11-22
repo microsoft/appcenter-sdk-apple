@@ -12,6 +12,10 @@
 * **[Fix]** Fix sending crashes if an application is launched in background.
 * **[Fix]** Validate error attachment size to avoid server error or out of memory issues (using the documented limit which is 7MB).
 
+### App Center Distribute
+
+* **[Fix]** Fix an issue where users would sometimes be prompted multiple times to sign in with App Center.
+
 ___
 
 ## Version 2.5.1
