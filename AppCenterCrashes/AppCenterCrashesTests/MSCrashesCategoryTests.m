@@ -32,6 +32,9 @@ static void exceptionHandler(NSException *exception) { lastException = exception
 
   // If
 #if TARGET_OS_OSX
+  id bundleMock = OCMClassMock([NSBundle class]);
+  OCMStub([bundleMock objectForInfoDictionaryKey:@"AppCenterApplicationForwarderEnabled"]).andReturn(@NO);
+  OCMStub([bundleMock mainBundle]).andReturn(bundleMock);
   MSMockUserDefaults *settings = [MSMockUserDefaults new];
   [settings setObject:@YES forKey:@"NSApplicationCrashOnExceptions"];
   id applicationMock = OCMPartialMock([NSApplication sharedApplication]);
@@ -40,15 +43,24 @@ static void exceptionHandler(NSException *exception) { lastException = exception
   id crashesMock = OCMPartialMock([MSCrashes sharedInstance]);
   OCMStub([crashesMock exceptionHandler]).andReturn((NSUncaughtExceptionHandler *)exceptionHandler);
 #endif
+
   // When
   [MSCrashesCategory activateCategory];
 #if TARGET_OS_OSX
   NSException *e = [NSException new];
   [applicationMock reportException:e];
-#endif
 
   // Then
-#if TARGET_OS_OSX
+  XCTAssertNil(lastException);
+
+  // if
+  [bundleMock stopMocking];
+
+  // When
+  [MSCrashesCategory activateCategory];
+  [applicationMock reportException:e];
+
+  // Then
   XCTAssertEqual(lastException, e);
   [settings stopMocking];
   [applicationMock stopMocking];
