@@ -11,7 +11,7 @@
   NSFileManager *fm = [[NSFileManager alloc] init];
 
   if (![fm fileExistsAtPath:directory]) {
-    NSDictionary *attributes = @{ NSFilePosixPermissions : @0755 };
+    NSDictionary *attributes = @{NSFilePosixPermissions : @0755};
     NSError *error;
     [fm createDirectoryAtPath:directory withIntermediateDirectories:YES attributes:attributes error:&error];
     if (error)
@@ -30,7 +30,7 @@
     if (progname == NULL) {
       return NO;
     }
-    bundleIdentifier = [NSString stringWithUTF8String: progname];
+    bundleIdentifier = [NSString stringWithUTF8String:progname];
   }
 
   NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
