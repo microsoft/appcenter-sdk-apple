@@ -3,7 +3,9 @@
 
 #import <Foundation/Foundation.h>
 
+#import "MSAppCenterInternal.h"
 #import "MSKeychainUtilPrivate.h"
+#import "MSLogger.h"
 #import "MSUtility.h"
 
 @implementation MSKeychainUtil
@@ -19,6 +21,9 @@ static NSString *AppCenterKeychainServiceName(NSString *suffix) {
 
 + (BOOL)storeString:(NSString *)string forKey:(NSString *)key withServiceName:(NSString *)serviceName {
   NSMutableDictionary *attributes = [MSKeychainUtil generateItem:key withServiceName:serviceName];
+
+  // By default the keychain is not accessible when the device is locked, this will make it accessible after the first unlock.
+  attributes[(__bridge id)kSecAttrAccessible] = (__bridge id)(kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly);
   attributes[(__bridge id)kSecValueData] = [string dataUsingEncoding:NSUTF8StringEncoding];
   OSStatus status = [self addSecItem:attributes];
 
@@ -27,7 +32,13 @@ static NSString *AppCenterKeychainServiceName(NSString *suffix) {
     [self deleteSecItem:attributes];
     status = [self addSecItem:attributes];
   }
-  return status == noErr;
+  if (status == noErr) {
+    MSLogVerbose([MSAppCenter logTag], @"Stored a string with key='%@', service='%@' to keychain.", key, serviceName);
+    return YES;
+  }
+  MSLogWarning([MSAppCenter logTag], @"Failed to store item with key='%@', service='%@' to keychain. OS Status code %i", key, serviceName,
+               (int)status);
+  return NO;
 }
 
 + (BOOL)storeString:(NSString *)string forKey:(NSString *)key {
@@ -35,13 +46,16 @@ static NSString *AppCenterKeychainServiceName(NSString *suffix) {
 }
 
 + (NSString *)deleteStringForKey:(NSString *)key withServiceName:(NSString *)serviceName {
-  NSString *string = [MSKeychainUtil stringForKey:key];
+  NSString *string = [MSKeychainUtil stringForKey:key statusCode:nil];
   if (string) {
     NSMutableDictionary *query = [MSKeychainUtil generateItem:key withServiceName:serviceName];
     OSStatus status = [self deleteSecItem:query];
     if (status == noErr) {
+      MSLogVerbose([MSAppCenter logTag], @"Deleted a string with key='%@', service='%@' from keychain.", key, serviceName);
       return string;
     }
+    MSLogWarning([MSAppCenter logTag], @"Failed to delete item with key='%@', service='%@' from keychain. OS Status code %i", key,
+                 serviceName, (int)status);
   }
   return nil;
 }
@@ -50,20 +64,29 @@ static NSString *AppCenterKeychainServiceName(NSString *suffix) {
   return [MSKeychainUtil deleteStringForKey:key withServiceName:AppCenterKeychainServiceName(kMSServiceSuffix)];
 }
 
-+ (NSString *)stringForKey:(NSString *)key withServiceName:(NSString *)serviceName {
++ (NSString *)stringForKey:(NSString *)key withServiceName:(NSString *)serviceName statusCode:(OSStatus *)statusCode {
   NSMutableDictionary *query = [MSKeychainUtil generateItem:key withServiceName:serviceName];
   query[(__bridge id)kSecReturnData] = (__bridge id)kCFBooleanTrue;
   query[(__bridge id)kSecMatchLimit] = (__bridge id)kSecMatchLimitOne;
   CFTypeRef result = nil;
-  OSStatus status = [self secItemCopyMatchingQuery:query result:&result];
-  if (status == noErr) {
+
+  // Create placeholder to use in case given status code pointer is NULL. Can't put it inside the if statement or it can get deallocated too early.
+  OSStatus statusPlaceholder;
+  if (!statusCode) {
+    statusCode = &statusPlaceholder;
+  }
+  *statusCode = [self secItemCopyMatchingQuery:query result:&result];
+  if (*statusCode == noErr) {
+    MSLogVerbose([MSAppCenter logTag], @"Retrieved a string with key='%@', service='%@' from keychain.", key, serviceName);
     return [[NSString alloc] initWithData:(__bridge_transfer NSData *)result encoding:NSUTF8StringEncoding];
   }
+  MSLogWarning([MSAppCenter logTag], @"Failed to retrieve item with key='%@', service='%@' from keychain. OS Status code %i", key,
+               serviceName, (int)*statusCode);
   return nil;
 }
 
-+ (NSString *)stringForKey:(NSString *)key {
-  return [MSKeychainUtil stringForKey:key withServiceName:AppCenterKeychainServiceName(kMSServiceSuffix)];
++ (NSString *)stringForKey:(NSString *)key statusCode:(OSStatus *)statusCode {
+  return [MSKeychainUtil stringForKey:key withServiceName:AppCenterKeychainServiceName(kMSServiceSuffix) statusCode:statusCode];
 }
 
 + (BOOL)clear {

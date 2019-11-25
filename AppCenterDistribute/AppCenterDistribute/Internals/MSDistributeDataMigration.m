@@ -12,8 +12,8 @@
 
   // Migrate Mobile Center update token.
   NSString *mcServiceName = [NSString stringWithFormat:@"%@.%@", [MS_APP_MAIN_BUNDLE bundleIdentifier], @"MobileCenter"];
-  NSString *mcUpdateToken = [MSKeychainUtil stringForKey:kMSUpdateTokenKey withServiceName:mcServiceName];
-  NSString *acUpdateToken = [MSKeychainUtil stringForKey:kMSUpdateTokenKey];
+  NSString *mcUpdateToken = [MSKeychainUtil stringForKey:kMSUpdateTokenKey withServiceName:mcServiceName statusCode:nil];
+  NSString *acUpdateToken = [MSKeychainUtil stringForKey:kMSUpdateTokenKey statusCode:nil];
   if (!acUpdateToken && mcUpdateToken) {
     [MSKeychainUtil storeString:mcUpdateToken forKey:kMSUpdateTokenKey];
   }
