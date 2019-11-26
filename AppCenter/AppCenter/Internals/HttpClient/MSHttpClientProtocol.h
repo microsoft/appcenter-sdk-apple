@@ -8,6 +8,8 @@ NS_ASSUME_NONNULL_BEGIN
 typedef void (^MSHttpRequestCompletionHandler)(NSData *_Nullable responseBody, NSHTTPURLResponse *_Nullable response,
                                                NSError *_Nullable error);
 
+@protocol MSHttpClientDelegate;
+
 @protocol MSHttpClientProtocol
 
 @required
@@ -49,6 +51,21 @@ typedef void (^MSHttpRequestCompletionHandler)(NSData *_Nullable responseBody, N
  * @param isEnabled The desired enabled state of the client - pass `YES` to enable, `NO` to disable.
  */
 - (void)setEnabled:(BOOL)isEnabled;
+
+
+/**
+ * Add a delegate.
+ *
+ * @param delegate The delegate being added.
+ */
+- (void)addDelegate:(id<MSHttpClientDelegate>)delegate;
+
+/**
+ * Remove a delegate.
+ *
+ * @param delegate The delegate being removed.
+*/
+- (void)removeDelegate:(id<MSHttpClientDelegate>)delegate;
 
 @end
 

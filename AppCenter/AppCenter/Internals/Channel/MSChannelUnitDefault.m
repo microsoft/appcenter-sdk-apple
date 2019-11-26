@@ -52,14 +52,6 @@ static NSString *const kMSStartTimestampPrefix = @"MSChannelStartTimer";
     _storage = storage;
     _configuration = configuration;
     _logsDispatchQueue = logsDispatchQueue;
-/*TODO
-    // Register as ingestion delegate.
-    [_ingestion addDelegate:self];
-
-    // Match ingestion's current status, if one is passed.
-    if (_ingestion && _ingestion.paused) {
-      [self pauseWithIdentifyingObject:(_Nonnull id<MSIngestionProtocol>)_ingestion];
-    }*/
   }
   return self;
 }
