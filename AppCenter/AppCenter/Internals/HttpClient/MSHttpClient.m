@@ -11,6 +11,7 @@
 #import "MSLoggerInternal.h"
 #import "MSUtility+StringFormatting.h"
 #import "MS_Reachability.h"
+#import "MSOneCollectorIngestion.h"
 
 #define DEFAULT_RETRY_INTERVALS @[ @10, @(5 * 60), @(20 * 60) ]
 
@@ -284,6 +285,10 @@
     return [MSHttpUtil hideAuthToken:value];
   } else if ([key isEqualToString:kMSHeaderAppSecretKey]) {
     return [MSHttpUtil hideSecret:value];
+  } else if ([key isEqualToString:kMSOneCollectorApiKey]) {
+    return [self obfuscateTargetTokens:value];
+  } else if ([key isEqualToString:kMSOneCollectorTicketsKey]) {
+    return [self obfuscateTickets:value];
   }
   return value;
 }
@@ -296,6 +301,22 @@
   }
   return [flattenedHeaders componentsJoinedByString:@", "];
 }
+//TODO Move business side pretty printing logic out of here.
+
+- (NSString *)obfuscateTargetTokens:(NSString *)tokenString {
+  NSArray *tokens = [tokenString componentsSeparatedByString:@","];
+  NSMutableArray *obfuscatedTokens = [NSMutableArray new];
+  for (NSString *token in tokens) {
+    [obfuscatedTokens addObject:[MSHttpUtil hideSecret:token]];
+  }
+  return [obfuscatedTokens componentsJoinedByString:@","];
+}
+
+- (NSString *)obfuscateTickets:(NSString *)tokenString {
+  NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@":[^\"]+" options:0 error:nil];
+  return [regex stringByReplacingMatchesInString:tokenString options:0 range:NSMakeRange(0, tokenString.length) withTemplate:@":***"];
+}
+
 
 - (void)dealloc {
   [self.reachability stopNotifier];

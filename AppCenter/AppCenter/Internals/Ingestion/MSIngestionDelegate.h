@@ -3,7 +3,7 @@
 
 @protocol MSIngestionProtocol;
 
-@protocol MSIngestionDelegate <NSObject>
+@protocol MSIngestionDelegateONE <NSObject>
 
 @optional
 

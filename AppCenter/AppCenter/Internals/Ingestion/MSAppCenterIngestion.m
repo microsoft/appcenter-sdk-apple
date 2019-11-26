@@ -16,12 +16,15 @@ static NSString *const kMSAPIVersion = @"1.0.0";
 static NSString *const kMSAPIVersionKey = @"api-version";
 static NSString *const kMSApiPath = @"/logs";
 
-- (id)initWithBaseUrl:(NSString *)baseUrl installId:(NSString *)installId {
-  self = [super initWithBaseUrl:baseUrl
+// URL components' name within a partial URL.
+static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"password", @"host", @"port", @"path"};
+
+- (id)initWithHttpClient:(id<MSHttpClientProtocol>)httpClient baseUrl:(NSString *)baseUrl installId:(NSString *)installId {
+  self = [super initWithHttpClient:httpClient
+                           baseUrl:baseUrl
                         apiPath:kMSApiPath
                         headers:@{kMSHeaderContentTypeKey : kMSAppCenterContentType, kMSHeaderInstallIDKey : installId}
-                   queryStrings:@{kMSAPIVersionKey : kMSAPIVersion}
-                   reachability:[MS_Reachability reachabilityForInternetConnection]];
+                   queryStrings:@{kMSAPIVersionKey : kMSAPIVersion}];
   return self;
 }
 
@@ -47,60 +50,79 @@ static NSString *const kMSApiPath = @"/logs";
     return;
   }
 
-  [super sendAsync:container eTag:nil authToken:authToken callId:container.batchId completionHandler:handler];
-}
-
-- (NSURLRequest *)createRequest:(NSObject *)data eTag:(NSString *)__unused eTag authToken:(nullable NSString *)authToken {
   if (!self.appSecret) {
     MSLogError([MSAppCenter logTag], @"AppCenter ingestion is used without app secret.");
-    return nil;
+    //TODO handler
+    return;
   }
-  MSLogContainer *container = (MSLogContainer *)data;
-  NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:self.sendURL];
 
-  // Set method.
-  request.HTTPMethod = @"POST";
-
-  // Set Header params.
-  request.allHTTPHeaderFields = self.httpHeaders;
-  [request setValue:self.appSecret forHTTPHeaderField:kMSHeaderAppSecretKey];
+  NSMutableDictionary *httpHeaders = [self.httpHeaders mutableCopy];
+  [httpHeaders setValue:self.appSecret forKey:kMSHeaderAppSecretKey];
   if ([authToken length] > 0) {
     NSString *bearerTokenHeader = [NSString stringWithFormat:kMSBearerTokenHeaderFormat, authToken];
-    [request setValue:bearerTokenHeader forHTTPHeaderField:kMSAuthorizationHeaderKey];
+    [httpHeaders setValue:bearerTokenHeader forKey:kMSAuthorizationHeaderKey];
   }
-
-  // Set body.
   NSString *jsonString = [container serializeLog];
   NSData *httpBody = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
-
-  // Zip HTTP body if length worth it.
-  if (httpBody.length >= kMSHTTPMinGZipLength) {
-    NSData *compressedHttpBody = [MSCompression compressData:httpBody];
-    if (compressedHttpBody) {
-      [request setValue:kMSHeaderContentEncoding forHTTPHeaderField:kMSHeaderContentEncodingKey];
-      httpBody = compressedHttpBody;
-    }
-  }
-  request.HTTPBody = httpBody;
-
-  // Always disable cookies.
-  [request setHTTPShouldHandleCookies:NO];
-
-  // Don't lose time pretty printing headers if not going to be printed.
-  if ([MSLogger currentLogLevel] <= MSLogLevelVerbose) {
-    MSLogVerbose([MSAppCenter logTag], @"URL: %@", request.URL);
-    MSLogVerbose([MSAppCenter logTag], @"Headers: %@", [super prettyPrintHeaders:request.allHTTPHeaderFields]);
-  }
-  return request;
+  [self.httpClient sendAsync:self.sendURL method:kMSHttpMethodPost headers:httpHeaders data:httpBody completionHandler:^(NSData * _Nullable responseBody, NSHTTPURLResponse * _Nullable response, NSError * _Nullable error) {
+    handler(batchId, response, responseBody, error);
+  }];
 }
 
-- (NSString *)obfuscateHeaderValue:(NSString *)value forKey:(NSString *)key {
-  if ([key isEqualToString:kMSAuthorizationHeaderKey]) {
-    return [MSHttpUtil hideAuthToken:value];
-  } else if ([key isEqualToString:kMSHeaderAppSecretKey]) {
-    return [MSHttpUtil hideSecret:value];
+- (void)sendAsync:(nullable NSObject *)data completionHandler:(nonnull MSSendAsyncCompletionHandler)handler {
+  [self sendAsync:data authToken:nil completionHandler:handler];
+}
+
+- (void)sendAsync:(nullable NSObject *)data eTag:(nullable NSString *)eTag authToken:(nullable NSString *)authToken completionHandler:(nonnull MSSendAsyncCompletionHandler)handler {
+  //TODO etag?
+  (void)eTag;
+  [self sendAsync:data authToken:authToken completionHandler:handler];
+}
+
+
+- (void)sendAsync:(nullable NSObject *)data eTag:(nullable NSString *)eTag completionHandler:(nonnull MSSendAsyncCompletionHandler)handler {
+  (void)eTag;
+  //TODO etag?
+  [self sendAsync:data authToken:nil completionHandler:handler];
+}
+
+- (void)setBaseURL:(NSString *)baseURL {
+  @synchronized(self) {
+    BOOL success = false;
+    NSURLComponents *components;
+    self.baseURL = baseURL;
+    NSURL *partialURL = [NSURL URLWithString:[baseURL stringByAppendingString:self.apiPath]];
+
+    // Merge new parial URL and current full URL.
+    if (partialURL) {
+      components = [NSURLComponents componentsWithURL:self.sendURL resolvingAgainstBaseURL:NO];
+      @try {
+        for (u_long i = 0; i < sizeof(kMSPartialURLComponentsName) / sizeof(*kMSPartialURLComponentsName); i++) {
+          NSString *propertyName = kMSPartialURLComponentsName[i];
+          [components setValue:[partialURL valueForKey:propertyName] forKey:propertyName];
+        }
+      } @catch (NSException *ex) {
+        MSLogInfo([MSAppCenter logTag], @"Error while updating HTTP URL %@ with %@: \n%@", self.sendURL.absoluteString, baseURL, ex);
+      }
+
+      // Update full URL.
+      if (components.URL) {
+        self.sendURL = (NSURL * _Nonnull) components.URL;
+        success = true;
+      }
+    }
+
+    // Notify failure.
+    if (!success) {
+      MSLogInfo([MSAppCenter logTag], @"Failed to update HTTP URL %@ with %@", self.sendURL.absoluteString, baseURL);
+    }
   }
-  return value;
+}
+
+- (void)setEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:(BOOL)deleteData {
+  (void)isEnabled;
+  (void)deleteData;
+  //TODO what to do here?
 }
 
 @end

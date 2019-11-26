@@ -29,19 +29,15 @@ static NSString *const kMSETagRequestHeader = @"If-None-Match";
 @property(nonatomic) NSURL *sendURL;
 
 /**
- * Http method.
- */
-@property(nonatomic, copy) NSString *httpMethod;
-
-/**
  * Request header parameters.
  */
 @property(nonatomic) NSDictionary *httpHeaders;
 
 /**
- * Pending http calls.
+ * The HTTP Client.
  */
-@property NSMutableDictionary<NSString *, MSIngestionCall *> *pendingCalls;
+@property (nonatomic) id<MSHttpClientProtocol> httpClient;
+
 
 /**
  * Send data to backend
@@ -49,13 +45,11 @@ static NSString *const kMSETagRequestHeader = @"If-None-Match";
  * @param data A data instance that will be transformed request body.
  * @param eTag HTTP entity tag.
  * @param authToken Auth token to send data with.
- * @param callId A unique ID that identify a request.
  * @param handler Completion handler.
  */
 - (void)sendAsync:(nullable NSObject *)data
                  eTag:(nullable NSString *)eTag
             authToken:(nullable NSString *)authToken
-               callId:(NSString *)callId
     completionHandler:(MSSendAsyncCompletionHandler)handler;
 
 /**

@@ -15,22 +15,22 @@
 
 @implementation MSOneCollectorIngestion
 
-- (id)initWithBaseUrl:(NSString *)baseUrl {
-  self = [super initWithBaseUrl:baseUrl
-                        apiPath:[NSString stringWithFormat:@"%@/%@", kMSOneCollectorApiPath, kMSOneCollectorApiVersion]
-                        headers:@{
-                          kMSHeaderContentTypeKey : kMSOneCollectorContentType,
-                          kMSOneCollectorClientVersionKey :
-                              [NSString stringWithFormat:kMSOneCollectorClientVersionFormat, [MSUtility sdkVersion]]
-                        }
-                   queryStrings:nil
-                   reachability:[MS_Reachability reachabilityForInternetConnection]
-                 retryIntervals:@[ @(10), @(5 * 60), @(20 * 60) ]
-         maxNumberOfConnections:2];
+- (id)initWithHttpClient:(id<MSHttpClientProtocol>)httpClient baseUrl:(NSString *)baseUrl {
+  self = [super initWithHttpClient:httpClient
+                           baseUrl:baseUrl
+                           apiPath:[NSString stringWithFormat:@"%@/%@", kMSOneCollectorApiPath, kMSOneCollectorApiVersion]
+                           headers:@{
+                                     kMSHeaderContentTypeKey : kMSOneCollectorContentType,
+                                     kMSOneCollectorClientVersionKey :
+                                       [NSString stringWithFormat:kMSOneCollectorClientVersionFormat, [MSUtility sdkVersion]]
+                                     }
+                      queryStrings:nil
+                    retryIntervals:@[ @(10), @(5 * 60), @(20 * 60) ]
+            maxNumberOfConnections:2];
   return self;
 }
 
-- (void)sendAsync:(NSObject *)data authToken:(nullable NSString *)authToken completionHandler:(MSSendAsyncCompletionHandler)handler {
+- (void)sendAsync:(NSObject *)data authToken:(nullable NSString * __unused)authToken completionHandler:(MSSendAsyncCompletionHandler)handler {
   MSLogContainer *container = (MSLogContainer *)data;
   NSString *batchId = container.batchId;
 
@@ -48,15 +48,6 @@
     handler(batchId, 0, nil, error);
     return;
   }
-  [super sendAsync:container eTag:nil authToken:authToken callId:container.batchId completionHandler:handler];
-}
-
-- (NSURLRequest *)createRequest:(NSObject *)data eTag:(NSString *)__unused eTag authToken:(NSString *)__unused authToken {
-  MSLogContainer *container = (MSLogContainer *)data;
-  NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:self.sendURL];
-
-  // Set method.
-  request.HTTPMethod = @"POST";
 
   // Set Header params.
   NSMutableDictionary *headers = [self.httpHeaders mutableCopy];
@@ -86,7 +77,6 @@
     NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     [headers setValue:jsonString forKey:kMSOneCollectorTicketsKey];
   }
-  request.allHTTPHeaderFields = headers;
 
   // Set body.
   NSMutableString *jsonString = [NSMutableString new];
@@ -98,49 +88,15 @@
     [jsonString appendString:kMSOneCollectorLogSeparator];
   }
   NSData *httpBody = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
-
-  // Zip HTTP body if length worth it.
-  if (httpBody.length >= kMSHTTPMinGZipLength) {
-    NSData *compressedHttpBody = [MSCompression compressData:httpBody];
-    if (compressedHttpBody) {
-      [request setValue:kMSHeaderContentEncoding forHTTPHeaderField:kMSHeaderContentEncodingKey];
-      httpBody = compressedHttpBody;
-    }
-  }
-  request.HTTPBody = httpBody;
-
-  // Always disable cookies.
-  [request setHTTPShouldHandleCookies:NO];
-
-  // Don't lose time pretty printing headers if not going to be printed.
-  if ([MSLogger currentLogLevel] <= MSLogLevelVerbose) {
-    MSLogVerbose([MSAppCenter logTag], @"URL: %@", request.URL);
-    MSLogVerbose([MSAppCenter logTag], @"Headers: %@", [super prettyPrintHeaders:request.allHTTPHeaderFields]);
-  }
-  return request;
+  [self.httpClient sendAsync:self.sendURL method:kMSHttpMethodPost headers:headers data:httpBody completionHandler:^(NSData * _Nullable responseBody, NSHTTPURLResponse * _Nullable response, NSError * _Nullable error) {
+    handler(batchId, response, responseBody, error);
+  }];
 }
 
-- (NSString *)obfuscateHeaderValue:(NSString *)value forKey:(NSString *)key {
-  if ([key isEqualToString:kMSOneCollectorApiKey]) {
-    return [self obfuscateTargetTokens:value];
-  } else if ([key isEqualToString:kMSOneCollectorTicketsKey]) {
-    return [self obfuscateTickets:value];
-  }
-  return value;
-}
-
-- (NSString *)obfuscateTargetTokens:(NSString *)tokenString {
-  NSArray *tokens = [tokenString componentsSeparatedByString:@","];
-  NSMutableArray *obfuscatedTokens = [NSMutableArray new];
-  for (NSString *token in tokens) {
-    [obfuscatedTokens addObject:[MSHttpUtil hideSecret:token]];
-  }
-  return [obfuscatedTokens componentsJoinedByString:@","];
-}
-
-- (NSString *)obfuscateTickets:(NSString *)tokenString {
-  NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@":[^\"]+" options:0 error:nil];
-  return [regex stringByReplacingMatchesInString:tokenString options:0 range:NSMakeRange(0, tokenString.length) withTemplate:@":***"];
+- (void)setEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:(BOOL)deleteData {
+  //TODO move out
+  (void)isEnabled;
+  (void)deleteData;
 }
 
 @end

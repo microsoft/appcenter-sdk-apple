@@ -16,8 +16,8 @@ static char *const kMSLogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
 
 #pragma mark - Initialization
 
-- (instancetype)initWithInstallId:(NSUUID *)installId logUrl:(NSString *)logUrl {
-  self = [self initWithIngestion:[[MSAppCenterIngestion alloc] initWithBaseUrl:logUrl installId:[installId UUIDString]]];
+- (instancetype)initWithHttpClient:(id<MSHttpClientProtocol>)httpClient installId:(NSUUID *)installId logUrl:(NSString *)logUrl {
+  self = [self initWithIngestion:[[MSAppCenterIngestion alloc] initWithHttpClient:httpClient baseUrl:logUrl installId:[installId UUIDString]]];
   return self;
 }
 

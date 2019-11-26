@@ -19,7 +19,6 @@ static NSString *const kMSOneCollectorTicketsKey = @"Tickets";
 static NSString *const kMSOneCollectorUploadTimeKey = @"Upload-Time";
 
 @interface MSOneCollectorIngestion : MSHttpIngestion
-
 /**
  * Initialize the ingestion.
  *
@@ -27,6 +26,6 @@ static NSString *const kMSOneCollectorUploadTimeKey = @"Upload-Time";
  *
  * @return An ingestion instance.
  */
-- (id)initWithBaseUrl:(NSString *)baseUrl;
+- (id)initWithHttpClient:(id<MSHttpClientProtocol>)httpClient baseUrl:(NSString *)baseUrl;
 
 @end

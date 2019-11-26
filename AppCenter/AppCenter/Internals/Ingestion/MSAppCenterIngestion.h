@@ -3,9 +3,14 @@
 
 #import <Foundation/Foundation.h>
 
+#import "MSHttpClientProtocol.h"
 #import "MSHttpIngestion.h"
 
 NS_ASSUME_NONNULL_BEGIN
+
+// HTTP request/response headers for eTag.
+//static NSString *const kMSETagResponseHeader = @"etag";
+//static NSString *const kMSETagRequestHeader = @"If-None-Match";
 
 @interface MSAppCenterIngestion : MSHttpIngestion
 
@@ -19,10 +24,11 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param baseUrl Base url.
  * @param installId A unique installation identifier.
+ * @param httpClient The underlying HTTP client.
  *
  * @return An ingestion instance.
  */
-- (id)initWithBaseUrl:(NSString *)baseUrl installId:(NSString *)installId;
+- (id)initWithHttpClient:(id<MSHttpClientProtocol>)httpClient baseUrl:(NSString *)baseUrl installId:(NSString *)installId;
 
 @end
 
