@@ -621,7 +621,6 @@
 		F8936D44230C2804006A330F /* MSHttpCall.h in Headers */ = {isa = PBXBuildFile; fileRef = 3571F64F22457E220052406C /* MSHttpCall.h */; };
 		F8936D45230C2804006A330F /* MSTicketCache.h in Headers */ = {isa = PBXBuildFile; fileRef = B23507B42118D22800F98D4F /* MSTicketCache.h */; };
 		F8936D46230C2804006A330F /* MSIngestionProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = E84B8E311D235209006FD231 /* MSIngestionProtocol.h */; };
-		F8936D47230C2804006A330F /* MSIngestionDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 384772A51DA5691F009365DE /* MSIngestionDelegate.h */; };
 		F8936D4A230C2804006A330F /* MSHttpIngestion.h in Headers */ = {isa = PBXBuildFile; fileRef = E84B8E331D235226006FD231 /* MSHttpIngestion.h */; };
 		F8936D4B230C2804006A330F /* MSAppCenterIngestion.h in Headers */ = {isa = PBXBuildFile; fileRef = BA6824A001520825F18DFC42 /* MSAppCenterIngestion.h */; };
 		F8936D4C230C2804006A330F /* MSOneCollectorIngestion.h in Headers */ = {isa = PBXBuildFile; fileRef = B2B7D50920C5E562001D31B8 /* MSOneCollectorIngestion.h */; };
@@ -707,7 +706,6 @@
 		F8936D9C230C2805006A330F /* MSHttpCall.h in Headers */ = {isa = PBXBuildFile; fileRef = 3571F64F22457E220052406C /* MSHttpCall.h */; };
 		F8936D9D230C2805006A330F /* MSTicketCache.h in Headers */ = {isa = PBXBuildFile; fileRef = B23507B42118D22800F98D4F /* MSTicketCache.h */; };
 		F8936D9E230C2805006A330F /* MSIngestionProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = E84B8E311D235209006FD231 /* MSIngestionProtocol.h */; };
-		F8936D9F230C2805006A330F /* MSIngestionDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 384772A51DA5691F009365DE /* MSIngestionDelegate.h */; };
 		F8936DA2230C2805006A330F /* MSHttpIngestion.h in Headers */ = {isa = PBXBuildFile; fileRef = E84B8E331D235226006FD231 /* MSHttpIngestion.h */; };
 		F8936DA3230C2805006A330F /* MSAppCenterIngestion.h in Headers */ = {isa = PBXBuildFile; fileRef = BA6824A001520825F18DFC42 /* MSAppCenterIngestion.h */; };
 		F8936DA4230C2805006A330F /* MSOneCollectorIngestion.h in Headers */ = {isa = PBXBuildFile; fileRef = B2B7D50920C5E562001D31B8 /* MSOneCollectorIngestion.h */; };
@@ -793,7 +791,6 @@
 		F8936DF4230C2805006A330F /* MSHttpCall.h in Headers */ = {isa = PBXBuildFile; fileRef = 3571F64F22457E220052406C /* MSHttpCall.h */; };
 		F8936DF5230C2805006A330F /* MSTicketCache.h in Headers */ = {isa = PBXBuildFile; fileRef = B23507B42118D22800F98D4F /* MSTicketCache.h */; };
 		F8936DF6230C2805006A330F /* MSIngestionProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = E84B8E311D235209006FD231 /* MSIngestionProtocol.h */; };
-		F8936DF7230C2805006A330F /* MSIngestionDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 384772A51DA5691F009365DE /* MSIngestionDelegate.h */; };
 		F8936DFA230C2805006A330F /* MSHttpIngestion.h in Headers */ = {isa = PBXBuildFile; fileRef = E84B8E331D235226006FD231 /* MSHttpIngestion.h */; };
 		F8936DFB230C2805006A330F /* MSAppCenterIngestion.h in Headers */ = {isa = PBXBuildFile; fileRef = BA6824A001520825F18DFC42 /* MSAppCenterIngestion.h */; };
 		F8936DFC230C2805006A330F /* MSOneCollectorIngestion.h in Headers */ = {isa = PBXBuildFile; fileRef = B2B7D50920C5E562001D31B8 /* MSOneCollectorIngestion.h */; };
@@ -960,6 +957,7 @@
 		3571F65322457FCC0052406C /* MSHttpCall.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSHttpCall.m; sourceTree = "<group>"; };
 		3571F658224962180052406C /* MSHttpUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSHttpUtil.h; sourceTree = "<group>"; };
 		3571F659224962180052406C /* MSHttpUtil.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSHttpUtil.m; sourceTree = "<group>"; };
+		358E703C238DB61100A1A6B5 /* MSHttpClientDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSHttpClientDelegate.h; sourceTree = "<group>"; };
 		358F9BC22019531F00B9E22C /* MSLogger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSLogger.h; sourceTree = "<group>"; };
 		3592ABA51DC90E3600EF4592 /* MSLoggerInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSLoggerInternal.h; sourceTree = "<group>"; };
 		3592ABA61DC90E3600EF4592 /* MSLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSLogger.m; sourceTree = "<group>"; };
@@ -1007,7 +1005,6 @@
 		3844FF1A1E8C2716003E9194 /* MSDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSDevice.m; path = Model/MSDevice.m; sourceTree = "<group>"; };
 		3844FF1B1E8C2716003E9194 /* MSDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSDevice.h; path = Model/MSDevice.h; sourceTree = "<group>"; };
 		3844FF1C1E8C2716003E9194 /* MSAbstractLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSAbstractLog.h; path = Model/MSAbstractLog.h; sourceTree = "<group>"; };
-		384772A51DA5691F009365DE /* MSIngestionDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSIngestionDelegate.h; sourceTree = "<group>"; };
 		384959D41D491D4F008F6B3A /* MSAppCenterTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAppCenterTests.m; sourceTree = "<group>"; };
 		3849BA791EF314440072E3E0 /* MSDBStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDBStorage.h; sourceTree = "<group>"; };
 		3849BA7B1EF3145A0072E3E0 /* MSDBStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDBStorage.m; sourceTree = "<group>"; };
@@ -1379,6 +1376,7 @@
 			children = (
 				3571F657224962090052406C /* Util */,
 				2DA0373E842A41C8413D1722 /* MSHttpClientProtocol.h */,
+				358E703C238DB61100A1A6B5 /* MSHttpClientDelegate.h */,
 				2DA0350241FEC3A6A4919BFE /* MSHttpClient.m */,
 				2DA03260792C64C0290E6E41 /* MSHttpClient.h */,
 				3571F64B22454EDF0052406C /* MSHttpClientPrivate.h */,
@@ -1826,7 +1824,6 @@
 			children = (
 				E8753D6B1D4BE4FC00241513 /* Util */,
 				E84B8E311D235209006FD231 /* MSIngestionProtocol.h */,
-				384772A51DA5691F009365DE /* MSIngestionDelegate.h */,
 				E84B8E331D235226006FD231 /* MSHttpIngestion.h */,
 				38F1944D1DADB93100D3E0FE /* MSHttpIngestionPrivate.h */,
 				E84B8E341D235226006FD231 /* MSHttpIngestion.m */,
@@ -1962,7 +1959,6 @@
 				F8936D2A230C2804006A330F /* MSServiceInternal.h in Headers */,
 				F8936CBC230C24D9006A330F /* MSServiceAbstract.h in Headers */,
 				F8936CEB230C2603006A330F /* MSChannelGroupDefaultPrivate.h in Headers */,
-				F8936D47230C2804006A330F /* MSIngestionDelegate.h in Headers */,
 				F8936CF4230C2603006A330F /* MSOneCollectorIngestionPrivate.h in Headers */,
 				F8936D72230C2804006A330F /* MSKeychainUtil.h in Headers */,
 				F8936D3F230C2804006A330F /* MSUserIdContext.h in Headers */,
@@ -2093,7 +2089,6 @@
 				F8936D82230C2805006A330F /* MSServiceInternal.h in Headers */,
 				F8936CC8230C24DA006A330F /* MSServiceAbstract.h in Headers */,
 				F8936CFF230C2604006A330F /* MSChannelGroupDefaultPrivate.h in Headers */,
-				F8936D9F230C2805006A330F /* MSIngestionDelegate.h in Headers */,
 				F8936D08230C2604006A330F /* MSOneCollectorIngestionPrivate.h in Headers */,
 				F8936DCA230C2805006A330F /* MSKeychainUtil.h in Headers */,
 				F8936D97230C2805006A330F /* MSUserIdContext.h in Headers */,
@@ -2224,7 +2219,6 @@
 				F8936DDA230C2805006A330F /* MSServiceInternal.h in Headers */,
 				F8936CD4230C24DA006A330F /* MSServiceAbstract.h in Headers */,
 				F8936D13230C2604006A330F /* MSChannelGroupDefaultPrivate.h in Headers */,
-				F8936DF7230C2805006A330F /* MSIngestionDelegate.h in Headers */,
 				F8936D1C230C2604006A330F /* MSOneCollectorIngestionPrivate.h in Headers */,
 				F8936E22230C2805006A330F /* MSKeychainUtil.h in Headers */,
 				F8936DEF230C2805006A330F /* MSUserIdContext.h in Headers */,

@@ -3,6 +3,7 @@
 
 #import "MSHttpIngestion.h"
 #import "MSAppCenterInternal.h"
+#import "MSConstants+Internal.h"
 #import "MSHttpIngestionPrivate.h"
 #import "MSUtility+StringFormatting.h"
 
@@ -57,7 +58,6 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
     _httpHeaders = headers;
     _httpClient = httpClient;
     _enabled = YES;
-//    _delegates = [NSHashTable weakObjectsHashTable];
     _callsRetryIntervals = retryIntervals;
     _apiPath = apiPath;
     _maxNumberOfConnections = maxNumberOfConnections;
@@ -108,24 +108,12 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
   [self sendAsync:data eTag:eTag authToken:nil callId:MS_UUID_STRING completionHandler:handler];
 }
 
-//- (void)addDelegate:(id<MSIngestionDelegate>)delegate {
-//  @synchronized(self) {
-//    [self.delegates addObject:delegate];
-//  }
-//}
-//
-//- (void)removeDelegate:(id<MSIngestionDelegate>)delegate {
-//  @synchronized(self) {
-//    [self.delegates removeObject:delegate];
-//  }
-//}
-
 #pragma mark - Life cycle
 
-- (void)setEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:(BOOL)deleteData {
-//TODO figure this out.
-  (void)isEnabled;
-  (void)deleteData;
+- (void)setEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:(BOOL __unused)deleteData {
+  @synchronized (self) {
+    self.enabled = isEnabled;
+  }
 }
 
 #pragma mark - MSIngestionCallDelegate
@@ -219,12 +207,34 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
   return [flattenedHeaders componentsJoinedByString:@", "];
 }
 
-- (void)sendAsync:(NSObject * __unused)data
-                 eTag:(nullable NSString * __unused)eTag
-            authToken:(nullable NSString * __unused)authToken
-               callId:(NSString * __unused)callId
-    completionHandler:(MSSendAsyncCompletionHandler __unused)handler {
-  // TODO this will be overridden?
+- (void)sendAsync:(NSObject *)data
+             eTag:(nullable NSString *)eTag
+        authToken:(nullable NSString *)authToken
+           callId:(NSString * __unused)callId
+completionHandler:(MSSendAsyncCompletionHandler)handler {
+  @synchronized(self) {
+    if (!self.enabled) {
+      return;
+    }
+    //TODO is it okay that this class knows that "data" is a log? Either make the parameter a log container, or remove any knowledge from this class about that.
+    MSLogContainer *container = (MSLogContainer *)data;
+    NSString *batchId = container.batchId;
+    NSDictionary *httpHeaders = [self getHeadersWithData:data eTag:eTag authToken:authToken];
+    NSData *payload = [self getPayloadWithData:data];
+    [self.httpClient sendAsync:self.sendURL method:kMSHttpMethodPost headers:httpHeaders data:payload completionHandler:^(NSData * _Nullable responseBody, NSHTTPURLResponse * _Nullable response, NSError * _Nullable error) {
+      handler(batchId, response, responseBody, error);
+    }];
+  }
+}
+
+// This method is to be overridden by subclasses.
+- (NSDictionary *)getHeadersWithData:(NSObject *__unused)data eTag:(NSString *__unused)eTag authToken:(NSString *__unused)authToken {
+  return nil;
+}
+
+// This method is to be overridden by subclasses.
+- (NSData *)getPayloadWithData:(NSObject *__unused)data {
+  return nil;
 }
 
 #pragma mark - Helper

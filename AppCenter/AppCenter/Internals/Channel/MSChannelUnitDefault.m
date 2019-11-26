@@ -92,12 +92,6 @@ static NSString *const kMSStartTimestampPrefix = @"MSChannelStartTimer";
   [self resumeWithIdentifyingObject:ingestion];
 }
 
-- (void)ingestionDidReceiveFatalError:(__unused id<MSIngestionProtocol>)ingestion {
-
-  // Disable and delete data on fatal errors.
-  [self setEnabled:NO andDeleteDataOnDisabled:YES];
-}
-
 #pragma mark - MSAuthTokenContextDelegate
 
 - (void)authTokenContext:(MSAuthTokenContext *)__unused authTokenContext didUpdateAuthToken:(nullable NSString *)__unused authToken {
@@ -270,6 +264,10 @@ static NSString *const kMSStartTimestampPrefix = @"MSChannelStartTimer";
                                               [delegate channel:self didFailSendingLog:aLog withError:error];
                                             }
                                           }];
+                if (![MSHttpUtil isRecoverableError:response.statusCode]) {
+                  [self setEnabled:NO andDeleteDataOnDisabled:YES];
+                  return;
+                }
               }
 
               // Remove from pending batches.

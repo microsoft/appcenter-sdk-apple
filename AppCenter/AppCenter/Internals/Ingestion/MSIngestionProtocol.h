@@ -10,6 +10,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@protocol MSIngestionDelegate;
+
 typedef void (^MSSendAsyncCompletionHandler)(NSString *callId, NSHTTPURLResponse *_Nullable response, NSData *_Nullable data,
                                              NSError *_Nullable error);
 
@@ -60,21 +62,7 @@ typedef void (^MSSendAsyncCompletionHandler)(NSString *callId, NSHTTPURLResponse
  * @param handler Completion handler.
  */
 - (void)sendAsync:(nullable NSObject *)data eTag:(nullable NSString *)eTag completionHandler:(MSSendAsyncCompletionHandler)handler;
-//
-///**
-// * Add the given delegate to the ingestion.
-// *
-// * @param delegate Ingestion's delegate.
-// */
-//- (void)addDelegate:(id<MSIngestionDelegate>)delegate;
-//
-///**
-// * Delete the given delegate from the ingestion.
-// *
-// * @param delegate Ingestion's delegate.
-// */
-//- (void)removeDelegate:(id<MSIngestionDelegate>)delegate;
-//
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -56,34 +56,23 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
     return;
   }
 
+  [super sendAsync:data authToken:authToken completionHandler:handler];
+}
+
+- (NSDictionary *)getHeadersWithData:(nullable NSObject * __unused)data eTag:(nullable NSString * __unused)eTag authToken:(nullable NSString *)authToken {
   NSMutableDictionary *httpHeaders = [self.httpHeaders mutableCopy];
   [httpHeaders setValue:self.appSecret forKey:kMSHeaderAppSecretKey];
   if ([authToken length] > 0) {
     NSString *bearerTokenHeader = [NSString stringWithFormat:kMSBearerTokenHeaderFormat, authToken];
     [httpHeaders setValue:bearerTokenHeader forKey:kMSAuthorizationHeaderKey];
   }
+  return httpHeaders;
+}
+
+- (NSData *)getPayloadWithData:(nullable NSObject *)data {
+  MSLogContainer *container = (MSLogContainer *)data;
   NSString *jsonString = [container serializeLog];
-  NSData *httpBody = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
-  [self.httpClient sendAsync:self.sendURL method:kMSHttpMethodPost headers:httpHeaders data:httpBody completionHandler:^(NSData * _Nullable responseBody, NSHTTPURLResponse * _Nullable response, NSError * _Nullable error) {
-    handler(batchId, response, responseBody, error);
-  }];
-}
-
-- (void)sendAsync:(nullable NSObject *)data completionHandler:(nonnull MSSendAsyncCompletionHandler)handler {
-  [self sendAsync:data authToken:nil completionHandler:handler];
-}
-
-- (void)sendAsync:(nullable NSObject *)data eTag:(nullable NSString *)eTag authToken:(nullable NSString *)authToken completionHandler:(nonnull MSSendAsyncCompletionHandler)handler {
-  //TODO etag?
-  (void)eTag;
-  [self sendAsync:data authToken:authToken completionHandler:handler];
-}
-
-
-- (void)sendAsync:(nullable NSObject *)data eTag:(nullable NSString *)eTag completionHandler:(nonnull MSSendAsyncCompletionHandler)handler {
-  (void)eTag;
-  //TODO etag?
-  [self sendAsync:data authToken:nil completionHandler:handler];
+  return [jsonString dataUsingEncoding:NSUTF8StringEncoding];
 }
 
 - (void)setBaseURL:(NSString *)baseURL {
@@ -117,12 +106,6 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
       MSLogInfo([MSAppCenter logTag], @"Failed to update HTTP URL %@ with %@", self.sendURL.absoluteString, baseURL);
     }
   }
-}
-
-- (void)setEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:(BOOL)deleteData {
-  (void)isEnabled;
-  (void)deleteData;
-  //TODO what to do here?
 }
 
 @end

@@ -5,7 +5,6 @@
 
 #import "MSAuthTokenContextDelegate.h"
 #import "MSChannelUnitProtocol.h"
-#import "MSIngestionDelegate.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

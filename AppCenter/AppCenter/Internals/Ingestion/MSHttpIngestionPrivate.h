@@ -18,18 +18,11 @@
  */
 @property(nonatomic) NSArray *callsRetryIntervals;
 
-///**
-// * Hash table containing all the delegates as weak references.
-// */
-//@property NSHashTable<id<MSIngestionDelegate>> *delegates;
-//
-
 /**
  * A boolean value set to YES if the ingestion is enabled or NO otherwise.
  * Enable/disable does resume/pause the ingestion as needed under the hood.
  */
 @property(nonatomic, getter=isEnabled) BOOL enabled;
-
 
 /**
  * Initialize the Ingestion with default retry intervals.
@@ -45,6 +38,7 @@
               apiPath:(NSString *)apiPath
               headers:(NSDictionary *)headers
             queryStrings:(NSDictionary *)queryStrings;
+
 /**
  * Initialize the Ingestion.
  *
@@ -99,5 +93,25 @@
  * @return An obfuscated value.
  */
 - (NSString *)obfuscateHeaderValue:(NSString *)value forKey:(NSString *)key;
+
+/**
+ * Get the HTTP headers for the given data.
+ *
+ * @param data The data to be sent.
+ * @param eTag The ETag.
+ * @param authToken The authorization token.
+ *
+ * @return A dictionary of headers.
+ */
+- (NSDictionary *)getHeadersWithData:(NSObject *)data eTag:(NSString *)eTag authToken:(NSString *)authToken;
+
+/**
+ * Gets the HTTP payload for the given data.
+ *
+ * @param data The data object.
+ *
+ * @return The serialized HTTP data.
+ */
+- (NSData *)getPayloadWithData:(NSObject *)data;
 
 @end

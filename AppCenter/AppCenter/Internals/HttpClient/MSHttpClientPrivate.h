@@ -1,10 +1,12 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "MSHttpClient.h"
 #import <Foundation/Foundation.h>
 
+#import "MSHttpClient.h"
+
 @class MS_Reachability;
+@protocol MSHttpClientDelegate;
 
 @interface MSHttpClient ()
 
@@ -49,5 +51,10 @@
  * client.
  */
 @property(nonatomic) NSURLSessionConfiguration *sessionConfiguration;
+
+/**
+ * Hash table containing all the delegates as weak references.
+ */
+@property NSHashTable<id<MSHttpClientDelegate>> *delegates;
 
 @end
