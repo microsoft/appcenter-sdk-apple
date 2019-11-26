@@ -98,4 +98,27 @@
   return httpBody;
 }
 
+- (NSString *)obfuscateHeaderValue:(NSString *)value forKey:(NSString *)key {
+  if ([key isEqualToString:kMSOneCollectorApiKey]) {
+    return [self obfuscateTargetTokens:value];
+  } else if ([key isEqualToString:kMSOneCollectorTicketsKey]) {
+    return [self obfuscateTickets:value];
+  }
+  return value;
+}
+
+- (NSString *)obfuscateTargetTokens:(NSString *)tokenString {
+  NSArray *tokens = [tokenString componentsSeparatedByString:@","];
+  NSMutableArray *obfuscatedTokens = [NSMutableArray new];
+  for (NSString *token in tokens) {
+    [obfuscatedTokens addObject:[MSHttpUtil hideSecret:token]];
+  }
+  return [obfuscatedTokens componentsJoinedByString:@","];
+}
+
+- (NSString *)obfuscateTickets:(NSString *)tokenString {
+  NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@":[^\"]+" options:0 error:nil];
+  return [regex stringByReplacingMatchesInString:tokenString options:0 range:NSMakeRange(0, tokenString.length) withTemplate:@":***"];
+}
+
 @end

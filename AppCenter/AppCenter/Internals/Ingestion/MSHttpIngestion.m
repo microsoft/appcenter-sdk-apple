@@ -6,6 +6,7 @@
 #import "MSConstants+Internal.h"
 #import "MSHttpIngestionPrivate.h"
 #import "MSUtility+StringFormatting.h"
+#import "MSLoggerInternal.h"
 
 //static NSTimeInterval kRequestTimeout = 60.0;
 
@@ -116,40 +117,6 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
   }
 }
 
-#pragma mark - MSIngestionCallDelegate
-
-- (void) prettyPrintRequest {
-  //TODO do
-  /*
-  // Don't lose time pretty printing if not going to be printed.
-  if ([MSAppCenter logLevel] <= MSLogLevelVerbose) {
-    NSString *contentType = httpResponse.allHeaderFields[kMSHeaderContentTypeKey];
-    NSString *payload;
-
-    // Obfuscate payload.
-    if (data.length > 0) {
-      if ([contentType hasPrefix:@"application/json"]) {
-        payload = [MSUtility obfuscateString:[MSUtility prettyPrintJson:data]
-                         searchingForPattern:kMSTokenKeyValuePattern
-                       toReplaceWithTemplate:kMSTokenKeyValueObfuscatedTemplate];
-        payload = [MSUtility obfuscateString:payload
-                         searchingForPattern:kMSRedirectUriPattern
-                       toReplaceWithTemplate:kMSRedirectUriObfuscatedTemplate];
-      } else if (!contentType.length || [contentType hasPrefix:@"text/"] || [contentType hasPrefix:@"application/"]) {
-        payload = [MSUtility obfuscateString:[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]
-                         searchingForPattern:kMSTokenKeyValuePattern
-                       toReplaceWithTemplate:kMSTokenKeyValueObfuscatedTemplate];
-        payload = [MSUtility obfuscateString:payload
-                         searchingForPattern:kMSRedirectUriPattern
-                       toReplaceWithTemplate:kMSRedirectUriObfuscatedTemplate];
-      } else {
-        payload = @"<binary>";
-      }
-    }
-    MSLogVerbose([MSAppCenter logTag], @"HTTP response received with status code: %tu, payload:\n%@", httpResponse.statusCode,
-                 payload);
-  }*/
-}
 
 #pragma mark - Private
 
@@ -186,27 +153,6 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
   }
 }
 
-/**
- * This is an empty method expected to be overridden in sub classes.
- */
-- (NSURLRequest *)createRequest:(NSObject *)__unused data eTag:(NSString *)__unused eTag authToken:(nullable NSString *)__unused authToken {
-  return nil;
-}
-
-- (NSString *)obfuscateHeaderValue:(NSString *)value forKey:(NSString *)key {
-  (void)key;
-  return value;
-}
-
-- (NSString *)prettyPrintHeaders:(NSDictionary<NSString *, NSString *> *)headers {
-  NSMutableArray<NSString *> *flattenedHeaders = [NSMutableArray<NSString *> new];
-  for (NSString *headerKey in headers) {
-    [flattenedHeaders
-        addObject:[NSString stringWithFormat:@"%@ = %@", headerKey, [self obfuscateHeaderValue:headers[headerKey] forKey:headerKey]]];
-  }
-  return [flattenedHeaders componentsJoinedByString:@", "];
-}
-
 - (void)sendAsync:(NSObject *)data
              eTag:(nullable NSString *)eTag
         authToken:(nullable NSString *)authToken
@@ -221,20 +167,80 @@ completionHandler:(MSSendAsyncCompletionHandler)handler {
     NSString *batchId = container.batchId;
     NSDictionary *httpHeaders = [self getHeadersWithData:data eTag:eTag authToken:authToken];
     NSData *payload = [self getPayloadWithData:data];
+
+    // Don't lose time pretty printing headers if not going to be printed.
+    if ([MSLogger currentLogLevel] <= MSLogLevelVerbose) {
+      MSLogVerbose([MSAppCenter logTag], @"URL: %@", self.sendURL);
+      MSLogVerbose([MSAppCenter logTag], @"Headers: %@", [self prettyPrintHeaders:httpHeaders]);
+    }
+
     [self.httpClient sendAsync:self.sendURL method:kMSHttpMethodPost headers:httpHeaders data:payload completionHandler:^(NSData * _Nullable responseBody, NSHTTPURLResponse * _Nullable response, NSError * _Nullable error) {
+      [self printResponse:response body:responseBody error:error];
       handler(batchId, response, responseBody, error);
     }];
   }
 }
 
-// This method is to be overridden by subclasses.
-- (NSDictionary *)getHeadersWithData:(NSObject *__unused)data eTag:(NSString *__unused)eTag authToken:(NSString *__unused)authToken {
+#pragma mark - Printing
+
+- (void)printResponse:(NSHTTPURLResponse*)response body:(NSData *)responseBody error:(NSError *)error {
+
+  // Don't lose time pretty printing if not going to be printed.
+  if (error) {
+    MSLogDebug([MSAppCenter logTag], @"HTTP request error with code: %td, domain: %@, description: %@", error.code,
+               error.domain, error.localizedDescription);
+  }
+  else if ([MSAppCenter logLevel] <= MSLogLevelVerbose) {
+    NSString *contentType = response.allHeaderFields[kMSHeaderContentTypeKey];
+    NSString *payload;
+
+    // Obfuscate payload.
+    if (responseBody.length > 0) {
+      if ([contentType hasPrefix:@"application/json"]) {
+        payload = [MSUtility obfuscateString:[MSUtility prettyPrintJson:responseBody]
+                         searchingForPattern:kMSTokenKeyValuePattern
+                       toReplaceWithTemplate:kMSTokenKeyValueObfuscatedTemplate];
+        payload = [MSUtility obfuscateString:payload
+                         searchingForPattern:kMSRedirectUriPattern
+                       toReplaceWithTemplate:kMSRedirectUriObfuscatedTemplate];
+      } else if (!contentType.length || [contentType hasPrefix:@"text/"] || [contentType hasPrefix:@"application/"]) {
+        payload = [MSUtility obfuscateString:[[NSString alloc] initWithData:responseBody encoding:NSUTF8StringEncoding]
+                         searchingForPattern:kMSTokenKeyValuePattern
+                       toReplaceWithTemplate:kMSTokenKeyValueObfuscatedTemplate];
+        payload = [MSUtility obfuscateString:payload
+                         searchingForPattern:kMSRedirectUriPattern
+                       toReplaceWithTemplate:kMSRedirectUriObfuscatedTemplate];
+      } else {
+        payload = @"<binary>";
+      }
+    }
+    MSLogVerbose([MSAppCenter logTag], @"HTTP response received with status code: %tu, payload:\n%@", response.statusCode,
+                 payload);
+  }
+}
+
+// This method will be overridden by subclasses.
+- (NSDictionary *)getHeadersWithData:(NSObject * __unused)data eTag:(NSString * __unused)eTag authToken:(NSString * __unused)authToken {
   return nil;
 }
 
-// This method is to be overridden by subclasses.
-- (NSData *)getPayloadWithData:(NSObject *__unused)data {
+// This method will be overridden by subclasses.
+- (NSData *)getPayloadWithData:(NSObject * __unused)data {
   return nil;
+}
+
+// This method will be overridden by subclasses.
+- (NSString *)obfuscateHeaderValue:(NSString * __unused)value forKey:(NSString * __unused)key {
+  return nil;
+}
+
+- (NSString *)prettyPrintHeaders:(NSDictionary<NSString *, NSString *> *)headers {
+  NSMutableArray<NSString *> *flattenedHeaders = [NSMutableArray<NSString *> new];
+  for (NSString *headerKey in headers) {
+    [flattenedHeaders
+        addObject:[NSString stringWithFormat:@"%@ = %@", headerKey, [self obfuscateHeaderValue:headers[headerKey] forKey:headerKey]]];
+  }
+  return [flattenedHeaders componentsJoinedByString:@", "];
 }
 
 #pragma mark - Helper

@@ -53,17 +53,6 @@ static NSString *const kMSETagRequestHeader = @"If-None-Match";
     completionHandler:(MSSendAsyncCompletionHandler)handler;
 
 /**
- * Create a request based on data. Must override this method in sub classes.
- *
- * @param data A data instance that will be transformed to request body.
- * @param eTag HTTP entity tag.
- * @param authToken auth token to send data with.
- *
- * @return A URL request.
- */
-- (NSURLRequest *)createRequest:(NSObject *)data eTag:(nullable NSString *)eTag authToken:(nullable NSString *)authToken;
-
-/**
  * Get eTag from the given response.
  *
  * @param response HTTP response with eTag header.
