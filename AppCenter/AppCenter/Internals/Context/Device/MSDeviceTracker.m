@@ -68,10 +68,10 @@ static MSDeviceTracker *sharedInstance = nil;
     // Create new array and create device info in case we don't have any from disk.
     if (_deviceHistory == nil) {
       _deviceHistory = [NSMutableArray<MSDeviceHistoryInfo *> new];
-
-      // This will instantiate the device property to make sure we have a history.
-      [self device];
     }
+
+    // This will instantiate the device property to make sure we have a history.
+    [self device];
   }
   return self;
 }
@@ -250,9 +250,6 @@ static MSDeviceTracker *sharedInstance = nil;
 
 - (void)clearDevices {
   @synchronized(self) {
-      
-    // Refresh current device info if needed before archive.
-    [self device];
 
     // Clear information about the entire history, except for the current device.
     if (self.deviceHistory.count > 1) {
