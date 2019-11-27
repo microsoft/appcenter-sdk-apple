@@ -68,10 +68,10 @@ static MSDeviceTracker *sharedInstance = nil;
     // Create new array and create device info in case we don't have any from disk.
     if (_deviceHistory == nil) {
       _deviceHistory = [NSMutableArray<MSDeviceHistoryInfo *> new];
-
-      // This will instantiate the device property to make sure we have a history.
-      [self device];
     }
+
+    // This will instantiate the device property to make sure we have a history.
+    [self device];
   }
   return self;
 }
@@ -251,12 +251,13 @@ static MSDeviceTracker *sharedInstance = nil;
 - (void)clearDevices {
   @synchronized(self) {
 
-    // Clear persistence.
-    [MS_USER_DEFAULTS removeObjectForKey:kMSPastDevicesKey];
+    // Clear information about the entire history, except for the current device.
+    if (self.deviceHistory.count > 1) {
+        [self.deviceHistory removeObjectsInRange: NSMakeRange(0, self.deviceHistory.count - 1)];
+    }
 
-    // Clear cache.
-    self.device = nil;
-    [self.deviceHistory removeAllObjects];
+    // Clear persistence, but keep the latest information about the device.
+    [MS_USER_DEFAULTS setObject:[NSKeyedArchiver archivedDataWithRootObject: self.deviceHistory] forKey:kMSPastDevicesKey];
   }
 }
 
