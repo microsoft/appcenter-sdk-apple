@@ -8,42 +8,15 @@
 #import "MSDeviceInternal.h"
 #import "MSHttpIngestionPrivate.h"
 #import "MSHttpTestUtil.h"
-#import "MSIngestionCall.h"
-#import "MSIngestionDelegate.h"
 #import "MSLoggerInternal.h"
 #import "MSMockLog.h"
 #import "MSTestFrameworks.h"
 #import "MSUtility+StringFormatting.h"
+#import "MSHttpClient.h"
 
 static NSTimeInterval const kMSTestTimeout = 5.0;
 static NSString *const kMSBaseUrl = @"https://test.com";
 static NSString *const kMSTestAppSecret = @"TestAppSecret";
-
-@interface MSIngestionCallExpectation : MSIngestionCall
-
-@property XCTestExpectation *Expectation;
-
-- (id)initWithRetryIntervals:(NSArray *)retryIntervals andExpectation:(XCTestExpectation *)Expectation;
-
-@end
-
-@implementation MSIngestionCallExpectation
-
-- (id)initWithRetryIntervals:(NSArray *)retryIntervals andExpectation:(XCTestExpectation *)Expectation {
-  self = [super initWithRetryIntervals:retryIntervals];
-  _Expectation = Expectation;
-  return self;
-}
-
-- (void)ingestion:(id<MSIngestionProtocol>)ingestion
-    callCompletedWithResponse:(NSHTTPURLResponse *)response
-                         data:(nullable NSData *)data
-                        error:(NSError *)error {
-  [super ingestion:ingestion callCompletedWithResponse:response data:data error:error];
-  [self.Expectation fulfill];
-}
-
-@end
 
 @interface MSAppCenterIngestionTests : XCTestCase
 
@@ -51,6 +24,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 @property(nonatomic) id deviceMock;
 @property(nonatomic) id reachabilityMock;
 @property(nonatomic) NetworkStatus currentNetworkStatus;
+@property(nonatomic) MSHttpClient *httpClientMock;
 
 @end
 
@@ -66,7 +40,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
   NSDictionary *headers = @{@"Content-Type" : @"application/json", @"App-Secret" : kMSTestAppSecret, @"Install-ID" : MS_UUID_STRING};
   NSDictionary *queryStrings = @{@"api-version" : @"1.0.0"};
-
+  self.httpClientMock = OCMPartialMock([MSHttpClient new]);
   self.deviceMock = OCMPartialMock([MSDevice new]);
   OCMStub([self.deviceMock isValid]).andReturn(YES);
 
@@ -79,11 +53,11 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   });
 
   // sut: System under test
-  self.sut = [[MSAppCenterIngestion alloc] initWithBaseUrl:kMSBaseUrl
+  self.sut = [[MSAppCenterIngestion alloc] initWithHttpClient:self.httpClientMock
+                                                      baseUrl:kMSBaseUrl
                                                    apiPath:@"/test-path"
                                                    headers:headers
                                               queryStrings:queryStrings
-                                              reachability:self.reachabilityMock
                                             retryIntervals:@[ @(0.5), @(1), @(1.5) ]];
   [self.sut setAppSecret:kMSTestAppSecret];
 }
@@ -98,9 +72,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
    * Setting the variable to nil. We are experiencing test failure on Xcode 9 beta because the instance that was used for previous test
    * method is not disposed and still listening to network changes in other tests.
    */
-  [self.sut.pendingCalls removeAllObjects];
   [MS_NOTIFICATION_CENTER removeObserver:self.sut name:kMSReachabilityChangedNotification object:nil];
-  [self.sut.session invalidateAndCancel];
   self.sut = nil;
 }
 
@@ -129,137 +101,10 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
                                }];
 }
 
-// TODO: Move this to base MSHttpIngestion test.
-- (void)testUnrecoverableError {
 
-  // If
-  [MSHttpTestUtil stubHttp404Response];
-  NSString *containerId = @"1";
-  MSLogContainer *container = [self createLogContainerWithId:containerId];
-  __weak XCTestExpectation *expectation = [self expectationWithDescription:@"HTTP Response 200"];
-  id delegateMock = OCMProtocolMock(@protocol(MSIngestionDelegate));
-  [self.sut addDelegate:delegateMock];
+//TODO Should HTTP ingestion have its own pause state? What happens when all retries are used for a request? should that pause the http client used everywhere? Or should the channel for that module observe that all retries are used and then pause it manually? or should ingestion pause itself when that happens for one of its calls but not expose the pause state at that level?
 
-  // When
-  [self.sut sendAsync:container
-              authToken:nil
-      completionHandler:^(NSString *batchId, NSHTTPURLResponse *response, __unused NSData *data, NSError *error) {
-        // Then
-        XCTAssertEqual(containerId, batchId);
-        XCTAssertEqual((MSHTTPCodesNo)response.statusCode, MSHTTPCodesNo404NotFound);
-        XCTAssertEqual(error.domain, kMSACErrorDomain);
-        XCTAssertEqual(error.code, MSACConnectionHttpErrorCode);
-        XCTAssertEqual(error.localizedDescription, kMSACConnectionHttpErrorDesc);
-        XCTAssertTrue([error.userInfo[(NSString *)kMSACConnectionHttpCodeErrorKey] isEqual:@(MSHTTPCodesNo404NotFound)]);
 
-        /*
-         * FIXME: This unit test failes intermittently because of timing issue.
-         * Wait a little bit of time here so that [MSIngestionProtocol call:completedWithFatalError:] can be invoked right after this
-         * completion handler.
-         */
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-          [expectation fulfill];
-        });
-      }];
-
-  // Then
-  [self waitForExpectationsWithTimeout:kMSTestTimeout
-                               handler:^(NSError *_Nullable error) {
-                                 assertThatBool(self.sut.enabled, isFalse());
-                                 OCMVerify([delegateMock ingestionDidReceiveFatalError:self.sut]);
-                                 if (error) {
-                                   XCTFail(@"Expectation Failed with error: %@", error);
-                                 }
-                               }];
-}
-
-// TODO: Move this to base MSHttpIngestion test.
-- (void)testNetworkDown {
-
-  // If
-  [MSHttpTestUtil stubNetworkDownResponse];
-  XCTestExpectation *requestCompletedExpectation = [self expectationWithDescription:@"Request completed."];
-  NSString *containerId = @"1";
-  MSLogContainer *container = [self createLogContainerWithId:containerId];
-
-  // Mock the call to intercept the retry.
-  NSArray *intervals = @[ @(0.5), @(1) ];
-  MSIngestionCall *mockedCall = [[MSIngestionCallExpectation alloc] initWithRetryIntervals:intervals
-                                                                            andExpectation:requestCompletedExpectation];
-  mockedCall.delegate = self.sut;
-  mockedCall.data = container;
-  mockedCall.callId = container.batchId;
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wnonnull"
-  mockedCall.completionHandler = nil;
-#pragma clang diagnostic pop
-
-  self.sut.pendingCalls[containerId] = mockedCall;
-
-  // When
-  [self.sut sendCallAsync:mockedCall];
-
-  // Then
-  [self waitForExpectationsWithTimeout:kMSTestTimeout
-                               handler:^(NSError *error) {
-                                 // The call must still be in the pending calls, intended to be retried later.
-                                 assertThatUnsignedLong(self.sut.pendingCalls.count, equalToUnsignedLong(1));
-                                 assertThatUnsignedLong(mockedCall.retryCount, equalToUnsignedLong(0));
-                                 if (error) {
-                                   XCTFail(@"Expectation Failed with error: %@", error);
-                                 }
-                               }];
-}
-
-// TODO: Move this to base MSHttpIngestion test.
-- (void)testNetworkUpAgain {
-
-  // If
-  XCTestExpectation *requestCompletedExpectation = [self expectationWithDescription:@"Request completed."];
-  __block NSInteger forwardedStatus;
-  __block NSError *forwardedError;
-  [MSHttpTestUtil stubHttp200Response];
-  MSLogContainer *container = [self createLogContainerWithId:@"1"];
-
-  // Set a delegate for pause/resume event.
-  id delegateMock = OCMProtocolMock(@protocol(MSIngestionDelegate));
-  [self.sut addDelegate:delegateMock];
-  OCMStub([delegateMock ingestionDidPause:self.sut]).andDo(^(__unused NSInvocation *invocation) {
-    // Send one batch now that the ingestion is paused.
-    [self.sut sendAsync:container
-        completionHandler:^(__unused NSString *batchId, NSHTTPURLResponse *response, __unused NSData *data, NSError *error) {
-          forwardedStatus = response.statusCode;
-          forwardedError = error;
-          [requestCompletedExpectation fulfill];
-        }];
-
-    // When
-    // Simulate network up again.
-    [self simulateReachabilityChangedNotification:ReachableViaWiFi];
-  });
-
-  // Simulate network is down.
-  [self simulateReachabilityChangedNotification:NotReachable];
-
-  // Then
-  [self waitForExpectationsWithTimeout:kMSTestTimeout
-                               handler:^(NSError *error) {
-                                 // The ingestion got resumed.
-                                 OCMVerify([delegateMock ingestionDidResume:self.sut]);
-                                 assertThatBool(self.sut.paused, isFalse());
-
-                                 // The call as been removed.
-                                 assertThatUnsignedLong(self.sut.pendingCalls.count, equalToInt(0));
-
-                                 // Status codes and error must be the same.
-                                 assertThatLong(MSHTTPCodesNo200OK, equalToInteger(forwardedStatus));
-                                 assertThat(forwardedError, nilValue());
-                                 if (error) {
-                                   XCTFail(@"Expectation Failed with error: %@", error);
-                                 }
-                               }];
-}
 
 // TODO: Move this to base MSHttpIngestion test.
 - (void)testPausedWhenAllRetriesUsed {
