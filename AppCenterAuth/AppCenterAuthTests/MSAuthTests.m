@@ -24,6 +24,7 @@
 #import "MSChannelUnitProtocol.h"
 #import "MSConstants+Internal.h"
 #import "MSConstants.h"
+#import "MSHttpClient.h"
 #import "MSHttpTestUtil.h"
 #import "MSMockUserDefaults.h"
 #import "MSServiceAbstractInternal.h"
@@ -75,7 +76,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   self.sut = [MSAuth sharedInstance];
   self.ingestionMock = OCMClassMock([MSAuthConfigIngestion class]);
   OCMStub([self.ingestionMock alloc]).andReturn(self.ingestionMock);
-  OCMStub([self.ingestionMock initWithBaseUrl:OCMOCK_ANY appSecret:OCMOCK_ANY]).andReturn(self.ingestionMock);
+  OCMStub([self.ingestionMock initWithHttpClient:[MSHttpClient new] baseUrl:OCMOCK_ANY appSecret:OCMOCK_ANY]).andReturn(self.ingestionMock);
   self.clientApplicationMock = OCMClassMock([MSALPublicClientApplication class]);
 }
 
@@ -1253,7 +1254,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
                   fromApplication:YES];
 
   // Then
-  OCMVerify([self.ingestionMock initWithBaseUrl:kMSAuthDefaultBaseURL appSecret:kMSTestAppSecret]);
+  OCMVerify([self.ingestionMock initWithHttpClient:[MSHttpClient new] baseUrl:kMSAuthDefaultBaseURL appSecret:kMSTestAppSecret]);
 }
 
 - (void)testConfigURLIsPassedToIngestionWhenSetBeforeServiceStart {
@@ -1270,7 +1271,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
                   fromApplication:YES];
 
   // Then
-  OCMVerify([self.ingestionMock initWithBaseUrl:baseConfigUrl appSecret:kMSTestAppSecret]);
+  OCMVerify([self.ingestionMock initWithHttpClient:[MSHttpClient new] baseUrl:kMSAuthDefaultBaseURL appSecret:kMSTestAppSecret]);
 }
 
 - (void)testRefreshNeededTriggersRefresh {

@@ -4,6 +4,7 @@
 #import "MSDistributeIngestion.h"
 #import "MSAppCenter.h"
 #import "MSAppCenterInternal.h"
+#import "MSConstants+Internal.h"
 #import "MSHttpIngestionPrivate.h"
 #import "MSLoggerInternal.h"
 
@@ -64,6 +65,24 @@ static NSString *const kMSLatestPublicReleaseApiPathFormat = @"/public/sdk/apps/
   }
 
   return request;
+}
+
+- (NSString *)getHttpMethod {
+  return kMSHttpMethodGet;
+};
+
+- (NSDictionary *)getHeadersWithData:(NSObject * __unused)data eTag:(NSString *)eTag authToken:(NSString * __unused)authToken {
+  
+  // Set Header params.
+  NSMutableDictionary *headers = [self.httpHeaders mutableCopy];
+  if (eTag != nil) {
+    [headers setValue:eTag forKey:kMSETagRequestHeader];
+  }
+  return headers;
+}
+
+- (NSData *)getPayloadWithData:(NSObject * __unused)data {
+  return nil;
 }
 
 - (NSString *)obfuscateHeaderValue:(NSString *)value forKey:(NSString *)key {

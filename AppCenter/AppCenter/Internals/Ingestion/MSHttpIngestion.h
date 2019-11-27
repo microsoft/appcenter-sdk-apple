@@ -52,7 +52,7 @@ static NSString *const kMSETagRequestHeader = @"If-None-Match";
  *
  * @param data The request body data.
  */
-- (NSData *)getPayloadWithData:(nullable NSObject *)data;
+- (nullable NSData *)getPayloadWithData:(nullable NSObject *)data;
 
 /**
  * Send data to backend

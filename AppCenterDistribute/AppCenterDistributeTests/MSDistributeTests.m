@@ -9,6 +9,7 @@
 #import "MSAuthTokenContextPrivate.h"
 #import "MSBasicMachOParser.h"
 #import "MSChannelGroupDefault.h"
+#import "MSConstants+Internal.h"
 #import "MSDistribute.h"
 #import "MSDistributeInfoTracker.h"
 #import "MSDistributeInternal.h"
@@ -16,8 +17,9 @@
 #import "MSDistributeTestUtil.h"
 #import "MSDistributeUtil.h"
 #import "MSGuidedAccessUtil.h"
+#import "MSHttpCall.h"
+#import "MSHttpClient.h"
 #import "MSHttpTestUtil.h"
-#import "MSIngestionCall.h"
 #import "MSLoggerInternal.h"
 #import "MSMockKeychainUtil.h"
 #import "MSMockReachability.h"
@@ -71,12 +73,6 @@ static NSURL *sfURL;
 
 @end
 
-@interface MSIngestionCall ()
-
-- (void)startRetryTimerWithStatusCode:(NSUInteger)statusCode;
-
-@end
-
 static NSURL *sfURL;
 
 @interface MSDistributeTests : XCTestCase
@@ -91,6 +87,11 @@ static NSURL *sfURL;
 @property(nonatomic) id reachabilityMock;
 
 @end
+
+@interface MSHttpClient ()
+- (void)requestCompletedWithHttpCall:(MSHttpCall *)httpCall data:(NSData *)data response:(NSURLResponse *)response error:(NSError *)error;
+@end
+
 
 @implementation MSDistributeTests
 
@@ -782,19 +783,19 @@ static NSURL *sfURL;
   OCMStub([reachabilityMock reachabilityForInternetConnection]).andReturn(reachabilityMock);
   OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(ReachableViaWiFi);
   XCTestExpectation *expectation = [self expectationWithDescription:@"Request completed."];
-  id ingestionCallMock = OCMPartialMock([MSIngestionCall alloc]);
-  OCMStub([ingestionCallMock alloc]).andReturn(ingestionCallMock);
-  OCMReject([ingestionCallMock startRetryTimerWithStatusCode:404]);
-  OCMStub([ingestionCallMock ingestion:OCMOCK_ANY
-              callCompletedWithResponse:[OCMArg checkWithBlock:^BOOL(NSHTTPURLResponse *response) {
-                return response.statusCode == MSHTTPCodesNo404NotFound;
-              }]
-                                   data:OCMOCK_ANY
-                                  error:OCMOCK_ANY])
-      .andForwardToRealObject()
-      .andDo(^(__unused NSInvocation *invocation) {
-        [expectation fulfill];
-      });
+
+  id httpCallMock = OCMPartialMock([MSHttpCall alloc]);
+  OCMStub([httpCallMock alloc]).andReturn(httpCallMock);
+  OCMReject([httpCallMock startRetryTimerWithStatusCode:404 retryAfter:OCMOCK_ANY event:OCMOCK_ANY]);
+  id httpClientMock = OCMPartialMock([MSHttpClient alloc]);
+  OCMStub([httpClientMock alloc]).andReturn(httpClientMock);
+  OCMStub([httpClientMock requestCompletedWithHttpCall:httpCallMock data:OCMOCK_ANY response:[OCMArg checkWithBlock:^BOOL(NSHTTPURLResponse *response) {
+    return response.statusCode == MSHTTPCodesNo404NotFound;
+  }] error:OCMOCK_ANY])
+  .andForwardToRealObject()
+  .andDo(^(__unused NSInvocation *invocation) {
+    [expectation fulfill];
+  });
 
   // Non recoverable error.
   [MSHttpTestUtil stubHttp404Response];
@@ -807,7 +808,7 @@ static NSURL *sfURL;
                                handler:^(NSError *error) {
                                  // Then
                                  OCMVerifyAll(distributeMock);
-                                 OCMVerifyAll(ingestionCallMock);
+                                 OCMVerifyAll(httpCallMock);
                                  XCTAssertNil([MSMockKeychainUtil stringForKey:kMSUpdateTokenKey statusCode:nil]);
                                  OCMVerify([self.settingsMock removeObjectForKey:kMSSDKHasLaunchedWithDistribute]);
                                  OCMVerify([self.settingsMock removeObjectForKey:kMSUpdateTokenRequestIdKey]);
@@ -826,7 +827,8 @@ static NSURL *sfURL;
   // Clear
   [distributeMock stopMocking];
   [reachabilityMock stopMocking];
-  [ingestionCallMock stopMocking];
+  [httpCallMock stopMocking];
+  [httpClientMock stopMocking];
 }
 
 - (void)testCheckLatestReleaseOnRecoverableError {
@@ -840,19 +842,19 @@ static NSURL *sfURL;
   OCMStub([reachabilityMock reachabilityForInternetConnection]).andReturn(reachabilityMock);
   OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(ReachableViaWiFi);
   XCTestExpectation *expectation = [self expectationWithDescription:@"Request completed."];
-  id ingestionCallMock = OCMPartialMock([MSIngestionCall alloc]);
-  OCMStub([ingestionCallMock alloc]).andReturn(ingestionCallMock);
-  OCMStub([ingestionCallMock startRetryTimerWithStatusCode:500]).andDo(nil);
-  OCMStub([ingestionCallMock ingestion:OCMOCK_ANY
-              callCompletedWithResponse:[OCMArg checkWithBlock:^BOOL(NSHTTPURLResponse *response) {
-                return response.statusCode == MSHTTPCodesNo500InternalServerError;
-              }]
-                                   data:OCMOCK_ANY
-                                  error:OCMOCK_ANY])
-      .andForwardToRealObject()
-      .andDo(^(__unused NSInvocation *invocation) {
-        [expectation fulfill];
-      });
+  id httpCallMock = OCMPartialMock([MSHttpCall alloc]);
+  OCMStub([httpCallMock alloc]).andReturn(httpCallMock);
+  OCMStub([httpCallMock startRetryTimerWithStatusCode:500 retryAfter:OCMOCK_ANY event:OCMOCK_ANY]).andDo(nil);
+  id httpClientMock = OCMPartialMock([MSHttpClient alloc]);
+  OCMStub([httpClientMock alloc]).andReturn(httpClientMock);
+  
+  OCMStub([httpClientMock requestCompletedWithHttpCall:httpCallMock data:OCMOCK_ANY response:[OCMArg checkWithBlock:^BOOL(NSHTTPURLResponse *response) {
+    return response.statusCode == MSHTTPCodesNo500InternalServerError;
+  }] error:OCMOCK_ANY])
+  .andForwardToRealObject()
+  .andDo(^(__unused NSInvocation *invocation) {
+    [expectation fulfill];
+  });
 
   // Recoverable error.
   [MSHttpTestUtil stubHttp500Response];
@@ -869,7 +871,7 @@ static NSURL *sfURL;
                                handler:^(NSError *error) {
                                  // Then
                                  OCMVerifyAll(distributeMock);
-                                 OCMVerify([ingestionCallMock startRetryTimerWithStatusCode:500]);
+                                 OCMVerify([httpCallMock startRetryTimerWithStatusCode:500 retryAfter:OCMOCK_ANY event:OCMOCK_ANY]);
                                  XCTAssertNotNil([MSKeychainUtil stringForKey:kMSUpdateTokenKey statusCode:nil]);
                                  XCTAssertNotNil([self.settingsMock objectForKey:kMSSDKHasLaunchedWithDistribute]);
                                  XCTAssertNotNil([self.settingsMock objectForKey:kMSUpdateTokenRequestIdKey]);
@@ -883,7 +885,8 @@ static NSURL *sfURL;
   // Clear
   [distributeMock stopMocking];
   [reachabilityMock stopMocking];
-  [ingestionCallMock stopMocking];
+  [httpCallMock stopMocking];
+  [httpClientMock stopMocking];
 }
 
 - (void)testPersistLastMandatoryUpdate {
@@ -2255,19 +2258,18 @@ static NSURL *sfURL;
   OCMStub([reachabilityMock reachabilityForInternetConnection]).andReturn(reachabilityMock);
   OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(ReachableViaWiFi);
   XCTestExpectation *expectation = [self expectationWithDescription:@"Request completed."];
-  id ingestionCallMock = OCMPartialMock([MSIngestionCall alloc]);
-  OCMStub([ingestionCallMock alloc]).andReturn(ingestionCallMock);
-  OCMReject([ingestionCallMock startRetryTimerWithStatusCode:404]);
-  OCMStub([ingestionCallMock ingestion:OCMOCK_ANY
-              callCompletedWithResponse:[OCMArg checkWithBlock:^BOOL(NSHTTPURLResponse *response) {
-                return response.statusCode == MSHTTPCodesNo404NotFound;
-              }]
-                                   data:OCMOCK_ANY
-                                  error:OCMOCK_ANY])
-      .andForwardToRealObject()
-      .andDo(^(__unused NSInvocation *invocation) {
-        [expectation fulfill];
-      });
+  id httpCallMock = OCMPartialMock([MSHttpCall alloc]);
+  OCMStub([httpCallMock alloc]).andReturn(httpCallMock);
+  OCMReject([httpCallMock startRetryTimerWithStatusCode:404 retryAfter:OCMOCK_ANY event:OCMOCK_ANY]);
+  id httpClientMock = OCMPartialMock([MSHttpClient alloc]);
+  OCMStub([httpClientMock alloc]).andReturn(httpClientMock);
+  OCMStub([httpClientMock requestCompletedWithHttpCall:httpCallMock data:OCMOCK_ANY response:[OCMArg checkWithBlock:^BOOL(NSHTTPURLResponse *response) {
+    return response.statusCode == MSHTTPCodesNo404NotFound;
+  }] error:OCMOCK_ANY])
+  .andForwardToRealObject()
+  .andDo(^(__unused NSInvocation *invocation) {
+    [expectation fulfill];
+  });
   [MSHttpTestUtil stubHttp404Response];
   [self.settingsMock setObject:@1 forKey:kMSDownloadedReleaseIdKey];
   [self.settingsMock setObject:kMSTestReleaseHash forKey:kMSDownloadedReleaseHashKey];
@@ -2291,7 +2293,8 @@ static NSURL *sfURL;
   [distributeMock stopMocking];
   [keychainMock stopMocking];
   [reachabilityMock stopMocking];
-  [ingestionCallMock stopMocking];
+  [httpCallMock stopMocking];
+  [httpClientMock stopMocking];
 }
 
 - (void)testShouldChangeDistributionGroupIdIfStoredIdDoesntMatchDownloadedId {
