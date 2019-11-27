@@ -8,16 +8,18 @@
 #import "MSAuthPrivate.h"
 #import "MSHttpIngestionPrivate.h"
 #import "MSLoggerInternal.h"
+#import "MSHttpClientProtocol.h"
 
 @implementation MSAuthConfigIngestion
 
-- (id)initWithBaseUrl:(NSString *)baseUrl appSecret:(NSString *)appSecret {
+- (id)initWithHttpClient:(id<MSHttpClientProtocol>)httpClient
+                 baseUrl:(NSString *)baseUrl appSecret:(NSString *)appSecret {
   NSString *apiPath = [NSString stringWithFormat:kMSAuthConfigApiFormat, appSecret];
-  if ((self = [super initWithBaseUrl:baseUrl
+  if ((self = [super initWithHttpClient:httpClient
+                                baseUrl:baseUrl
                              apiPath:apiPath
                              headers:nil
-                        queryStrings:nil
-                        reachability:[MS_Reachability reachabilityForInternetConnection]])) {
+                        queryStrings:nil])) {
     _appSecret = appSecret;
   }
 

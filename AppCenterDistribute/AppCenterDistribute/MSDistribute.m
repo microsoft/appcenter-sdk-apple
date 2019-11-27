@@ -19,6 +19,7 @@
 #import "MSGuidedAccessUtil.h"
 #import "MSKeychainUtil.h"
 #import "MSSessionContext.h"
+#import "MSHttpClient.h"
 
 /**
  * Service storage key name.
@@ -350,7 +351,8 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
         [queryStrings addEntriesFromDictionary:reportingParametersForUpdatedRelease];
       }
       queryStrings[kMSURLQueryReleaseHashKey] = releaseHash;
-      self.ingestion = [[MSDistributeIngestion alloc] initWithBaseUrl:self.apiUrl
+      self.ingestion = [[MSDistributeIngestion alloc] initWithHttpClient:[MSHttpClient new]
+                                                                 baseUrl:self.apiUrl
                                                             appSecret:self.appSecret
                                                           updateToken:updateToken
                                                   distributionGroupId:distributionGroupId

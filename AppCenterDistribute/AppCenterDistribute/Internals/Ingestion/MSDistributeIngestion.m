@@ -15,7 +15,8 @@
 static NSString *const kMSLatestPrivateReleaseApiPathFormat = @"/sdk/apps/%@/releases/latest";
 static NSString *const kMSLatestPublicReleaseApiPathFormat = @"/public/sdk/apps/%@/distribution_groups/%@/releases/latest";
 
-- (id)initWithBaseUrl:(NSString *)baseUrl
+- (id)initWithHttpClient:(id<MSHttpClientProtocol>)httpClient
+                 baseUrl:(NSString *)baseUrl
               appSecret:(NSString *)appSecret
             updateToken:(NSString *)updateToken
     distributionGroupId:(NSString *)distributionGroupId
@@ -28,11 +29,11 @@ static NSString *const kMSLatestPublicReleaseApiPathFormat = @"/public/sdk/apps/
   } else {
     apiPath = [NSString stringWithFormat:kMSLatestPublicReleaseApiPathFormat, appSecret, distributionGroupId];
   }
-  if ((self = [super initWithBaseUrl:baseUrl
+  if ((self = [super initWithHttpClient:httpClient
+                                baseUrl:baseUrl
                              apiPath:apiPath
                              headers:header
-                        queryStrings:queryStrings
-                        reachability:[MS_Reachability reachabilityForInternetConnection]])) {
+                        queryStrings:queryStrings])) {
     _appSecret = appSecret;
   }
 

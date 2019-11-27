@@ -20,6 +20,7 @@
 #import "MSConstants+Internal.h"
 #import "MSUserInformation.h"
 #import "MSUtility+File.h"
+#import "MSHttpClient.h"
 
 #if TARGET_OS_IOS
 #import "MSAppDelegateForwarder.h"
@@ -324,7 +325,7 @@ static dispatch_once_t onceToken;
 
 - (MSAuthConfigIngestion *)ingestion {
   if (!_ingestion) {
-    _ingestion = [[MSAuthConfigIngestion alloc] initWithBaseUrl:self.configUrl appSecret:self.appSecret];
+    _ingestion = [[MSAuthConfigIngestion alloc] initWithHttpClient:[MSHttpClient new] baseUrl:self.configUrl appSecret:self.appSecret];
   }
   return _ingestion;
 }

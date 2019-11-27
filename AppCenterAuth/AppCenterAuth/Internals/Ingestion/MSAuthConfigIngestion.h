@@ -18,12 +18,14 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Initialize the Ingestion.
  *
+ * @param httpClient The http client.
  * @param baseUrl Base url.
  * @param appSecret A unique and secret key used to identify the application.
  *
  * @return An ingestion instance.
  */
-- (id)initWithBaseUrl:(nullable NSString *)baseUrl appSecret:(NSString *)appSecret;
+- (id)initWithHttpClient:(id<MSHttpClientProtocol>)httpClient
+                 baseUrl:(nullable NSString *)baseUrl appSecret:(NSString *)appSecret;
 
 @end
 
