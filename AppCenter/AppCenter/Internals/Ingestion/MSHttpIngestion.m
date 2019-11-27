@@ -117,6 +117,10 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
   }
 }
 
+// TODO create method to retrieve printable url without appsecret
+//     NSString *url = [request.URL.absoluteString stringByReplacingOccurrencesOfString:self.appSecret
+// withString:[MSHttpUtil hideSecret:self.appSecret]];
+
 
 #pragma mark - Private
 
@@ -171,7 +175,7 @@ completionHandler:(MSSendAsyncCompletionHandler)handler {
       MSLogVerbose([MSAppCenter logTag], @"Headers: %@", [self prettyPrintHeaders:httpHeaders]);
     }
 
-    [self.httpClient sendAsync:self.sendURL method:kMSHttpMethodPost headers:httpHeaders data:payload completionHandler:^(NSData * _Nullable responseBody, NSHTTPURLResponse * _Nullable response, NSError * _Nullable error) {
+    [self.httpClient sendAsync:self.sendURL method:[self getHttpMethod] headers:httpHeaders data:payload completionHandler:^(NSData * _Nullable responseBody, NSHTTPURLResponse * _Nullable response, NSError * _Nullable error) {
       [self printResponse:response body:responseBody error:error];
       handler(callId, response, responseBody, error);
     }];
@@ -230,6 +234,10 @@ completionHandler:(MSSendAsyncCompletionHandler)handler {
 - (NSString *)obfuscateHeaderValue:(NSString * __unused)value forKey:(NSString * __unused)key {
   return nil;
 }
+
+- (NSString *)getHttpMethod {
+  return kMSHttpMethodPost;
+};
 
 - (NSString *)prettyPrintHeaders:(NSDictionary<NSString *, NSString *> *)headers {
   NSMutableArray<NSString *> *flattenedHeaders = [NSMutableArray<NSString *> new];

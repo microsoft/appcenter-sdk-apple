@@ -38,6 +38,21 @@ static NSString *const kMSETagRequestHeader = @"If-None-Match";
  */
 @property (nonatomic) id<MSHttpClientProtocol> httpClient;
 
+/**
+ * Retrieve data payload.
+ *
+ * @param data The request data.
+ * @param eTag The ETag.
+ * @param authToken The auth token.
+ */
+- (NSDictionary *)getHeadersWithData:(nullable NSObject *)data eTag:(nullable NSString *)eTag authToken:(nullable NSString *)authToken;
+
+/**
+ * Retrieve data payload as http request body.
+ *
+ * @param data The request body data.
+ */
+- (NSData *)getPayloadWithData:(nullable NSObject *)data;
 
 /**
  * Send data to backend
@@ -60,6 +75,13 @@ static NSString *const kMSETagRequestHeader = @"If-None-Match";
  * @return An eTag or `nil` if not found.
  */
 + (nullable NSString *)eTagFromResponse:(NSHTTPURLResponse *)response;
+
+/**
+ * Get the Http method to use.
+ *
+ * @return The http method. Defaults to POST if not overridden.
+ */
+- (NSString *)getHttpMethod;
 
 @end
 

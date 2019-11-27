@@ -5,6 +5,7 @@
 
 #import "MSAuth.h"
 #import "MSAuthConfigIngestion.h"
+#import "MSHttpClient.h"
 #import "MSLoggerInternal.h"
 #import "MSTestFrameworks.h"
 
@@ -14,57 +15,52 @@
 
 @implementation MSAuthConfigIngestionTests
 
-- (void)testCreateRequestWithETag {
+- (void)testGetHeadersWithETag {
 
   // If
   NSString *baseUrl = @"https://contoso.com";
   NSString *appSecret = @"secret";
-  NSString *apiPath = [NSString stringWithFormat:@"/auth/%@.json", appSecret];
+  // TODO?
+  //  NSString *apiPath = [NSString stringWithFormat:@"/auth/%@.json", appSecret];
   NSDictionary *header = @{@"If-None-Match" : @"eTag"};
   NSString *eTag = @"eTag";
-  MSAuthConfigIngestion *ingestion = [[MSAuthConfigIngestion alloc] initWithBaseUrl:baseUrl appSecret:appSecret];
+  MSAuthConfigIngestion *ingestion = [[MSAuthConfigIngestion alloc] initWithHttpClient:[MSHttpClient new] baseUrl:baseUrl appSecret:appSecret];
 
   // When
-  NSURLRequest *request = [ingestion createRequest:[NSData new] eTag:eTag authToken:nil];
-
+  NSDictionary *headers = [ingestion getHeadersWithData:nil eTag:eTag authToken:nil];
+  
   // Then
-  assertThat(request.HTTPMethod, equalTo(@"GET"));
-  assertThat(request.allHTTPHeaderFields, equalTo(header));
-  assertThat(request.HTTPBody, equalTo(nil));
-  assertThat(request.URL.absoluteString, startsWith([NSString stringWithFormat:@"%@%@", baseUrl, apiPath]));
-  XCTAssertFalse(request.HTTPShouldHandleCookies);
+  assertThat(headers, equalTo(header));
 }
 
-- (void)testCreateRequestWithoutETag {
+- (void)testBodyIsNil {
+  
+  // If
+  NSString *baseUrl = @"https://contoso.com";
+  NSString *appSecret = @"secret";
+  MSAuthConfigIngestion *ingestion = [[MSAuthConfigIngestion alloc] initWithHttpClient:[MSHttpClient new] baseUrl:baseUrl appSecret:appSecret];
+  
+  // When
+  NSData *payload = [ingestion getPayloadWithData:nil];
+  
+  // Then
+  XCTAssertNil(payload);
+}
+
+- (void)testGetHeadersWithoutETag {
 
   // If
   NSString *baseUrl = @"https://contoso.com";
   NSString *appSecret = @"secret";
-  NSString *apiPath = [NSString stringWithFormat:@"/auth/%@.json", appSecret];
-  MSAuthConfigIngestion *ingestion = [[MSAuthConfigIngestion alloc] initWithBaseUrl:baseUrl appSecret:appSecret];
-
+  // TODO?
+  //  NSString *apiPath = [NSString stringWithFormat:@"/auth/%@.json", appSecret];
+  MSAuthConfigIngestion *ingestion = [[MSAuthConfigIngestion alloc] initWithHttpClient:[MSHttpClient new] baseUrl:baseUrl appSecret:appSecret];
+  
   // When
-  NSURLRequest *request = [ingestion createRequest:[NSData new] eTag:nil authToken:nil];
-
+  NSDictionary *headers = [ingestion getHeadersWithData:nil eTag:nil authToken:nil];
+  
   // Then
-  assertThat(request.HTTPMethod, equalTo(@"GET"));
-  assertThat(request.allHTTPHeaderFields, equalTo(@{}));
-  assertThat(request.HTTPBody, equalTo(nil));
-  assertThat(request.URL.absoluteString, startsWith([NSString stringWithFormat:@"%@%@", baseUrl, apiPath]));
-  XCTAssertFalse(request.HTTPShouldHandleCookies);
-
-  // If
-  [MSLogger setCurrentLogLevel:MSLogLevelVerbose];
-  MSAuthConfigIngestion *ingestion1 = [[MSAuthConfigIngestion alloc] initWithBaseUrl:baseUrl appSecret:appSecret];
-
-  // When
-  NSURLRequest *request1 = [ingestion1 createRequest:[NSData new] eTag:nil authToken:nil];
-
-  // Then
-  assertThat(request1.HTTPMethod, equalTo(@"GET"));
-  assertThat(request1.HTTPBody, equalTo(nil));
-  assertThat(request1.URL.absoluteString, startsWith([NSString stringWithFormat:@"%@%@", baseUrl, apiPath]));
-  XCTAssertFalse(request1.HTTPShouldHandleCookies);
+  XCTAssertEqual([headers count], 0);
 }
 
 @end
