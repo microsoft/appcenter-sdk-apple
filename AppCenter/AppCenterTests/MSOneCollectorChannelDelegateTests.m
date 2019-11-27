@@ -15,6 +15,7 @@
 #import "MSSDKExtension.h"
 #import "MSStorage.h"
 #import "MSTestFrameworks.h"
+#import "MSHttpClient.h"
 
 static NSString *const kMSBaseGroupId = @"baseGroupId";
 static NSString *const kMSOneCollectorGroupId = @"baseGroupId/one";
@@ -34,7 +35,7 @@ static NSString *const kMSOneCollectorGroupId = @"baseGroupId/one";
 
 - (void)setUp {
   [super setUp];
-  self.sut = [[MSOneCollectorChannelDelegate alloc] initWithInstallId:[NSUUID new] baseUrl:nil];
+  self.sut = [[MSOneCollectorChannelDelegate alloc] initWithHttpClient:[MSHttpClient new] installId:[NSUUID new] baseUrl:nil];
   self.ingestionMock = OCMProtocolMock(@protocol(MSIngestionProtocol));
   self.storageMock = OCMProtocolMock(@protocol(MSStorage));
   self.logsDispatchQueue = dispatch_get_main_queue();
@@ -541,7 +542,7 @@ static NSString *const kMSOneCollectorGroupId = @"baseGroupId/one";
 
   // If
   NSUUID *installId = [NSUUID new];
-  self.sut = [[MSOneCollectorChannelDelegate alloc] initWithInstallId:installId baseUrl:nil];
+  self.sut = [[MSOneCollectorChannelDelegate alloc] initWithHttpClient:[MSHttpClient new] installId:installId baseUrl:nil];
   id channelMock = OCMProtocolMock(@protocol(MSChannelProtocol));
   MSCommonSchemaLog *csLogMock = OCMPartialMock([MSCommonSchemaLog new]);
   csLogMock.iKey = @"o:81439696f7164d7599d543f9bf37abb7";

@@ -7,14 +7,14 @@
 #import "MSDeviceInternal.h"
 #import "MSHttpIngestionPrivate.h"
 #import "MSHttpTestUtil.h"
-#import "MSIngestionCall.h"
-#import "MSIngestionDelegate.h"
 #import "MSMockCommonSchemaLog.h"
 #import "MSModelTestsUtililty.h"
 #import "MSOneCollectorIngestion.h"
 #import "MSOneCollectorIngestionPrivate.h"
 #import "MSTestFrameworks.h"
 #import "MSTicketCache.h"
+#import "MSHttpClient.h"
+#import "MSConstants+Internal.h"
 
 static NSTimeInterval const kMSTestTimeout = 5.0;
 static NSString *const kMSBaseUrl = @"https://test.com";
@@ -24,7 +24,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
 @property(nonatomic) MSOneCollectorIngestion *sut;
 @property(nonatomic) id reachabilityMock;
 @property(nonatomic) NetworkStatus currentNetworkStatus;
-
+@property(nonatomic) MSHttpClient *httpClientMock;
 @end
 
 @implementation MSOneCollectorIngestionTests
@@ -32,7 +32,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
 - (void)setUp {
   [super setUp];
 
-  // Mock reachability.
+  self.httpClientMock = OCMPartialMock([MSHttpClient new]);
   self.reachabilityMock = OCMClassMock([MS_Reachability class]);
   self.currentNetworkStatus = ReachableViaWiFi;
   OCMStub([self.reachabilityMock currentReachabilityStatus]).andDo(^(NSInvocation *invocation) {
@@ -41,7 +41,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   });
 
   // sut: System under test
-  self.sut = [[MSOneCollectorIngestion alloc] initWithBaseUrl:kMSBaseUrl];
+  self.sut = [[MSOneCollectorIngestion alloc] initWithHttpClient:self.httpClientMock baseUrl:kMSBaseUrl];
 }
 
 - (void)tearDown {
@@ -66,29 +66,29 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   // When
   NSString *containerId = @"1";
   MSLogContainer *container = [self createLogContainerWithId:containerId];
-  NSURLRequest *request = [self.sut createRequest:container eTag:nil authToken:nil];
-  NSArray *keys = [request.allHTTPHeaderFields allKeys];
+  NSDictionary *headers = [self.sut getHeadersWithData:container eTag:nil authToken:nil];
+  NSArray *keys = [headers allKeys];
 
   // Then
   XCTAssertTrue([keys containsObject:kMSHeaderContentTypeKey]);
-  XCTAssertTrue([[request.allHTTPHeaderFields objectForKey:kMSHeaderContentTypeKey] isEqualToString:kMSOneCollectorContentType]);
+  XCTAssertTrue([[headers objectForKey:kMSHeaderContentTypeKey] isEqualToString:kMSOneCollectorContentType]);
   XCTAssertTrue([keys containsObject:kMSOneCollectorClientVersionKey]);
   NSString *expectedClientVersion = [NSString stringWithFormat:kMSOneCollectorClientVersionFormat, [MSUtility sdkVersion]];
-  XCTAssertTrue([[request.allHTTPHeaderFields objectForKey:kMSOneCollectorClientVersionKey] isEqualToString:expectedClientVersion]);
-  XCTAssertNil([request.allHTTPHeaderFields objectForKey:kMSHeaderAppSecretKey]);
+  XCTAssertTrue([[headers objectForKey:kMSOneCollectorClientVersionKey] isEqualToString:expectedClientVersion]);
+  XCTAssertNil([headers objectForKey:kMSHeaderAppSecretKey]);
   XCTAssertTrue([keys containsObject:kMSOneCollectorApiKey]);
-  NSArray *tokens = [[request.allHTTPHeaderFields objectForKey:kMSOneCollectorApiKey] componentsSeparatedByString:@","];
+  NSArray *tokens = [[headers objectForKey:kMSOneCollectorApiKey] componentsSeparatedByString:@","];
   XCTAssertTrue([tokens count] == 3);
   for (NSString *token in @[ @"token1", @"token2", @"token3" ]) {
     XCTAssertTrue([tokens containsObject:token]);
   }
   XCTAssertTrue([keys containsObject:kMSOneCollectorUploadTimeKey]);
-  NSString *uploadTimeString = [request.allHTTPHeaderFields objectForKey:kMSOneCollectorUploadTimeKey];
+  NSString *uploadTimeString = [headers objectForKey:kMSOneCollectorUploadTimeKey];
   NSNumberFormatter *formatter = [NSNumberFormatter new];
   [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
   XCTAssertNotNil([formatter numberFromString:uploadTimeString]);
   XCTAssertTrue([keys containsObject:kMSOneCollectorTicketsKey]);
-  NSString *ticketsHeader = [request.allHTTPHeaderFields objectForKey:kMSOneCollectorTicketsKey];
+  NSString *ticketsHeader = [headers objectForKey:kMSOneCollectorTicketsKey];
   XCTAssertTrue([ticketsHeader isEqualToString:@"{\"ticketKey2\":\"ticketKey2Token\",\"ticketKey1\":\"ticketKey1Token\"}"]);
 }
 
@@ -128,7 +128,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   XCTAssertTrue([result isEqualToString:@"{\"ticketKey1\":\"p:***\",\"ticketKey2\":\"d:***\"}"]);
 }
 
-- (void)testCreateRequest {
+- (void)testGetPayload {
 
   // If
   NSString *containerId = @"1";
@@ -139,14 +139,14 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   MSLogContainer *logContainer = [[MSLogContainer alloc] initWithBatchId:containerId andLogs:(NSArray<id<MSLog>> *)@[ log1, log2 ]];
 
   // When
-  NSURLRequest *request = [self.sut createRequest:logContainer eTag:nil authToken:nil];
+  NSData *payload = [self.sut getPayloadWithData:logContainer];
 
   // Then
-  XCTAssertNotNil(request);
+  XCTAssertNotNil(payload);
   NSString *containerString = [NSString stringWithFormat:@"%@%@%@%@", [log1 serializeLogWithPrettyPrinting:NO], kMSOneCollectorLogSeparator,
                                                          [log2 serializeLogWithPrettyPrinting:NO], kMSOneCollectorLogSeparator];
   NSData *httpBodyData = [containerString dataUsingEncoding:NSUTF8StringEncoding];
-  XCTAssertEqualObjects(httpBodyData, request.HTTPBody);
+  XCTAssertEqualObjects(httpBodyData, payload);
 }
 
 - (void)testSendBatchLogs {
@@ -179,12 +179,14 @@ static NSString *const kMSBaseUrl = @"https://test.com";
 - (void)testInvalidContainer {
 
   // If
+  __weak XCTestExpectation *expectation = [self expectationWithDescription:@"HTTP Response 200"];
   MSAbstractLog *log = [MSAbstractLog new];
   log.sid = MS_UUID_STRING;
   log.timestamp = [NSDate date];
 
   // Log does not have device info, therefore, it's an invalid log.
   MSLogContainer *container = [[MSLogContainer alloc] initWithBatchId:@"1" andLogs:(NSArray<id<MSLog>> *)@[ log ]];
+  OCMReject([self.httpClientMock sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:OCMOCK_ANY data:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
 
   // When
   [self.sut sendAsync:container
@@ -194,10 +196,16 @@ static NSString *const kMSBaseUrl = @"https://test.com";
         // Then
         XCTAssertEqual(error.domain, kMSACErrorDomain);
         XCTAssertEqual(error.code, MSACLogInvalidContainerErrorCode);
+        [expectation fulfill];
       }];
 
   // Then
-  XCTAssertEqual([self.sut.pendingCalls count], (unsigned long)0);
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
+                               handler:^(NSError *_Nullable error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
 }
 
 - (void)testNilContainer {
@@ -276,17 +284,17 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   NSData *httpBody = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
 
   // When
-  NSURLRequest *request = [self.sut createRequest:logContainer eTag:nil authToken:nil];
+  NSDictionary *headers = [self.sut getHeadersWithData:logContainer eTag:nil authToken:nil];
+  NSData *payload = [self.sut getPayloadWithData:logContainer];
 
   // Then
-  XCTAssertNil(request.allHTTPHeaderFields[kMSHeaderContentEncodingKey]);
-  XCTAssertEqualObjects(request.HTTPBody, httpBody);
+  XCTAssertNil(headers[kMSHeaderContentEncodingKey]);
+  XCTAssertEqualObjects(payload, httpBody);
 }
 
 - (void)testCompressHTTPBody {
-  // If
 
-  // HTTP body is big enough to be compressed.
+  // If HTTP body is big enough to be compressed.
   id deviceMock = OCMPartialMock([MSDevice new]);
   OCMStub([deviceMock isValid]).andReturn(YES);
   MSMockCommonSchemaLog *log1 = [[MSMockCommonSchemaLog alloc] init];
@@ -306,11 +314,12 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   NSData *httpBody = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
 
   // When
-  NSURLRequest *request = [self.sut createRequest:logContainer eTag:nil authToken:nil];
+  NSDictionary *headers = [self.sut getHeadersWithData:logContainer eTag:nil authToken:nil];
+  NSData *payload = [self.sut getPayloadWithData:logContainer];
 
   // Then
-  XCTAssertEqual(request.allHTTPHeaderFields[kMSHeaderContentEncodingKey], kMSHeaderContentEncoding);
-  XCTAssertTrue(request.HTTPBody.length < httpBody.length);
+  XCTAssertEqual(headers[kMSHeaderContentEncodingKey], kMSHeaderContentEncoding);
+  XCTAssertTrue(payload.length < httpBody.length);
 }
 
 #pragma mark - Test Helpers
