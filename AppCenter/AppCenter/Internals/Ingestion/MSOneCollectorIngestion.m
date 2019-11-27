@@ -48,7 +48,11 @@
     handler(batchId, 0, nil, error);
     return;
   }
-  [super sendAsync:data authToken:authToken completionHandler:handler];
+  [super sendAsync:data authToken:authToken completionHandler:^(NSString * _Nonnull __unused callId, NSHTTPURLResponse * _Nullable response, NSData * _Nullable responseBody, NSError * _Nullable error) {
+
+    // Ignore the given call ID so that the container's batch ID can be used instead.
+    handler(batchId, response, responseBody, error);
+  }];
 }
 
 - (NSDictionary *)getHeadersWithData:(nullable NSObject *)data eTag:(nullable NSString * __unused)eTag authToken:(nullable NSString * __unused)authToken {

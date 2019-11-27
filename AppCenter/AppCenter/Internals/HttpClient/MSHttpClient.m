@@ -112,12 +112,6 @@
 
     // Always disable cookies.
     [request setHTTPShouldHandleCookies:NO];
-
-    // Don't lose time pretty printing headers if not going to be printed.
-    if ([MSLogger currentLogLevel] <= MSLogLevelVerbose) {
-      MSLogVerbose([MSAppCenter logTag], @"URL: %@", request.URL);
-      MSLogVerbose([MSAppCenter logTag], @"Headers: %@", [self prettyPrintHeaders:request.allHTTPHeaderFields]);
-    }
     call.inProgress = YES;
     NSURLSessionDataTask *task = [self.session dataTaskWithRequest:request
                                                  completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
@@ -173,34 +167,6 @@
                                             [self sendCallAsync:httpCall];
                                           }];
         return;
-      }
-
-      // Don't lose time pretty printing if not going to be printed.
-      if ([MSAppCenter logLevel] <= MSLogLevelVerbose) {
-        NSString *contentType = httpResponse.allHeaderFields[kMSHeaderContentTypeKey];
-        NSString *payload;
-
-        // Obfuscate payload.
-        if (data.length > 0) {
-          if ([contentType hasPrefix:@"application/json"]) {
-            payload = [MSUtility obfuscateString:[MSUtility prettyPrintJson:data]
-                             searchingForPattern:kMSTokenKeyValuePattern
-                           toReplaceWithTemplate:kMSTokenKeyValueObfuscatedTemplate];
-            payload = [MSUtility obfuscateString:payload
-                             searchingForPattern:kMSRedirectUriPattern
-                           toReplaceWithTemplate:kMSRedirectUriObfuscatedTemplate];
-          } else if (!contentType.length || [contentType hasPrefix:@"text/"] || [contentType hasPrefix:@"application/"]) {
-            payload = [MSUtility obfuscateString:[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]
-                             searchingForPattern:kMSTokenKeyValuePattern
-                           toReplaceWithTemplate:kMSTokenKeyValueObfuscatedTemplate];
-            payload = [MSUtility obfuscateString:payload
-                             searchingForPattern:kMSRedirectUriPattern
-                           toReplaceWithTemplate:kMSRedirectUriObfuscatedTemplate];
-          } else {
-            payload = @"<binary>";
-          }
-        }
-        MSLogVerbose([MSAppCenter logTag], @"HTTP response received with status code: %tu, payload:\n%@", httpResponse.statusCode, payload);
       }
     }
     [self.pendingCalls removeObject:httpCall];
@@ -291,44 +257,6 @@
     }
   }
 }
-
-- (NSString *)obfuscateHeaderValue:(NSString *)value forKey:(NSString *)key {
-  if ([key isEqualToString:kMSAuthorizationHeaderKey]) {
-    return [MSHttpUtil hideAuthToken:value];
-  } else if ([key isEqualToString:kMSHeaderAppSecretKey]) {
-    return [MSHttpUtil hideSecret:value];
-  } else if ([key isEqualToString:kMSOneCollectorApiKey]) {
-    return [self obfuscateTargetTokens:value];
-  } else if ([key isEqualToString:kMSOneCollectorTicketsKey]) {
-    return [self obfuscateTickets:value];
-  }
-  return value;
-}
-
-- (NSString *)prettyPrintHeaders:(NSDictionary<NSString *, NSString *> *)headers {
-  NSMutableArray<NSString *> *flattenedHeaders = [NSMutableArray<NSString *> new];
-  for (NSString *headerKey in headers) {
-    [flattenedHeaders
-        addObject:[NSString stringWithFormat:@"%@ = %@", headerKey, [self obfuscateHeaderValue:headers[headerKey] forKey:headerKey]]];
-  }
-  return [flattenedHeaders componentsJoinedByString:@", "];
-}
-//TODO Move business side pretty printing logic out of here.
-
-- (NSString *)obfuscateTargetTokens:(NSString *)tokenString {
-  NSArray *tokens = [tokenString componentsSeparatedByString:@","];
-  NSMutableArray *obfuscatedTokens = [NSMutableArray new];
-  for (NSString *token in tokens) {
-    [obfuscatedTokens addObject:[MSHttpUtil hideSecret:token]];
-  }
-  return [obfuscatedTokens componentsJoinedByString:@","];
-}
-
-- (NSString *)obfuscateTickets:(NSString *)tokenString {
-  NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@":[^\"]+" options:0 error:nil];
-  return [regex stringByReplacingMatchesInString:tokenString options:0 range:NSMakeRange(0, tokenString.length) withTemplate:@":***"];
-}
-
 
 - (void)dealloc {
   [self.reachability stopNotifier];

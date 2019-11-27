@@ -156,15 +156,12 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
 - (void)sendAsync:(NSObject *)data
              eTag:(nullable NSString *)eTag
         authToken:(nullable NSString *)authToken
-           callId:(NSString * __unused)callId
+           callId:(NSString *)callId
 completionHandler:(MSSendAsyncCompletionHandler)handler {
   @synchronized(self) {
     if (!self.enabled) {
       return;
     }
-    //TODO is it okay that this class knows that "data" is a log? Either make the parameter a log container, or remove any knowledge from this class about that.
-    MSLogContainer *container = (MSLogContainer *)data;
-    NSString *batchId = container.batchId;
     NSDictionary *httpHeaders = [self getHeadersWithData:data eTag:eTag authToken:authToken];
     NSData *payload = [self getPayloadWithData:data];
 
@@ -176,7 +173,7 @@ completionHandler:(MSSendAsyncCompletionHandler)handler {
 
     [self.httpClient sendAsync:self.sendURL method:kMSHttpMethodPost headers:httpHeaders data:payload completionHandler:^(NSData * _Nullable responseBody, NSHTTPURLResponse * _Nullable response, NSError * _Nullable error) {
       [self printResponse:response body:responseBody error:error];
-      handler(batchId, response, responseBody, error);
+      handler(callId, response, responseBody, error);
     }];
   }
 }

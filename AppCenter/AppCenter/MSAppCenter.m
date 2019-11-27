@@ -599,7 +599,6 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
 
     // Construct channel group.
     if (!self.oneCollectorChannelDelegate) {
-      //TODO pass http client
       self.oneCollectorChannelDelegate = [[MSOneCollectorChannelDelegate alloc] initWithHttpClient:[MSHttpClient new]
                                                                                          installId:self.installId
                                                                                           baseUrl:self.appSecret ? nil : self.logUrl];
