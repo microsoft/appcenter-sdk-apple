@@ -1178,15 +1178,14 @@ static NSString *const kMSTestGroupId = @"GroupId";
   // When
   [self.sut setEnabled:NO andDeleteDataOnDisabled:NO];
   dispatch_async(self.logsDispatchQueue, ^{
-    [self.sut ingestionDidResume:ingestionMock];
-  });
+    [self.sut resumeWithIdentifyingObject:self];  });
   [self.sut setEnabled:YES andDeleteDataOnDisabled:NO];
   dispatch_async(self.logsDispatchQueue, ^{
     result1 = self.sut.paused;
   });
   [self.sut setEnabled:NO andDeleteDataOnDisabled:NO];
   dispatch_async(self.logsDispatchQueue, ^{
-    [self.sut ingestionDidPause:ingestionMock];
+    [self.sut pauseWithIdentifyingObject:self];
     dispatch_async(self.logsDispatchQueue, ^{
       [self.sut setEnabled:YES andDeleteDataOnDisabled:NO];
     });
@@ -1397,68 +1396,39 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
   // If
   [self initChannelEndJobExpectation];
+  __block MSSendAsyncCompletionHandler ingestionBlock;
+  __block id responseMock = [MSHttpTestUtil createMockResponseForStatusCode:404 headers:nil];
+  __block MSLogContainer *logContainer;
+  id<MSLog> enqueuedLog = [self getValidMockLog];
+  OCMStub([self.ingestionMock sendAsync:OCMOCK_ANY authToken:OCMOCK_ANY completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+    // Get ingestion block for later call.
+    [invocation retainArguments];
+    [invocation getArgument:&ingestionBlock atIndex:4];
+    [invocation getArgument:&logContainer atIndex:2];
+  });
 
   // When
-  [self.sut ingestionDidReceiveFatalError:self.ingestionMock];
+  [self.sut enqueueItem:enqueuedLog flags:MSFlagsNone];
 
-  // Then
-  [self enqueueChannelEndJobExpectation];
-  [self waitForExpectationsWithTimeout:kMSTestTimeout
-                               handler:^(NSError *error) {
-                                 assertThatBool(self.sut.enabled, isFalse());
-                                 OCMVerify([self.storageMock deleteLogsWithGroupId:self.sut.configuration.groupId]);
-                                 if (error) {
-                                   XCTFail(@"Expectation Failed with error: %@", error);
-                                 }
-                               }];
-}
+  // Invoke the handler
+  dispatch_async(self.logsDispatchQueue, ^{
+    XCTAssertNotNil(ingestionBlock);
+    if (ingestionBlock) {
+      ingestionBlock(@"1", responseMock, nil, nil);
+    }
+  });
 
-- (void)testPauseOnIngestionPaused {
-
-  // If
-  [self initChannelEndJobExpectation];
-  id ingestionMock = OCMProtocolMock(@protocol(MSIngestionProtocol));
-  id delegateMock = OCMProtocolMock(@protocol(MSChannelDelegate));
-  [self.sut addDelegate:delegateMock];
-
-  // When
-  [self.sut ingestionDidPause:ingestionMock];
-
-  // Then
-  [self enqueueChannelEndJobExpectation];
-  [self waitForExpectationsWithTimeout:kMSTestTimeout
-                               handler:^(NSError *error) {
-                                 if (error) {
-                                   XCTFail(@"Expectation Failed with error: %@", error);
-                                 }
-                                 XCTAssertTrue(self.sut.paused);
-                                 OCMVerify([delegateMock channel:self.sut didPauseWithIdentifyingObject:ingestionMock]);
-                               }];
-}
-
-- (void)testResumeOnIngestionResumed {
-
-  // If
-  [self initChannelEndJobExpectation];
-  id ingestionMock = OCMProtocolMock(@protocol(MSIngestionProtocol));
-  id delegateMock = OCMProtocolMock(@protocol(MSChannelDelegate));
-  [self.sut addDelegate:delegateMock];
-
-  // When
-  [self.sut ingestionDidResume:ingestionMock];
-
-  // Then
-  [self enqueueChannelEndJobExpectation];
-  [self waitForExpectationsWithTimeout:kMSTestTimeout
-                               handler:^(NSError *error) {
-                                 if (error) {
-                                   XCTFail(@"Expectation Failed with error: %@", error);
-                                 }
-                                 XCTAssertFalse(self.sut.paused);
-                                 OCMVerify([delegateMock channel:self.sut didResumeWithIdentifyingObject:ingestionMock]);
-                               }];
-}
-
+    // Then
+    [self enqueueChannelEndJobExpectation];
+    [self waitForExpectationsWithTimeout:kMSTestTimeout
+                                 handler:^(NSError *error) {
+                                   assertThatBool(self.sut.enabled, isFalse());
+                                   OCMVerify([self.storageMock deleteLogsWithGroupId:self.sut.configuration.groupId]);
+                                   if (error) {
+                                     XCTFail(@"Expectation Failed with error: %@", error);
+                                   }
+                                 }];
+  }
 - (void)testDoesntResumeWhenNotAllPauseObjectsResumed {
 
   // If
@@ -1951,38 +1921,38 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
 #pragma mark - Helper
 
-- (void)initChannelEndJobExpectation {
-  self.channelEndJobExpectation = [self expectationWithDescription:@"Channel job should be finished"];
-}
+                 - (void)initChannelEndJobExpectation {
+                   self.channelEndJobExpectation = [self expectationWithDescription:@"Channel job should be finished"];
+                 }
 
-- (void)enqueueChannelEndJobExpectation {
+                 - (void)enqueueChannelEndJobExpectation {
 
-  // Enqueue end job expectation on channel's queue to detect when channel
-  // finished processing.
-  dispatch_async(self.logsDispatchQueue, ^{
-    [self.channelEndJobExpectation fulfill];
-  });
-}
+                   // Enqueue end job expectation on channel's queue to detect when channel
+                   // finished processing.
+                   dispatch_async(self.logsDispatchQueue, ^{
+                     [self.channelEndJobExpectation fulfill];
+                   });
+                 }
 
-- (NSArray<id<MSLog>> *)getValidMockLogArrayForDate:(NSDate *)date andCount:(NSUInteger)count {
-  NSMutableArray<id<MSLog>> *logs = [NSMutableArray<id<MSLog>> new];
-  for (NSUInteger i = 0; i < count; i++) {
-    [logs addObject:[self getValidMockLogWithDate:[date dateByAddingTimeInterval:i]]];
-  }
-  return logs;
-}
+                 - (NSArray<id<MSLog>> *)getValidMockLogArrayForDate:(NSDate *)date andCount:(NSUInteger)count {
+                   NSMutableArray<id<MSLog>> *logs = [NSMutableArray<id<MSLog>> new];
+                   for (NSUInteger i = 0; i < count; i++) {
+                     [logs addObject:[self getValidMockLogWithDate:[date dateByAddingTimeInterval:i]]];
+                   }
+                   return logs;
+                 }
 
-- (id)getValidMockLog {
-  id mockLog = OCMPartialMock([MSAbstractLog new]);
-  OCMStub([mockLog isValid]).andReturn(YES);
-  return mockLog;
-}
+                 - (id)getValidMockLog {
+                   id mockLog = OCMPartialMock([MSAbstractLog new]);
+                   OCMStub([mockLog isValid]).andReturn(YES);
+                   return mockLog;
+                 }
 
-- (id)getValidMockLogWithDate:(NSDate *)date {
-  id<MSLog> mockLog = OCMPartialMock([MSAbstractLog new]);
-  OCMStub([mockLog timestamp]).andReturn(date);
-  OCMStub([mockLog isValid]).andReturn(YES);
-  return mockLog;
-}
+                 - (id)getValidMockLogWithDate:(NSDate *)date {
+                   id<MSLog> mockLog = OCMPartialMock([MSAbstractLog new]);
+                   OCMStub([mockLog timestamp]).andReturn(date);
+                   OCMStub([mockLog isValid]).andReturn(YES);
+                   return mockLog;
+                 }
 
 @end

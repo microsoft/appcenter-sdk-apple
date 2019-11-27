@@ -319,6 +319,8 @@
   [channelUnitMock stopMocking];
 }
 
+//TODO pause/resume tests based on http client state
+
 - (void)testDelegateCalledWhenChannelUnitDidCompleteEnqueueingLog {
 
   // If

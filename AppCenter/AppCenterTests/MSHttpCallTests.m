@@ -9,13 +9,11 @@
 #import "MSHttpCall.h"
 #import "MSHttpIngestionPrivate.h"
 #import "MSHttpTestUtil.h"
-#import "MSIngestionCall.h"
-#import "MSIngestionDelegate.h"
 #import "MSMockLog.h"
 #import "MSTestFrameworks.h"
+#import "MSConstants+Internal.h"
 #import <OHHTTPStubs/NSURLRequest+HTTPBodyTesting.h>
 #import <OHHTTPStubs/OHHTTPStubs.h>
-
 @interface MSHttpCallTests : XCTestCase
 @end
 
