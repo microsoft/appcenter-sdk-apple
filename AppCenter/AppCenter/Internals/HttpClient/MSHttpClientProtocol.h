@@ -30,42 +30,11 @@ typedef void (^MSHttpRequestCompletionHandler)(NSData *_Nullable responseBody, N
     completionHandler:(nullable MSHttpRequestCompletionHandler)completionHandler;
 
 /**
- * Pause the HTTP client.
- * The client is automatically paused when it becomes disabled or on network issues. A paused state doesn't impact the current enabled
- * state.
- *
- * @see resume.
- */
-- (void)pause;
-
-/**
- * Resume the HTTP client.
- *
- * @see pause.
- */
-- (void)resume;
-
-/**
  * Enables or disables the client. All pending requests are canceled and discarded upon disabling.
  *
  * @param isEnabled The desired enabled state of the client - pass `YES` to enable, `NO` to disable.
  */
 - (void)setEnabled:(BOOL)isEnabled;
-
-
-/**
- * Add a delegate.
- *
- * @param delegate The delegate being added.
- */
-- (void)addDelegate:(id<MSHttpClientDelegate>)delegate;
-
-/**
- * Remove a delegate.
- *
- * @param delegate The delegate being removed.
-*/
-- (void)removeDelegate:(id<MSHttpClientDelegate>)delegate;
 
 @end
 

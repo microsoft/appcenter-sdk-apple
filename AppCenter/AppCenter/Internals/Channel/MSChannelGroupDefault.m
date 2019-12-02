@@ -9,7 +9,6 @@
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitDefault.h"
 #import "MSLogDBStorage.h"
-#import "MSHttpClientDelegate.h"
 
 static char *const kMSLogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQueue";
 
@@ -19,7 +18,6 @@ static char *const kMSLogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
 
 - (instancetype)initWithHttpClient:(id<MSHttpClientProtocol>)httpClient installId:(NSUUID *)installId logUrl:(NSString *)logUrl {
   self = [self initWithIngestion:[[MSAppCenterIngestion alloc] initWithHttpClient:httpClient baseUrl:logUrl installId:[installId UUIDString]]];
-  [httpClient addDelegate:self];
   return self;
 }
 
@@ -223,16 +221,6 @@ static char *const kMSLogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
   for (id<MSChannelProtocol> channel in self.channels) {
     [channel resumeWithIdentifyingObject:identifyingObject];
   }
-}
-
-#pragma mark - HTTP Client Delegate
-
-- (void) httpClientDidPause:(id<MSHttpClientProtocol>)httpClient {
-  [self pauseWithIdentifyingObject:(NSObject *)httpClient];
-}
-
-- (void) httpClientDidResume:(id<MSHttpClientProtocol>)httpClient {
-  [self resumeWithIdentifyingObject:(NSObject *)httpClient];
 }
 
 #pragma mark - Other public methods

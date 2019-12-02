@@ -957,7 +957,7 @@
 		3571F65322457FCC0052406C /* MSHttpCall.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSHttpCall.m; sourceTree = "<group>"; };
 		3571F658224962180052406C /* MSHttpUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSHttpUtil.h; sourceTree = "<group>"; };
 		3571F659224962180052406C /* MSHttpUtil.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSHttpUtil.m; sourceTree = "<group>"; };
-		358E703C238DB61100A1A6B5 /* MSHttpClientDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSHttpClientDelegate.h; sourceTree = "<group>"; };
+		358E703C238DB61100A1A6B5 /* MSIngestionDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSIngestionDelegate.h; sourceTree = "<group>"; };
 		358F9BC22019531F00B9E22C /* MSLogger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSLogger.h; sourceTree = "<group>"; };
 		3592ABA51DC90E3600EF4592 /* MSLoggerInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSLoggerInternal.h; sourceTree = "<group>"; };
 		3592ABA61DC90E3600EF4592 /* MSLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSLogger.m; sourceTree = "<group>"; };
@@ -1376,7 +1376,6 @@
 			children = (
 				3571F657224962090052406C /* Util */,
 				2DA0373E842A41C8413D1722 /* MSHttpClientProtocol.h */,
-				358E703C238DB61100A1A6B5 /* MSHttpClientDelegate.h */,
 				2DA0350241FEC3A6A4919BFE /* MSHttpClient.m */,
 				2DA03260792C64C0290E6E41 /* MSHttpClient.h */,
 				3571F64B22454EDF0052406C /* MSHttpClientPrivate.h */,
@@ -1824,6 +1823,7 @@
 			children = (
 				E8753D6B1D4BE4FC00241513 /* Util */,
 				E84B8E311D235209006FD231 /* MSIngestionProtocol.h */,
+				358E703C238DB61100A1A6B5 /* MSIngestionDelegate.h */,
 				E84B8E331D235226006FD231 /* MSHttpIngestion.h */,
 				38F1944D1DADB93100D3E0FE /* MSHttpIngestionPrivate.h */,
 				E84B8E341D235226006FD231 /* MSHttpIngestion.m */,

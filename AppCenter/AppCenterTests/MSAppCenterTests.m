@@ -59,7 +59,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   self.channelGroupMock = OCMClassMock([MSChannelGroupDefault class]);
   self.channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
   OCMStub([self.channelGroupMock alloc]).andReturn(self.channelGroupMock);
-  OCMStub([self.channelGroupMock initWithInstallId:OCMOCK_ANY logUrl:OCMOCK_ANY]).andReturn(self.channelGroupMock);
+  OCMStub([self.channelGroupMock initWithHttpClient:OCMOCK_ANY baseUrl:OCMOCK_ANY]).andReturn(self.channelGroupMock);
   OCMStub([self.channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(self.channelUnitMock);
 
   // Device tracker.
@@ -401,7 +401,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 
   // Then
   XCTAssertTrue([[[MSAppCenter sharedInstance] logUrl] isEqualToString:fakeUrl]);
-  OCMVerify([self.channelGroupMock initWithInstallId:OCMOCK_ANY logUrl:equalTo(fakeUrl)]);
+  OCMVerify([self.channelGroupMock initWithHttpClient:OCMOCK_ANY baseUrl:equalTo(fakeUrl)]);
 
   // When
   [MSAppCenter setLogUrl:updateUrl];
@@ -420,7 +420,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 
   // Then
   XCTAssertNil([[MSAppCenter sharedInstance] logUrl]);
-  OCMVerify([self.channelGroupMock initWithInstallId:OCMOCK_ANY logUrl:equalTo(defaultUrl)]);
+  OCMVerify([self.channelGroupMock initWithHttpClient:OCMOCK_ANY baseUrl:equalTo(defaultUrl)]);
 }
 
 - (void)testDefaultLogUrlWithNoAppsecret {

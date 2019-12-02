@@ -12,7 +12,6 @@
 #import "MSUtility+StringFormatting.h"
 #import "MS_Reachability.h"
 #import "MSOneCollectorIngestion.h"
-#import "MSHttpClientDelegate.h"
 
 #define DEFAULT_RETRY_INTERVALS @[ @10, @(5 * 60), @(20 * 60) ]
 
@@ -59,10 +58,8 @@
     _pendingCalls = [NSMutableSet new];
     _retryIntervals = [NSArray arrayWithArray:retryIntervals];
     _enabled = YES;
-    _paused = NO;
     _reachability = reachability;
     _compressionEnabled = compressionEnabled;
-    _delegates = [NSHashTable weakObjectsHashTable];
 
     // Add listener to reachability.
     [MS_NOTIFICATION_CENTER addObserver:self selector:@selector(networkStateChanged:) name:kMSReachabilityChangedNotification object:nil];
@@ -99,9 +96,6 @@
   @synchronized(self) {
     if (![self.pendingCalls containsObject:call]) {
       [self.pendingCalls addObject:call];
-    }
-    if (self.paused) {
-      return;
     }
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:call.url
                                                            cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
@@ -179,53 +173,8 @@
 - (void)networkStateChanged:(__unused NSNotificationCenter *)notification {
   if ([self.reachability currentReachabilityStatus] == NotReachable) {
     MSLogInfo([MSAppCenter logTag], @"Internet connection is down.");
-    [self pause];
   } else {
     MSLogInfo([MSAppCenter logTag], @"Internet connection is up.");
-    [self resume];
-  }
-}
-
-- (void)pause {
-  @synchronized(self) {
-    if (self.paused) {
-      return;
-    }
-    MSLogInfo([MSAppCenter logTag], @"Pause HTTP client.");
-    self.paused = YES;
-
-    // Reset retry for all calls.
-    for (MSHttpCall *call in self.pendingCalls) {
-      [call resetRetry];
-    }
-
-    // Notify delegates.
-    [self enumerateDelegatesForSelector:@selector(httpClientDidPause:) withBlock:^(id<MSHttpClientDelegate> delegate) {
-      [delegate httpClientDidPause:self];
-    }];
-  }
-}
-
-- (void)resume {
-  @synchronized(self) {
-
-    // Resume only while enabled.
-    if (self.paused && self.enabled) {
-      MSLogInfo([MSAppCenter logTag], @"Resume HTTP client.");
-      self.paused = NO;
-
-      // Resume calls.
-      for (MSHttpCall *call in self.pendingCalls) {
-        if (!call.inProgress) {
-          [self sendCallAsync:call];
-        }
-
-        // Notify delegates.
-        [self enumerateDelegatesForSelector:@selector(httpClientDidResume:) withBlock:^(id<MSHttpClientDelegate> delegate) {
-          [delegate httpClientDidResume:self];
-        }];
-      }
-    }
   }
 }
 
@@ -236,10 +185,8 @@
       if (isEnabled) {
         self.session = [NSURLSession sessionWithConfiguration:self.sessionConfiguration];
         [self.reachability startNotifier];
-        [self resume];
       } else {
         [self.reachability stopNotifier];
-        [self pause];
 
         // Cancel all the tasks and invalidate current session to free resources.
         [self.session invalidateAndCancel];
@@ -262,34 +209,6 @@
   [self.reachability stopNotifier];
   [MS_NOTIFICATION_CENTER removeObserver:self name:kMSReachabilityChangedNotification object:nil];
   [self.session finishTasksAndInvalidate];
-}
-
-#pragma mark - Delegate
-
-- (void)addDelegate:(id<MSHttpClientDelegate>)delegate {
-  @synchronized(self) {
-    [self.delegates addObject:delegate];
-  }
-}
-
-- (void)removeDelegate:(id<MSHttpClientDelegate>)delegate {
-  @synchronized(self) {
-    [self.delegates removeObject:delegate];
-  }
-}
-
-- (void)enumerateDelegatesForSelector:(SEL)selector withBlock:(void (^)(id<MSHttpClientDelegate> delegate))block {
-  NSArray *synchronizedDelegates;
-  @synchronized(self) {
-
-    // Don't execute the block while locking; it might be locking too and deadlock ourselves.
-    synchronizedDelegates = [self.delegates allObjects];
-  }
-  for (id<MSHttpClientDelegate> delegate in synchronizedDelegates) {
-    if ([delegate respondsToSelector:selector]) {
-      block(delegate);
-    }
-  }
 }
 
 @end

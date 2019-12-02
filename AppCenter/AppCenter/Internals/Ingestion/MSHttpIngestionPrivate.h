@@ -5,6 +5,8 @@
 
 #import "MSHttpIngestion.h"
 
+@protocol MSIngestionDelegate;
+
 @interface MSHttpIngestion ()
 
 /**
@@ -23,6 +25,16 @@
  * Enable/disable does resume/pause the ingestion as needed under the hood.
  */
 @property(nonatomic, getter=isEnabled) BOOL enabled;
+
+/**
+ * A boolean value set to YES if the client is paused or NO otherwise. While paused, the client will not send calls until resumed.
+ */
+@property(nonatomic, getter=isPaused) BOOL paused;
+
+/**
+ * Hash table containing all the delegates as weak references.
+ */
+@property NSHashTable<id<MSIngestionDelegate>> *delegates;
 
 /**
  * Initialize the Ingestion with default retry intervals.

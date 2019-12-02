@@ -5,7 +5,6 @@
 
 #import "MSChannelGroupProtocol.h"
 #import "MSDeviceTracker.h"
-#import "MSHttpClientDelegate.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -20,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
  * running, events will be forwarded to the ingestion. Furthermore, its responsibility is to tell the persistence layer what to do with a
  * pending batch based on the status code returned by the ingestion
  */
-@interface MSChannelGroupDefault : NSObject <MSChannelGroupProtocol, MSHttpClientDelegate>
+@interface MSChannelGroupDefault : NSObject <MSChannelGroupProtocol>
 
 /**
  * Initializes a new `MSChannelGroupDefault` instance.
