@@ -22,7 +22,7 @@
   // If
   NSString *baseUrl = @"https://contoso.com";
   NSString *apiPath = @"/test";
-  NSDictionary *header = OCMClassMock([NSDictionary class]);
+  NSDictionary *header = [NSDictionary new];
   MSDistributeIngestion *ingestion = [[MSDistributeIngestion alloc] initWithHttpClient:[MSHttpClient new]
                                                                                baseUrl:baseUrl
                                                                                apiPath:apiPath
