@@ -188,10 +188,14 @@ completionHandler:(MSSendAsyncCompletionHandler)handler {
       MSLogVerbose([MSAppCenter logTag], @"URL: %@", self.sendURL);
       MSLogVerbose([MSAppCenter logTag], @"Headers: %@", [self prettyPrintHeaders:httpHeaders]);
     }
-
     [self.httpClient sendAsync:self.sendURL method:[self getHttpMethod] headers:httpHeaders data:payload completionHandler:^(NSData * _Nullable responseBody, NSHTTPURLResponse * _Nullable response, NSError * _Nullable error) {
       [self printResponse:response body:responseBody error:error];
       handler(callId, response, responseBody, error);
+      if (![MSHttpUtil isSuccessStatusCode:response.statusCode] && ![MSHttpUtil isRecoverableError:response.statusCode]) {
+        [self enumerateDelegatesForSelector:@selector(ingestionDidReceiveFatalError:) withBlock:^(id<MSIngestionDelegate> delegate) {
+          [delegate ingestionDidReceiveFatalError:self];
+        }];
+      }
     }];
   }
 }

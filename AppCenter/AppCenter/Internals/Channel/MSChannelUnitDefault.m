@@ -263,10 +263,6 @@ static NSString *const kMSStartTimestampPrefix = @"MSChannelStartTimer";
                                               [delegate channel:self didFailSendingLog:aLog withError:error];
                                             }
                                           }];
-                if (![MSHttpUtil isRecoverableError:response.statusCode]) {
-                  [self setEnabled:NO andDeleteDataOnDisabled:YES];
-                  return;
-                }
               }
 
               // Remove from pending batches.
