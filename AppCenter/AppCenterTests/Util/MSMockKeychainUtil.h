@@ -4,4 +4,7 @@
 #import "MSKeychainUtil.h"
 
 @interface MSMockKeychainUtil : MSKeychainUtil
+
++ (void)mockStatusCode:(OSStatus)statusCode forKey:(NSString *)key;
+
 @end

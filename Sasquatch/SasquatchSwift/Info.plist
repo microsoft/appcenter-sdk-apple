@@ -2,11 +2,9 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>AppCenterUserNotificationCenterDelegateForwarderEnabled</key>
-	<false/>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Select photo for attachment</string>
 	<key>AppCenterAppDelegateForwarderEnabled</key>
+	<false/>
+	<key>AppCenterUserNotificationCenterDelegateForwarderEnabled</key>
 	<false/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
@@ -53,6 +51,8 @@
 	<true/>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>The app needs to know your location to override the country code.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Select photo for attachment</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>

@@ -39,8 +39,8 @@
   [MSDistributeDataMigration migrateKeychain];
 
   // Then
-  assertThat([MSKeychainUtil stringForKey:kMSUpdateTokenKey], is(nilValue()));
-  assertThat([MSKeychainUtil stringForKey:kMSUpdateTokenKey withServiceName:mcServiceName], is(nilValue()));
+  assertThat([MSKeychainUtil stringForKey:kMSUpdateTokenKey statusCode:nil], is(nilValue()));
+  assertThat([MSKeychainUtil stringForKey:kMSUpdateTokenKey withServiceName:mcServiceName statusCode:nil], is(nilValue()));
 
   // Just the Mobile Center token.
 
@@ -51,8 +51,8 @@
   [MSDistributeDataMigration migrateKeychain];
 
   // Then
-  assertThat([MSKeychainUtil stringForKey:kMSUpdateTokenKey], is(mcToken));
-  assertThat([MSKeychainUtil stringForKey:kMSUpdateTokenKey withServiceName:mcServiceName], is(nilValue()));
+  assertThat([MSKeychainUtil stringForKey:kMSUpdateTokenKey statusCode:nil], is(mcToken));
+  assertThat([MSKeychainUtil stringForKey:kMSUpdateTokenKey withServiceName:mcServiceName statusCode:nil], is(nilValue()));
 
   // Just the App Center token.
 
@@ -65,8 +65,8 @@
   [MSDistributeDataMigration migrateKeychain];
 
   // Then
-  assertThat([MSKeychainUtil stringForKey:kMSUpdateTokenKey], is(acToken));
-  assertThat([MSKeychainUtil stringForKey:kMSUpdateTokenKey withServiceName:mcServiceName], is(nilValue()));
+  assertThat([MSKeychainUtil stringForKey:kMSUpdateTokenKey statusCode:nil], is(acToken));
+  assertThat([MSKeychainUtil stringForKey:kMSUpdateTokenKey withServiceName:mcServiceName statusCode:nil], is(nilValue()));
 
   // Both App Center and Mobile Center tokens.
 
@@ -77,8 +77,8 @@
   [MSDistributeDataMigration migrateKeychain];
 
   // Then
-  assertThat([MSKeychainUtil stringForKey:kMSUpdateTokenKey], is(acToken));
-  assertThat([MSKeychainUtil stringForKey:kMSUpdateTokenKey withServiceName:mcServiceName], is(nilValue()));
+  assertThat([MSKeychainUtil stringForKey:kMSUpdateTokenKey statusCode:nil], is(acToken));
+  assertThat([MSKeychainUtil stringForKey:kMSUpdateTokenKey withServiceName:mcServiceName statusCode:nil], is(nilValue()));
 }
 #endif
 

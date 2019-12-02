@@ -34,7 +34,8 @@
     (__bridge id)kSecAttrService : self.acServiceName,
     (__bridge id)kSecClass : @"genp",
     (__bridge id)kSecAttrAccount : key,
-    (__bridge id)kSecValueData : (NSData * _Nonnull)[value dataUsingEncoding:NSUTF8StringEncoding]
+    (__bridge id)kSecValueData : (NSData * _Nonnull)[value dataUsingEncoding:NSUTF8StringEncoding],
+    (__bridge id)kSecAttrAccessible : (__bridge id)kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly
   };
   NSDictionary *expectedDeleteItemQuery =
       @{(__bridge id)kSecAttrService : self.acServiceName, (__bridge id)kSecClass : @"genp", (__bridge id)kSecAttrAccount : key};
@@ -43,7 +44,7 @@
     (__bridge id)kSecClass : @"genp",
     (__bridge id)kSecAttrAccount : key,
     (__bridge id)kSecReturnData : (__bridge id)kCFBooleanTrue,
-    (__bridge id)kSecMatchLimit : (__bridge id)kSecMatchLimitOne
+    (__bridge id)kSecMatchLimit : (__bridge id)kSecMatchLimitOne,
   };
 
   // Expect these stubbed calls.
@@ -59,11 +60,41 @@
 
   // When
   [MSKeychainUtil storeString:value forKey:key];
-  [MSKeychainUtil stringForKey:key];
+  [MSKeychainUtil stringForKey:key statusCode:nil];
   [MSKeychainUtil deleteStringForKey:key];
 
   // Then
   OCMVerifyAll(self.keychainUtilMock);
+}
+
+- (void)testKeychainGetStringSetsError {
+
+  // If
+  NSString *key = @"Test Key";
+  OSStatus statusExpected = errSecNoAccessForItem;
+  OCMStub([self.keychainUtilMock secItemCopyMatchingQuery:[OCMArg any] result:[OCMArg anyPointer]]).andReturn(statusExpected);
+
+  // When
+  OSStatus statusReceived;
+  NSString *result = [MSKeychainUtil stringForKey:key statusCode:&statusReceived];
+
+  // Then
+  XCTAssertNil(result);
+  XCTAssertEqual(statusReceived, statusExpected);
+}
+
+- (void)testKeychainGetStringAllowsNilErrorArgument {
+
+  // If
+  NSString *key = @"Test Key";
+  OSStatus statusExpected = errSecNoAccessForItem;
+  OCMStub([self.keychainUtilMock secItemCopyMatchingQuery:[OCMArg any] result:[OCMArg anyPointer]]).andReturn(statusExpected);
+
+  // When
+  NSString *result = [MSKeychainUtil stringForKey:key statusCode:nil];
+
+  // Then
+  XCTAssertNil(result);
 }
 
 - (void)testStoreStringHandlesDuplicateItemError {

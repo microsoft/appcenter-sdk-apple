@@ -808,7 +808,7 @@ static NSURL *sfURL;
                                  // Then
                                  OCMVerifyAll(distributeMock);
                                  OCMVerifyAll(ingestionCallMock);
-                                 XCTAssertNil([MSMockKeychainUtil stringForKey:kMSUpdateTokenKey]);
+                                 XCTAssertNil([MSMockKeychainUtil stringForKey:kMSUpdateTokenKey statusCode:nil]);
                                  OCMVerify([self.settingsMock removeObjectForKey:kMSSDKHasLaunchedWithDistribute]);
                                  OCMVerify([self.settingsMock removeObjectForKey:kMSUpdateTokenRequestIdKey]);
                                  OCMVerify([self.settingsMock removeObjectForKey:kMSPostponedTimestampKey]);
@@ -870,7 +870,7 @@ static NSURL *sfURL;
                                  // Then
                                  OCMVerifyAll(distributeMock);
                                  OCMVerify([ingestionCallMock startRetryTimerWithStatusCode:500]);
-                                 XCTAssertNotNil([MSKeychainUtil stringForKey:kMSUpdateTokenKey]);
+                                 XCTAssertNotNil([MSKeychainUtil stringForKey:kMSUpdateTokenKey statusCode:nil]);
                                  XCTAssertNotNil([self.settingsMock objectForKey:kMSSDKHasLaunchedWithDistribute]);
                                  XCTAssertNotNil([self.settingsMock objectForKey:kMSUpdateTokenRequestIdKey]);
                                  XCTAssertNotNil([self.settingsMock objectForKey:kMSPostponedTimestampKey]);
@@ -1263,7 +1263,7 @@ static NSURL *sfURL;
   XCTAssertNil([self.settingsMock objectForKey:kMSUpdateTokenRequestIdKey]);
   XCTAssertNil([self.settingsMock objectForKey:kMSSDKHasLaunchedWithDistribute]);
   XCTAssertNil([self.settingsMock objectForKey:kMSPostponedTimestampKey]);
-  XCTAssertNil([MSKeychainUtil stringForKey:kMSUpdateTokenKey]);
+  XCTAssertNil([MSKeychainUtil stringForKey:kMSUpdateTokenKey statusCode:nil]);
 
   // Clear
   [distributeMock stopMocking];
@@ -1321,13 +1321,9 @@ static NSURL *sfURL;
   [distributeMock stopMocking];
 }
 
-- (void)testOpenURLInAuthenticationSession {
+- (void)testOpenURLInAuthenticationSession API_AVAILABLE(ios(11)) {
 
   // If
-  id session;
-  if (@available(iOS 12, *)) {
-    session = [SFAuthenticationSession class];
-  }
   NSURL *fakeURL = [NSURL URLWithString:@"https://fakeurl.com"];
   id notificationCenterMock = OCMPartialMock([NSNotificationCenter new]);
   OCMStub([notificationCenterMock defaultCenter]).andReturn(notificationCenterMock);
@@ -1348,13 +1344,11 @@ static NSURL *sfURL;
   XCTAssertNil(self.sut.authenticationSession);
 
   // When
-  [self.sut openURLInAuthenticationSessionWith:fakeURL fromClass:session];
+  [self.sut openURLInAuthenticationSessionWith:fakeURL];
 
   // Then
   XCTAssertNotNil(self.sut.authenticationSession);
-  if (@available(iOS 12, *)) {
-    XCTAssert([self.sut.authenticationSession isKindOfClass:[SFAuthenticationSession class]]);
-  }
+  XCTAssert([self.sut.authenticationSession isKindOfClass:[SFAuthenticationSession class]]);
 
   // When
   [notificationCenterMock postNotificationName:UIApplicationDidEnterBackgroundNotification object:nil];
@@ -2324,6 +2318,54 @@ static NSURL *sfURL;
   [utilityMock stopMocking];
 }
 
+- (void)testShouldNotAttemptUpdateIfKeychainIsInaccessible {
+
+  // If
+  id distributeMock = OCMPartialMock(self.sut);
+  id utilityMock = [self mockMSPackageHash];
+  [MSMockKeychainUtil mockStatusCode:errSecInteractionNotAllowed forKey:kMSUpdateTokenKey];
+  [self.settingsMock setObject:kMSTestReleaseHash forKey:kMSDownloadedReleaseHashKey];
+  [self.settingsMock setObject:kMSTestDistributionGroupId forKey:kMSDistributionGroupIdKey];
+  [self.settingsMock setObject:kMSTestDownloadedDistributionGroupId forKey:kMSDownloadedDistributionGroupIdKey];
+
+  // Then
+  OCMReject([distributeMock requestInstallInformationWith:OCMOCK_ANY]);
+  OCMReject([distributeMock checkLatestRelease:OCMOCK_ANY distributionGroupId:OCMOCK_ANY releaseHash:OCMOCK_ANY]);
+
+  // When
+  [distributeMock startUpdate];
+
+  // Stop mocking
+  [distributeMock stopMocking];
+  [utilityMock stopMocking];
+}
+
+- (void)testShouldStillAttemptUpdateIfKeychainItemNotFound {
+
+  // If
+  id distributeMock = OCMPartialMock(self.sut);
+  id utilityMock = [self mockMSPackageHash];
+  __block BOOL checkLatestReleaseCalled = NO;
+  OCMStub([distributeMock checkLatestRelease:OCMOCK_ANY distributionGroupId:OCMOCK_ANY releaseHash:OCMOCK_ANY])
+      .andDo(^(__attribute((unused)) NSInvocation *invocation) {
+        checkLatestReleaseCalled = YES;
+      });
+  [MSMockKeychainUtil mockStatusCode:errSecItemNotFound forKey:kMSUpdateTokenKey];
+  [self.settingsMock setObject:kMSTestReleaseHash forKey:kMSDownloadedReleaseHashKey];
+  [self.settingsMock setObject:kMSTestDistributionGroupId forKey:kMSDistributionGroupIdKey];
+  [self.settingsMock setObject:kMSTestDownloadedDistributionGroupId forKey:kMSDownloadedDistributionGroupIdKey];
+
+  // When
+  [distributeMock startUpdate];
+
+  // Then
+  XCTAssertTrue(checkLatestReleaseCalled);
+
+  // Stop mocking
+  [distributeMock stopMocking];
+  [utilityMock stopMocking];
+}
+
 - (void)testShouldChangeDistributionGroupIdIfStoredIdIsNil {
 
   // If
@@ -2537,7 +2579,6 @@ static NSURL *sfURL;
 - (void)testHideAppSecret {
 
   // If
-  id authClass = nil;
   id mockLogger = OCMClassMock([MSLogger class]);
   id distributeMock = OCMPartialMock(self.sut);
   id appCenterMock = OCMClassMock([MSAppCenter class]);
@@ -2560,7 +2601,7 @@ static NSURL *sfURL;
                         fromApplication:YES];
   NSString *urlPath = [NSString stringWithFormat:kMSUpdateTokenApiPathFormat, kMSTestAppSecret];
   NSURLComponents *components = [NSURLComponents componentsWithString:urlPath];
-  [distributeMock openURLInAuthenticationSessionWith:components.URL fromClass:authClass];
+  [distributeMock openURLInAuthenticationSessionWith:components.URL];
 
   // Then
   OCMVerifyAll(mockLogger);
@@ -2569,6 +2610,33 @@ static NSURL *sfURL;
   [mockLogger stopMocking];
   [appCenterMock stopMocking];
   [distributeMock stopMocking];
+}
+
+- (void)testOpenURLInAuthenticationSessionFails API_AVAILABLE(ios(11)) {
+
+  // If
+  NSURL *fakeURL = [NSURL URLWithString:@"https://fakeurl.com"];
+  id appCenterMock = OCMClassMock([MSAppCenter class]);
+  OCMStub([appCenterMock sharedInstance]).andReturn(appCenterMock);
+  OCMStub([appCenterMock isSdkConfigured]).andReturn(YES);
+  OCMStub([appCenterMock isConfigured]).andReturn(YES);
+  SFAuthenticationSession *authenticationSessionMock = OCMPartialMock([SFAuthenticationSession alloc]);
+  OCMStub([SFAuthenticationSession alloc]).andReturn(authenticationSessionMock);
+  OCMStub([authenticationSessionMock start]).andThrow([NSException exceptionWithName:@"" reason:@"" userInfo:nil]);
+  [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
+                        appSecret:kMSTestAppSecret
+          transmissionTargetToken:nil
+                  fromApplication:YES];
+
+  // When
+  [self.sut openURLInAuthenticationSessionWith:fakeURL];
+
+  // Then
+  /* No crash. */
+
+  // Clear
+  [appCenterMock stopMocking];
+  [(id)authenticationSessionMock stopMocking];
 }
 
 @end
