@@ -13,6 +13,8 @@
 #import "MSTestFrameworks.h"
 #import "MSUtility+StringFormatting.h"
 #import "MSHttpClient.h"
+#import "MSConstants+Internal.h"
+#import "MSIngestionDelegate.h"
 
 static NSTimeInterval const kMSTestTimeout = 5.0;
 static NSString *const kMSBaseUrl = @"https://test.com";
@@ -145,105 +147,17 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
                                }];
 }
 
-/*
-
-
-// TODO: Move this to base MSHttpIngestion test.
-- (void)testNullifiedDelegate {
-
-  // If
-  @autoreleasepool {
-    __weak id delegateMock = OCMProtocolMock(@protocol(MSIngestionDelegate));
-    [self.sut addDelegate:delegateMock];
-
-    // When
-    delegateMock = nil;
-  }
-
-  // Then
-  // There is a bug somehow in NSHashTable where the count on the table itself is not decremented while an object is deallocated and auto
-  // removed from the table. The NSHashtable allObjects: is used instead to remediate.
-  assertThatUnsignedLong(self.sut.delegates.allObjects.count, equalToInt(0));
-}
-// TODO: Move this to base MSHttpIngestion test.
-- (void)testCallDelegatesOnPaused {
-
-  // If
-  id delegateMock1 = OCMProtocolMock(@protocol(MSIngestionDelegate));
-  id delegateMock2 = OCMProtocolMock(@protocol(MSIngestionDelegate));
-  [self.sut resume];
-  [self.sut addDelegate:delegateMock1];
-  [self.sut addDelegate:delegateMock2];
-
-  // When
-  [self.sut pause];
-
-  // Then
-  OCMVerify([delegateMock1 ingestionDidPause:self.sut]);
-  OCMVerify([delegateMock2 ingestionDidPause:self.sut]);
-}
-
-// TODO: Move this to base MSHttpIngestion test.
-- (void)testCallDelegatesOnResumed {
-
-  // If
-  id delegateMock1 = OCMProtocolMock(@protocol(MSIngestionDelegate));
-  id delegateMock2 = OCMProtocolMock(@protocol(MSIngestionDelegate));
-  [self.sut pause];
-  [self.sut addDelegate:delegateMock1];
-  [self.sut addDelegate:delegateMock2];
-
-  // When
-  [self.sut pause];
-  [self.sut resume];
-
-  // Then
-  OCMVerify([delegateMock1 ingestionDidResume:self.sut]);
-  OCMVerify([delegateMock2 ingestionDidResume:self.sut]);
-}
-*/
-- (void)testSetBaseURL {
-
-  // If
-  NSString *path = @"path";
-  NSURL *expectedURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", @"https://www.contoso.com/", path]];
-  self.sut.apiPath = path;
-
-  // Query should be the same.
-  NSString *query = self.sut.sendURL.query;
-
-  // When
-  [self.sut setBaseURL:(NSString * _Nonnull)[expectedURL.URLByDeletingLastPathComponent absoluteString]];
-
-  // Then
-  assertThat([self.sut.sendURL absoluteString], is([NSString stringWithFormat:@"%@?%@", expectedURL.absoluteString, query]));
-}
-
-- (void)testSetInvalidBaseURL {
-
-  // If
-  NSURL *expected = self.sut.sendURL;
-  NSString *invalidURL = @"\notGood";
-
-  // When
-  [self.sut setBaseURL:invalidURL];
-
-  // Then
-  assertThat(self.sut.sendURL, is(expected));
-}
-
-- (void)testCompressHTTPBodyWhenNeeded {
-  XCTAssertTrue(false);
-}
 
 - (void)testSendsAuthHeaderWhenAuthTokenIsNotNil {
 
   // If
   NSString *token = @"auth token";
-  MSLogContainer *logContainer = [[MSLogContainer alloc] initWithBatchId:@"whatever" andLogs:(NSArray<id<MSLog>> *)@ [[MSMockLog new]]];
+  MSLogContainer *logContainer = OCMPartialMock([MSLogContainer new]);
+  OCMStub([logContainer isValid]).andReturn(YES);
 
   // When
-  [self.sut sendAsync:logContainer authToken:token completionHandler:nil];
+  [self.sut sendAsync:logContainer authToken:token completionHandler:^(NSString * _Nonnull callId __unused, NSHTTPURLResponse * _Nullable response __unused, NSData * _Nullable data __unused, NSError * _Nullable error __unused) {
+  }];
 
   // Then
   OCMVerify(([self.httpClientMock sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:[OCMArg checkWithBlock:^BOOL(id obj) {
@@ -260,7 +174,8 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   MSLogContainer *logContainer = [[MSLogContainer alloc] initWithBatchId:@"whatever" andLogs:(NSArray<id<MSLog>> *)@ [[MSMockLog new]]];
 
   // When
-  [self.sut sendAsync:logContainer completionHandler:nil];
+  [self.sut sendAsync:logContainer completionHandler:^(NSString * _Nonnull callId __unused, NSHTTPURLResponse * _Nullable response __unused, NSData * _Nullable data __unused, NSError * _Nullable error __unused) {
+  }];
 
   // Then
   OCMVerify(([self.httpClientMock sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:[OCMArg checkWithBlock:^BOOL(id obj) {
@@ -281,30 +196,6 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   XCTAssertTrue([result isEqualToString:@"Bearer ***"]);
 }
 
-#pragma mark - Test Helpers
-
-// TODO: Move this to base MSHttpIngestion test.
-- (void)simulateReachabilityChangedNotification:(NetworkStatus)status {
-  self.currentNetworkStatus = status;
-  [[NSNotificationCenter defaultCenter] postNotificationName:kMSReachabilityChangedNotification object:self.reachabilityMock];
-}
-
-- (MSLogContainer *)createLogContainerWithId:(NSString *)batchId {
-  MSMockLog *log1 = [[MSMockLog alloc] init];
-  log1.sid = MS_UUID_STRING;
-  log1.timestamp = [NSDate date];
-  log1.device = self.deviceMock;
-
-  MSMockLog *log2 = [[MSMockLog alloc] init];
-  log2.sid = MS_UUID_STRING;
-  log2.timestamp = [NSDate date];
-  log2.device = self.deviceMock;
-
-  MSLogContainer *logContainer = [[MSLogContainer alloc] initWithBatchId:batchId andLogs:(NSArray<id<MSLog>> *)@[ log1, log2 ]];
-  return logContainer;
-}
-
-/*
 - (void)testHideSecretInResponse {
 
   // If
@@ -343,5 +234,28 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [mockUtility stopMocking];
   [mockLogger stopMocking];
 }
-*/
+
+#pragma mark - Test Helpers
+
+// TODO: Move this to base MSHttpIngestion test.
+- (void)simulateReachabilityChangedNotification:(NetworkStatus)status {
+  self.currentNetworkStatus = status;
+  [[NSNotificationCenter defaultCenter] postNotificationName:kMSReachabilityChangedNotification object:self.reachabilityMock];
+}
+
+- (MSLogContainer *)createLogContainerWithId:(NSString *)batchId {
+  MSMockLog *log1 = [[MSMockLog alloc] init];
+  log1.sid = MS_UUID_STRING;
+  log1.timestamp = [NSDate date];
+  log1.device = self.deviceMock;
+
+  MSMockLog *log2 = [[MSMockLog alloc] init];
+  log2.sid = MS_UUID_STRING;
+  log2.timestamp = [NSDate date];
+  log2.device = self.deviceMock;
+
+  MSLogContainer *logContainer = [[MSLogContainer alloc] initWithBatchId:batchId andLogs:(NSArray<id<MSLog>> *)@[ log1, log2 ]];
+  return logContainer;
+}
+
 @end
