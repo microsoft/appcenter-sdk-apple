@@ -58,6 +58,7 @@
     _pendingCalls = [NSMutableSet new];
     _retryIntervals = [NSArray arrayWithArray:retryIntervals];
     _enabled = YES;
+    _paused = NO;
     _reachability = reachability;
     _compressionEnabled = compressionEnabled;
 
@@ -96,6 +97,9 @@
   @synchronized(self) {
     if (![self.pendingCalls containsObject:call]) {
       [self.pendingCalls addObject:call];
+    }
+    if (self.paused) {
+      return;
     }
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:call.url
                                                            cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
@@ -173,8 +177,10 @@
 - (void)networkStateChanged:(__unused NSNotificationCenter *)notification {
   if ([self.reachability currentReachabilityStatus] == NotReachable) {
     MSLogInfo([MSAppCenter logTag], @"Internet connection is down.");
+    [self pause];
   } else {
     MSLogInfo([MSAppCenter logTag], @"Internet connection is up.");
+    [self resume];
   }
 }
 
@@ -200,6 +206,39 @@
           call.completionHandler(nil, nil, error);
         }
         [self.pendingCalls removeAllObjects];
+      }
+    }
+  }
+}
+
+- (void)pause {
+  @synchronized(self) {
+    if (self.paused) {
+      return;
+    }
+    MSLogInfo([MSAppCenter logTag], @"Pause HTTP client.");
+    self.paused = YES;
+
+    // Reset retry for all calls.
+    for (MSHttpCall *call in self.pendingCalls) {
+      [call resetRetry];
+    }
+  }
+}
+
+- (void)resume {
+  @synchronized(self) {
+
+    // Resume only while enabled.
+    if (self.paused && self.enabled) {
+      MSLogInfo([MSAppCenter logTag], @"Resume HTTP client.");
+      self.paused = NO;
+
+      // Resume calls.
+      for (MSHttpCall *call in self.pendingCalls) {
+        if (!call.inProgress) {
+          [self sendCallAsync:call];
+        }
       }
     }
   }

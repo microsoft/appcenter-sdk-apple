@@ -31,6 +31,12 @@
 @property(nonatomic) NSArray *retryIntervals;
 
 /**
+ * A boolean value set to YES if the client is paused or NO otherwise. While paused, the client will store new calls but not send them until
+ * resumed.
+ */
+@property(nonatomic, getter=isPaused) BOOL paused;
+
+/**
  * A boolean value set to YES if the client is enabled or NO otherwise. While disabled, the client will not store any calls.
  */
 @property(nonatomic, getter=isEnabled) BOOL enabled;
