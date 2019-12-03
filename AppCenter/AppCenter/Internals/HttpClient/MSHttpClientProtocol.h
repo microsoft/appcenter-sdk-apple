@@ -7,7 +7,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 typedef void (^MSHttpRequestCompletionHandler)(NSData *_Nullable responseBody, NSHTTPURLResponse *_Nullable response,
                                                NSError *_Nullable error);
-@class MSHttpCall;
+
 @protocol MSHttpClientDelegate;
 
 @protocol MSHttpClientProtocol
@@ -22,10 +22,8 @@ typedef void (^MSHttpRequestCompletionHandler)(NSData *_Nullable responseBody, N
  * @param headers HTTP headers.
  * @param data A data instance that will be transformed request body.
  * @param completionHandler Completion handler.
- *
- *@return The created HTTP call.
  */
-- (MSHttpCall *)sendAsync:(NSURL *)url
+- (void)sendAsync:(NSURL *)url
                method:(NSString *)method
               headers:(nullable NSDictionary<NSString *, NSString *> *)headers
                  data:(nullable NSData *)data
@@ -41,10 +39,8 @@ typedef void (^MSHttpRequestCompletionHandler)(NSData *_Nullable responseBody, N
  * @param retryIntervals The retry intervals for the request.
  * @param compressionEnabled Whether to compress the request data when it exceeds a certain size.
  * @param completionHandler Completion handler.
- *
- *@return The created HTTP call.
  */
-- (MSHttpCall *)sendAsync:(NSURL *)url
+- (void)sendAsync:(NSURL *)url
            method:(NSString *)method
           headers:(nullable NSDictionary<NSString *, NSString *> *)headers
              data:(nullable NSData *)data
