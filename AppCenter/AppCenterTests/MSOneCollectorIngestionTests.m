@@ -186,7 +186,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
 
   // Log does not have device info, therefore, it's an invalid log.
   MSLogContainer *container = [[MSLogContainer alloc] initWithBatchId:@"1" andLogs:(NSArray<id<MSLog>> *)@[ log ]];
-  OCMReject([self.httpClientMock sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:OCMOCK_ANY data:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
+  OCMReject([self.httpClientMock sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:OCMOCK_ANY data:OCMOCK_ANY retryIntervals:OCMOCK_ANY compressionEnabled:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
 
   // When
   [self.sut sendAsync:container
