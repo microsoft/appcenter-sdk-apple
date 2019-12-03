@@ -15,6 +15,7 @@
 #import "MSHttpClient.h"
 #import "MSConstants+Internal.h"
 #import "MSIngestionDelegate.h"
+#import "MSTestUtil.h"
 
 static NSTimeInterval const kMSTestTimeout = 5.0;
 static NSString *const kMSBaseUrl = @"https://test.com";
@@ -83,7 +84,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   // Stub http response
   [MSHttpTestUtil stubHttp200Response];
   NSString *containerId = @"1";
-  MSLogContainer *container = [self createLogContainerWithId:containerId];
+  MSLogContainer *container = [MSTestUtil createLogContainerWithId:containerId device:self.deviceMock];
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@"HTTP Response 200"];
   [self.sut sendAsync:container
               authToken:nil
@@ -207,7 +208,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
                              toReplaceWithTemplate:kMSRedirectUriObfuscatedTemplate]));
   NSData *data = [[NSString stringWithFormat:@"{\"redirect_uri\":\"%@\",\"token\":\"%@\"}", kMSTestAppSecret, kMSTestAppSecret]
       dataUsingEncoding:NSUTF8StringEncoding];
-  MSLogContainer *container = [self createLogContainerWithId:@"1"];
+  MSLogContainer *container = [MSTestUtil createLogContainerWithId:@"1" device:self.deviceMock];
   XCTestExpectation *requestCompletedExpectation = [self expectationWithDescription:@"Request completed."];
 
   // When
@@ -241,21 +242,6 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 - (void)simulateReachabilityChangedNotification:(NetworkStatus)status {
   self.currentNetworkStatus = status;
   [[NSNotificationCenter defaultCenter] postNotificationName:kMSReachabilityChangedNotification object:self.reachabilityMock];
-}
-
-- (MSLogContainer *)createLogContainerWithId:(NSString *)batchId {
-  MSMockLog *log1 = [[MSMockLog alloc] init];
-  log1.sid = MS_UUID_STRING;
-  log1.timestamp = [NSDate date];
-  log1.device = self.deviceMock;
-
-  MSMockLog *log2 = [[MSMockLog alloc] init];
-  log2.sid = MS_UUID_STRING;
-  log2.timestamp = [NSDate date];
-  log2.device = self.deviceMock;
-
-  MSLogContainer *logContainer = [[MSLogContainer alloc] initWithBatchId:batchId andLogs:(NSArray<id<MSLog>> *)@[ log1, log2 ]];
-  return logContainer;
 }
 
 @end
