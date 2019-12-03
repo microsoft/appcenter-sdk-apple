@@ -19,36 +19,16 @@
 
 - (instancetype)init {
   return [self initWithMaxHttpConnectionsPerHost:nil
-                                  retryIntervals:DEFAULT_RETRY_INTERVALS
-                                    reachability:[MS_Reachability reachabilityForInternetConnection]
-                              compressionEnabled:YES];
+                                    reachability:[MS_Reachability reachabilityForInternetConnection]];
 }
 
-- (instancetype)initNoRetriesWithCompressionEnabled:(BOOL)compressionEnabled {
-  return [self initWithMaxHttpConnectionsPerHost:nil
-                                  retryIntervals:@[]
-                                    reachability:[MS_Reachability reachabilityForInternetConnection]
-                              compressionEnabled:compressionEnabled];
-}
-
-- (instancetype)initWithCompressionEnabled:(BOOL)compressionEnabled {
-  return [self initWithMaxHttpConnectionsPerHost:nil
-                                  retryIntervals:DEFAULT_RETRY_INTERVALS
-                                    reachability:[MS_Reachability reachabilityForInternetConnection]
-                              compressionEnabled:compressionEnabled];
-}
-
-- (instancetype)initWithMaxHttpConnectionsPerHost:(NSInteger)maxHttpConnectionsPerHost compressionEnabled:(BOOL)compressionEnabled {
+- (instancetype)initWithMaxHttpConnectionsPerHost:(NSInteger)maxHttpConnectionsPerHost {
   return [self initWithMaxHttpConnectionsPerHost:@(maxHttpConnectionsPerHost)
-                                  retryIntervals:DEFAULT_RETRY_INTERVALS
-                                    reachability:[MS_Reachability reachabilityForInternetConnection]
-                              compressionEnabled:compressionEnabled];
+                                    reachability:[MS_Reachability reachabilityForInternetConnection]];
 }
 
 - (instancetype)initWithMaxHttpConnectionsPerHost:(NSNumber *)maxHttpConnectionsPerHost
-                                   retryIntervals:(NSArray *)retryIntervals
-                                     reachability:(MS_Reachability *)reachability
-                               compressionEnabled:(BOOL)compressionEnabled {
+                                     reachability:(MS_Reachability *)reachability {
   if ((self = [super init])) {
     _sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
     if (maxHttpConnectionsPerHost) {
@@ -56,11 +36,9 @@
     }
     _session = [NSURLSession sessionWithConfiguration:_sessionConfiguration];
     _pendingCalls = [NSMutableSet new];
-    _retryIntervals = [NSArray arrayWithArray:retryIntervals];
     _enabled = YES;
     _paused = NO;
     _reachability = reachability;
-    _compressionEnabled = compressionEnabled;
 
     // Add listener to reachability.
     [MS_NOTIFICATION_CENTER addObserver:self selector:@selector(networkStateChanged:) name:kMSReachabilityChangedNotification object:nil];
@@ -79,11 +57,12 @@ completionHandler:(MSHttpRequestCompletionHandler)completionHandler {
              method:method
             headers:headers
                data:data
-     retryIntervals:self.retryIntervals
- compressionEnabled:self.compressionEnabled
+     retryIntervals:DEFAULT_RETRY_INTERVALS
+ compressionEnabled:YES
   completionHandler:completionHandler];
   }
 }
+
 
 - (void)sendAsync:(NSURL *)url
            method:(NSString *)method
