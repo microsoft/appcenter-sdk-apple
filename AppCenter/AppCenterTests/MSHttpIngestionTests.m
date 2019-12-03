@@ -164,7 +164,19 @@
 }
 
 - (void)testCompressHTTPBodyWhenNeeded {
-  XCTAssertTrue(false);
+  id deviceMock = OCMPartialMock([MSDevice new]);
+  OCMStub([deviceMock isValid]).andReturn(YES);
+  MSLogContainer *container = [MSTestUtil createLogContainerWithId:@"1" device:deviceMock];
+
+  // Respond with a retryable error.
+  [MSHttpTestUtil stubHttp500Response];
+
+  // Send the call.
+  [self.sut sendAsync:(NSObject *)container eTag:nil authToken:nil completionHandler:^(NSString * _Nonnull callId __unused, NSHTTPURLResponse * _Nullable response __unused, NSData * _Nullable data __unused, NSError * _Nullable error __unused) {
+  }];
+
+  // Ensure that HTTP is called with compression.
+  OCMVerify([self.httpClientMock sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:OCMOCK_ANY data:OCMOCK_ANY retryIntervals:OCMOCK_ANY compressionEnabled:YES completionHandler:OCMOCK_ANY]);
 }
 
 - (void)testPausedWhenAllRetriesUsed {
