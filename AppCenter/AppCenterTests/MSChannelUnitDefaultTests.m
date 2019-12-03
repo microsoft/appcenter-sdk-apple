@@ -1396,27 +1396,10 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
   // If
   [self initChannelEndJobExpectation];
-  __block MSSendAsyncCompletionHandler ingestionBlock;
-  __block id responseMock = [MSHttpTestUtil createMockResponseForStatusCode:404 headers:nil];
-  __block MSLogContainer *logContainer;
-  id<MSLog> enqueuedLog = [self getValidMockLog];
-  OCMStub([self.ingestionMock sendAsync:OCMOCK_ANY authToken:OCMOCK_ANY completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
-    // Get ingestion block for later call.
-    [invocation retainArguments];
-    [invocation getArgument:&ingestionBlock atIndex:4];
-    [invocation getArgument:&logContainer atIndex:2];
-  });
 
   // When
-  [self.sut enqueueItem:enqueuedLog flags:MSFlagsNone];
+  [self.sut ingestionDidReceiveFatalError:self.ingestionMock];
 
-  // Invoke the handler
-  dispatch_async(self.logsDispatchQueue, ^{
-    XCTAssertNotNil(ingestionBlock);
-    if (ingestionBlock) {
-      ingestionBlock(@"1", responseMock, nil, nil);
-    }
-  });
 
     // Then
     [self enqueueChannelEndJobExpectation];
