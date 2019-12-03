@@ -47,13 +47,13 @@
   return self;
 }
 
-- (void)sendAsync:(NSURL *)url
+- (MSHttpCall *)sendAsync:(NSURL *)url
            method:(NSString *)method
           headers:(nullable NSDictionary<NSString *, NSString *> *)headers
              data:(nullable NSData *)data
 completionHandler:(MSHttpRequestCompletionHandler)completionHandler {
   @synchronized(self) {
-    [self sendAsync:url
+    return [self sendAsync:url
              method:method
             headers:headers
                data:data
@@ -64,7 +64,7 @@ completionHandler:(MSHttpRequestCompletionHandler)completionHandler {
 }
 
 
-- (void)sendAsync:(NSURL *)url
+- (MSHttpCall *)sendAsync:(NSURL *)url
            method:(NSString *)method
           headers:(nullable NSDictionary<NSString *, NSString *> *)headers
              data:(nullable NSData *)data
@@ -77,7 +77,7 @@ completionHandler:(MSHttpRequestCompletionHandler)completionHandler {
                                            code:MSACDisabledErrorCode
                                        userInfo:@{NSLocalizedDescriptionKey : kMSACDisabledErrorDesc}];
       completionHandler(nil, nil, error);
-      return;
+      return nil;
     }
     MSHttpCall *call = [[MSHttpCall alloc] initWithUrl:url
                                                 method:method
@@ -87,6 +87,7 @@ completionHandler:(MSHttpRequestCompletionHandler)completionHandler {
                                     compressionEnabled:compressionEnabled
                                      completionHandler:completionHandler];
     [self sendCallAsync:call];
+    return call;
   }
 }
 
