@@ -188,13 +188,18 @@ completionHandler:(MSSendAsyncCompletionHandler)handler {
       MSLogVerbose([MSAppCenter logTag], @"URL: %@", self.sendURL);
       MSLogVerbose([MSAppCenter logTag], @"Headers: %@", [self prettyPrintHeaders:httpHeaders]);
     }
-    [self.httpClient sendAsync:self.sendURL method:[self getHttpMethod] headers:httpHeaders data:payload completionHandler:^(NSData * _Nullable responseBody, NSHTTPURLResponse * _Nullable response, NSError * _Nullable error) {
+    [self.httpClient sendAsync:self.sendURL method:[self getHttpMethod] headers:httpHeaders data:payload retryIntervals:self.callsRetryIntervals compressionEnabled:YES completionHandler:^(NSData * _Nullable responseBody, NSHTTPURLResponse * _Nullable response, NSError * _Nullable error) {
       [self printResponse:response body:responseBody error:error];
       handler(callId, response, responseBody, error);
-      if (![MSHttpUtil isSuccessStatusCode:response.statusCode] && ![MSHttpUtil isRecoverableError:response.statusCode]) {
-        [self enumerateDelegatesForSelector:@selector(ingestionDidReceiveFatalError:) withBlock:^(id<MSIngestionDelegate> delegate) {
-          [delegate ingestionDidReceiveFatalError:self];
-        }];
+      if (![MSHttpUtil isSuccessStatusCode:response.statusCode]) {
+        if ([MSHttpUtil isRecoverableError:response.statusCode]) {
+          [self pause];
+        } else {
+          [self setEnabled:NO andDeleteDataOnDisabled:YES];
+          [self enumerateDelegatesForSelector:@selector(ingestionDidReceiveFatalError:) withBlock:^(id<MSIngestionDelegate> delegate) {
+            [delegate ingestionDidReceiveFatalError:self];
+          }];
+        }
       }
     }];
   }
@@ -276,12 +281,6 @@ completionHandler:(MSSendAsyncCompletionHandler)handler {
     MSLogInfo([MSAppCenter logTag], @"Pause ingestion.");
     self.paused = YES;
 
-    //TODO how does this get replaced?
-//    // Reset retry for all calls.
-//    for (MSHttpCall *call in self.pendingCalls) {
-//      [call resetRetry];
-//    }
-
     // Notify delegates.
     [self enumerateDelegatesForSelector:@selector(ingestionDidPause:) withBlock:^(id<MSIngestionDelegate> delegate) {
       [delegate ingestionDidPause:self];
@@ -296,13 +295,6 @@ completionHandler:(MSSendAsyncCompletionHandler)handler {
     if (self.paused && self.enabled) {
       MSLogInfo([MSAppCenter logTag], @"Resume ingestion.");
       self.paused = NO;
-
-      //TODO how does this get replaced?
-//      // Resume calls.
-//      for (MSHttpCall *call in self.pendingCalls) {
-//        if (!call.inProgress) {
-//          [self sendCallAsync:call];
-//        }
 
         // Notify delegates.
         [self enumerateDelegatesForSelector:@selector(ingestionDidResume:) withBlock:^(id<MSIngestionDelegate> delegate) {

@@ -54,7 +54,6 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
     return;
   }
   [super sendAsync:data authToken:authToken completionHandler:^(NSString * _Nonnull __unused callId, NSHTTPURLResponse * _Nullable response, NSData * _Nullable responseBody, NSError * _Nullable error) {
-
     // Ignore the given call ID so that the container's batch ID can be used instead.
     handler(batchId, response, responseBody, error);
   }];

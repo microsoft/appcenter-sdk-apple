@@ -70,10 +70,28 @@
 }
 
 - (void)sendAsync:(NSURL *)url
-               method:(NSString *)method
-              headers:(nullable NSDictionary<NSString *, NSString *> *)headers
-                 data:(nullable NSData *)data
-    completionHandler:(MSHttpRequestCompletionHandler)completionHandler {
+           method:(NSString *)method
+          headers:(nullable NSDictionary<NSString *, NSString *> *)headers
+             data:(nullable NSData *)data
+completionHandler:(MSHttpRequestCompletionHandler)completionHandler {
+  @synchronized(self) {
+    [self sendAsync:url
+             method:method
+            headers:headers
+               data:data
+     retryIntervals:self.retryIntervals
+ compressionEnabled:self.compressionEnabled
+  completionHandler:completionHandler];
+  }
+}
+
+- (void)sendAsync:(NSURL *)url
+           method:(NSString *)method
+          headers:(nullable NSDictionary<NSString *, NSString *> *)headers
+             data:(nullable NSData *)data
+   retryIntervals:(NSArray *)retryIntervals
+compressionEnabled:(BOOL)compressionEnabled
+completionHandler:(MSHttpRequestCompletionHandler)completionHandler {
   @synchronized(self) {
     if (!self.enabled) {
       NSError *error = [NSError errorWithDomain:kMSACErrorDomain
@@ -86,8 +104,8 @@
                                                 method:method
                                                headers:headers
                                                   data:data
-                                        retryIntervals:self.retryIntervals
-                                    compressionEnabled:self.compressionEnabled
+                                        retryIntervals:retryIntervals
+                                    compressionEnabled:compressionEnabled
                                      completionHandler:completionHandler];
     [self sendCallAsync:call];
   }
