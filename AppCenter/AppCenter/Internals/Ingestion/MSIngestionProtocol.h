@@ -63,36 +63,6 @@ typedef void (^MSSendAsyncCompletionHandler)(NSString *callId, NSHTTPURLResponse
  */
 - (void)sendAsync:(nullable NSObject *)data eTag:(nullable NSString *)eTag completionHandler:(MSSendAsyncCompletionHandler)handler;
 
-/**
- * Pause ingestion.
- * The client is automatically paused when it becomes disabled or on network issues. A paused state doesn't impact the current enabled
- * state.
- *
- * @see resume.
- */
-- (void)pause;
-
-/**
- * Resume ingestion.
- *
- * @see pause.
- */
-- (void)resume;
-
-/**
- * Add a delegate.
- *
- * @param delegate The delegate being added.
- */
-- (void)addDelegate:(id<MSIngestionDelegate>)delegate;
-
-/**
- * Remove a delegate.
- *
- * @param delegate The delegate being removed.
- */
-- (void)removeDelegate:(id<MSIngestionDelegate>)delegate;
-
 @end
 
 NS_ASSUME_NONNULL_END

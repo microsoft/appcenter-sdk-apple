@@ -52,7 +52,6 @@ static NSString *const kMSStartTimestampPrefix = @"MSChannelStartTimer";
     _storage = storage;
     _configuration = configuration;
     _logsDispatchQueue = logsDispatchQueue;
-    [_ingestion addDelegate:self];
   }
   return self;
 }
@@ -83,12 +82,6 @@ static NSString *const kMSStartTimestampPrefix = @"MSChannelStartTimer";
 
 - (void)ingestionDidResume:(id<MSIngestionProtocol>)ingestion {
   [self resumeWithIdentifyingObject:ingestion];
-}
-
-- (void)ingestionDidReceiveFatalError:(__unused id<MSIngestionProtocol>)ingestion {
-
-  // Disable and delete data on fatal errors.
-  [self setEnabled:NO andDeleteDataOnDisabled:YES];
 }
 
 #pragma mark - MSAuthTokenContextDelegate

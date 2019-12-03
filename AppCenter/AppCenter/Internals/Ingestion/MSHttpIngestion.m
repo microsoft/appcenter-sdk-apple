@@ -7,7 +7,6 @@
 #import "MSHttpIngestionPrivate.h"
 #import "MSUtility+StringFormatting.h"
 #import "MSLoggerInternal.h"
-#import "MSIngestionDelegate.h"
 
 //static NSTimeInterval kRequestTimeout = 60.0;
 
@@ -64,7 +63,6 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
     _apiPath = apiPath;
     _maxNumberOfConnections = maxNumberOfConnections;
     _baseURL = baseUrl;
-    _delegates = [NSHashTable weakObjectsHashTable];
 
     // Construct the URL string with the query string.
     NSMutableString *urlString = [NSMutableString stringWithFormat:@"%@%@", baseUrl, apiPath];
@@ -84,18 +82,6 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
     _sendURL = (NSURL * _Nonnull)[NSURL URLWithString:urlString];
   }
   return self;
-}
-
-- (void)addDelegate:(id<MSIngestionDelegate>)delegate {
-  @synchronized(self) {
-    [self.delegates addObject:delegate];
-  }
-}
-
-- (void)removeDelegate:(id<MSIngestionDelegate>)delegate {
-  @synchronized(self) {
-    [self.delegates removeObject:delegate];
-  }
 }
 
 #pragma mark - MSIngestion
@@ -177,7 +163,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
            callId:(NSString *)callId
 completionHandler:(MSSendAsyncCompletionHandler)handler {
   @synchronized(self) {
-    if (!self.enabled || self.paused) {
+    if (!self.enabled) {
       return;
     }
     NSDictionary *httpHeaders = [self getHeadersWithData:data eTag:eTag authToken:authToken];
@@ -271,39 +257,6 @@ completionHandler:(MSSendAsyncCompletionHandler)handler {
   return [flattenedHeaders componentsJoinedByString:@", "];
 }
 
-#pragma mark - Pause/Resume
-
-- (void)pause {
-  @synchronized(self) {
-    if (self.paused) {
-      return;
-    }
-    MSLogInfo([MSAppCenter logTag], @"Pause ingestion.");
-    self.paused = YES;
-
-    // Notify delegates.
-    [self enumerateDelegatesForSelector:@selector(ingestionDidPause:) withBlock:^(id<MSIngestionDelegate> delegate) {
-      [delegate ingestionDidPause:self];
-    }];
-  }
-}
-
-- (void)resume {
-  @synchronized(self) {
-
-    // Resume only while enabled.
-    if (self.paused && self.enabled) {
-      MSLogInfo([MSAppCenter logTag], @"Resume ingestion.");
-      self.paused = NO;
-
-        // Notify delegates.
-        [self enumerateDelegatesForSelector:@selector(ingestionDidResume:) withBlock:^(id<MSIngestionDelegate> delegate) {
-          [delegate ingestionDidResume:self];
-        }];
-      }
-    }
-  }
-
 #pragma mark - Helper
 
 + (nullable NSString *)eTagFromResponse:(NSHTTPURLResponse *)response {
@@ -315,20 +268,6 @@ completionHandler:(MSSendAsyncCompletionHandler)handler {
     }
   }
   return nil;
-}
-
-- (void)enumerateDelegatesForSelector:(SEL)selector withBlock:(void (^)(id<MSIngestionDelegate> delegate))block {
-  NSArray *synchronizedDelegates;
-  @synchronized(self) {
-
-    // Don't execute the block while locking; it might be locking too and deadlock ourselves.
-    synchronizedDelegates = [self.delegates allObjects];
-  }
-  for (id<MSIngestionDelegate> delegate in synchronizedDelegates) {
-    if ([delegate respondsToSelector:selector]) {
-      block(delegate);
-    }
-  }
 }
 
 @end

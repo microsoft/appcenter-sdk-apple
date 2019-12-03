@@ -104,9 +104,100 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
                                }];
 }
 
-- (void)testInvalidContainer {
+
+//TODO Should HTTP ingestion have its own pause state? What happens when all retries are used for a request? should that pause the http client used everywhere? Or should the channel for that module observe that all retries are used and then pause it manually? or should ingestion pause itself when that happens for one of its calls but not expose the pause state at that level?
+
+
+
+// TODO: Move this to base MSHttpIngestion test.
+- (void)testPausedWhenAllRetriesUsed {
 
   // If
+  XCTestExpectation *responseReceivedExpectation = [self expectationWithDescription:@"Used all retries."];
+  responseReceivedExpectation.expectedFulfillmentCount = 3;
+  NSString *containerId = @"1";
+  MSLogContainer *container = [self createLogContainerWithId:containerId];
+
+  // Mock the call to intercept the retry.
+  NSArray *intervals = @[ @(0.5), @(1) ];
+  MSIngestionCall *mockedCall = [[MSIngestionCallExpectation alloc] initWithRetryIntervals:intervals
+                                                                            andExpectation:responseReceivedExpectation];
+  mockedCall.delegate = self.sut;
+  mockedCall.data = container;
+  mockedCall.callId = container.batchId;
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wnonnull"
+  mockedCall.completionHandler = nil;
+#pragma clang diagnostic pop
+
+  self.sut.pendingCalls[containerId] = mockedCall;
+
+  // Respond with a retryable error.
+  [MSHttpTestUtil stubHttp500Response];
+
+  // Send the call.
+  [self.sut sendCallAsync:mockedCall];
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
+                               handler:^(NSError *error) {
+                                 XCTAssertTrue(self.sut.paused);
+                                 XCTAssertTrue([self.sut.pendingCalls count] == 0);
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+}
+
+// TODO: Move this to base MSHttpIngestion test.
+- (void)testRetryStoppedWhilePaused {
+
+  // If
+  XCTestExpectation *responseReceivedExpectation = [self expectationWithDescription:@"Request completed."];
+  NSString *containerId = @"1";
+  MSLogContainer *container = [self createLogContainerWithId:containerId];
+
+  // Mock the call to intercept the retry.
+  NSArray *intervals = @[ @(UINT_MAX) ];
+  MSIngestionCall *mockedCall = [[MSIngestionCallExpectation alloc] initWithRetryIntervals:intervals
+                                                                            andExpectation:responseReceivedExpectation];
+  mockedCall.delegate = self.sut;
+  mockedCall.data = container;
+  mockedCall.callId = container.batchId;
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wnonnull"
+  mockedCall.completionHandler = nil;
+#pragma clang diagnostic pop
+
+  self.sut.pendingCalls[containerId] = mockedCall;
+
+  // Respond with a retryable error.
+  [MSHttpTestUtil stubHttp500Response];
+
+  // Send the call.
+  [self.sut sendCallAsync:mockedCall];
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
+                               handler:^(NSError *error) {
+                                 // When
+                                 // Pause now that the call is retrying.
+                                 [self.sut pause];
+
+                                 // Then
+                                 // Retry must be stopped.
+                                 if (@available(macOS 10.10, tvOS 9.0, watchOS 2.0, *)) {
+                                   XCTAssertNotEqual(0, dispatch_testcancel(((MSIngestionCall *)self.sut.pendingCalls[@"1"]).timerSource));
+                                 }
+
+                                 // No call submitted to the session.
+                                 assertThatBool(self.sut.pendingCalls[@"1"].submitted, isFalse());
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+}
+
+- (void)testInvalidContainer {
+
   MSAbstractLog *log = [MSAbstractLog new];
   log.sid = MS_UUID_STRING;
   log.timestamp = [NSDate date];
@@ -121,11 +212,11 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [self.sut sendAsync:container
               authToken:nil
       completionHandler:^(__unused NSString *batchId, __unused NSHTTPURLResponse *response, __unused NSData *data, NSError *error) {
-
-        // Then
         XCTAssertEqual(error.domain, kMSACErrorDomain);
         XCTAssertEqual(error.code, MSACLogInvalidContainerErrorCode);
       }];
+
+  XCTAssertEqual([self.sut.pendingCalls count], (unsigned long)0);
 }
 
 - (void)testNilContainer {
@@ -190,7 +281,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   NSString *testString = @"Bearer testtesttest";
 
   // When
-  NSString *result = [self.sut obfuscateHeaderValue:testString forKey:@"Authorization"];
+  NSString *result = [self.sut obfuscateHeaderValue:testString forKey:kMSAuthorizationHeaderKey];
 
   // Then
   XCTAssertTrue([result isEqualToString:@"Bearer ***"]);
