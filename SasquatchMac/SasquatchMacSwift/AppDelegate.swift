@@ -152,6 +152,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, MSCrashesDelegate, MSPushDel
     if errorReport.exceptionReason != nil {
       NSLog("Will send error report with: %@", errorReport.exceptionReason);
     }
+    var mainW: NSWindow = NSWindow(contentRect: NSMakeRect(10, 10, 200, 200),
+                                   styleMask: [.titled, .closable],
+                                   backing: NSBackingStoreType.buffered, defer: true)
+    NSApp.runModal(for: mainW)
   }
 
   func crashes(_ crashes: MSCrashes!, didSucceedSending errorReport: MSErrorReport!) {
