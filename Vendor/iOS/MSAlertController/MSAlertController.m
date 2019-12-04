@@ -152,8 +152,9 @@ static dispatch_queue_t alertsQueue;
   ((result (*)(id, SEL, ...)) impl)(class, selector, ##__VA_ARGS__); \
 })
 
+#if TARGET_OS_IOS
 + (void)makeKeyAndVisible {
-  if (@available(iOS 13.0, *)) {
+   if (@available(iOS 13.0, *)) {
     UIApplication *application = MS_DISPATCH_SELECTOR(UIApplication *, [UIApplication class], sharedApplication);
     NSSet *scenes = MS_DISPATCH_SELECTOR(NSSet *, application, connectedScenes);
     NSObject *windowScene = nil;
@@ -171,5 +172,10 @@ static dispatch_queue_t alertsQueue;
   }
   [window makeKeyAndVisible];
 }
+#else
++ (void)makeKeyAndVisible {
+  [window makeKeyAndVisible];
+}
+#endif
 
 @end
