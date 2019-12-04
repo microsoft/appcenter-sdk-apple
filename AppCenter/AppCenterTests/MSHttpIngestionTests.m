@@ -4,7 +4,6 @@
 #import "MSHttpIngestionPrivate.h"
 #import "MSTestFrameworks.h"
 #import "MSHttpClient.h"
-#import "MSIngestionDelegate.h"
 #import "MSTestUtil.h"
 #import "MSDevice.h"
 #import "MSHttpTestUtil.h"

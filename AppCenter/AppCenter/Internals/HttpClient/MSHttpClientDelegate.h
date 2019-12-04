@@ -21,4 +21,11 @@
  */
 - (void)httpClientDidResume:(id<MSHttpClientProtocol>)httpClient;
 
+/**
+ * Triggered when the client receives a fatal error.
+ *
+ * @param httpClient Http client.
+ */
+- (void)httpClientDidReceiveFatalError:(id<MSHttpClientProtocol>)httpClient;
+
 @end

@@ -149,20 +149,39 @@ completionHandler:(MSHttpRequestCompletionHandler)completionHandler {
     // Handle HTTP error.
     else {
       httpResponse = (NSHTTPURLResponse *)response;
-      if ([MSHttpUtil isRecoverableError:httpResponse.statusCode] && ![httpCall hasReachedMaxRetries]) {
-
-        // Check if there is a "retry after" header in the response
-        NSString *retryAfter = httpResponse.allHeaderFields[kMSRetryHeaderKey];
-        NSNumber *retryAfterMilliseconds;
-        if (retryAfter) {
-          NSNumberFormatter *formatter = [NSNumberFormatter new];
-          retryAfterMilliseconds = [formatter numberFromString:retryAfter];
+      if ([MSHttpUtil isRecoverableError:httpResponse.statusCode]) {
+        if ([httpCall hasReachedMaxRetries]) {
+          [self pause];
+        } else {
+          // Check if there is a "retry after" header in the response
+          NSString *retryAfter = httpResponse.allHeaderFields[kMSRetryHeaderKey];
+          NSNumber *retryAfterMilliseconds;
+          if (retryAfter) {
+            NSNumberFormatter *formatter = [NSNumberFormatter new];
+            retryAfterMilliseconds = [formatter numberFromString:retryAfter];
+          }
+          [httpCall startRetryTimerWithStatusCode:httpResponse.statusCode
+                                       retryAfter:retryAfterMilliseconds
+                                            event:^{
+                                              [self sendCallAsync:httpCall];
+                                            }];
+          return;
         }
-        [httpCall startRetryTimerWithStatusCode:httpResponse.statusCode
-                                     retryAfter:retryAfterMilliseconds
-                                          event:^{
-                                            [self sendCallAsync:httpCall];
-                                          }];
+      } else if (![MSHttpUtil isSuccessStatusCode:httpResponse.statusCode]) {
+
+        // Fatal error. Notify delegates and disable.
+        [self enumerateDelegatesForSelector:@selector(httpClientDidReceiveFatalError:) withBlock:^(id<MSHttpClientDelegate> delegate) {
+          [delegate httpClientDidReceiveFatalError:self];
+        }];
+
+        // Removing the call from pendingCalls and invoking completion handler must be done before disabling to avoid duplicate invocations.
+        [self.pendingCalls removeObject:httpCall];
+
+        // Unblock the caller now with the outcome of the call.
+        httpCall.completionHandler(data, httpResponse, error);
+        [self setEnabled:NO andDeleteDataOnDisabled:YES];
+
+        // Return so as not to re-invoke completion handler.
         return;
       }
     }
@@ -226,10 +245,10 @@ completionHandler:(MSHttpRequestCompletionHandler)completionHandler {
   }
 }
 
-- (void)setEnabled:(BOOL)isEnabled {
+- (void)setEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:(BOOL)deleteData {
   @synchronized(self) {
     if (self.enabled != isEnabled) {
-      _enabled = isEnabled;
+      self.enabled = isEnabled;
       if (isEnabled) {
         self.session = [NSURLSession sessionWithConfiguration:self.sessionConfiguration];
         [self.reachability startNotifier];
@@ -237,19 +256,21 @@ completionHandler:(MSHttpRequestCompletionHandler)completionHandler {
       } else {
         [self.reachability stopNotifier];
         [self pause];
+        if (deleteData) {
 
-        // Cancel all the tasks and invalidate current session to free resources.
-        [self.session invalidateAndCancel];
-        self.session = nil;
+          // Cancel all the tasks and invalidate current session to free resources.
+          [self.session invalidateAndCancel];
+          self.session = nil;
 
-        // Remove pending calls and invoke their completion handler.
-        for (MSHttpCall *call in self.pendingCalls) {
-          NSError *error = [NSError errorWithDomain:kMSACErrorDomain
-                                               code:MSACCanceledErrorCode
-                                           userInfo:@{NSLocalizedDescriptionKey : kMSACCanceledErrorDesc}];
-          call.completionHandler(nil, nil, error);
+          // Remove pending calls and invoke their completion handler.
+          for (MSHttpCall *call in self.pendingCalls) {
+            NSError *error = [NSError errorWithDomain:kMSACErrorDomain
+                                                 code:MSACCanceledErrorCode
+                                             userInfo:@{NSLocalizedDescriptionKey : kMSACCanceledErrorDesc}];
+            call.completionHandler(nil, nil, error);
+          }
+          [self.pendingCalls removeAllObjects];
         }
-        [self.pendingCalls removeAllObjects];
       }
     }
   }

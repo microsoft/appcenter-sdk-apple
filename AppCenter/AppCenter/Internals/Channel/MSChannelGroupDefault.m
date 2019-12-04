@@ -225,14 +225,20 @@ static char *const kMSLogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
   }
 }
 
-#pragma mark - HTTP Client Delegate
+#pragma mark - MSHttpClientDelegate
 
-- (void) httpClientDidPause:(id<MSHttpClientProtocol>)httpClient {
+- (void)httpClientDidPause:(id<MSHttpClientProtocol>)httpClient {
   [self pauseWithIdentifyingObject:(NSObject *)httpClient];
 }
 
-- (void) httpClientDidResume:(id<MSHttpClientProtocol>)httpClient {
+- (void)httpClientDidResume:(id<MSHttpClientProtocol>)httpClient {
   [self resumeWithIdentifyingObject:(NSObject *)httpClient];
+}
+
+- (void)httpClientDidReceiveFatalError:(__unused id<MSHttpClientProtocol>)httpClient {
+
+  // Disable and delete data on fatal errors.
+  [self setEnabled:NO andDeleteDataOnDisabled:YES];
 }
 
 #pragma mark - Other public methods

@@ -177,16 +177,6 @@ completionHandler:(MSSendAsyncCompletionHandler)handler {
     [self.httpClient sendAsync:self.sendURL method:[self getHttpMethod] headers:httpHeaders data:payload retryIntervals:self.callsRetryIntervals compressionEnabled:YES completionHandler:^(NSData * _Nullable responseBody, NSHTTPURLResponse * _Nullable response, NSError * _Nullable error) {
       [self printResponse:response body:responseBody error:error];
       handler(callId, response, responseBody, error);
-      if (![MSHttpUtil isSuccessStatusCode:response.statusCode]) {
-        if ([MSHttpUtil isRecoverableError:response.statusCode]) {
-          [self pause];
-        } else {
-          [self setEnabled:NO andDeleteDataOnDisabled:YES];
-          [self enumerateDelegatesForSelector:@selector(ingestionDidReceiveFatalError:) withBlock:^(id<MSIngestionDelegate> delegate) {
-            [delegate ingestionDidReceiveFatalError:self];
-          }];
-        }
-      }
     }];
   }
 }

@@ -14,6 +14,7 @@
 #import "MSMockLog.h"
 #import "MSTestFrameworks.h"
 #import "MS_Reachability.h"
+#import "MSHttpCall.h"
 
 static NSTimeInterval const kMSTestTimeout = 5.0;
 
@@ -192,6 +193,7 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
                 headers:nil
                    data:nil
       completionHandler:^(NSData *responseBody, NSHTTPURLResponse *response, NSError *error) {
+
         // Then
         XCTAssertEqual(response.statusCode, MSHTTPCodesNo400BadRequest);
         XCTAssertNotNil(responseBody);
@@ -557,7 +559,7 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
 
   // Don't disable until the call has been enqueued.
   dispatch_semaphore_wait(responseSemaphore, dispatch_time(DISPATCH_TIME_NOW, (int64_t)(kMSTestTimeout * NSEC_PER_SEC)));
-  [httpClient setEnabled:NO];
+  [httpClient setEnabled:NO andDeleteDataOnDisabled:YES];
 
   // Then
   [self waitForExpectationsWithTimeout:kMSTestTimeout
@@ -714,6 +716,85 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
   XCTAssertNil(actualRequest);
 }
 
+- (void)testPausedWhenAllRetriesUsed {
+
+  // If
+  XCTestExpectation *expectation = [self expectationWithDescription:@"Used all retries."];
+  NSString *containerId = @"1";
+  MSLogContainer *container = OCMPartialMock([MSLogContainer new]);
+  OCMStub([container isValid]).andReturn(YES);
+  OCMStub([container batchId]).andReturn(containerId);
+  MSHttpClient *sut = [MSHttpClient new];
+  NSURL *url = [NSURL URLWithString:@"https://mock/something?a=b"];
+  NSString *method = @"GET";
+
+  // Mock the call to intercept the retry.
+  NSArray *intervals = @[ @(0.5), @(1) ];
+
+  // Respond with a retryable error.
+  [MSHttpTestUtil stubHttp500Response];
+
+  // Send the call.
+  [sut sendAsync:url method:method headers:nil data:nil retryIntervals:intervals compressionEnabled:YES completionHandler:^(NSData * _Nullable responseBody __unused, NSHTTPURLResponse * _Nullable response __unused, NSError * _Nullable error __unused) {
+    [expectation fulfill];
+  }];
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
+                               handler:^(NSError *error) {
+                                 XCTAssertTrue(sut.paused);
+                                 XCTAssertTrue([sut.pendingCalls count] == 0);
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+}
+/*
+- (void)testRetryStoppedWhilePaused {
+
+  // If
+  XCTestExpectation *responseReceivedExpectation = [self expectationWithDescription:@"Request completed."];
+  NSString *containerId = @"1";
+  MSLogContainer *container = [self createLogContainerWithId:containerId];
+
+  // Mock the call to intercept the retry.
+  NSArray *intervals = @[ @(UINT_MAX) ];
+  MSIngestionCall *mockedCall = [[MSIngestionCallExpectation alloc] initWithRetryIntervals:intervals
+                                                                            andExpectation:responseReceivedExpectation];
+  mockedCall.delegate = self.sut;
+  mockedCall.data = container;
+  mockedCall.callId = container.batchId;
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wnonnull"
+  mockedCall.completionHandler = nil;
+#pragma clang diagnostic pop
+
+  self.sut.pendingCalls[containerId] = mockedCall;
+
+  // Respond with a retryable error.
+  [MSHttpTestUtil stubHttp500Response];
+
+  // Send the call.
+  [self.sut sendCallAsync:mockedCall];
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
+                               handler:^(NSError *error) {
+                                 // When
+                                 // Pause now that the call is retrying.
+                                 [self.sut pause];
+
+                                 // Then
+                                 // Retry must be stopped.
+                                 if (@available(macOS 10.10, tvOS 9.0, watchOS 2.0, *)) {
+                                   XCTAssertNotEqual(0, dispatch_testcancel(((MSIngestionCall *)self.sut.pendingCalls[@"1"]).timerSource));
+                                 }
+
+                                 // No call submitted to the session.
+                                 assertThatBool(self.sut.pendingCalls[@"1"].submitted, isFalse());
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+}
+*/
 - (void)simulateReachabilityChangedNotification:(NetworkStatus)status {
   self.currentNetworkStatus = status;
   [[NSNotificationCenter defaultCenter] postNotificationName:kMSReachabilityChangedNotification object:self.reachabilityMock];

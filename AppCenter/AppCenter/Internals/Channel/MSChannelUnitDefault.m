@@ -74,16 +74,6 @@ static NSString *const kMSStartTimestampPrefix = @"MSChannelStartTimer";
   });
 }
 
-#pragma mark - MSIngestionDelegate
-
-- (void)ingestionDidPause:(id<MSIngestionProtocol>)ingestion {
-  [self pauseWithIdentifyingObject:ingestion];
-}
-
-- (void)ingestionDidResume:(id<MSIngestionProtocol>)ingestion {
-  [self resumeWithIdentifyingObject:ingestion];
-}
-
 #pragma mark - MSAuthTokenContextDelegate
 
 - (void)authTokenContext:(MSAuthTokenContext *)__unused authTokenContext didUpdateAuthToken:(nullable NSString *)__unused authToken {

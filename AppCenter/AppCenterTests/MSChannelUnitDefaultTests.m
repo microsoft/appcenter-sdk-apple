@@ -445,7 +445,6 @@ static NSString *const kMSTestGroupId = @"GroupId";
   assertThat(self.sut.ingestion, equalTo(self.ingestionMock));
   assertThat(self.sut.storage, equalTo(self.storageMock));
   assertThatUnsignedLong(self.sut.itemsCount, equalToInt(0));
-  OCMVerify([self.ingestionMock addDelegate:self.sut]);
 }
 
 - (void)testLogsSentWithSuccess {
@@ -1392,26 +1391,6 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                }];
 }
 
-- (void)testDisableAndDeleteDataOnIngestionFatalError {
-
-  // If
-  [self initChannelEndJobExpectation];
-
-  // When
-  [self.sut ingestionDidReceiveFatalError:self.ingestionMock];
-
-
-    // Then
-    [self enqueueChannelEndJobExpectation];
-    [self waitForExpectationsWithTimeout:kMSTestTimeout
-                                 handler:^(NSError *error) {
-                                   assertThatBool(self.sut.enabled, isFalse());
-                                   OCMVerify([self.storageMock deleteLogsWithGroupId:self.sut.configuration.groupId]);
-                                   if (error) {
-                                     XCTFail(@"Expectation Failed with error: %@", error);
-                                   }
-                                 }];
-  }
 - (void)testDoesntResumeWhenNotAllPauseObjectsResumed {
 
   // If
