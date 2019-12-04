@@ -20,8 +20,6 @@
   // If
   NSString *baseUrl = @"https://contoso.com";
   NSString *appSecret = @"secret";
-  // TODO?
-  //  NSString *apiPath = [NSString stringWithFormat:@"/auth/%@.json", appSecret];
   NSDictionary *header = @{@"If-None-Match" : @"eTag"};
   NSString *eTag = @"eTag";
   MSAuthConfigIngestion *ingestion = [[MSAuthConfigIngestion alloc] initWithHttpClient:[MSHttpClient new] baseUrl:baseUrl appSecret:appSecret];

@@ -18,9 +18,9 @@
   NSString *apiPath = [NSString stringWithFormat:kMSAuthConfigApiFormat, appSecret];
   if ((self = [super initWithHttpClient:httpClient
                                 baseUrl:baseUrl
-                             apiPath:apiPath
-                             headers:nil
-                        queryStrings:nil])) {
+                                apiPath:apiPath
+                                headers:@{}
+                           queryStrings:nil])) {
     _appSecret = appSecret;
   }
 
