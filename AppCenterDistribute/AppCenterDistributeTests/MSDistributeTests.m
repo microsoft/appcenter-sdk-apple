@@ -776,24 +776,21 @@ static NSURL *sfURL;
 - (void)testCheckLatestReleaseRemoveKeysOnNonRecoverableError {
 
   // If
-  id distributeMock = OCMPartialMock(self.sut);
-  OCMReject([distributeMock handleUpdate:OCMOCK_ANY]);
+  id sut = OCMPartialMock(self.sut);
+
+  // Mock the HTTP client.
+  id httpClientMock = OCMPartialMock([MSHttpClient new]);
+  id httpClientClassMock = OCMClassMock([MSHttpClient class]);
+  OCMStub([httpClientClassMock alloc]).andReturn(httpClientMock);
+  OCMStub([httpClientMock initWithMaxHttpConnectionsPerHost:4]).andReturn(httpClientMock);
+  OCMReject([sut handleUpdate:OCMOCK_ANY]);
   self.sut.appSecret = kMSTestAppSecret;
   id reachabilityMock = OCMClassMock([MS_Reachability class]);
   OCMStub([reachabilityMock reachabilityForInternetConnection]).andReturn(reachabilityMock);
   OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(ReachableViaWiFi);
   XCTestExpectation *expectation = [self expectationWithDescription:@"Request completed."];
-
-  id httpCallMock = OCMPartialMock([MSHttpCall alloc]);
-  OCMStub([httpCallMock alloc]).andReturn(httpCallMock);
-  OCMReject([httpCallMock startRetryTimerWithStatusCode:404 retryAfter:OCMOCK_ANY event:OCMOCK_ANY]);
-  id httpClientMock = OCMPartialMock([MSHttpClient alloc]);
-  OCMStub([httpClientMock alloc]).andReturn(httpClientMock);
-  OCMStub([httpClientMock requestCompletedWithHttpCall:httpCallMock data:OCMOCK_ANY response:[OCMArg checkWithBlock:^BOOL(NSHTTPURLResponse *response) {
-    return response.statusCode == MSHTTPCodesNo404NotFound;
-  }] error:OCMOCK_ANY])
-  .andForwardToRealObject()
-  .andDo(^(__unused NSInvocation *invocation) {
+  OCMStub([httpClientMock requestCompletedWithHttpCall:OCMOCK_ANY data:OCMOCK_ANY response:OCMOCK_ANY error:OCMOCK_ANY])
+  .andForwardToRealObject().andDo(^(__unused NSInvocation *invocation) {
     [expectation fulfill];
   });
 
@@ -801,14 +798,12 @@ static NSURL *sfURL;
   [MSHttpTestUtil stubHttp404Response];
 
   // When
-  [distributeMock checkLatestRelease:kMSTestUpdateToken distributionGroupId:kMSTestDistributionGroupId releaseHash:kMSTestReleaseHash];
+  [self.sut checkLatestRelease:kMSTestUpdateToken distributionGroupId:kMSTestDistributionGroupId releaseHash:kMSTestReleaseHash];
 
   // Then
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {
                                  // Then
-                                 OCMVerifyAll(distributeMock);
-                                 OCMVerifyAll(httpCallMock);
                                  XCTAssertNil([MSMockKeychainUtil stringForKey:kMSUpdateTokenKey statusCode:nil]);
                                  OCMVerify([self.settingsMock removeObjectForKey:kMSSDKHasLaunchedWithDistribute]);
                                  OCMVerify([self.settingsMock removeObjectForKey:kMSUpdateTokenRequestIdKey]);
@@ -825,10 +820,8 @@ static NSURL *sfURL;
                                }];
 
   // Clear
-  [distributeMock stopMocking];
+  [httpClientClassMock stopMocking];
   [reachabilityMock stopMocking];
-  [httpCallMock stopMocking];
-  [httpClientMock stopMocking];
 }
 
 - (void)testCheckLatestReleaseOnRecoverableError {

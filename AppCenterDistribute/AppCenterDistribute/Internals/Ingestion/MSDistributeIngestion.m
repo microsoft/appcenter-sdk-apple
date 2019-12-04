@@ -41,32 +41,6 @@ static NSString *const kMSLatestPublicReleaseApiPathFormat = @"/public/sdk/apps/
   return self;
 }
 
-- (NSURLRequest *)createRequest:(NSObject *)__unused data eTag:(NSString *)__unused eTag authToken:(nullable NSString *)__unused authToken {
-  NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:self.sendURL];
-
-  // Set method.
-  request.HTTPMethod = @"GET";
-
-  // Set header params.
-  request.allHTTPHeaderFields = self.httpHeaders;
-
-  // Set body.
-  request.HTTPBody = nil;
-
-  // Always disable cookies.
-  [request setHTTPShouldHandleCookies:NO];
-
-  // Don't lose time pretty printing headers if not going to be printed.
-  if ([MSLogger currentLogLevel] <= MSLogLevelVerbose) {
-    NSString *url = [request.URL.absoluteString stringByReplacingOccurrencesOfString:self.appSecret
-                                                                          withString:[MSHttpUtil hideSecret:self.appSecret]];
-    MSLogVerbose([MSAppCenter logTag], @"URL: %@", url);
-    MSLogVerbose([MSAppCenter logTag], @"Headers: %@", [super prettyPrintHeaders:request.allHTTPHeaderFields]);
-  }
-
-  return request;
-}
-
 - (NSString *)getHttpMethod {
   return kMSHttpMethodGet;
 };
