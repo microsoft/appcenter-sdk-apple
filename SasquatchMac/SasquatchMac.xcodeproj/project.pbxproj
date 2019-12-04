@@ -88,7 +88,6 @@
 		C2F157672338E6A800798480 /* CrashLibMac.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156BA2338C27700798480 /* CrashLibMac.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C2F1576B2338E6AD00798480 /* CrashLibMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156BA2338C27700798480 /* CrashLibMac.framework */; };
 		C2F1576C2338E6AD00798480 /* CrashLibMac.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156BA2338C27700798480 /* CrashLibMac.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		C2F157702338E6B500798480 /* CrashLibMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156BA2338C27700798480 /* CrashLibMac.framework */; };
 		C971881C2347AA7400C9D8D8 /* SasquatchMacSwift-Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = F8EE645B231E6F8E0007A52E /* SasquatchMacSwift-Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		D3C31C261E8E75B300B288CE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D3C31C251E8E75B300B288CE /* AppDelegate.m */; };
 		D3C31C291E8E75B300B288CE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D3C31C281E8E75B300B288CE /* main.m */; };
@@ -97,6 +96,8 @@
 		D3C31C671E8E763600B288CE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D3C31C661E8E763600B288CE /* Assets.xcassets */; };
 		D3C31C801E8E7BD200B288CE /* SasquatchMac.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D3C31C151E8E757300B288CE /* SasquatchMac.storyboard */; };
 		D3C31C811E8E7BEE00B288CE /* SasquatchMac.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D3C31C151E8E757300B288CE /* SasquatchMac.storyboard */; };
+		F8583FC6235712F6006A9872 /* CrashLibMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156BA2338C27700798480 /* CrashLibMac.framework */; };
+		F8583FC823571411006A9872 /* CrashLibMac.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156BA2338C27700798480 /* CrashLibMac.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F8B8DCC42321210600BF7DAA /* CrashLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B8DCC32321210600BF7DAA /* CrashLoader.swift */; };
 		F8B8DCC52321210600BF7DAA /* CrashLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B8DCC32321210600BF7DAA /* CrashLoader.swift */; };
 		F8B8DCCB232121C900BF7DAA /* CrashLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B8DCC32321210600BF7DAA /* CrashLoader.swift */; };
@@ -251,6 +252,17 @@
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		F8583FC7235713F8006A9872 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				F8583FC823571411006A9872 /* CrashLibMac.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F8EE646F231E6F8F0007A52E /* Embed App Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -379,9 +391,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F8583FC6235712F6006A9872 /* CrashLibMac.framework in Frameworks */,
 				F8EE6470231E6FF50007A52E /* AppCenter.framework in Frameworks */,
 				F8EE6471231E6FF50007A52E /* AppCenterCrashes.framework in Frameworks */,
-				C2F157702338E6B500798480 /* CrashLibMac.framework in Frameworks */,
 				F8EE645D231E6F8E0007A52E /* NotificationCenter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -667,6 +679,7 @@
 				F8EE6457231E6F8E0007A52E /* Sources */,
 				F8EE6458231E6F8E0007A52E /* Frameworks */,
 				F8EE6459231E6F8E0007A52E /* Resources */,
+				F8583FC7235713F8006A9872 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -689,16 +702,16 @@
 				ORGANIZATIONNAME = Microsoft;
 				TargetAttributes = {
 					B2A4CFB8210A716E00199B4F = {
-						DevelopmentTeam = KYJ84ZC369;
+						DevelopmentTeam = UBF8T346G9;
 						ProvisioningStyle = Manual;
 					};
 					B2A4CFD6210A77D400199B4F = {
-						DevelopmentTeam = KYJ84ZC369;
+						DevelopmentTeam = UBF8T346G9;
 						ProvisioningStyle = Manual;
 					};
 					D3C31C211E8E75B300B288CE = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = KYJ84ZC369;
+						DevelopmentTeam = UBF8T346G9;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Push = {
@@ -708,7 +721,7 @@
 					};
 					D3C31C5F1E8E763600B288CE = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = KYJ84ZC369;
+						DevelopmentTeam = UBF8T346G9;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Push = {
@@ -718,7 +731,7 @@
 					};
 					F8EE645A231E6F8E0007A52E = {
 						CreatedOnToolsVersion = 10.2.1;
-						DevelopmentTeam = KYJ84ZC369;
+						DevelopmentTeam = UBF8T346G9;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Sandbox = {
@@ -1129,14 +1142,6 @@
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		F8EE6482231E71060007A52E /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				F8EE6483231E71060007A52E /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -1146,10 +1151,11 @@
 				CODE_SIGN_ENTITLEMENTS = SasquatchMacObjC/SasquatchMacObjC.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = UBF8T346G9;
 				INFOPLIST_FILE = "$(SRCROOT)/SasquatchMacObjC/Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchobjc.mac;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.macos.sasquatch.objc;
 				PROVISIONING_PROFILE = "2f6d3f51-e725-48b2-b6f3-7cec2f851278";
-				PROVISIONING_PROFILE_SPECIFIER = "AppCenter SDK SasquatchObjC Mac Debug";
+				PROVISIONING_PROFILE_SPECIFIER = "Sasquatch Obj macos Development";
 			};
 			name = Debug;
 		};
@@ -1157,12 +1163,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = SasquatchMacObjC/SasquatchMacObjC.entitlements;
-				CODE_SIGN_IDENTITY = "Developer ID Application";
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = UBF8T346G9;
 				INFOPLIST_FILE = "$(SRCROOT)/SasquatchMacObjC/Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchobjc.mac;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.macos.sasquatch.objc;
 				PROVISIONING_PROFILE = "ee3817cc-af76-477c-b3f5-4b7c622f4f7d";
-				PROVISIONING_PROFILE_SPECIFIER = "AppCenter SDK SasquatchObj Mac Release In-house";
+				PROVISIONING_PROFILE_SPECIFIER = "Sasquatch Obj macos Development";
 			};
 			name = Release;
 		};
@@ -1172,11 +1179,11 @@
 				CODE_SIGN_ENTITLEMENTS = SasquatchMacSwift/SasquatchMacSwift.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = KYJ84ZC369;
+				DEVELOPMENT_TEAM = UBF8T346G9;
 				INFOPLIST_FILE = "$(SRCROOT)/SasquatchMacSwift/Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchswift.mac;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.macos.sasquatch.swift;
 				PROVISIONING_PROFILE = "cb0c0f7a-d8d1-4b90-9aac-98b0acad5847";
-				PROVISIONING_PROFILE_SPECIFIER = "AppCenter SDK SasquatchSwift Mac Debug";
+				PROVISIONING_PROFILE_SPECIFIER = "Sasquatch Swift Dogfood Development";
 			};
 			name = Debug;
 		};
@@ -1184,12 +1191,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = SasquatchMacSwift/SasquatchMacSwift.entitlements;
-				CODE_SIGN_IDENTITY = "Developer ID Application";
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = UBF8T346G9;
 				INFOPLIST_FILE = "$(SRCROOT)/SasquatchMacSwift/Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchswift.mac;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.macos.sasquatch.swift;
 				PROVISIONING_PROFILE = "18941b56-5e23-45ca-86df-da36fdbcc922";
-				PROVISIONING_PROFILE_SPECIFIER = "AppCenter SDK SasquatchSwift Mac Release In-house";
+				PROVISIONING_PROFILE_SPECIFIER = "Sasquatch Swift Dogfood Development";
 			};
 			name = Release;
 		};
@@ -1215,8 +1223,9 @@
 				CODE_SIGN_ENTITLEMENTS = SasquatchMacObjC/SasquatchMacObjC.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = UBF8T346G9;
 				INFOPLIST_FILE = SasquatchMacObjC/Info.plist;
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchobjc.mac;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.macos.sasquatch.objc;
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
@@ -1228,8 +1237,9 @@
 				CODE_SIGN_ENTITLEMENTS = SasquatchMacObjC/SasquatchMacObjC.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = UBF8T346G9;
 				INFOPLIST_FILE = SasquatchMacObjC/Info.plist;
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchobjc.mac;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.macos.sasquatch.objc;
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
@@ -1241,8 +1251,9 @@
 				CODE_SIGN_ENTITLEMENTS = SasquatchMacSwift/SasquatchMacSwift.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = UBF8T346G9;
 				INFOPLIST_FILE = SasquatchMacSwift/Info.plist;
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchswift.mac;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.macos.sasquatch.swift;
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
@@ -1254,8 +1265,9 @@
 				CODE_SIGN_ENTITLEMENTS = SasquatchMacSwift/SasquatchMacSwift.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = UBF8T346G9;
 				INFOPLIST_FILE = SasquatchMacSwift/Info.plist;
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchswift.mac;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.macos.sasquatch.swift;
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
@@ -1267,9 +1279,9 @@
 				CODE_SIGN_ENTITLEMENTS = "SasquatchMacSwift-Extension/SasquatchMacSwift_Today_Extension.entitlements";
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = KYJ84ZC369;
+				DEVELOPMENT_TEAM = UBF8T346G9;
 				INFOPLIST_FILE = "SasquatchMacSwift-Extension/Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchswift.mac.extension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.macos.sasquatch.swift.extension;
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
@@ -1281,9 +1293,9 @@
 				CODE_SIGN_ENTITLEMENTS = "SasquatchMacSwift-Extension/SasquatchMacSwift_Today_Extension.entitlements";
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = KYJ84ZC369;
+				DEVELOPMENT_TEAM = UBF8T346G9;
 				INFOPLIST_FILE = "SasquatchMacSwift-Extension/Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchswift.mac.extension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.macos.sasquatch.swift.extension;
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};

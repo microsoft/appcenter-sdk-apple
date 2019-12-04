@@ -1,14 +1,21 @@
+---
+name: Problem report
+about: Report a problem using the SDK
+title: ''
+labels: support
+assignees: ''
+
+---
+
 <!--
     Thanks for your interest in using the App Center SDK for Apple platforms.
     If your issue is not related to using our Apple SDK but rather about the product experience like the portal or CI,
-    please create a ticket using the blue chat button on any page of the https://appcenter.ms portal instead.
+    please create an issue on https://github.com/Microsoft/appcenter instead.
 -->
 
 ### **Description**
 
-Please describe the issue you are facing or a feature you would like to be added to the SDK.
-
-<!-- If making a feature request, remove the below information -->
+Please describe the issue you are facing using the SDK.
 
 ### **Repro Steps**
 
@@ -32,4 +39,3 @@ Please list the steps used to reproduce your issue.
     - [ ] Swift
 6. What third party libraries are you using?
 7. Please enable verbose logging for your app using `MSAppCenter.setLogLevel(.verbose)` before your call to `MSAppCenter.start(...)` for Swift, or `[MSAppCenter setLogLevel:MSLogLevelVerbose]` before `[MSAppCenter start: ...]` for Objective C and include the logs here:
-

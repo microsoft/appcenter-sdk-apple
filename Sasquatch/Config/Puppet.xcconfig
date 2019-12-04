@@ -7,3 +7,6 @@ USER_HEADER_SEARCH_PATHS = $(SRCROOT)/../AppCenter/AppCenter/** $(SRCROOT)/../Ap
 FRAMEWORK_SEARCH_PATHS = $(SRCROOT)/../Vendor/iOS/** $(SRCROOT)/../CrashLib/CrashLib
 
 OTHER_CFLAGS = -fno-optimize-sibling-calls
+OTHER_LDFLAGS = $(OTHER_LDFLAGS) -framework SafariServices
+OTHER_LDFLAGS = $(OTHER_LDFLAGS) -framework SystemConfiguration
+OTHER_LDFLAGS = $(OTHER_LDFLAGS) -framework CoreTelephony

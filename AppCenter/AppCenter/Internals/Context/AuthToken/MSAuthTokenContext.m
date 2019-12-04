@@ -201,29 +201,52 @@ static NSUInteger const kMSAccountIdLengthInHomeAccount = 36;
   if (self.authTokenHistoryArray != nil) {
     return (NSArray<MSAuthTokenInfo *> *)self.authTokenHistoryArray;
   }
-  NSData *encryptedData = [MS_USER_DEFAULTS objectForKey:kMSAuthTokenHistoryKey];
-  NSData *decryptedData = encryptedData ? [self.encrypter decryptData:encryptedData] : nil;
-  NSArray<MSAuthTokenInfo *> *history = decryptedData ? [NSKeyedUnarchiver unarchiveObjectWithData:decryptedData] : nil;
-  if (history) {
-    MSLogDebug([MSAppCenter logTag], @"Retrieved history state.");
-  } else {
-    MSLogWarning([MSAppCenter logTag], @"Failed to retrieve history state or none was found.");
+  NSArray<MSAuthTokenInfo *> *history = [self retrieveAuthTokenHistory];
+  if (!history) {
     history = [NSArray<MSAuthTokenInfo *> new];
   }
   self.authTokenHistoryArray = history;
   return (NSArray<MSAuthTokenInfo *> *)self.authTokenHistoryArray;
 }
 
-- (void)setAuthTokenHistory:(nullable NSArray<MSAuthTokenInfo *> *)authTokenHistory {
-  NSData *decryptedData = [authTokenHistory count] > 0 ? [NSKeyedArchiver archivedDataWithRootObject:(id)authTokenHistory] : nil;
-  NSData *encryptedData = decryptedData ? [self.encrypter encryptData:decryptedData] : nil;
-  if (encryptedData) {
-    self.authTokenHistoryArray = authTokenHistory;
-    [MS_USER_DEFAULTS setObject:encryptedData forKey:kMSAuthTokenHistoryKey];
-    MSLogDebug([MSAppCenter logTag], @"Saved new history state.");
-  } else {
-    MSLogWarning([MSAppCenter logTag], @"Failed to save new history state.");
+- (NSArray<MSAuthTokenInfo *> *)retrieveAuthTokenHistory {
+  NSData *encryptedData = [MS_USER_DEFAULTS objectForKey:kMSAuthTokenHistoryKey];
+  if (!encryptedData) {
+    MSLogInfo([MSAppCenter logTag], @"No auth token history was found.");
+    return nil;
   }
+  NSData *decryptedData = [self.encrypter decryptData:encryptedData];
+  if (!decryptedData) {
+    MSLogError([MSAppCenter logTag], @"Failed to decrypt auth token history.");
+    return nil;
+  }
+  NSArray<MSAuthTokenInfo *> *history = [NSKeyedUnarchiver unarchiveObjectWithData:decryptedData];
+  if (history) {
+    MSLogDebug([MSAppCenter logTag], @"Retrieved auth token history.");
+  } else {
+    MSLogError([MSAppCenter logTag], @"Failed to unarchive auth token history.");
+  }
+  return history;
+}
+
+- (void)setAuthTokenHistory:(nullable NSArray<MSAuthTokenInfo *> *)authTokenHistory {
+  if ([authTokenHistory count] == 0) {
+    MSLogInfo([MSAppCenter logTag], @"Auth token history is empty.");
+    return;
+  }
+  NSData *decryptedData = [NSKeyedArchiver archivedDataWithRootObject:(id)authTokenHistory];
+  if (!decryptedData) {
+    MSLogError([MSAppCenter logTag], @"Failed to archive auth token history.");
+    return;
+  }
+  NSData *encryptedData = [self.encrypter encryptData:decryptedData];
+  if (!encryptedData) {
+    MSLogError([MSAppCenter logTag], @"Failed to encrypt auth token history.");
+    return;
+  }
+  self.authTokenHistoryArray = authTokenHistory;
+  [MS_USER_DEFAULTS setObject:encryptedData forKey:kMSAuthTokenHistoryKey];
+  MSLogDebug([MSAppCenter logTag], @"Saved auth token history.");
 }
 
 - (void)checkIfTokenNeedsToBeRefreshed:(MSAuthTokenValidityInfo *)tokenValidityInfo {

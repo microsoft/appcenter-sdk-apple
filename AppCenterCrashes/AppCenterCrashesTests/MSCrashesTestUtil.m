@@ -11,7 +11,7 @@
   NSFileManager *fm = [[NSFileManager alloc] init];
 
   if (![fm fileExistsAtPath:directory]) {
-    NSDictionary *attributes = @{ NSFilePosixPermissions : @0755 };
+    NSDictionary *attributes = @{NSFilePosixPermissions : @0755};
     NSError *error;
     [fm createDirectoryAtPath:directory withIntermediateDirectories:YES attributes:attributes error:&error];
     if (error)
@@ -24,13 +24,15 @@
 + (BOOL)copyFixtureCrashReportWithFileName:(NSString *)filename {
   NSFileManager *fm = [[NSFileManager alloc] init];
 
-  // the bundle identifier when running with unit tests is "otest"
-  const char *progName = getprogname();
-  if (progName == NULL) {
-    return NO;
+  NSString *bundleIdentifier = [[NSBundle mainBundle] bundleIdentifier];
+  if (!bundleIdentifier) {
+    const char *progname = getprogname();
+    if (progname == NULL) {
+      return NO;
+    }
+    bundleIdentifier = [NSString stringWithUTF8String:progname];
   }
 
-  NSString *bundleIdentifierPathString = [NSString stringWithUTF8String:progName];
   NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
 
   // create the PLCR cache dir
@@ -38,7 +40,7 @@
   if (![MSCrashesTestUtil createTempDirectory:plcrRootCrashesDir])
     return NO;
 
-  NSString *plcrCrashesDir = [plcrRootCrashesDir stringByAppendingPathComponent:bundleIdentifierPathString];
+  NSString *plcrCrashesDir = [plcrRootCrashesDir stringByAppendingPathComponent:bundleIdentifier];
   if (![MSCrashesTestUtil createTempDirectory:plcrCrashesDir])
     return NO;
 

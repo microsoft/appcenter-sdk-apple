@@ -10,4 +10,9 @@ WARNING_CFLAGS = -Wno-objc-messaging-id
 
 OTHER_CFLAGS = $(inherited) -iframework "$(SRCROOT)/../Vendor/$(APPCENTER_BUILD_PLATFORM)/OCMock" -iframework "$(SRCROOT)/../Vendor/$(APPCENTER_BUILD_PLATFORM)/OCHamcrest" -iframework "$(SRCROOT)/../Vendor/$(APPCENTER_BUILD_PLATFORM)/OHHTTPStubs" -iframework "$(PLATFORM_DIR)/Developer/Library/Frameworks"
 
+OTHER_LDFLAGS = $(inherited) -ObjC -lz
+OTHER_LDFLAGS = $(OTHER_LDFLAGS) -framework Foundation
+OTHER_LDFLAGS = $(OTHER_LDFLAGS) -framework Security
+OTHER_LDFLAGS = $(OTHER_LDFLAGS) -framework SystemConfiguration
+
 ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES

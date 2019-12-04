@@ -5,7 +5,7 @@ sdk: iphonesimulator
 theme: ../../Themes/apple
 
 module: AppCenterAuth
-module_version: 2.5.0
+module_version: 2.5.2
 author: Microsoft Corp
 author_url: http://www.microsoft.com
 

@@ -1,5 +1,32 @@
 # App Center SDK for iOS, macOS and tvOS Change Log
 
+## Version 2.5.2 (Under development)
+
+### App Center
+
+* **[Fix]** Improve log messages for errors when it failed to read/write auth token history.
+
+### App Center Crashes
+
+* **[Fix]** Fix sending crashes if an application is launched in background.
+* **[Fix]** Validate error attachment size to avoid server error or out of memory issues (using the documented limit which is 7MB).
+* **[Fix]** Fix an issue where crash might contain incorrect data if two consecutive crashes occurred in a previous version of the application.
+
+### App Center Distribute
+
+* **[Fix]** Fix missing alert dialogs in apps that use iOS 13's new `UIScene` API (multiple scenes are not yet supported).
+* **[Fix]** Fix an issue where users would sometimes be prompted multiple times to sign in with App Center.
+
+___
+
+## Version 2.5.1
+
+### App Center
+
+* **[Fix]** Fix warnings in Xcode 11 when SDK is installed via CocoaPods.
+
+___
+
 ## Version 2.5.0
 
 ### App Center

@@ -3,6 +3,7 @@
 
 #import "MSWrapperCrashesHelper.h"
 #import "MSCrashesInternal.h"
+#import "MSErrorReportPrivate.h"
 
 @interface MSWrapperCrashesHelper ()
 
@@ -58,6 +59,20 @@
  */
 + (void)sendErrorAttachments:(NSArray<MSErrorAttachmentLog *> *)errorAttachments withIncidentIdentifier:(NSString *)incidentIdentifier {
   [[MSCrashes sharedInstance] sendErrorAttachments:errorAttachments withIncidentIdentifier:incidentIdentifier];
+}
+
+/**
+ * Track handled exception directly as model form with user-defined custom properties.
+ * This API is used by wrapper SDKs.
+ */
++ (NSString *)trackModelException:(MSException *)exception
+                   withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties
+                  withAttachments:(nullable NSArray<MSErrorAttachmentLog *> *)attachments {
+  return [[MSCrashes sharedInstance] trackModelException:exception withProperties:properties withAttachments:attachments];
+}
+
++ (MSErrorReport *)buildHandledErrorReportWithErrorID:(NSString *)errorID {
+  return [[MSCrashes sharedInstance] buildHandledErrorReportWithErrorID:errorID];
 }
 
 @end
