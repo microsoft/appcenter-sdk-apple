@@ -591,11 +591,13 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     if ([logObject isKindOfClass:[MSAppleErrorLog class]]) {
       MSAppleErrorLog *appleErrorLog = static_cast<MSAppleErrorLog *>(log);
       MSErrorReport *report = [MSErrorLogFormatter errorReportFromLog:appleErrorLog];
-      dispatch_async(dispatch_get_main_queue(), ^{
-        [delegate crashes:self willSendErrorReport:report];
-      });
+      [self performSelectorOnMainThread:@selector(willSendErrorReport:) withObject:report waitUntilDone:NO];
     }
   }
+}
+
+- (void)willSendErrorReport:(MSErrorReport*)report {
+  [self.delegate crashes:self willSendErrorReport:report];
 }
 
 - (void)channel:(id<MSChannelProtocol>)__unused channel didSucceedSendingLog:(id<MSLog>)log {
@@ -605,11 +607,13 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     if ([logObject isKindOfClass:[MSAppleErrorLog class]]) {
       MSAppleErrorLog *appleErrorLog = static_cast<MSAppleErrorLog *>(log);
       MSErrorReport *report = [MSErrorLogFormatter errorReportFromLog:appleErrorLog];
-      dispatch_async(dispatch_get_main_queue(), ^{
-        [delegate crashes:self didSucceedSendingErrorReport:report];
-      });
+      [self performSelectorOnMainThread:@selector(didSucceedSendingErrorReport:) withObject:report waitUntilDone:NO];
     }
   }
+}
+
+- (void)didSucceedSendingErrorReport:(MSErrorReport*)report {
+  [self.delegate crashes:self didSucceedSendingErrorReport:report];
 }
 
 - (void)channel:(id<MSChannelProtocol>)__unused channel didFailSendingLog:(id<MSLog>)log withError:(NSError *)error {
@@ -619,11 +623,14 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     if ([logObject isKindOfClass:[MSAppleErrorLog class]]) {
       MSAppleErrorLog *appleErrorLog = static_cast<MSAppleErrorLog *>(log);
       MSErrorReport *report = [MSErrorLogFormatter errorReportFromLog:appleErrorLog];
-      dispatch_async(dispatch_get_main_queue(), ^{
-        [delegate crashes:self didFailSendingErrorReport:report withError:error];
-      });
+      [self performSelectorOnMainThread:@selector(didFailSendingErrorReport:) withObject:report waitUntilDone:NO];
+      NSLog(@"didFailSendingLog error %@", [error description]);
     }
   }
+}
+
+- (void)didFailSendingErrorReport:(MSErrorReport*)report {
+  [self.delegate crashes:self didFailSendingErrorReport:report withError:nil];
 }
 
 #pragma mark - Crash reporter configuration
