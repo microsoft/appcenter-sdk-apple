@@ -94,6 +94,7 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
   // When
   __block MSTokenResult *returnedTokenResult = nil;
   [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:httpMock
+                                             allowHttpRetries:YES
                                              tokenExchangeUrl:[NSURL new]
                                                     appSecret:@"appSecret"
                                                     partition:kMSDataUserDocumentsPartition
@@ -157,6 +158,7 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
 
   // When
   [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:httpMock
+                                             allowHttpRetries:YES
                                              tokenExchangeUrl:[NSURL new]
                                                     appSecret:@"appSecret"
                                                     partition:kMSDataUserDocumentsPartition
@@ -209,6 +211,7 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
 
   // When
   [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:httpMock
+                                             allowHttpRetries:YES
                                              tokenExchangeUrl:[NSURL new]
                                                     appSecret:@"appSecret"
                                                     partition:kMSDataUserDocumentsPartition
@@ -253,6 +256,7 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
   // When
   __block MSTokenResult *returnedTokenResult = nil;
   [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:httpMock
+                                             allowHttpRetries:YES
                                              tokenExchangeUrl:[NSURL new]
                                                     appSecret:@"appSecret"
                                                     partition:kMSDataAppDocumentsPartition
@@ -298,6 +302,7 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
 
   // When
   [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:httpMock
+                                             allowHttpRetries:YES
                                              tokenExchangeUrl:[NSURL new]
                                                     appSecret:@"appSecret"
                                                     partition:kMSDataUserDocumentsPartition
@@ -339,6 +344,7 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
 
   // When
   [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:httpMock
+                                             allowHttpRetries:YES
                                              tokenExchangeUrl:[NSURL new]
                                                     appSecret:@"appSecret"
                                                     partition:kMSDataUserDocumentsPartition
@@ -384,6 +390,7 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
 
   // When
   [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:httpMock
+                                             allowHttpRetries:YES
                                              tokenExchangeUrl:[NSURL new]
                                                     appSecret:@"appSecret"
                                                     partition:kMSDataUserDocumentsPartition
@@ -412,6 +419,7 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
   // When
   [MSTokenExchange
       performDbTokenAsyncOperationWithHttpClient:httpMock
+                                allowHttpRetries:YES
                                 tokenExchangeUrl:[NSURL new]
                                        appSecret:@"appSecret"
                                        partition:kMSDataUserDocumentsPartition
@@ -443,6 +451,7 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
 
   // When
   [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:httpMock
+                                             allowHttpRetries:YES
                                              tokenExchangeUrl:[NSURL new]
                                                     appSecret:@"appSecret"
                                                     partition:kMSDataUserDocumentsPartition
@@ -482,6 +491,7 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
 
   // When
   [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:httpMock
+                                             allowHttpRetries:YES
                                              tokenExchangeUrl:[NSURL new]
                                                     appSecret:@"appSecret"
                                                     partition:kMSDataUserDocumentsPartition
@@ -509,6 +519,7 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
 
   // When
   [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:httpMock
+                                             allowHttpRetries:YES
                                              tokenExchangeUrl:[NSURL new]
                                                     appSecret:@"appSecret"
                                                     partition:invalidPartitionName
@@ -549,6 +560,7 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
 
   // When
   [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:httpMock
+                                             allowHttpRetries:YES
                                              tokenExchangeUrl:[NSURL new]
                                                     appSecret:@"appSecret"
                                                     partition:kMSDataUserDocumentsPartition
