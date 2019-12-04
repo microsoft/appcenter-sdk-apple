@@ -20,7 +20,8 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Call CosmosDb Api and perform db actions(read, write, delete, list, etc).
  *
- * @param httpClient Http client to call perform http calls .
+ * @param httpClient Http client to call perform http calls.
+ * @param allowHttpRetries Indicates whether the http client should retry calls that receive recoverable error responses.
  * @param tokenResult Token result object containing token value used to call CosmosDb Api.
  * @param documentId Document Id.
  * @param httpMethod Http method.
@@ -30,6 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param completionHandler Completion handler callback.
  */
 + (void)performCosmosDbAsyncOperationWithHttpClient:(id<MSHttpClientProtocol>)httpClient
+                                   allowHttpRetries:(BOOL)allowHttpRetries
                                         tokenResult:(MSTokenResult *)tokenResult
                                          documentId:(NSString *_Nullable)documentId
                                          httpMethod:(NSString *)httpMethod

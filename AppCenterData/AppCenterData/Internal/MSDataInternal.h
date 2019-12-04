@@ -24,14 +24,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, copy) NSURL *tokenExchangeUrl;
 
 /**
- * An HTTP client instance that is used to send a request to CosmosDb with default retry logic enabled.
+ * An HTTP client instance that is used to send a request to CosmosDb.
  */
-@property(nonatomic) id<MSHttpClientProtocol> httpClientWithRetrier;
-
-/**
- * An HTTP client  instance that is used to send a request to CosmosDb with no retry logic enabled.
- */
-@property(nonatomic) id<MSHttpClientProtocol> httpClientNoRetrier;
+@property(nonatomic) id<MSHttpClientProtocol> httpClient;
 
 /**
  * Network state helper.

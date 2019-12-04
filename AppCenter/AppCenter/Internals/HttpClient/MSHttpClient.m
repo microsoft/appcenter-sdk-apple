@@ -14,8 +14,6 @@
 #import "MSOneCollectorIngestion.h"
 #import "MSHttpClientDelegate.h"
 
-#define DEFAULT_RETRY_INTERVALS @[ @10, @(5 * 60), @(20 * 60) ]
-
 @implementation MSHttpClient
 
 - (instancetype)init {

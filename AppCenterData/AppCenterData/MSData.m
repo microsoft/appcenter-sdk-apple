@@ -268,7 +268,8 @@ static dispatch_once_t onceToken;
           document:nil
           baseOptions:readOptions
           cachedTokenBlock:^(MSCachedTokenCompletionHandler handler) {
-            [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:(id<MSHttpClientProtocol>)self.httpClientNoRetrier
+            [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:(id<MSHttpClientProtocol>)self.httpClient
+                                                       allowHttpRetries:NO
                                                        tokenExchangeUrl:self.tokenExchangeUrl
                                                               appSecret:self.appSecret
                                                               partition:partition
@@ -324,7 +325,8 @@ static dispatch_once_t onceToken;
           document:nil
           baseOptions:writeOptions
           cachedTokenBlock:^(MSCachedTokenCompletionHandler handler) {
-            [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:(id<MSHttpClientProtocol>)self.httpClientNoRetrier
+            [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:(id<MSHttpClientProtocol>)self.httpClient
+                                                       allowHttpRetries:NO
                                                        tokenExchangeUrl:self.tokenExchangeUrl
                                                               appSecret:self.appSecret
                                                               partition:partition
@@ -371,7 +373,8 @@ static dispatch_once_t onceToken;
           document:document
           baseOptions:writeOptions
           cachedTokenBlock:^(MSCachedTokenCompletionHandler handler) {
-            [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:(id<MSHttpClientProtocol>)self.httpClientNoRetrier
+            [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:(id<MSHttpClientProtocol>)self.httpClient
+                                                       allowHttpRetries:NO
                                                        tokenExchangeUrl:self.tokenExchangeUrl
                                                               appSecret:self.appSecret
                                                               partition:partition
@@ -383,7 +386,8 @@ static dispatch_once_t onceToken;
             [self upsertFromCosmosDbWithPartition:partition
                                        documentId:documentID
                                          document:document
-                                       httpClient:self.httpClientNoRetrier
+                                       httpClient:self.httpClient
+                                 allowHttpRetries:NO
                                 additionalHeaders:additionalHeaders
                                 completionHandler:handler];
           }
@@ -434,7 +438,8 @@ static dispatch_once_t onceToken;
           partition:partition
           baseOptions:readOptions
           cachedTokenBlock:^(MSCachedTokenCompletionHandler handler) {
-            [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:(id<MSHttpClientProtocol>)self.httpClientNoRetrier
+            [MSTokenExchange performDbTokenAsyncOperationWithHttpClient:(id<MSHttpClientProtocol>)self.httpClient
+                                                       allowHttpRetries:NO
                                                        tokenExchangeUrl:self.tokenExchangeUrl
                                                               appSecret:self.appSecret
                                                               partition:partition
@@ -459,12 +464,14 @@ static dispatch_once_t onceToken;
                                    documentId:(NSString *_Nullable)documentId
                                    httpMethod:(NSString *)httpMethod
                                    httpClient:(id<MSHttpClientProtocol>)httpClient
+                             allowHttpRetries:(BOOL)allowHttpRetries
                                      document:(id<MSSerializableDocument> _Nullable)document
                             additionalHeaders:(NSDictionary *_Nullable)additionalHeaders
                             additionalUrlPath:(NSString *_Nullable)additionalUrlPath
                             completionHandler:(MSHttpRequestCompletionHandler)completionHandler {
   [MSTokenExchange
       performDbTokenAsyncOperationWithHttpClient:httpClient
+                                allowHttpRetries:allowHttpRetries
                                 tokenExchangeUrl:self.tokenExchangeUrl
                                        appSecret:self.appSecret
                                        partition:partition
@@ -476,6 +483,7 @@ static dispatch_once_t onceToken;
                                    return;
                                  }
                                  [MSCosmosDb performCosmosDbAsyncOperationWithHttpClient:httpClient
+                                                                        allowHttpRetries:allowHttpRetries
                                                                              tokenResult:(MSTokenResult *)tokensResponse.tokens.firstObject
                                                                               documentId:documentId
                                                                               httpMethod:httpMethod
@@ -497,7 +505,8 @@ static dispatch_once_t onceToken;
   [self performCosmosDbOperationWithPartition:partition
                                    documentId:documentId
                                    httpMethod:kMSHttpMethodGet
-                                   httpClient:self.httpClientNoRetrier
+                                   httpClient:self.httpClient
+                             allowHttpRetries:YES
                                      document:nil
                             additionalHeaders:nil
                             additionalUrlPath:documentId
@@ -530,6 +539,7 @@ static dispatch_once_t onceToken;
                              documentId:(NSString *)documentId
                                document:(id<MSSerializableDocument>)document
                              httpClient:(id<MSHttpClientProtocol>)httpClient
+                       allowHttpRetries:(BOOL)allowHttpRetries
                       additionalHeaders:(NSDictionary *)additionalHeaders
                       completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
   // Perform the operation.
@@ -560,6 +570,7 @@ static dispatch_once_t onceToken;
                                  documentId:documentId
                                  httpMethod:kMSHttpMethodPost
                                  httpClient:httpClient
+                           allowHttpRetries:allowHttpRetries
                                    document:(id<MSSerializableDocument>)document
                           additionalHeaders:additionalHeaders
                           additionalUrlPath:nil
@@ -596,7 +607,8 @@ static dispatch_once_t onceToken;
   [self performCosmosDbOperationWithPartition:partition
                                    documentId:nil
                                    httpMethod:kMSHttpMethodGet
-                                   httpClient:self.httpClientNoRetrier
+                                   httpClient:self.httpClient
+                             allowHttpRetries:NO
                                      document:nil
                             additionalHeaders:additionalHeaders
                             additionalUrlPath:nil
@@ -666,7 +678,8 @@ static dispatch_once_t onceToken;
   [self performCosmosDbOperationWithPartition:partition
                                    documentId:documentId
                                    httpMethod:kMSHttpMethodDelete
-                                   httpClient:self.httpClientWithRetrier
+                                   httpClient:self.httpClient
+                             allowHttpRetries:YES
                                      document:nil
                             additionalHeaders:nil
                             additionalUrlPath:documentId
@@ -761,8 +774,7 @@ static dispatch_once_t onceToken;
   [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionTargetToken:token fromApplication:fromApplication];
   if (appSecret) {
     // CosmosDb doesn't accept compressed payload. Therefore, it needs to be disabled.
-    self.httpClientWithRetrier = [[MSHttpClient alloc] initWithCompressionEnabled:NO];
-    self.httpClientNoRetrier = [[MSHttpClient alloc] initNoRetriesWithCompressionEnabled:NO];
+    self.httpClient = [MSHttpClient new];
   }
   MSLogVerbose([MSData logTag], @"Started Data service.");
 }
@@ -792,8 +804,7 @@ static dispatch_once_t onceToken;
 
 - (void)applyEnabledState:(BOOL)isEnabled {
   [super applyEnabledState:isEnabled];
-  [self.httpClientNoRetrier setEnabled:isEnabled];
-  [self.httpClientWithRetrier setEnabled:isEnabled];
+  [self.httpClient setEnabled:isEnabled];
   if (isEnabled) {
     [[MSAuthTokenContext sharedInstance] addDelegate:self];
     [self enabledNotifications];
@@ -846,7 +857,8 @@ static dispatch_once_t onceToken;
   // Process pending operations.
   @synchronized(self) {
     [MSTokenExchange
-        performDbTokenAsyncOperationWithHttpClient:(id<MSHttpClientProtocol>)self.httpClientNoRetrier
+        performDbTokenAsyncOperationWithHttpClient:(id<MSHttpClientProtocol>)self.httpClient
+                                  allowHttpRetries:NO
                                   tokenExchangeUrl:self.tokenExchangeUrl
                                          appSecret:self.appSecret
                                          partition:kMSDataUserDocumentsPartition
@@ -899,7 +911,8 @@ static dispatch_once_t onceToken;
                                              upsertFromCosmosDbWithPartition:kMSDataUserDocumentsPartition
                                                                   documentId:operation.documentId
                                                                     document:dictionaryDocument
-                                                                  httpClient:self.httpClientWithRetrier
+                                                                  httpClient:self.httpClient
+                                                            allowHttpRetries:YES
                                                            additionalHeaders:additionalHeader
                                                            completionHandler:^(MSDocumentWrapper *_Nonnull documentWrapper) {
                                                              [self

@@ -12,6 +12,7 @@
 #import "MSKeychainUtil.h"
 #import "MSTokenResult.h"
 #import "MSTokensResponse.h"
+#import "MSHttpClient.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -27,6 +28,7 @@ static NSString *const kMSGetTokenPath = @"/data/tokens";
 @implementation MSTokenExchange : NSObject
 
 + (void)performDbTokenAsyncOperationWithHttpClient:(id<MSHttpClientProtocol>)httpClient
+                                  allowHttpRetries:(BOOL)allowHttpRetries
                                   tokenExchangeUrl:(NSURL *)tokenExchangeUrl
                                          appSecret:(NSString *)appSecret
                                          partition:(NSString *)partition
@@ -62,10 +64,13 @@ static NSString *const kMSGetTokenPath = @"/data/tokens";
         headers[kMSAuthorizationHeaderKey] =
             [NSString stringWithFormat:kMSBearerTokenHeaderFormat, [[MSAuthTokenContext sharedInstance] authToken]];
       }
+      NSArray *retryIntervals = allowHttpRetries ? DEFAULT_RETRY_INTERVALS : @[];
       [httpClient sendAsync:sendUrl
                      method:kMSHttpMethodPost
                     headers:headers
                        data:payloadData
+             retryIntervals:retryIntervals
+         compressionEnabled:NO
           completionHandler:^(NSData *data, NSHTTPURLResponse *response, NSError *error) {
             MSLogVerbose([MSData logTag], @"Get token callback status code: %td", response.statusCode);
 
