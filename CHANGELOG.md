@@ -5,7 +5,7 @@
 ### App Center
 
 * **[Fix]** Improve log messages for errors when it failed to read/write auth token history.
-* **[Fix]** Fixed some dsym warnings which could appear on macOS in release mode.
+* **[Fix]** Fixed some dSYM warnings which could appear on macOS in release mode.
 
 ### App Center Crashes
 
