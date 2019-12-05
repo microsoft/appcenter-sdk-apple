@@ -1228,6 +1228,38 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   XCTAssertNotEqual([MSAnalytics sharedInstance].defaultTransmissionTarget, transmissionTarget);
 }
 
+- (void)testDefaultTransmissionTargetMirrorAnalyticsEnableState {
+
+  // If
+  MSAnalytics *service = [MSAnalytics sharedInstance];
+  [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
+
+  // When
+  [[MSAnalytics sharedInstance] startWithChannelGroup:self.channelGroupMock
+                                            appSecret:kMSTestAppSecret
+                              transmissionTargetToken:kMSTestTransmissionToken
+                                      fromApplication:YES];
+
+  //Then
+  XCTAssertNotNil([MSAnalytics sharedInstance].defaultTransmissionTarget);
+  XCTAssertTrue([service isEnabled]);
+  XCTAssertTrue([service.defaultTransmissionTarget isEnabled]);
+
+  // When
+  [service setEnabled:NO];
+
+  // Then
+  XCTAssertFalse([service isEnabled]);
+  XCTAssertFalse([service.defaultTransmissionTarget isEnabled]);
+
+  // When
+  [service setEnabled:YES];
+
+  // Then
+  XCTAssertTrue([service isEnabled]);
+  XCTAssertTrue([service.defaultTransmissionTarget isEnabled]);
+}
+
 - (void)testEnableStatePropagateToTransmissionTargets {
 
   // If
