@@ -5,4 +5,6 @@ VALID_ARCHS = $(ARCHS) i386
 SKIP_INSTALL = YES
 
 APPCENTER_BUILD_PLATFORM = macOS
+
+// Avoid dSYM warnings during build macOS application in release mode.
 CLANG_ENABLE_MODULE_DEBUGGING = NO
