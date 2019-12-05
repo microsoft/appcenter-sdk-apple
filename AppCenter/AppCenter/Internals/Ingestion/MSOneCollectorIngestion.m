@@ -20,10 +20,10 @@
                            baseUrl:baseUrl
                            apiPath:[NSString stringWithFormat:@"%@/%@", kMSOneCollectorApiPath, kMSOneCollectorApiVersion]
                            headers:@{
-                                     kMSHeaderContentTypeKey : kMSOneCollectorContentType,
-                                     kMSOneCollectorClientVersionKey :
-                                       [NSString stringWithFormat:kMSOneCollectorClientVersionFormat, [MSUtility sdkVersion]]
-                                     }
+                             kMSHeaderContentTypeKey : kMSOneCollectorContentType,
+                             kMSOneCollectorClientVersionKey :
+                                 [NSString stringWithFormat:kMSOneCollectorClientVersionFormat, [MSUtility sdkVersion]]
+                           }
                       queryStrings:nil
                     retryIntervals:@[ @(10), @(5 * 60), @(20 * 60) ]
             maxNumberOfConnections:2];
@@ -48,14 +48,18 @@
     handler(batchId, 0, nil, error);
     return;
   }
-  [super sendAsync:data authToken:authToken completionHandler:^(NSString * _Nonnull __unused callId, NSHTTPURLResponse * _Nullable response, NSData * _Nullable responseBody, NSError * _Nullable error) {
-
-    // Ignore the given call ID so that the container's batch ID can be used instead.
-    handler(batchId, response, responseBody, error);
-  }];
+  [super sendAsync:data
+              authToken:authToken
+      completionHandler:^(NSString *_Nonnull __unused callId, NSHTTPURLResponse *_Nullable response, NSData *_Nullable responseBody,
+                          NSError *_Nullable error) {
+        // Ignore the given call ID so that the container's batch ID can be used instead.
+        handler(batchId, response, responseBody, error);
+      }];
 }
 
-- (NSDictionary *)getHeadersWithData:(nullable NSObject *)data eTag:(nullable NSString * __unused)eTag authToken:(nullable NSString * __unused)authToken {
+- (NSDictionary *)getHeadersWithData:(nullable NSObject *)data
+                                eTag:(nullable NSString *__unused)eTag
+                           authToken:(nullable NSString *__unused)authToken {
   MSLogContainer *container = (MSLogContainer *)data;
   NSMutableDictionary *headers = [self.httpHeaders mutableCopy];
   NSMutableSet<NSString *> *apiKeys = [NSMutableSet new];

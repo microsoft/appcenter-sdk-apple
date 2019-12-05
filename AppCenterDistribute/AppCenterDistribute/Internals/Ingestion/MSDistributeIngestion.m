@@ -18,10 +18,10 @@ static NSString *const kMSLatestPublicReleaseApiPathFormat = @"/public/sdk/apps/
 
 - (id)initWithHttpClient:(id<MSHttpClientProtocol>)httpClient
                  baseUrl:(NSString *)baseUrl
-              appSecret:(NSString *)appSecret
-            updateToken:(NSString *)updateToken
-    distributionGroupId:(NSString *)distributionGroupId
-           queryStrings:(NSDictionary *)queryStrings {
+               appSecret:(NSString *)appSecret
+             updateToken:(NSString *)updateToken
+     distributionGroupId:(NSString *)distributionGroupId
+            queryStrings:(NSDictionary *)queryStrings {
   NSString *apiPath;
   NSDictionary *header = nil;
   if (updateToken) {
@@ -30,11 +30,7 @@ static NSString *const kMSLatestPublicReleaseApiPathFormat = @"/public/sdk/apps/
   } else {
     apiPath = [NSString stringWithFormat:kMSLatestPublicReleaseApiPathFormat, appSecret, distributionGroupId];
   }
-  if ((self = [super initWithHttpClient:httpClient
-                                baseUrl:baseUrl
-                             apiPath:apiPath
-                             headers:header
-                        queryStrings:queryStrings])) {
+  if ((self = [super initWithHttpClient:httpClient baseUrl:baseUrl apiPath:apiPath headers:header queryStrings:queryStrings])) {
     _appSecret = appSecret;
   }
 
@@ -45,8 +41,8 @@ static NSString *const kMSLatestPublicReleaseApiPathFormat = @"/public/sdk/apps/
   return kMSHttpMethodGet;
 };
 
-- (NSDictionary *)getHeadersWithData:(NSObject * __unused)data eTag:(NSString *)eTag authToken:(NSString * __unused)authToken {
-  
+- (NSDictionary *)getHeadersWithData:(NSObject *__unused)data eTag:(NSString *)eTag authToken:(NSString *__unused)authToken {
+
   // Set Header params.
   NSMutableDictionary *headers = [self.httpHeaders mutableCopy];
   if (eTag != nil) {
@@ -55,7 +51,7 @@ static NSString *const kMSLatestPublicReleaseApiPathFormat = @"/public/sdk/apps/
   return headers;
 }
 
-- (NSData *)getPayloadWithData:(NSObject * __unused)data {
+- (NSData *)getPayloadWithData:(NSObject *__unused)data {
   return nil;
 }
 

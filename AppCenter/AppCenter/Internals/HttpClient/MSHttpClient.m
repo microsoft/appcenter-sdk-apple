@@ -6,19 +6,18 @@
 #import "MSAppCenterInternal.h"
 #import "MSConstants+Internal.h"
 #import "MSHttpCall.h"
+#import "MSHttpClientDelegate.h"
 #import "MSHttpClientPrivate.h"
 #import "MSHttpUtil.h"
 #import "MSLoggerInternal.h"
+#import "MSOneCollectorIngestion.h"
 #import "MSUtility+StringFormatting.h"
 #import "MS_Reachability.h"
-#import "MSOneCollectorIngestion.h"
-#import "MSHttpClientDelegate.h"
 
 @implementation MSHttpClient
 
 - (instancetype)init {
-  return [self initWithMaxHttpConnectionsPerHost:nil
-                                    reachability:[MS_Reachability reachabilityForInternetConnection]];
+  return [self initWithMaxHttpConnectionsPerHost:nil reachability:[MS_Reachability reachabilityForInternetConnection]];
 }
 
 - (instancetype)initWithMaxHttpConnectionsPerHost:(NSInteger)maxHttpConnectionsPerHost {
@@ -26,8 +25,7 @@
                                     reachability:[MS_Reachability reachabilityForInternetConnection]];
 }
 
-- (instancetype)initWithMaxHttpConnectionsPerHost:(NSNumber *)maxHttpConnectionsPerHost
-                                     reachability:(MS_Reachability *)reachability {
+- (instancetype)initWithMaxHttpConnectionsPerHost:(NSNumber *)maxHttpConnectionsPerHost reachability:(MS_Reachability *)reachability {
   if ((self = [super init])) {
     _sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
     if (maxHttpConnectionsPerHost) {
@@ -48,29 +46,28 @@
 }
 
 - (void)sendAsync:(NSURL *)url
-           method:(NSString *)method
-          headers:(nullable NSDictionary<NSString *, NSString *> *)headers
-             data:(nullable NSData *)data
-completionHandler:(MSHttpRequestCompletionHandler)completionHandler {
+               method:(NSString *)method
+              headers:(nullable NSDictionary<NSString *, NSString *> *)headers
+                 data:(nullable NSData *)data
+    completionHandler:(MSHttpRequestCompletionHandler)completionHandler {
   @synchronized(self) {
     [self sendAsync:url
-             method:method
-            headers:headers
-               data:data
-     retryIntervals:DEFAULT_RETRY_INTERVALS
- compressionEnabled:YES
-  completionHandler:completionHandler];
+                    method:method
+                   headers:headers
+                      data:data
+            retryIntervals:DEFAULT_RETRY_INTERVALS
+        compressionEnabled:YES
+         completionHandler:completionHandler];
   }
 }
 
-
 - (void)sendAsync:(NSURL *)url
-           method:(NSString *)method
-          headers:(nullable NSDictionary<NSString *, NSString *> *)headers
-             data:(nullable NSData *)data
-   retryIntervals:(NSArray *)retryIntervals
-compressionEnabled:(BOOL)compressionEnabled
-completionHandler:(MSHttpRequestCompletionHandler)completionHandler {
+                method:(NSString *)method
+               headers:(nullable NSDictionary<NSString *, NSString *> *)headers
+                  data:(nullable NSData *)data
+        retryIntervals:(NSArray *)retryIntervals
+    compressionEnabled:(BOOL)compressionEnabled
+     completionHandler:(MSHttpRequestCompletionHandler)completionHandler {
   @synchronized(self) {
     if (!self.enabled) {
       NSError *error = [NSError errorWithDomain:kMSACErrorDomain
@@ -168,9 +165,10 @@ completionHandler:(MSHttpRequestCompletionHandler)completionHandler {
       } else if (![MSHttpUtil isSuccessStatusCode:httpResponse.statusCode]) {
 
         // Fatal error. Notify delegates and disable.
-        [self enumerateDelegatesForSelector:@selector(httpClientDidReceiveFatalError:) withBlock:^(id<MSHttpClientDelegate> delegate) {
-          [delegate httpClientDidReceiveFatalError:self];
-        }];
+        [self enumerateDelegatesForSelector:@selector(httpClientDidReceiveFatalError:)
+                                  withBlock:^(id<MSHttpClientDelegate> delegate) {
+                                    [delegate httpClientDidReceiveFatalError:self];
+                                  }];
 
         // Removing the call from pendingCalls and invoking completion handler must be done before disabling to avoid duplicate invocations.
         [self.pendingCalls removeObject:httpCall];
@@ -214,9 +212,10 @@ completionHandler:(MSHttpRequestCompletionHandler)completionHandler {
     }
 
     // Notify delegates.
-    [self enumerateDelegatesForSelector:@selector(httpClientDidPause:) withBlock:^(id<MSHttpClientDelegate> delegate) {
-      [delegate httpClientDidPause:self];
-    }];
+    [self enumerateDelegatesForSelector:@selector(httpClientDidPause:)
+                              withBlock:^(id<MSHttpClientDelegate> delegate) {
+                                [delegate httpClientDidPause:self];
+                              }];
   }
 }
 
@@ -235,9 +234,10 @@ completionHandler:(MSHttpRequestCompletionHandler)completionHandler {
         }
 
         // Notify delegates.
-        [self enumerateDelegatesForSelector:@selector(httpClientDidResume:) withBlock:^(id<MSHttpClientDelegate> delegate) {
-          [delegate httpClientDidResume:self];
-        }];
+        [self enumerateDelegatesForSelector:@selector(httpClientDidResume:)
+                                  withBlock:^(id<MSHttpClientDelegate> delegate) {
+                                    [delegate httpClientDidResume:self];
+                                  }];
       }
     }
   }

@@ -35,11 +35,11 @@ static NSString *const kMSHeaderUpdateApiToken = @"x-api-token";
  * @return An ingestion instance.
  */
 - (id)initWithHttpClient:(id<MSHttpClientProtocol>)httpClient
-                  baseUrl:(nullable NSString *)baseUrl
-              appSecret:(NSString *)appSecret
-            updateToken:(NSString *)updateToken
-    distributionGroupId:(NSString *)distributionGroupId
-           queryStrings:(NSDictionary *)queryStrings;
+                 baseUrl:(nullable NSString *)baseUrl
+               appSecret:(NSString *)appSecret
+             updateToken:(NSString *)updateToken
+     distributionGroupId:(NSString *)distributionGroupId
+            queryStrings:(NSDictionary *)queryStrings;
 
 @end
 

@@ -8,8 +8,8 @@
 #import "MSChannelGroupDefaultPrivate.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitDefault.h"
-#import "MSLogDBStorage.h"
 #import "MSHttpClientDelegate.h"
+#import "MSLogDBStorage.h"
 
 static char *const kMSLogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQueue";
 
@@ -18,7 +18,9 @@ static char *const kMSLogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
 #pragma mark - Initialization
 
 - (instancetype)initWithHttpClient:(id<MSHttpClientProtocol>)httpClient installId:(NSUUID *)installId logUrl:(NSString *)logUrl {
-  self = [self initWithIngestion:[[MSAppCenterIngestion alloc] initWithHttpClient:httpClient baseUrl:logUrl installId:[installId UUIDString]]];
+  self = [self initWithIngestion:[[MSAppCenterIngestion alloc] initWithHttpClient:httpClient
+                                                                          baseUrl:logUrl
+                                                                        installId:[installId UUIDString]]];
   [httpClient addDelegate:self];
   return self;
 }

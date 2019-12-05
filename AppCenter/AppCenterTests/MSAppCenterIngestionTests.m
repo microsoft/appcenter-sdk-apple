@@ -4,17 +4,17 @@
 #import "AppCenter+Internal.h"
 #import "MSAppCenterErrors.h"
 #import "MSAppCenterIngestion.h"
+#import "MSConstants+Internal.h"
 #import "MSDevice.h"
 #import "MSDeviceInternal.h"
+#import "MSHttpClient.h"
 #import "MSHttpIngestionPrivate.h"
 #import "MSHttpTestUtil.h"
 #import "MSLoggerInternal.h"
 #import "MSMockLog.h"
 #import "MSTestFrameworks.h"
-#import "MSUtility+StringFormatting.h"
-#import "MSHttpClient.h"
-#import "MSConstants+Internal.h"
 #import "MSTestUtil.h"
+#import "MSUtility+StringFormatting.h"
 
 static NSTimeInterval const kMSTestTimeout = 5.0;
 static NSString *const kMSBaseUrl = @"https://test.com";
@@ -57,10 +57,10 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   // sut: System under test
   self.sut = [[MSAppCenterIngestion alloc] initWithHttpClient:self.httpClientMock
                                                       baseUrl:kMSBaseUrl
-                                                   apiPath:@"/test-path"
-                                                   headers:headers
-                                              queryStrings:queryStrings
-                                            retryIntervals:@[ @(0.5), @(1), @(1.5) ]];
+                                                      apiPath:@"/test-path"
+                                                      headers:headers
+                                                 queryStrings:queryStrings
+                                               retryIntervals:@[ @(0.5), @(1), @(1.5) ]];
   [self.sut setAppSecret:kMSTestAppSecret];
 }
 
@@ -113,7 +113,13 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   MSLogContainer *container = [[MSLogContainer alloc] initWithBatchId:@"1" andLogs:(NSArray<id<MSLog>> *)@[ log ]];
 
   // Then
-  OCMReject([self.httpClientMock sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:OCMOCK_ANY data:OCMOCK_ANY retryIntervals:OCMOCK_ANY compressionEnabled:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
+  OCMReject([self.httpClientMock sendAsync:OCMOCK_ANY
+                                    method:OCMOCK_ANY
+                                   headers:OCMOCK_ANY
+                                      data:OCMOCK_ANY
+                            retryIntervals:OCMOCK_ANY
+                        compressionEnabled:OCMOCK_ANY
+                         completionHandler:OCMOCK_ANY]);
 
   // When
   [self.sut sendAsync:container
@@ -128,7 +134,8 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
-                               }];}
+                               }];
+}
 
 - (void)testNilContainer {
 
@@ -158,16 +165,25 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   OCMStub([logContainer isValid]).andReturn(YES);
 
   // When
-  [self.sut sendAsync:logContainer authToken:token completionHandler:^(NSString * _Nonnull callId __unused, NSHTTPURLResponse * _Nullable response __unused, NSData * _Nullable data __unused, NSError * _Nullable error __unused) {
-  }];
+  [self.sut sendAsync:logContainer
+              authToken:token
+      completionHandler:^(NSString *_Nonnull callId __unused, NSHTTPURLResponse *_Nullable response __unused,
+                          NSData *_Nullable data __unused, NSError *_Nullable error __unused){
+      }];
 
   // Then
-  OCMVerify(([self.httpClientMock sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:[OCMArg checkWithBlock:^BOOL(id obj) {
-    NSDictionary *headers = (NSDictionary *)obj;
-    NSString *actualHeader = headers[@"Authorization"];
-    NSString *expectedHeader = [NSString stringWithFormat:@"Bearer %@", token];
-    return [expectedHeader isEqualToString:actualHeader];
-  }] data:OCMOCK_ANY retryIntervals:OCMOCK_ANY compressionEnabled:OCMOCK_ANY completionHandler:OCMOCK_ANY]));
+  OCMVerify(([self.httpClientMock sendAsync:OCMOCK_ANY
+                                     method:OCMOCK_ANY
+                                    headers:[OCMArg checkWithBlock:^BOOL(id obj) {
+                                      NSDictionary *headers = (NSDictionary *)obj;
+                                      NSString *actualHeader = headers[@"Authorization"];
+                                      NSString *expectedHeader = [NSString stringWithFormat:@"Bearer %@", token];
+                                      return [expectedHeader isEqualToString:actualHeader];
+                                    }]
+                                       data:OCMOCK_ANY
+                             retryIntervals:OCMOCK_ANY
+                         compressionEnabled:OCMOCK_ANY
+                          completionHandler:OCMOCK_ANY]));
 }
 
 - (void)testDoesNotSendAuthHeaderWithNilAuthToken {
@@ -176,14 +192,22 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   MSLogContainer *logContainer = [[MSLogContainer alloc] initWithBatchId:@"whatever" andLogs:(NSArray<id<MSLog>> *)@ [[MSMockLog new]]];
 
   // When
-  [self.sut sendAsync:logContainer completionHandler:^(NSString * _Nonnull callId __unused, NSHTTPURLResponse * _Nullable response __unused, NSData * _Nullable data __unused, NSError * _Nullable error __unused) {
-  }];
+  [self.sut sendAsync:logContainer
+      completionHandler:^(NSString *_Nonnull callId __unused, NSHTTPURLResponse *_Nullable response __unused,
+                          NSData *_Nullable data __unused, NSError *_Nullable error __unused){
+      }];
 
   // Then
-  OCMVerify(([self.httpClientMock sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:[OCMArg checkWithBlock:^BOOL(id obj) {
-    NSDictionary *headers = (NSDictionary *)obj;
-    return headers[@"Authorization"] == nil;
-  }] data:OCMOCK_ANY retryIntervals:OCMOCK_ANY compressionEnabled:OCMOCK_ANY completionHandler:OCMOCK_ANY]));
+  OCMVerify(([self.httpClientMock sendAsync:OCMOCK_ANY
+                                     method:OCMOCK_ANY
+                                    headers:[OCMArg checkWithBlock:^BOOL(id obj) {
+                                      NSDictionary *headers = (NSDictionary *)obj;
+                                      return headers[@"Authorization"] == nil;
+                                    }]
+                                       data:OCMOCK_ANY
+                             retryIntervals:OCMOCK_ANY
+                         compressionEnabled:OCMOCK_ANY
+                          completionHandler:OCMOCK_ANY]));
 }
 
 - (void)testObfuscateHeaderValue {

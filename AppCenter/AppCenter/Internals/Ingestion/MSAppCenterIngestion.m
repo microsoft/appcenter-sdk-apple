@@ -22,9 +22,9 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
 - (id)initWithHttpClient:(id<MSHttpClientProtocol>)httpClient baseUrl:(NSString *)baseUrl installId:(NSString *)installId {
   self = [super initWithHttpClient:httpClient
                            baseUrl:baseUrl
-                        apiPath:kMSApiPath
-                        headers:@{kMSHeaderContentTypeKey : kMSAppCenterContentType, kMSHeaderInstallIDKey : installId}
-                   queryStrings:@{kMSAPIVersionKey : kMSAPIVersion}];
+                           apiPath:kMSApiPath
+                           headers:@{kMSHeaderContentTypeKey : kMSAppCenterContentType, kMSHeaderInstallIDKey : installId}
+                      queryStrings:@{kMSAPIVersionKey : kMSAPIVersion}];
   return self;
 }
 
@@ -53,13 +53,18 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
     MSLogError([MSAppCenter logTag], @"AppCenter ingestion is used without app secret.");
     return;
   }
-  [super sendAsync:data authToken:authToken completionHandler:^(NSString * _Nonnull __unused callId, NSHTTPURLResponse * _Nullable response, NSData * _Nullable responseBody, NSError * _Nullable error) {
-    // Ignore the given call ID so that the container's batch ID can be used instead.
-    handler(batchId, response, responseBody, error);
-  }];
+  [super sendAsync:data
+              authToken:authToken
+      completionHandler:^(NSString *_Nonnull __unused callId, NSHTTPURLResponse *_Nullable response, NSData *_Nullable responseBody,
+                          NSError *_Nullable error) {
+        // Ignore the given call ID so that the container's batch ID can be used instead.
+        handler(batchId, response, responseBody, error);
+      }];
 }
 
-- (NSDictionary *)getHeadersWithData:(nullable NSObject * __unused)data eTag:(nullable NSString * __unused)eTag authToken:(nullable NSString *)authToken {
+- (NSDictionary *)getHeadersWithData:(nullable NSObject *__unused)data
+                                eTag:(nullable NSString *__unused)eTag
+                           authToken:(nullable NSString *)authToken {
   NSMutableDictionary *httpHeaders = [self.httpHeaders mutableCopy];
   [httpHeaders setValue:self.appSecret forKey:kMSHeaderAppSecretKey];
   if ([authToken length] > 0) {

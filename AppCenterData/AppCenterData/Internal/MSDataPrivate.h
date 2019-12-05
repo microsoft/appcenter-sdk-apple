@@ -67,7 +67,7 @@ static NSString *const kMSDefaultApiUrl = @"https://tokens.appcenter.ms/v0.1";
                                    documentId:(NSString *_Nullable)documentId
                                    httpMethod:(NSString *)httpMethod
                                    httpClient:(id<MSHttpClientProtocol>)httpClient
-                                 allowHttpRetries:(BOOL)allowHttpRetries
+                             allowHttpRetries:(BOOL)allowHttpRetries
                                      document:(id<MSSerializableDocument> _Nullable)document
                             additionalHeaders:(NSDictionary *_Nullable)additionalHeaders
                             additionalUrlPath:(NSString *_Nullable)additionalUrlPath

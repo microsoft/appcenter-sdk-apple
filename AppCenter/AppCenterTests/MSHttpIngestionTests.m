@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "MSHttpIngestionPrivate.h"
-#import "MSTestFrameworks.h"
-#import "MSHttpClient.h"
-#import "MSTestUtil.h"
 #import "MSDevice.h"
+#import "MSHttpClient.h"
+#import "MSHttpIngestionPrivate.h"
 #import "MSHttpTestUtil.h"
+#import "MSTestFrameworks.h"
+#import "MSTestUtil.h"
 
 @interface MSHttpIngestionTests : XCTestCase
 
@@ -26,10 +26,10 @@
   // sut: System under test
   self.sut = [[MSHttpIngestion alloc] initWithHttpClient:self.httpClientMock
                                                  baseUrl:@"https://www.contoso.com"
-                                                      apiPath:@"/test-path"
-                                                      headers:nil
-                                                 queryStrings:queryStrings
-                                               retryIntervals:@[ @(0.5), @(1), @(1.5) ]];
+                                                 apiPath:@"/test-path"
+                                                 headers:nil
+                                            queryStrings:queryStrings
+                                          retryIntervals:@[ @(0.5), @(1), @(1.5) ]];
 }
 
 - (void)tearDown {

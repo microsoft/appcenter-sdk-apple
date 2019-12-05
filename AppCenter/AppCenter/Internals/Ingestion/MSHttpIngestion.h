@@ -36,7 +36,7 @@ static NSString *const kMSETagRequestHeader = @"If-None-Match";
 /**
  * The HTTP Client.
  */
-@property (nonatomic) id<MSHttpClientProtocol> httpClient;
+@property(nonatomic) id<MSHttpClientProtocol> httpClient;
 
 /**
  * Retrieve data payload.

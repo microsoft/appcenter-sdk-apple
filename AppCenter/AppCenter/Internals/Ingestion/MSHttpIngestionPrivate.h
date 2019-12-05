@@ -34,9 +34,9 @@
  * @param queryStrings An array of query strings.
  */
 - (id)initWithHttpClient:(id<MSHttpClientProtocol>)httpClient
-                  baseUrl:(NSString *)baseUrl
-              apiPath:(NSString *)apiPath
-              headers:(NSDictionary *)headers
+                 baseUrl:(NSString *)baseUrl
+                 apiPath:(NSString *)apiPath
+                 headers:(NSDictionary *)headers
             queryStrings:(NSDictionary *)queryStrings;
 
 /**
@@ -51,10 +51,10 @@
  */
 - (id)initWithHttpClient:(id<MSHttpClientProtocol>)httpClient
                  baseUrl:(NSString *)baseUrl
-              apiPath:(NSString *)apiPath
-              headers:(NSDictionary *)headers
-         queryStrings:(NSDictionary *)queryStrings
-       retryIntervals:(NSArray *)retryIntervals;
+                 apiPath:(NSString *)apiPath
+                 headers:(NSDictionary *)headers
+            queryStrings:(NSDictionary *)queryStrings
+          retryIntervals:(NSArray *)retryIntervals;
 
 /**
  * Initialize the Ingestion.
@@ -68,7 +68,7 @@
  * @param maxNumberOfConnections The maximum number of connections per host.
  */
 - (id)initWithHttpClient:(id<MSHttpClientProtocol>)httpClient
-                 baseUrl:(NSString *)baseUrl
+                   baseUrl:(NSString *)baseUrl
                    apiPath:(NSString *)apiPath
                    headers:(NSDictionary *)headers
               queryStrings:(NSDictionary *)queryStrings

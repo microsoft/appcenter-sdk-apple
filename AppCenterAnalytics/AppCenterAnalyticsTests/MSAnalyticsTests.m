@@ -1240,7 +1240,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
                               transmissionTargetToken:kMSTestTransmissionToken
                                       fromApplication:YES];
 
-  //Then
+  // Then
   XCTAssertNotNil([MSAnalytics sharedInstance].defaultTransmissionTarget);
   XCTAssertTrue([service isEnabled]);
   XCTAssertTrue([service.defaultTransmissionTarget isEnabled]);
@@ -1640,18 +1640,18 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 
 // TODO: Modify for testing each platform when page tracking will be supported on each platform.
 - (void)testViewWillAppearSwizzling {
-  
+
   // If
   id analyticsMock = OCMPartialMock([MSAnalytics sharedInstance]);
   UIViewController *viewController = [[UIViewController alloc] init];
-  
+
   // When
   [MSAnalyticsCategory activateCategory];
   [viewController viewWillAppear:NO];
-  
+
   // Then
   OCMVerify([analyticsMock isAutoPageTrackingEnabled]);
-  
+
   // Clear
   [analyticsMock stopMocking];
 }

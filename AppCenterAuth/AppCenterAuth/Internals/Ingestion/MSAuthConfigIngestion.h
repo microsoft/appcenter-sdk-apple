@@ -24,8 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return An ingestion instance.
  */
-- (id)initWithHttpClient:(id<MSHttpClientProtocol>)httpClient
-                 baseUrl:(nullable NSString *)baseUrl appSecret:(NSString *)appSecret;
+- (id)initWithHttpClient:(id<MSHttpClientProtocol>)httpClient baseUrl:(nullable NSString *)baseUrl appSecret:(NSString *)appSecret;
 
 @end
 

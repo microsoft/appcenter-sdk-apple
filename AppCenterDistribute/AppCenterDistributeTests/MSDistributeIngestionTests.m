@@ -18,7 +18,7 @@
 #pragma mark - Tests
 
 - (void)testGetHeadersAndNilPayload {
-  
+
   // If
   NSString *baseUrl = @"https://contoso.com";
   NSString *apiPath = @"/test";
@@ -29,18 +29,18 @@
                                                                                headers:header
                                                                           queryStrings:nil
                                                                         retryIntervals:@[]];
-  
+
   // When
   NSDictionary *headers = [ingestion getHeadersWithData:nil eTag:nil authToken:nil];
   NSData *payload = [ingestion getPayloadWithData:nil];
-  
+
   // Then
   assertThat(headers, equalTo(header));
   XCTAssertNil(payload);
 }
 
 - (void)testGetHeadersWithUpdateTokenAndNilPayload {
-  
+
   // If
   NSString *baseUrl = @"https://contoso.com";
   NSString *appSecret = @"secret";
@@ -50,16 +50,16 @@
   id distributeMock = OCMPartialMock([MSDistribute sharedInstance]);
   OCMStub([distributeMock appSecret]).andReturn(@"secret");
   MSDistributeIngestion *ingestion = [[MSDistributeIngestion alloc] initWithHttpClient:[MSHttpClient new]
-                                                                                baseUrl:baseUrl
-                                                                              appSecret:appSecret
-                                                                            updateToken:updateToken
-                                                                    distributionGroupId:distributionGroupId
-                                                                           queryStrings:@{}];
-  
+                                                                               baseUrl:baseUrl
+                                                                             appSecret:appSecret
+                                                                           updateToken:updateToken
+                                                                   distributionGroupId:distributionGroupId
+                                                                          queryStrings:@{}];
+
   // When
   NSDictionary *headers = [ingestion getHeadersWithData:[NSData new] eTag:nil authToken:nil];
   NSData *payload = [ingestion getPayloadWithData:[NSData new]];
-  
+
   // Then
   assertThat(headers, equalTo(@{kMSHeaderUpdateApiToken : updateToken}));
   XCTAssertNil(payload);

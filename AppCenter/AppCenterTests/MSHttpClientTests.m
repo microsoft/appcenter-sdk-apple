@@ -9,12 +9,12 @@
 #import "MSConstants+Internal.h"
 #import "MSDevice.h"
 #import "MSDeviceInternal.h"
+#import "MSHttpCall.h"
 #import "MSHttpClientPrivate.h"
 #import "MSHttpTestUtil.h"
 #import "MSMockLog.h"
 #import "MSTestFrameworks.h"
 #import "MS_Reachability.h"
-#import "MSHttpCall.h"
 
 static NSTimeInterval const kMSTestTimeout = 5.0;
 
@@ -115,11 +115,22 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
   NSArray *defaultRetryIntervals = @[ @10, @(5 * 60), @(20 * 60) ];
 
   // When
-  [httpClient sendAsync:url method:method headers:headers data:nil completionHandler:^(NSData * _Nullable responseBody __unused, NSHTTPURLResponse * _Nullable response __unused, NSError * _Nullable error __unused) {
-  }];
+  [httpClient sendAsync:url
+                 method:method
+                headers:headers
+                   data:nil
+      completionHandler:^(NSData *_Nullable responseBody __unused, NSHTTPURLResponse *_Nullable response __unused,
+                          NSError *_Nullable error __unused){
+      }];
 
   // Then
-  OCMVerify([httpClient sendAsync:url method:method headers:headers data:nil retryIntervals:defaultRetryIntervals compressionEnabled:YES completionHandler:OCMOCK_ANY]);
+  OCMVerify([httpClient sendAsync:url
+                           method:method
+                          headers:headers
+                             data:nil
+                   retryIntervals:defaultRetryIntervals
+               compressionEnabled:YES
+                completionHandler:OCMOCK_ANY]);
 }
 
 - (void)testGetWithHeadersResultInFatalNSError {
@@ -193,7 +204,6 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
                 headers:nil
                    data:nil
       completionHandler:^(NSData *responseBody, NSHTTPURLResponse *response, NSError *error) {
-
         // Then
         XCTAssertEqual(response.statusCode, MSHTTPCodesNo400BadRequest);
         XCTAssertNotNil(responseBody);
@@ -256,19 +266,19 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
 
   // When
   [httpClient sendAsync:url
-                 method:method
-                headers:nil
-                   data:nil
-         retryIntervals:retryIntervals
-     compressionEnabled:YES
-      completionHandler:^(__unused NSData *responseBody, __unused NSHTTPURLResponse *response, __unused NSError *error) {
-        completionHandlerCalled = YES;
-        XCTAssertNotNil(responseBody);
-        XCTAssertNotNil(response);
-        XCTAssertEqual(response.statusCode, MSHTTPCodesNo204NoContent);
-        XCTAssertNil(error);
-        [expectation fulfill];
-      }];
+                  method:method
+                 headers:nil
+                    data:nil
+          retryIntervals:retryIntervals
+      compressionEnabled:YES
+       completionHandler:^(__unused NSData *responseBody, __unused NSHTTPURLResponse *response, __unused NSError *error) {
+         completionHandlerCalled = YES;
+         XCTAssertNotNil(responseBody);
+         XCTAssertNotNil(response);
+         XCTAssertEqual(response.statusCode, MSHTTPCodesNo204NoContent);
+         XCTAssertNil(error);
+         [expectation fulfill];
+       }];
 
   // Wait a little to ensure that the completion handler is not invoked yet.
   sleep(1);
@@ -328,19 +338,19 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
 
   // When
   [httpClient sendAsync:url
-                 method:method
-                headers:nil
-                   data:nil
-         retryIntervals:retryIntervals
-     compressionEnabled:YES
-      completionHandler:^(__unused NSData *responseBody, __unused NSHTTPURLResponse *response, __unused NSError *error) {
-        completionHandlerCalled = YES;
-        XCTAssertNotNil(responseBody);
-        XCTAssertNotNil(response);
-        XCTAssertEqual(response.statusCode, MSHTTPCodesNo204NoContent);
-        XCTAssertNil(error);
-        [expectation fulfill];
-      }];
+                  method:method
+                 headers:nil
+                    data:nil
+          retryIntervals:retryIntervals
+      compressionEnabled:YES
+       completionHandler:^(__unused NSData *responseBody, __unused NSHTTPURLResponse *response, __unused NSError *error) {
+         completionHandlerCalled = YES;
+         XCTAssertNotNil(responseBody);
+         XCTAssertNotNil(response);
+         XCTAssertEqual(response.statusCode, MSHTTPCodesNo204NoContent);
+         XCTAssertNil(error);
+         [expectation fulfill];
+       }];
 
   // Wait a little to ensure that the completion handler is not invoked yet.
   sleep(1);
@@ -388,19 +398,19 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
   // When
   [self simulateReachabilityChangedNotification:NotReachable];
   [httpClient sendAsync:url
-                 method:method
-                headers:nil
-                   data:nil
-         retryIntervals:@[ @1 ]
-     compressionEnabled:YES
-      completionHandler:^(NSData *responseBody, NSHTTPURLResponse *response, NSError *error) {
-        // Then
-        XCTAssertEqual(response.statusCode, MSHTTPCodesNo204NoContent);
-        XCTAssertEqualObjects(responseBody, [NSData data]);
-        XCTAssertNil(error);
-        completionHandlerCalled = YES;
-        [expectation fulfill];
-      }];
+                  method:method
+                 headers:nil
+                    data:nil
+          retryIntervals:@[ @1 ]
+      compressionEnabled:YES
+       completionHandler:^(NSData *responseBody, NSHTTPURLResponse *response, NSError *error) {
+         // Then
+         XCTAssertEqual(response.statusCode, MSHTTPCodesNo204NoContent);
+         XCTAssertEqualObjects(responseBody, [NSData data]);
+         XCTAssertNil(error);
+         completionHandlerCalled = YES;
+         [expectation fulfill];
+       }];
 
   // Wait a while to make sure that the requests are not sent while the network is down.
   sleep(1);
@@ -446,18 +456,18 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
 
   // When
   [httpClient sendAsync:url
-                 method:method
-                headers:nil
-                   data:nil
-         retryIntervals:retryIntervals
-     compressionEnabled:YES
-      completionHandler:^(NSData *responseBody, NSHTTPURLResponse *response, NSError *error) {
-        // Then
-        XCTAssertEqual(response.statusCode, MSHTTPCodesNo500InternalServerError);
-        XCTAssertNotNil(responseBody);
-        XCTAssertNil(error);
-        [expectation fulfill];
-      }];
+                  method:method
+                 headers:nil
+                    data:nil
+          retryIntervals:retryIntervals
+      compressionEnabled:YES
+       completionHandler:^(NSData *responseBody, NSHTTPURLResponse *response, NSError *error) {
+         // Then
+         XCTAssertEqual(response.statusCode, MSHTTPCodesNo500InternalServerError);
+         XCTAssertNotNil(responseBody);
+         XCTAssertNil(error);
+         [expectation fulfill];
+       }];
 
   [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *_Nullable error) {
@@ -500,13 +510,13 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
 
   // When
   [httpClient sendAsync:url
-                 method:method
-                headers:nil
-                   data:nil
-         retryIntervals:@[]
-     compressionEnabled:YES
-      completionHandler:^(__unused NSData *responseBody, __unused NSHTTPURLResponse *response, __unused NSError *error){
-      }];
+                  method:method
+                 headers:nil
+                    data:nil
+          retryIntervals:@[]
+      compressionEnabled:YES
+       completionHandler:^(__unused NSData *responseBody, __unused NSHTTPURLResponse *response, __unused NSError *error){
+       }];
 
   // Don't pause until the call has been enqueued.
   dispatch_semaphore_wait(responseSemaphore, dispatch_time(DISPATCH_TIME_NOW, (int64_t)(kMSTestTimeout * NSEC_PER_SEC)));
@@ -544,18 +554,18 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
 
   // When
   [httpClient sendAsync:url
-                 method:method
-                headers:nil
-                   data:nil
-         retryIntervals:@[@1]
-     compressionEnabled:YES
-      completionHandler:^(NSData *responseBody, NSHTTPURLResponse *response, NSError *error) {
-        // Then
-        XCTAssertNotNil(error);
-        XCTAssertNil(response);
-        XCTAssertNil(responseBody);
-        [expectation fulfill];
-      }];
+                  method:method
+                 headers:nil
+                    data:nil
+          retryIntervals:@[ @1 ]
+      compressionEnabled:YES
+       completionHandler:^(NSData *responseBody, NSHTTPURLResponse *response, NSError *error) {
+         // Then
+         XCTAssertNotNil(error);
+         XCTAssertNil(response);
+         XCTAssertNil(responseBody);
+         [expectation fulfill];
+       }];
 
   // Don't disable until the call has been enqueued.
   dispatch_semaphore_wait(responseSemaphore, dispatch_time(DISPATCH_TIME_NOW, (int64_t)(kMSTestTimeout * NSEC_PER_SEC)));
@@ -648,18 +658,18 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
 
   // When
   [httpClient sendAsync:url
-                 method:method
-                headers:nil
-                   data:nil
-         retryIntervals:retryIntervals
-     compressionEnabled:YES
-      completionHandler:^(NSData *responseBody, NSHTTPURLResponse *response, NSError *error) {
-        // Then
-        XCTAssertEqual(response.statusCode, MSHTTPCodesNo204NoContent);
-        XCTAssertNotNil(responseBody);
-        XCTAssertNil(error);
-        [expectation fulfill];
-      }];
+                  method:method
+                 headers:nil
+                    data:nil
+          retryIntervals:retryIntervals
+      compressionEnabled:YES
+       completionHandler:^(NSData *responseBody, NSHTTPURLResponse *response, NSError *error) {
+         // Then
+         XCTAssertEqual(response.statusCode, MSHTTPCodesNo204NoContent);
+         XCTAssertNotNil(responseBody);
+         XCTAssertNil(error);
+         [expectation fulfill];
+       }];
 
   [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *_Nullable error) {
@@ -735,9 +745,16 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
   [MSHttpTestUtil stubHttp500Response];
 
   // Send the call.
-  [sut sendAsync:url method:method headers:nil data:nil retryIntervals:intervals compressionEnabled:YES completionHandler:^(NSData * _Nullable responseBody __unused, NSHTTPURLResponse * _Nullable response __unused, NSError * _Nullable error __unused) {
-    [expectation fulfill];
-  }];
+  [sut sendAsync:url
+                  method:method
+                 headers:nil
+                    data:nil
+          retryIntervals:intervals
+      compressionEnabled:YES
+       completionHandler:^(NSData *_Nullable responseBody __unused, NSHTTPURLResponse *_Nullable response __unused,
+                           NSError *_Nullable error __unused) {
+         [expectation fulfill];
+       }];
   [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *error) {
                                  XCTAssertTrue(sut.paused);

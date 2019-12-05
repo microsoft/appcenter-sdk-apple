@@ -212,7 +212,7 @@ static NSString *const kMSStartTimestampPrefix = @"MSChannelStartTimer";
   // Forward logs to the ingestion.
   [self.ingestion sendAsync:container
                   authToken:tokenArray[tokenIndex].authToken
-          completionHandler:^(NSString *ingestionBatchId,NSHTTPURLResponse *response, __unused NSData *data, NSError *error) {
+          completionHandler:^(NSString *ingestionBatchId, NSHTTPURLResponse *response, __unused NSData *data, NSError *error) {
             dispatch_async(self.logsDispatchQueue, ^{
               if (![self.pendingBatchIds containsObject:ingestionBatchId]) {
                 MSLogWarning([MSAppCenter logTag], @"Batch Id %@ not expected, ignore.", ingestionBatchId);

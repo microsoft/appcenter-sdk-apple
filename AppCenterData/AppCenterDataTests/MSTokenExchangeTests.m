@@ -79,7 +79,13 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
   __block NSDictionary *actualHeaders;
 
   // Mock HTTP call returning fake token data.
-  OCMStub([httpMock sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:OCMOCK_ANY data:OCMOCK_ANY retryIntervals:OCMOCK_ANY compressionEnabled:NO completionHandler:OCMOCK_ANY])
+  OCMStub([httpMock sendAsync:OCMOCK_ANY
+                          method:OCMOCK_ANY
+                         headers:OCMOCK_ANY
+                            data:OCMOCK_ANY
+                  retryIntervals:OCMOCK_ANY
+              compressionEnabled:NO
+               completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         MSHttpRequestCompletionHandler completionBlock;
         [invocation getArgument:&actualHeaders atIndex:4];
@@ -144,7 +150,13 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
   __block NSDictionary *actualHeaders;
 
   // Mock HTTP call returning fake token data.
-  OCMStub([httpMock sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:OCMOCK_ANY data:OCMOCK_ANY retryIntervals:OCMOCK_ANY compressionEnabled:NO  completionHandler:OCMOCK_ANY])
+  OCMStub([httpMock sendAsync:OCMOCK_ANY
+                          method:OCMOCK_ANY
+                         headers:OCMOCK_ANY
+                            data:OCMOCK_ANY
+                  retryIntervals:OCMOCK_ANY
+              compressionEnabled:NO
+               completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         MSHttpRequestCompletionHandler completionBlock;
         [invocation getArgument:&actualHeaders atIndex:4];
@@ -197,7 +209,13 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
   __block NSDictionary *actualHeaders;
 
   // Mock HTTP call returning fake token data.
-  OCMStub([httpMock sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:OCMOCK_ANY data:OCMOCK_ANY retryIntervals:OCMOCK_ANY compressionEnabled:NO  completionHandler:OCMOCK_ANY])
+  OCMStub([httpMock sendAsync:OCMOCK_ANY
+                          method:OCMOCK_ANY
+                         headers:OCMOCK_ANY
+                            data:OCMOCK_ANY
+                  retryIntervals:OCMOCK_ANY
+              compressionEnabled:NO
+               completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         MSHttpRequestCompletionHandler completionBlock;
         [invocation getArgument:&actualHeaders atIndex:4];
@@ -240,7 +258,13 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
   __block NSDictionary *actualHeaders;
 
   // Mock HTTP call returning fake token data.
-  OCMStub([httpMock sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:OCMOCK_ANY data:OCMOCK_ANY retryIntervals:OCMOCK_ANY compressionEnabled:NO  completionHandler:OCMOCK_ANY])
+  OCMStub([httpMock sendAsync:OCMOCK_ANY
+                          method:OCMOCK_ANY
+                         headers:OCMOCK_ANY
+                            data:OCMOCK_ANY
+                  retryIntervals:OCMOCK_ANY
+              compressionEnabled:NO
+               completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         MSHttpRequestCompletionHandler completionBlock;
         [invocation getArgument:&actualHeaders atIndex:4];
@@ -377,7 +401,13 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
   NSObject *failedToken = [self getFailedTokenData];
   NSMutableDictionary *tokenList = [@{kMSTokens : @[ failedToken ]} mutableCopy];
   NSData *jsonTokenData = [NSJSONSerialization dataWithJSONObject:tokenList options:NSJSONWritingPrettyPrinted error:nil];
-  OCMStub([httpMock sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:OCMOCK_ANY data:OCMOCK_ANY retryIntervals:OCMOCK_ANY compressionEnabled:NO  completionHandler:OCMOCK_ANY])
+  OCMStub([httpMock sendAsync:OCMOCK_ANY
+                          method:OCMOCK_ANY
+                         headers:OCMOCK_ANY
+                            data:OCMOCK_ANY
+                  retryIntervals:OCMOCK_ANY
+              compressionEnabled:NO
+               completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         MSHttpRequestCompletionHandler completionBlock;
         [invocation getArgument:&completionBlock atIndex:8];
@@ -429,7 +459,13 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
                                }];
 
   // Then
-  OCMVerify([httpMock sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:OCMOCK_ANY data:OCMOCK_ANY retryIntervals:OCMOCK_ANY compressionEnabled:NO  completionHandler:OCMOCK_ANY]);
+  OCMVerify([httpMock sendAsync:OCMOCK_ANY
+                         method:OCMOCK_ANY
+                        headers:OCMOCK_ANY
+                           data:OCMOCK_ANY
+                 retryIntervals:OCMOCK_ANY
+             compressionEnabled:NO
+              completionHandler:OCMOCK_ANY]);
 }
 
 - (void)testExchangeServiceSerializationFails {
@@ -438,7 +474,13 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
   id<MSHttpClientProtocol> httpMock = OCMProtocolMock(@protocol(MSHttpClientProtocol));
 
   // Mock returning invalid token data.
-  OCMStub([httpMock sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:OCMOCK_ANY data:OCMOCK_ANY retryIntervals:OCMOCK_ANY compressionEnabled:NO  completionHandler:OCMOCK_ANY])
+  OCMStub([httpMock sendAsync:OCMOCK_ANY
+                          method:OCMOCK_ANY
+                         headers:OCMOCK_ANY
+                            data:OCMOCK_ANY
+                  retryIntervals:OCMOCK_ANY
+              compressionEnabled:NO
+               completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         __block MSHttpRequestCompletionHandler completionBlock;
         [invocation getArgument:&completionBlock atIndex:8];
@@ -478,7 +520,13 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
 
   // Mock returning error.
   NSError *serviceError = [[NSError alloc] initWithDomain:NSURLErrorDomain code:NSURLErrorCannotDecodeRawData userInfo:nil];
-  OCMStub([httpMock sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:OCMOCK_ANY data:OCMOCK_ANY retryIntervals:OCMOCK_ANY compressionEnabled:NO  completionHandler:OCMOCK_ANY])
+  OCMStub([httpMock sendAsync:OCMOCK_ANY
+                          method:OCMOCK_ANY
+                         headers:OCMOCK_ANY
+                            data:OCMOCK_ANY
+                  retryIntervals:OCMOCK_ANY
+              compressionEnabled:NO
+               completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         __block MSHttpRequestCompletionHandler completionBlock;
         [invocation getArgument:&completionBlock atIndex:8];
@@ -547,7 +595,13 @@ static NSString *const kMSStorageUserDbTokenKey = @"MSStorageUserDbToken";
   NSObject *failedToken = [self getFailedTokenData];
   NSMutableDictionary *tokenList = [@{kMSTokens : @[ failedToken ]} mutableCopy];
   NSData *jsonTokenData = [NSJSONSerialization dataWithJSONObject:tokenList options:NSJSONWritingPrettyPrinted error:nil];
-  OCMStub([httpMock sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:OCMOCK_ANY data:OCMOCK_ANY retryIntervals:OCMOCK_ANY compressionEnabled:NO  completionHandler:OCMOCK_ANY])
+  OCMStub([httpMock sendAsync:OCMOCK_ANY
+                          method:OCMOCK_ANY
+                         headers:OCMOCK_ANY
+                            data:OCMOCK_ANY
+                  retryIntervals:OCMOCK_ANY
+              compressionEnabled:NO
+               completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         __block MSHttpRequestCompletionHandler completionBlock;
         [invocation getArgument:&completionBlock atIndex:8];

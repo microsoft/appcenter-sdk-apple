@@ -92,7 +92,6 @@ static NSURL *sfURL;
 - (void)requestCompletedWithHttpCall:(MSHttpCall *)httpCall data:(NSData *)data response:(NSURLResponse *)response error:(NSError *)error;
 @end
 
-
 @implementation MSDistributeTests
 
 - (void)setUp {
@@ -790,9 +789,10 @@ static NSURL *sfURL;
   OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(ReachableViaWiFi);
   XCTestExpectation *expectation = [self expectationWithDescription:@"Request completed."];
   OCMStub([httpClientMock requestCompletedWithHttpCall:OCMOCK_ANY data:OCMOCK_ANY response:OCMOCK_ANY error:OCMOCK_ANY])
-  .andForwardToRealObject().andDo(^(__unused NSInvocation *invocation) {
-    [expectation fulfill];
-  });
+      .andForwardToRealObject()
+      .andDo(^(__unused NSInvocation *invocation) {
+        [expectation fulfill];
+      });
 
   // Non recoverable error.
   [MSHttpTestUtil stubHttp404Response];
@@ -842,14 +842,14 @@ static NSURL *sfURL;
   OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(ReachableViaWiFi);
   XCTestExpectation *expectation = [self expectationWithDescription:@"Request completed."];
   OCMStub([httpClientMock requestCompletedWithHttpCall:OCMOCK_ANY data:OCMOCK_ANY response:OCMOCK_ANY error:OCMOCK_ANY])
-  .andForwardToRealObject().andDo(^(__unused NSInvocation *invocation) {
-    [expectation fulfill];
-  });
+      .andForwardToRealObject()
+      .andDo(^(__unused NSInvocation *invocation) {
+        [expectation fulfill];
+      });
   OCMClassMock([MSHttpCall class]);
   id httpCallMock = OCMPartialMock([MSHttpCall alloc]);
   OCMStub([httpCallMock alloc]).andReturn(httpCallMock);
   OCMStub([httpCallMock startRetryTimerWithStatusCode:500 retryAfter:OCMOCK_ANY event:OCMOCK_ANY]).andDo(nil);
-
 
   // Recoverable error.
   [MSHttpTestUtil stubHttp500Response];
@@ -2260,9 +2260,10 @@ static NSURL *sfURL;
   OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(ReachableViaWiFi);
   XCTestExpectation *expectation = [self expectationWithDescription:@"Request completed."];
   OCMStub([httpClientMock requestCompletedWithHttpCall:OCMOCK_ANY data:OCMOCK_ANY response:OCMOCK_ANY error:OCMOCK_ANY])
-  .andForwardToRealObject().andDo(^(__unused NSInvocation *invocation) {
-    [expectation fulfill];
-  });
+      .andForwardToRealObject()
+      .andDo(^(__unused NSInvocation *invocation) {
+        [expectation fulfill];
+      });
   OCMClassMock([MSHttpCall class]);
   id httpCallMock = OCMPartialMock([MSHttpCall alloc]);
   OCMStub([httpCallMock alloc]).andReturn(httpCallMock);

@@ -12,13 +12,13 @@
 #import "MSChannelGroupDefaultPrivate.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSDeviceTrackerPrivate.h"
+#import "MSHttpClient.h"
 #import "MSLoggerInternal.h"
 #import "MSOneCollectorChannelDelegate.h"
 #import "MSSessionContext.h"
 #import "MSStartServiceLog.h"
 #import "MSUserIdContext.h"
 #import "MSUtility+StringFormatting.h"
-#import "MSHttpClient.h"
 
 #if !TARGET_OS_TV
 #import "MSCustomPropertiesInternal.h"
@@ -601,10 +601,12 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
     if (!self.oneCollectorChannelDelegate) {
       self.oneCollectorChannelDelegate = [[MSOneCollectorChannelDelegate alloc] initWithHttpClient:[MSHttpClient new]
                                                                                          installId:self.installId
-                                                                                          baseUrl:self.appSecret ? nil : self.logUrl];
+                                                                                           baseUrl:self.appSecret ? nil : self.logUrl];
     }
     if (!self.channelGroup) {
-      self.channelGroup = [[MSChannelGroupDefault alloc] initWithHttpClient:[MSHttpClient new] installId:self.installId logUrl:self.logUrl ?: kMSAppCenterBaseUrl];
+      self.channelGroup = [[MSChannelGroupDefault alloc] initWithHttpClient:[MSHttpClient new]
+                                                                  installId:self.installId
+                                                                     logUrl:self.logUrl ?: kMSAppCenterBaseUrl];
       [self.channelGroup addDelegate:self.oneCollectorChannelDelegate];
       if (self.requestedMaxStorageSizeInBytes) {
         long storageSize = [self.requestedMaxStorageSizeInBytes longValue];

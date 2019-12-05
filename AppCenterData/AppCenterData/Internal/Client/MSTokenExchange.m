@@ -8,11 +8,11 @@
 #import "MSDataConstants.h"
 #import "MSDataErrors.h"
 #import "MSDataInternal.h"
+#import "MSHttpClient.h"
 #import "MSHttpClientProtocol.h"
 #import "MSKeychainUtil.h"
 #import "MSTokenResult.h"
 #import "MSTokensResponse.h"
-#import "MSHttpClient.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -66,83 +66,83 @@ static NSString *const kMSGetTokenPath = @"/data/tokens";
       }
       NSArray *retryIntervals = allowHttpRetries ? DEFAULT_RETRY_INTERVALS : @[];
       [httpClient sendAsync:sendUrl
-                     method:kMSHttpMethodPost
-                    headers:headers
-                       data:payloadData
-             retryIntervals:retryIntervals
-         compressionEnabled:NO
-          completionHandler:^(NSData *data, NSHTTPURLResponse *response, NSError *error) {
-            MSLogVerbose([MSData logTag], @"Get token callback status code: %td", response.statusCode);
+                      method:kMSHttpMethodPost
+                     headers:headers
+                        data:payloadData
+              retryIntervals:retryIntervals
+          compressionEnabled:NO
+           completionHandler:^(NSData *data, NSHTTPURLResponse *response, NSError *error) {
+             MSLogVerbose([MSData logTag], @"Get token callback status code: %td", response.statusCode);
 
-            // Token exchange failed to give back a token.
-            if (error) {
-              MSLogError([MSData logTag], @"Get on DB Token had an error with code: %td, description: %@", error.code,
-                         error.localizedDescription);
-              completionHandler([[MSTokensResponse alloc] initWithTokens:nil], error);
-              return;
-            }
+             // Token exchange failed to give back a token.
+             if (error) {
+               MSLogError([MSData logTag], @"Get on DB Token had an error with code: %td, description: %@", error.code,
+                          error.localizedDescription);
+               completionHandler([[MSTokensResponse alloc] initWithTokens:nil], error);
+               return;
+             }
 
-            // Token store returned non-200 response code.
-            if (response.statusCode != MSHTTPCodesNo200OK) {
-              MSLogError([MSData logTag], @"The token store returned %ld", (long)response.statusCode);
-              completionHandler([[MSTokensResponse alloc] initWithTokens:nil],
-                                [[NSError alloc] initWithDomain:kMSACDataErrorDomain
-                                                           code:MSACDataErrorHTTPError
-                                                       userInfo:@{
-                                                         NSLocalizedDescriptionKey : [NSString
-                                                             stringWithFormat:@"The token store returned %ld", (long)response.statusCode]
-                                                       }]);
-              return;
-            }
+             // Token store returned non-200 response code.
+             if (response.statusCode != MSHTTPCodesNo200OK) {
+               MSLogError([MSData logTag], @"The token store returned %ld", (long)response.statusCode);
+               completionHandler([[MSTokensResponse alloc] initWithTokens:nil],
+                                 [[NSError alloc] initWithDomain:kMSACDataErrorDomain
+                                                            code:MSACDataErrorHTTPError
+                                                        userInfo:@{
+                                                          NSLocalizedDescriptionKey : [NSString
+                                                              stringWithFormat:@"The token store returned %ld", (long)response.statusCode]
+                                                        }]);
+               return;
+             }
 
-            // Read tokens.
-            NSError *tokenResponsejsonError;
-            NSDictionary *jsonDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&tokenResponsejsonError];
-            if (tokenResponsejsonError) {
-              MSLogError([MSData logTag], @"Can't deserialize tokens with error: %@", [tokenResponsejsonError description]);
-              NSError *serializeError = [[NSError alloc]
-                  initWithDomain:kMSACDataErrorDomain
-                            code:MSACDataErrorJSONSerializationFailed
-                        userInfo:@{
-                          NSLocalizedDescriptionKey :
-                              [NSString stringWithFormat:@"Can't deserialize tokens with error: %@", [tokenResponsejsonError description]]
-                        }];
-              completionHandler([[MSTokensResponse alloc] initWithTokens:nil], serializeError);
-              return;
-            }
-            if ([(NSArray *)jsonDictionary[kMSTokens] count] == 0) {
-              MSLogError([MSData logTag], @"Invalid token exchange service response.");
-              NSError *errorResponse = [[NSError alloc]
-                  initWithDomain:kMSACDataErrorDomain
-                            code:MSACDataErrorInvalidTokenExchangeResponse
-                        userInfo:@{NSLocalizedDescriptionKey : [NSString stringWithFormat:@"Invalid token exchange service response."]}];
-              completionHandler([[MSTokensResponse alloc] initWithTokens:nil], errorResponse);
-              return;
-            }
+             // Read tokens.
+             NSError *tokenResponsejsonError;
+             NSDictionary *jsonDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&tokenResponsejsonError];
+             if (tokenResponsejsonError) {
+               MSLogError([MSData logTag], @"Can't deserialize tokens with error: %@", [tokenResponsejsonError description]);
+               NSError *serializeError = [[NSError alloc]
+                   initWithDomain:kMSACDataErrorDomain
+                             code:MSACDataErrorJSONSerializationFailed
+                         userInfo:@{
+                           NSLocalizedDescriptionKey :
+                               [NSString stringWithFormat:@"Can't deserialize tokens with error: %@", [tokenResponsejsonError description]]
+                         }];
+               completionHandler([[MSTokensResponse alloc] initWithTokens:nil], serializeError);
+               return;
+             }
+             if ([(NSArray *)jsonDictionary[kMSTokens] count] == 0) {
+               MSLogError([MSData logTag], @"Invalid token exchange service response.");
+               NSError *errorResponse = [[NSError alloc]
+                   initWithDomain:kMSACDataErrorDomain
+                             code:MSACDataErrorInvalidTokenExchangeResponse
+                         userInfo:@{NSLocalizedDescriptionKey : [NSString stringWithFormat:@"Invalid token exchange service response."]}];
+               completionHandler([[MSTokensResponse alloc] initWithTokens:nil], errorResponse);
+               return;
+             }
 
-            // Create token result object.
-            MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:(NSDictionary *)jsonDictionary[kMSTokens][0]];
+             // Create token result object.
+             MSTokenResult *tokenResult = [[MSTokenResult alloc] initWithDictionary:(NSDictionary *)jsonDictionary[kMSTokens][0]];
 
-            // Create token response object.
-            MSTokensResponse *tokensResponse = [[MSTokensResponse alloc] initWithTokens:@[ tokenResult ]];
+             // Create token response object.
+             MSTokensResponse *tokensResponse = [[MSTokensResponse alloc] initWithTokens:@[ tokenResult ]];
 
-            // Token exchange did not get back an error but acquiring the token did not succeed either
-            if (tokenResult && ![tokenResult.status isEqualToString:kMSTokenResultSucceed]) {
-              MSLogError([MSData logTag], @"Token result had a status of %@", tokenResult.status);
-              NSError *statusError = [[NSError alloc]
-                  initWithDomain:kMSACDataErrorDomain
-                            code:MSACDataErrorHTTPError
-                        userInfo:@{
-                          NSLocalizedDescriptionKey : [NSString stringWithFormat:@"Token result had a status of %@", tokenResult.status]
-                        }];
-              completionHandler(tokensResponse, statusError);
-              return;
-            }
+             // Token exchange did not get back an error but acquiring the token did not succeed either
+             if (tokenResult && ![tokenResult.status isEqualToString:kMSTokenResultSucceed]) {
+               MSLogError([MSData logTag], @"Token result had a status of %@", tokenResult.status);
+               NSError *statusError = [[NSError alloc]
+                   initWithDomain:kMSACDataErrorDomain
+                             code:MSACDataErrorHTTPError
+                         userInfo:@{
+                           NSLocalizedDescriptionKey : [NSString stringWithFormat:@"Token result had a status of %@", tokenResult.status]
+                         }];
+               completionHandler(tokensResponse, statusError);
+               return;
+             }
 
-            // Cache the newly acquired token.
-            [MSTokenExchange saveToken:tokenResult];
-            completionHandler(tokensResponse, error);
-          }];
+             // Cache the newly acquired token.
+             [MSTokenExchange saveToken:tokenResult];
+             completionHandler(tokensResponse, error);
+           }];
     } else {
       MSLogError([MSData logTag], @"No cached token result found, and device is offline.");
       NSError *error =

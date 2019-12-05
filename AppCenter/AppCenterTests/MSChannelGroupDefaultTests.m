@@ -11,11 +11,11 @@
 #import "MSChannelUnitDefault.h"
 #import "MSChannelUnitDefaultPrivate.h"
 #import "MSDispatchTestUtil.h"
+#import "MSHttpClient.h"
 #import "MSIngestionProtocol.h"
 #import "MSMockLog.h"
 #import "MSStorage.h"
 #import "MSTestFrameworks.h"
-#import "MSHttpClient.h"
 
 @interface MSChannelGroupDefaultTests : XCTestCase
 
@@ -326,11 +326,11 @@
   id channelUnitMock = OCMClassMock([MSChannelUnitDefault class]);
   OCMStub([channelUnitMock alloc]).andReturn(channelUnitMock);
   OCMStub([channelUnitMock initWithIngestion:OCMOCK_ANY storage:OCMOCK_ANY configuration:OCMOCK_ANY logsDispatchQueue:OCMOCK_ANY])
-  .andReturn(channelUnitMock);
+      .andReturn(channelUnitMock);
   [self.sut addChannelUnitWithConfiguration:self.validConfiguration];
   id delegateMock = OCMProtocolMock(@protocol(MSChannelDelegate));
   [self.sut addDelegate:delegateMock];
-  
+
   // When
   [self.sut httpClientDidReceiveFatalError:[MSHttpClient new]];
 
@@ -349,7 +349,7 @@
   id channelUnitMock = OCMClassMock([MSChannelUnitDefault class]);
   OCMStub([channelUnitMock alloc]).andReturn(channelUnitMock);
   OCMStub([channelUnitMock initWithIngestion:OCMOCK_ANY storage:OCMOCK_ANY configuration:OCMOCK_ANY logsDispatchQueue:OCMOCK_ANY])
-  .andReturn(channelUnitMock);
+      .andReturn(channelUnitMock);
   [self.sut addChannelUnitWithConfiguration:self.validConfiguration];
   MSHttpClient *httpClient = [MSHttpClient new];
 
@@ -370,7 +370,7 @@
   id channelUnitMock = OCMClassMock([MSChannelUnitDefault class]);
   OCMStub([channelUnitMock alloc]).andReturn(channelUnitMock);
   OCMStub([channelUnitMock initWithIngestion:OCMOCK_ANY storage:OCMOCK_ANY configuration:OCMOCK_ANY logsDispatchQueue:OCMOCK_ANY])
-  .andReturn(channelUnitMock);
+      .andReturn(channelUnitMock);
   [self.sut addChannelUnitWithConfiguration:self.validConfiguration];
   MSHttpClient *httpClient = [MSHttpClient new];
 

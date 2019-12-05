@@ -9,8 +9,8 @@
 #import "MSDataErrors.h"
 #import "MSDataInternal.h"
 #import "MSDocumentUtils.h"
-#import "MSTokenResult.h"
 #import "MSHttpClient.h"
+#import "MSTokenResult.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -185,7 +185,13 @@ static NSString *const kMSHeaderMsDate = @"x-ms-date";
   NSURL *sendURL = (NSURL *)[NSURL URLWithString:[MSCosmosDb documentUrlWithTokenResult:tokenResult
                                                                              documentId:(NSString *)additionalUrlPath]];
   NSArray *retryIntervals = allowHttpRetries ? DEFAULT_RETRY_INTERVALS : @[];
-  [httpClient sendAsync:sendURL method:httpMethod headers:httpHeaders data:body retryIntervals:retryIntervals compressionEnabled:NO completionHandler:completionHandler];
+  [httpClient sendAsync:sendURL
+                  method:httpMethod
+                 headers:httpHeaders
+                    data:body
+          retryIntervals:retryIntervals
+      compressionEnabled:NO
+       completionHandler:completionHandler];
 }
 
 + (MSDataError *)cosmosDbErrorWithResponse:(NSHTTPURLResponse *_Nullable)response underlyingError:(NSError *_Nullable)error {

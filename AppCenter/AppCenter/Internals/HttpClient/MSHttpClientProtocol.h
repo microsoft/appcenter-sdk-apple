@@ -41,13 +41,13 @@ typedef void (^MSHttpRequestCompletionHandler)(NSData *_Nullable responseBody, N
  * @param completionHandler Completion handler.
  */
 - (void)sendAsync:(NSURL *)url
-           method:(NSString *)method
-          headers:(nullable NSDictionary<NSString *, NSString *> *)headers
-             data:(nullable NSData *)data
-   retryIntervals:(NSArray *)retryIntervals
-compressionEnabled:(BOOL)compressionEnabled
- completionHandler:(nullable MSHttpRequestCompletionHandler)completionHandler;
- 
+                method:(NSString *)method
+               headers:(nullable NSDictionary<NSString *, NSString *> *)headers
+                  data:(nullable NSData *)data
+        retryIntervals:(NSArray *)retryIntervals
+    compressionEnabled:(BOOL)compressionEnabled
+     completionHandler:(nullable MSHttpRequestCompletionHandler)completionHandler;
+
 /**
  * Pause the HTTP client.
  * The client is automatically paused when it becomes disabled or on network issues. A paused state doesn't impact the current enabled
@@ -71,7 +71,6 @@ compressionEnabled:(BOOL)compressionEnabled
  */
 - (void)setEnabled:(BOOL)isEnabled;
 
-
 /**
  * Add a delegate.
  *
@@ -83,7 +82,7 @@ compressionEnabled:(BOOL)compressionEnabled
  * Remove a delegate.
  *
  * @param delegate The delegate being removed.
-*/
+ */
 - (void)removeDelegate:(id<MSHttpClientDelegate>)delegate;
 
 @end

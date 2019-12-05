@@ -22,25 +22,29 @@
   NSString *appSecret = @"secret";
   NSDictionary *header = @{@"If-None-Match" : @"eTag"};
   NSString *eTag = @"eTag";
-  MSAuthConfigIngestion *ingestion = [[MSAuthConfigIngestion alloc] initWithHttpClient:[MSHttpClient new] baseUrl:baseUrl appSecret:appSecret];
+  MSAuthConfigIngestion *ingestion = [[MSAuthConfigIngestion alloc] initWithHttpClient:[MSHttpClient new]
+                                                                               baseUrl:baseUrl
+                                                                             appSecret:appSecret];
 
   // When
   NSDictionary *headers = [ingestion getHeadersWithData:nil eTag:eTag authToken:nil];
-  
+
   // Then
   assertThat(headers, equalTo(header));
 }
 
 - (void)testBodyIsNil {
-  
+
   // If
   NSString *baseUrl = @"https://contoso.com";
   NSString *appSecret = @"secret";
-  MSAuthConfigIngestion *ingestion = [[MSAuthConfigIngestion alloc] initWithHttpClient:[MSHttpClient new] baseUrl:baseUrl appSecret:appSecret];
-  
+  MSAuthConfigIngestion *ingestion = [[MSAuthConfigIngestion alloc] initWithHttpClient:[MSHttpClient new]
+                                                                               baseUrl:baseUrl
+                                                                             appSecret:appSecret];
+
   // When
   NSData *payload = [ingestion getPayloadWithData:nil];
-  
+
   // Then
   XCTAssertNil(payload);
 }
@@ -52,11 +56,13 @@
   NSString *appSecret = @"secret";
   // TODO?
   //  NSString *apiPath = [NSString stringWithFormat:@"/auth/%@.json", appSecret];
-  MSAuthConfigIngestion *ingestion = [[MSAuthConfigIngestion alloc] initWithHttpClient:[MSHttpClient new] baseUrl:baseUrl appSecret:appSecret];
-  
+  MSAuthConfigIngestion *ingestion = [[MSAuthConfigIngestion alloc] initWithHttpClient:[MSHttpClient new]
+                                                                               baseUrl:baseUrl
+                                                                             appSecret:appSecret];
+
   // When
   NSDictionary *headers = [ingestion getHeadersWithData:nil eTag:nil authToken:nil];
-  
+
   // Then
   XCTAssertEqual([headers count], 0);
 }

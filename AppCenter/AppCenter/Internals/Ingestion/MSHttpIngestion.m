@@ -5,10 +5,10 @@
 #import "MSAppCenterInternal.h"
 #import "MSConstants+Internal.h"
 #import "MSHttpIngestionPrivate.h"
-#import "MSUtility+StringFormatting.h"
 #import "MSLoggerInternal.h"
+#import "MSUtility+StringFormatting.h"
 
-//static NSTimeInterval kRequestTimeout = 60.0;
+// static NSTimeInterval kRequestTimeout = 60.0;
 
 // URL components' name within a partial URL.
 static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"password", @"host", @"port", @"path"};
@@ -22,34 +22,34 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
 
 - (id)initWithHttpClient:(id<MSHttpClientProtocol>)httpClient
                  baseUrl:(NSString *)baseUrl
-              apiPath:(NSString *)apiPath
-              headers:(NSDictionary *)headers
-         queryStrings:(NSDictionary *)queryStrings {
+                 apiPath:(NSString *)apiPath
+                 headers:(NSDictionary *)headers
+            queryStrings:(NSDictionary *)queryStrings {
   return [self initWithHttpClient:httpClient
                           baseUrl:baseUrl
-                       apiPath:apiPath
-                       headers:headers
-                  queryStrings:queryStrings
-                retryIntervals:@[ @(10), @(5 * 60), @(20 * 60) ]];
+                          apiPath:apiPath
+                          headers:headers
+                     queryStrings:queryStrings
+                   retryIntervals:@[ @(10), @(5 * 60), @(20 * 60) ]];
 }
 
 - (id)initWithHttpClient:(id<MSHttpClientProtocol>)httpClient
                  baseUrl:(NSString *)baseUrl
-              apiPath:(NSString *)apiPath
-              headers:(NSDictionary *)headers
-         queryStrings:(NSDictionary *)queryStrings
-       retryIntervals:(NSArray *)retryIntervals {
+                 apiPath:(NSString *)apiPath
+                 headers:(NSDictionary *)headers
+            queryStrings:(NSDictionary *)queryStrings
+          retryIntervals:(NSArray *)retryIntervals {
   return [self initWithHttpClient:httpClient
                           baseUrl:baseUrl
-                       apiPath:apiPath
-                       headers:headers
-                  queryStrings:queryStrings
-                retryIntervals:retryIntervals
-        maxNumberOfConnections:4];
+                          apiPath:apiPath
+                          headers:headers
+                     queryStrings:queryStrings
+                   retryIntervals:retryIntervals
+           maxNumberOfConnections:4];
 }
 
 - (id)initWithHttpClient:(id<MSHttpClientProtocol>)httpClient
-                 baseUrl:(NSString *)baseUrl
+                   baseUrl:(NSString *)baseUrl
                    apiPath:(NSString *)apiPath
                    headers:(NSDictionary *)headers
               queryStrings:(NSDictionary *)queryStrings
@@ -112,7 +112,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
 #pragma mark - Life cycle
 
 - (void)setEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:(BOOL __unused)deleteData {
-  @synchronized (self) {
+  @synchronized(self) {
     self.enabled = isEnabled;
   }
 }
@@ -120,7 +120,6 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
 // TODO create method to retrieve printable url without appsecret
 //     NSString *url = [request.URL.absoluteString stringByReplacingOccurrencesOfString:self.appSecret
 // withString:[MSHttpUtil hideSecret:self.appSecret]];
-
 
 #pragma mark - Private
 
@@ -158,10 +157,10 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
 }
 
 - (void)sendAsync:(NSObject *)data
-             eTag:(nullable NSString *)eTag
-        authToken:(nullable NSString *)authToken
-           callId:(NSString *)callId
-completionHandler:(MSSendAsyncCompletionHandler)handler {
+                 eTag:(nullable NSString *)eTag
+            authToken:(nullable NSString *)authToken
+               callId:(NSString *)callId
+    completionHandler:(MSSendAsyncCompletionHandler)handler {
   @synchronized(self) {
     if (!self.enabled) {
       return;
@@ -174,23 +173,28 @@ completionHandler:(MSSendAsyncCompletionHandler)handler {
       MSLogVerbose([MSAppCenter logTag], @"URL: %@", self.sendURL);
       MSLogVerbose([MSAppCenter logTag], @"Headers: %@", [self prettyPrintHeaders:httpHeaders]);
     }
-    [self.httpClient sendAsync:self.sendURL method:[self getHttpMethod] headers:httpHeaders data:payload retryIntervals:self.callsRetryIntervals compressionEnabled:YES completionHandler:^(NSData * _Nullable responseBody, NSHTTPURLResponse * _Nullable response, NSError * _Nullable error) {
-      [self printResponse:response body:responseBody error:error];
-      handler(callId, response, responseBody, error);
-    }];
+    [self.httpClient sendAsync:self.sendURL
+                        method:[self getHttpMethod]
+                       headers:httpHeaders
+                          data:payload
+                retryIntervals:self.callsRetryIntervals
+            compressionEnabled:YES
+             completionHandler:^(NSData *_Nullable responseBody, NSHTTPURLResponse *_Nullable response, NSError *_Nullable error) {
+               [self printResponse:response body:responseBody error:error];
+               handler(callId, response, responseBody, error);
+             }];
   }
 }
 
 #pragma mark - Printing
 
-- (void)printResponse:(NSHTTPURLResponse*)response body:(NSData *)responseBody error:(NSError *)error {
+- (void)printResponse:(NSHTTPURLResponse *)response body:(NSData *)responseBody error:(NSError *)error {
 
   // Don't lose time pretty printing if not going to be printed.
   if (error) {
-    MSLogDebug([MSAppCenter logTag], @"HTTP request error with code: %td, domain: %@, description: %@", error.code,
-               error.domain, error.localizedDescription);
-  }
-  else if ([MSAppCenter logLevel] <= MSLogLevelVerbose) {
+    MSLogDebug([MSAppCenter logTag], @"HTTP request error with code: %td, domain: %@, description: %@", error.code, error.domain,
+               error.localizedDescription);
+  } else if ([MSAppCenter logLevel] <= MSLogLevelVerbose) {
     NSString *contentType = response.allHeaderFields[kMSHeaderContentTypeKey];
     NSString *payload;
 
@@ -214,23 +218,22 @@ completionHandler:(MSSendAsyncCompletionHandler)handler {
         payload = @"<binary>";
       }
     }
-    MSLogVerbose([MSAppCenter logTag], @"HTTP response received with status code: %tu, payload:\n%@", response.statusCode,
-                 payload);
+    MSLogVerbose([MSAppCenter logTag], @"HTTP response received with status code: %tu, payload:\n%@", response.statusCode, payload);
   }
 }
 
 // This method will be overridden by subclasses.
-- (NSDictionary *)getHeadersWithData:(NSObject * __unused)data eTag:(NSString * __unused)eTag authToken:(NSString * __unused)authToken {
+- (NSDictionary *)getHeadersWithData:(NSObject *__unused)data eTag:(NSString *__unused)eTag authToken:(NSString *__unused)authToken {
   return nil;
 }
 
 // This method will be overridden by subclasses.
-- (NSData *)getPayloadWithData:(NSObject * __unused)data {
+- (NSData *)getPayloadWithData:(NSObject *__unused)data {
   return nil;
 }
 
 // This method will be overridden by subclasses.
-- (NSString *)obfuscateHeaderValue:(NSString * __unused)value forKey:(NSString * __unused)key {
+- (NSString *)obfuscateHeaderValue:(NSString *__unused)value forKey:(NSString *__unused)key {
   return nil;
 }
 

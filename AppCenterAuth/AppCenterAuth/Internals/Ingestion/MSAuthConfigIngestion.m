@@ -6,21 +6,16 @@
 #import "MSAppCenterInternal.h"
 #import "MSAuthConstants.h"
 #import "MSAuthPrivate.h"
+#import "MSConstants+Internal.h"
+#import "MSHttpClientProtocol.h"
 #import "MSHttpIngestionPrivate.h"
 #import "MSLoggerInternal.h"
-#import "MSHttpClientProtocol.h"
-#import "MSConstants+Internal.h"
 
 @implementation MSAuthConfigIngestion
 
-- (id)initWithHttpClient:(id<MSHttpClientProtocol>)httpClient
-                 baseUrl:(NSString *)baseUrl appSecret:(NSString *)appSecret {
+- (id)initWithHttpClient:(id<MSHttpClientProtocol>)httpClient baseUrl:(NSString *)baseUrl appSecret:(NSString *)appSecret {
   NSString *apiPath = [NSString stringWithFormat:kMSAuthConfigApiFormat, appSecret];
-  if ((self = [super initWithHttpClient:httpClient
-                                baseUrl:baseUrl
-                                apiPath:apiPath
-                                headers:@{}
-                           queryStrings:nil])) {
+  if ((self = [super initWithHttpClient:httpClient baseUrl:baseUrl apiPath:apiPath headers:@{} queryStrings:nil])) {
     _appSecret = appSecret;
   }
 
@@ -41,8 +36,8 @@
   return value;
 }
 
-- (NSDictionary *)getHeadersWithData:(NSObject * __unused)data eTag:(NSString *)eTag authToken:(NSString * __unused)authToken {
-  
+- (NSDictionary *)getHeadersWithData:(NSObject *__unused)data eTag:(NSString *)eTag authToken:(NSString *__unused)authToken {
+
   // Set Header params.
   NSMutableDictionary *headers = [self.httpHeaders mutableCopy];
   if (eTag != nil) {
@@ -51,7 +46,7 @@
   return headers;
 }
 
-- (NSData *)getPayloadWithData:(NSObject * __unused)data {
+- (NSData *)getPayloadWithData:(NSObject *__unused)data {
   return nil;
 }
 
