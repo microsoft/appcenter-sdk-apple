@@ -28,5 +28,7 @@
 	<string>SasquatchMac</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
+	<key>AppCenterApplicationForwarderEnabled</key>
+	<false/>
 </dict>
 </plist>
