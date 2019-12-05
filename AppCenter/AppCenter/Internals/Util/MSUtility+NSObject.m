@@ -2,14 +2,20 @@
 // Licensed under the MIT License.
 
 #import <Foundation/Foundation.h>
+#import "MSUtility+NSObject.h"
+
+/*
+ * Workaround for exporting symbols from category object files.
+ */
+NSString *MSUtilityObjectSelectorCategory;
 
 @implementation NSObject(PerformSelectorOnMainThreadMultipleArgs)
 
-- (void)performSelectorOnMainThread:(SEL)selector waitUntilDone:(BOOL)wait withObjects:(NSObject *)objects, ... {
-    NSMethodSignature *signature = [self methodSignatureForSelector:selector];
++ (void)performSelectorOnMainThread:(NSObject*)source withSelector:(SEL)selector waitUntilDone:(BOOL)wait withObjects:(NSObject *)objects, ... {
+    NSMethodSignature *signature = [source methodSignatureForSelector:selector];
 
     NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:signature];
-    [invocation setTarget:self];
+    [invocation setTarget:source];
     [invocation setSelector:selector];
 
     if (!signature) {

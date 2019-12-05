@@ -215,6 +215,12 @@
 		6E48A5A41D3831FE006E8B5F /* MSChannelUnitConfigurationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E48A5A31D3831FE006E8B5F /* MSChannelUnitConfigurationTests.m */; };
 		6E48A5A71D383893006E8B5F /* MSChannelGroupDefaultTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E48A5A61D383893006E8B5F /* MSChannelGroupDefaultTests.m */; };
 		6EB1F40E1D2443B7005F9F99 /* MSChannelUnitDefaultTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EB1F40D1D2443B7005F9F99 /* MSChannelUnitDefaultTests.m */; };
+		783386C723992BA000BC0ABF /* MSUtility+NSObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 783386C623992BA000BC0ABF /* MSUtility+NSObject.m */; };
+		783386C823992BA000BC0ABF /* MSUtility+NSObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 783386C623992BA000BC0ABF /* MSUtility+NSObject.m */; };
+		783386C923992BA000BC0ABF /* MSUtility+NSObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 783386C623992BA000BC0ABF /* MSUtility+NSObject.m */; };
+		783386CA23992BA000BC0ABF /* MSUtility+NSObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 783386C623992BA000BC0ABF /* MSUtility+NSObject.m */; };
+		783386CB23992BA000BC0ABF /* MSUtility+NSObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 783386C623992BA000BC0ABF /* MSUtility+NSObject.m */; };
+		783386CC23992BA000BC0ABF /* MSUtility+NSObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 783386C623992BA000BC0ABF /* MSUtility+NSObject.m */; };
 		7FB7054B222E595F00D93258 /* MSMockReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FB70548222E58FB00D93258 /* MSMockReachability.m */; };
 		7FB7054C222E596100D93258 /* MSMockReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FB70548222E58FB00D93258 /* MSMockReachability.m */; };
 		7FB7054D222E596200D93258 /* MSMockReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FB70548222E58FB00D93258 /* MSMockReachability.m */; };
@@ -1072,6 +1078,8 @@
 		6EB1F40D1D2443B7005F9F99 /* MSChannelUnitDefaultTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MSChannelUnitDefaultTests.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		6EF628F21D371B1600CAFF64 /* MSChannelUnitConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSChannelUnitConfiguration.h; sourceTree = "<group>"; };
 		6EF628F31D371B1600CAFF64 /* MSChannelUnitConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSChannelUnitConfiguration.m; sourceTree = "<group>"; };
+		783386C523992AD800BC0ABF /* MSUtility+NSObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MSUtility+NSObject.h"; sourceTree = "<group>"; };
+		783386C623992BA000BC0ABF /* MSUtility+NSObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MSUtility+NSObject.m"; sourceTree = "<group>"; };
 		7FB70548222E58FB00D93258 /* MSMockReachability.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSMockReachability.m; sourceTree = "<group>"; };
 		7FB7054A222E593400D93258 /* MSMockReachability.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSMockReachability.h; sourceTree = "<group>"; };
 		805275BF20A19F7B00704115 /* MSOneCollectorChannelDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSOneCollectorChannelDelegate.h; sourceTree = "<group>"; };
@@ -1576,6 +1584,8 @@
 				B28E41D42076ECFE00CC6AD8 /* MSUtility+PropertyValidation.m */,
 				B2CD749B1F22BE270070E7DF /* MSUtility+StringFormatting.h */,
 				B2CD749C1F22BE270070E7DF /* MSUtility+StringFormatting.m */,
+				783386C523992AD800BC0ABF /* MSUtility+NSObject.h */,
+				783386C623992BA000BC0ABF /* MSUtility+NSObject.m */,
 				38148D8420D07FB70046257E /* MSCompression.h */,
 				38148D8520D07FB70046257E /* MSCompression.m */,
 			);
@@ -2697,6 +2707,7 @@
 				E7D23C5320B4E0CA00A47D62 /* MSCommonSchemaLogTests.m in Sources */,
 				0446DF191F3B864600C8E338 /* MSLoggerTests.m in Sources */,
 				35C0E3CB1FD6146A004E841E /* MSMockSecondService.m in Sources */,
+				783386CC23992BA000BC0ABF /* MSUtility+NSObject.m in Sources */,
 				7FB7054D222E596200D93258 /* MSMockReachability.m in Sources */,
 				0446DF1B1F3B864600C8E338 /* MSHttpUtilTests.m in Sources */,
 				0446DF1C1F3B864600C8E338 /* MSMockLog.m in Sources */,
@@ -2762,6 +2773,7 @@
 				B2CD74CE1F22BFD00070E7DF /* MSMockService.m in Sources */,
 				35DFC2392170052000455589 /* MSLongTypedPropertyTests.m in Sources */,
 				04873E871F2FDDEC00A13AFF /* MSAppDelegateForwarderTests.m in Sources */,
+				783386CA23992BA000BC0ABF /* MSUtility+NSObject.m in Sources */,
 				7FB7054C222E596100D93258 /* MSMockReachability.m in Sources */,
 				046AEAEB1ECA562A00CBE511 /* MSMockLog.m in Sources */,
 				8087362D20C1DE24004C4157 /* MSEncrypterTests.m in Sources */,
@@ -2827,6 +2839,7 @@
 				8087362C20C1DE1B004C4157 /* MSEncrypterTests.m in Sources */,
 				F82E4C6D217F159A00EDAB34 /* sqlite3.c in Sources */,
 				B26D4DD7211B9B5E00AB4E28 /* MSTicketCacheTests.m in Sources */,
+				783386C823992BA000BC0ABF /* MSUtility+NSObject.m in Sources */,
 				7FB7054B222E595F00D93258 /* MSMockReachability.m in Sources */,
 				6E48A5A71D383893006E8B5F /* MSChannelGroupDefaultTests.m in Sources */,
 				35DFC2372170051900455589 /* MSDoubleTypedPropertyTests.m in Sources */,
@@ -2900,6 +2913,7 @@
 				F8936CA4230C23F0006A330F /* MSHistoryInfo.m in Sources */,
 				F8936CA5230C23F0006A330F /* MSKeychainUtil.m in Sources */,
 				F8936CA6230C23F0006A330F /* MSUtility.m in Sources */,
+				783386C723992BA000BC0ABF /* MSUtility+NSObject.m in Sources */,
 				F8936CA7230C23F0006A330F /* MSUtility+Application.m in Sources */,
 				F8936CA8230C23F0006A330F /* MSUtility+Date.m in Sources */,
 				F8936CA9230C23F0006A330F /* MSUtility+Environment.m in Sources */,
@@ -2977,6 +2991,7 @@
 				C9A9212B230C61820068070D /* MSWrapperSdk.m in Sources */,
 				C9A920F1230C61820068070D /* MSAuthTokenContext.m in Sources */,
 				C9A9211B230C61820068070D /* MSLogDBStorage.m in Sources */,
+				783386C923992BA000BC0ABF /* MSUtility+NSObject.m in Sources */,
 				C9A92115230C61820068070D /* MSDoubleTypedProperty.m in Sources */,
 				C9A92116230C61820068070D /* MSLongTypedProperty.m in Sources */,
 				C9A920F9230C61820068070D /* MSUserIdHistoryInfo.m in Sources */,
@@ -3054,6 +3069,7 @@
 				C9A92171230C61830068070D /* MSWrapperSdk.m in Sources */,
 				C9A92137230C61830068070D /* MSAuthTokenContext.m in Sources */,
 				C9A92161230C61830068070D /* MSLogDBStorage.m in Sources */,
+				783386CB23992BA000BC0ABF /* MSUtility+NSObject.m in Sources */,
 				C9A9215B230C61830068070D /* MSDoubleTypedProperty.m in Sources */,
 				C9A9215C230C61830068070D /* MSLongTypedProperty.m in Sources */,
 				C9A9213F230C61830068070D /* MSUserIdHistoryInfo.m in Sources */,

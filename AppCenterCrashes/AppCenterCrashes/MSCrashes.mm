@@ -29,6 +29,7 @@
 #import "MSUtility+File.h"
 #import "MSWrapperCrashesHelper.h"
 #import "MSWrapperExceptionManagerInternal.h"
+#import "MSUtility+NSObject.h"
 
 /**
  * Service name for initialization.
@@ -593,9 +594,10 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
       MSErrorReport *report = [MSErrorLogFormatter errorReportFromLog:appleErrorLog];
 
       NSObject* delegateInstance = static_cast<NSObject *>(delegate);
-      [delegateInstance performSelectorOnMainThread:@selector(crashes:willSendErrorReport:)
-                                      waitUntilDone:NO
-                                        withObjects:self, report, [NSNull null]];
+      [MSUtility performSelectorOnMainThread:delegateInstance
+                                withSelector:@selector(crashes:willSendErrorReport:)
+                               waitUntilDone:NO
+                                 withObjects:self, report, [NSNull null]];
     }
   }
 }
@@ -609,9 +611,10 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
       MSErrorReport *report = [MSErrorLogFormatter errorReportFromLog:appleErrorLog];
 
       NSObject* delegateInstance = static_cast<NSObject *>(delegate);
-      [delegateInstance performSelectorOnMainThread:@selector(crashes:didSucceedSendingErrorReport:)
-                                      waitUntilDone:NO
-                                        withObjects:self, report, [NSNull null]];
+      [MSUtility performSelectorOnMainThread:delegateInstance
+                                withSelector:@selector(crashes:didSucceedSendingErrorReport:)
+                               waitUntilDone:NO
+                                 withObjects:self, report, [NSNull null]];
     }
   }
 }
@@ -625,9 +628,13 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
       MSErrorReport *report = [MSErrorLogFormatter errorReportFromLog:appleErrorLog];
 
       NSObject* delegateInstance = static_cast<NSObject *>(delegate);
-      [delegateInstance performSelectorOnMainThread:@selector(crashes:didFailSendingErrorReport:withError:)
+      [MSUtility performSelectorOnMainThread:delegateInstance
+                                withSelector:@selector(crashes:didFailSendingErrorReport:withError:)
+                               waitUntilDone:NO
+                                 withObjects:self, report, nil, [NSNull null]];
+      /*[delegateInstance performSelectorOnMainThread:@selector(crashes:didFailSendingErrorReport:withError:)
                                       waitUntilDone:NO
-                                        withObjects:self, report, nil, [NSNull null]];
+                                        withObjects:self, report, nil, [NSNull null]];*/
       NSLog(@"didFailSendingLog error %@", [error description]);
     }
   }
