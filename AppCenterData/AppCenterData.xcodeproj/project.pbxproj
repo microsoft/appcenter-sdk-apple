@@ -61,10 +61,6 @@
 		0460FD9C225544F6004E48EA /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0460FD9B225544F6004E48EA /* OHHTTPStubs.framework */; };
 		0469643A1F2A56F400F9D31F /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 046964371F2A56DF00F9D31F /* OCMock.framework */; };
 		0469643D1F2A570500F9D31F /* OCHamcrest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0469643B1F2A570000F9D31F /* OCHamcrest.framework */; };
-		0469644F1F2A5D4A00F9D31F /* MSDataTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D3AD5EC21E5C4F6A001627AB /* MSDataTests.m */; };
-		0496A67B1F3128CE005AE1DB /* MSDataTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D3AD5EC21E5C4F6A001627AB /* MSDataTests.m */; };
-		04B61DCB2248F518008D0102 /* MSTokenExchangeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B61DCA2248F518008D0102 /* MSTokenExchangeTests.m */; };
-		04B61DCC2248F518008D0102 /* MSTokenExchangeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B61DCA2248F518008D0102 /* MSTokenExchangeTests.m */; };
 		04B61DCF2248F7DB008D0102 /* MSMockKeychainUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B61DCD2248F7DA008D0102 /* MSMockKeychainUtil.m */; };
 		04B61DD02248F7DB008D0102 /* MSMockKeychainUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B61DCD2248F7DA008D0102 /* MSMockKeychainUtil.m */; };
 		04B61DD32248F8CD008D0102 /* MSMockUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B61DD22248F8CD008D0102 /* MSMockUserDefaults.m */; };
@@ -73,26 +69,14 @@
 		26BCA8D322D3F5210094C31D /* nullTestAppDocument.json in Resources */ = {isa = PBXBuildFile; fileRef = 26BCA8D122D3F5020094C31D /* nullTestAppDocument.json */; };
 		26F4B0EA2267DFC9006381D0 /* invalidTestAppDocument.json in Resources */ = {isa = PBXBuildFile; fileRef = 26F4B0E92267DF99006381D0 /* invalidTestAppDocument.json */; };
 		26F4B0EB2267DFCC006381D0 /* invalidTestAppDocument.json in Resources */ = {isa = PBXBuildFile; fileRef = 26F4B0E92267DF99006381D0 /* invalidTestAppDocument.json */; };
-		2ACE56002245277000FCD5DF /* MSDocumentUtilsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ACE55FF2245277000FCD5DF /* MSDocumentUtilsTests.m */; };
-		2ACE56012245277000FCD5DF /* MSDocumentUtilsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ACE55FF2245277000FCD5DF /* MSDocumentUtilsTests.m */; };
-		2ACE560A2245340A00FCD5DF /* MSBaseOptionsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ACE56092245340A00FCD5DF /* MSBaseOptionsTests.m */; };
-		2ACE560B2245340A00FCD5DF /* MSBaseOptionsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ACE56092245340A00FCD5DF /* MSBaseOptionsTests.m */; };
-		2ACE562122453BE600FCD5DF /* MSDataErrorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ACE562022453BE600FCD5DF /* MSDataErrorTests.m */; };
-		2ACE562222453BE600FCD5DF /* MSDataErrorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ACE562022453BE600FCD5DF /* MSDataErrorTests.m */; };
 		350D453A22568DFD00982E20 /* MSHttpTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F5227E22253E22F004F37FE /* MSHttpTestUtil.m */; };
 		350D453B22568DFE00982E20 /* MSHttpTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F5227E22253E22F004F37FE /* MSHttpTestUtil.m */; };
 		359D1A5A225E678B003ABD4F /* MSDispatchTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 359D1A59225E678B003ABD4F /* MSDispatchTestUtil.m */; };
 		359D1A5B225E678B003ABD4F /* MSDispatchTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 359D1A59225E678B003ABD4F /* MSDispatchTestUtil.m */; };
 		4A9C4402223B2405008548A7 /* MSTokenTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A9C4400223B23E3008548A7 /* MSTokenTests.m */; };
 		4A9C4403223B2408008548A7 /* MSTokenTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A9C4400223B23E3008548A7 /* MSTokenTests.m */; };
-		4ACEAC9E225418B600976AEA /* MSDBDocumentStoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ACEAC9D225418B600976AEA /* MSDBDocumentStoreTests.m */; };
-		4ACEAC9F225418B600976AEA /* MSDBDocumentStoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ACEAC9D225418B600976AEA /* MSDBDocumentStoreTests.m */; };
-		8F1E76E922652B9D00A6D39F /* MSDataOperationProxyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F1E76E822652B9D00A6D39F /* MSDataOperationProxyTests.m */; };
-		8F1E76EA22652B9D00A6D39F /* MSDataOperationProxyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F1E76E822652B9D00A6D39F /* MSDataOperationProxyTests.m */; };
 		8F1FF9522255C1350083471E /* validTestAppDocument.json in Resources */ = {isa = PBXBuildFile; fileRef = 8F1FF9512255C12F0083471E /* validTestAppDocument.json */; };
 		8F1FF9532255C1360083471E /* validTestAppDocument.json in Resources */ = {isa = PBXBuildFile; fileRef = 8F1FF9512255C12F0083471E /* validTestAppDocument.json */; };
-		8F4548E72256D5470021B0BF /* NSObject+MSTestFixture.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F4548E62256D5470021B0BF /* NSObject+MSTestFixture.m */; };
-		8F4548E82256D5470021B0BF /* NSObject+MSTestFixture.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F4548E62256D5470021B0BF /* NSObject+MSTestFixture.m */; };
 		8F5227DD2253DE88004F37FE /* oneDocumentPage.json in Resources */ = {isa = PBXBuildFile; fileRef = 8F5227DC2253DE84004F37FE /* oneDocumentPage.json */; };
 		8F5227DE2253DE89004F37FE /* oneDocumentPage.json in Resources */ = {isa = PBXBuildFile; fileRef = 8F5227DC2253DE84004F37FE /* oneDocumentPage.json */; };
 		8F5227ED2253F0C8004F37FE /* zeroDocumentsPage.json in Resources */ = {isa = PBXBuildFile; fileRef = 8F5227EC2253F0C7004F37FE /* zeroDocumentsPage.json */; };
@@ -270,7 +254,6 @@
 		049BC81E1ECE333700FB6719 /* iOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = iOS.xcconfig; sourceTree = "<group>"; };
 		04A0820B1F74BBCA00DC776D /* MSService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSService.h; path = ../AppCenter/AppCenter/MSService.h; sourceTree = "<group>"; };
 		04B1C8C82252AF0900CBD876 /* MSAppCenterErrors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSAppCenterErrors.h; path = ../AppCenter/AppCenter/MSAppCenterErrors.h; sourceTree = "<group>"; };
-		04B61DCA2248F518008D0102 /* MSTokenExchangeTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSTokenExchangeTests.m; sourceTree = "<group>"; };
 		04B61DCD2248F7DA008D0102 /* MSMockKeychainUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSMockKeychainUtil.m; path = ../../AppCenter/AppCenterTests/Util/MSMockKeychainUtil.m; sourceTree = "<group>"; };
 		04B61DCE2248F7DB008D0102 /* MSMockKeychainUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSMockKeychainUtil.h; path = ../../AppCenter/AppCenterTests/Util/MSMockKeychainUtil.h; sourceTree = "<group>"; };
 		04B61DD12248F8CD008D0102 /* MSMockUserDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSMockUserDefaults.h; path = ../../AppCenter/AppCenterTests/Util/MSMockUserDefaults.h; sourceTree = "<group>"; };
@@ -297,9 +280,6 @@
 		267464EC222F28A300EC1FF3 /* MSWriteOptions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSWriteOptions.m; sourceTree = "<group>"; };
 		26BCA8D122D3F5020094C31D /* nullTestAppDocument.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = nullTestAppDocument.json; sourceTree = "<group>"; };
 		26F4B0E92267DF99006381D0 /* invalidTestAppDocument.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = invalidTestAppDocument.json; sourceTree = "<group>"; };
-		2ACE55FF2245277000FCD5DF /* MSDocumentUtilsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSDocumentUtilsTests.m; sourceTree = "<group>"; };
-		2ACE56092245340A00FCD5DF /* MSBaseOptionsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSBaseOptionsTests.m; sourceTree = "<group>"; };
-		2ACE562022453BE600FCD5DF /* MSDataErrorTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSDataErrorTests.m; sourceTree = "<group>"; };
 		359D1A58225E678B003ABD4F /* MSDispatchTestUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSDispatchTestUtil.h; path = ../../AppCenter/AppCenterTests/Util/MSDispatchTestUtil.h; sourceTree = "<group>"; };
 		359D1A59225E678B003ABD4F /* MSDispatchTestUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSDispatchTestUtil.m; path = ../../AppCenter/AppCenterTests/Util/MSDispatchTestUtil.m; sourceTree = "<group>"; };
 		35F515A7225BC6B0001BFFA2 /* MSDocumentWrapperInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSDocumentWrapperInternal.h; sourceTree = "<group>"; };
@@ -307,17 +287,13 @@
 		4A193734225129B700459E1E /* MSDBDocumentStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDBDocumentStore.h; sourceTree = "<group>"; };
 		4A193735225129B700459E1E /* MSDBDocumentStorePrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDBDocumentStorePrivate.h; sourceTree = "<group>"; };
 		4A9C4400223B23E3008548A7 /* MSTokenTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSTokenTests.m; sourceTree = "<group>"; };
-		4ACEAC9D225418B600976AEA /* MSDBDocumentStoreTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSDBDocumentStoreTests.m; sourceTree = "<group>"; };
 		4AE2E97E229F26DC004BF371 /* MSRemoteOperationDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSRemoteOperationDelegate.h; sourceTree = "<group>"; };
 		7FE685B62275432200C2F4BA /* MSPageInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSPageInternal.h; sourceTree = "<group>"; };
 		7FE685B7227546AE00C2F4BA /* MSDataErrorInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSDataErrorInternal.h; sourceTree = "<group>"; };
 		87FA7FB5BC7302D0062016E1 /* MSCosmosDbPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSCosmosDbPrivate.h; sourceTree = "<group>"; };
-		8F1E76E822652B9D00A6D39F /* MSDataOperationProxyTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSDataOperationProxyTests.m; sourceTree = "<group>"; };
 		8F1FF9512255C12F0083471E /* validTestAppDocument.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = validTestAppDocument.json; sourceTree = "<group>"; };
 		8F4548DF2256D2450021B0BF /* MSDictionaryDocument.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSDictionaryDocument.h; sourceTree = "<group>"; };
 		8F4548E22256D3160021B0BF /* MSDictionaryDocument.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSDictionaryDocument.m; sourceTree = "<group>"; };
-		8F4548E52256D5470021B0BF /* NSObject+MSTestFixture.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSObject+MSTestFixture.h"; sourceTree = "<group>"; };
-		8F4548E62256D5470021B0BF /* NSObject+MSTestFixture.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSObject+MSTestFixture.m"; sourceTree = "<group>"; };
 		8F5227DC2253DE84004F37FE /* oneDocumentPage.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = oneDocumentPage.json; sourceTree = "<group>"; };
 		8F5227E22253E22F004F37FE /* MSHttpTestUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSHttpTestUtil.m; path = ../../AppCenter/AppCenterTests/Util/MSHttpTestUtil.m; sourceTree = "<group>"; };
 		8F5227E32253E22F004F37FE /* MSHttpTestUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSHttpTestUtil.h; path = ../../AppCenter/AppCenterTests/Util/MSHttpTestUtil.h; sourceTree = "<group>"; };
@@ -336,7 +312,6 @@
 		C9EBAB34230D739D00A20F0F /* AppCenter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AppCenter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D33A94541E5B11BB003966DB /* AppCenterData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppCenterData.h; sourceTree = "<group>"; };
 		D3AD5EC01E5C4F6A001627AB /* AppCenterData.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppCenterData.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		D3AD5EC21E5C4F6A001627AB /* MSDataTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSDataTests.m; sourceTree = "<group>"; };
 		D3AD5EC41E5C4F6A001627AB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D3AD5EFE1E5C7DAE001627AB /* MSServiceAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSServiceAbstract.h; path = ../AppCenter/AppCenter/MSServiceAbstract.h; sourceTree = "<group>"; };
 		D3AD5F051E5C7FFF001627AB /* AppCenterData Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "AppCenterData Debug.xcconfig"; sourceTree = "<group>"; };
@@ -589,16 +564,7 @@
 			isa = PBXGroup;
 			children = (
 				D3AD5EC41E5C4F6A001627AB /* Info.plist */,
-				2ACE56092245340A00FCD5DF /* MSBaseOptionsTests.m */,
-				8F1E76E822652B9D00A6D39F /* MSDataOperationProxyTests.m */,
-				2ACE562022453BE600FCD5DF /* MSDataErrorTests.m */,
-				D3AD5EC21E5C4F6A001627AB /* MSDataTests.m */,
-				4ACEAC9D225418B600976AEA /* MSDBDocumentStoreTests.m */,
-				2ACE55FF2245277000FCD5DF /* MSDocumentUtilsTests.m */,
-				04B61DCA2248F518008D0102 /* MSTokenExchangeTests.m */,
 				4A9C4400223B23E3008548A7 /* MSTokenTests.m */,
-				8F4548E52256D5470021B0BF /* NSObject+MSTestFixture.h */,
-				8F4548E62256D5470021B0BF /* NSObject+MSTestFixture.m */,
 				8F5227DB2253DE1F004F37FE /* Fixtures */,
 				D3AD5F661E5D73F2001627AB /* Frameworks */,
 				04A140C31ECE877A001CEE94 /* Support */,
@@ -1056,20 +1022,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4ACEAC9F225418B600976AEA /* MSDBDocumentStoreTests.m in Sources */,
 				04B61DD42248F8CD008D0102 /* MSMockUserDefaults.m in Sources */,
-				04B61DCC2248F518008D0102 /* MSTokenExchangeTests.m in Sources */,
-				8F4548E82256D5470021B0BF /* NSObject+MSTestFixture.m in Sources */,
-				2ACE56012245277000FCD5DF /* MSDocumentUtilsTests.m in Sources */,
-				8F1E76EA22652B9D00A6D39F /* MSDataOperationProxyTests.m in Sources */,
-				0469644F1F2A5D4A00F9D31F /* MSDataTests.m in Sources */,
 				350D453B22568DFE00982E20 /* MSHttpTestUtil.m in Sources */,
 				359D1A5B225E678B003ABD4F /* MSDispatchTestUtil.m in Sources */,
 				F82E4C86217F218D00EDAB34 /* sqlite3.c in Sources */,
-				2ACE560B2245340A00FCD5DF /* MSBaseOptionsTests.m in Sources */,
 				4A9C4403223B2408008548A7 /* MSTokenTests.m in Sources */,
 				04B61DD02248F7DB008D0102 /* MSMockKeychainUtil.m in Sources */,
-				2ACE562222453BE600FCD5DF /* MSDataErrorTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1127,20 +1085,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4ACEAC9E225418B600976AEA /* MSDBDocumentStoreTests.m in Sources */,
 				04B61DD32248F8CD008D0102 /* MSMockUserDefaults.m in Sources */,
-				04B61DCB2248F518008D0102 /* MSTokenExchangeTests.m in Sources */,
-				8F4548E72256D5470021B0BF /* NSObject+MSTestFixture.m in Sources */,
-				2ACE56002245277000FCD5DF /* MSDocumentUtilsTests.m in Sources */,
-				8F1E76E922652B9D00A6D39F /* MSDataOperationProxyTests.m in Sources */,
-				0496A67B1F3128CE005AE1DB /* MSDataTests.m in Sources */,
 				350D453A22568DFD00982E20 /* MSHttpTestUtil.m in Sources */,
 				359D1A5A225E678B003ABD4F /* MSDispatchTestUtil.m in Sources */,
 				F82E4C85217F218D00EDAB34 /* sqlite3.c in Sources */,
-				2ACE560A2245340A00FCD5DF /* MSBaseOptionsTests.m in Sources */,
 				4A9C4402223B2405008548A7 /* MSTokenTests.m in Sources */,
 				04B61DCF2248F7DB008D0102 /* MSMockKeychainUtil.m in Sources */,
-				2ACE562122453BE600FCD5DF /* MSDataErrorTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

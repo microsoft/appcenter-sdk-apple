@@ -58,23 +58,15 @@
 /* Begin PBXBuildFile section */
 		0420A6871ECA7A4B00915619 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0420A6861ECA7A4B00915619 /* OCMock.framework */; };
 		0420A6931ECA7B1100915619 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0420A6921ECA7B1100915619 /* OCMock.framework */; };
-		04774644220112450045504A /* MSAuthAuthorityTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A0D73FD2200CD540085FDE3 /* MSAuthAuthorityTest.m */; };
-		04774645220112480045504A /* MSAuthConfigTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A0D74022200EB400085FDE3 /* MSAuthConfigTest.m */; };
 		049BC84C224ED9D600AE7FBB /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 049BC848224ED7C100AE7FBB /* WebKit.framework */; };
 		049BC84D224ED9E500AE7FBB /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 049BC84A224ED7C900AE7FBB /* WebKit.framework */; };
 		04BED7181ECB64FB00E20975 /* OCHamcrest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04BED7161ECB64CE00E20975 /* OCHamcrest.framework */; };
 		04C802E9220399A30039E9BC /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04C802E72203999E0039E9BC /* OHHTTPStubs.framework */; };
 		04C802EA220399A80039E9BC /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04C802E5220399860039E9BC /* OHHTTPStubs.framework */; };
-		1A0D73FE2200CD540085FDE3 /* MSAuthAuthorityTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A0D73FD2200CD540085FDE3 /* MSAuthAuthorityTest.m */; };
-		1A0D74032200EB400085FDE3 /* MSAuthConfigTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A0D74022200EB400085FDE3 /* MSAuthConfigTest.m */; };
-		1A15692421F11B09001E9452 /* MSAuthTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A15692321F11B09001E9452 /* MSAuthTests.m */; };
-		1A15692521F11B09001E9452 /* MSAuthTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A15692321F11B09001E9452 /* MSAuthTests.m */; };
 		3847ABE622028E3D008BC281 /* MSHttpTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 3847ABE522028E3D008BC281 /* MSHttpTestUtil.m */; };
 		3847ABE722028E3D008BC281 /* MSHttpTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 3847ABE522028E3D008BC281 /* MSHttpTestUtil.m */; };
 		38D4204D22012E65006ECF44 /* MSMockUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 38D4204722012E1E006ECF44 /* MSMockUserDefaults.m */; };
 		38D4204E22012E66006ECF44 /* MSMockUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 38D4204722012E1E006ECF44 /* MSMockUserDefaults.m */; };
-		38EB8A6522038CE8005DBF5D /* MSAuthConfigIngestionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 38EB8A6422038CE8005DBF5D /* MSAuthConfigIngestionTests.m */; };
-		38EB8A6622038CE8005DBF5D /* MSAuthConfigIngestionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 38EB8A6422038CE8005DBF5D /* MSAuthConfigIngestionTests.m */; };
 		6E0684381D35A3B900A8CC6C /* OCHamcrestIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E0684371D35A3B900A8CC6C /* OCHamcrestIOS.framework */; };
 		7DC124E2232FFD4200F07FCB /* MSAADAuthority.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DC124E1232FFD4200F07FCB /* MSAADAuthority.m */; };
 		7DC124E3232FFD4200F07FCB /* MSAADAuthority.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DC124E1232FFD4200F07FCB /* MSAADAuthority.m */; };
@@ -130,10 +122,10 @@
 		C9EBAA64230D398900A20F0F /* MSAuthConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 38F796CB21F93E33007E7C15 /* MSAuthConfig.m */; };
 		C9EBAA65230D398900A20F0F /* MSAuthority.m in Sources */ = {isa = PBXBuildFile; fileRef = 38F796D121F93ED6007E7C15 /* MSAuthority.m */; };
 		C9EBAA66230D398900A20F0F /* MSUserInformation.m in Sources */ = {isa = PBXBuildFile; fileRef = 048BF76422A724030099FF73 /* MSUserInformation.m */; };
-		C9EBAB00230D3D3900A20F0F /* libMSAL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04E9760F226A50BF007E6DD1 /* libMSAL.a */; };
+		C9EBAB00230D3D3900A20F0F /* libMSAL (iOS Static Library).a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04E9760F226A50BF007E6DD1 /* libMSAL (iOS Static Library).a */; };
 		C9EBAB01230D3D4A00A20F0F /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 049BC84A224ED7C900AE7FBB /* WebKit.framework */; };
 		C9EBAB02230D3D5200A20F0F /* AuthenticationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04E0F31F223B246B0080C968 /* AuthenticationServices.framework */; };
-		C9EBAB03230D3D5D00A20F0F /* libMSAL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04E97611226A50BF007E6DD1 /* libMSAL.a */; };
+		C9EBAB03230D3D5D00A20F0F /* libMSAL (macOS Static Library).a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04E97611226A50BF007E6DD1 /* libMSAL (macOS Static Library).a */; };
 		C9EBAB04230D3D6500A20F0F /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 049BC848224ED7C100AE7FBB /* WebKit.framework */; };
 		C9EBAB27230D72E200A20F0F /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9EBAB26230D72E200A20F0F /* AppCenter.framework */; };
 		F82E4C71217F1FA600EDAB34 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = F82E4C70217F1FA600EDAB34 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-w"; }; };
@@ -232,6 +224,13 @@
 			remoteGlobalIDString = 0485AFEF1EAAADAC00C10CAF;
 			remoteInfo = "Fat Framework";
 		};
+		356DD9972399A539005629BC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 04E975EA226A50BF007E6DD1 /* MSAL.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = B295A16422D0348400FFB313;
+			remoteInfo = "unit-test-host-mac";
+		};
 		386352E31D51047400D0D450 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E85547B81D2D6253002DF6E2 /* Project object */;
@@ -298,9 +297,6 @@
 		04E975EA226A50BF007E6DD1 /* MSAL.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = MSAL.xcodeproj; path = "microsoft-authentication-library-for-objc/MSAL/MSAL.xcodeproj"; sourceTree = "<group>"; };
 		04ED31E91EAAD32B0033BAAE /* macOS.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = macOS.modulemap; sourceTree = "<group>"; };
 		04ED31EB1EAAD3390033BAAE /* iOS.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = iOS.modulemap; sourceTree = "<group>"; };
-		1A0D73FD2200CD540085FDE3 /* MSAuthAuthorityTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSAuthAuthorityTest.m; sourceTree = "<group>"; };
-		1A0D74022200EB400085FDE3 /* MSAuthConfigTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSAuthConfigTest.m; sourceTree = "<group>"; };
-		1A15692321F11B09001E9452 /* MSAuthTests.m */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = MSAuthTests.m; sourceTree = "<group>"; tabWidth = 2; };
 		35BCB33A22382E6A00E948A4 /* MSAuthConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSAuthConstants.h; sourceTree = "<group>"; };
 		3847ABE422028E3D008BC281 /* MSHttpTestUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSHttpTestUtil.h; sourceTree = "<group>"; };
 		3847ABE522028E3D008BC281 /* MSHttpTestUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSHttpTestUtil.m; path = ../../../AppCenter/AppCenterTests/Util/MSHttpTestUtil.m; sourceTree = "<group>"; };
@@ -308,7 +304,6 @@
 		38D4204422012DAC006ECF44 /* MSTestFrameworks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSTestFrameworks.h; path = ../../../AppCenter/AppCenterTests/Util/MSTestFrameworks.h; sourceTree = "<group>"; };
 		38D4204722012E1E006ECF44 /* MSMockUserDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSMockUserDefaults.m; path = ../../../AppCenter/AppCenterTests/Util/MSMockUserDefaults.m; sourceTree = "<group>"; };
 		38D4204F22012F0B006ECF44 /* MSMockUserDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSMockUserDefaults.h; path = ../../../AppCenter/AppCenterTests/Util/MSMockUserDefaults.h; sourceTree = "<group>"; };
-		38EB8A6422038CE8005DBF5D /* MSAuthConfigIngestionTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSAuthConfigIngestionTests.m; sourceTree = "<group>"; };
 		38F796CA21F93E33007E7C15 /* MSAuthConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSAuthConfig.h; sourceTree = "<group>"; };
 		38F796CB21F93E33007E7C15 /* MSAuthConfig.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSAuthConfig.m; sourceTree = "<group>"; };
 		38F796D021F93ED6007E7C15 /* MSAuthority.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSAuthority.h; sourceTree = "<group>"; };
@@ -364,7 +359,7 @@
 				C25D6487230EF93F00EA6F85 /* AppCenter.framework in Frameworks */,
 				C9EBAB02230D3D5200A20F0F /* AuthenticationServices.framework in Frameworks */,
 				C9EBAB01230D3D4A00A20F0F /* WebKit.framework in Frameworks */,
-				C9EBAB00230D3D3900A20F0F /* libMSAL.a in Frameworks */,
+				C9EBAB00230D3D3900A20F0F /* libMSAL (iOS Static Library).a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -374,7 +369,7 @@
 			files = (
 				C9EBAB27230D72E200A20F0F /* AppCenter.framework in Frameworks */,
 				C9EBAB04230D3D6500A20F0F /* WebKit.framework in Frameworks */,
-				C9EBAB03230D3D5D00A20F0F /* libMSAL.a in Frameworks */,
+				C9EBAB03230D3D5D00A20F0F /* libMSAL (macOS Static Library).a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -510,13 +505,14 @@
 				04E975FF226A50BF007E6DD1 /* MSAL.framework */,
 				04E97601226A50BF007E6DD1 /* "MSAL-Mac-Unit-Tests".xctest */,
 				04E97603226A50BF007E6DD1 /* MSAL Test App.app */,
-				04E97605226A50BF007E6DD1 /* MSAL Test App.app */,
 				04E97607226A50BF007E6DD1 /* MSAL Test Automation (iOS).app */,
 				04E97609226A50BF007E6DD1 /* unit-test-host.app */,
 				04E9760B226A50BF007E6DD1 /* InteractiveiOSTests.xctest */,
 				04E9760D226A50BF007E6DD1 /* MultiAppiOSTests.xctest */,
-				04E9760F226A50BF007E6DD1 /* libMSAL.a */,
-				04E97611226A50BF007E6DD1 /* libMSAL.a */,
+				04E97605226A50BF007E6DD1 /* MSAL Test App.app */,
+				04E9760F226A50BF007E6DD1 /* libMSAL (iOS Static Library).a */,
+				04E97611226A50BF007E6DD1 /* libMSAL (macOS Static Library).a */,
+				356DD9982399A539005629BC /* unit-test-host-mac.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -665,10 +661,6 @@
 			children = (
 				E85547D91D2D6723002DF6E2 /* Info.plist */,
 				B2B25646220B370200716D6A /* MSAuthAppDelegateTests.m */,
-				1A0D73FD2200CD540085FDE3 /* MSAuthAuthorityTest.m */,
-				1A0D74022200EB400085FDE3 /* MSAuthConfigTest.m */,
-				38EB8A6422038CE8005DBF5D /* MSAuthConfigIngestionTests.m */,
-				1A15692321F11B09001E9452 /* MSAuthTests.m */,
 				6E0684361D35A39300A8CC6C /* Frameworks */,
 				04A140AE1ECE806B001CEE94 /* Support */,
 				38D4204322012D7B006ECF44 /* Util */,
@@ -893,7 +885,7 @@
 		04E97605226A50BF007E6DD1 /* MSAL Test App.app */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.application;
-			path = "MSAL Test App.app";
+			path = "MSAL Test App (Mac).app";
 			remoteRef = 04E97604226A50BF007E6DD1 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -925,18 +917,25 @@
 			remoteRef = 04E9760C226A50BF007E6DD1 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		04E9760F226A50BF007E6DD1 /* libMSAL.a */ = {
+		04E9760F226A50BF007E6DD1 /* libMSAL (iOS Static Library).a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libMSAL.a;
+			path = "libMSAL (iOS Static Library).a";
 			remoteRef = 04E9760E226A50BF007E6DD1 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		04E97611226A50BF007E6DD1 /* libMSAL.a */ = {
+		04E97611226A50BF007E6DD1 /* libMSAL (macOS Static Library).a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libMSAL.a;
+			path = "libMSAL (macOS Static Library).a";
 			remoteRef = 04E97610226A50BF007E6DD1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		356DD9982399A539005629BC /* unit-test-host-mac.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = "unit-test-host-mac.app";
+			remoteRef = 356DD9972399A539005629BC /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -1064,11 +1063,7 @@
 			files = (
 				F82E4C72217F1FA600EDAB34 /* sqlite3.c in Sources */,
 				9CFD2EC7221CCE33006C5FBD /* MSMockKeychainUtil.m in Sources */,
-				04774645220112480045504A /* MSAuthConfigTest.m in Sources */,
-				1A15692521F11B09001E9452 /* MSAuthTests.m in Sources */,
-				38EB8A6622038CE8005DBF5D /* MSAuthConfigIngestionTests.m in Sources */,
 				38D4204E22012E66006ECF44 /* MSMockUserDefaults.m in Sources */,
-				04774644220112450045504A /* MSAuthAuthorityTest.m in Sources */,
 				3847ABE722028E3D008BC281 /* MSHttpTestUtil.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1109,11 +1104,7 @@
 				B2B25647220B370200716D6A /* MSAuthAppDelegateTests.m in Sources */,
 				F82E4C71217F1FA600EDAB34 /* sqlite3.c in Sources */,
 				9CFD2EC6221CCE33006C5FBD /* MSMockKeychainUtil.m in Sources */,
-				1A0D74032200EB400085FDE3 /* MSAuthConfigTest.m in Sources */,
-				1A15692421F11B09001E9452 /* MSAuthTests.m in Sources */,
-				38EB8A6522038CE8005DBF5D /* MSAuthConfigIngestionTests.m in Sources */,
 				38D4204D22012E65006ECF44 /* MSMockUserDefaults.m in Sources */,
-				1A0D73FE2200CD540085FDE3 /* MSAuthAuthorityTest.m in Sources */,
 				3847ABE622028E3D008BC281 /* MSHttpTestUtil.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
