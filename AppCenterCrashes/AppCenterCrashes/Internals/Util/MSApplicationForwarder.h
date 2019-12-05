@@ -8,7 +8,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MSApplicationForwarder : NSObject
 
 /**
- * Activate category for UIViewController.
+ * Register forwarding on `NSApplication` via swizzling. 
  */
 + (void)registerForwarding;
 
