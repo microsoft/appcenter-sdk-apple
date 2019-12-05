@@ -208,7 +208,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                                        completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         MSHttpRequestCompletionHandler cosmosdbOperationCallback;
-        [invocation getArgument:&cosmosdbOperationCallback atIndex:9];
+        [invocation getArgument:&cosmosdbOperationCallback atIndex:10];
         cosmosdbOperationCallback(testCosmosDbResponse, [self generateResponseWithStatusCode:MSHTTPCodesNo200OK], nil);
       });
 
@@ -543,7 +543,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                                        completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         MSHttpRequestCompletionHandler cosmosdbOperationCallback;
-        [invocation getArgument:&cosmosdbOperationCallback atIndex:9];
+        [invocation getArgument:&cosmosdbOperationCallback atIndex:10];
         cosmosdbOperationCallback(testCosmosDbResponse, [self generateResponseWithStatusCode:MSHTTPCodesNo200OK], nil);
       });
 
@@ -834,7 +834,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                                            completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         MSGetTokenAsyncCompletionHandler getTokenCallback;
-        [invocation getArgument:&getTokenCallback atIndex:8];
+        [invocation getArgument:&getTokenCallback atIndex:9];
         getTokenCallback(testTokensResponse, nil);
       });
 
@@ -922,7 +922,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
       .andDo(^(NSInvocation *invocation) {
         [invocation retainArguments];
         MSHttpRequestCompletionHandler completionHandler;
-        [invocation getArgument:&completionHandler atIndex:6];
+        [invocation getArgument:&completionHandler atIndex:8];
         completionHandler(jsonFixture, [MSHttpTestUtil createMockResponseForStatusCode:200 headers:nil], nil);
       });
 
@@ -992,7 +992,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
       .andDo(^(NSInvocation *invocation) {
         [invocation retainArguments];
         MSHttpRequestCompletionHandler completionHandler;
-        [invocation getArgument:&completionHandler atIndex:6];
+        [invocation getArgument:&completionHandler atIndex:8];
         completionHandler(jsonFixture, [MSHttpTestUtil createMockResponseForStatusCode:200 headers:nil], nil);
       });
 
@@ -1290,13 +1290,13 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   NSString *expectedURLString = @"https://dbAccount.documents.azure.com/dbs/dbName/colls/dbCollectionName/docs/documentId";
   __block NSURL *actualURL;
   __block NSData *actualData;
-  OCMStub([httpClient sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:OCMOCK_ANY data:OCMOCK_ANY completionHandler:OCMOCK_ANY])
+  OCMStub([httpClient sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:OCMOCK_ANY data:OCMOCK_ANY retryIntervals:@[] compressionEnabled:NO completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         MSHttpRequestCompletionHandler completionHandler;
         [invocation retainArguments];
         [invocation getArgument:&actualURL atIndex:2];
         [invocation getArgument:&actualData atIndex:5];
-        [invocation getArgument:&completionHandler atIndex:6];
+        [invocation getArgument:&completionHandler atIndex:8];
         completionHandler(actualData, nil, nil);
       });
   NSMutableDictionary *additionalHeaders = [NSMutableDictionary new];
@@ -1341,13 +1341,13 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   NSString *expectedURLString = @"https://dbAccount.documents.azure.com/dbs/dbName/colls/dbCollectionName/docs/documentId";
   __block NSURL *actualURL;
   __block NSData *actualData;
-  OCMStub([httpClient sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:OCMOCK_ANY data:OCMOCK_ANY completionHandler:OCMOCK_ANY])
+  OCMStub([httpClient sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:OCMOCK_ANY data:OCMOCK_ANY retryIntervals:@[] compressionEnabled:NO completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         MSHttpRequestCompletionHandler completionHandler;
         [invocation retainArguments];
         [invocation getArgument:&actualURL atIndex:2];
         [invocation getArgument:&actualData atIndex:5];
-        [invocation getArgument:&completionHandler atIndex:6];
+        [invocation getArgument:&completionHandler atIndex:8];
         completionHandler(actualData, nil, nil);
       });
   NSDictionary *dic = @{@"abv" : @1, @"foo" : @"bar"};
@@ -1392,13 +1392,13 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   NSString *expectedURLString = @"https://dbAccount.documents.azure.com/dbs/dbName/colls/dbCollectionName/docs/documentId";
   __block NSURL *actualURL;
   __block NSData *actualData;
-  OCMStub([httpClient sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:OCMOCK_ANY data:OCMOCK_ANY completionHandler:OCMOCK_ANY])
+  OCMStub([httpClient sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:OCMOCK_ANY data:OCMOCK_ANY retryIntervals:@[] compressionEnabled:NO completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         MSHttpRequestCompletionHandler completionHandler;
         [invocation retainArguments];
         [invocation getArgument:&actualURL atIndex:2];
         [invocation getArgument:&actualData atIndex:5];
-        [invocation getArgument:&completionHandler atIndex:6];
+        [invocation getArgument:&completionHandler atIndex:8];
         completionHandler(actualData, nil, nil);
       });
   MSDictionaryDocument *mockDoc = nil;
@@ -1434,13 +1434,13 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   NSString *expectedURLString = @"https://dbAccount.documents.azure.com/dbs/dbName/colls/dbCollectionName/docs/documentId";
   __block NSURL *actualURL;
   __block NSData *actualData;
-  OCMStub([httpClient sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:OCMOCK_ANY data:OCMOCK_ANY completionHandler:OCMOCK_ANY])
+  OCMStub([httpClient sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:OCMOCK_ANY data:OCMOCK_ANY retryIntervals:@[] compressionEnabled:NO completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         MSHttpRequestCompletionHandler completionHandler;
         [invocation retainArguments];
         [invocation getArgument:&actualURL atIndex:2];
         [invocation getArgument:&actualData atIndex:5];
-        [invocation getArgument:&completionHandler atIndex:6];
+        [invocation getArgument:&completionHandler atIndex:8];
         completionHandler(actualData, nil, nil);
       });
   NSDictionary *dic = @{@"foo" : @"bar"};
@@ -1527,13 +1527,13 @@ static NSString *const kMSDocumentIdTest = @"documentId";
       };
   __block NSURL *actualURL;
   __block NSData *actualData;
-  OCMStub([httpClient sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:OCMOCK_ANY data:OCMOCK_ANY completionHandler:OCMOCK_ANY])
+  OCMStub([httpClient sendAsync:OCMOCK_ANY method:OCMOCK_ANY headers:OCMOCK_ANY data:OCMOCK_ANY retryIntervals:@[] compressionEnabled:NO completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         MSHttpRequestCompletionHandler completionHandler;
         [invocation retainArguments];
         [invocation getArgument:&actualURL atIndex:2];
         [invocation getArgument:&actualData atIndex:5];
-        [invocation getArgument:&completionHandler atIndex:6];
+        [invocation getArgument:&completionHandler atIndex:8];
         completionHandler(actualData, nil, nil);
       });
   NSDictionary *dic = @{@"foo" : @"bar"};
@@ -1578,7 +1578,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                                        completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         MSHttpRequestCompletionHandler cosmosdbOperationCallback;
-        [invocation getArgument:&cosmosdbOperationCallback atIndex:9];
+        [invocation getArgument:&cosmosdbOperationCallback atIndex:10];
         cosmosdbOperationCallback(testCosmosDbResponse, [self generateResponseWithStatusCode:MSHTTPCodesNo200OK], nil);
       });
 
@@ -1662,7 +1662,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                                        completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         MSHttpRequestCompletionHandler cosmosdbOperationCallback;
-        [invocation getArgument:&cosmosdbOperationCallback atIndex:9];
+        [invocation getArgument:&cosmosdbOperationCallback atIndex:10];
         cosmosdbOperationCallback(nil, nil, expectedCosmosDbError);
       });
 
@@ -1718,7 +1718,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                                        completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         MSHttpRequestCompletionHandler cosmosdbOperationCallback;
-        [invocation getArgument:&cosmosdbOperationCallback atIndex:9];
+        [invocation getArgument:&cosmosdbOperationCallback atIndex:10];
         cosmosdbOperationCallback(nil, [self generateResponseWithStatusCode:MSHTTPCodesNo200OK], nil);
       });
 
@@ -1770,7 +1770,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                                        completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         MSHttpRequestCompletionHandler cosmosdbOperationCallback;
-        [invocation getArgument:&cosmosdbOperationCallback atIndex:9];
+        [invocation getArgument:&cosmosdbOperationCallback atIndex:10];
         cosmosdbOperationCallback(brokenCosmosDbResponse, [self generateResponseWithStatusCode:MSHTTPCodesNo200OK], nil);
       });
 
@@ -1815,7 +1815,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                                        completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         MSHttpRequestCompletionHandler cosmosdbOperationCallback;
-        [invocation getArgument:&cosmosdbOperationCallback atIndex:9];
+        [invocation getArgument:&cosmosdbOperationCallback atIndex:10];
         cosmosdbOperationCallback(nil, [self generateResponseWithStatusCode:expectedResponseCode], nil);
       });
 
@@ -1893,7 +1893,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                                        completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         MSHttpRequestCompletionHandler cosmosdbOperationCallback;
-        [invocation getArgument:&cosmosdbOperationCallback atIndex:9];
+        [invocation getArgument:&cosmosdbOperationCallback atIndex:10];
         cosmosdbOperationCallback(nil, nil, expectedCosmosDbError);
       });
 
@@ -1978,7 +1978,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
       .andDo(^(NSInvocation *invocation) {
         [invocation retainArguments];
         MSHttpRequestCompletionHandler completionHandler;
-        [invocation getArgument:&completionHandler atIndex:6];
+        [invocation getArgument:&completionHandler atIndex:8];
         NSData *payload = [self jsonFixture:@"oneDocumentPage"];
         completionHandler(payload, [MSHttpTestUtil createMockResponseForStatusCode:200 headers:nil], nil);
       });
@@ -2056,7 +2056,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
       .andDo(^(NSInvocation *invocation) {
         [invocation retainArguments];
         MSHttpRequestCompletionHandler completionHandler;
-        [invocation getArgument:&completionHandler atIndex:6];
+        [invocation getArgument:&completionHandler atIndex:8];
         NSData *payload = [self jsonFixture:@"oneDocumentPage"];
         completionHandler(payload, [MSHttpTestUtil createMockResponseForStatusCode:200 headers:continuationHeaders], nil);
       });
@@ -2065,11 +2065,11 @@ static NSString *const kMSDocumentIdTest = @"documentId";
   NSDictionary *secondPageHeaders = [MSCosmosDb defaultHeaderWithPartition:tokenResult.partition
                                                                    dbToken:kMSTokenTest
                                                          additionalHeaders:continuationHeaders];
-  OCMStub([httpClient sendAsync:OCMOCK_ANY method:@"GET" headers:secondPageHeaders data:nil completionHandler:OCMOCK_ANY])
+  OCMStub([httpClient sendAsync:OCMOCK_ANY method:@"GET" headers:secondPageHeaders data:nil retryIntervals:@[] compressionEnabled:NO completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         [invocation retainArguments];
         MSHttpRequestCompletionHandler completionHandler;
-        [invocation getArgument:&completionHandler atIndex:6];
+        [invocation getArgument:&completionHandler atIndex:8];
         NSData *payload = [self jsonFixture:@"zeroDocumentsPage"];
         completionHandler(payload, [MSHttpTestUtil createMockResponseForStatusCode:200 headers:nil], nil);
       });
@@ -2138,11 +2138,11 @@ static NSString *const kMSDocumentIdTest = @"documentId";
 
   // First page
   NSDictionary *firstPageHeaders = [MSCosmosDb defaultHeaderWithPartition:tokenResult.partition dbToken:kMSTokenTest additionalHeaders:nil];
-  OCMStub([httpClient sendAsync:OCMOCK_ANY method:@"GET" headers:firstPageHeaders data:nil completionHandler:OCMOCK_ANY])
+  OCMStub([httpClient sendAsync:OCMOCK_ANY method:@"GET" headers:firstPageHeaders data:nil retryIntervals:@[] compressionEnabled:NO completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         [invocation retainArguments];
         MSHttpRequestCompletionHandler completionHandler;
-        [invocation getArgument:&completionHandler atIndex:6];
+        [invocation getArgument:&completionHandler atIndex:8];
         NSData *payload = [self jsonFixture:@"oneDocumentPage"];
         completionHandler(payload, [MSHttpTestUtil createMockResponseForStatusCode:200 headers:continuationHeaders], nil);
       });
@@ -2177,7 +2177,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
       .andDo(^(NSInvocation *invocation) {
         [invocation retainArguments];
         MSHttpRequestCompletionHandler completionHandler;
-        [invocation getArgument:&completionHandler atIndex:6];
+        [invocation getArgument:&completionHandler atIndex:8];
         NSData *payload = [self jsonFixture:@"oneDocumentPage"];
         completionHandler(payload, [MSHttpTestUtil createMockResponseForStatusCode:200 headers:nil], nil);
       });
@@ -2301,7 +2301,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                                            completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         MSGetTokenAsyncCompletionHandler getTokenCallback;
-        [invocation getArgument:&getTokenCallback atIndex:8];
+        [invocation getArgument:&getTokenCallback atIndex:9];
         getTokenCallback(testTokensResponse, nil);
       });
 
@@ -2487,7 +2487,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                                        completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         MSHttpRequestCompletionHandler cosmosdbOperationCallback;
-        [invocation getArgument:&cosmosdbOperationCallback atIndex:9];
+        [invocation getArgument:&cosmosdbOperationCallback atIndex:10];
         cosmosdbOperationCallback(testCosmosDbResponse, [self generateResponseWithStatusCode:MSHTTPCodesNo200OK], nil);
       });
   MSDocumentWrapper *expectedDocumentWrapper = [MSDocumentUtils documentWrapperFromData:testCosmosDbResponse
@@ -2563,7 +2563,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                                        completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         MSHttpRequestCompletionHandler cosmosdbOperationCallback;
-        [invocation getArgument:&cosmosdbOperationCallback atIndex:9];
+        [invocation getArgument:&cosmosdbOperationCallback atIndex:10];
         cosmosdbOperationCallback(jsonFixture, [self generateResponseWithStatusCode:MSHTTPCodesNo200OK], nil);
       });
 
@@ -2650,7 +2650,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                                            completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         MSGetTokenAsyncCompletionHandler getTokenCallback;
-        [invocation getArgument:&getTokenCallback atIndex:8];
+        [invocation getArgument:&getTokenCallback atIndex:9];
         getTokenCallback(error ? nil : testTokensResponse, error);
       });
   OCMStub([self.tokenExchangeMock performDbTokenAsyncOperationWithHttpClient:OCMOCK_ANY
@@ -2663,7 +2663,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                                            completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         MSGetTokenAsyncCompletionHandler getTokenCallback;
-        [invocation getArgument:&getTokenCallback atIndex:8];
+        [invocation getArgument:&getTokenCallback atIndex:9];
         getTokenCallback(error ? nil : testTokensResponse, error);
       });
   return testToken;
@@ -2707,7 +2707,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                                            completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         MSGetTokenAsyncCompletionHandler getTokenCallback;
-        [invocation getArgument:&getTokenCallback atIndex:8];
+        [invocation getArgument:&getTokenCallback atIndex:9];
         getTokenCallback(testTokensResponse, nil);
       });
 
@@ -2737,7 +2737,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                                        completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         MSHttpRequestCompletionHandler cosmosdbOperationCallback;
-        [invocation getArgument:&cosmosdbOperationCallback atIndex:9];
+        [invocation getArgument:&cosmosdbOperationCallback atIndex:10];
         cosmosdbOperationCallback(jsonFixture, [self generateResponseWithStatusCode:MSHTTPCodesNo200OK], nil);
       });
 
@@ -2812,7 +2812,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                                              completionHandler:OCMOCK_ANY])
     .andDo(^(NSInvocation *invocation) {
         MSGetTokenAsyncCompletionHandler getTokenCallback;
-        [invocation getArgument:&getTokenCallback atIndex:8];
+        [invocation getArgument:&getTokenCallback atIndex:9];
         getTokenCallback(testTokensResponse, nil);
     });
     
@@ -2842,7 +2842,7 @@ static NSString *const kMSDocumentIdTest = @"documentId";
                                                          completionHandler:OCMOCK_ANY])
     .andDo(^(NSInvocation *invocation) {
         MSHttpRequestCompletionHandler cosmosdbOperationCallback;
-        [invocation getArgument:&cosmosdbOperationCallback atIndex:9];
+        [invocation getArgument:&cosmosdbOperationCallback atIndex:10];
         cosmosdbOperationCallback(jsonFixture, [self generateResponseWithStatusCode:MSHTTPCodesNo200OK], nil);
     });
     
