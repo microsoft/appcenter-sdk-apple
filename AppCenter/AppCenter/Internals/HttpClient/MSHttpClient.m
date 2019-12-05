@@ -232,13 +232,12 @@
         if (!call.inProgress) {
           [self sendCallAsync:call];
         }
-
-        // Notify delegates.
-        [self enumerateDelegatesForSelector:@selector(httpClientDidResume:)
-                                  withBlock:^(id<MSHttpClientDelegate> delegate) {
-                                    [delegate httpClientDidResume:self];
-                                  }];
       }
+      // Notify delegates.
+      [self enumerateDelegatesForSelector:@selector(httpClientDidResume:)
+                                withBlock:^(id<MSHttpClientDelegate> delegate) {
+                                  [delegate httpClientDidResume:self];
+                                }];
     }
   }
 }
