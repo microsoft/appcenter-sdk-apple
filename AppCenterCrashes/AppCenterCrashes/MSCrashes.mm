@@ -30,35 +30,6 @@
 #import "MSWrapperCrashesHelper.h"
 #import "MSWrapperExceptionManagerInternal.h"
 
-@implementation NSObject (PerformSelectorOnMainThreadMultipleArgs)
-
--(void)performSelectorOnMainThread:(SEL)selector waitUntilDone:(BOOL)wait withObjects:(NSObject *)firstObject, ...
-{
-    NSMethodSignature *signature = [self methodSignatureForSelector:selector];
-
-    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:signature];
-    [invocation setTarget:self];
-    [invocation setSelector:selector];
-
-    va_list args;
-    va_start(args, firstObject);
-    int nextArgIndex = 2;
-
-    for (NSObject *object = firstObject; ; object = va_arg(args, NSObject*)) {
-        if (object != [NSNull null]) {
-            [invocation setArgument:&object atIndex:nextArgIndex];
-        }
-        nextArgIndex++;
-    }
-
-    va_end(args);
-
-    [invocation retainArguments];
-    [invocation performSelectorOnMainThread:@selector(invoke) withObject:nil waitUntilDone:wait];
-}
-
-@end
-
 /**
  * Service name for initialization.
  */
@@ -624,11 +595,10 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
       NSObject* delegateInstance = static_cast<NSObject *>(delegate);
       [delegateInstance performSelectorOnMainThread:@selector(crashes:willSendErrorReport:)
                                       waitUntilDone:NO
-                                        withObjects:self, report];
+                                        withObjects:self, report, [NSNull null]];
     }
   }
 }
-
 
 - (void)channel:(id<MSChannelProtocol>)__unused channel didSucceedSendingLog:(id<MSLog>)log {
   id<MSCrashesDelegate> delegate = self.delegate;
@@ -637,10 +607,11 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     if ([logObject isKindOfClass:[MSAppleErrorLog class]]) {
       MSAppleErrorLog *appleErrorLog = static_cast<MSAppleErrorLog *>(log);
       MSErrorReport *report = [MSErrorLogFormatter errorReportFromLog:appleErrorLog];
+
       NSObject* delegateInstance = static_cast<NSObject *>(delegate);
       [delegateInstance performSelectorOnMainThread:@selector(crashes:didSucceedSendingErrorReport:)
                                       waitUntilDone:NO
-                                        withObjects:self, report];
+                                        withObjects:self, report, [NSNull null]];
     }
   }
 }
@@ -652,10 +623,11 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     if ([logObject isKindOfClass:[MSAppleErrorLog class]]) {
       MSAppleErrorLog *appleErrorLog = static_cast<MSAppleErrorLog *>(log);
       MSErrorReport *report = [MSErrorLogFormatter errorReportFromLog:appleErrorLog];
+
       NSObject* delegateInstance = static_cast<NSObject *>(delegate);
       [delegateInstance performSelectorOnMainThread:@selector(crashes:didFailSendingErrorReport:withError:)
                                       waitUntilDone:NO
-                                        withObjects:self, report, nil];
+                                        withObjects:self, report, nil, [NSNull null]];
       NSLog(@"didFailSendingLog error %@", [error description]);
     }
   }
