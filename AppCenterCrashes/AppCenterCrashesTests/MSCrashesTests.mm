@@ -3,6 +3,7 @@
 
 #import "MSAppCenterInternal.h"
 #import "MSAppleErrorLog.h"
+#import "MSApplicationForwarder.h"
 #import "MSChannelGroupDefault.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitDefault.h"
@@ -10,7 +11,6 @@
 #import "MSCrashReporter.h"
 #import "MSCrashesBufferedLog.hpp"
 #import "MSCrashesCXXExceptionHandler.h"
-#import "MSCrashesCategory.h"
 #import "MSCrashesInternal.h"
 #import "MSCrashesPrivate.h"
 #import "MSCrashesTestUtil.h"
@@ -273,18 +273,22 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 - (void)testSettingAdditionalHandlers {
 
   // If
+  id appCenterMock = OCMClassMock([MSAppCenter class]);
+  OCMStub([appCenterMock isDebuggerAttached]).andReturn(NO);
   id exceptionHandlerManagerClass = OCMClassMock([MSCrashesUncaughtCXXExceptionHandlerManager class]);
-  id crashesCategoryClass = OCMClassMock([MSCrashesCategory class]);
+  id applicationForwarderClass = OCMClassMock([MSApplicationForwarder class]);
 
   // When
   [self.sut applyEnabledState:YES];
 
   // Then
   OCMVerify([MSCrashesUncaughtCXXExceptionHandlerManager addCXXExceptionHandler:(MSCrashesUncaughtCXXExceptionHandler)[OCMArg anyPointer]]);
-  OCMVerify([MSCrashesCategory activateCategory]);
+  OCMVerify([applicationForwarderClass registerForwarding]);
 
+  // Clear
+  [appCenterMock stopMocking];
   [exceptionHandlerManagerClass stopMocking];
-  [crashesCategoryClass stopMocking];
+  [applicationForwarderClass stopMocking];
 }
 
 - (void)testSettingUserConfirmationHandler {

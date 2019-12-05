@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "MSCrashesCategory.h"
+#import <objc/runtime.h>
+
 #import "MSAppCenterInternal.h"
+#import "MSApplicationForwarder.h"
 #import "MSCrashesInternal.h"
 #import "MSCrashesPrivate.h"
 #import "MSUtility+Application.h"
-#import <objc/runtime.h>
 
 static NSString *const kMSAppCenterApplicationForwarderEnabledKey = @"AppCenterApplicationForwarderEnabled";
 
@@ -179,9 +180,9 @@ static void swizzleSendEvent() {
 
 #endif
 
-@implementation MSCrashesCategory
+@implementation MSApplicationForwarder
 
-+ (void)activateCategory {
++ (void)registerForwarding {
   if (isApplicationForwarderEnabled()) {
     MSLogDebug([MSCrashes logTag], @"Application forwarder for info.plist key '%@' enabled. It may use swizzling.",
                kMSAppCenterApplicationForwarderEnabledKey);

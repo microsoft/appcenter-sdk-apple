@@ -9,13 +9,13 @@
 
 #import "MSAppCenterInternal.h"
 #import "MSAppleErrorLog.h"
+#import "MSApplicationForwarder.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitProtocol.h"
 #import "MSCrashHandlerSetupDelegate.h"
 #import "MSCrashReporter.h"
 #import "MSCrashesBufferedLog.hpp"
 #import "MSCrashesCXXExceptionWrapperException.h"
-#import "MSCrashesCategory.h"
 #import "MSCrashesDelegate.h"
 #import "MSCrashesInternal.h"
 #import "MSCrashesPrivate.h"
@@ -709,8 +709,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     // Add a handler for C++-Exceptions.
     [MSCrashesUncaughtCXXExceptionHandlerManager addCXXExceptionHandler:uncaught_cxx_exception_handler];
 
-    // Activate category to handle additional crash details.
-    [MSCrashesCategory activateCategory];
+    // Activate application class methods forwarding to handle additional crash details.
+    [MSApplicationForwarder registerForwarding];
   }
 }
 

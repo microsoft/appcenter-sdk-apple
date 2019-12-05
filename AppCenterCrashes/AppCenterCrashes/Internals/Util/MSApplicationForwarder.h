@@ -5,12 +5,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MSCrashesCategory : NSObject
+@interface MSApplicationForwarder : NSObject
 
 /**
  * Activate category for UIViewController.
  */
-+ (void)activateCategory;
++ (void)registerForwarding;
 
 @end
 

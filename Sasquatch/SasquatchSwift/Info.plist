@@ -78,5 +78,7 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>AppCenterApplicationForwarderEnabled</key>
+	<false/>
 </dict>
 </plist>
