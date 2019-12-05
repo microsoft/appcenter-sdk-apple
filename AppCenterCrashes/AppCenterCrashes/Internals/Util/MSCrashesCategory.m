@@ -194,19 +194,19 @@ static void swizzleSendEvent() {
   if (isCrashOnExceptionsEnabled()) {
 
     /*
-     * Solution for Scenario 2
+     * Solution for Scenario 2:
      *
      * Catch all exceptions that are being logged to the console and forward them to our
-     * custom UncaughtExceptionHandler
+     * custom UncaughtExceptionHandler.
      */
     swizzleReportException();
 
     /*
-     * Solution for Scenario 3
+     * Solution for Scenario 3:
      *
      * Exceptions that happen inside an IBAction implementation do not trigger a call to
      * [NSApplication reportException:] and it does not trigger a registered UncaughtExceptionHandler
-     * Hence we need to catch these ourselves, e.g. by overwriting sendEvent: as done right here
+     * Hence we need to catch these ourselves, e.g. by overwriting sendEvent: as done right here.
      *
      * On 64bit systems the @try @catch block doesn't even cost any performance.
      */
