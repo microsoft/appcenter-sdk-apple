@@ -592,7 +592,6 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     if ([logObject isKindOfClass:[MSAppleErrorLog class]]) {
       MSAppleErrorLog *appleErrorLog = static_cast<MSAppleErrorLog *>(log);
       MSErrorReport *report = [MSErrorLogFormatter errorReportFromLog:appleErrorLog];
-
       NSObject* delegateInstance = static_cast<NSObject *>(delegate);
       [MSUtility performSelectorOnMainThread:delegateInstance
                                 withSelector:@selector(crashes:willSendErrorReport:)
@@ -609,7 +608,6 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     if ([logObject isKindOfClass:[MSAppleErrorLog class]]) {
       MSAppleErrorLog *appleErrorLog = static_cast<MSAppleErrorLog *>(log);
       MSErrorReport *report = [MSErrorLogFormatter errorReportFromLog:appleErrorLog];
-
       NSObject* delegateInstance = static_cast<NSObject *>(delegate);
       [MSUtility performSelectorOnMainThread:delegateInstance
                                 withSelector:@selector(crashes:didSucceedSendingErrorReport:)
@@ -626,16 +624,11 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     if ([logObject isKindOfClass:[MSAppleErrorLog class]]) {
       MSAppleErrorLog *appleErrorLog = static_cast<MSAppleErrorLog *>(log);
       MSErrorReport *report = [MSErrorLogFormatter errorReportFromLog:appleErrorLog];
-
       NSObject* delegateInstance = static_cast<NSObject *>(delegate);
       [MSUtility performSelectorOnMainThread:delegateInstance
                                 withSelector:@selector(crashes:didFailSendingErrorReport:withError:)
                                waitUntilDone:NO
-                                 withObjects:self, report, nil, [NSNull null]];
-      /*[delegateInstance performSelectorOnMainThread:@selector(crashes:didFailSendingErrorReport:withError:)
-                                      waitUntilDone:NO
-                                        withObjects:self, report, nil, [NSNull null]];*/
-      NSLog(@"didFailSendingLog error %@", [error description]);
+                                 withObjects:self, report, error, [NSNull null]];
     }
   }
 }
