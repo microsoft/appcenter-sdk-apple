@@ -13,12 +13,7 @@
 
 @implementation MSAuthConfigIngestion
 
-- (id)initWithHttpClient:(id<MSHttpClientProtocol>)httpClient baseUrl:(NSString *)baseUrl appSecret:(NSString *)appSecret {
-  NSString *apiPath = [NSString stringWithFormat:kMSAuthConfigApiFormat, appSecret];
-  if ((self = [super initWithHttpClient:httpClient baseUrl:baseUrl apiPath:apiPath headers:@{} queryStrings:nil])) {
-    _appSecret = appSecret;
-  }
-
+- (id)initWithBaseUrl:(NSString *__unused)baseUrl appSecret:(NSString *__unused)appSecret {
   return self;
 }
 

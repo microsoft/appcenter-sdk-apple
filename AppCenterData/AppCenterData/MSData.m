@@ -773,8 +773,6 @@ static dispatch_once_t onceToken;
               fromApplication:(BOOL)fromApplication {
   [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionTargetToken:token fromApplication:fromApplication];
   if (appSecret) {
-    // CosmosDb doesn't accept compressed payload. Therefore, it needs to be disabled.
-    self.httpClient = [MSHttpClient new];
   }
   MSLogVerbose([MSData logTag], @"Started Data service.");
 }
