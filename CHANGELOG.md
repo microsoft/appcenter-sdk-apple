@@ -26,6 +26,10 @@ ___
 
 * **[Fix]** Fix warnings in Xcode 11 when SDK is installed via CocoaPods.
 
+### App Center Auth
+
+* **[Fix]** Fix build warnings when adding App Center Auth framework in project.
+
 ___
 
 ## Version 2.5.0
