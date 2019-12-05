@@ -57,7 +57,6 @@ static NSString *const kMSDefaultApiUrl = @"https://tokens.appcenter.ms/v0.1";
  * @param documentId The identifier of a document.
  * @param httpMethod Http method.
  * @param httpClient Http client.
- * @param allowHttpRetries Indicates whether the http client should retry calls that receive recoverable error responses.
  * @param document Document object.
  * @param additionalHeaders Additional http headers.
  * @param additionalUrlPath Additional url path appended to the url.
@@ -67,7 +66,6 @@ static NSString *const kMSDefaultApiUrl = @"https://tokens.appcenter.ms/v0.1";
                                    documentId:(NSString *_Nullable)documentId
                                    httpMethod:(NSString *)httpMethod
                                    httpClient:(id<MSHttpClientProtocol>)httpClient
-                             allowHttpRetries:(BOOL)allowHttpRetries
                                      document:(id<MSSerializableDocument> _Nullable)document
                             additionalHeaders:(NSDictionary *_Nullable)additionalHeaders
                             additionalUrlPath:(NSString *_Nullable)additionalUrlPath

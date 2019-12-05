@@ -6,8 +6,6 @@
 #import "MSAppCenterInternal.h"
 #import "MSAuthConstants.h"
 #import "MSAuthPrivate.h"
-#import "MSConstants+Internal.h"
-#import "MSHttpClientProtocol.h"
 #import "MSHttpIngestionPrivate.h"
 #import "MSLoggerInternal.h"
 
@@ -17,32 +15,41 @@
   return self;
 }
 
-- (void)sendAsync:(NSObject *)data authToken:(NSString *)authToken completionHandler:(MSSendAsyncCompletionHandler)handler {
-  [super sendAsync:data authToken:authToken completionHandler:handler];
-}
+- (NSURLRequest *)createRequest:(NSObject *)__unused data eTag:(NSString *)eTag authToken:(nullable NSString *)__unused authToken {
 
-- (NSString *)getHttpMethod {
-  return kMSHttpMethodGet;
-};
+  // Ignoring local cache data to receive 304 when configuration hasn't changed since last download.
+  NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:self.sendURL
+                                                         cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
+                                                     timeoutInterval:0];
+
+  // Set method.
+  request.HTTPMethod = @"GET";
+
+  // Set Header params.
+  request.allHTTPHeaderFields = self.httpHeaders;
+  if (eTag != nil) {
+    [request setValue:eTag forHTTPHeaderField:kMSETagRequestHeader];
+  }
+
+  // Always disable cookies.
+  [request setHTTPShouldHandleCookies:NO];
+
+  // Don't lose time pretty printing headers if not going to be printed.
+  if ([MSLogger currentLogLevel] <= MSLogLevelVerbose) {
+    NSString *url = [request.URL.absoluteString stringByReplacingOccurrencesOfString:self.appSecret
+                                                                          withString:[MSHttpUtil hideSecret:self.appSecret]];
+    MSLogVerbose([MSAuth logTag], @"URL: %@", url);
+    if (request.allHTTPHeaderFields) {
+      MSLogVerbose([MSAuth logTag], @"Headers: %@", [super prettyPrintHeaders:request.allHTTPHeaderFields]);
+    }
+  }
+  return request;
+}
 
 - (NSString *)obfuscateHeaderValue:(NSString *)value forKey:(NSString *)__unused key {
 
   // No secrets in headers at the moment.
   return value;
-}
-
-- (NSDictionary *)getHeadersWithData:(NSObject *__unused)data eTag:(NSString *)eTag authToken:(NSString *__unused)authToken {
-
-  // Set Header params.
-  NSMutableDictionary *headers = [self.httpHeaders mutableCopy];
-  if (eTag != nil) {
-    [headers setValue:eTag forKey:kMSETagRequestHeader];
-  }
-  return headers;
-}
-
-- (NSData *)getPayloadWithData:(NSObject *__unused)data {
-  return nil;
 }
 
 @end

@@ -23,7 +23,6 @@ typedef void (^MSGetTokenAsyncCompletionHandler)(MSTokensResponse *tokensRespons
  * Gets token from token exchange.
  *
  * @param httpClient The http client.
- * @param allowHttpRetries Indicates whether the http client should retry calls that receive recoverable error responses.
  * @param tokenExchangeUrl API url to exchange token.
  * @param appSecret The application secret.
  * @param partition The CosmosDB partition.
@@ -32,7 +31,6 @@ typedef void (^MSGetTokenAsyncCompletionHandler)(MSTokensResponse *tokensRespons
  * @param completionHandler Callback that gets invoked when a token is retrieved.
  */
 + (void)performDbTokenAsyncOperationWithHttpClient:(id<MSHttpClientProtocol>)httpClient
-                                  allowHttpRetries:(BOOL)allowHttpRetries
                                   tokenExchangeUrl:(NSURL *)tokenExchangeUrl
                                          appSecret:(NSString *)appSecret
                                          partition:(NSString *)partition

@@ -18,7 +18,6 @@
 #import "MSAuthTokenContext.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSConstants+Internal.h"
-#import "MSHttpClient.h"
 #import "MSUserInformation.h"
 #import "MSUtility+File.h"
 
@@ -260,9 +259,8 @@ static dispatch_once_t onceToken;
                 withErrorCode:(NSInteger)errorCode
                       message:(NSString *)errorMessage {
   if (completionHandler) {
-    NSError *error = [[NSError alloc] initWithDomain:kMSACAuthErrorDomain
-                                                code:errorCode
-                                            userInfo:@{NSLocalizedDescriptionKey : errorMessage}];
+    NSError *error =
+        [[NSError alloc] initWithDomain:kMSACAuthErrorDomain code:errorCode userInfo:@{NSLocalizedDescriptionKey : errorMessage}];
     completionHandler(nil, error);
   }
 }
@@ -326,7 +324,7 @@ static dispatch_once_t onceToken;
 
 - (MSAuthConfigIngestion *)ingestion {
   if (!_ingestion) {
-    _ingestion = [[MSAuthConfigIngestion alloc] initWithHttpClient:[MSHttpClient new] baseUrl:self.configUrl appSecret:self.appSecret];
+    _ingestion = [[MSAuthConfigIngestion alloc] initWithBaseUrl:self.configUrl appSecret:self.appSecret];
   }
   return _ingestion;
 }
@@ -353,10 +351,8 @@ static dispatch_once_t onceToken;
               } else if (response.statusCode == MSHTTPCodesNo200OK) {
                 config = [self deserializeData:data];
                 if ([config isValid]) {
-                  NSURL *configUrl = [MSUtility createFileAtPathComponent:[self authConfigFilePath]
-                                                                 withData:data
-                                                               atomically:YES
-                                                           forceOverwrite:YES];
+                  NSURL *configUrl =
+                      [MSUtility createFileAtPathComponent:[self authConfigFilePath] withData:data atomically:YES forceOverwrite:YES];
 
                   // Store eTag only when the configuration file is created successfully.
                   if (configUrl) {
@@ -395,9 +391,9 @@ static dispatch_once_t onceToken;
 
   // Init MSAL client application.
   NSError *error;
-  MSALAuthority *auth = [MSALAuthority authorityWithURL:(NSURL * __nonnull) self.authConfig.authorities[0].authorityUrl error:nil];
+  MSALAuthority *auth = [MSALAuthority authorityWithURL:(NSURL * __nonnull)self.authConfig.authorities[0].authorityUrl error:nil];
   MSALPublicClientApplicationConfig *config =
-      [[MSALPublicClientApplicationConfig alloc] initWithClientId:(NSString * __nonnull) self.authConfig.clientId
+      [[MSALPublicClientApplicationConfig alloc] initWithClientId:(NSString * __nonnull)self.authConfig.clientId
                                                       redirectUri:self.authConfig.redirectUri
                                                         authority:auth];
   if (!auth) {
@@ -466,7 +462,7 @@ static dispatch_once_t onceToken;
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
   [self.clientApplication
-      acquireTokenSilentForScopes:@[ (NSString * __nonnull) self.authConfig.authScope ]
+      acquireTokenSilentForScopes:@[ (NSString * __nonnull)self.authConfig.authScope ]
                           account:account
                   completionBlock:^(MSALResult *result, NSError *error) {
                     typeof(self) strongSelf = weakSelf;
@@ -511,7 +507,7 @@ static dispatch_once_t onceToken;
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
   [self.clientApplication
-      acquireTokenForScopes:@[ (NSString * __nonnull) self.authConfig.authScope ]
+      acquireTokenForScopes:@[ (NSString * __nonnull)self.authConfig.authScope ]
                   loginHint:nil
                  promptType:MSALPromptTypeSelectAccount
        extraQueryParameters:nil
