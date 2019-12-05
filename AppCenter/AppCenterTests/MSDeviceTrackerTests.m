@@ -467,19 +467,34 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
   XCTAssertNotEqual(expected, self.sut.device);
 }
 
+- (void)testNSUserDefaultsDeviceHistory {
+    MSMockUserDefaults *defaults = [MSMockUserDefaults new];
+
+    // When
+    [self.sut clearDevices];
+
+    // Restore past devices from NSUserDefaults.
+    NSData *devices = [defaults objectForKey:kMSPastDevicesKey];
+    NSArray *arrayFromData = [NSKeyedUnarchiver unarchiveObjectWithData:devices];
+
+    NSMutableArray<MSDeviceHistoryInfo *> *deviceHistory = [NSMutableArray arrayWithArray:arrayFromData];
+
+    // Then
+    XCTAssertTrue([deviceHistory count] == 1);
+
+    [defaults stopMocking];
+}
+
 - (void)testClearingDeviceHistoryWorks {
 
   MSMockUserDefaults *defaults = [MSMockUserDefaults new];
 
   // When
+  // If the storage is empty, remember the current device.
   [self.sut clearDevices];
 
   // Then
-  XCTAssertTrue([self.sut.deviceHistory count] == 0);
-  XCTAssertNil([defaults objectForKey:kMSPastDevicesKey]);
-
-  // When
-  [self.sut device];
+  XCTAssertTrue([self.sut.deviceHistory count] == 1);
   XCTAssertNotNil([defaults objectForKey:kMSPastDevicesKey]);
 
   [defaults stopMocking];

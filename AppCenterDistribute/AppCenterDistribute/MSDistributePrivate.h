@@ -184,9 +184,8 @@ static NSString *const kMSTesterAppUpdateSetupFailedKey = @"MSTesterAppUpdateSet
  * Open the given URL using an `SFAuthenticationSession`. Must run on the UI thread! iOS 11 only.
  *
  * @param url URL to open.
- * @param sessionClazz `SFAuthenticationSession` class.
  */
-- (void)openURLInAuthenticationSessionWith:(NSURL *)url fromClass:(Class)sessionClazz;
+- (void)openURLInAuthenticationSessionWith:(NSURL *)url;
 
 /**
  * Open the given URL using an `SFSafariViewController`. Must run on the UI thread! iOS 9 and 10 only.
