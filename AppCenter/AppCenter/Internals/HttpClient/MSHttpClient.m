@@ -148,6 +148,7 @@
         if ([httpCall hasReachedMaxRetries]) {
           [self pause];
         } else {
+
           // Check if there is a "retry after" header in the response
           NSString *retryAfter = httpResponse.allHeaderFields[kMSRetryHeaderKey];
           NSNumber *retryAfterMilliseconds;
