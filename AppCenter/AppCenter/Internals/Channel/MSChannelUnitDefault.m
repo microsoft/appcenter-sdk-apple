@@ -246,6 +246,13 @@ static NSString *const kMSStartTimestampPrefix = @"MSChannelStartTimer";
                                               [delegate channel:self didFailSendingLog:aLog withError:error];
                                             }
                                           }];
+
+                // Disable and delete all data on fatal error.
+                if([MSHttpUtil isRecoverableError:response.statusCode]) {
+                  MSLogError([MSAppCenter logTag], @"Fatal error encountered; shutting down channel unit with group ID %@", self.configuration.groupId);
+                  [self setEnabled:NO andDeleteDataOnDisabled:YES];
+                  [self resetTimer];
+                }
               }
 
               // Remove from pending batches.
@@ -573,6 +580,7 @@ static NSString *const kMSStartTimestampPrefix = @"MSChannelStartTimer";
   for (NSString *batchId in self.pendingBatchIds) {
     [self.storage deleteLogsWithBatchId:batchId groupId:self.configuration.groupId];
   }
+  [self.pendingBatchIds removeAllObjects];
 
   // Delete remaining logs.
   deletedLogs = [self.storage deleteLogsWithGroupId:self.configuration.groupId];

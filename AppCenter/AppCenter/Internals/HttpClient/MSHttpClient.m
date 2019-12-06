@@ -6,7 +6,6 @@
 #import "MSAppCenterInternal.h"
 #import "MSConstants+Internal.h"
 #import "MSHttpCall.h"
-#import "MSHttpClientDelegate.h"
 #import "MSHttpClientPrivate.h"
 #import "MSHttpUtil.h"
 #import "MSLoggerInternal.h"
@@ -164,12 +163,6 @@
         }
       } else if (![MSHttpUtil isSuccessStatusCode:httpResponse.statusCode]) {
 
-        // Fatal error. Notify delegates and disable.
-        [self enumerateDelegatesForSelector:@selector(httpClientDidReceiveFatalError:)
-                                  withBlock:^(id<MSHttpClientDelegate> delegate) {
-                                    [delegate httpClientDidReceiveFatalError:self];
-                                  }];
-
         // Removing the call from pendingCalls and invoking completion handler must be done before disabling to avoid duplicate invocations.
         [self.pendingCalls removeObject:httpCall];
 
@@ -210,12 +203,6 @@
     for (MSHttpCall *call in self.pendingCalls) {
       [call resetRetry];
     }
-
-    // Notify delegates.
-    [self enumerateDelegatesForSelector:@selector(httpClientDidPause:)
-                              withBlock:^(id<MSHttpClientDelegate> delegate) {
-                                [delegate httpClientDidPause:self];
-                              }];
   }
 }
 
@@ -233,11 +220,6 @@
           [self sendCallAsync:call];
         }
       }
-      // Notify delegates.
-      [self enumerateDelegatesForSelector:@selector(httpClientDidResume:)
-                                withBlock:^(id<MSHttpClientDelegate> delegate) {
-                                  [delegate httpClientDidResume:self];
-                                }];
     }
   }
 }
@@ -277,34 +259,6 @@
   [self.reachability stopNotifier];
   [MS_NOTIFICATION_CENTER removeObserver:self name:kMSReachabilityChangedNotification object:nil];
   [self.session finishTasksAndInvalidate];
-}
-
-#pragma mark - Delegate
-
-- (void)addDelegate:(id<MSHttpClientDelegate>)delegate {
-  @synchronized(self) {
-    [self.delegates addObject:delegate];
-  }
-}
-
-- (void)removeDelegate:(id<MSHttpClientDelegate>)delegate {
-  @synchronized(self) {
-    [self.delegates removeObject:delegate];
-  }
-}
-
-- (void)enumerateDelegatesForSelector:(SEL)selector withBlock:(void (^)(id<MSHttpClientDelegate> delegate))block {
-  NSArray *synchronizedDelegates;
-  @synchronized(self) {
-
-    // Don't execute the block while locking; it might be locking too and deadlock ourselves.
-    synchronizedDelegates = [self.delegates allObjects];
-  }
-  for (id<MSHttpClientDelegate> delegate in synchronizedDelegates) {
-    if ([delegate respondsToSelector:selector]) {
-      block(delegate);
-    }
-  }
 }
 
 @end
