@@ -168,6 +168,8 @@
 		24D44B422395DBBE003CC224 /* MSTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 24D44B412395DBBE003CC224 /* MSTestUtil.m */; };
 		24D44B432395DBBE003CC224 /* MSTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 24D44B412395DBBE003CC224 /* MSTestUtil.m */; };
 		24D44B442395DBBE003CC224 /* MSTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 24D44B412395DBBE003CC224 /* MSTestUtil.m */; };
+		24E6AC79239ACD7700B8D33A /* MSHttpClientDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 358E703C238DB61100A1A6B5 /* MSHttpClientDelegate.h */; };
+		24E6AC7A239ACD7800B8D33A /* MSHttpClientDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 358E703C238DB61100A1A6B5 /* MSHttpClientDelegate.h */; };
 		359D1A55225E6224003ABD4F /* MSDispatchTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 359D1A54225E6224003ABD4F /* MSDispatchTestUtil.m */; };
 		359D1A56225E6224003ABD4F /* MSDispatchTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 359D1A54225E6224003ABD4F /* MSDispatchTestUtil.m */; };
 		359D1A57225E6224003ABD4F /* MSDispatchTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 359D1A54225E6224003ABD4F /* MSDispatchTestUtil.m */; };
@@ -2110,6 +2112,7 @@
 				F8936CC8230C24DA006A330F /* MSServiceAbstract.h in Headers */,
 				F8936CFF230C2604006A330F /* MSChannelGroupDefaultPrivate.h in Headers */,
 				F8936D08230C2604006A330F /* MSOneCollectorIngestionPrivate.h in Headers */,
+				24E6AC79239ACD7700B8D33A /* MSHttpClientDelegate.h in Headers */,
 				F8936DCA230C2805006A330F /* MSKeychainUtil.h in Headers */,
 				F8936D97230C2805006A330F /* MSUserIdContext.h in Headers */,
 				F8936DC8230C2805006A330F /* MSEncrypter.h in Headers */,
@@ -2241,6 +2244,7 @@
 				F8936CD4230C24DA006A330F /* MSServiceAbstract.h in Headers */,
 				F8936D13230C2604006A330F /* MSChannelGroupDefaultPrivate.h in Headers */,
 				F8936D1C230C2604006A330F /* MSOneCollectorIngestionPrivate.h in Headers */,
+				24E6AC7A239ACD7800B8D33A /* MSHttpClientDelegate.h in Headers */,
 				F8936E22230C2805006A330F /* MSKeychainUtil.h in Headers */,
 				F8936DEF230C2805006A330F /* MSUserIdContext.h in Headers */,
 				F8936E20230C2805006A330F /* MSEncrypter.h in Headers */,
