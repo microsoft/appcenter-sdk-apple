@@ -330,6 +330,11 @@ static NSString *const kMSTesterAppUpdateSetupFailedKey = @"MSTesterAppUpdateSet
  */
 - (void)closeApp;
 
+/**
+ * Clear currently running SFAuthenticationSession.
+ */
+- (void)clearAuthenticationSession;
+
 @end
 
 NS_ASSUME_NONNULL_END
