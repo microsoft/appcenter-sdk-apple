@@ -595,7 +595,6 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
       NSObject* delegateInstance = static_cast<NSObject *>(delegate);
       [MSUtility performSelectorOnMainThread:delegateInstance
                                 withSelector:@selector(crashes:willSendErrorReport:)
-                               waitUntilDone:NO
                                  withObjects:self, report, [NSNull null]];
     }
   }
@@ -611,7 +610,6 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
       NSObject* delegateInstance = static_cast<NSObject *>(delegate);
       [MSUtility performSelectorOnMainThread:delegateInstance
                                 withSelector:@selector(crashes:didSucceedSendingErrorReport:)
-                               waitUntilDone:NO
                                  withObjects:self, report, [NSNull null]];
     }
   }
@@ -627,7 +625,6 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
       NSObject* delegateInstance = static_cast<NSObject *>(delegate);
       [MSUtility performSelectorOnMainThread:delegateInstance
                                 withSelector:@selector(crashes:didFailSendingErrorReport:withError:)
-                               waitUntilDone:NO
                                  withObjects:self, report, error, [NSNull null]];
     }
   }

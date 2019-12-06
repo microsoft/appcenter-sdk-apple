@@ -11,7 +11,7 @@ NSString *MSUtilityObjectSelectorCategory;
 
 @implementation NSObject(PerformSelectorOnMainThreadMultipleArgs)
 
-+ (void)performSelectorOnMainThread:(NSObject*)source withSelector:(SEL)selector waitUntilDone:(BOOL)wait withObjects:(NSObject *)objects, ... {
++ (void)performSelectorOnMainThread:(NSObject*)source withSelector:(SEL)selector withObjects:(NSObject *)objects, ... {
   NSMethodSignature *signature = [source methodSignatureForSelector:selector];
   NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:signature];
   [invocation setTarget:source];
@@ -29,7 +29,7 @@ NSString *MSUtilityObjectSelectorCategory;
   }
   va_end(args);
   [invocation retainArguments];
-  [invocation performSelectorOnMainThread:@selector(invoke) withObject:nil waitUntilDone:wait];
+  [invocation performSelectorOnMainThread:@selector(invoke) withObject:nil waitUntilDone:NO];
 }
 
 @end
