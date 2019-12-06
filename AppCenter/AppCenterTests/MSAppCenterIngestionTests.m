@@ -182,7 +182,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
                                     }]
                                        data:OCMOCK_ANY
                              retryIntervals:OCMOCK_ANY
-                         compressionEnabled:OCMOCK_ANY
+                         compressionEnabled:YES
                           completionHandler:OCMOCK_ANY]));
 }
 
@@ -206,7 +206,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
                                     }]
                                        data:OCMOCK_ANY
                              retryIntervals:OCMOCK_ANY
-                         compressionEnabled:OCMOCK_ANY
+                         compressionEnabled:YES
                           completionHandler:OCMOCK_ANY]));
 }
 
