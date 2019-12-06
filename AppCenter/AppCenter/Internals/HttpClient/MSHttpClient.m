@@ -199,6 +199,7 @@
 }
 
 - (void)pause {
+  BOOL enumerateDelegates = NO;
   @synchronized(self) {
     if (self.paused) {
       return;
@@ -210,7 +211,12 @@
     for (MSHttpCall *call in self.pendingCalls) {
       [call resetRetry];
     }
-
+    
+    // We can't enumerate delegates inside of lock.
+    enumerateDelegates = YES;
+  }
+  if (enumerateDelegates) {
+    
     // Notify delegates.
     [self enumerateDelegatesForSelector:@selector(httpClientDidPause:)
                               withBlock:^(id<MSHttpClientDelegate> delegate) {
@@ -220,6 +226,7 @@
 }
 
 - (void)resume {
+  BOOL enumerateDelegates = NO;
   @synchronized(self) {
 
     // Resume only while enabled.
@@ -233,6 +240,12 @@
           [self sendCallAsync:call];
         }
       }
+      
+      // We can't enumerate delegates inside of lock.
+      enumerateDelegates = YES;
+    }
+    if (enumerateDelegates) {
+      
       // Notify delegates.
       [self enumerateDelegatesForSelector:@selector(httpClientDidResume:)
                                 withBlock:^(id<MSHttpClientDelegate> delegate) {
