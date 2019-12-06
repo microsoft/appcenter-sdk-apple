@@ -211,12 +211,12 @@
     for (MSHttpCall *call in self.pendingCalls) {
       [call resetRetry];
     }
-    
+
     // We can't enumerate delegates inside of lock.
     enumerateDelegates = YES;
   }
   if (enumerateDelegates) {
-    
+
     // Notify delegates.
     [self enumerateDelegatesForSelector:@selector(httpClientDidPause:)
                               withBlock:^(id<MSHttpClientDelegate> delegate) {
@@ -240,12 +240,12 @@
           [self sendCallAsync:call];
         }
       }
-      
+
       // We can't enumerate delegates inside of lock.
       enumerateDelegates = YES;
     }
     if (enumerateDelegates) {
-      
+
       // Notify delegates.
       [self enumerateDelegatesForSelector:@selector(httpClientDidResume:)
                                 withBlock:^(id<MSHttpClientDelegate> delegate) {

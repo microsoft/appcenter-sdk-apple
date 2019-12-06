@@ -10,13 +10,13 @@ static NSObject *lock;
 @implementation MSDependencyConfiguration
 
 + (MSHttpClient *)getHttpClient {
-  @synchronized (lock) {
+  @synchronized(lock) {
     return httpClientBacking;
   }
 }
 
 + (void)setHttpClient:(MSHttpClient *)httpClient {
-  @synchronized (lock) {
+  @synchronized(lock) {
     httpClientBacking = httpClient;
   }
 }
