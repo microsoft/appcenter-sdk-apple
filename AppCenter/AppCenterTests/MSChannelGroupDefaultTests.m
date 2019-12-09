@@ -12,8 +12,8 @@
 #import "MSChannelUnitDefaultPrivate.h"
 #import "MSDispatchTestUtil.h"
 #import "MSHttpClient.h"
-#import "MSHttpUtil.h"
 #import "MSHttpTestUtil.h"
+#import "MSHttpUtil.h"
 #import "MSIngestionProtocol.h"
 #import "MSMockLog.h"
 #import "MSStorage.h"
@@ -332,7 +332,7 @@
       .andReturn(channelUnitMockObject);
   [self.sut addChannelUnitWithConfiguration:self.validConfiguration];
   NSString *batchId = @"unique-id";
-  
+
   // Calls the completion handler with a fatal error.
   OCMStub([self.sut.ingestion sendAsync:OCMOCK_ANY authToken:OCMOCK_ANY completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
     [invocation retainArguments];
@@ -340,25 +340,24 @@
     [invocation getArgument:&handler atIndex:4];
     handler(batchId, [MSHttpTestUtil createMockResponseForStatusCode:300 headers:nil], [NSData new], [NSError new]);
   });
-  
+
   // Set up the mock log and channel to send the log container.
   id mockLog = OCMPartialMock([MSAbstractLog new]);
   OCMStub([mockLog isValid]).andReturn(YES);
   OCMStub([self.ingestionMock isReadyToSend]).andReturn(YES);
   channelUnitMockObject.itemsCount = 10;
   [channelUnitMockObject.pendingBatchIds addObject:batchId];
-  
+
   // When
   [channelUnitMockObject enqueueItem:mockLog flags:MSFlagsDefault];
 
   // Then
   [self waitForLogsDispatchQueue];
   OCMVerify([channelUnitMockObject setEnabled:NO andDeleteDataOnDisabled:YES]);
-  
+
   // Cleanup
   [channelUnitMock stopMocking];
 }
-
 
 - (void)testDelegateCalledWhenChannelUnitDidCompleteEnqueueingLog {
 

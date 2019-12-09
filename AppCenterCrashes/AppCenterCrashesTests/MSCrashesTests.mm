@@ -423,7 +423,6 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   OCMVerify([self.sessionContextMock clearSessionHistoryAndKeepCurrentSession:YES]);
 }
 
-
 - (void)testProcessCrashesOnEnterForeground {
 
   // Wait for creation of buffers to avoid corruption on OCMPartialMock.

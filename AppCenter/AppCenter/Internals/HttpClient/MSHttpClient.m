@@ -210,16 +210,16 @@
 - (void)resume {
   @synchronized(self) {
 
-      // Resume only while enabled.
-      if (self.paused && self.enabled) {
-        MSLogInfo([MSAppCenter logTag], @"Resume HTTP client.");
-        self.paused = NO;
+    // Resume only while enabled.
+    if (self.paused && self.enabled) {
+      MSLogInfo([MSAppCenter logTag], @"Resume HTTP client.");
+      self.paused = NO;
 
-        // Resume calls.
-        for (MSHttpCall *call in self.pendingCalls) {
-          if (!call.inProgress) {
-            [self sendCallAsync:call];
-          }
+      // Resume calls.
+      for (MSHttpCall *call in self.pendingCalls) {
+        if (!call.inProgress) {
+          [self sendCallAsync:call];
+        }
       }
     }
   }
