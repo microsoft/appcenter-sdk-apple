@@ -248,7 +248,10 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate, NSTextVie
   }
 
   private func prodLogUrl() -> String {
-    return startUpModeForCurrentSession == StartupMode.OneCollector.rawValue ? ocProdLogUrl : acProdLogUrl
+    switch startUpModeForCurrentSession {
+    case StartupMode.OneCollector.rawValue, StartupMode.None.rawValue, StartupMode.Skip.rawValue: return ocProdLogUrl
+    default: return acProdLogUrl
+    }
   }
   
   private func prodAppSecret() -> String {

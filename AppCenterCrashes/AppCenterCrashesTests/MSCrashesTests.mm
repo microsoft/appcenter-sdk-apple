@@ -3,10 +3,14 @@
 
 #import "MSAppCenterInternal.h"
 #import "MSAppleErrorLog.h"
+#import "MSApplicationForwarder.h"
 #import "MSChannelGroupDefault.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitDefault.h"
 #import "MSCrashHandlerSetupDelegate.h"
+#import "MSCrashReporter.h"
+#import "MSCrashesBufferedLog.hpp"
+#import "MSCrashesCXXExceptionHandler.h"
 #import "MSCrashesInternal.h"
 #import "MSCrashesPrivate.h"
 #import "MSCrashesTestUtil.h"
@@ -40,6 +44,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 - (void)shouldAlwaysSend;
 - (void)emptyLogBufferFiles;
 - (void)handleUserConfirmation:(MSUserConfirmation)userConfirmation;
+- (void)applicationWillEnterForeground;
 - (void)didReceiveMemoryWarning:(NSNotification *)notification;
 
 @property(nonatomic) dispatch_group_t bufferFileGroup;
@@ -154,7 +159,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   XCTAssertEqual(strongDelegate, delegateMock);
 }
 
-- (void)testdidFailSendingErrorReportIsCalled {
+- (void)testDidFailSendingErrorReportIsCalled {
 
   // If
   id<MSCrashesDelegate> delegateMock = OCMProtocolMock(@protocol(MSCrashesDelegate));
@@ -186,7 +191,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
                                }];
 }
 
-- (void)testdidSucceedSendingErrorReportIsCalled {
+- (void)testDidSucceedSendingErrorReportIsCalled {
 
   // If
   id<MSCrashesDelegate> delegateMock = OCMProtocolMock(@protocol(MSCrashesDelegate));
@@ -265,10 +270,31 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   OCMVerify([delegateMock shouldEnableUncaughtExceptionHandler]);
 }
 
+- (void)testSettingAdditionalHandlers {
+
+  // If
+  id appCenterMock = OCMClassMock([MSAppCenter class]);
+  OCMStub([appCenterMock isDebuggerAttached]).andReturn(NO);
+  id exceptionHandlerManagerClass = OCMClassMock([MSCrashesUncaughtCXXExceptionHandlerManager class]);
+  id applicationForwarderClass = OCMClassMock([MSApplicationForwarder class]);
+
+  // When
+  [self.sut applyEnabledState:YES];
+
+  // Then
+  OCMVerify([MSCrashesUncaughtCXXExceptionHandlerManager addCXXExceptionHandler:(MSCrashesUncaughtCXXExceptionHandler)[OCMArg anyPointer]]);
+  OCMVerify([applicationForwarderClass registerForwarding]);
+
+  // Clear
+  [appCenterMock stopMocking];
+  [exceptionHandlerManagerClass stopMocking];
+  [applicationForwarderClass stopMocking];
+}
+
 - (void)testSettingUserConfirmationHandler {
 
   // When
-  MSUserConfirmationHandler userConfirmationHandler = ^BOOL(__attribute__((unused)) NSArray<MSErrorReport *> *_Nonnull errorReports) {
+  MSUserConfirmationHandler userConfirmationHandler = ^BOOL(__unused NSArray<MSErrorReport *> *_Nonnull errorReports) {
     return NO;
   };
   [MSCrashes setUserConfirmationHandler:userConfirmationHandler];
@@ -387,13 +413,15 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   NSString *validString = @"valid";
   NSData *validData = [validString dataUsingEncoding:NSUTF8StringEncoding];
   NSData *emptyData = [@"" dataUsingEncoding:NSUTF8StringEncoding];
+  NSMutableData *hugeData = [[NSMutableData alloc] initWithLength:7 * 1024 * 1024 + 1];
   NSArray *invalidLogs = @[
     [self attachmentWithAttachmentId:nil attachmentData:validData contentType:validString],
     [self attachmentWithAttachmentId:@"" attachmentData:validData contentType:validString],
     [self attachmentWithAttachmentId:validString attachmentData:nil contentType:validString],
     [self attachmentWithAttachmentId:validString attachmentData:emptyData contentType:validString],
     [self attachmentWithAttachmentId:validString attachmentData:validData contentType:nil],
-    [self attachmentWithAttachmentId:validString attachmentData:validData contentType:@""]
+    [self attachmentWithAttachmentId:validString attachmentData:validData contentType:@""],
+    [self attachmentWithAttachmentId:validString attachmentData:hugeData contentType:validString]
   ];
   id channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
   OCMStub([channelGroupMock addChannelUnitWithConfiguration:[OCMArg checkWithBlock:^BOOL(MSChannelUnitConfiguration *configuration) {
@@ -418,6 +446,32 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   OCMVerifyAll(channelUnitMock);
   OCMVerify([self.deviceTrackerMock clearDevices]);
   OCMVerify([self.sessionContextMock clearSessionHistoryAndKeepCurrentSession:YES]);
+}
+
+- (void)testProcessCrashesOnEnterForeground {
+
+  // Wait for creation of buffers to avoid corruption on OCMPartialMock.
+  dispatch_group_wait(self.sut.bufferFileGroup, DISPATCH_TIME_FOREVER);
+
+  // If
+  self.sut = OCMPartialMock(self.sut);
+  OCMStub([self.sut startDelayedCrashProcessing]).andDo(nil);
+
+  // When
+  assertThatBool([MSCrashesTestUtil copyFixtureCrashReportWithFileName:@"live_report_exception"], isTrue());
+  [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
+                        appSecret:kMSTestAppSecret
+          transmissionTargetToken:nil
+                  fromApplication:YES];
+
+  // Then
+  assertThat(self.sut.crashFiles, hasCountOf(1));
+
+  // When
+  [self.sut applicationWillEnterForeground];
+
+  // Then
+  OCMVerify([self.sut startDelayedCrashProcessing]);
 }
 
 - (void)testDeleteAllFromCrashesDirectory {
@@ -1073,6 +1127,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
   // If
   self.sut = OCMPartialMock(self.sut);
+  OCMStub([self.sut startDelayedCrashProcessing]).andDo(nil);
   id<MSChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
   [self startCrashes:self.sut withReports:YES withChannelGroup:channelGroupMock];
 

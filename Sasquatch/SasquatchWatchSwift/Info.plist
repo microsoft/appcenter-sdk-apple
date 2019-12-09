@@ -26,7 +26,7 @@
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 	</array>
 	<key>WKCompanionAppBundleIdentifier</key>
-	<string>com.microsoft.appcenter.sasquatchswift</string>
+	<string>com.microsoft.appcenter.native.ios.sasquatch.swift</string>
 	<key>WKWatchKitApp</key>
 	<true/>
 </dict>

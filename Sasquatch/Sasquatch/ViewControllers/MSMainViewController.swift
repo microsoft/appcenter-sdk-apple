@@ -73,7 +73,11 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     self.startupModeField.tintColor = UIColor.clear
     
     // Make sure it is initialized before changing the startup mode.
-    _ = MSTransmissionTargets.shared
+    // Do not initialize too early if we start from library later.
+    // Otherwise channelGroup would be nil.
+    if (StartupMode.allValues[startupMode] != .Skip && StartupMode.allValues[startupMode] != .None) {
+        _ = MSTransmissionTargets.shared
+    }
 
     // Storage size section.
     let storageMaxSize = UserDefaults.standard.object(forKey: kMSStorageMaxSizeKey) as? Int ?? kMSDefaultDatabaseSize
@@ -312,14 +316,16 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
   }
   
   func defaultLogUrl() -> String {
-    if StartupMode.allValues[startUpModeForCurrentSession] == StartupMode.OneCollector {
-      return ocProdLogUrl;
+    switch StartupMode.allValues[startUpModeForCurrentSession] {
+    case .OneCollector, .None, .Skip:
+      return ocProdLogUrl
+    default:
+      #if ACTIVE_COMPILATION_CONDITION_PUPPET
+      return kMSIntLogUrl
+      #else
+      return acProdLogUrl
+      #endif
     }
-    #if ACTIVE_COMPILATION_CONDITION_PUPPET
-    return kMSIntLogUrl
-    #else
-    return acProdLogUrl
-    #endif
   }
     
   func showUserId () -> String {
