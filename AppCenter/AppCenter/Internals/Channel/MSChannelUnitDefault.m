@@ -127,20 +127,23 @@ static NSString *const kMSStartTimestampPrefix = @"MSChannelStartTimer";
     return;
   }
 
-  // Additional preparations for the log. Used to specify the session id and distribution group id.
-  [self enumerateDelegatesForSelector:@selector(channel:prepareLog:)
-                            withBlock:^(id<MSChannelDelegate> delegate) {
-                              [delegate channel:self prepareLog:item];
-                            }];
-
   // Internal ID to keep track of logs between modules.
   NSString *internalLogId = MS_UUID_STRING;
 
-  // Notify delegate about enqueuing as fast as possible on the current thread.
-  [self enumerateDelegatesForSelector:@selector(channel:didPrepareLog:internalId:flags:)
-                            withBlock:^(id<MSChannelDelegate> delegate) {
-                              [delegate channel:self didPrepareLog:item internalId:internalLogId flags:flags];
-                            }];
+  @autoreleasepool {
+
+        // Additional preparations for the log. Used to specify the session id and distribution group id.
+        [self enumerateDelegatesForSelector:@selector(channel:prepareLog:)
+                                  withBlock:^(id<MSChannelDelegate> delegate) {
+                                    [delegate channel:self prepareLog:item];
+                                  }];
+
+        // Notify delegate about enqueuing as fast as possible on the current thread.
+        [self enumerateDelegatesForSelector:@selector(channel:didPrepareLog:internalId:flags:)
+                                  withBlock:^(id<MSChannelDelegate> delegate) {
+                                    [delegate channel:self didPrepareLog:item internalId:internalLogId flags:flags];
+                                  }];
+  }
 
   // Return fast in case our item is empty or we are discarding logs right now.
   dispatch_async(self.logsDispatchQueue, ^{
