@@ -8,10 +8,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-// HTTP request/response headers for eTag.
-// static NSString *const kMSETagResponseHeader = @"etag";
-// static NSString *const kMSETagRequestHeader = @"If-None-Match";
-
 @interface MSAppCenterIngestion : MSHttpIngestion
 
 /**

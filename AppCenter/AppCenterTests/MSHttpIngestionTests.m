@@ -19,7 +19,6 @@
 
 - (void)setUp {
   [super setUp];
-
   NSDictionary *queryStrings = @{@"api-version" : @"1.0.0"};
   self.httpClientMock = OCMPartialMock([MSHttpClient new]);
 
@@ -34,7 +33,6 @@
 
 - (void)tearDown {
   [super tearDown];
-
   self.sut = nil;
 }
 

@@ -261,12 +261,4 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [mockLogger stopMocking];
 }
 
-#pragma mark - Test Helpers
-
-// TODO: Move this to base MSHttpIngestion test.
-- (void)simulateReachabilityChangedNotification:(NetworkStatus)status {
-  self.currentNetworkStatus = status;
-  [[NSNotificationCenter defaultCenter] postNotificationName:kMSReachabilityChangedNotification object:self.reachabilityMock];
-}
-
 @end

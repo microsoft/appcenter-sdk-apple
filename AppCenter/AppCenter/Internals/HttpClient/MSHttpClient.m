@@ -9,7 +9,6 @@
 #import "MSHttpClientPrivate.h"
 #import "MSHttpUtil.h"
 #import "MSLoggerInternal.h"
-#import "MSOneCollectorIngestion.h"
 #import "MSUtility+StringFormatting.h"
 #import "MS_Reachability.h"
 
@@ -35,7 +34,6 @@
     _enabled = YES;
     _paused = NO;
     _reachability = reachability;
-    _delegates = [NSHashTable weakObjectsHashTable];
 
     // Add listener to reachability.
     [MS_NOTIFICATION_CENTER addObserver:self selector:@selector(networkStateChanged:) name:kMSReachabilityChangedNotification object:nil];
