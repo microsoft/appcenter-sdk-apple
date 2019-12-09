@@ -9,6 +9,7 @@
 #import "MSUtility+File.h"
 #import "MSUtility+PropertyValidation.h"
 #import "MSUtility+StringFormatting.h"
+#import "MSUtility+NSObject.h"
 
 @interface MSUtilityTests : XCTestCase
 
@@ -892,6 +893,37 @@
   // Then
   XCTAssertTrue([obfuscatedString rangeOfString:@"abc"].location == NSNotFound);
   XCTAssertFalse([obfuscatedString rangeOfString:kMSRedirectUriObfuscatedTemplate].location == NSNotFound);
+}
+
+- (void)testPerformSelectorOnMainThread {
+
+  // If
+  XCTestExpectation *expectation = [self expectationWithDescription:@"method called."];
+  __block BOOL handlerHasBeenCalled = NO;
+  NSString *str = @"expectedString";
+
+  // When
+  [MSUtility performSelectorOnMainThread:self
+                            withSelector:@selector(methodToCall:completionHandler:)
+                             withObjects:str, ^(NSString *string){
+                               XCTAssertEqual(str, string);
+                               handlerHasBeenCalled = YES;
+                               [expectation fulfill];
+                             }, [NSNull null]];
+
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+                                 XCTAssertTrue(handlerHasBeenCalled);
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+}
+
+- (void)methodToCall:(NSString *)str
+   completionHandler:(void (^)(NSString *string))completion {
+  completion(str);
 }
 
 @end
