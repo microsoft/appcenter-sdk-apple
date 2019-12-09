@@ -12,6 +12,8 @@
 #import "MSChannelUnitDefaultPrivate.h"
 #import "MSDispatchTestUtil.h"
 #import "MSHttpClient.h"
+#import "MSHttpTestUtil.h"
+#import "MSHttpUtil.h"
 #import "MSIngestionProtocol.h"
 #import "MSMockLog.h"
 #import "MSStorage.h"
@@ -324,77 +326,37 @@
 
   // If
   id channelUnitMock = OCMClassMock([MSChannelUnitDefault class]);
-  OCMStub([channelUnitMock alloc]).andReturn(channelUnitMock);
+  MSChannelUnitDefault *channelUnitMockObject = [MSChannelUnitDefault new];
+  OCMStub([channelUnitMock alloc]).andReturn(channelUnitMockObject);
   OCMStub([channelUnitMock initWithIngestion:OCMOCK_ANY storage:OCMOCK_ANY configuration:OCMOCK_ANY logsDispatchQueue:OCMOCK_ANY])
-      .andReturn(channelUnitMock);
+      .andReturn(channelUnitMockObject);
   [self.sut addChannelUnitWithConfiguration:self.validConfiguration];
-  id delegateMock = OCMProtocolMock(@protocol(MSChannelDelegate));
-  [self.sut addDelegate:delegateMock];
+  NSString *batchId = @"unique-id";
+
+  // Calls the completion handler with a fatal error.
+  OCMStub([self.sut.ingestion sendAsync:OCMOCK_ANY authToken:OCMOCK_ANY completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+    [invocation retainArguments];
+    MSSendAsyncCompletionHandler handler;
+    [invocation getArgument:&handler atIndex:4];
+    handler(batchId, [MSHttpTestUtil createMockResponseForStatusCode:300 headers:nil], [NSData new], [NSError new]);
+  });
+
+  // Set up the mock log and channel to send the log container.
+  id mockLog = OCMPartialMock([MSAbstractLog new]);
+  OCMStub([mockLog isValid]).andReturn(YES);
+  OCMStub([self.ingestionMock isReadyToSend]).andReturn(YES);
+  channelUnitMockObject.itemsCount = 10;
+  [channelUnitMockObject.pendingBatchIds addObject:batchId];
 
   // When
-  [self.sut httpClientDidReceiveFatalError:[MSHttpClient new]];
+  [channelUnitMockObject enqueueItem:mockLog flags:MSFlagsDefault];
 
   // Then
-  OCMVerify([channelUnitMock setEnabled:NO andDeleteDataOnDisabled:YES]);
-  OCMVerify([self.ingestionMock setEnabled:NO andDeleteDataOnDisabled:YES]);
-  OCMVerify([delegateMock channel:self.sut didSetEnabled:NO andDeleteDataOnDisabled:YES]);
+  [self waitForLogsDispatchQueue];
+  OCMVerify([channelUnitMockObject setEnabled:NO andDeleteDataOnDisabled:YES]);
 
   // Cleanup
   [channelUnitMock stopMocking];
-}
-
-- (void)testPauseWhenHttpClientPauses {
-
-  // If
-  id channelUnitMock = OCMClassMock([MSChannelUnitDefault class]);
-  OCMStub([channelUnitMock alloc]).andReturn(channelUnitMock);
-  OCMStub([channelUnitMock initWithIngestion:OCMOCK_ANY storage:OCMOCK_ANY configuration:OCMOCK_ANY logsDispatchQueue:OCMOCK_ANY])
-      .andReturn(channelUnitMock);
-  [self.sut addChannelUnitWithConfiguration:self.validConfiguration];
-  MSHttpClient *httpClient = [MSHttpClient new];
-
-  // When
-  [self.sut httpClientDidPause:httpClient];
-
-  // Then
-  OCMVerify([channelUnitMock pauseWithIdentifyingObject:httpClient]);
-  OCMVerify([self.ingestionMock setEnabled:NO andDeleteDataOnDisabled:NO]);
-
-  // Cleanup
-  [channelUnitMock stopMocking];
-}
-
-- (void)testResumeWhenHttpClientResumes {
-
-  // If
-  id channelUnitMock = OCMClassMock([MSChannelUnitDefault class]);
-  OCMStub([channelUnitMock alloc]).andReturn(channelUnitMock);
-  OCMStub([channelUnitMock initWithIngestion:OCMOCK_ANY storage:OCMOCK_ANY configuration:OCMOCK_ANY logsDispatchQueue:OCMOCK_ANY])
-      .andReturn(channelUnitMock);
-  [self.sut addChannelUnitWithConfiguration:self.validConfiguration];
-  MSHttpClient *httpClient = [MSHttpClient new];
-
-  // When
-  [self.sut httpClientDidResume:httpClient];
-
-  // Then
-  OCMVerify([channelUnitMock resumeWithIdentifyingObject:httpClient]);
-  OCMVerify([self.ingestionMock setEnabled:YES andDeleteDataOnDisabled:NO]);
-
-  // Cleanup
-  [channelUnitMock stopMocking];
-}
-
-- (void)testListenForHttpClientChanges {
-
-  // If
-  MSHttpClient *httpClientMock = OCMPartialMock([MSHttpClient new]);
-
-  // When
-  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithHttpClient:httpClientMock installId:[NSUUID new] logUrl:@"logUrl"];
-
-  // Then
-  OCMVerify([httpClientMock addDelegate:sut]);
 }
 
 - (void)testDelegateCalledWhenChannelUnitDidCompleteEnqueueingLog {

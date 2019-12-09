@@ -8,8 +8,6 @@
 #import "MSLoggerInternal.h"
 #import "MSUtility+StringFormatting.h"
 
-// static NSTimeInterval kRequestTimeout = 60.0;
-
 // URL components' name within a partial URL.
 static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"password", @"host", @"port", @"path"};
 

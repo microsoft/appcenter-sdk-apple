@@ -26,7 +26,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 @property(nonatomic) id deviceMock;
 @property(nonatomic) id reachabilityMock;
 @property(nonatomic) NetworkStatus currentNetworkStatus;
-@property(nonatomic) MSHttpClient *httpClientMock;
+@property(nonatomic) id httpClientMock;
 
 @end
 
@@ -67,6 +67,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 - (void)tearDown {
   [super tearDown];
   [self.deviceMock stopMocking];
+  [self.httpClientMock stopMocking];
   [self.reachabilityMock stopMocking];
   [MSHttpTestUtil removeAllStubs];
 
@@ -259,14 +260,6 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   // Clear
   [mockUtility stopMocking];
   [mockLogger stopMocking];
-}
-
-#pragma mark - Test Helpers
-
-// TODO: Move this to base MSHttpIngestion test.
-- (void)simulateReachabilityChangedNotification:(NetworkStatus)status {
-  self.currentNetworkStatus = status;
-  [[NSNotificationCenter defaultCenter] postNotificationName:kMSReachabilityChangedNotification object:self.reachabilityMock];
 }
 
 @end

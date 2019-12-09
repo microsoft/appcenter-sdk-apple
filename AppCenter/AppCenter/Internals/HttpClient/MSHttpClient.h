@@ -5,8 +5,6 @@
 
 #import "MSHttpClientProtocol.h"
 
-#define DEFAULT_RETRY_INTERVALS @[ @10, @(5 * 60), @(20 * 60) ]
-
 @interface MSHttpClient : NSObject <MSHttpClientProtocol>
 
 /**

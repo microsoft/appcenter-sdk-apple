@@ -43,11 +43,6 @@
 @property(nonatomic) NSURLSessionConfiguration *sessionConfiguration;
 
 /**
- * Hash table containing all the delegates as weak references.
- */
-@property NSHashTable<id<MSHttpClientDelegate>> *delegates;
-
-/**
  * Disables the client, deletes data, and cancels any calls.
  *
  * @param isEnabled Whether to enable or disable the client.

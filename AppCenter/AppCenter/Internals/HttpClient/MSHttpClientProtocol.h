@@ -71,20 +71,6 @@ typedef void (^MSHttpRequestCompletionHandler)(NSData *_Nullable responseBody, N
  */
 - (void)setEnabled:(BOOL)isEnabled;
 
-/**
- * Add a delegate.
- *
- * @param delegate The delegate being added.
- */
-- (void)addDelegate:(id<MSHttpClientDelegate>)delegate;
-
-/**
- * Remove a delegate.
- *
- * @param delegate The delegate being removed.
- */
-- (void)removeDelegate:(id<MSHttpClientDelegate>)delegate;
-
 @end
 
 NS_ASSUME_NONNULL_END

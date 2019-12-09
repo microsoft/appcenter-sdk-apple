@@ -8,7 +8,6 @@
 #import "MSChannelGroupDefaultPrivate.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitDefault.h"
-#import "MSHttpClientDelegate.h"
 #import "MSLogDBStorage.h"
 
 static char *const kMSLogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQueue";
@@ -21,7 +20,6 @@ static char *const kMSLogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
   self = [self initWithIngestion:[[MSAppCenterIngestion alloc] initWithHttpClient:httpClient
                                                                           baseUrl:logUrl
                                                                         installId:[installId UUIDString]]];
-  [httpClient addDelegate:self];
   return self;
 }
 
@@ -225,22 +223,6 @@ static char *const kMSLogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
   for (id<MSChannelProtocol> channel in self.channels) {
     [channel resumeWithIdentifyingObject:identifyingObject];
   }
-}
-
-#pragma mark - MSHttpClientDelegate
-
-- (void)httpClientDidPause:(id<MSHttpClientProtocol>)httpClient {
-  [self pauseWithIdentifyingObject:(NSObject *)httpClient];
-}
-
-- (void)httpClientDidResume:(id<MSHttpClientProtocol>)httpClient {
-  [self resumeWithIdentifyingObject:(NSObject *)httpClient];
-}
-
-- (void)httpClientDidReceiveFatalError:(__unused id<MSHttpClientProtocol>)httpClient {
-
-  // Disable and delete data on fatal errors.
-  [self setEnabled:NO andDeleteDataOnDisabled:YES];
 }
 
 #pragma mark - Other public methods
