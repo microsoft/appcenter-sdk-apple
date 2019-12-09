@@ -588,7 +588,9 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
       [strongSelf openURL:callbackUrl];
     }
   };
-  SFAuthenticationSession *session = [[SFAuthenticationSession alloc] initWithURL:url callbackURLScheme:callbackUrlScheme completionHandler:authCompletionBlock];
+  SFAuthenticationSession *session = [[SFAuthenticationSession alloc] initWithURL:url
+                                                                callbackURLScheme:callbackUrlScheme
+                                                                completionHandler:authCompletionBlock];
 
   // Retain the session.
   self.authenticationSession = session;
@@ -1103,11 +1105,13 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
 - (void)clearAuthenticationSession {
   if (@available(iOS 11.0, *)) {
-    SFAuthenticationSession* session = self.authenticationSession;
+    SFAuthenticationSession *session = self.authenticationSession;
 
     // Dismiss view controller if currently presented. Fix uncaused access to SFBrowserRemoteViewController.
     [session cancel];
   }
+
+  // Break strong reference to fix crash when an application is minimized while trying to reinstall after setup failure.
   self.authenticationSession = nil;
 }
 
