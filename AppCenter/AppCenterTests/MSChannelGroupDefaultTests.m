@@ -12,6 +12,8 @@
 #import "MSChannelUnitDefaultPrivate.h"
 #import "MSDispatchTestUtil.h"
 #import "MSHttpClient.h"
+#import "MSHttpUtil.h"
+#import "MSHttpTestUtil.h"
 #import "MSIngestionProtocol.h"
 #import "MSMockLog.h"
 #import "MSStorage.h"
@@ -324,21 +326,35 @@
 
   // If
   id channelUnitMock = OCMClassMock([MSChannelUnitDefault class]);
-  OCMStub([channelUnitMock alloc]).andReturn(channelUnitMock);
+  MSChannelUnitDefault *channelUnitMockObject = [MSChannelUnitDefault new];
+  OCMStub([channelUnitMock alloc]).andReturn(channelUnitMockObject);
   OCMStub([channelUnitMock initWithIngestion:OCMOCK_ANY storage:OCMOCK_ANY configuration:OCMOCK_ANY logsDispatchQueue:OCMOCK_ANY])
-      .andReturn(channelUnitMock);
+      .andReturn(channelUnitMockObject);
   [self.sut addChannelUnitWithConfiguration:self.validConfiguration];
-  id delegateMock = OCMProtocolMock(@protocol(MSChannelDelegate));
-  [self.sut addDelegate:delegateMock];
-
+  NSString *batchId = @"unique-id";
+  
+  // Calls the completion handler with a fatal error.
+  OCMStub([self.sut.ingestion sendAsync:OCMOCK_ANY authToken:OCMOCK_ANY completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+    [invocation retainArguments];
+    MSSendAsyncCompletionHandler handler;
+    [invocation getArgument:&handler atIndex:4];
+    handler(batchId, [MSHttpTestUtil createMockResponseForStatusCode:300 headers:nil], [NSData new], [NSError new]);
+  });
+  
+  // Set up the mock log and channel to send the log container.
+  id mockLog = OCMPartialMock([MSAbstractLog new]);
+  OCMStub([mockLog isValid]).andReturn(YES);
+  OCMStub([self.ingestionMock isReadyToSend]).andReturn(YES);
+  channelUnitMockObject.itemsCount = 10;
+  [channelUnitMockObject.pendingBatchIds addObject:batchId];
+  
   // When
-  //TODO mock the response to look like there is a fatal error
+  [channelUnitMockObject enqueueItem:mockLog flags:MSFlagsDefault];
 
   // Then
-  OCMVerify([channelUnitMock setEnabled:NO andDeleteDataOnDisabled:YES]);
-  OCMVerify([self.ingestionMock setEnabled:NO andDeleteDataOnDisabled:YES]);
-  OCMVerify([delegateMock channel:self.sut didSetEnabled:NO andDeleteDataOnDisabled:YES]);
-
+  [self waitForLogsDispatchQueue];
+  OCMVerify([channelUnitMockObject setEnabled:NO andDeleteDataOnDisabled:YES]);
+  
   // Cleanup
   [channelUnitMock stopMocking];
 }

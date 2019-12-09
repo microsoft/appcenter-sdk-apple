@@ -248,7 +248,7 @@ static NSString *const kMSStartTimestampPrefix = @"MSChannelStartTimer";
                                           }];
 
                 // Disable and delete all data on fatal error.
-                if([MSHttpUtil isRecoverableError:response.statusCode]) {
+                if (![MSHttpUtil isRecoverableError:response.statusCode]) {
                   MSLogError([MSAppCenter logTag], @"Fatal error encountered; shutting down channel unit with group ID %@", self.configuration.groupId);
                   [self setEnabled:NO andDeleteDataOnDisabled:YES];
                   [self resetTimer];

@@ -616,7 +616,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
     [invocation getArgument:&ingestionBlock atIndex:4];
     [invocation getArgument:&logContainer atIndex:2];
   });
-  __block id responseMock = [MSHttpTestUtil createMockResponseForStatusCode:300 headers:nil];
+  __block id responseMock = [MSHttpTestUtil createMockResponseForStatusCode:500 headers:nil];
 
   // Stub the storage load for that log.
   OCMStub([self.storageMock loadLogsWithGroupId:kMSTestGroupId
