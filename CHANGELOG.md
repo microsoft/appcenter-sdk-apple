@@ -16,6 +16,7 @@
 
 * **[Fix]** Fix missing alert dialogs in apps that use iOS 13's new `UIScene` API (multiple scenes are not yet supported).
 * **[Fix]** Fix an issue where users would sometimes be prompted multiple times to sign in with App Center.
+* **[Fix]** Fix a crash in some case when SFAuthenticationSession accesses the controller which is in the process of being released.
 
 ___
 
