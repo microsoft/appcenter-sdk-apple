@@ -8,8 +8,6 @@ NS_ASSUME_NONNULL_BEGIN
 typedef void (^MSHttpRequestCompletionHandler)(NSData *_Nullable responseBody, NSHTTPURLResponse *_Nullable response,
                                                NSError *_Nullable error);
 
-@protocol MSHttpClientDelegate;
-
 @protocol MSHttpClientProtocol
 
 @required

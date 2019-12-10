@@ -6,7 +6,6 @@
 #import "MSHttpClient.h"
 
 @class MS_Reachability;
-@protocol MSHttpClientDelegate;
 
 @interface MSHttpClient ()
 
