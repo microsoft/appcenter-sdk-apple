@@ -124,6 +124,7 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
   for (NSString *token in self.transmissionTargets) {
     [self.transmissionTargets[token] setEnabled:isEnabled];
   }
+  [self.defaultTransmissionTarget setEnabled:isEnabled];
 }
 
 - (void)applyEnabledState:(BOOL)isEnabled {

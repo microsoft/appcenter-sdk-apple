@@ -53,6 +53,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, MSCrashesDelegate, MSPushDel
       return true
     })
 
+    // Enable catching uncaught exceptions thrown on the main thread.
+    UserDefaults.standard.register(defaults: ["NSApplicationCrashOnExceptions": true])
+
     // Push Delegate.
     MSPush.setDelegate(self);
 

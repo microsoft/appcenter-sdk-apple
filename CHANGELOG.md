@@ -1,6 +1,6 @@
 # App Center SDK for iOS, macOS and tvOS Change Log
 
-## Version 2.5.2 (Under development)
+## Version 2.5.2
 
 ### App Center
 
@@ -8,6 +8,7 @@
 
 ### App Center Crashes
 
+* **[Improvement]**  Report additional details for macOS exceptions thrown on the main thread.
 * **[Fix]** Fix sending crashes if an application is launched in background.
 * **[Fix]** Validate error attachment size to avoid server error or out of memory issues (using the documented limit which is 7MB).
 * **[Fix]** Fix an issue where crash might contain incorrect data if two consecutive crashes occurred in a previous version of the application.
@@ -24,6 +25,10 @@ ___
 ### App Center
 
 * **[Fix]** Fix warnings in Xcode 11 when SDK is installed via CocoaPods.
+
+### App Center Auth
+
+* **[Fix]** Fix build warnings when adding App Center Auth framework in project.
 
 ___
 
