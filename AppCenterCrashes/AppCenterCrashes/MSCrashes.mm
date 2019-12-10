@@ -30,9 +30,9 @@
 #import "MSSessionContext.h"
 #import "MSUserIdContext.h"
 #import "MSUtility+File.h"
+#import "MSUtility+PerformSelectorOnMainThreadMultipleArgs.h"
 #import "MSWrapperCrashesHelper.h"
 #import "MSWrapperExceptionManagerInternal.h"
-#import "MSUtility+NSObject.h"
 
 /**
  * Service name for initialization.
@@ -613,7 +613,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     if ([logObject isKindOfClass:[MSAppleErrorLog class]]) {
       MSAppleErrorLog *appleErrorLog = static_cast<MSAppleErrorLog *>(log);
       MSErrorReport *report = [MSErrorLogFormatter errorReportFromLog:appleErrorLog];
-      NSObject* delegateInstance = static_cast<NSObject *>(delegate);
+      NSObject *delegateInstance = static_cast<NSObject *>(delegate);
       [MSUtility performSelectorOnMainThread:delegateInstance
                                 withSelector:@selector(crashes:willSendErrorReport:)
                                  withObjects:self, report, [NSNull null]];
@@ -628,7 +628,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     if ([logObject isKindOfClass:[MSAppleErrorLog class]]) {
       MSAppleErrorLog *appleErrorLog = static_cast<MSAppleErrorLog *>(log);
       MSErrorReport *report = [MSErrorLogFormatter errorReportFromLog:appleErrorLog];
-      NSObject* delegateInstance = static_cast<NSObject *>(delegate);
+      NSObject *delegateInstance = static_cast<NSObject *>(delegate);
       [MSUtility performSelectorOnMainThread:delegateInstance
                                 withSelector:@selector(crashes:didSucceedSendingErrorReport:)
                                  withObjects:self, report, [NSNull null]];
@@ -643,7 +643,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     if ([logObject isKindOfClass:[MSAppleErrorLog class]]) {
       MSAppleErrorLog *appleErrorLog = static_cast<MSAppleErrorLog *>(log);
       MSErrorReport *report = [MSErrorLogFormatter errorReportFromLog:appleErrorLog];
-      NSObject* delegateInstance = static_cast<NSObject *>(delegate);
+      NSObject *delegateInstance = static_cast<NSObject *>(delegate);
       [MSUtility performSelectorOnMainThread:delegateInstance
                                 withSelector:@selector(crashes:didFailSendingErrorReport:withError:)
                                  withObjects:self, report, error, [NSNull null]];

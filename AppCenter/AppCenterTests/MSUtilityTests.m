@@ -7,9 +7,11 @@
 #import "MSUtility+Date.h"
 #import "MSUtility+Environment.h"
 #import "MSUtility+File.h"
+#import "MSUtility+PerformSelectorOnMainThreadMultipleArgs.h"
 #import "MSUtility+PropertyValidation.h"
 #import "MSUtility+StringFormatting.h"
-#import "MSUtility+NSObject.h"
+
+static NSTimeInterval const kMSTestTimeout = 1.0;
 
 @interface MSUtilityTests : XCTestCase
 
@@ -174,7 +176,7 @@
   });
 
   // Then
-  [self waitForExpectationsWithTimeout:1
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *error) {
                                  XCTAssertTrue(handlerHasBeenCalled);
                                  if (error) {
@@ -905,14 +907,16 @@
   // When
   [MSUtility performSelectorOnMainThread:self
                             withSelector:@selector(methodToCall:completionHandler:)
-                             withObjects:str, ^(NSString *string){
-                               XCTAssertEqual(str, string);
-                               handlerHasBeenCalled = YES;
-                               [expectation fulfill];
-                             }, [NSNull null]];
+                             withObjects:str,
+                                         ^(NSString *string) {
+                                           XCTAssertEqual(str, string);
+                                           handlerHasBeenCalled = YES;
+                                           [expectation fulfill];
+                                         },
+                                         [NSNull null]];
 
   // Then
-  [self waitForExpectationsWithTimeout:1
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *error) {
                                  XCTAssertTrue(handlerHasBeenCalled);
                                  if (error) {
@@ -921,8 +925,7 @@
                                }];
 }
 
-- (void)methodToCall:(NSString *)str
-   completionHandler:(void (^)(NSString *string))completion {
+- (void)methodToCall:(NSString *)str completionHandler:(void (^)(NSString *string))completion {
   completion(str);
 }
 

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import <Foundation/Foundation.h>
-#import "MSUtility+NSObject.h"
+#import "MSAppCenterInternal.h"
+#import "MSUtility+PerformSelectorOnMainThreadMultipleArgs.h"
 
 /*
  * Workaround for exporting symbols from category object files.
@@ -17,7 +17,7 @@ NSString *MSUtilityObjectSelectorCategory;
   [invocation setTarget:source];
   [invocation setSelector:selector];
   if (!signature) {
-    NSLog(@"NSObject: Method signature could not be created.");
+    MSLogError([MSAppCenter logTag], @"MSUtility: Method signature could not be created.");
     return;
   }
   va_list args;
