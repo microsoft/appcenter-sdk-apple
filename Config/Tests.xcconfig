@@ -16,6 +16,3 @@ OTHER_LDFLAGS = $(OTHER_LDFLAGS) -framework Security
 OTHER_LDFLAGS = $(OTHER_LDFLAGS) -framework SystemConfiguration
 
 ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES
-
-// Fix duplicate_symbols error
-GCC_NO_COMMON_BLOCKS = NO

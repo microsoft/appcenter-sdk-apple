@@ -216,11 +216,8 @@
 		6E48A5A71D383893006E8B5F /* MSChannelGroupDefaultTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E48A5A61D383893006E8B5F /* MSChannelGroupDefaultTests.m */; };
 		6EB1F40E1D2443B7005F9F99 /* MSChannelUnitDefaultTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EB1F40D1D2443B7005F9F99 /* MSChannelUnitDefaultTests.m */; };
 		783386C723992BA000BC0ABF /* MSUtility+NSObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 783386C623992BA000BC0ABF /* MSUtility+NSObject.m */; };
-		783386C823992BA000BC0ABF /* MSUtility+NSObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 783386C623992BA000BC0ABF /* MSUtility+NSObject.m */; };
 		783386C923992BA000BC0ABF /* MSUtility+NSObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 783386C623992BA000BC0ABF /* MSUtility+NSObject.m */; };
-		783386CA23992BA000BC0ABF /* MSUtility+NSObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 783386C623992BA000BC0ABF /* MSUtility+NSObject.m */; };
 		783386CB23992BA000BC0ABF /* MSUtility+NSObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 783386C623992BA000BC0ABF /* MSUtility+NSObject.m */; };
-		783386CC23992BA000BC0ABF /* MSUtility+NSObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 783386C623992BA000BC0ABF /* MSUtility+NSObject.m */; };
 		7FB7054B222E595F00D93258 /* MSMockReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FB70548222E58FB00D93258 /* MSMockReachability.m */; };
 		7FB7054C222E596100D93258 /* MSMockReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FB70548222E58FB00D93258 /* MSMockReachability.m */; };
 		7FB7054D222E596200D93258 /* MSMockReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FB70548222E58FB00D93258 /* MSMockReachability.m */; };
@@ -396,6 +393,9 @@
 		D36136831E7BB338004AE043 /* MSStoragePerformanceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D36136821E7BB338004AE043 /* MSStoragePerformanceTests.m */; };
 		D377A30D1E83A05900B2C97A /* MSMockUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = D377A30C1E83A05900B2C97A /* MSMockUserDefaults.m */; };
 		D38024121E7130C700466558 /* MSStartServiceLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D38024111E7130C700466558 /* MSStartServiceLogTests.m */; };
+		DF5DA1D9239FA65F00DE695C /* MSUtility+NSObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 783386C523992AD800BC0ABF /* MSUtility+NSObject.h */; };
+		DF5DA1DA239FA66000DE695C /* MSUtility+NSObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 783386C523992AD800BC0ABF /* MSUtility+NSObject.h */; };
+		DF5DA1DB239FA66100DE695C /* MSUtility+NSObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 783386C523992AD800BC0ABF /* MSUtility+NSObject.h */; };
 		E79750EB20A50BF400E3EAE8 /* MSOneCollectorChannelDelegateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E79750EA20A50BF400E3EAE8 /* MSOneCollectorChannelDelegateTests.m */; };
 		E7D23C5120B4E0CA00A47D62 /* MSCommonSchemaLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E7D23C5020B4E0CA00A47D62 /* MSCommonSchemaLogTests.m */; };
 		E7D23C5220B4E0CA00A47D62 /* MSCommonSchemaLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E7D23C5020B4E0CA00A47D62 /* MSCommonSchemaLogTests.m */; };
@@ -2015,6 +2015,7 @@
 				F8936D48230C2804006A330F /* MSIngestionCall.h in Headers */,
 				F8936D35230C2804006A330F /* MSChannelUnitProtocol.h in Headers */,
 				F8936CD8230C25A3006A330F /* MSLog.h in Headers */,
+				DF5DA1D9239FA65F00DE695C /* MSUtility+NSObject.h in Headers */,
 				F8936D75230C2804006A330F /* MSUtility+Date.h in Headers */,
 				F8936D57230C2804006A330F /* MSSDKExtension.h in Headers */,
 				F8936D6A230C2804006A330F /* MSDBStorage.h in Headers */,
@@ -2148,6 +2149,7 @@
 				F8936DA0230C2805006A330F /* MSIngestionCall.h in Headers */,
 				F8936D8D230C2805006A330F /* MSChannelUnitProtocol.h in Headers */,
 				F8936CDE230C25A4006A330F /* MSLog.h in Headers */,
+				DF5DA1DA239FA66000DE695C /* MSUtility+NSObject.h in Headers */,
 				F8936DCD230C2805006A330F /* MSUtility+Date.h in Headers */,
 				F8936DAF230C2805006A330F /* MSSDKExtension.h in Headers */,
 				F8936DC2230C2805006A330F /* MSDBStorage.h in Headers */,
@@ -2281,6 +2283,7 @@
 				F8936DF8230C2805006A330F /* MSIngestionCall.h in Headers */,
 				F8936DE5230C2805006A330F /* MSChannelUnitProtocol.h in Headers */,
 				F8936CE4230C25A5006A330F /* MSLog.h in Headers */,
+				DF5DA1DB239FA66100DE695C /* MSUtility+NSObject.h in Headers */,
 				F8936E25230C2805006A330F /* MSUtility+Date.h in Headers */,
 				F8936E07230C2805006A330F /* MSSDKExtension.h in Headers */,
 				F8936E1A230C2805006A330F /* MSDBStorage.h in Headers */,
@@ -2707,7 +2710,6 @@
 				E7D23C5320B4E0CA00A47D62 /* MSCommonSchemaLogTests.m in Sources */,
 				0446DF191F3B864600C8E338 /* MSLoggerTests.m in Sources */,
 				35C0E3CB1FD6146A004E841E /* MSMockSecondService.m in Sources */,
-				783386CC23992BA000BC0ABF /* MSUtility+NSObject.m in Sources */,
 				7FB7054D222E596200D93258 /* MSMockReachability.m in Sources */,
 				0446DF1B1F3B864600C8E338 /* MSHttpUtilTests.m in Sources */,
 				0446DF1C1F3B864600C8E338 /* MSMockLog.m in Sources */,
@@ -2773,7 +2775,6 @@
 				B2CD74CE1F22BFD00070E7DF /* MSMockService.m in Sources */,
 				35DFC2392170052000455589 /* MSLongTypedPropertyTests.m in Sources */,
 				04873E871F2FDDEC00A13AFF /* MSAppDelegateForwarderTests.m in Sources */,
-				783386CA23992BA000BC0ABF /* MSUtility+NSObject.m in Sources */,
 				7FB7054C222E596100D93258 /* MSMockReachability.m in Sources */,
 				046AEAEB1ECA562A00CBE511 /* MSMockLog.m in Sources */,
 				8087362D20C1DE24004C4157 /* MSEncrypterTests.m in Sources */,
@@ -2839,7 +2840,6 @@
 				8087362C20C1DE1B004C4157 /* MSEncrypterTests.m in Sources */,
 				F82E4C6D217F159A00EDAB34 /* sqlite3.c in Sources */,
 				B26D4DD7211B9B5E00AB4E28 /* MSTicketCacheTests.m in Sources */,
-				783386C823992BA000BC0ABF /* MSUtility+NSObject.m in Sources */,
 				7FB7054B222E595F00D93258 /* MSMockReachability.m in Sources */,
 				6E48A5A71D383893006E8B5F /* MSChannelGroupDefaultTests.m in Sources */,
 				35DFC2372170051900455589 /* MSDoubleTypedPropertyTests.m in Sources */,
