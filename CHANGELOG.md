@@ -6,6 +6,10 @@
 
 * **[Fix]** Improve log messages for errors when it failed to read/write auth token history.
 
+### App Center Auth
+
+* **[Fix]** Fix build warnings when adding App Center Auth framework in project.
+
 ### App Center Crashes
 
 * **[Improvement]**  Report additional details for macOS exceptions thrown on the main thread.
@@ -17,10 +21,6 @@
 
 * **[Fix]** Fix missing alert dialogs in apps that use iOS 13's new `UIScene` API (multiple scenes are not yet supported).
 * **[Fix]** Fix an issue where users would sometimes be prompted multiple times to sign in with App Center.
-
-### App Center Auth
-
-* **[Fix]** Fix build warnings when adding App Center Auth framework in project.
 
 ___
 
