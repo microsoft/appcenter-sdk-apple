@@ -18,6 +18,10 @@
 * **[Fix]** Fix missing alert dialogs in apps that use iOS 13's new `UIScene` API (multiple scenes are not yet supported).
 * **[Fix]** Fix an issue where users would sometimes be prompted multiple times to sign in with App Center.
 
+### App Center Auth
+
+* **[Fix]** Fix build warnings when adding App Center Auth framework in project.
+
 ___
 
 ## Version 2.5.1
@@ -25,10 +29,6 @@ ___
 ### App Center
 
 * **[Fix]** Fix warnings in Xcode 11 when SDK is installed via CocoaPods.
-
-### App Center Auth
-
-* **[Fix]** Fix build warnings when adding App Center Auth framework in project.
 
 ___
 
