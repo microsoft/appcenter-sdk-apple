@@ -158,9 +158,9 @@
 		04BED7101ECB63A800E20975 /* OCHamcrest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04BED70E1ECB63A100E20975 /* OCHamcrest.framework */; };
 		04F21A071ECB74200074978D /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04F21A041ECB73EE0074978D /* OHHTTPStubs.framework */; };
 		04FD126B1E4103CC007ABFE7 /* MSKeychainUtilTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FD126A1E4103CC007ABFE7 /* MSKeychainUtilTests.m */; };
-		244CC1F82399CA5A00A58F51 /* MSDependencyConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 244CC1F62399CA5A00A58F51 /* MSDependencyConfiguration.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		244CC1F92399CA5A00A58F51 /* MSDependencyConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 244CC1F62399CA5A00A58F51 /* MSDependencyConfiguration.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		244CC1FA2399CA5A00A58F51 /* MSDependencyConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 244CC1F62399CA5A00A58F51 /* MSDependencyConfiguration.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		244CC1F82399CA5A00A58F51 /* MSDependencyConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 244CC1F62399CA5A00A58F51 /* MSDependencyConfiguration.h */; };
+		244CC1F92399CA5A00A58F51 /* MSDependencyConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 244CC1F62399CA5A00A58F51 /* MSDependencyConfiguration.h */; };
+		244CC1FA2399CA5A00A58F51 /* MSDependencyConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 244CC1F62399CA5A00A58F51 /* MSDependencyConfiguration.h */; };
 		244CC1FB2399CA5A00A58F51 /* MSDependencyConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 244CC1F72399CA5A00A58F51 /* MSDependencyConfiguration.m */; };
 		244CC1FC2399CA5A00A58F51 /* MSDependencyConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 244CC1F72399CA5A00A58F51 /* MSDependencyConfiguration.m */; };
 		244CC1FD2399CA5A00A58F51 /* MSDependencyConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 244CC1F72399CA5A00A58F51 /* MSDependencyConfiguration.m */; };
@@ -625,7 +625,7 @@
 		F8936D3F230C2804006A330F /* MSUserIdContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 047FEE1221A48CC200ED77CD /* MSUserIdContext.h */; };
 		F8936D40230C2804006A330F /* MSUserIdHistoryInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 047FEE1121A48CC200ED77CD /* MSUserIdHistoryInfo.h */; };
 		F8936D41230C2804006A330F /* MSHttpUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = 3571F658224962180052406C /* MSHttpUtil.h */; };
-		F8936D42230C2804006A330F /* MSHttpClientProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 2DA0373E842A41C8413D1722 /* MSHttpClientProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F8936D42230C2804006A330F /* MSHttpClientProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 2DA0373E842A41C8413D1722 /* MSHttpClientProtocol.h */; };
 		F8936D43230C2804006A330F /* MSHttpClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 2DA03260792C64C0290E6E41 /* MSHttpClient.h */; };
 		F8936D44230C2804006A330F /* MSHttpCall.h in Headers */ = {isa = PBXBuildFile; fileRef = 3571F64F22457E220052406C /* MSHttpCall.h */; };
 		F8936D45230C2804006A330F /* MSTicketCache.h in Headers */ = {isa = PBXBuildFile; fileRef = B23507B42118D22800F98D4F /* MSTicketCache.h */; };
@@ -710,7 +710,7 @@
 		F8936D97230C2805006A330F /* MSUserIdContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 047FEE1221A48CC200ED77CD /* MSUserIdContext.h */; };
 		F8936D98230C2805006A330F /* MSUserIdHistoryInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 047FEE1121A48CC200ED77CD /* MSUserIdHistoryInfo.h */; };
 		F8936D99230C2805006A330F /* MSHttpUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = 3571F658224962180052406C /* MSHttpUtil.h */; };
-		F8936D9A230C2805006A330F /* MSHttpClientProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 2DA0373E842A41C8413D1722 /* MSHttpClientProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F8936D9A230C2805006A330F /* MSHttpClientProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 2DA0373E842A41C8413D1722 /* MSHttpClientProtocol.h */; };
 		F8936D9B230C2805006A330F /* MSHttpClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 2DA03260792C64C0290E6E41 /* MSHttpClient.h */; };
 		F8936D9C230C2805006A330F /* MSHttpCall.h in Headers */ = {isa = PBXBuildFile; fileRef = 3571F64F22457E220052406C /* MSHttpCall.h */; };
 		F8936D9D230C2805006A330F /* MSTicketCache.h in Headers */ = {isa = PBXBuildFile; fileRef = B23507B42118D22800F98D4F /* MSTicketCache.h */; };
@@ -795,7 +795,7 @@
 		F8936DEF230C2805006A330F /* MSUserIdContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 047FEE1221A48CC200ED77CD /* MSUserIdContext.h */; };
 		F8936DF0230C2805006A330F /* MSUserIdHistoryInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 047FEE1121A48CC200ED77CD /* MSUserIdHistoryInfo.h */; };
 		F8936DF1230C2805006A330F /* MSHttpUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = 3571F658224962180052406C /* MSHttpUtil.h */; };
-		F8936DF2230C2805006A330F /* MSHttpClientProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 2DA0373E842A41C8413D1722 /* MSHttpClientProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F8936DF2230C2805006A330F /* MSHttpClientProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 2DA0373E842A41C8413D1722 /* MSHttpClientProtocol.h */; };
 		F8936DF3230C2805006A330F /* MSHttpClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 2DA03260792C64C0290E6E41 /* MSHttpClient.h */; };
 		F8936DF4230C2805006A330F /* MSHttpCall.h in Headers */ = {isa = PBXBuildFile; fileRef = 3571F64F22457E220052406C /* MSHttpCall.h */; };
 		F8936DF5230C2805006A330F /* MSTicketCache.h in Headers */ = {isa = PBXBuildFile; fileRef = B23507B42118D22800F98D4F /* MSTicketCache.h */; };
