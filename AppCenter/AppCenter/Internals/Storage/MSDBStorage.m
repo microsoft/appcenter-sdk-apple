@@ -312,11 +312,11 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
         return SQLITE_OK;
     }
     for (NSObject *value in values) {
-        if ([value isKindOfClass:[NSString class]]) {
-            result = sqlite3_bind_text(query, i, [(NSString *)value UTF8String], -1, SQLITE_TRANSIENT);
-        }
-        else if ([value isKindOfClass:[NSNumber class]]) {
+        if ([value isKindOfClass:[NSNumber class]]) {
             result = sqlite3_bind_int(query, i, [(NSNumber *)value intValue]);
+        }
+        else {
+            result = sqlite3_bind_text(query, i, [(NSString *)value UTF8String], -1, SQLITE_TRANSIENT);
         }
         if (result != SQLITE_OK) {
             MSLogError([MSAppCenter logTag], @"Binding query \"%@\" failed with error: %d.", query, result);
