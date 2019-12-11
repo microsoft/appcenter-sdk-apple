@@ -111,7 +111,7 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
   }
 
   // Log a warning if max page count can't be set.
-  if (result != SQLITE_OK && result != SQLITE_DONE) {
+  if (result != SQLITE_OK) {
     MSLogError([MSAppCenter logTag], @"Failed to open database with specified maximum size constraint.");
   }
   result = callback(db);
@@ -124,7 +124,7 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
            if ([MSDBStorage tableExists:tableName inOpenedDatabase:db]) {
              NSString *deleteQuery = [NSString stringWithFormat:@"DROP TABLE \"%@\";", tableName];
              int result = [MSDBStorage executeNonSelectionQuery:deleteQuery inOpenedDatabase:db withValues:nil];
-             if (result == SQLITE_OK || result == SQLITE_DONE) {
+             if (result == SQLITE_OK) {
                MSLogVerbose([MSAppCenter logTag], @"Table %@ has been deleted", tableName);
              } else {
                MSLogError([MSAppCenter logTag], @"Failed to delete table %@", tableName);
@@ -161,7 +161,7 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
                  [NSString stringWithFormat:@"CREATE TABLE \"%@\" (%@%@);", tableName,
                                             [MSDBStorage columnsQueryFromColumnsSchema:columnsSchema], uniqueContraintQuery];
              int result = [MSDBStorage executeNonSelectionQuery:createQuery inOpenedDatabase:db withValues:nil];
-             if (result == SQLITE_OK || result == SQLITE_DONE) {
+             if (result == SQLITE_OK) {
                MSLogVerbose([MSAppCenter logTag], @"Table %@ has been created", tableName);
              } else {
                MSLogError([MSAppCenter logTag], @"Failed to create table %@", tableName);
@@ -289,17 +289,22 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
     if (result == SQLITE_OK) {
         result = [MSDBStorage bindStatement:statement withValues:values];
         if (result == SQLITE_OK) {
-            do {
-                result = sqlite3_step(statement);
-            } while (result == SQLITE_ROW);
+            result = sqlite3_step(statement);
         }
         sqlite3_finalize(statement);
+    }
+    
+    // We have checks for SQLITE_OK almost everywhere.
+    // SQLITE_DONE also counts as a valid response so changing it to OK
+    // To avoid confusion and multiple checks.
+    if (result == SQLITE_DONE) {
+        result = SQLITE_OK;
     }
     if (result == SQLITE_CORRUPT || result == SQLITE_NOTADB) {
         MSLogError([MSAppCenter logTag], @"A database file is corrupted: %d", result);
     } else if (result == SQLITE_FULL) {
         MSLogDebug([MSAppCenter logTag], @"Query failed with error: %d", result);
-    } else if (result != SQLITE_OK && result != SQLITE_DONE) {
+    } else if (result != SQLITE_OK) {
         MSLogError([MSAppCenter logTag], @"Query \"%@\" failed with error: %d", query, result);
     }
     return result;
@@ -312,11 +317,11 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
         return SQLITE_OK;
     }
     for (NSObject *value in values) {
-        if ([value isKindOfClass:[NSNumber class]]) {
-            result = sqlite3_bind_int(query, i, [(NSNumber *)value intValue]);
-        }
-        else {
+        if ([value isKindOfClass:[NSString class]]) {
             result = sqlite3_bind_text(query, i, [(NSString *)value UTF8String], -1, SQLITE_TRANSIENT);
+        }
+        else if ([value isKindOfClass:[NSNumber class]]) {
+            result = sqlite3_bind_int(query, i, [(NSNumber *)value intValue]);
         }
         if (result != SQLITE_OK) {
             MSLogError([MSAppCenter logTag], @"Binding query \"%@\" failed with error: %d.", query, result);

@@ -112,7 +112,7 @@ static const NSUInteger kMSSchemaVersion = 4;
              result = [MSLogDBStorage deleteLogsFromDBWithColumnValues:@[ logsCanBeDeleted[index] ]
                                                             columnName:kMSIdColumnName
                                                       inOpenedDatabase:db];
-             if (result != SQLITE_OK && result != SQLITE_DONE) {
+             if (result != SQLITE_OK) {
                break;
              }
              MSLogDebug([MSAppCenter logTag], @"Deleted a log with id %@ to store a new log.", logsCanBeDeleted[index]);
@@ -124,7 +124,7 @@ static const NSUInteger kMSSchemaVersion = 4;
              MSLogDebug([MSAppCenter logTag], @"Log storage was over capacity, %ld oldest log(s) with equal or lower priority deleted.",
                         (long)countOfLogsDeleted);
            }
-           if (result == SQLITE_OK || result == SQLITE_DONE) {
+           if (result == SQLITE_OK) {
              MSLogVerbose([MSAppCenter logTag], @"Log is stored with id: '%ld'", (long)sqlite3_last_insert_rowid(db));
            } else if (result == SQLITE_FULL && index == [logsCanBeDeleted count]) {
              MSLogError([MSAppCenter logTag], @"Storage is full and no logs with equal or lower priority exist; discarding the log.");
@@ -139,6 +139,18 @@ static const NSUInteger kMSSchemaVersion = 4;
   long long timestampMs = (long long)([date timeIntervalSince1970] * 1000);
   NSMutableString *condition = [NSMutableString stringWithFormat:@"\"%@\" <= ?", kMSTimestampColumnName];
   return [self countEntriesForTable:kMSLogTableName condition:condition withValues:@[[NSNumber numberWithLongLong:timestampMs]]];
+}
+
+- (NSString *)buildKeyFormatWithCount:(unsigned long)count {
+    NSString *keyFormat = @"(";
+    for (uint i=0; i<count; i++) {
+        keyFormat = [keyFormat stringByAppendingString:@"?"];
+        if (i < count - 1) {
+            keyFormat = [keyFormat stringByAppendingString:@", "];
+        }
+    }
+    keyFormat = [keyFormat stringByAppendingString:@")"];
+    return keyFormat;
 }
 
 - (BOOL)loadLogsWithGroupId:(NSString *)groupId
@@ -168,18 +180,17 @@ static const NSUInteger kMSSchemaVersion = 4;
   [values addObject:groupId];
   
   // Filter out paused target keys.
-  if (excludedTargetKeys.count > 0) {
-    NSString *components = [excludedTargetKeys componentsJoinedByString:@"', '"];
-    if (components != nil) {
-      [condition appendFormat:@" AND \"%@\" NOT IN (?)", kMSTargetKeyColumnName];
-      [values addObject:components];
-    }
+  if (excludedTargetKeys != nil && excludedTargetKeys.count > 0) {
+    NSString *keyFormat = [self buildKeyFormatWithCount:excludedTargetKeys.count];
+    [condition appendFormat:@" AND \"%@\" NOT IN %@", kMSTargetKeyColumnName, keyFormat];
+    [values addObjectsFromArray:(NSArray *)excludedTargetKeys];
   }
 
   // Take only logs that are not already part of a batch.
   if (idsInBatches.count > 0) {
-    [condition appendFormat:@" AND \"%@\" NOT IN (?)", kMSIdColumnName];
-    [values addObject:[idsInBatches componentsJoinedByString:@", "]];
+    NSString *keyFormat = [self buildKeyFormatWithCount:idsInBatches.count];
+    [condition appendFormat:@" AND \"%@\" NOT IN %@", kMSIdColumnName, keyFormat];
+    [values addObjectsFromArray:idsInBatches];
   }
 
   // Filter by time.
@@ -366,7 +377,7 @@ static const NSUInteger kMSSchemaVersion = 4;
 
   // Execute.
   int result = [MSDBStorage executeNonSelectionQuery:deleteLogsQuery inOpenedDatabase:db withValues:nil];
-  if (result == SQLITE_OK || result == SQLITE_DONE) {
+  if (result == SQLITE_OK) {
     MSLogVerbose([MSAppCenter logTag], @"%@ succeeded.", deletionTrace);
   } else {
     MSLogError([MSAppCenter logTag], @"%@ failed.", deletionTrace);

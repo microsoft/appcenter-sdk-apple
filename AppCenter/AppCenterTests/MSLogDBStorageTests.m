@@ -576,8 +576,9 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
 
   // Then
   remainingLogs = [self loadLogsWhere:nil];
-  condition = [NSString stringWithFormat:@"%@ IN (?)", kMSIdColumnName];
-  assertThatInteger([self.sut countEntriesForTable:kMSLogTableName condition:condition withValues:@[[logIdsToDelete componentsJoinedByString:@", "]]], equalToInteger(0));
+  NSString *keyFormat = [_storageTestUtil buildKeyFormatWithCount:logIdsToDelete.count];
+  condition = [NSString stringWithFormat:@"%@ IN %@", kMSIdColumnName, keyFormat];
+  assertThatInteger([self.sut countEntriesForTable:kMSLogTableName condition:condition withValues:logIdsToDelete], equalToInteger(0));
   assertThat(expectedLogs, is(remainingLogs));
   assertThatInteger(self.sut.batches.count, equalToInteger(0));
 }
@@ -617,8 +618,9 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
 
   // Then
   remainingLogs = [self loadLogsWhere:nil];
-  condition = [NSString stringWithFormat:@"%@ IN (?)", kMSIdColumnName];
-  assertThatInteger([self.sut countEntriesForTable:kMSLogTableName condition:condition withValues:@[[logIdsToDelete componentsJoinedByString:@", "]]], equalToInteger(0));
+  NSString *keyFormat = [_storageTestUtil buildKeyFormatWithCount:logIdsToDelete.count];
+  condition = [NSString stringWithFormat:@"%@ IN %@", kMSIdColumnName, keyFormat];
+  assertThatInteger([self.sut countEntriesForTable:kMSLogTableName condition:condition withValues:logIdsToDelete], equalToInteger(0));
   assertThat(expectedLogs, is(remainingLogs));
   assertThatInteger(self.sut.batches.count, equalToInteger(1));
 }
@@ -666,8 +668,9 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
 
   // Then
   remainingLogs = [self loadLogsWhere:nil];
-  condition = [NSString stringWithFormat:@"%@ IN (?)", kMSIdColumnName];
-  assertThatInteger([self.sut countEntriesForTable:kMSLogTableName condition:condition withValues:@[[logIdsToDelete componentsJoinedByString:@", "]]], equalToInteger(0));
+  NSString *keyFormat = [_storageTestUtil buildKeyFormatWithCount:logIdsToDelete.count];
+  condition = [NSString stringWithFormat:@"%@ IN %@", kMSIdColumnName, keyFormat];
+  assertThatInteger([self.sut countEntriesForTable:kMSLogTableName condition:condition withValues:logIdsToDelete], equalToInteger(0));
   assertThat(expectedLogs, is(remainingLogs));
   assertThatInteger(self.sut.batches.count, equalToInteger(1));
 }
@@ -1432,11 +1435,12 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
 
 - (NSArray<NSNumber *> *)findUnknownDBIdsFromKnownIdList:(NSArray<NSNumber *> *)idList {
   sqlite3 *db = [self.storageTestUtil openDatabase];
-  NSString *selectLogQuery = [NSString stringWithFormat:@"SELECT \"%@\" FROM \"%@\" WHERE \"%@\" NOT IN (?)", kMSIdColumnName,
-                                                        kMSLogTableName, kMSIdColumnName];
+  NSString *keyFormat = [_storageTestUtil buildKeyFormatWithCount:idList.count];
+  NSString *selectLogQuery = [NSString stringWithFormat:@"SELECT \"%@\" FROM \"%@\" WHERE \"%@\" NOT IN %@", kMSIdColumnName,
+                                                        kMSLogTableName, kMSIdColumnName, keyFormat];
   NSArray<NSArray<NSNumber *> *> *entries = [MSDBStorage executeSelectionQuery:selectLogQuery
                                                               inOpenedDatabase:db
-                                                                    withValues:@[[idList componentsJoinedByString:@","]]];
+                                                                    withValues:idList];
   if (entries.count > 0) {
     return entries[0];
   }
