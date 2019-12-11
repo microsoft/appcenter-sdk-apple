@@ -1099,6 +1099,9 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   [self clearAuthenticationSession];
 }
 
+/**
+ * Clear currently running SFAuthenticationSession.
+ */
 - (void)clearAuthenticationSession {
   if (@available(iOS 11.0, *)) {
     SFAuthenticationSession *session = self.authenticationSession;
