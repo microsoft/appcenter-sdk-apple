@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+#import "MSConstants+Internal.h"
 #import "MSDistribute.h"
 #import "MSDistributeIngestion.h"
 #import "MSDistributePrivate.h"
 #import "MSHttpClient.h"
 #import "MSHttpIngestionPrivate.h"
-#import "MSLoggerInternal.h"
-#import "MSTestFrameworks.h"
-#import "MSUtility+StringFormatting.h"
-#import "MSConstants+Internal.h"
-#import "MSTestUtil.h"
-#import "MSMockLog.h"
 #import "MSHttpTestUtil.h"
+#import "MSLoggerInternal.h"
+#import "MSMockLog.h"
+#import "MSTestFrameworks.h"
+#import "MSTestUtil.h"
+#import "MSUtility+StringFormatting.h"
 
 @interface MSDistributeIngestionTests : XCTestCase
 
@@ -113,7 +113,7 @@
 }
 
 - (void)testHideTokenInResponse {
-  
+
   // If
   NSString *baseUrl = @"https://contoso.com";
   NSString *appSecret = @"secret";
@@ -139,16 +139,16 @@
   NSData *data = [@"{\"redirect_uri\":\"secrets\"}" dataUsingEncoding:NSUTF8StringEncoding];
   MSLogContainer *container = [MSTestUtil createLogContainerWithId:@"1" device:mockDevice];
   XCTestExpectation *requestCompletedExpectation = [self expectationWithDescription:@"Request completed."];
-  
+
   // When
   [MSHttpTestUtil stubResponseWithData:data statusCode:MSHTTPCodesNo200OK headers:ingestion.httpHeaders name:NSStringFromSelector(_cmd)];
   [ingestion sendAsync:container
-            authToken:nil
-    completionHandler:^(__unused NSString *batchId, __unused NSHTTPURLResponse *response, __unused NSData *responseData,
-                        __unused NSError *error) {
-      [requestCompletedExpectation fulfill];
-    }];
-  
+              authToken:nil
+      completionHandler:^(__unused NSString *batchId, __unused NSHTTPURLResponse *response, __unused NSData *responseData,
+                          __unused NSError *error) {
+        [requestCompletedExpectation fulfill];
+      }];
+
   // Then
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {
@@ -159,7 +159,7 @@
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
                                }];
-  
+
   // Clear
   [mockUtility stopMocking];
   [mockLogger stopMocking];

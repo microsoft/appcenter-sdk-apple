@@ -62,8 +62,8 @@ static NSString *const kMSLatestPublicReleaseApiPathFormat = @"/public/sdk/apps/
 
 - (NSString *)obfuscatePayload:(NSString *)payload {
   return [MSUtility obfuscateString:payload
-                   searchingForPattern:kMSRedirectUriPattern
-                 toReplaceWithTemplate:kMSRedirectUriObfuscatedTemplate];
+                searchingForPattern:kMSRedirectUriPattern
+              toReplaceWithTemplate:kMSRedirectUriObfuscatedTemplate];
 }
 
 - (NSString *)obfuscateHeaderValue:(NSString *)value forKey:(NSString *)key {

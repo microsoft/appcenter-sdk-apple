@@ -8,12 +8,12 @@
 #import "MSHttpClient.h"
 #import "MSHttpIngestionPrivate.h"
 #import "MSHttpTestUtil.h"
+#import "MSLoggerInternal.h"
 #import "MSMockCommonSchemaLog.h"
 #import "MSModelTestsUtililty.h"
 #import "MSOneCollectorIngestion.h"
 #import "MSTestFrameworks.h"
 #import "MSTicketCache.h"
-#import "MSLoggerInternal.h"
 #import "MSUtility+StringFormatting.h"
 
 static NSTimeInterval const kMSTestTimeout = 5.0;
@@ -298,7 +298,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
 }
 
 - (void)testHideTokenInResponse {
-  
+
   // If
   id mockUtility = OCMClassMock([MSUtility class]);
   id mockLogger = OCMClassMock([MSLogger class]);
@@ -309,16 +309,16 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   NSData *data = [@"{\"token\":\"secrets\"}" dataUsingEncoding:NSUTF8StringEncoding];
   MSLogContainer *logContainer = [self createLogContainerWithId:@"1"];
   XCTestExpectation *requestCompletedExpectation = [self expectationWithDescription:@"Request completed."];
-  
+
   // When
   [MSHttpTestUtil stubResponseWithData:data statusCode:MSHTTPCodesNo200OK headers:self.sut.httpHeaders name:NSStringFromSelector(_cmd)];
   [self.sut sendAsync:logContainer
-            authToken:nil
-    completionHandler:^(__unused NSString *batchId, __unused NSHTTPURLResponse *response, __unused NSData *responseData,
-                        __unused NSError *error) {
-      [requestCompletedExpectation fulfill];
-    }];
-  
+              authToken:nil
+      completionHandler:^(__unused NSString *batchId, __unused NSHTTPURLResponse *response, __unused NSData *responseData,
+                          __unused NSError *error) {
+        [requestCompletedExpectation fulfill];
+      }];
+
   // Then
   [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *error) {
@@ -329,7 +329,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
                                }];
-  
+
   // Clear
   [mockUtility stopMocking];
   [mockLogger stopMocking];

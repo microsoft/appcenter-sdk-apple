@@ -48,12 +48,12 @@
                  data:(nullable NSData *)data
     completionHandler:(MSHttpRequestCompletionHandler)completionHandler {
   [self sendAsync:url
-           method:method
-          headers:headers
-             data:data
-   retryIntervals:DEFAULT_RETRY_INTERVALS
-compressionEnabled:YES
-completionHandler:completionHandler];
+                  method:method
+                 headers:headers
+                    data:data
+          retryIntervals:DEFAULT_RETRY_INTERVALS
+      compressionEnabled:YES
+       completionHandler:completionHandler];
 }
 
 - (void)sendAsync:(NSURL *)url

@@ -111,8 +111,8 @@
 
 - (NSString *)obfuscatePayload:(NSString *)payload {
   return [MSUtility obfuscateString:payload
-                   searchingForPattern:kMSTokenKeyValuePattern
-                 toReplaceWithTemplate:kMSTokenKeyValueObfuscatedTemplate];
+                searchingForPattern:kMSTokenKeyValuePattern
+              toReplaceWithTemplate:kMSTokenKeyValueObfuscatedTemplate];
 }
 
 - (NSString *)obfuscateHeaderValue:(NSString *)value forKey:(NSString *)key {
