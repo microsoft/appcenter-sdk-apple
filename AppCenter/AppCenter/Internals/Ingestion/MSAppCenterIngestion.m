@@ -113,6 +113,10 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
   }
 }
 
+- (NSString *)obfuscateUrl:(NSString *)url {
+  return url;
+}
+
 - (NSString *)obfuscateHeaderValue:(NSString *)value forKey:(NSString *)key {
   if ([key isEqualToString:kMSAuthorizationHeaderKey]) {
     return [MSHttpUtil hideAuthToken:value];

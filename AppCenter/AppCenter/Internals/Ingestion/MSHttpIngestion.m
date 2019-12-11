@@ -115,10 +115,6 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
   }
 }
 
-// TODO create method to retrieve printable url without appsecret
-//     NSString *url = [request.URL.absoluteString stringByReplacingOccurrencesOfString:self.appSecret
-// withString:[MSHttpUtil hideSecret:self.appSecret]];
-
 #pragma mark - Private
 
 - (void)setBaseURL:(NSString *)baseURL {
@@ -168,7 +164,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
 
     // Don't lose time pretty printing headers if not going to be printed.
     if ([MSLogger currentLogLevel] <= MSLogLevelVerbose) {
-      MSLogVerbose([MSAppCenter logTag], @"URL: %@", self.sendURL);
+      MSLogVerbose([MSAppCenter logTag], @"URL: %@", [self obfuscateUrl:self.sendURL.absoluteString]);
       MSLogVerbose([MSAppCenter logTag], @"Headers: %@", [self prettyPrintHeaders:httpHeaders]);
     }
     [self.httpClient sendAsync:self.sendURL
@@ -227,6 +223,11 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
 
 // This method will be overridden by subclasses.
 - (NSData *)getPayloadWithData:(NSObject *__unused)data {
+  return nil;
+}
+
+// This method will be overridden by subclasses.
+- (NSString *)obfuscateUrl:(NSString * __unused)url {
   return nil;
 }
 

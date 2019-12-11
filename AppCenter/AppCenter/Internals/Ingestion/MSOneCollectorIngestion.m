@@ -106,6 +106,10 @@
   return httpBody;
 }
 
+- (NSString *)obfuscateUrl:(NSString *)url {
+  return url;
+}
+
 - (NSString *)obfuscateHeaderValue:(NSString *)value forKey:(NSString *)key {
   if ([key isEqualToString:kMSOneCollectorApiKey]) {
     return [self obfuscateTargetTokens:value];

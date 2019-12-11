@@ -55,6 +55,10 @@ static NSString *const kMSLatestPublicReleaseApiPathFormat = @"/public/sdk/apps/
   return nil;
 }
 
+- (NSString *)obfuscateUrl:(NSString *)url {
+  return [url stringByReplacingOccurrencesOfString:self.appSecret withString:[MSHttpUtil hideSecret:self.appSecret]];
+}
+
 - (NSString *)obfuscateHeaderValue:(NSString *)value forKey:(NSString *)key {
   return [key isEqualToString:kMSHeaderUpdateApiToken] ? [MSHttpUtil hideSecret:value] : value;
 }

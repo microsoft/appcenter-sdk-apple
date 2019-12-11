@@ -85,10 +85,19 @@
 - (NSString *)prettyPrintHeaders:(NSDictionary<NSString *, NSString *> *)headers;
 
 /**
+ * Hide a part of sensitive value for url.
+ *
+ * @param url A URL.
+ *
+ * @return An obfuscated value.
+ */
+- (NSString *)obfuscateUrl:(NSString *)url;
+
+/**
  * Hide a part of sensitive value for log.
  *
  * @param key A header key.
- * @param value  A header value.
+ * @param value A header value.
  *
  * @return An obfuscated value.
  */
