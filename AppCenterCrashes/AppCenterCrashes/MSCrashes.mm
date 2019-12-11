@@ -27,10 +27,10 @@
 #import "MSErrorLogFormatter.h"
 #import "MSErrorReportPrivate.h"
 #import "MSHandledErrorLog.h"
+#import "MSPerformSelectorUtil.h"
 #import "MSSessionContext.h"
 #import "MSUserIdContext.h"
 #import "MSUtility+File.h"
-#import "MSUtility+PerformSelectorOnMainThreadMultipleArgs.h"
 #import "MSWrapperCrashesHelper.h"
 #import "MSWrapperExceptionManagerInternal.h"
 
@@ -614,9 +614,9 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
       MSAppleErrorLog *appleErrorLog = static_cast<MSAppleErrorLog *>(log);
       MSErrorReport *report = [MSErrorLogFormatter errorReportFromLog:appleErrorLog];
       NSObject *delegateInstance = static_cast<NSObject *>(delegate);
-      [MSUtility performSelectorOnMainThread:delegateInstance
-                                withSelector:@selector(crashes:willSendErrorReport:)
-                                 withObjects:self, report, [NSNull null]];
+      [MSPerformSelectorUtil performSelectorOnMainThread:delegateInstance
+                                            withSelector:@selector(crashes:willSendErrorReport:)
+                                             withObjects:self, report, [NSNull null]];
     }
   }
 }
@@ -629,9 +629,9 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
       MSAppleErrorLog *appleErrorLog = static_cast<MSAppleErrorLog *>(log);
       MSErrorReport *report = [MSErrorLogFormatter errorReportFromLog:appleErrorLog];
       NSObject *delegateInstance = static_cast<NSObject *>(delegate);
-      [MSUtility performSelectorOnMainThread:delegateInstance
-                                withSelector:@selector(crashes:didSucceedSendingErrorReport:)
-                                 withObjects:self, report, [NSNull null]];
+      [MSPerformSelectorUtil performSelectorOnMainThread:delegateInstance
+                                            withSelector:@selector(crashes:didSucceedSendingErrorReport:)
+                                             withObjects:self, report, [NSNull null]];
     }
   }
 }
@@ -644,9 +644,9 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
       MSAppleErrorLog *appleErrorLog = static_cast<MSAppleErrorLog *>(log);
       MSErrorReport *report = [MSErrorLogFormatter errorReportFromLog:appleErrorLog];
       NSObject *delegateInstance = static_cast<NSObject *>(delegate);
-      [MSUtility performSelectorOnMainThread:delegateInstance
-                                withSelector:@selector(crashes:didFailSendingErrorReport:withError:)
-                                 withObjects:self, report, error, [NSNull null]];
+      [MSPerformSelectorUtil performSelectorOnMainThread:delegateInstance
+                                            withSelector:@selector(crashes:didFailSendingErrorReport:withError:)
+                                             withObjects:self, report, error, [NSNull null]];
     }
   }
 }

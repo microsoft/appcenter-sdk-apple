@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 
 #import "MSConstants+Internal.h"
+#import "MSPerformSelectorUtil.h"
 #import "MSTestFrameworks.h"
 #import "MSUtility+ApplicationPrivate.h"
 #import "MSUtility+Date.h"
 #import "MSUtility+Environment.h"
 #import "MSUtility+File.h"
-#import "MSUtility+PerformSelectorOnMainThreadMultipleArgs.h"
 #import "MSUtility+PropertyValidation.h"
 #import "MSUtility+StringFormatting.h"
 
@@ -905,15 +905,15 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
   NSString *str = @"expectedString";
 
   // When
-  [MSUtility performSelectorOnMainThread:self
-                            withSelector:@selector(methodToCall:completionHandler:)
-                             withObjects:str,
-                                         ^(NSString *string) {
-                                           XCTAssertEqual(str, string);
-                                           handlerHasBeenCalled = YES;
-                                           [expectation fulfill];
-                                         },
-                                         [NSNull null]];
+  [MSPerformSelectorUtil performSelectorOnMainThread:self
+                                        withSelector:@selector(methodToCall:completionHandler:)
+                                         withObjects:str,
+                                                     ^(NSString *string) {
+                                                       XCTAssertEqual(str, string);
+                                                       handlerHasBeenCalled = YES;
+                                                       [expectation fulfill];
+                                                     },
+                                                     [NSNull null]];
 
   // Then
   [self waitForExpectationsWithTimeout:kMSTestTimeout

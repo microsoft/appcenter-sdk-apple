@@ -390,12 +390,12 @@
 		D36136831E7BB338004AE043 /* MSStoragePerformanceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D36136821E7BB338004AE043 /* MSStoragePerformanceTests.m */; };
 		D377A30D1E83A05900B2C97A /* MSMockUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = D377A30C1E83A05900B2C97A /* MSMockUserDefaults.m */; };
 		D38024121E7130C700466558 /* MSStartServiceLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D38024111E7130C700466558 /* MSStartServiceLogTests.m */; };
-		DF5DA1E6239FDF7300DE695C /* MSUtility+PerformSelectorOnMainThreadMultipleArgs.h in Headers */ = {isa = PBXBuildFile; fileRef = DF5DA1E4239FDF7200DE695C /* MSUtility+PerformSelectorOnMainThreadMultipleArgs.h */; };
-		DF5DA1E7239FDF7300DE695C /* MSUtility+PerformSelectorOnMainThreadMultipleArgs.h in Headers */ = {isa = PBXBuildFile; fileRef = DF5DA1E4239FDF7200DE695C /* MSUtility+PerformSelectorOnMainThreadMultipleArgs.h */; };
-		DF5DA1E8239FDF7300DE695C /* MSUtility+PerformSelectorOnMainThreadMultipleArgs.h in Headers */ = {isa = PBXBuildFile; fileRef = DF5DA1E4239FDF7200DE695C /* MSUtility+PerformSelectorOnMainThreadMultipleArgs.h */; };
-		DF5DA1E9239FDF7300DE695C /* MSUtility+PerformSelectorOnMainThreadMultipleArgs.m in Sources */ = {isa = PBXBuildFile; fileRef = DF5DA1E5239FDF7300DE695C /* MSUtility+PerformSelectorOnMainThreadMultipleArgs.m */; };
-		DF5DA1EA239FDF7300DE695C /* MSUtility+PerformSelectorOnMainThreadMultipleArgs.m in Sources */ = {isa = PBXBuildFile; fileRef = DF5DA1E5239FDF7300DE695C /* MSUtility+PerformSelectorOnMainThreadMultipleArgs.m */; };
-		DF5DA1EB239FDF7300DE695C /* MSUtility+PerformSelectorOnMainThreadMultipleArgs.m in Sources */ = {isa = PBXBuildFile; fileRef = DF5DA1E5239FDF7300DE695C /* MSUtility+PerformSelectorOnMainThreadMultipleArgs.m */; };
+		DF5DA1F923A0E55500DE695C /* MSPerformSelectorUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = DF5DA1F823A0E55500DE695C /* MSPerformSelectorUtil.h */; };
+		DF5DA1FA23A0E55500DE695C /* MSPerformSelectorUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = DF5DA1F823A0E55500DE695C /* MSPerformSelectorUtil.h */; };
+		DF5DA1FB23A0E55500DE695C /* MSPerformSelectorUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = DF5DA1F823A0E55500DE695C /* MSPerformSelectorUtil.h */; };
+		DF5DA1FD23A0E57B00DE695C /* MSPerformSelectorUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = DF5DA1FC23A0E57B00DE695C /* MSPerformSelectorUtil.m */; };
+		DF5DA1FE23A0E57B00DE695C /* MSPerformSelectorUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = DF5DA1FC23A0E57B00DE695C /* MSPerformSelectorUtil.m */; };
+		DF5DA1FF23A0E57B00DE695C /* MSPerformSelectorUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = DF5DA1FC23A0E57B00DE695C /* MSPerformSelectorUtil.m */; };
 		E79750EB20A50BF400E3EAE8 /* MSOneCollectorChannelDelegateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E79750EA20A50BF400E3EAE8 /* MSOneCollectorChannelDelegateTests.m */; };
 		E7D23C5120B4E0CA00A47D62 /* MSCommonSchemaLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E7D23C5020B4E0CA00A47D62 /* MSCommonSchemaLogTests.m */; };
 		E7D23C5220B4E0CA00A47D62 /* MSCommonSchemaLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E7D23C5020B4E0CA00A47D62 /* MSCommonSchemaLogTests.m */; };
@@ -1152,8 +1152,8 @@
 		D38023E71E6EFC7C00466558 /* MSStartServiceLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSStartServiceLog.h; sourceTree = "<group>"; };
 		D38024051E7126F500466558 /* MSServiceAbstract.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSServiceAbstract.m; sourceTree = "<group>"; };
 		D38024111E7130C700466558 /* MSStartServiceLogTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSStartServiceLogTests.m; sourceTree = "<group>"; };
-		DF5DA1E4239FDF7200DE695C /* MSUtility+PerformSelectorOnMainThreadMultipleArgs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MSUtility+PerformSelectorOnMainThreadMultipleArgs.h"; sourceTree = "<group>"; };
-		DF5DA1E5239FDF7300DE695C /* MSUtility+PerformSelectorOnMainThreadMultipleArgs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MSUtility+PerformSelectorOnMainThreadMultipleArgs.m"; sourceTree = "<group>"; };
+		DF5DA1F823A0E55500DE695C /* MSPerformSelectorUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSPerformSelectorUtil.h; sourceTree = "<group>"; };
+		DF5DA1FC23A0E57B00DE695C /* MSPerformSelectorUtil.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSPerformSelectorUtil.m; sourceTree = "<group>"; };
 		E74B149720B364EE002C0183 /* MSCommonSchemaLog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSCommonSchemaLog.h; sourceTree = "<group>"; };
 		E74B149820B364EE002C0183 /* MSCommonSchemaLog.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSCommonSchemaLog.m; sourceTree = "<group>"; };
 		E74B14A120B36AAB002C0183 /* MSUserExtension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSUserExtension.m; sourceTree = "<group>"; };
@@ -1582,12 +1582,12 @@
 				B2CD749A1F22BE270070E7DF /* MSUtility+File.m */,
 				B28E41D32076EC4000CC6AD8 /* MSUtility+PropertyValidation.h */,
 				B28E41D42076ECFE00CC6AD8 /* MSUtility+PropertyValidation.m */,
-				DF5DA1E4239FDF7200DE695C /* MSUtility+PerformSelectorOnMainThreadMultipleArgs.h */,
-				DF5DA1E5239FDF7300DE695C /* MSUtility+PerformSelectorOnMainThreadMultipleArgs.m */,
 				B2CD749B1F22BE270070E7DF /* MSUtility+StringFormatting.h */,
 				B2CD749C1F22BE270070E7DF /* MSUtility+StringFormatting.m */,
 				38148D8420D07FB70046257E /* MSCompression.h */,
 				38148D8520D07FB70046257E /* MSCompression.m */,
+				DF5DA1F823A0E55500DE695C /* MSPerformSelectorUtil.h */,
+				DF5DA1FC23A0E57B00DE695C /* MSPerformSelectorUtil.m */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -1926,6 +1926,7 @@
 				F8936D4A230C2804006A330F /* MSHttpIngestion.h in Headers */,
 				F8936CB2230C24D9006A330F /* AppCenter.h in Headers */,
 				F8936CF2230C2603006A330F /* MSHttpClientPrivate.h in Headers */,
+				DF5DA1F923A0E55500DE695C /* MSPerformSelectorUtil.h in Headers */,
 				F8936D63230C2804006A330F /* MSBooleanTypedProperty.h in Headers */,
 				F8936CF0230C2603006A330F /* MSSessionContextPrivate.h in Headers */,
 				F8936D24230C2804006A330F /* AppCenter+Internal.h in Headers */,
@@ -2020,7 +2021,6 @@
 				F8936D6A230C2804006A330F /* MSDBStorage.h in Headers */,
 				F8936D5B230C2804006A330F /* MSDeviceInternal.h in Headers */,
 				F8936CEC230C2603006A330F /* MSChannelUnitDefaultPrivate.h in Headers */,
-				DF5DA1E6239FDF7300DE695C /* MSUtility+PerformSelectorOnMainThreadMultipleArgs.h in Headers */,
 				F8936D79230C2804006A330F /* MSUtility+StringFormatting.h in Headers */,
 				F8936D6E230C2804006A330F /* MSOrderedDictionary.h in Headers */,
 				F8936D3A230C2804006A330F /* MSAuthTokenValidityInfo.h in Headers */,
@@ -2060,6 +2060,7 @@
 				F8936DA2230C2805006A330F /* MSHttpIngestion.h in Headers */,
 				F8936CBE230C24D9006A330F /* AppCenter.h in Headers */,
 				F8936D06230C2604006A330F /* MSHttpClientPrivate.h in Headers */,
+				DF5DA1FA23A0E55500DE695C /* MSPerformSelectorUtil.h in Headers */,
 				F8936DBB230C2805006A330F /* MSBooleanTypedProperty.h in Headers */,
 				F8936D04230C2604006A330F /* MSSessionContextPrivate.h in Headers */,
 				F8936D7C230C2805006A330F /* AppCenter+Internal.h in Headers */,
@@ -2154,7 +2155,6 @@
 				F8936DC2230C2805006A330F /* MSDBStorage.h in Headers */,
 				F8936DB3230C2805006A330F /* MSDeviceInternal.h in Headers */,
 				F8936D00230C2604006A330F /* MSChannelUnitDefaultPrivate.h in Headers */,
-				DF5DA1E7239FDF7300DE695C /* MSUtility+PerformSelectorOnMainThreadMultipleArgs.h in Headers */,
 				F8936DD1230C2805006A330F /* MSUtility+StringFormatting.h in Headers */,
 				F8936DC6230C2805006A330F /* MSOrderedDictionary.h in Headers */,
 				F8936D92230C2805006A330F /* MSAuthTokenValidityInfo.h in Headers */,
@@ -2194,6 +2194,7 @@
 				F8936DFA230C2805006A330F /* MSHttpIngestion.h in Headers */,
 				F8936CCA230C24DA006A330F /* AppCenter.h in Headers */,
 				F8936D1A230C2604006A330F /* MSHttpClientPrivate.h in Headers */,
+				DF5DA1FB23A0E55500DE695C /* MSPerformSelectorUtil.h in Headers */,
 				F8936E13230C2805006A330F /* MSBooleanTypedProperty.h in Headers */,
 				F8936D18230C2604006A330F /* MSSessionContextPrivate.h in Headers */,
 				F8936DD4230C2805006A330F /* AppCenter+Internal.h in Headers */,
@@ -2288,7 +2289,6 @@
 				F8936E1A230C2805006A330F /* MSDBStorage.h in Headers */,
 				F8936E0B230C2805006A330F /* MSDeviceInternal.h in Headers */,
 				F8936D14230C2604006A330F /* MSChannelUnitDefaultPrivate.h in Headers */,
-				DF5DA1E8239FDF7300DE695C /* MSUtility+PerformSelectorOnMainThreadMultipleArgs.h in Headers */,
 				F8936E29230C2805006A330F /* MSUtility+StringFormatting.h in Headers */,
 				F8936E1E230C2805006A330F /* MSOrderedDictionary.h in Headers */,
 				F8936DEA230C2805006A330F /* MSAuthTokenValidityInfo.h in Headers */,
@@ -2898,6 +2898,7 @@
 				F8936C95230C23F0006A330F /* MSCustomPropertiesLog.m in Sources */,
 				F8936C96230C23F0006A330F /* MSLogContainer.m in Sources */,
 				F8936C97230C23F0006A330F /* MSLogWithProperties.m in Sources */,
+				DF5DA1FD23A0E57B00DE695C /* MSPerformSelectorUtil.m in Sources */,
 				F8936C98230C23F0006A330F /* MSStartServiceLog.m in Sources */,
 				F8936C99230C23F0006A330F /* MSBooleanTypedProperty.m in Sources */,
 				F8936C9A230C23F0006A330F /* MSDateTimeTypedProperty.m in Sources */,
@@ -2909,7 +2910,6 @@
 				F8936CA0230C23F0006A330F /* MSUserDefaults.m in Sources */,
 				F8936CA1230C23F0006A330F /* MSLogDBStorage.m in Sources */,
 				F8936CA2230C23F0006A330F /* MSOrderedDictionary.m in Sources */,
-				DF5DA1E9239FDF7300DE695C /* MSUtility+PerformSelectorOnMainThreadMultipleArgs.m in Sources */,
 				F8936CA3230C23F0006A330F /* MSEncrypter.m in Sources */,
 				F8936CA4230C23F0006A330F /* MSHistoryInfo.m in Sources */,
 				F8936CA5230C23F0006A330F /* MSKeychainUtil.m in Sources */,
@@ -2976,6 +2976,7 @@
 				C9A92110230C61820068070D /* MSLogContainer.m in Sources */,
 				C9A92124230C61820068070D /* MSUtility+File.m in Sources */,
 				C9A92125230C61820068070D /* MSUtility+PropertyValidation.m in Sources */,
+				DF5DA1FE23A0E57B00DE695C /* MSPerformSelectorUtil.m in Sources */,
 				C9A92127230C61820068070D /* MSCompression.m in Sources */,
 				C9A9210D230C61820068070D /* MSUserExtension.m in Sources */,
 				C9A9210E230C61820068070D /* MSAbstractLog.m in Sources */,
@@ -2987,7 +2988,6 @@
 				C9A9210C230C61820068070D /* MSSDKExtension.m in Sources */,
 				C9A920FE230C61820068070D /* MSIngestionCall.m in Sources */,
 				C9A920E7230C61820068070D /* MSLogger.m in Sources */,
-				DF5DA1EA239FDF7300DE695C /* MSUtility+PerformSelectorOnMainThreadMultipleArgs.m in Sources */,
 				C9A9211D230C61820068070D /* MSEncrypter.m in Sources */,
 				C9A9212B230C61820068070D /* MSWrapperSdk.m in Sources */,
 				C9A920F1230C61820068070D /* MSAuthTokenContext.m in Sources */,
@@ -3054,6 +3054,7 @@
 				C9A92156230C61830068070D /* MSLogContainer.m in Sources */,
 				C9A9216A230C61830068070D /* MSUtility+File.m in Sources */,
 				C9A9216B230C61830068070D /* MSUtility+PropertyValidation.m in Sources */,
+				DF5DA1FF23A0E57B00DE695C /* MSPerformSelectorUtil.m in Sources */,
 				C9A9216D230C61830068070D /* MSCompression.m in Sources */,
 				C9A92153230C61830068070D /* MSUserExtension.m in Sources */,
 				C9A92154230C61830068070D /* MSAbstractLog.m in Sources */,
@@ -3065,7 +3066,6 @@
 				C9A92152230C61830068070D /* MSSDKExtension.m in Sources */,
 				C9A92144230C61830068070D /* MSIngestionCall.m in Sources */,
 				C9A9212D230C61830068070D /* MSLogger.m in Sources */,
-				DF5DA1EB239FDF7300DE695C /* MSUtility+PerformSelectorOnMainThreadMultipleArgs.m in Sources */,
 				C9A92163230C61830068070D /* MSEncrypter.m in Sources */,
 				C9A92171230C61830068070D /* MSWrapperSdk.m in Sources */,
 				C9A92137230C61830068070D /* MSAuthTokenContext.m in Sources */,
