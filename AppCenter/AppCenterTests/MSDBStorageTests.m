@@ -280,7 +280,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   [MSDBStorage enableAutoVacuumInOpenedDatabase:db];
 
   // Then
-  OCMVerify([dbStorageMock executeNonSelectionQuery:[OCMArg any] inOpenedDatabase:db withValues:OCMOCK_ANY]);
+  OCMVerify([dbStorageMock executeSelectionQuery:[OCMArg any] inOpenedDatabase:db withValues:OCMOCK_ANY]);
 
   // If
   // Query returns an array with empty array.

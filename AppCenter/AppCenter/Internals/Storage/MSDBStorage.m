@@ -122,7 +122,7 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
 - (BOOL)dropTable:(NSString *)tableName {
   return [self executeQueryUsingBlock:^int(void *db) {
            if ([MSDBStorage tableExists:tableName inOpenedDatabase:db]) {
-             NSString *deleteQuery = [NSString stringWithFormat:@"DROP TABLE \"%@\";", tableName];
+             NSString *deleteQuery = [NSString stringWithFormat:@"DROP TABLE \"%@\"", tableName];
              int result = [MSDBStorage executeNonSelectionQuery:deleteQuery inOpenedDatabase:db withValues:nil];
              if (result == SQLITE_OK) {
                MSLogVerbose([MSAppCenter logTag], @"Table %@ has been deleted", tableName);
@@ -158,7 +158,7 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
                uniqueContraintQuery = [NSString stringWithFormat:@", UNIQUE(%@)", [uniqueColumns componentsJoinedByString:@", "]];
              }
              NSString *createQuery =
-                 [NSString stringWithFormat:@"CREATE TABLE \"%@\" (%@%@);", tableName,
+                 [NSString stringWithFormat:@"CREATE TABLE \"%@\" (%@%@)", tableName,
                                             [MSDBStorage columnsQueryFromColumnsSchema:columnsSchema], uniqueContraintQuery];
              int result = [MSDBStorage executeNonSelectionQuery:createQuery inOpenedDatabase:db withValues:nil];
              if (result == SQLITE_OK) {
@@ -202,7 +202,7 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
     }
 
     // Compute table query.
-    [tableQueries addObject:[NSString stringWithFormat:@"CREATE TABLE \"%@\" (%@);", tableName,
+    [tableQueries addObject:[NSString stringWithFormat:@"CREATE TABLE \"%@\" (%@)", tableName,
                                                        [MSDBStorage columnsQueryFromColumnsSchema:schema[tableName]]]];
   }
 
@@ -234,7 +234,7 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
 
 + (BOOL)tableExists:(NSString *)tableName inOpenedDatabase:(void *)db result:(int *)result {
   NSString *query =
-      [NSString stringWithFormat:@"SELECT COUNT(*) FROM \"sqlite_master\" WHERE \"type\"='table' AND \"name\"='%@';", tableName];
+      [NSString stringWithFormat:@"SELECT COUNT(*) FROM \"sqlite_master\" WHERE \"type\"='table' AND \"name\"='%@'", tableName];
   NSArray<NSArray *> *entries = [MSDBStorage executeSelectionQuery:query inOpenedDatabase:db result:result withValues:nil];
   return entries.count > 0 && entries[0].count > 0 ? [(NSNumber *)entries[0][0] boolValue] : NO;
 }
@@ -246,7 +246,7 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
 
 + (void)setVersion:(NSUInteger)version inOpenedDatabase:(void *)db {
   NSString *query = [NSString stringWithFormat:@"PRAGMA user_version = %lu", (unsigned long)version];
-  [MSDBStorage executeNonSelectionQuery:query inOpenedDatabase:db withValues:nil];
+  [MSDBStorage executeSelectionQuery:query inOpenedDatabase:db withValues:nil];
 }
 
 + (void)enableAutoVacuumInOpenedDatabase:(void *)db {
@@ -264,7 +264,7 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
    */
   if (autoVacuumDisabled) {
     MSLogDebug([MSAppCenter logTag], @"Vacuuming database and enabling auto_vacuum");
-    [MSDBStorage executeNonSelectionQuery:@"PRAGMA auto_vacuum = FULL; VACUUM" inOpenedDatabase:db withValues:nil];
+    [MSDBStorage executeSelectionQuery:@"PRAGMA auto_vacuum = FULL; VACUUM" inOpenedDatabase:db withValues:nil];
   }
 }
 
@@ -461,15 +461,15 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
 }
 
 + (long)getPageSizeInOpenedDatabase:(void *)db {
-  return [MSDBStorage querySingleValue:@"PRAGMA page_size;" inOpenedDatabase:db];
+  return [MSDBStorage querySingleValue:@"PRAGMA page_size" inOpenedDatabase:db];
 }
 
 + (long)getPageCountInOpenedDatabase:(void *)db {
-  return [MSDBStorage querySingleValue:@"PRAGMA page_count;" inOpenedDatabase:db];
+  return [MSDBStorage querySingleValue:@"PRAGMA page_count" inOpenedDatabase:db];
 }
 
 + (long)getMaxPageCountInOpenedDatabase:(void *)db {
-  return [MSDBStorage querySingleValue:@"PRAGMA max_page_count;" inOpenedDatabase:db];
+  return [MSDBStorage querySingleValue:@"PRAGMA max_page_count" inOpenedDatabase:db];
 }
 
 + (long)querySingleValue:(NSString *)query inOpenedDatabase:(void *)db {
@@ -478,8 +478,8 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
 }
 
 + (int)setMaxPageCount:(long)maxPageCount inOpenedDatabase:(void *)db {
-  NSString *statement = [NSString stringWithFormat:@"PRAGMA max_page_count = %ld;", maxPageCount];
-  return [MSDBStorage executeNonSelectionQuery:statement inOpenedDatabase:db withValues:nil];
+  NSString *statement = [NSString stringWithFormat:@"PRAGMA max_page_count = %ld", maxPageCount];
+  return [MSDBStorage executeSelectionQuery:statement inOpenedDatabase:db withValues:nil];
 }
 
 + (int)configureSQLite {
