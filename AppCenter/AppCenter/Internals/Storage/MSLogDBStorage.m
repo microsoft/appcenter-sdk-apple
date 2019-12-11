@@ -207,7 +207,7 @@ static const NSUInteger kMSSchemaVersion = 4;
   [condition appendFormat:@" LIMIT %lu", (unsigned long)((limit < NSUIntegerMax) ? limit + 1 : limit)];
 
   // Get log entries from DB.
-  logEntries = [[self logsWithCondition:condition andValues:nil] mutableCopy];
+  logEntries = [[self logsWithCondition:condition andValues:values] mutableCopy];
 
   // More logs available for the next batch, remove the log in excess for this batch.
   if (logEntries.count > 0 && logEntries.count > limit) {
