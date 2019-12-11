@@ -86,12 +86,18 @@ static const NSUInteger kMSSchemaVersion = 1;
   NSString *normalizedEtagString = documentWrapper.eTag != nil ? [NSString stringWithFormat:@"'%@'", documentWrapper.eTag] : @"NULL";
   NSString *insertQuery = [NSString
       stringWithFormat:@"REPLACE INTO \"%@\" (\"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\") "
-                       @"VALUES ('%@', '%@', '%@', %@, %ld, '%ld', '%ld', %@)",
+                       @"VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
                        tableName, kMSPartitionColumnName, kMSDocumentIdColumnName, kMSDocumentColumnName, kMSETagColumnName,
-                       kMSExpirationTimeColumnName, kMSDownloadTimeColumnName, kMSOperationTimeColumnName, kMSPendingOperationColumnName,
-                       token.partition, documentWrapper.documentId, documentWrapper.jsonValue, normalizedEtagString, (long)expirationTime,
-                       (long)now, (long)[documentWrapper.lastUpdatedDate timeIntervalSince1970], normalizedOperationString];
-  int result = [self.dbStorage executeNonSelectionQuery:insertQuery];
+                       kMSExpirationTimeColumnName, kMSDownloadTimeColumnName, kMSOperationTimeColumnName, kMSPendingOperationColumnName];
+  NSArray *insertValues = @[token.partition,
+                            documentWrapper.documentId,
+                            documentWrapper.jsonValue,
+                            normalizedEtagString,
+                            [NSNumber numberWithLong:(long)expirationTime],
+                            [NSNumber numberWithLong:(long)now],
+                            [NSNumber numberWithLong:(long)[documentWrapper.lastUpdatedDate timeIntervalSince1970]],
+                            normalizedOperationString];
+  int result = [self.dbStorage executeNonSelectionQuery:insertQuery withValues:insertValues];
   if (result != SQLITE_OK) {
     MSLogError([MSData logTag], @"Unable to update or replace local document, SQLite error code: %ld", (long)result);
   }
@@ -116,9 +122,10 @@ static const NSUInteger kMSSchemaVersion = 1;
 
 - (BOOL)deleteWithToken:(MSTokenResult *)token documentId:(NSString *)documentId {
   NSString *tableName = [MSDBDocumentStore tableNameForPartition:token.partition];
-  NSString *deleteQuery = [NSString stringWithFormat:@"DELETE FROM \"%@\" WHERE \"%@\" = '%@' AND \"%@\" = '%@'", tableName,
-                                                     kMSPartitionColumnName, token.partition, kMSDocumentIdColumnName, documentId];
-  int result = [self.dbStorage executeNonSelectionQuery:deleteQuery];
+  NSString *deleteQuery = [NSString stringWithFormat:@"DELETE FROM \"%@\" WHERE \"%@\" = ? AND \"%@\" = ?", tableName,
+                                                     kMSPartitionColumnName, kMSDocumentIdColumnName];
+  NSArray *deleteValues = @[token.partition, documentId];
+  int result = [self.dbStorage executeNonSelectionQuery:deleteQuery withValues:deleteValues];
   if (result != SQLITE_OK) {
     MSLogError([MSData logTag], @"Unable to delete local document, SQLite error code: %ld", (long)result);
   }
@@ -133,9 +140,10 @@ static const NSUInteger kMSSchemaVersion = 1;
 - (MSDocumentWrapper *)readWithToken:(MSTokenResult *)token documentId:(NSString *)documentId documentType:(Class)documentType {
   // Execute the query.
   NSString *tableName = [MSDBDocumentStore tableNameForPartition:token.partition];
-  NSString *selectionQuery = [NSString stringWithFormat:@"SELECT * FROM \"%@\" WHERE \"%@\" = \"%@\" AND \"%@\" = \"%@\"", tableName,
-                                                        kMSPartitionColumnName, token.partition, kMSDocumentIdColumnName, documentId];
-  NSArray *result = [self.dbStorage executeSelectionQuery:selectionQuery];
+  NSString *selectionQuery = [NSString stringWithFormat:@"SELECT * FROM \"%@\" WHERE \"%@\" = ? AND \"%@\" = ?", tableName,
+                                                        kMSPartitionColumnName, kMSDocumentIdColumnName];
+  NSArray *deleteValues = @[token.partition, documentId];
+  NSArray *result = [self.dbStorage executeSelectionQuery:selectionQuery withValues:deleteValues];
 
   // Return an error if the document could not be found.
   if (result.count == 0) {
@@ -203,8 +211,9 @@ static const NSUInteger kMSSchemaVersion = 1;
   // Execute the query.
   NSString *tableName = [MSDBDocumentStore tableNameForPartition:token.partition];
   NSString *selectionQuery =
-      [NSString stringWithFormat:@"SELECT * FROM \"%@\" WHERE \"%@\" = \"%@\"", tableName, kMSPartitionColumnName, token.partition];
-  NSArray *listResult = [self.dbStorage executeSelectionQuery:selectionQuery];
+      [NSString stringWithFormat:@"SELECT * FROM \"%@\" WHERE \"%@\" = ?", tableName, kMSPartitionColumnName];
+  NSArray *selectionValues = @[token.partition];
+  NSArray *listResult = [self.dbStorage executeSelectionQuery:selectionQuery withValues:selectionValues];
   NSDate *currentDate = [NSDate date];
 
   // Parse the documents.
@@ -323,7 +332,7 @@ static const NSUInteger kMSSchemaVersion = 1;
   NSString *tableName = [MSDBDocumentStore tableNameForPartition:token.partition];
   NSString *selectionQuery =
       [NSString stringWithFormat:@"SELECT * FROM \"%@\" WHERE \"%@\" IS NOT NULL", tableName, kMSPendingOperationColumnName];
-  NSArray *result = [self.dbStorage executeSelectionQuery:selectionQuery];
+  NSArray *result = [self.dbStorage executeSelectionQuery:selectionQuery withValues:nil];
   NSMutableArray *pendingDocuments = [NSMutableArray new];
 
   // Return empty list if there are no pending documents.
@@ -365,7 +374,7 @@ static const NSUInteger kMSSchemaVersion = 1;
   NSString *tableName = [MSDBDocumentStore tableNameForPartition:partition];
   NSString *selectionQuery =
       [NSString stringWithFormat:@"SELECT COUNT(*) FROM \"%@\" WHERE \"%@\" IS NOT NULL", tableName, kMSPendingOperationColumnName];
-  NSArray<NSArray<NSNumber *> *> *result = [self.dbStorage executeSelectionQuery:selectionQuery];
+  NSArray<NSArray<NSNumber *> *> *result = [self.dbStorage executeSelectionQuery:selectionQuery withValues:nil];
   NSUInteger count = (result.count > 0) ? result[0][0].unsignedIntegerValue : 0;
 
   // If empty list.

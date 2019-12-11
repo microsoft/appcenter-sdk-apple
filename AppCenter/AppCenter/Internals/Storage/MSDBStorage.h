@@ -62,7 +62,7 @@ static NSString *const kMSSQLiteConstraintAutoincrement = @"AUTOINCREMENT";
  *
  * @return The count of entries for this query.
  */
-- (NSUInteger)countEntriesForTable:(NSString *)tableName condition:(nullable NSString *)condition;
+- (NSUInteger)countEntriesForTable:(NSString *)tableName condition:(nullable NSString *)condition withValues:(nullable NSArray *)values;
 
 /**
  * Execute a non selection SQLite query on the database (i.e.: "CREATE", "INSERT", "UPDATE"... but not "SELECT").
@@ -71,7 +71,7 @@ static NSString *const kMSSQLiteConstraintAutoincrement = @"AUTOINCREMENT";
  *
  * @return The SQLite return code.
  */
-- (int)executeNonSelectionQuery:(NSString *)query;
+- (int)executeNonSelectionQuery:(NSString *)query withValues:(nullable NSArray *)values;
 
 /**
  * Execute a "SELECT" SQLite query on the database.
@@ -80,7 +80,7 @@ static NSString *const kMSSQLiteConstraintAutoincrement = @"AUTOINCREMENT";
  *
  * @return The selected entries.
  */
-- (NSArray<NSArray *> *)executeSelectionQuery:(NSString *)query;
+- (NSArray<NSArray *> *)executeSelectionQuery:(NSString *)query withValues:(nullable NSArray *)values;
 
 /**
  * Get columns indexes from schema.
