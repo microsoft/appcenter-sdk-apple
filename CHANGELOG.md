@@ -1,5 +1,13 @@
 # App Center SDK for iOS, macOS and tvOS Change Log
 
+## Version 2.5.3 (Under development)
+
+### App Center
+
+* **[Fix]** Optimization of release objects from memory when add an item to a channel.
+
+___
+
 ## Version 2.5.2
 
 ### App Center
