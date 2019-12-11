@@ -5,16 +5,13 @@
 #import "MSAppCenterErrors.h"
 #import "MSAppCenterIngestion.h"
 #import "MSConstants+Internal.h"
-#import "MSDevice.h"
 #import "MSDeviceInternal.h"
 #import "MSHttpClient.h"
 #import "MSHttpIngestionPrivate.h"
 #import "MSHttpTestUtil.h"
-#import "MSLoggerInternal.h"
 #import "MSMockLog.h"
 #import "MSTestFrameworks.h"
 #import "MSTestUtil.h"
-#import "MSUtility+StringFormatting.h"
 
 static NSTimeInterval const kMSTestTimeout = 5.0;
 static NSString *const kMSBaseUrl = @"https://test.com";

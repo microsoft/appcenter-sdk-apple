@@ -8,8 +8,6 @@
 #import "MSHttpCall.h"
 #import "MSHttpClientPrivate.h"
 #import "MSHttpUtil.h"
-#import "MSLoggerInternal.h"
-#import "MSUtility+StringFormatting.h"
 #import "MS_Reachability.h"
 
 #define DEFAULT_RETRY_INTERVALS @[ @10, @(5 * 60), @(20 * 60) ]

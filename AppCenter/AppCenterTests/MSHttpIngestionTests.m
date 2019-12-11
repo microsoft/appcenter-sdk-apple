@@ -4,9 +4,7 @@
 #import "MSDevice.h"
 #import "MSHttpClient.h"
 #import "MSHttpIngestionPrivate.h"
-#import "MSHttpTestUtil.h"
 #import "MSTestFrameworks.h"
-#import "MSTestUtil.h"
 
 @interface MSHttpIngestionTests : XCTestCase
 

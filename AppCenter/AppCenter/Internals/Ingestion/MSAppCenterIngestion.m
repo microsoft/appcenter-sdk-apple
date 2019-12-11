@@ -4,11 +4,8 @@
 #import "MSAppCenterIngestion.h"
 #import "MSAppCenterErrors.h"
 #import "MSAppCenterInternal.h"
-#import "MSCompression.h"
 #import "MSConstants+Internal.h"
 #import "MSHttpIngestionPrivate.h"
-#import "MSLogContainer.h"
-#import "MSLoggerInternal.h"
 
 @implementation MSAppCenterIngestion
 
