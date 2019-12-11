@@ -1190,37 +1190,6 @@ static NSURL *sfURL;
   [appCenterMock stopMocking];
 }
 
-- (void)testClearAuthenticationSession {
-
-    // If
-    id notificationCenterMock = OCMPartialMock([NSNotificationCenter new]);
-    OCMStub([notificationCenterMock defaultCenter]).andReturn(notificationCenterMock);
-    id distributeMock = OCMPartialMock([MSDistribute new]);
-    NSURL *fakeURL = [NSURL URLWithString:@"https://fakeurl.com"];
-    [distributeMock startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
-                                appSecret:kMSTestAppSecret
-                  transmissionTargetToken:nil
-                          fromApplication:YES];
-
-    // Then
-    XCTAssertNil([distributeMock authenticationSession]);
-
-    // When
-    [distributeMock openURLInAuthenticationSessionWith:fakeURL];
-
-    // Then
-    XCTAssertNotNil([distributeMock authenticationSession]);
-
-    // When
-    [notificationCenterMock postNotificationName:UIApplicationDidEnterBackgroundNotification object:nil];
-
-    OCMVerify([distributeMock clearAuthenticationSession]);
-    XCTAssertNil([distributeMock authenticationSession]);
-
-    // Clear
-    [distributeMock stopMocking];
-}
-
 - (void)testApplyEnabledStateTrueForDebugConfig {
 
   // If
@@ -2668,6 +2637,31 @@ static NSURL *sfURL;
   // Clear
   [appCenterMock stopMocking];
   [(id)authenticationSessionMock stopMocking];
+}
+
+- (void)testClearAuthenticationSession API_AVAILABLE(ios(11)) {
+
+    // If
+    id authenticationSessionMock = OCMClassMock([SFAuthenticationSession class]);
+    id notificationCenterMock = OCMPartialMock([NSNotificationCenter new]);
+    OCMStub([notificationCenterMock defaultCenter]).andReturn(notificationCenterMock);
+    self.sut = [MSDistribute new];
+    [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
+                          appSecret:kMSTestAppSecret
+            transmissionTargetToken:nil
+                    fromApplication:YES];
+    self.sut.authenticationSession = authenticationSessionMock;
+
+    // When
+    [notificationCenterMock postNotificationName:UIApplicationDidEnterBackgroundNotification object:nil];
+
+    // Then
+    XCTAssertNil([self.sut authenticationSession]);
+    OCMVerify([authenticationSessionMock cancel]);
+
+    // Clear
+    [authenticationSessionMock stopMocking];
+    [notificationCenterMock stopMocking];
 }
 
 @end
