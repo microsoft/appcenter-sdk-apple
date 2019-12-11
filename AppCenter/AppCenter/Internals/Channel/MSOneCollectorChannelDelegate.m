@@ -22,7 +22,7 @@ static NSString *const kMSBaseErrorMsg = @"Log validation failed.";
 
 @implementation MSOneCollectorChannelDelegate
 
-- (instancetype)initWithHttpClient:(id<MSHttpClientProtocol>)httpClient installId:(NSUUID *)installId baseUrl:(nullable NSString *)baseUrl {
+- (instancetype)initWithHttpClient:(id<MSHttpClientProtocol>)httpClient installId:(NSUUID *)installId baseUrl:(NSString *)baseUrl {
   self = [self init];
   if (self) {
     _installId = installId;
