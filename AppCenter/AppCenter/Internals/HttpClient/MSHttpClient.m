@@ -49,15 +49,13 @@
               headers:(nullable NSDictionary<NSString *, NSString *> *)headers
                  data:(nullable NSData *)data
     completionHandler:(MSHttpRequestCompletionHandler)completionHandler {
-  @synchronized(self) {
-    [self sendAsync:url
-                    method:method
-                   headers:headers
-                      data:data
-            retryIntervals:DEFAULT_RETRY_INTERVALS
-        compressionEnabled:YES
-         completionHandler:completionHandler];
-  }
+  [self sendAsync:url
+           method:method
+          headers:headers
+             data:data
+   retryIntervals:DEFAULT_RETRY_INTERVALS
+compressionEnabled:YES
+completionHandler:completionHandler];
 }
 
 - (void)sendAsync:(NSURL *)url
