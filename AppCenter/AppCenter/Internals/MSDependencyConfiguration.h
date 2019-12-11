@@ -9,7 +9,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface MSDependencyConfiguration : NSObject
 
-@property(class, atomic) id<MSHttpClientProtocol> httpClient;
+@property(class) id<MSHttpClientProtocol> httpClient;
 
 @end
 
