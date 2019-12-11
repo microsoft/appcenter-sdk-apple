@@ -594,13 +594,9 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
   // Retain the session.
   self.authenticationSession = session;
-  @try {
-    BOOL success = [session start];
-    if (success) {
-      MSLogDebug([MSDistribute logTag], @"Authentication session started, showing confirmation dialog.");
-    }
-  } @catch (NSException *exception) {
-    MSLogError([MSDistribute logTag], @"Failed to start authentication session: %@", exception.reason);
+  BOOL success = [session start];
+  if (success) {
+    MSLogDebug([MSDistribute logTag], @"Authentication session started, showing confirmation dialog.");
   }
 }
 

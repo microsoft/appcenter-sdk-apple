@@ -1,5 +1,13 @@
 # App Center SDK for iOS, macOS and tvOS Change Log
 
+## Version 2.5.3  (Under development)
+
+### App Center Distribute
+
+* **[Fix]** Fix a crash in some case when SFAuthenticationSession accesses the controller which is in the process of being released.
+
+___
+
 ## Version 2.5.2
 
 ### App Center
