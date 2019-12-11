@@ -12,6 +12,7 @@
 #import "MSOneCollectorIngestionPrivate.h"
 #import "MSProtocolExtension.h"
 #import "MSTicketCache.h"
+#import "MSUtility+StringFormatting.h"
 
 @implementation MSOneCollectorIngestion
 
@@ -108,6 +109,12 @@
 
 - (NSString *)obfuscateUrl:(NSString *)url {
   return url;
+}
+
+- (NSString *)obfuscatePayload:(NSString *)payload {
+  return [MSUtility obfuscateString:payload
+                   searchingForPattern:kMSTokenKeyValuePattern
+                 toReplaceWithTemplate:kMSTokenKeyValueObfuscatedTemplate];
 }
 
 - (NSString *)obfuscateHeaderValue:(NSString *)value forKey:(NSString *)key {

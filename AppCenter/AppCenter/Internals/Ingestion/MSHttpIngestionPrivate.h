@@ -94,6 +94,15 @@
 - (NSString *)obfuscateUrl:(NSString *)url;
 
 /**
+ * Hide a part of sensitive value for payload.
+ *
+ * @param payload The payload to be obfuscated.
+ *
+ * @return An obfuscated value.
+ */
+- (NSString *)obfuscatePayload:(NSString *)payload;
+
+/**
  * Hide a part of sensitive value for log.
  *
  * @param key A header key.

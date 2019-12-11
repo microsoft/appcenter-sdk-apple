@@ -223,43 +223,4 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   XCTAssertTrue([result isEqualToString:@"Bearer ***"]);
 }
 
-- (void)testHideSecretInResponse {
-
-  // If
-  id mockUtility = OCMClassMock([MSUtility class]);
-  id mockLogger = OCMClassMock([MSLogger class]);
-  OCMStub([mockLogger currentLogLevel]).andReturn(MSLogLevelVerbose);
-  OCMStub(ClassMethod([mockUtility obfuscateString:OCMOCK_ANY
-                               searchingForPattern:kMSRedirectUriPattern
-                             toReplaceWithTemplate:kMSRedirectUriObfuscatedTemplate]));
-  NSData *data = [[NSString stringWithFormat:@"{\"redirect_uri\":\"%@\",\"token\":\"%@\"}", kMSTestAppSecret, kMSTestAppSecret]
-      dataUsingEncoding:NSUTF8StringEncoding];
-  MSLogContainer *container = [MSTestUtil createLogContainerWithId:@"1" device:self.deviceMock];
-  XCTestExpectation *requestCompletedExpectation = [self expectationWithDescription:@"Request completed."];
-
-  // When
-  [MSHttpTestUtil stubResponseWithData:data statusCode:MSHTTPCodesNo200OK headers:self.sut.httpHeaders name:NSStringFromSelector(_cmd)];
-  [self.sut sendAsync:container
-              authToken:nil
-      completionHandler:^(__unused NSString *batchId, __unused NSHTTPURLResponse *response, __unused NSData *responseData,
-                          __unused NSError *error) {
-        [requestCompletedExpectation fulfill];
-      }];
-
-  // Then
-  [self waitForExpectationsWithTimeout:kMSTestTimeout
-                               handler:^(NSError *error) {
-                                 OCMVerify(ClassMethod([mockUtility obfuscateString:OCMOCK_ANY
-                                                                searchingForPattern:kMSRedirectUriPattern
-                                                              toReplaceWithTemplate:kMSRedirectUriObfuscatedTemplate]));
-                                 if (error) {
-                                   XCTFail(@"Expectation Failed with error: %@", error);
-                                 }
-                               }];
-
-  // Clear
-  [mockUtility stopMocking];
-  [mockLogger stopMocking];
-}
-
 @end

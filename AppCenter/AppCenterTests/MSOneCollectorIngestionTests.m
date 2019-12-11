@@ -15,6 +15,10 @@
 #import "MSOneCollectorIngestionPrivate.h"
 #import "MSTestFrameworks.h"
 #import "MSTicketCache.h"
+#import "MSLoggerInternal.h"
+#import "MSUtility+StringFormatting.h"
+#import "MSTestUtil.h"
+#import "MSMockLog.h"
 
 static NSTimeInterval const kMSTestTimeout = 5.0;
 static NSString *const kMSBaseUrl = @"https://test.com";
@@ -295,6 +299,44 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   log2.ext = [MSModelTestsUtililty extensionsWithDummyValues:[MSModelTestsUtililty extensionDummies]];
   MSLogContainer *logContainer = [[MSLogContainer alloc] initWithBatchId:batchId andLogs:(NSArray<id<MSLog>> *)@[ log1, log2 ]];
   return logContainer;
+}
+
+- (void)testHideTokenInResponse {
+  
+  // If
+  id mockUtility = OCMClassMock([MSUtility class]);
+  id mockLogger = OCMClassMock([MSLogger class]);
+  OCMStub([mockLogger currentLogLevel]).andReturn(MSLogLevelVerbose);
+  OCMStub(ClassMethod([mockUtility obfuscateString:OCMOCK_ANY
+                               searchingForPattern:kMSTokenKeyValuePattern
+                             toReplaceWithTemplate:kMSTokenKeyValueObfuscatedTemplate]));
+  NSData *data = [@"{\"token\":\"secrets\"}" dataUsingEncoding:NSUTF8StringEncoding];
+  MSLogContainer *logContainer = [self createLogContainerWithId:@"1"];
+  XCTestExpectation *requestCompletedExpectation = [self expectationWithDescription:@"Request completed."];
+  
+  // When
+  [MSHttpTestUtil stubResponseWithData:data statusCode:MSHTTPCodesNo200OK headers:self.sut.httpHeaders name:NSStringFromSelector(_cmd)];
+  [self.sut sendAsync:logContainer
+            authToken:nil
+    completionHandler:^(__unused NSString *batchId, __unused NSHTTPURLResponse *response, __unused NSData *responseData,
+                        __unused NSError *error) {
+      [requestCompletedExpectation fulfill];
+    }];
+  
+  // Then
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
+                               handler:^(NSError *error) {
+                                 OCMVerify(ClassMethod([mockUtility obfuscateString:OCMOCK_ANY
+                                                                searchingForPattern:kMSTokenKeyValuePattern
+                                                              toReplaceWithTemplate:kMSTokenKeyValueObfuscatedTemplate]));
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+  
+  // Clear
+  [mockUtility stopMocking];
+  [mockLogger stopMocking];
 }
 
 @end

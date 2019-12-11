@@ -7,6 +7,7 @@
 #import "MSConstants+Internal.h"
 #import "MSHttpIngestionPrivate.h"
 #import "MSLoggerInternal.h"
+#import "MSUtility+StringFormatting.h"
 
 @implementation MSDistributeIngestion
 
@@ -57,6 +58,12 @@ static NSString *const kMSLatestPublicReleaseApiPathFormat = @"/public/sdk/apps/
 
 - (NSString *)obfuscateUrl:(NSString *)url {
   return [url stringByReplacingOccurrencesOfString:self.appSecret withString:[MSHttpUtil hideSecret:self.appSecret]];
+}
+
+- (NSString *)obfuscatePayload:(NSString *)payload {
+  return [MSUtility obfuscateString:payload
+                   searchingForPattern:kMSRedirectUriPattern
+                 toReplaceWithTemplate:kMSRedirectUriObfuscatedTemplate];
 }
 
 - (NSString *)obfuscateHeaderValue:(NSString *)value forKey:(NSString *)key {

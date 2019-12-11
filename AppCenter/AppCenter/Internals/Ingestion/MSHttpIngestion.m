@@ -195,19 +195,9 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
     // Obfuscate payload.
     if (responseBody.length > 0) {
       if ([contentType hasPrefix:@"application/json"]) {
-        payload = [MSUtility obfuscateString:[MSUtility prettyPrintJson:responseBody]
-                         searchingForPattern:kMSTokenKeyValuePattern
-                       toReplaceWithTemplate:kMSTokenKeyValueObfuscatedTemplate];
-        payload = [MSUtility obfuscateString:payload
-                         searchingForPattern:kMSRedirectUriPattern
-                       toReplaceWithTemplate:kMSRedirectUriObfuscatedTemplate];
+        payload = [self obfuscatePayload:[MSUtility prettyPrintJson:responseBody]];
       } else if (!contentType.length || [contentType hasPrefix:@"text/"] || [contentType hasPrefix:@"application/"]) {
-        payload = [MSUtility obfuscateString:[[NSString alloc] initWithData:responseBody encoding:NSUTF8StringEncoding]
-                         searchingForPattern:kMSTokenKeyValuePattern
-                       toReplaceWithTemplate:kMSTokenKeyValueObfuscatedTemplate];
-        payload = [MSUtility obfuscateString:payload
-                         searchingForPattern:kMSRedirectUriPattern
-                       toReplaceWithTemplate:kMSRedirectUriObfuscatedTemplate];
+        payload = [self obfuscatePayload:[[NSString alloc] initWithData:responseBody encoding:NSUTF8StringEncoding]];
       } else {
         payload = @"<binary>";
       }
@@ -223,6 +213,10 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
 
 // This method will be overridden by subclasses.
 - (NSData *)getPayloadWithData:(NSObject *__unused)data {
+  return nil;
+}
+
+- (NSString *)obfuscatePayload:(NSString * __unused)payload {
   return nil;
 }
 
