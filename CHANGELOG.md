@@ -1,5 +1,13 @@
 # App Center SDK for iOS, macOS and tvOS Change Log
 
+## Version 2.5.3 (Under development)
+
+### App Center Crashes
+
+* **[Fix]** Fix an issue when Crashes delegate callbacks can be blocked by a macOS modal window.
+
+___
+
 ## Version 2.5.2
 
 ### App Center
@@ -12,7 +20,6 @@
 * **[Fix]** Fix sending crashes if an application is launched in background.
 * **[Fix]** Validate error attachment size to avoid server error or out of memory issues (using the documented limit which is 7MB).
 * **[Fix]** Fix an issue where crash might contain incorrect data if two consecutive crashes occurred in a previous version of the application.
-* **[Fix]** Fix an issue when Crashes delegate callbacks can be blocked by a macOS modal window.
 
 ### App Center Distribute
 
