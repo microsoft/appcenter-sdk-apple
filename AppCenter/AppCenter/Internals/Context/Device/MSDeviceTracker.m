@@ -141,12 +141,18 @@ static MSDeviceTracker *sharedInstance = nil;
 #if TARGET_OS_IOS
     CTTelephonyNetworkInfo *telephonyNetworkInfo = [CTTelephonyNetworkInfo new];
     CTCarrier *carrier;
-    if (@available(iOS 12, *)) {
+    if (@available(iOS 12.1, *)) {
       NSDictionary<NSString *, CTCarrier *> *carriers = [telephonyNetworkInfo serviceSubscriberCellularProviders];
       for (NSString *key in carriers) {
         carrier = carriers[key];
         break;
       }
+    } else if (@available(iOS 12, *)) {
+        NSDictionary<NSString *, CTCarrier *> *carriers = [telephonyNetworkInfo valueForKey:@"serviceSubscriberCellularProvider"];
+        for (NSString *key in carriers) {
+            carrier = carriers[key];
+            break;
+        }
     }
 
     // Use the old API as fallback if new one doesn't work.

@@ -1,5 +1,13 @@
 # App Center SDK for iOS, macOS and tvOS Change Log
 
+## Development version
+
+### App Center 
+
+* **[Fix]** Fix SDK crash at app launch on iOS 12.0 (CTTelephonyNetworkInfo.serviceSubscriberCellularProviders issue).
+
+___
+
 ## Version 2.5.2
 
 ### App Center
