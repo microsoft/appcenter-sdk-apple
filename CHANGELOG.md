@@ -1,11 +1,18 @@
 # App Center SDK for iOS, macOS and tvOS Change Log
 
+## Version 2.5.3
+
+### App Center
+
+* **[Fix]** Disable module debugging for release mode in the SDK to fix dSYM warnings.
+
+___
+
 ## Version 2.5.2
 
 ### App Center
 
 * **[Fix]** Improve log messages for errors when it failed to read/write auth token history.
-* **[Fix]** Disable module debugging for release mode in the SDK to fix dSYM warnings.
 
 ### App Center Crashes
 
