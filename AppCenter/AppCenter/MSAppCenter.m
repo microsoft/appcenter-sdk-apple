@@ -605,7 +605,10 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
                                                                                            baseUrl:self.appSecret ? nil : self.logUrl];
     }
     if (!self.channelGroup) {
-      MSHttpClient *httpClient = [MSDependencyConfiguration getHttpClient] ? [MSDependencyConfiguration getHttpClient] : [MSHttpClient new];
+      id<MSHttpClientProtocol> httpClient = [MSDependencyConfiguration httpClient];
+      if (!httpClient) {
+        httpClient = [MSHttpClient new];
+      }
       self.channelGroup = [[MSChannelGroupDefault alloc] initWithHttpClient:httpClient
                                                                   installId:self.installId
                                                                      logUrl:self.logUrl ?: kMSAppCenterBaseUrl];

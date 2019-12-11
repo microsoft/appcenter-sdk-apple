@@ -2,22 +2,21 @@
 // Licensed under the MIT License.
 
 #import "MSDependencyConfiguration.h"
-#import "MSHttpClient.h"
+#import "MSHttpClientProtocol.h"
 
-static MSHttpClient *httpClientBacking;
-static NSObject *lock;
+static id<MSHttpClientProtocol> _httpClient;
 
 @implementation MSDependencyConfiguration
 
-+ (MSHttpClient *)getHttpClient {
-  @synchronized(lock) {
-    return httpClientBacking;
++ (id<MSHttpClientProtocol>)httpClient {
+  @synchronized(self) {
+    return _httpClient;
   }
 }
 
-+ (void)setHttpClient:(MSHttpClient *)httpClient {
-  @synchronized(lock) {
-    httpClientBacking = httpClient;
++ (void)setHttpClient:(id<MSHttpClientProtocol>)httpClient {
+  @synchronized(self) {
+    _httpClient = httpClient;
   }
 }
 

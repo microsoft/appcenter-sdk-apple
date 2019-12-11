@@ -3,25 +3,13 @@
 
 #import <Foundation/Foundation.h>
 
-@class MSHttpClient;
+@protocol MSHttpClientProtocol;
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface MSDependencyConfiguration : NSObject
 
-/**
- * Gets the http client.
- *
- * @return The http client.
- */
-+ (MSHttpClient *)getHttpClient;
-
-/**
- * Sets the http client.
- *
- * @param httpClient The http client.
- */
-+ (void)setHttpClient:(MSHttpClient *)httpClient;
+@property(class, atomic) id<MSHttpClientProtocol> httpClient;
 
 @end
 
