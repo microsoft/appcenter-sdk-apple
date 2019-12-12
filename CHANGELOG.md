@@ -2,6 +2,10 @@
 
 ## Version 2.5.3 (Under development)
 
+### App Center
+
+* **[Fix]** Disable module debugging for release mode in the SDK to fix dSYM warnings.
+
 ___
 
 ## Version 2.5.2
