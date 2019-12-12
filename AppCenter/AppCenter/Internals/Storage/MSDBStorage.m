@@ -318,7 +318,11 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
         int result;
         NSObject *value = values[i];
         if ([value isKindOfClass:[NSString class]]) {
-            result = sqlite3_bind_text(query, (int)i + 1, [(NSString *)value UTF8String], -1, SQLITE_TRANSIENT);
+            if ([(NSString *)value isEqualToString:@"NULL"]) {
+                result = sqlite3_bind_null(query, (int)i + 1);
+            } else {
+                result = sqlite3_bind_text(query, (int)i + 1, [(NSString *)value UTF8String], -1, SQLITE_TRANSIENT);
+            }
         } else if ([value isKindOfClass:[NSNumber class]]) {
             result = sqlite3_bind_int(query, (int)i + 1, [(NSNumber *)value intValue]);
         } else {

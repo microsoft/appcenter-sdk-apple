@@ -71,7 +71,7 @@ static const NSUInteger kMSSchemaVersion = 4;
     addLogValues = @[groupId,
                      base64Data,
                      encryptedToken,
-                     targetKey ? [NSString stringWithFormat:@"'%@'", targetKey] : @"NULL",
+                     targetKey ? targetKey: @"NULL",
                      @(persistenceFlags),
                      @(timestampMs)];
     addLogQuery = [NSString
@@ -183,7 +183,7 @@ static const NSUInteger kMSSchemaVersion = 4;
   if (excludedTargetKeys != nil && excludedTargetKeys.count > 0) {
     NSString *keyFormat = [self buildKeyFormatWithCount:excludedTargetKeys.count];
     [condition appendFormat:@" AND \"%@\" NOT IN %@", kMSTargetKeyColumnName, keyFormat];
-    [values addObjectsFromArray:(NSArray *)excludedTargetKeys];
+    [values addObjectsFromArray:(NSArray<NSString *> *)excludedTargetKeys];
   }
 
   // Take only logs that are not already part of a batch.
