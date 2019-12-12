@@ -50,4 +50,11 @@
  */
 - (void)setEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:(BOOL)deleteData;
 
+/**
+ * The actual send call.
+ *
+ * @param call The HTTP call to send.
+ */
+- (void)sendCallAsync:(MSHttpCall *)call;
+
 @end

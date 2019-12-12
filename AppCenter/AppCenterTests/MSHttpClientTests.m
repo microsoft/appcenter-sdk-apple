@@ -14,6 +14,7 @@
 #import "MSHttpTestUtil.h"
 #import "MSMockLog.h"
 #import "MSTestFrameworks.h"
+#import "MSTestUtil.h"
 #import "MS_Reachability.h"
 
 static NSTimeInterval const kMSTestTimeout = 5.0;
@@ -764,54 +765,64 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
                                  }
                                }];
 }
-/*
+
 - (void)testRetryStoppedWhilePaused {
 
   // If
   XCTestExpectation *responseReceivedExpectation = [self expectationWithDescription:@"Request completed."];
-  NSString *containerId = @"1";
-  MSLogContainer *container = [self createLogContainerWithId:containerId];
+  MSDevice *device = OCMPartialMock([MSDevice new]);
+  OCMStub([device isValid]).andReturn(YES);
+  MSHttpClient *httpClient = [MSHttpClient new];
 
   // Mock the call to intercept the retry.
-  NSArray *intervals = @[ @(UINT_MAX) ];
-  MSIngestionCall *mockedCall = [[MSIngestionCallExpectation alloc] initWithRetryIntervals:intervals
-                                                                            andExpectation:responseReceivedExpectation];
-  mockedCall.delegate = self.sut;
-  mockedCall.data = container;
-  mockedCall.callId = container.batchId;
+  NSArray *intervals = @[ @(UINT_MAX), @(UINT_MAX) ];
+  MSHttpCall *httpCall =
+      [[MSHttpCall alloc] initWithUrl:[[NSURL alloc] initWithString:@""]
+                               method:@"GET"
+                              headers:nil
+                                 data:nil
+                       retryIntervals:intervals
+                   compressionEnabled:YES
+                    completionHandler:^(NSData *_Nullable responseBody __unused, NSHTTPURLResponse *_Nullable response __unused,
+                                        NSError *_Nullable error __unused) {
+                      nil;
+                    }];
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wnonnull"
-  mockedCall.completionHandler = nil;
-#pragma clang diagnostic pop
+  // A non-zero number that should be reset by the end.
+  httpCall.retryCount = 1;
+  id mockHttpClient = OCMPartialMock(httpClient);
+  [httpClient.pendingCalls addObject:httpCall];
 
-  self.sut.pendingCalls[containerId] = mockedCall;
+  OCMStub([mockHttpClient requestCompletedWithHttpCall:httpCall data:OCMOCK_ANY response:OCMOCK_ANY error:OCMOCK_ANY])
+      .andForwardToRealObject()
+      .andDo(^(NSInvocation *invocation __unused) {
+        [responseReceivedExpectation fulfill];
+      });
 
   // Respond with a retryable error.
   [MSHttpTestUtil stubHttp500Response];
 
   // Send the call.
-  [self.sut sendCallAsync:mockedCall];
-  [self waitForExpectationsWithTimeout:kMSTestTimeout
+  [httpClient sendCallAsync:httpCall];
+  [self waitForExpectationsWithTimeout:5
                                handler:^(NSError *error) {
                                  // When
                                  // Pause now that the call is retrying.
-                                 [self.sut pause];
+                                 [httpClient pause];
 
                                  // Then
                                  // Retry must be stopped.
                                  if (@available(macOS 10.10, tvOS 9.0, watchOS 2.0, *)) {
-                                   XCTAssertNotEqual(0, dispatch_testcancel(((MSIngestionCall *)self.sut.pendingCalls[@"1"]).timerSource));
+                                   XCTAssertNotEqual(0, dispatch_testcancel(httpCall.timerSource));
                                  }
 
-                                 // No call submitted to the session.
-                                 assertThatBool(self.sut.pendingCalls[@"1"].submitted, isFalse());
+                                 XCTAssertEqual(httpCall.retryCount, 0);
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
                                }];
 }
-*/
+
 - (void)simulateReachabilityChangedNotification:(NetworkStatus)status {
   self.currentNetworkStatus = status;
   [[NSNotificationCenter defaultCenter] postNotificationName:kMSReachabilityChangedNotification object:self.reachabilityMock];
