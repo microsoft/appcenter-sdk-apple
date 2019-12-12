@@ -246,6 +246,8 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
 
 + (void)setVersion:(NSUInteger)version inOpenedDatabase:(void *)db {
   NSString *query = [NSString stringWithFormat:@"PRAGMA user_version = %lu", (unsigned long)version];
+    
+  // We use a slection query here because pragma set returns a value.
   [MSDBStorage executeSelectionQuery:query inOpenedDatabase:db withValues:nil];
 }
 
@@ -264,6 +266,8 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
    */
   if (autoVacuumDisabled) {
     MSLogDebug([MSAppCenter logTag], @"Vacuuming database and enabling auto_vacuum");
+      
+    // We use a slection query here because pragma set returns a value.
     [MSDBStorage executeSelectionQuery:@"PRAGMA auto_vacuum = FULL;" inOpenedDatabase:db withValues:nil];
     [MSDBStorage executeSelectionQuery:@"VACUUM;" inOpenedDatabase:db withValues:nil];
   }
@@ -485,6 +489,8 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
 + (int)setMaxPageCount:(long)maxPageCount inOpenedDatabase:(void *)db {
   int result;
   NSString *statement = [NSString stringWithFormat:@"PRAGMA max_page_count = %ld", maxPageCount];
+    
+  // We use a slection query here because pragma set returns a value.
   [MSDBStorage executeSelectionQuery:statement inOpenedDatabase:db result:&result withValues:nil];
   return result;
 }
