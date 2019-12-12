@@ -5,7 +5,8 @@
 ### App Center
 
 * **[Fix]** Disable module debugging for release mode in the SDK to fix dSYM warnings.
-**[Fix]** Fix SDK crash at app launch on iOS 12.0 (`CTTelephonyNetworkInfo.serviceSubscriberCellularProviders` issue).
+* **[Fix]** Fix SDK crash at app launch on iOS 12.0 (`CTTelephonyNetworkInfo.serviceSubscriberCellularProviders` issue).
+
 ___
 
 ## Version 2.5.2
