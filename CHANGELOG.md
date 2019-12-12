@@ -6,6 +6,10 @@
 
 * **[Fix]** Improve log messages for errors when it failed to read/write auth token history.
 
+### App Center Auth
+
+* **[Fix]** Fix build warnings when adding App Center Auth framework in project.
+
 ### App Center Crashes
 
 * **[Improvement]**  Report additional details for macOS exceptions thrown on the main thread.
@@ -25,10 +29,6 @@ ___
 ### App Center
 
 * **[Fix]** Fix warnings in Xcode 11 when SDK is installed via CocoaPods.
-
-### App Center Auth
-
-* **[Fix]** Fix build warnings when adding App Center Auth framework in project.
 
 ___
 
