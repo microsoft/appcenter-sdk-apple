@@ -2,6 +2,10 @@
 
 ## Version 2.5.3 (Under development)
 
+### App Center
+
+* **[Fix]** Disable module debugging for release mode in the SDK to fix dSYM warnings.
+
 ### App Center Distribute
 
 * **[Fix]** Fix a crash in some case when `SFAuthenticationSession` accesses the controller which is in the process of being released.
@@ -14,6 +18,10 @@ ___
 ### App Center
 
 * **[Fix]** Improve log messages for errors when it failed to read/write auth token history.
+
+### App Center Auth
+
+* **[Fix]** Fix build warnings when adding App Center Auth framework in project.
 
 ### App Center Crashes
 
@@ -34,10 +42,6 @@ ___
 ### App Center
 
 * **[Fix]** Fix warnings in Xcode 11 when SDK is installed via CocoaPods.
-
-### App Center Auth
-
-* **[Fix]** Fix build warnings when adding App Center Auth framework in project.
 
 ___
 

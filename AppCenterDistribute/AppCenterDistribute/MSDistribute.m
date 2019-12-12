@@ -31,7 +31,7 @@ static NSString *const kMSServiceName = @"Distribute";
 static NSString *const kMSGroupId = @"Distribute";
 
 /**
- *  Background task to save the browser connection.
+ * Background task to save the browser connection.
  */
 static UIBackgroundTaskIdentifier backgroundAuthSessionTask;
 
@@ -578,7 +578,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     if (!strongSelf) {
       return;
     }
-    [strongSelf clearAuthenticationSession];
+    strongSelf.authenticationSession = nil;
     if (error) {
       MSLogDebug([MSDistribute logTag], @"Called %@ with error: %@", callbackUrl, error.localizedDescription);
     }
