@@ -118,32 +118,32 @@
 }
 
 - (void)testListWithExpiredAppDocument {
-    
-    // If
-    NSString *documentId = @"12829";
-    NSString *eTag = @"398";
-    NSString *jsonString = @"{\"key\": \"value\"}";
-    NSString *pendingOperation = kMSPendingOperationReplace;
-    [self addJsonStringToTable:jsonString
-                          eTag:eTag
-                     partition:self.appToken.partition
-                    documentId:documentId
-              pendingOperation:pendingOperation
-                expirationTime:0];
-    
-    // When
-    MSPaginatedDocuments *paginated = [self.sut listWithToken:self.appToken
-                                                       partition:self.appToken.partition
-                                                    documentType:[MSDictionaryDocument class]
-                                                     baseOptions:nil];
-    
-    // Then
-    XCTAssertNotNil(paginated);
-    XCTAssertNotNil(paginated.currentPage);
-    XCTAssertNil(paginated.currentPage.error);
-    XCTAssertNotNil(paginated.currentPage.items);
-    XCTAssertEqual(0, paginated.currentPage.items.count);
-    OCMVerify([self.sut deleteWithToken:self.appToken documentId:documentId]);
+
+  // If
+  NSString *documentId = @"12829";
+  NSString *eTag = @"398";
+  NSString *jsonString = @"{\"key\": \"value\"}";
+  NSString *pendingOperation = kMSPendingOperationReplace;
+  [self addJsonStringToTable:jsonString
+                        eTag:eTag
+                   partition:self.appToken.partition
+                  documentId:documentId
+            pendingOperation:pendingOperation
+              expirationTime:0];
+
+  // When
+  MSPaginatedDocuments *paginated = [self.sut listWithToken:self.appToken
+                                                  partition:self.appToken.partition
+                                               documentType:[MSDictionaryDocument class]
+                                                baseOptions:nil];
+
+  // Then
+  XCTAssertNotNil(paginated);
+  XCTAssertNotNil(paginated.currentPage);
+  XCTAssertNil(paginated.currentPage.error);
+  XCTAssertNotNil(paginated.currentPage.items);
+  XCTAssertEqual(0, paginated.currentPage.items.count);
+  OCMVerify([self.sut deleteWithToken:self.appToken documentId:documentId]);
 }
 
 - (void)testReadAppDocumentFromLocalDatabase {
@@ -307,10 +307,10 @@
   // Then
   // Ensure that there is exactly one entry in the cache with the given document ID and partition name.
   NSString *tableName = [MSDBDocumentStore tableNameForPartition:self.appToken.partition];
-  NSString *queryMask = [NSString stringWithFormat:@"SELECT * FROM \"%@\" WHERE \"%@\" = \"?\" AND \"%@\" = \"?\"", tableName, kMSDocumentIdColumnName, kMSPartitionColumnName];
-  NSArray *values = { expectedDocumentWrapper.documentId, self.appToken.partition };
-  NSArray<NSArray *> *result = [self.dbStorage
-                                executeSelectionQuery: queryMask withValues:values];
+  NSString *queryMask = [NSString stringWithFormat:@"SELECT * FROM \"%@\" WHERE \"%@\" = \"?\" AND \"%@\" = \"?\"", tableName,
+                                                   kMSDocumentIdColumnName, kMSPartitionColumnName];
+  NSArray *values = {expectedDocumentWrapper.documentId, self.appToken.partition};
+  NSArray<NSArray *> *result = [self.dbStorage executeSelectionQuery:queryMask withValues:values];
   XCTAssertEqual(result.count, 1);
   XCTAssertEqualObjects(expectedEtag, result[0][self.sut.eTagColumnIndex]);
 }
@@ -739,8 +739,9 @@
 }
 
 - (BOOL)tableExists:(NSString *)tableName {
-  NSArray<NSArray *> *result = [self.dbStorage
-      executeSelectionQuery:@"SELECT COUNT(*) FROM \"sqlite_master\" WHERE \"type\"='table' AND \"name\"='%@';" withValues:tableName];
+  NSArray<NSArray *> *result =
+      [self.dbStorage executeSelectionQuery:@"SELECT COUNT(*) FROM \"sqlite_master\" WHERE \"type\"='table' AND \"name\"='%@';"
+                                 withValues:tableName];
   return [(NSNumber *)result[0][0] boolValue];
 }
 
@@ -750,10 +751,12 @@
 
 - (long)expirationTimeWithToken:(MSTokenResult *)token documentId:(NSString *)documentId {
   NSString *tableName = [MSDBDocumentStore tableNameForPartition:token.partition];
-  NSArray *values = { documentId, token.partition };
-  NSArray<NSArray *> *result = [self.dbStorage
-      executeSelectionQuery:[NSString stringWithFormat:@"SELECT \"%@\" FROM \"%@\" WHERE \"%@\" = \"?\" AND \"%@\" = \"?\"",
-                                                       kMSExpirationTimeColumnName, tableName, kMSDocumentIdColumnName,       kMSPartitionColumnName] withValues:values];
+  NSArray *values = {documentId, token.partition};
+  NSArray<NSArray *> *result =
+      [self.dbStorage executeSelectionQuery:[NSString stringWithFormat:@"SELECT \"%@\" FROM \"%@\" WHERE \"%@\" = \"?\" AND \"%@\" = \"?\"",
+                                                                       kMSExpirationTimeColumnName, tableName, kMSDocumentIdColumnName,
+                                                                       kMSPartitionColumnName]
+                                 withValues:values];
   return [((NSNumber *)result[0][0]) longValue];
 }
 

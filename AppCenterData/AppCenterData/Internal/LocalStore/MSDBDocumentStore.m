@@ -89,14 +89,11 @@ static const NSUInteger kMSSchemaVersion = 1;
                        @"VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
                        tableName, kMSPartitionColumnName, kMSDocumentIdColumnName, kMSDocumentColumnName, kMSETagColumnName,
                        kMSExpirationTimeColumnName, kMSDownloadTimeColumnName, kMSOperationTimeColumnName, kMSPendingOperationColumnName];
-  NSArray *insertValues = @[token.partition,
-                            documentWrapper.documentId,
-                            documentWrapper.jsonValue,
-                            normalizedEtagString,
-                            [NSNumber numberWithLong:(long)expirationTime],
-                            [NSNumber numberWithLong:(long)now],
-                            [NSNumber numberWithLong:(long)[documentWrapper.lastUpdatedDate timeIntervalSince1970]],
-                            normalizedOperationString];
+  NSArray *insertValues = @[
+    token.partition, documentWrapper.documentId, documentWrapper.jsonValue, normalizedEtagString,
+    [NSNumber numberWithLong:(long)expirationTime], [NSNumber numberWithLong:(long)now],
+    [NSNumber numberWithLong:(long)[documentWrapper.lastUpdatedDate timeIntervalSince1970]], normalizedOperationString
+  ];
   int result = [self.dbStorage executeNonSelectionQuery:insertQuery withValues:insertValues];
   if (result != SQLITE_OK) {
     MSLogError([MSData logTag], @"Unable to update or replace local document, SQLite error code: %ld", (long)result);
@@ -122,9 +119,9 @@ static const NSUInteger kMSSchemaVersion = 1;
 
 - (BOOL)deleteWithToken:(MSTokenResult *)token documentId:(NSString *)documentId {
   NSString *tableName = [MSDBDocumentStore tableNameForPartition:token.partition];
-  NSString *deleteQuery = [NSString stringWithFormat:@"DELETE FROM \"%@\" WHERE \"%@\" = ? AND \"%@\" = ?", tableName,
-                                                     kMSPartitionColumnName, kMSDocumentIdColumnName];
-  NSArray *deleteValues = @[token.partition, documentId];
+  NSString *deleteQuery = [NSString
+      stringWithFormat:@"DELETE FROM \"%@\" WHERE \"%@\" = ? AND \"%@\" = ?", tableName, kMSPartitionColumnName, kMSDocumentIdColumnName];
+  NSArray *deleteValues = @[ token.partition, documentId ];
   int result = [self.dbStorage executeNonSelectionQuery:deleteQuery withValues:deleteValues];
   if (result != SQLITE_OK) {
     MSLogError([MSData logTag], @"Unable to delete local document, SQLite error code: %ld", (long)result);
@@ -140,9 +137,9 @@ static const NSUInteger kMSSchemaVersion = 1;
 - (MSDocumentWrapper *)readWithToken:(MSTokenResult *)token documentId:(NSString *)documentId documentType:(Class)documentType {
   // Execute the query.
   NSString *tableName = [MSDBDocumentStore tableNameForPartition:token.partition];
-  NSString *selectionQuery = [NSString stringWithFormat:@"SELECT * FROM \"%@\" WHERE \"%@\" = ? AND \"%@\" = ?", tableName,
-                                                        kMSPartitionColumnName, kMSDocumentIdColumnName];
-  NSArray *deleteValues = @[token.partition, documentId];
+  NSString *selectionQuery = [NSString
+      stringWithFormat:@"SELECT * FROM \"%@\" WHERE \"%@\" = ? AND \"%@\" = ?", tableName, kMSPartitionColumnName, kMSDocumentIdColumnName];
+  NSArray *deleteValues = @[ token.partition, documentId ];
   NSArray *result = [self.dbStorage executeSelectionQuery:selectionQuery withValues:deleteValues];
 
   // Return an error if the document could not be found.
@@ -210,9 +207,8 @@ static const NSUInteger kMSSchemaVersion = 1;
 
   // Execute the query.
   NSString *tableName = [MSDBDocumentStore tableNameForPartition:token.partition];
-  NSString *selectionQuery =
-      [NSString stringWithFormat:@"SELECT * FROM \"%@\" WHERE \"%@\" = ?", tableName, kMSPartitionColumnName];
-  NSArray *selectionValues = @[token.partition];
+  NSString *selectionQuery = [NSString stringWithFormat:@"SELECT * FROM \"%@\" WHERE \"%@\" = ?", tableName, kMSPartitionColumnName];
+  NSArray *selectionValues = @[ token.partition ];
   NSArray *listResult = [self.dbStorage executeSelectionQuery:selectionQuery withValues:selectionValues];
   NSDate *currentDate = [NSDate date];
 

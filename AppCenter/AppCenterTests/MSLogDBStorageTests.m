@@ -977,7 +977,8 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
 
   // If
   id classMock = OCMClassMock([MSDBStorage class]);
-  OCMStub([classMock executeNonSelectionQuery:startsWith(@"INSERT") inOpenedDatabase:[OCMArg anyPointer] withValues: OCMOCK_ANY]).andReturn(SQLITE_OK);
+  OCMStub([classMock executeNonSelectionQuery:startsWith(@"INSERT") inOpenedDatabase:[OCMArg anyPointer] withValues:OCMOCK_ANY])
+      .andReturn(SQLITE_OK);
   id<MSLog> log = [self generateLogWithSize:@0];
   long long expectedTimestampMs = (long long)([log.timestamp timeIntervalSince1970] * 1000);
 
@@ -988,17 +989,17 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   XCTAssertTrue(logSavedSuccessfully);
   OCMVerify([classMock executeNonSelectionQuery:OCMOCK_ANY
                                inOpenedDatabase:[OCMArg anyPointer]
-                                     withValues: [OCMArg checkWithBlock:^BOOL(id obj) {
-      for(NSObject *value in (NSArray *)obj) {
-          if (![value isKindOfClass: [NSNumber class]]) {
-              continue;
-          }
-          if ([(NSNumber *)value isEqualToNumber:@(expectedTimestampMs)]) {
-              return YES;
-          }
-      }
-      return NO;
-  }]]);
+                                     withValues:[OCMArg checkWithBlock:^BOOL(id obj) {
+                                       for (NSObject *value in (NSArray *)obj) {
+                                         if (![value isKindOfClass:[NSNumber class]]) {
+                                           continue;
+                                         }
+                                         if ([(NSNumber *)value isEqualToNumber:@(expectedTimestampMs)]) {
+                                           return YES;
+                                         }
+                                       }
+                                       return NO;
+                                     }]]);
   [classMock stopMocking];
 }
 
@@ -1016,18 +1017,18 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
 
   // Then
   OCMVerify([classMock executeSelectionQuery:OCMOCK_ANY
-                                 inOpenedDatabase:[OCMArg anyPointer]
-                                     withValues: [OCMArg checkWithBlock:^BOOL(id obj) {
-      for(NSObject *value in (NSArray *)obj) {
-          if (![value isKindOfClass: [NSNumber class]]) {
-              continue;
-          }
-          if ([(NSNumber *)value isEqualToNumber:@(expectedTimestampMs)]) {
-              return YES;
-          }
-      }
-      return NO;
-  }]]);
+                            inOpenedDatabase:[OCMArg anyPointer]
+                                  withValues:[OCMArg checkWithBlock:^BOOL(id obj) {
+                                    for (NSObject *value in (NSArray *)obj) {
+                                      if (![value isKindOfClass:[NSNumber class]]) {
+                                        continue;
+                                      }
+                                      if ([(NSNumber *)value isEqualToNumber:@(expectedTimestampMs)]) {
+                                        return YES;
+                                      }
+                                    }
+                                    return NO;
+                                  }]]);
   [classMock stopMocking];
 }
 
@@ -1052,31 +1053,31 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
 
   // Then
   OCMVerify([classMock executeSelectionQuery:OCMOCK_ANY
-                                 inOpenedDatabase:[OCMArg anyPointer]
-                                     withValues: [OCMArg checkWithBlock:^BOOL(id obj) {
-      for(NSObject *value in (NSArray *)obj) {
-          if (![value isKindOfClass: [NSNumber class]]) {
-              continue;
-          }
-          if ([(NSNumber *)value isEqualToNumber:@(expectedAfterTimestampMs)]) {
-              return YES;
-          }
-      }
-      return NO;
-  }]]);
+                            inOpenedDatabase:[OCMArg anyPointer]
+                                  withValues:[OCMArg checkWithBlock:^BOOL(id obj) {
+                                    for (NSObject *value in (NSArray *)obj) {
+                                      if (![value isKindOfClass:[NSNumber class]]) {
+                                        continue;
+                                      }
+                                      if ([(NSNumber *)value isEqualToNumber:@(expectedAfterTimestampMs)]) {
+                                        return YES;
+                                      }
+                                    }
+                                    return NO;
+                                  }]]);
   OCMVerify([classMock executeSelectionQuery:OCMOCK_ANY
-                                 inOpenedDatabase:[OCMArg anyPointer]
-                                     withValues: [OCMArg checkWithBlock:^BOOL(id obj) {
-      for(NSObject *value in (NSArray *)obj) {
-          if (![value isKindOfClass: [NSNumber class]]) {
-              continue;
-          }
-          if ([(NSNumber *)value isEqualToNumber:@(expectedBeforeTimestampMs)]) {
-              return YES;
-          }
-      }
-      return NO;
-  }]]);
+                            inOpenedDatabase:[OCMArg anyPointer]
+                                  withValues:[OCMArg checkWithBlock:^BOOL(id obj) {
+                                    for (NSObject *value in (NSArray *)obj) {
+                                      if (![value isKindOfClass:[NSNumber class]]) {
+                                        continue;
+                                      }
+                                      if ([(NSNumber *)value isEqualToNumber:@(expectedBeforeTimestampMs)]) {
+                                        return YES;
+                                      }
+                                    }
+                                    return NO;
+                                  }]]);
   [classMock stopMocking];
 }
 
@@ -1084,8 +1085,10 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
 
   // If
   id classMock = OCMClassMock([MSDBStorage class]);
-  OCMStub([classMock executeNonSelectionQuery:startsWith(@"INSERT") inOpenedDatabase:[OCMArg anyPointer] withValues:OCMOCK_ANY]).andReturn(SQLITE_FULL);
-  OCMStub([classMock executeNonSelectionQuery:startsWith(@"DELETE") inOpenedDatabase:[OCMArg anyPointer] withValues:OCMOCK_ANY]).andReturn(SQLITE_ERROR);
+  OCMStub([classMock executeNonSelectionQuery:startsWith(@"INSERT") inOpenedDatabase:[OCMArg anyPointer] withValues:OCMOCK_ANY])
+      .andReturn(SQLITE_FULL);
+  OCMStub([classMock executeNonSelectionQuery:startsWith(@"DELETE") inOpenedDatabase:[OCMArg anyPointer] withValues:OCMOCK_ANY])
+      .andReturn(SQLITE_ERROR);
 
   // When
   MSAbstractLog *additionalLog = [MSAbstractLog new];
@@ -1103,11 +1106,13 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
 
   // Then
   NSString *currentTable =
-      [self.sut executeSelectionQuery:[NSString stringWithFormat:@"SELECT sql FROM sqlite_master WHERE name='%@'", kMSLogTableName] withValues:nil][0][0];
+      [self.sut executeSelectionQuery:[NSString stringWithFormat:@"SELECT sql FROM sqlite_master WHERE name='%@'", kMSLogTableName]
+                           withValues:nil][0][0];
   assertThat(currentTable, is(kMSLatestSchema));
   NSString *priorityIndex =
       [self.sut executeSelectionQuery:[NSString stringWithFormat:@"SELECT sql FROM sqlite_master WHERE name='ix_%@_%@'", kMSLogTableName,
-                                                                 kMSPriorityColumnName] withValues:nil][0][0];
+                                                                 kMSPriorityColumnName]
+                           withValues:nil][0][0];
   assertThat(priorityIndex, is(@"CREATE INDEX \"ix_logs_priority\" ON \"logs\" (\"priority\")"));
 }
 
@@ -1138,11 +1143,13 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   // Then
   assertThatInt([self loadLogsWhere:nil].count, equalToUnsignedInt(10));
   NSString *currentTable =
-      [self.sut executeSelectionQuery:[NSString stringWithFormat:@"SELECT sql FROM sqlite_master WHERE name='%@'", kMSLogTableName] withValues:nil][0][0];
+      [self.sut executeSelectionQuery:[NSString stringWithFormat:@"SELECT sql FROM sqlite_master WHERE name='%@'", kMSLogTableName]
+                           withValues:nil][0][0];
   assertThat(currentTable, is(kMSLatestSchema));
   NSString *priorityIndex =
       [self.sut executeSelectionQuery:[NSString stringWithFormat:@"SELECT sql FROM sqlite_master WHERE name='ix_%@_%@'", kMSLogTableName,
-                                                                 kMSPriorityColumnName] withValues:nil][0][0];
+                                                                 kMSPriorityColumnName]
+                           withValues:nil][0][0];
   assertThat(priorityIndex, is(@"CREATE INDEX \"ix_logs_priority\" ON \"logs\" (\"priority\")"));
 }
 
@@ -1173,11 +1180,13 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   // Then
   assertThatInt([self loadLogsWhere:nil].count, equalToUnsignedInt(10));
   NSString *currentTable =
-      [self.sut executeSelectionQuery:[NSString stringWithFormat:@"SELECT sql FROM sqlite_master WHERE name='%@'", kMSLogTableName] withValues:nil][0][0];
+      [self.sut executeSelectionQuery:[NSString stringWithFormat:@"SELECT sql FROM sqlite_master WHERE name='%@'", kMSLogTableName]
+                           withValues:nil][0][0];
   assertThat(currentTable, is(kMSLatestSchema));
   NSString *priorityIndex =
       [self.sut executeSelectionQuery:[NSString stringWithFormat:@"SELECT sql FROM sqlite_master WHERE name='ix_%@_%@'", kMSLogTableName,
-                                                                 kMSPriorityColumnName] withValues:nil][0][0];
+                                                                 kMSPriorityColumnName]
+                           withValues:nil][0][0];
   assertThat(priorityIndex, is(@"CREATE INDEX \"ix_logs_priority\" ON \"logs\" (\"priority\")"));
 }
 
@@ -1209,11 +1218,13 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   // Then
   assertThatInt([self loadLogsWhere:nil].count, equalToUnsignedInt(10));
   NSString *currentTable =
-      [self.sut executeSelectionQuery:[NSString stringWithFormat:@"SELECT sql FROM sqlite_master WHERE name='%@'", kMSLogTableName] withValues:nil][0][0];
+      [self.sut executeSelectionQuery:[NSString stringWithFormat:@"SELECT sql FROM sqlite_master WHERE name='%@'", kMSLogTableName]
+                           withValues:nil][0][0];
   assertThat(currentTable, is(kMSLatestSchema));
   NSString *priorityIndex =
       [self.sut executeSelectionQuery:[NSString stringWithFormat:@"SELECT sql FROM sqlite_master WHERE name='ix_%@_%@'", kMSLogTableName,
-                                                                 kMSPriorityColumnName] withValues:nil][0][0];
+                                                                 kMSPriorityColumnName]
+                           withValues:nil][0][0];
   assertThat(priorityIndex, is(@"CREATE INDEX \"ix_logs_priority\" ON \"logs\" (\"priority\")"));
 }
 
@@ -1245,11 +1256,13 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   // Then
   assertThatInt([self loadLogsWhere:nil].count, equalToUnsignedInt(10));
   NSString *currentTable =
-      [self.sut executeSelectionQuery:[NSString stringWithFormat:@"SELECT sql FROM sqlite_master WHERE name='%@'", kMSLogTableName] withValues:nil][0][0];
+      [self.sut executeSelectionQuery:[NSString stringWithFormat:@"SELECT sql FROM sqlite_master WHERE name='%@'", kMSLogTableName]
+                           withValues:nil][0][0];
   assertThat(currentTable, is(kMSLatestSchema));
   NSString *priorityIndex =
       [self.sut executeSelectionQuery:[NSString stringWithFormat:@"SELECT sql FROM sqlite_master WHERE name='ix_%@_%@'", kMSLogTableName,
-                                                                 kMSPriorityColumnName] withValues:nil][0][0];
+                                                                 kMSPriorityColumnName]
+                           withValues:nil][0][0];
   assertThat(priorityIndex, is(@"CREATE INDEX \"ix_logs_priority\" ON \"logs\" (\"priority\")"));
 }
 
@@ -1309,25 +1322,21 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
     id<MSLog> log = [self generateLogWithSize:size];
     NSData *logData = [NSKeyedArchiver archivedDataWithRootObject:log];
     NSString *base64Data = [logData base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
-    NSString *addLogQuery = [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\", \"%@\") VALUES (?, ?, ?, ?)",
-                                                       kMSLogTableName, kMSGroupIdColumnName, kMSLogColumnName, kMSPriorityColumnName,
-                                                       kMSTimestampColumnName];
-    [storage executeNonSelectionQuery:addLogQuery withValues:@[groupId,
-                                                               base64Data,
-                                                               @((unsigned int)flags),
-                                                               @(timestampMs)]];
+    NSString *addLogQuery =
+        [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\", \"%@\") VALUES (?, ?, ?, ?)", kMSLogTableName,
+                                   kMSGroupIdColumnName, kMSLogColumnName, kMSPriorityColumnName, kMSTimestampColumnName];
+    [storage executeNonSelectionQuery:addLogQuery withValues:@[ groupId, base64Data, @((unsigned int)flags), @(timestampMs) ]];
     [logs addObject:log];
   }
 
   if (verify) {
 
     // Check the insertion worked.
-    trueLogCount = [storage
-        countEntriesForTable:kMSLogTableName
-                   condition:[NSString stringWithFormat:@"\"%@\" = '%@' AND \"%@\" = ? AND \"%@\" = ?", kMSGroupIdColumnName, groupId,
-                                                        kMSPriorityColumnName, kMSTimestampColumnName]
-                    withValues:@[@((unsigned int)flags),
-                                 @(timestampMs)]];
+    trueLogCount =
+        [storage countEntriesForTable:kMSLogTableName
+                            condition:[NSString stringWithFormat:@"\"%@\" = '%@' AND \"%@\" = ? AND \"%@\" = ?", kMSGroupIdColumnName,
+                                                                 groupId, kMSPriorityColumnName, kMSTimestampColumnName]
+                           withValues:@[ @((unsigned int)flags), @(timestampMs) ]];
     assertThatUnsignedInteger(trueLogCount, equalToUnsignedInteger(count));
   }
   return logs;
@@ -1336,7 +1345,9 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
 - (NSArray<NSNumber *> *)dbIdsForPriority:(MSFlags)flags inOpenedDatabase:(void *)db {
   NSString *selectLogQuery = [NSString stringWithFormat:@"SELECT \"%@\" FROM \"%@\" WHERE \"%@\" = ? ORDER BY \"%@\" ASC", kMSIdColumnName,
                                                         kMSLogTableName, kMSPriorityColumnName, kMSIdColumnName];
-  NSArray<NSArray *> *entries = [MSDBStorage executeSelectionQuery:selectLogQuery inOpenedDatabase:db withValues:@[[NSNumber numberWithUnsignedInteger:(unsigned int)flags]]];
+  NSArray<NSArray *> *entries = [MSDBStorage executeSelectionQuery:selectLogQuery
+                                                  inOpenedDatabase:db
+                                                        withValues:@[ [NSNumber numberWithUnsignedInteger:(unsigned int)flags] ]];
   NSMutableArray *ids = [NSMutableArray new];
   for (NSMutableArray *row in entries) {
     [ids addObject:row[0]];
@@ -1445,12 +1456,12 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   // Get DB IDs for logs
   NSMutableDictionary *ids = [NSMutableDictionary new];
   for (NSNumber *flag in @[ [NSNumber numberWithInt:MSFlagsNormal], [NSNumber numberWithInt:MSFlagsCritical] ]) {
-    NSString *selectLogQuery =
-        [NSString stringWithFormat:@"SELECT \"%@\" FROM \"%@\" WHERE \"%@\" = ? ORDER BY \"%@\" ASC", kMSIdColumnName, kMSLogTableName,
-                                   kMSPriorityColumnName, kMSIdColumnName];
-    NSArray<NSArray *> *entries = [MSDBStorage executeSelectionQuery:selectLogQuery
-                                                    inOpenedDatabase:db
-                                                          withValues:@[[NSNumber numberWithUnsignedInteger:(unsigned int)[flag unsignedIntegerValue]]]];
+    NSString *selectLogQuery = [NSString stringWithFormat:@"SELECT \"%@\" FROM \"%@\" WHERE \"%@\" = ? ORDER BY \"%@\" ASC",
+                                                          kMSIdColumnName, kMSLogTableName, kMSPriorityColumnName, kMSIdColumnName];
+    NSArray<NSArray *> *entries =
+        [MSDBStorage executeSelectionQuery:selectLogQuery
+                          inOpenedDatabase:db
+                                withValues:@[ [NSNumber numberWithUnsignedInteger:(unsigned int)[flag unsignedIntegerValue]] ]];
     NSMutableArray *priorityIds = [NSMutableArray new];
     for (NSMutableArray *row in entries) {
       [priorityIds addObject:row[0]];
@@ -1464,9 +1475,8 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
 
 - (BOOL)containsLogWithDbId:(NSNumber *)dbId {
   sqlite3 *db = [self.storageTestUtil openDatabase];
-  NSString *selectLogQuery =
-      [NSString stringWithFormat:@"SELECT COUNT(*) FROM \"%@\" WHERE \"%@\" = ?", kMSLogTableName, kMSIdColumnName];
-  NSArray<NSArray<NSNumber *> *> *entries = [MSDBStorage executeSelectionQuery:selectLogQuery inOpenedDatabase:db withValues:@[dbId]];
+  NSString *selectLogQuery = [NSString stringWithFormat:@"SELECT COUNT(*) FROM \"%@\" WHERE \"%@\" = ?", kMSLogTableName, kMSIdColumnName];
+  NSArray<NSArray<NSNumber *> *> *entries = [MSDBStorage executeSelectionQuery:selectLogQuery inOpenedDatabase:db withValues:@[ dbId ]];
   if (entries.count > 0) {
     return entries[0][0].unsignedIntegerValue > 0;
   }
@@ -1476,11 +1486,9 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
 - (NSArray<NSNumber *> *)findUnknownDBIdsFromKnownIdList:(NSArray<NSNumber *> *)idList {
   sqlite3 *db = [self.storageTestUtil openDatabase];
   NSString *keyFormat = [self.sut buildKeyFormatWithCount:idList.count];
-  NSString *selectLogQuery = [NSString stringWithFormat:@"SELECT \"%@\" FROM \"%@\" WHERE \"%@\" NOT IN %@", kMSIdColumnName,
-                                                        kMSLogTableName, kMSIdColumnName, keyFormat];
-  NSArray<NSArray<NSNumber *> *> *entries = [MSDBStorage executeSelectionQuery:selectLogQuery
-                                                              inOpenedDatabase:db
-                                                                    withValues:idList];
+  NSString *selectLogQuery = [NSString
+      stringWithFormat:@"SELECT \"%@\" FROM \"%@\" WHERE \"%@\" NOT IN %@", kMSIdColumnName, kMSLogTableName, kMSIdColumnName, keyFormat];
+  NSArray<NSArray<NSNumber *> *> *entries = [MSDBStorage executeSelectionQuery:selectLogQuery inOpenedDatabase:db withValues:idList];
   if (entries.count > 0) {
     return entries[0];
   }

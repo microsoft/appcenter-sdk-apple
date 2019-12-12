@@ -192,7 +192,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   id dbStorageMock = OCMClassMock([MSDBStorage class]);
   sqlite3 *db = [self.storageTestUtil openDatabase];
   NSMutableArray<NSMutableArray *> *entries = [NSMutableArray<NSMutableArray *> new];
-  OCMStub([dbStorageMock executeSelectionQuery:[OCMArg any] inOpenedDatabase:db withValues: OCMOCK_ANY]).andReturn(entries);
+  OCMStub([dbStorageMock executeSelectionQuery:[OCMArg any] inOpenedDatabase:db withValues:OCMOCK_ANY]).andReturn(entries);
 
   // When
   long counter = [MSDBStorage getMaxPageCountInOpenedDatabase:db];
@@ -203,7 +203,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   // If
   // Query returns an array with empty array.
   [entries addObject:[NSMutableArray new]];
-  OCMStub([dbStorageMock executeSelectionQuery:[OCMArg any] inOpenedDatabase:db withValues: OCMOCK_ANY]).andReturn(entries);
+  OCMStub([dbStorageMock executeSelectionQuery:[OCMArg any] inOpenedDatabase:db withValues:OCMOCK_ANY]).andReturn(entries);
 
   // When
   counter = [MSDBStorage getMaxPageCountInOpenedDatabase:db];
@@ -360,12 +360,12 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   NSString *query1 = [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\") "
                                                 @"VALUES (?, ?, ?)",
                                                 tableToCreate, kMSTestPersonColName, kMSTestHungrinessColName, kMSTestMealColName];
-  NSArray *array1 = @[expectedPerson1, expectedHungriness.stringValue, expectedMeal];
+  NSArray *array1 = @[ expectedPerson1, expectedHungriness.stringValue, expectedMeal ];
   NSString *expectedPerson2 = @"Second Hungry Guy";
   NSString *query2 = [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\") "
                                                 @"VALUES (?, ?, ?)",
                                                 tableToCreate, kMSTestPersonColName, kMSTestHungrinessColName, kMSTestMealColName];
-  NSArray *array2 = @[expectedPerson2, expectedHungriness.stringValue, expectedMeal];
+  NSArray *array2 = @[ expectedPerson2, expectedHungriness.stringValue, expectedMeal ];
 
   // When
   int result = [self.sut executeNonSelectionQuery:query1 withValues:array1];
@@ -431,7 +431,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   NSString *query = [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\") "
                                                @"VALUES (?, ?, ?)",
                                                kMSTestTableName, kMSTestPersonColName, kMSTestHungrinessColName, kMSTestMealColName];
-  NSArray *array = @[expectedPerson, expectedHungriness.stringValue, expectedMeal];
+  NSArray *array = @[ expectedPerson, expectedHungriness.stringValue, expectedMeal ];
   int result;
   NSArray *entry;
 
@@ -452,10 +452,11 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
 
   // If
   expectedMeal = @"Gigantic burger";
-  query = [NSString stringWithFormat:@"UPDATE \"%@\" SET \"%@\" = ? WHERE \"%@\" = ?", kMSTestTableName, kMSTestMealColName, kMSTestPositionColName];
+  query = [NSString
+      stringWithFormat:@"UPDATE \"%@\" SET \"%@\" = ? WHERE \"%@\" = ?", kMSTestTableName, kMSTestMealColName, kMSTestPositionColName];
 
   // When
-  result = [self.sut executeNonSelectionQuery:query withValues:@[expectedMeal, [NSNumber numberWithInt:1]]];
+  result = [self.sut executeNonSelectionQuery:query withValues:@[ expectedMeal, [NSNumber numberWithInt:1] ]];
 
   // Then
   assertThatInteger(result, equalToInt(SQLITE_OK));
@@ -473,7 +474,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   query = [NSString stringWithFormat:@"DELETE FROM \"%@\" WHERE \"%@\" = ?;", kMSTestTableName, kMSTestPositionColName];
 
   // When
-  result = [self.sut executeNonSelectionQuery:query withValues:@[[NSNumber numberWithInt:1]]];
+  result = [self.sut executeNonSelectionQuery:query withValues:@[ [NSNumber numberWithInt:1] ]];
 
   // Then
   assertThatInteger(result, equalToInt(SQLITE_OK));
@@ -518,7 +519,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   NSString *query = [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\") "
                                                @"VALUES (?, ?, ?)",
                                                kMSTestTableName, kMSTestPersonColName, kMSTestHungrinessColName, kMSTestMealColName];
-  NSArray *array = @[expectedPerson, expectedHungriness.stringValue, expectedMeal];
+  NSArray *array = @[ expectedPerson, expectedHungriness.stringValue, expectedMeal ];
   [self.sut executeNonSelectionQuery:query withValues:array];
 
   // When
@@ -533,7 +534,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   query = [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\") "
                                      @"VALUES (?, ?, ?)",
                                      kMSTestTableName, kMSTestPersonColName, kMSTestHungrinessColName, kMSTestMealColName];
-  array = @[expectedPerson, expectedHungriness.stringValue, expectedMeal];
+  array = @[ expectedPerson, expectedHungriness.stringValue, expectedMeal ];
   [self.sut executeNonSelectionQuery:query withValues:array];
 
   // When
@@ -545,7 +546,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   // When
   count = [self.sut countEntriesForTable:kMSTestTableName
                                condition:[NSString stringWithFormat:@"\"%@\" = ?", kMSTestMealColName]
-                              withValues:@[expectedMeal]];
+                              withValues:@[ expectedMeal ]];
 
   // Then
   assertThatUnsignedInteger(count, equalToInt(1));
@@ -750,7 +751,11 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
 
   // If
   id mockMSDBStorage = OCMClassMock([MSDBStorage class]);
-  OCMStub([mockMSDBStorage executeSelectionQuery:containsSubstring(@"PRAGMA max_page_count =") inOpenedDatabase:[OCMArg anyPointer] result:[OCMArg setToValue:OCMOCK_VALUE((int){SQLITE_CORRUPT})] withValues:OCMOCK_ANY]).andReturn(@[]);
+  OCMStub([mockMSDBStorage executeSelectionQuery:containsSubstring(@"PRAGMA max_page_count =")
+                                inOpenedDatabase:[OCMArg anyPointer]
+                                          result:[OCMArg setToValue:OCMOCK_VALUE((int){SQLITE_CORRUPT})]
+                                      withValues:OCMOCK_ANY])
+      .andReturn(@[]);
 
   // When
   self.sut = [[MSDBStorage alloc] initWithSchema:self.schema version:1 filename:kMSTestDBFileName];
@@ -786,14 +791,15 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
 }
 
 - (NSString *)queryTable:(NSString *)tableName {
-  return [self.sut executeSelectionQuery:[NSString stringWithFormat:@"SELECT sql FROM sqlite_master WHERE name='%@'", tableName] withValues:nil][0][0];
+  return [self.sut executeSelectionQuery:[NSString stringWithFormat:@"SELECT sql FROM sqlite_master WHERE name='%@'", tableName]
+                              withValues:nil][0][0];
 }
 
 - (BOOL)tableExists:(NSString *)tableName {
   NSArray<NSArray *> *result = [self.sut
       executeSelectionQuery:[NSString stringWithFormat:@"SELECT COUNT(*) FROM \"sqlite_master\" WHERE \"type\"='table' AND \"name\"='%@';",
                                                        tableName]
-                                withValues:nil];
+                 withValues:nil];
   return [(NSNumber *)result[0][0] boolValue];
 }
 

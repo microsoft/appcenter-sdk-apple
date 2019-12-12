@@ -374,32 +374,32 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
                                    withValues:(nullable NSArray *)values {
   NSMutableArray<NSMutableArray *> *entries = [NSMutableArray<NSMutableArray *> new];
   int queryResult = [MSDBStorage executeQuery:query
-                     inOpenedDatabase:db
-                           withValues:values
-                           usingBlock:^(void *statement) {
-                             int stepResult;
+                             inOpenedDatabase:db
+                                   withValues:values
+                                   usingBlock:^(void *statement) {
+                                     int stepResult;
 
-                             // Loop on rows.
-                             while ((stepResult = sqlite3_step(statement)) == SQLITE_ROW) {
-                               NSMutableArray *entry = [NSMutableArray new];
+                                     // Loop on rows.
+                                     while ((stepResult = sqlite3_step(statement)) == SQLITE_ROW) {
+                                       NSMutableArray *entry = [NSMutableArray new];
 
-                               // Loop on columns.
-                               for (int i = 0; i < sqlite3_column_count(statement); i++) {
-                                 NSObject *value = [MSDBStorage columnValueFromStatement:statement withIndex:i];
-                                 [entry addObject:value];
-                               }
-                               if (entry.count > 0) {
-                                 [entries addObject:entry];
-                               }
-                             }
-                             if (stepResult != SQLITE_DONE) {
-                               NSString *errorMessage = [NSString stringWithUTF8String:sqlite3_errmsg(db)];
-                               MSLogError([MSAppCenter logTag], @"Query failed with error: %d\n\t%@", stepResult, errorMessage);
-                             }
-                             return SQLITE_OK;
-                           }];
+                                       // Loop on columns.
+                                       for (int i = 0; i < sqlite3_column_count(statement); i++) {
+                                         NSObject *value = [MSDBStorage columnValueFromStatement:statement withIndex:i];
+                                         [entry addObject:value];
+                                       }
+                                       if (entry.count > 0) {
+                                         [entries addObject:entry];
+                                       }
+                                     }
+                                     if (stepResult != SQLITE_DONE) {
+                                       NSString *errorMessage = [NSString stringWithUTF8String:sqlite3_errmsg(db)];
+                                       MSLogError([MSAppCenter logTag], @"Query failed with error: %d\n\t%@", stepResult, errorMessage);
+                                     }
+                                     return SQLITE_OK;
+                                   }];
   if (result) {
-      *result = queryResult;
+    *result = queryResult;
   }
   return entries;
 }
