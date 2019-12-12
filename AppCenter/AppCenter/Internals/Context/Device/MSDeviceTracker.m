@@ -143,16 +143,10 @@ static MSDeviceTracker *sharedInstance = nil;
     CTCarrier *carrier;
     if (@available(iOS 12.1, *)) {
       NSDictionary<NSString *, CTCarrier *> *carriers = [telephonyNetworkInfo serviceSubscriberCellularProviders];
-      for (NSString *key in carriers) {
-        carrier = carriers[key];
-        break;
-      }
+      carrier = [self getFirstCarrier:carriers];
     } else if (@available(iOS 12, *)) {
         NSDictionary<NSString *, CTCarrier *> *carriers = [telephonyNetworkInfo valueForKey:@"serviceSubscriberCellularProvider"];
-        for (NSString *key in carriers) {
-            carrier = carriers[key];
-            break;
-        }
+        carrier = [self getFirstCarrier:carriers];
     }
 
     // Use the old API as fallback if new one doesn't work.
@@ -388,6 +382,13 @@ static MSDeviceTracker *sharedInstance = nil;
 
 - (NSString *)carrierCountry:(CTCarrier *)carrier {
   return ([carrier.isoCountryCode length] > 0) ? carrier.isoCountryCode : nil;
+}
+
+- (CTCarrier *)getFirstCarrier:(NSDictionary<NSString *, CTCarrier *> *) carriers {
+    for (NSString *key in carriers) {
+        return carriers[key];
+    }
+    return nil;
 }
 #endif
 
