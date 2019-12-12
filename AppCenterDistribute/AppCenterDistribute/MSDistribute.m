@@ -30,6 +30,11 @@ static NSString *const kMSServiceName = @"Distribute";
  */
 static NSString *const kMSGroupId = @"Distribute";
 
+/**
+ *  Background task to save the browser connection.
+ */
+static UIBackgroundTaskIdentifier backgroundAuthSessionTask;
+
 #pragma mark - URL constants
 
 /**
@@ -80,10 +85,6 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     [MS_NOTIFICATION_CENTER addObserver:self
                                selector:@selector(applicationWillEnterForeground)
                                    name:UIApplicationWillEnterForegroundNotification
-                                 object:nil];
-    [MS_NOTIFICATION_CENTER addObserver:self
-                               selector:@selector(applicationDidEnterBackground)
-                                   name:UIApplicationDidEnterBackgroundNotification
                                  object:nil];
 
     // Init the distribute info tracker.
@@ -584,16 +585,33 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     if (error.code == SFAuthenticationErrorCanceledLogin) {
       MSLogError([MSDistribute logTag], @"Authentication session was cancelled by user or failed.");
     }
+    MSLogDebug([MSDistribute logTag], @"Using SFAuthenticationSession got data with URL: %@", callbackUrl);
+
     if (callbackUrl) {
       [strongSelf openURL:callbackUrl];
     }
+    [[MSUtility sharedApp] endBackgroundTask:backgroundAuthSessionTask];
   };
   SFAuthenticationSession *session = [[SFAuthenticationSession alloc] initWithURL:url
                                                                 callbackURLScheme:callbackUrlScheme
                                                                 completionHandler:authCompletionBlock];
 
+  if (self.authenticationSession != nil) {
+
+    // Calling 'start' on an existing session crashes the application - clear session.
+    [self clearAuthenticationSession];
+  }
+
   // Retain the session.
   self.authenticationSession = session;
+
+  /* Request additional background execution time for authorization. If we authorize using third-party services (MS Authenticator)
+   * then switching to another application will kill the current session. This line fix this problem.
+   */
+  backgroundAuthSessionTask = [[MSUtility sharedApp] beginBackgroundTaskWithName:@"Safari authentication"
+                                                              expirationHandler:^{
+                                                                  [[MSUtility sharedApp] endBackgroundTask:backgroundAuthSessionTask];
+                                                              }];
   BOOL success = [session start];
   if (success) {
     MSLogDebug([MSDistribute logTag], @"Authentication session started, showing confirmation dialog.");
@@ -1095,20 +1113,14 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   }
 }
 
-- (void)applicationDidEnterBackground {
-  [self clearAuthenticationSession];
-}
-
 /**
- * Clear currently running SFAuthenticationSession.
- */
-- (void)clearAuthenticationSession {
-  if (@available(iOS 11.0, *)) {
-    SFAuthenticationSession *session = self.authenticationSession;
+* Clear currently running SFAuthenticationSession.
+*/
+- (void)clearAuthenticationSession API_AVAILABLE(ios(11)) {
+  SFAuthenticationSession* session = self.authenticationSession;
 
-    // Dismiss view controller if currently presented. Fix uncaused access to SFBrowserRemoteViewController.
-    [session cancel];
-  }
+  // Dismiss view controller if currently presented. Fix uncaused access to SFBrowserRemoteViewController.
+  [session cancel];
 
   // Break strong reference to fix crash when an application is minimized while trying to reinstall after setup failure.
   self.authenticationSession = nil;

@@ -5,6 +5,7 @@
 ### App Center Distribute
 
 * **[Fix]** Fix a crash in some case when `SFAuthenticationSession` accesses the controller which is in the process of being released.
+* **[Fix]** Fix sign-in with authenticator app during updates activation.
 
 ___
 
