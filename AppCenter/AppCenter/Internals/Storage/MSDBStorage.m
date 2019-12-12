@@ -122,7 +122,7 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
 - (BOOL)dropTable:(NSString *)tableName {
   return [self executeQueryUsingBlock:^int(void *db) {
            if ([MSDBStorage tableExists:tableName inOpenedDatabase:db]) {
-             NSString *deleteQuery = [NSString stringWithFormat:@"DROP TABLE \"%@\"", tableName];
+             NSString *deleteQuery = [NSString stringWithFormat:@"DROP TABLE \"%@\";", tableName];
              int result = [MSDBStorage executeNonSelectionQuery:deleteQuery inOpenedDatabase:db withValues:nil];
              if (result == SQLITE_OK) {
                MSLogVerbose([MSAppCenter logTag], @"Table %@ has been deleted", tableName);
@@ -158,7 +158,7 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
                uniqueContraintQuery = [NSString stringWithFormat:@", UNIQUE(%@)", [uniqueColumns componentsJoinedByString:@", "]];
              }
              NSString *createQuery =
-                 [NSString stringWithFormat:@"CREATE TABLE \"%@\" (%@%@)", tableName,
+                 [NSString stringWithFormat:@"CREATE TABLE \"%@\" (%@%@);", tableName,
                                             [MSDBStorage columnsQueryFromColumnsSchema:columnsSchema], uniqueContraintQuery];
              int result = [MSDBStorage executeNonSelectionQuery:createQuery inOpenedDatabase:db withValues:nil];
              if (result == SQLITE_OK) {
@@ -202,7 +202,7 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
     }
 
     // Compute table query.
-    [tableQueries addObject:[NSString stringWithFormat:@"CREATE TABLE \"%@\" (%@)", tableName,
+    [tableQueries addObject:[NSString stringWithFormat:@"CREATE TABLE \"%@\" (%@);", tableName,
                                                        [MSDBStorage columnsQueryFromColumnsSchema:schema[tableName]]]];
   }
 
@@ -234,7 +234,7 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
 
 + (BOOL)tableExists:(NSString *)tableName inOpenedDatabase:(void *)db result:(int *)result {
   NSString *query =
-      [NSString stringWithFormat:@"SELECT COUNT(*) FROM \"sqlite_master\" WHERE \"type\"='table' AND \"name\"='%@'", tableName];
+      [NSString stringWithFormat:@"SELECT COUNT(*) FROM \"sqlite_master\" WHERE \"type\"='table' AND \"name\"='%@';", tableName];
   NSArray<NSArray *> *entries = [MSDBStorage executeSelectionQuery:query inOpenedDatabase:db result:result withValues:nil];
   return entries.count > 0 && entries[0].count > 0 ? [(NSNumber *)entries[0][0] boolValue] : NO;
 }
@@ -286,20 +286,24 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
 + (int)executeNonSelectionQuery:(NSString *)query inOpenedDatabase:(void *)db withValues:(nullable NSArray *)values {
     sqlite3_stmt *statement = NULL;
     int result = sqlite3_prepare_v2(db, [query UTF8String], -1, &statement, NULL);
+    if (result != SQLITE_OK) {
+        //todo log
+    }
+    result = [MSDBStorage bindStatement:statement withValues:values];
     if (result == SQLITE_OK) {
-        result = [MSDBStorage bindStatement:statement withValues:values];
-        if (result == SQLITE_OK) {
-            result = sqlite3_step(statement);
+        result = sqlite3_step(statement);
+        if (result != SQLITE_DONE) {
+           // MSLogError([MSAppCenter logTag], @"Could not finalize the statement: %@. Result: %d", query, result);
         }
-        sqlite3_finalize(statement);
+    }
+    result = sqlite3_finalize(statement);
+    if (result != SQLITE_OK) {
+        //tofo err
+        MSLogError([MSAppCenter logTag], @"Could not finalize the statement: %@. Result: %d", query, result);
     }
     
-    // We have checks for SQLITE_OK almost everywhere.
-    // SQLITE_DONE also counts as a valid response so changing it to OK
-    // To avoid confusion and multiple checks.
-    if (result == SQLITE_DONE) {
-        result = SQLITE_OK;
-    }
+   
+    
     if (result == SQLITE_CORRUPT || result == SQLITE_NOTADB) {
         MSLogError([MSAppCenter logTag], @"A database file is corrupted: %d", result);
     } else if (result == SQLITE_FULL) {
@@ -311,25 +315,24 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
 }
 
 + (int)bindStatement:(sqlite3_stmt *)query withValues:(nullable NSArray *)values {
-    int result = -1;
-    int i = 1;
-    if (values == nil) {
-        return SQLITE_OK;
-    }
-    for (NSObject *value in values) {
+    for (NSUInteger i = 0; i < values.count; i++) {
+        int result;
+        NSObject *value = values[i];
         if ([value isKindOfClass:[NSString class]]) {
-            result = sqlite3_bind_text(query, i, [(NSString *)value UTF8String], -1, SQLITE_TRANSIENT);
-        }
-        else if ([value isKindOfClass:[NSNumber class]]) {
-            result = sqlite3_bind_int(query, i, [(NSNumber *)value intValue]);
+            result = sqlite3_bind_text(query, (int)i + 1, [(NSString *)value UTF8String], -1, SQLITE_TRANSIENT);
+        } else if ([value isKindOfClass:[NSNumber class]]) {
+            result = sqlite3_bind_int(query, (int)i + 1, [(NSNumber *)value intValue]);
+        } else {
+            MSLogError([MSAppCenter logTag], @"Unsupported binding of value type '%@'.", NSStringFromClass([value class]));
+            return SQLITE_ERROR;
         }
         if (result != SQLITE_OK) {
-            MSLogError([MSAppCenter logTag], @"Binding query \"%@\" failed with error: %d.", query, result);
-            break;
+            //todo get error message
+            MSLogError([MSAppCenter logTag], @"Binding query parameter %lud failed with error: %d.", (unsigned long)i + 1, result);
+            return result;
         }
-        i++;
     }
-    return result;
+    return SQLITE_OK;
 }
 
 - (NSArray<NSArray *> *)executeSelectionQuery:(NSString *)query withValues:(nullable NSArray *)values {
@@ -461,15 +464,15 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
 }
 
 + (long)getPageSizeInOpenedDatabase:(void *)db {
-  return [MSDBStorage querySingleValue:@"PRAGMA page_size" inOpenedDatabase:db];
+  return [MSDBStorage querySingleValue:@"PRAGMA page_size;" inOpenedDatabase:db];
 }
 
 + (long)getPageCountInOpenedDatabase:(void *)db {
-  return [MSDBStorage querySingleValue:@"PRAGMA page_count" inOpenedDatabase:db];
+  return [MSDBStorage querySingleValue:@"PRAGMA page_count;" inOpenedDatabase:db];
 }
 
 + (long)getMaxPageCountInOpenedDatabase:(void *)db {
-  return [MSDBStorage querySingleValue:@"PRAGMA max_page_count" inOpenedDatabase:db];
+  return [MSDBStorage querySingleValue:@"PRAGMA max_page_count;" inOpenedDatabase:db];
 }
 
 + (long)querySingleValue:(NSString *)query inOpenedDatabase:(void *)db {
