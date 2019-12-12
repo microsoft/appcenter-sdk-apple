@@ -234,8 +234,8 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
 
 + (BOOL)tableExists:(NSString *)tableName inOpenedDatabase:(void *)db result:(int *)result {
   NSString *query =
-      [NSString stringWithFormat:@"SELECT COUNT(*) FROM \"sqlite_master\" WHERE \"type\"='table' AND \"name\"='%@';", tableName];
-  NSArray<NSArray *> *entries = [MSDBStorage executeSelectionQuery:query inOpenedDatabase:db result:result withValues:nil];
+      [NSString stringWithFormat:@"SELECT COUNT(*) FROM \"sqlite_master\" WHERE \"type\"='table' AND \"name\"=?;"];
+  NSArray<NSArray *> *entries = [MSDBStorage executeSelectionQuery:query inOpenedDatabase:db result:result withValues:@[tableName]];
   return entries.count > 0 && entries[0].count > 0 ? [(NSNumber *)entries[0][0] boolValue] : NO;
 }
 
@@ -264,7 +264,8 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
    */
   if (autoVacuumDisabled) {
     MSLogDebug([MSAppCenter logTag], @"Vacuuming database and enabling auto_vacuum");
-    [MSDBStorage executeSelectionQuery:@"PRAGMA auto_vacuum = FULL; VACUUM" inOpenedDatabase:db withValues:nil];
+    [MSDBStorage executeSelectionQuery:@"PRAGMA auto_vacuum = FULL;" inOpenedDatabase:db withValues:nil];
+    [MSDBStorage executeSelectionQuery:@"VACUUM;" inOpenedDatabase:db withValues:nil];
   }
 }
 
@@ -292,24 +293,19 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
     result = [MSDBStorage bindStatement:statement inOpenedDatabase:db withValues:values];
     if (result == SQLITE_OK) {
         result = sqlite3_step(statement);
-        if (result != SQLITE_DONE) {
-            MSLogError([MSAppCenter logTag], @"Could not execute the statement: %@. Result: %d. Message: %@", query, result, [NSString stringWithUTF8String:sqlite3_errmsg(db)]);
+        NSString *errorMessage = [NSString stringWithUTF8String:sqlite3_errmsg(db)];
+        if (result == SQLITE_CORRUPT || result == SQLITE_NOTADB) {
+            MSLogError([MSAppCenter logTag], @"A database file is corrupted: %d. Message: %@", result, errorMessage);
+        } else if (result == SQLITE_FULL) {
+            MSLogDebug([MSAppCenter logTag], @"Query failed with error: %dю Message: %@", result, errorMessage);
+        } else if (result != SQLITE_DONE) {
+            MSLogError([MSAppCenter logTag], @"Could not execute the statement: %@. Result: %d. Message: %@", query, result, errorMessage);
         }
     }
     result = sqlite3_finalize(statement);
     if (result != SQLITE_OK) {
         MSLogError([MSAppCenter logTag], @"Could not finalize the statement: %@. Result: %d. Message: %@", query, result, [NSString stringWithUTF8String:sqlite3_errmsg(db)]);
     }
-    
-    /*
-    if (result == SQLITE_CORRUPT || result == SQLITE_NOTADB) {
-        MSLogError([MSAppCenter logTag], @"A database file is corrupted: %d", result);
-    } else if (result == SQLITE_FULL) {
-        MSLogDebug([MSAppCenter logTag], @"Query failed with error: %d", result);
-    } else if (result != SQLITE_OK) {
-        MSLogError([MSAppCenter logTag], @"Query \"%@\" failed with error: %d", query, result);
-    }
-    */
     return result;
 }
 
@@ -487,8 +483,10 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
 }
 
 + (int)setMaxPageCount:(long)maxPageCount inOpenedDatabase:(void *)db {
+  int result;
   NSString *statement = [NSString stringWithFormat:@"PRAGMA max_page_count = %ld", maxPageCount];
-  return [MSDBStorage executeSelectionQuery:statement inOpenedDatabase:db withValues:nil];
+  [MSDBStorage executeSelectionQuery:statement inOpenedDatabase:db result:&result withValues:nil];
+  return result;
 }
 
 + (int)configureSQLite {

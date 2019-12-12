@@ -988,7 +988,17 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   XCTAssertTrue(logSavedSuccessfully);
   OCMVerify([classMock executeNonSelectionQuery:OCMOCK_ANY
                                inOpenedDatabase:[OCMArg anyPointer]
-                                     withValues: containsIn(@[@(expectedTimestampMs)])]);
+                                     withValues: [OCMArg checkWithBlock:^BOOL(id obj) {
+      for(NSObject *value in (NSArray *)obj) {
+          if (![value isKindOfClass: [NSNumber class]]) {
+              continue;
+          }
+          if ([(NSNumber *)value isEqualToNumber:@(expectedTimestampMs)]) {
+              return YES;
+          }
+      }
+      return NO;
+  }]]);
   [classMock stopMocking];
 }
 
@@ -1005,9 +1015,19 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   [self.sut countLogsBeforeDate:testDate];
 
   // Then
-  OCMVerify([classMock executeNonSelectionQuery:OCMOCK_ANY
+  OCMVerify([classMock executeSelectionQuery:OCMOCK_ANY
                                  inOpenedDatabase:[OCMArg anyPointer]
-                                       withValues: containsIn(@[@(expectedTimestampMs)])]);
+                                     withValues: [OCMArg checkWithBlock:^BOOL(id obj) {
+      for(NSObject *value in (NSArray *)obj) {
+          if (![value isKindOfClass: [NSNumber class]]) {
+              continue;
+          }
+          if ([(NSNumber *)value isEqualToNumber:@(expectedTimestampMs)]) {
+              return YES;
+          }
+      }
+      return NO;
+  }]]);
   [classMock stopMocking];
 }
 
@@ -1031,12 +1051,32 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
               completionHandler:nil];
 
   // Then
-  OCMVerify([classMock executeNonSelectionQuery:OCMOCK_ANY
+  OCMVerify([classMock executeSelectionQuery:OCMOCK_ANY
                                  inOpenedDatabase:[OCMArg anyPointer]
-                                       withValues: containsIn(@[@(expectedAfterTimestampMs)])]);
-  OCMVerify([classMock executeNonSelectionQuery:OCMOCK_ANY
+                                     withValues: [OCMArg checkWithBlock:^BOOL(id obj) {
+      for(NSObject *value in (NSArray *)obj) {
+          if (![value isKindOfClass: [NSNumber class]]) {
+              continue;
+          }
+          if ([(NSNumber *)value isEqualToNumber:@(expectedAfterTimestampMs)]) {
+              return YES;
+          }
+      }
+      return NO;
+  }]]);
+  OCMVerify([classMock executeSelectionQuery:OCMOCK_ANY
                                  inOpenedDatabase:[OCMArg anyPointer]
-                                       withValues: containsIn(@[@(expectedBeforeTimestampMs)])]);
+                                     withValues: [OCMArg checkWithBlock:^BOOL(id obj) {
+      for(NSObject *value in (NSArray *)obj) {
+          if (![value isKindOfClass: [NSNumber class]]) {
+              continue;
+          }
+          if ([(NSNumber *)value isEqualToNumber:@(expectedBeforeTimestampMs)]) {
+              return YES;
+          }
+      }
+      return NO;
+  }]]);
   [classMock stopMocking];
 }
 

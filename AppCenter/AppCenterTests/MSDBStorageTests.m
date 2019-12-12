@@ -291,7 +291,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   [MSDBStorage enableAutoVacuumInOpenedDatabase:db];
 
   // Then
-  OCMVerify([dbStorageMock executeNonSelectionQuery:[OCMArg any] inOpenedDatabase:db withValues:OCMOCK_ANY]);
+  OCMVerify([dbStorageMock executeSelectionQuery:[OCMArg any] inOpenedDatabase:db withValues:OCMOCK_ANY]);
 }
 
 - (void)testCreateTableWhenTableExists {
@@ -750,7 +750,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
 
   // If
   id mockMSDBStorage = OCMClassMock([MSDBStorage class]);
-  OCMStub([mockMSDBStorage executeNonSelectionQuery:OCMOCK_ANY inOpenedDatabase:[OCMArg anyPointer] withValues:OCMOCK_ANY]).andReturn(SQLITE_CORRUPT);
+  OCMStub([mockMSDBStorage executeSelectionQuery:containsSubstring(@"PRAGMA max_page_count =") inOpenedDatabase:[OCMArg anyPointer] result:[OCMArg setToValue:OCMOCK_VALUE((int){SQLITE_CORRUPT})] withValues:OCMOCK_ANY]).andReturn(@[]);
 
   // When
   self.sut = [[MSDBStorage alloc] initWithSchema:self.schema version:1 filename:kMSTestDBFileName];
