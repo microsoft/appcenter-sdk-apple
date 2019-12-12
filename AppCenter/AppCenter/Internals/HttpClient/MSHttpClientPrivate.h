@@ -57,4 +57,14 @@
  */
 - (void)sendCallAsync:(MSHttpCall *)call;
 
+/**
+ * The completion handler for the HTTP call completion.
+ *
+ * @param httpCall The HTTP call object.
+ * @param data The data being sent.
+ * @param response The HTTP response.
+ * @param error The HTTP error.
+ */
+- (void)requestCompletedWithHttpCall:(MSHttpCall *)httpCall data:(NSData *)data response:(NSURLResponse *)response error:(NSError *)error;
+
 @end
