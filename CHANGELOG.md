@@ -1,11 +1,11 @@
 # App Center SDK for iOS, macOS and tvOS Change Log
 
-## Development version
+## Version 2.5.3 (Under development)
 
-### App Center 
+### App Center
 
-* **[Fix]** Fix SDK crash at app launch on iOS 12.0 (CTTelephonyNetworkInfo.serviceSubscriberCellularProviders issue).
-
+* **[Fix]** Disable module debugging for release mode in the SDK to fix dSYM warnings.
+**[Fix]** Fix SDK crash at app launch on iOS 12.0 (`CTTelephonyNetworkInfo.serviceSubscriberCellularProviders` issue).
 ___
 
 ## Version 2.5.2
