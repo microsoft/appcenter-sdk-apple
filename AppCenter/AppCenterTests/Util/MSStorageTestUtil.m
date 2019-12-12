@@ -36,18 +36,6 @@
   return (long)pageCount * pageSize;
 }
 
-- (NSString *)buildKeyFormatWithCount:(unsigned long)count {
-    NSString *keyFormat = @"(";
-    for (uint i=0; i<count; i++) {
-        keyFormat = [keyFormat stringByAppendingString:@"?"];
-        if (i < count - 1) {
-            keyFormat = [keyFormat stringByAppendingString:@", "];
-        }
-    }
-    keyFormat = [keyFormat stringByAppendingString:@")"];
-    return keyFormat;
-}
-
 - (sqlite3 *)openDatabase {
   sqlite3 *db = NULL;
   NSURL *dbURL = [MSUtility createFileAtPathComponent:self.path withData:nil atomically:NO forceOverwrite:NO];

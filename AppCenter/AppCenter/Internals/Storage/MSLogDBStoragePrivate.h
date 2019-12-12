@@ -63,6 +63,11 @@ static NSString *const kMSTimestampColumnName = @"timestamp";
  */
 - (NSArray<id<MSLog>> *)logsFromDBWithGroupId:(NSString *)groupId;
 
+/**
+ * Builds a string for sqlite values binding: for example, (?, ?, ?).
+ */
+- (NSString *)buildKeyFormatWithCount:(unsigned long)count;
+
 @end
 
 NS_ASSUME_NONNULL_END

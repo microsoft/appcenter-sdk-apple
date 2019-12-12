@@ -287,23 +287,21 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
     sqlite3_stmt *statement = NULL;
     int result = sqlite3_prepare_v2(db, [query UTF8String], -1, &statement, NULL);
     if (result != SQLITE_OK) {
-        //todo log
+        MSLogError([MSAppCenter logTag], @"Failed to prepare statement for query \"%@\". Error: %d. Message %@", query, result, [NSString stringWithUTF8String:sqlite3_errmsg(db)]);
     }
-    result = [MSDBStorage bindStatement:statement withValues:values];
+    result = [MSDBStorage bindStatement:statement inOpenedDatabase:db withValues:values];
     if (result == SQLITE_OK) {
         result = sqlite3_step(statement);
         if (result != SQLITE_DONE) {
-           // MSLogError([MSAppCenter logTag], @"Could not finalize the statement: %@. Result: %d", query, result);
+            MSLogError([MSAppCenter logTag], @"Could not execute the statement: %@. Result: %d. Message: %@", query, result, [NSString stringWithUTF8String:sqlite3_errmsg(db)]);
         }
     }
     result = sqlite3_finalize(statement);
     if (result != SQLITE_OK) {
-        //tofo err
-        MSLogError([MSAppCenter logTag], @"Could not finalize the statement: %@. Result: %d", query, result);
+        MSLogError([MSAppCenter logTag], @"Could not finalize the statement: %@. Result: %d. Message: %@", query, result, [NSString stringWithUTF8String:sqlite3_errmsg(db)]);
     }
     
-   
-    
+    /*
     if (result == SQLITE_CORRUPT || result == SQLITE_NOTADB) {
         MSLogError([MSAppCenter logTag], @"A database file is corrupted: %d", result);
     } else if (result == SQLITE_FULL) {
@@ -311,10 +309,11 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
     } else if (result != SQLITE_OK) {
         MSLogError([MSAppCenter logTag], @"Query \"%@\" failed with error: %d", query, result);
     }
+    */
     return result;
 }
 
-+ (int)bindStatement:(sqlite3_stmt *)query withValues:(nullable NSArray *)values {
++ (int)bindStatement:(sqlite3_stmt *)query inOpenedDatabase:(void *)db withValues:(nullable NSArray *)values {
     for (NSUInteger i = 0; i < values.count; i++) {
         int result;
         NSObject *value = values[i];
@@ -327,8 +326,7 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
             return SQLITE_ERROR;
         }
         if (result != SQLITE_OK) {
-            //todo get error message
-            MSLogError([MSAppCenter logTag], @"Binding query parameter %lud failed with error: %d.", (unsigned long)i + 1, result);
+            MSLogError([MSAppCenter logTag], @"Binding query parameter %lud failed with error: %d. Message: %@", (unsigned long)i + 1, result, [NSString stringWithUTF8String:sqlite3_errmsg(db)]);
             return result;
         }
     }
@@ -356,41 +354,49 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
     *result = prepareResult;
   }
   if (prepareResult == SQLITE_OK) {
-    result = [MSDBStorage bindStatement:statement withValues:values];
-    if (result != SQLITE_OK) {
-        return entries;
+    int bindResult = [MSDBStorage bindStatement:statement inOpenedDatabase:db withValues:values];
+    if (result != nil) {
+        *result = bindResult;
     }
-      
-    // Loop on rows.
-    while (sqlite3_step(statement) == SQLITE_ROW) {
-      NSMutableArray *entry = [NSMutableArray new];
+    if (bindResult == SQLITE_OK) {
+        
+        // Loop on rows.
+        while (sqlite3_step(statement) == SQLITE_ROW) {
+          NSMutableArray *entry = [NSMutableArray new];
 
-      // Loop on columns.
-      for (int i = 0; i < sqlite3_column_count(statement); i++) {
-        id value = nil;
+          // Loop on columns.
+          for (int i = 0; i < sqlite3_column_count(statement); i++) {
+            id value = nil;
 
-        /*
-         * Convert values.
-         * TODO: Add here any other type it needs.
-         */
-        switch (sqlite3_column_type(statement, i)) {
-        case SQLITE_INTEGER:
-          value = @(sqlite3_column_int(statement, i));
-          break;
-        case SQLITE_TEXT:
-          value = [NSString stringWithUTF8String:(const char *)sqlite3_column_text(statement, i)];
-          break;
-        default:
-          value = [NSNull null];
-          break;
+            /*
+             * Convert values.
+             * TODO: Add here any other type it needs.
+             */
+            switch (sqlite3_column_type(statement, i)) {
+            case SQLITE_INTEGER:
+              value = @(sqlite3_column_int(statement, i));
+              break;
+            case SQLITE_TEXT:
+              value = [NSString stringWithUTF8String:(const char *)sqlite3_column_text(statement, i)];
+              break;
+            default:
+              value = [NSNull null];
+              break;
+            }
+            [entry addObject:value];
+          }
+          if (entry.count > 0) {
+            [entries addObject:entry];
+          }
         }
-        [entry addObject:value];
-      }
-      if (entry.count > 0) {
-        [entries addObject:entry];
-      }
     }
-    sqlite3_finalize(statement);
+    int finalizeResult = sqlite3_finalize(statement);
+    if (result != nil) {
+        *result = finalizeResult;
+    }
+    if (finalizeResult != SQLITE_OK) {
+        MSLogError([MSAppCenter logTag], @"Could not finalize the statement: %@. Result: %d. Message: %@", query, finalizeResult, [NSString stringWithUTF8String:sqlite3_errmsg(db)]);
+    }
   } else {
     MSLogError([MSAppCenter logTag], @"Query \"%@\" failed with error: %d - %@", query, prepareResult,
                [NSString stringWithUTF8String:sqlite3_errmsg(db)]);

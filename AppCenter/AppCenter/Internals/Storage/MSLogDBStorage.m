@@ -57,8 +57,8 @@ static const NSUInteger kMSSchemaVersion = 4;
   NSString *base64Data = [logData base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
   NSArray *addLogValues = @[groupId,
                             base64Data,
-                            [NSNumber numberWithUnsignedInteger:persistenceFlags],
-                            [NSNumber numberWithLongLong:timestampMs]];
+                            @(persistenceFlags),
+                            @(timestampMs)];
   NSString *addLogQuery =
       [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\", \"%@\") VALUES (?, ?, ?, ?)", kMSLogTableName,
                                  kMSGroupIdColumnName, kMSLogColumnName, kMSPriorityColumnName, kMSTimestampColumnName];
@@ -72,8 +72,8 @@ static const NSUInteger kMSSchemaVersion = 4;
                      base64Data,
                      encryptedToken,
                      targetKey ? [NSString stringWithFormat:@"'%@'", targetKey] : @"NULL",
-                     [NSNumber numberWithUnsignedInteger: persistenceFlags],
-                     [NSNumber numberWithLongLong:timestampMs]];
+                     @(persistenceFlags),
+                     @(timestampMs)];
     addLogQuery = [NSString
         stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\") VALUES (?, ?, ?, ?, ?, ?)",
                          kMSLogTableName, kMSGroupIdColumnName, kMSLogColumnName, kMSTargetTokenColumnName, kMSTargetKeyColumnName,
@@ -138,12 +138,12 @@ static const NSUInteger kMSSchemaVersion = 4;
 - (NSUInteger)countLogsBeforeDate:(NSDate *)date {
   long long timestampMs = (long long)([date timeIntervalSince1970] * 1000);
   NSMutableString *condition = [NSMutableString stringWithFormat:@"\"%@\" <= ?", kMSTimestampColumnName];
-  return [self countEntriesForTable:kMSLogTableName condition:condition withValues:@[[NSNumber numberWithLongLong:timestampMs]]];
+  return [self countEntriesForTable:kMSLogTableName condition:condition withValues:@[@(timestampMs)]];
 }
 
 - (NSString *)buildKeyFormatWithCount:(unsigned long)count {
     NSString *keyFormat = @"(";
-    for (uint i=0; i<count; i++) {
+    for (uint i = 0; i < count; i++) {
         keyFormat = [keyFormat stringByAppendingString:@"?"];
         if (i < count - 1) {
             keyFormat = [keyFormat stringByAppendingString:@", "];
@@ -197,12 +197,12 @@ static const NSUInteger kMSSchemaVersion = 4;
   if (dateAfter) {
     long long timestampAfterMs = (long long)([dateAfter timeIntervalSince1970] * 1000);
     [condition appendFormat:@" AND \"%@\" >= ?", kMSTimestampColumnName];
-    [values addObject:[NSNumber numberWithLongLong:timestampAfterMs]];
+    [values addObject:@(timestampAfterMs)];
   }
   if (dateBefore) {
     long long timestampBeforeMs = (long long)([dateBefore timeIntervalSince1970] * 1000);
     [condition appendFormat:@" AND \"%@\" < ?", kMSTimestampColumnName];
-    [values addObject:[NSNumber numberWithLongLong:timestampBeforeMs]];
+    [values addObject:@(timestampBeforeMs)];
   }
 
   // Build the "ORDER BY" clause's conditions.
@@ -215,7 +215,7 @@ static const NSUInteger kMSSchemaVersion = 4;
    * FIXME: We should simply use a count API from the consumer object instead of the "limit + 1" technique, it only requires 1 SQL request
    * instead of 2 for the count but it is a bit confusing and doesn't really fit a database storage.
    */
-  [condition appendFormat:@" LIMIT %lu", (unsigned long)((limit < NSUIntegerMax) ? limit + 1 : limit)];
+  [condition appendFormat:@" LIMIT %lu ;", (unsigned long)((limit < NSUIntegerMax) ? limit + 1 : limit)];
 
   // Get log entries from DB.
   logEntries = [[self logsWithCondition:condition andValues:values] mutableCopy];

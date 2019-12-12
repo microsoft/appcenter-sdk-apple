@@ -25,11 +25,6 @@
 - (void)deleteDatabase;
 
 /**
- * Builds a string for sqlite values binding: for example, (?, ?, ?).
- */
-- (NSString *)buildKeyFormatWithCount:(unsigned long)count;
-
-/**
  * Get the size of the data in the test db.
  *
  * @return tThe size of the data in the db.
