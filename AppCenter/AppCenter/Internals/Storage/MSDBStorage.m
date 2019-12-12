@@ -373,7 +373,7 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
                                        result:(int *)result
                                    withValues:(nullable NSArray *)values {
   NSMutableArray<NSMutableArray *> *entries = [NSMutableArray<NSMutableArray *> new];
-  *result = [MSDBStorage executeQuery:query
+  int queryResult = [MSDBStorage executeQuery:query
                      inOpenedDatabase:db
                            withValues:values
                            usingBlock:^(void *statement) {
@@ -398,6 +398,9 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
                              }
                              return SQLITE_OK;
                            }];
+  if (result) {
+      *result = queryResult;
+  }
   return entries;
 }
 
