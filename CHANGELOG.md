@@ -4,7 +4,7 @@
 
 ### App Center
 
-* **[Fix]** Optimization of release objects from memory when add an item to a channel.
+* **[Fix]** Optimization of release objects from memory during the execution of a large number of operations.
 
 ___
 
