@@ -6,15 +6,16 @@
 #import "MSAppCenterInternal.h"
 #import "MSConstants+Internal.h"
 #import "MSHttpCall.h"
+#import "MSHttpClientDelegate.h"
 #import "MSHttpClientPrivate.h"
 #import "MSHttpUtil.h"
-#import "MSLoggerInternal.h"
-#import "MSUtility+StringFormatting.h"
 #import "MS_Reachability.h"
 
 #define DEFAULT_RETRY_INTERVALS @[ @10, @(5 * 60), @(20 * 60) ]
 
 @implementation MSHttpClient
+
+@synthesize delegate = _delegate;
 
 - (instancetype)init {
   return [self initWithMaxHttpConnectionsPerHost:nil reachability:[MS_Reachability reachabilityForInternetConnection]];
@@ -36,6 +37,7 @@
     _enabled = YES;
     _paused = NO;
     _reachability = reachability;
+    _delegate = nil;
 
     // Add listener to reachability.
     [MS_NOTIFICATION_CENTER addObserver:self selector:@selector(networkStateChanged:) name:kMSReachabilityChangedNotification object:nil];
@@ -49,15 +51,13 @@
               headers:(nullable NSDictionary<NSString *, NSString *> *)headers
                  data:(nullable NSData *)data
     completionHandler:(MSHttpRequestCompletionHandler)completionHandler {
-  @synchronized(self) {
-    [self sendAsync:url
-                    method:method
-                   headers:headers
-                      data:data
-            retryIntervals:DEFAULT_RETRY_INTERVALS
-        compressionEnabled:YES
-         completionHandler:completionHandler];
-  }
+  [self sendAsync:url
+                  method:method
+                 headers:headers
+                    data:data
+          retryIntervals:DEFAULT_RETRY_INTERVALS
+      compressionEnabled:YES
+       completionHandler:completionHandler];
 }
 
 - (void)sendAsync:(NSURL *)url
@@ -94,6 +94,14 @@
     if (self.paused) {
       return;
     }
+
+    // Call delegate before sending HTTP request.
+    id<MSHttpClientDelegate> strongDelegate = self.delegate;
+    if ([strongDelegate respondsToSelector:@selector(willSendHTTPRequestToURL:withHeaders:)]) {
+      [strongDelegate willSendHTTPRequestToURL:call.url withHeaders:call.headers];
+    }
+
+    // Send HTTP request.
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:call.url
                                                            cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
                                                        timeoutInterval:0];

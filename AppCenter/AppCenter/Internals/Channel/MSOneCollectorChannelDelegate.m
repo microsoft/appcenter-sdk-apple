@@ -3,12 +3,10 @@
 
 #import "MSAbstractLogInternal.h"
 #import "MSAppCenterInternal.h"
-#import "MSCSData.h"
 #import "MSCSEpochAndSeq.h"
 #import "MSCSExtensions.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitProtocol.h"
-#import "MSConstants+Internal.h"
 #import "MSOneCollectorChannelDelegatePrivate.h"
 #import "MSOneCollectorIngestion.h"
 #import "MSSDKExtension.h"
@@ -22,7 +20,7 @@ static NSString *const kMSBaseErrorMsg = @"Log validation failed.";
 
 @implementation MSOneCollectorChannelDelegate
 
-- (instancetype)initWithHttpClient:(id<MSHttpClientProtocol>)httpClient installId:(NSUUID *)installId baseUrl:(nullable NSString *)baseUrl {
+- (instancetype)initWithHttpClient:(id<MSHttpClientProtocol>)httpClient installId:(NSUUID *)installId baseUrl:(NSString *)baseUrl {
   self = [self init];
   if (self) {
     _installId = installId;

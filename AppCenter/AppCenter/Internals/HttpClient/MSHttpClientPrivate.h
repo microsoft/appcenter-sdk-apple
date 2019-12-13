@@ -3,6 +3,7 @@
 
 #import <Foundation/Foundation.h>
 
+#import "MSHttpCall.h"
 #import "MSHttpClient.h"
 
 @class MS_Reachability;
@@ -48,5 +49,22 @@
  * @param deleteData Whether to delete data on disabled.
  */
 - (void)setEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:(BOOL)deleteData;
+
+/**
+ * The actual send call.
+ *
+ * @param call The HTTP call to send.
+ */
+- (void)sendCallAsync:(MSHttpCall *)call;
+
+/**
+ * The completion handler for the HTTP call completion.
+ *
+ * @param httpCall The HTTP call object.
+ * @param data The data being sent.
+ * @param response The HTTP response.
+ * @param error The HTTP error.
+ */
+- (void)requestCompletedWithHttpCall:(MSHttpCall *)httpCall data:(NSData *)data response:(NSURLResponse *)response error:(NSError *)error;
 
 @end

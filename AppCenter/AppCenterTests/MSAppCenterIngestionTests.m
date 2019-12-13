@@ -5,16 +5,15 @@
 #import "MSAppCenterErrors.h"
 #import "MSAppCenterIngestion.h"
 #import "MSConstants+Internal.h"
-#import "MSDevice.h"
 #import "MSDeviceInternal.h"
 #import "MSHttpClient.h"
 #import "MSHttpIngestionPrivate.h"
 #import "MSHttpTestUtil.h"
+#import "MSHttpUtil.h"
 #import "MSLoggerInternal.h"
 #import "MSMockLog.h"
 #import "MSTestFrameworks.h"
 #import "MSTestUtil.h"
-#import "MSUtility+StringFormatting.h"
 
 static NSTimeInterval const kMSTestTimeout = 5.0;
 static NSString *const kMSBaseUrl = @"https://test.com";
@@ -211,55 +210,72 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
                           completionHandler:OCMOCK_ANY]));
 }
 
-- (void)testObfuscateHeaderValue {
+- (void)testHttpClientDelegateObfuscateHeaderValue {
 
   // If
-  NSString *testString = @"Bearer testtesttest";
+  id mockLogger = OCMClassMock([MSLogger class]);
+  id mockHttpUtil = OCMClassMock([MSHttpUtil class]);
+  OCMStub([mockLogger currentLogLevel]).andReturn(MSLogLevelVerbose);
+  OCMStub(ClassMethod([mockHttpUtil hideAuthToken:OCMOCK_ANY])).andDo(nil);
+  OCMStub(ClassMethod([mockHttpUtil hideSecret:OCMOCK_ANY])).andDo(nil);
+  NSString *authorizationValue = @"Bearer testtesttest";
+  NSDictionary<NSString *, NSString *> *headers =
+      @{kMSAuthorizationHeaderKey : authorizationValue, kMSHeaderAppSecretKey : kMSTestAppSecret};
+  NSURL *url = [NSURL new];
 
   // When
-  NSString *result = [self.sut obfuscateHeaderValue:testString forKey:kMSAuthorizationHeaderKey];
+  [self.sut willSendHTTPRequestToURL:url withHeaders:headers];
 
   // Then
-  XCTAssertTrue([result isEqualToString:@"Bearer ***"]);
+  OCMVerify([mockHttpUtil hideAuthToken:authorizationValue]);
+  OCMVerify([mockHttpUtil hideSecret:kMSTestAppSecret]);
+
+  [mockLogger stopMocking];
+  [mockHttpUtil stopMocking];
 }
 
-- (void)testHideSecretInResponse {
+- (void)testSetBaseURL {
 
   // If
-  id mockUtility = OCMClassMock([MSUtility class]);
-  id mockLogger = OCMClassMock([MSLogger class]);
-  OCMStub([mockLogger currentLogLevel]).andReturn(MSLogLevelVerbose);
-  OCMStub(ClassMethod([mockUtility obfuscateString:OCMOCK_ANY
-                               searchingForPattern:kMSRedirectUriPattern
-                             toReplaceWithTemplate:kMSRedirectUriObfuscatedTemplate]));
-  NSData *data = [[NSString stringWithFormat:@"{\"redirect_uri\":\"%@\",\"token\":\"%@\"}", kMSTestAppSecret, kMSTestAppSecret]
-      dataUsingEncoding:NSUTF8StringEncoding];
-  MSLogContainer *container = [MSTestUtil createLogContainerWithId:@"1" device:self.deviceMock];
-  XCTestExpectation *requestCompletedExpectation = [self expectationWithDescription:@"Request completed."];
+  NSString *path = @"path";
+  NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", @"https://www.contoso.com/", path]];
+  self.sut.apiPath = path;
+
+  // Query should be the same.
+  NSString *query = self.sut.sendURL.query;
 
   // When
-  [MSHttpTestUtil stubResponseWithData:data statusCode:MSHTTPCodesNo200OK headers:self.sut.httpHeaders name:NSStringFromSelector(_cmd)];
-  [self.sut sendAsync:container
-              authToken:nil
-      completionHandler:^(__unused NSString *batchId, __unused NSHTTPURLResponse *response, __unused NSData *responseData,
-                          __unused NSError *error) {
-        [requestCompletedExpectation fulfill];
-      }];
+  [self.sut setBaseURL:(NSString * _Nonnull)[url.URLByDeletingLastPathComponent absoluteString]];
 
   // Then
-  [self waitForExpectationsWithTimeout:kMSTestTimeout
-                               handler:^(NSError *error) {
-                                 OCMVerify(ClassMethod([mockUtility obfuscateString:OCMOCK_ANY
-                                                                searchingForPattern:kMSRedirectUriPattern
-                                                              toReplaceWithTemplate:kMSRedirectUriObfuscatedTemplate]));
-                                 if (error) {
-                                   XCTFail(@"Expectation Failed with error: %@", error);
-                                 }
-                               }];
+  XCTAssertNotNil(query);
+  NSString *expectedURLString = [NSString stringWithFormat:@"%@?%@", url.absoluteString, query];
+  XCTAssertTrue([[self.sut.sendURL absoluteString] isEqualToString:expectedURLString]);
+}
 
-  // Clear
-  [mockUtility stopMocking];
-  [mockLogger stopMocking];
+- (void)testSetInvalidBaseURL {
+
+  // If
+  NSURL *expected = self.sut.sendURL;
+  NSString *invalidURL = @"\notGood";
+
+  // When
+  [self.sut setBaseURL:invalidURL];
+
+  // Then
+  assertThat(self.sut.sendURL, is(expected));
+}
+
+- (void)testObfuscateResponsePayload {
+
+  // If
+  NSString *payload = @"I am the payload for testing";
+
+  // When
+  NSString *actual = [self.sut obfuscateResponsePayload:payload];
+
+  // Then
+  assertThat(actual, payload);
 }
 
 @end

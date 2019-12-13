@@ -7,6 +7,7 @@
 #import "MSConstants+Internal.h"
 #import "MSHttpIngestionPrivate.h"
 #import "MSLoggerInternal.h"
+#import "MSUtility+StringFormatting.h"
 
 @implementation MSDistributeIngestion
 
@@ -55,8 +56,32 @@ static NSString *const kMSLatestPublicReleaseApiPathFormat = @"/public/sdk/apps/
   return nil;
 }
 
-- (NSString *)obfuscateHeaderValue:(NSString *)value forKey:(NSString *)key {
-  return [key isEqualToString:kMSHeaderUpdateApiToken] ? [MSHttpUtil hideSecret:value] : value;
+- (NSString *)obfuscateResponsePayload:(NSString *)payload {
+  return [MSUtility obfuscateString:payload
+                searchingForPattern:kMSRedirectUriPattern
+              toReplaceWithTemplate:kMSRedirectUriObfuscatedTemplate];
+}
+
+#pragma mark - MSHttpClientDelegate
+
+- (void)willSendHTTPRequestToURL:(NSURL *)url withHeaders:(NSDictionary<NSString *, NSString *> *)headers {
+
+  // Don't lose time pretty printing headers if not going to be printed.
+  if ([MSLogger currentLogLevel] <= MSLogLevelVerbose) {
+
+    // Obfuscate secrets.
+    NSMutableArray<NSString *> *flattenedHeaders = [NSMutableArray<NSString *> new];
+    [headers enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *value, BOOL *stop __unused) {
+      if ([key isEqualToString:kMSHeaderUpdateApiToken]) {
+        value = [MSHttpUtil hideSecret:value];
+      }
+      [flattenedHeaders addObject:[NSString stringWithFormat:@"%@ = %@", key, value]];
+    }];
+
+    // Log URL and headers.
+    MSLogVerbose([MSAppCenter logTag], @"URL: %@", url);
+    MSLogVerbose([MSAppCenter logTag], @"Headers: %@", [flattenedHeaders componentsJoinedByString:@", "]);
+  }
 }
 
 @end

@@ -7,4 +7,22 @@
 
 @interface MSOneCollectorIngestion ()
 
+/**
+ * Hide secret from the given token string.
+ *
+ * @param tokenString A token string.
+ *
+ * @return A obfuscated token string.
+ */
+- (NSString *)obfuscateTargetTokens:(NSString *)tokenString;
+
+/**
+ * Hide secret from the given ticket string.
+ *
+ * @param ticketString A ticket string.
+ *
+ * @return A obfuscated ticket string.
+ */
+- (NSString *)obfuscateTickets:(NSString *)ticketString;
+
 @end

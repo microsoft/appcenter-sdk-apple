@@ -4,6 +4,7 @@
 #import "MSHttpIngestion.h"
 #import "MSAppCenterInternal.h"
 #import "MSConstants+Internal.h"
+#import "MSHttpClientPrivate.h"
 #import "MSHttpIngestionPrivate.h"
 #import "MSLoggerInternal.h"
 #import "MSUtility+StringFormatting.h"
@@ -62,6 +63,8 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
     _maxNumberOfConnections = maxNumberOfConnections;
     _baseURL = baseUrl;
 
+    httpClient.delegate = self;
+
     // Construct the URL string with the query string.
     NSMutableString *urlString = [NSMutableString stringWithFormat:@"%@%@", baseUrl, apiPath];
     __block NSMutableString *queryStringForEncoding = [NSMutableString new];
@@ -115,10 +118,6 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
   }
 }
 
-// TODO create method to retrieve printable url without appsecret
-//     NSString *url = [request.URL.absoluteString stringByReplacingOccurrencesOfString:self.appSecret
-// withString:[MSHttpUtil hideSecret:self.appSecret]];
-
 #pragma mark - Private
 
 - (void)setBaseURL:(NSString *)baseURL {
@@ -165,12 +164,6 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
     }
     NSDictionary *httpHeaders = [self getHeadersWithData:data eTag:eTag authToken:authToken];
     NSData *payload = [self getPayloadWithData:data];
-
-    // Don't lose time pretty printing headers if not going to be printed.
-    if ([MSLogger currentLogLevel] <= MSLogLevelVerbose) {
-      MSLogVerbose([MSAppCenter logTag], @"URL: %@", self.sendURL);
-      MSLogVerbose([MSAppCenter logTag], @"Headers: %@", [self prettyPrintHeaders:httpHeaders]);
-    }
     [self.httpClient sendAsync:self.sendURL
                         method:[self getHttpMethod]
                        headers:httpHeaders
@@ -199,19 +192,9 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
     // Obfuscate payload.
     if (responseBody.length > 0) {
       if ([contentType hasPrefix:@"application/json"]) {
-        payload = [MSUtility obfuscateString:[MSUtility prettyPrintJson:responseBody]
-                         searchingForPattern:kMSTokenKeyValuePattern
-                       toReplaceWithTemplate:kMSTokenKeyValueObfuscatedTemplate];
-        payload = [MSUtility obfuscateString:payload
-                         searchingForPattern:kMSRedirectUriPattern
-                       toReplaceWithTemplate:kMSRedirectUriObfuscatedTemplate];
+        payload = [self obfuscateResponsePayload:[MSUtility prettyPrintJson:responseBody]];
       } else if (!contentType.length || [contentType hasPrefix:@"text/"] || [contentType hasPrefix:@"application/"]) {
-        payload = [MSUtility obfuscateString:[[NSString alloc] initWithData:responseBody encoding:NSUTF8StringEncoding]
-                         searchingForPattern:kMSTokenKeyValuePattern
-                       toReplaceWithTemplate:kMSTokenKeyValueObfuscatedTemplate];
-        payload = [MSUtility obfuscateString:payload
-                         searchingForPattern:kMSRedirectUriPattern
-                       toReplaceWithTemplate:kMSRedirectUriObfuscatedTemplate];
+        payload = [self obfuscateResponsePayload:[[NSString alloc] initWithData:responseBody encoding:NSUTF8StringEncoding]];
       } else {
         payload = @"<binary>";
       }
@@ -231,22 +214,13 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
 }
 
 // This method will be overridden by subclasses.
-- (NSString *)obfuscateHeaderValue:(NSString *__unused)value forKey:(NSString *__unused)key {
+- (NSString *)obfuscateResponsePayload:(NSString *__unused)payload {
   return nil;
 }
 
 - (NSString *)getHttpMethod {
   return kMSHttpMethodPost;
 };
-
-- (NSString *)prettyPrintHeaders:(NSDictionary<NSString *, NSString *> *)headers {
-  NSMutableArray<NSString *> *flattenedHeaders = [NSMutableArray<NSString *> new];
-  for (NSString *headerKey in headers) {
-    [flattenedHeaders
-        addObject:[NSString stringWithFormat:@"%@ = %@", headerKey, [self obfuscateHeaderValue:headers[headerKey] forKey:headerKey]]];
-  }
-  return [flattenedHeaders componentsJoinedByString:@", "];
-}
 
 #pragma mark - Helper
 

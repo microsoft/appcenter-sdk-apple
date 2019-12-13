@@ -11,7 +11,6 @@
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitDefaultPrivate.h"
 #import "MSDeviceTracker.h"
-#import "MSLogger.h"
 #import "MSStorage.h"
 #import "MSUtility+StringFormatting.h"
 
@@ -252,7 +251,7 @@ static NSString *const kMSStartTimestampPrefix = @"MSChannelStartTimer";
                   MSLogError([MSAppCenter logTag], @"Fatal error encountered; shutting down channel unit with group ID %@",
                              self.configuration.groupId);
                   [self setEnabled:NO andDeleteDataOnDisabled:YES];
-                  [self resetTimer];
+                  return;
                 }
               }
 

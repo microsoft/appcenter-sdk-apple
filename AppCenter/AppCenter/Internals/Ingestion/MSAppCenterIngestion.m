@@ -4,10 +4,8 @@
 #import "MSAppCenterIngestion.h"
 #import "MSAppCenterErrors.h"
 #import "MSAppCenterInternal.h"
-#import "MSCompression.h"
 #import "MSConstants+Internal.h"
 #import "MSHttpIngestionPrivate.h"
-#import "MSLogContainer.h"
 #import "MSLoggerInternal.h"
 
 @implementation MSAppCenterIngestion
@@ -80,46 +78,32 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
   return [jsonString dataUsingEncoding:NSUTF8StringEncoding];
 }
 
-- (void)setBaseURL:(NSString *)baseURL {
-  @synchronized(self) {
-    BOOL success = false;
-    NSURLComponents *components;
-    self.baseURL = baseURL;
-    NSURL *partialURL = [NSURL URLWithString:[baseURL stringByAppendingString:self.apiPath]];
-
-    // Merge new parial URL and current full URL.
-    if (partialURL) {
-      components = [NSURLComponents componentsWithURL:self.sendURL resolvingAgainstBaseURL:NO];
-      @try {
-        for (u_long i = 0; i < sizeof(kMSPartialURLComponentsName) / sizeof(*kMSPartialURLComponentsName); i++) {
-          NSString *propertyName = kMSPartialURLComponentsName[i];
-          [components setValue:[partialURL valueForKey:propertyName] forKey:propertyName];
-        }
-      } @catch (NSException *ex) {
-        MSLogInfo([MSAppCenter logTag], @"Error while updating HTTP URL %@ with %@: \n%@", self.sendURL.absoluteString, baseURL, ex);
-      }
-
-      // Update full URL.
-      if (components.URL) {
-        self.sendURL = (NSURL * _Nonnull) components.URL;
-        success = true;
-      }
-    }
-
-    // Notify failure.
-    if (!success) {
-      MSLogInfo([MSAppCenter logTag], @"Failed to update HTTP URL %@ with %@", self.sendURL.absoluteString, baseURL);
-    }
-  }
+- (NSString *)obfuscateResponsePayload:(NSString *)payload {
+  return payload;
 }
 
-- (NSString *)obfuscateHeaderValue:(NSString *)value forKey:(NSString *)key {
-  if ([key isEqualToString:kMSAuthorizationHeaderKey]) {
-    return [MSHttpUtil hideAuthToken:value];
-  } else if ([key isEqualToString:kMSHeaderAppSecretKey]) {
-    return [MSHttpUtil hideSecret:value];
+#pragma mark - MSHttpClientDelegate
+
+- (void)willSendHTTPRequestToURL:(NSURL *)url withHeaders:(NSDictionary<NSString *, NSString *> *)headers {
+
+  // Don't lose time pretty printing headers if not going to be printed.
+  if ([MSLogger currentLogLevel] <= MSLogLevelVerbose) {
+
+    // Obfuscate secrets.
+    NSMutableArray<NSString *> *flattenedHeaders = [NSMutableArray<NSString *> new];
+    [headers enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *value, BOOL *stop __unused) {
+      if ([key isEqualToString:kMSAuthorizationHeaderKey]) {
+        value = [MSHttpUtil hideAuthToken:value];
+      } else if ([key isEqualToString:kMSHeaderAppSecretKey]) {
+        value = [MSHttpUtil hideSecret:value];
+      }
+      [flattenedHeaders addObject:[NSString stringWithFormat:@"%@ = %@", key, value]];
+    }];
+
+    // Log URL and headers.
+    MSLogVerbose([MSAppCenter logTag], @"URL: %@", url);
+    MSLogVerbose([MSAppCenter logTag], @"Headers: %@", [flattenedHeaders componentsJoinedByString:@", "]);
   }
-  return value;
 }
 
 @end

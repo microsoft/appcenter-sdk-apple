@@ -3,12 +3,19 @@
 
 #import <Foundation/Foundation.h>
 
+@protocol MSHttpClientDelegate;
+
 NS_ASSUME_NONNULL_BEGIN
 
 typedef void (^MSHttpRequestCompletionHandler)(NSData *_Nullable responseBody, NSHTTPURLResponse *_Nullable response,
                                                NSError *_Nullable error);
 
 @protocol MSHttpClientProtocol
+
+/**
+ * HTTP client delegates.
+ */
+@property(nonatomic, weak) id<MSHttpClientDelegate> delegate;
 
 @required
 

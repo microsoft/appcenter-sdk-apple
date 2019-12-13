@@ -5,13 +5,13 @@
 #import "MSAppCenterErrors.h"
 #import "MSAppCenterInternal.h"
 #import "MSCSExtensions.h"
-#import "MSCompression.h"
 #import "MSConstants+Internal.h"
 #import "MSHttpIngestionPrivate.h"
 #import "MSLoggerInternal.h"
 #import "MSOneCollectorIngestionPrivate.h"
 #import "MSProtocolExtension.h"
 #import "MSTicketCache.h"
+#import "MSUtility+StringFormatting.h"
 
 @implementation MSOneCollectorIngestion
 
@@ -106,13 +106,10 @@
   return httpBody;
 }
 
-- (NSString *)obfuscateHeaderValue:(NSString *)value forKey:(NSString *)key {
-  if ([key isEqualToString:kMSOneCollectorApiKey]) {
-    return [self obfuscateTargetTokens:value];
-  } else if ([key isEqualToString:kMSOneCollectorTicketsKey]) {
-    return [self obfuscateTickets:value];
-  }
-  return value;
+- (NSString *)obfuscateResponsePayload:(NSString *)payload {
+  return [MSUtility obfuscateString:payload
+                searchingForPattern:kMSTokenKeyValuePattern
+              toReplaceWithTemplate:kMSTokenKeyValueObfuscatedTemplate];
 }
 
 - (NSString *)obfuscateTargetTokens:(NSString *)tokenString {
@@ -124,9 +121,31 @@
   return [obfuscatedTokens componentsJoinedByString:@","];
 }
 
-- (NSString *)obfuscateTickets:(NSString *)tokenString {
+- (NSString *)obfuscateTickets:(NSString *)ticketString {
   NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@":[^\"]+" options:0 error:nil];
-  return [regex stringByReplacingMatchesInString:tokenString options:0 range:NSMakeRange(0, tokenString.length) withTemplate:@":***"];
+  return [regex stringByReplacingMatchesInString:ticketString options:0 range:NSMakeRange(0, ticketString.length) withTemplate:@":***"];
+}
+
+- (void)willSendHTTPRequestToURL:(NSURL *)url withHeaders:(NSDictionary<NSString *, NSString *> *)headers {
+
+  // Don't lose time pretty printing headers if not going to be printed.
+  if ([MSLogger currentLogLevel] <= MSLogLevelVerbose) {
+
+    // Obfuscate secrets.
+    NSMutableArray<NSString *> *flattenedHeaders = [NSMutableArray<NSString *> new];
+    [headers enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *value, BOOL *stop __unused) {
+      if ([key isEqualToString:kMSOneCollectorApiKey]) {
+        value = [self obfuscateTargetTokens:value];
+      } else if ([key isEqualToString:kMSOneCollectorTicketsKey]) {
+        value = [self obfuscateTickets:value];
+      }
+      [flattenedHeaders addObject:[NSString stringWithFormat:@"%@ = %@", key, value]];
+    }];
+
+    // Log URL and headers.
+    MSLogVerbose([MSAppCenter logTag], @"URL: %@", url);
+    MSLogVerbose([MSAppCenter logTag], @"Headers: %@", [flattenedHeaders componentsJoinedByString:@", "]);
+  }
 }
 
 @end
