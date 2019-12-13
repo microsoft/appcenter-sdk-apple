@@ -180,8 +180,17 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      codeCoverageEnabled = "YES"
-      shouldUseLaunchSchemeArgsEnv = "YES">
+      shouldUseLaunchSchemeArgsEnv = "YES"
+      codeCoverageEnabled = "YES">
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "C9A91FB5230C01140068070D"
+            BuildableName = "AppCenter.framework"
+            BlueprintName = "AppCenter iOS Framework"
+            ReferencedContainer = "container:AppCenter/AppCenter.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <Testables>
          <TestableReference
             skipped = "NO">
@@ -243,28 +252,7 @@
                ReferencedContainer = "container:AppCenterAuth/AppCenterAuth.xcodeproj">
             </BuildableReference>
          </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D3AD5EBF1E5C4F6A001627AB"
-               BuildableName = "AppCenterData.xctest"
-               BlueprintName = "AppCenterData iOS Tests"
-               ReferencedContainer = "container:AppCenterData/AppCenterData.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "C9A91FB5230C01140068070D"
-            BuildableName = "AppCenter.framework"
-            BlueprintName = "AppCenter iOS Framework"
-            ReferencedContainer = "container:AppCenter/AppCenter.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
-      <AdditionalOptions>
-      </AdditionalOptions>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"
@@ -285,8 +273,6 @@
             ReferencedContainer = "container:AppCenter/AppCenter.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
-      <AdditionalOptions>
-      </AdditionalOptions>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
