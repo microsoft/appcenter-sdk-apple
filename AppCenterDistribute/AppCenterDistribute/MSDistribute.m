@@ -578,15 +578,13 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     if (!strongSelf) {
       return;
     }
-    strongSelf.authenticationSession = nil;
+    [strongSelf clearAuthenticationSession];
     if (error) {
       MSLogDebug([MSDistribute logTag], @"Called %@ with error: %@", callbackUrl, error.localizedDescription);
     }
     if (error.code == SFAuthenticationErrorCanceledLogin) {
       MSLogError([MSDistribute logTag], @"Authentication session was cancelled by user or failed.");
     }
-    MSLogDebug([MSDistribute logTag], @"Using SFAuthenticationSession got data with URL: %@", callbackUrl);
-
     if (callbackUrl) {
       [strongSelf openURL:callbackUrl];
     }
@@ -1114,8 +1112,8 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 }
 
 /**
-* Clear currently running SFAuthenticationSession.
-*/
+ * Clear currently running SFAuthenticationSession.
+ */
 - (void)clearAuthenticationSession API_AVAILABLE(ios(11)) {
   SFAuthenticationSession* session = self.authenticationSession;
 
