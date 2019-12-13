@@ -208,8 +208,16 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
 
   // Create the tables.
   if (tableQueries.count > 0) {
-    NSString *createTablesQuery = [tableQueries componentsJoinedByString:@"; "];
-    result = [self executeNonSelectionQuery:createTablesQuery inOpenedDatabase:db withValues:nil];
+    
+    // Here, we do not join queries by ';', as before, because
+    // we do not execute a non-selection query using `exec`, as before.
+    // We are using `step`, and `step` can handle only one-line statements.
+    for (NSString *tableQuery in tableQueries) {
+      result = [self executeNonSelectionQuery:tableQuery inOpenedDatabase:db withValues:nil];
+      if (result != SQLITE_OK) {
+        return result;
+      }
+    }
   }
   return result;
 }
