@@ -214,23 +214,9 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
   return nil;
 }
 
-// This method will be overridden by subclasses.
-- (NSString *)obfuscateHeaderValue:(NSString *__unused)value forKey:(NSString *__unused)key {
-  return nil;
-}
-
 - (NSString *)getHttpMethod {
   return kMSHttpMethodPost;
 };
-
-- (NSString *)prettyPrintHeaders:(NSDictionary<NSString *, NSString *> *)headers {
-  NSMutableArray<NSString *> *flattenedHeaders = [NSMutableArray<NSString *> new];
-  for (NSString *headerKey in headers) {
-    [flattenedHeaders
-        addObject:[NSString stringWithFormat:@"%@ = %@", headerKey, [self obfuscateHeaderValue:headers[headerKey] forKey:headerKey]]];
-  }
-  return [flattenedHeaders componentsJoinedByString:@", "];
-}
 
 #pragma mark - Helper
 

@@ -112,15 +112,6 @@
               toReplaceWithTemplate:kMSTokenKeyValueObfuscatedTemplate];
 }
 
-- (NSString *)obfuscateHeaderValue:(NSString *)value forKey:(NSString *)key {
-  if ([key isEqualToString:kMSOneCollectorApiKey]) {
-    return [self obfuscateTargetTokens:value];
-  } else if ([key isEqualToString:kMSOneCollectorTicketsKey]) {
-    return [self obfuscateTickets:value];
-  }
-  return value;
-}
-
 - (NSString *)obfuscateTargetTokens:(NSString *)tokenString {
   NSArray *tokens = [tokenString componentsSeparatedByString:@","];
   NSMutableArray *obfuscatedTokens = [NSMutableArray new];
@@ -135,14 +126,25 @@
   return [regex stringByReplacingMatchesInString:tokenString options:0 range:NSMakeRange(0, tokenString.length) withTemplate:@":***"];
 }
 
-#pragma mark - MSHttpClientDelegate
-
 - (void)willSendHTTPRequestToURL:(NSURL *)url withHeaders:(NSDictionary<NSString *, NSString *> *)headers {
 
   // Don't lose time pretty printing headers if not going to be printed.
   if ([MSLogger currentLogLevel] <= MSLogLevelVerbose) {
+
+    // Obfuscate secrets.
+    NSMutableArray<NSString *> *flattenedHeaders = [NSMutableArray<NSString *> new];
+    [headers enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *value, BOOL *stop __unused) {
+      if ([key isEqualToString:kMSOneCollectorApiKey]) {
+        value = [self obfuscateTargetTokens:value];
+      } else if ([key isEqualToString:kMSOneCollectorTicketsKey]) {
+        value = [self obfuscateTickets:value];
+      }
+      [flattenedHeaders addObject:[NSString stringWithFormat:@"%@ = %@", key, value]];
+    }];
+
+    // Log URL and headers.
     MSLogVerbose([MSAppCenter logTag], @"URL: %@", url);
-    MSLogVerbose([MSAppCenter logTag], @"Headers: %@", [self prettyPrintHeaders:headers]);
+    MSLogVerbose([MSAppCenter logTag], @"Headers: %@", [flattenedHeaders componentsJoinedByString:@", "]);
   }
 }
 

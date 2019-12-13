@@ -115,23 +115,27 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
   return payload;
 }
 
-- (NSString *)obfuscateHeaderValue:(NSString *)value forKey:(NSString *)key {
-  if ([key isEqualToString:kMSAuthorizationHeaderKey]) {
-    return [MSHttpUtil hideAuthToken:value];
-  } else if ([key isEqualToString:kMSHeaderAppSecretKey]) {
-    return [MSHttpUtil hideSecret:value];
-  }
-  return value;
-}
-
 #pragma mark - MSHttpClientDelegate
 
 - (void)willSendHTTPRequestToURL:(NSURL *)url withHeaders:(NSDictionary<NSString *, NSString *> *)headers {
 
   // Don't lose time pretty printing headers if not going to be printed.
   if ([MSLogger currentLogLevel] <= MSLogLevelVerbose) {
+
+    // Obfuscate secrets.
+    NSMutableArray<NSString *> *flattenedHeaders = [NSMutableArray<NSString *> new];
+    [headers enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *value, BOOL *stop __unused) {
+      if ([key isEqualToString:kMSAuthorizationHeaderKey]) {
+        value = [MSHttpUtil hideAuthToken:value];
+      } else if ([key isEqualToString:kMSHeaderAppSecretKey]) {
+        value = [MSHttpUtil hideSecret:value];
+      }
+      [flattenedHeaders addObject:[NSString stringWithFormat:@"%@ = %@", key, value]];
+    }];
+
+    // Log URL and headers.
     MSLogVerbose([MSAppCenter logTag], @"URL: %@", url);
-    MSLogVerbose([MSAppCenter logTag], @"Headers: %@", [self prettyPrintHeaders:headers]);
+    MSLogVerbose([MSAppCenter logTag], @"Headers: %@", [flattenedHeaders componentsJoinedByString:@", "]);
   }
 }
 

@@ -76,15 +76,6 @@
     maxNumberOfConnections:(NSInteger)maxNumberOfConnections;
 
 /**
- * Convert key/value pairs for headers to a string.
- *
- * @param headers A dictionary that contains header as key/value pair.
- *
- * @return A string that contains headers.
- */
-- (NSString *)prettyPrintHeaders:(NSDictionary<NSString *, NSString *> *)headers;
-
-/**
  * Hide a part of sensitive value for payload.
  *
  * @param payload The payload to be obfuscated.
@@ -92,16 +83,6 @@
  * @return An obfuscated value.
  */
 - (NSString *)obfuscateResponsePayload:(NSString *)payload;
-
-/**
- * Hide a part of sensitive value for log.
- *
- * @param key A header key.
- * @param value A header value.
- *
- * @return An obfuscated value.
- */
-- (NSString *)obfuscateHeaderValue:(NSString *)value forKey:(NSString *)key;
 
 /**
  * Get the HTTP headers for the given data.
