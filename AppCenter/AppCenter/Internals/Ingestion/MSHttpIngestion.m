@@ -189,9 +189,9 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
     // Obfuscate payload.
     if (responseBody.length > 0) {
       if ([contentType hasPrefix:@"application/json"]) {
-        payload = [self obfuscatePayload:[MSUtility prettyPrintJson:responseBody]];
+        payload = [self obfuscateResponsePayload:[MSUtility prettyPrintJson:responseBody]];
       } else if (!contentType.length || [contentType hasPrefix:@"text/"] || [contentType hasPrefix:@"application/"]) {
-        payload = [self obfuscatePayload:[[NSString alloc] initWithData:responseBody encoding:NSUTF8StringEncoding]];
+        payload = [self obfuscateResponsePayload:[[NSString alloc] initWithData:responseBody encoding:NSUTF8StringEncoding]];
       } else {
         payload = @"<binary>";
       }
@@ -210,7 +210,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
   return nil;
 }
 
-- (NSString *)obfuscatePayload:(NSString *__unused)payload {
+- (NSString *)obfuscateResponsePayload:(NSString *__unused)payload {
   return nil;
 }
 

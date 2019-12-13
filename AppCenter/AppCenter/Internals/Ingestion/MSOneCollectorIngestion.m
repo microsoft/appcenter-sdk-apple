@@ -106,7 +106,7 @@
   return httpBody;
 }
 
-- (NSString *)obfuscatePayload:(NSString *)payload {
+- (NSString *)obfuscateResponsePayload:(NSString *)payload {
   return [MSUtility obfuscateString:payload
                 searchingForPattern:kMSTokenKeyValuePattern
               toReplaceWithTemplate:kMSTokenKeyValueObfuscatedTemplate];

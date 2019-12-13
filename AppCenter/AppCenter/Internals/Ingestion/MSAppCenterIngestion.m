@@ -111,7 +111,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
   }
 }
 
-- (NSString *)obfuscatePayload:(NSString *)payload {
+- (NSString *)obfuscateResponsePayload:(NSString *)payload {
   return payload;
 }
 

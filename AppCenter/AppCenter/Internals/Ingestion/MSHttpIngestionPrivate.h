@@ -91,7 +91,7 @@
  *
  * @return An obfuscated value.
  */
-- (NSString *)obfuscatePayload:(NSString *)payload;
+- (NSString *)obfuscateResponsePayload:(NSString *)payload;
 
 /**
  * Hide a part of sensitive value for log.
