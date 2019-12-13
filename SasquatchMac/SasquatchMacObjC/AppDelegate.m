@@ -151,6 +151,9 @@ enum StartupMode { appCenter, oneCollector, both, none, skip };
 
                return YES;
              })];
+
+  // Enable catching uncaught exceptions thrown on the main thread.
+  [[NSUserDefaults standardUserDefaults] registerDefaults:@{@"NSApplicationCrashOnExceptions" : @YES}];
 }
 
 - (void)setupPush {

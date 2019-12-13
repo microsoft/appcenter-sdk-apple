@@ -27,6 +27,8 @@
 	<key>NSMainStoryboardFile</key>
 	<string>SasquatchMac</string>
 	<key>NSPrincipalClass</key>
-	<string>NSApplication</string>
+	<string>AppCenterApplication</string>
+	<key>AppCenterApplicationForwarderEnabled</key>
+	<false/>
 </dict>
 </plist>
