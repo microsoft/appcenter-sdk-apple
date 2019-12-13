@@ -3,8 +3,8 @@
 
 #import <Foundation/Foundation.h>
 
-#import "MSHttpClient.h"
 #import "MSHttpCall.h"
+#import "MSHttpClient.h"
 
 @class MS_Reachability;
 

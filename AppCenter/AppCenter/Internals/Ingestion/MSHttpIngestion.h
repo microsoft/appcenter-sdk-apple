@@ -3,8 +3,8 @@
 
 #import <Foundation/Foundation.h>
 
-#import "MSIngestionProtocol.h"
 #import "MSHttpClientDelegate.h"
+#import "MSIngestionProtocol.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
