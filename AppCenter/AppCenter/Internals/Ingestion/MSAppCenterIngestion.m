@@ -78,39 +78,6 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
   return [jsonString dataUsingEncoding:NSUTF8StringEncoding];
 }
 
-- (void)setBaseURL:(NSString *)baseURL {
-  @synchronized(self) {
-    BOOL success = false;
-    NSURLComponents *components;
-    self.baseURL = baseURL;
-    NSURL *partialURL = [NSURL URLWithString:[baseURL stringByAppendingString:self.apiPath]];
-
-    // Merge new parial URL and current full URL.
-    if (partialURL) {
-      components = [NSURLComponents componentsWithURL:self.sendURL resolvingAgainstBaseURL:NO];
-      @try {
-        for (u_long i = 0; i < sizeof(kMSPartialURLComponentsName) / sizeof(*kMSPartialURLComponentsName); i++) {
-          NSString *propertyName = kMSPartialURLComponentsName[i];
-          [components setValue:[partialURL valueForKey:propertyName] forKey:propertyName];
-        }
-      } @catch (NSException *ex) {
-        MSLogInfo([MSAppCenter logTag], @"Error while updating HTTP URL %@ with %@: \n%@", self.sendURL.absoluteString, baseURL, ex);
-      }
-
-      // Update full URL.
-      if (components.URL) {
-        self.sendURL = (NSURL * _Nonnull) components.URL;
-        success = true;
-      }
-    }
-
-    // Notify failure.
-    if (!success) {
-      MSLogInfo([MSAppCenter logTag], @"Failed to update HTTP URL %@ with %@", self.sendURL.absoluteString, baseURL);
-    }
-  }
-}
-
 - (NSString *)obfuscateResponsePayload:(NSString *)payload {
   return payload;
 }

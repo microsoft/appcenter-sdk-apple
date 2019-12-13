@@ -121,9 +121,9 @@
   return [obfuscatedTokens componentsJoinedByString:@","];
 }
 
-- (NSString *)obfuscateTickets:(NSString *)tokenString {
+- (NSString *)obfuscateTickets:(NSString *)ticketString {
   NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@":[^\"]+" options:0 error:nil];
-  return [regex stringByReplacingMatchesInString:tokenString options:0 range:NSMakeRange(0, tokenString.length) withTemplate:@":***"];
+  return [regex stringByReplacingMatchesInString:ticketString options:0 range:NSMakeRange(0, ticketString.length) withTemplate:@":***"];
 }
 
 - (void)willSendHTTPRequestToURL:(NSURL *)url withHeaders:(NSDictionary<NSString *, NSString *> *)headers {

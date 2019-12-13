@@ -234,4 +234,48 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [mockHttpUtil stopMocking];
 }
 
+- (void)testSetBaseURL {
+
+  // If
+  NSString *path = @"path";
+  NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", @"https://www.contoso.com/", path]];
+  self.sut.apiPath = path;
+
+  // Query should be the same.
+  NSString *query = self.sut.sendURL.query;
+
+  // When
+  [self.sut setBaseURL:(NSString * _Nonnull)[url.URLByDeletingLastPathComponent absoluteString]];
+
+  // Then
+  XCTAssertNotNil(query);
+  NSString *expectedURLString = [NSString stringWithFormat:@"%@?%@", url.absoluteString, query];
+  XCTAssertTrue([[self.sut.sendURL absoluteString] isEqualToString:expectedURLString]);
+}
+
+- (void)testSetInvalidBaseURL {
+
+  // If
+  NSURL *expected = self.sut.sendURL;
+  NSString *invalidURL = @"\notGood";
+
+  // When
+  [self.sut setBaseURL:invalidURL];
+
+  // Then
+  assertThat(self.sut.sendURL, is(expected));
+}
+
+- (void)testObfuscateResponsePayload {
+
+  // If
+  NSString *payload = @"I am the payload for testing";
+
+  // When
+  NSString *actual = [self.sut obfuscateResponsePayload:payload];
+
+  // Then
+  assertThat(actual, payload);
+}
+
 @end
