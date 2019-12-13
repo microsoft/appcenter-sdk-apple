@@ -425,7 +425,7 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
   case SQLITE_TEXT:
     return [NSString stringWithUTF8String:(const char *)sqlite3_column_text(statement, index)];
   default:
-    // TODO Error unknown type
+    MSLogError([MSAppCenter logTag], @"Could not retrieve column value at index %d from statement: unknown type.", index);
     return [NSNull null];
   }
 }
