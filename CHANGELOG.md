@@ -1,6 +1,6 @@
 # App Center SDK for iOS, macOS and tvOS Change Log
 
-## Version 2.5.2
+## Version 2.5.3
 
 ### App Center
 
@@ -13,7 +13,7 @@
 ### App Center Crashes
 
 * **[Improvement]**  Report additional details for macOS exceptions thrown on the main thread.
-* **[Fix]** Fix sending crashes if an application is launched in background.
+* **[Fix]** Fix to send crashes when an application was launched in background and enters foreground.
 * **[Fix]** Validate error attachment size to avoid server error or out of memory issues (using the documented limit which is 7MB).
 * **[Fix]** Fix an issue where crash might contain incorrect data if two consecutive crashes occurred in a previous version of the application.
 
