@@ -68,16 +68,6 @@ static NSString *const kMSLatestPublicReleaseApiPathFormat = @"/public/sdk/apps/
 
   // Don't lose time pretty printing headers if not going to be printed.
   if ([MSLogger currentLogLevel] <= MSLogLevelVerbose) {
-    MSLogVerbose([MSAppCenter logTag], @"URL: %@",
-                 [url stringByReplacingOccurrencesOfString:self.appSecret withString:[MSHttpUtil hideSecret:self.appSecret]]);
-    MSLogVerbose([MSAppCenter logTag], @"Headers: %@", [self prettyPrintHeaders:headers]);
-  }
-}
-
-- (void)willSendHTTPRequestToURL:(NSURL *)url withHeaders:(NSDictionary<NSString *, NSString *> *)headers {
-
-  // Don't lose time pretty printing headers if not going to be printed.
-  if ([MSLogger currentLogLevel] <= MSLogLevelVerbose) {
 
     // Obfuscate secrets.
     NSMutableArray<NSString *> *flattenedHeaders = [NSMutableArray<NSString *> new];

@@ -40,7 +40,8 @@
                                                                           withString:[MSHttpUtil hideSecret:self.appSecret]];
     MSLogVerbose([MSAuth logTag], @"URL: %@", url);
     if (request.allHTTPHeaderFields) {
-      MSLogVerbose([MSAuth logTag], @"Headers: %@", [super prettyPrintHeaders:request.allHTTPHeaderFields]);
+      // TODO: This will be removed soon.
+      //      MSLogVerbose([MSAuth logTag], @"Headers: %@", [super prettyPrintHeaders:request.allHTTPHeaderFields]);
     }
   }
   return request;
