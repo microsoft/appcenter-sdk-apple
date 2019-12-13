@@ -9,6 +9,8 @@
 #import "MSHttpClient.h"
 #import "MSHttpIngestionPrivate.h"
 #import "MSHttpTestUtil.h"
+#import "MSHttpUtil.h"
+#import "MSLoggerInternal.h"
 #import "MSMockLog.h"
 #import "MSTestFrameworks.h"
 #import "MSTestUtil.h"
@@ -208,16 +210,28 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
                           completionHandler:OCMOCK_ANY]));
 }
 
-- (void)testObfuscateHeaderValue {
+- (void)testHttpClientDelegateObfuscateHeaderValue {
 
   // If
-  NSString *testString = @"Bearer testtesttest";
+  id mockLogger = OCMClassMock([MSLogger class]);
+  id mockHttpUtil = OCMClassMock([MSHttpUtil class]);
+  OCMStub([mockLogger currentLogLevel]).andReturn(MSLogLevelVerbose);
+  OCMStub(ClassMethod([mockHttpUtil hideAuthToken:OCMOCK_ANY])).andDo(nil);
+  OCMStub(ClassMethod([mockHttpUtil hideSecret:OCMOCK_ANY])).andDo(nil);
+  NSString *authorizationValue = @"Bearer testtesttest";
+  NSDictionary<NSString *, NSString *> *headers =
+      @{kMSAuthorizationHeaderKey : authorizationValue, kMSHeaderAppSecretKey : kMSTestAppSecret};
+  NSURL *url = [NSURL new];
 
   // When
-  NSString *result = [self.sut obfuscateHeaderValue:testString forKey:kMSAuthorizationHeaderKey];
+  [self.sut willSendHTTPRequestToURL:url withHeaders:headers];
 
   // Then
-  XCTAssertTrue([result isEqualToString:@"Bearer ***"]);
+  OCMVerify([mockHttpUtil hideAuthToken:authorizationValue]);
+  OCMVerify([mockHttpUtil hideSecret:kMSTestAppSecret]);
+
+  [mockLogger stopMocking];
+  [mockHttpUtil stopMocking];
 }
 
 @end

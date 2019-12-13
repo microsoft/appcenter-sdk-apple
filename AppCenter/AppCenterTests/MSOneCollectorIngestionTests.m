@@ -12,6 +12,7 @@
 #import "MSMockCommonSchemaLog.h"
 #import "MSModelTestsUtililty.h"
 #import "MSOneCollectorIngestion.h"
+#import "MSOneCollectorIngestionPrivate.h"
 #import "MSTestFrameworks.h"
 #import "MSTicketCache.h"
 #import "MSUtility+StringFormatting.h"
@@ -92,28 +93,58 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   XCTAssertTrue([ticketsHeader isEqualToString:@"{\"ticketKey2\":\"ticketKey2Token\",\"ticketKey1\":\"ticketKey1Token\"}"]);
 }
 
-- (void)testObfuscateHeaderValue {
+- (void)testHttpClientDelegateObfuscateHeaderValue {
+
+  // If
+  id mockLogger = OCMClassMock([MSLogger class]);
+  id ingestionMock = OCMPartialMock(self.sut);
+  OCMStub([mockLogger currentLogLevel]).andReturn(MSLogLevelVerbose);
+  OCMStub([ingestionMock obfuscateTargetTokens:OCMOCK_ANY]).andDo(nil);
+  OCMStub([ingestionMock obfuscateTickets:OCMOCK_ANY]).andDo(nil);
+  NSString *tokenValue = @"12345678";
+  NSString *ticketValue = @"something";
+  NSDictionary<NSString *, NSString *> *headers = @{kMSOneCollectorApiKey : tokenValue, kMSOneCollectorTicketsKey : ticketValue};
+  NSURL *url = [NSURL new];
+
+  // When
+  [ingestionMock willSendHTTPRequestToURL:url withHeaders:headers];
+
+  // Then
+  OCMVerify([ingestionMock obfuscateTargetTokens:tokenValue]);
+  OCMVerify([ingestionMock obfuscateTickets:ticketValue]);
+
+  [mockLogger stopMocking];
+  [ingestionMock stopMocking];
+}
+
+- (void)testObfuscateTargetTokens {
 
   // If
   NSString *testString = @"12345678";
 
   // When
-  NSString *result = [self.sut obfuscateHeaderValue:testString forKey:kMSOneCollectorApiKey];
+  NSString *result = [self.sut obfuscateTargetTokens:testString];
+
+  // Then
+  XCTAssertTrue([result isEqualToString:@"********"]);
 
   // If
   testString = @"ThisWillBeObfuscated, ThisWillBeObfuscated, ThisWillBeObfuscated";
 
   // When
-  result = [self.sut obfuscateHeaderValue:testString forKey:kMSOneCollectorApiKey];
+  result = [self.sut obfuscateTargetTokens:testString];
 
   // Then
   XCTAssertTrue([result isEqualToString:@"************fuscated,*************fuscated,*************fuscated"]);
+}
+
+- (void)testObfuscateTickets {
 
   // If
-  testString = @"something";
+  NSString *testString = @"something";
 
   // When
-  result = [self.sut obfuscateHeaderValue:testString forKey:kMSOneCollectorTicketsKey];
+  NSString *result = [self.sut obfuscateTickets:testString];
 
   // Then
   XCTAssertTrue([result isEqualToString:testString]);
@@ -122,7 +153,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   testString = @"{\"ticketKey1\":\"p:AuthorizationValue1\",\"ticketKey2\":\"d:AuthorizationValue2\"}";
 
   // When
-  result = [self.sut obfuscateHeaderValue:testString forKey:kMSOneCollectorTicketsKey];
+  result = [self.sut obfuscateTickets:testString];
 
   // Then
   XCTAssertTrue([result isEqualToString:@"{\"ticketKey1\":\"p:***\",\"ticketKey2\":\"d:***\"}"]);
