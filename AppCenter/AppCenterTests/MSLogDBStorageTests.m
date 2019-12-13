@@ -540,7 +540,7 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   [self.sut deleteLogsWithGroupId:kMSTestGroupId];
 
   // Then
-  NSArray *remainingLogs = [self loadLogsWhere:nil];
+  NSArray *remainingLogs = [self loadLogsWhere:nil withValues:nil];
   assertThat(remainingLogs, is(expectedLogs));
   assertThatInteger(self.sut.batches.count, equalToInteger(1));
   assertThatBool([self.sut.batches.allKeys containsObject:batchIdToDelete], isFalse());
@@ -575,7 +575,7 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   [self.sut deleteLogsWithBatchId:batchIdToDelete groupId:kMSTestGroupId];
 
   // Then
-  remainingLogs = [self loadLogsWhere:nil];
+  remainingLogs = [self loadLogsWhere:nil withValues:nil];
   NSString *keyFormat = [self.sut buildKeyFormatWithCount:logIdsToDelete.count];
   condition = [NSString stringWithFormat:@"%@ IN %@", kMSIdColumnName, keyFormat];
   assertThatInteger([self.sut countEntriesForTable:kMSLogTableName condition:condition withValues:logIdsToDelete], equalToInteger(0));
@@ -617,7 +617,7 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   [self.sut deleteLogsWithBatchId:batchIdToDelete groupId:kMSTestGroupId];
 
   // Then
-  remainingLogs = [self loadLogsWhere:nil];
+  remainingLogs = [self loadLogsWhere:nil withValues:nil];
   NSString *keyFormat = [self.sut buildKeyFormatWithCount:logIdsToDelete.count];
   condition = [NSString stringWithFormat:@"%@ IN %@", kMSIdColumnName, keyFormat];
   assertThatInteger([self.sut countEntriesForTable:kMSLogTableName condition:condition withValues:logIdsToDelete], equalToInteger(0));
@@ -667,7 +667,7 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   [self.sut deleteLogsWithBatchId:batchIdToDelete groupId:kMSTestGroupId];
 
   // Then
-  remainingLogs = [self loadLogsWhere:nil];
+  remainingLogs = [self loadLogsWhere:nil withValues:nil];
   NSString *keyFormat = [self.sut buildKeyFormatWithCount:logIdsToDelete.count];
   condition = [NSString stringWithFormat:@"%@ IN %@", kMSIdColumnName, keyFormat];
   assertThatInteger([self.sut countEntriesForTable:kMSLogTableName condition:condition withValues:logIdsToDelete], equalToInteger(0));
@@ -753,9 +753,9 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
 
   // Then
   XCTAssertTrue(logSavedSuccessfully);
-  NSString *whereCondition = [NSString stringWithFormat:@"\"%@\" = '%@'", kMSGroupIdColumnName, kMSAnotherTestGroupId];
-  NSArray<id<MSLog>> *loadedLogs = [self loadLogsWhere:whereCondition];
-  NSArray<id<MSLog>> *allLogs = [self loadLogsWhere:nil];
+  NSString *whereCondition = [NSString stringWithFormat:@"\"%@\" = ?", kMSGroupIdColumnName];
+    NSArray<id<MSLog>> *loadedLogs = [self loadLogsWhere:whereCondition withValues:@[kMSAnotherTestGroupId]];
+  NSArray<id<MSLog>> *allLogs = [self loadLogsWhere:nil withValues:nil];
   XCTAssertEqual(loadedLogs.count, 1);
   XCTAssertEqualObjects(loadedLogs[0].sid, additionalLog.sid);
   XCTAssertEqual(addedDbIds.count + 1, allLogs.count);
@@ -766,15 +766,15 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   // If
   MSAbstractLog *aLog = [MSAbstractLog new];
   aLog.sid = MS_UUID_STRING;
-  NSString *criticalLogsFilter = [NSString stringWithFormat:@"\"%@\" = '%u'", kMSPriorityColumnName, (unsigned int)MSFlagsCritical];
-  NSString *normalLogsFilter = [NSString stringWithFormat:@"\"%@\" = '%u'", kMSPriorityColumnName, (unsigned int)MSFlagsNormal];
+  NSString *criticalLogsFilter = [NSString stringWithFormat:@"\"%@\" = ?", kMSPriorityColumnName];
+  NSString *normalLogsFilter = [NSString stringWithFormat:@"\"%@\" = ?", kMSPriorityColumnName];
 
   // When
   [self.sut saveLog:aLog withGroupId:kMSTestGroupId flags:MSFlagsCritical];
 
   // Then
-  NSArray<id<MSLog>> *criticalLogs = [self loadLogsWhere:criticalLogsFilter];
-  NSArray<id<MSLog>> *normalLogs = [self loadLogsWhere:normalLogsFilter];
+  NSArray<id<MSLog>> *criticalLogs = [self loadLogsWhere:criticalLogsFilter withValues:@[@((unsigned int)MSFlagsCritical)]];
+  NSArray<id<MSLog>> *normalLogs = [self loadLogsWhere:normalLogsFilter withValues:@[@((unsigned int)MSFlagsNormal)]];
   XCTAssertEqual(criticalLogs.count, 1);
   XCTAssertEqualObjects(criticalLogs[0].sid, aLog.sid);
   XCTAssertEqual(normalLogs.count, 0);
@@ -785,15 +785,15 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   // If
   MSAbstractLog *aLog = [MSAbstractLog new];
   aLog.sid = MS_UUID_STRING;
-  NSString *criticalLogsFilter = [NSString stringWithFormat:@"\"%@\" = '%u'", kMSPriorityColumnName, (unsigned int)MSFlagsCritical];
-  NSString *normalLogsFilter = [NSString stringWithFormat:@"\"%@\" = '%u'", kMSPriorityColumnName, (unsigned int)MSFlagsNormal];
+  NSString *criticalLogsFilter = [NSString stringWithFormat:@"\"%@\" = ?", kMSPriorityColumnName];
+  NSString *normalLogsFilter = [NSString stringWithFormat:@"\"%@\" = ?", kMSPriorityColumnName];
 
   // When
   [self.sut saveLog:aLog withGroupId:kMSTestGroupId flags:MSFlagsNormal];
 
   // Then
-  NSArray<id<MSLog>> *criticalLogs = [self loadLogsWhere:criticalLogsFilter];
-  NSArray<id<MSLog>> *normalLogs = [self loadLogsWhere:normalLogsFilter];
+  NSArray<id<MSLog>> *criticalLogs = [self loadLogsWhere:criticalLogsFilter withValues:@[@((unsigned int)MSFlagsCritical)]];
+  NSArray<id<MSLog>> *normalLogs = [self loadLogsWhere:normalLogsFilter withValues:@[@((unsigned int)MSFlagsNormal)]];
   XCTAssertEqual(normalLogs.count, 1);
   XCTAssertEqualObjects(normalLogs[0].sid, aLog.sid);
   XCTAssertEqual(criticalLogs.count, 0);
@@ -840,8 +840,8 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   XCTAssertTrue(logSavedSuccessfully);
   XCTAssertFalse([self containsLogWithDbId:firstLogDbId]);
 
-  NSString *whereCondition = [NSString stringWithFormat:@"\"%@\" = '%@'", kMSGroupIdColumnName, kMSAnotherTestGroupId];
-  NSArray<id<MSLog>> *loadedLogs = [self loadLogsWhere:whereCondition];
+  NSString *whereCondition = [NSString stringWithFormat:@"\"%@\" = ?", kMSGroupIdColumnName];
+  NSArray<id<MSLog>> *loadedLogs = [self loadLogsWhere:whereCondition withValues:@[kMSAnotherTestGroupId]];
   XCTAssertEqual(loadedLogs.count, 1);
   XCTAssertEqualObjects(loadedLogs[0].sid, additionalLog.sid);
   XCTAssertEqual(1, [self findUnknownDBIdsFromKnownIdList:addedDbIds].count);
@@ -866,8 +866,8 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   XCTAssertTrue(logSavedSuccessfully);
   XCTAssertFalse([self containsLogWithDbId:firstLogDbId]);
 
-  NSString *whereCondition = [NSString stringWithFormat:@"\"%@\" = '%@'", kMSGroupIdColumnName, kMSAnotherTestGroupId];
-  NSArray<id<MSLog>> *loadedLogs = [self loadLogsWhere:whereCondition];
+  NSString *whereCondition = [NSString stringWithFormat:@"\"%@\" = ?", kMSGroupIdColumnName];
+  NSArray<id<MSLog>> *loadedLogs = [self loadLogsWhere:whereCondition withValues:@[kMSAnotherTestGroupId]];
   XCTAssertEqual(loadedLogs.count, 1);
   XCTAssertEqualObjects(loadedLogs[0].sid, additionalLog.sid);
   XCTAssertEqual(1, [self findUnknownDBIdsFromKnownIdList:addedDbIds].count);
@@ -893,8 +893,8 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
     XCTAssertTrue([self containsLogWithDbId:dbId]);
   }
 
-  NSString *whereCondition = [NSString stringWithFormat:@"\"%@\" = '%@'", kMSGroupIdColumnName, kMSAnotherTestGroupId];
-  NSArray<id<MSLog>> *loadedLogs = [self loadLogsWhere:whereCondition];
+  NSString *whereCondition = [NSString stringWithFormat:@"\"%@\" = ?", kMSGroupIdColumnName];
+  NSArray<id<MSLog>> *loadedLogs = [self loadLogsWhere:whereCondition withValues:@[kMSAnotherTestGroupId]];
   XCTAssertEqual(loadedLogs.count, 0);
   XCTAssertEqual(0, [self findUnknownDBIdsFromKnownIdList:addedDbIds].count);
 }
@@ -919,8 +919,8 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   XCTAssertTrue(logSavedSuccessfully);
   XCTAssertFalse([self containsLogWithDbId:oldestNormalDbId]);
   XCTAssertTrue([self containsLogWithDbId:oldestCriticalDbId]);
-  NSString *whereCondition = [NSString stringWithFormat:@"\"%@\" = '%@'", kMSGroupIdColumnName, kMSAnotherTestGroupId];
-  NSArray<id<MSLog>> *loadedLogs = [self loadLogsWhere:whereCondition];
+  NSString *whereCondition = [NSString stringWithFormat:@"\"%@\" = ?", kMSGroupIdColumnName];
+  NSArray<id<MSLog>> *loadedLogs = [self loadLogsWhere:whereCondition withValues:@[kMSAnotherTestGroupId]];
   XCTAssertEqual(loadedLogs.count, 1);
   XCTAssertEqualObjects(loadedLogs[0].sid, additionalLog.sid);
   NSArray *knownIds = [NSArray new];
@@ -959,8 +959,8 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   // Then
   XCTAssertTrue([self.storageTestUtil getDataLengthInBytes] <= maxCapacityInBytes);
   XCTAssertFalse(logSavedSuccessfully);
-  NSString *whereCondition = [NSString stringWithFormat:@"\"%@\" = '%@'", kMSGroupIdColumnName, kMSAnotherTestGroupId];
-  NSArray<id<MSLog>> *loadedLogs = [self loadLogsWhere:whereCondition];
+  NSString *whereCondition = [NSString stringWithFormat:@"\"%@\" = ?", kMSGroupIdColumnName];
+  NSArray<id<MSLog>> *loadedLogs = [self loadLogsWhere:whereCondition withValues:@[kMSAnotherTestGroupId]];
   XCTAssertEqual(loadedLogs.count, 0);
   NSArray *knownIds = [NSArray new];
   for (NSArray<NSNumber *> *ids in @[ criticalDbIds, normalDbIds ]) {
@@ -1141,7 +1141,7 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   self.sut = [MSLogDBStorage new];
 
   // Then
-  assertThatInt([self loadLogsWhere:nil].count, equalToUnsignedInt(10));
+  assertThatInt([self loadLogsWhere:nil withValues:nil].count, equalToUnsignedInt(10));
   NSString *currentTable =
       [self.sut executeSelectionQuery:[NSString stringWithFormat:@"SELECT sql FROM sqlite_master WHERE name='%@'", kMSLogTableName]
                            withValues:nil][0][0];
@@ -1178,7 +1178,7 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   self.sut = [MSLogDBStorage new];
 
   // Then
-  assertThatInt([self loadLogsWhere:nil].count, equalToUnsignedInt(10));
+  assertThatInt([self loadLogsWhere:nil withValues:nil].count, equalToUnsignedInt(10));
   NSString *currentTable =
       [self.sut executeSelectionQuery:[NSString stringWithFormat:@"SELECT sql FROM sqlite_master WHERE name='%@'", kMSLogTableName]
                            withValues:nil][0][0];
@@ -1216,7 +1216,7 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   self.sut = [MSLogDBStorage new];
 
   // Then
-  assertThatInt([self loadLogsWhere:nil].count, equalToUnsignedInt(10));
+  assertThatInt([self loadLogsWhere:nil withValues:nil].count, equalToUnsignedInt(10));
   NSString *currentTable =
       [self.sut executeSelectionQuery:[NSString stringWithFormat:@"SELECT sql FROM sqlite_master WHERE name='%@'", kMSLogTableName]
                            withValues:nil][0][0];
@@ -1254,7 +1254,7 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   self.sut = [MSLogDBStorage new];
 
   // Then
-  assertThatInt([self loadLogsWhere:nil].count, equalToUnsignedInt(10));
+  assertThatInt([self loadLogsWhere:nil withValues:nil].count, equalToUnsignedInt(10));
   NSString *currentTable =
       [self.sut executeSelectionQuery:[NSString stringWithFormat:@"SELECT sql FROM sqlite_master WHERE name='%@'", kMSLogTableName]
                            withValues:nil][0][0];
@@ -1355,7 +1355,7 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   return ids;
 }
 
-- (NSArray<id<MSLog>> *)loadLogsWhere:(nullable NSString *)whereCondition {
+- (NSArray<id<MSLog>> *)loadLogsWhere:(nullable NSString *)whereCondition withValues:(nullable NSArray *)values {
   NSMutableArray<id<MSLog>> *logs = [NSMutableArray<id<MSLog>> new];
   NSMutableArray *rows = [NSMutableArray new];
   NSMutableString *selectLogQuery = [NSMutableString stringWithFormat:@"SELECT * FROM \"%@\"", kMSLogTableName];
@@ -1365,7 +1365,16 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   sqlite3 *db = [self.storageTestUtil openDatabase];
   sqlite3_stmt *statement = NULL;
   sqlite3_prepare_v2(db, [selectLogQuery UTF8String], -1, &statement, NULL);
-
+  for (int i = 0; i < (int)values.count; i++) {
+    NSObject *value = values[i];
+    if ([value isKindOfClass:[NSString class]]) {
+      sqlite3_bind_text(statement, i + 1, [(NSString *)value UTF8String], -1, SQLITE_TRANSIENT);
+    } else if ([value isKindOfClass:[NSNumber class]]) {
+      sqlite3_bind_int(statement, i + 1, [(NSNumber *)value intValue]);
+    } else if ([value isKindOfClass:[NSNull class]]) {
+      sqlite3_bind_null(statement, i + 1);
+    }
+  }
   // Loop on rows.
   while (sqlite3_step(statement) == SQLITE_ROW) {
     NSMutableArray *entry = [NSMutableArray new];
