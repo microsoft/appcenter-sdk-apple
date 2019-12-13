@@ -2633,25 +2633,25 @@ static NSURL *sfURL;
 
 - (void)testClearAuthenticationSession API_AVAILABLE(ios(11)) {
 
-    // If
-    NSURL *fakeURL = [NSURL URLWithString:kMSDefaultURLFormat];
-    id authenticationSessionMock = OCMClassMock([SFAuthenticationSession class]);
-    self.sut = [MSDistribute new];
-    [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
-                          appSecret:kMSTestAppSecret
-            transmissionTargetToken:nil
-                    fromApplication:YES];
-    self.sut.authenticationSession = authenticationSessionMock;
+  // If
+  NSURL *fakeURL = [NSURL URLWithString:kMSDefaultURLFormat];
+  id authenticationSessionMock = OCMClassMock([SFAuthenticationSession class]);
+  self.sut = [MSDistribute new];
+  [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
+                        appSecret:kMSTestAppSecret
+          transmissionTargetToken:nil
+                  fromApplication:YES];
+  self.sut.authenticationSession = authenticationSessionMock;
 
-    // When
-    // If session exists we should clear it before start new.
-    [self.sut openURLInAuthenticationSessionWith:fakeURL];
+  // When
+  // If session exists we should clear it before start new.
+  [self.sut openURLInAuthenticationSessionWith:fakeURL];
 
-    // Then
-    OCMVerify([authenticationSessionMock cancel]);
+  // Then
+  OCMVerify([authenticationSessionMock cancel]);
 
-    // Clear
-    [authenticationSessionMock stopMocking];
+  // Clear
+  [authenticationSessionMock stopMocking];
 }
 
 @end

@@ -607,9 +607,9 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
    * then switching to another application will kill the current session. This line fix this problem.
    */
   backgroundAuthSessionTask = [[MSUtility sharedApp] beginBackgroundTaskWithName:@"Safari authentication"
-                                                              expirationHandler:^{
-                                                                  [[MSUtility sharedApp] endBackgroundTask:backgroundAuthSessionTask];
-                                                              }];
+                                                               expirationHandler:^{
+                                                                 [[MSUtility sharedApp] endBackgroundTask:backgroundAuthSessionTask];
+                                                               }];
   BOOL success = [session start];
   if (success) {
     MSLogDebug([MSDistribute logTag], @"Authentication session started, showing confirmation dialog.");
@@ -1115,7 +1115,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
  * Clear currently running SFAuthenticationSession.
  */
 - (void)clearAuthenticationSession API_AVAILABLE(ios(11)) {
-  SFAuthenticationSession* session = self.authenticationSession;
+  SFAuthenticationSession *session = self.authenticationSession;
 
   // Dismiss view controller if currently presented. Fix uncaused access to SFBrowserRemoteViewController.
   [session cancel];
