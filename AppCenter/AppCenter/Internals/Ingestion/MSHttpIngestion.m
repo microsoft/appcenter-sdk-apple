@@ -63,6 +63,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
     _maxNumberOfConnections = maxNumberOfConnections;
     _baseURL = baseUrl;
 
+    // Set HTTP client delegate.
     httpClient.delegate = self;
 
     // Construct the URL string with the query string.

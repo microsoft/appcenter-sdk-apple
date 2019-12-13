@@ -13,7 +13,6 @@
  * @param url A URL.
  * @param headers A collection of headers.
  */
-
 - (void)willSendHTTPRequestToURL:(NSURL *)url withHeaders:(NSDictionary<NSString *, NSString *> *)headers;
 
 @end

@@ -16,3 +16,7 @@ ENABLE_NS_ASSERTIONS = NO
 
 // :Mark: User-Defined
 MTL_ENABLE_DEBUG_INFO = NO
+
+// :Mark: Language - Modules
+// Avoid dSYM warnings during build macOS application in release mode.
+CLANG_ENABLE_MODULE_DEBUGGING[sdk=macosx*] = NO

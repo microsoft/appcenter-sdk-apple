@@ -9,9 +9,12 @@
 
 #import "MSAppCenterInternal.h"
 #import "MSAppleErrorLog.h"
+#import "MSApplicationForwarder.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitProtocol.h"
 #import "MSCrashHandlerSetupDelegate.h"
+#import "MSCrashReporter.h"
+#import "MSCrashesBufferedLog.hpp"
 #import "MSCrashesCXXExceptionWrapperException.h"
 #import "MSCrashesDelegate.h"
 #import "MSCrashesInternal.h"
@@ -235,6 +238,24 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
 + (MSErrorReport *_Nullable)lastSessionCrashReport {
   return [[MSCrashes sharedInstance] getLastSessionCrashReport];
+}
+
++ (void)applicationDidReportException:(NSException *_Nonnull)exception {
+
+  // Don't invoke the registered UncaughtExceptionHandler if we are currently debugging this app!
+  if (![MSAppCenter isDebuggerAttached]) {
+
+    /*
+     * We forward this exception to PLCrashReporters UncaughtExceptionHandler.
+     * If the developer has implemented their own exception handler and that one is invoked before PLCrashReporters exception handler and
+     * the developers exception handler is invoking this method it will not finish its tasks after this call but directly jump into
+     * PLCrashReporters exception handler. If we wouldn't do this, this call would lead to an infinite loop.
+     */
+    NSUncaughtExceptionHandler *plcrExceptionHandler = [MSCrashes sharedInstance].exceptionHandler;
+    if (plcrExceptionHandler) {
+      plcrExceptionHandler(exception);
+    }
+  }
 }
 
 /**
@@ -687,6 +708,9 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
     // Add a handler for C++-Exceptions.
     [MSCrashesUncaughtCXXExceptionHandlerManager addCXXExceptionHandler:uncaught_cxx_exception_handler];
+
+    // Activate application class methods forwarding to handle additional crash details.
+    [MSApplicationForwarder registerForwarding];
   }
 }
 
