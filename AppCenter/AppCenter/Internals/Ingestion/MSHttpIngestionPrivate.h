@@ -78,7 +78,7 @@
 /**
  * Hide a part of sensitive value for payload.
  *
- * @param payload The payload to be obfuscated.
+ * @param payload The response payload to be obfuscated.
  *
  * @return An obfuscated value.
  */

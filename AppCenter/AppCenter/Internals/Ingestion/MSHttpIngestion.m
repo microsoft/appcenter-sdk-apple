@@ -210,6 +210,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
   return nil;
 }
 
+// This method will be overridden by subclasses.
 - (NSString *)obfuscateResponsePayload:(NSString *__unused)payload {
   return nil;
 }
