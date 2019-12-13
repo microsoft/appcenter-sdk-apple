@@ -4,6 +4,7 @@
 #import <Foundation/Foundation.h>
 
 #import "MSIngestionProtocol.h"
+#import "MSHttpClientDelegate.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -11,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 static NSString *const kMSETagResponseHeader = @"etag";
 static NSString *const kMSETagRequestHeader = @"If-None-Match";
 
-@interface MSHttpIngestion : NSObject <MSIngestionProtocol>
+@interface MSHttpIngestion : NSObject <MSIngestionProtocol, MSHttpClientDelegate>
 
 /**
  * Base URL (schema + authority + port only) used to communicate with the server.

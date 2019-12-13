@@ -5,6 +5,7 @@
 #import "MSAppCenterInternal.h"
 #import "MSConstants+Internal.h"
 #import "MSHttpIngestionPrivate.h"
+#import "MSHttpClientPrivate.h"
 #import "MSLoggerInternal.h"
 #import "MSUtility+StringFormatting.h"
 
@@ -61,6 +62,8 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
     _apiPath = apiPath;
     _maxNumberOfConnections = maxNumberOfConnections;
     _baseURL = baseUrl;
+    
+    httpClient.delegate = self;
 
     // Construct the URL string with the query string.
     NSMutableString *urlString = [NSMutableString stringWithFormat:@"%@%@", baseUrl, apiPath];

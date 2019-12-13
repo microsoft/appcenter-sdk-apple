@@ -15,6 +15,8 @@
 
 @implementation MSHttpClient
 
+@synthesize delegate = _delegate;
+
 - (instancetype)init {
   return [self initWithMaxHttpConnectionsPerHost:nil reachability:[MS_Reachability reachabilityForInternetConnection]];
 }
@@ -35,25 +37,13 @@
     _enabled = YES;
     _paused = NO;
     _reachability = reachability;
-    _delegates = [NSHashTable weakObjectsHashTable];
+    _delegate = nil;
 
     // Add listener to reachability.
     [MS_NOTIFICATION_CENTER addObserver:self selector:@selector(networkStateChanged:) name:kMSReachabilityChangedNotification object:nil];
     [self.reachability startNotifier];
   }
   return self;
-}
-
-- (void)addDelegate:(id<MSHttpClientDelegate>)delegate {
-  @synchronized(self) {
-    [self.delegates addObject:delegate];
-  }
-}
-
-- (void)removeDelegate:(id<MSHttpClientDelegate>)delegate {
-  @synchronized(self) {
-    [self.delegates removeObject:delegate];
-  }
 }
 
 - (void)sendAsync:(NSURL *)url
@@ -105,16 +95,10 @@
       return;
     }
 
-    // Call delegates before sending HTTP request.
-    NSArray *synchronizedDelegates;
-    @synchronized(self) {
-      synchronizedDelegates = [self.delegates allObjects];
-    }
-
-    for (id<MSHttpClientDelegate> delegate in synchronizedDelegates) {
-      if ([delegate respondsToSelector:@selector(willSendHTTPRequestToURL:withHeaders:)]) {
-        [delegate willSendHTTPRequestToURL:call.url withHeaders:call.headers];
-      }
+    // Call delegate before sending HTTP request.
+    id<MSHttpClientDelegate> strongDelegate = self.delegate;
+    if ([strongDelegate respondsToSelector:@selector(willSendHTTPRequestToURL:withHeaders:)]) {
+      [strongDelegate willSendHTTPRequestToURL:call.url withHeaders:call.headers];
     }
 
     // Send HTTP request.

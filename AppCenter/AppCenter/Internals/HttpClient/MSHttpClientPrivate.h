@@ -4,8 +4,8 @@
 #import <Foundation/Foundation.h>
 
 #import "MSHttpClient.h"
+#import "MSHttpCall.h"
 
-@protocol MSHttpClientDelegate;
 @class MS_Reachability;
 
 @interface MSHttpClient ()
@@ -41,25 +41,6 @@
  * client.
  */
 @property(nonatomic) NSURLSessionConfiguration *sessionConfiguration;
-
-/**
- * Collection of HTTP client delegates.
- */
-@property(nonatomic) NSHashTable<id<MSHttpClientDelegate>> *delegates;
-
-/**
- * Add an HTTP client delegate.
- *
- * @param delegate delegate.
- */
-- (void)addDelegate:(id<MSHttpClientDelegate>)delegate;
-
-/**
- * Remove an HTTP client delegate.
- *
- * @param delegate delegate.
- */
-- (void)removeDelegate:(id<MSHttpClientDelegate>)delegate;
 
 /**
  * Disables the client, deletes data, and cancels any calls.

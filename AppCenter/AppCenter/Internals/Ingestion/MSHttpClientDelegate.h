@@ -5,6 +5,8 @@
 
 @protocol MSHttpClientDelegate <NSObject>
 
+@optional
+
 /**
  * A method is called right before sending HTTP request.
  *
