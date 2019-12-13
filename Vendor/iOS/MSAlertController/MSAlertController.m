@@ -172,7 +172,7 @@ static dispatch_queue_t alertsQueue;
     // FIXME: Explicit typing to call `setWindowScene:` as windowScene maybe nil and the macro won't support it.
     SEL selector = NSSelectorFromString(@"setWindowScene:");
     IMP impl = [window methodForSelector:selector];
-    ((void (*)(id, SEL, typeof(window))) impl)(window, selector, windowScene);
+    ((void (*)(id, SEL, typeof(windowScene))) impl)(window, selector, windowScene);
   }
   [window makeKeyAndVisible];
 }
