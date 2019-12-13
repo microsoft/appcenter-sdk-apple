@@ -85,15 +85,6 @@
 - (NSString *)prettyPrintHeaders:(NSDictionary<NSString *, NSString *> *)headers;
 
 /**
- * Hide a part of sensitive value for url.
- *
- * @param url A URL.
- *
- * @return An obfuscated value.
- */
-- (NSString *)obfuscateUrl:(NSString *)url;
-
-/**
  * Hide a part of sensitive value for payload.
  *
  * @param payload The payload to be obfuscated.

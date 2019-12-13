@@ -6,6 +6,7 @@
 #import "MSAppCenterInternal.h"
 #import "MSConstants+Internal.h"
 #import "MSHttpIngestionPrivate.h"
+#import "MSLoggerInternal.h"
 
 @implementation MSAppCenterIngestion
 
@@ -110,10 +111,6 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
   }
 }
 
-- (NSString *)obfuscateUrl:(NSString *)url {
-  return url;
-}
-
 - (NSString *)obfuscatePayload:(NSString *)payload {
   return payload;
 }
@@ -125,6 +122,17 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
     return [MSHttpUtil hideSecret:value];
   }
   return value;
+}
+
+#pragma mark - MSHttpClientDelegate
+
+- (void)willSendHTTPRequestToURL:(NSURL *)url withHeaders:(NSDictionary<NSString *, NSString *> *)headers {
+
+  // Don't lose time pretty printing headers if not going to be printed.
+  if ([MSLogger currentLogLevel] <= MSLogLevelVerbose) {
+    MSLogVerbose([MSAppCenter logTag], @"URL: %@", url);
+    MSLogVerbose([MSAppCenter logTag], @"Headers: %@", [self prettyPrintHeaders:headers]);
+  }
 }
 
 @end

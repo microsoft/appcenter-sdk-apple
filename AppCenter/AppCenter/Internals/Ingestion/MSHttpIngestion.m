@@ -161,12 +161,6 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
     }
     NSDictionary *httpHeaders = [self getHeadersWithData:data eTag:eTag authToken:authToken];
     NSData *payload = [self getPayloadWithData:data];
-
-    // Don't lose time pretty printing headers if not going to be printed.
-    if ([MSLogger currentLogLevel] <= MSLogLevelVerbose) {
-      MSLogVerbose([MSAppCenter logTag], @"URL: %@", [self obfuscateUrl:self.sendURL.absoluteString]);
-      MSLogVerbose([MSAppCenter logTag], @"Headers: %@", [self prettyPrintHeaders:httpHeaders]);
-    }
     [self.httpClient sendAsync:self.sendURL
                         method:[self getHttpMethod]
                        headers:httpHeaders
@@ -217,11 +211,6 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
 }
 
 - (NSString *)obfuscatePayload:(NSString *__unused)payload {
-  return nil;
-}
-
-// This method will be overridden by subclasses.
-- (NSString *)obfuscateUrl:(NSString *__unused)url {
   return nil;
 }
 

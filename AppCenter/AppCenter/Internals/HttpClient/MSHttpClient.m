@@ -90,6 +90,11 @@
     if (self.paused) {
       return;
     }
+
+    // Call delegate before sending HTTP request.
+    // [self.delegate willSendHTTPrequest]; TODO
+
+    // Send HTTP request.
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:call.url
                                                            cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
                                                        timeoutInterval:0];

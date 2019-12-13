@@ -79,6 +79,9 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		04237DC123A31617009BB406 /* MSHttpClientDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 04237DC023A31617009BB406 /* MSHttpClientDelegate.h */; };
+		04237DC223A31617009BB406 /* MSHttpClientDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 04237DC023A31617009BB406 /* MSHttpClientDelegate.h */; };
+		04237DC323A31617009BB406 /* MSHttpClientDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 04237DC023A31617009BB406 /* MSHttpClientDelegate.h */; };
 		0446DF041F3B864600C8E338 /* MSMockUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = D377A30C1E83A05900B2C97A /* MSMockUserDefaults.m */; };
 		0446DF051F3B864600C8E338 /* MSLogWithPropertiesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 045660FA1D99EEEB002F7055 /* MSLogWithPropertiesTests.m */; };
 		0446DF061F3B864600C8E338 /* MSDeviceLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E3E2CC01D3596AE00B1EE50 /* MSDeviceLogTests.m */; };
@@ -893,6 +896,7 @@
 
 /* Begin PBXFileReference section */
 		041CFF8D1ECCFFD200B4654B /* Tests macOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Tests macOS.xcconfig"; path = "../../Config/Tests macOS.xcconfig"; sourceTree = "<group>"; };
+		04237DC023A31617009BB406 /* MSHttpClientDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSHttpClientDelegate.h; sourceTree = "<group>"; };
 		04311FEE1EE083C2007054C5 /* MSTestFrameworks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSTestFrameworks.h; sourceTree = "<group>"; };
 		043120701EE0BCC4007054C5 /* tvOS.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = tvOS.modulemap; sourceTree = "<group>"; };
 		043120711EE0BCC4007054C5 /* tvOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = tvOS.xcconfig; sourceTree = "<group>"; };
@@ -1827,6 +1831,7 @@
 		E84B8E221D234EBB006FD231 /* Ingestion */ = {
 			isa = PBXGroup;
 			children = (
+				04237DC023A31617009BB406 /* MSHttpClientDelegate.h */,
 				E8753D6B1D4BE4FC00241513 /* Util */,
 				E84B8E311D235209006FD231 /* MSIngestionProtocol.h */,
 				E84B8E331D235226006FD231 /* MSHttpIngestion.h */,
@@ -2010,6 +2015,7 @@
 				F8936CBA230C24D9006A330F /* MSLogger.h in Headers */,
 				F8936D62230C2804006A330F /* MSLogConversion.h in Headers */,
 				F8936D2E230C2804006A330F /* MSDelegateForwarder.h in Headers */,
+				04237DC123A31617009BB406 /* MSHttpClientDelegate.h in Headers */,
 				F8936CFB230C2603006A330F /* MSUtility+ApplicationPrivate.h in Headers */,
 				F8936CBB230C24D9006A330F /* MSService.h in Headers */,
 				F8936D5E230C2804006A330F /* MSNoAutoAssignSessionIdLog.h in Headers */,
@@ -2140,6 +2146,7 @@
 				F8936CC6230C24D9006A330F /* MSLogger.h in Headers */,
 				F8936DBA230C2805006A330F /* MSLogConversion.h in Headers */,
 				F8936D86230C2805006A330F /* MSDelegateForwarder.h in Headers */,
+				04237DC223A31617009BB406 /* MSHttpClientDelegate.h in Headers */,
 				F8936D0F230C2604006A330F /* MSUtility+ApplicationPrivate.h in Headers */,
 				F8936CC7230C24DA006A330F /* MSService.h in Headers */,
 				F8936DB6230C2805006A330F /* MSNoAutoAssignSessionIdLog.h in Headers */,
@@ -2270,6 +2277,7 @@
 				F8936CD2230C24DA006A330F /* MSLogger.h in Headers */,
 				F8936E12230C2805006A330F /* MSLogConversion.h in Headers */,
 				F8936DDE230C2805006A330F /* MSDelegateForwarder.h in Headers */,
+				04237DC323A31617009BB406 /* MSHttpClientDelegate.h in Headers */,
 				F8936D23230C2604006A330F /* MSUtility+ApplicationPrivate.h in Headers */,
 				F8936CD3230C24DA006A330F /* MSService.h in Headers */,
 				F8936E0E230C2805006A330F /* MSNoAutoAssignSessionIdLog.h in Headers */,

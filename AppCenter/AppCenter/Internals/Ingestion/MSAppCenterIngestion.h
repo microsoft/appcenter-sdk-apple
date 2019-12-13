@@ -3,12 +3,13 @@
 
 #import <Foundation/Foundation.h>
 
+#import "MSHttpClientDelegate.h"
 #import "MSHttpClientProtocol.h"
 #import "MSHttpIngestion.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MSAppCenterIngestion : MSHttpIngestion
+@interface MSAppCenterIngestion : MSHttpIngestion <MSHttpClientDelegate>
 
 /**
  * The app secret.

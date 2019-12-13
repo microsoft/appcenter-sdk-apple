@@ -56,10 +56,6 @@ static NSString *const kMSLatestPublicReleaseApiPathFormat = @"/public/sdk/apps/
   return nil;
 }
 
-- (NSString *)obfuscateUrl:(NSString *)url {
-  return [url stringByReplacingOccurrencesOfString:self.appSecret withString:[MSHttpUtil hideSecret:self.appSecret]];
-}
-
 - (NSString *)obfuscatePayload:(NSString *)payload {
   return [MSUtility obfuscateString:payload
                 searchingForPattern:kMSRedirectUriPattern
@@ -68,6 +64,18 @@ static NSString *const kMSLatestPublicReleaseApiPathFormat = @"/public/sdk/apps/
 
 - (NSString *)obfuscateHeaderValue:(NSString *)value forKey:(NSString *)key {
   return [key isEqualToString:kMSHeaderUpdateApiToken] ? [MSHttpUtil hideSecret:value] : value;
+}
+
+#pragma mark - MSHttpClientDelegate
+
+- (void)willSendHTTPRequestToURL:(NSURL *)url withHeaders:(NSDictionary<NSString *, NSString *> *)headers {
+
+  // Don't lose time pretty printing headers if not going to be printed.
+  if ([MSLogger currentLogLevel] <= MSLogLevelVerbose) {
+    MSLogVerbose([MSAppCenter logTag], @"URL: %@",
+                 [url stringByReplacingOccurrencesOfString:self.appSecret withString:[MSHttpUtil hideSecret:self.appSecret]]);
+    MSLogVerbose([MSAppCenter logTag], @"Headers: %@", [self prettyPrintHeaders:headers]);
+  }
 }
 
 @end

@@ -7,6 +7,7 @@
 #import "MSCSExtensions.h"
 #import "MSConstants+Internal.h"
 #import "MSHttpIngestionPrivate.h"
+#import "MSLoggerInternal.h"
 #import "MSOneCollectorIngestionPrivate.h"
 #import "MSProtocolExtension.h"
 #import "MSTicketCache.h"
@@ -105,10 +106,6 @@
   return httpBody;
 }
 
-- (NSString *)obfuscateUrl:(NSString *)url {
-  return url;
-}
-
 - (NSString *)obfuscatePayload:(NSString *)payload {
   return [MSUtility obfuscateString:payload
                 searchingForPattern:kMSTokenKeyValuePattern
@@ -136,6 +133,17 @@
 - (NSString *)obfuscateTickets:(NSString *)tokenString {
   NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@":[^\"]+" options:0 error:nil];
   return [regex stringByReplacingMatchesInString:tokenString options:0 range:NSMakeRange(0, tokenString.length) withTemplate:@":***"];
+}
+
+#pragma mark - MSHttpClientDelegate
+
+- (void)willSendHTTPRequestToURL:(NSURL *)url withHeaders:(NSDictionary<NSString *, NSString *> *)headers {
+
+  // Don't lose time pretty printing headers if not going to be printed.
+  if ([MSLogger currentLogLevel] <= MSLogLevelVerbose) {
+    MSLogVerbose([MSAppCenter logTag], @"URL: %@", url);
+    MSLogVerbose([MSAppCenter logTag], @"Headers: %@", [self prettyPrintHeaders:headers]);
+  }
 }
 
 @end

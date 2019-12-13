@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+#import "MSHttpClientDelegate.h"
 #import "MSHttpIngestion.h"
 
 static NSString *const kMSOneCollectorApiKey = @"apikey";
@@ -18,7 +19,7 @@ static NSString *const kMSOneCollectorLogSeparator = @"\n";
 static NSString *const kMSOneCollectorTicketsKey = @"Tickets";
 static NSString *const kMSOneCollectorUploadTimeKey = @"Upload-Time";
 
-@interface MSOneCollectorIngestion : MSHttpIngestion
+@interface MSOneCollectorIngestion : MSHttpIngestion <MSHttpClientDelegate>
 
 /**
  * Initialize the ingestion.
