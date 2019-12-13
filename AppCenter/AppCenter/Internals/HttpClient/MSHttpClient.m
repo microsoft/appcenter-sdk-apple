@@ -6,6 +6,7 @@
 #import "MSAppCenterInternal.h"
 #import "MSConstants+Internal.h"
 #import "MSHttpCall.h"
+#import "MSHttpClientDelegate.h"
 #import "MSHttpClientPrivate.h"
 #import "MSHttpUtil.h"
 #import "MS_Reachability.h"
@@ -34,12 +35,25 @@
     _enabled = YES;
     _paused = NO;
     _reachability = reachability;
+    _delegates = [NSHashTable weakObjectsHashTable];
 
     // Add listener to reachability.
     [MS_NOTIFICATION_CENTER addObserver:self selector:@selector(networkStateChanged:) name:kMSReachabilityChangedNotification object:nil];
     [self.reachability startNotifier];
   }
   return self;
+}
+
+- (void)addDelegate:(id<MSHttpClientDelegate>)delegate {
+  @synchronized(self) {
+    [self.delegates addObject:delegate];
+  }
+}
+
+- (void)removeDelegate:(id<MSHttpClientDelegate>)delegate {
+  @synchronized(self) {
+    [self.delegates removeObject:delegate];
+  }
 }
 
 - (void)sendAsync:(NSURL *)url
@@ -91,8 +105,17 @@
       return;
     }
 
-    // Call delegate before sending HTTP request.
-    // [self.delegate willSendHTTPrequest]; TODO
+    // Call delegates before sending HTTP request.
+    NSArray *synchronizedDelegates;
+    @synchronized(self) {
+      synchronizedDelegates = [self.delegates allObjects];
+    }
+
+    for (id<MSHttpClientDelegate> delegate in synchronizedDelegates) {
+      if ([delegate respondsToSelector:@selector(willSendHTTPRequestToURL:withHeaders:)]) {
+        [delegate willSendHTTPRequestToURL:call.url withHeaders:call.headers];
+      }
+    }
 
     // Send HTTP request.
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:call.url
