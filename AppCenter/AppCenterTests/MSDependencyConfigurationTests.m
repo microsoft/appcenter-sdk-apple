@@ -1,14 +1,12 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import <XCTest/XCTest.h>
-
 #import "MSAppCenter.h"
-#import "MSHttpClient.h"
-#import "MSDependencyConfiguration.h"
-#import "MSTestFrameworks.h"
-#import "MSChannelGroupDefault.h"
 #import "MSAppCenterPrivate.h"
+#import "MSChannelGroupDefault.h"
+#import "MSDependencyConfiguration.h"
+#import "MSHttpClient.h"
+#import "MSTestFrameworks.h"
 
 @interface MSDependencyConfigurationTests : XCTestCase
 
@@ -34,18 +32,18 @@
 }
 
 - (void)testNotSettingDependencyCallUsesDefaultHttpClient {
-  
+
   // If
   id defaultHttpClientMock = OCMPartialMock([MSHttpClient new]);
   id httpClientClassMock = OCMClassMock([MSHttpClient class]);
   OCMStub([httpClientClassMock alloc]).andReturn(defaultHttpClientMock);
-  
+
   // When
   [MSAppCenter configureWithAppSecret:@"App-Secret"];
-  
+
   // Then
   OCMVerify([self.channelGroupDefaultMock initWithHttpClient:defaultHttpClientMock installId:OCMOCK_ANY logUrl:OCMOCK_ANY]);
-  
+
   // Cleanup
   [defaultHttpClientMock stopMocking];
   [httpClientClassMock stopMocking];
@@ -56,13 +54,13 @@
   // If
   id httpClientClassMock = OCMClassMock([MSHttpClient class]);
   [MSDependencyConfiguration setHttpClient:httpClientClassMock];
-  
+
   // When
   [MSAppCenter configureWithAppSecret:@"App-Secret"];
-  
+
   // Then
   OCMVerify([self.channelGroupDefaultMock initWithHttpClient:httpClientClassMock installId:OCMOCK_ANY logUrl:OCMOCK_ANY]);
-  
+
   // Cleanup
   [httpClientClassMock stopMocking];
 }
