@@ -3,10 +3,14 @@
 
 #import "MSAppCenterInternal.h"
 #import "MSAppleErrorLog.h"
+#import "MSApplicationForwarder.h"
 #import "MSChannelGroupDefault.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitDefault.h"
 #import "MSCrashHandlerSetupDelegate.h"
+#import "MSCrashReporter.h"
+#import "MSCrashesBufferedLog.hpp"
+#import "MSCrashesCXXExceptionHandler.h"
 #import "MSCrashesInternal.h"
 #import "MSCrashesPrivate.h"
 #import "MSCrashesTestUtil.h"
@@ -155,7 +159,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   XCTAssertEqual(strongDelegate, delegateMock);
 }
 
-- (void)testdidFailSendingErrorReportIsCalled {
+- (void)testDidFailSendingErrorReportIsCalled {
 
   // If
   id<MSCrashesDelegate> delegateMock = OCMProtocolMock(@protocol(MSCrashesDelegate));
@@ -187,7 +191,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
                                }];
 }
 
-- (void)testdidSucceedSendingErrorReportIsCalled {
+- (void)testDidSucceedSendingErrorReportIsCalled {
 
   // If
   id<MSCrashesDelegate> delegateMock = OCMProtocolMock(@protocol(MSCrashesDelegate));
@@ -266,10 +270,31 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   OCMVerify([delegateMock shouldEnableUncaughtExceptionHandler]);
 }
 
+- (void)testSettingAdditionalHandlers {
+
+  // If
+  id appCenterMock = OCMClassMock([MSAppCenter class]);
+  OCMStub([appCenterMock isDebuggerAttached]).andReturn(NO);
+  id exceptionHandlerManagerClass = OCMClassMock([MSCrashesUncaughtCXXExceptionHandlerManager class]);
+  id applicationForwarderClass = OCMClassMock([MSApplicationForwarder class]);
+
+  // When
+  [self.sut applyEnabledState:YES];
+
+  // Then
+  OCMVerify([MSCrashesUncaughtCXXExceptionHandlerManager addCXXExceptionHandler:(MSCrashesUncaughtCXXExceptionHandler)[OCMArg anyPointer]]);
+  OCMVerify([applicationForwarderClass registerForwarding]);
+
+  // Clear
+  [appCenterMock stopMocking];
+  [exceptionHandlerManagerClass stopMocking];
+  [applicationForwarderClass stopMocking];
+}
+
 - (void)testSettingUserConfirmationHandler {
 
   // When
-  MSUserConfirmationHandler userConfirmationHandler = ^BOOL(__attribute__((unused)) NSArray<MSErrorReport *> *_Nonnull errorReports) {
+  MSUserConfirmationHandler userConfirmationHandler = ^BOOL(__unused NSArray<MSErrorReport *> *_Nonnull errorReports) {
     return NO;
   };
   [MSCrashes setUserConfirmationHandler:userConfirmationHandler];
@@ -422,7 +447,6 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   OCMVerify([self.deviceTrackerMock clearDevices]);
   OCMVerify([self.sessionContextMock clearSessionHistoryAndKeepCurrentSession:YES]);
 }
-
 
 - (void)testProcessCrashesOnEnterForeground {
 

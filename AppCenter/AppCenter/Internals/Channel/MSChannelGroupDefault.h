@@ -10,6 +10,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class MSAppCenterIngestion;
 
+@protocol MSHttpClientProtocol;
 @protocol MSStorage;
 
 /**
@@ -23,12 +24,13 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Initializes a new `MSChannelGroupDefault` instance.
  *
+ * @param httpClient The HTTP client.
  * @param installId A unique installation identifier.
  * @param logUrl A base URL to use for backend communication.
  *
  * @return A new `MSChannelGroupDefault` instance.
  */
-- (instancetype)initWithInstallId:(NSUUID *)installId logUrl:(NSString *)logUrl;
+- (instancetype)initWithHttpClient:(id<MSHttpClientProtocol>)httpClient installId:(NSUUID *)installId logUrl:(NSString *)logUrl;
 
 /**
  * Collection of channel delegates.

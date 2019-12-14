@@ -11,7 +11,6 @@
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitDefaultPrivate.h"
 #import "MSDeviceTracker.h"
-#import "MSLogger.h"
 #import "MSStorage.h"
 #import "MSUtility+StringFormatting.h"
 
@@ -52,14 +51,6 @@ static NSString *const kMSStartTimestampPrefix = @"MSChannelStartTimer";
     _storage = storage;
     _configuration = configuration;
     _logsDispatchQueue = logsDispatchQueue;
-
-    // Register as ingestion delegate.
-    [_ingestion addDelegate:self];
-
-    // Match ingestion's current status, if one is passed.
-    if (_ingestion && _ingestion.paused) {
-      [self pauseWithIdentifyingObject:(_Nonnull id<MSIngestionProtocol>)_ingestion];
-    }
   }
   return self;
 }
@@ -80,22 +71,6 @@ static NSString *const kMSStartTimestampPrefix = @"MSChannelStartTimer";
       [self.delegates removeObject:delegate];
     }
   });
-}
-
-#pragma mark - MSIngestionDelegate
-
-- (void)ingestionDidPause:(id<MSIngestionProtocol>)ingestion {
-  [self pauseWithIdentifyingObject:ingestion];
-}
-
-- (void)ingestionDidResume:(id<MSIngestionProtocol>)ingestion {
-  [self resumeWithIdentifyingObject:ingestion];
-}
-
-- (void)ingestionDidReceiveFatalError:(__unused id<MSIngestionProtocol>)ingestion {
-
-  // Disable and delete data on fatal errors.
-  [self setEnabled:NO andDeleteDataOnDisabled:YES];
 }
 
 #pragma mark - MSAuthTokenContextDelegate
@@ -270,6 +245,14 @@ static NSString *const kMSStartTimestampPrefix = @"MSChannelStartTimer";
                                               [delegate channel:self didFailSendingLog:aLog withError:error];
                                             }
                                           }];
+
+                // Disable and delete all data on fatal error.
+                if (![MSHttpUtil isRecoverableError:response.statusCode]) {
+                  MSLogError([MSAppCenter logTag], @"Fatal error encountered; shutting down channel unit with group ID %@",
+                             self.configuration.groupId);
+                  [self setEnabled:NO andDeleteDataOnDisabled:YES];
+                  return;
+                }
               }
 
               // Remove from pending batches.
@@ -597,6 +580,7 @@ static NSString *const kMSStartTimestampPrefix = @"MSChannelStartTimer";
   for (NSString *batchId in self.pendingBatchIds) {
     [self.storage deleteLogsWithBatchId:batchId groupId:self.configuration.groupId];
   }
+  [self.pendingBatchIds removeAllObjects];
 
   // Delete remaining logs.
   deletedLogs = [self.storage deleteLogsWithGroupId:self.configuration.groupId];
