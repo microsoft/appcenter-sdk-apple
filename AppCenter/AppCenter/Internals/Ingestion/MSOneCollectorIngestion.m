@@ -126,7 +126,7 @@
   return [regex stringByReplacingMatchesInString:ticketString options:0 range:NSMakeRange(0, ticketString.length) withTemplate:@":***"];
 }
 
-- (void)willSendHTTPRequestToURL:(NSURL *)url withHeaders:(NSDictionary<NSString *, NSString *> *)headers {
+- (void)willSendHTTPRequestToURL:(NSURL *)url withHeaders:(nullable NSDictionary<NSString *, NSString *> *)headers {
 
   // Don't lose time pretty printing headers if not going to be printed.
   if ([MSLogger currentLogLevel] <= MSLogLevelVerbose) {
