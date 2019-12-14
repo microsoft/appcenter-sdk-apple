@@ -14,7 +14,7 @@ static id<MSHttpClientProtocol> _httpClient;
   }
 }
 
-+ (void)setHttpClient:(id<MSHttpClientProtocol>)httpClient {
++ (void)setHttpClient:(nullable id<MSHttpClientProtocol>)httpClient {
   @synchronized(self) {
     _httpClient = httpClient;
   }
