@@ -3,6 +3,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @protocol MSHttpClientDelegate <NSObject>
 
 @optional
@@ -13,6 +15,8 @@
  * @param url A URL.
  * @param headers A collection of headers.
  */
-- (void)willSendHTTPRequestToURL:(NSURL *)url withHeaders:(NSDictionary<NSString *, NSString *> *)headers;
+- (void)willSendHTTPRequestToURL:(NSURL *)url withHeaders:(nullable NSDictionary<NSString *, NSString *> *)headers;
 
 @end
+
+NS_ASSUME_NONNULL_END

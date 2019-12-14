@@ -15,7 +15,7 @@ typedef void (^MSHttpRequestCompletionHandler)(NSData *_Nullable responseBody, N
 /**
  * HTTP client delegates.
  */
-@property(nonatomic, weak) id<MSHttpClientDelegate> delegate;
+@property(nonatomic, weak, nullable) id<MSHttpClientDelegate> delegate;
 
 @required
 
