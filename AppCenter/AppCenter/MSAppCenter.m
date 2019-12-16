@@ -11,6 +11,7 @@
 #import "MSChannelGroupDefault.h"
 #import "MSChannelGroupDefaultPrivate.h"
 #import "MSChannelUnitConfiguration.h"
+#import "MSDependencyConfiguration.h"
 #import "MSDeviceTrackerPrivate.h"
 #import "MSHttpClient.h"
 #import "MSLoggerInternal.h"
@@ -604,7 +605,11 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
                                                                                            baseUrl:self.appSecret ? nil : self.logUrl];
     }
     if (!self.channelGroup) {
-      self.channelGroup = [[MSChannelGroupDefault alloc] initWithHttpClient:[MSHttpClient new]
+      id<MSHttpClientProtocol> httpClient = [MSDependencyConfiguration httpClient];
+      if (!httpClient) {
+        httpClient = [MSHttpClient new];
+      }
+      self.channelGroup = [[MSChannelGroupDefault alloc] initWithHttpClient:httpClient
                                                                   installId:self.installId
                                                                      logUrl:self.logUrl ?: kMSAppCenterBaseUrl];
       [self.channelGroup addDelegate:self.oneCollectorChannelDelegate];
