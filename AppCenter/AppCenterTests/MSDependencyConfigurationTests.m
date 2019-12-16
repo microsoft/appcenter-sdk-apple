@@ -18,6 +18,7 @@
 @implementation MSDependencyConfigurationTests
 
 - (void)setUp {
+  [MSAppCenter resetSharedInstance];
   self.channelGroupDefaultMock = OCMPartialMock([MSChannelGroupDefault new]);
   self.channelGroupDefaultClassMock = OCMClassMock([MSChannelGroupDefault class]);
   OCMStub([self.channelGroupDefaultClassMock alloc]).andReturn(self.channelGroupDefaultMock);
@@ -27,8 +28,8 @@
 - (void)tearDown {
   [self.channelGroupDefaultMock stopMocking];
   [self.channelGroupDefaultClassMock stopMocking];
-  [MSAppCenter resetSharedInstance];
   [MSDependencyConfiguration setHttpClient:nil];
+  [MSAppCenter resetSharedInstance];
 }
 
 - (void)testNotSettingDependencyCallUsesDefaultHttpClient {
@@ -52,20 +53,17 @@
 - (void)testDependencyCallUsesInjectedHttpClient {
 
   // If
-  id defaultHttpClientMock = OCMPartialMock([MSHttpClient new]);
   id httpClientClassMock = OCMClassMock([MSHttpClient class]);
-  OCMStub([httpClientClassMock alloc]).andReturn(defaultHttpClientMock);
-  [MSDependencyConfiguration setHttpClient:defaultHttpClientMock];
+  [MSDependencyConfiguration setHttpClient:httpClientClassMock];
 
   // When
   [MSAppCenter configureWithAppSecret:@"App-Secret"];
 
   // Then
-  OCMVerify([self.channelGroupDefaultMock initWithHttpClient:defaultHttpClientMock installId:OCMOCK_ANY logUrl:OCMOCK_ANY]);
+  OCMVerify([self.channelGroupDefaultMock initWithHttpClient:httpClientClassMock installId:OCMOCK_ANY logUrl:OCMOCK_ANY]);
 
   // Cleanup
   [httpClientClassMock stopMocking];
-  [defaultHttpClientMock stopMocking];
 }
 
 @end
