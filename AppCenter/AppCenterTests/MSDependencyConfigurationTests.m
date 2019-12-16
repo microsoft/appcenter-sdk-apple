@@ -52,17 +52,20 @@
 - (void)testDependencyCallUsesInjectedHttpClient {
 
   // If
+  id defaultHttpClientMock = OCMPartialMock([MSHttpClient new]);
   id httpClientClassMock = OCMClassMock([MSHttpClient class]);
-  [MSDependencyConfiguration setHttpClient:httpClientClassMock];
+  OCMStub([httpClientClassMock alloc]).andReturn(defaultHttpClientMock);
+  [MSDependencyConfiguration setHttpClient:defaultHttpClientMock];
 
   // When
   [MSAppCenter configureWithAppSecret:@"App-Secret"];
 
   // Then
-  OCMVerify([self.channelGroupDefaultMock initWithHttpClient:httpClientClassMock installId:OCMOCK_ANY logUrl:OCMOCK_ANY]);
+  OCMVerify([self.channelGroupDefaultMock initWithHttpClient:defaultHttpClientMock installId:OCMOCK_ANY logUrl:OCMOCK_ANY]);
 
   // Cleanup
   [httpClientClassMock stopMocking];
+  [defaultHttpClientMock stopMocking];
 }
 
 @end
