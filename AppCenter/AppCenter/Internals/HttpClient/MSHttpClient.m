@@ -6,48 +6,27 @@
 #import "MSAppCenterInternal.h"
 #import "MSConstants+Internal.h"
 #import "MSHttpCall.h"
+#import "MSHttpClientDelegate.h"
 #import "MSHttpClientPrivate.h"
 #import "MSHttpUtil.h"
-#import "MSLoggerInternal.h"
-#import "MSUtility+StringFormatting.h"
 #import "MS_Reachability.h"
 
 #define DEFAULT_RETRY_INTERVALS @[ @10, @(5 * 60), @(20 * 60) ]
 
 @implementation MSHttpClient
 
+@synthesize delegate = _delegate;
+
 - (instancetype)init {
-  return [self initWithMaxHttpConnectionsPerHost:nil
-                                  retryIntervals:DEFAULT_RETRY_INTERVALS
-                                    reachability:[MS_Reachability reachabilityForInternetConnection]
-                              compressionEnabled:YES];
+  return [self initWithMaxHttpConnectionsPerHost:nil reachability:[MS_Reachability reachabilityForInternetConnection]];
 }
 
-- (instancetype)initNoRetriesWithCompressionEnabled:(BOOL)compressionEnabled {
-  return [self initWithMaxHttpConnectionsPerHost:nil
-                                  retryIntervals:@[]
-                                    reachability:[MS_Reachability reachabilityForInternetConnection]
-                              compressionEnabled:compressionEnabled];
-}
-
-- (instancetype)initWithCompressionEnabled:(BOOL)compressionEnabled {
-  return [self initWithMaxHttpConnectionsPerHost:nil
-                                  retryIntervals:DEFAULT_RETRY_INTERVALS
-                                    reachability:[MS_Reachability reachabilityForInternetConnection]
-                              compressionEnabled:compressionEnabled];
-}
-
-- (instancetype)initWithMaxHttpConnectionsPerHost:(NSInteger)maxHttpConnectionsPerHost compressionEnabled:(BOOL)compressionEnabled {
+- (instancetype)initWithMaxHttpConnectionsPerHost:(NSInteger)maxHttpConnectionsPerHost {
   return [self initWithMaxHttpConnectionsPerHost:@(maxHttpConnectionsPerHost)
-                                  retryIntervals:DEFAULT_RETRY_INTERVALS
-                                    reachability:[MS_Reachability reachabilityForInternetConnection]
-                              compressionEnabled:compressionEnabled];
+                                    reachability:[MS_Reachability reachabilityForInternetConnection]];
 }
 
-- (instancetype)initWithMaxHttpConnectionsPerHost:(NSNumber *)maxHttpConnectionsPerHost
-                                   retryIntervals:(NSArray *)retryIntervals
-                                     reachability:(MS_Reachability *)reachability
-                               compressionEnabled:(BOOL)compressionEnabled {
+- (instancetype)initWithMaxHttpConnectionsPerHost:(NSNumber *)maxHttpConnectionsPerHost reachability:(MS_Reachability *)reachability {
   if ((self = [super init])) {
     _sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
     if (maxHttpConnectionsPerHost) {
@@ -55,11 +34,10 @@
     }
     _session = [NSURLSession sessionWithConfiguration:_sessionConfiguration];
     _pendingCalls = [NSMutableSet new];
-    _retryIntervals = [NSArray arrayWithArray:retryIntervals];
     _enabled = YES;
     _paused = NO;
     _reachability = reachability;
-    _compressionEnabled = compressionEnabled;
+    _delegate = nil;
 
     // Add listener to reachability.
     [MS_NOTIFICATION_CENTER addObserver:self selector:@selector(networkStateChanged:) name:kMSReachabilityChangedNotification object:nil];
@@ -73,6 +51,22 @@
               headers:(nullable NSDictionary<NSString *, NSString *> *)headers
                  data:(nullable NSData *)data
     completionHandler:(MSHttpRequestCompletionHandler)completionHandler {
+  [self sendAsync:url
+                  method:method
+                 headers:headers
+                    data:data
+          retryIntervals:DEFAULT_RETRY_INTERVALS
+      compressionEnabled:YES
+       completionHandler:completionHandler];
+}
+
+- (void)sendAsync:(NSURL *)url
+                method:(NSString *)method
+               headers:(nullable NSDictionary<NSString *, NSString *> *)headers
+                  data:(nullable NSData *)data
+        retryIntervals:(NSArray *)retryIntervals
+    compressionEnabled:(BOOL)compressionEnabled
+     completionHandler:(MSHttpRequestCompletionHandler)completionHandler {
   @synchronized(self) {
     if (!self.enabled) {
       NSError *error = [NSError errorWithDomain:kMSACErrorDomain
@@ -85,8 +79,8 @@
                                                 method:method
                                                headers:headers
                                                   data:data
-                                        retryIntervals:self.retryIntervals
-                                    compressionEnabled:self.compressionEnabled
+                                        retryIntervals:retryIntervals
+                                    compressionEnabled:compressionEnabled
                                      completionHandler:completionHandler];
     [self sendCallAsync:call];
   }
@@ -100,6 +94,14 @@
     if (self.paused) {
       return;
     }
+
+    // Call delegate before sending HTTP request.
+    id<MSHttpClientDelegate> strongDelegate = self.delegate;
+    if ([strongDelegate respondsToSelector:@selector(willSendHTTPRequestToURL:withHeaders:)]) {
+      [strongDelegate willSendHTTPRequestToURL:call.url withHeaders:call.headers];
+    }
+
+    // Send HTTP request.
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:call.url
                                                            cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
                                                        timeoutInterval:0];
@@ -109,12 +111,6 @@
 
     // Always disable cookies.
     [request setHTTPShouldHandleCookies:NO];
-
-    // Don't lose time pretty printing headers if not going to be printed.
-    if ([MSLogger currentLogLevel] <= MSLogLevelVerbose) {
-      MSLogVerbose([MSAppCenter logTag], @"URL: %@", request.URL);
-      MSLogVerbose([MSAppCenter logTag], @"Headers: %@", [self prettyPrintHeaders:request.allHTTPHeaderFields]);
-    }
     call.inProgress = YES;
     NSURLSessionDataTask *task = [self.session dataTaskWithRequest:request
                                                  completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
@@ -155,49 +151,36 @@
     // Handle HTTP error.
     else {
       httpResponse = (NSHTTPURLResponse *)response;
-      if ([MSHttpUtil isRecoverableError:httpResponse.statusCode] && ![httpCall hasReachedMaxRetries]) {
+      if ([MSHttpUtil isRecoverableError:httpResponse.statusCode]) {
+        if ([httpCall hasReachedMaxRetries]) {
+          [self pause];
+        } else {
 
-        // Check if there is a "retry after" header in the response
-        NSString *retryAfter = httpResponse.allHeaderFields[kMSRetryHeaderKey];
-        NSNumber *retryAfterMilliseconds;
-        if (retryAfter) {
-          NSNumberFormatter *formatter = [NSNumberFormatter new];
-          retryAfterMilliseconds = [formatter numberFromString:retryAfter];
-        }
-        [httpCall startRetryTimerWithStatusCode:httpResponse.statusCode
-                                     retryAfter:retryAfterMilliseconds
-                                          event:^{
-                                            [self sendCallAsync:httpCall];
-                                          }];
-        return;
-      }
-
-      // Don't lose time pretty printing if not going to be printed.
-      if ([MSAppCenter logLevel] <= MSLogLevelVerbose) {
-        NSString *contentType = httpResponse.allHeaderFields[kMSHeaderContentTypeKey];
-        NSString *payload;
-
-        // Obfuscate payload.
-        if (data.length > 0) {
-          if ([contentType hasPrefix:@"application/json"]) {
-            payload = [MSUtility obfuscateString:[MSUtility prettyPrintJson:data]
-                             searchingForPattern:kMSTokenKeyValuePattern
-                           toReplaceWithTemplate:kMSTokenKeyValueObfuscatedTemplate];
-            payload = [MSUtility obfuscateString:payload
-                             searchingForPattern:kMSRedirectUriPattern
-                           toReplaceWithTemplate:kMSRedirectUriObfuscatedTemplate];
-          } else if (!contentType.length || [contentType hasPrefix:@"text/"] || [contentType hasPrefix:@"application/"]) {
-            payload = [MSUtility obfuscateString:[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]
-                             searchingForPattern:kMSTokenKeyValuePattern
-                           toReplaceWithTemplate:kMSTokenKeyValueObfuscatedTemplate];
-            payload = [MSUtility obfuscateString:payload
-                             searchingForPattern:kMSRedirectUriPattern
-                           toReplaceWithTemplate:kMSRedirectUriObfuscatedTemplate];
-          } else {
-            payload = @"<binary>";
+          // Check if there is a "retry after" header in the response
+          NSString *retryAfter = httpResponse.allHeaderFields[kMSRetryHeaderKey];
+          NSNumber *retryAfterMilliseconds;
+          if (retryAfter) {
+            NSNumberFormatter *formatter = [NSNumberFormatter new];
+            retryAfterMilliseconds = [formatter numberFromString:retryAfter];
           }
+          [httpCall startRetryTimerWithStatusCode:httpResponse.statusCode
+                                       retryAfter:retryAfterMilliseconds
+                                            event:^{
+                                              [self sendCallAsync:httpCall];
+                                            }];
+          return;
         }
-        MSLogVerbose([MSAppCenter logTag], @"HTTP response received with status code: %tu, payload:\n%@", httpResponse.statusCode, payload);
+      } else if (![MSHttpUtil isSuccessStatusCode:httpResponse.statusCode]) {
+
+        // Removing the call from pendingCalls and invoking completion handler must be done before disabling to avoid duplicate invocations.
+        [self.pendingCalls removeObject:httpCall];
+
+        // Unblock the caller now with the outcome of the call.
+        httpCall.completionHandler(data, httpResponse, error);
+        [self setEnabled:NO andDeleteDataOnDisabled:YES];
+
+        // Return so as not to re-invoke completion handler.
+        return;
       }
     }
     [self.pendingCalls removeObject:httpCall];
@@ -250,10 +233,10 @@
   }
 }
 
-- (void)setEnabled:(BOOL)isEnabled {
+- (void)setEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:(BOOL)deleteData {
   @synchronized(self) {
     if (self.enabled != isEnabled) {
-      _enabled = isEnabled;
+      self.enabled = isEnabled;
       if (isEnabled) {
         self.session = [NSURLSession sessionWithConfiguration:self.sessionConfiguration];
         [self.reachability startNotifier];
@@ -261,40 +244,24 @@
       } else {
         [self.reachability stopNotifier];
         [self pause];
+        if (deleteData) {
 
-        // Cancel all the tasks and invalidate current session to free resources.
-        [self.session invalidateAndCancel];
-        self.session = nil;
+          // Cancel all the tasks and invalidate current session to free resources.
+          [self.session invalidateAndCancel];
+          self.session = nil;
 
-        // Remove pending calls and invoke their completion handler.
-        for (MSHttpCall *call in self.pendingCalls) {
-          NSError *error = [NSError errorWithDomain:kMSACErrorDomain
-                                               code:MSACCanceledErrorCode
-                                           userInfo:@{NSLocalizedDescriptionKey : kMSACCanceledErrorDesc}];
-          call.completionHandler(nil, nil, error);
+          // Remove pending calls and invoke their completion handler.
+          for (MSHttpCall *call in self.pendingCalls) {
+            NSError *error = [NSError errorWithDomain:kMSACErrorDomain
+                                                 code:MSACCanceledErrorCode
+                                             userInfo:@{NSLocalizedDescriptionKey : kMSACCanceledErrorDesc}];
+            call.completionHandler(nil, nil, error);
+          }
+          [self.pendingCalls removeAllObjects];
         }
-        [self.pendingCalls removeAllObjects];
       }
     }
   }
-}
-
-- (NSString *)obfuscateHeaderValue:(NSString *)value forKey:(NSString *)key {
-  if ([key isEqualToString:kMSAuthorizationHeaderKey]) {
-    return [MSHttpUtil hideAuthToken:value];
-  } else if ([key isEqualToString:kMSHeaderAppSecretKey]) {
-    return [MSHttpUtil hideSecret:value];
-  }
-  return value;
-}
-
-- (NSString *)prettyPrintHeaders:(NSDictionary<NSString *, NSString *> *)headers {
-  NSMutableArray<NSString *> *flattenedHeaders = [NSMutableArray<NSString *> new];
-  for (NSString *headerKey in headers) {
-    [flattenedHeaders
-        addObject:[NSString stringWithFormat:@"%@ = %@", headerKey, [self obfuscateHeaderValue:headers[headerKey] forKey:headerKey]]];
-  }
-  return [flattenedHeaders componentsJoinedByString:@", "];
 }
 
 - (void)dealloc {

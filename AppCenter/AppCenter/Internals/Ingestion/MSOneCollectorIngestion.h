@@ -27,6 +27,6 @@ static NSString *const kMSOneCollectorUploadTimeKey = @"Upload-Time";
  *
  * @return An ingestion instance.
  */
-- (id)initWithBaseUrl:(NSString *)baseUrl;
+- (id)initWithHttpClient:(id<MSHttpClientProtocol>)httpClient baseUrl:(NSString *)baseUrl;
 
 @end

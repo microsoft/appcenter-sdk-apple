@@ -11,16 +11,7 @@
 
 @implementation MSAuthConfigIngestion
 
-- (id)initWithBaseUrl:(NSString *)baseUrl appSecret:(NSString *)appSecret {
-  NSString *apiPath = [NSString stringWithFormat:kMSAuthConfigApiFormat, appSecret];
-  if ((self = [super initWithBaseUrl:baseUrl
-                             apiPath:apiPath
-                             headers:nil
-                        queryStrings:nil
-                        reachability:[MS_Reachability reachabilityForInternetConnection]])) {
-    _appSecret = appSecret;
-  }
-
+- (id)initWithBaseUrl:(NSString *__unused)baseUrl appSecret:(NSString *__unused)appSecret {
   return self;
 }
 
@@ -49,7 +40,8 @@
                                                                           withString:[MSHttpUtil hideSecret:self.appSecret]];
     MSLogVerbose([MSAuth logTag], @"URL: %@", url);
     if (request.allHTTPHeaderFields) {
-      MSLogVerbose([MSAuth logTag], @"Headers: %@", [super prettyPrintHeaders:request.allHTTPHeaderFields]);
+      // TODO: This will be removed soon.
+      //      MSLogVerbose([MSAuth logTag], @"Headers: %@", [super prettyPrintHeaders:request.allHTTPHeaderFields]);
     }
   }
   return request;

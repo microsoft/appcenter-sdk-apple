@@ -4,18 +4,16 @@
 #import "AppCenter+Internal.h"
 #import "MSAppCenterErrors.h"
 #import "MSCompression.h"
+#import "MSConstants+Internal.h"
 #import "MSDevice.h"
 #import "MSDeviceInternal.h"
 #import "MSHttpCall.h"
 #import "MSHttpIngestionPrivate.h"
 #import "MSHttpTestUtil.h"
-#import "MSIngestionCall.h"
-#import "MSIngestionDelegate.h"
 #import "MSMockLog.h"
 #import "MSTestFrameworks.h"
 #import <OHHTTPStubs/NSURLRequest+HTTPBodyTesting.h>
 #import <OHHTTPStubs/OHHTTPStubs.h>
-
 @interface MSHttpCallTests : XCTestCase
 @end
 
