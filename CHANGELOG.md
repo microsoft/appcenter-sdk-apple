@@ -1,6 +1,10 @@
 # App Center SDK for iOS, macOS and tvOS Change Log
 
-## Version 2.5.3 (Under development)
+## Version 2.5.4 (Under development)
+
+### App Center
+
+* **[Fix]** Disable module debugging for release mode in the SDK to fix dSYM warnings.
 
 ### App Center Crashes
 
@@ -8,16 +12,20 @@
 
 ___
 
-## Version 2.5.2
+## Version 2.5.3
 
 ### App Center
 
 * **[Fix]** Improve log messages for errors when it failed to read/write auth token history.
 
+### App Center Auth
+
+* **[Fix]** Fix build warnings when adding App Center Auth framework in project.
+
 ### App Center Crashes
 
 * **[Improvement]**  Report additional details for macOS exceptions thrown on the main thread.
-* **[Fix]** Fix sending crashes if an application is launched in background.
+* **[Fix]** Fix to send crashes when an application was launched in background and enters foreground.
 * **[Fix]** Validate error attachment size to avoid server error or out of memory issues (using the documented limit which is 7MB).
 * **[Fix]** Fix an issue where crash might contain incorrect data if two consecutive crashes occurred in a previous version of the application.
 
@@ -33,10 +41,6 @@ ___
 ### App Center
 
 * **[Fix]** Fix warnings in Xcode 11 when SDK is installed via CocoaPods.
-
-### App Center Auth
-
-* **[Fix]** Fix build warnings when adding App Center Auth framework in project.
 
 ___
 
