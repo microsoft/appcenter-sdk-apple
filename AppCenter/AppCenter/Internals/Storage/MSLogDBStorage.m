@@ -138,7 +138,7 @@ static const NSUInteger kMSSchemaVersion = 4;
 
 - (NSString *)buildKeyFormatWithCount:(unsigned long)count {
   NSString *keyFormat = @"(";
-  for (uint i = 0; i < count; i++) {
+  for (NSUInteger i = 0; i < count; i++) {
     keyFormat = [keyFormat stringByAppendingString:i < count - 1 ? @"?," : @"?"];
   }
   keyFormat = [keyFormat stringByAppendingString:@")"];
