@@ -136,7 +136,7 @@ static const NSUInteger kMSSchemaVersion = 4;
   return [self countEntriesForTable:kMSLogTableName condition:condition withValues:@[ @(timestampMs) ]];
 }
 
-- (NSString *)buildKeyFormatWithCount:(unsigned long)count {
+- (NSString *)buildKeyFormatWithCount:(NSUInteger)count {
   NSString *keyFormat = @"(";
   for (NSUInteger i = 0; i < count; i++) {
     keyFormat = [keyFormat stringByAppendingString:i < count - 1 ? @"?," : @"?"];

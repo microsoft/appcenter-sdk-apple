@@ -66,7 +66,7 @@ static NSString *const kMSTimestampColumnName = @"timestamp";
 /**
  * Builds a string for sqlite values binding: for example, (?, ?, ?).
  */
-- (NSString *)buildKeyFormatWithCount:(unsigned long)count;
+- (NSString *)buildKeyFormatWithCount:(NSUInteger)count;
 
 @end
 
