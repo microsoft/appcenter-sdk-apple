@@ -141,6 +141,9 @@ static MSDeviceTracker *sharedInstance = nil;
 #if TARGET_OS_IOS
     CTTelephonyNetworkInfo *telephonyNetworkInfo = [CTTelephonyNetworkInfo new];
     CTCarrier *carrier;
+      
+    // The CTTelephonyNetworkInfo.serviceSubscriberCellularProviders method crash because of a issue in iOS 12.
+    // It was fixed in iOS 12.1
     if (@available(iOS 12.1, *)) {
       NSDictionary<NSString *, CTCarrier *> *carriers = [telephonyNetworkInfo serviceSubscriberCellularProviders];
       carrier = [self getFirstCarrier:carriers];
