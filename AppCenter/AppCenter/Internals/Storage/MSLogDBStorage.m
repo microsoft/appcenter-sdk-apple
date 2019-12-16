@@ -93,7 +93,7 @@ static const NSUInteger kMSSchemaVersion = 4;
              NSArray<NSArray *> *entries =
                  [MSDBStorage executeSelectionQuery:query
                                    inOpenedDatabase:db
-                                         withValues:@[ [NSNumber numberWithUnsignedInteger:(unsigned int)flags] ]];
+                                         withValues:@[ @(flags) ]];
              logsCanBeDeleted = [NSMutableArray new];
              for (NSMutableArray *row in entries) {
                [logsCanBeDeleted addObject:row[0]];
