@@ -207,7 +207,7 @@ static const NSUInteger kMSSchemaVersion = 4;
    * FIXME: We should simply use a count API from the consumer object instead of the "limit + 1" technique, it only requires 1 SQL request
    * instead of 2 for the count but it is a bit confusing and doesn't really fit a database storage.
    */
-  [condition appendFormat:@" LIMIT %lu ;", (unsigned long)((limit < NSUIntegerMax) ? limit + 1 : limit)];
+  [condition appendFormat:@" LIMIT %lu", (unsigned long)((limit < NSUIntegerMax) ? limit + 1 : limit)];
 
   // Get log entries from DB.
   logEntries = [[self logsWithCondition:condition andValues:values] mutableCopy];
