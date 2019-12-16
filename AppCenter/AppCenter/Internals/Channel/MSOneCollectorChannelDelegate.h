@@ -5,6 +5,10 @@
 
 #import "MSChannelDelegate.h"
 
+@protocol MSHttpClientProtocol;
+
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  * One Collector channel delegate that is used to redirect selected traffic to One Collector.
  */
@@ -13,12 +17,13 @@
 /**
  * Init a `MSOneCollectorChannelDelegate` with an install Id.
  *
+ * @param httpClient HTTP client instance.
  * @param installId A device install Id.
  * @param baseUrl base url to use for backend communication.
  *
  * @return A `MSOneCollectorChannelDelegate` instance.
  */
-- (instancetype)initWithInstallId:(NSUUID *)installId baseUrl:(NSString *)baseUrl;
+- (instancetype)initWithHttpClient:(id<MSHttpClientProtocol>)httpClient installId:(NSUUID *)installId baseUrl:(NSString *)baseUrl;
 
 /**
  * Change the base URL (schema + authority + port only) that is used to communicate with the backend.
@@ -28,3 +33,5 @@
 - (void)setLogUrl:(NSString *)logUrl;
 
 @end
+
+NS_ASSUME_NONNULL_END
