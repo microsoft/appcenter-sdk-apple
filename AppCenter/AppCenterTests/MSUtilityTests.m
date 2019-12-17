@@ -925,6 +925,36 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
                                }];
 }
 
+- (void)testPerformSelectorOnMainThreadFromBackground {
+
+  // If
+  XCTestExpectation *expectation = [self expectationWithDescription:@"method called."];
+  __block BOOL handlerHasBeenCalled = NO;
+  NSString *str = @"expectedString";
+
+  // When
+  dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    [MSPerformSelectorUtil performSelectorOnMainThread:self
+                                          withSelector:@selector(methodToCall:completionHandler:)
+                                           withObjects:str,
+                                                       ^(NSString *string) {
+                                                         XCTAssertEqual(str, string);
+                                                         handlerHasBeenCalled = YES;
+                                                         [expectation fulfill];
+                                                       },
+                                                       [NSNull null]];
+  });
+
+  // Then
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
+                               handler:^(NSError *error) {
+                                 XCTAssertTrue(handlerHasBeenCalled);
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+}
+
 - (void)methodToCall:(NSString *)str completionHandler:(void (^)(NSString *string))completion {
   completion(str);
 }
