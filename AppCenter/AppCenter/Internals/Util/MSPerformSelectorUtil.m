@@ -8,13 +8,13 @@
 
 + (void)performSelectorOnMainThread:(NSObject *)source withSelector:(SEL)selector withObjects:(NSObject *)objects, ... {
   NSMethodSignature *signature = [source methodSignatureForSelector:selector];
+  if (!signature) {
+    MSLogError([MSAppCenter logTag], @"MSUtility: Method not found.");
+    return;
+  }
   NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:signature];
   [invocation setTarget:source];
   [invocation setSelector:selector];
-  if (!signature) {
-    MSLogError([MSAppCenter logTag], @"MSUtility: Method signature could not be created.");
-    return;
-  }
   va_list args;
   va_start(args, objects);
   int nextArgIndex = 2;
