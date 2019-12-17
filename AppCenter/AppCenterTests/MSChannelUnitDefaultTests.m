@@ -6,10 +6,6 @@
 
 #import "MSAbstractLogInternal.h"
 #import "MSAppCenter.h"
-#import "MSAuthTokenContext.h"
-#import "MSAuthTokenContextPrivate.h"
-#import "MSAuthTokenInfo.h"
-#import "MSAuthTokenValidityInfo.h"
 #import "MSChannelDelegate.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitDefault.h"
@@ -33,8 +29,6 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
 - (void)sendLogContainer:(MSLogContainer *__nonnull)container;
 
-- (void)flushQueueForTokenArray:(NSArray<MSAuthTokenValidityInfo *> *)tokenArray withTokenIndex:(NSUInteger)tokenIndex;
-
 @end
 
 @interface MSChannelUnitDefaultTests : XCTestCase
@@ -48,7 +42,6 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
 @property(nonatomic) id storageMock;
 @property(nonatomic) id ingestionMock;
-@property(nonatomic) id authTokenContextMock;
 
 /**
  * Most of the channel APIs are asynchronous, this expectation is meant to be enqueued to the data dispatch queue at the end of the test
@@ -82,12 +75,6 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                                configuration:self.configuration
                                            logsDispatchQueue:self.logsDispatchQueue];
   self.settingsMock = [MSMockUserDefaults new];
-
-  // Auth token context.
-  [MSAuthTokenContext resetSharedInstance];
-  self.authTokenContextMock = OCMClassMock([MSAuthTokenContext class]);
-  OCMStub([self.authTokenContextMock sharedInstance]).andReturn(self.authTokenContextMock);
-  OCMStub([self.authTokenContextMock authTokenValidityArray]).andReturn(@ [[MSAuthTokenValidityInfo new]]);
 }
 
 - (void)tearDown {
@@ -95,8 +82,6 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
   // Stop mocks.
   [self.settingsMock stopMocking];
-  [self.authTokenContextMock stopMocking];
-  [MSAuthTokenContext resetSharedInstance];
   [super tearDown];
 }
 

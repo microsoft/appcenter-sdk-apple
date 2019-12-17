@@ -83,9 +83,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
     // Obfuscate secrets.
     NSMutableArray<NSString *> *flattenedHeaders = [NSMutableArray<NSString *> new];
     [headers enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *value, BOOL *stop __unused) {
-      if ([key isEqualToString:kMSAuthorizationHeaderKey]) {
-        value = [MSHttpUtil hideAuthToken:value];
-      } else if ([key isEqualToString:kMSHeaderAppSecretKey]) {
+      if ([key isEqualToString:kMSHeaderAppSecretKey]) {
         value = [MSHttpUtil hideSecret:value];
       }
       [flattenedHeaders addObject:[NSString stringWithFormat:@"%@ = %@", key, value]];

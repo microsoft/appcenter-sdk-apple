@@ -8,8 +8,6 @@
 #import "MSAppCenter.h"
 #import "MSAppCenterInternal.h"
 #import "MSAppCenterPrivate.h"
-#import "MSAuthTokenContext.h"
-#import "MSAuthTokenContextPrivate.h"
 #import "MSBooleanTypedProperty.h"
 #import "MSChannelGroupDefault.h"
 #import "MSChannelUnitConfiguration.h"
@@ -71,7 +69,6 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 - (void)setUp {
   [super setUp];
   [MSAppCenter resetSharedInstance];
-  [MSAuthTokenContext resetSharedInstance];
 
   // Mock NSUserDefaults.
   self.settingsMock = [MSMockUserDefaults new];

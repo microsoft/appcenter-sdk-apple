@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "MSAuthTokenContextDelegate.h"
 #import "MSPush.h"
 #import "MSPushDelegate.h"
 #import "MSServiceInternal.h"
@@ -22,9 +21,9 @@ static NSString *const kMSPushNotificationOldCustomDataKey = @"mobile_center";
 @protocol MSCustomApplicationDelegate;
 
 #if TARGET_OS_OSX
-@interface MSPush () <NSUserNotificationCenterDelegate, MSAuthTokenContextDelegate, MSUserIdContextDelegate>
+@interface MSPush () <NSUserNotificationCenterDelegate, MSUserIdContextDelegate>
 #else
-@interface MSPush () <MSAuthTokenContextDelegate, MSUserIdContextDelegate>
+@interface MSPush () <MSUserIdContextDelegate>
 #endif
 
 @property(nonatomic) id<MSPushDelegate> delegate;

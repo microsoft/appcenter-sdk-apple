@@ -160,18 +160,14 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   id mockLogger = OCMClassMock([MSLogger class]);
   id mockHttpUtil = OCMClassMock([MSHttpUtil class]);
   OCMStub([mockLogger currentLogLevel]).andReturn(MSLogLevelVerbose);
-  OCMStub(ClassMethod([mockHttpUtil hideAuthToken:OCMOCK_ANY])).andDo(nil);
   OCMStub(ClassMethod([mockHttpUtil hideSecret:OCMOCK_ANY])).andDo(nil);
-  NSString *authorizationValue = @"Bearer testtesttest";
-  NSDictionary<NSString *, NSString *> *headers =
-      @{kMSAuthorizationHeaderKey : authorizationValue, kMSHeaderAppSecretKey : kMSTestAppSecret};
+  NSDictionary<NSString *, NSString *> *headers = @{kMSHeaderAppSecretKey : kMSTestAppSecret};
   NSURL *url = [NSURL new];
 
   // When
   [self.sut willSendHTTPRequestToURL:url withHeaders:headers];
 
   // Then
-  OCMVerify([mockHttpUtil hideAuthToken:authorizationValue]);
   OCMVerify([mockHttpUtil hideSecret:kMSTestAppSecret]);
 
   [mockLogger stopMocking];

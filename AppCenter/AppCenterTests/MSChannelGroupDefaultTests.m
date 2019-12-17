@@ -3,7 +3,6 @@
 
 #import "MSAbstractLogInternal.h"
 #import "MSAppCenterIngestion.h"
-#import "MSAuthTokenContext.h"
 #import "MSChannelDelegate.h"
 #import "MSChannelGroupDefault.h"
 #import "MSChannelGroupDefaultPrivate.h"
