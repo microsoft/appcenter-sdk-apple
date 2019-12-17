@@ -4,7 +4,9 @@
 
 ### App Center
 
+* **[Fix]** Optimization of release objects from memory during the execution of a large number of operations.
 * **[Fix]** Disable module debugging for release mode in the SDK to fix dSYM warnings.
+* **[Fix]** Fix SDK crash at application launch on iOS 12.0 (`CTTelephonyNetworkInfo.serviceSubscriberCellularProviders` issue).
 
 ___
 
