@@ -7,6 +7,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@protocol MSHttpClientProtocol;
+
 /**
  * The header name for update token.
  */
@@ -22,6 +24,7 @@ static NSString *const kMSHeaderUpdateApiToken = @"x-api-token";
 /**
  * Initialize the Ingestion.
  *
+ * @param httpClient Http client.
  * @param baseUrl Base url.
  * @param appSecret A unique and secret key used to identify the application.
  * @param updateToken The update token stored in keychain. This parameter is optional and the update will be considered as public
@@ -31,11 +34,12 @@ static NSString *const kMSHeaderUpdateApiToken = @"x-api-token";
  *
  * @return An ingestion instance.
  */
-- (id)initWithBaseUrl:(nullable NSString *)baseUrl
-              appSecret:(NSString *)appSecret
-            updateToken:(NSString *)updateToken
-    distributionGroupId:(NSString *)distributionGroupId
-           queryStrings:(NSDictionary *)queryStrings;
+- (id)initWithHttpClient:(id<MSHttpClientProtocol>)httpClient
+                 baseUrl:(nullable NSString *)baseUrl
+               appSecret:(NSString *)appSecret
+             updateToken:(NSString *)updateToken
+     distributionGroupId:(NSString *)distributionGroupId
+            queryStrings:(NSDictionary *)queryStrings;
 
 @end
 

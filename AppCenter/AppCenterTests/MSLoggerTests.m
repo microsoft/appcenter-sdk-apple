@@ -28,7 +28,7 @@
   id channelGroupMock = OCMClassMock([MSChannelGroupDefault class]);
   id channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
   OCMStub([channelGroupMock alloc]).andReturn(channelGroupMock);
-  OCMStub([channelGroupMock initWithInstallId:OCMOCK_ANY logUrl:OCMOCK_ANY]).andReturn(channelGroupMock);
+  OCMStub([channelGroupMock initWithHttpClient:OCMOCK_ANY installId:OCMOCK_ANY logUrl:OCMOCK_ANY]).andReturn(channelGroupMock);
   OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
 
   // Check default loglevel before MSAppCenter was started.
