@@ -116,8 +116,7 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
     [MSAnalytics setTransmissionInterval:latencyTimeValue];
   }
   // Start App Center SDK.
-  NSArray<Class> *services =
-      @ [[MSAnalytics class], [MSCrashes class], [MSDistribute class], [MSPush class]];
+  NSArray<Class> *services = @ [[MSAnalytics class], [MSCrashes class], [MSDistribute class], [MSPush class]];
 #if GCC_PREPROCESSOR_MACRO_PUPPET
   NSString *appSecret = [[NSUserDefaults standardUserDefaults] objectForKey:kMSAppSecret] ?: kMSPuppetAppSecret;
 #else
