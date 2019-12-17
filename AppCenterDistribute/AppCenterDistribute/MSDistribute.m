@@ -613,6 +613,8 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   BOOL success = [session start];
   if (success) {
     MSLogDebug([MSDistribute logTag], @"Authentication session started, showing confirmation dialog.");
+  } else {
+    MSLogError([MSDistribute logTag], @"Failed to start authentication session.");
   }
 }
 
