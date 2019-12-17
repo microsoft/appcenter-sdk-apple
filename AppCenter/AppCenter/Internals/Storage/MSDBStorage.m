@@ -123,7 +123,7 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
   return [self executeQueryUsingBlock:^int(void *db) {
            if ([MSDBStorage tableExists:tableName inOpenedDatabase:db]) {
              NSString *deleteQuery = [NSString stringWithFormat:@"DROP TABLE \"%@\";", tableName];
-             int result = [MSDBStorage executeNonSelectionQuery:deleteQuery inOpenedDatabase:db withValues:nil];
+             int result = [MSDBStorage executeNonSelectionQuery:deleteQuery inOpenedDatabase:db];
              if (result == SQLITE_OK) {
                MSLogVerbose([MSAppCenter logTag], @"Table %@ has been deleted", tableName);
              } else {
@@ -160,7 +160,7 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
              NSString *createQuery =
                  [NSString stringWithFormat:@"CREATE TABLE \"%@\" (%@%@);", tableName,
                                             [MSDBStorage columnsQueryFromColumnsSchema:columnsSchema], uniqueContraintQuery];
-             int result = [MSDBStorage executeNonSelectionQuery:createQuery inOpenedDatabase:db withValues:nil];
+             int result = [MSDBStorage executeNonSelectionQuery:createQuery inOpenedDatabase:db];
              if (result == SQLITE_OK) {
                MSLogVerbose([MSAppCenter logTag], @"Table %@ has been created", tableName);
              } else {
@@ -209,11 +209,13 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
   // Create the tables.
   if (tableQueries.count > 0) {
     
-    // Here, we do not join queries by ';', as before, because
-    // we do not execute a non-selection query using `exec`, as before.
-    // We are using `step`, and `step` can handle only one-line statements.
+    /*
+     * Here, we do not join queries by ';', as before, because
+     * we do not execute a non-selection query using `exec`, as before.
+     * We are using `step`, and `step` can handle only one-line statements.
+     */
     for (NSString *tableQuery in tableQueries) {
-      result = [self executeNonSelectionQuery:tableQuery inOpenedDatabase:db withValues:nil];
+      result = [self executeNonSelectionQuery:tableQuery inOpenedDatabase:db];
       if (result != SQLITE_OK) {
         return result;
       }
@@ -289,6 +291,14 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
   return (result.count > 0) ? result[0][0].unsignedIntegerValue : 0;
 }
 
++ (int)executeNonSelectionQuery:(NSString *)query inOpenedDatabase:(void *)db {
+  return [self executeNonSelectionQuery:query inOpenedDatabase:db withValues:nil];
+}
+
+- (int)executeNonSelectionQuery:(NSString *)query {
+  return [self executeNonSelectionQuery:query withValues:nil];
+}
+
 - (int)executeNonSelectionQuery:(NSString *)query withValues:(nullable NSArray *)values {
   return [self executeQueryUsingBlock:^int(void *db) {
     return [MSDBStorage executeNonSelectionQuery:query inOpenedDatabase:db withValues:values];
@@ -302,7 +312,9 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
                      withValues:values
                      usingBlock:^(void *statement) {
                        int stepResult = sqlite3_step(statement);
-                       if (stepResult != SQLITE_DONE) {
+                         if (stepResult == SQLITE_DONE) {
+                            return SQLITE_OK;
+                         }
                          NSString *errorMessage = [NSString stringWithUTF8String:sqlite3_errmsg(db)];
                          if (stepResult == SQLITE_CORRUPT || stepResult == SQLITE_NOTADB) {
                            MSLogError([MSAppCenter logTag], @"A database file is corrupted, result=%d\n\t%@", stepResult, errorMessage);
@@ -312,8 +324,6 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
                            MSLogError([MSAppCenter logTag], @"Could not execute the statement, result=%d\n\t%@", stepResult, errorMessage);
                          }
                          return stepResult;
-                       }
-                       return SQLITE_OK;
                      }];
 }
 
@@ -403,6 +413,7 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
                                      if (stepResult != SQLITE_DONE) {
                                        NSString *errorMessage = [NSString stringWithUTF8String:sqlite3_errmsg(db)];
                                        MSLogError([MSAppCenter logTag], @"Query failed with error: %d\n\t%@", stepResult, errorMessage);
+                                       return stepResult;
                                      }
                                      return SQLITE_OK;
                                    }];

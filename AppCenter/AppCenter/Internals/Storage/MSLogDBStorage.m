@@ -137,10 +137,7 @@ static const NSUInteger kMSSchemaVersion = 4;
 }
 
 - (NSString *)buildKeyFormatWithCount:(NSUInteger)count {
-  NSString *keyFormat = @"(";
-  for (NSUInteger i = 0; i < count; i++) {
-    keyFormat = [keyFormat stringByAppendingString:i < count - 1 ? @"?," : @"?"];
-  }
+  NSString *keyFormat = [@"(" stringByPaddingToLength:count * 2 withString:@"?," startingAtIndex:0];
   keyFormat = [keyFormat stringByAppendingString:@")"];
   return keyFormat;
 }
@@ -368,7 +365,7 @@ static const NSUInteger kMSSchemaVersion = 4;
   NSString *deleteLogsQuery = [NSString stringWithFormat:@"DELETE FROM \"%@\" WHERE %@", kMSLogTableName, whereCondition];
 
   // Execute.
-  int result = [MSDBStorage executeNonSelectionQuery:deleteLogsQuery inOpenedDatabase:db withValues:nil];
+  int result = [MSDBStorage executeNonSelectionQuery:deleteLogsQuery inOpenedDatabase:db];
   if (result == SQLITE_OK) {
     MSLogVerbose([MSAppCenter logTag], @"%@ succeeded.", deletionTrace);
   } else {
@@ -388,7 +385,7 @@ static const NSUInteger kMSSchemaVersion = 4;
 - (void)createPriorityIndex:(void *)db {
   NSString *indexStatement = [NSString stringWithFormat:@"CREATE INDEX \"ix_%@_%@\" ON \"%@\" (\"%@\")", kMSLogTableName,
                                                         kMSPriorityColumnName, kMSLogTableName, kMSPriorityColumnName];
-  [MSDBStorage executeNonSelectionQuery:indexStatement inOpenedDatabase:db withValues:nil];
+  [MSDBStorage executeNonSelectionQuery:indexStatement inOpenedDatabase:db];
 }
 
 - (void)customizeDatabase:(void *)db {
@@ -403,25 +400,25 @@ static const NSUInteger kMSSchemaVersion = 4;
   if (version < kMSTargetTokenVersion) {
     NSString *migrationQuery = [NSString
         stringWithFormat:@"ALTER TABLE \"%@\" ADD COLUMN \"%@\" %@", kMSLogTableName, kMSTargetTokenColumnName, kMSSQLiteTypeText];
-    [MSDBStorage executeNonSelectionQuery:migrationQuery inOpenedDatabase:db withValues:nil];
+    [MSDBStorage executeNonSelectionQuery:migrationQuery inOpenedDatabase:db];
   }
   if (version < kMSTargetKeyVersion) {
     NSString *migrationQuery =
         [NSString stringWithFormat:@"ALTER TABLE \"%@\" ADD COLUMN \"%@\" %@", kMSLogTableName, kMSTargetKeyColumnName, kMSSQLiteTypeText];
-    [MSDBStorage executeNonSelectionQuery:migrationQuery inOpenedDatabase:db withValues:nil];
+    [MSDBStorage executeNonSelectionQuery:migrationQuery inOpenedDatabase:db];
   }
   if (version < kMSLogPersistencePriorityVersion) {
 
     // Integer type for flags is actually unsigned int, but SQL resolves UNSIGNED INTEGER to INTEGER anyways.
     NSString *migrationQuery = [NSString stringWithFormat:@"ALTER TABLE \"%@\" ADD COLUMN \"%@\" %@ DEFAULT %u", kMSLogTableName,
                                                           kMSPriorityColumnName, kMSSQLiteTypeInteger, (unsigned int)MSFlagsNormal];
-    [MSDBStorage executeNonSelectionQuery:migrationQuery inOpenedDatabase:db withValues:nil];
+    [MSDBStorage executeNonSelectionQuery:migrationQuery inOpenedDatabase:db];
     [self createPriorityIndex:db];
   }
   if (version < kMSTimestampVersion) {
     NSString *migrationQuery = [NSString stringWithFormat:@"ALTER TABLE \"%@\" ADD COLUMN \"%@\" %@ DEFAULT %lld", kMSLogTableName,
                                                           kMSTimestampColumnName, kMSSQLiteTypeInteger, 0ll];
-    [MSDBStorage executeNonSelectionQuery:migrationQuery inOpenedDatabase:db withValues:nil];
+    [MSDBStorage executeNonSelectionQuery:migrationQuery inOpenedDatabase:db];
   }
 }
 

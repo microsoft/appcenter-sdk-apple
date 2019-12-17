@@ -118,6 +118,18 @@ static const long kMSDefaultDatabaseSizeInBytes = 10 * 1024 * 1024;
  *
  * @return `YES` if the query executed successfully, otherwise `NO`.
  */
++ (int)executeNonSelectionQuery:(NSString *)query inOpenedDatabase:(void *)db;
+
+/**
+ * Execute a non selection SQLite query on the database (i.e.: "CREATE",
+ * "INSERT", "UPDATE"... but not "SELECT").
+ *
+ * @param query An SQLite query to execute.
+ * @param db Database handle.
+ * @param values an array of query parameters to be substituted using `sqlite3_bind`.
+ *
+ * @return `YES` if the query executed successfully, otherwise `NO`.
+ */
 + (int)executeNonSelectionQuery:(NSString *)query inOpenedDatabase:(void *)db withValues:(nullable NSArray *)values;
 
 /**
@@ -125,6 +137,7 @@ static const long kMSDefaultDatabaseSizeInBytes = 10 * 1024 * 1024;
  *
  * @param query An SQLite "SELECT" query to execute.
  * @param db Database handle.
+ * @param values an array of query parameters to be substituted using `sqlite3_bind`.
  *
  * @return The selected entries.
  */

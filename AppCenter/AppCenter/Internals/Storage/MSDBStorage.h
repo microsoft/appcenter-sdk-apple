@@ -71,12 +71,23 @@ static NSString *const kMSSQLiteConstraintAutoincrement = @"AUTOINCREMENT";
  *
  * @return The SQLite return code.
  */
+- (int)executeNonSelectionQuery:(NSString *)query;
+
+/**
+ * Execute a non selection SQLite query on the database (i.e.: "CREATE", "INSERT", "UPDATE"... but not "SELECT").
+ *
+ * @param query An SQLite query to execute.
+ * @param values an array of query parameters to be substituted using `sqlite3_bind`.
+ *
+ * @return The SQLite return code.
+ */
 - (int)executeNonSelectionQuery:(NSString *)query withValues:(nullable NSArray *)values;
 
 /**
  * Execute a "SELECT" SQLite query on the database.
  *
  * @param query An SQLite "SELECT" query to execute.
+ * @param values an array of query parameters to be substituted using `sqlite3_bind`.
  *
  * @return The selected entries.
  */
