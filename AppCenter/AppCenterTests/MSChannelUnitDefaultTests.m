@@ -31,9 +31,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
 @interface MSChannelUnitDefault (Test)
 
-- (void)sendLogContainer:(MSLogContainer *__nonnull)container
-    withAuthTokenFromArray:(NSArray<MSAuthTokenValidityInfo *> *__nonnull)tokenArray
-                   atIndex:(NSUInteger)tokenIndex;
+- (void)sendLogContainer:(MSLogContainer *__nonnull)container;
 
 - (void)flushQueueForTokenArray:(NSArray<MSAuthTokenValidityInfo *> *)tokenArray withTokenIndex:(NSUInteger)tokenIndex;
 

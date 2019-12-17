@@ -30,7 +30,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
   return self.appSecret != nil;
 }
 
-- (void)sendAsync:(NSObject *)data authToken:(NSString *)authToken completionHandler:(MSSendAsyncCompletionHandler)handler {
+- (void)sendAsync:(NSObject *)data completionHandler:(MSSendAsyncCompletionHandler)handler {
   MSLogContainer *container = (MSLogContainer *)data;
   NSString *batchId = container.batchId;
 
@@ -52,7 +52,6 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
     return;
   }
   [super sendAsync:data
-              authToken:authToken
       completionHandler:^(NSString *_Nonnull __unused callId, NSHTTPURLResponse *_Nullable response, NSData *_Nullable responseBody,
                           NSError *_Nullable error) {
         // Ignore the given call ID so that the container's batch ID can be used instead.
@@ -60,16 +59,8 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
       }];
 }
 
-- (NSDictionary *)getHeadersWithData:(nullable NSObject *__unused)data
-                                eTag:(nullable NSString *__unused)eTag
-                           authToken:(nullable NSString *)authToken {
-  NSMutableDictionary *httpHeaders = [self.httpHeaders mutableCopy];
-  [httpHeaders setValue:self.appSecret forKey:kMSHeaderAppSecretKey];
-  if ([authToken length] > 0) {
-    NSString *bearerTokenHeader = [NSString stringWithFormat:kMSBearerTokenHeaderFormat, authToken];
-    [httpHeaders setValue:bearerTokenHeader forKey:kMSAuthorizationHeaderKey];
-  }
-  return httpHeaders;
+- (NSDictionary *)getHeadersWithData:(nullable NSObject *__unused)data eTag:(nullable NSString *__unused)eTag {
+  return @{kMSHeaderAppSecretKey : self.appSecret};
 }
 
 - (NSData *)getPayloadWithData:(nullable NSObject *)data {
