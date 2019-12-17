@@ -55,7 +55,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 - (void)testGetHeadersAndNilPayload {
 
   // When
-  NSDictionary *headers = [self.sut getHeadersWithData:nil eTag:nil authToken:nil];
+  NSDictionary *headers = [self.sut getHeadersWithData:nil eTag:nil];
   NSData *payload = [self.sut getPayloadWithData:nil];
   [self.sut sendAsync:[NSData new]
       completionHandler:^(NSString *_Nonnull callId, NSHTTPURLResponse *_Nullable response __unused, NSData *_Nullable data __unused,
@@ -84,7 +84,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   OCMStub([distributeMock appSecret]).andReturn(@"secret");
 
   // When
-  NSDictionary *headers = [self.sut getHeadersWithData:[NSData new] eTag:nil authToken:nil];
+  NSDictionary *headers = [self.sut getHeadersWithData:[NSData new] eTag:nil];
   NSData *payload = [self.sut getPayloadWithData:[NSData new]];
   [self.sut sendAsync:[NSData new]
       completionHandler:^(NSString *_Nonnull callId, NSHTTPURLResponse *_Nullable response __unused, NSData *_Nullable data __unused,
@@ -125,7 +125,6 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   // When
   [MSHttpTestUtil stubResponseWithData:data statusCode:MSHTTPCodesNo200OK headers:self.sut.httpHeaders name:NSStringFromSelector(_cmd)];
   [self.sut sendAsync:container
-              authToken:nil
       completionHandler:^(__unused NSString *batchId, __unused NSHTTPURLResponse *response, __unused NSData *responseData,
                           __unused NSError *error) {
         [requestCompletedExpectation fulfill];
