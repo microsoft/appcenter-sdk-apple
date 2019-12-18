@@ -754,7 +754,7 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   // Then
   XCTAssertTrue(logSavedSuccessfully);
   NSString *whereCondition = [NSString stringWithFormat:@"\"%@\" = ?", kMSGroupIdColumnName];
-    NSArray<id<MSLog>> *loadedLogs = [self loadLogsWhere:whereCondition withValues:@[kMSAnotherTestGroupId]];
+  NSArray<id<MSLog>> *loadedLogs = [self loadLogsWhere:whereCondition withValues:@[ kMSAnotherTestGroupId ]];
   NSArray<id<MSLog>> *allLogs = [self loadLogsWhere:nil withValues:nil];
   XCTAssertEqual(loadedLogs.count, 1);
   XCTAssertEqualObjects(loadedLogs[0].sid, additionalLog.sid);
@@ -773,8 +773,8 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   [self.sut saveLog:aLog withGroupId:kMSTestGroupId flags:MSFlagsCritical];
 
   // Then
-  NSArray<id<MSLog>> *criticalLogs = [self loadLogsWhere:criticalLogsFilter withValues:@[@((unsigned int)MSFlagsCritical)]];
-  NSArray<id<MSLog>> *normalLogs = [self loadLogsWhere:normalLogsFilter withValues:@[@((unsigned int)MSFlagsNormal)]];
+  NSArray<id<MSLog>> *criticalLogs = [self loadLogsWhere:criticalLogsFilter withValues:@[ @((unsigned int)MSFlagsCritical) ]];
+  NSArray<id<MSLog>> *normalLogs = [self loadLogsWhere:normalLogsFilter withValues:@[ @((unsigned int)MSFlagsNormal) ]];
   XCTAssertEqual(criticalLogs.count, 1);
   XCTAssertEqualObjects(criticalLogs[0].sid, aLog.sid);
   XCTAssertEqual(normalLogs.count, 0);
@@ -792,8 +792,8 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   [self.sut saveLog:aLog withGroupId:kMSTestGroupId flags:MSFlagsNormal];
 
   // Then
-  NSArray<id<MSLog>> *criticalLogs = [self loadLogsWhere:criticalLogsFilter withValues:@[@((unsigned int)MSFlagsCritical)]];
-  NSArray<id<MSLog>> *normalLogs = [self loadLogsWhere:normalLogsFilter withValues:@[@((unsigned int)MSFlagsNormal)]];
+  NSArray<id<MSLog>> *criticalLogs = [self loadLogsWhere:criticalLogsFilter withValues:@[ @((unsigned int)MSFlagsCritical) ]];
+  NSArray<id<MSLog>> *normalLogs = [self loadLogsWhere:normalLogsFilter withValues:@[ @((unsigned int)MSFlagsNormal) ]];
   XCTAssertEqual(normalLogs.count, 1);
   XCTAssertEqualObjects(normalLogs[0].sid, aLog.sid);
   XCTAssertEqual(criticalLogs.count, 0);
@@ -841,7 +841,7 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   XCTAssertFalse([self containsLogWithDbId:firstLogDbId]);
 
   NSString *whereCondition = [NSString stringWithFormat:@"\"%@\" = ?", kMSGroupIdColumnName];
-  NSArray<id<MSLog>> *loadedLogs = [self loadLogsWhere:whereCondition withValues:@[kMSAnotherTestGroupId]];
+  NSArray<id<MSLog>> *loadedLogs = [self loadLogsWhere:whereCondition withValues:@[ kMSAnotherTestGroupId ]];
   XCTAssertEqual(loadedLogs.count, 1);
   XCTAssertEqualObjects(loadedLogs[0].sid, additionalLog.sid);
   XCTAssertEqual(1, [self findUnknownDBIdsFromKnownIdList:addedDbIds].count);
@@ -867,7 +867,7 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   XCTAssertFalse([self containsLogWithDbId:firstLogDbId]);
 
   NSString *whereCondition = [NSString stringWithFormat:@"\"%@\" = ?", kMSGroupIdColumnName];
-  NSArray<id<MSLog>> *loadedLogs = [self loadLogsWhere:whereCondition withValues:@[kMSAnotherTestGroupId]];
+  NSArray<id<MSLog>> *loadedLogs = [self loadLogsWhere:whereCondition withValues:@[ kMSAnotherTestGroupId ]];
   XCTAssertEqual(loadedLogs.count, 1);
   XCTAssertEqualObjects(loadedLogs[0].sid, additionalLog.sid);
   XCTAssertEqual(1, [self findUnknownDBIdsFromKnownIdList:addedDbIds].count);
@@ -894,7 +894,7 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   }
 
   NSString *whereCondition = [NSString stringWithFormat:@"\"%@\" = ?", kMSGroupIdColumnName];
-  NSArray<id<MSLog>> *loadedLogs = [self loadLogsWhere:whereCondition withValues:@[kMSAnotherTestGroupId]];
+  NSArray<id<MSLog>> *loadedLogs = [self loadLogsWhere:whereCondition withValues:@[ kMSAnotherTestGroupId ]];
   XCTAssertEqual(loadedLogs.count, 0);
   XCTAssertEqual(0, [self findUnknownDBIdsFromKnownIdList:addedDbIds].count);
 }
@@ -920,7 +920,7 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   XCTAssertFalse([self containsLogWithDbId:oldestNormalDbId]);
   XCTAssertTrue([self containsLogWithDbId:oldestCriticalDbId]);
   NSString *whereCondition = [NSString stringWithFormat:@"\"%@\" = ?", kMSGroupIdColumnName];
-  NSArray<id<MSLog>> *loadedLogs = [self loadLogsWhere:whereCondition withValues:@[kMSAnotherTestGroupId]];
+  NSArray<id<MSLog>> *loadedLogs = [self loadLogsWhere:whereCondition withValues:@[ kMSAnotherTestGroupId ]];
   XCTAssertEqual(loadedLogs.count, 1);
   XCTAssertEqualObjects(loadedLogs[0].sid, additionalLog.sid);
   NSArray *knownIds = [NSArray new];
@@ -960,7 +960,7 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   XCTAssertTrue([self.storageTestUtil getDataLengthInBytes] <= maxCapacityInBytes);
   XCTAssertFalse(logSavedSuccessfully);
   NSString *whereCondition = [NSString stringWithFormat:@"\"%@\" = ?", kMSGroupIdColumnName];
-  NSArray<id<MSLog>> *loadedLogs = [self loadLogsWhere:whereCondition withValues:@[kMSAnotherTestGroupId]];
+  NSArray<id<MSLog>> *loadedLogs = [self loadLogsWhere:whereCondition withValues:@[ kMSAnotherTestGroupId ]];
   XCTAssertEqual(loadedLogs.count, 0);
   NSArray *knownIds = [NSArray new];
   for (NSArray<NSNumber *> *ids in @[ criticalDbIds, normalDbIds ]) {

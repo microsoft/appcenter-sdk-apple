@@ -208,11 +208,10 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
 
   // Create the tables.
   if (tableQueries.count > 0) {
-    
+
     /*
-     * Here, we do not join queries by ';', as before, because
-     * we do not execute a non-selection query using `exec`, as before.
-     * We are using `step`, and `step` can handle only one-line statements.
+     * We do not join queries with ';' because we do not execute a non-selection query using `exec`.
+     * We are using `step`, and `step` can only handle one-line statements.
      */
     for (NSString *tableQuery in tableQueries) {
       result = [self executeNonSelectionQuery:tableQuery inOpenedDatabase:db];
@@ -256,7 +255,7 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
 + (void)setVersion:(NSUInteger)version inOpenedDatabase:(void *)db {
   NSString *query = [NSString stringWithFormat:@"PRAGMA user_version = %lu", (unsigned long)version];
 
-  // We use a slection query here because pragma set returns a value.
+  // We use a selection query here because pragma set returns a value.
   [MSDBStorage executeSelectionQuery:query inOpenedDatabase:db withValues:nil];
 }
 
@@ -276,7 +275,7 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
   if (autoVacuumDisabled) {
     MSLogDebug([MSAppCenter logTag], @"Vacuuming database and enabling auto_vacuum");
 
-    // We use a slection query here because pragma set returns a value.
+    // We use a selection query here because pragma set returns a value.
     [MSDBStorage executeSelectionQuery:@"PRAGMA auto_vacuum = FULL;" inOpenedDatabase:db withValues:nil];
     [MSDBStorage executeSelectionQuery:@"VACUUM;" inOpenedDatabase:db withValues:nil];
   }
@@ -306,25 +305,24 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
 }
 
 + (int)executeNonSelectionQuery:(NSString *)query inOpenedDatabase:(void *)db withValues:(nullable NSArray *)values {
-  return
-      [MSDBStorage executeQuery:query
-               inOpenedDatabase:db
-                     withValues:values
-                     usingBlock:^(void *statement) {
-                       int stepResult = sqlite3_step(statement);
-                         if (stepResult == SQLITE_DONE) {
+  return [MSDBStorage executeQuery:query
+                  inOpenedDatabase:db
+                        withValues:values
+                        usingBlock:^(void *statement) {
+                          int stepResult = sqlite3_step(statement);
+                          if (stepResult == SQLITE_DONE) {
                             return SQLITE_OK;
-                         }
-                         NSString *errorMessage = [NSString stringWithUTF8String:sqlite3_errmsg(db)];
-                         if (stepResult == SQLITE_CORRUPT || stepResult == SQLITE_NOTADB) {
-                           MSLogError([MSAppCenter logTag], @"A database file is corrupted, result=%d\n\t%@", stepResult, errorMessage);
-                         } else if (stepResult == SQLITE_FULL) {
-                           MSLogDebug([MSAppCenter logTag], @"Query failed with error: %d\n\t%@", stepResult, errorMessage);
-                         } else {
-                           MSLogError([MSAppCenter logTag], @"Could not execute the statement, result=%d\n\t%@", stepResult, errorMessage);
-                         }
-                         return stepResult;
-                     }];
+                          }
+                          NSString *errorMessage = [NSString stringWithUTF8String:sqlite3_errmsg(db)];
+                          if (stepResult == SQLITE_CORRUPT || stepResult == SQLITE_NOTADB) {
+                            MSLogError([MSAppCenter logTag], @"A database file is corrupted, result=%d\n\t%@", stepResult, errorMessage);
+                          } else if (stepResult == SQLITE_FULL) {
+                            MSLogDebug([MSAppCenter logTag], @"Query failed with error: %d\n\t%@", stepResult, errorMessage);
+                          } else {
+                            MSLogError([MSAppCenter logTag], @"Could not execute the statement, result=%d\n\t%@", stepResult, errorMessage);
+                          }
+                          return stepResult;
+                        }];
 }
 
 + (int)executeQuery:(NSString *)query
@@ -338,7 +336,7 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
     MSLogError([MSAppCenter logTag], @"Failed to prepare SQLite statement, result=%d\n\t%@", result, errorMessage);
     return result;
   }
-  result = [MSDBStorage bindStatement:statement inOpenedDatabase:db withValues:values];
+  result = [MSDBStorage bindStatement:statement inOpenedDatabase:db toValues:values];
   if (result == SQLITE_OK) {
     result = block(statement);
   }
@@ -350,7 +348,7 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
   return result;
 }
 
-+ (int)bindStatement:(sqlite3_stmt *)query inOpenedDatabase:(void *)db withValues:(nullable NSArray *)values {
++ (int)bindStatement:(sqlite3_stmt *)query inOpenedDatabase:(void *)db toValues:(nullable NSArray *)values {
   for (int i = 0; i < (int)values.count; i++) {
     int result;
     NSObject *value = values[i];
@@ -427,7 +425,6 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
 
   /*
    * Convert values.
-   * TODO: Add here any other type it needs.
    */
   int columnType = sqlite3_column_type(statement, index);
   switch (columnType) {
@@ -436,7 +433,7 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
   case SQLITE_TEXT:
     return [NSString stringWithUTF8String:(const char *)sqlite3_column_text(statement, index)];
   default:
-    MSLogError([MSAppCenter logTag], @"Could not retrieve column value at index %d from statement: unknown type.", index);
+    MSLogError([MSAppCenter logTag], @"Could not retrieve column value at index %d from statement: unknown type %d.", index, columnType);
     return [NSNull null];
   }
 }
@@ -527,7 +524,7 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
   int result;
   NSString *statement = [NSString stringWithFormat:@"PRAGMA max_page_count = %ld", maxPageCount];
 
-  // We use a slection query here because pragma set returns a value.
+  // We use a selection query here because pragma set returns a value.
   [MSDBStorage executeSelectionQuery:statement inOpenedDatabase:db result:&result withValues:nil];
   return result;
 }

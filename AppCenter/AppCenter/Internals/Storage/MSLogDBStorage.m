@@ -90,10 +90,7 @@ static const NSUInteger kMSSchemaVersion = 4;
              NSString *query =
                  [NSString stringWithFormat:@"SELECT \"%@\" FROM \"%@\" WHERE \"%@\" <= ? ORDER BY \"%@\" ASC, \"%@\" ASC", kMSIdColumnName,
                                             kMSLogTableName, kMSPriorityColumnName, kMSPriorityColumnName, kMSIdColumnName];
-             NSArray<NSArray *> *entries =
-                 [MSDBStorage executeSelectionQuery:query
-                                   inOpenedDatabase:db
-                                         withValues:@[ @(flags) ]];
+             NSArray<NSArray *> *entries = [MSDBStorage executeSelectionQuery:query inOpenedDatabase:db withValues:@[ @(flags) ]];
              logsCanBeDeleted = [NSMutableArray new];
              for (NSMutableArray *row in entries) {
                [logsCanBeDeleted addObject:row[0]];
