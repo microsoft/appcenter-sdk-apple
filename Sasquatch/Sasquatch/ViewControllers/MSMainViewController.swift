@@ -220,18 +220,6 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     alertController.addTextField { (appSecretTextField) in
       appSecretTextField.text = UserDefaults.standard.string(forKey: kMSAppSecret) ?? self.appCenter.appSecret()
     }
-    let aadAction = UIAlertAction(title:"AAD Secret", style: .default, handler: {
-      (_ action : UIAlertAction) -> Void in
-      let text = self.appCenter.appSecretAAD();
-      UserDefaults.standard.set(text, forKey: kMSAppSecret)
-      self.appSecret.text = text
-    })
-    let b2cAction = UIAlertAction(title:"B2C Secret", style: .default, handler: {
-      (_ action : UIAlertAction) -> Void in
-      let text = self.appCenter.appSecretB2C();
-      UserDefaults.standard.set(text, forKey: kMSAppSecret)
-      self.appSecret.text = text
-    })
     let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
     let saveAction = UIAlertAction(title: "Save", style: .default, handler: {
       (_ action : UIAlertAction) -> Void in
@@ -246,8 +234,6 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     })
     alertController.addAction(cancelAction)
     alertController.addAction(saveAction)
-    alertController.addAction(aadAction)
-    alertController.addAction(b2cAction)
     alertController.addAction(resetAction)
     self.present(alertController, animated: true, completion: nil)
   }
