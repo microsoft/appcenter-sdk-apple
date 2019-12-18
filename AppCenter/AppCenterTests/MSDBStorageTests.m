@@ -439,7 +439,6 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
                                                @"VALUES (?, ?, ?)",
                                                kMSTestTableName, kMSTestPersonColName, kMSTestHungrinessColName, kMSTestMealColName];
   MSStorageBindableArray *array = [MSStorageBindableArray new];
-  [array addNumber:@(1)];
   [array addString:expectedPerson];
   [array addString:expectedHungriness.stringValue];
   [array addString:expectedMeal];
@@ -467,9 +466,10 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
       stringWithFormat:@"UPDATE \"%@\" SET \"%@\" = ? WHERE \"%@\" = ?", kMSTestTableName, kMSTestMealColName, kMSTestPositionColName];
 
   // When
-  MSStorageBindableArray *values = [MSStorageBindableArray new];
-  [values addNumber:@(1)];
-  result = [self.sut executeNonSelectionQuery:query withValues:values];
+  array = [MSStorageBindableArray new];
+  [array addString:expectedMeal];
+  [array addNumber:@(1)];
+  result = [self.sut executeNonSelectionQuery:query withValues:array];
 
   // Then
   assertThatInteger(result, equalToInt(SQLITE_OK));
@@ -487,7 +487,9 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   query = [NSString stringWithFormat:@"DELETE FROM \"%@\" WHERE \"%@\" = ?;", kMSTestTableName, kMSTestPositionColName];
 
   // When
-  result = [self.sut executeNonSelectionQuery:query withValues:values];
+  array = [MSStorageBindableArray new];
+  [array addNumber:@(1)];
+  result = [self.sut executeNonSelectionQuery:query withValues:array];
 
   // Then
   assertThatInteger(result, equalToInt(SQLITE_OK));
