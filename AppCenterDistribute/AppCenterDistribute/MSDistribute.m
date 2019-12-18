@@ -17,6 +17,7 @@
 #import "MSDistributionStartSessionLog.h"
 #import "MSErrorDetails.h"
 #import "MSGuidedAccessUtil.h"
+#import "MSHttpClient.h"
 #import "MSKeychainUtil.h"
 #import "MSSessionContext.h"
 
@@ -350,11 +351,12 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
         [queryStrings addEntriesFromDictionary:reportingParametersForUpdatedRelease];
       }
       queryStrings[kMSURLQueryReleaseHashKey] = releaseHash;
-      self.ingestion = [[MSDistributeIngestion alloc] initWithBaseUrl:self.apiUrl
-                                                            appSecret:self.appSecret
-                                                          updateToken:updateToken
-                                                  distributionGroupId:distributionGroupId
-                                                         queryStrings:queryStrings];
+      self.ingestion = [[MSDistributeIngestion alloc] initWithHttpClient:[MSHttpClient new]
+                                                                 baseUrl:self.apiUrl
+                                                               appSecret:self.appSecret
+                                                             updateToken:updateToken
+                                                     distributionGroupId:distributionGroupId
+                                                            queryStrings:queryStrings];
       __weak typeof(self) weakSelf = self;
       [self.ingestion sendAsync:nil
               completionHandler:^(__unused NSString *callId, NSHTTPURLResponse *response, NSData *data, __unused NSError *error) {
@@ -577,7 +579,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     if (!strongSelf) {
       return;
     }
-    [strongSelf clearAuthenticationSession];
+    strongSelf.authenticationSession = nil;
     if (error) {
       MSLogDebug([MSDistribute logTag], @"Called %@ with error: %@", callbackUrl, error.localizedDescription);
     }
@@ -588,7 +590,9 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
       [strongSelf openURL:callbackUrl];
     }
   };
-  SFAuthenticationSession *session = [[SFAuthenticationSession alloc] initWithURL:url callbackURLScheme:callbackUrlScheme completionHandler:authCompletionBlock];
+  SFAuthenticationSession *session = [[SFAuthenticationSession alloc] initWithURL:url
+                                                                callbackURLScheme:callbackUrlScheme
+                                                                completionHandler:authCompletionBlock];
 
   // Retain the session.
   self.authenticationSession = session;
@@ -1098,16 +1102,6 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 }
 
 - (void)applicationDidEnterBackground {
-  [self clearAuthenticationSession];
-}
-
-- (void)clearAuthenticationSession {
-  if (@available(iOS 11.0, *)) {
-    SFAuthenticationSession* session = self.authenticationSession;
-
-    // Dismiss view controller if currently presented. Fix uncaused access to SFBrowserRemoteViewController.
-    [session cancel];
-  }
   self.authenticationSession = nil;
 }
 
