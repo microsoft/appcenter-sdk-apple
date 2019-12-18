@@ -439,6 +439,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
                                                @"VALUES (?, ?, ?)",
                                                kMSTestTableName, kMSTestPersonColName, kMSTestHungrinessColName, kMSTestMealColName];
   MSStorageBindableArray *array = [MSStorageBindableArray new];
+  [array addNumber:@(1)];
   [array addString:expectedPerson];
   [array addString:expectedHungriness.stringValue];
   [array addString:expectedMeal];

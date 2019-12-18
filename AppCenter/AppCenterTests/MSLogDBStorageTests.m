@@ -9,6 +9,8 @@
 #import "MSLogDBStorageVersion.h"
 #import "MSLogWithProperties.h"
 #import "MSStorageBindableArray.h"
+#import "MSStorageBindableType.h"
+#import "MSStorageNumberType.h"
 #import "MSStorageTestUtil.h"
 #import "MSTestFrameworks.h"
 #import "MSUtility.h"
@@ -1024,11 +1026,11 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   OCMVerify([classMock executeNonSelectionQuery:OCMOCK_ANY
                                inOpenedDatabase:[OCMArg anyPointer]
                                      withValues:[OCMArg checkWithBlock:^BOOL(id obj) {
-                                       for (NSObject *value in (NSArray *)obj) {
-                                         if (![value isKindOfClass:[NSNumber class]]) {
+                                       for (id<MSStorageBindableType> value in ((MSStorageBindableArray *)obj).array) {
+                                         if (![value isKindOfClass:[MSStorageNumberType class]]) {
                                            continue;
                                          }
-                                         if ([(NSNumber *)value isEqualToNumber:@(expectedTimestampMs)]) {
+                                         if ([[(MSStorageNumberType *)value value] isEqualToNumber:@(expectedTimestampMs)]) {
                                            return YES;
                                          }
                                        }
@@ -1053,11 +1055,11 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   OCMVerify([classMock executeSelectionQuery:OCMOCK_ANY
                             inOpenedDatabase:[OCMArg anyPointer]
                                   withValues:[OCMArg checkWithBlock:^BOOL(id obj) {
-                                    for (NSObject *value in (NSArray *)obj) {
-                                      if (![value isKindOfClass:[NSNumber class]]) {
+                                    for (id<MSStorageBindableType> value in ((MSStorageBindableArray *)obj).array) {
+                                      if (![value isKindOfClass:[MSStorageNumberType class]]) {
                                         continue;
                                       }
-                                      if ([(NSNumber *)value isEqualToNumber:@(expectedTimestampMs)]) {
+                                      if ([[(MSStorageNumberType *)value value] isEqualToNumber:@(expectedTimestampMs)]) {
                                         return YES;
                                       }
                                     }
@@ -1089,11 +1091,11 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   OCMVerify([classMock executeSelectionQuery:OCMOCK_ANY
                             inOpenedDatabase:[OCMArg anyPointer]
                                   withValues:[OCMArg checkWithBlock:^BOOL(id obj) {
-                                    for (NSObject *value in (NSArray *)obj) {
-                                      if (![value isKindOfClass:[NSNumber class]]) {
+                                    for (id<MSStorageBindableType> value in ((MSStorageBindableArray *)obj).array) {
+                                      if (![value isKindOfClass:[MSStorageNumberType class]]) {
                                         continue;
                                       }
-                                      if ([(NSNumber *)value isEqualToNumber:@(expectedAfterTimestampMs)]) {
+                                      if ([[(MSStorageNumberType *)value value] isEqualToNumber:@(expectedAfterTimestampMs)]) {
                                         return YES;
                                       }
                                     }
@@ -1102,11 +1104,11 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   OCMVerify([classMock executeSelectionQuery:OCMOCK_ANY
                             inOpenedDatabase:[OCMArg anyPointer]
                                   withValues:[OCMArg checkWithBlock:^BOOL(id obj) {
-                                    for (NSObject *value in (NSArray *)obj) {
-                                      if (![value isKindOfClass:[NSNumber class]]) {
+                                    for (id<MSStorageBindableType> value in ((MSStorageBindableArray *)obj).array) {
+                                      if (![value isKindOfClass:[MSStorageNumberType class]]) {
                                         continue;
                                       }
-                                      if ([(NSNumber *)value isEqualToNumber:@(expectedBeforeTimestampMs)]) {
+                                      if ([[(MSStorageNumberType *)value value] isEqualToNumber:@(expectedBeforeTimestampMs)]) {
                                         return YES;
                                       }
                                     }
@@ -1504,7 +1506,7 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
                                                           kMSIdColumnName, kMSLogTableName, kMSPriorityColumnName, kMSIdColumnName];
 
     MSStorageBindableArray *values = [MSStorageBindableArray new];
-    [values addNumber:@((unsigned int)flag)];
+    [values addNumber:@([flag unsignedIntValue])];
     NSArray<NSArray *> *entries = [MSDBStorage executeSelectionQuery:selectLogQuery inOpenedDatabase:db withValues:values];
     NSMutableArray *priorityIds = [NSMutableArray new];
     for (NSMutableArray *row in entries) {
