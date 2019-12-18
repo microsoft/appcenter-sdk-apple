@@ -107,16 +107,6 @@
          </FileRef>
       </Group>
       <Group
-         location = "group:AppCenterAuth"
-         name = "AppCenterAuth">
-         <FileRef
-            location = "group:build-appcenterauth-ios-framework.sh">
-         </FileRef>
-         <FileRef
-            location = "group:build-appcenterauth-macos-framework.sh">
-         </FileRef>
-      </Group>
-      <Group
          location = "group:AppCenterCrashes"
          name = "AppCenterCrashes">
          <FileRef
@@ -127,16 +117,6 @@
          </FileRef>
          <FileRef
             location = "group:build-appcentercrashes-tvos-framework.sh">
-         </FileRef>
-      </Group>
-      <Group
-         location = "group:AppCenterData"
-         name = "AppCenterData">
-         <FileRef
-            location = "group:build-appcenterdata-ios-framework.sh">
-         </FileRef>
-         <FileRef
-            location = "group:build-appcenterdata-macos-framework.sh">
          </FileRef>
       </Group>
       <Group

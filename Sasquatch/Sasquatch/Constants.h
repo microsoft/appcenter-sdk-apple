@@ -32,10 +32,8 @@ static NSString *const kMSObjCRuntimeTargetToken = @"1aa046cfdc8f49bdbd64190290c
 #endif
 
 static NSString *const kMSPuppetAppSecret = @"65dc3680-7325-4000-a0e7-dbd2276eafd1";
-static NSString *const kMSPuppetAADAppSecret = @"66957d63-b484-43e6-bb8d-b89bf37a1c08";
 static NSString *const kMSObjcAppSecret = @"3ccfe7f5-ec01-4de5-883c-f563bbbe147a";
 static NSString *const kMSSwiftAppSecret = @"0dbca56b-b9ae-4d53-856a-7c2856137d85";
-static NSString *const kMSSwiftObjcAADAppSecret = @"f9854e3a-0c8a-4774-9bf1-68f6dff8eb98";
 static NSString *const kMSStartTargetKey = @"startTarget";
 static NSString *const kMSStorageMaxSizeKey = @"storageMaxSize";
 static NSNotificationName const kUpdateAnalyticsResultNotification = @"updateAnalyticsResult";
@@ -54,8 +52,5 @@ static int const kMSStoragePageSize = 4096;
 
 static NSString *const kMSIntLogUrl = @"https://in-integration.dev.avalanch.es";
 static NSString *const kMSIntConfigUrl = @"https://config-integration.dev.avalanch.es";
-static NSString *const kMSIntTokenExchangeUrl = @"https://token-exchange-mbaas-integration.dev.avalanch.es/v0.1";
 static NSString *const kMSIntApiUrl = @"https://api-gateway-core-integration.dev.avalanch.es/v0.1";
 static NSString *const kMSIntInstallUrl = @"https://install.portal-server-core-integration.dev.avalanch.es";
-
-static NSString *const kMSDataUserPartition = @"user";
