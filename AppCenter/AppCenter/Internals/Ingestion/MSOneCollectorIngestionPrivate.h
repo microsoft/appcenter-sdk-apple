@@ -8,13 +8,21 @@
 @interface MSOneCollectorIngestion ()
 
 /**
- * Obfuscate the header values.
+ * Hide secret from the given token string.
  *
- * @param value The value that will be obfuscated.
- * @param key The HTTP header key.
+ * @param tokenString A token string.
  *
- * @return The obfuscated value.
+ * @return A obfuscated token string.
  */
-- (NSString *)obfuscateHeaderValue:(NSString *)value forKey:(NSString *)key;
+- (NSString *)obfuscateTargetTokens:(NSString *)tokenString;
+
+/**
+ * Hide secret from the given ticket string.
+ *
+ * @param ticketString A ticket string.
+ *
+ * @return A obfuscated ticket string.
+ */
+- (NSString *)obfuscateTickets:(NSString *)ticketString;
 
 @end

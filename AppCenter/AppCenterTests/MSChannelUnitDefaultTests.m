@@ -445,7 +445,6 @@ static NSString *const kMSTestGroupId = @"GroupId";
   assertThat(self.sut.ingestion, equalTo(self.ingestionMock));
   assertThat(self.sut.storage, equalTo(self.storageMock));
   assertThatUnsignedLong(self.sut.itemsCount, equalToInt(0));
-  OCMVerify([self.ingestionMock addDelegate:self.sut]);
 }
 
 - (void)testLogsSentWithSuccess {
@@ -618,7 +617,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
     [invocation getArgument:&ingestionBlock atIndex:4];
     [invocation getArgument:&logContainer atIndex:2];
   });
-  __block id responseMock = [MSHttpTestUtil createMockResponseForStatusCode:300 headers:nil];
+  __block id responseMock = [MSHttpTestUtil createMockResponseForStatusCode:500 headers:nil];
 
   // Stub the storage load for that log.
   OCMStub([self.storageMock loadLogsWithGroupId:kMSTestGroupId
@@ -1178,7 +1177,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   // When
   [self.sut setEnabled:NO andDeleteDataOnDisabled:NO];
   dispatch_async(self.logsDispatchQueue, ^{
-    [self.sut ingestionDidResume:ingestionMock];
+    [self.sut resumeWithIdentifyingObject:self];
   });
   [self.sut setEnabled:YES andDeleteDataOnDisabled:NO];
   dispatch_async(self.logsDispatchQueue, ^{
@@ -1186,7 +1185,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   });
   [self.sut setEnabled:NO andDeleteDataOnDisabled:NO];
   dispatch_async(self.logsDispatchQueue, ^{
-    [self.sut ingestionDidPause:ingestionMock];
+    [self.sut pauseWithIdentifyingObject:self];
     dispatch_async(self.logsDispatchQueue, ^{
       [self.sut setEnabled:YES andDeleteDataOnDisabled:NO];
     });
@@ -1390,72 +1389,6 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
-                               }];
-}
-
-- (void)testDisableAndDeleteDataOnIngestionFatalError {
-
-  // If
-  [self initChannelEndJobExpectation];
-
-  // When
-  [self.sut ingestionDidReceiveFatalError:self.ingestionMock];
-
-  // Then
-  [self enqueueChannelEndJobExpectation];
-  [self waitForExpectationsWithTimeout:kMSTestTimeout
-                               handler:^(NSError *error) {
-                                 assertThatBool(self.sut.enabled, isFalse());
-                                 OCMVerify([self.storageMock deleteLogsWithGroupId:self.sut.configuration.groupId]);
-                                 if (error) {
-                                   XCTFail(@"Expectation Failed with error: %@", error);
-                                 }
-                               }];
-}
-
-- (void)testPauseOnIngestionPaused {
-
-  // If
-  [self initChannelEndJobExpectation];
-  id ingestionMock = OCMProtocolMock(@protocol(MSIngestionProtocol));
-  id delegateMock = OCMProtocolMock(@protocol(MSChannelDelegate));
-  [self.sut addDelegate:delegateMock];
-
-  // When
-  [self.sut ingestionDidPause:ingestionMock];
-
-  // Then
-  [self enqueueChannelEndJobExpectation];
-  [self waitForExpectationsWithTimeout:kMSTestTimeout
-                               handler:^(NSError *error) {
-                                 if (error) {
-                                   XCTFail(@"Expectation Failed with error: %@", error);
-                                 }
-                                 XCTAssertTrue(self.sut.paused);
-                                 OCMVerify([delegateMock channel:self.sut didPauseWithIdentifyingObject:ingestionMock]);
-                               }];
-}
-
-- (void)testResumeOnIngestionResumed {
-
-  // If
-  [self initChannelEndJobExpectation];
-  id ingestionMock = OCMProtocolMock(@protocol(MSIngestionProtocol));
-  id delegateMock = OCMProtocolMock(@protocol(MSChannelDelegate));
-  [self.sut addDelegate:delegateMock];
-
-  // When
-  [self.sut ingestionDidResume:ingestionMock];
-
-  // Then
-  [self enqueueChannelEndJobExpectation];
-  [self waitForExpectationsWithTimeout:kMSTestTimeout
-                               handler:^(NSError *error) {
-                                 if (error) {
-                                   XCTFail(@"Expectation Failed with error: %@", error);
-                                 }
-                                 XCTAssertFalse(self.sut.paused);
-                                 OCMVerify([delegateMock channel:self.sut didResumeWithIdentifyingObject:ingestionMock]);
                                }];
 }
 

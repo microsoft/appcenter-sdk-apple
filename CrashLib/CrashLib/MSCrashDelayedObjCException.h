@@ -3,6 +3,6 @@
 
 #import "MSCrash.h"
 
-@interface MSCrashNSApp : MSCrash
+@interface MSCrashDelayedObjCException : MSCrash
 
 @end
