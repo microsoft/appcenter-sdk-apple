@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 #import "MSDBStorage.h"
-#import "MSStorageBindableType.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

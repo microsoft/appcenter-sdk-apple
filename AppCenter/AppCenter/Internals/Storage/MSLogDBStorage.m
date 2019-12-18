@@ -8,7 +8,6 @@
 #import "MSDBStoragePrivate.h"
 #import "MSLogDBStoragePrivate.h"
 #import "MSLogDBStorageVersion.h"
-#import "MSStorageBindableType.h"
 #import "MSStorageNullType.h"
 #import "MSStorageNumberType.h"
 #import "MSStorageTextType.h"
