@@ -545,6 +545,8 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
   // If
   __block NSObject *lock = [NSObject new], *syncCallback = [NSObject new];
+
+  // Needed for waiting start of background thread.
   dispatch_semaphore_t syncBackground = dispatch_semaphore_create(0);
   [self initChannelEndJobExpectation];
   __block id<MSLog> mockLog1 = [self getValidMockLog];
