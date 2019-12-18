@@ -432,6 +432,8 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
     return @(sqlite3_column_int(statement, index));
   case SQLITE_TEXT:
     return [NSString stringWithUTF8String:(const char *)sqlite3_column_text(statement, index)];
+  case SQLITE_NULL:
+    return [NSNull null];
   default:
     MSLogError([MSAppCenter logTag], @"Could not retrieve column value at index %d from statement: unknown type %d.", index, columnType);
     return [NSNull null];
