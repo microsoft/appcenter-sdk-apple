@@ -4,8 +4,6 @@
 #if !ACTIVE_COMPILATION_CONDITION_PUPPET
 import AppCenter
 import AppCenterAnalytics
-import AppCenterAuth
-import AppCenterData
 #endif
 
 /**
@@ -34,12 +32,10 @@ import AppCenterData
   func isAnalyticsEnabled() -> Bool
   func isCrashesEnabled() -> Bool
   func isDistributeEnabled() -> Bool
-  func isAuthEnabled() -> Bool
   func isPushEnabled() -> Bool
   func setAnalyticsEnabled(_ isEnabled: Bool)
   func setCrashesEnabled(_ isEnabled: Bool)
   func setDistributeEnabled(_ isEnabled: Bool)
-  func setAuthEnabled(_ isEnabled: Bool)
   func setPushEnabled(_ isEnabled: Bool)
 
   // MSAnalytics section.
@@ -63,10 +59,6 @@ import AppCenterData
   func showDistributeDisabledAlert()
   func showCustomConfirmationAlert()
 
-  // MSAuth section.
-  func signIn(_ completionHandler: @escaping (_ signInInformation:MSUserInformation?, _ error:Error?) -> Void)
-  func signOut()
-  
   // Last crash report section.
   func lastCrashReportIncidentIdentifier() -> String?
   func lastCrashReportReporterKey() -> String?
@@ -90,11 +82,4 @@ import AppCenterData
   func lastCrashReportDeviceCarrierName() -> String?
   func lastCrashReportDeviceCarrierCountry() -> String?
   func lastCrashReportDeviceAppNamespace() -> String?
-  
-  // MSData section
-  func listDocumentsWithPartition(_ partitionName: String, documentType: AnyClass, completionHandler: @escaping (_ paginatedDocuments:MSPaginatedDocuments) -> Void)
-  func createDocumentWithPartition(_ partitionName: String, documentId: String, document: MSDictionaryDocument, writeOptions: MSWriteOptions, completionHandler: @escaping (_ document:MSDocumentWrapper) -> Void)
-  func replaceDocumentWithPartition(_ partitionName: String, documentId: String, document: MSDictionaryDocument, writeOptions: MSWriteOptions, completionHandler: @escaping (_ document:MSDocumentWrapper) -> Void)
-  func deleteDocumentWithPartition(_ partitionName: String, documentId: String)
-  func readDocumentWithPartition(_ partitionName: String, documentId: String, documentType: AnyClass, completionHandler: @escaping (_ document:MSDocumentWrapper) -> Void)
 }
