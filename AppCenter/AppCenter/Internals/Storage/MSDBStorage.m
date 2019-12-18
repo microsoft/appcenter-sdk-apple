@@ -243,11 +243,10 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
 }
 
 + (BOOL)tableExists:(NSString *)tableName inOpenedDatabase:(void *)db result:(int *)result {
+  MSStorageBindableArray *values = [MSStorageBindableArray new];
+  [values addString:tableName];
   NSString *query = [NSString stringWithFormat:@"SELECT COUNT(*) FROM \"sqlite_master\" WHERE \"type\"='table' AND \"name\"=?;"];
-  NSArray<NSArray *> *entries = [MSDBStorage executeSelectionQuery:query
-                                                  inOpenedDatabase:db
-                                                            result:result
-                                                        withValues:@[ [[MSStorageTextType alloc] initWithValue:tableName] ]];
+  NSArray<NSArray *> *entries = [MSDBStorage executeSelectionQuery:query inOpenedDatabase:db result:result withValues:values];
   return entries.count > 0 && entries[0].count > 0 ? [(NSNumber *)entries[0][0] boolValue] : NO;
 }
 
@@ -342,7 +341,7 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
     MSLogError([MSAppCenter logTag], @"Failed to prepare SQLite statement, result=%d\n\t%@", result, errorMessage);
     return result;
   }
-  result = [MSDBStorage bindStatement:statement inOpenedDatabase:db toValues:values];
+  result = [values bindAllValuesWithStatement:statement inOpenedDatabase:db];
   if (result == SQLITE_OK) {
     result = block(statement);
   }
@@ -354,7 +353,7 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
   return result;
 }
 
-- (NSArray<NSArray *> *)executeSelectionQuery:(NSString *)query withValues:(nullable NSArray<id<MSStorageBindableType>> *)values {
+- (NSArray<NSArray *> *)executeSelectionQuery:(NSString *)query withValues:(nullable MSStorageBindableArray *)values {
   __block NSArray<NSArray *> *entries = nil;
   [self executeQueryUsingBlock:^int(void *db) {
     entries = [MSDBStorage executeSelectionQuery:query inOpenedDatabase:db withValues:values];
@@ -365,14 +364,14 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
 
 + (NSArray<NSArray *> *)executeSelectionQuery:(NSString *)query
                              inOpenedDatabase:(void *)db
-                                   withValues:(nullable NSArray<id<MSStorageBindableType>> *)values {
+                                   withValues:(nullable MSStorageBindableArray *)values {
   return [self executeSelectionQuery:query inOpenedDatabase:db result:nil withValues:values];
 }
 
 + (NSArray<NSArray *> *)executeSelectionQuery:(NSString *)query
                              inOpenedDatabase:(void *)db
                                        result:(int *)result
-                                   withValues:(nullable NSArray<id<MSStorageBindableType>> *)values {
+                                   withValues:(nullable MSStorageBindableArray *)values {
   NSMutableArray<NSMutableArray *> *entries = [NSMutableArray<NSMutableArray *> new];
   int queryResult = [MSDBStorage executeQuery:query
                              inOpenedDatabase:db
