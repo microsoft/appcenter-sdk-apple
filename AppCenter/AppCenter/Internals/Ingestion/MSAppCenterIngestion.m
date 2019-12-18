@@ -30,7 +30,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
   return self.appSecret != nil;
 }
 
-- (void)sendAsync:(NSObject *)data authToken:(NSString *)authToken completionHandler:(MSSendAsyncCompletionHandler)handler {
+- (void)sendAsync:(NSObject *)data completionHandler:(MSSendAsyncCompletionHandler)handler {
   MSLogContainer *container = (MSLogContainer *)data;
   NSString *batchId = container.batchId;
 
@@ -52,7 +52,6 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
     return;
   }
   [super sendAsync:data
-              authToken:authToken
       completionHandler:^(NSString *_Nonnull __unused callId, NSHTTPURLResponse *_Nullable response, NSData *_Nullable responseBody,
                           NSError *_Nullable error) {
         // Ignore the given call ID so that the container's batch ID can be used instead.
@@ -60,15 +59,9 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
       }];
 }
 
-- (NSDictionary *)getHeadersWithData:(nullable NSObject *__unused)data
-                                eTag:(nullable NSString *__unused)eTag
-                           authToken:(nullable NSString *)authToken {
+- (NSDictionary *)getHeadersWithData:(nullable NSObject *__unused)data eTag:(nullable NSString *__unused)eTag {
   NSMutableDictionary *httpHeaders = [self.httpHeaders mutableCopy];
-  [httpHeaders setValue:self.appSecret forKey:kMSHeaderAppSecretKey];
-  if ([authToken length] > 0) {
-    NSString *bearerTokenHeader = [NSString stringWithFormat:kMSBearerTokenHeaderFormat, authToken];
-    [httpHeaders setValue:bearerTokenHeader forKey:kMSAuthorizationHeaderKey];
-  }
+  [httpHeaders setValue: self.appSecret forKey:kMSHeaderAppSecretKey];
   return httpHeaders;
 }
 
@@ -92,9 +85,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
     // Obfuscate secrets.
     NSMutableArray<NSString *> *flattenedHeaders = [NSMutableArray<NSString *> new];
     [headers enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *value, BOOL *stop __unused) {
-      if ([key isEqualToString:kMSAuthorizationHeaderKey]) {
-        value = [MSHttpUtil hideAuthToken:value];
-      } else if ([key isEqualToString:kMSHeaderAppSecretKey]) {
+      if ([key isEqualToString:kMSHeaderAppSecretKey]) {
         value = [MSHttpUtil hideSecret:value];
       }
       [flattenedHeaders addObject:[NSString stringWithFormat:@"%@ = %@", key, value]];

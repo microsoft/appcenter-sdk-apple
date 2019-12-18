@@ -6,10 +6,6 @@
 
 #import "MSAbstractLogInternal.h"
 #import "MSAppCenter.h"
-#import "MSAuthTokenContext.h"
-#import "MSAuthTokenContextPrivate.h"
-#import "MSAuthTokenInfo.h"
-#import "MSAuthTokenValidityInfo.h"
 #import "MSChannelDelegate.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitDefault.h"
@@ -31,11 +27,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
 @interface MSChannelUnitDefault (Test)
 
-- (void)sendLogContainer:(MSLogContainer *__nonnull)container
-    withAuthTokenFromArray:(NSArray<MSAuthTokenValidityInfo *> *__nonnull)tokenArray
-                   atIndex:(NSUInteger)tokenIndex;
-
-- (void)flushQueueForTokenArray:(NSArray<MSAuthTokenValidityInfo *> *)tokenArray withTokenIndex:(NSUInteger)tokenIndex;
+- (void)sendLogContainer:(MSLogContainer *__nonnull)container;
 
 @end
 
@@ -50,7 +42,6 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
 @property(nonatomic) id storageMock;
 @property(nonatomic) id ingestionMock;
-@property(nonatomic) id authTokenContextMock;
 
 /**
  * Most of the channel APIs are asynchronous, this expectation is meant to be enqueued to the data dispatch queue at the end of the test
@@ -84,12 +75,6 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                                configuration:self.configuration
                                            logsDispatchQueue:self.logsDispatchQueue];
   self.settingsMock = [MSMockUserDefaults new];
-
-  // Auth token context.
-  [MSAuthTokenContext resetSharedInstance];
-  self.authTokenContextMock = OCMClassMock([MSAuthTokenContext class]);
-  OCMStub([self.authTokenContextMock sharedInstance]).andReturn(self.authTokenContextMock);
-  OCMStub([self.authTokenContextMock authTokenValidityArray]).andReturn(@ [[MSAuthTokenValidityInfo new]]);
 }
 
 - (void)tearDown {
@@ -97,8 +82,6 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
   // Stop mocks.
   [self.settingsMock stopMocking];
-  [self.authTokenContextMock stopMocking];
-  [MSAuthTokenContext resetSharedInstance];
   [super tearDown];
 }
 
@@ -156,10 +139,10 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
   // Requests counter.
   __block int sendCount = 0;
-  OCMStub([self.ingestionMock sendAsync:OCMOCK_ANY authToken:OCMOCK_ANY completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+  OCMStub([self.ingestionMock sendAsync:OCMOCK_ANY completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
     // Get ingestion block for later call.
     [invocation retainArguments];
-    [invocation getArgument:&ingestionBlock atIndex:4];
+    [invocation getArgument:&ingestionBlock atIndex:3];
     sendCount++;
   });
 
@@ -461,13 +444,11 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
   // Init mocks.
   id<MSLog> enqueuedLog = [self getValidMockLog];
-  __block NSString *actualAuthToken;
-  OCMStub([self.ingestionMock sendAsync:OCMOCK_ANY authToken:OCMOCK_ANY completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+  OCMStub([self.ingestionMock sendAsync:OCMOCK_ANY completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
     // Get ingestion block for later call.
     [invocation retainArguments];
     [invocation getArgument:&logContainer atIndex:2];
-    [invocation getArgument:&actualAuthToken atIndex:3];
-    [invocation getArgument:&ingestionBlock atIndex:4];
+    [invocation getArgument:&ingestionBlock atIndex:3];
   });
   __block id responseMock = [MSHttpTestUtil createMockResponseForStatusCode:200 headers:nil];
 
@@ -535,7 +516,6 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
-                                 XCTAssertNil(actualAuthToken);
                                }];
   [responseMock stopMocking];
 }
@@ -610,11 +590,11 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
   // Init mocks.
   id<MSLog> enqueuedLog = [self getValidMockLog];
-  OCMStub([self.ingestionMock sendAsync:OCMOCK_ANY authToken:OCMOCK_ANY completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+  OCMStub([self.ingestionMock sendAsync:OCMOCK_ANY completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
     // Get ingestion block for later call.
     [invocation retainArguments];
-    [invocation getArgument:&ingestionBlock atIndex:4];
     [invocation getArgument:&logContainer atIndex:2];
+    [invocation getArgument:&ingestionBlock atIndex:3];
   });
   __block id responseMock = [MSHttpTestUtil createMockResponseForStatusCode:500 headers:nil];
 
@@ -858,11 +838,11 @@ static NSString *const kMSTestGroupId = @"GroupId";
   expectedLog.sid = MS_UUID_STRING;
 
   // Set up mock and stubs.
-  OCMStub([self.ingestionMock sendAsync:OCMOCK_ANY authToken:OCMOCK_ANY completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+  OCMStub([self.ingestionMock sendAsync:OCMOCK_ANY completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
     MSLogContainer *container;
     [invocation retainArguments];
     [invocation getArgument:&container atIndex:2];
-    [invocation getArgument:&ingestionBlock atIndex:4];
+    [invocation getArgument:&ingestionBlock atIndex:3];
     if (container) {
       [sentBatchIds addObject:container.batchId];
     }
@@ -928,11 +908,11 @@ static NSString *const kMSTestGroupId = @"GroupId";
   expectedLog.sid = MS_UUID_STRING;
 
   // Init mocks.
-  OCMStub([self.ingestionMock sendAsync:OCMOCK_ANY authToken:OCMOCK_ANY completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+  OCMStub([self.ingestionMock sendAsync:OCMOCK_ANY completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
     // Get ingestion block for later call.
     [invocation retainArguments];
-    [invocation getArgument:&ingestionBlock atIndex:4];
     [invocation getArgument:&lastBatchLogContainer atIndex:2];
+    [invocation getArgument:&ingestionBlock atIndex:3];
   });
   __block id responseMock = [MSHttpTestUtil createMockResponseForStatusCode:200 headers:nil];
 
@@ -1612,106 +1592,6 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                  assertThatUnsignedLong(excludedKeys.count, equalToUnsignedLong(1));
                                  XCTAssertTrue([excludedKeys containsObject:targetKey]);
                                }];
-}
-
-- (void)testFlushQueueIteratesThroughArrayRecursively {
-
-  // If
-  [self initChannelEndJobExpectation];
-  NSArray<NSNumber *> *datesValues = @[ @1, @60, @120, @180, @240 ];
-  NSMutableArray<NSNumber *> *logsCount = [@[ @0, @199, @0, @5 ] mutableCopy];
-
-  // Fill the values.
-  NSMutableArray<NSDate *> *dates = [NSMutableArray<NSDate *> new];
-  for (NSUInteger i = 0; i < datesValues.count; i++) {
-    [dates addObject:[NSDate dateWithTimeIntervalSince1970:[datesValues[i] doubleValue]]];
-  }
-  NSMutableArray<MSAuthTokenValidityInfo *> *tokenValidityArray = [NSMutableArray<MSAuthTokenValidityInfo *> new];
-  for (NSUInteger i = 0; i < dates.count - 1; i++) {
-    NSString *token = [NSString stringWithFormat:@"token%tu", i];
-    [tokenValidityArray addObject:[[MSAuthTokenValidityInfo alloc] initWithAuthToken:token startTime:dates[i] endTime:dates[i + 1]]];
-  }
-
-  // Configure ingestion mock.
-  NSMutableDictionary<NSString *, MSSendAsyncCompletionHandler> *sendingBatches = [NSMutableDictionary new];
-  OCMStub([self.ingestionMock sendAsync:OCMOCK_ANY authToken:OCMOCK_ANY completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
-    [invocation retainArguments];
-    MSLogContainer *logContainer;
-    [invocation getArgument:&logContainer atIndex:2];
-    MSSendAsyncCompletionHandler completionHandler;
-    [invocation getArgument:&completionHandler atIndex:4];
-    sendingBatches[logContainer.batchId] = completionHandler;
-  });
-
-  // Configure storage mock.
-  __block NSUInteger batchCount = 0;
-  OCMStub([self.storageMock countLogsBeforeDate:dates[1]]).andReturn(0);
-  OCMStub([self.storageMock loadLogsWithGroupId:self.sut.configuration.groupId
-                                          limit:self.sut.configuration.batchSizeLimit
-                             excludedTargetKeys:OCMOCK_ANY
-                                      afterDate:OCMOCK_ANY
-                                     beforeDate:OCMOCK_ANY
-                              completionHandler:OCMOCK_ANY])
-      .andDo(^(NSInvocation *invocation) {
-        // TODO (improvement): in-memory storage mock implementation would be nice here.
-
-        // Read the arguments.
-        NSUInteger limit;
-        [invocation getArgument:&limit atIndex:3];
-        NSDate *dateAfter;
-        [invocation getArgument:&dateAfter atIndex:5];
-        NSDate *dateBefore;
-        [invocation getArgument:&dateBefore atIndex:6];
-        MSLoadDataCompletionHandler completionHandler;
-        [invocation getArgument:&completionHandler atIndex:7];
-
-        // Simulate loading.
-        BOOL availableBatchFromStorage = NO;
-        for (NSUInteger i = 0; i < tokenValidityArray.count; i++) {
-          if ([dateAfter isEqualToDate:dates[i]] && [dateBefore isEqualToDate:dates[i + 1]]) {
-            NSUInteger count = [logsCount[i] unsignedIntegerValue];
-            if (count > limit) {
-              availableBatchFromStorage = YES;
-              logsCount[i] = @(count - limit);
-            }
-            NSString *batchId = [@"batch" stringByAppendingString:[@(batchCount++) stringValue]];
-            completionHandler([self getValidMockLogArrayForDate:dates[i] andCount:count], batchId);
-            break;
-          }
-        }
-        [invocation setReturnValue:&availableBatchFromStorage];
-      });
-
-  // When
-  OCMReject([self.authTokenContextMock removeAuthToken:isNot(equalTo(@"token0"))]);
-  [self.sut flushQueueForTokenArray:tokenValidityArray withTokenIndex:0];
-
-  // Finalize some of the ingestion calls.
-  id response = OCMClassMock([NSHTTPURLResponse class]);
-  OCMStub([response statusCode]).andReturn(MSHTTPCodesNo200OK);
-  sendingBatches[@"batch1"](@"batch1", response, nil, nil);
-  sendingBatches[@"batch2"](@"batch2", response, nil, nil);
-
-  // Then
-  OCMVerify([self.authTokenContextMock removeAuthToken:@"token0"]);
-  OCMVerify([self.ingestionMock sendAsync:hasProperty(@"batchId", @"batch1") authToken:@"token1" completionHandler:OCMOCK_ANY]);
-  OCMVerify([self.ingestionMock sendAsync:hasProperty(@"batchId", @"batch2") authToken:@"token1" completionHandler:OCMOCK_ANY]);
-  OCMVerify([self.ingestionMock sendAsync:hasProperty(@"batchId", @"batch3") authToken:@"token1" completionHandler:OCMOCK_ANY]);
-  [self enqueueChannelEndJobExpectation];
-  [self waitForExpectationsWithTimeout:kMSTestTimeout
-                               handler:^(NSError *error) {
-                                 if (error) {
-                                   XCTFail(@"Expectation Failed with error: %@", error);
-                                 }
-                                 OCMVerify([self.ingestionMock sendAsync:hasProperty(@"batchId", @"batch4")
-                                                               authToken:@"token1"
-                                                       completionHandler:OCMOCK_ANY]);
-                                 OCMVerify([self.ingestionMock sendAsync:hasProperty(@"batchId", @"batch6")
-                                                               authToken:@"token3"
-                                                       completionHandler:OCMOCK_ANY]);
-                                 OCMVerifyAll(self.authTokenContextMock);
-                               }];
-  [response stopMocking];
 }
 
 - (void)testLogsStoredWhenTargetKeyIsPaused {
