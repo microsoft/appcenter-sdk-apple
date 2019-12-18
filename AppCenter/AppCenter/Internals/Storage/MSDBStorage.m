@@ -5,8 +5,7 @@
 
 #import "MSAppCenterInternal.h"
 #import "MSDBStoragePrivate.h"
-#import "MSStorageBindableType.h"
-#import "MSStorageTextType.h"
+#import "MSStorageBindableArray.h"
 #import "MSUtility+File.h"
 
 static dispatch_once_t sqliteConfigurationResultOnceToken;
@@ -288,7 +287,7 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
 
 - (NSUInteger)countEntriesForTable:(NSString *)tableName
                          condition:(nullable NSString *)condition
-                        withValues:(nullable NSArray<id<MSStorageBindableType>> *)values {
+                        withValues:(nullable MSStorageBindableArray *)values {
   NSMutableString *countLogQuery = [NSMutableString stringWithFormat:@"SELECT COUNT(*) FROM \"%@\" ", tableName];
   if (condition.length > 0) {
     [countLogQuery appendFormat:@"WHERE %@", condition];
@@ -305,15 +304,13 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
   return [self executeNonSelectionQuery:query withValues:nil];
 }
 
-- (int)executeNonSelectionQuery:(NSString *)query withValues:(nullable NSArray<id<MSStorageBindableType>> *)values {
+- (int)executeNonSelectionQuery:(NSString *)query withValues:(nullable MSStorageBindableArray *)values {
   return [self executeQueryUsingBlock:^int(void *db) {
     return [MSDBStorage executeNonSelectionQuery:query inOpenedDatabase:db withValues:values];
   }];
 }
 
-+ (int)executeNonSelectionQuery:(NSString *)query
-               inOpenedDatabase:(void *)db
-                     withValues:(nullable NSArray<id<MSStorageBindableType>> *)values {
++ (int)executeNonSelectionQuery:(NSString *)query inOpenedDatabase:(void *)db withValues:(nullable MSStorageBindableArray *)values {
   return [MSDBStorage executeQuery:query
                   inOpenedDatabase:db
                         withValues:values
@@ -336,7 +333,7 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
 
 + (int)executeQuery:(NSString *)query
     inOpenedDatabase:(void *)db
-          withValues:(nullable NSArray<id<MSStorageBindableType>> *)values
+          withValues:(nullable MSStorageBindableArray *)values
           usingBlock:(MSDBStorageQueryBlock)block {
   sqlite3_stmt *statement = NULL;
   int result = sqlite3_prepare_v2(db, [query UTF8String], -1, &statement, NULL);
@@ -355,19 +352,6 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
     MSLogError([MSAppCenter logTag], @"Filed to finalize SQLite statement, result=%d\n\t%@", finalizeResult, errorMessage);
   }
   return result;
-}
-
-+ (int)bindStatement:(sqlite3_stmt *)query inOpenedDatabase:(void *)db toValues:(nullable NSArray<id<MSStorageBindableType>> *)values {
-  for (int i = 0; i < (int)values.count; i++) {
-    id<MSStorageBindableType> value = values[i];
-    int result = [value bindWithStatement:query atIndex:i + 1];
-    if (result != SQLITE_OK) {
-      MSLogError([MSAppCenter logTag], @"Binding query parameter %d failed with error: %d. Message: %@", i + 1, result,
-                 [NSString stringWithUTF8String:sqlite3_errmsg(db)]);
-      return result;
-    }
-  }
-  return SQLITE_OK;
 }
 
 - (NSArray<NSArray *> *)executeSelectionQuery:(NSString *)query withValues:(nullable NSArray<id<MSStorageBindableType>> *)values {

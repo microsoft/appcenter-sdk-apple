@@ -131,9 +131,7 @@ static const long kMSDefaultDatabaseSizeInBytes = 10 * 1024 * 1024;
  *
  * @return `YES` if the query executed successfully, otherwise `NO`.
  */
-+ (int)executeNonSelectionQuery:(NSString *)query
-               inOpenedDatabase:(void *)db
-                     withValues:(nullable NSArray<id<MSStorageBindableType>> *)values;
++ (int)executeNonSelectionQuery:(NSString *)query inOpenedDatabase:(void *)db withValues:(nullable MSStorageBindableArray *)values;
 
 /**
  * Execute a "SELECT" SQLite query on the database.
@@ -146,7 +144,7 @@ static const long kMSDefaultDatabaseSizeInBytes = 10 * 1024 * 1024;
  */
 + (NSArray<NSArray *> *)executeSelectionQuery:(NSString *)query
                              inOpenedDatabase:(void *)db
-                                   withValues:(nullable NSArray<id<MSStorageBindableType>> *)values;
+                                   withValues:(nullable MSStorageBindableArray *)values;
 
 /**
  * Execute a "SELECT" SQLite query on the database.
@@ -160,7 +158,7 @@ static const long kMSDefaultDatabaseSizeInBytes = 10 * 1024 * 1024;
 + (NSArray<NSArray *> *)executeSelectionQuery:(NSString *)query
                              inOpenedDatabase:(void *)db
                                        result:(nullable int *)result
-                                   withValues:(nullable NSArray<id<MSStorageBindableType>> *)values;
+                                   withValues:(nullable MSStorageBindableArray *)values;
 
 /**
  * Query the maximum number of pages (i.e.: SQLite "max_page_count") of the database.
