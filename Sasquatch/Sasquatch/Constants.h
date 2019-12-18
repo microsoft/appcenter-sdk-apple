@@ -54,8 +54,5 @@ static int const kMSStoragePageSize = 4096;
 
 static NSString *const kMSIntLogUrl = @"https://in-integration.dev.avalanch.es";
 static NSString *const kMSIntConfigUrl = @"https://config-integration.dev.avalanch.es";
-static NSString *const kMSIntTokenExchangeUrl = @"https://token-exchange-mbaas-integration.dev.avalanch.es/v0.1";
 static NSString *const kMSIntApiUrl = @"https://api-gateway-core-integration.dev.avalanch.es/v0.1";
 static NSString *const kMSIntInstallUrl = @"https://install.portal-server-core-integration.dev.avalanch.es";
-
-static NSString *const kMSDataUserPartition = @"user";

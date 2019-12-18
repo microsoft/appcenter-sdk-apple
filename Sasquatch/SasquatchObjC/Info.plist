@@ -28,16 +28,6 @@
 				<string>appcenter-3ccfe7f5-ec01-4de5-883c-f563bbbe147a</string>
 			</array>
 		</dict>
-		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleURLName</key>
-			<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>msal3ccfe7f5-ec01-4de5-883c-f563bbbe147a</string>
-			</array>
-		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>${BUILD_NUMBER}</string>
