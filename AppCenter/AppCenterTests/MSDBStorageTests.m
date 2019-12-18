@@ -4,10 +4,8 @@
 #import <sqlite3.h>
 
 #import "MSDBStoragePrivate.h"
-#import "MSStorageBindableType.h"
-#import "MSStorageNumberType.h"
+#import "MSStorageBindableArray.h"
 #import "MSStorageTestUtil.h"
-#import "MSStorageTextType.h"
 #import "MSTestFrameworks.h"
 #import "MSUtility+Date.h"
 #import "MSUtility+File.h"
@@ -363,12 +361,18 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   NSString *query1 = [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\") "
                                                 @"VALUES (?, ?, ?)",
                                                 tableToCreate, kMSTestPersonColName, kMSTestHungrinessColName, kMSTestMealColName];
-  NSArray *array1 = @[ expectedPerson1, expectedHungriness.stringValue, expectedMeal ];
+  MSStorageBindableArray *array1 = [MSStorageBindableArray new];
+  [array1 addString:expectedPerson1];
+  [array1 addString:expectedHungriness.stringValue];
+  [array1 addString:expectedMeal];
   NSString *expectedPerson2 = @"Second Hungry Guy";
   NSString *query2 = [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\") "
                                                 @"VALUES (?, ?, ?)",
                                                 tableToCreate, kMSTestPersonColName, kMSTestHungrinessColName, kMSTestMealColName];
-  NSArray *array2 = @[ expectedPerson2, expectedHungriness.stringValue, expectedMeal ];
+  MSStorageBindableArray *array2 = [MSStorageBindableArray new];
+  [array2 addString:expectedPerson2];
+  [array2 addString:expectedHungriness.stringValue];
+  [array2 addString:expectedMeal];
 
   // When
   int result = [self.sut executeNonSelectionQuery:query1 withValues:array1];
@@ -434,7 +438,10 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   NSString *query = [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\") "
                                                @"VALUES (?, ?, ?)",
                                                kMSTestTableName, kMSTestPersonColName, kMSTestHungrinessColName, kMSTestMealColName];
-  NSArray *array = @[ expectedPerson, expectedHungriness.stringValue, expectedMeal ];
+  MSStorageBindableArray *array = [MSStorageBindableArray new];
+  [array addString:expectedPerson];
+  [array addString:expectedHungriness.stringValue];
+  [array addString:expectedMeal];
   int result;
   NSArray *entry;
 
@@ -459,7 +466,9 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
       stringWithFormat:@"UPDATE \"%@\" SET \"%@\" = ? WHERE \"%@\" = ?", kMSTestTableName, kMSTestMealColName, kMSTestPositionColName];
 
   // When
-  result = [self.sut executeNonSelectionQuery:query withValues:@[ [[MSStorageNumberType alloc] initWithValue:@(1)] ]];
+  MSStorageBindableArray *values = [MSStorageBindableArray new];
+  [values addNumber:@(1)];
+  result = [self.sut executeNonSelectionQuery:query withValues:values];
 
   // Then
   assertThatInteger(result, equalToInt(SQLITE_OK));
@@ -477,7 +486,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   query = [NSString stringWithFormat:@"DELETE FROM \"%@\" WHERE \"%@\" = ?;", kMSTestTableName, kMSTestPositionColName];
 
   // When
-  result = [self.sut executeNonSelectionQuery:query withValues:@[ [[MSStorageNumberType alloc] initWithValue:@(1)] ]];
+  result = [self.sut executeNonSelectionQuery:query withValues:values];
 
   // Then
   assertThatInteger(result, equalToInt(SQLITE_OK));
@@ -522,7 +531,10 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   NSString *query = [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\") "
                                                @"VALUES (?, ?, ?)",
                                                kMSTestTableName, kMSTestPersonColName, kMSTestHungrinessColName, kMSTestMealColName];
-  NSArray *array = @[ expectedPerson, expectedHungriness.stringValue, expectedMeal ];
+  MSStorageBindableArray *array = [MSStorageBindableArray new];
+  [array addString:expectedPerson];
+  [array addString:expectedHungriness.stringValue];
+  [array addString:expectedMeal];
   [self.sut executeNonSelectionQuery:query withValues:array];
 
   // When
@@ -537,7 +549,10 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   query = [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\") "
                                      @"VALUES (?, ?, ?)",
                                      kMSTestTableName, kMSTestPersonColName, kMSTestHungrinessColName, kMSTestMealColName];
-  array = @[ expectedPerson, expectedHungriness.stringValue, expectedMeal ];
+  array = [MSStorageBindableArray new];
+  [array addString:expectedPerson];
+  [array addString:expectedHungriness.stringValue];
+  [array addString:expectedMeal];
   [self.sut executeNonSelectionQuery:query withValues:array];
 
   // When
@@ -547,9 +562,11 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   assertThatUnsignedInteger(count, equalToInt(2));
 
   // When
+  array = [MSStorageBindableArray new];
+  [array addString:expectedMeal];
   count = [self.sut countEntriesForTable:kMSTestTableName
                                condition:[NSString stringWithFormat:@"\"%@\" = ?", kMSTestMealColName]
-                              withValues:@[ [[MSStorageTextType alloc] initWithValue:expectedMeal] ]];
+                              withValues:array];
 
   // Then
   assertThatUnsignedInteger(count, equalToInt(1));
