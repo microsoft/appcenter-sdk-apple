@@ -60,7 +60,9 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
 }
 
 - (NSDictionary *)getHeadersWithData:(nullable NSObject *__unused)data eTag:(nullable NSString *__unused)eTag {
-  return @{kMSHeaderAppSecretKey : self.appSecret};
+  NSMutableDictionary *httpHeaders = [self.httpHeaders mutableCopy];
+  [httpHeaders setValue: self.appSecret forKey:kMSHeaderAppSecretKey];
+  return httpHeaders;
 }
 
 - (NSData *)getPayloadWithData:(nullable NSObject *)data {
