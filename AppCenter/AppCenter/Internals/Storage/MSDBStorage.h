@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+#import "MSStorageBindableType.h"
 #import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
@@ -62,7 +63,9 @@ static NSString *const kMSSQLiteConstraintAutoincrement = @"AUTOINCREMENT";
  *
  * @return The count of entries for this query.
  */
-- (NSUInteger)countEntriesForTable:(NSString *)tableName condition:(nullable NSString *)condition withValues:(nullable NSArray *)values;
+- (NSUInteger)countEntriesForTable:(NSString *)tableName
+                         condition:(nullable NSString *)condition
+                        withValues:(nullable NSArray<id<MSStorageBindableType>> *)values;
 
 /**
  * Execute a non selection SQLite query on the database (i.e.: "CREATE", "INSERT", "UPDATE"... but not "SELECT").
@@ -81,7 +84,7 @@ static NSString *const kMSSQLiteConstraintAutoincrement = @"AUTOINCREMENT";
  *
  * @return The SQLite return code.
  */
-- (int)executeNonSelectionQuery:(NSString *)query withValues:(nullable NSArray *)values;
+- (int)executeNonSelectionQuery:(NSString *)query withValues:(nullable NSArray<id<MSStorageBindableType>> *)values;
 
 /**
  * Execute a "SELECT" SQLite query on the database.
@@ -91,7 +94,7 @@ static NSString *const kMSSQLiteConstraintAutoincrement = @"AUTOINCREMENT";
  *
  * @return The selected entries.
  */
-- (NSArray<NSArray *> *)executeSelectionQuery:(NSString *)query withValues:(nullable NSArray *)values;
+- (NSArray<NSArray *> *)executeSelectionQuery:(NSString *)query withValues:(nullable NSArray<id<MSStorageBindableType>> *)values;
 
 /**
  * Get columns indexes from schema.

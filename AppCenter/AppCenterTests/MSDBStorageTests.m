@@ -4,7 +4,10 @@
 #import <sqlite3.h>
 
 #import "MSDBStoragePrivate.h"
+#import "MSStorageBindableType.h"
+#import "MSStorageNumberType.h"
 #import "MSStorageTestUtil.h"
+#import "MSStorageTextType.h"
 #import "MSTestFrameworks.h"
 #import "MSUtility+Date.h"
 #import "MSUtility+File.h"
@@ -456,7 +459,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
       stringWithFormat:@"UPDATE \"%@\" SET \"%@\" = ? WHERE \"%@\" = ?", kMSTestTableName, kMSTestMealColName, kMSTestPositionColName];
 
   // When
-  result = [self.sut executeNonSelectionQuery:query withValues:@[ expectedMeal, [NSNumber numberWithInt:1] ]];
+  result = [self.sut executeNonSelectionQuery:query withValues:@[ [[MSStorageNumberType alloc] initWithValue:@(1)] ]];
 
   // Then
   assertThatInteger(result, equalToInt(SQLITE_OK));
@@ -474,7 +477,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   query = [NSString stringWithFormat:@"DELETE FROM \"%@\" WHERE \"%@\" = ?;", kMSTestTableName, kMSTestPositionColName];
 
   // When
-  result = [self.sut executeNonSelectionQuery:query withValues:@[ [NSNumber numberWithInt:1] ]];
+  result = [self.sut executeNonSelectionQuery:query withValues:@[ [[MSStorageNumberType alloc] initWithValue:@(1)] ]];
 
   // Then
   assertThatInteger(result, equalToInt(SQLITE_OK));
@@ -546,7 +549,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   // When
   count = [self.sut countEntriesForTable:kMSTestTableName
                                condition:[NSString stringWithFormat:@"\"%@\" = ?", kMSTestMealColName]
-                              withValues:@[ expectedMeal ]];
+                              withValues:@[ [[MSStorageTextType alloc] initWithValue:expectedMeal] ]];
 
   // Then
   assertThatUnsignedInteger(count, equalToInt(1));
