@@ -1,35 +1,27 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-
 #if GCC_PREPROCESSOR_MACRO_PUPPET
 #import "AppCenter.h"
 #import "AppCenterAnalytics.h"
-#import "AppCenterAuth.h"
 #import "AppCenterCrashes.h"
-#import "AppCenterData.h"
 #import "AppCenterDistribute.h"
 #import "AppCenterPush.h"
 
 // Internal
 #import "MSAnalyticsInternal.h"
 #import "MSAppCenterInternal.h"
-#import "MSAuthPrivate.h"
 
 #elif GCC_PREPROCESSOR_MACRO_SASQUATCH_OBJC
 #import <AppCenter/AppCenter.h>
 #import <AppCenterAnalytics/AppCenterAnalytics.h>
-#import <AppCenterAuth/AppCenterAuth.h>
 #import <AppCenterCrashes/AppCenterCrashes.h>
-#import <AppCenterData/AppCenterData.h>
 #import <AppCenterDistribute/AppCenterDistribute.h>
 #import <AppCenterPush/AppCenterPush.h>
 #else
 @import AppCenter;
 @import AppCenterAnalytics;
-@import AppCenterAuth;
 @import AppCenterCrashes;
-@import AppCenterData;
 @import AppCenterDistribute;
 @import AppCenterPush;
 #endif
@@ -122,10 +114,6 @@
   return [MSDistribute isEnabled];
 }
 
-- (BOOL)isAuthEnabled {
-  return [MSAuth isEnabled];
-}
-
 - (BOOL)isPushEnabled {
   return [MSPush isEnabled];
 }
@@ -140,10 +128,6 @@
 
 - (void)setDistributeEnabled:(BOOL)isEnabled {
   return [MSDistribute setEnabled:isEnabled];
-}
-
-- (void)setAuthEnabled:(BOOL)isEnabled {
-  return [MSAuth setEnabled:isEnabled];
 }
 
 - (void)setPushEnabled:(BOOL)isEnabled {
@@ -242,25 +226,6 @@
   }
 }
 
-#pragma mark - MSAuth section.
-
-- (void)signIn:(void (^)(MSUserInformation *_Nullable, NSError *))completionHandler {
-  [MSAuth signInWithCompletionHandler:^(MSUserInformation *_Nullable userInformation, NSError *_Nullable error) {
-    if (!error) {
-      [[NSUserDefaults standardUserDefaults] setBool:true forKey:kMSUserIdentity];
-      NSLog(@"Auth.signIn succeeded, accountId=%@", userInformation.accountId);
-    } else {
-      NSLog(@"Auth.signIn failed, error=%@", error);
-    }
-    completionHandler(userInformation, error);
-  }];
-}
-
-- (void)signOut {
-  [MSAuth signOut];
-  [[NSUserDefaults standardUserDefaults] setBool:false forKey:kMSUserIdentity];
-}
-
 #pragma mark - Last crash report section.
 
 - (NSString *)lastCrashReportIncidentIdentifier {
@@ -349,52 +314,6 @@
 
 - (NSString *)lastCrashReportDeviceCarrierCountry {
   return [[[MSCrashes lastSessionCrashReport] device] carrierCountry];
-}
-
-// MSData section
-- (void)listDocumentsWithPartition:(NSString *)partitionName
-                      documentType:(Class)documentType
-                 completionHandler:(void (^)(MSPaginatedDocuments *))completionHandler {
-  [MSData listDocumentsWithType:documentType partition:partitionName completionHandler:completionHandler];
-}
-
-- (void)createDocumentWithPartition:(NSString *_Nonnull)partitionName
-                         documentId:(NSString *_Nonnull)documentId
-                           document:(MSDictionaryDocument *_Nonnull)document
-                       writeOptions:(MSWriteOptions *_Nonnull)writeOptions
-                  completionHandler:(void (^)(MSDocumentWrapper *))completionHandler {
-  [MSData createDocumentWithID:documentId
-                      document:document
-                     partition:partitionName
-                  writeOptions:writeOptions
-             completionHandler:completionHandler];
-}
-
-- (void)deleteDocumentWithPartition:(NSString *_Nonnull)partitionName documentId:(NSString *_Nonnull)documentId {
-  [MSData deleteDocumentWithID:documentId
-                     partition:partitionName
-             completionHandler:^(MSDocumentWrapper *_Nonnull document) {
-               NSLog(@"Data.delete document with id %@ succeeded", documentId);
-             }];
-}
-
-- (void)replaceDocumentWithPartition:(NSString *_Nonnull)partitionName
-                          documentId:(NSString *_Nonnull)documentId
-                            document:(MSDictionaryDocument *_Nonnull)document
-                        writeOptions:(MSWriteOptions *_Nonnull)writeOptions
-                   completionHandler:(void (^)(MSDocumentWrapper *))completionHandler {
-  [MSData replaceDocumentWithID:documentId
-                       document:document
-                      partition:partitionName
-                   writeOptions:writeOptions
-              completionHandler:completionHandler];
-}
-
-- (void)readDocumentWithPartition:(NSString *_Nonnull)partitionName
-                       documentId:(NSString *_Nonnull)documentId
-                     documentType:(Class)documentType
-                completionHandler:(void (^)(MSDocumentWrapper *))completionHandler {
-  [MSData readDocumentWithID:documentId documentType:documentType partition:partitionName completionHandler:completionHandler];
 }
 
 @end
