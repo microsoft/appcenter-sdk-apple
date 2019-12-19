@@ -3268,7 +3268,7 @@
 				DEVELOPMENT_TEAM = 9KBH5RKYEW;
 				INFOPLIST_FILE = SasquatchObjC/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.ios.sasquatch.objc;
-				PROVISIONING_PROFILE_SPECIFIER = "Sasquatch Objc Dogfood Distribution";
+				PROVISIONING_PROFILE_SPECIFIER = "Sasquatch IOS objc Dogfood Distribution";
 			};
 			name = Debug;
 		};
@@ -3282,7 +3282,7 @@
 				DEVELOPMENT_TEAM = 9KBH5RKYEW;
 				INFOPLIST_FILE = SasquatchObjC/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.ios.sasquatch.objc;
-				PROVISIONING_PROFILE_SPECIFIER = "Sasquatch Objc Dogfood Distribution";
+				PROVISIONING_PROFILE_SPECIFIER = "Sasquatch IOS objc Dogfood Distribution";
 			};
 			name = Release;
 		};
@@ -3350,7 +3350,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/SasquatchObjC/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.ios.sasquatch.objc;
 				PROVISIONING_PROFILE = "c90ca77a-13f2-4e01-b886-639926a829f5";
-				PROVISIONING_PROFILE_SPECIFIER = "Sasquatch Objc Dogfood Distribution";
+				PROVISIONING_PROFILE_SPECIFIER = "Sasquatch IOS objc Dogfood Distribution";
 			};
 			name = Debug;
 		};
@@ -3364,7 +3364,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/SasquatchObjC/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.ios.sasquatch.objc;
 				PROVISIONING_PROFILE = "b75f99a6-e2eb-48bb-8830-591610bc6b30";
-				PROVISIONING_PROFILE_SPECIFIER = "Sasquatch Objc Dogfood Distribution";
+				PROVISIONING_PROFILE_SPECIFIER = "Sasquatch IOS objc Dogfood Distribution";
 			};
 			name = Release;
 		};
