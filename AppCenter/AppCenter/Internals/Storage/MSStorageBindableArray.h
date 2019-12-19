@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import <sqlite3.h>
-
 #import "MSStorageBindableType.h"
 #import <Foundation/Foundation.h>
 
@@ -36,6 +34,6 @@
  * @param query sqlite statement.
  * @param db reference to database.
  */
-- (int)bindAllValuesWithStatement:(sqlite3_stmt *)query inOpenedDatabase:(void *)db;
+- (int)bindAllValuesWithStatement:(void *)query inOpenedDatabase:(void *)db;
 
 @end

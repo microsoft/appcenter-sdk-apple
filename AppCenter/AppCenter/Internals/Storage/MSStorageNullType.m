@@ -6,7 +6,7 @@
 
 @implementation MSStorageNullType
 
-- (int)bindWithStatement:(sqlite3_stmt *)query atIndex:(int)index {
+- (int)bindWithStatement:(void *)query atIndex:(int)index {
   return sqlite3_bind_null(query, index);
 }
 

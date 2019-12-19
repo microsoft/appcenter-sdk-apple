@@ -29,7 +29,7 @@
   [self.array addObject:[MSStorageNullType new]];
 }
 
-- (int)bindAllValuesWithStatement:(sqlite3_stmt *)query inOpenedDatabase:(void *)db {
+- (int)bindAllValuesWithStatement:(void *)query inOpenedDatabase:(void *)db {
   for (int i = 0; i < (int)self.array.count; i++) {
     id<MSStorageBindableType> value = self.array[i];
     int result = [value bindWithStatement:query atIndex:i + 1];

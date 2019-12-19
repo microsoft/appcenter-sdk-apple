@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 #import <Foundation/Foundation.h>
-#import <sqlite3.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -21,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return int result code.
  */
-- (int)bindWithStatement:(sqlite3_stmt *)query atIndex:(int)index;
+- (int)bindWithStatement:(void *)query atIndex:(int)index;
 
 @end
 

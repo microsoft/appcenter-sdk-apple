@@ -13,7 +13,7 @@
   return self;
 }
 
-- (int)bindWithStatement:(sqlite3_stmt *)query atIndex:(int)index {
+- (int)bindWithStatement:(void *)query atIndex:(int)index {
   return sqlite3_bind_int64(query, index, [self.value longLongValue]);
 }
 

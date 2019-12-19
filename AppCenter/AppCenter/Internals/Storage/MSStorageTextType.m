@@ -13,7 +13,7 @@
   return self;
 }
 
-- (int)bindWithStatement:(sqlite3_stmt *)query atIndex:(int)index {
+- (int)bindWithStatement:(void *)query atIndex:(int)index {
   return sqlite3_bind_text(query, index, [self.value UTF8String], -1, SQLITE_TRANSIENT);
 }
 
