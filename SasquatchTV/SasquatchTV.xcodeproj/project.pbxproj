@@ -1088,7 +1088,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/SasquatchTVObjC/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.tvos.sasquatch.objc;
 				PROVISIONING_PROFILE = "da9156c4-535c-4f0f-8739-c27cf24d0c0f";
-				PROVISIONING_PROFILE_SPECIFIER = "Sasquatch Objc tvos Dogfood tvos Distribution";
+				PROVISIONING_PROFILE_SPECIFIER = "sasquatch tvos objc dogfood Distribution";
 			};
 			name = Debug;
 		};
@@ -1101,7 +1101,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/SasquatchTVObjC/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.tvos.sasquatch.objc;
 				PROVISIONING_PROFILE = "d1a7ae61-73b6-47da-bbe1-84654ca9ea33";
-				PROVISIONING_PROFILE_SPECIFIER = "Sasquatch Objc tvos Dogfood tvos Distribution";
+				PROVISIONING_PROFILE_SPECIFIER = "sasquatch tvos objc dogfood Distribution";
 			};
 			name = Release;
 		};
@@ -1114,7 +1114,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/SasquatchTVSwift/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.tvos.sasquatch.swift;
 				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "Sasquatch TVOS Swift Dogfood Distribution";
+				PROVISIONING_PROFILE_SPECIFIER = "sasquatch tvos swift dogfood Distribution";
 			};
 			name = Debug;
 		};
@@ -1127,7 +1127,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/SasquatchTVSwift/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.tvos.sasquatch.swift;
 				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "Sasquatch TVOS Swift Dogfood Distribution";
+				PROVISIONING_PROFILE_SPECIFIER = "sasquatch tvos swift dogfood Distribution";
 			};
 			name = Release;
 		};
@@ -1156,7 +1156,7 @@
 				INFOPLIST_FILE = SasquatchTVSwift/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.tvos.sasquatch.swift;
 				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "Sasquatch TVOS Swift Dogfood Distribution";
+				PROVISIONING_PROFILE_SPECIFIER = "sasquatch tvos swift dogfood Distribution";
 			};
 			name = Debug;
 		};
@@ -1169,7 +1169,7 @@
 				INFOPLIST_FILE = SasquatchTVSwift/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.tvos.sasquatch.swift;
 				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "Sasquatch TVOS Swift Dogfood Distribution";
+				PROVISIONING_PROFILE_SPECIFIER = "sasquatch tvos swift dogfood Distribution";
 			};
 			name = Release;
 		};
@@ -1182,7 +1182,7 @@
 				INFOPLIST_FILE = SasquatchTVObjC/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.tvos.sasquatch.objc;
 				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "Sasquatch Objc tvos Dogfood tvos Distribution";
+				PROVISIONING_PROFILE_SPECIFIER = "sasquatch tvos objc dogfood Distribution";
 			};
 			name = Debug;
 		};
@@ -1195,7 +1195,7 @@
 				INFOPLIST_FILE = SasquatchTVObjC/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.tvos.sasquatch.objc;
 				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "Sasquatch Objc tvos Dogfood tvos Distribution";
+				PROVISIONING_PROFILE_SPECIFIER = "sasquatch tvos objc dogfood Distribution";
 			};
 			name = Release;
 		};
