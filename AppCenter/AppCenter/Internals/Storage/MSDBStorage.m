@@ -348,7 +348,7 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
   int finalizeResult = sqlite3_finalize(statement);
   if (finalizeResult != SQLITE_OK) {
     NSString *errorMessage = [NSString stringWithUTF8String:sqlite3_errmsg(db)];
-    MSLogError([MSAppCenter logTag], @"Filed to finalize SQLite statement, result=%d\n\t%@", finalizeResult, errorMessage);
+    MSLogError([MSAppCenter logTag], @"Failed to finalize SQLite statement, result=%d\n\t%@", finalizeResult, errorMessage);
   }
   return result;
 }
