@@ -385,7 +385,7 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
 
                                        // Loop on columns.
                                        for (int i = 0; i < sqlite3_column_count(statement); i++) {
-                                         NSObject *value = [MSDBStorage columnValueFromStatement:statement withIndex:i];
+                                         NSObject *value = [MSDBStorage columnValueFromStatement:statement atIndex:i];
                                          [entry addObject:value];
                                        }
                                        if (entry.count > 0) {
@@ -405,7 +405,7 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
   return entries;
 }
 
-+ (NSObject *)columnValueFromStatement:(sqlite3_stmt *)statement withIndex:(int)index {
++ (NSObject *)columnValueFromStatement:(sqlite3_stmt *)statement atIndex:(int)index {
 
   /*
    * Convert values.

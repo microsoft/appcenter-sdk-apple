@@ -6,7 +6,7 @@
 
 @implementation MSStorageTextType
 
-- (instancetype)initWithValue:(NSString *)value {
+- (instancetype)initWithValue:(nullable NSString *)value {
   if ((self = [super init])) {
     _value = value;
   }
@@ -14,7 +14,11 @@
 }
 
 - (int)bindWithStatement:(void *)query atIndex:(int)index {
-  return sqlite3_bind_text(query, index, [self.value UTF8String], -1, SQLITE_TRANSIENT);
+  if (self.value) {
+    return sqlite3_bind_text(query, index, [self.value UTF8String], -1, SQLITE_TRANSIENT);
+  } else {
+    return sqlite3_bind_null(query, index);
+  }
 }
 
 @end

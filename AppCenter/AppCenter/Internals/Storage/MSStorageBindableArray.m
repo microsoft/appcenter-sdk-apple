@@ -3,7 +3,6 @@
 
 #import "MSStorageBindableArray.h"
 #import "MSAppCenterInternal.h"
-#import "MSStorageNullType.h"
 #import "MSStorageNumberType.h"
 #import "MSStorageTextType.h"
 #import <sqlite3.h>
@@ -17,16 +16,12 @@
   return self;
 }
 
-- (void)addString:(NSString *)value {
+- (void)addString:(nullable NSString *)value {
   [self.array addObject:[[MSStorageTextType alloc] initWithValue:value]];
 }
 
-- (void)addNumber:(NSNumber *)value {
+- (void)addNumber:(nonnull NSNumber *)value {
   [self.array addObject:[[MSStorageNumberType alloc] initWithValue:value]];
-}
-
-- (void)addNullValue {
-  [self.array addObject:[MSStorageNullType new]];
 }
 
 - (int)bindAllValuesWithStatement:(void *)query inOpenedDatabase:(void *)db {

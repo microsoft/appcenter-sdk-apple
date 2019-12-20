@@ -7,11 +7,11 @@
 
 @interface MSStorageTextType : NSObject <MSStorageBindableType>
 
-@property(nonatomic) NSString *value;
+@property(nonatomic, nullable) NSString *value;
 
 /**
  * Initializer with a value represented as NSString.
  */
-- (instancetype)initWithValue:(NSString *)value;
+- (instancetype __nonnull)initWithValue:(nullable NSString *)value;
 
 @end

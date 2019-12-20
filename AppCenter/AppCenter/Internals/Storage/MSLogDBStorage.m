@@ -8,7 +8,6 @@
 #import "MSDBStoragePrivate.h"
 #import "MSLogDBStoragePrivate.h"
 #import "MSLogDBStorageVersion.h"
-#import "MSStorageNullType.h"
 #import "MSStorageNumberType.h"
 #import "MSStorageTextType.h"
 #import "MSUtility+StringFormatting.h"
@@ -78,11 +77,7 @@ static const NSUInteger kMSSchemaVersion = 4;
     [addLogValues addString:groupId];
     [addLogValues addString:base64Data];
     [addLogValues addString:encryptedToken];
-    if (targetKey) {
-      [addLogValues addString:targetKey];
-    } else {
-      [addLogValues addNullValue];
-    }
+    [addLogValues addString:targetKey];
     [addLogValues addNumber:@(persistenceFlags)];
     [addLogValues addNumber:@(timestampMs)];
     addLogQuery =

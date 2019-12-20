@@ -865,24 +865,18 @@
 		F8DC50D623AA828D00BF8839 /* MSStorageBindableType.h in Headers */ = {isa = PBXBuildFile; fileRef = F8DC50C823AA75FF00BF8839 /* MSStorageBindableType.h */; };
 		F8DC50D723AA828D00BF8839 /* MSStorageNumberType.h in Headers */ = {isa = PBXBuildFile; fileRef = F8DC50C923AA777400BF8839 /* MSStorageNumberType.h */; };
 		F8DC50D823AA828D00BF8839 /* MSStorageTextType.h in Headers */ = {isa = PBXBuildFile; fileRef = F8DC50CA23AA77CB00BF8839 /* MSStorageTextType.h */; };
-		F8DC50D923AA828D00BF8839 /* MSStorageNullType.h in Headers */ = {isa = PBXBuildFile; fileRef = F8DC50CB23AA77DD00BF8839 /* MSStorageNullType.h */; };
 		F8DC50DA23AA828D00BF8839 /* MSStorageTextType.m in Sources */ = {isa = PBXBuildFile; fileRef = F8DC50CC23AA77F700BF8839 /* MSStorageTextType.m */; };
 		F8DC50DB23AA828D00BF8839 /* MSStorageNumberType.m in Sources */ = {isa = PBXBuildFile; fileRef = F8DC50CE23AA7A3900BF8839 /* MSStorageNumberType.m */; };
-		F8DC50DC23AA828D00BF8839 /* MSStorageNullType.m in Sources */ = {isa = PBXBuildFile; fileRef = F8DC50D023AA7B0E00BF8839 /* MSStorageNullType.m */; };
 		F8DC50DD23AA828E00BF8839 /* MSStorageBindableType.h in Headers */ = {isa = PBXBuildFile; fileRef = F8DC50C823AA75FF00BF8839 /* MSStorageBindableType.h */; };
 		F8DC50DE23AA828E00BF8839 /* MSStorageNumberType.h in Headers */ = {isa = PBXBuildFile; fileRef = F8DC50C923AA777400BF8839 /* MSStorageNumberType.h */; };
 		F8DC50DF23AA828E00BF8839 /* MSStorageTextType.h in Headers */ = {isa = PBXBuildFile; fileRef = F8DC50CA23AA77CB00BF8839 /* MSStorageTextType.h */; };
-		F8DC50E023AA828E00BF8839 /* MSStorageNullType.h in Headers */ = {isa = PBXBuildFile; fileRef = F8DC50CB23AA77DD00BF8839 /* MSStorageNullType.h */; };
 		F8DC50E123AA828E00BF8839 /* MSStorageTextType.m in Sources */ = {isa = PBXBuildFile; fileRef = F8DC50CC23AA77F700BF8839 /* MSStorageTextType.m */; };
 		F8DC50E223AA828E00BF8839 /* MSStorageNumberType.m in Sources */ = {isa = PBXBuildFile; fileRef = F8DC50CE23AA7A3900BF8839 /* MSStorageNumberType.m */; };
-		F8DC50E323AA828E00BF8839 /* MSStorageNullType.m in Sources */ = {isa = PBXBuildFile; fileRef = F8DC50D023AA7B0E00BF8839 /* MSStorageNullType.m */; };
 		F8DC50E423AA828F00BF8839 /* MSStorageBindableType.h in Headers */ = {isa = PBXBuildFile; fileRef = F8DC50C823AA75FF00BF8839 /* MSStorageBindableType.h */; };
 		F8DC50E523AA828F00BF8839 /* MSStorageNumberType.h in Headers */ = {isa = PBXBuildFile; fileRef = F8DC50C923AA777400BF8839 /* MSStorageNumberType.h */; };
 		F8DC50E623AA828F00BF8839 /* MSStorageTextType.h in Headers */ = {isa = PBXBuildFile; fileRef = F8DC50CA23AA77CB00BF8839 /* MSStorageTextType.h */; };
-		F8DC50E723AA828F00BF8839 /* MSStorageNullType.h in Headers */ = {isa = PBXBuildFile; fileRef = F8DC50CB23AA77DD00BF8839 /* MSStorageNullType.h */; };
 		F8DC50E823AA828F00BF8839 /* MSStorageTextType.m in Sources */ = {isa = PBXBuildFile; fileRef = F8DC50CC23AA77F700BF8839 /* MSStorageTextType.m */; };
 		F8DC50E923AA828F00BF8839 /* MSStorageNumberType.m in Sources */ = {isa = PBXBuildFile; fileRef = F8DC50CE23AA7A3900BF8839 /* MSStorageNumberType.m */; };
-		F8DC50EA23AA828F00BF8839 /* MSStorageNullType.m in Sources */ = {isa = PBXBuildFile; fileRef = F8DC50D023AA7B0E00BF8839 /* MSStorageNullType.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1236,10 +1230,8 @@
 		F8DC50C823AA75FF00BF8839 /* MSStorageBindableType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSStorageBindableType.h; sourceTree = "<group>"; };
 		F8DC50C923AA777400BF8839 /* MSStorageNumberType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSStorageNumberType.h; sourceTree = "<group>"; };
 		F8DC50CA23AA77CB00BF8839 /* MSStorageTextType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSStorageTextType.h; sourceTree = "<group>"; };
-		F8DC50CB23AA77DD00BF8839 /* MSStorageNullType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSStorageNullType.h; sourceTree = "<group>"; };
 		F8DC50CC23AA77F700BF8839 /* MSStorageTextType.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSStorageTextType.m; sourceTree = "<group>"; };
 		F8DC50CE23AA7A3900BF8839 /* MSStorageNumberType.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSStorageNumberType.m; sourceTree = "<group>"; };
-		F8DC50D023AA7B0E00BF8839 /* MSStorageNullType.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSStorageNullType.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1913,10 +1905,8 @@
 				F8DC50C823AA75FF00BF8839 /* MSStorageBindableType.h */,
 				F8DC50C923AA777400BF8839 /* MSStorageNumberType.h */,
 				F8DC50CA23AA77CB00BF8839 /* MSStorageTextType.h */,
-				F8DC50CB23AA77DD00BF8839 /* MSStorageNullType.h */,
 				F8DC50CC23AA77F700BF8839 /* MSStorageTextType.m */,
 				F8DC50CE23AA7A3900BF8839 /* MSStorageNumberType.m */,
-				F8DC50D023AA7B0E00BF8839 /* MSStorageNullType.m */,
 				F8BA7A2823AA8A26009FBCCF /* MSStorageBindableArray.h */,
 				F8BA7A2C23AA8B84009FBCCF /* MSStorageBindableArray.m */,
 			);
@@ -2029,7 +2019,6 @@
 				F8936D7B230C2804006A330F /* MS_Reachability.h in Headers */,
 				F8DC50D723AA828D00BF8839 /* MSStorageNumberType.h in Headers */,
 				F8936D5A230C2804006A330F /* MSCustomPropertiesLog.h in Headers */,
-				F8DC50D923AA828D00BF8839 /* MSStorageNullType.h in Headers */,
 				F8936CEE230C2603006A330F /* MSAuthTokenContextPrivate.h in Headers */,
 				F8936D2A230C2804006A330F /* MSServiceInternal.h in Headers */,
 				F8936CBC230C24D9006A330F /* MSServiceAbstract.h in Headers */,
@@ -2166,7 +2155,6 @@
 				F8936D82230C2805006A330F /* MSServiceInternal.h in Headers */,
 				F8DC50DE23AA828E00BF8839 /* MSStorageNumberType.h in Headers */,
 				F8936CC8230C24DA006A330F /* MSServiceAbstract.h in Headers */,
-				F8DC50E023AA828E00BF8839 /* MSStorageNullType.h in Headers */,
 				F8936CFF230C2604006A330F /* MSChannelGroupDefaultPrivate.h in Headers */,
 				F8936D08230C2604006A330F /* MSOneCollectorIngestionPrivate.h in Headers */,
 				F8936DCA230C2805006A330F /* MSKeychainUtil.h in Headers */,
@@ -2303,7 +2291,6 @@
 				F8936DDA230C2805006A330F /* MSServiceInternal.h in Headers */,
 				F8DC50E523AA828F00BF8839 /* MSStorageNumberType.h in Headers */,
 				F8936CD4230C24DA006A330F /* MSServiceAbstract.h in Headers */,
-				F8DC50E723AA828F00BF8839 /* MSStorageNullType.h in Headers */,
 				F8936D13230C2604006A330F /* MSChannelGroupDefaultPrivate.h in Headers */,
 				F8936D1C230C2604006A330F /* MSOneCollectorIngestionPrivate.h in Headers */,
 				F8936E22230C2805006A330F /* MSKeychainUtil.h in Headers */,
@@ -2971,7 +2958,6 @@
 				F8936CA3230C23F0006A330F /* MSEncrypter.m in Sources */,
 				F8936CA4230C23F0006A330F /* MSHistoryInfo.m in Sources */,
 				F8936CA5230C23F0006A330F /* MSKeychainUtil.m in Sources */,
-				F8DC50DC23AA828D00BF8839 /* MSStorageNullType.m in Sources */,
 				F8936CA6230C23F0006A330F /* MSUtility.m in Sources */,
 				F8936CA7230C23F0006A330F /* MSUtility+Application.m in Sources */,
 				F8936CA8230C23F0006A330F /* MSUtility+Date.m in Sources */,
@@ -3052,7 +3038,6 @@
 				C9A9211D230C61820068070D /* MSEncrypter.m in Sources */,
 				C9A9212B230C61820068070D /* MSWrapperSdk.m in Sources */,
 				C9A920F1230C61820068070D /* MSAuthTokenContext.m in Sources */,
-				F8DC50E323AA828E00BF8839 /* MSStorageNullType.m in Sources */,
 				C9A9211B230C61820068070D /* MSLogDBStorage.m in Sources */,
 				C9A92115230C61820068070D /* MSDoubleTypedProperty.m in Sources */,
 				C9A92116230C61820068070D /* MSLongTypedProperty.m in Sources */,
@@ -3133,7 +3118,6 @@
 				C9A92163230C61830068070D /* MSEncrypter.m in Sources */,
 				C9A92171230C61830068070D /* MSWrapperSdk.m in Sources */,
 				C9A92137230C61830068070D /* MSAuthTokenContext.m in Sources */,
-				F8DC50EA23AA828F00BF8839 /* MSStorageNullType.m in Sources */,
 				C9A92161230C61830068070D /* MSLogDBStorage.m in Sources */,
 				C9A9215B230C61830068070D /* MSDoubleTypedProperty.m in Sources */,
 				C9A9215C230C61830068070D /* MSLongTypedProperty.m in Sources */,

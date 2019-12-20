@@ -4,6 +4,8 @@
 #import "MSStorageBindableType.h"
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface MSStorageBindableArray : NSObject
 
 /**
@@ -16,18 +18,14 @@
  * Adds a string object into array.
  * @param value NSString value to be added to the array.
  */
-- (void)addString:(NSString *)value;
+- (void)addString:(nullable NSString *)value;
 
 /**
  * Adds a number object into array.
  * @param value NSNumber value to be added to the array.
+ * Can not be nil since it means it's an error.
  */
 - (void)addNumber:(NSNumber *)value;
-
-/**
- * Adds a null value to the array.
- */
-- (void)addNullValue;
 
 /**
  * Binds all values in an array with given sqlite statement.
@@ -37,3 +35,5 @@
 - (int)bindAllValuesWithStatement:(void *)query inOpenedDatabase:(void *)db;
 
 @end
+
+NS_ASSUME_NONNULL_END
