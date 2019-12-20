@@ -580,7 +580,6 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     if (!strongSelf) {
       return;
     }
-    [strongSelf clearAuthenticationSession];
     if (error) {
       MSLogDebug([MSDistribute logTag], @"Called %@ with error: %@", callbackUrl, error.localizedDescription);
     }
@@ -599,9 +598,9 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   if (self.authenticationSession != nil) {
 
     // Calling 'start' on an existing session crashes the application - clear session.
-    [self clearAuthenticationSession];
+    [self.authenticationSession cancel];
   }
-  
+
   // Retain the session.
   self.authenticationSession = session;
 
@@ -1113,19 +1112,6 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   if (self.canBeUsed && self.isEnabled && ![MS_USER_DEFAULTS objectForKey:kMSUpdateTokenRequestIdKey]) {
     [self startUpdate];
   }
-}
-
-/**
- * Clear currently running SFAuthenticationSession.
- */
-- (void)clearAuthenticationSession API_AVAILABLE(ios(11)) {
-  SFAuthenticationSession *session = self.authenticationSession;
-
-  // Dismiss view controller if currently presented. Fix uncaused access to SFBrowserRemoteViewController.
-  [session cancel];
-
-  // Break strong reference to fix crash when an application is minimized while trying to reinstall after setup failure.
-  self.authenticationSession = nil;
 }
 
 - (void)dealloc {
