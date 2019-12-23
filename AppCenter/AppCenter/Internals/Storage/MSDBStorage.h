@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 #import "MSStorageBindableArray.h"
-#import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
