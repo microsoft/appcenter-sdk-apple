@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "MSStorageTextType.h"
 #import <sqlite3.h>
+
+#import "MSStorageTextType.h"
 
 @implementation MSStorageTextType
 

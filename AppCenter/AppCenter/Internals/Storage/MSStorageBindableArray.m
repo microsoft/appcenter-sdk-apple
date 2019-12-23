@@ -1,11 +1,12 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+#import <sqlite3.h>
+
 #import "MSStorageBindableArray.h"
 #import "MSAppCenterInternal.h"
 #import "MSStorageNumberType.h"
 #import "MSStorageTextType.h"
-#import <sqlite3.h>
 
 @implementation MSStorageBindableArray
 
