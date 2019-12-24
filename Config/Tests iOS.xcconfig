@@ -1,7 +1,6 @@
 #include "./Tests.xcconfig"
 #include "./iOS.xcconfig"
 
-OTHER_LDFLAGS = $(OTHER_LDFLAGS) -framework AuthenticationServices
 OTHER_LDFLAGS = $(OTHER_LDFLAGS) -framework CoreTelephony
 OTHER_LDFLAGS = $(OTHER_LDFLAGS) -framework SafariServices
 OTHER_LDFLAGS = $(OTHER_LDFLAGS) -framework UIKit
