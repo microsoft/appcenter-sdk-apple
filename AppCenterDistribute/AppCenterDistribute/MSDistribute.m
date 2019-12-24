@@ -604,7 +604,8 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   // Retain the session.
   self.authenticationSession = session;
 
-  /* Request additional background execution time for authorization. If we authorize using third-party services (MS Authenticator)
+  /* 
+   * Request additional background execution time for authorization. If we authorize using third-party services (MS Authenticator)
    * then switching to another application will kill the current session. This line fixes this problem.
    */
   backgroundAuthSessionTask = [[MSUtility sharedApp] beginBackgroundTaskWithName:@"Safari authentication"
