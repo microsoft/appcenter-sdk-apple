@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		78FBB4A8239FAD0100ADFA1F /* MSCrashNSApp.h in Headers */ = {isa = PBXBuildFile; fileRef = 78FBB4A6239FAD0000ADFA1F /* MSCrashNSApp.h */; };
-		78FBB4A9239FAD0100ADFA1F /* MSCrashNSApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 78FBB4A7239FAD0100ADFA1F /* MSCrashNSApp.m */; };
+		78FBB4A8239FAD0100ADFA1F /* MSCrashDelayedObjCException.h in Headers */ = {isa = PBXBuildFile; fileRef = 78FBB4A6239FAD0000ADFA1F /* MSCrashDelayedObjCException.h */; };
+		78FBB4A9239FAD0100ADFA1F /* MSCrashDelayedObjCException.m in Sources */ = {isa = PBXBuildFile; fileRef = 78FBB4A7239FAD0100ADFA1F /* MSCrashDelayedObjCException.m */; };
 		801C25311F04001300F4859B /* CrashLib-Bridging-Header.h in Headers */ = {isa = PBXBuildFile; fileRef = B24187A21DD2A7F900D820D8 /* CrashLib-Bridging-Header.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8065B5801F4C4024004FF622 /* CrashLib.h in Headers */ = {isa = PBXBuildFile; fileRef = B24187B61DD2A7F900D820D8 /* CrashLib.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8065B5811F4C4024004FF622 /* MSCrash.h in Headers */ = {isa = PBXBuildFile; fileRef = B24187891DD2A7F900D820D8 /* MSCrash.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -168,8 +168,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		78FBB4A6239FAD0000ADFA1F /* MSCrashNSApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSCrashNSApp.h; sourceTree = "<group>"; };
-		78FBB4A7239FAD0100ADFA1F /* MSCrashNSApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSCrashNSApp.m; sourceTree = "<group>"; };
+		78FBB4A6239FAD0000ADFA1F /* MSCrashDelayedObjCException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSCrashDelayedObjCException.h; sourceTree = "<group>"; };
+		78FBB4A7239FAD0100ADFA1F /* MSCrashDelayedObjCException.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSCrashDelayedObjCException.m; sourceTree = "<group>"; };
 		8065B5781F4C3FF4004FF622 /* CrashLibMac.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CrashLibMac.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		80F991211F0265070040FAD7 /* CrashLibTV.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CrashLibTV.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9CD0C47B228A27EE00B14FCA /* CrashLib Release iOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "CrashLib Release iOS.xcconfig"; sourceTree = "<group>"; };
@@ -290,8 +290,8 @@
 				B24187971DD2A7F900D820D8 /* MSCrash.m */,
 				B241878D1DD2A7F900D820D8 /* MSCrashAbort.h */,
 				B241879B1DD2A7F900D820D8 /* MSCrashAbort.m */,
-				78FBB4A6239FAD0000ADFA1F /* MSCrashNSApp.h */,
-				78FBB4A7239FAD0100ADFA1F /* MSCrashNSApp.m */,
+				78FBB4A6239FAD0000ADFA1F /* MSCrashDelayedObjCException.h */,
+				78FBB4A7239FAD0100ADFA1F /* MSCrashDelayedObjCException.m */,
 				B24187B81DD2A7F900D820D8 /* MSCrashAsyncSafeThread.h */,
 				B24187B31DD2A7F900D820D8 /* MSCrashAsyncSafeThread.m */,
 				B24187A81DD2A7F900D820D8 /* MSCrashCorruptMalloc.h */,
@@ -368,7 +368,7 @@
 				8065B59B1F4C4024004FF622 /* MSCrashOverwriteLinkRegister.h in Headers */,
 				8065B5AC1F4C4024004FF622 /* MSCrashUndefInst.h in Headers */,
 				8065B5911F4C4024004FF622 /* MSCrashFramelessDWARF.h in Headers */,
-				78FBB4A8239FAD0100ADFA1F /* MSCrashNSApp.h in Headers */,
+				78FBB4A8239FAD0100ADFA1F /* MSCrashDelayedObjCException.h in Headers */,
 				8065B5851F4C4024004FF622 /* MSCrashAsyncSafeThread.h in Headers */,
 				8065B5871F4C4024004FF622 /* MSCrashCXXException.h in Headers */,
 				8065B58B1F4C4024004FF622 /* MSCrashCorruptObjC.h in Headers */,
@@ -668,7 +668,7 @@
 				8065B5981F4C4024004FF622 /* MSCrashObjCException.m in Sources */,
 				8065B5AE1F4C4024004FF622 /* MSFramelessDWARF_i386.s in Sources */,
 				8065B5901F4C4024004FF622 /* MSCrashNSLog.m in Sources */,
-				78FBB4A9239FAD0100ADFA1F /* MSCrashNSApp.m in Sources */,
+				78FBB4A9239FAD0100ADFA1F /* MSCrashDelayedObjCException.m in Sources */,
 				8065B59A1F4C4024004FF622 /* MSCrashObjCMsgSend.m in Sources */,
 				8065B59C1F4C4024004FF622 /* MSCrashOverwriteLinkRegister.m in Sources */,
 				8065B59E1F4C4024004FF622 /* MSCrashPrivInst.m in Sources */,

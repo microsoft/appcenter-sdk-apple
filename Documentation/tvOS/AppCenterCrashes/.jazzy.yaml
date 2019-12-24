@@ -5,7 +5,7 @@ sdk: appletvsimulator
 theme: ../../Themes/apple
 
 module: AppCenterCrashes
-module_version: 2.5.2
+module_version: 2.5.4
 author: Microsoft Corp
 author_url: http://www.microsoft.com
 

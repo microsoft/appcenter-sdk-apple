@@ -4,46 +4,20 @@
 #import "AppCenter+Internal.h"
 #import "MSAppCenterErrors.h"
 #import "MSAppCenterIngestion.h"
-#import "MSDevice.h"
+#import "MSConstants+Internal.h"
 #import "MSDeviceInternal.h"
+#import "MSHttpClient.h"
 #import "MSHttpIngestionPrivate.h"
 #import "MSHttpTestUtil.h"
-#import "MSIngestionCall.h"
-#import "MSIngestionDelegate.h"
+#import "MSHttpUtil.h"
 #import "MSLoggerInternal.h"
 #import "MSMockLog.h"
 #import "MSTestFrameworks.h"
-#import "MSUtility+StringFormatting.h"
+#import "MSTestUtil.h"
 
 static NSTimeInterval const kMSTestTimeout = 5.0;
 static NSString *const kMSBaseUrl = @"https://test.com";
 static NSString *const kMSTestAppSecret = @"TestAppSecret";
-
-@interface MSIngestionCallExpectation : MSIngestionCall
-
-@property XCTestExpectation *Expectation;
-
-- (id)initWithRetryIntervals:(NSArray *)retryIntervals andExpectation:(XCTestExpectation *)Expectation;
-
-@end
-
-@implementation MSIngestionCallExpectation
-
-- (id)initWithRetryIntervals:(NSArray *)retryIntervals andExpectation:(XCTestExpectation *)Expectation {
-  self = [super initWithRetryIntervals:retryIntervals];
-  _Expectation = Expectation;
-  return self;
-}
-
-- (void)ingestion:(id<MSIngestionProtocol>)ingestion
-    callCompletedWithResponse:(NSHTTPURLResponse *)response
-                         data:(nullable NSData *)data
-                        error:(NSError *)error {
-  [super ingestion:ingestion callCompletedWithResponse:response data:data error:error];
-  [self.Expectation fulfill];
-}
-
-@end
 
 @interface MSAppCenterIngestionTests : XCTestCase
 
@@ -51,6 +25,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 @property(nonatomic) id deviceMock;
 @property(nonatomic) id reachabilityMock;
 @property(nonatomic) NetworkStatus currentNetworkStatus;
+@property(nonatomic) id httpClientMock;
 
 @end
 
@@ -66,7 +41,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
   NSDictionary *headers = @{@"Content-Type" : @"application/json", @"App-Secret" : kMSTestAppSecret, @"Install-ID" : MS_UUID_STRING};
   NSDictionary *queryStrings = @{@"api-version" : @"1.0.0"};
-
+  self.httpClientMock = OCMPartialMock([MSHttpClient new]);
   self.deviceMock = OCMPartialMock([MSDevice new]);
   OCMStub([self.deviceMock isValid]).andReturn(YES);
 
@@ -79,18 +54,19 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   });
 
   // sut: System under test
-  self.sut = [[MSAppCenterIngestion alloc] initWithBaseUrl:kMSBaseUrl
-                                                   apiPath:@"/test-path"
-                                                   headers:headers
-                                              queryStrings:queryStrings
-                                              reachability:self.reachabilityMock
-                                            retryIntervals:@[ @(0.5), @(1), @(1.5) ]];
+  self.sut = [[MSAppCenterIngestion alloc] initWithHttpClient:self.httpClientMock
+                                                      baseUrl:kMSBaseUrl
+                                                      apiPath:@"/test-path"
+                                                      headers:headers
+                                                 queryStrings:queryStrings
+                                               retryIntervals:@[ @(0.5), @(1), @(1.5) ]];
   [self.sut setAppSecret:kMSTestAppSecret];
 }
 
 - (void)tearDown {
   [super tearDown];
   [self.deviceMock stopMocking];
+  [self.httpClientMock stopMocking];
   [self.reachabilityMock stopMocking];
   [MSHttpTestUtil removeAllStubs];
 
@@ -98,9 +74,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
    * Setting the variable to nil. We are experiencing test failure on Xcode 9 beta because the instance that was used for previous test
    * method is not disposed and still listening to network changes in other tests.
    */
-  [self.sut.pendingCalls removeAllObjects];
   [MS_NOTIFICATION_CENTER removeObserver:self.sut name:kMSReachabilityChangedNotification object:nil];
-  [self.sut.session invalidateAndCancel];
   self.sut = nil;
 }
 
@@ -109,7 +83,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   // Stub http response
   [MSHttpTestUtil stubHttp200Response];
   NSString *containerId = @"1";
-  MSLogContainer *container = [self createLogContainerWithId:containerId];
+  MSLogContainer *container = [MSTestUtil createLogContainerWithId:containerId device:self.deviceMock];
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@"HTTP Response 200"];
   [self.sut sendAsync:container
               authToken:nil
@@ -129,227 +103,8 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
                                }];
 }
 
-// TODO: Move this to base MSHttpIngestion test.
-- (void)testUnrecoverableError {
-
-  // If
-  [MSHttpTestUtil stubHttp404Response];
-  NSString *containerId = @"1";
-  MSLogContainer *container = [self createLogContainerWithId:containerId];
-  __weak XCTestExpectation *expectation = [self expectationWithDescription:@"HTTP Response 200"];
-  id delegateMock = OCMProtocolMock(@protocol(MSIngestionDelegate));
-  [self.sut addDelegate:delegateMock];
-
-  // When
-  [self.sut sendAsync:container
-              authToken:nil
-      completionHandler:^(NSString *batchId, NSHTTPURLResponse *response, __unused NSData *data, NSError *error) {
-        // Then
-        XCTAssertEqual(containerId, batchId);
-        XCTAssertEqual((MSHTTPCodesNo)response.statusCode, MSHTTPCodesNo404NotFound);
-        XCTAssertEqual(error.domain, kMSACErrorDomain);
-        XCTAssertEqual(error.code, MSACConnectionHttpErrorCode);
-        XCTAssertEqual(error.localizedDescription, kMSACConnectionHttpErrorDesc);
-        XCTAssertTrue([error.userInfo[(NSString *)kMSACConnectionHttpCodeErrorKey] isEqual:@(MSHTTPCodesNo404NotFound)]);
-
-        /*
-         * FIXME: This unit test failes intermittently because of timing issue.
-         * Wait a little bit of time here so that [MSIngestionProtocol call:completedWithFatalError:] can be invoked right after this
-         * completion handler.
-         */
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-          [expectation fulfill];
-        });
-      }];
-
-  // Then
-  [self waitForExpectationsWithTimeout:kMSTestTimeout
-                               handler:^(NSError *_Nullable error) {
-                                 assertThatBool(self.sut.enabled, isFalse());
-                                 OCMVerify([delegateMock ingestionDidReceiveFatalError:self.sut]);
-                                 if (error) {
-                                   XCTFail(@"Expectation Failed with error: %@", error);
-                                 }
-                               }];
-}
-
-// TODO: Move this to base MSHttpIngestion test.
-- (void)testNetworkDown {
-
-  // If
-  [MSHttpTestUtil stubNetworkDownResponse];
-  XCTestExpectation *requestCompletedExpectation = [self expectationWithDescription:@"Request completed."];
-  NSString *containerId = @"1";
-  MSLogContainer *container = [self createLogContainerWithId:containerId];
-
-  // Mock the call to intercept the retry.
-  NSArray *intervals = @[ @(0.5), @(1) ];
-  MSIngestionCall *mockedCall = [[MSIngestionCallExpectation alloc] initWithRetryIntervals:intervals
-                                                                            andExpectation:requestCompletedExpectation];
-  mockedCall.delegate = self.sut;
-  mockedCall.data = container;
-  mockedCall.callId = container.batchId;
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wnonnull"
-  mockedCall.completionHandler = nil;
-#pragma clang diagnostic pop
-
-  self.sut.pendingCalls[containerId] = mockedCall;
-
-  // When
-  [self.sut sendCallAsync:mockedCall];
-
-  // Then
-  [self waitForExpectationsWithTimeout:kMSTestTimeout
-                               handler:^(NSError *error) {
-                                 // The call must still be in the pending calls, intended to be retried later.
-                                 assertThatUnsignedLong(self.sut.pendingCalls.count, equalToUnsignedLong(1));
-                                 assertThatUnsignedLong(mockedCall.retryCount, equalToUnsignedLong(0));
-                                 if (error) {
-                                   XCTFail(@"Expectation Failed with error: %@", error);
-                                 }
-                               }];
-}
-
-// TODO: Move this to base MSHttpIngestion test.
-- (void)testNetworkUpAgain {
-
-  // If
-  XCTestExpectation *requestCompletedExpectation = [self expectationWithDescription:@"Request completed."];
-  __block NSInteger forwardedStatus;
-  __block NSError *forwardedError;
-  [MSHttpTestUtil stubHttp200Response];
-  MSLogContainer *container = [self createLogContainerWithId:@"1"];
-
-  // Set a delegate for pause/resume event.
-  id delegateMock = OCMProtocolMock(@protocol(MSIngestionDelegate));
-  [self.sut addDelegate:delegateMock];
-  OCMStub([delegateMock ingestionDidPause:self.sut]).andDo(^(__unused NSInvocation *invocation) {
-    // Send one batch now that the ingestion is paused.
-    [self.sut sendAsync:container
-        completionHandler:^(__unused NSString *batchId, NSHTTPURLResponse *response, __unused NSData *data, NSError *error) {
-          forwardedStatus = response.statusCode;
-          forwardedError = error;
-          [requestCompletedExpectation fulfill];
-        }];
-
-    // When
-    // Simulate network up again.
-    [self simulateReachabilityChangedNotification:ReachableViaWiFi];
-  });
-
-  // Simulate network is down.
-  [self simulateReachabilityChangedNotification:NotReachable];
-
-  // Then
-  [self waitForExpectationsWithTimeout:kMSTestTimeout
-                               handler:^(NSError *error) {
-                                 // The ingestion got resumed.
-                                 OCMVerify([delegateMock ingestionDidResume:self.sut]);
-                                 assertThatBool(self.sut.paused, isFalse());
-
-                                 // The call as been removed.
-                                 assertThatUnsignedLong(self.sut.pendingCalls.count, equalToInt(0));
-
-                                 // Status codes and error must be the same.
-                                 assertThatLong(MSHTTPCodesNo200OK, equalToInteger(forwardedStatus));
-                                 assertThat(forwardedError, nilValue());
-                                 if (error) {
-                                   XCTFail(@"Expectation Failed with error: %@", error);
-                                 }
-                               }];
-}
-
-// TODO: Move this to base MSHttpIngestion test.
-- (void)testPausedWhenAllRetriesUsed {
-
-  // If
-  XCTestExpectation *responseReceivedExpectation = [self expectationWithDescription:@"Used all retries."];
-  responseReceivedExpectation.expectedFulfillmentCount = 3;
-  NSString *containerId = @"1";
-  MSLogContainer *container = [self createLogContainerWithId:containerId];
-
-  // Mock the call to intercept the retry.
-  NSArray *intervals = @[ @(0.5), @(1) ];
-  MSIngestionCall *mockedCall = [[MSIngestionCallExpectation alloc] initWithRetryIntervals:intervals
-                                                                            andExpectation:responseReceivedExpectation];
-  mockedCall.delegate = self.sut;
-  mockedCall.data = container;
-  mockedCall.callId = container.batchId;
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wnonnull"
-  mockedCall.completionHandler = nil;
-#pragma clang diagnostic pop
-
-  self.sut.pendingCalls[containerId] = mockedCall;
-
-  // Respond with a retryable error.
-  [MSHttpTestUtil stubHttp500Response];
-
-  // Send the call.
-  [self.sut sendCallAsync:mockedCall];
-  [self waitForExpectationsWithTimeout:kMSTestTimeout
-                               handler:^(NSError *error) {
-                                 XCTAssertTrue(self.sut.paused);
-                                 XCTAssertTrue([self.sut.pendingCalls count] == 0);
-                                 if (error) {
-                                   XCTFail(@"Expectation Failed with error: %@", error);
-                                 }
-                               }];
-}
-
-// TODO: Move this to base MSHttpIngestion test.
-- (void)testRetryStoppedWhilePaused {
-
-  // If
-  XCTestExpectation *responseReceivedExpectation = [self expectationWithDescription:@"Request completed."];
-  NSString *containerId = @"1";
-  MSLogContainer *container = [self createLogContainerWithId:containerId];
-
-  // Mock the call to intercept the retry.
-  NSArray *intervals = @[ @(UINT_MAX) ];
-  MSIngestionCall *mockedCall = [[MSIngestionCallExpectation alloc] initWithRetryIntervals:intervals
-                                                                            andExpectation:responseReceivedExpectation];
-  mockedCall.delegate = self.sut;
-  mockedCall.data = container;
-  mockedCall.callId = container.batchId;
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wnonnull"
-  mockedCall.completionHandler = nil;
-#pragma clang diagnostic pop
-
-  self.sut.pendingCalls[containerId] = mockedCall;
-
-  // Respond with a retryable error.
-  [MSHttpTestUtil stubHttp500Response];
-
-  // Send the call.
-  [self.sut sendCallAsync:mockedCall];
-  [self waitForExpectationsWithTimeout:kMSTestTimeout
-                               handler:^(NSError *error) {
-                                 // When
-                                 // Pause now that the call is retrying.
-                                 [self.sut pause];
-
-                                 // Then
-                                 // Retry must be stopped.
-                                 if (@available(macOS 10.10, tvOS 9.0, watchOS 2.0, *)) {
-                                   XCTAssertNotEqual(0, dispatch_testcancel(((MSIngestionCall *)self.sut.pendingCalls[@"1"]).timerSource));
-                                 }
-
-                                 // No call submitted to the session.
-                                 assertThatBool(self.sut.pendingCalls[@"1"].submitted, isFalse());
-                                 if (error) {
-                                   XCTFail(@"Expectation Failed with error: %@", error);
-                                 }
-                               }];
-}
-
 - (void)testInvalidContainer {
-
+  __weak XCTestExpectation *expectation = [self expectationWithDescription:@"Http call complete."];
   MSAbstractLog *log = [MSAbstractLog new];
   log.sid = MS_UUID_STRING;
   log.timestamp = [NSDate date];
@@ -357,14 +112,29 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   // Log does not have device info, therefore, it's an invalid log
   MSLogContainer *container = [[MSLogContainer alloc] initWithBatchId:@"1" andLogs:(NSArray<id<MSLog>> *)@[ log ]];
 
+  // Then
+  OCMReject([self.httpClientMock sendAsync:OCMOCK_ANY
+                                    method:OCMOCK_ANY
+                                   headers:OCMOCK_ANY
+                                      data:OCMOCK_ANY
+                            retryIntervals:OCMOCK_ANY
+                        compressionEnabled:OCMOCK_ANY
+                         completionHandler:OCMOCK_ANY]);
+
+  // When
   [self.sut sendAsync:container
               authToken:nil
       completionHandler:^(__unused NSString *batchId, __unused NSHTTPURLResponse *response, __unused NSData *data, NSError *error) {
         XCTAssertEqual(error.domain, kMSACErrorDomain);
         XCTAssertEqual(error.code, MSACLogInvalidContainerErrorCode);
+        [expectation fulfill];
       }];
-
-  XCTAssertEqual([self.sut.pendingCalls count], (unsigned long)0);
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
+                               handler:^(NSError *_Nullable error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
 }
 
 - (void)testNilContainer {
@@ -387,153 +157,100 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
                                }];
 }
 
-// TODO: Move this to base MSHttpIngestion test.
-- (void)testAddDelegate {
+- (void)testSendsAuthHeaderWhenAuthTokenIsNotNil {
 
   // If
-  id delegateMock = OCMProtocolMock(@protocol(MSIngestionDelegate));
+  NSString *token = @"auth token";
+  MSLogContainer *logContainer = OCMPartialMock([MSLogContainer new]);
+  OCMStub([logContainer isValid]).andReturn(YES);
 
   // When
-  [self.sut addDelegate:delegateMock];
+  [self.sut sendAsync:logContainer
+              authToken:token
+      completionHandler:^(NSString *_Nonnull callId __unused, NSHTTPURLResponse *_Nullable response __unused,
+                          NSData *_Nullable data __unused, NSError *_Nullable error __unused){
+      }];
 
   // Then
-  assertThatBool([self.sut.delegates containsObject:delegateMock], isTrue());
+  OCMVerify(([self.httpClientMock sendAsync:OCMOCK_ANY
+                                     method:OCMOCK_ANY
+                                    headers:[OCMArg checkWithBlock:^BOOL(id obj) {
+                                      NSDictionary *headers = (NSDictionary *)obj;
+                                      NSString *actualHeader = headers[@"Authorization"];
+                                      NSString *expectedHeader = [NSString stringWithFormat:@"Bearer %@", token];
+                                      return [expectedHeader isEqualToString:actualHeader];
+                                    }]
+                                       data:OCMOCK_ANY
+                             retryIntervals:OCMOCK_ANY
+                         compressionEnabled:YES
+                          completionHandler:OCMOCK_ANY]));
 }
 
-// TODO: Move this to base MSHttpIngestion test.
-- (void)testAddMultipleDelegates {
+- (void)testDoesNotSendAuthHeaderWithNilAuthToken {
 
   // If
-  id delegateMock1 = OCMProtocolMock(@protocol(MSIngestionDelegate));
-  id delegateMock2 = OCMProtocolMock(@protocol(MSIngestionDelegate));
+  MSLogContainer *logContainer = [[MSLogContainer alloc] initWithBatchId:@"whatever" andLogs:(NSArray<id<MSLog>> *)@ [[MSMockLog new]]];
 
   // When
-  [self.sut addDelegate:delegateMock1];
-  [self.sut addDelegate:delegateMock2];
+  [self.sut sendAsync:logContainer
+      completionHandler:^(NSString *_Nonnull callId __unused, NSHTTPURLResponse *_Nullable response __unused,
+                          NSData *_Nullable data __unused, NSError *_Nullable error __unused){
+      }];
 
   // Then
-  assertThatBool([self.sut.delegates containsObject:delegateMock1], isTrue());
-  assertThatBool([self.sut.delegates containsObject:delegateMock2], isTrue());
+  OCMVerify(([self.httpClientMock sendAsync:OCMOCK_ANY
+                                     method:OCMOCK_ANY
+                                    headers:[OCMArg checkWithBlock:^BOOL(id obj) {
+                                      NSDictionary *headers = (NSDictionary *)obj;
+                                      return headers[@"Authorization"] == nil;
+                                    }]
+                                       data:OCMOCK_ANY
+                             retryIntervals:OCMOCK_ANY
+                         compressionEnabled:YES
+                          completionHandler:OCMOCK_ANY]));
 }
 
-// TODO: Move this to base MSHttpIngestion test.
-- (void)testAddTwiceSameDelegate {
+- (void)testHttpClientDelegateObfuscateHeaderValue {
 
   // If
-  id delegateMock = OCMProtocolMock(@protocol(MSIngestionDelegate));
+  id mockLogger = OCMClassMock([MSLogger class]);
+  id mockHttpUtil = OCMClassMock([MSHttpUtil class]);
+  OCMStub([mockLogger currentLogLevel]).andReturn(MSLogLevelVerbose);
+  OCMStub(ClassMethod([mockHttpUtil hideAuthToken:OCMOCK_ANY])).andDo(nil);
+  OCMStub(ClassMethod([mockHttpUtil hideSecret:OCMOCK_ANY])).andDo(nil);
+  NSString *authorizationValue = @"Bearer testtesttest";
+  NSDictionary<NSString *, NSString *> *headers =
+      @{kMSAuthorizationHeaderKey : authorizationValue, kMSHeaderAppSecretKey : kMSTestAppSecret};
+  NSURL *url = [NSURL new];
 
   // When
-  [self.sut addDelegate:delegateMock];
-  [self.sut addDelegate:delegateMock];
+  [self.sut willSendHTTPRequestToURL:url withHeaders:headers];
 
   // Then
-  assertThatBool([self.sut.delegates containsObject:delegateMock], isTrue());
-  assertThatUnsignedLong(self.sut.delegates.count, equalToInt(1));
-}
+  OCMVerify([mockHttpUtil hideAuthToken:authorizationValue]);
+  OCMVerify([mockHttpUtil hideSecret:kMSTestAppSecret]);
 
-// TODO: Move this to base MSHttpIngestion test.
-- (void)testRemoveDelegate {
-
-  // If
-  id delegateMock = OCMProtocolMock(@protocol(MSIngestionDelegate));
-  [self.sut addDelegate:delegateMock];
-
-  // When
-  [self.sut removeDelegate:delegateMock];
-
-  // Then
-  assertThatBool([self.sut.delegates containsObject:delegateMock], isFalse());
-}
-
-// TODO: Move this to base MSHttpIngestion test.
-- (void)testRemoveTwiceSameDelegate {
-
-  // If
-  id delegateMock1 = OCMProtocolMock(@protocol(MSIngestionDelegate));
-  id delegateMock2 = OCMProtocolMock(@protocol(MSIngestionDelegate));
-  [self.sut addDelegate:delegateMock1];
-  [self.sut addDelegate:delegateMock2];
-
-  // When
-  [self.sut removeDelegate:delegateMock1];
-  [self.sut removeDelegate:delegateMock1];
-
-  // Then
-  assertThatBool([self.sut.delegates containsObject:delegateMock1], isFalse());
-  assertThatBool([self.sut.delegates containsObject:delegateMock2], isTrue());
-  assertThatUnsignedLong(self.sut.delegates.count, equalToInt(1));
-}
-
-// TODO: Move this to base MSHttpIngestion test.
-- (void)testNullifiedDelegate {
-
-  // If
-  @autoreleasepool {
-    __weak id delegateMock = OCMProtocolMock(@protocol(MSIngestionDelegate));
-    [self.sut addDelegate:delegateMock];
-
-    // When
-    delegateMock = nil;
-  }
-
-  // Then
-  // There is a bug somehow in NSHashTable where the count on the table itself is not decremented while an object is deallocated and auto
-  // removed from the table. The NSHashtable allObjects: is used instead to remediate.
-  assertThatUnsignedLong(self.sut.delegates.allObjects.count, equalToInt(0));
-}
-
-// TODO: Move this to base MSHttpIngestion test.
-- (void)testCallDelegatesOnPaused {
-
-  // If
-  id delegateMock1 = OCMProtocolMock(@protocol(MSIngestionDelegate));
-  id delegateMock2 = OCMProtocolMock(@protocol(MSIngestionDelegate));
-  [self.sut resume];
-  [self.sut addDelegate:delegateMock1];
-  [self.sut addDelegate:delegateMock2];
-
-  // When
-  [self.sut pause];
-
-  // Then
-  OCMVerify([delegateMock1 ingestionDidPause:self.sut]);
-  OCMVerify([delegateMock2 ingestionDidPause:self.sut]);
-}
-
-// TODO: Move this to base MSHttpIngestion test.
-- (void)testCallDelegatesOnResumed {
-
-  // If
-  id delegateMock1 = OCMProtocolMock(@protocol(MSIngestionDelegate));
-  id delegateMock2 = OCMProtocolMock(@protocol(MSIngestionDelegate));
-  [self.sut pause];
-  [self.sut addDelegate:delegateMock1];
-  [self.sut addDelegate:delegateMock2];
-
-  // When
-  [self.sut pause];
-  [self.sut resume];
-
-  // Then
-  OCMVerify([delegateMock1 ingestionDidResume:self.sut]);
-  OCMVerify([delegateMock2 ingestionDidResume:self.sut]);
+  [mockLogger stopMocking];
+  [mockHttpUtil stopMocking];
 }
 
 - (void)testSetBaseURL {
 
   // If
   NSString *path = @"path";
-  NSURL *expectedURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", @"https://www.contoso.com/", path]];
+  NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", @"https://www.contoso.com/", path]];
   self.sut.apiPath = path;
 
   // Query should be the same.
   NSString *query = self.sut.sendURL.query;
 
   // When
-  [self.sut setBaseURL:(NSString * _Nonnull)[expectedURL.URLByDeletingLastPathComponent absoluteString]];
+  [self.sut setBaseURL:(NSString * _Nonnull)[url.URLByDeletingLastPathComponent absoluteString]];
 
   // Then
-  assertThat([self.sut.sendURL absoluteString], is([NSString stringWithFormat:@"%@?%@", expectedURL.absoluteString, query]));
+  XCTAssertNotNil(query);
+  NSString *expectedURLString = [NSString stringWithFormat:@"%@?%@", url.absoluteString, query];
+  XCTAssertTrue([[self.sut.sendURL absoluteString] isEqualToString:expectedURLString]);
 }
 
 - (void)testSetInvalidBaseURL {
@@ -549,148 +266,16 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   assertThat(self.sut.sendURL, is(expected));
 }
 
-- (void)testCompressHTTPBodyWhenNeeded {
+- (void)testObfuscateResponsePayload {
 
   // If
-  // HTTP body is too small, we don't compress.
-  MSMockLog *log1 = [[MSMockLog alloc] init];
-  log1.sid = @"";
-  log1.timestamp = [NSDate date];
-  MSLogContainer *logContainer = [[MSLogContainer alloc] initWithBatchId:@"whatever" andLogs:(NSArray<id<MSLog>> *)@[ log1 ]];
-  NSString *jsonString = [logContainer serializeLog];
-  NSData *httpBody = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+  NSString *payload = @"I am the payload for testing";
 
   // When
-  NSURLRequest *request = [self.sut createRequest:logContainer eTag:nil authToken:nil];
+  NSString *actual = [self.sut obfuscateResponsePayload:payload];
 
   // Then
-  XCTAssertEqualObjects(request.HTTPBody, httpBody);
-
-  // If
-  // HTTP body is big enough to be compressed.
-  log1.sid = [log1.sid stringByPaddingToLength:kMSHTTPMinGZipLength withString:@"." startingAtIndex:0];
-  logContainer.logs = @[ log1 ];
-  jsonString = [logContainer serializeLog];
-  httpBody = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
-
-  // When
-  request = [self.sut createRequest:logContainer eTag:nil authToken:nil];
-
-  // Then
-  XCTAssertTrue(request.HTTPBody.length < httpBody.length);
-}
-
-- (void)testSendsAuthHeaderWhenAuthTokenIsNotNil {
-
-  // If
-  NSString *token = @"auth token";
-  MSLogContainer *logContainer = [[MSLogContainer alloc] initWithBatchId:@"whatever" andLogs:(NSArray<id<MSLog>> *)@ [[MSMockLog new]]];
-
-  // When
-  NSURLRequest *request = [self.sut createRequest:logContainer eTag:nil authToken:token];
-
-  // Then
-  NSString *expectedHeader = [NSString stringWithFormat:kMSBearerTokenHeaderFormat, token];
-  NSString *actualHeader = request.allHTTPHeaderFields[kMSAuthorizationHeaderKey];
-  XCTAssertEqualObjects(expectedHeader, actualHeader);
-}
-
-- (void)testDoesNotSendAuthHeaderWithNilAuthToken {
-
-  // If
-  MSLogContainer *logContainer = [[MSLogContainer alloc] initWithBatchId:@"whatever" andLogs:(NSArray<id<MSLog>> *)@ [[MSMockLog new]]];
-
-  // When
-  NSURLRequest *request = [self.sut createRequest:logContainer eTag:nil authToken:nil];
-
-  // Then
-  XCTAssertNil([request.allHTTPHeaderFields valueForKey:kMSAuthorizationHeaderKey]);
-}
-
-- (void)testDoesNotSendAuthHeaderWithEmptyAuthToken {
-
-  // If
-  MSLogContainer *logContainer = [[MSLogContainer alloc] initWithBatchId:@"whatever" andLogs:(NSArray<id<MSLog>> *)@ [[MSMockLog new]]];
-
-  // When
-  NSURLRequest *request = [self.sut createRequest:logContainer eTag:nil authToken:nil];
-
-  // Then
-  XCTAssertNil([request.allHTTPHeaderFields valueForKey:kMSAuthorizationHeaderKey]);
-}
-
-- (void)testObfuscateHeaderValue {
-
-  // If
-  NSString *testString = @"Bearer testtesttest";
-
-  // When
-  NSString *result = [self.sut obfuscateHeaderValue:testString forKey:kMSAuthorizationHeaderKey];
-
-  // Then
-  XCTAssertTrue([result isEqualToString:@"Bearer ***"]);
-}
-
-#pragma mark - Test Helpers
-
-// TODO: Move this to base MSHttpIngestion test.
-- (void)simulateReachabilityChangedNotification:(NetworkStatus)status {
-  self.currentNetworkStatus = status;
-  [[NSNotificationCenter defaultCenter] postNotificationName:kMSReachabilityChangedNotification object:self.reachabilityMock];
-}
-
-- (MSLogContainer *)createLogContainerWithId:(NSString *)batchId {
-  MSMockLog *log1 = [[MSMockLog alloc] init];
-  log1.sid = MS_UUID_STRING;
-  log1.timestamp = [NSDate date];
-  log1.device = self.deviceMock;
-
-  MSMockLog *log2 = [[MSMockLog alloc] init];
-  log2.sid = MS_UUID_STRING;
-  log2.timestamp = [NSDate date];
-  log2.device = self.deviceMock;
-
-  MSLogContainer *logContainer = [[MSLogContainer alloc] initWithBatchId:batchId andLogs:(NSArray<id<MSLog>> *)@[ log1, log2 ]];
-  return logContainer;
-}
-
-- (void)testHideSecretInResponse {
-
-  // If
-  id mockUtility = OCMClassMock([MSUtility class]);
-  id mockLogger = OCMClassMock([MSLogger class]);
-  OCMStub([mockLogger currentLogLevel]).andReturn(MSLogLevelVerbose);
-  OCMStub(ClassMethod([mockUtility obfuscateString:OCMOCK_ANY
-                               searchingForPattern:kMSRedirectUriPattern
-                             toReplaceWithTemplate:kMSRedirectUriObfuscatedTemplate]));
-  NSData *data = [[NSString stringWithFormat:@"{\"redirect_uri\":\"%@\",\"token\":\"%@\"}", kMSTestAppSecret, kMSTestAppSecret]
-      dataUsingEncoding:NSUTF8StringEncoding];
-  MSLogContainer *container = [self createLogContainerWithId:@"1"];
-  XCTestExpectation *requestCompletedExpectation = [self expectationWithDescription:@"Request completed."];
-
-  // When
-  [MSHttpTestUtil stubResponseWithData:data statusCode:MSHTTPCodesNo200OK headers:self.sut.httpHeaders name:NSStringFromSelector(_cmd)];
-  [self.sut sendAsync:container
-              authToken:nil
-      completionHandler:^(__unused NSString *batchId, __unused NSHTTPURLResponse *response, __unused NSData *responseData,
-                          __unused NSError *error) {
-        [requestCompletedExpectation fulfill];
-      }];
-
-  // Then
-  [self waitForExpectationsWithTimeout:kMSTestTimeout
-                               handler:^(NSError *error) {
-                                 OCMVerify(ClassMethod([mockUtility obfuscateString:OCMOCK_ANY
-                                                                searchingForPattern:kMSRedirectUriPattern
-                                                              toReplaceWithTemplate:kMSRedirectUriObfuscatedTemplate]));
-                                 if (error) {
-                                   XCTFail(@"Expectation Failed with error: %@", error);
-                                 }
-                               }];
-
-  // Clear
-  [mockUtility stopMocking];
-  [mockLogger stopMocking];
+  assertThat(actual, payload);
 }
 
 @end
