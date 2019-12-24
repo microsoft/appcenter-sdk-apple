@@ -146,17 +146,47 @@ static dispatch_queue_t alertsQueue;
   }
 }
 
-// FIXME: This macro is not safe for nil arguments as types in this case cannot be inferred.
+#define Invocation(result, class, selectorName, ...) ({ \
+ SEL selectors = NSSelectorFromString(@#selectorName); \
+ NSMethodSignature *signature = [class methodSignatureForSelector:selectors]; \
+ NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:signature]; \
+ [invocation setTarget:class]; \
+ [invocation setSelector:selectors]; \
+ NSArray* array = [NSArray arrayWithObjects: !(sizeof( (char[]){#__VA_ARGS__} ) == 1) ? __VA_ARGS__ : [NSNull null], nil];\
+ int index = 2; \
+ for(id value in array) {\
+    if (value != [NSNull null]) { \
+        void * values = (__bridge void *)value;    \
+        [invocation setArgument:&values atIndex:index++];\
+    }\
+ }\
+ [invocation retainArguments];\
+ [invocation invoke];\
+ invocation;\
+})
+
+#define MS_DISPATCH_SELECTOR_OBJECT(result, class, selectorName, ...) ({ \
+  NSInvocation *impl = Invocation(result,class,selectorName, ##__VA_ARGS__);\
+  void *results;\
+  [impl getReturnValue:&results];\
+  (__bridge result)results; \
+})
+
 #define MS_DISPATCH_SELECTOR(result, class, selectorName, ...) ({ \
-  SEL selector = NSSelectorFromString(@#selectorName); \
-  IMP impl = [class methodForSelector:selector]; \
-  ((result (*)(id, SEL, ...)) impl)(class, selector, ##__VA_ARGS__); \
+ NSInvocation *impl = Invocation(result, class, selectorName, ##__VA_ARGS__);\
+ void *results = nil;\
+ if(![@#result isEqualToString:@"void"]) {\
+  NSUInteger length = [[impl methodSignature] methodReturnLength];\
+  results = malloc(length);\
+  [impl getReturnValue:&results];\
+ } \
+ (result)results; \
 })
 
 + (void)makeKeyAndVisible {
   if (@available(iOS 13.0, tvOS 13.0, *)) {
-    UIApplication *application = MS_DISPATCH_SELECTOR(UIApplication *, [UIApplication class], sharedApplication);
-    NSSet *scenes = MS_DISPATCH_SELECTOR(NSSet *, application, connectedScenes);
+    UIApplication *application = MS_DISPATCH_SELECTOR_OBJECT(UIApplication *, [UIApplication class], sharedApplication);
+    NSSet *scenes = MS_DISPATCH_SELECTOR_OBJECT(NSSet *, application, connectedScenes);
     id windowScene = nil;
     for (NSObject *scene in scenes) {
       NSInteger activationState = MS_DISPATCH_SELECTOR(NSInteger, scene, activationState);
@@ -168,11 +198,8 @@ static dispatch_queue_t alertsQueue;
     if (!windowScene) {
       windowScene = scenes.anyObject;
     }
-    
-    // FIXME: Explicit typing to call `setWindowScene:` as windowScene maybe nil and the macro won't support it.
-    SEL selector = NSSelectorFromString(@"setWindowScene:");
-    IMP impl = [window methodForSelector:selector];
-    ((void (*)(id, SEL, typeof(window))) impl)(window, selector, windowScene);
+
+    MS_DISPATCH_SELECTOR(void, window, setWindowScene:, windowScene);
   }
   [window makeKeyAndVisible];
 }
