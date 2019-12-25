@@ -9,6 +9,10 @@
 * **[Fix]** Fix SDK crash at application launch on iOS 12.0 (`CTTelephonyNetworkInfo.serviceSubscriberCellularProviders` issue).
 * **[Fix]** The SDK was considering 201-299 status code as HTTP errors and is now fixed to accept all 2XX codes as successful.
 
+### App Center Crashes
+
+* **[Fix]** Fix an issue when Crashes delegate callbacks can be blocked by a macOS modal window.
+
 ___
 
 ## Version 2.5.3
