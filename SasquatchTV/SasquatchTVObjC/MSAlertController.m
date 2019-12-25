@@ -146,67 +146,6 @@ static dispatch_queue_t alertsQueue;
   }
 }
 
-#define ARRAY_FROM_ARGS(...) ({\
-[NSArray arrayWithObjects: !(sizeof( (char[]){#__VA_ARGS__} ) == 1) ? __VA_ARGS__ : [NSNull null], nil];\
-})
-
-#define INVOKE(c) PRIMITIVE_CAT(INVOKE_, c)
-#define INVOKE_1(t, ...)
-#define INVOKE_0(t, ...) EXECUTE_INVOCATION(t)
-
-#define PRIMITIVE_CAT(a, ...) a ## __VA_ARGS__
-
-#define CHECK_N(x, n, ...) n
-#define CHECK(...) CHECK_N(__VA_ARGS__, 0,)
-#define PROBE(x) x, 1,
-
-#define IS_PAREN(x) CHECK(IS_PAREN_PROBE x)
-#define IS_PAREN_PROBE(...) PROBE(~)
-
-#define PRIMITIVE_COMPARE(x, y) IS_PAREN \
-( \
-COMPARE_ ## x ( COMPARE_ ## y) (())  \
-)
-
-#define COMPARE_void(x) x
-#define COMPARE_NOT_USABLE(x) x
-
-#define EXECUTE_INVOCATION(invoke) ({ \
-[invoke getReturnValue:&results];\
-})
-
-#define Invocation(class, selectorName, objects) ({ \
- SEL selectors = NSSelectorFromString(selectorName); \
- NSMethodSignature *signature = [class methodSignatureForSelector:selectors]; \
- NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:signature]; \
- [invocation setTarget:class]; \
- [invocation setSelector:selectors]; \
- int index = 2; \
- for(id value in objects) {\
-  if (value != [NSNull null]) { \
-    void * values = (__bridge void *)value;    \
-    [invocation setArgument:&values atIndex:index++];\
-  }\
- }\
- [invocation retainArguments];\
- [invocation invoke];\
- invocation;\
-})
-
-#define MS_EXECUTE_TASK(type, class, selectorName, ...) ({ \
- void *results = nil;\
- INVOKE(PRIMITIVE_COMPARE(type,NOT_USABLE))(Invocation(class, @#selectorName, ARRAY_FROM_ARGS(__VA_ARGS__))); \
- results;\
-})
-
-#define MS_DISPATCH_SELECTOR_OBJECT(type, class, selectorName, ...) ({ \
- (__bridge type)MS_EXECUTE_TASK(type, class, selectorName, __VA_ARGS__); \
-})
-
-#define MS_DISPATCH_SELECTOR(type, class, selectorName, ...) ({ \
- (type)MS_EXECUTE_TASK(type, class, selectorName, __VA_ARGS__); \
-})
-
 + (void)makeKeyAndVisible {
   if (@available(iOS 13.0, tvOS 13.0, *)) {
     UIApplication *application = MS_DISPATCH_SELECTOR_OBJECT(UIApplication *, [UIApplication class], sharedApplication);

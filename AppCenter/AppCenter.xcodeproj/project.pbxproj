@@ -230,6 +230,12 @@
 		6E48A5A41D3831FE006E8B5F /* MSChannelUnitConfigurationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E48A5A31D3831FE006E8B5F /* MSChannelUnitConfigurationTests.m */; };
 		6E48A5A71D383893006E8B5F /* MSChannelGroupDefaultTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E48A5A61D383893006E8B5F /* MSChannelGroupDefaultTests.m */; };
 		6EB1F40E1D2443B7005F9F99 /* MSChannelUnitDefaultTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EB1F40D1D2443B7005F9F99 /* MSChannelUnitDefaultTests.m */; };
+		7839727423B39C2A00620142 /* MSAlertController.h in Headers */ = {isa = PBXBuildFile; fileRef = 78686FAB23B390C500CDA4C1 /* MSAlertController.h */; };
+		7839727523B39C2A00620142 /* MSAlertController.h in Headers */ = {isa = PBXBuildFile; fileRef = 78686FAB23B390C500CDA4C1 /* MSAlertController.h */; };
+		7839727623B39C2B00620142 /* MSAlertController.h in Headers */ = {isa = PBXBuildFile; fileRef = 78686FAB23B390C500CDA4C1 /* MSAlertController.h */; };
+		78686FAD23B390C600CDA4C1 /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 78686FAC23B390C600CDA4C1 /* MSAlertController.m */; };
+		78686FAE23B390C600CDA4C1 /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 78686FAC23B390C600CDA4C1 /* MSAlertController.m */; };
+		78686FAF23B390C600CDA4C1 /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 78686FAC23B390C600CDA4C1 /* MSAlertController.m */; };
 		7FB7054B222E595F00D93258 /* MSMockReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FB70548222E58FB00D93258 /* MSMockReachability.m */; };
 		7FB7054C222E596100D93258 /* MSMockReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FB70548222E58FB00D93258 /* MSMockReachability.m */; };
 		7FB7054D222E596200D93258 /* MSMockReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FB70548222E58FB00D93258 /* MSMockReachability.m */; };
@@ -1086,6 +1092,8 @@
 		6EB1F40D1D2443B7005F9F99 /* MSChannelUnitDefaultTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MSChannelUnitDefaultTests.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		6EF628F21D371B1600CAFF64 /* MSChannelUnitConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSChannelUnitConfiguration.h; sourceTree = "<group>"; };
 		6EF628F31D371B1600CAFF64 /* MSChannelUnitConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSChannelUnitConfiguration.m; sourceTree = "<group>"; };
+		78686FAB23B390C500CDA4C1 /* MSAlertController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAlertController.h; sourceTree = "<group>"; };
+		78686FAC23B390C600CDA4C1 /* MSAlertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAlertController.m; sourceTree = "<group>"; };
 		7FB70548222E58FB00D93258 /* MSMockReachability.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSMockReachability.m; sourceTree = "<group>"; };
 		7FB7054A222E593400D93258 /* MSMockReachability.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSMockReachability.h; sourceTree = "<group>"; };
 		805275BF20A19F7B00704115 /* MSOneCollectorChannelDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSOneCollectorChannelDelegate.h; sourceTree = "<group>"; };
@@ -1564,6 +1572,8 @@
 		6E0401481D1C99AC0051BCFA /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				78686FAB23B390C500CDA4C1 /* MSAlertController.h */,
+				78686FAC23B390C600CDA4C1 /* MSAlertController.m */,
 				B29D883B21E925A400EAF084 /* MSOrderedDictionary.h */,
 				B29D883C21E925A400EAF084 /* MSOrderedDictionary.m */,
 				B29D883A21E925A400EAF084 /* MSOrderedDictionaryPrivate.h */,
@@ -2036,6 +2046,7 @@
 				F8936CD7230C25A3006A330F /* MSDevice.h in Headers */,
 				F8936D33230C2804006A330F /* MSChannelDelegate.h in Headers */,
 				F8936D4D230C2804006A330F /* MSAppExtension.h in Headers */,
+				7839727423B39C2A00620142 /* MSAlertController.h in Headers */,
 				F8936D56230C2804006A330F /* MSProtocolExtension.h in Headers */,
 				F8936CF3230C2603006A330F /* MSHttpIngestionPrivate.h in Headers */,
 				F8936D6C230C2804006A330F /* MSLogDBStorage.h in Headers */,
@@ -2169,6 +2180,7 @@
 				F8936D8B230C2805006A330F /* MSChannelDelegate.h in Headers */,
 				F8936DA5230C2805006A330F /* MSAppExtension.h in Headers */,
 				F8936DAE230C2805006A330F /* MSProtocolExtension.h in Headers */,
+				7839727523B39C2A00620142 /* MSAlertController.h in Headers */,
 				F8936D07230C2604006A330F /* MSHttpIngestionPrivate.h in Headers */,
 				F8936DC4230C2805006A330F /* MSLogDBStorage.h in Headers */,
 				F8936D89230C2805006A330F /* MSChannelUnitConfiguration.h in Headers */,
@@ -2302,6 +2314,7 @@
 				F8936DE3230C2805006A330F /* MSChannelDelegate.h in Headers */,
 				F8936DFD230C2805006A330F /* MSAppExtension.h in Headers */,
 				F8936E06230C2805006A330F /* MSProtocolExtension.h in Headers */,
+				7839727623B39C2B00620142 /* MSAlertController.h in Headers */,
 				F8936D1B230C2604006A330F /* MSHttpIngestionPrivate.h in Headers */,
 				F8936E1C230C2805006A330F /* MSLogDBStorage.h in Headers */,
 				F8936DE1230C2805006A330F /* MSChannelUnitConfiguration.h in Headers */,
@@ -2906,6 +2919,7 @@
 				F8936C93230C23F0006A330F /* MSUserExtension.m in Sources */,
 				F8936C94230C23F0006A330F /* MSAbstractLog.m in Sources */,
 				F8936C95230C23F0006A330F /* MSCustomPropertiesLog.m in Sources */,
+				78686FAF23B390C600CDA4C1 /* MSAlertController.m in Sources */,
 				F8936C96230C23F0006A330F /* MSLogContainer.m in Sources */,
 				F8936C97230C23F0006A330F /* MSLogWithProperties.m in Sources */,
 				DF5DA1FD23A0E57B00DE695C /* MSPerformSelectorUtil.m in Sources */,
@@ -2984,6 +2998,7 @@
 				C9A92102230C61820068070D /* MSAppExtension.m in Sources */,
 				C9A92122230C61820068070D /* MSUtility+Date.m in Sources */,
 				C9A92119230C61820068070D /* MSDBStorage.m in Sources */,
+				78686FAD23B390C600CDA4C1 /* MSAlertController.m in Sources */,
 				C9A92110230C61820068070D /* MSLogContainer.m in Sources */,
 				C9A92124230C61820068070D /* MSUtility+File.m in Sources */,
 				C9A92125230C61820068070D /* MSUtility+PropertyValidation.m in Sources */,
@@ -3062,6 +3077,7 @@
 				C9A92148230C61830068070D /* MSAppExtension.m in Sources */,
 				C9A92168230C61830068070D /* MSUtility+Date.m in Sources */,
 				C9A9215F230C61830068070D /* MSDBStorage.m in Sources */,
+				78686FAE23B390C600CDA4C1 /* MSAlertController.m in Sources */,
 				C9A92156230C61830068070D /* MSLogContainer.m in Sources */,
 				C9A9216A230C61830068070D /* MSUtility+File.m in Sources */,
 				C9A9216B230C61830068070D /* MSUtility+PropertyValidation.m in Sources */,
