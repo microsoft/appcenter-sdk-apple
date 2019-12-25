@@ -5,6 +5,7 @@
 #import <UIKit/UIWindow.h>
 
 #import "MSAlertController.h"
+#import "MSPerformSelectorUtil.h"
 
 static char *const MSAlertsDispatchQueue = "com.microsoft.appcenter.alertsQueue";
 
@@ -146,34 +147,23 @@ static dispatch_queue_t alertsQueue;
   }
 }
 
-#define Invocation(result, class, selectorName, ...) ({ \
- SEL selectors = NSSelectorFromString(@#selectorName); \
- NSMethodSignature *signature = [class methodSignatureForSelector:selectors]; \
- NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:signature]; \
- [invocation setTarget:class]; \
- [invocation setSelector:selectors]; \
- NSArray* array = [NSArray arrayWithObjects: !(sizeof( (char[]){#__VA_ARGS__} ) == 1) ? __VA_ARGS__ : [NSNull null], nil];\
- int index = 2; \
- for(id value in array) {\
-    if (value != [NSNull null]) { \
-        void * values = (__bridge void *)value;    \
-        [invocation setArgument:&values atIndex:index++];\
-    }\
- }\
- [invocation retainArguments];\
- [invocation invoke];\
- invocation;\
+#define ARRAY_FROM_ARGS(...) ({\
+ [NSArray arrayWithObjects: !(sizeof( (char[]){#__VA_ARGS__} ) == 1) ? __VA_ARGS__ : [NSNull null], nil];\
 })
 
 #define MS_DISPATCH_SELECTOR_OBJECT(result, class, selectorName, ...) ({ \
-  NSInvocation *impl = Invocation(result,class,selectorName, ##__VA_ARGS__);\
-  void *results;\
-  [impl getReturnValue:&results];\
-  (__bridge result)results; \
+ NSArray* array = ARRAY_FROM_ARGS(__VA_ARGS__);\
+ id instance = class;\
+ NSInvocation *impl = [MSPerformSelectorUtil invoke:instance withSelector:@#selectorName withObjects:array];\
+ void *results;\
+ [impl getReturnValue:&results];\
+ (__bridge result)results; \
 })
 
 #define MS_DISPATCH_SELECTOR(result, class, selectorName, ...) ({ \
- NSInvocation *impl = Invocation(result, class, selectorName, ##__VA_ARGS__);\
+ NSArray* array = ARRAY_FROM_ARGS(__VA_ARGS__);\
+ id instance = class;\
+ NSInvocation *impl = [MSPerformSelectorUtil invoke:instance withSelector:@#selectorName withObjects:array];\
  void *results = nil;\
  if(![@#result isEqualToString:@"void"]) {\
   NSUInteger length = [[impl methodSignature] methodReturnLength];\
