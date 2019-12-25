@@ -596,7 +596,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                                                                 callbackURLScheme:callbackUrlScheme
                                                                 completionHandler:authCompletionBlock];
 
-  if (self.authenticationSession != nil) {
+  if (self.authenticationSession) {
 
     // Calling 'start' on an existing session crashes the application - cancel session.
     [(SFAuthenticationSession *)self.authenticationSession cancel];
@@ -613,8 +613,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                                                                expirationHandler:^{
                                                                  [[MSUtility sharedApp] endBackgroundTask:backgroundAuthSessionTask];
                                                                }];
-  BOOL success = [session start];
-  if (success) {
+  if ([session start]) {
     MSLogDebug([MSDistribute logTag], @"Authentication session started, showing confirmation dialog.");
   } else {
     MSLogError([MSDistribute logTag], @"Failed to start authentication session.");
