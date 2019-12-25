@@ -7,6 +7,4 @@
 
 + (void)performSelectorOnMainThread:(NSObject *)source withSelector:(SEL)selector withObjects:(NSObject *)objects, ...;
 
-+ (NSInvocation *)invoke:(NSObject *)source withSelector:(NSString *)selector withObjects:(NSArray *)objects;
-
 @end

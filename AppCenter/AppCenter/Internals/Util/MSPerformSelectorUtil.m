@@ -27,22 +27,4 @@
   [invocation performSelectorOnMainThread:@selector(invoke) withObject:nil waitUntilDone:NO];
 }
 
-+ (NSInvocation *)invoke:(NSObject *)source withSelector:(NSString *)selector withObjects:(NSArray *)objects {
-  SEL selectors = NSSelectorFromString(selector);
-  NSMethodSignature *signature = [source methodSignatureForSelector:selectors];
-  NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:signature];
-  [invocation setTarget:source];
-  [invocation setSelector:selectors];
-  int index = 2;
-  for (id value in objects) {
-    if (value != [NSNull null]) {
-      void *values = (__bridge void *)value;
-      [invocation setArgument:&values atIndex:index++];
-    }
-  }
-  [invocation retainArguments];
-  [invocation invoke];
-  return invocation;
-}
-
 @end
