@@ -84,8 +84,10 @@ static NSString *const kMSTestGroupId = @"GroupId";
 }
 
 - (void)tearDown {
-  
+
   // Stop mocks.
+  [self.storageMock stopMocking];
+  [self.ingestionMock stopMocking];
   [self.settingsMock stopMocking];
   [self.authTokenContextMock stopMocking];
   [MSAuthTokenContext resetSharedInstance];
@@ -113,7 +115,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                                                 batchSizeLimit:50
                                                            pendingBatchesLimit:3];
 
-  
+   
   // When
   [channel pauseWithIdentifyingObjectSync:object];
 
@@ -1949,7 +1951,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   OCMStub([userIdContextMock sharedInstance]).andReturn(userIdContextMock);
   OCMStub([userIdContextMock userId]).andReturn(@"SomethingElse");
   channel.storage = self.storageMock = OCMProtocolMock(@protocol(MSStorage));
-  OCMStub([self.storageMock saveLog:OCMOCK_ANY withGroupId:OCMOCK_ANY flags:MSFlagsNormal])
+  OCMStub([channel.storage saveLog:OCMOCK_ANY withGroupId:OCMOCK_ANY flags:MSFlagsNormal])
       .andDo(^(NSInvocation *invocation) {
         MSAbstractLog *log;
         [invocation getArgument:&log atIndex:2];
