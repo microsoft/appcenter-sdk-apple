@@ -10,8 +10,6 @@
     initedArray;                                                                                                                           \
   })
 
-#define IS_EMPTY(...) ({ (sizeof((char[]){#__VA_ARGS__}) == 1); })
-
 #define INVOKE(c) PRIMITIVE_CAT(INVOKE_, c)
 #define INVOKE_1(t, ...) t
 #define INVOKE_0(t, ...) EXECUTE_INVOCATION(t)
