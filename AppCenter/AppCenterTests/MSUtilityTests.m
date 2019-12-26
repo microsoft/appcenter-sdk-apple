@@ -898,39 +898,38 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
 }
 
 - (void)testCheckSizeMacro {
+  // When
+  NSArray *arrayWithValues = ARRAY_FROM_ARGS(@"TestString1", @"TestString2", @"TestString3");
+  NSArray *emptyArray = ARRAY_FROM_ARGS();
 
-    // When
-    NSArray* arrayWithValues = ARRAY_FROM_ARGS(@"TestString1", @"TestString2", @"TestString3",);
-    NSArray* emptyArray = ARRAY_FROM_ARGS();
-
-    // Then
-    XCTAssertTrue([arrayWithValues count] == 3);
-    XCTAssertTrue([emptyArray count] == 0);
+  // Then
+  XCTAssertTrue([arrayWithValues count] == 3);
+  XCTAssertTrue([emptyArray count] == 0);
 }
 
 - (void)testDispatchObjectMacro {
 
-    // If
-    NSMutableArray* array = [NSMutableArray new];
-    [array addObject:@"test"];
+  // If
+  NSMutableArray *array = [NSMutableArray new];
+  [array addObject:@"test"];
 
-    // When
-    NSString *result = MS_DISPATCH_SELECTOR_OBJECT(NSString*, array, objectAtIndex:, 0,);
+  // When
+  NSString *result = MS_DISPATCH_SELECTOR_OBJECT(NSString *, array, objectAtIndex:, 0);
 
-    // Then
-    XCTAssertTrue(result == @"test");
+  // Then
+  XCTAssertTrue([result isEqual:@"test"]);
 }
 
 - (void)testDispatchVoidMacro {
 
-    // If
-    NSMutableArray* array = [NSMutableArray new];
+  // If
+  NSMutableArray *array = [NSMutableArray new];
 
-    // When
-    MS_DISPATCH_SELECTOR(void, array, addObject:, @"testValue",);
+  // When
+  MS_DISPATCH_SELECTOR(void, array, addObject:, @"testValue");
 
-    // Then
-    XCTAssertTrue([array count] == 1);
+  // Then
+  XCTAssertTrue([array count] == 1);
 }
 
 - (void)testPerformSelectorOnMainThread {
