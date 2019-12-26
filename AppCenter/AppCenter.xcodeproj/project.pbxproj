@@ -231,9 +231,7 @@
 		6E48A5A71D383893006E8B5F /* MSChannelGroupDefaultTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E48A5A61D383893006E8B5F /* MSChannelGroupDefaultTests.m */; };
 		6EB1F40E1D2443B7005F9F99 /* MSChannelUnitDefaultTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EB1F40D1D2443B7005F9F99 /* MSChannelUnitDefaultTests.m */; };
 		7839727423B39C2A00620142 /* MSAlertController.h in Headers */ = {isa = PBXBuildFile; fileRef = 78686FAB23B390C500CDA4C1 /* MSAlertController.h */; };
-		7839727523B39C2A00620142 /* MSAlertController.h in Headers */ = {isa = PBXBuildFile; fileRef = 78686FAB23B390C500CDA4C1 /* MSAlertController.h */; };
 		7839727623B39C2B00620142 /* MSAlertController.h in Headers */ = {isa = PBXBuildFile; fileRef = 78686FAB23B390C500CDA4C1 /* MSAlertController.h */; };
-		78686FAD23B390C600CDA4C1 /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 78686FAC23B390C600CDA4C1 /* MSAlertController.m */; };
 		78686FAE23B390C600CDA4C1 /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 78686FAC23B390C600CDA4C1 /* MSAlertController.m */; };
 		78686FAF23B390C600CDA4C1 /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 78686FAC23B390C600CDA4C1 /* MSAlertController.m */; };
 		7FB7054B222E595F00D93258 /* MSMockReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FB70548222E58FB00D93258 /* MSMockReachability.m */; };
@@ -2180,7 +2178,6 @@
 				F8936D8B230C2805006A330F /* MSChannelDelegate.h in Headers */,
 				F8936DA5230C2805006A330F /* MSAppExtension.h in Headers */,
 				F8936DAE230C2805006A330F /* MSProtocolExtension.h in Headers */,
-				7839727523B39C2A00620142 /* MSAlertController.h in Headers */,
 				F8936D07230C2604006A330F /* MSHttpIngestionPrivate.h in Headers */,
 				F8936DC4230C2805006A330F /* MSLogDBStorage.h in Headers */,
 				F8936D89230C2805006A330F /* MSChannelUnitConfiguration.h in Headers */,
@@ -2998,7 +2995,6 @@
 				C9A92102230C61820068070D /* MSAppExtension.m in Sources */,
 				C9A92122230C61820068070D /* MSUtility+Date.m in Sources */,
 				C9A92119230C61820068070D /* MSDBStorage.m in Sources */,
-				78686FAD23B390C600CDA4C1 /* MSAlertController.m in Sources */,
 				C9A92110230C61820068070D /* MSLogContainer.m in Sources */,
 				C9A92124230C61820068070D /* MSUtility+File.m in Sources */,
 				C9A92125230C61820068070D /* MSUtility+PropertyValidation.m in Sources */,
