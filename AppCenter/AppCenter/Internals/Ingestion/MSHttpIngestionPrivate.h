@@ -85,17 +85,6 @@
 - (NSString *)obfuscateResponsePayload:(NSString *)payload;
 
 /**
- * Get the HTTP headers for the given data.
- *
- * @param data The data to be sent.
- * @param eTag The ETag.
- * @param authToken The authorization token.
- *
- * @return A dictionary of headers.
- */
-- (NSDictionary *)getHeadersWithData:(NSObject *)data eTag:(NSString *)eTag authToken:(NSString *)authToken;
-
-/**
  * Gets the HTTP payload for the given data.
  *
  * @param data The data object.

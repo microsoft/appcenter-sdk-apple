@@ -42,38 +42,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "C9A91F1E230BF9590068070D"
-               BuildableName = "AppCenterAuth.framework"
-               BlueprintName = "AppCenterAuth macOS Framework"
-               ReferencedContainer = "container:AppCenterAuth/AppCenterAuth.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "C9A91F5D230BFDB70068070D"
                BuildableName = "AppCenterCrashes.framework"
                BlueprintName = "AppCenterCrashes macOS Framework"
                ReferencedContainer = "container:AppCenterCrashes/AppCenterCrashes.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "C9A91F79230BFF670068070D"
-               BuildableName = "AppCenterData.framework"
-               BlueprintName = "AppCenterData macOS Framework"
-               ReferencedContainer = "container:AppCenterData/AppCenterData.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -126,38 +98,10 @@
             buildForAnalyzing = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "046AEAB21ECA51AF00CBE511"
-               BuildableName = "AppCenterAuth.xctest"
-               BlueprintName = "AppCenterAuth macOS Tests"
-               ReferencedContainer = "container:AppCenterAuth/AppCenterAuth.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "NO"
-            buildForProfiling = "NO"
-            buildForArchiving = "NO"
-            buildForAnalyzing = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "049327611ECA170D00D0187A"
                BuildableName = "AppCenterCrashes.xctest"
                BlueprintName = "AppCenterCrashes macOS Tests"
                ReferencedContainer = "container:AppCenterCrashes/AppCenterCrashes.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "NO"
-            buildForProfiling = "NO"
-            buildForArchiving = "NO"
-            buildForAnalyzing = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "046964131F2A559C00F9D31F"
-               BuildableName = "AppCenterData.xctest"
-               BlueprintName = "AppCenterData macOS Tests"
-               ReferencedContainer = "container:AppCenterData/AppCenterData.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -221,26 +165,6 @@
                BuildableName = "AppCenterPush.xctest"
                BlueprintName = "AppCenterPush macOS Tests"
                ReferencedContainer = "container:AppCenterPush/AppCenterPush.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "046AEAB21ECA51AF00CBE511"
-               BuildableName = "AppCenterAuth.xctest"
-               BlueprintName = "AppCenterAuth macOS Tests"
-               ReferencedContainer = "container:AppCenterAuth/AppCenterAuth.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "046964131F2A559C00F9D31F"
-               BuildableName = "AppCenterData.xctest"
-               BlueprintName = "AppCenterData macOS Tests"
-               ReferencedContainer = "container:AppCenterData/AppCenterData.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
