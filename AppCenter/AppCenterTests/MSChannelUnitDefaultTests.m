@@ -2010,8 +2010,9 @@ static NSString *const kMSTestGroupId = @"GroupId";
   uuid_t uuid;
   uuid_generate(uuid);
   char *nameQueue = malloc(100);
-  uuid_unparse(uuid, nameQueue);
-  return dispatch_queue_create(nameQueue, DISPATCH_QUEUE_SERIAL);
+  dispatch_queue_t queue = dispatch_queue_create(nameQueue, DISPATCH_QUEUE_SERIAL);
+  free(nameQueue);
+  return queue;
 }
 
 - (MSChannelUnitDefault *)createChannelUnitDefault:(dispatch_queue_t)queue {
