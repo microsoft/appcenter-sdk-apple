@@ -596,11 +596,8 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                                                                 callbackURLScheme:callbackUrlScheme
                                                                 completionHandler:authCompletionBlock];
 
-  if (self.authenticationSession) {
-
-    // Calling 'start' on an existing session crashes the application - cancel session.
-    [(SFAuthenticationSession *)self.authenticationSession cancel];
-  }
+  // Calling 'start' on an existing session crashes the application - cancel session.
+  [self.authenticationSession cancel];
 
   // Retain the session.
   self.authenticationSession = session;
