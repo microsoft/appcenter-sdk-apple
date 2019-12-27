@@ -376,53 +376,6 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   XCTAssertFalse(moreLogsAvailable);
 }
 
-- (void)testLoadLogsOnlyOldLogs {
-
-  // If
-  NSDate *date = [NSDate date];
-
-  // When
-  for (int i = 0; i < 20; i++) {
-    MSLogWithProperties *log = [MSLogWithProperties new];
-    log.sid = MS_UUID_STRING;
-    log.timestamp = [[NSCalendar currentCalendar] dateByAddingUnit:NSCalendarUnitDay value:-i toDate:date options:0];
-    [self.sut saveLog:log withGroupId:kMSTestGroupId flags:MSFlagsDefault];
-  }
-
-  // Dates are compared by < not <=, so we need to change date a bit to compare with same shifts
-  date = [[NSCalendar currentCalendar] dateByAddingUnit:NSCalendarUnitSecond value:1 toDate:date options:0];
-
-  // Then
-  [self.sut loadLogsWithGroupId:kMSTestGroupId
-                          limit:20
-             excludedTargetKeys:nil
-              completionHandler:^(NSArray<MSLog> *_Nonnull logArray, __unused NSString *batchId) {
-                assertThatInt(logArray.count, equalToInt(10));
-              }];
-}
-
-- (void)testLoadLogsInRange {
-
-  // If
-  NSDate *date = [NSDate date];
-
-  // When
-  for (int i = 0; i < 20; i++) {
-    MSLogWithProperties *log = [MSLogWithProperties new];
-    log.sid = MS_UUID_STRING;
-    log.timestamp = [[NSCalendar currentCalendar] dateByAddingUnit:NSCalendarUnitDay value:-i toDate:date options:0];
-    [self.sut saveLog:log withGroupId:kMSTestGroupId flags:MSFlagsDefault];
-  }
-
-  // Then
-  [self.sut loadLogsWithGroupId:kMSTestGroupId
-                          limit:20
-             excludedTargetKeys:nil
-              completionHandler:^(NSArray<MSLog> *_Nonnull logArray, __unused NSString *batchId) {
-                assertThatInt(logArray.count, equalToInt(5));
-              }];
-}
-
 - (void)testLoadUnlimitedLogs {
 
   // If
@@ -991,50 +944,6 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
                                        }
                                        return NO;
                                      }]]);
-  [classMock stopMocking];
-}
-
-- (void)testUsesMillisecondsInLoadQuery {
-
-  // If
-  id classMock = OCMClassMock([MSDBStorage class]);
-  NSArray *testLogs = @[];
-  OCMStub([classMock executeSelectionQuery:startsWith(@"SELECT") withValues:OCMOCK_ANY]).andReturn(testLogs);
-  NSDate *testAfterDate = [NSDate new];
-  NSDate *testBeforeDate = [NSDate new];
-  long long expectedAfterTimestampMs = (long long)([testAfterDate timeIntervalSince1970] * 1000);
-  long long expectedBeforeTimestampMs = (long long)([testBeforeDate timeIntervalSince1970] * 1000);
-
-  // When
-  [self.sut loadLogsWithGroupId:kMSTestGroupId limit:1 excludedTargetKeys:nil completionHandler:nil];
-
-  // Then
-  OCMVerify([classMock executeSelectionQuery:OCMOCK_ANY
-                            inOpenedDatabase:[OCMArg anyPointer]
-                                  withValues:[OCMArg checkWithBlock:^BOOL(id obj) {
-                                    for (id<MSStorageBindableType> value in ((MSStorageBindableArray *)obj).array) {
-                                      if (![value isKindOfClass:[MSStorageNumberType class]]) {
-                                        continue;
-                                      }
-                                      if ([[(MSStorageNumberType *)value value] isEqualToNumber:@(expectedAfterTimestampMs)]) {
-                                        return YES;
-                                      }
-                                    }
-                                    return NO;
-                                  }]]);
-  OCMVerify([classMock executeSelectionQuery:OCMOCK_ANY
-                            inOpenedDatabase:[OCMArg anyPointer]
-                                  withValues:[OCMArg checkWithBlock:^BOOL(id obj) {
-                                    for (id<MSStorageBindableType> value in ((MSStorageBindableArray *)obj).array) {
-                                      if (![value isKindOfClass:[MSStorageNumberType class]]) {
-                                        continue;
-                                      }
-                                      if ([[(MSStorageNumberType *)value value] isEqualToNumber:@(expectedBeforeTimestampMs)]) {
-                                        return YES;
-                                      }
-                                    }
-                                    return NO;
-                                  }]]);
   [classMock stopMocking];
 }
 

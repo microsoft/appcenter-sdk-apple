@@ -156,7 +156,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
         MSLoadDataCompletionHandler loadCallback;
 
         // Get ingestion block for later call.
-        [invocation getArgument:&loadCallback atIndex:7];
+        [invocation getArgument:&loadCallback atIndex:5];
 
         // Mock load with incrementing batchId.
         loadCallback(logs, [@(currentBatchId++) stringValue]);
@@ -459,7 +459,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
         MSLoadDataCompletionHandler loadCallback;
 
         // Get ingestion block for later call.
-        [invocation getArgument:&loadCallback atIndex:7];
+        [invocation getArgument:&loadCallback atIndex:5];
 
         // Mock load.
         loadCallback(((NSArray<id<MSLog>> *)@[ expectedLog ]), expectedBatchId);
@@ -603,7 +603,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
         MSLoadDataCompletionHandler loadCallback;
 
         // Get ingestion block for later call.
-        [invocation getArgument:&loadCallback atIndex:7];
+        [invocation getArgument:&loadCallback atIndex:5];
 
         // Mock load.
         loadCallback(((NSArray<id<MSLog>> *)@[ expectedLog ]), expectedBatchId);
@@ -849,7 +849,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
         MSLoadDataCompletionHandler loadCallback;
 
         // Mock load.
-        [invocation getArgument:&loadCallback atIndex:7];
+        [invocation getArgument:&loadCallback atIndex:5];
         loadCallback(((NSArray<id<MSLog>> *)@[ expectedLog ]), [@(currentBatchId++) stringValue]);
       });
   self.sut.configuration = [[MSChannelUnitConfiguration alloc] initWithGroupId:kMSTestGroupId
@@ -917,7 +917,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
         MSLoadDataCompletionHandler loadCallback;
 
         // Get ingestion block for later call.
-        [invocation getArgument:&loadCallback atIndex:7];
+        [invocation getArgument:&loadCallback atIndex:5];
 
         // Mock load.
         loadCallback(((NSArray<id<MSLog>> *)@[ expectedLog ]), [@(currentBatchId) stringValue]);
