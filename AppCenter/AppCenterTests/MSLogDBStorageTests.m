@@ -396,7 +396,7 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   [self.sut loadLogsWithGroupId:kMSTestGroupId
                           limit:20
              excludedTargetKeys:nil
-                      completionHandler:^(NSArray<MSLog> *_Nonnull logArray, __unused NSString *batchId) {
+              completionHandler:^(NSArray<MSLog> *_Nonnull logArray, __unused NSString *batchId) {
                 assertThatInt(logArray.count, equalToInt(10));
               }];
 }
@@ -1006,10 +1006,7 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   long long expectedBeforeTimestampMs = (long long)([testBeforeDate timeIntervalSince1970] * 1000);
 
   // When
-  [self.sut loadLogsWithGroupId:kMSTestGroupId
-                          limit:1
-             excludedTargetKeys:nil
-              completionHandler:nil];
+  [self.sut loadLogsWithGroupId:kMSTestGroupId limit:1 excludedTargetKeys:nil completionHandler:nil];
 
   // Then
   OCMVerify([classMock executeSelectionQuery:OCMOCK_ANY

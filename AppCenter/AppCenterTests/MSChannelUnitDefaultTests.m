@@ -976,7 +976,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   OCMStub([self.ingestionMock sendAsync:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
   OCMStub([self.storageMock loadLogsWithGroupId:kMSTestGroupId
                                           limit:batchSizeLimit
-                                     beforeDate:OCMOCK_ANY
+                             excludedTargetKeys:OCMOCK_ANY
                               completionHandler:([OCMArg invokeBlockWithArgs:((NSArray<id<MSLog>> *)@[ mockLog ]), @"1", nil])]);
   self.sut.configuration = [[MSChannelUnitConfiguration alloc] initWithGroupId:kMSTestGroupId
                                                                       priority:MSPriorityDefault
