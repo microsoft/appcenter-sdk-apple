@@ -153,7 +153,7 @@ static dispatch_queue_t alertsQueue;
     NSSet *scenes = MS_DISPATCH_SELECTOR_OBJECT(NSSet *, application, connectedScenes);
     NSObject *windowScene = nil;
     for (NSObject *scene in scenes) {
-      NSInteger activationState = MS_DISPATCH_SELECTOR(NSInteger, scene, activationState);
+      NSInteger activationState = MS_DISPATCH_SELECTOR_STRUCT(NSInteger, scene, activationState);
       if (activationState == 0 /* UISceneActivationStateForegroundActive */) {
         windowScene = scene;
         break;
@@ -163,7 +163,7 @@ static dispatch_queue_t alertsQueue;
       windowScene = scenes.anyObject;
     }
 
-    MS_DISPATCH_SELECTOR(void, window, setWindowScene:, windowScene);
+    MS_DISPATCH_SELECTOR(window, setWindowScene:, windowScene);
   }
   [window makeKeyAndVisible];
 }
