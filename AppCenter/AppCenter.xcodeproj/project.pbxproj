@@ -829,6 +829,27 @@
 		F8936E29230C2805006A330F /* MSUtility+StringFormatting.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD749B1F22BE270070E7DF /* MSUtility+StringFormatting.h */; };
 		F8936E2A230C2805006A330F /* MSCompression.h in Headers */ = {isa = PBXBuildFile; fileRef = 38148D8420D07FB70046257E /* MSCompression.h */; };
 		F8936E2B230C2805006A330F /* MS_Reachability.h in Headers */ = {isa = PBXBuildFile; fileRef = E83283C41D46C62E000B029E /* MS_Reachability.h */; };
+		F8BA7A2923AA8A26009FBCCF /* MSStorageBindableArray.h in Headers */ = {isa = PBXBuildFile; fileRef = F8BA7A2823AA8A26009FBCCF /* MSStorageBindableArray.h */; };
+		F8BA7A2A23AA8A26009FBCCF /* MSStorageBindableArray.h in Headers */ = {isa = PBXBuildFile; fileRef = F8BA7A2823AA8A26009FBCCF /* MSStorageBindableArray.h */; };
+		F8BA7A2B23AA8A26009FBCCF /* MSStorageBindableArray.h in Headers */ = {isa = PBXBuildFile; fileRef = F8BA7A2823AA8A26009FBCCF /* MSStorageBindableArray.h */; };
+		F8BA7A2D23AA8B84009FBCCF /* MSStorageBindableArray.m in Sources */ = {isa = PBXBuildFile; fileRef = F8BA7A2C23AA8B84009FBCCF /* MSStorageBindableArray.m */; };
+		F8BA7A2E23AA8B84009FBCCF /* MSStorageBindableArray.m in Sources */ = {isa = PBXBuildFile; fileRef = F8BA7A2C23AA8B84009FBCCF /* MSStorageBindableArray.m */; };
+		F8BA7A2F23AA8B84009FBCCF /* MSStorageBindableArray.m in Sources */ = {isa = PBXBuildFile; fileRef = F8BA7A2C23AA8B84009FBCCF /* MSStorageBindableArray.m */; };
+		F8DC50D623AA828D00BF8839 /* MSStorageBindableType.h in Headers */ = {isa = PBXBuildFile; fileRef = F8DC50C823AA75FF00BF8839 /* MSStorageBindableType.h */; };
+		F8DC50D723AA828D00BF8839 /* MSStorageNumberType.h in Headers */ = {isa = PBXBuildFile; fileRef = F8DC50C923AA777400BF8839 /* MSStorageNumberType.h */; };
+		F8DC50D823AA828D00BF8839 /* MSStorageTextType.h in Headers */ = {isa = PBXBuildFile; fileRef = F8DC50CA23AA77CB00BF8839 /* MSStorageTextType.h */; };
+		F8DC50DA23AA828D00BF8839 /* MSStorageTextType.m in Sources */ = {isa = PBXBuildFile; fileRef = F8DC50CC23AA77F700BF8839 /* MSStorageTextType.m */; };
+		F8DC50DB23AA828D00BF8839 /* MSStorageNumberType.m in Sources */ = {isa = PBXBuildFile; fileRef = F8DC50CE23AA7A3900BF8839 /* MSStorageNumberType.m */; };
+		F8DC50DD23AA828E00BF8839 /* MSStorageBindableType.h in Headers */ = {isa = PBXBuildFile; fileRef = F8DC50C823AA75FF00BF8839 /* MSStorageBindableType.h */; };
+		F8DC50DE23AA828E00BF8839 /* MSStorageNumberType.h in Headers */ = {isa = PBXBuildFile; fileRef = F8DC50C923AA777400BF8839 /* MSStorageNumberType.h */; };
+		F8DC50DF23AA828E00BF8839 /* MSStorageTextType.h in Headers */ = {isa = PBXBuildFile; fileRef = F8DC50CA23AA77CB00BF8839 /* MSStorageTextType.h */; };
+		F8DC50E123AA828E00BF8839 /* MSStorageTextType.m in Sources */ = {isa = PBXBuildFile; fileRef = F8DC50CC23AA77F700BF8839 /* MSStorageTextType.m */; };
+		F8DC50E223AA828E00BF8839 /* MSStorageNumberType.m in Sources */ = {isa = PBXBuildFile; fileRef = F8DC50CE23AA7A3900BF8839 /* MSStorageNumberType.m */; };
+		F8DC50E423AA828F00BF8839 /* MSStorageBindableType.h in Headers */ = {isa = PBXBuildFile; fileRef = F8DC50C823AA75FF00BF8839 /* MSStorageBindableType.h */; };
+		F8DC50E523AA828F00BF8839 /* MSStorageNumberType.h in Headers */ = {isa = PBXBuildFile; fileRef = F8DC50C923AA777400BF8839 /* MSStorageNumberType.h */; };
+		F8DC50E623AA828F00BF8839 /* MSStorageTextType.h in Headers */ = {isa = PBXBuildFile; fileRef = F8DC50CA23AA77CB00BF8839 /* MSStorageTextType.h */; };
+		F8DC50E823AA828F00BF8839 /* MSStorageTextType.m in Sources */ = {isa = PBXBuildFile; fileRef = F8DC50CC23AA77F700BF8839 /* MSStorageTextType.m */; };
+		F8DC50E923AA828F00BF8839 /* MSStorageNumberType.m in Sources */ = {isa = PBXBuildFile; fileRef = F8DC50CE23AA7A3900BF8839 /* MSStorageNumberType.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1168,6 +1189,13 @@
 		F803BC371E8E6927004B1E7A /* MSCustomPropertiesTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSCustomPropertiesTests.m; sourceTree = "<group>"; };
 		F803BC391E8E6963004B1E7A /* MSCustomPropertiesLogTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSCustomPropertiesLogTests.m; sourceTree = "<group>"; };
 		F82E4C6C217F159A00EDAB34 /* sqlite3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = sqlite3.c; path = ../../Vendor/SQLite3/sqlite3.c; sourceTree = "<group>"; };
+		F8BA7A2823AA8A26009FBCCF /* MSStorageBindableArray.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSStorageBindableArray.h; sourceTree = "<group>"; };
+		F8BA7A2C23AA8B84009FBCCF /* MSStorageBindableArray.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSStorageBindableArray.m; sourceTree = "<group>"; };
+		F8DC50C823AA75FF00BF8839 /* MSStorageBindableType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSStorageBindableType.h; sourceTree = "<group>"; };
+		F8DC50C923AA777400BF8839 /* MSStorageNumberType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSStorageNumberType.h; sourceTree = "<group>"; };
+		F8DC50CA23AA77CB00BF8839 /* MSStorageTextType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSStorageTextType.h; sourceTree = "<group>"; };
+		F8DC50CC23AA77F700BF8839 /* MSStorageTextType.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSStorageTextType.m; sourceTree = "<group>"; };
+		F8DC50CE23AA7A3900BF8839 /* MSStorageNumberType.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSStorageNumberType.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1821,6 +1849,13 @@
 				383481721EA7FF6100787F56 /* MSLogDBStoragePrivate.h */,
 				B2CD74841F22BD910070E7DF /* MSLogDBStorage.m */,
 				046658B7215AD59D0079DCC7 /* MSLogDBStorageVersion.h */,
+				F8DC50C823AA75FF00BF8839 /* MSStorageBindableType.h */,
+				F8DC50C923AA777400BF8839 /* MSStorageNumberType.h */,
+				F8DC50CA23AA77CB00BF8839 /* MSStorageTextType.h */,
+				F8DC50CC23AA77F700BF8839 /* MSStorageTextType.m */,
+				F8DC50CE23AA7A3900BF8839 /* MSStorageNumberType.m */,
+				F8BA7A2823AA8A26009FBCCF /* MSStorageBindableArray.h */,
+				F8BA7A2C23AA8B84009FBCCF /* MSStorageBindableArray.m */,
 			);
 			path = Storage;
 			sourceTree = "<group>";
@@ -1927,6 +1962,7 @@
 				F8936D5C230C2804006A330F /* MSLogContainer.h in Headers */,
 				F8936CE8230C2603006A330F /* MSAppCenterPrivate.h in Headers */,
 				F8936D7B230C2804006A330F /* MS_Reachability.h in Headers */,
+				F8DC50D723AA828D00BF8839 /* MSStorageNumberType.h in Headers */,
 				F8936D5A230C2804006A330F /* MSCustomPropertiesLog.h in Headers */,
 				F8936D2A230C2804006A330F /* MSServiceInternal.h in Headers */,
 				F8936CBC230C24D9006A330F /* MSServiceAbstract.h in Headers */,
@@ -1959,12 +1995,15 @@
 				F8936D6A230C2804006A330F /* MSDBStorage.h in Headers */,
 				F8936D5B230C2804006A330F /* MSDeviceInternal.h in Headers */,
 				F8936CEC230C2603006A330F /* MSChannelUnitDefaultPrivate.h in Headers */,
+				F8DC50D823AA828D00BF8839 /* MSStorageTextType.h in Headers */,
 				F8936D79230C2804006A330F /* MSUtility+StringFormatting.h in Headers */,
 				F8936D6E230C2804006A330F /* MSOrderedDictionary.h in Headers */,
 				F8936D53230C2804006A330F /* MSMetadataExtension.h in Headers */,
 				F8936CB6230C24D9006A330F /* MSChannelProtocol.h in Headers */,
 				F8936D44230C2804006A330F /* MSHttpCall.h in Headers */,
+				F8BA7A2923AA8A26009FBCCF /* MSStorageBindableArray.h in Headers */,
 				F8936CD7230C25A3006A330F /* MSDevice.h in Headers */,
+				F8DC50D623AA828D00BF8839 /* MSStorageBindableType.h in Headers */,
 				F8936D33230C2804006A330F /* MSChannelDelegate.h in Headers */,
 				F8936D4D230C2804006A330F /* MSAppExtension.h in Headers */,
 				F8936D56230C2804006A330F /* MSProtocolExtension.h in Headers */,
@@ -2053,6 +2092,7 @@
 				F8936DD3230C2805006A330F /* MS_Reachability.h in Headers */,
 				F8936DB2230C2805006A330F /* MSCustomPropertiesLog.h in Headers */,
 				F8936D82230C2805006A330F /* MSServiceInternal.h in Headers */,
+				F8DC50DE23AA828E00BF8839 /* MSStorageNumberType.h in Headers */,
 				F8936CC8230C24DA006A330F /* MSServiceAbstract.h in Headers */,
 				F8936CFF230C2604006A330F /* MSChannelGroupDefaultPrivate.h in Headers */,
 				F8936D08230C2604006A330F /* MSOneCollectorIngestionPrivate.h in Headers */,
@@ -2086,12 +2126,15 @@
 				F8936DB3230C2805006A330F /* MSDeviceInternal.h in Headers */,
 				F8936D00230C2604006A330F /* MSChannelUnitDefaultPrivate.h in Headers */,
 				F8936DD1230C2805006A330F /* MSUtility+StringFormatting.h in Headers */,
+				F8DC50DF23AA828E00BF8839 /* MSStorageTextType.h in Headers */,
 				F8936DC6230C2805006A330F /* MSOrderedDictionary.h in Headers */,
 				F8936DAB230C2805006A330F /* MSMetadataExtension.h in Headers */,
 				F8936CC2230C24D9006A330F /* MSChannelProtocol.h in Headers */,
 				F8936D9C230C2805006A330F /* MSHttpCall.h in Headers */,
 				F8936CDD230C25A4006A330F /* MSDevice.h in Headers */,
+				F8BA7A2A23AA8A26009FBCCF /* MSStorageBindableArray.h in Headers */,
 				F8936D8B230C2805006A330F /* MSChannelDelegate.h in Headers */,
+				F8DC50DD23AA828E00BF8839 /* MSStorageBindableType.h in Headers */,
 				F8936DA5230C2805006A330F /* MSAppExtension.h in Headers */,
 				F8936DAE230C2805006A330F /* MSProtocolExtension.h in Headers */,
 				F8936D07230C2604006A330F /* MSHttpIngestionPrivate.h in Headers */,
@@ -2180,6 +2223,7 @@
 				F8936E2B230C2805006A330F /* MS_Reachability.h in Headers */,
 				F8936E0A230C2805006A330F /* MSCustomPropertiesLog.h in Headers */,
 				F8936DDA230C2805006A330F /* MSServiceInternal.h in Headers */,
+				F8DC50E523AA828F00BF8839 /* MSStorageNumberType.h in Headers */,
 				F8936CD4230C24DA006A330F /* MSServiceAbstract.h in Headers */,
 				F8936D13230C2604006A330F /* MSChannelGroupDefaultPrivate.h in Headers */,
 				F8936D1C230C2604006A330F /* MSOneCollectorIngestionPrivate.h in Headers */,
@@ -2213,12 +2257,15 @@
 				F8936E0B230C2805006A330F /* MSDeviceInternal.h in Headers */,
 				F8936D14230C2604006A330F /* MSChannelUnitDefaultPrivate.h in Headers */,
 				F8936E29230C2805006A330F /* MSUtility+StringFormatting.h in Headers */,
+				F8DC50E623AA828F00BF8839 /* MSStorageTextType.h in Headers */,
 				F8936E1E230C2805006A330F /* MSOrderedDictionary.h in Headers */,
 				F8936E03230C2805006A330F /* MSMetadataExtension.h in Headers */,
 				F8936CCE230C24DA006A330F /* MSChannelProtocol.h in Headers */,
 				F8936DF4230C2805006A330F /* MSHttpCall.h in Headers */,
 				F8936CE3230C25A5006A330F /* MSDevice.h in Headers */,
+				F8BA7A2B23AA8A26009FBCCF /* MSStorageBindableArray.h in Headers */,
 				F8936DE3230C2805006A330F /* MSChannelDelegate.h in Headers */,
+				F8DC50E423AA828F00BF8839 /* MSStorageBindableType.h in Headers */,
 				F8936DFD230C2805006A330F /* MSAppExtension.h in Headers */,
 				F8936E06230C2805006A330F /* MSProtocolExtension.h in Headers */,
 				F8936D1B230C2604006A330F /* MSHttpIngestionPrivate.h in Headers */,
@@ -2788,6 +2835,7 @@
 				F8936C71230C23F0006A330F /* MSDelegateForwarder.m in Sources */,
 				F8936C72230C23F0006A330F /* MSChannelGroupDefault.m in Sources */,
 				F8936C73230C23F0006A330F /* MSChannelUnitConfiguration.m in Sources */,
+				F8DC50DB23AA828D00BF8839 /* MSStorageNumberType.m in Sources */,
 				F8936C74230C23F0006A330F /* MSChannelUnitDefault.m in Sources */,
 				F8936C75230C23F0006A330F /* MSOneCollectorChannelDelegate.m in Sources */,
 				F8936C76230C23F0006A330F /* MSCSEpochAndSeq.m in Sources */,
@@ -2802,6 +2850,7 @@
 				F8936C81230C23F0006A330F /* MSHttpClient.m in Sources */,
 				F8936C82230C23F0006A330F /* MSHttpCall.m in Sources */,
 				F8936C83230C23F0006A330F /* MSTicketCache.m in Sources */,
+				F8BA7A2D23AA8B84009FBCCF /* MSStorageBindableArray.m in Sources */,
 				F8936C85230C23F0006A330F /* MSHttpIngestion.m in Sources */,
 				F8936C86230C23F0006A330F /* MSAppCenterIngestion.m in Sources */,
 				F8936C87230C23F0006A330F /* MSOneCollectorIngestion.m in Sources */,
@@ -2840,6 +2889,7 @@
 				F8936CA8230C23F0006A330F /* MSUtility+Date.m in Sources */,
 				F8936CA9230C23F0006A330F /* MSUtility+Environment.m in Sources */,
 				F8936CAA230C23F0006A330F /* MSUtility+File.m in Sources */,
+				F8DC50DA23AA828D00BF8839 /* MSStorageTextType.m in Sources */,
 				F8936CAB230C23F0006A330F /* MSUtility+PropertyValidation.m in Sources */,
 				F8936CAC230C23F0006A330F /* MSUtility+StringFormatting.m in Sources */,
 				F8936CAD230C23F0006A330F /* MSCompression.m in Sources */,
@@ -2862,6 +2912,7 @@
 				C9A92114230C61820068070D /* MSDateTimeTypedProperty.m in Sources */,
 				C9A920ED230C61820068070D /* MSChannelUnitConfiguration.m in Sources */,
 				C9A9211E230C61820068070D /* MSHistoryInfo.m in Sources */,
+				F8DC50E223AA828E00BF8839 /* MSStorageNumberType.m in Sources */,
 				C9A920EA230C61820068070D /* MSAppDelegateForwarder.m in Sources */,
 				C9A92123230C61820068070D /* MSUtility+Environment.m in Sources */,
 				C9A920EE230C61820068070D /* MSChannelUnitDefault.m in Sources */,
@@ -2878,6 +2929,7 @@
 				C9A920FB230C61820068070D /* MSHttpClient.m in Sources */,
 				C9A920FD230C61820068070D /* MSTicketCache.m in Sources */,
 				C9A920F7230C61820068070D /* MSSessionHistoryInfo.m in Sources */,
+				F8BA7A2E23AA8B84009FBCCF /* MSStorageBindableArray.m in Sources */,
 				C9A920EB230C61820068070D /* MSDelegateForwarder.m in Sources */,
 				C9A9210B230C61820068070D /* MSProtocolExtension.m in Sources */,
 				C9A920F5230C61820068070D /* MSDeviceTracker.m in Sources */,
@@ -2914,6 +2966,7 @@
 				C9A92116230C61820068070D /* MSLongTypedProperty.m in Sources */,
 				C9A920F9230C61820068070D /* MSUserIdHistoryInfo.m in Sources */,
 				C9A92120230C61820068070D /* MSUtility.m in Sources */,
+				F8DC50E123AA828E00BF8839 /* MSStorageTextType.m in Sources */,
 				C9A920FF230C61820068070D /* MSHttpIngestion.m in Sources */,
 				C9A92100230C61820068070D /* MSAppCenterIngestion.m in Sources */,
 				C9A920F8230C61820068070D /* MSUserIdContext.m in Sources */,
@@ -2936,6 +2989,7 @@
 				C9A9215A230C61830068070D /* MSDateTimeTypedProperty.m in Sources */,
 				C9A92133230C61830068070D /* MSChannelUnitConfiguration.m in Sources */,
 				C9A92164230C61830068070D /* MSHistoryInfo.m in Sources */,
+				F8DC50E923AA828F00BF8839 /* MSStorageNumberType.m in Sources */,
 				C9A92130230C61830068070D /* MSAppDelegateForwarder.m in Sources */,
 				C9A92169230C61830068070D /* MSUtility+Environment.m in Sources */,
 				C9A92134230C61830068070D /* MSChannelUnitDefault.m in Sources */,
@@ -2952,6 +3006,7 @@
 				C9A92141230C61830068070D /* MSHttpClient.m in Sources */,
 				C9A92143230C61830068070D /* MSTicketCache.m in Sources */,
 				C9A9213D230C61830068070D /* MSSessionHistoryInfo.m in Sources */,
+				F8BA7A2F23AA8B84009FBCCF /* MSStorageBindableArray.m in Sources */,
 				C9A92131230C61830068070D /* MSDelegateForwarder.m in Sources */,
 				C9A92151230C61830068070D /* MSProtocolExtension.m in Sources */,
 				C9A9213B230C61830068070D /* MSDeviceTracker.m in Sources */,
@@ -2988,6 +3043,7 @@
 				C9A9215C230C61830068070D /* MSLongTypedProperty.m in Sources */,
 				C9A9213F230C61830068070D /* MSUserIdHistoryInfo.m in Sources */,
 				C9A92166230C61830068070D /* MSUtility.m in Sources */,
+				F8DC50E823AA828F00BF8839 /* MSStorageTextType.m in Sources */,
 				C9A92145230C61830068070D /* MSHttpIngestion.m in Sources */,
 				C9A92146230C61830068070D /* MSAppCenterIngestion.m in Sources */,
 				C9A9213E230C61830068070D /* MSUserIdContext.m in Sources */,
