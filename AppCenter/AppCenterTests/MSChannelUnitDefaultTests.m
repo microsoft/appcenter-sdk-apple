@@ -151,8 +151,6 @@ static NSString *const kMSTestGroupId = @"GroupId";
   OCMStub([self.storageMock loadLogsWithGroupId:kMSTestGroupId
                                           limit:batchSizeLimit
                              excludedTargetKeys:OCMOCK_ANY
-                                      afterDate:OCMOCK_ANY
-                                     beforeDate:OCMOCK_ANY
                               completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         MSLoadDataCompletionHandler loadCallback;
@@ -456,8 +454,6 @@ static NSString *const kMSTestGroupId = @"GroupId";
   OCMStub([self.storageMock loadLogsWithGroupId:kMSTestGroupId
                                           limit:batchSizeLimit
                              excludedTargetKeys:OCMOCK_ANY
-                                      afterDate:OCMOCK_ANY
-                                     beforeDate:OCMOCK_ANY
                               completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         MSLoadDataCompletionHandler loadCallback;
@@ -602,8 +598,6 @@ static NSString *const kMSTestGroupId = @"GroupId";
   OCMStub([self.storageMock loadLogsWithGroupId:kMSTestGroupId
                                           limit:batchSizeLimit
                              excludedTargetKeys:OCMOCK_ANY
-                                      afterDate:OCMOCK_ANY
-                                     beforeDate:OCMOCK_ANY
                               completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         MSLoadDataCompletionHandler loadCallback;
@@ -850,8 +844,6 @@ static NSString *const kMSTestGroupId = @"GroupId";
   OCMStub([self.storageMock loadLogsWithGroupId:kMSTestGroupId
                                           limit:batchSizeLimit
                              excludedTargetKeys:OCMOCK_ANY
-                                      afterDate:OCMOCK_ANY
-                                     beforeDate:OCMOCK_ANY
                               completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         MSLoadDataCompletionHandler loadCallback;
@@ -920,8 +912,6 @@ static NSString *const kMSTestGroupId = @"GroupId";
   OCMStub([self.storageMock loadLogsWithGroupId:kMSTestGroupId
                                           limit:batchSizeLimit
                              excludedTargetKeys:OCMOCK_ANY
-                                      afterDate:OCMOCK_ANY
-                                     beforeDate:OCMOCK_ANY
                               completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         MSLoadDataCompletionHandler loadCallback;
@@ -986,8 +976,6 @@ static NSString *const kMSTestGroupId = @"GroupId";
   OCMStub([self.ingestionMock sendAsync:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
   OCMStub([self.storageMock loadLogsWithGroupId:kMSTestGroupId
                                           limit:batchSizeLimit
-                             excludedTargetKeys:OCMOCK_ANY
-                                      afterDate:OCMOCK_ANY
                                      beforeDate:OCMOCK_ANY
                               completionHandler:([OCMArg invokeBlockWithArgs:((NSArray<id<MSLog>> *)@[ mockLog ]), @"1", nil])]);
   self.sut.configuration = [[MSChannelUnitConfiguration alloc] initWithGroupId:kMSTestGroupId
@@ -1020,8 +1008,6 @@ static NSString *const kMSTestGroupId = @"GroupId";
   OCMStub([self.storageMock loadLogsWithGroupId:kMSTestGroupId
                                           limit:batchSizeLimit
                              excludedTargetKeys:OCMOCK_ANY
-                                      afterDate:OCMOCK_ANY
-                                     beforeDate:OCMOCK_ANY
                               completionHandler:([OCMArg invokeBlockWithArgs:((NSArray<id<MSLog>> *)@[ mockLog ]), @"1", nil])]);
   self.sut.configuration = [[MSChannelUnitConfiguration alloc] initWithGroupId:kMSTestGroupId
                                                                       priority:MSPriorityDefault
@@ -1569,8 +1555,6 @@ static NSString *const kMSTestGroupId = @"GroupId";
   OCMStub([self.storageMock loadLogsWithGroupId:self.sut.configuration.groupId
                                           limit:self.sut.configuration.batchSizeLimit
                              excludedTargetKeys:OCMOCK_ANY
-                                      afterDate:OCMOCK_ANY
-                                     beforeDate:OCMOCK_ANY
                               completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         [invocation getArgument:&excludedKeys atIndex:4];

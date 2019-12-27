@@ -299,8 +299,6 @@ static NSString *const kMSStartTimestampPrefix = @"MSChannelStartTimer";
   self.availableBatchFromStorage = [self.storage loadLogsWithGroupId:self.configuration.groupId
                                                                limit:self.configuration.batchSizeLimit
                                                   excludedTargetKeys:[self.pausedTargetKeys allObjects]
-                                                           afterDate:nil
-                                                          beforeDate:nil
                                                    completionHandler:^(NSArray<id<MSLog>> *_Nonnull logArray, NSString *batchId) {
                                                      // Check if there is data to send. Logs may be deleted from storage before this flush.
                                                      if (logArray.count > 0) {

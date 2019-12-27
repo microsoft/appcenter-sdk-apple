@@ -65,8 +65,6 @@ typedef void (^MSLoadDataCompletionHandler)(NSArray<id<MSLog>> *_Nullable logArr
  * @param groupId The key used for grouping.
  * @param limit Limit the maximum number of logs to be loaded from disk.
  * @param excludedTargetKeys The array of target keys to exclude for the logs.
- * @param dateAfter The timestamp to select only logs with time on or after specified.
- * @param dateBefore The timestamp to select only logs with time before specified.
  * @param completionHandler The completion handler for loading the logs.
  *
  * @return a list of logs.
@@ -74,18 +72,7 @@ typedef void (^MSLoadDataCompletionHandler)(NSArray<id<MSLog>> *_Nullable logArr
 - (BOOL)loadLogsWithGroupId:(NSString *)groupId
                       limit:(NSUInteger)limit
          excludedTargetKeys:(nullable NSArray<NSString *> *)excludedTargetKeys
-                  afterDate:(nullable NSDate *)dateAfter
-                 beforeDate:(nullable NSDate *)dateBefore
           completionHandler:(nullable MSLoadDataCompletionHandler)completionHandler;
-
-/**
- * Return the number of logs on or before the given date.
- *
- * @param date Date to count logs until.
- *
- * @return amount of log entries.
- */
-- (NSUInteger)countLogsBeforeDate:(nullable NSDate *)date;
 
 /**
  * Set the maximum size of the internal storage. This method must be called before App Center is started.
