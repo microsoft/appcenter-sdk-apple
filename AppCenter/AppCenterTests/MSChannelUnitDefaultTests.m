@@ -15,7 +15,6 @@
 #import "MSChannelUnitDefault.h"
 #import "MSChannelUnitDefaultPrivate.h"
 #import "MSDevice.h"
-#import "MSDispatchTestUtil.h"
 #import "MSHttpIngestion.h"
 #import "MSHttpTestUtil.h"
 #import "MSLogContainer.h"
@@ -107,15 +106,14 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
   __block dispatch_queue_t queue = [self createDispatchQueue];
   __block MSChannelUnitDefault *channel = [self createChannelUnitDefault:queue];
-  
+
   // Configure channel with custom interval.
   channel.configuration = [[MSChannelUnitConfiguration alloc] initWithGroupId:kMSTestGroupId
-                                                                      priority:MSPriorityDefault
-                                                                 flushInterval:60
-                                                                batchSizeLimit:50
-                                                           pendingBatchesLimit:3];
+                                                                     priority:MSPriorityDefault
+                                                                flushInterval:60
+                                                               batchSizeLimit:50
+                                                          pendingBatchesLimit:3];
 
-   
   // When
   [channel pauseWithIdentifyingObjectSync:object];
 
@@ -185,10 +183,10 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
   // Configure channel and set custom flushInterval.
   channel.configuration = [[MSChannelUnitConfiguration alloc] initWithGroupId:kMSTestGroupId
-                                                                      priority:MSPriorityDefault
-                                                                 flushInterval:flushInterval
-                                                                batchSizeLimit:50
-                                                           pendingBatchesLimit:3];
+                                                                     priority:MSPriorityDefault
+                                                                flushInterval:flushInterval
+                                                               batchSizeLimit:50
+                                                          pendingBatchesLimit:3];
 
   // When
   channel.itemsCount = 200;
@@ -247,10 +245,10 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
   // Configure channel.
   channel.configuration = [[MSChannelUnitConfiguration alloc] initWithGroupId:kMSTestGroupId
-                                                                      priority:MSPriorityDefault
-                                                                 flushInterval:600
-                                                                batchSizeLimit:1
-                                                           pendingBatchesLimit:3];
+                                                                     priority:MSPriorityDefault
+                                                                flushInterval:600
+                                                               batchSizeLimit:1
+                                                          pendingBatchesLimit:3];
   NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:3000];
   OCMStub([dateMock date]).andReturn(date);
   [self.settingsMock setObject:[[NSDate alloc] initWithTimeIntervalSince1970:500] forKey:channel.oldestPendingLogTimestampKey];
@@ -289,10 +287,10 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
   // Configure channel.
   channel.configuration = [[MSChannelUnitConfiguration alloc] initWithGroupId:kMSTestGroupId
-                                                                      priority:MSPriorityDefault
-                                                                 flushInterval:600
-                                                                batchSizeLimit:batchSizeLimit
-                                                           pendingBatchesLimit:3];
+                                                                     priority:MSPriorityDefault
+                                                                flushInterval:600
+                                                               batchSizeLimit:batchSizeLimit
+                                                          pendingBatchesLimit:3];
 
   // When
   for (NSUInteger i = 0; i < itemsToAdd; i++) {
@@ -319,15 +317,15 @@ static NSString *const kMSTestGroupId = @"GroupId";
   // If
   id dateMock = OCMClassMock([NSDate class]);
   NSUInteger flushInterval = 2000;
-  __block dispatch_queue_t queue = [self createDispatchQueue];
-  __block MSChannelUnitDefault *channel = [self createChannelUnitDefault:queue];
-  
+  dispatch_queue_t queue = [self createDispatchQueue];
+  MSChannelUnitDefault *channel = [self createChannelUnitDefault:queue];
+
   // Configure channel.
   channel.configuration = [[MSChannelUnitConfiguration alloc] initWithGroupId:kMSTestGroupId
-                                                                      priority:MSPriorityDefault
-                                                                 flushInterval:flushInterval
-                                                                batchSizeLimit:50
-                                                           pendingBatchesLimit:1];
+                                                                     priority:MSPriorityDefault
+                                                                flushInterval:flushInterval
+                                                               batchSizeLimit:50
+                                                          pendingBatchesLimit:1];
   NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:1000];
   OCMStub([dateMock date]).andReturn(date);
 
@@ -346,15 +344,15 @@ static NSString *const kMSTestGroupId = @"GroupId";
   // If
   id dateMock = OCMClassMock([NSDate class]);
   NSUInteger flushInterval = 2000;
-  __block dispatch_queue_t queue = [self createDispatchQueue];
-  __block MSChannelUnitDefault *channel = [self createChannelUnitDefault:queue];
+  dispatch_queue_t queue = [self createDispatchQueue];
+  MSChannelUnitDefault *channel = [self createChannelUnitDefault:queue];
 
   // Configure channel.
   channel.configuration = [[MSChannelUnitConfiguration alloc] initWithGroupId:kMSTestGroupId
-                                                                      priority:MSPriorityDefault
-                                                                 flushInterval:flushInterval
-                                                                batchSizeLimit:50
-                                                           pendingBatchesLimit:1];
+                                                                     priority:MSPriorityDefault
+                                                                flushInterval:flushInterval
+                                                               batchSizeLimit:50
+                                                          pendingBatchesLimit:1];
   NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:3000];
   OCMStub([dateMock date]).andReturn(date);
   [self.settingsMock setObject:[[NSDate alloc] initWithTimeIntervalSince1970:500] forKey:channel.oldestPendingLogTimestampKey];
@@ -374,15 +372,15 @@ static NSString *const kMSTestGroupId = @"GroupId";
   // If
   id dateMock = OCMClassMock([NSDate class]);
   NSUInteger flushInterval = 2000;
-  __block dispatch_queue_t queue = [self createDispatchQueue];
-  __block MSChannelUnitDefault *channel = [self createChannelUnitDefault:queue];
+  dispatch_queue_t queue = [self createDispatchQueue];
+  MSChannelUnitDefault *channel = [self createChannelUnitDefault:queue];
 
   // Configure channel.
   channel.configuration = [[MSChannelUnitConfiguration alloc] initWithGroupId:kMSTestGroupId
-                                                                      priority:MSPriorityDefault
-                                                                 flushInterval:flushInterval
-                                                                batchSizeLimit:50
-                                                           pendingBatchesLimit:1];
+                                                                     priority:MSPriorityDefault
+                                                                flushInterval:flushInterval
+                                                               batchSizeLimit:50
+                                                          pendingBatchesLimit:1];
   NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:1000];
   OCMStub([dateMock date]).andReturn(date);
   [self.settingsMock setObject:[[NSDate alloc] initWithTimeIntervalSince1970:2000] forKey:channel.oldestPendingLogTimestampKey];
@@ -401,15 +399,15 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
   // If
   id dateMock = OCMClassMock([NSDate class]);
-  __block dispatch_queue_t queue = [self createDispatchQueue];
-  __block MSChannelUnitDefault *channel = [self createChannelUnitDefault:queue];
+  dispatch_queue_t queue = [self createDispatchQueue];
+  MSChannelUnitDefault *channel = [self createChannelUnitDefault:queue];
 
   // Configure channel.
   channel.configuration = [[MSChannelUnitConfiguration alloc] initWithGroupId:kMSTestGroupId
-                                                                      priority:MSPriorityDefault
-                                                                 flushInterval:2000
-                                                                batchSizeLimit:50
-                                                           pendingBatchesLimit:1];
+                                                                     priority:MSPriorityDefault
+                                                                flushInterval:2000
+                                                               batchSizeLimit:50
+                                                          pendingBatchesLimit:1];
   NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:4000];
   OCMStub([dateMock date]).andReturn(date);
   [self.settingsMock setObject:[[NSDate alloc] initWithTimeIntervalSince1970:2000] forKey:channel.oldestPendingLogTimestampKey];
@@ -428,15 +426,15 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
   // If
   id dateMock = OCMClassMock([NSDate class]);
-  __block dispatch_queue_t queue = [self createDispatchQueue];
-  __block MSChannelUnitDefault *channel = [self createChannelUnitDefault:queue];
+  dispatch_queue_t queue = [self createDispatchQueue];
+  MSChannelUnitDefault *channel = [self createChannelUnitDefault:queue];
 
   // Configure channel.
   channel.configuration = [[MSChannelUnitConfiguration alloc] initWithGroupId:kMSTestGroupId
-                                                                      priority:MSPriorityDefault
-                                                                 flushInterval:2000
-                                                                batchSizeLimit:50
-                                                           pendingBatchesLimit:1];
+                                                                     priority:MSPriorityDefault
+                                                                flushInterval:2000
+                                                               batchSizeLimit:50
+                                                          pendingBatchesLimit:1];
   NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:1000];
   OCMStub([dateMock date]).andReturn(date);
   [self.settingsMock setObject:[[NSDate alloc] initWithTimeIntervalSince1970:500] forKey:channel.oldestPendingLogTimestampKey];
@@ -452,8 +450,8 @@ static NSString *const kMSTestGroupId = @"GroupId";
 }
 
 - (void)testNewInstanceWasInitialisedCorrectly {
-  __block dispatch_queue_t queue = [self createDispatchQueue];
-  __block MSChannelUnitDefault *channel = [self createChannelUnitDefault:queue];
+  dispatch_queue_t queue = [self createDispatchQueue];
+  MSChannelUnitDefault *channel = [self createChannelUnitDefault:queue];
   assertThat(channel, notNilValue());
   assertThat(channel.configuration, equalTo(self.configuration));
   assertThat(channel.ingestion, equalTo(self.ingestionMock));
@@ -506,10 +504,10 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
   // Configure channel.
   channel.configuration = [[MSChannelUnitConfiguration alloc] initWithGroupId:kMSTestGroupId
-                                                                      priority:MSPriorityDefault
-                                                                 flushInterval:0.0
-                                                                batchSizeLimit:batchSizeLimit
-                                                           pendingBatchesLimit:1];
+                                                                     priority:MSPriorityDefault
+                                                                flushInterval:0.0
+                                                               batchSizeLimit:batchSizeLimit
+                                                          pendingBatchesLimit:1];
 
   [channel addDelegate:delegateMock];
   OCMReject([delegateMock channel:channel didFailSendingLog:OCMOCK_ANY withError:OCMOCK_ANY]);
@@ -658,10 +656,10 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
   // Configure channel.
   channel.configuration = [[MSChannelUnitConfiguration alloc] initWithGroupId:kMSTestGroupId
-                                                                      priority:MSPriorityDefault
-                                                                 flushInterval:0.0
-                                                                batchSizeLimit:batchSizeLimit
-                                                           pendingBatchesLimit:1];
+                                                                     priority:MSPriorityDefault
+                                                                flushInterval:0.0
+                                                               batchSizeLimit:batchSizeLimit
+                                                          pendingBatchesLimit:1];
   [channel addDelegate:delegateMock];
   OCMExpect([delegateMock channel:channel didFailSendingLog:expectedLog withError:OCMOCK_ANY]);
   OCMReject([delegateMock channel:channel didSucceedSendingLog:OCMOCK_ANY]);
@@ -743,10 +741,10 @@ static NSString *const kMSTestGroupId = @"GroupId";
   __block MSChannelUnitDefault *channel = [self createChannelUnitDefault:queue];
   [self initChannelEndJobExpectation];
   channel.configuration = [[MSChannelUnitConfiguration alloc] initWithGroupId:kMSTestGroupId
-                                                                      priority:MSPriorityDefault
-                                                                 flushInterval:5
-                                                                batchSizeLimit:10
-                                                           pendingBatchesLimit:3];
+                                                                     priority:MSPriorityDefault
+                                                                flushInterval:5
+                                                               batchSizeLimit:10
+                                                          pendingBatchesLimit:3];
   channel.storage = self.storageMock = OCMProtocolMock(@protocol(MSStorage));
   OCMStub([self.storageMock saveLog:OCMOCK_ANY withGroupId:OCMOCK_ANY flags:MSFlagsDefault]).andReturn(NO);
   id channelUnitMock = OCMPartialMock(channel);
@@ -795,8 +793,8 @@ static NSString *const kMSTestGroupId = @"GroupId";
 - (void)testEnqueueNonCriticalItem {
 
   // If
-  dispatch_queue_t queue = [self createDispatchQueue];
-  MSChannelUnitDefault *channel = [self createChannelUnitDefault:queue];
+  __block dispatch_queue_t queue = [self createDispatchQueue];
+  __block MSChannelUnitDefault *channel = [self createChannelUnitDefault:queue];
   [self initChannelEndJobExpectation];
   id<MSLog> mockLog = [self getValidMockLog];
 
@@ -842,10 +840,10 @@ static NSString *const kMSTestGroupId = @"GroupId";
   __block MSChannelUnitDefault *channel = [self createChannelUnitDefault:queue];
   [self initChannelEndJobExpectation];
   channel.configuration = [[MSChannelUnitConfiguration alloc] initWithGroupId:kMSTestGroupId
-                                                                      priority:MSPriorityDefault
-                                                                 flushInterval:0.0
-                                                                batchSizeLimit:3
-                                                           pendingBatchesLimit:3];
+                                                                     priority:MSPriorityDefault
+                                                                flushInterval:0.0
+                                                               batchSizeLimit:3
+                                                          pendingBatchesLimit:3];
   int itemsToAdd = 3;
   XCTestExpectation *expectation = [self expectationWithDescription:@"All items enqueued"];
   id<MSLog> mockLog = [self getValidMockLog];
@@ -915,10 +913,10 @@ static NSString *const kMSTestGroupId = @"GroupId";
         loadCallback(((NSArray<id<MSLog>> *)@[ expectedLog ]), [@(currentBatchId++) stringValue]);
       });
   channel.configuration = [[MSChannelUnitConfiguration alloc] initWithGroupId:kMSTestGroupId
-                                                                      priority:MSPriorityDefault
-                                                                 flushInterval:0.0
-                                                                batchSizeLimit:batchSizeLimit
-                                                           pendingBatchesLimit:expectedMaxPendingBatched];
+                                                                     priority:MSPriorityDefault
+                                                                flushInterval:0.0
+                                                               batchSizeLimit:batchSizeLimit
+                                                          pendingBatchesLimit:expectedMaxPendingBatched];
 
   // When
   for (NSUInteger i = 1; i <= expectedMaxPendingBatched + 1; i++) {
@@ -991,10 +989,10 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
   // Configure channel.
   channel.configuration = [[MSChannelUnitConfiguration alloc] initWithGroupId:kMSTestGroupId
-                                                                      priority:MSPriorityDefault
-                                                                 flushInterval:0.0
-                                                                batchSizeLimit:batchSizeLimit
-                                                           pendingBatchesLimit:1];
+                                                                     priority:MSPriorityDefault
+                                                                flushInterval:0.0
+                                                               batchSizeLimit:batchSizeLimit
+                                                          pendingBatchesLimit:1];
 
   // When
   [channel enqueueItem:[self getValidMockLog] flags:MSFlagsDefault];
@@ -1049,10 +1047,10 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                      beforeDate:OCMOCK_ANY
                               completionHandler:([OCMArg invokeBlockWithArgs:((NSArray<id<MSLog>> *)@[ mockLog ]), @"1", nil])]);
   channel.configuration = [[MSChannelUnitConfiguration alloc] initWithGroupId:kMSTestGroupId
-                                                                      priority:MSPriorityDefault
-                                                                 flushInterval:0.0
-                                                                batchSizeLimit:batchSizeLimit
-                                                           pendingBatchesLimit:10];
+                                                                     priority:MSPriorityDefault
+                                                                flushInterval:0.0
+                                                               batchSizeLimit:batchSizeLimit
+                                                          pendingBatchesLimit:10];
 
   // When
   [channel setEnabled:NO andDeleteDataOnDisabled:NO];
@@ -1084,10 +1082,10 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                      beforeDate:OCMOCK_ANY
                               completionHandler:([OCMArg invokeBlockWithArgs:((NSArray<id<MSLog>> *)@[ mockLog ]), @"1", nil])]);
   channel.configuration = [[MSChannelUnitConfiguration alloc] initWithGroupId:kMSTestGroupId
-                                                                      priority:MSPriorityDefault
-                                                                 flushInterval:0.0
-                                                                batchSizeLimit:batchSizeLimit
-                                                           pendingBatchesLimit:10];
+                                                                     priority:MSPriorityDefault
+                                                                flushInterval:0.0
+                                                               batchSizeLimit:batchSizeLimit
+                                                          pendingBatchesLimit:10];
 
   // When
   [channel enqueueItem:mockLog flags:MSFlagsDefault];
@@ -1276,10 +1274,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *error) {
                                  // Check the callbacks were invoked for logs.
-                                 OCMVerify([delegateMock channel:channel
-                                                   didPrepareLog:mockLog
-                                                      internalId:OCMOCK_ANY
-                                                           flags:MSFlagsDefault]);
+                                 OCMVerify([delegateMock channel:channel didPrepareLog:mockLog internalId:OCMOCK_ANY flags:MSFlagsDefault]);
                                  OCMVerify([delegateMock channel:channel didCompleteEnqueueingLog:mockLog internalId:OCMOCK_ANY]);
                                  OCMVerify([delegateMock channel:channel willSendLog:mockLog]);
                                  OCMVerify([delegateMock channel:channel didFailSendingLog:mockLog withError:anything()]);
@@ -1350,8 +1345,8 @@ static NSString *const kMSTestGroupId = @"GroupId";
 - (void)testDeviceAndTimestampAreAddedOnEnqueuing {
 
   // If
-  __block dispatch_queue_t queue = [self createDispatchQueue];
-  __block MSChannelUnitDefault *channel = [self createChannelUnitDefault:queue];
+  dispatch_queue_t queue = [self createDispatchQueue];
+  MSChannelUnitDefault *channel = [self createChannelUnitDefault:queue];
   id<MSLog> mockLog = [self getValidMockLog];
   mockLog.device = nil;
   mockLog.timestamp = nil;
@@ -1513,8 +1508,8 @@ static NSString *const kMSTestGroupId = @"GroupId";
 - (void)testResumeWhenOnlyPausedObjectIsDeallocated {
 
   // If
-  __block dispatch_queue_t queue = [self createDispatchQueue];
-  __block MSChannelUnitDefault *channel = [self createChannelUnitDefault:queue];
+  dispatch_queue_t queue = [self createDispatchQueue];
+  MSChannelUnitDefault *channel = [self createChannelUnitDefault:queue];
   __weak NSObject *weakObject = nil;
   @autoreleasepool {
 
@@ -1566,8 +1561,8 @@ static NSString *const kMSTestGroupId = @"GroupId";
 - (void)testResumeWithObjectThatDoesNotExistDoesNotPauseIfPreviouslyResumed {
 
   // When
-  __block dispatch_queue_t queue = [self createDispatchQueue];
-  __block MSChannelUnitDefault *channel = [self createChannelUnitDefault:queue];
+  dispatch_queue_t queue = [self createDispatchQueue];
+  MSChannelUnitDefault *channel = [self createChannelUnitDefault:queue];
   [channel resumeWithIdentifyingObjectSync:[NSObject new]];
 
   // Then
@@ -1593,8 +1588,8 @@ static NSString *const kMSTestGroupId = @"GroupId";
 - (void)testResumeOnceResumesWhenPausedTwiceWithSingleObject {
 
   // If
-  __block dispatch_queue_t queue = [self createDispatchQueue];
-  __block MSChannelUnitDefault *channel = [self createChannelUnitDefault:queue];
+  dispatch_queue_t queue = [self createDispatchQueue];
+  MSChannelUnitDefault *channel = [self createChannelUnitDefault:queue];
   NSObject *object = [NSObject new];
   [channel pauseWithIdentifyingObjectSync:object];
   [channel pauseWithIdentifyingObjectSync:object];
@@ -1609,8 +1604,8 @@ static NSString *const kMSTestGroupId = @"GroupId";
 - (void)testPausedTargetKeysNotAlteredWhenChannelUnitPaused {
 
   // If
-  dispatch_queue_t queue = [self createDispatchQueue];
-  MSChannelUnitDefault *channel = [self createChannelUnitDefault:queue];
+  __block dispatch_queue_t queue = [self createDispatchQueue];
+  __block MSChannelUnitDefault *channel = [self createChannelUnitDefault:queue];
   [self initChannelEndJobExpectation];
   NSObject *object = [NSObject new];
   NSString *targetKey = @"targetKey";
@@ -1981,7 +1976,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   self.channelEndJobExpectation = [self expectationWithDescription:@"Channel job should be finished"];
 }
 
-- (void)enqueueChannelEndJobExpectation:(dispatch_queue_t) queue {
+- (void)enqueueChannelEndJobExpectation:(dispatch_queue_t)queue {
 
   // Enqueue end job expectation on channel's queue to detect when channel
   // finished processing.
@@ -2011,7 +2006,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   return mockLog;
 }
 
--(dispatch_queue_t)createDispatchQueue {
+- (dispatch_queue_t)createDispatchQueue {
   uuid_t uuid;
   uuid_generate(uuid);
   char *nameQueue = malloc(100);
@@ -2019,7 +2014,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   return dispatch_queue_create(nameQueue, DISPATCH_QUEUE_SERIAL);
 }
 
--(MSChannelUnitDefault*)createChannelUnitDefault:(dispatch_queue_t)queue {
+- (MSChannelUnitDefault *)createChannelUnitDefault:(dispatch_queue_t)queue {
   return [[MSChannelUnitDefault alloc] initWithIngestion:self.ingestionMock
                                                  storage:self.storageMock
                                            configuration:self.configuration
