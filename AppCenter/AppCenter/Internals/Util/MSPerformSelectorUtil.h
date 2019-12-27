@@ -9,17 +9,19 @@
     initedArray;                                                                                                                           \
   })
 
-#define MS_DISPATCH_SELECTOR_OBJECT(type, class, selectorName, ...)                                                                        \
+#define MS_DISPATCH_SELECTOR_OBJECT(type, object, selectorName, ...)                                                                       \
   ({                                                                                                                                       \
     void *results;                                                                                                                         \
-    [MSPerformSelectorUtil performSelectorObject(class, selectorName, ARRAY_FROM_ARGS(__VA_ARGS__)) getReturnValue:&results];                                                      \
+    [[MSPerformSelectorUtil performSelector:object withSelector:@ #selectorName                                                            \
+                                withObjects:ARRAY_FROM_ARGS(__VA_ARGS__)] getReturnValue:&results];                                        \
     (__bridge type) results;                                                                                                               \
   })
 
-#define MS_DISPATCH_SELECTOR_STRUCT(type, class, selectorName, ...)                                                                        \
+#define MS_DISPATCH_SELECTOR_STRUCT(type, object, selectorName, ...)                                                                       \
   ({                                                                                                                                       \
     void *results = nil;                                                                                                                   \
-    [MS_DISPATCH_SELECTOR(class, selectorName, ARRAY_FROM_ARGS(__VA_ARGS__)) getReturnValue:&results];                                                      \
+    [[MSPerformSelectorUtil performSelector:object withSelector:@ #selectorName                                                            \
+                                withObjects:ARRAY_FROM_ARGS(__VA_ARGS__)] getReturnValue:&results];                                        \
     (type) results;                                                                                                                        \
   })
 
@@ -27,8 +29,6 @@
 
 + (void)performSelectorOnMainThread:(NSObject *)source withSelector:(SEL)selector withObjects:(NSObject *)objects, ...;
 
-+ (NSInvocation*)performSelectorObject:(NSObject *)source withSelector:(NSString *)selector withObjects:(NSArray *)objects;
-
-+ (NSInvocation*)performSelectorClass:(Class)source withSelector:(NSString *)selector withObjects:(NSArray *)objects;
++ (NSInvocation *)performSelector:(id)source withSelector:(NSString *)selector withObjects:(NSArray *)objects;
 
 @end

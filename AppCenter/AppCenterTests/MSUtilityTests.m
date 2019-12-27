@@ -926,7 +926,7 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
   NSMutableArray *array = [NSMutableArray new];
 
   // When
-  MS_DISPATCH_SELECTOR(array, addObject:, @"testValue");
+  [MSPerformSelectorUtil performSelector:array withSelector:@"addObject:" withObjects:ARRAY_FROM_ARGS(@"testValue")];
 
   // Then
   XCTAssertTrue([array count] == 1);
