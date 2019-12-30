@@ -62,11 +62,6 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
 - (void)setUp {
   [super setUp];
-
-  /*
-   * dispatch_get_main_queue isn't good option for logsDispatchQueue because
-   * we can't clear pending actions from it after the test. It can cause usages of stopped mocks.
-   */
   self.configuration = [[MSChannelUnitConfiguration alloc] initDefaultConfigurationWithGroupId:kMSTestGroupId];
   self.storageMock = OCMProtocolMock(@protocol(MSStorage));
   OCMStub([self.storageMock saveLog:OCMOCK_ANY withGroupId:OCMOCK_ANY flags:MSFlagsNormal]).andReturn(YES);
