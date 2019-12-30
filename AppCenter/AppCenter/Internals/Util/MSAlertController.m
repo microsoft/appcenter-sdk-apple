@@ -163,7 +163,7 @@ static dispatch_queue_t alertsQueue;
       windowScene = scenes.anyObject;
     }
 
-    [MSPerformSelectorUtil performSelector:window withSelector:@"setWindowScene:" withObjects:ARRAY_FROM_ARGS(windowScene)];
+    [MSPerformSelectorUtil performSelector:window withSelector:@"setWindowScene:" withObjects:@[ windowScene ]];
   }
   [window makeKeyAndVisible];
 }

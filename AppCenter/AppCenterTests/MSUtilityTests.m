@@ -897,27 +897,19 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
   XCTAssertFalse([obfuscatedString rangeOfString:kMSRedirectUriObfuscatedTemplate].location == NSNotFound);
 }
 
-- (void)testCheckSizeMacro {
-  // When
-  NSArray *arrayWithValues = ARRAY_FROM_ARGS(@"TestString1", @"TestString2", @"TestString3");
-  NSArray *emptyArray = ARRAY_FROM_ARGS();
-
-  // Then
-  XCTAssertTrue([arrayWithValues count] == 3);
-  XCTAssertTrue([emptyArray count] == 0);
-}
-
 - (void)testDispatchObjectMacro {
 
   // If
   NSMutableArray *array = [NSMutableArray new];
+  NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
+  [indexSet addIndex:0];
   [array addObject:@"test"];
 
   // When
-  NSString *result = MS_DISPATCH_SELECTOR_OBJECT(NSString *, array, objectAtIndex:, 0);
+  NSArray *result = MS_DISPATCH_SELECTOR_OBJECT(NSArray *, array, objectsAtIndexes:, indexSet);
 
   // Then
-  XCTAssertTrue([result isEqual:@"test"]);
+  XCTAssertTrue(result.count == 1);
 }
 
 - (void)testDispatchVoidMacro {
@@ -926,7 +918,7 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
   NSMutableArray *array = [NSMutableArray new];
 
   // When
-  [MSPerformSelectorUtil performSelector:array withSelector:@"addObject:" withObjects:ARRAY_FROM_ARGS(@"testValue")];
+  [MSPerformSelectorUtil performSelector:array withSelector:@"addObject:" withObjects:@[ @"testValue" ]];
 
   // Then
   XCTAssertTrue([array count] == 1);
