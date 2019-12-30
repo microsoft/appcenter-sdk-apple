@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "MSTestFrameworks.h"
 #import "MSAlertController.h"
+#import "MSTestFrameworks.h"
 
 static NSTimeInterval const kMSTestTimeout = 1.0;
 
@@ -19,52 +19,52 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
 @implementation MSAlertControllerTests
 
 - (void)testMSAlertAddAction {
-    MSAlertController *controller = [MSAlertController new];
+  MSAlertController *controller = [MSAlertController new];
 
-    [controller addDefaultActionWithTitle:@"testAction" handler:nil];
+  [controller addDefaultActionWithTitle:@"testAction" handler:nil];
 
-    XCTAssertTrue([controller actions].count == 1);
-    XCTAssertTrue([[[controller actions] firstObject].title isEqual:@"testAction"]);
+  XCTAssertTrue([controller actions].count == 1);
+  XCTAssertTrue([[[controller actions] firstObject].title isEqual:@"testAction"]);
 }
 
 - (void)testMSAlertShow {
 
-    // If
-    id controller = [MSAlertController new];
-    XCTestExpectation *expectation = [self expectationWithDescription:@"Window is key and visible"];
-    id alertClassMock = OCMClassMock([MSAlertController class]);
-    OCMStub(ClassMethod([alertClassMock makeKeyAndVisible])).andDo(^(NSInvocation *invoke) {
-        [expectation fulfill];
-    });
+  // If
+  id controller = [MSAlertController new];
+  XCTestExpectation *expectation = [self expectationWithDescription:@"Window is key and visible"];
+  id alertClassMock = OCMClassMock([MSAlertController class]);
+  OCMStub(ClassMethod([alertClassMock makeKeyAndVisible])).andDo(^(NSInvocation *invoke) {
+    [expectation fulfill];
+  });
 
-    // When
-    [controller show];
+  // When
+  [controller show];
 
-    // Then
-    [self waitForExpectationsWithTimeout:kMSTestTimeout
-                                 handler:^(NSError *_Nullable error) {
-                                     if (error) {
-                                         XCTFail(@"Expectation Failed with error: %@", error);
-                                     }
-                                 }];
+  // Then
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
+                               handler:^(NSError *_Nullable error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
 
-    [alertClassMock stopMocking];
+  [alertClassMock stopMocking];
 }
 
 - (void)testMSAlertReplaceNil {
 
-    // If
-    id controller = OCMPartialMock([MSAlertController new]);
+  // If
+  id controller = OCMPartialMock([MSAlertController new]);
 
-    OCMStub([controller showAnimated:OCMOCK_ANY]).andDo(nil);
+  OCMStub([controller showAnimated:OCMOCK_ANY]).andDo(nil);
 
-    // When
-    [controller replaceAlert:nil];
+  // When
+  [controller replaceAlert:nil];
 
-    // Then
-    OCMVerify([controller showAnimated:OCMOCK_ANY]);
+  // Then
+  OCMVerify([controller showAnimated:OCMOCK_ANY]);
 
-    [controller stopMocking];
+  [controller stopMocking];
 }
 
 @end

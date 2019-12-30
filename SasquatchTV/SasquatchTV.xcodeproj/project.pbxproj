@@ -37,7 +37,6 @@
 		5CB338A41EE59C0F0089A60B /* AppCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CB338A31EE59C0F0089A60B /* AppCenterDelegate.swift */; };
 		5CBE5F511F02BC89001ABD15 /* EditPropertyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CBE5F501F02BC89001ABD15 /* EditPropertyViewController.swift */; };
 		5CBE5F521F02BC89001ABD15 /* EditPropertyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CBE5F501F02BC89001ABD15 /* EditPropertyViewController.swift */; };
-		7839727923B39DC900620142 /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7839727723B39DC900620142 /* MSAlertController.m */; };
 		801C25651F040F3C00F4859B /* CrashLibTV.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 801C25641F040F3C00F4859B /* CrashLibTV.framework */; };
 		801C25661F040F3C00F4859B /* CrashLibTV.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 801C25641F040F3C00F4859B /* CrashLibTV.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		80F991621F0267B40040FAD7 /* CrashesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F991611F0267B40040FAD7 /* CrashesViewController.swift */; };
@@ -228,8 +227,6 @@
 		5CB338A11EE59B4B0089A60B /* AppCenterDelegateObjC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppCenterDelegateObjC.m; sourceTree = "<group>"; };
 		5CB338A31EE59C0F0089A60B /* AppCenterDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppCenterDelegate.swift; sourceTree = "<group>"; };
 		5CBE5F501F02BC89001ABD15 /* EditPropertyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditPropertyViewController.swift; sourceTree = "<group>"; };
-		7839727723B39DC900620142 /* MSAlertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSAlertController.m; path = ../../AppCenter/AppCenter/Internals/Util/MSAlertController.m; sourceTree = "<group>"; };
-		7839727823B39DC900620142 /* MSAlertController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSAlertController.h; path = ../../AppCenter/AppCenter/Internals/Util/MSAlertController.h; sourceTree = "<group>"; };
 		801C25641F040F3C00F4859B /* CrashLibTV.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CrashLibTV.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		80F991611F0267B40040FAD7 /* CrashesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = CrashesViewController.swift; sourceTree = "<group>"; tabWidth = 2; };
 		80F9916A1F027D250040FAD7 /* CrashesDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrashesDetailViewController.swift; sourceTree = "<group>"; };
@@ -342,15 +339,6 @@
 			path = Utils;
 			sourceTree = "<group>";
 		};
-		7839726E23B39A6600620142 /* Helper */ = {
-			isa = PBXGroup;
-			children = (
-				7839727823B39DC900620142 /* MSAlertController.h */,
-				7839727723B39DC900620142 /* MSAlertController.m */,
-			);
-			name = Helper;
-			sourceTree = "<group>";
-		};
 		C22AA7232334F5DC003D6D05 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -422,7 +410,6 @@
 		D322EFEC1E8E97DF00A8EDA5 /* SasquatchTVObjC */ = {
 			isa = PBXGroup;
 			children = (
-				7839726E23B39A6600620142 /* Helper */,
 				5CB338A01EE59B250089A60B /* AppCenterDelegateObjC.h */,
 				5CB338A11EE59B4B0089A60B /* AppCenterDelegateObjC.m */,
 				D322EFF01E8E97DF00A8EDA5 /* AppDelegate.h */,
@@ -969,7 +956,6 @@
 				5CB338A41EE59C0F0089A60B /* AppCenterDelegate.swift in Sources */,
 				35427403201272AB00BE766F /* EventFilterViewController.swift in Sources */,
 				358F9BD0201963A000B9E22C /* MSEventFilter.m in Sources */,
-				7839727923B39DC900620142 /* MSAlertController.m in Sources */,
 				5CB338A21EE59B4B0089A60B /* AppCenterDelegateObjC.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
