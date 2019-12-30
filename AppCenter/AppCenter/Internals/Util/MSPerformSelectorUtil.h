@@ -3,18 +3,11 @@
 
 #import <Foundation/Foundation.h>
 
-#define MS_DISPATCH_SELECTOR_OBJECT(type, object, selectorName, ...)                                                                       \
+#define MS_DISPATCH_SELECTOR(type, object, selectorName, ...)                                                                       \
   ({                                                                                                                                       \
     void *results;                                                                                                                         \
     [[MSPerformSelectorUtil performSelector:object withSelector:@ #selectorName withObjects:@[ __VA_ARGS__ ]] getReturnValue:&results];    \
-    (__bridge type) results;                                                                                                               \
-  })
-
-#define MS_DISPATCH_SELECTOR_STRUCT(type, object, selectorName, ...)                                                                       \
-  ({                                                                                                                                       \
-    void *results;                                                                                                                         \
-    [[MSPerformSelectorUtil performSelector:object withSelector:@ #selectorName withObjects:@[ __VA_ARGS__ ]] getReturnValue:&results];    \
-    (type) results;                                                                                                                        \
+    (type) results;                                                                                                               \
   })
 
 @interface MSPerformSelectorUtil : NSObject

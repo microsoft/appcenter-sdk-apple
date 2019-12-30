@@ -149,11 +149,11 @@ static dispatch_queue_t alertsQueue;
 
 + (void)makeKeyAndVisible {
   if (@available(iOS 13.0, tvOS 13.0, *)) {
-    UIApplication *application = MS_DISPATCH_SELECTOR_OBJECT(UIApplication *, [UIApplication class], sharedApplication);
-    NSSet *scenes = MS_DISPATCH_SELECTOR_OBJECT(NSSet *, application, connectedScenes);
+    UIApplication *application = MS_DISPATCH_SELECTOR(__bridge UIApplication *, [UIApplication class], sharedApplication);
+    NSSet *scenes = MS_DISPATCH_SELECTOR(__bridge NSSet *, application, connectedScenes);
     NSObject *windowScene = nil;
     for (NSObject *scene in scenes) {
-      NSInteger activationState = MS_DISPATCH_SELECTOR_STRUCT(NSInteger, scene, activationState);
+      NSInteger activationState = MS_DISPATCH_SELECTOR(NSInteger, scene, activationState);
       if (activationState == 0 /* UISceneActivationStateForegroundActive */) {
         windowScene = scene;
         break;
