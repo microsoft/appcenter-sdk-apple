@@ -5,6 +5,7 @@
 
 #import "MSAppCenterInternal.h"
 #import "MSAppleErrorLog.h"
+#import "MSCrashReporter.h"
 #import "MSCrashesInternal.h"
 #import "MSCrashesPrivate.h"
 #import "MSCrashesTestUtil.h"
@@ -21,27 +22,27 @@ static NSString *kFramesCount = @"crashedThreadStackFrames";
 static NSString *kBinariesCount = @"binariesCount";
 
 static NSArray *kMacOSCrashReportsParameters = @[
-  @{ kThreadNumber:@0, kFramesCount:@21,  kBinariesCount:@10, kFixture:@"macOS_report_abort" },
-  @{ kThreadNumber:@0, kFramesCount:@19,  kBinariesCount:@9,  kFixture:@"macOS_report_builtin_trap" },
-  @{ kThreadNumber:@0, kFramesCount:@30,  kBinariesCount:@11, kFixture:@"macOS_report_corrupt_malloc_internal_info" },
-  @{ kThreadNumber:@0, kFramesCount:@21,  kBinariesCount:@10, kFixture:@"macOS_report_corrupt_objc_runtime_structure" },
-  @{ kThreadNumber:@0, kFramesCount:@19,  kBinariesCount:@9,  kFixture:@"macOS_report_dereference_bad_pointer" },
-  @{ kThreadNumber:@0, kFramesCount:@19,  kBinariesCount:@9,  kFixture:@"macOS_report_dereference_null_pointer" },
-  @{ kThreadNumber:@0, kFramesCount:@21,  kBinariesCount:@9,  kFixture:@"macOS_report_dwarf_unwinding" },
-  @{ kThreadNumber:@0, kFramesCount:@19,  kBinariesCount:@9,  kFixture:@"macOS_report_execute_privileged_instruction" },
-  @{ kThreadNumber:@0, kFramesCount:@19,  kBinariesCount:@9,  kFixture:@"macOS_report_execute_undefined_instruction" },
-  @{ kThreadNumber:@0, kFramesCount:@20,  kBinariesCount:@9,  kFixture:@"macOS_report_jump_into_nx_page" },
-  @{ kThreadNumber:@0, kFramesCount:@26,  kBinariesCount:@13, kFixture:@"macOS_report_objc_access_non_object_as_object" },
-  @{ kThreadNumber:@0, kFramesCount:@20,  kBinariesCount:@12, kFixture:@"macOS_report_objc_crash_inside_msgsend" },
-  @{ kThreadNumber:@0, kFramesCount:@21,  kBinariesCount:@12, kFixture:@"macOS_report_objc_message_released_object" },
-  @{ kThreadNumber:@0, kFramesCount:@19,  kBinariesCount:@11, kFixture:@"macOS_report_overwrite_link_register" },
-  @{ kThreadNumber:@0, kFramesCount:@21,  kBinariesCount:@10, kFixture:@"macOS_report_pthread_lock" },
-  @{ kThreadNumber:@0, kFramesCount:@1,   kBinariesCount:@9,  kFixture:@"macOS_report_smash_the_bottom_of_the_stack" },
-  @{ kThreadNumber:@0, kFramesCount:@1,   kBinariesCount:@10, kFixture:@"macOS_report_smash_the_top_of_the_stack" },
-  @{ kThreadNumber:@0, kFramesCount:@512, kBinariesCount:@8,  kFixture:@"macOS_report_stack_overflow" },
-  @{ kThreadNumber:@0, kFramesCount:@19,  kBinariesCount:@9,  kFixture:@"macOS_report_swift" },
-  @{ kThreadNumber:@0, kFramesCount:@19,  kBinariesCount:@13, kFixture:@"macOS_report_throw_cpp_exception" },
-  @{ kThreadNumber:@0, kFramesCount:@19,  kBinariesCount:@9,  kFixture:@"macOS_report_write_to_readonly_page" }
+  @{kThreadNumber : @0, kFramesCount : @21, kBinariesCount : @10, kFixture : @"macOS_report_abort"},
+  @{kThreadNumber : @0, kFramesCount : @19, kBinariesCount : @9, kFixture : @"macOS_report_builtin_trap"},
+  @{kThreadNumber : @0, kFramesCount : @30, kBinariesCount : @11, kFixture : @"macOS_report_corrupt_malloc_internal_info"},
+  @{kThreadNumber : @0, kFramesCount : @21, kBinariesCount : @10, kFixture : @"macOS_report_corrupt_objc_runtime_structure"},
+  @{kThreadNumber : @0, kFramesCount : @19, kBinariesCount : @9, kFixture : @"macOS_report_dereference_bad_pointer"},
+  @{kThreadNumber : @0, kFramesCount : @19, kBinariesCount : @9, kFixture : @"macOS_report_dereference_null_pointer"},
+  @{kThreadNumber : @0, kFramesCount : @21, kBinariesCount : @9, kFixture : @"macOS_report_dwarf_unwinding"},
+  @{kThreadNumber : @0, kFramesCount : @19, kBinariesCount : @9, kFixture : @"macOS_report_execute_privileged_instruction"},
+  @{kThreadNumber : @0, kFramesCount : @19, kBinariesCount : @9, kFixture : @"macOS_report_execute_undefined_instruction"},
+  @{kThreadNumber : @0, kFramesCount : @20, kBinariesCount : @9, kFixture : @"macOS_report_jump_into_nx_page"},
+  @{kThreadNumber : @0, kFramesCount : @26, kBinariesCount : @13, kFixture : @"macOS_report_objc_access_non_object_as_object"},
+  @{kThreadNumber : @0, kFramesCount : @20, kBinariesCount : @12, kFixture : @"macOS_report_objc_crash_inside_msgsend"},
+  @{kThreadNumber : @0, kFramesCount : @21, kBinariesCount : @12, kFixture : @"macOS_report_objc_message_released_object"},
+  @{kThreadNumber : @0, kFramesCount : @19, kBinariesCount : @11, kFixture : @"macOS_report_overwrite_link_register"},
+  @{kThreadNumber : @0, kFramesCount : @21, kBinariesCount : @10, kFixture : @"macOS_report_pthread_lock"},
+  @{kThreadNumber : @0, kFramesCount : @1, kBinariesCount : @9, kFixture : @"macOS_report_smash_the_bottom_of_the_stack"},
+  @{kThreadNumber : @0, kFramesCount : @1, kBinariesCount : @10, kFixture : @"macOS_report_smash_the_top_of_the_stack"},
+  @{kThreadNumber : @0, kFramesCount : @512, kBinariesCount : @8, kFixture : @"macOS_report_stack_overflow"},
+  @{kThreadNumber : @0, kFramesCount : @19, kBinariesCount : @9, kFixture : @"macOS_report_swift"},
+  @{kThreadNumber : @0, kFramesCount : @19, kBinariesCount : @13, kFixture : @"macOS_report_throw_cpp_exception"},
+  @{kThreadNumber : @0, kFramesCount : @19, kBinariesCount : @9, kFixture : @"macOS_report_write_to_readonly_page"}
 ];
 
 @interface MSErrorLogFormatter ()

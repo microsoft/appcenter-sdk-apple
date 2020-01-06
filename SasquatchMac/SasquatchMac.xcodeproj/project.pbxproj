@@ -79,6 +79,8 @@
 		B2A4CFE7210A77D400199B4F /* AppCenterPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 046964551F2A607D00F9D31F /* AppCenterPush.framework */; };
 		B2A4CFEA210A77D400199B4F /* SasquatchMac.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D3C31C151E8E757300B288CE /* SasquatchMac.storyboard */; };
 		B2A4CFEB210A77D400199B4F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D3C31C661E8E763600B288CE /* Assets.xcassets */; };
+		C29BC5E323999D7C00E5E8F7 /* AppCenterApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = C29BC5E223999D7C00E5E8F7 /* AppCenterApplication.m */; };
+		C29BC5E423999D7C00E5E8F7 /* AppCenterApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = C29BC5E223999D7C00E5E8F7 /* AppCenterApplication.m */; };
 		C2A4A2691EE7684A0080FD22 /* AppCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CD625791ECDA4280053DC6C /* AppCenterViewController.swift */; };
 		C2F1575C2338E5E800798480 /* CrashLibMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156BA2338C27700798480 /* CrashLibMac.framework */; };
 		C2F1575D2338E5E800798480 /* CrashLibMac.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156BA2338C27700798480 /* CrashLibMac.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -313,6 +315,7 @@
 		B2A4CFD4210A716E00199B4F /* SasquatchMacObjC-Preview.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SasquatchMacObjC-Preview.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2A4CFF1210A77D400199B4F /* SasquatchMacSwift-Preview.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SasquatchMacSwift-Preview.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2CD74CF1F22C3150070E7DF /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		C29BC5E223999D7C00E5E8F7 /* AppCenterApplication.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppCenterApplication.m; sourceTree = "<group>"; };
 		C2F156AF2338C27700798480 /* CrashLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CrashLib.xcodeproj; path = ../CrashLib/CrashLib.xcodeproj; sourceTree = "<group>"; };
 		D3C31C161E8E757300B288CE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/SasquatchMac.storyboard; sourceTree = "<group>"; };
 		D3C31C221E8E75B300B288CE /* SasquatchMacObjC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SasquatchMacObjC.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -501,6 +504,7 @@
 				D3C31C621E8E763600B288CE /* AppDelegate.swift */,
 				5C9BBC801EC4829200CA77A3 /* AppCenterDelegateSwift.swift */,
 				D3C31C721E8E77BE00B288CE /* Supporting Files */,
+				C29BC5E223999D7C00E5E8F7 /* AppCenterApplication.m */,
 			);
 			path = SasquatchMacSwift;
 			sourceTree = "<group>";
@@ -997,6 +1001,7 @@
 				B2A4CFDB210A77D400199B4F /* CustomPropertiesViewControler.swift in Sources */,
 				4A3147552206897900B0FC8A /* AuthenticationViewController.swift in Sources */,
 				B2A4CFDC210A77D400199B4F /* AppCenterProvider.swift in Sources */,
+				C29BC5E423999D7C00E5E8F7 /* AppCenterApplication.m in Sources */,
 				B2A4CFDD210A77D400199B4F /* EventFilterViewController.swift in Sources */,
 				B2A4CFDE210A77D400199B4F /* AppDelegate.swift in Sources */,
 				B2A4CFDF210A77D400199B4F /* CrashesViewController.swift in Sources */,
@@ -1042,6 +1047,7 @@
 				F8B8EC741FD853E800445BD4 /* CustomPropertiesViewControler.swift in Sources */,
 				4A3147542206897900B0FC8A /* AuthenticationViewController.swift in Sources */,
 				042496881EC3CE3700502B62 /* AppCenterProvider.swift in Sources */,
+				C29BC5E323999D7C00E5E8F7 /* AppCenterApplication.m in Sources */,
 				353332F720126200009B0946 /* EventFilterViewController.swift in Sources */,
 				D3C31C631E8E763600B288CE /* AppDelegate.swift in Sources */,
 				5C6F9BB91EB8F2E9009E52D8 /* CrashesViewController.swift in Sources */,
@@ -1183,7 +1189,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/SasquatchMacSwift/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.macos.sasquatch.swift;
 				PROVISIONING_PROFILE = "cb0c0f7a-d8d1-4b90-9aac-98b0acad5847";
-				PROVISIONING_PROFILE_SPECIFIER = "Sasquatch Swift Dogfood Development";
+				PROVISIONING_PROFILE_SPECIFIER = "Sasquatch Swift Development";
 			};
 			name = Debug;
 		};
@@ -1197,7 +1203,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/SasquatchMacSwift/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.macos.sasquatch.swift;
 				PROVISIONING_PROFILE = "18941b56-5e23-45ca-86df-da36fdbcc922";
-				PROVISIONING_PROFILE_SPECIFIER = "Sasquatch Swift Dogfood Development";
+				PROVISIONING_PROFILE_SPECIFIER = "Sasquatch Swift Development";
 			};
 			name = Release;
 		};
