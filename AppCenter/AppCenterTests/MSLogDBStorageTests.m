@@ -76,8 +76,6 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   BOOL moreLogsAvailable = [self.sut loadLogsWithGroupId:kMSTestGroupId
                                                    limit:expectedLogsCount
                                       excludedTargetKeys:nil
-                                               afterDate:nil
-                                              beforeDate:nil
                                        completionHandler:^(NSArray<id<MSLog>> *_Nonnull logArray, NSString *_Nonnull batchId) {
                                          // Then
                                          assertThat(batchId, notNilValue());
@@ -100,8 +98,6 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   BOOL moreLogsAvailable = [self.sut loadLogsWithGroupId:kMSTestGroupId
                                                    limit:expectedLogsCount
                                       excludedTargetKeys:nil
-                                               afterDate:nil
-                                              beforeDate:nil
                                        completionHandler:^(NSArray<id<MSLog>> *_Nonnull logArray, NSString *_Nonnull batchId) {
                                          // Then
                                          assertThat(batchId, notNilValue());
@@ -152,8 +148,6 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   BOOL moreLogsAvailable = [self.sut loadLogsWithGroupId:kMSTestGroupId
                                                    limit:expectedLogsCount
                                       excludedTargetKeys:nil
-                                               afterDate:nil
-                                              beforeDate:nil
                                        completionHandler:^(NSArray<id<MSLog>> *_Nonnull logArray, NSString *_Nonnull batchId) {
                                          // Then
                                          assertThat(batchId, notNilValue());
@@ -177,8 +171,6 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   BOOL moreLogsAvailable = [self.sut loadLogsWithGroupId:kMSTestGroupId
                                                    limit:limit
                                       excludedTargetKeys:nil
-                                               afterDate:nil
-                                              beforeDate:nil
                                        completionHandler:^(NSArray<id<MSLog>> *_Nonnull logArray, NSString *_Nonnull batchId) {
                                          // Then
                                          assertThat(batchId, notNilValue());
@@ -203,8 +195,6 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   [self.sut loadLogsWithGroupId:kMSTestGroupId
                           limit:2
              excludedTargetKeys:nil
-                      afterDate:nil
-                     beforeDate:nil
               completionHandler:^(NSArray<id<MSLog>> *_Nonnull logArray, NSString *_Nonnull batchId) {
                 // Those values shouldn't be in the next batch.
                 unexpectedLogs = logArray;
@@ -215,8 +205,6 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   BOOL moreLogsAvailable = [self.sut loadLogsWithGroupId:kMSTestGroupId
                                                    limit:expectedLogsCount
                                       excludedTargetKeys:nil
-                                               afterDate:nil
-                                              beforeDate:nil
                                        completionHandler:^(NSArray<id<MSLog>> *_Nonnull logArray, NSString *_Nonnull batchId) {
                                          // Then
                                          // Logs from previous batch are not expected here.
@@ -267,8 +255,6 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   [self.sut loadLogsWithGroupId:kMSTestGroupId
                           limit:10
              excludedTargetKeys:@[ @"1" ]
-                      afterDate:nil
-                     beforeDate:nil
               completionHandler:^(NSArray<MSLog> *_Nonnull logArray, __unused NSString *batchId) {
                 // Then
                 assertThatInt(logArray.count, equalToInt(2));
@@ -279,8 +265,6 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   [self.sut loadLogsWithGroupId:kMSTestGroupId
                           limit:10
              excludedTargetKeys:@[ @"2" ]
-                      afterDate:nil
-                     beforeDate:nil
               completionHandler:^(NSArray<MSLog> *_Nonnull logArray, __unused NSString *batchId) {
                 // Then
                 assertThatInt(logArray.count, equalToInt(2));
@@ -291,8 +275,6 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   [self.sut loadLogsWithGroupId:kMSTestGroupId
                           limit:10
              excludedTargetKeys:nil
-                      afterDate:nil
-                     beforeDate:nil
               completionHandler:^(NSArray<MSLog> *_Nonnull logArray, __unused NSString *batchId) {
                 // Then
                 assertThatInt(logArray.count, equalToInt(0));
@@ -319,8 +301,6 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   [self.sut loadLogsWithGroupId:kMSTestGroupId
                           limit:20
              excludedTargetKeys:@[ @"testTargetKey1", @"testTargetKey2" ]
-                      afterDate:nil
-                     beforeDate:nil
               completionHandler:^(NSArray<MSLog> *_Nonnull logArray, __unused NSString *batchId) {
                 assertThatInt(logArray.count, equalToInt(5));
               }];
@@ -346,8 +326,6 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   [self.sut loadLogsWithGroupId:kMSTestGroupId
                           limit:10
              excludedTargetKeys:nil
-                      afterDate:nil
-                     beforeDate:nil
               completionHandler:^(NSArray<MSLog> *_Nonnull logArray, __unused NSString *batchId) {
                 int iKeyCount = 0;
                 for (MSCommonSchemaLog *log in logArray) {
@@ -376,8 +354,6 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   [self.sut loadLogsWithGroupId:kMSAnotherTestGroupId
                           limit:2
              excludedTargetKeys:nil
-                      afterDate:nil
-                     beforeDate:nil
               completionHandler:^(NSArray<id<MSLog>> *_Nonnull logArray, NSString *_Nonnull batchId) {
                 // Those values shouldn't be in the next batch.
                 unexpectedLogs = logArray;
@@ -388,8 +364,6 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   BOOL moreLogsAvailable = [self.sut loadLogsWithGroupId:kMSTestGroupId
                                                    limit:expectedLogsCount
                                       excludedTargetKeys:nil
-                                               afterDate:nil
-                                              beforeDate:nil
                                        completionHandler:^(NSArray<id<MSLog>> *_Nonnull logArray, NSString *_Nonnull batchId) {
                                          // Then
                                          // Logs from previous batch are not expected here.
@@ -400,60 +374,6 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
                                          assertThat(batchId, isNot(unexpectedBatchId));
                                        }];
   XCTAssertFalse(moreLogsAvailable);
-}
-
-- (void)testLoadLogsOnlyOldLogs {
-
-  // If
-  NSDate *date = [NSDate date];
-
-  // When
-  for (int i = 0; i < 20; i++) {
-    MSLogWithProperties *log = [MSLogWithProperties new];
-    log.sid = MS_UUID_STRING;
-    log.timestamp = [[NSCalendar currentCalendar] dateByAddingUnit:NSCalendarUnitDay value:-i toDate:date options:0];
-    [self.sut saveLog:log withGroupId:kMSTestGroupId flags:MSFlagsDefault];
-  }
-
-  // Dates are compared by < not <=, so we need to change date a bit to compare with same shifts
-  date = [[NSCalendar currentCalendar] dateByAddingUnit:NSCalendarUnitSecond value:1 toDate:date options:0];
-
-  // Then
-  [self.sut loadLogsWithGroupId:kMSTestGroupId
-                          limit:20
-             excludedTargetKeys:nil
-                      afterDate:nil
-                     beforeDate:[[NSCalendar currentCalendar] dateByAddingUnit:NSCalendarUnitDay value:-10 toDate:date options:0]
-              completionHandler:^(NSArray<MSLog> *_Nonnull logArray, __unused NSString *batchId) {
-                assertThatInt(logArray.count, equalToInt(10));
-              }];
-}
-
-- (void)testLoadLogsInRange {
-
-  // If
-  NSDate *date = [NSDate date];
-
-  // When
-  for (int i = 0; i < 20; i++) {
-    MSLogWithProperties *log = [MSLogWithProperties new];
-    log.sid = MS_UUID_STRING;
-    log.timestamp = [[NSCalendar currentCalendar] dateByAddingUnit:NSCalendarUnitDay value:-i toDate:date options:0];
-    [self.sut saveLog:log withGroupId:kMSTestGroupId flags:MSFlagsDefault];
-  }
-
-  // Dates are compared by < not <=, so we need to change date a bit to compare with same shifts
-  date = [[NSCalendar currentCalendar] dateByAddingUnit:NSCalendarUnitSecond value:1 toDate:date options:0];
-
-  // Then
-  [self.sut loadLogsWithGroupId:kMSTestGroupId
-                          limit:20
-             excludedTargetKeys:nil
-                      afterDate:[[NSCalendar currentCalendar] dateByAddingUnit:NSCalendarUnitDay value:-5 toDate:date options:0]
-                     beforeDate:[[NSCalendar currentCalendar] dateByAddingUnit:NSCalendarUnitDay value:10 toDate:date options:0]
-              completionHandler:^(NSArray<MSLog> *_Nonnull logArray, __unused NSString *batchId) {
-                assertThatInt(logArray.count, equalToInt(5));
-              }];
 }
 
 - (void)testLoadUnlimitedLogs {
@@ -494,7 +414,7 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   // If
   // Generate logs and create one batch by loading logs.
   [self generateAndSaveLogsWithCount:5 groupId:kMSTestGroupId flags:MSFlagsDefault andVerifyLogGeneration:YES andLogDate:[NSDate new]];
-  [self.sut loadLogsWithGroupId:kMSTestGroupId limit:2 excludedTargetKeys:nil afterDate:nil beforeDate:nil completionHandler:nil];
+  [self.sut loadLogsWithGroupId:kMSTestGroupId limit:2 excludedTargetKeys:nil completionHandler:nil];
 
   // When
   [self.sut deleteLogsWithGroupId:kMSTestGroupId];
@@ -508,8 +428,8 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   // If
   // Generate logs and create two batches by loading logs twice.
   [self generateAndSaveLogsWithCount:5 groupId:kMSTestGroupId flags:MSFlagsDefault andVerifyLogGeneration:YES andLogDate:[NSDate new]];
-  [self.sut loadLogsWithGroupId:kMSTestGroupId limit:2 excludedTargetKeys:nil afterDate:nil beforeDate:nil completionHandler:nil];
-  [self.sut loadLogsWithGroupId:kMSTestGroupId limit:2 excludedTargetKeys:nil afterDate:nil beforeDate:nil completionHandler:nil];
+  [self.sut loadLogsWithGroupId:kMSTestGroupId limit:2 excludedTargetKeys:nil completionHandler:nil];
+  [self.sut loadLogsWithGroupId:kMSTestGroupId limit:2 excludedTargetKeys:nil completionHandler:nil];
 
   // When
   [self.sut deleteLogsWithGroupId:kMSTestGroupId];
@@ -532,12 +452,10 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   [self.sut loadLogsWithGroupId:kMSTestGroupId
                           limit:2
              excludedTargetKeys:nil
-                      afterDate:nil
-                     beforeDate:nil
               completionHandler:^(__attribute__((unused)) NSArray<MSLog> *_Nonnull logArray, NSString *batchId) {
                 batchIdToDelete = batchId;
               }];
-  [self.sut loadLogsWithGroupId:kMSAnotherTestGroupId limit:2 excludedTargetKeys:nil afterDate:nil beforeDate:nil completionHandler:nil];
+  [self.sut loadLogsWithGroupId:kMSAnotherTestGroupId limit:2 excludedTargetKeys:nil completionHandler:nil];
 
   // When
   [self.sut deleteLogsWithGroupId:kMSTestGroupId];
@@ -565,8 +483,6 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   [self.sut loadLogsWithGroupId:kMSTestGroupId
                           limit:2
              excludedTargetKeys:nil
-                      afterDate:nil
-                     beforeDate:nil
               completionHandler:^(NSArray<MSLog> *_Nonnull logArray, NSString *batchId) {
                 batchIdToDelete = batchId;
                 NSPredicate *predicate = [NSPredicate predicateWithFormat:@"NOT (self IN %@)", logArray];
@@ -606,8 +522,6 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   [self.sut loadLogsWithGroupId:kMSTestGroupId
                           limit:2
              excludedTargetKeys:nil
-                      afterDate:nil
-                     beforeDate:nil
               completionHandler:^(NSArray<MSLog> *_Nonnull logArray, NSString *batchId) {
                 batchIdToDelete = batchId;
 
@@ -622,7 +536,7 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   }
 
   // Trigger another batch.
-  [self.sut loadLogsWithGroupId:kMSTestGroupId limit:2 excludedTargetKeys:nil afterDate:nil beforeDate:nil completionHandler:nil];
+  [self.sut loadLogsWithGroupId:kMSTestGroupId limit:2 excludedTargetKeys:nil completionHandler:nil];
 
   // When
   [self.sut deleteLogsWithBatchId:batchIdToDelete groupId:kMSTestGroupId];
@@ -657,8 +571,6 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   [self.sut loadLogsWithGroupId:kMSTestGroupId
                           limit:2
              excludedTargetKeys:nil
-                      afterDate:nil
-                     beforeDate:nil
               completionHandler:^(NSArray<MSLog> *_Nonnull logArray, NSString *batchId) {
                 batchIdToDelete = batchId;
 
@@ -675,7 +587,7 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
     [array addNumber:item];
   }
   // Trigger another batch.
-  [self.sut loadLogsWithGroupId:kMSAnotherTestGroupId limit:2 excludedTargetKeys:nil afterDate:nil beforeDate:nil completionHandler:nil];
+  [self.sut loadLogsWithGroupId:kMSAnotherTestGroupId limit:2 excludedTargetKeys:nil completionHandler:nil];
 
   // When
   [self.sut deleteLogsWithBatchId:batchIdToDelete groupId:kMSTestGroupId];
@@ -703,8 +615,6 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   [self.sut loadLogsWithGroupId:kMSTestGroupId
                           limit:1
              excludedTargetKeys:nil
-                      afterDate:nil
-                     beforeDate:nil
               completionHandler:^(NSArray<MSLog> *_Nonnull logArray, __unused NSString *batchId) {
                 id<MSLog> restoredLog = logArray[0];
                 NSString *restoredTargetToken = [[restoredLog transmissionTargetTokens] anyObject];
@@ -727,8 +637,6 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   [self.sut loadLogsWithGroupId:kMSTestGroupId
                           limit:1
              excludedTargetKeys:nil
-                      afterDate:nil
-                     beforeDate:nil
               completionHandler:^(NSArray<MSLog> *_Nonnull logArray, __unused NSString *batchId) {
                 assertThatInt([logArray[0] transmissionTargetTokens].count, equalToInt(0));
               }];
@@ -1036,84 +944,6 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
                                        }
                                        return NO;
                                      }]]);
-  [classMock stopMocking];
-}
-
-- (void)testUsesMillisecondsInCountQuery {
-
-  // If
-  id classMock = OCMClassMock([MSDBStorage class]);
-  NSArray *testLogs = @[];
-  OCMStub([classMock executeSelectionQuery:startsWith(@"SELECT") withValues:OCMOCK_ANY]).andReturn(testLogs);
-  NSDate *testDate = [NSDate new];
-  long long expectedTimestampMs = (long long)([testDate timeIntervalSince1970] * 1000);
-
-  // When
-  [self.sut countLogsBeforeDate:testDate];
-
-  // Then
-  OCMVerify([classMock executeSelectionQuery:OCMOCK_ANY
-                            inOpenedDatabase:[OCMArg anyPointer]
-                                  withValues:[OCMArg checkWithBlock:^BOOL(id obj) {
-                                    for (id<MSStorageBindableType> value in ((MSStorageBindableArray *)obj).array) {
-                                      if (![value isKindOfClass:[MSStorageNumberType class]]) {
-                                        continue;
-                                      }
-                                      if ([[(MSStorageNumberType *)value value] isEqualToNumber:@(expectedTimestampMs)]) {
-                                        return YES;
-                                      }
-                                    }
-                                    return NO;
-                                  }]]);
-  [classMock stopMocking];
-}
-
-- (void)testUsesMillisecondsInLoadQuery {
-
-  // If
-  id classMock = OCMClassMock([MSDBStorage class]);
-  NSArray *testLogs = @[];
-  OCMStub([classMock executeSelectionQuery:startsWith(@"SELECT") withValues:OCMOCK_ANY]).andReturn(testLogs);
-  NSDate *testAfterDate = [NSDate new];
-  NSDate *testBeforeDate = [NSDate new];
-  long long expectedAfterTimestampMs = (long long)([testAfterDate timeIntervalSince1970] * 1000);
-  long long expectedBeforeTimestampMs = (long long)([testBeforeDate timeIntervalSince1970] * 1000);
-
-  // When
-  [self.sut loadLogsWithGroupId:kMSTestGroupId
-                          limit:1
-             excludedTargetKeys:nil
-                      afterDate:testAfterDate
-                     beforeDate:testBeforeDate
-              completionHandler:nil];
-
-  // Then
-  OCMVerify([classMock executeSelectionQuery:OCMOCK_ANY
-                            inOpenedDatabase:[OCMArg anyPointer]
-                                  withValues:[OCMArg checkWithBlock:^BOOL(id obj) {
-                                    for (id<MSStorageBindableType> value in ((MSStorageBindableArray *)obj).array) {
-                                      if (![value isKindOfClass:[MSStorageNumberType class]]) {
-                                        continue;
-                                      }
-                                      if ([[(MSStorageNumberType *)value value] isEqualToNumber:@(expectedAfterTimestampMs)]) {
-                                        return YES;
-                                      }
-                                    }
-                                    return NO;
-                                  }]]);
-  OCMVerify([classMock executeSelectionQuery:OCMOCK_ANY
-                            inOpenedDatabase:[OCMArg anyPointer]
-                                  withValues:[OCMArg checkWithBlock:^BOOL(id obj) {
-                                    for (id<MSStorageBindableType> value in ((MSStorageBindableArray *)obj).array) {
-                                      if (![value isKindOfClass:[MSStorageNumberType class]]) {
-                                        continue;
-                                      }
-                                      if ([[(MSStorageNumberType *)value value] isEqualToNumber:@(expectedBeforeTimestampMs)]) {
-                                        return YES;
-                                      }
-                                    }
-                                    return NO;
-                                  }]]);
   [classMock stopMocking];
 }
 

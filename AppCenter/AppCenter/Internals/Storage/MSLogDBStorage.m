@@ -143,14 +143,6 @@ static const NSUInteger kMSSchemaVersion = 4;
 
 #pragma mark - Load logs
 
-- (NSUInteger)countLogsBeforeDate:(NSDate *)date {
-  long long timestampMs = (long long)([date timeIntervalSince1970] * 1000);
-  NSMutableString *condition = [NSMutableString stringWithFormat:@"\"%@\" <= ?", kMSTimestampColumnName];
-  MSStorageBindableArray *values = [MSStorageBindableArray new];
-  [values addNumber:@(timestampMs)];
-  return [self countEntriesForTable:kMSLogTableName condition:condition withValues:values];
-}
-
 - (NSString *)buildKeyFormatWithCount:(NSUInteger)count {
   NSString *keyFormat = [@"(" stringByPaddingToLength:count * 2 withString:@"?," startingAtIndex:0];
   keyFormat = [keyFormat stringByAppendingString:@")"];
@@ -160,8 +152,6 @@ static const NSUInteger kMSSchemaVersion = 4;
 - (BOOL)loadLogsWithGroupId:(NSString *)groupId
                       limit:(NSUInteger)limit
          excludedTargetKeys:(nullable NSArray<NSString *> *)excludedTargetKeys
-                  afterDate:(nullable NSDate *)dateAfter
-                 beforeDate:(nullable NSDate *)dateBefore
           completionHandler:(nullable MSLoadDataCompletionHandler)completionHandler {
   BOOL logsAvailable;
   BOOL moreLogsAvailable = NO;
@@ -199,18 +189,6 @@ static const NSUInteger kMSSchemaVersion = 4;
     for (NSNumber *item in idsInBatches) {
       [values addNumber:item];
     }
-  }
-
-  // Filter by time.
-  if (dateAfter) {
-    long long timestampAfterMs = (long long)([dateAfter timeIntervalSince1970] * 1000);
-    [condition appendFormat:@" AND \"%@\" >= ?", kMSTimestampColumnName];
-    [values addNumber:@(timestampAfterMs)];
-  }
-  if (dateBefore) {
-    long long timestampBeforeMs = (long long)([dateBefore timeIntervalSince1970] * 1000);
-    [condition appendFormat:@" AND \"%@\" < ?", kMSTimestampColumnName];
-    [values addNumber:@(timestampBeforeMs)];
   }
 
   // Build the "ORDER BY" clause's conditions.
