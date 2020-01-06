@@ -703,7 +703,7 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
   NSString *method = @"GET";
 
   // When
-  [httpClient setEnabled:NO];
+  [httpClient setEnabled:NO andDeleteDataOnDisabled:NO];
   [httpClient sendAsync:url
                  method:method
                 headers:nil
