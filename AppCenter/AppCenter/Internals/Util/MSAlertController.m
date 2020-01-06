@@ -162,7 +162,6 @@ static dispatch_queue_t alertsQueue;
     if (!windowScene) {
       windowScene = scenes.anyObject;
     }
-
     [MSPerformSelectorUtil performSelector:window withSelector:@"setWindowScene:" withObjects:@[ windowScene ]];
   }
   [window makeKeyAndVisible];

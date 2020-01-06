@@ -912,7 +912,7 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
   XCTAssertTrue(result.count == 1);
 }
 
-- (void)testDispatchVoidMacro {
+- (void)testPerformSelectorWithObjects {
 
   // If
   NSMutableArray *array = [NSMutableArray new];
