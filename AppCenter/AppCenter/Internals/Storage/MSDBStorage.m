@@ -36,7 +36,7 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
         errorString = @(sqliteConfigurationResult).stringValue;
       }
       MSLogError([MSAppCenter logTag], @"Failed to update SQLite global configuration. Error: %@.", errorString);
-    }
+    } 
   });
   if ((self = [super init])) {
     int result = [self configureDatabaseWithSchema:schema version:version filename:filename];
@@ -145,22 +145,13 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
   }
 }
 
-- (BOOL)createTable:(NSString *)tableName columnsSchema:(MSDBColumnsSchema *)columnsSchema {
-  return [self createTable:tableName columnsSchema:columnsSchema uniqueColumnsConstraint:nil];
-}
-
 - (BOOL)createTable:(NSString *)tableName
-              columnsSchema:(MSDBColumnsSchema *)columnsSchema
-    uniqueColumnsConstraint:(NSArray<NSString *> *)uniqueColumns {
+              columnsSchema:(MSDBColumnsSchema *)columnsSchema {
   return [self executeQueryUsingBlock:^int(void *db) {
            if (![MSDBStorage tableExists:tableName inOpenedDatabase:db]) {
-             NSString *uniqueContraintQuery = @"";
-             if (uniqueColumns.count > 0) {
-               uniqueContraintQuery = [NSString stringWithFormat:@", UNIQUE(%@)", [uniqueColumns componentsJoinedByString:@", "]];
-             }
              NSString *createQuery =
-                 [NSString stringWithFormat:@"CREATE TABLE \"%@\" (%@%@);", tableName,
-                                            [MSDBStorage columnsQueryFromColumnsSchema:columnsSchema], uniqueContraintQuery];
+                 [NSString stringWithFormat:@"CREATE TABLE \"%@\" (%@);", tableName,
+                                            [MSDBStorage columnsQueryFromColumnsSchema:columnsSchema]];
              int result = [MSDBStorage executeNonSelectionQuery:createQuery inOpenedDatabase:db];
              if (result == SQLITE_OK) {
                MSLogVerbose([MSAppCenter logTag], @"Table %@ has been created", tableName);

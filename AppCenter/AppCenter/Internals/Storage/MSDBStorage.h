@@ -115,20 +115,6 @@ static NSString *const kMSSQLiteConstraintAutoincrement = @"AUTOINCREMENT";
 - (BOOL)createTable:(NSString *)tableName columnsSchema:(MSDBColumnsSchema *)columnsSchema;
 
 /**
- * Creates a table within an existing database with unique columns constraint.
- *
- * @param tableName Table name.
- * @param columnsSchema Schema describing the columns structure.
- * @param uniqueColumns The name of the columns where the combination of the columns is unique.
- *
- * @discussion The combination of the columns (not individual columns) forms a unique contraint on the table.
- * @return YES if table is created or already exists, NO otherwise.
- */
-- (BOOL)createTable:(NSString *)tableName
-              columnsSchema:(MSDBColumnsSchema *)columnsSchema
-    uniqueColumnsConstraint:(nullable NSArray<NSString *> *)uniqueColumns;
-
-/**
  * Deletes table within an existing database
  *
  * @param tableName Name of the table to delete.
