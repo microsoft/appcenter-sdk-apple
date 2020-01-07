@@ -50,6 +50,16 @@ static const long kMSDefaultDatabaseSizeInBytes = 10 * 1024 * 1024;
 - (int)executeQueryUsingBlock:(MSDBStorageQueryBlock)block;
 
 /**
+ * Creates a table within an existing database.
+ *
+ * @param tableName Table name.
+ * @param columnsSchema Schema describing the columns structure.
+ *
+ * @return YES if table is created or already exists, NO otherwise.
+ */
+- (BOOL)createTable:(NSString *)tableName columnsSchema:(MSDBColumnsSchema *)columnsSchema;
+
+/**
  * Create table with schema.
  *
  * @param schema Database schema.

@@ -105,16 +105,6 @@ static NSString *const kMSSQLiteConstraintAutoincrement = @"AUTOINCREMENT";
 + (NSDictionary *)columnsIndexes:(MSDBSchema *)schema;
 
 /**
- * Creates a table within an existing database.
- *
- * @param tableName Table name.
- * @param columnsSchema Schema describing the columns structure.
- *
- * @return YES if table is created or already exists, NO otherwise.
- */
-- (BOOL)createTable:(NSString *)tableName columnsSchema:(MSDBColumnsSchema *)columnsSchema;
-
-/**
  * Deletes database.
  *
  */
