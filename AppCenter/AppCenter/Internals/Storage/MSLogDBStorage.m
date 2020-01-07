@@ -28,8 +28,7 @@ static const NSUInteger kMSSchemaVersion = 4;
       @{kMSIdColumnName : @[ kMSSQLiteTypeInteger, kMSSQLiteConstraintPrimaryKey, kMSSQLiteConstraintAutoincrement ]},
       @{kMSGroupIdColumnName : @[ kMSSQLiteTypeText, kMSSQLiteConstraintNotNull ]},
       @{kMSLogColumnName : @[ kMSSQLiteTypeText, kMSSQLiteConstraintNotNull ]}, @{kMSTargetTokenColumnName : @[ kMSSQLiteTypeText ]},
-      @{kMSTargetKeyColumnName : @[ kMSSQLiteTypeText ]}, @{kMSPriorityColumnName : @[ kMSSQLiteTypeInteger ]},
-      @{kMSTimestampColumnName : @[ kMSSQLiteTypeInteger ]}
+      @{kMSTargetKeyColumnName : @[ kMSSQLiteTypeText ]}, @{kMSPriorityColumnName : @[ kMSSQLiteTypeInteger ]}
     ]
   };
   self = [self initWithSchema:schema version:kMSSchemaVersion filename:kMSDBFileName];
@@ -52,7 +51,6 @@ static const NSUInteger kMSSchemaVersion = 4;
     return NO;
   }
   MSFlags persistenceFlags = flags & kMSPersistenceFlagsMask;
-  long long timestampMs = (long long)([log.timestamp timeIntervalSince1970] * 1000);
 
   // Insert this log to the DB.
   NSData *logData = [NSKeyedArchiver archivedDataWithRootObject:log];
@@ -62,10 +60,9 @@ static const NSUInteger kMSSchemaVersion = 4;
   [addLogValues addString:groupId];
   [addLogValues addString:base64Data];
   [addLogValues addNumber:@(persistenceFlags)];
-  [addLogValues addNumber:@(timestampMs)];
   NSString *addLogQuery =
-      [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\", \"%@\") VALUES (?, ?, ?, ?)", kMSLogTableName,
-                                 kMSGroupIdColumnName, kMSLogColumnName, kMSPriorityColumnName, kMSTimestampColumnName];
+      [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\") VALUES (?, ?, ?)", kMSLogTableName,
+                                 kMSGroupIdColumnName, kMSLogColumnName, kMSPriorityColumnName];
 
   // Serialize target token.
   if ([(NSObject *)log isKindOfClass:[MSCommonSchemaLog class]]) {
@@ -79,11 +76,10 @@ static const NSUInteger kMSSchemaVersion = 4;
     [addLogValues addString:encryptedToken];
     [addLogValues addString:targetKey];
     [addLogValues addNumber:@(persistenceFlags)];
-    [addLogValues addNumber:@(timestampMs)];
     addLogQuery =
-        [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\") VALUES (?, ?, ?, ?, ?, ?)",
+        [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\", \"%@\", \"%@\") VALUES (?, ?, ?, ?, ?)",
                                    kMSLogTableName, kMSGroupIdColumnName, kMSLogColumnName, kMSTargetTokenColumnName,
-                                   kMSTargetKeyColumnName, kMSPriorityColumnName, kMSTimestampColumnName];
+                                   kMSTargetKeyColumnName, kMSPriorityColumnName];
   }
   return [self executeQueryUsingBlock:^int(void *db) {
            // Check maximum size.
@@ -413,11 +409,6 @@ static const NSUInteger kMSSchemaVersion = 4;
                                                           kMSPriorityColumnName, kMSSQLiteTypeInteger, (unsigned int)MSFlagsNormal];
     [MSDBStorage executeNonSelectionQuery:migrationQuery inOpenedDatabase:db];
     [self createPriorityIndex:db];
-  }
-  if (version < kMSTimestampVersion) {
-    NSString *migrationQuery = [NSString stringWithFormat:@"ALTER TABLE \"%@\" ADD COLUMN \"%@\" %@ DEFAULT %lld", kMSLogTableName,
-                                                          kMSTimestampColumnName, kMSSQLiteTypeInteger, 0ll];
-    [MSDBStorage executeNonSelectionQuery:migrationQuery inOpenedDatabase:db];
   }
 }
 
