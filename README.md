@@ -40,19 +40,7 @@ This project has adopted the [Microsoft Open Source Code of Conduct](https://ope
 
 You must sign a [Contributor License Agreement](https://cla.microsoft.com/) before submitting your pull request. To complete the Contributor License Agreement (CLA), you will need to submit a request via the [form](https://cla.microsoft.com/) and then electronically sign the CLA when you receive the email containing the link to the document. You need to sign the CLA only once to cover submission to any Microsoft OSS project. 
 
-### 2.3 Checking out the repository
-
-App Center Auth has a dependency on [Microsoft Authentication Library](https://github.com/AzureAD/microsoft-authentication-library-for-objc) as a git submodule. Use below command to clone App Center Apple SDK repository or update the repository if you have already cloned it.
-
-```
-git clone --recursive https://github.com/microsoft/appcenter-sdk-apple
-```
-
-```
-git submodule update --init --recursive
-```
-
-### 2.4 Code Formatting
+### 2.3 Code Formatting
 
 All Objective-C files follow LLVM coding style (with a few exceptions) and are formatted accordingly. To format your changes, make sure you have the `clang-format` tool. It can be installed with [Homebrew](https://brew.sh) using the command `brew install clang-format`. Once you have installed `clang-format`, run `./clang-format-changed-files.sh` from the repository root - this will format all files that have changes against the remote `develop` branch (it will also perform a `git fetch`).
 
