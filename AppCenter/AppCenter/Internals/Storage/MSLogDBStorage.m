@@ -12,7 +12,7 @@
 #import "MSStorageTextType.h"
 #import "MSUtility+StringFormatting.h"
 
-static const NSUInteger kMSSchemaVersion = 4;
+static const NSUInteger kMSSchemaVersion = 5;
 
 @implementation MSLogDBStorage
 
