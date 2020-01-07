@@ -120,22 +120,6 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
   return result;
 }
 
-- (BOOL)dropTable:(NSString *)tableName {
-  return [self executeQueryUsingBlock:^int(void *db) {
-           if ([MSDBStorage tableExists:tableName inOpenedDatabase:db]) {
-             NSString *deleteQuery = [NSString stringWithFormat:@"DROP TABLE \"%@\";", tableName];
-             int result = [MSDBStorage executeNonSelectionQuery:deleteQuery inOpenedDatabase:db];
-             if (result == SQLITE_OK) {
-               MSLogVerbose([MSAppCenter logTag], @"Table %@ has been deleted", tableName);
-             } else {
-               MSLogError([MSAppCenter logTag], @"Failed to delete table %@", tableName);
-             }
-             return result;
-           }
-           return SQLITE_OK;
-         }] == SQLITE_OK;
-}
-
 - (void)dropDatabase {
   BOOL result = [MSUtility deleteFileAtURL:self.dbFileURL];
   if (result) {

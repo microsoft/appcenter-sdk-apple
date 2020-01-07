@@ -115,15 +115,6 @@ static NSString *const kMSSQLiteConstraintAutoincrement = @"AUTOINCREMENT";
 - (BOOL)createTable:(NSString *)tableName columnsSchema:(MSDBColumnsSchema *)columnsSchema;
 
 /**
- * Deletes table within an existing database
- *
- * @param tableName Name of the table to delete.
- *
- * @return operation status.
- */
-- (BOOL)dropTable:(NSString *)tableName;
-
-/**
  * Deletes database.
  *
  */
