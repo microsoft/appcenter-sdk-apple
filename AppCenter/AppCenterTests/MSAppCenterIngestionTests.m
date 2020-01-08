@@ -215,7 +215,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   NSString *actual = [self.sut obfuscateResponsePayload:payload];
 
   // Then
-  assertThat(actual, payload);
+  XCTAssertEqual(actual, payload);
 }
 
 @end
