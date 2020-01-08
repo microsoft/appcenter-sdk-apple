@@ -322,8 +322,10 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
 }
 
 - (void)testDropTableWhenTableExists {
+  
   // When
   BOOL tableDropped = [self.sut dropTable:kMSTestTableName];
+  
   // Then
   XCTAssertTrue(tableDropped);
   XCTAssertFalse([self tableExists:kMSTestTableName]);
@@ -348,11 +350,14 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   XCTAssertFalse([self tableExists:tableName2]);
 }
 
-- (void)testDroppedTableWhenTableDoesntExists {
+- (void)testDroppedTableWhenTableDoesNotExists {
+  
   // If
   NSString *tableToDrop = @"NewTable";
+  
   // When
   BOOL tableDropped = [self.sut dropTable:tableToDrop];
+  
   // Then
   XCTAssertTrue(tableDropped);
   XCTAssertFalse([self tableExists:tableToDrop]);

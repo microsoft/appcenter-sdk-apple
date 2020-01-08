@@ -949,7 +949,7 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
       @{kMSLogColumnName : @[ kMSSQLiteTypeText, kMSSQLiteConstraintNotNull ]}
     ]
   };
-  MSDBStorage *storage0 = [[MSDBStorage alloc] initWithSchema:schema0 version:kMSInitialVersion filename:kMSDBFileName];
+  MSDBStorage *storage0 = [[MSDBStorage alloc] initWithSchema:schema0 version:0 filename:kMSDBFileName];
   [self generateAndSaveLogsWithCount:10
                                 size:nil
                              groupId:kMSTestGroupId

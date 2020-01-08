@@ -397,7 +397,7 @@ static const NSUInteger kMSSchemaVersion = 5;
    * With version 3.0 of the SDK we decided to remove timestamp column and as
    * it's a major SDK version and SQLite does not support removing column we just start over.
    * When adding a new column in a future version, update this code by something like
-   * if (version <= kMSTimestampVersion) {drop/create} else {add missing columns}
+   * if (version <= kMSDropTableVersion) {drop/create} else {add missing columns}
    */
   [self dropTable:kMSLogTableName];
   [MSDBStorage createTablesWithSchema:self.schema inOpenedDatabase:db];

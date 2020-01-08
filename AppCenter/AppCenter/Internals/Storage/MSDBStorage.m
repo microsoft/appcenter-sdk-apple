@@ -121,6 +121,15 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
   return result;
 }
 
+- (void)dropDatabase {
+  BOOL result = [MSUtility deleteFileAtURL:self.dbFileURL];
+  if (result) {
+    MSLogVerbose([MSAppCenter logTag], @"Database %@ has been deleted.", (NSString * _Nonnull) self.dbFileURL.absoluteString);
+  } else {
+    MSLogError([MSAppCenter logTag], @"Failed to delete database.");
+  }
+}
+
 - (BOOL)dropTable:(NSString *)tableName {
   return [self executeQueryUsingBlock:^int(void *db) {
     if ([MSDBStorage tableExists:tableName inOpenedDatabase:db]) {
@@ -135,15 +144,6 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
     }
     return SQLITE_OK;
   }] == SQLITE_OK;
-}
-
-- (void)dropDatabase {
-  BOOL result = [MSUtility deleteFileAtURL:self.dbFileURL];
-  if (result) {
-    MSLogVerbose([MSAppCenter logTag], @"Database %@ has been deleted.", (NSString * _Nonnull) self.dbFileURL.absoluteString);
-  } else {
-    MSLogError([MSAppCenter logTag], @"Failed to delete database.");
-  }
 }
 
 - (BOOL)createTable:(NSString *)tableName
