@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Binds itself with a statement.
  *
- * @param query Sqlite statement.
+ * @param query SQLite statement.
  * @param index Position of the parameter.
  *
  * @return int result code.
