@@ -1412,6 +1412,7 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   sqlite3_stmt *statement = NULL;
   sqlite3_prepare_v2(db, [selectLogQuery UTF8String], -1, &statement, NULL);
   [values bindAllValuesWithStatement:statement inOpenedDatabase:db];
+  
   // Loop on rows.
   while (sqlite3_step(statement) == SQLITE_ROW) {
     NSMutableArray *entry = [NSMutableArray new];
