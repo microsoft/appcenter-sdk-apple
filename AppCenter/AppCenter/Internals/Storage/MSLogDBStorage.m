@@ -401,6 +401,7 @@ static const NSUInteger kMSSchemaVersion = 5;
    */
   [self dropTable:kMSLogTableName];
   [MSDBStorage createTablesWithSchema:self.schema inOpenedDatabase:db];
+  [self customizeDatabase:db];
 }
 
 @end
