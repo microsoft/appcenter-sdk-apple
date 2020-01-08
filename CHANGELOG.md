@@ -8,6 +8,7 @@
 * **[Fix]** Disable module debugging for release mode in the SDK to fix dSYM warnings.
 * **[Fix]** Fix SDK crash at application launch on iOS 12.0 (`CTTelephonyNetworkInfo.serviceSubscriberCellularProviders` issue).
 * **[Fix]** The SDK was considering 201-299 status code as HTTP errors and is now fixed to accept all 2XX codes as successful.
+* **[Improvement]** Replaced sqlite query concatenation with more secure bindings.
 
 ### App Center Distribute
 
