@@ -9,6 +9,12 @@
 * **[Fix]** Fix SDK crash at application launch on iOS 12.0 (`CTTelephonyNetworkInfo.serviceSubscriberCellularProviders` issue).
 * **[Fix]** The SDK was considering 201-299 status code as HTTP errors and is now fixed to accept all 2XX codes as successful.
 * **[Improvement]** Replaced sqlite concatenation with more secure bindings.
+
+### App Center Distribute
+
+* **[Fix]** Fix a crash when `SFAuthenticationSession` accesses the controller which is in the process of being released.
+* **[Fix]** Fix sign-in when switching to third-party apps while activating updates.
+
 ___
 
 ## Version 2.5.3
