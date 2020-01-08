@@ -1392,7 +1392,6 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
                                                         kMSLogTableName, kMSPriorityColumnName, kMSIdColumnName];
   MSStorageBindableArray *values = [MSStorageBindableArray new];
   [values addNumber:@((unsigned int)flags)];
-
   NSArray<NSArray *> *entries = [MSDBStorage executeSelectionQuery:selectLogQuery inOpenedDatabase:db withValues:values];
   NSMutableArray *ids = [NSMutableArray new];
   for (NSMutableArray *row in entries) {
@@ -1412,6 +1411,7 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   sqlite3_stmt *statement = NULL;
   sqlite3_prepare_v2(db, [selectLogQuery UTF8String], -1, &statement, NULL);
   [values bindAllValuesWithStatement:statement inOpenedDatabase:db];
+  
   // Loop on rows.
   while (sqlite3_step(statement) == SQLITE_ROW) {
     NSMutableArray *entry = [NSMutableArray new];
