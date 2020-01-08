@@ -35,9 +35,9 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
   [controller addDefaultActionWithTitle:@"testAction" handler:nil];
 
   // Then
-  XCTAssertTrue([controller actions].count == 1);
-  XCTAssertTrue([[controller actions] firstObject].style == UIAlertActionStyleDefault);
-  XCTAssertTrue([[[controller actions] firstObject].title isEqual:@"testAction"]);
+  XCTAssertEqual([controller actions].count, 1);
+  XCTAssertEqual([[controller actions] firstObject].style, UIAlertActionStyleDefault);
+  XCTAssertEqualObjects([[controller actions] firstObject].title, @"testAction");
 }
 
 - (void)testAlertAddCancelAction {
@@ -49,9 +49,9 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
   [controller addCancelActionWithTitle:@"cancelAction" handler:nil];
 
   // Then
-  XCTAssertTrue([controller actions].count == 1);
-  XCTAssertTrue([[controller actions] firstObject].style == UIAlertActionStyleCancel);
-  XCTAssertTrue([[[controller actions] firstObject].title isEqual:@"cancelAction"]);
+  XCTAssertEqual([controller actions].count, 1);
+  XCTAssertEqual([[controller actions] firstObject].style, UIAlertActionStyleCancel);
+  XCTAssertEqualObjects([[controller actions] firstObject].title, @"cancelAction");
 }
 
 - (void)testAlertAddDestructiveAction {
@@ -63,9 +63,9 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
   [controller addDestructiveActionWithTitle:@"destructiveAction" handler:nil];
 
   // Then
-  XCTAssertTrue([controller actions].count == 1);
-  XCTAssertTrue([[controller actions] firstObject].style == UIAlertActionStyleDestructive);
-  XCTAssertTrue([[[controller actions] firstObject].title isEqual:@"destructiveAction"]);
+  XCTAssertEqual([controller actions].count, 1);
+  XCTAssertEqual([[controller actions] firstObject].style, UIAlertActionStyleDestructive);
+  XCTAssertEqualObjects([[controller actions] firstObject].title, @"destructiveAction");
 }
 
 - (void)testAlertAddPreferredAction {
@@ -78,7 +78,7 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
 
   // Then
   OCMVerify([controller setPreferredAction:OCMOCK_ANY]);
-  XCTAssertTrue([controller actions].count == 1);
+  XCTAssertEqual([controller actions].count, 1);
 
   [controller stopMocking];
 }

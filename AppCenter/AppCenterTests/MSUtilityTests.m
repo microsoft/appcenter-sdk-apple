@@ -909,7 +909,7 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
   NSArray *result = MS_DISPATCH_SELECTOR(__bridge NSArray *, array, objectsAtIndexes:, indexSet);
 
   // Then
-  XCTAssertTrue(result.count == 1);
+  XCTAssertEqual(result.count, 1);
 }
 
 - (void)testPerformSelectorWithObjects {
@@ -921,7 +921,7 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
   [MSPerformSelectorUtil performSelector:array withSelector:@"addObject:" withObjects:@[ @"testValue" ]];
 
   // Then
-  XCTAssertTrue([array count] == 1);
+  XCTAssertEqual(array.count, 1);
 }
 
 - (void)testPerformSelectorOnMainThread {
