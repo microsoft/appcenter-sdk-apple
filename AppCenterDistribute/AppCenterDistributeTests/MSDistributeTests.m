@@ -35,6 +35,7 @@ static NSString *const kMSTestDistributionGroupId = @"DISTRIBUTIONGROUPID";
 static NSString *const kMSTestDownloadedDistributionGroupId = @"DOWNLOADEDDISTRIBUTIONGROUPID";
 static NSString *const kMSDistributeServiceName = @"Distribute";
 static NSString *const kMSUpdateTokenApiPathFormat = @"/apps/%@/update-setup";
+static NSString *const kMSDefaultURLFormat = @"https://fakeurl.com";
 
 // Mocked SFSafariViewController for url validation.
 @interface SFSafariViewControllerMock : UIViewController
@@ -1319,9 +1320,7 @@ static NSURL *sfURL;
 - (void)testOpenURLInAuthenticationSession API_AVAILABLE(ios(11)) {
 
   // If
-  NSURL *fakeURL = [NSURL URLWithString:@"https://fakeurl.com"];
-  id notificationCenterMock = OCMPartialMock([NSNotificationCenter new]);
-  OCMStub([notificationCenterMock defaultCenter]).andReturn(notificationCenterMock);
+  NSURL *fakeURL = [NSURL URLWithString:kMSDefaultURLFormat];
   id appCenterMock = OCMClassMock([MSAppCenter class]);
   OCMStub([appCenterMock sharedInstance]).andReturn(appCenterMock);
   OCMStub([appCenterMock isSdkConfigured]).andReturn(YES);
@@ -1345,15 +1344,8 @@ static NSURL *sfURL;
   XCTAssertNotNil(self.sut.authenticationSession);
   XCTAssert([self.sut.authenticationSession isKindOfClass:[SFAuthenticationSession class]]);
 
-  // When
-  [notificationCenterMock postNotificationName:UIApplicationDidEnterBackgroundNotification object:nil];
-
-  // Then
-  XCTAssertNil(self.sut.authenticationSession);
-
   // Clear
   [appCenterMock stopMocking];
-  [notificationCenterMock stopMocking];
 }
 
 - (void)testCheckForUpdatesDebuggerAttached {
@@ -2597,7 +2589,7 @@ static NSURL *sfURL;
                               appSecret:kMSTestAppSecret
                 transmissionTargetToken:nil
                         fromApplication:YES];
-  NSString *urlPath = [NSString stringWithFormat:kMSUpdateTokenApiPathFormat, kMSTestAppSecret];
+  NSString *urlPath = [NSString stringWithFormat:kMSDefaultURLFormat, kMSTestAppSecret];
   NSURLComponents *components = [NSURLComponents componentsWithString:urlPath];
   [distributeMock openURLInAuthenticationSessionWith:components.URL];
 
@@ -2613,7 +2605,7 @@ static NSURL *sfURL;
 - (void)testOpenURLInAuthenticationSessionFails API_AVAILABLE(ios(11)) {
 
   // If
-  NSURL *fakeURL = [NSURL URLWithString:@"https://fakeurl.com"];
+  NSURL *fakeURL = [NSURL URLWithString:kMSDefaultURLFormat];
   id appCenterMock = OCMClassMock([MSAppCenter class]);
   OCMStub([appCenterMock sharedInstance]).andReturn(appCenterMock);
   OCMStub([appCenterMock isSdkConfigured]).andReturn(YES);

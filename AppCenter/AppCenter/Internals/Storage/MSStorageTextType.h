@@ -3,6 +3,8 @@
 
 #import "MSStorageBindableType.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface MSStorageTextType : NSObject <MSStorageBindableType>
 
 @property(nonatomic, nullable) NSString *value;
@@ -13,3 +15,5 @@
 - (instancetype __nonnull)initWithValue:(nullable NSString *)value;
 
 @end
+
+NS_ASSUME_NONNULL_END
