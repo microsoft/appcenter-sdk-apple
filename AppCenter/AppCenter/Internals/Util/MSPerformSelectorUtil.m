@@ -6,25 +6,21 @@
 
 @implementation MSPerformSelectorUtil
 
-+ (void)performSelectorOnMainThread:(NSObject *)source withSelector:(SEL)selector withObjects:(NSObject *)objects, ... {
-  NSMethodSignature *signature = [source methodSignatureForSelector:selector];
-  if (!signature) {
-    MSLogError([MSAppCenter logTag], @"MSUtility: Method not found.");
-    return;
++ (void)performBlockOnMainThread:(void (^)(void))block {
+
+#if TARGET_OS_OSX
+  [self performSelectorOnMainThread:@selector(runBlock:) withObject:block waitUntilDone:NO];
+#else
+  if ([NSThread isMainThread]) {
+    block();
+  } else {
+    dispatch_async(dispatch_get_main_queue(), block);
   }
-  NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:signature];
-  [invocation setTarget:source];
-  [invocation setSelector:selector];
-  va_list args;
-  va_start(args, objects);
-  int nextArgIndex = 2;
-  for (NSObject *object = objects; object != [NSNull null]; object = va_arg(args, NSObject *)) {
-    [invocation setArgument:&object atIndex:nextArgIndex];
-    nextArgIndex++;
-  }
-  va_end(args);
-  [invocation retainArguments];
-  [invocation performSelectorOnMainThread:@selector(invoke) withObject:nil waitUntilDone:NO];
+#endif
+}
+
++ (void)runBlock:(void (^)(void))block {
+  block();
 }
 
 @end

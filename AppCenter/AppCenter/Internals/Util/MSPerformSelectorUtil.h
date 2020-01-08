@@ -5,7 +5,6 @@
 
 @interface MSPerformSelectorUtil : NSObject
 
-+ (void)performSelectorOnMainThread:(NSObject *)source withSelector:(SEL)selector withObjects:(NSObject *)objects, ...;
++ (void)performBlockOnMainThread:(void (^)(void))block;
 
 @end
-

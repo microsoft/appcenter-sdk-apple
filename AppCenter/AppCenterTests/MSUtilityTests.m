@@ -897,7 +897,7 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
   XCTAssertFalse([obfuscatedString rangeOfString:kMSRedirectUriObfuscatedTemplate].location == NSNotFound);
 }
 
-- (void)testPerformSelectorOnMainThread {
+- (void)testPerformBlockOnMainThread {
 
   // If
   XCTestExpectation *expectation = [self expectationWithDescription:@"method called."];
@@ -905,15 +905,14 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
   NSString *str = @"expectedString";
 
   // When
-  [MSPerformSelectorUtil performSelectorOnMainThread:self
-                                        withSelector:@selector(methodToCall:completionHandler:)
-                                         withObjects:str,
-                                                     ^(NSString *string) {
-                                                       XCTAssertEqual(str, string);
-                                                       handlerHasBeenCalled = YES;
-                                                       [expectation fulfill];
-                                                     },
-                                                     [NSNull null]];
+  [MSPerformSelectorUtil performBlockOnMainThread:^{
+    [self methodToCall:str
+        completionHandler:^(NSString *string) {
+          XCTAssertEqual(str, string);
+          handlerHasBeenCalled = YES;
+          [expectation fulfill];
+        }];
+  }];
 
   // Then
   [self waitForExpectationsWithTimeout:kMSTestTimeout
@@ -925,7 +924,7 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
                                }];
 }
 
-- (void)testPerformSelectorOnMainThreadFromBackground {
+- (void)testPerformBlockOnMainThreadFromBackground {
 
   // If
   XCTestExpectation *expectation = [self expectationWithDescription:@"method called."];
@@ -934,15 +933,14 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
 
   // When
   dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-    [MSPerformSelectorUtil performSelectorOnMainThread:self
-                                          withSelector:@selector(methodToCall:completionHandler:)
-                                           withObjects:str,
-                                                       ^(NSString *string) {
-                                                         XCTAssertEqual(str, string);
-                                                         handlerHasBeenCalled = YES;
-                                                         [expectation fulfill];
-                                                       },
-                                                       [NSNull null]];
+    [MSPerformSelectorUtil performBlockOnMainThread:^{
+      [self methodToCall:str
+          completionHandler:^(NSString *string) {
+            XCTAssertEqual(str, string);
+            handlerHasBeenCalled = YES;
+            [expectation fulfill];
+          }];
+    }];
   });
 
   // Then
