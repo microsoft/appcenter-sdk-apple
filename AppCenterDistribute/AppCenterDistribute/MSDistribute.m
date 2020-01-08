@@ -10,7 +10,6 @@
 #import "MSChannelUnitProtocol.h"
 #import "MSDistribute.h"
 #import "MSDistributeAppDelegate.h"
-#import "MSDistributeDataMigration.h"
 #import "MSDistributeInternal.h"
 #import "MSDistributePrivate.h"
 #import "MSDistributeUtil.h"
@@ -55,9 +54,6 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
 - (instancetype)init {
   if ((self = [super init])) {
-
-    // Migrate data from previous versions.
-    [MSDistributeDataMigration migrateKeychain];
 
     // Init.
     _apiUrl = kMSDefaultApiUrl;
