@@ -15,4 +15,5 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype __nonnull)initWithValue:(nullable NSString *)value;
 
 @end
+
 NS_ASSUME_NONNULL_END

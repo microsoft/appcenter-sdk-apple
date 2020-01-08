@@ -123,9 +123,9 @@ static const long kMSDefaultDatabaseSizeInBytes = 10 * 1024 * 1024;
 /**
  * Execute a non selection SQLite query on the database (i.e.: "CREATE", "INSERT", "UPDATE"... but not "SELECT").
  *
- * @param query An SQLite query to execute.
+ * @param query A SQLite statement to execute.
  * @param db Database handle.
- * @param values an array of query parameters to be substituted using `sqlite3_bind`.
+ * @param values An array of query parameters to be substituted using `sqlite3_bind`.
  *
  * @return `YES` if the query executed successfully, otherwise `NO`.
  */
@@ -134,9 +134,9 @@ static const long kMSDefaultDatabaseSizeInBytes = 10 * 1024 * 1024;
 /**
  * Execute a "SELECT" SQLite query on the database.
  *
- * @param query An SQLite "SELECT" query to execute.
+ * @param query A SQLite "SELECT" query to execute.
  * @param db Database handle.
- * @param values an array of query parameters to be substituted using `sqlite3_bind`.
+ * @param values An array of query parameters to be substituted using `sqlite3_bind`.
  *
  * @return The selected entries.
  */
@@ -149,7 +149,7 @@ static const long kMSDefaultDatabaseSizeInBytes = 10 * 1024 * 1024;
  *
  * @param query An SQLite "SELECT" query to execute.
  * @param db Database handle.
- * @param result result code reference.
+ * @param result A reference of result code.
  *
  * @return The selected entries.
  */
