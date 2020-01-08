@@ -44,7 +44,7 @@ static NSString *const kMSPriorityColumnName = @"priority";
  */
 @property(nonatomic, readonly) NSUInteger targetTokenColumnIndex;
 
-/*
+/**
  * Encrypter for target tokens.
  */
 @property(nonatomic, readonly) MSEncrypter *targetTokenEncrypter;

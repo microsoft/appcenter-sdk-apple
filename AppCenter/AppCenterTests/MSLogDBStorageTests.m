@@ -936,7 +936,7 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   assertThat(priorityIndex, is(@"CREATE INDEX \"ix_logs_priority\" ON \"logs\" (\"priority\")"));
 }
 
-- (void)testMigrationFromSchema0toLatest {
+- (void)testMigrationToLatest {
 
   // If
   // Create old version db.
@@ -960,126 +960,8 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   self.sut = [MSLogDBStorage new];
 
   // Then
-  assertThatInt([self loadLogsWhere:nil withValues:nil].count, equalToUnsignedInt(10));
-  NSString *currentTable =
-      [self.sut executeSelectionQuery:[NSString stringWithFormat:@"SELECT sql FROM sqlite_master WHERE name='%@'", kMSLogTableName]
-                           withValues:nil][0][0];
-  assertThat(currentTable, is(kMSLatestSchema));
-  NSString *priorityIndex =
-      [self.sut executeSelectionQuery:[NSString stringWithFormat:@"SELECT sql FROM sqlite_master WHERE name='ix_%@_%@'", kMSLogTableName,
-                                                                 kMSPriorityColumnName]
-                           withValues:nil][0][0];
-  assertThat(priorityIndex, is(@"CREATE INDEX \"ix_logs_priority\" ON \"logs\" (\"priority\")"));
-}
-
-- (void)testMigrationFromSchema1toLatest {
-
-  // If
-  // Create old version db.
-  // DO NOT CHANGE. THIS IS ALREADY PUBLISHED SCHEMA.
-  MSDBSchema *schema1 = @{
-    kMSLogTableName : @[
-      @{kMSIdColumnName : @[ kMSSQLiteTypeInteger, kMSSQLiteConstraintPrimaryKey, kMSSQLiteConstraintAutoincrement ]},
-      @{kMSGroupIdColumnName : @[ kMSSQLiteTypeText, kMSSQLiteConstraintNotNull ]},
-      @{kMSLogColumnName : @[ kMSSQLiteTypeText, kMSSQLiteConstraintNotNull ]}, @{kMSTargetTokenColumnName : @[ kMSSQLiteTypeText ]}
-    ]
-  };
-  MSDBStorage *storage1 = [[MSDBStorage alloc] initWithSchema:schema1 version:kMSTargetTokenVersion filename:kMSDBFileName];
-  [self generateAndSaveLogsWithCount:10
-                                size:nil
-                             groupId:kMSTestGroupId
-                               flags:MSFlagsDefault
-                             storage:storage1
-              andVerifyLogGeneration:YES];
-
-  // When
-  self.sut = [MSLogDBStorage new];
-
-  // Then
-  assertThatInt([self loadLogsWhere:nil withValues:nil].count, equalToUnsignedInt(10));
-  NSString *currentTable =
-      [self.sut executeSelectionQuery:[NSString stringWithFormat:@"SELECT sql FROM sqlite_master WHERE name='%@'", kMSLogTableName]
-                           withValues:nil][0][0];
-  assertThat(currentTable, is(kMSLatestSchema));
-  NSString *priorityIndex =
-      [self.sut executeSelectionQuery:[NSString stringWithFormat:@"SELECT sql FROM sqlite_master WHERE name='ix_%@_%@'", kMSLogTableName,
-                                                                 kMSPriorityColumnName]
-                           withValues:nil][0][0];
-  assertThat(priorityIndex, is(@"CREATE INDEX \"ix_logs_priority\" ON \"logs\" (\"priority\")"));
-}
-
-- (void)testMigrationFromSchema2toLatest {
-
-  // If
-  // Create old version db.
-  // DO NOT CHANGE. THIS IS ALREADY PUBLISHED SCHEMA.
-  MSDBSchema *schema2 = @{
-    kMSLogTableName : @[
-      @{kMSIdColumnName : @[ kMSSQLiteTypeInteger, kMSSQLiteConstraintPrimaryKey, kMSSQLiteConstraintAutoincrement ]},
-      @{kMSGroupIdColumnName : @[ kMSSQLiteTypeText, kMSSQLiteConstraintNotNull ]},
-      @{kMSLogColumnName : @[ kMSSQLiteTypeText, kMSSQLiteConstraintNotNull ]}, @{kMSTargetTokenColumnName : @[ kMSSQLiteTypeText ]},
-      @{kMSTargetKeyColumnName : @[ kMSSQLiteTypeText ]}
-    ]
-  };
-  MSDBStorage *storage2 = [[MSDBStorage alloc] initWithSchema:schema2 version:kMSTargetKeyVersion filename:kMSDBFileName];
-  [self generateAndSaveLogsWithCount:10
-                                size:nil
-                             groupId:kMSTestGroupId
-                               flags:MSFlagsDefault
-                             storage:storage2
-              andVerifyLogGeneration:YES];
-
-  // When
-  self.sut = [MSLogDBStorage new];
-
-  // Then
-  assertThatInt([self loadLogsWhere:nil withValues:nil].count, equalToUnsignedInt(10));
-  NSString *currentTable =
-      [self.sut executeSelectionQuery:[NSString stringWithFormat:@"SELECT sql FROM sqlite_master WHERE name='%@'", kMSLogTableName]
-                           withValues:nil][0][0];
-  assertThat(currentTable, is(kMSLatestSchema));
-  NSString *priorityIndex =
-      [self.sut executeSelectionQuery:[NSString stringWithFormat:@"SELECT sql FROM sqlite_master WHERE name='ix_%@_%@'", kMSLogTableName,
-                                                                 kMSPriorityColumnName]
-                           withValues:nil][0][0];
-  assertThat(priorityIndex, is(@"CREATE INDEX \"ix_logs_priority\" ON \"logs\" (\"priority\")"));
-}
-
-- (void)testMigrationFromSchema3toLatest {
-
-  // If
-  // Create old version db.
-  // DO NOT CHANGE. THIS IS ALREADY PUBLISHED SCHEMA.
-  MSDBSchema *schema3 = @{
-    kMSLogTableName : @[
-      @{kMSIdColumnName : @[ kMSSQLiteTypeInteger, kMSSQLiteConstraintPrimaryKey, kMSSQLiteConstraintAutoincrement ]},
-      @{kMSGroupIdColumnName : @[ kMSSQLiteTypeText, kMSSQLiteConstraintNotNull ]},
-      @{kMSLogColumnName : @[ kMSSQLiteTypeText, kMSSQLiteConstraintNotNull ]}, @{kMSTargetTokenColumnName : @[ kMSSQLiteTypeText ]},
-      @{kMSTargetKeyColumnName : @[ kMSSQLiteTypeText ]}, @{kMSPriorityColumnName : @[ kMSSQLiteTypeInteger ]}
-    ]
-  };
-  MSDBStorage *storage3 = [[MSDBStorage alloc] initWithSchema:schema3 version:kMSLogPersistencePriorityVersion filename:kMSDBFileName];
-  [self generateAndSaveLogsWithCount:10
-                                size:nil
-                             groupId:kMSTestGroupId
-                               flags:MSFlagsDefault
-                             storage:storage3
-              andVerifyLogGeneration:YES];
-
-  // When
-  self.sut = [MSLogDBStorage new];
-
-  // Then
-  assertThatInt([self loadLogsWhere:nil withValues:nil].count, equalToUnsignedInt(10));
-  NSString *currentTable =
-      [self.sut executeSelectionQuery:[NSString stringWithFormat:@"SELECT sql FROM sqlite_master WHERE name='%@'", kMSLogTableName]
-                           withValues:nil][0][0];
-  assertThat(currentTable, is(kMSLatestSchema));
-  NSString *priorityIndex =
-      [self.sut executeSelectionQuery:[NSString stringWithFormat:@"SELECT sql FROM sqlite_master WHERE name='ix_%@_%@'", kMSLogTableName,
-                                                                 kMSPriorityColumnName]
-                           withValues:nil][0][0];
-  assertThat(priorityIndex, is(@"CREATE INDEX \"ix_logs_priority\" ON \"logs\" (\"priority\")"));
+  // Migration to version 5 we drop the table and re-create, so we expect 0.
+  assertThatInt([self loadLogsWhere:nil withValues:nil].count, equalToUnsignedInt(0));
 }
 
 #pragma mark - Helper methods

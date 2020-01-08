@@ -391,25 +391,16 @@ static const NSUInteger kMSSchemaVersion = 5;
  * Migration process is implemented through database versioning.
  * After altering current schema, database version should be bumped and actions for migration should be implemented in this method.
  */
-- (void)migrateDatabase:(void *)db fromVersion:(NSUInteger)version {
-  if (version < kMSTargetTokenVersion) {
-    NSString *migrationQuery = [NSString
-        stringWithFormat:@"ALTER TABLE \"%@\" ADD COLUMN \"%@\" %@", kMSLogTableName, kMSTargetTokenColumnName, kMSSQLiteTypeText];
-    [MSDBStorage executeNonSelectionQuery:migrationQuery inOpenedDatabase:db];
-  }
-  if (version < kMSTargetKeyVersion) {
-    NSString *migrationQuery =
-        [NSString stringWithFormat:@"ALTER TABLE \"%@\" ADD COLUMN \"%@\" %@", kMSLogTableName, kMSTargetKeyColumnName, kMSSQLiteTypeText];
-    [MSDBStorage executeNonSelectionQuery:migrationQuery inOpenedDatabase:db];
-  }
-  if (version < kMSLogPersistencePriorityVersion) {
-
-    // Integer type for flags is actually unsigned int, but SQL resolves UNSIGNED INTEGER to INTEGER anyways.
-    NSString *migrationQuery = [NSString stringWithFormat:@"ALTER TABLE \"%@\" ADD COLUMN \"%@\" %@ DEFAULT %u", kMSLogTableName,
-                                                          kMSPriorityColumnName, kMSSQLiteTypeInteger, (unsigned int)MSFlagsNormal];
-    [MSDBStorage executeNonSelectionQuery:migrationQuery inOpenedDatabase:db];
-    [self createPriorityIndex:db];
-  }
+- (void)migrateDatabase:(void *)db fromVersion:(NSUInteger __unused)version {
+  
+  /*
+   * With version 3.0 of the SDK we decided to remove timestamp column and as
+   * it's a major SDK version and SQLite does not support removing column we just start over.
+   * When adding a new column in a future version, update this code by something like
+   * if (version <= kMSTimestampVersion) {drop/create} else {add missing columns}
+   */
+  [self dropTable:kMSLogTableName];
+  [MSDBStorage createTablesWithSchema:self.schema inOpenedDatabase:db];
 }
 
 @end

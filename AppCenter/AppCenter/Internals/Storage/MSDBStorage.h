@@ -123,6 +123,15 @@ static NSString *const kMSSQLiteConstraintAutoincrement = @"AUTOINCREMENT";
  */
 - (void)setMaxStorageSize:(long)sizeInBytes completionHandler:(nullable void (^)(BOOL))completionHandler;
 
+/**
+ * Deletes table within an existing database
+ *
+ * @param tableName Name of the table to delete.
+ *
+ * @return operation status.
+ */
+- (BOOL)dropTable:(NSString *)tableName;
+
 @end
 
 NS_ASSUME_NONNULL_END
