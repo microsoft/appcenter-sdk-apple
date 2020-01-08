@@ -1392,7 +1392,6 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
                                                         kMSLogTableName, kMSPriorityColumnName, kMSIdColumnName];
   MSStorageBindableArray *values = [MSStorageBindableArray new];
   [values addNumber:@((unsigned int)flags)];
-
   NSArray<NSArray *> *entries = [MSDBStorage executeSelectionQuery:selectLogQuery inOpenedDatabase:db withValues:values];
   NSMutableArray *ids = [NSMutableArray new];
   for (NSMutableArray *row in entries) {
