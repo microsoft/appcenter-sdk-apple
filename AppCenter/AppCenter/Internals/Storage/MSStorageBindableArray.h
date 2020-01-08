@@ -16,7 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic) NSMutableArray<id<MSStorageBindableType>> *array;
 
 /**
- * Adds a string object into array.
+ * Adds an NSString object into array.
+ *
  * @param value NSString value to be added to the array.
  */
 - (void)addString:(nullable NSString *)value;
