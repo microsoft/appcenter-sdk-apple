@@ -28,6 +28,11 @@ static const long kMSDefaultDatabaseSizeInBytes = 10 * 1024 * 1024;
 @property(nonatomic) long pageSize;
 
 /**
+ * Schema for the table.
+ */
+@property(nonatomic, readonly) MSDBSchema *schema;
+
+/**
  * Called after the database is created. Override to customize the database.
  *
  * @param db Database handle.

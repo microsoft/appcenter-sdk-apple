@@ -12,7 +12,7 @@
 #import "MSStorageTextType.h"
 #import "MSUtility+StringFormatting.h"
 
-static const NSUInteger kMSSchemaVersion = 4;
+static const NSUInteger kMSSchemaVersion = 5;
 
 @implementation MSLogDBStorage
 
@@ -28,8 +28,7 @@ static const NSUInteger kMSSchemaVersion = 4;
       @{kMSIdColumnName : @[ kMSSQLiteTypeInteger, kMSSQLiteConstraintPrimaryKey, kMSSQLiteConstraintAutoincrement ]},
       @{kMSGroupIdColumnName : @[ kMSSQLiteTypeText, kMSSQLiteConstraintNotNull ]},
       @{kMSLogColumnName : @[ kMSSQLiteTypeText, kMSSQLiteConstraintNotNull ]}, @{kMSTargetTokenColumnName : @[ kMSSQLiteTypeText ]},
-      @{kMSTargetKeyColumnName : @[ kMSSQLiteTypeText ]}, @{kMSPriorityColumnName : @[ kMSSQLiteTypeInteger ]},
-      @{kMSTimestampColumnName : @[ kMSSQLiteTypeInteger ]}
+      @{kMSTargetKeyColumnName : @[ kMSSQLiteTypeText ]}, @{kMSPriorityColumnName : @[ kMSSQLiteTypeInteger ]}
     ]
   };
   self = [self initWithSchema:schema version:kMSSchemaVersion filename:kMSDBFileName];
@@ -52,7 +51,6 @@ static const NSUInteger kMSSchemaVersion = 4;
     return NO;
   }
   MSFlags persistenceFlags = flags & kMSPersistenceFlagsMask;
-  long long timestampMs = (long long)([log.timestamp timeIntervalSince1970] * 1000);
 
   // Insert this log to the DB.
   NSData *logData = [NSKeyedArchiver archivedDataWithRootObject:log];
@@ -62,10 +60,9 @@ static const NSUInteger kMSSchemaVersion = 4;
   [addLogValues addString:groupId];
   [addLogValues addString:base64Data];
   [addLogValues addNumber:@(persistenceFlags)];
-  [addLogValues addNumber:@(timestampMs)];
   NSString *addLogQuery =
-      [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\", \"%@\") VALUES (?, ?, ?, ?)", kMSLogTableName,
-                                 kMSGroupIdColumnName, kMSLogColumnName, kMSPriorityColumnName, kMSTimestampColumnName];
+      [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\") VALUES (?, ?, ?)", kMSLogTableName,
+                                 kMSGroupIdColumnName, kMSLogColumnName, kMSPriorityColumnName];
 
   // Serialize target token.
   if ([(NSObject *)log isKindOfClass:[MSCommonSchemaLog class]]) {
@@ -79,11 +76,10 @@ static const NSUInteger kMSSchemaVersion = 4;
     [addLogValues addString:encryptedToken];
     [addLogValues addString:targetKey];
     [addLogValues addNumber:@(persistenceFlags)];
-    [addLogValues addNumber:@(timestampMs)];
     addLogQuery =
-        [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\") VALUES (?, ?, ?, ?, ?, ?)",
+        [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\", \"%@\", \"%@\") VALUES (?, ?, ?, ?, ?)",
                                    kMSLogTableName, kMSGroupIdColumnName, kMSLogColumnName, kMSTargetTokenColumnName,
-                                   kMSTargetKeyColumnName, kMSPriorityColumnName, kMSTimestampColumnName];
+                                   kMSTargetKeyColumnName, kMSPriorityColumnName];
   }
   return [self executeQueryUsingBlock:^int(void *db) {
            // Check maximum size.
@@ -395,30 +391,17 @@ static const NSUInteger kMSSchemaVersion = 4;
  * Migration process is implemented through database versioning.
  * After altering current schema, database version should be bumped and actions for migration should be implemented in this method.
  */
-- (void)migrateDatabase:(void *)db fromVersion:(NSUInteger)version {
-  if (version < kMSTargetTokenVersion) {
-    NSString *migrationQuery = [NSString
-        stringWithFormat:@"ALTER TABLE \"%@\" ADD COLUMN \"%@\" %@", kMSLogTableName, kMSTargetTokenColumnName, kMSSQLiteTypeText];
-    [MSDBStorage executeNonSelectionQuery:migrationQuery inOpenedDatabase:db];
-  }
-  if (version < kMSTargetKeyVersion) {
-    NSString *migrationQuery =
-        [NSString stringWithFormat:@"ALTER TABLE \"%@\" ADD COLUMN \"%@\" %@", kMSLogTableName, kMSTargetKeyColumnName, kMSSQLiteTypeText];
-    [MSDBStorage executeNonSelectionQuery:migrationQuery inOpenedDatabase:db];
-  }
-  if (version < kMSLogPersistencePriorityVersion) {
-
-    // Integer type for flags is actually unsigned int, but SQL resolves UNSIGNED INTEGER to INTEGER anyways.
-    NSString *migrationQuery = [NSString stringWithFormat:@"ALTER TABLE \"%@\" ADD COLUMN \"%@\" %@ DEFAULT %u", kMSLogTableName,
-                                                          kMSPriorityColumnName, kMSSQLiteTypeInteger, (unsigned int)MSFlagsNormal];
-    [MSDBStorage executeNonSelectionQuery:migrationQuery inOpenedDatabase:db];
-    [self createPriorityIndex:db];
-  }
-  if (version < kMSTimestampVersion) {
-    NSString *migrationQuery = [NSString stringWithFormat:@"ALTER TABLE \"%@\" ADD COLUMN \"%@\" %@ DEFAULT %lld", kMSLogTableName,
-                                                          kMSTimestampColumnName, kMSSQLiteTypeInteger, 0ll];
-    [MSDBStorage executeNonSelectionQuery:migrationQuery inOpenedDatabase:db];
-  }
+- (void)migrateDatabase:(void *)db fromVersion:(NSUInteger __unused)version {
+  
+  /*
+   * With version 3.0 of the SDK we decided to remove timestamp column and as
+   * it's a major SDK version and SQLite does not support removing column we just start over.
+   * When adding a new column in a future version, update this code by something like
+   * if (version <= kMSDropTableVersion) {drop/create} else {add missing columns}
+   */
+  [self dropTable:kMSLogTableName];
+  [MSDBStorage createTablesWithSchema:self.schema inOpenedDatabase:db];
+  [self customizeDatabase:db];
 }
 
 @end
