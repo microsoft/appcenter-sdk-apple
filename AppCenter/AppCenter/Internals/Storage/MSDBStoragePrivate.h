@@ -121,8 +121,7 @@ static const long kMSDefaultDatabaseSizeInBytes = 10 * 1024 * 1024;
 + (int)executeNonSelectionQuery:(NSString *)query inOpenedDatabase:(void *)db;
 
 /**
- * Execute a non selection SQLite query on the database (i.e.: "CREATE",
- * "INSERT", "UPDATE"... but not "SELECT").
+ * Execute a non selection SQLite query on the database (i.e.: "CREATE", "INSERT", "UPDATE"... but not "SELECT").
  *
  * @param query An SQLite query to execute.
  * @param db Database handle.

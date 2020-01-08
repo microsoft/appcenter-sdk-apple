@@ -18,12 +18,13 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Adds an NSString object into array.
  *
- * @param value NSString value to be added to the array.
+ * @param value string value to be added to the array.
  */
 - (void)addString:(nullable NSString *)value;
 
 /**
  * Adds a number object into array.
+ *
  * @param value NSNumber value to be added to the array.
  * Can not be nil since it means it's an error.
  */
@@ -31,8 +32,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * Binds all values in an array with given sqlite statement.
- * @param query sqlite statement.
- * @param db reference to database.
+ *
+ * @param query Sqlite statement.
+ * @param db Reference to database.
  */
 - (int)bindAllValuesWithStatement:(void *)query inOpenedDatabase:(void *)db;
 
