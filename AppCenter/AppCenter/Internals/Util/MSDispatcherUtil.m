@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "MSPerformSelectorUtil.h"
+#import "MSDispatcherUtil.h"
 #import "MSAppCenterInternal.h"
 
-@implementation MSPerformSelectorUtil
+@implementation MSDispatcherUtil
 
 + (void)performBlockOnMainThread:(void (^)(void))block {
 

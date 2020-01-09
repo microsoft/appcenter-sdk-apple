@@ -3,7 +3,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface MSPerformSelectorUtil : NSObject
+@interface MSDispatcherUtil : NSObject
 
 + (void)performBlockOnMainThread:(void (^)(void))block;
 

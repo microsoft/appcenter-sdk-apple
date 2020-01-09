@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 #import "MSConstants+Internal.h"
-#import "MSPerformSelectorUtil.h"
+#import "MSDispatcherUtil.h"
 #import "MSTestFrameworks.h"
 #import "MSUtility+ApplicationPrivate.h"
 #import "MSUtility+Date.h"
@@ -905,7 +905,7 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
   NSString *str = @"expectedString";
 
   // When
-  [MSPerformSelectorUtil performBlockOnMainThread:^{
+  [MSDispatcherUtil performBlockOnMainThread:^{
     [self methodToCall:str
         completionHandler:^(NSString *string) {
           XCTAssertEqual(str, string);
@@ -933,7 +933,7 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
 
   // When
   dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-    [MSPerformSelectorUtil performBlockOnMainThread:^{
+    [MSDispatcherUtil performBlockOnMainThread:^{
       [self methodToCall:str
           completionHandler:^(NSString *string) {
             XCTAssertEqual(str, string);

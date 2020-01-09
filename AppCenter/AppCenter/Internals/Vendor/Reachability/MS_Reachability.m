@@ -8,7 +8,7 @@
 
 #import <CoreFoundation/CoreFoundation.h>
 #import <arpa/inet.h>
-#import "MSPerformSelectorUtil.h"
+#import "MSDispatcherUtil.h"
 
 #import "MS_Reachability.h"
 
@@ -123,7 +123,7 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target,
 #pragma mark - Start and stop notifier
 
 - (void)startNotifier {
-  [MSPerformSelectorUtil performBlockOnMainThread:^{
+  [MSDispatcherUtil performBlockOnMainThread:^{
     SCNetworkReachabilityContext context = {0, (__bridge void *)(self), NULL,
                                             NULL, NULL};
     if (SCNetworkReachabilitySetCallback(self.reachabilityRef,
@@ -139,7 +139,7 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target,
 }
 
 - (void)stopNotifier {
-  [MSPerformSelectorUtil performBlockOnMainThread:^{
+  [MSDispatcherUtil performBlockOnMainThread:^{
     if (self.reachabilityRef != NULL) {
       SCNetworkReachabilityUnscheduleFromRunLoop(
           self.reachabilityRef, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
@@ -150,7 +150,7 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target,
 - (void)dealloc {
   __block SCNetworkReachabilityRef reachabilityRef = self.reachabilityRef;
   if (reachabilityRef != NULL) {
-    [MSPerformSelectorUtil performBlockOnMainThread:^{
+    [MSDispatcherUtil performBlockOnMainThread:^{
       SCNetworkReachabilityUnscheduleFromRunLoop(reachabilityRef, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
       CFRelease(reachabilityRef);
     }];
