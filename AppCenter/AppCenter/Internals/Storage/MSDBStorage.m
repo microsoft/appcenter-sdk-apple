@@ -23,7 +23,8 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
 }
 
 - (instancetype)initWithSchema:(MSDBSchema *)schema version:(NSUInteger)version filename:(NSString *)filename {
-
+  _schema = schema;
+  
   // Log SQLite configuration result only once at init time because log level won't be set at load time.
   dispatch_once(&sqliteConfigurationResultOnceToken, ^{
     if (sqliteConfigurationResult == SQLITE_OK) {
@@ -36,7 +37,7 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
         errorString = @(sqliteConfigurationResult).stringValue;
       }
       MSLogError([MSAppCenter logTag], @"Failed to update SQLite global configuration. Error: %@.", errorString);
-    }
+    } 
   });
   if ((self = [super init])) {
     int result = [self configureDatabaseWithSchema:schema version:version filename:filename];
@@ -120,22 +121,6 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
   return result;
 }
 
-- (BOOL)dropTable:(NSString *)tableName {
-  return [self executeQueryUsingBlock:^int(void *db) {
-           if ([MSDBStorage tableExists:tableName inOpenedDatabase:db]) {
-             NSString *deleteQuery = [NSString stringWithFormat:@"DROP TABLE \"%@\";", tableName];
-             int result = [MSDBStorage executeNonSelectionQuery:deleteQuery inOpenedDatabase:db];
-             if (result == SQLITE_OK) {
-               MSLogVerbose([MSAppCenter logTag], @"Table %@ has been deleted", tableName);
-             } else {
-               MSLogError([MSAppCenter logTag], @"Failed to delete table %@", tableName);
-             }
-             return result;
-           }
-           return SQLITE_OK;
-         }] == SQLITE_OK;
-}
-
 - (void)dropDatabase {
   BOOL result = [MSUtility deleteFileAtURL:self.dbFileURL];
   if (result) {
@@ -145,22 +130,29 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
   }
 }
 
-- (BOOL)createTable:(NSString *)tableName columnsSchema:(MSDBColumnsSchema *)columnsSchema {
-  return [self createTable:tableName columnsSchema:columnsSchema uniqueColumnsConstraint:nil];
+- (BOOL)dropTable:(NSString *)tableName {
+  return [self executeQueryUsingBlock:^int(void *db) {
+    if ([MSDBStorage tableExists:tableName inOpenedDatabase:db]) {
+      NSString *deleteQuery = [NSString stringWithFormat:@"DROP TABLE \"%@\";", tableName];
+      int result = [MSDBStorage executeNonSelectionQuery:deleteQuery inOpenedDatabase:db];
+      if (result == SQLITE_OK) {
+        MSLogVerbose([MSAppCenter logTag], @"Table %@ has been deleted", tableName);
+      } else {
+        MSLogError([MSAppCenter logTag], @"Failed to delete table %@", tableName);
+      }
+      return result;
+    }
+    return SQLITE_OK;
+  }] == SQLITE_OK;
 }
 
 - (BOOL)createTable:(NSString *)tableName
-              columnsSchema:(MSDBColumnsSchema *)columnsSchema
-    uniqueColumnsConstraint:(NSArray<NSString *> *)uniqueColumns {
+              columnsSchema:(MSDBColumnsSchema *)columnsSchema {
   return [self executeQueryUsingBlock:^int(void *db) {
            if (![MSDBStorage tableExists:tableName inOpenedDatabase:db]) {
-             NSString *uniqueContraintQuery = @"";
-             if (uniqueColumns.count > 0) {
-               uniqueContraintQuery = [NSString stringWithFormat:@", UNIQUE(%@)", [uniqueColumns componentsJoinedByString:@", "]];
-             }
              NSString *createQuery =
-                 [NSString stringWithFormat:@"CREATE TABLE \"%@\" (%@%@);", tableName,
-                                            [MSDBStorage columnsQueryFromColumnsSchema:columnsSchema], uniqueContraintQuery];
+                 [NSString stringWithFormat:@"CREATE TABLE \"%@\" (%@);", tableName,
+                                            [MSDBStorage columnsQueryFromColumnsSchema:columnsSchema]];
              int result = [MSDBStorage executeNonSelectionQuery:createQuery inOpenedDatabase:db];
              if (result == SQLITE_OK) {
                MSLogVerbose([MSAppCenter logTag], @"Table %@ has been created", tableName);
