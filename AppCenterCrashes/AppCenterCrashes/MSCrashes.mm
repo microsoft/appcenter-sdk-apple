@@ -21,13 +21,13 @@
 #import "MSCrashesPrivate.h"
 #import "MSCrashesUtil.h"
 #import "MSDeviceTracker.h"
+#import "MSDispatcherUtil.h"
 #import "MSEncrypter.h"
 #import "MSErrorAttachmentLog.h"
 #import "MSErrorAttachmentLogInternal.h"
 #import "MSErrorLogFormatter.h"
 #import "MSErrorReportPrivate.h"
 #import "MSHandledErrorLog.h"
-#import "MSPerformSelectorUtil.h"
 #import "MSSessionContext.h"
 #import "MSUserIdContext.h"
 #import "MSUtility+File.h"
@@ -613,9 +613,9 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     if ([logObject isKindOfClass:[MSAppleErrorLog class]]) {
       MSAppleErrorLog *appleErrorLog = static_cast<MSAppleErrorLog *>(log);
       MSErrorReport *report = [MSErrorLogFormatter errorReportFromLog:appleErrorLog];
-      [MSPerformSelectorUtil performSelectorOnMainThread:delegate
-                                            withSelector:@selector(crashes:willSendErrorReport:)
-                                             withObjects:self, report, [NSNull null]];
+      [MSDispatcherUtil performBlockOnMainThread:^{
+        [delegate crashes:self willSendErrorReport:report];
+      }];
     }
   }
 }
@@ -627,9 +627,9 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     if ([logObject isKindOfClass:[MSAppleErrorLog class]]) {
       MSAppleErrorLog *appleErrorLog = static_cast<MSAppleErrorLog *>(log);
       MSErrorReport *report = [MSErrorLogFormatter errorReportFromLog:appleErrorLog];
-      [MSPerformSelectorUtil performSelectorOnMainThread:delegate
-                                            withSelector:@selector(crashes:didSucceedSendingErrorReport:)
-                                             withObjects:self, report, [NSNull null]];
+      [MSDispatcherUtil performBlockOnMainThread:^{
+        [delegate crashes:self didSucceedSendingErrorReport:report];
+      }];
     }
   }
 }
@@ -641,9 +641,9 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     if ([logObject isKindOfClass:[MSAppleErrorLog class]]) {
       MSAppleErrorLog *appleErrorLog = static_cast<MSAppleErrorLog *>(log);
       MSErrorReport *report = [MSErrorLogFormatter errorReportFromLog:appleErrorLog];
-      [MSPerformSelectorUtil performSelectorOnMainThread:delegate
-                                            withSelector:@selector(crashes:didFailSendingErrorReport:withError:)
-                                             withObjects:self, report, error, [NSNull null]];
+      [MSDispatcherUtil performBlockOnMainThread:^{
+        [delegate crashes:self didFailSendingErrorReport:report withError:error];
+      }];
     }
   }
 }

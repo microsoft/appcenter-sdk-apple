@@ -6,13 +6,13 @@
 #define MS_DISPATCH_SELECTOR(type, object, selectorName, ...)                                                                              \
   ({                                                                                                                                       \
     void *results;                                                                                                                         \
-    [[MSPerformSelectorUtil performSelector:object withSelector:@ #selectorName withObjects:@[ __VA_ARGS__ ]] getReturnValue:&results];    \
+    [[MSDispatcherUtil performSelector:object withSelector:@ #selectorName withObjects:@[ __VA_ARGS__ ]] getReturnValue:&results];         \
     (type) results;                                                                                                                        \
   })
 
-@interface MSPerformSelectorUtil : NSObject
+@interface MSDispatcherUtil : NSObject
 
-+ (void)performSelectorOnMainThread:(NSObject *)source withSelector:(SEL)selector withObjects:(NSObject *)objects, ...;
++ (void)performBlockOnMainThread:(void (^)(void))block;
 
 + (NSInvocation *)performSelector:(id)source withSelector:(NSString *)selector withObjects:(NSArray *)objects;
 

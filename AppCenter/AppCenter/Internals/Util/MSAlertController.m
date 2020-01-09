@@ -5,7 +5,7 @@
 #import <UIKit/UIWindow.h>
 
 #import "MSAlertController.h"
-#import "MSPerformSelectorUtil.h"
+#import "MSDispatcherUtil.h"
 
 static char *const MSAlertsDispatchQueue = "com.microsoft.appcenter.alertsQueue";
 
@@ -162,7 +162,7 @@ static dispatch_queue_t alertsQueue;
     if (!windowScene) {
       windowScene = scenes.anyObject;
     }
-    [MSPerformSelectorUtil performSelector:window withSelector:@"setWindowScene:" withObjects:@[ windowScene ]];
+    [MSDispatcherUtil performSelector:window withSelector:@"setWindowScene:" withObjects:@[ windowScene ]];
   }
   [window makeKeyAndVisible];
 }
