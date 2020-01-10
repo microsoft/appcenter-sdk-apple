@@ -10,14 +10,14 @@
 * **[Fix]** The SDK was considering 201-299 status code as HTTP errors and is now fixed to accept all 2XX codes as successful.
 * **[Improvement]** Replaced sqlite query concatenation with more secure bindings.
 
+### App Center Crashes
+
+* **[Fix]** Fix an issue when Crashes delegate callbacks can be blocked by a macOS modal window.
+
 ### App Center Distribute
 
 * **[Fix]** Fix a crash when `SFAuthenticationSession` accesses the controller which is in the process of being released.
 * **[Fix]** Fix sign-in when switching to third-party apps while activating updates.
-
-### App Center Crashes
-
-* **[Fix]** Fix an issue when Crashes delegate callbacks can be blocked by a macOS modal window.
 
 ___
 
