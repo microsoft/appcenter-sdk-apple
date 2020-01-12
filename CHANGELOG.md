@@ -12,7 +12,7 @@
 
 ### App Center Crashes
 
-* **[Fix]** Fix an issue when Crashes delegate callbacks can be blocked by a macOS modal window.
+* **[Fix]** Fix an issue to call Crashes delegate callbacks even though a modal window is being shown on macOS apps.
 
 ### App Center Distribute
 
