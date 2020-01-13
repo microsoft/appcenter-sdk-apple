@@ -1,6 +1,6 @@
 # App Center SDK for iOS, macOS and tvOS Change Log
 
-## Version 2.5.4 (Under development)
+## Version 3.0.0 (Under development)
 
 ### App Center
 
@@ -9,6 +9,14 @@
 * **[Fix]** Fix SDK crash at application launch on iOS 12.0 (`CTTelephonyNetworkInfo.serviceSubscriberCellularProviders` issue).
 * **[Fix]** The SDK was considering 201-299 status code as HTTP errors and is now fixed to accept all 2XX codes as successful.
 * **[Improvement]** Replaced sqlite query concatenation with more secure bindings.
+
+### App Center Auth
+
+App Center Auth is [retired](https://aka.ms/MBaaS-retirement-blog-post) and has been removed from the SDK.
+
+### App Center Data
+
+App Center Data is [retired](https://aka.ms/MBaaS-retirement-blog-post) and has been removed from the SDK.
 
 ### App Center Distribute
 
