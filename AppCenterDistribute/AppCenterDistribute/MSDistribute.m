@@ -352,7 +352,11 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
         [queryStrings addEntriesFromDictionary:reportingParametersForUpdatedRelease];
       }
       queryStrings[kMSURLQueryReleaseHashKey] = releaseHash;
-      self.ingestion = [[MSDistributeIngestion alloc] initWithHttpClient:[MSHttpClient new]
+      id<MSHttpClientProtocol> httpClient = [MSDependencyConfiguration httpClient];
+      if (!httpClient) {
+        httpClient = [MSHttpClient new];
+      }
+      self.ingestion = [[MSDistributeIngestion alloc] initWithHttpClient:httpClient
                                                                  baseUrl:self.apiUrl
                                                                appSecret:self.appSecret
                                                              updateToken:updateToken
