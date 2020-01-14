@@ -12,7 +12,6 @@ static const int kMSDispatchQueueWaitTime = 2;
   // Wait for all tasks to complete, then call suspend in the final task.
   dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
   dispatch_async(dispatchQueue, ^{
-      
     // Suspend the execution of any subsequent tasks.
     dispatch_suspend(dispatchQueue);
     dispatch_semaphore_signal(semaphore);
