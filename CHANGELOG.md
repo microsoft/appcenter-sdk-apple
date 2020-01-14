@@ -18,6 +18,11 @@ App Center Auth is [retired](https://aka.ms/MBaaS-retirement-blog-post) and has 
 
 App Center Data is [retired](https://aka.ms/MBaaS-retirement-blog-post) and has been removed from the SDK.
 
+### App Center Crashes
+
+* **[Fix]** Fix an issue to call Crashes delegate callbacks even though a modal window is being shown on macOS apps.
+* **[Improvement]** Update PLCrashReporter to 1.4.0.
+
 ### App Center Distribute
 
 * **[Fix]** Fix a crash when `SFAuthenticationSession` accesses the controller which is in the process of being released.

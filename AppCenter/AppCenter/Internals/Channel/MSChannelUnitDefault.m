@@ -372,7 +372,7 @@ static NSString *const kMSStartTimestampPrefix = @"MSChannelStartTimer";
       [strongSelf resetTimer];
 
       // Remove the current timestamp. All pending logs will be sent in flushQueue call.
-      [MS_USER_DEFAULTS removeObjectForKey:[self oldestPendingLogTimestampKey]];
+      [MS_USER_DEFAULTS removeObjectForKey:[strongSelf oldestPendingLogTimestampKey]];
     }
   });
   dispatch_resume(self.timerSource);
