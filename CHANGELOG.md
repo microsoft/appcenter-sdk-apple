@@ -14,6 +14,10 @@
 
 * **[Fix]** Fix an issue to call Crashes delegate callbacks even though a modal window is being shown on macOS apps.
 
+### App Center Crashes
+
+* **[Improvement]** Update PLCrashReporter to 1.4.0.
+
 ### App Center Distribute
 
 * **[Fix]** Fix a crash when `SFAuthenticationSession` accesses the controller which is in the process of being released.
