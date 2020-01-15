@@ -8,6 +8,7 @@
 #import "MSAppDelegateForwarder.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitProtocol.h"
+#import "MSDependencyConfiguration.h"
 #import "MSDistribute.h"
 #import "MSDistributeAppDelegate.h"
 #import "MSDistributeDataMigration.h"
