@@ -2638,7 +2638,7 @@ static NSURL *sfURL;
     id httpClientMock = [MSHttpClient new];
     [MSDependencyConfiguration setHttpClient:httpClientMock];
     
-    // When
+    // If
     id distributeMock = OCMPartialMock(self.sut);
     OCMReject([distributeMock handleUpdate:OCMOCK_ANY]);
     self.sut.appSecret = kMSTestAppSecret;
