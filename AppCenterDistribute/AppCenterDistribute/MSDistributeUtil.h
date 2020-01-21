@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 #import <Foundation/Foundation.h>
+#import "MSDistribute.h"
 
 @class MSReleaseDetails;
 
@@ -51,5 +52,12 @@ NSComparisonResult MSCompareCurrentReleaseWithRelease(MSReleaseDetails *release)
 NSString *MSPackageHash(void);
 
 @interface MSDistributeUtil : NSObject
+
+/**
+ * Get stored update track.
+ *
+ * @return stored update track (public by default).
+ */
++ (MSUpdateTrack)getStoredUpdateTrack;
 
 @end

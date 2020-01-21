@@ -77,13 +77,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     }
 
     // Setup default value for update track.
-    NSNumber *oldTrack = [MS_USER_DEFAULTS objectForKey:kMSDistributionUpdateTrackKey];
-    if (!oldTrack) {
-      [MS_USER_DEFAULTS setObject:@(MSUpdateTrackPublic) forKey:kMSDistributionUpdateTrackKey];
-      self.updateTrack = MSUpdateTrackPublic;
-    } else {
-      self.updateTrack = [oldTrack intValue];
-    }
+    self.updateTrack = [MSDistributeUtil getStoredUpdateTrack];
 
     // Proceed update whenever an application is restarted in users perspective.
     [MS_NOTIFICATION_CENTER addObserver:self
@@ -250,8 +244,8 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     return;
   }
   self.updateTrack = updateTrack;
-  NSNumber *oldTrack = [MS_USER_DEFAULTS objectForKey:kMSDistributionUpdateTrackKey];
-  if ([oldTrack intValue] != updateTrack) {
+  MSUpdateTrack storedTrack = [MSDistributeUtil getStoredUpdateTrack];
+  if (storedTrack != updateTrack) {
     [MS_USER_DEFAULTS setObject:@(updateTrack) forKey:kMSDistributionUpdateTrackKey];
   }
   if (self.canBeUsed && self.isEnabled) {
@@ -260,7 +254,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 }
 
 - (MSUpdateTrack)inAppUpdateTrack {
-  return self.updateTrack;
+  return [self updateTrack];
 }
 
 - (void)sendFirstSessionUpdateLog {
@@ -284,7 +278,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
       return;
     }
     NSString *distributionGroupId = [MS_USER_DEFAULTS objectForKey:kMSDistributionGroupIdKey];
-    if (updateToken || distributionGroupId || self.updateTrack == MSUpdateTrackPublic) {
+    if (updateToken || distributionGroupId || [self updateTrack] == MSUpdateTrackPublic) {
       [self checkLatestRelease:updateToken distributionGroupId:distributionGroupId releaseHash:releaseHash];
     } else {
       [self requestInstallInformationWith:releaseHash];

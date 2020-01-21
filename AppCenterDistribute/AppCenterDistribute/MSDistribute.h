@@ -37,7 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)setApiUrl:(NSString *)apiUrl;
 
 /**
- * Change the in-app update track (public vs private).
+ * Change the in-app update track (public OR private).
  *
  * @param updateTrack update track.
  */

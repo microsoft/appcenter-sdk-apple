@@ -8,6 +8,7 @@
 #import "MSLogger.h"
 #import "MSSemVer.h"
 #import "MSUtility+StringFormatting.h"
+#import "MSDistributePrivate.h"
 
 NSBundle *MSDistributeBundle(void) {
   static NSBundle *bundle = nil;
@@ -121,5 +122,16 @@ NSString *MSPackageHash(void) {
 }
 
 @implementation MSDistributeUtil
+
++ (MSUpdateTrack)getStoredUpdateTrack {
+    NSNumber *oldTrack = [MS_USER_DEFAULTS objectForKey:kMSDistributionUpdateTrackKey];
+    if (!oldTrack) {
+        
+        // If there were no records yet - we should store the default public value.
+        [MS_USER_DEFAULTS setObject:@(MSUpdateTrackPublic) forKey:kMSDistributionUpdateTrackKey];
+        return MSUpdateTrackPublic;
+    }
+    return [oldTrack intValue];
+}
 
 @end
