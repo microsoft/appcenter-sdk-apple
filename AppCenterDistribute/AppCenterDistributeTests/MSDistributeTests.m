@@ -2651,6 +2651,8 @@ static NSURL *sfURL;
     
     // Then
     OCMReject([MSHttpClient new]);
+    [reachabilityMock stopMocking];
+    [distributeMock stopMocking];
 }
 
 @end
