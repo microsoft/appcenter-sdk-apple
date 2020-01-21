@@ -20,6 +20,19 @@ typedef NS_ENUM(NSInteger, MSUpdateAction) {
   MSUpdateActionPostpone
 };
 
+typedef NS_ENUM(NSInteger, MSUpdateTrack) {
+
+  /**
+   * Releases from the public group that don't require authentication.
+   */
+  MSUpdateTrackPublic,
+
+  /**
+   * Releases from private groups that require authentication, also contain public releases.
+   */
+  MSUpdateTrackPrivate
+};
+
 @optional
 
 /**

@@ -37,6 +37,18 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)setApiUrl:(NSString *)apiUrl;
 
 /**
+ * Change the in-app update track (public vs private).
+ *
+ * @param updateTrack update track.
+ */
++ (void)setInAppUpdateTrack:(MSUpdateTrack)updateTrack;
+
+/**
+ * Return current in-app update track status.
+ */
++ (MSUpdateTrack)inAppUpdateTrack;
+
+/**
  * Change the base URL that is used to install update.
  *
  * @param installUrl The new URL.

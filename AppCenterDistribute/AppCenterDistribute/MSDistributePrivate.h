@@ -86,6 +86,11 @@ static NSString *const kMSMandatoryReleaseKey = @"MSMandatoryRelease";
 static NSString *const kMSDistributionGroupIdKey = @"MSDistributionGroupId";
 
 /**
+ * The storage key for in-app updates track mode.
+ */
+static NSString *const kMSDistributionUpdateTrackKey = @"MSDistributionUpdateTrack";
+
+/**
  * The storage key for update setup failure package hash.
  */
 static NSString *const kMSUpdateSetupFailedPackageHashKey = @"MSUpdateSetupFailedPackageHash";
@@ -138,6 +143,8 @@ static NSString *const kMSTesterAppUpdateSetupFailedKey = @"MSTesterAppUpdateSet
 @property(nonatomic) id<MSCustomApplicationDelegate> appDelegate;
 
 @property(nonatomic) id _Nullable authenticationSession;
+
+@property(nonatomic) MSUpdateTrack updateTrack;
 
 /**
  * Distribute info tracking component which adds extra fields to logs.

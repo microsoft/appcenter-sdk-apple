@@ -43,7 +43,6 @@
   // If
   NSString *appSecret = @"secret";
   NSString *updateToken = @"updateToken";
-  NSString *distributionGroupId = @"groupId";
   NSString *secretApiPath = [NSString stringWithFormat:@"/sdk/apps/%@/releases/latest", appSecret];
   [MSLogger setCurrentLogLevel:MSLogLevelVerbose];
   id distributeMock = OCMPartialMock([MSDistribute sharedInstance]);
@@ -51,7 +50,6 @@
   MSDistributeIngestion *ingestion1 = [[MSDistributeIngestion alloc] initWithBaseUrl:baseUrl
                                                                            appSecret:appSecret
                                                                          updateToken:updateToken
-                                                                 distributionGroupId:distributionGroupId
                                                                         queryStrings:@{}];
 
   // When

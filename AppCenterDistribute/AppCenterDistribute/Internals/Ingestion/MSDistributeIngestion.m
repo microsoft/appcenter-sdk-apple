@@ -13,20 +13,19 @@
  * The API paths for latest release requests.
  */
 static NSString *const kMSLatestPrivateReleaseApiPathFormat = @"/sdk/apps/%@/releases/latest";
-static NSString *const kMSLatestPublicReleaseApiPathFormat = @"/public/sdk/apps/%@/distribution_groups/%@/releases/latest";
+static NSString *const kMSLatestPublicReleaseApiPathFormat = @"/public/sdk/apps/%@/releases/latest";
 
 - (id)initWithBaseUrl:(NSString *)baseUrl
-              appSecret:(NSString *)appSecret
-            updateToken:(NSString *)updateToken
-    distributionGroupId:(NSString *)distributionGroupId
-           queryStrings:(NSDictionary *)queryStrings {
+            appSecret:(NSString *)appSecret
+          updateToken:(NSString *)updateToken
+         queryStrings:(NSDictionary *)queryStrings {
   NSString *apiPath;
   NSDictionary *header = nil;
   if (updateToken) {
     apiPath = [NSString stringWithFormat:kMSLatestPrivateReleaseApiPathFormat, appSecret];
     header = @{kMSHeaderUpdateApiToken : updateToken};
   } else {
-    apiPath = [NSString stringWithFormat:kMSLatestPublicReleaseApiPathFormat, appSecret, distributionGroupId];
+    apiPath = [NSString stringWithFormat:kMSLatestPublicReleaseApiPathFormat, appSecret];
   }
   if ((self = [super initWithBaseUrl:baseUrl
                              apiPath:apiPath

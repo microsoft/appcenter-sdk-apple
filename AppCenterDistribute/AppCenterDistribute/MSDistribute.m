@@ -76,6 +76,15 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
       [MS_USER_DEFAULTS setObject:@(1) forKey:kMSSDKHasLaunchedWithDistribute];
     }
 
+    // Setup default value for update track.
+    NSNumber *oldTrack = [MS_USER_DEFAULTS objectForKey:kMSDistributionUpdateTrackKey];
+    if (!oldTrack) {
+      [MS_USER_DEFAULTS setObject:@(MSUpdateTrackPublic) forKey:kMSDistributionUpdateTrackKey];
+      self.updateTrack = MSUpdateTrackPublic;
+    } else {
+      self.updateTrack = [oldTrack intValue];
+    }
+
     // Proceed update whenever an application is restarted in users perspective.
     [MS_NOTIFICATION_CENTER addObserver:self
                                selector:@selector(applicationWillEnterForeground)
@@ -223,7 +232,36 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   [[MSDistribute sharedInstance] setDelegate:delegate];
 }
 
+#pragma mark - In-app updates
+
++ (void)setInAppUpdateTrack:(MSUpdateTrack)updateTrack {
+  [[MSDistribute sharedInstance] setInAppUpdateTrack:updateTrack];
+}
+
++ (MSUpdateTrack)inAppUpdateTrack {
+  return [[MSDistribute sharedInstance] inAppUpdateTrack];
+}
+
 #pragma mark - Private
+
+- (void)setInAppUpdateTrack:(MSUpdateTrack)updateTrack {
+  if (updateTrack != MSUpdateTrackPrivate && updateTrack != MSUpdateTrackPublic) {
+    MSLogDebug([MSDistribute logTag], @"Not a valid value of updateTrack.");
+    return;
+  }
+  self.updateTrack = updateTrack;
+  NSNumber *oldTrack = [MS_USER_DEFAULTS objectForKey:kMSDistributionUpdateTrackKey];
+  if ([oldTrack intValue] != updateTrack) {
+    [MS_USER_DEFAULTS setObject:@(updateTrack) forKey:kMSDistributionUpdateTrackKey];
+  }
+  if (self.canBeUsed && self.isEnabled) {
+    [self startUpdate];
+  }
+}
+
+- (MSUpdateTrack)inAppUpdateTrack {
+  return self.updateTrack;
+}
 
 - (void)sendFirstSessionUpdateLog {
   MSLogDebug([MSDistribute logTag], @"Updating the session count.");
@@ -246,7 +284,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
       return;
     }
     NSString *distributionGroupId = [MS_USER_DEFAULTS objectForKey:kMSDistributionGroupIdKey];
-    if (updateToken || distributionGroupId) {
+    if (updateToken || distributionGroupId || self.updateTrack == MSUpdateTrackPublic) {
       [self checkLatestRelease:updateToken distributionGroupId:distributionGroupId releaseHash:releaseHash];
     } else {
       [self requestInstallInformationWith:releaseHash];
@@ -342,8 +380,11 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
       }
     }
     if (self.ingestion == nil) {
+      BOOL isPublicTrack = self.updateTrack == MSUpdateTrackPublic;
+      NSString *updateTokenByTrack = isPublicTrack ? nil : updateToken;
+
       NSMutableDictionary *queryStrings = [[NSMutableDictionary alloc] init];
-      NSMutableDictionary *reportingParametersForUpdatedRelease = [self getReportingParametersForUpdatedRelease:updateToken
+      NSMutableDictionary *reportingParametersForUpdatedRelease = [self getReportingParametersForUpdatedRelease:updateTokenByTrack
                                                                                     currentInstalledReleaseHash:releaseHash
                                                                                             distributionGroupId:distributionGroupId];
       if (reportingParametersForUpdatedRelease != nil) {
@@ -352,8 +393,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
       queryStrings[kMSURLQueryReleaseHashKey] = releaseHash;
       self.ingestion = [[MSDistributeIngestion alloc] initWithBaseUrl:self.apiUrl
                                                             appSecret:self.appSecret
-                                                          updateToken:updateToken
-                                                  distributionGroupId:distributionGroupId
+                                                          updateToken:updateTokenByTrack
                                                          queryStrings:queryStrings];
       __weak typeof(self) weakSelf = self;
       [self.ingestion sendAsync:nil
@@ -588,7 +628,9 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
       [strongSelf openURL:callbackUrl];
     }
   };
-  SFAuthenticationSession *session = [[SFAuthenticationSession alloc] initWithURL:url callbackURLScheme:callbackUrlScheme completionHandler:authCompletionBlock];
+  SFAuthenticationSession *session = [[SFAuthenticationSession alloc] initWithURL:url
+                                                                callbackURLScheme:callbackUrlScheme
+                                                                completionHandler:authCompletionBlock];
 
   // Retain the session.
   self.authenticationSession = session;
@@ -1103,7 +1145,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
 - (void)clearAuthenticationSession {
   if (@available(iOS 11.0, *)) {
-    SFAuthenticationSession* session = self.authenticationSession;
+    SFAuthenticationSession *session = self.authenticationSession;
 
     // Dismiss view controller if currently presented. Fix uncaused access to SFBrowserRemoteViewController.
     [session cancel];
