@@ -10,6 +10,7 @@
 #import "MSBasicMachOParser.h"
 #import "MSChannelGroupDefault.h"
 #import "MSConstants+Internal.h"
+#import "MSDependencyConfiguration.h"
 #import "MSDistribute.h"
 #import "MSDistributeInfoTracker.h"
 #import "MSDistributeInternal.h"
@@ -2630,6 +2631,27 @@ static NSURL *sfURL;
   // Clear
   [appCenterMock stopMocking];
   [(id)authenticationSessionMock stopMocking];
+}
+
+- (void)testDependencyCallUsesInjectedHttpClient {
+    id httpClientMock = [MSHttpClient new];
+    [MSDependencyConfiguration setHttpClient:httpClientMock];
+    
+    // If
+    self.sut.appSecret = kMSTestAppSecret;
+    id distributeMock = OCMPartialMock(self.sut);
+    OCMReject([distributeMock handleUpdate:OCMOCK_ANY]);
+    id reachabilityMock = OCMClassMock([MS_Reachability class]);
+    OCMStub([reachabilityMock reachabilityForInternetConnection]).andReturn(reachabilityMock);
+    OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(ReachableViaWiFi);
+   
+    // When
+    [distributeMock checkLatestRelease:kMSTestUpdateToken distributionGroupId:kMSTestDistributionGroupId releaseHash:kMSTestReleaseHash];
+    
+    // Then
+    OCMReject([MSHttpClient new]);
+    [reachabilityMock stopMocking];
+    [distributeMock stopMocking];
 }
 
 @end
