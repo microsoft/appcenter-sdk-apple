@@ -8,6 +8,7 @@
 #import "MSAppDelegateForwarder.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitProtocol.h"
+#import "MSDependencyConfiguration.h"
 #import "MSDistribute.h"
 #import "MSDistributeAppDelegate.h"
 #import "MSDistributeDataMigration.h"
@@ -391,7 +392,11 @@ static BOOL isBrowserFlowFinished = YES;
         [queryStrings addEntriesFromDictionary:reportingParametersForUpdatedRelease];
       }
       queryStrings[kMSURLQueryReleaseHashKey] = releaseHash;
-      self.ingestion = [[MSDistributeIngestion alloc] initWithHttpClient:[MSHttpClient new]
+      id<MSHttpClientProtocol> httpClient = [MSDependencyConfiguration httpClient];
+      if (!httpClient) {
+        httpClient = [MSHttpClient new];
+      }
+      self.ingestion = [[MSDistributeIngestion alloc] initWithHttpClient:httpClient
                                                                  baseUrl:self.apiUrl
                                                                appSecret:self.appSecret
                                                              updateToken:updateTokenByTrack
