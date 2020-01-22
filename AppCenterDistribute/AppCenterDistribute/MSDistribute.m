@@ -58,6 +58,11 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
 static MSUpdateTrack _updateTrack = MSUpdateTrackPublic;
 
+/**
+ * Checks that the current browser flow is complete.
+ */
+static BOOL isBrowserFlowFinished = YES;
+
 #pragma mark - Service initialization
 
 - (instancetype)init {
@@ -243,7 +248,7 @@ static MSUpdateTrack _updateTrack = MSUpdateTrackPublic;
     if (storedTrack != _updateTrack) {
       [MS_USER_DEFAULTS setObject:@(updateTrack) forKey:kMSDistributionUpdateTrackKey];
     }
-    if ([[MSDistribute sharedInstance] canBeUsed] && self.isEnabled) {
+    if ([[MSDistribute sharedInstance] canBeUsed] && self.isEnabled && isBrowserFlowFinished) {
       [[MSDistribute sharedInstance] startUpdate];
     }
   }
@@ -362,6 +367,7 @@ static MSUpdateTrack _updateTrack = MSUpdateTrackPublic;
 - (void)checkLatestRelease:(NSString *)updateToken distributionGroupId:(NSString *)distributionGroupId releaseHash:(NSString *)releaseHash {
 
   // Check if it's okay to check for updates.
+  isBrowserFlowFinished = YES;
   if ([self checkForUpdatesAllowed]) {
 
     // Use persisted mandatory update while network is down.
@@ -586,6 +592,7 @@ static MSUpdateTrack _updateTrack = MSUpdateTrackPublic;
    */
 
   // TODO SFAuthenticationSession is deprecated, for iOS 12 use ASWebAuthenticationSession
+  isBrowserFlowFinished = NO;
   if (@available(iOS 11.0, *)) {
     dispatch_async(dispatch_get_main_queue(), ^{
       [self openURLInAuthenticationSessionWith:url];
@@ -614,6 +621,7 @@ static MSUpdateTrack _updateTrack = MSUpdateTrackPublic;
       return;
     }
     if (error) {
+      isBrowserFlowFinished = YES;
       MSLogDebug([MSDistribute logTag], @"Called %@ with error: %@", callbackUrl, error.localizedDescription);
     }
     if (error.code == SFAuthenticationErrorCanceledLogin) {
@@ -682,6 +690,7 @@ static MSUpdateTrack _updateTrack = MSUpdateTrackPublic;
   dispatch_async(dispatch_get_main_queue(), ^{
     typeof(self) strongSelf = weakSelf;
     if (strongSelf && strongSelf.safariHostingViewController && !strongSelf.safariHostingViewController.isBeingDismissed) {
+      isBrowserFlowFinished = YES;
       [strongSelf.safariHostingViewController dismissViewControllerAnimated:YES completion:nil];
     }
   });
