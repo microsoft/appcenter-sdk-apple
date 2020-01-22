@@ -144,8 +144,6 @@ static NSString *const kMSTesterAppUpdateSetupFailedKey = @"MSTesterAppUpdateSet
 
 @property(nullable, nonatomic) SFAuthenticationSession *authenticationSession API_AVAILABLE(ios(11.0));
 
-@property(nonatomic) MSUpdateTrack updateTrack;
-
 /**
  * Distribute info tracking component which adds extra fields to logs.
  */

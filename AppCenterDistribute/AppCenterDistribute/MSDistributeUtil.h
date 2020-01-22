@@ -60,4 +60,9 @@ NSString *MSPackageHash(void);
  */
 + (MSUpdateTrack)getStoredUpdateTrack;
 
+/**
+ * Checks that a valid updateTrack is specified.
+ */
++ (BOOL)isInvalidUpdateTrack:(MSUpdateTrack)updateTrack;
+
 @end

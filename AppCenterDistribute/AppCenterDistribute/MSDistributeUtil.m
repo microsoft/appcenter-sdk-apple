@@ -124,14 +124,18 @@ NSString *MSPackageHash(void) {
 @implementation MSDistributeUtil
 
 + (MSUpdateTrack)getStoredUpdateTrack {
-    NSNumber *oldTrack = [MS_USER_DEFAULTS objectForKey:kMSDistributionUpdateTrackKey];
-    if (!oldTrack) {
-        
-        // If there were no records yet - we should store the default public value.
-        [MS_USER_DEFAULTS setObject:@(MSUpdateTrackPublic) forKey:kMSDistributionUpdateTrackKey];
-        return MSUpdateTrackPublic;
-    }
-    return [oldTrack intValue];
+  NSNumber *oldTrack = [MS_USER_DEFAULTS objectForKey:kMSDistributionUpdateTrackKey];
+  if (!oldTrack) {
+
+    // If there were no records yet - we should store the default public value.
+    [MS_USER_DEFAULTS setObject:@(MSUpdateTrackPublic) forKey:kMSDistributionUpdateTrackKey];
+    return MSUpdateTrackPublic;
+  }
+  return [oldTrack intValue];
+}
+
++ (BOOL)isInvalidUpdateTrack:(MSUpdateTrack)updateTrack {
+  return updateTrack != MSUpdateTrackPublic && updateTrack != MSUpdateTrackPrivate;
 }
 
 @end

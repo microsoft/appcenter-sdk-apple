@@ -25,12 +25,12 @@ typedef NS_ENUM(NSInteger, MSUpdateTrack) {
   /**
    * Releases from the public group that don't require authentication.
    */
-  MSUpdateTrackPublic,
+  MSUpdateTrackPublic = 1,
 
   /**
    * Releases from private groups that require authentication, also contain public releases.
    */
-  MSUpdateTrackPrivate
+  MSUpdateTrackPrivate = 2
 };
 
 @optional

@@ -56,6 +56,8 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
 @synthesize channelUnitConfiguration = _channelUnitConfiguration;
 
+static MSUpdateTrack _updateTrack = MSUpdateTrackPublic;
+
 #pragma mark - Service initialization
 
 - (instancetype)init {
@@ -83,7 +85,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     }
 
     // Setup default value for update track.
-    self.updateTrack = [MSDistributeUtil getStoredUpdateTrack];
+    _updateTrack = [MSDistributeUtil getStoredUpdateTrack];
 
     // Proceed update whenever an application is restarted in users perspective.
     [MS_NOTIFICATION_CENTER addObserver:self
@@ -230,34 +232,30 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
 #pragma mark - In-app updates
 
-+ (void)setInAppUpdateTrack:(MSUpdateTrack)updateTrack {
-  [[MSDistribute sharedInstance] setInAppUpdateTrack:updateTrack];
++ (void)setUpdateTrack:(MSUpdateTrack)updateTrack {
+  @synchronized(self) {
+    if ([MSDistributeUtil isInvalidUpdateTrack:updateTrack]) {
+      MSLogDebug([MSDistribute logTag], @"Not a valid value of updateTrack.");
+      return;
+    }
+    _updateTrack = updateTrack;
+    MSUpdateTrack storedTrack = [MSDistributeUtil getStoredUpdateTrack];
+    if (storedTrack != _updateTrack) {
+      [MS_USER_DEFAULTS setObject:@(updateTrack) forKey:kMSDistributionUpdateTrackKey];
+    }
+    if ([[MSDistribute sharedInstance] canBeUsed] && self.isEnabled) {
+      [[MSDistribute sharedInstance] startUpdate];
+    }
+  }
 }
 
-+ (MSUpdateTrack)inAppUpdateTrack {
-  return [[MSDistribute sharedInstance] inAppUpdateTrack];
++ (MSUpdateTrack)updateTrack {
+  @synchronized(self) {
+    return _updateTrack;
+  }
 }
 
 #pragma mark - Private
-
-- (void)setInAppUpdateTrack:(MSUpdateTrack)updateTrack {
-  if (updateTrack != MSUpdateTrackPrivate && updateTrack != MSUpdateTrackPublic) {
-    MSLogDebug([MSDistribute logTag], @"Not a valid value of updateTrack.");
-    return;
-  }
-  self.updateTrack = updateTrack;
-  MSUpdateTrack storedTrack = [MSDistributeUtil getStoredUpdateTrack];
-  if (storedTrack != updateTrack) {
-    [MS_USER_DEFAULTS setObject:@(updateTrack) forKey:kMSDistributionUpdateTrackKey];
-  }
-  if (self.canBeUsed && self.isEnabled) {
-    [self startUpdate];
-  }
-}
-
-- (MSUpdateTrack)inAppUpdateTrack {
-  return [self updateTrack];
-}
 
 - (void)sendFirstSessionUpdateLog {
   MSLogDebug([MSDistribute logTag], @"Updating the session count.");
@@ -280,7 +278,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
       return;
     }
     NSString *distributionGroupId = [MS_USER_DEFAULTS objectForKey:kMSDistributionGroupIdKey];
-    if (updateToken || distributionGroupId || [self updateTrack] == MSUpdateTrackPublic) {
+    if (updateToken || distributionGroupId || MSDistribute.updateTrack == MSUpdateTrackPublic) {
       [self checkLatestRelease:updateToken distributionGroupId:distributionGroupId releaseHash:releaseHash];
     } else {
       [self requestInstallInformationWith:releaseHash];
@@ -376,7 +374,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
       }
     }
     if (self.ingestion == nil) {
-      BOOL isPublicTrack = self.updateTrack == MSUpdateTrackPublic;
+      BOOL isPublicTrack = MSDistribute.updateTrack == MSUpdateTrackPublic;
       NSString *updateTokenByTrack = isPublicTrack ? nil : updateToken;
 
       NSMutableDictionary *queryStrings = [[NSMutableDictionary alloc] init];
