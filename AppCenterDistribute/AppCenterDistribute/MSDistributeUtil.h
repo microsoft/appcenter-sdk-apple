@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 #import <Foundation/Foundation.h>
+
 #import "MSDistribute.h"
 
 @class MSReleaseDetails;
@@ -56,13 +57,15 @@ NSString *MSPackageHash(void);
 /**
  * Get stored update track.
  *
- * @return stored update track (public by default).
+ * @return The stored update track (public by default).
  */
-+ (MSUpdateTrack)getStoredUpdateTrack;
++ (MSUpdateTrack)storedUpdateTrack;
 
 /**
- * Checks that a valid updateTrack is specified.
+ * Check if the give update track is valid or not.
+ *
+ * @return YES if it is valid, NO otherwise.
  */
-+ (BOOL)isInvalidUpdateTrack:(MSUpdateTrack)updateTrack;
++ (BOOL)isValidUpdateTrack:(MSUpdateTrack)updateTrack;
 
 @end

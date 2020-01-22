@@ -91,7 +91,7 @@ static BOOL isBrowserFlowFinished = YES;
     }
 
     // Setup default value for update track.
-    _updateTrack = [MSDistributeUtil getStoredUpdateTrack];
+    _updateTrack = [MSDistributeUtil storedUpdateTrack];
 
     // Proceed update whenever an application is restarted in users perspective.
     [MS_NOTIFICATION_CENTER addObserver:self
@@ -240,12 +240,12 @@ static BOOL isBrowserFlowFinished = YES;
 
 + (void)setUpdateTrack:(MSUpdateTrack)updateTrack {
   @synchronized(self) {
-    if ([MSDistributeUtil isInvalidUpdateTrack:updateTrack]) {
+    if (![MSDistributeUtil isValidUpdateTrack:updateTrack]) {
       MSLogDebug([MSDistribute logTag], @"Not a valid value of updateTrack.");
       return;
     }
     _updateTrack = updateTrack;
-    MSUpdateTrack storedTrack = [MSDistributeUtil getStoredUpdateTrack];
+    MSUpdateTrack storedTrack = [MSDistributeUtil storedUpdateTrack];
     if (storedTrack != _updateTrack) {
       [MS_USER_DEFAULTS setObject:@(updateTrack) forKey:kMSDistributionUpdateTrackKey];
     }

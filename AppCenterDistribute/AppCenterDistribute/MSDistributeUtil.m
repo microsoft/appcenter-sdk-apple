@@ -1,20 +1,19 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+#import "MSDistributeUtil.h"
 #import "MSBasicMachOParser.h"
 #import "MSDistribute.h"
 #import "MSDistributeInternal.h"
-#import "MSDistributeUtil.h"
+#import "MSDistributePrivate.h"
 #import "MSLogger.h"
 #import "MSSemVer.h"
 #import "MSUtility+StringFormatting.h"
-#import "MSDistributePrivate.h"
 
 NSBundle *MSDistributeBundle(void) {
   static NSBundle *bundle = nil;
   static dispatch_once_t predicate;
   dispatch_once(&predicate, ^{
-
     // The resource bundle is part of the main app bundle, e.g. .../Puppet.app/AppCenterDistribute.bundle
     NSString *mainBundlePath = [[NSBundle bundleForClass:[MSDistribute class]] resourcePath];
     NSString *frameworkBundlePath = [mainBundlePath stringByAppendingPathComponent:APP_CENTER_DISTRIBUTE_BUNDLE];
@@ -123,19 +122,16 @@ NSString *MSPackageHash(void) {
 
 @implementation MSDistributeUtil
 
-+ (MSUpdateTrack)getStoredUpdateTrack {
-  NSNumber *oldTrack = [MS_USER_DEFAULTS objectForKey:kMSDistributionUpdateTrackKey];
-  if (!oldTrack) {
-
-    // If there were no records yet - we should store the default public value.
-    [MS_USER_DEFAULTS setObject:@(MSUpdateTrackPublic) forKey:kMSDistributionUpdateTrackKey];
-    return MSUpdateTrackPublic;
++ (MSUpdateTrack)storedUpdateTrack {
+  NSNumber *updateTrack = [MS_USER_DEFAULTS objectForKey:kMSDistributionUpdateTrackKey];
+  if (updateTrack && [self isValidUpdateTrack:[updateTrack intValue]]) {
+    return [updateTrack intValue];
   }
-  return [oldTrack intValue];
+  return MSUpdateTrackPublic;
 }
 
-+ (BOOL)isInvalidUpdateTrack:(MSUpdateTrack)updateTrack {
-  return updateTrack != MSUpdateTrackPublic && updateTrack != MSUpdateTrackPrivate;
++ (BOOL)isValidUpdateTrack:(MSUpdateTrack)updateTrack {
+  return updateTrack == MSUpdateTrackPublic || updateTrack == MSUpdateTrackPrivate;
 }
 
 @end
