@@ -2634,10 +2634,10 @@ static NSURL *sfURL;
 }
 
 - (void)testDependencyCallUsesInjectedHttpClient {
-  id httpClient = OCMClassMock([MSHttpClient class]);
-  [MSDependencyConfiguration setHttpClient:httpClient];
 
   // If
+  id httpClient = OCMClassMock([MSHttpClient class]);
+  [MSDependencyConfiguration setHttpClient:httpClient];
   self.sut.appSecret = kMSTestAppSecret;
   id distributeMock = OCMPartialMock(self.sut);
 
