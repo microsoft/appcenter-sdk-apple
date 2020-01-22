@@ -142,7 +142,7 @@ static NSString *const kMSTesterAppUpdateSetupFailedKey = @"MSTesterAppUpdateSet
  */
 @property(nonatomic) id<MSCustomApplicationDelegate> appDelegate;
 
-@property(nonatomic) id _Nullable authenticationSession;
+@property(nullable, nonatomic) SFAuthenticationSession *authenticationSession API_AVAILABLE(ios(11.0));
 
 @property(nonatomic) MSUpdateTrack updateTrack;
 
@@ -336,11 +336,6 @@ static NSString *const kMSTesterAppUpdateSetupFailedKey = @"MSTesterAppUpdateSet
  * Close application for update.
  */
 - (void)closeApp;
-
-/**
- * Clear currently running SFAuthenticationSession.
- */
-- (void)clearAuthenticationSession;
 
 @end
 

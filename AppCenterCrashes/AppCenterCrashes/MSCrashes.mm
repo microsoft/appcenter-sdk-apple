@@ -21,6 +21,7 @@
 #import "MSCrashesPrivate.h"
 #import "MSCrashesUtil.h"
 #import "MSDeviceTracker.h"
+#import "MSDispatcherUtil.h"
 #import "MSEncrypter.h"
 #import "MSErrorAttachmentLog.h"
 #import "MSErrorAttachmentLogInternal.h"
@@ -612,9 +613,9 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     if ([logObject isKindOfClass:[MSAppleErrorLog class]]) {
       MSAppleErrorLog *appleErrorLog = static_cast<MSAppleErrorLog *>(log);
       MSErrorReport *report = [MSErrorLogFormatter errorReportFromLog:appleErrorLog];
-      dispatch_async(dispatch_get_main_queue(), ^{
+      [MSDispatcherUtil performBlockOnMainThread:^{
         [delegate crashes:self willSendErrorReport:report];
-      });
+      }];
     }
   }
 }
@@ -626,9 +627,9 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     if ([logObject isKindOfClass:[MSAppleErrorLog class]]) {
       MSAppleErrorLog *appleErrorLog = static_cast<MSAppleErrorLog *>(log);
       MSErrorReport *report = [MSErrorLogFormatter errorReportFromLog:appleErrorLog];
-      dispatch_async(dispatch_get_main_queue(), ^{
+      [MSDispatcherUtil performBlockOnMainThread:^{
         [delegate crashes:self didSucceedSendingErrorReport:report];
-      });
+      }];
     }
   }
 }
@@ -640,9 +641,9 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     if ([logObject isKindOfClass:[MSAppleErrorLog class]]) {
       MSAppleErrorLog *appleErrorLog = static_cast<MSAppleErrorLog *>(log);
       MSErrorReport *report = [MSErrorLogFormatter errorReportFromLog:appleErrorLog];
-      dispatch_async(dispatch_get_main_queue(), ^{
+      [MSDispatcherUtil performBlockOnMainThread:^{
         [delegate crashes:self didFailSendingErrorReport:report withError:error];
-      });
+      }];
     }
   }
 }
