@@ -2634,24 +2634,20 @@ static NSURL *sfURL;
 }
 
 - (void)testDependencyCallUsesInjectedHttpClient {
-    id httpClientMock = [MSHttpClient new];
-    [MSDependencyConfiguration setHttpClient:httpClientMock];
-    
-    // If
-    self.sut.appSecret = kMSTestAppSecret;
-    id distributeMock = OCMPartialMock(self.sut);
-    OCMReject([distributeMock handleUpdate:OCMOCK_ANY]);
-    id reachabilityMock = OCMClassMock([MS_Reachability class]);
-    OCMStub([reachabilityMock reachabilityForInternetConnection]).andReturn(reachabilityMock);
-    OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(ReachableViaWiFi);
-   
-    // When
-    [distributeMock checkLatestRelease:kMSTestUpdateToken distributionGroupId:kMSTestDistributionGroupId releaseHash:kMSTestReleaseHash];
-    
-    // Then
-    OCMReject([MSHttpClient new]);
-    [reachabilityMock stopMocking];
-    [distributeMock stopMocking];
+  id httpClient = OCMClassMock([MSHttpClient class]);
+  [MSDependencyConfiguration setHttpClient:httpClient];
+
+  // If
+  self.sut.appSecret = kMSTestAppSecret;
+  id distributeMock = OCMPartialMock(self.sut);
+
+  // When
+  [distributeMock checkLatestRelease:kMSTestUpdateToken distributionGroupId:kMSTestDistributionGroupId releaseHash:kMSTestReleaseHash];
+
+  // Then
+  XCTAssertEqual(self.sut.ingestion.httpClient, httpClient);
+  [distributeMock stopMocking];
+  [httpClient stopMocking];
 }
 
 @end
