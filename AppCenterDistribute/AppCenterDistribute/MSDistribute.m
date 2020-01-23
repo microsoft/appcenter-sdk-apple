@@ -56,8 +56,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 @implementation MSDistribute
 
 @synthesize channelUnitConfiguration = _channelUnitConfiguration;
-
-static MSUpdateTrack _updateTrack = MSUpdateTrackPublic;
+@synthesize updateTrack = _updateTrack;
 
 /**
  * Checks that the current browser flow is complete.
@@ -239,26 +238,11 @@ static BOOL isBrowserFlowFinished = YES;
 #pragma mark - In-app updates
 
 + (void)setUpdateTrack:(MSUpdateTrack)updateTrack {
-  @synchronized(self) {
-    if (![MSDistributeUtil isValidUpdateTrack:updateTrack]) {
-      MSLogDebug([MSDistribute logTag], @"Not a valid value of updateTrack.");
-      return;
-    }
-    _updateTrack = updateTrack;
-    MSUpdateTrack storedTrack = [MSDistributeUtil storedUpdateTrack];
-    if (storedTrack != _updateTrack) {
-      [MS_USER_DEFAULTS setObject:@(updateTrack) forKey:kMSDistributionUpdateTrackKey];
-    }
-    if ([[MSDistribute sharedInstance] canBeUsed] && self.isEnabled && isBrowserFlowFinished) {
-      [[MSDistribute sharedInstance] startUpdate];
-    }
-  }
+  [MSDistribute sharedInstance].updateTrack = updateTrack;
 }
 
 + (MSUpdateTrack)updateTrack {
-  @synchronized(self) {
-    return _updateTrack;
-  }
+  return [MSDistribute sharedInstance].updateTrack;
 }
 
 #pragma mark - Private
@@ -1150,6 +1134,28 @@ static BOOL isBrowserFlowFinished = YES;
     MSLogDebug([MSDistribute logTag], @"Distribute service has been disabled, ignore request.");
   }
   return YES;
+}
+
+- (void)setUpdateTrack:(MSUpdateTrack)updateTrack {
+  @synchronized(self) {
+    if (![MSDistributeUtil isValidUpdateTrack:updateTrack]) {
+      MSLogError([MSDistribute logTag], @"Invalid argument passed to updateTrack.");
+      return;
+    }
+    if (_updateTrack != updateTrack) {
+      _updateTrack = updateTrack;
+      [MS_USER_DEFAULTS setObject:@(updateTrack) forKey:kMSDistributionUpdateTrackKey];
+    }
+    if (self.canBeUsed && self.isEnabled && isBrowserFlowFinished) {
+      [self startUpdate];
+    }
+  }
+}
+
+- (MSUpdateTrack)updateTrack {
+  @synchronized(self) {
+    return _updateTrack;
+  }
 }
 
 - (void)applicationWillEnterForeground {
