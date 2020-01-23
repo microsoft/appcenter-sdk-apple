@@ -21,5 +21,6 @@
 @import AppCenter;
 @import AppCenterAnalytics;
 @import AppCenterData;
+@import AppCenterDistribute;
 @import AppCenterAuth;
 #endif
