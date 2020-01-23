@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import UIKit
+import AppCenterDistribute
 
 class MSDistributeViewController: UITableViewController, AppCenterProtocol {
 
@@ -35,6 +36,10 @@ class MSDistributeViewController: UITableViewController, AppCenterProtocol {
     super.viewDidLoad()
     self.customized.isOn = UserDefaults.init().bool(forKey: kSASCustomizedUpdateAlertKey)
 
+    prepareUpdatePicker()
+  }
+
+  private func prepareUpdatePicker() {
     self.updatePicker = MSEnumPicker<UpdateTrack>(
         textField: self.updateTrackField,
         allValues: UpdateTrack.allValues,
