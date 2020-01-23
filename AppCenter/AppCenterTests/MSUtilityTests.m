@@ -946,7 +946,6 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
 
   // If
   XCTestExpectation *expectation = [self expectationWithDescription:@"method called."];
-  __block BOOL handlerHasBeenCalled = NO;
   NSString *str = @"expectedString";
 
   // When
@@ -954,7 +953,6 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
     [self methodToCall:str
         completionHandler:^(NSString *string) {
           XCTAssertEqual(str, string);
-          handlerHasBeenCalled = YES;
           [expectation fulfill];
         }];
   }];
@@ -962,7 +960,6 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
   // Then
   [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *error) {
-                                 XCTAssertTrue(handlerHasBeenCalled);
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
@@ -973,7 +970,6 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
 
   // If
   XCTestExpectation *expectation = [self expectationWithDescription:@"method called."];
-  __block BOOL handlerHasBeenCalled = NO;
   NSString *str = @"expectedString";
 
   // When
@@ -982,7 +978,6 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
       [self methodToCall:str
           completionHandler:^(NSString *string) {
             XCTAssertEqual(str, string);
-            handlerHasBeenCalled = YES;
             [expectation fulfill];
           }];
     }];
@@ -991,7 +986,6 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
   // Then
   [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *error) {
-                                 XCTAssertTrue(handlerHasBeenCalled);
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }

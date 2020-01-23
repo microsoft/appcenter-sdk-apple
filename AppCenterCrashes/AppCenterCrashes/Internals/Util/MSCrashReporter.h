@@ -28,5 +28,5 @@
 #pragma clang diagnostic ignored "-Wdisabled-macro-expansion"
 #pragma clang diagnostic ignored "-Wobjc-interface-ivars"
 #pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
-#import <CrashReporter/CrashReporter.h>
+#import "CrashReporter.h"
 #pragma clang diagnostic pop
