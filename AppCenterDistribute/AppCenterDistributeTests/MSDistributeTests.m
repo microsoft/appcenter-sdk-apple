@@ -10,6 +10,7 @@
 #import "MSBasicMachOParser.h"
 #import "MSChannelGroupDefault.h"
 #import "MSConstants+Internal.h"
+#import "MSDependencyConfiguration.h"
 #import "MSDistribute.h"
 #import "MSDistributeInfoTracker.h"
 #import "MSDistributeInternal.h"
@@ -2630,6 +2631,23 @@ static NSURL *sfURL;
   // Clear
   [appCenterMock stopMocking];
   [(id)authenticationSessionMock stopMocking];
+}
+
+- (void)testDependencyCallUsesInjectedHttpClient {
+
+  // If
+  id httpClient = OCMClassMock([MSHttpClient class]);
+  [MSDependencyConfiguration setHttpClient:httpClient];
+  self.sut.appSecret = kMSTestAppSecret;
+  id distributeMock = OCMPartialMock(self.sut);
+
+  // When
+  [distributeMock checkLatestRelease:kMSTestUpdateToken distributionGroupId:kMSTestDistributionGroupId releaseHash:kMSTestReleaseHash];
+
+  // Then
+  XCTAssertEqual(self.sut.ingestion.httpClient, httpClient);
+  [distributeMock stopMocking];
+  [httpClient stopMocking];
 }
 
 @end
