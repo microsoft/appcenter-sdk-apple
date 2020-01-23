@@ -230,7 +230,6 @@
 		6E48A5A41D3831FE006E8B5F /* MSChannelUnitConfigurationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E48A5A31D3831FE006E8B5F /* MSChannelUnitConfigurationTests.m */; };
 		6E48A5A71D383893006E8B5F /* MSChannelGroupDefaultTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E48A5A61D383893006E8B5F /* MSChannelGroupDefaultTests.m */; };
 		6EB1F40E1D2443B7005F9F99 /* MSChannelUnitDefaultTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EB1F40D1D2443B7005F9F99 /* MSChannelUnitDefaultTests.m */; };
-		78686FAE23B390C600CDA4C1 /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 78686FAC23B390C600CDA4C1 /* MSAlertController.m */; };
 		7FB7054B222E595F00D93258 /* MSMockReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FB70548222E58FB00D93258 /* MSMockReachability.m */; };
 		7FB7054C222E596100D93258 /* MSMockReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FB70548222E58FB00D93258 /* MSMockReachability.m */; };
 		7FB7054D222E596200D93258 /* MSMockReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FB70548222E58FB00D93258 /* MSMockReachability.m */; };
@@ -3118,7 +3117,6 @@
 				C9A92148230C61830068070D /* MSAppExtension.m in Sources */,
 				C9A92168230C61830068070D /* MSUtility+Date.m in Sources */,
 				C9A9215F230C61830068070D /* MSDBStorage.m in Sources */,
-				78686FAE23B390C600CDA4C1 /* MSAlertController.m in Sources */,
 				C9A92156230C61830068070D /* MSLogContainer.m in Sources */,
 				C9A9216A230C61830068070D /* MSUtility+File.m in Sources */,
 				C9A9216B230C61830068070D /* MSUtility+PropertyValidation.m in Sources */,

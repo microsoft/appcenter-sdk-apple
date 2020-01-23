@@ -149,6 +149,8 @@ static dispatch_queue_t alertsQueue;
 
 + (void)makeKeyAndVisible {
   if (@available(iOS 13.0, tvOS 13.0, *)) {
+
+    // Use bridge to cast Objective-C type to C lang type. It's needed to extract the value after invoke.
     UIApplication *application = MS_DISPATCH_SELECTOR(__bridge UIApplication *, [UIApplication class], sharedApplication);
     NSSet *scenes = MS_DISPATCH_SELECTOR(__bridge NSSet *, application, connectedScenes);
     NSObject *windowScene = nil;
