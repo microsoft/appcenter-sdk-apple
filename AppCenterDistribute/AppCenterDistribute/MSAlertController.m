@@ -162,7 +162,7 @@ static dispatch_queue_t alertsQueue;
     if (!windowScene) {
       windowScene = scenes.anyObject;
     }
-    [MSDispatcherUtil performSelector:window withSelector:@"setWindowScene:" withObjects:@[ windowScene ]];
+    MS_DISPATCH_SELECTOR_VOID(window, setWindowScene:, windowScene);
   }
   [window makeKeyAndVisible];
 }

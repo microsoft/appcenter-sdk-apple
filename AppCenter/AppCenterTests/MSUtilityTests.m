@@ -912,6 +912,24 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
   XCTAssertEqual(result.count, 1);
 }
 
+- (void)testMacroArrayPassNil {
+  NSArray *array = ARRAY_FROM_ARGS(@1, @2, nil);
+
+  XCTAssertEqual([array count], 2);
+}
+
+- (void)testDispatchMacroReturnVoid {
+
+  // If
+  NSMutableString *testString = [NSMutableString stringWithFormat:@"test"];
+
+  // When
+  MS_DISPATCH_SELECTOR_VOID(testString, appendString:, @"1");
+
+  // Then
+  XCTAssertEqualObjects(testString, @"test1");
+}
+
 - (void)testPerformSelectorWithObjects {
 
   // If

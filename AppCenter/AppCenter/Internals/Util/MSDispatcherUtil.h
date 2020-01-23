@@ -3,12 +3,23 @@
 
 #import <Foundation/Foundation.h>
 
+#define ARRAY_FROM_ARGS(...)                                                                                                               \
+  ({                                                                                                                                       \
+    NSMutableArray *initedArray = [NSMutableArray arrayWithObjects:[NSNull null], ##__VA_ARGS__, nil];                                     \
+    [initedArray removeObjectAtIndex:0];                                                                                                   \
+    initedArray;                                                                                                                           \
+  })
+
 #define MS_DISPATCH_SELECTOR(type, object, selectorName, ...)                                                                              \
   ({                                                                                                                                       \
     void *results;                                                                                                                         \
-    [[MSDispatcherUtil performSelector:object withSelector:@ #selectorName withObjects:@[ __VA_ARGS__ ]] getReturnValue:&results];         \
+    [[MSDispatcherUtil performSelector:object withSelector:@ #selectorName                                                                 \
+                           withObjects:ARRAY_FROM_ARGS(__VA_ARGS__)] getReturnValue:&results];                                             \
     (type) results;                                                                                                                        \
   })
+
+#define MS_DISPATCH_SELECTOR_VOID(object, selectorName, ...)                                                                               \
+  ({ [MSDispatcherUtil performSelector:object withSelector:@ #selectorName withObjects:ARRAY_FROM_ARGS(__VA_ARGS__)]; })
 
 @interface MSDispatcherUtil : NSObject
 
