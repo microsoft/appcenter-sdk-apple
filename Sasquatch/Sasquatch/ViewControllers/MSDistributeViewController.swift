@@ -7,11 +7,41 @@ class MSDistributeViewController: UITableViewController, AppCenterProtocol {
 
   @IBOutlet weak var enabled: UISwitch!
   @IBOutlet weak var customized: UISwitch!
+  @IBOutlet weak var updateTrackField: UITextField!
   var appCenter: AppCenterDelegate!
-  
+
+  enum UpdateTrack: String {
+     case Public = "Public"
+     case Private = "Private"
+
+     var updateTrack: MSUpdateTrack {
+        switch self {
+        case .Public: return .public
+        case .Private: return .private
+        }
+     }
+
+     static let allValues = [Public, Private]
+  }
+
+  private var updatePicker: MSEnumPicker<UpdateTrack>?
+  private var updateTrack = UpdateTrack.Public {
+    didSet {
+       MSDistribute.updateTrack = updateTrack.updateTrack
+    }
+  }
+
   override func viewDidLoad() {
     super.viewDidLoad()
     self.customized.isOn = UserDefaults.init().bool(forKey: kSASCustomizedUpdateAlertKey)
+
+    self.updatePicker = MSEnumPicker<UpdateTrack>(
+        textField: self.updateTrackField,
+        allValues: UpdateTrack.allValues,
+        onChange: { index in self.updateTrack = UpdateTrack.allValues[index] })
+    self.updateTrackField.delegate = self.updatePicker
+    self.updateTrackField.text = self.updateTrack.rawValue
+    self.updateTrackField.tintColor = UIColor.clear
   }
   
   override func viewWillAppear(_ animated: Bool) {
