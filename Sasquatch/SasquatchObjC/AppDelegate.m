@@ -125,6 +125,11 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
   if (latencyTimeValue) {
     [MSAnalytics setTransmissionInterval:latencyTimeValue];
   }
+  int updateValue = [[[NSUserDefaults standardUserDefaults] objectForKey:kMSUpdateTrackBeforeStartValue] intValue];
+  if (updateValue) {
+    MSDistribute.updateTrack = updateValue;
+  }
+
   // Start App Center SDK.
   NSArray<Class> *services =
       @ [[MSAnalytics class], [MSCrashes class], [MSData class], [MSDistribute class], [MSAuth class], [MSPush class]];
