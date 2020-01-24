@@ -200,8 +200,23 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                     appSecret:(nullable NSString *)appSecret
       transmissionTargetToken:(nullable NSString *)token
               fromApplication:(BOOL)fromApplication {
-  [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionTargetToken:token fromApplication:fromApplication];
-  MSLogVerbose([MSDistribute logTag], @"Started Distribute service.");
+
+  // Start Ingestion.
+  id<MSHttpClientProtocol> httpClient = [MSDependencyConfiguration httpClient];
+  if (!httpClient) {
+    httpClient = [MSHttpClient new];
+  }
+  if (appSecret) {
+    self.ingestion = [[MSDistributeIngestion alloc] initWithHttpClient:httpClient
+                                                               baseUrl:self.apiUrl
+                                                             appSecret:(NSString * _Nonnull) appSecret];
+
+    // Channel group should be started after Ingestion is ready.
+    [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionTargetToken:token fromApplication:fromApplication];
+    MSLogVerbose([MSDistribute logTag], @"Started Distribute service.");
+  } else {
+    MSLogError([MSDistribute logTag], @"Failed to start Distribute because app Secret isn't specified.");
+  }
 }
 
 #pragma mark - Public
@@ -344,127 +359,99 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
         [MS_USER_DEFAULTS removeObjectForKey:kMSMandatoryReleaseKey];
       }
     }
-    if (self.ingestion == nil) {
-      NSMutableDictionary *queryStrings = [[NSMutableDictionary alloc] init];
-      NSMutableDictionary *reportingParametersForUpdatedRelease = [self getReportingParametersForUpdatedRelease:updateToken
-                                                                                    currentInstalledReleaseHash:releaseHash
-                                                                                            distributionGroupId:distributionGroupId];
-      if (reportingParametersForUpdatedRelease != nil) {
-        [queryStrings addEntriesFromDictionary:reportingParametersForUpdatedRelease];
-      }
-      queryStrings[kMSURLQueryReleaseHashKey] = releaseHash;
-      id<MSHttpClientProtocol> httpClient = [MSDependencyConfiguration httpClient];
-      if (!httpClient) {
-        httpClient = [MSHttpClient new];
-      }
-      self.ingestion = [[MSDistributeIngestion alloc] initWithHttpClient:httpClient
-                                                                 baseUrl:self.apiUrl
-                                                               appSecret:self.appSecret
-                                                             updateToken:updateToken
-                                                     distributionGroupId:distributionGroupId
-                                                            queryStrings:queryStrings];
-      __weak typeof(self) weakSelf = self;
-      [self.ingestion sendAsync:nil
-              completionHandler:^(__unused NSString *callId, NSHTTPURLResponse *response, NSData *data, __unused NSError *error) {
-                typeof(self) strongSelf = weakSelf;
-                if (!strongSelf) {
-                  return;
+
+    // Handle update.
+    __weak typeof(self) weakSelf = self;
+    MSSendAsyncCompletionHandler completionHandler =
+        ^(__unused NSString *callId, NSHTTPURLResponse *response, NSData *data, __unused NSError *error) {
+          typeof(self) strongSelf = weakSelf;
+          if (!strongSelf) {
+            return;
+          }
+
+          // Ignore the response if the service is disabled.
+          if (![strongSelf isEnabled]) {
+            return;
+          }
+
+          // Error instance for JSON parsing.
+          NSError *jsonError = nil;
+
+          // Success.
+          if (response.statusCode == MSHTTPCodesNo200OK) {
+            MSReleaseDetails *details = nil;
+            if (data) {
+              id dictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&jsonError];
+              if (jsonError) {
+                MSLogError([MSDistribute logTag], @"Couldn't parse json data: %@", jsonError.localizedDescription);
+              }
+              details = [[MSReleaseDetails alloc] initWithDictionary:dictionary];
+            }
+            if (!details) {
+              MSLogError([MSDistribute logTag], @"Couldn't parse response payload.");
+            } else {
+
+              // Check if downloaded release was installed and remove stored release details.
+              [self removeDownloadedReleaseDetailsIfUpdated:releaseHash];
+
+              /*
+               * Handle this update.
+               *
+               * NOTE: There is one glitch when this release is the same than the currently displayed mandatory release. In this case
+               * the current UI will be dismissed then redisplayed with the same UI content. This is an edge case since it's only
+               * happening if there was no network at app start then network came back along with the same mandatory release from the
+               * server. In addition to that and even though the releases are the same, the URL links generated by the server will be
+               * different.
+               * Thus, there is the overhead of updating the currently displayed download action with the new URL. In the end fixing
+               * this edge case adds too much complexity for no worthy advantages, keeping it as it is for now.
+               */
+              [strongSelf handleUpdate:details];
+            }
+          }
+
+          // Failure.
+          else {
+            MSLogError([MSDistribute logTag], @"Failed to get an update response, status code: %tu", response.statusCode);
+
+            // Check the status code to clean up Distribute data for an unrecoverable error.
+            if (![MSHttpUtil isRecoverableError:response.statusCode]) {
+
+              // Deserialize payload to check if it contains error details.
+              MSErrorDetails *details = nil;
+              if (data) {
+                id dictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&jsonError];
+                if (dictionary) {
+                  details = [[MSErrorDetails alloc] initWithDictionary:dictionary];
                 }
+              }
 
-                // Release ingestion instance.
-                strongSelf.ingestion = nil;
+              // If the response payload is MSErrorDetails, consider it as a recoverable error.
+              if (!details || ![kMSErrorCodeNoReleasesForUser isEqualToString:details.code]) {
+                [MSKeychainUtil deleteStringForKey:kMSUpdateTokenKey];
+                [MS_USER_DEFAULTS removeObjectForKey:kMSSDKHasLaunchedWithDistribute];
+                [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateTokenRequestIdKey];
+                [MS_USER_DEFAULTS removeObjectForKey:kMSPostponedTimestampKey];
+                [MS_USER_DEFAULTS removeObjectForKey:kMSDistributionGroupIdKey];
+                [self.distributeInfoTracker removeDistributionGroupId];
+              }
+            }
+          }
+        };
 
-                // Ignore the response if the service is disabled.
-                if (![strongSelf isEnabled]) {
-                  return;
-                }
+    // Build query strings.
+    NSMutableDictionary *queryStrings = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *reportingParametersForUpdatedRelease = [self getReportingParametersForUpdatedRelease:updateToken
+                                                                                  currentInstalledReleaseHash:releaseHash
+                                                                                          distributionGroupId:distributionGroupId];
+    if (reportingParametersForUpdatedRelease != nil) {
+      [queryStrings addEntriesFromDictionary:reportingParametersForUpdatedRelease];
+    }
+    queryStrings[kMSURLQueryReleaseHashKey] = releaseHash;
 
-                // Error instance for JSON parsing.
-                NSError *jsonError = nil;
-
-                // Success.
-                if (response.statusCode == MSHTTPCodesNo200OK) {
-                  MSReleaseDetails *details = nil;
-                  if (data) {
-                    id dictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&jsonError];
-                    if (jsonError) {
-                      MSLogError([MSDistribute logTag], @"Couldn't parse json data: %@", jsonError.localizedDescription);
-                    }
-                    details = [[MSReleaseDetails alloc] initWithDictionary:dictionary];
-                  }
-                  if (!details) {
-                    MSLogError([MSDistribute logTag], @"Couldn't parse response payload.");
-                  } else {
-
-                    // Check if downloaded release was installed and remove stored
-                    // release details.
-                    [self removeDownloadedReleaseDetailsIfUpdated:releaseHash];
-
-                    /*
-                     * Handle this update.
-                     *
-                     * NOTE: There is one glitch when this release is the same than the currently displayed mandatory release. In this case
-                     * the current UI will be dismissed then redisplayed with the same UI content. This is an edge case since it's only
-                     * happening if there was no network at app start then network came back along with the same mandatory release from the
-                     * server. In addition to that and even though the releases are the same, the URL links generated by the server will be
-                     * different.
-                     * Thus, there is the overhead of updating the currently displayed download action with the new URL. In the end fixing
-                     * this edge case adds too much complexity for no worthy advantages, keeping it as it is for now.
-                     */
-                    [strongSelf handleUpdate:details];
-                  }
-                }
-
-                // Failure.
-                else {
-                  MSLogDebug([MSDistribute logTag], @"Failed to get an update response, status code: %tu", response.statusCode);
-                  NSString *jsonString = nil;
-                  id dictionary = nil;
-
-                  // Failure can deliver empty payload.
-                  if (data) {
-                    dictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&jsonError];
-
-                    // Failure can deliver non-JSON format of payload.
-                    if (!jsonError) {
-                      NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary
-                                                                         options:NSJSONWritingPrettyPrinted
-                                                                           error:&jsonError];
-                      if (jsonData && !jsonError) {
-
-                        // NSJSONSerialization escapes paths by default so we replace them.
-                        jsonString = [[[NSString alloc] initWithData:jsonData
-                                                            encoding:NSUTF8StringEncoding] stringByReplacingOccurrencesOfString:@"\\/"
-                                                                                                                     withString:@"/"];
-                      }
-                    }
-                  }
-
-                  // Check the status code to clean up Distribute data for an unrecoverable error.
-                  if (![MSHttpUtil isRecoverableError:response.statusCode]) {
-
-                    // Deserialize payload to check if it contains error details.
-                    MSErrorDetails *details = nil;
-                    if (dictionary) {
-                      details = [[MSErrorDetails alloc] initWithDictionary:dictionary];
-                    }
-
-                    // If the response payload is MSErrorDetails, consider it as a recoverable error.
-                    if (!details || ![kMSErrorCodeNoReleasesForUser isEqualToString:details.code]) {
-                      [MSKeychainUtil deleteStringForKey:kMSUpdateTokenKey];
-                      [MS_USER_DEFAULTS removeObjectForKey:kMSSDKHasLaunchedWithDistribute];
-                      [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateTokenRequestIdKey];
-                      [MS_USER_DEFAULTS removeObjectForKey:kMSPostponedTimestampKey];
-                      [MS_USER_DEFAULTS removeObjectForKey:kMSDistributionGroupIdKey];
-                      [self.distributeInfoTracker removeDistributionGroupId];
-                    }
-                  }
-                  if (!jsonString && data) {
-                    jsonString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-                  }
-                  MSLogError([MSDistribute logTag], @"Response:\n%@", jsonString ? jsonString : @"No payload");
-                }
-              }];
+    if (updateToken) {
+      [self.ingestion checkForPrivateUpdateWithUpdateToken:updateToken queryStrings:queryStrings completionHandler:completionHandler];
+    } else {
+      [self.ingestion checkForPublicUpdateWithQueryStrings:queryStrings completionHandler:completionHandler];
     }
   } else {
 

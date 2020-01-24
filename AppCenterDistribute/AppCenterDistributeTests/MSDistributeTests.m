@@ -800,6 +800,10 @@ static NSURL *sfURL;
   [MSHttpTestUtil stubHttp404Response];
 
   // When
+  [distributeMock startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
+                              appSecret:kMSTestAppSecret
+                transmissionTargetToken:nil
+                        fromApplication:YES];
   [self.sut checkLatestRelease:kMSTestUpdateToken distributionGroupId:kMSTestDistributionGroupId releaseHash:kMSTestReleaseHash];
 
   // Then
@@ -861,6 +865,10 @@ static NSURL *sfURL;
   [self.settingsMock setObject:@1 forKey:kMSUpdateTokenRequestIdKey];
   [self.settingsMock setObject:@1 forKey:kMSPostponedTimestampKey];
   [self.settingsMock setObject:@1 forKey:kMSDistributionGroupIdKey];
+  [distributeMock startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
+                              appSecret:kMSTestAppSecret
+                transmissionTargetToken:nil
+                        fromApplication:YES];
   [distributeMock checkLatestRelease:kMSTestUpdateToken distributionGroupId:kMSTestDistributionGroupId releaseHash:kMSTestReleaseHash];
 
   // Then
@@ -2266,6 +2274,10 @@ static NSURL *sfURL;
   [self.settingsMock setObject:kMSTestReleaseHash forKey:kMSDownloadedReleaseHashKey];
 
   // When
+  [distributeMock startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
+                              appSecret:kMSTestAppSecret
+                transmissionTargetToken:nil
+                        fromApplication:YES];
   [distributeMock checkLatestRelease:kMSTestUpdateToken distributionGroupId:kMSTestDistributionGroupId releaseHash:kMSTestReleaseHash];
 
   // Then
@@ -2638,15 +2650,16 @@ static NSURL *sfURL;
   // If
   id httpClient = OCMClassMock([MSHttpClient class]);
   [MSDependencyConfiguration setHttpClient:httpClient];
-  self.sut.appSecret = kMSTestAppSecret;
-  id distributeMock = OCMPartialMock(self.sut);
+  MSDistribute *distribute = [MSDistribute new];
 
   // When
-  [distributeMock checkLatestRelease:kMSTestUpdateToken distributionGroupId:kMSTestDistributionGroupId releaseHash:kMSTestReleaseHash];
+  [distribute startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
+                          appSecret:kMSTestAppSecret
+            transmissionTargetToken:nil
+                    fromApplication:YES];
 
   // Then
-  XCTAssertEqual(self.sut.ingestion.httpClient, httpClient);
-  [distributeMock stopMocking];
+  XCTAssertEqual(distribute.ingestion.httpClient, httpClient);
   [httpClient stopMocking];
 }
 

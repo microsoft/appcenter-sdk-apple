@@ -84,6 +84,8 @@ static NSString *const kMSETagRequestHeader = @"If-None-Match";
  */
 - (NSString *)getHttpMethod;
 
+- (NSURL *)buildURLWithBaseURL:(NSString *)baseURL apiPath:(NSString *)apiPath queryStrings:(NSDictionary *)queryStrings;
+
 @end
 
 NS_ASSUME_NONNULL_END

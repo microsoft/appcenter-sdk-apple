@@ -17,24 +17,10 @@
 static NSString *const kMSLatestPrivateReleaseApiPathFormat = @"/sdk/apps/%@/releases/latest";
 static NSString *const kMSLatestPublicReleaseApiPathFormat = @"/public/sdk/apps/%@/distribution_groups/%@/releases/latest";
 
-- (id)initWithHttpClient:(id<MSHttpClientProtocol>)httpClient
-                 baseUrl:(NSString *)baseUrl
-               appSecret:(NSString *)appSecret
-             updateToken:(NSString *)updateToken
-     distributionGroupId:(NSString *)distributionGroupId
-            queryStrings:(NSDictionary *)queryStrings {
-  NSString *apiPath;
-  NSDictionary *header = nil;
-  if (updateToken) {
-    apiPath = [NSString stringWithFormat:kMSLatestPrivateReleaseApiPathFormat, appSecret];
-    header = @{kMSHeaderUpdateApiToken : updateToken};
-  } else {
-    apiPath = [NSString stringWithFormat:kMSLatestPublicReleaseApiPathFormat, appSecret, distributionGroupId];
-  }
-  if ((self = [super initWithHttpClient:httpClient baseUrl:baseUrl apiPath:apiPath headers:header queryStrings:queryStrings])) {
+- (id)initWithHttpClient:(id<MSHttpClientProtocol>)httpClient baseUrl:(NSString *)baseUrl appSecret:(NSString *)appSecret {
+  if ((self = [super initWithHttpClient:httpClient baseUrl:baseUrl apiPath:nil headers:nil queryStrings:nil])) {
     _appSecret = appSecret;
   }
-
   return self;
 }
 
@@ -82,6 +68,27 @@ static NSString *const kMSLatestPublicReleaseApiPathFormat = @"/public/sdk/apps/
     MSLogVerbose([MSAppCenter logTag], @"URL: %@", url);
     MSLogVerbose([MSAppCenter logTag], @"Headers: %@", [flattenedHeaders componentsJoinedByString:@", "]);
   }
+}
+
+#pragma mark - MSDistributeIngestion
+
+- (void)checkForPublicUpdateWithQueryStrings:(NSDictionary *)queryStrings
+                           completionHandler:(MSSendAsyncCompletionHandler)completionHandler {
+  self.httpHeaders = @{};
+
+  // TODO: Hard code group ID for now, it will be gone from API.
+  self.apiPath = [NSString stringWithFormat:kMSLatestPublicReleaseApiPathFormat, self.appSecret, @"09d6e425-bdd3-40f5-afcf-0e187fdbb628"];
+  self.sendURL = [super buildURLWithBaseURL:self.baseURL apiPath:self.apiPath queryStrings:queryStrings];
+  [self sendAsync:nil completionHandler:completionHandler];
+}
+
+- (void)checkForPrivateUpdateWithUpdateToken:(NSString *)updateToken
+                                queryStrings:(NSDictionary *)queryStrings
+                           completionHandler:(MSSendAsyncCompletionHandler)completionHandler {
+  self.httpHeaders = @{kMSHeaderUpdateApiToken : updateToken};
+  self.apiPath = [NSString stringWithFormat:kMSLatestPrivateReleaseApiPathFormat, self.appSecret];
+  self.sendURL = [super buildURLWithBaseURL:self.baseURL apiPath:self.apiPath queryStrings:queryStrings];
+  [self sendAsync:nil completionHandler:completionHandler];
 }
 
 @end
