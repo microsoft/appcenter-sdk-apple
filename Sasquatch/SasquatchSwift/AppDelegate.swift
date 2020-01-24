@@ -70,8 +70,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
     if logUrl != nil {
       MSAppCenter.setLogUrl(logUrl)
     }
-    if let updateValue = UserDefaults.standard.value(forKey: kMSUpdateTrackBeforeStartValue) as? Int {
-        MSDistribute.updateTrack = MSUpdateTrack.init(rawValue: updateValue)
+    if let beforeStartTrack = UserDefaults.standard.value(forKey: kMSUpdateTrackBeforeStartValue) as? Int,
+       let updateTrack = MSUpdateTrack(rawValue: beforeStartTrack) {
+        MSDistribute.updateTrack = updateTrack
     }
 
     // Start App Center SDK.
