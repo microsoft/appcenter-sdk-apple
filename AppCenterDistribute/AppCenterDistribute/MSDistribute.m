@@ -159,41 +159,53 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 }
 
 - (void)notifyUpdateAction:(MSUpdateAction)action {
-  if (!self.releaseDetails) {
-    MSLogDebug([MSDistribute logTag], @"The release has already been processed.");
-    return;
-  }
-  switch (action) {
-  case MSUpdateActionUpdate:
 
-    if ([self isEnabled]) {
-      MSLogDebug([MSDistribute logTag], @"'Update now' is selected. Start download and install the update.");
+  @synchronized(self) {
+    if (!self.releaseDetails) {
+      MSLogDebug([MSDistribute logTag], @"The release has already been processed or update flow hasn't started yet.");
+      self.updateFlowInProgress = NO;
+      return;
+    }
 
-      // Store details to report new download after restart if this release is installed.
-      [self storeDownloadedReleaseDetails:self.releaseDetails];
+    if (!self.updateFlowInProgress) {
+      MSLogInfo([MSDistribute logTag], @"There is no update flow in progress. Ignore the request.");
+      self.releaseDetails = nil;
+      return;
+    }
+
+    switch (action) {
+    case MSUpdateActionUpdate:
+
+      if ([self isEnabled]) {
+        MSLogDebug([MSDistribute logTag], @"'Update now' is selected. Start download and install the update.");
+
+        // Store details to report new download after restart if this release is installed.
+        [self storeDownloadedReleaseDetails:self.releaseDetails];
 #if TARGET_OS_SIMULATOR
 
-      /*
-       * iOS simulator doesn't support "itms-services" scheme, simulator will consider the scheme as an invalid address. Skip download
-       * process if the application is running on simulator.
-       */
-      MSLogWarning([MSDistribute logTag], @"Couldn't download a new release on simulator.");
+        /*
+         * iOS simulator doesn't support "itms-services" scheme, simulator will consider the scheme as an invalid address. Skip download
+         * process if the application is running on simulator.
+         */
+        MSLogWarning([MSDistribute logTag], @"Couldn't download a new release on simulator.");
 #else
-      [self startDownload:self.releaseDetails];
+        [self startDownload:self.releaseDetails];
 #endif
-    } else {
-      MSLogDebug([MSDistribute logTag], @"'Update now' is selected but Distribute was disabled.");
-      [self showDistributeDisabledAlert];
+      } else {
+        MSLogDebug([MSDistribute logTag], @"'Update now' is selected but Distribute was disabled.");
+        [self showDistributeDisabledAlert];
+      }
+      break;
+    case MSUpdateActionPostpone:
+      MSLogDebug([MSDistribute logTag], @"The SDK will ask the update tomorrow again.");
+      [MS_USER_DEFAULTS setObject:@((long long)[MSUtility nowInMilliseconds]) forKey:kMSPostponedTimestampKey];
+      break;
     }
-    break;
-  case MSUpdateActionPostpone:
-    MSLogDebug([MSDistribute logTag], @"The SDK will ask the update tomorrow again.");
-    [MS_USER_DEFAULTS setObject:@((long long)[MSUtility nowInMilliseconds]) forKey:kMSPostponedTimestampKey];
-    break;
-  }
 
-  // The release details have been processed. Clean up the variable.
-  self.releaseDetails = nil;
+    // The release details have been processed. Clean up the variable.
+    self.updateFlowInProgress = NO;
+    self.releaseDetails = nil;
+  }
 }
 
 - (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup
@@ -264,6 +276,12 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
       return;
     }
     NSString *distributionGroupId = [MS_USER_DEFAULTS objectForKey:kMSDistributionGroupIdKey];
+    @synchronized(self) {
+      if (self.updateFlowInProgress) {
+        MSLogDebug([MSDistribute logTag], @"Previous update flow is in progress. Ignore the request.");
+      }
+      self.updateFlowInProgress = YES;
+    }
     if (updateToken || distributionGroupId) {
       [self checkLatestRelease:updateToken distributionGroupId:distributionGroupId releaseHash:releaseHash];
     } else {

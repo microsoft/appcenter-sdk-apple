@@ -1965,6 +1965,7 @@ static NSURL *sfURL;
   double time = 1.1;
   OCMStub(ClassMethod([utilityMock nowInMilliseconds])).andReturn(time);
   [distributeMock setValue:OCMClassMock([MSReleaseDetails class]) forKey:@"releaseDetails"];
+  [distributeMock setValue:@YES forKey:@"updateFlowInProgress"];
 
   // When
   [distributeMock notifyUpdateAction:MSUpdateActionPostpone];
@@ -1985,6 +1986,7 @@ static NSURL *sfURL;
   details.id = @1;
   details.packageHashes = @[ @"d5110dea0dc504b4d2924377fbbb2aaa9df8d4cc08e693b1160c389f5bc865a8" ];
   [distributeMock setValue:details forKey:@"releaseDetails"];
+  [distributeMock setValue:@YES forKey:@"updateFlowInProgress"];
 
   // When
   [distributeMock notifyUpdateAction:MSUpdateActionUpdate];
@@ -2007,6 +2009,7 @@ static NSURL *sfURL;
     @"842d928f551d3bcae224221b563ce338839d897060d194a262ba3dfba4811c71", @"a7f2d4eed734b55a107d5a71195c8e18c21dcbde3d90c8b586c0af47b4dd4d6c"
   ];
   [distributeMock setValue:details forKey:@"releaseDetails"];
+  [distributeMock setValue:@YES forKey:@"updateFlowInProgress"];
 
   // When
   [distributeMock notifyUpdateAction:MSUpdateActionUpdate];
@@ -2025,6 +2028,7 @@ static NSURL *sfURL;
   MSReleaseDetails *details = [MSReleaseDetails new];
   [distributeMock setValue:details forKey:@"releaseDetails"];
   OCMStub([distributeMock isEnabled]).andReturn(NO);
+  [distributeMock setValue:@YES forKey:@"updateFlowInProgress"];
 
   // When
   [distributeMock notifyUpdateAction:MSUpdateActionUpdate];
@@ -2044,6 +2048,7 @@ static NSURL *sfURL;
   double time = 1.1;
   OCMStub(ClassMethod([utilityMock nowInMilliseconds])).andReturn(time);
   [distributeMock setValue:OCMClassMock([MSReleaseDetails class]) forKey:@"releaseDetails"];
+  [distributeMock setValue:@YES forKey:@"updateFlowInProgress"];
 
   // When
   [distributeMock notifyUpdateAction:MSUpdateActionPostpone];
@@ -2063,6 +2068,42 @@ static NSURL *sfURL;
   // Clear
   [distributeMock stopMocking];
   [utilityMock stopMocking];
+}
+
+- (void)testNotifyUpdateActionIgnoredWithoutReleaseDetails {
+
+  // If
+  id distributeMock = OCMPartialMock(self.sut);
+  [distributeMock setValue:nil forKey:@"releaseDetails"];
+  [distributeMock setValue:@YES forKey:@"updateFlowInProgress"];
+
+  // When
+  [distributeMock notifyUpdateAction:MSUpdateActionPostpone];
+
+  // Then
+  XCTAssertNil([self.settingsMock objectForKey:kMSPostponedTimestampKey]);
+  XCTAssertFalse(self.sut.updateFlowInProgress);
+
+  // Clear
+  [distributeMock stopMocking];
+}
+
+- (void)testNotifyUpdateActionIgnoredWhenUpdateFlowIsNotInProgress {
+
+  // If
+  id distributeMock = OCMPartialMock(self.sut);
+  [distributeMock setValue:OCMClassMock([MSReleaseDetails class]) forKey:@"releaseDetails"];
+  [distributeMock setValue:@NO forKey:@"updateFlowInProgress"];
+
+  // When
+  [distributeMock notifyUpdateAction:MSUpdateActionPostpone];
+
+  // Then
+  XCTAssertNil([self.settingsMock objectForKey:kMSPostponedTimestampKey]);
+  XCTAssertNil(self.sut.releaseDetails);
+
+  // Clear
+  [distributeMock stopMocking];
 }
 
 - (void)testSetDelegate {
@@ -2340,6 +2381,9 @@ static NSURL *sfURL;
 
   // When
   [distributeMock startUpdate];
+
+  // Then
+  XCTAssertFalse(self.sut.updateFlowInProgress);
 
   // Stop mocking
   [distributeMock stopMocking];
