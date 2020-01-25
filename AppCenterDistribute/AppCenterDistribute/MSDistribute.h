@@ -11,6 +11,19 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface MSDistribute : MSServiceAbstract
 
+typedef NS_ENUM(NSInteger, MSUpdateAction) {
+
+  /**
+   * Action to trigger update.
+   */
+  MSUpdateActionUpdate,
+
+  /**
+   * Action to postpone update.
+   */
+  MSUpdateActionPostpone
+};
+
 /**
  * Set a Distribute delegate
  *
