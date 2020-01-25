@@ -24,6 +24,24 @@ typedef NS_ENUM(NSInteger, MSUpdateAction) {
   MSUpdateActionPostpone
 };
 
+typedef NS_ENUM(NSInteger, MSUpdateTrack) {
+
+  /**
+   * A update track to get new releases from a public group without authentication.
+   */
+  MSUpdateTrackPublic = 1,
+
+  /**
+   * A update track to get new releases from a private group.
+   */
+  MSUpdateTrackPrivate = 2
+};
+
+/**
+ * Update track.
+ */
+@property(class, nonatomic) MSUpdateTrack updateTrack;
+
 /**
  * Set a Distribute delegate
  *

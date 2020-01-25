@@ -56,6 +56,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 @implementation MSDistribute
 
 @synthesize channelUnitConfiguration = _channelUnitConfiguration;
+@synthesize updateTrack = _updateTrack;
 
 #pragma mark - Service initialization
 
@@ -82,6 +83,9 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
       [MSKeychainUtil deleteStringForKey:kMSUpdateTokenKey];
       [MS_USER_DEFAULTS setObject:@(1) forKey:kMSSDKHasLaunchedWithDistribute];
     }
+
+    // Setup default value for update track.
+    _updateTrack = [MSDistributeUtil storedUpdateTrack];
 
     // Proceed update whenever an application is restarted in users perspective.
     [MS_NOTIFICATION_CENTER addObserver:self
@@ -253,6 +257,14 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   [[MSDistribute sharedInstance] setDelegate:delegate];
 }
 
++ (void)setUpdateTrack:(MSUpdateTrack)updateTrack {
+  [MSDistribute sharedInstance].updateTrack = updateTrack;
+}
+
++ (MSUpdateTrack)updateTrack {
+  return [MSDistribute sharedInstance].updateTrack;
+}
+
 #pragma mark - Private
 
 - (void)sendFirstSessionUpdateLog {
@@ -282,7 +294,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
       }
       self.updateFlowInProgress = YES;
     }
-    if (updateToken || distributionGroupId) {
+    if (updateToken || self.updateTrack == MSUpdateTrackPublic) {
       [self checkLatestRelease:updateToken distributionGroupId:distributionGroupId releaseHash:releaseHash];
     } else {
       [self requestInstallInformationWith:releaseHash];
@@ -458,15 +470,16 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
     // Build query strings.
     NSMutableDictionary *queryStrings = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary *reportingParametersForUpdatedRelease = [self getReportingParametersForUpdatedRelease:updateToken
-                                                                                  currentInstalledReleaseHash:releaseHash
-                                                                                          distributionGroupId:distributionGroupId];
+    NSMutableDictionary *reportingParametersForUpdatedRelease =
+        [self getReportingParametersForUpdatedRelease:(self.updateTrack == MSUpdateTrackPublic ? nil : updateToken)
+                          currentInstalledReleaseHash:releaseHash
+                                  distributionGroupId:distributionGroupId];
     if (reportingParametersForUpdatedRelease != nil) {
       [queryStrings addEntriesFromDictionary:reportingParametersForUpdatedRelease];
     }
     queryStrings[kMSURLQueryReleaseHashKey] = releaseHash;
 
-    if (updateToken) {
+    if (self.updateTrack == MSUpdateTrackPrivate) {
       [self.ingestion checkForPrivateUpdateWithUpdateToken:updateToken queryStrings:queryStrings completionHandler:completionHandler];
     } else {
       [self.ingestion checkForPublicUpdateWithQueryStrings:queryStrings completionHandler:completionHandler];
@@ -793,7 +806,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   [MS_USER_DEFAULTS removeObjectForKey:kMSDownloadedReleaseHashKey];
 }
 
-- (nullable NSMutableDictionary *)getReportingParametersForUpdatedRelease:(NSString *)updateToken
+- (nullable NSMutableDictionary *)getReportingParametersForUpdatedRelease:(nullable NSString *)updateToken
                                               currentInstalledReleaseHash:(NSString *)currentInstalledReleaseHash
                                                       distributionGroupId:(NSString *)distributionGroupId {
 
@@ -1114,6 +1127,28 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     MSLogDebug([MSDistribute logTag], @"Distribute service has been disabled, ignore request.");
   }
   return YES;
+}
+
+- (void)setUpdateTrack:(MSUpdateTrack)updateTrack {
+  @synchronized(self) {
+    if (![MSDistributeUtil isValidUpdateTrack:updateTrack]) {
+      MSLogError([MSDistribute logTag], @"Invalid argument passed to updateTrack.");
+      return;
+    }
+    if (_updateTrack != updateTrack) {
+      _updateTrack = updateTrack;
+      [MS_USER_DEFAULTS setObject:@(updateTrack) forKey:kMSDistributionUpdateTrackKey];
+    }
+    if (self.canBeUsed && self.isEnabled && !self.updateFlowInProgress) {
+      [self startUpdate];
+    }
+  }
+}
+
+- (MSUpdateTrack)updateTrack {
+  @synchronized(self) {
+    return _updateTrack;
+  }
 }
 
 - (void)applicationWillEnterForeground {
