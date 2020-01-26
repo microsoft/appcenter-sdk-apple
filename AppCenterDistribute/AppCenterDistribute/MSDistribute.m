@@ -56,6 +56,12 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 @implementation MSDistribute
 
 @synthesize channelUnitConfiguration = _channelUnitConfiguration;
+@synthesize updateTrack = _updateTrack;
+
+/**
+ * Checks that the current browser flow is complete.
+ */
+static BOOL isBrowserFlowFinished = YES;
 
 #pragma mark - Service initialization
 
@@ -82,6 +88,9 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
       [MSKeychainUtil deleteStringForKey:kMSUpdateTokenKey];
       [MS_USER_DEFAULTS setObject:@(1) forKey:kMSSDKHasLaunchedWithDistribute];
     }
+
+    // Setup default value for update track.
+    _updateTrack = [MSDistributeUtil storedUpdateTrack];
 
     // Proceed update whenever an application is restarted in users perspective.
     [MS_NOTIFICATION_CENTER addObserver:self
@@ -226,6 +235,16 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   [[MSDistribute sharedInstance] setDelegate:delegate];
 }
 
+#pragma mark - In-app updates
+
++ (void)setUpdateTrack:(MSUpdateTrack)updateTrack {
+  [MSDistribute sharedInstance].updateTrack = updateTrack;
+}
+
++ (MSUpdateTrack)updateTrack {
+  return [MSDistribute sharedInstance].updateTrack;
+}
+
 #pragma mark - Private
 
 - (void)sendFirstSessionUpdateLog {
@@ -249,7 +268,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
       return;
     }
     NSString *distributionGroupId = [MS_USER_DEFAULTS objectForKey:kMSDistributionGroupIdKey];
-    if (updateToken || distributionGroupId) {
+    if (updateToken || distributionGroupId || MSDistribute.updateTrack == MSUpdateTrackPublic) {
       [self checkLatestRelease:updateToken distributionGroupId:distributionGroupId releaseHash:releaseHash];
     } else {
       [self requestInstallInformationWith:releaseHash];
@@ -333,6 +352,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 - (void)checkLatestRelease:(NSString *)updateToken distributionGroupId:(NSString *)distributionGroupId releaseHash:(NSString *)releaseHash {
 
   // Check if it's okay to check for updates.
+  isBrowserFlowFinished = YES;
   if ([self checkForUpdatesAllowed]) {
 
     // Use persisted mandatory update while network is down.
@@ -345,8 +365,11 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
       }
     }
     if (self.ingestion == nil) {
+      BOOL isPublicTrack = MSDistribute.updateTrack == MSUpdateTrackPublic;
+      NSString *updateTokenByTrack = isPublicTrack ? nil : updateToken;
+
       NSMutableDictionary *queryStrings = [[NSMutableDictionary alloc] init];
-      NSMutableDictionary *reportingParametersForUpdatedRelease = [self getReportingParametersForUpdatedRelease:updateToken
+      NSMutableDictionary *reportingParametersForUpdatedRelease = [self getReportingParametersForUpdatedRelease:updateTokenByTrack
                                                                                     currentInstalledReleaseHash:releaseHash
                                                                                             distributionGroupId:distributionGroupId];
       if (reportingParametersForUpdatedRelease != nil) {
@@ -360,8 +383,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
       self.ingestion = [[MSDistributeIngestion alloc] initWithHttpClient:httpClient
                                                                  baseUrl:self.apiUrl
                                                                appSecret:self.appSecret
-                                                             updateToken:updateToken
-                                                     distributionGroupId:distributionGroupId
+                                                             updateToken:updateTokenByTrack
                                                             queryStrings:queryStrings];
       __weak typeof(self) weakSelf = self;
       [self.ingestion sendAsync:nil
@@ -559,6 +581,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
    */
 
   // TODO SFAuthenticationSession is deprecated, for iOS 12 use ASWebAuthenticationSession
+  isBrowserFlowFinished = NO;
   if (@available(iOS 11.0, *)) {
     dispatch_async(dispatch_get_main_queue(), ^{
       [self openURLInAuthenticationSessionWith:url];
@@ -587,6 +610,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
       return;
     }
     if (error) {
+      isBrowserFlowFinished = YES;
       MSLogDebug([MSDistribute logTag], @"Called %@ with error: %@", callbackUrl, error.localizedDescription);
     }
     if (error.code == SFAuthenticationErrorCanceledLogin) {
@@ -655,6 +679,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   dispatch_async(dispatch_get_main_queue(), ^{
     typeof(self) strongSelf = weakSelf;
     if (strongSelf && strongSelf.safariHostingViewController && !strongSelf.safariHostingViewController.isBeingDismissed) {
+      isBrowserFlowFinished = YES;
       [strongSelf.safariHostingViewController dismissViewControllerAnimated:YES completion:nil];
     }
   });
@@ -1109,6 +1134,28 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     MSLogDebug([MSDistribute logTag], @"Distribute service has been disabled, ignore request.");
   }
   return YES;
+}
+
+- (void)setUpdateTrack:(MSUpdateTrack)updateTrack {
+  @synchronized(self) {
+    if (![MSDistributeUtil isValidUpdateTrack:updateTrack]) {
+      MSLogError([MSDistribute logTag], @"Invalid argument passed to updateTrack.");
+      return;
+    }
+    if (_updateTrack != updateTrack) {
+      _updateTrack = updateTrack;
+      [MS_USER_DEFAULTS setObject:@(updateTrack) forKey:kMSDistributionUpdateTrackKey];
+    }
+    if (self.canBeUsed && self.isEnabled && isBrowserFlowFinished) {
+      [self startUpdate];
+    }
+  }
+}
+
+- (MSUpdateTrack)updateTrack {
+  @synchronized(self) {
+    return _updateTrack;
+  }
 }
 
 - (void)applicationWillEnterForeground {

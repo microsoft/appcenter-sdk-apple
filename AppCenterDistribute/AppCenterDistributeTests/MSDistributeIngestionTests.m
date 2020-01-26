@@ -42,7 +42,6 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
                                                        baseUrl:self.baseUrl
                                                      appSecret:kMSTestAppSecret
                                                    updateToken:self.updateToken
-                                           distributionGroupId:self.distributionGroupId
                                                   queryStrings:@{}];
 }
 

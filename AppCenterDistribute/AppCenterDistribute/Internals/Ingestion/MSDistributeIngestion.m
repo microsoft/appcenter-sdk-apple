@@ -15,13 +15,12 @@
  * The API paths for latest release requests.
  */
 static NSString *const kMSLatestPrivateReleaseApiPathFormat = @"/sdk/apps/%@/releases/latest";
-static NSString *const kMSLatestPublicReleaseApiPathFormat = @"/public/sdk/apps/%@/distribution_groups/%@/releases/latest";
+static NSString *const kMSLatestPublicReleaseApiPathFormat = @"/public/sdk/apps/%@/releases/latest";
 
 - (id)initWithHttpClient:(id<MSHttpClientProtocol>)httpClient
                  baseUrl:(NSString *)baseUrl
                appSecret:(NSString *)appSecret
              updateToken:(NSString *)updateToken
-     distributionGroupId:(NSString *)distributionGroupId
             queryStrings:(NSDictionary *)queryStrings {
   NSString *apiPath;
   NSDictionary *header = nil;
@@ -29,7 +28,7 @@ static NSString *const kMSLatestPublicReleaseApiPathFormat = @"/public/sdk/apps/
     apiPath = [NSString stringWithFormat:kMSLatestPrivateReleaseApiPathFormat, appSecret];
     header = @{kMSHeaderUpdateApiToken : updateToken};
   } else {
-    apiPath = [NSString stringWithFormat:kMSLatestPublicReleaseApiPathFormat, appSecret, distributionGroupId];
+    apiPath = [NSString stringWithFormat:kMSLatestPublicReleaseApiPathFormat, appSecret];
   }
   if ((self = [super initWithHttpClient:httpClient baseUrl:baseUrl apiPath:apiPath headers:header queryStrings:queryStrings])) {
     _appSecret = appSecret;

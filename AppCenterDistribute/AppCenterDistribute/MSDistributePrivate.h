@@ -86,6 +86,11 @@ static NSString *const kMSMandatoryReleaseKey = @"MSMandatoryRelease";
 static NSString *const kMSDistributionGroupIdKey = @"MSDistributionGroupId";
 
 /**
+ * The storage key for in-app updates track mode.
+ */
+static NSString *const kMSDistributionUpdateTrackKey = @"MSDistributionUpdateTrack";
+
+/**
  * The storage key for update setup failure package hash.
  */
 static NSString *const kMSUpdateSetupFailedPackageHashKey = @"MSUpdateSetupFailedPackageHash";
@@ -137,12 +142,20 @@ static NSString *const kMSTesterAppUpdateSetupFailedKey = @"MSTesterAppUpdateSet
  */
 @property(nonatomic) id<MSCustomApplicationDelegate> appDelegate;
 
+/**
+ * Authentication session instance.
+ */
 @property(nullable, nonatomic) SFAuthenticationSession *authenticationSession API_AVAILABLE(ios(11.0));
 
 /**
  * Distribute info tracking component which adds extra fields to logs.
  */
 @property(nonatomic) MSDistributeInfoTracker *distributeInfoTracker;
+
+/**
+ * Update track.
+ */
+@property(nonatomic) MSUpdateTrack updateTrack;
 
 /**
  * Returns the singleton instance. Meant for testing/demo apps only.

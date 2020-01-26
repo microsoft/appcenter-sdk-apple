@@ -155,6 +155,9 @@ static NSURL *sfURL;
   [self.alertControllerMock stopMocking];
   [self.distributeInfoTrackerMock stopMocking];
   [MSDistributeTestUtil unMockUpdatesAllowedConditions];
+
+  // Setup updateTrack to default mode.
+  MSDistribute.updateTrack = MSUpdateTrackPublic;
 }
 
 - (void)testInstallURL {
@@ -938,6 +941,7 @@ static NSURL *sfURL;
   NSString *token = @"TOKEN";
   NSString *scheme = [NSString stringWithFormat:kMSDefaultCustomSchemeFormat, kMSTestAppSecret];
   id distributeMock = OCMPartialMock(self.sut);
+  MSDistribute.updateTrack = MSUpdateTrackPrivate;
   OCMReject([distributeMock checkLatestRelease:OCMOCK_ANY distributionGroupId:OCMOCK_ANY releaseHash:OCMOCK_ANY]);
   OCMStub([distributeMock sharedInstance]).andReturn(distributeMock);
   id appCenterMock = OCMClassMock([MSAppCenter class]);
@@ -960,6 +964,7 @@ static NSURL *sfURL;
                         fromApplication:YES];
 
   // Enable again.
+  MSDistribute.updateTrack = MSUpdateTrackPrivate;
   [distributeMock setEnabled:YES];
 
   url = [NSURL URLWithString:@"invalid://?"];
@@ -1219,6 +1224,7 @@ static NSURL *sfURL;
 
   // If
   NSDictionary<NSString *, id> *plist = @{@"CFBundleShortVersionString" : @"1.0", @"CFBundleVersion" : @"1"};
+  MSDistribute.updateTrack = MSUpdateTrackPrivate;
   OCMStub([self.bundleMock infoDictionary]).andReturn(plist);
   id distributeMock = OCMPartialMock(self.sut);
   OCMStub([distributeMock checkLatestRelease:OCMOCK_ANY distributionGroupId:OCMOCK_ANY releaseHash:OCMOCK_ANY]).andDo(nil);
@@ -1274,6 +1280,7 @@ static NSURL *sfURL;
 
   // If
   [MSDistributeTestUtil unMockUpdatesAllowedConditions];
+  MSDistribute.updateTrack = MSUpdateTrackPrivate;
   id appCenterMock = OCMClassMock([MSAppCenter class]);
   id distributeMock = OCMPartialMock(self.sut);
   id guidedAccessMock = OCMClassMock([MSGuidedAccessUtil class]);
@@ -1416,6 +1423,7 @@ static NSURL *sfURL;
 
   // If
   [MSDistributeTestUtil unMockUpdatesAllowedConditions];
+  MSDistribute.updateTrack = MSUpdateTrackPrivate;
   id appCenterMock = OCMClassMock([MSAppCenter class]);
   id distributeMock = OCMPartialMock(self.sut);
   id guidedAccessMock = OCMClassMock([MSGuidedAccessUtil class]);
@@ -1445,6 +1453,7 @@ static NSURL *sfURL;
 
   // If
   id reachabilityMock = OCMClassMock([MS_Reachability class]);
+  MSDistribute.updateTrack = MSUpdateTrackPrivate;
   OCMStub([reachabilityMock reachabilityForInternetConnection]).andReturn(reachabilityMock);
   OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(ReachableViaWiFi);
   [MSDistributeTestUtil unMockUpdatesAllowedConditions];
@@ -1481,6 +1490,7 @@ static NSURL *sfURL;
 
   // If
   id reachabilityMock = OCMClassMock([MS_Reachability class]);
+  MSDistribute.updateTrack = MSUpdateTrackPrivate;
   OCMStub([reachabilityMock reachabilityForInternetConnection]).andReturn(reachabilityMock);
   OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(ReachableViaWiFi);
   [MSDistributeTestUtil unMockUpdatesAllowedConditions];
@@ -2240,6 +2250,7 @@ static NSURL *sfURL;
   // If
   id keychainMock = OCMClassMock([MSKeychainUtil class]);
   id distributeMock = OCMPartialMock(self.sut);
+  MSDistribute.updateTrack = MSUpdateTrackPrivate;
 
   // Mock the HTTP client.
   id httpClientMock = OCMPartialMock([MSHttpClient new]);
