@@ -23,4 +23,20 @@
   block();
 }
 
++ (NSInvocation *)performSelector:(id)source withSelector:(NSString *)selector withObjects:(NSArray *)objects {
+  SEL selectors = NSSelectorFromString(selector);
+  NSMethodSignature *signature = [(NSObject *)source methodSignatureForSelector:selectors];
+  NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:signature];
+  [invocation setTarget:source];
+  [invocation setSelector:selectors];
+  int index = 2;
+  for (id value in objects) {
+    void *values = (__bridge void *)value;
+    [invocation setArgument:&values atIndex:index++];
+  }
+  [invocation retainArguments];
+  [invocation invoke];
+  return invocation;
+}
+
 @end

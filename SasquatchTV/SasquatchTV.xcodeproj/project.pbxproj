@@ -43,10 +43,6 @@
 		80F991631F0267B40040FAD7 /* CrashesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F991611F0267B40040FAD7 /* CrashesViewController.swift */; };
 		80F9916B1F027D250040FAD7 /* CrashesDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F9916A1F027D250040FAD7 /* CrashesDetailViewController.swift */; };
 		80F9916C1F027D250040FAD7 /* CrashesDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F9916A1F027D250040FAD7 /* CrashesDetailViewController.swift */; };
-		B202CB39210B83EB00CAF394 /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = B202CB38210B83EB00CAF394 /* MSAlertController.m */; };
-		B202CB3A210B83EB00CAF394 /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = B202CB38210B83EB00CAF394 /* MSAlertController.m */; };
-		B202CB3B210B83EB00CAF394 /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = B202CB38210B83EB00CAF394 /* MSAlertController.m */; };
-		B202CB3C210B83EB00CAF394 /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = B202CB38210B83EB00CAF394 /* MSAlertController.m */; };
 		B25AE81C210A79FB00CC07A9 /* AppCenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C481BA31EE586D2009329DD /* AppCenterProtocol.swift */; };
 		B25AE81D210A79FB00CC07A9 /* CrashesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F991611F0267B40040FAD7 /* CrashesViewController.swift */; };
 		B25AE81E210A79FB00CC07A9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D322EFF11E8E97DF00A8EDA5 /* AppDelegate.m */; };
@@ -234,8 +230,6 @@
 		801C25641F040F3C00F4859B /* CrashLibTV.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CrashLibTV.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		80F991611F0267B40040FAD7 /* CrashesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = CrashesViewController.swift; sourceTree = "<group>"; tabWidth = 2; };
 		80F9916A1F027D250040FAD7 /* CrashesDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrashesDetailViewController.swift; sourceTree = "<group>"; };
-		B202CB37210B83EB00CAF394 /* MSAlertController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSAlertController.h; path = ../../Vendor/iOS/MSAlertController/MSAlertController.h; sourceTree = "<group>"; };
-		B202CB38210B83EB00CAF394 /* MSAlertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSAlertController.m; path = ../../Vendor/iOS/MSAlertController/MSAlertController.m; sourceTree = "<group>"; };
 		B2181B7D1F268AAD00D2EEAE /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		B25AE838210A79FB00CC07A9 /* SasquatchTVObjC-Preview.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SasquatchTVObjC-Preview.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B25AE856210A7B8A00CC07A9 /* SasquatchTVSwift-Preview.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SasquatchTVSwift-Preview.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -345,23 +339,6 @@
 			path = Utils;
 			sourceTree = "<group>";
 		};
-		B202CB35210B83AA00CAF394 /* Vendor */ = {
-			isa = PBXGroup;
-			children = (
-				B202CB36210B83B500CAF394 /* MSAlertController */,
-			);
-			name = Vendor;
-			sourceTree = "<group>";
-		};
-		B202CB36210B83B500CAF394 /* MSAlertController */ = {
-			isa = PBXGroup;
-			children = (
-				B202CB37210B83EB00CAF394 /* MSAlertController.h */,
-				B202CB38210B83EB00CAF394 /* MSAlertController.m */,
-			);
-			name = MSAlertController;
-			sourceTree = "<group>";
-		};
 		C22AA7232334F5DC003D6D05 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -410,7 +387,6 @@
 		D322EFC41E8E97A100A8EDA5 /* SasquatchTV */ = {
 			isa = PBXGroup;
 			children = (
-				B202CB35210B83AA00CAF394 /* Vendor */,
 				3577094D2017FBEF00E465B6 /* EventFilter */,
 				5CB338A31EE59C0F0089A60B /* AppCenterDelegate.swift */,
 				5C481BA31EE586D2009329DD /* AppCenterProtocol.swift */,
@@ -922,7 +898,6 @@
 				B25AE826210A79FB00CC07A9 /* AppCenterDelegate.swift in Sources */,
 				B25AE827210A79FB00CC07A9 /* EventFilterViewController.swift in Sources */,
 				B25AE828210A79FB00CC07A9 /* MSEventFilter.m in Sources */,
-				B202CB3A210B83EB00CAF394 /* MSAlertController.m in Sources */,
 				B25AE829210A79FB00CC07A9 /* AppCenterDelegateObjC.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -941,7 +916,6 @@
 				B25AE843210A7B8A00CC07A9 /* CrashesDetailViewController.swift in Sources */,
 				B25AE845210A7B8A00CC07A9 /* MSEventFilter.m in Sources */,
 				B25AE846210A7B8A00CC07A9 /* EventFilterViewController.swift in Sources */,
-				B202CB3C210B83EB00CAF394 /* MSAlertController.m in Sources */,
 				B25AE847210A7B8A00CC07A9 /* AppCenterProtocol.swift in Sources */,
 				B25AE848210A7B8A00CC07A9 /* AnalyticsViewController.swift in Sources */,
 			);
@@ -961,7 +935,6 @@
 				80F9916C1F027D250040FAD7 /* CrashesDetailViewController.swift in Sources */,
 				35C6AE03201BCFBE009F29AE /* MSEventFilter.m in Sources */,
 				35427402201272AB00BE766F /* EventFilterViewController.swift in Sources */,
-				B202CB3B210B83EB00CAF394 /* MSAlertController.m in Sources */,
 				5C481BA71EE586D2009329DD /* AppCenterProtocol.swift in Sources */,
 				5C481B9D1EE5794A009329DD /* AnalyticsViewController.swift in Sources */,
 			);
@@ -983,7 +956,6 @@
 				5CB338A41EE59C0F0089A60B /* AppCenterDelegate.swift in Sources */,
 				35427403201272AB00BE766F /* EventFilterViewController.swift in Sources */,
 				358F9BD0201963A000B9E22C /* MSEventFilter.m in Sources */,
-				B202CB39210B83EB00CAF394 /* MSAlertController.m in Sources */,
 				5CB338A21EE59B4B0089A60B /* AppCenterDelegateObjC.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -897,6 +897,51 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
   XCTAssertFalse([obfuscatedString rangeOfString:kMSRedirectUriObfuscatedTemplate].location == NSNotFound);
 }
 
+- (void)testDispatchObjectMacro {
+
+  // If
+  NSMutableArray *array = [NSMutableArray new];
+  NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
+  [indexSet addIndex:0];
+  [array addObject:@"test"];
+
+  // When
+  NSArray *result = MS_DISPATCH_SELECTOR(__bridge NSArray *, array, objectsAtIndexes:, indexSet);
+
+  // Then
+  XCTAssertEqual(result.count, 1);
+}
+
+- (void)testMacroArrayPassNil {
+  NSArray *array = ARRAY_FROM_ARGS(@1, @2, nil);
+
+  XCTAssertEqual([array count], 2);
+}
+
+- (void)testDispatchMacroReturnVoid {
+
+  // If
+  NSMutableString *testString = [NSMutableString stringWithFormat:@"test"];
+
+  // When
+  MS_DISPATCH_SELECTOR_VOID(testString, appendString:, @"1");
+
+  // Then
+  XCTAssertEqualObjects(testString, @"test1");
+}
+
+- (void)testPerformSelectorWithObjects {
+
+  // If
+  NSMutableArray *array = [NSMutableArray new];
+
+  // When
+  [MSDispatcherUtil performSelector:array withSelector:@"addObject:" withObjects:@[ @"testValue" ]];
+
+  // Then
+  XCTAssertEqual(array.count, 1);
+}
+
 - (void)testPerformBlockOnMainThread {
 
   // If
