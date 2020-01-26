@@ -918,6 +918,19 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
   XCTAssertEqual([array count], 2);
 }
 
+- (void)testMacroPassArgsWithNull {
+
+  // If
+  typedef void (^handler)(NSString *firstArg, NSString *secondArg);
+  handler test = ^void (NSString *firstArg, NSString *secondArg) {
+    XCTAssertNil(firstArg);
+    XCTAssertEqualObjects(secondArg, @"test1");
+  };
+
+  // Then
+  MS_DISPATCH_SELECTOR_VOID(self, callWithArgs:secondArg:completionHandler:, [NSNull null], @"test1", test);
+}
+
 - (void)testDispatchMacroReturnVoid {
 
   // If
@@ -994,6 +1007,10 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
 
 - (void)methodToCall:(NSString *)str completionHandler:(void (^)(NSString *string))completion {
   completion(str);
+}
+
+- (void)callWithArgs:(NSString *)first secondArg:(NSString *)second completionHandler:(void (^)(NSString *firstArg, NSString *secondArg))completion {
+  completion(first,second);
 }
 
 @end

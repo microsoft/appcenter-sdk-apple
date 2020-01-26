@@ -3,6 +3,9 @@
 
 #import <Foundation/Foundation.h>
 
+/*
+ * Convert sent arguments to an array. When you want to pass nil, replace it's value with [NSNull null].
+ */
 #define ARRAY_FROM_ARGS(...)                                                                                                               \
   ({                                                                                                                                       \
     NSMutableArray *initedArray = [NSMutableArray arrayWithObjects:[NSNull null], ##__VA_ARGS__, nil];                                     \

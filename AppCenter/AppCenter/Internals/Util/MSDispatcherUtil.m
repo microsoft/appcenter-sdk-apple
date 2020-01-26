@@ -31,6 +31,10 @@
   [invocation setSelector:selectors];
   int index = 2;
   for (id value in objects) {
+    if (value == [NSNull null]) {
+        index++;
+        continue;
+    }
     void *values = (__bridge void *)value;
     [invocation setArgument:&values atIndex:index++];
   }
