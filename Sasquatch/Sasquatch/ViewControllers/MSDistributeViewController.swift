@@ -44,9 +44,7 @@ class MSDistributeViewController: UITableViewController, AppCenterProtocol {
     super.viewDidLoad()
     self.customized.isOn = UserDefaults.init().bool(forKey: kSASCustomizedUpdateAlertKey)
     self.preStartSwitch.isOn = UserDefaults.standard.value(forKey: kMSUpdateTrackBeforeStartValue) != nil
-
     prepareUpdatePicker()
-
     self.updateTrack = UpdateTrack.getSelf(by: MSDistribute.updateTrack)
   }
 

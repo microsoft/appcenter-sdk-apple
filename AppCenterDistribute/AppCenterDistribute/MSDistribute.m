@@ -268,7 +268,7 @@ static BOOL isBrowserFlowFinished = YES;
       return;
     }
     NSString *distributionGroupId = [MS_USER_DEFAULTS objectForKey:kMSDistributionGroupIdKey];
-    if (updateToken || MSDistribute.updateTrack == MSUpdateTrackPublic) {
+    if (updateToken || distributionGroupId || MSDistribute.updateTrack == MSUpdateTrackPublic) {
       [self checkLatestRelease:updateToken distributionGroupId:distributionGroupId releaseHash:releaseHash];
     } else {
       [self requestInstallInformationWith:releaseHash];
