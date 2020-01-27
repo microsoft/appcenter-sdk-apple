@@ -35,10 +35,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   self.baseUrl = @"https://contoso.com";
   self.updateToken = @"updateToken";
   self.distributionGroupId = @"groupId";
-
-  // TODO: Remove hard-coded distribution group ID.
-  self.actualPublicUrl = [NSString stringWithFormat:@"%@/public/sdk/apps/%@/distribution_groups/%@/releases/latest", self.baseUrl,
-                                                    kMSTestAppSecret, @"09d6e425-bdd3-40f5-afcf-0e187fdbb628"];
+  self.actualPublicUrl = [NSString stringWithFormat:@"%@/public/sdk/apps/%@/releases/latest", self.baseUrl, kMSTestAppSecret];
   self.actualPrivateUrl = [NSString stringWithFormat:@"%@/sdk/apps/%@/releases/latest", self.baseUrl, kMSTestAppSecret];
   self.httpClientMock = OCMPartialMock([MSHttpClient new]);
   self.httpClientClassMock = OCMClassMock([MSHttpClient class]);
@@ -140,22 +137,28 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [mockLogger stopMocking];
 }
 
-- (void)testHttpClientDelegateObfuscateHeaderValue {
+- (void)testHttpClientDelegateObfuscateURLAndHeaderValue {
 
   // If
   id mockLogger = OCMClassMock([MSLogger class]);
   id mockHttpUtil = OCMClassMock([MSHttpUtil class]);
   OCMStub([mockLogger currentLogLevel]).andReturn(MSLogLevelVerbose);
-  OCMStub(ClassMethod([mockHttpUtil hideSecret:OCMOCK_ANY])).andDo(nil);
-  NSString *appSecret = @"TestAppSecret";
+  __block NSString *appSecret = @"TestAppSecret";
+  __block int count = 0;
   NSDictionary<NSString *, NSString *> *headers = @{kMSHeaderUpdateApiToken : appSecret};
-  NSURL *url = [NSURL new];
+  NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", kMSDefaultApiUrl, kMSTestAppSecret]];
+  OCMStub(ClassMethod([mockHttpUtil hideSecret:OCMOCK_ANY]))
+      .andDo(^(NSInvocation *__unused invocation) {
+        count++;
+      })
+      .andReturn(@"");
 
   // When
   [self.sut willSendHTTPRequestToURL:url withHeaders:headers];
 
   // Then
   OCMVerify([mockHttpUtil hideSecret:appSecret]);
+  XCTAssertEqual(count, 1);
   [mockLogger stopMocking];
   [mockHttpUtil stopMocking];
 }

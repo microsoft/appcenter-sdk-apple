@@ -1342,22 +1342,22 @@ static NSURL *sfURL;
   OCMStub([appCenterMock isConfigured]).andReturn(YES);
 
   // Recreate service.
-  self.sut = [MSDistribute new];
-  self.sut.distributeInfoTracker = self.distributeInfoTrackerMock;
-  [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
-                        appSecret:kMSTestAppSecret
-          transmissionTargetToken:nil
-                  fromApplication:YES];
+  MSDistribute *distribute = [MSDistribute new];
+  distribute.distributeInfoTracker = self.distributeInfoTrackerMock;
+  [distribute startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
+                          appSecret:kMSTestAppSecret
+            transmissionTargetToken:nil
+                    fromApplication:YES];
 
   // Then
-  XCTAssertNil(self.sut.authenticationSession);
+  XCTAssertNil(distribute.authenticationSession);
 
   // When
-  [self.sut openURLInAuthenticationSessionWith:fakeURL];
+  [distribute openURLInAuthenticationSessionWith:fakeURL];
 
   // Then
-  XCTAssertNotNil(self.sut.authenticationSession);
-  XCTAssert([self.sut.authenticationSession isKindOfClass:[SFAuthenticationSession class]]);
+  XCTAssertNotNil(distribute.authenticationSession);
+  XCTAssert([distribute.authenticationSession isKindOfClass:[SFAuthenticationSession class]]);
 
   // Clear
   [appCenterMock stopMocking];
@@ -2656,7 +2656,7 @@ static NSURL *sfURL;
                               appSecret:kMSTestAppSecret
                 transmissionTargetToken:nil
                         fromApplication:YES];
-  NSString *urlPath = [NSString stringWithFormat:kMSDefaultURLFormat, kMSTestAppSecret];
+  NSString *urlPath = [NSString stringWithFormat:@"%@/%@", kMSDefaultURLFormat, kMSTestAppSecret];
   NSURLComponents *components = [NSURLComponents componentsWithString:urlPath];
   [distributeMock openURLInAuthenticationSessionWith:components.URL];
 
