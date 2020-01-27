@@ -18,7 +18,7 @@
 
 ### App Center Distribute
 
-* **[Breaking change]** Add `setUpdateTrack` method to be able to explicitly set either **public** or **private** update track. By default, a public distribution group will be used.
+* **[Breaking change]** Add `setUpdateTrack` method to be able to explicitly set either `MSUpdateTrackPrivate` or `MSUpdateTrackPublic` update track. By default, a public distribution group will be used.
 * **[Fix]** Fix a crash when `SFAuthenticationSession` accesses the controller which is in the process of being released.
 * **[Fix]** Fix sign-in when switching to third-party apps while activating updates.
 
