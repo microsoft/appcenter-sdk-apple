@@ -535,8 +535,8 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
   // Check URL validity so far.
   if (!components) {
-    NSString *hideUrl = [urlString stringByReplacingOccurrencesOfString:appSecret withString:[MSHttpUtil hideSecret:urlString]];
-    MSLogError([MSDistribute logTag], kMSUpdateTokenURLInvalidErrorDescFormat, hideUrl);
+    NSString *obfuscatedUrl = [urlString stringByReplacingOccurrencesOfString:appSecret withString:[MSHttpUtil hideSecret:urlString]];
+    MSLogError([MSDistribute logTag], kMSUpdateTokenURLInvalidErrorDescFormat, obfuscatedUrl);
     return nil;
   }
 
@@ -590,9 +590,9 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 }
 
 - (void)openURLInAuthenticationSessionWith:(NSURL *)url API_AVAILABLE(ios(11)) {
-  NSString *hideUrl = [url.absoluteString stringByReplacingOccurrencesOfString:self.appSecret
-                                                                    withString:[MSHttpUtil hideSecret:url.absoluteString]];
-  MSLogDebug([MSDistribute logTag], @"Using SFAuthenticationSession to open URL: %@", hideUrl);
+  NSString *obfuscatedUrl = [url.absoluteString stringByReplacingOccurrencesOfString:self.appSecret
+                                                                          withString:[MSHttpUtil hideSecret:url.absoluteString]];
+  MSLogDebug([MSDistribute logTag], @"Using SFAuthenticationSession to open URL: %@", obfuscatedUrl);
   NSString *callbackUrlScheme = [NSString stringWithFormat:kMSDefaultCustomSchemeFormat, self.appSecret];
 
   // The completion block that we need to invoke.

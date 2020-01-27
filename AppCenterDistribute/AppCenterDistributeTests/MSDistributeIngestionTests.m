@@ -158,7 +158,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
   // Then
   OCMVerify([mockHttpUtil hideSecret:appSecret]);
-  XCTAssertEqual(count, 1);
+  XCTAssertEqual(count, 2);
   [mockLogger stopMocking];
   [mockHttpUtil stopMocking];
 }

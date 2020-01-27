@@ -65,7 +65,9 @@ static NSString *const kMSLatestPublicReleaseApiPathFormat = @"/public/sdk/apps/
     }];
 
     // Log URL and headers.
-    MSLogVerbose([MSAppCenter logTag], @"URL: %@", url);
+    NSString *obfuscatedUrl = [url.absoluteString stringByReplacingOccurrencesOfString:self.appSecret
+                                                                            withString:[MSHttpUtil hideSecret:url.absoluteString]];
+    MSLogVerbose([MSAppCenter logTag], @"URL: %@", obfuscatedUrl);
     MSLogVerbose([MSAppCenter logTag], @"Headers: %@", [flattenedHeaders componentsJoinedByString:@", "]);
   }
 }
