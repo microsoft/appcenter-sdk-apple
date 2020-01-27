@@ -153,7 +153,7 @@ static NSString *const kMSTesterAppUpdateSetupFailedKey = @"MSTesterAppUpdateSet
 @property(nonatomic) MSDistributeInfoTracker *distributeInfoTracker;
 
 /**
- * Update track.
+ * A property to store the in-app updates track mode.
  */
 @property(nonatomic) MSUpdateTrack updateTrack;
 

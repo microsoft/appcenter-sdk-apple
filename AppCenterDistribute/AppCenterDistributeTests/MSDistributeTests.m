@@ -2664,7 +2664,7 @@ static NSURL *sfURL;
 
 - (void)testReadAndSetUpdateTrack {
 
-  // Default state is public
+  // Default state is public.
   XCTAssertEqual(MSDistribute.updateTrack, MSUpdateTrackPublic);
 
   MSDistribute.updateTrack = MSUpdateTrackPrivate;
@@ -2796,41 +2796,41 @@ static NSURL *sfURL;
 
 - (void)testSwitchTrackAfterCallCompletes {
 
-    // If
-    id utilityMock = [self mockMSPackageHash];
-    self.sut.appSecret = kMSTestAppSecret;
-    id distributeMock = OCMPartialMock(self.sut);
-    OCMStub([distributeMock canBeUsed]).andReturn(YES);
-    id httpClientMock = OCMPartialMock([MSHttpClient new]);
-    id httpClientClassMock = OCMClassMock([MSHttpClient class]);
-    OCMStub([httpClientClassMock alloc]).andReturn(httpClientMock);
-    OCMStub([httpClientMock initWithMaxHttpConnectionsPerHost:4]).andReturn(httpClientMock);
-    id reachabilityMock = OCMClassMock([MS_Reachability class]);
-    OCMStub([reachabilityMock reachabilityForInternetConnection]).andReturn(reachabilityMock);
-    OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(ReachableViaWiFi);
-    dispatch_semaphore_t networkSemaphore = dispatch_semaphore_create(0);
-    OCMStub([httpClientMock requestCompletedWithHttpCall:OCMOCK_ANY data:OCMOCK_ANY response:OCMOCK_ANY error:OCMOCK_ANY])
-    .andForwardToRealObject()
-    .andDo(^(__unused NSInvocation *invocation) {
+  // If
+  id utilityMock = [self mockMSPackageHash];
+  self.sut.appSecret = kMSTestAppSecret;
+  id distributeMock = OCMPartialMock(self.sut);
+  OCMStub([distributeMock canBeUsed]).andReturn(YES);
+  id httpClientMock = OCMPartialMock([MSHttpClient new]);
+  id httpClientClassMock = OCMClassMock([MSHttpClient class]);
+  OCMStub([httpClientClassMock alloc]).andReturn(httpClientMock);
+  OCMStub([httpClientMock initWithMaxHttpConnectionsPerHost:4]).andReturn(httpClientMock);
+  id reachabilityMock = OCMClassMock([MS_Reachability class]);
+  OCMStub([reachabilityMock reachabilityForInternetConnection]).andReturn(reachabilityMock);
+  OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(ReachableViaWiFi);
+  dispatch_semaphore_t networkSemaphore = dispatch_semaphore_create(0);
+  OCMStub([httpClientMock requestCompletedWithHttpCall:OCMOCK_ANY data:OCMOCK_ANY response:OCMOCK_ANY error:OCMOCK_ANY])
+      .andForwardToRealObject()
+      .andDo(^(__unused NSInvocation *invocation) {
         dispatch_semaphore_signal(networkSemaphore);
-    });
+      });
 
-    // When
-    [distributeMock setUpdateTrack:MSUpdateTrackPublic];
+  // When
+  [distributeMock setUpdateTrack:MSUpdateTrackPublic];
 
-    // Wait for the end of the request
-    dispatch_semaphore_wait(networkSemaphore, DISPATCH_TIME_FOREVER);
-    [distributeMock setUpdateTrack:MSUpdateTrackPrivate];
+  // Wait for the end of the request.
+  dispatch_semaphore_wait(networkSemaphore, DISPATCH_TIME_FOREVER);
+  [distributeMock setUpdateTrack:MSUpdateTrackPrivate];
 
-    // Then
-    OCMVerify([distributeMock requestInstallInformationWith:OCMOCK_ANY]);
+  // Then
+  OCMVerify([distributeMock requestInstallInformationWith:OCMOCK_ANY]);
 
-    // Stop mocking
-    [utilityMock stopMocking];
-    [distributeMock stopMocking];
-    [httpClientMock stopMocking];
-    [httpClientClassMock stopMocking];
-    [reachabilityMock stopMocking];
+  // Stop mocking
+  [utilityMock stopMocking];
+  [distributeMock stopMocking];
+  [httpClientMock stopMocking];
+  [httpClientClassMock stopMocking];
+  [reachabilityMock stopMocking];
 }
 
 @end

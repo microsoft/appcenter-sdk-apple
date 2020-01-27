@@ -15,7 +15,8 @@
  * The API paths for latest release requests.
  */
 static NSString *const kMSLatestPrivateReleaseApiPathFormat = @"/sdk/apps/%@/releases/latest";
-static NSString *const kMSLatestPublicReleaseApiPathFormat = @"/public/sdk/apps/%@/releases/latest";
+static NSString *const kMSLatestPublicReleaseApiPathFormat =
+    @"/public/sdk/apps/%@/distribution_groups/1c930bd6-d8cc-4b16-ad7c-cbcb4504a6d8/releases/latest";
 
 - (id)initWithHttpClient:(id<MSHttpClientProtocol>)httpClient
                  baseUrl:(NSString *)baseUrl
