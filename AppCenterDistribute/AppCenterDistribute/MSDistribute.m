@@ -423,7 +423,13 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
               // Check if downloaded release was installed and remove stored release details.
               [self removeDownloadedReleaseDetailsIfUpdated:releaseHash];
-
+              
+              // If there is not already a saved public distribution group, process it now.
+              NSString* existingDistributionGroupId = [MS_USER_DEFAULTS objectForKey:kMSDistributionGroupIdKey];
+              if (!existingDistributionGroupId && details.distributionGroupId) {
+                [self processDistributionGroupId:details.distributionGroupId];
+              }
+              
               /*
                * Handle this update.
                *
@@ -1041,7 +1047,6 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     NSString *queryUpdateToken = nil;
     NSString *queryUpdateSetupFailed = nil;
     NSString *queryTesterAppUpdateSetupFailed = nil;
-    NSString *latestSessionId = nil;
     NSURLComponents *components = [NSURLComponents componentsWithURL:url resolvingAgainstBaseURL:NO];
 
     // Read mandatory parameters from URL query string.
@@ -1073,20 +1078,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     // Store distribution group ID.
     if (queryDistributionGroupId) {
       MSLogDebug([MSDistribute logTag], @"Distribution group ID has been successfully retrieved. Store the ID to storage.");
-
-      // Storing the distribution group ID to storage.
-      [MS_USER_DEFAULTS setObject:queryDistributionGroupId forKey:kMSDistributionGroupIdKey];
-
-      // Update distribution group ID which is added to logs.
-      [self.distributeInfoTracker updateDistributionGroupId:queryDistributionGroupId];
-
-      // Only if we have managed to retrieve the Distribution group ID we should update the distribution session count.
-      latestSessionId = [[MSSessionContext sharedInstance] sessionIdAt:[NSDate date]];
-
-      // If Analytics SDK is disabled session Id is null and there is no need to update the distribution session count.
-      if (latestSessionId) {
-        [self sendFirstSessionUpdateLog];
-      }
+      [self processDistributionGroupId:queryDistributionGroupId];
     }
 
     /*
@@ -1127,6 +1119,23 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     MSLogDebug([MSDistribute logTag], @"Distribute service has been disabled, ignore request.");
   }
   return YES;
+}
+
+- (void)processDistributionGroupId:(NSString *)queryDistributionGroupId {
+  
+  // Storing the distribution group ID to storage.
+  [MS_USER_DEFAULTS setObject:queryDistributionGroupId forKey:kMSDistributionGroupIdKey];
+
+  // Update distribution group ID which is added to logs.
+  [self.distributeInfoTracker updateDistributionGroupId:queryDistributionGroupId];
+
+  // Only if we have managed to retrieve the Distribution group ID we should update the distribution session count.
+  NSString *latestSessionId = [[MSSessionContext sharedInstance] sessionIdAt:[NSDate date]];
+
+  // If Analytics SDK is disabled session Id is null and there is no need to update the distribution session count.
+  if (latestSessionId) {
+    [self sendFirstSessionUpdateLog];
+  }
 }
 
 - (void)setUpdateTrack:(MSUpdateTrack)updateTrack {
