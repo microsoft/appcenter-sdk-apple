@@ -127,6 +127,7 @@ NSString *MSPackageHash(void) {
   if (updateTrack && [self isValidUpdateTrack:[updateTrack intValue]]) {
     return [updateTrack intValue];
   }
+  MSLogWarning([MSDistribute logTag], @"Corrupted stored update track, switching to public.");
   return MSUpdateTrackPublic;
 }
 
