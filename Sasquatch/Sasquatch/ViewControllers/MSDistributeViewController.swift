@@ -13,15 +13,15 @@ class MSDistributeViewController: UITableViewController, AppCenterProtocol {
   var appCenter: AppCenterDelegate!
 
   enum UpdateTrack: String {
-     case Public = "Public"
-     case Private = "Private"
+    case Public = "Public"
+    case Private = "Private"
 
-     var state: MSUpdateTrack {
-        switch self {
-        case .Public: return .public
-        case .Private: return .private
-        }
-     }
+    var state: MSUpdateTrack {
+       switch self {
+       case .Public: return .public
+       case .Private: return .private
+       }
+    }
 
     static func getSelf(by track: MSUpdateTrack) -> UpdateTrack {
        switch track {
@@ -30,7 +30,7 @@ class MSDistributeViewController: UITableViewController, AppCenterProtocol {
        }
     }
 
-     static let allValues = [Public, Private]
+    static let allValues = [Public, Private]
   }
 
   private var updatePicker: MSEnumPicker<UpdateTrack>?
@@ -47,10 +47,7 @@ class MSDistributeViewController: UITableViewController, AppCenterProtocol {
 
     prepareUpdatePicker()
 
-    if let storedTrack = UserDefaults.standard.value(forKey: kMSUpdateTrackBeforeStartValue) as? Int,
-       let msTrack = MSUpdateTrack(rawValue: storedTrack) {
-        self.updateTrackField.text =  UpdateTrack.getSelf(by: msTrack).rawValue
-    }
+    self.updateTrack = UpdateTrack.getSelf(by: MSDistribute.updateTrack)
   }
 
   private func prepareUpdatePicker() {
@@ -67,7 +64,6 @@ class MSDistributeViewController: UITableViewController, AppCenterProtocol {
             }
     })
     self.updateTrackField.delegate = self.updatePicker
-    self.updateTrackField.text = self.updateTrack.rawValue
     self.updateTrackField.tintColor = UIColor.clear
   }
   
@@ -85,7 +81,7 @@ class MSDistributeViewController: UITableViewController, AppCenterProtocol {
   }
 
   @IBAction func preStartSwitchUpdated(_ sender: Any) {
-    let startTrackValue = preStartSwitch.isOn ? updateTrack.state.rawValue : nil
+    let startTrackValue = preStartSwitch.isOn ? UpdateTrack.getSelf(by: MSDistribute.updateTrack).state.rawValue : nil
     UserDefaults.standard.set(startTrackValue, forKey: kMSUpdateTrackBeforeStartValue)
   }
 
