@@ -2664,7 +2664,7 @@ static NSURL *sfURL;
 
 - (void)testReadAndSetUpdateTrack {
 
-  // Basic state
+  // Default state is public
   XCTAssertEqual(MSDistribute.updateTrack, MSUpdateTrackPublic);
 
   MSDistribute.updateTrack = MSUpdateTrackPrivate;
@@ -2725,6 +2725,112 @@ static NSURL *sfURL;
   // Clear
   [utilityMock stopMocking];
   [distributeMock stopMocking];
+}
+
+- (void)testInvalidPersistedTrackFallsBackToPublic {
+
+  // If
+  [self.settingsMock setObject:@(333) forKey:kMSDistributionUpdateTrackKey];
+
+  // When
+  id sut = [MSDistribute new];
+
+  // Then
+  XCTAssertEqual([sut updateTrack], MSUpdateTrackPublic);
+}
+
+- (void)testPersistValueWhenDisabled {
+
+  // If
+  [self.sut setEnabled:NO];
+
+  // When
+  self.sut.updateTrack = MSUpdateTrackPrivate;
+
+  // Then
+  XCTAssertEqual(self.sut.updateTrack, MSUpdateTrackPrivate);
+
+  // When
+  [self.sut setEnabled:YES];
+
+  // Then
+  XCTAssertEqual(self.sut.updateTrack, MSUpdateTrackPrivate);
+}
+
+- (void)testPersistValueWhenSwitchBeforeStart {
+
+  // If
+  id sut = [MSDistribute new];
+  [sut setEnabled:NO];
+  [sut setUpdateTrack:MSUpdateTrackPrivate];
+
+  // When
+  [sut applyEnabledState:YES];
+
+  // Then
+  XCTAssertEqual([sut updateTrack], MSUpdateTrackPrivate);
+}
+
+- (void)testSwitchTrackBeforeCallCompletes {
+
+  // If
+  self.sut.appSecret = kMSTestAppSecret;
+  id utilityMock = [self mockMSPackageHash];
+  id distributeMock = OCMPartialMock(self.sut);
+  [MSMockKeychainUtil mockStatusCode:errSecItemNotFound forKey:kMSUpdateTokenKey];
+  OCMStub([distributeMock canBeUsed]).andReturn(YES);
+
+  // When
+  [distributeMock setUpdateTrack:MSUpdateTrackPublic];
+
+  // Then
+  OCMVerify([distributeMock checkLatestRelease:OCMOCK_ANY distributionGroupId:OCMOCK_ANY releaseHash:OCMOCK_ANY]);
+
+  OCMReject([distributeMock startUpdate]);
+  [distributeMock setUpdateTrack:MSUpdateTrackPrivate];
+
+  // Clear
+  [utilityMock stopMocking];
+  [distributeMock stopMocking];
+}
+
+- (void)testSwitchTrackAfterCallCompletes {
+
+    // If
+    id utilityMock = [self mockMSPackageHash];
+    self.sut.appSecret = kMSTestAppSecret;
+    id distributeMock = OCMPartialMock(self.sut);
+    OCMStub([distributeMock canBeUsed]).andReturn(YES);
+    id httpClientMock = OCMPartialMock([MSHttpClient new]);
+    id httpClientClassMock = OCMClassMock([MSHttpClient class]);
+    OCMStub([httpClientClassMock alloc]).andReturn(httpClientMock);
+    OCMStub([httpClientMock initWithMaxHttpConnectionsPerHost:4]).andReturn(httpClientMock);
+    id reachabilityMock = OCMClassMock([MS_Reachability class]);
+    OCMStub([reachabilityMock reachabilityForInternetConnection]).andReturn(reachabilityMock);
+    OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(ReachableViaWiFi);
+    dispatch_semaphore_t networkSemaphore = dispatch_semaphore_create(0);
+    OCMStub([httpClientMock requestCompletedWithHttpCall:OCMOCK_ANY data:OCMOCK_ANY response:OCMOCK_ANY error:OCMOCK_ANY])
+    .andForwardToRealObject()
+    .andDo(^(__unused NSInvocation *invocation) {
+        dispatch_semaphore_signal(networkSemaphore);
+    });
+
+    // When
+    [distributeMock setUpdateTrack:MSUpdateTrackPublic];
+
+    // Wait for the end of the request
+    dispatch_semaphore_wait(networkSemaphore, DISPATCH_TIME_FOREVER);
+    [distributeMock setUpdateTrack:MSUpdateTrackPrivate];
+
+    // Then
+    OCMVerify([distributeMock requestInstallInformationWith:OCMOCK_ANY]);
+
+    // Stop mocking
+    [utilityMock stopMocking];
+    [distributeMock stopMocking];
+    [httpClientMock stopMocking];
+    [httpClientClassMock stopMocking];
+    [reachabilityMock stopMocking];
 }
 
 @end

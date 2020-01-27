@@ -62,7 +62,7 @@ NSString *MSPackageHash(void);
 + (MSUpdateTrack)storedUpdateTrack;
 
 /**
- * Check if the give update track is valid or not.
+ * Check if the given update track is valid or not.
  *
  * @return YES if it is valid, NO otherwise.
  */

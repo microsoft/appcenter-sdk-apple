@@ -61,7 +61,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 /**
  * Checks that the current browser flow is complete.
  */
-static BOOL isBrowserFlowFinished = YES;
+static BOOL isWorkflowFinished = YES;
 
 #pragma mark - Service initialization
 
@@ -268,7 +268,7 @@ static BOOL isBrowserFlowFinished = YES;
       return;
     }
     NSString *distributionGroupId = [MS_USER_DEFAULTS objectForKey:kMSDistributionGroupIdKey];
-    if (updateToken || MSDistribute.updateTrack == MSUpdateTrackPublic) {
+    if (updateToken || self.updateTrack == MSUpdateTrackPublic) {
       [self checkLatestRelease:updateToken distributionGroupId:distributionGroupId releaseHash:releaseHash];
     } else {
       [self requestInstallInformationWith:releaseHash];
@@ -352,7 +352,6 @@ static BOOL isBrowserFlowFinished = YES;
 - (void)checkLatestRelease:(NSString *)updateToken distributionGroupId:(NSString *)distributionGroupId releaseHash:(NSString *)releaseHash {
 
   // Check if it's okay to check for updates.
-  isBrowserFlowFinished = YES;
   if ([self checkForUpdatesAllowed]) {
 
     // Use persisted mandatory update while network is down.
@@ -365,7 +364,7 @@ static BOOL isBrowserFlowFinished = YES;
       }
     }
     if (self.ingestion == nil) {
-      BOOL isPublicTrack = MSDistribute.updateTrack == MSUpdateTrackPublic;
+      BOOL isPublicTrack = self.updateTrack == MSUpdateTrackPublic;
       NSString *updateTokenByTrack = isPublicTrack ? nil : updateToken;
 
       NSMutableDictionary *queryStrings = [[NSMutableDictionary alloc] init];
@@ -385,6 +384,7 @@ static BOOL isBrowserFlowFinished = YES;
                                                                appSecret:self.appSecret
                                                              updateToken:updateTokenByTrack
                                                             queryStrings:queryStrings];
+      isWorkflowFinished = NO;
       __weak typeof(self) weakSelf = self;
       [self.ingestion sendAsync:nil
               completionHandler:^(__unused NSString *callId, NSHTTPURLResponse *response, NSData *data, __unused NSError *error) {
@@ -398,6 +398,7 @@ static BOOL isBrowserFlowFinished = YES;
 
                 // Ignore the response if the service is disabled.
                 if (![strongSelf isEnabled]) {
+                  isWorkflowFinished = YES;
                   return;
                 }
 
@@ -435,6 +436,7 @@ static BOOL isBrowserFlowFinished = YES;
                      */
                     [strongSelf handleUpdate:details];
                   }
+                  isWorkflowFinished = YES;
                 }
 
                 // Failure.
@@ -484,6 +486,7 @@ static BOOL isBrowserFlowFinished = YES;
                   if (!jsonString && data) {
                     jsonString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
                   }
+                  isWorkflowFinished = YES;
                   MSLogError([MSDistribute logTag], @"Response:\n%@", jsonString ? jsonString : @"No payload");
                 }
               }];
@@ -497,6 +500,7 @@ static BOOL isBrowserFlowFinished = YES;
                                       @"3. The app is running in a non-adhoc environment. "
                                       @"Detach the debugger and restart the app and/or run the app with the release configuration "
                                       @"to enable the feature.");
+    isWorkflowFinished = YES;
   }
 }
 
@@ -581,7 +585,7 @@ static BOOL isBrowserFlowFinished = YES;
    */
 
   // TODO SFAuthenticationSession is deprecated, for iOS 12 use ASWebAuthenticationSession
-  isBrowserFlowFinished = NO;
+  isWorkflowFinished = NO;
   if (@available(iOS 11.0, *)) {
     dispatch_async(dispatch_get_main_queue(), ^{
       [self openURLInAuthenticationSessionWith:url];
@@ -610,7 +614,7 @@ static BOOL isBrowserFlowFinished = YES;
       return;
     }
     if (error) {
-      isBrowserFlowFinished = YES;
+      isWorkflowFinished = YES;
       MSLogDebug([MSDistribute logTag], @"Called %@ with error: %@", callbackUrl, error.localizedDescription);
     }
     if (error.code == SFAuthenticationErrorCanceledLogin) {
@@ -679,7 +683,7 @@ static BOOL isBrowserFlowFinished = YES;
   dispatch_async(dispatch_get_main_queue(), ^{
     typeof(self) strongSelf = weakSelf;
     if (strongSelf && strongSelf.safariHostingViewController && !strongSelf.safariHostingViewController.isBeingDismissed) {
-      isBrowserFlowFinished = YES;
+      isWorkflowFinished = YES;
       [strongSelf.safariHostingViewController dismissViewControllerAnimated:YES completion:nil];
     }
   });
@@ -1146,7 +1150,7 @@ static BOOL isBrowserFlowFinished = YES;
       _updateTrack = updateTrack;
       [MS_USER_DEFAULTS setObject:@(updateTrack) forKey:kMSDistributionUpdateTrackKey];
     }
-    if (self.canBeUsed && self.isEnabled && isBrowserFlowFinished) {
+    if (self.canBeUsed && self.isEnabled && isWorkflowFinished) {
       [self startUpdate];
     }
   }
