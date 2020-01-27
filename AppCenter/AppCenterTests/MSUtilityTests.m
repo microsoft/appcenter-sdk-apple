@@ -901,58 +901,13 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
 
   // If
   NSMutableArray *array = [NSMutableArray new];
-  NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
-  [indexSet addIndex:0];
-  [array addObject:@"test"];
 
   // When
-  NSArray *result = MS_DISPATCH_SELECTOR(__bridge NSArray *, array, objectsAtIndexes:, indexSet);
+  MS_DISPATCH_SELECTOR((void (*)(id, SEL, id)), array, @"addObject:", @"test");
 
   // Then
-  XCTAssertEqual(result.count, 1);
-}
-
-- (void)testMacroArrayPassNil {
-  NSArray *array = ARRAY_FROM_ARGS(@1, @2, nil);
-
-  XCTAssertEqual([array count], 2);
-}
-
-- (void)testMacroPassArgsWithNull {
-
-  // If
-  typedef void (^handler)(NSString *firstArg, NSString *secondArg);
-  handler test = ^void (NSString *firstArg, NSString *secondArg) {
-    XCTAssertNil(firstArg);
-    XCTAssertEqualObjects(secondArg, @"test1");
-  };
-
-  // Then
-  MS_DISPATCH_SELECTOR_VOID(self, callWithArgs:secondArg:completionHandler:, [NSNull null], @"test1", test);
-}
-
-- (void)testDispatchMacroReturnVoid {
-
-  // If
-  NSMutableString *testString = [NSMutableString stringWithFormat:@"test"];
-
-  // When
-  MS_DISPATCH_SELECTOR_VOID(testString, appendString:, @"1");
-
-  // Then
-  XCTAssertEqualObjects(testString, @"test1");
-}
-
-- (void)testPerformSelectorWithObjects {
-
-  // If
-  NSMutableArray *array = [NSMutableArray new];
-
-  // When
-  [MSDispatcherUtil performSelector:array withSelector:@"addObject:" withObjects:@[ @"testValue" ]];
-
-  // Then
-  XCTAssertEqual(array.count, 1);
+  XCTAssertEqual([array count], 1);
+  XCTAssertEqual([array firstObject], @"test");
 }
 
 - (void)testPerformBlockOnMainThread {
@@ -1007,10 +962,6 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
 
 - (void)methodToCall:(NSString *)str completionHandler:(void (^)(NSString *string))completion {
   completion(str);
-}
-
-- (void)callWithArgs:(NSString *)first secondArg:(NSString *)second completionHandler:(void (^)(NSString *firstArg, NSString *secondArg))completion {
-  completion(first,second);
 }
 
 @end
