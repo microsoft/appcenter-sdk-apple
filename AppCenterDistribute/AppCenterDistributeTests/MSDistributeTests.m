@@ -825,6 +825,7 @@ static NSURL *sfURL;
                                }];
 
   // Clear
+  [httpClientMock stopMocking];
   [httpClientClassMock stopMocking];
   [reachabilityMock stopMocking];
 }
@@ -887,6 +888,7 @@ static NSURL *sfURL;
   [reachabilityMock stopMocking];
   [httpCallMock stopMocking];
   [httpClientMock stopMocking];
+  [httpClientClassMock stopMocking];
 }
 
 - (void)testPersistLastMandatoryUpdate {
@@ -1281,7 +1283,7 @@ static NSURL *sfURL;
 
   // If
   [MSDistributeTestUtil unMockUpdatesAllowedConditions];
-  MSDistribute.updateTrack = MSUpdateTrackPrivate;
+  self.sut.updateTrack = MSUpdateTrackPrivate;
   id appCenterMock = OCMClassMock([MSAppCenter class]);
   id distributeMock = OCMPartialMock(self.sut);
   id guidedAccessMock = OCMClassMock([MSGuidedAccessUtil class]);
@@ -1424,7 +1426,7 @@ static NSURL *sfURL;
 
   // If
   [MSDistributeTestUtil unMockUpdatesAllowedConditions];
-  MSDistribute.updateTrack = MSUpdateTrackPrivate;
+  self.sut.updateTrack = MSUpdateTrackPrivate;
   id appCenterMock = OCMClassMock([MSAppCenter class]);
   id distributeMock = OCMPartialMock(self.sut);
   id guidedAccessMock = OCMClassMock([MSGuidedAccessUtil class]);
@@ -1454,7 +1456,7 @@ static NSURL *sfURL;
 
   // If
   id reachabilityMock = OCMClassMock([MS_Reachability class]);
-  MSDistribute.updateTrack = MSUpdateTrackPrivate;
+  self.sut.updateTrack = MSUpdateTrackPrivate;
   OCMStub([reachabilityMock reachabilityForInternetConnection]).andReturn(reachabilityMock);
   OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(ReachableViaWiFi);
   [MSDistributeTestUtil unMockUpdatesAllowedConditions];
@@ -1491,7 +1493,7 @@ static NSURL *sfURL;
 
   // If
   id reachabilityMock = OCMClassMock([MS_Reachability class]);
-  MSDistribute.updateTrack = MSUpdateTrackPrivate;
+  self.sut.updateTrack = MSUpdateTrackPrivate;
   OCMStub([reachabilityMock reachabilityForInternetConnection]).andReturn(reachabilityMock);
   OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(ReachableViaWiFi);
   [MSDistributeTestUtil unMockUpdatesAllowedConditions];
@@ -2251,7 +2253,7 @@ static NSURL *sfURL;
   // If
   id keychainMock = OCMClassMock([MSKeychainUtil class]);
   id distributeMock = OCMPartialMock(self.sut);
-  MSDistribute.updateTrack = MSUpdateTrackPrivate;
+  self.sut.updateTrack = MSUpdateTrackPrivate;
 
   // Mock the HTTP client.
   id httpClientMock = OCMPartialMock([MSHttpClient new]);
@@ -2298,6 +2300,7 @@ static NSURL *sfURL;
   [reachabilityMock stopMocking];
   [httpCallMock stopMocking];
   [httpClientMock stopMocking];
+  [httpClientClassMock stopMocking];
 }
 
 - (void)testShouldChangeDistributionGroupIdIfStoredIdDoesntMatchDownloadedId {
@@ -2660,6 +2663,7 @@ static NSURL *sfURL;
   XCTAssertEqual(self.sut.ingestion.httpClient, httpClient);
   [distributeMock stopMocking];
   [httpClient stopMocking];
+  [MSDependencyConfiguration setHttpClient:nil];
 }
 
 - (void)testReadAndSetUpdateTrack {
@@ -2804,7 +2808,6 @@ static NSURL *sfURL;
   id httpClientMock = OCMPartialMock([MSHttpClient new]);
   id httpClientClassMock = OCMClassMock([MSHttpClient class]);
   OCMStub([httpClientClassMock alloc]).andReturn(httpClientMock);
-  OCMStub([httpClientMock initWithMaxHttpConnectionsPerHost:4]).andReturn(httpClientMock);
   id reachabilityMock = OCMClassMock([MS_Reachability class]);
   OCMStub([reachabilityMock reachabilityForInternetConnection]).andReturn(reachabilityMock);
   OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(ReachableViaWiFi);

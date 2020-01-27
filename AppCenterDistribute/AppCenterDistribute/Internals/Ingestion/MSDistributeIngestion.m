@@ -79,8 +79,11 @@ static NSString *const kMSLatestPublicReleaseApiPathFormat =
     }];
 
     // Log URL and headers.
-    NSString *urlString = [url relativeString];
-    NSString *hiddenUrl = [urlString stringByReplacingOccurrencesOfString:self.appSecret withString:[MSHttpUtil hideSecret:urlString]];
+    NSString *hiddenUrl = [url absoluteString];
+    NSString *secret = [MSHttpUtil hideSecret:hiddenUrl];
+    if (secret) {
+      hiddenUrl = [hiddenUrl stringByReplacingOccurrencesOfString:self.appSecret withString:[MSHttpUtil hideSecret:hiddenUrl]];
+    }
     MSLogVerbose([MSAppCenter logTag], @"URL: %@", hiddenUrl);
     MSLogVerbose([MSAppCenter logTag], @"Headers: %@", [flattenedHeaders componentsJoinedByString:@", "]);
   }
