@@ -3,6 +3,34 @@
 
 #import "MSCrashCustomView.h"
 
+#if TARGET_OS_OSX
+#import <Cocoa/Cocoa.h>
+#else
+#import <UIKit/UIKit.h>
+#endif
+
+#if TARGET_OS_OSX
+@interface MSCustomView : NSView
+#else
+@interface MSCustomView : UIView
+#endif
+
+@end
+
+@implementation MSCustomView
+
+#if TARGET_OS_OSX
+-(void)drawRect:(NSRect)rect {
+#else
+-(void)drawRect:(CGRect)rect {
+#endif
+    [super drawRect:rect];
+    @throw [NSException exceptionWithName:NSGenericException reason:@"From custom view."
+                                 userInfo:@{NSLocalizedDescriptionKey: @"From custom view!"}];
+}
+
+@end
+
 @implementation MSCrashCustomView
 
 - (NSString *)category {
@@ -18,7 +46,15 @@
 }
 
 - (void)crash {
-  // TODO
+#if TARGET_OS_OSX
+    MSCustomView* views = [[MSCustomView new] initWithFrame: CGRectZero];
+    [NSApplication.sharedApplication.mainWindow.contentView addSubview:views];
+    views.frame = CGRectMake(0, 0, 2000, 2000);
+#else
+    MSCustomView* views = [[MSCustomView new] initWithFrame: CGRectZero];
+    [UIApplication.sharedApplication.keyWindow.rootViewController.view addSubview:views];
+    views.frame = CGRectMake(0, 0, 2000, 2000);
+#endif
 }
 
 @end
