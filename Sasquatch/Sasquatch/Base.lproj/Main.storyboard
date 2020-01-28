@@ -676,7 +676,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <textField opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Public" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="atm-zi-XXU">
-                                                    <rect key="frame" x="15.5" y="11" width="342.5" height="22"/>
+                                                    <rect key="frame" x="16" y="11" width="342" height="22"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -692,24 +692,21 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Pre-start" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="uj3-9X-p5n">
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="When to update track" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="uj3-9X-p5n">
                                                     <rect key="frame" x="16" y="0.0" width="343" height="43.5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZOP-35-9Kq" userLabel="Distribute Enabled Switch">
-                                                    <rect key="frame" x="308" y="6.5" width="51" height="31"/>
-                                                    <connections>
-                                                        <action selector="preStartSwitchUpdated:" destination="axH-Yn-1RM" eventType="valueChanged" id="atm-1I-WtH"/>
-                                                    </connections>
-                                                </switch>
+                                                <textField opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Now" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cTl-M2-TUX">
+                                                    <rect key="frame" x="16" y="11" width="342" height="22"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                                    <nil key="textColor"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <textInputTraits key="textInputTraits"/>
+                                                </textField>
                                             </subviews>
-                                            <constraints>
-                                                <constraint firstAttribute="trailingMargin" secondItem="ZOP-35-9Kq" secondAttribute="trailing" constant="2" id="aF0-4R-l4q"/>
-                                                <constraint firstItem="ZOP-35-9Kq" firstAttribute="centerY" secondItem="fLN-qO-Q2O" secondAttribute="centerY" id="lp2-fI-ale"/>
-                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
@@ -789,8 +786,8 @@
                     <connections>
                         <outlet property="customized" destination="Zxc-Dn-IKS" id="NJi-JI-t4o"/>
                         <outlet property="enabled" destination="RMC-6k-Ol7" id="v4D-rp-gom"/>
-                        <outlet property="preStartSwitch" destination="ZOP-35-9Kq" id="8dm-aH-gyY"/>
                         <outlet property="updateTrackField" destination="atm-zi-XXU" id="s0g-wF-cgj"/>
+                        <outlet property="whenUpdateTrackField" destination="cTl-M2-TUX" id="gnB-wa-Fhm"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="p5Z-Wg-edL" userLabel="First Responder" sceneMemberID="firstResponder"/>

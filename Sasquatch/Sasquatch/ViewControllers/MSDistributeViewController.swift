@@ -8,11 +8,11 @@ class MSDistributeViewController: UITableViewController, AppCenterProtocol {
 
   @IBOutlet weak var enabled: UISwitch!
   @IBOutlet weak var customized: UISwitch!
-  @IBOutlet weak var preStartSwitch: UISwitch!
+  @IBOutlet weak var whenUpdateTrackField: UITextField!
   @IBOutlet weak var updateTrackField: UITextField!
   var appCenter: AppCenterDelegate!
 
-  enum UpdateTrack: String {
+  enum UpdateTrack: String, CaseIterable {
     case Public = "Public"
     case Private = "Private"
 
@@ -29,42 +29,66 @@ class MSDistributeViewController: UITableViewController, AppCenterProtocol {
        case .private: return .Private
        }
     }
+  }
 
-    static let allValues = [Public, Private]
+  enum WhenUpdateTrack: String, CaseIterable {
+    case now = "Now"
+    case beforeNextStart = "Before next start"
   }
 
   private var updatePicker: MSEnumPicker<UpdateTrack>?
+  private var whenUpdateTrackPicker: MSEnumPicker<WhenUpdateTrack>?
   private var updateTrack = UpdateTrack.Public {
     didSet {
        self.updateTrackField.text = self.updateTrack.rawValue
+    }
+  }
+  private var whenUpdateTrack = WhenUpdateTrack.now {
+    didSet {
+        self.whenUpdateTrackField.text = self.whenUpdateTrack.rawValue
     }
   }
 
   override func viewDidLoad() {
     super.viewDidLoad()
     self.customized.isOn = UserDefaults.init().bool(forKey: kSASCustomizedUpdateAlertKey)
-    self.preStartSwitch.isOn = UserDefaults.standard.value(forKey: kMSUpdateTrackBeforeStartValue) != nil
-
-    prepareUpdatePicker()
-
+    preparePickers()
     self.updateTrack = UpdateTrack.getSelf(by: MSDistribute.updateTrack)
+    if UserDefaults.standard.value(forKey: kMSUpdateTrackBeforeStartValue) != nil {
+        self.whenUpdateTrack = .beforeNextStart
+    }
   }
 
-  private func prepareUpdatePicker() {
+  private func preparePickers() {
     self.updatePicker = MSEnumPicker<UpdateTrack>(
         textField: self.updateTrackField,
-        allValues: UpdateTrack.allValues,
+        allValues: UpdateTrack.allCases,
         onChange: { index in
-            let pickedValue = UpdateTrack.allValues[index]
-            if self.preStartSwitch.isOn {
+            let pickedValue = UpdateTrack.allCases[index]
+            switch self.whenUpdateTrack {
+            case .beforeNextStart:
                 UserDefaults.standard.set(pickedValue.state.rawValue, forKey: kMSUpdateTrackBeforeStartValue)
-            } else {
+            case .now:
                 MSDistribute.updateTrack = pickedValue.state
                 self.updateTrack = pickedValue
             }
     })
+    self.whenUpdateTrackPicker = MSEnumPicker<WhenUpdateTrack>(
+        textField: self.whenUpdateTrackField,
+        allValues: WhenUpdateTrack.allCases,
+        onChange: { index in
+            self.whenUpdateTrack = WhenUpdateTrack.allCases[index]
+            var startTrackValue: Int?
+            switch self.whenUpdateTrack {
+            case .beforeNextStart:
+                startTrackValue = UpdateTrack.getSelf(by: MSDistribute.updateTrack).state.rawValue
+            case .now:
+                startTrackValue = nil
+            }
+            UserDefaults.standard.set(startTrackValue, forKey: kMSUpdateTrackBeforeStartValue)
+    })
     self.updateTrackField.delegate = self.updatePicker
-    self.updateTrackField.tintColor = UIColor.clear
+    self.whenUpdateTrackField.delegate = self.whenUpdateTrackPicker
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -78,11 +102,6 @@ class MSDistributeViewController: UITableViewController, AppCenterProtocol {
   @IBAction func enabledSwitchUpdated(_ sender: UISwitch) {
     appCenter.setDistributeEnabled(sender.isOn)
     sender.isOn = appCenter.isDistributeEnabled()
-  }
-
-  @IBAction func preStartSwitchUpdated(_ sender: Any) {
-    let startTrackValue = preStartSwitch.isOn ? UpdateTrack.getSelf(by: MSDistribute.updateTrack).state.rawValue : nil
-    UserDefaults.standard.set(startTrackValue, forKey: kMSUpdateTrackBeforeStartValue)
   }
 
   override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
