@@ -163,6 +163,18 @@
 		B24187EC1DD2A7F900D820D8 /* MSFramelessDWARF_x86_64.s in Sources */ = {isa = PBXBuildFile; fileRef = B24187B91DD2A7F900D820D8 /* MSFramelessDWARF_x86_64.s */; };
 		B24187ED1DD2A7F900D820D8 /* MSCrashFramelessDWARF.h in Headers */ = {isa = PBXBuildFile; fileRef = B24187BA1DD2A7F900D820D8 /* MSCrashFramelessDWARF.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B24187EE1DD2A7F900D820D8 /* MSCrashFramelessDWARF.m in Sources */ = {isa = PBXBuildFile; fileRef = B24187BB1DD2A7F900D820D8 /* MSCrashFramelessDWARF.m */; };
+		C2B7DF5523DF355100243AC7 /* MSCrashCXXCustomException.h in Headers */ = {isa = PBXBuildFile; fileRef = C2B7DF5323DF355100243AC7 /* MSCrashCXXCustomException.h */; };
+		C2B7DF5623DF355100243AC7 /* MSCrashCXXCustomException.h in Headers */ = {isa = PBXBuildFile; fileRef = C2B7DF5323DF355100243AC7 /* MSCrashCXXCustomException.h */; };
+		C2B7DF5723DF355100243AC7 /* MSCrashCXXCustomException.h in Headers */ = {isa = PBXBuildFile; fileRef = C2B7DF5323DF355100243AC7 /* MSCrashCXXCustomException.h */; };
+		C2B7DF5823DF355100243AC7 /* MSCrashCXXCustomException.mm in Sources */ = {isa = PBXBuildFile; fileRef = C2B7DF5423DF355100243AC7 /* MSCrashCXXCustomException.mm */; };
+		C2B7DF5923DF355100243AC7 /* MSCrashCXXCustomException.mm in Sources */ = {isa = PBXBuildFile; fileRef = C2B7DF5423DF355100243AC7 /* MSCrashCXXCustomException.mm */; };
+		C2B7DF5A23DF355100243AC7 /* MSCrashCXXCustomException.mm in Sources */ = {isa = PBXBuildFile; fileRef = C2B7DF5423DF355100243AC7 /* MSCrashCXXCustomException.mm */; };
+		C2CF7C0323E03565001985CE /* MSCrashCustomView.h in Headers */ = {isa = PBXBuildFile; fileRef = C2CF7C0123E03565001985CE /* MSCrashCustomView.h */; };
+		C2CF7C0423E03565001985CE /* MSCrashCustomView.h in Headers */ = {isa = PBXBuildFile; fileRef = C2CF7C0123E03565001985CE /* MSCrashCustomView.h */; };
+		C2CF7C0523E03565001985CE /* MSCrashCustomView.h in Headers */ = {isa = PBXBuildFile; fileRef = C2CF7C0123E03565001985CE /* MSCrashCustomView.h */; };
+		C2CF7C0623E03565001985CE /* MSCrashCustomView.m in Sources */ = {isa = PBXBuildFile; fileRef = C2CF7C0223E03565001985CE /* MSCrashCustomView.m */; };
+		C2CF7C0723E03565001985CE /* MSCrashCustomView.m in Sources */ = {isa = PBXBuildFile; fileRef = C2CF7C0223E03565001985CE /* MSCrashCustomView.m */; };
+		C2CF7C0823E03565001985CE /* MSCrashCustomView.m in Sources */ = {isa = PBXBuildFile; fileRef = C2CF7C0223E03565001985CE /* MSCrashCustomView.m */; };
 		C942E7BE22F0655500F91A4B /* MSCrashOutOfMemory.mm in Sources */ = {isa = PBXBuildFile; fileRef = C942E7BD22F0655500F91A4B /* MSCrashOutOfMemory.mm */; };
 		C942E7C022F0657500F91A4B /* MSCrashOutOfMemory.h in Headers */ = {isa = PBXBuildFile; fileRef = C942E7BF22F0657500F91A4B /* MSCrashOutOfMemory.h */; };
 /* End PBXBuildFile section */
@@ -230,6 +242,10 @@
 		C2B2102321B6A9FF00F116BD /* iOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = iOS.xcconfig; path = ../../Config/iOS.xcconfig; sourceTree = "<group>"; };
 		C2B2102421B6A9FF00F116BD /* macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = macOS.xcconfig; path = ../../Config/macOS.xcconfig; sourceTree = "<group>"; };
 		C2B2102721B6A9FF00F116BD /* tvOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = tvOS.xcconfig; path = ../../Config/tvOS.xcconfig; sourceTree = "<group>"; };
+		C2B7DF5323DF355100243AC7 /* MSCrashCXXCustomException.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSCrashCXXCustomException.h; sourceTree = "<group>"; };
+		C2B7DF5423DF355100243AC7 /* MSCrashCXXCustomException.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = MSCrashCXXCustomException.mm; sourceTree = "<group>"; };
+		C2CF7C0123E03565001985CE /* MSCrashCustomView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSCrashCustomView.h; sourceTree = "<group>"; };
+		C2CF7C0223E03565001985CE /* MSCrashCustomView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSCrashCustomView.m; sourceTree = "<group>"; };
 		C942E7BD22F0655500F91A4B /* MSCrashOutOfMemory.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = MSCrashOutOfMemory.mm; sourceTree = "<group>"; };
 		C942E7BF22F0657500F91A4B /* MSCrashOutOfMemory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSCrashOutOfMemory.h; sourceTree = "<group>"; };
 		DF1F8F7D2269D7AB002B0B9B /* CrashLib Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "CrashLib Debug.xcconfig"; sourceTree = "<group>"; };
@@ -290,16 +306,20 @@
 				B24187971DD2A7F900D820D8 /* MSCrash.m */,
 				B241878D1DD2A7F900D820D8 /* MSCrashAbort.h */,
 				B241879B1DD2A7F900D820D8 /* MSCrashAbort.m */,
-				78FBB4A6239FAD0000ADFA1F /* MSCrashDelayedObjCException.h */,
-				78FBB4A7239FAD0100ADFA1F /* MSCrashDelayedObjCException.m */,
 				B24187B81DD2A7F900D820D8 /* MSCrashAsyncSafeThread.h */,
 				B24187B31DD2A7F900D820D8 /* MSCrashAsyncSafeThread.m */,
 				B24187A81DD2A7F900D820D8 /* MSCrashCorruptMalloc.h */,
 				B24187A51DD2A7F900D820D8 /* MSCrashCorruptMalloc.m */,
 				B24187901DD2A7F900D820D8 /* MSCrashCorruptObjC.h */,
 				B24187991DD2A7F900D820D8 /* MSCrashCorruptObjC.m */,
+				C2CF7C0123E03565001985CE /* MSCrashCustomView.h */,
+				C2CF7C0223E03565001985CE /* MSCrashCustomView.m */,
+				C2B7DF5323DF355100243AC7 /* MSCrashCXXCustomException.h */,
+				C2B7DF5423DF355100243AC7 /* MSCrashCXXCustomException.mm */,
 				B24187B01DD2A7F900D820D8 /* MSCrashCXXException.h */,
 				B24187AF1DD2A7F900D820D8 /* MSCrashCXXException.mm */,
+				78FBB4A6239FAD0000ADFA1F /* MSCrashDelayedObjCException.h */,
+				78FBB4A7239FAD0100ADFA1F /* MSCrashDelayedObjCException.m */,
 				B24187BA1DD2A7F900D820D8 /* MSCrashFramelessDWARF.h */,
 				B24187BB1DD2A7F900D820D8 /* MSCrashFramelessDWARF.m */,
 				B241878E1DD2A7F900D820D8 /* MSCrashGarbage.h */,
@@ -366,6 +386,7 @@
 			files = (
 				8065B5A11F4C4024004FF622 /* MSCrashROPage.h in Headers */,
 				8065B59B1F4C4024004FF622 /* MSCrashOverwriteLinkRegister.h in Headers */,
+				C2CF7C0523E03565001985CE /* MSCrashCustomView.h in Headers */,
 				8065B5AC1F4C4024004FF622 /* MSCrashUndefInst.h in Headers */,
 				8065B5911F4C4024004FF622 /* MSCrashFramelessDWARF.h in Headers */,
 				78FBB4A8239FAD0100ADFA1F /* MSCrashDelayedObjCException.h in Headers */,
@@ -377,6 +398,7 @@
 				8065B5B21F4C4024004FF622 /* CrashLib-Bridging-Header.h in Headers */,
 				8065B5A31F4C4024004FF622 /* MSCrashSmashStackBottom.h in Headers */,
 				8065B5AA1F4C4024004FF622 /* MSCrashTrap.h in Headers */,
+				C2B7DF5723DF355100243AC7 /* MSCrashCXXCustomException.h in Headers */,
 				8065B59D1F4C4024004FF622 /* MSCrashPrivInst.h in Headers */,
 				8065B5991F4C4024004FF622 /* MSCrashObjCMsgSend.h in Headers */,
 				8065B58F1F4C4024004FF622 /* MSCrashNSLog.h in Headers */,
@@ -399,6 +421,7 @@
 				80F991491F0265C60040FAD7 /* MSCrashROPage.h in Headers */,
 				80F991431F0265C60040FAD7 /* MSCrashOverwriteLinkRegister.h in Headers */,
 				80F991541F0265C60040FAD7 /* MSCrashUndefInst.h in Headers */,
+				C2B7DF5623DF355100243AC7 /* MSCrashCXXCustomException.h in Headers */,
 				80F991391F0265C60040FAD7 /* MSCrashFramelessDWARF.h in Headers */,
 				80F9912D1F0265C60040FAD7 /* MSCrashAsyncSafeThread.h in Headers */,
 				80F9912F1F0265C60040FAD7 /* MSCrashCXXException.h in Headers */,
@@ -409,6 +432,7 @@
 				80F9914B1F0265C60040FAD7 /* MSCrashSmashStackBottom.h in Headers */,
 				80F991521F0265C60040FAD7 /* MSCrashTrap.h in Headers */,
 				80F991451F0265C60040FAD7 /* MSCrashPrivInst.h in Headers */,
+				C2CF7C0423E03565001985CE /* MSCrashCustomView.h in Headers */,
 				80F991411F0265C60040FAD7 /* MSCrashObjCMsgSend.h in Headers */,
 				80F991371F0265C60040FAD7 /* MSCrashNSLog.h in Headers */,
 				80F991291F0265C60040FAD7 /* MSCrash.h in Headers */,
@@ -429,6 +453,7 @@
 			files = (
 				B24187E91DD2A7F900D820D8 /* CrashLib.h in Headers */,
 				B24187ED1DD2A7F900D820D8 /* MSCrashFramelessDWARF.h in Headers */,
+				C2CF7C0323E03565001985CE /* MSCrashCustomView.h in Headers */,
 				B24187DB1DD2A7F900D820D8 /* MSCrashCorruptMalloc.h in Headers */,
 				B24187BD1DD2A7F900D820D8 /* MSCrashReleasedObject.h in Headers */,
 				B24187C81DD2A7F900D820D8 /* MSCrashPrivInst.h in Headers */,
@@ -440,6 +465,7 @@
 				B24187E81DD2A7F900D820D8 /* MSCrashUndefInst.h in Headers */,
 				C942E7C022F0657500F91A4B /* MSCrashOutOfMemory.h in Headers */,
 				B24187C01DD2A7F900D820D8 /* MSCrashAbort.h in Headers */,
+				C2B7DF5523DF355100243AC7 /* MSCrashCXXCustomException.h in Headers */,
 				B24187EB1DD2A7F900D820D8 /* MSCrashAsyncSafeThread.h in Headers */,
 				B24187DC1DD2A7F900D820D8 /* MSCrashSmashStackBottom.h in Headers */,
 				B24187C41DD2A7F900D820D8 /* MSCrashObjCMsgSend.h in Headers */,
@@ -665,8 +691,10 @@
 				8065B5AB1F4C4024004FF622 /* MSCrashTrap.m in Sources */,
 				8065B58E1F4C4024004FF622 /* MSCrashNULL.m in Sources */,
 				8065B5A61F4C4024004FF622 /* MSCrashSmashStackTop.m in Sources */,
+				C2CF7C0823E03565001985CE /* MSCrashCustomView.m in Sources */,
 				8065B5981F4C4024004FF622 /* MSCrashObjCException.m in Sources */,
 				8065B5AE1F4C4024004FF622 /* MSFramelessDWARF_i386.s in Sources */,
+				C2B7DF5A23DF355100243AC7 /* MSCrashCXXCustomException.mm in Sources */,
 				8065B5901F4C4024004FF622 /* MSCrashNSLog.m in Sources */,
 				78FBB4A9239FAD0100ADFA1F /* MSCrashDelayedObjCException.m in Sources */,
 				8065B59A1F4C4024004FF622 /* MSCrashObjCMsgSend.m in Sources */,
@@ -687,6 +715,7 @@
 				80F991571F0265C60040FAD7 /* MSFramelessDWARF_arm32.S in Sources */,
 				80F9913A1F0265C60040FAD7 /* MSCrashFramelessDWARF.m in Sources */,
 				80F991321F0265C60040FAD7 /* MSCrashCorruptMalloc.m in Sources */,
+				C2B7DF5923DF355100243AC7 /* MSCrashCXXCustomException.mm in Sources */,
 				80F991581F0265C60040FAD7 /* MSFramelessDWARF_x86_64.s in Sources */,
 				80F991551F0265C60040FAD7 /* MSCrashUndefInst.m in Sources */,
 				80F9912C1F0265C60040FAD7 /* MSCrashAbort.m in Sources */,
@@ -696,6 +725,7 @@
 				80F991301F0265C60040FAD7 /* MSCrashCXXException.mm in Sources */,
 				80F9914C1F0265C60040FAD7 /* MSCrashSmashStackBottom.m in Sources */,
 				80F991511F0265C60040FAD7 /* MSCrashSwift.swift in Sources */,
+				C2CF7C0723E03565001985CE /* MSCrashCustomView.m in Sources */,
 				80F9912A1F0265C60040FAD7 /* MSCrash.m in Sources */,
 				80F991531F0265C60040FAD7 /* MSCrashTrap.m in Sources */,
 				80F991361F0265C60040FAD7 /* MSCrashNULL.m in Sources */,
@@ -734,8 +764,10 @@
 				B24187E21DD2A7F900D820D8 /* MSCrashCXXException.mm in Sources */,
 				B24187CF1DD2A7F900D820D8 /* MSCrashPrivInst.m in Sources */,
 				B24187D71DD2A7F900D820D8 /* MSFramelessDWARF_i386.s in Sources */,
+				C2CF7C0623E03565001985CE /* MSCrashCustomView.m in Sources */,
 				B24187D91DD2A7F900D820D8 /* MSCrashROPage.m in Sources */,
 				B24187C61DD2A7F900D820D8 /* MSCrashNSLog.m in Sources */,
+				C2B7DF5823DF355100243AC7 /* MSCrashCXXCustomException.mm in Sources */,
 				B24187D01DD2A7F900D820D8 /* MSCrashObjCException.m in Sources */,
 				B24187E71DD2A7F900D820D8 /* MSCrashStackGuard.m in Sources */,
 				B24187D41DD2A7F900D820D8 /* MSCrashOverwriteLinkRegister.m in Sources */,
