@@ -911,12 +911,26 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
 }
 
 - (void)testDispatchObjectMacroWithNil {
+  
+  // If
+  XCTestExpectation *expectation = [self expectationWithDescription:@"Dispatch selector executed."];
   typedef void (^block)(NSString *, NSString *);
+    
+  // When
   MS_DISPATCH_SELECTOR((void (*)(id, SEL, NSString *, NSString *, block)), self, methodWithArgs:secondArg:completionHandler:, nil, @"test",
                        ^(NSString *firstArg, NSString *secondArg) {
                          XCTAssertNil(firstArg);
                          XCTAssertEqual(secondArg, @"test");
+                         [expectation fulfill];
                        });
+    
+  // Then
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
+                               handler:^(NSError *error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
 }
 
 - (void)testPerformBlockOnMainThread {
