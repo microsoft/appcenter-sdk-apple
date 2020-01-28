@@ -37,7 +37,7 @@ static NSString *const kMSTestUpdateToken = @"UPDATETOKEN";
 static NSString *const kMSTestDistributionGroupId = @"DISTRIBUTIONGROUPID";
 static NSString *const kMSTestDownloadedDistributionGroupId = @"DOWNLOADEDDISTRIBUTIONGROUPID";
 static NSString *const kMSDistributeServiceName = @"Distribute";
-static NSString *const kMSUpdateTokenApiPathFormat = @"/apps/%@/update-setup";
+static NSString *const kMSUpdateTokenApiPathFormat = @"/apps/%@/private-update-setup";
 static NSString *const kMSDefaultURLFormat = @"https://fakeurl.com";
 
 // Mocked SFSafariViewController for url validation.
@@ -2837,6 +2837,28 @@ static NSURL *sfURL;
 
   // Then
   XCTAssertNil([self.settingsMock objectForKey:kMSDistributionUpdateTrackKey]);
+}
+
+- (void)testPrivateTrackNotGettingUpdateWithoutUpdateToken {
+
+  // If
+  id ingestionMock = OCMClassMock([MSDistributeIngestion class]);
+  id distributeMock = OCMPartialMock(self.sut);
+  [distributeMock setValue:ingestionMock forKey:@"ingestion"];
+  [distributeMock setValue:@(MSUpdateTrackPrivate) forKey:@"updateTrack"];
+  OCMReject([ingestionMock checkForPrivateUpdateWithUpdateToken:OCMOCK_ANY queryStrings:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
+  OCMReject([ingestionMock checkForPublicUpdateWithQueryStrings:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
+  OCMStub([distributeMock canBeUsed]).andReturn(YES);
+
+  // When
+  [distributeMock checkLatestRelease:nil distributionGroupId:@"whateverGroupId" releaseHash:@"whateverReleaseHash"];
+
+  // Then
+  OCMVerifyAll(ingestionMock);
+
+  // Clear
+  [ingestionMock stopMocking];
+  [distributeMock stopMocking];
 }
 
 @end

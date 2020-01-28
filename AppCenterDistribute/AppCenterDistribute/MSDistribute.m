@@ -480,7 +480,11 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     queryStrings[kMSURLQueryReleaseHashKey] = releaseHash;
 
     if (self.updateTrack == MSUpdateTrackPrivate) {
-      [self.ingestion checkForPrivateUpdateWithUpdateToken:updateToken queryStrings:queryStrings completionHandler:completionHandler];
+      if (updateToken) {
+        [self.ingestion checkForPrivateUpdateWithUpdateToken:updateToken queryStrings:queryStrings completionHandler:completionHandler];
+      } else {
+        MSLogError([MSDistribute logTag], @"Update token is missing. Please authenticate Distribute first.");
+      }
     } else {
       [self.ingestion checkForPublicUpdateWithQueryStrings:queryStrings completionHandler:completionHandler];
     }
