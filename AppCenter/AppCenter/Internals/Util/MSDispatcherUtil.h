@@ -5,8 +5,9 @@
 
 #define MS_DISPATCH_SELECTOR(declaration, object, selectorName, ...)                                                                       \
   ({                                                                                                                                       \
-    (declaration [object methodForSelector:NSSelectorFromString(selectorName)])(object, NSSelectorFromString(selectorName),                \
-                                                                                ##__VA_ARGS__);                                            \
+    SEL selector = NSSelectorFromString(@ #selectorName);                                                                                  \
+    IMP impl = [object methodForSelector:selector];                                                                                        \
+    (declaration impl)(object, selector, ##__VA_ARGS__);                                                                                   \
   })
 
 @interface MSDispatcherUtil : NSObject

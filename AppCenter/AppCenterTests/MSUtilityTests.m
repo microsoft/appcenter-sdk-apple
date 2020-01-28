@@ -903,11 +903,20 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
   NSMutableArray *array = [NSMutableArray new];
 
   // When
-  MS_DISPATCH_SELECTOR((void (*)(id, SEL, id)), array, @"addObject:", @"test");
+  MS_DISPATCH_SELECTOR((void (*)(id, SEL, id)), array, addObject:, @"test");
 
   // Then
   XCTAssertEqual([array count], 1);
   XCTAssertEqual([array firstObject], @"test");
+}
+
+- (void)testDispatchObjectMacroWithNil {
+  typedef void (^block)(NSString *, NSString *);
+  MS_DISPATCH_SELECTOR((void (*)(id, SEL, NSString *, NSString *, block)), self, methodWithArgs:secondArg:completionHandler:, nil, @"test",
+                       ^(NSString *firstArg, NSString *secondArg) {
+                         XCTAssertNil(firstArg);
+                         XCTAssertEqual(secondArg, @"test");
+                       });
 }
 
 - (void)testPerformBlockOnMainThread {
@@ -962,6 +971,10 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
 
 - (void)methodToCall:(NSString *)str completionHandler:(void (^)(NSString *string))completion {
   completion(str);
+}
+
+- (void)methodWithArgs:(NSString *)str secondArg:(NSString *)secondStr completionHandler:(void (^)(NSString *, NSString *))completion {
+  completion(str, secondStr);
 }
 
 @end
