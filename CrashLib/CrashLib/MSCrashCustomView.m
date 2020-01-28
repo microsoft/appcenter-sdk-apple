@@ -25,8 +25,8 @@
 -(void)drawRect:(CGRect)rect {
 #endif
     [super drawRect:rect];
-    @throw [NSException exceptionWithName:NSGenericException reason:@"From custom view."
-                                 userInfo:@{NSLocalizedDescriptionKey: @"From custom view!"}];
+    @throw [NSException exceptionWithName:NSGenericException reason:@"Crash from drawing custom view."
+                                 userInfo:@{NSLocalizedDescriptionKey: @"I'm in your program, catching your exceptions!"}];
 }
 
 @end
@@ -38,22 +38,19 @@
 }
 
 - (NSString *)title {
-  return @"Throw Objective-C exception during dwawing custom view";
+  return @"Throw Objective-C exception during drawing custom view";
 }
 
 - (NSString *)desc {
-  return @"Throw an uncaught Objective-C exception during dwawing custom view.";
+  return @"Throw an uncaught Objective-C exception during drawing custom view.";
 }
 
 - (void)crash {
+  MSCustomView* view = [[MSCustomView new] initWithFrame:CGRectMake(0, 0, 100, 100)];
 #if TARGET_OS_OSX
-    MSCustomView* views = [[MSCustomView new] initWithFrame: CGRectZero];
-    [NSApplication.sharedApplication.mainWindow.contentView addSubview:views];
-    views.frame = CGRectMake(0, 0, 2000, 2000);
+    [NSApplication.sharedApplication.mainWindow.contentView addSubview:view];
 #else
-    MSCustomView* views = [[MSCustomView new] initWithFrame: CGRectZero];
-    [UIApplication.sharedApplication.keyWindow.rootViewController.view addSubview:views];
-    views.frame = CGRectMake(0, 0, 2000, 2000);
+    [UIApplication.sharedApplication.keyWindow.rootViewController.view addSubview:view];
 #endif
 }
 
