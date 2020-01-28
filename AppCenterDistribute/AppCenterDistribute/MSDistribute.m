@@ -201,7 +201,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
       }
       break;
     case MSUpdateActionPostpone:
-      MSLogDebug([MSDistribute logTag], @"The SDK will ask the update tomorrow again.");
+      MSLogDebug([MSDistribute logTag], @"The SDK will ask for the update again tomorrow.");
       [MS_USER_DEFAULTS setObject:@((long long)[MSUtility nowInMilliseconds]) forKey:kMSPostponedTimestampKey];
       break;
     }
@@ -231,7 +231,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionTargetToken:token fromApplication:fromApplication];
     MSLogVerbose([MSDistribute logTag], @"Started Distribute service.");
   } else {
-    MSLogError([MSDistribute logTag], @"Failed to start Distribute because app Secret isn't specified.");
+    MSLogError([MSDistribute logTag], @"Failed to start Distribute because app secret isn't specified.");
   }
 }
 
