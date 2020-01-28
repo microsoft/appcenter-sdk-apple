@@ -53,6 +53,12 @@ static NSString *const kMSTesterAppUpdateTokenPath = @"ms-actesterapp://update-s
 
 static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid update token URL:%@";
 
+/**
+ * Singleton.
+ */
+static MSDistribute *sharedInstance;
+static dispatch_once_t onceToken;
+
 @implementation MSDistribute
 
 @synthesize channelUnitConfiguration = _channelUnitConfiguration;
@@ -102,10 +108,10 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 #pragma mark - MSServiceInternal
 
 + (instancetype)sharedInstance {
-  static id sharedInstance = nil;
-  static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
-    sharedInstance = [[MSDistribute alloc] init];
+    if (sharedInstance == nil) {
+      sharedInstance = [[MSDistribute alloc] init];
+    }
   });
   return sharedInstance;
 }
@@ -1159,6 +1165,13 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
 - (void)dealloc {
   [MS_NOTIFICATION_CENTER removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
+}
+
++ (void)resetSharedInstance {
+
+  // Reset the onceToken so dispatch_once will run again.
+  onceToken = 0;
+  sharedInstance = nil;
 }
 
 @end
