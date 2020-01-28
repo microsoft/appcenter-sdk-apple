@@ -42,7 +42,7 @@ static UIBackgroundTaskIdentifier backgroundAuthSessionTask;
 /**
  * The API path for update token request.
  */
-static NSString *const kMSUpdateTokenApiPathFormat = @"/apps/%@/update-setup";
+static NSString *const kMSUpdateTokenApiPathFormat = @"/apps/%@/private-update-setup";
 
 /**
  * The tester app path for update token request.
