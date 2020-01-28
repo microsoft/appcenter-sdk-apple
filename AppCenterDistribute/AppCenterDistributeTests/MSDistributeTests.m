@@ -9,12 +9,14 @@
 #import "MSAuthTokenContextPrivate.h"
 #import "MSBasicMachOParser.h"
 #import "MSChannelGroupDefault.h"
+#import "MSChannelUnitDefault.h"
 #import "MSConstants+Internal.h"
 #import "MSDependencyConfiguration.h"
 #import "MSDistribute.h"
 #import "MSDistributeInfoTracker.h"
 #import "MSDistributeInternal.h"
 #import "MSDistributePrivate.h"
+#import "MSDistributionStartSessionLog.h"
 #import "MSDistributeTestUtil.h"
 #import "MSDistributeUtil.h"
 #import "MSGuidedAccessUtil.h"
@@ -1106,6 +1108,15 @@ static NSURL *sfURL;
                               appSecret:kMSTestAppSecret
                 transmissionTargetToken:nil
                         fromApplication:YES];
+  id channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  self.sut.channelUnit = channelUnitMock;
+  __block MSDistributionStartSessionLog *log;
+  __block int invocations = 0;
+  OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSDistributionStartSessionLog class]] flags:MSFlagsDefault])
+  .andDo(^(NSInvocation *invocation) {
+    ++invocations;
+    [invocation getArgument:&log atIndex:2];
+  });
 
   // Enable again.
   [distributeMock setEnabled:YES];
@@ -1121,8 +1132,13 @@ static NSURL *sfURL;
 
   // Then
   XCTAssertTrue(result);
-  OCMVerify([distributeMock sendFirstSessionUpdateLog]);
+  XCTAssertEqual(invocations, 1);
+  XCTAssertNotNil(log);
+  OCMVerify([self.distributeInfoTrackerMock updateDistributionGroupId:distributionGroupId]);
+  XCTAssertEqualObjects([MS_USER_DEFAULTS objectForKey:kMSDistributionGroupIdKey], distributionGroupId);
   [MSSessionContext resetSharedInstance];
+  log = nil;
+  invocations = 0;
 
   // If
   url = [NSURL
@@ -1135,7 +1151,8 @@ static NSURL *sfURL;
 
   // Then
   XCTAssertTrue(result);
-  OCMReject([distributeMock sendFirstSessionUpdateLog]);
+  XCTAssertEqual(invocations, 0);
+  OCMReject([self.distributeInfoTrackerMock updateDistributionGroupId:OCMOCK_ANY]);
 
   // If
   url = [NSURL URLWithString:[NSString stringWithFormat:@"%@://?request_id=%@&update_token=%@", scheme, requestId, token]];
@@ -1146,7 +1163,8 @@ static NSURL *sfURL;
 
   // Then
   XCTAssertTrue(result);
-  OCMReject([distributeMock sendFirstSessionUpdateLog]);
+  XCTAssertEqual(invocations, 0);
+  OCMReject([self.distributeInfoTrackerMock updateDistributionGroupId:OCMOCK_ANY]);
 
   // If
   [distributeMock setEnabled:NO];
@@ -1156,11 +1174,14 @@ static NSURL *sfURL;
 
   // Then
   XCTAssertTrue(result);
+  XCTAssertEqual(invocations, 0);
+  OCMReject([self.distributeInfoTrackerMock updateDistributionGroupId:OCMOCK_ANY]);
 
   // Clear
   [distributeMock stopMocking];
   [appCenterMock stopMocking];
   [utilityMock stopMocking];
+  [channelUnitMock stopMocking];
 }
 
 - (void)testOpenUrlWithUpdateSetupFailure {
