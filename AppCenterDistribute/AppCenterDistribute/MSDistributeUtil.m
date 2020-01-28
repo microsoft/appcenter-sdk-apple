@@ -3,7 +3,6 @@
 
 #import "MSDistributeUtil.h"
 #import "MSBasicMachOParser.h"
-#import "MSDistribute.h"
 #import "MSDistributeInternal.h"
 #import "MSDistributePrivate.h"
 #import "MSLogger.h"

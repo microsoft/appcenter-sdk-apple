@@ -18,6 +18,8 @@
 
 ### App Center Distribute
 
+* **[Feature]** Add `updateTrack` property to be able to explicitly set either `MSUpdateTrackPrivate` or `MSUpdateTrackPublic` update track. By default, a public distribution group is used. **Breaking change**: To allow users to access releases of private groups you now need to migrate your application to call `MSDistribute.updateTrack = MSUpdateTrackPrivate`. Please read the documentation for more details.
+* **[Behavior change]** The public distribution is simplified to provide only one public group. If you have existing public groups defined for your application your users will receive the latest version of all public groups.
 * **[Fix]** Fix a crash when `SFAuthenticationSession` accesses the controller which is in the process of being released.
 * **[Fix]** Fix sign-in when switching to third-party apps while activating updates.
 

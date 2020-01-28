@@ -17,23 +17,10 @@
 static NSString *const kMSLatestPrivateReleaseApiPathFormat = @"/sdk/apps/%@/releases/latest";
 static NSString *const kMSLatestPublicReleaseApiPathFormat = @"/public/sdk/apps/%@/releases/latest";
 
-- (id)initWithHttpClient:(id<MSHttpClientProtocol>)httpClient
-                 baseUrl:(NSString *)baseUrl
-               appSecret:(NSString *)appSecret
-             updateToken:(NSString *)updateToken
-            queryStrings:(NSDictionary *)queryStrings {
-  NSString *apiPath;
-  NSDictionary *header = nil;
-  if (updateToken) {
-    apiPath = [NSString stringWithFormat:kMSLatestPrivateReleaseApiPathFormat, appSecret];
-    header = @{kMSHeaderUpdateApiToken : updateToken};
-  } else {
-    apiPath = [NSString stringWithFormat:kMSLatestPublicReleaseApiPathFormat, appSecret];
-  }
-  if ((self = [super initWithHttpClient:httpClient baseUrl:baseUrl apiPath:apiPath headers:header queryStrings:queryStrings])) {
+- (id)initWithHttpClient:(id<MSHttpClientProtocol>)httpClient baseUrl:(NSString *)baseUrl appSecret:(NSString *)appSecret {
+  if ((self = [super initWithHttpClient:httpClient baseUrl:baseUrl apiPath:nil headers:nil queryStrings:nil])) {
     _appSecret = appSecret;
   }
-
   return self;
 }
 
@@ -78,11 +65,30 @@ static NSString *const kMSLatestPublicReleaseApiPathFormat = @"/public/sdk/apps/
     }];
 
     // Log URL and headers.
-    NSString *urlString = [url relativeString];
-    NSString *hiddenUrl = [urlString stringByReplacingOccurrencesOfString:self.appSecret withString:[MSHttpUtil hideSecret:urlString]];
-    MSLogVerbose([MSAppCenter logTag], @"URL: %@", hiddenUrl);
+    NSString *obfuscatedUrl = [url.absoluteString stringByReplacingOccurrencesOfString:self.appSecret
+                                                                            withString:[MSHttpUtil hideSecret:url.absoluteString]];
+    MSLogVerbose([MSAppCenter logTag], @"URL: %@", obfuscatedUrl);
     MSLogVerbose([MSAppCenter logTag], @"Headers: %@", [flattenedHeaders componentsJoinedByString:@", "]);
   }
+}
+
+#pragma mark - MSDistributeIngestion
+
+- (void)checkForPublicUpdateWithQueryStrings:(NSDictionary *)queryStrings
+                           completionHandler:(MSSendAsyncCompletionHandler)completionHandler {
+  self.httpHeaders = @{};
+  self.apiPath = [NSString stringWithFormat:kMSLatestPublicReleaseApiPathFormat, self.appSecret];
+  self.sendURL = [super buildURLWithBaseURL:self.baseURL apiPath:self.apiPath queryStrings:queryStrings];
+  [self sendAsync:nil completionHandler:completionHandler];
+}
+
+- (void)checkForPrivateUpdateWithUpdateToken:(NSString *)updateToken
+                                queryStrings:(NSDictionary *)queryStrings
+                           completionHandler:(MSSendAsyncCompletionHandler)completionHandler {
+  self.httpHeaders = @{kMSHeaderUpdateApiToken : updateToken};
+  self.apiPath = [NSString stringWithFormat:kMSLatestPrivateReleaseApiPathFormat, self.appSecret];
+  self.sendURL = [super buildURLWithBaseURL:self.baseURL apiPath:self.apiPath queryStrings:queryStrings];
+  [self sendAsync:nil completionHandler:completionHandler];
 }
 
 @end

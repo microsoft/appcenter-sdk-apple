@@ -86,7 +86,7 @@ static NSString *const kMSMandatoryReleaseKey = @"MSMandatoryRelease";
 static NSString *const kMSDistributionGroupIdKey = @"MSDistributionGroupId";
 
 /**
- * The storage key for in-app updates track mode.
+ * The storage key for update track.
  */
 static NSString *const kMSDistributionUpdateTrackKey = @"MSDistributionUpdateTrack";
 
@@ -273,7 +273,7 @@ static NSString *const kMSTesterAppUpdateSetupFailedKey = @"MSTesterAppUpdateSet
  *
  * @return Reporting parameters dictionary.
  */
-- (nullable NSMutableDictionary *)getReportingParametersForUpdatedRelease:(NSString *)updateToken
+- (nullable NSMutableDictionary *)getReportingParametersForUpdatedRelease:(nullable NSString *)updateToken
                                               currentInstalledReleaseHash:(NSString *)currentInstalledReleaseHash
                                                       distributionGroupId:(NSString *)distributionGroupId;
 
