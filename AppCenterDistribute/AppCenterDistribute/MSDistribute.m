@@ -170,13 +170,11 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
       self.updateFlowInProgress = NO;
       return;
     }
-
     if (!self.updateFlowInProgress) {
       MSLogInfo([MSDistribute logTag], @"There is no update flow in progress. Ignore the request.");
       self.releaseDetails = nil;
       return;
     }
-
     switch (action) {
     case MSUpdateActionUpdate:
 
@@ -216,13 +214,13 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                     appSecret:(nullable NSString *)appSecret
       transmissionTargetToken:(nullable NSString *)token
               fromApplication:(BOOL)fromApplication {
-
-  // Start Ingestion.
-  id<MSHttpClientProtocol> httpClient = [MSDependencyConfiguration httpClient];
-  if (!httpClient) {
-    httpClient = [MSHttpClient new];
-  }
   if (appSecret) {
+    id<MSHttpClientProtocol> httpClient = [MSDependencyConfiguration httpClient];
+    if (!httpClient) {
+      httpClient = [MSHttpClient new];
+    }
+
+    // Start Ingestion.
     self.ingestion = [[MSDistributeIngestion alloc] initWithHttpClient:httpClient
                                                                baseUrl:self.apiUrl
                                                              appSecret:(NSString * _Nonnull) appSecret];
@@ -291,6 +289,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     @synchronized(self) {
       if (self.updateFlowInProgress) {
         MSLogDebug([MSDistribute logTag], @"Previous update flow is in progress. Ignore the request.");
+        return;
       }
       self.updateFlowInProgress = YES;
     }
@@ -1134,11 +1133,11 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 }
 
 - (void)setUpdateTrack:(MSUpdateTrack)updateTrack {
+  if (![MSDistributeUtil isValidUpdateTrack:updateTrack]) {
+    MSLogError([MSDistribute logTag], @"Invalid argument passed to updateTrack.");
+    return;
+  }
   @synchronized(self) {
-    if (![MSDistributeUtil isValidUpdateTrack:updateTrack]) {
-      MSLogError([MSDistribute logTag], @"Invalid argument passed to updateTrack.");
-      return;
-    }
     if (_updateTrack != updateTrack) {
       _updateTrack = updateTrack;
       [MS_USER_DEFAULTS setObject:@(updateTrack) forKey:kMSDistributionUpdateTrackKey];
