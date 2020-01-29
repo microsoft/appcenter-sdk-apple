@@ -51,6 +51,9 @@
 		38D25E391E7B0AAC00033FC4 /* OCHamcrestIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 380304421E7B007E006A55FB /* OCHamcrestIOS.framework */; };
 		38E3FB1F1FD8A2A500779293 /* MSDistributeDataMigrationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 386A69EF1FD88A9B0057B316 /* MSDistributeDataMigrationTests.m */; };
 		58603D3986EEE50CBFAFD4BC /* MSDistributeInfoTrackerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 586030B2AAEEE6A568D37CE9 /* MSDistributeInfoTrackerTests.m */; };
+		78B7D8B723D581B900E08D9B /* MSAlertControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 78B7D8B623D581B900E08D9B /* MSAlertControllerTests.m */; };
+		78B7D8BA23D5849600E08D9B /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 78B7D8B823D5849600E08D9B /* MSAlertController.m */; };
+		78B7D8BB23D5849600E08D9B /* MSAlertController.h in Headers */ = {isa = PBXBuildFile; fileRef = 78B7D8B923D5849600E08D9B /* MSAlertController.h */; };
 		7FB7054E222E59A000D93258 /* MSMockReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FB70539222E574200D93258 /* MSMockReachability.m */; };
 		80324E301F4DC81F005F4E11 /* MSDistributeAppDelegateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 80324E2F1F4DC81E005F4E11 /* MSDistributeAppDelegateTests.m */; };
 		848860451E6EC32B003A9B96 /* MSBasicMachOParserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 848860441E6EC32B003A9B96 /* MSBasicMachOParserTests.m */; };
@@ -83,7 +86,6 @@
 		C9EBAA3E230D385400A20F0F /* MSDistributeDataMigration.h in Headers */ = {isa = PBXBuildFile; fileRef = 384135BD1FD99B5400FC7836 /* MSDistributeDataMigration.h */; };
 		C9EBAA3F230D385700A20F0F /* MSDistributePrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 38C9C56B1E565BF600B0FA0D /* MSDistributePrivate.h */; };
 		C9EBAA40230D387400A20F0F /* MSReleaseDetails.h in Headers */ = {isa = PBXBuildFile; fileRef = 048BB2FC1E60A40D009D92C2 /* MSReleaseDetails.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C9EBAA41230D388200A20F0F /* MSAlertController.h in Headers */ = {isa = PBXBuildFile; fileRef = 046FDBD11E5682FA00AF9DD1 /* MSAlertController.h */; };
 		C9EBAAE3230D3A9B00A20F0F /* MSDistribute.m in Sources */ = {isa = PBXBuildFile; fileRef = 0471B8981E4547480022F951 /* MSDistribute.m */; };
 		C9EBAAE4230D3A9B00A20F0F /* MSErrorDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6826E3C58372A269A6B43A /* MSErrorDetails.m */; };
 		C9EBAAE5230D3A9B00A20F0F /* MSDistributionGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 048BB3001E60A40D009D92C2 /* MSDistributionGroup.m */; };
@@ -98,7 +100,6 @@
 		C9EBAAEE230D3A9B00A20F0F /* MSDistributeDataMigration.m in Sources */ = {isa = PBXBuildFile; fileRef = 384135BF1FD99EB400FC7836 /* MSDistributeDataMigration.m */; };
 		C9EBAAEF230D3A9B00A20F0F /* MSDistributeInfoTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 586031A5F44AF875F6226F45 /* MSDistributeInfoTracker.m */; };
 		C9EBAAF0230D3A9B00A20F0F /* MSReleaseDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = 048BB2FD1E60A40D009D92C2 /* MSReleaseDetails.m */; };
-		C9EBAAF1230D3AB200A20F0F /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 046FDBD21E5682FA00AF9DD1 /* MSAlertController.m */; };
 		C9EBAB37230D73A800A20F0F /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9EBAB36230D73A800A20F0F /* AppCenter.framework */; };
 		F82E4C83217F217F00EDAB34 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = F82E4C82217F217F00EDAB34 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		F8BEA3CA1FBB0A6E00D4DE37 /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8BEA3C81FBB0A5900D4DE37 /* OHHTTPStubs.framework */; };
@@ -157,8 +158,6 @@
 		046BE64F1F8C1B1E00310886 /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = Resources/cs.lproj/AppCenterDistribute.strings; sourceTree = "<group>"; };
 		046BE6501F8C1B9900310886 /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = Resources/tr.lproj/AppCenterDistribute.strings; sourceTree = "<group>"; };
 		046EF5881EAEB524002F6436 /* MSDistributeDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDistributeDelegate.h; sourceTree = "<group>"; };
-		046FDBD11E5682FA00AF9DD1 /* MSAlertController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSAlertController.h; path = ../../Vendor/iOS/MSAlertController/MSAlertController.h; sourceTree = "<group>"; };
-		046FDBD21E5682FA00AF9DD1 /* MSAlertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSAlertController.m; path = ../../Vendor/iOS/MSAlertController/MSAlertController.m; sourceTree = "<group>"; };
 		0471B5F41E45466F0022F951 /* AppCenterDistribute Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "AppCenterDistribute Debug.xcconfig"; sourceTree = "<group>"; };
 		0471B8981E4547480022F951 /* MSDistribute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDistribute.m; sourceTree = "<group>"; };
 		0471B89A1E4547750022F951 /* MSDistribute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDistribute.h; sourceTree = "<group>"; };
@@ -211,6 +210,9 @@
 		586030B2AAEEE6A568D37CE9 /* MSDistributeInfoTrackerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDistributeInfoTrackerTests.m; sourceTree = "<group>"; };
 		5860311B1C15B2BE9ED430A1 /* MSDistributeInfoTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDistributeInfoTracker.h; sourceTree = "<group>"; };
 		586031A5F44AF875F6226F45 /* MSDistributeInfoTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDistributeInfoTracker.m; sourceTree = "<group>"; };
+		78B7D8B623D581B900E08D9B /* MSAlertControllerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSAlertControllerTests.m; sourceTree = "<group>"; };
+		78B7D8B823D5849600E08D9B /* MSAlertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSAlertController.m; path = AppCenterDistribute/MSAlertController.m; sourceTree = SOURCE_ROOT; };
+		78B7D8B923D5849600E08D9B /* MSAlertController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSAlertController.h; path = AppCenterDistribute/MSAlertController.h; sourceTree = SOURCE_ROOT; };
 		7FB70537222E572100D93258 /* MSMockReachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSMockReachability.h; path = ../../../AppCenter/AppCenterTests/Util/MSMockReachability.h; sourceTree = "<group>"; };
 		7FB70539222E574200D93258 /* MSMockReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSMockReachability.m; path = ../../../AppCenter/AppCenterTests/Util/MSMockReachability.m; sourceTree = "<group>"; };
 		80324E2F1F4DC81E005F4E11 /* MSDistributeAppDelegateTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDistributeAppDelegateTests.m; sourceTree = "<group>"; };
@@ -308,16 +310,6 @@
 			path = Internals;
 			sourceTree = "<group>";
 		};
-		046FDBD51E56830400AF9DD1 /* Vendor */ = {
-			isa = PBXGroup;
-			children = (
-				046FDBD11E5682FA00AF9DD1 /* MSAlertController.h */,
-				046FDBD21E5682FA00AF9DD1 /* MSAlertController.m */,
-			);
-			name = Vendor;
-			path = AppCenterDistribute;
-			sourceTree = "<group>";
-		};
 		0471B5F31E45466F0022F951 /* Support */ = {
 			isa = PBXGroup;
 			children = (
@@ -391,7 +383,6 @@
 				04FD4A321E453531009B4468 /* AppCenterDistributeTests */,
 				B2C070B91E5E68540076D6A9 /* Resources */,
 				04FD4A1D1E451E12009B4468 /* Products */,
-				046FDBD51E56830400AF9DD1 /* Vendor */,
 				C9A91F94230C000B0068070D /* Frameworks */,
 			);
 			sourceTree = "<group>";
@@ -433,6 +424,7 @@
 				B20DE7B61E5F97330023075C /* MSDistributeUtilTests.m */,
 				38A683631E774DCE00A63BC8 /* MSSemVerPreReleaseIdTest.m */,
 				38A683621E774DCE00A63BC8 /* MSSemVerTests.m */,
+				78B7D8B623D581B900E08D9B /* MSAlertControllerTests.m */,
 				04FD4A351E453531009B4468 /* Info.plist */,
 				040AF0101E523AC2005C1174 /* Fixtures */,
 				04FD4A491E453930009B4468 /* Frameworks */,
@@ -527,6 +519,8 @@
 		B2C070A71E5E62440076D6A9 /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				78B7D8B923D5849600E08D9B /* MSAlertController.h */,
+				78B7D8B823D5849600E08D9B /* MSAlertController.m */,
 				388B559A1E64B3FD00E4F1D7 /* MSBasicMachOParser.h */,
 				388B55991E64B3FD00E4F1D7 /* MSBasicMachOParser.m */,
 				807432C31EE20731003295BA /* MSBasicMachOParserPrivate.h */,
@@ -590,9 +584,9 @@
 				C9EBAA3E230D385400A20F0F /* MSDistributeDataMigration.h in Headers */,
 				C9EBAA34230D382200A20F0F /* MSReleaseDetailsPrivate.h in Headers */,
 				C9EBAA3B230D384C00A20F0F /* MSBasicMachOParserPrivate.h in Headers */,
-				C9EBAA41230D388200A20F0F /* MSAlertController.h in Headers */,
 				C9EBAA37230D384900A20F0F /* MSSemVer.h in Headers */,
 				C9EBAA3C230D385400A20F0F /* MSDistributeInternal.h in Headers */,
+				78B7D8BB23D5849600E08D9B /* MSAlertController.h in Headers */,
 				C9EBAA36230D384900A20F0F /* MSSemVerPreReleaseId.h in Headers */,
 				C9EBAA35230D384900A20F0F /* MSDistributeIngestion.h in Headers */,
 				C9EBAA2C230D37ED00A20F0F /* MSServiceAbstract.h in Headers */,
@@ -815,6 +809,7 @@
 				38A683651E774DCE00A63BC8 /* MSSemVerPreReleaseIdTest.m in Sources */,
 				80324E301F4DC81F005F4E11 /* MSDistributeAppDelegateTests.m in Sources */,
 				38E3FB1F1FD8A2A500779293 /* MSDistributeDataMigrationTests.m in Sources */,
+				78B7D8B723D581B900E08D9B /* MSAlertControllerTests.m in Sources */,
 				848860451E6EC32B003A9B96 /* MSBasicMachOParserTests.m in Sources */,
 				389638A41E79F59D007C3809 /* MSDistributeTestUtil.m in Sources */,
 				0415974B1E9D639D00EC6BDA /* MSDistributionGroupTests.m in Sources */,
@@ -848,7 +843,7 @@
 				C9EBAAEA230D3A9B00A20F0F /* MSBasicMachOParser.m in Sources */,
 				C9EBAAED230D3A9B00A20F0F /* MSDistributeAppDelegate.m in Sources */,
 				C9EBAAE7230D3A9B00A20F0F /* MSDistributeIngestion.m in Sources */,
-				C9EBAAF1230D3AB200A20F0F /* MSAlertController.m in Sources */,
+				78B7D8BA23D5849600E08D9B /* MSAlertController.m in Sources */,
 				C9EBAAF0230D3A9B00A20F0F /* MSReleaseDetails.m in Sources */,
 				C9EBAAEC230D3A9B00A20F0F /* MSGuidedAccessUtil.m in Sources */,
 			);
