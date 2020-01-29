@@ -16,9 +16,9 @@
 #import "MSDistributeInfoTracker.h"
 #import "MSDistributeInternal.h"
 #import "MSDistributePrivate.h"
-#import "MSDistributionStartSessionLog.h"
 #import "MSDistributeTestUtil.h"
 #import "MSDistributeUtil.h"
+#import "MSDistributionStartSessionLog.h"
 #import "MSGuidedAccessUtil.h"
 #import "MSHttpCall.h"
 #import "MSHttpClient.h"
@@ -1113,10 +1113,10 @@ static NSURL *sfURL;
   __block MSDistributionStartSessionLog *log;
   __block int invocations = 0;
   OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSDistributionStartSessionLog class]] flags:MSFlagsDefault])
-  .andDo(^(NSInvocation *invocation) {
-    ++invocations;
-    [invocation getArgument:&log atIndex:2];
-  });
+      .andDo(^(NSInvocation *invocation) {
+        ++invocations;
+        [invocation getArgument:&log atIndex:2];
+      });
 
   // Enable again.
   [distributeMock setEnabled:YES];
@@ -2309,6 +2309,70 @@ static NSURL *sfURL;
   // Then
   assertThat(reportingParametersForUpdatedRelease[kMSURLQueryInstallIdKey], equalTo(installId));
   assertThat(reportingParametersForUpdatedRelease[kMSURLQueryDownloadedReleaseIdKey], equalTo(@1));
+}
+
+- (void)testCheckLatestFirstNewDistributionGroupId {
+
+  // If
+  NSString *distributionGroupId = @"GROUP-ID";
+  // id keychainMock = OCMClassMock([MSKeychainUtil class]);
+  id distributeMock = OCMPartialMock(self.sut);
+  [distributeMock setUpdateTrack:MSUpdateTrackPrivate];
+
+  // Mock the HTTP client.
+  id httpClientMock = OCMPartialMock([MSHttpClient new]);
+  id httpClientClassMock = OCMClassMock([MSHttpClient class]);
+  OCMStub([httpClientClassMock alloc]).andReturn(httpClientMock);
+  OCMStub([httpClientMock initWithMaxHttpConnectionsPerHost:4]).andReturn(httpClientMock);
+  // OCMReject([distributeMock handleUpdate:OCMOCK_ANY]);
+  self.sut.appSecret = kMSTestAppSecret;
+  id reachabilityMock = OCMClassMock([MS_Reachability class]);
+  OCMStub([reachabilityMock reachabilityForInternetConnection]).andReturn(reachabilityMock);
+  OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(ReachableViaWiFi);
+  
+  // Create JSON response data.
+  NSError * err;
+  NSDictionary *dict = @{
+    @"distributionGroupId": distributionGroupId
+  };
+  NSData *data = [NSJSONSerialization dataWithJSONObject:dict options:0 error:&err];
+  XCTestExpectation *expectation = [self expectationWithDescription:@"Request completed."];
+  
+  // Mock the http client calls.
+  OCMStub([httpClientMock requestCompletedWithHttpCall:OCMOCK_ANY data:data response:OCMOCK_ANY error:OCMOCK_ANY])
+      .andForwardToRealObject()
+      .andDo(^(__unused NSInvocation *invocation) {
+        [expectation fulfill];
+      });
+  OCMClassMock([MSHttpCall class]);
+  id httpCallMock = OCMPartialMock([MSHttpCall alloc]);
+  OCMStub([httpCallMock alloc]).andReturn(httpCallMock);
+  OCMReject([httpCallMock startRetryTimerWithStatusCode:404 retryAfter:OCMOCK_ANY event:OCMOCK_ANY]);
+
+  // When
+  [distributeMock startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
+                              appSecret:kMSTestAppSecret
+                transmissionTargetToken:nil
+                        fromApplication:YES];
+  [distributeMock checkLatestRelease:kMSTestUpdateToken distributionGroupId:kMSTestDistributionGroupId releaseHash:kMSTestReleaseHash];
+
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+                                 // Then
+                                 OCMVerify([self.distributeInfoTrackerMock updateDistributionGroupId:distributionGroupId]);
+                                 NSString *actualDistributionGroupId = [MS_USER_DEFAULTS objectForKey:kMSDistributionGroupIdKey];
+                                 XCTAssertEqual(actualDistributionGroupId, distributionGroupId);
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+
+  // Clear
+  [distributeMock stopMocking];
+  [reachabilityMock stopMocking];
+  [httpCallMock stopMocking];
+  [httpClientMock stopMocking];
 }
 
 - (void)testCheckLatestReleaseReportReleaseInstall {

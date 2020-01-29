@@ -423,13 +423,13 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
               // Check if downloaded release was installed and remove stored release details.
               [self removeDownloadedReleaseDetailsIfUpdated:releaseHash];
-              
+
               // If there is not already a saved public distribution group, process it now.
-              NSString* existingDistributionGroupId = [MS_USER_DEFAULTS objectForKey:kMSDistributionGroupIdKey];
+              NSString *existingDistributionGroupId = [MS_USER_DEFAULTS objectForKey:kMSDistributionGroupIdKey];
               if (!existingDistributionGroupId && details.distributionGroupId) {
                 [self processDistributionGroupId:details.distributionGroupId];
               }
-              
+
               /*
                * Handle this update.
                *
@@ -1122,7 +1122,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 }
 
 - (void)processDistributionGroupId:(NSString *)queryDistributionGroupId {
-  
+
   // Storing the distribution group ID to storage.
   [MS_USER_DEFAULTS setObject:queryDistributionGroupId forKey:kMSDistributionGroupIdKey];
 
