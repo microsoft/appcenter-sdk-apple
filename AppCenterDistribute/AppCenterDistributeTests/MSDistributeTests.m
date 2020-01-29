@@ -1244,6 +1244,7 @@ static NSURL *sfURL;
   // If, private distribution
   [MSKeychainUtil storeString:@"UpdateToken" forKey:kMSUpdateTokenKey];
   [self.settingsMock setObject:@"DistributionGroupId" forKey:kMSDistributionGroupIdKey];
+  self.sut.updateFlowInProgress = NO;
 
   // When
   [distributeMock applyEnabledState:YES];
@@ -1253,6 +1254,7 @@ static NSURL *sfURL;
 
   // If, public distribution
   [MSKeychainUtil deleteStringForKey:kMSUpdateTokenKey];
+  self.sut.updateFlowInProgress = NO;
 
   // When
   [distributeMock applyEnabledState:YES];
@@ -1262,6 +1264,7 @@ static NSURL *sfURL;
 
   // If
   [self.settingsMock setObject:@"RequestID" forKey:kMSUpdateTokenRequestIdKey];
+  self.sut.updateFlowInProgress = NO;
 
   // Then
   XCTAssertNotNil([self.settingsMock objectForKey:kMSUpdateTokenRequestIdKey]);
