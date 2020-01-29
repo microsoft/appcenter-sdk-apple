@@ -8,20 +8,21 @@
 * **[Fix]** Disable module debugging for release mode in the SDK to fix dSYM warnings.
 * **[Fix]** Fix SDK crash at application launch on iOS 12.0 (`CTTelephonyNetworkInfo.serviceSubscriberCellularProviders` issue).
 * **[Fix]** The SDK was considering 201-299 status code as HTTP errors and is now fixed to accept all 2XX codes as successful.
+* **[Fix]** Fix macOS SDK binaries not to contain strong copies for symbolic links.
 * **[Improvement]** Replaced sqlite query concatenation with more secure bindings.
 
 ### App Center Auth
 
 App Center Auth is [retired](https://aka.ms/MBaaS-retirement-blog-post) and has been removed from the SDK.
 
-### App Center Data
-
-App Center Data is [retired](https://aka.ms/MBaaS-retirement-blog-post) and has been removed from the SDK.
-
 ### App Center Crashes
 
 * **[Fix]** Fix an issue to call Crashes delegate callbacks even though a modal window is being shown on macOS apps.
 * **[Improvement]** Update PLCrashReporter to 1.4.0.
+
+### App Center Data
+
+App Center Data is [retired](https://aka.ms/MBaaS-retirement-blog-post) and has been removed from the SDK.
 
 ### App Center Distribute
 
