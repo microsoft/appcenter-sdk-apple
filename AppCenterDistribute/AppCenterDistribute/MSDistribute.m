@@ -464,6 +464,11 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                 [self.distributeInfoTracker removeDistributionGroupId];
               }
             }
+
+            // Reset the flag after handling the failure.
+            @synchronized(strongSelf) {
+              strongSelf.updateFlowInProgress = NO;
+            }
           }
         };
 

@@ -786,6 +786,7 @@ static NSURL *sfURL;
   OCMStub([httpClientMock initWithMaxHttpConnectionsPerHost:4]).andReturn(httpClientMock);
   OCMReject([distributeMock handleUpdate:OCMOCK_ANY]);
   self.sut.appSecret = kMSTestAppSecret;
+  self.sut.updateFlowInProgress = YES;
   id reachabilityMock = OCMClassMock([MS_Reachability class]);
   OCMStub([reachabilityMock reachabilityForInternetConnection]).andReturn(reachabilityMock);
   OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(ReachableViaWiFi);
@@ -824,6 +825,7 @@ static NSURL *sfURL;
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
                                }];
+  XCTAssertFalse(self.sut.updateFlowInProgress);
 
   // Clear
   [httpClientClassMock stopMocking];
@@ -843,6 +845,7 @@ static NSURL *sfURL;
   OCMStub([httpClientMock initWithMaxHttpConnectionsPerHost:4]).andReturn(httpClientMock);
   OCMReject([distributeMock handleUpdate:OCMOCK_ANY]);
   self.sut.appSecret = kMSTestAppSecret;
+  self.sut.updateFlowInProgress = YES;
   id reachabilityMock = OCMClassMock([MS_Reachability class]);
   OCMStub([reachabilityMock reachabilityForInternetConnection]).andReturn(reachabilityMock);
   OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(ReachableViaWiFi);
@@ -882,6 +885,7 @@ static NSURL *sfURL;
                                  XCTAssertNotNil([self.settingsMock objectForKey:kMSUpdateTokenRequestIdKey]);
                                  XCTAssertNotNil([self.settingsMock objectForKey:kMSPostponedTimestampKey]);
                                  XCTAssertNotNil([self.settingsMock objectForKey:kMSDistributionGroupIdKey]);
+                                 XCTAssertTrue(self.sut.updateFlowInProgress);
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
@@ -2085,6 +2089,7 @@ static NSURL *sfURL;
   id distributeMock = OCMPartialMock(self.sut);
   [distributeMock setValue:nil forKey:@"releaseDetails"];
   [distributeMock setValue:@YES forKey:@"updateFlowInProgress"];
+  self.sut.updateFlowInProgress = YES;
 
   // When
   [distributeMock notifyUpdateAction:MSUpdateActionPostpone];
