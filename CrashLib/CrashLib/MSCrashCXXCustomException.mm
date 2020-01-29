@@ -17,7 +17,7 @@ class my_custom_exception {
 }
 
 - (NSString *)desc {
-  return @"Throw an uncaught C++ exception that cannot be casted to std::exception.";
+  return @"Throw an uncaught C++ exception that cannot be cast to std::exception.";
 }
 
 - (void)crash __attribute__((noreturn)) {
