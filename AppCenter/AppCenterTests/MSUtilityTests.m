@@ -897,6 +897,42 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
   XCTAssertFalse([obfuscatedString rangeOfString:kMSRedirectUriObfuscatedTemplate].location == NSNotFound);
 }
 
+- (void)testDispatchObjectMacro {
+
+  // If
+  NSMutableArray *array = [NSMutableArray new];
+
+  // When
+  MS_DISPATCH_SELECTOR((void (*)(id, SEL, id)), array, addObject:, @"test");
+
+  // Then
+  XCTAssertEqual([array count], 1);
+  XCTAssertEqual([array firstObject], @"test");
+}
+
+- (void)testDispatchObjectMacroWithNil {
+  
+  // If
+  XCTestExpectation *expectation = [self expectationWithDescription:@"Dispatch selector executed."];
+  typedef void (^block)(NSString *, NSString *);
+    
+  // When
+  MS_DISPATCH_SELECTOR((void (*)(id, SEL, NSString *, NSString *, block)), self, methodWithArgs:secondArg:completionHandler:, nil, @"test",
+                       ^(NSString *firstArg, NSString *secondArg) {
+                         XCTAssertNil(firstArg);
+                         XCTAssertEqual(secondArg, @"test");
+                         [expectation fulfill];
+                       });
+    
+  // Then
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
+                               handler:^(NSError *error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+}
+
 - (void)testPerformBlockOnMainThread {
 
   // If
@@ -949,6 +985,10 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
 
 - (void)methodToCall:(NSString *)str completionHandler:(void (^)(NSString *string))completion {
   completion(str);
+}
+
+- (void)methodWithArgs:(NSString *)str secondArg:(NSString *)secondStr completionHandler:(void (^)(NSString *, NSString *))completion {
+  completion(str, secondStr);
 }
 
 @end
