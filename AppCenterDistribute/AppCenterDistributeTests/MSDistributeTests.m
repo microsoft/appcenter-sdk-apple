@@ -2358,7 +2358,6 @@ static NSURL *sfURL;
   // Then
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {
-                                 // Then
                                  OCMVerify([self.distributeInfoTrackerMock updateDistributionGroupId:distributionGroupId]);
                                  NSString *actualDistributionGroupId = [MS_USER_DEFAULTS objectForKey:kMSDistributionGroupIdKey];
                                  XCTAssertEqualObjects(actualDistributionGroupId, distributionGroupId);
@@ -2415,7 +2414,6 @@ static NSURL *sfURL;
   // Then
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {
-                                 // Then
                                  OCMVerify([distributeMock getReportingParametersForUpdatedRelease:kMSTestUpdateToken
                                                                        currentInstalledReleaseHash:kMSTestReleaseHash
                                                                                distributionGroupId:kMSTestDistributionGroupId]);
