@@ -123,10 +123,12 @@ NSString *MSPackageHash(void) {
 
 + (MSUpdateTrack)storedUpdateTrack {
   NSNumber *updateTrack = [MS_USER_DEFAULTS objectForKey:kMSDistributionUpdateTrackKey];
-  if (updateTrack && [self isValidUpdateTrack:[updateTrack intValue]]) {
-    return [updateTrack intValue];
+  if (updateTrack) {
+    if ([self isValidUpdateTrack:[updateTrack intValue]]) {
+      return [updateTrack intValue];
+    }
+    MSLogWarning([MSDistribute logTag], @"Corrupted stored update track, switching to public.");
   }
-  MSLogWarning([MSDistribute logTag], @"Corrupted stored update track, switching to public.");
   return MSUpdateTrackPublic;
 }
 
