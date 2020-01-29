@@ -2329,7 +2329,7 @@ static NSURL *sfURL;
   id reachabilityMock = OCMClassMock([MS_Reachability class]);
   OCMStub([reachabilityMock reachabilityForInternetConnection]).andReturn(reachabilityMock);
   OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(ReachableViaWiFi);
-  
+
   // Mock the http client calls.
   XCTestExpectation *expectation = [self expectationWithDescription:@"Request completed."];
   OCMStub([httpClientMock requestCompletedWithHttpCall:OCMOCK_ANY data:OCMOCK_ANY response:OCMOCK_ANY error:OCMOCK_ANY])
@@ -2341,12 +2341,10 @@ static NSURL *sfURL;
   id httpCallMock = OCMPartialMock([MSHttpCall alloc]);
   OCMStub([httpCallMock alloc]).andReturn(httpCallMock);
   OCMReject([httpCallMock startRetryTimerWithStatusCode:404 retryAfter:OCMOCK_ANY event:OCMOCK_ANY]);
-  
+
   // Create JSON response data.
-  NSError * err;
-  NSDictionary *dict = @{
-    @"distribution_group_id": distributionGroupId
-  };
+  NSError *err;
+  NSDictionary *dict = @{@"distribution_group_id" : distributionGroupId};
   NSData *data = [NSJSONSerialization dataWithJSONObject:dict options:0 error:&err];
   [MSHttpTestUtil stubResponseWithData:data statusCode:200 headers:nil name:NSStringFromSelector(_cmd)];
 
