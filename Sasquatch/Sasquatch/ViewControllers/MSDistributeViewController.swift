@@ -37,12 +37,17 @@ class MSDistributeViewController: UITableViewController, AppCenterProtocol {
   }
 
   private var updatePicker: MSEnumPicker<UpdateTrack>?
+
   private var whenUpdateTrackPicker: MSEnumPicker<WhenUpdateTrack>?
+
   private var updateTrack = UpdateTrack.Public {
+
     didSet {
        self.updateTrackField.text = self.updateTrack.rawValue
     }
   }
+ 
+
   private var whenUpdateTrack = WhenUpdateTrack.now {
     didSet {
         self.whenUpdateTrackField.text = self.whenUpdateTrack.rawValue
