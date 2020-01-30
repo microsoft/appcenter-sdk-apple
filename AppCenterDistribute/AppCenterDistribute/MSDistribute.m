@@ -42,7 +42,7 @@ static UIBackgroundTaskIdentifier backgroundAuthSessionTask;
 /**
  * The API path for update token request.
  */
-static NSString *const kMSUpdateTokenApiPathFormat = @"/apps/%@/update-setup";
+static NSString *const kMSUpdateTokenApiPathFormat = @"/apps/%@/private-update-setup";
 
 /**
  * The tester app path for update token request.
@@ -170,13 +170,11 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
       self.updateFlowInProgress = NO;
       return;
     }
-
     if (!self.updateFlowInProgress) {
       MSLogInfo([MSDistribute logTag], @"There is no update flow in progress. Ignore the request.");
       self.releaseDetails = nil;
       return;
     }
-
     switch (action) {
     case MSUpdateActionUpdate:
 
@@ -201,7 +199,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
       }
       break;
     case MSUpdateActionPostpone:
-      MSLogDebug([MSDistribute logTag], @"The SDK will ask the update tomorrow again.");
+      MSLogDebug([MSDistribute logTag], @"The SDK will ask for the update again tomorrow.");
       [MS_USER_DEFAULTS setObject:@((long long)[MSUtility nowInMilliseconds]) forKey:kMSPostponedTimestampKey];
       break;
     }
@@ -216,13 +214,13 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                     appSecret:(nullable NSString *)appSecret
       transmissionTargetToken:(nullable NSString *)token
               fromApplication:(BOOL)fromApplication {
-
-  // Start Ingestion.
-  id<MSHttpClientProtocol> httpClient = [MSDependencyConfiguration httpClient];
-  if (!httpClient) {
-    httpClient = [MSHttpClient new];
-  }
   if (appSecret) {
+    id<MSHttpClientProtocol> httpClient = [MSDependencyConfiguration httpClient];
+    if (!httpClient) {
+      httpClient = [MSHttpClient new];
+    }
+
+    // Start Ingestion.
     self.ingestion = [[MSDistributeIngestion alloc] initWithHttpClient:httpClient
                                                                baseUrl:self.apiUrl
                                                              appSecret:(NSString * _Nonnull) appSecret];
@@ -231,7 +229,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionTargetToken:token fromApplication:fromApplication];
     MSLogVerbose([MSDistribute logTag], @"Started Distribute service.");
   } else {
-    MSLogError([MSDistribute logTag], @"Failed to start Distribute because app Secret isn't specified.");
+    MSLogError([MSDistribute logTag], @"Failed to start Distribute because app secret isn't specified.");
   }
 }
 
@@ -291,6 +289,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     @synchronized(self) {
       if (self.updateFlowInProgress) {
         MSLogDebug([MSDistribute logTag], @"Previous update flow is in progress. Ignore the request.");
+        return;
       }
       self.updateFlowInProgress = YES;
     }
@@ -471,6 +470,11 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                 [self.distributeInfoTracker removeDistributionGroupId];
               }
             }
+
+            // Reset the flag after handling the failure.
+            @synchronized(strongSelf) {
+              strongSelf.updateFlowInProgress = NO;
+            }
           }
         };
 
@@ -486,7 +490,11 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     queryStrings[kMSURLQueryReleaseHashKey] = releaseHash;
 
     if (self.updateTrack == MSUpdateTrackPrivate) {
-      [self.ingestion checkForPrivateUpdateWithUpdateToken:updateToken queryStrings:queryStrings completionHandler:completionHandler];
+      if (updateToken) {
+        [self.ingestion checkForPrivateUpdateWithUpdateToken:updateToken queryStrings:queryStrings completionHandler:completionHandler];
+      } else {
+        MSLogError([MSDistribute logTag], @"Update token is missing. Please authenticate Distribute first.");
+      }
     } else {
       [self.ingestion checkForPublicUpdateWithQueryStrings:queryStrings completionHandler:completionHandler];
     }
@@ -1139,11 +1147,11 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 }
 
 - (void)setUpdateTrack:(MSUpdateTrack)updateTrack {
+  if (![MSDistributeUtil isValidUpdateTrack:updateTrack]) {
+    MSLogError([MSDistribute logTag], @"Invalid argument passed to updateTrack.");
+    return;
+  }
   @synchronized(self) {
-    if (![MSDistributeUtil isValidUpdateTrack:updateTrack]) {
-      MSLogError([MSDistribute logTag], @"Invalid argument passed to updateTrack.");
-      return;
-    }
     if (_updateTrack != updateTrack) {
       _updateTrack = updateTrack;
       [MS_USER_DEFAULTS setObject:@(updateTrack) forKey:kMSDistributionUpdateTrackKey];

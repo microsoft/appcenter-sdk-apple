@@ -39,7 +39,7 @@ static NSString *const kMSTestUpdateToken = @"UPDATETOKEN";
 static NSString *const kMSTestDistributionGroupId = @"DISTRIBUTIONGROUPID";
 static NSString *const kMSTestDownloadedDistributionGroupId = @"DOWNLOADEDDISTRIBUTIONGROUPID";
 static NSString *const kMSDistributeServiceName = @"Distribute";
-static NSString *const kMSUpdateTokenApiPathFormat = @"/apps/%@/update-setup";
+static NSString *const kMSUpdateTokenApiPathFormat = @"/apps/%@/private-update-setup";
 static NSString *const kMSDefaultURLFormat = @"https://fakeurl.com";
 
 // Mocked SFSafariViewController for url validation.
@@ -788,6 +788,7 @@ static NSURL *sfURL;
   OCMStub([httpClientMock initWithMaxHttpConnectionsPerHost:4]).andReturn(httpClientMock);
   OCMReject([distributeMock handleUpdate:OCMOCK_ANY]);
   self.sut.appSecret = kMSTestAppSecret;
+  self.sut.updateFlowInProgress = YES;
   id reachabilityMock = OCMClassMock([MS_Reachability class]);
   OCMStub([reachabilityMock reachabilityForInternetConnection]).andReturn(reachabilityMock);
   OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(ReachableViaWiFi);
@@ -826,6 +827,7 @@ static NSURL *sfURL;
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
                                }];
+  XCTAssertFalse(self.sut.updateFlowInProgress);
 
   // Clear
   [httpClientClassMock stopMocking];
@@ -845,6 +847,7 @@ static NSURL *sfURL;
   OCMStub([httpClientMock initWithMaxHttpConnectionsPerHost:4]).andReturn(httpClientMock);
   OCMReject([distributeMock handleUpdate:OCMOCK_ANY]);
   self.sut.appSecret = kMSTestAppSecret;
+  self.sut.updateFlowInProgress = YES;
   id reachabilityMock = OCMClassMock([MS_Reachability class]);
   OCMStub([reachabilityMock reachabilityForInternetConnection]).andReturn(reachabilityMock);
   OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(ReachableViaWiFi);
@@ -884,6 +887,7 @@ static NSURL *sfURL;
                                  XCTAssertNotNil([self.settingsMock objectForKey:kMSUpdateTokenRequestIdKey]);
                                  XCTAssertNotNil([self.settingsMock objectForKey:kMSPostponedTimestampKey]);
                                  XCTAssertNotNil([self.settingsMock objectForKey:kMSDistributionGroupIdKey]);
+                                 XCTAssertTrue(self.sut.updateFlowInProgress);
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
@@ -1265,6 +1269,7 @@ static NSURL *sfURL;
   // If, private distribution
   [MSKeychainUtil storeString:@"UpdateToken" forKey:kMSUpdateTokenKey];
   [self.settingsMock setObject:@"DistributionGroupId" forKey:kMSDistributionGroupIdKey];
+  self.sut.updateFlowInProgress = NO;
 
   // When
   [distributeMock applyEnabledState:YES];
@@ -1274,6 +1279,7 @@ static NSURL *sfURL;
 
   // If, public distribution
   [MSKeychainUtil deleteStringForKey:kMSUpdateTokenKey];
+  self.sut.updateFlowInProgress = NO;
 
   // When
   [distributeMock applyEnabledState:YES];
@@ -1283,6 +1289,7 @@ static NSURL *sfURL;
 
   // If
   [self.settingsMock setObject:@"RequestID" forKey:kMSUpdateTokenRequestIdKey];
+  self.sut.updateFlowInProgress = NO;
 
   // Then
   XCTAssertNotNil([self.settingsMock objectForKey:kMSUpdateTokenRequestIdKey]);
@@ -2103,6 +2110,7 @@ static NSURL *sfURL;
   id distributeMock = OCMPartialMock(self.sut);
   [distributeMock setValue:nil forKey:@"releaseDetails"];
   [distributeMock setValue:@YES forKey:@"updateFlowInProgress"];
+  self.sut.updateFlowInProgress = YES;
 
   // When
   [distributeMock notifyUpdateAction:MSUpdateActionPostpone];
@@ -2917,6 +2925,28 @@ static NSURL *sfURL;
 
   // Then
   XCTAssertNil([self.settingsMock objectForKey:kMSDistributionUpdateTrackKey]);
+}
+
+- (void)testPrivateTrackNotGettingUpdateWithoutUpdateToken {
+
+  // If
+  id ingestionMock = OCMClassMock([MSDistributeIngestion class]);
+  id distributeMock = OCMPartialMock(self.sut);
+  [distributeMock setValue:ingestionMock forKey:@"ingestion"];
+  [distributeMock setValue:@(MSUpdateTrackPrivate) forKey:@"updateTrack"];
+  OCMReject([ingestionMock checkForPrivateUpdateWithUpdateToken:OCMOCK_ANY queryStrings:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
+  OCMReject([ingestionMock checkForPublicUpdateWithQueryStrings:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
+  OCMStub([distributeMock canBeUsed]).andReturn(YES);
+
+  // When
+  [distributeMock checkLatestRelease:nil distributionGroupId:@"whateverGroupId" releaseHash:@"whateverReleaseHash"];
+
+  // Then
+  OCMVerifyAll(ingestionMock);
+
+  // Clear
+  [ingestionMock stopMocking];
+  [distributeMock stopMocking];
 }
 
 @end
