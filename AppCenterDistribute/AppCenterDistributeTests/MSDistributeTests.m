@@ -786,7 +786,7 @@ static NSURL *sfURL;
   OCMStub([httpClientMock initWithMaxHttpConnectionsPerHost:4]).andReturn(httpClientMock);
   OCMReject([distributeMock handleUpdate:OCMOCK_ANY]);
   self.sut.appSecret = kMSTestAppSecret;
-  self.sut.updateFlowInProgress = YES;
+  [distributeMock setValue:@(YES) forKey:@"updateFlowInProgress"];
   id reachabilityMock = OCMClassMock([MS_Reachability class]);
   OCMStub([reachabilityMock reachabilityForInternetConnection]).andReturn(reachabilityMock);
   OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(ReachableViaWiFi);
@@ -821,11 +821,11 @@ static NSURL *sfURL;
                                  XCTAssertNil([self.settingsMock objectForKey:kMSUpdateTokenRequestIdKey]);
                                  XCTAssertNil([self.settingsMock objectForKey:kMSPostponedTimestampKey]);
                                  XCTAssertNil([self.settingsMock objectForKey:kMSDistributionGroupIdKey]);
+                                 XCTAssertFalse(self.sut.updateFlowInProgress);
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
                                }];
-  XCTAssertFalse(self.sut.updateFlowInProgress);
 
   // Clear
   [httpClientClassMock stopMocking];
@@ -845,7 +845,7 @@ static NSURL *sfURL;
   OCMStub([httpClientMock initWithMaxHttpConnectionsPerHost:4]).andReturn(httpClientMock);
   OCMReject([distributeMock handleUpdate:OCMOCK_ANY]);
   self.sut.appSecret = kMSTestAppSecret;
-  self.sut.updateFlowInProgress = YES;
+  [distributeMock setValue:@(YES) forKey:@"updateFlowInProgress"];
   id reachabilityMock = OCMClassMock([MS_Reachability class]);
   OCMStub([reachabilityMock reachabilityForInternetConnection]).andReturn(reachabilityMock);
   OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(ReachableViaWiFi);
@@ -1248,7 +1248,7 @@ static NSURL *sfURL;
   // If, private distribution
   [MSKeychainUtil storeString:@"UpdateToken" forKey:kMSUpdateTokenKey];
   [self.settingsMock setObject:@"DistributionGroupId" forKey:kMSDistributionGroupIdKey];
-  self.sut.updateFlowInProgress = NO;
+  [distributeMock setValue:@(NO) forKey:@"updateFlowInProgress"];
 
   // When
   [distributeMock applyEnabledState:YES];
@@ -1258,7 +1258,7 @@ static NSURL *sfURL;
 
   // If, public distribution
   [MSKeychainUtil deleteStringForKey:kMSUpdateTokenKey];
-  self.sut.updateFlowInProgress = NO;
+  [distributeMock setValue:@(NO) forKey:@"updateFlowInProgress"];
 
   // When
   [distributeMock applyEnabledState:YES];
@@ -1268,7 +1268,7 @@ static NSURL *sfURL;
 
   // If
   [self.settingsMock setObject:@"RequestID" forKey:kMSUpdateTokenRequestIdKey];
-  self.sut.updateFlowInProgress = NO;
+  [distributeMock setValue:@(NO) forKey:@"updateFlowInProgress"];
 
   // Then
   XCTAssertNotNil([self.settingsMock objectForKey:kMSUpdateTokenRequestIdKey]);
@@ -1985,6 +1985,7 @@ static NSURL *sfURL;
 
   // Then
   assertThat([self.settingsMock objectForKey:kMSPostponedTimestampKey], equalToLongLong((long long)time));
+  XCTAssertFalse(self.sut.updateFlowInProgress);
 
   // Clear
   [distributeMock stopMocking];
@@ -2089,7 +2090,6 @@ static NSURL *sfURL;
   id distributeMock = OCMPartialMock(self.sut);
   [distributeMock setValue:nil forKey:@"releaseDetails"];
   [distributeMock setValue:@YES forKey:@"updateFlowInProgress"];
-  self.sut.updateFlowInProgress = YES;
 
   // When
   [distributeMock notifyUpdateAction:MSUpdateActionPostpone];
@@ -2588,27 +2588,6 @@ static NSURL *sfURL;
   [utilityMock stopMocking];
 }
 
-#pragma mark - Helper
-
-- (MSReleaseDetails *)generateReleaseDetailsWithVersion:(NSString *)version andShortVersion:(NSString *)shortVersion {
-  MSReleaseDetails *releaseDetails = [MSReleaseDetails new];
-  releaseDetails.version = version;
-  releaseDetails.shortVersion = shortVersion;
-  return releaseDetails;
-}
-
-- (id)mockMSPackageHash {
-  id utilityMock = OCMClassMock([MSUtility class]);
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wcast-qual"
-  OCMStub(ClassMethod([utilityMock sha256:OCMOCK_ANY])).andReturn(kMSTestReleaseHash);
-#pragma GCC diagnostic pop
-
-  NSDictionary<NSString *, id> *plist = @{@"CFBundleShortVersionString" : @"1.0", @"CFBundleVersion" : @"1"};
-  OCMStub([self.bundleMock infoDictionary]).andReturn(plist);
-  return utilityMock;
-}
-
 - (void)testStartUpdateWhenEnabledButDidNotStart {
   NSString *isEnabledKey = @"MSAppCenterIsEnabled";
   [MS_USER_DEFAULTS setObject:@(YES) forKey:isEnabledKey];
@@ -2867,6 +2846,148 @@ static NSURL *sfURL;
   // Clear
   [ingestionMock stopMocking];
   [distributeMock stopMocking];
+}
+
+- (void)testCompleteUpdateFlowWhenReleaseDetailsIsNotValid {
+
+  // If
+  id distributeMock = OCMPartialMock(self.sut);
+
+  // Mock the HTTP client.
+  id httpClientMock = OCMPartialMock([MSHttpClient new]);
+  id httpClientClassMock = OCMClassMock([MSHttpClient class]);
+  OCMStub([httpClientClassMock alloc]).andReturn(httpClientMock);
+  OCMStub([httpClientMock initWithMaxHttpConnectionsPerHost:4]).andReturn(httpClientMock);
+  OCMReject([distributeMock handleUpdate:OCMOCK_ANY]);
+  self.sut.appSecret = kMSTestAppSecret;
+  [distributeMock setValue:@(YES) forKey:@"updateFlowInProgress"];
+  id reachabilityMock = OCMClassMock([MS_Reachability class]);
+  OCMStub([reachabilityMock reachabilityForInternetConnection]).andReturn(reachabilityMock);
+  OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(ReachableViaWiFi);
+  XCTestExpectation *expectation = [self expectationWithDescription:@"Request completed."];
+  OCMStub([httpClientMock requestCompletedWithHttpCall:OCMOCK_ANY data:OCMOCK_ANY response:OCMOCK_ANY error:OCMOCK_ANY])
+      .andForwardToRealObject()
+      .andDo(^(__unused NSInvocation *invocation) {
+        [expectation fulfill];
+      });
+
+  // Receive 200 OK success with invalid response body.
+  [MSHttpTestUtil stubResponseWithData:nil statusCode:200 headers:nil name:@"httpStub_200_NoData"];
+
+  // When
+  [distributeMock startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
+                              appSecret:kMSTestAppSecret
+                transmissionTargetToken:nil
+                        fromApplication:YES];
+  [self.sut checkLatestRelease:kMSTestUpdateToken distributionGroupId:kMSTestDistributionGroupId releaseHash:kMSTestReleaseHash];
+
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                                 XCTAssertFalse(self.sut.updateFlowInProgress);
+                               }];
+
+  // Clear
+  [httpClientClassMock stopMocking];
+  [reachabilityMock stopMocking];
+}
+
+- (void)testCompleteUpdateFlowWhenUpdateNotAllowed {
+
+  // If
+  id distributeMock = OCMPartialMock(self.sut);
+  OCMStub([distributeMock canBeUsed]).andReturn(YES);
+  OCMStub([distributeMock checkForUpdatesAllowed]).andReturn(NO);
+  [distributeMock setValue:@(YES) forKey:@"updateFlowInProgress"];
+
+  // When
+  [distributeMock checkLatestRelease:@"whateverToken" distributionGroupId:@"whateverGroupId" releaseHash:@"whateverReleaseHash"];
+
+  // Then
+  XCTAssertFalse(self.sut.updateFlowInProgress);
+
+  // Clear
+  [distributeMock stopMocking];
+}
+
+- (void)testCompleteUpdateFlowWhenUpdateStopped {
+
+  // If
+  id distributeMock = OCMPartialMock(self.sut);
+
+  // Mock the HTTP client.
+  id httpClientMock = OCMPartialMock([MSHttpClient new]);
+  id httpClientClassMock = OCMClassMock([MSHttpClient class]);
+  OCMStub([httpClientClassMock alloc]).andReturn(httpClientMock);
+  OCMStub([httpClientMock initWithMaxHttpConnectionsPerHost:4]).andReturn(httpClientMock);
+  self.sut.appSecret = kMSTestAppSecret;
+  [distributeMock setValue:@(YES) forKey:@"updateFlowInProgress"];
+  id reachabilityMock = OCMClassMock([MS_Reachability class]);
+  OCMStub([reachabilityMock reachabilityForInternetConnection]).andReturn(reachabilityMock);
+  OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(ReachableViaWiFi);
+  XCTestExpectation *expectation = [self expectationWithDescription:@"Request completed."];
+  OCMStub([httpClientMock requestCompletedWithHttpCall:OCMOCK_ANY data:OCMOCK_ANY response:OCMOCK_ANY error:OCMOCK_ANY])
+      .andForwardToRealObject()
+      .andDo(^(__unused NSInvocation *invocation) {
+        [expectation fulfill];
+      });
+
+  // handleUpdate returns NO to simulate
+  // 1. A valid MSReleaseDetails but isValid returns NO.
+  // 2. A valid MSReleaseDetails without status field.
+  // 3. Update was postponed within a day.
+  // 4. The release doesn't meet minimum OS version requirement.
+  // 5. The release is already installed.
+  OCMStub([distributeMock handleUpdate:OCMOCK_ANY]).andReturn(NO);
+
+  // Receive 200 OK success with valid response body.
+  MSReleaseDetails *details = [self generateReleaseDetailsWithVersion:@"1.0" andShortVersion:@"1"];
+  NSData *data = [NSJSONSerialization dataWithJSONObject:[details serializeToDictionary] options:0 error:nil];
+  [MSHttpTestUtil stubResponseWithData:data statusCode:200 headers:nil name:@"httpStub_200"];
+
+  // When
+  [distributeMock startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
+                              appSecret:kMSTestAppSecret
+                transmissionTargetToken:nil
+                        fromApplication:YES];
+  [self.sut checkLatestRelease:kMSTestUpdateToken distributionGroupId:kMSTestDistributionGroupId releaseHash:kMSTestReleaseHash];
+
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                                 XCTAssertFalse(self.sut.updateFlowInProgress);
+                               }];
+
+  // Clear
+  [httpClientClassMock stopMocking];
+  [reachabilityMock stopMocking];
+}
+
+#pragma mark - Helper
+
+- (MSReleaseDetails *)generateReleaseDetailsWithVersion:(NSString *)version andShortVersion:(NSString *)shortVersion {
+  MSReleaseDetails *releaseDetails = [MSReleaseDetails new];
+  releaseDetails.version = version;
+  releaseDetails.shortVersion = shortVersion;
+  return releaseDetails;
+}
+
+- (id)mockMSPackageHash {
+  id utilityMock = OCMClassMock([MSUtility class]);
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wcast-qual"
+  OCMStub(ClassMethod([utilityMock sha256:OCMOCK_ANY])).andReturn(kMSTestReleaseHash);
+#pragma GCC diagnostic pop
+
+  NSDictionary<NSString *, id> *plist = @{@"CFBundleShortVersionString" : @"1.0", @"CFBundleVersion" : @"1"};
+  OCMStub([self.bundleMock infoDictionary]).andReturn(plist);
+  return utilityMock;
 }
 
 @end
