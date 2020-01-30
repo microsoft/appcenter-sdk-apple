@@ -2315,7 +2315,6 @@ static NSURL *sfURL;
 
   // If
   NSString *distributionGroupId = @"GROUP-ID";
-  // id keychainMock = OCMClassMock([MSKeychainUtil class]);
   id distributeMock = OCMPartialMock(self.sut);
   [distributeMock setUpdateTrack:MSUpdateTrackPrivate];
 
@@ -2324,7 +2323,6 @@ static NSURL *sfURL;
   id httpClientClassMock = OCMClassMock([MSHttpClient class]);
   OCMStub([httpClientClassMock alloc]).andReturn(httpClientMock);
   OCMStub([httpClientMock initWithMaxHttpConnectionsPerHost:4]).andReturn(httpClientMock);
-  // OCMReject([distributeMock handleUpdate:OCMOCK_ANY]);
   self.sut.appSecret = kMSTestAppSecret;
   id reachabilityMock = OCMClassMock([MS_Reachability class]);
   OCMStub([reachabilityMock reachabilityForInternetConnection]).andReturn(reachabilityMock);
