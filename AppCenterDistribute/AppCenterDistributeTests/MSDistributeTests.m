@@ -2349,10 +2349,9 @@ static NSURL *sfURL;
   OCMReject([httpCallMock startRetryTimerWithStatusCode:404 retryAfter:OCMOCK_ANY event:OCMOCK_ANY]);
 
   // Create JSON response data.
-  NSError *err;
   NSDictionary *dict = @{@"distribution_group_id" : distributionGroupId};
-  NSData *data = [NSJSONSerialization dataWithJSONObject:dict options:0 error:&err];
-  [MSHttpTestUtil stubResponseWithData:data statusCode:200 headers:nil name:NSStringFromSelector(_cmd)];
+  NSData *data = [NSJSONSerialization dataWithJSONObject:dict options:0 error:nil];
+  [MSHttpTestUtil stubResponseWithData:data statusCode:200 headers:nil name:@"httpStub_200"];
 
   // When
   [distributeMock startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
