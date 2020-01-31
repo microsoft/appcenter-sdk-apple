@@ -276,7 +276,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
    * Set the device here to make sure we don't use the current device
    * information but the one from history that matches the time of our crash.
    */
-  errorLog.device = [[MSDeviceTracker new] deviceForTimestamp:errorLog.timestamp];
+  errorLog.device = [[MSDeviceTracker sharedInstance] deviceForTimestamp:errorLog.timestamp];
 
   // Set the exception from the wrapper SDK.
   MSWrapperException *wrapperException =
