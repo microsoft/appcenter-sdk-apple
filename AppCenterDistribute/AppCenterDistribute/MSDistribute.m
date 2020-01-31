@@ -418,6 +418,9 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
             }
             if (!details) {
               MSLogError([MSDistribute logTag], @"Couldn't parse response payload.");
+              @synchronized(strongSelf) {
+                strongSelf.updateFlowInProgress = NO;
+              }
             } else {
 
               // Check if downloaded release was installed and remove stored release details.
@@ -440,7 +443,11 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                * Thus, there is the overhead of updating the currently displayed download action with the new URL. In the end fixing
                * this edge case adds too much complexity for no worthy advantages, keeping it as it is for now.
                */
-              [strongSelf handleUpdate:details];
+              if (![strongSelf handleUpdate:details]) {
+                @synchronized(strongSelf) {
+                  strongSelf.updateFlowInProgress = NO;
+                }
+              }
             }
           }
 
@@ -507,6 +514,9 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                                       @"3. The app is running in a non-adhoc environment. "
                                       @"Detach the debugger and restart the app and/or run the app with the release configuration "
                                       @"to enable the feature.");
+    @synchronized(self) {
+      self.updateFlowInProgress = NO;
+    }
   }
 }
 
