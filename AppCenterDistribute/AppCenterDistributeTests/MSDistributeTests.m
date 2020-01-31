@@ -2263,7 +2263,7 @@ static NSURL *sfURL;
   [self.settingsMock removeObjectForKey:kMSDownloadedReleaseHashKey];
 
   // When
-  NSMutableDictionary *reportingParametersForUpdatedRelease = [self.sut getReportingParametersForUpdatedRelease:kMSTestUpdateToken
+  NSMutableDictionary *reportingParametersForUpdatedRelease = [self.sut getReportingParametersForUpdatedRelease:NO
                                                                                     currentInstalledReleaseHash:kMSTestReleaseHash
                                                                                             distributionGroupId:kMSTestDistributionGroupId];
 
@@ -2277,7 +2277,7 @@ static NSURL *sfURL;
   [self.settingsMock setObject:@"ReleaseHash2" forKey:kMSDownloadedReleaseHashKey];
 
   // When
-  NSMutableDictionary *reportingParametersForUpdatedRelease = [self.sut getReportingParametersForUpdatedRelease:kMSTestUpdateToken
+  NSMutableDictionary *reportingParametersForUpdatedRelease = [self.sut getReportingParametersForUpdatedRelease:NO
                                                                                     currentInstalledReleaseHash:kMSTestReleaseHash
                                                                                             distributionGroupId:kMSTestDistributionGroupId];
 
@@ -2292,29 +2292,30 @@ static NSURL *sfURL;
   [self.settingsMock setObject:kMSTestReleaseHash forKey:kMSDownloadedReleaseHashKey];
 
   // When
-  NSMutableDictionary *reportingParametersForUpdatedRelease = [self.sut getReportingParametersForUpdatedRelease:kMSTestUpdateToken
+  NSMutableDictionary *reportingParametersForUpdatedRelease = [self.sut getReportingParametersForUpdatedRelease:NO
                                                                                     currentInstalledReleaseHash:kMSTestReleaseHash
                                                                                             distributionGroupId:kMSTestDistributionGroupId];
 
   // Then
   assertThat(reportingParametersForUpdatedRelease[kMSURLQueryDistributionGroupIdKey], equalTo(kMSTestDistributionGroupId));
+  assertThat(reportingParametersForUpdatedRelease[kMSURLQueryInstallIdKey], equalTo(nil));
   assertThat(reportingParametersForUpdatedRelease[kMSURLQueryDownloadedReleaseIdKey], equalTo(@1));
 }
 
 - (void)testReportReleaseInstallForPublicGroupWhenReleaseHashesMatch {
 
   // If
-  NSString *updateToken = nil;
   NSString *installId = [[MSAppCenter installId] UUIDString];
   [self.settingsMock setObject:@1 forKey:kMSDownloadedReleaseIdKey];
   [self.settingsMock setObject:kMSTestReleaseHash forKey:kMSDownloadedReleaseHashKey];
 
   // When
-  NSMutableDictionary *reportingParametersForUpdatedRelease = [self.sut getReportingParametersForUpdatedRelease:updateToken
+  NSMutableDictionary *reportingParametersForUpdatedRelease = [self.sut getReportingParametersForUpdatedRelease:YES
                                                                                     currentInstalledReleaseHash:kMSTestReleaseHash
                                                                                             distributionGroupId:kMSTestDistributionGroupId];
 
   // Then
+  assertThat(reportingParametersForUpdatedRelease[kMSURLQueryDistributionGroupIdKey], equalTo(kMSTestDistributionGroupId));
   assertThat(reportingParametersForUpdatedRelease[kMSURLQueryInstallIdKey], equalTo(installId));
   assertThat(reportingParametersForUpdatedRelease[kMSURLQueryDownloadedReleaseIdKey], equalTo(@1));
 }
@@ -2419,7 +2420,7 @@ static NSURL *sfURL;
   // Then
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {
-                                 OCMVerify([distributeMock getReportingParametersForUpdatedRelease:kMSTestUpdateToken
+                                 OCMVerify([distributeMock getReportingParametersForUpdatedRelease:NO
                                                                        currentInstalledReleaseHash:kMSTestReleaseHash
                                                                                distributionGroupId:kMSTestDistributionGroupId]);
                                  if (error) {

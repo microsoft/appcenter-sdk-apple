@@ -488,7 +488,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     // Build query strings.
     NSMutableDictionary *queryStrings = [[NSMutableDictionary alloc] init];
     NSMutableDictionary *reportingParametersForUpdatedRelease =
-        [self getReportingParametersForUpdatedRelease:(self.updateTrack == MSUpdateTrackPublic ? nil : updateToken)
+        [self getReportingParametersForUpdatedRelease:(self.updateTrack == MSUpdateTrackPublic)
                           currentInstalledReleaseHash:releaseHash
                                   distributionGroupId:distributionGroupId];
     if (reportingParametersForUpdatedRelease != nil) {
@@ -830,7 +830,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   [MS_USER_DEFAULTS removeObjectForKey:kMSDownloadedReleaseHashKey];
 }
 
-- (nullable NSMutableDictionary *)getReportingParametersForUpdatedRelease:(nullable NSString *)updateToken
+- (nullable NSMutableDictionary *)getReportingParametersForUpdatedRelease:(BOOL)isPublic
                                               currentInstalledReleaseHash:(NSString *)currentInstalledReleaseHash
                                                       distributionGroupId:(NSString *)distributionGroupId {
 
@@ -850,9 +850,8 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   // Return reporting parameters.
   MSLogDebug([MSDistribute logTag], @"Current release was updated but not reported yet, reporting.");
   NSMutableDictionary *reportingParameters = [[NSMutableDictionary alloc] init];
-  if (updateToken) {
-    reportingParameters[kMSURLQueryDistributionGroupIdKey] = distributionGroupId;
-  } else {
+  reportingParameters[kMSURLQueryDistributionGroupIdKey] = distributionGroupId;
+  if (isPublic) {
     reportingParameters[kMSURLQueryInstallIdKey] = [[MSAppCenter installId] UUIDString];
   }
   NSString *lastDownloadedReleaseId = [MS_USER_DEFAULTS objectForKey:kMSDownloadedReleaseIdKey];
