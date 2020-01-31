@@ -431,6 +431,7 @@ static NSArray *kMacOSCrashReportsParameters = @[
 - (void)testErrorLogFromCrashReportWithWrapper {
 
   // If
+  MSMockUserDefaults *defaults = [MSMockUserDefaults new];
   [MSDeviceTracker resetSharedInstance];
   NSData *crashData = [MSCrashesTestUtil dataOfFixtureCrashReportWithFileName:@"live_report_exception"];
   XCTAssertNotNil(crashData);
@@ -442,12 +443,14 @@ static NSArray *kMacOSCrashReportsParameters = @[
                                                       liveUpdateReleaseLabel:@"Release Label"
                                                      liveUpdateDeploymentKey:@"Deployment Key"
                                                        liveUpdatePackageHash:@"Package Hash"];
+
   // When
   [[MSDeviceTracker sharedInstance] setWrapperSdk:wrapperSdk];
   MSAppleErrorLog *errorLog = [MSErrorLogFormatter errorLogFromCrashReport:report];
 
   // Then
   XCTAssertEqualObjects(errorLog.device.wrapperSdkName, @"Wrapper SDK for iOS");
+  [defaults stopMocking];
 }
 
 - (void)assertIsCrashProbeReportValidConverted:(NSString *)filename {

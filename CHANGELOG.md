@@ -14,6 +14,7 @@
 ### App Center Crashes
 
 * **[Fix]** Fix an issue to call Crashes delegate callbacks even though a modal window is being shown on macOS apps.
+* **[Fix]** Fix an issue when React Native SDK did not send wrapperSdk information.
 
 ### App Center Crashes
 
