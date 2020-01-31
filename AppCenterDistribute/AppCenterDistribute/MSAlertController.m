@@ -5,6 +5,7 @@
 #import <UIKit/UIWindow.h>
 
 #import "MSAlertController.h"
+#import "MSDispatcherUtil.h"
 
 static char *const MSAlertsDispatchQueue = "com.microsoft.appcenter.alertsQueue";
 
@@ -146,20 +147,13 @@ static dispatch_queue_t alertsQueue;
   }
 }
 
-// FIXME: This macro is not safe for nil arguments as types in this case cannot be inferred.
-#define MS_DISPATCH_SELECTOR(result, class, selectorName, ...) ({ \
-  SEL selector = NSSelectorFromString(@#selectorName); \
-  IMP impl = [class methodForSelector:selector]; \
-  ((result (*)(id, SEL, ...)) impl)(class, selector, ##__VA_ARGS__); \
-})
-
 + (void)makeKeyAndVisible {
   if (@available(iOS 13.0, tvOS 13.0, *)) {
-    UIApplication *application = MS_DISPATCH_SELECTOR(UIApplication *, [UIApplication class], sharedApplication);
-    NSSet *scenes = MS_DISPATCH_SELECTOR(NSSet *, application, connectedScenes);
-    id windowScene = nil;
+    UIApplication *application = MS_DISPATCH_SELECTOR((UIApplication * (*)(id, SEL)), [UIApplication class], sharedApplication);
+    NSSet *scenes = MS_DISPATCH_SELECTOR((NSSet * (*)(id, SEL)), application, connectedScenes);
+    NSObject *windowScene = nil;
     for (NSObject *scene in scenes) {
-      NSInteger activationState = MS_DISPATCH_SELECTOR(NSInteger, scene, activationState);
+      NSInteger activationState = MS_DISPATCH_SELECTOR((NSInteger(*)(id, SEL)), scene, activationState);
       if (activationState == 0 /* UISceneActivationStateForegroundActive */) {
         windowScene = scene;
         break;
@@ -168,11 +162,7 @@ static dispatch_queue_t alertsQueue;
     if (!windowScene) {
       windowScene = scenes.anyObject;
     }
-    
-    // FIXME: Explicit typing to call `setWindowScene:` as windowScene maybe nil and the macro won't support it.
-    SEL selector = NSSelectorFromString(@"setWindowScene:");
-    IMP impl = [window methodForSelector:selector];
-    ((void (*)(id, SEL, typeof(window))) impl)(window, selector, windowScene);
+    MS_DISPATCH_SELECTOR((void (*)(id, SEL, typeof(windowScene))), window, setWindowScene:, windowScene);
   }
   [window makeKeyAndVisible];
 }
