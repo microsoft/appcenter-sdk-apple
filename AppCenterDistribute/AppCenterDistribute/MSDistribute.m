@@ -57,6 +57,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
  * Singleton.
  */
 static MSDistribute *sharedInstance;
+
 static dispatch_once_t onceToken;
 
 @implementation MSDistribute
@@ -109,9 +110,7 @@ static dispatch_once_t onceToken;
 
 + (instancetype)sharedInstance {
   dispatch_once(&onceToken, ^{
-    if (sharedInstance == nil) {
-      sharedInstance = [[MSDistribute alloc] init];
-    }
+    sharedInstance = [[MSDistribute alloc] init];
   });
   return sharedInstance;
 }
