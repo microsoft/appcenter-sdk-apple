@@ -9,6 +9,7 @@
 #import "MSAuthTokenContextPrivate.h"
 #import "MSBasicMachOParser.h"
 #import "MSChannelGroupDefault.h"
+#import "MSChannelUnitDefault.h"
 #import "MSConstants+Internal.h"
 #import "MSDependencyConfiguration.h"
 #import "MSDistribute.h"
@@ -17,6 +18,7 @@
 #import "MSDistributePrivate.h"
 #import "MSDistributeTestUtil.h"
 #import "MSDistributeUtil.h"
+#import "MSDistributionStartSessionLog.h"
 #import "MSGuidedAccessUtil.h"
 #import "MSHttpCall.h"
 #import "MSHttpClient.h"
@@ -1111,6 +1113,15 @@ static NSURL *sfURL;
                               appSecret:kMSTestAppSecret
                 transmissionTargetToken:nil
                         fromApplication:YES];
+  id channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  self.sut.channelUnit = channelUnitMock;
+  __block MSDistributionStartSessionLog *log;
+  __block int invocations = 0;
+  OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSDistributionStartSessionLog class]] flags:MSFlagsDefault])
+      .andDo(^(NSInvocation *invocation) {
+        ++invocations;
+        [invocation getArgument:&log atIndex:2];
+      });
 
   // Enable again.
   [distributeMock setEnabled:YES];
@@ -1126,8 +1137,13 @@ static NSURL *sfURL;
 
   // Then
   XCTAssertTrue(result);
-  OCMVerify([distributeMock sendFirstSessionUpdateLog]);
+  XCTAssertEqual(invocations, 1);
+  XCTAssertNotNil(log);
+  OCMVerify([self.distributeInfoTrackerMock updateDistributionGroupId:distributionGroupId]);
+  XCTAssertEqualObjects([MS_USER_DEFAULTS objectForKey:kMSDistributionGroupIdKey], distributionGroupId);
   [MSSessionContext resetSharedInstance];
+  log = nil;
+  invocations = 0;
 
   // If
   url = [NSURL
@@ -1140,7 +1156,8 @@ static NSURL *sfURL;
 
   // Then
   XCTAssertTrue(result);
-  OCMReject([distributeMock sendFirstSessionUpdateLog]);
+  XCTAssertEqual(invocations, 0);
+  OCMReject([self.distributeInfoTrackerMock updateDistributionGroupId:OCMOCK_ANY]);
 
   // If
   url = [NSURL URLWithString:[NSString stringWithFormat:@"%@://?request_id=%@&update_token=%@", scheme, requestId, token]];
@@ -1151,7 +1168,8 @@ static NSURL *sfURL;
 
   // Then
   XCTAssertTrue(result);
-  OCMReject([distributeMock sendFirstSessionUpdateLog]);
+  XCTAssertEqual(invocations, 0);
+  OCMReject([self.distributeInfoTrackerMock updateDistributionGroupId:OCMOCK_ANY]);
 
   // If
   [distributeMock setEnabled:NO];
@@ -1161,11 +1179,14 @@ static NSURL *sfURL;
 
   // Then
   XCTAssertTrue(result);
+  XCTAssertEqual(invocations, 0);
+  OCMReject([self.distributeInfoTrackerMock updateDistributionGroupId:OCMOCK_ANY]);
 
   // Clear
   [distributeMock stopMocking];
   [appCenterMock stopMocking];
   [utilityMock stopMocking];
+  [channelUnitMock stopMocking];
 }
 
 - (void)testOpenUrlWithUpdateSetupFailure {
@@ -2243,7 +2264,7 @@ static NSURL *sfURL;
   [self.settingsMock removeObjectForKey:kMSDownloadedReleaseHashKey];
 
   // When
-  NSMutableDictionary *reportingParametersForUpdatedRelease = [self.sut getReportingParametersForUpdatedRelease:kMSTestUpdateToken
+  NSMutableDictionary *reportingParametersForUpdatedRelease = [self.sut getReportingParametersForUpdatedRelease:NO
                                                                                     currentInstalledReleaseHash:kMSTestReleaseHash
                                                                                             distributionGroupId:kMSTestDistributionGroupId];
 
@@ -2257,7 +2278,7 @@ static NSURL *sfURL;
   [self.settingsMock setObject:@"ReleaseHash2" forKey:kMSDownloadedReleaseHashKey];
 
   // When
-  NSMutableDictionary *reportingParametersForUpdatedRelease = [self.sut getReportingParametersForUpdatedRelease:kMSTestUpdateToken
+  NSMutableDictionary *reportingParametersForUpdatedRelease = [self.sut getReportingParametersForUpdatedRelease:NO
                                                                                     currentInstalledReleaseHash:kMSTestReleaseHash
                                                                                             distributionGroupId:kMSTestDistributionGroupId];
 
@@ -2272,31 +2293,86 @@ static NSURL *sfURL;
   [self.settingsMock setObject:kMSTestReleaseHash forKey:kMSDownloadedReleaseHashKey];
 
   // When
-  NSMutableDictionary *reportingParametersForUpdatedRelease = [self.sut getReportingParametersForUpdatedRelease:kMSTestUpdateToken
+  NSMutableDictionary *reportingParametersForUpdatedRelease = [self.sut getReportingParametersForUpdatedRelease:NO
                                                                                     currentInstalledReleaseHash:kMSTestReleaseHash
                                                                                             distributionGroupId:kMSTestDistributionGroupId];
 
   // Then
   assertThat(reportingParametersForUpdatedRelease[kMSURLQueryDistributionGroupIdKey], equalTo(kMSTestDistributionGroupId));
+  assertThat(reportingParametersForUpdatedRelease[kMSURLQueryInstallIdKey], equalTo(nil));
   assertThat(reportingParametersForUpdatedRelease[kMSURLQueryDownloadedReleaseIdKey], equalTo(@1));
 }
 
 - (void)testReportReleaseInstallForPublicGroupWhenReleaseHashesMatch {
 
   // If
-  NSString *updateToken = nil;
   NSString *installId = [[MSAppCenter installId] UUIDString];
   [self.settingsMock setObject:@1 forKey:kMSDownloadedReleaseIdKey];
   [self.settingsMock setObject:kMSTestReleaseHash forKey:kMSDownloadedReleaseHashKey];
 
   // When
-  NSMutableDictionary *reportingParametersForUpdatedRelease = [self.sut getReportingParametersForUpdatedRelease:updateToken
+  NSMutableDictionary *reportingParametersForUpdatedRelease = [self.sut getReportingParametersForUpdatedRelease:YES
                                                                                     currentInstalledReleaseHash:kMSTestReleaseHash
                                                                                             distributionGroupId:kMSTestDistributionGroupId];
 
   // Then
+  assertThat(reportingParametersForUpdatedRelease[kMSURLQueryDistributionGroupIdKey], equalTo(kMSTestDistributionGroupId));
   assertThat(reportingParametersForUpdatedRelease[kMSURLQueryInstallIdKey], equalTo(installId));
   assertThat(reportingParametersForUpdatedRelease[kMSURLQueryDownloadedReleaseIdKey], equalTo(@1));
+}
+
+- (void)testCheckLatestFirstNewDistributionGroupId {
+
+  // If
+  NSString *distributionGroupId = @"GROUP-ID";
+  id distributeMock = OCMPartialMock(self.sut);
+  [distributeMock setUpdateTrack:MSUpdateTrackPrivate];
+
+  // Mock the HTTP client.
+  id httpClientMock = OCMPartialMock([MSHttpClient new]);
+  id httpClientClassMock = OCMClassMock([MSHttpClient class]);
+  OCMStub([httpClientClassMock alloc]).andReturn(httpClientMock);
+  OCMStub([httpClientMock initWithMaxHttpConnectionsPerHost:4]).andReturn(httpClientMock);
+  self.sut.appSecret = kMSTestAppSecret;
+  id reachabilityMock = OCMClassMock([MS_Reachability class]);
+  OCMStub([reachabilityMock reachabilityForInternetConnection]).andReturn(reachabilityMock);
+  OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(ReachableViaWiFi);
+
+  // Mock the http client calls.
+  XCTestExpectation *expectation = [self expectationWithDescription:@"Request completed."];
+  OCMStub([httpClientMock requestCompletedWithHttpCall:OCMOCK_ANY data:OCMOCK_ANY response:OCMOCK_ANY error:OCMOCK_ANY])
+      .andForwardToRealObject()
+      .andDo(^(__unused NSInvocation *invocation) {
+        [expectation fulfill];
+      });
+
+  // Create JSON response data.
+  NSDictionary *dict = @{@"distribution_group_id" : distributionGroupId};
+  NSData *data = [NSJSONSerialization dataWithJSONObject:dict options:0 error:nil];
+  [MSHttpTestUtil stubResponseWithData:data statusCode:200 headers:nil name:@"httpStub_200"];
+
+  // When
+  [distributeMock startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
+                              appSecret:kMSTestAppSecret
+                transmissionTargetToken:nil
+                        fromApplication:YES];
+  [distributeMock checkLatestRelease:kMSTestUpdateToken distributionGroupId:kMSTestDistributionGroupId releaseHash:kMSTestReleaseHash];
+
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+                                 OCMVerify([self.distributeInfoTrackerMock updateDistributionGroupId:distributionGroupId]);
+                                 NSString *actualDistributionGroupId = [MS_USER_DEFAULTS objectForKey:kMSDistributionGroupIdKey];
+                                 XCTAssertEqualObjects(actualDistributionGroupId, distributionGroupId);
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+
+  // Clear
+  [distributeMock stopMocking];
+  [reachabilityMock stopMocking];
+  [httpClientMock stopMocking];
 }
 
 - (void)testCheckLatestReleaseReportReleaseInstall {
@@ -2340,8 +2416,7 @@ static NSURL *sfURL;
   // Then
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {
-                                 // Then
-                                 OCMVerify([distributeMock getReportingParametersForUpdatedRelease:kMSTestUpdateToken
+                                 OCMVerify([distributeMock getReportingParametersForUpdatedRelease:NO
                                                                        currentInstalledReleaseHash:kMSTestReleaseHash
                                                                                distributionGroupId:kMSTestDistributionGroupId]);
                                  if (error) {

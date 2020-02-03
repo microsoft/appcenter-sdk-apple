@@ -267,13 +267,13 @@ static NSString *const kMSTesterAppUpdateSetupFailedKey = @"MSTesterAppUpdateSet
 /**
  * Get reporting parameters for updated release.
  *
- * @param updateToken The update token stored in keychain. This value can be nil if it is public distribution.
+ * @param isPublic YES if reporting stats for a public track, NO otherwise.
  * @param currentInstalledReleaseHash The release hash of the current version.
  * @param distributionGroupId The distribution group Id in keychain.
  *
  * @return Reporting parameters dictionary.
  */
-- (nullable NSMutableDictionary *)getReportingParametersForUpdatedRelease:(nullable NSString *)updateToken
+- (nullable NSMutableDictionary *)getReportingParametersForUpdatedRelease:(BOOL)isPublic
                                               currentInstalledReleaseHash:(NSString *)currentInstalledReleaseHash
                                                       distributionGroupId:(NSString *)distributionGroupId;
 
