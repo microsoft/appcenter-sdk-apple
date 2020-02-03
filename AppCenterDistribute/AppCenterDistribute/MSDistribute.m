@@ -519,9 +519,7 @@ static dispatch_once_t onceToken;
                                       @"3. The app is running in a non-adhoc environment. "
                                       @"Detach the debugger and restart the app and/or run the app with the release configuration "
                                       @"to enable the feature.");
-    @synchronized(self) {
-      self.updateFlowInProgress = NO;
-    }
+    self.updateFlowInProgress = NO;
   }
 }
 
@@ -641,6 +639,8 @@ static dispatch_once_t onceToken;
     }
     if (callbackUrl) {
       [strongSelf openURL:callbackUrl];
+    } else {
+      self.updateFlowInProgress = NO;
     }
     [[MSUtility sharedApp] endBackgroundTask:backgroundAuthSessionTask];
   };
@@ -666,6 +666,7 @@ static dispatch_once_t onceToken;
     MSLogDebug([MSDistribute logTag], @"Authentication session started, showing confirmation dialog.");
   } else {
     MSLogError([MSDistribute logTag], @"Failed to start authentication session.");
+    self.updateFlowInProgress = NO;
   }
 }
 
