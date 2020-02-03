@@ -2344,10 +2344,6 @@ static NSURL *sfURL;
       .andDo(^(__unused NSInvocation *invocation) {
         [expectation fulfill];
       });
-  OCMClassMock([MSHttpCall class]);
-  id httpCallMock = OCMPartialMock([MSHttpCall alloc]);
-  OCMStub([httpCallMock alloc]).andReturn(httpCallMock);
-  OCMReject([httpCallMock startRetryTimerWithStatusCode:404 retryAfter:OCMOCK_ANY event:OCMOCK_ANY]);
 
   // Create JSON response data.
   NSDictionary *dict = @{@"distribution_group_id" : distributionGroupId};
@@ -2375,7 +2371,6 @@ static NSURL *sfURL;
   // Clear
   [distributeMock stopMocking];
   [reachabilityMock stopMocking];
-  [httpCallMock stopMocking];
   [httpClientMock stopMocking];
 }
 
