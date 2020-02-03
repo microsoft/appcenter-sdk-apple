@@ -138,6 +138,7 @@ static NSURL *sfURL;
 
 - (void)tearDown {
   [super tearDown];
+  [MSDistribute resetSharedInstance];
 
   // Wait all tasks in tests.
   XCTestExpectation *expectation = [self expectationWithDescription:@"tearDown"];
