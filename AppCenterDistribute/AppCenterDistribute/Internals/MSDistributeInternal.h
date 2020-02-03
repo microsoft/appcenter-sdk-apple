@@ -38,7 +38,7 @@ static NSString *const kMSUpdateTokenKey = @"MSUpdateToken";
 /**
  * A flag that indicates whether update flow is in progress or not.
  */
-@property(nonatomic) BOOL updateFlowInProgress;
+@property(atomic) BOOL updateFlowInProgress;
 
 @end
 
