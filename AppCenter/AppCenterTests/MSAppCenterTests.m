@@ -12,8 +12,6 @@
 #import "MSAppCenterIngestion.h"
 #import "MSAppCenterInternal.h"
 #import "MSAppCenterPrivate.h"
-#import "MSAuthTokenContext.h"
-#import "MSAuthTokenContextPrivate.h"
 #import "MSChannelGroupDefault.h"
 #import "MSDeviceTrackerPrivate.h"
 #import "MSHttpIngestionPrivate.h"
@@ -39,7 +37,6 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 @property(nonatomic) MSMockUserDefaults *settingsMock;
 @property(nonatomic) NSString *installId;
 @property(nonatomic) id deviceTrackerMock;
-@property(nonatomic) id authTokenContextMock;
 @property(nonatomic) id sessionContextMock;
 @property(nonatomic) id channelGroupMock;
 @property(nonatomic) id channelUnitMock;
@@ -67,11 +64,6 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   self.deviceTrackerMock = OCMClassMock([MSDeviceTracker class]);
   OCMStub([self.deviceTrackerMock sharedInstance]).andReturn(self.deviceTrackerMock);
 
-  // Auth token context.
-  [MSAuthTokenContext resetSharedInstance];
-  self.authTokenContextMock = OCMClassMock([MSAuthTokenContext class]);
-  OCMStub([self.authTokenContextMock sharedInstance]).andReturn(self.authTokenContextMock);
-
   // Session context.
   [MSSessionContext resetSharedInstance];
   self.sessionContextMock = OCMClassMock([MSSessionContext class]);
@@ -84,10 +76,8 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   [MSMockService resetSharedInstance];
   [MSMockSecondService resetSharedInstance];
   [self.deviceTrackerMock stopMocking];
-  [self.authTokenContextMock stopMocking];
   [self.sessionContextMock stopMocking];
   [MSDeviceTracker resetSharedInstance];
-  [MSAuthTokenContext resetSharedInstance];
   [MSSessionContext resetSharedInstance];
   [super tearDown];
 }
@@ -122,7 +112,6 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   XCTAssertTrue([[[MSAppCenter sharedInstance] appSecret] isEqualToString:appSecret]);
   XCTAssertTrue([MSMockService sharedInstance].started);
   XCTAssertTrue([MSMockSecondService sharedInstance].started);
-  OCMVerify([self.authTokenContextMock finishInitialize]);
   OCMVerify([self.channelUnitMock enqueueItem:[OCMArg isKindOfClass:MSStartServiceLog.class] flags:MSFlagsDefault]);
 }
 
@@ -145,7 +134,6 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   XCTAssertTrue([[[MSMockService sharedInstance] defaultTransmissionTargetToken] isEqualToString:transmissionTargetString]);
   XCTAssertTrue([MSMockSecondService sharedInstance].started);
   XCTAssertTrue([[[MSMockSecondService sharedInstance] defaultTransmissionTargetToken] isEqualToString:transmissionTargetString]);
-  OCMVerify([self.authTokenContextMock finishInitialize]);
   OCMVerify([self.channelUnitMock enqueueItem:[OCMArg isKindOfClass:MSStartServiceLog.class] flags:MSFlagsDefault]);
 }
 
@@ -637,7 +625,6 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   [MSAppCenter startService:MSMockService.class];
 
   // Then
-  OCMVerify([self.authTokenContextMock finishInitialize]);
   OCMVerify([channelUnit enqueueItem:[OCMArg isKindOfClass:[MSStartServiceLog class]] flags:MSFlagsDefault]);
 }
 

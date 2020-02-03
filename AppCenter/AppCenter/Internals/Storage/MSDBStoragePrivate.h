@@ -28,6 +28,11 @@ static const long kMSDefaultDatabaseSizeInBytes = 10 * 1024 * 1024;
 @property(nonatomic) long pageSize;
 
 /**
+ * Schema for the table.
+ */
+@property(nonatomic, readonly) MSDBSchema *schema;
+
+/**
  * Called after the database is created. Override to customize the database.
  *
  * @param db Database handle.
@@ -48,6 +53,16 @@ static const long kMSDefaultDatabaseSizeInBytes = 10 * 1024 * 1024;
  * @param block Actions to perform in query.
  */
 - (int)executeQueryUsingBlock:(MSDBStorageQueryBlock)block;
+
+/**
+ * Creates a table within an existing database.
+ *
+ * @param tableName Table name.
+ * @param columnsSchema Schema describing the columns structure.
+ *
+ * @return YES if table is created or already exists, NO otherwise.
+ */
+- (BOOL)createTable:(NSString *)tableName columnsSchema:(MSDBColumnsSchema *)columnsSchema;
 
 /**
  * Create table with schema.

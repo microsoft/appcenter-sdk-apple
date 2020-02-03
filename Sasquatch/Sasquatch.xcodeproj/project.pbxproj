@@ -8,10 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		041A4BB11F8C28A3009E1B6C /* Sasquatch.strings in Resources */ = {isa = PBXBuildFile; fileRef = 041A4BAF1F8C28A3009E1B6C /* Sasquatch.strings */; };
-		0459920F21F0042300BD3F82 /* AppCenterAuth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0459920E21F0042300BD3F82 /* AppCenterAuth.framework */; };
-		0459924621F0050900BD3F82 /* AppCenterAuth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0459920E21F0042300BD3F82 /* AppCenterAuth.framework */; };
-		0459924721F0050B00BD3F82 /* AppCenterAuth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0459920E21F0042300BD3F82 /* AppCenterAuth.framework */; };
-		0459924821F0050B00BD3F82 /* AppCenterAuth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0459920E21F0042300BD3F82 /* AppCenterAuth.framework */; };
 		046790421E8DA7D80033FDEC /* AppCenterPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 046790411E8DA7D80033FDEC /* AppCenterPush.framework */; };
 		046790431E8DA7E90033FDEC /* AppCenterPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 046790411E8DA7D80033FDEC /* AppCenterPush.framework */; };
 		048933631F8D395A00C38A87 /* Sasquatch.strings in Resources */ = {isa = PBXBuildFile; fileRef = 041A4BAF1F8C28A3009E1B6C /* Sasquatch.strings */; };
@@ -34,16 +30,6 @@
 		35FBE78120FD095200F7B05C /* MSTransmissionTargets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FBE78020FD095200F7B05C /* MSTransmissionTargets.swift */; };
 		35FBE78220FD095200F7B05C /* MSTransmissionTargets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FBE78020FD095200F7B05C /* MSTransmissionTargets.swift */; };
 		38C9DDAE2356374D00B9E686 /* AppCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = F8EE93532331212D0023C682 /* AppCenterDistributeResources.bundle */; };
-		4AFBF2CD224C71FF002DB884 /* MSDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFBF2CC224C71FF002DB884 /* MSDataViewController.swift */; };
-		4AFBF2CE224C71FF002DB884 /* MSDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFBF2CC224C71FF002DB884 /* MSDataViewController.swift */; };
-		4AFBF2CF224C71FF002DB884 /* MSDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFBF2CC224C71FF002DB884 /* MSDataViewController.swift */; };
-		4AFBF2D0224C71FF002DB884 /* MSDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFBF2CC224C71FF002DB884 /* MSDataViewController.swift */; };
-		4AFBF2D1224C71FF002DB884 /* MSDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFBF2CC224C71FF002DB884 /* MSDataViewController.swift */; };
-		4AFBF313224CB053002DB884 /* MSDocumentDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFBF312224CB053002DB884 /* MSDocumentDetailsViewController.swift */; };
-		4AFBF314224CB053002DB884 /* MSDocumentDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFBF312224CB053002DB884 /* MSDocumentDetailsViewController.swift */; };
-		4AFBF315224CB053002DB884 /* MSDocumentDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFBF312224CB053002DB884 /* MSDocumentDetailsViewController.swift */; };
-		4AFBF316224CB053002DB884 /* MSDocumentDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFBF312224CB053002DB884 /* MSDocumentDetailsViewController.swift */; };
-		4AFBF317224CB053002DB884 /* MSDocumentDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFBF312224CB053002DB884 /* MSDocumentDetailsViewController.swift */; };
 		807DB552212164E000F35E03 /* MSSignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807DB551212164E000F35E03 /* MSSignInViewController.swift */; };
 		807DB553212164E000F35E03 /* MSSignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807DB551212164E000F35E03 /* MSSignInViewController.swift */; };
 		807DB554212164E000F35E03 /* MSSignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807DB551212164E000F35E03 /* MSSignInViewController.swift */; };
@@ -204,15 +190,9 @@
 		B2E011FF21091F0F003F4A5B /* MSCustomPropertyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E011ED21091EF1003F4A5B /* MSCustomPropertyTableViewCell.swift */; };
 		C21B6FC1234CD92C00ACCEF7 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C21B6FC0234CD92C00ACCEF7 /* CoreServices.framework */; };
 		C21B6FC2234CD93700ACCEF7 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C21B6FC0234CD92C00ACCEF7 /* CoreServices.framework */; };
-		C25DAE3C22280B150073B86A /* AppCenterData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C25DAE3B22280B150073B86A /* AppCenterData.framework */; };
-		C25DAE3D22280B150073B86A /* AppCenterData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C25DAE3B22280B150073B86A /* AppCenterData.framework */; };
-		C25DAE3E22280B150073B86A /* AppCenterData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C25DAE3B22280B150073B86A /* AppCenterData.framework */; };
-		C25DAE3F22280B150073B86A /* AppCenterData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C25DAE3B22280B150073B86A /* AppCenterData.framework */; };
 		C261445D230FE88A00D65EBF /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C261440A230FE86400D65EBF /* AppCenter.framework */; };
 		C261445E230FE88A00D65EBF /* AppCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C261441C230FE86400D65EBF /* AppCenterAnalytics.framework */; };
-		C261445F230FE88A00D65EBF /* AppCenterAuth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C261442A230FE86400D65EBF /* AppCenterAuth.framework */; };
 		C2614460230FE88A00D65EBF /* AppCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C261443A230FE86400D65EBF /* AppCenterCrashes.framework */; };
-		C2614461230FE88A00D65EBF /* AppCenterData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2614448230FE86400D65EBF /* AppCenterData.framework */; };
 		C2614462230FE88A00D65EBF /* AppCenterDistribute.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2614450230FE86400D65EBF /* AppCenterDistribute.framework */; };
 		C2614463230FE88A00D65EBF /* AppCenterPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C261445A230FE86400D65EBF /* AppCenterPush.framework */; };
 		C27AD55D234C961C00A2576F /* Sasquatch ObjC.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = C27AD55C234C961C00A2576F /* Sasquatch ObjC.xcconfig */; };
@@ -298,11 +278,6 @@
 		F8AA9F4D21650C04009104E3 /* SimplePropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AA9F4821650C04009104E3 /* SimplePropertiesTableSection.swift */; };
 		F8EE93542331212D0023C682 /* AppCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = F8EE93532331212D0023C682 /* AppCenterDistributeResources.bundle */; };
 		F8EE9355233121480023C682 /* AppCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = F8EE93532331212D0023C682 /* AppCenterDistributeResources.bundle */; };
-		F8F077A522A6A27B007B4B31 /* MSAuthInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8F077A422A6A27B007B4B31 /* MSAuthInfoViewController.swift */; };
-		F8F077A622A6A27B007B4B31 /* MSAuthInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8F077A422A6A27B007B4B31 /* MSAuthInfoViewController.swift */; };
-		F8F077A722A6A27B007B4B31 /* MSAuthInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8F077A422A6A27B007B4B31 /* MSAuthInfoViewController.swift */; };
-		F8F077A822A6A27B007B4B31 /* MSAuthInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8F077A422A6A27B007B4B31 /* MSAuthInfoViewController.swift */; };
-		F8F077A922A6A27B007B4B31 /* MSAuthInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8F077A422A6A27B007B4B31 /* MSAuthInfoViewController.swift */; };
 		F8FE7330210730EE005C6A74 /* AppCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B20AE41A2102819C00A1A195 /* AppCenterDistributeResources.bundle */; };
 		F8FE73312107568A005C6A74 /* DistributeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A888ED2102B2C5001ACFDF /* DistributeUITests.swift */; };
 		F8FE73322107568A005C6A74 /* DistributeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A888ED2102B2C5001ACFDF /* DistributeUITests.swift */; };
@@ -335,20 +310,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 84226C461E88FF4A00798417;
 			remoteInfo = SasquatchObjC;
-		};
-		995BA61D21EFFA93000E3212 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 995BA60C21EFFA93000E3212 /* AppCenterAuth.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = E85547D51D2D6723002DF6E2;
-			remoteInfo = AppCenterAuthIOSTests;
-		};
-		995BA62121EFFA93000E3212 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 995BA60C21EFFA93000E3212 /* AppCenterAuth.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 046AEAC61ECA51AF00CBE511;
-			remoteInfo = AppCenterAuthMacOSTests;
 		};
 		B20AE3CA2102812300A1A195 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -455,20 +416,6 @@
 			remoteGlobalIDString = B20AE37C21027D6200A1A195;
 			remoteInfo = SasquatchPuppet;
 		};
-		C25DAE3222280A590073B86A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C25DAE2522280A590073B86A /* AppCenterData.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = D3AD5EC01E5C4F6A001627AB;
-			remoteInfo = AppCenterDataIOSTests;
-		};
-		C25DAE3622280A590073B86A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C25DAE2522280A590073B86A /* AppCenterData.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 046964251F2A559C00F9D31F;
-			remoteInfo = AppCenterDataMacOSTests;
-		};
 		C2614409230FE86400D65EBF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = B20AE3B92102812300A1A195 /* AppCenter.xcodeproj */;
@@ -511,20 +458,6 @@
 			remoteGlobalIDString = C9A91F34230BFB8A0068070D;
 			remoteInfo = "AppCenterAnalytics tvOS Framework";
 		};
-		C2614429230FE86400D65EBF /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 995BA60C21EFFA93000E3212 /* AppCenterAuth.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C934BFE5230BF74100083490;
-			remoteInfo = "AppCenterAuth iOS Framework";
-		};
-		C261442B230FE86400D65EBF /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 995BA60C21EFFA93000E3212 /* AppCenterAuth.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C9A91F28230BF9590068070D;
-			remoteInfo = "AppCenterAuth macOS Framework";
-		};
 		C2614439230FE86400D65EBF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = B20AE3F22102818B00A1A195 /* AppCenterCrashes.xcodeproj */;
@@ -545,20 +478,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = C9A91F5B230BFDB40068070D;
 			remoteInfo = "AppCenterCrashes tvOS Framework";
-		};
-		C2614447230FE86400D65EBF /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C25DAE2522280A590073B86A /* AppCenterData.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C9A91F71230BFF610068070D;
-			remoteInfo = "AppCenterData iOS Framework";
-		};
-		C2614449230FE86400D65EBF /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C25DAE2522280A590073B86A /* AppCenterData.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C9A91F82230BFF670068070D;
-			remoteInfo = "AppCenterData macOS Framework";
 		};
 		C261444F230FE86400D65EBF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -602,26 +521,12 @@
 			remoteGlobalIDString = C9A91F49230BFD930068070D;
 			remoteInfo = "AppCenterCrashes iOS Framework";
 		};
-		C2F156992338C1F000798480 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C25DAE2522280A590073B86A /* AppCenterData.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = C9A91F70230BFF610068070D;
-			remoteInfo = "AppCenterData iOS Framework";
-		};
 		C2F1569B2338C1F000798480 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = B20AE40D2102819C00A1A195 /* AppCenterDistribute.xcodeproj */;
 			proxyType = 1;
 			remoteGlobalIDString = C9A91F8B230BFFFF0068070D;
 			remoteInfo = "AppCenterDistribute iOS Framework";
-		};
-		C2F1569D2338C1F000798480 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 995BA60C21EFFA93000E3212 /* AppCenterAuth.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = C934BFE4230BF74000083490;
-			remoteInfo = "AppCenterAuth iOS Framework";
 		};
 		C2F1569F2338C1F000798480 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1076,7 +981,6 @@
 		041A4BBC1F8C2A84009E1B6C /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Sasquatch.strings"; sourceTree = "<group>"; };
 		041A4BBD1F8C2A8B009E1B6C /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Sasquatch.strings"; sourceTree = "<group>"; };
 		041E2BEE1FB6465000793316 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
-		0459920E21F0042300BD3F82 /* AppCenterAuth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenterAuth.framework; path = "../AppCenter-SDK-Apple/iOS/AppCenterAuth.framework"; sourceTree = "<group>"; };
 		046790411E8DA7D80033FDEC /* AppCenterPush.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenterPush.framework; path = "../AppCenter-SDK-Apple/iOS/AppCenterPush.framework"; sourceTree = "<group>"; };
 		046790441E8DA8D50033FDEC /* SasquatchSwift.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SasquatchSwift.entitlements; sourceTree = "<group>"; };
 		046790451E8DA8DD0033FDEC /* SasquatchObjC.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SasquatchObjC.entitlements; sourceTree = "<group>"; };
@@ -1092,8 +996,6 @@
 		35FBE78020FD095200F7B05C /* MSTransmissionTargets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSTransmissionTargets.swift; sourceTree = "<group>"; };
 		384929201FACF5DA003F8736 /* SasquatchWatchObjC Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "SasquatchWatchObjC Extension.entitlements"; sourceTree = SOURCE_ROOT; };
 		384929211FACF5F3003F8736 /* SasquatchWatchSwift Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "SasquatchWatchSwift Extension.entitlements"; sourceTree = SOURCE_ROOT; };
-		4AFBF2CC224C71FF002DB884 /* MSDataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSDataViewController.swift; sourceTree = "<group>"; };
-		4AFBF312224CB053002DB884 /* MSDocumentDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSDocumentDetailsViewController.swift; sourceTree = "<group>"; };
 		5CD700E51EA4B74500FC5D12 /* SasquatchSwiftUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SasquatchSwiftUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5CE258871EA5F62400DA8FB9 /* SasquatchObjCUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SasquatchObjCUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		807DB551212164E000F35E03 /* MSSignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSSignInViewController.swift; sourceTree = "<group>"; };
@@ -1124,7 +1026,6 @@
 		84A0FF651E8A87B4000E7A28 /* MSCrashesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSCrashesViewController.swift; sourceTree = "<group>"; };
 		84A0FF681E8A87C9000E7A28 /* MSAnalyticsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSAnalyticsViewController.swift; sourceTree = "<group>"; };
 		84A0FF6B1E8A87E1000E7A28 /* MSDistributeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSDistributeViewController.swift; sourceTree = "<group>"; };
-		995BA60C21EFFA93000E3212 /* AppCenterAuth.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AppCenterAuth.xcodeproj; path = ../AppCenterAuth/AppCenterAuth.xcodeproj; sourceTree = "<group>"; };
 		B203FF4B20E57A5B002AD536 /* MSAnalyticsChildTransmissionTargetTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSAnalyticsChildTransmissionTargetTableViewController.swift; sourceTree = "<group>"; };
 		B20AE3AB21027D6200A1A195 /* SasquatchPuppet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SasquatchPuppet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B20AE3B92102812300A1A195 /* AppCenter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AppCenter.xcodeproj; path = ../AppCenter/AppCenter.xcodeproj; sourceTree = "<group>"; };
@@ -1155,8 +1056,6 @@
 		B2E011F021091EF2003F4A5B /* MSAnalyticsPropertyTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MSAnalyticsPropertyTableViewCell.swift; path = Cells/MSAnalyticsPropertyTableViewCell.swift; sourceTree = "<group>"; };
 		C21B6FC0234CD92C00ACCEF7 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
 		C237A695232BACB50081153F /* Sasquatch Extension.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Sasquatch Extension.xcconfig"; sourceTree = "<group>"; };
-		C25DAE2522280A590073B86A /* AppCenterData.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AppCenterData.xcodeproj; path = ../AppCenterData/AppCenterData.xcodeproj; sourceTree = "<group>"; };
-		C25DAE3B22280B150073B86A /* AppCenterData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenterData.framework; path = "../AppCenter-SDK-Apple/iOS/AppCenterData.framework"; sourceTree = "<group>"; };
 		C27AD55C234C961C00A2576F /* Sasquatch ObjC.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Sasquatch ObjC.xcconfig"; sourceTree = "<group>"; };
 		C2F156A32338C26A00798480 /* CrashLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CrashLib.xcodeproj; path = ../CrashLib/CrashLib.xcodeproj; sourceTree = "<group>"; };
 		C9E7E482231E99E9007D96DC /* SasquatchSwift-Preview Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "SasquatchSwift-Preview Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1206,7 +1105,6 @@
 		F8B8EB15211070BE004BCECB /* Sasquatch.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Sasquatch.xcconfig; sourceTree = "<group>"; };
 		F8B8EB9421107890004BCECB /* Puppet.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Puppet.xcconfig; sourceTree = "<group>"; };
 		F8EE93532331212D0023C682 /* AppCenterDistributeResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = AppCenterDistributeResources.bundle; path = "../AppCenter-SDK-Apple/iOS/AppCenterDistributeResources.bundle"; sourceTree = "<group>"; };
-		F8F077A422A6A27B007B4B31 /* MSAuthInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSAuthInfoViewController.swift; sourceTree = "<group>"; };
 		F8FE734221075803005C6A74 /* AnalyticsUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalyticsUITests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1226,9 +1124,7 @@
 				84226D361E89302900798417 /* AppCenter.framework in Frameworks */,
 				84226D371E89302900798417 /* AppCenterAnalytics.framework in Frameworks */,
 				84226D381E89302900798417 /* AppCenterCrashes.framework in Frameworks */,
-				C25DAE3D22280B150073B86A /* AppCenterData.framework in Frameworks */,
 				84226D391E89302900798417 /* AppCenterDistribute.framework in Frameworks */,
-				0459920F21F0042300BD3F82 /* AppCenterAuth.framework in Frameworks */,
 				046790421E8DA7D80033FDEC /* AppCenterPush.framework in Frameworks */,
 				C2F156F52338C34500798480 /* CrashLibIOS.framework in Frameworks */,
 			);
@@ -1239,10 +1135,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				84226D321E89301B00798417 /* AppCenter.framework in Frameworks */,
-				0459924821F0050B00BD3F82 /* AppCenterAuth.framework in Frameworks */,
 				84226D331E89301B00798417 /* AppCenterAnalytics.framework in Frameworks */,
 				84226D341E89301B00798417 /* AppCenterCrashes.framework in Frameworks */,
-				C25DAE3F22280B150073B86A /* AppCenterData.framework in Frameworks */,
 				84226D351E89301B00798417 /* AppCenterDistribute.framework in Frameworks */,
 				046790431E8DA7E90033FDEC /* AppCenterPush.framework in Frameworks */,
 				C2F156E12338C31E00798480 /* CrashLibIOS.framework in Frameworks */,
@@ -1255,9 +1149,7 @@
 			files = (
 				C261445D230FE88A00D65EBF /* AppCenter.framework in Frameworks */,
 				C261445E230FE88A00D65EBF /* AppCenterAnalytics.framework in Frameworks */,
-				C261445F230FE88A00D65EBF /* AppCenterAuth.framework in Frameworks */,
 				C2614460230FE88A00D65EBF /* AppCenterCrashes.framework in Frameworks */,
-				C2614461230FE88A00D65EBF /* AppCenterData.framework in Frameworks */,
 				C2614462230FE88A00D65EBF /* AppCenterDistribute.framework in Frameworks */,
 				C2614463230FE88A00D65EBF /* AppCenterPush.framework in Frameworks */,
 				04A1DB34223B65EB006A48D6 /* AuthenticationServices.framework in Frameworks */,
@@ -1273,10 +1165,8 @@
 			files = (
 				C21B6FC1234CD92C00ACCEF7 /* CoreServices.framework in Frameworks */,
 				B27D54BD210A5E7E004E82C9 /* AppCenter.framework in Frameworks */,
-				0459924621F0050900BD3F82 /* AppCenterAuth.framework in Frameworks */,
 				B27D54BE210A5E7E004E82C9 /* AppCenterAnalytics.framework in Frameworks */,
 				B27D54BF210A5E7E004E82C9 /* AppCenterCrashes.framework in Frameworks */,
-				C25DAE3C22280B150073B86A /* AppCenterData.framework in Frameworks */,
 				B27D54C0210A5E7E004E82C9 /* AppCenterDistribute.framework in Frameworks */,
 				B27D54C1210A5E7E004E82C9 /* AppCenterPush.framework in Frameworks */,
 				C2F156F92338C34B00798480 /* CrashLibIOS.framework in Frameworks */,
@@ -1288,10 +1178,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				B2A4CFA1210A6E6900199B4F /* AppCenter.framework in Frameworks */,
-				0459924721F0050B00BD3F82 /* AppCenterAuth.framework in Frameworks */,
 				B2A4CFA2210A6E6900199B4F /* AppCenterAnalytics.framework in Frameworks */,
 				B2A4CFA3210A6E6900199B4F /* AppCenterCrashes.framework in Frameworks */,
-				C25DAE3E22280B150073B86A /* AppCenterData.framework in Frameworks */,
 				B2A4CFA4210A6E6900199B4F /* AppCenterDistribute.framework in Frameworks */,
 				B2A4CFA5210A6E6900199B4F /* AppCenterPush.framework in Frameworks */,
 				C2F156E62338C32C00798480 /* CrashLibIOS.framework in Frameworks */,
@@ -1515,9 +1403,6 @@
 				35396A7720F95A9C00A091E0 /* MSTransmissionTargetsViewController.swift */,
 				F8A502252149339100872B3B /* MSEnumPicker.swift */,
 				F8AA9F3C2164FD1C009104E3 /* MSDatePicker.swift */,
-				4AFBF2CC224C71FF002DB884 /* MSDataViewController.swift */,
-				4AFBF312224CB053002DB884 /* MSDocumentDetailsViewController.swift */,
-				F8F077A422A6A27B007B4B31 /* MSAuthInfoViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -1547,9 +1432,7 @@
 				C21B6FC0234CD92C00ACCEF7 /* CoreServices.framework */,
 				84226D2E1E89301A00798417 /* AppCenter.framework */,
 				84226D2F1E89301B00798417 /* AppCenterAnalytics.framework */,
-				0459920E21F0042300BD3F82 /* AppCenterAuth.framework */,
 				84226D301E89301B00798417 /* AppCenterCrashes.framework */,
-				C25DAE3B22280B150073B86A /* AppCenterData.framework */,
 				84226D311E89301B00798417 /* AppCenterDistribute.framework */,
 				F8EE93532331212D0023C682 /* AppCenterDistributeResources.bundle */,
 				046790411E8DA7D80033FDEC /* AppCenterPush.framework */,
@@ -1569,17 +1452,6 @@
 				84226C8E1E8908CA00798417 /* Info.plist */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		995BA60D21EFFA93000E3212 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				C261442A230FE86400D65EBF /* AppCenterAuth.framework */,
-				995BA61E21EFFA93000E3212 /* AppCenterAuth.xctest */,
-				C261442C230FE86400D65EBF /* AppCenterAuth.framework */,
-				995BA62221EFFA93000E3212 /* AppCenterAuth.xctest */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		B20AE3BA2102812300A1A195 /* Products */ = {
@@ -1614,9 +1486,7 @@
 				B20AE3B92102812300A1A195 /* AppCenter.xcodeproj */,
 				B20AE3D42102813300A1A195 /* AppCenterAnalytics.xcodeproj */,
 				B20AE3F22102818B00A1A195 /* AppCenterCrashes.xcodeproj */,
-				C25DAE2522280A590073B86A /* AppCenterData.xcodeproj */,
 				B20AE40D2102819C00A1A195 /* AppCenterDistribute.xcodeproj */,
-				995BA60C21EFFA93000E3212 /* AppCenterAuth.xcodeproj */,
 				B20AE429210281C400A1A195 /* AppCenterPush.xcodeproj */,
 			);
 			name = AppCenter;
@@ -1677,17 +1547,6 @@
 				35CAA1F92143229300A8BED2 /* MSTableViewCellExtension.swift */,
 			);
 			name = Cells;
-			sourceTree = "<group>";
-		};
-		C25DAE2622280A590073B86A /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				C2614448230FE86400D65EBF /* AppCenterData.framework */,
-				C25DAE3322280A590073B86A /* AppCenterData.xctest */,
-				C261444A230FE86400D65EBF /* AppCenterData.framework */,
-				C25DAE3722280A590073B86A /* AppCenterData.xctest */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		C2F156A12338C22C00798480 /* CrashLib */ = {
@@ -1917,9 +1776,7 @@
 				C2F156942338C1F000798480 /* PBXTargetDependency */,
 				C2F156962338C1F000798480 /* PBXTargetDependency */,
 				C2F156982338C1F000798480 /* PBXTargetDependency */,
-				C2F1569A2338C1F000798480 /* PBXTargetDependency */,
 				C2F1569C2338C1F000798480 /* PBXTargetDependency */,
-				C2F1569E2338C1F000798480 /* PBXTargetDependency */,
 				C2F156A02338C1F000798480 /* PBXTargetDependency */,
 				B2A888A42102A407001ACFDF /* PBXTargetDependency */,
 				C2F156D42338C2FC00798480 /* PBXTargetDependency */,
@@ -2270,16 +2127,8 @@
 					ProjectRef = B20AE3D42102813300A1A195 /* AppCenterAnalytics.xcodeproj */;
 				},
 				{
-					ProductGroup = 995BA60D21EFFA93000E3212 /* Products */;
-					ProjectRef = 995BA60C21EFFA93000E3212 /* AppCenterAuth.xcodeproj */;
-				},
-				{
 					ProductGroup = B20AE3F32102818B00A1A195 /* Products */;
 					ProjectRef = B20AE3F22102818B00A1A195 /* AppCenterCrashes.xcodeproj */;
-				},
-				{
-					ProductGroup = C25DAE2622280A590073B86A /* Products */;
-					ProjectRef = C25DAE2522280A590073B86A /* AppCenterData.xcodeproj */;
 				},
 				{
 					ProductGroup = B20AE40E2102819C00A1A195 /* Products */;
@@ -2315,20 +2164,6 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		995BA61E21EFFA93000E3212 /* AppCenterAuth.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = AppCenterAuth.xctest;
-			remoteRef = 995BA61D21EFFA93000E3212 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		995BA62221EFFA93000E3212 /* AppCenterAuth.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = AppCenterAuth.xctest;
-			remoteRef = 995BA62121EFFA93000E3212 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		B20AE3CB2102812300A1A195 /* AppCenter.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
@@ -2420,20 +2255,6 @@
 			remoteRef = B20AE43A210281C400A1A195 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		C25DAE3322280A590073B86A /* AppCenterData.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = AppCenterData.xctest;
-			remoteRef = C25DAE3222280A590073B86A /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C25DAE3722280A590073B86A /* AppCenterData.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = AppCenterData.xctest;
-			remoteRef = C25DAE3622280A590073B86A /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		C261440A230FE86400D65EBF /* AppCenter.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -2476,20 +2297,6 @@
 			remoteRef = C261441F230FE86400D65EBF /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		C261442A230FE86400D65EBF /* AppCenterAuth.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = AppCenterAuth.framework;
-			remoteRef = C2614429230FE86400D65EBF /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C261442C230FE86400D65EBF /* AppCenterAuth.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = AppCenterAuth.framework;
-			remoteRef = C261442B230FE86400D65EBF /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		C261443A230FE86400D65EBF /* AppCenterCrashes.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -2509,20 +2316,6 @@
 			fileType = wrapper.framework;
 			path = AppCenterCrashes.framework;
 			remoteRef = C261443D230FE86400D65EBF /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C2614448230FE86400D65EBF /* AppCenterData.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = AppCenterData.framework;
-			remoteRef = C2614447230FE86400D65EBF /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C261444A230FE86400D65EBF /* AppCenterData.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = AppCenterData.framework;
-			remoteRef = C2614449230FE86400D65EBF /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		C2614450230FE86400D65EBF /* AppCenterDistribute.framework */ = {
@@ -2942,7 +2735,6 @@
 				352A3E7420F801A900D09CF0 /* EventPropertiesTableSection.swift in Sources */,
 				35FBE78120FD095200F7B05C /* MSTransmissionTargets.swift in Sources */,
 				B2586C85210A47A800664A43 /* MSAnalyticsResult.swift in Sources */,
-				4AFBF2CE224C71FF002DB884 /* MSDataViewController.swift in Sources */,
 				359171FA20F8001A00F3DDE6 /* TargetPropertiesTableSection.swift in Sources */,
 				849A3E721E8A9922008711CB /* AppCenterProtocol.swift in Sources */,
 				B2E011F521091EF2003F4A5B /* MSAnalyticsPropertyTableViewCell.swift in Sources */,
@@ -2960,14 +2752,12 @@
 				84226C4E1E88FF4A00798417 /* AppDelegate.m in Sources */,
 				807DB553212164E000F35E03 /* MSSignInViewController.swift in Sources */,
 				B2B36CE21EEF49B700230341 /* MSCustomPropertiesViewController.swift in Sources */,
-				F8F077A622A6A27B007B4B31 /* MSAuthInfoViewController.swift in Sources */,
 				84226C4B1E88FF4A00798417 /* main.m in Sources */,
 				359171F720F7F80800F3DDE6 /* PropertiesTableSection.swift in Sources */,
 				84A0FF6C1E8A87E1000E7A28 /* MSDistributeViewController.swift in Sources */,
 				80B3CADB211B2686007C332E /* MSAuthenticationViewController.swift in Sources */,
 				F8AA9F342164F994009104E3 /* MSAnalyticsTypedPropertyTableViewCell.swift in Sources */,
 				F8A502272149339100872B3B /* MSEnumPicker.swift in Sources */,
-				4AFBF314224CB053002DB884 /* MSDocumentDetailsViewController.swift in Sources */,
 				84226D3C1E8938D100798417 /* AppCenterDelegate.swift in Sources */,
 				35CAA2262143229300A8BED2 /* MSTableViewCellExtension.swift in Sources */,
 			);
@@ -2977,7 +2767,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4AFBF2D0224C71FF002DB884 /* MSDataViewController.swift in Sources */,
 				B203FF4D20E5922C002AD536 /* MSAnalyticsChildTransmissionTargetTableViewController.swift in Sources */,
 				849A3E731E8A9922008711CB /* AppCenterProtocol.swift in Sources */,
 				84A0FF671E8A87B4000E7A28 /* MSCrashesViewController.swift in Sources */,
@@ -2995,8 +2784,6 @@
 				B2B36CE31EEF49C400230341 /* MSCustomPropertiesViewController.swift in Sources */,
 				35FBE78220FD095200F7B05C /* MSTransmissionTargets.swift in Sources */,
 				B2586C8A210A485300664A43 /* MSAnalyticsResultViewController.swift in Sources */,
-				4AFBF316224CB053002DB884 /* MSDocumentDetailsViewController.swift in Sources */,
-				F8F077A822A6A27B007B4B31 /* MSAuthInfoViewController.swift in Sources */,
 				845178ED1E8A8B0D004A0A6F /* MSMainViewController.swift in Sources */,
 				359171F820F7F80800F3DDE6 /* PropertiesTableSection.swift in Sources */,
 				84226D3F1E8939B700798417 /* AppCenterDelegateSwift.swift in Sources */,
@@ -3027,7 +2814,6 @@
 				B20AE38521027D6200A1A195 /* TargetPropertiesTableSection.swift in Sources */,
 				B20AE38621027D6200A1A195 /* AppCenterProtocol.swift in Sources */,
 				B2586C8B210A485300664A43 /* MSAnalyticsResultViewController.swift in Sources */,
-				4AFBF2D1224C71FF002DB884 /* MSDataViewController.swift in Sources */,
 				F8AA9F4D21650C04009104E3 /* SimplePropertiesTableSection.swift in Sources */,
 				B20AE38721027D6200A1A195 /* MSMainViewController.swift in Sources */,
 				B20AE38821027D6200A1A195 /* MSAnalyticsViewController.swift in Sources */,
@@ -3037,7 +2823,6 @@
 				B20AE38A21027D6200A1A195 /* MSTransmissionTargetsViewController.swift in Sources */,
 				B20AE38B21027D6200A1A195 /* MSCrashesViewController.swift in Sources */,
 				B20AE38C21027D6200A1A195 /* MSAnalyticsChildTransmissionTargetTableViewController.swift in Sources */,
-				F8F077A922A6A27B007B4B31 /* MSAuthInfoViewController.swift in Sources */,
 				B26D4DEC2122041A00AB4E28 /* MSSignInViewController.swift in Sources */,
 				B20AE38D21027D6200A1A195 /* AppDelegate.m in Sources */,
 				B20AE38E21027D6200A1A195 /* MSCustomPropertiesViewController.swift in Sources */,
@@ -3046,7 +2831,6 @@
 				B20AE39221027D6200A1A195 /* MSDistributeViewController.swift in Sources */,
 				F8AA9F372164F994009104E3 /* MSAnalyticsTypedPropertyTableViewCell.swift in Sources */,
 				F8A5022A2149339100872B3B /* MSEnumPicker.swift in Sources */,
-				4AFBF317224CB053002DB884 /* MSDocumentDetailsViewController.swift in Sources */,
 				B20AE39321027D6200A1A195 /* AppCenterDelegate.swift in Sources */,
 				35CAA2282143229300A8BED2 /* MSTableViewCellExtension.swift in Sources */,
 			);
@@ -3060,7 +2844,6 @@
 				B27D54A4210A5E7E004E82C9 /* EventPropertiesTableSection.swift in Sources */,
 				B27D54A5210A5E7E004E82C9 /* MSTransmissionTargets.swift in Sources */,
 				B27D54A7210A5E7E004E82C9 /* MSAnalyticsResult.swift in Sources */,
-				4AFBF2CD224C71FF002DB884 /* MSDataViewController.swift in Sources */,
 				B27D54A8210A5E7E004E82C9 /* TargetPropertiesTableSection.swift in Sources */,
 				B27D54A9210A5E7E004E82C9 /* AppCenterProtocol.swift in Sources */,
 				B27D54AA210A5E7E004E82C9 /* MSAnalyticsPropertyTableViewCell.swift in Sources */,
@@ -3078,14 +2861,12 @@
 				B27D54B5210A5E7E004E82C9 /* AppDelegate.m in Sources */,
 				807DB552212164E000F35E03 /* MSSignInViewController.swift in Sources */,
 				B27D54B6210A5E7E004E82C9 /* MSCustomPropertiesViewController.swift in Sources */,
-				F8F077A522A6A27B007B4B31 /* MSAuthInfoViewController.swift in Sources */,
 				B27D54B7210A5E7E004E82C9 /* main.m in Sources */,
 				B27D54B8210A5E7E004E82C9 /* PropertiesTableSection.swift in Sources */,
 				B27D54B9210A5E7E004E82C9 /* MSDistributeViewController.swift in Sources */,
 				80B3CADA211B2686007C332E /* MSAuthenticationViewController.swift in Sources */,
 				F8AA9F332164F994009104E3 /* MSAnalyticsTypedPropertyTableViewCell.swift in Sources */,
 				F8A502262149339100872B3B /* MSEnumPicker.swift in Sources */,
-				4AFBF313224CB053002DB884 /* MSDocumentDetailsViewController.swift in Sources */,
 				B27D54BA210A5E7E004E82C9 /* AppCenterDelegate.swift in Sources */,
 				35CAA2292143229300A8BED2 /* MSTableViewCellExtension.swift in Sources */,
 			);
@@ -3095,7 +2876,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4AFBF2CF224C71FF002DB884 /* MSDataViewController.swift in Sources */,
 				B2A4CF89210A6E6900199B4F /* MSAnalyticsChildTransmissionTargetTableViewController.swift in Sources */,
 				B2A4CF8A210A6E6900199B4F /* AppCenterProtocol.swift in Sources */,
 				B2A4CF8B210A6E6900199B4F /* MSCrashesViewController.swift in Sources */,
@@ -3113,8 +2893,6 @@
 				B2A4CF95210A6E6900199B4F /* MSCustomPropertiesViewController.swift in Sources */,
 				B2A4CF96210A6E6900199B4F /* MSTransmissionTargets.swift in Sources */,
 				B2A4CF97210A6E6900199B4F /* MSAnalyticsResultViewController.swift in Sources */,
-				4AFBF315224CB053002DB884 /* MSDocumentDetailsViewController.swift in Sources */,
-				F8F077A722A6A27B007B4B31 /* MSAuthInfoViewController.swift in Sources */,
 				B2A4CF98210A6E6900199B4F /* MSMainViewController.swift in Sources */,
 				B2A4CF99210A6E6900199B4F /* PropertiesTableSection.swift in Sources */,
 				B2A4CF9A210A6E6900199B4F /* AppCenterDelegateSwift.swift in Sources */,
@@ -3215,20 +2993,10 @@
 			name = "AppCenterCrashes iOS Framework";
 			targetProxy = C2F156972338C1F000798480 /* PBXContainerItemProxy */;
 		};
-		C2F1569A2338C1F000798480 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "AppCenterData iOS Framework";
-			targetProxy = C2F156992338C1F000798480 /* PBXContainerItemProxy */;
-		};
 		C2F1569C2338C1F000798480 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "AppCenterDistribute iOS Framework";
 			targetProxy = C2F1569B2338C1F000798480 /* PBXContainerItemProxy */;
-		};
-		C2F1569E2338C1F000798480 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "AppCenterAuth iOS Framework";
-			targetProxy = C2F1569D2338C1F000798480 /* PBXContainerItemProxy */;
 		};
 		C2F156A02338C1F000798480 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

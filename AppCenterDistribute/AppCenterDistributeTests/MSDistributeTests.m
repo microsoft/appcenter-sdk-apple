@@ -5,8 +5,6 @@
 
 #import "MSAlertController.h"
 #import "MSAppCenterInternal.h"
-#import "MSAuthTokenContext.h"
-#import "MSAuthTokenContextPrivate.h"
 #import "MSBasicMachOParser.h"
 #import "MSChannelGroupDefault.h"
 #import "MSConstants+Internal.h"
@@ -133,7 +131,6 @@ static NSURL *sfURL;
 
   // Clear all previous sessions and tokens.
   [MSSessionContext resetSharedInstance];
-  [MSAuthTokenContext resetSharedInstance];
 }
 
 - (void)tearDown {
