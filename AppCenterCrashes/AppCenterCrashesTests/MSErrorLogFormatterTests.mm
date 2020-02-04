@@ -433,8 +433,14 @@ static NSArray *kMacOSCrashReportsParameters = @[
   // If
   MSMockUserDefaults *defaults = [MSMockUserDefaults new];
   [MSDeviceTracker resetSharedInstance];
+
+  // When
   NSData *crashData = [MSCrashesTestUtil dataOfFixtureCrashReportWithFileName:@"live_report_exception"];
+
+  // Then
   XCTAssertNotNil(crashData);
+
+  // If
   NSError *error = nil;
   MSPLCrashReport *report = [[MSPLCrashReport alloc] initWithData:crashData error:&error];
   MSWrapperSdk *wrapperSdk = [[MSWrapperSdk alloc] initWithWrapperSdkVersion:@"10.11.12"
