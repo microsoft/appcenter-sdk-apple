@@ -116,7 +116,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
 }
 
 // This method will be overridden by subclasses.
-- (NSDictionary *)getHeadersWithData:(NSObject *__unused)data eTag:(NSString *__unused)eTag authToken:(NSString *__unused)authToken {
+- (NSDictionary *)getHeadersWithData:(NSObject *__unused)data eTag:(NSString *__unused)eTag {
   return nil;
 }
 
