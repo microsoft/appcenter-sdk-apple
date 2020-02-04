@@ -68,8 +68,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
     if logUrl != nil {
       MSAppCenter.setLogUrl(logUrl)
     }
-    if let beforeStartTrack = UserDefaults.standard.value(forKey: kMSUpdateTrackBeforeStartValue) as? Int,
-       let updateTrack = MSUpdateTrack(rawValue: beforeStartTrack) {
+    if let updateTrackValue = UserDefaults.standard.value(forKey: kMSUpdateTrackKey) as? Int,
+       let updateTrack = MSUpdateTrack(rawValue: updateTrackValue) {
         MSDistribute.updateTrack = updateTrack
     }
 

@@ -4,7 +4,7 @@
 #import <Foundation/Foundation.h>
 
 static NSString *const kSASCustomizedUpdateAlertKey = @"kSASCustomizedUpdateAlertKey";
-static NSString *const kMSUpdateTrackBeforeStartValue = @"kMSUpdateTrackBeforeStartValue";
+static NSString *const kMSUpdateTrackKey = @"kMSUpdateTrackKey";
 static NSString *const kMSChildTransmissionTargetTokenKey = @"kMSChildTransmissionTargetToken";
 static NSString *const kMSTransmissionIterval = @"kMSTransmissionIterval";
 static NSString *const kMSTargetToken1 = @"602c2d529a824339bef93a7b9a035e6a-"
