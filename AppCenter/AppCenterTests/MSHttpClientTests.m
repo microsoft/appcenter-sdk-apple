@@ -112,13 +112,12 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
   MSHttpClient *httpClient = OCMPartialMock([MSHttpClient new]);
   NSURL *url = [NSURL URLWithString:@"https://mock/something?a=b"];
   NSString *method = @"GET";
-  NSDictionary *headers = @{@"Authorization" : @"something"};
   NSArray *defaultRetryIntervals = @[ @10, @(5 * 60), @(20 * 60) ];
 
   // When
   [httpClient sendAsync:url
                  method:method
-                headers:headers
+                headers:nil
                    data:nil
       completionHandler:^(NSData *_Nullable responseBody __unused, NSHTTPURLResponse *_Nullable response __unused,
                           NSError *_Nullable error __unused){
@@ -127,7 +126,7 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
   // Then
   OCMVerify([httpClient sendAsync:url
                            method:method
-                          headers:headers
+                          headers:nil
                              data:nil
                    retryIntervals:defaultRetryIntervals
                compressionEnabled:YES
@@ -153,12 +152,11 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
   MSHttpClient *httpClient = [MSHttpClient new];
   NSURL *url = [NSURL URLWithString:@"https://mock/something?a=b"];
   NSString *method = @"GET";
-  NSDictionary *headers = @{@"Authorization" : @"something"};
 
   // When
   [httpClient sendAsync:url
                  method:method
-                headers:headers
+                headers:nil
                    data:nil
       completionHandler:^(NSData *responseBody, NSHTTPURLResponse *response, NSError *error) {
         // Then
@@ -177,7 +175,6 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
   // Then
   XCTAssertEqualObjects(actualRequest.URL, url);
   XCTAssertEqualObjects(actualRequest.HTTPMethod, method);
-  XCTAssertEqualObjects(actualRequest.allHTTPHeaderFields[@"Authorization"], @"something");
 }
 
 - (void)testDeleteUnrecoverableErrorWithoutHeadersNotRetried {

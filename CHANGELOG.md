@@ -1,6 +1,6 @@
 # App Center SDK for iOS, macOS and tvOS Change Log
 
-## Version 2.5.4 (Under development)
+## Version 3.0.0 (Under development)
 
 ### App Center
 
@@ -11,11 +11,19 @@
 * **[Fix]** Fix macOS SDK binaries not to contain strong copies for symbolic links.
 * **[Improvement]** Replaced sqlite query concatenation with more secure bindings.
 
+### App Center Auth
+
+App Center Auth is [retired](https://aka.ms/MBaaS-retirement-blog-post) and has been removed from the SDK.
+
 ### App Center Crashes
 
 * **[Fix]** Fix an issue to call Crashes delegate callbacks even though a modal window is being shown on macOS apps.
 * **[Fix]** Fix an issue when React Native SDK did not send wrapperSdk information.
 * **[Improvement]** Update PLCrashReporter to 1.4.0.
+
+### App Center Data
+
+App Center Data is [retired](https://aka.ms/MBaaS-retirement-blog-post) and has been removed from the SDK.
 
 ### App Center Distribute
 

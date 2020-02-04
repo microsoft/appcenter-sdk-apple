@@ -86,7 +86,6 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   MSLogContainer *container = [MSTestUtil createLogContainerWithId:containerId device:self.deviceMock];
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@"HTTP Response 200"];
   [self.sut sendAsync:container
-              authToken:nil
       completionHandler:^(NSString *batchId, NSHTTPURLResponse *response, __unused NSData *data, NSError *error) {
         XCTAssertNil(error);
         XCTAssertEqual(containerId, batchId);
@@ -123,7 +122,6 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
   // When
   [self.sut sendAsync:container
-              authToken:nil
       completionHandler:^(__unused NSString *batchId, __unused NSHTTPURLResponse *response, __unused NSData *data, NSError *error) {
         XCTAssertEqual(error.domain, kMSACErrorDomain);
         XCTAssertEqual(error.code, MSACLogInvalidContainerErrorCode);
@@ -143,7 +141,6 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@"HTTP Network Down"];
   [self.sut sendAsync:container
-              authToken:nil
       completionHandler:^(__unused NSString *batchId, __unused NSHTTPURLResponse *response, __unused NSData *data, NSError *error) {
         XCTAssertNotNil(error);
         [expectation fulfill];
@@ -157,77 +154,20 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
                                }];
 }
 
-- (void)testSendsAuthHeaderWhenAuthTokenIsNotNil {
-
-  // If
-  NSString *token = @"auth token";
-  MSLogContainer *logContainer = OCMPartialMock([MSLogContainer new]);
-  OCMStub([logContainer isValid]).andReturn(YES);
-
-  // When
-  [self.sut sendAsync:logContainer
-              authToken:token
-      completionHandler:^(NSString *_Nonnull callId __unused, NSHTTPURLResponse *_Nullable response __unused,
-                          NSData *_Nullable data __unused, NSError *_Nullable error __unused){
-      }];
-
-  // Then
-  OCMVerify(([self.httpClientMock sendAsync:OCMOCK_ANY
-                                     method:OCMOCK_ANY
-                                    headers:[OCMArg checkWithBlock:^BOOL(id obj) {
-                                      NSDictionary *headers = (NSDictionary *)obj;
-                                      NSString *actualHeader = headers[@"Authorization"];
-                                      NSString *expectedHeader = [NSString stringWithFormat:@"Bearer %@", token];
-                                      return [expectedHeader isEqualToString:actualHeader];
-                                    }]
-                                       data:OCMOCK_ANY
-                             retryIntervals:OCMOCK_ANY
-                         compressionEnabled:YES
-                          completionHandler:OCMOCK_ANY]));
-}
-
-- (void)testDoesNotSendAuthHeaderWithNilAuthToken {
-
-  // If
-  MSLogContainer *logContainer = [[MSLogContainer alloc] initWithBatchId:@"whatever" andLogs:(NSArray<id<MSLog>> *)@ [[MSMockLog new]]];
-
-  // When
-  [self.sut sendAsync:logContainer
-      completionHandler:^(NSString *_Nonnull callId __unused, NSHTTPURLResponse *_Nullable response __unused,
-                          NSData *_Nullable data __unused, NSError *_Nullable error __unused){
-      }];
-
-  // Then
-  OCMVerify(([self.httpClientMock sendAsync:OCMOCK_ANY
-                                     method:OCMOCK_ANY
-                                    headers:[OCMArg checkWithBlock:^BOOL(id obj) {
-                                      NSDictionary *headers = (NSDictionary *)obj;
-                                      return headers[@"Authorization"] == nil;
-                                    }]
-                                       data:OCMOCK_ANY
-                             retryIntervals:OCMOCK_ANY
-                         compressionEnabled:YES
-                          completionHandler:OCMOCK_ANY]));
-}
-
 - (void)testHttpClientDelegateObfuscateHeaderValue {
 
   // If
   id mockLogger = OCMClassMock([MSLogger class]);
   id mockHttpUtil = OCMClassMock([MSHttpUtil class]);
   OCMStub([mockLogger currentLogLevel]).andReturn(MSLogLevelVerbose);
-  OCMStub(ClassMethod([mockHttpUtil hideAuthToken:OCMOCK_ANY])).andDo(nil);
   OCMStub(ClassMethod([mockHttpUtil hideSecret:OCMOCK_ANY])).andDo(nil);
-  NSString *authorizationValue = @"Bearer testtesttest";
-  NSDictionary<NSString *, NSString *> *headers =
-      @{kMSAuthorizationHeaderKey : authorizationValue, kMSHeaderAppSecretKey : kMSTestAppSecret};
+  NSDictionary<NSString *, NSString *> *headers = @{kMSHeaderAppSecretKey : kMSTestAppSecret};
   NSURL *url = [NSURL new];
 
   // When
   [self.sut willSendHTTPRequestToURL:url withHeaders:headers];
 
   // Then
-  OCMVerify([mockHttpUtil hideAuthToken:authorizationValue]);
   OCMVerify([mockHttpUtil hideSecret:kMSTestAppSecret]);
 
   [mockLogger stopMocking];
@@ -275,7 +215,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   NSString *actual = [self.sut obfuscateResponsePayload:payload];
 
   // Then
-  assertThat(actual, payload);
+  XCTAssertEqual(actual, payload);
 }
 
 @end

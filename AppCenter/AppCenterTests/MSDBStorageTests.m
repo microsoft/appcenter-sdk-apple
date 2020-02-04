@@ -321,77 +321,11 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   XCTAssertTrue([self tableExists:tableToCreate]);
 }
 
-- (void)testCreateTableWhenTableExistsWithUniqueColumns {
-
-  // If
-  NSArray<NSString *> *uniqueColumns = @[ kMSTestHungrinessColName, kMSTestMealColName ];
-
-  // Then
-  XCTAssertTrue([self tableExists:kMSTestTableName]);
-
-  // When
-  BOOL tableExistsOrCreated = [self.sut createTable:kMSTestTableName
-                                      columnsSchema:self.schema[kMSTestTableName]
-                            uniqueColumnsConstraint:uniqueColumns];
-
-  // Then
-  XCTAssertTrue(tableExistsOrCreated);
-  XCTAssertTrue([self tableExists:kMSTestTableName]);
-}
-
-- (void)testCreateTableWhenTableDoesntExistWithUniqueColumns {
-
-  // If
-  NSString *tableToCreate = @"NewTable";
-  NSArray<NSString *> *uniqueColumns = @[ kMSTestHungrinessColName, kMSTestMealColName ];
-
-  // When
-  BOOL tableExistsOrCreated = [self.sut createTable:tableToCreate
-                                      columnsSchema:self.schema[kMSTestTableName]
-                            uniqueColumnsConstraint:uniqueColumns];
-
-  // Then
-  XCTAssertTrue(tableExistsOrCreated);
-  XCTAssertTrue([self tableExists:tableToCreate]);
-
-  // If
-  NSString *expectedPerson1 = @"Hungry Guy";
-  NSNumber *expectedHungriness = @(99);
-  NSString *expectedMeal = @"Big burger";
-  NSString *query1 = [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\") "
-                                                @"VALUES (?, ?, ?)",
-                                                tableToCreate, kMSTestPersonColName, kMSTestHungrinessColName, kMSTestMealColName];
-  MSStorageBindableArray *array1 = [MSStorageBindableArray new];
-  [array1 addString:expectedPerson1];
-  [array1 addString:expectedHungriness.stringValue];
-  [array1 addString:expectedMeal];
-  NSString *expectedPerson2 = @"Second Hungry Guy";
-  NSString *query2 = [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\") "
-                                                @"VALUES (?, ?, ?)",
-                                                tableToCreate, kMSTestPersonColName, kMSTestHungrinessColName, kMSTestMealColName];
-  MSStorageBindableArray *array2 = [MSStorageBindableArray new];
-  [array2 addString:expectedPerson2];
-  [array2 addString:expectedHungriness.stringValue];
-  [array2 addString:expectedMeal];
-
-  // When
-  int result = [self.sut executeNonSelectionQuery:query1 withValues:array1];
-
-  // Then
-  XCTAssertEqual(result, SQLITE_OK);
-
-  // When
-  result = [self.sut executeNonSelectionQuery:query2 withValues:array2];
-
-  // Then
-  XCTAssertEqual(result, SQLITE_CONSTRAINT);
-}
-
 - (void)testDropTableWhenTableExists {
-
+  
   // When
   BOOL tableDropped = [self.sut dropTable:kMSTestTableName];
-
+  
   // Then
   XCTAssertTrue(tableDropped);
   XCTAssertFalse([self tableExists:kMSTestTableName]);
@@ -416,14 +350,14 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   XCTAssertFalse([self tableExists:tableName2]);
 }
 
-- (void)testDroppedTableWhenTableDoesntExists {
-
+- (void)testDroppedTableWhenTableDoesNotExists {
+  
   // If
   NSString *tableToDrop = @"NewTable";
-
+  
   // When
   BOOL tableDropped = [self.sut dropTable:tableToDrop];
-
+  
   // Then
   XCTAssertTrue(tableDropped);
   XCTAssertFalse([self tableExists:tableToDrop]);

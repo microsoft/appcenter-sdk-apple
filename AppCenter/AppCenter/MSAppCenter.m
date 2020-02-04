@@ -7,7 +7,6 @@
 #import "MSAppCenterInternal.h"
 #import "MSAppCenterPrivate.h"
 #import "MSAppDelegateForwarder.h"
-#import "MSAuthTokenContext.h"
 #import "MSChannelGroupDefault.h"
 #import "MSChannelGroupDefaultPrivate.h"
 #import "MSChannelUnitConfiguration.h"
@@ -327,9 +326,6 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
       [servicesNames addObject:[service serviceName]];
     }
   }
-
-  // Finish auth token context initialization.
-  [[MSAuthTokenContext sharedInstance] finishInitialize];
   if ([servicesNames count] > 0) {
     if (fromApplication) {
       [self sendStartServiceLog:servicesNames];
