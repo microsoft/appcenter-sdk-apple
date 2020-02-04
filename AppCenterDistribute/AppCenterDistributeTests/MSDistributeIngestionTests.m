@@ -115,7 +115,6 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   // When
   [MSHttpTestUtil stubResponseWithData:data statusCode:MSHTTPCodesNo200OK headers:self.sut.httpHeaders name:NSStringFromSelector(_cmd)];
   [self.sut sendAsync:container
-              authToken:nil
       completionHandler:^(__unused NSString *batchId, __unused NSHTTPURLResponse *response, __unused NSData *responseData,
                           __unused NSError *error) {
         [requestCompletedExpectation fulfill];

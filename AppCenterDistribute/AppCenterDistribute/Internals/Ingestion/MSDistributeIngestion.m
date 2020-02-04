@@ -28,7 +28,7 @@ static NSString *const kMSLatestPublicReleaseApiPathFormat = @"/public/sdk/apps/
   return kMSHttpMethodGet;
 };
 
-- (NSDictionary *)getHeadersWithData:(NSObject *__unused)data eTag:(NSString *)eTag authToken:(NSString *__unused)authToken {
+- (NSDictionary *)getHeadersWithData:(NSObject *__unused)data eTag:(NSString *)eTag {
 
   // Set Header params.
   NSMutableDictionary *headers = [self.httpHeaders mutableCopy];

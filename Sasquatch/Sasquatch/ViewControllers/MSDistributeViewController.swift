@@ -8,7 +8,6 @@ class MSDistributeViewController: UITableViewController, AppCenterProtocol {
 
   @IBOutlet weak var enabled: UISwitch!
   @IBOutlet weak var customized: UISwitch!
-  @IBOutlet weak var whenUpdateTrackField: UITextField!
   @IBOutlet weak var updateTrackField: UITextField!
   var appCenter: AppCenterDelegate!
 
@@ -31,26 +30,12 @@ class MSDistributeViewController: UITableViewController, AppCenterProtocol {
     }
   }
 
-  enum WhenUpdateTrack: String, CaseIterable {
-    case now = "Now"
-    case beforeNextStart = "Before next start"
-  }
-
   private var updatePicker: MSEnumPicker<UpdateTrack>?
-
-  private var whenUpdateTrackPicker: MSEnumPicker<WhenUpdateTrack>?
 
   private var updateTrack = UpdateTrack.Public {
 
     didSet {
        self.updateTrackField.text = self.updateTrack.rawValue
-    }
-  }
- 
-
-  private var whenUpdateTrack = WhenUpdateTrack.now {
-    didSet {
-        self.whenUpdateTrackField.text = self.whenUpdateTrack.rawValue
     }
   }
 
@@ -59,9 +44,6 @@ class MSDistributeViewController: UITableViewController, AppCenterProtocol {
     self.customized.isOn = UserDefaults.init().bool(forKey: kSASCustomizedUpdateAlertKey)
     preparePickers()
     self.updateTrack = UpdateTrack.getSelf(by: MSDistribute.updateTrack)
-    if UserDefaults.standard.value(forKey: kMSUpdateTrackBeforeStartValue) != nil {
-        self.whenUpdateTrack = .beforeNextStart
-    }
   }
 
   private func preparePickers() {
@@ -70,30 +52,9 @@ class MSDistributeViewController: UITableViewController, AppCenterProtocol {
         allValues: UpdateTrack.allCases,
         onChange: { index in
             let pickedValue = UpdateTrack.allCases[index]
-            switch self.whenUpdateTrack {
-            case .beforeNextStart:
-                UserDefaults.standard.set(pickedValue.state.rawValue, forKey: kMSUpdateTrackBeforeStartValue)
-            case .now:
-                MSDistribute.updateTrack = pickedValue.state
-                self.updateTrack = pickedValue
-            }
-    })
-    self.whenUpdateTrackPicker = MSEnumPicker<WhenUpdateTrack>(
-        textField: self.whenUpdateTrackField,
-        allValues: WhenUpdateTrack.allCases,
-        onChange: { index in
-            self.whenUpdateTrack = WhenUpdateTrack.allCases[index]
-            var startTrackValue: Int?
-            switch self.whenUpdateTrack {
-            case .beforeNextStart:
-                startTrackValue = UpdateTrack.getSelf(by: MSDistribute.updateTrack).state.rawValue
-            case .now:
-                startTrackValue = nil
-            }
-            UserDefaults.standard.set(startTrackValue, forKey: kMSUpdateTrackBeforeStartValue)
+            UserDefaults.standard.set(pickedValue.state.rawValue, forKey: kMSUpdateTrackKey)
     })
     self.updateTrackField.delegate = self.updatePicker
-    self.whenUpdateTrackField.delegate = self.whenUpdateTrackPicker
   }
   
   override func viewWillAppear(_ animated: Bool) {

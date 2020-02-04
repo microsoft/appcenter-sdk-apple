@@ -55,13 +55,6 @@ NSString *MSPackageHash(void);
 @interface MSDistributeUtil : NSObject
 
 /**
- * Get stored update track.
- *
- * @return The stored update track (public by default).
- */
-+ (MSUpdateTrack)storedUpdateTrack;
-
-/**
  * Check if the given update track is valid or not.
  *
  * @return YES if it is valid, NO otherwise.

@@ -78,23 +78,12 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
   return YES;
 }
 
-- (void)sendAsync:(NSObject *)data authToken:(nullable NSString *)authToken completionHandler:(MSSendAsyncCompletionHandler)handler {
-  [self sendAsync:data eTag:nil authToken:authToken callId:MS_UUID_STRING completionHandler:handler];
-}
-
-- (void)sendAsync:(NSObject *)data
-                 eTag:(nullable NSString *)eTag
-            authToken:(nullable NSString *)authToken
-    completionHandler:(MSSendAsyncCompletionHandler)handler {
-  [self sendAsync:data eTag:eTag authToken:authToken callId:MS_UUID_STRING completionHandler:handler];
-}
-
 - (void)sendAsync:(NSObject *)data completionHandler:(MSSendAsyncCompletionHandler)handler {
-  [self sendAsync:data eTag:nil authToken:nil callId:MS_UUID_STRING completionHandler:handler];
+  [self sendAsync:data eTag:nil callId:MS_UUID_STRING completionHandler:handler];
 }
 
 - (void)sendAsync:(NSObject *)data eTag:(nullable NSString *)eTag completionHandler:(MSSendAsyncCompletionHandler)handler {
-  [self sendAsync:data eTag:eTag authToken:nil callId:MS_UUID_STRING completionHandler:handler];
+  [self sendAsync:data eTag:eTag callId:MS_UUID_STRING completionHandler:handler];
 }
 
 #pragma mark - Life cycle
@@ -127,7 +116,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
 }
 
 // This method will be overridden by subclasses.
-- (NSDictionary *)getHeadersWithData:(NSObject *__unused)data eTag:(NSString *__unused)eTag authToken:(NSString *__unused)authToken {
+- (NSDictionary *)getHeadersWithData:(NSObject *__unused)data eTag:(NSString *__unused)eTag {
   return nil;
 }
 
@@ -182,14 +171,13 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
 
 - (void)sendAsync:(NSObject *)data
                  eTag:(nullable NSString *)eTag
-            authToken:(nullable NSString *)authToken
                callId:(NSString *)callId
     completionHandler:(MSSendAsyncCompletionHandler)handler {
   @synchronized(self) {
     if (!self.enabled) {
       return;
     }
-    NSDictionary *httpHeaders = [self getHeadersWithData:data eTag:eTag authToken:authToken];
+    NSDictionary *httpHeaders = [self getHeadersWithData:data eTag:eTag];
     NSData *payload = [self getPayloadWithData:data];
     [self.httpClient sendAsync:self.sendURL
                         method:[self getHttpMethod]

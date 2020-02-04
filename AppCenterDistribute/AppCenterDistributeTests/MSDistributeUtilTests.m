@@ -262,16 +262,4 @@
   [parserMock stopMocking];
 }
 
-- (void)testInvalidPersistedTrackFallsBackToPublic {
-
-  // If
-  [self.settingsMock setObject:@(100) forKey:kMSDistributionUpdateTrackKey];
-
-  // When
-  MSUpdateTrack track = [MSDistributeUtil storedUpdateTrack];
-
-  // Then
-  assertThatInt(track, equalToInt(MSUpdateTrackPublic));
-}
-
 @end
