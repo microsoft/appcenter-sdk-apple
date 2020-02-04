@@ -29,17 +29,6 @@
 				<string>appcenter-66957d63-b484-43e6-bb8d-b89bf37a1c08</string>
 			</array>
 		</dict>
-		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleURLName</key>
-			<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>msal65dc3680-7325-4000-a0e7-dbd2276eafd1</string>
-				<string>msal66957d63-b484-43e6-bb8d-b89bf37a1c08</string>
-			</array>
-		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>${BUILD_NUMBER}</string>

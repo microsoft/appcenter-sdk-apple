@@ -44,30 +44,6 @@
   assertThat(hiddenSecret, is(fullyHiddenSecret));
 }
 
-- (void)testHideAuthToken {
-
-  // If
-  NSString *token = @"Bearer jwttoken";
-
-  // When
-  NSString *hiddenToken = [MSHttpUtil hideAuthToken:token];
-
-  // Then
-  assertThat(hiddenToken, is(@"Bearer ***"));
-}
-
-- (void)testHideAuthTokenThatHasNoSpaces {
-
-  // If
-  NSString *token = @"type%3Dresource%26ver%3D1%26sig%3pjGyKiHTIwDwAaZywx9xj1AkvbaA%2";
-
-  // When
-  NSString *hiddenToken = [MSHttpUtil hideAuthToken:token];
-
-  // Then
-  assertThat(hiddenToken, is(@"***"));
-}
-
 - (void)testIsNoInternetConnectionError {
 
   // When
