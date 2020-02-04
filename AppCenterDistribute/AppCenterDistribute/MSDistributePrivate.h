@@ -86,11 +86,6 @@ static NSString *const kMSMandatoryReleaseKey = @"MSMandatoryRelease";
 static NSString *const kMSDistributionGroupIdKey = @"MSDistributionGroupId";
 
 /**
- * The storage key for update track.
- */
-static NSString *const kMSDistributionUpdateTrackKey = @"MSDistributionUpdateTrack";
-
-/**
  * The storage key for update setup failure package hash.
  */
 static NSString *const kMSUpdateSetupFailedPackageHashKey = @"MSUpdateSetupFailedPackageHash";

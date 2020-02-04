@@ -91,8 +91,8 @@ static dispatch_once_t onceToken;
       [MS_USER_DEFAULTS setObject:@(1) forKey:kMSSDKHasLaunchedWithDistribute];
     }
 
-    // Setup default value for update track.
-    _updateTrack = [MSDistributeUtil storedUpdateTrack];
+    // Set a default value for update track.
+    _updateTrack = MSUpdateTrackPublic;
 
     // Proceed update whenever an application is restarted in users perspective.
     [MS_NOTIFICATION_CENTER addObserver:self
@@ -1162,18 +1162,15 @@ static dispatch_once_t onceToken;
 }
 
 - (void)setUpdateTrack:(MSUpdateTrack)updateTrack {
-  if (![MSDistributeUtil isValidUpdateTrack:updateTrack]) {
-    MSLogError([MSDistribute logTag], @"Invalid argument passed to updateTrack.");
-    return;
-  }
   @synchronized(self) {
-    if (_updateTrack != updateTrack) {
-      _updateTrack = updateTrack;
-      [MS_USER_DEFAULTS setObject:@(updateTrack) forKey:kMSDistributionUpdateTrackKey];
+    if (self.started) {
+      MSLogError([MSDistribute logTag], @"Update track cannot be set after Distribute is started.");
+      return;
+    } else if (![MSDistributeUtil isValidUpdateTrack:updateTrack]) {
+      MSLogError([MSDistribute logTag], @"Invalid argument passed to updateTrack.");
+      return;
     }
-    if (self.canBeUsed && self.isEnabled && !self.updateFlowInProgress) {
-      [self startUpdate];
-    }
+    _updateTrack = updateTrack;
   }
 }
 

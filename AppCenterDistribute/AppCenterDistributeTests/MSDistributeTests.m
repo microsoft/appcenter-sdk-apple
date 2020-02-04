@@ -2807,7 +2807,7 @@ static NSURL *sfURL;
   XCTAssertEqual(MSDistribute.updateTrack, MSUpdateTrackPrivate);
 }
 
-- (void)testPersistUpdateTrackWhenDisabled {
+- (void)testSetUpdateTrackWhenDisabled {
 
   // If
   [MSDistribute setEnabled:NO];
@@ -2825,81 +2825,28 @@ static NSURL *sfURL;
   XCTAssertEqual(MSDistribute.updateTrack, MSUpdateTrackPublic);
 }
 
-- (void)testSwitchTrackBeforeUpdateFlowComplete {
-
-  // If
-  id distributeMock = OCMPartialMock(self.sut);
-  [distributeMock setValue:@YES forKey:@"updateFlowInProgress"];
-  OCMReject([distributeMock startUpdate]);
-  OCMStub([distributeMock canBeUsed]).andReturn(YES);
-
-  // When
-  [distributeMock setUpdateTrack:MSUpdateTrackPublic];
+- (void)testDefaultUpdateTrackIsPublic {
 
   // Then
-  OCMVerifyAll(distributeMock);
-
-  // Clear
-  [distributeMock stopMocking];
+  XCTAssertEqual(MSDistribute.updateTrack, MSUpdateTrackPublic);
 }
 
-- (void)testSwitchTrackToPrivateAfterUpdateFlowComplete {
+- (void)testSetUpdateTrackAfterStartDoesNothing {
 
   // If
-  id utilityMock = [self mockMSPackageHash];
   id distributeMock = OCMPartialMock(self.sut);
-  OCMStub([distributeMock checkLatestRelease:OCMOCK_ANY distributionGroupId:OCMOCK_ANY releaseHash:OCMOCK_ANY]).andDo(nil);
-  [MSMockKeychainUtil mockStatusCode:errSecItemNotFound forKey:kMSUpdateTokenKey];
-  OCMStub([distributeMock canBeUsed]).andReturn(YES);
+  [distributeMock setValue:@(MSUpdateTrackPublic) forKey:@"updateTrack"];
+  [distributeMock setValue:@(YES) forKey:@"started"];
   OCMStub([distributeMock sharedInstance]).andReturn(distributeMock);
 
   // When
   [distributeMock setUpdateTrack:MSUpdateTrackPrivate];
 
   // Then
-  OCMVerify([distributeMock requestInstallInformationWith:OCMOCK_ANY]);
+  XCTAssertEqual(self.sut.updateTrack, MSUpdateTrackPublic);
 
   // Clear
-  [utilityMock stopMocking];
   [distributeMock stopMocking];
-}
-
-- (void)testSwitchTrackToPublicAfterUpdateFlowComplete {
-
-  // If
-  id utilityMock = [self mockMSPackageHash];
-  id ingestionMock = OCMClassMock([MSDistributeIngestion class]);
-  id distributeMock = OCMPartialMock(self.sut);
-  [distributeMock setValue:ingestionMock forKey:@"ingestion"];
-  OCMReject([distributeMock requestInstallInformationWith:OCMOCK_ANY]);
-  [MSMockKeychainUtil mockStatusCode:errSecItemNotFound forKey:kMSUpdateTokenKey];
-  OCMStub([distributeMock canBeUsed]).andReturn(YES);
-
-  // When
-  [distributeMock setUpdateTrack:MSUpdateTrackPublic];
-
-  // Then
-  OCMVerify([ingestionMock checkForPublicUpdateWithQueryStrings:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
-
-  // Clear
-  [utilityMock stopMocking];
-  [ingestionMock stopMocking];
-  [distributeMock stopMocking];
-}
-
-- (void)testSwitchToSameTrackDoesNothing {
-
-  // If
-  MSDistribute.updateTrack = MSUpdateTrackPrivate;
-
-  // Remove the persisted value from NSUserDefaults to verify the second call doesn't persist any value if it is same.
-  [self.settingsMock removeObjectForKey:kMSDistributionUpdateTrackKey];
-
-  // When
-  MSDistribute.updateTrack = MSUpdateTrackPrivate;
-
-  // Then
-  XCTAssertNil([self.settingsMock objectForKey:kMSDistributionUpdateTrackKey]);
 }
 
 - (void)testPrivateTrackNotGettingUpdateWithoutUpdateToken {
