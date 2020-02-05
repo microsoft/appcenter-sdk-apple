@@ -815,8 +815,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
 - (void)testEnqueueCriticalItem {
 
-  // If.
-
+  // If
   __block MSChannelUnitDefault *channel = [self createChannelUnitDefault];
   [self initChannelEndJobExpectation];
   id<MSLog> mockLog = [self getValidMockLog];
@@ -1924,20 +1923,20 @@ static void dispatch_queue_finalizer(void *context) {
 }
 
 - (void)waitDispatchQueue {
-
-  // Wait for all tasks to complete, then call suspend in the final task.
   dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
   {
     dispatch_object_t queue = self.dispatchQueue;
     if (queue) {
+      CFIndex retainCount = CFGetRetainCount((__bridge CFTypeRef)queue) - 1;
+      NSLog(@"Dispatch queue still has %li references, trying to wait background tasks...", retainCount);
       dispatch_set_context(queue, (__bridge void *)semaphore);
       dispatch_set_finalizer_f(queue, dispatch_queue_finalizer);
     } else {
       dispatch_semaphore_signal(semaphore);
     }
   }
-  if (dispatch_semaphore_wait(semaphore, dispatch_time(DISPATCH_TIME_NOW, 3 * NSEC_PER_SEC))) {
-    [NSException raise:@"Dispatch queue stuck during test tear down." format:@""];
+  if (dispatch_semaphore_wait(semaphore, dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC))) {
+    XCTFail(@"Dispatch queue stuck during test tear down.");
   }
 }
 
