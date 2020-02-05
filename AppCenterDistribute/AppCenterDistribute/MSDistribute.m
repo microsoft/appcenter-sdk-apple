@@ -419,9 +419,7 @@ static dispatch_once_t onceToken;
             }
             if (!details) {
               MSLogError([MSDistribute logTag], @"Couldn't parse response payload.");
-              @synchronized(strongSelf) {
-                strongSelf.updateFlowInProgress = NO;
-              }
+              strongSelf.updateFlowInProgress = NO;
             } else {
 
               // Check if downloaded release was installed and remove stored release details.
@@ -445,9 +443,7 @@ static dispatch_once_t onceToken;
                * this edge case adds too much complexity for no worthy advantages, keeping it as it is for now.
                */
               if (![strongSelf handleUpdate:details]) {
-                @synchronized(strongSelf) {
-                  strongSelf.updateFlowInProgress = NO;
-                }
+                strongSelf.updateFlowInProgress = NO;
               }
             }
           }
@@ -480,9 +476,7 @@ static dispatch_once_t onceToken;
             }
 
             // Reset the flag after handling the failure.
-            @synchronized(strongSelf) {
-              strongSelf.updateFlowInProgress = NO;
-            }
+            strongSelf.updateFlowInProgress = NO;
           }
         };
 
