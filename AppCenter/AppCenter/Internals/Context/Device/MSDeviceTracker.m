@@ -80,6 +80,10 @@ static MSDeviceTracker *sharedInstance = nil;
   @synchronized(self) {
     wrapperSdkInformation = wrapperSdk;
     needRefresh = YES;
+
+    // Replace the last device without wrapperSdk in the UserDefaults with an updated info.
+    [self.deviceHistory removeLastObject];
+    [self device];
   }
 }
 
