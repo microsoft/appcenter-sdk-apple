@@ -52,7 +52,9 @@
 }
 
 - (void)tearDown {
-  //[MSDispatchTestUtil awaitAndSuspendDispatchQueue:self.sut.logsDispatchQueue];
+  __weak dispatch_object_t dispatchQueue = self.sut.logsDispatchQueue;
+  self.sut = nil;
+  XCTAssertNil(dispatchQueue);
 
   // Stop mocks.
   [super tearDown];
