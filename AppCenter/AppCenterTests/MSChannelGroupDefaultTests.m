@@ -9,7 +9,6 @@
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitDefault.h"
 #import "MSChannelUnitDefaultPrivate.h"
-#import "MSDispatchTestUtil.h"
 #import "MSHttpClient.h"
 #import "MSHttpTestUtil.h"
 #import "MSHttpUtil.h"
@@ -53,7 +52,7 @@
 }
 
 - (void)tearDown {
-  [MSDispatchTestUtil awaitAndSuspendDispatchQueue:self.sut.logsDispatchQueue];
+  //[MSDispatchTestUtil awaitAndSuspendDispatchQueue:self.sut.logsDispatchQueue];
 
   // Stop mocks.
   [super tearDown];
