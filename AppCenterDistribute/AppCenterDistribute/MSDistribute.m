@@ -92,8 +92,8 @@ static dispatch_once_t onceToken;
 
     // Proceed update whenever an application is restarted in users perspective.
     [MS_NOTIFICATION_CENTER addObserver:self
-                               selector:@selector(applicationWillEnterForeground)
-                                   name:UIApplicationWillEnterForegroundNotification
+                               selector:@selector(applicationDidBecomeActive)
+                                   name:UIApplicationDidBecomeActiveNotification
                                  object:nil];
 
     // Init the distribute info tracker.
@@ -924,6 +924,7 @@ static dispatch_once_t onceToken;
                                             * release notes.
                                             */
                                            self.releaseDetails = nil;
+                                           self.updateFlowInProgress = NO;
                                          }];
     }
 
@@ -1170,14 +1171,14 @@ static dispatch_once_t onceToken;
   }
 }
 
-- (void)applicationWillEnterForeground {
+- (void)applicationDidBecomeActive {
   if (self.canBeUsed && self.isEnabled && ![MS_USER_DEFAULTS objectForKey:kMSUpdateTokenRequestIdKey]) {
     [self startUpdate];
   }
 }
 
 - (void)dealloc {
-  [MS_NOTIFICATION_CENTER removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
+  [MS_NOTIFICATION_CENTER removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
 }
 
 + (void)resetSharedInstance {
