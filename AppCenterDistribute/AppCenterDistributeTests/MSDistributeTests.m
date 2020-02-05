@@ -1937,7 +1937,7 @@ static NSURL *sfURL;
   XCTAssertFalse(result);
 }
 
-- (void)testStartUpdateWhenApplicationEnterForeground {
+- (void)testStartUpdateWhenApplicatsionDidBecomeActive {
 
   // If
   id notificationCenterMock = OCMPartialMock([NSNotificationCenter new]);
@@ -1964,7 +1964,7 @@ static NSURL *sfURL;
 
   // When
   [distributeMock setEnabled:NO];
-  [notificationCenterMock postNotificationName:UIApplicationWillEnterForegroundNotification object:nil];
+  [notificationCenterMock postNotificationName:UIApplicationDidBecomeActiveNotification object:nil];
 
   // Then
   OCMVerify([distributeMock isEnabled]);
@@ -1977,7 +1977,7 @@ static NSURL *sfURL;
   XCTAssertEqual(startUpdateCounter, 2);
 
   // When
-  [notificationCenterMock postNotificationName:UIApplicationWillEnterForegroundNotification object:nil];
+  [notificationCenterMock postNotificationName:UIApplicationDidBecomeActiveNotification object:nil];
 
   // Then
   OCMVerify([distributeMock isEnabled]);
@@ -2987,6 +2987,47 @@ static NSURL *sfURL;
   // Clear
   [httpClientClassMock stopMocking];
   [reachabilityMock stopMocking];
+}
+
+- (void)testCompleteUpdateFlowWhenReleaseNoteIsClicked {
+
+  // If
+  NSString *appName = @"Test App";
+  OCMStub([self.bundleMock objectForInfoDictionaryKey:@"CFBundleDisplayName"]).andReturn(appName);
+  MSReleaseDetails *details = [MSReleaseDetails new];
+  details.shortVersion = @"2.5";
+  details.version = @"11";
+  details.releaseNotes = @"Release notes";
+  details.releaseNotesUrl = [NSURL URLWithString:@"https://contoso.com/release_notes"];
+  details.mandatoryUpdate = false;
+  self.sut.updateFlowInProgress = YES;
+
+  typedef void (^MSHandler)(UIAlertAction *action);
+  OCMStub([self.alertControllerMock addDefaultActionWithTitle:MSDistributeLocalizedString(@"MSDistributeViewReleaseNotes")
+                                                      handler:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        MSHandler handler;
+        [invocation getArgument:&handler atIndex:3];
+
+        // Simulating a button click for release note.
+        handler(nil);
+      });
+
+  // When
+  XCTestExpectation *expectation = [self expectationWithDescription:@"Confirmation alert has been displayed"];
+  [self.sut showConfirmationAlert:details];
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [expectation fulfill];
+  });
+
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                                 XCTAssertFalse(self.sut.updateFlowInProgress);
+                               }];
 }
 
 #pragma mark - Helper
