@@ -1937,7 +1937,7 @@ static NSURL *sfURL;
   XCTAssertFalse(result);
 }
 
-- (void)testStartUpdateWhenApplicatsionDidBecomeActive {
+- (void)testStartUpdateWhenApplicationDidBecomeActive {
 
   // If
   id notificationCenterMock = OCMPartialMock([NSNotificationCenter new]);
