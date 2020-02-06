@@ -923,6 +923,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   NSUInteger batchSizeLimit = 1;
   __block int currentBatchId = 1;
   __block NSMutableArray<NSString *> *sentBatchIds = [NSMutableArray new];
+  __block MSLogContainer *container;;
   __block MSSendAsyncCompletionHandler ingestionBlock;
   __block id responseMock = [MSHttpTestUtil createMockResponseForStatusCode:200 headers:nil];
   NSUInteger expectedMaxPendingBatched = 2;
@@ -931,7 +932,6 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
   // Set up mock and stubs.
   OCMStub([self.ingestionMock sendAsync:OCMOCK_ANY completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
-    MSLogContainer *container;
     [invocation retainArguments];
     [invocation getArgument:&container atIndex:2];
     [invocation getArgument:&ingestionBlock atIndex:3];
@@ -1860,16 +1860,14 @@ static NSString *const kMSTestGroupId = @"GroupId";
   [self initChannelEndJobExpectation];
   id<MSLog> enqueuedLog = [self getValidMockLog];
   NSString *expectedUserId = @"Fake-UserId";
-  __block NSString *actualUserId;
+  __block MSAbstractLog *log;
   id userIdContextMock = OCMClassMock([MSUserIdContext class]);
   OCMStub([userIdContextMock sharedInstance]).andReturn(userIdContextMock);
   OCMStub([userIdContextMock userId]).andReturn(@"SomethingElse");
   channel.storage = self.storageMock = OCMProtocolMock(@protocol(MSStorage));
   OCMStub([channel.storage saveLog:OCMOCK_ANY withGroupId:OCMOCK_ANY flags:MSFlagsNormal])
       .andDo(^(NSInvocation *invocation) {
-        MSAbstractLog *log;
         [invocation getArgument:&log atIndex:2];
-        actualUserId = log.userId;
         [self enqueueChannelEndJobExpectation];
       })
       .andReturn(YES);
@@ -1884,7 +1882,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
-                                 XCTAssertEqual(actualUserId, expectedUserId);
+                                 XCTAssertEqual(log.userId, expectedUserId);
                                }];
   [userIdContextMock stopMocking];
 }
