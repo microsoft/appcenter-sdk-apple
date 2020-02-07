@@ -90,10 +90,15 @@ static dispatch_once_t onceToken;
     // Set a default value for update track.
     _updateTrack = MSUpdateTrackPublic;
 
-    // Proceed update whenever an application is restarted in users perspective.
+    /*
+     * Proceed update whenever an application is restarted in users perspective.
+     * The SDK triggered update flow on UIApplicationWillEnterForeground but listening to UIApplicationDidBecomeActiveNotification
+     * notification from version 3.0.0. It isn't reliable to make network calls on foreground so the SDK waits until the app has a
+     * focus before making any network calls.
+     */
     [MS_NOTIFICATION_CENTER addObserver:self
-                               selector:@selector(applicationWillEnterForeground)
-                                   name:UIApplicationWillEnterForegroundNotification
+                               selector:@selector(applicationDidBecomeActive)
+                                   name:UIApplicationDidBecomeActiveNotification
                                  object:nil];
 
     // Init the distribute info tracker.
@@ -924,6 +929,7 @@ static dispatch_once_t onceToken;
                                             * release notes.
                                             */
                                            self.releaseDetails = nil;
+                                           self.updateFlowInProgress = NO;
                                          }];
     }
 
@@ -1170,14 +1176,14 @@ static dispatch_once_t onceToken;
   }
 }
 
-- (void)applicationWillEnterForeground {
+- (void)applicationDidBecomeActive {
   if (self.canBeUsed && self.isEnabled && ![MS_USER_DEFAULTS objectForKey:kMSUpdateTokenRequestIdKey]) {
     [self startUpdate];
   }
 }
 
 - (void)dealloc {
-  [MS_NOTIFICATION_CENTER removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
+  [MS_NOTIFICATION_CENTER removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
 }
 
 + (void)resetSharedInstance {
