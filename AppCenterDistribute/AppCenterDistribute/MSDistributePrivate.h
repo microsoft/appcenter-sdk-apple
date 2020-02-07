@@ -184,6 +184,17 @@ static NSString *const kMSTesterAppUpdateSetupFailedKey = @"MSTesterAppUpdateSet
 - (void)configure:(MSDistributeFlags)flags;
 
 /**
+ * Check the latest release of the application.
+ *
+ * @param updateToken The update token stored in keychain. This value can be nil if it is public distribution.
+ * @param distributionGroupId The distribution group Id in keychain.
+ * @param releaseHash The release hash of the current version.
+ */
+- (void)checkForUpdateWithUpdateToken:(nullable NSString *)updateToken
+                  distributionGroupId:(NSString *)distributionGroupId
+                          releaseHash:(NSString *)releaseHash;
+
+/**
  * Open the given URL using the openURL method in the Shared Application.
  *
  * @param url URL to open.

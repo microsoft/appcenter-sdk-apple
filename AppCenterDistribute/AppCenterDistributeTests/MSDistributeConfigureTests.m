@@ -42,4 +42,36 @@ static NSString *const kMSTestAppSecret = @"IAMSECRET";
   XCTAssertEqual(MSDistributeFlagsDisableAutomaticCheckForUpdate, distribute.distributeFlags);
 }
 
+- (void)testCheckForUpdate {
+
+  // If
+  NSString *updateToken = @"UpdateToken";
+  NSString *distributionGroupId = @"DistributionGroupId";
+  NSString *releaseHash = @"ReleaseHash";
+  id distributeMock = OCMPartialMock([MSDistribute new]);
+
+  // When
+  [distributeMock checkForUpdateWithUpdateToken:updateToken distributionGroupId:distributionGroupId releaseHash:releaseHash];
+
+  // Then
+  OCMVerify([distributeMock checkLatestRelease:updateToken distributionGroupId:distributionGroupId releaseHash:releaseHash]);
+}
+
+- (void)testCheckForUpdateDoesNotCheckWhenDisabled {
+
+  // If
+  NSString *updateToken = @"UpdateToken";
+  NSString *distributionGroupId = @"DistributionGroupId";
+  NSString *releaseHash = @"ReleaseHash";
+  id distributeMock = OCMPartialMock([MSDistribute new]);
+  [distributeMock setValue:@(MSDistributeFlagsDisableAutomaticCheckForUpdate) forKey:@"distributeFlags"];
+  OCMReject([distributeMock checkLatestRelease:updateToken distributionGroupId:distributionGroupId releaseHash:releaseHash]);
+
+  // When
+  [distributeMock checkForUpdateWithUpdateToken:updateToken distributionGroupId:distributionGroupId releaseHash:releaseHash];
+
+  // Then
+  OCMVerifyAll(distributeMock);
+}
+
 @end
