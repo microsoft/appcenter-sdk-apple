@@ -36,7 +36,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   self.updateToken = @"updateToken";
   self.distributionGroupId = @"groupId";
   self.actualPublicUrl = [NSString stringWithFormat:@"%@/public/sdk/apps/%@/releases/latest", self.baseUrl, kMSTestAppSecret];
-  self.actualPrivateUrl = [NSString stringWithFormat:@"%@/sdk/apps/%@/releases/latest", self.baseUrl, kMSTestAppSecret];
+  self.actualPrivateUrl = [NSString stringWithFormat:@"%@/sdk/apps/%@/releases/private/latest", self.baseUrl, kMSTestAppSecret];
   self.httpClientMock = OCMPartialMock([MSHttpClient new]);
   self.httpClientClassMock = OCMClassMock([MSHttpClient class]);
   OCMStub([self.httpClientClassMock alloc]).andReturn(self.httpClientMock);
