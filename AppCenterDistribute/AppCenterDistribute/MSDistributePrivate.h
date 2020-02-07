@@ -153,6 +153,11 @@ static NSString *const kMSTesterAppUpdateSetupFailedKey = @"MSTesterAppUpdateSet
 @property(nonatomic) MSUpdateTrack updateTrack;
 
 /**
+ * Distribute flags.
+ */
+@property(nonatomic) MSDistributeFlags distributeFlags;
+
+/**
  * Returns the singleton instance. Meant for testing/demo apps only.
  *
  * @return the singleton instance of MSDistribute.
@@ -171,6 +176,12 @@ static NSString *const kMSTesterAppUpdateSetupFailedKey = @"MSTesterAppUpdateSet
 - (nullable NSURL *)buildTokenRequestURLWithAppSecret:(NSString *)appSecret
                                           releaseHash:(NSString *)releaseHash
                                           isTesterApp:(BOOL)isTesterApp;
+/**
+ * Configure Distribute options before the service starts.
+ *
+ * @param flags Distribute flags.
+ */
+- (void)configure:(MSDistributeFlags)flags;
 
 /**
  * Open the given URL using the openURL method in the Shared Application.

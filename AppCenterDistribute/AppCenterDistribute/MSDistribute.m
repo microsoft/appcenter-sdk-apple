@@ -269,6 +269,10 @@ static dispatch_once_t onceToken;
   return [MSDistribute sharedInstance].updateTrack;
 }
 
++ (void)configure:(MSDistributeFlags)flags {
+  [[MSDistribute sharedInstance] configure:flags];
+}
+
 #pragma mark - Private
 
 - (void)sendFirstSessionUpdateLog {
@@ -1173,6 +1177,16 @@ static dispatch_once_t onceToken;
 - (MSUpdateTrack)updateTrack {
   @synchronized(self) {
     return _updateTrack;
+  }
+}
+
+- (void)configure:(MSDistributeFlags)flags {
+  @synchronized(self) {
+    if (self.started) {
+      MSLogError([MSDistribute logTag], @"Flags cannot be set after Distribute is started.");
+      return;
+    }
+    self.distributeFlags = flags;
   }
 }
 
