@@ -148,6 +148,11 @@ static NSString *const kMSTesterAppUpdateSetupFailedKey = @"MSTesterAppUpdateSet
 @property(nonatomic) MSDistributeInfoTracker *distributeInfoTracker;
 
 /**
+ * A flag that indicates whether update flow is in progress or not.
+ */
+@property(atomic) BOOL updateFlowInProgress;
+
+/**
  * Update track.
  */
 @property(nonatomic) MSUpdateTrack updateTrack;

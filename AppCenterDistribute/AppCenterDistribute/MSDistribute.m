@@ -1197,6 +1197,7 @@ static dispatch_once_t onceToken;
     [self checkLatestRelease:updateToken distributionGroupId:distributionGroupId releaseHash:releaseHash];
   } else {
     MSLogInfo([MSDistribute logTag], @"Automatic checkForUpdate is disabled.");
+    self.updateFlowInProgress = NO;
   }
 }
 
