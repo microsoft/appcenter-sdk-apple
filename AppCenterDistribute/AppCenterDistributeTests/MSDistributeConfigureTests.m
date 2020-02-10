@@ -55,6 +55,9 @@ static NSString *const kMSTestAppSecret = @"IAMSECRET";
 
   // Then
   OCMVerify([distributeMock checkLatestRelease:updateToken distributionGroupId:distributionGroupId releaseHash:releaseHash]);
+
+  // Cleanup
+  [distributeMock stopMocking];
 }
 
 - (void)testCheckForUpdateDoesNotCheckWhenDisabled {
@@ -75,6 +78,9 @@ static NSString *const kMSTestAppSecret = @"IAMSECRET";
   // Then
   XCTAssertFalse(distribute.updateFlowInProgress);
   OCMVerifyAll(distributeMock);
+
+  // Cleanup
+  [distributeMock stopMocking];
 }
 
 @end
