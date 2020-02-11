@@ -18,6 +18,7 @@ App Center Auth is [retired](https://aka.ms/MBaaS-retirement-blog-post) and has 
 ### App Center Crashes
 
 * **[Fix]** Fix an issue to call Crashes delegate callbacks even though a modal window is being shown on macOS apps.
+* **[Fix]** Fix an issue when React Native SDK did not send wrapperSdk information.
 * **[Improvement]** Update PLCrashReporter to 1.4.0.
 
 ### App Center Data
