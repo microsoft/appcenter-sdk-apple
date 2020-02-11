@@ -163,6 +163,11 @@ static NSString *const kMSTesterAppUpdateSetupFailedKey = @"MSTesterAppUpdateSet
 @property(nonatomic) MSDistributeFlags distributeFlags;
 
 /**
+ * Flag to indicate whether an update was started with a checkForUpdate call.
+ */
+@property(atomic) bool checkForUpdateFlag;
+
+/**
  * Returns the singleton instance. Meant for testing/demo apps only.
  *
  * @return the singleton instance of MSDistribute.

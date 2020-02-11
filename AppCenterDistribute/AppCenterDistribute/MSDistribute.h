@@ -105,6 +105,11 @@ typedef NS_ENUM(NSInteger, MSDistributeFlags) {
  */
 + (void)configure:(MSDistributeFlags)flags;
 
+/**
+ * Check for the latest release using the selected update track.
+ */
++ (void)checkForUpdate;
+
 @end
 
 NS_ASSUME_NONNULL_END

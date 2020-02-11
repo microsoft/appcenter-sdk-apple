@@ -154,6 +154,7 @@ static dispatch_once_t onceToken;
       MSLogDebug([MSDistribute logTag], @"Successfully retrieved distribution group Id setting it in distributeInfoTracker.");
       [self.distributeInfoTracker updateDistributionGroupId:distributionGroupId];
     }
+    self.checkForUpdateFlag = NO;
     [self startUpdate];
   } else {
     [self dismissEmbeddedSafari];
@@ -271,6 +272,10 @@ static dispatch_once_t onceToken;
 
 + (void)configure:(MSDistributeFlags)flags {
   [[MSDistribute sharedInstance] configure:flags];
+}
+
++ (void)checkForUpdate {
+  [[MSDistribute sharedInstance] checkForUpdate];
 }
 
 #pragma mark - Private
@@ -1126,6 +1131,7 @@ static dispatch_once_t onceToken;
     if (queryTesterAppUpdateSetupFailed) {
       MSLogDebug([MSDistribute logTag], @"In-app updates setup from tester app failure detected.");
       [MS_USER_DEFAULTS setObject:queryTesterAppUpdateSetupFailed forKey:kMSTesterAppUpdateSetupFailedKey];
+      self.checkForUpdateFlag = NO;
       [self startUpdate];
       return YES;
     }
@@ -1190,10 +1196,17 @@ static dispatch_once_t onceToken;
   }
 }
 
+- (void)checkForUpdate {
+  if (self.canBeUsed && self.isEnabled && ![MS_USER_DEFAULTS objectForKey:kMSUpdateTokenRequestIdKey]) {
+    self.checkForUpdateFlag = YES;
+    [self startUpdate];
+  }
+}
+
 - (void)checkForUpdateWithUpdateToken:(nullable NSString *)updateToken
                   distributionGroupId:(NSString *)distributionGroupId
                           releaseHash:(NSString *)releaseHash {
-  if (self.distributeFlags ^ MSDistributeFlagsDisableAutomaticCheckForUpdate) {
+  if (self.checkForUpdateFlag && self.distributeFlags ^ MSDistributeFlagsDisableAutomaticCheckForUpdate) {
     [self checkLatestRelease:updateToken distributionGroupId:distributionGroupId releaseHash:releaseHash];
   } else {
     MSLogInfo([MSDistribute logTag], @"Automatic checkForUpdate is disabled.");
@@ -1203,6 +1216,7 @@ static dispatch_once_t onceToken;
 
 - (void)applicationDidBecomeActive {
   if (self.canBeUsed && self.isEnabled && ![MS_USER_DEFAULTS objectForKey:kMSUpdateTokenRequestIdKey]) {
+    self.checkForUpdateFlag = NO;
     [self startUpdate];
   }
 }
