@@ -3,6 +3,7 @@
 
 #import <Foundation/Foundation.h>
 
+#import "MSHttpClientDelegate.h"
 #import "MSIngestionProtocol.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -11,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 static NSString *const kMSETagResponseHeader = @"etag";
 static NSString *const kMSETagRequestHeader = @"If-None-Match";
 
-@interface MSHttpIngestion : NSObject <MSIngestionProtocol>
+@interface MSHttpIngestion : NSObject <MSIngestionProtocol, MSHttpClientDelegate>
 
 /**
  * Base URL (schema + authority + port only) used to communicate with the server.
@@ -29,45 +30,38 @@ static NSString *const kMSETagRequestHeader = @"If-None-Match";
 @property(nonatomic) NSURL *sendURL;
 
 /**
- * Http method.
- */
-@property(nonatomic, copy) NSString *httpMethod;
-
-/**
  * Request header parameters.
  */
 @property(nonatomic) NSDictionary *httpHeaders;
 
 /**
- * Pending http calls.
+ * The HTTP Client.
  */
-@property NSMutableDictionary<NSString *, MSIngestionCall *> *pendingCalls;
+@property(nonatomic) id<MSHttpClientProtocol> httpClient;
+
+/**
+ * Retrieve data payload.
+ *
+ * @param data The request data.
+ * @param eTag The ETag.
+ */
+- (NSDictionary *)getHeadersWithData:(nullable NSObject *)data eTag:(nullable NSString *)eTag;
+
+/**
+ * Retrieve data payload as http request body.
+ *
+ * @param data The request body data.
+ */
+- (nullable NSData *)getPayloadWithData:(nullable NSObject *)data;
 
 /**
  * Send data to backend
  *
  * @param data A data instance that will be transformed request body.
  * @param eTag HTTP entity tag.
- * @param authToken Auth token to send data with.
- * @param callId A unique ID that identify a request.
  * @param handler Completion handler.
  */
-- (void)sendAsync:(nullable NSObject *)data
-                 eTag:(nullable NSString *)eTag
-            authToken:(nullable NSString *)authToken
-               callId:(NSString *)callId
-    completionHandler:(MSSendAsyncCompletionHandler)handler;
-
-/**
- * Create a request based on data. Must override this method in sub classes.
- *
- * @param data A data instance that will be transformed to request body.
- * @param eTag HTTP entity tag.
- * @param authToken auth token to send data with.
- *
- * @return A URL request.
- */
-- (NSURLRequest *)createRequest:(NSObject *)data eTag:(nullable NSString *)eTag authToken:(nullable NSString *)authToken;
+- (void)sendAsync:(nullable NSObject *)data eTag:(nullable NSString *)eTag completionHandler:(MSSendAsyncCompletionHandler)handler;
 
 /**
  * Get eTag from the given response.
@@ -77,6 +71,24 @@ static NSString *const kMSETagRequestHeader = @"If-None-Match";
  * @return An eTag or `nil` if not found.
  */
 + (nullable NSString *)eTagFromResponse:(NSHTTPURLResponse *)response;
+
+/**
+ * Get the Http method to use.
+ *
+ * @return The http method. Defaults to POST if not overridden.
+ */
+- (NSString *)getHttpMethod;
+
+/**
+ * Build a new URL with the given values.
+ *
+ * @param baseURL Base URL for Ingestion endpoint.
+ * @param apiPath A path for an API.
+ * @param queryStrings An array of query strings.
+ *
+ * @return A complete URL with the given values.
+ */
+- (NSURL *)buildURLWithBaseURL:(NSString *)baseURL apiPath:(NSString *)apiPath queryStrings:(NSDictionary *)queryStrings;
 
 @end
 

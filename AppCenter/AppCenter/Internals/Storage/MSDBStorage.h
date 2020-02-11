@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import <Foundation/Foundation.h>
+#import "MSStorageBindableArray.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -62,7 +62,9 @@ static NSString *const kMSSQLiteConstraintAutoincrement = @"AUTOINCREMENT";
  *
  * @return The count of entries for this query.
  */
-- (NSUInteger)countEntriesForTable:(NSString *)tableName condition:(nullable NSString *)condition;
+- (NSUInteger)countEntriesForTable:(NSString *)tableName
+                         condition:(nullable NSString *)condition
+                        withValues:(nullable MSStorageBindableArray *)values;
 
 /**
  * Execute a non selection SQLite query on the database (i.e.: "CREATE", "INSERT", "UPDATE"... but not "SELECT").
@@ -74,13 +76,24 @@ static NSString *const kMSSQLiteConstraintAutoincrement = @"AUTOINCREMENT";
 - (int)executeNonSelectionQuery:(NSString *)query;
 
 /**
+ * Execute a non selection SQLite query on the database (i.e.: "CREATE", "INSERT", "UPDATE"... but not "SELECT").
+ *
+ * @param query A SQLite query to execute.
+ * @param values An array of query parameters to be substituted using `sqlite3_bind`.
+ *
+ * @return A result code for the query execution.
+ */
+- (int)executeNonSelectionQuery:(NSString *)query withValues:(nullable MSStorageBindableArray *)values;
+
+/**
  * Execute a "SELECT" SQLite query on the database.
  *
- * @param query An SQLite "SELECT" query to execute.
+ * @param query A SQLite "SELECT" query to execute.
+ * @param values An array of query parameters to be substituted using `sqlite3_bind`.
  *
  * @return The selected entries.
  */
-- (NSArray<NSArray *> *)executeSelectionQuery:(NSString *)query;
+- (NSArray<NSArray *> *)executeSelectionQuery:(NSString *)query withValues:(nullable MSStorageBindableArray *)values;
 
 /**
  * Get columns indexes from schema.
@@ -92,43 +105,19 @@ static NSString *const kMSSQLiteConstraintAutoincrement = @"AUTOINCREMENT";
 + (NSDictionary *)columnsIndexes:(MSDBSchema *)schema;
 
 /**
- * Creates a table within an existing database.
+ * Deletes database.
  *
- * @param tableName Table name.
- * @param columnsSchema Schema describing the columns structure.
- *
- * @return YES if table is created or already exists, NO otherwise.
  */
-- (BOOL)createTable:(NSString *)tableName columnsSchema:(MSDBColumnsSchema *)columnsSchema;
+- (void)dropDatabase;
 
 /**
- * Creates a table within an existing database with unique columns constraint.
- *
- * @param tableName Table name.
- * @param columnsSchema Schema describing the columns structure.
- * @param uniqueColumns The name of the columns where the combination of the columns is unique.
- *
- * @discussion The combination of the columns (not individual columns) forms a unique contraint on the table.
- * @return YES if table is created or already exists, NO otherwise.
- */
-- (BOOL)createTable:(NSString *)tableName
-              columnsSchema:(MSDBColumnsSchema *)columnsSchema
-    uniqueColumnsConstraint:(nullable NSArray<NSString *> *)uniqueColumns;
-
-/**
- * Deletes table within an existing database
+ * Deletes table within an existing database.
  *
  * @param tableName Name of the table to delete.
  *
  * @return operation status.
  */
 - (BOOL)dropTable:(NSString *)tableName;
-
-/**
- * Deletes database.
- *
- */
-- (void)dropDatabase;
 
 /**
  * Set the maximum size of the internal storage. This method must be called before App Center is started.

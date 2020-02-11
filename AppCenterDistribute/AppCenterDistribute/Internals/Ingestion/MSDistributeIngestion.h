@@ -7,6 +7,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@protocol MSHttpClientProtocol;
+
 /**
  * The header name for update token.
  */
@@ -22,20 +24,33 @@ static NSString *const kMSHeaderUpdateApiToken = @"x-api-token";
 /**
  * Initialize the Ingestion.
  *
+ * @param httpClient Http client.
  * @param baseUrl Base url.
  * @param appSecret A unique and secret key used to identify the application.
- * @param updateToken The update token stored in keychain. This parameter is optional and the update will be considered as public
- * distribution if it is nil.
- * @param distributionGroupId The distribution group Id stored in storage.
- * @param queryStrings An array of query strings.
  *
  * @return An ingestion instance.
  */
-- (id)initWithBaseUrl:(nullable NSString *)baseUrl
-              appSecret:(NSString *)appSecret
-            updateToken:(NSString *)updateToken
-    distributionGroupId:(NSString *)distributionGroupId
-           queryStrings:(NSDictionary *)queryStrings;
+- (id)initWithHttpClient:(id<MSHttpClientProtocol>)httpClient baseUrl:(nullable NSString *)baseUrl appSecret:(NSString *)appSecret;
+
+/**
+ * Check a new release from public update track.
+ *
+ * @param queryStrings An array of query strings.
+ * @param completionHandler The completion handler block to be called after checking a new release.
+ */
+- (void)checkForPublicUpdateWithQueryStrings:(NSDictionary *)queryStrings completionHandler:(MSSendAsyncCompletionHandler)completionHandler;
+
+/**
+ * Check a new release from private update track.
+ *
+ * @param updateToken The update token stored in keychain. This parameter is optional and the update will be considered as public
+ * distribution if it is nil.
+ * @param queryStrings An array of query strings.
+ * @param completionHandler The completion handler block to be called after checking a new release.
+ */
+- (void)checkForPrivateUpdateWithUpdateToken:(NSString *)updateToken
+                                queryStrings:(NSDictionary *)queryStrings
+                           completionHandler:(MSSendAsyncCompletionHandler)completionHandler;
 
 @end
 

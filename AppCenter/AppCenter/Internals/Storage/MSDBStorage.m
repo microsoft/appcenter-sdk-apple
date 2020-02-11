@@ -5,6 +5,7 @@
 
 #import "MSAppCenterInternal.h"
 #import "MSDBStoragePrivate.h"
+#import "MSStorageBindableArray.h"
 #import "MSUtility+File.h"
 
 static dispatch_once_t sqliteConfigurationResultOnceToken;
@@ -22,7 +23,8 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
 }
 
 - (instancetype)initWithSchema:(MSDBSchema *)schema version:(NSUInteger)version filename:(NSString *)filename {
-
+  _schema = schema;
+  
   // Log SQLite configuration result only once at init time because log level won't be set at load time.
   dispatch_once(&sqliteConfigurationResultOnceToken, ^{
     if (sqliteConfigurationResult == SQLITE_OK) {
@@ -35,7 +37,7 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
         errorString = @(sqliteConfigurationResult).stringValue;
       }
       MSLogError([MSAppCenter logTag], @"Failed to update SQLite global configuration. Error: %@.", errorString);
-    }
+    } 
   });
   if ((self = [super init])) {
     int result = [self configureDatabaseWithSchema:schema version:version filename:filename];
@@ -119,22 +121,6 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
   return result;
 }
 
-- (BOOL)dropTable:(NSString *)tableName {
-  return [self executeQueryUsingBlock:^int(void *db) {
-           if ([MSDBStorage tableExists:tableName inOpenedDatabase:db]) {
-             NSString *deleteQuery = [NSString stringWithFormat:@"DROP TABLE \"%@\";", tableName];
-             int result = [MSDBStorage executeNonSelectionQuery:deleteQuery inOpenedDatabase:db];
-             if (result == SQLITE_OK) {
-               MSLogVerbose([MSAppCenter logTag], @"Table %@ has been deleted", tableName);
-             } else {
-               MSLogError([MSAppCenter logTag], @"Failed to delete table %@", tableName);
-             }
-             return result;
-           }
-           return SQLITE_OK;
-         }] == SQLITE_OK;
-}
-
 - (void)dropDatabase {
   BOOL result = [MSUtility deleteFileAtURL:self.dbFileURL];
   if (result) {
@@ -144,22 +130,29 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
   }
 }
 
-- (BOOL)createTable:(NSString *)tableName columnsSchema:(MSDBColumnsSchema *)columnsSchema {
-  return [self createTable:tableName columnsSchema:columnsSchema uniqueColumnsConstraint:nil];
+- (BOOL)dropTable:(NSString *)tableName {
+  return [self executeQueryUsingBlock:^int(void *db) {
+    if ([MSDBStorage tableExists:tableName inOpenedDatabase:db]) {
+      NSString *deleteQuery = [NSString stringWithFormat:@"DROP TABLE \"%@\";", tableName];
+      int result = [MSDBStorage executeNonSelectionQuery:deleteQuery inOpenedDatabase:db];
+      if (result == SQLITE_OK) {
+        MSLogVerbose([MSAppCenter logTag], @"Table %@ has been deleted", tableName);
+      } else {
+        MSLogError([MSAppCenter logTag], @"Failed to delete table %@", tableName);
+      }
+      return result;
+    }
+    return SQLITE_OK;
+  }] == SQLITE_OK;
 }
 
 - (BOOL)createTable:(NSString *)tableName
-              columnsSchema:(MSDBColumnsSchema *)columnsSchema
-    uniqueColumnsConstraint:(NSArray<NSString *> *)uniqueColumns {
+              columnsSchema:(MSDBColumnsSchema *)columnsSchema {
   return [self executeQueryUsingBlock:^int(void *db) {
            if (![MSDBStorage tableExists:tableName inOpenedDatabase:db]) {
-             NSString *uniqueContraintQuery = @"";
-             if (uniqueColumns.count > 0) {
-               uniqueContraintQuery = [NSString stringWithFormat:@", UNIQUE(%@)", [uniqueColumns componentsJoinedByString:@", "]];
-             }
              NSString *createQuery =
-                 [NSString stringWithFormat:@"CREATE TABLE \"%@\" (%@%@);", tableName,
-                                            [MSDBStorage columnsQueryFromColumnsSchema:columnsSchema], uniqueContraintQuery];
+                 [NSString stringWithFormat:@"CREATE TABLE \"%@\" (%@);", tableName,
+                                            [MSDBStorage columnsQueryFromColumnsSchema:columnsSchema]];
              int result = [MSDBStorage executeNonSelectionQuery:createQuery inOpenedDatabase:db];
              if (result == SQLITE_OK) {
                MSLogVerbose([MSAppCenter logTag], @"Table %@ has been created", tableName);
@@ -208,8 +201,17 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
 
   // Create the tables.
   if (tableQueries.count > 0) {
-    NSString *createTablesQuery = [tableQueries componentsJoinedByString:@"; "];
-    result = [self executeNonSelectionQuery:createTablesQuery inOpenedDatabase:db];
+
+    /*
+     * We do not join queries with ';' because we do not execute a non-selection query using `exec`.
+     * We are using `step`, and `step` can only handle one-line statements.
+     */
+    for (NSString *tableQuery in tableQueries) {
+      result = [self executeNonSelectionQuery:tableQuery inOpenedDatabase:db];
+      if (result != SQLITE_OK) {
+        return result;
+      }
+    }
   }
   return result;
 }
@@ -233,24 +235,27 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
 }
 
 + (BOOL)tableExists:(NSString *)tableName inOpenedDatabase:(void *)db result:(int *)result {
-  NSString *query =
-      [NSString stringWithFormat:@"SELECT COUNT(*) FROM \"sqlite_master\" WHERE \"type\"='table' AND \"name\"='%@';", tableName];
-  NSArray<NSArray *> *entries = [MSDBStorage executeSelectionQuery:query inOpenedDatabase:db result:result];
+  MSStorageBindableArray *values = [MSStorageBindableArray new];
+  [values addString:tableName];
+  NSString *query = [NSString stringWithFormat:@"SELECT COUNT(*) FROM \"sqlite_master\" WHERE \"type\"='table' AND \"name\"=?;"];
+  NSArray<NSArray *> *entries = [MSDBStorage executeSelectionQuery:query inOpenedDatabase:db result:result withValues:values];
   return entries.count > 0 && entries[0].count > 0 ? [(NSNumber *)entries[0][0] boolValue] : NO;
 }
 
 + (NSUInteger)versionInOpenedDatabase:(void *)db result:(int *)result {
-  NSArray<NSArray *> *entries = [MSDBStorage executeSelectionQuery:@"PRAGMA user_version" inOpenedDatabase:db result:result];
+  NSArray<NSArray *> *entries = [MSDBStorage executeSelectionQuery:@"PRAGMA user_version" inOpenedDatabase:db result:result withValues:nil];
   return entries.count > 0 && entries[0].count > 0 ? [(NSNumber *)entries[0][0] unsignedIntegerValue] : 0;
 }
 
 + (void)setVersion:(NSUInteger)version inOpenedDatabase:(void *)db {
   NSString *query = [NSString stringWithFormat:@"PRAGMA user_version = %lu", (unsigned long)version];
-  [MSDBStorage executeNonSelectionQuery:query inOpenedDatabase:db];
+
+  // We use a selection query here because pragma set returns a value.
+  [MSDBStorage executeSelectionQuery:query inOpenedDatabase:db withValues:nil];
 }
 
 + (void)enableAutoVacuumInOpenedDatabase:(void *)db {
-  NSArray<NSArray *> *result = [MSDBStorage executeSelectionQuery:@"PRAGMA auto_vacuum" inOpenedDatabase:db];
+  NSArray<NSArray *> *result = [MSDBStorage executeSelectionQuery:@"PRAGMA auto_vacuum" inOpenedDatabase:db withValues:nil];
   int vacuumMode = 0;
   if (result.count > 0 && result[0].count > 0) {
     vacuumMode = [(NSNumber *)result[0][0] intValue];
@@ -264,98 +269,151 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
    */
   if (autoVacuumDisabled) {
     MSLogDebug([MSAppCenter logTag], @"Vacuuming database and enabling auto_vacuum");
-    [MSDBStorage executeNonSelectionQuery:@"PRAGMA auto_vacuum = FULL; VACUUM" inOpenedDatabase:db];
+
+    // We use a selection query here because pragma set returns a value.
+    [MSDBStorage executeSelectionQuery:@"PRAGMA auto_vacuum = FULL;" inOpenedDatabase:db withValues:nil];
+    [MSDBStorage executeSelectionQuery:@"VACUUM;" inOpenedDatabase:db withValues:nil];
   }
 }
 
-- (NSUInteger)countEntriesForTable:(NSString *)tableName condition:(nullable NSString *)condition {
+- (NSUInteger)countEntriesForTable:(NSString *)tableName
+                         condition:(nullable NSString *)condition
+                        withValues:(nullable MSStorageBindableArray *)values {
   NSMutableString *countLogQuery = [NSMutableString stringWithFormat:@"SELECT COUNT(*) FROM \"%@\" ", tableName];
   if (condition.length > 0) {
     [countLogQuery appendFormat:@"WHERE %@", condition];
   }
-  NSArray<NSArray<NSNumber *> *> *result = [self executeSelectionQuery:countLogQuery];
+  NSArray<NSArray<NSNumber *> *> *result = [self executeSelectionQuery:countLogQuery withValues:values];
   return (result.count > 0) ? result[0][0].unsignedIntegerValue : 0;
 }
 
++ (int)executeNonSelectionQuery:(NSString *)query inOpenedDatabase:(void *)db {
+  return [self executeNonSelectionQuery:query inOpenedDatabase:db withValues:nil];
+}
+
 - (int)executeNonSelectionQuery:(NSString *)query {
+  return [self executeNonSelectionQuery:query withValues:nil];
+}
+
+- (int)executeNonSelectionQuery:(NSString *)query withValues:(nullable MSStorageBindableArray *)values {
   return [self executeQueryUsingBlock:^int(void *db) {
-    return [MSDBStorage executeNonSelectionQuery:query inOpenedDatabase:db];
+    return [MSDBStorage executeNonSelectionQuery:query inOpenedDatabase:db withValues:values];
   }];
 }
 
-+ (int)executeNonSelectionQuery:(NSString *)query inOpenedDatabase:(void *)db {
-  char *errMsg = NULL;
-  int result = sqlite3_exec(db, [query UTF8String], NULL, NULL, &errMsg);
-  if (result == SQLITE_CORRUPT || result == SQLITE_NOTADB) {
-    MSLogError([MSAppCenter logTag], @"A database file is corrupted: %d - %@", result, [NSString stringWithUTF8String:errMsg]);
-  } else if (result == SQLITE_FULL) {
-    MSLogDebug([MSAppCenter logTag], @"Query failed with error: %d - %@", result, [NSString stringWithUTF8String:errMsg]);
-  } else if (result != SQLITE_OK) {
-    MSLogError([MSAppCenter logTag], @"Query \"%@\" failed with error: %d - %@", query, result, [NSString stringWithUTF8String:errMsg]);
++ (int)executeNonSelectionQuery:(NSString *)query inOpenedDatabase:(void *)db withValues:(nullable MSStorageBindableArray *)values {
+  return [MSDBStorage executeQuery:query
+                  inOpenedDatabase:db
+                        withValues:values
+                        usingBlock:^(void *statement) {
+                          int stepResult = sqlite3_step(statement);
+                          if (stepResult == SQLITE_DONE) {
+                            return SQLITE_OK;
+                          }
+                          NSString *errorMessage = [NSString stringWithUTF8String:sqlite3_errmsg(db)];
+                          if (stepResult == SQLITE_CORRUPT || stepResult == SQLITE_NOTADB) {
+                            MSLogError([MSAppCenter logTag], @"A database file is corrupted, result=%d\n\t%@", stepResult, errorMessage);
+                          } else if (stepResult == SQLITE_FULL) {
+                            MSLogDebug([MSAppCenter logTag], @"Query failed with error: %d\n\t%@", stepResult, errorMessage);
+                          } else {
+                            MSLogError([MSAppCenter logTag], @"Could not execute the statement, result=%d\n\t%@", stepResult, errorMessage);
+                          }
+                          return stepResult;
+                        }];
+}
+
++ (int)executeQuery:(NSString *)query
+    inOpenedDatabase:(void *)db
+          withValues:(nullable MSStorageBindableArray *)values
+          usingBlock:(MSDBStorageQueryBlock)block {
+  sqlite3_stmt *statement = NULL;
+  int result = sqlite3_prepare_v2(db, [query UTF8String], -1, &statement, NULL);
+  if (result != SQLITE_OK) {
+    NSString *errorMessage = [NSString stringWithUTF8String:sqlite3_errmsg(db)];
+    MSLogError([MSAppCenter logTag], @"Failed to prepare SQLite statement, result=%d\n\t%@", result, errorMessage);
+    return result;
   }
-  if (errMsg) {
-    sqlite3_free(errMsg);
+  result = [values bindAllValuesWithStatement:statement inOpenedDatabase:db];
+  if (result == SQLITE_OK) {
+    result = block(statement);
+  }
+  int finalizeResult = sqlite3_finalize(statement);
+  if (finalizeResult != SQLITE_OK) {
+    NSString *errorMessage = [NSString stringWithUTF8String:sqlite3_errmsg(db)];
+    MSLogError([MSAppCenter logTag], @"Failed to finalize SQLite statement, result=%d\n\t%@", finalizeResult, errorMessage);
   }
   return result;
 }
 
-- (NSArray<NSArray *> *)executeSelectionQuery:(NSString *)query {
+- (NSArray<NSArray *> *)executeSelectionQuery:(NSString *)query withValues:(nullable MSStorageBindableArray *)values {
   __block NSArray<NSArray *> *entries = nil;
   [self executeQueryUsingBlock:^int(void *db) {
-    entries = [MSDBStorage executeSelectionQuery:query inOpenedDatabase:db];
+    entries = [MSDBStorage executeSelectionQuery:query inOpenedDatabase:db withValues:values];
     return SQLITE_OK;
   }];
   return entries ?: [NSArray<NSArray *> new];
 }
 
-+ (NSArray<NSArray *> *)executeSelectionQuery:(NSString *)query inOpenedDatabase:(void *)db {
-  return [self executeSelectionQuery:query inOpenedDatabase:db result:nil];
++ (NSArray<NSArray *> *)executeSelectionQuery:(NSString *)query
+                             inOpenedDatabase:(void *)db
+                                   withValues:(nullable MSStorageBindableArray *)values {
+  return [self executeSelectionQuery:query inOpenedDatabase:db result:nil withValues:values];
 }
 
-+ (NSArray<NSArray *> *)executeSelectionQuery:(NSString *)query inOpenedDatabase:(void *)db result:(int *)result {
++ (NSArray<NSArray *> *)executeSelectionQuery:(NSString *)query
+                             inOpenedDatabase:(void *)db
+                                       result:(int *)result
+                                   withValues:(nullable MSStorageBindableArray *)values {
   NSMutableArray<NSMutableArray *> *entries = [NSMutableArray<NSMutableArray *> new];
-  sqlite3_stmt *statement = NULL;
-  int prepareResult = sqlite3_prepare_v2(db, [query UTF8String], -1, &statement, NULL);
-  if (result != nil) {
-    *result = prepareResult;
-  }
-  if (prepareResult == SQLITE_OK) {
+  int queryResult = [MSDBStorage executeQuery:query
+                             inOpenedDatabase:db
+                                   withValues:values
+                                   usingBlock:^(void *statement) {
+                                     int stepResult;
 
-    // Loop on rows.
-    while (sqlite3_step(statement) == SQLITE_ROW) {
-      NSMutableArray *entry = [NSMutableArray new];
+                                     // Loop on rows.
+                                     while ((stepResult = sqlite3_step(statement)) == SQLITE_ROW) {
+                                       NSMutableArray *entry = [NSMutableArray new];
 
-      // Loop on columns.
-      for (int i = 0; i < sqlite3_column_count(statement); i++) {
-        id value = nil;
-
-        /*
-         * Convert values.
-         * TODO: Add here any other type it needs.
-         */
-        switch (sqlite3_column_type(statement, i)) {
-        case SQLITE_INTEGER:
-          value = @(sqlite3_column_int(statement, i));
-          break;
-        case SQLITE_TEXT:
-          value = [NSString stringWithUTF8String:(const char *)sqlite3_column_text(statement, i)];
-          break;
-        default:
-          value = [NSNull null];
-          break;
-        }
-        [entry addObject:value];
-      }
-      if (entry.count > 0) {
-        [entries addObject:entry];
-      }
-    }
-    sqlite3_finalize(statement);
-  } else {
-    MSLogError([MSAppCenter logTag], @"Query \"%@\" failed with error: %d - %@", query, prepareResult,
-               [NSString stringWithUTF8String:sqlite3_errmsg(db)]);
+                                       // Loop on columns.
+                                       for (int i = 0; i < sqlite3_column_count(statement); i++) {
+                                         NSObject *value = [MSDBStorage columnValueFromStatement:statement atIndex:i];
+                                         [entry addObject:value];
+                                       }
+                                       if (entry.count > 0) {
+                                         [entries addObject:entry];
+                                       }
+                                     }
+                                     if (stepResult != SQLITE_DONE) {
+                                       NSString *errorMessage = [NSString stringWithUTF8String:sqlite3_errmsg(db)];
+                                       MSLogError([MSAppCenter logTag], @"Query failed with error: %d\n\t%@", stepResult, errorMessage);
+                                       return stepResult;
+                                     }
+                                     return SQLITE_OK;
+                                   }];
+  if (result) {
+    *result = queryResult;
   }
   return entries;
+}
+
++ (NSObject *)columnValueFromStatement:(sqlite3_stmt *)statement atIndex:(int)index {
+
+  /*
+   * Convert values.
+   */
+  int columnType = sqlite3_column_type(statement, index);
+  switch (columnType) {
+  case SQLITE_INTEGER:
+    return @(sqlite3_column_int(statement, index));
+  case SQLITE_TEXT:
+    return [NSString stringWithUTF8String:(const char *)sqlite3_column_text(statement, index)];
+  case SQLITE_NULL:
+    return [NSNull null];
+  default:
+    MSLogError([MSAppCenter logTag], @"Could not retrieve column value at index %d from statement: unknown type %d.", index, columnType);
+    return [NSNull null];
+  }
 }
 
 - (void)customizeDatabase:(void *)__unused db {
@@ -436,13 +494,17 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
 }
 
 + (long)querySingleValue:(NSString *)query inOpenedDatabase:(void *)db {
-  NSArray<NSArray *> *rows = [MSDBStorage executeSelectionQuery:query inOpenedDatabase:db];
+  NSArray<NSArray *> *rows = [MSDBStorage executeSelectionQuery:query inOpenedDatabase:db withValues:nil];
   return rows.count > 0 && rows[0].count > 0 ? [(NSNumber *)rows[0][0] longValue] : 0;
 }
 
 + (int)setMaxPageCount:(long)maxPageCount inOpenedDatabase:(void *)db {
-  NSString *statement = [NSString stringWithFormat:@"PRAGMA max_page_count = %ld;", maxPageCount];
-  return [MSDBStorage executeNonSelectionQuery:statement inOpenedDatabase:db];
+  int result;
+  NSString *statement = [NSString stringWithFormat:@"PRAGMA max_page_count = %ld", maxPageCount];
+
+  // We use a selection query here because pragma set returns a value.
+  [MSDBStorage executeSelectionQuery:statement inOpenedDatabase:db result:&result withValues:nil];
+  return result;
 }
 
 + (int)configureSQLite {

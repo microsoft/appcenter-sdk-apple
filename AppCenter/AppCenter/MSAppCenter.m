@@ -7,11 +7,12 @@
 #import "MSAppCenterInternal.h"
 #import "MSAppCenterPrivate.h"
 #import "MSAppDelegateForwarder.h"
-#import "MSAuthTokenContext.h"
 #import "MSChannelGroupDefault.h"
 #import "MSChannelGroupDefaultPrivate.h"
 #import "MSChannelUnitConfiguration.h"
+#import "MSDependencyConfiguration.h"
 #import "MSDeviceTrackerPrivate.h"
+#import "MSHttpClient.h"
 #import "MSLoggerInternal.h"
 #import "MSOneCollectorChannelDelegate.h"
 #import "MSSessionContext.h"
@@ -325,9 +326,6 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
       [servicesNames addObject:[service serviceName]];
     }
   }
-
-  // Finish auth token context initialization.
-  [[MSAuthTokenContext sharedInstance] finishInitialize];
   if ([servicesNames count] > 0) {
     if (fromApplication) {
       [self sendStartServiceLog:servicesNames];
@@ -598,11 +596,18 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
 
     // Construct channel group.
     if (!self.oneCollectorChannelDelegate) {
-      self.oneCollectorChannelDelegate = [[MSOneCollectorChannelDelegate alloc] initWithInstallId:self.installId
-                                                                                          baseUrl:self.appSecret ? nil : self.logUrl];
+      self.oneCollectorChannelDelegate = [[MSOneCollectorChannelDelegate alloc] initWithHttpClient:[MSHttpClient new]
+                                                                                         installId:self.installId
+                                                                                           baseUrl:self.appSecret ? nil : self.logUrl];
     }
     if (!self.channelGroup) {
-      self.channelGroup = [[MSChannelGroupDefault alloc] initWithInstallId:self.installId logUrl:self.logUrl ?: kMSAppCenterBaseUrl];
+      id<MSHttpClientProtocol> httpClient = [MSDependencyConfiguration httpClient];
+      if (!httpClient) {
+        httpClient = [MSHttpClient new];
+      }
+      self.channelGroup = [[MSChannelGroupDefault alloc] initWithHttpClient:httpClient
+                                                                  installId:self.installId
+                                                                     logUrl:self.logUrl ?: kMSAppCenterBaseUrl];
       [self.channelGroup addDelegate:self.oneCollectorChannelDelegate];
       if (self.requestedMaxStorageSizeInBytes) {
         long storageSize = [self.requestedMaxStorageSizeInBytes longValue];

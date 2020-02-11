@@ -9,9 +9,7 @@ import UIKit
 import AppCenter
 import AppCenterAnalytics
 import AppCenterCrashes
-import AppCenterData
 import AppCenterDistribute
-import AppCenterAuth
 import AppCenterPush
 import UserNotifications
 
@@ -70,9 +68,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
     if logUrl != nil {
       MSAppCenter.setLogUrl(logUrl)
     }
+    if let updateTrackValue = UserDefaults.standard.value(forKey: kMSUpdateTrackKey) as? Int,
+       let updateTrack = MSUpdateTrack(rawValue: updateTrackValue) {
+        MSDistribute.updateTrack = updateTrack
+    }
 
     // Start App Center SDK.
-    let services = [MSAnalytics.self, MSCrashes.self, MSData.self, MSDistribute.self, MSAuth.self, MSPush.self]
+    let services = [MSAnalytics.self, MSCrashes.self, MSDistribute.self, MSPush.self]
     let appSecret = UserDefaults.standard.string(forKey: kMSAppSecret) ?? kMSSwiftAppSecret
     let startTarget = StartupMode(rawValue: UserDefaults.standard.integer(forKey: kMSStartTargetKey))!
     let latencyTimeValue = UserDefaults.standard.integer(forKey: kMSTransmissionIterval);
@@ -161,7 +163,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
    */
   func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
     // Forward the URL.
-    return MSDistribute.open(url) || MSAuth.open(url, options: options);
+    return MSDistribute.open(url);
   }
 
   func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {

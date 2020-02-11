@@ -5,11 +5,7 @@
 
 #import "MSHttpIngestion.h"
 
-@protocol MSIngestionDelegate;
-
 @interface MSHttpIngestion ()
-
-@property(nonatomic) NSURLSession *session;
 
 /**
  * The maximum number of connections for the session. The one collector endpoint only allows for two connections while the app center
@@ -23,11 +19,6 @@
 @property(nonatomic) NSArray *callsRetryIntervals;
 
 /**
- * Hash table containing all the delegates as weak references.
- */
-@property NSHashTable<id<MSIngestionDelegate>> *delegates;
-
-/**
  * A boolean value set to YES if the ingestion is enabled or NO otherwise.
  * Enable/disable does resume/pause the ingestion as needed under the hood.
  */
@@ -36,71 +27,70 @@
 /**
  * Initialize the Ingestion with default retry intervals.
  *
+ * @param httpClient The HTTP client.
  * @param baseUrl Base url.
  * @param apiPath Base API path.
- * @param headers Http headers.
+ * @param headers HTTP headers.
  * @param queryStrings An array of query strings.
- * @param reachability Network reachability helper.
  */
-- (id)initWithBaseUrl:(NSString *)baseUrl
-              apiPath:(NSString *)apiPath
-              headers:(NSDictionary *)headers
-         queryStrings:(NSDictionary *)queryStrings
-         reachability:(MS_Reachability *)reachability;
+- (id)initWithHttpClient:(id<MSHttpClientProtocol>)httpClient
+                 baseUrl:(NSString *)baseUrl
+                 apiPath:(NSString *)apiPath
+                 headers:(NSDictionary *)headers
+            queryStrings:(NSDictionary *)queryStrings;
 
 /**
  * Initialize the Ingestion.
  *
+ * @param httpClient The HTTP client.
  * @param baseUrl Base url.
  * @param apiPath Base API path.
  * @param headers Http headers.
  * @param queryStrings An array of query strings.
- * @param reachability Network reachability helper.
  * @param retryIntervals An array for retry intervals in second.
  */
-- (id)initWithBaseUrl:(NSString *)baseUrl
-              apiPath:(NSString *)apiPath
-              headers:(NSDictionary *)headers
-         queryStrings:(NSDictionary *)queryStrings
-         reachability:(MS_Reachability *)reachability
-       retryIntervals:(NSArray *)retryIntervals;
+- (id)initWithHttpClient:(id<MSHttpClientProtocol>)httpClient
+                 baseUrl:(NSString *)baseUrl
+                 apiPath:(NSString *)apiPath
+                 headers:(NSDictionary *)headers
+            queryStrings:(NSDictionary *)queryStrings
+          retryIntervals:(NSArray *)retryIntervals;
 
 /**
  * Initialize the Ingestion.
  *
+ * @param httpClient The HTTP client.
  * @param baseUrl Base url.
  * @param apiPath Base API path.
  * @param headers Http headers.
  * @param queryStrings An array of query strings.
- * @param reachability Network reachability helper.
  * @param retryIntervals An array for retry intervals in second.
  * @param maxNumberOfConnections The maximum number of connections per host.
  */
-- (id)initWithBaseUrl:(NSString *)baseUrl
+- (id)initWithHttpClient:(id<MSHttpClientProtocol>)httpClient
+                   baseUrl:(NSString *)baseUrl
                    apiPath:(NSString *)apiPath
                    headers:(NSDictionary *)headers
               queryStrings:(NSDictionary *)queryStrings
-              reachability:(MS_Reachability *)reachability
             retryIntervals:(NSArray *)retryIntervals
     maxNumberOfConnections:(NSInteger)maxNumberOfConnections;
 
 /**
- * Convert key/value pairs for headers to a string.
+ * Hide a part of sensitive value for payload.
  *
- * @param headers A dictionary that contains header as key/value pair.
- *
- * @return A string that contains headers.
- */
-- (NSString *)prettyPrintHeaders:(NSDictionary<NSString *, NSString *> *)headers;
-
-/**
- * Hide a part of sensitive value for log.
- *
- * @param key A header key.
- * @param value  A header value.
+ * @param payload The response payload to be obfuscated.
  *
  * @return An obfuscated value.
  */
-- (NSString *)obfuscateHeaderValue:(NSString *)value forKey:(NSString *)key;
+- (NSString *)obfuscateResponsePayload:(NSString *)payload;
+
+/**
+ * Gets the HTTP payload for the given data.
+ *
+ * @param data The data object.
+ *
+ * @return The serialized HTTP data.
+ */
+- (NSData *)getPayloadWithData:(NSObject *)data;
 
 @end

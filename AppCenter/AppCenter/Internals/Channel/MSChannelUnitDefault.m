@@ -6,12 +6,9 @@
 #import "MSAppCenterErrors.h"
 #import "MSAppCenterIngestion.h"
 #import "MSAppCenterInternal.h"
-#import "MSAuthTokenContext.h"
-#import "MSAuthTokenValidityInfo.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitDefaultPrivate.h"
 #import "MSDeviceTracker.h"
-#import "MSLogger.h"
 #import "MSStorage.h"
 #import "MSUtility+StringFormatting.h"
 
@@ -52,14 +49,6 @@ static NSString *const kMSStartTimestampPrefix = @"MSChannelStartTimer";
     _storage = storage;
     _configuration = configuration;
     _logsDispatchQueue = logsDispatchQueue;
-
-    // Register as ingestion delegate.
-    [_ingestion addDelegate:self];
-
-    // Match ingestion's current status, if one is passed.
-    if (_ingestion && _ingestion.paused) {
-      [self pauseWithIdentifyingObject:(_Nonnull id<MSIngestionProtocol>)_ingestion];
-    }
   }
   return self;
 }
@@ -79,31 +68,6 @@ static NSString *const kMSStartTimestampPrefix = @"MSChannelStartTimer";
     @synchronized(self.delegates) {
       [self.delegates removeObject:delegate];
     }
-  });
-}
-
-#pragma mark - MSIngestionDelegate
-
-- (void)ingestionDidPause:(id<MSIngestionProtocol>)ingestion {
-  [self pauseWithIdentifyingObject:ingestion];
-}
-
-- (void)ingestionDidResume:(id<MSIngestionProtocol>)ingestion {
-  [self resumeWithIdentifyingObject:ingestion];
-}
-
-- (void)ingestionDidReceiveFatalError:(__unused id<MSIngestionProtocol>)ingestion {
-
-  // Disable and delete data on fatal errors.
-  [self setEnabled:NO andDeleteDataOnDisabled:YES];
-}
-
-#pragma mark - MSAuthTokenContextDelegate
-
-- (void)authTokenContext:(MSAuthTokenContext *)__unused authTokenContext didUpdateAuthToken:(nullable NSString *)__unused authToken {
-  dispatch_async(self.logsDispatchQueue, ^{
-    MSLogInfo([MSAppCenter logTag], @"New auth token received, flushing queue.");
-    [self checkPendingLogs];
   });
 }
 
@@ -127,20 +91,23 @@ static NSString *const kMSStartTimestampPrefix = @"MSChannelStartTimer";
     return;
   }
 
-  // Additional preparations for the log. Used to specify the session id and distribution group id.
-  [self enumerateDelegatesForSelector:@selector(channel:prepareLog:)
-                            withBlock:^(id<MSChannelDelegate> delegate) {
-                              [delegate channel:self prepareLog:item];
-                            }];
-
   // Internal ID to keep track of logs between modules.
   NSString *internalLogId = MS_UUID_STRING;
 
-  // Notify delegate about enqueuing as fast as possible on the current thread.
-  [self enumerateDelegatesForSelector:@selector(channel:didPrepareLog:internalId:flags:)
-                            withBlock:^(id<MSChannelDelegate> delegate) {
-                              [delegate channel:self didPrepareLog:item internalId:internalLogId flags:flags];
-                            }];
+  @autoreleasepool {
+
+    // Additional preparations for the log. Used to specify the session id and distribution group id.
+    [self enumerateDelegatesForSelector:@selector(channel:prepareLog:)
+                              withBlock:^(id<MSChannelDelegate> delegate) {
+                                [delegate channel:self prepareLog:item];
+                              }];
+
+    // Notify delegate about enqueuing as fast as possible on the current thread.
+    [self enumerateDelegatesForSelector:@selector(channel:didPrepareLog:internalId:flags:)
+                              withBlock:^(id<MSChannelDelegate> delegate) {
+                                [delegate channel:self didPrepareLog:item internalId:internalLogId flags:flags];
+                              }];
+  }
 
   // Return fast in case our item is empty or we are discarding logs right now.
   dispatch_async(self.logsDispatchQueue, ^{
@@ -202,9 +169,7 @@ static NSString *const kMSStartTimestampPrefix = @"MSChannelStartTimer";
   });
 }
 
-- (void)sendLogContainer:(MSLogContainer *__nonnull)container
-    withAuthTokenFromArray:(NSArray<MSAuthTokenValidityInfo *> *__nonnull)tokenArray
-                   atIndex:(NSUInteger)tokenIndex {
+- (void)sendLogContainer:(MSLogContainer *__nonnull)container {
 
   // Add to pending batches.
   [self.pendingBatchIds addObject:container.batchId];
@@ -235,7 +200,6 @@ static NSString *const kMSStartTimestampPrefix = @"MSChannelStartTimer";
 
   // Forward logs to the ingestion.
   [self.ingestion sendAsync:container
-                  authToken:tokenArray[tokenIndex].authToken
           completionHandler:^(NSString *ingestionBatchId, NSHTTPURLResponse *response, __unused NSData *data, NSError *error) {
             dispatch_async(self.logsDispatchQueue, ^{
               if (![self.pendingBatchIds containsObject:ingestionBatchId]) {
@@ -270,6 +234,14 @@ static NSString *const kMSStartTimestampPrefix = @"MSChannelStartTimer";
                                               [delegate channel:self didFailSendingLog:aLog withError:error];
                                             }
                                           }];
+
+                // Disable and delete all data on fatal error.
+                if (![MSHttpUtil isRecoverableError:response.statusCode]) {
+                  MSLogError([MSAppCenter logTag], @"Fatal error encountered; shutting down channel unit with group ID %@",
+                             self.configuration.groupId);
+                  [self setEnabled:NO andDeleteDataOnDisabled:YES];
+                  return;
+                }
               }
 
               // Remove from pending batches.
@@ -279,60 +251,12 @@ static NSString *const kMSStartTimestampPrefix = @"MSChannelStartTimer";
               if (self.pendingBatchQueueFull && self.pendingBatchIds.count < self.configuration.pendingBatchesLimit) {
                 self.pendingBatchQueueFull = NO;
 
-                // Try to flush again if batch queue is not full anymore.
-                if (succeeded) {
-                  [self flushNextBatchFromQueueForTokenArray:tokenArray withTokenIndex:tokenIndex];
+                if (succeeded && self.availableBatchFromStorage) {
+                  [self flushQueue];
                 }
               }
             });
           }];
-}
-
-- (void)flushQueueForTokenArray:(NSArray<MSAuthTokenValidityInfo *> *)tokenArray withTokenIndex:(NSUInteger)tokenIndex {
-  MSAuthTokenValidityInfo *tokenInfo = tokenArray[tokenIndex];
-
-  // NOTE: It isn't async operation, completion handler will be called immediately.
-  self.availableBatchFromStorage =
-      [self.storage loadLogsWithGroupId:self.configuration.groupId
-                                  limit:self.configuration.batchSizeLimit
-                     excludedTargetKeys:[self.pausedTargetKeys allObjects]
-                              afterDate:tokenInfo.startTime
-                             beforeDate:tokenInfo.endTime
-                      completionHandler:^(NSArray<id<MSLog>> *_Nonnull logArray, NSString *batchId) {
-                        [[MSAuthTokenContext sharedInstance] checkIfTokenNeedsToBeRefreshed:tokenInfo];
-
-                        // Check if there is data to send. Logs may be deleted from storage before this flush.
-                        if (logArray.count > 0) {
-                          MSLogContainer *container = [[MSLogContainer alloc] initWithBatchId:batchId andLogs:logArray];
-                          [self sendLogContainer:container withAuthTokenFromArray:tokenArray atIndex:tokenIndex];
-                        }
-
-                        // No logs available with given params.
-                        else if (tokenIndex == 0 && tokenArray[tokenIndex].endTime != nil &&
-                                 [self.storage countLogsBeforeDate:tokenArray[tokenIndex].endTime] == 0) {
-
-                          // Delete token from history if we don't have logs fitting it in DB.
-                          [[MSAuthTokenContext sharedInstance] removeAuthToken:tokenInfo.authToken];
-                        }
-                      }];
-
-  // Flush again if there is another batch to send.
-  [self flushNextBatchFromQueueForTokenArray:tokenArray withTokenIndex:tokenIndex];
-}
-
-- (void)flushNextBatchFromQueueForTokenArray:(NSArray<MSAuthTokenValidityInfo *> *)tokenArray withTokenIndex:(NSUInteger)tokenIndex {
-  if (self.pendingBatchQueueFull) {
-    return;
-  }
-
-  // Check if there are more logs for this token, if not - move to the next one.
-  if (self.availableBatchFromStorage) {
-    [self flushQueueForTokenArray:tokenArray withTokenIndex:tokenIndex];
-  } else if (tokenIndex + 1 < tokenArray.count) {
-
-    // Iterate to next token in array.
-    [self flushQueueForTokenArray:tokenArray withTokenIndex:tokenIndex + 1];
-  }
 }
 
 - (void)flushQueue {
@@ -370,8 +294,24 @@ static NSString *const kMSStartTimestampPrefix = @"MSChannelStartTimer";
 
   // Reset item count and load data from the storage.
   self.itemsCount = 0;
-  NSArray<MSAuthTokenValidityInfo *> *tokenArray = [[MSAuthTokenContext sharedInstance] authTokenValidityArray];
-  [self flushQueueForTokenArray:tokenArray withTokenIndex:0];
+
+  // NOTE: It isn't async operation, completion handler will be called immediately.
+  self.availableBatchFromStorage = [self.storage loadLogsWithGroupId:self.configuration.groupId
+                                                               limit:self.configuration.batchSizeLimit
+                                                  excludedTargetKeys:[self.pausedTargetKeys allObjects]
+                                                   completionHandler:^(NSArray<id<MSLog>> *_Nonnull logArray, NSString *batchId) {
+                                                     // Check if there is data to send. Logs may be deleted from storage before this flush.
+                                                     if (logArray.count > 0) {
+                                                       MSLogContainer *container = [[MSLogContainer alloc] initWithBatchId:batchId
+                                                                                                                   andLogs:logArray];
+                                                       [self sendLogContainer:container];
+                                                     }
+                                                   }];
+
+  // Flush again if there is another batch to send.
+  if (self.availableBatchFromStorage && !self.pendingBatchQueueFull) {
+    [self flushQueue];
+  }
 }
 
 - (void)checkPendingLogs {
@@ -432,7 +372,7 @@ static NSString *const kMSStartTimestampPrefix = @"MSChannelStartTimer";
       [strongSelf resetTimer];
 
       // Remove the current timestamp. All pending logs will be sent in flushQueue call.
-      [MS_USER_DEFAULTS removeObjectForKey:[self oldestPendingLogTimestampKey]];
+      [MS_USER_DEFAULTS removeObjectForKey:[strongSelf oldestPendingLogTimestampKey]];
     }
   });
   dispatch_resume(self.timerSource);
@@ -597,6 +537,7 @@ static NSString *const kMSStartTimestampPrefix = @"MSChannelStartTimer";
   for (NSString *batchId in self.pendingBatchIds) {
     [self.storage deleteLogsWithBatchId:batchId groupId:self.configuration.groupId];
   }
+  [self.pendingBatchIds removeAllObjects];
 
   // Delete remaining logs.
   deletedLogs = [self.storage deleteLogsWithGroupId:self.configuration.groupId];

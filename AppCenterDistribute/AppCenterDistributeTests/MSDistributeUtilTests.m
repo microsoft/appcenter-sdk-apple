@@ -2,17 +2,30 @@
 // Licensed under the MIT License.
 
 #import "MSBasicMachOParser.h"
+#import "MSDistributePrivate.h"
 #import "MSDistributeUtil.h"
+#import "MSMockUserDefaults.h"
 #import "MSReleaseDetailsPrivate.h"
 #import "MSTestFrameworks.h"
 
 @interface MSDistributeUtilTests : XCTestCase
 
 @property(nonatomic) id parserMock;
+@property(nonatomic) id settingsMock;
 
 @end
 
 @implementation MSDistributeUtilTests
+
+- (void)setUp {
+  [super setUp];
+  self.settingsMock = [MSMockUserDefaults new];
+}
+
+- (void)tearDown {
+  [super tearDown];
+  [self.settingsMock stopMocking];
+}
 
 - (void)testGetMainBundle {
 
@@ -62,7 +75,7 @@
   // Mock current versions.
   NSString *expectedShortVer = @"2.5.3-alpha+EF69A";
   NSString *expectedVersion = @"2.5.3.1";
-  NSDictionary<NSString *, id> *plist = @{ @"CFBundleShortVersionString" : expectedShortVer, @"CFBundleVersion" : expectedVersion };
+  NSDictionary<NSString *, id> *plist = @{@"CFBundleShortVersionString" : expectedShortVer, @"CFBundleVersion" : expectedVersion};
   id bundleMock = OCMClassMock([NSBundle class]);
   OCMStub([bundleMock mainBundle]).andReturn(bundleMock);
   OCMStub([bundleMock infoDictionary]).andReturn(plist);
@@ -93,7 +106,7 @@
   // Mock current versions.
   NSString *expectedShortVer = @"2.5.3-alpha+EF69A";
   NSString *expectedVersion = @"2.5.3.1";
-  NSDictionary<NSString *, id> *plist = @{ @"CFBundleShortVersionString" : expectedShortVer, @"CFBundleVersion" : expectedVersion };
+  NSDictionary<NSString *, id> *plist = @{@"CFBundleShortVersionString" : expectedShortVer, @"CFBundleVersion" : expectedVersion};
   id bundleMock = OCMClassMock([NSBundle class]);
   OCMStub([bundleMock mainBundle]).andReturn(bundleMock);
   OCMStub([bundleMock infoDictionary]).andReturn(plist);
@@ -118,7 +131,7 @@
   // If
   // Mock current versions.
   NSString *expectedShortVer = @"not semantic versioning";
-  NSDictionary<NSString *, id> *plist = @{ @"CFBundleShortVersionString" : expectedShortVer };
+  NSDictionary<NSString *, id> *plist = @{@"CFBundleShortVersionString" : expectedShortVer};
   id bundleMock = OCMClassMock([NSBundle class]);
   OCMStub([bundleMock mainBundle]).andReturn(bundleMock);
   OCMStub([bundleMock infoDictionary]).andReturn(plist);
@@ -140,7 +153,7 @@
   // If
   // Mock current versions.
   NSString *expectedShortVer = @"2.5.3-alpha+EF69A";
-  NSDictionary<NSString *, id> *plist = @{ @"CFBundleShortVersionString" : expectedShortVer };
+  NSDictionary<NSString *, id> *plist = @{@"CFBundleShortVersionString" : expectedShortVer};
   id bundleMock = OCMClassMock([NSBundle class]);
   OCMStub([bundleMock mainBundle]).andReturn(bundleMock);
   OCMStub([bundleMock infoDictionary]).andReturn(plist);
@@ -167,9 +180,7 @@
 
   // Mock current versions.
   NSString *expectedVersion = @"2.5.3.1";
-  NSDictionary<NSString *, id> *plist =
-      @{ @"CFBundleShortVersionString" : @"not semantic versioning",
-         @"CFBundleVersion" : expectedVersion };
+  NSDictionary<NSString *, id> *plist = @{@"CFBundleShortVersionString" : @"not semantic versioning", @"CFBundleVersion" : expectedVersion};
   id bundleMock = OCMClassMock([NSBundle class]);
   OCMStub([bundleMock mainBundle]).andReturn(bundleMock);
   OCMStub([bundleMock infoDictionary]).andReturn(plist);
@@ -200,9 +211,7 @@
 
   // Mock current versions.
   NSString *expectedVersion = @"2.5.3.1";
-  NSDictionary<NSString *, id> *plist =
-      @{ @"CFBundleShortVersionString" : @"not semantic versioning",
-         @"CFBundleVersion" : expectedVersion };
+  NSDictionary<NSString *, id> *plist = @{@"CFBundleShortVersionString" : @"not semantic versioning", @"CFBundleVersion" : expectedVersion};
   id bundleMock = OCMClassMock([NSBundle class]);
   OCMStub([bundleMock mainBundle]).andReturn(bundleMock);
   OCMStub([bundleMock infoDictionary]).andReturn(plist);
@@ -233,7 +242,7 @@
 
   // Mock current versions.
   NSString *expectedShortVer = @"2.5.3-alpha+EF69A";
-  NSDictionary<NSString *, id> *plist = @{ @"CFBundleShortVersionString" : expectedShortVer, @"CFBundleVersion" : @"2.5.3.1" };
+  NSDictionary<NSString *, id> *plist = @{@"CFBundleShortVersionString" : expectedShortVer, @"CFBundleVersion" : @"2.5.3.1"};
   id bundleMock = OCMClassMock([NSBundle class]);
   OCMStub([bundleMock mainBundle]).andReturn(bundleMock);
   OCMStub([bundleMock infoDictionary]).andReturn(plist);

@@ -137,12 +137,20 @@ static NSString *const kMSTesterAppUpdateSetupFailedKey = @"MSTesterAppUpdateSet
  */
 @property(nonatomic) id<MSCustomApplicationDelegate> appDelegate;
 
-@property(nonatomic) id _Nullable authenticationSession;
+/**
+ * Authentication session instance.
+ */
+@property(nullable, nonatomic) SFAuthenticationSession *authenticationSession API_AVAILABLE(ios(11.0));
 
 /**
  * Distribute info tracking component which adds extra fields to logs.
  */
 @property(nonatomic) MSDistributeInfoTracker *distributeInfoTracker;
+
+/**
+ * Update track.
+ */
+@property(nonatomic) MSUpdateTrack updateTrack;
 
 /**
  * Returns the singleton instance. Meant for testing/demo apps only.
@@ -254,13 +262,13 @@ static NSString *const kMSTesterAppUpdateSetupFailedKey = @"MSTesterAppUpdateSet
 /**
  * Get reporting parameters for updated release.
  *
- * @param updateToken The update token stored in keychain. This value can be nil if it is public distribution.
+ * @param isPublic YES if reporting stats for a public track, NO otherwise.
  * @param currentInstalledReleaseHash The release hash of the current version.
  * @param distributionGroupId The distribution group Id in keychain.
  *
  * @return Reporting parameters dictionary.
  */
-- (nullable NSMutableDictionary *)getReportingParametersForUpdatedRelease:(NSString *)updateToken
+- (nullable NSMutableDictionary *)getReportingParametersForUpdatedRelease:(BOOL)isPublic
                                               currentInstalledReleaseHash:(NSString *)currentInstalledReleaseHash
                                                       distributionGroupId:(NSString *)distributionGroupId;
 
@@ -329,6 +337,11 @@ static NSString *const kMSTesterAppUpdateSetupFailedKey = @"MSTesterAppUpdateSet
  * Close application for update.
  */
 - (void)closeApp;
+
+/**
+ * Method to reset the singleton when running tests only. So calling sharedInstance returns a fresh instance.
+ */
++ (void)resetSharedInstance;
 
 @end
 

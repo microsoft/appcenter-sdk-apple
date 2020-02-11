@@ -27,7 +27,6 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
   @IBOutlet weak var logUrl: UILabel!
   @IBOutlet weak var sdkVersion: UILabel!
   @IBOutlet weak var pushEnabledSwitch: UISwitch!
-  @IBOutlet weak var authSwitch: UISwitch!
   @IBOutlet weak var logFilterSwitch: UISwitch!
   @IBOutlet weak var deviceIdLabel: UILabel!
   @IBOutlet weak var storageMaxSizeField: UITextField!
@@ -35,8 +34,6 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
   @IBOutlet weak var setLogUrlButton: UIButton!
   @IBOutlet weak var setAppSecretButton: UIButton!
   @IBOutlet weak var overrideCountryCodeButton: UIButton!
-  @IBOutlet weak var authInfoCell: UITableViewCell!
-  @IBOutlet weak var authInfoLabel: UILabel!
   @IBOutlet weak var userId: UILabel!
   @IBOutlet weak var setUserIdButton: UIButton!
   
@@ -46,8 +43,6 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
   private var dbFileDescriptor: CInt = 0
   private var dbFileSource: DispatchSourceProtocol?  
   let startUpModeForCurrentSession: NSInteger = (UserDefaults.standard.object(forKey: kMSStartTargetKey) ?? 0) as! NSInteger
-  var userInformation: MSUserInformation?
-  var userDefaultStatus: Bool = true
   
   deinit {
     self.dbFileSource?.cancel()
@@ -124,40 +119,10 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     updateViewState()
   }
 
-  @IBAction func authSignIn(_ sender: UIButton) {
-    appCenter.signIn { (userInformation, error) in
-      self.userDefaultStatus = false
-      self.userInformation = userInformation
-      DispatchQueue.main.async {
-        self.updateViewState()
-      }
-    }
-  }
-
-  @IBAction func authSignOut(_ sender: UIButton) {
-    appCenter.signOut()
-    self.userDefaultStatus = false
-    self.userInformation = nil
-    updateViewState()
-  }
-  
   func updateViewState() {
     self.appCenterEnabledSwitch.isOn = appCenter.isAppCenterEnabled()
     self.pushEnabledSwitch.isOn = appCenter.isPushEnabled()
-    self.authSwitch.isOn = appCenter.isAuthEnabled()
-    if (self.userDefaultStatus) {
-      authInfoCell.isUserInteractionEnabled = false
-      authInfoLabel.text = "Authentication status unknown"
-      authInfoLabel.isEnabled = false
-    } else if (self.userInformation == nil) {
-      authInfoCell.isUserInteractionEnabled = false
-      authInfoLabel.text = "User is not authenticated"
-      authInfoLabel.isEnabled = false
-    } else {
-      authInfoCell.isUserInteractionEnabled = true
-      authInfoLabel.text = "User is authenticated"
-      authInfoLabel.isEnabled = true
-    }
+
     #if ACTIVE_COMPILATION_CONDITION_PUPPET
     self.logFilterSwitch.isOn = MSEventFilter.isEnabled()
     #else
@@ -173,11 +138,6 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     updateViewState()
   }
 
-  @IBAction func authSwitchStateUpdated(_ sender: UISwitch){
-    appCenter.setAuthEnabled(sender.isOn)
-    updateViewState()
-  }
-  
   @IBAction func pushSwitchStateUpdated(_ sender: UISwitch) {
     appCenter.setPushEnabled(sender.isOn)
     updateViewState()
@@ -260,18 +220,6 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     alertController.addTextField { (appSecretTextField) in
       appSecretTextField.text = UserDefaults.standard.string(forKey: kMSAppSecret) ?? self.appCenter.appSecret()
     }
-    let aadAction = UIAlertAction(title:"AAD Secret", style: .default, handler: {
-      (_ action : UIAlertAction) -> Void in
-      let text = self.appCenter.appSecretAAD();
-      UserDefaults.standard.set(text, forKey: kMSAppSecret)
-      self.appSecret.text = text
-    })
-    let b2cAction = UIAlertAction(title:"B2C Secret", style: .default, handler: {
-      (_ action : UIAlertAction) -> Void in
-      let text = self.appCenter.appSecretB2C();
-      UserDefaults.standard.set(text, forKey: kMSAppSecret)
-      self.appSecret.text = text
-    })
     let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
     let saveAction = UIAlertAction(title: "Save", style: .default, handler: {
       (_ action : UIAlertAction) -> Void in
@@ -286,8 +234,6 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     })
     alertController.addAction(cancelAction)
     alertController.addAction(saveAction)
-    alertController.addAction(aadAction)
-    alertController.addAction(b2cAction)
     alertController.addAction(resetAction)
     self.present(alertController, animated: true, completion: nil)
   }
@@ -339,9 +285,6 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     if let destination = segue.destination as? AppCenterProtocol {
       destination.appCenter = appCenter
-    }
-    if let destination = segue.destination as? MSAuthInfoViewController {
-      destination.userInformation = self.userInformation
     }
   }
 }

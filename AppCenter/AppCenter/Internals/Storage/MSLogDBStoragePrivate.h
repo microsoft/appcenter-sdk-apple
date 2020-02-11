@@ -15,11 +15,6 @@ static NSString *const kMSTargetTokenColumnName = @"targetToken";
 static NSString *const kMSTargetKeyColumnName = @"targetKey";
 static NSString *const kMSPriorityColumnName = @"priority";
 
-/**
- * Timestamp in milliseconds.
- */
-static NSString *const kMSTimestampColumnName = @"timestamp";
-
 @protocol MSDatabaseConnection;
 
 @interface MSLogDBStorage ()
@@ -49,7 +44,7 @@ static NSString *const kMSTimestampColumnName = @"timestamp";
  */
 @property(nonatomic, readonly) NSUInteger targetTokenColumnIndex;
 
-/*
+/**
  * Encrypter for target tokens.
  */
 @property(nonatomic, readonly) MSEncrypter *targetTokenEncrypter;
@@ -62,6 +57,11 @@ static NSString *const kMSTimestampColumnName = @"timestamp";
  * @return Logs and their ids corresponding to the given group Id from the storage.
  */
 - (NSArray<id<MSLog>> *)logsFromDBWithGroupId:(NSString *)groupId;
+
+/**
+ * Builds a string for sqlite values binding: for example, (?, ?, ?).
+ */
+- (NSString *)buildKeyFormatWithCount:(NSUInteger)count;
 
 @end
 

@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 #import "MSConstants+Internal.h"
+#import "MSDispatcherUtil.h"
 #import "MSTestFrameworks.h"
 #import "MSUtility+ApplicationPrivate.h"
 #import "MSUtility+Date.h"
@@ -9,6 +10,8 @@
 #import "MSUtility+File.h"
 #import "MSUtility+PropertyValidation.h"
 #import "MSUtility+StringFormatting.h"
+
+static NSTimeInterval const kMSTestTimeout = 1.0;
 
 @interface MSUtilityTests : XCTestCase
 
@@ -173,7 +176,7 @@
   });
 
   // Then
-  [self waitForExpectationsWithTimeout:1
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *error) {
                                  XCTAssertTrue(handlerHasBeenCalled);
                                  if (error) {
@@ -892,6 +895,100 @@
   // Then
   XCTAssertTrue([obfuscatedString rangeOfString:@"abc"].location == NSNotFound);
   XCTAssertFalse([obfuscatedString rangeOfString:kMSRedirectUriObfuscatedTemplate].location == NSNotFound);
+}
+
+- (void)testDispatchObjectMacro {
+
+  // If
+  NSMutableArray *array = [NSMutableArray new];
+
+  // When
+  MS_DISPATCH_SELECTOR((void (*)(id, SEL, id)), array, addObject:, @"test");
+
+  // Then
+  XCTAssertEqual([array count], 1);
+  XCTAssertEqual([array firstObject], @"test");
+}
+
+- (void)testDispatchObjectMacroWithNil {
+  
+  // If
+  XCTestExpectation *expectation = [self expectationWithDescription:@"Dispatch selector executed."];
+  typedef void (^block)(NSString *, NSString *);
+    
+  // When
+  MS_DISPATCH_SELECTOR((void (*)(id, SEL, NSString *, NSString *, block)), self, methodWithArgs:secondArg:completionHandler:, nil, @"test",
+                       ^(NSString *firstArg, NSString *secondArg) {
+                         XCTAssertNil(firstArg);
+                         XCTAssertEqual(secondArg, @"test");
+                         [expectation fulfill];
+                       });
+    
+  // Then
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
+                               handler:^(NSError *error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+}
+
+- (void)testPerformBlockOnMainThread {
+
+  // If
+  XCTestExpectation *expectation = [self expectationWithDescription:@"method called."];
+  NSString *str = @"expectedString";
+
+  // When
+  [MSDispatcherUtil performBlockOnMainThread:^{
+    [self methodToCall:str
+        completionHandler:^(NSString *string) {
+          XCTAssertEqual(str, string);
+          [expectation fulfill];
+        }];
+  }];
+
+  // Then
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
+                               handler:^(NSError *error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+}
+
+- (void)testPerformBlockOnMainThreadFromBackground {
+
+  // If
+  XCTestExpectation *expectation = [self expectationWithDescription:@"method called."];
+  NSString *str = @"expectedString";
+
+  // When
+  dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    [MSDispatcherUtil performBlockOnMainThread:^{
+      [self methodToCall:str
+          completionHandler:^(NSString *string) {
+            XCTAssertEqual(str, string);
+            [expectation fulfill];
+          }];
+    }];
+  });
+
+  // Then
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
+                               handler:^(NSError *error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+}
+
+- (void)methodToCall:(NSString *)str completionHandler:(void (^)(NSString *string))completion {
+  completion(str);
+}
+
+- (void)methodWithArgs:(NSString *)str secondArg:(NSString *)secondStr completionHandler:(void (^)(NSString *, NSString *))completion {
+  completion(str, secondStr);
 }
 
 @end

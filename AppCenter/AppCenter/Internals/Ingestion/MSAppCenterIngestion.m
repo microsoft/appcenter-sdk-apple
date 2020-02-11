@@ -4,10 +4,8 @@
 #import "MSAppCenterIngestion.h"
 #import "MSAppCenterErrors.h"
 #import "MSAppCenterInternal.h"
-#import "MSCompression.h"
 #import "MSConstants+Internal.h"
 #import "MSHttpIngestionPrivate.h"
-#import "MSLogContainer.h"
 #import "MSLoggerInternal.h"
 
 @implementation MSAppCenterIngestion
@@ -16,12 +14,15 @@ static NSString *const kMSAPIVersion = @"1.0.0";
 static NSString *const kMSAPIVersionKey = @"api-version";
 static NSString *const kMSApiPath = @"/logs";
 
-- (id)initWithBaseUrl:(NSString *)baseUrl installId:(NSString *)installId {
-  self = [super initWithBaseUrl:baseUrl
-                        apiPath:kMSApiPath
-                        headers:@{kMSHeaderContentTypeKey : kMSAppCenterContentType, kMSHeaderInstallIDKey : installId}
-                   queryStrings:@{kMSAPIVersionKey : kMSAPIVersion}
-                   reachability:[MS_Reachability reachabilityForInternetConnection]];
+// URL components' name within a partial URL.
+static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"password", @"host", @"port", @"path"};
+
+- (id)initWithHttpClient:(id<MSHttpClientProtocol>)httpClient baseUrl:(NSString *)baseUrl installId:(NSString *)installId {
+  self = [super initWithHttpClient:httpClient
+                           baseUrl:baseUrl
+                           apiPath:kMSApiPath
+                           headers:@{kMSHeaderContentTypeKey : kMSAppCenterContentType, kMSHeaderInstallIDKey : installId}
+                      queryStrings:@{kMSAPIVersionKey : kMSAPIVersion}];
   return self;
 }
 
@@ -29,7 +30,7 @@ static NSString *const kMSApiPath = @"/logs";
   return self.appSecret != nil;
 }
 
-- (void)sendAsync:(NSObject *)data authToken:(NSString *)authToken completionHandler:(MSSendAsyncCompletionHandler)handler {
+- (void)sendAsync:(NSObject *)data completionHandler:(MSSendAsyncCompletionHandler)handler {
   MSLogContainer *container = (MSLogContainer *)data;
   NSString *batchId = container.batchId;
 
@@ -46,61 +47,54 @@ static NSString *const kMSApiPath = @"/logs";
     handler(batchId, 0, nil, error);
     return;
   }
-
-  [super sendAsync:container eTag:nil authToken:authToken callId:container.batchId completionHandler:handler];
-}
-
-- (NSURLRequest *)createRequest:(NSObject *)data eTag:(NSString *)__unused eTag authToken:(nullable NSString *)authToken {
   if (!self.appSecret) {
     MSLogError([MSAppCenter logTag], @"AppCenter ingestion is used without app secret.");
-    return nil;
+    return;
   }
+  [super sendAsync:data
+      completionHandler:^(NSString *_Nonnull __unused callId, NSHTTPURLResponse *_Nullable response, NSData *_Nullable responseBody,
+                          NSError *_Nullable error) {
+        // Ignore the given call ID so that the container's batch ID can be used instead.
+        handler(batchId, response, responseBody, error);
+      }];
+}
+
+- (NSDictionary *)getHeadersWithData:(nullable NSObject *__unused)data eTag:(nullable NSString *__unused)eTag {
+  NSMutableDictionary *httpHeaders = [self.httpHeaders mutableCopy];
+  [httpHeaders setValue: self.appSecret forKey:kMSHeaderAppSecretKey];
+  return httpHeaders;
+}
+
+- (NSData *)getPayloadWithData:(nullable NSObject *)data {
   MSLogContainer *container = (MSLogContainer *)data;
-  NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:self.sendURL];
-
-  // Set method.
-  request.HTTPMethod = @"POST";
-
-  // Set Header params.
-  request.allHTTPHeaderFields = self.httpHeaders;
-  [request setValue:self.appSecret forHTTPHeaderField:kMSHeaderAppSecretKey];
-  if ([authToken length] > 0) {
-    NSString *bearerTokenHeader = [NSString stringWithFormat:kMSBearerTokenHeaderFormat, authToken];
-    [request setValue:bearerTokenHeader forHTTPHeaderField:kMSAuthorizationHeaderKey];
-  }
-
-  // Set body.
   NSString *jsonString = [container serializeLog];
-  NSData *httpBody = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+  return [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+}
 
-  // Zip HTTP body if length worth it.
-  if (httpBody.length >= kMSHTTPMinGZipLength) {
-    NSData *compressedHttpBody = [MSCompression compressData:httpBody];
-    if (compressedHttpBody) {
-      [request setValue:kMSHeaderContentEncoding forHTTPHeaderField:kMSHeaderContentEncodingKey];
-      httpBody = compressedHttpBody;
-    }
-  }
-  request.HTTPBody = httpBody;
+- (NSString *)obfuscateResponsePayload:(NSString *)payload {
+  return payload;
+}
 
-  // Always disable cookies.
-  [request setHTTPShouldHandleCookies:NO];
+#pragma mark - MSHttpClientDelegate
+
+- (void)willSendHTTPRequestToURL:(NSURL *)url withHeaders:(nullable NSDictionary<NSString *, NSString *> *)headers {
 
   // Don't lose time pretty printing headers if not going to be printed.
   if ([MSLogger currentLogLevel] <= MSLogLevelVerbose) {
-    MSLogVerbose([MSAppCenter logTag], @"URL: %@", request.URL);
-    MSLogVerbose([MSAppCenter logTag], @"Headers: %@", [super prettyPrintHeaders:request.allHTTPHeaderFields]);
-  }
-  return request;
-}
 
-- (NSString *)obfuscateHeaderValue:(NSString *)value forKey:(NSString *)key {
-  if ([key isEqualToString:kMSAuthorizationHeaderKey]) {
-    return [MSHttpUtil hideAuthToken:value];
-  } else if ([key isEqualToString:kMSHeaderAppSecretKey]) {
-    return [MSHttpUtil hideSecret:value];
+    // Obfuscate secrets.
+    NSMutableArray<NSString *> *flattenedHeaders = [NSMutableArray<NSString *> new];
+    [headers enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *value, BOOL *stop __unused) {
+      if ([key isEqualToString:kMSHeaderAppSecretKey]) {
+        value = [MSHttpUtil hideSecret:value];
+      }
+      [flattenedHeaders addObject:[NSString stringWithFormat:@"%@ = %@", key, value]];
+    }];
+
+    // Log URL and headers.
+    MSLogVerbose([MSAppCenter logTag], @"URL: %@", url);
+    MSLogVerbose([MSAppCenter logTag], @"Headers: %@", [flattenedHeaders componentsJoinedByString:@", "]);
   }
-  return value;
 }
 
 @end

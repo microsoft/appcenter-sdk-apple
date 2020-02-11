@@ -4,69 +4,89 @@
 #import "MSDistributeIngestion.h"
 #import "MSAppCenter.h"
 #import "MSAppCenterInternal.h"
+#import "MSConstants+Internal.h"
 #import "MSHttpIngestionPrivate.h"
 #import "MSLoggerInternal.h"
+#import "MSUtility+StringFormatting.h"
 
 @implementation MSDistributeIngestion
 
 /**
  * The API paths for latest release requests.
  */
-static NSString *const kMSLatestPrivateReleaseApiPathFormat = @"/sdk/apps/%@/releases/latest";
-static NSString *const kMSLatestPublicReleaseApiPathFormat = @"/public/sdk/apps/%@/distribution_groups/%@/releases/latest";
+static NSString *const kMSLatestPrivateReleaseApiPathFormat = @"/sdk/apps/%@/releases/private/latest";
+static NSString *const kMSLatestPublicReleaseApiPathFormat = @"/public/sdk/apps/%@/releases/latest";
 
-- (id)initWithBaseUrl:(NSString *)baseUrl
-              appSecret:(NSString *)appSecret
-            updateToken:(NSString *)updateToken
-    distributionGroupId:(NSString *)distributionGroupId
-           queryStrings:(NSDictionary *)queryStrings {
-  NSString *apiPath;
-  NSDictionary *header = nil;
-  if (updateToken) {
-    apiPath = [NSString stringWithFormat:kMSLatestPrivateReleaseApiPathFormat, appSecret];
-    header = @{kMSHeaderUpdateApiToken : updateToken};
-  } else {
-    apiPath = [NSString stringWithFormat:kMSLatestPublicReleaseApiPathFormat, appSecret, distributionGroupId];
-  }
-  if ((self = [super initWithBaseUrl:baseUrl
-                             apiPath:apiPath
-                             headers:header
-                        queryStrings:queryStrings
-                        reachability:[MS_Reachability reachabilityForInternetConnection]])) {
+- (id)initWithHttpClient:(id<MSHttpClientProtocol>)httpClient baseUrl:(NSString *)baseUrl appSecret:(NSString *)appSecret {
+  if ((self = [super initWithHttpClient:httpClient baseUrl:baseUrl apiPath:nil headers:nil queryStrings:nil])) {
     _appSecret = appSecret;
   }
-
   return self;
 }
 
-- (NSURLRequest *)createRequest:(NSObject *)__unused data eTag:(NSString *)__unused eTag authToken:(nullable NSString *)__unused authToken {
-  NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:self.sendURL];
+- (NSString *)getHttpMethod {
+  return kMSHttpMethodGet;
+};
 
-  // Set method.
-  request.HTTPMethod = @"GET";
+- (NSDictionary *)getHeadersWithData:(NSObject *__unused)data eTag:(NSString *)eTag {
 
-  // Set header params.
-  request.allHTTPHeaderFields = self.httpHeaders;
+  // Set Header params.
+  NSMutableDictionary *headers = [self.httpHeaders mutableCopy];
+  if (eTag != nil) {
+    [headers setValue:eTag forKey:kMSETagRequestHeader];
+  }
+  return headers;
+}
 
-  // Set body.
-  request.HTTPBody = nil;
+- (NSData *)getPayloadWithData:(NSObject *__unused)data {
+  return nil;
+}
 
-  // Always disable cookies.
-  [request setHTTPShouldHandleCookies:NO];
+- (NSString *)obfuscateResponsePayload:(NSString *)payload {
+  return [MSUtility obfuscateString:payload
+                searchingForPattern:kMSRedirectUriPattern
+              toReplaceWithTemplate:kMSRedirectUriObfuscatedTemplate];
+}
+
+#pragma mark - MSHttpClientDelegate
+
+- (void)willSendHTTPRequestToURL:(NSURL *)url withHeaders:(nullable NSDictionary<NSString *, NSString *> *)headers {
 
   // Don't lose time pretty printing headers if not going to be printed.
   if ([MSLogger currentLogLevel] <= MSLogLevelVerbose) {
-    NSString *url = [request.URL.absoluteString stringByReplacingOccurrencesOfString:self.appSecret
-                                                                          withString:[MSHttpUtil hideSecret:self.appSecret]];
-    MSLogVerbose([MSAppCenter logTag], @"URL: %@", url);
-    MSLogVerbose([MSAppCenter logTag], @"Headers: %@", [super prettyPrintHeaders:request.allHTTPHeaderFields]);
-  }
 
-  return request;
+    // Obfuscate secrets.
+    NSMutableArray<NSString *> *flattenedHeaders = [NSMutableArray<NSString *> new];
+    [headers enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *value, BOOL *stop __unused) {
+      if ([key isEqualToString:kMSHeaderUpdateApiToken]) {
+        value = [MSHttpUtil hideSecret:value];
+      }
+      [flattenedHeaders addObject:[NSString stringWithFormat:@"%@ = %@", key, value]];
+    }];
+
+    // Log URL and headers.
+    MSLogVerbose([MSAppCenter logTag], @"URL: %@", url);
+    MSLogVerbose([MSAppCenter logTag], @"Headers: %@", [flattenedHeaders componentsJoinedByString:@", "]);
+  }
 }
 
-- (NSString *)obfuscateHeaderValue:(NSString *)value forKey:(NSString *)key {
-  return [key isEqualToString:kMSHeaderUpdateApiToken] ? [MSHttpUtil hideSecret:value] : value;
+#pragma mark - MSDistributeIngestion
+
+- (void)checkForPublicUpdateWithQueryStrings:(NSDictionary *)queryStrings
+                           completionHandler:(MSSendAsyncCompletionHandler)completionHandler {
+  self.httpHeaders = @{};
+  self.apiPath = [NSString stringWithFormat:kMSLatestPublicReleaseApiPathFormat, self.appSecret];
+  self.sendURL = [super buildURLWithBaseURL:self.baseURL apiPath:self.apiPath queryStrings:queryStrings];
+  [self sendAsync:nil completionHandler:completionHandler];
+}
+
+- (void)checkForPrivateUpdateWithUpdateToken:(NSString *)updateToken
+                                queryStrings:(NSDictionary *)queryStrings
+                           completionHandler:(MSSendAsyncCompletionHandler)completionHandler {
+  self.httpHeaders = @{kMSHeaderUpdateApiToken : updateToken};
+  self.apiPath = [NSString stringWithFormat:kMSLatestPrivateReleaseApiPathFormat, self.appSecret];
+  self.sendURL = [super buildURLWithBaseURL:self.baseURL apiPath:self.apiPath queryStrings:queryStrings];
+  [self sendAsync:nil completionHandler:completionHandler];
 }
 
 @end

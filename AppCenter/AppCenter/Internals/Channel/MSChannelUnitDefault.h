@@ -3,9 +3,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "MSAuthTokenContextDelegate.h"
 #import "MSChannelUnitProtocol.h"
-#import "MSIngestionDelegate.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -14,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol MSIngestionProtocol;
 @protocol MSStorage;
 
-@interface MSChannelUnitDefault : NSObject <MSChannelUnitProtocol, MSIngestionDelegate, MSAuthTokenContextDelegate>
+@interface MSChannelUnitDefault : NSObject <MSChannelUnitProtocol>
 
 /**
  * Initializes a new `MSChannelUnitDefault` instance.

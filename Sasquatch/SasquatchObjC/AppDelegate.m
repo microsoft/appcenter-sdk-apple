@@ -9,9 +9,7 @@
 #if GCC_PREPROCESSOR_MACRO_PUPPET
 #import "AppCenter.h"
 #import "AppCenterAnalytics.h"
-#import "AppCenterAuth.h"
 #import "AppCenterCrashes.h"
-#import "AppCenterData.h"
 #import "AppCenterDistribute.h"
 #import "AppCenterPush.h"
 
@@ -21,18 +19,14 @@
 #elif GCC_PREPROCESSOR_MACRO_SASQUATCH_OBJC
 #import <AppCenter/AppCenter.h>
 #import <AppCenterAnalytics/AppCenterAnalytics.h>
-#import <AppCenterAuth/AppCenterAuth.h>
 #import <AppCenterCrashes/AppCenterCrashes.h>
-#import <AppCenterData/AppCenterData.h>
 #import <AppCenterDistribute/AppCenterDistribute.h>
 #import <AppCenterPush/AppCenterPush.h>
 #else
 @import AppCenter;
 @import AppCenterAnalytics;
 @import AppCenterCrashes;
-@import AppCenterData;
 @import AppCenterDistribute;
-@import AppCenterAuth;
 @import AppCenterPush;
 #endif
 
@@ -46,8 +40,7 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
 #if GCC_PREPROCESSOR_MACRO_PUPPET
     MSAnalyticsDelegate,
 #endif
-    MSCrashesDelegate, MSDistributeDelegate, MSPushDelegate, MSRemoteOperationDelegate, UNUserNotificationCenterDelegate,
-    CLLocationManagerDelegate>
+    MSCrashesDelegate, MSDistributeDelegate, MSPushDelegate, UNUserNotificationCenterDelegate, CLLocationManagerDelegate>
 
 @property(nonatomic) MSAnalyticsResult *analyticsResult;
 @property(nonatomic) API_AVAILABLE(ios(10.0)) void (^notificationPresentationCompletionHandler)(UNNotificationPresentationOptions options);
@@ -73,8 +66,6 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
   if (startTarget == APPCENTER || startTarget == BOTH) {
     [MSAppCenter setLogUrl:kMSIntLogUrl];
   }
-  [MSAuth setConfigUrl:kMSIntConfigUrl];
-  [MSData setTokenExchangeUrl:kMSIntTokenExchangeUrl];
   [MSDistribute setApiUrl:kMSIntApiUrl];
   [MSDistribute setInstallUrl:kMSIntInstallUrl];
 #endif
@@ -88,7 +79,6 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
 #pragma clang diagnostic pop
   [MSPush setDelegate:self];
   [MSDistribute setDelegate:self];
-  [MSData setRemoteOperationDelegate:self];
 
   // Set max storage size.
   NSNumber *storageMaxSize = [[NSUserDefaults standardUserDefaults] objectForKey:kMSStorageMaxSizeKey];
@@ -125,9 +115,13 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
   if (latencyTimeValue) {
     [MSAnalytics setTransmissionInterval:latencyTimeValue];
   }
+  int updateTrack = [[[NSUserDefaults standardUserDefaults] objectForKey:kMSUpdateTrackKey] intValue];
+  if (updateTrack) {
+    MSDistribute.updateTrack = updateTrack;
+  }
+
   // Start App Center SDK.
-  NSArray<Class> *services =
-      @ [[MSAnalytics class], [MSCrashes class], [MSData class], [MSDistribute class], [MSAuth class], [MSPush class]];
+  NSArray<Class> *services = @ [[MSAnalytics class], [MSCrashes class], [MSDistribute class], [MSPush class]];
 #if GCC_PREPROCESSOR_MACRO_PUPPET
   NSString *appSecret = [[NSUserDefaults standardUserDefaults] objectForKey:kMSAppSecret] ?: kMSPuppetAppSecret;
 #else
@@ -266,22 +260,6 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
   [NSNotificationCenter.defaultCenter postNotificationName:kUpdateAnalyticsResultNotification object:self.analyticsResult];
 }
 #endif
-
-#pragma mark - MSRemoteOperationDelegate
-
-- (void)data:(MSData *)data
-    didCompleteRemoteOperation:(NSString *)operation
-           forDocumentMetadata:(MSDocumentMetadata *_Nullable)documentMetadata
-                     withError:(MSDataError *_Nullable)error {
-  NSLog(@"Operation processed: %@ ", operation);
-  if (documentMetadata) {
-    NSLog(@"Document: Partition : %@, document id : %@, eTag : %@ ", documentMetadata.partition, documentMetadata.documentId,
-          documentMetadata.eTag);
-  }
-  if (error) {
-    NSLog(@"Error: %@ ", error);
-  }
-}
 
 #pragma mark - MSCrashesDelegate
 
