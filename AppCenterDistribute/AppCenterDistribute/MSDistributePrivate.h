@@ -371,6 +371,11 @@ static NSString *const kMSTesterAppUpdateSetupFailedKey = @"MSTesterAppUpdateSet
 - (void)closeApp;
 
 /**
+ * Check for the latest release using the selected update track.
+ */
+- (void)checkForUpdate;
+
+/**
  * Method to reset the singleton when running tests only. So calling sharedInstance returns a fresh instance.
  */
 + (void)resetSharedInstance;
