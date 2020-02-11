@@ -148,9 +148,19 @@ static NSString *const kMSTesterAppUpdateSetupFailedKey = @"MSTesterAppUpdateSet
 @property(nonatomic) MSDistributeInfoTracker *distributeInfoTracker;
 
 /**
+ * A flag that indicates whether update flow is in progress or not.
+ */
+@property(atomic) BOOL updateFlowInProgress;
+
+/**
  * Update track.
  */
 @property(nonatomic) MSUpdateTrack updateTrack;
+
+/**
+ * Distribute flags.
+ */
+@property(nonatomic) MSDistributeFlags distributeFlags;
 
 /**
  * Returns the singleton instance. Meant for testing/demo apps only.
@@ -171,6 +181,23 @@ static NSString *const kMSTesterAppUpdateSetupFailedKey = @"MSTesterAppUpdateSet
 - (nullable NSURL *)buildTokenRequestURLWithAppSecret:(NSString *)appSecret
                                           releaseHash:(NSString *)releaseHash
                                           isTesterApp:(BOOL)isTesterApp;
+/**
+ * Configure Distribute options before the service starts.
+ *
+ * @param flags Distribute flags.
+ */
+- (void)configure:(MSDistributeFlags)flags;
+
+/**
+ * Check the latest release of the application.
+ *
+ * @param updateToken The update token stored in keychain. This value can be nil if it is public distribution.
+ * @param distributionGroupId The distribution group Id in keychain.
+ * @param releaseHash The release hash of the current version.
+ */
+- (void)checkForUpdateWithUpdateToken:(nullable NSString *)updateToken
+                  distributionGroupId:(NSString *)distributionGroupId
+                          releaseHash:(NSString *)releaseHash;
 
 /**
  * Open the given URL using the openURL method in the Shared Application.

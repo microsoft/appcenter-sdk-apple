@@ -269,6 +269,10 @@ static dispatch_once_t onceToken;
   return [MSDistribute sharedInstance].updateTrack;
 }
 
++ (void)configure:(MSDistributeFlags)flags {
+  [[MSDistribute sharedInstance] configure:flags];
+}
+
 #pragma mark - Private
 
 - (void)sendFirstSessionUpdateLog {
@@ -300,7 +304,7 @@ static dispatch_once_t onceToken;
       self.updateFlowInProgress = YES;
     }
     if (updateToken || self.updateTrack == MSUpdateTrackPublic) {
-      [self checkLatestRelease:updateToken distributionGroupId:distributionGroupId releaseHash:releaseHash];
+      [self checkForUpdateWithUpdateToken:updateToken distributionGroupId:distributionGroupId releaseHash:releaseHash];
     } else {
       [self requestInstallInformationWith:releaseHash];
     }
@@ -1113,7 +1117,7 @@ static dispatch_once_t onceToken;
       [MSKeychainUtil deleteStringForKey:kMSUpdateTokenKey];
     }
     if (queryUpdateToken || queryDistributionGroupId) {
-      [self checkLatestRelease:queryUpdateToken distributionGroupId:queryDistributionGroupId releaseHash:MSPackageHash()];
+      [self checkForUpdateWithUpdateToken:queryUpdateToken distributionGroupId:queryDistributionGroupId releaseHash:MSPackageHash()];
     } else {
       MSLogError([MSDistribute logTag], @"Cannot find either update token or distribution group id.");
     }
@@ -1173,6 +1177,27 @@ static dispatch_once_t onceToken;
 - (MSUpdateTrack)updateTrack {
   @synchronized(self) {
     return _updateTrack;
+  }
+}
+
+- (void)configure:(MSDistributeFlags)flags {
+  @synchronized(self) {
+    if (self.started) {
+      MSLogError([MSDistribute logTag], @"Flags cannot be set after Distribute is started.");
+      return;
+    }
+    self.distributeFlags = flags;
+  }
+}
+
+- (void)checkForUpdateWithUpdateToken:(nullable NSString *)updateToken
+                  distributionGroupId:(NSString *)distributionGroupId
+                          releaseHash:(NSString *)releaseHash {
+  if (self.distributeFlags ^ MSDistributeFlagsDisableAutomaticCheckForUpdate) {
+    [self checkLatestRelease:updateToken distributionGroupId:distributionGroupId releaseHash:releaseHash];
+  } else {
+    MSLogInfo([MSDistribute logTag], @"Automatic checkForUpdate is disabled.");
+    self.updateFlowInProgress = NO;
   }
 }
 
