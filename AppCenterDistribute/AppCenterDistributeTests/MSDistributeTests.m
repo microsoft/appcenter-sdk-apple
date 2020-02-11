@@ -1306,7 +1306,7 @@ static NSURL *sfURL;
   [utilityMock stopMocking];
 }
 
-- (void)testCheckForUpdatesAllConditionsMet {
+- (void)testCheckForUpdatesAllowedAllConditionsMet {
 
   // If
   [MSDistributeTestUtil unMockUpdatesAllowedConditions];
@@ -1389,7 +1389,7 @@ static NSURL *sfURL;
   [appCenterMock stopMocking];
 }
 
-- (void)testCheckForUpdatesDebuggerAttached {
+- (void)testCheckForUpdatesAllowedDebuggerAttached {
 
   // When
   [MSDistributeTestUtil unMockUpdatesAllowedConditions];
@@ -1409,7 +1409,7 @@ static NSURL *sfURL;
   [guidedAccessMock stopMocking];
 }
 
-- (void)testCheckForUpdatesInvalidEnvironment {
+- (void)testCheckForUpdatesAllowedInvalidEnvironment {
 
   // When
   [MSDistributeTestUtil unMockUpdatesAllowedConditions];
@@ -1429,7 +1429,7 @@ static NSURL *sfURL;
   [guidedAccessMock stopMocking];
 }
 
-- (void)testCheckForUpdatesInGuidedAccessMode {
+- (void)testCheckForUpdatesAllowedInGuidedAccessMode {
 
   // When
   [MSDistributeTestUtil unMockUpdatesAllowedConditions];
