@@ -115,6 +115,11 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
   if (latencyTimeValue) {
     [MSAnalytics setTransmissionInterval:latencyTimeValue];
   }
+  int updateTrack = [[[NSUserDefaults standardUserDefaults] objectForKey:kMSUpdateTrackKey] intValue];
+  if (updateTrack) {
+    MSDistribute.updateTrack = updateTrack;
+  }
+
   // Start App Center SDK.
   NSArray<Class> *services = @ [[MSAnalytics class], [MSCrashes class], [MSDistribute class], [MSPush class]];
 #if GCC_PREPROCESSOR_MACRO_PUPPET

@@ -2,16 +2,59 @@
 // Licensed under the MIT License.
 
 import UIKit
+import AppCenterDistribute
 
 class MSDistributeViewController: UITableViewController, AppCenterProtocol {
 
   @IBOutlet weak var enabled: UISwitch!
   @IBOutlet weak var customized: UISwitch!
+  @IBOutlet weak var updateTrackField: UITextField!
   var appCenter: AppCenterDelegate!
-  
+
+  enum UpdateTrack: String, CaseIterable {
+    case Public = "Public"
+    case Private = "Private"
+
+    var state: MSUpdateTrack {
+       switch self {
+       case .Public: return .public
+       case .Private: return .private
+       }
+    }
+
+    static func getSelf(by track: MSUpdateTrack) -> UpdateTrack {
+       switch track {
+       case .public: return .Public
+       case .private: return .Private
+       }
+    }
+  }
+
+  private var updatePicker: MSEnumPicker<UpdateTrack>?
+
+  private var updateTrack = UpdateTrack.Public {
+
+    didSet {
+       self.updateTrackField.text = self.updateTrack.rawValue
+    }
+  }
+
   override func viewDidLoad() {
     super.viewDidLoad()
     self.customized.isOn = UserDefaults.init().bool(forKey: kSASCustomizedUpdateAlertKey)
+    preparePickers()
+    self.updateTrack = UpdateTrack.getSelf(by: MSDistribute.updateTrack)
+  }
+
+  private func preparePickers() {
+    self.updatePicker = MSEnumPicker<UpdateTrack>(
+        textField: self.updateTrackField,
+        allValues: UpdateTrack.allCases,
+        onChange: { index in
+            let pickedValue = UpdateTrack.allCases[index]
+            UserDefaults.standard.set(pickedValue.state.rawValue, forKey: kMSUpdateTrackKey)
+    })
+    self.updateTrackField.delegate = self.updatePicker
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -26,7 +69,7 @@ class MSDistributeViewController: UITableViewController, AppCenterProtocol {
     appCenter.setDistributeEnabled(sender.isOn)
     sender.isOn = appCenter.isDistributeEnabled()
   }
-  
+
   override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     switch (indexPath.section) {
       

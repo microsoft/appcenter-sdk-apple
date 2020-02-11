@@ -41,7 +41,7 @@ static UIBackgroundTaskIdentifier backgroundAuthSessionTask;
 /**
  * The API path for update token request.
  */
-static NSString *const kMSUpdateTokenApiPathFormat = @"/apps/%@/update-setup";
+static NSString *const kMSUpdateTokenApiPathFormat = @"/apps/%@/private-update-setup";
 
 /**
  * The tester app path for update token request.
@@ -52,9 +52,17 @@ static NSString *const kMSTesterAppUpdateTokenPath = @"ms-actesterapp://update-s
 
 static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid update token URL:%@";
 
+/**
+ * Singleton.
+ */
+static MSDistribute *sharedInstance;
+
+static dispatch_once_t onceToken;
+
 @implementation MSDistribute
 
 @synthesize channelUnitConfiguration = _channelUnitConfiguration;
+@synthesize updateTrack = _updateTrack;
 
 #pragma mark - Service initialization
 
@@ -79,10 +87,18 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
       [MS_USER_DEFAULTS setObject:@(1) forKey:kMSSDKHasLaunchedWithDistribute];
     }
 
-    // Proceed update whenever an application is restarted in users perspective.
+    // Set a default value for update track.
+    _updateTrack = MSUpdateTrackPublic;
+
+    /*
+     * Proceed update whenever an application is restarted in users perspective.
+     * The SDK triggered update flow on UIApplicationWillEnterForeground but listening to UIApplicationDidBecomeActiveNotification
+     * notification from version 3.0.0. It isn't reliable to make network calls on foreground so the SDK waits until the app has a
+     * focus before making any network calls.
+     */
     [MS_NOTIFICATION_CENTER addObserver:self
-                               selector:@selector(applicationWillEnterForeground)
-                                   name:UIApplicationWillEnterForegroundNotification
+                               selector:@selector(applicationDidBecomeActive)
+                                   name:UIApplicationDidBecomeActiveNotification
                                  object:nil];
 
     // Init the distribute info tracker.
@@ -94,8 +110,6 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 #pragma mark - MSServiceInternal
 
 + (instancetype)sharedInstance {
-  static id sharedInstance = nil;
-  static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
     sharedInstance = [[MSDistribute alloc] init];
   });
@@ -155,49 +169,74 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 }
 
 - (void)notifyUpdateAction:(MSUpdateAction)action {
-  if (!self.releaseDetails) {
-    MSLogDebug([MSDistribute logTag], @"The release has already been processed.");
-    return;
-  }
-  switch (action) {
-  case MSUpdateActionUpdate:
 
-    if ([self isEnabled]) {
-      MSLogDebug([MSDistribute logTag], @"'Update now' is selected. Start download and install the update.");
+  @synchronized(self) {
+    if (!self.releaseDetails) {
+      MSLogDebug([MSDistribute logTag], @"The release has already been processed or update flow hasn't started yet.");
+      self.updateFlowInProgress = NO;
+      return;
+    }
+    if (!self.updateFlowInProgress) {
+      MSLogInfo([MSDistribute logTag], @"There is no update flow in progress. Ignore the request.");
+      self.releaseDetails = nil;
+      return;
+    }
+    switch (action) {
+    case MSUpdateActionUpdate:
 
-      // Store details to report new download after restart if this release is installed.
-      [self storeDownloadedReleaseDetails:self.releaseDetails];
+      if ([self isEnabled]) {
+        MSLogDebug([MSDistribute logTag], @"'Update now' is selected. Start download and install the update.");
+
+        // Store details to report new download after restart if this release is installed.
+        [self storeDownloadedReleaseDetails:self.releaseDetails];
 #if TARGET_OS_SIMULATOR
 
-      /*
-       * iOS simulator doesn't support "itms-services" scheme, simulator will consider the scheme as an invalid address. Skip download
-       * process if the application is running on simulator.
-       */
-      MSLogWarning([MSDistribute logTag], @"Couldn't download a new release on simulator.");
+        /*
+         * iOS simulator doesn't support "itms-services" scheme, simulator will consider the scheme as an invalid address. Skip download
+         * process if the application is running on simulator.
+         */
+        MSLogWarning([MSDistribute logTag], @"Couldn't download a new release on simulator.");
 #else
-      [self startDownload:self.releaseDetails];
+        [self startDownload:self.releaseDetails];
 #endif
-    } else {
-      MSLogDebug([MSDistribute logTag], @"'Update now' is selected but Distribute was disabled.");
-      [self showDistributeDisabledAlert];
+      } else {
+        MSLogDebug([MSDistribute logTag], @"'Update now' is selected but Distribute was disabled.");
+        [self showDistributeDisabledAlert];
+      }
+      break;
+    case MSUpdateActionPostpone:
+      MSLogDebug([MSDistribute logTag], @"The SDK will ask for the update again tomorrow.");
+      [MS_USER_DEFAULTS setObject:@((long long)[MSUtility nowInMilliseconds]) forKey:kMSPostponedTimestampKey];
+      break;
     }
-    break;
-  case MSUpdateActionPostpone:
-    MSLogDebug([MSDistribute logTag], @"The SDK will ask the update tomorrow again.");
-    [MS_USER_DEFAULTS setObject:@((long long)[MSUtility nowInMilliseconds]) forKey:kMSPostponedTimestampKey];
-    break;
-  }
 
-  // The release details have been processed. Clean up the variable.
-  self.releaseDetails = nil;
+    // The release details have been processed. Clean up the variable.
+    self.updateFlowInProgress = NO;
+    self.releaseDetails = nil;
+  }
 }
 
 - (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup
                     appSecret:(nullable NSString *)appSecret
       transmissionTargetToken:(nullable NSString *)token
               fromApplication:(BOOL)fromApplication {
-  [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionTargetToken:token fromApplication:fromApplication];
-  MSLogVerbose([MSDistribute logTag], @"Started Distribute service.");
+  if (appSecret) {
+    id<MSHttpClientProtocol> httpClient = [MSDependencyConfiguration httpClient];
+    if (!httpClient) {
+      httpClient = [MSHttpClient new];
+    }
+
+    // Start Ingestion.
+    self.ingestion = [[MSDistributeIngestion alloc] initWithHttpClient:httpClient
+                                                               baseUrl:self.apiUrl
+                                                             appSecret:(NSString * _Nonnull) appSecret];
+
+    // Channel group should be started after Ingestion is ready.
+    [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionTargetToken:token fromApplication:fromApplication];
+    MSLogVerbose([MSDistribute logTag], @"Started Distribute service.");
+  } else {
+    MSLogError([MSDistribute logTag], @"Failed to start Distribute because app secret isn't specified.");
+  }
 }
 
 #pragma mark - Public
@@ -220,6 +259,14 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
 + (void)setDelegate:(id<MSDistributeDelegate>)delegate {
   [[MSDistribute sharedInstance] setDelegate:delegate];
+}
+
++ (void)setUpdateTrack:(MSUpdateTrack)updateTrack {
+  [MSDistribute sharedInstance].updateTrack = updateTrack;
+}
+
++ (MSUpdateTrack)updateTrack {
+  return [MSDistribute sharedInstance].updateTrack;
 }
 
 #pragma mark - Private
@@ -245,7 +292,14 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
       return;
     }
     NSString *distributionGroupId = [MS_USER_DEFAULTS objectForKey:kMSDistributionGroupIdKey];
-    if (updateToken || distributionGroupId) {
+    @synchronized(self) {
+      if (self.updateFlowInProgress) {
+        MSLogDebug([MSDistribute logTag], @"Previous update flow is in progress. Ignore the request.");
+        return;
+      }
+      self.updateFlowInProgress = YES;
+    }
+    if (updateToken || self.updateTrack == MSUpdateTrackPublic) {
       [self checkLatestRelease:updateToken distributionGroupId:distributionGroupId releaseHash:releaseHash];
     } else {
       [self requestInstallInformationWith:releaseHash];
@@ -340,127 +394,116 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
         [MS_USER_DEFAULTS removeObjectForKey:kMSMandatoryReleaseKey];
       }
     }
-    if (self.ingestion == nil) {
-      NSMutableDictionary *queryStrings = [[NSMutableDictionary alloc] init];
-      NSMutableDictionary *reportingParametersForUpdatedRelease = [self getReportingParametersForUpdatedRelease:updateToken
-                                                                                    currentInstalledReleaseHash:releaseHash
-                                                                                            distributionGroupId:distributionGroupId];
-      if (reportingParametersForUpdatedRelease != nil) {
-        [queryStrings addEntriesFromDictionary:reportingParametersForUpdatedRelease];
+
+    // Handle update.
+    __weak typeof(self) weakSelf = self;
+    MSSendAsyncCompletionHandler completionHandler =
+        ^(__unused NSString *callId, NSHTTPURLResponse *response, NSData *data, __unused NSError *error) {
+          typeof(self) strongSelf = weakSelf;
+          if (!strongSelf) {
+            return;
+          }
+
+          // Ignore the response if the service is disabled.
+          if (![strongSelf isEnabled]) {
+            return;
+          }
+
+          // Error instance for JSON parsing.
+          NSError *jsonError = nil;
+
+          // Success.
+          if (response.statusCode == MSHTTPCodesNo200OK) {
+            MSReleaseDetails *details = nil;
+            if (data) {
+              id dictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&jsonError];
+              if (jsonError) {
+                MSLogError([MSDistribute logTag], @"Couldn't parse json data: %@", jsonError.localizedDescription);
+              }
+              details = [[MSReleaseDetails alloc] initWithDictionary:dictionary];
+            }
+            if (!details) {
+              MSLogError([MSDistribute logTag], @"Couldn't parse response payload.");
+              strongSelf.updateFlowInProgress = NO;
+            } else {
+
+              // Check if downloaded release was installed and remove stored release details.
+              [self removeDownloadedReleaseDetailsIfUpdated:releaseHash];
+
+              // If there is not already a saved public distribution group, process it now.
+              NSString *existingDistributionGroupId = [MS_USER_DEFAULTS objectForKey:kMSDistributionGroupIdKey];
+              if (!existingDistributionGroupId && details.distributionGroupId) {
+                [self processDistributionGroupId:details.distributionGroupId];
+              }
+
+              /*
+               * Handle this update.
+               *
+               * NOTE: There is one glitch when this release is the same than the currently displayed mandatory release. In this case
+               * the current UI will be dismissed then redisplayed with the same UI content. This is an edge case since it's only
+               * happening if there was no network at app start then network came back along with the same mandatory release from the
+               * server. In addition to that and even though the releases are the same, the URL links generated by the server will be
+               * different.
+               * Thus, there is the overhead of updating the currently displayed download action with the new URL. In the end fixing
+               * this edge case adds too much complexity for no worthy advantages, keeping it as it is for now.
+               */
+              if (![strongSelf handleUpdate:details]) {
+                strongSelf.updateFlowInProgress = NO;
+              }
+            }
+          }
+
+          // Failure.
+          else {
+            MSLogError([MSDistribute logTag], @"Failed to get an update response, status code: %tu", response.statusCode);
+
+            // Check the status code to clean up Distribute data for an unrecoverable error.
+            if (![MSHttpUtil isRecoverableError:response.statusCode]) {
+
+              // Deserialize payload to check if it contains error details.
+              MSErrorDetails *details = nil;
+              if (data) {
+                id dictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&jsonError];
+                if (dictionary) {
+                  details = [[MSErrorDetails alloc] initWithDictionary:dictionary];
+                }
+              }
+
+              // If the response payload is MSErrorDetails, consider it as a recoverable error.
+              if (!details || ![kMSErrorCodeNoReleasesForUser isEqualToString:details.code]) {
+                [MSKeychainUtil deleteStringForKey:kMSUpdateTokenKey];
+                [MS_USER_DEFAULTS removeObjectForKey:kMSSDKHasLaunchedWithDistribute];
+                [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateTokenRequestIdKey];
+                [MS_USER_DEFAULTS removeObjectForKey:kMSPostponedTimestampKey];
+                [MS_USER_DEFAULTS removeObjectForKey:kMSDistributionGroupIdKey];
+                [self.distributeInfoTracker removeDistributionGroupId];
+              }
+            }
+
+            // Reset the flag after handling the failure.
+            strongSelf.updateFlowInProgress = NO;
+          }
+        };
+
+    // Build query strings.
+    NSMutableDictionary *queryStrings = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *reportingParametersForUpdatedRelease =
+        [self getReportingParametersForUpdatedRelease:(self.updateTrack == MSUpdateTrackPublic)
+                          currentInstalledReleaseHash:releaseHash
+                                  distributionGroupId:distributionGroupId];
+    if (reportingParametersForUpdatedRelease != nil) {
+      [queryStrings addEntriesFromDictionary:reportingParametersForUpdatedRelease];
+    }
+    queryStrings[kMSURLQueryReleaseHashKey] = releaseHash;
+
+    if (self.updateTrack == MSUpdateTrackPrivate) {
+      if (updateToken) {
+        [self.ingestion checkForPrivateUpdateWithUpdateToken:updateToken queryStrings:queryStrings completionHandler:completionHandler];
+      } else {
+        MSLogError([MSDistribute logTag], @"Update token is missing. Please authenticate Distribute first.");
       }
-      queryStrings[kMSURLQueryReleaseHashKey] = releaseHash;
-      id<MSHttpClientProtocol> httpClient = [MSDependencyConfiguration httpClient];
-      if (!httpClient) {
-        httpClient = [MSHttpClient new];
-      }
-      self.ingestion = [[MSDistributeIngestion alloc] initWithHttpClient:httpClient
-                                                                 baseUrl:self.apiUrl
-                                                               appSecret:self.appSecret
-                                                             updateToken:updateToken
-                                                     distributionGroupId:distributionGroupId
-                                                            queryStrings:queryStrings];
-      __weak typeof(self) weakSelf = self;
-      [self.ingestion sendAsync:nil
-              completionHandler:^(__unused NSString *callId, NSHTTPURLResponse *response, NSData *data, __unused NSError *error) {
-                typeof(self) strongSelf = weakSelf;
-                if (!strongSelf) {
-                  return;
-                }
-
-                // Release ingestion instance.
-                strongSelf.ingestion = nil;
-
-                // Ignore the response if the service is disabled.
-                if (![strongSelf isEnabled]) {
-                  return;
-                }
-
-                // Error instance for JSON parsing.
-                NSError *jsonError = nil;
-
-                // Success.
-                if (response.statusCode == MSHTTPCodesNo200OK) {
-                  MSReleaseDetails *details = nil;
-                  if (data) {
-                    id dictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&jsonError];
-                    if (jsonError) {
-                      MSLogError([MSDistribute logTag], @"Couldn't parse json data: %@", jsonError.localizedDescription);
-                    }
-                    details = [[MSReleaseDetails alloc] initWithDictionary:dictionary];
-                  }
-                  if (!details) {
-                    MSLogError([MSDistribute logTag], @"Couldn't parse response payload.");
-                  } else {
-
-                    // Check if downloaded release was installed and remove stored
-                    // release details.
-                    [self removeDownloadedReleaseDetailsIfUpdated:releaseHash];
-
-                    /*
-                     * Handle this update.
-                     *
-                     * NOTE: There is one glitch when this release is the same than the currently displayed mandatory release. In this case
-                     * the current UI will be dismissed then redisplayed with the same UI content. This is an edge case since it's only
-                     * happening if there was no network at app start then network came back along with the same mandatory release from the
-                     * server. In addition to that and even though the releases are the same, the URL links generated by the server will be
-                     * different.
-                     * Thus, there is the overhead of updating the currently displayed download action with the new URL. In the end fixing
-                     * this edge case adds too much complexity for no worthy advantages, keeping it as it is for now.
-                     */
-                    [strongSelf handleUpdate:details];
-                  }
-                }
-
-                // Failure.
-                else {
-                  MSLogDebug([MSDistribute logTag], @"Failed to get an update response, status code: %tu", response.statusCode);
-                  NSString *jsonString = nil;
-                  id dictionary = nil;
-
-                  // Failure can deliver empty payload.
-                  if (data) {
-                    dictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&jsonError];
-
-                    // Failure can deliver non-JSON format of payload.
-                    if (!jsonError) {
-                      NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary
-                                                                         options:NSJSONWritingPrettyPrinted
-                                                                           error:&jsonError];
-                      if (jsonData && !jsonError) {
-
-                        // NSJSONSerialization escapes paths by default so we replace them.
-                        jsonString = [[[NSString alloc] initWithData:jsonData
-                                                            encoding:NSUTF8StringEncoding] stringByReplacingOccurrencesOfString:@"\\/"
-                                                                                                                     withString:@"/"];
-                      }
-                    }
-                  }
-
-                  // Check the status code to clean up Distribute data for an unrecoverable error.
-                  if (![MSHttpUtil isRecoverableError:response.statusCode]) {
-
-                    // Deserialize payload to check if it contains error details.
-                    MSErrorDetails *details = nil;
-                    if (dictionary) {
-                      details = [[MSErrorDetails alloc] initWithDictionary:dictionary];
-                    }
-
-                    // If the response payload is MSErrorDetails, consider it as a recoverable error.
-                    if (!details || ![kMSErrorCodeNoReleasesForUser isEqualToString:details.code]) {
-                      [MSKeychainUtil deleteStringForKey:kMSUpdateTokenKey];
-                      [MS_USER_DEFAULTS removeObjectForKey:kMSSDKHasLaunchedWithDistribute];
-                      [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateTokenRequestIdKey];
-                      [MS_USER_DEFAULTS removeObjectForKey:kMSPostponedTimestampKey];
-                      [MS_USER_DEFAULTS removeObjectForKey:kMSDistributionGroupIdKey];
-                      [self.distributeInfoTracker removeDistributionGroupId];
-                    }
-                  }
-                  if (!jsonString && data) {
-                    jsonString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-                  }
-                  MSLogError([MSDistribute logTag], @"Response:\n%@", jsonString ? jsonString : @"No payload");
-                }
-              }];
+    } else {
+      [self.ingestion checkForPublicUpdateWithQueryStrings:queryStrings completionHandler:completionHandler];
     }
   } else {
 
@@ -471,6 +514,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                                       @"3. The app is running in a non-adhoc environment. "
                                       @"Detach the debugger and restart the app and/or run the app with the release configuration "
                                       @"to enable the feature.");
+    self.updateFlowInProgress = NO;
   }
 }
 
@@ -513,8 +557,8 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
   // Check URL validity so far.
   if (!components) {
-    NSString *hideUrl = [urlString stringByReplacingOccurrencesOfString:appSecret withString:[MSHttpUtil hideSecret:urlString]];
-    MSLogError([MSDistribute logTag], kMSUpdateTokenURLInvalidErrorDescFormat, hideUrl);
+    NSString *obfuscatedUrl = [urlString stringByReplacingOccurrencesOfString:appSecret withString:[MSHttpUtil hideSecret:urlString]];
+    MSLogError([MSDistribute logTag], kMSUpdateTokenURLInvalidErrorDescFormat, obfuscatedUrl);
     return nil;
   }
 
@@ -568,9 +612,9 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 }
 
 - (void)openURLInAuthenticationSessionWith:(NSURL *)url API_AVAILABLE(ios(11)) {
-  NSString *hideUrl = [url.absoluteString stringByReplacingOccurrencesOfString:self.appSecret
-                                                                    withString:[MSHttpUtil hideSecret:url.absoluteString]];
-  MSLogDebug([MSDistribute logTag], @"Using SFAuthenticationSession to open URL: %@", hideUrl);
+  NSString *obfuscatedUrl = [url.absoluteString stringByReplacingOccurrencesOfString:self.appSecret
+                                                                          withString:[MSHttpUtil hideSecret:url.absoluteString]];
+  MSLogDebug([MSDistribute logTag], @"Using SFAuthenticationSession to open URL: %@", obfuscatedUrl);
   NSString *callbackUrlScheme = [NSString stringWithFormat:kMSDefaultCustomSchemeFormat, self.appSecret];
 
   // The completion block that we need to invoke.
@@ -590,6 +634,8 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     }
     if (callbackUrl) {
       [strongSelf openURL:callbackUrl];
+    } else {
+      self.updateFlowInProgress = NO;
     }
     [[MSUtility sharedApp] endBackgroundTask:backgroundAuthSessionTask];
   };
@@ -615,6 +661,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     MSLogDebug([MSDistribute logTag], @"Authentication session started, showing confirmation dialog.");
   } else {
     MSLogError([MSDistribute logTag], @"Failed to start authentication session.");
+    self.updateFlowInProgress = NO;
   }
 }
 
@@ -784,7 +831,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   [MS_USER_DEFAULTS removeObjectForKey:kMSDownloadedReleaseHashKey];
 }
 
-- (nullable NSMutableDictionary *)getReportingParametersForUpdatedRelease:(NSString *)updateToken
+- (nullable NSMutableDictionary *)getReportingParametersForUpdatedRelease:(BOOL)isPublic
                                               currentInstalledReleaseHash:(NSString *)currentInstalledReleaseHash
                                                       distributionGroupId:(NSString *)distributionGroupId {
 
@@ -804,9 +851,8 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   // Return reporting parameters.
   MSLogDebug([MSDistribute logTag], @"Current release was updated but not reported yet, reporting.");
   NSMutableDictionary *reportingParameters = [[NSMutableDictionary alloc] init];
-  if (updateToken) {
-    reportingParameters[kMSURLQueryDistributionGroupIdKey] = distributionGroupId;
-  } else {
+  reportingParameters[kMSURLQueryDistributionGroupIdKey] = distributionGroupId;
+  if (isPublic) {
     reportingParameters[kMSURLQueryInstallIdKey] = [[MSAppCenter installId] UUIDString];
   }
   NSString *lastDownloadedReleaseId = [MS_USER_DEFAULTS objectForKey:kMSDownloadedReleaseIdKey];
@@ -883,6 +929,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                                             * release notes.
                                             */
                                            self.releaseDetails = nil;
+                                           self.updateFlowInProgress = NO;
                                          }];
     }
 
@@ -1019,7 +1066,6 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     NSString *queryUpdateToken = nil;
     NSString *queryUpdateSetupFailed = nil;
     NSString *queryTesterAppUpdateSetupFailed = nil;
-    NSString *latestSessionId = nil;
     NSURLComponents *components = [NSURLComponents componentsWithURL:url resolvingAgainstBaseURL:NO];
 
     // Read mandatory parameters from URL query string.
@@ -1051,20 +1097,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     // Store distribution group ID.
     if (queryDistributionGroupId) {
       MSLogDebug([MSDistribute logTag], @"Distribution group ID has been successfully retrieved. Store the ID to storage.");
-
-      // Storing the distribution group ID to storage.
-      [MS_USER_DEFAULTS setObject:queryDistributionGroupId forKey:kMSDistributionGroupIdKey];
-
-      // Update distribution group ID which is added to logs.
-      [self.distributeInfoTracker updateDistributionGroupId:queryDistributionGroupId];
-
-      // Only if we have managed to retrieve the Distribution group ID we should update the distribution session count.
-      latestSessionId = [[MSSessionContext sharedInstance] sessionIdAt:[NSDate date]];
-
-      // If Analytics SDK is disabled session Id is null and there is no need to update the distribution session count.
-      if (latestSessionId) {
-        [self sendFirstSessionUpdateLog];
-      }
+      [self processDistributionGroupId:queryDistributionGroupId];
     }
 
     /*
@@ -1107,14 +1140,57 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   return YES;
 }
 
-- (void)applicationWillEnterForeground {
+- (void)processDistributionGroupId:(NSString *)queryDistributionGroupId {
+
+  // Storing the distribution group ID to storage.
+  [MS_USER_DEFAULTS setObject:queryDistributionGroupId forKey:kMSDistributionGroupIdKey];
+
+  // Update distribution group ID which is added to logs.
+  [self.distributeInfoTracker updateDistributionGroupId:queryDistributionGroupId];
+
+  // Only if we have managed to retrieve the Distribution group ID we should update the distribution session count.
+  NSString *latestSessionId = [[MSSessionContext sharedInstance] sessionIdAt:[NSDate date]];
+
+  // If Analytics SDK is disabled session Id is null and there is no need to update the distribution session count.
+  if (latestSessionId) {
+    [self sendFirstSessionUpdateLog];
+  }
+}
+
+- (void)setUpdateTrack:(MSUpdateTrack)updateTrack {
+  @synchronized(self) {
+    if (self.started) {
+      MSLogError([MSDistribute logTag], @"Update track cannot be set after Distribute is started.");
+      return;
+    } else if (![MSDistributeUtil isValidUpdateTrack:updateTrack]) {
+      MSLogError([MSDistribute logTag], @"Invalid argument passed to updateTrack.");
+      return;
+    }
+    _updateTrack = updateTrack;
+  }
+}
+
+- (MSUpdateTrack)updateTrack {
+  @synchronized(self) {
+    return _updateTrack;
+  }
+}
+
+- (void)applicationDidBecomeActive {
   if (self.canBeUsed && self.isEnabled && ![MS_USER_DEFAULTS objectForKey:kMSUpdateTokenRequestIdKey]) {
     [self startUpdate];
   }
 }
 
 - (void)dealloc {
-  [MS_NOTIFICATION_CENTER removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
+  [MS_NOTIFICATION_CENTER removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
+}
+
++ (void)resetSharedInstance {
+
+  // Reset the onceToken so dispatch_once will run again.
+  onceToken = 0;
+  sharedInstance = nil;
 }
 
 @end

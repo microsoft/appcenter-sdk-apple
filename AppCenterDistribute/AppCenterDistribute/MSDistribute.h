@@ -11,6 +11,37 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface MSDistribute : MSServiceAbstract
 
+typedef NS_ENUM(NSInteger, MSUpdateAction) {
+
+  /**
+   * Action to trigger update.
+   */
+  MSUpdateActionUpdate,
+
+  /**
+   * Action to postpone update.
+   */
+  MSUpdateActionPostpone
+};
+
+typedef NS_ENUM(NSInteger, MSUpdateTrack) {
+
+  /**
+   * An update track for tracking public updates.
+   */
+  MSUpdateTrackPublic = 1,
+
+  /**
+   * An update track for tracking updates sent to private groups.
+   */
+  MSUpdateTrackPrivate = 2
+};
+
+/**
+ * Update track.
+ */
+@property(class, nonatomic) MSUpdateTrack updateTrack;
+
 /**
  * Set a Distribute delegate
  *

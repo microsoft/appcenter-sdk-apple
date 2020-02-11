@@ -35,6 +35,11 @@ static NSString *const kMSUpdateTokenKey = @"MSUpdateToken";
  */
 @property(nonatomic, nullable) MSDistributeIngestion *ingestion;
 
+/**
+ * A flag that indicates whether update flow is in progress or not.
+ */
+@property(atomic) BOOL updateFlowInProgress;
+
 @end
 
 NS_ASSUME_NONNULL_END

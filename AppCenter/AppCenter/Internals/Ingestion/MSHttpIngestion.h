@@ -79,6 +79,17 @@ static NSString *const kMSETagRequestHeader = @"If-None-Match";
  */
 - (NSString *)getHttpMethod;
 
+/**
+ * Build a new URL with the given values.
+ *
+ * @param baseURL Base URL for Ingestion endpoint.
+ * @param apiPath A path for an API.
+ * @param queryStrings An array of query strings.
+ *
+ * @return A complete URL with the given values.
+ */
+- (NSURL *)buildURLWithBaseURL:(NSString *)baseURL apiPath:(NSString *)apiPath queryStrings:(NSDictionary *)queryStrings;
+
 @end
 
 NS_ASSUME_NONNULL_END
