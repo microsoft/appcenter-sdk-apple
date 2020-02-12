@@ -8,6 +8,7 @@
 @interface MSDistributeCheckForUpdateTests : XCTestCase
 
 @property(nonatomic) id settingsMock;
+@property(nonatomic) id bundleMock;
 
 @end
 
@@ -16,16 +17,23 @@
 - (void)setUp {
   [super setUp];
   self.settingsMock = [MSMockUserDefaults new];
+  
+  // Mock NSBundle
+  self.bundleMock = OCMClassMock([NSBundle class]);
+  OCMStub([self.bundleMock mainBundle]).andReturn(self.bundleMock);
 }
 
 - (void)tearDown {
   [super tearDown];
   [self.settingsMock stopMocking];
+  [self.bundleMock stopMocking];
 }
 
 - (void)testCheckForUpdateAuthenticateWhenItHasNotAuthenticated {
   
   // If
+  NSDictionary<NSString *, id> *plist = @{@"CFBundleShortVersionString" : @"1.0", @"CFBundleVersion" : @"1"};
+  OCMStub([self.bundleMock infoDictionary]).andReturn(plist);
   MSDistribute *distribute = [MSDistribute new];
   id distributeMock = OCMPartialMock(distribute);
   OCMStub([distributeMock canBeUsed]).andReturn(YES);
