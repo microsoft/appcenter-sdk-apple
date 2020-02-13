@@ -91,21 +91,9 @@ static NSString *const kMSTestAppSecret = @"IAMSECRET";
 - (void)testCheckForUpdateDoesNotOpenBrowserOrTesterAppAtStartWhenDisabled {
 
   // If
-  id reachabilityMock = OCMClassMock([MS_Reachability class]);
-  OCMStub([reachabilityMock reachabilityForInternetConnection]).andReturn(reachabilityMock);
-  OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(ReachableViaWiFi);
-  id appCenterMock = OCMClassMock([MSAppCenter class]);
-  OCMStub([appCenterMock isConfigured]).andReturn(YES);
-  id guidedAccessMock = OCMClassMock([MSGuidedAccessUtil class]);
-  OCMStub([guidedAccessMock isGuidedAccessEnabled]).andReturn(NO);
-  OCMStub([appCenterMock isDebuggerAttached]).andReturn(NO);
-  NSDictionary<NSString *, id> *plist = @{@"CFBundleShortVersionString" : @"1.0", @"CFBundleVersion" : @"1"};
   id utilityMock = OCMClassMock([MSUtility class]);
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wcast-qual"
   OCMStub(ClassMethod([utilityMock sha256:OCMOCK_ANY])).andReturn(@"RELEASEHASH");
-#pragma GCC diagnostic pop
-  OCMStub([utilityMock currentAppEnvironment]).andReturn(MSEnvironmentOther);
+  NSDictionary<NSString *, id> *plist = @{@"CFBundleShortVersionString" : @"1.0", @"CFBundleVersion" : @"1"};
   id bundleMock = OCMClassMock([NSBundle class]);
   OCMStub([bundleMock mainBundle]).andReturn(bundleMock);
   OCMStub([bundleMock infoDictionary]).andReturn(plist);
@@ -113,23 +101,18 @@ static NSString *const kMSTestAppSecret = @"IAMSECRET";
   OCMStub([parserMock machOParserForMainBundle]).andReturn(parserMock);
   OCMStub([parserMock uuid]).andReturn([[NSUUID alloc] initWithUUIDString:@"CD55E7A9-7AD1-4CA6-B722-3D133F487DA9"]);
   MSDistribute *distribute = [MSDistribute new];
-  id distributeMock = OCMPartialMock(distribute);
-  OCMStub([distributeMock sharedInstance]).andReturn(distributeMock);
-  OCMStub([distributeMock buildTokenRequestURLWithAppSecret:OCMOCK_ANY releaseHash:OCMOCK_ANY isTesterApp:false])
-      .andReturn([NSURL URLWithString:@"https://some_url"]);
-  OCMStub([distributeMock buildTokenRequestURLWithAppSecret:OCMOCK_ANY releaseHash:OCMOCK_ANY isTesterApp:true])
-      .andReturn([NSURL URLWithString:@"some_url://"]);
+  __block id distributeMock = OCMPartialMock(distribute);
   OCMReject([distributeMock openUrlUsingSharedApp:OCMOCK_ANY]);
   OCMReject([distributeMock openUrlInAuthenticationSessionOrSafari:OCMOCK_ANY]);
   XCTestExpectation *expectation = [self expectationWithDescription:@"Start update processed"];
 
   // When
-  MSDistribute.updateTrack = MSUpdateTrackPrivate;
-  [MSDistribute configure:MSDistributeFlagsDisableAutomaticCheckForUpdate];
-  [distributeMock startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
-                              appSecret:kMSTestAppSecret
-                transmissionTargetToken:nil
-                        fromApplication:YES];
+  distribute.updateTrack = MSUpdateTrackPrivate;
+  [distribute configure:MSDistributeFlagsDisableAutomaticCheckForUpdate];
+  [distribute startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
+                          appSecret:kMSTestAppSecret
+            transmissionTargetToken:nil
+                    fromApplication:YES];
   dispatch_async(dispatch_get_main_queue(), ^{
     [expectation fulfill];
   });
@@ -139,6 +122,7 @@ static NSString *const kMSTestAppSecret = @"IAMSECRET";
                                handler:^(NSError *error) {
                                  // Then
                                  OCMVerifyAll(distributeMock);
+                                 XCTAssertFalse(distribute.updateFlowInProgress);
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
@@ -149,9 +133,6 @@ static NSString *const kMSTestAppSecret = @"IAMSECRET";
   [parserMock stopMocking];
   [bundleMock stopMocking];
   [utilityMock stopMocking];
-  [guidedAccessMock stopMocking];
-  [appCenterMock stopMocking];
-  [reachabilityMock stopMocking];
 }
 
 @end
