@@ -102,7 +102,12 @@ static NSString *const kMSTestAppSecret = @"IAMSECRET";
   OCMStub([parserMock uuid]).andReturn([[NSUUID alloc] initWithUUIDString:@"CD55E7A9-7AD1-4CA6-B722-3D133F487DA9"]);
   MSDistribute *distribute = [MSDistribute new];
   __block id distributeMock = OCMPartialMock(distribute);
-  OCMReject([distributeMock openUrlUsingSharedApp:OCMOCK_ANY]);
+  OCMStub([distributeMock checkForUpdatesAllowed]).andReturn(YES);
+  OCMStub([distributeMock buildTokenRequestURLWithAppSecret:OCMOCK_ANY releaseHash:OCMOCK_ANY isTesterApp:false])
+  .andReturn([NSURL URLWithString:@"https://some_url"]);
+  OCMStub([distributeMock buildTokenRequestURLWithAppSecret:OCMOCK_ANY releaseHash:OCMOCK_ANY isTesterApp:true])
+  .andReturn([NSURL URLWithString:@"some_url://"]);
+  OCMStub([distributeMock openUrlUsingSharedApp:OCMOCK_ANY]).andReturn(NO);
   OCMReject([distributeMock openUrlInAuthenticationSessionOrSafari:OCMOCK_ANY]);
   XCTestExpectation *expectation = [self expectationWithDescription:@"Start update processed"];
 
