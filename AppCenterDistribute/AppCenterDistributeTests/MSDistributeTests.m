@@ -1534,6 +1534,7 @@ static NSURL *sfURL;
   OCMStub([distributeMock buildTokenRequestURLWithAppSecret:OCMOCK_ANY releaseHash:OCMOCK_ANY isTesterApp:true])
       .andReturn([NSURL URLWithString:@"some_url://"]);
   OCMStub([distributeMock openUrlUsingSharedApp:OCMOCK_ANY]).andReturn(YES);
+  OCMReject([distributeMock openUrlInAuthenticationSessionOrSafari:OCMOCK_ANY]);
   XCTestExpectation *expectation = [self expectationWithDescription:@"Start update processed"];
 
   // When
@@ -1558,7 +1559,6 @@ static NSURL *sfURL;
                                handler:^(NSError *error) {
                                  // Then
                                  OCMVerify([distributeMock openUrlUsingSharedApp:OCMOCK_ANY]);
-                                 OCMReject([distributeMock openUrlInAuthenticationSessionOrSafari:OCMOCK_ANY]);
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
