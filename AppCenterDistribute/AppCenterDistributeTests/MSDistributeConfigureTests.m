@@ -94,13 +94,6 @@ static NSString *const kMSTestAppSecret = @"IAMSECRET";
   id reachabilityMock = OCMClassMock([MS_Reachability class]);
   OCMStub([reachabilityMock reachabilityForInternetConnection]).andReturn(reachabilityMock);
   OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(ReachableViaWiFi);
-  MSDistribute *distribute = [MSDistribute new];
-  id distributeMock = OCMPartialMock(distribute);
-  OCMStub([distributeMock sharedInstance]).andReturn(distributeMock);
-  OCMStub([distributeMock buildTokenRequestURLWithAppSecret:OCMOCK_ANY releaseHash:OCMOCK_ANY isTesterApp:false])
-      .andReturn([NSURL URLWithString:@"https://some_url"]);
-  OCMStub([distributeMock buildTokenRequestURLWithAppSecret:OCMOCK_ANY releaseHash:OCMOCK_ANY isTesterApp:true])
-      .andReturn([NSURL URLWithString:@"some_url://"]);
   id appCenterMock = OCMClassMock([MSAppCenter class]);
   OCMStub([appCenterMock isConfigured]).andReturn(YES);
   id guidedAccessMock = OCMClassMock([MSGuidedAccessUtil class]);
@@ -119,6 +112,13 @@ static NSString *const kMSTestAppSecret = @"IAMSECRET";
   id parserMock = OCMClassMock([MSBasicMachOParser class]);
   OCMStub([parserMock machOParserForMainBundle]).andReturn(parserMock);
   OCMStub([parserMock uuid]).andReturn([[NSUUID alloc] initWithUUIDString:@"CD55E7A9-7AD1-4CA6-B722-3D133F487DA9"]);
+  MSDistribute *distribute = [MSDistribute new];
+  id distributeMock = OCMPartialMock(distribute);
+  OCMStub([distributeMock sharedInstance]).andReturn(distributeMock);
+  OCMStub([distributeMock buildTokenRequestURLWithAppSecret:OCMOCK_ANY releaseHash:OCMOCK_ANY isTesterApp:false])
+      .andReturn([NSURL URLWithString:@"https://some_url"]);
+  OCMStub([distributeMock buildTokenRequestURLWithAppSecret:OCMOCK_ANY releaseHash:OCMOCK_ANY isTesterApp:true])
+      .andReturn([NSURL URLWithString:@"some_url://"]);
   OCMReject([distributeMock openUrlUsingSharedApp:OCMOCK_ANY]);
   OCMReject([distributeMock openUrlInAuthenticationSessionOrSafari:OCMOCK_ANY]);
   XCTestExpectation *expectation = [self expectationWithDescription:@"Start update processed"];
@@ -144,11 +144,11 @@ static NSString *const kMSTestAppSecret = @"IAMSECRET";
                                }];
 
   // Cleanup
+  [distributeMock stopMocking];
   [parserMock stopMocking];
   [bundleMock stopMocking];
   [utilityMock stopMocking];
   [guidedAccessMock stopMocking];
-  [distributeMock stopMocking];
   [appCenterMock stopMocking];
   [reachabilityMock stopMocking];
 }
