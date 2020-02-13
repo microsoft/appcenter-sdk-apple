@@ -1559,6 +1559,7 @@ static NSURL *sfURL;
                                handler:^(NSError *error) {
                                  // Then
                                  OCMVerify([distributeMock openUrlUsingSharedApp:OCMOCK_ANY]);
+                                 OCMVerifyAll(distributeMock);
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
