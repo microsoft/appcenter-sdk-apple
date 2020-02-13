@@ -137,7 +137,8 @@ static NSString *const kMSTestAppSecret = @"IAMSECRET";
   // Then
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {
-                                 // OCMReject needs to be declared in // if, that's the checks.
+                                 // Then
+                                 OCMVerifyAll(distributeMock);
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
