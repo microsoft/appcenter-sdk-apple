@@ -315,6 +315,14 @@ static dispatch_once_t onceToken;
 
 - (void)requestInstallInformationWith:(NSString *)releaseHash {
 
+  // Browser won't open at start if check for update was not requested or if automatic checks are disabled.
+  if ((self.distributeFlags & MSDistributeFlagsDisableAutomaticCheckForUpdate) == MSDistributeFlagsDisableAutomaticCheckForUpdate) {
+    MSLogInfo([MSDistribute logTag],
+              @"Automatic checkForUpdate is disabled. The SDK will try to get an update token the first time checkForUpdate is called.");
+    self.updateFlowInProgress = NO;
+    return;
+  }
+
   // Check if it's okay to check for updates.
   if ([self checkForUpdatesAllowed]) {
 
