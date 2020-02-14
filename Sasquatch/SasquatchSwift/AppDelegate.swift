@@ -72,6 +72,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
        let updateTrack = MSUpdateTrack(rawValue: updateTrackValue) {
         MSDistribute.updateTrack = updateTrack
     }
+    if UserDefaults.standard.bool(forKey: kSASCustomizedUpdateAlertKey) {
+        //MSDistribute.disableAutomaticCheckForUpdate()
+    }
 
     // Start App Center SDK.
     let services = [MSAnalytics.self, MSCrashes.self, MSDistribute.self, MSPush.self]

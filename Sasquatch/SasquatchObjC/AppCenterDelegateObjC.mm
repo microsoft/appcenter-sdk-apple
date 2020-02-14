@@ -210,6 +210,15 @@
   }
 }
 
+- (void)checkForUpdate {
+  if ([MSDistribute respondsToSelector:@selector(sharedInstance)]) {
+    id distributeInstance = [MSDistribute performSelector:@selector(sharedInstance)];
+    if ([distributeInstance respondsToSelector:@selector(checkForUpdate)]) {
+      [distributeInstance performSelector:@selector(checkForUpdate)];
+    }
+  }
+}
+
 #pragma mark - Last crash report section.
 
 - (NSString *)lastCrashReportIncidentIdentifier {

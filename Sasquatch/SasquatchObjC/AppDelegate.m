@@ -119,6 +119,9 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
   if (updateTrack) {
     MSDistribute.updateTrack = updateTrack;
   }
+  if ([[[NSUserDefaults new] objectForKey:kSASAutomaticCheckForUpdateDisabledKey] isEqual:@1]) {
+    //MSDistribute.disableAutomaticCheckForUpdate();
+  }
 
   // Start App Center SDK.
   NSArray<Class> *services = @ [[MSAnalytics class], [MSCrashes class], [MSDistribute class], [MSPush class]];

@@ -42,6 +42,7 @@ class MSDistributeViewController: UITableViewController, AppCenterProtocol {
   override func viewDidLoad() {
     super.viewDidLoad()
     self.customized.isOn = UserDefaults.init().bool(forKey: kSASCustomizedUpdateAlertKey)
+    self.customized.isOn = UserDefaults.init().bool(forKey: kSASAutomaticCheckForUpdateDisabledKey)
     preparePickers()
     self.updateTrack = UpdateTrack.getSelf(by: MSDistribute.updateTrack)
   }
@@ -65,6 +66,10 @@ class MSDistributeViewController: UITableViewController, AppCenterProtocol {
     self.edgesForExtendedLayout = []
   }
   
+  @IBAction func checkForUpdateSwitchUpdated(_ sender: UISwitch) {
+      UserDefaults.init().set(sender.isOn ? true : false, forKey: kSASAutomaticCheckForUpdateDisabledKey)
+  }
+    
   @IBAction func enabledSwitchUpdated(_ sender: UISwitch) {
     appCenter.setDistributeEnabled(sender.isOn)
     sender.isOn = appCenter.isDistributeEnabled()
@@ -72,7 +77,11 @@ class MSDistributeViewController: UITableViewController, AppCenterProtocol {
 
   override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     switch (indexPath.section) {
-      
+    case 0:
+        switch (indexPath.row) {
+        case 2: appCenter.checkForUpdate()
+        default: ()
+        }
     // Section with alerts.
     case 1:
       switch (indexPath.row) {
