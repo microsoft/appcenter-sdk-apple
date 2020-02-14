@@ -1,4 +1,0 @@
-#include "../../../Config/iOS.xcconfig"
-#include "../../../Config/Target config.xcconfig"
-
-OTHER_LDFLAGS=$(inherited) -framework UIKit
