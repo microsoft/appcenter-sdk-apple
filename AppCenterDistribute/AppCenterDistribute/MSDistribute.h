@@ -37,19 +37,6 @@ typedef NS_ENUM(NSInteger, MSUpdateTrack) {
   MSUpdateTrackPrivate = 2
 };
 
-typedef NS_ENUM(NSInteger, MSDistributeFlags) {
-
-  /**
-   * A default flag.
-   */
-  MSDistributeFlagsNone = (0 << 0), // => 00000000
-
-  /**
-   * A flag that disables automatic update check.
-   */
-  MSDistributeFlagsDisableAutomaticCheckForUpdate = (1 << 0) // => 00000001
-};
-
 /**
  * Update track.
  */
@@ -99,11 +86,9 @@ typedef NS_ENUM(NSInteger, MSDistributeFlags) {
 + (BOOL)openURL:(NSURL *)url;
 
 /**
- * Configure Distribute options before the service starts.
- *
- * @param flags Distribute flags. @see MSDistributeFlags
+ * Disable checking the latest release of the application when the SDK starts.
  */
-+ (void)configure:(MSDistributeFlags)flags;
++ (void)disableAutomaticCheckForUpdate;
 
 @end
 

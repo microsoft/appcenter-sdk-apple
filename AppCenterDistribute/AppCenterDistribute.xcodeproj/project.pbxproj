@@ -41,7 +41,7 @@
 		04A140C91ECE89BD001CEE94 /* MSMockUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A140C61ECE89B2001CEE94 /* MSMockUserDefaults.m */; };
 		04DC2EC91E78A3B4003F23B5 /* error_details.json in Resources */ = {isa = PBXBuildFile; fileRef = 04DC2EC81E78A3B4003F23B5 /* error_details.json */; };
 		04DC2ECB1E78A3E3003F23B5 /* MSErrorDetailsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DC2ECA1E78A3E3003F23B5 /* MSErrorDetailsTests.m */; };
-		04E6004E23EE281B00C02E17 /* MSDistributeConfigureTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E6004D23EE281B00C02E17 /* MSDistributeConfigureTests.m */; };
+		04E6004E23EE281B00C02E17 /* MSDistributeCheckForUpdateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E6004D23EE281B00C02E17 /* MSDistributeCheckForUpdateTests.m */; };
 		04FD4A341E453531009B4468 /* MSDistributeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FD4A331E453531009B4468 /* MSDistributeTests.m */; };
 		24E6AC9523A18AC900B8D33A /* MSTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 24E6AC9423A18AC900B8D33A /* MSTestUtil.m */; };
 		24E6AC9823A18BA800B8D33A /* MSMockLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 24E6AC9623A18BA800B8D33A /* MSMockLog.m */; };
@@ -175,7 +175,7 @@
 		04A140C61ECE89B2001CEE94 /* MSMockUserDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSMockUserDefaults.m; path = ../../../AppCenter/AppCenterTests/Util/MSMockUserDefaults.m; sourceTree = "<group>"; };
 		04DC2EC81E78A3B4003F23B5 /* error_details.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = error_details.json; sourceTree = "<group>"; };
 		04DC2ECA1E78A3E3003F23B5 /* MSErrorDetailsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSErrorDetailsTests.m; sourceTree = "<group>"; };
-		04E6004D23EE281B00C02E17 /* MSDistributeConfigureTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSDistributeConfigureTests.m; sourceTree = "<group>"; };
+		04E6004D23EE281B00C02E17 /* MSDistributeCheckForUpdateTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSDistributeCheckForUpdateTests.m; sourceTree = "<group>"; };
 		04FD4A1F1E451E12009B4468 /* AppCenterDistribute.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppCenterDistribute.h; sourceTree = "<group>"; };
 		04FD4A311E453531009B4468 /* AppCenterDistribute.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppCenterDistribute.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		04FD4A331E453531009B4468 /* MSDistributeTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSDistributeTests.m; sourceTree = "<group>"; };
@@ -408,17 +408,17 @@
 		04FD4A321E453531009B4468 /* AppCenterDistributeTests */ = {
 			isa = PBXGroup;
 			children = (
+				78B7D8B623D581B900E08D9B /* MSAlertControllerTests.m */,
 				848860441E6EC32B003A9B96 /* MSBasicMachOParserTests.m */,
 				80324E2F1F4DC81E005F4E11 /* MSDistributeAppDelegateTests.m */,
 				586030B2AAEEE6A568D37CE9 /* MSDistributeInfoTrackerTests.m */,
 				040AF0291E52748D005C1174 /* MSDistributeIngestionTests.m */,
 				9E8E3A38203E68B4001A23FD /* MSDistributionStartSessionLogTest.m */,
+				04E6004D23EE281B00C02E17 /* MSDistributeCheckForUpdateTests.m */,
 				04FD4A331E453531009B4468 /* MSDistributeTests.m */,
-				04E6004D23EE281B00C02E17 /* MSDistributeConfigureTests.m */,
 				B20DE7B61E5F97330023075C /* MSDistributeUtilTests.m */,
 				38A683631E774DCE00A63BC8 /* MSSemVerPreReleaseIdTest.m */,
 				38A683621E774DCE00A63BC8 /* MSSemVerTests.m */,
-				78B7D8B623D581B900E08D9B /* MSAlertControllerTests.m */,
 				04FD4A351E453531009B4468 /* Info.plist */,
 				040AF0101E523AC2005C1174 /* Fixtures */,
 				04FD4A491E453930009B4468 /* Frameworks */,
@@ -801,7 +801,7 @@
 				04A140C91ECE89BD001CEE94 /* MSMockUserDefaults.m in Sources */,
 				38A683651E774DCE00A63BC8 /* MSSemVerPreReleaseIdTest.m in Sources */,
 				80324E301F4DC81F005F4E11 /* MSDistributeAppDelegateTests.m in Sources */,
-				04E6004E23EE281B00C02E17 /* MSDistributeConfigureTests.m in Sources */,
+				04E6004E23EE281B00C02E17 /* MSDistributeCheckForUpdateTests.m in Sources */,
 				78B7D8B723D581B900E08D9B /* MSAlertControllerTests.m in Sources */,
 				848860451E6EC32B003A9B96 /* MSBasicMachOParserTests.m in Sources */,
 				389638A41E79F59D007C3809 /* MSDistributeTestUtil.m in Sources */,
