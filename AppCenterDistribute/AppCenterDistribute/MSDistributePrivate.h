@@ -158,9 +158,9 @@ static NSString *const kMSTesterAppUpdateSetupFailedKey = @"MSTesterAppUpdateSet
 @property(nonatomic) MSUpdateTrack updateTrack;
 
 /**
- * Distribute flags.
+ * A flag to indicate whether automatic update check is disabled on start or not.
  */
-@property(nonatomic) MSDistributeFlags distributeFlags;
+@property(atomic) BOOL automaticCheckForUpdateDisabled;
 
 /**
  * Flag to indicate whether an update was started with a checkForUpdate call.
@@ -186,12 +186,11 @@ static NSString *const kMSTesterAppUpdateSetupFailedKey = @"MSTesterAppUpdateSet
 - (nullable NSURL *)buildTokenRequestURLWithAppSecret:(NSString *)appSecret
                                           releaseHash:(NSString *)releaseHash
                                           isTesterApp:(BOOL)isTesterApp;
+
 /**
- * Configure Distribute options before the service starts.
- *
- * @param flags Distribute flags.
+ * Disable checking the latest release of the application when the SDK starts.
  */
-- (void)configure:(MSDistributeFlags)flags;
+- (void)disableAutomaticCheckForUpdate;
 
 /**
  * Check the latest release of the application.
