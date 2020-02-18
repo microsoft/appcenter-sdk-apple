@@ -1188,10 +1188,10 @@ static dispatch_once_t onceToken;
                   distributionGroupId:(NSString *)distributionGroupId
                           releaseHash:(NSString *)releaseHash {
   if (self.automaticCheckForUpdatesDisabled) {
-    [self checkLatestRelease:updateToken distributionGroupId:distributionGroupId releaseHash:releaseHash];
-  } else {
     MSLogInfo([MSDistribute logTag], @"Automatic checkForUpdate is disabled.");
     self.updateFlowInProgress = NO;
+  } else {
+    [self checkLatestRelease:updateToken distributionGroupId:distributionGroupId releaseHash:releaseHash];
   }
 }
 
@@ -1213,11 +1213,13 @@ static dispatch_once_t onceToken;
 }
 
 + (void)disableAutomaticCheckForUpdates {
-  if (self.started) {
-    MSLogError([MSDistribute logTag], @"Cannot disable automatic check for updates after Distribute is started.");
-    return;
+  @synchronized(self) {
+    if ([MSDistribute sharedInstance].started) {
+      MSLogError([MSDistribute logTag], @"Cannot disable automatic check for updates after Distribute is started.");
+      return;
+    }
+    [MSDistribute sharedInstance].automaticCheckForUpdatesDisabled = YES;
   }
-  self.automaticCheckForUpdatesDisabled = YES;
 }
 
 @end
