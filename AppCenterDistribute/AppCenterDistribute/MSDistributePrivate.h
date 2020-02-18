@@ -183,7 +183,7 @@ static NSString *const kMSTesterAppUpdateSetupFailedKey = @"MSTesterAppUpdateSet
                                           isTesterApp:(BOOL)isTesterApp;
 
 /**
- * Instance method to disable automatic updates check on Distribute start.
+ * Disable checking the latest release of the application when the SDK starts.
  */
 - (void)disableAutomaticCheckForUpdate;
 

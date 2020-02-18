@@ -15,7 +15,7 @@ static NSString *const kMSTestAppSecret = @"IAMSECRET";
 
 @implementation MSDistributeCheckForUpdateTests
 
-- (void)tearDown {
+- (void)setUp {
   [MSDistribute resetSharedInstance];
 }
 
