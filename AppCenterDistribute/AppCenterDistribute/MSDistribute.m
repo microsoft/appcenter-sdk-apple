@@ -270,7 +270,7 @@ static dispatch_once_t onceToken;
 }
 
 + (void)disableAutomaticCheckForUpdates {
-  [sharedInstance disableAutomaticCheckForUpdates];
+  [[MSDistribute sharedInstance] disableAutomaticCheckForUpdates];
 }
 
 #pragma mark - Private
