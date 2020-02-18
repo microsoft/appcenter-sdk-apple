@@ -183,6 +183,11 @@ static NSString *const kMSTesterAppUpdateSetupFailedKey = @"MSTesterAppUpdateSet
                                           isTesterApp:(BOOL)isTesterApp;
 
 /**
+ * Instance method to disable automatic updates check on Distribute start.
+ */
+- (void)disableAutomaticCheckForUpdates;
+
+/**
  * Check the latest release of the application.
  *
  * @param updateToken The update token stored in keychain. This value can be nil if it is public distribution.
@@ -363,11 +368,6 @@ static NSString *const kMSTesterAppUpdateSetupFailedKey = @"MSTesterAppUpdateSet
  * Method to reset the singleton when running tests only. So calling sharedInstance returns a fresh instance.
  */
 + (void)resetSharedInstance;
-
-/**
- * Instance method to disable automatic updates check on Distribute start.
- */
-- (void)instanceDisableAutomaticCheckForUpdates;
 
 @end
 

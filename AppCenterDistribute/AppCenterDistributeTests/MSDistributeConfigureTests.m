@@ -18,7 +18,7 @@ static NSString *const kMSTestAppSecret = @"IAMSECRET";
 - (void)testDisableAutomaticCheckForUpdateBeforeStart {
 
   // If
-  MSDistribute* distribute = [MSDistribute sharedInstance];
+  MSDistribute *distribute = [MSDistribute sharedInstance];
 
   // When
   [MSDistribute disableAutomaticCheckForUpdates];
