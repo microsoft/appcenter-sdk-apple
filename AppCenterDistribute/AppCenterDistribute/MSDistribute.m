@@ -1212,7 +1212,7 @@ static dispatch_once_t onceToken;
   sharedInstance = nil;
 }
 
-- (void)disableAutomaticCheckForUpdates {
+- (void)instanceDisableAutomaticCheckForUpdates {
   @synchronized(self) {
     if (self.started) {
       MSLogError([MSDistribute logTag], @"Cannot disable automatic check for updates after Distribute is started.");
@@ -1220,6 +1220,10 @@ static dispatch_once_t onceToken;
     }
     self.automaticCheckForUpdatesDisabled = YES;
   }
+}
+
++ (void)disableAutomaticCheckForUpdates {
+  [sharedInstance instanceDisableAutomaticCheckForUpdates];
 }
 
 @end

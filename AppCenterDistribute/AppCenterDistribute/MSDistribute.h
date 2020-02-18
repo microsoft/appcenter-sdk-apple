@@ -88,7 +88,7 @@ typedef NS_ENUM(NSInteger, MSUpdateTrack) {
 /**
  * Disables automatic check for updates on Distribute module launch.
  */
-- (void)disableAutomaticCheckForUpdates;
++ (void)disableAutomaticCheckForUpdates;
 
 @end
 
