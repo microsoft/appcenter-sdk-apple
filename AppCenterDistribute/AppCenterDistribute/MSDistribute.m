@@ -1222,6 +1222,13 @@ static dispatch_once_t onceToken;
   }
 }
 
+- (void)checkForUpdate {
+  if (self.canBeUsed && self.isEnabled && ![MS_USER_DEFAULTS objectForKey:kMSUpdateTokenRequestIdKey]) {
+    self.checkForUpdateFlag = YES;
+    [self startUpdate];
+  }
+}
+
 - (void)dealloc {
   [MS_NOTIFICATION_CENTER removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
 }

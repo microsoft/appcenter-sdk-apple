@@ -19,6 +19,56 @@ static NSString *const kMSTestAppSecret = @"IAMSECRET";
   [MSDistribute resetSharedInstance];
 }
 
+- (void)testBypassCheckForUpdateIfNotEnabled {
+  
+  // If
+  MSDistribute *distribute = [MSDistribute new];
+  id distributeMock = OCMPartialMock(distribute);
+  OCMStub([distributeMock canBeUsed]).andReturn(YES);
+  [distributeMock setEnabled:NO];
+  OCMReject([distributeMock startUpdate]);
+  
+  // When
+  [distribute checkForUpdate];
+  XCTAssertFalse(distribute.checkForUpdateFlag);
+  
+  // Clear
+  [distributeMock stopMocking];
+}
+
+- (void)testBypassCheckForUpdateIfCantBeUsed {
+  
+  // If
+  MSDistribute *distribute = [MSDistribute new];
+  id distributeMock = OCMPartialMock(distribute);
+  OCMStub([distributeMock canBeUsed]).andReturn(NO);
+  OCMReject([distributeMock startUpdate]);
+  
+  // When
+  [distribute checkForUpdate];
+  XCTAssertFalse(distribute.checkForUpdateFlag);
+  
+  // Clear
+  [distributeMock stopMocking];
+}
+
+- (void)testBypassCheckForUpdateIfUpdateRequestIdTokenExists {
+  
+  // If
+  MSDistribute *distribute = [MSDistribute new];
+  id distributeMock = OCMPartialMock(distribute);
+  OCMStub([distributeMock canBeUsed]).andReturn(YES);
+  [MS_USER_DEFAULTS setObject:@"testToken" forKey:kMSUpdateTokenRequestIdKey];
+  OCMReject([distributeMock startUpdate]);
+  
+  // When
+  [distribute checkForUpdate];
+  XCTAssertFalse(distribute.checkForUpdateFlag);
+  
+  // Clear
+  [distributeMock stopMocking];
+}
+
 - (void)testDisableAutomaticCheckForUpdateBeforeStart {
 
   // If
