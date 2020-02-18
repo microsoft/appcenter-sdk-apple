@@ -18,27 +18,26 @@ static NSString *const kMSTestAppSecret = @"IAMSECRET";
 - (void)testDisableAutomaticCheckForUpdateBeforeStart {
 
   // If
-  [MSDistribute sharedInstance].automaticCheckForUpdatesDisabled = NO;
+  MSDistribute* distribute = [MSDistribute new];
 
   // When
-  [MSDistribute disableAutomaticCheckForUpdates];
+  [distribute disableAutomaticCheckForUpdates];
 
   // Then
-  XCTAssertTrue([MSDistribute sharedInstance].automaticCheckForUpdatesDisabled);
+  XCTAssertTrue(distribute.automaticCheckForUpdatesDisabled);
 }
 
 - (void)testAutomaticCheckForUpdateDisabledDoesNotChangeAfterStart {
 
   // If
-
-  MSDistribute *distribute = [MSDistribute sharedInstance];
+  MSDistribute *distribute = [MSDistribute new];
   [distribute startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
                           appSecret:kMSTestAppSecret
             transmissionTargetToken:nil
                     fromApplication:YES];
 
   // When
-  [MSDistribute disableAutomaticCheckForUpdates];
+  [distribute disableAutomaticCheckForUpdates];
 
   // Then
   XCTAssertFalse(distribute.automaticCheckForUpdatesDisabled);
@@ -71,7 +70,7 @@ static NSString *const kMSTestAppSecret = @"IAMSECRET";
   MSDistribute *distribute = [MSDistribute new];
   id distributeMock = OCMPartialMock(distribute);
   [distributeMock setValue:@(YES) forKey:@"updateFlowInProgress"];
-  [distributeMock setValue:@(NO) forKey:@"automaticCheckForUpdatesDisabled"];
+  [distributeMock setValue:@(YES) forKey:@"automaticCheckForUpdatesDisabled"];
   OCMReject([distributeMock checkLatestRelease:updateToken distributionGroupId:distributionGroupId releaseHash:releaseHash]);
 
   // When
@@ -97,8 +96,8 @@ static NSString *const kMSTestAppSecret = @"IAMSECRET";
   id parserMock = OCMClassMock([MSBasicMachOParser class]);
   OCMStub([parserMock machOParserForMainBundle]).andReturn(parserMock);
   OCMStub([parserMock uuid]).andReturn([[NSUUID alloc] initWithUUIDString:@"CD55E7A9-7AD1-4CA6-B722-3D133F487DA9"]);
-  [MSDistribute disableAutomaticCheckForUpdates];
-  MSDistribute *distribute = [MSDistribute sharedInstance];
+  MSDistribute *distribute = [MSDistribute new];
+  [distribute disableAutomaticCheckForUpdates];
   __block id distributeMock = OCMPartialMock(distribute);
   OCMStub([distributeMock checkForUpdatesAllowed]).andReturn(YES);
   OCMStub([distributeMock buildTokenRequestURLWithAppSecret:OCMOCK_ANY releaseHash:OCMOCK_ANY isTesterApp:false])

@@ -1212,13 +1212,13 @@ static dispatch_once_t onceToken;
   sharedInstance = nil;
 }
 
-+ (void)disableAutomaticCheckForUpdates {
+- (void)disableAutomaticCheckForUpdates {
   @synchronized(self) {
-    if ([MSDistribute sharedInstance].started) {
+    if (self.started) {
       MSLogError([MSDistribute logTag], @"Cannot disable automatic check for updates after Distribute is started.");
       return;
     }
-    [MSDistribute sharedInstance].automaticCheckForUpdatesDisabled = YES;
+    self.automaticCheckForUpdatesDisabled = YES;
   }
 }
 
