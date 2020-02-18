@@ -269,8 +269,8 @@ static dispatch_once_t onceToken;
   return [MSDistribute sharedInstance].updateTrack;
 }
 
-+ (void)disableAutomaticCheckForUpdates {
-  [[MSDistribute sharedInstance] disableAutomaticCheckForUpdates];
++ (void)disableAutomaticCheckForUpdate {
+  [[MSDistribute sharedInstance] disableAutomaticCheckForUpdate];
 }
 
 #pragma mark - Private
@@ -316,7 +316,7 @@ static dispatch_once_t onceToken;
 - (void)requestInstallInformationWith:(NSString *)releaseHash {
 
   // Browser won't open at start if check for update was not requested or if automatic checks are disabled.
-  if (self.automaticCheckForUpdatesDisabled) {
+  if (self.automaticCheckForUpdateDisabled) {
     MSLogInfo([MSDistribute logTag],
               @"Automatic checkForUpdate is disabled. The SDK will try to get an update token the first time checkForUpdate is called.");
     self.updateFlowInProgress = NO;
@@ -1191,7 +1191,7 @@ static dispatch_once_t onceToken;
 - (void)checkForUpdateWithUpdateToken:(nullable NSString *)updateToken
                   distributionGroupId:(NSString *)distributionGroupId
                           releaseHash:(NSString *)releaseHash {
-  if (self.automaticCheckForUpdatesDisabled) {
+  if (self.automaticCheckForUpdateDisabled) {
     MSLogInfo([MSDistribute logTag], @"Automatic checkForUpdate is disabled.");
     self.updateFlowInProgress = NO;
   } else {
@@ -1205,6 +1205,16 @@ static dispatch_once_t onceToken;
   }
 }
 
+- (void)disableAutomaticCheckForUpdate {
+  @synchronized(self) {
+    if (self.started) {
+      MSLogError([MSDistribute logTag], @"Cannot disable automatic check for updates after Distribute is started.");
+      return;
+    }
+    self.automaticCheckForUpdateDisabled = YES;
+  }
+}
+
 - (void)dealloc {
   [MS_NOTIFICATION_CENTER removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
 }
@@ -1214,16 +1224,6 @@ static dispatch_once_t onceToken;
   // Reset the onceToken so dispatch_once will run again.
   onceToken = 0;
   sharedInstance = nil;
-}
-
-- (void)disableAutomaticCheckForUpdates {
-  @synchronized(self) {
-    if (self.started) {
-      MSLogError([MSDistribute logTag], @"Cannot disable automatic check for updates after Distribute is started.");
-      return;
-    }
-    self.automaticCheckForUpdatesDisabled = YES;
-  }
 }
 
 @end
