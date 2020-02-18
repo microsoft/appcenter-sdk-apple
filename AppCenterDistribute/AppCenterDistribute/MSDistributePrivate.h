@@ -158,11 +158,6 @@ static NSString *const kMSTesterAppUpdateSetupFailedKey = @"MSTesterAppUpdateSet
 @property(nonatomic) MSUpdateTrack updateTrack;
 
 /**
- * Distribute flags.
- */
-@property(nonatomic) MSDistributeFlags distributeFlags;
-
-/**
  * Flag to determine whether updates check should be performed on distribute module start.
  */
 @property(atomic) BOOL automaticCheckForUpdatesDisabled;
@@ -186,12 +181,6 @@ static NSString *const kMSTesterAppUpdateSetupFailedKey = @"MSTesterAppUpdateSet
 - (nullable NSURL *)buildTokenRequestURLWithAppSecret:(NSString *)appSecret
                                           releaseHash:(NSString *)releaseHash
                                           isTesterApp:(BOOL)isTesterApp;
-/**
- * Configure Distribute options before the service starts.
- *
- * @param flags Distribute flags.
- */
-- (void)configure:(MSDistributeFlags)flags;
 
 /**
  * Check the latest release of the application.
