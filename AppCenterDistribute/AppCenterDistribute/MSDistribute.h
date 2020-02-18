@@ -86,9 +86,9 @@ typedef NS_ENUM(NSInteger, MSUpdateTrack) {
 + (BOOL)openURL:(NSURL *)url;
 
 /**
- * Disables automatic check for updates on Distribute module launch.
+ * Disable checking the latest release of the application when the SDK starts.
  */
-+ (void)disableAutomaticCheckForUpdates;
++ (void)disableAutomaticCheckForUpdate;
 
 @end
 

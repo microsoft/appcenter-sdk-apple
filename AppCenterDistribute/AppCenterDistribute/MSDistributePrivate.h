@@ -158,9 +158,9 @@ static NSString *const kMSTesterAppUpdateSetupFailedKey = @"MSTesterAppUpdateSet
 @property(nonatomic) MSUpdateTrack updateTrack;
 
 /**
- * Flag to determine whether updates check should be performed on distribute module start.
+ * A flag to indicate whether automatic update check is disabled on start or not.
  */
-@property(atomic) BOOL automaticCheckForUpdatesDisabled;
+@property(atomic) BOOL automaticCheckForUpdateDisabled;
 
 /**
  * Returns the singleton instance. Meant for testing/demo apps only.
@@ -185,7 +185,7 @@ static NSString *const kMSTesterAppUpdateSetupFailedKey = @"MSTesterAppUpdateSet
 /**
  * Instance method to disable automatic updates check on Distribute start.
  */
-- (void)disableAutomaticCheckForUpdates;
+- (void)disableAutomaticCheckForUpdate;
 
 /**
  * Check the latest release of the application.
