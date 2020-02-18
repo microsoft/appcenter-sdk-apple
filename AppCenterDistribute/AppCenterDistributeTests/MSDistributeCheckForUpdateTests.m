@@ -4,6 +4,8 @@
 #import "MSBasicMachOParser.h"
 #import "MSChannelGroupProtocol.h"
 #import "MSDistributePrivate.h"
+#import "MSMockKeychainUtil.h"
+#import "MSMockUserDefaults.h"
 #import "MSTestFrameworks.h"
 #import "MSUtility+StringFormatting.h"
 
@@ -11,12 +13,37 @@ static NSString *const kMSTestAppSecret = @"IAMSECRET";
 
 @interface MSDistributeCheckForUpdateTests : XCTestCase
 
+@property(nonatomic) id settingsMock;
+@property(nonatomic) id bundleMock;
+@property(nonatomic) id keychainUtilMock;
+@property(nonatomic) id parserMock;
+
 @end
 
 @implementation MSDistributeCheckForUpdateTests
 
 - (void)setUp {
+  [super setUp];
   [MSDistribute resetSharedInstance];
+  self.settingsMock = [MSMockUserDefaults new];
+  self.keychainUtilMock = [MSMockKeychainUtil new];
+  
+  // Mock NSBundle
+  self.bundleMock = OCMClassMock([NSBundle class]);
+  OCMStub([self.bundleMock mainBundle]).andReturn(self.bundleMock);
+  
+  // Parser mock
+  id parserMock = OCMClassMock([MSBasicMachOParser class]);
+  OCMStub([parserMock machOParserForMainBundle]).andReturn(parserMock);
+  OCMStub([parserMock uuid]).andReturn([[NSUUID alloc] initWithUUIDString:@"CD55E7A9-7AD1-4CA6-B722-3D133F487DA9"]);
+}
+
+- (void)tearDown {
+  [super tearDown];
+  [self.settingsMock stopMocking];
+  [self.keychainUtilMock stopMocking];
+  [self.bundleMock stopMocking];
+  [self.parserMock stopMocking];
 }
 
 - (void)testBypassCheckForUpdateIfNotEnabled {
@@ -116,6 +143,78 @@ static NSString *const kMSTestAppSecret = @"IAMSECRET";
   [distributeMock stopMocking];
 }
 
+
+- (void)testCheckForUpdateAuthenticateWhenItHasNotAuthenticated {
+  
+  // If
+  NSDictionary<NSString *, id> *plist = @{@"CFBundleShortVersionString" : @"1.0", @"CFBundleVersion" : @"1"};
+  OCMStub([self.bundleMock infoDictionary]).andReturn(plist);
+  MSDistribute *distribute = [MSDistribute new];
+  id distributeMock = OCMPartialMock(distribute);
+  OCMStub([distributeMock canBeUsed]).andReturn(YES);
+  
+  // When
+  [distribute setUpdateTrack:MSUpdateTrackPrivate];
+  [distribute checkForUpdate];
+  
+  // Then
+  XCTAssertTrue(distribute.checkForUpdateFlag);
+  OCMVerify([distributeMock requestInstallInformationWith:OCMOCK_ANY]);
+  
+  // Clear
+  [distributeMock stopMocking];
+}
+
+- (void)testCheckForUpdateWhenItHasAuthenticated {
+  
+  // If
+  NSDictionary<NSString *, id> *plist = @{@"CFBundleShortVersionString" : @"1.0", @"CFBundleVersion" : @"1"};
+  OCMStub([self.bundleMock infoDictionary]).andReturn(plist);
+  MSDistribute *distribute = [MSDistribute new];
+  id distributeMock = OCMPartialMock(distribute);
+  OCMStub([distributeMock canBeUsed]).andReturn(YES);
+  
+  // When
+  //TODO unsure what needs to be done to simulate authentication in this case
+  [distribute setUpdateTrack:MSUpdateTrackPublic];
+  [distribute checkForUpdate];
+  
+  // Then
+  XCTAssertTrue(distribute.checkForUpdateFlag);
+  //TODO is this the right verify?
+  OCMVerify([distributeMock checkForUpdateWithUpdateToken:OCMOCK_ANY distributionGroupId:OCMOCK_ANY releaseHash:OCMOCK_ANY]);
+  
+  // Clear
+  [distributeMock stopMocking];
+}
+
+- (void)testCheckForUpdateEvenThoughAutomaticUpdateIsDisabled {
+  
+  // If
+  NSDictionary<NSString *, id> *plist = @{@"CFBundleShortVersionString" : @"1.0", @"CFBundleVersion" : @"1"};
+  OCMStub([self.bundleMock infoDictionary]).andReturn(plist);
+  MSDistribute *distribute = [MSDistribute new];
+  id distributeMock = OCMPartialMock(distribute);
+  OCMStub([distributeMock canBeUsed]).andReturn(YES);
+  
+  // When
+  [distribute setUpdateTrack:MSUpdateTrackPublic];
+  [distribute disableAutomaticCheckForUpdate];
+  [distribute checkForUpdate];
+  
+  // Then
+  XCTAssertTrue(distribute.checkForUpdateFlag);
+  OCMVerify([distributeMock checkForUpdateWithUpdateToken:OCMOCK_ANY distributionGroupId:OCMOCK_ANY releaseHash:OCMOCK_ANY]);
+  
+  // Clear
+  [distributeMock stopMocking];
+}
+
+- (void)testCheckForUpdateDoesNotUpdateWhenAutomaticAuthenticationIsDisabled {
+  
+  // TODO: This test should be written when a new flag is added.
+}
+
 - (void)testCheckForUpdateDoesNotCheckWhenDisabled {
 
   // If
@@ -150,11 +249,6 @@ static NSString *const kMSTestAppSecret = @"IAMSECRET";
   id bundleMock = OCMClassMock([NSBundle class]);
   OCMStub([bundleMock mainBundle]).andReturn(bundleMock);
   OCMStub([bundleMock infoDictionary]).andReturn(plist);
-  
-  // Parser mock
-  id parserMock = OCMClassMock([MSBasicMachOParser class]);
-  OCMStub([parserMock machOParserForMainBundle]).andReturn(parserMock);
-  OCMStub([parserMock uuid]).andReturn([[NSUUID alloc] initWithUUIDString:@"CD55E7A9-7AD1-4CA6-B722-3D133F487DA9"]);
   
   // Distribute Mock
   MSDistribute *distribute = [MSDistribute sharedInstance];
@@ -192,7 +286,6 @@ static NSString *const kMSTestAppSecret = @"IAMSECRET";
 
   // Cleanup
   [distributeMock stopMocking];
-  [parserMock stopMocking];
   [bundleMock stopMocking];
   [utilityMock stopMocking];
 }
