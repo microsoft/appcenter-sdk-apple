@@ -1201,7 +1201,7 @@ static dispatch_once_t onceToken;
 - (void)checkForUpdateWithUpdateToken:(nullable NSString *)updateToken
                   distributionGroupId:(NSString *)distributionGroupId
                           releaseHash:(NSString *)releaseHash {
-  if (self.distributeFlags ^ MSDistributeFlagsDisableAutomaticCheckForUpdate) {
+  if (self.automaticCheckForUpdatesDisabled) {
     [self checkLatestRelease:updateToken distributionGroupId:distributionGroupId releaseHash:releaseHash];
   } else {
     MSLogInfo([MSDistribute logTag], @"Automatic checkForUpdate is disabled.");
@@ -1224,6 +1224,10 @@ static dispatch_once_t onceToken;
   // Reset the onceToken so dispatch_once will run again.
   onceToken = 0;
   sharedInstance = nil;
+}
+
++ (void)disableAutomaticCheckForUpdates {
+  self.automaticCheckForUpdatesDisabled = YES;
 }
 
 @end

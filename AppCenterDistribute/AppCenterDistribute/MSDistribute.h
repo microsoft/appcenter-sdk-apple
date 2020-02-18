@@ -105,6 +105,11 @@ typedef NS_ENUM(NSInteger, MSDistributeFlags) {
  */
 + (void)configure:(MSDistributeFlags)flags;
 
+/**
+ * Disables automatic check for updates on Distribute module launch.
+ */
++ (void)disableAutomaticCheckForUpdates;
+
 @end
 
 NS_ASSUME_NONNULL_END
