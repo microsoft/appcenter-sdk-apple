@@ -3,6 +3,7 @@
 
 #import "MSBasicMachOParser.h"
 #import "MSChannelGroupProtocol.h"
+#import "MSDistributeIngestion.h"
 #import "MSDistributePrivate.h"
 #import "MSMockKeychainUtil.h"
 #import "MSMockUserDefaults.h"
@@ -197,15 +198,23 @@ static NSString *const kMSTestAppSecret = @"IAMSECRET";
   OCMStub([distributeMock canBeUsed]).andReturn(YES);
   OCMStub([distributeMock isEnabled]).andReturn(YES);
   [self.settingsMock removeObjectForKey:kMSUpdateTokenRequestIdKey];
+  OCMStub([distributeMock checkForUpdatesAllowed]).andReturn(YES);
   XCTestExpectation *expectation = [self expectationWithDescription:@"Start update processed"];
+
+  // Ingestion Mock
+  __block id ingestionMock = OCMClassMock([MSDistributeIngestion class]);
+  OCMStub([ingestionMock checkForPublicUpdateWithQueryStrings:OCMOCK_ANY completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+    void (^handler)(NSString *callId, NSHTTPURLResponse *_Nullable response, NSData *_Nullable data, NSError *_Nullable error);
+    [invocation getArgument:&handler atIndex:3];
+    handler(nil, nil, nil, nil);
+    [expectation fulfill];
+  });
+  [distributeMock setValue:ingestionMock forKey:@"ingestion"];
 
   // When
   [MSDistribute disableAutomaticCheckForUpdate];
   MSDistribute.updateTrack = MSUpdateTrackPublic;
   [MSDistribute checkForUpdate];
-  dispatch_async(dispatch_get_main_queue(), ^{
-    [expectation fulfill];
-  });
 
   // Then
   [self waitForExpectationsWithTimeout:1
@@ -215,6 +224,7 @@ static NSString *const kMSTestAppSecret = @"IAMSECRET";
                                  OCMVerify([distributeMock checkLatestRelease:OCMOCK_ANY
                                                           distributionGroupId:OCMOCK_ANY
                                                                   releaseHash:OCMOCK_ANY]);
+                                 OCMVerify([ingestionMock checkForPublicUpdateWithQueryStrings:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
                                  XCTAssertFalse(self.sut.updateFlowInProgress);
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
@@ -223,6 +233,7 @@ static NSString *const kMSTestAppSecret = @"IAMSECRET";
 
   // Cleanup
   [distributeMock stopMocking];
+  [ingestionMock stopMocking];
   [utilityMock stopMocking];
 }
 
