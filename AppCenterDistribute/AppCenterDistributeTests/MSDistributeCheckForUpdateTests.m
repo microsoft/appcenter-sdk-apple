@@ -13,6 +13,7 @@ static NSString *const kMSTestAppSecret = @"IAMSECRET";
 
 @interface MSDistributeCheckForUpdateTests : XCTestCase
 
+@property(nonatomic) MSDistribute *sut;
 @property(nonatomic) id settingsMock;
 @property(nonatomic) id bundleMock;
 @property(nonatomic) id keychainUtilMock;
@@ -24,18 +25,21 @@ static NSString *const kMSTestAppSecret = @"IAMSECRET";
 
 - (void)setUp {
   [super setUp];
-  [MSDistribute resetSharedInstance];
   self.settingsMock = [MSMockUserDefaults new];
   self.keychainUtilMock = [MSMockKeychainUtil new];
-  
-  // Mock NSBundle
+
+  // Mock NSBundle.
   self.bundleMock = OCMClassMock([NSBundle class]);
   OCMStub([self.bundleMock mainBundle]).andReturn(self.bundleMock);
-  
-  // Parser mock
+
+  // Parser mock.
   id parserMock = OCMClassMock([MSBasicMachOParser class]);
   OCMStub([parserMock machOParserForMainBundle]).andReturn(parserMock);
   OCMStub([parserMock uuid]).andReturn([[NSUUID alloc] initWithUUIDString:@"CD55E7A9-7AD1-4CA6-B722-3D133F487DA9"]);
+
+  // Distribute instance.
+  [MSDistribute resetSharedInstance];
+  self.sut = [MSDistribute sharedInstance];
 }
 
 - (void)tearDown {
@@ -44,54 +48,62 @@ static NSString *const kMSTestAppSecret = @"IAMSECRET";
   [self.keychainUtilMock stopMocking];
   [self.bundleMock stopMocking];
   [self.parserMock stopMocking];
+  self.sut = nil;
 }
 
-- (void)testBypassCheckForUpdateIfNotEnabled {
-  
+- (void)testBypassCheckForUpdateWhenDistributeIsDisabled {
+
   // If
-  MSDistribute *distribute = [MSDistribute new];
-  id distributeMock = OCMPartialMock(distribute);
+  id distributeMock = OCMPartialMock(self.sut);
   OCMStub([distributeMock canBeUsed]).andReturn(YES);
-  [distributeMock setEnabled:NO];
-  OCMReject([distributeMock startUpdate]);
-  
+  OCMStub([distributeMock isEnabled]).andReturn(NO);
+  [self.settingsMock removeObjectForKey:kMSUpdateTokenRequestIdKey];
+  OCMReject([distributeMock startUpdateOnStart:OCMOCK_ANY]);
+
   // When
-  [distribute checkForUpdate];
-  XCTAssertFalse(distribute.checkForUpdateFlag);
-  
+  [MSDistribute checkForUpdate];
+
+  // Then
+  OCMVerifyAll(distributeMock);
+
   // Clear
   [distributeMock stopMocking];
 }
 
-- (void)testBypassCheckForUpdateIfCantBeUsed {
-  
+- (void)testBypassCheckForUpdateWhenDistributeCanNotBeUsed {
+
   // If
-  MSDistribute *distribute = [MSDistribute new];
-  id distributeMock = OCMPartialMock(distribute);
+  id distributeMock = OCMPartialMock(self.sut);
   OCMStub([distributeMock canBeUsed]).andReturn(NO);
-  OCMReject([distributeMock startUpdate]);
-  
+  OCMStub([distributeMock isEnabled]).andReturn(YES);
+  [self.settingsMock removeObjectForKey:kMSUpdateTokenRequestIdKey];
+  OCMReject([distributeMock startUpdateOnStart:OCMOCK_ANY]);
+
   // When
-  [distribute checkForUpdate];
-  XCTAssertFalse(distribute.checkForUpdateFlag);
-  
+  [MSDistribute checkForUpdate];
+
+  // Then
+  OCMVerifyAll(distributeMock);
+
   // Clear
   [distributeMock stopMocking];
 }
 
 - (void)testBypassCheckForUpdateIfUpdateRequestIdTokenExists {
-  
+
   // If
-  MSDistribute *distribute = [MSDistribute new];
-  id distributeMock = OCMPartialMock(distribute);
+  id distributeMock = OCMPartialMock(self.sut);
   OCMStub([distributeMock canBeUsed]).andReturn(YES);
-  [MS_USER_DEFAULTS setObject:@"testToken" forKey:kMSUpdateTokenRequestIdKey];
-  OCMReject([distributeMock startUpdate]);
-  
+  OCMStub([distributeMock isEnabled]).andReturn(YES);
+  [self.settingsMock setObject:@"testToken" forKey:kMSUpdateTokenRequestIdKey];
+  OCMReject([distributeMock startUpdateOnStart:OCMOCK_ANY]);
+
   // When
-  [distribute checkForUpdate];
-  XCTAssertFalse(distribute.checkForUpdateFlag);
-  
+  [MSDistribute checkForUpdate];
+
+  // Then
+  OCMVerifyAll(distributeMock);
+
   // Clear
   [distributeMock stopMocking];
 }
@@ -99,160 +111,190 @@ static NSString *const kMSTestAppSecret = @"IAMSECRET";
 - (void)testDisableAutomaticCheckForUpdateBeforeStart {
 
   // If
-  MSDistribute *distribute = [MSDistribute sharedInstance];
-  distribute.automaticCheckForUpdateDisabled = NO;
+  self.sut.automaticCheckForUpdateDisabled = NO;
 
   // When
   [MSDistribute disableAutomaticCheckForUpdate];
 
   // Then
-  XCTAssertTrue(distribute.automaticCheckForUpdateDisabled);
+  XCTAssertTrue(self.sut.automaticCheckForUpdateDisabled);
 }
 
 - (void)testAutomaticCheckForUpdateDisabledDoesNotChangeAfterStart {
 
   // If
-  MSDistribute *distribute = [MSDistribute sharedInstance];
-  [distribute startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
-                          appSecret:kMSTestAppSecret
-            transmissionTargetToken:nil
-                    fromApplication:YES];
+  [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
+                        appSecret:kMSTestAppSecret
+          transmissionTargetToken:nil
+                  fromApplication:YES];
 
   // When
   [MSDistribute disableAutomaticCheckForUpdate];
 
   // Then
-  XCTAssertFalse(distribute.automaticCheckForUpdateDisabled);
+  XCTAssertFalse(self.sut.automaticCheckForUpdateDisabled);
 }
 
-- (void)testCheckForUpdate {
-
-  // If
-  NSString *updateToken = @"UpdateToken";
-  NSString *distributionGroupId = @"DistributionGroupId";
-  NSString *releaseHash = @"ReleaseHash";
-  id distributeMock = OCMPartialMock([MSDistribute new]);
-
-  // When
-  [distributeMock checkForUpdateWithUpdateToken:updateToken distributionGroupId:distributionGroupId releaseHash:releaseHash];
-
-  // Then
-  OCMVerify([distributeMock checkLatestRelease:updateToken distributionGroupId:distributionGroupId releaseHash:releaseHash]);
-
-  // Cleanup
-  [distributeMock stopMocking];
-}
-
-
-- (void)testCheckForUpdateAuthenticateWhenItHasNotAuthenticated {
-  
-  // If
-  NSDictionary<NSString *, id> *plist = @{@"CFBundleShortVersionString" : @"1.0", @"CFBundleVersion" : @"1"};
-  OCMStub([self.bundleMock infoDictionary]).andReturn(plist);
-  MSDistribute *distribute = [MSDistribute new];
-  id distributeMock = OCMPartialMock(distribute);
-  OCMStub([distributeMock canBeUsed]).andReturn(YES);
-  
-  // When
-  [distribute setUpdateTrack:MSUpdateTrackPrivate];
-  [distribute checkForUpdate];
-  
-  // Then
-  XCTAssertTrue(distribute.checkForUpdateFlag);
-  OCMVerify([distributeMock requestInstallInformationWith:OCMOCK_ANY]);
-  
-  // Clear
-  [distributeMock stopMocking];
-}
-
-- (void)testCheckForUpdateWhenItHasAuthenticated {
-  
-  // If
-  NSDictionary<NSString *, id> *plist = @{@"CFBundleShortVersionString" : @"1.0", @"CFBundleVersion" : @"1"};
-  OCMStub([self.bundleMock infoDictionary]).andReturn(plist);
-  MSDistribute *distribute = [MSDistribute new];
-  id distributeMock = OCMPartialMock(distribute);
-  OCMStub([distributeMock canBeUsed]).andReturn(YES);
-  
-  // When
-  //TODO unsure what needs to be done to simulate authentication in this case
-  [distribute setUpdateTrack:MSUpdateTrackPublic];
-  [distribute checkForUpdate];
-  
-  // Then
-  XCTAssertTrue(distribute.checkForUpdateFlag);
-  //TODO is this the right verify?
-  OCMVerify([distributeMock checkForUpdateWithUpdateToken:OCMOCK_ANY distributionGroupId:OCMOCK_ANY releaseHash:OCMOCK_ANY]);
-  
-  // Clear
-  [distributeMock stopMocking];
-}
-
-- (void)testCheckForUpdateEvenThoughAutomaticUpdateIsDisabled {
-  
-  // If
-  NSDictionary<NSString *, id> *plist = @{@"CFBundleShortVersionString" : @"1.0", @"CFBundleVersion" : @"1"};
-  OCMStub([self.bundleMock infoDictionary]).andReturn(plist);
-  MSDistribute *distribute = [MSDistribute new];
-  id distributeMock = OCMPartialMock(distribute);
-  OCMStub([distributeMock canBeUsed]).andReturn(YES);
-  
-  // When
-  [distribute setUpdateTrack:MSUpdateTrackPublic];
-  [distribute disableAutomaticCheckForUpdate];
-  [distribute checkForUpdate];
-  
-  // Then
-  XCTAssertTrue(distribute.checkForUpdateFlag);
-  OCMVerify([distributeMock checkForUpdateWithUpdateToken:OCMOCK_ANY distributionGroupId:OCMOCK_ANY releaseHash:OCMOCK_ANY]);
-  
-  // Clear
-  [distributeMock stopMocking];
-}
-
-- (void)testCheckForUpdateDoesNotUpdateWhenAutomaticAuthenticationIsDisabled {
-  
-  // TODO: This test should be written when a new flag is added.
-}
-
-- (void)testCheckForUpdateDoesNotCheckWhenDisabled {
-
-  // If
-  NSString *updateToken = @"UpdateToken";
-  NSString *distributionGroupId = @"DistributionGroupId";
-  NSString *releaseHash = @"ReleaseHash";
-  MSDistribute *distribute = [MSDistribute sharedInstance];
-  id distributeMock = OCMPartialMock(distribute);
-  [distributeMock setValue:@(YES) forKey:@"updateFlowInProgress"];
-  [distributeMock setValue:@(YES) forKey:@"automaticCheckForUpdateDisabled"];
-  OCMReject([distributeMock checkLatestRelease:updateToken distributionGroupId:distributionGroupId releaseHash:releaseHash]);
-
-  // When
-  [distributeMock checkForUpdateWithUpdateToken:updateToken distributionGroupId:distributionGroupId releaseHash:releaseHash];
-
-  // Then
-  XCTAssertFalse(distribute.updateFlowInProgress);
-  OCMVerifyAll(distributeMock);
-
-  // Cleanup
-  [distributeMock stopMocking];
-}
-
-- (void)testCheckForUpdateDoesNotOpenBrowserOrTesterAppAtStartWhenDisabled {
+- (void)testCheckForUpdateOpenBrowserEvenThoughAutomaticUpdateIsDisabled {
 
   // If
   id utilityMock = OCMClassMock([MSUtility class]);
   OCMStub(ClassMethod([utilityMock sha256:OCMOCK_ANY])).andReturn(@"RELEASEHASH");
   NSDictionary<NSString *, id> *plist = @{@"CFBundleShortVersionString" : @"1.0", @"CFBundleVersion" : @"1"};
-  
+
   // Bundle mock
   id bundleMock = OCMClassMock([NSBundle class]);
   OCMStub([bundleMock mainBundle]).andReturn(bundleMock);
   OCMStub([bundleMock infoDictionary]).andReturn(plist);
-  
+
   // Distribute Mock
-  MSDistribute *distribute = [MSDistribute sharedInstance];
-  __block id distributeMock = OCMPartialMock(distribute);
+  __block id distributeMock = OCMPartialMock(self.sut);
+  OCMStub([distributeMock canBeUsed]).andReturn(YES);
+  OCMStub([distributeMock isEnabled]).andReturn(YES);
+  [self.settingsMock removeObjectForKey:kMSUpdateTokenRequestIdKey];
+  OCMStub([distributeMock checkForUpdatesAllowed]).andReturn(YES);
+  OCMStub([distributeMock buildTokenRequestURLWithAppSecret:OCMOCK_ANY releaseHash:OCMOCK_ANY isTesterApp:false])
+      .andReturn([NSURL URLWithString:@"https://some_url"]);
+  OCMStub([distributeMock buildTokenRequestURLWithAppSecret:OCMOCK_ANY releaseHash:OCMOCK_ANY isTesterApp:true])
+      .andReturn([NSURL URLWithString:@"some_url://"]);
+  OCMStub([distributeMock openUrlUsingSharedApp:OCMOCK_ANY]).andReturn(NO);
+  OCMStub([distributeMock openUrlInAuthenticationSessionOrSafari:OCMOCK_ANY]).andDo(nil);
+  XCTestExpectation *expectation = [self expectationWithDescription:@"Start update processed"];
+
+  // When
+  [MSDistribute disableAutomaticCheckForUpdate];
+  MSDistribute.updateTrack = MSUpdateTrackPrivate;
+  [MSDistribute checkForUpdate];
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [expectation fulfill];
+  });
+
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+                                 // Then
+                                 OCMVerify([distributeMock startUpdateOnStart:NO]);
+                                 OCMVerify([distributeMock openUrlInAuthenticationSessionOrSafari:OCMOCK_ANY]);
+
+                                 // We expect update flow isn't completed yet as this test doesn't simulate openURL.
+                                 XCTAssertTrue(self.sut.updateFlowInProgress);
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+
+  // Cleanup
+  [distributeMock stopMocking];
+  [bundleMock stopMocking];
+  [utilityMock stopMocking];
+}
+
+- (void)testCheckForUpdateGetsLatestReleaseEvenThoughAutomaticUpdateIsDisabled {
+
+  // If
+  id utilityMock = OCMClassMock([MSUtility class]);
+  OCMStub(ClassMethod([utilityMock sha256:OCMOCK_ANY])).andReturn(@"RELEASEHASH");
+  NSDictionary<NSString *, id> *plist = @{@"CFBundleShortVersionString" : @"1.0", @"CFBundleVersion" : @"1"};
+
+  // Bundle mock
+  id bundleMock = OCMClassMock([NSBundle class]);
+  OCMStub([bundleMock mainBundle]).andReturn(bundleMock);
+  OCMStub([bundleMock infoDictionary]).andReturn(plist);
+
+  // Distribute Mock
+  __block id distributeMock = OCMPartialMock(self.sut);
+  OCMStub([distributeMock canBeUsed]).andReturn(YES);
+  OCMStub([distributeMock isEnabled]).andReturn(YES);
+  [self.settingsMock removeObjectForKey:kMSUpdateTokenRequestIdKey];
+  XCTestExpectation *expectation = [self expectationWithDescription:@"Start update processed"];
+
+  // When
+  [MSDistribute disableAutomaticCheckForUpdate];
+  MSDistribute.updateTrack = MSUpdateTrackPublic;
+  [MSDistribute checkForUpdate];
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [expectation fulfill];
+  });
+
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+                                 // Then
+                                 OCMVerify([distributeMock startUpdateOnStart:NO]);
+                                 OCMVerify([distributeMock checkLatestRelease:OCMOCK_ANY
+                                                          distributionGroupId:OCMOCK_ANY
+                                                                  releaseHash:OCMOCK_ANY]);
+                                 XCTAssertFalse(self.sut.updateFlowInProgress);
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+
+  // Cleanup
+  [distributeMock stopMocking];
+  [bundleMock stopMocking];
+  [utilityMock stopMocking];
+}
+
+- (void)testDoesNotCheckUpdateOnStartWhenAutomaticCheckIsDisabled {
+
+  // If
+  id utilityMock = OCMClassMock([MSUtility class]);
+  OCMStub(ClassMethod([utilityMock sha256:OCMOCK_ANY])).andReturn(@"RELEASEHASH");
+  NSDictionary<NSString *, id> *plist = @{@"CFBundleShortVersionString" : @"1.0", @"CFBundleVersion" : @"1"};
+
+  // Bundle mock
+  id bundleMock = OCMClassMock([NSBundle class]);
+  OCMStub([bundleMock mainBundle]).andReturn(bundleMock);
+  OCMStub([bundleMock infoDictionary]).andReturn(plist);
+
+  // Distribute Mock
+  __block id distributeMock = OCMPartialMock(self.sut);
+  OCMReject([distributeMock checkLatestRelease:OCMOCK_ANY distributionGroupId:OCMOCK_ANY releaseHash:OCMOCK_ANY]);
+  XCTestExpectation *expectation = [self expectationWithDescription:@"Start update processed"];
+
+  // When
+  [MSDistribute disableAutomaticCheckForUpdate];
+  MSDistribute.updateTrack = MSUpdateTrackPublic;
+  [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
+                        appSecret:kMSTestAppSecret
+          transmissionTargetToken:nil
+                  fromApplication:YES];
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [expectation fulfill];
+  });
+
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+                                 // Then
+                                 OCMVerifyAll(distributeMock);
+                                 XCTAssertFalse(self.sut.updateFlowInProgress);
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+
+  // Cleanup
+  [distributeMock stopMocking];
+  [bundleMock stopMocking];
+  [utilityMock stopMocking];
+}
+
+- (void)testDoesNotOpenBrowserOrTesterAppOnStartWhenDisabled {
+
+  // If
+  id utilityMock = OCMClassMock([MSUtility class]);
+  OCMStub(ClassMethod([utilityMock sha256:OCMOCK_ANY])).andReturn(@"RELEASEHASH");
+  NSDictionary<NSString *, id> *plist = @{@"CFBundleShortVersionString" : @"1.0", @"CFBundleVersion" : @"1"};
+
+  // Bundle mock
+  id bundleMock = OCMClassMock([NSBundle class]);
+  OCMStub([bundleMock mainBundle]).andReturn(bundleMock);
+  OCMStub([bundleMock infoDictionary]).andReturn(plist);
+
+  // Distribute Mock
+  __block id distributeMock = OCMPartialMock(self.sut);
   OCMStub([distributeMock checkForUpdatesAllowed]).andReturn(YES);
   OCMStub([distributeMock buildTokenRequestURLWithAppSecret:OCMOCK_ANY releaseHash:OCMOCK_ANY isTesterApp:false])
       .andReturn([NSURL URLWithString:@"https://some_url"]);
@@ -264,11 +306,11 @@ static NSString *const kMSTestAppSecret = @"IAMSECRET";
 
   // When
   [MSDistribute disableAutomaticCheckForUpdate];
-  distribute.updateTrack = MSUpdateTrackPrivate;
-  [distribute startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
-                          appSecret:kMSTestAppSecret
-            transmissionTargetToken:nil
-                    fromApplication:YES];
+  MSDistribute.updateTrack = MSUpdateTrackPrivate;
+  [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
+                        appSecret:kMSTestAppSecret
+          transmissionTargetToken:nil
+                  fromApplication:YES];
   dispatch_async(dispatch_get_main_queue(), ^{
     [expectation fulfill];
   });
@@ -278,7 +320,7 @@ static NSString *const kMSTestAppSecret = @"IAMSECRET";
                                handler:^(NSError *error) {
                                  // Then
                                  OCMVerifyAll(distributeMock);
-                                 XCTAssertFalse(distribute.updateFlowInProgress);
+                                 XCTAssertFalse(self.sut.updateFlowInProgress);
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
