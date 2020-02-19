@@ -172,9 +172,6 @@ static NSString *const kMSTestAppSecret = @"IAMSECRET";
                                  // Then
                                  OCMVerify([distributeMock startUpdateOnStart:NO]);
                                  OCMVerify([distributeMock openUrlInAuthenticationSessionOrSafari:OCMOCK_ANY]);
-
-                                 // We expect update flow isn't completed yet as this test doesn't simulate openURL.
-                                 XCTAssertTrue(self.sut.updateFlowInProgress);
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
@@ -206,6 +203,8 @@ static NSString *const kMSTestAppSecret = @"IAMSECRET";
   OCMStub([ingestionMock checkForPublicUpdateWithQueryStrings:OCMOCK_ANY completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
     void (^handler)(NSString *callId, NSHTTPURLResponse *_Nullable response, NSData *_Nullable data, NSError *_Nullable error);
     [invocation getArgument:&handler atIndex:3];
+
+    // Passing nil response would consider the ingestion call as failure but we don't care in this unit test.
     handler(nil, nil, nil, nil);
     [expectation fulfill];
   });
@@ -225,7 +224,6 @@ static NSString *const kMSTestAppSecret = @"IAMSECRET";
                                                           distributionGroupId:OCMOCK_ANY
                                                                   releaseHash:OCMOCK_ANY]);
                                  OCMVerify([ingestionMock checkForPublicUpdateWithQueryStrings:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
-                                 XCTAssertFalse(self.sut.updateFlowInProgress);
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
