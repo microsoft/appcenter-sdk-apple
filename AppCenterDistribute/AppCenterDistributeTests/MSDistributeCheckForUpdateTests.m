@@ -141,11 +141,7 @@ static NSString *const kMSTestAppSecret = @"IAMSECRET";
   id utilityMock = OCMClassMock([MSUtility class]);
   OCMStub(ClassMethod([utilityMock sha256:OCMOCK_ANY])).andReturn(@"RELEASEHASH");
   NSDictionary<NSString *, id> *plist = @{@"CFBundleShortVersionString" : @"1.0", @"CFBundleVersion" : @"1"};
-
-  // Bundle mock
-  id bundleMock = OCMClassMock([NSBundle class]);
-  OCMStub([bundleMock mainBundle]).andReturn(bundleMock);
-  OCMStub([bundleMock infoDictionary]).andReturn(plist);
+  OCMStub([self.bundleMock infoDictionary]).andReturn(plist);
 
   // Distribute Mock
   __block id distributeMock = OCMPartialMock(self.sut);
@@ -185,7 +181,6 @@ static NSString *const kMSTestAppSecret = @"IAMSECRET";
 
   // Cleanup
   [distributeMock stopMocking];
-  [bundleMock stopMocking];
   [utilityMock stopMocking];
 }
 
@@ -195,11 +190,7 @@ static NSString *const kMSTestAppSecret = @"IAMSECRET";
   id utilityMock = OCMClassMock([MSUtility class]);
   OCMStub(ClassMethod([utilityMock sha256:OCMOCK_ANY])).andReturn(@"RELEASEHASH");
   NSDictionary<NSString *, id> *plist = @{@"CFBundleShortVersionString" : @"1.0", @"CFBundleVersion" : @"1"};
-
-  // Bundle mock
-  id bundleMock = OCMClassMock([NSBundle class]);
-  OCMStub([bundleMock mainBundle]).andReturn(bundleMock);
-  OCMStub([bundleMock infoDictionary]).andReturn(plist);
+  OCMStub([self.bundleMock infoDictionary]).andReturn(plist);
 
   // Distribute Mock
   __block id distributeMock = OCMPartialMock(self.sut);
@@ -232,7 +223,6 @@ static NSString *const kMSTestAppSecret = @"IAMSECRET";
 
   // Cleanup
   [distributeMock stopMocking];
-  [bundleMock stopMocking];
   [utilityMock stopMocking];
 }
 
@@ -242,11 +232,7 @@ static NSString *const kMSTestAppSecret = @"IAMSECRET";
   id utilityMock = OCMClassMock([MSUtility class]);
   OCMStub(ClassMethod([utilityMock sha256:OCMOCK_ANY])).andReturn(@"RELEASEHASH");
   NSDictionary<NSString *, id> *plist = @{@"CFBundleShortVersionString" : @"1.0", @"CFBundleVersion" : @"1"};
-
-  // Bundle mock
-  id bundleMock = OCMClassMock([NSBundle class]);
-  OCMStub([bundleMock mainBundle]).andReturn(bundleMock);
-  OCMStub([bundleMock infoDictionary]).andReturn(plist);
+  OCMStub([self.bundleMock infoDictionary]).andReturn(plist);
 
   // Distribute Mock
   __block id distributeMock = OCMPartialMock(self.sut);
@@ -277,7 +263,6 @@ static NSString *const kMSTestAppSecret = @"IAMSECRET";
 
   // Cleanup
   [distributeMock stopMocking];
-  [bundleMock stopMocking];
   [utilityMock stopMocking];
 }
 
@@ -287,11 +272,7 @@ static NSString *const kMSTestAppSecret = @"IAMSECRET";
   id utilityMock = OCMClassMock([MSUtility class]);
   OCMStub(ClassMethod([utilityMock sha256:OCMOCK_ANY])).andReturn(@"RELEASEHASH");
   NSDictionary<NSString *, id> *plist = @{@"CFBundleShortVersionString" : @"1.0", @"CFBundleVersion" : @"1"};
-
-  // Bundle mock
-  id bundleMock = OCMClassMock([NSBundle class]);
-  OCMStub([bundleMock mainBundle]).andReturn(bundleMock);
-  OCMStub([bundleMock infoDictionary]).andReturn(plist);
+  OCMStub([self.bundleMock infoDictionary]).andReturn(plist);
 
   // Distribute Mock
   __block id distributeMock = OCMPartialMock(self.sut);
@@ -328,7 +309,6 @@ static NSString *const kMSTestAppSecret = @"IAMSECRET";
 
   // Cleanup
   [distributeMock stopMocking];
-  [bundleMock stopMocking];
   [utilityMock stopMocking];
 }
 
