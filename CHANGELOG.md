@@ -2,7 +2,9 @@
 
 ## Version 3.0.1 (Under development)
 
-___
+### App Center Distribute
+
+* **[Feature]** Add `disableAutomaticCheckForUpdate` API that needs to be called before SDK start in order to turn off automatic check for update and a `checkForUpdate` API for a manual update check.
 
 ## Version 3.0.0
 
