@@ -154,8 +154,7 @@ static dispatch_once_t onceToken;
       MSLogDebug([MSDistribute logTag], @"Successfully retrieved distribution group Id setting it in distributeInfoTracker.");
       [self.distributeInfoTracker updateDistributionGroupId:distributionGroupId];
     }
-    self.checkForUpdateFlag = NO;
-    [self startUpdate];
+    [self startUpdateOnStart:YES];
   } else {
     [self dismissEmbeddedSafari];
     [self.channelGroup removeDelegate:self.distributeInfoTracker];
@@ -290,7 +289,15 @@ static dispatch_once_t onceToken;
   [self.channelUnit enqueueItem:log flags:MSFlagsDefault];
 }
 
-- (void)startUpdate {
+- (void)startUpdateOnStart:(BOOL)onStart {
+
+  // Do not start update flow on start if automatic check is disabled.
+  if (onStart && self.automaticCheckForUpdateDisabled) {
+    MSLogInfo([MSDistribute logTag], @"Automatic checkForUpdate is disabled.");
+    self.updateFlowInProgress = NO;
+    return;
+  }
+
   NSString *releaseHash = MSPackageHash();
   if (releaseHash) {
     [self changeDistributionGroupIdAfterAppUpdateIfNeeded:releaseHash];
@@ -309,7 +316,7 @@ static dispatch_once_t onceToken;
       self.updateFlowInProgress = YES;
     }
     if (updateToken || self.updateTrack == MSUpdateTrackPublic) {
-      [self checkForUpdateWithUpdateToken:updateToken distributionGroupId:distributionGroupId releaseHash:releaseHash];
+      [self checkLatestRelease:updateToken distributionGroupId:distributionGroupId releaseHash:releaseHash];
     } else {
       [self requestInstallInformationWith:releaseHash];
     }
@@ -319,14 +326,6 @@ static dispatch_once_t onceToken;
 }
 
 - (void)requestInstallInformationWith:(NSString *)releaseHash {
-
-  // Browser won't open at start if check for update was not requested or if automatic checks are disabled.
-  if (self.automaticCheckForUpdateDisabled) {
-    MSLogInfo([MSDistribute logTag],
-              @"Automatic checkForUpdate is disabled. The SDK will try to get an update token the first time checkForUpdate is called.");
-    self.updateFlowInProgress = NO;
-    return;
-  }
 
   // Check if it's okay to check for updates.
   if ([self checkForUpdatesAllowed]) {
@@ -1130,7 +1129,7 @@ static dispatch_once_t onceToken;
       [MSKeychainUtil deleteStringForKey:kMSUpdateTokenKey];
     }
     if (queryUpdateToken || queryDistributionGroupId) {
-      [self checkForUpdateWithUpdateToken:queryUpdateToken distributionGroupId:queryDistributionGroupId releaseHash:MSPackageHash()];
+      [self checkLatestRelease:queryUpdateToken distributionGroupId:queryDistributionGroupId releaseHash:MSPackageHash()];
     } else {
       MSLogError([MSDistribute logTag], @"Cannot find either update token or distribution group id.");
     }
@@ -1139,8 +1138,7 @@ static dispatch_once_t onceToken;
     if (queryTesterAppUpdateSetupFailed) {
       MSLogDebug([MSDistribute logTag], @"In-app updates setup from tester app failure detected.");
       [MS_USER_DEFAULTS setObject:queryTesterAppUpdateSetupFailed forKey:kMSTesterAppUpdateSetupFailedKey];
-      self.checkForUpdateFlag = NO;
-      [self startUpdate];
+      [self startUpdateOnStart:YES];
       return YES;
     }
 
@@ -1194,21 +1192,9 @@ static dispatch_once_t onceToken;
   }
 }
 
-- (void)checkForUpdateWithUpdateToken:(nullable NSString *)updateToken
-                  distributionGroupId:(NSString *)distributionGroupId
-                          releaseHash:(NSString *)releaseHash {
-  if (self.automaticCheckForUpdateDisabled) {
-    MSLogInfo([MSDistribute logTag], @"Automatic checkForUpdate is disabled.");
-    self.updateFlowInProgress = NO;
-  } else {
-    [self checkLatestRelease:updateToken distributionGroupId:distributionGroupId releaseHash:releaseHash];
-  }
-}
-
 - (void)applicationDidBecomeActive {
   if (self.canBeUsed && self.isEnabled && ![MS_USER_DEFAULTS objectForKey:kMSUpdateTokenRequestIdKey]) {
-    self.checkForUpdateFlag = NO;
-    [self startUpdate];
+    [self startUpdateOnStart:YES];
   }
 }
 
@@ -1224,8 +1210,7 @@ static dispatch_once_t onceToken;
 
 - (void)checkForUpdate {
   if (self.canBeUsed && self.isEnabled && ![MS_USER_DEFAULTS objectForKey:kMSUpdateTokenRequestIdKey]) {
-    self.checkForUpdateFlag = YES;
-    [self startUpdate];
+    [self startUpdateOnStart:NO];
   }
 }
 

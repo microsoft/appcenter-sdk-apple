@@ -163,11 +163,6 @@ static NSString *const kMSTesterAppUpdateSetupFailedKey = @"MSTesterAppUpdateSet
 @property(atomic) BOOL automaticCheckForUpdateDisabled;
 
 /**
- * Flag to indicate whether an update was started with a checkForUpdate call.
- */
-@property(atomic) bool checkForUpdateFlag;
-
-/**
  * Returns the singleton instance. Meant for testing/demo apps only.
  *
  * @return the singleton instance of MSDistribute.
@@ -191,17 +186,6 @@ static NSString *const kMSTesterAppUpdateSetupFailedKey = @"MSTesterAppUpdateSet
  * Disable checking the latest release of the application when the SDK starts.
  */
 - (void)disableAutomaticCheckForUpdate;
-
-/**
- * Check the latest release of the application.
- *
- * @param updateToken The update token stored in keychain. This value can be nil if it is public distribution.
- * @param distributionGroupId The distribution group Id in keychain.
- * @param releaseHash The release hash of the current version.
- */
-- (void)checkForUpdateWithUpdateToken:(nullable NSString *)updateToken
-                  distributionGroupId:(NSString *)distributionGroupId
-                          releaseHash:(NSString *)releaseHash;
 
 /**
  * Open the given URL using the openURL method in the Shared Application.
@@ -355,9 +339,11 @@ static NSString *const kMSTesterAppUpdateSetupFailedKey = @"MSTesterAppUpdateSet
 - (void)dismissEmbeddedSafari;
 
 /**
- * Start update workflow
+ * Start update workflow.
+ *
+ * @param onStart A flag that indicates whether it is called when Distribute is started or not.
  */
-- (void)startUpdate;
+- (void)startUpdateOnStart:(BOOL)onStart;
 
 /**
  * Start download for the given details.
