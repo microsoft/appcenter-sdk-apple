@@ -16,9 +16,10 @@ static NSString *const kMSTestAppSecret = @"IAMSECRET";
 
 @property(nonatomic) MSDistribute *sut;
 @property(nonatomic) id settingsMock;
-@property(nonatomic) id bundleMock;
 @property(nonatomic) id keychainUtilMock;
+@property(nonatomic) id bundleMock;
 @property(nonatomic) id parserMock;
+@property(nonatomic) id utilityMock;
 
 @end
 
@@ -29,7 +30,11 @@ static NSString *const kMSTestAppSecret = @"IAMSECRET";
   self.settingsMock = [MSMockUserDefaults new];
   self.keychainUtilMock = [MSMockKeychainUtil new];
 
-  // Mock NSBundle.
+  // Utility mock.
+  self.utilityMock = OCMClassMock([MSUtility class]);
+  OCMStub(ClassMethod([self.utilityMock sha256:OCMOCK_ANY])).andReturn(@"RELEASEHASH");
+
+  // Bundle mock.
   self.bundleMock = OCMClassMock([NSBundle class]);
   OCMStub([self.bundleMock mainBundle]).andReturn(self.bundleMock);
 
@@ -49,6 +54,7 @@ static NSString *const kMSTestAppSecret = @"IAMSECRET";
   [self.keychainUtilMock stopMocking];
   [self.bundleMock stopMocking];
   [self.parserMock stopMocking];
+  [self.utilityMock stopMocking];
   self.sut = nil;
 }
 
@@ -139,8 +145,6 @@ static NSString *const kMSTestAppSecret = @"IAMSECRET";
 - (void)testCheckForUpdateOpenBrowserEvenThoughAutomaticUpdateIsDisabled {
 
   // If
-  id utilityMock = OCMClassMock([MSUtility class]);
-  OCMStub(ClassMethod([utilityMock sha256:OCMOCK_ANY])).andReturn(@"RELEASEHASH");
   NSDictionary<NSString *, id> *plist = @{@"CFBundleShortVersionString" : @"1.0", @"CFBundleVersion" : @"1"};
   OCMStub([self.bundleMock infoDictionary]).andReturn(plist);
 
@@ -179,14 +183,11 @@ static NSString *const kMSTestAppSecret = @"IAMSECRET";
 
   // Cleanup
   [distributeMock stopMocking];
-  [utilityMock stopMocking];
 }
 
 - (void)testCheckForUpdateGetsLatestReleaseEvenThoughAutomaticUpdateIsDisabled {
 
   // If
-  id utilityMock = OCMClassMock([MSUtility class]);
-  OCMStub(ClassMethod([utilityMock sha256:OCMOCK_ANY])).andReturn(@"RELEASEHASH");
   NSDictionary<NSString *, id> *plist = @{@"CFBundleShortVersionString" : @"1.0", @"CFBundleVersion" : @"1"};
   OCMStub([self.bundleMock infoDictionary]).andReturn(plist);
 
@@ -232,14 +233,11 @@ static NSString *const kMSTestAppSecret = @"IAMSECRET";
   // Cleanup
   [distributeMock stopMocking];
   [ingestionMock stopMocking];
-  [utilityMock stopMocking];
 }
 
 - (void)testDoesNotCheckUpdateOnStartWhenAutomaticCheckIsDisabled {
 
   // If
-  id utilityMock = OCMClassMock([MSUtility class]);
-  OCMStub(ClassMethod([utilityMock sha256:OCMOCK_ANY])).andReturn(@"RELEASEHASH");
   NSDictionary<NSString *, id> *plist = @{@"CFBundleShortVersionString" : @"1.0", @"CFBundleVersion" : @"1"};
   OCMStub([self.bundleMock infoDictionary]).andReturn(plist);
 
@@ -272,14 +270,11 @@ static NSString *const kMSTestAppSecret = @"IAMSECRET";
 
   // Cleanup
   [distributeMock stopMocking];
-  [utilityMock stopMocking];
 }
 
 - (void)testDoesNotOpenBrowserOrTesterAppOnStartWhenDisabled {
 
   // If
-  id utilityMock = OCMClassMock([MSUtility class]);
-  OCMStub(ClassMethod([utilityMock sha256:OCMOCK_ANY])).andReturn(@"RELEASEHASH");
   NSDictionary<NSString *, id> *plist = @{@"CFBundleShortVersionString" : @"1.0", @"CFBundleVersion" : @"1"};
   OCMStub([self.bundleMock infoDictionary]).andReturn(plist);
 
@@ -318,7 +313,6 @@ static NSString *const kMSTestAppSecret = @"IAMSECRET";
 
   // Cleanup
   [distributeMock stopMocking];
-  [utilityMock stopMocking];
 }
 
 @end
