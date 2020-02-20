@@ -798,6 +798,7 @@
                     </tableView>
                     <tabBarItem key="tabBarItem" title="Distribution" image="distribute" id="gHP-Uo-BJa"/>
                     <connections>
+                        <outlet property="autoCheckForUpdate" destination="Put-gN-coT" id="2jm-3c-pEm"/>
                         <outlet property="customized" destination="Zxc-Dn-IKS" id="NJi-JI-t4o"/>
                         <outlet property="enabled" destination="RMC-6k-Ol7" id="v4D-rp-gom"/>
                         <outlet property="updateTrackField" destination="atm-zi-XXU" id="s0g-wF-cgj"/>

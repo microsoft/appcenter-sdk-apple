@@ -6,6 +6,7 @@ import AppCenterDistribute
 
 class MSDistributeViewController: UITableViewController, AppCenterProtocol {
 
+  @IBOutlet weak var autoCheckForUpdate: UISwitch!
   @IBOutlet weak var enabled: UISwitch!
   @IBOutlet weak var customized: UISwitch!
   @IBOutlet weak var updateTrackField: UITextField!
@@ -42,7 +43,7 @@ class MSDistributeViewController: UITableViewController, AppCenterProtocol {
   override func viewDidLoad() {
     super.viewDidLoad()
     self.customized.isOn = UserDefaults.init().bool(forKey: kSASCustomizedUpdateAlertKey)
-    self.customized.isOn = UserDefaults.init().bool(forKey: kSASAutomaticCheckForUpdateDisabledKey)
+    self.autoCheckForUpdate.isOn = UserDefaults.init().bool(forKey: kSASAutomaticCheckForUpdateDisabledKey)
     preparePickers()
     self.updateTrack = UpdateTrack.getSelf(by: MSDistribute.updateTrack)
   }
