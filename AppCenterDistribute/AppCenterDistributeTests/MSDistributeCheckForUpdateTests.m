@@ -148,7 +148,7 @@ static NSString *const kMSTestAppSecret = @"IAMSECRET";
   NSDictionary<NSString *, id> *plist = @{@"CFBundleShortVersionString" : @"1.0", @"CFBundleVersion" : @"1"};
   OCMStub([self.bundleMock infoDictionary]).andReturn(plist);
 
-  // Distribute Mock
+  // Distribute mock.
   __block id distributeMock = OCMPartialMock(self.sut);
   OCMStub([distributeMock canBeUsed]).andReturn(YES);
   OCMStub([distributeMock isEnabled]).andReturn(YES);
@@ -191,7 +191,7 @@ static NSString *const kMSTestAppSecret = @"IAMSECRET";
   NSDictionary<NSString *, id> *plist = @{@"CFBundleShortVersionString" : @"1.0", @"CFBundleVersion" : @"1"};
   OCMStub([self.bundleMock infoDictionary]).andReturn(plist);
 
-  // Distribute Mock
+  // Distribute mock.
   __block id distributeMock = OCMPartialMock(self.sut);
   OCMStub([distributeMock canBeUsed]).andReturn(YES);
   OCMStub([distributeMock isEnabled]).andReturn(YES);
@@ -199,7 +199,7 @@ static NSString *const kMSTestAppSecret = @"IAMSECRET";
   OCMStub([distributeMock checkForUpdatesAllowed]).andReturn(YES);
   XCTestExpectation *expectation = [self expectationWithDescription:@"Start update processed"];
 
-  // Ingestion Mock
+  // Ingestion mock.
   __block id ingestionMock = OCMClassMock([MSDistributeIngestion class]);
   OCMStub([ingestionMock checkForPublicUpdateWithQueryStrings:OCMOCK_ANY completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
     void (^handler)(NSString *callId, NSHTTPURLResponse *_Nullable response, NSData *_Nullable data, NSError *_Nullable error);
@@ -241,7 +241,7 @@ static NSString *const kMSTestAppSecret = @"IAMSECRET";
   NSDictionary<NSString *, id> *plist = @{@"CFBundleShortVersionString" : @"1.0", @"CFBundleVersion" : @"1"};
   OCMStub([self.bundleMock infoDictionary]).andReturn(plist);
 
-  // Distribute Mock
+  // Distribute mock.
   __block id distributeMock = OCMPartialMock(self.sut);
   OCMReject([distributeMock checkLatestRelease:OCMOCK_ANY distributionGroupId:OCMOCK_ANY releaseHash:OCMOCK_ANY]);
   XCTestExpectation *expectation = [self expectationWithDescription:@"Start update processed"];
@@ -278,7 +278,7 @@ static NSString *const kMSTestAppSecret = @"IAMSECRET";
   NSDictionary<NSString *, id> *plist = @{@"CFBundleShortVersionString" : @"1.0", @"CFBundleVersion" : @"1"};
   OCMStub([self.bundleMock infoDictionary]).andReturn(plist);
 
-  // Distribute Mock
+  // Distribute mock.
   __block id distributeMock = OCMPartialMock(self.sut);
   OCMStub([distributeMock checkForUpdatesAllowed]).andReturn(YES);
   OCMStub([distributeMock buildTokenRequestURLWithAppSecret:OCMOCK_ANY releaseHash:OCMOCK_ANY isTesterApp:false])
