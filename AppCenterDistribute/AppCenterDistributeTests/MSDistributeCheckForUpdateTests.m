@@ -55,7 +55,6 @@ static NSString *const kMSTestAppSecret = @"IAMSECRET";
   [self.bundleMock stopMocking];
   [self.parserMock stopMocking];
   [self.utilityMock stopMocking];
-  self.sut = nil;
 }
 
 - (void)testBypassCheckForUpdateWhenDistributeIsDisabled {
