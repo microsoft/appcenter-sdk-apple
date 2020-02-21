@@ -83,6 +83,7 @@ class MSDistributeViewController: UITableViewController, AppCenterProtocol {
         case 2: appCenter.checkForUpdate()
         default: ()
         }
+
     // Section with alerts.
     case 1:
       switch (indexPath.row) {
