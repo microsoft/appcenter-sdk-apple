@@ -73,7 +73,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
         MSDistribute.updateTrack = updateTrack
     }
     if UserDefaults.standard.bool(forKey: kSASCustomizedUpdateAlertKey) {
-        //MSDistribute.disableAutomaticCheckForUpdate()
+        MSDistribute.disableAutomaticCheckForUpdate()
     }
 
     // Start App Center SDK.

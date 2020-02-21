@@ -102,6 +102,6 @@ class MSDistributeViewController: UITableViewController, AppCenterProtocol {
   }
 
   @IBAction func customizedSwitchUpdated(_ sender: UISwitch) {
-    UserDefaults.init().set(sender.isOn ? true : false, forKey: kSASCustomizedUpdateAlertKey)
+    UserDefaults.standard.set(sender.isOn ? true : false, forKey: kSASCustomizedUpdateAlertKey)
   }
 }

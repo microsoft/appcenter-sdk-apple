@@ -120,7 +120,7 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
     MSDistribute.updateTrack = updateTrack;
   }
   if ([[[NSUserDefaults new] objectForKey:kSASAutomaticCheckForUpdateDisabledKey] isEqual:@1]) {
-    //MSDistribute.disableAutomaticCheckForUpdate();
+    [MSDistribute disableAutomaticCheckForUpdate];
   }
 
   // Start App Center SDK.

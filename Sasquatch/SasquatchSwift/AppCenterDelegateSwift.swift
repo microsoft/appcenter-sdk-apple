@@ -154,14 +154,7 @@ class AppCenterDelegateSwift: AppCenterDelegate {
   }
 
   func checkForUpdate() {
-    let sharedInstanceSelector = #selector(Selectors.sharedInstance)
-    let checkForUpdateSelector = #selector(Selectors.checkForUpdate)
-    if (MSDistribute.responds(to: sharedInstanceSelector)) {
-      let distributeInstance = MSDistribute.perform(sharedInstanceSelector).takeUnretainedValue()
-      if (distributeInstance.responds(to: checkForUpdateSelector)) {
-        _ = distributeInstance.perform(checkForUpdateSelector)
-      }
-    }
+    MSDistribute.checkForUpdate()
   }
     
   // MSDistribute section.
