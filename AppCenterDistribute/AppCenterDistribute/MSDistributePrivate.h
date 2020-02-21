@@ -188,17 +188,6 @@ static NSString *const kMSTesterAppUpdateSetupFailedKey = @"MSTesterAppUpdateSet
 - (void)disableAutomaticCheckForUpdate;
 
 /**
- * Check the latest release of the application.
- *
- * @param updateToken The update token stored in keychain. This value can be nil if it is public distribution.
- * @param distributionGroupId The distribution group Id in keychain.
- * @param releaseHash The release hash of the current version.
- */
-- (void)checkForUpdateWithUpdateToken:(nullable NSString *)updateToken
-                  distributionGroupId:(NSString *)distributionGroupId
-                          releaseHash:(NSString *)releaseHash;
-
-/**
  * Open the given URL using the openURL method in the Shared Application.
  *
  * @param url URL to open.
@@ -350,9 +339,11 @@ static NSString *const kMSTesterAppUpdateSetupFailedKey = @"MSTesterAppUpdateSet
 - (void)dismissEmbeddedSafari;
 
 /**
- * Start update workflow
+ * Start update workflow.
+ *
+ * @param onStart A flag that indicates whether it is called when Distribute is started or not.
  */
-- (void)startUpdate;
+- (void)startUpdateOnStart:(BOOL)onStart;
 
 /**
  * Start download for the given details.
@@ -363,6 +354,11 @@ static NSString *const kMSTesterAppUpdateSetupFailedKey = @"MSTesterAppUpdateSet
  * Close application for update.
  */
 - (void)closeApp;
+
+/**
+ * Check for the latest release using the selected update track.
+ */
+- (void)checkForUpdate;
 
 /**
  * Method to reset the singleton when running tests only. So calling sharedInstance returns a fresh instance.

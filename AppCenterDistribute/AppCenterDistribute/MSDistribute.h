@@ -90,6 +90,11 @@ typedef NS_ENUM(NSInteger, MSUpdateTrack) {
  */
 + (void)disableAutomaticCheckForUpdate;
 
+/**
+ * Check for the latest release using the selected update track.
+ */
++ (void)checkForUpdate;
+
 @end
 
 NS_ASSUME_NONNULL_END

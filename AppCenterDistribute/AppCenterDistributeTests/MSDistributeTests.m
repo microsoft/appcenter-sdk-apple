@@ -1306,7 +1306,7 @@ static NSURL *sfURL;
   [utilityMock stopMocking];
 }
 
-- (void)testCheckForUpdatesAllConditionsMet {
+- (void)testCheckForUpdatesAllowedAllConditionsMet {
 
   // If
   [MSDistributeTestUtil unMockUpdatesAllowedConditions];
@@ -1389,7 +1389,7 @@ static NSURL *sfURL;
   [appCenterMock stopMocking];
 }
 
-- (void)testCheckForUpdatesDebuggerAttached {
+- (void)testCheckForUpdatesAllowedDebuggerAttached {
 
   // When
   [MSDistributeTestUtil unMockUpdatesAllowedConditions];
@@ -1409,7 +1409,7 @@ static NSURL *sfURL;
   [guidedAccessMock stopMocking];
 }
 
-- (void)testCheckForUpdatesInvalidEnvironment {
+- (void)testCheckForUpdatesAllowedInvalidEnvironment {
 
   // When
   [MSDistributeTestUtil unMockUpdatesAllowedConditions];
@@ -1429,7 +1429,7 @@ static NSURL *sfURL;
   [guidedAccessMock stopMocking];
 }
 
-- (void)testCheckForUpdatesInGuidedAccessMode {
+- (void)testCheckForUpdatesAllowedInGuidedAccessMode {
 
   // When
   [MSDistributeTestUtil unMockUpdatesAllowedConditions];
@@ -1546,7 +1546,7 @@ static NSURL *sfURL;
 
   // When
   [distributeMock applyEnabledState:YES];
-  [distributeMock startUpdate];
+  [distributeMock startUpdateOnStart:NO];
   dispatch_async(dispatch_get_main_queue(), ^{
     [expectation fulfill];
   });
@@ -1945,7 +1945,7 @@ static NSURL *sfURL;
   OCMStub([notificationCenterMock defaultCenter]).andReturn(notificationCenterMock);
   id distributeMock = OCMPartialMock([MSDistribute new]);
   __block int startUpdateCounter = 0;
-  OCMStub([distributeMock startUpdate]).andDo(^(__attribute((unused)) NSInvocation *invocation) {
+  OCMStub([distributeMock startUpdateOnStart:OCMOCK_ANY]).andDo(^(__attribute((unused)) NSInvocation *invocation) {
     startUpdateCounter++;
   });
 
@@ -2442,7 +2442,7 @@ static NSURL *sfURL;
   [self.settingsMock setObject:kMSTestDownloadedDistributionGroupId forKey:kMSDownloadedDistributionGroupIdKey];
 
   // When
-  [distributeMock startUpdate];
+  [distributeMock startUpdateOnStart:NO];
 
   // Then
   OCMVerify([distributeMock changeDistributionGroupIdAfterAppUpdateIfNeeded:kMSTestReleaseHash]);
@@ -2469,7 +2469,7 @@ static NSURL *sfURL;
   OCMReject([distributeMock checkLatestRelease:OCMOCK_ANY distributionGroupId:OCMOCK_ANY releaseHash:OCMOCK_ANY]);
 
   // When
-  [distributeMock startUpdate];
+  [distributeMock startUpdateOnStart:NO];
 
   // Then
   XCTAssertFalse(self.sut.updateFlowInProgress);
@@ -2495,7 +2495,7 @@ static NSURL *sfURL;
   [self.settingsMock setObject:kMSTestDownloadedDistributionGroupId forKey:kMSDownloadedDistributionGroupIdKey];
 
   // When
-  [distributeMock startUpdate];
+  [distributeMock startUpdateOnStart:NO];
 
   // Then
   XCTAssertTrue(checkLatestReleaseCalled);
@@ -2517,7 +2517,7 @@ static NSURL *sfURL;
   [self.settingsMock setObject:kMSTestDownloadedDistributionGroupId forKey:kMSDownloadedDistributionGroupIdKey];
 
   // When
-  [distributeMock startUpdate];
+  [distributeMock startUpdateOnStart:NO];
 
   // Then
   OCMVerify([distributeMock changeDistributionGroupIdAfterAppUpdateIfNeeded:kMSTestReleaseHash]);
@@ -2541,7 +2541,7 @@ static NSURL *sfURL;
   [self.settingsMock setObject:kMSTestDistributionGroupId forKey:kMSDownloadedDistributionGroupIdKey];
 
   // When
-  [distributeMock startUpdate];
+  [distributeMock startUpdateOnStart:NO];
 
   // Then
   OCMVerify([distributeMock changeDistributionGroupIdAfterAppUpdateIfNeeded:kMSTestReleaseHash]);
@@ -2565,7 +2565,7 @@ static NSURL *sfURL;
   [self.settingsMock removeObjectForKey:kMSDownloadedDistributionGroupIdKey];
 
   // When
-  [distributeMock startUpdate];
+  [distributeMock startUpdateOnStart:NO];
 
   // Then
   OCMVerify([distributeMock changeDistributionGroupIdAfterAppUpdateIfNeeded:kMSTestReleaseHash]);
@@ -2588,7 +2588,7 @@ static NSURL *sfURL;
   [self.settingsMock removeObjectForKey:kMSDownloadedDistributionGroupIdKey];
 
   // When
-  [distributeMock startUpdate];
+  [distributeMock startUpdateOnStart:NO];
 
   // Then
   OCMVerify([distributeMock changeDistributionGroupIdAfterAppUpdateIfNeeded:kMSTestReleaseHash]);
@@ -2670,7 +2670,7 @@ static NSURL *sfURL;
   id notificationCenterMock = OCMPartialMock([NSNotificationCenter new]);
   OCMStub([notificationCenterMock defaultCenter]).andReturn(notificationCenterMock);
   id distributeMock = OCMPartialMock([MSDistribute new]);
-  OCMReject([distributeMock startUpdate]);
+  OCMReject([distributeMock startUpdateOnStart:OCMOCK_ANY]);
 
   // When
   [distributeMock setEnabled:YES];
