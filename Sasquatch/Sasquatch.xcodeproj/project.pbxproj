@@ -1017,7 +1017,7 @@
 		84226D301E89301B00798417 /* AppCenterCrashes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenterCrashes.framework; path = "../AppCenter-SDK-Apple/iOS/AppCenterCrashes.framework"; sourceTree = "<group>"; };
 		84226D311E89301B00798417 /* AppCenterDistribute.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenterDistribute.framework; path = "../AppCenter-SDK-Apple/iOS/AppCenterDistribute.framework"; sourceTree = "<group>"; };
 		84226D3A1E8937FF00798417 /* AppCenterDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppCenterDelegate.swift; sourceTree = "<group>"; };
-		84226D3E1E8939B700798417 /* AppCenterDelegateSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = AppCenterDelegateSwift.swift; sourceTree = "<group>"; tabWidth = 2; };
+		84226D3E1E8939B700798417 /* AppCenterDelegateSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppCenterDelegateSwift.swift; sourceTree = "<group>"; };
 		84226D401E89538D00798417 /* AppCenterDelegateObjC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppCenterDelegateObjC.h; sourceTree = "<group>"; };
 		84226D411E8953F100798417 /* AppCenterDelegateObjC.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AppCenterDelegateObjC.mm; sourceTree = "<group>"; };
 		845964AA1E8A7E6600BABA51 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -1025,7 +1025,7 @@
 		849A3E711E8A9922008711CB /* AppCenterProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppCenterProtocol.swift; sourceTree = "<group>"; };
 		84A0FF651E8A87B4000E7A28 /* MSCrashesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSCrashesViewController.swift; sourceTree = "<group>"; };
 		84A0FF681E8A87C9000E7A28 /* MSAnalyticsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSAnalyticsViewController.swift; sourceTree = "<group>"; };
-		84A0FF6B1E8A87E1000E7A28 /* MSDistributeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = MSDistributeViewController.swift; sourceTree = "<group>"; tabWidth = 2; };
+		84A0FF6B1E8A87E1000E7A28 /* MSDistributeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSDistributeViewController.swift; sourceTree = "<group>"; };
 		B203FF4B20E57A5B002AD536 /* MSAnalyticsChildTransmissionTargetTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSAnalyticsChildTransmissionTargetTableViewController.swift; sourceTree = "<group>"; };
 		B20AE3AB21027D6200A1A195 /* SasquatchPuppet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SasquatchPuppet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B20AE3B92102812300A1A195 /* AppCenter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AppCenter.xcodeproj; path = ../AppCenter/AppCenter.xcodeproj; sourceTree = "<group>"; };
