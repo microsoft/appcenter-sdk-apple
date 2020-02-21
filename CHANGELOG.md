@@ -1,8 +1,11 @@
 # App Center SDK for iOS, macOS and tvOS Change Log
 
-## Version 3.0.1 (Under development)
+## Version 3.1.0 (Under development)
 
-___
+### App Center Distribute
+
+* **[Feature]** Add a `disableAutomaticCheckForUpdate` API that needs to be called before SDK start in order to turn off automatic check for update. 
+* **[Feature]** Add a `checkForUpdate` API to manually check for update.
 
 ## Version 3.0.0
 
