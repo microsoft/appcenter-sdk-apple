@@ -15,4 +15,4 @@
 "MSDistributeAppUpdateAvailableMandatoryUpdateMessage" = "Разработчики этого приложения требуют выполнить обновление до %@ %@ (%@).";
 "MSDistributeAppUpdateAvailableOptionalUpdateMessage" = "Обновление %@ %@ (%@) доступно для скачивания и установки.";
 "MSDistributeInAppUpdatesAreDisabled" = "Обновления в приложении отключены.";
-"MSDistributeInstallFailedMessage" = "Эта версия была либо загружена, либо загружена с помощью браузера в частном режиме.";
+"MSDistributeInstallFailedMessage" = "Эта версия не была загружена с портала, либо загружена через браузер в приватном режиме.";
