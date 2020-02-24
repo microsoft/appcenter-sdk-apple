@@ -72,7 +72,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
        let updateTrack = MSUpdateTrack(rawValue: updateTrackValue) {
         MSDistribute.updateTrack = updateTrack
     }
-    if UserDefaults.standard.bool(forKey: kSASCustomizedUpdateAlertKey) {
+    if UserDefaults.standard.bool(forKey: kSASAutomaticCheckForUpdateDisabledKey) {
         MSDistribute.disableAutomaticCheckForUpdate()
     }
 
