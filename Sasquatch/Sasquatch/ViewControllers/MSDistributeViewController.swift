@@ -42,8 +42,8 @@ class MSDistributeViewController: UITableViewController, AppCenterProtocol {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    self.customized.isOn = UserDefaults.init().bool(forKey: kSASCustomizedUpdateAlertKey)
-    self.autoCheckForUpdate.isOn = UserDefaults.init().bool(forKey: kSASAutomaticCheckForUpdateDisabledKey)
+    self.customized.isOn = UserDefaults.standard.bool(forKey: kSASCustomizedUpdateAlertKey)
+    self.autoCheckForUpdate.isOn = UserDefaults.standard.bool(forKey: kSASAutomaticCheckForUpdateDisabledKey)
     preparePickers()
     self.updateTrack = UpdateTrack.getSelf(by: MSDistribute.updateTrack)
   }
@@ -68,7 +68,7 @@ class MSDistributeViewController: UITableViewController, AppCenterProtocol {
   }
   
   @IBAction func checkForUpdateSwitchUpdated(_ sender: UISwitch) {
-      UserDefaults.init().set(sender.isOn ? true : false, forKey: kSASAutomaticCheckForUpdateDisabledKey)
+      UserDefaults.standard.set(sender.isOn, forKey: kSASAutomaticCheckForUpdateDisabledKey)
   }
     
   @IBAction func enabledSwitchUpdated(_ sender: UISwitch) {

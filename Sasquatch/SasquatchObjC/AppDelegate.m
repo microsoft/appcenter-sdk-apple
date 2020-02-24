@@ -119,7 +119,7 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
   if (updateTrack) {
     MSDistribute.updateTrack = updateTrack;
   }
-  if ([[[NSUserDefaults new] objectForKey:kSASAutomaticCheckForUpdateDisabledKey] isEqual:@1]) {
+  if ([[[NSUserDefaults standardUserDefaults] objectForKey:kSASAutomaticCheckForUpdateDisabledKey] isEqual:@1]) {
     [MSDistribute disableAutomaticCheckForUpdate];
   }
 
@@ -324,7 +324,7 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
 
 - (BOOL)distribute:(MSDistribute *)distribute releaseAvailableWithDetails:(MSReleaseDetails *)details {
 
-  if ([[[NSUserDefaults new] objectForKey:kSASCustomizedUpdateAlertKey] isEqual:@1]) {
+  if ([[[NSUserDefaults standardUserDefaults] objectForKey:kSASCustomizedUpdateAlertKey] isEqual:@1]) {
 
     // Show a dialog to the user where they can choose if they want to update.
     UIAlertController *alertController =
