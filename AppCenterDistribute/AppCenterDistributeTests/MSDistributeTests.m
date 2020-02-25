@@ -1469,6 +1469,7 @@ static NSURL *sfURL;
   // Then
   OCMVerify([distributeMock requestInstallInformationWith:kMSTestReleaseHash]);
   OCMReject([distributeMock buildTokenRequestURLWithAppSecret:OCMOCK_ANY releaseHash:kMSTestReleaseHash isTesterApp:false]);
+  OCMReject([distributeMock openUrlInAuthenticationSessionOrSafari:OCMOCK_ANY]);
   XCTAssertEqual([self.settingsMock objectForKey:kMSUpdateSetupFailedPackageHashKey], kMSTestReleaseHash);
 
   // Clear
@@ -1505,6 +1506,7 @@ static NSURL *sfURL;
   // Then
   OCMVerify([distributeMock requestInstallInformationWith:kMSTestReleaseHash]);
   OCMVerify([distributeMock buildTokenRequestURLWithAppSecret:OCMOCK_ANY releaseHash:kMSTestReleaseHash isTesterApp:false]);
+  OCMReject([distributeMock openUrlInAuthenticationSessionOrSafari:OCMOCK_ANY]);
   XCTAssertNil([self.settingsMock objectForKey:kMSUpdateSetupFailedPackageHashKey]);
 
   // Clear
@@ -1535,6 +1537,7 @@ static NSURL *sfURL;
 
   // Then
   OCMVerify([ingestionMock checkForPublicUpdateWithQueryStrings:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
+  OCMReject([distributeMock openUrlInAuthenticationSessionOrSafari:OCMOCK_ANY]);
   XCTAssertEqual([self.settingsMock objectForKey:kMSUpdateSetupFailedPackageHashKey], kMSTestReleaseHash);
 
   // Clear
@@ -1573,6 +1576,7 @@ static NSURL *sfURL;
 
   // Then
   OCMVerify([ingestionMock checkForPublicUpdateWithQueryStrings:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
+  OCMReject([distributeMock openUrlInAuthenticationSessionOrSafari:OCMOCK_ANY]);
   XCTAssertNotNil([self.settingsMock objectForKey:kMSUpdateSetupFailedPackageHashKey]);
 
   // Clear
