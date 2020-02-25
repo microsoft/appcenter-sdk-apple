@@ -1449,27 +1449,27 @@ static NSURL *sfURL;
   [guidedAccessMock stopMocking];
 }
 
-- (void)testSetupUpdatesWithPreviousFailureOnSamePackageHash {
+- (void)testSetupUpdatesWithPreviousFailureOnSamePackageHashForPrivateTrack {
 
   // If
   [MSDistributeTestUtil unMockUpdatesAllowedConditions];
   id appCenterMock = OCMClassMock([MSAppCenter class]);
   id distributeMock = OCMPartialMock(self.sut);
   id guidedAccessMock = OCMClassMock([MSGuidedAccessUtil class]);
-  [distributeMock setUpdateTrack:MSUpdateTrackPrivate];
-  OCMStub([distributeMock checkLatestRelease:OCMOCK_ANY distributionGroupId:OCMOCK_ANY releaseHash:OCMOCK_ANY]).andDo(nil);
   id utilityMock = [self mockMSPackageHash];
+  [self.sut setUpdateTrack:MSUpdateTrackPrivate];
   OCMStub([appCenterMock isDebuggerAttached]).andReturn(NO);
   OCMStub([utilityMock currentAppEnvironment]).andReturn(MSEnvironmentOther);
   OCMStub([guidedAccessMock isGuidedAccessEnabled]).andReturn(NO);
   [self.settingsMock setObject:kMSTestReleaseHash forKey:kMSUpdateSetupFailedPackageHashKey];
 
   // When
-  [distributeMock applyEnabledState:YES];
+  [self.sut applyEnabledState:YES];
 
   // Then
   OCMVerify([distributeMock requestInstallInformationWith:kMSTestReleaseHash]);
   OCMReject([distributeMock buildTokenRequestURLWithAppSecret:OCMOCK_ANY releaseHash:kMSTestReleaseHash isTesterApp:false]);
+  OCMReject([distributeMock openUrlInAuthenticationSessionOrSafari:OCMOCK_ANY]);
   XCTAssertEqual([self.settingsMock objectForKey:kMSUpdateSetupFailedPackageHashKey], kMSTestReleaseHash);
 
   // Clear
@@ -1479,19 +1479,18 @@ static NSURL *sfURL;
   [guidedAccessMock stopMocking];
 }
 
-- (void)testSetupUpdatesWithPreviousFailureOnDifferentPackageHash {
+- (void)testSetupUpdatesWithPreviousFailureOnDifferentPackageHashForPrivateTrack {
 
   // If
-  id reachabilityMock = OCMClassMock([MS_Reachability class]);
-  OCMStub([reachabilityMock reachabilityForInternetConnection]).andReturn(reachabilityMock);
-  OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(ReachableViaWiFi);
   [MSDistributeTestUtil unMockUpdatesAllowedConditions];
+  id reachabilityMock = OCMClassMock([MS_Reachability class]);
   id appCenterMock = OCMClassMock([MSAppCenter class]);
   id distributeMock = OCMPartialMock(self.sut);
-  [distributeMock setUpdateTrack:MSUpdateTrackPrivate];
-  OCMStub([distributeMock checkLatestRelease:OCMOCK_ANY distributionGroupId:OCMOCK_ANY releaseHash:OCMOCK_ANY]).andDo(nil);
   id utilityMock = [self mockMSPackageHash];
   id guidedAccessMock = OCMClassMock([MSGuidedAccessUtil class]);
+  OCMStub([reachabilityMock reachabilityForInternetConnection]).andReturn(reachabilityMock);
+  OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(ReachableViaWiFi);
+  [self.sut setUpdateTrack:MSUpdateTrackPrivate];
   OCMStub([appCenterMock isDebuggerAttached]).andReturn(NO);
   OCMStub([utilityMock currentAppEnvironment]).andReturn(MSEnvironmentOther);
   OCMStub([guidedAccessMock isGuidedAccessEnabled]).andReturn(NO);
@@ -1502,11 +1501,12 @@ static NSURL *sfURL;
   XCTAssertNotEqual([self.settingsMock objectForKey:kMSUpdateSetupFailedPackageHashKey], kMSTestReleaseHash);
 
   // When
-  [distributeMock applyEnabledState:YES];
+  [self.sut applyEnabledState:YES];
 
   // Then
   OCMVerify([distributeMock requestInstallInformationWith:kMSTestReleaseHash]);
   OCMVerify([distributeMock buildTokenRequestURLWithAppSecret:OCMOCK_ANY releaseHash:kMSTestReleaseHash isTesterApp:false]);
+  OCMReject([distributeMock openUrlInAuthenticationSessionOrSafari:OCMOCK_ANY]);
   XCTAssertNil([self.settingsMock objectForKey:kMSUpdateSetupFailedPackageHashKey]);
 
   // Clear
@@ -1514,6 +1514,77 @@ static NSURL *sfURL;
   [appCenterMock stopMocking];
   [utilityMock stopMocking];
   [guidedAccessMock stopMocking];
+}
+
+- (void)testSetupUpdatesWithPreviousFailureOnSamePackageHashWhenItChangedToPublicTrack {
+
+  // If
+  [MSDistributeTestUtil unMockUpdatesAllowedConditions];
+  id appCenterMock = OCMClassMock([MSAppCenter class]);
+  id distributeMock = OCMPartialMock(self.sut);
+  id guidedAccessMock = OCMClassMock([MSGuidedAccessUtil class]);
+  id ingestionMock = OCMClassMock([MSDistributeIngestion class]);
+  id utilityMock = [self mockMSPackageHash];
+  [self.sut setUpdateTrack:MSUpdateTrackPublic];
+  self.sut.ingestion = ingestionMock;
+  OCMStub([appCenterMock isDebuggerAttached]).andReturn(NO);
+  OCMStub([utilityMock currentAppEnvironment]).andReturn(MSEnvironmentOther);
+  OCMStub([guidedAccessMock isGuidedAccessEnabled]).andReturn(NO);
+  [self.settingsMock setObject:kMSTestReleaseHash forKey:kMSUpdateSetupFailedPackageHashKey];
+
+  // When
+  [self.sut applyEnabledState:YES];
+
+  // Then
+  OCMVerify([ingestionMock checkForPublicUpdateWithQueryStrings:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
+  OCMReject([distributeMock openUrlInAuthenticationSessionOrSafari:OCMOCK_ANY]);
+  XCTAssertEqual([self.settingsMock objectForKey:kMSUpdateSetupFailedPackageHashKey], kMSTestReleaseHash);
+
+  // Clear
+  [distributeMock stopMocking];
+  [appCenterMock stopMocking];
+  [utilityMock stopMocking];
+  [guidedAccessMock stopMocking];
+  [ingestionMock stopMocking];
+}
+
+- (void)testSetupUpdatesWithPreviousFailureOnDifferentPackageHashWhenItChangedToPublicTrack {
+
+  // If
+  [MSDistributeTestUtil unMockUpdatesAllowedConditions];
+  id reachabilityMock = OCMClassMock([MS_Reachability class]);
+  id appCenterMock = OCMClassMock([MSAppCenter class]);
+  id distributeMock = OCMPartialMock(self.sut);
+  id guidedAccessMock = OCMClassMock([MSGuidedAccessUtil class]);
+  id ingestionMock = OCMClassMock([MSDistributeIngestion class]);
+  id utilityMock = [self mockMSPackageHash];
+  OCMStub([reachabilityMock reachabilityForInternetConnection]).andReturn(reachabilityMock);
+  OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(ReachableViaWiFi);
+  [self.sut setUpdateTrack:MSUpdateTrackPublic];
+  self.sut.ingestion = ingestionMock;
+  OCMStub([appCenterMock isDebuggerAttached]).andReturn(NO);
+  OCMStub([utilityMock currentAppEnvironment]).andReturn(MSEnvironmentOther);
+  OCMStub([guidedAccessMock isGuidedAccessEnabled]).andReturn(NO);
+  [self.settingsMock setObject:@"different-release-hash" forKey:kMSUpdateSetupFailedPackageHashKey];
+
+  // Then
+  XCTAssertNotNil([self.settingsMock objectForKey:kMSUpdateSetupFailedPackageHashKey]);
+  XCTAssertNotEqual([self.settingsMock objectForKey:kMSUpdateSetupFailedPackageHashKey], kMSTestReleaseHash);
+
+  // When
+  [self.sut applyEnabledState:YES];
+
+  // Then
+  OCMVerify([ingestionMock checkForPublicUpdateWithQueryStrings:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
+  OCMReject([distributeMock openUrlInAuthenticationSessionOrSafari:OCMOCK_ANY]);
+  XCTAssertNotNil([self.settingsMock objectForKey:kMSUpdateSetupFailedPackageHashKey]);
+
+  // Clear
+  [distributeMock stopMocking];
+  [appCenterMock stopMocking];
+  [utilityMock stopMocking];
+  [guidedAccessMock stopMocking];
+  [ingestionMock stopMocking];
 }
 
 - (void)testBrowserNotOpenedWhenTesterAppUsedForUpdateSetup {
