@@ -32,7 +32,7 @@ static pthread_key_t _MSCrashesCXXExceptionInfoTSDKey = 0;
 
 @implementation MSCrashesUncaughtCXXExceptionHandlerManager
 
-extern "C" void __attribute__((noreturn)) __cxa_throw(void *exception_object, std::type_info *tinfo, void (*dest)(void *)) {
+extern "C" void __attribute__((noreturn)) inline __cxa_throw(void *exception_object, std::type_info *tinfo, void (*dest)(void *)) {
 
   /*
    * Purposely do not take a lock in this function. The aim is to be as fast as possible. While we could really use some of the info set up
