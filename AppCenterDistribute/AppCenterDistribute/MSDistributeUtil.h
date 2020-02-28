@@ -3,6 +3,8 @@
 
 #import <Foundation/Foundation.h>
 
+#import "MSDistribute.h"
+
 @class MSReleaseDetails;
 
 /**
@@ -51,5 +53,12 @@ NSComparisonResult MSCompareCurrentReleaseWithRelease(MSReleaseDetails *release)
 NSString *MSPackageHash(void);
 
 @interface MSDistributeUtil : NSObject
+
+/**
+ * Check if the given update track is valid or not.
+ *
+ * @return YES if it is valid, NO otherwise.
+ */
++ (BOOL)isValidUpdateTrack:(MSUpdateTrack)updateTrack;
 
 @end

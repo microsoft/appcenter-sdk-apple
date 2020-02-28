@@ -1,6 +1,10 @@
 # App Center SDK for iOS, macOS and tvOS Change Log
 
-## Version 2.5.4 (Under development)
+## Version 3.0.1 (Under development)
+
+___
+
+## Version 3.0.0
 
 ### App Center
 
@@ -11,13 +15,24 @@
 * **[Fix]** Fix macOS SDK binaries not to contain strong copies for symbolic links.
 * **[Improvement]** Replaced sqlite query concatenation with more secure bindings.
 
+### App Center Auth
+
+App Center Auth is [retired](https://aka.ms/MBaaS-retirement-blog-post) and has been removed from the SDK.
+
 ### App Center Crashes
 
 * **[Fix]** Fix an issue to call Crashes delegate callbacks even though a modal window is being shown on macOS apps.
+* **[Fix]** Fix an issue when React Native SDK did not send wrapperSdk information.
 * **[Improvement]** Update PLCrashReporter to 1.4.0.
+
+### App Center Data
+
+App Center Data is [retired](https://aka.ms/MBaaS-retirement-blog-post) and has been removed from the SDK.
 
 ### App Center Distribute
 
+* **[Feature]** Add `updateTrack` property to be able to explicitly set either `MSUpdateTrackPrivate` or `MSUpdateTrackPublic` update track. By default, a public distribution group is used. **Breaking change**: To allow users to access releases of private groups you now need to migrate your application to call `MSDistribute.updateTrack = MSUpdateTrackPrivate` before the SDK start. Please read the documentation for more details.
+* **[Behavior change]** The public distribution is simplified to provide only one public group. If you have existing public groups defined for your application your users will receive the latest version of all public groups.
 * **[Fix]** Fix a crash when `SFAuthenticationSession` accesses the controller which is in the process of being released.
 * **[Fix]** Fix sign-in when switching to third-party apps while activating updates.
 

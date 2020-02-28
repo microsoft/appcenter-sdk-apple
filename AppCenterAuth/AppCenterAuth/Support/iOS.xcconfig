@@ -1,6 +1,0 @@
-#include "../../../Config/iOS.xcconfig"
-#include "../../../Config/Target config.xcconfig"
-
-USER_HEADER_SEARCH_PATHS=$(inherited) $(SRCROOT)/MSAL/**
-DEPLOYMENT_POSTPROCESSING = YES;
-STRIP_INSTALLED_PRODUCT = NO;

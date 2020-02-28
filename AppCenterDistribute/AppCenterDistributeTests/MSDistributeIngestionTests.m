@@ -19,7 +19,8 @@
 @property id httpClientMock;
 @property id httpClientClassMock;
 @property NSString *baseUrl;
-@property NSString *actualUrl;
+@property NSString *actualPublicUrl;
+@property NSString *actualPrivateUrl;
 @property NSString *updateToken;
 @property NSString *distributionGroupId;
 @property MSDistributeIngestion *sut;
@@ -34,16 +35,12 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   self.baseUrl = @"https://contoso.com";
   self.updateToken = @"updateToken";
   self.distributionGroupId = @"groupId";
-  self.actualUrl = [NSString stringWithFormat:@"%@/sdk/apps/%@/releases/latest", self.baseUrl, kMSTestAppSecret];
+  self.actualPublicUrl = [NSString stringWithFormat:@"%@/public/sdk/apps/%@/releases/latest", self.baseUrl, kMSTestAppSecret];
+  self.actualPrivateUrl = [NSString stringWithFormat:@"%@/sdk/apps/%@/releases/private/latest", self.baseUrl, kMSTestAppSecret];
   self.httpClientMock = OCMPartialMock([MSHttpClient new]);
   self.httpClientClassMock = OCMClassMock([MSHttpClient class]);
   OCMStub([self.httpClientClassMock alloc]).andReturn(self.httpClientMock);
-  self.sut = [[MSDistributeIngestion alloc] initWithHttpClient:self.httpClientMock
-                                                       baseUrl:self.baseUrl
-                                                     appSecret:kMSTestAppSecret
-                                                   updateToken:self.updateToken
-                                           distributionGroupId:self.distributionGroupId
-                                                  queryStrings:@{}];
+  self.sut = [[MSDistributeIngestion alloc] initWithHttpClient:self.httpClientMock baseUrl:self.baseUrl appSecret:kMSTestAppSecret];
 }
 
 - (void)tearDown {
@@ -55,24 +52,20 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 - (void)testGetHeadersAndNilPayload {
 
   // When
-  NSDictionary *headers = [self.sut getHeadersWithData:nil eTag:nil authToken:nil];
-  NSData *payload = [self.sut getPayloadWithData:nil];
-  [self.sut sendAsync:[NSData new]
-      completionHandler:^(NSString *_Nonnull callId, NSHTTPURLResponse *_Nullable response __unused, NSData *_Nullable data __unused,
-                          NSError *_Nullable error __unused) {
-        (void)callId;
-      }];
+  [self.sut checkForPublicUpdateWithQueryStrings:@{}
+                               completionHandler:^(NSString *_Nonnull callId, NSHTTPURLResponse *_Nullable response __unused,
+                                                   NSData *_Nullable data __unused, NSError *_Nullable error __unused) {
+                                 (void)callId;
+                               }];
 
   // Then
-  assertThat(headers, equalTo(@{kMSHeaderUpdateApiToken : self.updateToken}));
-  OCMVerify([self.httpClientMock sendAsync:[NSURL URLWithString:self.actualUrl]
+  OCMVerify([self.httpClientMock sendAsync:[NSURL URLWithString:self.actualPublicUrl]
                                     method:@"GET"
-                                   headers:OCMOCK_ANY
-                                      data:OCMOCK_ANY
+                                   headers:@{}
+                                      data:nil
                             retryIntervals:OCMOCK_ANY
                         compressionEnabled:OCMOCK_ANY
                          completionHandler:OCMOCK_ANY]);
-  XCTAssertNil(payload);
 }
 
 - (void)testGetHeadersWithUpdateTokenAndNilPayload {
@@ -84,24 +77,21 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   OCMStub([distributeMock appSecret]).andReturn(@"secret");
 
   // When
-  NSDictionary *headers = [self.sut getHeadersWithData:[NSData new] eTag:nil authToken:nil];
-  NSData *payload = [self.sut getPayloadWithData:[NSData new]];
-  [self.sut sendAsync:[NSData new]
-      completionHandler:^(NSString *_Nonnull callId, NSHTTPURLResponse *_Nullable response __unused, NSData *_Nullable data __unused,
-                          NSError *_Nullable error __unused) {
-        (void)callId;
-      }];
+  [self.sut checkForPrivateUpdateWithUpdateToken:updateToken
+                                    queryStrings:@{}
+                               completionHandler:^(NSString *_Nonnull callId, NSHTTPURLResponse *_Nullable response __unused,
+                                                   NSData *_Nullable data __unused, NSError *_Nullable error __unused) {
+                                 (void)callId;
+                               }];
 
   // Then
-  assertThat(headers, equalTo(@{kMSHeaderUpdateApiToken : updateToken}));
-  OCMVerify([self.httpClientMock sendAsync:[NSURL URLWithString:self.actualUrl]
+  OCMVerify([self.httpClientMock sendAsync:[NSURL URLWithString:self.actualPrivateUrl]
                                     method:@"GET"
-                                   headers:OCMOCK_ANY
-                                      data:OCMOCK_ANY
+                                   headers:@{kMSHeaderUpdateApiToken : updateToken}
+                                      data:nil
                             retryIntervals:OCMOCK_ANY
                         compressionEnabled:OCMOCK_ANY
                          completionHandler:OCMOCK_ANY]);
-  XCTAssertNil(payload);
 
   // Cleanup
   [distributeMock stopMocking];
@@ -125,7 +115,6 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   // When
   [MSHttpTestUtil stubResponseWithData:data statusCode:MSHTTPCodesNo200OK headers:self.sut.httpHeaders name:NSStringFromSelector(_cmd)];
   [self.sut sendAsync:container
-              authToken:nil
       completionHandler:^(__unused NSString *batchId, __unused NSHTTPURLResponse *response, __unused NSData *responseData,
                           __unused NSError *error) {
         [requestCompletedExpectation fulfill];
@@ -147,22 +136,30 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [mockLogger stopMocking];
 }
 
-- (void)testHttpClientDelegateObfuscateHeaderValue {
+- (void)testHttpClientDelegateObfuscateURLAndHeaderValue {
 
   // If
   id mockLogger = OCMClassMock([MSLogger class]);
   id mockHttpUtil = OCMClassMock([MSHttpUtil class]);
   OCMStub([mockLogger currentLogLevel]).andReturn(MSLogLevelVerbose);
-  OCMStub(ClassMethod([mockHttpUtil hideSecret:OCMOCK_ANY])).andDo(nil);
-  NSString *appSecret = @"TestAppSecret";
+  __block NSString *appSecret = @"TestAppSecret";
+  __block int count = 0;
   NSDictionary<NSString *, NSString *> *headers = @{kMSHeaderUpdateApiToken : appSecret};
-  NSURL *url = [NSURL new];
+  NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", kMSDefaultApiUrl, kMSTestAppSecret]];
+  OCMStub(ClassMethod([mockHttpUtil hideSecret:OCMOCK_ANY]))
+      .andDo(^(NSInvocation *__unused invocation) {
+        count++;
+      })
+      .andReturn(@"");
 
   // When
   [self.sut willSendHTTPRequestToURL:url withHeaders:headers];
 
   // Then
   OCMVerify([mockHttpUtil hideSecret:appSecret]);
+
+  // TODO: This is called only once because current Distribute doesn't obfuscate URL which is a bug.
+  XCTAssertEqual(count, 1);
   [mockLogger stopMocking];
   [mockHttpUtil stopMocking];
 }

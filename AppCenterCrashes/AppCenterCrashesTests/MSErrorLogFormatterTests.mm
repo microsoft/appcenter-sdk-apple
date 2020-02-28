@@ -428,6 +428,37 @@ static NSArray *kMacOSCrashReportsParameters = @[
   XCTAssertEqual(imageType, MSBinaryImageTypeOther, @"Test other image %@ with process %@", imagePath, processPath);
 }
 
+- (void)testErrorLogFromCrashReportWithWrapper {
+
+  // If
+  MSMockUserDefaults *defaults = [MSMockUserDefaults new];
+  [MSDeviceTracker resetSharedInstance];
+
+  // When
+  NSData *crashData = [MSCrashesTestUtil dataOfFixtureCrashReportWithFileName:@"live_report_exception"];
+
+  // Then
+  XCTAssertNotNil(crashData);
+
+  // If
+  NSError *error = nil;
+  MSPLCrashReport *report = [[MSPLCrashReport alloc] initWithData:crashData error:&error];
+  MSWrapperSdk *wrapperSdk = [[MSWrapperSdk alloc] initWithWrapperSdkVersion:@"10.11.12"
+                                                              wrapperSdkName:@"Wrapper SDK for iOS"
+                                                       wrapperRuntimeVersion:@"13.14"
+                                                      liveUpdateReleaseLabel:@"Release Label"
+                                                     liveUpdateDeploymentKey:@"Deployment Key"
+                                                       liveUpdatePackageHash:@"Package Hash"];
+
+  // When
+  [[MSDeviceTracker sharedInstance] setWrapperSdk:wrapperSdk];
+  MSAppleErrorLog *errorLog = [MSErrorLogFormatter errorLogFromCrashReport:report];
+
+  // Then
+  XCTAssertEqualObjects(errorLog.device.wrapperSdkName, @"Wrapper SDK for iOS");
+  [defaults stopMocking];
+}
+
 - (void)assertIsCrashProbeReportValidConverted:(NSString *)filename {
   NSData *crashData = [MSCrashesTestUtil dataOfFixtureCrashReportWithFileName:filename];
   XCTAssertNotNil(crashData);

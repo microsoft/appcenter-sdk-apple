@@ -15,11 +15,6 @@ static NSString *const kMSTargetTokenColumnName = @"targetToken";
 static NSString *const kMSTargetKeyColumnName = @"targetKey";
 static NSString *const kMSPriorityColumnName = @"priority";
 
-/**
- * Timestamp in milliseconds.
- */
-static NSString *const kMSTimestampColumnName = @"timestamp";
-
 @protocol MSDatabaseConnection;
 
 @interface MSLogDBStorage ()
@@ -49,7 +44,7 @@ static NSString *const kMSTimestampColumnName = @"timestamp";
  */
 @property(nonatomic, readonly) NSUInteger targetTokenColumnIndex;
 
-/*
+/**
  * Encrypter for target tokens.
  */
 @property(nonatomic, readonly) MSEncrypter *targetTokenEncrypter;
