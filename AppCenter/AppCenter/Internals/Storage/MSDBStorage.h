@@ -105,43 +105,19 @@ static NSString *const kMSSQLiteConstraintAutoincrement = @"AUTOINCREMENT";
 + (NSDictionary *)columnsIndexes:(MSDBSchema *)schema;
 
 /**
- * Creates a table within an existing database.
+ * Deletes database.
  *
- * @param tableName Table name.
- * @param columnsSchema Schema describing the columns structure.
- *
- * @return YES if table is created or already exists, NO otherwise.
  */
-- (BOOL)createTable:(NSString *)tableName columnsSchema:(MSDBColumnsSchema *)columnsSchema;
+- (void)dropDatabase;
 
 /**
- * Creates a table within an existing database with unique columns constraint.
- *
- * @param tableName Table name.
- * @param columnsSchema Schema describing the columns structure.
- * @param uniqueColumns The name of the columns where the combination of the columns is unique.
- *
- * @discussion The combination of the columns (not individual columns) forms a unique contraint on the table.
- * @return YES if table is created or already exists, NO otherwise.
- */
-- (BOOL)createTable:(NSString *)tableName
-              columnsSchema:(MSDBColumnsSchema *)columnsSchema
-    uniqueColumnsConstraint:(nullable NSArray<NSString *> *)uniqueColumns;
-
-/**
- * Deletes table within an existing database
+ * Deletes table within an existing database.
  *
  * @param tableName Name of the table to delete.
  *
  * @return operation status.
  */
 - (BOOL)dropTable:(NSString *)tableName;
-
-/**
- * Deletes database.
- *
- */
-- (void)dropDatabase;
 
 /**
  * Set the maximum size of the internal storage. This method must be called before App Center is started.

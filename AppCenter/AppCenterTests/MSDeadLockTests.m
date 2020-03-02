@@ -10,8 +10,6 @@
 #import "MSChannelUnitProtocol.h"
 #import "MSMockService.h"
 #import "MSTestFrameworks.h"
-#import "MSAuthTokenContext.h"
-#import "MSAuthTokenContextPrivate.h"
 
 @interface MSDeadLockTests : XCTestCase
 @end
@@ -102,7 +100,6 @@ static MSDummyService2 *sharedInstanceService2 = nil;
 - (void)setUp {
   [super setUp];
   [MSAppCenter resetSharedInstance];
-  [MSAuthTokenContext resetSharedInstance];
 }
 
 - (void)testDeadLockAtStartup {
@@ -128,8 +125,8 @@ static MSDummyService2 *sharedInstanceService2 = nil;
   // Wait background queue.
   __block MSChannelGroupDefault *channelGroup = [MSAppCenter sharedInstance].channelGroup;
   dispatch_sync(channelGroup.logsDispatchQueue, ^{
-                  dispatch_suspend(channelGroup.logsDispatchQueue);
-                });
+    dispatch_suspend(channelGroup.logsDispatchQueue);
+  });
 }
 
 @end

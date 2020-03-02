@@ -67,7 +67,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   // When
   NSString *containerId = @"1";
   MSLogContainer *container = [self createLogContainerWithId:containerId];
-  NSDictionary *headers = [self.sut getHeadersWithData:container eTag:nil authToken:nil];
+  NSDictionary *headers = [self.sut getHeadersWithData:container eTag:nil];
   NSArray *keys = [headers allKeys];
 
   // Then
@@ -190,7 +190,6 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   MSLogContainer *container = [self createLogContainerWithId:containerId];
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@"HTTP Response 200"];
   [self.sut sendAsync:container
-              authToken:nil
       completionHandler:^(NSString *batchId, NSHTTPURLResponse *response, __attribute__((unused)) NSData *data, NSError *error) {
         XCTAssertNil(error);
         XCTAssertEqual(containerId, batchId);
@@ -227,7 +226,6 @@ static NSString *const kMSBaseUrl = @"https://test.com";
 
   // When
   [self.sut sendAsync:container
-              authToken:nil
       completionHandler:^(__attribute__((unused)) NSString *batchId, __attribute__((unused)) NSHTTPURLResponse *response,
                           __attribute__((unused)) NSData *data, NSError *error) {
         // Then
@@ -253,7 +251,6 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   // When
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@"HTTP Network Down"];
   [self.sut sendAsync:container
-              authToken:nil
       completionHandler:^(__attribute__((unused)) NSString *batchId, __attribute__((unused)) NSHTTPURLResponse *response,
                           __attribute__((unused)) NSData *data, NSError *error) {
         // Then
@@ -344,7 +341,6 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   // When
   [MSHttpTestUtil stubResponseWithData:data statusCode:MSHTTPCodesNo200OK headers:self.sut.httpHeaders name:NSStringFromSelector(_cmd)];
   [self.sut sendAsync:logContainer
-              authToken:nil
       completionHandler:^(__unused NSString *batchId, __unused NSHTTPURLResponse *response, __unused NSData *responseData,
                           __unused NSError *error) {
         [requestCompletedExpectation fulfill];

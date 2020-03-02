@@ -66,22 +66,8 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
     // Set HTTP client delegate.
     httpClient.delegate = self;
 
-    // Construct the URL string with the query string.
-    NSMutableString *urlString = [NSMutableString stringWithFormat:@"%@%@", baseUrl, apiPath];
-    __block NSMutableString *queryStringForEncoding = [NSMutableString new];
-
-    // Set query parameter.
-    [queryStrings enumerateKeysAndObjectsUsingBlock:^(id _Nonnull key, id _Nonnull queryString, __unused BOOL *_Nonnull stop) {
-      [queryStringForEncoding
-          appendString:[NSString stringWithFormat:@"%@%@=%@", [queryStringForEncoding length] > 0 ? @"&" : @"", key, queryString]];
-    }];
-    if ([queryStringForEncoding length] > 0) {
-      [urlString appendFormat:@"?%@", [queryStringForEncoding
-                                          stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]];
-    }
-
     // Set send URL which can't be null
-    _sendURL = (NSURL * _Nonnull)[NSURL URLWithString:urlString];
+    _sendURL = [self buildURLWithBaseURL:baseUrl apiPath:apiPath queryStrings:queryStrings];
   }
   return self;
 }
@@ -92,23 +78,12 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
   return YES;
 }
 
-- (void)sendAsync:(NSObject *)data authToken:(nullable NSString *)authToken completionHandler:(MSSendAsyncCompletionHandler)handler {
-  [self sendAsync:data eTag:nil authToken:authToken callId:MS_UUID_STRING completionHandler:handler];
-}
-
-- (void)sendAsync:(NSObject *)data
-                 eTag:(nullable NSString *)eTag
-            authToken:(nullable NSString *)authToken
-    completionHandler:(MSSendAsyncCompletionHandler)handler {
-  [self sendAsync:data eTag:eTag authToken:authToken callId:MS_UUID_STRING completionHandler:handler];
-}
-
 - (void)sendAsync:(NSObject *)data completionHandler:(MSSendAsyncCompletionHandler)handler {
-  [self sendAsync:data eTag:nil authToken:nil callId:MS_UUID_STRING completionHandler:handler];
+  [self sendAsync:data eTag:nil callId:MS_UUID_STRING completionHandler:handler];
 }
 
 - (void)sendAsync:(NSObject *)data eTag:(nullable NSString *)eTag completionHandler:(MSSendAsyncCompletionHandler)handler {
-  [self sendAsync:data eTag:eTag authToken:nil callId:MS_UUID_STRING completionHandler:handler];
+  [self sendAsync:data eTag:eTag callId:MS_UUID_STRING completionHandler:handler];
 }
 
 #pragma mark - Life cycle
@@ -118,6 +93,46 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
     self.enabled = isEnabled;
   }
 }
+
+#pragma mark - MSHttpIngestion
+
+- (NSURL *)buildURLWithBaseURL:(NSString *)baseURL apiPath:(NSString *)apiPath queryStrings:(NSDictionary *)queryStrings {
+
+  // Construct the URL string with the query string.
+  NSMutableString *urlString = [NSMutableString stringWithFormat:@"%@%@", baseURL, apiPath];
+  __block NSMutableString *queryStringForEncoding = [NSMutableString new];
+
+  // Set query parameter.
+  [queryStrings enumerateKeysAndObjectsUsingBlock:^(id _Nonnull key, id _Nonnull queryString, __unused BOOL *_Nonnull stop) {
+    [queryStringForEncoding
+        appendString:[NSString stringWithFormat:@"%@%@=%@", [queryStringForEncoding length] > 0 ? @"&" : @"", key, queryString]];
+  }];
+  if ([queryStringForEncoding length] > 0) {
+    [urlString appendFormat:@"?%@", [queryStringForEncoding
+                                        stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]];
+  }
+
+  return (NSURL * _Nonnull)[NSURL URLWithString:urlString];
+}
+
+// This method will be overridden by subclasses.
+- (NSDictionary *)getHeadersWithData:(NSObject *__unused)data eTag:(NSString *__unused)eTag {
+  return nil;
+}
+
+// This method will be overridden by subclasses.
+- (NSData *)getPayloadWithData:(NSObject *__unused)data {
+  return nil;
+}
+
+// This method will be overridden by subclasses.
+- (NSString *)obfuscateResponsePayload:(NSString *__unused)payload {
+  return nil;
+}
+
+- (NSString *)getHttpMethod {
+  return kMSHttpMethodPost;
+};
 
 #pragma mark - Private
 
@@ -156,14 +171,13 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
 
 - (void)sendAsync:(NSObject *)data
                  eTag:(nullable NSString *)eTag
-            authToken:(nullable NSString *)authToken
                callId:(NSString *)callId
     completionHandler:(MSSendAsyncCompletionHandler)handler {
   @synchronized(self) {
     if (!self.enabled) {
       return;
     }
-    NSDictionary *httpHeaders = [self getHeadersWithData:data eTag:eTag authToken:authToken];
+    NSDictionary *httpHeaders = [self getHeadersWithData:data eTag:eTag];
     NSData *payload = [self getPayloadWithData:data];
     [self.httpClient sendAsync:self.sendURL
                         method:[self getHttpMethod]
@@ -203,25 +217,6 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
     MSLogVerbose([MSAppCenter logTag], @"HTTP response received with status code: %tu, payload:\n%@", response.statusCode, payload);
   }
 }
-
-// This method will be overridden by subclasses.
-- (NSDictionary *)getHeadersWithData:(NSObject *__unused)data eTag:(NSString *__unused)eTag authToken:(NSString *__unused)authToken {
-  return nil;
-}
-
-// This method will be overridden by subclasses.
-- (NSData *)getPayloadWithData:(NSObject *__unused)data {
-  return nil;
-}
-
-// This method will be overridden by subclasses.
-- (NSString *)obfuscateResponsePayload:(NSString *__unused)payload {
-  return nil;
-}
-
-- (NSString *)getHttpMethod {
-  return kMSHttpMethodPost;
-};
 
 #pragma mark - Helper
 

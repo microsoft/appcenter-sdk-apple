@@ -4,9 +4,7 @@
 import AppCenter
 import AppCenterAnalytics
 import AppCenterCrashes
-import AppCenterData
 import AppCenterDistribute
-import AppCenterAuth
 import AppCenterPush
 
 /**
@@ -42,14 +40,6 @@ class AppCenterDelegateSwift: AppCenterDelegate {
   }
 
   func appSecret() -> String {
-    return kMSSwiftAppSecret
-  }
-  
-  func appSecretAAD() -> String {
-    return kMSSwiftObjcAADAppSecret
-  }
-  
-  func appSecretB2C() -> String {
     return kMSSwiftAppSecret
   }
 
@@ -90,10 +80,6 @@ class AppCenterDelegateSwift: AppCenterDelegate {
     return MSDistribute.isEnabled()
   }
 
-  func isAuthEnabled() -> Bool {
-    return MSAuth.isEnabled()
-  }
-
   func isPushEnabled() -> Bool {
     return MSPush.isEnabled()
   }
@@ -108,10 +94,6 @@ class AppCenterDelegateSwift: AppCenterDelegate {
 
   func setDistributeEnabled(_ isEnabled: Bool) {
     MSDistribute.setEnabled(isEnabled)
-  }
-
-  func setAuthEnabled(_ isEnabled: Bool) {
-    MSAuth.setEnabled(isEnabled)
   }
 
   func setPushEnabled(_ isEnabled: Bool) {
@@ -209,25 +191,6 @@ class AppCenterDelegateSwift: AppCenterDelegate {
     }
   }
 
-  // MSAuth section.
-  func signIn(_ completionHandler: @escaping (_ signInInformation:MSUserInformation?, _ error:Error?) -> Void) {
-    MSAuth.signIn { userInformation, error in
-      if error == nil {
-        UserDefaults.standard.set(true, forKey: kMSUserIdentity)
-        print("Auth.signIn succeeded, accountId=\(userInformation?.accountId ?? "nil")")
-      }
-      else {
-        print("Auth.signIn failed, error=\(String(describing: error))")
-      }
-      completionHandler(userInformation, error)
-    }
-  }
-
-  func signOut() {
-    MSAuth.signOut()
-    UserDefaults.standard.set(false, forKey: kMSUserIdentity)
-  }
-
   // Last crash report section.
   func lastCrashReportIncidentIdentifier() -> String? {
     return MSCrashes.lastSessionCrashReport()?.incidentIdentifier
@@ -316,29 +279,4 @@ class AppCenterDelegateSwift: AppCenterDelegate {
   func lastCrashReportDeviceAppNamespace() -> String? {
     return MSCrashes.lastSessionCrashReport()?.device.appNamespace
   }
-  
-  // MSData
-  
-  func listDocumentsWithPartition(_ partitionName: String, documentType: AnyClass, completionHandler: @escaping (_ paginatedDocuments:MSPaginatedDocuments) -> Void) {
-    MSData.listDocuments(withType: documentType, partition: partitionName, completionHandler: completionHandler)
-  }
-  
-  func createDocumentWithPartition(_ partitionName: String, documentId: String, document: MSDictionaryDocument, writeOptions: MSWriteOptions, completionHandler: @escaping (_ document:MSDocumentWrapper) -> Void) {
-    MSData.create(withDocumentID: documentId, document: document, partition: partitionName, completionHandler: completionHandler);
-  }
-  
-  func replaceDocumentWithPartition(_ partitionName: String, documentId: String, document: MSDictionaryDocument, writeOptions: MSWriteOptions, completionHandler: @escaping (_ document:MSDocumentWrapper) -> Void) {
-    MSData.replace(withDocumentID: documentId, document: document, partition: partitionName, writeOptions: writeOptions, completionHandler: completionHandler)
-  }
-  
-  func deleteDocumentWithPartition(_ partitionName: String, documentId: String) {
-    MSData.delete(withDocumentID: documentId, partition: partitionName, completionHandler: { document in
-      print("Data.delete document with id \(documentId) succeeded")
-    })
-  }
-    
-  func readDocumentWithPartition(_ partitionName: String, documentId: String, documentType: AnyClass, completionHandler: @escaping (_ document:MSDocumentWrapper) -> Void) {
-    MSData.read(withDocumentID: documentId, documentType: documentType, partition: partitionName, completionHandler: completionHandler)
-  }
-    
-  }
+}

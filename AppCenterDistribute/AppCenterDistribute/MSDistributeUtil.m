@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "MSBasicMachOParser.h"
-#import "MSDistribute.h"
-#import "MSDistributeInternal.h"
 #import "MSDistributeUtil.h"
+#import "MSBasicMachOParser.h"
+#import "MSDistributeInternal.h"
+#import "MSDistributePrivate.h"
 #import "MSLogger.h"
 #import "MSSemVer.h"
 #import "MSUtility+StringFormatting.h"
@@ -13,7 +13,6 @@ NSBundle *MSDistributeBundle(void) {
   static NSBundle *bundle = nil;
   static dispatch_once_t predicate;
   dispatch_once(&predicate, ^{
-
     // The resource bundle is part of the main app bundle, e.g. .../Puppet.app/AppCenterDistribute.bundle
     NSString *mainBundlePath = [[NSBundle bundleForClass:[MSDistribute class]] resourcePath];
     NSString *frameworkBundlePath = [mainBundlePath stringByAppendingPathComponent:APP_CENTER_DISTRIBUTE_BUNDLE];
@@ -121,5 +120,9 @@ NSString *MSPackageHash(void) {
 }
 
 @implementation MSDistributeUtil
+
++ (BOOL)isValidUpdateTrack:(MSUpdateTrack)updateTrack {
+  return updateTrack == MSUpdateTrackPublic || updateTrack == MSUpdateTrackPrivate;
+}
 
 @end

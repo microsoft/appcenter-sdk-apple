@@ -21,18 +21,19 @@ class AppDelegate : UIResponder, UIApplicationDelegate, MSCrashesDelegate {
     // Crashes Delegate.
     MSCrashes.setDelegate(self)
     MSCrashes.setUserConfirmationHandler({ (errorReports: [MSErrorReport]) in
-      let alert = MSAlertController(title: "Sorry about that!",
-                                    message: "Do you want to send an anonymous crash report so we can fix the issue?")
-      alert?.addDefaultAction(withTitle: "Send", handler: { (alert) in
-        MSCrashes.notify(with: MSUserConfirmation.send)
+      let alertController = UIAlertController(title: "Sorry about that!",
+              message: "Do you want to send an anonymous crash report so we can fix the issue?",
+              preferredStyle: .alert)
+      alertController.addAction(UIAlertAction(title: "Send", style: .default) { _ in
+          MSCrashes.notify(with: .send)
       })
-      alert?.addDefaultAction(withTitle: "Always Send", handler: { (alert) in
-        MSCrashes.notify(with: MSUserConfirmation.always)
+      alertController.addAction(UIAlertAction(title: "Always send", style: .default) { _ in
+          MSCrashes.notify(with: .always)
       })
-      alert?.addCancelAction(withTitle: "Don't Send", handler: { (alert) in
-        MSCrashes.notify(with: MSUserConfirmation.dontSend)
+      alertController.addAction(UIAlertAction(title: "Don't send", style: .cancel) { _ in
+          MSCrashes.notify(with: .dontSend)
       })
-      alert?.show()
+      self.window?.rootViewController?.present(alertController, animated: true)
       return true
     })
 
