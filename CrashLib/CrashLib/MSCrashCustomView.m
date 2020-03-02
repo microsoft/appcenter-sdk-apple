@@ -23,7 +23,7 @@
 -(void)drawRect:(NSRect)rect {
 #else
 -(void)drawRect:(CGRect)rect {
-#endifs
+#endif
   [super drawRect:rect];
   @throw [NSException exceptionWithName:NSGenericException reason:@"Objective-C exception from drawing custom view."
                                userInfo:@{NSLocalizedDescriptionKey: @"Something goes wrong in drawRect:"}];
