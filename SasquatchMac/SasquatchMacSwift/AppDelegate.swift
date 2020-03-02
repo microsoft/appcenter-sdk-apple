@@ -67,12 +67,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, MSCrashesDelegate, MSPushDel
     if logUrl != nil {
       MSAppCenter.setLogUrl(logUrl)
     }
-
-    // Set user id.
-    let userId = UserDefaults.standard.string(forKey: kMSUserIdKey)
-    if userId != nil {
-      MSAppCenter.setUserId(userId)
-    }
     
     // Set location manager.
     locationManager.delegate = self
@@ -114,6 +108,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, MSCrashesDelegate, MSPushDel
         break
     case .skip:
         break
+    }
+      
+    // Set user id.
+    let userId = UserDefaults.standard.string(forKey: kMSUserIdKey)
+    if userId != nil {
+      MSAppCenter.setUserId(userId)
     }
 
     AppCenterProvider.shared().appCenter = AppCenterDelegateSwift()
