@@ -2,6 +2,7 @@
  * Update dialog buttons
  */
 "MSDistributeUpdateNow" = "Şimdi güncelleştir";
+"MSDistributeNotNow" = "Şimdi değil";
 "MSDistributeAskMeInADay" = "Bir gün içinde sor";
 "MSDistributeViewReleaseNotes" = "Sürüm notlarını görüntüle";
 "MSDistributeClose" = "Kapat";

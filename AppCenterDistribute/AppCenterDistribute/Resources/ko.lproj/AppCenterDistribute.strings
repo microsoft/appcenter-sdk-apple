@@ -2,6 +2,7 @@
  * Update dialog buttons
  */
 "MSDistributeUpdateNow" = "지금 업데이트";
+"MSDistributeNotNow" = "지금은 아닙니다";
 "MSDistributeAskMeInADay" = "하루동안 열지 않기";
 "MSDistributeViewReleaseNotes" = "릴리스 정보 보기";
 "MSDistributeClose" = "닫기";

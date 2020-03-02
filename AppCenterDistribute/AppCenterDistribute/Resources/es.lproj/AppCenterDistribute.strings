@@ -2,6 +2,7 @@
  * Update dialog buttons
  */
 "MSDistributeUpdateNow" = "Actualizar ahora";
+"MSDistributeNotNow" = "Ahora no";
 "MSDistributeAskMeInADay" = "Preguntarme dentro de un día";
 "MSDistributeViewReleaseNotes" = "Ver notas de la versión";
 "MSDistributeClose" = "Cerrar";

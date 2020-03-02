@@ -2,6 +2,7 @@
  * Update dialog buttons
  */
 "MSDistributeUpdateNow" = "今すぐ更新";
+"MSDistributeNotNow" = "今はやめろ";
 "MSDistributeAskMeInADay" = "明日また知らせる";
 "MSDistributeViewReleaseNotes" = "リリース ノートの表示";
 "MSDistributeClose" = "閉じる";

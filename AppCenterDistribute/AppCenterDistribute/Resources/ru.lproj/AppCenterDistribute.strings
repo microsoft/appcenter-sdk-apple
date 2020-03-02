@@ -2,6 +2,7 @@
  * Update dialog buttons
  */
 "MSDistributeUpdateNow" = "Обновить";
+"MSDistributeNotNow" = "Не сейчас";
 "MSDistributeAskMeInADay" = "Спросить через день";
 "MSDistributeViewReleaseNotes" = "Просмотреть заметки о выпуске";
 "MSDistributeClose" = "Закрыть";

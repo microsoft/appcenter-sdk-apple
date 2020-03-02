@@ -908,6 +908,12 @@ static dispatch_once_t onceToken;
 
     if (!details.mandatoryUpdate) {
 
+      // Add a "Not now"-Button.
+      [alertController addDefaultActionWithTitle:MSDistributeLocalizedString(@"MSDistributeNotNow")
+                                         handler:^(__attribute__((unused)) UIAlertAction *action) {
+                                           // NO-OP
+                                         }];
+
       // Add a "Ask me in a day"-Button.
       [alertController addDefaultActionWithTitle:MSDistributeLocalizedString(@"MSDistributeAskMeInADay")
                                          handler:^(__attribute__((unused)) UIAlertAction *action) {

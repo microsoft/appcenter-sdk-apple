@@ -2,6 +2,7 @@
  * Update dialog buttons
  */
 "MSDistributeUpdateNow" = "立即更新";
+"MSDistributeNotNow" = "現在不要";
 "MSDistributeAskMeInADay" = "一天後詢問我";
 "MSDistributeViewReleaseNotes" = "檢視版本資訊";
 "MSDistributeClose" = "關閉";

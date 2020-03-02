@@ -490,6 +490,9 @@ static NSURL *sfURL;
                                  // Then
                                  OCMVerify([self.alertControllerMock alertControllerWithTitle:OCMOCK_ANY message:message]);
                                  OCMVerify([self.alertControllerMock
+                                     addDefaultActionWithTitle:MSDistributeLocalizedString(@"MSDistributeNotNow")
+                                                       handler:OCMOCK_ANY]);
+                                 OCMVerify([self.alertControllerMock
                                      addDefaultActionWithTitle:MSDistributeLocalizedString(@"MSDistributeAskMeInADay")
                                                        handler:OCMOCK_ANY]);
                                  OCMVerify([self.alertControllerMock
@@ -532,6 +535,9 @@ static NSURL *sfURL;
                                  // Then
                                  OCMVerify([self.alertControllerMock alertControllerWithTitle:OCMOCK_ANY message:message]);
                                  OCMVerify([self.alertControllerMock
+                                     addDefaultActionWithTitle:MSDistributeLocalizedString(@"MSDistributeNotNow")
+                                                       handler:OCMOCK_ANY]);
+                                 OCMVerify([self.alertControllerMock
                                      addDefaultActionWithTitle:MSDistributeLocalizedString(@"MSDistributeAskMeInADay")
                                                        handler:OCMOCK_ANY]);
                                  OCMVerify([self.alertControllerMock addPreferredActionWithTitle:OCMOCK_ANY handler:OCMOCK_ANY]);
@@ -544,6 +550,8 @@ static NSURL *sfURL;
   // If
   NSString *appName = @"Test App";
   OCMStub([self.bundleMock objectForInfoDictionaryKey:@"CFBundleDisplayName"]).andReturn(appName);
+  OCMReject([self.alertControllerMock addDefaultActionWithTitle:MSDistributeLocalizedString(@"MSDistributeNotNow")
+                                                        handler:OCMOCK_ANY]);
   OCMReject([self.alertControllerMock addDefaultActionWithTitle:MSDistributeLocalizedString(@"MSDistributeAskMeInADay")
                                                         handler:OCMOCK_ANY]);
   MSReleaseDetails *details = [MSReleaseDetails new];
@@ -628,6 +636,8 @@ static NSURL *sfURL;
   XCTestExpectation *expectation = [self expectationWithDescription:@"Confirmation alert for private distribution has been displayed"];
 
   // Mock alert.
+  OCMReject([self.alertControllerMock addDefaultActionWithTitle:MSDistributeLocalizedString(@"MSDistributeNotNow")
+                                                        handler:OCMOCK_ANY]);
   OCMReject([self.alertControllerMock addDefaultActionWithTitle:MSDistributeLocalizedString(@"MSDistributeAskMeInADay")
                                                         handler:OCMOCK_ANY]);
 
