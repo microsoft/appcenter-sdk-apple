@@ -23,10 +23,10 @@
 -(void)drawRect:(NSRect)rect {
 #else
 -(void)drawRect:(CGRect)rect {
-#endif
-    [super drawRect:rect];
-    @throw [NSException exceptionWithName:NSGenericException reason:@"Crash from drawing custom view."
-                                 userInfo:@{NSLocalizedDescriptionKey: @"I'm in your program, catching your exceptions!"}];
+#endifs
+  [super drawRect:rect];
+  @throw [NSException exceptionWithName:NSGenericException reason:@"Objective-C exception from drawing custom view."
+                               userInfo:@{NSLocalizedDescriptionKey: @"Something goes wrong in drawRect:"}];
 }
 
 @end
@@ -48,9 +48,9 @@
 - (void)crash {
   MSCustomView* view = [[MSCustomView new] initWithFrame:CGRectMake(0, 0, 100, 100)];
 #if TARGET_OS_OSX
-    [NSApplication.sharedApplication.mainWindow.contentView addSubview:view];
+  [NSApplication.sharedApplication.mainWindow.contentView addSubview:view];
 #else
-    [UIApplication.sharedApplication.keyWindow.rootViewController.view addSubview:view];
+  UIApplication.sharedApplication.keyWindow.rootViewController.view = view;
 #endif
 }
 
