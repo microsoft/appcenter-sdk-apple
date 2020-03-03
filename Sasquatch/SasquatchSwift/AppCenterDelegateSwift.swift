@@ -12,6 +12,7 @@ import AppCenterPush
  */
 @objc protocol Selectors {
   func sharedInstance() -> MSDistribute
+  func checkForUpdate()
   func showConfirmationAlert(_ releaseDetails: MSReleaseDetails)
   func showDistributeDisabledAlert()
   func delegate() -> MSDistributeDelegate
@@ -152,6 +153,10 @@ class AppCenterDelegateSwift: AppCenterDelegate {
     MSCrashes.generateTestCrash()
   }
 
+  func checkForUpdate() {
+    MSDistribute.checkForUpdate()
+  }
+    
   // MSDistribute section.
   func showConfirmationAlert() {
     let sharedInstanceSelector = #selector(Selectors.sharedInstance)

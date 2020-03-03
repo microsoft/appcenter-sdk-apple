@@ -154,7 +154,7 @@ static dispatch_once_t onceToken;
       MSLogDebug([MSDistribute logTag], @"Successfully retrieved distribution group Id setting it in distributeInfoTracker.");
       [self.distributeInfoTracker updateDistributionGroupId:distributionGroupId];
     }
-    [self startUpdate];
+    [self startUpdateOnStart:YES];
   } else {
     [self dismissEmbeddedSafari];
     [self.channelGroup removeDelegate:self.distributeInfoTracker];
@@ -269,6 +269,14 @@ static dispatch_once_t onceToken;
   return [MSDistribute sharedInstance].updateTrack;
 }
 
++ (void)disableAutomaticCheckForUpdate {
+  [[MSDistribute sharedInstance] disableAutomaticCheckForUpdate];
+}
+
++ (void)checkForUpdate {
+  [[MSDistribute sharedInstance] checkForUpdate];
+}
+
 #pragma mark - Private
 
 - (void)sendFirstSessionUpdateLog {
@@ -281,7 +289,15 @@ static dispatch_once_t onceToken;
   [self.channelUnit enqueueItem:log flags:MSFlagsDefault];
 }
 
-- (void)startUpdate {
+- (void)startUpdateOnStart:(BOOL)onStart {
+
+  // Do not start update flow on start if automatic check is disabled.
+  if (onStart && self.automaticCheckForUpdateDisabled) {
+    MSLogInfo([MSDistribute logTag], @"Automatic checkForUpdate is disabled.");
+    self.updateFlowInProgress = NO;
+    return;
+  }
+
   NSString *releaseHash = MSPackageHash();
   if (releaseHash) {
     [self changeDistributionGroupIdAfterAppUpdateIfNeeded:releaseHash];
@@ -1122,7 +1138,7 @@ static dispatch_once_t onceToken;
     if (queryTesterAppUpdateSetupFailed) {
       MSLogDebug([MSDistribute logTag], @"In-app updates setup from tester app failure detected.");
       [MS_USER_DEFAULTS setObject:queryTesterAppUpdateSetupFailed forKey:kMSTesterAppUpdateSetupFailedKey];
-      [self startUpdate];
+      [self startUpdateOnStart:YES];
       return YES;
     }
 
@@ -1178,7 +1194,23 @@ static dispatch_once_t onceToken;
 
 - (void)applicationDidBecomeActive {
   if (self.canBeUsed && self.isEnabled && ![MS_USER_DEFAULTS objectForKey:kMSUpdateTokenRequestIdKey]) {
-    [self startUpdate];
+    [self startUpdateOnStart:YES];
+  }
+}
+
+- (void)disableAutomaticCheckForUpdate {
+  @synchronized(self) {
+    if (self.started) {
+      MSLogError([MSDistribute logTag], @"Cannot disable automatic check for updates after Distribute is started.");
+      return;
+    }
+    self.automaticCheckForUpdateDisabled = YES;
+  }
+}
+
+- (void)checkForUpdate {
+  if (self.canBeUsed && self.isEnabled && ![MS_USER_DEFAULTS objectForKey:kMSUpdateTokenRequestIdKey]) {
+    [self startUpdateOnStart:NO];
   }
 }
 
