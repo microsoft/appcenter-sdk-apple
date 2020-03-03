@@ -54,6 +54,7 @@ import AppCenterAnalytics
   
   // MSDistribute section.
   func showConfirmationAlert()
+  func checkForUpdate()
   func showDistributeDisabledAlert()
   func showCustomConfirmationAlert()
 

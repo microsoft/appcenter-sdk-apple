@@ -85,6 +85,16 @@ typedef NS_ENUM(NSInteger, MSUpdateTrack) {
  */
 + (BOOL)openURL:(NSURL *)url;
 
+/**
+ * Disable checking the latest release of the application when the SDK starts.
+ */
++ (void)disableAutomaticCheckForUpdate;
+
+/**
+ * Check for the latest release using the selected update track.
+ */
++ (void)checkForUpdate;
+
 @end
 
 NS_ASSUME_NONNULL_END
