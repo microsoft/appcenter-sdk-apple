@@ -117,6 +117,7 @@ static NSArray *kMacOSCrashReportsParameters = @[
 }
 
 - (void)testCrashProbeReports {
+
   // Crash with _pthread_list_lock held
   [self assertIsCrashProbeReportValidConverted:@"live_report_pthread_lock"];
 
