@@ -460,7 +460,7 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
 }
 
 + (void)resetSharedInstance {
-  
+
   // Clean existing instance by stopping session tracker, it'll remove its observers.
   [sharedInstance.sessionTracker stop];
 

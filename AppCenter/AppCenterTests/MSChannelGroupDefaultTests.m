@@ -56,7 +56,6 @@
   [MSDispatchTestUtil awaitAndSuspendDispatchQueue:self.sut.logsDispatchQueue];
 
   // Stop mocks.
-  [self.ingestionMock stopMocking];
   [super tearDown];
 }
 
@@ -100,17 +99,17 @@
 
 - (void)testAddChannelWithCustomIngestion {
 
-  // If
-  id ingestionMockCustom = OCMClassMock([MSAppCenterIngestion class]);
+  // If, We can't use class mock of MSAppCenterIngestion because it is already class-mocked in setUp.
+  // Using more than one class mock is not supported.
+  MSAppCenterIngestion *newIngestion = [MSAppCenterIngestion new];
 
   // When
   MSChannelUnitDefault *channelUnit = (MSChannelUnitDefault *)[self.sut addChannelUnitWithConfiguration:[MSChannelUnitConfiguration new]
-                                                                                          withIngestion:ingestionMockCustom];
+                                                                                          withIngestion:newIngestion];
 
   // Then
   XCTAssertNotEqual(self.ingestionMock, channelUnit.ingestion);
-  XCTAssertEqual(ingestionMockCustom, channelUnit.ingestion);
-  [ingestionMockCustom stopMocking];
+  XCTAssertEqual(newIngestion, channelUnit.ingestion);
 }
 
 - (void)testDelegatesConcurrentAccess {
