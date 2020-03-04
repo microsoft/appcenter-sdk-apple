@@ -717,12 +717,15 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                                                batchSizeLimit:batchSizeLimit
                                                           pendingBatchesLimit:1];
   [channel addDelegate:delegateMock];
+  OCMStub([delegateMock channel:channel didSetEnabled:NO andDeleteDataOnDisabled:YES]).andDo(^(__unused NSInvocation *invocation) {
+    [self enqueueChannelEndJobExpectation:queue];
+  });
   OCMExpect([delegateMock channel:channel didFailSendingLog:expectedLog withError:OCMOCK_ANY]);
   OCMReject([delegateMock channel:channel didSucceedSendingLog:OCMOCK_ANY]);
   OCMExpect([delegateMock channel:channel didPrepareLog:enqueuedLog internalId:OCMOCK_ANY flags:MSFlagsDefault]);
   OCMExpect([delegateMock channel:channel didCompleteEnqueueingLog:enqueuedLog internalId:OCMOCK_ANY]);
 
-  // The logs shouldn't be deleted after recoverable error.
+  // The logs should be deleted after unrecoverable error.
   OCMExpect([self.storageMock deleteLogsWithBatchId:expectedBatchId groupId:kMSTestGroupId]);
 
   // When
@@ -736,21 +739,18 @@ static NSString *const kMSTestGroupId = @"GroupId";
       if (ingestionBlock) {
         ingestionBlock([@(1) stringValue], responseMock, nil, nil);
       }
-
-      // Then
-      [self enqueueChannelEndJobExpectation:queue];
     });
   });
 
   // Then
   [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *error) {
-                                 // Get sure it has been sent.
+                                 // Make sure it has been sent.
                                  assertThat(logContainer.batchId, is(expectedBatchId));
                                  assertThat(logContainer.logs, is(@[ expectedLog ]));
-                                 assertThatBool(channel.pendingBatchQueueFull, isFalse());
-                                 assertThatBool(channel.enabled, isFalse());
-                                 assertThatUnsignedLong(channel.pendingBatchIds.count, equalToUnsignedLong(0));
+
+                                 // Make sure channel is disabled and cleaned up logs.
+                                 XCTAssertFalse(channel.enabled);
                                  OCMVerifyAll(delegateMock);
                                  OCMVerifyAll(self.storageMock);
                                  if (error) {
