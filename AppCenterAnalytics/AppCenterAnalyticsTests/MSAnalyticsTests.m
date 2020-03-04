@@ -93,16 +93,10 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 
 - (void)tearDown {
   [super tearDown];
+  [MSSessionContext resetSharedInstance];
+  [MSAnalytics resetSharedInstance];
   [self.settingsMock stopMocking];
   [self.sessionContextMock stopMocking];
-  [MSSessionContext resetSharedInstance];
-
-// Make sure sessionTracker removes all observers.
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wnonnull"
-  [MSAnalytics sharedInstance].sessionTracker = nil;
-#pragma clang diagnostic pop
-  [MSAnalytics resetSharedInstance];
 }
 
 #pragma mark - Tests
