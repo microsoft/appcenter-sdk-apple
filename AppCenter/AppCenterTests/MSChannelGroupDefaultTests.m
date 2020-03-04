@@ -321,43 +321,6 @@
   [channelUnitMock stopMocking];
 }
 
-- (void)testDisableAndDeleteDataOnHttpFatalError {
-
-  // If
-  id channelUnitMock = OCMClassMock([MSChannelUnitDefault class]);
-  MSChannelUnitDefault *channelUnitMockObject = [MSChannelUnitDefault new];
-  OCMStub([channelUnitMock alloc]).andReturn(channelUnitMockObject);
-  OCMStub([channelUnitMock initWithIngestion:OCMOCK_ANY storage:OCMOCK_ANY configuration:OCMOCK_ANY logsDispatchQueue:OCMOCK_ANY])
-      .andReturn(channelUnitMockObject);
-  [self.sut addChannelUnitWithConfiguration:self.validConfiguration];
-  NSString *batchId = @"unique-id";
-
-  // Calls the completion handler with a fatal error.
-  OCMStub([self.sut.ingestion sendAsync:OCMOCK_ANY completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
-    [invocation retainArguments];
-    MSSendAsyncCompletionHandler handler;
-    [invocation getArgument:&handler atIndex:3];
-    handler(batchId, [MSHttpTestUtil createMockResponseForStatusCode:300 headers:nil], [NSData new], [NSError new]);
-  });
-
-  // Set up the mock log and channel to send the log container.
-  id mockLog = OCMPartialMock([MSAbstractLog new]);
-  OCMStub([mockLog isValid]).andReturn(YES);
-  OCMStub([self.ingestionMock isReadyToSend]).andReturn(YES);
-  channelUnitMockObject.itemsCount = 10;
-  [channelUnitMockObject.pendingBatchIds addObject:batchId];
-
-  // When
-  [channelUnitMockObject enqueueItem:mockLog flags:MSFlagsDefault];
-
-  // Then
-  [self waitForLogsDispatchQueue];
-  OCMVerify([channelUnitMockObject setEnabled:NO andDeleteDataOnDisabled:YES]);
-
-  // Cleanup
-  [channelUnitMock stopMocking];
-}
-
 - (void)testDelegateCalledWhenChannelUnitDidCompleteEnqueueingLog {
 
   // If
