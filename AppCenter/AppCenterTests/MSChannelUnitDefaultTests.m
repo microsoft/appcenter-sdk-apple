@@ -65,8 +65,6 @@ static NSString *const kMSTestGroupId = @"GroupId";
 - (void)tearDown {
 
   // Stop mocks.
-  [self.storageMock stopMocking];
-  [self.ingestionMock stopMocking];
   [self.settingsMock stopMocking];
   [super tearDown];
 }

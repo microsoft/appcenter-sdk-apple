@@ -322,8 +322,8 @@ static NSString *const kMSOneCollectorGroupId = @"baseGroupId/one";
   OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY withIngestion:OCMOCK_ANY]).andReturn(oneCollectorChannelUnitMock);
   NSMutableSet *transmissionTargetTokens = [NSMutableSet new];
   [transmissionTargetTokens addObject:@"fake-transmission-target-token"];
-  id<MSLog> commonSchemaLog = [MSCommonSchemaLog new];
-  OCMStub(commonSchemaLog.transmissionTargetTokens).andReturn(transmissionTargetTokens);
+  id commonSchemaLog = OCMPartialMock([MSCommonSchemaLog new]);
+  OCMStub([commonSchemaLog transmissionTargetTokens]).andReturn(transmissionTargetTokens);
 
   // When
   [self.sut channelGroup:channelGroupMock didAddChannelUnit:channelUnitMock];
@@ -352,7 +352,6 @@ static NSString *const kMSOneCollectorGroupId = @"baseGroupId/one";
   id<MSMockLogWithConversion> mockLog = OCMProtocolMock(@protocol(MSMockLogWithConversion));
   OCMStub(mockLog.transmissionTargetTokens).andReturn(transmissionTargetTokens);
   OCMStub([mockLog toCommonSchemaLogsWithFlags:MSFlagsDefault]).andReturn(@ [[MSCommonSchemaLog new]]);
-  OCMStub([mockLog isKindOfClass:[MSCommonSchemaLog class]]).andReturn(NO);
 
   // Then
   OCMReject([oneCollectorChannelUnitMock enqueueItem:OCMOCK_ANY flags:MSFlagsDefault]);
@@ -371,7 +370,6 @@ static NSString *const kMSOneCollectorGroupId = @"baseGroupId/one";
   id<MSChannelUnitProtocol> oneCollectorChannelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
   OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY withIngestion:OCMOCK_ANY]).andReturn(oneCollectorChannelUnitMock);
   id<MSMockLogWithConversion> mockLog = OCMProtocolMock(@protocol(MSMockLogWithConversion));
-  OCMStub([mockLog isKindOfClass:[MSCommonSchemaLog class]]).andReturn(NO);
   OCMStub(mockLog.transmissionTargetTokens).andReturn(nil);
   OCMStub([mockLog toCommonSchemaLogsWithFlags:MSFlagsDefault]).andReturn(@ [[MSCommonSchemaLog new]]);
 

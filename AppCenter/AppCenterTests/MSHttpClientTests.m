@@ -50,7 +50,6 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
   [super tearDown];
 
   [MSHttpTestUtil removeAllStubs];
-  [self.reachabilityMock stopMocking];
 }
 
 - (void)testInitWithMaxHttpConnectionsPerHost {
