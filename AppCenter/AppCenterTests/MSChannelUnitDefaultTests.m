@@ -665,8 +665,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
 - (void)testLogsSentWithUnrecoverableError {
 
   // If
-  __block dispatch_queue_t queue = [self createDispatchQueue];
-  __block MSChannelUnitDefault *channel = [self createChannelUnitDefault:queue];
+  __block MSChannelUnitDefault *channel = [self createChannelUnitDefault];
   [self initChannelEndJobExpectation];
   id delegateMock = OCMProtocolMock(@protocol(MSChannelDelegate));
   __block MSSendAsyncCompletionHandler ingestionBlock;
@@ -709,7 +708,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                                           pendingBatchesLimit:1];
   [channel addDelegate:delegateMock];
   OCMStub([delegateMock channel:channel didSetEnabled:NO andDeleteDataOnDisabled:YES]).andDo(^(__unused NSInvocation *invocation) {
-    [self enqueueChannelEndJobExpectation:queue];
+    [self enqueueChannelEndJobExpectation];
   });
   OCMExpect([delegateMock channel:channel didFailSendingLog:expectedLog withError:OCMOCK_ANY]);
   OCMReject([delegateMock channel:channel didSucceedSendingLog:OCMOCK_ANY]);
@@ -720,12 +719,12 @@ static NSString *const kMSTestGroupId = @"GroupId";
   OCMExpect([self.storageMock deleteLogsWithBatchId:expectedBatchId groupId:kMSTestGroupId]);
 
   // When
-  dispatch_async(queue, ^{
+  dispatch_async(channel.logsDispatchQueue, ^{
     // Enqueue now that the delegate is set.
     [channel enqueueItem:enqueuedLog flags:MSFlagsDefault];
 
     // Try to release one batch.
-    dispatch_async(queue, ^{
+    dispatch_async(channel.logsDispatchQueue, ^{
       XCTAssertNotNil(ingestionBlock);
       if (ingestionBlock) {
         ingestionBlock([@(1) stringValue], responseMock, nil, nil);
