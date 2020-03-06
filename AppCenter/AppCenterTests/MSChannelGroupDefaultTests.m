@@ -244,6 +244,10 @@
   // When
   [self.sut addChannelUnitWithConfiguration:self.validConfiguration];
 
+  // This test will use a real channel unit object which runs `checkPendingLogs` in the log dispatch queue.
+  // We should make sure the test method is not finished before `checkPendingLogs` method call is finished to avoid object retain issue.
+  [self waitForLogsDispatchQueue];
+
   // Then
   OCMVerifyAll(delegateMock1);
   OCMVerifyAll(delegateMock2);
@@ -267,6 +271,10 @@
   // When
   [self.sut channel:self.sut didPauseWithIdentifyingObject:identifyingObject];
 
+  // This test will use a real channel unit object which runs `checkPendingLogs` in the log dispatch queue.
+  // We should make sure the test method is not finished before `checkPendingLogs` method call is finished to avoid object retain issue.
+  [self waitForLogsDispatchQueue];
+
   // Then
   OCMVerify([delegateMock channel:self.sut didPauseWithIdentifyingObject:identifyingObject]);
 
@@ -289,6 +297,10 @@
   // When
   [self.sut channel:self.sut didResumeWithIdentifyingObject:identifyingObject];
 
+  // This test will use a real channel unit object which runs `checkPendingLogs` in the log dispatch queue.
+  // We should make sure the test method is not finished before `checkPendingLogs` method call is finished to avoid object retain issue.
+  [self waitForLogsDispatchQueue];
+
   // Then
   OCMVerify([delegateMock channel:self.sut didResumeWithIdentifyingObject:identifyingObject]);
 
@@ -310,6 +322,10 @@
 
   // When
   [self.sut channel:self.sut prepareLog:mockLog];
+
+  // This test will use a real channel unit object which runs `checkPendingLogs` in the log dispatch queue.
+  // We should make sure the test method is not finished before `checkPendingLogs` method call is finished to avoid object retain issue.
+  [self waitForLogsDispatchQueue];
 
   // Then
   OCMVerify([delegateMock channel:self.sut prepareLog:mockLog]);
@@ -334,6 +350,10 @@
   // When
   [self.sut channel:self.sut didPrepareLog:mockLog internalId:internalId flags:MSFlagsDefault];
 
+  // This test will use a real channel unit object which runs `checkPendingLogs` in the log dispatch queue.
+  // We should make sure the test method is not finished before `checkPendingLogs` method call is finished to avoid object retain issue.
+  [self waitForLogsDispatchQueue];
+
   // Then
   OCMVerify([delegateMock channel:self.sut didPrepareLog:mockLog internalId:internalId flags:MSFlagsDefault]);
 
@@ -357,6 +377,10 @@
   // When
   [self.sut channel:self.sut didCompleteEnqueueingLog:mockLog internalId:internalId];
 
+  // This test will use a real channel unit object which runs `checkPendingLogs` in the log dispatch queue.
+  // We should make sure the test method is not finished before `checkPendingLogs` method call is finished to avoid object retain issue.
+  [self waitForLogsDispatchQueue];
+
   // Then
   OCMVerify([delegateMock channel:self.sut didCompleteEnqueueingLog:mockLog internalId:internalId]);
 
@@ -379,6 +403,10 @@
   // When
   [self.sut channel:self.sut willSendLog:mockLog];
 
+  // This test will use a real channel unit object which runs `checkPendingLogs` in the log dispatch queue.
+  // We should make sure the test method is not finished before `checkPendingLogs` method call is finished to avoid object retain issue.
+  [self waitForLogsDispatchQueue];
+
   // Then
   OCMVerify([delegateMock channel:self.sut willSendLog:mockLog]);
 
@@ -400,6 +428,10 @@
 
   // When
   [self.sut channel:self.sut didSucceedSendingLog:mockLog];
+
+  // This test will use a real channel unit object which runs `checkPendingLogs` in the log dispatch queue.
+  // We should make sure the test method is not finished before `checkPendingLogs` method call is finished to avoid object retain issue.
+  [self waitForLogsDispatchQueue];
 
   // Then
   OCMVerify([delegateMock channel:self.sut didSucceedSendingLog:mockLog]);
@@ -449,6 +481,10 @@
   // When
   [self.sut channel:self.sut didFailSendingLog:mockLog withError:error];
 
+  // This test will use a real channel unit object which runs `checkPendingLogs` in the log dispatch queue.
+  // We should make sure the test method is not finished before `checkPendingLogs` method call is finished to avoid object retain issue.
+  [self waitForLogsDispatchQueue];
+
   // Then
   OCMVerify([delegateMock channel:self.sut didFailSendingLog:mockLog withError:error]);
 
@@ -470,6 +506,10 @@
 
   // When
   [self.sut channelUnit:channelUnitMock shouldFilterLog:mockLog];
+
+  // This test will use a real channel unit object which runs `checkPendingLogs` in the log dispatch queue.
+  // We should make sure the test method is not finished before `checkPendingLogs` method call is finished to avoid object retain issue.
+  [self waitForLogsDispatchQueue];
 
   // Then
   OCMVerify([delegateMock channelUnit:channelUnitMock shouldFilterLog:mockLog]);
