@@ -56,7 +56,6 @@
   self.sut = nil;
   XCTAssertNil(dispatchQueue);
 
-  // Stop mocks.
   [super tearDown];
 }
 
@@ -93,6 +92,7 @@
 
   // When
   MSChannelUnitDefault *channelUnit = (MSChannelUnitDefault *)[self.sut addChannelUnitWithConfiguration:self.validConfiguration];
+  [self waitForLogsDispatchQueue];
 
   // Then
   XCTAssertEqual(self.ingestionMock, channelUnit.ingestion);
@@ -107,6 +107,7 @@
   // When
   MSChannelUnitDefault *channelUnit = (MSChannelUnitDefault *)[self.sut addChannelUnitWithConfiguration:[MSChannelUnitConfiguration new]
                                                                                           withIngestion:newIngestion];
+  [self waitForLogsDispatchQueue];
 
   // Then
   XCTAssertNotEqual(self.ingestionMock, channelUnit.ingestion);
@@ -245,10 +246,10 @@
   [self.sut addDelegate:delegateMock];
 
   // When
-  [self.sut channel:channelUnitMock didPauseWithIdentifyingObject:identifyingObject];
+  [self.sut channel:self.sut didPauseWithIdentifyingObject:identifyingObject];
 
   // Then
-  OCMVerify([delegateMock channel:channelUnitMock didPauseWithIdentifyingObject:identifyingObject]);
+  OCMVerify([delegateMock channel:self.sut didPauseWithIdentifyingObject:identifyingObject]);
 
   // Clear
   [channelUnitMock stopMocking];
@@ -267,10 +268,10 @@
   [self.sut addDelegate:delegateMock];
 
   // When
-  [self.sut channel:channelUnitMock didResumeWithIdentifyingObject:identifyingObject];
+  [self.sut channel:self.sut didResumeWithIdentifyingObject:identifyingObject];
 
   // Then
-  OCMVerify([delegateMock channel:channelUnitMock didResumeWithIdentifyingObject:identifyingObject]);
+  OCMVerify([delegateMock channel:self.sut didResumeWithIdentifyingObject:identifyingObject]);
 
   // Clear
   [channelUnitMock stopMocking];
@@ -289,10 +290,10 @@
   [self.sut addDelegate:delegateMock];
 
   // When
-  [self.sut channel:channelUnitMock prepareLog:mockLog];
+  [self.sut channel:self.sut prepareLog:mockLog];
 
   // Then
-  OCMVerify([delegateMock channel:channelUnitMock prepareLog:mockLog]);
+  OCMVerify([delegateMock channel:self.sut prepareLog:mockLog]);
 
   // Clear
   [channelUnitMock stopMocking];
@@ -312,10 +313,10 @@
   [self.sut addDelegate:delegateMock];
 
   // When
-  [self.sut channel:channelUnitMock didPrepareLog:mockLog internalId:internalId flags:MSFlagsDefault];
+  [self.sut channel:self.sut didPrepareLog:mockLog internalId:internalId flags:MSFlagsDefault];
 
   // Then
-  OCMVerify([delegateMock channel:channelUnitMock didPrepareLog:mockLog internalId:internalId flags:MSFlagsDefault]);
+  OCMVerify([delegateMock channel:self.sut didPrepareLog:mockLog internalId:internalId flags:MSFlagsDefault]);
 
   // Clear
   [channelUnitMock stopMocking];
@@ -335,10 +336,10 @@
   [self.sut addDelegate:delegateMock];
 
   // When
-  [self.sut channel:channelUnitMock didCompleteEnqueueingLog:mockLog internalId:internalId];
+  [self.sut channel:self.sut didCompleteEnqueueingLog:mockLog internalId:internalId];
 
   // Then
-  OCMVerify([delegateMock channel:channelUnitMock didCompleteEnqueueingLog:mockLog internalId:internalId]);
+  OCMVerify([delegateMock channel:self.sut didCompleteEnqueueingLog:mockLog internalId:internalId]);
 
   // Clear
   [channelUnitMock stopMocking];
@@ -357,10 +358,10 @@
   [self.sut addDelegate:delegateMock];
 
   // When
-  [self.sut channel:channelUnitMock willSendLog:mockLog];
+  [self.sut channel:self.sut willSendLog:mockLog];
 
   // Then
-  OCMVerify([delegateMock channel:channelUnitMock willSendLog:mockLog]);
+  OCMVerify([delegateMock channel:self.sut willSendLog:mockLog]);
 
   // Clear
   [channelUnitMock stopMocking];
@@ -379,10 +380,10 @@
   [self.sut addDelegate:delegateMock];
 
   // When
-  [self.sut channel:channelUnitMock didSucceedSendingLog:mockLog];
+  [self.sut channel:self.sut didSucceedSendingLog:mockLog];
 
   // Then
-  OCMVerify([delegateMock channel:channelUnitMock didSucceedSendingLog:mockLog]);
+  OCMVerify([delegateMock channel:self.sut didSucceedSendingLog:mockLog]);
 
   // Clear
   [channelUnitMock stopMocking];
@@ -400,10 +401,10 @@
   [self.sut addDelegate:delegateMock];
 
   // When
-  [self.sut channel:channelUnitMock didSetEnabled:YES andDeleteDataOnDisabled:YES];
+  [self.sut channel:self.sut didSetEnabled:YES andDeleteDataOnDisabled:YES];
 
   // Then
-  OCMVerify([delegateMock channel:channelUnitMock didSetEnabled:YES andDeleteDataOnDisabled:YES]);
+  OCMVerify([delegateMock channel:self.sut didSetEnabled:YES andDeleteDataOnDisabled:YES]);
 
   // Clear
   [channelUnitMock stopMocking];
@@ -423,10 +424,10 @@
   [self.sut addDelegate:delegateMock];
 
   // When
-  [self.sut channel:channelUnitMock didFailSendingLog:mockLog withError:error];
+  [self.sut channel:self.sut didFailSendingLog:mockLog withError:error];
 
   // Then
-  OCMVerify([delegateMock channel:channelUnitMock didFailSendingLog:mockLog withError:error]);
+  OCMVerify([delegateMock channel:self.sut didFailSendingLog:mockLog withError:error]);
 
   // Clear
   [channelUnitMock stopMocking];
