@@ -422,6 +422,10 @@
   // When
   [self.sut channel:self.sut didSetEnabled:YES andDeleteDataOnDisabled:YES];
 
+  // This test will use a real channel unit object which runs `checkPendingLogs` in the log dispatch queue.
+  // We should make sure the test method is not finished before `checkPendingLogs` method call is finished to avoid object retain issue.
+  [self waitForLogsDispatchQueue];
+
   // Then
   OCMVerify([delegateMock channel:self.sut didSetEnabled:YES andDeleteDataOnDisabled:YES]);
 

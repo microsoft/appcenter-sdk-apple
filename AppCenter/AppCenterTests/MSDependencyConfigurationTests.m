@@ -10,7 +10,6 @@
 
 @interface MSDependencyConfigurationTests : XCTestCase
 
-@property id channelGroupDefaultMock;
 @property id channelGroupDefaultClassMock;
 
 @end
@@ -19,35 +18,31 @@
 
 - (void)setUp {
   [MSAppCenter resetSharedInstance];
-  self.channelGroupDefaultMock = OCMPartialMock([MSChannelGroupDefault new]);
   self.channelGroupDefaultClassMock = OCMClassMock([MSChannelGroupDefault class]);
-  OCMStub([self.channelGroupDefaultClassMock alloc]).andReturn(self.channelGroupDefaultMock);
-  OCMStub([self.channelGroupDefaultMock initWithHttpClient:OCMOCK_ANY installId:OCMOCK_ANY logUrl:OCMOCK_ANY]);
+  OCMStub([self.channelGroupDefaultClassMock alloc]).andReturn(self.channelGroupDefaultClassMock);
+  OCMStub([self.channelGroupDefaultClassMock initWithHttpClient:OCMOCK_ANY installId:OCMOCK_ANY logUrl:OCMOCK_ANY]).andReturn(nil);
 }
 
 - (void)tearDown {
-  [self.channelGroupDefaultMock stopMocking];
   [self.channelGroupDefaultClassMock stopMocking];
-  [MSDependencyConfiguration setHttpClient:nil];
   [MSAppCenter resetSharedInstance];
+  [super tearDown];
 }
 
 - (void)testNotSettingDependencyCallUsesDefaultHttpClient {
 
   // If
-  id defaultHttpClientMock = OCMPartialMock([MSHttpClient new]);
   id httpClientClassMock = OCMClassMock([MSHttpClient class]);
-  OCMStub([httpClientClassMock alloc]).andReturn(defaultHttpClientMock);
+  OCMStub([httpClientClassMock alloc]).andReturn(httpClientClassMock);
 
   // When
   [MSAppCenter configureWithAppSecret:@"App-Secret"];
 
   // Then
   // Cast to void to get rid of warning that says "Expression result unused".
-  OCMVerify((void)[self.channelGroupDefaultMock initWithHttpClient:defaultHttpClientMock installId:OCMOCK_ANY logUrl:OCMOCK_ANY]);
+  OCMVerify((void)[self.channelGroupDefaultClassMock initWithHttpClient:httpClientClassMock installId:OCMOCK_ANY logUrl:OCMOCK_ANY]);
 
   // Cleanup
-  [defaultHttpClientMock stopMocking];
   [httpClientClassMock stopMocking];
 }
 
@@ -55,6 +50,11 @@
 
   // If
   id httpClientClassMock = OCMClassMock([MSHttpClient class]);
+
+  // This stub is still required due to `oneCollectorChannelDelegate` that requires `MSHttpClient` instantiation.
+  // Without this stub, `[MSHttpClientTests testDeleteRecoverableErrorWithoutHeadersRetried]` test will fail for macOS because
+  // channel is paused by this `MSHttpClient` instance somehow.
+  OCMStub([httpClientClassMock alloc]).andReturn(httpClientClassMock);
   [MSDependencyConfiguration setHttpClient:httpClientClassMock];
 
   // When
@@ -62,9 +62,10 @@
 
   // Then
   // Cast to void to get rid of warning that says "Expression result unused".
-  OCMVerify((void)[self.channelGroupDefaultMock initWithHttpClient:httpClientClassMock installId:OCMOCK_ANY logUrl:OCMOCK_ANY]);
+  OCMVerify((void)[self.channelGroupDefaultClassMock initWithHttpClient:httpClientClassMock installId:OCMOCK_ANY logUrl:OCMOCK_ANY]);
 
   // Cleanup
+  MSDependencyConfiguration.httpClient = nil;
   [httpClientClassMock stopMocking];
 }
 

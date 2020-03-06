@@ -6,13 +6,13 @@
 #import "MSTestFrameworks.h"
 #import "MSWrapperSdkInternal.h"
 
-@interface MSDeviceTests : XCTestCase
+@interface MSDeviceLogTests : XCTestCase
 
 @property(nonatomic) MSDevice *sut;
 
 @end
 
-@implementation MSDeviceTests
+@implementation MSDeviceLogTests
 
 #pragma mark - Housekeeping
 
