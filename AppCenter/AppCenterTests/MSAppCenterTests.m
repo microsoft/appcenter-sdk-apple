@@ -74,6 +74,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   [self.settingsMock stopMocking];
   [self.channelGroupMock stopMocking];
   [self.deviceTrackerMock stopMocking];
+  [self.sessionContextMock stopMocking];
   [MSMockService resetSharedInstance];
   [MSMockSecondService resetSharedInstance];
   [MSDeviceTracker resetSharedInstance];

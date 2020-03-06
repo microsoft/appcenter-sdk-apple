@@ -47,9 +47,9 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
 }
 
 - (void)tearDown {
-  [super tearDown];
-
   [MSHttpTestUtil removeAllStubs];
+  [self.reachabilityMock stopMocking];
+  [super tearDown];
 }
 
 - (void)testInitWithMaxHttpConnectionsPerHost {
@@ -112,6 +112,7 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
   NSURL *url = [NSURL URLWithString:@"https://mock/something?a=b"];
   NSString *method = @"GET";
   NSArray *defaultRetryIntervals = @[ @10, @(5 * 60), @(20 * 60) ];
+  OCMStub([httpClient sendCallAsync:OCMOCK_ANY]).andDo(nil);
 
   // When
   [httpClient sendAsync:url
@@ -447,7 +448,7 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
         return [OHHTTPStubsResponse responseWithData:[NSData data] statusCode:MSHTTPCodesNo500InternalServerError headers:nil];
       }];
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@""];
-  MSHttpClient *httpClient = [[MSHttpClient alloc] initWithMaxHttpConnectionsPerHost:nil reachability:self.reachabilityMock];
+  MSHttpClient *httpClient = [[MSHttpClient alloc] initWithMaxHttpConnectionsPerHost:nil reachability:nil];
   NSURL *url = [NSURL URLWithString:@"https://mock/something?a=b"];
   NSString *method = @"DELETE";
 
@@ -545,7 +546,7 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
         dispatch_semaphore_wait(testCompletedSemaphore, DISPATCH_TIME_FOREVER);
         return [OHHTTPStubsResponse responseWithData:[NSData data] statusCode:MSHTTPCodesNo204NoContent headers:nil];
       }];
-  MSHttpClient *httpClient = [[MSHttpClient alloc] initWithMaxHttpConnectionsPerHost:nil reachability:self.reachabilityMock];
+  MSHttpClient *httpClient = [[MSHttpClient alloc] initWithMaxHttpConnectionsPerHost:nil reachability:nil];
   NSURL *url = [NSURL URLWithString:@"https://mock/something?a=b"];
   NSString *method = @"DELETE";
 
@@ -649,7 +650,7 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
         return [OHHTTPStubsResponse responseWithData:[NSData data] statusCode:MSHTTPCodesNo204NoContent headers:nil];
       }];
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@""];
-  MSHttpClient *httpClient = [[MSHttpClient alloc] initWithMaxHttpConnectionsPerHost:nil reachability:self.reachabilityMock];
+  MSHttpClient *httpClient = [[MSHttpClient alloc] initWithMaxHttpConnectionsPerHost:nil reachability:nil];
   NSURL *url = [NSURL URLWithString:@"https://mock/something?a=b"];
   NSString *method = @"DELETE";
 
@@ -670,15 +671,13 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
 
   [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *_Nullable error) {
+                                 XCTAssertEqualObjects(actualRequest.URL, url);
+                                 XCTAssertEqualObjects(actualRequest.HTTPMethod, method);
+                                 XCTAssertEqual(numRequests, 1 + [retryIntervals count]);
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
                                }];
-
-  // Then
-  XCTAssertEqualObjects(actualRequest.URL, url);
-  XCTAssertEqualObjects(actualRequest.HTTPMethod, method);
-  XCTAssertEqual(numRequests, 1 + [retryIntervals count]);
 }
 
 - (void)testSendAsyncWhileDisabled {
@@ -780,8 +779,7 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
                        retryIntervals:intervals
                    compressionEnabled:YES
                     completionHandler:^(NSData *_Nullable responseBody __unused, NSHTTPURLResponse *_Nullable response __unused,
-                                        NSError *_Nullable error __unused) {
-                      nil;
+                                        NSError *_Nullable error __unused){
                     }];
 
   // A non-zero number that should be reset by the end.
@@ -811,7 +809,6 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
                                  if (@available(macOS 10.10, tvOS 9.0, watchOS 2.0, *)) {
                                    XCTAssertNotEqual(0, dispatch_testcancel(httpCall.timerSource));
                                  }
-
                                  XCTAssertEqual(httpCall.retryCount, 0);
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);

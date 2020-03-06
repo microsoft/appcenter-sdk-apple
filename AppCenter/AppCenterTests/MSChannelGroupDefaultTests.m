@@ -56,6 +56,8 @@
   self.sut = nil;
   XCTAssertNil(dispatchQueue);
 
+  // Stop mocks.
+  [self.ingestionMock stopMocking];
   [super tearDown];
 }
 

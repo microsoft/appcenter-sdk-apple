@@ -92,11 +92,11 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 }
 
 - (void)tearDown {
-  [super tearDown];
   [MSSessionContext resetSharedInstance];
   [MSAnalytics resetSharedInstance];
   [self.settingsMock stopMocking];
   [self.sessionContextMock stopMocking];
+  [super tearDown];
 }
 
 #pragma mark - Tests
