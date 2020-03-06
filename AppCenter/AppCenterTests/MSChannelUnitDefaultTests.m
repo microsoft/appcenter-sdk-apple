@@ -922,7 +922,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   NSUInteger batchSizeLimit = 1;
   __block int currentBatchId = 1;
   __block NSMutableArray<NSString *> *sentBatchIds = [NSMutableArray new];
-  __block MSLogContainer *container;;
+  __block MSLogContainer *container;
   __block MSSendAsyncCompletionHandler ingestionBlock;
   __block id responseMock = [MSHttpTestUtil createMockResponseForStatusCode:200 headers:nil];
   NSUInteger expectedMaxPendingBatched = 2;

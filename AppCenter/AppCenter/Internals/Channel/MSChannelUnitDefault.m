@@ -122,24 +122,25 @@ static NSString *const kMSStartTimestampPrefix = @"MSChannelStartTimer";
       // Check if the log should be filtered out. If so, don't enqueue it.
       __block BOOL shouldFilter = NO;
       [strongSelf enumerateDelegatesForSelector:@selector(channelUnit:shouldFilterLog:)
-                                withBlock:^(id<MSChannelDelegate> delegate) {
-                                  shouldFilter = shouldFilter || [delegate channelUnit:weakSelf shouldFilterLog:item];
-                                }];
+                                      withBlock:^(id<MSChannelDelegate> delegate) {
+                                        shouldFilter = shouldFilter || [delegate channelUnit:weakSelf shouldFilterLog:item];
+                                      }];
       if (shouldFilter) {
         MSLogDebug([MSAppCenter logTag], @"Log of type '%@' was filtered out by delegate(s)", item.type);
         [strongSelf enumerateDelegatesForSelector:@selector(channel:didCompleteEnqueueingLog:internalId:)
-                                  withBlock:^(id<MSChannelDelegate> delegate) {;
-                                    [delegate channel:weakSelf didCompleteEnqueueingLog:item internalId:internalLogId];
-                                  }];
+                                        withBlock:^(id<MSChannelDelegate> delegate) {
+                                          ;
+                                          [delegate channel:weakSelf didCompleteEnqueueingLog:item internalId:internalLogId];
+                                        }];
         return;
       }
       if (!strongSelf.ingestion.isReadyToSend) {
         MSLogDebug([MSAppCenter logTag], @"Log of type '%@' was not filtered out by delegate(s) but ingestion is not ready to send it.",
                    item.type);
         [strongSelf enumerateDelegatesForSelector:@selector(channel:didCompleteEnqueueingLog:internalId:)
-                                  withBlock:^(id<MSChannelDelegate> delegate) {
-                                    [delegate channel:weakSelf didCompleteEnqueueingLog:item internalId:internalLogId];
-                                  }];
+                                        withBlock:^(id<MSChannelDelegate> delegate) {
+                                          [delegate channel:weakSelf didCompleteEnqueueingLog:item internalId:internalLogId];
+                                        }];
         return;
       }
       if (strongSelf.discardLogs) {
@@ -149,9 +150,9 @@ static NSString *const kMSStartTimestampPrefix = @"MSChannelStartTimer";
                                          userInfo:@{NSLocalizedDescriptionKey : kMSACConnectionPausedErrorDesc}];
         [strongSelf notifyFailureBeforeSendingForItem:item withError:error];
         [strongSelf enumerateDelegatesForSelector:@selector(channel:didCompleteEnqueueingLog:internalId:)
-                                  withBlock:^(id<MSChannelDelegate> delegate) {
-                                    [delegate channel:weakSelf didCompleteEnqueueingLog:item internalId:internalLogId];
-                                  }];
+                                        withBlock:^(id<MSChannelDelegate> delegate) {
+                                          [delegate channel:weakSelf didCompleteEnqueueingLog:item internalId:internalLogId];
+                                        }];
         return;
       }
 
@@ -161,9 +162,9 @@ static NSString *const kMSStartTimestampPrefix = @"MSChannelStartTimer";
 
       // Notify delegates of completion (whatever the result is).
       [strongSelf enumerateDelegatesForSelector:@selector(channel:didCompleteEnqueueingLog:internalId:)
-                                withBlock:^(id<MSChannelDelegate> delegate) {
-                                  [delegate channel:weakSelf didCompleteEnqueueingLog:item internalId:internalLogId];
-                                }];
+                                      withBlock:^(id<MSChannelDelegate> delegate) {
+                                        [delegate channel:weakSelf didCompleteEnqueueingLog:item internalId:internalLogId];
+                                      }];
 
       // If successful, check if logs can be sent now.
       if (success) {
@@ -219,11 +220,11 @@ static NSString *const kMSStartTimestampPrefix = @"MSChannelStartTimer";
 
                 // Notify delegates.
                 [strongSelf enumerateDelegatesForSelector:@selector(channel:didSucceedSendingLog:)
-                                          withBlock:^(id<MSChannelDelegate> delegate) {
-                                            for (id<MSLog> aLog in container.logs) {
-                                              [delegate channel:weakSelf didSucceedSendingLog:aLog];
-                                            }
-                                          }];
+                                                withBlock:^(id<MSChannelDelegate> delegate) {
+                                                  for (id<MSLog> aLog in container.logs) {
+                                                    [delegate channel:weakSelf didSucceedSendingLog:aLog];
+                                                  }
+                                                }];
 
                 // Remove the logs from storage.
                 [strongSelf.storage deleteLogsWithBatchId:ingestionBatchId groupId:strongSelf.configuration.groupId];
@@ -236,11 +237,11 @@ static NSString *const kMSStartTimestampPrefix = @"MSChannelStartTimer";
 
                 // Notify delegates.
                 [strongSelf enumerateDelegatesForSelector:@selector(channel:didFailSendingLog:withError:)
-                                          withBlock:^(id<MSChannelDelegate> delegate) {
-                                            for (id<MSLog> aLog in container.logs) {
-                                              [delegate channel:weakSelf didFailSendingLog:aLog withError:error];
-                                            }
-                                          }];
+                                                withBlock:^(id<MSChannelDelegate> delegate) {
+                                                  for (id<MSLog> aLog in container.logs) {
+                                                    [delegate channel:weakSelf didFailSendingLog:aLog withError:error];
+                                                  }
+                                                }];
 
                 // Disable and delete all data on fatal error.
                 if (![MSHttpUtil isRecoverableError:response.statusCode]) {
@@ -464,9 +465,9 @@ static NSString *const kMSStartTimestampPrefix = @"MSChannelStartTimer";
 
     // Notify delegates.
     [strongSelf enumerateDelegatesForSelector:@selector(channel:didSetEnabled:andDeleteDataOnDisabled:)
-                              withBlock:^(id<MSChannelDelegate> delegate) {
-                                [delegate channel:weakSelf didSetEnabled:isEnabled andDeleteDataOnDisabled:deleteData];
-                              }];
+                                    withBlock:^(id<MSChannelDelegate> delegate) {
+                                      [delegate channel:weakSelf didSetEnabled:isEnabled andDeleteDataOnDisabled:deleteData];
+                                    }];
   });
 }
 
