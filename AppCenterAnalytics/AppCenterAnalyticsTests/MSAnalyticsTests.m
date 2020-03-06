@@ -756,8 +756,11 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   // Then
   XCTAssertEqual(actualType, kMSTypeEvent);
   XCTAssertEqual(actualName, expectedName);
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
   XCTAssertEqual(actualFlags, MSFlagsPersistenceCritical);
   OCMVerifyAll(self.channelUnitMock);
+#pragma clang diagnostic pop
 }
 
 - (void)testTrackEventWithPropertiesWithInvalidFlag {
@@ -802,6 +805,8 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
                                             appSecret:kMSTestAppSecret
                               transmissionTargetToken:nil
                                       fromApplication:YES];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
   OCMExpect([self.channelUnitCriticalMock enqueueItem:OCMOCK_ANY flags:MSFlagsPersistenceCritical]);
   OCMExpect([self.channelUnitMock enqueueItem:OCMOCK_ANY flags:MSFlagsPersistenceNormal]);
 
@@ -811,6 +816,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
                      forTransmissionTarget:nil
                                      flags:MSFlagsPersistenceCritical];
   [[MSAnalytics sharedInstance] trackEvent:expectedEvent withTypedProperties:nil forTransmissionTarget:nil flags:MSFlagsPersistenceNormal];
+#pragma clang diagnostic pop
 
   // Then
   OCMVerifyAll(self.channelUnitCriticalMock);
@@ -879,7 +885,10 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   // Then
   XCTAssertEqual(actualType, kMSTypeEvent);
   XCTAssertEqual(actualName, expectedName);
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
   XCTAssertEqual(actualFlags, MSFlagsPersistenceCritical);
+#pragma clang diagnostic pop
   OCMVerifyAll(self.channelUnitMock);
 }
 
