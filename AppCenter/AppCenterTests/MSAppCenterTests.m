@@ -388,7 +388,9 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 
   // Then
   XCTAssertTrue([[[MSAppCenter sharedInstance] logUrl] isEqualToString:fakeUrl]);
-  OCMVerify([self.channelGroupMock initWithHttpClient:OCMOCK_ANY installId:OCMOCK_ANY logUrl:equalTo(fakeUrl)]);
+
+  // Cast to void to get rid of warning that says "Expression result unused".
+  OCMVerify((void)[self.channelGroupMock initWithHttpClient:OCMOCK_ANY installId:OCMOCK_ANY logUrl:equalTo(fakeUrl)]);
 
   // When
   [MSAppCenter setLogUrl:updateUrl];
@@ -407,7 +409,9 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 
   // Then
   XCTAssertNil([[MSAppCenter sharedInstance] logUrl]);
-  OCMVerify([self.channelGroupMock initWithHttpClient:OCMOCK_ANY installId:OCMOCK_ANY logUrl:equalTo(defaultUrl)]);
+
+  // Cast to void to get rid of warning that says "Expression result unused".
+  OCMVerify((void)[self.channelGroupMock initWithHttpClient:OCMOCK_ANY installId:OCMOCK_ANY logUrl:equalTo(defaultUrl)]);
 }
 
 - (void)testDefaultLogUrlWithNoAppsecret {

@@ -322,10 +322,10 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
 }
 
 - (void)testDropTableWhenTableExists {
-  
+
   // When
   BOOL tableDropped = [self.sut dropTable:kMSTestTableName];
-  
+
   // Then
   XCTAssertTrue(tableDropped);
   XCTAssertFalse([self tableExists:kMSTestTableName]);
@@ -351,13 +351,13 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
 }
 
 - (void)testDroppedTableWhenTableDoesNotExists {
-  
+
   // If
   NSString *tableToDrop = @"NewTable";
-  
+
   // When
   BOOL tableDropped = [self.sut dropTable:tableToDrop];
-  
+
   // Then
   XCTAssertTrue(tableDropped);
   XCTAssertFalse([self tableExists:tableToDrop]);
@@ -545,6 +545,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
 
   // If
   XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler invoked."];
+  __block BOOL actualSuccess = NO;
 
   // Fill the database with data to reach the desired initial size.
   while ([self.storageTestUtil getDataLengthInBytes] < kMSTestStorageSizeMinimumUpperLimitInBytes) {
@@ -557,8 +558,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   // When
   [self.sut setMaxStorageSize:expandedSizeInBytes
             completionHandler:^(BOOL success) {
-              // Then
-              XCTAssertTrue(success);
+              actualSuccess = success;
               [expectation fulfill];
             }];
 
@@ -570,6 +570,8 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   // Then
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *_Nullable error) {
+                                 // Then
+                                 XCTAssertTrue(actualSuccess);
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }

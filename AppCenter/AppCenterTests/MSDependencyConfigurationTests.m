@@ -43,7 +43,8 @@
   [MSAppCenter configureWithAppSecret:@"App-Secret"];
 
   // Then
-  OCMVerify([self.channelGroupDefaultMock initWithHttpClient:defaultHttpClientMock installId:OCMOCK_ANY logUrl:OCMOCK_ANY]);
+  // Cast to void to get rid of warning that says "Expression result unused".
+  OCMVerify((void)[self.channelGroupDefaultMock initWithHttpClient:defaultHttpClientMock installId:OCMOCK_ANY logUrl:OCMOCK_ANY]);
 
   // Cleanup
   [defaultHttpClientMock stopMocking];
@@ -60,7 +61,8 @@
   [MSAppCenter configureWithAppSecret:@"App-Secret"];
 
   // Then
-  OCMVerify([self.channelGroupDefaultMock initWithHttpClient:httpClientClassMock installId:OCMOCK_ANY logUrl:OCMOCK_ANY]);
+  // Cast to void to get rid of warning that says "Expression result unused".
+  OCMVerify((void)[self.channelGroupDefaultMock initWithHttpClient:httpClientClassMock installId:OCMOCK_ANY logUrl:OCMOCK_ANY]);
 
   // Cleanup
   [httpClientClassMock stopMocking];

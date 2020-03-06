@@ -20,6 +20,10 @@
 static NSString *const kMSBaseGroupId = @"baseGroupId";
 static NSString *const kMSOneCollectorGroupId = @"baseGroupId/one";
 
+// This is to get rid of warnings in the test that a method takes `nil` as its parameter even though it is marked as `nonnull`.
+// Do not convert it to const.
+static NSString *kMSNilString = nil;
+
 @interface MSOneCollectorChannelDelegateTests : XCTestCase
 
 @property(nonatomic) MSOneCollectorChannelDelegate *sut;
@@ -35,7 +39,7 @@ static NSString *const kMSOneCollectorGroupId = @"baseGroupId/one";
 
 - (void)setUp {
   [super setUp];
-  self.sut = [[MSOneCollectorChannelDelegate alloc] initWithHttpClient:[MSHttpClient new] installId:[NSUUID new] baseUrl:nil];
+  self.sut = [[MSOneCollectorChannelDelegate alloc] initWithHttpClient:[MSHttpClient new] installId:[NSUUID new] baseUrl:kMSNilString];
   self.ingestionMock = OCMProtocolMock(@protocol(MSIngestionProtocol));
   self.storageMock = OCMProtocolMock(@protocol(MSStorage));
   self.logsDispatchQueue = dispatch_get_main_queue();
@@ -540,7 +544,7 @@ static NSString *const kMSOneCollectorGroupId = @"baseGroupId/one";
 
   // If
   NSUUID *installId = [NSUUID new];
-  self.sut = [[MSOneCollectorChannelDelegate alloc] initWithHttpClient:[MSHttpClient new] installId:installId baseUrl:nil];
+  self.sut = [[MSOneCollectorChannelDelegate alloc] initWithHttpClient:[MSHttpClient new] installId:installId baseUrl:kMSNilString];
   id channelMock = OCMProtocolMock(@protocol(MSChannelProtocol));
   MSCommonSchemaLog *csLogMock = OCMPartialMock([MSCommonSchemaLog new]);
   csLogMock.iKey = @"o:81439696f7164d7599d543f9bf37abb7";
