@@ -148,7 +148,8 @@ static NSURL *sfURL;
   [self.distributeInfoTrackerMock stopMocking];
   [MSDistributeTestUtil unMockUpdatesAllowedConditions];
 
-  // Wait all tasks in tests.
+  // Wait all tasks in tests. This doesn't work properly when this class only runs for testing.
+  // Repro: Remove expectation related code in `testOpenUrlWithUpdateSetupFailure` and test the class.
   XCTestExpectation *expectation = [self expectationWithDescription:@"tearDown"];
   dispatch_async(dispatch_get_main_queue(), ^{
     [expectation fulfill];
@@ -1022,7 +1023,6 @@ static NSURL *sfURL;
   [utilityMock stopMocking];
 }
 
-// FIXME: Disable failing test temporarily.
 - (void)testOpenUrlWithCheckLatestRelease {
 
   // If
@@ -1089,7 +1089,6 @@ static NSURL *sfURL;
   [distributeMock stopMocking];
 }
 
-// FIXME: Disable failing test temporarily.
 - (void)testOpenUrlWithFirstSessionLogUpdate {
 
   // If
@@ -1106,23 +1105,30 @@ static NSURL *sfURL;
   id utilityMock = [self mockMSPackageHash];
 
   // Disable for now to bypass initializing ingestion.
-  [distributeMock setEnabled:NO];
-  [distributeMock startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
-                              appSecret:kMSTestAppSecret
-                transmissionTargetToken:nil
-                        fromApplication:YES];
+  [self.sut setEnabled:NO];
+  [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
+                        appSecret:kMSTestAppSecret
+          transmissionTargetToken:nil
+                  fromApplication:YES];
   id channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
   self.sut.channelUnit = channelUnitMock;
   __block MSDistributionStartSessionLog *log;
   __block int invocations = 0;
-  OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSDistributionStartSessionLog class]] flags:MSFlagsDefault])
+
+  // FIXME: This stub used `[OCMArg isKindOfClass:[MSDistributionStartSessionLog class]]` but it causes object retain issue
+  // after finishing test. Use `checkWithBlock:` for now to have the test run without the issue. This is an unexpected behavior
+  // happening when `MSSessionContext` is used along with `MSChannelUnitDefault` mock.
+  OCMStub([channelUnitMock enqueueItem:[OCMArg checkWithBlock:^BOOL(id value) {
+                             return [value isKindOfClass:[MSDistributionStartSessionLog class]];
+                           }]
+                                 flags:MSFlagsDefault])
       .andDo(^(NSInvocation *invocation) {
         ++invocations;
         [invocation getArgument:&log atIndex:2];
       });
 
   // Enable again.
-  [distributeMock setEnabled:YES];
+  [self.sut setEnabled:YES];
 
   // If
   NSURL *url = [NSURL
@@ -1140,7 +1146,6 @@ static NSURL *sfURL;
   OCMVerify([self.distributeInfoTrackerMock updateDistributionGroupId:distributionGroupId]);
   XCTAssertEqualObjects([MS_USER_DEFAULTS objectForKey:kMSDistributionGroupIdKey], distributionGroupId);
   [MSSessionContext resetSharedInstance];
-  log = nil;
   invocations = 0;
 
   // If
@@ -1187,10 +1192,10 @@ static NSURL *sfURL;
   [distributeMock stopMocking];
 }
 
-// FIXME: Disable failing test temporarily.
 - (void)testOpenUrlWithUpdateSetupFailure {
 
   // If
+  XCTestExpectation *expectation = [self expectationWithDescription:@"Start update processed"];
   NSString *scheme = [NSString stringWithFormat:kMSDefaultCustomSchemeFormat, kMSTestAppSecret];
   NSString *requestId = @"FIRST-REQUEST";
   NSString *updateSetupFailureMessage = @"in-app updates setup failed";
@@ -1214,10 +1219,20 @@ static NSURL *sfURL;
   // When
   [self.settingsMock setObject:requestId forKey:kMSUpdateTokenRequestIdKey];
   BOOL result = [self.sut openURL:url];
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [expectation fulfill];
+  });
 
   // Then
-  XCTAssertTrue(result);
-  OCMVerify([distributeMock showUpdateSetupFailedAlert:updateSetupFailureMessage]);
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+                                 // Then
+                                 XCTAssertTrue(result);
+                                 OCMVerify([distributeMock showUpdateSetupFailedAlert:updateSetupFailureMessage]);
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
 
   // Clear
   [distributeMock stopMocking];
@@ -3051,11 +3066,9 @@ static NSURL *sfURL;
   // If
   id distributeMock = OCMPartialMock(self.sut);
 
-  // Mock the HTTP client.
+  // Mock the HTTP client. Use dependency configuration to simplify MSHttpClient mock.
   id httpClientMock = OCMPartialMock([MSHttpClient new]);
-  id httpClientClassMock = OCMClassMock([MSHttpClient class]);
-  OCMStub([httpClientClassMock alloc]).andReturn(httpClientClassMock);
-  OCMStub([httpClientClassMock initWithMaxHttpConnectionsPerHost:4]).andReturn(httpClientMock);
+  [MSDependencyConfiguration setHttpClient:httpClientMock];
   self.sut.appSecret = kMSTestAppSecret;
   [distributeMock setValue:@(YES) forKey:@"updateFlowInProgress"];
   id reachabilityMock = OCMClassMock([MS_Reachability class]);
@@ -3097,8 +3110,8 @@ static NSURL *sfURL;
                                  XCTAssertFalse(self.sut.updateFlowInProgress);
                                }];
 
-  // Clear
-  [httpClientClassMock stopMocking];
+  // Clean up
+  MSDependencyConfiguration.httpClient = nil;
 }
 
 - (void)testCompleteUpdateFlowWhenReleaseNoteIsClicked {
