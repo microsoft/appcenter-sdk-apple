@@ -79,6 +79,10 @@
   // When
   id<MSChannelUnitProtocol> addedChannel = [self.sut addChannelUnitWithConfiguration:self.validConfiguration];
 
+  // This test will use a real channel unit object which runs `checkPendingLogs` in the log dispatch queue.
+  // We should make sure the test method is not finished before `checkPendingLogs` method call is finished to avoid object retain issue.
+  [self waitForLogsDispatchQueue];
+
   // Then
   XCTAssertTrue([self.sut.channels containsObject:addedChannel]);
   assertThat(addedChannel, notNilValue());
@@ -92,6 +96,9 @@
 
   // When
   MSChannelUnitDefault *channelUnit = (MSChannelUnitDefault *)[self.sut addChannelUnitWithConfiguration:self.validConfiguration];
+
+  // This test will use a real channel unit object which runs `checkPendingLogs` in the log dispatch queue.
+  // We should make sure the test method is not finished before `checkPendingLogs` method call is finished to avoid object retain issue.
   [self waitForLogsDispatchQueue];
 
   // Then
@@ -107,6 +114,9 @@
   // When
   MSChannelUnitDefault *channelUnit = (MSChannelUnitDefault *)[self.sut addChannelUnitWithConfiguration:[MSChannelUnitConfiguration new]
                                                                                           withIngestion:newIngestion];
+
+  // This test will use a real channel unit object which runs `checkPendingLogs` in the log dispatch queue.
+  // We should make sure the test method is not finished before `checkPendingLogs` method call is finished to avoid object retain issue.
   [self waitForLogsDispatchQueue];
 
   // Then
@@ -133,6 +143,10 @@
       [self.sut addDelegate:OCMProtocolMock(@protocol(MSChannelDelegate))];
     }
   };
+
+  // This test will use a real channel unit object which runs `checkPendingLogs` in the log dispatch queue.
+  // We should make sure the test method is not finished before `checkPendingLogs` method call is finished to avoid object retain issue.
+  [self waitForLogsDispatchQueue];
 
   // Then
   XCTAssertNoThrow(block());
@@ -196,9 +210,12 @@
   // When
   [self.sut addChannelUnitWithConfiguration:self.validConfiguration];
 
+  // This test will use a real channel unit object which runs `checkPendingLogs` in the log dispatch queue.
+  // We should make sure the test method is not finished before `checkPendingLogs` method call is finished to avoid object retain issue.
+  [self waitForLogsDispatchQueue];
+
   // Then
   OCMVerify([channelUnitMock addDelegate:(id<MSChannelDelegate>)self.sut]);
-  [self waitForLogsDispatchQueue];
   OCMVerify([channelUnitMock checkPendingLogs]);
 
   // Clear
