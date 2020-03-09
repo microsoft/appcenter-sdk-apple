@@ -1888,6 +1888,33 @@ static NSString *const kMSTestGroupId = @"GroupId";
   [userIdContextMock stopMocking];
 }
 
+- (void)testAddRemoveDelegate {
+
+  // If
+  XCTestExpectation *addDelegateExpectation = [self expectationWithDescription:@"Add a channel delegate"];
+  XCTestExpectation *removeDelegateExpectation = [self expectationWithDescription:@"Remove a channel delegate"];
+  MSChannelUnitDefault *channel = [self createChannelUnitDefault];
+  id delegateMock = OCMProtocolMock(@protocol(MSChannelDelegate));
+
+  // When
+  [channel addDelegate:delegateMock];
+  dispatch_async(channel.logsDispatchQueue, ^{
+    // Then
+    XCTAssertEqual(channel.delegates.count, 1);
+    XCTAssertTrue([channel.delegates containsObject:delegateMock]);
+    [addDelegateExpectation fulfill];
+  });
+  [channel removeDelegate:delegateMock];
+  dispatch_async(channel.logsDispatchQueue, ^{
+    // Then
+    XCTAssertEqual(channel.delegates.count, 0);
+    [removeDelegateExpectation fulfill];
+  });
+
+  // Then
+  [self waitForExpectations:@[ addDelegateExpectation, removeDelegateExpectation ] timeout:kMSTestTimeout enforceOrder:YES];
+}
+
 #pragma mark - Helper
 
 - (void)initChannelEndJobExpectation {
