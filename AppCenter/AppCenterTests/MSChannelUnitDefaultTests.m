@@ -65,10 +65,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
 }
 
 - (void)tearDown {
-
-  // TODO: Uncomment this line. `testLogsSentWithUnrecoverableError` is failing intermittently,
-  // need to fix the test before uncommenting this line.
-  // XCTAssertNil(self.dispatchQueue);
+  XCTAssertNil(self.dispatchQueue);
 
   // Stop mocks.
   [self.storageMock stopMocking];
@@ -496,9 +493,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
       }
 
       // Then
-      dispatch_async(channel.logsDispatchQueue, ^{
-        [self enqueueChannelEndJobExpectation];
-      });
+      [self enqueueChannelEndJobExpectation];
     });
   });
 
@@ -672,6 +667,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   // If
   __block MSChannelUnitDefault *channel = [self createChannelUnitDefault];
   [self initChannelEndJobExpectation];
+  self.channelEndJobExpectation.expectedFulfillmentCount = 2;
   id delegateMock = OCMProtocolMock(@protocol(MSChannelDelegate));
   __block MSSendAsyncCompletionHandler ingestionBlock;
   __block MSLogContainer *logContainer;
@@ -734,6 +730,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
       if (ingestionBlock) {
         ingestionBlock([@(1) stringValue], responseMock, nil, nil);
       }
+      [self enqueueChannelEndJobExpectation];
     });
   });
 
