@@ -65,7 +65,7 @@ class CrashesViewController : NSViewController, NSTableViewDataSource, NSTableVi
   @IBAction func browseFileAttachment(_ sender: Any) {
     let openPanel = NSOpenPanel()
     openPanel.begin(completionHandler: { (result) -> Void in
-        let url = result.rawValue == NSFileHandlingPanelOKButton && openPanel.url != nil ? openPanel.url : nil
+      let url = result.rawValue == NSFileHandlingPanelOKButton && openPanel.url != nil ? openPanel.url : nil
       if url != nil {
         UserDefaults.standard.set(url, forKey: "fileAttachment")
       } else {
