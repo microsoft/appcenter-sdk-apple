@@ -198,7 +198,6 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
 @implementation MSCrashes
 
-@synthesize delegate = _delegate;
 @synthesize channelGroup = _channelGroup;
 @synthesize channelUnitConfiguration = _channelUnitConfiguration;
 
@@ -225,8 +224,20 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   return [[MSCrashes sharedInstance] didCrashInLastSession];
 }
 
++ (void)setHasCrashedInLastSession:(BOOL)hasCrashedInLastSession {
+  [[MSCrashes sharedInstance] setDidCrashInLastSession:hasCrashedInLastSession];
+}
+
 + (BOOL)hasReceivedMemoryWarningInLastSession {
   return [[MSCrashes sharedInstance] didReceiveMemoryWarningInLastSession];
+}
+
++ (void)setHasReceivedMemoryWarningInLastSession:(BOOL)hasReceivedMemoryWarningInLastSession {
+  [[MSCrashes sharedInstance] setDidReceiveMemoryWarningInLastSession:hasReceivedMemoryWarningInLastSession];
+}
+
++ (_Nullable MSUserConfirmationHandler)userConfirmationHandler {
+  return [[MSCrashes sharedInstance] userConfirmationHandler];
 }
 
 + (void)setUserConfirmationHandler:(_Nullable MSUserConfirmationHandler)userConfirmationHandler {
@@ -266,6 +277,10 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
  */
 + (void)disableMachExceptionHandler {
   [[MSCrashes sharedInstance] setEnableMachExceptionHandler:NO];
+}
+
++ (id<MSCrashesDelegate>)delegate {
+    return [[MSCrashes sharedInstance] delegate];
 }
 
 + (void)setDelegate:(_Nullable id<MSCrashesDelegate>)delegate {
