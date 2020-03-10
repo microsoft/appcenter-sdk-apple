@@ -65,12 +65,19 @@ static NSString *const kMSTestGroupId = @"GroupId";
 }
 
 - (void)tearDown {
-  XCTAssertNil(self.dispatchQueue);
 
   // Stop mocks.
   [self.storageMock stopMocking];
   [self.ingestionMock stopMocking];
   [self.settingsMock stopMocking];
+
+  /*
+   * Make sure that dispatch queue has been deallocated.
+   * Note: the check should be done after `stopMocking` calls because it clears list of invocations that
+   * keeps references to all arguments including blocks (that implicitly keeps chaneel "self" reference).
+   */
+  XCTAssertNil(self.dispatchQueue);
+
   [super tearDown];
 }
 
