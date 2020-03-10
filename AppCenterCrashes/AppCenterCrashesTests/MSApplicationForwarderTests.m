@@ -8,8 +8,10 @@
 #import "MSTestFrameworks.h"
 #import "MSUtility+Application.h"
 
+#if TARGET_OS_OSX
 static NSException *lastException;
 static void exceptionHandler(NSException *exception) { lastException = exception; }
+#endif
 
 @interface MSApplicationForwarderTests : XCTestCase
 

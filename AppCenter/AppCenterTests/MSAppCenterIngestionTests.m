@@ -64,10 +64,6 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 }
 
 - (void)tearDown {
-  [super tearDown];
-  [self.deviceMock stopMocking];
-  [self.httpClientMock stopMocking];
-  [self.reachabilityMock stopMocking];
   [MSHttpTestUtil removeAllStubs];
 
   /*
@@ -76,6 +72,12 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
    */
   [MS_NOTIFICATION_CENTER removeObserver:self.sut name:kMSReachabilityChangedNotification object:nil];
   self.sut = nil;
+
+  // Stop mock.
+  [self.deviceMock stopMocking];
+  [self.httpClientMock stopMocking];
+  [self.reachabilityMock stopMocking];
+  [super tearDown];
 }
 
 - (void)testSendBatchLogs {

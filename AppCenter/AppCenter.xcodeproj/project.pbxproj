@@ -173,9 +173,6 @@
 		24D44B422395DBBE003CC224 /* MSTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 24D44B412395DBBE003CC224 /* MSTestUtil.m */; };
 		24D44B432395DBBE003CC224 /* MSTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 24D44B412395DBBE003CC224 /* MSTestUtil.m */; };
 		24D44B442395DBBE003CC224 /* MSTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 24D44B412395DBBE003CC224 /* MSTestUtil.m */; };
-		359D1A55225E6224003ABD4F /* MSDispatchTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 359D1A54225E6224003ABD4F /* MSDispatchTestUtil.m */; };
-		359D1A56225E6224003ABD4F /* MSDispatchTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 359D1A54225E6224003ABD4F /* MSDispatchTestUtil.m */; };
-		359D1A57225E6224003ABD4F /* MSDispatchTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 359D1A54225E6224003ABD4F /* MSDispatchTestUtil.m */; };
 		359E8990224BF70600795CF5 /* MSHttpCallTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 359E898F224BF70400795CF5 /* MSHttpCallTests.m */; };
 		359E8991224BF70800795CF5 /* MSHttpCallTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 359E898F224BF70400795CF5 /* MSHttpCallTests.m */; };
 		359E8992224BF70900795CF5 /* MSHttpCallTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 359E898F224BF70400795CF5 /* MSHttpCallTests.m */; };
@@ -983,8 +980,6 @@
 		3592ABA61DC90E3600EF4592 /* MSLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSLogger.m; sourceTree = "<group>"; };
 		359C38DB214079D90066C509 /* MSDeviceExtension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSDeviceExtension.h; sourceTree = "<group>"; };
 		359C38DC214079D90066C509 /* MSDeviceExtension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSDeviceExtension.m; sourceTree = "<group>"; };
-		359D1A53225E6224003ABD4F /* MSDispatchTestUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSDispatchTestUtil.h; sourceTree = "<group>"; };
-		359D1A54225E6224003ABD4F /* MSDispatchTestUtil.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSDispatchTestUtil.m; sourceTree = "<group>"; };
 		359E898F224BF70400795CF5 /* MSHttpCallTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSHttpCallTests.m; sourceTree = "<group>"; };
 		35B80F9220C1FE1A00CDFA55 /* MSMockLogObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSMockLogObject.h; sourceTree = "<group>"; };
 		35C0E3C91FD6146A004E841E /* MSMockSecondService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSMockSecondService.m; sourceTree = "<group>"; };
@@ -1735,8 +1730,6 @@
 				384A92602188BE400099BE70 /* MSDelegateForwarderTestUtil.m */,
 				7FB70548222E58FB00D93258 /* MSMockReachability.m */,
 				7FB7054A222E593400D93258 /* MSMockReachability.h */,
-				359D1A53225E6224003ABD4F /* MSDispatchTestUtil.h */,
-				359D1A54225E6224003ABD4F /* MSDispatchTestUtil.m */,
 				24D44B402395DBBE003CC224 /* MSTestUtil.h */,
 				24D44B412395DBBE003CC224 /* MSTestUtil.m */,
 			);
@@ -2666,7 +2659,6 @@
 				387A7FCD22178E92008A5587 /* MSReachabilityTests.m in Sources */,
 				04A79A4B20C6F63F006D0072 /* MSOneCollectorIngestionTests.m in Sources */,
 				384A92632188BE400099BE70 /* MSDelegateForwarderTestUtil.m in Sources */,
-				359D1A57225E6224003ABD4F /* MSDispatchTestUtil.m in Sources */,
 				04B45C5321E90F2400FE6746 /* MSStorageTestUtil.m in Sources */,
 				04A20D74217660E40096723C /* MSWrapperLoggerTests.m in Sources */,
 				24D44B442395DBBE003CC224 /* MSTestUtil.m in Sources */,
@@ -2732,7 +2724,6 @@
 				387A7FCC22178E92008A5587 /* MSReachabilityTests.m in Sources */,
 				04A140881ECE63BF001CEE94 /* MSAppCenterTests.m in Sources */,
 				35DFC23C2170052900455589 /* MSStringTypedPropertyTests.m in Sources */,
-				359D1A56225E6224003ABD4F /* MSDispatchTestUtil.m in Sources */,
 				04B45C5221E90F2200FE6746 /* MSStorageTestUtil.m in Sources */,
 				04A140891ECE63C3001CEE94 /* MSLoggerTests.m in Sources */,
 				24D44B432395DBBE003CC224 /* MSTestUtil.m in Sources */,
@@ -2798,7 +2789,6 @@
 				387A7FCB22178E92008A5587 /* MSReachabilityTests.m in Sources */,
 				380A4DCB1DD6908A00E99219 /* MSUtilityTests.m in Sources */,
 				04A79A4920C6F63C006D0072 /* MSOneCollectorIngestionTests.m in Sources */,
-				359D1A55225E6224003ABD4F /* MSDispatchTestUtil.m in Sources */,
 				04B45C5121E90F2000FE6746 /* MSStorageTestUtil.m in Sources */,
 				9CE97B2B21A4C0B900A1B160 /* MSUserIdContextTests.m in Sources */,
 				24D44B422395DBBE003CC224 /* MSTestUtil.m in Sources */,
