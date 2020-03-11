@@ -74,7 +74,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   /*
    * Make sure that dispatch queue has been deallocated.
    * Note: the check should be done after `stopMocking` calls because it clears list of invocations that
-   * keeps references to all arguments including blocks (that implicitly keeps chaneel "self" reference).
+   * keeps references to all arguments including blocks (that implicitly keeps channel "self" reference).
    */
   XCTAssertNil(self.dispatchQueue);
 
@@ -1224,8 +1224,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
 - (void)testPauseOnDisabled {
 
-  // If.
-
+  // If
   __block MSChannelUnitDefault *channel = [self createChannelUnitDefault];
   [self initChannelEndJobExpectation];
   [channel setEnabled:YES andDeleteDataOnDisabled:NO];
@@ -1249,7 +1248,6 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
   // If
   __block BOOL result1, result2;
-
   __block MSChannelUnitDefault *channel = [self createChannelUnitDefault];
   [self initChannelEndJobExpectation];
   id<MSIngestionProtocol> ingestionMock = OCMProtocolMock(@protocol(MSIngestionProtocol));
@@ -1602,7 +1600,6 @@ static NSString *const kMSTestGroupId = @"GroupId";
 - (void)testResumeWithObjectThatDoesNotExistDoesNotPauseIfPreviouslyResumed {
 
   // When
-
   MSChannelUnitDefault *channel = [self createChannelUnitDefault];
   [channel resumeWithIdentifyingObjectSync:[NSObject new]];
 
