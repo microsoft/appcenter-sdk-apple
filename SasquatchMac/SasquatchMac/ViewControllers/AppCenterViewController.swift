@@ -125,8 +125,8 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate, NSTextVie
   func controlTextDidEndEditing(_ obj: Notification) {
     let text = obj.object as? NSTextField
     if text == self.storageMaxSizeField {
-        let maxSize = Int(self.storageMaxSizeField.stringValue) ?? 0
-        UserDefaults.standard.set(maxSize * 1024, forKey: kMSStorageMaxSizeKey)
+      let maxSize = Int(self.storageMaxSizeField.stringValue) ?? 0
+      UserDefaults.standard.set(maxSize * 1024, forKey: kMSStorageMaxSizeKey)
     }
   }
 

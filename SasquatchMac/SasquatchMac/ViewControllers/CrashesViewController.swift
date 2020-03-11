@@ -94,10 +94,10 @@ class CrashesViewController : NSViewController, NSTableViewDataSource, NSTableVi
 
   func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
     if isHeader(row: row) {
-        let categoryView = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "crashName"), owner: nil) as! NSTextField
+      let categoryView = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "crashName"), owner: nil) as! NSTextField
       categoryView.stringValue = crashes[row] as! String
       categoryView.alignment = NSTextAlignment.center
-        categoryView.font = NSFontManager.shared.convert(categoryView.font!, toHaveTrait: NSFontTraitMask(rawValue: UInt(NSFontBoldTrait)))
+      categoryView.font = NSFontManager.shared.convert(categoryView.font!, toHaveTrait: NSFontTraitMask(rawValue: UInt(NSFontBoldTrait)))
       return categoryView
     } else {
       switch tableColumn {
@@ -121,7 +121,7 @@ class CrashesViewController : NSViewController, NSTableViewDataSource, NSTableVi
     return 30
   }
 
-    @objc func crashButtonPressed(_ sender: Any) {
+  @objc func crashButtonPressed(_ sender: Any) {
     (crashes[(sender as! NSButton).tag] as! MSCrash).crash()
   }
   
