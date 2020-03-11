@@ -26,7 +26,6 @@ static NSTimeInterval const kMSTestSessionTimeout = 1.5;
 
   self.sut = [[MSSessionTracker alloc] init];
   [self.sut setSessionTimeout:kMSTestSessionTimeout];
-  self.sut.context = [MSSessionContext new];
   [self.sut start];
 }
 

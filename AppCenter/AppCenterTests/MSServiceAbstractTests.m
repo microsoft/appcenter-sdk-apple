@@ -115,7 +115,7 @@
   BOOL isEnabled = [self.abstractService isEnabled];
 
   // Then
-  assertThatBool(isEnabled, isTrue());
+  XCTAssertTrue(isEnabled);
 }
 
 - (void)testDisableService {
@@ -127,7 +127,7 @@
   [self.abstractService setEnabled:NO];
 
   // Then
-  assertThatBool([self.abstractService isEnabled], isFalse());
+  XCTAssertFalse([self.abstractService isEnabled]);
 }
 
 - (void)testEnableService {
@@ -139,7 +139,7 @@
   [self.abstractService setEnabled:YES];
 
   // Then
-  assertThatBool([self.abstractService isEnabled], isTrue());
+  XCTAssertTrue([self.abstractService isEnabled]);
 }
 
 - (void)testDisableServiceOnServiceDisabled {
@@ -151,7 +151,7 @@
   [self.abstractService setEnabled:NO];
 
   // Then
-  assertThatBool([self.abstractService isEnabled], isFalse());
+  XCTAssertFalse([self.abstractService isEnabled]);
 }
 
 - (void)testEnableServiceOnServiceEnabled {
@@ -163,7 +163,7 @@
   [self.abstractService setEnabled:YES];
 
   // Then
-  assertThatBool([self.abstractService isEnabled], isTrue());
+  XCTAssertTrue([self.abstractService isEnabled]);
 }
 
 - (void)testIsEnabledToPersistence {
@@ -175,40 +175,43 @@
   [self.abstractService setEnabled:expected];
 
   // Then
-  assertThat([NSNumber numberWithBool:self.abstractService.isEnabled], is([NSNumber numberWithBool:expected]));
+  XCTAssertTrue(self.abstractService.isEnabled == expected);
 
   // Also check that the sut did access the persistence.
-  OCMVerify([self.settingsMock setObject:OCMOCK_ANY forKey:OCMOCK_ANY]);
+  XCTAssertTrue([[self.settingsMock objectForKey:self.abstractService.isEnabledKey] boolValue] == expected);
 }
 
 - (void)testIsEnabledFromPersistence {
 
   // If
-  NSNumber *expected = @NO;
-  [self.settingsMock setObject:expected forKey:self.abstractService.isEnabledKey];
-
-  // When
-  BOOL isEnabled = [self.abstractService isEnabled];
+  [self.settingsMock setObject:@NO forKey:self.abstractService.isEnabledKey];
 
   // Then
-  assertThat(@(isEnabled), is(expected));
+  XCTAssertFalse([self.abstractService isEnabled]);
 
-  // Also check that the sut did access the persistence.
-  OCMVerify([self.settingsMock objectForKey:OCMOCK_ANY]);
+  // If
+  [self.settingsMock setObject:@YES forKey:self.abstractService.isEnabledKey];
+
+  // Then
+  XCTAssertTrue([self.abstractService isEnabled]);
 }
 
 - (void)testCanBeUsed {
+
+  // If
   [MSAppCenter resetSharedInstance];
 
-  assertThatBool([[MSServiceAbstractImplementation sharedInstance] canBeUsed], isFalse());
+  // Then
+  XCTAssertFalse([[MSServiceAbstractImplementation sharedInstance] canBeUsed]);
 
+  // When
   [MSAppCenter start:MS_UUID_STRING withServices:@ [[MSServiceAbstractImplementation class]]];
 
-  assertThatBool([[MSServiceAbstractImplementation sharedInstance] canBeUsed], isTrue());
+  // Then
+  XCTAssertTrue([[MSServiceAbstractImplementation sharedInstance] canBeUsed]);
 }
 
 - (void)testEnableServiceOnCoreDisabled {
-  OCMStub([self.settingsMock objectForKey:[OCMArg isEqual:@"MSAppCenterIsEnabled"]]).andReturn([NSNumber numberWithBool:NO]);
 
   // If
   [MSAppCenter resetSharedInstance];
@@ -220,7 +223,7 @@
   [[MSServiceAbstractImplementation class] setEnabled:YES];
 
   // Then
-  assertThatBool([[MSServiceAbstractImplementation class] isEnabled], isFalse());
+  XCTAssertFalse([[MSServiceAbstractImplementation class] isEnabled]);
 }
 
 - (void)testDisableServiceOnCoreEnabled {
@@ -235,7 +238,7 @@
   [[MSServiceAbstractImplementation class] setEnabled:NO];
 
   // Then
-  assertThatBool([[MSServiceAbstractImplementation class] isEnabled], isFalse());
+  XCTAssertFalse([[MSServiceAbstractImplementation class] isEnabled]);
 }
 
 - (void)testEnableServiceOnCoreEnabled {
@@ -250,7 +253,7 @@
   [[MSServiceAbstractImplementation class] setEnabled:YES];
 
   // Then
-  assertThatBool([[MSServiceAbstractImplementation class] isEnabled], isTrue());
+  XCTAssertTrue([[MSServiceAbstractImplementation class] isEnabled]);
 }
 
 - (void)testReenableCoreOnServiceDisabled {
@@ -264,7 +267,7 @@
   [MSAppCenter setEnabled:YES];
 
   // Then
-  assertThatBool([[MSServiceAbstractImplementation class] isEnabled], isTrue());
+  XCTAssertTrue([[MSServiceAbstractImplementation class] isEnabled]);
 }
 
 - (void)testReenableCoreOnServiceEnabled {
@@ -278,7 +281,7 @@
   [MSAppCenter setEnabled:YES];
 
   // Then
-  assertThatBool([[MSServiceAbstractImplementation class] isEnabled], isTrue());
+  XCTAssertTrue([[MSServiceAbstractImplementation class] isEnabled]);
 }
 
 - (void)testLogDeletedOnDisabled {
@@ -301,15 +304,11 @@
 
 - (void)testEnableChannelUnitOnStartWithChannelGroup {
 
-  // If
-  id<MSChannelGroupProtocol> channelGroup = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
-  self.abstractService.channelGroup = channelGroup;
-
   // When
-  [self.abstractService startWithChannelGroup:channelGroup appSecret:@"TestAppSecret"];
+  [self.abstractService startWithChannelGroup:self.channelGroupMock appSecret:@"TestAppSecret"];
 
   // Then
-  OCMVerify([self.abstractService.channelUnit setEnabled:YES andDeleteDataOnDisabled:YES]);
+  OCMVerify([self.channelUnitMock setEnabled:YES andDeleteDataOnDisabled:YES]);
 }
 
 - (void)testInitializationPriorityCorrect {

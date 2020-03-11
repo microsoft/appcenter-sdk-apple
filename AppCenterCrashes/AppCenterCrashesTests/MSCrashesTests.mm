@@ -282,7 +282,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   [self.sut applyEnabledState:YES];
 
   // Then
-  OCMVerify([MSCrashesUncaughtCXXExceptionHandlerManager addCXXExceptionHandler:(MSCrashesUncaughtCXXExceptionHandler)[OCMArg anyPointer]]);
+  OCMVerify([exceptionHandlerManagerClass addCXXExceptionHandler:(MSCrashesUncaughtCXXExceptionHandler)[OCMArg anyPointer]]);
   OCMVerify([applicationForwarderClass registerForwarding]);
 
   // Clear
