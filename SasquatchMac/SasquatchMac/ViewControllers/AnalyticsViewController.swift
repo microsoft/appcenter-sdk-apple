@@ -7,13 +7,13 @@ import Cocoa
 class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTableViewDelegate {
 
   class EventProperty : NSObject {
-    var key: String = ""
+    @objc var key: String = ""
     @objc var type: String = EventPropertyType.string.rawValue
-    var string: String = ""
-    var double: NSNumber = 0
-    var long: NSNumber = 0
-    var boolean: Bool = false
-    var dateTime: Date = Date.init()
+    @objc var string: String = ""
+    @objc var double: NSNumber = 0
+    @objc var long: NSNumber = 0
+    @objc var boolean: Bool = false
+    @objc var dateTime: Date = Date.init()
   }
 
   enum EventPropertyType : String {
@@ -214,7 +214,7 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
   }
 
   func eventPropertiesSet() -> Any? {
-    if eventProperties.count < 1 {
+     if eventProperties.count < 1 {
       return nil
     }
     var onlyStrings = true

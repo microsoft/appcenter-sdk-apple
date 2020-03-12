@@ -17,12 +17,12 @@ class CustomPropertiesViewControler: NSViewController, NSTableViewDelegate {
   }
   
   class CustomProperty : NSObject {
-    var key: String = ""
+    @objc var key: String = ""
     @objc var type: String = CustomPropertyType.Clear.rawValue
-    var string: String = ""
-    var number: NSNumber = 0
-    var boolean: Bool = false
-    var dateTime: Date = Date.init()
+    @objc var string: String = ""
+    @objc var number: NSNumber = 0
+    @objc var boolean: Bool = false
+    @objc var dateTime: Date = Date.init()
   }
   
   var appCenter: AppCenterDelegate = AppCenterProvider.shared().appCenter!
