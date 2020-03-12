@@ -214,7 +214,7 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
   }
 
   func eventPropertiesSet() -> Any? {
-     if eventProperties.count < 1 {
+    if eventProperties.count < 1 {
       return nil
     }
     var onlyStrings = true

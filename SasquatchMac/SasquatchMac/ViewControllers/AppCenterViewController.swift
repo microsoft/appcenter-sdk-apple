@@ -122,7 +122,7 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate, NSTextVie
     self.storageMaxSizeField?.stringValue = "\(storageMaxSize / 1024)"
   }
 
-  func controlTextDidEndEditing(_ obj: Notification) {
+  func controlTextDidChange(_ obj: Notification) {
     let text = obj.object as? NSTextField
     if text == self.storageMaxSizeField {
       let maxSize = Int(self.storageMaxSizeField.stringValue) ?? 0
