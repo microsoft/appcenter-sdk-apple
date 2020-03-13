@@ -10,12 +10,12 @@ class EventFilterViewController: NSViewController {
   @IBOutlet weak var setEnabledButton: NSButton!
 
   @IBAction func setEnabled(_ sender: NSButton) {
-    appCenter.setEventFilterEnabled(sender.state.rawValue == 1)
+    appCenter.setEventFilterEnabled(sender.state == .on)
   }
 
   override func viewDidLoad() {
     super.viewDidLoad()
     appCenter.startEventFilterService()
-    setEnabledButton?.state = NSControl.StateValue(rawValue: appCenter.isEventFilterEnabled() ? 1 : 0)
+    setEnabledButton?.state = appCenter.isEventFilterEnabled() ? .on : .off
   }
 }

@@ -246,7 +246,7 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
           key.stringValue = property.key
           let value: NSButton = cell.subviews[cellSubviews.valueCheck.rawValue] as! NSButton
           let selectedTarget = selectedTransmissionTarget(commonSelector)
-          value.state = NSControl.StateValue(rawValue: collectDeviceIdStates[selectedTarget!]! ? 1 : 0)
+          value.state = collectDeviceIdStates[selectedTarget!]! ? .on : .off
           value.isEnabled = !((value.state as NSNumber).boolValue)
           value.target = self
           value.action = #selector(collectDeviceIdSwitchCellEnabled)
@@ -299,7 +299,7 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
         let key: NSTextField = cell.subviews[cellSubviews.key.rawValue] as! NSTextField
         key.stringValue = "Set Enabled"
         let value: NSButton = cell.subviews[cellSubviews.valueCheck.rawValue] as! NSButton
-        value.state = NSControl.StateValue(rawValue: section.isTransmissionTargetEnabled() ? 1 : 0)
+        value.state = section.isTransmissionTargetEnabled() ? .on : .off
         value.isEnabled = tableView.tag != Section.Default.rawValue
         value.target = self
         value.action = #selector(targetEnabledSwitchValueChanged)
@@ -309,7 +309,7 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
         let key: NSTextField = cell.subviews[cellSubviews.key.rawValue] as! NSTextField
         key.stringValue = "Analytics Events"
         let value: NSButton = cell.subviews[cellSubviews.valueCheck.rawValue] as! NSButton
-        value.state = NSControl.StateValue(rawValue: section.shouldSendAnalytics() ? 1 : 0)
+        value.state = section.shouldSendAnalytics() ? .on : .off
         value.target = self
         value.action = #selector(targetShouldSendAnalyticsSwitchValueChanged)
         cell.subviews[cellSubviews.valueText.rawValue].isHidden = true
@@ -394,7 +394,7 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
         }
         let childSwitch: NSButton? = childCell.subviews[cellSubviews.valueCheck.rawValue] as? NSButton
         let childTarget = transmissionTargetSections![childSectionIndex].getTransmissionTarget()
-        childSwitch!.state = NSControl.StateValue(rawValue: (childTarget?.isEnabled())! ? 1 : 0)
+        childSwitch!.state = (childTarget?.isEnabled())! ? .on : .off
         childSwitch!.isEnabled = state
       }
     }
@@ -404,7 +404,7 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
       if switchEnabled && !section.isTransmissionTargetEnabled() {
   
         // Switch tried to enable the transmission target but it didn't work.
-        sender!.state = NSControl.StateValue(rawValue: 0)
+        sender!.state = .off
         section.setTransmissionTargetEnabled(false)
         sender!.isEnabled = false
       }
@@ -473,7 +473,7 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
     let propertyIndex = getCellRow(forTextField: sender)
     let target = TransmissionViewController.targetsShared!.transmissionTargets[selectedTarget!]!
     propertyValues[selectedTarget!]![propertyIndex] = sender.stringValue
-    let value = sender.stringValue.isEmpty ? nil as String? : sender.stringValue
+    let value = sender.stringValue.isEmpty ? nil as String! : sender.stringValue
     switch CommonSchemaPropertyRow(rawValue: propertyIndex - 1)! {
     case .appName:
       target.propertyConfigurator.setAppName(value)

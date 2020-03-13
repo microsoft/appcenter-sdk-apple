@@ -67,13 +67,13 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    setEnabledButton?.state = NSControl.StateValue(rawValue: appCenter.isAnalyticsEnabled() ? 1 : 0)
+    setEnabledButton?.state = appCenter.isAnalyticsEnabled() ? .on : .off
     table?.delegate = self
     self.countLabel.stringValue = "Count: \(Int(countSlider.intValue))"
   }
 
   override func viewWillAppear() {
-    setEnabledButton?.state = NSControl.StateValue(rawValue: appCenter.isAnalyticsEnabled() ? 1 : 0);
+    setEnabledButton?.state = appCenter.isAnalyticsEnabled() ? .on : .off
   }
 
   override func viewDidDisappear() {
@@ -169,8 +169,8 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
   }
 
   @IBAction func setEnabled(sender : NSButton) {
-    appCenter.setAnalyticsEnabled(sender.state.rawValue == 1)
-    sender.state = NSControl.StateValue(rawValue: appCenter.isAnalyticsEnabled() ? 1 : 0)
+    appCenter.setAnalyticsEnabled(sender.state == .on)
+    sender.state = appCenter.isAnalyticsEnabled() ? .on : .off
   }
   
   func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {

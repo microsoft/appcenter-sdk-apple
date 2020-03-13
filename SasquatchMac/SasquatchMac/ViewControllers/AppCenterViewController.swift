@@ -51,7 +51,7 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate, NSTextVie
   }
 
   override func viewWillAppear() {
-    setEnabledButton?.state = appCenter.isAppCenterEnabled() ? NSControl.StateValue.on : NSControl.StateValue.off
+    setEnabledButton?.state = appCenter.isAppCenterEnabled() ? .on : .off
     setAppSecretButton?.isEnabled = startUpModeForCurrentSession == StartupMode.AppCenter.rawValue || startUpModeForCurrentSession == StartupMode.Both.rawValue
   }
 
@@ -61,7 +61,7 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate, NSTextVie
     appSecretLabel?.stringValue = UserDefaults.standard.string(forKey: kMSAppSecret) ?? appCenter.appSecret()
     logURLLabel?.stringValue = (UserDefaults.standard.object(forKey: kMSLogUrl) ?? prodLogUrl()) as! String
     userIdLabel?.stringValue = showUserId()
-    setEnabledButton?.state = appCenter.isAppCenterEnabled() ? NSControl.StateValue.on : NSControl.StateValue.off
+    setEnabledButton?.state = appCenter.isAppCenterEnabled() ? .on : .off
   
     deviceIdField?.stringValue = AppCenterViewController.getDeviceIdentifier()!
     let indexNumber = UserDefaults.standard.integer(forKey: kMSStartTargetKey)
@@ -91,8 +91,8 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate, NSTextVie
   }
 
   @IBAction func setEnabled(sender : NSButton) {
-    appCenter.setAppCenterEnabled(sender.state == NSControl.StateValue.on)
-    sender.state = appCenter.isAppCenterEnabled() ? NSControl.StateValue.on : NSControl.StateValue.off
+    appCenter.setAppCenterEnabled(sender.state == .on)
+    sender.state = appCenter.isAppCenterEnabled() ? .on : .off
   }
 
   @IBAction func overrideCountryCode(_ sender: NSButton) {

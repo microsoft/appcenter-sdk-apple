@@ -32,7 +32,7 @@ class CrashesViewController : NSViewController, NSTableViewDataSource, NSTableVi
   }
 
   override func viewWillAppear() {
-    setEnabledButton?.state = NSControl.StateValue(rawValue: appCenter.isCrashesEnabled() ? 1 : 0)
+    setEnabledButton?.state = appCenter.isCrashesEnabled() ? .on : .off
   }
   
   @IBAction func generateBreadCrumbsAndCrash(sender: NSButton) {
@@ -43,8 +43,8 @@ class CrashesViewController : NSViewController, NSTableViewDataSource, NSTableVi
   }
 
   @IBAction func setEnabled(sender : NSButton) {
-    appCenter.setCrashesEnabled(sender.state.rawValue == 1)
-    sender.state = NSControl.StateValue(rawValue: appCenter.isCrashesEnabled() ? 1 : 0)
+    appCenter.setCrashesEnabled(sender.state == .on)
+    sender.state = appCenter.isCrashesEnabled() ? .on : .off
   }
 
   @IBAction func clearCrashUserConfirmation(_ sender: Any) {
