@@ -461,7 +461,10 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
 
 + (void)resetSharedInstance {
 
-  // resets the once_token so dispatch_once will run again.
+  // Clean existing instance by stopping session tracker, it'll remove its observers.
+  [sharedInstance.sessionTracker stop];
+
+  // Resets the once_token so dispatch_once will run again.
   onceToken = 0;
   sharedInstance = nil;
 }

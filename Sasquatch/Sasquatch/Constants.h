@@ -4,6 +4,7 @@
 #import <Foundation/Foundation.h>
 
 static NSString *const kSASCustomizedUpdateAlertKey = @"kSASCustomizedUpdateAlertKey";
+static NSString *const kSASAutomaticCheckForUpdateDisabledKey = @"kSASAutomaticCheckForUpdateDisabledKey";
 static NSString *const kMSUpdateTrackKey = @"kMSUpdateTrackKey";
 static NSString *const kMSChildTransmissionTargetTokenKey = @"kMSChildTransmissionTargetToken";
 static NSString *const kMSTransmissionIterval = @"kMSTransmissionIterval";

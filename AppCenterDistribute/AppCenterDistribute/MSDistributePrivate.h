@@ -148,9 +148,19 @@ static NSString *const kMSTesterAppUpdateSetupFailedKey = @"MSTesterAppUpdateSet
 @property(nonatomic) MSDistributeInfoTracker *distributeInfoTracker;
 
 /**
+ * A flag that indicates whether update flow is in progress or not.
+ */
+@property(atomic) BOOL updateFlowInProgress;
+
+/**
  * Update track.
  */
 @property(nonatomic) MSUpdateTrack updateTrack;
+
+/**
+ * A flag to indicate whether automatic update check is disabled on start or not.
+ */
+@property(atomic) BOOL automaticCheckForUpdateDisabled;
 
 /**
  * Returns the singleton instance. Meant for testing/demo apps only.
@@ -171,6 +181,11 @@ static NSString *const kMSTesterAppUpdateSetupFailedKey = @"MSTesterAppUpdateSet
 - (nullable NSURL *)buildTokenRequestURLWithAppSecret:(NSString *)appSecret
                                           releaseHash:(NSString *)releaseHash
                                           isTesterApp:(BOOL)isTesterApp;
+
+/**
+ * Disable checking the latest release of the application when the SDK starts.
+ */
+- (void)disableAutomaticCheckForUpdate;
 
 /**
  * Open the given URL using the openURL method in the Shared Application.
@@ -324,9 +339,11 @@ static NSString *const kMSTesterAppUpdateSetupFailedKey = @"MSTesterAppUpdateSet
 - (void)dismissEmbeddedSafari;
 
 /**
- * Start update workflow
+ * Start update workflow.
+ *
+ * @param onStart A flag that indicates whether it is called when Distribute is started or not.
  */
-- (void)startUpdate;
+- (void)startUpdateOnStart:(BOOL)onStart;
 
 /**
  * Start download for the given details.
@@ -337,6 +354,11 @@ static NSString *const kMSTesterAppUpdateSetupFailedKey = @"MSTesterAppUpdateSet
  * Close application for update.
  */
 - (void)closeApp;
+
+/**
+ * Check for the latest release using the selected update track.
+ */
+- (void)checkForUpdate;
 
 /**
  * Method to reset the singleton when running tests only. So calling sharedInstance returns a fresh instance.

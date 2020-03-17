@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2009-2020 Erik Doernenburg and contributors
+ *  Copyright (c) 2014-2020 Erik Doernenburg and contributors
  *
  *  Licensed under the Apache License, Version 2.0 (the "License"); you may
  *  not use these files except in compliance with the License. You may obtain
@@ -14,13 +14,16 @@
  *  under the License.
  */
 
-#import <Foundation/Foundation.h>
+#import "OCMRecorder.h"
+#import "OCMLocation.h"
+#import "OCMQuantifier.h"
 
-@class OCObserverMockObject;
 
+@interface OCMVerifier : OCMRecorder
 
-@interface NSNotificationCenter(OCMAdditions)
+@property(retain) OCMLocation *location;
+@property(retain) OCMQuantifier *quantifier;
 
-- (void)addMockObserver:(OCObserverMockObject *)notificationObserver name:(NSString *)notificationName object:(id)notificationSender;
+- (instancetype)withQuantifier:(OCMQuantifier *)quantifier;
 
 @end

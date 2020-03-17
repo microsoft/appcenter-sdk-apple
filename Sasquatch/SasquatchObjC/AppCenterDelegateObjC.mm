@@ -210,6 +210,10 @@
   }
 }
 
+- (void)checkForUpdate {
+  [MSDistribute checkForUpdate];
+}
+
 #pragma mark - Last crash report section.
 
 - (NSString *)lastCrashReportIncidentIdentifier {
