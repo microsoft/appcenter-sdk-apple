@@ -2,6 +2,10 @@
 
 ## Version 3.1.1 (In development)
 
+### App Center
+
+* **[Improvement]** Use standartised `NSUserDefaults` keys
+
 ### App Center Crashes
 
 * **[Improvement]** Update PLCrashReporter to 1.5.1.
