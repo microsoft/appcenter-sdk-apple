@@ -15,6 +15,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (instancetype)shared;
 
++ (void)resetSharedInstance;
+
 /**
  * Migrates the given array of keys: re-saves the value by the old key to new key.
  * Deletes the old key.

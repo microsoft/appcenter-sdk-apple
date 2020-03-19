@@ -9,11 +9,12 @@ static NSString *const kMSUserDefaultsTs = @"_ts";
 static NSString *const kMSAppCenterUserDefaultsMigratedKey = @"AppCenterUserDefaultsMigratedKey";
 static NSString *const kMSUserDefaultsPrefix = @"MS";
 
+static MSUserDefaults *sharedInstance = nil;
+static dispatch_once_t onceToken;
+
 @implementation MSUserDefaults
 
 + (instancetype)shared {
-  static MSUserDefaults *sharedInstance = nil;
-  static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
     sharedInstance = [[MSUserDefaults alloc] init];
     NSNumber *isMigrated = [sharedInstance objectForKey:kMSAppCenterUserDefaultsMigratedKey];
@@ -34,6 +35,11 @@ static NSString *const kMSUserDefaultsPrefix = @"MS";
     }
   });
   return sharedInstance;
+}
+
++ (void)resetSharedInstance {
+  onceToken = 0; // resets the once_token so dispatch_once will run again
+  sharedInstance = nil;
 }
 
 - (void)migrateSettingsKeys:(NSDictionary *)migratedKeys {

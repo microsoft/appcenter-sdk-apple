@@ -20,6 +20,7 @@ static NSString *const kMSUserDefaultsPrefix = @"MS";
     for(NSString *key in userDefaultKeys) {
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:key];
     }
+    [MSUserDefaults resetSharedInstance];
 }
 
 - (void)testMigrateSettingsOnInit {
