@@ -3,7 +3,7 @@
 
 #import "MSLoggerInternal.h"
 #import "MSWrapperLogger.h"
-#import "MSUserDefaults.m"
+#import "MSUserDefaults.h"
 #import "MSTestFrameworks.h"
 
 @interface MSUserDefaultsTests : XCTestCase
