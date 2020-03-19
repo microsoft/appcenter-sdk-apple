@@ -10,31 +10,98 @@
 
 @end
 
+static NSString *const kMSAppCenterUserDefaultsMigratedKey = @"MSAppCenterUserDefaultsMigratedKey";
+static NSString *const kMSUserDefaultsPrefix = @"MS";
+
 @implementation MSUserDefaultsTests
+
+- (void)setUp {
+    NSArray *userDefaultKeys = [[[NSUserDefaults standardUserDefaults] dictionaryRepresentation] allKeys];
+    for(NSString *key in userDefaultKeys) {
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:key];
+    }
+}
+
+- (void)testMigrateSettingsOnInit {
+    
+    // If
+    NSString *testValue = @"testValue";
+    [[NSUserDefaults standardUserDefaults] setObject:testValue forKey:@"pastDevicesKey"];
+    
+    // When
+    [MSUserDefaults shared];
+    
+    // Then
+    XCTAssertEqual(testValue, [[NSUserDefaults standardUserDefaults] objectForKey:@"MSPastDevicesKey"]);
+}
+
+- (void)testSettingsAlreadyMigrated {
+    
+    // If
+    [[NSUserDefaults standardUserDefaults] setObject:@(1) forKey:kMSAppCenterUserDefaultsMigratedKey];
+    
+    // When
+    [MSUserDefaults shared];
+    
+    // Then
+    XCTAssertNil([[NSUserDefaults standardUserDefaults] objectForKey:@"MSPastDevicesKey"]);
+}
+
+- (void)testMSIsAppendedOnSetAndGet {
+    
+    // If
+    NSString *value = @"testValue";
+    NSString *key = @"testKey";
+    
+    // When
+    MSUserDefaults *userDefaults = [MSUserDefaults shared];
+    [userDefaults setObject:value forKey:key];
+    
+    // Then
+    XCTAssertEqual(value, [[NSUserDefaults standardUserDefaults] objectForKey:[kMSUserDefaultsPrefix stringByAppendingString:key]]);
+    XCTAssertNil([[NSUserDefaults standardUserDefaults] objectForKey:key]);
+    XCTAssertEqual(value, [userDefaults objectForKey:key]);
+    
+    // When
+    [userDefaults removeObjectForKey:key];
+    XCTAssertNil([[NSUserDefaults standardUserDefaults] objectForKey:[kMSUserDefaultsPrefix stringByAppendingString:key]]);
+}
 
 - (void)testMigrateUserDefaultSettings {
     
     // If
-    NSArray *oldKeysArray = @[@"keyTest1", @"kMSKeyTest2", @"NSKeyTest3", @"MSKeyTest4"];
-    NSArray *expectedKeysArray = @[@"KeyTest1", @"SKeyTest2", @"KeyTest3", @"KeyTest4"];
-    MSUserDefaults *userDefaults = [MSUserDefaults new];
-    for (NSUInteger i = 0; i < [oldKeysArray count]; i++) {
-        [userDefaults updateObject:[NSString stringWithFormat:@"Test %lu", (unsigned long)i]
+    NSDictionary *keys = @{
+      @"okeyTest1" : @"MSKeyTest1",
+      @"okeyTest2" : @"MSKeyTest2",
+      @"okeyTest3" : @"MSKeyTest3",
+      @"okeyTest4" : @"MSKeyTest4"
+    };
+    MSUserDefaults *userDefaults = [MSUserDefaults shared];
+    NSArray *oldKeysArray = [keys allKeys];
+    NSArray *expectedKeysArray = [keys allValues];
+    for (NSUInteger i = 0; i < [keys count]; i++) {
+      [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"Test %lu", (unsigned long)i]
                             forKey:oldKeysArray[i]];
     }
     // Check that in MSUserDefaultsTest the same keys.
     NSArray *userDefaultKeys = [[[NSUserDefaults standardUserDefaults] dictionaryRepresentation] allKeys];
-    XCTAssertTrue([userDefaultKeys containsObject:oldKeysArray]);
-    XCTAssertFalse([userDefaultKeys containsObject:expectedKeysArray]);
-    // Update values by keys.
-    for (NSUInteger i = 0; i < [oldKeysArray count]; i++) {
-        [userDefaults updateObject:[NSString stringWithFormat:@"UpdateTest %lu", (unsigned long)i]
-                            forKey:oldKeysArray[i]];
+    for(NSString *oldKey in oldKeysArray) {
+        XCTAssertTrue([userDefaultKeys containsObject:oldKey]);
     }
-    // Check that in MSUserDefaultsTest the keys was changed.
+    XCTAssertFalse([userDefaultKeys containsObject:expectedKeysArray]);
+    
+    // When
+    [userDefaults migrateSettingsKeys:keys];
+
+    // Then
     userDefaultKeys = [[[NSUserDefaults standardUserDefaults] dictionaryRepresentation] allKeys];
     XCTAssertFalse([userDefaultKeys containsObject:oldKeysArray]);
-    XCTAssertTrue([userDefaultKeys containsObject:expectedKeysArray]);
+    for(NSString *expectedKey in expectedKeysArray) {
+        XCTAssertTrue([userDefaultKeys containsObject:expectedKey]);
+    }
+    for(NSString *oldKey in oldKeysArray) {
+        XCTAssertFalse([userDefaultKeys containsObject:oldKey]);
+    }
 }
 
 @end

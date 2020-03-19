@@ -16,6 +16,13 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)shared;
 
 /**
+ * Migrates the given array of keys: re-saves the value by the old key to new key.
+ * Deletes the old key.
+ * Dictionary format: [oldKey : newKey].
+ */
+- (void)migrateSettingsKeys:(NSDictionary *)migratedKeys;
+
+/**
  * Updates a dictionary in the settings, returning what was actually updated (returning all if expiration time is reached).
  *
  * @param dict the dictionary to update.

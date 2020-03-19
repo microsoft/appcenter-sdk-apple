@@ -6,6 +6,7 @@
 #import "MSUserDefaults.h"
 
 static NSString *const kMSUserDefaultsTs = @"_ts";
+static NSString *const kMSAppCenterUserDefaultsMigratedKey = @"AppCenterUserDefaultsMigratedKey";
 static NSString *const kMSUserDefaultsPrefix = @"MS";
 
 @implementation MSUserDefaults
@@ -15,55 +16,40 @@ static NSString *const kMSUserDefaultsPrefix = @"MS";
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
     sharedInstance = [[MSUserDefaults alloc] init];
+    NSNumber *isMigrated = [sharedInstance objectForKey:kMSAppCenterUserDefaultsMigratedKey];
+    if (!isMigrated) {
+      NSDictionary *migratedKeys = @{
+        @"pastDevicesKey" : @"MSPastDevicesKey",
+        @"kMSAnalyticsIsEnabledKey" : @"MSAnalyticsIsEnabledKey",
+        @"kMSCrashesIsEnabledKey" : @"MSCrashesIsEnabledKey",
+        @"kMSDistributeIsEnabledKey" : @"MSDistributeIsEnabledKey",
+        @"kMSPushIsEnabledKey" : @"MSPushIsEnabledKey",
+        @"pastSessionsKey" : @"MSPastSessionsKey",
+        @"NSApplicationCrashOnExceptions" : @"MSApplicationCrashOnExceptions",
+        @"pushServiceStorageKey" : @"MSPushServiceStorageKey",
+        @"SessionIdHistory" : @"MSSessionIdHistory",
+        @"UserIdHistory" : @"MSUserIdHistory"
+      };
+      [sharedInstance migrateSettingsKeys:migratedKeys];
+    }
   });
   return sharedInstance;
 }
 
-- (NSMutableArray<NSString *> *)getDeprecatedKeysFrom:(NSString *)key {
-  NSMutableArray<NSString *> *keys = [NSMutableArray new];
-  
-  if (![key hasPrefix:kMSUserDefaultsPrefix]) {
-    MSLogWarning([MSAppCenter logTag], @"Trying to retrieve a value by an incorrect key %@. All keys must start with %@", key, kMSUserDefaultsPrefix);
-    return keys;
+- (void)migrateSettingsKeys:(NSDictionary *)migratedKeys {
+  MSLogVerbose([MSAppCenter logTag], @"Migrating the old NSDefaults keys to new ones.");
+  for(NSString *oldKey in [migratedKeys allKeys]) {
+    NSString *newKey = migratedKeys[oldKey];
+    id value = [[NSUserDefaults standardUserDefaults] objectForKey:oldKey];
+    [[NSUserDefaults standardUserDefaults] setObject:value forKey:newKey];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:oldKey];
+    MSLogVerbose([MSAppCenter logTag], @"%@ -> %@", oldKey, newKey);
   }
-  
-  // Key -> MSKey
-  NSString *keyWithoutMSPrefix = [key substringFromIndex:2];
-  [keys addObject:keyWithoutMSPrefix];
-  
-  // key -> MSKey
-  NSString *firstLetterLowercased = [[keyWithoutMSPrefix substringToIndex:1] lowercaseString];
-  NSString *keyWithoutMSPrefixStartingWithLowercase = [firstLetterLowercased stringByAppendingString:[keyWithoutMSPrefix substringFromIndex:1]];
-  [keys addObject:keyWithoutMSPrefixStartingWithLowercase];
-  
-  // kMSKey -> MSKey
-  NSString *keyStartingFromK = [@"k" stringByAppendingString:key];
-  [keys addObject:keyStartingFromK];
-  
-  // NSKey -> MSKey
-  NSString *keyWithNSPrefix = [@"NS" stringByAppendingString:keyWithoutMSPrefix];
-  [keys addObject:keyWithNSPrefix];
-  return keys;
+  [self setObject:@(1) forKey:kMSAppCenterUserDefaultsMigratedKey];
 }
 
 - (id)objectForKey:(NSString *)key {
   NSString *keyPrefixed = [kMSUserDefaultsPrefix stringByAppendingString:key];
-  
-  // Get values by deprecated versions of keys.
-  NSMutableArray<NSString *> *oldKeys = [self getDeprecatedKeysFrom:keyPrefixed];
-  for(NSString *oldKey in oldKeys) {
-    id oldValue = [[NSUserDefaults standardUserDefaults] objectForKey:oldKey];
-    if (oldValue != nil) {
-      
-      // If we found the value by a deprecated key, re-save the value and return it.
-      [self setObject:oldValue forKey:keyPrefixed];
-      MSLogVerbose([MSAppCenter logTag], @"Migrating the value from old key %@ to %@", oldKey, keyPrefixed);
-      [self removeObjectForKey:oldKey];
-      return oldValue;
-    }
-  }
-  
-  // If there are no deprecated entries, simply return the value.
   return [[NSUserDefaults standardUserDefaults] objectForKey:keyPrefixed];
 }
 
@@ -75,10 +61,6 @@ static NSString *const kMSUserDefaultsPrefix = @"MS";
 - (void)removeObjectForKey:(NSString *)key {
   NSString *keyPrefixed = [kMSUserDefaultsPrefix stringByAppendingString:key];
   [[NSUserDefaults standardUserDefaults] removeObjectForKey:keyPrefixed];
-  NSMutableArray<NSString *> *oldKeys = [self getDeprecatedKeysFrom:keyPrefixed];
-  for(NSString *oldKey in oldKeys) {
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:oldKey];
-  }
 }
 
 - (NSDictionary *)updateDictionary:(NSDictionary *)dict forKey:(NSString *)key expiration:(float)expiration {
@@ -86,19 +68,7 @@ static NSString *const kMSUserDefaultsPrefix = @"MS";
   NSMutableDictionary *update = [[NSMutableDictionary alloc] initWithDictionary:dict];
 
   // Get from local store.
-  NSMutableArray<NSString *> *oldKeys = [self getDeprecatedKeysFrom:keyPrefixed];
-  NSDictionary *store;
-  for(NSString *oldKey in oldKeys) {
-    store = [[NSUserDefaults standardUserDefaults] dictionaryForKey:oldKey];
-    if (store != nil) {
-      [self removeObjectForKey:oldKey];
-      MSLogVerbose([MSAppCenter logTag], @"Migrating the dictionary from old key %@ to %@", oldKey, keyPrefixed);
-      break;
-    }
-  }
-  if (store == nil) {
-    store = [[NSUserDefaults standardUserDefaults] dictionaryForKey:keyPrefixed];
-  }
+  NSDictionary *store = [[NSUserDefaults standardUserDefaults] dictionaryForKey:keyPrefixed];
   
   CFAbsoluteTime ts = [(NSNumber *)store[kMSUserDefaultsTs] doubleValue];
   MSLogVerbose([MSAppCenter logTag], @"Settings:store[%@]=%@", keyPrefixed, store);
