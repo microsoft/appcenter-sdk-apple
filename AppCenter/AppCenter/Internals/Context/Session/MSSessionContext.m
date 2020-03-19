@@ -9,7 +9,7 @@
 /**
  * Storage key for history data.
  */
-static NSString *const kMSSessionIdHistoryKey = @"SessionIdHistory";
+static NSString *const kMSSessionIdHistoryKey = @"MSSessionIdHistory";
 
 /**
  * Singleton.
