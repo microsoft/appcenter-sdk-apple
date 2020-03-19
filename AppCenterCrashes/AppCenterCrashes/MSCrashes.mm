@@ -87,7 +87,7 @@ static dispatch_once_t delayedProcessingToken;
 #pragma mark - Callbacks Setup
 
 static MSCrashesCallbacks msCrashesCallbacks = {.context = nullptr, .handleSignal = nullptr};
-static NSString *const kMSUserConfirmationKey = @"MSUserConfirmation";
+static NSString *const kMSUserConfirmationKey = @"UserConfirmation";
 static volatile BOOL writeBufferTaskStarted = NO;
 
 static void ms_save_log_buffer(const std::string &data, const std::string &path) {

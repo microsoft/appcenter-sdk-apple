@@ -21,7 +21,7 @@ static NSString *const kMSUserIdCustomPrefix = @"c";
 /**
  * User Id history key.
  */
-static NSString *const kMSUserIdHistoryKey = @"MSUserIdHistory";
+static NSString *const kMSUserIdHistoryKey = @"UserIdHistory";
 
 /**
  * Singleton.

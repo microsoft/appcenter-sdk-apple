@@ -63,52 +63,52 @@ static NSString *const kMSDefaultCustomSchemeFormat = @"appcenter-%@";
 /**
  * The storage key for postponed timestamp.
  */
-static NSString *const kMSPostponedTimestampKey = @"MSPostponedTimestamp";
+static NSString *const kMSPostponedTimestampKey = @"PostponedTimestamp";
 
 /**
  * The storage key for request ID.
  */
-static NSString *const kMSUpdateTokenRequestIdKey = @"MSUpdateTokenRequestId";
+static NSString *const kMSUpdateTokenRequestIdKey = @"UpdateTokenRequestId";
 
 /**
  * The storage key for flag that can determine to clean up update token.
  */
-static NSString *const kMSSDKHasLaunchedWithDistribute = @"MSSDKHasLaunchedWithDistribute";
+static NSString *const kMSSDKHasLaunchedWithDistribute = @"SDKHasLaunchedWithDistribute";
 
 /**
  * The storage key for last mandatory release details.
  */
-static NSString *const kMSMandatoryReleaseKey = @"MSMandatoryRelease";
+static NSString *const kMSMandatoryReleaseKey = @"MandatoryRelease";
 
 /**
  * The storage key for distribution group ID.
  */
-static NSString *const kMSDistributionGroupIdKey = @"MSDistributionGroupId";
+static NSString *const kMSDistributionGroupIdKey = @"DistributionGroupId";
 
 /**
  * The storage key for update setup failure package hash.
  */
-static NSString *const kMSUpdateSetupFailedPackageHashKey = @"MSUpdateSetupFailedPackageHash";
+static NSString *const kMSUpdateSetupFailedPackageHashKey = @"UpdateSetupFailedPackageHash";
 
 /**
  * The storage key for latest downloaded release hash.
  */
-static NSString *const kMSDownloadedReleaseHashKey = @"MSDownloadedReleaseHash";
+static NSString *const kMSDownloadedReleaseHashKey = @"DownloadedReleaseHash";
 
 /**
  * The storage key for latest downloaded release ID.
  */
-static NSString *const kMSDownloadedReleaseIdKey = @"MSDownloadedReleaseId";
+static NSString *const kMSDownloadedReleaseIdKey = @"DownloadedReleaseId";
 
 /**
  * The storage key for distribution group ID of latest downloaded release.
  */
-static NSString *const kMSDownloadedDistributionGroupIdKey = @"MSDownloadedDistributionGroupId";
+static NSString *const kMSDownloadedDistributionGroupIdKey = @"DownloadedDistributionGroupId";
 
 /**
  * The storage key for tester app update setup failure.
  */
-static NSString *const kMSTesterAppUpdateSetupFailedKey = @"MSTesterAppUpdateSetupFailed";
+static NSString *const kMSTesterAppUpdateSetupFailedKey = @"TesterAppUpdateSetupFailed";
 
 @interface MSDistribute ()
 

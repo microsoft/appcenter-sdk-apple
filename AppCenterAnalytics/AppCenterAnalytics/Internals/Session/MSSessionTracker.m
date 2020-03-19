@@ -9,7 +9,7 @@
 #import "MSStartSessionLog.h"
 
 static NSTimeInterval const kMSSessionTimeOut = 20;
-static NSString *const kMSPastSessionsKey = @"pastSessionsKey";
+static NSString *const kMSPastSessionsKey = @"PastSessionsKey";
 
 @interface MSSessionTracker ()
 

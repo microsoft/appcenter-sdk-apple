@@ -15,7 +15,7 @@
 /**
  * Key for the start timestamp.
  */
-static NSString *const kMSStartTimestampPrefix = @"MSChannelStartTimer";
+static NSString *const kMSStartTimestampPrefix = @"ChannelStartTimer";
 
 @implementation MSChannelUnitDefault
 

@@ -34,7 +34,7 @@ static NSString *const kMSGroupId = @"Push";
 /**
  * Key for storing push token
  */
-static NSString *const kMSPushServiceStorageKey = @"MSPushServiceStorageKey";
+static NSString *const kMSPushServiceStorageKey = @"PushServiceStorageKey";
 
 #if TARGET_OS_OSX
 /**
