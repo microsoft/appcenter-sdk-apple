@@ -35,16 +35,16 @@ class AppDelegate: NSObject, NSApplicationDelegate, MSCrashesDelegate, MSPushDel
       alert.addButton(withTitle: "Always send")
       alert.addButton(withTitle: "Send")
       alert.addButton(withTitle: "Don't send")
-      alert.alertStyle = NSWarningAlertStyle
+      alert.alertStyle = .warning
 
       switch (alert.runModal()) {
-      case NSAlertFirstButtonReturn:
+      case .alertFirstButtonReturn:
         MSCrashes.notify(with: .always)
         break;
-      case NSAlertSecondButtonReturn:
+      case .alertSecondButtonReturn:
         MSCrashes.notify(with: .send)
         break;
-      case NSAlertThirdButtonReturn:
+      case .alertThirdButtonReturn:
         MSCrashes.notify(with: .dontSend)
         break;
       default:
