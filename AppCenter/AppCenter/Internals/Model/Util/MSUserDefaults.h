@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
  * Deletes the old key.
  * Dictionary format: [oldKey : newKey].
  */
-+ (void)migrateSettingsKeys:(NSDictionary *)migratedKeys;
+- (void)migrateSettingsKeys:(NSDictionary *)migratedKeys;
 
 /**
  * Updates a dictionary in the settings, returning what was actually updated (returning all if expiration time is reached).
