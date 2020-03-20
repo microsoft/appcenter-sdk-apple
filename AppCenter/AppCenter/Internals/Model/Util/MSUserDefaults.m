@@ -16,9 +16,11 @@ static dispatch_once_t onceToken;
 
 + (instancetype)shared {
   dispatch_once(&onceToken, ^{
-    sharedInstance = [[MSUserDefaults alloc] init];
-    NSNumber *isMigrated = [sharedInstance objectForKey:kMSAppCenterUserDefaultsMigratedKey];
+    MSLogVerbose([MSAppCenter logTag], @"1.");
+    NSNumber *isMigrated = [[NSUserDefaults standardUserDefaults] objectForKey:kMSAppCenterUserDefaultsMigratedKey];
+    MSLogVerbose([MSAppCenter logTag], @"IsMigrated: %d", isMigrated.intValue);
     if (!isMigrated) {
+      MSLogVerbose([MSAppCenter logTag], @"IsMigrated!");
       NSDictionary *migratedKeys = @{
         @"pastDevicesKey" : @"MSPastDevicesKey",
         @"kMSAnalyticsIsEnabledKey" : @"MSAnalyticsIsEnabledKey",
@@ -31,8 +33,9 @@ static dispatch_once_t onceToken;
         @"SessionIdHistory" : @"MSSessionIdHistory",
         @"UserIdHistory" : @"MSUserIdHistory"
       };
-      [sharedInstance migrateSettingsKeys:migratedKeys];
+      [MSUserDefaults migrateSettingsKeys:migratedKeys];
     }
+    sharedInstance = [[MSUserDefaults alloc] init];
   });
   return sharedInstance;
 }
@@ -42,7 +45,7 @@ static dispatch_once_t onceToken;
   sharedInstance = nil;
 }
 
-- (void)migrateSettingsKeys:(NSDictionary *)migratedKeys {
++ (void)migrateSettingsKeys:(NSDictionary *)migratedKeys {
   MSLogVerbose([MSAppCenter logTag], @"Migrating the old NSDefaults keys to new ones.");
   for(NSString *oldKey in [migratedKeys allKeys]) {
     NSString *newKey = migratedKeys[oldKey];
@@ -51,7 +54,7 @@ static dispatch_once_t onceToken;
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:oldKey];
     MSLogVerbose([MSAppCenter logTag], @"%@ -> %@", oldKey, newKey);
   }
-  [self setObject:@(1) forKey:kMSAppCenterUserDefaultsMigratedKey];
+  [[NSUserDefaults standardUserDefaults] setObject:@(1) forKey:kMSAppCenterUserDefaultsMigratedKey];
 }
 
 - (id)objectForKey:(NSString *)key {
