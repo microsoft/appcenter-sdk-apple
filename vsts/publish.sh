@@ -121,7 +121,7 @@ else
 
   ## 2. Create a tag
   echo "Create a tag ($publish_version) for the commit ($commit_hash)"
-  resp="$(curl -s -H "'Authorization: token $github_access_token'" -X POST $REQUEST_URL_TAG -d '{
+  resp="$(curl -s -H "Authorization: token $github_access_token" -X POST $REQUEST_URL_TAG -d '{
       "tag": "'${publish_version}'",
       "message": "'${publish_version}'",
       "type": "commit",
@@ -140,7 +140,7 @@ else
 
   ## 3. Create a reference
   echo "Create a reference for the tag ($publish_version)"
-  resp="$(curl -s -H "'Authorization: token $github_access_token'" -X POST $REQUEST_REFERENCE_URL -d '{
+  resp="$(curl -s -H "Authorization: token $github_access_token" -X POST $REQUEST_REFERENCE_URL -d '{
       "ref": "refs/tags/'${publish_version}'",
       "sha": "'${sha}'"
     }')"
@@ -165,7 +165,7 @@ else
       draft: true,
       prerelease: true
     }')"
-  resp="$(curl -s -H "'Authorization: token $github_access_token'" -X POST $REQUEST_RELEASE_URL -d "$body")"
+  resp="$(curl -s -H "Authorization: token $github_access_token" -X POST $REQUEST_RELEASE_URL -d "$body")"
   id="$(echo $resp | jq -r '.id')"
 
   # Exit if response doesn't contain "id" key
@@ -206,7 +206,7 @@ echo "Y" | azure storage blob upload ${filename} sdk
 uploadToGithub() {
   upload_url="$(echo $REQUEST_UPLOAD_URL_TEMPLATE | sed 's/{id}/'$id'/g')"
   url="$(echo $upload_url | sed 's/{filename}/'$1'/g')"
-  resp="$(curl -s -H "'Authorization: token $github_access_token'" -X POST -H 'Content-Type: application/zip' --data-binary @$1 $url)"
+  resp="$(curl -s -H "Authorization: token $github_access_token" -X POST -H 'Content-Type: application/zip' --data-binary @$1 $url)"
   upload_id="$(echo $resp | jq -r '.id')"
 
   # Log error if response doesn't contain "id" key
