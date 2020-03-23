@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+#import "MSUserDefaults.h"
 #import "MSAppCenterInternal.h"
 #import "MSLogger.h"
-#import "MSUserDefaults.h"
 
 static NSString *const kMSUserDefaultsTs = @"_ts";
 static NSString *const kMSAppCenterUserDefaultsMigratedKeyFormat = @"%@UserDefaultsMigratedKey";
@@ -43,7 +43,7 @@ static dispatch_once_t onceToken;
     return;
   }
   MSLogVerbose([MSAppCenter logTag], @"Migrating the old NSDefaults keys to new ones.");
-  for(NSString *oldKey in [migratedKeys allKeys]) {
+  for (NSString *oldKey in [migratedKeys allKeys]) {
     NSString *newKey = migratedKeys[oldKey];
     id value = [[NSUserDefaults standardUserDefaults] objectForKey:oldKey];
     if (value != nil) {
@@ -76,7 +76,7 @@ static dispatch_once_t onceToken;
 
   // Get from local store.
   NSDictionary *store = [[NSUserDefaults standardUserDefaults] dictionaryForKey:keyPrefixed];
-  
+
   CFAbsoluteTime ts = [(NSNumber *)store[kMSUserDefaultsTs] doubleValue];
   MSLogVerbose([MSAppCenter logTag], @"Settings:store[%@]=%@", keyPrefixed, store);
 
@@ -117,7 +117,7 @@ static dispatch_once_t onceToken;
 }
 
 - (BOOL)updateObject:(id)o forKey:(NSString *)key expiration:(float)expiration {
-  NSDictionary *update = [self updateDictionary:@{ @"v" : o } forKey:key expiration:expiration];
+  NSDictionary *update = [self updateDictionary:@{@"v" : o} forKey:key expiration:expiration];
   return update[@"v"] != nil;
 }
 

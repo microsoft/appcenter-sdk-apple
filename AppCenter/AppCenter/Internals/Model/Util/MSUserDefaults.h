@@ -33,9 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param key a unique key to identify the value.
  * @param expiration maximum time (in seconds) to keep dict values in the cache.
  */
-- (NSDictionary *)updateDictionary:(NSDictionary *)dict
-                            forKey:(NSString *)key
-                        expiration:(float)expiration;
+- (NSDictionary *)updateDictionary:(NSDictionary *)dict forKey:(NSString *)key expiration:(float)expiration;
 
 /**
  * Updates a dictionary in the settings, returning what was actually updated (no expiration).

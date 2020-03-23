@@ -27,7 +27,7 @@
 }
 
 - (void)migrateSettingsKeys:(__unused NSDictionary *)migratedKeys andService:(__unused NSString *)serviceName {
-    // stub
+  // stub
 }
 
 - (void)setObject:(id)anObject forKey:(NSString *)aKey {
