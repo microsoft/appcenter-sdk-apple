@@ -671,10 +671,10 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   }
 #endif
   PLCrashReporterSymbolicationStrategy symbolicationStrategy = PLCrashReporterSymbolicationStrategyNone;
-  MSPLCrashReporterConfig *config = [[MSPLCrashReporterConfig alloc] initWithSignalHandlerType:signalHandlerType
+  PLCrashReporterConfig *config = [[PLCrashReporterConfig alloc] initWithSignalHandlerType:signalHandlerType
                                                                          symbolicationStrategy:symbolicationStrategy
                                                         shouldRegisterUncaughtExceptionHandler:enableUncaughtExceptionHandler];
-  self.plCrashReporter = [[MSPLCrashReporter alloc] initWithConfiguration:config];
+  self.plCrashReporter = [[PLCrashReporter alloc] initWithConfiguration:config];
 
   /*
    * The actual signal and mach handlers are only registered when invoking `enableCrashReporterAndReturnError`, so it is safe enough to only
@@ -796,7 +796,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   for (NSURL *fileURL in self.crashFiles) {
     NSData *crashFileData = [NSData dataWithContentsOfURL:fileURL];
     if ([crashFileData length] > 0) {
-      MSPLCrashReport *report = [[MSPLCrashReport alloc] initWithData:crashFileData error:&error];
+      PLCrashReport *report = [[PLCrashReport alloc] initWithData:crashFileData error:&error];
       if (report) {
         foundCrashReports[fileURL] = report;
         foundErrorReports[fileURL] = [MSErrorLogFormatter errorReportFromCrashReport:report];
@@ -813,7 +813,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   // Processing step.
   for (NSURL *fileURL in [foundCrashReports allKeys]) {
     MSLogVerbose([MSCrashes logTag], @"Crash reports found");
-    MSPLCrashReport *report = foundCrashReports[fileURL];
+    PLCrashReport *report = foundCrashReports[fileURL];
     MSErrorReport *errorReport = foundErrorReports[fileURL];
     MSAppleErrorLog *log = [MSErrorLogFormatter errorLogFromCrashReport:report];
     if (!self.automaticProcessingEnabled || [self shouldProcessErrorReport:errorReport]) {
@@ -1017,7 +1017,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     } else {
 
       // Get data of PLCrashReport and write it to SDK directory.
-      MSPLCrashReport *report = [[MSPLCrashReport alloc] initWithData:crashData error:&error];
+      PLCrashReport *report = [[PLCrashReport alloc] initWithData:crashData error:&error];
       if (report) {
         NSString *cacheFilename = [NSString stringWithFormat:@"%.0f", [NSDate timeIntervalSinceReferenceDate]];
         NSString *crashPath = [NSString stringWithFormat:@"%@/%@", self.crashesPathComponent, cacheFilename];

@@ -23,6 +23,9 @@
 // Doxygen to generate it's header docs) in a public header. There's no problem
 // not knowing @internal, so we just ignore the warning.
 
+// MS prefix for PLCrashReporter API is defined in PLCrashNamespace.h and handled
+// implicitly by preprocessor, so all API calls can be done without explicit prefix usage.
+
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wreserved-id-macro"
 #pragma clang diagnostic ignored "-Wdisabled-macro-expansion"
