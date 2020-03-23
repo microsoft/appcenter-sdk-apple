@@ -10,8 +10,9 @@
 
 @end
 
-static NSString *const kMSAppCenterUserDefaultsMigratedKey = @"MSAppCenterUserDefaultsMigratedKey";
-static NSString *const kMSUserDefaultsPrefix = @"MS";
+static NSString *const kMSAppCenterUserDefaultsMigratedKeyFormat = @"MSACCoreUserDefaultsMigratedKey";
+static NSString *const kMSUserDefaultsPrefix = @"MSAC";
+static NSString *const mockServiceName = @"Core";
 
 @implementation MSUserDefaultsTests
 
@@ -33,19 +34,33 @@ static NSString *const kMSUserDefaultsPrefix = @"MS";
     [MSUserDefaults shared];
     
     // Then
-    XCTAssertEqual(testValue, [[NSUserDefaults standardUserDefaults] objectForKey:@"MSPastDevicesKey"]);
-}
-
-- (void)testSettingsAlreadyMigrated {
+    XCTAssertEqual(testValue, [[NSUserDefaults standardUserDefaults] objectForKey:@"MSACPastDevicesKey"]);
     
+    // Verify it migrates no more.
     // If
-    [[NSUserDefaults standardUserDefaults] setObject:@(1) forKey:kMSAppCenterUserDefaultsMigratedKey];
+    NSString *testValue2 = @"testValue2";
+    [[NSUserDefaults standardUserDefaults] setObject:testValue2 forKey:@"pastDevicesKey"];
+    [MSUserDefaults resetSharedInstance];
     
     // When
     [MSUserDefaults shared];
     
     // Then
-    XCTAssertNil([[NSUserDefaults standardUserDefaults] objectForKey:@"MSPastDevicesKey"]);
+    XCTAssertEqual(testValue, [[NSUserDefaults standardUserDefaults] objectForKey:@"MSACPastDevicesKey"]);
+}
+
+- (void)testSettingsAlreadyMigrated {
+    
+    // If
+    NSString *testValue = @"testValue";
+    [[NSUserDefaults standardUserDefaults] setObject:testValue forKey:@"pastDevicesKey"];
+    [[NSUserDefaults standardUserDefaults] setObject:@(1) forKey:kMSAppCenterUserDefaultsMigratedKeyFormat];
+    
+    // When
+    [MSUserDefaults shared];
+    
+    // Then
+    XCTAssertNil([[NSUserDefaults standardUserDefaults] objectForKey:@"MSACPastDevicesKey"]);
 }
 
 - (void)testMSIsAppendedOnSetAndGet {
@@ -72,10 +87,10 @@ static NSString *const kMSUserDefaultsPrefix = @"MS";
     
     // If
     NSDictionary *keys = @{
-      @"okeyTest1" : @"MSKeyTest1",
-      @"okeyTest2" : @"MSKeyTest2",
-      @"okeyTest3" : @"MSKeyTest3",
-      @"okeyTest4" : @"MSKeyTest4"
+      @"okeyTest1" : @"MSACKeyTest1",
+      @"okeyTest2" : @"MSACKeyTest2",
+      @"okeyTest3" : @"MSACKeyTest3",
+      @"okeyTest4" : @"MSACKeyTest4"
     };
     MSUserDefaults *userDefaults = [MSUserDefaults shared];
     NSArray *oldKeysArray = [keys allKeys];
@@ -92,7 +107,7 @@ static NSString *const kMSUserDefaultsPrefix = @"MS";
     XCTAssertFalse([userDefaultKeys containsObject:expectedKeysArray]);
     
     // When
-    [userDefaults migrateSettingsKeys:keys];
+    [userDefaults migrateSettingsKeys:keys andService:@"stub"];
 
     // Then
     userDefaultKeys = [[[NSUserDefaults standardUserDefaults] dictionaryRepresentation] allKeys];

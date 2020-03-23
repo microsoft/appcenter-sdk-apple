@@ -20,9 +20,11 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Migrates the given array of keys: re-saves the value by the old key to new key.
  * Deletes the old key.
+ * @param migratedKeys keys to be migrated.
  * Dictionary format: [oldKey : newKey].
+ * @param serviceName name of the service executing the migration.
  */
-- (void)migrateSettingsKeys:(NSDictionary *)migratedKeys;
+- (void)migrateSettingsKeys:(NSDictionary *)migratedKeys andService:(NSString *)serviceName;
 
 /**
  * Updates a dictionary in the settings, returning what was actually updated (returning all if expiration time is reached).

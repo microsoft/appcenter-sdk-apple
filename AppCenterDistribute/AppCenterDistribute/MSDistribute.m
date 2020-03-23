@@ -68,6 +68,19 @@ static dispatch_once_t onceToken;
 
 - (instancetype)init {
   if ((self = [super init])) {
+    NSDictionary *migratedKeys = @{
+      @"kMSDistributeIsEnabledKey" : @"MSACDistributeIsEnabledKey",
+      @"MSPostponedTimestamp" : @"MSACPostponedTimestamp",
+      @"MSSDKHasLaunchedWithDistribute" : @"MSACSDKHasLaunchedWithDistribute",
+      @"MSMandatoryRelease" : @"MSACMandatoryRelease",
+      @"MSDistributionGroupId" : @"MSACDistributionGroupId",
+      @"MSUpdateSetupFailedPackageHash" : @"MSACUpdateSetupFailedPackageHash",
+      @"MSDownloadedReleaseHash" : @"MSACDownloadedReleaseHash",
+      @"MSDownloadedReleaseId" : @"MSACDownloadedReleaseId",
+      @"MSDownloadedDistributionGroupId" : @"MSACDownloadedDistributionGroupId",
+      @"MSTesterAppUpdateSetupFailed" : @"MSACTesterAppUpdateSetupFailed"
+    };
+    [MS_USER_DEFAULTS migrateSettingsKeys:migratedKeys andService:kMSServiceName];
 
     // Init.
     _apiUrl = kMSDefaultApiUrl;

@@ -6,8 +6,8 @@
 #import "MSUserDefaults.h"
 
 static NSString *const kMSUserDefaultsTs = @"_ts";
-static NSString *const kMSAppCenterUserDefaultsMigratedKey = @"AppCenterUserDefaultsMigratedKey";
-static NSString *const kMSUserDefaultsPrefix = @"MS";
+static NSString *const kMSAppCenterUserDefaultsMigratedKeyFormat = @"%@UserDefaultsMigratedKey";
+static NSString *const kMSUserDefaultsPrefix = @"MSAC";
 
 static MSUserDefaults *sharedInstance = nil;
 static dispatch_once_t onceToken;
@@ -17,22 +17,16 @@ static dispatch_once_t onceToken;
 + (instancetype)shared {
   dispatch_once(&onceToken, ^{
     sharedInstance = [[MSUserDefaults alloc] init];
-    NSNumber *isMigrated = [sharedInstance objectForKey:kMSAppCenterUserDefaultsMigratedKey];
-    if (!isMigrated) {
-      NSDictionary *migratedKeys = @{
-        @"pastDevicesKey" : @"MSPastDevicesKey",
-        @"kMSAnalyticsIsEnabledKey" : @"MSAnalyticsIsEnabledKey",
-        @"kMSCrashesIsEnabledKey" : @"MSCrashesIsEnabledKey",
-        @"kMSDistributeIsEnabledKey" : @"MSDistributeIsEnabledKey",
-        @"kMSPushIsEnabledKey" : @"MSPushIsEnabledKey",
-        @"pastSessionsKey" : @"MSPastSessionsKey",
-        @"NSApplicationCrashOnExceptions" : @"MSApplicationCrashOnExceptions",
-        @"pushServiceStorageKey" : @"MSPushServiceStorageKey",
-        @"SessionIdHistory" : @"MSSessionIdHistory",
-        @"UserIdHistory" : @"MSUserIdHistory"
-      };
-      [sharedInstance migrateSettingsKeys:migratedKeys];
-    }
+    NSDictionary *migratedKeys = @{
+      @"MSChannelStartTimer" : @"MSACChannelStartTimer",
+      @"pastDevicesKey" : @"MSACPastDevicesKey",
+      @"MSInstallId" : @"MSACInstallId",
+      @"MSAppCenterIsEnabled" : @"MSACAppCenterIsEnabled",
+      @"MSEncryptionKeyMetadata" : @"MSACEncryptionKeyMetadata",
+      @"SessionIdHistory" : @"MSACSessionIdHistory",
+      @"UserIdHistory" : @"MSACUserIdHistory"
+    };
+    [sharedInstance migrateSettingsKeys:migratedKeys andService:@"Core"];
   });
   return sharedInstance;
 }
@@ -42,7 +36,12 @@ static dispatch_once_t onceToken;
   sharedInstance = nil;
 }
 
-- (void)migrateSettingsKeys:(NSDictionary *)migratedKeys {
+- (void)migrateSettingsKeys:(NSDictionary *)migratedKeys andService:(NSString *)serviceName {
+  NSString *serviceHasMigratedKey = [NSString stringWithFormat:kMSAppCenterUserDefaultsMigratedKeyFormat, serviceName];
+  NSNumber *serviceHasMigrated = [self objectForKey:serviceHasMigratedKey];
+  if (serviceHasMigrated) {
+    return;
+  }
   MSLogVerbose([MSAppCenter logTag], @"Migrating the old NSDefaults keys to new ones.");
   for(NSString *oldKey in [migratedKeys allKeys]) {
     NSString *newKey = migratedKeys[oldKey];
@@ -51,7 +50,7 @@ static dispatch_once_t onceToken;
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:oldKey];
     MSLogVerbose([MSAppCenter logTag], @"%@ -> %@", oldKey, newKey);
   }
-  [self setObject:@(1) forKey:kMSAppCenterUserDefaultsMigratedKey];
+  [self setObject:@(1) forKey:serviceHasMigratedKey];
 }
 
 - (id)objectForKey:(NSString *)key {

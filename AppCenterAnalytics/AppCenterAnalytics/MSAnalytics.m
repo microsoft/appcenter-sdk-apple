@@ -47,7 +47,12 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
 
 - (instancetype)init {
   if ((self = [super init])) {
-
+    NSDictionary *migratedKeys = @{
+      @"kMSAnalyticsIsEnabledKey" : @"MSACAnalyticsIsEnabledKey",
+      @"pastSessionsKey" : @"MSACPastSessionsKey"
+    };
+    [MS_USER_DEFAULTS migrateSettingsKeys:migratedKeys andService:kMSServiceName];
+      
     // Set defaults.
     _autoPageTrackingEnabled = NO;
     _flushInterval = kMSFlushIntervalDefault;

@@ -276,6 +276,13 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
 - (instancetype)init {
   if ((self = [super init])) {
+    NSDictionary *migratedKeys = @{
+      @"kMSCrashesIsEnabledKey" : @"MSACCrashesIsEnabledKey",
+      @"MSAppDidReceiveMemoryWarning" : @"MSACAppDidReceiveMemoryWarning",
+      @"NSApplicationCrashOnExceptions" : @"MSACApplicationCrashOnExceptions",
+      @"MSUserConfirmation" : @"MSACUserConfirmation"
+    };
+    [MS_USER_DEFAULTS migrateSettingsKeys:migratedKeys andService:kMSServiceName];
     _appStartTime = [NSDate date];
     _crashFiles = [NSMutableArray new];
     _crashesPathComponent = [MSCrashesUtil crashesDir];
