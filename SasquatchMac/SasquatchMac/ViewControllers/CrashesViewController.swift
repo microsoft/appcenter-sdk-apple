@@ -32,7 +32,7 @@ class CrashesViewController : NSViewController, NSTableViewDataSource, NSTableVi
   }
 
   override func viewWillAppear() {
-    setEnabledButton?.state = appCenter.isCrashesEnabled() ? 1 : 0
+    setEnabledButton?.state = appCenter.isCrashesEnabled() ? .on : .off
   }
   
   @IBAction func generateBreadCrumbsAndCrash(sender: NSButton) {
@@ -43,8 +43,8 @@ class CrashesViewController : NSViewController, NSTableViewDataSource, NSTableVi
   }
 
   @IBAction func setEnabled(sender : NSButton) {
-    appCenter.setCrashesEnabled(sender.state == 1)
-    sender.state = appCenter.isCrashesEnabled() ? 1 : 0
+    appCenter.setCrashesEnabled(sender.state == .on)
+    sender.state = appCenter.isCrashesEnabled() ? .on : .off
   }
 
   @IBAction func clearCrashUserConfirmation(_ sender: Any) {
@@ -52,9 +52,9 @@ class CrashesViewController : NSViewController, NSTableViewDataSource, NSTableVi
     alert.messageText = "Clear crash user confirmation?"
     alert.addButton(withTitle: "OK")
     alert.addButton(withTitle: "Cancel")
-    alert.alertStyle = NSWarningAlertStyle
+    alert.alertStyle = .warning
     switch(alert.runModal()) {
-    case NSAlertFirstButtonReturn:
+    case .alertFirstButtonReturn:
         UserDefaults.standard.removeObject(forKey: kMSUserConfirmationKey)
         break
     default:
@@ -65,7 +65,7 @@ class CrashesViewController : NSViewController, NSTableViewDataSource, NSTableVi
   @IBAction func browseFileAttachment(_ sender: Any) {
     let openPanel = NSOpenPanel()
     openPanel.begin(completionHandler: { (result) -> Void in
-      let url = result == NSFileHandlingPanelOKButton && openPanel.url != nil ? openPanel.url : nil
+      let url = result.rawValue == NSFileHandlingPanelOKButton && openPanel.url != nil ? openPanel.url : nil
       if url != nil {
         UserDefaults.standard.set(url, forKey: "fileAttachment")
       } else {
@@ -94,19 +94,19 @@ class CrashesViewController : NSViewController, NSTableViewDataSource, NSTableVi
 
   func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
     if isHeader(row: row) {
-      let categoryView = tableView.make(withIdentifier: "crashName", owner: nil) as! NSTextField
+      let categoryView = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "crashName"), owner: nil) as! NSTextField
       categoryView.stringValue = crashes[row] as! String
       categoryView.alignment = NSTextAlignment.center
-      categoryView.font = NSFontManager.shared().convert(categoryView.font!, toHaveTrait: NSFontTraitMask(rawValue: UInt(NSFontBoldTrait)))
+      categoryView.font = NSFontManager.shared.convert(categoryView.font!, toHaveTrait: NSFontTraitMask(rawValue: UInt(NSFontBoldTrait)))
       return categoryView
     } else {
       switch tableColumn {
       case tableView.tableColumns[0]?:
-        let nameView = tableView.make(withIdentifier: "crashName", owner: nil) as! NSTextField
+        let nameView = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "crashName"), owner: nil) as! NSTextField
         nameView.stringValue = (crashes[row] as! MSCrash).title
         return nameView
       case tableView.tableColumns[1]?:
-        let crashButton = tableView.make(withIdentifier: "crashButton", owner: nil) as! NSButton
+        let crashButton = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "crashButton"), owner: nil) as! NSButton
         crashButton.tag = row
         crashButton.target = self
         crashButton.action = #selector(CrashesViewController.crashButtonPressed)
@@ -121,7 +121,7 @@ class CrashesViewController : NSViewController, NSTableViewDataSource, NSTableVi
     return 30
   }
 
-  func crashButtonPressed(_ sender: Any) {
+  @objc func crashButtonPressed(_ sender: Any) {
     (crashes[(sender as! NSButton).tag] as! MSCrash).crash()
   }
   
