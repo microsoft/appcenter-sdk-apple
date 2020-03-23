@@ -46,9 +46,11 @@ static dispatch_once_t onceToken;
   for(NSString *oldKey in [migratedKeys allKeys]) {
     NSString *newKey = migratedKeys[oldKey];
     id value = [[NSUserDefaults standardUserDefaults] objectForKey:oldKey];
-    [[NSUserDefaults standardUserDefaults] setObject:value forKey:newKey];
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:oldKey];
-    MSLogVerbose([MSAppCenter logTag], @"%@ -> %@", oldKey, newKey);
+    if (value != nil) {
+      [[NSUserDefaults standardUserDefaults] setObject:value forKey:newKey];
+      [[NSUserDefaults standardUserDefaults] removeObjectForKey:oldKey];
+      MSLogVerbose([MSAppCenter logTag], @"%@ -> %@", oldKey, newKey);
+    }
   }
   [self setObject:@(1) forKey:serviceHasMigratedKey];
 }
