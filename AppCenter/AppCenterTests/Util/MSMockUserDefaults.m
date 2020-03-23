@@ -26,6 +26,10 @@
   return self;
 }
 
+- (void)migrateSettingsKeys:(__unused NSDictionary *)migratedKeys andService:(__unused NSString *)serviceName {
+    // stub
+}
+
 - (void)setObject:(id)anObject forKey:(NSString *)aKey {
 
   // Don't store nil objects.
