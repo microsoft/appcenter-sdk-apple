@@ -167,7 +167,10 @@ class MSSignInViewController: UIViewController, WKNavigationDelegate, MSAnalytic
           let token = json["access_token"]! as! String
           let expiresIn = json["expires_in"]! as! Int64
           let userId = json["user_id"]! as! String
-          NSLog("Successfully refreshed token for user: %@", userId)
+          NSLog("Successfully refreshed token for user: %@. Token expires in %d seconds.", userId, expiresIn)
+          let expirationDate = Date().addingTimeInterval(TimeInterval(exactly: expiresIn)!)
+          UserDefaults.standard.set(userId, forKey: kMSAUserIdKey)
+          UserDefaults.standard.set(expirationDate.timeIntervalSince1970, forKey: kMSAExpirationDateKey)
           
           // Call the completion handler and pass in the updated token and expiryDate.
           completionHandler(token, Date().addingTimeInterval(Double(expiresIn)))
