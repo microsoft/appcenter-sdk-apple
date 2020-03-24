@@ -70,7 +70,7 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
 - (void)setUp {
   [super setUp];
   [MSUserIdContext resetSharedInstance];
-  self.settingsMock = [MSMockUserDefaults new];
+  self.settingsMock = OCMPartialMock([MSMockUserDefaults new]);
 
 // Mock UNUserNotificationCenter since it not supported during tests.
 #if TARGET_OS_IOS
@@ -97,6 +97,10 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
 }
 
 #pragma mark - Tests
+
+- (void)testMigrateOnInit {
+    OCMVerify([self.settingsMock migrateKeys:OCMOCK_ANY forService:OCMOCK_ANY]);
+}
 
 - (void)testApplyEnabledStateWorks {
 

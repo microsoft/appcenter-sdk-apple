@@ -26,7 +26,7 @@
   return self;
 }
 
-- (void)migrateSettingsKeys:(__unused NSDictionary *)migratedKeys andService:(__unused NSString *)serviceName {
+- (void)migrateKeys:(__unused NSDictionary *)migratedKeys forService:(__unused NSString *)serviceName {
     // stub
 }
 

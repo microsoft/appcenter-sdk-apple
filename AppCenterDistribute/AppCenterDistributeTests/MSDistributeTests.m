@@ -101,7 +101,7 @@ static NSURL *sfURL;
   [MSLogger setCurrentLogLevel:MSLogLevelVerbose];
   self.keychainUtilMock = [MSMockKeychainUtil new];
   self.sut = [MSDistribute new];
-  self.settingsMock = [MSMockUserDefaults new];
+  self.settingsMock = OCMPartialMock([MSMockUserDefaults new]);
 
   // Mock network.
   [MSHttpTestUtil stubHttp200Response];
@@ -157,6 +157,15 @@ static NSURL *sfURL;
   [self waitForExpectations:@[ expectation ] timeout:1];
 
   [super tearDown];
+}
+
+- (void)testMigrateOnInit {
+    
+    // When
+    [MSDistribute sharedInstance];
+    
+    // Then
+    OCMVerify([self.settingsMock migrateKeys:OCMOCK_ANY forService:OCMOCK_ANY]);
 }
 
 - (void)testInstallURL {

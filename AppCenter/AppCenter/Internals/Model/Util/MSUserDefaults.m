@@ -26,7 +26,7 @@ static dispatch_once_t onceToken;
       @"SessionIdHistory" : @"MSACSessionIdHistory",
       @"UserIdHistory" : @"MSACUserIdHistory"
     };
-    [sharedInstance migrateSettingsKeys:migratedKeys andService:@"Core"];
+    [sharedInstance migrateKeys:migratedKeys forService:@"Core"];
   });
   return sharedInstance;
 }
@@ -36,7 +36,7 @@ static dispatch_once_t onceToken;
   sharedInstance = nil;
 }
 
-- (void)migrateSettingsKeys:(NSDictionary *)migratedKeys andService:(NSString *)serviceName {
+- (void)migrateKeys:(NSDictionary *)migratedKeys forService:(NSString *)serviceName {
   NSString *serviceHasMigratedKey = [NSString stringWithFormat:kMSAppCenterUserDefaultsMigratedKeyFormat, serviceName];
   NSNumber *serviceHasMigrated = [self objectForKey:serviceHasMigratedKey];
   if (serviceHasMigrated) {
@@ -49,7 +49,7 @@ static dispatch_once_t onceToken;
     if (value != nil) {
       [[NSUserDefaults standardUserDefaults] setObject:value forKey:newKey];
       [[NSUserDefaults standardUserDefaults] removeObjectForKey:oldKey];
-      MSLogVerbose([MSAppCenter logTag], @"%@ -> %@", oldKey, newKey);
+      MSLogVerbose([MSAppCenter logTag], @"Migrating the key %@ -> %@", oldKey, newKey);
     }
   }
   [self setObject:@(1) forKey:serviceHasMigratedKey];

@@ -24,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
  * Dictionary format: [oldKey : newKey].
  * @param serviceName name of the service executing the migration.
  */
-- (void)migrateSettingsKeys:(NSDictionary *)migratedKeys andService:(NSString *)serviceName;
+- (void)migrateKeys:(NSDictionary *)migratedKeys forService:(NSString *)serviceName;
 
 /**
  * Updates a dictionary in the settings, returning what was actually updated (returning all if expiration time is reached).

@@ -59,6 +59,8 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
 @property(nonatomic) id deviceTrackerMock;
 
+@property(nonatomic) MSMockUserDefaults *settingsMock;
+
 @property(nonatomic) id sessionContextMock;
 
 @end
@@ -69,6 +71,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
 - (void)setUp {
   [super setUp];
+  self.settingsMock = OCMPartialMock([MSMockUserDefaults new]);
   self.sut = [MSCrashes new];
   [MSDeviceTracker resetSharedInstance];
   self.deviceTrackerMock = OCMClassMock([MSDeviceTracker class]);
@@ -82,6 +85,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   [super tearDown];
 
   // Reset mocked shared instances and stop mocking them.
+  [self.settingsMock stopMocking];
   [self.deviceTrackerMock stopMocking];
   [self.sessionContextMock stopMocking];
   [MSDeviceTracker resetSharedInstance];
@@ -100,6 +104,10 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 }
 
 #pragma mark - Tests
+
+- (void)testMigrateOnInit {
+    OCMVerify([self.settingsMock migrateKeys:OCMOCK_ANY forService:OCMOCK_ANY]);
+}
 
 - (void)testNewInstanceWasInitialisedCorrectly {
 

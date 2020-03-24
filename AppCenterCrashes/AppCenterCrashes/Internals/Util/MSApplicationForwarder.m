@@ -21,10 +21,10 @@ static BOOL isApplicationForwarderEnabled() {
 /**
  * The flag to allow crashing on uncaught exceptions thrown on the main thread.
  */
-static NSString *const kMSCrashOnExceptionsKey = @"ApplicationCrashOnExceptions";
+static NSString *const kMSCrashOnExceptionsKey = @"NSApplicationCrashOnExceptions";
 
 static BOOL isCrashOnExceptionsEnabled() {
-  NSNumber *crashOnExceptions = [MS_USER_DEFAULTS objectForKey:kMSCrashOnExceptionsKey];
+  NSNumber *crashOnExceptions = [[NSUserDefaults standardUserDefaults] objectForKey:kMSCrashOnExceptionsKey];
   return [crashOnExceptions boolValue];
 }
 

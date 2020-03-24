@@ -71,7 +71,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   [MSAppCenter resetSharedInstance];
 
   // Mock NSUserDefaults.
-  self.settingsMock = [MSMockUserDefaults new];
+  self.settingsMock = OCMPartialMock([MSMockUserDefaults new]);
 
   // Mock session context.
   [MSSessionContext resetSharedInstance];
@@ -100,6 +100,10 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 }
 
 #pragma mark - Tests
+
+- (void)testMigrateOnInit {
+    OCMVerify([self.settingsMock migrateKeys:OCMOCK_ANY forService:OCMOCK_ANY]);
+}
 
 - (void)testValidateEventName {
   const int maxEventNameLength = 256;

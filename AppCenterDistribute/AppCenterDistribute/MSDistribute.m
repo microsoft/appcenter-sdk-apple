@@ -80,7 +80,7 @@ static dispatch_once_t onceToken;
       @"MSDownloadedDistributionGroupId" : @"MSACDownloadedDistributionGroupId",
       @"MSTesterAppUpdateSetupFailed" : @"MSACTesterAppUpdateSetupFailed"
     };
-    [MS_USER_DEFAULTS migrateSettingsKeys:migratedKeys andService:kMSServiceName];
+    [MS_USER_DEFAULTS migrateKeys:migratedKeys forService:kMSServiceName];
 
     // Init.
     _apiUrl = kMSDefaultApiUrl;

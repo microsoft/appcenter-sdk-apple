@@ -102,7 +102,7 @@ static NSString *const mockServiceName = @"Core";
   XCTAssertFalse([userDefaultKeys containsObject:expectedKeysArray]);
 
   // When
-  [userDefaults migrateSettingsKeys:keys andService:@"stub"];
+  [userDefaults migrateKeys:keys forService:@"stub"];
 
   // Then
   userDefaultKeys = [[[NSUserDefaults standardUserDefaults] dictionaryRepresentation] allKeys];

@@ -62,7 +62,7 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
   if ((self = [super init])) {
     NSDictionary *migratedKeys =
         @{@"kMSPushIsEnabledKey" : @"MSACPushIsEnabledKey", @"pushServiceStorageKey" : @"MSACPushServiceStorageKey"};
-    [MS_USER_DEFAULTS migrateSettingsKeys:migratedKeys andService:kMSServiceName];
+    [MS_USER_DEFAULTS migrateKeys:migratedKeys forService:kMSServiceName];
 
     // Init channel configuration.
     _channelUnitConfiguration = [[MSChannelUnitConfiguration alloc] initDefaultConfigurationWithGroupId:[self groupId]];
