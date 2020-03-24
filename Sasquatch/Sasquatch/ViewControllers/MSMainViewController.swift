@@ -77,7 +77,7 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
         _ = MSTransmissionTargets.shared
     }
     
-    if let userId = UserDefaults.standard.string(forKey: kMSAUserIdKey) {
+    if let msaUserId = UserDefaults.standard.string(forKey: kMSAUserIdKey) {
         let expiresIn = UserDefaults.standard.integer(forKey: kMSAExpirationDateKey)
         let expiresDate = Date(timeIntervalSince1970: TimeInterval(exactly:expiresIn)!)
         let isExpired = Date() > expiresDate
@@ -86,7 +86,7 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
             UserDefaults.standard.removeObject(forKey: kMSAExpirationDateKey)
         } else {
             for target in MSTransmissionTargets.shared.transmissionTargets.values {
-                target.propertyConfigurator.setUserId(userId)
+                target.propertyConfigurator.setUserId(msaUserId)
             }
         }
     }
