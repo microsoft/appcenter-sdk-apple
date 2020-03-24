@@ -41,8 +41,11 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
   private var startupModePicker: MSEnumPicker<StartupMode>?
   private var eventFilterStarted = false
   private var dbFileDescriptor: CInt = 0
-  private var dbFileSource: DispatchSourceProtocol?  
+  private var dbFileSource: DispatchSourceProtocol?
+
   let startUpModeForCurrentSession: NSInteger = (UserDefaults.standard.object(forKey: kMSStartTargetKey) ?? 0) as! NSInteger
+  private let kMSAUserIdKey = "MSAUserId"
+  private let kMSAExpirationDateKey = "MSAExpirationDate"
   
   deinit {
     self.dbFileSource?.cancel()
@@ -72,6 +75,20 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     // Otherwise channelGroup would be nil.
     if (StartupMode.allValues[startupMode] != .Skip && StartupMode.allValues[startupMode] != .None) {
         _ = MSTransmissionTargets.shared
+    }
+    
+    if let userId = UserDefaults.standard.string(forKey: kMSAUserIdKey) {
+        let expiresIn = UserDefaults.standard.integer(forKey: kMSAExpirationDateKey)
+        let expiresDate = Date(timeIntervalSince1970: TimeInterval(exactly:expiresIn)!)
+        let isExpired = Date() > expiresDate
+        if (isExpired) {
+            UserDefaults.standard.removeObject(forKey: kMSAUserIdKey)
+            UserDefaults.standard.removeObject(forKey: kMSAExpirationDateKey)
+        } else {
+            for target in MSTransmissionTargets.shared.transmissionTargets.values {
+                target.propertyConfigurator.setUserId(userId)
+            }
+        }
     }
 
     // Storage size section.

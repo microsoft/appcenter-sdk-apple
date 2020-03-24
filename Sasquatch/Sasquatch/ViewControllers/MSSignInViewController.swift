@@ -11,6 +11,9 @@ extension URL {
   }
 }
 
+private let kMSAUserIdKey = "MSAUserId"
+private let kMSAExpirationDateKey = "MSAExpirationDate"
+
 class MSSignInViewController: UIViewController, WKNavigationDelegate, MSAnalyticsAuthenticationProviderDelegate {
   
   var onAuthDataReceived: ((_ token: String, _ userId: String, _ expiresAt: Date) -> Void)?
@@ -88,10 +91,15 @@ class MSSignInViewController: UIViewController, WKNavigationDelegate, MSAnalytic
           let refreshToken = newUrl.valueOf(self.refreshTokenParam)!
           if(!refreshToken.isEmpty) {
             self.refreshToken = refreshToken
-            NSLog("Successfully signed in with user_id: %@", newUrl.valueOf("user_id")!)
+            let userId = newUrl.valueOf("user_id")!
+            let expiresIn = Int(newUrl.valueOf("expires_in")!) ?? 86400
+            let expirationDate = Date().addingTimeInterval(TimeInterval(exactly: expiresIn)!)
+            NSLog("Successfully signed in with user_id: %@. Token expires in %d seconds.", userId, expiresIn)
+            UserDefaults.standard.set(userId, forKey: kMSAUserIdKey)
+            UserDefaults.standard.set(expirationDate.timeIntervalSince1970, forKey: kMSAExpirationDateKey)
             
             // Create a MSAnalyticsAuthenticationProvider and register as an MSAnalyticsAuthenticationProvider.
-            let provider = MSAnalyticsAuthenticationProvider(authenticationType: .msaCompact, ticketKey: newUrl.valueOf("user_id")!, delegate: self)
+            let provider = MSAnalyticsAuthenticationProvider(authenticationType: .msaCompact, ticketKey: userId, delegate: self)
             MSAnalyticsTransmissionTarget.addAuthenticationProvider(authenticationProvider:provider)
           }
         }
