@@ -11,9 +11,6 @@ extension URL {
   }
 }
 
-private let kMSAUserIdKey = "MSAUserId"
-private let kMSAExpirationDateKey = "MSAExpirationDate"
-
 class MSSignInViewController: UIViewController, WKNavigationDelegate, MSAnalyticsAuthenticationProviderDelegate {
   
   var onAuthDataReceived: ((_ token: String, _ userId: String, _ expiresAt: Date) -> Void)?

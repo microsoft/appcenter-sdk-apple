@@ -7,6 +7,8 @@ import UIKit
 let kMSDefaultDatabaseSize = 10 * 1024 * 1024
 let acProdLogUrl = "https://in.appcenter.ms"
 let ocProdLogUrl = "https://mobile.events.data.microsoft.com"
+let kMSAExpirationDateKey = "MSAExpirationDate"
+let kMSAUserIdKey = "MSAUserId"
 
 class MSMainViewController: UITableViewController, AppCenterProtocol {
   
@@ -44,8 +46,6 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
   private var dbFileSource: DispatchSourceProtocol?
 
   let startUpModeForCurrentSession: NSInteger = (UserDefaults.standard.object(forKey: kMSStartTargetKey) ?? 0) as! NSInteger
-  private let kMSAUserIdKey = "MSAUserId"
-  private let kMSAExpirationDateKey = "MSAExpirationDate"
   
   deinit {
     self.dbFileSource?.cancel()
