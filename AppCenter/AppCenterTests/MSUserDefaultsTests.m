@@ -4,15 +4,14 @@
 #import "MSLoggerInternal.h"
 #import "MSTestFrameworks.h"
 #import "MSUserDefaults.h"
+#import "MSUtility.h"
 #import "MSWrapperLogger.h"
 
 @interface MSUserDefaultsTests : XCTestCase
 
 @end
 
-static NSString *const kMSAppCenterUserDefaultsMigratedKeyFormat = @"MSACCoreUserDefaultsMigratedKey";
-static NSString *const kMSUserDefaultsPrefix = @"MSAC";
-static NSString *const mockServiceName = @"Core";
+static NSString *const kMSAppCenterUserDefaultsMigratedKeyFormat = @"MSAppCenterCore310UserDefaultsMigratedKey";
 
 @implementation MSUserDefaultsTests
 

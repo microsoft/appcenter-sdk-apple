@@ -27,7 +27,7 @@
 }
 
 - (void)migrateKeys:(__unused NSDictionary *)migratedKeys forService:(__unused NSString *)serviceName {
-  // stub
+  [self setObject:@(1) forKey:[NSString stringWithFormat:kMSMockMigrationKey, serviceName]];
 }
 
 - (void)setObject:(id)anObject forKey:(NSString *)aKey {

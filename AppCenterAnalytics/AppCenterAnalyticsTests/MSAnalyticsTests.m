@@ -71,7 +71,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   [MSAppCenter resetSharedInstance];
 
   // Mock NSUserDefaults.
-  self.settingsMock = OCMPartialMock([MSMockUserDefaults new]);
+  self.settingsMock = [MSMockUserDefaults new];
 
   // Mock session context.
   [MSSessionContext resetSharedInstance];
@@ -102,7 +102,8 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 #pragma mark - Tests
 
 - (void)testMigrateOnInit {
-    OCMVerify([self.settingsMock migrateKeys:OCMOCK_ANY forService:OCMOCK_ANY]);
+    NSString *key = [NSString stringWithFormat:kMSMockMigrationKey, @"Analytics"];
+    XCTAssertNotNil([self.settingsMock objectForKey:key]);
 }
 
 - (void)testValidateEventName {

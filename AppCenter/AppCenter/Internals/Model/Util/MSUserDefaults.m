@@ -6,8 +6,7 @@
 #import "MSLogger.h"
 
 static NSString *const kMSUserDefaultsTs = @"_ts";
-static NSString *const kMSAppCenterUserDefaultsMigratedKeyFormat = @"%@UserDefaultsMigratedKey";
-static NSString *const kMSUserDefaultsPrefix = @"MSAC";
+static NSString *const kMSAppCenterUserDefaultsMigratedKeyFormat = @"%@310UserDefaultsMigratedKey";
 
 static MSUserDefaults *sharedInstance = nil;
 static dispatch_once_t onceToken;

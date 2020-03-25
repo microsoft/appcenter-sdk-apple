@@ -101,7 +101,7 @@ static NSURL *sfURL;
   [MSLogger setCurrentLogLevel:MSLogLevelVerbose];
   self.keychainUtilMock = [MSMockKeychainUtil new];
   self.sut = [MSDistribute new];
-  self.settingsMock = OCMPartialMock([MSMockUserDefaults new]);
+  self.settingsMock = [MSMockUserDefaults new];
 
   // Mock network.
   [MSHttpTestUtil stubHttp200Response];
@@ -165,7 +165,8 @@ static NSURL *sfURL;
     [MSDistribute sharedInstance];
     
     // Then
-    OCMVerify([self.settingsMock migrateKeys:OCMOCK_ANY forService:OCMOCK_ANY]);
+    NSString *key = [NSString stringWithFormat:kMSMockMigrationKey, @"Distribute"];
+    XCTAssertNotNil([self.settingsMock objectForKey:key]);
 }
 
 - (void)testInstallURL {

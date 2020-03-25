@@ -71,7 +71,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
 - (void)setUp {
   [super setUp];
-  self.settingsMock = OCMPartialMock([MSMockUserDefaults new]);
+  self.settingsMock = [MSMockUserDefaults new];
   self.sut = [MSCrashes new];
   [MSDeviceTracker resetSharedInstance];
   self.deviceTrackerMock = OCMClassMock([MSDeviceTracker class]);
@@ -106,7 +106,8 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 #pragma mark - Tests
 
 - (void)testMigrateOnInit {
-    OCMVerify([self.settingsMock migrateKeys:OCMOCK_ANY forService:OCMOCK_ANY]);
+    NSString *key = [NSString stringWithFormat:kMSMockMigrationKey, @"Crashes"];
+    XCTAssertNotNil([self.settingsMock objectForKey:key]);
 }
 
 - (void)testNewInstanceWasInitialisedCorrectly {
