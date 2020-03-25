@@ -160,13 +160,13 @@ static NSURL *sfURL;
 }
 
 - (void)testMigrateOnInit {
-    
-    // When
-    [MSDistribute sharedInstance];
-    
-    // Then
-    NSString *key = [NSString stringWithFormat:kMSMockMigrationKey, @"Distribute"];
-    XCTAssertNotNil([self.settingsMock objectForKey:key]);
+
+  // When
+  [MSDistribute sharedInstance];
+
+  // Then
+  NSString *key = [NSString stringWithFormat:kMSMockMigrationKey, @"Distribute"];
+  XCTAssertNotNil([self.settingsMock objectForKey:key]);
 }
 
 - (void)testInstallURL {

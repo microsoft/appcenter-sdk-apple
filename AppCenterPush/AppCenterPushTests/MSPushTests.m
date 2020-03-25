@@ -99,8 +99,8 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
 #pragma mark - Tests
 
 - (void)testMigrateOnInit {
-    NSString *key = [NSString stringWithFormat:kMSMockMigrationKey, @"Push"];
-    XCTAssertNotNil([self.settingsMock objectForKey:key]);
+  NSString *key = [NSString stringWithFormat:kMSMockMigrationKey, @"Push"];
+  XCTAssertNotNil([self.settingsMock objectForKey:key]);
 }
 
 - (void)testApplyEnabledStateWorks {
