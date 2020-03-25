@@ -9,5 +9,7 @@
  * Clear dictionary
  */
 - (void)stopMocking;
-- (void)migrateKeys:( NSDictionary *)migratedKeys forService:( NSString *)serviceName;
+
+- (void)migrateKeys:(NSDictionary *)migratedKeys forService:(NSString *)serviceName;
+
 @end

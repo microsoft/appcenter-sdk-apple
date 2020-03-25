@@ -18,10 +18,8 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)resetSharedInstance;
 
 /**
- * Migrates the given array of keys: re-saves the value by the old key to new key.
- * Deletes the old key.
- * @param migratedKeys keys to be migrated.
- * Dictionary format: [oldKey : newKey].
+ * Migrates values for the old keys to new keys.
+ * @param migratedKeys a dictionary for keys that contains old key as a key of dictionary and new key as a value.
  * @param serviceName name of the service executing the migration.
  */
 - (void)migrateKeys:(NSDictionary *)migratedKeys forService:(NSString *)serviceName;

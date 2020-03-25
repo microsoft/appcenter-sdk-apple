@@ -63,7 +63,7 @@ static NSString *const mockServiceName = @"Core";
   XCTAssertNil([[NSUserDefaults standardUserDefaults] objectForKey:@"MSACPastDevicesKey"]);
 }
 
-- (void)testMSIsAppendedOnSetAndGet {
+- (void)testPrefixIsAppendedOnSetAndGet {
 
   // If
   NSString *value = @"testValue";
@@ -80,6 +80,8 @@ static NSString *const mockServiceName = @"Core";
 
   // When
   [userDefaults removeObjectForKey:key];
+
+  // Then
   XCTAssertNil([[NSUserDefaults standardUserDefaults] objectForKey:[kMSUserDefaultsPrefix stringByAppendingString:key]]);
 }
 
@@ -92,8 +94,9 @@ static NSString *const mockServiceName = @"Core";
   NSArray *oldKeysArray = [keys allKeys];
   NSArray *expectedKeysArray = [keys allValues];
   for (NSUInteger i = 0; i < [keys count]; i++) {
-    [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"Test %lu", (unsigned long)i] forKey:oldKeysArray[i]];
+    [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"Test %tu", i] forKey:oldKeysArray[i]];
   }
+
   // Check that in MSUserDefaultsTest the same keys.
   NSArray *userDefaultKeys = [[[NSUserDefaults standardUserDefaults] dictionaryRepresentation] allKeys];
   for (NSString *oldKey in oldKeysArray) {
