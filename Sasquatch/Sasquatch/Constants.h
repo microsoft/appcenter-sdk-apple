@@ -62,9 +62,8 @@ static NSString *const kMSARedirectEndpoint = @"desktop.srf";
 static NSString *const kMSAAuthorizeEndpoint = @"authorize.srf";
 static NSString *const kMSATokenEndpoint = @"token.srf";
 static NSString *const kMSAClientIdParam = @"&client_id=06181c2a-2403-437f-a490-9bcb06f85281";
-static NSString *kMSARedirectParam = [@"redirect_uri=https://login.live.com/oauth20_desktop.srf"
-    stringByAddingPercentEncodingWithAllowedCharacters:NSCharacterSet.URLHostAllowedCharacterSet];
-static NSString *const kMSASignOutEndpoint = "logout.srf" static NSString *const kMSARefreshParam =
-    @"&grant_type=refresh_token&refresh_token=";
+static NSString *const kMSARedirectParam = @"redirect_uri=https://login.live.com/oauth20_desktop.srf";
+static NSString *const kMSASignOutEndpoint = @"logout.srf";
+static NSString *const kMSARefreshParam = @"&grant_type=refresh_token&refresh_token=";
 static NSString *const kMSARefreshTokenParam = @"refresh_token";
 static NSString *const kMSAScopeParam = @"&scope=service::events.data.microsoft.com::MBI_SSL";

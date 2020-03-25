@@ -39,7 +39,7 @@ class MSAAnalyticsAuthenticationProvider: NSObject, MSAnalyticsAuthenticationPro
             let request = NSMutableURLRequest(url: refreshUrl)
             request.httpMethod = "POST"
             request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-            let bodyString = kMSARedirectParam + kMSAClientIdParam + kMSARefreshParam + refreshToken + kMSAScopeParam
+            let bodyString = kMSARedirectParam.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)! + kMSAClientIdParam + kMSARefreshParam + refreshToken + kMSAScopeParam
             let data: Data = bodyString.data(using: String.Encoding.utf8)!
             
             NSLog("Started refresh process")

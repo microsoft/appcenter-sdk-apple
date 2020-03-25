@@ -55,7 +55,7 @@ class MSSignInViewController: UIViewController, WKNavigationDelegate {
 
   func signOut() {
     NSLog("Started sign out process")
-    if let url = URL(string: kMSABaseUrl + kMSASignOutEndpoint + "?" + kMSARedirectParam + kMSAСlientIdParam) {
+    if let url = URL(string: kMSABaseUrl + kMSASignOutEndpoint + "?" + kMSARedirectParam.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)! + kMSAClientIdParam) {
       self.webView.load(URLRequest(url: url))
     }
   }
@@ -68,7 +68,7 @@ class MSSignInViewController: UIViewController, WKNavigationDelegate {
           NSLog("Error while signing in: %@", error)
           self.close()
         } else {
-          let refreshToken = newUrl.valueOf(kMSRefreshTokenParam)!
+          let refreshToken = newUrl.valueOf(kMSARefreshTokenParam)!
           if(!refreshToken.isEmpty) {
             let userId = newUrl.valueOf("user_id")!
             NSLog("Successfully signed in with user_id: %@.", userId)
