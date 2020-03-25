@@ -8,7 +8,7 @@ class MSAAnalyticsAuthenticationProvider: NSObject, MSAnalyticsAuthenticationPro
     
     private static var _instance: MSAAnalyticsAuthenticationProvider?
     private var refreshToken: String
-    private var viewController: UIViewController
+    private weak var viewController: UIViewController?
     
     enum JSONError: String, Error {
         case NoData = "No data"
@@ -86,6 +86,6 @@ class MSAAnalyticsAuthenticationProvider: NSObject, MSAnalyticsAuthenticationPro
     }
     
     func close() {
-        self.viewController.dismiss(animated: true, completion: nil)
+        self.viewController?.dismiss(animated: true, completion: nil)
     }
 }
