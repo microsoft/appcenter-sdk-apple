@@ -250,6 +250,10 @@
 		D31EF9721E9517C600450162 /* SasquatchWatchSwift.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = D31EF9541E9517C500450162 /* SasquatchWatchSwift.app */; };
 		F809D5041FC6DA2B005E0F83 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F809D5021FC6DA2B005E0F83 /* LaunchScreen.storyboard */; };
 		F809D5051FC6DD80005E0F83 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F809D5021FC6DA2B005E0F83 /* LaunchScreen.storyboard */; };
+		F83587C8242B6B6F007D83F3 /* MSAAnalyticsAuthenticationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F83587C7242B6B6F007D83F3 /* MSAAnalyticsAuthenticationProvider.swift */; };
+		F83587C9242B6B6F007D83F3 /* MSAAnalyticsAuthenticationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F83587C7242B6B6F007D83F3 /* MSAAnalyticsAuthenticationProvider.swift */; };
+		F83587CA242B6B6F007D83F3 /* MSAAnalyticsAuthenticationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F83587C7242B6B6F007D83F3 /* MSAAnalyticsAuthenticationProvider.swift */; };
+		F83587CB242B6B6F007D83F3 /* MSAAnalyticsAuthenticationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F83587C7242B6B6F007D83F3 /* MSAAnalyticsAuthenticationProvider.swift */; };
 		F8669FB82195B6A2003933A8 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = F8669FB72195B6A2003933A8 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		F8A502262149339100872B3B /* MSEnumPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8A502252149339100872B3B /* MSEnumPicker.swift */; };
 		F8A502272149339100872B3B /* MSEnumPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8A502252149339100872B3B /* MSEnumPicker.swift */; };
@@ -1091,6 +1095,7 @@
 		D31EF96F1E9517C600450162 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E8BABE9E224416FC0001B7E0 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F809D5031FC6DA2B005E0F83 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		F83587C7242B6B6F007D83F3 /* MSAAnalyticsAuthenticationProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSAAnalyticsAuthenticationProvider.swift; sourceTree = "<group>"; };
 		F84924542111C83000E14DBE /* Watch.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Watch.xcconfig; sourceTree = "<group>"; };
 		F849248A2112FA3400E14DBE /* Watch Extension.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Watch Extension.xcconfig"; sourceTree = "<group>"; };
 		F84BA0D6211342620020F13B /* Puppet UITests.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Puppet UITests.xcconfig"; sourceTree = "<group>"; };
@@ -1345,6 +1350,7 @@
 				B2586C84210A47A800664A43 /* MSAnalyticsResult.swift */,
 				35FBE78020FD095200F7B05C /* MSTransmissionTargets.swift */,
 				041E2BEE1FB6465000793316 /* Constants.h */,
+				F83587C7242B6B6F007D83F3 /* MSAAnalyticsAuthenticationProvider.swift */,
 				84226CB11E8909F700798417 /* Storyboards */,
 				84226CB01E8909EA00798417 /* ViewControllers */,
 				84226CB21E8909FF00798417 /* Supporting Files */,
@@ -2748,6 +2754,7 @@
 				B2E011F221091EF2003F4A5B /* MSCustomPropertyTableViewCell.swift in Sources */,
 				35396A7820F95A9C00A091E0 /* MSTransmissionTargetsViewController.swift in Sources */,
 				84A0FF661E8A87B4000E7A28 /* MSCrashesViewController.swift in Sources */,
+				F83587C8242B6B6F007D83F3 /* MSAAnalyticsAuthenticationProvider.swift in Sources */,
 				B203FF4C20E57A5B002AD536 /* MSAnalyticsChildTransmissionTargetTableViewController.swift in Sources */,
 				84226C4E1E88FF4A00798417 /* AppDelegate.m in Sources */,
 				807DB553212164E000F35E03 /* MSSignInViewController.swift in Sources */,
@@ -2783,6 +2790,7 @@
 				B2586C82210A478500664A43 /* CommonSchemaPropertiesTableSection.swift in Sources */,
 				B2B36CE31EEF49C400230341 /* MSCustomPropertiesViewController.swift in Sources */,
 				35FBE78220FD095200F7B05C /* MSTransmissionTargets.swift in Sources */,
+				F83587CA242B6B6F007D83F3 /* MSAAnalyticsAuthenticationProvider.swift in Sources */,
 				B2586C8A210A485300664A43 /* MSAnalyticsResultViewController.swift in Sources */,
 				845178ED1E8A8B0D004A0A6F /* MSMainViewController.swift in Sources */,
 				359171F820F7F80800F3DDE6 /* PropertiesTableSection.swift in Sources */,
@@ -2825,6 +2833,7 @@
 				B20AE38C21027D6200A1A195 /* MSAnalyticsChildTransmissionTargetTableViewController.swift in Sources */,
 				B26D4DEC2122041A00AB4E28 /* MSSignInViewController.swift in Sources */,
 				B20AE38D21027D6200A1A195 /* AppDelegate.m in Sources */,
+				F83587CB242B6B6F007D83F3 /* MSAAnalyticsAuthenticationProvider.swift in Sources */,
 				B20AE38E21027D6200A1A195 /* MSCustomPropertiesViewController.swift in Sources */,
 				B20AE38F21027D6200A1A195 /* main.m in Sources */,
 				B20AE39021027D6200A1A195 /* PropertiesTableSection.swift in Sources */,
@@ -2892,6 +2901,7 @@
 				B2A4CF94210A6E6900199B4F /* CommonSchemaPropertiesTableSection.swift in Sources */,
 				B2A4CF95210A6E6900199B4F /* MSCustomPropertiesViewController.swift in Sources */,
 				B2A4CF96210A6E6900199B4F /* MSTransmissionTargets.swift in Sources */,
+				F83587C9242B6B6F007D83F3 /* MSAAnalyticsAuthenticationProvider.swift in Sources */,
 				B2A4CF97210A6E6900199B4F /* MSAnalyticsResultViewController.swift in Sources */,
 				B2A4CF98210A6E6900199B4F /* MSMainViewController.swift in Sources */,
 				B2A4CF99210A6E6900199B4F /* PropertiesTableSection.swift in Sources */,

@@ -7,7 +7,7 @@ import UIKit
 let kMSDefaultDatabaseSize = 10 * 1024 * 1024
 let acProdLogUrl = "https://in.appcenter.ms"
 let ocProdLogUrl = "https://mobile.events.data.microsoft.com"
-let kMSAExpirationDateKey = "MSAExpirationDate"
+let kMSARefreshTokenKey = "MSARefreshToken"
 let kMSAUserIdKey = "MSAUserId"
 
 class MSMainViewController: UITableViewController, AppCenterProtocol {
@@ -77,18 +77,10 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
         _ = MSTransmissionTargets.shared
     }
     
-    if let msaUserId = UserDefaults.standard.string(forKey: kMSAUserIdKey) {
-        let expiresIn = UserDefaults.standard.integer(forKey: kMSAExpirationDateKey)
-        let expiresDate = Date(timeIntervalSince1970: TimeInterval(exactly:expiresIn)!)
-        let isExpired = Date() > expiresDate
-        if (isExpired) {
-            UserDefaults.standard.removeObject(forKey: kMSAUserIdKey)
-            UserDefaults.standard.removeObject(forKey: kMSAExpirationDateKey)
-        } else {
-            for target in MSTransmissionTargets.shared.transmissionTargets.values {
-                target.propertyConfigurator.setUserId(msaUserId)
-            }
-        }
+    if let msaUserId = UserDefaults.standard.string(forKey: kMSAUserIdKey),
+        let refreshToken = UserDefaults.standard.string(forKey: kMSARefreshTokenKey) {
+        let provider = MSAnalyticsAuthenticationProvider(authenticationType: .msaCompact, ticketKey: msaUserId, delegate: MSAAnalyticsAuthenticationProvider.getInstance(refreshToken, self))
+        MSAnalyticsTransmissionTarget.addAuthenticationProvider(authenticationProvider:provider)
     }
 
     // Storage size section.
