@@ -71,7 +71,7 @@ class MSAAnalyticsAuthenticationProvider: NSObject, MSAnalyticsAuthenticationPro
                     let expiresIn = json["expires_in"]! as! Int64
                     let userId = json["user_id"]! as! String
                     NSLog("Successfully refreshed token for user: %@.", userId)
-                    UserDefaults.standard.set(userId, forKey: kMSAUserIdKey)
+                    UserDefaults.standard.set(userId, forKey: kMSATokenKey)
                     UserDefaults.standard.set(self.refreshToken, forKey: kMSARefreshTokenKey)
                     
                     // Call the completion handler and pass in the updated token and expiryDate.

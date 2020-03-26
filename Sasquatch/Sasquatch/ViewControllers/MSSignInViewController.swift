@@ -72,7 +72,7 @@ class MSSignInViewController: UIViewController, WKNavigationDelegate {
           if(!refreshToken.isEmpty) {
             let userId = newUrl.valueOf("user_id")!
             NSLog("Successfully signed in with user_id: %@.", userId)
-            UserDefaults.standard.set(userId, forKey: kMSAUserIdKey)
+            UserDefaults.standard.set(userId, forKey: kMSATokenKey)
             UserDefaults.standard.set(refreshToken, forKey: kMSARefreshTokenKey)
             
             // Create a MSAnalyticsAuthenticationProvider and register as an MSAnalyticsAuthenticationProvider.

@@ -8,7 +8,7 @@ let kMSDefaultDatabaseSize = 10 * 1024 * 1024
 let acProdLogUrl = "https://in.appcenter.ms"
 let ocProdLogUrl = "https://mobile.events.data.microsoft.com"
 let kMSARefreshTokenKey = "MSARefreshToken"
-let kMSAUserIdKey = "MSAUserId"
+let kMSATokenKey = "MSAToken"
 
 class MSMainViewController: UITableViewController, AppCenterProtocol {
   
@@ -77,7 +77,7 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
         _ = MSTransmissionTargets.shared
     }
     
-    if let msaUserId = UserDefaults.standard.string(forKey: kMSAUserIdKey),
+    if let msaUserId = UserDefaults.standard.string(forKey: kMSATokenKey),
         let refreshToken = UserDefaults.standard.string(forKey: kMSARefreshTokenKey) {
         let provider = MSAnalyticsAuthenticationProvider(authenticationType: .msaCompact, ticketKey: msaUserId, delegate: MSAAnalyticsAuthenticationProvider.getInstance(refreshToken, self))
         MSAnalyticsTransmissionTarget.addAuthenticationProvider(authenticationProvider:provider)
