@@ -418,6 +418,7 @@
 		F859D1141E549B45008B2D8E /* live_report_undefined_instr.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = F859D1031E549B45008B2D8E /* live_report_undefined_instr.plcrash */; };
 		F859D1151E549B45008B2D8E /* live_report_write_readonly.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = F859D1041E549B45008B2D8E /* live_report_write_readonly.plcrash */; };
 		F8DD752D230D89F800B095B6 /* libCrashReporter-MacOSX-Static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 049327B11ECA19FD00D0187A /* libCrashReporter-MacOSX-Static.a */; };
+		F8FAFDFA242CABC300C7864B /* MSMockNsUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = F8FAFDF9242CABC300C7864B /* MSMockNsUserDefaults.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -699,6 +700,8 @@
 		F859D1031E549B45008B2D8E /* live_report_undefined_instr.plcrash */ = {isa = PBXFileReference; lastKnownFileType = file; path = live_report_undefined_instr.plcrash; sourceTree = "<group>"; };
 		F859D1041E549B45008B2D8E /* live_report_write_readonly.plcrash */ = {isa = PBXFileReference; lastKnownFileType = file; path = live_report_write_readonly.plcrash; sourceTree = "<group>"; };
 		F8DD7527230D7EC400B095B6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F8FAFDF8242CABA700C7864B /* MSMockNsUserDefaults.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSMockNsUserDefaults.h; sourceTree = "<group>"; };
+		F8FAFDF9242CABC300C7864B /* MSMockNsUserDefaults.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSMockNsUserDefaults.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -834,6 +837,8 @@
 				043281611F74A665002F7205 /* MSMockUserDefaults.h */,
 				043281621F74A665002F7205 /* MSMockUserDefaults.m */,
 				04311FF41EE08697007054C5 /* MSTestFrameworks.h */,
+				F8FAFDF8242CABA700C7864B /* MSMockNsUserDefaults.h */,
+				F8FAFDF9242CABC300C7864B /* MSMockNsUserDefaults.m */,
 			);
 			name = Util;
 			sourceTree = "<group>";
@@ -1909,6 +1914,7 @@
 				0493276E1ECA170D00D0187A /* MSBinaryTests.m in Sources */,
 				9224468D1F62277400E4034A /* MSHandledErrorLogTests.m in Sources */,
 				049327701ECA170D00D0187A /* MSWrapperExceptionManagerTests.m in Sources */,
+				F8FAFDFA242CABC300C7864B /* MSMockNsUserDefaults.m in Sources */,
 				049327711ECA170D00D0187A /* MSErrorAttachmentLogTests.m in Sources */,
 				049327721ECA170D00D0187A /* MSMockCrashesDelegate.m in Sources */,
 				049327731ECA170D00D0187A /* MSCrashesUtilTests.m in Sources */,
