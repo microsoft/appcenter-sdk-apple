@@ -69,16 +69,16 @@ static dispatch_once_t onceToken;
 - (instancetype)init {
   if ((self = [super init])) {
     NSDictionary *migratedKeys = @{
-      @"kMSDistributeIsEnabledKey" : @"MSACDistributeIsEnabledKey",
-      @"MSPostponedTimestamp" : @"MSACPostponedTimestamp",
-      @"MSSDKHasLaunchedWithDistribute" : @"MSACSDKHasLaunchedWithDistribute",
-      @"MSMandatoryRelease" : @"MSACMandatoryRelease",
-      @"MSDistributionGroupId" : @"MSACDistributionGroupId",
-      @"MSUpdateSetupFailedPackageHash" : @"MSACUpdateSetupFailedPackageHash",
-      @"MSDownloadedReleaseHash" : @"MSACDownloadedReleaseHash",
-      @"MSDownloadedReleaseId" : @"MSACDownloadedReleaseId",
-      @"MSDownloadedDistributionGroupId" : @"MSACDownloadedDistributionGroupId",
-      @"MSTesterAppUpdateSetupFailed" : @"MSACTesterAppUpdateSetupFailed"
+      @"kMSDistributeIsEnabledKey" : @"MSACDistributeIsEnabledKey",              // MSDistributePrivate
+      @"MSPostponedTimestamp" : @"MSACPostponedTimestamp",                       // MSDistributePrivate
+      @"MSSDKHasLaunchedWithDistribute" : @"MSACSDKHasLaunchedWithDistribute",   // MSDistributePrivate
+      @"MSMandatoryRelease" : @"MSACMandatoryRelease",                           // MSDistributePrivate
+      @"MSDistributionGroupId" : @"MSACDistributionGroupId",                     // MSDistributePrivate
+      @"MSUpdateSetupFailedPackageHash" : @"MSACUpdateSetupFailedPackageHash",   // MSDistributePrivate
+      @"MSDownloadedReleaseHash" : @"MSACDownloadedReleaseHash",                 // MSDistributePrivate
+      @"MSDownloadedReleaseId" : @"MSACDownloadedReleaseId",                     // MSDistributePrivate
+      @"MSDownloadedDistributionGroupId" : @"MSACDownloadedDistributionGroupId", // MSDistributePrivate
+      @"MSTesterAppUpdateSetupFailed" : @"MSACTesterAppUpdateSetupFailed"        // MSDistributePrivate
     };
     [MS_APP_CENTER_USER_DEFAULTS migrateKeys:migratedKeys forService:kMSServiceName];
 
@@ -416,7 +416,8 @@ static dispatch_once_t onceToken;
 
     // Use persisted mandatory update while network is down.
     if ([MS_Reachability reachabilityForInternetConnection].currentReachabilityStatus == NotReachable) {
-      MSReleaseDetails *details = [[MSReleaseDetails alloc] initWithDictionary:[MS_APP_CENTER_USER_DEFAULTS objectForKey:kMSMandatoryReleaseKey]];
+      MSReleaseDetails *details =
+          [[MSReleaseDetails alloc] initWithDictionary:[MS_APP_CENTER_USER_DEFAULTS objectForKey:kMSMandatoryReleaseKey]];
       if (details && ![self handleUpdate:details]) {
 
         // This release is no more a candidate for update, deleting it.

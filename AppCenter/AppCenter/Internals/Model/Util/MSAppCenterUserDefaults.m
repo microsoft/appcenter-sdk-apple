@@ -6,6 +6,7 @@
 #import "MSLogger.h"
 
 static NSString *const kMSUserDefaultsTs = @"_ts";
+static NSString *const kMSValueKey = @"v";
 static NSString *const kMSAppCenterUserDefaultsMigratedKeyFormat = @"%@310UserDefaultsMigratedKey";
 
 static MSAppCenterUserDefaults *sharedInstance = nil;
@@ -17,13 +18,13 @@ static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
     sharedInstance = [[MSAppCenterUserDefaults alloc] init];
     NSDictionary *migratedKeys = @{
-      @"MSChannelStartTimer" : @"MSACChannelStartTimer",
-      @"pastDevicesKey" : @"MSACPastDevicesKey",
-      @"MSInstallId" : @"MSACInstallId",
-      @"MSAppCenterIsEnabled" : @"MSACAppCenterIsEnabled",
-      @"MSEncryptionKeyMetadata" : @"MSACEncryptionKeyMetadata",
-      @"SessionIdHistory" : @"MSACSessionIdHistory",
-      @"UserIdHistory" : @"MSACUserIdHistory"
+      @"MSChannelStartTimer" : @"MSACChannelStartTimer",         // MSChannelUnitDefault
+      @"pastDevicesKey" : @"MSACPastDevicesKey",                 // MSDeviceTrackerPrivate
+      @"MSInstallId" : @"MSACInstallId",                         // MSAppCenterInternal
+      @"MSAppCenterIsEnabled" : @"MSACAppCenterIsEnabled",       // MSAppCenter
+      @"MSEncryptionKeyMetadata" : @"MSACEncryptionKeyMetadata", // MSEncrypterPrivate
+      @"SessionIdHistory" : @"MSACSessionIdHistory",             // MSSessionContext
+      @"UserIdHistory" : @"MSACUserIdHistory"                    // MSUserIdContext
     };
     [sharedInstance migrateKeys:migratedKeys forService:@"Core"];
   });
@@ -55,11 +56,8 @@ static dispatch_once_t onceToken;
 }
 
 - (NSString *)getAppCenterKeyFrom:(NSString *)key {
-  if ([key hasPrefix:kMSUserDefaultsPrefix]) {
-    return key;
-  } else {
-    return [kMSUserDefaultsPrefix stringByAppendingString:key];
-  }
+  NSAssert([key hasPrefix:kMSUserDefaultsPrefix], @"Please do not prepend the key with 'MSAppCenter'. It's done automatically.");
+  return [kMSUserDefaultsPrefix stringByAppendingString:key];
 }
 
 - (id)objectForKey:(NSString *)key {
@@ -125,9 +123,9 @@ static dispatch_once_t onceToken;
   return [self updateDictionary:dict forKey:key expiration:0.0];
 }
 
-- (BOOL)updateObject:(id)o forKey:(NSString *)key expiration:(float)expiration {
-  NSDictionary *update = [self updateDictionary:@{@"v" : o} forKey:key expiration:expiration];
-  return update[@"v"] != nil;
+- (BOOL)updateObject:(id)value forKey:(NSString *)key expiration:(float)expiration {
+  NSDictionary *update = [self updateDictionary:@{kMSValueKey : value} forKey:key expiration:expiration];
+  return update[kMSValueKey] != nil;
 }
 
 - (BOOL)updateObject:(id)value forKey:(NSString *)key {

@@ -47,7 +47,10 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
 
 - (instancetype)init {
   if ((self = [super init])) {
-    NSDictionary *migratedKeys = @{@"kMSAnalyticsIsEnabledKey" : @"MSACAnalyticsIsEnabledKey", @"pastSessionsKey" : @"MSACPastSessionsKey"};
+    NSDictionary *migratedKeys = @{
+      @"kMSAnalyticsIsEnabledKey" : @"MSACAnalyticsIsEnabledKey", // MSAnalytics
+      @"pastSessionsKey" : @"MSACPastSessionsKey"                 // MSSessionTracker
+    };
     [MS_APP_CENTER_USER_DEFAULTS migrateKeys:migratedKeys forService:kMSServiceName];
 
     // Set defaults.

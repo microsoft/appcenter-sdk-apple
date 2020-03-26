@@ -277,9 +277,9 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 - (instancetype)init {
   if ((self = [super init])) {
     NSDictionary *migratedKeys = @{
-      @"kMSCrashesIsEnabledKey" : @"MSACCrashesIsEnabledKey",
-      @"MSAppDidReceiveMemoryWarning" : @"MSACAppDidReceiveMemoryWarning",
-      @"MSUserConfirmation" : @"MSACUserConfirmation"
+      @"kMSCrashesIsEnabledKey" : @"MSACCrashesIsEnabledKey",              // MSCrashes
+      @"MSAppDidReceiveMemoryWarning" : @"MSACAppDidReceiveMemoryWarning", // MSCrashes
+      @"MSUserConfirmation" : @"MSACUserConfirmation"                      // MSCrashes
     };
     [MS_APP_CENTER_USER_DEFAULTS migrateKeys:migratedKeys forService:kMSServiceName];
     _appStartTime = [NSDate date];
