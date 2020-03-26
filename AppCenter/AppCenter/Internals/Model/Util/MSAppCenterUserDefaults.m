@@ -58,7 +58,7 @@ static dispatch_once_t onceToken;
 }
 
 - (NSString *)getAppCenterKeyFrom:(NSString *)key {
-  NSAssert([key hasPrefix:kMSUserDefaultsPrefix], @"Please do not prepend the key with 'MSAppCenter'. It's done automatically.");
+  NSAssert(![key hasPrefix:kMSUserDefaultsPrefix], @"Please do not prepend the key with 'MSAppCenter'. It's done automatically.");
   return [kMSUserDefaultsPrefix stringByAppendingString:key];
 }
 
