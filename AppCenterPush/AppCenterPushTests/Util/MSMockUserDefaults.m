@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 #import "MSMockUserDefaults.h"
-#import "MSTestFrameworks.h"
 #import "MSAppCenterUserDefaults.h"
+#import "MSTestFrameworks.h"
 
 @interface MSMockUserDefaults ()
 

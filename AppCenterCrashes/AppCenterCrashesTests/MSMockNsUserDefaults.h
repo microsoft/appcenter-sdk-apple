@@ -10,5 +10,4 @@
  */
 - (void)stopMocking;
 
-
 @end

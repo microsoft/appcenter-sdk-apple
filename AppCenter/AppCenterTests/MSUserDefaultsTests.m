@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+#import "MSAppCenterUserDefaults.h"
 #import "MSLoggerInternal.h"
 #import "MSTestFrameworks.h"
-#import "MSAppCenterUserDefaults.h"
 #import "MSUtility.h"
 #import "MSWrapperLogger.h"
 

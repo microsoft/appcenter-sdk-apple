@@ -55,11 +55,11 @@ static dispatch_once_t onceToken;
 }
 
 - (NSString *)getAppCenterKeyFrom:(NSString *)key {
-    if ([key hasPrefix:kMSUserDefaultsPrefix]) {
-        return key;
-    } else {
-        return [kMSUserDefaultsPrefix stringByAppendingString:key];
-    }
+  if ([key hasPrefix:kMSUserDefaultsPrefix]) {
+    return key;
+  } else {
+    return [kMSUserDefaultsPrefix stringByAppendingString:key];
+  }
 }
 
 - (id)objectForKey:(NSString *)key {
@@ -79,44 +79,46 @@ static dispatch_once_t onceToken;
 
 - (NSDictionary *)updateDictionary:(NSDictionary *)dict forKey:(NSString *)key expiration:(float)expiration {
   NSString *keyPrefixed = [self getAppCenterKeyFrom:key];
-  NSMutableDictionary *update = [[NSMutableDictionary alloc] initWithDictionary:dict];
+  NSMutableDictionary *updateDictionary = [[NSMutableDictionary alloc] initWithDictionary:dict];
 
   // Get from local store.
   NSDictionary *store = [[NSUserDefaults standardUserDefaults] dictionaryForKey:keyPrefixed];
 
-  CFAbsoluteTime ts = [(NSNumber *)store[kMSUserDefaultsTs] doubleValue];
+  CFAbsoluteTime updateTimestamp = [(NSNumber *)store[kMSUserDefaultsTs] doubleValue];
   MSLogVerbose([MSAppCenter logTag], @"Settings:store[%@]=%@", keyPrefixed, store);
 
   // Force update if timestamp expiration is reached.
-  if (ts <= 0.0 || expiration <= 0.0f || fabs(CFAbsoluteTimeGetCurrent() - ts) < (double)expiration) {
+  if (updateTimestamp <= 0.0 || expiration <= 0.0f || fabs(CFAbsoluteTimeGetCurrent() - updateTimestamp) < (double)expiration) {
 
     // Remove if already in store and value is the same.
-    for (NSString *k in [store allKeys]) {
-      if (update[k] != nil && [(NSObject *)update[k] isEqual:store[k]])
-        [update removeObjectForKey:k];
+    for (NSString *storeKey in [store allKeys]) {
+      if (updateDictionary[storeKey] != nil && [(NSObject *)updateDictionary[storeKey] isEqual:store[storeKey]]) {
+        [updateDictionary removeObjectForKey:storeKey];
+      }
     }
   }
 
   // If still values to update.
-  if ([update count] > 0) {
-    MSLogDebug([MSAppCenter logTag], @"Settings:update[%@]=%@", keyPrefixed, update);
+  if ([updateDictionary count] > 0) {
+    MSLogDebug([MSAppCenter logTag], @"Settings:update[%@]=%@", keyPrefixed, updateDictionary);
 
     // Copy store as a mutable version.
-    NSMutableDictionary *d = [store mutableCopy];
-    if (d == nil)
-      d = [[NSMutableDictionary alloc] initWithCapacity:[update count]];
+    NSMutableDictionary *mutableStore = [store mutableCopy];
+    if (mutableStore == nil) {
+      mutableStore = [[NSMutableDictionary alloc] initWithCapacity:[updateDictionary count]];
+    }
 
     // Append update to the current store.
-    [d addEntriesFromDictionary:update];
+    [mutableStore addEntriesFromDictionary:updateDictionary];
 
     // Set new timestamp.
-    d[kMSUserDefaultsTs] = @(CFAbsoluteTimeGetCurrent());
+    mutableStore[kMSUserDefaultsTs] = @(CFAbsoluteTimeGetCurrent());
 
     // Save.
-    [[NSUserDefaults standardUserDefaults] setObject:d forKey:keyPrefixed];
+    [[NSUserDefaults standardUserDefaults] setObject:mutableStore forKey:keyPrefixed];
   }
 
-  return update;
+  return updateDictionary;
 }
 
 - (NSDictionary *)updateDictionary:(NSDictionary *)dict forKey:(NSString *)key {
@@ -128,8 +130,8 @@ static dispatch_once_t onceToken;
   return update[@"v"] != nil;
 }
 
-- (BOOL)updateObject:(id)o forKey:(NSString *)key {
-  return [self updateObject:o forKey:key expiration:0.0];
+- (BOOL)updateObject:(id)value forKey:(NSString *)key {
+  return [self updateObject:value forKey:key expiration:0.0];
 }
 
 @end
