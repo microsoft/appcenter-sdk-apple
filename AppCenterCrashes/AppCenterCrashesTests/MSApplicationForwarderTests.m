@@ -55,8 +55,10 @@ static void exceptionHandler(NSException *exception) { lastException = exception
   XCTAssertNil(lastException);
 
   // Enable crash on exeptions
-
-  [[NSUserDefaults standardUserDefaults] setObject:@NO forKey:@"NSApplicationCrashOnExceptions"];
+  id settingsMock = OCMClassMock([NSUserDefaults class]);
+  OCMStub([settingsMock objectForKey:@"NSApplicationCrashOnExceptions"]).andReturn(@YES);
+  id _mockMSUserDefaults = OCMClassMock([NSUserDefaults class]);
+  OCMStub([_mockMSUserDefaults shared]).andReturn(settingsMock);
   // When
   [MSApplicationForwarder registerForwarding];
   [applicationMock reportException:testException];
@@ -73,6 +75,7 @@ static void exceptionHandler(NSException *exception) { lastException = exception
 
   // Then
   XCTAssertEqual(lastException, testException);
+  [settingsMock stopMocking];
   [applicationMock stopMocking];
   [appCenterMock stopMocking];
   [crashesMock stopMocking];
