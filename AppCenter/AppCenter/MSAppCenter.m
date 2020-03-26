@@ -526,7 +526,7 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
     if ([self isEnabled] != isEnabled) {
 
       // Persist the enabled status.
-      [MS_APP_CENTER_USER_DEFAULTS setObject:@(isEnabled) forKey:kMSAppCenterIsEnabledKey];
+      [MS_USER_DEFAULTS setObject:@(isEnabled) forKey:kMSAppCenterIsEnabledKey];
 
       // Enable/disable pipeline.
       [self applyPipelineEnabledState:isEnabled];
@@ -547,7 +547,7 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
    * Get isEnabled value from persistence.
    * No need to cache the value in a property, user settings already have their cache mechanism.
    */
-  NSNumber *isEnabledNumber = [MS_APP_CENTER_USER_DEFAULTS objectForKey:kMSAppCenterIsEnabledKey];
+  NSNumber *isEnabledNumber = [MS_USER_DEFAULTS objectForKey:kMSAppCenterIsEnabledKey];
 
   // Return the persisted value otherwise it's enabled by default.
   return (isEnabledNumber) ? [isEnabledNumber boolValue] : YES;
@@ -633,7 +633,7 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
     if (!_installId) {
 
       // Check if install Id has already been persisted.
-      NSString *savedInstallId = [MS_APP_CENTER_USER_DEFAULTS objectForKey:kMSInstallIdKey];
+      NSString *savedInstallId = [MS_USER_DEFAULTS objectForKey:kMSInstallIdKey];
       if (savedInstallId) {
         _installId = MS_UUID_FROM_STRING(savedInstallId);
       }
@@ -643,7 +643,7 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
         _installId = [NSUUID UUID];
 
         // Persist the install Id string.
-        [MS_APP_CENTER_USER_DEFAULTS setObject:[_installId UUIDString] forKey:kMSInstallIdKey];
+        [MS_USER_DEFAULTS setObject:[_installId UUIDString] forKey:kMSInstallIdKey];
       }
     }
     return _installId;

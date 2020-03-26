@@ -407,7 +407,7 @@ static NSURL *sfURL;
   details.downloadUrl = [NSURL URLWithString:@"https://contoso.com/valid/url"];
   details.status = @"available";
   details.mandatoryUpdate = false;
-  [MS_APP_CENTER_USER_DEFAULTS setObject:@((long long)[MSUtility nowInMilliseconds] - 100000) forKey:kMSPostponedTimestampKey];
+  [MS_USER_DEFAULTS setObject:@((long long)[MSUtility nowInMilliseconds] - 100000) forKey:kMSPostponedTimestampKey];
 
   // When
   BOOL result = [self.sut handleUpdate:details];
@@ -427,7 +427,7 @@ static NSURL *sfURL;
 
   // If
   details.mandatoryUpdate = false;
-  [MS_APP_CENTER_USER_DEFAULTS setObject:@1 forKey:kMSPostponedTimestampKey];
+  [MS_USER_DEFAULTS setObject:@1 forKey:kMSPostponedTimestampKey];
 
   // When
   [self.sut handleUpdate:details];
@@ -437,7 +437,7 @@ static NSURL *sfURL;
 
   // If
   details.mandatoryUpdate = true;
-  [MS_APP_CENTER_USER_DEFAULTS setObject:@1 forKey:kMSPostponedTimestampKey];
+  [MS_USER_DEFAULTS setObject:@1 forKey:kMSPostponedTimestampKey];
 
   // When
   [self.sut handleUpdate:details];
@@ -447,7 +447,8 @@ static NSURL *sfURL;
 
   // If
   details.mandatoryUpdate = false;
-  [MS_APP_CENTER_USER_DEFAULTS setObject:@((long long)[MSUtility nowInMilliseconds] + kMSDayInMillisecond * 2) forKey:kMSPostponedTimestampKey];
+  [MS_USER_DEFAULTS setObject:@((long long)[MSUtility nowInMilliseconds] + kMSDayInMillisecond * 2)
+                                  forKey:kMSPostponedTimestampKey];
 
   // When
   [self.sut handleUpdate:details];
@@ -457,7 +458,8 @@ static NSURL *sfURL;
 
   // If
   details.mandatoryUpdate = true;
-  [MS_APP_CENTER_USER_DEFAULTS setObject:@((long long)[MSUtility nowInMilliseconds] + kMSDayInMillisecond * 2) forKey:kMSPostponedTimestampKey];
+  [MS_USER_DEFAULTS setObject:@((long long)[MSUtility nowInMilliseconds] + kMSDayInMillisecond * 2)
+                                  forKey:kMSPostponedTimestampKey];
 
   // When
   [self.sut handleUpdate:details];
@@ -676,7 +678,7 @@ static NSURL *sfURL;
   });
 
   // Persist release to be picked up.
-  [MS_APP_CENTER_USER_DEFAULTS setObject:[details serializeToDictionary] forKey:kMSMandatoryReleaseKey];
+  [MS_USER_DEFAULTS setObject:[details serializeToDictionary] forKey:kMSMandatoryReleaseKey];
   [self.sut handleUpdate:details];
 
   // When
@@ -1015,7 +1017,7 @@ static NSURL *sfURL;
   XCTAssertTrue(result);
 
   // If
-  [MS_APP_CENTER_USER_DEFAULTS setObject:requestId forKey:kMSUpdateTokenRequestIdKey];
+  [MS_USER_DEFAULTS setObject:requestId forKey:kMSUpdateTokenRequestIdKey];
   url = [NSURL URLWithString:[NSString stringWithFormat:@"%@://?request_id=%@&update_token=%@",
                                                         [NSString stringWithFormat:kMSDefaultCustomSchemeFormat, @"Invalid-app-secret"],
                                                         requestId, token]];
@@ -1061,7 +1063,7 @@ static NSURL *sfURL;
   NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@://?request_id=%@&update_token=%@", scheme, requestId, token]];
 
   // When
-  [MS_APP_CENTER_USER_DEFAULTS setObject:requestId forKey:kMSUpdateTokenRequestIdKey];
+  [MS_USER_DEFAULTS setObject:requestId forKey:kMSUpdateTokenRequestIdKey];
   BOOL result = [self.sut openURL:url];
 
   // Then
@@ -1073,7 +1075,7 @@ static NSURL *sfURL;
       URLWithString:[NSString stringWithFormat:@"%@://?request_id=%@&distribution_group_id=%@", scheme, requestId, distributionGroupId]];
 
   // When
-  [MS_APP_CENTER_USER_DEFAULTS setObject:requestId forKey:kMSUpdateTokenRequestIdKey];
+  [MS_USER_DEFAULTS setObject:requestId forKey:kMSUpdateTokenRequestIdKey];
   result = [self.sut openURL:url];
 
   // Then
@@ -1146,7 +1148,7 @@ static NSURL *sfURL;
 
   // When
   [[MSSessionContext sharedInstance] setSessionId:@"Session1"];
-  [MS_APP_CENTER_USER_DEFAULTS setObject:requestId forKey:kMSUpdateTokenRequestIdKey];
+  [MS_USER_DEFAULTS setObject:requestId forKey:kMSUpdateTokenRequestIdKey];
   BOOL result = [self.sut openURL:url];
 
   // Then
@@ -1154,7 +1156,7 @@ static NSURL *sfURL;
   XCTAssertEqual(invocations, 1);
   XCTAssertNotNil(log);
   OCMVerify([self.distributeInfoTrackerMock updateDistributionGroupId:distributionGroupId]);
-  XCTAssertEqualObjects([MS_APP_CENTER_USER_DEFAULTS objectForKey:kMSDistributionGroupIdKey], distributionGroupId);
+  XCTAssertEqualObjects([MS_USER_DEFAULTS objectForKey:kMSDistributionGroupIdKey], distributionGroupId);
   [MSSessionContext resetSharedInstance];
   invocations = 0;
 
@@ -1164,7 +1166,7 @@ static NSURL *sfURL;
 
   // When
   [[MSSessionContext sharedInstance] setSessionId:nil];
-  [MS_APP_CENTER_USER_DEFAULTS setObject:requestId forKey:kMSUpdateTokenRequestIdKey];
+  [MS_USER_DEFAULTS setObject:requestId forKey:kMSUpdateTokenRequestIdKey];
   result = [self.sut openURL:url];
 
   // Then
@@ -1176,7 +1178,7 @@ static NSURL *sfURL;
   url = [NSURL URLWithString:[NSString stringWithFormat:@"%@://?request_id=%@&update_token=%@", scheme, requestId, token]];
 
   // When
-  [MS_APP_CENTER_USER_DEFAULTS setObject:requestId forKey:kMSUpdateTokenRequestIdKey];
+  [MS_USER_DEFAULTS setObject:requestId forKey:kMSUpdateTokenRequestIdKey];
   result = [self.sut openURL:url];
 
   // Then
@@ -1673,7 +1675,7 @@ static NSURL *sfURL;
 - (void)testNotDeleteUpdateToken {
 
   // If
-  [MS_APP_CENTER_USER_DEFAULTS setObject:@1 forKey:kMSSDKHasLaunchedWithDistribute];
+  [MS_USER_DEFAULTS setObject:@1 forKey:kMSSDKHasLaunchedWithDistribute];
   id keychainMock = OCMClassMock([MSKeychainUtil class]);
   OCMReject([keychainMock deleteStringForKey:kMSUpdateTokenKey]);
 
@@ -1841,7 +1843,7 @@ static NSURL *sfURL;
   OCMStub([distributeMock isEnabled]).andReturn(YES);
   OCMStub([distributeMock checkLatestRelease:OCMOCK_ANY distributionGroupId:OCMOCK_ANY releaseHash:OCMOCK_ANY]).andDo(nil);
   self.sut.appSecret = kMSTestAppSecret;
-  [MS_APP_CENTER_USER_DEFAULTS setObject:@"FIRST-REQUEST" forKey:kMSUpdateTokenRequestIdKey];
+  [MS_USER_DEFAULTS setObject:@"FIRST-REQUEST" forKey:kMSUpdateTokenRequestIdKey];
   NSDictionary<NSString *, id> *plist = @{@"CFBundleShortVersionString" : @"1.0", @"CFBundleVersion" : @"1"};
   OCMStub([self.bundleMock infoDictionary]).andReturn(plist);
   NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@://?request_id=FIRST-REQUEST&update_token=token",
@@ -2229,7 +2231,7 @@ static NSURL *sfURL;
   assertThat([self.settingsMock objectForKey:kMSPostponedTimestampKey], equalToLongLong((long long)time));
 
   // If
-  [MS_APP_CENTER_USER_DEFAULTS removeObjectForKey:kMSPostponedTimestampKey];
+  [MS_USER_DEFAULTS removeObjectForKey:kMSPostponedTimestampKey];
 
   // When
   [self.sut notifyUpdateAction:MSUpdateActionPostpone];
@@ -2498,7 +2500,7 @@ static NSURL *sfURL;
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {
                                  OCMVerify([self.distributeInfoTrackerMock updateDistributionGroupId:distributionGroupId]);
-                                 NSString *actualDistributionGroupId = [MS_APP_CENTER_USER_DEFAULTS objectForKey:kMSDistributionGroupIdKey];
+                                 NSString *actualDistributionGroupId = [MS_USER_DEFAULTS objectForKey:kMSDistributionGroupIdKey];
                                  XCTAssertEqualObjects(actualDistributionGroupId, distributionGroupId);
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
@@ -2799,7 +2801,7 @@ static NSURL *sfURL;
 
 - (void)testStartUpdateWhenEnabledButDidNotStart {
   NSString *isEnabledKey = @"MSAppCenterIsEnabled";
-  [MS_APP_CENTER_USER_DEFAULTS setObject:@(YES) forKey:isEnabledKey];
+  [MS_USER_DEFAULTS setObject:@(YES) forKey:isEnabledKey];
 
   // If
   id notificationCenterMock = OCMPartialMock([NSNotificationCenter new]);
