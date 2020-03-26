@@ -304,7 +304,7 @@
 		C9A92117230C61820068070D /* MSStringTypedProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = 35DFC1BE2170030C00455589 /* MSStringTypedProperty.m */; };
 		C9A92118230C61820068070D /* MSTypedProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = 35DFC1C32170030C00455589 /* MSTypedProperty.m */; };
 		C9A92119230C61820068070D /* MSDBStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 3849BA7B1EF3145A0072E3E0 /* MSDBStorage.m */; };
-		C9A9211A230C61820068070D /* MSUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = E8A8D1EA1D3057A90022931E /* MSUserDefaults.m */; };
+		C9A9211A230C61820068070D /* MSAppCenterUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = E8A8D1EA1D3057A90022931E /* MSAppCenterUserDefaults.m */; };
 		C9A9211B230C61820068070D /* MSLogDBStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CD74841F22BD910070E7DF /* MSLogDBStorage.m */; };
 		C9A9211C230C61820068070D /* MSOrderedDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = B29D883C21E925A400EAF084 /* MSOrderedDictionary.m */; };
 		C9A9211D230C61820068070D /* MSEncrypter.m in Sources */ = {isa = PBXBuildFile; fileRef = 8087362820C134AC004C4157 /* MSEncrypter.m */; };
@@ -370,7 +370,7 @@
 		C9A9215D230C61830068070D /* MSStringTypedProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = 35DFC1BE2170030C00455589 /* MSStringTypedProperty.m */; };
 		C9A9215E230C61830068070D /* MSTypedProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = 35DFC1C32170030C00455589 /* MSTypedProperty.m */; };
 		C9A9215F230C61830068070D /* MSDBStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 3849BA7B1EF3145A0072E3E0 /* MSDBStorage.m */; };
-		C9A92160230C61830068070D /* MSUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = E8A8D1EA1D3057A90022931E /* MSUserDefaults.m */; };
+		C9A92160230C61830068070D /* MSAppCenterUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = E8A8D1EA1D3057A90022931E /* MSAppCenterUserDefaults.m */; };
 		C9A92161230C61830068070D /* MSLogDBStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CD74841F22BD910070E7DF /* MSLogDBStorage.m */; };
 		C9A92162230C61830068070D /* MSOrderedDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = B29D883C21E925A400EAF084 /* MSOrderedDictionary.m */; };
 		C9A92163230C61830068070D /* MSEncrypter.m in Sources */ = {isa = PBXBuildFile; fileRef = 8087362820C134AC004C4157 /* MSEncrypter.m */; };
@@ -463,7 +463,7 @@
 		F8936C9D230C23F0006A330F /* MSStringTypedProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = 35DFC1BE2170030C00455589 /* MSStringTypedProperty.m */; };
 		F8936C9E230C23F0006A330F /* MSTypedProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = 35DFC1C32170030C00455589 /* MSTypedProperty.m */; };
 		F8936C9F230C23F0006A330F /* MSDBStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 3849BA7B1EF3145A0072E3E0 /* MSDBStorage.m */; };
-		F8936CA0230C23F0006A330F /* MSUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = E8A8D1EA1D3057A90022931E /* MSUserDefaults.m */; };
+		F8936CA0230C23F0006A330F /* MSAppCenterUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = E8A8D1EA1D3057A90022931E /* MSAppCenterUserDefaults.m */; };
 		F8936CA1230C23F0006A330F /* MSLogDBStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CD74841F22BD910070E7DF /* MSLogDBStorage.m */; };
 		F8936CA2230C23F0006A330F /* MSOrderedDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = B29D883C21E925A400EAF084 /* MSOrderedDictionary.m */; };
 		F8936CA3230C23F0006A330F /* MSEncrypter.m in Sources */ = {isa = PBXBuildFile; fileRef = 8087362820C134AC004C4157 /* MSEncrypter.m */; };
@@ -656,7 +656,7 @@
 		F8936D68230C2804006A330F /* MSTypedProperty.h in Headers */ = {isa = PBXBuildFile; fileRef = 35DFC1BF2170030C00455589 /* MSTypedProperty.h */; };
 		F8936D69230C2804006A330F /* MSStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = E84B8E381D235246006FD231 /* MSStorage.h */; };
 		F8936D6A230C2804006A330F /* MSDBStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = 3849BA791EF314440072E3E0 /* MSDBStorage.h */; };
-		F8936D6B230C2804006A330F /* MSUserDefaults.h in Headers */ = {isa = PBXBuildFile; fileRef = E8A8D1E91D3057A90022931E /* MSUserDefaults.h */; };
+		F8936D6B230C2804006A330F /* MSAppCenterUserDefaults.h in Headers */ = {isa = PBXBuildFile; fileRef = E8A8D1E91D3057A90022931E /* MSAppCenterUserDefaults.h */; };
 		F8936D6C230C2804006A330F /* MSLogDBStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD74831F22BD910070E7DF /* MSLogDBStorage.h */; };
 		F8936D6D230C2804006A330F /* MSLogDBStorageVersion.h in Headers */ = {isa = PBXBuildFile; fileRef = 046658B7215AD59D0079DCC7 /* MSLogDBStorageVersion.h */; };
 		F8936D6E230C2804006A330F /* MSOrderedDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = B29D883B21E925A400EAF084 /* MSOrderedDictionary.h */; };
@@ -737,7 +737,7 @@
 		F8936DC0230C2805006A330F /* MSTypedProperty.h in Headers */ = {isa = PBXBuildFile; fileRef = 35DFC1BF2170030C00455589 /* MSTypedProperty.h */; };
 		F8936DC1230C2805006A330F /* MSStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = E84B8E381D235246006FD231 /* MSStorage.h */; };
 		F8936DC2230C2805006A330F /* MSDBStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = 3849BA791EF314440072E3E0 /* MSDBStorage.h */; };
-		F8936DC3230C2805006A330F /* MSUserDefaults.h in Headers */ = {isa = PBXBuildFile; fileRef = E8A8D1E91D3057A90022931E /* MSUserDefaults.h */; };
+		F8936DC3230C2805006A330F /* MSAppCenterUserDefaults.h in Headers */ = {isa = PBXBuildFile; fileRef = E8A8D1E91D3057A90022931E /* MSAppCenterUserDefaults.h */; };
 		F8936DC4230C2805006A330F /* MSLogDBStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD74831F22BD910070E7DF /* MSLogDBStorage.h */; };
 		F8936DC5230C2805006A330F /* MSLogDBStorageVersion.h in Headers */ = {isa = PBXBuildFile; fileRef = 046658B7215AD59D0079DCC7 /* MSLogDBStorageVersion.h */; };
 		F8936DC6230C2805006A330F /* MSOrderedDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = B29D883B21E925A400EAF084 /* MSOrderedDictionary.h */; };
@@ -818,7 +818,7 @@
 		F8936E18230C2805006A330F /* MSTypedProperty.h in Headers */ = {isa = PBXBuildFile; fileRef = 35DFC1BF2170030C00455589 /* MSTypedProperty.h */; };
 		F8936E19230C2805006A330F /* MSStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = E84B8E381D235246006FD231 /* MSStorage.h */; };
 		F8936E1A230C2805006A330F /* MSDBStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = 3849BA791EF314440072E3E0 /* MSDBStorage.h */; };
-		F8936E1B230C2805006A330F /* MSUserDefaults.h in Headers */ = {isa = PBXBuildFile; fileRef = E8A8D1E91D3057A90022931E /* MSUserDefaults.h */; };
+		F8936E1B230C2805006A330F /* MSAppCenterUserDefaults.h in Headers */ = {isa = PBXBuildFile; fileRef = E8A8D1E91D3057A90022931E /* MSAppCenterUserDefaults.h */; };
 		F8936E1C230C2805006A330F /* MSLogDBStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD74831F22BD910070E7DF /* MSLogDBStorage.h */; };
 		F8936E1D230C2805006A330F /* MSLogDBStorageVersion.h in Headers */ = {isa = PBXBuildFile; fileRef = 046658B7215AD59D0079DCC7 /* MSLogDBStorageVersion.h */; };
 		F8936E1E230C2805006A330F /* MSOrderedDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = B29D883B21E925A400EAF084 /* MSOrderedDictionary.h */; };
@@ -1186,8 +1186,8 @@
 		E88D17051D35B6B500A5EA57 /* MSMockLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSMockLog.m; sourceTree = "<group>"; };
 		E88EBBEB1D2C612E007E7785 /* MSAbstractLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAbstractLog.m; sourceTree = "<group>"; };
 		E88EBBFA1D2C8CC7007E7785 /* MSLogContainerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MSLogContainerTests.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		E8A8D1E91D3057A90022931E /* MSUserDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSUserDefaults.h; path = ../Model/Util/MSUserDefaults.h; sourceTree = "<group>"; };
-		E8A8D1EA1D3057A90022931E /* MSUserDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSUserDefaults.m; path = ../Model/Util/MSUserDefaults.m; sourceTree = "<group>"; };
+		E8A8D1E91D3057A90022931E /* MSAppCenterUserDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSAppCenterUserDefaults.h; path = ../Model/Util/MSAppCenterUserDefaults.h; sourceTree = "<group>"; };
+		E8A8D1EA1D3057A90022931E /* MSAppCenterUserDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSAppCenterUserDefaults.m; path = ../Model/Util/MSAppCenterUserDefaults.m; sourceTree = "<group>"; };
 		F803BBF11E8E3677004B1E7A /* MSCustomProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSCustomProperties.h; sourceTree = "<group>"; };
 		F803BBF21E8E3677004B1E7A /* MSCustomProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSCustomProperties.m; sourceTree = "<group>"; };
 		F803BBF51E8E383E004B1E7A /* MSCustomPropertiesInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSCustomPropertiesInternal.h; sourceTree = "<group>"; };
@@ -1851,8 +1851,8 @@
 				3849BA791EF314440072E3E0 /* MSDBStorage.h */,
 				3849BA841EF35D830072E3E0 /* MSDBStoragePrivate.h */,
 				3849BA7B1EF3145A0072E3E0 /* MSDBStorage.m */,
-				E8A8D1E91D3057A90022931E /* MSUserDefaults.h */,
-				E8A8D1EA1D3057A90022931E /* MSUserDefaults.m */,
+				E8A8D1E91D3057A90022931E /* MSAppCenterUserDefaults.h */,
+				E8A8D1EA1D3057A90022931E /* MSAppCenterUserDefaults.m */,
 				B2CD74831F22BD910070E7DF /* MSLogDBStorage.h */,
 				383481721EA7FF6100787F56 /* MSLogDBStoragePrivate.h */,
 				B2CD74841F22BD910070E7DF /* MSLogDBStorage.m */,
@@ -1933,7 +1933,7 @@
 				F8936D4E230C2804006A330F /* MSCommonSchemaLog.h in Headers */,
 				F8936D45230C2804006A330F /* MSTicketCache.h in Headers */,
 				F8936D68230C2804006A330F /* MSTypedProperty.h in Headers */,
-				F8936D6B230C2804006A330F /* MSUserDefaults.h in Headers */,
+				F8936D6B230C2804006A330F /* MSAppCenterUserDefaults.h in Headers */,
 				F8936D36230C2804006A330F /* MSCSEpochAndSeq.h in Headers */,
 				F8936D6F230C2804006A330F /* MSConstants+Internal.h in Headers */,
 				F8936D59230C2804006A330F /* MSAbstractLogInternal.h in Headers */,
@@ -2061,7 +2061,7 @@
 				F8936DA6230C2805006A330F /* MSCommonSchemaLog.h in Headers */,
 				F8936D9D230C2805006A330F /* MSTicketCache.h in Headers */,
 				F8936DC0230C2805006A330F /* MSTypedProperty.h in Headers */,
-				F8936DC3230C2805006A330F /* MSUserDefaults.h in Headers */,
+				F8936DC3230C2805006A330F /* MSAppCenterUserDefaults.h in Headers */,
 				F8936D8E230C2805006A330F /* MSCSEpochAndSeq.h in Headers */,
 				F8936DC7230C2805006A330F /* MSConstants+Internal.h in Headers */,
 				F8936DB1230C2805006A330F /* MSAbstractLogInternal.h in Headers */,
@@ -2193,7 +2193,7 @@
 				F8936DFE230C2805006A330F /* MSCommonSchemaLog.h in Headers */,
 				F8936DF5230C2805006A330F /* MSTicketCache.h in Headers */,
 				F8936E18230C2805006A330F /* MSTypedProperty.h in Headers */,
-				F8936E1B230C2805006A330F /* MSUserDefaults.h in Headers */,
+				F8936E1B230C2805006A330F /* MSAppCenterUserDefaults.h in Headers */,
 				F8936DE6230C2805006A330F /* MSCSEpochAndSeq.h in Headers */,
 				F8936E1F230C2805006A330F /* MSConstants+Internal.h in Headers */,
 				F8936E09230C2805006A330F /* MSAbstractLogInternal.h in Headers */,
@@ -2890,7 +2890,7 @@
 				F8936C9D230C23F0006A330F /* MSStringTypedProperty.m in Sources */,
 				F8936C9E230C23F0006A330F /* MSTypedProperty.m in Sources */,
 				F8936C9F230C23F0006A330F /* MSDBStorage.m in Sources */,
-				F8936CA0230C23F0006A330F /* MSUserDefaults.m in Sources */,
+				F8936CA0230C23F0006A330F /* MSAppCenterUserDefaults.m in Sources */,
 				F8936CA1230C23F0006A330F /* MSLogDBStorage.m in Sources */,
 				F8936CA2230C23F0006A330F /* MSOrderedDictionary.m in Sources */,
 				F8936CA3230C23F0006A330F /* MSEncrypter.m in Sources */,
@@ -2969,7 +2969,7 @@
 				C9A92106230C61820068070D /* MSDeviceExtension.m in Sources */,
 				C9A920F4230C61820068070D /* MSDeviceHistoryInfo.m in Sources */,
 				C9A920E6230C61820068070D /* MSAppCenter.m in Sources */,
-				C9A9211A230C61820068070D /* MSUserDefaults.m in Sources */,
+				C9A9211A230C61820068070D /* MSAppCenterUserDefaults.m in Sources */,
 				C9A9210C230C61820068070D /* MSSDKExtension.m in Sources */,
 				C9A920E7230C61820068070D /* MSLogger.m in Sources */,
 				C9A9211D230C61820068070D /* MSEncrypter.m in Sources */,
@@ -3047,7 +3047,7 @@
 				C9A9214C230C61830068070D /* MSDeviceExtension.m in Sources */,
 				C9A9213A230C61830068070D /* MSDeviceHistoryInfo.m in Sources */,
 				C9A9212C230C61830068070D /* MSAppCenter.m in Sources */,
-				C9A92160230C61830068070D /* MSUserDefaults.m in Sources */,
+				C9A92160230C61830068070D /* MSAppCenterUserDefaults.m in Sources */,
 				C9A92152230C61830068070D /* MSSDKExtension.m in Sources */,
 				C9A9212D230C61830068070D /* MSLogger.m in Sources */,
 				C9A92163230C61830068070D /* MSEncrypter.m in Sources */,

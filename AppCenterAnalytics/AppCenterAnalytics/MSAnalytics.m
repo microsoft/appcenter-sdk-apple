@@ -48,7 +48,7 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
 - (instancetype)init {
   if ((self = [super init])) {
     NSDictionary *migratedKeys = @{@"kMSAnalyticsIsEnabledKey" : @"MSACAnalyticsIsEnabledKey", @"pastSessionsKey" : @"MSACPastSessionsKey"};
-    [MS_USER_DEFAULTS migrateKeys:migratedKeys forService:kMSServiceName];
+    [MS_APP_CENTER_USER_DEFAULTS migrateKeys:migratedKeys forService:kMSServiceName];
 
     // Set defaults.
     _autoPageTrackingEnabled = NO;

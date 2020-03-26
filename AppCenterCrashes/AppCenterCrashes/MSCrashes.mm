@@ -281,7 +281,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
       @"MSAppDidReceiveMemoryWarning" : @"MSACAppDidReceiveMemoryWarning",
       @"MSUserConfirmation" : @"MSACUserConfirmation"
     };
-    [MS_USER_DEFAULTS migrateKeys:migratedKeys forService:kMSServiceName];
+    [MS_APP_CENTER_USER_DEFAULTS migrateKeys:migratedKeys forService:kMSServiceName];
     _appStartTime = [NSDate date];
     _crashFiles = [NSMutableArray new];
     _crashesPathComponent = [MSCrashesUtil crashesDir];
@@ -427,7 +427,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     [self.plCrashReporter purgePendingCrashReport];
     [self clearUnprocessedReports];
     [self clearContextHistoryAndKeepCurrentSession];
-    [MS_USER_DEFAULTS removeObjectForKey:kMSAppDidReceiveMemoryWarningKey];
+    [MS_APP_CENTER_USER_DEFAULTS removeObjectForKey:kMSAppDidReceiveMemoryWarningKey];
     MSLogInfo([MSCrashes logTag], @"Crashes service has been disabled.");
   }
 }
@@ -500,7 +500,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
 - (void)didReceiveMemoryWarning:(NSNotification *)__unused notification {
   MSLogDebug([MSCrashes logTag], @"The application received a low memory warning in the last session.");
-  [MS_USER_DEFAULTS setObject:@YES forKey:kMSAppDidReceiveMemoryWarningKey];
+  [MS_APP_CENTER_USER_DEFAULTS setObject:@YES forKey:kMSAppDidReceiveMemoryWarningKey];
 }
 
 #pragma mark - Channel Delegate
@@ -907,14 +907,14 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   }
 
   // Read and reset the memory warning state.
-  NSNumber *didReceiveMemoryWarning = [MS_USER_DEFAULTS objectForKey:kMSAppDidReceiveMemoryWarningKey];
+  NSNumber *didReceiveMemoryWarning = [MS_APP_CENTER_USER_DEFAULTS objectForKey:kMSAppDidReceiveMemoryWarningKey];
   self.didReceiveMemoryWarningInLastSession = didReceiveMemoryWarning.boolValue;
   if (self.didReceiveMemoryWarningInLastSession) {
     MSLogDebug([MSCrashes logTag], @"The application received a low memory warning in the last session.");
   }
 
   // Clean the flag.
-  [MS_USER_DEFAULTS removeObjectForKey:kMSAppDidReceiveMemoryWarningKey];
+  [MS_APP_CENTER_USER_DEFAULTS removeObjectForKey:kMSAppDidReceiveMemoryWarningKey];
 }
 
 /**
@@ -1210,7 +1210,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
  * This is an instance method to make testing easier.
  */
 - (BOOL)shouldAlwaysSend {
-  NSNumber *flag = [MS_USER_DEFAULTS objectForKey:kMSUserConfirmationKey];
+  NSNumber *flag = [MS_APP_CENTER_USER_DEFAULTS objectForKey:kMSUserConfirmationKey];
   return flag.boolValue;
 }
 
@@ -1257,7 +1257,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
      * Always send logs. Set the flag YES to bypass user confirmation next time.
      * Continue crash processing afterwards.
      */
-    [MS_USER_DEFAULTS setObject:@YES forKey:kMSUserConfirmationKey];
+    [MS_APP_CENTER_USER_DEFAULTS setObject:@YES forKey:kMSUserConfirmationKey];
   }
 
   // Process crashes logs.

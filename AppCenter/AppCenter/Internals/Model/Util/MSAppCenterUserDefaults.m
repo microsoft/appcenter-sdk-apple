@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "MSUserDefaults.h"
+#import "MSAppCenterUserDefaults.h"
 #import "MSAppCenterInternal.h"
 #import "MSLogger.h"
 
 static NSString *const kMSUserDefaultsTs = @"_ts";
 static NSString *const kMSAppCenterUserDefaultsMigratedKeyFormat = @"%@310UserDefaultsMigratedKey";
 
-static MSUserDefaults *sharedInstance = nil;
+static MSAppCenterUserDefaults *sharedInstance = nil;
 static dispatch_once_t onceToken;
 
-@implementation MSUserDefaults
+@implementation MSAppCenterUserDefaults
 
 + (instancetype)shared {
   dispatch_once(&onceToken, ^{
-    sharedInstance = [[MSUserDefaults alloc] init];
+    sharedInstance = [[MSAppCenterUserDefaults alloc] init];
     NSDictionary *migratedKeys = @{
       @"MSChannelStartTimer" : @"MSACChannelStartTimer",
       @"pastDevicesKey" : @"MSACPastDevicesKey",
@@ -54,23 +54,31 @@ static dispatch_once_t onceToken;
   [self setObject:@(1) forKey:serviceHasMigratedKey];
 }
 
+- (NSString *)getAppCenterKeyFrom:(NSString *)key {
+    if ([key hasPrefix:kMSUserDefaultsPrefix]) {
+        return key;
+    } else {
+        return [kMSUserDefaultsPrefix stringByAppendingString:key];
+    }
+}
+
 - (id)objectForKey:(NSString *)key {
-  NSString *keyPrefixed = [kMSUserDefaultsPrefix stringByAppendingString:key];
+  NSString *keyPrefixed = [self getAppCenterKeyFrom:key];
   return [[NSUserDefaults standardUserDefaults] objectForKey:keyPrefixed];
 }
 
 - (void)setObject:(id)o forKey:(NSString *)key {
-  NSString *keyPrefixed = [kMSUserDefaultsPrefix stringByAppendingString:key];
+  NSString *keyPrefixed = [self getAppCenterKeyFrom:key];
   [[NSUserDefaults standardUserDefaults] setObject:o forKey:keyPrefixed];
 }
 
 - (void)removeObjectForKey:(NSString *)key {
-  NSString *keyPrefixed = [kMSUserDefaultsPrefix stringByAppendingString:key];
+  NSString *keyPrefixed = [self getAppCenterKeyFrom:key];
   [[NSUserDefaults standardUserDefaults] removeObjectForKey:keyPrefixed];
 }
 
 - (NSDictionary *)updateDictionary:(NSDictionary *)dict forKey:(NSString *)key expiration:(float)expiration {
-  NSString *keyPrefixed = [kMSUserDefaultsPrefix stringByAppendingString:key];
+  NSString *keyPrefixed = [self getAppCenterKeyFrom:key];
   NSMutableDictionary *update = [[NSMutableDictionary alloc] initWithDictionary:dict];
 
   // Get from local store.

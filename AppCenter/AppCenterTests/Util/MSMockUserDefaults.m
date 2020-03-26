@@ -3,7 +3,7 @@
 
 #import "MSMockUserDefaults.h"
 #import "MSTestFrameworks.h"
-#import "MSUserDefaults.h"
+#import "MSAppCenterUserDefaults.h"
 
 @interface MSMockUserDefaults ()
 
@@ -20,7 +20,7 @@
     _dictionary = [NSMutableDictionary new];
 
     // Mock MSUserDefaults shared method to return this instance.
-    _mockMSUserDefaults = OCMClassMock([MSUserDefaults class]);
+    _mockMSUserDefaults = OCMClassMock([MSAppCenterUserDefaults class]);
     OCMStub([_mockMSUserDefaults shared]).andReturn(self);
   }
   return self;

@@ -62,7 +62,7 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
   if ((self = [super init])) {
     NSDictionary *migratedKeys =
         @{@"kMSPushIsEnabledKey" : @"MSACPushIsEnabledKey", @"pushServiceStorageKey" : @"MSACPushServiceStorageKey"};
-    [MS_USER_DEFAULTS migrateKeys:migratedKeys forService:kMSServiceName];
+    [MS_APP_CENTER_USER_DEFAULTS migrateKeys:migratedKeys forService:kMSServiceName];
 
     // Init channel configuration.
     _channelUnitConfiguration = [[MSChannelUnitConfiguration alloc] initDefaultConfigurationWithGroupId:[self groupId]];
@@ -273,7 +273,7 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
     return;
   }
   self.pushToken = pushToken;
-  [MS_USER_DEFAULTS setObject:pushToken forKey:kMSPushServiceStorageKey];
+  [MS_APP_CENTER_USER_DEFAULTS setObject:pushToken forKey:kMSPushServiceStorageKey];
   [self sendPushToken:pushToken userId:[[MSUserIdContext sharedInstance] userId]];
 }
 

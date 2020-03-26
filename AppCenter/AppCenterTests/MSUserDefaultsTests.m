@@ -3,7 +3,7 @@
 
 #import "MSLoggerInternal.h"
 #import "MSTestFrameworks.h"
-#import "MSUserDefaults.h"
+#import "MSAppCenterUserDefaults.h"
 #import "MSUtility.h"
 #import "MSWrapperLogger.h"
 
@@ -20,7 +20,7 @@ static NSString *const kMSAppCenterUserDefaultsMigratedKeyFormat = @"MSAppCenter
   for (NSString *key in userDefaultKeys) {
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:key];
   }
-  [MSUserDefaults resetSharedInstance];
+  [MSAppCenterUserDefaults resetSharedInstance];
 }
 
 - (void)testMigrateSettingsOnInit {
@@ -30,7 +30,7 @@ static NSString *const kMSAppCenterUserDefaultsMigratedKeyFormat = @"MSAppCenter
   [[NSUserDefaults standardUserDefaults] setObject:testValue forKey:@"pastDevicesKey"];
 
   // When
-  [MSUserDefaults shared];
+  [MSAppCenterUserDefaults shared];
 
   // Then
   XCTAssertEqual(testValue, [[NSUserDefaults standardUserDefaults] objectForKey:@"MSACPastDevicesKey"]);
@@ -39,10 +39,10 @@ static NSString *const kMSAppCenterUserDefaultsMigratedKeyFormat = @"MSAppCenter
   // If
   NSString *testValue2 = @"testValue2";
   [[NSUserDefaults standardUserDefaults] setObject:testValue2 forKey:@"pastDevicesKey"];
-  [MSUserDefaults resetSharedInstance];
+  [MSAppCenterUserDefaults resetSharedInstance];
 
   // When
-  [MSUserDefaults shared];
+  [MSAppCenterUserDefaults shared];
 
   // Then
   XCTAssertEqual(testValue, [[NSUserDefaults standardUserDefaults] objectForKey:@"MSACPastDevicesKey"]);
@@ -56,7 +56,7 @@ static NSString *const kMSAppCenterUserDefaultsMigratedKeyFormat = @"MSAppCenter
   [[NSUserDefaults standardUserDefaults] setObject:@(1) forKey:kMSAppCenterUserDefaultsMigratedKeyFormat];
 
   // When
-  [MSUserDefaults shared];
+  [MSAppCenterUserDefaults shared];
 
   // Then
   XCTAssertNil([[NSUserDefaults standardUserDefaults] objectForKey:@"MSACPastDevicesKey"]);
@@ -69,7 +69,7 @@ static NSString *const kMSAppCenterUserDefaultsMigratedKeyFormat = @"MSAppCenter
   NSString *key = @"testKey";
 
   // When
-  MSUserDefaults *userDefaults = [MSUserDefaults shared];
+  MSAppCenterUserDefaults *userDefaults = [MSAppCenterUserDefaults shared];
   [userDefaults setObject:value forKey:key];
 
   // Then
@@ -89,7 +89,7 @@ static NSString *const kMSAppCenterUserDefaultsMigratedKeyFormat = @"MSAppCenter
   // If
   NSDictionary *keys =
       @{@"okeyTest1" : @"MSACKeyTest1", @"okeyTest2" : @"MSACKeyTest2", @"okeyTest3" : @"MSACKeyTest3", @"okeyTest4" : @"MSACKeyTest4"};
-  MSUserDefaults *userDefaults = [MSUserDefaults shared];
+  MSAppCenterUserDefaults *userDefaults = [MSAppCenterUserDefaults shared];
   NSArray *oldKeysArray = [keys allKeys];
   NSArray *expectedKeysArray = [keys allValues];
   for (NSUInteger i = 0; i < [keys count]; i++) {

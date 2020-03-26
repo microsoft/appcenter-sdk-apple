@@ -10,7 +10,7 @@ static NSString *const kMSUserDefaultsPrefix = @"MSAppCenter";
 /**
  * Persistent settings, a wrapper around NSUserDefaults capable of updating object or dictionary (including expiration)
  */
-@interface MSUserDefaults : NSObject
+@interface MSAppCenterUserDefaults : NSObject
 
 /**
  * @return the shared settings.
