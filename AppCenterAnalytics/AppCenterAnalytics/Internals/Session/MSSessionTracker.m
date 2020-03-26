@@ -30,7 +30,7 @@ static NSString *const kMSPastSessionsKey = @"PastSessionsKey";
     _context = [MSSessionContext sharedInstance];
 
     // Remove old session history from previous SDK versions.
-    [MS_USER_DEFAULTS removeObjectForKey:kMSPastSessionsKey];
+    [MS_APP_CENTER_USER_DEFAULTS removeObjectForKey:kMSPastSessionsKey];
 
     // Session tracking is not started by default.
     _started = NO;

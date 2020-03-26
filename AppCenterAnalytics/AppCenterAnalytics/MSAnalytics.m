@@ -51,7 +51,7 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
       @"kMSAnalyticsIsEnabledKey" : @"MSACAnalyticsIsEnabledKey", // MSAnalytics
       @"pastSessionsKey" : @"MSACPastSessionsKey"                 // MSSessionTracker
     };
-    [MS_USER_DEFAULTS migrateKeys:migratedKeys forService:kMSServiceName];
+    [MS_APP_CENTER_USER_DEFAULTS migrateKeys:migratedKeys forService:kMSServiceName];
 
     // Set defaults.
     _autoPageTrackingEnabled = NO;

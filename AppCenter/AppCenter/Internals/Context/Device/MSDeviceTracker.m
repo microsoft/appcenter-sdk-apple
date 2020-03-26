@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 #import "MSDeviceTracker.h"
-#import "MSAppCenterUserDefaults.h"
 #import "MSConstants+Internal.h"
 #import "MSDeviceHistoryInfo.h"
 #import "MSDeviceTrackerPrivate.h"
+#import "MSAppCenterUserDefaults.h"
 #import "MSUtility+Application.h"
 #import "MSUtility+Date.h"
 #import "MSUtility.h"
@@ -56,7 +56,7 @@ static MSDeviceTracker *sharedInstance = nil;
   if ((self = [super init])) {
 
     // Restore past sessions from NSUserDefaults.
-    NSData *devices = [MS_USER_DEFAULTS objectForKey:kMSPastDevicesKey];
+    NSData *devices = [MS_APP_CENTER_USER_DEFAULTS objectForKey:kMSPastDevicesKey];
     if (devices != nil) {
       NSArray *arrayFromData = [NSKeyedUnarchiver unarchiveObjectWithData:devices];
 
@@ -130,7 +130,7 @@ static MSDeviceTracker *sharedInstance = nil;
       }
 
       // Persist the device history in NSData format.
-      [MS_USER_DEFAULTS setObject:[NSKeyedArchiver archivedDataWithRootObject:self.deviceHistory] forKey:kMSPastDevicesKey];
+      [MS_APP_CENTER_USER_DEFAULTS setObject:[NSKeyedArchiver archivedDataWithRootObject:self.deviceHistory] forKey:kMSPastDevicesKey];
     }
     return _device;
   }
@@ -145,15 +145,15 @@ static MSDeviceTracker *sharedInstance = nil;
 #if TARGET_OS_IOS
     CTTelephonyNetworkInfo *telephonyNetworkInfo = [CTTelephonyNetworkInfo new];
     CTCarrier *carrier;
-
+      
     // The CTTelephonyNetworkInfo.serviceSubscriberCellularProviders method crash because of an issue in iOS 12.0
     // It was fixed in iOS 12.1
     if (@available(iOS 12.1, *)) {
       NSDictionary<NSString *, CTCarrier *> *carriers = [telephonyNetworkInfo serviceSubscriberCellularProviders];
       carrier = [self firstCarrier:carriers];
     } else if (@available(iOS 12, *)) {
-      NSDictionary<NSString *, CTCarrier *> *carriers = [telephonyNetworkInfo valueForKey:@"serviceSubscriberCellularProvider"];
-      carrier = [self firstCarrier:carriers];
+        NSDictionary<NSString *, CTCarrier *> *carriers = [telephonyNetworkInfo valueForKey:@"serviceSubscriberCellularProvider"];
+        carrier = [self firstCarrier:carriers];
     }
 
     // Use the old API as fallback if new one doesn't work.
@@ -260,11 +260,11 @@ static MSDeviceTracker *sharedInstance = nil;
 
     // Clear information about the entire history, except for the current device.
     if (self.deviceHistory.count > 1) {
-      [self.deviceHistory removeObjectsInRange:NSMakeRange(0, self.deviceHistory.count - 1)];
+        [self.deviceHistory removeObjectsInRange: NSMakeRange(0, self.deviceHistory.count - 1)];
     }
 
     // Clear persistence, but keep the latest information about the device.
-    [MS_USER_DEFAULTS setObject:[NSKeyedArchiver archivedDataWithRootObject:self.deviceHistory] forKey:kMSPastDevicesKey];
+    [MS_APP_CENTER_USER_DEFAULTS setObject:[NSKeyedArchiver archivedDataWithRootObject: self.deviceHistory] forKey:kMSPastDevicesKey];
   }
 }
 
@@ -391,11 +391,11 @@ static MSDeviceTracker *sharedInstance = nil;
   return ([carrier.isoCountryCode length] > 0) ? carrier.isoCountryCode : nil;
 }
 
-- (CTCarrier *)firstCarrier:(NSDictionary<NSString *, CTCarrier *> *)carriers {
-  for (NSString *key in carriers) {
-    return carriers[key];
-  }
-  return nil;
+- (CTCarrier *)firstCarrier:(NSDictionary<NSString *, CTCarrier *> *) carriers {
+    for (NSString *key in carriers) {
+        return carriers[key];
+    }
+    return nil;
 }
 #endif
 
