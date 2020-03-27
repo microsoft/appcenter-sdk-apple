@@ -4,7 +4,7 @@
 #import "MSChannelDelegate.h"
 #import "MSCrashes.h"
 
-@class MSPLCrashReporter;
+@class PLCrashReporter;
 
 @interface MSCrashes () <MSChannelDelegate>
 
@@ -73,7 +73,7 @@ typedef struct MSCrashesCallbacks {
 /**
  * The `PLCrashReporter` instance used for crash detection.
  */
-@property(nonatomic) MSPLCrashReporter *plCrashReporter;
+@property(nonatomic) PLCrashReporter *plCrashReporter;
 
 /**
  * The exception handler used by the crashes service.

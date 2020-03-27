@@ -41,7 +41,7 @@ class TodayViewController: NSViewController, NCWidgetProviding, MSCrashesDelegat
     }
     
     func attachments(with crashes: MSCrashes, for errorReport: MSErrorReport) -> [MSErrorAttachmentLog] {
-        if (addAttachments.state == NSOnState) {
+        if (addAttachments.state == .on) {
             let attachment1 = MSErrorAttachmentLog.attachment(withText: "Hello world!", filename: "hello.txt")
             let attachment2 = MSErrorAttachmentLog.attachment(withBinary: "Fake image".data(using: String.Encoding.utf8), filename: nil, contentType: "image/jpeg")
             return [attachment1!, attachment2!]

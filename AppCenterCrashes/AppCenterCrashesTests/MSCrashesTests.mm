@@ -1345,7 +1345,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
       XCTAssertTrue([MSCrashesTestUtil copyFixtureCrashReportWithFileName:fileName]);
       NSData *data = [MSCrashesTestUtil dataOfFixtureCrashReportWithFileName:fileName];
       NSError *error;
-      MSPLCrashReport *report = [[MSPLCrashReport alloc] initWithData:data error:&error];
+      PLCrashReport *report = [[PLCrashReport alloc] initWithData:data error:&error];
       [reports addObject:[MSErrorLogFormatter errorReportFromCrashReport:report]];
     }
   }

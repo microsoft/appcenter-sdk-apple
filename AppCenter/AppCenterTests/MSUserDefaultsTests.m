@@ -87,8 +87,12 @@ static NSString *const kMSAppCenterUserDefaultsMigratedKey = @"MSAppCenter310Use
 - (void)testMigrateUserDefaultSettings {
 
   // If
-  NSDictionary *keys =
-      @{@"okeyTest1" : @"MSAppCenterKeyTest1", @"okeyTest2" : @"MSAppCenterKeyTest2", @"okeyTest3" : @"MSAppCenterKeyTest3", @"okeyTest4" : @"MSAppCenterKeyTest4"};
+  NSDictionary *keys = @{
+    @"okeyTest1" : @"MSAppCenterKeyTest1",
+    @"okeyTest2" : @"MSAppCenterKeyTest2",
+    @"okeyTest3" : @"MSAppCenterKeyTest3",
+    @"okeyTest4" : @"MSAppCenterKeyTest4"
+  };
   MSAppCenterUserDefaults *userDefaults = [MSAppCenterUserDefaults shared];
   NSArray *oldKeysArray = [keys allKeys];
   NSArray *expectedKeysArray = [keys allValues];

@@ -44,7 +44,7 @@ static NSMutableDictionary<NSString *, NSString *> *keysToMigrate;
 }
 
 + (NSDictionary<NSString *, NSString *> *)keysToMigrate {
-    return keysToMigrate;
+  return keysToMigrate;
 }
 
 + (void)resetSharedInstance {
