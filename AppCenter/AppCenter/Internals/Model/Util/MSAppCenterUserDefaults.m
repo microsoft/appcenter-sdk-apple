@@ -26,7 +26,7 @@ static NSMutableDictionary<NSString *, NSString *> *keysToMigrate;
 + (instancetype)shared {
   dispatch_once(&onceToken, ^{
     sharedInstance = [[MSAppCenterUserDefaults alloc] init];
-    NSDictionary *migratedKeys = @{
+    NSDictionary *changedKeys = @{
       @"MSChannelStartTimer" : @"MSAppCenterChannelStartTimer",         // MSChannelUnitDefault
       @"pastDevicesKey" : @"MSAppCenterPastDevicesKey",                 // MSDeviceTrackerPrivate
       @"MSInstallId" : @"MSAppCenterInstallId",                         // MSAppCenterInternal
@@ -35,7 +35,7 @@ static NSMutableDictionary<NSString *, NSString *> *keysToMigrate;
       @"SessionIdHistory" : @"MSAppCenterSessionIdHistory",             // MSSessionContext
       @"UserIdHistory" : @"MSAppCenterUserIdHistory"                    // MSUserIdContext
     };
-    [keysToMigrate addEntriesFromDictionary:migratedKeys];
+    [keysToMigrate addEntriesFromDictionary:changedKeys];
     [sharedInstance migrateKeys:keysToMigrate];
   });
   return sharedInstance;
