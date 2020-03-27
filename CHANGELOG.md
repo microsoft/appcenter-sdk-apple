@@ -4,7 +4,7 @@
 
 ### App Center
 
-* **[Improvement]** Use standartised `NSUserDefaults` keys with the prefix **MSAC** for all the keys used in the SDK.
+* **[Improvement]** Use standartised `NSUserDefaults` keys with the prefix **MSAppCenter** for all the keys used in the SDK.
 
 ### App Center Crashes
 
