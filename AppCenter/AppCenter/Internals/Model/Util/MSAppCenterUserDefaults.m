@@ -5,8 +5,6 @@
 #import "MSAppCenterInternal.h"
 #import "MSLogger.h"
 
-static NSString *const kMSUserDefaultsTs = @"_ts";
-static NSString *const kMSValueKey = @"v";
 static NSString *const kMSAppCenterUserDefaultsMigratedKey = @"310UserDefaultsMigratedKey";
 
 static MSAppCenterUserDefaults *sharedInstance = nil;
