@@ -106,8 +106,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 #pragma mark - Tests
 
 - (void)testMigrateOnInit {
-  NSString *key = [NSString stringWithFormat:kMSMockMigrationKey, @"Crashes"];
-  XCTAssertNotNil([self.settingsMock objectForKey:key]);
+  XCTAssertEqual(3, [MSAppCenterUserDefaults keysToMigrate].count);
 }
 
 - (void)testNewInstanceWasInitialisedCorrectly {

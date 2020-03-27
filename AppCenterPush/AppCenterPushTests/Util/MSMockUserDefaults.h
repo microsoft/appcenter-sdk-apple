@@ -5,7 +5,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-static NSString *const kMSMockMigrationKey = @"%@MigratedKey";
+static NSString *const kMSMockMigrationKey = @"AppCenterMigratedKey";
 
 @interface MSMockUserDefaults : NSUserDefaults
 
@@ -17,9 +17,8 @@ static NSString *const kMSMockMigrationKey = @"%@MigratedKey";
 /**
  * Migrates values for the old keys to new keys.
  * @param migratedKeys a dictionary for keys that contains old key as a key of dictionary and new key as a value.
- * @param serviceName name of the service executing the migration.
  */
-- (void)migrateKeys:(NSDictionary *)migratedKeys forService:(NSString *)serviceName;
+- (void)migrateKeys:(NSDictionary *)migratedKeys;
 
 /**
  * Get an object in the settings, returning object if key was found, NULL otherwise.

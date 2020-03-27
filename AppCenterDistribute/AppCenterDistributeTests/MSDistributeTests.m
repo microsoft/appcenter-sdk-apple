@@ -160,13 +160,7 @@ static NSURL *sfURL;
 }
 
 - (void)testMigrateOnInit {
-
-  // When
-  [MSDistribute sharedInstance];
-
-  // Then
-  NSString *key = [NSString stringWithFormat:kMSMockMigrationKey, @"Distribute"];
-  XCTAssertNotNil([self.settingsMock objectForKey:key]);
+  XCTAssertEqual(10, [MSAppCenterUserDefaults keysToMigrate].count);
 }
 
 - (void)testInstallURL {
@@ -447,7 +441,8 @@ static NSURL *sfURL;
 
   // If
   details.mandatoryUpdate = false;
-  [MS_APP_CENTER_USER_DEFAULTS setObject:@((long long)[MSUtility nowInMilliseconds] + kMSDayInMillisecond * 2) forKey:kMSPostponedTimestampKey];
+  [MS_APP_CENTER_USER_DEFAULTS setObject:@((long long)[MSUtility nowInMilliseconds] + kMSDayInMillisecond * 2)
+                                  forKey:kMSPostponedTimestampKey];
 
   // When
   [self.sut handleUpdate:details];
@@ -457,7 +452,8 @@ static NSURL *sfURL;
 
   // If
   details.mandatoryUpdate = true;
-  [MS_APP_CENTER_USER_DEFAULTS setObject:@((long long)[MSUtility nowInMilliseconds] + kMSDayInMillisecond * 2) forKey:kMSPostponedTimestampKey];
+  [MS_APP_CENTER_USER_DEFAULTS setObject:@((long long)[MSUtility nowInMilliseconds] + kMSDayInMillisecond * 2)
+                                  forKey:kMSPostponedTimestampKey];
 
   // When
   [self.sut handleUpdate:details];

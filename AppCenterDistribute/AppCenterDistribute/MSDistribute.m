@@ -62,25 +62,28 @@ static dispatch_once_t onceToken;
 @implementation MSDistribute
 
 @synthesize channelUnitConfiguration = _channelUnitConfiguration;
+
 @synthesize updateTrack = _updateTrack;
 
 #pragma mark - Service initialization
 
++ (void)load {
+  [MSAppCenterUserDefaults addKeysToMigrate:@{
+    @"kMSDistributeIsEnabledKey" : @"MSAppCenterDistributeIsEnabledKey",              // MSDistributePrivate
+    @"MSPostponedTimestamp" : @"MSAppCenterPostponedTimestamp",                       // MSDistributePrivate
+    @"MSSDKHasLaunchedWithDistribute" : @"MSAppCenterSDKHasLaunchedWithDistribute",   // MSDistributePrivate
+    @"MSMandatoryRelease" : @"MSAppCenterMandatoryRelease",                           // MSDistributePrivate
+    @"MSDistributionGroupId" : @"MSAppCenterDistributionGroupId",                     // MSDistributePrivate
+    @"MSUpdateSetupFailedPackageHash" : @"MSAppCenterUpdateSetupFailedPackageHash",   // MSDistributePrivate
+    @"MSDownloadedReleaseHash" : @"MSAppCenterDownloadedReleaseHash",                 // MSDistributePrivate
+    @"MSDownloadedReleaseId" : @"MSAppCenterDownloadedReleaseId",                     // MSDistributePrivate
+    @"MSDownloadedDistributionGroupId" : @"MSAppCenterDownloadedDistributionGroupId", // MSDistributePrivate
+    @"MSTesterAppUpdateSetupFailed" : @"MSAppCenterTesterAppUpdateSetupFailed"        // MSDistributePrivate
+  }];
+}
+
 - (instancetype)init {
   if ((self = [super init])) {
-    NSDictionary *migratedKeys = @{
-      @"kMSDistributeIsEnabledKey" : @"MSACDistributeIsEnabledKey",              // MSDistributePrivate
-      @"MSPostponedTimestamp" : @"MSACPostponedTimestamp",                       // MSDistributePrivate
-      @"MSSDKHasLaunchedWithDistribute" : @"MSACSDKHasLaunchedWithDistribute",   // MSDistributePrivate
-      @"MSMandatoryRelease" : @"MSACMandatoryRelease",                           // MSDistributePrivate
-      @"MSDistributionGroupId" : @"MSACDistributionGroupId",                     // MSDistributePrivate
-      @"MSUpdateSetupFailedPackageHash" : @"MSACUpdateSetupFailedPackageHash",   // MSDistributePrivate
-      @"MSDownloadedReleaseHash" : @"MSACDownloadedReleaseHash",                 // MSDistributePrivate
-      @"MSDownloadedReleaseId" : @"MSACDownloadedReleaseId",                     // MSDistributePrivate
-      @"MSDownloadedDistributionGroupId" : @"MSACDownloadedDistributionGroupId", // MSDistributePrivate
-      @"MSTesterAppUpdateSetupFailed" : @"MSACTesterAppUpdateSetupFailed"        // MSDistributePrivate
-    };
-    [MS_APP_CENTER_USER_DEFAULTS migrateKeys:migratedKeys forService:kMSServiceName];
 
     // Init.
     _apiUrl = kMSDefaultApiUrl;

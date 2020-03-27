@@ -7,28 +7,44 @@
 
 static NSString *const kMSUserDefaultsTs = @"_ts";
 static NSString *const kMSValueKey = @"v";
-static NSString *const kMSAppCenterUserDefaultsMigratedKeyFormat = @"%@310UserDefaultsMigratedKey";
+static NSString *const kMSAppCenterUserDefaultsMigratedKey = @"310UserDefaultsMigratedKey";
 
 static MSAppCenterUserDefaults *sharedInstance = nil;
 static dispatch_once_t onceToken;
 
+// MSAppCenterUserDefaults keys to be migrated.
+static NSMutableDictionary<NSString *, NSString *> *keysToMigrate;
+
 @implementation MSAppCenterUserDefaults
+
++ (void)load {
+  keysToMigrate = [NSMutableDictionary new];
+}
+
++ (void)addKeysToMigrate:(NSDictionary<NSString *, NSString *> *)keys {
+  [keysToMigrate addEntriesFromDictionary:keys];
+}
 
 + (instancetype)shared {
   dispatch_once(&onceToken, ^{
     sharedInstance = [[MSAppCenterUserDefaults alloc] init];
     NSDictionary *migratedKeys = @{
-      @"MSChannelStartTimer" : @"MSACChannelStartTimer",         // MSChannelUnitDefault
-      @"pastDevicesKey" : @"MSACPastDevicesKey",                 // MSDeviceTrackerPrivate
-      @"MSInstallId" : @"MSACInstallId",                         // MSAppCenterInternal
-      @"MSAppCenterIsEnabled" : @"MSACAppCenterIsEnabled",       // MSAppCenter
-      @"MSEncryptionKeyMetadata" : @"MSACEncryptionKeyMetadata", // MSEncrypterPrivate
-      @"SessionIdHistory" : @"MSACSessionIdHistory",             // MSSessionContext
-      @"UserIdHistory" : @"MSACUserIdHistory"                    // MSUserIdContext
+      @"MSChannelStartTimer" : @"MSAppCenterChannelStartTimer",         // MSChannelUnitDefault
+      @"pastDevicesKey" : @"MSAppCenterPastDevicesKey",                 // MSDeviceTrackerPrivate
+      @"MSInstallId" : @"MSAppCenterInstallId",                         // MSAppCenterInternal
+      @"MSAppCenterIsEnabled" : @"MSAppCenterAppCenterIsEnabled",       // MSAppCenter
+      @"MSEncryptionKeyMetadata" : @"MSAppCenterEncryptionKeyMetadata", // MSEncrypterPrivate
+      @"SessionIdHistory" : @"MSAppCenterSessionIdHistory",             // MSSessionContext
+      @"UserIdHistory" : @"MSAppCenterUserIdHistory"                    // MSUserIdContext
     };
-    [sharedInstance migrateKeys:migratedKeys forService:@"Core"];
+    [keysToMigrate addEntriesFromDictionary:migratedKeys];
+    [sharedInstance migrateKeys:keysToMigrate];
   });
   return sharedInstance;
+}
+
++ (NSDictionary<NSString *, NSString *> *)keysToMigrate {
+    return keysToMigrate;
 }
 
 + (void)resetSharedInstance {
@@ -38,10 +54,9 @@ static dispatch_once_t onceToken;
   sharedInstance = nil;
 }
 
-- (void)migrateKeys:(NSDictionary *)migratedKeys forService:(NSString *)serviceName {
-  NSString *serviceHasMigratedKey = [NSString stringWithFormat:kMSAppCenterUserDefaultsMigratedKeyFormat, serviceName];
-  NSNumber *serviceHasMigrated = [self objectForKey:serviceHasMigratedKey];
-  if (serviceHasMigrated) {
+- (void)migrateKeys:(NSDictionary *)migratedKeys {
+  NSNumber *hasMigrated = [self objectForKey:kMSAppCenterUserDefaultsMigratedKey];
+  if (hasMigrated) {
     return;
   }
   MSLogVerbose([MSAppCenter logTag], @"Migrating the old NSDefaults keys to new ones.");
@@ -54,7 +69,7 @@ static dispatch_once_t onceToken;
       MSLogVerbose([MSAppCenter logTag], @"Migrating the key %@ -> %@", oldKey, newKey);
     }
   }
-  [self setObject:@(1) forKey:serviceHasMigratedKey];
+  [self setObject:@(1) forKey:kMSAppCenterUserDefaultsMigratedKey];
 }
 
 - (NSString *)getAppCenterKeyFrom:(NSString *)key {

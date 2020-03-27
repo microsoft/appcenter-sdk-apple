@@ -45,13 +45,15 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
 
 #pragma mark - Service initialization
 
++ (void)load {
+  [MSAppCenterUserDefaults addKeysToMigrate:@{
+    @"kMSAnalyticsIsEnabledKey" : @"MSAppCenterAnalyticsIsEnabledKey", // MSAnalytics
+    @"pastSessionsKey" : @"MSAppCenterPastSessionsKey"                 // MSSessionTracker
+  }];
+}
+
 - (instancetype)init {
   if ((self = [super init])) {
-    NSDictionary *migratedKeys = @{
-      @"kMSAnalyticsIsEnabledKey" : @"MSACAnalyticsIsEnabledKey", // MSAnalytics
-      @"pastSessionsKey" : @"MSACPastSessionsKey"                 // MSSessionTracker
-    };
-    [MS_APP_CENTER_USER_DEFAULTS migrateKeys:migratedKeys forService:kMSServiceName];
 
     // Set defaults.
     _autoPageTrackingEnabled = NO;

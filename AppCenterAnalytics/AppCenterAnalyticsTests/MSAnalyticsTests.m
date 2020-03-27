@@ -102,8 +102,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 #pragma mark - Tests
 
 - (void)testMigrateOnInit {
-  NSString *key = [NSString stringWithFormat:kMSMockMigrationKey, @"Analytics"];
-  XCTAssertNotNil([self.settingsMock objectForKey:key]);
+  XCTAssertEqual(2, [MSAppCenterUserDefaults keysToMigrate].count);
 }
 
 - (void)testValidateEventName {

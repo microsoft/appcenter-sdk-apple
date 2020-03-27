@@ -11,7 +11,7 @@
 
 @end
 
-static NSString *const kMSAppCenterUserDefaultsMigratedKeyFormat = @"MSAppCenterCore310UserDefaultsMigratedKey";
+static NSString *const kMSAppCenterUserDefaultsMigratedKey = @"MSAppCenter310UserDefaultsMigratedKey";
 
 @implementation MSUserDefaultsTests
 
@@ -33,7 +33,7 @@ static NSString *const kMSAppCenterUserDefaultsMigratedKeyFormat = @"MSAppCenter
   [MSAppCenterUserDefaults shared];
 
   // Then
-  XCTAssertEqual(testValue, [[NSUserDefaults standardUserDefaults] objectForKey:@"MSACPastDevicesKey"]);
+  XCTAssertEqual(testValue, [[NSUserDefaults standardUserDefaults] objectForKey:@"MSAppCenterPastDevicesKey"]);
 
   // Verify it migrates no more.
   // If
@@ -45,7 +45,7 @@ static NSString *const kMSAppCenterUserDefaultsMigratedKeyFormat = @"MSAppCenter
   [MSAppCenterUserDefaults shared];
 
   // Then
-  XCTAssertEqual(testValue, [[NSUserDefaults standardUserDefaults] objectForKey:@"MSACPastDevicesKey"]);
+  XCTAssertEqual(testValue, [[NSUserDefaults standardUserDefaults] objectForKey:@"MSAppCenterPastDevicesKey"]);
 }
 
 - (void)testSettingsAlreadyMigrated {
@@ -53,13 +53,13 @@ static NSString *const kMSAppCenterUserDefaultsMigratedKeyFormat = @"MSAppCenter
   // If
   NSString *testValue = @"testValue";
   [[NSUserDefaults standardUserDefaults] setObject:testValue forKey:@"pastDevicesKey"];
-  [[NSUserDefaults standardUserDefaults] setObject:@(1) forKey:kMSAppCenterUserDefaultsMigratedKeyFormat];
+  [[NSUserDefaults standardUserDefaults] setObject:@(1) forKey:kMSAppCenterUserDefaultsMigratedKey];
 
   // When
   [MSAppCenterUserDefaults shared];
 
   // Then
-  XCTAssertNil([[NSUserDefaults standardUserDefaults] objectForKey:@"MSACPastDevicesKey"]);
+  XCTAssertNil([[NSUserDefaults standardUserDefaults] objectForKey:@"MSAppCenterPastDevicesKey"]);
 }
 
 - (void)testPrefixIsAppendedOnSetAndGet {
@@ -88,7 +88,7 @@ static NSString *const kMSAppCenterUserDefaultsMigratedKeyFormat = @"MSAppCenter
 
   // If
   NSDictionary *keys =
-      @{@"okeyTest1" : @"MSACKeyTest1", @"okeyTest2" : @"MSACKeyTest2", @"okeyTest3" : @"MSACKeyTest3", @"okeyTest4" : @"MSACKeyTest4"};
+      @{@"okeyTest1" : @"MSAppCenterKeyTest1", @"okeyTest2" : @"MSAppCenterKeyTest2", @"okeyTest3" : @"MSAppCenterKeyTest3", @"okeyTest4" : @"MSAppCenterKeyTest4"};
   MSAppCenterUserDefaults *userDefaults = [MSAppCenterUserDefaults shared];
   NSArray *oldKeysArray = [keys allKeys];
   NSArray *expectedKeysArray = [keys allValues];
@@ -104,7 +104,8 @@ static NSString *const kMSAppCenterUserDefaultsMigratedKeyFormat = @"MSAppCenter
   XCTAssertFalse([userDefaultKeys containsObject:expectedKeysArray]);
 
   // When
-  [userDefaults migrateKeys:keys forService:@"stub"];
+  [[NSUserDefaults standardUserDefaults] removeObjectForKey:kMSAppCenterUserDefaultsMigratedKey];
+  [userDefaults migrateKeys:keys];
 
   // Then
   userDefaultKeys = [[[NSUserDefaults standardUserDefaults] dictionaryRepresentation] allKeys];

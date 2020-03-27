@@ -17,14 +17,21 @@ static NSString *const kMSUserDefaultsPrefix = @"MSAppCenter";
  */
 + (instancetype)shared;
 
-+ (void)resetSharedInstance;
+/**
+ * Returns an array of keys to be migrated.
+ */
++ (NSDictionary<NSString *, NSString *> *)keysToMigrate;
+
+/**
+ * Append an array of keys to migrated.
+ */
++ (void)addKeysToMigrate:(NSDictionary<NSString *, NSString *> *)keys;
 
 /**
  * Migrates values for the old keys to new keys.
  * @param migratedKeys a dictionary for keys that contains old key as a key of dictionary and new key as a value.
- * @param serviceName name of the service executing the migration.
  */
-- (void)migrateKeys:(NSDictionary *)migratedKeys forService:(NSString *)serviceName;
+- (void)migrateKeys:(NSDictionary *)migratedKeys;
 
 /**
  * Updates a dictionary in the settings, returning what was actually updated (returning all if expiration time is reached).
@@ -81,6 +88,11 @@ static NSString *const kMSUserDefaultsPrefix = @"MSAppCenter";
  * @param key the key to remove.
  */
 - (void)removeObjectForKey:(NSString *)key;
+
+/**
+ * Resets the shared instance of the class.
+ */
++ (void)resetSharedInstance;
 
 NS_ASSUME_NONNULL_END
 

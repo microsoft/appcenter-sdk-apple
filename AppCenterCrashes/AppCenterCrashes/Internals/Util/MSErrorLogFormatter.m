@@ -465,7 +465,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
 
   uint64_t instructionPointer = frameInfo.instructionPointer;
   uint64_t normalizedPointer = [MSErrorLogFormatter normalizeAddress:instructionPointer is64bit:YES];
-  
+
   MSPLCrashReportBinaryImageInfo *imageInfo = [report imageForAddress:normalizedPointer];
   if (imageInfo != nil) {
     baseAddress = imageInfo.imageBaseAddress;

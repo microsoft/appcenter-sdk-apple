@@ -117,8 +117,8 @@
   XCTAssertNotEqualObjects(cipherText, clearText);
 
   // Ensure a new key and expiration were added to the user defaults.
-  NSArray *newKeyAndExpiration =
-      [[MS_APP_CENTER_USER_DEFAULTS objectForKey:kMSEncryptionKeyMetadataKey] componentsSeparatedByString:kMSEncryptionMetadataInternalSeparator];
+  NSArray *newKeyAndExpiration = [[MS_APP_CENTER_USER_DEFAULTS objectForKey:kMSEncryptionKeyMetadataKey]
+      componentsSeparatedByString:kMSEncryptionMetadataInternalSeparator];
   NSString *newKey = newKeyAndExpiration[0];
   XCTAssertEqualObjects(newKey, kMSEncryptionKeyTagAlternate);
   NSString *expirationIso = newKeyAndExpiration[1];
@@ -181,8 +181,8 @@
   XCTAssertNotEqualObjects(cipherText, clearText);
 
   // Ensure a new key and expiration were added to the user defaults.
-  NSArray *newKeyTagAndExpiration =
-      [[MS_APP_CENTER_USER_DEFAULTS objectForKey:kMSEncryptionKeyMetadataKey] componentsSeparatedByString:kMSEncryptionMetadataInternalSeparator];
+  NSArray *newKeyTagAndExpiration = [[MS_APP_CENTER_USER_DEFAULTS objectForKey:kMSEncryptionKeyMetadataKey]
+      componentsSeparatedByString:kMSEncryptionMetadataInternalSeparator];
   NSString *newKeyTag = newKeyTagAndExpiration[0];
   XCTAssertEqualObjects(newKeyTag, expectedNewKeyTag);
   NSString *expirationIso = newKeyTagAndExpiration[1];
@@ -243,8 +243,8 @@
   XCTAssertNotEqualObjects(cipherText, clearText);
 
   // Ensure a new key and expiration were added to the user defaults.
-  NSArray *newKeyAndExpiration =
-      [[MS_APP_CENTER_USER_DEFAULTS objectForKey:kMSEncryptionKeyMetadataKey] componentsSeparatedByString:kMSEncryptionMetadataInternalSeparator];
+  NSArray *newKeyAndExpiration = [[MS_APP_CENTER_USER_DEFAULTS objectForKey:kMSEncryptionKeyMetadataKey]
+      componentsSeparatedByString:kMSEncryptionMetadataInternalSeparator];
   NSString *newKey = newKeyAndExpiration[0];
   XCTAssertEqualObjects(newKey, expectedNewKeyTag);
   NSString *expirationIso = newKeyAndExpiration[1];
@@ -315,8 +315,8 @@
   XCTAssertNotEqualObjects(cipherText, clearText);
 
   // Ensure a new key and expiration were added to the user defaults.
-  NSArray *newKeyAndExpiration =
-      [[MS_APP_CENTER_USER_DEFAULTS objectForKey:kMSEncryptionKeyMetadataKey] componentsSeparatedByString:kMSEncryptionMetadataInternalSeparator];
+  NSArray *newKeyAndExpiration = [[MS_APP_CENTER_USER_DEFAULTS objectForKey:kMSEncryptionKeyMetadataKey]
+      componentsSeparatedByString:kMSEncryptionMetadataInternalSeparator];
   NSString *newKey = newKeyAndExpiration[0];
   XCTAssertEqualObjects(newKey, kMSEncryptionKeyTagAlternate);
   NSString *expirationIso = newKeyAndExpiration[1];
