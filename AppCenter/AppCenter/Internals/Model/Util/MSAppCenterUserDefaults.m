@@ -82,71 +82,14 @@ static NSMutableDictionary<NSString *, NSString *> *keysToMigrate;
   return [[NSUserDefaults standardUserDefaults] objectForKey:keyPrefixed];
 }
 
-- (void)setObject:(id)o forKey:(NSString *)key {
+- (void)setObject:(id)value forKey:(NSString *)key {
   NSString *keyPrefixed = [self getAppCenterKeyFrom:key];
-  [[NSUserDefaults standardUserDefaults] setObject:o forKey:keyPrefixed];
+  [[NSUserDefaults standardUserDefaults] setObject:value forKey:keyPrefixed];
 }
 
 - (void)removeObjectForKey:(NSString *)key {
   NSString *keyPrefixed = [self getAppCenterKeyFrom:key];
   [[NSUserDefaults standardUserDefaults] removeObjectForKey:keyPrefixed];
-}
-
-- (NSDictionary *)updateDictionary:(NSDictionary *)dict forKey:(NSString *)key expiration:(float)expiration {
-  NSString *keyPrefixed = [self getAppCenterKeyFrom:key];
-  NSMutableDictionary *updateDictionary = [[NSMutableDictionary alloc] initWithDictionary:dict];
-
-  // Get from local store.
-  NSDictionary *store = [[NSUserDefaults standardUserDefaults] dictionaryForKey:keyPrefixed];
-
-  CFAbsoluteTime updateTimestamp = [(NSNumber *)store[kMSUserDefaultsTs] doubleValue];
-  MSLogVerbose([MSAppCenter logTag], @"Settings:store[%@]=%@", keyPrefixed, store);
-
-  // Force update if timestamp expiration is reached.
-  if (updateTimestamp <= 0.0 || expiration <= 0.0f || fabs(CFAbsoluteTimeGetCurrent() - updateTimestamp) < (double)expiration) {
-
-    // Remove if already in store and value is the same.
-    for (NSString *storeKey in [store allKeys]) {
-      if (updateDictionary[storeKey] != nil && [(NSObject *)updateDictionary[storeKey] isEqual:store[storeKey]]) {
-        [updateDictionary removeObjectForKey:storeKey];
-      }
-    }
-  }
-
-  // If still values to update.
-  if ([updateDictionary count] > 0) {
-    MSLogDebug([MSAppCenter logTag], @"Settings:update[%@]=%@", keyPrefixed, updateDictionary);
-
-    // Copy store as a mutable version.
-    NSMutableDictionary *mutableStore = [store mutableCopy];
-    if (mutableStore == nil) {
-      mutableStore = [[NSMutableDictionary alloc] initWithCapacity:[updateDictionary count]];
-    }
-
-    // Append update to the current store.
-    [mutableStore addEntriesFromDictionary:updateDictionary];
-
-    // Set new timestamp.
-    mutableStore[kMSUserDefaultsTs] = @(CFAbsoluteTimeGetCurrent());
-
-    // Save.
-    [[NSUserDefaults standardUserDefaults] setObject:mutableStore forKey:keyPrefixed];
-  }
-
-  return updateDictionary;
-}
-
-- (NSDictionary *)updateDictionary:(NSDictionary *)dict forKey:(NSString *)key {
-  return [self updateDictionary:dict forKey:key expiration:0.0];
-}
-
-- (BOOL)updateObject:(id)value forKey:(NSString *)key expiration:(float)expiration {
-  NSDictionary *update = [self updateDictionary:@{kMSValueKey : value} forKey:key expiration:expiration];
-  return update[kMSValueKey] != nil;
-}
-
-- (BOOL)updateObject:(id)value forKey:(NSString *)key {
-  return [self updateObject:value forKey:key expiration:0.0];
 }
 
 @end

@@ -160,7 +160,7 @@ static NSURL *sfURL;
 }
 
 - (void)testMigrateOnInit {
-  XCTAssertEqual(10, [MSAppCenterUserDefaults keysToMigrate].count);
+  XCTAssertEqual(17, [MSAppCenterUserDefaults keysToMigrate].count);
 }
 
 - (void)testInstallURL {
