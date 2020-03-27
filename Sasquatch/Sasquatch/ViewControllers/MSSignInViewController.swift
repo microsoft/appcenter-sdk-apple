@@ -48,7 +48,7 @@ class MSSignInViewController: UIViewController, WKNavigationDelegate {
 
   func login() {
     NSLog("Started login process")
-    if let signInUrl = URL(string: kMSABaseUrl + kMSAAuthorizeEndpoint + "?" + kMSARedirectParam + kMSAClientIdParam + "&response_type=token" + kMSAScopeParam) {
+    if let signInUrl = URL(string: kMSABaseUrl + kMSAAuthorizeEndpoint + "?" + kMSARedirectParam.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)! + kMSAClientIdParam + "&response_type=token" + kMSAScopeParam) {
       self.webView.load(URLRequest(url: signInUrl))
     }
   }
