@@ -24,6 +24,10 @@ static BOOL isApplicationForwarderEnabled() {
 static NSString *const kMSCrashOnExceptionsKey = @"NSApplicationCrashOnExceptions";
 
 static BOOL isCrashOnExceptionsEnabled() {
+    
+  // We use NSUserDefaults here instead of MSAppCenterUserDefaults, because
+  // we should use system user defaults for system keys.
+  // MSAppCenterUserDefaults prepends all the keys with "MSAppCenter" prefix.
   NSNumber *crashOnExceptions = [[NSUserDefaults standardUserDefaults] objectForKey:kMSCrashOnExceptionsKey];
   return [crashOnExceptions boolValue];
 }
