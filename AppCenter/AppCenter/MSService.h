@@ -16,7 +16,7 @@
  *
  * The state is persisted in the device's storage across application launches.
  */
-@property(class, nonatomic, assign, setter=setEnabled:) BOOL isEnabled;
+@property(class, nonatomic, assign, getter=isEnabled) BOOL enabled;
 
 @end
 

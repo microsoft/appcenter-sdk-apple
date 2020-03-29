@@ -48,7 +48,7 @@
  *
  * @return `YES` if the application secret is required, `NO` otherwise.
  */
-@property(atomic, readonly) BOOL isAppSecretRequired;
+@property(atomic, readonly, getter=isAppSecretRequired) BOOL appSecretRequired;
 
 @end
 
