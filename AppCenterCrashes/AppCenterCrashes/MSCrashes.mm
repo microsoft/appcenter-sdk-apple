@@ -224,16 +224,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   return [[MSCrashes sharedInstance] didCrashInLastSession];
 }
 
-+ (void)setHasCrashedInLastSession:(BOOL)hasCrashedInLastSession {
-  [[MSCrashes sharedInstance] setDidCrashInLastSession:hasCrashedInLastSession];
-}
-
 + (BOOL)hasReceivedMemoryWarningInLastSession {
   return [[MSCrashes sharedInstance] didReceiveMemoryWarningInLastSession];
-}
-
-+ (void)setHasReceivedMemoryWarningInLastSession:(BOOL)hasReceivedMemoryWarningInLastSession {
-  [[MSCrashes sharedInstance] setDidReceiveMemoryWarningInLastSession:hasReceivedMemoryWarningInLastSession];
 }
 
 + (_Nullable MSUserConfirmationHandler)userConfirmationHandler {
