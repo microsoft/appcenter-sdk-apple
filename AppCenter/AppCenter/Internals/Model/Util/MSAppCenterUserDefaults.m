@@ -50,7 +50,7 @@ static NSMutableDictionary<NSString *, NSString *> *keysToMigrate;
   // Reset the once_token so dispatch_once will run again.
   onceToken = 0;
   sharedInstance = nil;
-  keysToMigrate = nil;
+  [keysToMigrate removeAllObjects];
 }
 
 - (void)migrateKeys:(NSDictionary *)migratedKeys {
