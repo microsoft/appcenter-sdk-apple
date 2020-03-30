@@ -8,7 +8,7 @@ NS_ASSUME_NONNULL_BEGIN
 static NSString *const kMSUserDefaultsPrefix = @"MSAppCenter";
 
 /**
- * Persistent settings, a wrapper around NSUserDefaults capable of updating object or dictionary (including expiration)
+ * Persistent settings, a wrapper around NSUserDefaults capable of updating object or dictionary (including expiration).
  */
 @interface MSAppCenterUserDefaults : NSObject
 
@@ -34,7 +34,7 @@ static NSString *const kMSUserDefaultsPrefix = @"MSAppCenter";
 - (void)migrateKeys:(NSDictionary *)migratedKeys;
 
 /**
- * Get an object in the settings, returning object if key was found, NULL otherwise.
+ * Get an object in the settings, returning object if key was found, nil otherwise.
  *
  * @param key a unique key to identify the value.
  */
