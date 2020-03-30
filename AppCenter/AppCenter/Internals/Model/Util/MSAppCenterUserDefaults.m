@@ -50,6 +50,7 @@ static NSMutableDictionary<NSString *, NSString *> *keysToMigrate;
   // Reset the once_token so dispatch_once will run again.
   onceToken = 0;
   sharedInstance = nil;
+  keysToMigrate = nil;
 }
 
 - (void)migrateKeys:(NSDictionary *)migratedKeys {
@@ -67,7 +68,7 @@ static NSMutableDictionary<NSString *, NSString *> *keysToMigrate;
       MSLogVerbose([MSAppCenter logTag], @"Migrating the key %@ -> %@", oldKey, newKey);
     }
   }
-  [self setObject:@(1) forKey:kMSAppCenterUserDefaultsMigratedKey];
+  [self setObject:@YES forKey:kMSAppCenterUserDefaultsMigratedKey];
 }
 
 - (NSString *)getAppCenterKeyFrom:(NSString *)key {
