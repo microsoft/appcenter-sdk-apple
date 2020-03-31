@@ -5,6 +5,7 @@
 
 #import "MSAlertController.h"
 #import "MSAppCenterInternal.h"
+#import "MSAppCenterUserDefaultsPrivate.h"
 #import "MSBasicMachOParser.h"
 #import "MSChannelGroupDefault.h"
 #import "MSChannelUnitDefault.h"

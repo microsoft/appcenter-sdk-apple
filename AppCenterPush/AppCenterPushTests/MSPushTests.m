@@ -9,6 +9,8 @@
 #import <UserNotifications/UserNotifications.h>
 #endif
 
+#import "MSAppCenterUserDefaults.h"
+#import "MSAppCenterUserDefaultsPrivate.h"
 #import "MSChannelGroupProtocol.h"
 #import "MSChannelUnitProtocol.h"
 #import "MSMockPushDelegate.h"

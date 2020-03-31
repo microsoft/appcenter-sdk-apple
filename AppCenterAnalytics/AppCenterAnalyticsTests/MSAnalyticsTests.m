@@ -8,6 +8,7 @@
 #import "MSAppCenter.h"
 #import "MSAppCenterInternal.h"
 #import "MSAppCenterPrivate.h"
+#import "MSAppCenterUserDefaultsPrivate.h"
 #import "MSBooleanTypedProperty.h"
 #import "MSChannelGroupDefault.h"
 #import "MSChannelUnitConfiguration.h"

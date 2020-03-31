@@ -3,6 +3,7 @@
 
 #import "MSMockUserDefaults.h"
 #import "MSAppCenterUserDefaults.h"
+#import "MSAppCenterUserDefaultsPrivate.h"
 #import "MSTestFrameworks.h"
 
 @interface MSMockUserDefaults ()

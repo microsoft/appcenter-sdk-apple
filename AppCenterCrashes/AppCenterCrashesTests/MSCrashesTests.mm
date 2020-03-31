@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 #import "MSAppCenterInternal.h"
+#import "MSAppCenterUserDefaultsPrivate.h"
 #import "MSAppleErrorLog.h"
 #import "MSApplicationForwarder.h"
 #import "MSChannelGroupDefault.h"
