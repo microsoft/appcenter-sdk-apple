@@ -86,6 +86,8 @@ class MSSignInViewController: UIViewController, WKNavigationDelegate {
 
   func signOut(url: URL) {
     if url.absoluteString.contains((kMSABaseUrl + kMSARedirectEndpoint)) {
+      UserDefaults.standard.removeObject(forKey: kMSATokenKey)
+      UserDefaults.standard.removeObject(forKey: kMSARefreshTokenKey)
       if let error = url.valueOf("error") {
         NSLog("Error while signing out: %@", error)
       } else {
