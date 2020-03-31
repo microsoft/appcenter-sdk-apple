@@ -1196,6 +1196,7 @@
 		F803BC371E8E6927004B1E7A /* MSCustomPropertiesTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSCustomPropertiesTests.m; sourceTree = "<group>"; };
 		F803BC391E8E6963004B1E7A /* MSCustomPropertiesLogTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSCustomPropertiesLogTests.m; sourceTree = "<group>"; };
 		F82E4C6C217F159A00EDAB34 /* sqlite3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = sqlite3.c; path = ../../Vendor/SQLite3/sqlite3.c; sourceTree = "<group>"; };
+		F898179E2433327C008D92E1 /* MSAppCenterUserDefaultsPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSAppCenterUserDefaultsPrivate.h; sourceTree = "<group>"; };
 		F8BA7A2823AA8A26009FBCCF /* MSStorageBindableArray.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSStorageBindableArray.h; sourceTree = "<group>"; };
 		F8BA7A2C23AA8B84009FBCCF /* MSStorageBindableArray.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSStorageBindableArray.m; sourceTree = "<group>"; };
 		F8DC50C823AA75FF00BF8839 /* MSStorageBindableType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSStorageBindableType.h; sourceTree = "<group>"; };
@@ -1864,6 +1865,7 @@
 				F8DC50CE23AA7A3900BF8839 /* MSStorageNumberType.m */,
 				F8BA7A2823AA8A26009FBCCF /* MSStorageBindableArray.h */,
 				F8BA7A2C23AA8B84009FBCCF /* MSStorageBindableArray.m */,
+				F898179E2433327C008D92E1 /* MSAppCenterUserDefaultsPrivate.h */,
 			);
 			path = Storage;
 			sourceTree = "<group>";

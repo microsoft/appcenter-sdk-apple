@@ -65,7 +65,7 @@ static NSMutableDictionary<NSString *, NSString *> *keysToMigrate;
     if (value != nil) {
       [[NSUserDefaults standardUserDefaults] setObject:value forKey:newKey];
       [[NSUserDefaults standardUserDefaults] removeObjectForKey:oldKey];
-      MSLogVerbose([MSAppCenter logTag], @"Migrating the key %@ -> %@", oldKey, newKey);
+      MSLogVerbose([MSAppCenter logTag], @"Migrating key %@ -> %@", oldKey, newKey);
     }
   }
   [self setObject:@YES forKey:kMSAppCenterUserDefaultsMigratedKey];

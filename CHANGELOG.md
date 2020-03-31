@@ -4,7 +4,7 @@
 
 ### App Center
 
-* **[Improvement]** Use standartised `NSUserDefaults` keys with the prefix **MSAppCenter** for all the keys used in the SDK.
+* **[Improvement]** Use namespaced `NSUserDefaults` keys with the **MSAppCenter** prefix for all the keys set by the SDK. Fixed a few missing namespace.
 
 ### App Center Crashes
 

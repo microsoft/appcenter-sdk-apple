@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 #import "MSAppCenterUserDefaults.h"
+#import "MSAppCenterUserDefaultsPrivate.h"
 #import "MSLoggerInternal.h"
 #import "MSTestFrameworks.h"
 #import "MSUtility.h"
