@@ -237,7 +237,7 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate, NSTextVie
       appCenter.setUserId(nil)
       break
     case .alertSecondButtonReturn:
-      let text = textView.string ?? ""
+      let text = textView.string
       UserDefaults.standard.set(text, forKey: kMSUserIdKey)
       appCenter.setUserId(text)
       break
