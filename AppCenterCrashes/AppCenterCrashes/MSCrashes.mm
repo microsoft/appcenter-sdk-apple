@@ -62,8 +62,6 @@ static NSString *const kMSLogBufferFileExtension = @"mscrasheslogbuffer";
 
 static NSString *const kMSTargetTokenFileExtension = @"targettoken";
 
-static unsigned int kMaxAttachmentsPerCrashReport = 2;
-
 static unsigned int kMaxAttachmentSize = 7 * 1024 * 1024;
 
 /**
@@ -969,7 +967,6 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 - (void)sendErrorAttachments:(NSArray<MSErrorAttachmentLog *> *)errorAttachments withIncidentIdentifier:(NSString *)incidentIdentifier {
 
   // Send attachments log to log manager.
-  unsigned int totalProcessedAttachments = 0;
   for (MSErrorAttachmentLog *attachment in errorAttachments) {
     attachment.errorId = incidentIdentifier;
     if (![MSCrashes validatePropertiesForAttachment:attachment]) {
@@ -982,11 +979,6 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
       continue;
     }
     [self.channelUnit enqueueItem:attachment flags:MSFlagsDefault];
-    ++totalProcessedAttachments;
-  }
-  if (totalProcessedAttachments > kMaxAttachmentsPerCrashReport) {
-    MSLogWarning([MSCrashes logTag], @"A limit of %u attachments per error report / exception might be enforced by server.",
-                 kMaxAttachmentsPerCrashReport);
   }
 }
 
