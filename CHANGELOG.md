@@ -5,6 +5,7 @@
 ### App Center Crashes
 
 * **[Improvement]** Update PLCrashReporter to 1.5.1.
+* **[Fix]** Remove the multiple attachments warning as that is now supported by the portal.
 
 ___
 
