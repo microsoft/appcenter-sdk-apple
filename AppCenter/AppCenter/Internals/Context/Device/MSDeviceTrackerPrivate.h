@@ -24,7 +24,7 @@
 /**
  * Key for device history.
  */
-static NSString *const kMSPastDevicesKey = @"PastDevicesKey";
+static NSString *const kMSPastDevicesKey = @"PastDevices";
 
 @class MSDeviceHistoryInfo;
 

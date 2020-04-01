@@ -87,7 +87,7 @@ static dispatch_once_t delayedProcessingToken;
 #pragma mark - Callbacks Setup
 
 static MSCrashesCallbacks msCrashesCallbacks = {.context = nullptr, .handleSignal = nullptr};
-static NSString *const kMSUserConfirmationKey = @"UserConfirmation";
+static NSString *const kMSUserConfirmationKey = @"CrashesUserConfirmation";
 static volatile BOOL writeBufferTaskStarted = NO;
 
 static void ms_save_log_buffer(const std::string &data, const std::string &path) {
@@ -276,9 +276,9 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
 + (void)load {
   [MSAppCenterUserDefaults addKeysToMigrate:@{
-    @"kMSCrashesIsEnabledKey" : @"MSAppCenterCrashesIsEnabledKey",              // MSCrashes
-    @"MSAppDidReceiveMemoryWarning" : @"MSAppCenterAppDidReceiveMemoryWarning", // MSCrashes
-    @"MSUserConfirmation" : @"MSAppCenterUserConfirmation"                      // MSCrashes
+    @"kMSCrashesIsEnabledKey" : @"MSAppCenterCrashesIsEnabled",                 // [MSCrashes isEnabled]
+    @"MSAppDidReceiveMemoryWarning" : @"MSAppCenterAppDidReceiveMemoryWarning", // [MSCrashes processMemoryWarningInLastSession]
+    @"MSUserConfirmation" : @"MSAppCenterCrashesUserConfirmation" // [MSCrashes shouldAlwaysSend], [MSCrashes notifyWithUserConfirmation]
   }];
 }
 
@@ -680,8 +680,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 #endif
   PLCrashReporterSymbolicationStrategy symbolicationStrategy = PLCrashReporterSymbolicationStrategyNone;
   PLCrashReporterConfig *config = [[PLCrashReporterConfig alloc] initWithSignalHandlerType:signalHandlerType
-                                                                         symbolicationStrategy:symbolicationStrategy
-                                                        shouldRegisterUncaughtExceptionHandler:enableUncaughtExceptionHandler];
+                                                                     symbolicationStrategy:symbolicationStrategy
+                                                    shouldRegisterUncaughtExceptionHandler:enableUncaughtExceptionHandler];
   self.plCrashReporter = [[PLCrashReporter alloc] initWithConfiguration:config];
 
   /*

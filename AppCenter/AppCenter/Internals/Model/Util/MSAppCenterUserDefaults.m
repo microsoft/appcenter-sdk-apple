@@ -27,13 +27,19 @@ static NSMutableDictionary<NSString *, NSString *> *keysToMigrate;
   dispatch_once(&onceToken, ^{
     sharedInstance = [[MSAppCenterUserDefaults alloc] init];
     NSDictionary *changedKeys = @{
-      @"MSChannelStartTimer" : @"MSAppCenterChannelStartTimer",         // MSChannelUnitDefault
-      @"pastDevicesKey" : @"MSAppCenterPastDevicesKey",                 // MSDeviceTrackerPrivate
-      @"MSInstallId" : @"MSAppCenterInstallId",                         // MSAppCenterInternal
-      @"MSAppCenterIsEnabled" : @"MSAppCenterAppCenterIsEnabled",       // MSAppCenter
-      @"MSEncryptionKeyMetadata" : @"MSAppCenterEncryptionKeyMetadata", // MSEncrypterPrivate
-      @"SessionIdHistory" : @"MSAppCenterSessionIdHistory",             // MSSessionContext
-      @"UserIdHistory" : @"MSAppCenterUserIdHistory"                    // MSUserIdContext
+      @"MSChannelStartTimer*" : @"MSAppCenterChannelStartTimer",        // [MSChannelUnitDefault oldestPendingLogTimestampKey]
+      @"pastDevicesKey" : @"MSAppCenterPastDevices",                    // [MSDeviceTrackerPrivate init],
+                                                                        // [MSDeviceTrackerPrivate device],
+                                                                        // [MSDeviceTrackerPrivate clearDevices]
+      @"MSInstallId" : @"MSAppCenterInstallId",                         // [MSAppCenterInternal installId]
+      @"MSAppCenterIsEnabled" : @"MSAppCenterAppCenterIsEnabled",       // [MSAppCenter isEnabled]
+      @"MSEncryptionKeyMetadata" : @"MSAppCenterEncryptionKeyMetadata", // [MSEncrypterPrivate getCurrentKeyTag],
+                                                                        // [MSEncrypterPrivate rotateToNewKeyTag]
+      @"SessionIdHistory" : @"MSAppCenterSessionIdHistory",             // [MSSessionContext init],
+                                                                        // [MSSessionContext setSessionId],
+                                                                        // [MSSessionContext clearSessionHistoryAndKeepCurrentSession]
+      @"UserIdHistory" : @"MSAppCenterUserIdHistory"                    // [MSUserIdContext init], [MSUserIdContext setUserId],
+                                                                        // [MSUserIdContext clearUserIdHistory]
     };
     [keysToMigrate addEntriesFromDictionary:changedKeys];
     [sharedInstance migrateKeys:keysToMigrate];
@@ -60,12 +66,45 @@ static NSMutableDictionary<NSString *, NSString *> *keysToMigrate;
   }
   MSLogVerbose([MSAppCenter logTag], @"Migrating the old NSDefaults keys to new ones.");
   for (NSString *oldKey in [migratedKeys allKeys]) {
+    BOOL wildcardUsed = [oldKey hasSuffix:@"*"];
     NSString *newKey = migratedKeys[oldKey];
-    id value = [[NSUserDefaults standardUserDefaults] objectForKey:oldKey];
-    if (value != nil) {
-      [[NSUserDefaults standardUserDefaults] setObject:value forKey:newKey];
-      [[NSUserDefaults standardUserDefaults] removeObjectForKey:oldKey];
-      MSLogVerbose([MSAppCenter logTag], @"Migrating key %@ -> %@", oldKey, newKey);
+    NSMutableArray *oldValues = [NSMutableArray new];
+    NSMutableArray *newKeys = [NSMutableArray new];
+    NSMutableArray *oldKeys = [NSMutableArray new];
+    if (!wildcardUsed) {
+      id value = [[NSUserDefaults standardUserDefaults] objectForKey:oldKey];
+      if (value != nil) {
+        [oldValues addObject:value];
+        [newKeys addObject:newKey];
+        [oldKeys addObject:oldKey];
+      }
+    } else {
+
+      // List all the keys starting with oldKey.
+      NSString *oldKeyPrefix = [oldKey substringToIndex:oldKey.length - 1];
+      NSArray *userDefaultKeys = [[[NSUserDefaults standardUserDefaults] dictionaryRepresentation] allKeys];
+      for (NSString *userDefaultsKey in userDefaultKeys) {
+        if ([userDefaultsKey hasPrefix:oldKeyPrefix]) {
+          NSString *suffix = [userDefaultsKey stringByReplacingOccurrencesOfString:oldKeyPrefix withString:@""];
+          NSString *newKeyWithSuffix = [newKey stringByAppendingString:suffix];
+          id value = [[NSUserDefaults standardUserDefaults] objectForKey:userDefaultsKey];
+          if (value == nil) {
+            continue;
+          }
+          [oldValues addObject:value];
+          [newKeys addObject:newKeyWithSuffix];
+          [oldKeys addObject:userDefaultsKey];
+        }
+      }
+    }
+    for (NSUInteger i = 0; i < oldValues.count; i++) {
+      id value = oldValues[i];
+      NSString *newKeyWithSuffix = newKeys[i];
+      NSString *oldKeyFull = oldKeys[i];
+
+      [[NSUserDefaults standardUserDefaults] setObject:value forKey:newKeyWithSuffix];
+      [[NSUserDefaults standardUserDefaults] removeObjectForKey:oldKeyFull];
+      MSLogVerbose([MSAppCenter logTag], @"Migrating key %@ -> %@", oldKeyFull, newKeyWithSuffix);
     }
   }
   [self setObject:@YES forKey:kMSAppCenterUserDefaultsMigratedKey];

@@ -6,7 +6,7 @@
 @interface MSMockNsUserDefaults : NSUserDefaults
 
 /**
- * Clear dictionary
+ * Clear dictionary.
  */
 - (void)stopMocking;
 

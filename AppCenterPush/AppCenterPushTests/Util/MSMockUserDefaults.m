@@ -28,7 +28,7 @@
 }
 
 - (void)migrateKeys:(__unused NSDictionary *)migratedKeys {
-  [self setObject:@(1) forKey:kMSMockMigrationKey];
+  [self setObject:@1 forKey:kMSMockMigrationKey];
 }
 
 - (void)setObject:(id)anObject forKey:(NSString *)aKey {

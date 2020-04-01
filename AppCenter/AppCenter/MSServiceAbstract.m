@@ -15,7 +15,7 @@
 - (instancetype)init {
   if ((self = [super init])) {
     _started = NO;
-    _isEnabledKey = [NSString stringWithFormat:@"%@IsEnabledKey", self.groupId];
+    _isEnabledKey = [NSString stringWithFormat:@"%@IsEnabled", self.groupId];
   }
   return self;
 }

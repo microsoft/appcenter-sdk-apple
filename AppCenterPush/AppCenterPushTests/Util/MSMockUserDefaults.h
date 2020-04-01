@@ -10,7 +10,7 @@ static NSString *const kMSMockMigrationKey = @"AppCenterMigratedKey";
 @interface MSMockUserDefaults : NSUserDefaults
 
 /**
- * Clear dictionary
+ * Clear dictionary.
  */
 - (void)stopMocking;
 

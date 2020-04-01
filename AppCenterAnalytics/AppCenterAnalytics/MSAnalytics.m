@@ -47,8 +47,8 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
 
 + (void)load {
   [MSAppCenterUserDefaults addKeysToMigrate:@{
-    @"kMSAnalyticsIsEnabledKey" : @"MSAppCenterAnalyticsIsEnabledKey", // MSAnalytics
-    @"pastSessionsKey" : @"MSAppCenterPastSessionsKey"                 // MSSessionTracker
+    @"kMSAnalyticsIsEnabledKey*" : @"MSAppCenterAnalyticsIsEnabled", // [MSAnalytics isEnabled]
+    @"pastSessionsKey" : @"MSAppCenterPastSessions"                  // [MSSessionTracker init]
   }];
 }
 

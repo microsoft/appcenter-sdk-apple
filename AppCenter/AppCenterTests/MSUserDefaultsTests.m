@@ -34,7 +34,7 @@ static NSString *const kMSAppCenterUserDefaultsMigratedKey = @"MSAppCenter310Use
   [MSAppCenterUserDefaults shared];
 
   // Then
-  XCTAssertEqual(testValue, [[NSUserDefaults standardUserDefaults] objectForKey:@"MSAppCenterPastDevicesKey"]);
+  XCTAssertEqual(testValue, [[NSUserDefaults standardUserDefaults] objectForKey:@"MSAppCenterPastDevices"]);
 
   // Verify it migrates no more.
   // If
@@ -46,7 +46,7 @@ static NSString *const kMSAppCenterUserDefaultsMigratedKey = @"MSAppCenter310Use
   [MSAppCenterUserDefaults shared];
 
   // Then
-  XCTAssertEqual(testValue, [[NSUserDefaults standardUserDefaults] objectForKey:@"MSAppCenterPastDevicesKey"]);
+  XCTAssertEqual(testValue, [[NSUserDefaults standardUserDefaults] objectForKey:@"MSAppCenterPastDevices"]);
 }
 
 - (void)testSettingsAlreadyMigrated {
@@ -60,7 +60,7 @@ static NSString *const kMSAppCenterUserDefaultsMigratedKey = @"MSAppCenter310Use
   [MSAppCenterUserDefaults shared];
 
   // Then
-  XCTAssertNil([[NSUserDefaults standardUserDefaults] objectForKey:@"MSAppCenterPastDevicesKey"]);
+  XCTAssertNil([[NSUserDefaults standardUserDefaults] objectForKey:@"MSAppCenterPastDevices"]);
 }
 
 - (void)testPrefixIsAppendedOnSetAndGet {
@@ -87,23 +87,42 @@ static NSString *const kMSAppCenterUserDefaultsMigratedKey = @"MSAppCenter310Use
 
 - (void)testMigrateUserDefaultSettings {
 
+  NSArray *suffixes = @[ @"-suffix1", @"/suffix2", @"suffix3" ];
+  NSString *wildcard = @"okeyTestWildcard";
+  NSString *expectedWildcard = @"MSAppCenterOkeyTestWildcard";
   // If
   NSDictionary *keys = @{
     @"okeyTest1" : @"MSAppCenterKeyTest1",
     @"okeyTest2" : @"MSAppCenterKeyTest2",
     @"okeyTest3" : @"MSAppCenterKeyTest3",
-    @"okeyTest4" : @"MSAppCenterKeyTest4"
+    @"okeyTest4" : @"MSAppCenterKeyTest4",
+    [wildcard stringByAppendingString:@"*"] : expectedWildcard
   };
+
   MSAppCenterUserDefaults *userDefaults = [MSAppCenterUserDefaults shared];
-  NSArray *oldKeysArray = [keys allKeys];
-  NSArray *expectedKeysArray = [keys allValues];
+  NSMutableArray *oldKeysArray = [[keys allKeys] mutableCopy];
+  NSMutableArray *expectedKeysArray = [[keys allValues] mutableCopy];
+  for (NSString *suffix in suffixes) {
+    [expectedKeysArray addObject:[expectedWildcard stringByAppendingString:suffix]];
+    [oldKeysArray addObject:[wildcard stringByAppendingString:suffix]];
+  }
   for (NSUInteger i = 0; i < [keys count]; i++) {
+    if ([oldKeysArray[i] hasSuffix:@"*"]) {
+      continue;
+    }
     [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"Test %tu", i] forKey:oldKeysArray[i]];
+  }
+  for (NSString *suffix in suffixes) {
+    [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"Test %@", suffix]
+                                              forKey:[wildcard stringByAppendingString:suffix]];
   }
 
   // Check that in MSUserDefaultsTest the same keys.
   NSArray *userDefaultKeys = [[[NSUserDefaults standardUserDefaults] dictionaryRepresentation] allKeys];
   for (NSString *oldKey in oldKeysArray) {
+    if ([oldKey hasSuffix:@"*"]) {
+      continue;
+    }
     XCTAssertTrue([userDefaultKeys containsObject:oldKey]);
   }
   XCTAssertFalse([userDefaultKeys containsObject:expectedKeysArray]);
@@ -116,9 +135,15 @@ static NSString *const kMSAppCenterUserDefaultsMigratedKey = @"MSAppCenter310Use
   userDefaultKeys = [[[NSUserDefaults standardUserDefaults] dictionaryRepresentation] allKeys];
   XCTAssertFalse([userDefaultKeys containsObject:oldKeysArray]);
   for (NSString *expectedKey in expectedKeysArray) {
+    if ([expectedKey isEqualToString:expectedWildcard]) {
+      continue;
+    }
     XCTAssertTrue([userDefaultKeys containsObject:expectedKey]);
   }
   for (NSString *oldKey in oldKeysArray) {
+    if ([oldKey hasSuffix:@"*"]) {
+      continue;
+    }
     XCTAssertFalse([userDefaultKeys containsObject:oldKey]);
   }
 }

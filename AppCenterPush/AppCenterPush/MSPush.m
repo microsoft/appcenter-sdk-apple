@@ -34,7 +34,7 @@ static NSString *const kMSGroupId = @"Push";
 /**
  * Key for storing push token
  */
-static NSString *const kMSPushServiceStorageKey = @"PushServiceStorageKey";
+static NSString *const kMSPushServiceStorageKey = @"PushServiceStorage";
 
 #if TARGET_OS_OSX
 /**
@@ -60,8 +60,8 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
 
 + (void)load {
   [MSAppCenterUserDefaults addKeysToMigrate:@{
-    @"kMSPushIsEnabledKey" : @"MSAppCenterPushIsEnabledKey",       // MSPush
-    @"pushServiceStorageKey" : @"MSAppCenterPushServiceStorageKey" // MSPush
+    @"kMSPushIsEnabledKey" : @"MSAppCenterPushIsEnabled",       // [MSPush isEnabled]
+    @"pushServiceStorageKey" : @"MSAppCenterPushServiceStorage" // [MSPush didRegisterForRemoteNotificationsWithDeviceToken]
   }];
 }
 

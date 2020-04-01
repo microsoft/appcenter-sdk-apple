@@ -69,16 +69,38 @@ static dispatch_once_t onceToken;
 
 + (void)load {
   [MSAppCenterUserDefaults addKeysToMigrate:@{
-    @"kMSDistributeIsEnabledKey" : @"MSAppCenterDistributeIsEnabledKey",              // MSDistributePrivate
-    @"MSPostponedTimestamp" : @"MSAppCenterPostponedTimestamp",                       // MSDistributePrivate
-    @"MSSDKHasLaunchedWithDistribute" : @"MSAppCenterSDKHasLaunchedWithDistribute",   // MSDistributePrivate
-    @"MSMandatoryRelease" : @"MSAppCenterMandatoryRelease",                           // MSDistributePrivate
-    @"MSDistributionGroupId" : @"MSAppCenterDistributionGroupId",                     // MSDistributePrivate
-    @"MSUpdateSetupFailedPackageHash" : @"MSAppCenterUpdateSetupFailedPackageHash",   // MSDistributePrivate
-    @"MSDownloadedReleaseHash" : @"MSAppCenterDownloadedReleaseHash",                 // MSDistributePrivate
-    @"MSDownloadedReleaseId" : @"MSAppCenterDownloadedReleaseId",                     // MSDistributePrivate
-    @"MSDownloadedDistributionGroupId" : @"MSAppCenterDownloadedDistributionGroupId", // MSDistributePrivate
-    @"MSTesterAppUpdateSetupFailed" : @"MSAppCenterTesterAppUpdateSetupFailed"        // MSDistributePrivate
+    @"kMSDistributeIsEnabledKey" : @"MSAppCenterDistributeIsEnabled",   // [MSDistribute isEnabled]
+    @"MSPostponedTimestamp" : @"MSAppCenterPostponedTimestamp",
+                                                                        // [MSDistributePrivate notifyUpdateAction],
+                                                                        // [MSDistributePrivate handleUpdate],
+                                                                        // [MSDistributePrivate checkLatestRelease]
+    @"MSSDKHasLaunchedWithDistribute" : @"MSAppCenterSDKHasLaunchedWithDistribute",
+                                                                        // [MSDistributePrivate init],
+                                                                        // [MSDistributePrivate checkLatestRelease]
+    @"MSMandatoryRelease" : @"MSAppCenterMandatoryRelease",
+                                                                        // [MSDistributePrivate checkLatestRelease],
+                                                                        // [MSDistributePrivate handleUpdate]
+    @"MSDistributionGroupId" : @"MSAppCenterDistributionGroupId",
+                                                                        // [MSDistributePrivate startUpdateOnStart],
+                                                                        // [MSDistributePrivate processDistributionGroupId],
+                                                                        // [MSDistributePrivate changeDistributionGroupIdAfterAppUpdateIfNeeded]
+    @"MSUpdateSetupFailedPackageHash" : @"MSAppCenterUpdateSetupFailedPackageHash",
+                                                                        // [MSDistributePrivate showUpdateSetupFailedAlert],
+                                                                        // [MSDistributePrivate requestInstallInformationWith]
+    @"MSDownloadedReleaseHash" : @"MSAppCenterDownloadedReleaseHash",
+                                                                        // [MSDistributePrivate storeDownloadedReleaseDetails],
+                                                                        // [MSDistributePrivate removeDownloadedReleaseDetailsIfUpdated]
+    @"MSDownloadedReleaseId" : @"MSAppCenterDownloadedReleaseId",
+                                                                        // [MSDistributePrivate getReportingParametersForUpdatedRelease],
+                                                                        // [MSDistributePrivate storeDownloadedReleaseDetails],
+                                                                        // [MSDistributePrivate removeDownloadedReleaseDetailsIfUpdated]
+    @"MSDownloadedDistributionGroupId" : @"MSAppCenterDownloadedDistributionGroupId",
+                                                                        // [MSDistributePrivate changeDistributionGroupIdAfterAppUpdateIfNeeded],
+                                                                        // [MSDistributePrivate storeDownloadedReleaseDetails]
+    @"MSTesterAppUpdateSetupFailed" : @"MSAppCenterTesterAppUpdateSetupFailed"
+                                                                        // [MSDistributePrivate showUpdateSetupFailedAlert],
+                                                                        // [MSDistributePrivate openUrl],
+                                                                        // [MSDistributePrivate requestInstallInformationWith]
   }];
 }
 
@@ -100,7 +122,7 @@ static dispatch_once_t onceToken;
     if (!flag) {
       MSLogInfo([MSDistribute logTag], @"Delete update token if exists.");
       [MSKeychainUtil deleteStringForKey:kMSUpdateTokenKey];
-      [MS_APP_CENTER_USER_DEFAULTS setObject:@(1) forKey:kMSSDKHasLaunchedWithDistribute];
+      [MS_APP_CENTER_USER_DEFAULTS setObject:@1 forKey:kMSSDKHasLaunchedWithDistribute];
     }
 
     // Set a default value for update track.
