@@ -135,26 +135,26 @@ static NSMutableDictionary *keysToMigrate;
 
 @interface MSUserDefaultsWildcardKey ()
 
-@property (nonatomic, strong) NSString *stringHolder;
+@property(nonatomic, strong) NSString *stringHolder;
 
 @end
 
 @implementation MSUserDefaultsWildcardKey
 
 - (instancetype)initWithCharactersNoCopy:(unichar *)characters length:(NSUInteger)length freeWhenDone:(BOOL)freeBuffer {
-    self = [super init];
-    if (self) {
-        self.stringHolder = [[NSString alloc] initWithCharactersNoCopy:characters length:length freeWhenDone:freeBuffer];
-    }
-    return self;
+  self = [super init];
+  if (self) {
+    self.stringHolder = [[NSString alloc] initWithCharactersNoCopy:characters length:length freeWhenDone:freeBuffer];
+  }
+  return self;
 }
 
 - (NSUInteger)length {
-    return self.stringHolder.length;
+  return self.stringHolder.length;
 }
 
 - (unichar)characterAtIndex:(NSUInteger)index {
-    return [self.stringHolder characterAtIndex:index];
+  return [self.stringHolder characterAtIndex:index];
 }
 
 @end
