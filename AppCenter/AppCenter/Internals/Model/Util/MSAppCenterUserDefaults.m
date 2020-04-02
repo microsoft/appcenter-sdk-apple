@@ -11,7 +11,7 @@ static MSAppCenterUserDefaults *sharedInstance = nil;
 static dispatch_once_t onceToken;
 
 // MSAppCenterUserDefaults keys to be migrated.
-static NSMutableDictionary<NSString *, NSString *> *keysToMigrate;
+static NSMutableDictionary *keysToMigrate;
 
 @implementation MSAppCenterUserDefaults
 
@@ -19,7 +19,7 @@ static NSMutableDictionary<NSString *, NSString *> *keysToMigrate;
   keysToMigrate = [NSMutableDictionary new];
 }
 
-+ (void)addKeysToMigrate:(NSDictionary<NSString *, NSString *> *)keys {
++ (void)addKeysToMigrate:(NSDictionary *)keys {
   [keysToMigrate addEntriesFromDictionary:keys];
 }
 
@@ -27,7 +27,7 @@ static NSMutableDictionary<NSString *, NSString *> *keysToMigrate;
   dispatch_once(&onceToken, ^{
     sharedInstance = [[MSAppCenterUserDefaults alloc] init];
     NSDictionary *changedKeys = @{
-      [MSUserDefaultsWildcardKey stringWithFormat:@"MSChannelStartTimer"] : @"MSAppCenterChannelStartTimer",
+      [[MSUserDefaultsWildcardKey alloc] initWithString:@"MSChannelStartTimer"] : @"MSAppCenterChannelStartTimer",
                                                                         // [MSChannelUnitDefault oldestPendingLogTimestampKey]
       @"pastDevicesKey" : @"MSAppCenterPastDevices",                    // [MSDeviceTrackerPrivate init],
                                                                         // [MSDeviceTrackerPrivate device],
@@ -129,6 +129,22 @@ static NSMutableDictionary<NSString *, NSString *> *keysToMigrate;
 - (void)removeObjectForKey:(NSString *)key {
   NSString *keyPrefixed = [self getAppCenterKeyFrom:key];
   [[NSUserDefaults standardUserDefaults] removeObjectForKey:keyPrefixed];
+}
+
+@end
+
+@implementation MSUserDefaultsWildcardKey
+
+- (instancetype)initWithString:(NSString *)aString {
+    return [super initWithString:aString];
+}
+
+- (NSUInteger)length {
+    return [super length];
+}
+
+- (unichar)characterAtIndex:(NSUInteger)index {
+    return [super characterAtIndex:index];
 }
 
 @end

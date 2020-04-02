@@ -20,7 +20,7 @@ static NSString *const kMSUserDefaultsPrefix = @"MSAppCenter";
 /**
  * Append an array of keys to migrate. It should be called from a load method only otherwise won't be migrated.
  */
-+ (void)addKeysToMigrate:(NSDictionary<NSString *, NSString *> *)keys;
++ (void)addKeysToMigrate:(NSDictionary *)keys;
 
 /**
  * Get an object in the settings, returning object if key was found, nil otherwise.
@@ -44,8 +44,6 @@ static NSString *const kMSUserDefaultsPrefix = @"MSAppCenter";
  */
 - (void)removeObjectForKey:(NSString *)key;
 
-NS_ASSUME_NONNULL_END
-
 @end
 
 // A class defining that the instance of this class needs wildcard migration.
@@ -53,5 +51,11 @@ NS_ASSUME_NONNULL_END
 // search for the old keys starting with this key and migrate all of them.
 @interface MSUserDefaultsWildcardKey : NSString
 
+- (instancetype)initWithString:(NSString *)aString;
+- (NSUInteger)length;
+- (unichar)characterAtIndex:(NSUInteger)index;
+
 @end
+
+NS_ASSUME_NONNULL_END
 
