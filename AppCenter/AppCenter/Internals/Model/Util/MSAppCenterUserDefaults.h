@@ -51,10 +51,6 @@ static NSString *const kMSUserDefaultsPrefix = @"MSAppCenter";
 // search for the old keys starting with this key and migrate all of them.
 @interface MSUserDefaultsWildcardKey : NSString
 
-- (instancetype)initWithString:(NSString *)aString;
-- (NSUInteger)length;
-- (unichar)characterAtIndex:(NSUInteger)index;
-
 @end
 
 NS_ASSUME_NONNULL_END
