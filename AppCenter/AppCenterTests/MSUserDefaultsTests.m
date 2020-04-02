@@ -96,7 +96,7 @@ static NSString *const kMSAppCenterUserDefaultsMigratedKey = @"MSAppCenter310Use
     @"okeyTest2" : @"MSAppCenterKeyTest2",
     @"okeyTest3" : @"MSAppCenterKeyTest3",
     @"okeyTest4" : @"MSAppCenterKeyTest4",
-    [wildcard stringByAppendingString:@"*"] : expectedWildcard
+    [MSUserDefaultsWildcardKey stringWithFormat:expectedWildcard] : expectedWildcard
   };
 
   MSAppCenterUserDefaults *userDefaults = [MSAppCenterUserDefaults shared];
@@ -107,7 +107,7 @@ static NSString *const kMSAppCenterUserDefaultsMigratedKey = @"MSAppCenter310Use
     [oldKeysArray addObject:[wildcard stringByAppendingString:suffix]];
   }
   for (NSUInteger i = 0; i < [keys count]; i++) {
-    if ([oldKeysArray[i] hasSuffix:@"*"]) {
+    if ([oldKeysArray[i] isKindOfClass:[MSUserDefaultsWildcardKey class]]) {
       continue;
     }
     [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"Test %tu", i] forKey:oldKeysArray[i]];
@@ -120,7 +120,7 @@ static NSString *const kMSAppCenterUserDefaultsMigratedKey = @"MSAppCenter310Use
   // Check that in MSUserDefaultsTest the same keys.
   NSArray *userDefaultKeys = [[[NSUserDefaults standardUserDefaults] dictionaryRepresentation] allKeys];
   for (NSString *oldKey in oldKeysArray) {
-    if ([oldKey hasSuffix:@"*"]) {
+    if ([oldKey isKindOfClass:[MSUserDefaultsWildcardKey class]])
       continue;
     }
     XCTAssertTrue([userDefaultKeys containsObject:oldKey]);
@@ -141,7 +141,7 @@ static NSString *const kMSAppCenterUserDefaultsMigratedKey = @"MSAppCenter310Use
     XCTAssertTrue([userDefaultKeys containsObject:expectedKey]);
   }
   for (NSString *oldKey in oldKeysArray) {
-    if ([oldKey hasSuffix:@"*"]) {
+    if ([oldKey isKindOfClass:[MSUserDefaultsWildcardKey class]])
       continue;
     }
     XCTAssertFalse([userDefaultKeys containsObject:oldKey]);
