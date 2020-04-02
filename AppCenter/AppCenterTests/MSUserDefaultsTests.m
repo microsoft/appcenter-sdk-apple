@@ -120,7 +120,7 @@ static NSString *const kMSAppCenterUserDefaultsMigratedKey = @"MSAppCenter310Use
   // Check that in MSUserDefaultsTest the same keys.
   NSArray *userDefaultKeys = [[[NSUserDefaults standardUserDefaults] dictionaryRepresentation] allKeys];
   for (NSString *oldKey in oldKeysArray) {
-    if ([oldKey isKindOfClass:[MSUserDefaultsWildcardKey class]])
+    if ([oldKey isKindOfClass:[MSUserDefaultsWildcardKey class]]){
       continue;
     }
     XCTAssertTrue([userDefaultKeys containsObject:oldKey]);
@@ -141,7 +141,7 @@ static NSString *const kMSAppCenterUserDefaultsMigratedKey = @"MSAppCenter310Use
     XCTAssertTrue([userDefaultKeys containsObject:expectedKey]);
   }
   for (NSString *oldKey in oldKeysArray) {
-    if ([oldKey isKindOfClass:[MSUserDefaultsWildcardKey class]])
+    if ([oldKey isKindOfClass:[MSUserDefaultsWildcardKey class]]) {
       continue;
     }
     XCTAssertFalse([userDefaultKeys containsObject:oldKey]);
