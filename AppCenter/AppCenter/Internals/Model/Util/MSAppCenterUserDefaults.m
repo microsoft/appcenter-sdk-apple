@@ -28,7 +28,7 @@ static NSMutableDictionary *keysToMigrate;
     sharedInstance = [[MSAppCenterUserDefaults alloc] init];
     NSDictionary *changedKeys = @{
       @"MSAppCenterChannelStartTimer" : MSPrefixKeyFrom(@"MSChannelStartTimer"),
-      // [MSChannelUnitDefault oldestPendingLogTimestampKey]
+                                                                        // [MSChannelUnitDefault oldestPendingLogTimestampKey]
       @"MSAppCenterPastDevices" : @"pastDevicesKey",                    // [MSDeviceTracker init],
                                                                         // [MSDeviceTracker device],
                                                                         // [MSDeviceTracker clearDevices]
@@ -87,9 +87,6 @@ static NSMutableDictionary *keysToMigrate;
           NSString *suffix = [userDefaultsKey stringByReplacingOccurrencesOfString:oldKeyPrefix withString:@""];
           NSString *newKeyWithSuffix = [newKeyString stringByAppendingString:suffix];
           id value = [[NSUserDefaults standardUserDefaults] objectForKey:userDefaultsKey];
-          if (value == nil) {
-            continue;
-          }
           [self swapKeys:userDefaultsKey newKey:newKeyWithSuffix value:value];
         }
       }
