@@ -69,38 +69,38 @@ static dispatch_once_t onceToken;
 
 + (void)load {
   [MSAppCenterUserDefaults addKeysToMigrate:@{
-    @"kMSDistributeIsEnabledKey" : @"MSAppCenterDistributeIsEnabled",   // [MSDistribute isEnabled]
-    @"MSPostponedTimestamp" : @"MSAppCenterPostponedTimestamp",
-                                                                        // [MSDistribute notifyUpdateAction],
-                                                                        // [MSDistribute handleUpdate],
-                                                                        // [MSDistribute checkLatestRelease]
-    @"MSSDKHasLaunchedWithDistribute" : @"MSAppCenterSDKHasLaunchedWithDistribute",
-                                                                        // [MSDistribute init],
-                                                                        // [MSDistribute checkLatestRelease]
-    @"MSMandatoryRelease" : @"MSAppCenterMandatoryRelease",
-                                                                        // [MSDistribute checkLatestRelease],
-                                                                        // [MSDistribute handleUpdate]
-    @"MSDistributionGroupId" : @"MSAppCenterDistributionGroupId",
-                                                                        // [MSDistribute startUpdateOnStart],
-                                                                        // [MSDistribute processDistributionGroupId],
-                                                                        // [MSDistribute changeDistributionGroupIdAfterAppUpdateIfNeeded]
-    @"MSUpdateSetupFailedPackageHash" : @"MSAppCenterUpdateSetupFailedPackageHash",
-                                                                        // [MSDistribute showUpdateSetupFailedAlert],
-                                                                        // [MSDistribute requestInstallInformationWith]
-    @"MSDownloadedReleaseHash" : @"MSAppCenterDownloadedReleaseHash",
-                                                                        // [MSDistribute storeDownloadedReleaseDetails],
-                                                                        // [MSDistribute removeDownloadedReleaseDetailsIfUpdated]
-    @"MSDownloadedReleaseId" : @"MSAppCenterDownloadedReleaseId",
-                                                                        // [MSDistribute getReportingParametersForUpdatedRelease],
-                                                                        // [MSDistribute storeDownloadedReleaseDetails],
-                                                                        // [MSDistribute removeDownloadedReleaseDetailsIfUpdated]
-    @"MSDownloadedDistributionGroupId" : @"MSAppCenterDownloadedDistributionGroupId",
-                                                                        // [MSDistribute changeDistributionGroupIdAfterAppUpdateIfNeeded],
-                                                                        // [MSDistribute storeDownloadedReleaseDetails]
-    @"MSTesterAppUpdateSetupFailed" : @"MSAppCenterTesterAppUpdateSetupFailed"
-                                                                        // [MSDistribute showUpdateSetupFailedAlert],
-                                                                        // [MSDistribute openUrl],
-                                                                        // [MSDistribute requestInstallInformationWith]
+    @"MSAppCenterDistributeIsEnabled" : @"kMSDistributeIsEnabledKey", // [MSDistribute isEnabled]
+    @"MSAppCenterPostponedTimestamp" : @"MSPostponedTimestamp",
+    // [MSDistribute notifyUpdateAction],
+    // [MSDistribute handleUpdate],
+    // [MSDistribute checkLatestRelease]
+    @"MSAppCenterSDKHasLaunchedWithDistribute" : @"MSSDKHasLaunchedWithDistribute",
+    // [MSDistribute init],
+    // [MSDistribute checkLatestRelease]
+    @"MSAppCenterMandatoryRelease" : @"MSMandatoryRelease",
+    // [MSDistribute checkLatestRelease],
+    // [MSDistribute handleUpdate]
+    @"MSAppCenterDistributionGroupId" : @"MSDistributionGroupId",
+    // [MSDistribute startUpdateOnStart],
+    // [MSDistribute processDistributionGroupId],
+    // [MSDistribute changeDistributionGroupIdAfterAppUpdateIfNeeded]
+    @"MSAppCenterUpdateSetupFailedPackageHash" : @"MSUpdateSetupFailedPackageHash",
+    // [MSDistribute showUpdateSetupFailedAlert],
+    // [MSDistribute requestInstallInformationWith]
+    @"MSAppCenterDownloadedReleaseHash" : @"MSDownloadedReleaseHash",
+    // [MSDistribute storeDownloadedReleaseDetails],
+    // [MSDistribute removeDownloadedReleaseDetailsIfUpdated]
+    @"MSAppCenterDownloadedReleaseId" : @"MSDownloadedReleaseId",
+    // [MSDistribute getReportingParametersForUpdatedRelease],
+    // [MSDistribute storeDownloadedReleaseDetails],
+    // [MSDistribute removeDownloadedReleaseDetailsIfUpdated]
+    @"MSAppCenterDownloadedDistributionGroupId" : @"MSDownloadedDistributionGroupId",
+    // [MSDistribute changeDistributionGroupIdAfterAppUpdateIfNeeded],
+    // [MSDistribute storeDownloadedReleaseDetails]
+    @"MSAppCenterTesterAppUpdateSetupFailed" : @"MSTesterAppUpdateSetupFailed"
+    // [MSDistribute showUpdateSetupFailedAlert],
+    // [MSDistribute openUrl],
+    // [MSDistribute requestInstallInformationWith]
   }];
 }
 

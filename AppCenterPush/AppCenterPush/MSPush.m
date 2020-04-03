@@ -60,8 +60,8 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
 
 + (void)load {
   [MSAppCenterUserDefaults addKeysToMigrate:@{
-    @"kMSPushIsEnabledKey" : @"MSAppCenterPushIsEnabled",       // [MSPush isEnabled]
-    @"pushServiceStorageKey" : @"MSAppCenterPushServiceStorage" // [MSPush didRegisterForRemoteNotificationsWithDeviceToken]
+    @"MSAppCenterPushIsEnabled" : @"kMSPushIsEnabledKey",       // [MSPush isEnabled]
+    @"MSAppCenterPushServiceStorage" : @"pushServiceStorageKey" // [MSPush didRegisterForRemoteNotificationsWithDeviceToken]
   }];
 }
 

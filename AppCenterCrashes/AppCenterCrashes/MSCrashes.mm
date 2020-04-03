@@ -276,9 +276,9 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
 + (void)load {
   [MSAppCenterUserDefaults addKeysToMigrate:@{
-    @"kMSCrashesIsEnabledKey" : @"MSAppCenterCrashesIsEnabled",                 // [MSCrashes isEnabled]
-    @"MSAppDidReceiveMemoryWarning" : @"MSAppCenterAppDidReceiveMemoryWarning", // [MSCrashes processMemoryWarningInLastSession]
-    @"MSUserConfirmation" : @"MSAppCenterCrashesUserConfirmation" // [MSCrashes shouldAlwaysSend], [MSCrashes notifyWithUserConfirmation]
+    @"MSAppCenterCrashesIsEnabled" : @"kMSCrashesIsEnabledKey",                 // [MSCrashes isEnabled]
+    @"MSAppCenterAppDidReceiveMemoryWarning" : @"MSAppDidReceiveMemoryWarning", // [MSCrashes processMemoryWarningInLastSession]
+    @"MSAppCenterCrashesUserConfirmation" : @"MSUserConfirmation" // [MSCrashes shouldAlwaysSend], [MSCrashes notifyWithUserConfirmation]
   }];
 }
 

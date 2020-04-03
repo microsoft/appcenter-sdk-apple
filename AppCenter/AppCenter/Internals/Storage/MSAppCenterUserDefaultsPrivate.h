@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * Migrates values for the old keys to new keys.
- * @param migratedKeys a dictionary for keys that contains old key as a key of dictionary and new key as a value.
+ * @param migratedKeys a dictionary for keys that contains new key as a key of dictionary and old key as a value.
  */
 - (void)migrateKeys:(NSDictionary *)migratedKeys;
 
