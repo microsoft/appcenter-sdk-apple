@@ -10,7 +10,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Returns an array of keys to be migrated.
  */
-+ (NSDictionary<NSString *, NSString *> *)keysToMigrate;
++ (NSDictionary *)keysToMigrate;
 
 /**
  * Migrates values for the old keys to new keys.
