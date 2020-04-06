@@ -241,6 +241,30 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
   if ((self = [super init])) {
     _services = [NSMutableArray new];
     _enabledStateUpdating = NO;
+    NSDictionary *changedKeys = @{
+      @"MSAppCenterChannelStartTimer" : MSPrefixKeyFrom(@"MSChannelStartTimer"),
+      // [MSChannelUnitDefault oldestPendingLogTimestampKey]
+      @"MSAppCenterPastDevices" : @"pastDevicesKey",
+      // [MSDeviceTracker init],
+      // [MSDeviceTracker device],
+      // [MSDeviceTracker clearDevices]
+      @"MSAppCenterInstallId" : @"MSInstallId",
+      // [MSAppCenterInternal installId]
+      @"MSAppCenterAppCenterIsEnabled" : @"MSAppCenterIsEnabled",
+      // [MSAppCenter isEnabled]
+      @"MSAppCenterEncryptionKeyMetadata" : @"MSEncryptionKeyMetadata",
+      // [MSEncrypter getCurrentKeyTag],
+      // [MSEncrypter rotateToNewKeyTag]
+      @"MSAppCenterSessionIdHistory" : @"SessionIdHistory",
+      // [MSSessionContext init],
+      // [MSSessionContext setSessionId],
+      // [MSSessionContext clearSessionHistoryAndKeepCurrentSession]
+      @"MSAppCenterUserIdHistory" : @"UserIdHistory"
+      // [MSUserIdContext init],
+      // [MSUserIdContext setUserId],
+      // [MSUserIdContext clearUserIdHistory]
+    };
+    [MS_APP_CENTER_USER_DEFAULTS migrateKeys:changedKeys forService:kMSServiceName];
   }
   return self;
 }

@@ -13,12 +13,6 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSDictionary *)keysToMigrate;
 
 /**
- * Migrates values for the old keys to new keys.
- * @param migratedKeys a dictionary for keys that contains new key as a key of dictionary and old key as a value.
- */
-- (void)migrateKeys:(NSDictionary *)migratedKeys;
-
-/**
  * Resets the shared instance of the class.
  */
 + (void)resetSharedInstance;

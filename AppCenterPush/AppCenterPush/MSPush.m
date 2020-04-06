@@ -58,16 +58,14 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
 
 #pragma mark - Service initialization
 
-+ (void)load {
-  [MSAppCenterUserDefaults addKeysToMigrate:@{
+- (instancetype)init {
+
+  [MS_APP_CENTER_USER_DEFAULTS migrateKeys:@{
     @"MSAppCenterPushIsEnabled" : @"kMSPushIsEnabledKey",       // [MSPush isEnabled]
     @"MSAppCenterPushServiceStorage" : @"pushServiceStorageKey" // [MSPush didRegisterForRemoteNotificationsWithDeviceToken]
-  }];
-}
-
-- (instancetype)init {
+  }
+                                forService:kMSServiceName];
   if ((self = [super init])) {
-
     // Init channel configuration.
     _channelUnitConfiguration = [[MSChannelUnitConfiguration alloc] initDefaultConfigurationWithGroupId:[self groupId]];
     _appDelegate = [MSPushAppDelegate new];

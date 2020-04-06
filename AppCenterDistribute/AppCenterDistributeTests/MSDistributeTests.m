@@ -161,7 +161,8 @@ static NSURL *sfURL;
 }
 
 - (void)testMigrateOnInit {
-  XCTAssertEqual(17, [MSAppCenterUserDefaults keysToMigrate].count);
+  NSString *key = [NSString stringWithFormat:kMSMockMigrationKey, @"Distribute"];
+  XCTAssertNotNil([self.settingsMock objectForKey:key]);
 }
 
 - (void)testInstallURL {

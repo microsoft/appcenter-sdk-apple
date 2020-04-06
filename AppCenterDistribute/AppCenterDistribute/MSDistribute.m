@@ -67,8 +67,9 @@ static dispatch_once_t onceToken;
 
 #pragma mark - Service initialization
 
-+ (void)load {
-  [MSAppCenterUserDefaults addKeysToMigrate:@{
+- (instancetype)init {
+
+  [MS_APP_CENTER_USER_DEFAULTS migrateKeys:@{
     @"MSAppCenterDistributeIsEnabled" : @"kMSDistributeIsEnabledKey", // [MSDistribute isEnabled]
     @"MSAppCenterPostponedTimestamp" : @"MSPostponedTimestamp",
     // [MSDistribute notifyUpdateAction],
@@ -101,10 +102,8 @@ static dispatch_once_t onceToken;
     // [MSDistribute showUpdateSetupFailedAlert],
     // [MSDistribute openUrl],
     // [MSDistribute requestInstallInformationWith]
-  }];
-}
-
-- (instancetype)init {
+  }
+                                forService:kMSServiceName];
   if ((self = [super init])) {
 
     // Init.

@@ -20,11 +20,6 @@ static NSString *const kMSUserDefaultsPrefix = @"MSAppCenter";
 + (instancetype)shared;
 
 /**
- * Append an array of keys to migrate. It should be called from a load method only otherwise won't be migrated.
- */
-+ (void)addKeysToMigrate:(NSDictionary<id<NSObject>, NSObject *> *)keys;
-
-/**
  * Get an object in the settings, returning object if key was found, nil otherwise.
  *
  * @param key a unique key to identify the value.
@@ -45,6 +40,13 @@ static NSString *const kMSUserDefaultsPrefix = @"MSAppCenter";
  * @param key the key to remove.
  */
 - (void)removeObjectForKey:(NSObject *)key;
+
+/**
+ * Migrates values for the old keys to new keys.
+ * @param migratedKeys a dictionary for keys that contains new key as a key of dictionary and old key as a value.
+ * @param service service name.
+ */
+- (void)migrateKeys:(NSDictionary *)migratedKeys forService:(NSString *)service;
 
 @end
 

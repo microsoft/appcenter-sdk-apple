@@ -12,7 +12,7 @@
 
 @end
 
-static NSString *const kMSAppCenterUserDefaultsMigratedKey = @"MSAppCenter310UserDefaultsMigratedKey";
+static NSString *const kMSAppCenterUserDefaultsMigratedKey = @"MSAppCenter310AppCenterUserDefaultsMigratedKey";
 
 @implementation MSUserDefaultsTests
 
@@ -22,31 +22,6 @@ static NSString *const kMSAppCenterUserDefaultsMigratedKey = @"MSAppCenter310Use
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:key];
   }
   [MSAppCenterUserDefaults resetSharedInstance];
-}
-
-- (void)testMigrateSettingsOnInit {
-
-  // If
-  NSString *testValue = @"testValue";
-  [[NSUserDefaults standardUserDefaults] setObject:testValue forKey:@"pastDevicesKey"];
-
-  // When
-  [MSAppCenterUserDefaults shared];
-
-  // Then
-  XCTAssertEqual(testValue, [[NSUserDefaults standardUserDefaults] objectForKey:@"MSAppCenterPastDevices"]);
-
-  // Verify it migrates no more.
-  // If
-  NSString *testValue2 = @"testValue2";
-  [[NSUserDefaults standardUserDefaults] setObject:testValue2 forKey:@"pastDevicesKey"];
-  [MSAppCenterUserDefaults resetSharedInstance];
-
-  // When
-  [MSAppCenterUserDefaults shared];
-
-  // Then
-  XCTAssertEqual(testValue, [[NSUserDefaults standardUserDefaults] objectForKey:@"MSAppCenterPastDevices"]);
 }
 
 - (void)testSettingsAlreadyMigrated {
@@ -129,7 +104,7 @@ static NSString *const kMSAppCenterUserDefaultsMigratedKey = @"MSAppCenter310Use
 
   // When
   [[NSUserDefaults standardUserDefaults] removeObjectForKey:kMSAppCenterUserDefaultsMigratedKey];
-  [userDefaults migrateKeys:keys];
+  [userDefaults migrateKeys:keys forService:@"AppCenter"];
 
   // Then
   userDefaultKeys = [[[NSUserDefaults standardUserDefaults] dictionaryRepresentation] allKeys];
