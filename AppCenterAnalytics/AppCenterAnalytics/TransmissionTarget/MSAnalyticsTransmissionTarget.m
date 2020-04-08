@@ -32,7 +32,7 @@ static MSAnalyticsAuthenticationProvider *_authenticationProvider;
 
     // Disable if ancestor is disabled.
     if (![self isImmediateParent]) {
-      [MS_APP_CENTER_USER_DEFAULTS setObject:@(NO) forKey:self.isEnabledKey];
+      [MS_APP_CENTER_USER_DEFAULTS setObject:@NO forKey:self.isEnabledKey];
     }
 
     // Add property configurator to the channel group as a delegate.

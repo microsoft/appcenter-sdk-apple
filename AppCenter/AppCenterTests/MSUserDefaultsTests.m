@@ -29,7 +29,7 @@ static NSString *const kMSAppCenterUserDefaultsMigratedKey = @"MSAppCenter310App
   // If
   NSString *testValue = @"testValue";
   [[NSUserDefaults standardUserDefaults] setObject:testValue forKey:@"pastDevicesKey"];
-  [[NSUserDefaults standardUserDefaults] setObject:@(1) forKey:kMSAppCenterUserDefaultsMigratedKey];
+  [[NSUserDefaults standardUserDefaults] setObject:@YES forKey:kMSAppCenterUserDefaultsMigratedKey];
 
   // When
   [MSAppCenterUserDefaults shared];

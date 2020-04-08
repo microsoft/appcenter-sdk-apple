@@ -31,19 +31,18 @@ static dispatch_once_t onceToken;
   if (serviceMigrated) {
     return;
   }
-
   MSLogVerbose([MSAppCenter logTag], @"Migrating the old NSDefaults keys to new ones.");
   for (NSObject *newKey in migratedKeys) {
-    if (![newKey isKindOfClass:[NSString class]]) {
-      MSLogError([MSAppCenter logTag], @"Unsupported type %@ for key %@", [newKey class], newKey);
-      continue;
-    }
+    NSString *assertMessage = [NSString stringWithFormat:@"Unsupported type %@ for key %@", [newKey class], newKey];
+    NSAssert([newKey isKindOfClass:[NSString class]], assertMessage);
     id<NSObject> oldKey = migratedKeys[newKey];
     NSString *newKeyString = (NSString *)newKey;
     if ([oldKey isKindOfClass:[NSString class]]) {
       id value = [[NSUserDefaults standardUserDefaults] objectForKey:(NSString *)oldKey];
       [self swapKeys:(NSString *)oldKey newKey:newKeyString value:value];
-    } else if ([oldKey isKindOfClass:[MSUserDefaultsPrefixKey class]]) {
+    } else {
+      assertMessage = [NSString stringWithFormat:@"Unsupported type %@ for key %@", [oldKey class], oldKey];
+      NSAssert([oldKey isKindOfClass:[MSUserDefaultsPrefixKey class]], assertMessage);
 
       // List all the keys starting with oldKey.
       NSString *oldKeyPrefix = ((MSUserDefaultsPrefixKey *)oldKey).keyPrefix;
@@ -56,9 +55,6 @@ static dispatch_once_t onceToken;
           [self swapKeys:userDefaultsKey newKey:newKeyWithSuffix value:value];
         }
       }
-    } else {
-      MSLogError([MSAppCenter logTag], @"Unsupported type %@ for key %@", [oldKey class], oldKey);
-      continue;
     }
   }
   [self setObject:@YES forKey:[NSString stringWithFormat:kMSAppCenterUserDefaultsMigratedKeyFormat, service]];
@@ -74,10 +70,8 @@ static dispatch_once_t onceToken;
 }
 
 - (NSString *)getAppCenterKeyFrom:(NSObject *)key {
-  if (![key isKindOfClass:[NSString class]]) {
-    MSLogError([MSAppCenter logTag], @"Unsupported type %@ for key %@", [key class], key);
-    return nil;
-  }
+  NSString *assertMessage = [NSString stringWithFormat:@"Unsupported type %@ for key %@", [key class], key];
+  NSAssert([key isKindOfClass:[NSString class]], assertMessage);
   NSString *keyString = (NSString *)key;
   NSAssert(![keyString hasPrefix:kMSUserDefaultsPrefix], @"Please do not prepend the key with 'MSAppCenter'. It's done automatically.");
   return [kMSUserDefaultsPrefix stringByAppendingString:keyString];

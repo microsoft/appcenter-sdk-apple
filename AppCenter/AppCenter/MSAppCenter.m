@@ -249,7 +249,7 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
       // [MSDeviceTracker device],
       // [MSDeviceTracker clearDevices]
       @"MSAppCenterInstallId" : @"MSInstallId",
-      // [MSAppCenterInternal installId]
+      // [MSAppCenter installId]
       @"MSAppCenterAppCenterIsEnabled" : @"MSAppCenterIsEnabled",
       // [MSAppCenter isEnabled]
       @"MSAppCenterEncryptionKeyMetadata" : @"MSEncryptionKeyMetadata",
