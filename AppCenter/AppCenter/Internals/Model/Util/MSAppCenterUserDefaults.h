@@ -50,9 +50,11 @@ static NSString *const kMSUserDefaultsPrefix = @"MSAppCenter";
 
 @end
 
-// A class defining that the instance of this class needs wildcard migration.
-// This means that for instances of this class, MSAppCenterUserDefautls will
-// search for the old keys starting with this key and migrate all of them.
+/**
+ * A class defining that the instance of this class needs wildcard migration.
+ * This means that for instances of this class, MSAppCenterUserDefautls will
+ * search for the old keys starting with this key and migrate all of them.
+ */
 @interface MSUserDefaultsPrefixKey : NSObject <NSCopying>
 
 @property(nonatomic) NSString *keyPrefix;
