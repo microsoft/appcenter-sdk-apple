@@ -24,7 +24,7 @@ static NSString *const kMSUserDefaultsPrefix = @"MSAppCenter";
  *
  * @param key a unique key to identify the value.
  */
-- (nullable id)objectForKey:(NSObject *)key;
+- (nullable id)objectForKey:(NSString *)key;
 
 /**
  * Sets the value of the specified key in the settings.
@@ -32,14 +32,14 @@ static NSString *const kMSUserDefaultsPrefix = @"MSAppCenter";
  * @param value the object to set.
  * @param key a unique key to identify the value.
  */
-- (void)setObject:(id)value forKey:(NSObject *)key;
+- (void)setObject:(id)value forKey:(NSString *)key;
 
 /**
  * Removes a value from the settings.
  *
  * @param key the key to remove.
  */
-- (void)removeObjectForKey:(NSObject *)key;
+- (void)removeObjectForKey:(NSString *)key;
 
 /**
  * Migrates values for the old keys to new keys.
@@ -49,6 +49,8 @@ static NSString *const kMSUserDefaultsPrefix = @"MSAppCenter";
 - (void)migrateKeys:(NSDictionary *)migratedKeys forService:(NSString *)service;
 
 @end
+
+#pragma mark - Prefix key
 
 /**
  * A class defining that the instance of this class needs wildcard migration.

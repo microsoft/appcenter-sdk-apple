@@ -67,29 +67,30 @@ static dispatch_once_t onceToken;
   MSLogVerbose([MSAppCenter logTag], @"Migrating key %@ -> %@", oldKey, newKey);
 }
 
-- (NSString *)getAppCenterKeyFrom:(NSObject *)key {
-  NSAssert([key isKindOfClass:[NSString class]], @"Unsupported type");
+- (NSString *)getAppCenterKeyFrom:(NSString *)key {
   NSString *keyString = (NSString *)key;
   NSAssert(![keyString hasPrefix:kMSUserDefaultsPrefix], @"Please do not prepend the key with 'MSAppCenter'. It's done automatically.");
   return [kMSUserDefaultsPrefix stringByAppendingString:keyString];
 }
 
-- (id)objectForKey:(NSObject *)key {
+- (id)objectForKey:(NSString *)key {
   NSString *keyPrefixed = [self getAppCenterKeyFrom:key];
   return [[NSUserDefaults standardUserDefaults] objectForKey:keyPrefixed];
 }
 
-- (void)setObject:(id)value forKey:(NSObject *)key {
+- (void)setObject:(id)value forKey:(NSString *)key {
   NSString *keyPrefixed = [self getAppCenterKeyFrom:key];
   [[NSUserDefaults standardUserDefaults] setObject:value forKey:keyPrefixed];
 }
 
-- (void)removeObjectForKey:(NSObject *)key {
+- (void)removeObjectForKey:(NSString *)key {
   NSString *keyPrefixed = [self getAppCenterKeyFrom:key];
   [[NSUserDefaults standardUserDefaults] removeObjectForKey:keyPrefixed];
 }
 
 @end
+
+#pragma mark - Prefix key
 
 @implementation MSUserDefaultsPrefixKey
 
