@@ -105,6 +105,7 @@ static NSString *const kMSAppCenterUserDefaultsMigratedKey = @"MSAppCenter310App
   [userDefaults migrateKeys:keys forService:@"AppCenter"];
 
   // Then
+  userDefaultKeys = [[[NSUserDefaults standardUserDefaults] dictionaryRepresentation] allKeys];
   XCTAssertFalse([userDefaultKeys containsObject:oldKeysArray]);
   for (NSString *expectedKey in expectedKeysArray) {
     if ([expectedKey isEqualToString:expectedWildcard]) {
