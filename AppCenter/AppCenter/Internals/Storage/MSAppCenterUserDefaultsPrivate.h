@@ -5,12 +5,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MSAppCenterUserDefaults ()
+static NSString *const kMSUserDefaultsPrefix = @"MSAppCenter";
 
-/**
- * Returns an array of keys to be migrated.
- */
-+ (NSDictionary *)keysToMigrate;
+@interface MSAppCenterUserDefaults ()
 
 /**
  * Resets the shared instance of the class.

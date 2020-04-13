@@ -3,6 +3,7 @@
 
 #import "MSAppCenterUserDefaults.h"
 #import "MSAppCenterInternal.h"
+#import "MSAppCenterUserDefaultsPrivate.h"
 #import "MSLogger.h"
 
 static NSString *const kMSAppCenterUserDefaultsMigratedKeyFormat = @"310%@UserDefaultsMigratedKey";
@@ -44,8 +45,7 @@ static dispatch_once_t onceToken;
 
       // List all the keys starting with oldKey.
       NSString *oldKeyPrefix = ((MSUserDefaultsPrefixKey *)oldKey).keyPrefix;
-      NSArray *userDefaultKeys = [[[NSUserDefaults standardUserDefaults] dictionaryRepresentation] allKeys];
-      for (NSString *userDefaultsKey in userDefaultKeys) {
+      for (NSString *userDefaultsKey in [[NSUserDefaults standardUserDefaults] dictionaryRepresentation]) {
         if ([userDefaultsKey hasPrefix:oldKeyPrefix]) {
           NSString *suffix = [userDefaultsKey substringFromIndex:[oldKeyPrefix length]];
           NSString *newKeyWithSuffix = [newKeyString stringByAppendingString:suffix];
@@ -68,9 +68,8 @@ static dispatch_once_t onceToken;
 }
 
 - (NSString *)getAppCenterKeyFrom:(NSString *)key {
-  NSString *keyString = (NSString *)key;
-  NSAssert(![keyString hasPrefix:kMSUserDefaultsPrefix], @"Please do not prepend the key with 'MSAppCenter'. It's done automatically.");
-  return [kMSUserDefaultsPrefix stringByAppendingString:keyString];
+  NSAssert(![key hasPrefix:kMSUserDefaultsPrefix], @"Please do not prepend the key with 'MSAppCenter'. It's done automatically.");
+  return [kMSUserDefaultsPrefix stringByAppendingString:key];
 }
 
 - (id)objectForKey:(NSString *)key {

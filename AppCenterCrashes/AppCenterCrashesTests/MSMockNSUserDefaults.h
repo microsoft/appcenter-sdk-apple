@@ -3,7 +3,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface MSMockNsUserDefaults : NSUserDefaults
+@interface MSMockNSUserDefaults : NSUserDefaults
 
 /**
  * Clear dictionary.

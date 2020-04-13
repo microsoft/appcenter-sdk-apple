@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "MSMockNsUserDefaults.h"
+#import "MSMockNSUserDefaults.h"
 #import "MSTestFrameworks.h"
 
-@interface MSMockNsUserDefaults ()
+@interface MSMockNSUserDefaults ()
 
 @property(nonatomic) NSMutableDictionary<NSString *, NSObject *> *dictionary;
 @property(nonatomic) id mockNSUserDefaults;
 
 @end
 
-@implementation MSMockNsUserDefaults
+@implementation MSMockNSUserDefaults
 
 - (instancetype)init {
   self = [super init];

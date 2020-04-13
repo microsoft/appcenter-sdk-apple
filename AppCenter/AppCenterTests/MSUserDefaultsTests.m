@@ -17,8 +17,7 @@ static NSString *const kMSAppCenterUserDefaultsMigratedKey = @"MSAppCenter310App
 @implementation MSUserDefaultsTests
 
 - (void)setUp {
-  NSArray *userDefaultKeys = [[[NSUserDefaults standardUserDefaults] dictionaryRepresentation] allKeys];
-  for (NSString *key in userDefaultKeys) {
+  for (NSString *key in [[NSUserDefaults standardUserDefaults] dictionaryRepresentation]) {
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:key];
   }
   [MSAppCenterUserDefaults resetSharedInstance];
@@ -61,10 +60,10 @@ static NSString *const kMSAppCenterUserDefaultsMigratedKey = @"MSAppCenter310App
 }
 
 - (void)testMigrateUserDefaultSettings {
-
   NSArray *suffixes = @[ @"-suffix1", @"/suffix2", @"suffix3" ];
   NSString *wildcard = @"okeyTestWildcard";
   NSString *expectedWildcard = @"MSAppCenterOkeyTestWildcard";
+
   // If
   NSDictionary *keys = @{
     @"MSAppCenterKeyTest1" : @"okeyTest1",
@@ -73,7 +72,6 @@ static NSString *const kMSAppCenterUserDefaultsMigratedKey = @"MSAppCenter310App
     @"MSAppCenterKeyTest4" : @"okeyTest4",
     expectedWildcard : MSPrefixKeyFrom(wildcard)
   };
-
   MSAppCenterUserDefaults *userDefaults = [MSAppCenterUserDefaults shared];
   NSMutableArray *expectedKeysArray = [[keys allKeys] mutableCopy];
   NSMutableArray *oldKeysArray = [[keys allValues] mutableCopy];
