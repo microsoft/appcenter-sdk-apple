@@ -2857,6 +2857,7 @@
 				B27D54A9210A5E7E004E82C9 /* AppCenterProtocol.swift in Sources */,
 				B27D54AA210A5E7E004E82C9 /* MSAnalyticsPropertyTableViewCell.swift in Sources */,
 				B27D54AB210A5E7E004E82C9 /* MSMainViewController.swift in Sources */,
+				F83587C9242B6B6F007D83F3 /* MSAAnalyticsAuthenticationProvider.swift in Sources */,
 				B27D54AC210A5E7E004E82C9 /* MSAnalyticsResultViewController.swift in Sources */,
 				B27D54AD210A5E7E004E82C9 /* MSAnalyticsViewController.swift in Sources */,
 				F8AA9F4921650C04009104E3 /* SimplePropertiesTableSection.swift in Sources */,
