@@ -45,12 +45,12 @@ static dispatch_once_t onceToken;
 
       // List all the keys starting with oldKey.
       NSString *oldKeyPrefix = ((MSUserDefaultsPrefixKey *)oldKey).keyPrefix;
-      NSDictionary *userDefaultsDictionary = [[NSUserDefaults standardUserDefaults] dictionaryRepresentation];
+      NSArray *userDefaultsDictionary = [[[NSUserDefaults standardUserDefaults] dictionaryRepresentation] allKeys];
       for (NSString *userDefaultsKey in userDefaultsDictionary) {
         if ([userDefaultsKey hasPrefix:oldKeyPrefix]) {
           NSString *suffix = [userDefaultsKey substringFromIndex:[oldKeyPrefix length]];
           NSString *newKeyWithSuffix = [newKeyString stringByAppendingString:suffix];
-          id value = userDefaultsDictionary[userDefaultsKey];
+          id value = [[NSUserDefaults standardUserDefaults] objectForKey:userDefaultsKey];
           [self swapKeys:userDefaultsKey newKey:newKeyWithSuffix value:value];
         }
       }
