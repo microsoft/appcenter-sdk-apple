@@ -1,6 +1,6 @@
 # App Center SDK for iOS, macOS and tvOS Change Log
 
-## Version 3.1.1 (In development)
+## Version 3.1.1
 
 ### App Center Crashes
 
