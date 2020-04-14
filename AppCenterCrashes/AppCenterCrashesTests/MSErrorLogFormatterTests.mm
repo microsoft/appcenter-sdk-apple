@@ -47,7 +47,7 @@ static NSArray *kMacOSCrashReportsParameters = @[
 
 @interface MSErrorLogFormatter ()
 
-+ (NSString *)selectorForRegisterWithName:(NSString *)regName ofThread:(MSPLCrashReportThreadInfo *)thread report:(MSPLCrashReport *)report;
++ (NSString *)selectorForRegisterWithName:(NSString *)regName ofThread:(PLCrashReportThreadInfo *)thread report:(PLCrashReport *)report;
 
 @end
 
@@ -66,7 +66,7 @@ static NSArray *kMacOSCrashReportsParameters = @[
   XCTAssertNotNil(device);
 
   NSError *error = nil;
-  MSPLCrashReport *crashReport = [[MSPLCrashReport alloc] initWithData:crashData error:&error];
+  PLCrashReport *crashReport = [[PLCrashReport alloc] initWithData:crashData error:&error];
 
   MSErrorReport *errorReport = [MSErrorLogFormatter errorReportFromCrashReport:crashReport];
   XCTAssertNotNil(errorReport);
@@ -87,7 +87,7 @@ static NSArray *kMacOSCrashReportsParameters = @[
   XCTAssertNotNil(crashData);
   error = nil;
 
-  crashReport = [[MSPLCrashReport alloc] initWithData:crashData error:&error];
+  crashReport = [[PLCrashReport alloc] initWithData:crashData error:&error];
   errorReport = [MSErrorLogFormatter errorReportFromCrashReport:crashReport];
   XCTAssertNotNil(errorReport);
   XCTAssertNotNil(errorReport.incidentIdentifier);
@@ -109,7 +109,7 @@ static NSArray *kMacOSCrashReportsParameters = @[
   XCTAssertNotNil(crashData);
 
   NSError *error = nil;
-  MSPLCrashReport *report = [[MSPLCrashReport alloc] initWithData:crashData error:&error];
+  PLCrashReport *report = [[PLCrashReport alloc] initWithData:crashData error:&error];
 
   NSString *expected = (__bridge NSString *)CFUUIDCreateString(NULL, report.uuidRef);
   NSString *actual = [MSErrorLogFormatter errorIdForCrashReport:report];
@@ -174,11 +174,11 @@ static NSArray *kMacOSCrashReportsParameters = @[
   NSData *crashData = [MSCrashesTestUtil dataOfFixtureCrashReportWithFileName:@"live_report_exception"];
   XCTAssertNotNil(crashData);
   NSError *error = nil;
-  MSPLCrashReport *report = [[MSPLCrashReport alloc] initWithData:crashData error:&error];
-  MSPLCrashReportExceptionInfo *plExceptionInfo = report.exceptionInfo;
+  PLCrashReport *report = [[PLCrashReport alloc] initWithData:crashData error:&error];
+  PLCrashReportExceptionInfo *plExceptionInfo = report.exceptionInfo;
   MSAppleErrorLog *errorLog = [MSErrorLogFormatter errorLogFromCrashReport:report];
 
-  MSPLCrashReportThreadInfo *crashedThread = [MSErrorLogFormatter findCrashedThreadInReport:report];
+  PLCrashReportThreadInfo *crashedThread = [MSErrorLogFormatter findCrashedThreadInReport:report];
 
   for (MSThread *thread in errorLog.threads) {
     if ([thread.threadId isEqualToNumber:@(crashedThread.threadNumber)]) {
@@ -200,9 +200,9 @@ static NSArray *kMacOSCrashReportsParameters = @[
 
   // When
   NSError *error = nil;
-  MSPLCrashReport *report = [[MSPLCrashReport alloc] initWithData:crashData error:&error];
-  MSPLCrashReportThreadInfo *crashedThread = [MSErrorLogFormatter findCrashedThreadInReport:report];
-  MSPLCrashReportRegisterInfo *reg = crashedThread.registers[0];
+  PLCrashReport *report = [[PLCrashReport alloc] initWithData:crashData error:&error];
+  PLCrashReportThreadInfo *crashedThread = [MSErrorLogFormatter findCrashedThreadInReport:report];
+  PLCrashReportRegisterInfo *reg = crashedThread.registers[0];
   [MSErrorLogFormatter selectorForRegisterWithName:reg.registerName ofThread:crashedThread report:report];
 
   // Selector may not be found here, but we are sure that its operation will not lead to an application crash
@@ -217,7 +217,7 @@ static NSArray *kMacOSCrashReportsParameters = @[
 
   // When
   NSError *error = nil;
-  MSPLCrashReport *report = [[MSPLCrashReport alloc] initWithData:crashData error:&error];
+  PLCrashReport *report = [[PLCrashReport alloc] initWithData:crashData error:&error];
   MSAppleErrorLog *actual = [MSAppleErrorLog new];
   actual = [MSErrorLogFormatter addProcessInfoAndApplicationPathTo:actual fromCrashReport:report];
 
@@ -247,7 +247,7 @@ static NSArray *kMacOSCrashReportsParameters = @[
   XCTAssertNotNil(device);
 
   NSError *error = nil;
-  MSPLCrashReport *crashReport = [[MSPLCrashReport alloc] initWithData:crashData error:&error];
+  PLCrashReport *crashReport = [[PLCrashReport alloc] initWithData:crashData error:&error];
 
   MSAppleErrorLog *errorLog = [MSErrorLogFormatter errorLogFromCrashReport:crashReport];
 
@@ -465,9 +465,9 @@ static NSArray *kMacOSCrashReportsParameters = @[
   XCTAssertNotNil(crashData);
 
   NSError *error = nil;
-  MSPLCrashReport *crashReport = [[MSPLCrashReport alloc] initWithData:crashData error:&error];
+  PLCrashReport *crashReport = [[PLCrashReport alloc] initWithData:crashData error:&error];
   XCTAssertNotNil(crashReport);
-  MSPLCrashReportThreadInfo *crashedThread = [MSErrorLogFormatter findCrashedThreadInReport:crashReport];
+  PLCrashReportThreadInfo *crashedThread = [MSErrorLogFormatter findCrashedThreadInReport:crashReport];
   XCTAssertNotNil(crashedThread);
   MSAppleErrorLog *errorLog = [MSErrorLogFormatter errorLogFromCrashReport:crashReport];
   XCTAssertNotNil(errorLog);
@@ -486,7 +486,7 @@ static NSArray *kMacOSCrashReportsParameters = @[
   assertThat(errorLog.appLaunchTimestamp, equalTo(crashReport.processInfo.processStartTime));
 
   NSArray *images = crashReport.images;
-  for (MSPLCrashReportBinaryImageInfo *image in images) {
+  for (PLCrashReportBinaryImageInfo *image in images) {
     if (image.codeType != nil && image.codeType.typeEncoding == PLCrashReportProcessorTypeEncodingMach) {
       assertThat(errorLog.primaryArchitectureId, equalTo(@(image.codeType.type)));
       assertThat(errorLog.architectureVariantId, equalTo(@(image.codeType.subtype)));
@@ -515,7 +515,7 @@ static NSArray *kMacOSCrashReportsParameters = @[
   assertThat(errorLog.threads, hasCountOf([crashReport.threads count]));
   for (NSUInteger i = 0; i < [errorLog.threads count]; i++) {
     MSThread *thread = errorLog.threads[i];
-    MSPLCrashReportThreadInfo *plThread = crashReport.threads[i];
+    PLCrashReportThreadInfo *plThread = crashReport.threads[i];
 
     assertThat(thread.threadId, equalTo(@(plThread.threadNumber)));
     if (crashReport.hasExceptionInfo && [thread.threadId isEqualToNumber:@(crashedThread.threadNumber)]) {
@@ -594,7 +594,7 @@ static NSArray *kMacOSCrashReportsParameters = @[
   // If
   NSData *crashData = [MSCrashesTestUtil dataOfFixtureCrashReportWithFileName:@"live_report_arm64e"];
   NSError *error = nil;
-  MSPLCrashReport *crashReport = [[MSPLCrashReport alloc] initWithData:crashData error:&error];
+  PLCrashReport *crashReport = [[PLCrashReport alloc] initWithData:crashData error:&error];
   NSUInteger expectedCount = 14;
 
   // When
@@ -612,11 +612,11 @@ static NSArray *kMacOSCrashReportsParameters = @[
     // If
     NSData *crashData = [MSCrashesTestUtil dataOfFixtureCrashReportWithFileName:kMacOSCrashReportsParameters[i][kFixture]];
     NSError *error = nil;
-    MSPLCrashReport *crashReport = [[MSPLCrashReport alloc] initWithData:crashData error:&error];
+    PLCrashReport *crashReport = [[PLCrashReport alloc] initWithData:crashData error:&error];
 
     // When
     NSArray *binaryImages = [MSErrorLogFormatter extractBinaryImagesFromReport:crashReport codeType:@(CPU_TYPE_ARM64) is64bit:YES];
-    MSPLCrashReportThreadInfo *crashedThread = [MSErrorLogFormatter findCrashedThreadInReport:crashReport];
+    PLCrashReportThreadInfo *crashedThread = [MSErrorLogFormatter findCrashedThreadInReport:crashReport];
 
     // Then
     int expectedBinariesCount = [kMacOSCrashReportsParameters[i][kBinariesCount] intValue];

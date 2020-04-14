@@ -51,7 +51,7 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate, NSTextVie
   }
 
   override func viewWillAppear() {
-    setEnabledButton?.state = appCenter.isAppCenterEnabled() ? NSControlStateValueOn : NSControlStateValueOff
+    setEnabledButton?.state = appCenter.isAppCenterEnabled() ? .on : .off
     setAppSecretButton?.isEnabled = startUpModeForCurrentSession == StartupMode.AppCenter.rawValue || startUpModeForCurrentSession == StartupMode.Both.rawValue
   }
 
@@ -61,7 +61,7 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate, NSTextVie
     appSecretLabel?.stringValue = UserDefaults.standard.string(forKey: kMSAppSecret) ?? appCenter.appSecret()
     logURLLabel?.stringValue = (UserDefaults.standard.object(forKey: kMSLogUrl) ?? prodLogUrl()) as! String
     userIdLabel?.stringValue = showUserId()
-    setEnabledButton?.state = appCenter.isAppCenterEnabled() ? NSControlStateValueOn : NSControlStateValueOff
+    setEnabledButton?.state = appCenter.isAppCenterEnabled() ? .on : .off
   
     deviceIdField?.stringValue = AppCenterViewController.getDeviceIdentifier()!
     let indexNumber = UserDefaults.standard.integer(forKey: kMSStartTargetKey)
@@ -91,12 +91,12 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate, NSTextVie
   }
 
   @IBAction func setEnabled(sender : NSButton) {
-    appCenter.setAppCenterEnabled(sender.state == NSControlStateValueOn)
-    sender.state = appCenter.isAppCenterEnabled() ? NSControlStateValueOn : NSControlStateValueOff
+    appCenter.setAppCenterEnabled(sender.state == .on)
+    sender.state = appCenter.isAppCenterEnabled() ? .on : .off
   }
 
   @IBAction func overrideCountryCode(_ sender: NSButton) {
-    let appDelegate: AppDelegate? =  NSApplication.shared().delegate as? AppDelegate
+    let appDelegate: AppDelegate? =  NSApplication.shared.delegate as? AppDelegate
     appDelegate?.overrideCountryCode()
   }
 
@@ -122,7 +122,7 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate, NSTextVie
     self.storageMaxSizeField?.stringValue = "\(storageMaxSize / 1024)"
   }
 
-  override func controlTextDidChange(_ obj: Notification) {
+  func controlTextDidChange(_ obj: Notification) {
     let text = obj.object as? NSTextField
     if text == self.storageMaxSizeField {
       let maxSize = Int(self.storageMaxSizeField.stringValue) ?? 0
@@ -163,19 +163,19 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate, NSTextVie
     scrollView.hasVerticalScroller = true
     scrollView.contentView.scroll(NSPoint(x: 0, y: textView.frame.size.height))
     alert.accessoryView = scrollView
-    alert.alertStyle = NSWarningAlertStyle
+    alert.alertStyle = .warning
     switch(alert.runModal()) {
-    case NSAlertFirstButtonReturn:
+    case .alertFirstButtonReturn:
       UserDefaults.standard.removeObject(forKey: kMSLogUrl)
       appCenter.setLogUrl(prodLogUrl())
       break
-    case NSAlertSecondButtonReturn:
+    case .alertSecondButtonReturn:
       let text = textView.string ?? ""
       let logUrl = !text.isEmpty ? text : nil
       UserDefaults.standard.set(logUrl, forKey: kMSLogUrl)
       appCenter.setLogUrl(logUrl)
       break
-    case NSAlertThirdButtonReturn:
+    case .alertThirdButtonReturn:
       break
     default:
       break
@@ -197,19 +197,19 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate, NSTextVie
     scrollView.hasVerticalScroller = true
     scrollView.contentView.scroll(NSPoint(x: 0, y: textView.frame.size.height))
     alert.accessoryView = scrollView
-    alert.alertStyle = NSWarningAlertStyle
+    alert.alertStyle = .warning
     switch(alert.runModal()) {
-    case NSAlertFirstButtonReturn:
+    case .alertFirstButtonReturn:
       UserDefaults.standard.removeObject(forKey: kMSAppSecret)
       break
-    case NSAlertSecondButtonReturn:
+    case .alertSecondButtonReturn:
       let text = textView.string ?? ""
       let appSecret = !text.isEmpty ? text : nil
       if (appSecret != nil) {
         UserDefaults.standard.set(appSecret, forKey: kMSAppSecret)
       }
       break
-    case NSAlertThirdButtonReturn:
+    case .alertThirdButtonReturn:
       break
     default:
       break
@@ -230,14 +230,14 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate, NSTextVie
     scrollView.hasVerticalScroller = true
     scrollView.contentView.scroll(NSPoint(x: 0, y: textView.frame.size.height))
     alert.accessoryView = scrollView
-    alert.alertStyle = NSWarningAlertStyle
+    alert.alertStyle = .warning
     switch(alert.runModal()) {
-    case NSAlertFirstButtonReturn:
+    case .alertFirstButtonReturn:
       UserDefaults.standard.removeObject(forKey: kMSUserIdKey)
       appCenter.setUserId(nil)
       break
-    case NSAlertSecondButtonReturn:
-      let text = textView.string ?? ""
+    case .alertSecondButtonReturn:
+      let text = textView.string
       UserDefaults.standard.set(text, forKey: kMSUserIdKey)
       appCenter.setUserId(text)
       break

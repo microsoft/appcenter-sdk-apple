@@ -38,7 +38,7 @@ class CrashLoader {
         let classList = objc_copyClassList(&count)
         MSCrash.removeAllCrashes()
         for i in 0..<Int(count) {
-            let className: AnyClass = classList![i]!
+            let className: AnyClass = classList![i]
             if class_getSuperclass(className) == MSCrash.self && className != MSCrash.self {
                 MSCrash.register((className as! MSCrash.Type).init())
             }

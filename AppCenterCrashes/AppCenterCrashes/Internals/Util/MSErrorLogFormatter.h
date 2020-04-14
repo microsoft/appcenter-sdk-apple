@@ -5,7 +5,7 @@
 
 @class MSAppleErrorLog;
 @class MSErrorReport;
-@class MSPLCrashReport;
+@class PLCrashReport;
 
 /**
  *  Error logging error domain
@@ -30,9 +30,9 @@ typedef NS_ENUM(NSInteger, MSBinaryImageType) {
 
 @interface MSErrorLogFormatter : NSObject
 
-+ (MSAppleErrorLog *)errorLogFromCrashReport:(MSPLCrashReport *)report;
++ (MSAppleErrorLog *)errorLogFromCrashReport:(PLCrashReport *)report;
 
-+ (MSErrorReport *)errorReportFromCrashReport:(MSPLCrashReport *)report;
++ (MSErrorReport *)errorReportFromCrashReport:(PLCrashReport *)report;
 
 + (MSErrorReport *)errorReportFromLog:(MSAppleErrorLog *)errorLog;
 

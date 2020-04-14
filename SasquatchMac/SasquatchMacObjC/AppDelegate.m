@@ -35,12 +35,6 @@ enum StartupMode { appCenter, oneCollector, both, none, skip };
     [MSAppCenter setLogUrl:logUrl];
   }
 
-  // Set user id.
-  NSString *userId = [[NSUserDefaults standardUserDefaults] objectForKey:@"userId"];
-  if (userId) {
-    [MSAppCenter setUserId:userId];
-  }
-
   // Customize services.
   [self setupCrashes];
   [self setupPush];
@@ -83,8 +77,13 @@ enum StartupMode { appCenter, oneCollector, both, none, skip };
     break;
   }
 
+  // Set user id.
+  NSString *userId = [[NSUserDefaults standardUserDefaults] objectForKey:kMSUserIdKey];
+  if (userId) {
+    [MSAppCenter setUserId:userId];
+  }
+    
   [AppCenterProvider shared].appCenter = [[AppCenterDelegateObjC alloc] init];
-
   [self initUI];
   [self overrideCountryCode];
 }

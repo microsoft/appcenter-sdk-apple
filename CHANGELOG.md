@@ -1,11 +1,22 @@
 # App Center SDK for iOS, macOS and tvOS Change Log
 
+## Version 3.1.1
+
+### App Center Crashes
+
+* **[Improvement]** Update PLCrashReporter to 1.5.1.
+* **[Fix]** Remove the multiple attachments warning as that is now supported by the portal.
+
+___
+
 ## Version 3.1.0
 
 ### App Center Distribute
 
 * **[Feature]** Add a `disableAutomaticCheckForUpdate` API that needs to be called before SDK start in order to turn off automatic check for update. 
 * **[Feature]** Add a `checkForUpdate` API to manually check for update.
+
+___
 
 ## Version 3.0.0
 

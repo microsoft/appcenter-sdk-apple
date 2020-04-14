@@ -34,7 +34,7 @@
 static NSString *const kMSTestAppSecret = @"TestAppSecret";
 static NSString *const kMSFatal = @"fatal";
 static NSString *const kMSTypeHandledError = @"handledError";
-static unsigned int kMaxAttachmentsPerCrashReport = 2;
+static unsigned int kAttachmentsPerCrashReport = 3;
 
 @interface MSCrashes ()
 
@@ -799,44 +799,6 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   XCTAssertTrue([static_cast<NSNumber *>(serializedLog[kMSFatal]) boolValue]);
 }
 
-- (void)testWarningMessageAboutTooManyErrorAttachments {
-
-  NSString *expectedMessage =
-      [NSString stringWithFormat:@"A limit of %u attachments per error report / exception might be enforced by server.",
-                                 kMaxAttachmentsPerCrashReport];
-  __block bool warningMessageHasBeenPrinted = false;
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wunused-parameter"
-  [MSLogger setLogHandler:^(MSLogMessageProvider messageProvider, MSLogLevel logLevel, NSString *tag, const char *file,
-                            const char *function, uint line) {
-    if (warningMessageHasBeenPrinted) {
-      return;
-    }
-    NSString *message = messageProvider();
-    warningMessageHasBeenPrinted = [message isEqualToString:expectedMessage];
-  }];
-#pragma clang diagnostic pop
-
-  // Wait for creation of buffers to avoid corruption on OCMPartialMock.
-  dispatch_group_wait(self.sut.bufferFileGroup, DISPATCH_TIME_FOREVER);
-
-  // If
-  self.sut = OCMPartialMock(self.sut);
-  OCMStub([self.sut startDelayedCrashProcessing]).andDo(nil);
-
-  // When
-  assertThatBool([MSCrashesTestUtil copyFixtureCrashReportWithFileName:@"live_report_exception"], isTrue());
-  [self.sut setDelegate:self];
-  [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
-                        appSecret:kMSTestAppSecret
-          transmissionTargetToken:nil
-                  fromApplication:YES];
-  [self.sut startCrashProcessing];
-
-  XCTAssertTrue(warningMessageHasBeenPrinted);
-}
-
 #pragma mark - Automatic Processing Tests
 
 - (void)testSendOrAwaitWhenAlwaysSendIsTrue {
@@ -1337,7 +1299,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
       XCTAssertTrue([MSCrashesTestUtil copyFixtureCrashReportWithFileName:fileName]);
       NSData *data = [MSCrashesTestUtil dataOfFixtureCrashReportWithFileName:fileName];
       NSError *error;
-      MSPLCrashReport *report = [[MSPLCrashReport alloc] initWithData:data error:&error];
+      PLCrashReport *report = [[PLCrashReport alloc] initWithData:data error:&error];
       [reports addObject:[MSErrorLogFormatter errorReportFromCrashReport:report]];
     }
   }
@@ -1367,7 +1329,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   OCMStub([deviceMock isValid]).andReturn(YES);
 
   NSMutableArray *logs = [NSMutableArray new];
-  for (unsigned int i = 0; i < kMaxAttachmentsPerCrashReport + 1; ++i) {
+  for (unsigned int i = 0; i < kAttachmentsPerCrashReport; ++i) {
     NSString *text = [NSString stringWithFormat:@"%d", i];
     MSErrorAttachmentLog *log = [[MSErrorAttachmentLog alloc] initWithFilename:text attachmentText:text];
     log.timestamp = [NSDate dateWithTimeIntervalSince1970:42];

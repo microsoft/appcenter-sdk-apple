@@ -42,16 +42,15 @@ fi
 
 ## II. Constants
 REPOSITORY="$(echo $BUILD_BUILDURI | awk -F "[:]" '{print $2}' | awk -F "[/]" '{print $4"/"$5}' | awk -F "[.]" '{print $1}')"
-GITHUB_API_URL_TEMPLATE="https://%s.github.com/repos/%s/%s?access_token=%s%s"
+GITHUB_API_URL_TEMPLATE="https://%s.github.com/repos/%s/%s"
 GITHUB_API_HOST="api"
 GITHUB_UPLOAD_HOST="uploads"
 
 ## III. GitHub API endpoints
-REQUEST_URL_REF_TAG="$(printf $GITHUB_API_URL_TEMPLATE $GITHUB_API_HOST $REPOSITORY 'git/refs/tags' $github_access_token)"
-REQUEST_URL_TAG="$(printf $GITHUB_API_URL_TEMPLATE $GITHUB_API_HOST $REPOSITORY 'git/tags' $github_access_token)"
-REQUEST_REFERENCE_URL="$(printf $GITHUB_API_URL_TEMPLATE $GITHUB_API_HOST $REPOSITORY 'git/refs' $github_access_token)"
-REQUEST_RELEASE_URL="$(printf $GITHUB_API_URL_TEMPLATE $GITHUB_API_HOST $REPOSITORY 'releases' $github_access_token)"
-REQUEST_UPLOAD_URL_TEMPLATE="$(printf $GITHUB_API_URL_TEMPLATE $GITHUB_UPLOAD_HOST $REPOSITORY 'releases/{id}/assets' $github_access_token '&name={filename}')"
+REQUEST_URL_TAG="$(printf $GITHUB_API_URL_TEMPLATE $GITHUB_API_HOST $REPOSITORY 'git/tags')"
+REQUEST_REFERENCE_URL="$(printf $GITHUB_API_URL_TEMPLATE $GITHUB_API_HOST $REPOSITORY 'git/refs')"
+REQUEST_RELEASE_URL="$(printf $GITHUB_API_URL_TEMPLATE $GITHUB_API_HOST $REPOSITORY 'releases')"
+REQUEST_UPLOAD_URL_TEMPLATE="$(printf $GITHUB_API_URL_TEMPLATE $GITHUB_UPLOAD_HOST $REPOSITORY 'releases/{id}/assets?name={filename}')"
 
 ## IV. Get publish version
 publish_version="$(grep "VERSION_STRING" $VERSION_FILENAME | head -1 | awk -F "[= ]" '{print $4}')"
@@ -122,7 +121,7 @@ else
 
   ## 2. Create a tag
   echo "Create a tag ($publish_version) for the commit ($commit_hash)"
-  resp="$(curl -s -X POST $REQUEST_URL_TAG -d '{
+  resp="$(curl -s -H "Authorization: token $github_access_token" -X POST $REQUEST_URL_TAG -d '{
       "tag": "'${publish_version}'",
       "message": "'${publish_version}'",
       "type": "commit",
@@ -141,7 +140,7 @@ else
 
   ## 3. Create a reference
   echo "Create a reference for the tag ($publish_version)"
-  resp="$(curl -s -X POST $REQUEST_REFERENCE_URL -d '{
+  resp="$(curl -s -H "Authorization: token $github_access_token" -X POST $REQUEST_REFERENCE_URL -d '{
       "ref": "refs/tags/'${publish_version}'",
       "sha": "'${sha}'"
     }')"
@@ -166,7 +165,7 @@ else
       draft: true,
       prerelease: true
     }')"
-  resp="$(curl -s -X POST $REQUEST_RELEASE_URL -d "$body")"
+  resp="$(curl -s -H "Authorization: token $github_access_token" -X POST $REQUEST_RELEASE_URL -d "$body")"
   id="$(echo $resp | jq -r '.id')"
 
   # Exit if response doesn't contain "id" key
@@ -207,7 +206,7 @@ echo "Y" | azure storage blob upload ${filename} sdk
 uploadToGithub() {
   upload_url="$(echo $REQUEST_UPLOAD_URL_TEMPLATE | sed 's/{id}/'$id'/g')"
   url="$(echo $upload_url | sed 's/{filename}/'$1'/g')"
-  resp="$(curl -s -X POST -H 'Content-Type: application/zip' --data-binary @$1 $url)"
+  resp="$(curl -s -H "Authorization: token $github_access_token" -X POST -H 'Content-Type: application/zip' --data-binary @$1 $url)"
   upload_id="$(echo $resp | jq -r '.id')"
 
   # Log error if response doesn't contain "id" key
